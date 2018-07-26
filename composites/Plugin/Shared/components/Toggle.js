@@ -46,7 +46,6 @@ const ToggleDiv = styled.div`
 `;
 
 class Toggle extends React.Component {
-
 	/**
 	 * Sets the toggle object.
 	 *
@@ -76,14 +75,14 @@ class Toggle extends React.Component {
 	render() {
 		return <div>
 			<ToggleDiv>
-			<label htmlFor={this.props.id} onClick={this.onClick}>{this.props.labelText}</label>
-			<ToggleBar isEnabled={ this.isEnabled()} onClick={this.onClick} onKeyDown={this.setEnabled} tabIndex="0"
-			           role="checkbox" aria-label={this.props.ariaLabel} aria-checked={this.isEnabled()} id={this.props.id} >
-				<ToggleBullet isEnabled={this.isEnabled()} />
-			</ToggleBar>
-			<ToggleVisualLabel aria-hidden="true">
-				{ this.isEnabled() ? __( "On", "yoast-components" ) : __( "Off", "yoast-components" ) }
-			</ToggleVisualLabel>
+				<label htmlFor={this.props.id} onClick={this.onClick}>{this.props.labelText}</label>
+				<ToggleBar isEnabled={ this.isEnabled()} onClick={this.onClick} onKeyDown={this.setEnabled} tabIndex="0"
+				           role="checkbox" aria-label={this.props.ariaLabel} aria-checked={this.isEnabled()} id={this.props.id} >
+					<ToggleBullet isEnabled={this.isEnabled()} />
+				</ToggleBar>
+				<ToggleVisualLabel aria-hidden="true">
+					{ this.isEnabled() ? __( "On", "yoast-components" ) : __( "Off", "yoast-components" ) }
+				</ToggleVisualLabel>
 			</ToggleDiv>
 		</div>;
 	}
@@ -120,13 +119,13 @@ class Toggle extends React.Component {
 }
 
 Toggle.propTypes = {
-	isEnabled: PropTypes.bool,              // Boolean for setting the toggle to on or off.
-	ariaLabel: PropTypes.string.isRequired, // The text to be read by screenreaders.
-	onSetEnabled: PropTypes.func,           // What to do the moment toggle is set to true.
-	disable: PropTypes.bool,                // Deactivates/greys out the toggle when set to false.
-	onToggleDisabled: PropTypes.func,       // What to do the moment toggle is set to false.
-	id: PropTypes.string,                   // The id of the toggle, to associate with the label.
-	labelText: PropTypes.string,            // The text to be shown in the label.
+	isEnabled: PropTypes.bool,
+	ariaLabel: PropTypes.string.isRequired,
+	onSetEnabled: PropTypes.func,
+	disable: PropTypes.bool,
+	onToggleDisabled: PropTypes.func,
+	id: PropTypes.string,
+	labelText: PropTypes.string,
 };
 
 Toggle.defaultProps = {

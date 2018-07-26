@@ -25,9 +25,10 @@ class CornerstoneToggle extends React.Component {
 	 */
 	render() {
 		return (
-				<Cornerstone>
-					<Toggle ariaLabel="Mark this post as cornerstone content" id="Cornerstone Toggle" labelText={__( "Mark this as cornerstone content.", "yoast-components" )} />
-				</Cornerstone>
+			<Cornerstone>
+				<Toggle ariaLabel="Mark this post as cornerstone content" id="Cornerstone Toggle"
+				        labelText={__( "Mark this as cornerstone content.", "yoast-components" )} />
+			</Cornerstone>
 		);
 	}
 }
