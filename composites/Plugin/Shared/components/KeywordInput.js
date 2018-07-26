@@ -32,11 +32,10 @@ class KeywordInput extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.onChange = this.handleChange.bind( this );
+		this.handleChange = this.handleChange.bind( this );
 
 		this.state = {
 			showErrorMessage: false,
-			keyword: props.keyword,
 		};
 	}
 
@@ -49,11 +48,7 @@ class KeywordInput extends React.Component {
 	 */
 	checkKeywordInput( keywordText ) {
 		let separatedWords = keywordText.split( "," );
-		if ( separatedWords.length > 1 ) {
-			this.setState( { showErrorMessage: true } );
-		} else {
-			this.setState( { showErrorMessage: false } );
-		}
+		this.setState( { showErrorMessage: separatedWords.length > 1 } );
 	}
 
 	/**
@@ -81,8 +76,8 @@ class KeywordInput extends React.Component {
 	 * @returns {void} Calls the checkKeywordInput-function.
 	 */
 	handleChange( event ) {
-		this.setState( { keyword: event.target.value } );
 		this.checkKeywordInput( event.target.value );
+		this.props.onChange( event.target.value );
 	}
 
 	/**
@@ -97,9 +92,12 @@ class KeywordInput extends React.Component {
 				<label htmlFor={ this.props.id }>
 					{ this.props.label }
 				</label>
-				<KeywordField type="text" id={ this.props.id }
-							  borderColor={ color }
-							  onChange = { this.onChange }
+				<KeywordField
+					type="text"
+					id={ this.props.id }
+					borderColor={ color }
+					onChange={ this.handleChange }
+					value={ this.props.keyword }
 				/>
 				{ this.displayErrorMessage( this.state.keyword ) }
 			</React.Fragment>
@@ -110,6 +108,7 @@ class KeywordInput extends React.Component {
 KeywordInput.propTypes = {
 	id: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
+	onChange: PropTypes.func.isRequired,
 	keyword: PropTypes.string,
 };
 
