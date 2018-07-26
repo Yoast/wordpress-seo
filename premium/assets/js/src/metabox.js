@@ -132,7 +132,7 @@ const registerPlugin = function( store ) {
 		const { registerPlugin } = wp.plugins;
 		const { Fill } = wp.components;
 
-		let LinkSuggestionsSection;
+		let LinkSuggestionsSection = null;
 
 		if ( linkSuggestionsIsSupported() ) {
 			LinkSuggestionsSection = <SidebarItem renderPriority={ 31 }>
