@@ -69,6 +69,29 @@ function sortComponentsByPosition( components ) {
 }
 
 /**
+ * Renders the metabox portal.
+ *
+ * @returns {null|ReactElement} The element.
+ */
+function renderMetaboxPortal() {
+	const metaboxElement = document.getElementById( "wpseo-meta-section-react" );
+
+	if ( ! metaboxElement ) {
+		return null;
+	}
+
+	const { Slot } = wp.components;
+	return yoast._wp.element.createPortal(
+		<Slot name="YoastSidebar">
+			{ ( fills ) => {
+				return sortComponentsByPosition( fills );
+			} }
+		</Slot>,
+		metaboxElement
+	);
+}
+
+/**
  * Registers the plugin into the gutenberg editor, creates a sidebar entry for the plugin,
  * and creates that sidebar's content.
  *
@@ -104,6 +127,7 @@ function registerPlugin( store ) {
 				<Provider store={ store } >
 					<Sidebar />
 				</Provider>
+				{ renderMetaboxPortal() }
 			</Fragment>
 		);
 
