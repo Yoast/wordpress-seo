@@ -4,6 +4,9 @@ import { default as HelpCenter } from "./composites/Plugin/HelpCenter/HelpCenter
 import { default as MessageBox } from "./composites/OnboardingWizard/MessageBox";
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
+import { default as LanguageNotice } from "./composites/Plugin/Shared/components/LanguageNotice";
+import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
+
 
 export {
 	OnboardingWizard,
@@ -12,6 +15,8 @@ export {
 	MessageBox,
 	LinkSuggestions,
 	KeywordSuggestions,
+	LanguageNotice,
+	ContentAnalysis,
 };
 
 export * from "./composites/Plugin/SnippetPreview";
