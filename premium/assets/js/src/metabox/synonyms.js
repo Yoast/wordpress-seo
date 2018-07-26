@@ -11,7 +11,6 @@ import {
 import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
-import configureStore from "../redux/store";
 import { renderReactApp } from "../redux/utils/render";
 import SynonymsContainer from "./SynonymsContainer";
 import listenToActiveKeyword from "./KeywordTabWrapper";
@@ -25,6 +24,7 @@ class Synonyms {
 	 * @param {Object} args               The arguments.
 	 * @param {Object} args.app           The YoastSEO app.
 	 * @param {Object} args.store         The store.
+	 * @param {Object} args.premiumStore  The store for premium.
 	 * @param {string} args.template      The HTML template string of the wrapper.
 	 * @param {string} args.label         The label of the synonyms section.
 	 * @param {string} args.hiddenFieldId The id of the hidden input field.
@@ -36,6 +36,7 @@ class Synonyms {
 		this.initializeOptions( args );
 		this.initializeApp( args.app );
 		this.initializeStore( args.store );
+		this.initializePremiumStore( args.premiumStore );
 
 		this._hiddenField = $( `#${ this._options.hiddenFieldId }` );
 		if ( this._hiddenField.length === 0 ) {
@@ -96,6 +97,21 @@ class Synonyms {
 
 		if ( ! this._store ) {
 			throw new Error( "YoastSEO store does not exist." );
+		}
+	}
+
+	/**
+	 * Initializes the premium store variable.
+	 *
+	 * @param {Object} premiumStore The premium store.
+	 *
+	 * @returns {void}
+	 */
+	initializePremiumStore( premiumStore ) {
+		this._premiumStore = premiumStore;
+
+		if ( ! this._premiumStore ) {
+			throw new Error( "YoastSEO Premium store does not exist." );
 		}
 	}
 
@@ -260,8 +276,6 @@ class Synonyms {
 		const container = $( this._options.template )[ 0 ];
 		previousElement.after( container );
 
-		// Create and expose a premium store.
-		this._premiumStore = configureStore();
 		YoastSEO.premiumStore = this._premiumStore;
 
 		// Apply the saved synonyms to the store in order of the keyword tabs.

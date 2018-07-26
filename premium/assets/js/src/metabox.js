@@ -9,12 +9,11 @@ import {
 	setLinkSuggestions,
 	setLinkSuggestionsError,
 } from "./redux/actions/LinkSuggestions";
-import createStore from "./redux/store";
 import { renderReactApp } from "./redux/utils/render";
 import ProminentWordStorage from "./keywordSuggestions/ProminentWordStorage";
 import ProminentWordNoStorage from "./keywordSuggestions/ProminentWordNoStorage";
 import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
-import linkSuggester from "./services/linkSuggester";
+import LinkSuggester from "./services/linkSuggester";
 import LinkSuggestionsContainer from "./redux/containers/LinkSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
 import Synonyms from "./metabox/synonyms";
@@ -24,13 +23,11 @@ import SidebarItem from "../../../../js/src/components/SidebarItem";
 
 setTextdomainL10n( "wordpress-seo-premium" );
 
-import reducers from "yoast-premium-components/redux/reducers";
+import reducers from "./redux/reducers/rootReducer";
 
 let settings = wpseoPremiumMetaboxData.data;
 
 let contentEndpointsAvailable = wpseoPremiumMetaboxData.data.restApi.available && wpseoPremiumMetaboxData.data.restApi.contentEndpointsAvailable;
-
-let multiKeyword = new MultiKeyword();
 
 let prominentWordStorage = new ProminentWordNoStorage();
 let focusKeywordSuggestions;
@@ -38,8 +35,6 @@ let focusKeywordSuggestions;
 let linkSuggestions;
 
 let cornerstoneElementID = "yst_is_cornerstone";
-
-let store = createStore();
 
 setYoastComponentsL10n();
 
@@ -98,14 +93,18 @@ function registerStoreInGutenberg() {
  * @returns {void}
  */
 function initializeMetabox() {
+	const store = registerStoreInGutenberg();
+
+	let multiKeyword = new MultiKeyword( { store } );
 	window.YoastSEO.multiKeyword = true;
 	multiKeyword.initDOM();
 
+
 	if ( seoAnalysisEnabled() ) {
 		// Set options for largest keyword distance assessment to be added in premium.
-		YoastSEO.app.changeAssessorOptions( {useKeywordDistribution: true} );
+		YoastSEO.app.changeAssessorOptions( { useKeywordDistribution: true } );
 
-		const synonyms = new Synonyms();
+		const synonyms = new Synonyms( { premiumStore: store } );
 		synonyms.initializeDOM();
 	}
 
@@ -114,12 +113,10 @@ function initializeMetabox() {
 	}
 
 	if ( linkSuggestionsIsSupported() ) {
-		initializeLinkSuggester();
-		renderLinkSuggestionsMetabox();
+		initializeLinkSuggester( store );
+		renderLinkSuggestionsMetabox( store );
 	}
-
-	registerStoreInGutenberg();
-	registerPlugin();
+	registerPlugin( store );
 }
 
 /**
@@ -127,7 +124,7 @@ function initializeMetabox() {
  *
  * @returns {void}
  **/
-let registerPlugin = function() {
+let registerPlugin = function( store ) {
 	if ( isGutenbergDataAvailable() ) {
 		const { Fragment } = yoast._wp.element;
 		const { registerPlugin } = wp.plugins;
@@ -142,7 +139,7 @@ let registerPlugin = function() {
 						<LinkSuggestionsContainer />
 					</Provider>
 				</Collapsible>
-			</SidebarItem>
+			</SidebarItem>;
 		}
 
 		const YoastSidebar = () => (
@@ -159,17 +156,15 @@ let registerPlugin = function() {
 			render: YoastSidebar,
 		} );
 	}
-}
+};
 
-let renderLinkSuggestionsMetabox = () => {
-
-
+let renderLinkSuggestionsMetabox = ( store ) => {
 	renderReactApp(
 		document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[ 0 ],
 		LinkSuggestionsContainer,
 		store
 	);
-}
+};
 
 /**
  * Initializes the prominent word storage.
@@ -217,21 +212,21 @@ function initializeKeywordSuggestionsMetabox() {
  *
  * @returns {void}
  */
-function initializeLinkSuggester() {
+function initializeLinkSuggester( store ) {
 	let dispatch = store.dispatch.bind( store );
 
 	dispatch( loadLinkSuggestions() );
 
 	let storeConnector = {
 		setLinkSuggestions: ( linkSuggestions, showUnindexedWarning ) => {
-			dispatch( setLinkSuggestions( linkSuggestions, showUnindexedWarning ) )
+			dispatch( setLinkSuggestions( linkSuggestions, showUnindexedWarning ) );
 		},
 		setLinkSuggestionsError: ( message ) => {
-			dispatch( setLinkSuggestionsError( message ) )
+			dispatch( setLinkSuggestionsError( message ) );
 		},
-	}
+	};
 
-	let suggester = new linkSuggester( {
+	let suggester = new LinkSuggester( {
 		rootUrl: settings.restApi.root,
 		nonce: settings.restApi.nonce,
 		currentPostId: settings.postID,

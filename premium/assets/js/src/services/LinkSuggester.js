@@ -4,7 +4,7 @@ import isEqual from "lodash/isEqual";
 import forEach from "lodash/forEach";
 import includes from "lodash/includes";
 
-class linkSuggester {
+class LinkSuggester {
 
 	/**
 	 * Handles the LinkSuggestions
@@ -158,4 +158,4 @@ class linkSuggester {
 	}
 }
 
-export default linkSuggester;
+export default LinkSuggester;
