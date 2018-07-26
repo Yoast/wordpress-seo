@@ -114,33 +114,11 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Determines whether the internal linking meta box should be displayed in the Gutenberg sidebar.
-	 *
-	 * @return bool Whether or not the internal linking meta box should be displayed.
-	 */
-	public function show_internal_linking_in_gutenberg_sidebar() {
-		if ( defined( 'YOAST_FEATURE_GUTENBERG_SIDEBAR' )
-			&& YOAST_FEATURE_GUTENBERG_SIDEBAR
-			&& function_exists( 'is_gutenberg_page' )
-			&& is_gutenberg_page()
-		) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Adds a meta box for the given post type.
 	 *
 	 * @param string $post_type The post type to add a meta box for.
 	 */
 	protected function add_meta_box( $post_type ) {
-		// Don't show the internal linking meta box in the Gutenberg pages.
-		if ( ! $this->show_internal_linking_in_gutenberg_sidebar() ) {
-			return;
-		}
-
 		if ( ! $this->is_available( $post_type ) || ! $this->is_enabled() ) {
 			return;
 		}

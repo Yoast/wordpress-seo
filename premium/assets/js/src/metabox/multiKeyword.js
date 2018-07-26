@@ -17,7 +17,17 @@ var keywordTabTemplate;
 
 var tabManager;
 
-var YoastMultiKeyword = function() {};
+/**
+ * Constructs the multi keyword object.
+ *
+ * @param {Object} settings The settings to instantiate with.
+ * @param {Object} settings.store The store to use when dispatching.
+ *
+ * @returns {void}
+ */
+var YoastMultiKeyword = function( settings ) {
+	this._premiumStore = settings.store;
+};
 
 let $ = jQuery;
 
@@ -488,7 +498,6 @@ YoastMultiKeyword.prototype.analyzeKeyword = function( keyword, index ) {
 	var paper;
 	var assessor = YoastSEO.app.seoAssessor;
 	var currentPaper;
-	const store = YoastSEO.premiumStore;
 
 	currentPaper = YoastSEO.app.paper;
 
@@ -507,8 +516,8 @@ YoastMultiKeyword.prototype.analyzeKeyword = function( keyword, index ) {
 		url: currentPaper.getUrl(),
 		locale: currentPaper.getLocale(),
 	};
-	if ( store ) {
-		const synonyms = store.getState().synonyms;
+	if ( this._premiumStore ) {
+		const synonyms = this._premiumStore.getState().synonyms;
 		data.synonyms = synonyms[ index ];
 	}
 	paper = new Paper( currentPaper.getText(), data );

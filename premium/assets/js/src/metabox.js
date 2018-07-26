@@ -1,10 +1,20 @@
-/* global jQuery, wpseoPremiumMetaboxData, YoastSEO */
+/* global jQuery, wpseoPremiumMetaboxData, YoastSEO, yoast */
 
 import React from "react";
+import { Provider } from "react-redux";
+import Collapsible from "yoast-components/composites/Plugin/shared/components/Collapsible";
+
+import {
+	loadLinkSuggestions,
+	setLinkSuggestions,
+	setLinkSuggestionsError,
+} from "./redux/actions/LinkSuggestions";
+import { renderReactApp } from "./redux/utils/render";
 import ProminentWordStorage from "./keywordSuggestions/ProminentWordStorage";
 import ProminentWordNoStorage from "./keywordSuggestions/ProminentWordNoStorage";
 import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
-import LinkSuggestions from "./linkSuggestions/LinkSuggestions";
+import LinkSuggester from "./services/linkSuggester";
+import LinkSuggestionsContainer from "./redux/containers/LinkSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
 import Synonyms from "./metabox/synonyms";
 import isGutenbergDataAvailable from "../../../../js/src/helpers/isGutenbergDataAvailable";
@@ -13,13 +23,11 @@ import SidebarItem from "../../../../js/src/components/SidebarItem";
 
 setTextdomainL10n( "wordpress-seo-premium" );
 
-import reducers from "yoast-premium-components/redux/reducers";
+import reducers from "./redux/reducers/rootReducer";
 
 let settings = wpseoPremiumMetaboxData.data;
 
 let contentEndpointsAvailable = wpseoPremiumMetaboxData.data.restApi.available && wpseoPremiumMetaboxData.data.restApi.contentEndpointsAvailable;
-
-let multiKeyword = new MultiKeyword();
 
 let prominentWordStorage = new ProminentWordNoStorage();
 let focusKeywordSuggestions;
@@ -35,34 +43,34 @@ setYoastComponentsL10n();
  *
  * @returns {boolean} Whether or not Insights is enabled.
  */
-function insightsEnabled() {
+const insightsEnabled = function() {
 	return settings.insightsEnabled === "enabled";
-}
+};
 
 /**
  * Determines whether or not link suggestions are enabled.
  *
  * @returns {boolean} Whether or not link suggestions are enabled.
  */
-function linkSuggestionsEnabled() {
+const linkSuggestionsEnabled = function() {
 	return settings.linkSuggestionsEnabled === "enabled" && settings.linkSuggestionsAvailable;
-}
+};
 
 /**
  * Determines whether or not the SEO Analysis is enabled.
  *
  * @returns {boolean} Whether or not the SEO Analysis is enabled.
  */
-function seoAnalysisEnabled() {
+const seoAnalysisEnabled = function() {
 	return settings.seoAnalysisEnabled;
-}
+};
 
 /**
  * Determines whether or not link suggestions is supported.
  *
  * @returns {boolean} Whether or not link suggestions is supported.
  */
-let linkSuggestionsIsSupported = function() {
+const linkSuggestionsIsSupported = function() {
 	return contentEndpointsAvailable && linkSuggestionsEnabled();
 };
 
@@ -71,28 +79,32 @@ let linkSuggestionsIsSupported = function() {
  *
  * @returns {Object} The store.
  */
-function registerStoreInGutenberg() {
+const registerStoreInGutenberg = function() {
 	const { registerStore } = yoast._wp.data;
 
 	return registerStore( "yoast-seo-premium/editor", {
 		reducer: reducers,
 	} );
-}
+};
 
 /**
  * Initializes the metabox for premium.
  *
  * @returns {void}
  */
-function initializeMetabox() {
+const initializeMetabox = function() {
+	const store = registerStoreInGutenberg();
+
+	let multiKeyword = new MultiKeyword( { store } );
 	window.YoastSEO.multiKeyword = true;
 	multiKeyword.initDOM();
 
+
 	if ( seoAnalysisEnabled() ) {
 		// Set options for largest keyword distance assessment to be added in premium.
-		YoastSEO.app.changeAssessorOptions( {useKeywordDistribution: true} );
+		YoastSEO.app.changeAssessorOptions( { useKeywordDistribution: true } );
 
-		const synonyms = new Synonyms();
+		const synonyms = new Synonyms( { premiumStore: store } );
 		synonyms.initializeDOM();
 	}
 
@@ -101,29 +113,43 @@ function initializeMetabox() {
 	}
 
 	if ( linkSuggestionsIsSupported() ) {
-		initializeLinkSuggestionsMetabox();
+		initializeLinkSuggester( store );
+		renderLinkSuggestionsMetabox( store );
 	}
-
-	registerStoreInGutenberg();
-	registerPlugin();
-}
+	registerPlugin( store );
+};
 
 /**
  * Registers the plugin into the gutenberg editor.
  *
+ * @param {Object} store The premium store.
+ *
  * @returns {void}
  **/
-function registerPlugin() {
+const registerPlugin = function( store ) {
 	if ( isGutenbergDataAvailable() ) {
 		const { Fragment } = yoast._wp.element;
 		const { registerPlugin } = wp.plugins;
 		const { Fill } = wp.components;
 
+		let LinkSuggestionsSection = null;
+
+		if ( linkSuggestionsIsSupported() ) {
+			LinkSuggestionsSection = <SidebarItem renderPriority={ 31 }>
+				<Collapsible title="Internal linking suggestions">
+					<Provider store={ store }>
+						<LinkSuggestionsContainer />
+					</Provider>
+				</Collapsible>
+			</SidebarItem>;
+		}
+
 		const YoastSidebar = () => (
 			<Fragment>
 				<Fill name="YoastSidebar">
 					<SidebarItem renderPriority={ 21 }>Multiple keywords</SidebarItem>
-					<SidebarItem renderPriority={ 31 }>LinkSuggestions</SidebarItem>
+					{ LinkSuggestionsSection }
+					<SidebarItem renderPriority={ 32 }>Prominent words</SidebarItem>
 				</Fill>
 			</Fragment>
 		);
@@ -132,14 +158,22 @@ function registerPlugin() {
 			render: YoastSidebar,
 		} );
 	}
-}
+};
+
+const renderLinkSuggestionsMetabox = ( store ) => {
+	renderReactApp(
+		document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[ 0 ],
+		LinkSuggestionsContainer,
+		store
+	);
+};
 
 /**
  * Initializes the prominent word storage.
  *
  * @returns {void}
  */
-let initializeProminentWordStorage = function() {
+const initializeProminentWordStorage = function() {
 	prominentWordStorage = new ProminentWordStorage( {
 		postID: settings.postID,
 		rootUrl: settings.restApi.root,
@@ -162,7 +196,7 @@ let initializeProminentWordStorage = function() {
  *
  * @returns {void}
  */
-function initializeKeywordSuggestionsMetabox() {
+const initializeKeywordSuggestionsMetabox = function() {
 	initializeProminentWordStorage();
 
 	focusKeywordSuggestions = new FocusKeywordSuggestions( {
@@ -173,36 +207,53 @@ function initializeKeywordSuggestionsMetabox() {
 
 	// Initialize prominent words watching and saving.
 	focusKeywordSuggestions.initializeDOM();
-}
+};
 
 /**
- * Initializes the metabox for linksuggestions.
+ * Initializes the metabox for link suggestions.
+ *
+ * @param {Object} store The premium store.
  *
  * @returns {void}
  */
-function initializeLinkSuggestionsMetabox() {
-	linkSuggestions = new LinkSuggestions( {
-		target: document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[ 0 ],
+const initializeLinkSuggester = function( store ) {
+	let dispatch = store.dispatch.bind( store );
+
+	dispatch( loadLinkSuggestions() );
+
+	let storeConnector = {
+		setLinkSuggestions: ( linkSuggestions, showUnindexedWarning ) => {
+			dispatch( setLinkSuggestions( linkSuggestions, showUnindexedWarning ) );
+		},
+		setLinkSuggestionsError: ( message ) => {
+			dispatch( setLinkSuggestionsError( message ) );
+		},
+	};
+
+	let suggester = new LinkSuggester( {
 		rootUrl: settings.restApi.root,
 		nonce: settings.restApi.nonce,
 		currentPostId: settings.postID,
 		showUnindexedWarning: settings.linkSuggestionsUnindexed,
+		store: storeConnector,
 	} );
 
 	let usedLinks = [];
 	if ( typeof YoastSEO.app.researcher !== "undefined" ) {
 		usedLinks = YoastSEO.app.researcher.getResearch( "getLinks" );
 	}
-	linkSuggestions.initializeDOM( settings.linkSuggestions, usedLinks );
-	prominentWordStorage.on( "savedProminentWords", linkSuggestions.updatedProminentWords.bind( linkSuggestions ) );
-}
+	suggester.setCurrentLinkSuggestions( settings.linkSuggestions, usedLinks );
+
+	jQuery( window ).on( "YoastSEO:numericScore", suggester.updateUsedLinks.bind( suggester ) );
+	prominentWordStorage.on( "savedProminentWords", suggester.updatedProminentWords.bind( suggester ) );
+};
 
 /**
  * Initializes the metaboxes for premium
  *
  * @returns {void}
  */
-function initializeDOM() {
+const initializeDOM = function() {
 	window.jQuery( window ).on( "YoastSEO:ready", () => {
 		try {
 			initializeMetabox();
@@ -210,19 +261,19 @@ function initializeDOM() {
 			console.error( caughtError );
 		}
 	} );
-}
+};
 
 /**
  * Returns 50 when cornerstone checkbox is checked, if not checked it will return 20.
  *
  * @returns {number} The prominent words limit.
  */
-function getProminentWordsLimit() {
+const getProminentWordsLimit = function() {
 	if ( document.getElementById( cornerstoneElementID ) && document.getElementById( cornerstoneElementID ).checked ) {
 		return 50;
 	}
 
 	return 20;
-}
+};
 
 window.jQuery( initializeDOM );
