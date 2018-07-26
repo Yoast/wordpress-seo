@@ -2,7 +2,7 @@
 /**
  * WPSEO interface file.
  *
- * @package WPSEO\Internals
+ * @package WPSEO\Indexables
  */
 
 /**
