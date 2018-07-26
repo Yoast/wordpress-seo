@@ -10,7 +10,7 @@ const isEmpty = require( "lodash/isEmpty.js" );
  * @param {string} text The string to match the word forms against.
  * @param {string} locale The locale of the paper.
  *
- * @returns {Object} The number and the percentage fo the keyphrase words that were matched in the text by at least one form.
+ * @returns {Object} The number and the percentage of the keyphrase words that were matched in the text by at least one form.
  */
 const findWordFormsInString = function( keywordForms, text, locale ) {
 	const wordNumber = keywordForms.length;
