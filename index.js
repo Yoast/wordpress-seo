@@ -4,7 +4,6 @@ import { default as HelpCenter } from "./composites/Plugin/HelpCenter/HelpCenter
 import { default as MessageBox } from "./composites/OnboardingWizard/MessageBox";
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
-import { default as CornerstoneToggle } from "./composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
 
 export {
 	OnboardingWizard,
@@ -13,7 +12,6 @@ export {
 	MessageBox,
 	LinkSuggestions,
 	KeywordSuggestions,
-	CornerstoneToggle,
 };
 
 export * from "./composites/Plugin/SnippetPreview";
