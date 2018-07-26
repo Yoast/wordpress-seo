@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import noop from "lodash/noop";
-import GutenbergToggle from "../../Shared/components/GutenbergToggle";
+import Toggle from "../../Shared/components/Toggle";
 import { __ } from "@wordpress/i18n";
 
 const Cornerstone = styled.div`
@@ -15,12 +15,6 @@ const Cornerstone = styled.div`
 		margin-right: 10px;
 		flex-shrink: 0;
 		max-width: 75%;
-	}
-`;
-
-const HelpTextDiv = styled.div`
-	p {
-		font-style: italic;
 	}
 `;
 
@@ -53,37 +47,16 @@ class CornerstoneToggle extends React.Component {
 	}
 
 	/**
-	 * Outputs a helper text describing the position of the toggle.
-	 *
-	 * @param {bool} checked Whether or not the toggle is checked.
-	 *
-	 * @returns {string} The text to be displayed.
-	 */
-	getHelpTextWithToggle( checked ) {
-		return checked ? __( "On" ) : __( "Off" );
-	}
-
-	/**
 	 * Renders the CornerstoneToggle component.
 	 *
 	 * @returns {ReactElement} the CornerstoneToggle component.
 	 */
 	render() {
 		return (
-			<div>
 				<Cornerstone>
-					<label htmlFor={ this.props.toggleId }>{ __( "Mark this as cornerstone content." ) }</label>
-					<GutenbergToggle
-						checked={ this.state.cornerstoneToggleState }
-						onChange={ this.handleChange }
-						id={ this.props.toggleId }
-					/>
+					<label htmlFor={ this.props.ariaLabel }>{ __( "Mark this as cornerstone content.", "yoast-components" ) }</label>
+					<Toggle ariaLabel="Test the Toggle"/>
 				</Cornerstone>
-				<HelpTextDiv>
-					<p>{ this.getHelpTextWithToggle( this.state.cornerstoneToggleState ) }</p>
-				</HelpTextDiv>
-			</div>
-
 		);
 	}
 }

@@ -7,6 +7,7 @@ import { BaseButton, Button, IconButton, IconsButton } from "../composites/Plugi
 import IconButtonToggle from "../composites/Plugin/Shared/components/IconButtonToggle";
 import { BaseLinkButton, LinkButton } from "../composites/Plugin/Shared/components/LinkButton";
 import FormButton from "../forms/Button";
+import Toggle from "../composites/Plugin/Shared/components/Toggle.js"
 
 const ButtonsContainer = styled.div`
 	max-width: 800px;
@@ -87,6 +88,8 @@ export default class ButtonsList extends React.Component {
 				/> (IconButtonToggle: needs a tooltip to make its aria-label visible)
 				<Separator />
 				<YoastButton>YoastButton</YoastButton>
+				<Separator />
+				<Toggle ariaLabel="Test the Toggle"/>
 				<Separator />
 				<FormButton text="FormButton" onClick={ () => {
 					console.log( "hello FormButton clicked" );
