@@ -76,18 +76,19 @@ function sortComponentsByPosition( components ) {
 function renderMetaboxPortal() {
 	const metaboxElement = document.getElementById( "wpseo-meta-section-react" );
 
-	if ( metaboxElement ) {
-		const { Slot } = wp.components;
-		return yoast._wp.element.createPortal(
-			<Slot name="YoastSidebar">
-				{ ( fills ) => {
-					return sortComponentsByPosition( fills );
-				} }
-			</Slot>,
-			metaboxElement
-		);
+	if ( ! metaboxElement ) {
+		return null;
 	}
-	return null;
+
+	const { Slot } = wp.components;
+	return yoast._wp.element.createPortal(
+		<Slot name="YoastSidebar">
+			{ ( fills ) => {
+				return sortComponentsByPosition( fills );
+			} }
+		</Slot>,
+		metaboxElement
+	);
 }
 
 /**

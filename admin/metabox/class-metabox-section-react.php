@@ -55,11 +55,14 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	public function __construct( $name, $link_content, $content = '', array $options = array() ) {
 		$this->name = $name;
 		$this->content = $content;
+
 		$default_options = array(
 			'link_class'      => '',
 			'link_aria_label' => '',
 		);
-		$options = array_merge( $default_options, $options );
+
+		$options = wp_parse_args( $options, $default_options );
+
 		$this->link_content    = $link_content;
 		$this->link_class      = $options['link_class'];
 		$this->link_aria_label = $options['link_aria_label'];
