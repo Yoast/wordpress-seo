@@ -43,8 +43,9 @@ class WPSEO_Admin {
 
 		$this->admin_features = array(
 			// Google Search Console.
-			'google_search_console' => new WPSEO_GSC(),
-			'dashboard_widget'      => new Yoast_Dashboard_Widget(),
+			'google_search_console'  => new WPSEO_GSC(),
+			'dashboard_widget'       => new Yoast_Dashboard_Widget(),
+			'structured-data-blocks' => new WPSEO_Structured_Data_Blocks(),
 		);
 
 		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {

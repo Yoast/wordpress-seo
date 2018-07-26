@@ -26,6 +26,7 @@ const entryAll = {
 	"wp-seo-dashboard-widget": "./wp-seo-dashboard-widget.js",
 	"wp-seo-filter-explanation": "./wp-seo-filter-explanation.js",
 	"wp-seo-wp-globals-backport": "wp-seo-wp-globals-backport.js",
+	"wp-seo-structured-data-blocks": "wp-seo-structured-data-blocks.js",
 };
 
 // Output filename: Entry file (relative to jsSrcPath)
@@ -45,6 +46,7 @@ const entry = {
 	"wp-seo-modal": "./wp-seo-modal.js",
 	"wp-seo-wp-globals-backport": "./wp-seo-wp-globals-backport.js",
 	"wp-seo-replacevar-plugin": "./wp-seo-replacevar-plugin.js",
+	"wp-seo-structured-data-blocks": "./wp-seo-structured-data-blocks.js",
 	analysis: "./analysis.js",
 };
 
