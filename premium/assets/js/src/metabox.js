@@ -1,4 +1,4 @@
-/* global jQuery, wpseoPremiumMetaboxData, YoastSEO */
+/* global jQuery, wpseoPremiumMetaboxData, YoastSEO, yoast */
 
 import React from "react";
 import { Provider } from "react-redux";
@@ -43,34 +43,34 @@ setYoastComponentsL10n();
  *
  * @returns {boolean} Whether or not Insights is enabled.
  */
-function insightsEnabled() {
+const insightsEnabled = function() {
 	return settings.insightsEnabled === "enabled";
-}
+};
 
 /**
  * Determines whether or not link suggestions are enabled.
  *
  * @returns {boolean} Whether or not link suggestions are enabled.
  */
-function linkSuggestionsEnabled() {
+const linkSuggestionsEnabled = function() {
 	return settings.linkSuggestionsEnabled === "enabled" && settings.linkSuggestionsAvailable;
-}
+};
 
 /**
  * Determines whether or not the SEO Analysis is enabled.
  *
  * @returns {boolean} Whether or not the SEO Analysis is enabled.
  */
-function seoAnalysisEnabled() {
+const seoAnalysisEnabled = function() {
 	return settings.seoAnalysisEnabled;
-}
+};
 
 /**
  * Determines whether or not link suggestions is supported.
  *
  * @returns {boolean} Whether or not link suggestions is supported.
  */
-let linkSuggestionsIsSupported = function() {
+const linkSuggestionsIsSupported = function() {
 	return contentEndpointsAvailable && linkSuggestionsEnabled();
 };
 
@@ -79,20 +79,20 @@ let linkSuggestionsIsSupported = function() {
  *
  * @returns {Object} The store.
  */
-function registerStoreInGutenberg() {
+const registerStoreInGutenberg = function() {
 	const { registerStore } = yoast._wp.data;
 
 	return registerStore( "yoast-seo-premium/editor", {
 		reducer: reducers,
 	} );
-}
+};
 
 /**
  * Initializes the metabox for premium.
  *
  * @returns {void}
  */
-function initializeMetabox() {
+const initializeMetabox = function() {
 	const store = registerStoreInGutenberg();
 
 	let multiKeyword = new MultiKeyword( { store } );
@@ -117,14 +117,16 @@ function initializeMetabox() {
 		renderLinkSuggestionsMetabox( store );
 	}
 	registerPlugin( store );
-}
+};
 
 /**
  * Registers the plugin into the gutenberg editor.
  *
+ * @param {Object} store The premium store.
+ *
  * @returns {void}
  **/
-let registerPlugin = function( store ) {
+const registerPlugin = function( store ) {
 	if ( isGutenbergDataAvailable() ) {
 		const { Fragment } = yoast._wp.element;
 		const { registerPlugin } = wp.plugins;
@@ -158,7 +160,7 @@ let registerPlugin = function( store ) {
 	}
 };
 
-let renderLinkSuggestionsMetabox = ( store ) => {
+const renderLinkSuggestionsMetabox = ( store ) => {
 	renderReactApp(
 		document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[ 0 ],
 		LinkSuggestionsContainer,
@@ -171,7 +173,7 @@ let renderLinkSuggestionsMetabox = ( store ) => {
  *
  * @returns {void}
  */
-let initializeProminentWordStorage = function() {
+const initializeProminentWordStorage = function() {
 	prominentWordStorage = new ProminentWordStorage( {
 		postID: settings.postID,
 		rootUrl: settings.restApi.root,
@@ -194,7 +196,7 @@ let initializeProminentWordStorage = function() {
  *
  * @returns {void}
  */
-function initializeKeywordSuggestionsMetabox() {
+const initializeKeywordSuggestionsMetabox = function() {
 	initializeProminentWordStorage();
 
 	focusKeywordSuggestions = new FocusKeywordSuggestions( {
@@ -205,14 +207,16 @@ function initializeKeywordSuggestionsMetabox() {
 
 	// Initialize prominent words watching and saving.
 	focusKeywordSuggestions.initializeDOM();
-}
+};
 
 /**
- * Initializes the metabox for linksuggestions.
+ * Initializes the metabox for link suggestions.
+ *
+ * @param {Object} store The premium store.
  *
  * @returns {void}
  */
-function initializeLinkSuggester( store ) {
+const initializeLinkSuggester = function( store ) {
 	let dispatch = store.dispatch.bind( store );
 
 	dispatch( loadLinkSuggestions() );
@@ -242,14 +246,14 @@ function initializeLinkSuggester( store ) {
 
 	jQuery( window ).on( "YoastSEO:numericScore", suggester.updateUsedLinks.bind( suggester ) );
 	prominentWordStorage.on( "savedProminentWords", suggester.updatedProminentWords.bind( suggester ) );
-}
+};
 
 /**
  * Initializes the metaboxes for premium
  *
  * @returns {void}
  */
-function initializeDOM() {
+const initializeDOM = function() {
 	window.jQuery( window ).on( "YoastSEO:ready", () => {
 		try {
 			initializeMetabox();
@@ -257,19 +261,19 @@ function initializeDOM() {
 			console.error( caughtError );
 		}
 	} );
-}
+};
 
 /**
  * Returns 50 when cornerstone checkbox is checked, if not checked it will return 20.
  *
  * @returns {number} The prominent words limit.
  */
-function getProminentWordsLimit() {
+const getProminentWordsLimit = function() {
 	if ( document.getElementById( cornerstoneElementID ) && document.getElementById( cornerstoneElementID ).checked ) {
 		return 50;
 	}
 
 	return 20;
-}
+};
 
 window.jQuery( initializeDOM );
