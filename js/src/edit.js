@@ -16,7 +16,7 @@ import PluginIcon from "../../images/Yoast_icon_kader.svg";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetEditor from "./containers/SnippetEditor";
-import SidebarItem from "./components/SidebarItem";
+import Sidebar from "./containers/Sidebar";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {}, isRtl: false };
@@ -95,14 +95,16 @@ function renderMetaboxPortal() {
  * Registers the plugin into the gutenberg editor, creates a sidebar entry for the plugin,
  * and creates that sidebar's content.
  *
+ * @param {Object} store The store to use.
+ *
  * @returns {void}
  **/
-function registerPlugin() {
+function registerPlugin( store ) {
 	if ( isGutenbergDataAvailable() ) {
 		const { Fragment } = yoast._wp.element;
 		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 		const { registerPlugin } = wp.plugins;
-		const { Slot, Fill } = wp.components;
+		const { Slot } = wp.components;
 
 		const YoastSidebar = () => (
 			<Fragment>
@@ -122,10 +124,9 @@ function registerPlugin() {
 						} }
 					</Slot>
 				</PluginSidebar>
-				<Fill name="YoastSidebar">
-					<SidebarItem renderPriority={ 10 }>Readability analysis</SidebarItem>
-					<SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem>
-				</Fill>
+				<Provider store={ store } >
+					<Sidebar />
+				</Provider>
 				{ renderMetaboxPortal() }
 			</Fragment>
 		);
@@ -274,8 +275,9 @@ export function initializeData( data, args, store ) {
  */
 export function initialize( args ) {
 	const store = registerStoreInGutenberg();
-	if( args.shouldRenderGutenbergSidebar ) {
-		registerPlugin();
+
+	if ( args.shouldRenderGutenbergSidebar ) {
+		registerPlugin( store );
 	}
 
 	const data = initializeData( wp.data, args, store );
