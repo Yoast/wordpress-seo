@@ -130,4 +130,4 @@ export default function( text ) {
 	results.push( replaceCharactersByIndex( allDottedIToDotless, indicesDotlessi, "i" ) );
 
 	return unique( results );
-};
+}
