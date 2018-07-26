@@ -29,13 +29,20 @@ const ToggleBullet = styled.span`
 `;
 
 const ToggleVisualLabel = styled.span`
-	padding: 6px 0 0;
+	padding: 0px 0 0;
 	font-size: 14px;
 	line-height: 20px;
 	width: 30px;
 	text-align: center;
 	display: inline-block;
 	margin: 0;
+	font-style: italic;
+`;
+
+const ToggleDiv = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 `;
 
 class Toggle extends React.Component {
@@ -53,7 +60,7 @@ class Toggle extends React.Component {
 		this.onClick = this.props.onToggleDisabled;
 
 		if ( props.disable !== true ) {
-			this.onClick = this.setEnablement.bind( this );
+			this.onClick = this.setEnabled.bind( this );
 		}
 
 		this.state = {
@@ -68,13 +75,16 @@ class Toggle extends React.Component {
 	 */
 	render() {
 		return <div>
-			<ToggleBar isEnabled={this.isEnabled()} onClick={this.onClick} onKeyDown={this.setEnablement} tabIndex="0"
-			           role="checkbox" aria-label={this.props.ariaLabel} aria-checked={this.isEnabled()} >
+			<ToggleDiv>
+			<label htmlFor={this.props.id} onClick={this.onClick}>{this.props.labelText}</label>
+			<ToggleBar isEnabled={ this.isEnabled()} onClick={this.onClick} onKeyDown={this.setEnabled} tabIndex="0"
+			           role="checkbox" aria-label={this.props.ariaLabel} aria-checked={this.isEnabled()} id={this.props.id} >
 				<ToggleBullet isEnabled={this.isEnabled()} />
 			</ToggleBar>
 			<ToggleVisualLabel aria-hidden="true">
 				{ this.isEnabled() ? __( "On", "yoast-components" ) : __( "Off", "yoast-components" ) }
 			</ToggleVisualLabel>
+			</ToggleDiv>
 		</div>;
 	}
 
@@ -93,7 +103,7 @@ class Toggle extends React.Component {
 	 * @param {object} evt React SyntheticEvent.
 	 * @returns {void}
 	 */
-	setEnablement( evt ) {
+	setEnabled( evt ) {
 		// Makes the toggle actionable with the Space bar key.
 		if ( evt.type === "keydown" && evt.which !== 32 ) {
 			return;
@@ -105,21 +115,24 @@ class Toggle extends React.Component {
 			isEnabled: newState,
 		} );
 
-		this.props.onSetEnable( newState );
+		this.props.onSetEnabled( newState );
 	}
 }
 
 Toggle.propTypes = {
-	isEnabled: PropTypes.bool,
-	ariaLabel: PropTypes.string.isRequired,
-	onSetEnable: PropTypes.func,
-	disable: PropTypes.bool,
-	onToggleDisabled: PropTypes.func,
+	isEnabled: PropTypes.bool,              // Boolean for setting the toggle to on or off.
+	ariaLabel: PropTypes.string.isRequired, // The text to be read by screenreaders.
+	onSetEnabled: PropTypes.func,           // What to do the moment toggle is set to true.
+	disable: PropTypes.bool,                // Deactivates/greys out the toggle when set to false.
+	onToggleDisabled: PropTypes.func,       // What to do the moment toggle is set to false.
+	id: PropTypes.string,                   // The id of the toggle, to associate with the label.
+	labelText: PropTypes.string,            // The text to be shown in the label.
 };
 
 Toggle.defaultProps = {
 	isEnabled: false,
-	onSetEnable: () => {},
+	onSetEnabled: () => {},
+	labelText: "",
 };
 
 export default Toggle;
