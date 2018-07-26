@@ -76,7 +76,7 @@ const checkWordTooLong = function( word ) {
  */
 const endsWithEr = function( word ) {
 	const wordLength = word.length;
-	// Consider only words of four letters or more to be comparatives (otherwise, words like "per" are being treated as comparatives.
+	// Consider only words of four letters or more to be comparatives (otherwise, words like "per" are being treated as comparatives).
 	if ( wordLength > 3 ) {
 		return word.substring( word.length - 2, word.length ) === "er";
 	}
@@ -92,7 +92,7 @@ const endsWithEr = function( word ) {
  */
 const endsWithEst = function( word ) {
 	const wordLength = word.length;
-	// Consider only words of five letters or more to be superlatives (otherwise, words like "test" are being treated as superlatives.
+	// Consider only words of five letters or more to be superlatives (otherwise, words like "test" are being treated as superlatives).
 	if ( wordLength > 4 ) {
 		return word.substring( word.length - 3, word.length ) === "est";
 	}
@@ -108,7 +108,7 @@ const endsWithEst = function( word ) {
  */
 const endsWithLy = function( word ) {
 	const wordLength = word.length;
-	// Consider only words of four letters or more to be adjectives (otherwise, words like "lily" are being treated as adjectives.
+	// Consider only words of four letters or more to be adjectives (otherwise, words like "lily" are being treated as adjectives).
 	if ( wordLength > 3 ) {
 		return word.substring( word.length - 2, word.length ) === "ly";
 	}

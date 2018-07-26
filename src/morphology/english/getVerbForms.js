@@ -145,6 +145,7 @@ const checkIrregulars = function( word ) {
  */
 const endsWithS = function( word ) {
 	const wordLength = word.length;
+	// Consider only words of four letters or more to be s-forms (otherwise, words like "its" are being treated as verb forms).
 	if ( wordLength > 3 ) {
 		return word[ word.length - 1 ] === "s";
 	}
@@ -160,6 +161,7 @@ const endsWithS = function( word ) {
  */
 const endsWithIng = function( word ) {
 	const wordLength = word.length;
+	// Consider only words of five letters or more to be ing forms (otherwise, words like "ping" are being treated as verb forms).
 	if ( wordLength > 4 ) {
 		return word.substring( word.length - 3, word.length ) === "ing";
 	}
@@ -175,6 +177,7 @@ const endsWithIng = function( word ) {
  */
 const endsWithEd = function( word ) {
 	const wordLength = word.length;
+	// Consider only words of four letters or more to be past forms (otherwise, words like "red" are being treated as verb forms).
 	if ( wordLength > 3 ) {
 		return word.substring( word.length - 2, word.length ) === "ed";
 	}

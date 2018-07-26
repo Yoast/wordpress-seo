@@ -57,7 +57,11 @@ const buildForms = function( keyphrase, language, morphologyRequired = false ) {
 		return [];
 	}
 
-	// If the keyphrase is embedded in double quotation marks, return keyword itself, without outer-most quotation marks.
+	/*
+	 * If the keyphrase is embedded in double quotation marks, return keyword itself, without outer-most quotation marks.
+	 * Additionally, provide apostrophe variations.
+	 */
+
 	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
 	if ( includes( doubleQuotes, keyphrase[ 0 ] ) && includes( doubleQuotes, keyphrase[ keyphrase.length - 1 ] ) ) {
 		keyphrase = keyphrase.substring( 1, keyphrase.length - 1 );
