@@ -1,7 +1,8 @@
 /* global YoastSEO */
 
-var scoreToRating = require( "yoastseo" ).helpers.scoreToRating;
-var isUndefined = require( "lodash/isUndefined" );
+import isUndefined  from "lodash/isUndefined";
+import { helpers } from "yoastseo";
+const { scoreToRating } = helpers;
 
 /**
  * Returns whether or not the current page has presenters.
