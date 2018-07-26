@@ -273,11 +273,6 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array( 'jquery', self::PREFIX . 'babel-polyfill' ),
 			),
 			array(
-				'name' => 'dismissible',
-				'src'  => 'wp-seo-dismissible-' . $flat_version,
-				'deps' => array( 'jquery', self::PREFIX . 'babel-polyfill' ),
-			),
-			array(
 				'name' => 'admin-global-script',
 				'src'  => 'wp-seo-admin-global-' . $flat_version,
 				'deps' => array( 'jquery', self::PREFIX . 'babel-polyfill' ),
