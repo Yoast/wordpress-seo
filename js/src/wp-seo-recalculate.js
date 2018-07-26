@@ -3,8 +3,12 @@
 /* global require */
 
 var Jed = require( "jed" );
-var Paper = require( "yoastseo/js/values/Paper" );
-var SEOAssessor = require( "yoastseo/js/seoAssessor" );
+
+import {
+	Paper,
+	SEOAssessor,
+} from "yoastseo";
+
 var TaxonomyAssessor = require( "./assessors/taxonomyAssessor" );
 var isUndefined = require( "lodash/isUndefined" );
 

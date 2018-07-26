@@ -1,9 +1,10 @@
 /* global jQuery, YoastSEO, wpseoPostScraperL10n */
 
 /* External dependencies */
-import removeMarks from "yoastseo/js/markers/removeMarks";
 import get from "lodash/get";
-import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
+import analysis from "yoastseo";
+const { measureTextWidth } = analysis.helpers;
+const { removeMarks } = analysis.markers;
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
