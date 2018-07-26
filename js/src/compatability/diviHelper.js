@@ -5,10 +5,20 @@ const DIVI_EDITOR_WRAPPER_ID = "et_pb_main_editor_wrap";
 const DIVI_CLASSIC_EDITOR_HIDDEN_CLASS = "et_pb_hidden";
 
 class DiviHelper {
+	/**
+	 * Checks whether the Divi page builder is active on the page.
+	 *
+	 * @returns {boolean} Whether the Divi page buyilder is active.
+	 */
 	static isActive() {
 		return !! document.getElementById( DIVI_EDITOR_WRAPPER_ID );
 	}
 
+	/**
+	 * Checks whether the classic editor is hidden when the Divi page builder is active.
+	 *
+	 * @returns {boolean} Whether the TinyMCE editor is hidden.
+	 */
 	static isTinyMCEHidden() {
 		const classicEditorContainer = document.getElementById( DIVI_EDITOR_WRAPPER_ID );
 		if( ! classicEditorContainer ) {
@@ -18,7 +28,7 @@ class DiviHelper {
 	}
 
 	/**
-	 * Listen for changes to the classic editor when the Divi page builder is active.
+	 * Listen for changes to the TinyMCE editor when the Divi page builder is active.
 	 *
 	 * @param {Object}   callbacks                     The listener callbacks.
 	 * @param {Function} callbacks.classicEditorHidden Callback called when TinyMCE is hidden.

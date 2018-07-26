@@ -79,7 +79,7 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $pt ) {
-				if ( $pt->has_archive ) {
+				if ( WPSEO_Post_Type::has_archive( $pt ) ) {
 					$values[ $pt->name ] = $pt->labels->name;
 				}
 			}
