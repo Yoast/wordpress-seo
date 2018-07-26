@@ -24,6 +24,7 @@ class MediaUpload extends React.Component {
 
 		this.state.mediaUpload.on( "select", this.selectUpload.bind( this ) );
 	}
+
 	/**
 	 * Sends the change event, because the component is updated.
 	 *
@@ -78,37 +79,61 @@ class MediaUpload extends React.Component {
 	}
 
 	/**
+	 * Renders a remove button when an image is set.
+	 *
+	 * @returns {ReactElement} The button element.
+	 */
+	renderRemoveButton() {
+		if ( ! this.state.currentUpload ) {
+			return null;
+		}
+
+		return (
+			<RaisedButton
+				label={ this.props.translate( "Remove the image" ) }
+				onClick={ this.removeUpload.bind( this ) }
+				className="yoast-wizard-image-upload-container-buttons__remove"
+				type="button" />
+		);
+	}
+
+	/**
+	 * Renders the image when available.
+	 *
+	 * @returns {ReactElement} The image element.
+	 */
+	renderImage() {
+		if ( ! this.state.currentUpload ) {
+			return null;
+		}
+
+		return (
+			<img
+				className="yoast-wizard-image-upload-container__image"
+				src={ this.state.currentUpload }
+				alt={ this.props.translate( "image preview" ) } />
+		);
+	}
+
+	/**
 	 * Renders the output.
 	 *
 	 * @returns {JSX.Element} The rendered HTML.
 	 */
 	render() {
-		let removeButton;
-		let image;
-		if( this.state.currentUpload !== "" ) {
-			removeButton = <RaisedButton
-				label={this.props.translate( "Remove the image" )}
-				onClick={ this.removeUpload.bind( this ) }
-				className="yoast-wizard-image-upload-container-buttons__remove"
-				type="button"/>;
-			image = <img className="yoast-wizard-image-upload-container__image"
-						ref="companyImage"
-						src={this.state.currentUpload}
-						alt={this.props.translate( "company logo image preview" )}/>;
-		}
 
 		return (
 			<div className="yoast-wizard-image-upload-container">
 				<p className="yoast-wizard-image-upload-container-description">
 					{this.props.properties.label}
 				</p>
-				{image}
+				{ this.renderImage() }
 				<div className="yoast-wizard-image-upload-container-buttons">
 					<RaisedButton label={this.props.translate( "Choose image" )}
 						onClick={ this.chooseUpload.bind( this ) }
 						type="button"
 						className="yoast-wizard-image-upload-container-buttons__choose"/>
-					{removeButton}
+					{ this.renderRemoveButton() }
 				</div>
 			</div>
 		);

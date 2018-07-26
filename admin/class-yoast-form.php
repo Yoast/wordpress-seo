@@ -353,9 +353,9 @@ class Yoast_Form {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $var   The variable within the option to create the textarea for.
-	 * @param string $label The label to show for the variable.
-	 * @param array  $attr  The CSS class to assign to the textarea.
+	 * @param string       $var   The variable within the option to create the textarea for.
+	 * @param string       $label The label to show for the variable.
+	 * @param string|array $attr  The CSS class or an array of attributes to assign to the textarea.
 	 */
 	public function textarea( $var, $label, $attr = array() ) {
 		if ( ! is_array( $attr ) ) {

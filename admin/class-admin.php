@@ -103,7 +103,6 @@ class WPSEO_Admin {
 		foreach ( $integrations as $integration ) {
 			$integration->register_hooks();
 		}
-
 	}
 
 	/**

@@ -35,10 +35,10 @@ $yform->show_hide_switch(
 $editor = new WPSEO_Replacevar_Editor(
 	$yform,
 	array(
-		'title'                 => 'title-ptarchive-' . $wpseo_post_type->name,
-		'description'           => 'metadesc-ptarchive-' . $wpseo_post_type->name,
-		'page_type_recommended' => $recommended_replace_vars->determine_for_archive( $wpseo_post_type->name ),
-		'page_type_specific'    => $editor_specific_replace_vars->determine_for_archive( $wpseo_post_type->name ),
+		'title'                 => 'title-' . $wpseo_post_type->name,
+		'description'           => 'metadesc-' . $wpseo_post_type->name,
+		'page_type_recommended' => $recommended_replace_vars->determine_for_post_type( $wpseo_post_type->name ),
+		'page_type_specific'    => $editor_specific_replace_vars->determine_for_post_type( $wpseo_post_type->name ),
 		'paper_style'           => false,
 	)
 );
