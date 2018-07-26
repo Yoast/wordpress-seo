@@ -11,9 +11,7 @@ import LinkSuggestionsMetabox from "../../components/LinkSuggestions";
  * @returns {Object} Data for the `LinkSuggestionsMetabox` component.
  */
 export function mapStateToProps( state ) {
-	return {
-		...state.linkSuggestions,
-	};
+	return state.linkSuggestions;
 }
 
 export default connect( mapStateToProps )( LinkSuggestionsMetabox );
