@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import flatten from "lodash/flatten";
 import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
-import { Slot, Fill } from "@wordpress/components/slot-fill";
 
 /* Internal dependencies */
 import IntlProvider from "./components/IntlProvider";
@@ -78,6 +77,7 @@ function renderMetaboxPortal() {
 	const metaboxElement = document.getElementById( "wpseo-meta-section-react" );
 
 	if ( metaboxElement ) {
+		const { Slot } = wp.components;
 		return yoast._wp.element.createPortal(
 			<Slot name="YoastSidebar">
 				{ ( fills ) => {
@@ -101,6 +101,7 @@ function registerPlugin() {
 		const { Fragment } = yoast._wp.element;
 		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 		const { registerPlugin } = wp.plugins;
+		const { Slot, Fill } = wp.components;
 
 		const YoastSidebar = () => (
 			<Fragment>

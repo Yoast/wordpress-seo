@@ -105,7 +105,6 @@
     "grunt-contrib-imagemin": "^2.0.1"
   },
   "dependencies": {
-    "@wordpress/components": "^1.0.1",
     "@wordpress/i18n": "^1.1.1",
     "@wordpress/is-shallow-equal": "^1.0.2",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
