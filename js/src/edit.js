@@ -1,4 +1,4 @@
-/* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp yoast */
+/* global window, wpseoPostScraperL10n, wpseoTermScraperL10n, yoastPremiumBenefitsL10n, process, wp, yoast */
 /* External dependencies */
 import React from "react";
 import ReactDOM from "react-dom";
@@ -17,6 +17,8 @@ import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetEditor from "./containers/SnippetEditor";
 import SidebarItem from "./components/SidebarItem";
+import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
+import keywordUpsellProps from "./values/keywordUpsellProps";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {}, isRtl: false };
@@ -74,7 +76,7 @@ function sortComponentsByPosition( components ) {
  *
  * @returns {void}
  **/
-function registerPlugin() {
+function registerPlugin( store ) {
 	if ( isGutenbergDataAvailable() ) {
 		const { Fragment } = yoast._wp.element;
 		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
@@ -101,7 +103,11 @@ function registerPlugin() {
 				</PluginSidebar>
 				<Fill name="YoastSidebar">
 					<SidebarItem renderPriority={ 10 }>Readability analysis</SidebarItem>
-					<SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem>
+					<SidebarItem renderPriority={ 20 }>
+						{ wrapInTopLevelComponents( SeoAnalysis, store, {
+							upsell: keywordUpsellProps,
+						} ) }
+					</SidebarItem>
 				</Fill>
 			</Fragment>
 		);
@@ -251,7 +257,7 @@ export function initializeData( data, args, store ) {
 export function initialize( args ) {
 	const store = registerStoreInGutenberg();
 	if( args.shouldRenderGutenbergSidebar ) {
-		registerPlugin();
+		registerPlugin( store );
 	}
 
 	const data = initializeData( wp.data, args, store );
