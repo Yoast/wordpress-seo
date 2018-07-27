@@ -47,31 +47,25 @@ describe( "matches a string to it's transliterated value", function() {
 		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr_TR" ) ).toContain( "İstanbul" );
 		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr_TR" ) ).toContain( "Istanbul" );
 		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr_TR" ) ).toContain( "istanbul" );
-		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr_TR" ).length ).toBe( 3 );
+		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr_TR" ) ).toContain( "ıstanbul" );
+		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "İstanbul", "tr_TR" ).length ).toBe( 4 );
+
+		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "Istanbul", "tr_TR" ) ).toContain( "İstanbul" );
+		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "Istanbul", "tr_TR" ) ).toContain( "Istanbul" );
+		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "Istanbul", "tr_TR" ) ).toContain( "istanbul" );
+		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "Istanbul", "tr_TR" ) ).toContain( "ıstanbul" );
+		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "Istanbul", "tr_TR" ).length ).toBe( 4 );
 
 		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "istanbul", "tr_TR" ) ).toContain( "İstanbul" );
 		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "istanbul", "tr_TR" ) ).toContain( "Istanbul" );
 		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "istanbul", "tr_TR" ) ).toContain( "istanbul" );
-		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "istanbul", "tr_TR" ).length ).toBe( 3 );
+		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "istanbul", "tr_TR" ) ).toContain( "ıstanbul" );
+		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "istanbul", "tr_TR" ).length ).toBe( 4 );
 
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "İstanbul", "tr_TR" ).length ).toBe( 3 );
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "İstanbul", "tr_TR" ) ).toContain( "İstanbul" );
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "İstanbul", "tr_TR" ) ).toContain( "Istanbul" );
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "İstanbul", "tr_TR" ) ).toContain( "istanbul" );
-
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "istanbul", "tr_TR" ).length ).toBe( 3 );
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "istanbul", "tr_TR" ) ).toContain( "İstanbul" );
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "istanbul", "tr_TR" ) ).toContain( "Istanbul" );
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "istanbul", "tr_TR" ) ).toContain( "istanbul" );
-
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "Istanbul", "tr_TR" ).length ).toBe( 3 );
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "Istanbul", "tr_TR" ) ).toContain( "istanbul" );
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "Istanbul", "tr_TR" ) ).toContain( "Istanbul" );
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "Istanbul", "tr_TR" ) ).toContain( "ıstanbul" );
-
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "ıstanbul", "tr_TR" ).length ).toBe( 3 );
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "ıstanbul", "tr_TR" ) ).toContain( "istanbul" );
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "ıstanbul", "tr_TR" ) ).toContain( "Istanbul" );
-		expect( matchStringWithTransliteration( "İstanbul and Istanbul and istanbul and ıstanbul", "ıstanbul", "tr_TR" ) ).toContain( "ıstanbul" );
+		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "ıstanbul", "tr_TR" ) ).toContain( "İstanbul" );
+		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "ıstanbul", "tr_TR" ) ).toContain( "Istanbul" );
+		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "ıstanbul", "tr_TR" ) ).toContain( "istanbul" );
+		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "ıstanbul", "tr_TR" ) ).toContain( "ıstanbul" );
+		expect( matchStringWithTransliteration( "İstanbul  Istanbul  istanbul  ıstanbul", "ıstanbul", "tr_TR" ).length ).toBe( 4 );
 	} );
 } );

@@ -3,7 +3,7 @@ var addWordBoundary = require( "./addWordboundary.js" );
 var stripSpaces = require( "./stripSpaces.js" );
 var transliterate = require( "./transliterate.js" );
 var transliterateWP = require( "./transliterateWPstyle.js" );
-import specialCharacterMappings from "./specialCharacterMappings";
+import { replaceTurkishIsMemoized } from "./specialCharacterMappings";
 
 /**
  * Creates a regex from the keyword with included wordboundaries.
@@ -26,10 +26,9 @@ module.exports = function( text, keyword, locale ) {
 	var keywordRegex = toRegex( keyword );
 
 	if ( locale === "tr_TR" ) {
-		const turkishMappings = specialCharacterMappings( keyword );
+		const turkishMappings = replaceTurkishIsMemoized( keyword );
 		keywordRegex = new RegExp( turkishMappings.map( x => addWordBoundary( x ) ).join( "|" ), "ig" );
 	}
-
 	var matches = text.match( keywordRegex ) || [];
 
 	text = text.replace( keywordRegex, "" );

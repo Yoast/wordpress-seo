@@ -1,4 +1,6 @@
-const unique = require( "lodash/uniq" );
+const filter = require( "lodash/filter" );
+const includes = require( "lodash/includes" );
+const memoize = require( "lodash/memoize" );
 
 /**
  * Gets indices of a specific character in the input text.
@@ -20,6 +22,21 @@ function getIndicesOfCharacter( text, characterToFind ) {
 	}
 
 	return indices;
+}
+
+/**
+ * Compares two arrays of which the second array is the sub-array of the first array.
+ * Returns the array of elements of the first array which are not in the second array.
+ *
+ * @param {Array} bigArray The array with all elements.
+ * @param {Array} subarray The array with some elements from the bigArray.
+ *
+ * @returns {Array} difference An array of all elements of bigArray which are not in subarray.
+ */
+function arraysDifference( bigArray, subarray ) {
+	return filter( bigArray, function( element ) {
+		return ( ! includes( subarray, element ) );
+	} );
 }
 
 
@@ -52,7 +69,7 @@ function combinations( array ) {
 		}
 		return acc( xs.slice( 1 ), array );
 	}
-	return acc( array, [ [ ] ] ).slice( 1 );
+	return acc( array, [ [ ] ] ).slice( 1 ).concat( [ [] ] );
 }
 
 
@@ -82,52 +99,78 @@ function replaceCharactersByIndex( text, indices, substitute ) {
  *
  * @returns {Array} An array of strings that contains all possible upper and lower case alternatives of the original string
  */
-export default function( text ) {
-	// Get indices of all occurrences of letters "İ", "I", "i" or "ı".
-	const indicesDottedI = getIndicesOfCharacter( text, "İ" );
-	const indicesDotlessI = getIndicesOfCharacter( text, "I" );
-	const indicesDottedi = getIndicesOfCharacter( text, "i" );
-	const indicesDotlessi = getIndicesOfCharacter( text, "ı" );
+function replaceTurkishIs( text ) {
+	// Get indices of all occurrences of İ, I, i, or ı.
+	let indicesOfAllIs = getIndicesOfCharacter( text, "İ" ).concat(
+		getIndicesOfCharacter( text, "I" ),
+		getIndicesOfCharacter( text, "i" ),
+		getIndicesOfCharacter( text, "ı" )
+	);
+	indicesOfAllIs.sort();
 
-	// Generate all possible combinations of indices to replace at the following step.
-	const combinationsOfIndicesDottedI = combinations( indicesDottedI );
-	const combinationsOfIndicesDotlessI = combinations( indicesDotlessI );
-	const combinationsOfIndicesDottedi = combinations( indicesDottedi );
-	const combinationsOfIndicesDotlessi = combinations( indicesDotlessi );
+	// If there are no Is return the text
+	if ( indicesOfAllIs.length === 0 ) {
+		return [ text ];
+	}
 
-	let results = [].concat( text );
+	let results = [];
 
-	// Add İ to i substitutions.
-	combinationsOfIndicesDottedI.forEach( function( combination ) {
-		results.push( replaceCharactersByIndex( text, combination, "i" ) );
+	// First round of creating combinations: assign which indices will be replaced by İ
+	const combinationsDottedI = combinations( indicesOfAllIs );
+
+	combinationsDottedI.forEach( function( oneCombinationDottedI ) {
+		// If the combination is full array, just add it to results immediately without going through the rest of iterations.
+		if ( oneCombinationDottedI === indicesOfAllIs ) {
+			results.push( [ oneCombinationDottedI, [], [], [] ] );
+		} else {
+			const indicesNotDottedI = arraysDifference( indicesOfAllIs, oneCombinationDottedI );
+
+			// Second round of creating combinations: assign which indices will be replaced by I
+			const combinationsDotlessI = combinations( indicesNotDottedI );
+			combinationsDotlessI.forEach( function( oneCombinationDotlessI ) {
+				// If the combination is full array, just add it to results immediately without going through the rest of iterations.
+				if ( oneCombinationDotlessI === indicesNotDottedI ) {
+					results.push( [ oneCombinationDottedI, oneCombinationDotlessI, [], [] ] );
+				} else {
+					const indicesSmalli = arraysDifference( indicesNotDottedI, oneCombinationDotlessI );
+
+					// Third round of creating combinations: assign which indices will be replaced by i
+					const combinationsDottedi = combinations( indicesSmalli );
+
+					combinationsDottedi.forEach( function( oneCombinationDottedi ) {
+						// If the combination is full array, just add it to results immediately without going through the rest of iterations.
+						if ( oneCombinationDottedi === indicesSmalli ) {
+							results.push( [ oneCombinationDottedI, oneCombinationDotlessI, oneCombinationDottedi, [] ] );
+						} else {
+							const oneCombinationDotlessi = arraysDifference( indicesSmalli, oneCombinationDottedi );
+
+							results.push( [ oneCombinationDottedI, oneCombinationDotlessI, oneCombinationDottedi, oneCombinationDotlessi ] );
+						}
+					} );
+				}
+			} );
+		}
 	} );
 
-	// Add I to ı substitutions.
-	combinationsOfIndicesDotlessI.forEach( function( combination ) {
-		results.push( replaceCharactersByIndex( text, combination, "ı" ) );
+	let textAlternations = [];
+
+	results.forEach( function( result ) {
+		const toDottedI = replaceCharactersByIndex( text, result[ 0 ], "İ" );
+		const toDotlessI = replaceCharactersByIndex( toDottedI, result[ 1 ], "I" );
+		const toDottedi = replaceCharactersByIndex( toDotlessI, result[ 2 ], "i" );
+		const toDotlessi = replaceCharactersByIndex( toDottedi, result[ 3 ], "ı" );
+		textAlternations.push( toDotlessi );
 	} );
 
-	// Add i to İ substitutions.
-	combinationsOfIndicesDottedi.forEach( function( combination ) {
-		results.push( replaceCharactersByIndex( text, combination, "İ" ) );
-	} );
-
-	// Add ı to I substitutions.
-	combinationsOfIndicesDotlessi.forEach( function( combination ) {
-		results.push( replaceCharactersByIndex( text, combination, "I" ) );
-	} );
-
-	// Everything to upper case.
-	const allDotteditoUpperCase = replaceCharactersByIndex( text, indicesDottedi, "İ" );
-	results.push( replaceCharactersByIndex( allDotteditoUpperCase, indicesDotlessi, "I" ) );
-
-	// Everything to lower case.
-	const allDottedItoLowerCase = replaceCharactersByIndex( text, indicesDottedI, "i" );
-	results.push( replaceCharactersByIndex( allDottedItoLowerCase, indicesDotlessI, "ı" ) );
-
-	// Everything to standard Latin.
-	const allDottedIToDotless = replaceCharactersByIndex( text, indicesDottedI, "I" );
-	results.push( replaceCharactersByIndex( allDottedIToDotless, indicesDotlessi, "i" ) );
-
-	return unique( results );
+	return textAlternations;
 }
+
+const replaceTurkishIsMemoized = memoize( replaceTurkishIs );
+
+export {
+	getIndicesOfCharacter,
+	arraysDifference,
+	combinations,
+	replaceTurkishIs,
+	replaceTurkishIsMemoized,
+};

@@ -21,14 +21,21 @@ module.exports = function( text, wordToMatch, locale, extraBoundary ) {
 	text = stripSomeTags( text );
 	text = unifyWhitespace( text );
 	text = normalizeQuotes( text );
-	wordToMatch = normalizeQuotes( wordToMatch );
+	wordToMatch = stripSpaces( normalizeQuotes( wordToMatch ) );
+
 	let matches = matchStringWithTransliteration( text, wordToMatch, locale, extraBoundary );
 	matches = map( matches, function( keyword ) {
 		return stripSpaces( removePunctuation( keyword ) );
 	} );
 
+	// Create an array of positions of matches to determine where in the text the wordToMatch occurred first.
+	const positions = map( matches, function( keyword ) {
+		return text.indexOf( keyword );
+	} );
+
 	return {
 		count: matches.length,
 		matches: matches,
+		position: Math.min( ...positions ),
 	};
 };

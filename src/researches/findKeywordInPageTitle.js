@@ -1,7 +1,6 @@
 /** @module analyses/findKeywordInPageTitle */
 
 const wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
-const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 
 const escapeRegExp = require( "lodash/escapeRegExp" );
 
@@ -14,15 +13,12 @@ const escapeRegExp = require( "lodash/escapeRegExp" );
  */
 
 module.exports = function( paper ) {
-	/*
-	 * NormalizeQuotes also is used in wordMatch, but in order to find the index of the keyword, it's
-	 * necessary to repeat it here.
-	 */
-	const title = normalizeQuotes( paper.getTitle() );
-	const keyword = escapeRegExp( normalizeQuotes( paper.getKeyword() ).toLocaleLowerCase() );
+	const title = paper.getTitle();
+	const keyword = escapeRegExp( paper.getKeyword() ).toLocaleLowerCase();
 	const locale = paper.getLocale();
 	const result = { matches: 0, position: -1 };
-	result.matches = wordMatch( title, keyword, locale ).count;
-	result.position = title.toLocaleLowerCase().indexOf( keyword );
+	const wordMatched = wordMatch( title, keyword, locale );
+	result.matches = wordMatched.count;
+	result.position = wordMatched.position;
 	return result;
 };
