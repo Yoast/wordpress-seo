@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin
+ */
 
 /**
  * Class to load assets required for structured data blocks.
@@ -9,6 +14,9 @@ class WPSEO_Structured_Data_Blocks {
 	 */
 	protected $asset_manager;
 
+	/**
+	 * WPSEO_Structured_Data_Blocks constructor.
+	 */
 	public function __construct() {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
