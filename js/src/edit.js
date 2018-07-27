@@ -1,4 +1,4 @@
-/* global window, wpseoPostScraperL10n, wpseoTermScraperL10n, yoastPremiumBenefitsL10n, process, wp, yoast */
+/* global window, wpseoPostScraperL10n, wpseoTermScraperL10n, process, wp, yoast */
 /* External dependencies */
 import React from "react";
 import ReactDOM from "react-dom";

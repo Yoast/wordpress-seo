@@ -21,7 +21,7 @@ import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
 import UsedKeywords from "./analysis/usedKeywords";
 import TaxonomyAssessor from "./assessors/taxonomyAssessor";
-import { setActiveKeyword } from "./redux/actions/activeKeyword";
+import { setFocusKeyword } from "./redux/actions/focusKeyword";
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 
@@ -244,7 +244,7 @@ window.yoastHideMarkers = true;
 						keyword = termScraper.getName();
 					}
 					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
-					store.dispatch( setActiveKeyword( keyword ) );
+					store.dispatch( setFocusKeyword( keyword ) );
 					store.dispatch( refreshSnippetEditor() );
 				}
 			};

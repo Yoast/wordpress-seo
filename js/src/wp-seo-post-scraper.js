@@ -28,7 +28,7 @@ import snippetPreviewHelpers from "./analysis/snippetPreview";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import UsedKeywords from "./analysis/usedKeywords";
 
-import { setActiveKeyword } from "./redux/actions/activeKeyword";
+import { setFocusKeyword } from "./redux/actions/focusKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 import { updateData } from "./redux/actions/snippetEditor";
@@ -297,7 +297,7 @@ setWordPressSeoL10n();
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
 				const keyword = $( "#yoast_wpseo_focuskw_text_input" ).val();
-				store.dispatch( setActiveKeyword( keyword ) );
+				store.dispatch( setFocusKeyword( keyword ) );
 
 				/*
 				 * The results from the main App callback are always for the first keyword. So
@@ -492,7 +492,7 @@ setWordPressSeoL10n();
 		};
 
 		// Set initial keyword.
-		store.dispatch( setActiveKeyword( tabManager.getKeywordTab().getKeyWord() ) );
+		store.dispatch( setFocusKeyword( tabManager.getKeywordTab().getKeyWord() ) );
 
 		// Set refresh function. data.setRefresh is only defined when Gutenberg is available.
 		if ( data.setRefresh ) {

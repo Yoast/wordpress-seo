@@ -38,8 +38,8 @@ function mapStateToProps( state, ownProps ) {
 	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
 
 	let results = null;
-	if( state.analysis.seo[ state.activeKeyword ] ) {
-		results = state.analysis.seo[ state.activeKeyword ].results;
+	if( state.analysis.seo[ state.focusKeyword ] ) {
+		results = state.analysis.seo[ state.focusKeyword ].results;
 	}
 
 	return {

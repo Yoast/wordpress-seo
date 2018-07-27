@@ -6,8 +6,7 @@ import styled from "styled-components";
 import Results from "./Results";
 import UpsellBox from "../UpsellBox";
 import { Collapsible } from "yoast-components/composites/Plugin/Shared/components/Collapsible";
-import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
-import { setActiveKeyword } from "../../redux/actions/activeKeyword";
+import KeywordInput from "../../containers/KeyWordInput";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -38,8 +37,6 @@ class SeoAnalysis extends React.Component {
 					</ExplanationText>
 					<KeywordInput
 						id="focus-keyword-input"
-						keyword={ this.props.keyword }
-						onChange={ this.props.onKeywordChange }
 					/>
 					<AddSynonyms
 						href="#"
@@ -101,24 +98,14 @@ function mapStateToProps( state, ownProps ) {
 	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
 
 	let results = null;
-	let keyword = state.activeKeyword;
-	if( state.analysis.seo[ state.activeKeyword ] ) {
-		results = state.analysis.seo[ state.activeKeyword ].results;
+	if( state.analysis.seo[ state.focusKeyword ] ) {
+		results = state.analysis.seo[ state.focusKeyword ].results;
 	}
 
 	return {
 		results,
-		keyword,
 		marksButtonStatus,
 	};
 }
 
-function mapDispatchToProps( dispatch ) {
-	return {
-		onKeywordChange: ( value ) => {
-			dispatch( setActiveKeyword( value ) );
-		},
-	};
-}
-
-export default connect( mapStateToProps, mapDispatchToProps )( SeoAnalysis );
+export default connect( mapStateToProps )( SeoAnalysis );
