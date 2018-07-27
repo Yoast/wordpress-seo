@@ -2,6 +2,6 @@
 const webpackConfig = require( "../../webpack/webpack.config" );
 
 module.exports = {
-	buildDev: webpackConfig( { development: true } ),
+	buildDev: webpackConfig( { environment: "development" } ),
 	buildProd: webpackConfig(),
 };

@@ -44,8 +44,8 @@ wpDependencies.forEach( wpDependency => {
 	);
 } );
 
-module.exports = function( env = {} ) {
-	const mode = env.development ? "development" : "production";
+module.exports = function( env = { environment: "production" } ) {
+	const mode = env.environment;
 
 	const config = [
 		{
