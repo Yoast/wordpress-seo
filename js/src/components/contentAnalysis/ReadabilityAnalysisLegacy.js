@@ -3,17 +3,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import styled from "styled-components";
 
 import Results from "./Results";
-import { Collapsible } from "yoast-components/composites/Plugin/Shared/components/Collapsible";
-
-const AnalysisHeader = styled.span`
-	font-size: 1em;
-	font-weight: bold;
-	margin: 1.5em 0 1em;
-	display: block;
-`;
 
 let localizedData = {};
 if( window.wpseoPostScraperL10n ) {
@@ -28,24 +19,15 @@ if( window.wpseoPostScraperL10n ) {
 class ReadabilityAnalysis extends React.Component {
 	render() {
 		return (
-			<React.Fragment>
-				<Collapsible
-					title="Readability analysis"
-				>
-					<AnalysisHeader>
-						Analysis results:
-					</AnalysisHeader>
-					<Results
-						canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
-						showLanguageNotice={ true }
-						changeLanguageLink={ localizedData.settings_link }
-						language={ localizedData.language }
-						results={ this.props.results }
-						marksButtonClassName="yoast-tooltip yoast-tooltip-s"
-						marksButtonStatus={ this.props.marksButtonStatus }
-					/>
-				</Collapsible>
-			</React.Fragment>
+			<Results
+				canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
+				showLanguageNotice={ true }
+				changeLanguageLink={ localizedData.settings_link }
+				language={ localizedData.language }
+				results={ this.props.results }
+				marksButtonClassName="yoast-tooltip yoast-tooltip-s"
+				marksButtonStatus={ this.props.marksButtonStatus }
+			/>
 		);
 	}
 }
