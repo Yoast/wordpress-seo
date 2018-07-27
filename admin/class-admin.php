@@ -43,13 +43,13 @@ class WPSEO_Admin {
 
 		$this->admin_features = array(
 			// Google Search Console.
-			'google_search_console'  => new WPSEO_GSC(),
-			'dashboard_widget'       => new Yoast_Dashboard_Widget(),
-			'structured-data-blocks' => new WPSEO_Structured_Data_Blocks(),
+			'google_search_console' => new WPSEO_GSC(),
+			'dashboard_widget'      => new Yoast_Dashboard_Widget(),
 		);
 
 		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
-			$this->admin_features['primary_category'] = new WPSEO_Primary_Term_Admin();
+			$this->admin_features['primary_category']       = new WPSEO_Primary_Term_Admin();
+			$this->admin_features['structured_data_blocks'] = new WPSEO_Structured_Data_Blocks();
 		}
 
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' && filter_input( INPUT_GET, 'tool' ) === null ) {
