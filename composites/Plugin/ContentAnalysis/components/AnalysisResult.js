@@ -8,19 +8,17 @@ import IconButtonToggle from "../../Shared/components/IconButtonToggle.js";
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.
 	min-height: 24px;
-	padding: 0 4px 0 0;
+	padding: 0;
 	display: flex;
 	align-items: flex-start;
 `;
 
 const ScoreIcon = styled( SvgIcon )`
-	margin-top: 3px;
-	position: relative;
-	left: -1px;
+	margin: 2px 10px 0 1px; // Left and right margin to compensate icons inconsistencies.
 `;
 
 const AnalysisResultText = styled.p`
-	margin: 0 8px 0 11px; // icon 13 + 11 = 24 for the 8px grid.
+	margin: 0;
 	flex: 1 1 auto;
 `;
 

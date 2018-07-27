@@ -27,7 +27,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 
 .c0 {
   min-height: 24px;
-  padding: 0 4px 0 0;
+  padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -39,13 +39,11 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 }
 
 .c1 {
-  margin-top: 3px;
-  position: relative;
-  left: -1px;
+  margin: 2px 10px 0 1px;
 }
 
 .c3 {
-  margin: 0 8px 0 11px;
+  margin: 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -146,7 +144,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
 
 .c0 {
   min-height: 24px;
-  padding: 0 4px 0 0;
+  padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -158,13 +156,11 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
 }
 
 .c1 {
-  margin-top: 3px;
-  position: relative;
-  left: -1px;
+  margin: 2px 10px 0 1px;
 }
 
 .c3 {
-  margin: 0 8px 0 11px;
+  margin: 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -241,7 +237,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
 exports[`the AnalysisResult component with hidden buttons matches the snapshot 1`] = `
 .c0 {
   min-height: 24px;
-  padding: 0 4px 0 0;
+  padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -253,13 +249,11 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
 }
 
 .c1 {
-  margin-top: 3px;
-  position: relative;
-  left: -1px;
+  margin: 2px 10px 0 1px;
 }
 
 .c3 {
-  margin: 0 8px 0 11px;
+  margin: 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -328,7 +322,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
 
 .c0 {
   min-height: 24px;
-  padding: 0 4px 0 0;
+  padding: 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -340,13 +334,11 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
 }
 
 .c1 {
-  margin-top: 3px;
-  position: relative;
-  left: -1px;
+  margin: 2px 10px 0 1px;
 }
 
 .c3 {
-  margin: 0 8px 0 11px;
+  margin: 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;

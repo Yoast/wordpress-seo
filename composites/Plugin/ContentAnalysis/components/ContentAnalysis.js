@@ -9,7 +9,7 @@ import interpolateComponents from "interpolate-components";
 import colors from "../../../../style-guide/colors.json";
 import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
 import AnalysisResult from "../components/AnalysisResult.js";
-import AnalysisCollapsible from "../components/AnalysisCollapsible.js";
+import Collapsible from "../../../../composites/Plugin/Shared/components/Collapsible";
 import HelpText, { HelpTextPropType } from "../../../../composites/Plugin/Shared/components/HelpText";
 
 export const ContentAnalysisContainer = styled.div`
@@ -29,6 +29,16 @@ const ChangeLanguageLink = makeOutboundLink( styled.a`
 	color: ${ colors.$color_blue };
 	margin-left: 4px;
 ` );
+
+const StyledCollapsible = styled( Collapsible )`
+	margin-bottom: 8px;
+`;
+
+const AnalysisList = styled.ul`
+	margin: 0;
+	padding: 0;
+	list-style: none;
+`;
 
 /**
  * Returns the ContentAnalysis component.
@@ -102,7 +112,7 @@ class ContentAnalysis extends React.Component {
 	 *
 	 * @returns {array} A list of AnalysisResult components.
 	 */
-	getResults( results ) {
+	renderResults( results ) {
 		return results.map( ( result ) => {
 			let color = this.getColor( result.rating );
 			let isPressed = result.id === this.state.checked;
@@ -127,6 +137,34 @@ class ContentAnalysis extends React.Component {
 				marksButtonStatus={ this.props.marksButtonStatus }
 			/>;
 		} );
+	}
+
+	/**
+	 * Renders a Collapsible component with a liset of Analysis results.
+	 *
+	 * @param {string} title        The title of the collapsible section.
+	 * @param {number} headingLevel Heading level: 1 for h1, 2 for h2, etc.
+	 * @param {object} results      The list of results to display.
+	 *
+	 * @returns {ReactElement} The collapsible section with list of results.
+	 */
+	renderCollapsible( title, headingLevel, results ) {
+		return (
+			<StyledCollapsible
+				initialIsOpen={ true }
+				title={ `${ title } (${ results.length })` }
+				prefixIcon="angle-up"
+				prefixIconCollapsed="angle-down"
+				prefixIconColor={ colors.$color_grey_dark }
+				suffixIcon={ null }
+				suffixIconCollapsed={ null }
+				headingLevel={ headingLevel }
+				headingPadding="8px 16px"
+				headingColor={ colors.$color_blue }
+			>
+				<AnalysisList role="list">{ this.renderResults( results ) }</AnalysisList>
+			</StyledCollapsible>
+		);
 	}
 
 	/**
@@ -170,7 +208,7 @@ class ContentAnalysis extends React.Component {
 						mixedString: sprintf(
 							/* Translators: %s is the translated name of the language. */
 							__( "Your site language is set to %s. If this is not correct, contact your site administrator.", "yoast-components" ),
-							"{{strong}}" + this.props.language  + "{{/strong}}"
+							"{{strong}}" + this.props.language + "{{/strong}}"
 						),
 						components: {
 							strong: <strong />,
@@ -208,40 +246,20 @@ class ContentAnalysis extends React.Component {
 				{ helpText && <HelpText text={ helpText } /> }
 				{ this.renderLanguageNotice() }
 				{ errorsFound > 0 &&
-				<AnalysisCollapsible
-					headingLevel={ headingLevel }
-					title={ __( "Errors", "yoast-components" ) }
-				>
-					{ this.getResults( errorsResults ) }
-				</AnalysisCollapsible> }
+					this.renderCollapsible( __( "Errors", "yoast-components" ), headingLevel, errorsResults )
+				}
 				{ problemsFound > 0 &&
-					<AnalysisCollapsible
-						headingLevel={ headingLevel }
-						title={ __( "Problems", "yoast-components" ) }
-					>
-						{ this.getResults( problemsResults ) }
-					</AnalysisCollapsible> }
+					this.renderCollapsible( __( "Problems", "yoast-components" ), headingLevel, problemsResults )
+				}
 				{ improvementsFound > 0 &&
-					<AnalysisCollapsible
-						headingLevel={ headingLevel }
-						title={ __( "Improvements", "yoast-components" ) }
-					>
-						{ this.getResults( improvementsResults ) }
-					</AnalysisCollapsible> }
+					this.renderCollapsible( __( "Improvements", "yoast-components" ), headingLevel, improvementsResults )
+				}
 				{ considerationsFound > 0 &&
-					<AnalysisCollapsible
-						headingLevel={ headingLevel }
-						title={ __( "Considerations", "yoast-components" ) }
-					>
-						{ this.getResults( considerationsResults ) }
-					</AnalysisCollapsible> }
+					this.renderCollapsible( __( "Considerations", "yoast-components" ), headingLevel, considerationsResults )
+				}
 				{ goodResultsFound > 0 &&
-					<AnalysisCollapsible
-						headingLevel={ headingLevel }
-						title={ __( "Good results", "yoast-components" ) }
-					>
-						{ this.getResults( goodResults ) }
-					</AnalysisCollapsible> }
+					this.renderCollapsible( __( "Good results", "yoast-components" ), headingLevel, goodResults )
+				}
 			</ContentAnalysisContainer>
 		);
 	}

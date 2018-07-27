@@ -9,9 +9,6 @@ import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 
 const StyledContainer = styled.div`
 	background-color: ${ colors.$color_white };
-	border-top: 1px solid ${ colors.$color_grey };
-	border-bottom: 1px solid ${ colors.$color_grey };
-	margin-top: -1px;
 `;
 
 const StyledContent = styled.div`
@@ -29,26 +26,26 @@ const StyledContent = styled.div`
 const StyledIconsButton = styled( IconsButton )`
 	width: 100%;
 	background-color: ${ colors.$color_white };
-	padding: 16px;
+	padding: ${ props => props.headingPadding };
 	justify-content: flex-start;
-	border-color: transparent;
+	border: none;
 	border-radius: 0;
 	box-shadow: none;
-	color: ${ colors.$color_black };
+	color: ${ props => props.headingColor };
 
 	:hover {
-		border-color: transparent;
-		color: ${ colors.$color_black };
+		box-shadow: none;
+		color: ${ props => props.headingColor };
 	}
 
 	:active {
 		box-shadow: none;
 		background-color: ${ colors.$color_white };
-		color: ${ colors.$color_black };
+		color: ${ props => props.headingColor };
 	}
 
 	svg {
-		${ props => props.hasSubTitile ? "align-self: flex-start;" : "" }
+		${ props => props.hasSubTitle ? "align-self: flex-start;" : "" }
 		&:first-child {
 			margin-right: 8px;
 		}
@@ -111,26 +108,32 @@ const StyledHeading = wrapInHeading( StyledIconsButton, 2 );
  *
  * @param {object}      props                       The properties for the component.
  * @param {children}    props.children              The content of the Collapsible.
+ * @param {string}      props.className             The name of the collapsible CSS class.
  * @param {IconsButton} props.Heading               Heading button. May be wrapped or styled or both.
+ * @param {string}      props.headingColor          The button header text color.
+ * @param {string}      props.headingPadding        The button header padding.
  * @param {boolean}     props.isOpen                True displays the children. False means collapsed.
  * @param {function}    props.onToggle              Function to handle the Heading click event.
  * @param {string}      props.prefixIcon            Heading icon before the title.
  * @param {string}      props.prefixIconCollapsed   Prefix icon when in collapsed state.
  * @param {string}      props.prefixIconColor       CSS color of the prefix icon.
+ * @param {string}      props.prefixIconViewBox     The viewBox for the prefix SVG icon element.
+ * @param {string}      props.subTitle              Sub-title for the Heading.
  * @param {string}      props.suffixIcon            Heading icon after the title.
  * @param {string}      props.suffixIconColor       CSS color of the suffix icon.
  * @param {string}      props.suffixIconCollapsed   Suffix icon when in collapsed state.
- * @param {string}      props.prefixIconViewBox     The viewBox for the prefix SVG icon element.
  * @param {string}      props.suffixIconViewBox     The viewBox for the suffix SVG icon element.
  * @param {string}      props.title                 Title for the Heading.
- * @param {string}      props.subTitle              Sub-title for the Heading.
  * @param {string}      props.titleScreenReaderText Chance for an extra text to feed to a screenreader.
  *
  * @returns {ReactElement} A collapsible panel.
  */
 export const CollapsibleStateless = ( props ) => {
 	return (
-		<StyledContainer>
+		<StyledContainer
+			// Pass the classname to allow re-styling with styled-components.
+			className={ props.className }
+		>
 			<props.Heading
 				aria-expanded={ props.isOpen }
 				onClick={ props.onToggle }
@@ -142,7 +145,9 @@ export const CollapsibleStateless = ( props ) => {
 				suffixIconViewBox={ props.suffixIconViewBox }
 				prefixIconSize={ props.prefixIconSize }
 				suffixIconSize={ props.suffixIconSize }
-				hasSubTitile={ props.subTitle }
+				hasSubTitle={ !! props.subTitle }
+				headingPadding={ props.headingPadding }
+				headingColor={ props.headingColor }
 			>
 				<StyledTitleContainer>
 					<StyledTitle>
@@ -162,6 +167,7 @@ CollapsibleStateless.propTypes = {
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
 	] ),
+	className: PropTypes.string,
 	Heading: PropTypes.func,
 	isOpen: PropTypes.bool.isRequired,
 	onToggle: PropTypes.func.isRequired,
@@ -178,12 +184,16 @@ CollapsibleStateless.propTypes = {
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
 	subTitle: PropTypes.string,
+	headingPadding: PropTypes.string,
+	headingColor: PropTypes.string,
 };
 
 CollapsibleStateless.defaultProps = {
 	Heading: StyledHeading,
 	prefixIconColor: colors.$black,
 	suffixIconColor: colors.$black,
+	headingPadding: "16px",
+	headingColor: `${ colors.$color_black }`,
 };
 
 /**
@@ -194,6 +204,7 @@ export class Collapsible extends React.Component {
 	 * The constructor.
 	 *
 	 * @param {object}  props                       The properties for the component.
+	 * @param {string}  props.className             The name of the collapsible CSS class.
 	 * @param {number}  props.headingLevel          Heading level: 1 for h1, 2 for h2, etc.
 	 * @param {boolean} props.initialIsOpen         Determines if the initial isOpen state is open or closed.
 	 * @param {string}  props.prefixIcon            Heading icon before the title.
@@ -293,6 +304,7 @@ Collapsible.propTypes = {
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
 	] ),
+	className: PropTypes.string,
 	headingLevel: PropTypes.number,
 	initialIsOpen: PropTypes.bool,
 	prefixIcon: PropTypes.string,
