@@ -17,10 +17,10 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "NODE_ENV=production webpack --config ./webpack/webpack.config.prod.js",
+    "build": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
     "i18n-yoast-components": "NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot > /dev/null",
     "i18n-wordpress-seo": "NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot > /dev/null",
-    "start": "webpack-dev-server --config ./webpack/webpack.config.dev.js --progress"
+    "start": "webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",
