@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { injectIntl, intlShape } from "react-intl";
 import IntlProvider from "./components/IntlProvider";
 
+import "./helpers/babel-polyfill";
 import YoastModal from "yoast-components/composites/Plugin/Shared/components/YoastModal";
 import SvgIcon from "yoast-components/composites/Plugin/Shared/components/SvgIcon";
 import modals from "./components/modals";
