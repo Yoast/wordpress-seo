@@ -8,7 +8,7 @@ import colors from "../style-guide/colors.json";
 import SvgIcon, { icons } from "../composites/Plugin/Shared/components/SvgIcon";
 
 export const SvgIconsContainer = styled.div`
-	width: 1024px;
+	max-width: 1024px;
 	margin: 0 auto;
 	padding: 16px;
 	box-sizing: border-box;
