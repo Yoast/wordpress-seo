@@ -1,6 +1,9 @@
+/* External dependencies */
 import React from "react";
 import styled from "styled-components";
+import transform from "lodash/transform";
 
+/* Internal dependencies */
 import colors from "../style-guide/colors.json";
 import SvgIcon, { icons } from "../composites/Plugin/Shared/components/SvgIcon";
 
@@ -40,14 +43,14 @@ const SingleSvgContainer = styled.span`
  */
 export default function SvgIconsWrapper() {
 	const getIcons = () => {
-		return icons.map( icon => {
-			return (
+		return transform( icons, ( result, value, key ) => {
+			result.push(
 				<SingleSvgContainer>
-					<SvgIcon icon={ icon } key={ icon } size="40px" />
-					<span title={ icon }>{ icon }</span>
+					<SvgIcon icon={ key } key={ key } size="40px" />
+					<span title={ key }>{ key }</span>
 				</SingleSvgContainer>
 			);
-		});
+		}, [] );
 	};
 
 	return (
