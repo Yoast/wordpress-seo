@@ -85,7 +85,7 @@ class TextImagesAssessment extends Assessment {
 					this._config.url,
 					"</a>"
 				),
-			}
+			};
 		}
 
 		// Has alt-tag and keywords
@@ -94,11 +94,11 @@ class TextImagesAssessment extends Assessment {
 				score: this._config.scores.withAltKeyword,
 				resultText: i18n.sprintf(
 					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-					i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page contain alt attributes with the focus keyword." ),
+					i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page contain alt attributes with the topic words." ),
 					this._config.url,
 					"</a>"
 				),
-			}
+			};
 		}
 
 		// Has alt-tag, but no keywords and it's not okay
@@ -106,11 +106,11 @@ class TextImagesAssessment extends Assessment {
 			return {
 				score: this._config.scores.withAltNonKeyword,
 				resultText: i18n.sprintf(
-					i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page do not have alt attributes containing the focus keyword." ),
+					i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page do not have alt attributes with the topic words." ),
 					this._config.url,
 					"</a>"
 				),
-			}
+			};
 		}
 
 		// Has alt-tag, but no keyword is set
@@ -122,7 +122,7 @@ class TextImagesAssessment extends Assessment {
 					this._config.url,
 					"</a>"
 				),
-			}
+			};
 		}
 
 		// Has no alt-tag
@@ -134,7 +134,7 @@ class TextImagesAssessment extends Assessment {
 					this._config.url,
 					"</a>"
 				),
-			}
+			};
 		}
 		return null;
 	}

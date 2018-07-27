@@ -1,30 +1,30 @@
 /** @module researches/imageAltTags */
 
-var imageInText = require( "../stringProcessing/imageInText" );
-var imageAlttag = require( "../stringProcessing/getAlttagContent" );
-var wordMatch = require( "../stringProcessing/matchTextWithWord" );
+const imageInText = require( "../stringProcessing/imageInText" );
+const imageAlttag = require( "../stringProcessing/getAlttagContent" );
+import { findTopicFormsInString } from "../researches/findKeywordFormsInString";
 
-var escapeRegExp = require( "lodash/escapeRegExp" );
+const isEmpty = require( "lodash/isEmpty" );
 
 /**
  * Matches the alt-tags in the images found in the text.
  * Returns an object with the totals and different alt-tags.
  *
  * @param {Array} imageMatches Array with all the matched images in the text
- * @param {string} keyword the keyword to check for.
+ * @param {Object} topicForms The object with the keyphrase and the synonyms forms from the paper.
  * @param {string} locale The locale used for transliteration.
  * @returns {object} altProperties Object with all alt-tags that were found.
  */
-var matchAltProperties = function( imageMatches, keyword, locale ) {
-	var altProperties = {
+const matchAltProperties = function( imageMatches, topicForms, locale ) {
+	let altProperties = {
 		noAlt: 0,
 		withAlt: 0,
 		withAltKeyword: 0,
 		withAltNonKeyword: 0,
 	};
 
-	for ( var i = 0; i < imageMatches.length; i++ ) {
-		var alttag = imageAlttag( imageMatches[ i ] );
+	for ( let i = 0; i < imageMatches.length; i++ ) {
+		const alttag = imageAlttag( imageMatches[ i ] );
 
 		// If no alt-tag is set
 		if ( alttag === "" ) {
@@ -33,18 +33,20 @@ var matchAltProperties = function( imageMatches, keyword, locale ) {
 		}
 
 		// If no keyword is set, but the alt-tag is
-		if ( keyword === "" && alttag !== "" ) {
+		if ( isEmpty( topicForms.keyphraseForms ) && alttag !== "" ) {
 			altProperties.withAlt++;
 			continue;
 		}
 
-		if ( wordMatch( alttag, keyword, locale ).count === 0 && alttag !== "" ) {
+		const keywordMatchedInAltTag = findTopicFormsInString( topicForms, alttag, true, locale );
+
+		if ( keywordMatchedInAltTag.countWordMatches === 0 && alttag !== "" ) {
 			// Match for keywords?
 			altProperties.withAltNonKeyword++;
 			continue;
 		}
 
-		if ( wordMatch( alttag, keyword, locale ).count > 0 ) {
+		if ( keywordMatchedInAltTag.countWordMatches > 0 ) {
 			altProperties.withAltKeyword++;
 			continue;
 		}
@@ -60,6 +62,5 @@ var matchAltProperties = function( imageMatches, keyword, locale ) {
  * @returns {object} Object containing all types of found images
  */
 module.exports = function( paper ) {
-	var keyword = escapeRegExp( paper.getKeyword().toLocaleLowerCase() );
-	return matchAltProperties( imageInText( paper.getText() ), keyword, paper.getLocale() );
+	return matchAltProperties( imageInText( paper.getText() ), paper.getTopicForms(), paper.getLocale() );
 };
