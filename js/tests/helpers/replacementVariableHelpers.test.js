@@ -130,7 +130,7 @@ describe( "mapCustomFields", () => {
 		replaceVar3: "replaceValue3",
 		custom_fields: {
 			"i only have spaces": "value1",
-			"i_only_have_underscores": "value2",
+			i_only_have_underscores: "value2",
 		},
 	};
 
