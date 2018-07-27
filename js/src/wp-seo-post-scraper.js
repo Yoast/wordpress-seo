@@ -523,6 +523,12 @@ setWordPressSeoL10n();
 				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
 			}
 
+			let currentState = store.getState();
+
+			if ( document.getElementById( "yoast_wpseo_is_cornerstone" ).value !== currentState.isCornerstone ) {
+				document.getElementById( "yoast_wpseo_is_cornerstone" ).value = currentState.isCornerstone;
+			}
+
 			snippetEditorData.title = data.title;
 			snippetEditorData.slug = data.slug;
 			snippetEditorData.description = data.description;
