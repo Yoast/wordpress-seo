@@ -177,7 +177,7 @@ var termsTmceId = "description";
 		if ( ! contentWrapElement ) {
 			return false;
 		}
-		return document.getElementById( "wp-content-wrap" ).classList.contains( "html-active" );
+		return contentWrapElement.classList.contains( "html-active" );
 	}
 
 	/**
@@ -187,14 +187,16 @@ var termsTmceId = "description";
 	 * @returns {void}
 	 */
 	function wpTextViewOnInitCheck() {
-		if ( isTextViewActive() ) {
-			disableMarkerButtons();
+		if ( ! isTextViewActive() ) {
+			return;
+		}
 
-			if( isTinyMCELoaded() ) {
-				tinyMCE.on( "AddEditor", function() {
-					enableMarkerButtons();
-				} );
-			}
+		disableMarkerButtons();
+
+		if ( isTinyMCELoaded() ) {
+			tinyMCE.on( "AddEditor", function() {
+				enableMarkerButtons();
+			} );
 		}
 	}
 

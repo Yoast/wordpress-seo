@@ -18,7 +18,7 @@ import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
 
 import PostDataCollector from "./analysis/PostDataCollector";
-import CompatabilityHelper from "./compatability/compatabilityHelper";
+import CompatibilityHelper from "./compatability/compatabilityHelper";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import TabManager from "./analysis/tabManager";
 import getTranslations from "./analysis/getTranslations";
@@ -434,7 +434,7 @@ setWordPressSeoL10n();
 		snippetContainer = $( "#wpseosnippet" );
 		tinyMCEHelper.setStore( editStore );
 
-		const compatabilityHelper = new CompatabilityHelper( {
+		const compatibilityHelper = new CompatibilityHelper( {
 			classicEditorHidden: () => {
 				tinyMCEHelper.disableMarkerButtons();
 			}, classicEditorShown: () => {
@@ -446,11 +446,11 @@ setWordPressSeoL10n();
 
 		tinyMCEHelper.wpTextViewOnInitCheck();
 
-		if ( compatabilityHelper.isClassicEditorHidden() ) {
+		if ( compatibilityHelper.isClassicEditorHidden() ) {
 			tinyMCEHelper.disableMarkerButtons();
 		}
 
-		compatabilityHelper.init();
+		compatibilityHelper.init();
 
 		// Avoid error when snippet metabox is not rendered.
 		if ( snippetContainer.length === 0 ) {
