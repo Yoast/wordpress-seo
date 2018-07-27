@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 
 import Results from "./Results";
-import { Collapsible } from "yoast-components/composites/Plugin/Shared/components/Collapsible";
+import { Collapsible } from "yoast-components";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
