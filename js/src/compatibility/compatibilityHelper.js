@@ -4,51 +4,56 @@ import noop from "lodash/noop";
 
 /* Internal dependencies */
 import DiviHelper from "./diviHelper";
+import VisualComposerHelper from "./visualComposerHelper";
 
 const DEFAULTS = {
 	classicEditorHidden: noop,
 	classicEditorShown: noop,
+	pageBuilderLoaded: noop,
 };
 
 /**
- * Adds support (compatibility) for Page builders.
+ * Adds support (compatability) for Page builders.
  */
-class CompatibilityHelper {
+class CompatabilityHelper {
 	/**
-	 * The CompatibilityHelper constructor.
+	 * The CompatabilityHelper constructor.
 	 *
 	 * Determines what (supported) page builder is active.
-	 *
-	 * @param {Object}   callbacks                     The listener callbacks.
-	 * @param {Function} callbacks.classicEditorHidden Callback called when TinyMCE is hidden.
-	 * @param {Function} callbacks.classicEditorShown  Callback called when TinyMCE is shown.
 	 */
-	constructor( callbacks ) {
-		this.callbacks = defaults( callbacks, DEFAULTS );
-		this.pageBuilder = this.determinePageBuilder();
+	constructor() {
+		this.determineActivePageBuilders();
 	}
 
 	/**
 	 * Determines what supported page builder is active.
 	 *
-	 * @returns {string} The active page builder.
+	 * @returns {void}
 	 */
-	determinePageBuilder() {
+	determineActivePageBuilders() {
 		if ( DiviHelper.isActive() ) {
-			return "divi";
+			this.diviActive = true;
 		}
-		return "";
+		if( VisualComposerHelper.isActive() ) {
+			this.vcActive = true;
+		}
 	}
 
 	/**
 	 * Initializes listeners for page builder events regarding the classic editor.
 	 *
+	 * @param {Object}   callbacks                     The listener callbacks.
+	 * @param {Function} callbacks.classicEditorHidden Callback called when TinyMCE is hidden.
+	 * @param {Function} callbacks.classicEditorShown  Callback called when TinyMCE is shown.
+	 *
 	 * @returns {void}
 	 */
-	init() {
-		if ( this.pageBuilder === "divi" ) {
+	listen( callbacks ) {
+		this.callbacks = defaults( callbacks, DEFAULTS );
+
+		if ( this.diviActive ) {
 			const diviHelper = new DiviHelper();
-			diviHelper.listen( this.callbacks );
+			diviHelper.listen( callbacks );
 		}
 	}
 
@@ -58,11 +63,8 @@ class CompatibilityHelper {
 	 * @returns {boolean} Whether the classic editor is hidden.
 	 */
 	isClassicEditorHidden() {
-		if ( this.pageBuilder === "divi" ) {
-			return DiviHelper.isTinyMCEHidden();
-		}
-		return false;
+		return ( this.diviActive && DiviHelper.isTinyMCEHidden() );
 	}
 }
 
-export default CompatibilityHelper;
+export default CompatabilityHelper;

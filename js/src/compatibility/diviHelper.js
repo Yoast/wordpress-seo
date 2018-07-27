@@ -1,4 +1,3 @@
-/* External dependencies */
 import forEach from "lodash/forEach";
 
 const DIVI_EDITOR_WRAPPER_ID = "et_pb_main_editor_wrap";

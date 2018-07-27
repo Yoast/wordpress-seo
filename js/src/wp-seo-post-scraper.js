@@ -413,6 +413,34 @@ setWordPressSeoL10n();
 	}
 
 	/**
+	 * Handles page builder compatibility, regarding the marker buttons.
+	 *
+	 * @returns {void}
+	 */
+	function handlePageBuilderCompatibility() {
+		const compatibilityHelper = new CompatibilityHelper();
+
+		if ( compatibilityHelper.isClassicEditorHidden() ) {
+			tinyMCEHelper.disableMarkerButtons();
+		}
+
+		if( compatibilityHelper.vcActive ) {
+			tinyMCEHelper.disableMarkerButtons();
+		} else {
+			compatibilityHelper.listen( {
+				classicEditorHidden: () => {
+					tinyMCEHelper.disableMarkerButtons();
+				},
+				classicEditorShown: () => {
+					if( ! tinyMCEHelper.isTextViewActive() ) {
+						tinyMCEHelper.enableMarkerButtons();
+					}
+				},
+			} );
+		}
+	}
+
+	/**
 	 * Initializes analysis for the post edit screen.
 	 *
 	 * @returns {void}
@@ -433,24 +461,9 @@ setWordPressSeoL10n();
 
 		snippetContainer = $( "#wpseosnippet" );
 		tinyMCEHelper.setStore( editStore );
-
-		const compatibilityHelper = new CompatibilityHelper( {
-			classicEditorHidden: () => {
-				tinyMCEHelper.disableMarkerButtons();
-			}, classicEditorShown: () => {
-				if( ! tinyMCEHelper.isTextViewActive() ) {
-					tinyMCEHelper.enableMarkerButtons();
-				}
-			},
-		} );
-
 		tinyMCEHelper.wpTextViewOnInitCheck();
 
-		if ( compatibilityHelper.isClassicEditorHidden() ) {
-			tinyMCEHelper.disableMarkerButtons();
-		}
-
-		compatibilityHelper.init();
+		handlePageBuilderCompatibility();
 
 		// Avoid error when snippet metabox is not rendered.
 		if ( snippetContainer.length === 0 ) {
