@@ -31,6 +31,10 @@ class ReadabilityAnalysis extends React.Component {
 			<React.Fragment>
 				<Collapsible
 					title="Readability analysis"
+					prefixIcon="circle"
+					prefixIconCollapsed="circle"
+					prefixIconColor="red"
+					initialIsOpen={ true }
 				>
 					<AnalysisHeader>
 						Analysis results:

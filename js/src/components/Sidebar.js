@@ -10,8 +10,9 @@ import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 /**
  * Creates the Sidebar component.
  *
- * @param {bool} isContentAnalysisActive Whether or not the readability analysis is active or not.
- * @param {bool} isKeywordAnalysisActive Whether or not the readability analysis is active or not.
+ * @param {bool}   isContentAnalysisActive Whether or not the readability analysis is active or not.
+ * @param {bool}   isKeywordAnalysisActive Whether or not the readability analysis is active or not.
+ * @param {Object} store The Redux store.
  *
  * @returns {ReactElement} The Sidebar component.
  *
