@@ -80,15 +80,19 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
 }
 
 .c10 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.25rem;
+  overflow-x: hidden;
+}
+
+.c11 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -137,7 +141,7 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
   font-weight: inherit;
 }
 
-.c11 {
+.c12 {
   margin: 0;
   list-style: none;
   padding: 0 16px 0 0;
@@ -188,12 +192,16 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
       <span
         className="c10"
       >
-        Problems (4)
+        <span
+          className="c11"
+        >
+          Problems (4)
+        </span>
       </span>
     </button>
   </h2>
   <ul
-    className="c11"
+    className="c12"
     role="list"
   >
     <li>
@@ -292,15 +300,19 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
 }
 
 .c10 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.25rem;
+  overflow-x: hidden;
+}
+
+.c11 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -394,7 +406,11 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
       <span
         className="c10"
       >
-        Problems (4)
+        <span
+          className="c11"
+        >
+          Problems (4)
+        </span>
       </span>
     </button>
   </h2>
@@ -481,15 +497,19 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 1`] = `
 }
 
 .c10 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.25rem;
+  overflow-x: hidden;
+}
+
+.c11 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -583,7 +603,11 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 1`] = `
       <span
         className="c10"
       >
-        Problems (4)
+        <span
+          className="c11"
+        >
+          Problems (4)
+        </span>
       </span>
     </button>
   </h2>
@@ -670,15 +694,19 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
 }
 
 .c10 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.25rem;
+  overflow-x: hidden;
+}
+
+.c11 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -727,7 +755,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
   font-weight: inherit;
 }
 
-.c11 {
+.c12 {
   margin: 0;
   list-style: none;
   padding: 0 16px 0 0;
@@ -778,12 +806,16 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
       <span
         className="c10"
       >
-        Problems (4)
+        <span
+          className="c11"
+        >
+          Problems (4)
+        </span>
       </span>
     </button>
   </h2>
   <ul
-    className="c11"
+    className="c12"
     role="list"
   >
     <li>
@@ -882,15 +914,19 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
 }
 
 .c10 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.25rem;
+  overflow-x: hidden;
+}
+
+.c11 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -939,7 +975,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
   font-weight: inherit;
 }
 
-.c11 {
+.c12 {
   margin: 0;
   list-style: none;
   padding: 0 16px 0 0;
@@ -990,12 +1026,16 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
       <span
         className="c10"
       >
-        Problems (4)
+        <span
+          className="c11"
+        >
+          Problems (4)
+        </span>
       </span>
     </button>
   </h2>
   <ul
-    className="c11"
+    className="c12"
     role="list"
   >
     <li>
@@ -1094,15 +1134,19 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
 }
 
 .c10 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.25rem;
+  overflow-x: hidden;
+}
+
+.c11 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -1196,7 +1240,11 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
       <span
         className="c10"
       >
-        Problems (4)
+        <span
+          className="c11"
+        >
+          Problems (4)
+        </span>
       </span>
     </button>
   </h2>

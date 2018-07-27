@@ -15,7 +15,11 @@ const StyledContainer = styled.div`
 `;
 
 const StyledContent = styled.div`
-	padding: 0 15px 15px;
+	padding: 0 16px 16px;
+
+	& p:first-child {
+		margin-top: 0;
+	}
 
 	& p:last-child {
 		margin-bottom: 0;
@@ -25,7 +29,7 @@ const StyledContent = styled.div`
 const StyledIconsButton = styled( IconsButton )`
 	width: 100%;
 	background-color: ${ colors.$color_white };
-	padding: 15px;
+	padding: 16px;
 	justify-content: flex-start;
 	border-color: transparent;
 	border-radius: 0;
@@ -33,6 +37,7 @@ const StyledIconsButton = styled( IconsButton )`
 	color: ${ colors.$color_button_border_active };
 
 	svg {
+		${ props => props.hasSubTitile ? "align-self: flex-start;" : "" }
 		&:first-child {
 			margin-right: 8px;
 		}
@@ -42,13 +47,26 @@ const StyledIconsButton = styled( IconsButton )`
 	}
 `;
 
+const StyledTitleContainer = styled.span`
+	flex-grow: 1;
+	overflow-x: hidden;
+`;
+
 const StyledTitle = styled.span`
+	display: block;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow-x: hidden;
-	-ms-flex-positive: 1;
-	flex-grow: 1;
-	font-size: 1.25rem;
+	font-size: 1rem;
+`;
+
+const StyledSubTitle = styled.span`
+	display: block;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow-x: hidden;
+	font-size: 0.8125rem;
+	margin-top: 2px;
 `;
 
 /**
@@ -93,7 +111,8 @@ const StyledHeading = wrapInHeading( StyledIconsButton, 2 );
  * @param {string}      props.suffixIconCollapsed   Suffix icon when in collapsed state.
  * @param {string}      props.prefixIconViewBox     The viewBox for the prefix SVG icon element.
  * @param {string}      props.suffixIconViewBox     The viewBox for the suffix SVG icon element.
- * @param {string}      props.title                 Title for in the Heading.
+ * @param {string}      props.title                 Title for the Heading.
+ * @param {string}      props.subTitle              Sub-title for the Heading.
  * @param {string}      props.titleScreenReaderText Chance for an extra text to feed to a screenreader.
  *
  * @returns {ReactElement} A collapsible panel.
@@ -112,9 +131,15 @@ export const CollapsibleStateless = ( props ) => {
 				suffixIconViewBox={ props.suffixIconViewBox }
 				prefixIconSize={ props.prefixIconSize }
 				suffixIconSize={ props.suffixIconSize }
+				hasSubTitile={ props.subTitle }
 			>
-				<StyledTitle>{ props.title }</StyledTitle>
-				{ props.titleScreenReaderText ? <ScreenReaderText>{ " " + props.titleScreenReaderText }</ScreenReaderText> : null }
+				<StyledTitleContainer>
+					<StyledTitle>
+						{ props.title }
+						{ props.titleScreenReaderText ? <ScreenReaderText>{ " " + props.titleScreenReaderText }</ScreenReaderText> : null }
+					</StyledTitle>
+					{ props.subTitle && <StyledSubTitle>{ props.subTitle }</StyledSubTitle> }
+				</StyledTitleContainer>
 			</props.Heading>
 			{ props.isOpen && props.children }
 		</StyledContainer>
@@ -141,6 +166,7 @@ CollapsibleStateless.propTypes = {
 	suffixIconViewBox: PropTypes.string,
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
+	subTitle: PropTypes.string,
 };
 
 CollapsibleStateless.defaultProps = {
@@ -268,6 +294,7 @@ Collapsible.propTypes = {
 	suffixIconViewBox: PropTypes.string,
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
+	subTitle: PropTypes.string,
 };
 
 Collapsible.defaultProps = {
