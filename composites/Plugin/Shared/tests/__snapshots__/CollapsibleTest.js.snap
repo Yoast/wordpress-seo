@@ -262,18 +262,6 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   background-color: #fff;
 }
 
-.c12 {
-  padding: 0 16px 16px;
-}
-
-.c12 >:first-child {
-  margin-top: 0;
-}
-
-.c12 >:last-child {
-  margin-bottom: 0;
-}
-
 .c2 {
   width: 100%;
   background-color: #fff;
@@ -381,22 +369,18 @@ exports[`Collapsible matches the snapshot by default 2`] = `
       </svg>
     </button>
   </h2>
-  <div
-    className="c12"
-  >
-    <h4>
-      Vivamus rutrum velit ut nunc dignissim vulputate.
-    </h4>
-    <p>
-      In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
-    </p>
-    <h4>
-      Ut id ex efficitur risus suscipit fermentum.
-    </h4>
-    <p>
-      Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
-    </p>
-  </div>
+  <h4>
+    Vivamus rutrum velit ut nunc dignissim vulputate.
+  </h4>
+  <p>
+    In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+  </p>
+  <h4>
+    Ut id ex efficitur risus suscipit fermentum.
+  </h4>
+  <p>
+    Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+  </p>
 </div>
 `;
 
@@ -662,18 +646,6 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   background-color: #fff;
 }
 
-.c12 {
-  padding: 0 16px 16px;
-}
-
-.c12 >:first-child {
-  margin-top: 0;
-}
-
-.c12 >:last-child {
-  margin-bottom: 0;
-}
-
 .c2 {
   width: 100%;
   background-color: #fff;
@@ -781,22 +753,18 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
       </svg>
     </button>
   </h2>
-  <div
-    className="c12"
-  >
-    <h4>
-      Vivamus rutrum velit ut nunc dignissim vulputate.
-    </h4>
-    <p>
-      In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
-    </p>
-    <h4>
-      Ut id ex efficitur risus suscipit fermentum.
-    </h4>
-    <p>
-      Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
-    </p>
-  </div>
+  <h4>
+    Vivamus rutrum velit ut nunc dignissim vulputate.
+  </h4>
+  <p>
+    In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+  </p>
+  <h4>
+    Ut id ex efficitur risus suscipit fermentum.
+  </h4>
+  <p>
+    Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+  </p>
 </div>
 `;
 
@@ -876,18 +844,6 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   background-color: #fff;
 }
 
-.c12 {
-  padding: 0 16px 16px;
-}
-
-.c12 >:first-child {
-  margin-top: 0;
-}
-
-.c12 >:last-child {
-  margin-bottom: 0;
-}
-
 .c2 {
   width: 100%;
   background-color: #fff;
@@ -995,22 +951,18 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
       </svg>
     </button>
   </h2>
-  <div
-    className="c12"
-  >
-    <h4>
-      Vivamus rutrum velit ut nunc dignissim vulputate.
-    </h4>
-    <p>
-      In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
-    </p>
-    <h4>
-      Ut id ex efficitur risus suscipit fermentum.
-    </h4>
-    <p>
-      Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
-    </p>
-  </div>
+  <h4>
+    Vivamus rutrum velit ut nunc dignissim vulputate.
+  </h4>
+  <p>
+    In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+  </p>
+  <h4>
+    Ut id ex efficitur risus suscipit fermentum.
+  </h4>
+  <p>
+    Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+  </p>
 </div>
 `;
 

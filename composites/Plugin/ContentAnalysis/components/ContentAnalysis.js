@@ -17,6 +17,7 @@ export const ContentAnalysisContainer = styled.div`
 	background-color: white;
 	max-width: 800px;
 	margin: 0 auto;
+	border-bottom: 1px solid transparent; // Avoid parent and child margin collapsing.
 `;
 
 const LanguageNotice = styled.p`
@@ -36,7 +37,7 @@ const StyledCollapsible = styled( Collapsible )`
 
 const AnalysisList = styled.ul`
 	margin: 0;
-	padding: 0;
+	padding: 8px 16px;
 	list-style: none;
 `;
 

@@ -37,6 +37,19 @@ const StyledCollapsible = styled( Collapsible )`
 	margin-top: -1px;
 `;
 
+
+const StyledContent = styled.div`
+	padding: 0 16px 16px;
+
+	& > :first-child {
+		margin-top: 0;
+	}
+
+	& > :last-child {
+		margin-bottom: 0;
+	}
+`;
+
 /**
  * Returns the SidebarCollapsibleWrapper component.
  *
@@ -55,20 +68,24 @@ export default function SidebarCollapsibleWrapper() {
 						prefixIconColor="red"
 						suffixIconSize="9px"
 					>
-						<h3>Some content</h3>
-						<p>With some text under it of course. Otherwise this would not make much sense, right?</p>
-						<h3>Some other content</h3>
-						<p>I should start using lorem ipsum here to write my material.</p>
+						<StyledContent>
+							<h3>Some content</h3>
+							<p>With some text under it of course. Otherwise this would not make much sense, right?</p>
+							<h3>Some other content</h3>
+							<p>I should start using lorem ipsum here to write my material.</p>
+						</StyledContent>
 					</StyledCollapsible>
 					<StyledCollapsible
 						title="Collapsible initially closed"
 						initialIsOpen={ false }
 						suffixIconSize="9px"
 					>
-						<h3>Some content</h3>
-						<p>With some text under it of course. Otherwise this would not make much sense, right?</p>
-						<h3>Some other content</h3>
-						<p>I should start using lorem ipsum here to write my material.</p>
+						<StyledContent>
+							<h3>Some content</h3>
+							<p>With some text under it of course. Otherwise this would not make much sense, right?</p>
+							<h3>Some other content</h3>
+							<p>I should start using lorem ipsum here to write my material.</p>
+						</StyledContent>
 					</StyledCollapsible>
 					<StyledCollapsible
 						title="No content"
@@ -84,7 +101,9 @@ export default function SidebarCollapsibleWrapper() {
 						prefixIconViewBox="0 0 496 512"
 						suffixIconSize="9px"
 					>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+						<StyledContent>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+						</StyledContent>
 					</StyledCollapsible>
 					<StyledCollapsible
 						title="Additional awesome focus keyword analysis"
@@ -96,7 +115,9 @@ export default function SidebarCollapsibleWrapper() {
 						prefixIconViewBox="0 0 496 512"
 						suffixIconSize="9px"
 					>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+						<StyledContent>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+						</StyledContent>
 					</StyledCollapsible>
 					<StyledCollapsible
 						title="Help"
@@ -104,7 +125,9 @@ export default function SidebarCollapsibleWrapper() {
 						suffixIconCollapsed="question-circle"
 						suffixIconColor={ colors.$color_purple }
 					>
-						<p>Maybe some help text here with a link <a target="_blank" rel="noopener noreferrer" href="https://yoast.com">Go to Yoast</a></p>
+						<StyledContent>
+							<p>Maybe some help text here with a link <a target="_blank" rel="noopener noreferrer" href="https://yoast.com">Go to Yoast</a></p>
+						</StyledContent>
 					</StyledCollapsible>
 					<StyledCollapsible
 						title="Different icons size"
@@ -116,7 +139,9 @@ export default function SidebarCollapsibleWrapper() {
 						suffixIconSize="30px"
 						suffixIconColor={ colors.$color_red }
 					>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+						<StyledContent>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+						</StyledContent>
 					</StyledCollapsible>
 				</WidgetContainer>
 			</SortableContainer>
@@ -131,9 +156,11 @@ export default function SidebarCollapsibleWrapper() {
 				prefixIconViewBox="0 0 496 512"
 				suffixIconSize="9px"
 			>
-				<p>One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.
-				The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked.
-				“What’s happened to me?” he thought. It wasn’t a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls. A collection of textile samples lay spread out on the table — Samsa was a travelling salesman — and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer.</p>
+				<StyledContent>
+					<p>One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.
+					The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked.
+					“What’s happened to me?” he thought. It wasn’t a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls. A collection of textile samples lay spread out on the table — Samsa was a travelling salesman — and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer.</p>
+				</StyledContent>
 			</StyledCollapsible>
 			<StyledCollapsible
 				title="Meh"
@@ -145,7 +172,9 @@ export default function SidebarCollapsibleWrapper() {
 				prefixIconViewBox="0 0 496 512"
 				suffixIconSize="9px"
 			>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<StyledContent>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				</StyledContent>
 			</StyledCollapsible>
 			<StyledCollapsible
 				title="Bad"
@@ -157,7 +186,9 @@ export default function SidebarCollapsibleWrapper() {
 				prefixIconViewBox="0 0 496 512"
 				suffixIconSize="9px"
 			>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<StyledContent>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				</StyledContent>
 			</StyledCollapsible>
 			<StyledCollapsible
 				title="None"
@@ -168,7 +199,9 @@ export default function SidebarCollapsibleWrapper() {
 				prefixIconViewBox="0 0 496 512"
 				suffixIconSize="9px"
 			>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<StyledContent>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				</StyledContent>
 			</StyledCollapsible>
 		</FullWidthContaniner>
 	);

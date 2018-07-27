@@ -11,18 +11,6 @@ const StyledContainer = styled.div`
 	background-color: ${ colors.$color_white };
 `;
 
-const StyledContent = styled.div`
-	padding: 0 16px 16px;
-
-	& > :first-child {
-		margin-top: 0;
-	}
-
-	& > :last-child {
-		margin-bottom: 0;
-	}
-`;
-
 const StyledIconsButton = styled( IconsButton )`
 	width: 100%;
 	background-color: ${ colors.$color_white };
@@ -117,12 +105,14 @@ const StyledHeading = wrapInHeading( StyledIconsButton, 2 );
  * @param {string}      props.prefixIcon            Heading icon before the title.
  * @param {string}      props.prefixIconCollapsed   Prefix icon when in collapsed state.
  * @param {string}      props.prefixIconColor       CSS color of the prefix icon.
- * @param {string}      props.prefixIconViewBox     The viewBox for the prefix SVG icon element.
+ * @param {string}      props.prefixIconSize        The size of the prefix SVG icon element.
+ * @param {string}      props.prefixIconViewBox     The viewBox of the prefix SVG icon element.
  * @param {string}      props.subTitle              Sub-title for the Heading.
  * @param {string}      props.suffixIcon            Heading icon after the title.
- * @param {string}      props.suffixIconColor       CSS color of the suffix icon.
  * @param {string}      props.suffixIconCollapsed   Suffix icon when in collapsed state.
- * @param {string}      props.suffixIconViewBox     The viewBox for the suffix SVG icon element.
+ * @param {string}      props.suffixIconColor       CSS color of the suffix icon.
+ * @param {string}      props.suffixIconSize        The size of the suffix SVG icon element.
+ * @param {string}      props.suffixIconViewBox     The viewBox of the suffix SVG icon element.
  * @param {string}      props.title                 Title for the Heading.
  * @param {string}      props.titleScreenReaderText Chance for an extra text to feed to a screenreader.
  *
@@ -169,6 +159,8 @@ CollapsibleStateless.propTypes = {
 	] ),
 	className: PropTypes.string,
 	Heading: PropTypes.func,
+	headingColor: PropTypes.string,
+	headingPadding: PropTypes.string,
 	isOpen: PropTypes.bool.isRequired,
 	onToggle: PropTypes.func.isRequired,
 	prefixIcon: PropTypes.string,
@@ -176,6 +168,7 @@ CollapsibleStateless.propTypes = {
 	prefixIconColor: PropTypes.string,
 	prefixIconSize: PropTypes.string,
 	prefixIconViewBox: PropTypes.string,
+	subTitle: PropTypes.string,
 	suffixIcon: PropTypes.string,
 	suffixIconCollapsed: PropTypes.string,
 	suffixIconColor: PropTypes.string,
@@ -183,17 +176,14 @@ CollapsibleStateless.propTypes = {
 	suffixIconViewBox: PropTypes.string,
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
-	subTitle: PropTypes.string,
-	headingPadding: PropTypes.string,
-	headingColor: PropTypes.string,
 };
 
 CollapsibleStateless.defaultProps = {
 	Heading: StyledHeading,
+	headingColor: `${ colors.$color_black }`,
+	headingPadding: "16px",
 	prefixIconColor: colors.$black,
 	suffixIconColor: colors.$black,
-	headingPadding: "16px",
-	headingColor: `${ colors.$color_black }`,
 };
 
 /**
@@ -293,7 +283,7 @@ export class Collapsible extends React.Component {
 				prefixIconViewBox={ prefixIconViewBox }
 				suffixIconViewBox={ suffixIconViewBox }
 			>
-				{ isOpen && <StyledContent>{ children }</StyledContent> }
+				{ isOpen && children }
 			</CollapsibleStateless>
 		);
 	}
