@@ -17,11 +17,11 @@ const StyledContainer = styled.div`
 const StyledContent = styled.div`
 	padding: 0 16px 16px;
 
-	& p:first-child {
+	& > :first-child {
 		margin-top: 0;
 	}
 
-	& p:last-child {
+	& > :last-child {
 		margin-bottom: 0;
 	}
 `;
@@ -34,7 +34,18 @@ const StyledIconsButton = styled( IconsButton )`
 	border-color: transparent;
 	border-radius: 0;
 	box-shadow: none;
-	color: ${ colors.$color_button_border_active };
+	color: ${ colors.$color_black };
+
+	:hover {
+		border-color: transparent;
+		color: ${ colors.$color_black };
+	}
+
+	:active {
+		box-shadow: none;
+		background-color: ${ colors.$color_white };
+		color: ${ colors.$color_black };
+	}
 
 	svg {
 		${ props => props.hasSubTitile ? "align-self: flex-start;" : "" }
