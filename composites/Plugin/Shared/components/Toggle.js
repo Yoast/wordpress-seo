@@ -29,7 +29,6 @@ const ToggleBullet = styled.span`
 `;
 
 const ToggleVisualLabel = styled.span`
-	padding: 0px 0 0;
 	font-size: 14px;
 	line-height: 20px;
 	width: 30px;
@@ -57,6 +56,7 @@ class Toggle extends React.Component {
 		super( props );
 
 		this.onClick = this.props.onToggleDisabled;
+		this.setEnabled = this.setEnabled.bind( this );
 
 		if ( props.disable !== true ) {
 			this.onClick = this.setEnabled.bind( this );
@@ -77,22 +77,22 @@ class Toggle extends React.Component {
 			<ToggleDiv>
 				{ /* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */ }
 				<label
-					htmlFor={this.props.id}
-					onClick={this.onClick}
+					htmlFor={ this.props.id }
+					onClick={ this.onClick }
 				>
-					{this.props.labelText}
+					{ this.props.labelText }
 				</label>
 				<ToggleBar
-					isEnabled={ this.isEnabled()}
-					onClick={this.onClick}
-					onKeyDown={this.setEnabled}
+					isEnabled={ this.isEnabled() }
+					onClick={ this.onClick }
+					onKeyDown={ this.setEnabled }
 					tabIndex="0"
 					role="checkbox"
-					aria-label={this.props.ariaLabel}
-					aria-checked={this.isEnabled()}
-					id={this.props.id}
+					aria-label={ this.props.ariaLabel }
+					aria-checked={ this.isEnabled() }
+					id={ this.props.id }
 				>
-					<ToggleBullet isEnabled={this.isEnabled()} />
+					<ToggleBullet isEnabled={ this.isEnabled() } />
 				</ToggleBar>
 				<ToggleVisualLabel aria-hidden="true">
 					{ this.isEnabled() ? __( "On", "yoast-components" ) : __( "Off", "yoast-components" ) }
@@ -102,9 +102,9 @@ class Toggle extends React.Component {
 	}
 
 	/**
-	 * Returns the current enablement state.
+	 * Returns the current enabled state.
 	 *
-	 * @returns {boolean} The current enablement state.
+	 * @returns {boolean} The current enabled state.
 	 */
 	isEnabled() {
 		return this.state.isEnabled;
@@ -113,12 +113,13 @@ class Toggle extends React.Component {
 	/**
 	 * Sets the state to the opposite of the current state.
 	 *
-	 * @param {object} evt React SyntheticEvent.
+	 * @param {Object} event React SyntheticEvent.
+	 *
 	 * @returns {void}
 	 */
-	setEnabled( evt ) {
+	setEnabled( event ) {
 		// Makes the toggle actionable with the Space bar key.
-		if ( evt.type === "keydown" && evt.which !== 32 ) {
+		if ( event.type === "keydown" && event.keyCode !== 32 ) {
 			return;
 		}
 
