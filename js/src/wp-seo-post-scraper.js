@@ -18,7 +18,7 @@ import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
 
 import PostDataCollector from "./analysis/PostDataCollector";
-import CompatibilityHelper from "./compatability/compatabilityHelper";
+import CompatibilityHelper from "./compatibility/compatibilityHelper";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import TabManager from "./analysis/tabManager";
 import getTranslations from "./analysis/getTranslations";
