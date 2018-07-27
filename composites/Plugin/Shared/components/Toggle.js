@@ -56,6 +56,7 @@ class Toggle extends React.Component {
 		super( props );
 
 		this.onClick = this.props.onToggleDisabled;
+
 		this.setEnabled = this.setEnabled.bind( this );
 
 		if ( props.disable !== true ) {
