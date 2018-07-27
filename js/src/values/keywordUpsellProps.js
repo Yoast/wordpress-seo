@@ -24,7 +24,7 @@ export default {
 			mixedString: upsellIntro.intro,
 			components: { link: <YesYouCanLink href={ upsellIntro.link } /> },
 		} ),
-		upsellIntro.other
+		upsellIntro.other,
 	],
 	buttonLink: upsellIntro.buylink,
 	buttonText: upsellIntro.buy,

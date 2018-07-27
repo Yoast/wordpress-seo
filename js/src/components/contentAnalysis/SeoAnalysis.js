@@ -40,7 +40,11 @@ class SeoAnalysis extends React.Component {
 					/>
 					<AddSynonyms
 						href="#"
-						onClick={ () => { jQuery( ".wpseo-keyword-synonyms" ).click(); } }
+						onClick={
+							() => {
+								jQuery( ".wpseo-keyword-synonyms" ).click();
+							}
+						}
 					>
 						+ Add synonyms
 					</AddSynonyms>
