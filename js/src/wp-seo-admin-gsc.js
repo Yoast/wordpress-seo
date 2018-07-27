@@ -1,5 +1,7 @@
 /* global ajaxurl */
 /* global tb_click */
+import "./helpers/babel-polyfill";
+
 jQuery( function() {
 	jQuery( ".subsubsub .yoast_help" ).on(
 		"click active",

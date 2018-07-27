@@ -216,9 +216,6 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'react-dependencies',
 				// Load webpack-commons for bundle support.
 				'src'  => 'commons-' . $flat_version,
-				'deps' => array(
-					self::PREFIX . 'babel-polyfill',
-				),
 			),
 			array(
 				'name' => 'search-appearance',
@@ -255,7 +252,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-progressbar',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
-					self::PREFIX . 'babel-polyfill',
+					self::PREFIX . 'react-dependencies',
 				),
 			),
 			array(
@@ -264,18 +261,24 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
-					self::PREFIX . 'babel-polyfill',
+					self::PREFIX . 'react-dependencies',
 				),
 			),
 			array(
 				'name' => 'bulk-editor',
 				'src'  => 'wp-seo-bulk-editor-' . $flat_version,
-				'deps' => array( 'jquery', self::PREFIX . 'babel-polyfill' ),
+				'deps' => array(
+					'jquery',
+					self::PREFIX . 'react-dependencies',
+				),
 			),
 			array(
 				'name' => 'admin-global-script',
 				'src'  => 'wp-seo-admin-global-' . $flat_version,
-				'deps' => array( 'jquery', self::PREFIX . 'babel-polyfill' ),
+				'deps' => array(
+					'jquery',
+					self::PREFIX . 'react-dependencies',
+				),
 			),
 			array(
 				'name'      => 'metabox',
@@ -293,13 +296,15 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-featured-image-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'babel-polyfill',
+					self::PREFIX . 'react-dependencies',
 				),
 			),
 			array(
 				'name'      => 'admin-gsc',
 				'src'       => 'wp-seo-admin-gsc-' . $flat_version,
-				'deps'      => array( self::PREFIX . 'babel-polyfill' ),
+				'deps'      => array(
+					self::PREFIX . 'react-dependencies',
+				),
 				'in_footer' => false,
 			),
 			array(
@@ -311,6 +316,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-util',
 					self::PREFIX . 'wp-globals-backport',
 					self::PREFIX . 'analysis',
+					self::PREFIX . 'react-dependencies',
 				),
 			),
 			array(
@@ -326,7 +332,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'replacevar-plugin',
 				'src'  => 'wp-seo-replacevar-plugin-' . $flat_version,
 				'deps' => array(
-					self::PREFIX . 'babel-polyfill',
+					self::PREFIX . 'react-dependencies',
 					self::PREFIX . 'analysis',
 				),
 			),
@@ -334,7 +340,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'shortcode-plugin',
 				'src'  => 'wp-seo-shortcode-plugin-' . $flat_version,
 				'deps' => array(
-					self::PREFIX . 'babel-polyfill',
+					self::PREFIX . 'react-dependencies',
 					self::PREFIX . 'analysis',
 				),
 			),
@@ -345,8 +351,8 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
-					self::PREFIX . 'babel-polyfill',
 					self::PREFIX . 'analysis',
+					self::PREFIX . 'react-dependencies',
 				),
 			),
 			array(
@@ -355,7 +361,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					'wp-util',
-					self::PREFIX . 'babel-polyfill',
+					self::PREFIX . 'react-dependencies',
 				),
 			),
 			array(
@@ -385,15 +391,6 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'wp-globals-backport',
 				),
 			),
-			// Register for backwards-compatiblity.
-			array(
-				'name' => 'polyfill',
-				'src'  => 'wp-seo-babel-polyfill-' . $flat_version,
-			),
-			array(
-				'name' => 'babel-polyfill',
-				'src'  => 'wp-seo-babel-polyfill-' . $flat_version,
-			),
 			array(
 				'name' => 'reindex-links',
 				'src'  => 'wp-seo-reindex-links-' . $flat_version,
@@ -401,17 +398,24 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
+					self::PREFIX . 'react-dependencies',
 				),
 			),
 			array(
 				'name' => 'edit-page-script',
 				'src'  => 'wp-seo-edit-page-' . $flat_version,
-				'deps' => array( 'jquery' ),
+				'deps' => array(
+					'jquery',
+					self::PREFIX . 'react-dependencies',
+				),
 			),
 			array(
 				'name'      => 'quick-edit-handler',
 				'src'       => 'wp-seo-quick-edit-handler-' . $flat_version,
-				'deps'      => array( 'jquery' ),
+				'deps'      => array(
+					'jquery',
+					self::PREFIX . 'react-dependencies',
+				),
 				'in_footer' => true,
 			),
 			array(
@@ -420,6 +424,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'wp-api',
 					'jquery',
+					self::PREFIX . 'react-dependencies',
 				),
 			),
 			array(
@@ -434,7 +439,10 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'filter-explanation',
 				'src'  => 'wp-seo-filter-explanation-' . $flat_version,
-				'deps' => array( 'jquery' ),
+				'deps' => array(
+					'jquery',
+					self::PREFIX . 'react-dependencies',
+				),
 			),
 			array(
 				'name' => 'analysis',
