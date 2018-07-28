@@ -9,12 +9,14 @@ import {
 	setLinkSuggestions,
 	setLinkSuggestionsError,
 } from "./redux/actions/LinkSuggestions";
+import { setProminentWords } from "yoast-components/redux/actions/insights";
 import { renderReactApp } from "./redux/utils/render";
 import ProminentWordStorage from "./keywordSuggestions/ProminentWordStorage";
 import ProminentWordNoStorage from "./keywordSuggestions/ProminentWordNoStorage";
-import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
+import RelevantWordsSuggester from "./keywordSuggestions/RelevantWordsSuggester";
 import LinkSuggester from "./services/linkSuggester";
 import LinkSuggestionsContainer from "./redux/containers/LinkSuggestions";
+import RelevantWordsContainer from "./redux/containers/RelevantWords";
 import MultiKeyword from "./metabox/multiKeyword";
 import Synonyms from "./metabox/synonyms";
 import isGutenbergDataAvailable from "../../../../js/src/helpers/isGutenbergDataAvailable";
@@ -109,7 +111,7 @@ const initializeMetabox = function() {
 	}
 
 	if ( insightsEnabled() || linkSuggestionsEnabled() ) {
-		initializeKeywordSuggestionsMetabox();
+		initializeRelevantWordsSuggester( store );
 	}
 
 	if ( linkSuggestionsIsSupported() ) {
@@ -133,6 +135,7 @@ const registerPlugin = function( store ) {
 		const { Fill } = wp.components;
 
 		let LinkSuggestionsSection = null;
+		let InsightsSection = null;
 
 		if ( linkSuggestionsIsSupported() ) {
 			LinkSuggestionsSection = <SidebarItem renderPriority={ 31 }>
@@ -144,12 +147,22 @@ const registerPlugin = function( store ) {
 			</SidebarItem>;
 		}
 
+		if ( insightsEnabled() ) {
+			InsightsSection = <SidebarItem renderPriority={ 32 }>
+				<Collapsible title="Insights">
+					<Provider store={ store }>
+						<RelevantWordsContainer />
+					</Provider>
+				</Collapsible>
+			</SidebarItem>;
+		}
+
 		const YoastSidebar = () => (
 			<Fragment>
 				<Fill name="YoastSidebar">
 					<SidebarItem renderPriority={ 21 }>Multiple keywords</SidebarItem>
 					{ LinkSuggestionsSection }
-					<SidebarItem renderPriority={ 32 }>Prominent words</SidebarItem>
+					{ InsightsSection }
 				</Fill>
 			</Fragment>
 		);
@@ -196,17 +209,26 @@ const initializeProminentWordStorage = function() {
  *
  * @returns {void}
  */
-const initializeKeywordSuggestionsMetabox = function() {
+const initializeRelevantWordsSuggester = function( store ) {
 	initializeProminentWordStorage();
 
-	focusKeywordSuggestions = new FocusKeywordSuggestions( {
-		insightsEnabled: insightsEnabled(),
+	let dispatch = store.dispatch.bind( store );
+
+	let updateStore = ( words ) => {
+		dispatch( setProminentWords( words ) );
+	};
+
+	let relevantWordsSuggester = new RelevantWordsSuggester( {
 		prominentWordStorage,
+		updateStore,
 		contentEndpointsAvailable,
 	} );
 
+	jQuery( window ).on( "YoastSEO:updateProminentWords", relevantWordsSuggester.updateWords.bind( relevantWordsSuggester ) );
+	jQuery( window ).on( "YoastSEO:numericScore", () => { jQuery( window ).trigger( "YoastSEO:updateProminentWords" ) } );
+
 	// Initialize prominent words watching and saving.
-	focusKeywordSuggestions.initializeDOM();
+	relevantWordsSuggester.suggest();
 };
 
 /**
