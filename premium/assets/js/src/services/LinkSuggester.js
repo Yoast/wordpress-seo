@@ -12,6 +12,7 @@ class LinkSuggester {
 	 * @param {string} rootUrl The root URL to do AJAX requests to.
 	 * @param {string} nonce The nonce to use when sending requests to the REST API.
 	 * @param {number} currentPostId The post ID of the post we are currently displaying.
+	 * @param {Object} store Contains the functions needed to dispatch Redux actions.
 	 */
 	constructor( { rootUrl, nonce, currentPostId, showUnindexedWarning, store } ) {
 		this._rootUrl = rootUrl;

@@ -11,9 +11,9 @@ export const SET_LINK_SUGGESTIONS_ERROR = "SET_LINK_SUGGESTIONS_ERROR";
  */
 
 /**
- * An action creator for the get link suggestions request action.
+ * An action creator for the load link suggestions action.
  *
- * @returns {Object} A get link suggestions action.
+ * @returns {Object} A load link suggestions action.
  */
 export function loadLinkSuggestions() {
 	return {
@@ -22,11 +22,11 @@ export function loadLinkSuggestions() {
 }
 
 /**
- * An action creator for the get link suggestions success action.
+ * An action creator for the set link suggestions action.
  *
  * @param {Object} linkSuggestions The linkSuggestions json object
  *
- * @returns {Object} A get link suggestions success action.
+ * @returns {Object} A set link suggestions action.
  */
 export function setLinkSuggestions( linkSuggestions, showUnindexedWarning ) {
 	return {
@@ -37,11 +37,11 @@ export function setLinkSuggestions( linkSuggestions, showUnindexedWarning ) {
 }
 
 /**
- * An action creator for the get link suggestions failure action.
+ * An action creator for the set link suggestions error action.
  *
  * @param {string} message The error message that was returned.
  *
- * @returns {Object} A get link suggestions failure action.
+ * @returns {Object} A set link suggestions error action.
  */
 export function setLinkSuggestionsError( message ) {
 	return {
