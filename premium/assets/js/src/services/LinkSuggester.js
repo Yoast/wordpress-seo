@@ -146,6 +146,8 @@ class LinkSuggester {
 	/**
 	 * Dispatches an action to update the linkSuggestions.
 	 *
+	 * @param {Array} linkSuggestions The link suggestions.
+	 *
 	 * @returns {void}
 	 */
 	updateStore( linkSuggestions ) {

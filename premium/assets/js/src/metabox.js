@@ -1,4 +1,4 @@
-/* global jQuery, wpseoPremiumMetaboxData, YoastSEO, yoast */
+/* global jQuery, wpseoPremiumMetaboxData, YoastSEO, yoast, wp */
 
 import React from "react";
 import { Provider } from "react-redux";
@@ -32,9 +32,6 @@ let settings = wpseoPremiumMetaboxData.data;
 let contentEndpointsAvailable = wpseoPremiumMetaboxData.data.restApi.available && wpseoPremiumMetaboxData.data.restApi.contentEndpointsAvailable;
 
 let prominentWordStorage = new ProminentWordNoStorage();
-let focusKeywordSuggestions;
-
-let linkSuggestions;
 
 let cornerstoneElementID = "yst_is_cornerstone";
 
@@ -207,6 +204,8 @@ const initializeProminentWordStorage = function() {
 /**
  * Initializes the metabox for keyword suggestions.
  *
+ * @param {Object} store The premium store.
+ *
  * @returns {void}
  */
 const initializeRelevantWordsSuggester = function( store ) {
@@ -225,7 +224,7 @@ const initializeRelevantWordsSuggester = function( store ) {
 	} );
 
 	jQuery( window ).on( "YoastSEO:updateProminentWords", relevantWordsSuggester.updateWords.bind( relevantWordsSuggester ) );
-	jQuery( window ).on( "YoastSEO:numericScore", () => { jQuery( window ).trigger( "YoastSEO:updateProminentWords" ) } );
+	jQuery( window ).on( "YoastSEO:numericScore", () => { jQuery( window ).trigger( "YoastSEO:updateProminentWords" ); } );
 
 	// Initialize prominent words watching and saving.
 	relevantWordsSuggester.suggest();

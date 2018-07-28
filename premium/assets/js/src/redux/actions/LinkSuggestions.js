@@ -25,6 +25,7 @@ export function loadLinkSuggestions() {
  * An action creator for the set link suggestions action.
  *
  * @param {Object} linkSuggestions The linkSuggestions json object
+ * @param {boolean} showUnindexedWarning should the unindexed warning show?
  *
  * @returns {Object} A set link suggestions action.
  */
