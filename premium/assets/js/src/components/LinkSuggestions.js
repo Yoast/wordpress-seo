@@ -1,5 +1,5 @@
 import React from "react";
-import { LinkSuggestions as LinkSuggestionsElement } from "yoast-premium-components";
+import { LinkSuggestions as LinkSuggestionsElement } from "yoast-components";
 import Loader from "yoast-components/composites/basic/Loader";
 import interpolateComponents from "interpolate-components";
 import { localize } from "yoast-components/utils/i18n";
