@@ -11,6 +11,10 @@ const FullWidthContaniner = styled.div`
 	font-size: 13px;
 	line-height: 1.4em;
 
+	p {
+		line-height: 1.5;
+	}
+
 	// Switch everything to border-box as in Gutenberg.
 	* {
 		box-sizing: border-box;

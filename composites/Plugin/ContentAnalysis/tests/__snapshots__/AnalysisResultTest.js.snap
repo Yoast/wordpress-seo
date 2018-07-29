@@ -39,7 +39,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 }
 
 .c1 {
-  margin: 2px 11px 0 0;
+  margin: 3px 11px 0 0;
 }
 
 .c3 {
@@ -156,7 +156,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
 }
 
 .c1 {
-  margin: 2px 11px 0 0;
+  margin: 3px 11px 0 0;
 }
 
 .c3 {
@@ -249,7 +249,7 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
 }
 
 .c1 {
-  margin: 2px 11px 0 0;
+  margin: 3px 11px 0 0;
 }
 
 .c3 {
@@ -334,7 +334,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
 }
 
 .c1 {
-  margin: 2px 11px 0 0;
+  margin: 3px 11px 0 0;
 }
 
 .c3 {

@@ -39,7 +39,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 }
 
 .c16 {
-  margin: 2px 11px 0 0;
+  margin: 3px 11px 0 0;
 }
 
 .c18 {
@@ -670,7 +670,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 }
 
 .c16 {
-  margin: 2px 11px 0 0;
+  margin: 3px 11px 0 0;
 }
 
 .c18 {
@@ -1277,7 +1277,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 }
 
 .c16 {
-  margin: 2px 11px 0 0;
+  margin: 3px 11px 0 0;
 }
 
 .c18 {
@@ -1932,7 +1932,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 }
 
 .c16 {
-  margin: 2px 11px 0 0;
+  margin: 3px 11px 0 0;
 }
 
 .c18 {
@@ -2587,7 +2587,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 }
 
 .c16 {
-  margin: 2px 11px 0 0;
+  margin: 3px 11px 0 0;
 }
 
 .c18 {
@@ -3080,7 +3080,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 }
 
 .c16 {
-  margin: 2px 11px 0 0;
+  margin: 3px 11px 0 0;
 }
 
 .c18 {
@@ -3573,7 +3573,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 }
 
 .c16 {
-  margin: 2px 11px 0 0;
+  margin: 3px 11px 0 0;
 }
 
 .c18 {
@@ -4135,7 +4135,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 }
 
 .c16 {
-  margin: 2px 11px 0 0;
+  margin: 3px 11px 0 0;
 }
 
 .c18 {

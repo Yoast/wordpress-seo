@@ -14,7 +14,7 @@ const AnalysisResultBase = styled.li`
 `;
 
 const ScoreIcon = styled( SvgIcon )`
-	margin: 2px 11px 0 0; // icon 13 + 11 right margin = 24 for the 8px grid.
+	margin: 3px 11px 0 0; // icon 13 + 11 right margin = 24 for the 8px grid.
 `;
 
 const AnalysisResultText = styled.p`
