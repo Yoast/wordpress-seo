@@ -39,7 +39,7 @@ const StyledCollapsible = styled( Collapsible )`
 
 
 const StyledContent = styled.div`
-	padding: 0 16px 16px;
+	padding: 16px;
 
 	& > :first-child {
 		margin-top: 0;

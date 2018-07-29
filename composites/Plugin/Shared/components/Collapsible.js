@@ -16,13 +16,19 @@ const StyledIconsButton = styled( IconsButton )`
 	background-color: ${ colors.$color_white };
 	padding: ${ props => props.headingPadding };
 	justify-content: flex-start;
+	border-color: transparent;
 	border: none;
 	border-radius: 0;
 	box-shadow: none;
 	color: ${ props => props.headingColor };
 
 	:hover {
-		box-shadow: none;
+		color: ${ props => props.headingColor };
+	}
+
+	:focus {
+		outline: 1px solid ${ colors.$color_blue };
+		outline-offset: -1px;
 		color: ${ props => props.headingColor };
 	}
 
@@ -142,7 +148,7 @@ export const CollapsibleStateless = ( props ) => {
 				<StyledTitleContainer>
 					<StyledTitle>
 						{ props.title }
-						{ props.titleScreenReaderText ? <ScreenReaderText>{ " " + props.titleScreenReaderText }</ScreenReaderText> : null }
+						{ props.titleScreenReaderText && <ScreenReaderText>{ " " + props.titleScreenReaderText }</ScreenReaderText> }
 					</StyledTitle>
 					{ props.subTitle && <StyledSubTitle>{ props.subTitle }</StyledSubTitle> }
 				</StyledTitleContainer>

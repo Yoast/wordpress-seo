@@ -19,6 +19,10 @@ export const ContentAnalysisContainer = styled.div`
 
 const StyledCollapsible = styled( Collapsible )`
 	margin-bottom: 8px;
+
+	button:first-child svg {
+		margin: -2px 8px 0 -2px; // Compensate icon size set to 18px.
+	}
 `;
 
 const AnalysisList = styled.ul`
@@ -143,6 +147,7 @@ class ContentAnalysis extends React.Component {
 				prefixIcon="angle-up"
 				prefixIconCollapsed="angle-down"
 				prefixIconColor={ colors.$color_grey_dark }
+				prefixIconSize="18px"
 				suffixIcon={ null }
 				suffixIconCollapsed={ null }
 				headingLevel={ headingLevel }

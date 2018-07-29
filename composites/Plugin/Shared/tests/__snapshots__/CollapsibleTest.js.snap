@@ -84,6 +84,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -91,7 +92,12 @@ exports[`Collapsible matches the snapshot by default 1`] = `
 }
 
 .c2:hover {
-  box-shadow: none;
+  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #000;
 }
 
@@ -270,6 +276,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -277,7 +284,12 @@ exports[`Collapsible matches the snapshot by default 2`] = `
 }
 
 .c2:hover {
-  box-shadow: none;
+  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #000;
 }
 
@@ -468,6 +480,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -475,7 +488,12 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
 }
 
 .c2:hover {
-  box-shadow: none;
+  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #000;
 }
 
@@ -654,6 +672,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -661,7 +680,12 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
 }
 
 .c2:hover {
-  box-shadow: none;
+  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #000;
 }
 
@@ -852,6 +876,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -859,7 +884,12 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
 }
 
 .c2:hover {
-  box-shadow: none;
+  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #000;
 }
 
@@ -1050,6 +1080,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -1057,7 +1088,12 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
 }
 
 .c2:hover {
-  box-shadow: none;
+  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #000;
 }
 
@@ -1236,6 +1272,7 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -1243,7 +1280,12 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
 }
 
 .c2:hover {
-  box-shadow: none;
+  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #000;
 }
 
@@ -1412,6 +1454,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -1419,7 +1462,12 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 }
 
 .c2:hover {
-  box-shadow: none;
+  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #000;
 }
 
@@ -1588,6 +1636,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -1595,7 +1644,12 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 }
 
 .c2:hover {
-  box-shadow: none;
+  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #000;
 }
 
@@ -1764,6 +1818,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -1771,7 +1826,12 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
 }
 
 .c2:hover {
-  box-shadow: none;
+  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #000;
 }
 

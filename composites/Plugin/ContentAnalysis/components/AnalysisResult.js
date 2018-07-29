@@ -14,11 +14,11 @@ const AnalysisResultBase = styled.li`
 `;
 
 const ScoreIcon = styled( SvgIcon )`
-	margin: 2px 10px 0 1px; // Left and right margin to compensate icons inconsistencies.
+	margin: 2px 11px 0 0; // icon 13 + 11 right margin = 24 for the 8px grid.
 `;
 
 const AnalysisResultText = styled.p`
-	margin: 0;
+	margin: 0 8px 0 0;
 	flex: 1 1 auto;
 `;
 

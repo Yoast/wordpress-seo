@@ -39,11 +39,11 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 }
 
 .c16 {
-  margin: 2px 10px 0 1px;
+  margin: 2px 11px 0 0;
 }
 
 .c18 {
-  margin: 0;
+  margin: 0 8px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -132,6 +132,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -139,7 +140,12 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 }
 
 .c4:hover {
-  box-shadow: none;
+  color: #0066cd;
+}
+
+.c4:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #0066cd;
 }
 
@@ -190,6 +196,10 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   margin-bottom: 8px;
 }
 
+.c1 button:first-child svg {
+  margin: -2px 8px 0 -2px;
+}
+
 .c14 {
   margin: 0;
   padding: 8px 16px;
@@ -197,8 +207,8 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 }
 
 .c11 {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -207,14 +217,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 .c17 {
   width: 13px;
   height: 13px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c20 {
-  width: 18px;
-  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -249,7 +251,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -318,7 +320,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -377,7 +379,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         >
           <svg
             aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-eye c20"
+            className="yoast-svg-icon yoast-svg-icon-eye c11"
             fill="#ddd"
             focusable="false"
             role="img"
@@ -411,7 +413,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -480,7 +482,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -549,7 +551,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -634,7 +636,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         >
           <svg
             aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-eye c20"
+            className="yoast-svg-icon yoast-svg-icon-eye c11"
             fill="#ddd"
             focusable="false"
             role="img"
@@ -668,11 +670,11 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 }
 
 .c16 {
-  margin: 2px 10px 0 1px;
+  margin: 2px 11px 0 0;
 }
 
 .c18 {
-  margin: 0;
+  margin: 0 8px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -761,6 +763,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -768,7 +771,12 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 }
 
 .c4:hover {
-  box-shadow: none;
+  color: #0066cd;
+}
+
+.c4:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #0066cd;
 }
 
@@ -819,6 +827,10 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   margin-bottom: 8px;
 }
 
+.c1 button:first-child svg {
+  margin: -2px 8px 0 -2px;
+}
+
 .c14 {
   margin: 0;
   padding: 8px 16px;
@@ -826,8 +838,8 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 }
 
 .c11 {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -870,7 +882,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -939,7 +951,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1008,7 +1020,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1077,7 +1089,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1146,7 +1158,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1265,11 +1277,11 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 }
 
 .c16 {
-  margin: 2px 10px 0 1px;
+  margin: 2px 11px 0 0;
 }
 
 .c18 {
-  margin: 0;
+  margin: 0 8px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -1358,6 +1370,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -1365,7 +1378,12 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 }
 
 .c4:hover {
-  box-shadow: none;
+  color: #0066cd;
+}
+
+.c4:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #0066cd;
 }
 
@@ -1416,6 +1434,10 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   margin-bottom: 8px;
 }
 
+.c1 button:first-child svg {
+  margin: -2px 8px 0 -2px;
+}
+
 .c14 {
   margin: 0;
   padding: 8px 16px;
@@ -1423,8 +1445,8 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 }
 
 .c11 {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -1433,14 +1455,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 .c17 {
   width: 13px;
   height: 13px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c20 {
-  width: 18px;
-  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -1475,7 +1489,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1544,7 +1558,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1603,7 +1617,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         >
           <svg
             aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-eye c20"
+            className="yoast-svg-icon yoast-svg-icon-eye c11"
             fill="#555"
             focusable="false"
             role="img"
@@ -1637,7 +1651,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1706,7 +1720,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1775,7 +1789,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -1860,7 +1874,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         >
           <svg
             aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-eye c20"
+            className="yoast-svg-icon yoast-svg-icon-eye c11"
             fill="#555"
             focusable="false"
             role="img"
@@ -1918,11 +1932,11 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 }
 
 .c16 {
-  margin: 2px 10px 0 1px;
+  margin: 2px 11px 0 0;
 }
 
 .c18 {
-  margin: 0;
+  margin: 0 8px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -2011,6 +2025,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -2018,7 +2033,12 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 }
 
 .c4:hover {
-  box-shadow: none;
+  color: #0066cd;
+}
+
+.c4:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #0066cd;
 }
 
@@ -2069,6 +2089,10 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   margin-bottom: 8px;
 }
 
+.c1 button:first-child svg {
+  margin: -2px 8px 0 -2px;
+}
+
 .c14 {
   margin: 0;
   padding: 8px 16px;
@@ -2076,8 +2100,8 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 }
 
 .c11 {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -2086,14 +2110,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 .c17 {
   width: 13px;
   height: 13px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c20 {
-  width: 18px;
-  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -2128,7 +2144,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2197,7 +2213,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2256,7 +2272,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         >
           <svg
             aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-eye c20"
+            className="yoast-svg-icon yoast-svg-icon-eye c11"
             fill="#555"
             focusable="false"
             role="img"
@@ -2290,7 +2306,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2359,7 +2375,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2428,7 +2444,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2513,7 +2529,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         >
           <svg
             aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-eye c20"
+            className="yoast-svg-icon yoast-svg-icon-eye c11"
             fill="#555"
             focusable="false"
             role="img"
@@ -2571,11 +2587,11 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 }
 
 .c16 {
-  margin: 2px 10px 0 1px;
+  margin: 2px 11px 0 0;
 }
 
 .c18 {
-  margin: 0;
+  margin: 0 8px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -2664,6 +2680,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -2671,7 +2688,12 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 }
 
 .c4:hover {
-  box-shadow: none;
+  color: #0066cd;
+}
+
+.c4:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #0066cd;
 }
 
@@ -2722,6 +2744,10 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   margin-bottom: 8px;
 }
 
+.c1 button:first-child svg {
+  margin: -2px 8px 0 -2px;
+}
+
 .c14 {
   margin: 0;
   padding: 8px 16px;
@@ -2729,8 +2755,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 }
 
 .c11 {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -2739,14 +2765,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 .c17 {
   width: 13px;
   height: 13px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c20 {
-  width: 18px;
-  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -2781,7 +2799,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2850,7 +2868,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -2919,7 +2937,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -3004,7 +3022,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
         >
           <svg
             aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-eye c20"
+            className="yoast-svg-icon yoast-svg-icon-eye c11"
             fill="#555"
             focusable="false"
             role="img"
@@ -3062,11 +3080,11 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 }
 
 .c16 {
-  margin: 2px 10px 0 1px;
+  margin: 2px 11px 0 0;
 }
 
 .c18 {
-  margin: 0;
+  margin: 0 8px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -3155,6 +3173,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -3162,7 +3181,12 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 }
 
 .c4:hover {
-  box-shadow: none;
+  color: #0066cd;
+}
+
+.c4:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #0066cd;
 }
 
@@ -3213,6 +3237,10 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   margin-bottom: 8px;
 }
 
+.c1 button:first-child svg {
+  margin: -2px 8px 0 -2px;
+}
+
 .c14 {
   margin: 0;
   padding: 8px 16px;
@@ -3220,8 +3248,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 }
 
 .c11 {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -3230,14 +3258,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 .c17 {
   width: 13px;
   height: 13px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c20 {
-  width: 18px;
-  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -3272,7 +3292,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -3341,7 +3361,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -3410,7 +3430,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -3495,7 +3515,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
         >
           <svg
             aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-eye c20"
+            className="yoast-svg-icon yoast-svg-icon-eye c11"
             fill="#555"
             focusable="false"
             role="img"
@@ -3553,11 +3573,11 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 }
 
 .c16 {
-  margin: 2px 10px 0 1px;
+  margin: 2px 11px 0 0;
 }
 
 .c18 {
-  margin: 0;
+  margin: 0 8px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -3646,6 +3666,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -3653,7 +3674,12 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 }
 
 .c4:hover {
-  box-shadow: none;
+  color: #0066cd;
+}
+
+.c4:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #0066cd;
 }
 
@@ -3704,6 +3730,10 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   margin-bottom: 8px;
 }
 
+.c1 button:first-child svg {
+  margin: -2px 8px 0 -2px;
+}
+
 .c14 {
   margin: 0;
   padding: 8px 16px;
@@ -3711,8 +3741,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 }
 
 .c11 {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -3721,14 +3751,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 .c17 {
   width: 13px;
   height: 13px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c20 {
-  width: 18px;
-  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -3763,7 +3785,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -3832,7 +3854,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -3901,7 +3923,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -3970,7 +3992,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -4055,7 +4077,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         >
           <svg
             aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-eye c20"
+            className="yoast-svg-icon yoast-svg-icon-eye c11"
             fill="#555"
             focusable="false"
             role="img"
@@ -4113,11 +4135,11 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 }
 
 .c16 {
-  margin: 2px 10px 0 1px;
+  margin: 2px 11px 0 0;
 }
 
 .c18 {
-  margin: 0;
+  margin: 0 8px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -4206,6 +4228,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  border-color: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -4213,7 +4236,12 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 }
 
 .c4:hover {
-  box-shadow: none;
+  color: #0066cd;
+}
+
+.c4:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
   color: #0066cd;
 }
 
@@ -4264,6 +4292,10 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   margin-bottom: 8px;
 }
 
+.c1 button:first-child svg {
+  margin: -2px 8px 0 -2px;
+}
+
 .c14 {
   margin: 0;
   padding: 8px 16px;
@@ -4271,8 +4303,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 }
 
 .c11 {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -4281,14 +4313,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 .c17 {
   width: 13px;
   height: 13px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c20 {
-  width: 18px;
-  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -4323,7 +4347,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -4392,7 +4416,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
           fill="#555"
           focusable="false"
           role="img"
-          size="16px"
+          size="18px"
           viewBox="0 0 1792 1792"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -4477,7 +4501,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
         >
           <svg
             aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-eye c20"
+            className="yoast-svg-icon yoast-svg-icon-eye c11"
             fill="#555"
             focusable="false"
             role="img"
