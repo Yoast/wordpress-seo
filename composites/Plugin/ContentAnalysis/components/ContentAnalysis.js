@@ -2,15 +2,12 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { __, sprintf } from "@wordpress/i18n";
-import interpolateComponents from "interpolate-components";
+import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import colors from "../../../../style-guide/colors.json";
-import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
 import AnalysisResult from "../components/AnalysisResult.js";
 import Collapsible from "../../../../composites/Plugin/Shared/components/Collapsible";
-import HelpText, { HelpTextPropType } from "../../../../composites/Plugin/Shared/components/HelpText";
 
 export const ContentAnalysisContainer = styled.div`
 	width: 100%;
@@ -19,17 +16,6 @@ export const ContentAnalysisContainer = styled.div`
 	margin: 0 auto;
 	border-bottom: 1px solid transparent; // Avoid parent and child margin collapsing.
 `;
-
-const LanguageNotice = styled.p`
-	min-height: 24px;
-	margin-bottom: 8px;
-	margin-left: 24px;
-`;
-
-const ChangeLanguageLink = makeOutboundLink( styled.a`
-	color: ${ colors.$color_blue };
-	margin-left: 4px;
-` );
 
 const StyledCollapsible = styled( Collapsible )`
 	margin-bottom: 8px;
@@ -113,7 +99,7 @@ class ContentAnalysis extends React.Component {
 	 *
 	 * @returns {array} A list of AnalysisResult components.
 	 */
-	renderResults( results ) {
+	getResults( results ) {
 		return results.map( ( result ) => {
 			let color = this.getColor( result.rating );
 			let isPressed = result.id === this.state.checked;
@@ -163,60 +149,8 @@ class ContentAnalysis extends React.Component {
 				headingPadding="8px 16px"
 				headingColor={ colors.$color_blue }
 			>
-				<AnalysisList role="list">{ this.renderResults( results ) }</AnalysisList>
+				<AnalysisList role="list">{ this.getResults( results ) }</AnalysisList>
 			</StyledCollapsible>
-		);
-	}
-
-	/**
-	 * Renders the language notice. Provides a link to a setting page in case of
-	 * administrator, a notice to contact an administrator otherwise.
-	 *
-	 * @returns {ReactElement} The rendered language notice.
-	 */
-	renderLanguageNotice() {
-		let showLanguageNotice = this.props.showLanguageNotice;
-		let canChangeLanguage = this.props.canChangeLanguage;
-		if ( ! showLanguageNotice ) {
-			return null;
-		}
-		if ( canChangeLanguage ) {
-			return (
-				<LanguageNotice>
-					{
-						interpolateComponents( {
-							/* Translators: %s is the translated name of the language. */
-							mixedString: sprintf(
-								__( "Your site language is set to %s.", "yoast-components" ),
-								"{{strong}}" + this.props.language + "{{/strong}}"
-							),
-							components: {
-								strong: <strong />,
-							},
-						} )
-					}
-					<ChangeLanguageLink href={ this.props.changeLanguageLink }>
-						{ __( "Change language", "yoast-components" ) }
-					</ChangeLanguageLink>
-				</LanguageNotice>
-			);
-		}
-
-		return (
-			<LanguageNotice>
-				{
-					interpolateComponents( {
-						mixedString: sprintf(
-							/* Translators: %s is the translated name of the language. */
-							__( "Your site language is set to %s. If this is not correct, contact your site administrator.", "yoast-components" ),
-							"{{strong}}" + this.props.language + "{{/strong}}"
-						),
-						components: {
-							strong: <strong />,
-						},
-					} )
-				}
-			</LanguageNotice>
 		);
 	}
 
@@ -233,7 +167,6 @@ class ContentAnalysis extends React.Component {
 			considerationsResults,
 			errorsResults,
 			headingLevel,
-			helpText,
 		} = this.props;
 		const errorsFound = errorsResults.length;
 		const problemsFound = problemsResults.length;
@@ -244,8 +177,6 @@ class ContentAnalysis extends React.Component {
 		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
 		return (
 			<ContentAnalysisContainer>
-				{ helpText && <HelpText text={ helpText } /> }
-				{ this.renderLanguageNotice() }
 				{ errorsFound > 0 &&
 					this.renderCollapsible( __( "Errors", "yoast-components" ), headingLevel, errorsResults )
 				}
@@ -266,21 +197,20 @@ class ContentAnalysis extends React.Component {
 	}
 }
 
-ContentAnalysis.propTypes = {
+export const contentAnalysisPropType = {
 	onMarkButtonClick: PropTypes.func,
 	problemsResults: PropTypes.array,
 	improvementsResults: PropTypes.array,
 	goodResults: PropTypes.array,
 	considerationsResults: PropTypes.array,
 	errorsResults: PropTypes.array,
-	changeLanguageLink: PropTypes.string.isRequired,
-	canChangeLanguage: PropTypes.bool,
-	language: PropTypes.string.isRequired,
-	showLanguageNotice: PropTypes.bool,
 	headingLevel: PropTypes.number,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
-	helpText: HelpTextPropType,
+};
+
+ContentAnalysis.propTypes = {
+	...contentAnalysisPropType,
 };
 
 ContentAnalysis.defaultProps = {
@@ -290,8 +220,6 @@ ContentAnalysis.defaultProps = {
 	goodResults: [],
 	considerationsResults: [],
 	errorsResults: [],
-	showLanguageNotice: false,
-	canChangeLanguage: false,
 	headingLevel: 4,
 	marksButtonStatus: "enabled",
 };

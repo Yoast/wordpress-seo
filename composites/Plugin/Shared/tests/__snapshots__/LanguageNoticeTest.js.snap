@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LanguageNotice matches the snapshot by default 1`] = `null`;
+
+exports[`LanguageNotice matches the snapshot when showLanguageNotice equals true 1`] = `
+.c0 {
+  margin: 1em 0;
+}
+
+<p
+  className="c0"
+>
+  Your site language is set to 
+  <strong>
+    English
+  </strong>
+  . If this is not correct, contact your site administrator.
+</p>
+`;
+
+exports[`LanguageNotice matches the snapshot with a changed language link 1`] = `
+.c2 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c0 {
+  margin: 1em 0;
+}
+
+.c1 {
+  margin-left: 4px;
+}
+
+<p
+  className="c0"
+>
+  Your site language is set to 
+  <strong>
+    English
+  </strong>
+  . 
+  <a
+    className="c1"
+    href="http://www.example.com"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    Change language
+    <span
+      className="c2"
+    >
+      (Opens in a new browser tab)
+    </span>
+  </a>
+</p>
+`;
+
+exports[`LanguageNotice matches the snapshot with another language 1`] = `
+.c2 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c0 {
+  margin: 1em 0;
+}
+
+.c1 {
+  margin-left: 4px;
+}
+
+<p
+  className="c0"
+>
+  Your site language is set to 
+  <strong>
+    Nederlands
+  </strong>
+  . 
+  <a
+    className="c1"
+    href="http://www.example.com"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    Change language
+    <span
+      className="c2"
+    >
+      (Opens in a new browser tab)
+    </span>
+  </a>
+</p>
+`;

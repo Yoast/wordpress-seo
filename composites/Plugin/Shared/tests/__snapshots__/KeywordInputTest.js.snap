@@ -1,22 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`KeywordInput matches the snapshot by default 1`] = `
-Array [
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 1em 0;
+}
+
+.c1 {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.c2 {
+  border: 3px solid #ddd;
+  padding: 0.75em;
+  font-size: 1em;
+}
+
+.c2.hasError {
+  border-color: #dc3232;
+  outline-color: #dc3232;
+}
+
+<div
+  className="c0"
+>
   <label
+    className="c1"
     htmlFor="test-id"
   >
     test label
-  </label>,
-  .c0 {
-  margin-right: 0.5em;
-  border-color: white;
-}
-
-<input
-    className="c0"
+  </label>
+  <input
+    aria-label={null}
+    className="c2"
     id="test-id"
     onChange={[Function]}
     type="text"
-  />,
-]
+    value=""
+  />
+</div>
 `;
