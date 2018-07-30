@@ -1,4 +1,4 @@
-/* globals yoastModalConfig */
+/* globals yoastModalConfig, wp */
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -27,7 +27,7 @@ const ExplanationText = styled.p`
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends React.Component {
-	SynonymsUpsell() {
+	synonymsUpsell() {
 		let config = yoastModalConfig;
 		let synonymsConfig = config.filter( ( modalConfig ) => {
 			return modalConfig.content === "KeywordSynonyms";
@@ -55,7 +55,7 @@ class SeoAnalysis extends React.Component {
 					upsellButtonLabel={ upsell.buttonLabel }
 				/>
 				</Collapsible>
-			)
+			);
 		};
 
 		return (
@@ -73,7 +73,7 @@ class SeoAnalysis extends React.Component {
 						keyword={ this.props.keyword }
 					/>
 					<Slot name="YoastSynonyms" />
-					{ this.props.shouldUpsell && this.SynonymsUpsell() }
+					{ this.props.shouldUpsell && this.synonymsUpsell() }
 					<AnalysisHeader>
 						Analysis results:
 					</AnalysisHeader>
