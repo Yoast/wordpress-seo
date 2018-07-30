@@ -24,13 +24,13 @@ export default function Metabox( { isContentAnalysisActive, isKeywordAnalysisAct
 
 	return (
 		<Fill name="YoastMetabox">
-			<StoreProvider store={ store }>
-				<SidebarItem renderPriority={ 9 }>
+			<SidebarItem renderPriority={ 9 }>
+				<StoreProvider store={ store }>
 					<ThemeProvider theme={ theme }>
 						<SnippetEditor />
 					</ThemeProvider>
-				</SidebarItem>
-			</StoreProvider>
+				</StoreProvider>
+			</SidebarItem>
 			{ isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
 				<StoreProvider store={ store } >
 					<ReadabilityAnalysis />
