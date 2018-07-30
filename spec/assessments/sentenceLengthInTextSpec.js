@@ -218,7 +218,7 @@ describe( "An assessment for sentence length", function() {
 			{ sentence: "", sentenceLength: 30 },
 			{ sentence: "", sentenceLength: 30 },
 			{ sentence: "", sentenceLength: 30 },
-			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 30 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
@@ -238,9 +238,9 @@ describe( "An assessment for sentence length", function() {
 		] ), i18n );
 
 		expect( assessment.hasScore() ).toBe( true );
-		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "15% of the sentences contain <a href='https://yoa.st/short-sentences' target='_blank'>more than 20 words</a>, " +
-			"which is less than or equal to the recommended maximum of 15%." );
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "20% of the sentences contain <a href='https://yoa.st/short-sentences' target='_blank'>more than 20 words</a>, " +
+			"which is more than the recommended maximum of 15%. Try to shorten the sentences." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
