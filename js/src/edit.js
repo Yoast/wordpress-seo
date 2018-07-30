@@ -8,7 +8,6 @@ import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
 
 /* Internal dependencies */
-import IntlProvider from "./components/IntlProvider";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
 import reducers from "./redux/reducers";
