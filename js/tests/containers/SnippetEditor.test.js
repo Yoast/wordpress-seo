@@ -33,7 +33,7 @@ describe( "SnippetEditor container", () => {
 							value: "Value",
 						},
 					],
-				}
+				},
 			},
 		};
 		const expected = {
