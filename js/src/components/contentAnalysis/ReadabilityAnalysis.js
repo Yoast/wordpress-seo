@@ -28,25 +28,23 @@ if( window.wpseoPostScraperL10n ) {
 class ReadabilityAnalysis extends React.Component {
 	render() {
 		return (
-			<React.Fragment>
-				<Collapsible
-					title="Readability analysis"
-					initialIsOpen={ false }
-				>
-					<AnalysisHeader>
-						Analysis results:
-					</AnalysisHeader>
-					<Results
-						canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
-						showLanguageNotice={ true }
-						changeLanguageLink={ localizedData.settings_link }
-						language={ localizedData.language }
-						results={ this.props.results }
-						marksButtonClassName="yoast-tooltip yoast-tooltip-s"
-						marksButtonStatus={ this.props.marksButtonStatus }
-					/>
-				</Collapsible>
-			</React.Fragment>
+			<Collapsible
+				title="Readability analysis"
+				initialIsOpen={ false }
+			>
+				<AnalysisHeader>
+					Analysis results:
+				</AnalysisHeader>
+				<Results
+					canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
+					showLanguageNotice={ true }
+					changeLanguageLink={ localizedData.settings_link }
+					language={ localizedData.language }
+					results={ this.props.results }
+					marksButtonClassName="yoast-tooltip yoast-tooltip-s"
+					marksButtonStatus={ this.props.marksButtonStatus }
+				/>
+			</Collapsible>
 		);
 	}
 }
