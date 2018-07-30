@@ -36,4 +36,5 @@ export default function Sidebar( { isContentAnalysisActive, isKeywordAnalysisAct
 Sidebar.propTypes = {
 	isContentAnalysisActive: PropTypes.bool,
 	isKeywordAnalysisActive: PropTypes.bool,
+	store: PropTypes.object,
 };
