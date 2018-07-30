@@ -12,23 +12,27 @@ import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
  *
  * @param {bool} isContentAnalysisActive Whether or not the readability analysis is active or not.
  * @param {bool} isKeywordAnalysisActive Whether or not the readability analysis is active or not.
+ * @param {bool} isCornerstoneActive     Whether or not the cornerstone content feature is active or not.
+ * @param {bool} isCornerstone           Whether or not the cornerstone content checkbox is checked or not.
+ * @param {Object} store                 The store.
  *
  * @returns {ReactElement} The Sidebar component.
  *
  * @constructor
  */
-export default function Sidebar( { isContentAnalysisActive, isKeywordAnalysisActive, isCornerstone, store  } ) {
+export default function Sidebar( { isContentAnalysisActive, isKeywordAnalysisActive, isCornerstoneActive, isCornerstone, store  } ) {
 	const { Fill } = wp.components;
 
 	return (
 		<Fill name="YoastSidebar">
 			{ isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>Readability analysis</SidebarItem> }
 			{ isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem> }
-			<SidebarItem renderPriority={ 30 }>
-				<StoreProvider store={ store }>
-					<CollapsibleCornerstone isCornerstone={isCornerstone} />
+			{ isCornerstoneActive && <SidebarItem renderPriority={30}>
+				<StoreProvider store={store}>
+					<CollapsibleCornerstone isCornerstone={isCornerstone}/>
 				</StoreProvider>
 			</SidebarItem>
+			}
 		</Fill>
 	);
 }

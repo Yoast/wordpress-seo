@@ -33,6 +33,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 import { updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
+import { setCornerstoneContent } from "./redux/actions/cornerstoneContent";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -506,6 +507,7 @@ setWordPressSeoL10n();
 
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
+		store.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === 'true' ) );
 
 		store.subscribe( () => {
 			const data = snippetEditorHelpers.getDataFromStore( store );

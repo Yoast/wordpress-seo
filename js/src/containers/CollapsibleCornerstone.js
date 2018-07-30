@@ -1,6 +1,6 @@
 import CollapsibleCornerstone from "../components/CollapsibleCornerstone";
 import { connect } from "react-redux";
-import {toggleCornerstoneContent} from "../redux/actions/cornerstoneContent";
+import { toggleCornerstoneContent } from "../redux/actions/cornerstoneContent";
 
 /**
  * Maps the state to props.

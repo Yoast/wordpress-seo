@@ -637,11 +637,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$content .= $button->get_link();
 				}
 
-				if ( WPSEO_Options::get( 'enable_cornerstone_content', false ) ) {
-					$cornerstone_field = new WPSEO_Cornerstone_Field();
-
-					$content .= $cornerstone_field->get_html( $this->get_metabox_post() );
-				}
 				$content .= '</section>';
 				$content .= '</div>';
 				break;

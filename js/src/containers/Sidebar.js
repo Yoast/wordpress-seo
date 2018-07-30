@@ -13,6 +13,7 @@ function mapStateToProps( state ) {
 		isContentAnalysisActive: state.preferences.isContentAnalysisActive,
 		isKeywordAnalysisActive: state.preferences.isKeywordAnalysisActive,
 		isCornerstone: state.isCornerstone,
+		isCornerstoneActive: state.preferences.isCornerstoneActive,
 	};
 }
 

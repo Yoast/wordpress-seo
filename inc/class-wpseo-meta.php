@@ -150,9 +150,9 @@ class WPSEO_Meta {
 				'description'   => '',
 			),
 			'is_cornerstone' => array(
-				'type'          => 'non-form',
+				'type'          => 'hidden',
 				'title'         => 'is_cornerstone',
-				'default_value' => '0',
+				'default_value' => 'false',
 				'description'   => '',
 			),
 			'pageanalysis' => array(
