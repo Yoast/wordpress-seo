@@ -1298,69 +1298,120 @@ ul.wpseo-metabox-tabs li.active {
 	background-color: #fdfdfd;
 }
 
-.wpseo-meta-section {
+.wpseo-meta-section,
+.wpseo-meta-section-react {
 	display: none;
 	width: 100%;
 	max-width: calc( 100% - 50px);
+	height: auto;
+	min-height: 100%;
 	vertical-align: top;
+}
+
+.wpseo-meta-section-react-wrapper {
+	min-height: 100%;
 }
 
 .wpseo-meta-section.active {
 	display: inline-block;
+	padding: 0 5px 5px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.wpseo-meta-section-react.active {
+	display: block;
+	margin-bottom: 10px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.wpseo-metabox-content {
+	display: -ms-flexbox;
+	display: flex;
 }
 
 .wpseo-metabox-sidebar {
-	float: left;
-	width: 50px;
+	width: 46px;
 	padding: 0;
 	background-color: #fff;
 }
-
 .wpseo-metabox-sidebar ul {
-	margin: 0;
+	margin: 0 1px 0 0;
 }
-
-.wpseo-metabox-sidebar li {
-	display: inline-block;
+.wpseo-metabox-sidebar ul li:nth-child(1) {
+	z-index: 10;
+}
+.wpseo-metabox-sidebar ul li:nth-child(2) {
+	z-index: 9;
+}
+.wpseo-metabox-sidebar ul li:nth-child(3) {
+	z-index: 8;
+}
+.wpseo-metabox-sidebar ul li:nth-child(4) {
+	z-index: 7;
+}
+.wpseo-metabox-sidebar ul li:nth-child(5) {
+	z-index: 6;
+}
+.wpseo-metabox-sidebar ul li:nth-child(6) {
+	z-index: 5;
+}
+.wpseo-metabox-sidebar ul li {
+	display: block;
+	position: relative; 
 	/* Microsoft Edge 38. */
 	margin-bottom: 0;
-	padding: 5px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	text-align: center;
 }
-
-.wpseo-metabox-sidebar a {
-	display: inline-block;
-	width: 35px;
-	height: 35px;
-	font-size: 20px;
-	line-height: 30px;
-	text-decoration: none;
+.wpseo-metabox-sidebar ul li a {
+	padding: 8px 8px;
+	color: black;
+	background-color: #f8f8f8;
 }
-
-.wpseo-metabox-sidebar li span {
-	margin: 3px 0 0 -5px;
-	padding: 0 2px 0 5px;
-	border: 0 solid transparent;
-	border-left-width: 3px;
-	border-radius: 3px;
+.wpseo-metabox-sidebar ul li .yst-traffic-light {
+	margin: 0;
 }
-.wpseo-metabox-sidebar li span.wpseo-buy-premium {
+.wpseo-metabox-sidebar ul li span.dashicons {
+	width: 100%;
+}
+.wpseo-metabox-sidebar ul li span.wpseo-buy-premium {
 	color: #a4286a;
 }
-.wpseo-metabox-sidebar li span.wpseo-buy-premium:hover {
+.wpseo-metabox-sidebar ul li span.wpseo-buy-premium:hover {
 	color: #832055;
 }
-
-.wpseo-metabox-sidebar li.active span {
-	border-color: #333;
-	color: #333;
+.wpseo-metabox-sidebar ul li.active {
+	z-index: 50;
 }
-.wpseo-metabox-sidebar li.active span.wpseo-buy-premium {
+.wpseo-metabox-sidebar ul li.active:after {
+	display: block;
+	float: right;
+	position: absolute;
+	z-index: 110; 
+	top: 0;
+	right: -3px;
+	width: 3px;
+	height: 46px;
+	background-color: white;
+	content: " ";
+}
+.wpseo-metabox-sidebar ul li.active a {
+	color: #0073aa;
+	background-color: #fff;
+}
+.wpseo-metabox-sidebar ul li.active span.wpseo-buy-premium {
 	border-color: #a4286a; 
 	color: #a4286a;
 }
-.wpseo-metabox-sidebar li.active span.wpseo-buy-premium:hover {
+.wpseo-metabox-sidebar ul li.active span.wpseo-buy-premium:hover {
 	border-color: #832055; 
 	color: #832055;
+}
+.wpseo-metabox-sidebar a {
+	display: block;
+	padding: 5px;
+	vertical-align: middle; 
+	text-decoration: none;
 }
 
 /* Floated to reset white space between list items */

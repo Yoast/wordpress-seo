@@ -7,6 +7,7 @@ import { Provider as StoreProvider } from "react-redux";
 import SidebarItem from "./SidebarItem";
 import keywordUpsellProps from "../values/keywordUpsellProps";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
+import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 
 /**
  * Creates the Metabox component.
@@ -21,7 +22,11 @@ export default function Metabox( { settings, store } ) {
 
 	return (
 		<Fill name="YoastMetabox">
-			{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>Readability analysis</SidebarItem> }
+			{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+				<StoreProvider store={ store } >
+					<ReadabilityAnalysis />
+				</StoreProvider>
+			</SidebarItem> }
 			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
 				<StoreProvider store={ store } >
 					<SeoAnalysis

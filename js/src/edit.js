@@ -17,8 +17,7 @@ import SnippetEditor from "./containers/SnippetEditor";
 import Sidebar from "./containers/Sidebar";
 import MetaboxPortal from "./components/MetaboxPortal";
 import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPriority";
-
-const { Fragment } = yoast._wp.element;
+import * as selectors from "./redux/selectors";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {}, isRtl: false };
@@ -43,6 +42,7 @@ function registerStoreInGutenberg() {
 
 	return registerStore( "yoast-seo/editor", {
 		reducer: combineReducers( reducers ),
+		selectors,
 	} );
 }
 
@@ -56,6 +56,7 @@ function registerStoreInGutenberg() {
  **/
 function registerPlugin( store ) {
 	if ( isGutenbergDataAvailable() ) {
+		const { Fragment } = yoast._wp.element;
 		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 		const { registerPlugin } = wp.plugins;
 		const { Slot } = wp.components;

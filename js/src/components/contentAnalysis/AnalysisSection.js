@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import StyledSection from "yoast-components/forms/StyledSection/StyledSection";
 import colors from "yoast-components/style-guide/colors.json";
 
-import ReadabilityAnalysis from "./ReadabilityAnalysis";
+import ReadabilityAnalysisLegacy from "./ReadabilityAnalysisLegacy";
 import SeoAnalysisLegacy from "./SeoAnalysisLegacy";
 
 /**
@@ -25,7 +25,7 @@ class AnalysisSection extends React.Component {
 				className={ className }
 			>
 				{ activeTab === "keyword" ? <SeoAnalysisLegacy/> : null }
-				{ activeTab === "readability" ? <ReadabilityAnalysis/> : null }
+				{ activeTab === "readability" ? <ReadabilityAnalysisLegacy/> : null }
 			</StyledSection>
 		);
 	}
