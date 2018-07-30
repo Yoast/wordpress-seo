@@ -1,15 +1,17 @@
 /* global jQuery, wpseoPremiumMetaboxData, YoastSEO, yoast, wp */
-
+/* External dependencies */
 import React from "react";
 import { Provider } from "react-redux";
 import Collapsible from "yoast-components/composites/Plugin/shared/components/Collapsible";
+import { setProminentWords } from "yoast-components/redux/actions/insights";
+import { __ } from "@wordpress/i18n";
 
+/* Internal dependencies */
 import {
 	loadLinkSuggestions,
 	setLinkSuggestions,
 	setLinkSuggestionsError,
 } from "./redux/actions/LinkSuggestions";
-import { setProminentWords } from "yoast-components/redux/actions/insights";
 import { renderReactApp } from "./redux/utils/render";
 import ProminentWordStorage from "./keywordSuggestions/ProminentWordStorage";
 import ProminentWordNoStorage from "./keywordSuggestions/ProminentWordNoStorage";
@@ -74,6 +76,19 @@ const linkSuggestionsIsSupported = function() {
 };
 
 /**
+ * Returns 50 when cornerstone checkbox is checked, if not checked it will return 20.
+ *
+ * @returns {number} The prominent words limit.
+ */
+const getProminentWordsLimit = function() {
+	if ( document.getElementById( cornerstoneElementID ) && document.getElementById( cornerstoneElementID ).checked ) {
+		return 50;
+	}
+
+	return 20;
+};
+
+/**
  * Registers a redux store in Gutenberg.
  *
  * @returns {Object} The store.
@@ -84,38 +99,6 @@ const registerStoreInGutenberg = function() {
 	return registerStore( "yoast-seo-premium/editor", {
 		reducer: reducers,
 	} );
-};
-
-/**
- * Initializes the metabox for premium.
- *
- * @returns {void}
- */
-const initializeMetabox = function() {
-	const store = registerStoreInGutenberg();
-
-	let multiKeyword = new MultiKeyword( { store } );
-	window.YoastSEO.multiKeyword = true;
-	multiKeyword.initDOM();
-
-
-	if ( seoAnalysisEnabled() ) {
-		// Set options for largest keyword distance assessment to be added in premium.
-		YoastSEO.app.changeAssessorOptions( { useKeywordDistribution: true } );
-
-		const synonyms = new Synonyms( { premiumStore: store } );
-		synonyms.initializeDOM();
-	}
-
-	if ( insightsEnabled() || linkSuggestionsEnabled() ) {
-		initializeRelevantWordsSuggester( store );
-	}
-
-	if ( linkSuggestionsIsSupported() ) {
-		initializeLinkSuggester( store );
-		renderLinkSuggestionsMetabox( store );
-	}
-	registerPlugin( store );
 };
 
 /**
@@ -131,35 +114,32 @@ const registerPlugin = function( store ) {
 		const { registerPlugin } = wp.plugins;
 		const { Fill } = wp.components;
 
-		let LinkSuggestionsSection = null;
-		let InsightsSection = null;
-
-		if ( linkSuggestionsIsSupported() ) {
-			LinkSuggestionsSection = <SidebarItem renderPriority={ 31 }>
-				<Collapsible title="Internal linking suggestions">
-					<Provider store={ store }>
-						<LinkSuggestionsContainer />
-					</Provider>
-				</Collapsible>
-			</SidebarItem>;
-		}
-
-		if ( insightsEnabled() ) {
-			InsightsSection = <SidebarItem renderPriority={ 32 }>
-				<Collapsible title="Insights">
-					<Provider store={ store }>
-						<RelevantWordsContainer />
-					</Provider>
-				</Collapsible>
-			</SidebarItem>;
-		}
-
 		const YoastSidebar = () => (
 			<Fragment>
 				<Fill name="YoastSidebar">
 					<SidebarItem renderPriority={ 21 }>Multiple keywords</SidebarItem>
-					{ LinkSuggestionsSection }
-					{ InsightsSection }
+					{
+						linkSuggestionsIsSupported() ? (
+							<SidebarItem renderPriority={ 31 }>
+								<Collapsible title={ __( "Internal linking suggestions", "wordpress-seo" ) }>
+									<Provider store={ store }>
+										<LinkSuggestionsContainer />
+									</Provider>
+								</Collapsible>
+							</SidebarItem>
+						) : null
+					}
+					{
+						insightsEnabled() ? (
+							<SidebarItem renderPriority={ 32 }>
+								<Collapsible title={ __( "Insights", "wordpress-seo" ) }>
+									<Provider store={ store }>
+										<RelevantWordsContainer />
+									</Provider>
+								</Collapsible>
+							</SidebarItem>
+						) : null
+					}
 				</Fill>
 			</Fragment>
 		);
@@ -168,14 +148,6 @@ const registerPlugin = function( store ) {
 			render: YoastSidebar,
 		} );
 	}
-};
-
-const renderLinkSuggestionsMetabox = ( store ) => {
-	renderReactApp(
-		document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[ 0 ],
-		LinkSuggestionsContainer,
-		store
-	);
 };
 
 /**
@@ -224,7 +196,9 @@ const initializeRelevantWordsSuggester = function( store ) {
 	} );
 
 	jQuery( window ).on( "YoastSEO:updateProminentWords", relevantWordsSuggester.updateWords.bind( relevantWordsSuggester ) );
-	jQuery( window ).on( "YoastSEO:numericScore", () => { jQuery( window ).trigger( "YoastSEO:updateProminentWords" ); } );
+	jQuery( window ).on( "YoastSEO:numericScore", () => {
+		jQuery( window ).trigger( "YoastSEO:updateProminentWords" );
+	} );
 
 	// Initialize prominent words watching and saving.
 	relevantWordsSuggester.suggest();
@@ -270,6 +244,53 @@ const initializeLinkSuggester = function( store ) {
 };
 
 /**
+ * Render the LinkSuggestions metabox.
+ *
+ * @param {Object} store The store.
+ *
+ * @returns {void}
+ */
+const renderLinkSuggestionsMetabox = ( store ) => {
+	renderReactApp(
+		document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[ 0 ],
+		LinkSuggestionsContainer,
+		store
+	);
+};
+
+/**
+ * Initializes the metabox for premium.
+ *
+ * @returns {void}
+ */
+const initializeMetabox = function() {
+	const store = registerStoreInGutenberg();
+
+	let multiKeyword = new MultiKeyword( { store } );
+	window.YoastSEO.multiKeyword = true;
+	multiKeyword.initDOM();
+
+
+	if ( seoAnalysisEnabled() ) {
+		// Set options for largest keyword distance assessment to be added in premium.
+		YoastSEO.app.changeAssessorOptions( { useKeywordDistribution: true } );
+
+		const synonyms = new Synonyms( { premiumStore: store } );
+		synonyms.initializeDOM();
+	}
+
+	if ( insightsEnabled() || linkSuggestionsEnabled() ) {
+		initializeRelevantWordsSuggester( store );
+	}
+
+	if ( linkSuggestionsIsSupported() ) {
+		initializeLinkSuggester( store );
+		renderLinkSuggestionsMetabox( store );
+	}
+	registerPlugin( store );
+};
+
+/**
  * Initializes the metaboxes for premium
  *
  * @returns {void}
@@ -282,19 +303,6 @@ const initializeDOM = function() {
 			console.error( caughtError );
 		}
 	} );
-};
-
-/**
- * Returns 50 when cornerstone checkbox is checked, if not checked it will return 20.
- *
- * @returns {number} The prominent words limit.
- */
-const getProminentWordsLimit = function() {
-	if ( document.getElementById( cornerstoneElementID ) && document.getElementById( cornerstoneElementID ).checked ) {
-		return 50;
-	}
-
-	return 20;
 };
 
 window.jQuery( initializeDOM );
