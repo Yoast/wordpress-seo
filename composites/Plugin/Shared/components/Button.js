@@ -271,24 +271,26 @@ export const IconsButton = ( props ) => {
 	const {
 		children,
 		className,
+		prefixIcon,
+		suffixIcon,
 		...buttonProps
 	} = props;
 
 	return (
 		<Button className={ className } { ...buttonProps }>
-			{ buttonProps.prefixIcon &&
+			{ prefixIcon &&
 				<SvgIcon
-					icon={ buttonProps.prefixIcon.icon }
-					color={ buttonProps.prefixIcon.color }
-					size={ buttonProps.prefixIcon.size }
+					icon={ prefixIcon.icon }
+					color={ prefixIcon.color }
+					size={ prefixIcon.size }
 				/>
 			}
 			{ children }
-			{ buttonProps.suffixIcon &&
+			{ suffixIcon &&
 				<SvgIcon
-					icon={ buttonProps.suffixIcon.icon }
-					color={ buttonProps.suffixIcon.color }
-					size={ buttonProps.suffixIcon.size }
+					icon={ suffixIcon.icon }
+					color={ suffixIcon.color }
+					size={ suffixIcon.size }
 				/>
 			}
 		</Button>
