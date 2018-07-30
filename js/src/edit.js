@@ -128,8 +128,8 @@ function registerPlugin( store ) {
 				</PluginSidebar>
 				<Provider store={ store } >
 					<Fragment>
-						<Sidebar />
-						<Metabox />
+						<Sidebar store={ store } />
+						<Metabox store={ store } />
 					</Fragment>
 				</Provider>
 				{ renderMetaboxPortal() }
