@@ -11,5 +11,5 @@ export {
 	transliterate,
 	replaceDiacritics,
 	imageInText,
-	relevantWords
+	relevantWords,
 };
