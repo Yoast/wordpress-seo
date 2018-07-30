@@ -5,8 +5,9 @@ import { Collapsible } from "yoast-components";
 import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/components/CornerstoneToggle"
 
 /**
+ * Renders the collapsible cornerstone toggle.
  *
- * @returns {*}
+ * @returns {ReactElement} The collapsible cornerstone toggle component.
  * @constructor
  */
 export default function CollapsibleCornerstone( { isCornerstone, onChange } ) {
