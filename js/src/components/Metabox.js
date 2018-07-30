@@ -16,20 +16,20 @@ import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
  *
  * @returns {ReactElement} The Metabox component.
  */
- export default function Metabox( { isContentAnalysisActive, isKeywordAnalysisActive, store } ) {
- 	const { Fill } = wp.components;
+export default function Metabox( { isContentAnalysisActive, isKeywordAnalysisActive, store } ) {
+	const { Fill } = wp.components;
 
- 	return (
- 		<Fill name="YoastMetabox">
- 			{ isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>Readability analysis</SidebarItem> }
- 			{ isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
- 				<StoreProvider store={ store } >
- 					<SeoAnalysis upsell={ keywordUpsellProps } />
- 				</StoreProvider>
- 			</SidebarItem> }
- 		</Fill>
- 	);
- }
+	return (
+		<Fill name="YoastMetabox">
+			{ isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>Readability analysis</SidebarItem> }
+			{ isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+				<StoreProvider store={ store } >
+					<SeoAnalysis upsell={ keywordUpsellProps } />
+				</StoreProvider>
+			</SidebarItem> }
+		</Fill>
+	);
+}
 
 Metabox.propTypes = {
 	isContentAnalysisActive: PropTypes.bool,

@@ -1,3 +1,5 @@
+/* global yoast, wp */
+
 import Metabox from "../containers/Metabox";
 import sortComponentsByRenderPriority from "../helpers/sortComponentsByRenderPriority";
 

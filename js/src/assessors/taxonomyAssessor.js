@@ -28,14 +28,14 @@ var TaxonomyAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
 
 	this._assessments = [
-		new IntroductionKeywordAssessment,
-		new KeyphraseLengthAssessment,
-		new KeywordDensityAssessment,
+		new IntroductionKeywordAssessment(),
+		new KeyphraseLengthAssessment(),
+		new KeywordDensityAssessment(),
 		KeywordStopWordsAssessment,
-		new MetaDescriptionKeywordAssessment,
+		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLengthAssessment(),
 		TaxonomyTextLengthAssessment,
-		new TitleKeywordAssessment,
+		new TitleKeywordAssessment(),
 		new PageTitleWidthAssessment(),
 		new UrlKeywordAssessment(),
 		new UrlLengthAssessment(),
