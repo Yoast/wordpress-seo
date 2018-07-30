@@ -1,3 +1,4 @@
+/* globals yoastModalConfig */
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -5,8 +6,9 @@ import styled from "styled-components";
 
 import Results from "./Results";
 import UpsellBox from "../UpsellBox";
-import { Collapsible } from "yoast-components/composites/Plugin/Shared/components/Collapsible";
-import KeywordInput from "../../containers/KeyWordInput";
+import { Collapsible, KeywordInput } from "yoast-components";
+import { setFocusKeyword } from "../../redux/actions/focusKeyword";
+import ModalButtonContainer from "../ModalButtonContainer";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -18,13 +20,21 @@ const AnalysisHeader = styled.span`
 const ExplanationText = styled.p`
 `;
 
-const AddSynonyms = styled.a`
-`;
-
 /**
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends React.Component {
+	getAddSynonyms() {
+		let config = yoastModalConfig;
+		let synonymsConfig = config.filter( ( modalConfig ) => {
+			return modalConfig.content === "KeywordSynonyms";
+		} );
+
+		return(
+			<ModalButtonContainer { ...synonymsConfig[ synonymsConfig.length -1 ] } />
+		)
+	}
+
 	render() {
 		return (
 			<React.Fragment>
@@ -37,17 +47,10 @@ class SeoAnalysis extends React.Component {
 					</ExplanationText>
 					<KeywordInput
 						id="focus-keyword-input"
+						onChange={ this.props.onFocusKeywordChange }
+						keyword={ this.props.keyword }
 					/>
-					<AddSynonyms
-						href="#"
-						onClick={
-							() => {
-								jQuery( ".wpseo-keyword-synonyms" ).click();
-							}
-						}
-					>
-						+ Add synonyms
-					</AddSynonyms>
+					{ this.getAddSynonyms() }
 					<AnalysisHeader>
 						Analysis results:
 					</AnalysisHeader>
@@ -82,6 +85,8 @@ SeoAnalysis.propTypes = {
 	results: PropTypes.array,
 	marksButtonStatus: PropTypes.string,
 	hideMarksButtons: PropTypes.bool,
+	keyword: PropTypes.string,
+	onFocusKeywordChange: PropTypes.func,
 	upsell: PropTypes.shape( {
 		benefits: PropTypes.array,
 		infoParagraphs: PropTypes.array,
@@ -102,15 +107,33 @@ SeoAnalysis.propTypes = {
 function mapStateToProps( state, ownProps ) {
 	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
 
+	let keyword = state.focusKeyword;
+
 	let results = null;
-	if( state.analysis.seo[ state.focusKeyword ] ) {
-		results = state.analysis.seo[ state.focusKeyword ].results;
+	if( state.analysis.seo[ keyword ] ) {
+		results = state.analysis.seo[ keyword ].results;
 	}
 
 	return {
 		results,
 		marksButtonStatus,
+		keyword,
 	};
 }
 
-export default connect( mapStateToProps )( SeoAnalysis );
+/**
+ * Maps the redux dispatch to KeywordInput props.
+ *
+ * @param {Function} dispatch The dispatch function that will dispatch a redux action.
+ *
+ * @returns {Object} Props for the `KeywordInput` component.
+ */
+function mapDispatchToProps( dispatch ) {
+	return {
+		onFocusKeywordChange: ( value ) => {
+			dispatch( setFocusKeyword( value ) );
+		},
+	};
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( SeoAnalysis );
