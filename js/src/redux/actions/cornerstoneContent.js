@@ -8,14 +8,14 @@ export const SET_CORNERSTONE_CONTENT = `${ PREFIX }SET_CORNERSTONE_CONTENT`;
  *
  * @param {boolean} isCornerstone Whether or not the article is a cornerstone article.
  *
- * @return {Object} The set cornerstone content action.
+ * @returns {Object} The set cornerstone content action.
  */
 export const setCornerstoneContent = function( isCornerstone ) {
 	return {
 		type: SET_CORNERSTONE_CONTENT,
 		isCornerstone,
-	}
-}
+	};
+};
 
 /**
  * An action creator for toggling whether the current item is cornerstone content or not.
