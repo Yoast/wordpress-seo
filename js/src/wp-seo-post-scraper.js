@@ -435,7 +435,7 @@ setWordPressSeoL10n();
 
 		tabManager = initializeTabManager();
 		postDataCollector = initializePostDataCollector( data );
-		publishBox.initalise();
+		publishBox.initialize();
 
 		const appArgs = getAppArgs( store );
 		app = new App( appArgs );
