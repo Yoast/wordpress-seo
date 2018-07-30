@@ -11,6 +11,7 @@ import ModalButtonContainer from "../ModalButtonContainer";
 import Collapsible from "yoast-components/composites/Plugin/Shared/components/Collapsible";
 import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
 
+const { Slot } = wp.components;
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -71,6 +72,7 @@ class SeoAnalysis extends React.Component {
 						onChange={ this.props.onFocusKeywordChange }
 						keyword={ this.props.keyword }
 					/>
+					<Slot name="YoastSynonyms" />
 					{ this.props.shouldUpsell && this.SynonymsUpsell() }
 					<AnalysisHeader>
 						Analysis results:
