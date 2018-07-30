@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { Collapsible } from "yoast-components";
-import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/components/CornerstoneToggle"
+import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
 
 /**
  * Renders the collapsible cornerstone toggle.
@@ -22,7 +22,7 @@ export default function CollapsibleCornerstone( { isCornerstone, onChange } ) {
 	);
 }
 
-CollapsibleCornerstone.proptypes = {
+CollapsibleCornerstone.propTypes = {
 	isCornerstone: PropTypes.bool,
 	onChange: PropTypes.func,
 };

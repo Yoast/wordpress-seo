@@ -500,7 +500,7 @@ setWordPressSeoL10n();
 
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
-		store.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === 'true' ) );
+		store.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === "true" ) );
 
 		store.subscribe( () => {
 			const data = snippetEditorHelpers.getDataFromStore( store );
@@ -523,9 +523,9 @@ setWordPressSeoL10n();
 			if ( document.getElementById( "yoast_wpseo_is_cornerstone" ).value !== currentState.isCornerstone ) {
 				document.getElementById( "yoast_wpseo_is_cornerstone" ).value = currentState.isCornerstone;
 
-				app.changeAssessorOptions({
-					useCornerStone: currentState.isCornerstone
-				});
+				app.changeAssessorOptions( {
+					useCornerStone: currentState.isCornerstone,
+				} );
 			}
 
 			snippetEditorData.title = data.title;

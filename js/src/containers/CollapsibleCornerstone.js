@@ -15,6 +15,13 @@ function mapStateToProps( state ) {
 	};
 }
 
+/**
+ * Maps the dispatch to props.
+ *
+ * @param {function} dispatch The dispatch function.
+ *
+ * @returns {Object} The dispatch props.
+ */
 function mapDispatchToProps( dispatch ) {
 	return {
 		onChange: () => {
