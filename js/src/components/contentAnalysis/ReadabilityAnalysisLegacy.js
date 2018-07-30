@@ -3,6 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import get from "lodash/get";
 
 import Results from "./Results";
 
@@ -20,7 +21,7 @@ class ReadabilityAnalysis extends React.Component {
 	render() {
 		return (
 			<Results
-				canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
+				canChangeLanguage={ localizedData && get( localizedData, [ "settings_link" ] ) }
 				showLanguageNotice={ true }
 				changeLanguageLink={ localizedData.settings_link }
 				language={ localizedData.language }
