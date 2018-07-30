@@ -33,7 +33,7 @@ class SeoAnalysis extends React.Component {
 
 		return(
 			<ModalButtonContainer { ...synonymsConfig[ synonymsConfig.length -1 ] } />
-		)
+		);
 	}
 
 	render() {
