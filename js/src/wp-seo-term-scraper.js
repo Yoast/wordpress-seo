@@ -21,9 +21,9 @@ import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
 import UsedKeywords from "./analysis/usedKeywords";
 import TaxonomyAssessor from "./assessors/taxonomyAssessor";
-import { setFocusKeyword } from "./redux/actions/focusKeyword";
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
+import { setFocusKeyword } from "./redux/actions/focusKeyword";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
