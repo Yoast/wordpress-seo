@@ -8,9 +8,10 @@ import { translate } from "yoast-components/utils/i18n";
 class RelevantWordsSuggester {
 
 	/**
-	 * @param {ProminentWordStorage} prominentWordStorage The class that handles the focus keyword storage.
-	 * @param {function} updateStore Dispatches an action to update the Redux store (and update the component).
-	 * @param {bool} contentEndpointsAvailable Whether or not the content endpoints are available.
+	 * @param {ProminentWordStorage} prominentWordStorage      The class that handles the focus keyword storage.
+	 * @param {function}             updateStore               Dispatches an action to update the Redux store (and
+	 *                                                         update the component).
+	 * @param {bool}                 contentEndpointsAvailable Whether or not the content endpoints are available.
 	 *
 	 * @returns {void}
 	 */
@@ -34,6 +35,11 @@ class RelevantWordsSuggester {
 		}
 	}
 
+	/**
+	 * Stores the prominent words.
+	 *
+	 * @returns {void}
+	 */
 	startStoringWords() {
 		this._storageEnabled = true;
 
