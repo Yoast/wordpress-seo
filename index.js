@@ -6,6 +6,7 @@ import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSug
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
 import { default as LanguageNotice } from "./composites/Plugin/Shared/components/LanguageNotice";
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
+import { default as Collapsible } from "./composites/Plugin/Shared/components/Collapsible";
 
 
 export {
@@ -17,6 +18,7 @@ export {
 	KeywordSuggestions,
 	LanguageNotice,
 	ContentAnalysis,
+	Collapsible,
 };
 
 export * from "./composites/Plugin/SnippetPreview";
