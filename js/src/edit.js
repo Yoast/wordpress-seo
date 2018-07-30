@@ -179,7 +179,8 @@ function renderReactApp( target, component, store ) {
 		title: localizedData.analysisHeadingTitle,
 		hideMarksButtons: localizedData.show_markers !== "1",
 	};
-	if( targetElement ) {
+
+	if ( targetElement ) {
 		ReactDOM.render(
 			wrapInTopLevelComponents( component, store, props ),
 			targetElement
@@ -191,14 +192,10 @@ function renderReactApp( target, component, store ) {
  * Renders the snippet preview for display.
  *
  * @param {Object} store                                 Redux store.
- * @param {Object} props                                 Props to be passed to
- *                                                       the snippet preview.
- * @param {string} props.baseUrl                         Base URL of the site
- *                                                       the user is editing.
+ * @param {Object} props                                 Props to be passed to the snippet preview.
+ * @param {string} props.baseUrl                         Base URL of the site the user is editing.
  * @param {string} props.date                            The date.
- * @param {array}  props.recommendedReplacementVariables The recommended
- *                                                       replacement variables
- *                                                       for this context.
+ * @param {array}  props.recommendedReplacementVariables The recommended replacement variables for this context.
  *
  * @returns {void}
  */
@@ -247,6 +244,7 @@ export function initializeData( data, args, store ) {
 		gutenbergData.initialize( args.replaceVars );
 		return gutenbergData;
 	}
+
 	const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store );
 	classicEditorData.initialize( args.replaceVars );
 	return classicEditorData;
@@ -258,18 +256,12 @@ export function initializeData( data, args, store ) {
  * This can be a post or a term edit screen.
  *
  * @param {Object}   args                                 Edit initialize arguments.
- * @param {string}   args.analysisSection                 The target element id
- *                                                        for the analysis section.
- * @param {Function} args.onRefreshRequest                The function to refresh
- *                                                        the analysis.
+ * @param {string}   args.analysisSection                 The target element id for the analysis section.
+ * @param {Function} args.onRefreshRequest                The function to refresh the analysis.
  * @param {Object}   args.replaceVars                     The replaceVars object.
- * @param {string}   args.snippetEditorBaseUrl            Base URL of the site
- *                                                        the user is editing.
- * @param {string}   args.snippetEditorDate               The date for the
- *                                                        snippet editor.
- * @param {array}    args.recommendedReplacementVariables The recommended
- *                                                        replacement variables
- *                                                        for this context.
+ * @param {string}   args.snippetEditorBaseUrl            Base URL of the site the user is editing.
+ * @param {string}   args.snippetEditorDate               The date for the snippet editor.
+ * @param {array}    args.recommendedReplacementVariables The recommended replacement variables for this context.
  *
  * @returns {Object} The store and the data.
  */
