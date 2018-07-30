@@ -1,2 +1,3 @@
-// Simple file to import all currently available structured data blocks.
-import "./structured-data-blocks/how-to/block";
+import registerHowToBlock from "./structured-data-blocks/how-to/block";
+
+registerHowToBlock();

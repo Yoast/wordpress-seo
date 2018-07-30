@@ -28,6 +28,7 @@ final class WPSEO_Admin_Asset_Dev_Server_Location implements WPSEO_Admin_Asset_L
 		'wp-seo-term-scraper',
 		'wp-seo-modal',
 		'wp-seo-wp-globals-backport',
+		'wp-seo-structured-data-blocks',
 	);
 
 	/**

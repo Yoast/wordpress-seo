@@ -21,6 +21,7 @@ class WPSEO_Structured_Data_Blocks {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
+		add_filter( 'block_categories', array( $this, 'add_block_category' ) );
 	}
 
 	/**
@@ -29,5 +30,14 @@ class WPSEO_Structured_Data_Blocks {
 	public function enqueue_block_editor_assets() {
 		$this->asset_manager->enqueue_script( 'structured-data-blocks' );
 		$this->asset_manager->enqueue_style( 'structured-data-blocks' );
+	}
+
+	public function add_block_category( $categories ) {
+		$categories[] = array(
+			'slug'  => 'yoast-structured-data-blocks',
+			'title' => __( 'Structured Data Blocks', 'wordpress-seo' ),
+		);
+
+		return $categories;
 	}
 }

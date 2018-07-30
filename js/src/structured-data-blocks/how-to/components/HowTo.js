@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import HowToStep from "./HowToStep";
+import { stripHTML } from "../../../helpers/stringHelpers";
 
 const { __ } = window.wp.i18n;
 const { RichText, InspectorControls } = window.wp.editor;
@@ -14,13 +15,19 @@ const { Fragment } = window.wp.element;
  */
 export default class HowTo extends Component {
 
+	/**
+	 * Constructs a HowTo editor component.
+	 *
+	 * @param {Object} props This component's properties.
+	 *
+	 * @returns {void}
+	 */
 	constructor( props ) {
 		super( props );
 
 		this.state = { focus: null };
 
 		this.changeStep = this.changeStep.bind( this );
-		this.addStep = this.addStep.bind( this );
 		this.insertStep = this.insertStep.bind( this );
 		this.removeStep = this.removeStep.bind( this );
 		this.swapSteps = this.swapSteps.bind( this );
@@ -29,18 +36,14 @@ export default class HowTo extends Component {
 		this.getListTypeHelp = this.getListTypeHelp.bind( this );
 		this.toggleListType = this.toggleListType.bind( this );
 
-		this.stepEditorRefs = {};
-
-		if ( ! props.attributes.steps || props.attributes.steps.length === 0 ) {
-			props.setAttributes( {
-				steps: [ { id: HowTo.generateId( "how-to-step" ), contents: [] } ],
-			} );
-		}
+		this.editorRefs = {};
 	}
 
 	/**
 	 * Generates a pseudo-unique" id.
+	 *
 	 * @param {string} prefix an (optional) prefix to use.
+	 *
 	 * @returns {string} a pseudo-unique string, consisting of the optional prefix + the curent time in milliseconds.
 	 */
 	static generateId( prefix ) {
@@ -48,19 +51,11 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Adds an empty How-to step to this How-to block.
-	 * @returns {void}
-	 */
-	addStep() {
-		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
-		steps.push( { id: HowTo.generateId( "how-to-step" ), contents: [] } );
-		this.props.setAttributes( { steps } );
-	}
-
-	/**
 	 * Replaces the How-to step with the given index.
-	 * @param {string} newContents the new contents of the step
-	 * @param {number} index the index of the step that needs to be replaced
+	 *
+	 * @param {array|string} newContents The new contents of the step.
+	 * @param {number}       index       The index of the step that needs to be replaced.
+	 *
 	 * @returns {void}
 	 */
 	changeStep( newContents, index ) {
@@ -76,28 +71,34 @@ export default class HowTo extends Component {
 
 	/**
 	 * Inserts an empty step into a how-to block at the given index.
-	 * @param {number}       [index]    the index of the step after which a new step should be added
-	 * @param {array|string} [contents] the contents of the new step.
+	 *
+	 * @param {number}       [index]      The index of the step after which a new step should be added.
+	 * @param {array|string} [contents]   The contents of the new step.
+	 * @param {bool}         [focus=true] Whether or not to focus the new step.
+	 *
 	 * @returns {void}
 	 */
-	insertStep( index, contents = "" ) {
+	insertStep( index, contents = [], focus = true ) {
 		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
 		if ( ! index ) {
-			index = steps.length;
+			index = steps.length - 1;
 		}
 
 		steps.splice( index + 1, 0, { id: HowTo.generateId( "how-to-step" ), contents } );
 		this.props.setAttributes( { steps } );
-		if ( this.stepEditorRefs[ index + 1 ] ) {
-			this.stepEditorRefs[ index + 1 ].focus();
+
+		if ( focus ) {
+			setTimeout( this.setFocus.bind( this, index + 1 ) );
 		}
 	}
 
 	/**
 	 * Swaps two steps in the how-to block.
+	 *
 	 * @param {number} index1 The index of the first block.
 	 * @param {number} index2 The index of the second block.
+	 *
 	 * @returns {void}
 	 */
 	swapSteps( index1, index2 ) {
@@ -107,9 +108,9 @@ export default class HowTo extends Component {
 		steps[ index1 ] = steps[ index2 ];
 		steps[ index2 ] = step;
 
-		let stepEditorRef = this.stepEditorRefs[ index1 ];
-		this.stepEditorRefs[ index1 ] = this.stepEditorRefs[ index2 ];
-		this.stepEditorRefs[ index2 ] = stepEditorRef;
+		let stepEditorRef = this.editorRefs[ index1 ];
+		this.editorRefs[ index1 ] = this.editorRefs[ index2 ];
+		this.editorRefs[ index2 ] = stepEditorRef;
 
 		this.props.setAttributes( { steps } );
 
@@ -121,37 +122,55 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Removes a step from a how-to block
-	 * @param {number} index the index of the step that needs to be removed
+	 * Removes a step from a how-to block.
+	 *
+	 * @param {number} index the index of the step that needs to be removed.
+	 *
 	 * @returns {void}
 	 */
 	removeStep( index ) {
 		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 		steps.splice( index, 1 );
 		this.props.setAttributes( { steps } );
+		if ( index > 0 ) {
+			this.setFocus( index - 1 );
+		} else {
+			this.setFocus( "description" );
+		}
 	}
 
 	/**
 	 * Sets the focus to a specific step in the How-to block.
+	 *
 	 * @param {number|string} focus the element to focus, either the index of the step that should be in focus or name of the input.
+	 *
 	 * @returns {void}
 	 */
 	setFocus( focus ) {
 		this.setState( { focus } );
+
+		if ( this.editorRefs[ focus ] ) {
+			this.editorRefs[ focus ].focus();
+		}
 	}
 
 	/**
 	 * Returns an array of How-to step components, to be rendered on screen.
+	 *
 	 * @returns {Component[]} The step components.
 	 */
 	getSteps() {
-		return this.props.attributes.steps ? this.props.attributes.steps.map( ( step, index ) =>
+		if ( ! this.props.attributes.steps ) {
+			return null;
+		}
+
+		return this.props.attributes.steps.map( ( step, index ) =>
 			<HowToStep
 				key={ step.id }
 				step={ step }
 				index={ index }
 				editorRef={ ( ref ) => {
-					this.stepEditorRefs[ index ] = ref;
+					this.editorRefs[ index ] = ref;
 				} }
 				onChange={ ( newStepContents ) => this.changeStep( newStepContents, index ) }
 				insertStep={ ( contents ) => this.insertStep( index, contents ) }
@@ -163,11 +182,12 @@ export default class HowTo extends Component {
 				isLast={ index === this.props.attributes.steps.length - 1 }
 				isSelected={ this.state.focus === index }
 			/>
-		) : [];
+		);
 	}
 
 	/**
 	 * Returns a component to manage this how-to block"s duration.
+	 *
 	 * @returns {Component} The duration editor component.
 	 */
 	getDuration() {
@@ -183,68 +203,61 @@ export default class HowTo extends Component {
 					onClick={ () => setAttributes( { hours: null, minutes: null } ) }
 					className="schema-how-to-duration-button editor-inserter__toggle"
 				>
-					{ __( "Add total time" ) }
+					{ __( "Add total time", "wordpress-seo" ) }
 				</IconButton>
 			);
 		}
 
-		return <div className="schema-how-to-duration">
-			<span>{ __( "Total time:", "structured-data-block/how-to-block" ) }&nbsp;</span>
-			<input
-				className="schema-how-to-duration-input"
-				type="number"
-				value={ attributes.hours }
-				min="0"
-				onFocus={ () => this.setFocus( "hours" ) }
-				onChange={ ( event ) => setAttributes( { hours: event.target.value } ) }
-				placeholder="HH"/>
-			<span>:</span>
-			<input
-				className="schema-how-to-duration-input"
-				type="number"
-				min="0"
-				max="59"
-				value={ attributes.minutes }
-				onFocus={ () => this.setFocus( "minutes" ) }
-				onChange={ ( event ) => setAttributes( { minutes: event.target.value } ) }
-				placeholder="MM" />
-			<IconButton
-				className="schema-how-to-duration-button editor-inserter__toggle"
-				icon="trash"
-				label={ __( "Delete total time" ) }
-				onClick={ () => setAttributes( { hours: false, minutes: false } ) }
-			/>
-		</div>;
-	}
-
-	/**
-	 * Strips html from a string
-	 * @param {string} html the html string
-	 * @returns {string} the html string, with all the html elements stripped from it.
-	 */
-	static stripHTML( html ) {
-		let tmp = document.createElement( "DIV" );
-		tmp.innerHTML = html;
-		return tmp.textContent || tmp.innerText || "";
+		return (
+			<div className="schema-how-to-duration">
+				<span>{ __( "Total time:", "wordpress-seo" ) }&nbsp;</span>
+				<input
+					className="schema-how-to-duration-input"
+					type="number"
+					value={ attributes.hours }
+					min="0"
+					onFocus={ () => this.setFocus( "hours" ) }
+					onChange={ ( event ) => setAttributes( { hours: event.target.value } ) }
+					placeholder="HH"/>
+				<span>:</span>
+				<input
+					className="schema-how-to-duration-input"
+					type="number"
+					min="0"
+					max="59"
+					value={ attributes.minutes }
+					onFocus={ () => this.setFocus( "minutes" ) }
+					onChange={ ( event ) => setAttributes( { minutes: event.target.value } ) }
+					placeholder="MM" />
+				<IconButton
+					className="schema-how-to-duration-button editor-inserter__toggle"
+					icon="trash"
+					label={ __( "Delete total time", "wordpress-seo" ) }
+					onClick={ () => setAttributes( { hours: false, minutes: false } ) }
+				/>
+			</div>
+		);
 	}
 
 	/**
 	 * Serializes a How-to block into a JSON-LD representation.
-	 * @param {object} attributes the attributes of the How-to block
-	 * @returns {object} the JSON-LD representation of this How-to block
+	 *
+	 * @param {object} attributes the attributes of the How-to block.
+	 *
+	 * @returns {object} the JSON-LD representation of this How-to block.
 	 */
 	static toJSONLD( attributes ) {
 		let jsonLD = {
 			"@context": "http://schema.org",
 			"@type": "HowTo",
-			name: this.stripHTML( renderToString( attributes.title ) ),
+			name: stripHTML( renderToString( attributes.title ) ),
 		};
 
 		if( attributes.hours && attributes.minutes ) {
 			jsonLD.totalTime = `PT${ attributes.hours }H${ attributes.minutes }M`;
 		}
 		if( attributes.description && attributes.description.length > 0 ) {
-			jsonLD.description = this.stripHTML( renderToString( attributes.description ) );
+			jsonLD.description = stripHTML( renderToString( attributes.description ) );
 		}
 		if( attributes.steps && attributes.steps.length > 0 ) {
 			jsonLD.step = attributes.steps.map( ( step, index ) => HowToStep.toJSONLD( step, index ) );
@@ -255,8 +268,10 @@ export default class HowTo extends Component {
 
 	/**
 	 * Renders a JSON-LD representation of this How-to block.
-	 * @param {object} attributes the attributes of the How-to block
-	 * @returns {Component} the JSON-LD representation, wrapped in a script tag of type "application/ld+json"
+	 *
+	 * @param {object} attributes the attributes of the How-to block.
+	 *
+	 * @returns {Component} the JSON-LD representation, wrapped in a script tag of type "application/ld+json".
 	 */
 	static renderJSONLD( attributes ) {
 		let stringified = JSON.stringify( this.toJSONLD( attributes ), null, 3 );
@@ -274,8 +289,10 @@ export default class HowTo extends Component {
 	/**
 	 * Returns the component to be used to render
 	 * the How-to block on Wordpress (e.g. not in the editor).
+	 *
 	 * @param {object} attributes the attributes of the How-to block
 	 * @param {string} className  the class to apply to the root component.
+	 *
 	 * @returns {Component} the component representing a How-to block
 	 */
 	static getContent( attributes, className ) {
@@ -293,11 +310,11 @@ export default class HowTo extends Component {
 						tagName="h2"
 						className="schema-how-to-title"
 						value={ title }
-						id={ this.stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
+						id={ stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
 					/>
 					{ attributes.hours && attributes.minutes &&
 					<p className="schema-how-to-total-time">
-						{ __( "Total time:", "structured-data-block/how-to-block" ) }
+						{ __( "Total time:", "wordpress-seo" ) }
 						&nbsp;
 						{ hours || 0 }:{ ( "00" + ( minutes || 0 ) ).slice( -2 ) }
 					</p>
@@ -318,6 +335,7 @@ export default class HowTo extends Component {
 
 	/**
 	 * A button to add a step to the front of the list.
+	 *
 	 * @returns {Component} a button to add a step
 	 */
 	getAddStepButton() {
@@ -327,14 +345,16 @@ export default class HowTo extends Component {
 				onClick={ () => this.insertStep() }
 				className="editor-inserter__toggle"
 			>
-				{ __( "Add step" ) }
+				{ __( "Add step", "wordpress-seo" ) }
 			</IconButton>
 		);
 	}
 
 	/**
 	 * Adds CSS classes to this how-to block"s list.
+	 *
 	 * @param {string} value The additional css classes.
+	 *
 	 * @returns {void}
 	 */
 	addCSSClasses( value ) {
@@ -343,7 +363,9 @@ export default class HowTo extends Component {
 
 	/**
 	 * Toggles the list type of this how-to block.
+	 *
 	 * @param {boolean} checked Whether or not the list is unordered.
+	 *
 	 * @returns {void}
 	 */
 	toggleListType( checked ) {
@@ -352,11 +374,15 @@ export default class HowTo extends Component {
 
 	/**
 	 * Returns the help text for this how-to block"s list type.
+	 *
 	 * @param  {boolean} checked Whether or not the list is unordered.
+	 *
 	 * @returns {string} The list type help string.
 	 */
 	getListTypeHelp( checked ) {
-		return checked ? __( "Showing step items as an unordered list" ) : __( "Showing step items as an ordered list." );
+		return checked
+			? __( "Showing step items as an unordered list", "wordpress-seo" )
+			: __( "Showing step items as an ordered list.", "wordpress-seo" );
 	}
 
 	/**
@@ -367,15 +393,15 @@ export default class HowTo extends Component {
 	 */
 	getSidebar( unorderedList, additionalClasses ) {
 		return <InspectorControls>
-			<PanelBody title={ __( "Settings" ) } className="blocks-font-size">
+			<PanelBody title={ __( "Settings", "wordpress-seo" ) } className="blocks-font-size">
 				<TextControl
-					label={ __( "Additional CSS Classes for list" ) }
+					label={ __( "Additional CSS Classes for list", "wordpress-seo" ) }
 					value={ additionalClasses }
 					onChange={ this.addCSSClasses }
-					help={ __( "CSS classes to add to the list of steps (excluding the how-to header)" ) }
+					help={ __( "CSS classes to add to the list of steps (excluding the how-to header)", "wordpress-seo" ) }
 				/>
 				<ToggleControl
-					label={ __( "Unordered list" ) }
+					label={ __( "Unordered list", "wordpress-seo" ) }
 					checked={ unorderedList }
 					onChange={ this.toggleListType }
 					help={ this.getListTypeHelp }
@@ -386,6 +412,7 @@ export default class HowTo extends Component {
 
 	/**
 	 * Renders this component.
+	 *
 	 * @returns {Component} The how-to block editor.
 	 */
 	render() {
@@ -400,7 +427,10 @@ export default class HowTo extends Component {
 					isSelected={ this.state.focus === "title" }
 					setFocusedElement={ () => this.setFocus( "title" ) }
 					onChange={ ( title ) => setAttributes( { title } ) }
-					placeholder={ __( "Enter a title for your instructions", "structured-data-block/how-to-block" ) }
+					onSetup={ ( ref ) => {
+						this.editorRefs.title = ref;
+					} }
+					placeholder={ __( "Enter a title for your instructions", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
 				{ this.getDuration() }
@@ -411,7 +441,10 @@ export default class HowTo extends Component {
 					isSelected={ this.state.focus === "description" }
 					setFocusedElement={ () => this.setFocus( "description" ) }
 					onChange={ ( description ) => setAttributes( { description } ) }
-					placeholder={ __( "Enter description", "structured-data-block/how-to-block" ) }
+					onSetup={ ( ref ) => {
+						this.editorRefs.description = ref;
+					} }
+					placeholder={ __( "Enter a description", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
 				<ul className={ `schema-how-to-steps ${ attributes.additionalListCssClasses }` }>

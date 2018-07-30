@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import { stripHTML } from "../../../helpers/stringHelpers";
+
 const { Component, renderToString } = window.wp.element;
 const { __ } = window.wp.i18n;
 const { IconButton } = window.wp.components;
@@ -12,6 +14,13 @@ const { getBlockContent } = window.wp.blocks;
  */
 export default class HowToStep extends Component {
 
+	/**
+	 * Constructs a HowToStep editor component.
+	 *
+	 * @param {Object} props This component's properties.
+	 *
+	 * @returns {void}
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -21,24 +30,29 @@ export default class HowToStep extends Component {
 
 	/**
 	 * The insert and remove step buttons.
-	 * @param {function} insertStep a callback function for inserting a new How-to step after this one
-	 * @param {function} removeStep a callback function for removing this How-to step
-	 * @returns {Component} the buttons
+	 *
+	 * @returns {Component} The buttons.
 	 */
-	getButtons( insertStep, removeStep ) {
+	getButtons() {
+		const {
+			step,
+			removeStep,
+			insertStep,
+		} = this.props;
+
 		return <div className="schema-how-to-step-button-container">
-			{ ! HowToStep.getImageSrc( this.props.step.contents ) &&
+			{ ! HowToStep.getImageSrc( step.contents ) &&
 			<MediaUpload
 				onSelect={ this.onSelectImage }
 				type="image"
-				value={ this.props.step.id }
+				value={ step.id }
 				render={ ( { open } ) => (
 					<IconButton
 						className="schema-how-to-step-button editor-inserter__toggle how-to-step-add-media"
 						icon="insert"
 						onClick={ open }
 					>
-						{ __( "Add image" ) }
+						{ __( "Add image", "wordpress-seo" ) }
 					</IconButton>
 				) }
 			/>
@@ -46,20 +60,25 @@ export default class HowToStep extends Component {
 			<IconButton
 				className="schema-how-to-step-button editor-inserter__toggle"
 				icon="trash"
-				label={ __( "Delete step" ) }
+				label={ __( "Delete step", "wordpress-seo" ) }
 				onClick={ removeStep }
 			>
 			</IconButton>
 			<IconButton
 				className="schema-how-to-step-button editor-inserter__toggle"
 				icon="insert"
-				label={ __( "Insert step" ) }
+				label={ __( "Insert step", "wordpress-seo" ) }
 				onClick={ insertStep }
 			>
 			</IconButton>
 		</div>;
 	}
 
+	/**
+	 * The mover buttons.
+	 *
+	 * @returns {Component} the buttons.
+	 */
 	getMover() {
 		return <div className="schema-how-to-step-mover">
 			{ ! this.props.isFirst &&
@@ -67,7 +86,7 @@ export default class HowToStep extends Component {
 				className="editor-block-mover__control"
 				onClick={ this.props.onMoveUp }
 				icon="arrow-up-alt2"
-				label={ __( "Move step up" ) }
+				label={ __( "Move step up", "wordpress-seo" ) }
 			/>
 			}
 			{ ! this.props.isLast &&
@@ -75,7 +94,7 @@ export default class HowToStep extends Component {
 				className="editor-block-mover__control"
 				onClick={ this.props.isLast ? null : this.props.onMoveDown }
 				icon="arrow-down-alt2"
-				label={ __( "Move step down" ) }
+				label={ __( "Move step down", "wordpress-seo" ) }
 			/>
 			}
 		</div>;
@@ -83,7 +102,9 @@ export default class HowToStep extends Component {
 
 	/**
 	 * Callback when an image from the media library has been selected.
+	 *
 	 * @param {Object} media The selected image.
+	 *
 	 * @returns {void}
 	 */
 	onSelectImage( media ) {
@@ -101,9 +122,11 @@ export default class HowToStep extends Component {
 
 	/**
 	 * Splits this step into multiple steps.
+	 *
 	 * @param {array}        before The content before the split.
 	 * @param {array|string} after  The content after the split.
 	 * @param {WPBlock[]}    blocks The blocks that should be inserted at the split.
+	 *
 	 * @returns {void}
 	 */
 	onSplit( before, after, ...blocks ) {
@@ -137,16 +160,12 @@ export default class HowToStep extends Component {
 	}
 
 	/**
-	 * Strips html from a string
-	 * @param {string} html the html string
-	 * @returns {string} the html string, with all the html elements stripped from it.
+	 * Returns the image src from step contents.
+	 *
+	 * @param {array} contents The step contents.
+	 *
+	 * @returns {string|boolean} The image src or false if none is found.
 	 */
-	static stripHTML( html ) {
-		let tmp = document.createElement( "DIV" );
-		tmp.innerHTML = html;
-		return tmp.textContent || tmp.innerText || "";
-	}
-
 	static getImageSrc( contents ) {
 		if ( ! contents || ! contents.filter ) {
 			return false;
@@ -162,17 +181,19 @@ export default class HowToStep extends Component {
 	}
 
 	/**
-	 * Generates a JSON-LD representation of the given How-to step
-	 * @param {object} step the How-to step
-	 * @param {string} step.contents the text of the How-to step
-	 * @param {number} index the index of the step in the How-to block (or section)
-	 * @returns {Object} the JSON-LD representation of the given step
+	 * Generates a JSON-LD representation of the given How-to step.
+	 *
+	 * @param {object} step          The how-to step.
+	 * @param {string} step.contents The text of the How-to step.
+	 * @param {number} index         The index of the step in the How-to block (or section).
+	 *
+	 * @returns {Object} the JSON-LD representation of the given step.
 	 */
 	static toJSONLD( step, index ) {
 		let jsonLD = {
 			"@type": "HowToStep",
 			position: ( index + 1 ).toString(),
-			text: this.stripHTML( renderToString( step.contents ) ),
+			text: stripHTML( renderToString( step.contents ) ),
 		};
 		let imageSrc = HowToStep.getImageSrc( step.contents );
 
@@ -189,8 +210,10 @@ export default class HowToStep extends Component {
 	/**
 	 * Returns the component of the given How-to step to be rendered in a WordPress post
 	 * (e.g. not in the editor).
-	 * @param {object} step the How-to step
-	 * @returns {Component} the component to be rendered
+	 *
+	 * @param {object} step The how-to step.
+	 *
+	 * @returns {Component} the component to be rendered.
 	 */
 	static getContent( step ) {
 		return <RichText.Content
@@ -201,13 +224,16 @@ export default class HowToStep extends Component {
 		/>;
 	}
 
+	/**
+	 * Renders this component.
+	 *
+	 * @returns {Component} The how-to step editor.
+	 */
 	render() {
 		let {
 			index,
 			step,
 			onChange,
-			insertStep,
-			removeStep,
 			onFocus,
 			isSelected,
 			editorRef,
@@ -225,11 +251,11 @@ export default class HowToStep extends Component {
 					onChange={ onChange }
 					isSelected={ isSelected }
 					onSplit={ this.onSplit }
-					placeholder={ __( "Enter a step description", "structured-data-block/how-to-block" ) }
+					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
 				{ isSelected && this.getMover() }
-				{ isSelected && this.getButtons( insertStep, removeStep ) }
+				{ isSelected && this.getButtons() }
 			</li>
 		);
 	}
