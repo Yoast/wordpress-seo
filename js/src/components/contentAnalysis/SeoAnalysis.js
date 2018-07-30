@@ -6,9 +6,10 @@ import styled from "styled-components";
 
 import Results from "./Results";
 import UpsellBox from "../UpsellBox";
-import { Collapsible, KeywordInput } from "yoast-components";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import ModalButtonContainer from "../ModalButtonContainer";
+import Collapsible from "yoast-components/composites/Plugin/Shared/components/Collapsible";
+import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
