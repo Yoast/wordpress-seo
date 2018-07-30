@@ -11,6 +11,7 @@ import ModalButtonContainer from "../ModalButtonContainer";
 import Collapsible from "yoast-components/composites/Plugin/Shared/components/Collapsible";
 import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
 
+
 const AnalysisHeader = styled.span`
 	font-size: 1em;
 	font-weight: bold;
@@ -25,7 +26,7 @@ const ExplanationText = styled.p`
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends React.Component {
-	getAddSynonyms() {
+	SynonymsUpsell() {
 		let config = yoastModalConfig;
 		let synonymsConfig = config.filter( ( modalConfig ) => {
 			return modalConfig.content === "KeywordSynonyms";
@@ -38,7 +39,7 @@ class SeoAnalysis extends React.Component {
 
 	render() {
 
-		let Upsell = ( { upsell } ) => {
+		let KeywordUpsell = ( { upsell } ) => {
 			return (
 				<Collapsible title="Add another keyword">
 				<UpsellBox
@@ -70,7 +71,7 @@ class SeoAnalysis extends React.Component {
 						onChange={ this.props.onFocusKeywordChange }
 						keyword={ this.props.keyword }
 					/>
-					{ this.getAddSynonyms() }
+					{ this.props.shouldUpsell && this.SynonymsUpsell() }
 					<AnalysisHeader>
 						Analysis results:
 					</AnalysisHeader>
@@ -81,7 +82,7 @@ class SeoAnalysis extends React.Component {
 						marksButtonStatus={ this.props.marksButtonStatus }
 					/>
 				</Collapsible>
-				{ this.props.upsell && <Upsell upsell={ this.props.upsell } /> }
+				{ this.props.shouldUpsell && <KeywordUpsell upsell={ this.props.keywordUpsell } /> }
 			</React.Fragment>
 		);
 	}
@@ -93,13 +94,14 @@ SeoAnalysis.propTypes = {
 	hideMarksButtons: PropTypes.bool,
 	keyword: PropTypes.string,
 	onFocusKeywordChange: PropTypes.func,
-	upsell: PropTypes.shape( {
+	keywordUpsell: PropTypes.shape( {
 		benefits: PropTypes.array,
 		infoParagraphs: PropTypes.array,
 		buttonLink: PropTypes.string,
 		buttonText: PropTypes.string,
 		buttonLabel: PropTypes.string,
 	} ),
+	shouldUpsell:	PropTypes.bool,
 };
 
 /**
