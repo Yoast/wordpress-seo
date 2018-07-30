@@ -8,7 +8,6 @@ import { default as LanguageNotice } from "./composites/Plugin/Shared/components
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import { default as Collapsible } from "./composites/Plugin/Shared/components/Collapsible";
 
-
 export {
 	OnboardingWizard,
 	AlgoliaSearcher,

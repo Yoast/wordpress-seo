@@ -107,7 +107,7 @@ YoastButtonBase.defaultProps = {
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled button.
+ * @returns {ReactElement} styled button.
  */
 export const YoastButton = addButtonStyles(
 	styled( YoastButtonBase )`

@@ -153,7 +153,7 @@ export const addButtonStyles = flow( [
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled button.
+ * @returns {ReactElement} styled button.
  */
 export const BaseButton = addButtonStyles(
 	styled.button`
@@ -203,7 +203,7 @@ BaseButton.defaultProps = {
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled button.
+ * @returns {ReactElement} styled button.
  */
 export const Button = addFontSizeStyles( BaseButton );
 
@@ -226,7 +226,7 @@ function addIconTextStyle( icon ) {
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled icon button.
+ * @returns {ReactElement} styled icon button.
  */
 export const IconButton = ( props ) => {
 	const { children: text, icon, iconColor } = props;
@@ -265,7 +265,7 @@ IconButton.defaultProps = {
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled icon button.
+ * @returns {ReactElement} styled icon button.
  */
 export const IconsButton = ( props ) => {
 	const { children: text, prefixIcon, prefixIconColor, suffixIcon, suffixIconColor } = props;
