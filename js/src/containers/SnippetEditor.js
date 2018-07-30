@@ -13,6 +13,7 @@ import {
 } from "../redux/actions/snippetEditor";
 import { updateAnalysisData } from "../redux/actions/analysisData";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
+import Collapsible from "yoast-components/composites/Plugin/Shared/components/Collapsible";
 
 /**
  * Runs the legacy replaceVariables function on the data in the snippet preview.
@@ -94,8 +95,8 @@ export const mapEditorDataToPreview = function( data, context ) {
 };
 
 const SnippetEditorWrapper = ( props ) => (
+	<Collapsible title={ __( "Snippet preview", "wordpress-seo" ) } >
 	<SnippetPreviewSection
-		title={ __( "Snippet preview", "wordpress-seo" ) }
 		icon="eye"
 		hasPaperStyle={ props.hasPaperStyle }
 	>
@@ -105,6 +106,7 @@ const SnippetEditorWrapper = ( props ) => (
 			mapEditorDataToPreview={ mapEditorDataToPreview }
 		/>
 	</SnippetPreviewSection>
+	</Collapsible>
 );
 
 /**
@@ -120,7 +122,7 @@ export function mapStateToProps( state ) {
 
 	// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
 	replacementVariables.forEach( ( replaceVariable ) => {
-		if( replaceVariable.value === "" && ! [ "title", "excerpt", "excerpt_only" ].includes( replaceVariable.name ) ) {
+		if ( replaceVariable.value === "" && ! [ "title", "excerpt", "excerpt_only" ].includes( replaceVariable.name ) ) {
 			replaceVariable.value = "%%" + replaceVariable.name + "%%";
 		}
 	} );
@@ -128,6 +130,9 @@ export function mapStateToProps( state ) {
 	return {
 		...state.snippetEditor,
 		keyword: state.activeKeyword,
+		baseUrl: state.settings.snippetEditor.baseUrl,
+		date: state.settings.snippetEditor.date,
+		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplaceVars,
 	};
 }
 

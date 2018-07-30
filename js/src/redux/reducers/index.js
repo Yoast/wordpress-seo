@@ -8,6 +8,7 @@ import marksButtonStatus from "./markerButtons";
 import snippetEditor from "./snippetEditor";
 import analysisDataReducer from "./analysisData";
 import preferences from "./preferences";
+import settings from "./settings";
 
 export default {
 	analysis,
@@ -19,4 +20,5 @@ export default {
 	snippetEditor,
 	analysisData: analysisDataReducer,
 	preferences,
+	settings,
 };

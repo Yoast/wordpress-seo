@@ -14,9 +14,9 @@ import reducers from "./redux/reducers";
 import PluginIcon from "../../images/Yoast_icon_kader.svg";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
-import SnippetEditor from "./containers/SnippetEditor";
 import Sidebar from "./containers/Sidebar";
 import Metabox from "./containers/Metabox";
+import { setSettings } from "./redux/actions/settings";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {}, isRtl: false };
@@ -105,6 +105,9 @@ function registerPlugin( store ) {
 		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 		const { registerPlugin } = wp.plugins;
 		const { Slot } = wp.components;
+		const theme = {
+			isRtl: localizedData.isRtl,
+		};
 
 		const YoastSidebar = () => (
 			<Fragment>
@@ -127,7 +130,7 @@ function registerPlugin( store ) {
 				<Provider store={ store } >
 					<Fragment>
 						<Sidebar />
-						<Metabox />
+						<Metabox store={ store } theme={ theme } />
 					</Fragment>
 				</Provider>
 				{ renderMetaboxPortal() }
@@ -189,36 +192,11 @@ function renderReactApp( target, component, store ) {
 }
 
 /**
- * Renders the snippet preview for display.
- *
- * @param {Object} store                                 Redux store.
- * @param {Object} props                                 Props to be passed to the snippet preview.
- * @param {string} props.baseUrl                         Base URL of the site the user is editing.
- * @param {string} props.date                            The date.
- * @param {array}  props.recommendedReplacementVariables The recommended replacement variables for this context.
- *
- * @returns {void}
- */
-function renderSnippetPreview( store, props ) {
-	const targetElement = document.getElementById( "wpseosnippet" );
-
-	if ( ! targetElement ) {
-		return;
-	}
-
-	ReactDOM.render(
-		wrapInTopLevelComponents( SnippetEditor, store, props ),
-		targetElement,
-	);
-}
-
-/**
  * Renders the react apps.
  *
  * @param {Object} store                Redux store.
  * @param {Object} args                 Arguments.
- * @param {string} args.analysisSection The target element id for the analysis
- *                                      section.
+ * @param {string} args.analysisSection The target element id for the analysis section.
  *
  * @returns {void}
  */
@@ -276,11 +254,13 @@ export function initialize( args ) {
 
 	renderReactApps( store, args );
 
-	renderSnippetPreview( store, {
-		baseUrl: args.snippetEditorBaseUrl,
-		date: args.snippetEditorDate,
-		recommendedReplacementVariables: args.recommendedReplaceVars,
-	} );
+	store.dispatch( setSettings( {
+		snippetEditor: {
+			baseUrl: args.snippetEditorBaseUrl,
+			date: args.snippetEditorDate,
+			recommendedReplacementVariables: args.recommendedReplaceVars,
+		}
+	} ) );
 
 	return {
 		store,
