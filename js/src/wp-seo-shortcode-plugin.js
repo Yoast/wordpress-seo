@@ -4,6 +4,8 @@
 /* global _ */
 /* global JSON */
 /* global console */
+import "./helpers/babel-polyfill";
+
 const shortcodeNameMatcher = "[^<>&/\\[\\]\x00-\x20=]+?";
 const shortcodeAttributesMatcher = "( [^\\]]+?)?";
 

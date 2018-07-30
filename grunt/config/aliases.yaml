@@ -22,8 +22,6 @@ build:
 # Build JavaScript from assets to production
 'build:js':
   - 'copy:dependencies'
-  - 'browserify:build'
-  - 'uglify'
   - 'webpack:buildDev'
 
 # Build internationalisation features
@@ -91,8 +89,6 @@ release:
   - 'cssmin'
 'release:js':
   - 'copy:dependencies'
-  - 'browserify:release-es6'
-  - 'uglify'
   - 'webpack:buildProd'
 
 'deploy:trunk':
