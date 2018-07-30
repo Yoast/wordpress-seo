@@ -13,11 +13,11 @@ const DEFAULTS = {
 };
 
 /**
- * Adds support (compatability) for Page builders.
+ * Adds support (compatibility) for Page builders.
  */
-class CompatabilityHelper {
+class CompatibilityHelper {
 	/**
-	 * The CompatabilityHelper constructor.
+	 * The CompatibilityHelper constructor.
 	 *
 	 * Determines what (supported) page builder is active.
 	 */
@@ -67,4 +67,4 @@ class CompatabilityHelper {
 	}
 }
 
-export default CompatabilityHelper;
+export default CompatibilityHelper;
