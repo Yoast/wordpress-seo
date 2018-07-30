@@ -8,8 +8,8 @@ import SidebarItem from "./SidebarItem";
 /**
  * Creates the Sidebar component.
  *
- * @param {bool} isContentAnalysisActive Whether or not the readability analysis is active or not.
- * @param {bool} isKeywordAnalysisActive Whether or not the readability analysis is active or not.
+ * @param {bool} isContentAnalysisActive Whether or not the readability analysis is active.
+ * @param {bool} isKeywordAnalysisActive Whether or not the SEO analysis is active.
  *
  * @returns {ReactElement} The Sidebar component.
  */
