@@ -27,7 +27,6 @@ exports[`The CornerstoneToggle matches the snapshot 1`] = `
 }
 
 .c4 {
-  padding: 0px 0 0;
   font-size: 14px;
   line-height: 20px;
   width: 30px;
@@ -83,7 +82,7 @@ exports[`The CornerstoneToggle matches the snapshot 1`] = `
     className="c1"
   >
     <label
-      htmlFor="Cornerstone Toggle"
+      htmlFor="cornerstone_toggle"
       onClick={[Function]}
     >
       Mark this as cornerstone content.
@@ -92,7 +91,7 @@ exports[`The CornerstoneToggle matches the snapshot 1`] = `
       aria-checked={false}
       aria-label="Mark this post as cornerstone content"
       className="c2"
-      id="Cornerstone Toggle"
+      id="cornerstone_toggle"
       onClick={[Function]}
       onKeyDown={[Function]}
       role="checkbox"
