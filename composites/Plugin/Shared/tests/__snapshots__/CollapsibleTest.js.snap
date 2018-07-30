@@ -130,8 +130,8 @@ exports[`Collapsible matches the snapshot by default 1`] = `
 }
 
 .c11 {
-  width: 16px;
-  height: 16px;
+  width: 9px;
+  height: 9px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -169,10 +169,10 @@ exports[`Collapsible matches the snapshot by default 1`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
-        fill="#000"
+        fill={undefined}
         focusable="false"
         role="img"
-        size="16px"
+        size="9px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -315,8 +315,8 @@ exports[`Collapsible matches the snapshot by default 2`] = `
 }
 
 .c11 {
-  width: 16px;
-  height: 16px;
+  width: 9px;
+  height: 9px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -354,10 +354,10 @@ exports[`Collapsible matches the snapshot by default 2`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
-        fill="#000"
+        fill={undefined}
         focusable="false"
         role="img"
-        size="16px"
+        size="9px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -512,8 +512,8 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
 }
 
 .c11 {
-  width: 16px;
-  height: 16px;
+  width: 9px;
+  height: 9px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -551,10 +551,10 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
-        fill="#000"
+        fill={undefined}
         focusable="false"
         role="img"
-        size="16px"
+        size="9px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -697,8 +697,8 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
 }
 
 .c11 {
-  width: 16px;
-  height: 16px;
+  width: 9px;
+  height: 9px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -736,10 +736,10 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
-        fill="#000"
+        fill={undefined}
         focusable="false"
         role="img"
-        size="16px"
+        size="9px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -894,8 +894,8 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
 }
 
 .c11 {
-  width: 16px;
-  height: 16px;
+  width: 9px;
+  height: 9px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -933,10 +933,10 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
-        fill="#000"
+        fill={undefined}
         focusable="false"
         role="img"
-        size="16px"
+        size="9px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -1091,8 +1091,8 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
 }
 
 .c11 {
-  width: 16px;
-  height: 16px;
+  width: 9px;
+  height: 9px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -1130,10 +1130,10 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
-        fill="#000"
+        fill={undefined}
         focusable="false"
         role="img"
-        size="16px"
+        size="9px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >

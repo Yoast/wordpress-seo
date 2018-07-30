@@ -72,7 +72,7 @@ export default class ButtonsList extends React.Component {
 				<Button>Button</Button>{ ' ' }
 				<IconButton icon="edit">IconButton</IconButton>{ ' ' }
 				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ ' ' }
-				<IconsButton prefixIcon="search" suffixIcon="plus">IconsButton</IconsButton>
+				<IconsButton prefixIcon={ { icon: "search" } } suffixIcon={ { icon: "plus" } }>IconsButton</IconsButton>
 				<Separator />
 				<BaseLinkButton href="#someresource">BaseLinkButton</BaseLinkButton>{ ' ' }
 				<LinkButton href="#someresource">LinkButton</LinkButton>

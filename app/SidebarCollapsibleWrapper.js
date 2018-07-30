@@ -71,10 +71,8 @@ export default function SidebarCollapsibleWrapper() {
 					<StyledCollapsible
 						title="Insert some collapsible title here"
 						initialIsOpen={ true }
-						prefixIcon="circle"
-						prefixIconCollapsed="circle"
-						prefixIconColor="red"
-						suffixIconSize="9px"
+						prefixIcon={ { icon: "circle", color: "red" } }
+						prefixIconCollapsed={ { icon: "circle", color: "red" } }
 					>
 						<StyledContent>
 							<h3>Some content</h3>
@@ -86,7 +84,6 @@ export default function SidebarCollapsibleWrapper() {
 					<StyledCollapsible
 						title="Collapsible initially closed"
 						initialIsOpen={ false }
-						suffixIconSize="9px"
 					>
 						<StyledContent>
 							<h3>Some content</h3>
@@ -97,16 +94,13 @@ export default function SidebarCollapsibleWrapper() {
 					</StyledCollapsible>
 					<StyledCollapsible
 						title="No content"
-						suffixIconSize="9px"
 					/>
 					<StyledCollapsible
 						title="Focus keyword analysis"
 						titleScreenReaderText="good SEO score"
 						subTitle="Mountaineering in the catskills during high season"
-						prefixIcon="seo-score-good"
-						prefixIconCollapsed="seo-score-good"
-						prefixIconColor={ colors.$color_green_medium }
-						suffixIconSize="9px"
+						prefixIcon={ { icon: "seo-score-good", color: colors.$color_green_medium } }
+						prefixIconCollapsed={ { icon: "seo-score-good", color: colors.$color_green_medium } }
 					>
 						<StyledContent>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -116,10 +110,8 @@ export default function SidebarCollapsibleWrapper() {
 						title="Additional awesome focus keyword analysis"
 						titleScreenReaderText="good SEO score"
 						subTitle="kittens"
-						prefixIcon="seo-score-good"
-						prefixIconCollapsed="seo-score-good"
-						prefixIconColor={ colors.$color_green_medium }
-						suffixIconSize="9px"
+						prefixIcon={ { icon: "seo-score-good", color: colors.$color_green_medium } }
+						prefixIconCollapsed={ { icon: "seo-score-good", color: colors.$color_green_medium } }
 					>
 						<StyledContent>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -127,9 +119,8 @@ export default function SidebarCollapsibleWrapper() {
 					</StyledCollapsible>
 					<StyledCollapsible
 						title="Help"
-						suffixIcon="question-circle"
-						suffixIconCollapsed="question-circle"
-						suffixIconColor={ colors.$color_purple }
+						suffixIcon={ { icon: "question-circle", color: colors.$color_purple } }
+						suffixIconCollapsed={ { icon: "question-circle", color: colors.$color_purple } }
 					>
 						<StyledContent>
 							<p>Maybe some help text here with a link <a target="_blank" rel="noopener noreferrer" href="https://yoast.com">Go to Yoast</a></p>
@@ -137,13 +128,10 @@ export default function SidebarCollapsibleWrapper() {
 					</StyledCollapsible>
 					<StyledCollapsible
 						title="Different icons size"
-						prefixIcon="gear"
-						prefixIconCollapsed="gear"
-						prefixIconColor={ colors.$color_purple }
-						suffixIcon="plus-circle"
-						suffixIconCollapsed="plus-circle"
-						suffixIconSize="30px"
-						suffixIconColor={ colors.$color_red }
+						prefixIcon={ { icon: "gear", color: colors.$color_purple } }
+						prefixIconCollapsed={ { icon: "gear", color: colors.$color_purple } }
+						suffixIcon={ { icon: "plus-circle", color: colors.$color_red, size: "30px" } }
+						suffixIconCollapsed={ { icon: "plus-circle", color: colors.$color_red, size: "30px" } }
 					>
 						<StyledContent>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -156,10 +144,8 @@ export default function SidebarCollapsibleWrapper() {
 				title="Good!"
 				subTitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 				titleScreenReaderText="Good SEO score"
-				prefixIcon="seo-score-good"
-				prefixIconCollapsed="seo-score-good"
-				prefixIconColor={ colors.$color_green_medium }
-				suffixIconSize="9px"
+				prefixIcon={ { icon: "seo-score-good", color: colors.$color_green_medium } }
+				prefixIconCollapsed={ { icon: "seo-score-good", color: colors.$color_green_medium } }
 			>
 				<StyledContent>
 					<p>One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.
@@ -171,10 +157,8 @@ export default function SidebarCollapsibleWrapper() {
 				title="Meh"
 				subTitle="Mountaineering in the catskills during high season"
 				titleScreenReaderText="OK SEO score"
-				prefixIcon="seo-score-ok"
-				prefixIconCollapsed="seo-score-ok"
-				prefixIconColor={ colors.$color_yellow_score }
-				suffixIconSize="9px"
+				prefixIcon={ { icon: "seo-score-ok", color: colors.$color_yellow_score } }
+				prefixIconCollapsed={ { icon: "seo-score-ok", color: colors.$color_yellow_score } }
 			>
 				<StyledContent>
 					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -184,10 +168,8 @@ export default function SidebarCollapsibleWrapper() {
 				title="Bad"
 				subTitle="kittens"
 				titleScreenReaderText="Bad SEO score"
-				prefixIcon="seo-score-bad"
-				prefixIconCollapsed="seo-score-bad"
-				prefixIconColor={ colors.$color_red }
-				suffixIconSize="9px"
+				prefixIcon={ { icon: "seo-score-bad", color: colors.$color_red } }
+				prefixIconCollapsed={ { icon: "seo-score-bad", color: colors.$color_red } }
 			>
 				<StyledContent>
 					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -196,10 +178,8 @@ export default function SidebarCollapsibleWrapper() {
 			<StyledCollapsible
 				title="None"
 				subTitle="Enter your focus keyword"
-				prefixIcon="seo-score-none"
-				prefixIconCollapsed="seo-score-none"
-				prefixIconColor={ colors.$color_grey_disabled }
-				suffixIconSize="9px"
+				prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey_disabled } }
+				prefixIconCollapsed={ { icon: "seo-score-none", color: colors.$color_grey_disabled } }
 			>
 				<StyledContent>
 					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>

@@ -149,10 +149,8 @@ class ContentAnalysis extends React.Component {
 			<StyledCollapsible
 				initialIsOpen={ true }
 				title={ `${ title } (${ results.length })` }
-				prefixIcon="angle-up"
-				prefixIconCollapsed="angle-down"
-				prefixIconColor={ colors.$color_grey_dark }
-				prefixIconSize="18px"
+				prefixIcon={ { icon: "angle-up", color: colors.$color_grey_dark, size: "18px" } }
+				prefixIconCollapsed={ { icon: "angle-down", color: colors.$color_grey_dark, size: "18px" } }
 				suffixIcon={ null }
 				suffixIconCollapsed={ null }
 				headingLevel={ headingLevel }

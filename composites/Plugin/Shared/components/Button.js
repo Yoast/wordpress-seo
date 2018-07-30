@@ -269,31 +269,44 @@ IconButton.defaultProps = {
  */
 export const IconsButton = ( props ) => {
 	const {
-		children: text,
-		prefixIcon,
-		prefixIconColor,
-		suffixIcon,
-		suffixIconColor,
-		prefixIconSize,
-		suffixIconSize,
+		children,
+		className,
+		...buttonProps
 	} = props;
 
 	return (
-		<Button { ...props }>
-			{ prefixIcon && <SvgIcon icon={ prefixIcon } size={ prefixIconSize } color={ prefixIconColor } /> }
-			{ text }
-			{ suffixIcon && <SvgIcon icon={ suffixIcon } size={ suffixIconSize } color={ suffixIconColor } /> }
+		<Button className={ className } { ...buttonProps }>
+			{ buttonProps.prefixIcon &&
+				<SvgIcon
+					icon={ buttonProps.prefixIcon.icon }
+					color={ buttonProps.prefixIcon.color }
+					size={ buttonProps.prefixIcon.size }
+				/>
+			}
+			{ children }
+			{ buttonProps.suffixIcon &&
+				<SvgIcon
+					icon={ buttonProps.suffixIcon.icon }
+					color={ buttonProps.suffixIcon.color }
+					size={ buttonProps.suffixIcon.size }
+				/>
+			}
 		</Button>
 	);
 };
 
 IconsButton.propTypes = {
-	prefixIcon: PropTypes.string,
-	prefixIconColor: PropTypes.string,
-	suffixIcon: PropTypes.string,
-	suffixIconColor: PropTypes.string,
-	prefixIconSize: PropTypes.string,
-	suffixIconSize: PropTypes.string,
+	className: PropTypes.string,
+	prefixIcon: PropTypes.shape( {
+		icon: PropTypes.string,
+		color: PropTypes.string,
+		size: PropTypes.string,
+	} ),
+	suffixIcon: PropTypes.shape( {
+		icon: PropTypes.string,
+		color: PropTypes.string,
+		size: PropTypes.string,
+	} ),
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
@@ -302,6 +315,14 @@ IconsButton.propTypes = {
 };
 
 IconsButton.defaultProps = {
-	prefixIconColor: "#000",
-	suffixIconColor: "#000",
+	prefixIcon: {
+		icon: "",
+		color: colors.$black,
+		size: "16px",
+	},
+	suffixIcon: {
+		icon: "",
+		color: colors.$black,
+		size: "16px",
+	},
 };

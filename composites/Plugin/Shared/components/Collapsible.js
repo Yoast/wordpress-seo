@@ -99,15 +99,11 @@ const StyledHeading = wrapInHeading( StyledIconsButton, 2 );
  * @param {IconsButton} props.Heading               Heading button. May be wrapped or styled or both.
  * @param {boolean}     props.isOpen                True displays the children. False means collapsed.
  * @param {function}    props.onToggle              Function to handle the Heading click event.
- * @param {string}      props.prefixIcon            Heading icon before the title.
- * @param {string}      props.prefixIconCollapsed   Prefix icon when in collapsed state.
- * @param {string}      props.prefixIconColor       CSS color of the prefix icon.
- * @param {string}      props.prefixIconSize        The size of the prefix SVG icon element.
+ * @param {object}      props.prefixIcon            Heading icon before the title.
+ * @param {object}      props.prefixIconCollapsed   Prefix icon when in collapsed state.
  * @param {string}      props.subTitle              Sub-title for the Heading.
- * @param {string}      props.suffixIcon            Heading icon after the title.
- * @param {string}      props.suffixIconCollapsed   Suffix icon when in collapsed state.
- * @param {string}      props.suffixIconColor       CSS color of the suffix icon.
- * @param {string}      props.suffixIconSize        The size of the suffix SVG icon element.
+ * @param {object}      props.suffixIcon            Heading icon after the title.
+ * @param {object}      props.suffixIconCollapsed   Suffix icon when in collapsed state.
  * @param {string}      props.title                 Title for the Heading.
  * @param {string}      props.titleScreenReaderText Chance for an extra text to feed to a screenreader.
  *
@@ -123,11 +119,7 @@ export const CollapsibleStateless = ( props ) => {
 				aria-expanded={ props.isOpen }
 				onClick={ props.onToggle }
 				prefixIcon={ props.isOpen ? props.prefixIcon : props.prefixIconCollapsed }
-				prefixIconColor={ props.prefixIconColor }
 				suffixIcon={ props.isOpen ? props.suffixIcon : props.suffixIconCollapsed }
-				suffixIconColor={ props.suffixIconColor }
-				prefixIconSize={ props.prefixIconSize }
-				suffixIconSize={ props.suffixIconSize }
 				hasSubTitle={ !! props.subTitle }
 			>
 				<StyledTitleContainer>
@@ -152,23 +144,33 @@ CollapsibleStateless.propTypes = {
 	Heading: PropTypes.func,
 	isOpen: PropTypes.bool.isRequired,
 	onToggle: PropTypes.func.isRequired,
-	prefixIcon: PropTypes.string,
-	prefixIconCollapsed: PropTypes.string,
-	prefixIconColor: PropTypes.string,
-	prefixIconSize: PropTypes.string,
+	prefixIcon: PropTypes.shape( {
+		icon: PropTypes.string,
+		color: PropTypes.string,
+		size: PropTypes.string,
+	} ),
+	prefixIconCollapsed: PropTypes.shape( {
+		icon: PropTypes.string,
+		color: PropTypes.string,
+		size: PropTypes.string,
+	} ),
 	subTitle: PropTypes.string,
-	suffixIcon: PropTypes.string,
-	suffixIconCollapsed: PropTypes.string,
-	suffixIconColor: PropTypes.string,
-	suffixIconSize: PropTypes.string,
+	suffixIcon: PropTypes.shape( {
+		icon: PropTypes.string,
+		color: PropTypes.string,
+		size: PropTypes.string,
+	} ),
+	suffixIconCollapsed: PropTypes.shape( {
+		icon: PropTypes.string,
+		color: PropTypes.string,
+		size: PropTypes.string,
+	} ),
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
 };
 
 CollapsibleStateless.defaultProps = {
 	Heading: StyledHeading,
-	prefixIconColor: colors.$black,
-	suffixIconColor: colors.$black,
 };
 
 /**
@@ -182,12 +184,10 @@ export class Collapsible extends React.Component {
 	 * @param {string}  props.className             The name of the collapsible CSS class.
 	 * @param {number}  props.headingLevel          Heading level: 1 for h1, 2 for h2, etc.
 	 * @param {boolean} props.initialIsOpen         Determines if the initial isOpen state is open or closed.
-	 * @param {string}  props.prefixIcon            Heading icon before the title.
-	 * @param {string}  props.prefixIconCollapsed   Prefix icon when in collapsed state.
-	 * @param {string}  props.prefixIconColor       CSS color of the prefix icon.
-	 * @param {string}  props.suffixIcon            Heading icon after the title.
-	 * @param {string}  props.suffixIconColor       CSS color of the suffix icon.
-	 * @param {string}  props.suffixIconCollapsed   Suffix icon when in collapsed state.
+	 * @param {object}  props.prefixIcon            Heading icon before the title.
+	 * @param {object}  props.prefixIconCollapsed   Prefix icon when in collapsed state.
+	 * @param {object}  props.suffixIcon            Heading icon after the title.
+	 * @param {object}  props.suffixIconCollapsed   Suffix icon when in collapsed state.
 	 * @param {string}  props.title                 Title for in the Heading.
 	 * @param {string}  props.titleScreenReaderText Chance for an extra text to feed to a screenreader.
 	 *
@@ -280,12 +280,26 @@ Collapsible.propTypes = {
 	className: PropTypes.string,
 	headingLevel: PropTypes.number,
 	initialIsOpen: PropTypes.bool,
-	prefixIcon: PropTypes.string,
-	prefixIconCollapsed: PropTypes.string,
-	prefixIconColor: PropTypes.string,
-	suffixIcon: PropTypes.string,
-	suffixIconCollapsed: PropTypes.string,
-	suffixIconColor: PropTypes.string,
+	prefixIcon: PropTypes.shape( {
+		icon: PropTypes.string,
+		color: PropTypes.string,
+		size: PropTypes.string,
+	} ),
+	prefixIconCollapsed: PropTypes.shape( {
+		icon: PropTypes.string,
+		color: PropTypes.string,
+		size: PropTypes.string,
+	} ),
+	suffixIcon: PropTypes.shape( {
+		icon: PropTypes.string,
+		color: PropTypes.string,
+		size: PropTypes.string,
+	} ),
+	suffixIconCollapsed: PropTypes.shape( {
+		icon: PropTypes.string,
+		color: PropTypes.string,
+		size: PropTypes.string,
+	} ),
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
 	subTitle: PropTypes.string,
@@ -294,10 +308,18 @@ Collapsible.propTypes = {
 Collapsible.defaultProps = {
 	headingLevel: 2,
 	initialIsOpen: false,
-	prefixIconColor: colors.$black,
-	suffixIcon: "arrow-up",
-	suffixIconCollapsed: "arrow-down",
-	suffixIconColor: colors.$black,
+	prefixIcon: null,
+	prefixIconCollapsed: null,
+	suffixIcon: {
+		icon: "arrow-up",
+		color: colors.$black,
+		size: "9px",
+	},
+	suffixIconCollapsed: {
+		icon: "arrow-down",
+		color: colors.$black,
+		size: "9px",
+	},
 };
 
 export default Collapsible;
