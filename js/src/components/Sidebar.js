@@ -12,7 +12,7 @@ import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
  *
  * @param {bool}   isContentAnalysisActive Whether or not the content analysis is active.
  * @param {bool}   isKeywordAnalysisActive Whether or not the keyword analysis is active.
- * @param {Object} store The Redux store.
+ * @param {Object} store                   The Redux store.
  *
  * @returns {ReactElement} The Sidebar component.
  */
@@ -23,7 +23,7 @@ export default function Sidebar( { isContentAnalysisActive, isKeywordAnalysisAct
 		<Fill name="YoastSidebar">
 			{ isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
 				<StoreProvider store={ store } >
-					<ReadabilityAnalysis/>
+					<ReadabilityAnalysis />
 				</StoreProvider>
 			</SidebarItem> }
 			{ isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem> }

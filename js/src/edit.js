@@ -127,7 +127,7 @@ function registerPlugin( store ) {
 				<Provider store={ store } >
 					<Fragment>
 						<Sidebar store={ store } />
-						<Metabox />
+						<Metabox store={ store } />
 					</Fragment>
 				</Provider>
 				{ renderMetaboxPortal() }
