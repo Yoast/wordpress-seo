@@ -368,6 +368,20 @@ describe( "tests for edge cases", function() {
 		} );
 	} );
 
+	it( "skips the first paragraph if there is nothing but an image there", function() {
+		expect( firstParagraph( new Paper(
+			"<p><img class=\"alignnone size-medium wp-image-95\" src=\"test.png\" alt=\"image1\" width=\"300\" height=\"36\" /></p>" +
+			"<p>A sentence with a keyword</p>", {
+				keyword: "keyword",
+				synonyms: "",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
 	it( "returns correct result if the first paragraph has text, but the keyphrase is only in the second paragraph", function() {
 		expect( firstParagraph( new Paper(
 			"<p>something</p><p>something keyword something else</p>", {

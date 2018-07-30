@@ -3,9 +3,30 @@
 const matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
 const getSentences = require( "../stringProcessing/getSentences.js" );
 const findTopicFormsInString = require( "./findKeywordFormsInString.js" ).findTopicFormsInString;
+const imageInText = require( "../stringProcessing/imageInText" );
 
 const reject = require( "lodash/reject" );
 const isEmpty = require( "lodash/isEmpty" );
+
+/**
+ * Checks if the paragraph consists only of images.
+ *
+ * @param {string} text The text string to analyze.
+ *
+ * @returns {boolean} True if the text consists only of images, false otherwise.
+ */
+function paragraphConsistsOfImagesOnly( text ) {
+	const images = imageInText( text );
+	if ( images.length < 1 ) {
+		return false;
+	}
+
+	images.forEach( function( image ) {
+		text = text.replace( image, "" );
+	} );
+
+	return text === "";
+}
 
 /**
  * First splits the first paragraph by sentences. Finds the first paragraph which contains sentences e.g., not an image).
@@ -26,12 +47,14 @@ const isEmpty = require( "lodash/isEmpty" );
 export default function( paper ) {
 	const topicForms = paper.getTopicForms();
 	const locale = paper.getLocale();
-	const paragraphs = matchParagraphs( paper.getText() );
 
-	let paragraph = reject( paragraphs, isEmpty )[ 0 ] || "";
+	let paragraphs = matchParagraphs( paper.getText() );
+	paragraphs = reject( paragraphs, isEmpty );
+
+	let paragraph = reject( paragraphs, paragraphConsistsOfImagesOnly )[ 0 ] || "";
 
 	let result = {
-		foundInOneSentence:false,
+		foundInOneSentence: false,
 		foundInParagraph: false,
 		keyphraseOrSynonym: "",
 	};
