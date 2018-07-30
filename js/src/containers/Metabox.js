@@ -4,15 +4,15 @@ import { connect } from "react-redux";
 /**
  * Maps the state to props.
  *
- * @param {Object} state The state.
+ * @param {Object} state The Redux state.
+ * @param {Object} ownProps The props passed.
  *
  * @returns {Object} The props for the Metabox component.
  */
-function mapStateToProps( state ) {
+function mapStateToProps( state, ownProps ) {
 	return {
-		isContentAnalysisActive: state.preferences.isContentAnalysisActive,
-		isKeywordAnalysisActive: state.preferences.isKeywordAnalysisActive,
-		isCornerstoneActive: state.preferences.isCornerstoneActive,
+		settings: state.preferences,
+		store: ownProps.store,
 	};
 }
 

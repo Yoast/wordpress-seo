@@ -1,3 +1,4 @@
+import isUndefined from "lodash/isUndefined";
 import isContentAnalysisActive from "../../analysis/isContentAnalysisActive";
 import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
 import isCornerstoneActive from "../../analysis/isCornerstoneContentActive";
@@ -11,7 +12,8 @@ function getDefaultState() {
 	return {
 		isContentAnalysisActive: isContentAnalysisActive(),
 		isKeywordAnalysisActive: isKeywordAnalysisActive(),
-		isCornerstoneActive:     isCornerstoneActive(),
+		isCornerstoneActive: isCornerstoneActive(),
+		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ),
 	};
 }
 

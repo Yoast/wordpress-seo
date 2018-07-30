@@ -127,7 +127,7 @@ export function mapStateToProps( state ) {
 
 	return {
 		...state.snippetEditor,
-		keyword: state.activeKeyword,
+		keyword: state.focusKeyword,
 	};
 }
 

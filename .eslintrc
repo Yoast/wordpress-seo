@@ -10,3 +10,4 @@ rules:
   max-len: 1
   max-statements: 1
   valid-jsdoc: 2
+  react/react-in-jsx-scope: 0

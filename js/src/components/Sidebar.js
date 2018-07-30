@@ -7,34 +7,40 @@ import { Provider as StoreProvider } from "react-redux";
 import SidebarItem from "./SidebarItem";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
+import keywordUpsellProps from "../values/keywordUpsellProps";
+import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 
 /**
  * Creates the Sidebar component.
  *
- * @param {bool} isContentAnalysisActive Whether or not the readability analysis is active.
- * @param {bool} isKeywordAnalysisActive Whether or not the readability analysis is active.
- * @param {bool} isCornerstoneActive     Whether or not the cornerstone content feature is active.
- * @param {bool} isCornerstone           Whether or not the cornerstone content checkbox is checked.
- * @param {Object} store                 The store.
+ * @param {Object} settings The feature toggles.
+ * @param {Object} store The Redux store.
  *
  * @returns {ReactElement} The Sidebar component.
  *
  * @constructor
  */
-export default function Sidebar( { isContentAnalysisActive, isKeywordAnalysisActive, isCornerstoneActive, isCornerstone, store  } ) {
+export default function Sidebar( { settings, store } ) {
 	const { Fill } = wp.components;
 
 	return (
 		<Fill name="YoastSidebar">
-			{ isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+			{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
 				<StoreProvider store={ store } >
 					<ReadabilityAnalysis />
 				</StoreProvider>
 			</SidebarItem> }
-			{ isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem> }
-			{ isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+				<StoreProvider store={ store } >
+					<SeoAnalysis
+					shouldUpsell={ settings.shouldUpsell }
+					keywordUpsell={ keywordUpsellProps }
+					/>
+				</StoreProvider>
+			</SidebarItem> }
+			{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
 				<StoreProvider store={ store }>
-					<CollapsibleCornerstone isCornerstone={ isCornerstone }/>
+					<CollapsibleCornerstone />
 				</StoreProvider>
 			</SidebarItem>
 			}
@@ -43,9 +49,6 @@ export default function Sidebar( { isContentAnalysisActive, isKeywordAnalysisAct
 }
 
 Sidebar.propTypes = {
-	isContentAnalysisActive: PropTypes.bool,
-	isKeywordAnalysisActive: PropTypes.bool,
-	isCornerstoneActive: PropTypes.bool,
-	isCornerstone: PropTypes.bool,
+	settings: PropTypes.object,
 	store: PropTypes.object,
 };
