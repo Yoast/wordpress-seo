@@ -6,33 +6,40 @@ import { Provider as StoreProvider } from "react-redux";
 
 import SidebarItem from "./SidebarItem";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
+import keywordUpsellProps from "../values/keywordUpsellProps";
+import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 
 /**
  * Creates the Sidebar component.
  *
- * @param {bool}   isContentAnalysisActive Whether or not the content analysis is active.
- * @param {bool}   isKeywordAnalysisActive Whether or not the keyword analysis is active.
- * @param {Object} store                   The Redux store.
+ * @param {Object} settings The feature toggles.
+ * @param {Object} store The Redux store.
  *
  * @returns {ReactElement} The Sidebar component.
  */
-export default function Sidebar( { isContentAnalysisActive, isKeywordAnalysisActive, store } ) {
+export default function Sidebar( { settings, store } ) {
 	const { Fill } = wp.components;
 
 	return (
 		<Fill name="YoastSidebar">
-			{ isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+			{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
 				<StoreProvider store={ store } >
 					<ReadabilityAnalysis />
 				</StoreProvider>
 			</SidebarItem> }
-			{ isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem> }
+			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+				<StoreProvider store={ store } >
+					<SeoAnalysis
+					shouldUpsell={ settings.shouldUpsell }
+					keywordUpsell={ keywordUpsellProps }
+					/>
+				</StoreProvider>
+			</SidebarItem> }
 		</Fill>
 	);
 }
 
 Sidebar.propTypes = {
-	isContentAnalysisActive: PropTypes.bool,
-	isKeywordAnalysisActive: PropTypes.bool,
+	settings: PropTypes.object,
 	store: PropTypes.object,
 };

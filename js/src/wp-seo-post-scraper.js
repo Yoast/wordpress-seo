@@ -3,6 +3,7 @@
 // External dependencies.
 import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
+import debounce from "lodash/debounce";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
@@ -29,7 +30,7 @@ import snippetPreviewHelpers from "./analysis/snippetPreview";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import UsedKeywords from "./analysis/usedKeywords";
 
-import { setActiveKeyword } from "./redux/actions/activeKeyword";
+import { setFocusKeyword } from "./redux/actions/focusKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 import { updateData } from "./redux/actions/snippetEditor";
@@ -140,7 +141,7 @@ setWordPressSeoL10n();
 	 */
 	function initializeKeywordAnalysis( app, postScraper, publishBox ) {
 		const savedKeywordScore = $( "#yoast_wpseo_linkdex" ).val();
-		const usedKeywords = new UsedKeywords( "#yoast_wpseo_focuskw_text_input", "get_focus_keyword_usage", wpseoPostScraperL10n, app );
+		const usedKeywords = new UsedKeywords( "#yoast_wpseo_focuskw", "get_focus_keyword_usage", wpseoPostScraperL10n, app );
 
 		usedKeywords.init();
 		postScraper.initKeywordTabTemplate();
@@ -277,7 +278,6 @@ setWordPressSeoL10n();
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
 				tmceId,
-				"yoast_wpseo_focuskw_text_input",
 				"yoast_wpseo_metadesc",
 				"excerpt",
 				"editable-post-name",
@@ -295,20 +295,14 @@ setWordPressSeoL10n();
 		};
 
 		if ( isKeywordAnalysisActive() ) {
+			store.dispatch( setFocusKeyword( $( "#yoast_wpseo_focuskw" ).val() ) );
+
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
-				const keyword = $( "#yoast_wpseo_focuskw_text_input" ).val();
-				store.dispatch( setActiveKeyword( keyword ) );
+				const keyword = store.getState().focusKeyword;
 
-				/*
-				 * The results from the main App callback are always for the first keyword. So
-				 * we ignore these results unless the current active keyword is the main
-				 * keyword.
-				 */
-				if ( tabManager.isMainKeyword( keyword ) ) {
-					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
-					store.dispatch( refreshSnippetEditor() );
-				}
+				store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+				store.dispatch( refreshSnippetEditor() );
 			};
 		}
 
@@ -441,7 +435,7 @@ setWordPressSeoL10n();
 
 		tabManager = initializeTabManager();
 		postDataCollector = initializePostDataCollector( data );
-		publishBox.initalise();
+		publishBox.initialize();
 
 		const appArgs = getAppArgs( store );
 		app = new App( appArgs );
@@ -492,9 +486,6 @@ setWordPressSeoL10n();
 			disableYoastSEORenderers( app );
 		};
 
-		// Set initial keyword.
-		store.dispatch( setActiveKeyword( tabManager.getKeywordTab().getKeyWord() ) );
-
 		// Set refresh function. data.setRefresh is only defined when Gutenberg is available.
 		if ( data.setRefresh ) {
 			data.setRefresh( app.refresh );
@@ -508,9 +499,27 @@ setWordPressSeoL10n();
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
 
+		// Save the keyword, in order to compare it to store changes.
+		let focusKeyword = store.getState().focusKeyword;
+
+		const refreshAfterFocusKWChange = debounce( () => {
+			app.refresh();
+		}, 50 );
+
 		store.subscribe( () => {
+			// Verify whether the focusKeyword changed. If so, trigger refresh:
+			let newFocusKeyword = store.getState().focusKeyword;
+
+			if( focusKeyword !== newFocusKeyword ) {
+				focusKeyword = newFocusKeyword;
+
+				$( "#yoast_wpseo_focuskw" ).val( focusKeyword );
+				refreshAfterFocusKWChange();
+			}
+
 			const data = snippetEditorHelpers.getDataFromStore( store );
 			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
+
 
 			if ( snippetEditorData.title !== data.title ) {
 				postDataCollector.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );

@@ -5,7 +5,7 @@ import StyledSection from "yoast-components/forms/StyledSection/StyledSection";
 import colors from "yoast-components/style-guide/colors.json";
 
 import ReadabilityAnalysisLegacy from "./ReadabilityAnalysisLegacy";
-import SeoAnalysis from "./SeoAnalysis";
+import SeoAnalysisLegacy from "./SeoAnalysisLegacy";
 
 /**
  * Redux container for the Seo & Readability analysis.
@@ -24,7 +24,7 @@ class AnalysisSection extends React.Component {
 				headingIconSize="16px"
 				className={ className }
 			>
-				{ activeTab === "keyword" ? <SeoAnalysis/> : null }
+				{ activeTab === "keyword" ? <SeoAnalysisLegacy/> : null }
 				{ activeTab === "readability" ? <ReadabilityAnalysisLegacy/> : null }
 			</StyledSection>
 		);

@@ -8,7 +8,7 @@ import { switchMode, updateData } from "../../src/redux/actions/snippetEditor";
 describe( "SnippetEditor container", () => {
 	it( "maps the state to the props", () => {
 		const state = {
-			activeKeyword: "active",
+			focusKeyword: "active",
 			snippetEditor: {
 				mode: "desktop",
 				data: {

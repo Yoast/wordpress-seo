@@ -22,9 +22,9 @@ import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
 import UsedKeywords from "./analysis/usedKeywords";
 import TaxonomyAssessor from "./assessors/taxonomyAssessor";
-import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
+import { setFocusKeyword } from "./redux/actions/focusKeyword";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -196,7 +196,12 @@ window.yoastHideMarkers = true;
 		}
 	}
 
-	jQuery( document ).ready( function() {
+	/**
+	 * Initializes analysis for the term edit screen.
+	 *
+	 * @returns {void}
+	 */
+	function initializeTermAnalysis() {
 		var args, termScraper, translations;
 
 		const editArgs = {
@@ -205,7 +210,8 @@ window.yoastHideMarkers = true;
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
-		store = initializeEdit( editArgs ).store;
+
+		const { store } = initializeEdit( editArgs );
 
 		snippetContainer = $( "#wpseosnippet" );
 
@@ -245,7 +251,7 @@ window.yoastHideMarkers = true;
 						keyword = termScraper.getName();
 					}
 					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
-					store.dispatch( setActiveKeyword( keyword ) );
+					store.dispatch( setFocusKeyword( keyword ) );
 					store.dispatch( refreshSnippetEditor() );
 				}
 			};
@@ -341,5 +347,7 @@ window.yoastHideMarkers = true;
 			snippetEditorData.slug = data.slug;
 			snippetEditorData.description = data.description;
 		} );
-	} );
+	}
+
+	jQuery( document ).ready( initializeTermAnalysis );
 }( jQuery, window ) );

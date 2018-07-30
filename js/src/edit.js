@@ -1,9 +1,8 @@
-/* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp yoast */
+/* global window, wpseoPostScraperL10n, wpseoTermScraperL10n, process, wp, yoast */
 /* External dependencies */
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import flatten from "lodash/flatten";
 import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
 
@@ -16,7 +15,8 @@ import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetEditor from "./containers/SnippetEditor";
 import Sidebar from "./containers/Sidebar";
-import Metabox from "./containers/Metabox";
+import MetaboxPortal from "./components/MetaboxPortal";
+import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPriority";
 import * as selectors from "./redux/selectors";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
@@ -44,53 +44,6 @@ function registerStoreInGutenberg() {
 		reducer: combineReducers( reducers ),
 		selectors,
 	} );
-}
-
-/**
- * Sorts components by a prop `renderPriority`.
- *
- * The array is flattened before sorting to make sure that components inside of
- * a collection are also included. This is to allow sorting multiple fills of
- * which at least one includes an array of components.
- *
- * @param {ReactElement|array} components The component(s) to be sorted.
- *
- * @returns {ReactElement|array} The sorted component(s).
- */
-function sortComponentsByPosition( components ) {
-	if ( typeof components.length === "undefined" ) {
-		return components;
-	}
-
-	return flatten( components ).sort( ( a, b ) => {
-		if ( typeof a.props.renderPriority === "undefined" ) {
-			return 1;
-		}
-		return a.props.renderPriority - b.props.renderPriority;
-	} );
-}
-
-/**
- * Renders the metabox portal.
- *
- * @returns {null|ReactElement} The element.
- */
-function renderMetaboxPortal() {
-	const metaboxElement = document.getElementById( "wpseo-meta-section-react" );
-
-	if ( ! metaboxElement ) {
-		return null;
-	}
-
-	const { Slot } = wp.components;
-	return yoast._wp.element.createPortal(
-		<Slot name="YoastMetabox">
-			{ ( fills ) => {
-				return sortComponentsByPosition( fills );
-			} }
-		</Slot>,
-		metaboxElement
-	);
 }
 
 /**
@@ -122,17 +75,16 @@ function registerPlugin( store ) {
 				>
 					<Slot name="YoastSidebar">
 						{ ( fills ) => {
-							return sortComponentsByPosition( fills );
+							return sortComponentsByRenderPriority( fills );
 						} }
 					</Slot>
 				</PluginSidebar>
 				<Provider store={ store } >
 					<Fragment>
 						<Sidebar store={ store } />
-						<Metabox store={ store } />
+						<MetaboxPortal target="wpseo-meta-section-react" store={ store } />
 					</Fragment>
 				</Provider>
-				{ renderMetaboxPortal() }
 			</Fragment>
 		);
 

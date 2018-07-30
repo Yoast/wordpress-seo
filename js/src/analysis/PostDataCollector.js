@@ -82,7 +82,7 @@ PostDataCollector.prototype.getData = function() {
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
-	var val = document.getElementById( "yoast_wpseo_focuskw_text_input" ) && document.getElementById( "yoast_wpseo_focuskw_text_input" ).value || "";
+	var val = document.getElementById( "yoast_wpseo_focuskw" ) && document.getElementById( "yoast_wpseo_focuskw" ).value || "";
 	currentKeyword = val;
 
 	return val;
@@ -353,7 +353,7 @@ PostDataCollector.prototype.changeElementEventBinder = function( app ) {
  * @returns {void}
  */
 PostDataCollector.prototype.inputElementEventBinder = function( app ) {
-	var elems = [ "excerpt", "content", "yoast_wpseo_focuskw_text_input", "title" ];
+	var elems = [ "excerpt", "content", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var elem = document.getElementById( elems[ i ] );
 		if ( elem !== null ) {
@@ -363,7 +363,6 @@ PostDataCollector.prototype.inputElementEventBinder = function( app ) {
 
 	tmceHelper.tinyMceEventBinder( app, tmceId );
 
-	document.getElementById( "yoast_wpseo_focuskw_text_input" ).addEventListener( "blur", app.refresh.bind( app ) );
 };
 
 /**
