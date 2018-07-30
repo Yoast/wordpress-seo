@@ -10,10 +10,10 @@ import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 /**
  * Creates the Sidebar component.
  *
- * @param {bool} isContentAnalysisActive Whether or not the readability analysis is active or not.
- * @param {bool} isKeywordAnalysisActive Whether or not the readability analysis is active or not.
- * @param {bool} isCornerstoneActive     Whether or not the cornerstone content feature is active or not.
- * @param {bool} isCornerstone           Whether or not the cornerstone content checkbox is checked or not.
+ * @param {bool} isContentAnalysisActive Whether or not the readability analysis is active.
+ * @param {bool} isKeywordAnalysisActive Whether or not the readability analysis is active.
+ * @param {bool} isCornerstoneActive     Whether or not the cornerstone content feature is active.
+ * @param {bool} isCornerstone           Whether or not the cornerstone content checkbox is checked.
  * @param {Object} store                 The store.
  *
  * @returns {ReactElement} The Sidebar component.
@@ -27,9 +27,9 @@ export default function Sidebar( { isContentAnalysisActive, isKeywordAnalysisAct
 		<Fill name="YoastSidebar">
 			{ isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>Readability analysis</SidebarItem> }
 			{ isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem> }
-			{ isCornerstoneActive && <SidebarItem renderPriority={30}>
-				<StoreProvider store={store}>
-					<CollapsibleCornerstone isCornerstone={isCornerstone}/>
+			{ isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+				<StoreProvider store={ store }>
+					<CollapsibleCornerstone isCornerstone={ isCornerstone }/>
 				</StoreProvider>
 			</SidebarItem>
 			}
@@ -40,4 +40,7 @@ export default function Sidebar( { isContentAnalysisActive, isKeywordAnalysisAct
 Sidebar.propTypes = {
 	isContentAnalysisActive: PropTypes.bool,
 	isKeywordAnalysisActive: PropTypes.bool,
+	isCornerstoneActive: PropTypes.bool,
+	isCornerstone: PropTypes.bool,
+	store: PropTypes.object,
 };

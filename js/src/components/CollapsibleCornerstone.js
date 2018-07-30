@@ -20,7 +20,6 @@ export default function CollapsibleCornerstone( { isCornerstone, onChange, postT
 			) }
 				<a href='https://yoa.st/1i9' target="_blank"> { __( "Learn more about cornerstone content.", "wordpress-seo" ) } </a>
 			</p>
-
 			<CornerstoneToggle
 				isEnabled={ isCornerstone }
 				onToggle={ onChange }
