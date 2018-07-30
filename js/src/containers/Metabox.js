@@ -12,6 +12,7 @@ function mapStateToProps( state ) {
 	return {
 		isContentAnalysisActive: state.preferences.isContentAnalysisActive,
 		isKeywordAnalysisActive: state.preferences.isKeywordAnalysisActive,
+		isCornerstoneActive: state.preferences.isCornerstoneActive,
 	};
 }
 

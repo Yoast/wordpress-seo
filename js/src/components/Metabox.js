@@ -6,6 +6,7 @@ import { Provider as StoreProvider } from "react-redux";
 
 import SidebarItem from "./SidebarItem";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
+import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 
 /**
  * Creates the Metabox component.
@@ -16,7 +17,7 @@ import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
  *
  * @returns {ReactElement} The Metabox component.
  */
-export default function Metabox( { isContentAnalysisActive, isKeywordAnalysisActive, store } ) {
+export default function Metabox( { isContentAnalysisActive, isKeywordAnalysisActive, isCornerstoneActive, isCornerstone, store } ) {
 	const { Fill } = wp.components;
 
 	return (
@@ -27,6 +28,12 @@ export default function Metabox( { isContentAnalysisActive, isKeywordAnalysisAct
 				</StoreProvider>
 			</SidebarItem> }
 			{ isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem> }
+			{ isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+				<StoreProvider store={ store }>
+					<CollapsibleCornerstone isCornerstone={ isCornerstone }/>
+				</StoreProvider>
+			</SidebarItem>
+			}
 		</Fill>
 	);
 }
@@ -34,5 +41,7 @@ export default function Metabox( { isContentAnalysisActive, isKeywordAnalysisAct
 Metabox.propTypes = {
 	isContentAnalysisActive: PropTypes.bool,
 	isKeywordAnalysisActive: PropTypes.bool,
+	isCornerstoneActive: PropTypes.bool,
+	isCornerstone: PropTypes.bool,
 	store: PropTypes.object,
 };
