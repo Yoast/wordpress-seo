@@ -1,18 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { __, sprintf } from "@wordpress/i18n";
 
 import { Collapsible } from "yoast-components";
-import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/components/CornerstoneToggle"
+import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
 
 /**
  *
- * @returns {*}
- * @constructor
+ * @returns {ReactElement}
  */
-export default function CollapsibleCornerstone( { isCornerstone, onChange } ) {
+export default function CollapsibleCornerstone( { isCornerstone, onChange, postTypeName } ) {
 	return (
 		<Collapsible title="Cornerstone content">
-			<p>Cornerstone content should be the most important and extensive articles on your site.</p>
+			<p> { sprintf(
+				__( "Mark the most important %1$s as 'cornerstone content' to improve your site structure. ", "wordpress-seo" ),
+				postTypeName.toLowerCase()
+			) }
+				<a href='https://yoa.st/1i9' target="_blank"> { __( "Learn more about cornerstone content.", "wordpress-seo" ) } </a>
+			</p>
+
 			<CornerstoneToggle
 				isEnabled={ isCornerstone }
 				onToggle={ onChange }
