@@ -11,31 +11,24 @@ const StyledContainer = styled.div`
 	background-color: ${ colors.$color_white };
 `;
 
-const StyledIconsButton = styled( IconsButton )`
+export const StyledIconsButton = styled( IconsButton )`
 	width: 100%;
 	background-color: ${ colors.$color_white };
-	padding: ${ props => props.headingPadding };
+	padding: 16px;
 	justify-content: flex-start;
 	border-color: transparent;
 	border: none;
 	border-radius: 0;
 	box-shadow: none;
-	color: ${ props => props.headingColor };
-
-	:hover {
-		color: ${ props => props.headingColor };
-	}
 
 	:focus {
 		outline: 1px solid ${ colors.$color_blue };
 		outline-offset: -1px;
-		color: ${ props => props.headingColor };
 	}
 
 	:active {
 		box-shadow: none;
 		background-color: ${ colors.$color_white };
-		color: ${ props => props.headingColor };
 	}
 
 	svg {
@@ -104,8 +97,6 @@ const StyledHeading = wrapInHeading( StyledIconsButton, 2 );
  * @param {children}    props.children              The content of the Collapsible.
  * @param {string}      props.className             The name of the collapsible CSS class.
  * @param {IconsButton} props.Heading               Heading button. May be wrapped or styled or both.
- * @param {string}      props.headingColor          The button header text color.
- * @param {string}      props.headingPadding        The button header padding.
  * @param {boolean}     props.isOpen                True displays the children. False means collapsed.
  * @param {function}    props.onToggle              Function to handle the Heading click event.
  * @param {string}      props.prefixIcon            Heading icon before the title.
@@ -138,8 +129,6 @@ export const CollapsibleStateless = ( props ) => {
 				prefixIconSize={ props.prefixIconSize }
 				suffixIconSize={ props.suffixIconSize }
 				hasSubTitle={ !! props.subTitle }
-				headingPadding={ props.headingPadding }
-				headingColor={ props.headingColor }
 			>
 				<StyledTitleContainer>
 					<StyledTitle>
@@ -161,8 +150,6 @@ CollapsibleStateless.propTypes = {
 	] ),
 	className: PropTypes.string,
 	Heading: PropTypes.func,
-	headingColor: PropTypes.string,
-	headingPadding: PropTypes.string,
 	isOpen: PropTypes.bool.isRequired,
 	onToggle: PropTypes.func.isRequired,
 	prefixIcon: PropTypes.string,
@@ -180,8 +167,6 @@ CollapsibleStateless.propTypes = {
 
 CollapsibleStateless.defaultProps = {
 	Heading: StyledHeading,
-	headingColor: `${ colors.$color_black }`,
-	headingPadding: "16px",
 	prefixIconColor: colors.$black,
 	suffixIconColor: colors.$black,
 };

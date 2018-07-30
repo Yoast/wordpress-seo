@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import Collapsible from "../composites/Plugin/Shared/components/Collapsible";
+import Collapsible, { StyledIconsButton } from "../composites/Plugin/Shared/components/Collapsible";
 import colors from "../style-guide/colors.json";
 
 const FullWidthContaniner = styled.div`
@@ -39,6 +39,10 @@ const StyledCollapsible = styled( Collapsible )`
 	border-top: 1px solid ${ colors.$color_grey };
 	border-bottom: 1px solid ${ colors.$color_grey };
 	margin-top: -1px;
+
+	${ StyledIconsButton } {
+		color: ${ colors.$color_black }
+	}
 `;
 
 

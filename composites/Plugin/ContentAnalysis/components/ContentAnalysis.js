@@ -7,7 +7,7 @@ import { __ } from "@wordpress/i18n";
 /* Internal dependencies */
 import colors from "../../../../style-guide/colors.json";
 import AnalysisResult from "../components/AnalysisResult.js";
-import Collapsible from "../../../../composites/Plugin/Shared/components/Collapsible";
+import Collapsible, { StyledIconsButton } from "../../../../composites/Plugin/Shared/components/Collapsible";
 
 export const ContentAnalysisContainer = styled.div`
 	width: 100%;
@@ -22,6 +22,11 @@ const StyledCollapsible = styled( Collapsible )`
 
 	button:first-child svg {
 		margin: -2px 8px 0 -2px; // Compensate icon size set to 18px.
+	}
+
+	${ StyledIconsButton } {
+		padding: 8px 16px;
+		color: ${ colors.$color_blue }
 	}
 `;
 
@@ -151,8 +156,6 @@ class ContentAnalysis extends React.Component {
 				suffixIcon={ null }
 				suffixIconCollapsed={ null }
 				headingLevel={ headingLevel }
-				headingPadding="8px 16px"
-				headingColor={ colors.$color_blue }
 			>
 				<AnalysisList role="list">{ this.getResults( results ) }</AnalysisList>
 			</StyledCollapsible>
