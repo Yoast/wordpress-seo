@@ -57,21 +57,17 @@ class Toggle extends React.Component {
 
 		this.onClick = this.props.onToggleDisabled;
 
-		this.setEnabled = this.setEnabled.bind( this );
+		this.setToggleState = this.setToggleState.bind( this );
 
 		if ( props.disable !== true ) {
-			this.onClick = this.setEnabled.bind( this );
+			this.onClick = this.setToggleState.bind( this );
 		}
-
-		this.state = {
-			isEnabled: this.props.isEnabled,
-		};
 	}
 
 	/**
-	 * Returns the rendered html.
+	 * Returns the rendered HTML.
 	 *
-	 * @returns {ReactElement} The rendered html.
+	 * @returns {ReactElement} The rendered HTML.
 	 */
 	render() {
 		return(
@@ -84,31 +80,22 @@ class Toggle extends React.Component {
 					{ this.props.labelText }
 				</label>
 				<ToggleBar
-					isEnabled={ this.isEnabled() }
+					isEnabled={ this.props.isEnabled }
 					onClick={ this.onClick }
-					onKeyDown={ this.setEnabled }
+					onKeyDown={ this.setToggleState }
 					tabIndex="0"
 					role="checkbox"
 					aria-label={ this.props.ariaLabel }
-					aria-checked={ this.isEnabled() }
+					aria-checked={ this.props.isEnabled }
 					id={ this.props.id }
 				>
-					<ToggleBullet isEnabled={ this.isEnabled() } />
+					<ToggleBullet isEnabled={ this.props.isEnabled } />
 				</ToggleBar>
 				<ToggleVisualLabel aria-hidden="true">
-					{ this.isEnabled() ? __( "On", "yoast-components" ) : __( "Off", "yoast-components" ) }
+					{ this.props.isEnabled ? __( "On", "yoast-components" ) : __( "Off", "yoast-components" ) }
 				</ToggleVisualLabel>
 			</ToggleDiv>
 		);
-	}
-
-	/**
-	 * Returns the current enabled state.
-	 *
-	 * @returns {boolean} The current enabled state.
-	 */
-	isEnabled() {
-		return this.state.isEnabled;
 	}
 
 	/**
@@ -118,26 +105,20 @@ class Toggle extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	setEnabled( event ) {
+	setToggleState( event ) {
 		// Makes the toggle actionable with the Space bar key.
 		if ( event.type === "keydown" && event.keyCode !== 32 ) {
 			return;
 		}
 
-		let newState = ! this.isEnabled();
-
-		this.setState( {
-			isEnabled: newState,
-		} );
-
-		this.props.onSetEnabled( newState );
+		this.props.onSetToggleState( ! this.props.isEnabled );
 	}
 }
 
 Toggle.propTypes = {
 	isEnabled: PropTypes.bool,
 	ariaLabel: PropTypes.string.isRequired,
-	onSetEnabled: PropTypes.func,
+	onSetToggleState: PropTypes.func,
 	disable: PropTypes.bool,
 	onToggleDisabled: PropTypes.func,
 	id: PropTypes.string.isRequired,
@@ -146,7 +127,7 @@ Toggle.propTypes = {
 
 Toggle.defaultProps = {
 	isEnabled: false,
-	onSetEnabled: () => {},
+	onSetToggleState: () => {},
 	disable: false,
 	labelText: "",
 };

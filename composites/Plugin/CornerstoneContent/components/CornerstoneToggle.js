@@ -27,11 +27,11 @@ class CornerstoneToggle extends React.Component {
 		return (
 			<Cornerstone>
 				<Toggle
-					ariaLabel="Mark this post as cornerstone content"
 					id="cornerstone_toggle"
+					ariaLabel={ __( "Mark this post as cornerstone content", "yoast-components" ) }
 					labelText={ __( "Mark this as cornerstone content.", "yoast-components" ) }
 					isEnabled={ this.props.isEnabled }
-					onSetEnabled={ this.props.onSetEnable }
+					onSetToggleState={ this.props.onToggle }
 					onToggleDisabled={ this.props.onToggleDisabled }
 				/>
 			</Cornerstone>
@@ -41,7 +41,7 @@ class CornerstoneToggle extends React.Component {
 
 CornerstoneToggle.propTypes = {
 	isEnabled: PropTypes.bool,
-	onSetEnable: PropTypes.func,
+	onSetToggleState: PropTypes.func,
 	disable: PropTypes.bool,
 	onToggleDisabled: PropTypes.func,
 };
