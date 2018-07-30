@@ -37,6 +37,25 @@ class SeoAnalysis extends React.Component {
 	}
 
 	render() {
+
+		let Upsell = ( { upsell } ) => {
+			return (
+				<Collapsible title="Add another keyword">
+				<UpsellBox
+					benefits={ upsell.benefits }
+					infoParagraphs={ upsell.infoParagraphs }
+					upsellButtonText={ upsell.buttonText }
+					upsellButton={ {
+						href: upsell.buttonLink,
+						className: "button button-primary",
+						"aria-labelledby": "label-id",
+					} }
+					upsellButtonLabel={ upsell.buttonLabel }
+				/>
+				</Collapsible>
+			)
+		};
+
 		return (
 			<React.Fragment>
 				<Collapsible
@@ -62,21 +81,7 @@ class SeoAnalysis extends React.Component {
 						marksButtonStatus={ this.props.marksButtonStatus }
 					/>
 				</Collapsible>
-				<Collapsible
-					title="Add another keyword"
-				>
-					<UpsellBox
-						benefits={ this.props.upsell.benefits }
-						infoParagraphs={ this.props.upsell.infoParagraphs }
-						upsellButtonText={ this.props.upsell.buttonText }
-						upsellButton={ {
-							href: this.props.upsell.buttonLink,
-							className: "button button-primary",
-							"aria-labelledby": "label-id",
-						} }
-						upsellButtonLabel={ this.props.upsell.buttonLabel }
-					/>
-				</Collapsible>
+				{ this.props.upsell && <Upsell upsell={ this.props.upsell } /> }
 			</React.Fragment>
 		);
 	}
