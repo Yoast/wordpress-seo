@@ -30,10 +30,8 @@ PolishParticiple.prototype.isPassive = function() {
 	const participle = this.getParticiple();
 	const auxiliaries = this.getAuxiliaries();
 
-	console.log( "auxiliaries", auxiliaries );
-	console.log( "participle", participle );
-	let participleIndex = sentencePart.indexOf( this.getParticiple() );
-	let language = this.getLanguage();
+	const participleIndex = sentencePart.indexOf( this.getParticiple() );
+	const language = this.getLanguage();
 
 	return ! this.directPrecedenceException( sentencePart, participleIndex, language ) &&
 		! this.nonDirectPrecedenceException( sentencePart, participle, auxiliaries, language );

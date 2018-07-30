@@ -1,6 +1,6 @@
-var SentencePart = require( "../../../values/SentencePart.js" );
+const SentencePart = require( "../../../values/SentencePart.js" );
 
-var getParticiples = require( "../../passiveVoice/periphrastic/getParticiples.js" );
+const getParticiples = require( "../../passiveVoice/periphrastic/getParticiples.js" );
 
 /**
  * Creates a Polish-specific sentence part.
@@ -9,7 +9,7 @@ var getParticiples = require( "../../passiveVoice/periphrastic/getParticiples.js
  * @param {Array} auxiliaries The list with auxiliaries.
  * @constructor
  */
-var PolishSentencePart = function( sentencePartText, auxiliaries ) {
+const PolishSentencePart = function( sentencePartText, auxiliaries ) {
 	SentencePart.call( this, sentencePartText, auxiliaries, "pl_PL" );
 };
 

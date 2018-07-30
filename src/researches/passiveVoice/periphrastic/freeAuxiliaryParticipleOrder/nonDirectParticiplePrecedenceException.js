@@ -18,12 +18,10 @@ const getIndicesByWordListSorted = require( "../../../../stringProcessing/indice
  * appears anywhere in between the last (closest to participle) auxiliary and the participle.
  */
 module.exports = function( sentencePart, participle, auxiliaries, language ) {
-	// const auxiliaryIndex = sentencePart.indexOf( auxiliary );
 	const auxiliariesUnique = uniq( auxiliaries );
-	console.log( "unique auxiliaries", auxiliariesUnique );
+
 	const auxiliaryIndices = getIndicesByWordListSorted( auxiliariesUnique, sentencePart );
-	console.log( "auxiliaryIndices", auxiliaryIndices );
-	console.log( "sentencePart", sentencePart );
+
 	const participleIndex = sentencePart.indexOf( participle );
 	let nonDirectParticiplePrecendenceExceptionRegex;
 
@@ -36,8 +34,6 @@ module.exports = function( sentencePart, participle, auxiliaries, language ) {
 	// This exception is only applicable for passive constructions in which the auxiliary precedes the participle.
 	const matches = auxiliaryIndices.filter( auxiliaryIndex => auxiliaryIndex.index < participleIndex );
 
-	console.log( "matches", matches );
-
 	// If there are no auxiliaries before the participle, this exception is not applicable.
 	if( matches.length === 0 ) {
 		return false;
@@ -45,16 +41,12 @@ module.exports = function( sentencePart, participle, auxiliaries, language ) {
 
 	// We pick the auxiliary closest to the participle, since that is most likely the one belonging to the participle.
 	const participleAuxiliary = matches[ matches.length - 1 ];
-	console.log( "participleAuxiliary", participleAuxiliary );
 
 	const precedenceExceptionIndices = getWordIndices( sentencePart, nonDirectParticiplePrecendenceExceptionRegex );
-	console.log( "precedenceExceptionIndices", precedenceExceptionIndices );
 
 	// Check whether there are any precendence words between the auxiliary and the participle.
 	const remaningPrecedenceExceptionIndices = precedenceExceptionIndices.filter( precedenceExceptionIndex =>
 		( precedenceExceptionIndex.index > participleAuxiliary.index && precedenceExceptionIndex.index < participleIndex ) );
-	console.log( "remaningPrecedenceExceptionIndices", remaningPrecedenceExceptionIndices );
 
-	console.log( "exception outcome", remaningPrecedenceExceptionIndices.length > 0 );
 	return remaningPrecedenceExceptionIndices.length > 0;
 };

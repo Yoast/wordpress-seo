@@ -1,4 +1,4 @@
-let transitionWords = require( "./transitionWords.js" )().singleWords;
+const transitionWords = require( "./transitionWords.js" )().singleWords;
 
 /**
  * Returns an array with exceptions for the prominent words researcher
@@ -6,7 +6,7 @@ let transitionWords = require( "./transitionWords.js" )().singleWords;
  */
 
 
-let cardinalNumerals = [ "czterech", "czterem", "czterema", "czternaście", "czternastce", "czternastek", "czternastka",
+const cardinalNumerals = [ "czterech", "czterem", "czterema", "czternaście", "czternastce", "czternastek", "czternastka",
 	"czternastką", "czternastkach", "czternastkami", "czternastkę", "czternastki", "czternastko", "czternastkom",
 	"czternastoma", "czternastu", "cztery", "czwórce", "czwórek", "czwórka", "czwórką", "czwórkach", "czwórkami", "czwórkę",
 	"czwórki", "czwórko", "czwórkom", "czworo", "dwa", "dwadzieścia", "dwanaście", "dwie", "dwiema", "dwóch", "dwójce",
@@ -45,7 +45,7 @@ let cardinalNumerals = [ "czterech", "czterem", "czterema", "czternaście", "czt
 	"trzynastkę", "trzynastki", "trzynastko", "trzynastkom", "trzynastoma", "trzynastu", "tysiąc", "tysiąca", "tysiącach",
 	"tysiącami", "tysiące", "tysiącem", "tysiącom", "tysiącowi", "tysiącu", "tysięcy" ];
 
-let ordinalNumerals = [ "czternaści", "czternasta", "czternastą", "czternaste", "czternastego", "czternastej", "czternastemu",
+const ordinalNumerals = [ "czternaści", "czternasta", "czternastą", "czternaste", "czternastego", "czternastej", "czternastemu",
 	"czternasty", "czternastych", "czternastym", "czternastymi", "czwarci", "czwarta", "czwartą", "czwarte", "czwartego",
 	"czwartej", "czwartemu", "czwarty", "czwartych", "czwartym", "czwartymi", "drudzy", "druga", "drugą", "drugi", "drugich",
 	"drugie", "drugiego", "drugiej", "drugiemu", "drugim", "drugimi", "dwudzieści", "dwudziesta", "dwudziestą",
@@ -72,22 +72,22 @@ let ordinalNumerals = [ "czternaści", "czternasta", "czternastą", "czternaste"
 	"trzynastą", "trzynaste", "trzynastego", "trzynastej", "trzynastemu", "trzynasty", "trzynastych", "trzynastym",
 	"trzynastymi" ];
 
-let personalPronounsNominative = [ "ja", "my", "on", "ona", "one", "oni", "ono", "ty", "wy" ];
+const personalPronounsNominative = [ "ja", "my", "on", "ona", "one", "oni", "ono", "ty", "wy" ];
 
-let personalPronounsAccusative = [ "cię", "ciebie", "go", "ich", "ją", "je", "jego", "mnie", "nas", "nią", "nich", "nie",
+const personalPronounsAccusative = [ "cię", "ciebie", "go", "ich", "ją", "je", "jego", "mnie", "nas", "nią", "nich", "nie",
 	"niego", "was" ];
 
-let personalPronounsGenitive = [ "jej", "niej" ];
+const personalPronounsGenitive = [ "jej", "niej" ];
 
-let personalPronounsDative = [ "mi", "ci", "im", "jemu", "mu", "nam", "niemu", "nim", "tobie", "wam" ];
+const personalPronounsDative = [ "mi", "ci", "im", "jemu", "mu", "nam", "niemu", "nim", "tobie", "wam" ];
 
-let personalPronounsInstrumental = [ "mną", "nami", "nią", "nim", "nimi", "tobą", "wami" ];
+const personalPronounsInstrumental = [ "mną", "nami", "nią", "nim", "nimi", "tobą", "wami" ];
 
-let personalPronounsPast = [ "myśmy", "wyście", "żeście", "żeśmy" ];
+const personalPronounsPast = [ "myśmy", "wyście", "żeście", "żeśmy" ];
 
-let personalPronounsPrepositional = [ "doń", "nań", "zeń" ];
+const personalPronounsPrepositional = [ "doń", "nań", "zeń" ];
 
-let possessivePronouns = [ "ich", "jego", "jej", "ma", "mą", "me", "mego", "mej", "memu", "moi", "moich", "moim",
+const possessivePronouns = [ "ich", "jego", "jej", "ma", "mą", "me", "mego", "mej", "memu", "moi", "moich", "moim",
 	"moimi", "mój", "moja", "moją", "moje", "mojego", "mojej", "mojemu", "mych", "mym", "mymi", "nasi", "nasz",
 	"nasza", "naszą", "nasze", "naszego", "naszej", "naszemu", "naszych", "naszym", "naszymi", "swa", "swą", "swe",
 	"swego", "swej", "swemu", "swoi", "swoich", "swoim", "swoimi", "swój", "swoja", "swoją", "swoje", "swojego", "swojej",
@@ -95,20 +95,20 @@ let possessivePronouns = [ "ich", "jego", "jej", "ma", "mą", "me", "mego", "mej
 	"twoimi", "twój", "twoja", "twoją", "twoje", "twojego", "twojej", "twojemu", "twych", "twym", "twymi", "wasi",
 	"wasz", "wasza", "waszą", "wasze", "waszego", "waszej", "waszemu", "waszych", "waszym", "waszymi" ];
 
-let reflexivePronouns = [ "się", "siebie", "sobą", "sobie" ];
+const reflexivePronouns = [ "się", "siebie", "sobą", "sobie" ];
 
-let interrogativePronouns = [ "czyi", "czyich", "czyim", "czyimi", "czyj", "czyja", "czyją", "czyje", "czyjego", "czyjej",
+const interrogativePronouns = [ "czyi", "czyich", "czyim", "czyimi", "czyj", "czyja", "czyją", "czyje", "czyjego", "czyjej",
 	"czyjemu", "kim", "kogo", "komu", "kto" ];
 
-let interrogativeProAdverbs = [ "czy", "czyś", "czyśbyś", "dlaczego", "dokąd", "dokądże", "dokądżeś", "gdzie", "gdzież",
+const interrogativeProAdverbs = [ "czy", "czyś", "czyśbyś", "dlaczego", "dokąd", "dokądże", "dokądżeś", "gdzie", "gdzież",
 	"gdzieżeś", "ile", "ileż", "jak", "jakbyś", "jakże", "jakżebyś", "jakżeś", "kiedy", "którędy", "którędyż", "skąd",
 	"skądże", "skądżeś" ];
 
-let interrogativeDeterminers = [ "co", "czego", "czemu", "czym", "jacy", "jaka", "jaką", "jaki", "jakich", "jakie",
+const interrogativeDeterminers = [ "co", "czego", "czemu", "czym", "jacy", "jaka", "jaką", "jaki", "jakich", "jakie",
 	"jakiego", "jakiej", "jakiemu", "jakim", "jakimi", "która", "którą", "które", "którego", "której", "któremu",
 	"który", "których", "którym", "którymi", "którzy" ];
 
-let indefinitePronouns = [ "coś", "czegoś", "czemuś", "czyichkolwiek", "czyichś", "czyikolwiek", "czyimikolwiek",
+const indefinitePronouns = [ "coś", "czegoś", "czemuś", "czyichkolwiek", "czyichś", "czyikolwiek", "czyimikolwiek",
 	"czyimiś", "czyimkolwiek", "czyimkolwiem", "czyimś", "czyiś", "czyjakolwiek", "czyjąkolwiek", "czyjaś", "czyjąś",
 	"czyjegokolwiek", "czyjegoś", "czyjejkolwiek", "czyjejś", "czyjekolwiek", "czyjemukolwiek", "czyjemuś", "czyjeś",
 	"czyjkolwiek", "czymś", "dlaczegoś", "dokądkolwiek", "dokądś", "gdziekolwiek", "gdzieś", "ilekolwiek", "ileś",
@@ -125,13 +125,13 @@ let indefinitePronouns = [ "coś", "czegoś", "czemuś", "czyichkolwiek", "czyic
 	"wszystkiemu", "wszystkim", "wszystkimi", "wszystko", "żaden", "żadna", "żadną", "żadne", "żadnego", "żadnej",
 	"żadnemu", "żadni", "żadnych", "żadnym", "żadnymi" ];
 
-let demonstrativePronouns = [ "ci", "dlatego", "ów", "owa", "ową", "owe", "owego", "owej", "owemu", "owi", "owo", "owych",
+const demonstrativePronouns = [ "ci", "dlatego", "ów", "owa", "ową", "owe", "owego", "owej", "owemu", "owi", "owo", "owych",
 	"owym", "stąd", "stamtąd", "ta", "tacy", "tak", "taka", "taką", "taki", "takich", "takie", "takiego", "takiej",
 	"takiemu", "takim", "takimi", "tam", "tamci", "tamta", "tamtą", "tamte", "tamtego", "tamtej", "tamtemu", "tamten",
 	"tamto", "tamtych", "tamtym", "tamtymi", "tą", "te", "tę", "tędy", "tego", "tegoż", "tej", "temu", "ten", "to", "tu", "tutaj",
 	"tych", "tyle", "tyloma", "tylu", "tym", "tymi", "wtedy" ];
 
-let quantifiers = [ "ciut", "część", "części", "częścią", "częściach", "częściami", "częściom", "dość", "dosyć", "dużo",
+const quantifiers = [ "ciut", "część", "części", "częścią", "częściach", "częściami", "częściom", "dość", "dosyć", "dużo",
 	"kilka", "kilkadziesiąt", "kilkanaście", "kilkaset", "kilknasty", "kilkoma", "kilku", "kilkudziesiąte",
 	"kilkudziesiątego", "kilkudziesiątej", "kilkudziesiąty", "kilkudziesiątych", "kilkudziesiątym", "kilkudziesiątymi",
 	"kilkudziesięcioma", "kilkudziesięciu", "kilkunasta", "kilkunastą", "kilkunaste", "kilkunastego", "kilkunastej",
@@ -147,9 +147,9 @@ let quantifiers = [ "ciut", "część", "części", "częścią", "częściach",
 	"troszeczkę", "troszkę", "wcale", "więcej", "większość", "większości", "większością", "większościach", "większościami",
 	"większościom", "wiele", "wielokrotnie", "wieloma", "wielu" ];
 
-let adverbialGenitives = [ "czasem", "często", "nigdy", "rzadko", "zawsze" ];
+const adverbialGenitives = [ "czasem", "często", "nigdy", "rzadko", "zawsze" ];
 
-let otherAuxiliaries = [ "chcą", "chcąc",
+const otherAuxiliaries = [ "chcą", "chcąc",
 	"chcąca", "chcące", "chcący", "chce", "chcę", "chcecie", "chcemy", "chcesz", "chciał", "chciała", "chciałaby",
 	"chciałabym", "chciałabyś", "chciałam", "chciałaś", "chciałby", "chciałbym", "chciałbyś", "chciałem", "chciałeś",
 	"chciały", "chciałyby", "chciałybyście", "chciałybyśmy", "chciałyście", "chciałyśmy", "chcieli", "chcieliby",
@@ -180,7 +180,7 @@ let otherAuxiliaries = [ "chcą", "chcąc",
 	"stawalibyście", "stawalibyśmy", "stawaliście", "stawaliśmy", "stawały", "stawałyby", "stawałybyśmy", "stawałyście",
 	"stawałyśmy", "stawano", "stawawszy", "stawszy", "trzeba", "warto", "wystarczy" ];
 
-let passiveAuxiliaries = [ "bądź", "bądźcie", "bądźmy", "będą", "będąc", "będę", "będzie", "będziecie", "będziemy", "będziesz",
+const passiveAuxiliaries = [ "bądź", "bądźcie", "bądźmy", "będą", "będąc", "będę", "będzie", "będziecie", "będziemy", "będziesz",
 	"by", "był", "była", "byłaby", "byłabym", "byłabyś", "byłam", "byłaś", "byłby", "byłbym", "byłbyś", "byłem",
 	"byłeś", "byli", "byliby", "bylibyście", "bylibyśmy", "byliście", "byliśmy", "było", "byłoby", "były", "byłyby",
 	"byłybyście", "byłybyśmy", "byłyście", "byłyśmy", "bym", "byś", "byście", "byśmy", "byto", "bywało", "jest", "jestem",
@@ -192,29 +192,29 @@ let passiveAuxiliaries = [ "bądź", "bądźcie", "bądźmy", "będą", "będąc
 	"zostańcie", "zostanę", "zostanie", "zostaniecie", "zostaniemy", "zostaniesz", "zostańmy", "zostawało", "zostawano",
 	"zostawszy" ];
 
-let passiveAuxiliariesInfinitive = [ "być", "zostać" ];
+const passiveAuxiliariesInfinitive = [ "być", "zostać" ];
 
-let otherAuxiliariesInfinitive = [ "chcieć", "mieć", "móc", "musieć", "potrafić", "stać" ];
+const otherAuxiliariesInfinitive = [ "chcieć", "mieć", "móc", "musieć", "potrafić", "stać" ];
 
 
-let prepositions = [ "bez", "beze", "blisko", "daleko", "dla", "do", "dole", "dookoła", "górze", "jako", "koło", "ku",
+const prepositions = [ "bez", "beze", "blisko", "daleko", "dla", "do", "dole", "dookoła", "górze", "jako", "koło", "ku",
 	"między", "mimo", "na", "nad", "nade", "naokoło", "naprzeciwko", "niedaleko", "nieopodal", "niż", "o", "obok", "od", "ode",
 	"około", "oprócz", "po", "pod", "podczas", "pode", "pomiędzy", "ponad", "poniżej", "poprzek", "poprzez", "pośród",
 	"powyżej", "poza", "przeciw", "przeciwko", "przed", "przede", "przez", "przeze", "przy", "spodem", "spośród", "spoza", "u", "w",
 	"wbrew", "we", "wedle", "wewnątrz", "wpół", "wraz", "wśród", "wzdłuż", "z", "za", "ze", "zza" ];
 
-let prepositionalAdverbs = [ "bliska", "daleka", "przodu", "tyłu" ];
+const prepositionalAdverbs = [ "bliska", "daleka", "przodu", "tyłu" ];
 
-let coordinatingConjunctions = [ "albo", "ani", "bądź", "i", "lub", "oraz", "tylko" ];
+const coordinatingConjunctions = [ "albo", "ani", "bądź", "i", "lub", "oraz", "tylko" ];
 
-let subordinatingConjunctions = [ "aż", "by", "czy", "gdyby", "jak", "jeśli", "jeżeli", "że" ];
+const subordinatingConjunctions = [ "aż", "by", "czy", "gdyby", "jak", "jeśli", "jeżeli", "że" ];
 
 // Ciągu is part of 'w ciągu' (during)
-let additionalTransitionWords = [ "ano", "ciągu", "coraz", "dzięki", "chyba", "jakby", "jednocześnie", "jeszcze", "już",
+const additionalTransitionWords = [ "ano", "ciągu", "coraz", "dzięki", "chyba", "jakby", "jednocześnie", "jeszcze", "już",
 	"nadal", "nagle", "znowu", "prawdopodobnie",
 	"niestety", "dziś", "dzisiaj", "oczywiście", "względem", "m.in.", "właśnie", "zaraz" ];
 
-let delexicalizedVerbs = [ "bierz", "bierzcie", "bierzecie", "bierzemy", "bierzesz", "bierzmy", "biorą", "biorąc",
+const delexicalizedVerbs = [ "bierz", "bierzcie", "bierzecie", "bierzemy", "bierzesz", "bierzmy", "biorą", "biorąc",
 	"biorąca", "biorące", "biorący", "biorę", "brał", "brała", "brałaby", "brałabym", "brałabyś", "brałam",
 	"brałaś", "brałby", "brałbym", "brałbyś", "brałem", "brałeś", "brali", "braliby", "bralibyście", "bralibyśmy",
 	"braliście", "braliśmy", "brało", "brałoby", "brały", "brałyby", "brałybyście", "brałybyśmy", "brałyście", "brałyśmy",
@@ -256,11 +256,11 @@ let delexicalizedVerbs = [ "bierz", "bierzcie", "bierzecie", "bierzemy", "bierze
 	"zrobiliście", "zrobiliśmy", "zrobiło", "zrobiły", "zrobiłyby", "zrobiłybyście", "zrobiłybyśmy", "zrobiłyście",
 	"zrobiłyśmy", "zrobimy", "zrobiono", "zrobiony", "zrobisz", "zróbmy" ];
 
-let delexicalisedVerbsInfinitive = [ "brać", "dać", "dawać", "iść", "robić", "stanowić", "uprawiać", "wykonywać", "wziąć",
+const delexicalisedVerbsInfinitive = [ "brać", "dać", "dawać", "iść", "robić", "stanowić", "uprawiać", "wykonywać", "wziąć",
 	"zrobić" ];
 
 
-let interviewVerbs = [ "informowali", "informowały", "informują", "informuje", "informuję", "mówi", "mówią", "mówię",
+const interviewVerbs = [ "informowali", "informowały", "informują", "informuje", "informuję", "mówi", "mówią", "mówię",
 	"mówił", "mówiła", "mówili", "mówiły", "odpowiada", "odpowiadają", "odpowiadam", "odpowiedział",
 	"odpowiedziała", "odpowiedziałam", "odpowiedziały", "odpowiedzieli", "odwiedziałam", "poinformowałam", "poinformowali",
 	"poinformowały", "powiedział", "powiedziała", "powiedziałam", "powiedziały", "powiedzieli", "pyta", "pytać", "pytał",
@@ -273,11 +273,11 @@ let interviewVerbs = [ "informowali", "informowały", "informują", "informuje",
 	"zaznaczyłam", "zaznaczyli", "zaznaczyły" ];
 
 
-let intensifiers = [ "bardziej", "bardzo", "całkiem", "całkowicie", "doskonale", "dość", "dosyć", "kompletnie", "najbardziej",
+const intensifiers = [ "bardziej", "bardzo", "całkiem", "całkowicie", "doskonale", "dość", "dosyć", "kompletnie", "najbardziej",
 	"naprawdę", "nawet", "nieco", "niezbyt", "niezmiernie", "niezwykle", "ogromnie", "strasznie", "świetnie", "wielce",
 	"wyjątkowo", "zbyt", "znacznie", "zupełnie" ];
 
-let generalAdjectives = [ "cała", "całą", "całe", "całego", "całej", "całemu", "cali", "cały", "całych", "całym",
+const generalAdjectives = [ "cała", "całą", "całe", "całego", "całej", "całemu", "cali", "cały", "całych", "całym",
 	"całymi", "ciekawa", "ciekawą", "ciekawe", "ciekawego", "ciekawej", "ciekawemu", "ciekawi", "ciekawy", "ciekawych",
 	"ciekawym", "ciekawymi", "dłudzy", "długa", "długą", "długi", "długich", "długie", "długiego", "długiej", "długiemu",
 	"długim", "długimi", "dłużsi", "dłuższa", "dłuższą", "dłuższe", "dłuższego", "dłuższej", "dłuższemu", "dłuższy",
@@ -316,7 +316,7 @@ let generalAdjectives = [ "cała", "całą", "całe", "całego", "całej", "cał
 	"wysokiemu", "wysokim", "wysokimi", "wyżsi", "wyższa", "wyższą", "wyższe", "wyższego", "wyższej", "wyższemu",
 	"wyższy", "wyższych", "wyższym", "wyższymi" ];
 
-let generalAdverbs = [ "blisko", "bliżej", "ciągle", "ciężko", "czasami", "czasem", "częściej", "często", "dalej",
+const generalAdverbs = [ "blisko", "bliżej", "ciągle", "ciężko", "czasami", "czasem", "częściej", "często", "dalej",
 	"daleko", "dawniej", "dawno", "dobrze", "dopiero", "fajnie", "fajniej", "gorzej", "inaczej", "ładnie", "łatwiej", "łatwo",
 	"lepiej", "najbliżej", "najczęściej", "najdalej", "najdawniej", "najfajniej", "najgorzej", "najłatwiej", "najlepiej",
 	"najniżej", "najpóźniej", "najprościej", "najszybciej", "najtrudniej", "najwcześniej", "najwyżej", "naprawdę",
@@ -324,13 +324,13 @@ let generalAdverbs = [ "blisko", "bliżej", "ciągle", "ciężko", "czasami", "c
 	"prostu", "szybciej", "szybko", "trochę", "trudniej", "trudno", "wcześnie", "wcześniej", "wolno", "wszędzie",
 	"wysoko", "wyżej", "zazwyczaj", "źle" ];
 
-let timeWords = [ "dni", "dnia", "dniach", "dniami", "dnie", "dzień", "dzisiaj", "godzin", "godzina", "godzinach",
+const timeWords = [ "dni", "dnia", "dniach", "dniami", "dnie", "dzień", "dzisiaj", "godzin", "godzina", "godzinach",
 	"godzinami", "godzinę", "godziny", "jutro", "lata", "latach", "latami", "miesiąc", "miesiąca", "miesiącach",
 	"miesiącami", "miesiące", "miesiącem", "miesiącu", "miesięcy", "minut", "minuta", "minutach", "minutę", "minuty",
 	"pojutrze", "przedwczoraj", "rok", "rokiem", "roku", "sekund", "sekunda", "sekundach", "sekundę", "sekundy",
 	"tydzień", "tygodni", "tygodnia", "tygodniach", "tygodniami", "tygodnie", "tygodniu", "wczoraj" ];
 
-let vagueNouns = [ "chwila", "chwilą", "chwilach", "chwilami", "chwile", "chwilę", "chwili", "chwilom", "część", "części",
+const vagueNouns = [ "chwila", "chwilą", "chwilach", "chwilami", "chwile", "chwilę", "chwili", "chwilom", "część", "części",
 	"częścią", "częściach", "częściami", "częściom", "momencie", "moment", "ogóle", "osób", "osoba", "osobą", "osobach", "osobami",
 	"osobę", "osobie", "osobom", "osoby", "powód", "powodach", "powodami", "powodem", "powodom", "powodów", "powodowi",
 	"powodu", "powody", "powodzie", "przypadkiem", "przypadku", "raz", "razach", "razami", "razem", "razie", "razom",
@@ -339,20 +339,20 @@ let vagueNouns = [ "chwila", "chwilą", "chwilach", "chwilami", "chwile", "chwil
 	"sprawa", "sprawą", "sprawach", "sprawami", "sprawę", "sprawie", "sprawom", "sprawy", "temacie", "temat", "tematach",
 	"tematami", "tematem", "tematom", "tematów", "tematowi", "tematu", "tematy" ];
 
-let titles = [ "dr", "dyr", "mgr", "p", "pan", "pani", "panie", "panowie", "prof" ];
+const titles = [ "dr", "dyr", "mgr", "p", "pan", "pani", "panie", "panowie", "prof" ];
 
-let interjections = [ "a", "ach", "aha", "aj", "akurat", "ał", "aua", "auć", "ba", "brawo", "e", "ech", "ehe", "ehm", "ej",
+const interjections = [ "a", "ach", "aha", "aj", "akurat", "ał", "aua", "auć", "ba", "brawo", "e", "ech", "ehe", "ehm", "ej",
 	"ejże", "ekhm", "ekstra", "jej", "jejku", "łał", "och", "oh", "oho", "oj", "ojej", "ojejku", "phi", "precz", "super",
 	"uwaga", "wow" ];
 
 
-let measurementUnits = [ "°C", "°F", "ar", "ary", "arów", "arach", "c", "cl", "cm", "cm²", "cm³", "dag", "deka", "dl", "f",
+const measurementUnits = [ "°C", "°F", "ar", "ary", "arów", "arach", "c", "cl", "cm", "cm²", "cm³", "dag", "deka", "dl", "f",
 	"ft", "g", "gram", "gramów", "gramy", "ha", "hektar", "hektary", "hektarów", "hektarach", "in", "kg", "kilo", "km",
 	"km²", "cm³", "l", "litr", "litrów", "litry", "łyżeczka", "łyżeczkę", "łyżeczki", "łyżka", "łyżkę", "łyżki", "m",
 	"m²", "m³", "mg", "ml", "mm", "mm²", "mm³", "szczypta", "szczyptę", "szczypty", "szklanka", "szklankę", "szklanki",
 	"tuzin" ];
 
-let miscellaneous = [ "nie", "no", "oto", "tak" ];
+const miscellaneous = [ "nie", "no", "oto", "tak" ];
 
 
 module.exports = function() {
