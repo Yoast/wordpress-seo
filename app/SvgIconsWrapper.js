@@ -45,8 +45,8 @@ export default function SvgIconsWrapper() {
 	const getIcons = () => {
 		return transform( icons, ( result, value, key ) => {
 			return result.push(
-				<SingleSvgContainer>
-					<SvgIcon icon={ key } key={ key } size="40px" />
+				<SingleSvgContainer key={ key }>
+					<SvgIcon icon={ key } size="40px" />
 					<span title={ key }>{ key }</span>
 				</SingleSvgContainer>
 			);

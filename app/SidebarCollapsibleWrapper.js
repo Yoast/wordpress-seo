@@ -102,7 +102,6 @@ export default function SidebarCollapsibleWrapper() {
 						prefixIcon="seo-score-good"
 						prefixIconCollapsed="seo-score-good"
 						prefixIconColor={ colors.$color_green_medium }
-						prefixIconViewBox="0 0 496 512"
 						suffixIconSize="9px"
 					>
 						<StyledContent>
@@ -116,7 +115,6 @@ export default function SidebarCollapsibleWrapper() {
 						prefixIcon="seo-score-good"
 						prefixIconCollapsed="seo-score-good"
 						prefixIconColor={ colors.$color_green_medium }
-						prefixIconViewBox="0 0 496 512"
 						suffixIconSize="9px"
 					>
 						<StyledContent>
@@ -157,7 +155,6 @@ export default function SidebarCollapsibleWrapper() {
 				prefixIcon="seo-score-good"
 				prefixIconCollapsed="seo-score-good"
 				prefixIconColor={ colors.$color_green_medium }
-				prefixIconViewBox="0 0 496 512"
 				suffixIconSize="9px"
 			>
 				<StyledContent>
@@ -173,7 +170,6 @@ export default function SidebarCollapsibleWrapper() {
 				prefixIcon="seo-score-ok"
 				prefixIconCollapsed="seo-score-ok"
 				prefixIconColor={ colors.$color_yellow_score }
-				prefixIconViewBox="0 0 496 512"
 				suffixIconSize="9px"
 			>
 				<StyledContent>
@@ -187,7 +183,6 @@ export default function SidebarCollapsibleWrapper() {
 				prefixIcon="seo-score-bad"
 				prefixIconCollapsed="seo-score-bad"
 				prefixIconColor={ colors.$color_red }
-				prefixIconViewBox="0 0 496 512"
 				suffixIconSize="9px"
 			>
 				<StyledContent>
@@ -200,7 +195,6 @@ export default function SidebarCollapsibleWrapper() {
 				prefixIcon="seo-score-none"
 				prefixIconCollapsed="seo-score-none"
 				prefixIconColor={ colors.$color_grey_disabled }
-				prefixIconViewBox="0 0 496 512"
 				suffixIconSize="9px"
 			>
 				<StyledContent>

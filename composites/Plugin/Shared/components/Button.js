@@ -274,17 +274,15 @@ export const IconsButton = ( props ) => {
 		prefixIconColor,
 		suffixIcon,
 		suffixIconColor,
-		prefixIconViewBox,
-		suffixIconViewBox,
 		prefixIconSize,
 		suffixIconSize,
 	} = props;
 
 	return (
 		<Button { ...props }>
-			{ prefixIcon && <SvgIcon icon={ prefixIcon } size={ prefixIconSize } iconViewBox={ prefixIconViewBox } color={ prefixIconColor } /> }
+			{ prefixIcon && <SvgIcon icon={ prefixIcon } size={ prefixIconSize } color={ prefixIconColor } /> }
 			{ text }
-			{ suffixIcon && <SvgIcon icon={ suffixIcon } size={ suffixIconSize } iconViewBox={ suffixIconViewBox } color={ suffixIconColor } /> }
+			{ suffixIcon && <SvgIcon icon={ suffixIcon } size={ suffixIconSize } color={ suffixIconColor } /> }
 		</Button>
 	);
 };
@@ -294,8 +292,6 @@ IconsButton.propTypes = {
 	prefixIconColor: PropTypes.string,
 	suffixIcon: PropTypes.string,
 	suffixIconColor: PropTypes.string,
-	prefixIconViewBox: PropTypes.string,
-	suffixIconViewBox: PropTypes.string,
 	prefixIconSize: PropTypes.string,
 	suffixIconSize: PropTypes.string,
 	children: PropTypes.oneOfType( [

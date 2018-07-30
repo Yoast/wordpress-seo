@@ -112,13 +112,11 @@ const StyledHeading = wrapInHeading( StyledIconsButton, 2 );
  * @param {string}      props.prefixIconCollapsed   Prefix icon when in collapsed state.
  * @param {string}      props.prefixIconColor       CSS color of the prefix icon.
  * @param {string}      props.prefixIconSize        The size of the prefix SVG icon element.
- * @param {string}      props.prefixIconViewBox     The viewBox of the prefix SVG icon element.
  * @param {string}      props.subTitle              Sub-title for the Heading.
  * @param {string}      props.suffixIcon            Heading icon after the title.
  * @param {string}      props.suffixIconCollapsed   Suffix icon when in collapsed state.
  * @param {string}      props.suffixIconColor       CSS color of the suffix icon.
  * @param {string}      props.suffixIconSize        The size of the suffix SVG icon element.
- * @param {string}      props.suffixIconViewBox     The viewBox of the suffix SVG icon element.
  * @param {string}      props.title                 Title for the Heading.
  * @param {string}      props.titleScreenReaderText Chance for an extra text to feed to a screenreader.
  *
@@ -137,8 +135,6 @@ export const CollapsibleStateless = ( props ) => {
 				prefixIconColor={ props.prefixIconColor }
 				suffixIcon={ props.isOpen ? props.suffixIcon : props.suffixIconCollapsed }
 				suffixIconColor={ props.suffixIconColor }
-				prefixIconViewBox={ props.prefixIconViewBox }
-				suffixIconViewBox={ props.suffixIconViewBox }
 				prefixIconSize={ props.prefixIconSize }
 				suffixIconSize={ props.suffixIconSize }
 				hasSubTitle={ !! props.subTitle }
@@ -173,13 +169,11 @@ CollapsibleStateless.propTypes = {
 	prefixIconCollapsed: PropTypes.string,
 	prefixIconColor: PropTypes.string,
 	prefixIconSize: PropTypes.string,
-	prefixIconViewBox: PropTypes.string,
 	subTitle: PropTypes.string,
 	suffixIcon: PropTypes.string,
 	suffixIconCollapsed: PropTypes.string,
 	suffixIconColor: PropTypes.string,
 	suffixIconSize: PropTypes.string,
-	suffixIconViewBox: PropTypes.string,
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
 };
@@ -276,7 +270,7 @@ export class Collapsible extends React.Component {
 	 */
 	render() {
 		const { isOpen } = this.state;
-		const { children, prefixIconViewBox, suffixIconViewBox } = this.props;
+		const { children } = this.props;
 
 		const newProps = omit( this.props, [ "children" ] );
 
@@ -286,8 +280,6 @@ export class Collapsible extends React.Component {
 				isOpen={ isOpen }
 				onToggle={ this.toggleCollapse }
 				{ ...newProps }
-				prefixIconViewBox={ prefixIconViewBox }
-				suffixIconViewBox={ suffixIconViewBox }
 			>
 				{ isOpen && children }
 			</CollapsibleStateless>
@@ -306,11 +298,9 @@ Collapsible.propTypes = {
 	prefixIcon: PropTypes.string,
 	prefixIconCollapsed: PropTypes.string,
 	prefixIconColor: PropTypes.string,
-	prefixIconViewBox: PropTypes.string,
 	suffixIcon: PropTypes.string,
 	suffixIconCollapsed: PropTypes.string,
 	suffixIconColor: PropTypes.string,
-	suffixIconViewBox: PropTypes.string,
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
 	subTitle: PropTypes.string,

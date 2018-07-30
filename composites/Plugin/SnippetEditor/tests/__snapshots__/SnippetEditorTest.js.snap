@@ -584,7 +584,6 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
     >
       <SvgIcon
         icon="edit"
-        iconViewBox="0 0 1792 1792"
         size="16px"
       />
       Edit snippet
@@ -1433,7 +1432,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                       className="c8"
                                       color="#646464"
                                       icon="question-circle"
-                                      iconViewBox="0 0 1792 1792"
                                       size="16px"
                                     >
                                       <SvgIcon__StyledSvg
@@ -1810,7 +1808,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             <SvgIcon
                               color="currentColor"
                               icon="mobile"
-                              iconViewBox="0 0 1792 1792"
                               size="22px"
                             >
                               <SvgIcon__StyledSvg
@@ -1983,7 +1980,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             <SvgIcon
                               color="currentColor"
                               icon="desktop"
-                              iconViewBox="0 0 1792 1792"
                               size="18px"
                             >
                               <SvgIcon__StyledSvg
@@ -2152,7 +2148,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   >
                     <SvgIcon
                       icon="edit"
-                      iconViewBox="0 0 1792 1792"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
@@ -2359,7 +2354,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -2633,7 +2627,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -3640,7 +3633,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                       className="c8"
                                       color="#646464"
                                       icon="question-circle"
-                                      iconViewBox="0 0 1792 1792"
                                       size="16px"
                                     >
                                       <SvgIcon__StyledSvg
@@ -4017,7 +4009,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             <SvgIcon
                               color="currentColor"
                               icon="mobile"
-                              iconViewBox="0 0 1792 1792"
                               size="22px"
                             >
                               <SvgIcon__StyledSvg
@@ -4190,7 +4181,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             <SvgIcon
                               color="currentColor"
                               icon="desktop"
-                              iconViewBox="0 0 1792 1792"
                               size="18px"
                             >
                               <SvgIcon__StyledSvg
@@ -4359,7 +4349,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   >
                     <SvgIcon
                       icon="edit"
-                      iconViewBox="0 0 1792 1792"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
@@ -4566,7 +4555,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -4840,7 +4828,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -5847,7 +5834,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                       className="c8"
                                       color="#646464"
                                       icon="question-circle"
-                                      iconViewBox="0 0 1792 1792"
                                       size="16px"
                                     >
                                       <SvgIcon__StyledSvg
@@ -6224,7 +6210,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             <SvgIcon
                               color="currentColor"
                               icon="mobile"
-                              iconViewBox="0 0 1792 1792"
                               size="22px"
                             >
                               <SvgIcon__StyledSvg
@@ -6397,7 +6382,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             <SvgIcon
                               color="currentColor"
                               icon="desktop"
-                              iconViewBox="0 0 1792 1792"
                               size="18px"
                             >
                               <SvgIcon__StyledSvg
@@ -6566,7 +6550,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   >
                     <SvgIcon
                       icon="edit"
-                      iconViewBox="0 0 1792 1792"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
@@ -6773,7 +6756,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -7047,7 +7029,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -8054,7 +8035,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                       className="c8"
                                       color="#646464"
                                       icon="question-circle"
-                                      iconViewBox="0 0 1792 1792"
                                       size="16px"
                                     >
                                       <SvgIcon__StyledSvg
@@ -8431,7 +8411,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             <SvgIcon
                               color="currentColor"
                               icon="mobile"
-                              iconViewBox="0 0 1792 1792"
                               size="22px"
                             >
                               <SvgIcon__StyledSvg
@@ -8604,7 +8583,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             <SvgIcon
                               color="currentColor"
                               icon="desktop"
-                              iconViewBox="0 0 1792 1792"
                               size="18px"
                             >
                               <SvgIcon__StyledSvg
@@ -8773,7 +8751,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   >
                     <SvgIcon
                       icon="edit"
-                      iconViewBox="0 0 1792 1792"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
@@ -8980,7 +8957,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -9254,7 +9230,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -10017,7 +9992,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                       className="c8"
                                       color="#646464"
                                       icon="question-circle"
-                                      iconViewBox="0 0 1792 1792"
                                       size="16px"
                                     >
                                       <SvgIcon__StyledSvg
@@ -10394,7 +10368,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                             <SvgIcon
                               color="currentColor"
                               icon="mobile"
-                              iconViewBox="0 0 1792 1792"
                               size="22px"
                             >
                               <SvgIcon__StyledSvg
@@ -10567,7 +10540,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                             <SvgIcon
                               color="currentColor"
                               icon="desktop"
-                              iconViewBox="0 0 1792 1792"
                               size="18px"
                             >
                               <SvgIcon__StyledSvg
@@ -10736,7 +10708,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   >
                     <SvgIcon
                       icon="edit"
-                      iconViewBox="0 0 1792 1792"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
@@ -11577,7 +11548,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                       className="c8"
                                       color="#646464"
                                       icon="question-circle"
-                                      iconViewBox="0 0 1792 1792"
                                       size="16px"
                                     >
                                       <SvgIcon__StyledSvg
@@ -11954,7 +11924,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             <SvgIcon
                               color="currentColor"
                               icon="mobile"
-                              iconViewBox="0 0 1792 1792"
                               size="22px"
                             >
                               <SvgIcon__StyledSvg
@@ -12127,7 +12096,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             <SvgIcon
                               color="currentColor"
                               icon="desktop"
-                              iconViewBox="0 0 1792 1792"
                               size="18px"
                             >
                               <SvgIcon__StyledSvg
@@ -12296,7 +12264,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   >
                     <SvgIcon
                       icon="edit"
-                      iconViewBox="0 0 1792 1792"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
@@ -12503,7 +12470,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -12777,7 +12743,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -13784,7 +13749,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                       className="c8"
                                       color="#646464"
                                       icon="question-circle"
-                                      iconViewBox="0 0 1792 1792"
                                       size="16px"
                                     >
                                       <SvgIcon__StyledSvg
@@ -14161,7 +14125,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             <SvgIcon
                               color="currentColor"
                               icon="mobile"
-                              iconViewBox="0 0 1792 1792"
                               size="22px"
                             >
                               <SvgIcon__StyledSvg
@@ -14334,7 +14297,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             <SvgIcon
                               color="currentColor"
                               icon="desktop"
-                              iconViewBox="0 0 1792 1792"
                               size="18px"
                             >
                               <SvgIcon__StyledSvg
@@ -14503,7 +14465,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   >
                     <SvgIcon
                       icon="edit"
-                      iconViewBox="0 0 1792 1792"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
@@ -14710,7 +14671,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -14984,7 +14944,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -17109,7 +17068,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                       className="c8"
                                       color="#646464"
                                       icon="question-circle"
-                                      iconViewBox="0 0 1792 1792"
                                       size="16px"
                                     >
                                       <SvgIcon__StyledSvg
@@ -17494,7 +17452,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             <SvgIcon
                               color="currentColor"
                               icon="mobile"
-                              iconViewBox="0 0 1792 1792"
                               size="22px"
                             >
                               <SvgIcon__StyledSvg
@@ -17667,7 +17624,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             <SvgIcon
                               color="currentColor"
                               icon="desktop"
-                              iconViewBox="0 0 1792 1792"
                               size="18px"
                             >
                               <SvgIcon__StyledSvg
@@ -17836,7 +17792,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   >
                     <SvgIcon
                       icon="edit"
-                      iconViewBox="0 0 1792 1792"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
@@ -18043,7 +17998,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -18317,7 +18271,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -19336,7 +19289,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                       className="c8"
                                       color="#646464"
                                       icon="question-circle"
-                                      iconViewBox="0 0 1792 1792"
                                       size="16px"
                                     >
                                       <SvgIcon__StyledSvg
@@ -19721,7 +19673,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                             <SvgIcon
                               color="currentColor"
                               icon="mobile"
-                              iconViewBox="0 0 1792 1792"
                               size="22px"
                             >
                               <SvgIcon__StyledSvg
@@ -19894,7 +19845,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                             <SvgIcon
                               color="currentColor"
                               icon="desktop"
-                              iconViewBox="0 0 1792 1792"
                               size="18px"
                             >
                               <SvgIcon__StyledSvg
@@ -20063,7 +20013,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   >
                     <SvgIcon
                       icon="edit"
-                      iconViewBox="0 0 1792 1792"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
@@ -20270,7 +20219,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -20544,7 +20492,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -21551,7 +21498,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                       className="c8"
                                       color="#646464"
                                       icon="question-circle"
-                                      iconViewBox="0 0 1792 1792"
                                       size="16px"
                                     >
                                       <SvgIcon__StyledSvg
@@ -21928,7 +21874,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             <SvgIcon
                               color="currentColor"
                               icon="mobile"
-                              iconViewBox="0 0 1792 1792"
                               size="22px"
                             >
                               <SvgIcon__StyledSvg
@@ -22101,7 +22046,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             <SvgIcon
                               color="currentColor"
                               icon="desktop"
-                              iconViewBox="0 0 1792 1792"
                               size="18px"
                             >
                               <SvgIcon__StyledSvg
@@ -22270,7 +22214,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   >
                     <SvgIcon
                       icon="edit"
-                      iconViewBox="0 0 1792 1792"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
@@ -22477,7 +22420,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -22751,7 +22693,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -23769,7 +23710,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                       className="c8"
                                       color="#646464"
                                       icon="question-circle"
-                                      iconViewBox="0 0 1792 1792"
                                       size="16px"
                                     >
                                       <SvgIcon__StyledSvg
@@ -24146,7 +24086,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             <SvgIcon
                               color="currentColor"
                               icon="mobile"
-                              iconViewBox="0 0 1792 1792"
                               size="22px"
                             >
                               <SvgIcon__StyledSvg
@@ -24319,7 +24258,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             <SvgIcon
                               color="currentColor"
                               icon="desktop"
-                              iconViewBox="0 0 1792 1792"
                               size="18px"
                             >
                               <SvgIcon__StyledSvg
@@ -24488,7 +24426,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   >
                     <SvgIcon
                       icon="edit"
-                      iconViewBox="0 0 1792 1792"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
@@ -24717,7 +24654,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -25024,7 +24960,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -25846,7 +25781,6 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
     >
       <SvgIcon
         icon="edit"
-        iconViewBox="0 0 1792 1792"
         size="16px"
       />
       Edit snippet
@@ -26695,7 +26629,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                       className="c8"
                                       color="#646464"
                                       icon="question-circle"
-                                      iconViewBox="0 0 1792 1792"
                                       size="16px"
                                     >
                                       <SvgIcon__StyledSvg
@@ -27072,7 +27005,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                             <SvgIcon
                               color="currentColor"
                               icon="mobile"
-                              iconViewBox="0 0 1792 1792"
                               size="22px"
                             >
                               <SvgIcon__StyledSvg
@@ -27245,7 +27177,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                             <SvgIcon
                               color="currentColor"
                               icon="desktop"
-                              iconViewBox="0 0 1792 1792"
                               size="18px"
                             >
                               <SvgIcon__StyledSvg
@@ -27414,7 +27345,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   >
                     <SvgIcon
                       icon="edit"
-                      iconViewBox="0 0 1792 1792"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
@@ -27621,7 +27551,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
@@ -27895,7 +27824,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                 >
                                   <SvgIcon
                                     icon="plus-circle"
-                                    iconViewBox="0 0 1792 1792"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
