@@ -6,25 +6,25 @@ import PropTypes from "prop-types";
 import SidebarItem from "./SidebarItem";
 
 /**
- * Creates the Sidebar component.
+ * Creates the Metabox component.
  *
  * @param {bool} isContentAnalysisActive Whether or not the readability analysis is active.
  * @param {bool} isKeywordAnalysisActive Whether or not the SEO analysis is active.
  *
- * @returns {ReactElement} The Sidebar component.
+ * @returns {ReactElement} The Metabox component.
  */
-export default function Sidebar( { isContentAnalysisActive, isKeywordAnalysisActive } ) {
+export default function Metabox( { isContentAnalysisActive, isKeywordAnalysisActive } ) {
 	const { Fill } = wp.components;
 
 	return (
-		<Fill name="YoastSidebar">
+		<Fill name="YoastMetabox">
 			{ isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>Readability analysis</SidebarItem> }
 			{ isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem> }
 		</Fill>
 	);
 }
 
-Sidebar.propTypes = {
+Metabox.propTypes = {
 	isContentAnalysisActive: PropTypes.bool,
 	isKeywordAnalysisActive: PropTypes.bool,
 };
