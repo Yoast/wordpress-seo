@@ -79,6 +79,7 @@ function registerPlugin( store ) {
 						} }
 					</Slot>
 				</PluginSidebar>
+
 				<Provider store={ store } >
 					<Fragment>
 						<Sidebar store={ store } />

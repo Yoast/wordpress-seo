@@ -8,6 +8,7 @@ import SidebarItem from "./SidebarItem";
 import keywordUpsellProps from "../values/keywordUpsellProps";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
+import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 
 /**
  * Creates the Metabox component.
@@ -35,6 +36,12 @@ export default function Metabox( { settings, store } ) {
 					/>
 				</StoreProvider>
 			</SidebarItem> }
+			{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+				<StoreProvider store={ store }>
+					<CollapsibleCornerstone />
+				</StoreProvider>
+			</SidebarItem>
+			}
 		</Fill>
 	);
 }

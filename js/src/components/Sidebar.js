@@ -6,6 +6,7 @@ import { Provider as StoreProvider } from "react-redux";
 
 import SidebarItem from "./SidebarItem";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
+import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 import keywordUpsellProps from "../values/keywordUpsellProps";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 
@@ -16,6 +17,8 @@ import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
  * @param {Object} store The Redux store.
  *
  * @returns {ReactElement} The Sidebar component.
+ *
+ * @constructor
  */
 export default function Sidebar( { settings, store } ) {
 	const { Fill } = wp.components;
@@ -35,6 +38,12 @@ export default function Sidebar( { settings, store } ) {
 					/>
 				</StoreProvider>
 			</SidebarItem> }
+			{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+				<StoreProvider store={ store }>
+					<CollapsibleCornerstone />
+				</StoreProvider>
+			</SidebarItem>
+			}
 		</Fill>
 	);
 }

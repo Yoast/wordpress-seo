@@ -35,6 +35,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 import { updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
+import { setCornerstoneContent } from "./redux/actions/cornerstoneContent";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -471,13 +472,6 @@ setWordPressSeoL10n();
 			snippetPreviewHelpers.isolate( snippetContainer );
 		}
 
-		// Switch between assessors when checkbox has been checked.
-		const cornerstoneCheckbox = jQuery( "#yoast_wpseo_is_cornerstone" );
-		app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
-		cornerstoneCheckbox.change( function() {
-			app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
-		} );
-
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );
 		const originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
@@ -498,6 +492,7 @@ setWordPressSeoL10n();
 
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
+		store.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === "true" ) );
 
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = store.getState().focusKeyword;
@@ -531,6 +526,16 @@ setWordPressSeoL10n();
 
 			if ( snippetEditorData.description !== data.description ) {
 				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
+			}
+
+			let currentState = store.getState();
+
+			if ( document.getElementById( "yoast_wpseo_is_cornerstone" ).value !== currentState.isCornerstone ) {
+				document.getElementById( "yoast_wpseo_is_cornerstone" ).value = currentState.isCornerstone;
+
+				app.changeAssessorOptions( {
+					useCornerStone: currentState.isCornerstone,
+				} );
 			}
 
 			snippetEditorData.title = data.title;
