@@ -1,5 +1,5 @@
-import CollapsibleCornerstone from "../components/CollapsibleCornerstone";
 import { connect } from "react-redux";
+import CollapsibleCornerstone from "../components/CollapsibleCornerstone";
 import { toggleCornerstoneContent } from "../redux/actions/cornerstoneContent";
 
 /**

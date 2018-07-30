@@ -15,7 +15,7 @@ export default function CollapsibleCornerstone( { isCornerstone, onChange } ) {
 			<p>Cornerstone content should be the most important and extensive articles on your site.</p>
 			<CornerstoneToggle
 				isEnabled={ isCornerstone }
-				onSetEnable={ onChange }
+				onToggle={ onChange }
 			/>
 		</Collapsible>
 	);
