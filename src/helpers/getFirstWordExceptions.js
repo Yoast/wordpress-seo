@@ -1,11 +1,11 @@
-let firstWordExceptionsEnglish = require( "../researches/english/firstWordExceptions.js" );
-let firstWordExceptionsGerman = require( "../researches/german/firstWordExceptions.js" );
-let firstWordExceptionsSpanish = require( "../researches/spanish/firstWordExceptions.js" );
-let firstWordExceptionsFrench = require( "../researches/french/firstWordExceptions.js" );
-let firstWordExceptionsDutch = require( "../researches/dutch/firstWordExceptions.js" );
-let firstWordExceptionsItalian = require( "../researches/italian/firstWordExceptions.js" );
-let firstWordExceptionsRussian = require( "../researches/russian/firstWordExceptions.js" );
-let firstWordExceptionsPolish = require( "../researches/polish/firstWordExceptions.js" );
+const firstWordExceptionsEnglish = require( "../researches/english/firstWordExceptions.js" );
+const firstWordExceptionsGerman = require( "../researches/german/firstWordExceptions.js" );
+const firstWordExceptionsSpanish = require( "../researches/spanish/firstWordExceptions.js" );
+const firstWordExceptionsFrench = require( "../researches/french/firstWordExceptions.js" );
+const firstWordExceptionsDutch = require( "../researches/dutch/firstWordExceptions.js" );
+const firstWordExceptionsItalian = require( "../researches/italian/firstWordExceptions.js" );
+const firstWordExceptionsRussian = require( "../researches/russian/firstWordExceptions.js" );
+const firstWordExceptionsPolish = require( "../researches/polish/firstWordExceptions.js" );
 
 let getLanguage = require( "./getLanguage.js" );
 
