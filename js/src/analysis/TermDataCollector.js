@@ -6,12 +6,12 @@ import analysis from "yoastseo";
 const { measureTextWidth } = analysis.helpers;
 
 /* Internal dependencies */
-import getIndicatorForScore from "../analysis/getIndicatorForScore";
+import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import tmceHelper from "../wp-seo-tinymce";
+import { termsTmceId as tmceId } from "../wp-seo-tinymce";
+import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
-import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
-import { termsTmceId as tmceId } from "../wp-seo-tinymce";
 
 let $ = jQuery;
 
