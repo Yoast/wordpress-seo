@@ -7,13 +7,33 @@ import { __ } from "@wordpress/i18n";
 /* Internal dependencies */
 import colors from "../../../../style-guide/colors.json";
 import AnalysisResult from "../components/AnalysisResult.js";
-import AnalysisCollapsible from "../components/AnalysisCollapsible.js";
+import Collapsible, { StyledIconsButton } from "../../../../composites/Plugin/Shared/components/Collapsible";
 
 export const ContentAnalysisContainer = styled.div`
 	width: 100%;
 	background-color: white;
 	max-width: 800px;
 	margin: 0 auto;
+	border-bottom: 1px solid transparent; // Avoid parent and child margin collapsing.
+`;
+
+const StyledCollapsible = styled( Collapsible )`
+	margin-bottom: 8px;
+
+	button:first-child svg {
+		margin: -2px 8px 0 -2px; // Compensate icon size set to 18px.
+	}
+
+	${ StyledIconsButton } {
+		padding: 8px 16px;
+		color: ${ colors.$color_blue }
+	}
+`;
+
+const AnalysisList = styled.ul`
+	margin: 0;
+	padding: 8px 16px;
+	list-style: none;
 `;
 
 /**
@@ -116,6 +136,31 @@ class ContentAnalysis extends React.Component {
 	}
 
 	/**
+	 * Renders a Collapsible component with a liset of Analysis results.
+	 *
+	 * @param {string} title        The title of the collapsible section.
+	 * @param {number} headingLevel Heading level: 1 for h1, 2 for h2, etc.
+	 * @param {object} results      The list of results to display.
+	 *
+	 * @returns {ReactElement} The collapsible section with list of results.
+	 */
+	renderCollapsible( title, headingLevel, results ) {
+		return (
+			<StyledCollapsible
+				initialIsOpen={ true }
+				title={ `${ title } (${ results.length })` }
+				prefixIcon={ { icon: "angle-up", color: colors.$color_grey_dark, size: "18px" } }
+				prefixIconCollapsed={ { icon: "angle-down", color: colors.$color_grey_dark, size: "18px" } }
+				suffixIcon={ null }
+				suffixIconCollapsed={ null }
+				headingLevel={ headingLevel }
+			>
+				<AnalysisList role="list">{ this.getResults( results ) }</AnalysisList>
+			</StyledCollapsible>
+		);
+	}
+
+	/**
 	 * Renders a ContentAnalysis component.
 	 *
 	 * @returns {ReactElement} The rendered ContentAnalysis component.
@@ -139,40 +184,20 @@ class ContentAnalysis extends React.Component {
 		return (
 			<ContentAnalysisContainer>
 				{ errorsFound > 0 &&
-				<AnalysisCollapsible
-					headingLevel={ headingLevel }
-					title={ __( "Errors", "yoast-components" ) }
-				>
-					{ this.getResults( errorsResults ) }
-				</AnalysisCollapsible> }
+					this.renderCollapsible( __( "Errors", "yoast-components" ), headingLevel, errorsResults )
+				}
 				{ problemsFound > 0 &&
-					<AnalysisCollapsible
-						headingLevel={ headingLevel }
-						title={ __( "Problems", "yoast-components" ) }
-					>
-						{ this.getResults( problemsResults ) }
-					</AnalysisCollapsible> }
+					this.renderCollapsible( __( "Problems", "yoast-components" ), headingLevel, problemsResults )
+				}
 				{ improvementsFound > 0 &&
-					<AnalysisCollapsible
-						headingLevel={ headingLevel }
-						title={ __( "Improvements", "yoast-components" ) }
-					>
-						{ this.getResults( improvementsResults ) }
-					</AnalysisCollapsible> }
+					this.renderCollapsible( __( "Improvements", "yoast-components" ), headingLevel, improvementsResults )
+				}
 				{ considerationsFound > 0 &&
-					<AnalysisCollapsible
-						headingLevel={ headingLevel }
-						title={ __( "Considerations", "yoast-components" ) }
-					>
-						{ this.getResults( considerationsResults ) }
-					</AnalysisCollapsible> }
+					this.renderCollapsible( __( "Considerations", "yoast-components" ), headingLevel, considerationsResults )
+				}
 				{ goodResultsFound > 0 &&
-					<AnalysisCollapsible
-						headingLevel={ headingLevel }
-						title={ __( "Good results", "yoast-components" ) }
-					>
-						{ this.getResults( goodResults ) }
-					</AnalysisCollapsible> }
+					this.renderCollapsible( __( "Good results", "yoast-components" ), headingLevel, goodResults )
+				}
 			</ContentAnalysisContainer>
 		);
 	}

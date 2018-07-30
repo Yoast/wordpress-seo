@@ -72,7 +72,7 @@ const components = [
 	},
 	{
 		id: "sidebar-collapsible",
-		name: "Sidebar Collapsible",
+		name: "Collapsibles",
 		component: <SidebarCollapsibleWrapper />,
 	},
 	{

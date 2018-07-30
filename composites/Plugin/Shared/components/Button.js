@@ -268,24 +268,47 @@ IconButton.defaultProps = {
  * @returns {ReactElement} styled icon button.
  */
 export const IconsButton = ( props ) => {
-	const { children: text, prefixIcon, prefixIconColor, suffixIcon, suffixIconColor } = props;
-
-	const newProps = omit( props, [ "prefixIcon", "prefixIconColor", "suffixIcon", "suffixIconColor" ] );
+	const {
+		children,
+		className,
+		prefixIcon,
+		suffixIcon,
+		...buttonProps
+	} = props;
 
 	return (
-		<Button { ...newProps }>
-			{ prefixIcon ? <SvgIcon icon={ prefixIcon } color={ prefixIconColor } /> : null }
-			{ text }
-			{ suffixIcon ? <SvgIcon icon={ suffixIcon } color={ suffixIconColor } /> : null }
+		<Button className={ className } { ...buttonProps }>
+			{ prefixIcon &&
+				<SvgIcon
+					icon={ prefixIcon.icon }
+					color={ prefixIcon.color }
+					size={ prefixIcon.size }
+				/>
+			}
+			{ children }
+			{ suffixIcon &&
+				<SvgIcon
+					icon={ suffixIcon.icon }
+					color={ suffixIcon.color }
+					size={ suffixIcon.size }
+				/>
+			}
 		</Button>
 	);
 };
 
 IconsButton.propTypes = {
-	prefixIcon: PropTypes.string,
-	prefixIconColor: PropTypes.string,
-	suffixIcon: PropTypes.string,
-	suffixIconColor: PropTypes.string,
+	className: PropTypes.string,
+	prefixIcon: PropTypes.shape( {
+		icon: PropTypes.string,
+		color: PropTypes.string,
+		size: PropTypes.string,
+	} ),
+	suffixIcon: PropTypes.shape( {
+		icon: PropTypes.string,
+		color: PropTypes.string,
+		size: PropTypes.string,
+	} ),
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
@@ -294,6 +317,14 @@ IconsButton.propTypes = {
 };
 
 IconsButton.defaultProps = {
-	prefixIconColor: "#000",
-	suffixIconColor: "#000",
+	prefixIcon: {
+		icon: "",
+		color: colors.$black,
+		size: "16px",
+	},
+	suffixIcon: {
+		icon: "",
+		color: colors.$black,
+		size: "16px",
+	},
 };

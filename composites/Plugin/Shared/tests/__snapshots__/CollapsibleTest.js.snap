@@ -79,15 +79,25 @@ exports[`Collapsible matches the snapshot by default 1`] = `
 .c2 {
   width: 100%;
   background-color: #fff;
-  padding: 15px;
+  padding: 16px;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   border-color: transparent;
+  border: none;
   border-radius: 0;
   box-shadow: none;
-  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c2:active {
+  box-shadow: none;
+  background-color: #fff;
 }
 
 .c2 svg:first-child {
@@ -99,16 +109,19 @@ exports[`Collapsible matches the snapshot by default 1`] = `
 }
 
 .c9 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  overflow-x: hidden;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -116,9 +129,9 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   font-weight: normal;
 }
 
-.c10 {
-  width: 16px;
-  height: 16px;
+.c11 {
+  width: 9px;
+  height: 9px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -135,7 +148,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
 <div
   className="c0"
 >
-  <h3
+  <h2
     className="c1"
   >
     <button
@@ -147,15 +160,19 @@ exports[`Collapsible matches the snapshot by default 1`] = `
       <span
         className="c9"
       >
-        Lorem ipsum dolor sit amet
+        <span
+          className="c10"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-down c10"
-        fill="#000"
+        className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
+        fill={undefined}
         focusable="false"
         role="img"
-        size="16px"
+        size="9px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -164,7 +181,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
         />
       </svg>
     </button>
-  </h3>
+  </h2>
 </div>
 `;
 
@@ -244,22 +261,28 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   background-color: #fff;
 }
 
-.c11 {
-  padding: 0 15px;
-}
-
 .c2 {
   width: 100%;
   background-color: #fff;
-  padding: 15px;
+  padding: 16px;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   border-color: transparent;
+  border: none;
   border-radius: 0;
   box-shadow: none;
-  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c2:active {
+  box-shadow: none;
+  background-color: #fff;
 }
 
 .c2 svg:first-child {
@@ -271,16 +294,19 @@ exports[`Collapsible matches the snapshot by default 2`] = `
 }
 
 .c9 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  overflow-x: hidden;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -288,9 +314,9 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   font-weight: normal;
 }
 
-.c10 {
-  width: 16px;
-  height: 16px;
+.c11 {
+  width: 9px;
+  height: 9px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -307,7 +333,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
 <div
   className="c0"
 >
-  <h3
+  <h2
     className="c1"
   >
     <button
@@ -319,15 +345,19 @@ exports[`Collapsible matches the snapshot by default 2`] = `
       <span
         className="c9"
       >
-        Lorem ipsum dolor sit amet
+        <span
+          className="c10"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-up c10"
-        fill="#000"
+        className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
+        fill={undefined}
         focusable="false"
         role="img"
-        size="16px"
+        size="9px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -336,23 +366,19 @@ exports[`Collapsible matches the snapshot by default 2`] = `
         />
       </svg>
     </button>
-  </h3>
-  <div
-    className="c11"
-  >
-    <h4>
-      Vivamus rutrum velit ut nunc dignissim vulputate.
-    </h4>
-    <p>
-      In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
-    </p>
-    <h4>
-      Ut id ex efficitur risus suscipit fermentum.
-    </h4>
-    <p>
-      Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
-    </p>
-  </div>
+  </h2>
+  <h4>
+    Vivamus rutrum velit ut nunc dignissim vulputate.
+  </h4>
+  <p>
+    In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+  </p>
+  <h4>
+    Ut id ex efficitur risus suscipit fermentum.
+  </h4>
+  <p>
+    Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+  </p>
 </div>
 `;
 
@@ -435,15 +461,25 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
 .c2 {
   width: 100%;
   background-color: #fff;
-  padding: 15px;
+  padding: 16px;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   border-color: transparent;
+  border: none;
   border-radius: 0;
   box-shadow: none;
-  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c2:active {
+  box-shadow: none;
+  background-color: #fff;
 }
 
 .c2 svg:first-child {
@@ -455,16 +491,19 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
 }
 
 .c9 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  overflow-x: hidden;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -472,9 +511,9 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   font-weight: normal;
 }
 
-.c10 {
-  width: 16px;
-  height: 16px;
+.c11 {
+  width: 9px;
+  height: 9px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -491,7 +530,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
 <div
   className="c0"
 >
-  <h3
+  <h2
     className="c1"
   >
     <button
@@ -503,15 +542,19 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
       <span
         className="c9"
       >
-        Lorem ipsum dolor sit amet
+        <span
+          className="c10"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-down c10"
-        fill="#000"
+        className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
+        fill={undefined}
         focusable="false"
         role="img"
-        size="16px"
+        size="9px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -520,7 +563,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
         />
       </svg>
     </button>
-  </h3>
+  </h2>
 </div>
 `;
 
@@ -600,22 +643,28 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   background-color: #fff;
 }
 
-.c11 {
-  padding: 0 15px;
-}
-
 .c2 {
   width: 100%;
   background-color: #fff;
-  padding: 15px;
+  padding: 16px;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   border-color: transparent;
+  border: none;
   border-radius: 0;
   box-shadow: none;
-  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c2:active {
+  box-shadow: none;
+  background-color: #fff;
 }
 
 .c2 svg:first-child {
@@ -627,16 +676,19 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
 }
 
 .c9 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  overflow-x: hidden;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -644,9 +696,9 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   font-weight: normal;
 }
 
-.c10 {
-  width: 16px;
-  height: 16px;
+.c11 {
+  width: 9px;
+  height: 9px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -663,7 +715,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
 <div
   className="c0"
 >
-  <h3
+  <h2
     className="c1"
   >
     <button
@@ -675,15 +727,19 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
       <span
         className="c9"
       >
-        Lorem ipsum dolor sit amet
+        <span
+          className="c10"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-up c10"
-        fill="#000"
+        className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
+        fill={undefined}
         focusable="false"
         role="img"
-        size="16px"
+        size="9px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -692,23 +748,19 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
         />
       </svg>
     </button>
-  </h3>
-  <div
-    className="c11"
-  >
-    <h4>
-      Vivamus rutrum velit ut nunc dignissim vulputate.
-    </h4>
-    <p>
-      In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
-    </p>
-    <h4>
-      Ut id ex efficitur risus suscipit fermentum.
-    </h4>
-    <p>
-      Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
-    </p>
-  </div>
+  </h2>
+  <h4>
+    Vivamus rutrum velit ut nunc dignissim vulputate.
+  </h4>
+  <p>
+    In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+  </p>
+  <h4>
+    Ut id ex efficitur risus suscipit fermentum.
+  </h4>
+  <p>
+    Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+  </p>
 </div>
 `;
 
@@ -788,22 +840,28 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   background-color: #fff;
 }
 
-.c11 {
-  padding: 0 15px;
-}
-
 .c2 {
   width: 100%;
   background-color: #fff;
-  padding: 15px;
+  padding: 16px;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   border-color: transparent;
+  border: none;
   border-radius: 0;
   box-shadow: none;
-  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c2:active {
+  box-shadow: none;
+  background-color: #fff;
 }
 
 .c2 svg:first-child {
@@ -815,16 +873,19 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
 }
 
 .c9 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  overflow-x: hidden;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -832,9 +893,9 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   font-weight: normal;
 }
 
-.c10 {
-  width: 16px;
-  height: 16px;
+.c11 {
+  width: 9px;
+  height: 9px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -851,7 +912,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
 <div
   className="c0"
 >
-  <h3
+  <h2
     className="c1"
   >
     <button
@@ -863,15 +924,19 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
       <span
         className="c9"
       >
-        Lorem ipsum dolor sit amet
+        <span
+          className="c10"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-up c10"
-        fill="#000"
+        className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
+        fill={undefined}
         focusable="false"
         role="img"
-        size="16px"
+        size="9px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -880,23 +945,19 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
         />
       </svg>
     </button>
-  </h3>
-  <div
-    className="c11"
-  >
-    <h4>
-      Vivamus rutrum velit ut nunc dignissim vulputate.
-    </h4>
-    <p>
-      In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
-    </p>
-    <h4>
-      Ut id ex efficitur risus suscipit fermentum.
-    </h4>
-    <p>
-      Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
-    </p>
-  </div>
+  </h2>
+  <h4>
+    Vivamus rutrum velit ut nunc dignissim vulputate.
+  </h4>
+  <p>
+    In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+  </p>
+  <h4>
+    Ut id ex efficitur risus suscipit fermentum.
+  </h4>
+  <p>
+    Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+  </p>
 </div>
 `;
 
@@ -979,15 +1040,25 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
 .c2 {
   width: 100%;
   background-color: #fff;
-  padding: 15px;
+  padding: 16px;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   border-color: transparent;
+  border: none;
   border-radius: 0;
   box-shadow: none;
-  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c2:active {
+  box-shadow: none;
+  background-color: #fff;
 }
 
 .c2 svg:first-child {
@@ -999,16 +1070,19 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
 }
 
 .c9 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  overflow-x: hidden;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -1016,9 +1090,9 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   font-weight: normal;
 }
 
-.c10 {
-  width: 16px;
-  height: 16px;
+.c11 {
+  width: 9px;
+  height: 9px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -1035,7 +1109,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
 <div
   className="c0"
 >
-  <h3
+  <h2
     className="c1"
   >
     <button
@@ -1047,15 +1121,19 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
       <span
         className="c9"
       >
-        Lorem ipsum dolor sit amet
+        <span
+          className="c10"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-down c10"
-        fill="#000"
+        className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
+        fill={undefined}
         focusable="false"
         role="img"
-        size="16px"
+        size="9px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -1064,7 +1142,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
         />
       </svg>
     </button>
-  </h3>
+  </h2>
 </div>
 `;
 
@@ -1147,15 +1225,25 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
 .c2 {
   width: 100%;
   background-color: #fff;
-  padding: 15px;
+  padding: 16px;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   border-color: transparent;
+  border: none;
   border-radius: 0;
   box-shadow: none;
-  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c2:active {
+  box-shadow: none;
+  background-color: #fff;
 }
 
 .c2 svg:first-child {
@@ -1167,16 +1255,19 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
 }
 
 .c9 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  overflow-x: hidden;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -1207,7 +1298,11 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
       <span
         className="c9"
       >
-        Lorem ipsum dolor sit amet
+        <span
+          className="c10"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
       </span>
     </button>
   </h2>
@@ -1305,15 +1400,25 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 .c2 {
   width: 100%;
   background-color: #fff;
-  padding: 15px;
+  padding: 16px;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   border-color: transparent;
+  border: none;
   border-radius: 0;
   box-shadow: none;
-  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c2:active {
+  box-shadow: none;
+  background-color: #fff;
 }
 
 .c2 svg:first-child {
@@ -1325,16 +1430,19 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 }
 
 .c9 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  overflow-x: hidden;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -1365,7 +1473,11 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
       <span
         className="c9"
       >
-        Lorem ipsum dolor sit amet
+        <span
+          className="c10"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
       </span>
     </button>
   </h2>
@@ -1463,15 +1575,25 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 .c2 {
   width: 100%;
   background-color: #fff;
-  padding: 15px;
+  padding: 16px;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   border-color: transparent;
+  border: none;
   border-radius: 0;
   box-shadow: none;
-  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c2:active {
+  box-shadow: none;
+  background-color: #fff;
 }
 
 .c2 svg:first-child {
@@ -1483,16 +1605,19 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 }
 
 .c9 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  overflow-x: hidden;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -1523,7 +1648,11 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
       <span
         className="c9"
       >
-        Lorem ipsum dolor sit amet
+        <span
+          className="c10"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
       </span>
     </button>
   </h2>
@@ -1621,15 +1750,25 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
 .c2 {
   width: 100%;
   background-color: #fff;
-  padding: 15px;
+  padding: 16px;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   border-color: transparent;
+  border: none;
   border-radius: 0;
   box-shadow: none;
-  color: #000;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c2:active {
+  box-shadow: none;
+  background-color: #fff;
 }
 
 .c2 svg:first-child {
@@ -1641,16 +1780,19 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
 }
 
 .c10 {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  overflow-x: hidden;
+}
+
+.c11 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  font-size: 1rem;
 }
 
 .c1 {
@@ -1703,21 +1845,25 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
       <span
         className="c10"
       >
-        Lorem ipsum dolor sit amet
-      </span>
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        bad SEO score
+        <span
+          className="c11"
+        >
+          Lorem ipsum dolor sit amet
+          <span
+            className="screen-reader-text"
+            style={
+              Object {
+                "clip": "rect(1px, 1px, 1px, 1px)",
+                "height": "1px",
+                "overflow": "hidden",
+                "position": "absolute",
+                "width": "1px",
+              }
+            }
+          >
+             bad SEO score
+          </span>
+        </span>
       </span>
     </button>
   </h2>
