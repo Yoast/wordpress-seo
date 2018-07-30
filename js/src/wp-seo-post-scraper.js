@@ -477,13 +477,6 @@ setWordPressSeoL10n();
 			snippetPreviewHelpers.isolate( snippetContainer );
 		}
 
-		// Switch between assessors when checkbox has been checked.
-		const cornerstoneCheckbox = jQuery( "#yoast_wpseo_is_cornerstone" );
-		app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
-		cornerstoneCheckbox.change( function() {
-			app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
-		} );
-
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );
 		const originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
@@ -529,6 +522,10 @@ setWordPressSeoL10n();
 
 			if ( document.getElementById( "yoast_wpseo_is_cornerstone" ).value !== currentState.isCornerstone ) {
 				document.getElementById( "yoast_wpseo_is_cornerstone" ).value = currentState.isCornerstone;
+
+				app.changeAssessorOptions({
+					useCornerStone: currentState.isCornerstone
+				});
 			}
 
 			snippetEditorData.title = data.title;
