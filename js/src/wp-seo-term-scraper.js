@@ -196,7 +196,12 @@ window.yoastHideMarkers = true;
 		}
 	}
 
-	jQuery( document ).ready( function() {
+	/**
+	 * Initializes analysis for the term edit screen.
+	 *
+	 * @returns {void}
+	 */
+	function initializeTermAnalysis() {
 		var args, termScraper, translations;
 
 		const editArgs = {
@@ -205,7 +210,8 @@ window.yoastHideMarkers = true;
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
-		store = initializeEdit( editArgs ).store;
+
+		const { store } = initializeEdit( editArgs );
 
 		snippetContainer = $( "#wpseosnippet" );
 
@@ -341,5 +347,7 @@ window.yoastHideMarkers = true;
 			snippetEditorData.slug = data.slug;
 			snippetEditorData.description = data.description;
 		} );
-	} );
+	}
+
+	jQuery( document ).ready( initializeTermAnalysis );
 }( jQuery, window ) );
