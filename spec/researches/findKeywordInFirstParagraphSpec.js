@@ -1,35 +1,396 @@
-var firstParagraph = require( "../../js/researches/findKeywordInFirstParagraph.js" );
-var Paper = require( "../../js/values/Paper.js" );
+import firstParagraph from "../../js/researches/findKeywordInFirstParagraph.js";
+const Paper = require( "../../js/values/Paper.js" );
 
+const keyphraseEN = "walking in nature benefits";
+const sentenceWithAllKeywordsEN = "I like to take walks in the nature, because my body and brain benefit from it! ";
+const sentenceWithSomeKeywordsEN = "I like to take walks in the nature. ";
+const sentenceWithTheOtherKeywordsEN = "My body and brain benefit from it! ";
+const sentenceWithoutKeywordsEN = "I also enjoy cycling. ";
 
-describe( "checks for the keyword in the first paragraph", function() {
-	it( "returns the number of matches", function() {
-		expect( firstParagraph( new Paper( "<p>keyword</p>", { keyword: "keyword" } ) ) ).toBe( 1 );
-		expect( firstParagraph( new Paper( "<p>text</p> keyword", { keyword: "keyword" } ) ) ).toBe( 0 );
-		expect( firstParagraph( new Paper( "<p>test</p><p>keyword</p>", { keyword: "keyword" } ) ) ).toBe( 0 );
-		expect( firstParagraph( new Paper(  "dit is een keyword test \n\n ", { keyword: "keyword" } ) ) ).toBe( 1 );
-		expect( firstParagraph( new Paper( "keyword\n\ntext", { keyword: "keyword" } ) ) ).toBe( 1 );
-		expect( firstParagraph( new Paper( "dit is een test \n\n keyword", { keyword: "keyword" } ) ) ).toBe( 0 );
-		expect( firstParagraph( new Paper( "dit is een test keyword", { keyword: "keyword" } ) ) ).toBe( 1 );
-		expect( firstParagraph( new Paper( "<p class='p'>keyword</p>", { keyword: "keyword" } ) ) ).toBe( 1 );
-		expect( firstParagraph( new Paper( "<table><tr><td>keyword</td></tr></table>", { keyword: "keyword" } ) ) ).toBe( 1 );
-		expect( firstParagraph( new Paper( "<p>this is a kapaklı</p>", { keyword: "kapaklı" } ) ) ).toBe( 1 );
-		expect( firstParagraph( new Paper( "<p>this is a key-word</p>", { keyword: "key-word" } ) ) ).toBe( 1 );
-		expect( firstParagraph( new Paper( "<p>this is a key-word</p>", { keyword: "key_word" } ) ) ).toBe( 0 );
-		expect( firstParagraph( new Paper( "<p>this is a key_word</p>", { keyword: "key_word" } ) ) ).toBe( 1 );
-		expect( firstParagraph( new Paper( "<p>this is a key_word</p>", { keyword: "key word" } ) ) ).toBe( 0 );
-		expect( firstParagraph( new Paper( "<p>this is a $keyword with an extra char</p>", { keyword: "$keyword" } ) ) ).toBe( 1 );
+const paragraphWithSentenceMatchEN = "<p>" + sentenceWithAllKeywordsEN + sentenceWithSomeKeywordsEN + sentenceWithoutKeywordsEN + "/<p>";
+const paragraphWithParagraphMatchEN = "<p>" + sentenceWithSomeKeywordsEN + sentenceWithTheOtherKeywordsEN +
+	sentenceWithSomeKeywordsEN + sentenceWithoutKeywordsEN + "/<p>";
+const paragraphWithoutMatchEN = "<p>" + sentenceWithoutKeywordsEN + sentenceWithoutKeywordsEN + sentenceWithoutKeywordsEN + "/<p>";
+
+describe( "checks for the content words from the keyphrase in the first paragraph (English)", function() {
+	it( "returns whether all keywords were matched in one sentence", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithSentenceMatchEN, {
+				keyword: keyphraseEN,
+				locale: "en_EN",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithParagraphMatchEN, {
+				keyword: keyphraseEN,
+				locale: "en_EN",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithoutMatchEN, {
+				keyword: keyphraseEN,
+				locale: "en_EN",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
 	} );
 } );
 
-// Empty paragraphs can occur when there are only shortcodes that are filtered out.
-describe( "The first paragraph should be skipped when it is empty.", function() {
-	it( "returns the number of matches in the first not empty paragraph",  function() {
-		expect( firstParagraph( new Paper( "<p></p><p>this is a keyword</p>", { keyword: "keyword" } ) ) ).toBe( 1 );
-		expect( firstParagraph( new Paper( "<p></p><p>this is a keyword</p>", { keyword: "" } ) ) ).toBe( 0 );
-		expect( firstParagraph( new Paper( "<p></p>", { keyword: "keyword" } ) ) ).toBe( 0 );
-		expect( firstParagraph( new Paper( "<p></p><p>Not an empty paragraph</p><p>This is a keyword</p>", { keyword: "keyword" } ) ) ).toBe( 0 );
+describe( "checks for the content words from a synonym phrase in the first paragraph (English)", function() {
+	it( "returns whether all keywords were matched in one sentence", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithSentenceMatchEN, {
+				keyword: "something unrelated",
+				synonyms: keyphraseEN,
+				locale: "en_EN",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "synonym",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithParagraphMatchEN, {
+				keyword: "something unrelated",
+				synonyms: keyphraseEN,
+				locale: "en_EN",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "synonym",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithoutMatchEN, {
+				keyword: "something unrelated",
+				synonyms: keyphraseEN,
+				locale: "en_EN",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
 	} );
 } );
 
+const keyphraseFR = "se promener dans la nature avantages";
+const sentenceWithAllKeywordsFR = "J'aime a me promener dans la nature pour toutes les avantages pour mon corps et mon cerveau! ";
+const sentenceWithSomeKeywordsFR = "J'aime a me promener dans la nature. ";
+const sentenceWithTheOtherKeywordsFR = "Il'y a pleusieurs d'avantages pour mon corps et mon cerveau! ";
+const sentenceWithoutKeywordsFR = "J'aime a cycler aussi. ";
 
+const paragraphWithSentenceMatchFR = "<p>" + sentenceWithAllKeywordsFR + sentenceWithSomeKeywordsFR + sentenceWithoutKeywordsFR + "/<p>";
+const paragraphWithParagraphMatchFR = "<p>" + sentenceWithSomeKeywordsFR + sentenceWithTheOtherKeywordsFR +
+	sentenceWithSomeKeywordsFR + sentenceWithoutKeywordsFR + "/<p>";
+const paragraphWithoutMatchFR = "<p>" + sentenceWithoutKeywordsFR + sentenceWithoutKeywordsFR + sentenceWithoutKeywordsFR + "/<p>";
+
+describe( "checks for the content words from the keyphrase in the first paragraph (French - no morphology)", function() {
+	it( "returns whether all keywords were matched in one sentence", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithSentenceMatchFR, {
+				keyword: keyphraseFR,
+				locale: "fr_FR",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithParagraphMatchFR, {
+				keyword: keyphraseFR,
+				locale: "fr_FR",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithoutMatchFR, {
+				keyword: keyphraseFR,
+				locale: "fr_FR",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+} );
+
+describe( "checks for the content words from a synonym phrase in the first paragraph (French - no morphology)", function() {
+	it( "returns whether all keywords were matched in one sentence", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithSentenceMatchFR, {
+				keyword: "quelque chose de irrelevant",
+				synonyms: keyphraseFR,
+				locale: "fr_FR",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "synonym",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithParagraphMatchFR, {
+				keyword: "quelque chose de irrelevant",
+				synonyms: keyphraseFR,
+				locale: "fr_FR",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "synonym",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithoutMatchFR, {
+				keyword: "quelque chose de irrelevant",
+				synonyms: keyphraseFR,
+				locale: "fr_FR",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+} );
+
+const keyphraseSW = "promenader i naturen gynnar";
+const sentenceWithAllKeywordsSW = "Jag gillar att ta promenader i naturen, eftersom det gynnar min hjärna och min kropp. ";
+const sentenceWithSomeKeywordsSW = "Jag gillar att ta promenader i naturen. ";
+const sentenceWithTheOtherKeywordsSW = "Eftersom det gynnar min hjärna och min kropp. ";
+const sentenceWithoutKeywordsSW = "Jag gillar också att cykla. ";
+
+const paragraphWithSentenceMatchSW = "<p>" + sentenceWithAllKeywordsSW + sentenceWithSomeKeywordsSW + sentenceWithoutKeywordsSW + "/<p>";
+const paragraphWithParagraphMatchSW = "<p>" + sentenceWithSomeKeywordsSW + sentenceWithTheOtherKeywordsSW +
+	sentenceWithSomeKeywordsSW + sentenceWithoutKeywordsSW + "/<p>";
+const paragraphWithoutMatchSW = "<p>" + sentenceWithoutKeywordsSW + sentenceWithoutKeywordsSW + sentenceWithoutKeywordsSW + "/<p>";
+
+describe( "checks for all words from the keyphrase or synonyms in the first paragraph (Swedish - no morphology or function words)", function() {
+	it( "returns whether all keywords were matched in one sentence", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithSentenceMatchSW, {
+				keyword: keyphraseSW,
+				locale: "sw_SE",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithParagraphMatchSW, {
+				keyword: keyphraseSW,
+				locale: "sw_SE",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithoutMatchSW, {
+				keyword: keyphraseSW,
+				locale: "sw_SE",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+} );
+
+describe( "checks for the content words from a synonym phrase in the first paragraph (Swedish - no morphology or function words)", function() {
+	it( "returns whether all keywords were matched in one sentence", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithSentenceMatchSW, {
+				keyword: "något orelaterat",
+				synonyms: keyphraseSW,
+				locale: "sw_SE",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "synonym",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithParagraphMatchSW, {
+				keyword: "något orelaterat",
+				synonyms: keyphraseSW,
+				locale: "sw_SE",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "synonym",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		expect( firstParagraph( new Paper(
+			paragraphWithoutMatchSW, {
+				keyword: "något orelaterat",
+				synonyms: keyphraseSW,
+				locale: "sw_SE",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+} );
+
+describe( "tests for edge cases", function() {
+	it( "returns not found if no keyphrase or synonyms were specified", function() {
+		expect( firstParagraph( new Paper(
+			"something", {
+				keyword: "",
+				synonyms: "",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+
+	it( "returns not found if there is no text", function() {
+		expect( firstParagraph( new Paper(
+			"", {
+				keyword: "keyword",
+				synonyms: "synonyms",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+
+	it( "returns not found if the paragraph has no text", function() {
+		expect( firstParagraph( new Paper(
+			"<p></p>", {
+				keyword: "keyword",
+				synonyms: "synonyms",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+
+	it( "returns not found if the paragraph has no text (with double-new-line)", function() {
+		expect( firstParagraph( new Paper(
+			" \n\n ", {
+				keyword: "keyword",
+				synonyms: "synonyms",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+
+	it( "returns correct result if the first paragraph has no text, but the second one does and contains the keyphrase", function() {
+		expect( firstParagraph( new Paper(
+			"<p></p><p>something keyword something else</p>", {
+				keyword: "keyword",
+				synonyms: "synonyms",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "returns correct result if the first paragraph has no text, but the second one does and contains the keyphrase (with double-new-line)", function() {
+		expect( firstParagraph( new Paper(
+			"\n\nsomething keyword something else", {
+				keyword: "keyword",
+				synonyms: "synonyms",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "returns correct result if the first paragraph has text, but the keyphrase is only in the second paragraph", function() {
+		expect( firstParagraph( new Paper(
+			"<p>something</p><p>something keyword something else</p>", {
+				keyword: "keyword",
+				synonyms: "synonyms",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+
+	it( "returns correct result if the first paragraph has text, but the keyphrase is only in the second paragraph (with double-new-line)", function() {
+		expect( firstParagraph( new Paper(
+			"Something meaningful.\n\nSomething keyword something else", {
+				keyword: "keyword",
+				synonyms: "synonyms",
+			}
+		) ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+} );

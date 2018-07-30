@@ -25,7 +25,7 @@ var altTagCount = require( "./researches/imageAltTags.js" );
 var keyphraseLength = require( "./researches/keyphraseLength" );
 var metaDescriptionKeyword = require( "./researches/metaDescriptionKeyword.js" );
 var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
-var findKeywordInFirstParagraph = require( "./researches/findKeywordInFirstParagraph.js" );
+import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
 var pageTitleWidth = require( "./researches/pageTitleWidth.js" );
 var wordComplexity = require( "./researches/getWordComplexity.js" );
 var getParagraphLength = require( "./researches/getParagraphLength.js" );

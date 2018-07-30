@@ -1,23 +1,60 @@
 /** @module analyses/findKeywordInFirstParagraph */
 
 const matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
-const wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+const getSentences = require( "../stringProcessing/getSentences.js" );
+const findTopicFormsInString = require( "./findKeywordFormsInString.js" ).findTopicFormsInString;
 
-const escapeRegExp = require( "lodash/escapeRegExp" );
 const reject = require( "lodash/reject" );
 const isEmpty = require( "lodash/isEmpty" );
 
 /**
- * Counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
- * if there is no paragraph tag or 0 hits, it checks for 2 newlines, otherwise returns the keyword
- * count of the complete text.
+ * First splits the first paragraph by sentences. Finds the first paragraph which contains sentences e.g., not an image).
+ * Tries to find all (content) words from the keyphrase or a synonym phrase within one sentence.
+ *    If found all words within one sentence, returns an object with foundInOneSentence = true and
+ *                                                                         keyphraseOrSynonym = "keyphrase" or "synonym".
+ *    Else goes ahead with matching then entire first paragraph.
+ * Tries to find all (content) words from the keyphrase or a synonym phrase within the paragraph.
+ *    If found all words within the paragraph, returns an object with foundInOneSentence = false,
+ *                                            foundInParagraph = true, and keyphraseOrSynonym = "keyphrase" or "synonym".
+ *    If found not all words within the paragraph of nothing at all, returns an object with foundInOneSentence = false,
+ *                                                                 foundInParagraph = false, and keyphraseOrSynonym = "".
  *
  * @param {Paper} paper The text to check for paragraphs.
- * @returns {number} The number of occurrences of the keyword in the first paragraph.
+ * @returns {Object} Whether the keyphrase words were found in one sentence, whether the keyphrase words were found in
+ * the paragraph, whether a keyphrase or a synonym phrase was matched.
  */
-module.exports = function( paper ) {
+export default function( paper ) {
+	const topicForms = paper.getTopicForms();
+	const locale = paper.getLocale();
 	const paragraphs = matchParagraphs( paper.getText() );
-	const keyword = escapeRegExp( paper.getKeyword().toLocaleLowerCase() );
-	const paragraph = reject( paragraphs, isEmpty )[ 0 ] || "";
-	return wordMatch( paragraph, keyword, paper.getLocale() ).count;
-};
+
+	let paragraph = reject( paragraphs, isEmpty )[ 0 ] || "";
+
+	let result = {
+		foundInOneSentence:false,
+		foundInParagraph: false,
+		keyphraseOrSynonym: "",
+	};
+
+	const sentences = getSentences( paragraph );
+	if ( ! isEmpty( sentences ) ) {
+		sentences.forEach( function( sentence ) {
+			const resultSentence = findTopicFormsInString( topicForms, sentence, true, locale );
+			if ( resultSentence.percentWordMatches === 100 ) {
+				result.foundInOneSentence = true;
+				result.foundInParagraph = true;
+				result.keyphraseOrSynonym = resultSentence.keyphraseOrSynonym;
+				return result;
+			}
+		} );
+
+		const resultParagraph = findTopicFormsInString( topicForms, paragraph, true, locale );
+		if ( resultParagraph.percentWordMatches === 100 ) {
+			result.foundInParagraph = true;
+			result.keyphraseOrSynonym = resultParagraph.keyphraseOrSynonym;
+			return result;
+		}
+	}
+
+	return result;
+}

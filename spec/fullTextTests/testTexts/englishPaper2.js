@@ -41,8 +41,8 @@ const paper = new Paper( "<div class=\"content\"><p></p>\n" +
 
 const expectedResults = {
 	introductionKeyword: {
-		score: 3,
-		resultText: "The focus keyword doesn't appear in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy. Make sure the topic is clear immediately.",
+		score: 6,
+		resultText: "All topic words appear in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy, but not within one sentence.",
 	},
 	keyphraseLength: {
 		score: 0,

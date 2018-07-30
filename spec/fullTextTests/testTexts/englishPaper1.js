@@ -53,7 +53,7 @@ const paper = new Paper( "<p>My husband &#8211; <a href='https://yoast.com/about
 const expectedResults = {
 	introductionKeyword: {
 		score: 9,
-		resultText: "The focus keyword appears in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy.",
+		resultText: "All topic words appear within one sentence in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy.",
 	},
 	keyphraseLength: {
 		score: 0,
