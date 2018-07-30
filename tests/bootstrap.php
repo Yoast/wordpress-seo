@@ -21,7 +21,10 @@ $GLOBALS['wp_tests_options'] = array(
 	'active_plugins' => array( 'wordpress-seo/wp-seo.php' ),
 );
 
-if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
+if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
+	require_once getenv( 'WP_TESTS_DIR' ) . 'includes/bootstrap.php';
+}
+elseif ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
 	require_once getenv( 'WP_DEVELOP_DIR' ) . 'tests/phpunit/includes/bootstrap.php';
 }
 else {

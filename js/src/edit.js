@@ -8,7 +8,6 @@ import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
 
 /* Internal dependencies */
-import IntlProvider from "./components/IntlProvider";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
 import reducers from "./redux/reducers";
@@ -17,6 +16,8 @@ import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetEditor from "./containers/SnippetEditor";
 import Sidebar from "./containers/Sidebar";
+import Metabox from "./containers/Metabox";
+import * as selectors from "./redux/selectors";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {}, isRtl: false };
@@ -41,6 +42,7 @@ function registerStoreInGutenberg() {
 
 	return registerStore( "yoast-seo/editor", {
 		reducer: combineReducers( reducers ),
+		selectors,
 	} );
 }
 
@@ -82,7 +84,7 @@ function renderMetaboxPortal() {
 
 	const { Slot } = wp.components;
 	return yoast._wp.element.createPortal(
-		<Slot name="YoastSidebar">
+		<Slot name="YoastMetabox">
 			{ ( fills ) => {
 				return sortComponentsByPosition( fills );
 			} }
@@ -126,7 +128,10 @@ function registerPlugin( store ) {
 				</PluginSidebar>
 
 				<Provider store={ store } >
-					<Sidebar store={ store } />
+					<Fragment>
+						<Sidebar store={ store } />
+						<Metabox store={ store } />
+					</Fragment>
 				</Provider>
 
 				{ renderMetaboxPortal() }
@@ -155,14 +160,11 @@ function wrapInTopLevelComponents( Component, store, props ) {
 	};
 
 	return (
-		<IntlProvider
-			messages={ localizedData.intl } >
-			<Provider store={ store } >
-				<ThemeProvider theme={ theme }>
-					<Component { ...props } />
-				</ThemeProvider>
-			</Provider>
-		</IntlProvider>
+		<Provider store={ store } >
+			<ThemeProvider theme={ theme }>
+				<Component { ...props } />
+			</ThemeProvider>
+		</Provider>
 	);
 }
 

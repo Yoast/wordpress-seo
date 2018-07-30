@@ -1,9 +1,11 @@
+/* External dependencies */
 import { connect } from "react-redux";
-import CollapsibleCornerstone from "../components/CollapsibleCornerstone";
-import { toggleCornerstoneContent } from "../redux/actions/cornerstoneContent";
-
 import flowRight from "lodash/flowRight";
 import get from "lodash/get";
+
+/* Internal dependencies */
+import CollapsibleCornerstone from "../components/CollapsibleCornerstone";
+import { toggleCornerstoneContent } from "../redux/actions/cornerstoneContent";
 
 const withSelect = window.wp.data.withSelect;
 

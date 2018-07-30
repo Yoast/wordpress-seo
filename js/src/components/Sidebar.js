@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { Provider as StoreProvider } from "react-redux";
 
 import SidebarItem from "./SidebarItem";
+import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 
 /**
@@ -25,7 +26,11 @@ export default function Sidebar( { isContentAnalysisActive, isKeywordAnalysisAct
 
 	return (
 		<Fill name="YoastSidebar">
-			{ isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>Readability analysis</SidebarItem> }
+			{ isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+				<StoreProvider store={ store } >
+					<ReadabilityAnalysis />
+				</StoreProvider>
+			</SidebarItem> }
 			{ isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem> }
 			{ isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
 				<StoreProvider store={ store }>
