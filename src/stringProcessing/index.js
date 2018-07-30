@@ -3,11 +3,13 @@ const stripSpaces = require( "./stripSpaces" );
 const transliterate = require( "./transliterate" );
 const replaceDiacritics = require( "./replaceDiacritics" );
 const imageInText = require( "./imageInText" );
+const relevantWords = require( "./relevantWords" );
 
 export {
 	stripHTMLTags,
 	stripSpaces,
 	transliterate,
 	replaceDiacritics,
-	imageInText
+	imageInText,
+	relevantWords
 };
