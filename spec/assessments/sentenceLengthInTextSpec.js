@@ -106,21 +106,6 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
-	it( "returns the score for 100% long sentences in Polish", function() {
-		mockPaper = new Paper( "text", { locale: "pl_PL" } );
-		let sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
-
-		assessment = sentenceLengthInTextAssessmentPolish.getResult( mockPaper, Factory.buildMockResearcher( [
-			{ sentence: "", sentenceLength: 21 },
-		] ), i18n );
-
-		expect( assessment.hasScore() ).toBe( true );
-		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual( "100% of the sentences contain <a href='https://yoa.st/short-sentences' target='_blank'>more than 20 words</a>, " +
-			"which is more than the recommended maximum of 15%. Try to shorten the sentences." );
-		expect( assessment.hasMarks() ).toBe( true );
-	} );
-
 	it( "returns the score for 100% long sentences in Italian", function() {
 		mockPaper = new Paper( "text", { locale: "it_IT" } );
 		let sentenceLengthInTextAssessmentItalian = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
@@ -167,6 +152,98 @@ describe( "An assessment for sentence length", function() {
 			"which is less than or equal to the recommended maximum of 15%." );
 		expect( assessment.hasMarks() ).toBe( false );
 	} );
+
+	it( "returns the score for 100% long sentences in Polish", function() {
+		mockPaper = new Paper( "text", { locale: "pl_PL" } );
+		let sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+
+		assessment = sentenceLengthInTextAssessmentPolish.getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 21 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "100% of the sentences contain <a href='https://yoa.st/short-sentences' target='_blank'>more than 20 words</a>, " +
+			"which is more than the recommended maximum of 15%. Try to shorten the sentences." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for 10% long sentences in Polish", function() {
+		mockPaper = new Paper( "text", { locale: "pl_PL" } );
+		let sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+
+		assessment = sentenceLengthInTextAssessmentPolish.getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 30 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "10% of the sentences contain <a href='https://yoa.st/short-sentences' target='_blank'>more than 20 words</a>, " +
+			"which is less than or equal to the recommended maximum of 15%." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for 25% long sentences in Polish", function() {
+		mockPaper = new Paper( "text", { locale: "pl_PL" } );
+		let sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+
+		assessment = sentenceLengthInTextAssessmentPolish.getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 30 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "25% of the sentences contain <a href='https://yoa.st/short-sentences' target='_blank'>more than 20 words</a>, " +
+			"which is more than the recommended maximum of 15%. Try to shorten the sentences." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for 15% long sentences in Polish", function() {
+		mockPaper = new Paper( "text", { locale: "pl_PL" } );
+		let sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+
+		assessment = sentenceLengthInTextAssessmentPolish.getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 30 },
+			{ sentence: "", sentenceLength: 30 },
+			{ sentence: "", sentenceLength: 30 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "15% of the sentences contain <a href='https://yoa.st/short-sentences' target='_blank'>more than 20 words</a>, " +
+			"which is less than or equal to the recommended maximum of 15%." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
 
 	it( "is not applicable for empty papers", function() {
 		mockPaper = new Paper();
