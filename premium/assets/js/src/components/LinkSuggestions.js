@@ -1,5 +1,5 @@
 import React from "react";
-import { LinkSuggestions as LinkSuggestionsElement } from "yoast-premium-components";
+import { LinkSuggestions as LinkSuggestionsElement } from "yoast-components";
 import Loader from "yoast-components/composites/basic/Loader";
 import interpolateComponents from "interpolate-components";
 import { localize } from "yoast-components/utils/i18n";
@@ -27,7 +27,7 @@ const Metabox = ( props ) => {
 		{unindexedWarning}
 		<LinkSuggestionsElement suggestions={props.suggestions} />
 	</div>;
-}
+};
 
 /**
  * Starts prominent word analysis in a new tab.
@@ -36,7 +36,7 @@ const Metabox = ( props ) => {
  */
 const startAnalyzing = () => {
 	window.open( "admin.php?page=wpseo_dashboard#open-internal-links-calculation", "yoastSeoAnalyzeProminentWords" );
-}
+};
 
 /**
  * Generates a warning about the site not having been properly indexed.
@@ -69,7 +69,7 @@ const getUnindexedWarning = ( translate ) => {
 	} );
 
 	return <div className="notice notice-error notice-alt wpseo-notice-breakout-inside"><p>{message}</p></div>;
-}
+};
 
 Metabox.propTypes = {
 	suggestions: React.PropTypes.array.isRequired,

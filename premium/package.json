@@ -64,7 +64,6 @@
     "redux-thunk": "^2.2.0",
     "sassdash": "^0.8.2",
     "yoast-components": "git+https://github.com/Yoast/yoast-components.git#develop",
-    "yoast-premium-components": "git+ssh://git@github.com/yoast/yoast-premium-components.git#1.7.0",
     "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews#1.4.2",
     "yoastseo": "^1.35.5"
   },
