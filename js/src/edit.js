@@ -17,6 +17,7 @@ import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetEditor from "./containers/SnippetEditor";
 import Sidebar from "./containers/Sidebar";
 import Metabox from "./containers/Metabox";
+import * as selectors froM "./redux/selectors";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {}, isRtl: false };
@@ -41,6 +42,7 @@ function registerStoreInGutenberg() {
 
 	return registerStore( "yoast-seo/editor", {
 		reducer: combineReducers( reducers ),
+		selectors,
 	} );
 }
 
