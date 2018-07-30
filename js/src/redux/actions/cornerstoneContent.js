@@ -15,7 +15,7 @@ export const setCornerstoneContent = function( isCornerstone ) {
 		type: SET_CORNERSTONE_CONTENT,
 		isCornerstone,
 	};
-}
+};
 
 /**
  * An action creator for toggling whether the current item is cornerstone content or not.
