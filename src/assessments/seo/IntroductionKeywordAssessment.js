@@ -12,7 +12,7 @@ class IntroductionKeywordAssessment extends Assessment {
 	 *
 	 * @param {Object} [config] The configuration to use.
 	 * @param {number} [config.scores.good] The score to return if there is a match within one sentence in the first paragraph.
-	 * @param {number} [config.scores.good] The score to return if all words are matched in the first paragraph.
+	 * @param {number} [config.scores.okay] The score to return if all words are matched in the first paragraph.
 	 * @param {number} [config.scores.bad] The score to return if not all words are matched in the first paragraph.
 	 * @param {string} [config.url] The URL to the relevant article on Yoast.com.
 	 *
