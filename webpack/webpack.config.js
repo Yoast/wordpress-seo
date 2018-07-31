@@ -134,8 +134,6 @@ module.exports = function( env = { environment: "production" } ) {
 		},
 	];
 
-	console.log( config );
-
 	if ( mode === "development" ) {
 		config[ 0 ].devServer = {
 			publicPath: "/",
