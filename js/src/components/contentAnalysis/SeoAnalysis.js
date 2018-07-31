@@ -46,7 +46,7 @@ class SeoAnalysis extends React.Component {
 
 		if( this.props.keyword === "" ) {
 			score.className = "na";
-			score.screenReaderReadabilityText = "";
+			score.screenReaderReadabilityText = __( "Enter a focus keyword to calculate the SEO score", "wordpress-seo" );
 		}
 
 		let KeywordUpsell = ( { upsell } ) => {
