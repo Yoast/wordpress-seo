@@ -3,13 +3,17 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import { __ } from "@wordpress/i18n";
+import colors from "yoast-components/style-guide/colors.json";
+import Collapsible from "yoast-components/composites/Plugin/Shared/components/Collapsible";
+import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
 
 import Results from "./Results";
 import UpsellBox from "../UpsellBox";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import ModalButtonContainer from "../ModalButtonContainer";
-import Collapsible from "yoast-components/composites/Plugin/Shared/components/Collapsible";
-import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
+import getIndicatorForScore from "../../analysis/getIndicatorForScore";
+import { getIconForScore } from "./mapResults";
 
 const { Slot } = wp.components;
 
@@ -38,6 +42,7 @@ class SeoAnalysis extends React.Component {
 		);
 	}
 
+
 	/**
 	 * Renders the UpsellBox component.
 	 *
@@ -48,7 +53,11 @@ class SeoAnalysis extends React.Component {
 	renderKeywordUpsell() {
 		const upsell = this.props.keywordUpsell;
 		return (
-			<Collapsible title="Add another keyword">
+			<Collapsible
+			prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey_disabled } }
+			prefixIconCollapsed={ { icon: "seo-score-none", color: colors.$color_grey_disabled } }
+			title="Add another keyword"
+			>
 				<UpsellBox
 					benefits={ upsell.benefits }
 					infoParagraphs={ upsell.infoParagraphs }
@@ -70,10 +79,21 @@ class SeoAnalysis extends React.Component {
 	 * @returns {ReactElement} The SEO Analysis component.
 	 */
 	render() {
+		const score = getIndicatorForScore( this.props.overallScore );
+
+		if( this.props.keyword === "" ) {
+			score.className = "na";
+			score.screenReaderReadabilityText = __( "Enter a focus keyword to calculate the SEO score", "wordpress-seo" );
+		}
+
 		return (
 			<React.Fragment>
 				<Collapsible
 					title="Focus keyword analysis"
+					titleScreenReaderText={ score.screenReaderReadabilityText }
+					prefixIcon={ getIconForScore( score.className ) }
+					prefixIconCollapsed={ getIconForScore( score.className ) }
+					subTitle={ this.props.keyword }
 				>
 					<ExplanationText>
 						A focus keyword is the term (or phrase) you'd like to be found with in search engines.
@@ -116,6 +136,7 @@ SeoAnalysis.propTypes = {
 		buttonLabel: PropTypes.string,
 	} ),
 	shouldUpsell:	PropTypes.bool,
+	overallScore: PropTypes.number,
 };
 
 /**
@@ -132,14 +153,16 @@ function mapStateToProps( state, ownProps ) {
 	let keyword = state.focusKeyword;
 
 	let results = null;
+	let overallScore = null;
 	if( state.analysis.seo[ keyword ] ) {
 		results = state.analysis.seo[ keyword ].results;
+		overallScore = state.analysis.seo[ keyword ].overallScore;
 	}
-
 	return {
 		results,
 		marksButtonStatus,
 		keyword,
+		overallScore,
 	};
 }
 
