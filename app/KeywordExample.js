@@ -39,6 +39,7 @@ export default class KeywordExample extends Component {
 
 		this.updateKeyword = this.updateKeyword.bind( this );
 		this.updateSynonyms = this.updateSynonyms.bind( this );
+		this.updateSynonymsInput = this.updateSynonymsInput.bind( this );
 	}
 
 	/**
@@ -68,6 +69,19 @@ export default class KeywordExample extends Component {
 	}
 
 	/**
+	 * Updates the synonyms.
+	 *
+	 * @param {object} event The new synonyms.
+	 *
+	 * @returns {void}
+	 */
+	updateSynonymsInput( event ) {
+		this.setState( {
+			synonyms: event.target.value,
+		} );
+	}
+
+	/**
 	 * Renders an example of how to use the keyword input.
 	 *
 	 * @returns {ReactElement} The rendered keyword input.
@@ -90,10 +104,8 @@ export default class KeywordExample extends Component {
 				<SynonymsInput
 					showLabel={ true }
 					label={ "Synonyms:" }
-					onChange={ ( event ) => {
-						console.log( "You typed: " + event.target.value );
-					} }
-					value={ "" }
+					onChange={ this.updateSynonymsInput }
+					value={ this.state.synonyms }
 					explanationText={ "This is a fine explanation" }
 				/>
 
