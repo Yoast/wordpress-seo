@@ -7,7 +7,7 @@ import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/K
 import { default as LanguageNotice } from "./composites/Plugin/Shared/components/LanguageNotice";
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import { default as Collapsible } from "./composites/Plugin/Shared/components/Collapsible";
-import { default as YoastInput } from "./composites/Plugin/Shared/components/YoastInput";
+import { default as SynonymsInput } from "./composites/Plugin/Shared/components/SynonymsInput";
 
 export {
 	OnboardingWizard,
@@ -19,7 +19,7 @@ export {
 	LanguageNotice,
 	ContentAnalysis,
 	Collapsible,
-	YoastInput,
+	SynonymsInput,
 };
 
 export * from "./composites/Plugin/SnippetPreview";
