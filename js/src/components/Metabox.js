@@ -7,19 +7,21 @@ import { ThemeProvider } from "styled-components";
 
 import SidebarItem from "./SidebarItem";
 import SnippetEditor from "../containers/SnippetEditor";
+import keywordUpsellProps from "../values/keywordUpsellProps";
+import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
+import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 
 /**
  * Creates the Metabox component.
  *
- * @param {bool}   isContentAnalysisActive Whether or not the readability analysis is active.
- * @param {bool}   isKeywordAnalysisActive Whether or not the SEO analysis is active.
- * @param {Object} store                   The Redux store.
- * @param {Object} theme                   The theme to use.
+ * @param {Object} settings The feature toggles.
+ * @param {Object} store    The Redux store.
+ * @param {Object} theme    The theme to use.
  *
  * @returns {ReactElement} The Metabox component.
  */
-export default function Metabox( { isContentAnalysisActive, isKeywordAnalysisActive, store, theme } ) {
+export default function Metabox( { settings, store, theme } ) {
 	const { Fill } = wp.components;
 
 	return (
@@ -31,19 +33,31 @@ export default function Metabox( { isContentAnalysisActive, isKeywordAnalysisAct
 					</ThemeProvider>
 				</StoreProvider>
 			</SidebarItem>
-			{ isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+			{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
 				<StoreProvider store={ store } >
 					<ReadabilityAnalysis />
 				</StoreProvider>
 			</SidebarItem> }
-			{ isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem> }
+			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+				<StoreProvider store={ store } >
+					<SeoAnalysis
+					shouldUpsell={ settings.shouldUpsell }
+					keywordUpsell={ keywordUpsellProps }
+					/>
+				</StoreProvider>
+			</SidebarItem> }
+			{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+				<StoreProvider store={ store }>
+					<CollapsibleCornerstone />
+				</StoreProvider>
+			</SidebarItem>
+			}
 		</Fill>
 	);
 }
 
 Metabox.propTypes = {
-	isContentAnalysisActive: PropTypes.bool,
-	isKeywordAnalysisActive: PropTypes.bool,
+	settings: PropTypes.object,
 	theme: PropTypes.object,
 	store: PropTypes.object,
 };

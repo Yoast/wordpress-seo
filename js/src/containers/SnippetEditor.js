@@ -96,16 +96,16 @@ export const mapEditorDataToPreview = function( data, context ) {
 
 const SnippetEditorWrapper = ( props ) => (
 	<Collapsible title={ __( "Snippet Preview", "wordpress-seo" ) } >
-	<SnippetPreviewSection
-		icon="eye"
-		hasPaperStyle={ props.hasPaperStyle }
-	>
-		<SnippetEditor
-			{ ...props }
-			descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below." ) }
-			mapEditorDataToPreview={ mapEditorDataToPreview }
-		/>
-	</SnippetPreviewSection>
+		<SnippetPreviewSection
+			icon="eye"
+			hasPaperStyle={ props.hasPaperStyle }
+		>
+			<SnippetEditor
+				{ ...props }
+				descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below." ) }
+				mapEditorDataToPreview={ mapEditorDataToPreview }
+			/>
+		</SnippetPreviewSection>
 	</Collapsible>
 );
 
@@ -129,7 +129,7 @@ export function mapStateToProps( state ) {
 
 	return {
 		...state.snippetEditor,
-		keyword: state.activeKeyword,
+		keyword: state.focusKeyword,
 		baseUrl: state.settings.snippetEditor.baseUrl,
 		date: state.settings.snippetEditor.date,
 		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplaceVars,

@@ -55,7 +55,7 @@ class WPSEO_Cornerstone {
 	 * @return bool True when checkbox is checked.
 	 */
 	protected function is_cornerstone_content() {
-		return filter_input( INPUT_POST, self::FIELD_NAME ) === '1';
+		return filter_input( INPUT_POST, self::FIELD_NAME ) === 'true';
 	}
 
 	/**
