@@ -1,10 +1,13 @@
 // "use strict";
-const irregularNouns = require( "./irregularNouns.js" );
-const possessiveToBaseRegex = require( "./regexNoun.js" ).possessiveToBase;
-const baseToPossessiveRegex = require( "./regexNoun.js" ).baseToPossessive;
-const singularizeRegex = require( "./regexNoun.js" ).singularizeRegex;
-const pluralizeRegex = require( "./regexNoun.js" ).pluralizeRegex;
-const hispanicRegex = require( "./regexNoun.js" ).hispanicRegex;
+const englishMorphology = require( "./englishMorphology.json" );
+import createRulesFromArrays from "../createRulesFromJsonArrays.js";
+
+const irregularNouns = englishMorphology.irregularNouns;
+const possessiveToBaseRegex = createRulesFromArrays( englishMorphology.regexNoun.possessiveToBase );
+const baseToPossessiveRegex = createRulesFromArrays( englishMorphology.regexNoun.baseToPossessive );
+const singularizeRegex = createRulesFromArrays( englishMorphology.regexNoun.singularize );
+const pluralizeRegex = createRulesFromArrays( englishMorphology.regexNoun.pluralize );
+const hispanicRegex = createRulesFromArrays( englishMorphology.regexNoun.hispanic );
 
 const isUndefined = require( "lodash/isUndefined.js" );
 const unique = require( "lodash/uniq" );

@@ -1,18 +1,21 @@
 // "use strict";
 const countSyllablesInText = require( "../../stringProcessing/syllables/count" );
 
-const irregularAdjectives = require( "./irregularAdjectives.js" );
-const noComparativeOrSuperlative = require( "./regexAdjective.js" ).noComparativeOrSuperlative;
-const comparativeRegex = require( "./regexAdjective.js" ).comparative;
-const superlativeRegex = require( "./regexAdjective.js" ).superlative;
-const comparativeToBaseRegex = require( "./regexAdjective.js" ).comparativeToBase;
-const superlativeToBaseRegex = require( "./regexAdjective.js" ).superlativeToBase;
-const adverbRegex = require( "./regexAdjective.js" ).adverb;
-const adverbToBaseRegex = require( "./regexAdjective.js" ).adverbToBase;
-const icallyAdverbsRegex = require( "./regexAdjective.js" ).icallyAdverbs;
+const englishMorphology = require( "./englishMorphology.json" );
+import createRulesFromArrays from "../createRulesFromJsonArrays.js";
 
 const isUndefined = require( "lodash/isUndefined.js" );
 const unique = require( "lodash/uniq" );
+
+const irregularAdjectives = englishMorphology.irregularAdjectives;
+const noComparativeOrSuperlative = new RegExp( englishMorphology.regexAdjective.noComparativeOrSuperlative, "i" );
+const comparativeRegex = createRulesFromArrays( englishMorphology.regexAdjective.comparative );
+const superlativeRegex = createRulesFromArrays( englishMorphology.regexAdjective.superlative );
+const comparativeToBaseRegex = createRulesFromArrays( englishMorphology.regexAdjective.comparativeToBase );
+const superlativeToBaseRegex = createRulesFromArrays( englishMorphology.regexAdjective.superlativeToBase );
+const adverbRegex = createRulesFromArrays( englishMorphology.regexAdjective.adverb );
+const adverbToBaseRegex = createRulesFromArrays( englishMorphology.regexAdjective.adverbToBase );
+const icallyAdverbsRegex = createRulesFromArrays( englishMorphology.regexAdjective.icallyAdverbs );
 
 
 /**
