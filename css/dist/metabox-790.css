@@ -1308,10 +1308,6 @@ ul.wpseo-metabox-tabs li.active {
 	vertical-align: top;
 }
 
-.wpseo-meta-section-react-wrapper {
-	min-height: 100%;
-}
-
 .wpseo-meta-section.active {
 	display: inline-block;
 	padding: 0 5px 5px;

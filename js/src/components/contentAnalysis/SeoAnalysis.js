@@ -1,8 +1,9 @@
-/* globals yoastModalConfig, wp */
+/* globals yoastModalConfig */
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import { Slot } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import colors from "yoast-components/style-guide/colors.json";
 import Collapsible from "yoast-components/composites/Plugin/Shared/components/Collapsible";
@@ -14,8 +15,6 @@ import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import ModalButtonContainer from "../ModalButtonContainer";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
-
-const { Slot } = wp.components;
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;

@@ -1,10 +1,13 @@
-/* global window, wpseoPostScraperL10n, wpseoTermScraperL10n, process, wp, yoast */
+/* global window, wpseoPostScraperL10n, wpseoTermScraperL10n, process, wp */
 /* External dependencies */
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
+import { Fragment } from "@wordpress/element";
+import { Slot } from "@wordpress/components";
+import { combineReducers, registerStore } from "@wordpress/data";
 
 /* Internal dependencies */
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
@@ -38,8 +41,6 @@ const PinnedPluginIcon = styled( PluginIcon )`
  * @returns {Object} The store.
  */
 function registerStoreInGutenberg() {
-	const { combineReducers, registerStore } = yoast._wp.data;
-
 	return registerStore( "yoast-seo/editor", {
 		reducer: combineReducers( reducers ),
 		selectors,
@@ -56,10 +57,8 @@ function registerStoreInGutenberg() {
  **/
 function registerPlugin( store ) {
 	if ( isGutenbergDataAvailable() ) {
-		const { Fragment } = yoast._wp.element;
 		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 		const { registerPlugin } = wp.plugins;
-		const { Slot } = wp.components;
 		const theme = {
 			isRtl: localizedData.isRtl,
 		};
@@ -214,7 +213,7 @@ export function initialize( args ) {
 			baseUrl: args.snippetEditorBaseUrl,
 			date: args.snippetEditorDate,
 			recommendedReplacementVariables: args.recommendedReplaceVars,
-		}
+		},
 	} ) );
 
 	return {

@@ -98,6 +98,9 @@ class WPSEO_Taxonomy_Metabox {
 		foreach ( $content_sections as $content_section ) {
 			$content_section->display_content();
 		}
+
+		echo '<div id="wpseo-meta-section-react" class="wpseo-meta-section-react"></div>';
+
 		echo '</div></div>';
 		echo '</div>';
 	}

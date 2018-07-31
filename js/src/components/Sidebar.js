@@ -1,8 +1,7 @@
-/* global wp */
-
 import React from "react";
 import PropTypes from "prop-types";
 import { Provider as StoreProvider } from "react-redux";
+import { Fill } from "@wordpress/components";
 
 import SidebarItem from "./SidebarItem";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
@@ -21,8 +20,6 @@ import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
  * @constructor
  */
 export default function Sidebar( { settings, store } ) {
-	const { Fill } = wp.components;
-
 	return (
 		<Fill name="YoastSidebar">
 			{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
