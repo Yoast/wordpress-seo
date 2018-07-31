@@ -1,4 +1,5 @@
-import scoreToRating from "yoastseo/js/interpreters/scoreToRating";
+import analysis from "yoastseo";
+const { scoreToRating } = analysis.helpers;
 
 /**
  * Mapped result definition.

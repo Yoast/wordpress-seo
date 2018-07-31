@@ -17,16 +17,19 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "NODE_ENV=production webpack --config ./webpack/webpack.config.prod.js",
+    "build": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
     "i18n-yoast-components": "NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot > /dev/null",
     "i18n-wordpress-seo": "NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot > /dev/null",
-    "start": "webpack-dev-server --config ./webpack/webpack.config.dev.js --progress"
+    "start": "webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",
     "transformIgnorePatterns": [
-      "/node_modules/(?!yoast-components).+\\.js$"
+      "/node_modules/(?!yoast-components|yoastseo).+\\.js$"
     ],
+		"testPathIgnorePatterns": [
+			"/js/tests/edit.test.js"
+		],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/js/tests/__mocks__/fileMock.js",
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
@@ -65,13 +68,11 @@
     "eslint-plugin-react": "^6.0.0",
     "eslint-plugin-yoast": "^1.0.1",
     "grunt": "^1.0.2",
-    "grunt-browserify": "^5.0.0",
     "grunt-checktextdomain": "^1.0.1",
     "grunt-contrib-clean": "~1.0.0",
     "grunt-contrib-compress": "^1.4.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^1.0.1",
-    "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^19.0.0",
     "grunt-glotpress": "^0.2.2",
@@ -128,7 +129,7 @@
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
     "yoast-components": "git+https://github.com/Yoast/yoast-components.git#develop",
-    "yoastseo": "^1.35.3"
+    "yoastseo": "^1.36.0"
   },
   "yoast": {
     "pluginVersion": "7.9"
