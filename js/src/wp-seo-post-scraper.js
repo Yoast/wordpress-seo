@@ -501,6 +501,8 @@ setWordPressSeoL10n();
 			app.refresh();
 		}, 50 );
 
+		let previousCornerstoneValue = null;
+
 		store.subscribe( () => {
 			// Verify whether the focusKeyword changed. If so, trigger refresh:
 			let newFocusKeyword = store.getState().focusKeyword;
@@ -530,7 +532,8 @@ setWordPressSeoL10n();
 
 			let currentState = store.getState();
 
-			if ( document.getElementById( "yoast_wpseo_is_cornerstone" ).value !== currentState.isCornerstone ) {
+			if ( previousCornerstoneValue !== currentState.isCornerstone ) {
+				previousCornerstoneValue = currentState.isCornerstone;
 				document.getElementById( "yoast_wpseo_is_cornerstone" ).value = currentState.isCornerstone;
 
 				app.changeAssessorOptions( {
