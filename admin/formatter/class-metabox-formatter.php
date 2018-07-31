@@ -63,6 +63,7 @@ class WPSEO_Metabox_Formatter {
 			'metadesc_template'     => '',
 			'contentAnalysisActive' => $analysis_readability->is_enabled() ? 1 : 0,
 			'keywordAnalysisActive' => $analysis_seo->is_enabled() ? 1 : 0,
+			'cornerstoneActive' 	=> WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
 			'intl'                  => $this->get_content_analysis_component_translations(),
 			'isRtl'                 => is_rtl(),
 			'gutenbergSidebar'      => defined( 'YOAST_FEATURE_GUTENBERG_SIDEBAR' ) && YOAST_FEATURE_GUTENBERG_SIDEBAR,

@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import { SnippetEditor } from "yoast-components";
 import identity from "lodash/identity";
 import get from "lodash/get";
-import { stripFullTags } from "yoastseo/js/stringProcessing/stripHTMLTags";
 import { __ } from "@wordpress/i18n";
+import analysis from "yoastseo";
+const { stripHTMLTags: stripFullTags } = analysis.string;
 
 import {
 	switchMode,
@@ -126,7 +127,7 @@ export function mapStateToProps( state ) {
 
 	return {
 		...state.snippetEditor,
-		keyword: state.activeKeyword,
+		keyword: state.focusKeyword,
 	};
 }
 

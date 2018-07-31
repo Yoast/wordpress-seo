@@ -1,10 +1,12 @@
-/* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp yoast */
-
+/* global window, wpseoPostScraperL10n, wpseoTermScraperL10n, process, wp, yoast */
+/* External dependencies */
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 
-import IntlProvider from "./components/IntlProvider";
+/* Internal dependencies */
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
 import reducers from "./redux/reducers";
@@ -12,7 +14,10 @@ import PluginIcon from "../../images/Yoast_icon_kader.svg";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetEditor from "./containers/SnippetEditor";
-import { ThemeProvider } from "styled-components";
+import Sidebar from "./containers/Sidebar";
+import MetaboxPortal from "./components/MetaboxPortal";
+import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPriority";
+import * as selectors from "./redux/selectors";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {}, isRtl: false };
@@ -21,6 +26,11 @@ if( window.wpseoPostScraperL10n ) {
 } else if ( window.wpseoTermScraperL10n ) {
 	localizedData = wpseoTermScraperL10n;
 }
+
+const PinnedPluginIcon = styled( PluginIcon )`
+	width: 20px;
+	height: 20px;
+`;
 
 /**
  * Registers a redux store in Gutenberg.
@@ -32,6 +42,7 @@ function registerStoreInGutenberg() {
 
 	return registerStore( "yoast-seo/editor", {
 		reducer: combineReducers( reducers ),
+		selectors,
 	} );
 }
 
@@ -39,13 +50,16 @@ function registerStoreInGutenberg() {
  * Registers the plugin into the gutenberg editor, creates a sidebar entry for the plugin,
  * and creates that sidebar's content.
  *
+ * @param {Object} store The store to use.
+ *
  * @returns {void}
  **/
-function registerPlugin() {
+function registerPlugin( store ) {
 	if ( isGutenbergDataAvailable() ) {
 		const { Fragment } = yoast._wp.element;
 		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 		const { registerPlugin } = wp.plugins;
+		const { Slot } = wp.components;
 
 		const YoastSidebar = () => (
 			<Fragment>
@@ -59,13 +73,25 @@ function registerPlugin() {
 					name="seo-sidebar"
 					title="Yoast SEO"
 				>
-					<p> Contents of the sidebar </p>
+					<Slot name="YoastSidebar">
+						{ ( fills ) => {
+							return sortComponentsByRenderPriority( fills );
+						} }
+					</Slot>
 				</PluginSidebar>
+
+				<Provider store={ store } >
+					<Fragment>
+						<Sidebar store={ store } />
+						<MetaboxPortal target="wpseo-meta-section-react" store={ store } />
+					</Fragment>
+				</Provider>
 			</Fragment>
 		);
 
 		registerPlugin( "yoast-seo", {
 			render: YoastSidebar,
+			icon: <PinnedPluginIcon />,
 		} );
 	}
 }
@@ -85,14 +111,11 @@ function wrapInTopLevelComponents( Component, store, props ) {
 	};
 
 	return (
-		<IntlProvider
-			messages={ localizedData.intl } >
-			<Provider store={ store } >
-				<ThemeProvider theme={ theme }>
-					<Component { ...props } />
-				</ThemeProvider>
-			</Provider>
-		</IntlProvider>
+		<Provider store={ store } >
+			<ThemeProvider theme={ theme }>
+				<Component { ...props } />
+			</ThemeProvider>
+		</Provider>
 	);
 }
 
@@ -207,8 +230,9 @@ export function initializeData( data, args, store ) {
  */
 export function initialize( args ) {
 	const store = registerStoreInGutenberg();
-	if( args.shouldRenderGutenbergSidebar ) {
-		registerPlugin();
+
+	if ( args.shouldRenderGutenbergSidebar ) {
+		registerPlugin( store );
 	}
 
 	const data = initializeData( wp.data, args, store );

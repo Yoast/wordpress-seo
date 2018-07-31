@@ -1,5 +1,6 @@
 /* External dependencies */
-import removeMarks from "yoastseo/js/markers/removeMarks";
+import analysis from "yoastseo";
+const { removeMarks } = analysis.markers;
 
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
@@ -7,7 +8,6 @@ import {
 	fillReplacementVariables,
 	mapCustomFields,
 	mapCustomTaxonomies,
-	decodeSeparatorVariable,
 } from "../helpers/replacementVariableHelpers";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
 import debounce from "lodash/debounce";
@@ -42,7 +42,7 @@ class ClassicEditorData {
 	 */
 	initialize( replaceVars ) {
 		this._data = this.getInitialData( replaceVars );
-		fillReplacementVariables( decodeSeparatorVariable( this._data ), this._store );
+		fillReplacementVariables( this._data, this._store );
 		this.subscribeToElements();
 		this.subscribeToStore();
 	}

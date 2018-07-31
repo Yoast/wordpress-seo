@@ -336,9 +336,24 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		foreach ( $content_sections as $content_section ) {
 			$content_section->display_content();
+
+			if ( $this->should_load_react_section( $content_section->get_name() ) ) {
+				echo '<div id="wpseo-meta-section-react" class="wpseo-meta-section-react"></div>';
+			}
 		}
 
 		echo '</div>';
+	}
+
+	/**
+	 * Determines whether the React section should be rendered.
+	 *
+	 * @param string $section_name The name of the section.
+	 *
+	 * @return bool Whether the React section should be rendered.
+	 */
+	private function should_load_react_section( $section_name ) {
+		return $section_name === 'content' && ( defined( 'YOAST_FEATURE_GUTENBERG_SIDEBAR' ) && YOAST_FEATURE_GUTENBERG_SIDEBAR );
 	}
 
 	/**
@@ -347,7 +362,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return WPSEO_Metabox_Section[]
 	 */
 	private function get_content_sections() {
-		$content_sections = array( $this->get_content_meta_section() );
+		$content_sections = array();
+
+		$content_sections[] = $this->get_content_meta_section();
 
 		// Check if social_admin is an instance of WPSEO_Social_Admin.
 		if ( $this->social_admin instanceof WPSEO_Social_Admin ) {
@@ -526,7 +543,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Gets the contents for the metabox tab.
+	 * Retrieves the contents for the metabox tab.
 	 *
 	 * @param string $tab_name Tab for which to retrieve the field definitions.
 	 *
@@ -537,9 +554,28 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
 			$content .= $this->do_meta_box( $meta_field, $key );
 		}
-		unset( $key, $meta_field );
 
 		return $content;
+	}
+
+	/**
+	 * Retrieves the hidden fields for the metabox tab.
+	 *
+	 * @param string $tab_name Tab for which to retrieve the field definitions.
+	 *
+	 * @return string
+	 */
+	private function get_hidden_tab_fields( $tab_name ) {
+		$hidden_fields = '';
+		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
+			if ( $meta_field['type'] !== 'hidden' ) {
+				continue;
+			}
+
+			$hidden_fields .= $this->do_meta_box( $meta_field, $key );
+		}
+
+		return $hidden_fields;
 	}
 
 	/**
@@ -601,11 +637,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$content .= $button->get_link();
 				}
 
-				if ( WPSEO_Options::get( 'enable_cornerstone_content', false ) ) {
-					$cornerstone_field = new WPSEO_Cornerstone_Field();
-
-					$content .= $cornerstone_field->get_html( $this->get_metabox_post() );
-				}
 				$content .= '</section>';
 				$content .= '</div>';
 				break;

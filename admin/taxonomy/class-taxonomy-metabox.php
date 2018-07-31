@@ -82,6 +82,7 @@ class WPSEO_Taxonomy_Metabox {
 			echo $this->get_buy_premium_link();
 		}
 
+		echo '<div class="wpseo-metabox-content">';
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
@@ -98,6 +99,7 @@ class WPSEO_Taxonomy_Metabox {
 			$content_section->display_content();
 		}
 		echo '</div></div>';
+		echo '</div>';
 	}
 
 	/**
@@ -106,11 +108,12 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return WPSEO_Metabox_Section[]
 	 */
 	private function get_content_sections() {
-		$content_sections = array(
-			$this->get_content_meta_section(),
-			$this->get_social_meta_section(),
-			$this->get_settings_meta_section(),
-		);
+		$content_sections = array();
+
+		$content_sections[] = $this->get_content_meta_section();
+
+		$content_sections[] = $this->get_social_meta_section();
+		$content_sections[] = $this->get_settings_meta_section();
 
 		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 			$content_sections[] = $this->get_buy_premium_section();
