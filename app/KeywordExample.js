@@ -7,6 +7,7 @@ import KeywordInput from "../composites/Plugin/Shared/components/KeywordInput";
 import SynonymsSection from "../composites/Plugin/Synonyms/components/SynonymsSection";
 import HelpText from "../composites/Plugin/Shared/components/HelpText.js";
 import { makeOutboundLink } from "../utils/makeOutboundLink";
+import SynonymsInput from "../composites/Plugin/Shared/components/SynonymsInput";
 
 const HelpTextLink = makeOutboundLink();
 
@@ -85,6 +86,15 @@ export default class KeywordExample extends Component {
 					label={ "Focus keyword"}
 					onChange={ this.updateKeyword }
 					keyword={ this.state.keyword }
+				/>
+				<SynonymsInput
+					showLabel={ true }
+					label={ "Synonyms:" }
+					onChange={ ( event ) => {
+						console.log( "You typed: " + event.target.value );
+					} }
+					value={ "" }
+					explanationText={ "This is a fine explanation" }
 				/>
 
 				<SynonymsSection
