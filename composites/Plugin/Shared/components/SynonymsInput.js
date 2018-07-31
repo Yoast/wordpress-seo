@@ -14,9 +14,9 @@ const SynonymsInput = ( { id, label, value, onChange, explanationText } ) => {
 			<YoastInputLabel htmlFor={ id }>
 				{ label }
 			</YoastInputLabel>
-			<ExplanationText>
+			{ explanationText !== "" && <ExplanationText>
 				{ explanationText }
-			</ExplanationText>
+			</ExplanationText> }
 			<YoastInputField
 				aria-label={ label }
 				type="text"
