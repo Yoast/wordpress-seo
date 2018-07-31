@@ -93,6 +93,7 @@ install:
   fi
 
 before_script:
+# Careful: The HTTPS version of the following URL is different, therefore we need to use HTTP.
 - |
   if [[ "$WP_VERSION" == "latest" ]]; then
     curl -s http://api.wordpress.org/core/version-check/1.7/ > /tmp/wp-latest.json
