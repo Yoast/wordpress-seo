@@ -39,6 +39,7 @@ import { updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setCornerstoneContent } from "./redux/actions/cornerstoneContent";
 import MetaboxPortal from "./components/MetaboxPortal";
+import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -412,6 +413,28 @@ setWordPressSeoL10n();
 	}
 
 	/**
+	 * Renders a React tree for the classic editor.
+	 *
+	 * @param {Object} store The active redux store.
+	 *
+	 * @returns {void}
+	 */
+	function renderClassicEditorMetabox( store ) {
+		const theme = {
+			isRtl: wpseoPostScraperL10n.isRtl,
+		};
+
+		render(
+			(
+				<SlotFillProvider>
+					<MetaboxPortal target="wpseo-meta-section-react" store={ store } theme={ theme } />
+				</SlotFillProvider>
+			),
+			document.getElementById( "wpseo-meta-section-react" )
+		);
+	}
+
+	/**
 	 * Initializes analysis for the post edit screen.
 	 *
 	 * @returns {void}
@@ -549,18 +572,9 @@ setWordPressSeoL10n();
 			snippetEditorData.description = data.description;
 		} );
 
-		const theme = {
-			isRtl: wpseoPostScraperL10n.isRtl,
-		};
-
-		const result = render(
-			(
-				<SlotFillProvider>
-					<MetaboxPortal target="wpseo-meta-section-react" store={ store } theme={ theme } />
-				</SlotFillProvider>
-			),
-			document.getElementById( "wpseo-meta-section-react" )
-		);
+		if ( ! isGutenbergDataAvailable() ) {
+			renderClassicEditorMetabox( store );
+		}
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );
