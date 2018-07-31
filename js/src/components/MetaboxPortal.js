@@ -6,12 +6,13 @@ import sortComponentsByRenderPriority from "../helpers/sortComponentsByRenderPri
 /**
  * Renders the metabox portal.
  *
- * @param {string} target a target element ID in which to render the portal.
- * @param {Object} store The Redux store.
+ * @param {string} target A target element ID in which to render the portal.
+ * @param {Object} store  The Redux store.
+ * @param {Object} theme  The theme to use.
  *
  * @returns {null|ReactElement} The element.
  */
-export default function MetaboxPortal( { target, store } ) {
+export default function MetaboxPortal( { target, store, theme } ) {
 	const metaboxElement = document.getElementById( target );
 
 	if ( ! metaboxElement ) {
@@ -28,7 +29,7 @@ export default function MetaboxPortal( { target, store } ) {
 					return sortComponentsByRenderPriority( fills );
 				} }
 			</Slot>
-			<Metabox store={ store } />
+			<Metabox store={ store } theme={ theme } />
 		</Fragment>,
 		metaboxElement
 	);
