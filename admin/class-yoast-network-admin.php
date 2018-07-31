@@ -84,7 +84,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 	public function handle_update_options_request() {
 		$option_group = filter_input( INPUT_POST, 'network_option_group', FILTER_SANITIZE_STRING );
 
-		$this->verify_request( "$option_group-network-options" );
+		$this->verify_request( "{$option_group}-network-options" );
 
 		$whitelist_options = Yoast_Network_Settings_API::get()->get_whitelist_options( $option_group );
 
