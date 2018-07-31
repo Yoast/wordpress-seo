@@ -82,6 +82,7 @@ class WPSEO_Taxonomy_Metabox {
 			echo $this->get_buy_premium_link();
 		}
 
+		echo '<div class="wpseo-metabox-content">';
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
@@ -98,6 +99,7 @@ class WPSEO_Taxonomy_Metabox {
 			$content_section->display_content();
 		}
 		echo '</div></div>';
+		echo '</div>';
 	}
 
 	/**
