@@ -124,7 +124,7 @@ UpsellBox.defaultProps = {
 		href: "",
 		className: "button button-primary",
 	},
-	upsellButtonLabel: ""
+	upsellButtonLabel: "",
 };
 
 export default UpsellBox;

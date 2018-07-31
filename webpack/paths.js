@@ -6,35 +6,12 @@ const jsSrcPath = path.resolve( "js", "src" );
 const cssDistPath = path.resolve( "css", "dist" );
 
 // Output filename: Entry file (relative to jsSrcPath)
-const entryAll = {
-	"configuration-wizard": "./configuration-wizard.js",
-	"wp-seo-admin-global": "./wp-seo-admin-global.js",
-	"wp-seo-admin-gsc": "./wp-seo-admin-gsc.js",
-	"wp-seo-admin-media": "./wp-seo-admin-media.js",
-	"wp-seo-admin": "./wp-seo-admin.js",
-	"wp-seo-babel-polyfill": "./wp-seo-babel-polyfill.js",
-	"wp-seo-bulk-editor": "./wp-seo-bulk-editor.js",
-	"wp-seo-edit-page": "./wp-seo-edit-page.js",
-	"wp-seo-featured-image": "./wp-seo-featured-image.js",
-	"wp-seo-metabox-category": "./wp-seo-metabox-category.js",
-	"wp-seo-metabox": "./wp-seo-metabox.js",
-	"wp-seo-recalculate": "./wp-seo-recalculate.js",
-	"wp-seo-reindex-links": "./wp-seo-reindex-links.js",
-	"wp-seo-replacevar-plugin": "./wp-seo-replacevar-plugin.js",
-	"wp-seo-shortcode-plugin": "./wp-seo-shortcode-plugin.js",
-	"wp-seo-api": "./wp-seo-api.js",
-	"wp-seo-dashboard-widget": "./wp-seo-dashboard-widget.js",
-	"wp-seo-filter-explanation": "./wp-seo-filter-explanation.js",
-	"wp-seo-wp-globals-backport": "wp-seo-wp-globals-backport.js",
-	"wp-seo-structured-data-blocks": "wp-seo-structured-data-blocks.js",
-};
-
-// Output filename: Entry file (relative to jsSrcPath)
 const entry = {
 	vendor: [
 		"react",
 		"react-dom",
 		"styled-components",
+		"babel-polyfill",
 	],
 	"configuration-wizard": "./configuration-wizard.js",
 	"search-appearance": "./search-appearance.js",
@@ -48,6 +25,21 @@ const entry = {
 	"wp-seo-replacevar-plugin": "./wp-seo-replacevar-plugin.js",
 	"wp-seo-structured-data-blocks": "./wp-seo-structured-data-blocks.js",
 	analysis: "./analysis.js",
+
+	"wp-seo-admin-global": "./wp-seo-admin-global.js",
+	"wp-seo-admin-gsc": "./wp-seo-admin-gsc.js",
+	"wp-seo-admin-media": "./wp-seo-admin-media.js",
+	"wp-seo-admin": "./wp-seo-admin.js",
+	"wp-seo-bulk-editor": "./wp-seo-bulk-editor.js",
+	"wp-seo-edit-page": "./wp-seo-edit-page.js",
+	"wp-seo-featured-image": "./wp-seo-featured-image.js",
+	"wp-seo-metabox-category": "./wp-seo-metabox-category.js",
+	"wp-seo-recalculate": "./wp-seo-recalculate.js",
+	"wp-seo-reindex-links": "./wp-seo-reindex-links.js",
+	"wp-seo-shortcode-plugin": "./wp-seo-shortcode-plugin.js",
+	"wp-seo-api": "./wp-seo-api.js",
+	"wp-seo-filter-explanation": "./wp-seo-filter-explanation.js",
+	"wp-seo-quick-edit-handler": "./wp-seo-quick-edit-handler.js",
 };
 
 /**
@@ -68,7 +60,6 @@ function flattenVersionForFile( version ) {
 
 module.exports = {
 	entry,
-	entryAll,
 	jsDist: jsDistPath,
 	jsSrc: jsSrcPath,
 	cssDist: cssDistPath,

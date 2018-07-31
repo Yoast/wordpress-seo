@@ -276,10 +276,12 @@ export default class HowTo extends Component {
 	static renderJSONLD( attributes ) {
 		let stringified = JSON.stringify( this.toJSONLD( attributes ), null, 3 );
 
-		// Gutenberg uses a slightly different JSON stringifier,
-		// Combined with the fact that Gutenberg compares the stringified JSONs
-		// By replacing all subsequent whitespaces with one space means that
-		// Everything breaks when encountering "[ {" instead of "[{" etc.
+		/*
+		 * Gutenberg uses a slightly different JSON stringifier,
+		 * Combined with the fact that Gutenberg compares the stringified JSONs
+		 * By replacing all subsequent whitespaces with one space means that
+		 * Everything breaks when encountering "[ {" instead of "[{" etc.
+		 */
 		stringified = stringified.replace( /\[[\s]+\{/g, "[{" );
 
 		return <script type="application/ld+json">{ stringified }</script>;

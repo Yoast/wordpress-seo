@@ -1,5 +1,6 @@
 /* global wpseoAdminGlobalL10n, ajaxurl, wpseoSelect2Locale */
 
+import "./helpers/babel-polyfill";
 import a11ySpeak from "a11y-speak";
 
 ( function() {

@@ -9,6 +9,7 @@ import {
 	updateReplacementVariable,
 	refreshSnippetEditor,
 } from "./redux/actions/snippetEditor";
+import "./helpers/babel-polyfill";
 
 ( function() {
 	var modifiableFields = [
