@@ -32,6 +32,13 @@ class WPSEO_Structured_Data_Blocks {
 		$this->asset_manager->enqueue_style( 'structured-data-blocks' );
 	}
 
+	/**
+	 * Adds the structured data blocks category to the Gutenberg categories.
+	 *
+	 * @param array $categories The current categories.
+	 *
+	 * @return array The updated categories.
+	 */
 	public function add_block_category( $categories ) {
 		$categories[] = array(
 			'slug'  => 'yoast-structured-data-blocks',
