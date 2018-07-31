@@ -3,7 +3,6 @@ const englishMorphology = require( "./englishMorphology.json" );
 import createRulesFromArrays from "../createRulesFromJsonArrays.js";
 
 const irregularVerbs = englishMorphology.irregularVerbs;
-const verbPrefixes = englishMorphology.regexVerb.verbPrefixes;
 const sFormToInfinitiveRegex = createRulesFromArrays( englishMorphology.regexVerb.sFormToInfinitive );
 const ingFormToInfinitiveRegex = createRulesFromArrays( englishMorphology.regexVerb.ingFormToInfinitive );
 const edFormToInfinitiveRegex = createRulesFromArrays( englishMorphology.regexVerb.edFormToInfinitive );
@@ -14,6 +13,13 @@ const infinitiveToEdFormRegex = createRulesFromArrays( englishMorphology.regexVe
 const isUndefined = require( "lodash/isUndefined.js" );
 const unique = require( "lodash/uniq" );
 
+const verbPrefixes = englishMorphology.regexVerb.verbPrefixes;
+for ( let property in verbPrefixes ) {
+	if ( verbPrefixes.hasOwnProperty( property ) ) {
+		verbPrefixes[ property ] = new RegExp( verbPrefixes[ property ], "i" );
+	}
+}
+
 /**
  * Checks if the input word has one of the standard verb prefixes and if so returns a prefix and a de-prefixed verb to be
  * further used to compare with the list of irregular verbs.
@@ -23,90 +29,79 @@ const unique = require( "lodash/uniq" );
  * @returns {Array} Array of word forms from the exception list.
  */
 const normalizePrefixed = function( word ) {
-	let verbPrefixRegex = new RegExp( verbPrefixes.sevenLetterHyphenPrefixes, "i" );
-	if ( verbPrefixRegex.test( word ) === true ) {
+	if ( verbPrefixes.sevenLetterHyphenPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( verbPrefixRegex, "" ),
+			normalizedWord: word.replace( verbPrefixes.sevenLetterHyphenPrefixes, "" ),
 			prefix: word.substring( 0, 8 ),
 		};
 	}
 
-	verbPrefixRegex = new RegExp( verbPrefixes.sevenLetterPrefixes, "i" );
-	if ( verbPrefixRegex.test( word ) === true ) {
+	if ( verbPrefixes.sevenLetterPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( verbPrefixRegex, "" ),
+			normalizedWord: word.replace( verbPrefixes.sevenLetterPrefixes, "" ),
 			prefix: word.substring( 0, 7 ),
 		};
 	}
 
-	verbPrefixRegex = new RegExp( verbPrefixes.fiveLetterHyphenPrefixes, "i" );
-	if ( verbPrefixRegex.test( word ) === true ) {
+	if ( verbPrefixes.fiveLetterHyphenPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( verbPrefixRegex, "" ),
+			normalizedWord: word.replace( verbPrefixes.fiveLetterHyphenPrefixes, "" ),
 			prefix: word.substring( 0, 6 ),
 		};
 	}
 
-	verbPrefixRegex = new RegExp( verbPrefixes.fiveLetterPrefixes, "i" );
-	if ( verbPrefixRegex.test( word ) === true ) {
+	if ( verbPrefixes.fiveLetterPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( verbPrefixRegex, "" ),
+			normalizedWord: word.replace( verbPrefixes.fiveLetterPrefixes, "" ),
 			prefix: word.substring( 0, 5 ),
 		};
 	}
 
-	verbPrefixRegex = new RegExp( verbPrefixes.fourLetterHyphenPrefixes, "i" );
-	if ( verbPrefixRegex.test( word ) === true ) {
+	if ( verbPrefixes.fourLetterHyphenPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( verbPrefixRegex, "" ),
+			normalizedWord: word.replace( verbPrefixes.fourLetterHyphenPrefixes, "" ),
 			prefix: word.substring( 0, 5 ),
 		};
 	}
 
-	verbPrefixRegex = new RegExp( verbPrefixes.fourLetterPrefixes, "i" );
-	if ( verbPrefixRegex.test( word ) === true ) {
+	if ( verbPrefixes.fourLetterPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( verbPrefixRegex, "" ),
+			normalizedWord: word.replace( verbPrefixes.fourLetterPrefixes, "" ),
 			prefix: word.substring( 0, 4 ),
 		};
 	}
 
-	verbPrefixRegex = new RegExp( verbPrefixes.threeLetterHyphenPrefixes, "i" );
-	if ( verbPrefixRegex.test( word ) === true ) {
+	if ( verbPrefixes.threeLetterHyphenPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( verbPrefixRegex, "" ),
+			normalizedWord: word.replace( verbPrefixes.threeLetterHyphenPrefixes, "" ),
 			prefix: word.substring( 0, 4 ),
 		};
 	}
 
-	verbPrefixRegex = new RegExp( verbPrefixes.threeLetterPrefixes, "i" );
-	if ( verbPrefixRegex.test( word ) === true ) {
+	if ( verbPrefixes.threeLetterPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( verbPrefixRegex, "" ),
+			normalizedWord: word.replace( verbPrefixes.threeLetterPrefixes, "" ),
 			prefix: word.substring( 0, 3 ),
 		};
 	}
 
-	verbPrefixRegex = new RegExp( verbPrefixes.twoLetterHyphenPrefixes, "i" );
-	if ( verbPrefixRegex.test( word ) === true ) {
+	if ( verbPrefixes.twoLetterHyphenPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( verbPrefixRegex, "" ),
+			normalizedWord: word.replace( verbPrefixes.twoLetterHyphenPrefixes, "" ),
 			prefix: word.substring( 0, 3 ),
 		};
 	}
 
-	verbPrefixRegex = new RegExp( verbPrefixes.twoLetterPrefixes, "i" );
-	if ( verbPrefixRegex.test( word ) === true ) {
+	if ( verbPrefixes.twoLetterPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( verbPrefixRegex, "" ),
+			normalizedWord: word.replace( verbPrefixes.twoLetterPrefixes, "" ),
 			prefix: word.substring( 0, 2 ),
 		};
 	}
 
-	verbPrefixRegex = new RegExp( verbPrefixes.oneLetterPrefixes, "i" );
-	if ( verbPrefixRegex.test( word ) === true ) {
+	if ( verbPrefixes.oneLetterPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( verbPrefixRegex, "" ),
+			normalizedWord: word.replace( verbPrefixes.oneLetterPrefixes, "" ),
 			prefix: word.substring( 0, 1 ),
 		};
 	}
