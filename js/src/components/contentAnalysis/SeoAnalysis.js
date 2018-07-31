@@ -1,8 +1,9 @@
-/* globals yoastModalConfig, wp */
+/* globals yoastModalConfig */
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import { Slot } from "@wordpress/components";
 
 import Results from "./Results";
 import UpsellBox from "../UpsellBox";
@@ -10,8 +11,6 @@ import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import ModalButtonContainer from "../ModalButtonContainer";
 import Collapsible from "yoast-components/composites/Plugin/Shared/components/Collapsible";
 import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
-
-const { Slot } = wp.components;
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;

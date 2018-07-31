@@ -2,12 +2,11 @@
 import { connect } from "react-redux";
 import flowRight from "lodash/flowRight";
 import get from "lodash/get";
+import { withSelect } from "@wordpress/data";
 
 /* Internal dependencies */
 import CollapsibleCornerstone from "../components/CollapsibleCornerstone";
 import { toggleCornerstoneContent } from "../redux/actions/cornerstoneContent";
-
-const withSelect = window.wp.data.withSelect;
 
 /**
  * Maps the state to props.
