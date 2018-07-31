@@ -7,6 +7,7 @@ import KeywordInput from "../composites/Plugin/Shared/components/KeywordInput";
 import SynonymsSection from "../composites/Plugin/Synonyms/components/SynonymsSection";
 import HelpText from "../composites/Plugin/Shared/components/HelpText.js";
 import { makeOutboundLink } from "../utils/makeOutboundLink";
+import SynonymsInput from "../composites/Plugin/Shared/components/SynonymsInput";
 
 const HelpTextLink = makeOutboundLink();
 
@@ -38,6 +39,7 @@ export default class KeywordExample extends Component {
 
 		this.updateKeyword = this.updateKeyword.bind( this );
 		this.updateSynonyms = this.updateSynonyms.bind( this );
+		this.updateSynonymsInput = this.updateSynonymsInput.bind( this );
 	}
 
 	/**
@@ -67,6 +69,19 @@ export default class KeywordExample extends Component {
 	}
 
 	/**
+	 * Updates the synonyms.
+	 *
+	 * @param {object} event The new synonyms.
+	 *
+	 * @returns {void}
+	 */
+	updateSynonymsInput( event ) {
+		this.setState( {
+			synonyms: event.target.value,
+		} );
+	}
+
+	/**
 	 * Renders an example of how to use the keyword input.
 	 *
 	 * @returns {ReactElement} The rendered keyword input.
@@ -85,6 +100,13 @@ export default class KeywordExample extends Component {
 					label={ "Focus keyword"}
 					onChange={ this.updateKeyword }
 					keyword={ this.state.keyword }
+				/>
+				<SynonymsInput
+					showLabel={ true }
+					label={ "Synonyms:" }
+					onChange={ this.updateSynonymsInput }
+					value={ this.state.synonyms }
+					explanationText={ "This is a fine explanation" }
 				/>
 
 				<SynonymsSection
