@@ -15,6 +15,12 @@ const SentencePartDutch = require( "../../dutch/passiveVoice/SentencePart.js" );
 const stopwordsDutch = require( "../../dutch/passiveVoice/stopwords.js" )();
 const auxiliariesDutch = require( "../../dutch/passiveVoice/auxiliaries.js" )();
 
+// Polish-specific imports.
+const SentencePartPolish = require( "../../polish/passiveVoice/SentencePart.js" );
+const stopwordsPolish = require( "../../polish/passiveVoice/stopwords.js" )();
+const auxiliariesPolish = require( "../../polish/passiveVoice/auxiliaries.js" )();
+
+
 // The language-specific variables.
 const languageVariables = {
 	de: {
@@ -28,6 +34,12 @@ const languageVariables = {
 		stopwordRegex: arrayToRegex( stopwordsDutch ),
 		auxiliaryRegex: arrayToRegex( auxiliariesDutch ),
 		locale: "nl_NL",
+	},
+	pl: {
+		SentencePart: SentencePartPolish,
+		stopwordRegex: arrayToRegex( stopwordsPolish ),
+		auxiliaryRegex: arrayToRegex( auxiliariesPolish ),
+		locale: "pl_PL",
 	},
 };
 
