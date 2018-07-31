@@ -39,9 +39,15 @@ function mapDispatchToProps( dispatch ) {
 export default flowRight( [
 	connect( mapStateToProps, mapDispatchToProps ),
 	withSelect( ( select ) => {
-		const postTypeSlug = select( "core/editor" ).getEditedPostAttribute( "type" );
-		const postType = select( "core" ).getPostType( postTypeSlug );
-		const postTypeName = get( postType, [ "labels", "name" ], "NOT YET RECEIVED" );
+		let postTypeName;
+
+		try {
+			const postTypeSlug = select( "core/editor" ).getEditedPostAttribute( "type" );
+			const postType = select( "core" ).getPostType( postTypeSlug );
+			postTypeName = get( postType, [ "labels", "name" ], "NOT YET RECEIVED" );
+		} catch ( error ) {
+			postTypeName = "COULDN'T GET POST TYPE NAME";
+		}
 
 		return {
 			postTypeName,

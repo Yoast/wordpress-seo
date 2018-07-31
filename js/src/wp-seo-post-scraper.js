@@ -7,6 +7,8 @@ import debounce from "lodash/debounce";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
+import { render } from "@wordpress/element";
+import { SlotFillProvider } from "@wordpress/components";
 
 // Internal dependencies.
 import "./helpers/babel-polyfill";
@@ -36,6 +38,7 @@ import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 import { updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setCornerstoneContent } from "./redux/actions/cornerstoneContent";
+import MetaboxPortal from "./components/MetaboxPortal";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -545,6 +548,19 @@ setWordPressSeoL10n();
 			snippetEditorData.slug = data.slug;
 			snippetEditorData.description = data.description;
 		} );
+
+		const theme = {
+			isRtl: wpseoPostScraperL10n.isRtl,
+		};
+
+		const result = render(
+			(
+				<SlotFillProvider>
+					<MetaboxPortal target="wpseo-meta-section-react" store={ store } theme={ theme } />
+				</SlotFillProvider>
+			),
+			document.getElementById( "wpseo-meta-section-react" )
+		);
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );
