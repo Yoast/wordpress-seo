@@ -84,19 +84,24 @@ function processResult( mappedResult, mappedResults ) {
  *
  * @param {string} score The score for which to return the icon and color.
  *
- * @returns {object} The icon and color for the score.
+ * @returns {Object} The icon and color for the score.
  */
 export function getIconForScore( score ) {
+	let icon = { icon: "seo-score-none", color: colors.$color_grey_disabled };
+
 	switch( score ) {
 		case "good":
-			return { icon: "seo-score-good", color: colors.$color_green_medium };
+			icon = { icon: "seo-score-good", color: colors.$color_green_medium };
+			break;
 		case "ok":
-			return { icon: "seo-score-ok", color: colors.$color_yellow_score };
+			icon = { icon: "seo-score-ok", color: colors.$color_yellow_score };
+			break;
 		case "bad":
-			return { icon: "seo-score-bad", color: colors.$color_red };
-		default:
-			return { icon: "seo-score-none", color: colors.$color_grey_disabled };
+			icon = { icon: "seo-score-bad", color: colors.$color_red };
+			break;
 	}
+
+	return icon;
 }
 
 /**

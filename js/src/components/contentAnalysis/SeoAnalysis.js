@@ -3,6 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import { __ } from "@wordpress/i18n";
 
 import Results from "./Results";
 import UpsellBox from "../UpsellBox";
@@ -42,6 +43,12 @@ class SeoAnalysis extends React.Component {
 
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
+
+		if( this.props.keyword === "" ) {
+			score.className = "na";
+			score.screenReaderReadabilityText = "";
+		}
+
 		let KeywordUpsell = ( { upsell } ) => {
 			return (
 				<Collapsible title="Add another keyword">
