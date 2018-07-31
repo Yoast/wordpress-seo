@@ -76,9 +76,15 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 
-	it( "returns passive voice if there is an indirect precedence exception word in between the participle and the auxiliary.", function() {
+	it( "returns passive voice if there is an indirect precedence exception word in between the participle and the auxiliary (other auxiliary).", function() {
 		// Exception word: ma; Auxiliary: być; Participle: zjedzone
 		const paper = new Paper( "Jabłko zjedzone ma być.", { locale: "pl_PL" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	} );
+
+	it( "returns passive voice if there is an indirect precedence exception word in between the participle and the auxiliary (reflexive pronoun).", function() {
+		// Exception word: się; Auxiliary: była; Participle: drukowana
+		const paper = new Paper( "Wersja drukowana ukazała się w zeszłym roku i była dostępna w sklepach od Marca.", { locale: "pl_PL" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 } );

@@ -1,9 +1,9 @@
 /** @module config/transitionWords */
 
-let singleWords = [ "a", "aby", "abym", "abyśmy", "abyś", "abyście", "acz", "aczkolwiek", "albowiem", "ale", "aliści",
+let singleWords = [ "aby", "abym", "abyśmy", "abyś", "abyście", "acz", "aczkolwiek", "albowiem", "ale", "aliści",
 	"bo", "bowiem", "bynajmniej", "choć", "chociaż", "chociażby", "czyli", "dlatego", "dodatkowo", "dopóki", "dotychczas",
 	"faktycznie", "gdy", "gdyż", "jakkolwiek", "iż", "jednak", "jednakże", "jeśli", "kiedy", "lecz", "mianowicie", "mimo",
-	"np", "najpierw", "następnie", "natomiast", "ni", "niemniej", "niż", "notabene", "obecnie", "oczywiście", "ogółem",
+	"np", "najpierw", "następnie", "natomiast", "ni", "niemniej", "niż", "notabene", "oczywiście", "ogółem",
 	"ostatecznie", "owszem", "podobnie", "podsumowując", "pokrótce", "pomimo", "ponadto", "ponieważ", "poprzednio",
 	"potem", "później", "przecież", "przeto", "przynajmniej", "raczej", "również", "rzeczywiście", "skoro", "także",
 	"też", "toteż", "tudzież", "tymczasem", "wedle", "według", "więc", "właściwie", "wobec", "wpierw", "wprawdzie",
@@ -12,9 +12,9 @@ let singleWords = [ "a", "aby", "abym", "abyśmy", "abyś", "abyście", "acz", "
 
 let multipleWords = [ "a konkretnie", "a propos", "aby wrocić do rzeczy", "analogicznie do", "bacząc na to że",
 	"bądź co bądź", "bez wątpienia", "bez względu", "biorąc pod uwagę", "choćby", "chodzi o to", "chyba że", "co do",
-	"co gorsza", "co prawda", "co się tyczy", "co ważniejsze", "co więcej", "dzięki czemu", "dzięki któremu",
-	"dzięki temu", "faktem jest że", "inaczej mówiąc", "innymi słowy", "jak dotąd", "jak już mówiłam", "jak już mówiłem",
-	"jak już wspomniano", "jak widać", "jako przykład", "jednym słowem", "jeśli chodzi o", "jeżeli chodzi o",
+	"co gorsza", "co prawda", "co się tyczy", "co ważniejsze", "co więcej", "dzięki czemu", "dzięki któremu", "dzięki której",
+	"dzięki którym", "dzięki temu", "faktem jest że", "inaczej mówiąc", "innymi słowy", "jak dotąd", "jak już mówiłam",
+	"jak już mówiłem", "jak już wspomniano", "jak widać", "jako przykład", "jednym słowem", "jeśli chodzi o", "jeżeli chodzi o",
 	"konkretnie to", "krótko mówiąc", "łącznie z", "mając to na uwadzę", "mam na myśli", "mamy na myśli",
 	"mówiąc w skrócie", "na celu", "na dłuższą metę", "na dodatek", "na koniec", "na końcu", "na przykład", "na skutek",
 	"na wstęp", "na wypadek gdyby", "na zakończenie", "nade wszystko", "należy pamiętać", "nawiasem mówiąc",
@@ -26,7 +26,7 @@ let multipleWords = [ "a konkretnie", "a propos", "aby wrocić do rzeczy", "anal
 	"prawdę powiedziawszy", "prędzej czy później", "przechodząc do", "przede wszystkim", "przez co", "przez tą",
 	"przez tego", "przez to", "przy tym", "przypuściwszy że", "raz na jakiś czas", "rzecz jasna", "ściśle biorąc",
 	"ściśle mówiąc", "skutkiem tego", "tak czy inaczej", "tak czy owak", "tak naprawdę", "takich jak", "takie jak",
-	"to znaczy", "tym samym", "w celu", "w ciągu", "w dodatku", "w innych słowach", "w istocie", "w każdym razie",
+	"to znaczy", "tym samym", "w celu", "w ciągu", "w dodatku", "w efekcie", "w innych słowach", "w istocie", "w każdym razie",
 	"w końcu", "w konsekwencji", "w kwestii", "w międzyczasie", "w nadziei że", "w obawie że", "w odróżnieniu",
 	"w podobny sposób", "w podsumowaniu", "w przeciwieństwie do", "w przeciwnym razie", "w przypadku", "w rezultacie",
 	"w rozumieniu że", "w rzeczy samej", "w rzeczywistości", "w skrócie", "w szczególności", "w takim razie",

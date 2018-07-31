@@ -95,7 +95,9 @@ const possessivePronouns = [ "ich", "jego", "jej", "ma", "mą", "me", "mego", "m
 	"twoimi", "twój", "twoja", "twoją", "twoje", "twojego", "twojej", "twojemu", "twych", "twym", "twymi", "wasi",
 	"wasz", "wasza", "waszą", "wasze", "waszego", "waszej", "waszemu", "waszych", "waszym", "waszymi" ];
 
-const reflexivePronouns = [ "się", "siebie", "sobą", "sobie" ];
+const reflexivePronounsNominative = [ "się" ];
+
+const reflexivePronounsOther = [ "siebie", "sobą" ];
 
 const interrogativePronouns = [ "czyi", "czyich", "czyim", "czyimi", "czyj", "czyja", "czyją", "czyje", "czyjego", "czyjej",
 	"czyjemu", "kim", "kogo", "komu", "kto" ];
@@ -352,7 +354,7 @@ const measurementUnits = [ "°C", "°F", "ar", "ary", "arów", "arach", "c", "cl
 	"m²", "m³", "mg", "ml", "mm", "mm²", "mm³", "szczypta", "szczyptę", "szczypty", "szklanka", "szklankę", "szklanki",
 	"tuzin" ];
 
-const miscellaneous = [ "nie", "no", "oto", "tak" ];
+const miscellaneous = [ "nie", "no", "oto", "tak", "sobie", "ok", "okej" ];
 
 
 module.exports = function() {
@@ -364,7 +366,7 @@ module.exports = function() {
 
 		// These word categories are filtered at the beginning and ending of word combinations.
 		filteredAtBeginningAndEnding: [].concat( prepositions, coordinatingConjunctions, demonstrativePronouns,
-			quantifiers, intensifiers, possessivePronouns, reflexivePronouns ),
+			quantifiers, intensifiers, possessivePronouns, reflexivePronounsNominative, reflexivePronounsOther ),
 
 		// These word categories are filtered everywhere within word combinations.
 		filteredAnywhere: [].concat( transitionWords, additionalTransitionWords, cardinalNumerals, personalPronounsNominative,
@@ -381,7 +383,7 @@ module.exports = function() {
 			interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs ),
 
 		// These word categories cannot intervene between an auxiliary and a corresponding passive participle.
-		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( otherAuxiliaries, otherAuxiliariesInfinitive ),
+		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( otherAuxiliaries, otherAuxiliariesInfinitive, reflexivePronounsNominative ),
 
 		// This export contains all of the above words.
 		all: [].concat( transitionWords, additionalTransitionWords, cardinalNumerals, personalPronounsNominative,
@@ -390,7 +392,7 @@ module.exports = function() {
 			interrogativeDeterminers, indefinitePronouns, adverbialGenitives, otherAuxiliaries, prepositionalAdverbs,
 			subordinatingConjunctions, delexicalizedVerbs, interviewVerbs, timeWords, vagueNouns, titles,
 			interjections, measurementUnits, miscellaneous, passiveAuxiliaries, prepositions, coordinatingConjunctions, demonstrativePronouns,
-			quantifiers, intensifiers, possessivePronouns, reflexivePronouns, ordinalNumerals, generalAdjectives,
+			quantifiers, intensifiers, possessivePronouns, reflexivePronounsNominative, reflexivePronounsOther, ordinalNumerals, generalAdjectives,
 			generalAdverbs, delexicalisedVerbsInfinitive, otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive ),
 	};
 };

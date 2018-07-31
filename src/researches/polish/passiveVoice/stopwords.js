@@ -8,6 +8,7 @@ module.exports = function() {
 		"aby",
 		"albo",
 		"albowiem",
+		"ale",
 		"bo",
 		"bowiem",
 		"czy",
