@@ -27,22 +27,28 @@ const ExplanationText = styled.p`
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends React.Component {
-	synonymsUpsell() {
+	renderSynonymsUpsell() {
 		let config = yoastModalConfig;
 		let synonymsConfig = config.filter( ( modalConfig ) => {
 			return modalConfig.content === "KeywordSynonyms";
 		} );
 
 		return(
-			<ModalButtonContainer { ...synonymsConfig[ synonymsConfig.length -1 ] } />
+			<ModalButtonContainer { ...synonymsConfig[ synonymsConfig.length - 1 ] } />
 		);
 	}
 
-	render() {
-
-		let KeywordUpsell = ( { upsell } ) => {
-			return (
-				<Collapsible title="Add another keyword">
+	/**
+	 * Renders the UpsellBox component.
+	 *
+	 * @param {Object} upsell The upsell object containing the properties.
+	 *
+	 * @returns {ReactElement} The UpsellBox component.
+	 */
+	renderKeywordUpsell() {
+		const upsell = this.props.keywordUpsell;
+		return (
+			<Collapsible title="Add another keyword">
 				<UpsellBox
 					benefits={ upsell.benefits }
 					infoParagraphs={ upsell.infoParagraphs }
@@ -54,10 +60,16 @@ class SeoAnalysis extends React.Component {
 					} }
 					upsellButtonLabel={ upsell.buttonLabel }
 				/>
-				</Collapsible>
-			);
-		};
+			</Collapsible>
+		);
+	}
 
+	/**
+	 * Renders the SEO Analysis component.
+	 *
+	 * @returns {ReactElement} The SEO Analysis component.
+	 */
+	render() {
 		return (
 			<React.Fragment>
 				<Collapsible
@@ -73,7 +85,7 @@ class SeoAnalysis extends React.Component {
 						keyword={ this.props.keyword }
 					/>
 					<Slot name="YoastSynonyms" />
-					{ this.props.shouldUpsell && this.synonymsUpsell() }
+					{ this.props.shouldUpsell && this.renderSynonymsUpsell() }
 					<AnalysisHeader>
 						Analysis results:
 					</AnalysisHeader>
@@ -84,7 +96,7 @@ class SeoAnalysis extends React.Component {
 						marksButtonStatus={ this.props.marksButtonStatus }
 					/>
 				</Collapsible>
-				{ this.props.shouldUpsell && <KeywordUpsell upsell={ this.props.keywordUpsell } /> }
+				{ this.props.shouldUpsell && this.renderKeywordUpsell() }
 			</React.Fragment>
 		);
 	}
