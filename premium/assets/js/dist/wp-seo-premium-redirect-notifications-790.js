@@ -8,12 +8,12 @@ eval("\n\n/* global wpseoPremiumStrings, ajaxurl */\n\n/**\n * Undoes a redirect
 
 /***/ }),
 
-/***/ 890:
+/***/ 892:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar redirectFunctions = __webpack_require__(388);\n\nwindow.wpseoUndoRedirect = redirectFunctions.wpseoUndoRedirect;\nwindow.wpseoCreateRedirect = redirectFunctions.wpseoCreateRedirect;\n\n//////////////////\n// WEBPACK FOOTER\n// ./redirect-notifications.js\n// module id = 890\n// module chunks = 3\n\n//# sourceURL=webpack:///./redirect-notifications.js?");
+eval("\n\nvar redirectFunctions = __webpack_require__(388);\n\nwindow.wpseoUndoRedirect = redirectFunctions.wpseoUndoRedirect;\nwindow.wpseoCreateRedirect = redirectFunctions.wpseoCreateRedirect;\n\n//////////////////\n// WEBPACK FOOTER\n// ./redirect-notifications.js\n// module id = 892\n// module chunks = 3\n\n//# sourceURL=webpack:///./redirect-notifications.js?");
 
 /***/ })
 
-},[890]);
+},[892]);
