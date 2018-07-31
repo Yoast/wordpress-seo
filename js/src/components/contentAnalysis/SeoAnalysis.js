@@ -4,13 +4,14 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
+import colors from "yoast-components/style-guide/colors.json";
+import Collapsible from "yoast-components/composites/Plugin/Shared/components/Collapsible";
+import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
 
 import Results from "./Results";
 import UpsellBox from "../UpsellBox";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import ModalButtonContainer from "../ModalButtonContainer";
-import Collapsible from "yoast-components/composites/Plugin/Shared/components/Collapsible";
-import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 
@@ -52,7 +53,11 @@ class SeoAnalysis extends React.Component {
 	renderKeywordUpsell() {
 		const upsell = this.props.keywordUpsell;
 		return (
-			<Collapsible title="Add another keyword">
+			<Collapsible
+			prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey_disabled } }
+			prefixIconCollapsed={ { icon: "seo-score-none", color: colors.$color_grey_disabled } }
+			title="Add another keyword"
+			>
 				<UpsellBox
 					benefits={ upsell.benefits }
 					infoParagraphs={ upsell.infoParagraphs }
