@@ -38,6 +38,13 @@ class SeoAnalysis extends React.Component {
 		);
 	}
 
+	/**
+	 * Renders the UpsellBox component.
+	 *
+	 * @param {Object} upsell The upsell object containing the properties.
+	 *
+	 * @returns {ReactElement} The UpsellBox component.
+	 */
 	keywordUpsell( upsell ) {
 		return (
 			<Collapsible title="Add another keyword">
@@ -56,6 +63,11 @@ class SeoAnalysis extends React.Component {
 		);
 	}
 
+	/**
+	 * Renders the SEO Analysis component.
+	 *
+	 * @returns {ReactElement} The SEO Analysis component.
+	 */
 	render() {
 		return (
 			<React.Fragment>
@@ -83,7 +95,7 @@ class SeoAnalysis extends React.Component {
 						marksButtonStatus={ this.props.marksButtonStatus }
 					/>
 				</Collapsible>
-				{ this.props.shouldUpsell && this.keywordUpsell( this.props.keywordUpsell) }
+				{ this.props.shouldUpsell && this.keywordUpsell( this.props.keywordUpsell ) }
 			</React.Fragment>
 		);
 	}
