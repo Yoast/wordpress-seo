@@ -1,6 +1,9 @@
 import * as importedData from "@wordpress/data";
 import * as importedElement from "@wordpress/element";
+import { Slot, Fill, SlotFillProvider } from "@wordpress/components";
 import get from "lodash/get";
+
+window.lodash = _.noConflict();
 
 /*
  * If Gutenberg is present we can just use their wp.element and wp.data. Otherwise
@@ -16,6 +19,11 @@ const yoast = window.yoast || {};
 yoast._wp = {
 	element,
 	data,
+	components: {
+		Slot,
+		Fill,
+		SlotFillProvider,
+	},
 };
 
 // Put it all actually on the global.

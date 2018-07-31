@@ -17,12 +17,9 @@ const externals = {
 
 // This makes sure the @wordpress dependencies are correctly transformed.
 const wpDependencies = [
-	"components",
-	"element",
 	"blocks",
 	"utils",
 	"date",
-	"data",
 	"editor",
 	"viewport",
 ];
