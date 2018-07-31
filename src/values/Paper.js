@@ -220,4 +220,20 @@ Paper.prototype.getSynonymsForms = function() {
 	return this._attributes.topicForms.synonymsForms;
 };
 
+/**
+ * Check whether topicForms are available.
+ * @returns {boolean} Returns true if the Paper has topic forms.
+ */
+Paper.prototype.hasTopicForms = function() {
+	return ! ( isEmpty( this._attributes.topicForms ) );
+};
+
+/**
+ * Return the topic forms or an empty object if no topic forms are available.
+ * @returns {Object} Returns topic forms
+ */
+Paper.prototype.getTopicForms = function() {
+	return this._attributes.topicForms;
+};
+
 module.exports = Paper;
