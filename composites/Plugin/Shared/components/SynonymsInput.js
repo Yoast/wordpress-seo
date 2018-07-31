@@ -37,7 +37,7 @@ SynonymsInput.propTypes = {
 };
 
 SynonymsInput.defaultProps = {
-	id: uniqueId( "yoast-input-" ),
+	id: uniqueId( "synonyms-input-" ),
 	label: "",
 	value: "",
 	explanationText: "",
