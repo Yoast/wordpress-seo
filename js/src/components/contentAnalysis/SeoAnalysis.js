@@ -38,11 +38,9 @@ class SeoAnalysis extends React.Component {
 		);
 	}
 
-	render() {
-
-		let KeywordUpsell = ( { upsell } ) => {
-			return (
-				<Collapsible title="Add another keyword">
+	keywordUpsell( upsell ) {
+		return (
+			<Collapsible title="Add another keyword">
 				<UpsellBox
 					benefits={ upsell.benefits }
 					infoParagraphs={ upsell.infoParagraphs }
@@ -54,10 +52,11 @@ class SeoAnalysis extends React.Component {
 					} }
 					upsellButtonLabel={ upsell.buttonLabel }
 				/>
-				</Collapsible>
-			);
-		};
+			</Collapsible>
+		);
+	}
 
+	render() {
 		return (
 			<React.Fragment>
 				<Collapsible
@@ -84,7 +83,7 @@ class SeoAnalysis extends React.Component {
 						marksButtonStatus={ this.props.marksButtonStatus }
 					/>
 				</Collapsible>
-				{ this.props.shouldUpsell && <KeywordUpsell upsell={ this.props.keywordUpsell } /> }
+				{ this.props.shouldUpsell && this.keywordUpsell( this.props.keywordUpsell) }
 			</React.Fragment>
 		);
 	}
