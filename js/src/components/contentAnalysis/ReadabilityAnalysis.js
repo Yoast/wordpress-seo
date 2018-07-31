@@ -30,10 +30,9 @@ if( window.wpseoPostScraperL10n ) {
 class ReadabilityAnalysis extends React.Component {
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
-		console.log( score )
 		return (
 			<Collapsible
-				title={ "Readability analysis" }
+				title="Readability analysis"
 				initialIsOpen={ false }
 				titleScreenReaderText={ score.screenReaderReadabilityText }
 				prefixIcon={ getIconForScore( score.className ) }
