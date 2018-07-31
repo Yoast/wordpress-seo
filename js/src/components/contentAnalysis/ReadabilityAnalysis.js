@@ -33,7 +33,6 @@ class ReadabilityAnalysis extends React.Component {
 		return (
 			<Collapsible
 				title="Readability analysis"
-				initialIsOpen={ false }
 				titleScreenReaderText={ score.screenReaderReadabilityText }
 				prefixIcon={ getIconForScore( score.className ) }
 				prefixIconCollapsed={ getIconForScore( score.className ) }
