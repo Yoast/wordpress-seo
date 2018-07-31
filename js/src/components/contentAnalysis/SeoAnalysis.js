@@ -27,14 +27,14 @@ const ExplanationText = styled.p`
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends React.Component {
-	synonymsUpsell() {
+	renderSynonymsUpsell() {
 		let config = yoastModalConfig;
 		let synonymsConfig = config.filter( ( modalConfig ) => {
 			return modalConfig.content === "KeywordSynonyms";
 		} );
 
 		return(
-			<ModalButtonContainer { ...synonymsConfig[ synonymsConfig.length -1 ] } />
+			<ModalButtonContainer { ...synonymsConfig[ synonymsConfig.length - 1 ] } />
 		);
 	}
 
@@ -45,7 +45,8 @@ class SeoAnalysis extends React.Component {
 	 *
 	 * @returns {ReactElement} The UpsellBox component.
 	 */
-	keywordUpsell( upsell ) {
+	renderKeywordUpsell() {
+		const upsell = this.props.keywordUpsell;
 		return (
 			<Collapsible title="Add another keyword">
 				<UpsellBox
@@ -84,7 +85,7 @@ class SeoAnalysis extends React.Component {
 						keyword={ this.props.keyword }
 					/>
 					<Slot name="YoastSynonyms" />
-					{ this.props.shouldUpsell && this.synonymsUpsell() }
+					{ this.props.shouldUpsell && this.renderSynonymsUpsell() }
 					<AnalysisHeader>
 						Analysis results:
 					</AnalysisHeader>
@@ -95,7 +96,7 @@ class SeoAnalysis extends React.Component {
 						marksButtonStatus={ this.props.marksButtonStatus }
 					/>
 				</Collapsible>
-				{ this.props.shouldUpsell && this.keywordUpsell( this.props.keywordUpsell ) }
+				{ this.props.shouldUpsell && this.renderKeywordUpsell() }
 			</React.Fragment>
 		);
 	}
