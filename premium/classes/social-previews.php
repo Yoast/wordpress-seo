@@ -115,6 +115,7 @@ class WPSEO_Social_Previews {
 		wp_register_script( 'yoast-social-preview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/yoast-premium-social-preview-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array(
 			'jquery',
 			'jquery-ui-core',
+			'yoast-seo-premium-commons',
 		), WPSEO_VERSION );
 
 		wp_localize_script( 'yoast-social-preview', 'yoastSocialPreview', $this->localize() );

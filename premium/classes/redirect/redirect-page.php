@@ -114,7 +114,7 @@ class WPSEO_Redirect_Page {
 			'wp-seo-premium-admin-redirects',
 			plugin_dir_url( WPSEO_PREMIUM_FILE ) .
 			'assets/js/dist/wp-seo-premium-admin-redirects-' . $version . WPSEO_CSSJS_SUFFIX . '.js',
-			array( 'jquery', 'jquery-ui-dialog', 'wp-util', 'underscore' ),
+			array( 'jquery', 'jquery-ui-dialog', 'wp-util', 'underscore', 'yoast-seo-premium-commons' ),
 			WPSEO_VERSION
 		);
 		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseoPremiumStrings', WPSEO_Premium_Javascript_Strings::strings() );

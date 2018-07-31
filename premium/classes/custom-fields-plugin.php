@@ -25,7 +25,7 @@ class WPSEO_Custom_Fields_Plugin {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$version       = $asset_manager->flatten_version( WPSEO_VERSION );
 
-		wp_enqueue_script( 'wp-seo-premium-custom-fields-plugin', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-custom-fields-plugin-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+		wp_enqueue_script( 'wp-seo-premium-custom-fields-plugin', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-custom-fields-plugin-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery', 'yoast-seo-premium-commons' ), WPSEO_VERSION );
 		wp_localize_script( 'wp-seo-premium-custom-fields-plugin', 'YoastCustomFieldsPluginL10', $this->localize_script() );
 	}
 
