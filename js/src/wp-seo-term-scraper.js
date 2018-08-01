@@ -248,8 +248,7 @@ window.yoastHideMarkers = true;
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-
-			store.dispatch( setFocusKeyword( keyword ) );
+			store.dispatch( setFocusKeyword( $( "#hidden_wpseo_focuskw" ).val() ) );
 
 			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
 			args.callbacks.updatedKeywordsResults = function( results ) {
