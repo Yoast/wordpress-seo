@@ -12,6 +12,10 @@ const outputFilename = "[name]-" + pluginVersionSlug + ".min.js";
 const externals = {
 	// This is necessary for Gutenberg to work.
 	tinymce: "window.tinymce",
+
+	"@wordpress/element": "window.yoast._wp.element",
+	"@wordpress/data": "window.yoast._wp.data",
+	"@wordpress/components": "window.yoast._wp.components",
 };
 
 // This makes sure the @wordpress dependencies are correctly transformed.
