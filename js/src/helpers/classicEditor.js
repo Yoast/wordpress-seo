@@ -49,8 +49,8 @@ class RegisteredComponentsContainer extends Component {
 	 * @returns {React.Element[]} The rendered components in an array.
 	 */
 	render() {
-		return this.state.registeredComponents.map( ( registered ) => {
-			return <registered.Component key={ registered.key } />;
+		return this.state.registeredComponents.map( ( { Components, key } ) => {
+			return <Component key={ key } />;
 		} );
 	}
 }
