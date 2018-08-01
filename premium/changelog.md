@@ -1,0 +1,696 @@
+### 7.9.0: July 24th, 2018
+Bugfixes:
+* Fixes a bug where the prominent words for attachments can't be indexed when the attachment has an other post status than trash, inherit or private.
+
+Other:
+* Includes every change in Yoast SEO core 7.9.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.8.1: July 16th, 2018
+Bugfixes:
+* Fixes a bug where the snippet editor changes were not saved when the SEO Analysis feature is turned off.
+
+### 7.8.0: July 10th, 2018
+Enhancements:
+* Shows a notification regarding the creation of redirects when deleting a category or tag.
+* Introduces an action (`wpseo_premium_redirects_modified`) that will be executed when a redirect has been added, edited or deleted.
+* Adds the possibility to enter keyword synonyms.
+* Adds an assessment the checks the distribution of the focus keyword in the text.
+* Adds an assessment that checks the distribution of keywords and synonyms.
+
+Bugfixes:
+* Fixes a bug where advertisements were being displayed next to video tutorials.
+* Fixes a bug where redirected URLs would show up in the sitemap.
+* Filters out prominent word combinations ending in 's in English. Props to [swekkiekekkie](https://github.com/swekkiekekkie).
+
+Other:
+* Includes every change in Yoast SEO core 7.8.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.7.3: July 2nd, 2018
+* Includes every change in Yoast SEO core 7.7.3 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.7.2: June 29th, 2018
+* Includes every change in Yoast SEO core 7.7.2 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.7.1: June 27th, 2018
+* Includes every change in Yoast SEO core 7.7.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.7.0: June 26th, 2018
+Bugfixes:
+* Fixes a bug where non-public posts were given as a link suggestion.
+* Fixes a bug where a redirect would redirect to the currently requested URL.
+* Fixes a bug where the fallback for the Facebook title in the social preview was not showing the correct title.
+* Fixes a bug where Yoast product advertisements were shown in the Help Center video tab.
+* Fixes a bug where the analysis would only show results for the main keyword when multiple keywords are used.
+* Fixes a bug where the analysis results were being hidden while they were being calculated.
+
+Other:
+* Includes every change in Yoast SEO core 7.7.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.6.1: June 7th, 2018
+* Includes every change in Yoast SEO core 7.6.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.6.0: June 5th, 2018
+Enhancements:
+* Adds WP-CLI commands to manage redirects. Use `wp yoast redirect` to see the list of available commands.
+
+Bugfixes:
+* Fixes a bug where the link to run the internal linking count for orphaned content did not work.
+* Fixes a bug where unpublished posts and password protected posts where taken into account in the orphaned content overview and notifications.
+* Includes every change in Yoast SEO core 7.6.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.5.3: May 30th, 2018
+* Includes every change in Yoast SEO core 7.5.3 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.5.2: May 28th, 2018
+* Fixes a bug where the determination of "Orphaned content" tries to account for `noindex` items, resulting in a lot of additional database querying.
+
+### 7.5.1: May 16th, 2018
+* Includes every change in Yoast SEO core 7.5.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.5.0: May 15th, 2018
+Enhancements:
+* Adds Russian Insights and Linking Suggestions.
+
+Bugfixes:
+* Fixes a bug where the subdirectory is added twice to the origin form field when pressing the create redirect link on the adminbar.
+* Fixes a bug where the subdirectory is stripped out of the redirect target when it's provided as a full url.
+* Fixes a bug where posts set to `noindex` would show in the orphaned content filter.
+
+Other:
+* Sets the maximum amount of Linking Suggestions to 10.
+* Includes every change in Yoast SEO core 7.5.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.4.2: May 3rd, 2018
+* Includes every change in Yoast SEO core 7.4.2 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers)
+
+### 7.4.1: May 2nd, 2018
+* Includes every change in Yoast SEO core 7.4.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers)
+
+### 7.4.0: May 1st, 2018
+* Includes every change in Yoast SEO core 7.4.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.3.0: April 17th, 2018
+* Fixes a bug where the pagination overlaps the orphaned content information message, on post overview pages in combination with low resolutions.
+* Includes every change in Yoast SEO core 7.3.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.2.0: April 3rd, 2018
+* Fixes an issue where no new redirect was created after a parent/child relationship of a page was changed.
+* Fixes an issue where reverting the parent/child relationship of two pages could result in a redirect loop.
+* Removes plugin suggestions from the dashboard.
+* Includes every change in Yoast SEO core 7.2.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.1.1: March 22nd, 2018
+Bugfix:
+* Fixes a fatal error on the Import/Export pages where a method on an import status property is called which is not always available.
+
+### 7.1.0: March 20th, 2018
+Enhancement:
+* Adds Portuguese Insights and Linking suggestions. Props to [amesdigital](https://github.com/amesdigital).
+
+Others:
+* Includes every change in Yoast SEO core 7.1.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.0.3: March 12th, 2018
+* Includes every change in Yoast SEO core 7.0.3 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.0.2: March 8th, 2018
+* Includes every change in Yoast SEO core 7.0.2 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.0.1: March 6th, 2018
+* Includes every change in Yoast SEO core 7.0.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.0.0: March 6th, 2018
+Enhancements:
+* Adds SEO titles and meta descriptions to the focus keyword export.
+
+Bugfixes:
+* Removes unnecessary HTML from button.
+
+Other:
+* Includes every change in Yoast SEO core 7.0.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+* Removes the deprecated `WPSEO_Premium:: add_admin_pages` method.
+
+### 6.3.1: February 19th, 2018
+* Includes every change in Yoast SEO core 6.3.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 6.3.0: February 13th, 2018
+Enhancements:
+* Adds a new sentence to the Internal Linking analyzer after completing a full site scan. This gives you more insight into what the effects are of running the analyzer.
+* Adds additional explanation on entries on the features tab.
+* Adds links to explanatory articles on the features tab.
+
+Bugfixes:
+* Fixes a bug where a core WordPress function wasn't available when getting the `.htaccess` file path on an Apache installation.
+* Adds support for including custom post types in the prominent words recalculation process.
+
+Other:
+* Includes every change in Yoast SEO core 6.3.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 6.2.0: January 23rd, 2018
+* Removes the `WPSEO_Premium:: add_admin_pages` method which was deprecated before version 4.0.
+* Includes every change in Yoast SEO core 6.2.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 6.1.2: January 12th, 2018
+* Fixes a bug where the Regex redirects don't work anymore.
+
+### 6.1.1: January 10th, 2018
+* Includes every change in Yoast SEO core 6.1.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 6.1.0: January 9th, 2018
+* Fixes a bug in the redirects where an url decoded origin isn't found when the request uri isn't decoded.
+* Fixes a bug where on certain servers (using FastCGI) redirects could not be filtered. 
+* Includes every change in Yoast SEO core 6.1.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 6.0.0: December 20th, 2017
+* Converts the list of post types to a format which is compatible with the REST API format.
+* Includes every change in Yoast SEO core 6.0.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.9.4: December 13th, 2017
+* Fixes an issue where any keyword except the first keyword would show the results of the first keyword.
+ 
+### 5.9.3: December 11th, 2017
+* Includes every change in Yoast SEO core 5.9.3, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.9.2: December 11th, 2017
+* Includes every change in Yoast SEO core 5.9.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.9.1: December 5th, 2017
+* Fixes a bug where the configuration wizard could not be loaded, caused by a missing JavaScript dependency.
+
+### 5.9.0: December 5th, 2017
+* Insights are now shown in a separate section below the text analysis.
+* Includes every change in Yoast SEO core 5.9.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.8.0: November 15th, 2017
+* Includes every change in Yoast SEO core 5.8.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.7.1: October 25th, 2017
+* Prefixes `$redirect_handler` as `$wpseo_redirect_handler` as this is globally available.
+
+### 5.7.0: October 24th, 2017
+* Improved the copy of the notice that will be displayed when a post has been stored from the trash.
+* Fixes a bug by removing the accessibility check of a redirect target for regular expression redirects because these are likely to be dynamic.
+* Fixes a bug in the redirect search where the search string that starts or ends with a slash doesn't match with an expected result.
+* Fixes a bug where the "focus keyword used in another post"-check could not detect when a keyword was used at the 2nd, 3rd, 4th or 5th keyword spot.
+
+### 5.6.1: October 13th, 2017
+* Fixes a bug where a user with granted `wpseo_manage_redirects` would see settings which should not be shown.
+* Includes every change in Yoast SEO core 5.6.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.6.0: October 10th, 2017
+* Introduces the `Orphaned content` filter and notifications.
+* Fixes an issue where the 'You are not receiving updates or support!' notification would be wrongfully shown on a sub-site of a multisite installation.
+* Includes every change in Yoast SEO core 5.6, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.5.1: September 28th, 2017
+* Includes every change in Yoast SEO core 5.5.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.5.0: September 26th, 2017
+* Introduces `wpseo_manage_redirects` to allow any role or user to manage redirects without having to be an administrator.
+* Added filter for filtering redirects by redirect-type.
+* Added a tool to export Focus Keywords.
+
+### 5.4.2: September 21th, 2017
+* Includes every change in Yoast SEO core 5.4.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.4.1: September 20th, 2017
+* Includes every change in Yoast SEO core 5.4.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.4.0: September 6th, 2017
+* Adds importing of exported redirects in CSV format via `SEO > Tools > import and export > import redirects`.
+
+### 5.3.3: August 23rd, 2017
+* Includes every change in Yoast SEO core 5.3.3, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.3.2: August 23rd, 2017
+* Includes every change in Yoast SEO core 5.3.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.3.1: August 22nd, 2017
+* Includes every change in Yoast SEO core 5.3.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.3.0: August 22nd, 2017
+* Add feature to export redirects, via SEO - Tools - Import/Export
+* Removes the `DC.date.issued` meta tag
+* When creating a redirect to a file, it will no longer show a warning that the target location does not exist
+
+### 5.2.0: August 8th, 2017
+* Adds a watcher for private posts to be redirected correctly after trashing them.
+* Adds collecting technical environment data to send to Yoast.
+* Includes every change in Yoast SEO core 5.2.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.1.0: July 25th, 2017
+* Adds Italian Insights and Linking Suggestions, props Abramo Tesoro.
+* Fixes a bug where multiple redirect notices pop up when having WooCommerce Tab Manager installed.
+* Includes every change in Yoast SEO core 5.1.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.0.2: July 13th, 2017
+* Includes every change in Yoast SEO core 5.0.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.0.1: July 6th, 2017
+* Includes every change in Yoast SEO core 5.0.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 5.0.0: July 6th, 2017
+* Fixes a bug where the redirect notice popped up unnecessarily.
+* Introduces insights and linking suggestions for French, props Sylvain Perret and [Evoque](https://github.com/evoqueio).
+* Includes every change in Yoast SEO core 5.0.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 4.9.0: June 7th, 2017
+* Includes every change in Yoast SEO core 4.9.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 4.8.0: May 23rd, 2017
+* Fixes a bug where there is a double trailing slash in the javascript for the social previews that was causing errors.
+* Fixes a bug on the Redirects page where spaces were stripped when using the search field.
+* Removes the prominent words version for non-supported languages.
+* Changes the string 'current url' to 'old url' in the Search Console Redirect to match the language in the Redirect Manager. 
+* Includes every change in Yoast SEO core 4.8.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 4.7.1: May 9th, 2017
+* Includes every change in Yoast SEO core 4.7.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 4.7.0: May 2nd, 2017
+* Fixes a bug where 410 redirects could not be imported from `.htaccess`.
+* Fixes a bug where the 'email support tab' did not work on the edit post page.
+* Adds the slug of a deleted post to the redirect notification.
+* Includes every change in Yoast SEO core 4.7.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 4.6.0: April 11th, 2017
+* Adds the ability to mark a post as cornerstone content and display this in the link suggestions box.
+* Fixes a bug where the post_modified was updated whenever the prominent words were calculated.
+* Fixes a bug where a JavaScript error was thrown when creating a new taxonomy with a custom field plugin active.
+* Fixes a bug where websites ran into timeouts due to a big query when calculating the prominent words.
+* Includes every change in Yoast SEO core 4.6.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 4.5.0: March 21st, 2017
+* Fixes a bug where the SEO score wouldn’t be saved correctly, resulting in gray bullets on the post overview screen.
+* Includes every change in Yoast SEO core 4.5.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 4.4.0: February 28th, 2017
+* Adds redirect types in the Search Console settings page.
+* Checks for links that are already used in the text when suggesting links.
+* Change links to shortlinks in premium translation promo box.
+* Includes every change in Yoast SEO core 4.4.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 4.3.2: February 16th, 2017
+* Fixes a bug where CSS & JavaScript would be loaded with incorrect version numbers.
+
+### 4.3.1: February 16th, 2017
+* Fixes a bug where a slow query would be run on every page of the admin.
+
+### 4.3.0: February 14th, 2017
+* Adds link suggestions and insights for Spanish.
+* Adds variable that indicates the recalculation is running already to prevent double executed recalculations.
+* Adds a warning when there are posts or pages that need to be analyzed for link suggestions.
+* Improves the site wide calculation of the prominent words for the link suggestions. 
+* Fixes a bug where the rendering of the columns in the post overview was incorrect. 
+* Includes every change in Yoast SEO core 4.3.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 4.2.1: February 2nd, 2017
+* Includes every change in Yoast SEO core 4.2.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 4.2.0: January 31st, 2017
+* Adds link suggestions and insights for Dutch.
+* Includes every change in Yoast SEO core 4.2.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 4.1.0: January 17th, 2017
+* Adds a feature toggle to disable link suggestions (site wide).
+* Allows contributors to also use the prominent words that link suggestions depend on, these generated a 403. 
+* Adds German support for Yoast internal linking. 
+* Improves the user interface for the prominent word recalculation.
+* Includes every change in Yoast SEO core 4.1.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 4.0.2: December 20th, 2016
+* Adds site wide calculation of prominent words for pages.
+* Fixes a notice that would be thrown on custom post types: "Undefined property: WP_Post_Type::$rest_base".
+* Fixes a bug where the site language would be used for the social previews and select2.
+* Fixes a bug where the link suggestions wouldn't work when the insights block was disabled.
+* Includes every change in Yoast SEO core 4.0.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 4.0.1 December 14th, 2016
+* Fixes a JavaScript error when editing pages in the admin, this fixes conflicts with page builders.
+* Fixes an uncaught (in promise) error when using the prominent words in combinations with Fusion builder or Divi themes.
+* Adds link suggestions meta box to pages.
+* Fixes a bug where prominent words would be saved too often when editing a post.
+
+### 4.0.0 December 13th, 2016
+* Adds a metabox "Yoast internal linking" that contains link suggestions for the current post.
+* Adds import functionality for Safe Redirect Manager.
+* Adds import support for Simple 301 Redirects.
+* Fixes import messaging when importing redirects.
+* .htaccess import no longer overwrites the real htaccess file.
+* .htaccess import properly imports all redirects.
+* .htaccess import properly imports redirects with quotes.
+* Fixes a bug where post format archives showed up in sitemap when disabled.
+* Fixes a bug where an old update notice would not be removed.
+* Fixes a bug where keywords with periods where not highlighted in the snippet.
+* Includes every change in Yoast SEO core 4.0.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.9.0 November 29th, 2016
+* Improves the title updates in the social previews.
+* Fixes a bug where the wrong URLs were used in redirect notices.
+* Includes every change in Yoast SEO core 3.9.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.8.0 November 8th, 2016
+* Fixes a bug where keyword tabs didn't have a correct screen reader text.
+* Fixes a bug where certain translations weren't translatable, props [Pedro Mendonça](https://github.com/pedro-mendonca)
+* Removes React debugging tools from eventual build JavaScript files.
+* Includes every change in Yoast SEO core 3.8.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.7.2 October 20th, 2016
+* Includes every change in Yoast SEO core 3.7.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.7.1 October 11th, 2016
+* Adds a message when no prominent words were detected in the text.
+
+### 3.7.0: October 11th, 2016
+* Adds an insights section to the Yoast SEO metabox that shows authors the most prominent words in their text.
+* Adds a validation to check if the origin url in a redirect contains the subdirectory in case WordPress is installed in a subdirectory.
+* Improved accessibility of the redirects manager.
+* Fixes a bug where some form fields in the import and export tools were missing labels.
+* Makes the redirects new rows action links translatable.
+* Fixes a PHP Warning when hitting 301 redirect on subdomain multisites.
+* Fixes a bug where the Twitter preview would no longer work when Facebook is disabled in Social.
+* Includes every change in Yoast SEO core 3.7.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.6.1: October 3rd, 2016
+* Includes every change in Yoast SEO core 3.6.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers). 
+
+### 3.6: September 27th, 2016
+* Includes every change in Yoast SEO core 3.6.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers). 
+
+### 3.5.2: September 8th, 2016
+* Fixes a JavaScript error that was thrown from redirect notifications when attempting to edit the redirect destination. These notifications are thrown whenever a slug is edited or when a post or term is deleted.
+
+### 3.5.1: September 7th, 2016
+* Fixes a fatal error when network activating.
+
+### 3.5.0: September 7th, 2016
+* Includes every change in Yoast SEO core 3.5.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+* Fixes the slug change and redirects in the quick edit for posts and terms.
+* Fixes title on the redirect settings page.
+
+### 3.4.2: August 8th, 2016
+* Includes every change in Yoast SEO core 3.4.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.4.1: August 2nd, 2016
+* Security hotfix: Includes every change in Yoast SEO core 3.4.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.4.0: July 19th, 2016
+* Includes every change in Yoast SEO core 3.4.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+* Visually improves the redirect dialog by using an overlay.
+* Fixes a bug where a trailing slash was added when redirecting to a file.
+* Fixes a fatal JavaScript error for the featured image on attachment edit pages.
+
+### 3.3.3: June 30th, 2016
+* Includes every change in Yoast SEO core 3.3.3 and 3.3.4, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.3.2: June 21st, 2016
+* Includes every change in Yoast SEO core 3.3.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.3.1: June 15th, 2016
+* Fixes a bug with redirects on a subsite in a multisite installation, props [nicholas-eden](https://github.com/nicholas-eden).
+* Fixes a bug where the tabs inside the metabox weren't aligned properly.
+* Includes every change in Yoast SEO core 3.3.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.3.0: June 14th, 2016
+* Add author name support to the social previews.
+* Add a tab inside the help center to contact support, this replaces the question mark at the bottom right of the page.
+* Fixes a bug where the redirects couldn't be saved to the .htaccess in certain scenarios.
+* Fixes a bug where subdomains would be stripped from target URLs in the redirects.
+* Fixes a bug where the Redirection import wasn't present.
+* Includes every change in Yoast SEO core 3.3.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers). 
+
+### 3.2.5: May 6th, 2016
+* Fixes "undefined index" notices when Facebook and/or Twitter have been disabled in settings.
+* Fixes a bug when writing 4xx redirects into the .htaccess file on Apache.
+* Includes every change in Yoast SEO core 3.2.5, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.2.2: April 21th, 2016
+* Fixes a bug where notification for a deleted post wasn't shown.
+* Includes every change in Yoast SEO core 3.2.3, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.2.0: April 20th, 2016
+* Introduces social previews, you can now see what your posts will look like when they are shared on Facebook and Twitter.
+  * The previews will automatically show you when your image is too small.
+  * You can use all replace variables you are used to in the Facebook and Twitter previews.
+* Removes the tutorial video page, the videos are now available on every tab.
+* Fixes a bug where Yoast SEO Premium would fatal when activating while Yoast SEO was active.
+* Fixes a bug where the home URL wasn't correctly stripped from the redirect old URL.
+* Fixes a bug where clicking the 'Update now' button on the plugin page didn't update correctly.
+* Includes every change in Yoast SEO core 3.2.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.1.3: March 23rd, 2016
+* Fixes a few bugs related to term slugs that were altered by our plugin after they were saved. This especially caused issues for terms with parents. We will simply not touch term slugs anymore until the way terms are saved is fixed in WordPress, see also https://core.trac.wordpress.org/ticket/22293.
+* Fixes a bug where we would create redirects if nav menu items were edited.
+* Fixes a bug where redirects to urls with url parameters got appended with a slash.
+* Fixes a bug where adding a parent to a page would cause the slug of that page to detected by us as non-unique and incremented with a number.
+* Fixes a bug where the AJAX request for creating redirects in the search console integration was broken for search console issues for which a 4xx redirect already exists.
+* Merge with Yoast SEO core 3.1.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.1.2: March 8th, 2016
+* Fixes a bug where PHP redirects were still broken on servers that disable accessing the server input by making use of the filter extension.
+* Merge with Yoast SEO core 3.1.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.1.1: March 2nd, 2016
+* Fixes a bug where PHP redirects were broken.
+* Fixes a bug where users could (temporarily) lose their redirects if our upgrade routine would for some reason not be triggered while updating to versions greater than 3.0.7
+* Fixes a bug where slashes were shown in the redirect manager for a redirect without a target url (ie. 410)
+* Fixes a Fatal error that occurred when switching from Free to Premium.
+
+### 3.1: March 1st, 2016
+* Made PHP redirects faster and more efficient.
+* Added an interface to easily serve 410 (content deleted) headers for posts you have just deleted.
+* Added support for creating 451 (legal takedown) headers in the redirect manager.
+* Improved existing validations, ensuring redirects are complete and unique.
+* Added a validation error that checks for a redirect loop.
+* Added validation warnings for the following cases:
+  * when a redirect points to an url that is redirected.
+  * when a redirect point to a url that cannot be resolved.
+  * when a redirect points to a url that doesn't return a 200 OK status code.
+* Changed the interface for inline editing of redirects to resemble the redirect form used to add redirects.
+* Fixes a possible fatal error on update.
+* Replaced checkboxes and radio buttons with toggles on the Premium settings pages.
+* Makes sure post / term slugs uniqueness checks also take into account redirects.
+* Makes sure redirected are redirected both with and without trailing slash.
+* Takes the WP permalink structure into account in deciding if we should redirect to a slug with or without trailing slash.
+* Makes sure links to our knowledge base open in a new window.
+* Added a few knowledge base suggestions to our support beacon on the redirects page.
+* Merge with Yoast SEO core 3.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.0.7: December 23rd, 2015
+* Merge with Yoast SEO core 3.0.7, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.0.6: December 1st, 2015
+* Merge with Yoast SEO core 3.0.6, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.0.5: December 1st, 2015
+* Fixed performance issues in custom fields integration.
+* Merge with Yoast SEO core 3.0.5, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.0.4: November 25th, 2015
+* Merge with Yoast SEO core 3.0.4, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.0.3: November 19th, 2015
+* Merge with Yoast SEO core 3.0.3, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.0.2: November 19th, 2015
+* Merge with Yoast SEO core 3.0.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.0.1: November 18th, 2015
+* Merge with Yoast SEO core 3.0.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 3.0: November 18th, 2015
+* Merge with Yoast SEO core 3.0, including the realtime content analysis tool and social settings for taxonomies. See the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+* Added possibility to analyze multiple keywords per post/page.
+* Added support beacon to all the Yoast SEO settings pages, allowing users to ask for support straight from their WordPress backend.
+
+### 2.3.5: September 16th, 2015
+* Merge with Yoast SEO core 2.3.5
+
+### 2.3.4: August 6th, 2015
+* Merge with Yoast SEO core 2.3.4
+
+### 2.3.3: August 6th, 2015
+* Added a filter `wpseo_hide_version` that allows webmasters to hide the Yoast SEO Premium version number in the debug marker.
+* Merge with Yoast SEO core 2.3.3
+
+### 2.3.2: July 23rd, 2015
+* Merge with Yoast SEO core 2.3.2
+
+### 2.3.1: July 22nd, 2015
+* Fixes a bug where the .htaccess redirect import was no longer available.
+* Fixes a bug where upgrading to version 2.3 would occasionally cause WSOD's on both admin and frontend. We were unable to pinpoint the exact conflicting plugins and themes, but we are quite confident it was caused by us using, and others hooking into, WP_Query too early.
+* Merge with Yoast SEO core 2.3.1
+
+### 2.3: July 21st, 2015
+* Renamed plugin to "Yoast SEO Premium"
+* Fixes compatibility issue with Post type order plugin.
+* Merge with Yoast SEO core 2.3
+
+### 2.2.2: June 17th, 2015
+* Fixed a bug that would create unnecessary (and sometimes even faulty) redirects.
+* Added a Japanese translation and updated several other languages.
+
+### 2.2.1: June 11th, 2015
+* Merge with Yoast SEO core 2.2.1
+
+### 2.2: June 10th, 2015
+* Adds a X-Redirect-By header to redirects that were created using Yoast SEO Premium. Works for all PHP redirects and regular NGINX redirects. Doesn't work for Apache.
+* Makes sure all AJAX notices become dismissible.
+* Makes sure the redirect notice also shows the old and new url.
+* Fixes a bug where the link in the redirect notice was not clickable in some cases.
+* Fixes a bug where we offered the user the possibility to undo creating a redirect that was never created in the first place.
+* Fixes a bug where clicking a link to our knowledge base about redirect types triggered a notice instead of taking the user to the right page.
+* Fixes a bug where in some cases no tab was selected after reloading the crawl issues in the GWT settings.
+* Fixes a bug where automatic redirects where being created for unpublished posts.
+* Fixes a bug where automatic redirects where not being created on slug change when using quick edit for both posts and terms.
+* Fixes a bug where where automatic redirects where not being created on slug change for custom taxonomies.
+* Fixes a bug where a slug change could falsely be detected and redirected in case of a term update in the context of a post update
+* Merge with Yoast SEO core 2.2
+
+### 2.1.1: April 21st, 2015
+* Merge with Yoast SEO core 2.1.1
+
+### 2.1: April 20th, 2015
+* Merge with Yoast SEO core 2.1
+
+### 2.0.1: April 1st, 2015
+* Merge with Yoast SEO core 2.0.1
+
+### 2.0: March 11th, 2015
+* Merge with Yoast SEO core 2.0
+* Made the version number for the Premium plugin the same as for the Free plugin to avoid confusion.
+* Contains several performance improvements, making the plugin much faster.
+
+### 1.5.3: March 11th, 2015
+* Security hotfix: Merge with Yoast SEO core 1.7.4, see [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 1.5.2.2: February 23rd, 2015
+* Merge with Yoast SEO core 1.7.3.2
+
+### 1.5.2.1: February 19th, 2015
+* Merge with Yoast SEO core 1.7.3.1
+
+### 1.5.2: February 17th, 2015
+* Added the possibility to add 410 status to redirects.
+* Added a few validations to prevent circular redirects.
+* Reuses translations from the free version of this plugin, thereby dramatically reducing the amount of strings that need to be translated for the premium plugin.
+* Merge with Yoast SEO core 1.7.3
+
+### 1.5.1: November 26th, 2014
+* Security hotfix: Merge with Yoast SEO core 1.7.1, see [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 1.5: November 18th, 2014
+* Merge with Yoast SEO core 1.7
+* Fixes a bug where authentication with Google Webmaster Tools would fail silently.
+* Fixes a bug where redirects weren't written to htaccess.
+* Added filters for hiding redirects notifications.
+
+### 1.4.3: October 8th, 2014
+* Merge with Yoast SEO core 1.6.3
+
+### 1.4.2: October 8th, 2014
+* Merge with Yoast SEO core 1.6.2
+* Implement new filter for issue types on the Google Webmaster Tools issues screen
+
+### 1.4.1: September 16th, 2014
+* Merge with Yoast SEO core 1.6.1
+
+### 1.4: September 9th, 2014
+* Merge with Yoast SEO core 1.6
+
+### 1.3.5: August 26th, 2014
+* Merge with Yoast SEO core 1.5.6, updated for WP 4.0
+
+### 1.3.4: August 15th, 2014
+* Fix incomplete merge with Yoast SEO core to 1.5.5.3
+
+### 1.3.3: August 14th, 2014
+* Updated Yoast SEO core to 1.5.5.3
+
+### 1.3.2: August 14th, 2014
+* Fixed bug in core Yoast SEO that made SEO icon value wrong.
+* Updated Yoast SEO core to 1.5.5.2
+
+### 1.3.1: August 14th, 2014
+* Fix versioning issue
+
+### 1.3: August 14th, 2014
+* The bulk title and bulk description editor pages are merge into one page
+* Possibility for creating a redirect when a post/page is trashed.
+* Possibility for deleting a redirect when a post/page is restored.
+* Added feature for defining custom fields for page analysis
+* Values for redirects will be trimmed, preventing invalid redirects
+* Fixed pagination on the redirect page
+* Fixed screen options on the redirect page
+
+### 1.2.2: July 4th, 2014
+* Added link to Yoast Knowledge Base to regex redirects.
+* Fixed bug when creating redirects from Webmaster Tools.
+
+### 1.2.1: June 6th, 2014
+* Fixed a REGEX redirect type bug that prevented REGEX redirects from working.
+* Fixed a bug involving the & sign in redirects.
+
+### 1.2.0: June 3rd, 2014
+* The redirect type (HTTP code) can now set per redirect.
+* Redirects can now be imported from the .htaccess file.
+* Redirects can now be written to the .htaccess file.
+* A redirect is automatically added when a post slug change.
+* The possibility to add a redirect is offered when a post is deleted.
+* A redirect is automatically added when a category/term slug change.
+* The possibility to add a redirect is offered when a category/term is deleted.
+* Added support to redirect URLs with special characters.
+* Response code of redirects is now checked while adding redirects to avoid incorrect redirects.
+* Created a Yoast overlay for a more user friendly way of displaying errors.
+* Implemented autoloader to enhance plugin performance.
+* Updated Yoast SEO core to 1.5.3.3.
+
+### 1.1.3: May 22nd, 2014
+* Updated Yoast SEO core to 1.5.3.2
+
+### 1.1.2: April 25th, 2014
+* Fixed notices when fetching remote crawl issues and there are now crawl issues from remote.
+* Updated Yoast SEO core to 1.5.2.8
+
+### 1.1.1: April 15th, 2014
+* Updated Yoast SEO core to 1.5.2.7
+
+### 1.1.0: April 4st, 2014
+* Updated Yoast SEO core to 1.5.x
+* Google Webmaster Tools crawl issues are now cached decreasing load time of issues dramatically.
+* Google Webmaster Tools profile can now manually be selected.
+* Added 'not redirected' filter to crawl issues table.
+* Added option to ignore crawl issues.
+* Added import option from Redirection plugin.
+* Added a redirect link to WordPress toolbar on 404 pages.
+* Added support for REGEX redirects.
+
+### 1.0.8: March 21st, 2014
+* Updated Yoast SEO core to 1.5.2.5
+
+### 1.0.7: March 14st, 2014
+* Updated Yoast SEO core to 1.5.2.2
+
+### 1.0.6: March 12st, 2014
+* Updated Yoast SEO core to 1.5.2.1
+
+### 1.0.5: March 11st, 2014
+* Updated Yoast SEO core to 1.5.2
+
+### 1.0.4: March 11st, 2014
+* Updated Yoast SEO core to 1.5.0
+
+### 1.0.3: Feb 26st, 2014
+* Fixed an incorrect constant define.
+* Updated Yoast SEO core to 1.4.25.
+* Now using the correct file reference (WPSEO_FILE) in main WPSEO file.
+
+### 1.0.2: Feb 18st, 2014
+* Fixed a bug that prevented options on the WPSEO dashboard from saving.
+* Updated Yoast SEO core to 1.4.24.
+
+### 1.0.1: Jan 31st, 2014
+* Remove dependency on PHP 5.3 function DateTime::getTimestamp() so plugin works on PHP 5.2 installs too.
+
+### 1.0: Jan 23rd, 2014
+* Initial release.

@@ -999,8 +999,6 @@ SVG;
 			&& version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
 	}
 
-	/********************** DEPRECATED METHODS **********************/
-
 	/**
 	 * Returns the language part of a given locale, defaults to english when the $locale is empty.
 	 *
@@ -1033,6 +1031,19 @@ SVG;
 	 */
 	public static function get_user_locale() {
 		return WPSEO_Language_Utils::get_user_locale();
+	}
+
+	/**
+	 * Checks if the content endpoints are available.
+	 *
+	 * @return bool Returns true if the content endpoints are available
+	 */
+	public static function are_content_endpoints_available() {
+		if ( function_exists( 'rest_get_server' ) ) {
+			$namespaces = rest_get_server()->get_namespaces();
+			return in_array( 'wp/v2', $namespaces );
+		}
+		return false;
 	}
 
 	/**

@@ -59,8 +59,6 @@ temp/
 ############
 ## WPSEO
 ############
-wp-seo-premium.php
-premium/
 travis.sh
 test.sh
 /artifact/

@@ -1,0 +1,14 @@
+@import "../../../../node_modules/yoast-components/composites/LinkSuggestions/LinkSuggestions";
+@import "../../../../node_modules/yoast-components/composites/basic/loader";
+
+.yoast-link-suggestions--loading {
+	width: 75px;
+	height: 75px;
+	display: block;
+	margin: 0 auto;
+	padding: 3em 0;
+}
+
+#yoast_internal_linking .inside {
+	margin-top: 0;
+}

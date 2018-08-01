@@ -1,0 +1,60 @@
+# Grunt aliases
+---
+# Build everything
+build:
+  - 'build:js'
+  - 'build:css'
+  - 'build:i18n'
+# Build JavaScript from assets to production
+'build:js':
+  - 'webpack:build'
+  - 'uglify'
+'build:css':
+  - 'copy:css_social_previews'
+  - 'sass'
+  - 'autoprefixer'
+  - 'wpcss'
+  - 'cssmin'
+# Build internationalisation features
+'build:i18n':
+  - 'addtextdomain'
+  - 'makepot'
+  - 'shell:makepot_social_previews'
+  - 'shell:combine-pot-files'
+  - 'glotpress_download'
+  - 'po2json'
+  - 'i18n-clean-json'
+  - 'clean:po-files'
+
+# Check health of the project
+check:
+  - 'eslint'
+  - 'phplint'
+  - 'phpcs'
+  - 'checktextdomain'
+
+artifact:
+  # Update the version numbers in the relevant files
+  - 'update-version'
+  # Build like we normally would
+  - 'release'
+  # Copy only the relevant files to the folder
+  - 'copy:artifact'
+  # Create a zip file
+  - 'compress:artifact'
+
+# Get the project ready for release
+release:
+  # Cleaning prevents two instances of @wordpress/i18n.
+  - 'clean:yoast-components-i18n'
+  - 'clean:build-assets'
+  - 'build:css'
+  - 'release:js'
+  - 'build:i18n'
+'release:js':
+  - 'webpack:release'
+  - 'uglify'
+
+# Default task
+default:
+  - build

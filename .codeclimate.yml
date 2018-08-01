@@ -28,6 +28,8 @@ exclude_paths:
 - inc/wpseo-functions-deprecated.php
 - js/dist/*
 - css/dist/*
+- premium/assets/js/dist/*
+- premium/assets/css/dist/*
 checks:
   method-lines:
     config:

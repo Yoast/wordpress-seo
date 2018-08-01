@@ -1,0 +1,145 @@
+@import "../../../node_modules/sassdash/index";
+@import "linkSuggestions";
+
+#wpseosynonyms {
+	margin-bottom: 2em;
+}
+
+.yoast-section {
+	box-shadow: 0 1px 2px rgba( 0, 0, 0, .2 );
+	position: relative;
+	background-color: #fff;
+	padding: 0 20px 15px;
+
+	&__heading {
+		padding: 8px 20px;
+		font-size: 0.9rem;
+		margin: 0 -20px 15px;
+		font-family: "Open Sans", sans-serif;
+		font-weight: 300;
+		color: #555;
+
+		&-icon {
+			padding-left: 44px; // 44 - 20 (icon width) = 24 for the 8px grid
+			background-repeat: no-repeat;
+			background-position: left 20px top 0.6em;
+			background-size: 16px;
+		}
+	}
+
+	*, & {
+		box-sizing: border-box;
+
+		&:before, &:after {
+			box-sizing: border-box;
+		}
+	}
+}
+
+/*
+ * Meta box tabs by default have `padding: 20px 35px;` but we use a smaller
+ * padding on the Content tab. We should do the same for the Social Previews tabs.
+ */
+.wpseotab.facebook,
+.wpseotab.twitter {
+	padding: 20px 15px;
+}
+
+/* Fix the help buttons positioning. */
+.wpseotab.facebook .yoast_help.yoast-help-button,
+.wpseotab.twitter .yoast_help.yoast-help-button {
+	margin-top: -29px;
+}
+
+/* Reduce top margin of the Social Previews inner containers. */
+.editable-preview .editable-preview__inner--facebook,
+.editable-preview .editable-preview__inner--twitter,
+.editable-preview--facebook .snippet-editor__form,
+.editable-preview--twitter .snippet-editor__form {
+	padding-top: 0;
+}
+
+#yoast-insights {
+	margin-top: 2em;
+};
+
+.remove-keyword {
+	display: inline-block;
+	margin: 0 0 0 -3px;
+	padding: 5px 6px 6px;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+}
+
+.remove-keyword span {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	border: 1px solid transparent;
+	border-radius: 100%;
+	color: #686868;
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 15px;
+	text-align: center;
+	vertical-align: top;
+}
+
+.remove-keyword:focus {
+	outline: none;
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.remove-keyword:hover span,
+.remove-keyword:focus span {
+	color: white;
+	background-color: #dc3232;
+}
+
+.wpseo-add-keyword:disabled {
+	display: none;
+}
+
+/* Bold the main keyword tab */
+.wpseo_content_tab + .wpseo_keyword_tab .wpseo-keyword {
+	font-weight: 600;
+}
+
+/* But not bold when there is no keyword set */
+.wpseo_content_tab + .wpseo_keyword_tab a[data-score="na"] .wpseo-keyword {
+	font-weight: normal;
+}
+
+/* Narrow all the tabs without a focus keyword */
+.wpseo_keyword_tab a[data-score="na"] .wpseo-keyword {
+	max-width: 1em;
+	max-width: 1rem;
+}
+
+/* Except the active one */
+.wpseo_keyword_tab.active a[data-score="na"] .wpseo-keyword {
+	max-width: none;
+}
+
+.wpseo-metabox-tabs .wpseo_keyword_tab_hideable .wpseo_tablink {
+	padding-right: 0;
+}
+
+/* Breaks out of the .inside div with a negative margin */
+.wpseo-notice-breakout-inside {
+
+	// Needs a .wrap parent to overwrite the WordPress styles.
+	.wrap & {
+		margin: 0 -12px;
+	}
+}
+
+@media screen and ( max-width: 600px ) {
+	/* Reduce the tabs padding on smaller screens. */
+	.wpseotab.facebook,
+	.wpseotab.twitter {
+		padding: 20px 0;
+	}
+}

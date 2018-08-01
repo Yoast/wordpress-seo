@@ -1,0 +1,39 @@
+extends: yoast
+
+rules:
+  complexity: [1, 6]
+  react/prop-types: 1
+  camelcase: 1
+  brace-style: 1
+  max-len: 1
+  max-statements: 1
+
+  quotes: 1
+  no-undefined: 1
+  comma-dangle: 1
+  space-in-parens: 1
+  wrap-iife: 1
+  no-unused-vars: 1
+  strict: 1
+  comma-spacing: 1
+  array-bracket-spacing: 1
+  computed-property-spacing: 1
+  no-undef: 1
+  valid-jsdoc: 1
+  require-jsdoc: 1
+  padded-blocks: 1
+  eqeqeq: 1
+  no-trailing-spaces: 1
+  no-use-before-define: 1
+  space-before-blocks: 1
+  no-extra-bind: 1
+  guard-for-in: 1
+  global-require: 1
+  no-negated-condition: 1
+  spaced-comment: 1
+  callback-return: 1
+  quote-props: 1
+  indent: 1
+  no-script-url: 1
+  no-new: 1
+  object-curly-spacing: 1

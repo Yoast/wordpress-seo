@@ -7,7 +7,8 @@
     <exclude-pattern>tests/*</exclude-pattern>
     <exclude-pattern>vendor/*</exclude-pattern>
     <exclude-pattern>node_modules/*</exclude-pattern>
-    <exclude-pattern>deprecated/*</exclude-pattern>
+    <exclude-pattern>premium/classes/google/*</exclude-pattern>
+	<exclude-pattern>deprecated/*</exclude-pattern>
     <exclude-pattern>languages/*</exclude-pattern>
     <exclude-pattern>artifact/*</exclude-pattern>
     <exclude-pattern>.wordpress-svn/*</exclude-pattern>
@@ -21,7 +22,9 @@
     </rule>
 
 	<rule ref="WordPress.WP.I18n">
-		<properties>
+        <exclude-pattern>premium/</exclude-pattern>
+
+        <properties>
 			<property name="text_domain" value="wordpress-seo" />
 		</properties>
 	</rule>

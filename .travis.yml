@@ -67,6 +67,7 @@ cache:
     - vendor
     - $HOME/.composer/cache
     - node_modules
+    - premium/node_modules
 
 before_install:
 - PHPUNIT_BIN="phpunit"
@@ -90,6 +91,8 @@ install:
   if [[ "$CHECKJS" == "1" ]]; then
     yarn global add grunt-cli
     yarn install
+    cd premium && yarn install
+    cd -
   fi
 
 before_script:
@@ -144,6 +147,8 @@ script:
   if [[ "$CHECKJS" == "1" ]]; then
     travis_fold start "JavaScript.check" && travis_time_start
     grunt check:js
+    cd premium && grunt check:eslint
+    cd -
     travis_time_finish && travis_fold end "JavaScript.check"
   fi
 # JavaScript tests
@@ -158,9 +163,9 @@ script:
   if [[ "$PHPLINT" == "1" ]]; then
     travis_fold start "PHP.check" && travis_time_start
     if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then
-      SKIP_CLI="-o -path ./cli -prune"
+      SKIP_CLI="-o -path ./cli -prune -o -path ./premium/cli -prune"
     fi
-    find -L . -path ./vendor -prune -o -path ./node_modules -prune $SKIP_CLI -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+    find -L . -path ./vendor -prune -o -path ./node_modules -prune $SKIP_CLI -o -path ./premium/node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
     travis_time_finish && travis_fold end "PHP.check"
   fi
 # PHP CS
@@ -177,6 +182,7 @@ script:
     $PHPUNIT_BIN -c phpunit.xml
     travis_time_finish && travis_fold end "PHP.tests"
   fi;
+
 # Coverage environment variable is only set on the PHP 7 build, so we can safely
 # assume that PHPUnit is in the vendor directory.
 - |
