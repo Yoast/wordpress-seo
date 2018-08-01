@@ -13,7 +13,7 @@ function getDefaultState() {
 		isContentAnalysisActive: isContentAnalysisActive(),
 		isKeywordAnalysisActive: isKeywordAnalysisActive(),
 		isCornerstoneActive: isCornerstoneActive(),
-		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ),
+		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ) && isUndefined( window.wpseoTermScraperL10n ),
 	};
 }
 
