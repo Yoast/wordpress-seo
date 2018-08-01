@@ -7,8 +7,19 @@ import colors from "../../../../style-guide/colors.json";
 import { IconsButton } from "../../Shared/components/Button";
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 
+const Content = styled.div`
+	padding: 0 16px;
+	margin-bottom: 16px;
+`;
+
 const StyledContainer = styled.div`
 	background-color: ${ colors.$color_white };
+`;
+
+const StyledContainerTopLevel = styled( StyledContainer )`
+	border-top: 1px solid ${ colors.$palette_grey_light };
+	border-bottom: 1px solid ${ colors.$palette_grey_light };
+	margin-top: -1px;
 `;
 
 export const StyledIconsButton = styled( IconsButton )`
@@ -75,7 +86,8 @@ const StyledSubTitle = styled.span`
 export function wrapInHeading( Component, headingLevel ) {
 	const Heading = `h${ headingLevel }`;
 	const StyledHeading = styled( Heading )`
-		margin: 0;
+		margin: 0 !important;
+		padding: 0 !important;
 		font-weight: normal;
 	`;
 
@@ -98,6 +110,8 @@ const StyledHeading = wrapInHeading( StyledIconsButton, 2 );
  * @param {string}      props.className             The name of the collapsible CSS class.
  * @param {IconsButton} props.Heading               Heading button. May be wrapped or styled or both.
  * @param {boolean}     props.isOpen                True displays the children. False means collapsed.
+ * @param {boolean}     props.hasPadding            True adds padding to the content. False means no padding.
+ * @param {boolean}     props.hasSeparator          True displays borders around the section. False means no borders.
  * @param {function}    props.onToggle              Function to handle the Heading click event.
  * @param {object}      props.prefixIcon            Heading icon before the title.
  * @param {object}      props.prefixIconCollapsed   Prefix icon when in collapsed state.
@@ -110,8 +124,14 @@ const StyledHeading = wrapInHeading( StyledIconsButton, 2 );
  * @returns {ReactElement} A collapsible panel.
  */
 export const CollapsibleStateless = ( props ) => {
+	let children = null;
+	if ( props.isOpen ) {
+		children = ( props.hasPadding ) ? <Content>{props.children}</Content> : props.children;
+	}
+	const Container = ( props.hasSeparator ) ? StyledContainerTopLevel : StyledContainer;
+
 	return (
-		<StyledContainer
+		<Container
 			// Pass the classname to allow re-styling with styled-components.
 			className={ props.className }
 		>
@@ -130,8 +150,8 @@ export const CollapsibleStateless = ( props ) => {
 					{ props.subTitle && <StyledSubTitle>{ props.subTitle }</StyledSubTitle> }
 				</StyledTitleContainer>
 			</props.Heading>
-			{ props.isOpen && props.children }
-		</StyledContainer>
+			{ children }
+		</Container>
 	);
 };
 
@@ -307,6 +327,8 @@ Collapsible.propTypes = {
 
 Collapsible.defaultProps = {
 	headingLevel: 2,
+	hasSeparator: false,
+	hasPadding: false,
 	initialIsOpen: false,
 	prefixIcon: null,
 	prefixIconCollapsed: null,
