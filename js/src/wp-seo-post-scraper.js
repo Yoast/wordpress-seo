@@ -502,7 +502,7 @@ setWordPressSeoL10n();
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = store.getState().focusKeyword;
 
-		const refreshAfterFocusKWChange = debounce( () => {
+		const refreshAfterFocusKeywordChange = debounce( () => {
 			app.refresh();
 		}, 50 );
 
@@ -512,11 +512,11 @@ setWordPressSeoL10n();
 			// Verify whether the focusKeyword changed. If so, trigger refresh:
 			let newFocusKeyword = store.getState().focusKeyword;
 
-			if( focusKeyword !== newFocusKeyword ) {
+			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
 
 				$( "#yoast_wpseo_focuskw" ).val( focusKeyword );
-				refreshAfterFocusKWChange();
+				refreshAfterFocusKeywordChange();
 			}
 
 			const data = snippetEditorHelpers.getDataFromStore( store );

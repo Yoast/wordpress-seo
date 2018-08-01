@@ -3,7 +3,6 @@
 /* External dependencies */
 import get from "lodash/get";
 import analysis from "yoastseo";
-const { measureTextWidth } = analysis.helpers;
 import { setOverallReadabilityScore, setOverallSeoScore } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 /* Internal dependencies */
@@ -13,6 +12,8 @@ import { termsTmceId as tmceId } from "../wp-seo-tinymce";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
+
+const { measureTextWidth } = analysis.helpers;
 
 let $ = jQuery;
 

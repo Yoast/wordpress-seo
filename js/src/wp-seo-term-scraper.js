@@ -248,7 +248,7 @@ window.yoastHideMarkers = true;
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			store.dispatch( setFocusKeyword( $( "#hidden_wpseo_focuskw" ).val() ) );
+			store.dispatch( setFocusKeyword( document.getElementById( "hidden_wpseo_focuskw" ).value ) );
 
 			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
 			args.callbacks.updatedKeywordsResults = function( results ) {
@@ -331,7 +331,7 @@ window.yoastHideMarkers = true;
 
 		let focusKeyword;
 
-		const refreshAfterFocusKWChange = debounce( () => {
+		const refreshAfterFocusKeywordChange = debounce( () => {
 			app.refresh();
 		}, 50 );
 
@@ -340,11 +340,11 @@ window.yoastHideMarkers = true;
 			// Verify whether the focusKeyword changed. If so, trigger refresh:
 			let newFocusKeyword = store.getState().focusKeyword;
 
-			if( focusKeyword !== newFocusKeyword ) {
+			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
 
-				$( "#hidden_wpseo_focuskw" ).val( focusKeyword );
-				refreshAfterFocusKWChange();
+				document.getElementById( "hidden_wpseo_focuskw" ).value = focusKeyword;
+				refreshAfterFocusKeywordChange();
 			}
 
 			const data = snippetEditorHelpers.getDataFromStore( store );
