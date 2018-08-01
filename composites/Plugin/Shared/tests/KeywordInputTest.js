@@ -10,8 +10,12 @@ Enzyme.configure( { adapter: new EnzymeAdapter() } );
 describe( KeywordInput, () => {
 	it( "matches the snapshot by default", () => {
 		const component = renderer.create(
-			<KeywordInput id="test-id" onChange={ () => {
-			} } label="test label"/>
+			<KeywordInput
+				id="test-id"
+				onChange={ () => {} }
+				onRemoveKeyword={ () => {} }
+				label="test label"
+			/>
 		);
 
 		let tree = component.toJSON();
@@ -20,9 +24,14 @@ describe( KeywordInput, () => {
 
 	it( "does not display the error message for a single keyword", () => {
 		const wrapper = Enzyme.mount(
-			<KeywordInput id="test-id" onChange={ ( value ) => {
-				wrapper.setProps( { keyword: value } );
-			} } label="test label" />
+			<KeywordInput
+				id="test-id"
+				onChange={ ( value ) => {
+					wrapper.setProps( { keyword: value } );
+				} }
+				onRemoveKeyword={ () => {} }
+				label="test label"
+			/>
 		);
 		wrapper.find( "input" ).simulate( "change", {
 			target: {
@@ -34,9 +43,13 @@ describe( KeywordInput, () => {
 
 	it( "does not display the error message for two words separated by whitespace", () => {
 		const wrapper = Enzyme.mount(
-			<KeywordInput id="test-id" onChange={ ( value ) => {
-				wrapper.setProps( { keyword: value } );
-			} } label="test label" />
+			<KeywordInput
+				id="test-id"
+				onChange={ ( value ) => {
+					wrapper.setProps( { keyword: value } );
+				} }
+				onRemoveKeyword={ () => {} }
+				label="test label" />
 		);
 		wrapper.find( "input" ).simulate( "change", {
 			target: {
@@ -48,9 +61,14 @@ describe( KeywordInput, () => {
 
 	it( "displays the error message for comma-separated words", () => {
 		const wrapper = Enzyme.mount(
-			<KeywordInput id="test-id" onChange={ ( value ) => {
-				wrapper.setProps( { keyword: value } );
-			} } label="test label" />
+			<KeywordInput
+				id="test-id"
+				onChange={ ( value ) => {
+					wrapper.setProps( { keyword: value } );
+				} }
+				onRemoveKeyword={ () => {} }
+				label="test label"
+			/>
 		);
 		wrapper.find( "input" ).simulate( "change", {
 			target: {

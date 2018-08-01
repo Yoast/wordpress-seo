@@ -51,7 +51,7 @@ class KeywordInput extends React.Component {
 	 * @param {string}   props.label     The label of the KeywordInput.
 	 * @param {boolean}  props.showLabel Toggle between an actual label or an aria-label on the input.
 	 * @param {string}   props.keyword   The initial keyword passed to the state.
-	 * @param {function} props.onChange  The function that is triggered when the keyword input field is changed.
+	 * @param {Function} props.onChange  The function that is triggered when the keyword input field is changed.
 	 *
 	 * @returns {void}
 	 */
@@ -107,7 +107,7 @@ class KeywordInput extends React.Component {
 	 * @returns {ReactElement} The KeywordField react component including its label and eventual error message.
 	 */
 	render() {
-		const { id, label, showLabel, keyword } = this.props;
+		const { id, label, showLabel, keyword, onRemoveKeyword } = this.props;
 		const showErrorMessage = this.checkKeywordInput( keyword );
 
 		return(
@@ -125,7 +125,7 @@ class KeywordInput extends React.Component {
 						value={ keyword }
 					/>
 					<YoastInputClearButton
-						onClick={ this.props.onRemoveKeyword }
+						onClick={ onRemoveKeyword }
 						color={ greyColor }
 					/>
 				</YoastInputButtonContainer>

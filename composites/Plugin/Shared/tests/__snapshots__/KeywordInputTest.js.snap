@@ -84,7 +84,7 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
     />
     <button
       className="c5"
-      onClick={undefined}
+      onClick={[Function]}
     >
       <svg
         aria-hidden={true}

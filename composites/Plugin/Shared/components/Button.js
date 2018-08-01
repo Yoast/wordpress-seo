@@ -339,10 +339,10 @@ const BorderlessButton = styled.button`
  * A button that can be put inside a div with a borderless input-field.
  *
  * @param {Object}   props         The props for the button.
- * @param {function} props.onClick The onClick function for the button.
+ * @param {Function} props.onClick The onClick function for the button.
  * @param {string}   props.color   The color for the icon.
  *
- * @returns {JSX.Element} A borderless button to be included with inputfields.
+ * @returns {ReactElement} A borderless button to be included with inputfields.
  */
 export const YoastInputClearButton = ( props ) => {
 	const { onClick, color } = props;
