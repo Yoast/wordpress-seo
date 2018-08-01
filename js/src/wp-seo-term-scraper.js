@@ -248,11 +248,6 @@ window.yoastHideMarkers = true;
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			let keyword = $( "#hidden_wpseo_focuskw" ).val();
-			if ( keyword === "" ) {
-				keyword = termScraper.getName();
-				$( "#hidden_wpseo_focuskw" ).val( keyword );
-			}
 
 			store.dispatch( setFocusKeyword( keyword ) );
 
