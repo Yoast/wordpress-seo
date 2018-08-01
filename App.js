@@ -1,5 +1,6 @@
 import React from "react";
 import { IntlProvider } from "react-intl";
+import styled, { ThemeProvider } from "styled-components";
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
 
@@ -11,7 +12,7 @@ import HelpCenterWrapper from "./app/HelpCenterWrapper";
 import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
 import KeywordSuggestionsWrapper from "./app/KeywordSuggestionWrapper";
 import SnippetEditor from "./app/SnippetEditorExample";
-import Checkbox from "./composites/Plugin/Shared/components/Checkbox";
+import UIControlsWrapper from "./app/UIControlsWrapper";
 import KeywordExample from "./app/KeywordExample";
 import ButtonsWrapper from "./app/ButtonsWrapper";
 import SvgIconsWrapper from "./app/SvgIconsWrapper";
@@ -48,22 +49,9 @@ const components = [
 		component: <HelpCenterWrapper />,
 	},
 	{
-		id: "checkbox",
-		name: "Checkbox",
-		component: <Checkbox
-			id="example-checkbox"
-			label={ [
-				"This is a label that also accepts arrays, so you can pass links such as ",
-				<a
-					key="1"
-					href="https://yoa.st/metabox-help-cornerstone?utm_content=7.0.3"
-					target="_blank"
-					rel="noopener noreferrer"
-				>cornerstone content</a>,
-				", for example.",
-			] }
-			onChange={ event => console.log( event ) }
-		/>,
+		id: "ui-controls",
+		name: "UI Controls",
+		component: <UIControlsWrapper />,
 	},
 	{
 		id: "keyword-example",
@@ -92,6 +80,10 @@ const components = [
 	},
 ];
 
+const LanguageDirectionContainer = styled.div`
+	text-align: center;
+`;
+
 class App extends React.Component {
 	constructor() {
 		super();
@@ -100,7 +92,10 @@ class App extends React.Component {
 
 		this.state = {
 			activeComponent: "snippet-preview",
+			isRtl: false,
 		};
+
+		this.changeLanguageDirection = this.changeLanguageDirection.bind( this );
 	}
 
 	getContent() {
@@ -145,19 +140,57 @@ class App extends React.Component {
 				}
 				<p style={ { fontSize: "0.8em", margin: "5px 0" } }>
 					For redux devtools press <strong>Ctrl + H</strong>,
-					to change position press <strong>Ctrl + Q</strong>.
+					to change position press <strong>Ctrl + Q</strong>
 				</p>
 			</nav>
 		);
 	}
 
+
+	/**
+	 * Renders a switch language directionality button.
+	 *
+	 * @returns {ReactElement} The rendered button.
+	 */
+	renderLanguageDirectionButton() {
+		return (
+			<button type="button" onClick={ this.changeLanguageDirection }>
+				Change language direction
+			</button>
+		);
+	}
+
+	/**
+	 * Changes the language direction state.
+	 *
+	 * @returns {void}
+	 */
+	changeLanguageDirection() {
+		this.setState( {
+			isRtl: ! this.state.isRtl,
+		} );
+
+
+	}
+
+	componentDidUpdate( prevProps, prevState ) {
+		if ( prevState.isRtl !== this.state.isRtl ) {
+			document.documentElement.setAttribute( "dir", this.state.isRtl ? "rtl" : "ltr" );
+		}
+	}
+
 	render() {
 		return (
 			<IntlProvider locale="en">
-				<div>
-					{ this.getMenu() }
-					{ this.getContent() }
-				</div>
+				<ThemeProvider theme={ { isRtl: this.state.isRtl } }>
+					<div>
+						{ this.getMenu() }
+						<LanguageDirectionContainer>
+							{ this.renderLanguageDirectionButton() }
+						</LanguageDirectionContainer>
+						{ this.getContent() }
+					</div>
+				</ThemeProvider>
 			</IntlProvider>
 		);
 	}

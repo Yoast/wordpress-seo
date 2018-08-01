@@ -1,8 +1,25 @@
+// External dependencies.
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import colors from "../../../../style-guide/colors.json";
 import { __ } from "@wordpress/i18n";
+
+// Internal dependencies.
+import { getRtlStyle } from "../../../../utils/helpers/styled-components";
+
+const ToggleDiv = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`;
+
+const ToggleLabel = styled.span`
+	${ getRtlStyle( "margin-right", "margin-left" ) }: 16px;
+	flex-shrink: 0;
+	max-width: 75%;
+	cursor: pointer;
+`;
 
 const ToggleBar = styled.div`
 	background-color: ${ props => props.isEnabled ? "#a5d6a7" : colors.$color_button_border };
@@ -19,7 +36,9 @@ const ToggleBar = styled.div`
 
 const ToggleBullet = styled.span`
 	background-color: ${ props => props.isEnabled ? colors.$color_green_medium_light : colors.$color_grey_medium_dark };
-	margin-left: ${ props => props.isEnabled ? "12px" : "-2px" };
+	${ props => props.isEnabled
+		? getRtlStyle( "margin-left: 12px;", "margin-right: 12px;" )
+		: getRtlStyle( "margin-left: -2px;", "margin-right: -2px;" ) };
 	box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.1);
 	border-radius: 100%;
 	height: 20px;
@@ -31,17 +50,8 @@ const ToggleBullet = styled.span`
 const ToggleVisualLabel = styled.span`
 	font-size: 14px;
 	line-height: 20px;
-	width: 30px;
-	text-align: center;
-	display: inline-block;
-	margin: 0;
+	${ getRtlStyle( "margin-left", "margin-right" ) }: 8px;
 	font-style: italic;
-`;
-
-const ToggleDiv = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
 `;
 
 class Toggle extends React.Component {
@@ -56,12 +66,49 @@ class Toggle extends React.Component {
 		super( props );
 
 		this.onClick = this.props.onToggleDisabled;
+		this.onKeyUp = this.props.onToggleDisabled;
 
 		this.setToggleState = this.setToggleState.bind( this );
+		this.handleOnKeyDown = this.handleOnKeyDown.bind( this );
 
 		if ( props.disable !== true ) {
 			this.onClick = this.setToggleState.bind( this );
+			this.onKeyUp = this.setToggleState.bind( this );
 		}
+	}
+
+	/**
+	 * Sets the state to the opposite of the current state.
+	 *
+	 * @param {Object} event React SyntheticEvent.
+	 *
+	 * @returns {void}
+	 */
+	setToggleState( event ) {
+		/*
+		 * Makes the toggle actionable with the Space bar key. Use keyup to
+		 * emulate native checkboxes.
+		 */
+		if ( event.type === "keyup" && event.keyCode !== 32 ) {
+			return;
+		}
+
+		this.props.onSetToggleState( ! this.props.isEnabled );
+	}
+
+	/**
+	 * Prevente the page from scrolling when using the Space bar key.
+	 *
+	 * @param {Object} event React SyntheticEvent.
+	 *
+	 * @returns {void}
+	 */
+	handleOnKeyDown( event ) {
+		if ( event.keyCode !== 32 ) {
+			return;
+		}
+
+		event.preventDefault();
 	}
 
 	/**
@@ -73,21 +120,22 @@ class Toggle extends React.Component {
 		return(
 			<ToggleDiv>
 				{ /* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */ }
-				<label
-					htmlFor={ this.props.id }
+				<ToggleLabel
+					id={ this.props.id }
 					onClick={ this.onClick }
 				>
 					{ this.props.labelText }
-				</label>
+				</ToggleLabel>
 				<ToggleBar
 					isEnabled={ this.props.isEnabled }
+					onKeyDown={ this.handleOnKeyDown }
 					onClick={ this.onClick }
-					onKeyDown={ this.setToggleState }
+					onKeyUp={ this.onKeyUp }
 					tabIndex="0"
 					role="checkbox"
-					aria-label={ this.props.ariaLabel }
+					aria-labelledby={ this.props.id }
 					aria-checked={ this.props.isEnabled }
-					id={ this.props.id }
+					aria-disabled={ this.props.disable }
 				>
 					<ToggleBullet isEnabled={ this.props.isEnabled } />
 				</ToggleBar>
@@ -97,38 +145,20 @@ class Toggle extends React.Component {
 			</ToggleDiv>
 		);
 	}
-
-	/**
-	 * Sets the state to the opposite of the current state.
-	 *
-	 * @param {Object} event React SyntheticEvent.
-	 *
-	 * @returns {void}
-	 */
-	setToggleState( event ) {
-		// Makes the toggle actionable with the Space bar key.
-		if ( event.type === "keydown" && event.keyCode !== 32 ) {
-			return;
-		}
-
-		this.props.onSetToggleState( ! this.props.isEnabled );
-	}
 }
 
 Toggle.propTypes = {
 	isEnabled: PropTypes.bool,
-	ariaLabel: PropTypes.string.isRequired,
 	onSetToggleState: PropTypes.func,
 	disable: PropTypes.bool,
 	onToggleDisabled: PropTypes.func,
 	id: PropTypes.string.isRequired,
-	labelText: PropTypes.string,
+	labelText: PropTypes.string.isRequired,
 };
 
 Toggle.defaultProps = {
 	isEnabled: false,
 	onSetToggleState: () => {},
-	disable: false,
 	labelText: "",
 };
 

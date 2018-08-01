@@ -1,6 +1,6 @@
 // External dependencies.
 import React, { Component } from "react";
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 import debounce from "lodash/debounce";
 import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment";
 
@@ -11,10 +11,6 @@ const Container = styled.div`
 	background-color: white;
 	margin: 5em auto 0;
 	padding: 0 0 10px;
-`;
-
-const LanguageDirectionContainer = styled.div`
-	text-align: center;
 `;
 
 const replacementVariables = [
@@ -92,11 +88,9 @@ export default class SnippetEditorExample extends Component {
 			isOpen: false,
 			currentTitleLength: 0,
 			currentDescriptionLength: 0,
-			isRtl: false,
 		};
 
 		this.onChangedData = debounce( this.onChangedData.bind( this ), 150 );
-		this.changeLanguageDirection = this.changeLanguageDirection.bind( this );
 	}
 
 	/**
@@ -140,32 +134,6 @@ export default class SnippetEditorExample extends Component {
 	}
 
 	/**
-	 * Renders a switch language directionality button.
-	 *
-	 * @param {string} key The key for this data.
-	 *
-	 * @returns {ReactElement} The rendered button.
-	 */
-	renderLanguageDirectionButton() {
-		return (
-			<button type="button" onClick={ this.changeLanguageDirection }>
-				Change Editor language direction
-			</button>
-		);
-	}
-
-	/**
-	 * Changes the language direction state.
-	 *
-	 * @returns {void}
-	 */
-	changeLanguageDirection() {
-		this.setState( {
-			isRtl: ! this.state.isRtl,
-		} );
-	}
-
-	/**
 	 * Renders an example of how to use the snippet editor.
 	 *
 	 * @returns {ReactElement} The rendered snippet editor.
@@ -190,24 +158,17 @@ export default class SnippetEditorExample extends Component {
 			score: this.state.currentDescriptionLength > 120 ? 9 : 3,
 		};
 
-		return <ThemeProvider theme={ { isRtl: this.state.isRtl } }>
-			<React.Fragment>
-				<LanguageDirectionContainer>
-					{ this.renderLanguageDirectionButton() }
-				</LanguageDirectionContainer>
-				<Container>
-					<SnippetEditor
-						{ ...this.state }
-						data={ data }
-						baseUrl="https://local.wordpress.test/"
-						onChange={ this.onChangedData }
-						replacementVariables={ replacementVariables }
-						recommendedReplacementVariables={ recommendedReplacementVariables }
-						titleLengthProgress={ titleLengthProgress }
-						descriptionLengthProgress={ descriptionLengthProgress }
-					/>
-				</Container>
-			</React.Fragment>
-		</ThemeProvider>;
+		return <Container>
+			<SnippetEditor
+				{ ...this.state }
+				data={ data }
+				baseUrl="https://local.wordpress.test/"
+				onChange={ this.onChangedData }
+				replacementVariables={ replacementVariables }
+				recommendedReplacementVariables={ recommendedReplacementVariables }
+				titleLengthProgress={ titleLengthProgress }
+				descriptionLengthProgress={ descriptionLengthProgress }
+			/>
+		</Container>;
 	}
 }
