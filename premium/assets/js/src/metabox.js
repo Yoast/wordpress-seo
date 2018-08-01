@@ -2,7 +2,7 @@
 /* External dependencies */
 import React from "react";
 import { Provider } from "react-redux";
-import Collapsible from "yoast-components/composites/Plugin/shared/components/Collapsible";
+import Collapsible from "../../../../js/src/components/SidebarCollapsible";
 import { setProminentWords } from "yoast-components/redux/actions/insights";
 import { __ } from "@wordpress/i18n";
 import { Fragment, render } from "@wordpress/element";
