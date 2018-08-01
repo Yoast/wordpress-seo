@@ -15,7 +15,6 @@ import { default as YoastButton } from "./composites/Plugin/Shared/components/Yo
 import { default as YoastModal } from "./composites/Plugin/Shared/components/YoastModal";
 import { default as SvgIcon } from "./composites/Plugin/Shared/components/SvgIcon";
 import { default as SynonymsInput } from "./composites/Plugin/Shared/components/SynonymsInput";
-import { default as Collabsible } from "./composites/Plugin/shared/components/Collapsible";
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import { default as HelpCenter } from "./composites/Plugin/HelpCenter/HelpCenter.js";
 import { default as Synonyms } from "./composites/Plugin/Synonyms/actions/synonyms";
@@ -44,7 +43,6 @@ export {
 	SvgIcon,
 	Loader,
 	Synonyms,
-	Collabsible,
 };
 
 export * from "./composites/Plugin/SnippetPreview";
