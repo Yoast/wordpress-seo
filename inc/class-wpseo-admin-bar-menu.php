@@ -57,6 +57,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			return;
 		}
 
+		if ( is_network_admin() && ! WPSEO_Utils::is_plugin_network_active() ) {
+			return;
+		}
+
 		$this->add_root_menu( $wp_admin_bar );
 		$this->add_keyword_research_submenu( $wp_admin_bar );
 

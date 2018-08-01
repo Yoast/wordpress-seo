@@ -212,7 +212,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 	 * @return bool True if requirements are met, false otherwise.
 	 */
 	public function meets_requirements() {
-		return is_multisite() && is_network_admin();
+		return is_multisite() && is_network_admin() && WPSEO_Utils::is_plugin_network_active();
 	}
 
 	/**
