@@ -16,13 +16,12 @@ import { default as YoastModal } from "./composites/Plugin/Shared/components/Yoa
 import { default as SvgIcon } from "./composites/Plugin/Shared/components/SvgIcon";
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import { default as HelpCenter } from "./composites/Plugin/HelpCenter/HelpCenter.js";
-import { default as Synonyms } from "./composites/Plugin/Synonyms/actions/synonyms";
 // Composites/LinkSuggestions imports.
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
 // Composites/KeywordSuggestions imports.
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
 // Composites/basic imports.
-import { default as Loader } from "./composites/basic/Loader";
+import { default as Loader } from "./composites/basic/Lader";
 
 export {
 	OnboardingWizard,
@@ -40,13 +39,11 @@ export {
 	YoastModal,
 	SvgIcon,
 	Loader,
-	Synonyms,
 };
 
 export { default as SynonymsInput } from "./composites/Plugin/Shared/components/SynonymsInput";
 export * from "./composites/Plugin/SnippetPreview";
 export * from "./composites/Plugin/SnippetEditor";
-export * from "./composites/Plugin/Synonyms";
 export * from "./forms";
 export { default as StyledSection } from "./forms/StyledSection/StyledSection";
 export { default as colors } from "./style-guide/colors.json";
