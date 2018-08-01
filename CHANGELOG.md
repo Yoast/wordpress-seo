@@ -5,6 +5,26 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.36.0 July 24th, 2018
+### Added
+* Adds a link to a relevant article about re-using keywords to the feedback of the assessment that checks if the keyword was used previously.
+* Exposes all assessments and more as a public API.
+* Adds the passive voice assessment for Dutch.
+
+### Changed
+* Improves the order in which assessments are triggered. The keyword in the title is only checked once there's a title, the keyword in the introduction is only checked once there's a text, and the keyword in the meta description is only checked once there's a meta description.
+
+### Fixed
+* Fixes a bug that caused keywords to be incorrectly recognized within possessive forms (e.g. `Natalia` in `Natalia's fix`).
+* Improves the recognition of keywords with special diacritics in the URL.
+* Improves keyword recognition through adding Spanish inverted exclamation and question marks to the rules that determine word boundaries.
+
+## 1.35.5 July 16th, 2018
+
+## 1.35.4 July 16th, 2018
+### Changed
+* Changes feedback in the keyword density assessment to make it more explicit that synonyms are not taken into consideration when calculating the score.
+
 ## 1.35.3 July 9th, 2018
 ### Changed
 * Makes keyword distribution boundaries the same regardless of whether or not synonyms are set, enables markings also when the bullet is green, and shows a gray bullet when there are not enough keyword occurrences to calculate distribution.

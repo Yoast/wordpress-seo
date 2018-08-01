@@ -31,7 +31,7 @@ describe( "checks for keyword doubles", function() {
 			"It’s probably a good idea to read about <a href='https://yoa.st/20x' target='_blank' rel='noopener noreferrer'>why you should not use your focus keyword more than once</a>." );
 
 		expect( plugin.scoreAssessment( { id: 0, count: 0 }, paper, i18n ).score ).toBe( 9 );
-		expect( plugin.scoreAssessment( { id: 0, count: 0 }, paper, i18n ).text ).toBe( "You've never used this focus keyword before, very good." );
+		expect( plugin.scoreAssessment( { id: 0, count: 0 }, paper, i18n ).text ).toBe( "You've <a href='https://yoa.st/20x' target='_blank' rel='noopener noreferrer'>never used this focus keyword before</a>, very good." );
 	} );
 
 	it( "escapes the keyword's special characters in the url", function() {

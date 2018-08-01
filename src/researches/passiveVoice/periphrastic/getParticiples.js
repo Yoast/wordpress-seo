@@ -1,6 +1,7 @@
-const getWords = require( "../../../stringProcessing/getWords.js" );
+const forEach = require( "lodash/forEach" );
 
-const matchParticiples = require( ".//matchParticiples" )();
+const getWords = require( "../../../stringProcessing/getWords.js" );
+const matchParticiples = require( "./matchParticiples" )();
 const regularParticipleRegex = matchParticiples.regularParticiples;
 const irregularParticipleRegex = matchParticiples.irregularParticiples;
 
@@ -8,8 +9,7 @@ const EnglishParticiple = require( "../../english/passiveVoice/EnglishParticiple
 const FrenchParticiple = require( "../../french/passiveVoice/FrenchParticiple.js" );
 const SpanishParticiple = require( "../../spanish/passiveVoice/SpanishParticiple.js" );
 const ItalianParticiple = require( "../../italian/passiveVoice/ItalianParticiple.js" );
-
-let forEach = require( "lodash/forEach" );
+const DutchParticiple = require( "../../dutch/passiveVoice/DutchParticiple.js" );
 
 /**
  * Creates participle objects for the participles found in a sentence part.
@@ -43,6 +43,10 @@ module.exports = function( sentencePartText, auxiliaries, language ) {
 					break;
 				case "it":
 					foundParticiples.push( new ItalianParticiple( word, sentencePartText,
+						{ auxiliaries: auxiliaries, type: type, language: language } ) );
+					break;
+				case "nl":
+					foundParticiples.push( new DutchParticiple( word, sentencePartText,
 						{ auxiliaries: auxiliaries, type: type, language: language } ) );
 					break;
 				case "en":

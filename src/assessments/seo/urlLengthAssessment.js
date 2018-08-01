@@ -1,6 +1,7 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
-let Assessment = require( "../../assessment.js" );
-let merge = require( "lodash/merge" );
+const merge = require( "lodash/merge" );
+
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const Assessment = require( "../../assessment.js" );
 
 /**
  * Assessment that checks if the url is long enough.
@@ -9,14 +10,14 @@ class UrlLengthAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} [config] The configuration to use.
 	 *
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			scores: {
 				tooLong: 6,
 			},
@@ -31,7 +32,7 @@ class UrlLengthAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to run this assessment on.
 	 * @param {Researcher} researcher The researcher used for the assessment.
-	 * @param {object} i18n The i18n-object used for parsing translations.
+	 * @param {Jed} i18n The i18n-object used for parsing translations.
 	 *
 	 * @returns {AssessmentResult} an AssessmentResult with the score and the formatted text.
 	 */
@@ -75,7 +76,7 @@ class UrlLengthAssessment extends Assessment {
 	 * Translates the score to a message the user can understand.
 	 *
 	 * @param {boolean} urlIsTooLong True when the URL is too long.
-	 * @param {object} i18n The object used for translations.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
