@@ -142,7 +142,7 @@ window.yoastHideMarkers = true;
 	 */
 	function initializeKeywordAnalysis( app, termScraper ) {
 		var savedKeywordScore = $( "#hidden_wpseo_linkdex" ).val();
-		var usedKeywords = new UsedKeywords( "#wpseo_focuskw", "get_term_keyword_usage", wpseoTermScraperL10n, app );
+		var usedKeywords = new UsedKeywords( "#hidden_wpseo_focuskw", "get_term_keyword_usage", wpseoTermScraperL10n, app );
 
 		usedKeywords.init();
 		termScraper.initKeywordTabTemplate();
@@ -250,18 +250,13 @@ window.yoastHideMarkers = true;
 		};
 
 		if ( isKeywordAnalysisActive() ) {
+			store.dispatch( setFocusKeyword( $( "#hidden_wpseo_focuskw" ).val() ) );
+
 			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
 			args.callbacks.updatedKeywordsResults = function( results ) {
-				let keyword = tabManager.getKeywordTab().getKeyWord();
-
-				if ( tabManager.isMainKeyword( keyword ) ) {
-					if ( keyword === "" ) {
-						keyword = termScraper.getName();
-					}
-					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
-					store.dispatch( setFocusKeyword( keyword ) );
-					store.dispatch( refreshSnippetEditor() );
-				}
+				const keyword = store.getState().focusKeyword;
+				store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+				store.dispatch( refreshSnippetEditor() );
 			};
 		}
 
@@ -350,7 +345,7 @@ window.yoastHideMarkers = true;
 			if( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
 
-				$( "#yoast_wpseo_focuskw" ).val( focusKeyword );
+				$( "#hidden_wpseo_focuskw" ).val( focusKeyword );
 				refreshAfterFocusKWChange();
 			}
 
