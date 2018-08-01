@@ -153,7 +153,7 @@ class ContentAnalysis extends React.Component {
 				prefixIconCollapsed={ { icon: "angle-down", color: colors.$color_grey_dark, size: "18px" } }
 				suffixIcon={ null }
 				suffixIconCollapsed={ null }
-				headingLevel={ headingLevel }
+				headingProps={ { level: headingLevel, fontSize: "13px", fontWeight: "bold" } }
 			>
 				<AnalysisList role="list">{ this.getResults( results ) }</AnalysisList>
 			</StyledCollapsible>

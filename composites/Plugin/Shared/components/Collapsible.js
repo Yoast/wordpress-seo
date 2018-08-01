@@ -63,7 +63,6 @@ const StyledTitle = styled.span`
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow-x: hidden;
-	font-size: 1rem;
 `;
 
 const StyledSubTitle = styled.span`
@@ -78,17 +77,21 @@ const StyledSubTitle = styled.span`
 /**
  * Wraps a component in a heading element with a defined heading level.
  *
- * @param {ReactElement} Component    The component to wrap.
- * @param {int}          headingLevel The heading level.
+ * @param {ReactElement} Component        The component to wrap.
+ * @param {object}       props            The heading props.
+ * @param {boolean}      props.level      The heading level.
+ * @param {boolean}      props.fontSize   The heading font-size.
+ * @param {boolean}      props.fontWeight The heading font-weigth.
  *
  * @returns {Function} A function that will return the wrapped component with given properties.
  */
-export function wrapInHeading( Component, headingLevel ) {
-	const Heading = `h${ headingLevel }`;
+export function wrapInHeading( Component, props ) {
+	const Heading = `h${ props.level }`;
 	const StyledHeading = styled( Heading )`
 		margin: 0 !important;
 		padding: 0 !important;
-		font-weight: normal;
+		font-size: ${ props.fontSize } !important;
+		font-weight: ${ props.fontWeight } !important;
 	`;
 
 	return function Wrapped( props ) {
@@ -100,7 +103,7 @@ export function wrapInHeading( Component, headingLevel ) {
 	};
 }
 
-const StyledHeading = wrapInHeading( StyledIconsButton, 2 );
+const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1rem", fontWeight: "normal" } );
 
 /**
  * Base collapsible panel. Optionally has a heading around the button.
@@ -202,7 +205,7 @@ export class Collapsible extends React.Component {
 	 *
 	 * @param {object}  props                       The properties for the component.
 	 * @param {string}  props.className             The name of the collapsible CSS class.
-	 * @param {number}  props.headingLevel          Heading level: 1 for h1, 2 for h2, etc.
+	 * @param {object}  props.headingProps          Props to use in the Heading.
 	 * @param {boolean} props.initialIsOpen         Determines if the initial isOpen state is open or closed.
 	 * @param {object}  props.prefixIcon            Heading icon before the title.
 	 * @param {object}  props.prefixIconCollapsed   Prefix icon when in collapsed state.
@@ -237,9 +240,9 @@ export class Collapsible extends React.Component {
 	 * @returns {void}
 	 */
 	componentWillReceiveProps( nextProps ) {
-		const { headingLevel } = this.props;
+		const { level } = this.props.headingProps;
 
-		if ( nextProps.headingLevel !== headingLevel ) {
+		if ( nextProps.headingProps.level !== level ) {
 			this.Heading = Collapsible.getHeading( nextProps );
 		}
 	}
@@ -265,7 +268,7 @@ export class Collapsible extends React.Component {
 	 * @returns {ReactElement} The header to render.
 	 */
 	static getHeading( props ) {
-		return wrapInHeading( StyledIconsButton, props.headingLevel );
+		return wrapInHeading( StyledIconsButton, props.headingProps );
 	}
 
 	/**
@@ -298,7 +301,6 @@ Collapsible.propTypes = {
 		PropTypes.node,
 	] ),
 	className: PropTypes.string,
-	headingLevel: PropTypes.number,
 	initialIsOpen: PropTypes.bool,
 	prefixIcon: PropTypes.shape( {
 		icon: PropTypes.string,
@@ -323,10 +325,14 @@ Collapsible.propTypes = {
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
 	subTitle: PropTypes.string,
+	headingProps: PropTypes.shape( {
+		level: PropTypes.number,
+		fontSize: PropTypes.string,
+		fontWeight: PropTypes.string,
+	} ),
 };
 
 Collapsible.defaultProps = {
-	headingLevel: 2,
 	hasSeparator: false,
 	hasPadding: false,
 	initialIsOpen: false,
@@ -341,6 +347,11 @@ Collapsible.defaultProps = {
 		icon: "arrow-down",
 		color: colors.$black,
 		size: "9px",
+	},
+	headingProps: {
+		level: 2,
+		fontSize: "1rem",
+		fontWeight: "normal",
 	},
 };
 
