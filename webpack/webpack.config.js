@@ -13,16 +13,15 @@ const externals = {
 	tinymce: "window.tinymce",
 
 	yoastseo: "window.yoast.analysis",
+
+	lodash: "window.lodash",
 };
 
 // This makes sure the @wordpress dependencies are correctly transformed.
 const wpDependencies = [
-	"components",
-	"element",
 	"blocks",
 	"utils",
 	"date",
-	"data",
 	"editor",
 	"viewport",
 ];
@@ -47,70 +46,92 @@ wpDependencies.forEach( wpDependency => {
 module.exports = function( env = { environment: "production" } ) {
 	const mode = env.environment;
 
-	const config = [
-		{
-			devtool: "cheap-module-eval-source-map",
-			entry: paths.entry,
-			context: paths.jsSrc,
-			output: {
-				path: paths.jsDist,
-				filename: outputFilename,
-				jsonpFunction: "yoastWebpackJsonp",
+	const plugins = [
+		new webpack.DefinePlugin( {
+			"process.env": {
+				NODE_ENV: JSON.stringify( mode ),
 			},
-			resolve: {
-				extensions: [ ".json", ".js", ".jsx" ],
-				alias,
-				symlinks: false,
-			},
-			module: {
-				rules: [
-					{
-						test: /.jsx?$/,
-						exclude: /node_modules\/(?!(yoast-components|gutenberg|yoastseo)\/).*/,
-						use: [
-							{
-								loader: "babel-loader",
-								options: {
-									env: {
-										development: {
-											plugins: [
-												"babel-plugin-styled-components",
-											],
-										},
+		} ),
+		new UnminifiedWebpackPlugin(),
+		new webpack.optimize.UglifyJsPlugin(),
+		new webpack.optimize.AggressiveMergingPlugin(),
+	];
+
+	const base = {
+		devtool: "cheap-module-eval-source-map",
+		entry: paths.entry,
+		context: paths.jsSrc,
+		output: {
+			path: paths.jsDist,
+			filename: outputFilename,
+			jsonpFunction: "yoastWebpackJsonp",
+		},
+		resolve: {
+			extensions: [ ".json", ".js", ".jsx" ],
+			alias,
+			symlinks: false,
+		},
+		module: {
+			rules: [
+				{
+					test: /.jsx?$/,
+					exclude: /node_modules\/(?!(yoast-components|gutenberg|yoastseo|@wordpress)\/).*/,
+					use: [
+						{
+							loader: "babel-loader",
+							options: {
+								env: {
+									development: {
+										plugins: [
+											"babel-plugin-styled-components",
+										],
 									},
 								},
 							},
-						],
-					},
-					{
-						test: /.svg$/,
-						use: [
-							{
-								loader: "svg-react-loader",
-							},
-						],
-					},
-					{
-						test: /\.json$/,
-						use: [ "json-loader" ],
-					},
-				],
+						},
+					],
+				},
+				{
+					test: /.svg$/,
+					use: [
+						{
+							loader: "svg-react-loader",
+						},
+					],
+				},
+				{
+					test: /\.json$/,
+					use: [ "json-loader" ],
+				},
+			],
+		},
+		externals,
+	};
+
+	const config = [
+		{
+			...base,
+			externals: {
+				...externals,
+
+				"@wordpress/element": "window.yoast._wp.element",
+				"@wordpress/data": "window.yoast._wp.data",
+				"@wordpress/components": "window.yoast._wp.components",
 			},
-			externals,
 			plugins: [
-				new webpack.DefinePlugin( {
-					"process.env": {
-						NODE_ENV: JSON.stringify( mode ),
-					},
-				} ),
-				new UnminifiedWebpackPlugin(),
-				new webpack.optimize.UglifyJsPlugin(),
-				new webpack.optimize.AggressiveMergingPlugin(),
+				...plugins,
 				new webpack.optimize.CommonsChunkPlugin( {
 					name: "vendor",
 					filename: "commons-" + pluginVersionSlug + ".min.js",
 				} ),
 			],
+		},
+		{
+			...base,
+			entry: {
+				"wp-seo-wp-globals-backport": "./wp-seo-wp-globals-backport.js",
+			},
+			plugins,
 		},
 	];
 

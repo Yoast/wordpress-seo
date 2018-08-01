@@ -5,6 +5,7 @@ import get from "lodash/get";
 import analysis from "yoastseo";
 const { measureTextWidth } = analysis.helpers;
 const { removeMarks } = analysis.markers;
+import { setOverallReadabilityScore, setOverallSeoScore } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
@@ -401,6 +402,7 @@ PostDataCollector.prototype.saveScores = function( score ) {
 		}
 
 		this._tabManager.updateKeywordTab( score, currentKeyword );
+		this._store.dispatch( setOverallSeoScore( score, currentKeyword ) );
 
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
@@ -421,6 +423,7 @@ PostDataCollector.prototype.saveScores = function( score ) {
 PostDataCollector.prototype.saveContentScore = function( score ) {
 	this._tabManager.updateContentTab( score );
 	var indicator = getIndicatorForScore( score );
+	this._store.dispatch( setOverallReadabilityScore( score ) );
 	publishBox.updateScore( "content", indicator.className );
 
 	if ( ! isKeywordAnalysisActive() ) {

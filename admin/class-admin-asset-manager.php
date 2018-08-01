@@ -196,6 +196,7 @@ class WPSEO_Admin_Asset_Manager {
 		if ( function_exists( 'gutenberg_register_scripts_and_styles' ) ) {
 			$backport_wp_dependencies[] = 'wp-element';
 			$backport_wp_dependencies[] = 'wp-data';
+			$backport_wp_dependencies[] = 'wp-components';
 
 			/*
 			 * The version of TinyMCE that Gutenberg uses is incompatible with
@@ -208,6 +209,18 @@ class WPSEO_Admin_Asset_Manager {
 			if ( wp_script_is( 'tinymce-latest', 'registered' ) && isset( $_GET['classic-editor'] ) ) {
 				wp_deregister_script( 'tinymce-latest' );
 				wp_register_script( 'tinymce-latest', includes_url( 'js/tinymce/' ) . 'wp-tinymce.php', array( 'jquery' ), false, true );
+			}
+		}
+		else {
+			if ( wp_script_is( 'lodash', 'registered' ) ) {
+				$backport_wp_dependencies[] = 'lodash';
+			}
+			else {
+				if ( ! wp_script_is( self::PREFIX . 'lodash', 'registered' ) ) {
+					wp_register_script( self::PREFIX . 'lodash', plugins_url( 'js/vendor/lodash.min.js', WPSEO_FILE ) );
+					wp_add_inline_script( self::PREFIX . 'lodash', 'window.lodash = _.noConflict();', 'after' );
+				}
+				$backport_wp_dependencies[] = self::PREFIX . 'lodash';
 			}
 		}
 
