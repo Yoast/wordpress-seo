@@ -10,7 +10,6 @@ import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/constants
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import SvgIcon from "../../Shared/components/SvgIcon";
 import PropTypes from "prop-types";
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 /**
  * Renders a switcher button.

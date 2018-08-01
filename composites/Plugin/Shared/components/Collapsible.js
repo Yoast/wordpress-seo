@@ -166,6 +166,8 @@ CollapsibleStateless.propTypes = {
 	className: PropTypes.string,
 	Heading: PropTypes.func,
 	isOpen: PropTypes.bool.isRequired,
+	hasSeparator: PropTypes.bool,
+	hasPadding: PropTypes.bool,
 	onToggle: PropTypes.func.isRequired,
 	prefixIcon: PropTypes.shape( {
 		icon: PropTypes.string,
@@ -302,6 +304,8 @@ Collapsible.propTypes = {
 	] ),
 	className: PropTypes.string,
 	initialIsOpen: PropTypes.bool,
+	hasSeparator: PropTypes.bool,
+	hasPadding: PropTypes.bool,
 	prefixIcon: PropTypes.shape( {
 		icon: PropTypes.string,
 		color: PropTypes.string,
