@@ -413,10 +413,6 @@ setWordPressSeoL10n();
 		}
 	}
 
-	function registerReactTree( key, Component ) {
-
-	}
-
 	/**
 	 * Initializes analysis for the post edit screen.
 	 *
