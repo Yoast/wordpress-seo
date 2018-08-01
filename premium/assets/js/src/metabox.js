@@ -121,7 +121,7 @@ const registerPlugin = function( store ) {
 					{
 						linkSuggestionsIsSupported() ? (
 							<SidebarItem renderPriority={ 31 }>
-								<Collapsible title={ __( "Internal linking suggestions", "wordpress-seo" ) }>
+								<Collapsible title={ __( "Internal linking suggestions", "wordpress-seo-premium" ) }>
 									<Provider store={ store }>
 										<LinkSuggestionsContainer />
 									</Provider>
