@@ -51,7 +51,7 @@ export * from "./composites/Plugin/SnippetPreview";
 export * from "./composites/Plugin/SnippetEditor";
 export * from "./composites/Plugin/Synonyms";
 export * from "./forms";
-export StyledSection from "./forms/StyledSection/StyledSection";
+export { default as StyledSection } from "./forms/StyledSection/StyledSection";
 export { default as colors } from "./style-guide/colors.json";
 export { default as utils } from "./utils";
 export { getRtlStyle } from "./utils/helpers/styled-components";
