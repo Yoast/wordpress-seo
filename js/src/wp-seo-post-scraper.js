@@ -7,8 +7,6 @@ import debounce from "lodash/debounce";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
-import { render } from "@wordpress/element";
-import { SlotFillProvider } from "@wordpress/components";
 
 // Internal dependencies.
 import "./helpers/babel-polyfill";
@@ -38,8 +36,11 @@ import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 import { updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setCornerstoneContent } from "./redux/actions/cornerstoneContent";
-import MetaboxPortal from "./components/MetaboxPortal";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
+import {
+	registerReactComponent,
+	renderClassicEditorMetabox,
+} from "./helpers/classicEditor";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -413,28 +414,6 @@ setWordPressSeoL10n();
 	}
 
 	/**
-	 * Renders a React tree for the classic editor.
-	 *
-	 * @param {Object} store The active redux store.
-	 *
-	 * @returns {void}
-	 */
-	function renderClassicEditorMetabox( store ) {
-		const theme = {
-			isRtl: wpseoPostScraperL10n.isRtl,
-		};
-
-		render(
-			(
-				<SlotFillProvider>
-					<MetaboxPortal target="wpseo-meta-section-react" store={ store } theme={ theme } />
-				</SlotFillProvider>
-			),
-			document.getElementById( "wpseo-meta-section-react" )
-		);
-	}
-
-	/**
 	 * Initializes analysis for the post edit screen.
 	 *
 	 * @returns {void}
@@ -485,6 +464,8 @@ setWordPressSeoL10n();
 		tinyMCEHelper.wpTextViewOnInitCheck();
 
 		activateEnabledAnalysis( tabManager );
+
+		YoastSEO._registerReactComponent = registerReactComponent;
 
 		jQuery( window ).trigger( "YoastSEO:ready" );
 
