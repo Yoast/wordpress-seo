@@ -1114,10 +1114,7 @@ SVG;
 		if ( null === $network_active ) {
 			$network_active_plugins = wp_get_active_network_plugins();
 
-			if ( in_array( WPSEO_BASENAME, $network_active_plugins, true ) ) {
-				$network_active = true;
-			}
-			elseif ( 0 === strpos( wp_normalize_path( WPSEO_FILE ), wp_normalize_path( WPMU_PLUGIN_DIR ) ) ) {
+			if ( in_array( WP_PLUGIN_DIR . '/' . WPSEO_BASENAME, $network_active_plugins, true ) || 0 === strpos( wp_normalize_path( WPSEO_FILE ), wp_normalize_path( WPMU_PLUGIN_DIR ) ) ) {
 				$network_active = true;
 			}
 			else {
