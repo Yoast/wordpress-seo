@@ -5,6 +5,10 @@ import { Provider } from "react-redux";
 import Collapsible from "yoast-components/composites/Plugin/shared/components/Collapsible";
 import { setProminentWords } from "yoast-components/redux/actions/insights";
 import { __ } from "@wordpress/i18n";
+import { Fragment, render } from "@wordpress/element";
+import { Fill } from "@wordpress/components";
+import { registerStore } from "@wordpress/data";
+
 
 /* Internal dependencies */
 import {
@@ -94,8 +98,6 @@ const getProminentWordsLimit = function() {
  * @returns {Object} The store.
  */
 const registerStoreInGutenberg = function() {
-	const { registerStore } = yoast._wp.data;
-
 	return registerStore( "yoast-seo-premium/editor", {
 		reducer: reducers,
 	} );
@@ -110,9 +112,7 @@ const registerStoreInGutenberg = function() {
  **/
 const registerPlugin = function( store ) {
 	if ( isGutenbergDataAvailable() ) {
-		const { Fragment } = yoast._wp.element;
 		const { registerPlugin } = wp.plugins;
-		const { Fill } = wp.components;
 
 		const YoastSidebar = () => (
 			<Fragment>
