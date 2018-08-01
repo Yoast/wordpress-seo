@@ -648,8 +648,8 @@ var HowTo = function (_Component) {
 				name: (0, _stringHelpers.stripHTML)(renderToString(attributes.title))
 			};
 
-			if (attributes.hours && attributes.minutes) {
-				jsonLD.totalTime = "PT" + attributes.hours + "H" + attributes.minutes + "M";
+			if (attributes.hours || attributes.minutes) {
+				jsonLD.totalTime = "PT" + (attributes.hours || 0) + "H" + (attributes.minutes || 0) + "M";
 			}
 			if (attributes.description && attributes.description.length > 0) {
 				jsonLD.description = (0, _stringHelpers.stripHTML)(renderToString(attributes.description));
@@ -730,7 +730,7 @@ var HowTo = function (_Component) {
 						value: title,
 						id: (0, _stringHelpers.stripHTML)(renderToString(title)).toLowerCase().replace(/\s+/g, "-")
 					}),
-					attributes.hours && attributes.minutes && yoast._wp.element.createElement(
+					(attributes.hours || attributes.minutes) && yoast._wp.element.createElement(
 						"p",
 						{ className: "schema-how-to-total-time" },
 						__("Total time:", "wordpress-seo"),

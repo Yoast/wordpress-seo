@@ -253,8 +253,8 @@ export default class HowTo extends Component {
 			name: stripHTML( renderToString( attributes.title ) ),
 		};
 
-		if( attributes.hours && attributes.minutes ) {
-			jsonLD.totalTime = `PT${ attributes.hours }H${ attributes.minutes }M`;
+		if( attributes.hours || attributes.minutes ) {
+			jsonLD.totalTime = `PT${ attributes.hours || 0 }H${ attributes.minutes || 0 }M`;
 		}
 		if( attributes.description && attributes.description.length > 0 ) {
 			jsonLD.description = stripHTML( renderToString( attributes.description ) );
@@ -314,7 +314,7 @@ export default class HowTo extends Component {
 						value={ title }
 						id={ stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
 					/>
-					{ attributes.hours && attributes.minutes &&
+					{ ( attributes.hours || attributes.minutes ) &&
 					<p className="schema-how-to-total-time">
 						{ __( "Total time:", "wordpress-seo" ) }
 						&nbsp;
