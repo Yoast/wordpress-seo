@@ -78,10 +78,10 @@ const StyledSubTitle = styled.span`
  * Wraps a component in a heading element with a defined heading level.
  *
  * @param {ReactElement} Component        The component to wrap.
- * @param {object}       props            The heading props.
- * @param {boolean}      props.level      The heading level.
- * @param {boolean}      props.fontSize   The heading font-size.
- * @param {boolean}      props.fontWeight The heading font-weigth.
+ * @param {Object}       props            The heading props.
+ * @param {number}       props.level      The heading level.
+ * @param {string}       props.fontSize   The heading font-size.
+ * @param {string}       props.fontWeight The heading font-weight.
  *
  * @returns {Function} A function that will return the wrapped component with given properties.
  */
@@ -108,7 +108,7 @@ const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1
 /**
  * Base collapsible panel. Optionally has a heading around the button.
  *
- * @param {object}      props                       The properties for the component.
+ * @param {Object}      props                       The properties for the component.
  * @param {children}    props.children              The content of the Collapsible.
  * @param {string}      props.className             The name of the collapsible CSS class.
  * @param {IconsButton} props.Heading               Heading button. May be wrapped or styled or both.
@@ -116,11 +116,11 @@ const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1
  * @param {boolean}     props.hasPadding            True adds padding to the content. False means no padding.
  * @param {boolean}     props.hasSeparator          True displays borders around the section. False means no borders.
  * @param {function}    props.onToggle              Function to handle the Heading click event.
- * @param {object}      props.prefixIcon            Heading icon before the title.
- * @param {object}      props.prefixIconCollapsed   Prefix icon when in collapsed state.
+ * @param {Object}      props.prefixIcon            Heading icon before the title.
+ * @param {Object}      props.prefixIconCollapsed   Prefix icon when in collapsed state.
  * @param {string}      props.subTitle              Sub-title for the Heading.
- * @param {object}      props.suffixIcon            Heading icon after the title.
- * @param {object}      props.suffixIconCollapsed   Suffix icon when in collapsed state.
+ * @param {Object}      props.suffixIcon            Heading icon after the title.
+ * @param {Object}      props.suffixIconCollapsed   Suffix icon when in collapsed state.
  * @param {string}      props.title                 Title for the Heading.
  * @param {string}      props.titleScreenReaderText Chance for an extra text to feed to a screenreader.
  *
@@ -129,7 +129,7 @@ const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1
 export const CollapsibleStateless = ( props ) => {
 	let children = null;
 	if ( props.isOpen ) {
-		children = ( props.hasPadding ) ? <Content>{props.children}</Content> : props.children;
+		children = ( props.hasPadding ) ? <Content>{ props.children }</Content> : props.children;
 	}
 	const Container = ( props.hasSeparator ) ? StyledContainerTopLevel : StyledContainer;
 
@@ -205,14 +205,14 @@ export class Collapsible extends React.Component {
 	/**
 	 * The constructor.
 	 *
-	 * @param {object}  props                       The properties for the component.
+	 * @param {Object}  props                       The properties for the component.
 	 * @param {string}  props.className             The name of the collapsible CSS class.
-	 * @param {object}  props.headingProps          Props to use in the Heading.
+	 * @param {Object}  props.headingProps          Props to use in the Heading.
 	 * @param {boolean} props.initialIsOpen         Determines if the initial isOpen state is open or closed.
-	 * @param {object}  props.prefixIcon            Heading icon before the title.
-	 * @param {object}  props.prefixIconCollapsed   Prefix icon when in collapsed state.
-	 * @param {object}  props.suffixIcon            Heading icon after the title.
-	 * @param {object}  props.suffixIconCollapsed   Suffix icon when in collapsed state.
+	 * @param {Object}  props.prefixIcon            Heading icon before the title.
+	 * @param {Object}  props.prefixIconCollapsed   Prefix icon when in collapsed state.
+	 * @param {Object}  props.suffixIcon            Heading icon after the title.
+	 * @param {Object}  props.suffixIconCollapsed   Suffix icon when in collapsed state.
 	 * @param {string}  props.title                 Title for in the Heading.
 	 * @param {string}  props.titleScreenReaderText Chance for an extra text to feed to a screenreader.
 	 *
@@ -265,7 +265,7 @@ export class Collapsible extends React.Component {
 	/**
 	 * Creates the header by wrapping the IconsButton with a header.
 	 *
-	 * @param {object} props The properties for the component.
+	 * @param {Object} props The properties for the component.
 	 *
 	 * @returns {ReactElement} The header to render.
 	 */
