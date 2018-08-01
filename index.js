@@ -58,6 +58,4 @@ export { getRtlStyle } from "./utils/helpers/styled-components";
 export { localize } from "./utils/i18n";
 export { setTranslations } from "./utils/i18n";
 export { translate } from "./utils/i18n";
-export { default as OnboardingWizardHelper } from "./composites/OnboardingWizard/helpers/";
 export * from "./composites/Plugin/DashboardWidget";
-
