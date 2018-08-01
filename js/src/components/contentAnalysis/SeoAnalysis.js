@@ -52,8 +52,8 @@ class SeoAnalysis extends React.Component {
 		const upsell = this.props.keywordUpsell;
 		return (
 			<Collapsible
-			prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey_disabled } }
-			prefixIconCollapsed={ { icon: "seo-score-none", color: colors.$color_grey_disabled } }
+			prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
+			prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 			title="Add another keyword"
 			>
 				<UpsellBox
