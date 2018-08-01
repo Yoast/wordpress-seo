@@ -204,7 +204,6 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * Tests verifying a request with an invalid nonce.
 	 *
 	 * @covers Yoast_Network_Admin::verify_request()
-	 * @expectedException WPDieException
 	 */
 	public function test_verify_request_with_invalid_nonce() {
 		$admin = new Yoast_Network_Admin();
@@ -212,19 +211,14 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$_REQUEST['_wp_http_referer'] = admin_url();
 		$_REQUEST['_wpnonce']         = '';
 
-		try {
-			$admin->verify_request( 'my_action' );
-		} catch ( WPDieException $e ) {
-			$this->assertContains( 'The link you followed has expired.', $e->getMessage() );
-			throw $e;
-		}
+		$this->setExpectedException( 'WPDieException', 'The link you followed has expired.' );
+		$admin->verify_request( 'my_action' );
 	}
 
 	/**
 	 * Tests verifying a request with a valid nonce, but lacking capabilities.
 	 *
 	 * @covers Yoast_Network_Admin::verify_request()
-	 * @expectedException WPDieException
 	 */
 	public function test_verify_request_with_valid_nonce_but_lacking_caps() {
 		$admin = new Yoast_Network_Admin();
@@ -232,12 +226,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$_REQUEST['_wp_http_referer'] = admin_url();
 		$_REQUEST['_wpnonce']         = wp_create_nonce( 'my_action' );
 
-		try {
-			$admin->verify_request( 'my_action' );
-		} catch ( WPDieException $e ) {
-			$this->assertEquals( 'You are not allowed to perform this action.', $e->getMessage() );
-			throw $e;
-		}
+		$this->setExpectedException( 'WPDieException', 'You are not allowed to perform this action.' );
+		$admin->verify_request( 'my_action' );
 	}
 
 	/**
@@ -267,7 +257,6 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * Tests verifying an AJAX request with an invalid nonce.
 	 *
 	 * @covers Yoast_Network_Admin::verify_request()
-	 * @expectedException WPDieException
 	 */
 	public function test_verify_request_ajax_with_invalid_nonce() {
 		$admin = new Yoast_Network_Admin();
@@ -277,19 +266,14 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$_REQUEST['_wpnonce'] = '';
 
-		try {
-			$admin->verify_request( 'my_action' );
-		} catch ( WPDieException $e ) {
-			$this->assertEquals( -1, $e->getMessage() );
-			throw $e;
-		}
+		$this->setExpectedException( 'WPDieException', '-1' );
+		$admin->verify_request( 'my_action' );
 	}
 
 	/**
 	 * Tests verifying an AJAX request with a valid nonce, but lacking capabilities.
 	 *
 	 * @covers Yoast_Network_Admin::verify_request()
-	 * @expectedException WPDieException
 	 */
 	public function test_verify_request_ajax_with_valid_nonce_but_lacking_caps() {
 		$admin = new Yoast_Network_Admin();
@@ -299,12 +283,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$_REQUEST['_wpnonce'] = wp_create_nonce( 'my_action' );
 
-		try {
-			$admin->verify_request( 'my_action' );
-		} catch ( WPDieException $e ) {
-			$this->assertEquals( -1, $e->getMessage() );
-			throw $e;
-		}
+		$this->setExpectedException( 'WPDieException', '-1' );
+		$admin->verify_request( 'my_action' );
 	}
 
 	/**
@@ -359,7 +339,6 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * Tests terminating an AJAX request.
 	 *
 	 * @covers Yoast_Network_Admin::terminate_request()
-	 * @expectedException WPDieException
 	 */
 	public function test_terminate_request_ajax() {
 		$admin = new Yoast_Network_Admin();
@@ -369,6 +348,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$_REQUEST['_wpnonce'] = wp_create_nonce( 'my_action' );
 
+		$this->setExpectedException( 'WPDieException', '' );
+
 		ob_start();
 
 		try {
@@ -377,7 +358,5 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 			$this->assertArrayHasKey( 'success', json_decode( ob_get_clean(), true ) );
 			throw $e;
 		}
-
-		$this->assertArrayHasKey( 'success', json_decode( ob_get_clean(), true ) );
 	}
 }
