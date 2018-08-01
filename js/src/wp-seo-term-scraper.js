@@ -7,6 +7,7 @@ import isUndefined from "lodash/isUndefined";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 import { render } from "@wordpress/element";
 import { SlotFillProvider } from "@wordpress/components";
+import debounce from "lodash/debounce";
 
 // Internal dependencies.
 import "./helpers/babel-polyfill";
@@ -352,8 +353,24 @@ window.yoastHideMarkers = true;
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
 
+		let focusKeyword;
+
+		const refreshAfterFocusKWChange = debounce( () => {
+			app.refresh();
+		}, 50 );
+
 		// Subscribe to the store to save the snippet editor data.
 		store.subscribe( () => {
+			// Verify whether the focusKeyword changed. If so, trigger refresh:
+			let newFocusKeyword = store.getState().focusKeyword;
+
+			if( focusKeyword !== newFocusKeyword ) {
+				focusKeyword = newFocusKeyword;
+
+				$( "#yoast_wpseo_focuskw" ).val( focusKeyword );
+				refreshAfterFocusKWChange();
+			}
+
 			const data = snippetEditorHelpers.getDataFromStore( store );
 			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
 
