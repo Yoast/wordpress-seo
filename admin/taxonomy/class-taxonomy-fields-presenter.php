@@ -58,7 +58,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 		$help_button_text = isset( $field_configuration['options']['help-button'] ) ? $field_configuration['options']['help-button'] : '';
 		$help             = new WPSEO_Admin_Help_Panel( $field_name, $help_button_text, $help_content );
 
-		if ( in_array( $field_configuration['type'], array( 'focuskeyword', 'pageanalysis', 'snippetpreview' ), true ) ) {
+		if ( in_array( $field_configuration['type'], array( 'focuskeyword', 'snippetpreview' ), true ) ) {
 			return $this->parse_section_row( $field, $field_configuration['type'], $help );
 		}
 
@@ -94,13 +94,6 @@ class WPSEO_Taxonomy_Fields_Presenter {
 
 			case 'snippetpreview':
 				$field .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
-				break;
-			case 'pageanalysis':
-				if ( WPSEO_Options::get( 'content_analysis_active', true ) === false && WPSEO_Options::get( 'keyword_analysis_active', true ) === false ) {
-					break;
-				}
-
-				$field .= '<div id="pageanalysis"></div>';
 				break;
 			case 'focuskeyword':
 				$field .= '<div id="wpseofocuskeyword">';

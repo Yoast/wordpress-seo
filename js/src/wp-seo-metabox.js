@@ -109,10 +109,6 @@
 		jQuery( "#wpseo-focuskeyword-section" ).find( "h3" ).after(
 			jQuery( "#help-yoast-focuskeyword" ).detach().removeClass( "wpseo_hidden" )
 		);
-
-		jQuery( "#pageanalysis > section.yoast-section" ).find( "h3" ).after(
-			jQuery( "#help-yoast-pageanalysis" ).detach().removeClass( "wpseo_hidden" )
-		);
 	}
 
 	jQuery( document ).ready( function() {

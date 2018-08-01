@@ -420,7 +420,6 @@ setWordPressSeoL10n();
 	 */
 	function initializePostAnalysis() {
 		const editArgs = {
-			analysisSection: "pageanalysis",
 			onRefreshRequest: () => {},
 			shouldRenderSnippetPreview: true,
 			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,

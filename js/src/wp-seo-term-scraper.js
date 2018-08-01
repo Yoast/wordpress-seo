@@ -210,7 +210,6 @@ window.yoastHideMarkers = true;
 		var args, termScraper, translations;
 
 		const editArgs = {
-			analysisSection: "pageanalysis",
 			snippetEditorBaseUrl: wpseoTermScraperL10n.base_url,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
