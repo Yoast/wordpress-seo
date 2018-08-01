@@ -13,7 +13,6 @@ module.exports = {
 			"css/dist/inside-editor-<%= pluginVersionSlug %>.css": [ "css/src/inside-editor.scss" ],
 			"css/dist/metabox-<%= pluginVersionSlug %>.css": [ "css/src/metabox.scss" ],
 			"css/dist/metabox-primary-category-<%= pluginVersionSlug %>.css": [ "css/src/metabox-primary-category.scss" ],
-			"css/dist/snippet-<%= pluginVersionSlug %>.css": [ "css/src/snippet.scss" ],
 			"css/dist/toggle-switch-<%= pluginVersionSlug %>.css": [ "css/src/toggle-switch.scss" ],
 			"css/dist/wpseo-dismissible-<%= pluginVersionSlug %>.css": [ "css/src/wpseo-dismissible.scss" ],
 			"css/dist/yst_plugin_tools-<%= pluginVersionSlug %>.css": [ "css/src/yst_plugin_tools.scss" ],

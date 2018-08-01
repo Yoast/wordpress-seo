@@ -48,7 +48,6 @@ TabManager.prototype.init = function() {
 	} );
 
 	this.focusKeywordRow = $( "#wpseofocuskeyword" );
-	this.snippetPreview  = $( "#wpseosnippet" );
 
 	var initialKeyword   = $( this.arguments.focusKeywordField ).val();
 
@@ -96,10 +95,6 @@ TabManager.prototype.init = function() {
 TabManager.prototype.showKeywordAnalysis = function() {
 	this.focusKeywordRow.show();
 
-	if ( this.arguments.keywordAnalysisActive ) {
-		this.snippetPreview.show();
-	}
-
 	if ( ! isUndefined( YoastSEO.store ) )
 	{
 		YoastSEO.store.dispatch( setActiveTab( "keyword" ) );
@@ -113,10 +108,6 @@ TabManager.prototype.showKeywordAnalysis = function() {
  */
 TabManager.prototype.showContentAnalysis = function() {
 	this.focusKeywordRow.hide();
-
-	if ( this.arguments.keywordAnalysisActive ) {
-		this.snippetPreview.hide();
-	}
 
 	if ( ! isUndefined( YoastSEO.store ) )
 	{

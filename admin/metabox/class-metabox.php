@@ -59,8 +59,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
 	 */
 	public static function translate_meta_boxes() {
-		self::$meta_fields['general']['snippetpreview']['title'] = __( 'Snippet editor', 'wordpress-seo' );
-
 		self::$meta_fields['general']['title']['title'] = __( 'SEO title', 'wordpress-seo' );
 
 		self::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );
@@ -267,7 +265,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Pass some variables to js for the edit / post page overview, snippet preview, etc.
+	 * Pass some variables to js for the edit / post page overview, etc.
 	 *
 	 * @return  array
 	 */
@@ -603,9 +601,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		switch ( $meta_field_def['type'] ) {
-			case 'snippetpreview':
-				$content .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
-				break;
 			case 'text':
 				$ac = '';
 				if ( isset( $meta_field_def['autocomplete'] ) && $meta_field_def['autocomplete'] === false ) {
@@ -725,14 +720,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$label = '';
 			}
 
-			// Special meta box sections such as the Snippet Preview, the Analysis, etc.
-			if ( in_array( $meta_field_def['type'], array(
-				'snippetpreview',
-			), true )
-			) {
-				return $this->create_content_box( $content, $meta_field_def['type'], $help_button, $help_panel );
-			}
-
 			// Other meta box content or form fields.
 			if ( $meta_field_def['type'] === 'hidden' ) {
 				$html = $content;
@@ -741,23 +728,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$html = $label . $help_button . $help_panel . $content . $description;
 			}
 		}
-
-		return $html;
-	}
-
-	/**
-	 * Creates a sections specific row.
-	 *
-	 * @param string $content          The content to show.
-	 * @param string $hidden_help_name Escaped form key name.
-	 * @param string $help_button      The help button.
-	 * @param string $help_panel       The help text.
-	 *
-	 * @return string
-	 */
-	private function create_content_box( $content, $hidden_help_name, $help_button, $help_panel ) {
-		$html  = $content;
-		$html .= '<div class="wpseo_hidden" id="help-yoast-' . $hidden_help_name . '">' . $help_button . $help_panel . '</div>';
 
 		return $html;
 	}
@@ -886,7 +856,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$asset_manager->enqueue_style( 'metabox-css' );
 		$asset_manager->enqueue_style( 'scoring' );
-		$asset_manager->enqueue_style( 'snippet' );
 		$asset_manager->enqueue_style( 'select2' );
 
 		$asset_manager->enqueue_script( 'metabox' );

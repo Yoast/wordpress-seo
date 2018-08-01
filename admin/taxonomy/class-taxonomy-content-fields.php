@@ -17,11 +17,6 @@ class WPSEO_Taxonomy_Content_Fields extends WPSEO_Taxonomy_Fields {
 	 */
 	public function get() {
 		$fields = array(
-			'snippet' => $this->get_field_config(
-				__( 'Snippet editor', 'wordpress-seo' ),
-				'',
-				'snippetpreview'
-			),
 			'focuskw' => $this->get_field_config(
 				'',
 				'',

@@ -232,16 +232,6 @@ ul.wpseo-metabox-tabs li {
 	display: block;
 }
 
-/* Content tab. */
-#wpseosnippet,
-#wpseofocuskeyword {
-	margin-bottom: 2em;
-}
-
-#wpseo-focuskeyword-section .wpseo-keyword-synonyms {
-	margin-top: 16px;
-}
-
 /* Tab links. */
 .wpseo-metabox-tabs .wpseo_tablink {
 	display: inline-block;
@@ -632,14 +622,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .wpseo-metabox-buy-premium .dashicons {
 	text-decoration: none;
-}
-
-/* Ensure the snippet preview section has always the proper width whatever the default yoast-section width is. */
-.wpseosnippet .yoast-section {
-	width: auto;
-	max-width: 640px;
-	/* The inner .snippet-editor__preview already has padding so we need to reset the .yoast-section default padding. */
-	padding: 0;
 }
 
 #TB_window {

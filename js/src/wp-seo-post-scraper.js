@@ -26,7 +26,6 @@ import TabManager from "./analysis/tabManager";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
-import snippetPreviewHelpers from "./analysis/snippetPreview";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import UsedKeywords from "./analysis/usedKeywords";
 
@@ -51,7 +50,7 @@ setWordPressSeoL10n();
 		return;
 	}
 
-	let snippetContainer;
+	let metaboxContainer;
 	let titleElement;
 	let app;
 	let decorator = null;
@@ -150,7 +149,6 @@ setWordPressSeoL10n();
 		const usedKeywords = new UsedKeywords( "#yoast_wpseo_focuskw", "get_focus_keyword_usage", wpseoPostScraperL10n, app );
 
 		usedKeywords.init();
-		postScraper.initKeywordTabTemplate();
 
 		const indicator = getIndicatorForScore( savedKeywordScore );
 
@@ -431,10 +429,10 @@ setWordPressSeoL10n();
 		const { store, data } = initializeEdit( editArgs );
 		editStore = store;
 
-		snippetContainer = $( "#wpseosnippet" );
+		metaboxContainer = $( "#wpseo_meta" );
 
 		// Avoid error when snippet metabox is not rendered.
-		if ( snippetContainer.length === 0 ) {
+		if ( metaboxContainer.length === 0 ) {
 			return;
 		}
 
@@ -473,10 +471,6 @@ setWordPressSeoL10n();
 
 		keywordElementSubmitHandler();
 		postDataCollector.bindElementEvents( app );
-
-		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
-			snippetPreviewHelpers.isolate( snippetContainer );
-		}
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );
