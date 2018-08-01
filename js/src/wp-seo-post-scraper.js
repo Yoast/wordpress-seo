@@ -472,7 +472,6 @@ setWordPressSeoL10n();
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
 
-
 		keywordElementSubmitHandler();
 		postDataCollector.bindElementEvents( app );
 
