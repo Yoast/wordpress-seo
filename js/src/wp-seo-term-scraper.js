@@ -5,8 +5,6 @@ import { App } from "yoastseo";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import isUndefined from "lodash/isUndefined";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
-import { render } from "@wordpress/element";
-import { SlotFillProvider } from "@wordpress/components";
 
 // Internal dependencies.
 import "./helpers/babel-polyfill";
@@ -28,7 +26,10 @@ import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor"
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
-import MetaboxPortal from "./components/MetaboxPortal";
+import {
+	registerReactComponent,
+	renderClassicEditorMetabox
+} from "./helpers/classicEditor";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -201,28 +202,6 @@ window.yoastHideMarkers = true;
 	}
 
 	/**
-	 * Renders a React tree for the classic editor.
-	 *
-	 * @param {Object} store The active redux store.
-	 *
-	 * @returns {void}
-	 */
-	function renderClassicEditorMetabox( store ) {
-		const theme = {
-			isRtl: wpseoTermScraperL10n.isRtl,
-		};
-
-		render(
-			(
-				<SlotFillProvider>
-					<MetaboxPortal target="wpseo-meta-section-react" store={ store } theme={ theme } />
-				</SlotFillProvider>
-			),
-			document.getElementById( "wpseo-meta-section-react" )
-		);
-	}
-
-	/**
 	 * Initializes analysis for the term edit screen.
 	 *
 	 * @returns {void}
@@ -317,6 +296,8 @@ window.yoastHideMarkers = true;
 
 		// For backwards compatibility.
 		YoastSEO.analyzerArgs = args;
+
+		YoastSEO._registerReactComponent = registerReactComponent;
 
 		initTermSlugWatcher();
 		termScraper.bindElementEvents( app );
