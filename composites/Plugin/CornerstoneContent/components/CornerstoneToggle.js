@@ -12,8 +12,7 @@ const Cornerstone = styled.div`
 
 	label { 
 		margin-right: 10px;
-		flex-shrink: 0;
-		max-width: 75%;
+		flex: 1;
 	}
 `;
 
