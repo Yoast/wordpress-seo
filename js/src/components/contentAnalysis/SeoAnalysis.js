@@ -87,7 +87,7 @@ class SeoAnalysis extends React.Component {
 		return (
 			<React.Fragment>
 				<Collapsible
-					title="Focus keyword analysis"
+					title={ __( "Focus keyword" ) }
 					titleScreenReaderText={ score.screenReaderReadabilityText }
 					prefixIcon={ getIconForScore( score.className ) }
 					prefixIconCollapsed={ getIconForScore( score.className ) }
