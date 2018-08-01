@@ -5,8 +5,6 @@ import { App } from "yoastseo";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import isUndefined from "lodash/isUndefined";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
-import { render } from "@wordpress/element";
-import { SlotFillProvider } from "@wordpress/components";
 import debounce from "lodash/debounce";
 
 // Internal dependencies.
@@ -250,7 +248,13 @@ window.yoastHideMarkers = true;
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			store.dispatch( setFocusKeyword( $( "#hidden_wpseo_focuskw" ).val() ) );
+			let keyword = $( "#hidden_wpseo_focuskw" ).val();
+			if ( keyword === "" ) {
+				keyword = termScraper.getName();
+				$( "#hidden_wpseo_focuskw" ).val( keyword );
+			}
+
+			store.dispatch( setFocusKeyword( keyword ) );
 
 			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
 			args.callbacks.updatedKeywordsResults = function( results ) {
