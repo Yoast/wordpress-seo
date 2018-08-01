@@ -26,7 +26,7 @@ export default function Metabox( { settings, store, theme } ) {
 			<SidebarItem renderPriority={ 9 }>
 				<StoreProvider store={ store }>
 					<ThemeProvider theme={ theme }>
-						<SnippetEditor />
+						<SnippetEditor hasPaperStyle={ false }/>
 					</ThemeProvider>
 				</StoreProvider>
 			</SidebarItem>
