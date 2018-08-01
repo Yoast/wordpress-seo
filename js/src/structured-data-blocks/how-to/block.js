@@ -22,6 +22,9 @@ export default () => {
 				source: "children",
 				selector: ".schema-how-to-title",
 			},
+			hasDuration: {
+				type: "boolean",
+			},
 			hours: {
 				type: "number",
 			},

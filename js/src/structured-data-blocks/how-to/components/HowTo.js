@@ -193,14 +193,11 @@ export default class HowTo extends Component {
 	getDuration() {
 		const { attributes, setAttributes } = this.props;
 
-		if (
-			( typeof attributes.hours === "undefined" || attributes.hours === false ) &&
-			( typeof attributes.minutes === "undefined" || attributes.minutes === false )
-		) {
+		if ( ! attributes.hasDuration ) {
 			return (
 				<IconButton
 					icon="insert"
-					onClick={ () => setAttributes( { hours: null, minutes: null } ) }
+					onClick={ () => setAttributes( { hasDuration: true } ) }
 					className="schema-how-to-duration-button editor-inserter__toggle"
 				>
 					{ __( "Add total time", "wordpress-seo" ) }
@@ -233,7 +230,7 @@ export default class HowTo extends Component {
 					className="schema-how-to-duration-button editor-inserter__toggle"
 					icon="trash"
 					label={ __( "Delete total time", "wordpress-seo" ) }
-					onClick={ () => setAttributes( { hours: false, minutes: false } ) }
+					onClick={ () => setAttributes( { hasDuration: false } ) }
 				/>
 			</div>
 		);
@@ -253,7 +250,7 @@ export default class HowTo extends Component {
 			name: stripHTML( renderToString( attributes.title ) ),
 		};
 
-		if( attributes.hours || attributes.minutes ) {
+		if( attributes.hasDuration ) {
 			jsonLD.totalTime = `PT${ attributes.hours || 0 }H${ attributes.minutes || 0 }M`;
 		}
 		if( attributes.description && attributes.description.length > 0 ) {
@@ -314,12 +311,12 @@ export default class HowTo extends Component {
 						value={ title }
 						id={ stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
 					/>
-					{ ( attributes.hours || attributes.minutes ) &&
-					<p className="schema-how-to-total-time">
-						{ __( "Total time:", "wordpress-seo" ) }
-						&nbsp;
-						{ hours || 0 }:{ ( "00" + ( minutes || 0 ) ).slice( -2 ) }
-					</p>
+					{ ( attributes.hasDuration ) &&
+						<p className="schema-how-to-total-time">
+							{ __( "Total time:", "wordpress-seo" ) }
+							&nbsp;
+							{ hours || 0 }:{ ( "00" + ( minutes || 0 ) ).slice( -2 ) }
+						</p>
 					}
 					<RichText.Content
 						tagName="p"

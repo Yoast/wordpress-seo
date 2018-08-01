@@ -53,6 +53,9 @@ exports.default = function () {
 				source: "children",
 				selector: ".schema-how-to-title"
 			},
+			hasDuration: {
+				type: "boolean"
+			},
 			hours: {
 				type: "number"
 			},
@@ -395,13 +398,13 @@ var HowTo = function (_Component) {
 			    setAttributes = _props.setAttributes;
 
 
-			if ((typeof attributes.hours === "undefined" || attributes.hours === false) && (typeof attributes.minutes === "undefined" || attributes.minutes === false)) {
+			if (!attributes.hasDuration) {
 				return yoast._wp.element.createElement(
 					IconButton,
 					{
 						icon: "insert",
 						onClick: function onClick() {
-							return setAttributes({ hours: null, minutes: null });
+							return setAttributes({ hasDuration: true });
 						},
 						className: "schema-how-to-duration-button editor-inserter__toggle"
 					},
@@ -453,7 +456,7 @@ var HowTo = function (_Component) {
 					icon: "trash",
 					label: __("Delete total time", "wordpress-seo"),
 					onClick: function onClick() {
-						return setAttributes({ hours: false, minutes: false });
+						return setAttributes({ hasDuration: false });
 					}
 				})
 			);
@@ -648,7 +651,7 @@ var HowTo = function (_Component) {
 				name: (0, _stringHelpers.stripHTML)(renderToString(attributes.title))
 			};
 
-			if (attributes.hours || attributes.minutes) {
+			if (attributes.hasDuration) {
 				jsonLD.totalTime = "PT" + (attributes.hours || 0) + "H" + (attributes.minutes || 0) + "M";
 			}
 			if (attributes.description && attributes.description.length > 0) {
@@ -730,7 +733,7 @@ var HowTo = function (_Component) {
 						value: title,
 						id: (0, _stringHelpers.stripHTML)(renderToString(title)).toLowerCase().replace(/\s+/g, "-")
 					}),
-					(attributes.hours || attributes.minutes) && yoast._wp.element.createElement(
+					attributes.hasDuration && yoast._wp.element.createElement(
 						"p",
 						{ className: "schema-how-to-total-time" },
 						__("Total time:", "wordpress-seo"),
