@@ -4,6 +4,7 @@
 import get from "lodash/get";
 import analysis from "yoastseo";
 const { measureTextWidth } = analysis.helpers;
+import { setOverallReadabilityScore, setOverallSeoScore } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
@@ -284,6 +285,7 @@ TermDataCollector.prototype.saveScores = function( score ) {
 	jQuery( window ).trigger( "YoastSEO:numericScore", score );
 
 	this._tabManager.updateKeywordTab( score, keyword );
+	this._store.dispatch( setOverallSeoScore( score, keyword ) );
 
 	updateTrafficLight( indicator );
 	updateAdminBar( indicator );
@@ -300,6 +302,7 @@ TermDataCollector.prototype.saveContentScore = function( score ) {
 	var indicator = getIndicatorForScore( score );
 
 	this._tabManager.updateContentTab( score );
+	this._store.dispatch( setOverallReadabilityScore( score ) );
 
 	if ( ! isKeywordAnalysisActive() ) {
 		updateTrafficLight( indicator );
