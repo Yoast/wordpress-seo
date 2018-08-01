@@ -9,9 +9,9 @@ import { encodePayload, decodePayload } from "./utils";
 /**
  * Analysis worker is an API around the Web Worker.
  */
-class AnalysisWorker {
+class AnalysisWorkerWrapper {
 	/**
-	 * Initializes the AnalysisWorker class.
+	 * Initializes the AnalysisWorkerWrapper class.
 	 */
 	constructor() {
 		// Initialize instance variables.
@@ -212,10 +212,9 @@ class AnalysisWorker {
 	 * Analyzes the paper.
 	 *
 	 * @param {Object} paper         The paper to analyze.
-	 * @param {Object} configuration The configuration specific to this
-	 *                               analyzation.
+	 * @param {Object} configuration The configuration specific to this analysis.
 	 *
-	 * @returns {Promise} The promise of analyzation.
+	 * @returns {Promise} The promise of analysis.
 	 */
 	analyze( paper, configuration = {} ) {
 		const name = "analyze";
@@ -231,4 +230,4 @@ class AnalysisWorker {
 	}
 }
 
-export default AnalysisWorker;
+export default AnalysisWorkerWrapper;

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 // YoastSEO.js dependencies.
-import AnalysisWorker from "yoastseo/worker/AnalysisWorker";
+import AnalysisWorkerWrapper from "yoastseo/worker/AnalysisWorkerWrapper";
 
 // Internal dependencies.
 import './App.css';
@@ -19,7 +19,7 @@ class App extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.analysisWorker = new AnalysisWorker();
+		this.analysisWorker = new AnalysisWorkerWrapper();
 
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
@@ -36,7 +36,7 @@ class App extends React.Component {
 		const { paper } = this.props;
 
 		this.analysisWorker.analyze( paper )
-		    .then( data => console.log( "analyzation done!", data ) );
+		    .then( data => console.log( "analysis done!", data ) );
 	}
 
 	renderPaperAttribute( id, placeholder, label = null, Component = Input, defaultValue = "" ) {
