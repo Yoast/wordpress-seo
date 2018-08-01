@@ -10,7 +10,6 @@ const entry = {
 	vendor: [
 		"react",
 		"react-dom",
-		"styled-components",
 		"babel-polyfill",
 	],
 	"configuration-wizard": "./configuration-wizard.js",
