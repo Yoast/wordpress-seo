@@ -25,14 +25,14 @@ const StyledCollapsible = styled( Collapsible )`
 	}
 
 	${ StyledIconsButton } {
-		padding: 8px 16px;
+		padding: 8px 0;
 		color: ${ colors.$color_blue }
 	}
 `;
 
 const AnalysisList = styled.ul`
-	margin: 0;
-	padding: 8px 16px;
+	margin: 8px 0;
+	padding: 0;
 	list-style: none;
 `;
 
