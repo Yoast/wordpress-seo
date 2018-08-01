@@ -3,7 +3,7 @@
 /* External dependencies */
 import get from "lodash/get";
 import analysis from "yoastseo";
-const { measureTextWidth } = analysis.helpers;
+import { setOverallReadabilityScore, setOverallSeoScore } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
@@ -12,6 +12,8 @@ import { termsTmceId as tmceId } from "../wp-seo-tinymce";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
+
+const { measureTextWidth } = analysis.helpers;
 
 let $ = jQuery;
 
@@ -284,6 +286,7 @@ TermDataCollector.prototype.saveScores = function( score ) {
 	jQuery( window ).trigger( "YoastSEO:numericScore", score );
 
 	this._tabManager.updateKeywordTab( score, keyword );
+	this._store.dispatch( setOverallSeoScore( score, keyword ) );
 
 	updateTrafficLight( indicator );
 	updateAdminBar( indicator );
@@ -300,6 +303,7 @@ TermDataCollector.prototype.saveContentScore = function( score ) {
 	var indicator = getIndicatorForScore( score );
 
 	this._tabManager.updateContentTab( score );
+	this._store.dispatch( setOverallReadabilityScore( score ) );
 
 	if ( ! isKeywordAnalysisActive() ) {
 		updateTrafficLight( indicator );
