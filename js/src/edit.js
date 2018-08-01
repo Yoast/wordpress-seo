@@ -82,7 +82,7 @@ function registerPlugin( store ) {
 				<Provider store={ store } >
 					<Fragment>
 						<Sidebar store={ store } />
-						<MetaboxPortal target="wpseo-meta-section-react" store={ store } theme={ theme } />
+						<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
 					</Fragment>
 				</Provider>
 			</Fragment>

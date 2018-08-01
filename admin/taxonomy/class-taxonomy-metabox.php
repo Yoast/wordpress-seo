@@ -99,8 +99,6 @@ class WPSEO_Taxonomy_Metabox {
 			$content_section->display_content();
 		}
 
-		echo '<div id="wpseo-meta-section-react" class="wpseo-meta-section-react"></div>';
-
 		echo '</div></div>';
 		echo '</div>';
 	}
@@ -134,19 +132,11 @@ class WPSEO_Taxonomy_Metabox {
 		$taxonomy_content_fields = new WPSEO_Taxonomy_Content_Fields( $this->term );
 		$content                 = $this->taxonomy_tab_content->html( $taxonomy_content_fields->get( $this->term ) );
 
-		$tab = new WPSEO_Metabox_Form_Tab(
-			'content',
-			$content,
-			'',
-			array(
-				'tab_class' => 'yoast-seo__remove-tab',
-			)
-		);
 
-		return new WPSEO_Metabox_Tab_Section(
+		return new WPSEO_Metabox_Section_React(
 			'content',
 			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
-			array( $tab ),
+			$content,
 			array(
 				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
 				'link_class'      => 'yoast-tooltip yoast-tooltip-e',

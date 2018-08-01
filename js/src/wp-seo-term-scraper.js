@@ -13,7 +13,6 @@ import { termsTmceId as tmceId } from "./wp-seo-tinymce";
 import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
-import TabManager from "./analysis/tabManager";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
@@ -39,8 +38,6 @@ window.yoastHideMarkers = true;
 	var app;
 
 	var termSlugInput;
-
-	var tabManager;
 
 	let store;
 
@@ -216,16 +213,7 @@ window.yoastHideMarkers = true;
 
 		insertTinyMCE();
 
-		tabManager = new TabManager( {
-			strings: wpseoTermScraperL10n,
-			focusKeywordField: "#wpseo_focuskw",
-			contentAnalysisActive: isContentAnalysisActive(),
-			keywordAnalysisActive: isKeywordAnalysisActive(),
-		} );
-
-		tabManager.init();
-
-		termScraper = new TermDataCollector( { tabManager, store } );
+		termScraper = new TermDataCollector( { store } );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
@@ -243,16 +231,14 @@ window.yoastHideMarkers = true;
 		if ( isKeywordAnalysisActive() ) {
 			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
 			args.callbacks.updatedKeywordsResults = function( results ) {
-				let keyword = tabManager.getKeywordTab().getKeyWord();
+				let keyword = store.getState().focusKeyword;
 
-				if ( tabManager.isMainKeyword( keyword ) ) {
-					if ( keyword === "" ) {
-						keyword = termScraper.getName();
-					}
-					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
-					store.dispatch( setFocusKeyword( keyword ) );
-					store.dispatch( refreshSnippetEditor() );
+				if ( keyword === "" ) {
+					keyword = termScraper.getName();
 				}
+				store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+				store.dispatch( setFocusKeyword( keyword ) );
+				store.dispatch( refreshSnippetEditor() );
 			};
 		}
 
@@ -298,9 +284,6 @@ window.yoastHideMarkers = true;
 
 		if ( isKeywordAnalysisActive() ) {
 			initializeKeywordAnalysis( app, termScraper );
-			tabManager.getKeywordTab().activate();
-		} else if ( isContentAnalysisActive() ) {
-			tabManager.getContentTab().activate();
 		}
 
 		if ( isContentAnalysisActive() ) {

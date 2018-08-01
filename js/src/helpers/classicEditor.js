@@ -74,14 +74,14 @@ export function renderClassicEditorMetabox( store ) {
 		(
 			<SlotFillProvider>
 				<MetaboxPortal
-					target="wpseo-meta-section-react"
-					store={store}
-					theme={theme}
+					target="wpseo-metabox-root"
+					store={ store }
+					theme={ theme }
 				/>
 				<RegisteredComponentsContainer ref={containerRef}/>
 			</SlotFillProvider>
 		),
-		document.getElementById( "wpseo-meta-section-react" )
+		document.getElementById( "wpseo-metabox-root" )
 	);
 
 	registeredComponents.forEach( ( registered ) => {

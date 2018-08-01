@@ -323,10 +323,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		foreach ( $content_sections as $content_section ) {
 			$content_section->display_content();
-
-			if ( $this->should_load_react_section( $content_section->get_name() ) ) {
-				echo '<div id="wpseo-meta-section-react" class="wpseo-meta-section-react"></div>';
-			}
 		}
 
 		echo '</div>';
@@ -381,21 +377,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_content_meta_section() {
 		$content = $this->get_tab_content( 'general' );
 
-		$tabs = array();
-
-		$tabs[] = new WPSEO_Metabox_Form_Tab(
-			'content',
-			$content,
-			'',
-			array(
-				'tab_class' => 'yoast-seo__remove-tab',
-			)
-		);
-
-		return new WPSEO_Metabox_Tab_Section(
+		return new WPSEO_Metabox_Section_React(
 			'content',
 			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
-			$tabs,
+			$content,
 			array(
 				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
 				'link_class'      => 'yoast-tooltip yoast-tooltip-e',

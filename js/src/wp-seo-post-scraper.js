@@ -22,7 +22,6 @@ import { update as updateAdminBar } from "./ui/adminBar";
 
 import PostDataCollector from "./analysis/PostDataCollector";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
-import TabManager from "./analysis/tabManager";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
@@ -54,7 +53,7 @@ setWordPressSeoL10n();
 	let titleElement;
 	let app;
 	let decorator = null;
-	let tabManager, postDataCollector;
+	let postDataCollector;
 
 	let editStore;
 
@@ -176,30 +175,6 @@ setWordPressSeoL10n();
 	}
 
 	/**
-	 * Makes sure the hidden focus keyword field is filled with the correct keyword.
-	 *
-	 * @returns {void}
-	 */
-	function keywordElementSubmitHandler() {
-		if ( isKeywordAnalysisActive() && ! YoastSEO.multiKeyword ) {
-			/*
-			 * Hitting the enter on the focus keyword input field will trigger a form submit. Because of delay in
-			 * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
-			 * onsubmit event that is copying the focus keyword, this should be solved.
-			 */
-			$( "#post" ).on( "submit", function() {
-				const hiddenKeyword       = $( "#yoast_wpseo_focuskw" );
-				const hiddenKeywordValue  = hiddenKeyword.val();
-				const visibleKeywordValue = tabManager.getKeywordTab().getKeywordFromElement();
-
-				if ( hiddenKeywordValue !== visibleKeywordValue ) {
-					hiddenKeyword.val( visibleKeywordValue );
-				}
-			} );
-		}
-	}
-
-	/**
 	 * Retrieves the target to be passed to the App.
 	 *
 	 * @returns {Object} The targets object for the App.
@@ -219,31 +194,6 @@ setWordPressSeoL10n();
 	}
 
 	/**
-	 * Hides the add keyword button.
-	 *
-	 * @returns {void}
-	 */
-	function hideAddKeywordButton() {
-		$( ".wpseo-tab-add-keyword" ).hide();
-	}
-
-	/**
-	 * Initializes tab manager.
-	 *
-	 * @returns {TabManager} The initialized tab manager.
-	 */
-	function initializeTabManager() {
-		let tabManager = new TabManager( {
-			strings: wpseoPostScraperL10n,
-			contentAnalysisActive: isContentAnalysisActive(),
-			keywordAnalysisActive: isKeywordAnalysisActive(),
-		} );
-		tabManager.init();
-
-		return tabManager;
-	}
-
-	/**
 	 * Initializes post data collector.
 	 *
 	 * @param {Object} data The data.
@@ -252,7 +202,6 @@ setWordPressSeoL10n();
 	 */
 	function initializePostDataCollector( data ) {
 		let postDataCollector = new PostDataCollector( {
-			tabManager,
 			data,
 			store: editStore,
 		} );
@@ -331,12 +280,11 @@ setWordPressSeoL10n();
 	 * Exposes globals necessary for functionality of plugins integrating.
 	 *
 	 * @param {App} app The app to expose globally.
-	 * @param {TabManager} tabManager The tab manager to expose globally.
 	 * @param {YoastReplaceVarPlugin} replaceVarsPlugin The replace vars plugin to expose.
 	 * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
 	 * @returns {void}
 	 */
-	function exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin ) {
+	function exposeGlobals( app, replaceVarsPlugin, shortcodePlugin ) {
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 
@@ -345,7 +293,6 @@ setWordPressSeoL10n();
 		window.YoastSEO.wp.replaceVarsPlugin = replaceVarsPlugin;
 		window.YoastSEO.wp.shortcodePlugin = shortcodePlugin;
 
-		window.YoastSEO.wp._tabManager = tabManager;
 		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
 
 		window.YoastSEO.store = editStore;
@@ -354,23 +301,15 @@ setWordPressSeoL10n();
 	/**
 	 * Activates the correct analysis and tab based on which analyses are enabled.
 	 *
-	 * @param {TabManager} tabManager The tab manager to use to activate tabs.
 	 * @returns {void}
 	 */
-	function activateEnabledAnalysis( tabManager ) {
+	function activateEnabledAnalysis() {
 		if ( isKeywordAnalysisActive() ) {
 			initializeKeywordAnalysis( app, postDataCollector, publishBox );
-			tabManager.getKeywordTab().activate();
-		} else {
-			hideAddKeywordButton();
 		}
 
 		if ( isContentAnalysisActive() ) {
 			initializeContentAnalysis( publishBox );
-		}
-
-		if ( ! isKeywordAnalysisActive() && isContentAnalysisActive() ) {
-			tabManager.getContentTab().activate();
 		}
 	}
 
@@ -436,7 +375,6 @@ setWordPressSeoL10n();
 			return;
 		}
 
-		tabManager = initializeTabManager();
 		postDataCollector = initializePostDataCollector( data );
 		publishBox.initialize();
 
@@ -455,12 +393,12 @@ setWordPressSeoL10n();
 			markdownPlugin.register();
 		}
 
-		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
+		exposeGlobals( app, replaceVarsPlugin, shortcodePlugin );
 
 		setStore( store );
 		tinyMCEHelper.wpTextViewOnInitCheck();
 
-		activateEnabledAnalysis( tabManager );
+		activateEnabledAnalysis();
 
 		YoastSEO._registerReactComponent = registerReactComponent;
 
@@ -469,7 +407,6 @@ setWordPressSeoL10n();
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
 
-		keywordElementSubmitHandler();
 		postDataCollector.bindElementEvents( app );
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
