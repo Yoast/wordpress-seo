@@ -4,6 +4,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
+import noop from "lodash/noop";
 
 // Internal dependencies.
 import colors from "../../../../style-guide/colors.json";
@@ -136,15 +137,15 @@ class KeywordInput extends React.Component {
 						onChange={ this.handleChange }
 						value={ keyword }
 					/>
-					<BorderlessButton
-						onClick={ onRemoveKeyword }
-					>
-						<RemoveIcon
-							size="18px"
-							icon="times-circle"
-							color={ greyColor }
-						/>
-					</BorderlessButton>
+					{ onRemoveKeyword !== noop && (
+						<BorderlessButton onClick={ onRemoveKeyword } >
+							<RemoveIcon
+								size="18px"
+								icon="times-circle"
+								color={ greyColor }
+							/>
+						</BorderlessButton>
+					) }
 				</YoastInputButtonContainer>
 				{ this.displayErrorMessage( showErrorMessage ) }
 			</KeywordInputContainer>
@@ -158,7 +159,7 @@ KeywordInput.propTypes = {
 	showLabel: PropTypes.bool,
 	keyword: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
-	onRemoveKeyword: PropTypes.func.isRequired,
+	onRemoveKeyword: PropTypes.func,
 };
 
 KeywordInput.defaultProps = {
@@ -166,6 +167,7 @@ KeywordInput.defaultProps = {
 	showLabel: true,
 	label: __( "Focus keyword:", "yoast-components" ),
 	keyword: "",
+	onRemoveKeyword: noop,
 };
 
 export default KeywordInput;
