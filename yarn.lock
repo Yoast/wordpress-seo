@@ -10945,7 +10945,7 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-"yoast-components@https://github.com/Yoast/yoast-components.git#add-cross-within-input-to-remove-keyword":
+"yoast-components@git+https://github.com/Yoast/yoast-components.git#develop":
   version "4.8.0"
   resolved "git+https://github.com/Yoast/yoast-components.git#99300f768de1827e329393663a38133229a2b75c"
   dependencies:

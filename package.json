@@ -131,7 +131,7 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "https://github.com/Yoast/yoast-components.git#add-cross-within-input-to-remove-keyword",
+    "yoast-components": "git+https://github.com/Yoast/yoast-components.git#develop",
     "yoastseo": "^1.36.0"
   },
   "yoast": {
