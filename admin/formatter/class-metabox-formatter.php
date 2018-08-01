@@ -68,7 +68,6 @@ class WPSEO_Metabox_Formatter {
 			'cornerstoneActive' 	=> WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
 			'intl'                  => $this->get_content_analysis_component_translations(),
 			'isRtl'                 => is_rtl(),
-			'gutenbergSidebar'      => defined( 'YOAST_FEATURE_GUTENBERG_SIDEBAR' ) && YOAST_FEATURE_GUTENBERG_SIDEBAR,
 			'addKeywordUpsell'      => $this->get_add_keyword_upsell_translations(),
 
 			/**

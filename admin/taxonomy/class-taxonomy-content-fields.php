@@ -17,12 +17,6 @@ class WPSEO_Taxonomy_Content_Fields extends WPSEO_Taxonomy_Fields {
 	 */
 	public function get() {
 		$fields = array(
-			'focuskw' => $this->get_field_config(
-				'',
-				'',
-				'hidden',
-				''
-			),
 			'title' => $this->get_field_config(
 				'',
 				'',
@@ -42,6 +36,12 @@ class WPSEO_Taxonomy_Content_Fields extends WPSEO_Taxonomy_Fields {
 				''
 			),
 			'content_score' => $this->get_field_config(
+				'',
+				'',
+				'hidden',
+				''
+			),
+			'focuskw' => $this->get_field_config(
 				'',
 				'',
 				'hidden',

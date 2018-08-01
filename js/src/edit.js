@@ -53,46 +53,48 @@ function registerStoreInGutenberg() {
  * @returns {void}
  **/
 function registerPlugin( store ) {
-	if ( isGutenbergDataAvailable() ) {
-		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
-		const { registerPlugin } = wp.plugins;
-		const theme = {
-			isRtl: localizedData.isRtl,
-		};
-
-		const YoastSidebar = () => (
-			<Fragment>
-				<PluginSidebarMoreMenuItem
-					target="seo-sidebar"
-					icon={ <PluginIcon/> }
-				>
-					Yoast SEO
-				</PluginSidebarMoreMenuItem>
-				<PluginSidebar
-					name="seo-sidebar"
-					title="Yoast SEO"
-				>
-					<Slot name="YoastSidebar">
-						{ ( fills ) => {
-							return sortComponentsByRenderPriority( fills );
-						} }
-					</Slot>
-				</PluginSidebar>
-
-				<Provider store={ store } >
-					<Fragment>
-						<Sidebar store={ store } />
-						<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
-					</Fragment>
-				</Provider>
-			</Fragment>
-		);
-
-		registerPlugin( "yoast-seo", {
-			render: YoastSidebar,
-			icon: <PinnedPluginIcon />,
-		} );
+	if ( ! isGutenbergDataAvailable() )  {
+		return;
 	}
+
+	const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
+	const { registerPlugin } = wp.plugins;
+	const theme = {
+		isRtl: localizedData.isRtl,
+	};
+
+	const YoastSidebar = () => (
+		<Fragment>
+			<PluginSidebarMoreMenuItem
+				target="seo-sidebar"
+				icon={ <PluginIcon/> }
+			>
+				Yoast SEO
+			</PluginSidebarMoreMenuItem>
+			<PluginSidebar
+				name="seo-sidebar"
+				title="Yoast SEO"
+			>
+				<Slot name="YoastSidebar">
+					{ ( fills ) => {
+						return sortComponentsByRenderPriority( fills );
+					} }
+				</Slot>
+			</PluginSidebar>
+
+			<Provider store={ store } >
+				<Fragment>
+					<Sidebar store={ store } />
+					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				</Fragment>
+			</Provider>
+		</Fragment>
+	);
+
+	registerPlugin( "yoast-seo", {
+		render: YoastSidebar,
+		icon: <PinnedPluginIcon />,
+	} );
 }
 
 /**
@@ -136,9 +138,7 @@ export function initializeData( data, args, store ) {
 export function initialize( args ) {
 	const store = registerStoreInGutenberg();
 
-	if ( args.shouldRenderGutenbergSidebar ) {
-		registerPlugin( store );
-	}
+	registerPlugin( store );
 
 	const data = initializeData( wp.data, args, store );
 
