@@ -14,11 +14,9 @@ import { termsTmceId as tmceId } from "./wp-seo-tinymce";
 import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
-import TabManager from "./analysis/tabManager";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
-import snippetPreviewHelpers from "./analysis/snippetPreview";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
 import UsedKeywords from "./analysis/usedKeywords";
@@ -38,13 +36,9 @@ setWordPressSeoL10n();
 window.yoastHideMarkers = true;
 
 ( function( $, window ) {
-	var snippetContainer;
-
 	var app;
 
 	var termSlugInput;
-
-	var tabManager;
 
 	let store;
 
@@ -211,7 +205,6 @@ window.yoastHideMarkers = true;
 		var args, termScraper, translations;
 
 		const editArgs = {
-			analysisSection: "pageanalysis",
 			snippetEditorBaseUrl: wpseoTermScraperL10n.base_url,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
@@ -219,20 +212,9 @@ window.yoastHideMarkers = true;
 
 		const { store } = initializeEdit( editArgs );
 
-		snippetContainer = $( "#wpseosnippet" );
-
 		insertTinyMCE();
 
-		tabManager = new TabManager( {
-			strings: wpseoTermScraperL10n,
-			focusKeywordField: "#wpseo_focuskw",
-			contentAnalysisActive: isContentAnalysisActive(),
-			keywordAnalysisActive: isKeywordAnalysisActive(),
-		} );
-
-		tabManager.init();
-
-		termScraper = new TermDataCollector( { tabManager, store } );
+		termScraper = new TermDataCollector( { store } );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
@@ -300,11 +282,6 @@ window.yoastHideMarkers = true;
 
 		if ( isKeywordAnalysisActive() ) {
 			initializeKeywordAnalysis( app, termScraper );
-			tabManager.getKeywordTab().activate();
-		} else if ( isContentAnalysisActive() ) {
-			tabManager.getContentTab().activate();
-		} else {
-			snippetPreviewHelpers.isolate( snippetContainer );
 		}
 
 		if ( isContentAnalysisActive() ) {

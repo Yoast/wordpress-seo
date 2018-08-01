@@ -521,10 +521,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'yst_seo_score-' . $flat_version,
 			),
 			array(
-				'name' => 'snippet',
-				'src'  => 'snippet-' . $flat_version,
-			),
-			array(
 				'name' => 'adminbar',
 				'src'  => 'adminbar-' . $flat_version,
 			),
