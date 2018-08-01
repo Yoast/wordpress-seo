@@ -211,7 +211,12 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$_REQUEST['_wp_http_referer'] = admin_url();
 		$_REQUEST['_wpnonce']         = '';
 
-		$this->setExpectedException( 'WPDieException', 'The link you followed has expired.' );
+		$expected_message = 'The link you followed has expired.';
+		if ( version_compare( $GLOBALS['wp_version'], '4.9', '<' ) ) {
+			$expected_message = 'Are you sure you want to do this?';
+		}
+
+		$this->setExpectedException( 'WPDieException', $expected_message );
 		$admin->verify_request( 'my_action' );
 	}
 
@@ -358,5 +363,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 			$this->assertArrayHasKey( 'success', json_decode( ob_get_clean(), true ) );
 			throw $e;
 		}
+
+		ob_get_clean();
 	}
 }
