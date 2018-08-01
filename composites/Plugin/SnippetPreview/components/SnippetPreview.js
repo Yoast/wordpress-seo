@@ -44,7 +44,6 @@ const MobileContainer = styled.div`
 	border-bottom: 1px hidden #fff;
 	border-radius: 2px;
 	box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	margin: 0 20px 10px;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	max-width: ${ MAX_WIDTH }px;
 	box-sizing: border-box;
@@ -660,7 +659,7 @@ export default class SnippetPreview extends PureComponent {
 				</div>
 				<Container
 					onMouseLeave={ this.onMouseLeave }
-					width={ MAX_WIDTH + 2 * WIDTH_PADDING }
+					width={ MAX_WIDTH + ( 2 * WIDTH_PADDING ) }
 					padding={ WIDTH_PADDING }
 				>
 					<PartContainer>

@@ -141,7 +141,6 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -280,8 +279,6 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -725,7 +722,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-top: 24px;
-  margin-left: 20px;
 }
 
 .c10 >:first-child {
@@ -938,7 +934,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -1155,8 +1150,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -2926,7 +2919,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-top: 24px;
-  margin-left: 20px;
 }
 
 .c10 >:first-child {
@@ -3139,7 +3131,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -3356,8 +3347,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -5127,7 +5116,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-top: 24px;
-  margin-left: 20px;
 }
 
 .c10 >:first-child {
@@ -5340,7 +5328,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -5557,8 +5544,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -7328,7 +7313,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-top: 24px;
-  margin-left: 20px;
 }
 
 .c10 >:first-child {
@@ -7541,7 +7525,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -7758,8 +7741,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -9576,7 +9557,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -9715,8 +9695,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -10841,7 +10819,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-top: 24px;
-  margin-left: 20px;
 }
 
 .c10 >:first-child {
@@ -11054,7 +11031,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -11271,8 +11247,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -13042,7 +13016,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-top: 24px;
-  margin-left: 20px;
 }
 
 .c10 >:first-child {
@@ -13255,7 +13228,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -13472,8 +13444,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -15290,7 +15260,6 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -15429,8 +15398,6 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -15843,7 +15810,6 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -15982,8 +15948,6 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -16349,7 +16313,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-top: 24px;
-  margin-left: 20px;
 }
 
 .c10 >:first-child {
@@ -16562,7 +16525,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -16779,8 +16741,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 .c23 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -18570,7 +18530,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-top: 24px;
-  margin-left: 20px;
 }
 
 .c10 >:first-child {
@@ -18783,7 +18742,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -19000,8 +18958,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 .c23 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -20791,7 +20747,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-top: 24px;
-  margin-left: 20px;
 }
 
 .c10 >:first-child {
@@ -21004,7 +20959,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -21221,8 +21175,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -22992,7 +22944,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-top: 24px;
-  margin-left: 20px;
 }
 
 .c10 >:first-child {
@@ -23205,7 +23156,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -23422,8 +23372,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -25328,7 +25276,6 @@ exports[`SnippetEditor passes the date prop 1`] = `
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -25471,8 +25418,6 @@ exports[`SnippetEditor passes the date prop 1`] = `
 .c23 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -25922,7 +25867,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-top: 24px;
-  margin-left: 20px;
 }
 
 .c10 >:first-child {
@@ -26135,7 +26079,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -26352,8 +26295,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -28306,8 +28247,6 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -28720,7 +28659,6 @@ exports[`SnippetEditor shows the editor 1`] = `
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -28859,8 +28797,6 @@ exports[`SnippetEditor shows the editor 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-right: 0px;
-  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
