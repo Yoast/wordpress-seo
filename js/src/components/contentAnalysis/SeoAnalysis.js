@@ -6,9 +6,8 @@ import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import colors from "yoast-components/style-guide/colors.json";
-import Collapsible from "yoast-components/composites/Plugin/Shared/components/Collapsible";
+import Collapsible from "../SidebarCollapsible";
 import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
-
 import Results from "./Results";
 import UpsellBox from "../UpsellBox";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
