@@ -1097,4 +1097,34 @@ SVG;
 	public static function is_woocommerce_active() {
 		return class_exists( 'Woocommerce' );
 	}
+
+	/**
+	 * Determines whether the plugin is active for the entire network.
+	 *
+	 * @return bool Whether or not the plugin is network-active.
+	 */
+	public static function is_plugin_network_active() {
+		static $network_active = null;
+
+		if ( ! is_multisite() ) {
+			return false;
+		}
+
+		// Store the result in a variable to prevent multiple lookups.
+		if ( null === $network_active ) {
+			$network_active_plugins = wp_get_active_network_plugins();
+
+			if ( in_array( WPSEO_BASENAME, $network_active_plugins, true ) ) {
+				$network_active = true;
+			}
+			elseif ( 0 === strpos( wp_normalize_path( WPSEO_FILE ), wp_normalize_path( WPMU_PLUGIN_DIR ) ) ) {
+				$network_active = true;
+			}
+			else {
+				$network_active = false;
+			}
+		}
+
+		return $network_active;
+	}
 }
