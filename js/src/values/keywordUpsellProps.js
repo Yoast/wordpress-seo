@@ -1,4 +1,4 @@
-/* global window, yoastPremiumBenefitsL10n, yoastAddKeywordModalL10n */
+/* global window, yoastPremiumBenefitsL10n, wpseoPostScraperL10n */
 import React from "react";
 import interpolateComponents from "interpolate-components";
 
@@ -12,10 +12,7 @@ if ( window.yoastPremiumBenefitsL10n ) {
 	benefits = yoastPremiumBenefitsL10n.intl;
 }
 
-let upsellIntro = { intro: "" };
-if ( window.yoastAddKeywordModalL10n ) {
-	upsellIntro = yoastAddKeywordModalL10n.intl;
-}
+const upsellIntro = wpseoPostScraperL10n.addKeywordUpsell;
 
 export default {
 	benefits,

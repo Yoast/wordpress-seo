@@ -405,8 +405,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			)
 		);
 
-		$tabs[] = new WPSEO_Metabox_Add_Keyword_Tab();
-
 		return new WPSEO_Metabox_Tab_Section(
 			'content',
 			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
