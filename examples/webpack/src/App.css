@@ -1,0 +1,98 @@
+.app {
+	display: flex;
+	align-content: space-between;
+}
+
+.left-container {
+	flex: 1;
+	padding: 20px 10px 20px 20px;
+}
+
+.right-container {
+	flex: 1;
+	padding: 20px 20px 20px 10px;
+}
+
+.form-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.form-container label {
+	color: #777;
+	line-height: 20px;
+	text-transform: capitalize;
+}
+
+.form-container input {
+	line-height: 20px;
+}
+
+.form-container input[type=checkbox] {
+	width: 100%;
+}
+
+.form-container textarea {
+	height: 400px;
+}
+
+.form-container input,
+.form-container textarea {
+	padding: 5px;
+	margin: 5px 5px 5px 0;
+}
+
+.form-container label {
+	display: block;
+	font-size: 14px;
+	padding-top: 10px;
+	font-weight: bold;
+	vertical-align: text-bottom;
+}
+
+.form-container button {
+	padding: 8px;
+}
+
+pre {
+	white-space: pre-wrap;
+}
+
+.checkbox {
+	display: flex;
+	flex-direction: row;
+}
+
+/* overall score */
+
+#overallScore #score_circle {
+	fill: #999;
+}
+
+#overallScore #score_circle_shadow {
+	fill: #777;
+}
+
+#overallScore.good #score_circle {
+	fill: #9fda4f;
+}
+
+#overallScore.good #score_circle_shadow {
+	fill: #77b227;
+}
+
+#overallScore.ok #score_circle {
+	fill: #ffb81e;
+}
+
+#overallScore.ok #score_circle_shadow {
+	fill: #f49a00;
+}
+
+#overallScore.bad #score_circle {
+	fill: #ff4e47;
+}
+
+#overallScore.bad #score_circle_shadow {
+	fill: #ed261f;
+}

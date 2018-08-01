@@ -1,0 +1,17 @@
+html {
+	font-family: sans-serif;
+	box-sizing: border-box;
+}
+
+body, html {
+	margin: 0;
+	padding: 0;
+}
+
+*, *:after, *:before {
+	box-sizing: inherit;
+}
+
+h2{
+	color: #777;
+}
