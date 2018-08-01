@@ -100,8 +100,8 @@ class App extends React.Component {
 
 	getContent() {
 		const activeComponent = this.state.activeComponent;
-		for( var i = 0; i < components.length; i++ ) {
-			if( activeComponent === components[ i ].id ) {
+		for ( var i = 0; i < components.length; i++ ) {
+			if ( activeComponent === components[ i ].id ) {
 				return components[ i ].component;
 			}
 		}
@@ -116,7 +116,7 @@ class App extends React.Component {
 	renderButton( id, title ) {
 		const isActive = this.state.activeComponent === id;
 		const style = {};
-		if( isActive ) {
+		if ( isActive ) {
 			style.backgroundColor = "#006671";
 			style.color = "#FFF";
 			style.borderRadius = "5px";
@@ -169,11 +169,10 @@ class App extends React.Component {
 		this.setState( {
 			isRtl: ! this.state.isRtl,
 		} );
-
-
 	}
 
 	componentDidUpdate( prevProps, prevState ) {
+		// Set and update the <html> element dir attribute based on the current language direction.
 		if ( prevState.isRtl !== this.state.isRtl ) {
 			document.documentElement.setAttribute( "dir", this.state.isRtl ? "rtl" : "ltr" );
 		}
