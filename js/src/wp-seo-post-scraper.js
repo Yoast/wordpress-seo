@@ -443,12 +443,10 @@ setWordPressSeoL10n();
 		const editArgs = {
 			analysisSection: "pageanalysis",
 			onRefreshRequest: () => {},
-			shouldRenderSnippetPreview: true,
 			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,
 			snippetEditorDate: wpseoPostScraperL10n.metaDescriptionDate,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
-			shouldRenderGutenbergSidebar: !! wpseoPostScraperL10n.gutenbergSidebar,
 		};
 		const { store, data } = initializeEdit( editArgs );
 		editStore = store;
