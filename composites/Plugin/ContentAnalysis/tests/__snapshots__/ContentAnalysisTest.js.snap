@@ -182,7 +182,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   width: 100%;
   background-color: white;
   max-width: 800px;
-  margin: 0 auto;
   border-bottom: 1px solid transparent;
 }
 
@@ -812,7 +811,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   width: 100%;
   background-color: white;
   max-width: 800px;
-  margin: 0 auto;
   border-bottom: 1px solid transparent;
 }
 
@@ -1418,7 +1416,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   width: 100%;
   background-color: white;
   max-width: 800px;
-  margin: 0 auto;
   border-bottom: 1px solid transparent;
 }
 
@@ -2072,7 +2069,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   width: 100%;
   background-color: white;
   max-width: 800px;
-  margin: 0 auto;
   border-bottom: 1px solid transparent;
 }
 
@@ -2726,7 +2722,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   width: 100%;
   background-color: white;
   max-width: 800px;
-  margin: 0 auto;
   border-bottom: 1px solid transparent;
 }
 
@@ -3218,7 +3213,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   width: 100%;
   background-color: white;
   max-width: 800px;
-  margin: 0 auto;
   border-bottom: 1px solid transparent;
 }
 
@@ -3710,7 +3704,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   width: 100%;
   background-color: white;
   max-width: 800px;
-  margin: 0 auto;
   border-bottom: 1px solid transparent;
 }
 
@@ -4271,7 +4264,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   width: 100%;
   background-color: white;
   max-width: 800px;
-  margin: 0 auto;
   border-bottom: 1px solid transparent;
 }
 
