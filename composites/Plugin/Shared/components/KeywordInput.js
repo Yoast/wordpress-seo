@@ -9,6 +9,7 @@ import { __ } from "@wordpress/i18n";
 import colors from "../../../../style-guide/colors.json";
 import { YoastInputButtonContainer, YoastInputField } from "./YoastInput";
 import { YoastInputClearButton } from "./Button";
+import SvgIcon from "./SvgIcon";
 
 const errorColor = colors.$color_red;
 const greyColor = colors.$color_grey_medium;
@@ -40,6 +41,17 @@ const ErrorText = styled.p`
 	color: ${ errorColor };
 	margin: 0.5em 0 0 0;
 	min-height: 1.8em;
+`;
+
+const BorderlessButton = styled.button`
+	border: none;
+	box-shadow: none;
+	background: none;
+`;
+
+const RemoveIcon = styled( SvgIcon )`
+	margin-top: 4px;
+	cursor: pointer;
 `;
 
 class KeywordInput extends React.Component {
@@ -124,10 +136,15 @@ class KeywordInput extends React.Component {
 						onChange={ this.handleChange }
 						value={ keyword }
 					/>
-					<YoastInputClearButton
+					<BorderlessButton
 						onClick={ onRemoveKeyword }
-						color={ greyColor }
-					/>
+					>
+						<RemoveIcon
+							size="18px"
+							icon="times-circle"
+							color={ greyColor }
+						/>
+					</BorderlessButton>
 				</YoastInputButtonContainer>
 				{ this.displayErrorMessage( showErrorMessage ) }
 			</KeywordInputContainer>
