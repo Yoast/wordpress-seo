@@ -21,7 +21,7 @@ import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSug
 // Composites/KeywordSuggestions imports.
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
 // Composites/basic imports.
-import { default as Loader } from "./composites/basic/Lader";
+import { default as Loader } from "./composites/basic/Loader";
 
 export {
 	OnboardingWizard,
