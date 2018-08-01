@@ -7,8 +7,11 @@ import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
 import colors from "../../../../style-guide/colors.json";
+import { YoastInputButtonContainer, YoastInputField } from "./YoastInput";
+import { YoastInputClearButton } from "./Button";
 
 const errorColor = colors.$color_red;
+const greyColor = colors.$color_grey_medium;
 
 const KeywordInputContainer = styled.div`
 	display: flex;
@@ -22,10 +25,10 @@ const KeywordFieldLabel = styled.label`
 	margin-bottom: 0.5em;
 `;
 
-const KeywordField = styled.input`
-	border: 3px solid ${ colors.$color_input_border };
-	padding: 0.75em;
-	font-size: 1em;
+const KeywordField = styled( YoastInputField )`
+	flex: 1 !important;
+	border: none !important;
+	box-shadow: none !important;
 
 	&.hasError {
 		border-color: ${ errorColor };
@@ -112,14 +115,20 @@ class KeywordInput extends React.Component {
 				{ showLabel && <KeywordFieldLabel htmlFor={ id }>
 					{ label }
 				</KeywordFieldLabel> }
-				<KeywordField
-					aria-label={ showLabel ? null : label }
-					type="text"
-					id={ id }
-					className={ showErrorMessage ? "hasError" : null }
-					onChange={ this.handleChange }
-					value={ keyword }
-				/>
+				<YoastInputButtonContainer>
+					<KeywordField
+						aria-label={ showLabel ? null : label }
+						type="text"
+						id={ id }
+						className={ showErrorMessage ? "hasError" : null }
+						onChange={ this.handleChange }
+						value={ keyword }
+					/>
+					<YoastInputClearButton
+						onClick={ this.props.onRemoveKeyword }
+						color={ greyColor }
+					/>
+				</YoastInputButtonContainer>
 				{ this.displayErrorMessage( showErrorMessage ) }
 			</KeywordInputContainer>
 		);
@@ -132,6 +141,7 @@ KeywordInput.propTypes = {
 	showLabel: PropTypes.bool,
 	keyword: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
+	onRemoveKeyword: PropTypes.func.isRequired,
 };
 
 KeywordInput.defaultProps = {

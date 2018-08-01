@@ -328,3 +328,41 @@ IconsButton.defaultProps = {
 		size: "16px",
 	},
 };
+
+const BorderlessButton = styled.button`
+	border: none;
+	box-shadow: none;
+	background: none;
+`;
+
+/**
+ * A button that can be put inside a div with a borderless input-field.
+ *
+ * @param {Object}   props         The props for the button.
+ * @param {function} props.onClick The onClick function for the button.
+ * @param {string}   props.color   The color for the icon.
+ *
+ * @returns {JSX.Element} A borderless button to be included with inputfields.
+ */
+export const YoastInputClearButton = ( props ) => {
+	const { onClick, color } = props;
+	return (
+		<BorderlessButton
+			onClick={ onClick }
+		>
+			<SvgIcon
+				icon="times-circle"
+				color={ color }
+			/>
+		</BorderlessButton>
+	);
+};
+
+YoastInputClearButton.propTypes = {
+	onClick: PropTypes.func.isRequired,
+	color: PropTypes.string,
+};
+
+YoastInputClearButton.defaultProps = {
+	color: "black",
+};

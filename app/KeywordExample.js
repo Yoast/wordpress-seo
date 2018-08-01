@@ -100,6 +100,9 @@ export default class KeywordExample extends Component {
 					label={ "Focus keyword"}
 					onChange={ this.updateKeyword }
 					keyword={ this.state.keyword }
+					onRemoveKeyword={ () => {
+						console.log( "CLOSED!" );
+					} }
 				/>
 				<SynonymsInput
 					showLabel={ true }
