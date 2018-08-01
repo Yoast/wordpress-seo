@@ -95,7 +95,7 @@ export const mapEditorDataToPreview = function( data, context ) {
 };
 
 const SnippetEditorWrapper = ( props ) => (
-	<Collapsible title={ __( "Snippet Preview", "wordpress-seo" ) } initialIsOpen={true}>
+	<Collapsible title={ __( "Snippet Preview", "wordpress-seo" ) } initialIsOpen={ true }>
 		<SnippetPreviewSection
 			icon="eye"
 			hasPaperStyle={ props.hasPaperStyle }
