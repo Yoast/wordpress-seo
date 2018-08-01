@@ -6,14 +6,14 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 
 import Results from "./Results";
-import { Collapsible } from "yoast-components";
+import Collapsible from "../SidebarCollapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
 	font-weight: bold;
-	margin: 1.5em 0 1em;
+	margin: 0 0 8px;
 	display: block;
 `;
 
