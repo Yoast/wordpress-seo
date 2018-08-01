@@ -54,7 +54,7 @@ temp/
 ############
 ## Composer
 ############
-vendor/
+/vendor/
 
 ############
 ## WPSEO

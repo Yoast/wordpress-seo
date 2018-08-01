@@ -7,6 +7,8 @@ import styled from "styled-components";
 
 import Results from "./Results";
 import { Collapsible } from "yoast-components";
+import getIndicatorForScore from "../../analysis/getIndicatorForScore";
+import { getIconForScore } from "./mapResults";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -27,10 +29,13 @@ if( window.wpseoPostScraperL10n ) {
  */
 class ReadabilityAnalysis extends React.Component {
 	render() {
+		const score = getIndicatorForScore( this.props.overallScore );
 		return (
 			<Collapsible
 				title="Readability analysis"
-				initialIsOpen={ false }
+				titleScreenReaderText={ score.screenReaderReadabilityText }
+				prefixIcon={ getIconForScore( score.className ) }
+				prefixIconCollapsed={ getIconForScore( score.className ) }
 			>
 				<AnalysisHeader>
 					Analysis results:
@@ -53,6 +58,7 @@ ReadabilityAnalysis.propTypes = {
 	results: PropTypes.array,
 	marksButtonStatus: PropTypes.string,
 	hideMarksButtons: PropTypes.bool,
+	overallScore: PropTypes.number,
 };
 
 /**
@@ -69,6 +75,7 @@ function mapStateToProps( state, ownProps ) {
 	return {
 		results: state.analysis.readability.results,
 		marksButtonStatus: marksButtonStatus,
+		overallScore: state.analysis.readability.overallScore,
 	};
 }
 

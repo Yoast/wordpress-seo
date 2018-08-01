@@ -27,9 +27,9 @@
     "transformIgnorePatterns": [
       "/node_modules/(?!yoast-components|yoastseo).+\\.js$"
     ],
-		"testPathIgnorePatterns": [
-			"/js/tests/edit.test.js"
-		],
+    "testPathIgnorePatterns": [
+      "/js/tests/edit.test.js"
+    ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/js/tests/__mocks__/fileMock.js",
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
@@ -92,8 +92,8 @@
     "jest": "^23.3.0",
     "load-grunt-config": "^0.19.2",
     "raf": "^3.4.0",
-    "react": "^16.2.0",
-    "react-dom": "16.2.0",
+    "react": "^16.3.0",
+    "react-dom": "16.3.0",
     "redux-logger": "^3.0.6",
     "sassdash": "^0.8.1",
     "svg-react-loader": "^0.4.5",
@@ -106,6 +106,9 @@
     "grunt-contrib-imagemin": "^2.0.1"
   },
   "dependencies": {
+    "@wordpress/components": "^1.0.1",
+    "@wordpress/data": "^1.0.1",
+    "@wordpress/element": "^1.0.1",
     "@wordpress/i18n": "^1.1.1",
     "@wordpress/is-shallow-equal": "^1.0.2",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",

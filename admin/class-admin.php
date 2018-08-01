@@ -92,6 +92,7 @@ class WPSEO_Admin {
 
 		new Yoast_Modal();
 
+		$integrations[] = new Yoast_Network_Admin();
 		$integrations[] = new WPSEO_Yoast_Columns();
 		$integrations[] = new WPSEO_License_Page_Manager();
 		$integrations[] = new WPSEO_Statistic_Integration();

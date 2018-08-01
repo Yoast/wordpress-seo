@@ -21,7 +21,6 @@ const entry = {
 	"wp-seo-post-scraper": "./wp-seo-post-scraper.js",
 	"wp-seo-term-scraper": "./wp-seo-term-scraper.js",
 	"wp-seo-modal": "./wp-seo-modal.js",
-	"wp-seo-wp-globals-backport": "./wp-seo-wp-globals-backport.js",
 	"wp-seo-replacevar-plugin": "./wp-seo-replacevar-plugin.js",
 	analysis: "./analysis.js",
 
@@ -39,6 +38,7 @@ const entry = {
 	"wp-seo-api": "./wp-seo-api.js",
 	"wp-seo-filter-explanation": "./wp-seo-filter-explanation.js",
 	"wp-seo-quick-edit-handler": "./wp-seo-quick-edit-handler.js",
+	"wp-seo-network-admin": "./wp-seo-network-admin.js",
 };
 
 /**
