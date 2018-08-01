@@ -45,9 +45,6 @@ class WPSEO_Taxonomy_Metabox {
 		$this->term                 = $term;
 		$this->taxonomy             = $taxonomy;
 		$this->taxonomy_tab_content = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
-
-		add_action( 'admin_footer', array( $this, 'template_generic_tab' ) );
-		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
 	}
 
 	/**
@@ -313,53 +310,5 @@ class WPSEO_Taxonomy_Metabox {
 				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
-	}
-
-	/**
-	 * Generic tab.
-	 */
-	public function template_generic_tab() {
-		// This template belongs to the post scraper so don't echo it if it isn't enqueued.
-		if ( ! wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper' ) ) {
-			return;
-		}
-
-		echo '<script type="text/html" id="tmpl-generic_tab">
-				<li class="<# if ( data.classes ) { #>{{data.classes}}<# } #><# if ( data.active ) { #> active<# } #>">
-					<a class="wpseo_tablink" href="#wpseo_generic" data-score="{{data.score}}">
-						<span class="wpseo-score-icon {{data.score}}"></span>
-						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
-						<span class="wpseo-tab-label">{{data.label}}</span>
-						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}</span>
-					</a>
-					<# if ( data.hideable ) { #>
-						<button type="button" class="remove-tab" aria-label="{{data.removeLabel}}"><span>x</span></button>
-					<# } #>
-				</li>
-			</script>';
-	}
-
-	/**
-	 * Keyword tab for enabling analysis of multiple keywords.
-	 */
-	public function template_keyword_tab() {
-		// This template belongs to the term scraper so don't echo it if it isn't enqueued.
-		if ( ! wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper' ) ) {
-			return;
-		}
-
-		echo '<script type="text/html" id="tmpl-keyword_tab">
-				<li class="<# if ( data.classes ) { #>{{data.classes}}<# } #><# if ( data.active ) { #> active<# } #>">
-					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
-						<span class="wpseo-score-icon {{data.score}}"></span>
-						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
-						<em class="wpseo-keyword">{{data.label}}</em>
-						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}</span>
-					</a>
-					<# if ( data.hideable ) { #>
-						<button type="button" class="remove-keyword" aria-label="{{data.removeLabel}}"><span>x</span></button>
-					<# } #>
-				</li>
-			</script>';
 	}
 }

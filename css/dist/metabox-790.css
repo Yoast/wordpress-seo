@@ -818,8 +818,7 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 }
 
 /* Bigger right padding only for the content tab and the main keyword tabs */
-.wpseo-metabox-tabs .wpseo_content_tab a,
-.wpseo-metabox-tabs .wpseo_content_tab + .wpseo_keyword_tab a {
+.wpseo-metabox-tabs .wpseo_content_tab a {
 	padding-right: 12px;
 }
 
