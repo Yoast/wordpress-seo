@@ -416,9 +416,19 @@ abstract class WPSEO_Option {
 	 * @return void
 	 */
 	public function register_setting() {
-		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
-			register_setting( $this->group_name, $this->option_name );
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+			return;
 		}
+
+		if ( $this->multisite_only === true ) {
+			$network_settings_api = Yoast_Network_Settings_API::get();
+			if ( $network_settings_api->meets_requirements() ) {
+				$network_settings_api->register_setting( $this->group_name, $this->option_name );
+			}
+			return;
+		}
+
+		register_setting( $this->group_name, $this->option_name );
 	}
 
 
