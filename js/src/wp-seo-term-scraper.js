@@ -5,6 +5,7 @@ import { App } from "yoastseo";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import isUndefined from "lodash/isUndefined";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
+import debounce from "lodash/debounce";
 
 // Internal dependencies.
 import "./helpers/babel-polyfill";
@@ -133,7 +134,7 @@ window.yoastHideMarkers = true;
 	 */
 	function initializeKeywordAnalysis( app, termScraper ) {
 		var savedKeywordScore = $( "#hidden_wpseo_linkdex" ).val();
-		var usedKeywords = new UsedKeywords( "#wpseo_focuskw", "get_term_keyword_usage", wpseoTermScraperL10n, app );
+		var usedKeywords = new UsedKeywords( "#hidden_wpseo_focuskw", "get_term_keyword_usage", wpseoTermScraperL10n, app );
 
 		usedKeywords.init();
 		termScraper.initKeywordTabTemplate();
@@ -229,15 +230,12 @@ window.yoastHideMarkers = true;
 		};
 
 		if ( isKeywordAnalysisActive() ) {
+			store.dispatch( setFocusKeyword( document.getElementById( "hidden_wpseo_focuskw" ).value ) );
+
 			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
 			args.callbacks.updatedKeywordsResults = function( results ) {
-				let keyword = store.getState().focusKeyword;
-
-				if ( keyword === "" ) {
-					keyword = termScraper.getName();
-				}
+				const keyword = store.getState().focusKeyword;
 				store.dispatch( setSeoResultsForKeyword( keyword, results ) );
-				store.dispatch( setFocusKeyword( keyword ) );
 				store.dispatch( refreshSnippetEditor() );
 			};
 		}
@@ -308,8 +306,24 @@ window.yoastHideMarkers = true;
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
 
+		let focusKeyword;
+
+		const refreshAfterFocusKeywordChange = debounce( () => {
+			app.refresh();
+		}, 50 );
+
 		// Subscribe to the store to save the snippet editor data.
 		store.subscribe( () => {
+			// Verify whether the focusKeyword changed. If so, trigger refresh:
+			let newFocusKeyword = store.getState().focusKeyword;
+
+			if ( focusKeyword !== newFocusKeyword ) {
+				focusKeyword = newFocusKeyword;
+
+				document.getElementById( "hidden_wpseo_focuskw" ).value = focusKeyword;
+				refreshAfterFocusKeywordChange();
+			}
+
 			const data = snippetEditorHelpers.getDataFromStore( store );
 			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
 
