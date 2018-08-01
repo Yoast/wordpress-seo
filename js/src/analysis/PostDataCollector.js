@@ -1,4 +1,4 @@
-/* global jQuery, YoastSEO, wpseoPostScraperL10n */
+/* global jQuery, wpseoPostScraperL10n */
 
 /* External dependencies */
 import get from "lodash/get";

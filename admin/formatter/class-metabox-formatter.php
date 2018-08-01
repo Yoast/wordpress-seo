@@ -59,7 +59,7 @@ class WPSEO_Metabox_Formatter {
 			'removeKeyword'         => __( 'Remove keyword', 'wordpress-seo' ),
 			'contentLocale'         => get_locale(),
 			'userLocale'            => WPSEO_Utils::get_user_locale(),
-			'translations'          => $this->get_add_keyword_upsell_translations(),
+			'translations'          => $this->get_translations(),
 			'keyword_usage'         => array(),
 			'title_template'        => '',
 			'metadesc_template'     => '',
