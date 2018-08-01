@@ -41,6 +41,7 @@ exports[`The CornerstoneToggle matches the snapshot 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  width: 100%;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
@@ -69,10 +70,9 @@ exports[`The CornerstoneToggle matches the snapshot 1`] = `
 
 .c0 label {
   margin-right: 10px;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  max-width: 75%;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
 }
 
 <div

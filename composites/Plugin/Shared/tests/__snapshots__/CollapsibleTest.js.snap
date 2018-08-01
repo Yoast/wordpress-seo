@@ -121,12 +121,13 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c1 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
 }
 
 .c11 {
@@ -306,12 +307,13 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c1 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
 }
 
 .c11 {
@@ -503,12 +505,13 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c1 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
 }
 
 .c11 {
@@ -688,12 +691,13 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c1 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
 }
 
 .c11 {
@@ -885,12 +889,13 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c1 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
 }
 
 .c11 {
@@ -1082,12 +1087,13 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c1 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
 }
 
 .c11 {
@@ -1267,12 +1273,13 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c1 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -1442,12 +1449,13 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c1 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -1617,12 +1625,13 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c1 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -1792,12 +1801,13 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c1 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
 }
 
 .c9 {

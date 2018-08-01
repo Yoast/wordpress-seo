@@ -169,12 +169,13 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c3 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
 }
 
 .c0 {
@@ -194,13 +195,13 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 }
 
 .c1 .c4 {
-  padding: 8px 16px;
+  padding: 8px 0;
   color: #0066cd;
 }
 
 .c15 {
-  margin: 0;
-  padding: 8px 16px;
+  margin: 8px 0;
+  padding: 0;
   list-style: none;
 }
 
@@ -798,12 +799,13 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c3 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
 }
 
 .c0 {
@@ -823,13 +825,13 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 }
 
 .c1 .c4 {
-  padding: 8px 16px;
+  padding: 8px 0;
   color: #0066cd;
 }
 
 .c15 {
-  margin: 0;
-  padding: 8px 16px;
+  margin: 8px 0;
+  padding: 0;
   list-style: none;
 }
 
@@ -1403,12 +1405,13 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c3 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
 }
 
 .c0 {
@@ -1428,13 +1431,13 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 }
 
 .c1 .c4 {
-  padding: 8px 16px;
+  padding: 8px 0;
   color: #0066cd;
 }
 
 .c15 {
-  margin: 0;
-  padding: 8px 16px;
+  margin: 8px 0;
+  padding: 0;
   list-style: none;
 }
 
@@ -2056,12 +2059,13 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c3 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
 }
 
 .c0 {
@@ -2081,13 +2085,13 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 }
 
 .c1 .c4 {
-  padding: 8px 16px;
+  padding: 8px 0;
   color: #0066cd;
 }
 
 .c15 {
-  margin: 0;
-  padding: 8px 16px;
+  margin: 8px 0;
+  padding: 0;
   list-style: none;
 }
 
@@ -2709,12 +2713,13 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c3 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
 }
 
 .c0 {
@@ -2734,13 +2739,13 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 }
 
 .c1 .c4 {
-  padding: 8px 16px;
+  padding: 8px 0;
   color: #0066cd;
 }
 
 .c15 {
-  margin: 0;
-  padding: 8px 16px;
+  margin: 8px 0;
+  padding: 0;
   list-style: none;
 }
 
@@ -3200,12 +3205,13 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c3 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
 }
 
 .c0 {
@@ -3225,13 +3231,13 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 }
 
 .c1 .c4 {
-  padding: 8px 16px;
+  padding: 8px 0;
   color: #0066cd;
 }
 
 .c15 {
-  margin: 0;
-  padding: 8px 16px;
+  margin: 8px 0;
+  padding: 0;
   list-style: none;
 }
 
@@ -3691,12 +3697,13 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c3 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
 }
 
 .c0 {
@@ -3716,13 +3723,13 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 }
 
 .c1 .c4 {
-  padding: 8px 16px;
+  padding: 8px 0;
   color: #0066cd;
 }
 
 .c15 {
-  margin: 0;
-  padding: 8px 16px;
+  margin: 8px 0;
+  padding: 0;
   list-style: none;
 }
 
@@ -4251,12 +4258,13 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  font-size: 1rem;
 }
 
 .c3 {
-  margin: 0;
-  font-weight: normal;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
 }
 
 .c0 {
@@ -4276,13 +4284,13 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 }
 
 .c1 .c4 {
-  padding: 8px 16px;
+  padding: 8px 0;
   color: #0066cd;
 }
 
 .c15 {
-  margin: 0;
-  padding: 8px 16px;
+  margin: 8px 0;
+  padding: 0;
   list-style: none;
 }
 

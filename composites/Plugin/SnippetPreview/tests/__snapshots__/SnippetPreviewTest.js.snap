@@ -1218,7 +1218,6 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -1597,7 +1596,6 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
@@ -1962,7 +1960,6 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
