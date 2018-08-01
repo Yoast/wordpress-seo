@@ -3073,10 +3073,10 @@ draft-js-plugins-editor@^2.0.4:
     union-class-names "^1.0.0"
 
 draft-js-single-line-plugin@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/draft-js-single-line-plugin/-/draft-js-single-line-plugin-2.0.1.tgz#3aea1b100b1562d7ef3d5d02e73190da12953857"
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/draft-js-single-line-plugin/-/draft-js-single-line-plugin-2.0.2.tgz#b0a63b19f70a76bfc496db7cd621cf504a10a675"
   dependencies:
-    immutable "^3.8.1"
+    immutable "~3.7.4"
 
 draft-js@^0.10.5:
   version "0.10.5"
@@ -5219,10 +5219,6 @@ imagemin@^5.3.1:
     p-pipe "^1.1.0"
     pify "^2.3.0"
     replace-ext "^1.0.0"
-
-immutable@^3.8.1:
-  version "3.8.2"
-  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
 
 immutable@~3.7.4:
   version "3.7.6"
@@ -10951,7 +10947,7 @@ yauzl@^2.2.1:
 
 "yoast-components@https://github.com/Yoast/yoast-components.git#add-cross-within-input-to-remove-keyword":
   version "4.8.0"
-  resolved "https://github.com/Yoast/yoast-components.git#a1d27fab0b51bc67ead9095c7c26fbf9fd89d1df"
+  resolved "git+https://github.com/Yoast/yoast-components.git#99300f768de1827e329393663a38133229a2b75c"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
