@@ -1,5 +1,5 @@
 /* browser:true */
-/* global tb_show, wpseoSelect2Locale */
+/* global wpseoSelect2Locale */
 
 ( function( $ ) {
 	// eslint-disable-next-line
@@ -100,17 +100,6 @@
 		$( "#yoast_wpseo_meta-robots-adv" ).select2( { width: "100%", language: wpseoSelect2Locale } );
 	}
 
-	/**
-	 * Move the help elements by injecting them into the h3 elements.
-	 *
-	 * @returns {void}
-	 */
-	function moveHelpElements() {
-		jQuery( "#wpseo-focuskeyword-section" ).find( "h3" ).after(
-			jQuery( "#help-yoast-focuskeyword" ).detach().removeClass( "wpseo_hidden" )
-		);
-	}
-
 	jQuery( document ).ready( function() {
 		jQuery( ".wpseo-meta-section" ).each( function( _, el ) {
 			jQuery( el ).find( ".wpseo-metabox-tabs li:first" ).addClass( "active" );
@@ -119,8 +108,6 @@
 		window.wpseo_init_tabs();
 
 		initSelect2();
-
-		jQuery( window ).on( "YoastSEO:ready", moveHelpElements );
 	} );
 }( jQuery ) );
 
