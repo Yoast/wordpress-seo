@@ -147,6 +147,25 @@ const registerPlugin = function( store ) {
 		registerPlugin( "yoast-seo-premium", {
 			render: YoastSidebar,
 		} );
+	} else {
+		YoastSEO._registerReactComponent(
+			"yoast-seo-premium",
+			() => {
+				return <Fragment>
+					<Fill name="YoastMetabox">
+						{ insightsEnabled() && (
+							<SidebarItem renderPriority={ 32 }>
+								<Collapsible title={ __( "Insights", "wordpress-seo" ) }>
+									<Provider store={ store }>
+										<RelevantWordsContainer />
+									</Provider>
+								</Collapsible>
+							</SidebarItem>
+						) }
+					</Fill>
+				</Fragment>;
+			}
+		);
 	}
 };
 
