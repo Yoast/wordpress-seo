@@ -212,9 +212,9 @@ class AnalysisWorkerWrapper {
 	 * Analyzes the paper.
 	 *
 	 * @param {Object} paper         The paper to analyze.
-	 * @param {Object} configuration The configuration specific to this analysis.
+	 * @param {Object} configuration The configuration specific to these analyses.
 	 *
-	 * @returns {Promise} The promise of analysis.
+	 * @returns {Promise} The promise of analyses.
 	 */
 	analyze( paper, configuration = {} ) {
 		const name = "analyze";

@@ -154,13 +154,13 @@ class AnalysisWebWorker {
 	}
 
 	/**
-	 * Runs analyzations on a paper.
+	 * Runs analyses on a paper.
 	 *
 	 * @param {Object} arguments                 The payload object.
 	 * @param {number} arguments.id              The id of this analyze request.
 	 * @param {Object} arguments.paper           The paper to analyze.
 	 * @param {Object} [arguments.configuration] The configuration for the
-	 *                                           specific analyzations.
+	 *                                           specific analyses.
 	 *
 	 * @returns {Object} The result.
 	 */
