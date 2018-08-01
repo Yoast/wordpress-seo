@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-import SeoAssessment from "../composites/Plugin/DashboardWidget/components/SeoAssessment";
-import WordpressFeed from "../composites/Plugin/DashboardWidget/components/WordpressFeed";
+import {
+	DashboardWidgetSeoAssessment,
+	DashboardWidgetWordpressFeed,
+}from "../composites/Plugin/DashboardWidget";
 
 export const DashboardWidgetContainer = styled.div`
    min-height: 700px;

@@ -15,7 +15,7 @@ import { default as YoastButton } from "./composites/Plugin/Shared/components/Yo
 import { default as YoastModal } from "./composites/Plugin/Shared/components/YoastModal";
 import { default as SvgIcon } from "./composites/Plugin/Shared/components/SvgIcon";
 import { default as SynonymsInput } from "./composites/Plugin/Shared/components/SynonymsInput";
-import { default as Collabsible } from ".//composites/Plugin/shared/components/Collapsible";
+import { default as Collabsible } from "./composites/Plugin/shared/components/Collapsible";
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import { default as HelpCenter } from "./composites/Plugin/HelpCenter/HelpCenter.js";
 import { default as Synonyms } from "./composites/Plugin/Synonyms/actions/synonyms";
@@ -24,7 +24,7 @@ import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSug
 // Composites/KeywordSuggestions imports.
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
 // Composites/basic imports.
-import { default as Loader } from "./yoast-components/composites/basic/Loader";
+import { default as Loader } from "./composites/basic/Loader";
 
 export {
 	OnboardingWizard,
@@ -49,11 +49,9 @@ export {
 
 export * from "./composites/Plugin/SnippetPreview";
 export * from "./composites/Plugin/SnippetEditor";
-export * from "./composites/Plugin/Synonyms/";
-export * from "./composites/Plugin/ContentAnalysis";
+export * from "./composites/Plugin/Synonyms";
 export * from "./forms";
-export * from "./redux";
-export StyledSection from "./forms/StyledSection";
+export StyledSection from "./forms/StyledSection/StyledSection";
 export { default as colors } from "./style-guide/colors.json";
 export { default as utils } from "./utils";
 export { getRtlStyle } from "./utils/helpers/styled-components";
