@@ -108,15 +108,6 @@ class WPSEO_Meta {
 				'help'         => '', // Translation added later.
 				'help-button'  => '', // Translation added later.
 			),
-			'focuskw_text_input' => array(
-				'type'          => 'focuskeyword',
-				'title'         => '', // Translation added later.
-				'default_value' => '',
-				'autocomplete'  => false,
-				'help'          => '', // Translation added later.
-				'description'   => '<div id="focuskwresults"></div>',
-				'help-button'   => '', // Translation added later.
-			),
 			'focuskw' => array(
 				'type'  => 'hidden',
 				'title' => '',

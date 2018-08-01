@@ -61,12 +61,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public static function translate_meta_boxes() {
 		self::$meta_fields['general']['snippetpreview']['title'] = __( 'Snippet editor', 'wordpress-seo' );
 
-		self::$meta_fields['general']['focuskw_text_input']['title'] = __( 'Focus keyword', 'wordpress-seo' );
-		self::$meta_fields['general']['focuskw_text_input']['label'] = __( 'Enter a focus keyword', 'wordpress-seo' );
-		/* translators: 1: link open tag; 2: link close tag. */
-		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. %1$sLearn more about the Focus Keyword%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/focus-keyword' ) . '">', '</a>' );
-		self::$meta_fields['general']['focuskw_text_input']['help-button'] = __( 'Show information about the focus keyword', 'wordpress-seo' );
-
 		self::$meta_fields['general']['title']['title'] = __( 'SEO title', 'wordpress-seo' );
 
 		self::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );
@@ -603,28 +597,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$description      = '<p id="' . $esc_form_key . '-desc" class="yoast-metabox__description">' . $meta_field_def['description'] . '</p>';
 		}
 
+		if ( WPSEO_Utils::is_yoast_seo_premium() === false ) {
+			$button = new WPSEO_Metabox_Keyword_Synonyms_Config();
+			$button->enqueue_translations();
+		}
+
 		switch ( $meta_field_def['type'] ) {
 			case 'snippetpreview':
 				$content .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
-				break;
-			case 'focuskeyword':
-				if ( $placeholder !== '' ) {
-					$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
-				}
-
-				$content .= '<div id="wpseofocuskeyword">';
-				$content .= '<section class="yoast-section" id="wpseo-focuskeyword-section">';
-				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">' . esc_html( $meta_field_def['title'] ) . '</h3>';
-				$content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
-				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/>';
-
-				if ( WPSEO_UTILS::is_yoast_seo_premium() === false ) {
-					$button = new WPSEO_Metabox_Keyword_Synonyms_Button();
-					$content .= $button->get_link();
-				}
-
-				$content .= '</section>';
-				$content .= '</div>';
 				break;
 			case 'text':
 				$ac = '';
@@ -748,7 +728,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			// Special meta box sections such as the Snippet Preview, the Analysis, etc.
 			if ( in_array( $meta_field_def['type'], array(
 				'snippetpreview',
-				'focuskeyword',
 			), true )
 			) {
 				return $this->create_content_box( $content, $meta_field_def['type'], $help_button, $help_panel );

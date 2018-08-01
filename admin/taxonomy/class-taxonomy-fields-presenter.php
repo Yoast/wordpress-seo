@@ -58,7 +58,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 		$help_button_text = isset( $field_configuration['options']['help-button'] ) ? $field_configuration['options']['help-button'] : '';
 		$help             = new WPSEO_Admin_Help_Panel( $field_name, $help_button_text, $help_content );
 
-		if ( in_array( $field_configuration['type'], array( 'focuskeyword', 'snippetpreview' ), true ) ) {
+		if ( in_array( $field_configuration['type'], array( 'snippetpreview' ), true ) ) {
 			return $this->parse_section_row( $field, $field_configuration['type'], $help );
 		}
 
@@ -94,15 +94,6 @@ class WPSEO_Taxonomy_Fields_Presenter {
 
 			case 'snippetpreview':
 				$field .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
-				break;
-			case 'focuskeyword':
-				$field .= '<div id="wpseofocuskeyword">';
-				$field .= '<section class="yoast-section" id="wpseo-focuskeyword-section">';
-				$field .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">' . __( 'Focus keyword', 'wordpress-seo' ) . '</h3>';
-				$field .= '<label for="' . $field_name . '" class="screen-reader-text">' . __( 'Enter a focus keyword', 'wordpress-seo' ) . '</label>';
-				$field .= '<input type="text" id="' . $field_name . '" autocomplete="off" name="' . $field_name . '" value="' . esc_attr( $field_value ) . '" class="large-text' . $class . '"/><br />';
-				$field .= '</section>';
-				$field .= '</div>';
 				break;
 			case 'text':
 				$field .= '<input name="' . $field_name . '" id="' . $field_name . '" ' . $class . ' type="text" value="' . esc_attr( $field_value ) . '" size="40"' . $aria_describedby . '/>';

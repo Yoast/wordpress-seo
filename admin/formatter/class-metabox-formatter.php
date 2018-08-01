@@ -56,7 +56,6 @@ class WPSEO_Metabox_Formatter {
 			'base_url'              => '',
 			'contentTab'            => __( 'Readability', 'wordpress-seo' ),
 			'keywordTab'            => __( 'Keyword:', 'wordpress-seo' ),
-			'enterFocusKeyword'     => __( 'Enter your focus keyword', 'wordpress-seo' ),
 			'removeKeyword'         => __( 'Remove keyword', 'wordpress-seo' ),
 			'contentLocale'         => get_locale(),
 			'userLocale'            => WPSEO_Utils::get_user_locale(),

@@ -434,19 +434,4 @@ PostDataCollector.prototype.saveContentScore = function( score ) {
 	$( "#yoast_wpseo_content_score" ).val( score );
 };
 
-/**
- * Initializes keyword tab with the correct template if multi keyword isn't available.
- *
- * @returns {void}
- */
-PostDataCollector.prototype.initKeywordTabTemplate = function() {
-	// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
-	if ( YoastSEO.multiKeyword ) {
-		return;
-	}
-
-	var keyword = $( "#yoast_wpseo_focuskw" ).val();
-	$( "#yoast_wpseo_focuskw_text_input" ).val( keyword );
-};
-
 export default PostDataCollector;
