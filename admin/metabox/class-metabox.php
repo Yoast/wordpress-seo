@@ -353,7 +353,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether the React section should be rendered.
 	 */
 	private function should_load_react_section( $section_name ) {
-		return $section_name === 'content' && ( defined( 'YOAST_FEATURE_GUTENBERG_SIDEBAR' ) && YOAST_FEATURE_GUTENBERG_SIDEBAR );
+		return $section_name === 'content';
 	}
 
 	/**

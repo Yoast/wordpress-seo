@@ -85,7 +85,7 @@ TermDataCollector.prototype.getTitle = function() {
 TermDataCollector.prototype.getKeyword = function() {
 	var elem, val;
 
-	elem = document.getElementById( "wpseo_focuskw" );
+	elem = document.getElementById( "hidden_wpseo_focuskw" );
 	val = elem.value;
 	if ( val === "" ) {
 		val = document.getElementById( "name" ).value;
