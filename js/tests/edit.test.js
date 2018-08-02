@@ -35,6 +35,27 @@ describe( "initializeData", () => {
 		initializeData( {}, {}, {} );
 		expect( Data ).toHaveBeenCalledTimes( 1 );
 	} );
+} );
+
+describe( "initialize", () => {
+	it( "initializes all functionality on the edit screen", () => {
+		const combineReducers = jest.fn( ()=> {
+			return {};
+		} );
+
+		const registerStore = jest.fn( () => {
+			return {};
+		} );
+
+		window.yoast = {
+			_wp: {
+				data: {
+					combineReducers: combineReducers,
+					registerStore: registerStore,
+				},
+			},
+		};
+	} );
 
 	it( "initializes an instance of the ClassicEditorData class if Gutenberg data is not available", () => {
 		window.wpseoPostScraperL10n = {

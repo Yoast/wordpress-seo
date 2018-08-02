@@ -66,9 +66,10 @@ class WPSEO_Option_Tabs_Formatter {
 			if ( empty( $option_tab_content ) ) {
 				// Output the settings view for all tabs.
 				$tab_view = $this->get_tab_view( $option_tabs, $tab );
+
 				if ( is_file( $tab_view ) ) {
 					$yform = Yoast_Form::get_instance();
-					require_once $tab_view;
+					require $tab_view;
 				}
 			}
 

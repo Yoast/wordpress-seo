@@ -7,9 +7,10 @@ import ReactDOM from "react-dom";
 import get from "lodash/get";
 import { injectIntl, intlShape } from "react-intl";
 import IntlProvider from "./components/IntlProvider";
-import { setYoastComponentsI18n } from "./helpers/i18n";
+import { setYoastComponentsL10n } from "./helpers/i18n";
 
 /* Internal dependencies */
+import "./helpers/babel-polyfill";
 import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTutorial";
 import AlgoliaSearcher from "yoast-components/composites/AlgoliaSearch/AlgoliaSearcher";
 import HelpCenterYC from "yoast-components/composites/Plugin/HelpCenter/HelpCenter";
@@ -279,7 +280,7 @@ function handleTabSelect() {
 }
 
 if ( window.wpseoHelpCenterData ) {
-	setYoastComponentsI18n();
+	setYoastComponentsL10n();
 
 	ReactDOM.render(
 		<IntlProvider

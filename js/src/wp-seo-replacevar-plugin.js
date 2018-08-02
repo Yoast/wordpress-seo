@@ -3,13 +3,13 @@ import forEach from "lodash/forEach";
 import filter from "lodash/filter";
 import trim from "lodash/trim";
 import isUndefined from "lodash/isUndefined";
-
 import ReplaceVar from "./values/replaceVar";
 import {
 	removeReplacementVariable,
 	updateReplacementVariable,
 	refreshSnippetEditor,
 } from "./redux/actions/snippetEditor";
+import "./helpers/babel-polyfill";
 
 ( function() {
 	var modifiableFields = [
@@ -62,6 +62,7 @@ import {
 		this.addReplacement( new ReplaceVar( "%%currenttime%%",     "currenttime" ) );
 		this.addReplacement( new ReplaceVar( "%%currentyear%%",     "currentyear" ) );
 		this.addReplacement( new ReplaceVar( "%%date%%",            "date" ) );
+		this.addReplacement( new ReplaceVar( "%%userid%%",          "userid" ) );
 		this.addReplacement( new ReplaceVar( "%%id%%",              "id" ) );
 		this.addReplacement( new ReplaceVar( "%%page%%",            "page" ) );
 		this.addReplacement( new ReplaceVar( "%%searchphrase%%",    "searchphrase" ) );
@@ -81,7 +82,7 @@ import {
 		} ) );
 
 		this.addReplacement( new ReplaceVar( "%%term_title%%", "term_title", {
-			scope: [ "post", "term" ],
+			scope: [ "term" ],
 		} ) );
 
 		this.addReplacement( new ReplaceVar( "%%title%%", "title", {
@@ -169,8 +170,6 @@ import {
 	 */
 	YoastReplaceVarPlugin.prototype.replaceVariables = function( data ) {
 		if ( ! isUndefined( data ) ) {
-			data = this.termtitleReplace( data );
-
 			// This order currently needs to be maintained until we can figure out a nicer way to replace this.
 			data = this.parentReplace( data );
 			data = this.replaceCustomTaxonomy( data );
@@ -405,8 +404,11 @@ import {
 			var customValue = jQuery( "#" + customField.id + "-value" ).val();
 			const sanitizedFieldName = "cf_" + this.sanitizeCustomFieldNames( customFieldName );
 
+			// The label will just be the value of the name field, with " (custom field)" appended.
+			const label = customFieldName + " (custom field)";
+
 			// Register these as new replacevars. The replacement text will be a literal string.
-			this._store.dispatch( updateReplacementVariable( sanitizedFieldName, customValue ) );
+			this._store.dispatch( updateReplacementVariable( sanitizedFieldName, customValue, label ) );
 			this.addReplacement( new ReplaceVar( `%%${ sanitizedFieldName }%%`,
 				customValue,
 				{ source: "direct" }
@@ -437,7 +439,7 @@ import {
 	 * @returns {string} The sanitized field name.
 	 */
 	YoastReplaceVarPlugin.prototype.sanitizeCustomFieldNames = function( customFieldName ) {
-		return customFieldName.replace( " ", "_" );
+		return customFieldName.replace( /\s/g, "_" );
 	};
 
 	/**
@@ -499,20 +501,6 @@ import {
 	/*
 	 * SPECIALIZED REPLACES
 	 */
-
-	/**
-	 * Replaces %%term_title%% with the title of the term.
-	 *
-	 * @param {string} data The data that needs its placeholders replaced.
-	 * @returns {string} The data with all its placeholders replaced by actual values.
-	 */
-	YoastReplaceVarPlugin.prototype.termtitleReplace = function( data ) {
-		var termTitle = this._app.rawData.name;
-
-		data = data.replace( /%%term_title%%/g, termTitle );
-
-		return data;
-	};
 
 	/**
 	 * Replaces %%parent_title%% with the selected value from selectbox (if available on pages only).

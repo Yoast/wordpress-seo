@@ -44,15 +44,23 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 		}
 
 		$field->add_suggestion(
-			__( 'Learn how to write copy that ranks', 'wordpress-seo' ),
-			/* translators: %1$s resolves to SEO copywriting training */
-			sprintf( __( 'Do you want to learn how to write content that generates traffic? Check out our %1$s. We will help you to write awesome copy that will rank in the search engines. The %1$s covers all the main steps in SEO copywriting: from keyword research to publishing.', 'wordpress-seo' ), 'SEO copywriting training' ),
-			array(
-				'label' => 'SEO copywriting training',
-				'type'  => 'link',
-				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/configuration-wizard-copywrite-course-link' ),
+			sprintf(
+				/* translators: %1$s resolves to Basic SEO training */
+				__( 'Learn all about SEO with our %1$s', 'wordpress-seo' ),
+				'Basic SEO training'
 			),
-			WPSEO_Shortlinker::get( 'https://yoa.st/video-course-copywriting' )
+			sprintf(
+				/* translators: %1$s resolves to Basic SEO training, 2: Yoast SEO */
+				__( 'Do you want to learn how you can improve your SEO yourself? In our %1$s you\'ll learn practical SEO skills from keyword research and copywriting to technical SEO and off-page SEO. Using the %2$s plugin is one thing. Doing good SEO day-to-day is another. You simply won\'t get the results you want without putting in work yourself. The %1$s teaches you how.', 'wordpress-seo' ),
+				'Basic SEO training',
+				'Yoast SEO'
+			),
+			array(
+				'label' => 'Basic SEO training',
+				'type'  => 'link',
+				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/2up' ),
+			),
+			WPSEO_Shortlinker::get( 'https://yoa.st/2v0' )
 		);
 
 		$field->add_suggestion(

@@ -54,7 +54,7 @@ temp/
 ############
 ## Composer
 ############
-vendor/
+/vendor/
 
 ############
 ## WPSEO
@@ -69,3 +69,4 @@ test.sh
 !/languages/index.php
 /coverage
 /gettext.pot
+/.wordpress-svn

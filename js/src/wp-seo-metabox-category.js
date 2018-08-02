@@ -1,4 +1,7 @@
 /* global wp, _, wpseoPrimaryCategoryL10n */
+
+import "./helpers/babel-polyfill";
+
 ( function( $ ) {
 	"use strict";
 

@@ -1,3 +1,5 @@
+import decodeHTML from "yoast-components/composites/OnboardingWizard/helpers/htmlDecoder";
+
 export const SWITCH_MODE = "SNIPPET_EDITOR_SWITCH_MODE";
 export const UPDATE_DATA = "SNIPPET_EDITOR_UPDATE_DATA";
 export const UPDATE_REPLACEMENT_VARIABLE = "SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE";
@@ -40,14 +42,19 @@ export function updateData( data ) {
  *
  * @param {string} name  The name of the replacement variable.
  * @param {string} value The value of the replacement variable.
+ * @param {string} label The label of the replacement variable (optional).
  *
  * @returns {Object} An action for redux.
  */
-export function updateReplacementVariable( name, value ) {
+export function updateReplacementVariable( name, value, label = "" ) {
+	const unescapedValue = ( typeof value === "string" )
+		? decodeHTML( value )
+		: value;
 	return {
 		type: UPDATE_REPLACEMENT_VARIABLE,
 		name,
-		value,
+		value: unescapedValue,
+		label,
 	};
 }
 

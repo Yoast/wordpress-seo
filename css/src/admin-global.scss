@@ -18,6 +18,7 @@
 	font-weight: 600;
 }
 
+.wpseo-help-center-sub-title,
 .wpseo-premium-popup-title {
 	// Using !important to override WP styles.
 	margin: 1em 0 !important;
@@ -446,4 +447,13 @@ td.column-wpseo-linked {
 
 .yoast-modal_is-open {
 	overflow: hidden;
+}
+
+.yoast-alert .yoast-seo-icon {
+	float: left;
+	margin: 20px 10px;
+}
+
+.yoast-alert .yoast-seo-icon-wrap {
+	margin: 0 0 0 85px;
 }

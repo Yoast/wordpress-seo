@@ -8,14 +8,7 @@ import { switchMode, updateData } from "../../src/redux/actions/snippetEditor";
 describe( "SnippetEditor container", () => {
 	it( "maps the state to the props", () => {
 		const state = {
-			activeKeyword: "active",
-			analysis: {
-				seo: {
-					active: [
-						{ _identifier: "metaDescriptionLength", max: 156, actual: 11, score: 6 },
-						{ _identifier: "titleWidth", max: 600, actual: 400, score: 6 } ],
-				},
-			},
+			focusKeyword: "active",
 			snippetEditor: {
 				mode: "desktop",
 				data: {
@@ -30,26 +23,36 @@ describe( "SnippetEditor container", () => {
 					},
 				],
 			},
+			settings: {
+				snippetEditor: {
+					baseUrl: "https://localhost.test",
+					date: "01-01-1970",
+					recommendedReplaceVars: [
+						{
+							name: "variable",
+							value: "Value",
+						},
+					],
+				},
+			},
 		};
 		const expected = {
 			mode: "desktop",
 			keyword: "active",
-			descriptionLengthProgress: {
-				max: 156,
-				actual: 11,
-				score: 6,
-			},
-			titleLengthProgress: {
-				max: 600,
-				actual: 0,
-				score: 1,
-			},
 			data: {
 				title: "Title",
 				slug: "slug",
 				description: "Description",
 			},
 			replacementVariables: [
+				{
+					name: "variable",
+					value: "Value",
+				},
+			],
+			baseUrl: "https://localhost.test",
+			date: "01-01-1970",
+			recommendedReplacementVariables: [
 				{
 					name: "variable",
 					value: "Value",

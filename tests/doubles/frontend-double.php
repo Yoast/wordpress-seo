@@ -54,6 +54,13 @@ class WPSEO_Frontend_Double extends WPSEO_Frontend {
 	/**
 	 * @inheritdoc
 	 */
+	public function do_attachment_redirect( $attachment_url ) {
+		// Intentionally left empty to remove actual redirection code to be able to test it.
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function get_queried_post_type() {
 		return parent::get_queried_post_type();
 	}

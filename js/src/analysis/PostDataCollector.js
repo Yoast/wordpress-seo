@@ -1,9 +1,11 @@
-/* global jQuery, YoastSEO, wpseoPostScraperL10n */
+/* global jQuery, wpseoPostScraperL10n */
 
 /* External dependencies */
-import removeMarks from "yoastseo/js/markers/removeMarks";
 import get from "lodash/get";
-import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
+import analysis from "yoastseo";
+const { measureTextWidth } = analysis.helpers;
+const { removeMarks } = analysis.markers;
+import { setOverallReadabilityScore, setOverallSeoScore } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
@@ -22,7 +24,6 @@ let currentKeyword = "";
  *
  * @param {Object} args The arguments for the post scraper.
  * @param {Object} args.data The data.
- * @param {TabManager} args.tabManager The tab manager for this post.
  *
  * @constructor
  */
@@ -32,7 +33,6 @@ let PostDataCollector = function( args ) {
 	}
 
 	this._data = args.data;
-	this._tabManager = args.tabManager;
 	this._store = args.store;
 };
 
@@ -44,6 +44,7 @@ let PostDataCollector = function( args ) {
  */
 PostDataCollector.prototype.getData = function() {
 	const data = this._data.getData();
+	const state = this._store.getState();
 
 	const otherData = {
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
@@ -62,11 +63,10 @@ PostDataCollector.prototype.getData = function() {
 		titleWidth: measureTextWidth( this.getSnippetTitle() ),
 	};
 
-	const state = this._store.getState();
 	const snippetData = {
-		metaTitle: get( state, [ "snippetEditor", "data", "title" ], "" ),
-		url: get( state, [ "snippetEditor", "data", "slug" ], "" ),
-		meta: get( state, [ "snippetEditor", "data", "description" ], "" ),
+		metaTitle: get( state, [ "analysisData", "snippet", "title" ], this.getSnippetTitle() ),
+		url: get( state, [ "snippetEditor", "data", "slug" ], data.slug ),
+		meta: this.getMetaDescForAnalysis( state ),
 	};
 
 	return {
@@ -81,10 +81,25 @@ PostDataCollector.prototype.getData = function() {
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
-	var val = document.getElementById( "yoast_wpseo_focuskw_text_input" ) && document.getElementById( "yoast_wpseo_focuskw_text_input" ).value || "";
+	var val = document.getElementById( "yoast_wpseo_focuskw" ) && document.getElementById( "yoast_wpseo_focuskw" ).value || "";
 	currentKeyword = val;
 
 	return val;
+};
+
+/**
+ * Returns the full meta description including any prefixed date.
+ *
+ * @param {Object} state The state containing the meta description.
+ *
+ * @returns {string} The full meta description.
+ */
+PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
+	let metaDesc = get( state, [ "analysisData", "snippet", "description" ], this.getSnippetMeta() );
+	if ( wpseoPostScraperL10n.metaDescriptionDate !== "" ) {
+		metaDesc = wpseoPostScraperL10n.metaDescriptionDate + " - " + metaDesc;
+	}
+	return metaDesc;
 };
 
 /**
@@ -337,7 +352,7 @@ PostDataCollector.prototype.changeElementEventBinder = function( app ) {
  * @returns {void}
  */
 PostDataCollector.prototype.inputElementEventBinder = function( app ) {
-	var elems = [ "excerpt", "content", "yoast_wpseo_focuskw_text_input", "title" ];
+	var elems = [ "excerpt", "content", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var elem = document.getElementById( elems[ i ] );
 		if ( elem !== null ) {
@@ -347,18 +362,6 @@ PostDataCollector.prototype.inputElementEventBinder = function( app ) {
 
 	tmceHelper.tinyMceEventBinder( app, tmceId );
 
-	document.getElementById( "yoast_wpseo_focuskw_text_input" ).addEventListener( "blur", this.resetQueue.bind( this ) );
-};
-
-/**
- * Resets the current queue if focus keyword is changed and not empty.
- *
- * @returns {void}
- */
-PostDataCollector.prototype.resetQueue = function() {
-	if ( this.app.rawData.keyword !== "" ) {
-		this.app.runAnalyzer( this.rawData );
-	}
 };
 
 /**
@@ -372,37 +375,28 @@ PostDataCollector.prototype.resetQueue = function() {
 PostDataCollector.prototype.saveScores = function( score ) {
 	var indicator = getIndicatorForScore( score );
 
-	// If multi keyword isn't available we need to update the first tab (content).
-	if ( ! YoastSEO.multiKeyword ) {
-		this._tabManager.updateKeywordTab( score, currentKeyword );
-		publishBox.updateScore( "content", indicator.className );
+	publishBox.updateScore( "content", indicator.className );
 
-		// Updates the input with the currentKeyword value.
-		$( "#yoast_wpseo_focuskw" ).val( currentKeyword );
+	document.getElementById( "yoast_wpseo_linkdex" ).value = score;
+
+	if ( "" === currentKeyword ) {
+		indicator.className = "na";
+		indicator.screenReaderText = this.app.i18n.dgettext(
+			"js-text-analysis",
+			"Enter a focus keyword to calculate the SEO score"
+		);
+		indicator.fullText = this.app.i18n.dgettext(
+			"js-text-analysis",
+			"Content optimization: Enter a focus keyword to calculate the SEO score"
+		);
 	}
 
-	if ( this._tabManager.isMainKeyword( currentKeyword ) ) {
-		document.getElementById( "yoast_wpseo_linkdex" ).value = score;
+	this._store.dispatch( setOverallSeoScore( score, currentKeyword ) );
 
-		if ( "" === currentKeyword ) {
-			indicator.className = "na";
-			indicator.screenReaderText = this.app.i18n.dgettext(
-				"js-text-analysis",
-				"Enter a focus keyword to calculate the SEO score"
-			);
-			indicator.fullText = this.app.i18n.dgettext(
-				"js-text-analysis",
-				"Content optimization: Enter a focus keyword to calculate the SEO score"
-			);
-		}
+	updateTrafficLight( indicator );
+	updateAdminBar( indicator );
 
-		this._tabManager.updateKeywordTab( score, currentKeyword );
-
-		updateTrafficLight( indicator );
-		updateAdminBar( indicator );
-
-		publishBox.updateScore( "keyword", indicator.className );
-	}
+	publishBox.updateScore( "keyword", indicator.className );
 
 	jQuery( window ).trigger( "YoastSEO:numericScore", score );
 };
@@ -415,8 +409,8 @@ PostDataCollector.prototype.saveScores = function( score ) {
  * @returns {void}
  */
 PostDataCollector.prototype.saveContentScore = function( score ) {
-	this._tabManager.updateContentTab( score );
 	var indicator = getIndicatorForScore( score );
+	this._store.dispatch( setOverallReadabilityScore( score ) );
 	publishBox.updateScore( "content", indicator.className );
 
 	if ( ! isKeywordAnalysisActive() ) {
@@ -425,21 +419,6 @@ PostDataCollector.prototype.saveContentScore = function( score ) {
 	}
 
 	$( "#yoast_wpseo_content_score" ).val( score );
-};
-
-/**
- * Initializes keyword tab with the correct template if multi keyword isn't available.
- *
- * @returns {void}
- */
-PostDataCollector.prototype.initKeywordTabTemplate = function() {
-	// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
-	if ( YoastSEO.multiKeyword ) {
-		return;
-	}
-
-	var keyword = $( "#yoast_wpseo_focuskw" ).val();
-	$( "#yoast_wpseo_focuskw_text_input" ).val( keyword );
 };
 
 export default PostDataCollector;

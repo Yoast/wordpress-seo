@@ -27,7 +27,20 @@ module.exports = {
 					return dest + src.replace( "wordpress-seo", "yoast-components" );
 				},
 			},
+			{
+				expand: true,
+				cwd: "languages/",
+				src: [ "wordpress-seo-*.json" ],
+				dest: "languages/",
+				rename: ( dest, src ) => {
+					return dest + src.replace( "wordpress-seo", "wordpress-seojs" );
+				},
+			},
 		],
+	},
+	"makepot-wordpress-seo": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.wordpressSeoJs %>",
 	},
 	artifact: {
 		files: [
@@ -42,6 +55,7 @@ module.exports = {
 					"frontend/**",
 					"images/**",
 					"inc/**",
+					"cli/**",
 					"js/dist/**/*.min.js",
 					"js/dist/select2/i18n/*.js",
 					"languages/**",
@@ -52,7 +66,6 @@ module.exports = {
 					"wp-seo.php",
 					"wp-seo-main.php",
 					"wpml-config.xml",
-					"!languages/wordpress-seo.pot",
 					"!vendor/bin",
 					"!vendor/composer/installed.json",
 					"!vendor/composer/installers/**",

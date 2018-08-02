@@ -76,8 +76,19 @@ class Yoast_Form {
 		<?php
 		if ( $form === true ) {
 			$enctype = ( $contains_files ) ? ' enctype="multipart/form-data"' : '';
-			echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf"' . $enctype . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
-			settings_fields( $option_long_name );
+
+			$network_admin = new Yoast_Network_Admin();
+			if ( $network_admin->meets_requirements() ) {
+				$action_url       = network_admin_url( 'settings.php' );
+				$hidden_fields_cb = array( $network_admin, 'settings_fields' );
+			}
+			else {
+				$action_url       = admin_url( 'options.php' );
+				$hidden_fields_cb = 'settings_fields';
+			}
+
+			echo '<form action="' . esc_url( $action_url ) . '" method="post" id="wpseo-conf"' . $enctype . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+			call_user_func( $hidden_fields_cb, $option_long_name );
 		}
 		$this->set_option( $option );
 	}
@@ -183,17 +194,7 @@ class Yoast_Form {
 			}
 		}
 
-		$sidebar_renderer = new WPSEO_Admin_Banner_Sidebar_Renderer( new WPSEO_Admin_Banner_Spot_Renderer() );
-
-		$banner_renderer = new WPSEO_Admin_Banner_Renderer();
-		$banner_renderer->set_base_path( plugins_url( 'images/banner/', WPSEO_FILE ) );
-
-		/* translators: %1$s expands to "Yoast". */
-		$sidebar = new WPSEO_Admin_Banner_Sidebar( sprintf( __( '%1s recommendations for you', 'wordpress-seo' ), 'Yoast' ), $banner_renderer );
-		$sidebar->initialize( new WPSEO_Features() );
-
-		echo $sidebar_renderer->render( $sidebar );
-
+		require_once 'views/sidebar.php';
 	}
 
 	/**
@@ -363,9 +364,9 @@ class Yoast_Form {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $var   The variable within the option to create the textarea for.
-	 * @param string $label The label to show for the variable.
-	 * @param array  $attr  The CSS class to assign to the textarea.
+	 * @param string       $var   The variable within the option to create the textarea for.
+	 * @param string       $label The label to show for the variable.
+	 * @param string|array $attr  The CSS class or an array of attributes to assign to the textarea.
 	 */
 	public function textarea( $var, $label, $attr = array() ) {
 		if ( ! is_array( $attr ) ) {

@@ -65,6 +65,10 @@ module.exports = function( grunt ) {
 			command: "yarn i18n-yoast-components",
 		},
 
+		"makepot-wordpress-seo": {
+			command: "yarn i18n-wordpress-seo",
+		},
+
 		"makepot-yoastseojs": {
 			potFile: "languages/yoast-seo-js.pot",
 			textdomain: "js-text-analysis",

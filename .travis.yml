@@ -6,16 +6,17 @@ branches:
   only:
     - master
     - trunk
-    - /^release\/\d+\.\d+(\.\d+)?(-\S*)?$/
+    - /^release\/*/
     - /^hotfix\/\d+\.\d+(\.\d+)?(-\S*)?$/
+    - /^feature\/*/
 
 jobs:
   fast_finish: true
   include:
     - php: 7.2
-      env: WP_VERSION=4.9 WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 TRAVIS_NODE_VERSION=node
+      env: WP_VERSION=latest WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 TRAVIS_NODE_VERSION=node
     - php: 7.2
-      env: WP_VERSION=4.9 WP_MULTISITE=1 COVERAGE=1
+      env: WP_VERSION=latest WP_MULTISITE=1 COVERAGE=1
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
@@ -23,12 +24,11 @@ jobs:
     - php: 5.3
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
-      env: WP_VERSION=4.9
+      env: WP_VERSION=latest
     - php: 5.6
-      env: WP_VERSION=4.9
-    # WP >= 4.8 is needed for PHP 7.1
+      env: WP_VERSION=latest
     - php: 7.0
-      env: WP_VERSION=4.9
+      env: WP_VERSION=latest
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
@@ -93,6 +93,12 @@ install:
   fi
 
 before_script:
+# Careful: The HTTPS version of the following URL is different, therefore we need to use HTTP.
+- |
+  if [[ "$WP_VERSION" == "latest" ]]; then
+    curl -s http://api.wordpress.org/core/version-check/1.7/ > /tmp/wp-latest.json
+    WP_VERSION=$(grep -o '"version":"[^"]*' /tmp/wp-latest.json | sed 's/"version":"//')
+  fi
 - PLUGIN_SLUG=$(basename $(pwd))
 - export WP_DEVELOP_DIR=/tmp/wordpress/
 - git clone --depth=50 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
