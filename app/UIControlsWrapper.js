@@ -17,13 +17,13 @@ const Separator = styled.hr`
 `;
 
 /**
- * Renders all the yoast-component Buttons.
+ * Renders the yoast-component UI Controls.
  *
- * @returns {ReactElement} The Buttons container component.
+ * @returns {ReactElement} The UI Controls container component.
  */
-export default class ButtonsList extends React.Component {
+export default class UIControlsList extends React.Component {
 	/**
-	 * Constructs the Buttons container.
+	 * Constructs the UI Controls container.
 	 *
 	 * @returns {void}
 	 */
@@ -31,25 +31,12 @@ export default class ButtonsList extends React.Component {
 		super();
 
 		this.state = {
-			iconButtonTogglePressed: false,
 			simpleToggleChecked: false,
 			cornerstoneToggleChecked: false,
 		};
 
-		this.updateIconButtonTogglePressed = this.updateIconButtonTogglePressed.bind( this );
 		this.toggleSimpleToggle = this.toggleSimpleToggle.bind( this );
 		this.toggleCornerstoneToggle = this.toggleCornerstoneToggle.bind( this );
-	}
-
-	/**
-	 * Updates the IconButtonToggle pressed state.
-	 *
-	 * @returns {void}
-	 */
-	updateIconButtonTogglePressed() {
-		this.setState( {
-			iconButtonTogglePressed: ! this.state.iconButtonTogglePressed,
-		} );
 	}
 
 	/**
@@ -75,9 +62,9 @@ export default class ButtonsList extends React.Component {
 	}
 
 	/**
-	 * Renders all the buttons.
+	 * Renders all the UI Controls.
 	 *
-	 * @returns {ReactElement} The rendered list of buttons.
+	 * @returns {ReactElement} The rendered list of UI Controls.
 	 */
 	render() {
 		return (
