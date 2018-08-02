@@ -162,7 +162,10 @@ export function mapDispatchToProps( dispatch ) {
 			 * to make sure our store isn't updated twice.
 			 */
 			if ( key === "slug" ) {
-				wp.data.dispatch( "core/editor" ).editPost( { slug: value } );
+				const coreEditorDispatch = wp.data.dispatch( "core/editor" );
+				if ( coreEditorDispatch ) {
+					coreEditorDispatch.editPost( { slug: value } );
+				}
 			}
 		},
 		onChangeAnalysisData: ( analysisData ) => {
