@@ -1,6 +1,8 @@
 import * as importedData from "@wordpress/data";
 import * as importedElement from "@wordpress/element";
 import * as importedComponents from "@wordpress/components";
+import * as styledComponents from "styled-components";
+
 import get from "lodash/get";
 
 /*
@@ -20,6 +22,8 @@ yoast._wp = {
 	data,
 	components,
 };
+
+yoast.styledComponents = styledComponents;
 
 // Put it all actually on the global.
 window.yoast = yoast;

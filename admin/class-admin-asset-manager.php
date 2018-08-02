@@ -278,6 +278,11 @@ class WPSEO_Admin_Asset_Manager {
 				),
 			),
 			array(
+				'name' => 'network-admin-script',
+				'src'  => 'wp-seo-network-admin-' . $flat_version,
+				'deps' => array( 'jquery' ),
+			),
+			array(
 				'name' => 'bulk-editor',
 				'src'  => 'wp-seo-bulk-editor-' . $flat_version,
 				'deps' => array(
@@ -519,10 +524,6 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'scoring',
 				'src'  => 'yst_seo_score-' . $flat_version,
-			),
-			array(
-				'name' => 'snippet',
-				'src'  => 'snippet-' . $flat_version,
 			),
 			array(
 				'name' => 'adminbar',

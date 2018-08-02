@@ -1,6 +1,5 @@
 import {
 	getSeoResults,
-	getActiveKeyword,
 	getResultsForKeyword,
 } from "../../../src/redux/selectors/results";
 
@@ -18,15 +17,6 @@ describe( "getSeoResults selector", () => {
 		const result = getSeoResults( state );
 
 		expect( result ).toEqual( { active: [ "result1", "result2" ] } );
-	} );
-} );
-
-
-describe( "getActiveKeyword selector", () => {
-	it( "returns the active keyword", () => {
-		const result = getActiveKeyword( state );
-
-		expect( result ).toEqual( "active" );
 	} );
 } );
 
