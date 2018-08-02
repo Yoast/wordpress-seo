@@ -10,14 +10,14 @@ import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 const ToggleDiv = styled.div`
 	display: flex;
+	width: 100%;
 	justify-content: space-between;
 	align-items: center;
 `;
 
 const ToggleLabel = styled.span`
 	${ getRtlStyle( "margin-right", "margin-left" ) }: 16px;
-	flex-shrink: 0;
-	max-width: 75%;
+	flex: 1;
 	cursor: pointer;
 `;
 

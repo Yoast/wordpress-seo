@@ -4,11 +4,16 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
+import noop from "lodash/noop";
 
 // Internal dependencies.
 import colors from "../../../../style-guide/colors.json";
+import { YoastInputButtonContainer, YoastInputField } from "./YoastInput";
+import { YoastInputClearButton } from "./Button";
+import SvgIcon from "./SvgIcon";
 
 const errorColor = colors.$color_red;
+const greyColor = colors.$color_grey_medium;
 
 const KeywordInputContainer = styled.div`
 	display: flex;
@@ -22,10 +27,10 @@ const KeywordFieldLabel = styled.label`
 	margin-bottom: 0.5em;
 `;
 
-const KeywordField = styled.input`
-	border: 3px solid ${ colors.$color_input_border };
-	padding: 0.75em;
-	font-size: 1em;
+const KeywordField = styled( YoastInputField )`
+	flex: 1 !important;
+	border: none !important;
+	box-shadow: none !important;
 
 	&.hasError {
 		border-color: ${ errorColor };
@@ -39,6 +44,17 @@ const ErrorText = styled.p`
 	min-height: 1.8em;
 `;
 
+const BorderlessButton = styled.button`
+	border: none;
+	box-shadow: none;
+	background: none;
+`;
+
+const RemoveIcon = styled( SvgIcon )`
+	margin-top: 4px;
+	cursor: pointer;
+`;
+
 class KeywordInput extends React.Component {
 	/**
 	 * Constructs a KeywordInput component.
@@ -48,7 +64,7 @@ class KeywordInput extends React.Component {
 	 * @param {string}   props.label     The label of the KeywordInput.
 	 * @param {boolean}  props.showLabel Toggle between an actual label or an aria-label on the input.
 	 * @param {string}   props.keyword   The initial keyword passed to the state.
-	 * @param {function} props.onChange  The function that is triggered when the keyword input field is changed.
+	 * @param {Function} props.onChange  The function that is triggered when the keyword input field is changed.
 	 *
 	 * @returns {void}
 	 */
@@ -104,7 +120,7 @@ class KeywordInput extends React.Component {
 	 * @returns {ReactElement} The KeywordField react component including its label and eventual error message.
 	 */
 	render() {
-		const { id, label, showLabel, keyword } = this.props;
+		const { id, label, showLabel, keyword, onRemoveKeyword } = this.props;
 		const showErrorMessage = this.checkKeywordInput( keyword );
 
 		return(
@@ -112,14 +128,25 @@ class KeywordInput extends React.Component {
 				{ showLabel && <KeywordFieldLabel htmlFor={ id }>
 					{ label }
 				</KeywordFieldLabel> }
-				<KeywordField
-					aria-label={ showLabel ? null : label }
-					type="text"
-					id={ id }
-					className={ showErrorMessage ? "hasError" : null }
-					onChange={ this.handleChange }
-					value={ keyword }
-				/>
+				<YoastInputButtonContainer>
+					<KeywordField
+						aria-label={ showLabel ? null : label }
+						type="text"
+						id={ id }
+						className={ showErrorMessage ? "hasError" : null }
+						onChange={ this.handleChange }
+						value={ keyword }
+					/>
+					{ onRemoveKeyword !== noop && (
+						<BorderlessButton onClick={ onRemoveKeyword } >
+							<RemoveIcon
+								size="18px"
+								icon="times-circle"
+								color={ greyColor }
+							/>
+						</BorderlessButton>
+					) }
+				</YoastInputButtonContainer>
 				{ this.displayErrorMessage( showErrorMessage ) }
 			</KeywordInputContainer>
 		);
@@ -132,6 +159,7 @@ KeywordInput.propTypes = {
 	showLabel: PropTypes.bool,
 	keyword: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
+	onRemoveKeyword: PropTypes.func,
 };
 
 KeywordInput.defaultProps = {
@@ -139,6 +167,7 @@ KeywordInput.defaultProps = {
 	showLabel: true,
 	label: __( "Focus keyword:", "yoast-components" ),
 	keyword: "",
+	onRemoveKeyword: noop,
 };
 
 export default KeywordInput;

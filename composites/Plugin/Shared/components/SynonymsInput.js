@@ -14,9 +14,11 @@ const SynonymsInput = ( { id, label, value, onChange, explanationText } ) => {
 			<YoastInputLabel htmlFor={ id }>
 				{ label }
 			</YoastInputLabel>
-			{ explanationText !== "" && <ExplanationText>
-				{ explanationText }
-			</ExplanationText> }
+			{ explanationText !== null && (
+				<ExplanationText>
+					{ explanationText }
+				</ExplanationText>
+			) }
 			<YoastInputField
 				aria-label={ label }
 				type="text"
@@ -33,14 +35,14 @@ SynonymsInput.propTypes = {
 	label: PropTypes.string,
 	value: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
-	explanationText: PropTypes.string,
+	explanationText: PropTypes.node,
 };
 
 SynonymsInput.defaultProps = {
 	id: uniqueId( "synonyms-input-" ),
 	label: "",
 	value: "",
-	explanationText: "",
+	explanationText: null,
 };
 
 export default SynonymsInput;

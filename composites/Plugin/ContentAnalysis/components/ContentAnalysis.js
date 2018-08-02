@@ -13,7 +13,6 @@ export const ContentAnalysisContainer = styled.div`
 	width: 100%;
 	background-color: white;
 	max-width: 800px;
-	margin: 0 auto;
 	border-bottom: 1px solid transparent; // Avoid parent and child margin collapsing.
 `;
 
@@ -25,14 +24,14 @@ const StyledCollapsible = styled( Collapsible )`
 	}
 
 	${ StyledIconsButton } {
-		padding: 8px 16px;
+		padding: 8px 0;
 		color: ${ colors.$color_blue }
 	}
 `;
 
 const AnalysisList = styled.ul`
-	margin: 0;
-	padding: 8px 16px;
+	margin: 8px 0;
+	padding: 0;
 	list-style: none;
 `;
 
@@ -153,7 +152,7 @@ class ContentAnalysis extends React.Component {
 				prefixIconCollapsed={ { icon: "angle-down", color: colors.$color_grey_dark, size: "18px" } }
 				suffixIcon={ null }
 				suffixIconCollapsed={ null }
-				headingLevel={ headingLevel }
+				headingProps={ { level: headingLevel, fontSize: "13px", fontWeight: "bold" } }
 			>
 				<AnalysisList role="list">{ this.getResults( results ) }</AnalysisList>
 			</StyledCollapsible>
