@@ -41,7 +41,12 @@ class App extends React.Component {
 
 	analyzeSpam() {
 		for ( let i = 0; i < 10; i++ ) {
-			testPapers.forEach( paper => this.analyze( paper.paper ) );
+			testPapers.forEach( ( { paper: paper } ) => {
+				this.analyze( {
+					text: paper._text,
+					...paper._attributes,
+				} );
+			} );
 		}
 	}
 
