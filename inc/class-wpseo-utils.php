@@ -1103,7 +1103,7 @@ SVG;
 	 *
 	 * @return array The Adminl10n array.
 	 */
-	public static function getAdminL10n() {
+	public static function get_admin_l10n() {
 		$wpseo_admin_l10n = array();
 		$wpseo_admin_l10n = array_merge( $wpseo_admin_l10n, WPSEO_Help_Center::get_translated_texts() );
 
