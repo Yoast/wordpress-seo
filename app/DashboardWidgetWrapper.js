@@ -4,7 +4,7 @@ import styled from "styled-components";
 import {
 	DashboardWidgetSeoAssessment,
 	DashboardWidgetWordpressFeed,
-}from "../composites/Plugin/DashboardWidget";
+} from "../composites/Plugin/DashboardWidget";
 
 export const DashboardWidgetContainer = styled.div`
    min-height: 700px;
@@ -61,12 +61,14 @@ export default function DashboardWidget() {
 	return (
 		<DashboardWidgetContainer>
 			<DashboardContainer>
-				<SeoAssessment
+				<DashboardWidgetSeoAssessment
 					seoAssessmentText="Your SEO score is decent overall, but can be improved! Get to work!"
-					seoAssessmentItems={ seoAssessmentItems }/>
-				<WordpressFeed
+					seoAssessmentItems={ seoAssessmentItems }
+				/>
+				<DashboardWidgetWordpressFeed
 					feed={ feed }
-					footerHtml="View our blog on yoast.com!"/>
+					footerHtml="View our blog on yoast.com!"
+				/>
 			</DashboardContainer>
 		</DashboardWidgetContainer>
 	);
