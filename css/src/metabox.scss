@@ -226,7 +226,7 @@ ul.wpseo-metabox-tabs li {
 
 .wpseotab {
 	display: none;
-	padding: 20px 35px;
+	padding: 16px;
 	border: 1px solid #ddd;
 	background-color: #fdfdfd;
 
@@ -808,12 +808,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 @media screen and ( max-width: 600px ) {
-	/* Reduce the tabs padding on smaller screens. */
-	.wpseotab {
-		padding: 20px 20px;
-	}
-
 	.wpseotab.content {
-		padding: 20px 0;
+		padding: 16px 0;
 	}
 }
