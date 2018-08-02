@@ -397,6 +397,9 @@ setWordPressSeoL10n();
 		editStore = store;
 
 		metaboxContainer = $( "#wpseo_meta" );
+		tinyMCEHelper.setStore( editStore );
+		tinyMCEHelper.wpTextViewOnInitCheck();
+		handlePageBuilderCompatibility();
 
 		// Avoid error when snippet metabox is not rendered.
 		if ( metaboxContainer.length === 0 ) {
@@ -422,9 +425,6 @@ setWordPressSeoL10n();
 		}
 
 		exposeGlobals( app, replaceVarsPlugin, shortcodePlugin );
-
-		setStore( store );
-		tinyMCEHelper.wpTextViewOnInitCheck();
 
 		activateEnabledAnalysis();
 
