@@ -1,3 +1,4 @@
+/* global wp */
 import React from "react";
 import { connect } from "react-redux";
 import { SnippetEditor } from "yoast-components";
@@ -155,6 +156,14 @@ export function mapDispatchToProps( dispatch ) {
 			}
 
 			dispatch( action );
+
+			/*
+			 * Update the gutenberg store with the new slug, after updating our own store,
+			 * to make sure our store isn't updated twice.
+			 */
+			if ( key === "slug" ) {
+				wp.data.dispatch( "core/editor" ).editPost( { slug: value } );
+			}
 		},
 		onChangeAnalysisData: ( analysisData ) => {
 			dispatch( updateAnalysisData( analysisData ) );
