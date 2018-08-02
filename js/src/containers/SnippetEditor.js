@@ -1,10 +1,10 @@
-/* global wp */
 import React from "react";
 import { connect } from "react-redux";
 import { SnippetEditor } from "yoast-components";
 import identity from "lodash/identity";
 import get from "lodash/get";
 import { __ } from "@wordpress/i18n";
+import { dispatch as wpDataDispatch } from "@wordpress/data";
 import analysis from "yoastseo";
 const { stripHTMLTags: stripFullTags } = analysis.string;
 
@@ -162,7 +162,7 @@ export function mapDispatchToProps( dispatch ) {
 			 * to make sure our store isn't updated twice.
 			 */
 			if ( key === "slug" ) {
-				const coreEditorDispatch = wp.data.dispatch( "core/editor" );
+				const coreEditorDispatch = wpDataDispatch( "core/editor" );
 				if ( coreEditorDispatch ) {
 					coreEditorDispatch.editPost( { slug: value } );
 				}
