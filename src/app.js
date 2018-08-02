@@ -999,6 +999,9 @@ App.prototype.createSnippetPreview = function() {
  * @returns {void}
  */
 App.prototype.switchAssessors = function( useCornerStone ) {
+	// eslint-disable-next-line no-console
+	console.warn( "Switch assessor is deprecated since YoastSEO.js version 1.35.0" );
+
 	this.changeAssessorOptions( {
 		useCornerStone,
 	} );
