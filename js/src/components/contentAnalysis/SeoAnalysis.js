@@ -1,4 +1,4 @@
-/* globals yoastModalConfig */
+/* globals yoastModalConfig, wpseoAdminL10n */
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -14,6 +14,7 @@ import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import ModalButtonContainer from "../ModalButtonContainer";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
+import { utils } from "yoast-components";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -24,6 +25,8 @@ const AnalysisHeader = styled.span`
 
 const ExplanationText = styled.p`
 `;
+
+const FocusKeywordLink = utils.makeOutboundLink();
 
 /**
  * Redux container for the seo analysis.
@@ -84,6 +87,7 @@ class SeoAnalysis extends React.Component {
 			score.screenReaderReadabilityText = __( "Enter a focus keyword to calculate the SEO score", "wordpress-seo" );
 		}
 
+		console.log( wpseoAdminL10n );
 		return (
 			<React.Fragment>
 				<Collapsible
@@ -95,7 +99,7 @@ class SeoAnalysis extends React.Component {
 				>
 					<ExplanationText>
 						A focus keyword is the term (or phrase) you'd like to be found with in search engines.
-						Enter it below to see how you can improve your text for this term. <a href="#">Learn more about the Keyword Analysis</a>
+						Enter it below to see how you can improve your text for this term. <FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }>Learn more about the Keyword Analysis</FocusKeywordLink>
 					</ExplanationText>
 					<KeywordInput
 						id="focus-keyword-input"
