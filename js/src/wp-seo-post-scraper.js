@@ -4,6 +4,7 @@
 import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
 import debounce from "lodash/debounce";
+import { setStore } from "./wp-seo-tinymce";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
@@ -11,7 +12,6 @@ import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 // Internal dependencies.
 import "./helpers/babel-polyfill";
 import initializeEdit from "./edit";
-import { tmceId, setStore } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
@@ -21,6 +21,7 @@ import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
 
 import PostDataCollector from "./analysis/PostDataCollector";
+import CompatibilityHelper from "./compatibility/compatibilityHelper";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
@@ -124,9 +125,9 @@ setWordPressSeoL10n();
 		}
 
 		return function( paper, marks ) {
-			if ( tinyMCEHelper.isTinyMCEAvailable( tmceId ) ) {
+			if ( tinyMCEHelper.isTinyMCEAvailable( tinyMCEHelper.tmceId ) ) {
 				if ( null === decorator ) {
-					decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
+					decorator = tinyMCEDecorator( tinyMCE.get( tinyMCEHelper.tmceId ) );
 				}
 
 				decorator( paper, marks );
@@ -230,7 +231,8 @@ setWordPressSeoL10n();
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
-				tmceId,
+				tinyMCEHelper.tmceId,
+				"yoast_wpseo_focuskw_text_input",
 				"yoast_wpseo_metadesc",
 				"excerpt",
 				"editable-post-name",
@@ -347,6 +349,34 @@ setWordPressSeoL10n();
 		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
 		if ( isDirty ) {
 			app.refresh();
+		}
+	}
+
+	/**
+	 * Handles page builder compatibility, regarding the marker buttons.
+	 *
+	 * @returns {void}
+	 */
+	function handlePageBuilderCompatibility() {
+		const compatibilityHelper = new CompatibilityHelper();
+
+		if ( compatibilityHelper.isClassicEditorHidden() ) {
+			tinyMCEHelper.disableMarkerButtons();
+		}
+
+		if( compatibilityHelper.vcActive ) {
+			tinyMCEHelper.disableMarkerButtons();
+		} else {
+			compatibilityHelper.listen( {
+				classicEditorHidden: () => {
+					tinyMCEHelper.disableMarkerButtons();
+				},
+				classicEditorShown: () => {
+					if( ! tinyMCEHelper.isTextViewActive() ) {
+						tinyMCEHelper.enableMarkerButtons();
+					}
+				},
+			} );
 		}
 	}
 

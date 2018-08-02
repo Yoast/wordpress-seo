@@ -10964,7 +10964,7 @@ yauzl@^2.2.1:
 
 "yoast-components@git+https://github.com/Yoast/yoast-components.git#develop":
   version "4.8.0"
-  resolved "git+https://github.com/Yoast/yoast-components.git#f142751f091ea9c60a8245735d8e22d27eb2364f"
+  resolved "git+https://github.com/Yoast/yoast-components.git#6790fe5ab836acde6c78bbdfc4c6d7b174cc677e"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
