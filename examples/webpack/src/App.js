@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 
 // YoastSEO.js dependencies.
 import AnalysisWorkerWrapper from "yoastseo/worker/AnalysisWorkerWrapper";
+import testPapers from "yoastspec/fullTextTests/testTexts";
 
 // Internal dependencies.
 import './App.css';
@@ -23,6 +24,7 @@ class App extends React.Component {
 
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
+		this.analyzeSpam = this.analyzeSpam.bind( this );
 	}
 
 	initialize() {
@@ -32,11 +34,15 @@ class App extends React.Component {
 		    .then( data => console.log( "initialization done!", data ) );
 	}
 
-	analyze() {
-		const { paper } = this.props;
-
+	analyze( paper = this.props.paper ) {
 		this.analysisWorker.analyze( paper )
 		    .then( data => console.log( "analysis done!", data ) );
+	}
+
+	analyzeSpam() {
+		for ( let i = 0; i < 10; i++ ) {
+			testPapers.forEach( paper => this.analyze( paper.paper ) );
+		}
 	}
 
 	renderPaperAttribute( id, placeholder, label = null, Component = Input, defaultValue = "" ) {
@@ -64,6 +70,7 @@ class App extends React.Component {
 						<div className="button-container">
 							<Button onClick={ this.initialize }>Initialize</Button>
 							<Button onClick={ this.analyze }>Analyze</Button>
+							<Button onClick={ this.analyzeSpam }>Analyze Spam</Button>
 						</div>
 
 						{ this.renderPaperAttribute( "text", "Write a text", null, TextArea ) }

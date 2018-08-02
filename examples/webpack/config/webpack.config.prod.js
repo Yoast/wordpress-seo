@@ -95,6 +95,7 @@ module.exports = {
 			'react-native': 'react-native-web',
 
 			'yoastseo': paths.yoastSrc,
+			'yoastspec': paths.yoastSpec,
 		},
 		plugins: [],
 	},
