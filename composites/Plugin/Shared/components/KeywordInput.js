@@ -9,7 +9,6 @@ import noop from "lodash/noop";
 // Internal dependencies.
 import colors from "../../../../style-guide/colors.json";
 import { YoastInputButtonContainer, YoastInputField } from "./YoastInput";
-import { YoastInputClearButton } from "./Button";
 import SvgIcon from "./SvgIcon";
 
 const errorColor = colors.$color_red;
@@ -171,4 +170,3 @@ KeywordInput.defaultProps = {
 };
 
 export default KeywordInput;
-
