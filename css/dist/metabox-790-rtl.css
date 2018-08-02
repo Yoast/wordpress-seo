@@ -627,8 +627,20 @@ ul.wpseo-metabox-tabs:after {
 	content: "";
 }
 
+.wpseo-metabox-tabs-div {
+	margin: 0 5px 5px;
+}
+
 .wpseo-metabox-tabs-div ul {
 	list-style: none;
+}
+
+#wpseo-meta-section-addons {
+	padding: 0 5px 5px;
+}
+
+#wpseo-meta-section-addons .wpseo-metabox-tabs-div {
+	margin: 0;
 }
 
 ul.wpseo-metabox-tabs li.active {
@@ -647,7 +659,6 @@ ul.wpseo-metabox-tabs li.active {
 
 .wpseo-meta-section.active {
 	display: inline-block;
-	padding: 0 5px 5px;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -788,7 +799,7 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 
 .wpseotab {
 	display: none;
-	padding: 20px 35px;
+	padding: 16px;
 	border: 1px solid #ddd;
 	background-color: #fdfdfd;
 }
@@ -1343,11 +1354,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 @media screen and (max-width: 600px) {
-	/* Reduce the tabs padding on smaller screens. */
-	.wpseotab {
-		padding: 20px 20px;
-	}
 	.wpseotab.content {
-		padding: 20px 0;
+		padding: 16px 0;
 	}
 }
