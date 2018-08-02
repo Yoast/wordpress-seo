@@ -2,13 +2,13 @@
 
 exports[`KeywordInput matches the snapshot by default 1`] = `
 .c4 {
-  border: 3px solid #ddd;
+  border: 1px solid #ddd;
   padding: 0.75em;
   font-size: 1em;
 }
 
 .c2 {
-  border: 3px solid #ddd;
+  border: 1px solid #ddd;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -16,12 +16,6 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
-}
-
-.c5 {
-  border: none;
-  box-shadow: none;
-  background: none;
 }
 
 .c0 {
@@ -54,9 +48,20 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
   outline-color: #dc3232;
 }
 
+.c5 {
+  border: none;
+  box-shadow: none;
+  background: none;
+}
+
 .c6 {
-  width: 16px;
-  height: 16px;
+  margin-top: 4px;
+  cursor: pointer;
+}
+
+.c7 {
+  width: 18px;
+  height: 18px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -88,11 +93,11 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
     >
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-times-circle c6"
+        className="yoast-svg-icon yoast-svg-icon-times-circle c6 c7"
         fill="#ccc"
         focusable="false"
         role="img"
-        size="16px"
+        size="18px"
         viewBox="0 0 20 20"
         xmlns="http://www.w3.org/2000/svg"
       >
