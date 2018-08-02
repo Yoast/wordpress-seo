@@ -87,7 +87,6 @@ class SeoAnalysis extends React.Component {
 			score.screenReaderReadabilityText = __( "Enter a focus keyword to calculate the SEO score", "wordpress-seo" );
 		}
 
-		console.log( wpseoAdminL10n );
 		return (
 			<React.Fragment>
 				<Collapsible
