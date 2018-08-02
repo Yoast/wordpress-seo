@@ -1,9 +1,8 @@
-/* global wp */
-
 import React from "react";
 import PropTypes from "prop-types";
 import { Provider as StoreProvider } from "react-redux";
 import { ThemeProvider } from "styled-components";
+import { Fill } from "@wordpress/components";
 
 import SidebarItem from "./SidebarItem";
 import SnippetEditor from "../containers/SnippetEditor";
@@ -22,14 +21,12 @@ import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
  * @returns {ReactElement} The Metabox component.
  */
 export default function Metabox( { settings, store, theme } ) {
-	const { Fill } = wp.components;
-
 	return (
 		<Fill name="YoastMetabox">
 			<SidebarItem renderPriority={ 9 }>
 				<StoreProvider store={ store }>
 					<ThemeProvider theme={ theme }>
-						<SnippetEditor />
+						<SnippetEditor hasPaperStyle={ false }/>
 					</ThemeProvider>
 				</StoreProvider>
 			</SidebarItem>

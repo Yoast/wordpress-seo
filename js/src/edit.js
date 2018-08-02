@@ -1,13 +1,13 @@
-/* global window, wpseoPostScraperL10n, wpseoTermScraperL10n, process, wp, yoast */
+/* global window, wpseoPostScraperL10n, wpseoTermScraperL10n, process, wp */
 /* External dependencies */
 import React from "react";
-import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
+import { Fragment } from "@wordpress/element";
+import { Slot } from "@wordpress/components";
+import { combineReducers, registerStore } from "@wordpress/data";
 
 /* Internal dependencies */
-import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
 import reducers from "./redux/reducers";
 import PluginIcon from "../../images/Yoast_icon_kader.svg";
@@ -38,8 +38,6 @@ const PinnedPluginIcon = styled( PluginIcon )`
  * @returns {Object} The store.
  */
 function registerStoreInGutenberg() {
-	const { combineReducers, registerStore } = yoast._wp.data;
-
 	return registerStore( "yoast-seo/editor", {
 		reducer: combineReducers( reducers ),
 		selectors,
@@ -55,108 +53,48 @@ function registerStoreInGutenberg() {
  * @returns {void}
  **/
 function registerPlugin( store ) {
-	if ( isGutenbergDataAvailable() ) {
-		const { Fragment } = yoast._wp.element;
-		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
-		const { registerPlugin } = wp.plugins;
-		const { Slot } = wp.components;
-		const theme = {
-			isRtl: localizedData.isRtl,
-		};
-
-		const YoastSidebar = () => (
-			<Fragment>
-				<PluginSidebarMoreMenuItem
-					target="seo-sidebar"
-					icon={ <PluginIcon/> }
-				>
-					Yoast SEO
-				</PluginSidebarMoreMenuItem>
-				<PluginSidebar
-					name="seo-sidebar"
-					title="Yoast SEO"
-				>
-					<Slot name="YoastSidebar">
-						{ ( fills ) => {
-							return sortComponentsByRenderPriority( fills );
-						} }
-					</Slot>
-				</PluginSidebar>
-
-				<Provider store={ store } >
-					<Fragment>
-						<Sidebar store={ store } />
-						<MetaboxPortal target="wpseo-meta-section-react" store={ store } theme={ theme } />
-					</Fragment>
-				</Provider>
-			</Fragment>
-		);
-
-		registerPlugin( "yoast-seo", {
-			render: YoastSidebar,
-			icon: <PinnedPluginIcon />,
-		} );
+	if ( ! isGutenbergDataAvailable() )  {
+		return;
 	}
-}
 
-/**
- * Wraps a component in the required top level components.
- *
- * @param {ReactElement} Component The component to be wrapped.
- * @param {Object} store Redux store.
- * @param {Object} props React props to pass to the Component.
- *
- * @returns {ReactElement} The wrapped component.
- */
-function wrapInTopLevelComponents( Component, store, props ) {
+	const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
+	const { registerPlugin } = wp.plugins;
 	const theme = {
 		isRtl: localizedData.isRtl,
 	};
 
-	return (
-		<Provider store={ store } >
-			<ThemeProvider theme={ theme }>
-				<Component { ...props } />
-			</ThemeProvider>
-		</Provider>
+	const YoastSidebar = () => (
+		<Fragment>
+			<PluginSidebarMoreMenuItem
+				target="seo-sidebar"
+				icon={ <PluginIcon/> }
+			>
+				Yoast SEO
+			</PluginSidebarMoreMenuItem>
+			<PluginSidebar
+				name="seo-sidebar"
+				title="Yoast SEO"
+			>
+				<Slot name="YoastSidebar">
+					{ ( fills ) => {
+						return sortComponentsByRenderPriority( fills );
+					} }
+				</Slot>
+			</PluginSidebar>
+
+			<Provider store={ store } >
+				<Fragment>
+					<Sidebar store={ store } />
+					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				</Fragment>
+			</Provider>
+		</Fragment>
 	);
-}
 
-/**
- * Render a react app to a target element.
- *
- * @param {string} target Target element id.
- * @param {ReactElement} component The component to render.
- * @param {Object} store Redux store.
- *
- * @returns {void}
- */
-function renderReactApp( target, component, store ) {
-	const targetElement = document.getElementById( target );
-	const props = {
-		title: localizedData.analysisHeadingTitle,
-		hideMarksButtons: localizedData.show_markers !== "1",
-	};
-
-	if ( targetElement ) {
-		ReactDOM.render(
-			wrapInTopLevelComponents( component, store, props ),
-			targetElement
-		);
-	}
-}
-
-/**
- * Renders the react apps.
- *
- * @param {Object} store                Redux store.
- * @param {Object} args                 Arguments.
- * @param {string} args.analysisSection The target element id for the analysis section.
- *
- * @returns {void}
- */
-function renderReactApps( store, args ) {
-	renderReactApp( args.analysisSection, AnalysisSection, store );
+	registerPlugin( "yoast-seo", {
+		render: YoastSidebar,
+		icon: <PinnedPluginIcon />,
+	} );
 }
 
 /**
@@ -189,7 +127,6 @@ export function initializeData( data, args, store ) {
  * This can be a post or a term edit screen.
  *
  * @param {Object}   args                                 Edit initialize arguments.
- * @param {string}   args.analysisSection                 The target element id for the analysis section.
  * @param {Function} args.onRefreshRequest                The function to refresh the analysis.
  * @param {Object}   args.replaceVars                     The replaceVars object.
  * @param {string}   args.snippetEditorBaseUrl            Base URL of the site the user is editing.
@@ -201,20 +138,16 @@ export function initializeData( data, args, store ) {
 export function initialize( args ) {
 	const store = registerStoreInGutenberg();
 
-	if ( args.shouldRenderGutenbergSidebar ) {
-		registerPlugin( store );
-	}
+	registerPlugin( store );
 
 	const data = initializeData( wp.data, args, store );
-
-	renderReactApps( store, args );
 
 	store.dispatch( setSettings( {
 		snippetEditor: {
 			baseUrl: args.snippetEditorBaseUrl,
 			date: args.snippetEditorDate,
 			recommendedReplacementVariables: args.recommendedReplaceVars,
-		}
+		},
 	} ) );
 
 	return {

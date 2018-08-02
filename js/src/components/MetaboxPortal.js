@@ -1,4 +1,5 @@
-/* global yoast, wp */
+import { Slot } from "@wordpress/components";
+import { createPortal, Fragment } from "@wordpress/element";
 
 import Metabox from "../containers/Metabox";
 import sortComponentsByRenderPriority from "../helpers/sortComponentsByRenderPriority";
@@ -19,10 +20,7 @@ export default function MetaboxPortal( { target, store, theme } ) {
 		return null;
 	}
 
-	const { Slot } = wp.components;
-	const { Fragment } = yoast._wp.element;
-
-	return yoast._wp.element.createPortal(
+	return createPortal(
 		<Fragment>
 			<Slot name="YoastMetabox">
 				{ ( fills ) => {

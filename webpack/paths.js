@@ -10,7 +10,6 @@ const entry = {
 	vendor: [
 		"react",
 		"react-dom",
-		"styled-components",
 		"babel-polyfill",
 	],
 	"configuration-wizard": "./configuration-wizard.js",
@@ -39,6 +38,7 @@ const entry = {
 	"wp-seo-api": "./wp-seo-api.js",
 	"wp-seo-filter-explanation": "./wp-seo-filter-explanation.js",
 	"wp-seo-quick-edit-handler": "./wp-seo-quick-edit-handler.js",
+	"wp-seo-network-admin": "./wp-seo-network-admin.js",
 };
 
 /**

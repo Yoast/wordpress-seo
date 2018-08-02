@@ -8,17 +8,16 @@
 /**
  * Button to show the premium upsell.
  */
-class WPSEO_Metabox_Keyword_Synonyms_Button {
+class WPSEO_Metabox_Keyword_Synonyms_Config {
 
 	/**
-	 * Returns a button because a link is inappropriate here.
+	 * Enqueues the translations necessary for the synonyms modal + button
 	 *
-	 * @return string
+	 * @return void
 	 */
-	public function get_link() {
+	public function enqueue_translations() {
 
 		$keyword_synonyms_modal_config = array(
-			'mountHook'      => '.wpseo-button-keyword-synonyms',
 			'openButtonIcon' => '',
 			'intl'           => array(
 				'open'           => __( '+ Add synonyms', 'wordpress-seo' ),
@@ -44,7 +43,5 @@ class WPSEO_Metabox_Keyword_Synonyms_Button {
 		$benefits->enqueue_translations();
 
 		Yoast_Modal::add( $keyword_synonyms_modal_config );
-
-		return '<div class="wpseo-button-keyword-synonyms"></div>';
 	}
 }
