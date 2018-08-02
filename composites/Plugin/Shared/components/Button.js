@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import colors from "../../../../style-guide/colors.json";
 import SvgIcon from "./SvgIcon";
 import { rgba } from "../../../../style-guide/helpers";
+import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 const settings = {
 	minHeight: 32,
@@ -39,7 +40,7 @@ export function addBaseStyle( component ) {
 		font-size: inherit;
 		font-family: inherit;
 		font-weight: inherit;
-		text-align: left;
+		text-align: ${ getRtlStyle( "left", "right" ) };
 		overflow: visible;
 		min-height: ${ `${ settings.minHeight }px` };
 
@@ -216,7 +217,7 @@ export const Button = addFontSizeStyles( BaseButton );
  */
 function addIconTextStyle( icon ) {
 	return styled( icon )`
-		margin: 0 8px 0 0;
+		margin: ${ getRtlStyle( "0 8px 0 0", "0 0 0 8px" ) };
 		flex-shrink: 0;
 	`;
 }

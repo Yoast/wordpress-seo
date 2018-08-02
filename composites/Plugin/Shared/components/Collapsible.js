@@ -6,6 +6,7 @@ import omit from "lodash/omit";
 import colors from "../../../../style-guide/colors.json";
 import { IconsButton } from "../../Shared/components/Button";
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
+import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 const Content = styled.div`
 	padding: 0 16px;
@@ -45,10 +46,10 @@ export const StyledIconsButton = styled( IconsButton )`
 	svg {
 		${ props => props.hasSubTitle ? "align-self: flex-start;" : "" }
 		&:first-child {
-			margin-right: 8px;
+			${ getRtlStyle( "margin-right: 8px", "margin-left: 8px" ) };
 		}
 		&:last-child {
-			margin-left: 8px;
+			${ getRtlStyle( "margin-left: 8px", "margin-right: 8px" ) };
 		}
 	}
 `;
