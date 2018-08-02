@@ -58,7 +58,7 @@ module.exports = function( env = { environment: "production" } ) {
 	];
 
 	const base = {
-		devtool: "cheap-module-eval-source-map",
+		devtool: mode === "development" ? "cheap-module-eval-source-map" : false,
 		entry: paths.entry,
 		context: paths.jsSrc,
 		output: {
