@@ -21,6 +21,7 @@ const entry = {
 	"wp-seo-term-scraper": "./wp-seo-term-scraper.js",
 	"wp-seo-modal": "./wp-seo-modal.js",
 	"wp-seo-replacevar-plugin": "./wp-seo-replacevar-plugin.js",
+	"wp-seo-structured-data-blocks": "./wp-seo-structured-data-blocks.js",
 	analysis: "./analysis.js",
 
 	"wp-seo-admin-global": "./wp-seo-admin-global.js",
