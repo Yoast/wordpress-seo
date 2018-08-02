@@ -422,7 +422,6 @@ setWordPressSeoL10n();
 
 		exposeGlobals( app, replaceVarsPlugin, shortcodePlugin );
 
-		setStore( store );
 		tinyMCEHelper.wpTextViewOnInitCheck();
 
 		activateEnabledAnalysis();
