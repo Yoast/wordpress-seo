@@ -113,9 +113,9 @@ Enhancements:
 * Implements the same tabbed layout in the plugin's network settings screen that is also used in the plugin's site settings screens.
 * Implement a plugin-specific network settings API and use it in the network settings screen.
 * Standardizes the multisite settings screen.
-* Adds a Gutenberg block for creating "How to" style posts, according to schema.org standards.
 * Introduces a network admin-specific admin bar menu.
 * Implements the Yoast sidebar for Gutenberg: Added the Readability, Focus Keyword and Cornerstone content tabs to the sidebar.
+* Revamps the Yoast metabox to use the same vertical design as the new sidebar.
 
 Bugfixes:
 * Fixes a bug where `/sitemap.xml` would not correctly redirect to `/sitemap_index.xml` in some environments.
