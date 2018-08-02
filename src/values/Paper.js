@@ -1,6 +1,5 @@
 var defaults = require( "lodash/defaults" );
 const isEmpty = require( "lodash/isEmpty" );
-const collectTopicForms = require( "../researches/buildKeywordForms" ).collectForms;
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
@@ -38,8 +37,6 @@ var Paper = function( text, attributes ) {
 	if ( isEmpty( onlyLetters ) ) {
 		attributes.keyword = defaultAttributes.keyword;
 	}
-
-	attributes.topicForms = collectTopicForms( attributes.keyword, attributes.synonyms, attributes.locale, true );
 
 	this._attributes = attributes;
 };

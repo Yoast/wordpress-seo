@@ -40,6 +40,7 @@ var readingTime = require( "./researches/readingTime" );
 var getTopicDensity = require( "./researches/getTopicDensity" );
 var topicCount = require( "./researches/topicCount" );
 const largestKeywordDistance = require( "./researches/largestKeywordDistance" );
+const morphology = require( "./researches/buildKeywordForms" ).research;
 
 /**
  * This contains all possible, default researches.
@@ -85,7 +86,10 @@ var Researcher = function( paper ) {
 		topicCount: topicCount,
 		sentences,
 		largestKeywordDistance: largestKeywordDistance,
+		morphology: morphology,
 	};
+
+	this._dataProviders = {};
 
 	this.customResearches = {};
 };
@@ -156,6 +160,30 @@ Researcher.prototype.getResearch = function( name ) {
 	}
 
 	return this.getAvailableResearches()[ name ]( this.paper, this );
+};
+
+/**
+ * Return the Research by name.
+ * @param {string} research The identifier of the research.
+ * @param {function} provider The reference to the dataProvider.
+ * @returns {void}.
+ */
+Researcher.prototype.addResearchDataProvider = function( research, provider ) {
+	this._dataProviders[ research ] = provider;
+};
+
+/**
+ * Return the Research by name.
+ * @param {string} research The identifier of the research.
+ * @param {string} language The language to get the data for.
+ * @returns {*} The data provided by the provider, false if the data do not exist
+ */
+Researcher.prototype.getProvidedData = function( research, language ) {
+	if ( this._dataProviders.hasOwnProperty( research ) ) {
+		return this._dataProviders[ research ]( language );
+	}
+
+	return false;
 };
 
 module.exports = Researcher;

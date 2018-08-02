@@ -1,34 +1,27 @@
 // "use strict";
-const englishMorphology = require( "./englishMorphology.json" );
-import createRulesFromArrays from "../createRulesFromJsonArrays.js";
-
-const irregularVerbs = englishMorphology.irregularVerbs;
-const sFormToInfinitiveRegex = createRulesFromArrays( englishMorphology.regexVerb.sFormToInfinitive );
-const ingFormToInfinitiveRegex = createRulesFromArrays( englishMorphology.regexVerb.ingFormToInfinitive );
-const edFormToInfinitiveRegex = createRulesFromArrays( englishMorphology.regexVerb.edFormToInfinitive );
-const infinitiveToSFormRegex = createRulesFromArrays( englishMorphology.regexVerb.infinitiveToSForm );
-const infinitiveToIngFormRegex = createRulesFromArrays( englishMorphology.regexVerb.infinitiveToIngForm );
-const infinitiveToEdFormRegex = createRulesFromArrays( englishMorphology.regexVerb.infinitiveToEdForm );
+const createRulesFromJsonArrays = require( "../morphoHelpers/createRulesFromJsonArrays.js" );
+const buildOneFormFromRegex = require( "../morphoHelpers/buildFormFromRegex" ).buildOneFormFromRegex;
 
 const isUndefined = require( "lodash/isUndefined.js" );
 const unique = require( "lodash/uniq" );
-
-const verbPrefixes = englishMorphology.regexVerb.verbPrefixes;
-for ( let property in verbPrefixes ) {
-	if ( verbPrefixes.hasOwnProperty( property ) ) {
-		verbPrefixes[ property ] = new RegExp( verbPrefixes[ property ], "i" );
-	}
-}
+const flatten = require( "lodash/flatten" );
 
 /**
  * Checks if the input word has one of the standard verb prefixes and if so returns a prefix and a de-prefixed verb to be
  * further used to compare with the list of irregular verbs.
  *
  * @param {string} word The word for which to determine if it has one of the standard verb prefixes.
+ * @param {Object} verbPrefixes The collection of verb prefixes to be used for normalization
  *
  * @returns {Array} Array of word forms from the exception list.
  */
-const normalizePrefixed = function( word ) {
+const normalizePrefixed = function( word, verbPrefixes ) {
+	for ( let property in verbPrefixes ) {
+		if ( verbPrefixes.hasOwnProperty( property ) ) {
+			verbPrefixes[ property ] = new RegExp( verbPrefixes[ property ], "i" );
+		}
+	}
+
 	if ( verbPrefixes.sevenLetterHyphenPrefixes.test( word ) === true ) {
 		return {
 			normalizedWord: word.replace( verbPrefixes.sevenLetterHyphenPrefixes, "" ),
@@ -112,10 +105,12 @@ const normalizePrefixed = function( word ) {
  * If not checks if it is an irregular verb with one of the standard verb prefixes, if so returns all irregular prefixed forms.
  *
  * @param {string} word The word for which to determine its irregular forms.
+ * @param {Array} irregularVerbs The array of irregular verbs available for this language.
+ * @param {Object} verbPrefixes The collection of verb prefixes to be used for normalization of irregular verbs.
  *
  * @returns {Array} Array of word forms from the exception list.
  */
-const checkIrregulars = function( word ) {
+const checkIrregulars = function( word, irregularVerbs, verbPrefixes ) {
 	let irregulars;
 
 	irregularVerbs.forEach( function( paradigm ) {
@@ -127,7 +122,7 @@ const checkIrregulars = function( word ) {
 	} );
 
 	if ( isUndefined( irregulars ) ) {
-		const normalizedIrregular = normalizePrefixed( word );
+		const normalizedIrregular = normalizePrefixed( word, verbPrefixes );
 
 		if ( ! isUndefined( normalizedIrregular ) ) {
 			irregularVerbs.forEach( function( paradigm ) {
@@ -194,113 +189,33 @@ const endsWithEd = function( word ) {
 };
 
 /**
- * Checks if the input word qualifies for the input regex and if so builds a required form.
- * This function is used for other more specific functions.
- *
- * @param {string} word The word to build forms for.
- * @param {string} regex The regex to compare the word against.
- *
- * @returns {string} The newly built form of the word.
- */
-const buildVerbFormFromRegex = function( word, regex ) {
-	for ( let i = 0; i < regex.length; i++ ) {
-		if ( regex[ i ].reg.test( word ) === true ) {
-			return word.replace( regex[ i ].reg, regex[ i ].repl );
-		}
-	}
-};
-
-/**
- * Forms the infinitive from an s-form.
- *
- * @param {string} word The word to build forms for.
- *
- * @returns {string} The infinitive formed from the input word.
- */
-const sFormToInfinitive = function( word ) {
-	return buildVerbFormFromRegex( word, sFormToInfinitiveRegex );
-};
-
-/**
- * Forms the infinitive from an ing-form.
- *
- * @param {string} word The word to build forms for.
- *
- * @returns {string} The infinitive formed from the input word.
- */
-const ingFormToInfinitive = function( word ) {
-	return buildVerbFormFromRegex( word, ingFormToInfinitiveRegex );
-};
-
-/**
- * Forms the infinitive from an ed-form.
- *
- * @param {string} word The word to build forms for.
- *
- * @returns {string} The infinitive formed from the input word.
- */
-const edFormToInfinitive = function( word ) {
-	return buildVerbFormFromRegex( word, edFormToInfinitiveRegex );
-};
-
-/**
- * Forms the s-form from an infinitive.
- *
- * @param {string} word The word to build forms for.
- *
- * @returns {string} The s-form from the input word.
- */
-const infinitiveToSForm = function( word ) {
-	return buildVerbFormFromRegex( word, infinitiveToSFormRegex );
-};
-
-/**
- * Forms the ing-form from an infinitive.
- *
- * @param {string} word The word to build forms for.
- *
- * @returns {string} The ing-form from the input word.
- */
-const infinitiveToIngForm = function( word ) {
-	return buildVerbFormFromRegex( word, infinitiveToIngFormRegex );
-};
-
-/**
- * Forms the ed-form from an infinitive.
- *
- * @param {string} word The word to build forms for.
- *
- * @returns {string} The ed-form from the input word.
- */
-const infinitiveToEdForm = function( word ) {
-	return buildVerbFormFromRegex( word, infinitiveToEdFormRegex );
-};
-
-/**
  * Forms the infinitive from an input word.
  *
  * @param {string} word The word to build the infinitive for.
+ * @param {Array} sFormToInfinitiveRegex The array of regex-based rules used to bring -s forms to infinitive.
+ * @param {Array} ingFormToInfinitiveRegex The array of regex-based rules used to bring -ing forms to infinitive.
+ * @param {Array} edFormToInfinitiveRegex The array of regex-based rules used to bring -ed forms to infinitive.
  *
  * @returns {string} The infinitive of the input word.
  */
-const getInfinitive = function( word ) {
+const getInfinitive = function( word, sFormToInfinitiveRegex, ingFormToInfinitiveRegex, edFormToInfinitiveRegex ) {
 	if ( endsWithS( word ) ) {
 		return {
-			infinitive: sFormToInfinitive( word ),
+			infinitive: buildOneFormFromRegex( word, sFormToInfinitiveRegex ),
 			guessedForm: "s",
 		};
 	}
 
 	if ( endsWithIng( word ) ) {
 		return {
-			infinitive: ingFormToInfinitive( word ),
+			infinitive: buildOneFormFromRegex( word, ingFormToInfinitiveRegex ),
 			guessedForm: "ing",
 		};
 	}
 
 	if ( endsWithEd( word ) ) {
 		return {
-			infinitive: edFormToInfinitive( word ),
+			infinitive: buildOneFormFromRegex( word, edFormToInfinitiveRegex ),
 			guessedForm: "ed",
 		};
 	}
@@ -314,17 +229,25 @@ const getInfinitive = function( word ) {
  * Collects all possible verb forms for a given word through checking if it is irregular, infinitive, s-form, ing-form or ed-form.
  *
  * @param {string} word The word for which to determine its forms.
+ * @param {Object} verbsData The verb morphology data available for this language.
  *
  * @returns {Array} Array of word forms.
  */
-const getVerbForms = function( word ) {
-	const irregular = checkIrregulars( word );
+const getVerbForms = function( word, verbsData ) {
+	const regexVerb = verbsData.regexVerb;
+
+	const irregular = checkIrregulars( word, verbsData.irregularVerbs, regexVerb.verbPrefixes );
 	if ( ! isUndefined( irregular ) ) {
 		return irregular;
 	}
 
 	let forms = [];
-	let infinitive = getInfinitive( word ).infinitive;
+
+	const sFormToInfinitiveRegex = createRulesFromJsonArrays( regexVerb.sFormToInfinitive );
+	const ingFormToInfinitiveRegex = createRulesFromJsonArrays( regexVerb.ingFormToInfinitive );
+	const edFormToInfinitiveRegex = createRulesFromJsonArrays( regexVerb.edFormToInfinitive );
+
+	let infinitive = getInfinitive( word, sFormToInfinitiveRegex, ingFormToInfinitiveRegex, edFormToInfinitiveRegex ).infinitive;
 
 	if ( isUndefined( infinitive ) ) {
 		infinitive = word;
@@ -334,13 +257,13 @@ const getVerbForms = function( word ) {
 	forms = forms.concat( word );
 
 	forms.push( infinitive );
-	forms.push( infinitiveToSForm( infinitive ) );
-	forms.push( infinitiveToIngForm( infinitive ) );
-	forms.push( infinitiveToEdForm( infinitive ) );
+	forms.push( buildOneFormFromRegex( infinitive, createRulesFromJsonArrays( regexVerb.infinitiveToSForm ) ) );
+	forms.push( buildOneFormFromRegex( infinitive, createRulesFromJsonArrays( regexVerb.infinitiveToIngForm ) ) );
+	forms.push( buildOneFormFromRegex( infinitive, createRulesFromJsonArrays( regexVerb.infinitiveToEdForm ) ) );
 
 	forms = forms.filter( Boolean );
 
-	return unique( forms );
+	return unique( flatten( forms ) );
 };
 
 module.exports = {

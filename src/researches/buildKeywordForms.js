@@ -12,6 +12,7 @@ const isUndefined = require( "lodash/isUndefined" );
 const escapeRegExp = require( "lodash/escapeRegExp" );
 const unique = require( "lodash/uniq" );
 const flatten = require( "lodash/flatten" );
+const memoize = require( "lodash/memoize" );
 
 /**
  * Filters function words from an array of words based on the language.
@@ -48,11 +49,11 @@ const filterFunctionWords = function( array, language ) {
  *
  * @param {string} keyphrase The keyphrase of the paper (or a synonym phrase) to get forms for.
  * @param {string} language The language to use for morphological analyzer and for function words.
- * @param {boolean} morphologyRequired Whether the morphological analysis is required (i.e, Premium vs. Free).
+ * @param {Object} morphologyData The available morphology data per language (false if unavailable).
  *
  * @returns {Array} Array of all forms to be searched for keyword-based assessments.
  */
-const buildForms = function( keyphrase, language, morphologyRequired = false ) {
+const buildForms = function( keyphrase, language, morphologyData ) {
 	if ( isUndefined( keyphrase ) || keyphrase === "" ) {
 		return [];
 	}
@@ -70,23 +71,14 @@ const buildForms = function( keyphrase, language, morphologyRequired = false ) {
 
 	const words = filterFunctionWords( getWords( keyphrase ), language );
 
-	const getForms = getFormsForLanguage[ language ];
 	let forms = [];
 
-	// Only returns the keyword and the keyword with apostrophe variations if morphological forms should not be built.
-	if ( morphologyRequired === false ) {
-		words.forEach( function( word ) {
-			const wordToLowerCase = escapeRegExp( word.toLocaleLowerCase() );
-			forms.push( unique( [].concat( wordToLowerCase, getVariationsApostrophe( wordToLowerCase ) ) ) );
-		} );
-		return forms;
-	}
-
+	const getForms = getFormsForLanguage[ language ];
 	/*
 	 * Only returns the keyword and the keyword with apostrophe variations if morphological forms cannot be built.
 	 * Otherwise additionally returns the morphological forms.
 	 */
-	if ( isUndefined( getForms ) ) {
+	if ( morphologyData === false || isUndefined( getForms ) ) {
 		words.forEach( function( word ) {
 			const wordToLowerCase = escapeRegExp( word.toLocaleLowerCase() );
 
@@ -95,7 +87,7 @@ const buildForms = function( keyphrase, language, morphologyRequired = false ) {
 	} else {
 		words.forEach( function( word ) {
 			const wordToLowerCase = escapeRegExp( word.toLocaleLowerCase() );
-			const formsOfThisWord = unique( getForms( wordToLowerCase ) );
+			const formsOfThisWord = getForms( wordToLowerCase, morphologyData );
 			const variationsApostrophes = getVariationsApostropheInArray( formsOfThisWord );
 			forms.push( unique( flatten( formsOfThisWord.concat( variationsApostrophes ) ) ).filter( Boolean ) );
 		} );
@@ -109,17 +101,16 @@ const buildForms = function( keyphrase, language, morphologyRequired = false ) {
  *
  * @param {string} keyphrase The paper's keyphrase.
  * @param {string} synonyms The paper's synonyms.
- * @param {string} locale The paper's locale.
- * @param {boolean} morphologyRequired Whether the morphological analysis is required (i.e, Premium vs. Free).
+ * @param {string} language The paper's language.
+ * @param {Object} morphologyData The available morphology data to be used by the getForms function (language specific).
  *
  * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms.
  */
-const collectForms = function( keyphrase, synonyms, locale = "en_EN", morphologyRequired ) {
+const collectForms = function( keyphrase, synonyms, language = "en", morphologyData ) {
 	const synonymsSplit = parseSynonyms( synonyms );
-	const language = getLanguage( locale );
-	let keyphraseForms = buildForms( keyphrase, language, morphologyRequired );
 
-	let synonymsForms = synonymsSplit.map( synonym => buildForms( synonym, language, morphologyRequired ) );
+	let keyphraseForms = buildForms( keyphrase, language, morphologyData );
+	let synonymsForms = synonymsSplit.map( synonym => buildForms( synonym, language, morphologyData ) );
 
 	return {
 		keyphraseForms: keyphraseForms,
@@ -127,9 +118,29 @@ const collectForms = function( keyphrase, synonyms, locale = "en_EN", morphology
 	};
 };
 
+const collectFormsMemoized = memoize( collectForms );
+
+
+/**
+ * Calls the function that builds keyphrase and synonyms forms for a specific research data.
+ *
+ * @param {Paper} paper The paper to build keyphrase and synonym forms for.
+ * @param {Researcher} researcher The researcher prototype.
+ *
+ * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms.
+ */
+function research( paper, researcher ) {
+	const language = getLanguage( paper.getLocale() );
+
+	const morphologyData = researcher.getProvidedData( "morphology", language );
+
+	return collectForms( paper.getKeyword(), paper.getSynonyms(), language, morphologyData );
+}
 
 module.exports = {
 	filterFunctionWords: filterFunctionWords,
 	buildForms: buildForms,
 	collectForms: collectForms,
+	collectFormsMemoized: collectFormsMemoized,
+	research: research,
 };

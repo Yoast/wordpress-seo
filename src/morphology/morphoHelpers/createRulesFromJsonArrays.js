@@ -6,7 +6,7 @@
  *
  * @returns {Array} Array of objects to be used in the regex-based rules.
  */
-export default function( array ) {
+const createRulesFromJsonArrays = function( array ) {
 	return array.map( function( pair ) {
 		if ( pair.length === 2 ) {
 			return {
@@ -22,4 +22,6 @@ export default function( array ) {
 			};
 		}
 	} );
-}
+};
+
+module.exports = createRulesFromJsonArrays;
