@@ -351,6 +351,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test if featured image gets added to opengraph when it is the correct size.
+	 *
 	 * @covers WPSEO_OpenGraph::image
 	 */
 	public function test_image_IS_SINGULAR_AND_HAS_featured_image_AND_HAS_RIGHT_size() {

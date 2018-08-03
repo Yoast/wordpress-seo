@@ -105,7 +105,7 @@ class WPSEO_Import_Settings {
 		$this->path = $this->upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'wpseo-import' . DIRECTORY_SEPARATOR;
 
 		if ( ! isset( $GLOBALS['wp_filesystem'] ) || ! is_object( $GLOBALS['wp_filesystem'] ) ) {
-			$url = wp_nonce_url(
+			$url         = wp_nonce_url(
 				self_admin_url( 'admin.php?page=wpseo_tools&tool=import-export' ),
 				'wpseo-import'
 			);

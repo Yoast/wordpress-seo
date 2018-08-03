@@ -26,11 +26,11 @@ class WPSEO_Custom_Taxonomies {
 		}
 
 		self::$custom_taxonomies = array();
-		$args = array(
+		$args                    = array(
 			'public'   => true,
 			'_builtin' => false,
 		);
-		$custom_taxonomies = get_taxonomies( $args, 'names', 'and' );
+		$custom_taxonomies       = get_taxonomies( $args, 'names', 'and' );
 
 		if ( is_array( $custom_taxonomies ) ) {
 			foreach ( $custom_taxonomies as $custom_taxonomy ) {

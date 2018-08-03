@@ -25,9 +25,9 @@ add_action( 'wp_loaded', 'wpseo_initialize_admin_bar' );
 /**
  * Allows editing of the meta fields through weblog editors like Marsedit.
  *
- * @param array $required_capabilities	Capabilities that must all be true to allow action.
- * @param array $capabilities			Array of capabilities to be checked, unused here.
- * @param array $args					List of arguments for the specific capabilities to be checked.
+ * @param array $required_capabilities Capabilities that must all be true to allow action.
+ * @param array $capabilities          Array of capabilities to be checked, unused here.
+ * @param array $args                  List of arguments for the specific capabilities to be checked.
  *
  * @return array $required_capabilities Filtered capabilities.
  */
