@@ -30,7 +30,6 @@ import UsedKeywords from "./analysis/usedKeywords";
 
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
-import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 import { updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setCornerstoneContent } from "./redux/actions/cornerstoneContent";
@@ -105,7 +104,7 @@ setWordPressSeoL10n();
 	 * @returns {boolean} True when markers should be shown.
 	 */
 	function displayMarkers() {
-		return ! isGutenbergPostAvailable() && wpseoPostScraperL10n.show_markers === "1";
+		return ! isGutenbergDataAvailable() && wpseoPostScraperL10n.show_markers === "1";
 	}
 
 	/**
@@ -363,7 +362,7 @@ setWordPressSeoL10n();
 			tinyMCEHelper.disableMarkerButtons();
 		}
 
-		if( compatibilityHelper.vcActive ) {
+		if ( compatibilityHelper.vcActive ) {
 			tinyMCEHelper.disableMarkerButtons();
 		} else {
 			compatibilityHelper.listen( {
