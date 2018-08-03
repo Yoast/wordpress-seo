@@ -74,13 +74,13 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
     className="c1"
     htmlFor="test-id"
   >
-    test label
+    Focus keyword:
   </label>
   <div
     className="c2"
   >
     <input
-      aria-label={null}
+      aria-label="Focus keyword:"
       className="c3 c4"
       id="test-id"
       onChange={[Function]}

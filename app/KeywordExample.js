@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 // Internal dependencies.
 import KeywordInput from "../composites/Plugin/Shared/components/KeywordInput";
-import SynonymsSection from "../composites/Plugin/Synonyms/components/SynonymsSection";
 import HelpText from "../composites/Plugin/Shared/components/HelpText.js";
 import { makeOutboundLink } from "../utils/makeOutboundLink";
 import SynonymsInput from "../composites/Plugin/Shared/components/SynonymsInput";
@@ -110,12 +109,6 @@ export default class KeywordExample extends Component {
 					onChange={ this.updateSynonymsInput }
 					value={ this.state.synonyms }
 					explanationText={ "This is a fine explanation" }
-				/>
-
-				<SynonymsSection
-					label={ "Keyword synonyms" }
-					onChange={ this.updateSynonyms }
-					synonyms={ this.state.synonyms }
 				/>
 			</Container>
 		);
