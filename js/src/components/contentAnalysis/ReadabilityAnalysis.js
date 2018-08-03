@@ -33,7 +33,7 @@ class ReadabilityAnalysis extends React.Component {
 		const score = getIndicatorForScore( this.props.overallScore );
 		return (
 			<Collapsible
-				title={ __( "Readability" ) }
+				title={ __( "Readability", "wordpress-seo" ) }
 				titleScreenReaderText={ score.screenReaderReadabilityText }
 				prefixIcon={ getIconForScore( score.className ) }
 				prefixIconCollapsed={ getIconForScore( score.className ) }
