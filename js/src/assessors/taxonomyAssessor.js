@@ -24,7 +24,7 @@ const {
  * @param {object} i18n The i18n object used for translations.
  * @constructor
  */
-var TaxonomyAssessor = function( i18n ) {
+const TaxonomyAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
 
 	this._assessments = [

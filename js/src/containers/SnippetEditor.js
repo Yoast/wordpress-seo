@@ -13,7 +13,7 @@ import {
 } from "../redux/actions/snippetEditor";
 import { updateAnalysisData } from "../redux/actions/analysisData";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
-import { Collapsible } from "yoast-components";
+import Collapsible from "../components/SidebarCollapsible";
 
 /**
  * Runs the legacy replaceVariables function on the data in the snippet preview.
@@ -95,7 +95,7 @@ export const mapEditorDataToPreview = function( data, context ) {
 };
 
 const SnippetEditorWrapper = ( props ) => (
-	<Collapsible title={ __( "Snippet Preview", "wordpress-seo" ) } >
+	<Collapsible title={ __( "Snippet Preview", "wordpress-seo" ) } initialIsOpen={ true }>
 		<SnippetPreviewSection
 			icon="eye"
 			hasPaperStyle={ props.hasPaperStyle }

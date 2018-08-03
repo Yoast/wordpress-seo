@@ -58,7 +58,7 @@ module.exports = function( env = { environment: "production" } ) {
 	];
 
 	const base = {
-		devtool: "cheap-module-eval-source-map",
+		devtool: mode === "development" ? "cheap-module-eval-source-map" : false,
 		entry: paths.entry,
 		context: paths.jsSrc,
 		output: {
@@ -113,6 +113,9 @@ module.exports = function( env = { environment: "production" } ) {
 				"@wordpress/element": "window.yoast._wp.element",
 				"@wordpress/data": "window.yoast._wp.data",
 				"@wordpress/components": "window.yoast._wp.components",
+				"@wordpress/i18n": "window.yoast._wp.i18n",
+
+				"styled-components": "window.yoast.styledComponents",
 			},
 			plugins: [
 				...plugins,

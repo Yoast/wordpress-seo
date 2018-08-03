@@ -6,9 +6,8 @@ import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import { colors } from "yoast-components";
-import { Collapsible } from "yoast-components";
+import Collapsible from "../SidebarCollapsible";
 import { KeywordInput } from "yoast-components";
-
 import Results from "./Results";
 import UpsellBox from "../UpsellBox";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
@@ -53,8 +52,8 @@ class SeoAnalysis extends React.Component {
 		const upsell = this.props.keywordUpsell;
 		return (
 			<Collapsible
-			prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey_disabled } }
-			prefixIconCollapsed={ { icon: "seo-score-none", color: colors.$color_grey_disabled } }
+			prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
+			prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 			title="Add another keyword"
 			>
 				<UpsellBox
@@ -88,7 +87,7 @@ class SeoAnalysis extends React.Component {
 		return (
 			<React.Fragment>
 				<Collapsible
-					title="Focus keyword analysis"
+					title={ __( "Focus keyword" ) }
 					titleScreenReaderText={ score.screenReaderReadabilityText }
 					prefixIcon={ getIconForScore( score.className ) }
 					prefixIconCollapsed={ getIconForScore( score.className ) }

@@ -3,7 +3,7 @@
 /* External dependencies */
 import get from "lodash/get";
 import analysis from "yoastseo";
-const { measureTextWidth } = analysis.helpers;
+import { setOverallReadabilityScore, setOverallSeoScore } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
@@ -13,13 +13,14 @@ import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
 
+const { measureTextWidth } = analysis.helpers;
+
 let $ = jQuery;
 
 /**
  * Show warning in console when the unsupported CkEditor is used.
  *
  * @param {Object} args The arguments for the post scraper.
- * @param {TabManager} args.tabManager The tab manager for this post.
  *
  * @constructor
  */
@@ -28,7 +29,6 @@ var TermDataCollector = function( args ) {
 		console.warn( "YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE." );
 	}
 
-	this._tabManager = args.tabManager;
 	this._store = args.store;
 };
 
@@ -283,7 +283,7 @@ TermDataCollector.prototype.saveScores = function( score ) {
 	document.getElementById( "hidden_wpseo_linkdex" ).value = score;
 	jQuery( window ).trigger( "YoastSEO:numericScore", score );
 
-	this._tabManager.updateKeywordTab( score, keyword );
+	this._store.dispatch( setOverallSeoScore( score, keyword ) );
 
 	updateTrafficLight( indicator );
 	updateAdminBar( indicator );
@@ -299,7 +299,7 @@ TermDataCollector.prototype.saveScores = function( score ) {
 TermDataCollector.prototype.saveContentScore = function( score ) {
 	var indicator = getIndicatorForScore( score );
 
-	this._tabManager.updateContentTab( score );
+	this._store.dispatch( setOverallReadabilityScore( score ) );
 
 	if ( ! isKeywordAnalysisActive() ) {
 		updateTrafficLight( indicator );

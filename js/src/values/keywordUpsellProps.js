@@ -1,8 +1,9 @@
-/* global window, yoastPremiumBenefitsL10n, yoastAddKeywordModalL10n */
+/* global window, yoastPremiumBenefitsL10n */
 import React from "react";
 import interpolateComponents from "interpolate-components";
-
 import { utils } from "yoast-components";
+
+import getL10nObject from "../analysis/getL10nObject";
 
 const { makeOutboundLink } = utils;
 const YesYouCanLink = makeOutboundLink();
@@ -12,10 +13,8 @@ if ( window.yoastPremiumBenefitsL10n ) {
 	benefits = yoastPremiumBenefitsL10n.intl;
 }
 
-let upsellIntro = { intro: "" };
-if ( window.yoastAddKeywordModalL10n ) {
-	upsellIntro = yoastAddKeywordModalL10n.intl;
-}
+const l10nObject = getL10nObject();
+const upsellIntro = l10nObject.addKeywordUpsell;
 
 export default {
 	benefits,

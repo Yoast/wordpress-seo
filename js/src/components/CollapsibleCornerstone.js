@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 
-import { Collapsible } from "yoast-components";
+import Collapsible from "./SidebarCollapsible";
 import { CornerstoneToggle } from "yoast-components";
 
 /**

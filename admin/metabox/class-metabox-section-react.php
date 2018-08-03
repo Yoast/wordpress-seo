@@ -89,13 +89,11 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	 * @return void
 	 */
 	public function display_content() {
-		$html  = '<div id="%1$s" class="wpseo-meta-section">';
+		$html  = sprintf( '<div id="%1$s" class="wpseo-meta-section">', esc_attr( 'wpseo-meta-section-' . $this->name ) );
 		$html .= $this->content;
 		$html .= '<div id="wpseo-metabox-root" class="wpseo-metabox-root"></div>';
 		$html .= '</div>';
-		printf(
-			$html,
-			esc_attr( 'wpseo-meta-section-' . $this->name )
-		);
+
+		echo $html;
 	}
 }

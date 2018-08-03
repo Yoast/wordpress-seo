@@ -254,7 +254,7 @@
     lodash "^4.17.5"
     memize "^1.0.5"
 
-"@wordpress/i18n@^1.1.0":
+"@wordpress/i18n@^1.1.0", "@wordpress/i18n@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-1.2.2.tgz#1662045fe68cef8ebdda1657724b72ba9238f355"
   dependencies:
@@ -264,13 +264,14 @@
     lodash "^4.17.10"
     memize "^1.0.5"
 
-"@wordpress/i18n@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-1.1.1.tgz#e97c31879e1f76878cfdd14eb7d7a0ec99a234c3"
+"@wordpress/i18n@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-1.2.1.tgz#b5c7c52065db9fa13a3d1872ddb9a198bc8ea29a"
   dependencies:
+    "@babel/runtime" "^7.0.0-beta.52"
     gettext-parser "^1.3.1"
     jed "^1.1.1"
-    lodash "^4.17.5"
+    lodash "^4.17.10"
     memize "^1.0.5"
 
 "@wordpress/i18n@^1.2.1":
@@ -668,8 +669,10 @@ asn1.js@^4.0.0:
     minimalistic-assert "^1.0.0"
 
 asn1@~0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/asn1/-/asn1-0.2.3.tgz#dac8787713c9966849fc8180777ebe9c1ddf3b86"
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/asn1/-/asn1-0.2.4.tgz#8d2475dfab553bb33e77b54e59e880bb8ce23136"
+  dependencies:
+    safer-buffer "~2.1.0"
 
 assert-plus@1.0.0, assert-plus@^1.0.0:
   version "1.0.0"
@@ -9194,7 +9197,7 @@ safefs@^4.0.0:
     editions "^1.1.1"
     graceful-fs "^4.1.4"
 
-"safer-buffer@>= 2.1.2 < 3", safer-buffer@^2.0.2, safer-buffer@^2.1.0:
+"safer-buffer@>= 2.1.2 < 3", safer-buffer@^2.0.2, safer-buffer@^2.1.0, safer-buffer@~2.1.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
 
@@ -10964,7 +10967,7 @@ yauzl@^2.2.1:
 
 "yoast-components@git+https://github.com/Yoast/yoast-components.git#develop":
   version "4.8.0"
-  resolved "git+https://github.com/Yoast/yoast-components.git#f142751f091ea9c60a8245735d8e22d27eb2364f"
+  resolved "git+https://github.com/Yoast/yoast-components.git#1fd6a87b18c87e641c291d03cdbd27d9f0a0a4d9"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
