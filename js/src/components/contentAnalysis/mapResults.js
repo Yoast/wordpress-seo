@@ -1,5 +1,5 @@
 import analysis from "yoastseo";
-import colors from "yoast-components/style-guide/colors.json";
+import { colors } from "yoast-components";
 
 const { scoreToRating } = analysis.helpers;
 

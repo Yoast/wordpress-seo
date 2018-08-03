@@ -5,7 +5,7 @@ import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "yoast-components/composites/Plugin/SnippetEditor";
-import ReplaceVarEditor from "yoast-components/composites/Plugin/SnippetEditor/components/ReplacementVariableEditor";
+import { ReplaceVarEditor } from "yoast-components";
 import styled from "styled-components";
 
 /* Internal dependencies */

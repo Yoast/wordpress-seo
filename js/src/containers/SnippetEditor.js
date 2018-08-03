@@ -13,7 +13,7 @@ import {
 } from "../redux/actions/snippetEditor";
 import { updateAnalysisData } from "../redux/actions/analysisData";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
-import Collapsible from "yoast-components/composites/Plugin/Shared/components/Collapsible";
+import { Collapsible } from "yoast-components";
 
 /**
  * Runs the legacy replaceVariables function on the data in the snippet preview.

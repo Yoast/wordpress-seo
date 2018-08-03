@@ -4,9 +4,9 @@ import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 
 import IntlProvider from "../IntlProvider";
-import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
-import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
-import { makeOutboundLink } from "yoast-components/utils/makeOutboundLink";
+import { Icon } from "yoast-components";
+import { YoastSeoIcon } from "yoast-components";
+import { utils } from "yoast-components";
 import PremiumBenefitsList from "../PremiumBenefitsList";
 
 let localizedData = null;
@@ -14,8 +14,8 @@ if ( window.yoastAddKeywordModalL10n ) {
 	localizedData = yoastAddKeywordModalL10n;
 }
 
-const YesYouCanLink = makeOutboundLink();
-const BuyButtonLink = makeOutboundLink();
+const YesYouCanLink = utils.makeOutboundLink();
+const BuyButtonLink = utils.makeOutboundLink();
 
 const StyledContainer = styled.div`
 	min-width: 600px;

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 
 import { Collapsible } from "yoast-components";
-import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
+import { CornerstoneToggle } from "yoast-components";
 
 /**
  * Renders the collapsible cornerstone toggle.

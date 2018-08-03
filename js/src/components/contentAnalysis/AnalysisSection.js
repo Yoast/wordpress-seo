@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import StyledSection from "yoast-components/forms/StyledSection/StyledSection";
-import colors from "yoast-components/style-guide/colors.json";
+import { StyledSection } from "yoast-components";
+import { colors } from "yoast-components";
 
 import ReadabilityAnalysisLegacy from "./ReadabilityAnalysisLegacy";
 import SeoAnalysisLegacy from "./SeoAnalysisLegacy";

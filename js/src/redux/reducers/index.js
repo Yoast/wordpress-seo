@@ -1,4 +1,4 @@
-import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
+import { analysis } from "yoast-components";
 
 import activeTab from "./activeTab";
 import isCornerstone from "./cornerstoneContent";

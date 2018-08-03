@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import colors from "yoast-components/style-guide/colors.json";
-import Collapsible from "yoast-components/composites/Plugin/Shared/components/Collapsible";
-import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
+import { colors } from "yoast-components";
+import { Collapsible } from "yoast-components";
+import { KeywordInput } from "yoast-components";
 
 import Results from "./Results";
 import UpsellBox from "../UpsellBox";
