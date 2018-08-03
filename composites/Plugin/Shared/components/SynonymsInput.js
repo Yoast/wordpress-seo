@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import uniqueId from "lodash/uniqueId";
 import { YoastInputContainer, YoastInputField, YoastInputLabel } from "./YoastInput";
+import colors from "../../../../style-guide/colors.json";
 
 const ExplanationText = styled.p`
-	font-size: .8em;
+	color: ${ colors.$color_grey_text };
 `;
 
 const SynonymsInput = ( { id, label, value, onChange, explanationText } ) => {
