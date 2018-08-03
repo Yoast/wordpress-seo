@@ -54,7 +54,7 @@ class WPSEO_Admin_Utils {
 	 * @return string The link to the plugin install. Returns the title if the plugin is deemed a Premium product.
 	 */
 	public static function get_install_link( $plugin ) {
-		$install_url = WPSEO_Admin_Utils::get_install_url( $plugin['slug'] );
+		$install_url = self::get_install_url( $plugin['slug'] );
 
 		if ( $install_url === '' || ( isset( $plugin['premium'] ) && $plugin['premium'] === true ) ) {
 			return $plugin['title'];
