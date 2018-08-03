@@ -397,6 +397,10 @@ setWordPressSeoL10n();
 
 		metaboxContainer = $( "#wpseo_meta" );
 
+		tinyMCEHelper.setStore( editStore );
+		tinyMCEHelper.wpTextViewOnInitCheck();
+		handlePageBuilderCompatibility();
+
 		// Avoid error when snippet metabox is not rendered.
 		if ( metaboxContainer.length === 0 ) {
 			return;
@@ -421,8 +425,6 @@ setWordPressSeoL10n();
 		}
 
 		exposeGlobals( app, replaceVarsPlugin, shortcodePlugin );
-
-		tinyMCEHelper.wpTextViewOnInitCheck();
 
 		activateEnabledAnalysis();
 

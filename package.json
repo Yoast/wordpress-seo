@@ -109,7 +109,7 @@
     "@wordpress/components": "^1.0.1",
     "@wordpress/data": "^1.0.1",
     "@wordpress/element": "^1.0.1",
-    "@wordpress/i18n": "^1.1.1",
+    "@wordpress/i18n": "^1.2.2",
     "@wordpress/is-shallow-equal": "^1.0.2",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
@@ -135,6 +135,6 @@
     "yoastseo": "^1.36.0"
   },
   "yoast": {
-    "pluginVersion": "7.9"
+    "pluginVersion": "8.0-RC1"
   }
 }

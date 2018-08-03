@@ -254,7 +254,7 @@
     lodash "^4.17.5"
     memize "^1.0.5"
 
-"@wordpress/i18n@^1.1.0":
+"@wordpress/i18n@^1.1.0", "@wordpress/i18n@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-1.2.2.tgz#1662045fe68cef8ebdda1657724b72ba9238f355"
   dependencies:
@@ -262,15 +262,6 @@
     gettext-parser "^1.3.1"
     jed "^1.1.1"
     lodash "^4.17.10"
-    memize "^1.0.5"
-
-"@wordpress/i18n@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-1.1.1.tgz#e97c31879e1f76878cfdd14eb7d7a0ec99a234c3"
-  dependencies:
-    gettext-parser "^1.3.1"
-    jed "^1.1.1"
-    lodash "^4.17.5"
     memize "^1.0.5"
 
 "@wordpress/i18n@^1.2.1":
@@ -10964,7 +10955,7 @@ yauzl@^2.2.1:
 
 "yoast-components@git+https://github.com/Yoast/yoast-components.git#develop":
   version "4.8.0"
-  resolved "git+https://github.com/Yoast/yoast-components.git#6790fe5ab836acde6c78bbdfc4c6d7b174cc677e"
+  resolved "git+https://github.com/Yoast/yoast-components.git#e290b5a28fe8c3d314087f91e6221daa007545bd"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
