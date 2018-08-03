@@ -6,14 +6,7 @@ import { __ } from "@wordpress/i18n";
 
 const Cornerstone = styled.div`
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-top: 5px;
-
-	label { 
-		margin-right: 10px;
-		flex: 1;
-	}
+	margin-top: 8px;
 `;
 
 class CornerstoneToggle extends React.Component {
@@ -26,9 +19,8 @@ class CornerstoneToggle extends React.Component {
 		return (
 			<Cornerstone>
 				<Toggle
-					id="cornerstone_toggle"
-					ariaLabel={ __( "Mark this post as cornerstone content", "yoast-components" ) }
-					labelText={ __( "Mark this as cornerstone content.", "yoast-components" ) }
+					id={ this.props.id }
+					labelText={ __( "Mark as cornerstone content", "yoast-components" ) }
 					isEnabled={ this.props.isEnabled }
 					onSetToggleState={ this.props.onToggle }
 					onToggleDisabled={ this.props.onToggleDisabled }
@@ -39,11 +31,16 @@ class CornerstoneToggle extends React.Component {
 }
 
 CornerstoneToggle.propTypes = {
+	id: PropTypes.string,
 	isEnabled: PropTypes.bool,
 	onSetToggleState: PropTypes.func,
 	onToggle: PropTypes.func,
 	disable: PropTypes.bool,
 	onToggleDisabled: PropTypes.func,
+};
+
+CornerstoneToggle.defaultProps = {
+	id: "cornerstone-toggle",
 };
 
 export default CornerstoneToggle;
