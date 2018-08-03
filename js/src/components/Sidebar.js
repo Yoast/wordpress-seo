@@ -24,8 +24,8 @@ import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
  */
 export default function Sidebar( { settings, store, theme } ) {
 	return (
-		<Fill name="YoastSidebar">
-			<Fragment>
+		<Fragment>
+			<Fill name="YoastSidebar">
 				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
 					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
@@ -51,8 +51,8 @@ export default function Sidebar( { settings, store, theme } ) {
 					</ThemeProvider>
 				</SidebarItem>
 				}
-			</Fragment>
-		</Fill>
+			</Fill>
+		</Fragment>
 	);
 }
 

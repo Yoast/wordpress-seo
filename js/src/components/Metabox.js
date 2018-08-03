@@ -23,8 +23,8 @@ import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
  */
 export default function Metabox( { settings, store, theme } ) {
 	return (
-		<Fill name="YoastMetabox">
-			<Fragment>
+		<Fragment>
+			<Fill name="YoastMetabox">
 				<SidebarItem renderPriority={ 9 }>
 					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
@@ -57,8 +57,8 @@ export default function Metabox( { settings, store, theme } ) {
 					</ThemeProvider>
 				</SidebarItem>
 				}
-			</Fragment>
-		</Fill>
+			</Fill>
+		</Fragment>
 	);
 }
 
