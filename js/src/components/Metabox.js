@@ -24,34 +24,40 @@ import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 export default function Metabox( { settings, store, theme } ) {
 	return (
 		<Fill name="YoastMetabox">
-			<ThemeProvider theme={ theme }>
-				<Fragment>
-					<SidebarItem renderPriority={ 9 }>
+			<Fragment>
+				<SidebarItem renderPriority={ 9 }>
+					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
 							<SnippetEditor hasPaperStyle={ false }/>
 						</StoreProvider>
-					</SidebarItem>
-					{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+					</ThemeProvider>
+				</SidebarItem>
+				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
 							<ReadabilityAnalysis />
 						</StoreProvider>
-					</SidebarItem> }
-					{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+					</ThemeProvider>
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
 							<SeoAnalysis
 								shouldUpsell={ settings.shouldUpsell }
 								keywordUpsell={ keywordUpsellProps }
 							/>
 						</StoreProvider>
-					</SidebarItem> }
-					{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+					</ThemeProvider>
+				</SidebarItem> }
+				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
 							<CollapsibleCornerstone />
 						</StoreProvider>
-					</SidebarItem>
-					}
-				</Fragment>
-			</ThemeProvider>
+					</ThemeProvider>
+				</SidebarItem>
+				}
+			</Fragment>
 		</Fill>
 	);
 }

@@ -25,29 +25,33 @@ import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 export default function Sidebar( { settings, store, theme } ) {
 	return (
 		<Fill name="YoastSidebar">
-			<ThemeProvider theme={ theme }>
-				<Fragment>
-					{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+			<Fragment>
+				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
 							<ReadabilityAnalysis />
 						</StoreProvider>
-					</SidebarItem> }
-					{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+					</ThemeProvider>
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
 							<SeoAnalysis
 								shouldUpsell={ settings.shouldUpsell }
 								keywordUpsell={ keywordUpsellProps }
 							/>
 						</StoreProvider>
-					</SidebarItem> }
-					{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+					</ThemeProvider>
+				</SidebarItem> }
+				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
 							<CollapsibleCornerstone />
 						</StoreProvider>
-					</SidebarItem>
-					}
-				</Fragment>
-			</ThemeProvider>
+					</ThemeProvider>
+				</SidebarItem>
+				}
+			</Fragment>
 		</Fill>
 	);
 }
