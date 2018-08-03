@@ -1,4 +1,4 @@
-import { TOGGLE_CORNERSTONE_CONTENT } from "../actions/cornerstoneContent";
+import { TOGGLE_CORNERSTONE_CONTENT, SET_CORNERSTONE_CONTENT } from "../actions/cornerstoneContent";
 
 const INITIAL_STATE = false;
 
@@ -14,6 +14,10 @@ function cornerstoneContentReducer( state = INITIAL_STATE, action ) {
 	switch( action.type ) {
 		case TOGGLE_CORNERSTONE_CONTENT:
 			return ! state;
+
+		case SET_CORNERSTONE_CONTENT:
+			return action.isCornerstone;
+
 		default:
 			return state;
 	}

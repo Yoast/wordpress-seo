@@ -4,18 +4,18 @@ import {
 } from "yoastseo";
 
 const {
-	IntroductionKeyword,
-	KeyphraseLength,
-	KeywordDensity,
-	KeywordStopWords,
-	MetaDescriptionKeyword,
-	MetaDescriptionLength,
-	TitleKeyword,
-	PageTitleWidth,
-	UrlKeyword,
-	UrlLength,
-	UrlStopWords,
-	TaxonomyTextLength,
+	IntroductionKeywordAssessment,
+	KeyphraseLengthAssessment,
+	KeywordDensityAssessment,
+	KeywordStopWordsAssessment,
+	MetaDescriptionKeywordAssessment,
+	MetaDescriptionLengthAssessment,
+	TitleKeywordAssessment,
+	PageTitleWidthAssessment,
+	UrlKeywordAssessment,
+	UrlLengthAssessment,
+	UrlStopWordsAssessment,
+	TaxonomyTextLengthAssessment,
 } = assessments.seo;
 
 /**
@@ -24,26 +24,25 @@ const {
  * @param {object} i18n The i18n object used for translations.
  * @constructor
  */
-var TaxonomyAssessor = function( i18n ) {
+const TaxonomyAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
 
 	this._assessments = [
-		IntroductionKeyword,
-		KeyphraseLength,
-		KeywordDensity,
-		KeywordStopWords,
-		MetaDescriptionKeyword,
-		new MetaDescriptionLength(),
-		TaxonomyTextLength,
-		TitleKeyword,
-		new PageTitleWidth(),
-		new UrlKeyword(),
-		new UrlLength(),
-		UrlStopWords,
+		new IntroductionKeywordAssessment(),
+		new KeyphraseLengthAssessment(),
+		new KeywordDensityAssessment(),
+		KeywordStopWordsAssessment,
+		new MetaDescriptionKeywordAssessment(),
+		new MetaDescriptionLengthAssessment(),
+		TaxonomyTextLengthAssessment,
+		new TitleKeywordAssessment(),
+		new PageTitleWidthAssessment(),
+		new UrlKeywordAssessment(),
+		new UrlLengthAssessment(),
+		UrlStopWordsAssessment,
 	];
 };
 
 module.exports = TaxonomyAssessor;
 
 require( "util" ).inherits( module.exports, Assessor );
-

@@ -128,10 +128,12 @@ describe( "mapCustomFields", () => {
 		replaceVar1: "replaceValue1",
 		replaceVar2: "replaceValue2",
 		replaceVar3: "replaceValue3",
+		/* eslint-disable */
 		custom_fields: {
 			"i only have spaces": "value1",
-			"i_only_have_underscores": "value2",
+			i_only_have_underscores: "value2",
 		},
+		/* eslint-enable */
 	};
 
 	const store = {
@@ -166,7 +168,9 @@ describe( "mapCustomFields", () => {
 		const actual = mapCustomFields( replaceVars, store );
 
 		expect( actual ).not.toBe( expect.objectContaining( {
+			/* eslint-disable */
 			custom_fields: expect.any( Object ),
+			/* eslint-enable */
 		} ) );
 	} );
 } );
@@ -176,6 +180,7 @@ describe( "mapCustomTaxonomies", () => {
 		replaceVar1: "replaceValue1",
 		replaceVar2: "replaceValue2",
 		replaceVar3: "replaceValue3",
+		/* eslint-disable */
 		custom_taxonomies: {
 			customTaxOne: {
 				name: "customTaxOne",
@@ -186,6 +191,7 @@ describe( "mapCustomTaxonomies", () => {
 				description: "customTaxTwoDescription",
 			},
 		},
+		/* eslint-enable */
 	};
 
 	const store = {
@@ -223,7 +229,9 @@ describe( "mapCustomTaxonomies", () => {
 		const actual = mapCustomTaxonomies( replaceVars, store );
 
 		expect( actual ).not.toBe( expect.objectContaining( {
+			/* eslint-disable */
 			custom_taxonomies: expect.any( Object ),
+			/* eslint-enable */
 		} ) );
 	} );
 } );

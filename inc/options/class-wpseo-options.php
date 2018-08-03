@@ -113,7 +113,7 @@ class WPSEO_Options {
 	 * @return bool
 	 */
 	public static function update_site_option( $option_name, $value ) {
-		if ( is_network_admin() && isset( self::$option_instances[ $option_name ] ) ) {
+		if ( is_multisite() && isset( self::$option_instances[ $option_name ] ) ) {
 			return self::$option_instances[ $option_name ]->update_site_option( $value );
 		}
 

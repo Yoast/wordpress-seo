@@ -48,7 +48,8 @@ class WPSEO_Admin {
 		);
 
 		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
-			$this->admin_features['primary_category'] = new WPSEO_Primary_Term_Admin();
+			$this->admin_features['primary_category']       = new WPSEO_Primary_Term_Admin();
+			$this->admin_features['structured_data_blocks'] = new WPSEO_Structured_Data_Blocks();
 		}
 
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' && filter_input( INPUT_GET, 'tool' ) === null ) {
@@ -92,6 +93,7 @@ class WPSEO_Admin {
 
 		new Yoast_Modal();
 
+		$integrations[] = new Yoast_Network_Admin();
 		$integrations[] = new WPSEO_Yoast_Columns();
 		$integrations[] = new WPSEO_License_Page_Manager();
 		$integrations[] = new WPSEO_Statistic_Integration();

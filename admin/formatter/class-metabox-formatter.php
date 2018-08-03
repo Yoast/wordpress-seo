@@ -45,6 +45,9 @@ class WPSEO_Metabox_Formatter {
 		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
+		$premium_benefits = new WPSEO_Premium_Benefits_List();
+		$premium_benefits->enqueue_translations();
+
 		return array(
 			'language'              => WPSEO_Language_Utils::get_site_language_name(),
 			'settings_link'         => $this->get_settings_link(),
@@ -53,7 +56,6 @@ class WPSEO_Metabox_Formatter {
 			'base_url'              => '',
 			'contentTab'            => __( 'Readability', 'wordpress-seo' ),
 			'keywordTab'            => __( 'Keyword:', 'wordpress-seo' ),
-			'enterFocusKeyword'     => __( 'Enter your focus keyword', 'wordpress-seo' ),
 			'removeKeyword'         => __( 'Remove keyword', 'wordpress-seo' ),
 			'contentLocale'         => get_locale(),
 			'userLocale'            => WPSEO_Utils::get_user_locale(),
@@ -63,9 +65,10 @@ class WPSEO_Metabox_Formatter {
 			'metadesc_template'     => '',
 			'contentAnalysisActive' => $analysis_readability->is_enabled() ? 1 : 0,
 			'keywordAnalysisActive' => $analysis_seo->is_enabled() ? 1 : 0,
+			'cornerstoneActive' 	=> WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
 			'intl'                  => $this->get_content_analysis_component_translations(),
 			'isRtl'                 => is_rtl(),
-			'gutenbergSidebar'      => defined( 'YOAST_FEATURE_GUTENBERG_SIDEBAR' ) && YOAST_FEATURE_GUTENBERG_SIDEBAR,
+			'addKeywordUpsell'      => $this->get_add_keyword_upsell_translations(),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
@@ -169,6 +172,37 @@ class WPSEO_Metabox_Formatter {
 			'content-analysis.nohighlight'          => __( 'Remove highlight from the text', 'wordpress-seo' ),
 			'content-analysis.disabledButton'       => __( 'Marks are disabled in current view', 'wordpress-seo' ),
 			'a11yNotice.opensInNewTab'              => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
+		);
+	}
+
+	/**
+	 * Returns the translations for the Add Keyword modal.
+	 *
+	 * These strings are not escaped because they're meant to be used with React
+	 * which already takes care of that. If used in PHP, they should be escaped.
+	 *
+	 * @return array Translated text strings for the Add Keyword modal.
+	 */
+	public function get_add_keyword_upsell_translations() {
+		return array(
+			'title'                    => __( 'Would you like to add more than one keyword?', 'wordpress-seo' ),
+			'intro'                    => sprintf(
+			/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
+				__( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
+				'{{link}}Yoast SEO Premium{{/link}}'
+			),
+			'link'                     => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
+			'other'                    => sprintf(
+			/* translators: %s expands to 'Yoast SEO Premium'. */
+				__( 'Other benefits of %s for you:', 'wordpress-seo' ), 'Yoast SEO Premium'
+			),
+			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ),
+			'buy'                      => sprintf(
+			/* translators: %s expands to 'Yoast SEO Premium'. */
+				__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
+			),
+			'small'                    => __( '1 year free updates and upgrades included!', 'wordpress-seo' ),
+			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
 		);
 	}
 
