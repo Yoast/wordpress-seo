@@ -14,6 +14,8 @@ import Input from "./components/Input";
 import TextArea from "./components/TextArea";
 import * as paperActionCreators from "./redux/actionCreators/paper";
 import * as configurationActionCreators from "./redux/actionCreators/configuration";
+import { setResults } from "./redux/actions/results";
+import Results from "./Results";
 
 class App extends React.Component {
 	constructor( props ) {
@@ -36,7 +38,11 @@ class App extends React.Component {
 		const { paper } = this.props;
 
 		this.analysisWorker.analyze( paper )
-		    .then( data => console.log( "analysis done!", data ) );
+		.then( data => {
+			this.props.setResults( {
+				readability: data.results,
+			} );
+		} );
 	}
 
 	renderPaperAttribute( id, placeholder, label = null, Component = Input, defaultValue = "" ) {
@@ -89,6 +95,7 @@ class App extends React.Component {
 
 						</div>
 						<h2>Content assessments</h2>
+						<Results results={ this.props.results.readability } />
 						<div id="contentOutput" className="output">
 
 						</div>
@@ -167,6 +174,10 @@ function mapDispatchToProps( dispatch ) {
 			...configurationActionCreators,
 			...paperActionCreators,
 		}, dispatch ),
+
+		setResults: ( results ) => {
+			dispatch( setResults( results ) );
+		}
 	};
 }
 
