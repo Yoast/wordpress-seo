@@ -12,9 +12,10 @@ import Button from "./components/Button";
 import Checkbox from "./components/Checkbox";
 import Input from "./components/Input";
 import TextArea from "./components/TextArea";
-import Text from "./components/Text";
 import * as paperActionCreators from "./redux/actionCreators/paper";
 import * as configurationActionCreators from "./redux/actionCreators/configuration";
+import { setResults } from "./redux/actions/results";
+import Results from "./Results";
 
 class App extends React.Component {
 	constructor( props ) {
@@ -24,8 +25,6 @@ class App extends React.Component {
 
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
-
-		this.analysisResults = "initial results";
 	}
 
 	initialize() {
@@ -42,10 +41,12 @@ class App extends React.Component {
 		    .then(
 		    	data => {
 		    		console.log( "analysis done!", data );
-				    this.analysisResults = data.seo.results[ 0 ].text;
-				    console.log( "analysis results saved!", this.analysisResults );
+					this.props.setResults( {
+						readability: data.readability.results,
+						seo: data.seo.results,
+					} );
 			    }
-		    )
+		    );
 	}
 
 	renderPaperAttribute( id, placeholder, label = null, Component = Input, defaultValue = "" ) {
@@ -94,18 +95,14 @@ class App extends React.Component {
 					</div>
 					<div className="output-container">
 						<h2>SEO assessments</h2>
+						<Results results={ this.props.results.seo } />
 						<div id="output" className="output">
-							<Text
-								id="seoResults"
-								text={ this.analysisResults }
-							/>
+
 						</div>
 						<h2>Content assessments</h2>
+						<Results results={ this.props.results.readability } />
 						<div id="contentOutput" className="output">
-							<Text
-								id="readabilityResults"
-								text={ this.analysisResults }
-							/>
+
 						</div>
 					</div>
 				</div>
@@ -182,6 +179,10 @@ function mapDispatchToProps( dispatch ) {
 			...configurationActionCreators,
 			...paperActionCreators,
 		}, dispatch ),
+
+		setResults: ( results ) => {
+			dispatch( setResults( results ) );
+		}
 	};
 }
 
