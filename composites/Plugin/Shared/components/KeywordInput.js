@@ -124,6 +124,9 @@ class KeywordInput extends React.Component {
 
 		const label = __( "Focus keyword:", "yoast-components" );
 
+		// The aria label should not be shown if there is a visible label.
+		const showAriaLabel = ! showLabel;
+
 		return(
 			<KeywordInputContainer>
 				{ showLabel && <KeywordFieldLabel htmlFor={ id }>
@@ -131,7 +134,7 @@ class KeywordInput extends React.Component {
 				</KeywordFieldLabel> }
 				<YoastInputButtonContainer>
 					<KeywordField
-						aria-label={ label }
+						aria-label={ showAriaLabel ? label : null }
 						type="text"
 						id={ id }
 						className={ showErrorMessage ? "hasError" : null }
