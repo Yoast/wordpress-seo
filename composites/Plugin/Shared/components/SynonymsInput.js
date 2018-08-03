@@ -21,7 +21,6 @@ const SynonymsInput = ( { id, label, value, onChange, explanationText } ) => {
 				</ExplanationText>
 			) }
 			<YoastInputField
-				aria-label={ label }
 				type="text"
 				id={ id }
 				onChange={ onChange }
