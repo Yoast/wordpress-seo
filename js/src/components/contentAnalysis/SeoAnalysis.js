@@ -90,17 +90,17 @@ class SeoAnalysis extends React.Component {
 		return (
 			<React.Fragment>
 				<Collapsible
-					title={ __( "Focus keyword" ) }
+					title={ __( "Focus keyword", "wordpress-seo" ) }
 					titleScreenReaderText={ score.screenReaderReadabilityText }
 					prefixIcon={ getIconForScore( score.className ) }
 					prefixIconCollapsed={ getIconForScore( score.className ) }
 					subTitle={ this.props.keyword }
 				>
 					<ExplanationText>
-						A focus keyword is the term (or phrase) you'd like to be found with in search engines.
-						Enter it below to see how you can improve your text for this term.
+						{ __( "A focus keyword is the term (or phrase) you'd like to be found with in search engines.", "wordpress-seo" ) }
+						{ __( "Enter it below to see how you can improve your text for this term.", "wordpress-seo" ) }
 						<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }>
-							Learn more about the Keyword Analysis
+							{ __( "Learn more about the Keyword Analysis", "wordpress-seo" ) }
 						</FocusKeywordLink>
 					</ExplanationText>
 					<KeywordInput
