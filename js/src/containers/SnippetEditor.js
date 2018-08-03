@@ -4,6 +4,7 @@ import { SnippetEditor } from "yoast-components";
 import identity from "lodash/identity";
 import get from "lodash/get";
 import { __ } from "@wordpress/i18n";
+import { dispatch as wpDataDispatch } from "@wordpress/data";
 import analysis from "yoastseo";
 const { stripHTMLTags: stripFullTags } = analysis.string;
 
@@ -155,6 +156,17 @@ export function mapDispatchToProps( dispatch ) {
 			}
 
 			dispatch( action );
+
+			/*
+			 * Update the gutenberg store with the new slug, after updating our own store,
+			 * to make sure our store isn't updated twice.
+			 */
+			if ( key === "slug" ) {
+				const coreEditorDispatch = wpDataDispatch( "core/editor" );
+				if ( coreEditorDispatch ) {
+					coreEditorDispatch.editPost( { slug: value } );
+				}
+			}
 		},
 		onChangeAnalysisData: ( analysisData ) => {
 			dispatch( updateAnalysisData( analysisData ) );
