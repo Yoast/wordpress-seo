@@ -396,6 +396,7 @@ setWordPressSeoL10n();
 		editStore = store;
 
 		metaboxContainer = $( "#wpseo_meta" );
+
 		tinyMCEHelper.setStore( editStore );
 		tinyMCEHelper.wpTextViewOnInitCheck();
 		handlePageBuilderCompatibility();
