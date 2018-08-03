@@ -54,7 +54,7 @@ class SeoAnalysis extends React.Component {
 			<Collapsible
 			prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 			prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
-			title="Add another keyword"
+			title={ __( "Add additional keyword", "wordpress-seo" ) }
 			>
 				<UpsellBox
 					benefits={ upsell.benefits }
