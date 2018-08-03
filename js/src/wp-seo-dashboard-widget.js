@@ -9,7 +9,7 @@ import ScoreAssessments from "yoast-components";
 import utils from "yoast-components";
 const { getFeed } = utils.getFeed();
 import WordpressFeed from "yoast-components";
-import colors from "yoast-components";
+import { colors } from "yoast-components";
 import { setYoastComponentsL10n } from "./helpers/i18n";
 
 class DashboardWidget extends React.Component {
