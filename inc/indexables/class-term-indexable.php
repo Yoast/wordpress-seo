@@ -10,6 +10,24 @@
  */
 class WPSEO_Term_Indexable extends WPSEO_Indexable {
 
+	private $updateable_fields = array(
+		'canonical',
+		'title',
+		'description',
+		'breadcrumb_title',
+		'og_title',
+		'og_description',
+		'og_image',
+		'twitter_title',
+		'twitter_description',
+		'twitter_image',
+		'is_robots_noindex',
+		'primary_focus_keyword',
+		'primary_focus_keyword',
+		'primary_focus_keyword_score',
+		'readability_score',
+	);
+
 	/**
 	 * Creates a new Indexable from a passed object.
 	 *
@@ -67,6 +85,9 @@ class WPSEO_Term_Indexable extends WPSEO_Indexable {
 	 * @return WPSEO_Indexable A new instance with the updated data.
 	 */
 	public function update( $data ) {
+
+		var_dump(array_intersect( $data, $this->updateable_fields ) );die;
+
 		$data = array_merge( $this->data, $data );
 
 		return new self( $data );

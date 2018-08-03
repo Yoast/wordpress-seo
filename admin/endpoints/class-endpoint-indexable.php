@@ -50,7 +50,7 @@ class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storabl
 			self::ENDPOINT_SINGULAR,
 			array( $this->service, 'patch_indexable' ),
 			array( $this, 'can_store_data' ),
-			'PATCH'
+			WP_REST_Server::EDITABLE
 		);
 
 		foreach ( $endpoints as $endpoint ) {

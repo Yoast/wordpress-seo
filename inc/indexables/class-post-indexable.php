@@ -10,6 +10,29 @@
  */
 class WPSEO_Post_Indexable extends WPSEO_Indexable {
 
+	private $updateable_fields = array(
+		'canonical',
+		'title',
+		'description',
+		'breadcrumb_title',
+		'og_title',
+		'og_description',
+		'og_image',
+		'twitter_title',
+		'twitter_description',
+		'twitter_image',
+		'is_robots_noindex',
+		'is_robots_nofollow',
+		'is_robots_noarchive',
+		'is_robots_noimageindex',
+		'is_robots_nosnippet',
+		'primary_focus_keyword',
+		'primary_focus_keyword',
+		'primary_focus_keyword_score',
+		'readability_score',
+		'is_cornerstone',
+	);
+
 	/**
 	 * Creates a new Indexable from a passed object.
 	 *
@@ -68,7 +91,9 @@ class WPSEO_Post_Indexable extends WPSEO_Indexable {
 	 * @return WPSEO_Indexable A new instance with the updated data.
 	 */
 	public function update( $data ) {
-		$data = array_merge( $this->data, $data );
+		$updateable_data = array_intersect_key( $data, array_flip( $this->updateable_fields ) );
+
+		$data = array_merge( $this->data, $updateable_data );
 
 		return new self( $data );
 	}
