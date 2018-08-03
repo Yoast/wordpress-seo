@@ -62,7 +62,7 @@ class WPSEO_Metabox_Formatter {
 			'metadesc_template'     => '',
 			'contentAnalysisActive' => $analysis_readability->is_enabled() ? 1 : 0,
 			'keywordAnalysisActive' => $analysis_seo->is_enabled() ? 1 : 0,
-			'cornerstoneActive' 	=> WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
+			'cornerstoneActive'     => WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
 			'intl'                  => $this->get_content_analysis_component_translations(),
 			'isRtl'                 => is_rtl(),
 			'addKeywordUpsell'      => $this->get_add_keyword_upsell_translations(),
@@ -184,18 +184,18 @@ class WPSEO_Metabox_Formatter {
 		return array(
 			'title'                    => __( 'Would you like to add more than one keyphrase?', 'wordpress-seo' ),
 			'intro'                    => sprintf(
-			/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
+				/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
 				__( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
 				'{{link}}Yoast SEO Premium{{/link}}'
 			),
 			'link'                     => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
 			'other'                    => sprintf(
-			/* translators: %s expands to 'Yoast SEO Premium'. */
+				/* translators: %s expands to 'Yoast SEO Premium'. */
 				__( 'Other benefits of %s for you:', 'wordpress-seo' ), 'Yoast SEO Premium'
 			),
 			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ),
 			'buy'                      => sprintf(
-			/* translators: %s expands to 'Yoast SEO Premium'. */
+				/* translators: %s expands to 'Yoast SEO Premium'. */
 				__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
 			),
 			'small'                    => __( '1 year free updates and upgrades included!', 'wordpress-seo' ),

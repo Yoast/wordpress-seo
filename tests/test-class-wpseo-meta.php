@@ -42,6 +42,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test if default meta values are removed when updating post_meta.
+	 *
 	 * @covers WPSEO_Meta::remove_meta_if_default
 	 */
 	public function test_remove_meta_if_default() {
@@ -62,6 +63,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test if default meta values aren't saved when updating post_meta.
+	 *
 	 * @covers WPSEO_Meta::dont_save_meta_if_default
 	 */
 	public function test_dont_save_meta_if_default() {
@@ -134,6 +136,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test value returned when valid $_POST key supplied.
+	 *
 	 * @covers WPSEO_Meta::get_post_value
 	 */
 	public function test_get_post_value() {
@@ -146,6 +149,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test default value returned when non-existant $_POST key supplied.
+	 *
 	 * @covers WPSEO_Meta::get_post_value
 	 */
 	public function test_get_post_value_default() {

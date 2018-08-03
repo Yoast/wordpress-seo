@@ -22,7 +22,7 @@ class WPSEO_Sitemap_Image_Parser {
 	/** @var array $attachments Cached set of attachments for multiple posts. */
 	protected $attachments = array();
 
-	/** @var string $charset Holds blog charset value for use in DOM parsing.  */
+	/** @var string $charset Holds blog charset value for use in DOM parsing. */
 	protected $charset = 'UTF-8';
 
 	/**

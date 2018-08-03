@@ -91,9 +91,9 @@ class WPSEO_Breadcrumbs {
 	 * Create the breadcrumb.
 	 */
 	protected function __construct() {
-		$this->post           = ( isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null );
-		$this->show_on_front  = get_option( 'show_on_front' );
-		$this->page_for_posts = get_option( 'page_for_posts' );
+		$this->post                  = ( isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null );
+		$this->show_on_front         = get_option( 'show_on_front' );
+		$this->page_for_posts        = get_option( 'page_for_posts' );
 		$this->woocommerce_shop_page = new WPSEO_WooCommerce_Shop_Page();
 
 		$this->filter_element();

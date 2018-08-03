@@ -13,7 +13,7 @@ class WPSEO_GSC_Modal {
 	/** @var string */
 	protected $view;
 
-	/** @var int  */
+	/** @var int */
 	protected $height;
 
 	/** @var array */
