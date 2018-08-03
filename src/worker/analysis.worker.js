@@ -7,7 +7,9 @@ import merge from "lodash/merge";
 import * as Paper from "yoastseo/values/Paper";
 import * as Researcher from "yoastseo/researcher";
 import * as ContentAssessor from "yoastseo/contentAssessor";
+import * as SEOAssessor from "yoastseo/seoAssessor";
 import * as CornerstoneContentAssessor from "yoastseo/cornerstone/contentAssessor";
+import * as CornerstoneSEOAssessor from "yoastseo/cornerstone/seoAssessor";
 
 // Internal dependencies.
 import { Scheduler } from "./scheduler";
@@ -36,6 +38,7 @@ class AnalysisWebWorker {
 		this._paper = new Paper( "" );
 		this._researcher = new Researcher( this._paper );
 		this._contentAssessor = null;
+		this._seoAssessor = null;
 
 		// Bind actions to this scope.
 		this.analyze = this.analyze.bind( this );
@@ -122,6 +125,29 @@ class AnalysisWebWorker {
 	}
 
 	/**
+	 * Initializes the appropriate SEO assessor.
+	 *
+	 * @returns {null|SEOAssessor|CornerstoneSEOAssessor} The chosen
+	 *                                                    SEO
+	 *                                                    assessor.
+	 */
+	createSEOAssessor() {
+		const {
+			keywordAnalysisActive,
+			useCornerstone,
+			locale,
+		} = this._configuration;
+
+		if ( keywordAnalysisActive === false ) {
+			return null;
+		}
+		if ( useCornerstone === true ) {
+			return new CornerstoneSEOAssessor( this._i18n, { locale } );
+		}
+		return new SEOAssessor( this._i18n, { locale } );
+	}
+
+	/**
 	 * Sends a message.
 	 *
 	 * @param {string}   type    The type of the message.
@@ -149,6 +175,7 @@ class AnalysisWebWorker {
 		console.log( "run initialize", configuration, this._configuration );
 
 		this._contentAssessor = this.createContentAssessor();
+		this._seoAssessor = this.createSEOAssessor();
 
 		this.send( "initialize:done" );
 	}
@@ -172,19 +199,30 @@ class AnalysisWebWorker {
 
 		if (
 			! this._contentAssessor ||
-			! this._configuration.contentAnalysisActive
+			! this._configuration.contentAnalysisActive ||
+			! this._seoAssessor ||
+			! this._configuration.keywordAnalysisActive
 		) {
 			return;
 		}
 		this._contentAssessor.assess( this._paper );
-		const results = this._contentAssessor.results;
-		const score = this._contentAssessor.calculateOverallScore();
+		const resultsReadability = this._contentAssessor.results;
+		const scoreReadability = this._contentAssessor.calculateOverallScore();
+
+		this._seoAssessor.assess( this._paper );
+		const resultsSEO = this._seoAssessor.results;
+		const scoreSEO = this._seoAssessor.calculateOverallScore();
 
 		return {
 			id,
-			category: "readability",
-			results,
-			score,
+			readability: {
+				resultsReadability,
+				scoreReadability,
+			},
+			seo: {
+				resultsSEO,
+				scoreSEO,
+			},
 		};
 	}
 

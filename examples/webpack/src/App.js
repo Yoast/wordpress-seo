@@ -12,6 +12,7 @@ import Button from "./components/Button";
 import Checkbox from "./components/Checkbox";
 import Input from "./components/Input";
 import TextArea from "./components/TextArea";
+import Text from "./components/Text";
 import * as paperActionCreators from "./redux/actionCreators/paper";
 import * as configurationActionCreators from "./redux/actionCreators/configuration";
 
@@ -23,6 +24,8 @@ class App extends React.Component {
 
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
+
+		this.analysisResults = "initial results";
 	}
 
 	initialize() {
@@ -36,7 +39,13 @@ class App extends React.Component {
 		const { paper } = this.props;
 
 		this.analysisWorker.analyze( paper )
-		    .then( data => console.log( "analysis done!", data ) );
+		    .then(
+		    	data => {
+		    		console.log( "analysis done!", data );
+				    this.analysisResults = data.seo.results[ 0 ].text;
+				    console.log( "analysis results saved!", this.analysisResults );
+			    }
+		    )
 	}
 
 	renderPaperAttribute( id, placeholder, label = null, Component = Input, defaultValue = "" ) {
@@ -86,11 +95,17 @@ class App extends React.Component {
 					<div className="output-container">
 						<h2>SEO assessments</h2>
 						<div id="output" className="output">
-
+							<Text
+								id="seoResults"
+								text={ this.analysisResults }
+							/>
 						</div>
 						<h2>Content assessments</h2>
 						<div id="contentOutput" className="output">
-
+							<Text
+								id="readabilityResults"
+								text={ this.analysisResults }
+							/>
 						</div>
 					</div>
 				</div>

@@ -64,9 +64,14 @@ class AnalysisWorkerWrapper {
 				}
 
 				this.getCallback( "analyze", payload.id )( null, {
-					category: payload.category,
-					results: payload.results,
-					score: payload.score,
+					readability: {
+						results: payload.readability.resultsReadability,
+						score: payload.readability.scoreReadability,
+					},
+					seo: {
+						results: payload.seo.resultsSEO,
+						score: payload.seo.scoreSEO,
+					},
 				} );
 				break;
 			default:
