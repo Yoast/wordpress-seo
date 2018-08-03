@@ -379,7 +379,6 @@ function wpseo_frontend_head_init() {
 	if ( WPSEO_Options::get( 'opengraph' ) === true ) {
 		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph();
 	}
-
 }
 
 /**

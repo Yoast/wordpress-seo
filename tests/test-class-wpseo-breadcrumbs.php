@@ -25,7 +25,6 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 		// @todo Test actual breadcrumb output.
 	}*/
 
-
 	/**
 	 * Placeholder test to prevent PHPUnit from throwing errors.
 	 */
@@ -86,5 +85,4 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( '', $breadcrumbs->get_link_url_for_id( 0 ) );
 	}
-
 }

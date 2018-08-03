@@ -838,7 +838,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return array();
 	}
 
-
 	/**
 	 * Returns an array with shortcode tags for all registered shortcodes.
 	 *

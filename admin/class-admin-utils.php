@@ -65,7 +65,6 @@ class WPSEO_Admin_Utils {
 			$install_url,
 			$plugin['title']
 		);
-
 	}
 
 	/**

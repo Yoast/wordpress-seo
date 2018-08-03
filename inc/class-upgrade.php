@@ -9,6 +9,7 @@
  * This code handles the option upgrades
  */
 class WPSEO_Upgrade {
+
 	/**
 	 * Class constructor
 	 */
