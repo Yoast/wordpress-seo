@@ -12,9 +12,9 @@ import Button from "./components/Button";
 import Checkbox from "./components/Checkbox";
 import Input from "./components/Input";
 import TextArea from "./components/TextArea";
-import * as paperActionCreators from "./redux/actionCreators/paper";
 import * as configurationActionCreators from "./redux/actionCreators/configuration";
-import { setResults } from "./redux/actions/results";
+import * as paperActionCreators from "./redux/actionCreators/paper";
+import * as resultsActionCreators from "./redux/actionCreators/results";
 import Results from "./Results";
 
 class App extends React.Component {
@@ -35,11 +35,11 @@ class App extends React.Component {
 	}
 
 	analyze() {
-		const { paper } = this.props;
+		const { actions, paper } = this.props;
 
 		this.analysisWorker.analyze( paper )
 		.then( data => {
-			this.props.setResults( {
+			actions.setResults( {
 				readability: data.results,
 			} );
 		} );
@@ -173,11 +173,8 @@ function mapDispatchToProps( dispatch ) {
 		actions: bindActionCreators( {
 			...configurationActionCreators,
 			...paperActionCreators,
+			...resultsActionCreators,
 		}, dispatch ),
-
-		setResults: ( results ) => {
-			dispatch( setResults( results ) );
-		}
 	};
 }
 
