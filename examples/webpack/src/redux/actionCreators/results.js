@@ -11,5 +11,5 @@ export function setResults( results ) {
 	return {
 		type: actions.SET_RESULTS,
 		results,
-	}
+	};
 }

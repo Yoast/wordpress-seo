@@ -1,5 +1,6 @@
 // External dependencies.
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -7,7 +8,7 @@ import { bindActionCreators } from "redux";
 import AnalysisWorkerWrapper from "yoastseo/worker/AnalysisWorkerWrapper";
 
 // Internal dependencies.
-import './App.css';
+import "./App.css";
 import Button from "./components/Button";
 import Checkbox from "./components/Checkbox";
 import Input from "./components/Input";
@@ -18,6 +19,17 @@ import * as resultsActionCreators from "./redux/actionCreators/results";
 import Results from "./Results";
 
 class App extends React.Component {
+	/**
+	 * Initializes the App component.
+	 *
+	 * @param {Object} props               The props.
+	 * @param {Object} props.configuration The store configuration.
+	 * @param {Object} props.paper         The store paper.
+	 * @param {Object} props.results       The store analyses results.
+	 * @param {Object} props.actions       The dispatch actions.
+	 *
+	 * @constructor
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -27,6 +39,11 @@ class App extends React.Component {
 		this.analyze = this.analyze.bind( this );
 	}
 
+	/**
+	 * Initialize the analysis worker.
+	 *
+	 * @returns {void}
+	 */
 	initialize() {
 		const { configuration } = this.props;
 
@@ -34,17 +51,33 @@ class App extends React.Component {
 		    .then( data => console.log( "initialization done!", data ) );
 	}
 
+	/**
+	 * Requests the analyses results from the worker.
+	 *
+	 * @returns {void}
+	 */
 	analyze() {
 		const { actions, paper } = this.props;
 
 		this.analysisWorker.analyze( paper )
-		.then( data => {
-			actions.setResults( {
-				readability: data.results,
+			.then( data => {
+				actions.setResults( {
+					readability: data.results,
+				} );
 			} );
-		} );
 	}
 
+	/**
+	 * Renders a form input for a paper attribute.
+	 *
+	 * @param {string}         id           The id.
+	 * @param {string}         placeholder  The placeholder.
+	 * @param {string}         label        The label.
+	 * @param {ReactComponent} Component    The component.
+	 * @param {string}         defaultValue The default value.
+	 *
+	 * @returns {ReactElement} The form input for a paper attribute.
+	 */
 	renderPaperAttribute( id, placeholder, label = null, Component = Input, defaultValue = "" ) {
 		const { actions, paper } = this.props;
 
@@ -59,6 +92,11 @@ class App extends React.Component {
 		);
 	}
 
+	/**
+	 * Renders the app.
+	 *
+	 * @returns {ReactElement} The app.
+	 */
 	render() {
 		const { paper, actions } = this.props;
 
@@ -85,7 +123,7 @@ class App extends React.Component {
 							value={ paper.premium !== false }
 							label="Premium"
 							onChange={ value => {
-								actions.setConfigurationAttribute( "useKeywordDistribution", value )
+								actions.setConfigurationAttribute( "useKeywordDistribution", value );
 							} }
 						/>
 					</div>
@@ -114,9 +152,11 @@ class App extends React.Component {
 							<g id="BG_dark"/>
 							<g id="bg_light">
 								<path fill="#5B2942"
-								      d="M415,500H85c-46.8,0-85-38.2-85-85V85C0,38.2,38.2,0,85,0h330c46.8,0,85,38.2,85,85v330 C500,461.8,461.8,500,415,500z"/>
+								      d={ "M415,500H85c-46.8,0-85-38.2-85-85V85C0,38.2,38.2,0,85,0" +
+								          "h330c46.8,0,85,38.2,85,85v330 C500,461.8,461.8,500,415,500z" }/>
 								<path fill="none" stroke="#7EADB9" strokeWidth="17" strokeMiterlimit="10"
-								      d="M404.6,467H95.4C61.1,467,33,438.9,33,404.6V95.4 C33,61.1,61.1,33,95.4,33h309.2c34.3,0,62.4,28.1,62.4,62.4v309.2C467,438.9,438.9,467,404.6,467z"/>
+								      d={ "M404.6,467H95.4C61.1,467,33,438.9,33,404.6V95.4 C33,61.1,61.1,33,95.4,33" +
+								          "h309.2c34.3,0,62.4,28.1,62.4,62.4v309.2C467,438.9,438.9,467,404.6,467z" }/>
 							</g>
 							<g id="Layer_2">
 								<circle id="score_circle_shadow" fill="#77B227" cx="250" cy="250" r="155"/>
@@ -149,6 +189,13 @@ class App extends React.Component {
 		);
 	}
 }
+
+App.propTypes = {
+	actions: PropTypes.object.isRequired,
+	configuration: PropTypes.object.isRequired,
+	paper: PropTypes.object.isRequired,
+	results: PropTypes.object.isRequired,
+};
 
 /**
  * Maps state to props.

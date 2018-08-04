@@ -1,7 +1,16 @@
+// External dependencies.
 import React, { Component } from "react";
-import scoreToRating from "../../../src/interpreters/scoreToRating";
+import PropTypes from "prop-types";
 
-export default class Results extends Component {
+// Internal dependencies.
+import scoreToRating from "yoastseo/interpreters/scoreToRating";
+
+class Results extends Component {
+	/**
+	 * Renders the results.
+	 *
+	 * @returns {ReactElement} The results.
+	 */
 	render() {
 		let results = [ ...this.props.results ];
 
@@ -14,23 +23,33 @@ export default class Results extends Component {
 				return 1;
 			}
 
-			// a must be equal to b
+			// Value a must be equal to b
 			return 0;
 		} );
 
-		return <ul>
-			{ results.map( ( result ) => {
-				const rating = scoreToRating( result.score );
+		return (
+			<ul>
+				{ results.map( ( result ) => {
+					const rating = scoreToRating( result.score );
 
-				const className = "wpseo-score-icon " + rating;
+					const className = "wpseo-score-icon " + rating;
 
-				return <li key={ result._identifier } style={ { marginTop: "1em" } }>
-					<span className={ className } />
-					<span dangerouslySetInnerHTML={ { __html: result.text } } />
+					return (
+						<li key={ result._identifier } style={ { marginTop: "1em" } }>
+							<span className={ className }/>
+							<span dangerouslySetInnerHTML={ { __html: result.text } }/>
 
-					<div style={ { clear: "both" } } />
-				</li>
-			} ) }
-		</ul>
+							<div style={ { clear: "both" } }/>
+						</li>
+					);
+				} ) }
+			</ul>
+		);
 	}
 }
+
+Results.propTypes = {
+	results: PropTypes.array.isRequired,
+};
+
+export default Results;
