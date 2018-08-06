@@ -6,11 +6,14 @@ import flowRight from "lodash/flowRight";
 /**
  * Configures the Redux store enhancers.
  *
+ * @param {Array} [extraMiddleware] Any extra middleware to apply.
+ *
  * @returns {Object} Redux store enhancers.
  */
-export default function configureEnhancers() {
+export default function configureEnhancers( extraMiddleware = [] ) {
 	const middleware = [
 		thunk,
+		...extraMiddleware,
 	];
 
 	const enhancers = [
