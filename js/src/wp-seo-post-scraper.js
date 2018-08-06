@@ -134,6 +134,26 @@ setWordPressSeoL10n();
 	}
 
 	/**
+	 * Updates the used keyword analysis when the keyword has changed.
+	 *
+	 * @returns {void}
+	 */
+	function initializeUsedKeywords() {
+		const usedKeywords = new UsedKeywords( "get_focus_keyword_usage", wpseoPostScraperL10n, app );
+		usedKeywords.init();
+
+		let lastData = {};
+		editStore.subscribe( () => {
+			const state = editStore.getState() || {};
+			if ( state.focusKeyword === lastData.focusKeyword ) {
+				return;
+			}
+			lastData = state;
+			usedKeywords.setKeyword( state.focusKeyword );
+		} );
+	}
+
+	/**
 	 * Initializes keyword analysis.
 	 *
 	 * @param {App} app                       The App object.
@@ -144,9 +164,8 @@ setWordPressSeoL10n();
 	 */
 	function initializeKeywordAnalysis( app, postScraper, publishBox ) {
 		const savedKeywordScore = $( "#yoast_wpseo_linkdex" ).val();
-		const usedKeywords = new UsedKeywords( "#yoast_wpseo_focuskw", "get_focus_keyword_usage", wpseoPostScraperL10n, app );
 
-		usedKeywords.init();
+		initializeUsedKeywords();
 
 		const indicator = getIndicatorForScore( savedKeywordScore );
 
