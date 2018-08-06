@@ -1,9 +1,19 @@
+// Internal dependencies.
 import "./index.css";
 import App from "./App";
+
 import configureStore from "./redux/utils/store";
 import { renderReactApp } from "./redux/utils/render";
+import { createStorageMiddleware, getStorageData } from "./redux/utils/localstorage";
 
-const state = {
+const storageStates = [
+	"configuration",
+	"paper",
+];
+const preloadedState = {
+	configuration: {
+		useKeywordDistribution: true,
+	},
 	paper: {
 		text: "",
 		title: "",
@@ -15,7 +25,11 @@ const state = {
 		permalink: "example-post",
 	},
 };
-const store = configureStore( state );
+
+const initialState = getStorageData( storageStates, preloadedState );
+const storageMiddleware = createStorageMiddleware( storageStates );
+
+const store = configureStore( initialState, [ storageMiddleware  ] );
 const targetElement = document.getElementById( "root" );
 
 renderReactApp( targetElement, App, store );

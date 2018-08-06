@@ -17,6 +17,7 @@ import * as configurationActionCreators from "./redux/actionCreators/configurati
 import * as paperActionCreators from "./redux/actionCreators/paper";
 import * as resultsActionCreators from "./redux/actionCreators/results";
 import Results from "./Results";
+import { clearStorage } from "./redux/utils/localstorage";
 
 class App extends React.Component {
 	/**
@@ -108,6 +109,7 @@ class App extends React.Component {
 						<div className="button-container">
 							<Button onClick={ this.initialize }>Initialize</Button>
 							<Button onClick={ this.analyze }>Analyze</Button>
+							<Button onClick={ () => { clearStorage(); window.location.reload(); } }>Clear</Button>
 						</div>
 
 						{ this.renderPaperAttribute( "text", "Write a text", null, TextArea ) }
