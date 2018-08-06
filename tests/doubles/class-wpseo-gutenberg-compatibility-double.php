@@ -17,7 +17,11 @@ class WPSEO_Gutenberg_Compatibility_Double extends WPSEO_Gutenberg_Compatibility
 	 *
 	 * @return void
 	 */
-	public function set_installed_gutenberg_version( $version  ) {
+	public function set_installed_gutenberg_version( $version = null ) {
+		if ( $version === null ) {
+			$version = $this->detect_installed_gutenberg_version();
+		}
+
 		$this->current_version = $version;
 	}
 

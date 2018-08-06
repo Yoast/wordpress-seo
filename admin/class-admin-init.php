@@ -42,7 +42,6 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'yoast_plugin_compatibility_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'yoast_plugin_suggestions_notification' ), 15 );
-		add_action( 'admin_init', array( $this, 'yoast_gutenberg_compatibility_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'unsupported_php_notice' ), 15 );
 		add_action( 'admin_init', array( $this->asset_manager, 'register_assets' ) );
@@ -400,53 +399,6 @@ class WPSEO_Admin_Init {
 				'type' => $level,
 			)
 		);
-	}
-
-	/**
-	 * Build Gutenberg compatibility problem notification.
-	 *
-	 * @param string $installed_version The installed version of Gutenberg.
-	 * @param string $level  			The severity level to use for the notification.
-	 *
-	 * @return Yoast_Notification The incompatible Gutenberg version notification.
-	 */
-	private function get_gutenberg_compatibility_notification( $installed_version, $level = Yoast_Notification::WARNING ) {
-		$message = sprintf(
-			/* translators: %1$s expands to Yoast SEO, %2$s expands to the installed version, %3$s expands to Gutenberg */
-			__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
-			'Yoast SEO',
-			$installed_version,
-			'Gutenberg'
-		);
-
-		return new Yoast_Notification(
-			$message,
-			array(
-				'id'   => 'wpseo-outdated-gutenberg-plugin',
-				'type' => $level,
-			)
-		);
-	}
-
-	/**
-	 * Add an alert if incompatible versions of Gutenberg are running.
-	 *
-	 * @return void
-	 */
-	public function yoast_gutenberg_compatibility_notification() {
-		$compatibility_checker = new WPSEO_Gutenberg_Compatibility();
-		$notification_center   = Yoast_Notification_Center::get();
-
-		if ( ! $compatibility_checker->is_installed() || $compatibility_checker->is_fully_compatible() ) {
-			$notification_center->remove_notification_by_id( 'wpseo-outdated-gutenberg-plugin' );
-
-			return;
-		}
-
-		$level = $compatibility_checker->is_below_minimum() ? Yoast_Notification::ERROR : Yoast_Notification::WARNING;
-		$notification = $this->get_gutenberg_compatibility_notification( $compatibility_checker->get_installed_version(), $level );
-
-		$notification_center->add_notification( $notification );
 	}
 
 	/**

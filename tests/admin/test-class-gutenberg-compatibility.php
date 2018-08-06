@@ -23,7 +23,7 @@ class WPSEO_Gutenberg_Compatibility_Test extends WPSEO_UnitTestCase {
 
 		$mock = $this
 			->getMockBuilder( 'WPSEO_Gutenberg_Compatibility_Double' )
-			->setMethods( array( 'is_gutenberg_available', 'get_latest_release', 'get_minimum_supported_version' ) )
+			->setMethods( array( 'detect_installed_gutenberg_version', 'get_latest_release', 'get_minimum_supported_version' ) )
 			->getMock();
 
 		$this->default_mock = $mock;
@@ -35,14 +35,14 @@ class WPSEO_Gutenberg_Compatibility_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Gutenberg_Compatibility::is_installed
 	 */
 	public function test_gutenberg_is_installed() {
-		$this->default_mock->set_installed_gutenberg_version( '3.3.0' );
+		$mock = $this
+			->getMockBuilder( 'WPSEO_Gutenberg_Compatibility_Double' )
+			->setMethods( array( 'detect_installed_gutenberg_version' ) )
+			->getMock();
 
-		$this->default_mock
-			->expects( $this->once() )
-			->method( 'is_gutenberg_available' )
-			->will( $this->returnValue( true ) );
+		$mock->set_installed_gutenberg_version( '3.3.0' );
 
-		$this->assertEquals( $this->default_mock->is_installed(), true );
+		$this->assertEquals( $mock->is_installed(), true );
 	}
 
 	/**
@@ -51,12 +51,14 @@ class WPSEO_Gutenberg_Compatibility_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Gutenberg_Compatibility::get_installed_version
 	 */
 	public function test_gutenberg_not_installed() {
-		$this->default_mock
-			->expects( $this->once() )
-			->method( 'is_gutenberg_available' )
-			->will( $this->returnValue( false ) );
+		$mock = $this
+			->getMockBuilder( 'WPSEO_Gutenberg_Compatibility_Double' )
+			->setMethods( array( 'detect_installed_gutenberg_version' ) )
+			->getMock();
 
-		$this->assertEquals( $this->default_mock->is_installed(), false );
+		$mock->set_installed_gutenberg_version( '' );
+
+		$this->assertEquals( $mock->is_installed(), false );
 	}
 
 	/**

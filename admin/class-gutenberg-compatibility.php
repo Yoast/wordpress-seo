@@ -38,7 +38,7 @@ class WPSEO_Gutenberg_Compatibility {
 	 * @return bool Whether or not Gutenberg is installed.
 	 */
 	public function is_installed() {
-		return $this->is_gutenberg_available() && $this->current_version !== '';
+		return $this->current_version !== '';
 	}
 
 	/**
@@ -82,7 +82,7 @@ class WPSEO_Gutenberg_Compatibility {
 	 *
 	 * @return string The latest release.
 	 */
-	public function get_latest_release() {
+	protected function get_latest_release() {
 		return self::CURRENT_RELEASE;
 	}
 
@@ -91,17 +91,8 @@ class WPSEO_Gutenberg_Compatibility {
 	 *
 	 * @return string The minumum supported release.
 	 */
-	public function get_minimum_supported_version() {
+	protected function get_minimum_supported_version() {
 		return self::MINIMUM_SUPPORTED;
-	}
-
-	/**
-	 * Determines whether or not Gutenberg is available.
-	 *
-	 * @return bool Whether or not Gutenberg is available.
-	 */
-	public function is_gutenberg_available() {
-		return defined( 'GUTENBERG_VERSION' );
 	}
 
 	/**
@@ -123,7 +114,7 @@ class WPSEO_Gutenberg_Compatibility {
 	 * @return string The currently installed Gutenberg version. Empty if the version couldn't be detected.
 	 */
 	protected function detect_installed_gutenberg_version() {
-		if ( $this->is_gutenberg_available() ) {
+		if ( defined( 'GUTENBERG_VERSION' ) ) {
 			return GUTENBERG_VERSION;
 		}
 
