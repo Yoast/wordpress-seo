@@ -23,10 +23,10 @@ export function switchMode( mode ) {
 /**
  * Updates the data of the snippet editor.
  *
- * @param {Object} data             The snippet editor data.
- * @param {string} data.title       The title in the snippet editor.
- * @param {string} data.slug        The slug in the snippet editor.
- * @param {string} data.description The description in the snippet editor.
+ * @param {Object} data               The snippet editor data.
+ * @param {string} [data.title]       The title in the snippet editor.
+ * @param {string} [data.slug]        The slug in the snippet editor.
+ * @param {string} [data.description] The description in the snippet editor.
  *
  * @returns {Object} An action for redux.
  */
