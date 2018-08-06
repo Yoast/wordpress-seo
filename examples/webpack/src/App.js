@@ -57,12 +57,14 @@ class App extends React.Component {
 	/**
 	 * Requests the analyses results from the worker.
 	 *
+	 * @param {paper} paper The paper to analyze.
+	 *
 	 * @returns {void}
 	 */
 	analyze( paper = this.props.paper ) {
 		this.analysisWorker.analyze( paper )
 			.then( data => {
-				actions.setResults( {
+				this.props.actions.setResults( {
 					readability: data.results,
 				} );
 			} );
@@ -123,10 +125,20 @@ class App extends React.Component {
 					<div className="form-container">
 						<h2>Analysis Worker</h2>
 						<div className="button-container">
-							<Button onClick={ this.initialize }>Initialize</Button>
-							<Button onClick={ this.analyze }>Analyze</Button>
-							<Button onClick={ () => { clearStorage(); window.location.reload(); } }>Clear</Button>
-							<Button onClick={ this.analyzeSpam }>Analyze Spam</Button>
+							<Button onClick={
+								this.initialize
+							}>Initialize</Button>
+							<Button onClick={
+								this.analyze
+							}>Analyze</Button>
+							<Button onClick={
+								() => {
+									clearStorage(); window.location.reload();
+								}
+							}>Clear</Button>
+							<Button onClick={
+								this.analyzeSpam
+							}>Analyze Spam</Button>
 						</div>
 
 						{ this.renderPaperAttribute( "text", "Write a text", null, TextArea ) }

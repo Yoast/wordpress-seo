@@ -25,7 +25,7 @@ export function createStorageMiddleware( states = [], debounce = 0 ) {
  * @param {Array}  [states]         The state keys to load.
  * @param {Object} [preloadedState] The preloaded state.
  *
- * @return {Object} The data.
+ * @returns {Object} The data.
  */
 export function getStorageData( states = [], preloadedState = {} ) {
 	return load( {
