@@ -11,7 +11,7 @@
 class WPSEO_Metabox_Multiple_Keywords_Config {
 
 	/**
-	 * Enqueues the translations necessary for the synonyms modal + button
+	 * Enqueues the translations necessary for the multiple keywords modal + button
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class WPSEO_Metabox_Multiple_Keywords_Config {
 				),
 			),
 			'classes'        => array(
-				'openButton' => 'wpseo-keyword-synonyms button-link',
+				'openButton' => 'wpseo-multiple-keywords button-link',
 			),
 			'content'        => 'MultipleKeywords',
 		);

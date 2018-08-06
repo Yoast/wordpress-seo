@@ -4,21 +4,21 @@
  */
 
 /**
- * Class to print out the translatable strings for the Keyword Synonyms modal.
+ * Class to print out the translatable strings for the Multiple Keywords modal.
  */
 class WPSEO_Multiple_Keywords_Modal {
 
 	/**
-	 * Returns the translations for the Keyword Synonyms modal.
+	 * Returns the translations for the Multiple Keywords modal.
 	 *
 	 * These strings are not escaped because they're meant to be used with React
 	 * which already takes care of that. If used in PHP, they should be escaped.
 	 *
-	 * @return array Translated text strings for the Keyword Synonyms modal.
+	 * @return array Translated text strings for the Multiple Keywords modal.
 	 */
 	public function get_translations() {
 		return array(
-			'title'                    => __( 'Would you like to add keyword synonyms?', 'wordpress-seo' ),
+			'title'                    => __( 'Would you like to add another keyword?', 'wordpress-seo' ),
 			'intro'                    => sprintf(
 			/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
 				__( 'Great news: you can, with %1$s!', 'wordpress-seo' ),

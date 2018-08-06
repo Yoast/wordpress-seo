@@ -15,8 +15,6 @@ import ModalButtonContainer from "../ModalButtonContainer";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import { utils } from "yoast-components";
-import IntlProvider from "../IntlProvider";
-import ModalIntl from "../modals/Modal";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -50,7 +48,6 @@ class SeoAnalysis extends React.Component {
 		let multipleKeywordsConfig = config.filter( ( modalConfig ) => {
 			return modalConfig.content === "MultipleKeywords";
 		} );
-
 
 		return(
 			<ModalButtonContainer { ...multipleKeywordsConfig[ multipleKeywordsConfig.length - 1 ] } />
