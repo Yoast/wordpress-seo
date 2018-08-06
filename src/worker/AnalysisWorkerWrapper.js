@@ -1,7 +1,3 @@
-// External dependencies.
-import get from "lodash/get";
-import noop from "lodash/noop";
-
 // Internal dependencies.
 import Worker from "./analysis.worker";
 import { encodePayload, decodePayload } from "./utils";
@@ -124,7 +120,9 @@ class AnalysisWorkerWrapper {
 	 * @returns {Promise} The callback promise.
 	 */
 	createRequestPromise( id ) {
-		return new Promise( ( resolve, reject ) => this._requests[ id ] = new Request( resolve, reject ) );
+		return new Promise( ( resolve, reject ) => {
+			this._requests[ id ] = new Request( resolve, reject );
+		} );
 	}
 
 	/**
