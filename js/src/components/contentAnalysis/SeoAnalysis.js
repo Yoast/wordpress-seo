@@ -15,6 +15,8 @@ import ModalButtonContainer from "../ModalButtonContainer";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import { utils } from "yoast-components";
+import IntlProvider from "../IntlProvider";
+import ModalIntl from "../modals/Modal";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -40,6 +42,34 @@ class SeoAnalysis extends React.Component {
 
 		return(
 			<ModalButtonContainer { ...synonymsConfig[ synonymsConfig.length - 1 ] } />
+		);
+	}
+
+	renderMultipleKeywordsUpsell() {
+		const labels = {
+			modalAriaLabel: "Whatever",
+			open: "MultipleKeywords",
+			closeIconButton: "MultipleKeywords",
+		};
+
+		const classes = {
+			openButton: "",
+			closeIconButton: "",
+		};
+
+		this.renderKeywordUpsell = this.renderKeywordUpsell.bind( this );
+
+		return (
+			<IntlProvider messages={ labels }>
+				<ModalIntl
+					className="whatever"
+					appElement="#wpwrap"
+					openButtonIcon="dunno"
+					labels={ labels }
+					classes={ classes }
+					modalContent={ this.renderKeywordUpsell }
+				/>
+			</IntlProvider>
 		);
 	}
 
@@ -97,7 +127,8 @@ class SeoAnalysis extends React.Component {
 					subTitle={ this.props.keyword }
 				>
 					<ExplanationText>
-						{ __( "A focus keyword is the term (or phrase) you'd like to be found with in search engines. Enter it below to see how you can improve your text for this term.", "wordpress-seo" ) + " " }
+						{ __( "A focus keyword is the term (or phrase) you'd like to be found with in search engines. " +
+							"Enter it below to see how you can improve your text for this term.", "wordpress-seo" ) + " " }
 						<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }>
 							{ __( "Learn more about the Keyword Analysis", "wordpress-seo" ) }
 						</FocusKeywordLink>
@@ -109,6 +140,7 @@ class SeoAnalysis extends React.Component {
 					/>
 					<Slot name="YoastSynonyms" />
 					{ this.props.shouldUpsell && this.renderSynonymsUpsell() }
+					{ this.props.shouldUpsell && this.renderMultipleKeywordsUpsell( this.props.keywordUpsell ) }
 					<AnalysisHeader>
 						Analysis results:
 					</AnalysisHeader>
