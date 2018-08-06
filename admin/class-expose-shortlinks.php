@@ -26,7 +26,6 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		$input['shortlinks.focus_keyword_info']            = WPSEO_Shortlinker::get( 'https://yoa.st/focus-keyword' );
 		$input['shortlinks.snippet_preview_info']          = WPSEO_Shortlinker::get( 'https://yoa.st/snippet-preview' );
 		$input['shortlinks.cornerstone_content_info']      = WPSEO_Shortlinker::get( 'https://yoa.st/1i9' );
-		$input['shortlinks.configuration_wizard_conflict'] = WPSEO_Shortlinker::get( 'https://yoa.st/configuration-wizard-error-plugin-conflict' );
 
 		return $input;
 	}
