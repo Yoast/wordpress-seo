@@ -1283,25 +1283,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 @media screen and (max-width: 782px) {
-	.wpseo-meta-section.active {
-		display: block;
-		clear: both;
-		max-width: none;
-	}
-
-/* Traffic light svg and CSS generated dashicons. */
-	.wpseo-meta-section-link .yst-traffic-light,
-	.wpseo-meta-section-link .dashicons:before {
-		margin: 0;
-	}
-
-/* The "advanced" dashicon (the gear) is not perfectly centered and needs to be adjusted. */
-	.wpseo-meta-section-link .dashicons-admin-generic:before {
-		position: relative;
-		left: 1px;
-	}
-
-/* The Go Premium dashicon must stay unchanged in the responsive view. */
+	/* The Go Premium dashicon must stay unchanged in the responsive view. */
 	.wpseo-metabox-buy-premium .wpseo-buy-premium {
 		display: inline-block;
 		width: 20px;
