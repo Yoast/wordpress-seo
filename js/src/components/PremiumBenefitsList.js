@@ -15,11 +15,11 @@ const StyledList = styled.ul`
 
 	li {
 		margin: 5px 0 0 0;
-		padding-${ getRtlStyle( 'left', 'right' ) }: 16px;
+		padding-${ getRtlStyle( "left", "right" ) }: 16px;
 	}
 
 	span[aria-hidden="true"]:before {
-		margin: ${ getRtlStyle( '0 8px 0 -16px', '0 -16px 0 8px' ) };
+		margin: ${ getRtlStyle( "0 8px 0 -16px", "0 -16px 0 8px" ) };
 		font-weight: bold;
 		content: "+";
 	}
