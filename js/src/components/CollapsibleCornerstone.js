@@ -15,7 +15,7 @@ export default function CollapsibleCornerstone( { isCornerstone, onChange } ) {
 	return (
 		<Collapsible title="Cornerstone content">
 			<p> { __( "Cornerstone content should be the most important and extensive articles on your site. ", "wordpress-seo" ) }
-				<a href='https://yoa.st/1i9' target="_blank"> { __( "Learn more about cornerstone content.", "wordpress-seo" ) } </a>
+				<a href='https://yoa.st/1i9' target="_blank"> { __( "Learn more about Cornerstone Content.", "wordpress-seo" ) } </a>
 			</p>
 			<CornerstoneToggle
 				isEnabled={ isCornerstone }
