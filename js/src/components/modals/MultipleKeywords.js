@@ -7,7 +7,7 @@ import IntlProvider from "../IntlProvider";
 import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
 import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
 import { makeOutboundLink } from "yoast-components/utils/makeOutboundLink";
-import PremiumBenefitsForSynonymsList from "../PremiumBenefitsForSynonymsList";
+import PremiumBenefitsList from "../PremiumBenefitsList";
 
 let localizedData = null;
 if ( window.yoastMultipleKeywordsModalL10n ) {
@@ -51,7 +51,7 @@ const MultipleKeywords = () => {
 					} ) }
 				</p>
 				<p>{ localizedData.intl.other }</p>
-				<PremiumBenefitsForSynonymsList />
+				<PremiumBenefitsList />
 				<BuyButtonLink href={ localizedData.intl.buylink } className="button button-primary">
 					{ localizedData.intl.buy }
 				</BuyButtonLink>

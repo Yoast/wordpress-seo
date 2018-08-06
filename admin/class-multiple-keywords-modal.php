@@ -29,7 +29,7 @@ class WPSEO_Multiple_Keywords_Modal {
 			/* translators: %s expands to 'Yoast SEO Premium'. */
 				__( 'Other benefits of %s for you:', 'wordpress-seo' ), 'Yoast SEO Premium'
 			),
-			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/keyword-synonyms-popup' ),
+			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ),
 			'buy'                      => sprintf(
 			/* translators: %s expands to 'Yoast SEO Premium'. */
 				__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'

@@ -39,7 +39,7 @@ class WPSEO_Metabox_Multiple_Keywords_Config {
 		$translations = new WPSEO_Multiple_Keywords_Modal();
 		$translations->enqueue_translations();
 
-		$benefits = new WPSEO_Premium_Benefits_For_Synonyms_List();
+		$benefits = new WPSEO_Premium_Benefits_List();
 		$benefits->enqueue_translations();
 
 		Yoast_Modal::add( $multiple_keywords_modal_config );
