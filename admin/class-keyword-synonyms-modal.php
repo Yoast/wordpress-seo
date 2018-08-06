@@ -19,21 +19,20 @@ class WPSEO_Keyword_Synonyms_Modal {
 	public function get_translations() {
 		return array(
 			'title'                    => __( 'Would you like to add keyword synonyms?', 'wordpress-seo' ),
-			'intro'                    => sprintf(
+			'intro'                    =>
 				/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
-				__( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
-				'{{link}}Yoast SEO Premium{{/link}}'
-			),
+				sprintf(
+					__( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
+					'{{link}}Yoast SEO Premium{{/link}}'
+				),
 			'link'                     => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
-			'other'                    => sprintf(
+			'other'                    =>
 				/* translators: %s expands to 'Yoast SEO Premium'. */
-				__( 'Other benefits of %s for you:', 'wordpress-seo' ), 'Yoast SEO Premium'
-			),
+				sprintf( __( 'Other benefits of %s for you:', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/keyword-synonyms-popup' ),
-			'buy'                      => sprintf(
+			'buy'                      =>
 				/* translators: %s expands to 'Yoast SEO Premium'. */
-				__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
-			),
+				sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 			'small'                    => __( '1 year free updates and upgrades included!', 'wordpress-seo' ),
 			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
 		);

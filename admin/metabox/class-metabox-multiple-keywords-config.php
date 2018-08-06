@@ -20,14 +20,12 @@ class WPSEO_Metabox_Multiple_Keywords_Config {
 			'openButtonIcon' => '',
 			'intl'           => array(
 				'open'           => '+ ' . __( 'Add additional keyword', 'wordpress-seo' ),
-				'modalAriaLabel' => sprintf(
-				/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
-				),
-				'heading'        => sprintf(
-				/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
-				),
+				'modalAriaLabel' =>
+					/* translators: %s expands to 'Yoast SEO Premium'. */
+					sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
+				'heading'        =>
+					/* translators: %s expands to 'Yoast SEO Premium'. */
+					sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 			),
 			'classes'        => array(
 				'openButton' => 'wpseo-multiple-keywords button-link',
