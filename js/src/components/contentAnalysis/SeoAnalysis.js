@@ -32,6 +32,12 @@ const FocusKeywordLink = utils.makeOutboundLink();
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends React.Component {
+
+	/**
+	 * Renders the keyword synonyms upsell modal.
+	 *
+	 * @returns {ReactElement} A modalButtonContainer component with the modal for a keyword synonyms upsell.
+	 */
 	renderSynonymsUpsell() {
 		let config = yoastModalConfig;
 		let synonymsConfig = config.filter( ( modalConfig ) => {
@@ -43,6 +49,11 @@ class SeoAnalysis extends React.Component {
 		);
 	}
 
+	/**
+	 * Renders the multiple keywords upsell modal.
+	 *
+	 * @returns {ReactElement} A modalButtonContainer component with the modal for a multiple keywords upsell.
+	 */
 	renderMultipleKeywordsUpsell() {
 		let config = yoastModalConfig;
 		let multipleKeywordsConfig = config.filter( ( modalConfig ) => {

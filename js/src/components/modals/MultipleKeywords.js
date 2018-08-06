@@ -14,7 +14,7 @@ if ( window.yoastMultipleKeywordsModalL10n ) {
 	localizedData = yoastMultipleKeywordsModalL10n;
 }
 
-const YesYouCanLink = makeOutboundLink();
+const PremiumLandingPageLink = makeOutboundLink();
 const BuyButtonLink = makeOutboundLink();
 
 const StyledContainer = styled.div`
@@ -38,6 +38,11 @@ const StyledIcon = styled( Icon )`
 	}
 `;
 
+/**
+ * Creates the content for a Multiple Keywords upsell modal.
+ *
+ * @returns {ReactElement} The Multiple Keywords upsell component.
+ */
 const MultipleKeywords = () => {
 	return (
 		localizedData && <IntlProvider messages={ localizedData.intl }>
@@ -47,7 +52,7 @@ const MultipleKeywords = () => {
 				<p>
 					{ interpolateComponents( {
 						mixedString: localizedData.intl.intro,
-						components: { link: <YesYouCanLink href={ localizedData.intl.link } /> },
+						components: { link: <PremiumLandingPageLink href={ localizedData.intl.link } /> },
 					} ) }
 				</p>
 				<p>{ localizedData.intl.other }</p>

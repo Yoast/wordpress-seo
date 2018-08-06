@@ -14,7 +14,7 @@ if ( window.yoastKeywordSynonymsModalL10n ) {
 	localizedData = yoastKeywordSynonymsModalL10n;
 }
 
-const YesYouCanLink = makeOutboundLink();
+const PremiumLandingPageLink = makeOutboundLink();
 const BuyButtonLink = makeOutboundLink();
 
 const StyledContainer = styled.div`
@@ -38,6 +38,11 @@ const StyledIcon = styled( Icon )`
 	}
 `;
 
+/**
+ * Creates the content for a keyword synonyms upsell modal.
+ *
+ * @returns {ReactElement} The Keyword Synonyms upsell component.
+ */
 const KeywordSynonyms = () => {
 	return (
 		localizedData && <IntlProvider messages={ localizedData.intl }>
@@ -47,7 +52,7 @@ const KeywordSynonyms = () => {
 				<p>
 					{ interpolateComponents( {
 						mixedString: localizedData.intl.intro,
-						components: { link: <YesYouCanLink href={ localizedData.intl.link } /> },
+						components: { link: <PremiumLandingPageLink href={ localizedData.intl.link } /> },
 					} ) }
 				</p>
 				<p>{ localizedData.intl.other }</p>

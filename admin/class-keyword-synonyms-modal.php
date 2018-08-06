@@ -46,6 +46,7 @@ class WPSEO_Keyword_Synonyms_Modal {
 	 */
 	public function get_translations_for_js() {
 		$translations = $this->get_translations();
+
 		return array(
 			'locale' => WPSEO_Utils::get_user_locale(),
 			'intl'   => $translations,
@@ -54,6 +55,8 @@ class WPSEO_Keyword_Synonyms_Modal {
 
 	/**
 	 * Prints the localized Keyword Synonyms modal translations for JS.
+	 *
+	 * @return void
 	 */
 	public function enqueue_translations() {
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'yoastKeywordSynonymsModalL10n', $this->get_translations_for_js() );

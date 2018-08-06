@@ -16,11 +16,10 @@ class WPSEO_Metabox_Keyword_Synonyms_Config {
 	 * @return void
 	 */
 	public function enqueue_translations() {
-
 		$keyword_synonyms_modal_config = array(
 			'openButtonIcon' => '',
 			'intl'           => array(
-				'open'           => __( '+ Add synonyms', 'wordpress-seo' ),
+				'open'           => '+ ' . __( 'Add synonyms', 'wordpress-seo' ),
 				'modalAriaLabel' => sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
 					__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
