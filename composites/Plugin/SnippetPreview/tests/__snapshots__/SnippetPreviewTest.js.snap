@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SnippetPreview changes the colors of the description if it was generated 1`] = `
-.c12 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -9,143 +9,22 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   box-sizing: border-box;
 }
 
-.c13 {
+.c2 {
   width: 600px;
 }
 
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c3 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c4:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c10 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  box-shadow: none;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c11 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c14 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c16 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -160,17 +39,17 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c6 {
   white-space: nowrap;
 }
 
-.c18 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -180,7 +59,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   font-size: 14px;
 }
 
-.c19 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -193,7 +72,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   max-width: 100%;
 }
 
-.c21 {
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -201,7 +80,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   font-size: 13px;
 }
 
-.c20 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -211,61 +90,13 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help c0"
-    >
-      <button
-        aria-controls={null}
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help__button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        className="c10"
-      />
-    </div>
-  </div>
   <div
-    className="c11 c12"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c13"
+      className="c2"
       width={600}
     >
       <div
@@ -286,16 +117,16 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           SEO title preview:
         </span>
         <div
-          className="c14"
+          className="c3"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c15 c16"
+            className="c4 c5"
           >
             <span
-              className="c17"
+              className="c6"
             >
               Title
             </span>
@@ -316,10 +147,10 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           Url preview:
         </span>
         <div
-          className="c18"
+          className="c7"
         >
           <div
-            className="c19"
+            className="c8"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
@@ -328,7 +159,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           </div>
         </div>
         <div
-          className="c20"
+          className="c9"
         />
       </div>
       <div
@@ -349,7 +180,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           Meta description preview:
         </span>
         <div
-          className="c21"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -363,7 +194,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 `;
 
 exports[`SnippetPreview highlights keywords even if they are transliterated 1`] = `
-.c12 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -371,143 +202,22 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   box-sizing: border-box;
 }
 
-.c13 {
+.c2 {
   width: 600px;
 }
 
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c3 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c4:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c10 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  box-shadow: none;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c11 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c14 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c16 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -522,17 +232,17 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c6 {
   white-space: nowrap;
 }
 
-.c18 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -542,7 +252,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   font-size: 14px;
 }
 
-.c19 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -555,7 +265,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   max-width: 100%;
 }
 
-.c21 {
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -563,7 +273,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   font-size: 13px;
 }
 
-.c20 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -573,61 +283,13 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help c0"
-    >
-      <button
-        aria-controls={null}
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help__button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        className="c10"
-      />
-    </div>
-  </div>
   <div
-    className="c11 c12"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c13"
+      className="c2"
       width={600}
     >
       <div
@@ -648,16 +310,16 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           SEO title preview:
         </span>
         <div
-          className="c14"
+          className="c3"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c15 c16"
+            className="c4 c5"
           >
             <span
-              className="c17"
+              className="c6"
             >
               Title
             </span>
@@ -678,10 +340,10 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           Url preview:
         </span>
         <div
-          className="c18"
+          className="c7"
         >
           <div
-            className="c19"
+            className="c8"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
@@ -690,7 +352,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           </div>
         </div>
         <div
-          className="c20"
+          className="c9"
         />
       </div>
       <div
@@ -711,7 +373,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           Meta description preview:
         </span>
         <div
-          className="c21"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -728,7 +390,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 `;
 
 exports[`SnippetPreview highlights keywords inside the description and url 1`] = `
-.c12 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -736,143 +398,22 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   box-sizing: border-box;
 }
 
-.c13 {
+.c2 {
   width: 600px;
 }
 
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c3 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c4:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c10 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  box-shadow: none;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c11 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c14 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c16 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -887,17 +428,17 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c6 {
   white-space: nowrap;
 }
 
-.c18 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -907,7 +448,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   font-size: 14px;
 }
 
-.c19 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -920,7 +461,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   max-width: 100%;
 }
 
-.c21 {
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -928,7 +469,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   font-size: 13px;
 }
 
-.c20 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -938,61 +479,13 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help c0"
-    >
-      <button
-        aria-controls={null}
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help__button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        className="c10"
-      />
-    </div>
-  </div>
   <div
-    className="c11 c12"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c13"
+      className="c2"
       width={600}
     >
       <div
@@ -1013,16 +506,16 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           SEO title preview:
         </span>
         <div
-          className="c14"
+          className="c3"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c15 c16"
+            className="c4 c5"
           >
             <span
-              className="c17"
+              className="c6"
             >
               Title
             </span>
@@ -1043,10 +536,10 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           Url preview:
         </span>
         <div
-          className="c18"
+          className="c7"
         >
           <div
-            className="c19"
+            className="c8"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
@@ -1055,7 +548,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           </div>
         </div>
         <div
-          className="c20"
+          className="c9"
         />
       </div>
       <div
@@ -1076,7 +569,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           Meta description preview:
         </span>
         <div
-          className="c21"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -1093,128 +586,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 `;
 
 exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] = `
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c3 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c4:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c10 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  box-shadow: none;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
@@ -1224,12 +596,12 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   font-size: 14px;
 }
 
-.c13 {
+.c2 {
   cursor: pointer;
   position: relative;
 }
 
-.c15 {
+.c4 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -1244,13 +616,13 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   text-overflow: ellipsis;
 }
 
-.c14 {
+.c3 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c5 {
   display: inline-block;
   font-size: 16px;
   line-height: 1.2em;
@@ -1259,7 +631,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -1269,7 +641,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   font-size: 14px;
 }
 
-.c19 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -1282,7 +654,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   max-width: 100%;
 }
 
-.c22 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1290,22 +662,22 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   font-size: 13px;
 }
 
-.c21 {
+.c10 {
   font-size: 14px;
   line-height: 20px;
 }
 
-.c12 {
+.c1 {
   padding: 8px 16px;
 }
 
-.c20 {
+.c9 {
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
 }
 
-.c17 {
+.c6 {
   background-size: 100% 100%;
   display: inline-block;
   height: 12px;
@@ -1316,62 +688,14 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   background-image: url( data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAQAAABLCVATAAABr0lEQVR4AbWWJYCUURhFD04Zi7hrLzgFd4nzV9x6wKHinmYb7g4zq71gIw2LWBnZ3Q8df/fh96Tn/t2HVIw4CVKk+fSFNCkSxInxW1pFkhLmoMRjVvFLmkEX5ocuZuBVPw5jv8hh+iEU5QEmuMK+prz7RN3dPMMEGQYzxpH/lGjzou5jgl7mAvOdZfcbF+jbm3MAbFZ7VX9SJnlL1D8UMyjLe+BrAYDb+jJUr59JrlNWRtcqX9GkrPCR4QBAf4qYJAkQoyQrbKKs8RiaEjEI0GvvQ1mLMC9xaBFFBaZS1TbMSwJSomg39erDF+TxpCCNOXjGQJTCvG6qn4ZPzkcxA61Tjhaf4KMj+6Q3XvW6Lopraa8IozRQxIi0a7NXorULc5JyHX/3F3q+0PsFYytVTaGgjz/AvCyiegE69IUsPxHNBMpa738i6tGWlzkAABjKe/+j9YeRHGVd9oWRnwe2ewDASp/L/UqoPQ5AmFeYZMavBP8dAJz0GWWDHQlzXApMdz4KYUfKICcxkKeOfGmQyrIPcgE9m+g/+kT812/Nr3+0kqzitxQjoKXh6xfor99nlEdFjyvH15gAAAAASUVORK5CYII= );
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help c0"
-    >
-      <button
-        aria-controls={null}
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help__button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        className="c10"
-      />
-    </div>
-  </div>
   <div
-    className="c11"
+    className="c0"
     onMouseLeave={undefined}
     width={640}
   >
     <div
-      className="c12"
+      className="c1"
     >
       <span
         className="screen-reader-text"
@@ -1388,16 +712,16 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         SEO title preview:
       </span>
       <div
-        className="c13"
+        className="c2"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
-          className="c14 c15"
+          className="c3 c4"
         >
           <span
-            className="c16"
+            className="c5"
           >
             Title
           </span>
@@ -1418,13 +742,13 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         Url preview:
       </span>
       <div
-        className="c17"
+        className="c6"
       />
       <div
-        className="c18"
+        className="c7"
       >
         <div
-          className="c19"
+          className="c8"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -1434,10 +758,10 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
       </div>
     </div>
     <hr
-      className="c20"
+      className="c9"
     />
     <div
-      className="c12"
+      className="c1"
     >
       <span
         className="screen-reader-text"
@@ -1454,13 +778,13 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         Meta description preview:
       </span>
       <div
-        className="c21 c22"
+        className="c10 c11"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
-          className="c21 c22"
+          className="c10 c11"
         >
           Description
         </div>
@@ -1471,128 +795,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
 `;
 
 exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c3 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c4:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c10 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  box-shadow: none;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
@@ -1602,12 +805,12 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   font-size: 14px;
 }
 
-.c13 {
+.c2 {
   cursor: pointer;
   position: relative;
 }
 
-.c15 {
+.c4 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -1622,13 +825,13 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   text-overflow: ellipsis;
 }
 
-.c14 {
+.c3 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c5 {
   display: inline-block;
   font-size: 16px;
   line-height: 1.2em;
@@ -1637,7 +840,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c6 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -1647,7 +850,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   font-size: 14px;
 }
 
-.c18 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -1660,7 +863,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1668,77 +871,29 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   font-size: 13px;
 }
 
-.c20 {
+.c9 {
   font-size: 14px;
   line-height: 20px;
 }
 
-.c12 {
+.c1 {
   padding: 8px 16px;
 }
 
-.c19 {
+.c8 {
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help c0"
-    >
-      <button
-        aria-controls={null}
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help__button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        className="c10"
-      />
-    </div>
-  </div>
   <div
-    className="c11"
+    className="c0"
     onMouseLeave={undefined}
     width={640}
   >
     <div
-      className="c12"
+      className="c1"
     >
       <span
         className="screen-reader-text"
@@ -1755,16 +910,16 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         SEO title preview:
       </span>
       <div
-        className="c13"
+        className="c2"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
-          className="c14 c15"
+          className="c3 c4"
         >
           <span
-            className="c16"
+            className="c5"
           >
             Title
           </span>
@@ -1785,10 +940,10 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         Url preview:
       </span>
       <div
-        className="c17"
+        className="c6"
       >
         <div
-          className="c18"
+          className="c7"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -1798,10 +953,10 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
       </div>
     </div>
     <hr
-      className="c19"
+      className="c8"
     />
     <div
-      className="c12"
+      className="c1"
     >
       <span
         className="screen-reader-text"
@@ -1818,13 +973,13 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c20 c21"
+        className="c9 c10"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
-          className="c20 c21"
+          className="c9 c10"
         >
           Description
         </div>
@@ -1835,128 +990,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 `;
 
 exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c3 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c4:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c10 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  box-shadow: none;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
@@ -1966,12 +1000,12 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   font-size: 14px;
 }
 
-.c13 {
+.c2 {
   cursor: pointer;
   position: relative;
 }
 
-.c15 {
+.c4 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -1986,13 +1020,13 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   text-overflow: ellipsis;
 }
 
-.c14 {
+.c3 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c5 {
   display: inline-block;
   font-size: 16px;
   line-height: 1.2em;
@@ -2001,7 +1035,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c6 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2011,7 +1045,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   font-size: 14px;
 }
 
-.c18 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2024,7 +1058,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2032,77 +1066,29 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   font-size: 13px;
 }
 
-.c20 {
+.c9 {
   font-size: 14px;
   line-height: 20px;
 }
 
-.c12 {
+.c1 {
   padding: 8px 16px;
 }
 
-.c19 {
+.c8 {
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help c0"
-    >
-      <button
-        aria-controls={null}
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help__button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        className="c10"
-      />
-    </div>
-  </div>
   <div
-    className="c11"
+    className="c0"
     onMouseLeave={undefined}
     width={640}
   >
     <div
-      className="c12"
+      className="c1"
     >
       <span
         className="screen-reader-text"
@@ -2119,16 +1105,16 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         SEO title preview:
       </span>
       <div
-        className="c13"
+        className="c2"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
-          className="c14 c15"
+          className="c3 c4"
         >
           <span
-            className="c16"
+            className="c5"
           >
             Title
           </span>
@@ -2149,10 +1135,10 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         Url preview:
       </span>
       <div
-        className="c17"
+        className="c6"
       >
         <div
-          className="c18"
+          className="c7"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -2162,10 +1148,10 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
       </div>
     </div>
     <hr
-      className="c19"
+      className="c8"
     />
     <div
-      className="c12"
+      className="c1"
     >
       <span
         className="screen-reader-text"
@@ -2182,13 +1168,13 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c20 c21"
+        className="c9 c10"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
-          className="c20 c21"
+          className="c9 c10"
         >
           Description
         </div>
@@ -2199,7 +1185,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 `;
 
 exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
-.c12 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -2207,143 +1193,22 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   box-sizing: border-box;
 }
 
-.c13 {
+.c2 {
   width: 600px;
 }
 
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c3 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c4:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c10 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  box-shadow: none;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c11 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c14 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c16 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -2358,17 +1223,17 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c6 {
   white-space: nowrap;
 }
 
-.c18 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2378,7 +1243,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   font-size: 14px;
 }
 
-.c19 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2391,7 +1256,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2399,7 +1264,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   font-size: 13px;
 }
 
-.c20 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -2409,61 +1274,13 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help c0"
-    >
-      <button
-        aria-controls={null}
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help__button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        className="c10"
-      />
-    </div>
-  </div>
   <div
-    className="c11 c12"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c13"
+      className="c2"
       width={600}
     >
       <div
@@ -2484,16 +1301,16 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c14"
+          className="c3"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c15 c16"
+            className="c4 c5"
           >
             <span
-              className="c17"
+              className="c6"
             >
               Title
             </span>
@@ -2514,10 +1331,10 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           Url preview:
         </span>
         <div
-          className="c18"
+          className="c7"
         >
           <div
-            className="c19"
+            className="c8"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
@@ -2526,7 +1343,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           </div>
         </div>
         <div
-          className="c20"
+          className="c9"
         />
       </div>
       <div
@@ -2547,7 +1364,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c21"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -2561,7 +1378,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 `;
 
 exports[`SnippetPreview renders a caret on activation 1`] = `
-.c12 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -2569,143 +1386,22 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   box-sizing: border-box;
 }
 
-.c13 {
+.c2 {
   width: 600px;
 }
 
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c3 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c4:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c10 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  box-shadow: none;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c11 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c4 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c6 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -2720,17 +1416,17 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c5 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c7 {
   white-space: nowrap;
 }
 
-.c19 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2740,7 +1436,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   font-size: 14px;
 }
 
-.c20 {
+.c9 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2753,7 +1449,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   max-width: 100%;
 }
 
-.c22 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2761,7 +1457,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   font-size: 13px;
 }
 
-.c21 {
+.c10 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -2771,15 +1467,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c14::before {
+.c3::before {
   display: block;
   position: absolute;
   top: -3px;
@@ -2791,53 +1479,13 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   content: "";
 }
 
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help c0"
-    >
-      <button
-        aria-controls={null}
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help__button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        className="c10"
-      />
-    </div>
-  </div>
   <div
-    className="c11 c12"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c13"
+      className="c2"
       width={600}
     >
       <div
@@ -2858,16 +1506,16 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c14 c15"
+          className="c3 c4"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c5 c6"
           >
             <span
-              className="c18"
+              className="c7"
             >
               Title
             </span>
@@ -2888,10 +1536,10 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           Url preview:
         </span>
         <div
-          className="c19"
+          className="c8"
         >
           <div
-            className="c20"
+            className="c9"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
@@ -2900,7 +1548,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           </div>
         </div>
         <div
-          className="c21"
+          className="c10"
         />
       </div>
       <div
@@ -2921,7 +1569,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c22"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -2935,7 +1583,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 `;
 
 exports[`SnippetPreview renders a caret on activation 2`] = `
-.c12 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -2943,143 +1591,22 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   box-sizing: border-box;
 }
 
-.c13 {
+.c2 {
   width: 600px;
 }
 
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c3 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c4:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c10 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  box-shadow: none;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c11 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c14 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c16 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -3094,17 +1621,17 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c6 {
   white-space: nowrap;
 }
 
-.c18 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -3114,7 +1641,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   font-size: 14px;
 }
 
-.c19 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -3127,7 +1654,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   max-width: 100%;
 }
 
-.c22 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -3135,7 +1662,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   font-size: 13px;
 }
 
-.c20 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -3145,15 +1672,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c21::before {
+.c10::before {
   display: block;
   position: absolute;
   top: -3px;
@@ -3165,53 +1684,13 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   content: "";
 }
 
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help c0"
-    >
-      <button
-        aria-controls={null}
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help__button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        className="c10"
-      />
-    </div>
-  </div>
   <div
-    className="c11 c12"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c13"
+      className="c2"
       width={600}
     >
       <div
@@ -3232,16 +1711,16 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           SEO title preview:
         </span>
         <div
-          className="c14"
+          className="c3"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c15 c16"
+            className="c4 c5"
           >
             <span
-              className="c17"
+              className="c6"
             >
               Title
             </span>
@@ -3262,10 +1741,10 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           Url preview:
         </span>
         <div
-          className="c18"
+          className="c7"
         >
           <div
-            className="c19"
+            className="c8"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
@@ -3274,7 +1753,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           </div>
         </div>
         <div
-          className="c20"
+          className="c9"
         />
       </div>
       <div
@@ -3295,7 +1774,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           Meta description preview:
         </span>
         <div
-          className="c21 c22"
+          className="c10 c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -3309,7 +1788,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 `;
 
 exports[`SnippetPreview renders a caret on activation 3`] = `
-.c12 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -3317,143 +1796,22 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   box-sizing: border-box;
 }
 
-.c13 {
+.c2 {
   width: 600px;
 }
 
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c3 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c4:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c10 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  box-shadow: none;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c11 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c14 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c16 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -3468,17 +1826,17 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c6 {
   white-space: nowrap;
 }
 
-.c19 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -3488,7 +1846,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   font-size: 14px;
 }
 
-.c20 {
+.c9 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -3501,7 +1859,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   max-width: 100%;
 }
 
-.c22 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -3509,7 +1867,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   font-size: 13px;
 }
 
-.c21 {
+.c10 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -3519,15 +1877,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c18::before {
+.c7::before {
   display: block;
   position: absolute;
   top: -3px;
@@ -3539,53 +1889,13 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   content: "";
 }
 
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help c0"
-    >
-      <button
-        aria-controls={null}
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help__button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        className="c10"
-      />
-    </div>
-  </div>
   <div
-    className="c11 c12"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c13"
+      className="c2"
       width={600}
     >
       <div
@@ -3606,16 +1916,16 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           SEO title preview:
         </span>
         <div
-          className="c14"
+          className="c3"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c15 c16"
+            className="c4 c5"
           >
             <span
-              className="c17"
+              className="c6"
             >
               Title
             </span>
@@ -3636,10 +1946,10 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           Url preview:
         </span>
         <div
-          className="c18 c19"
+          className="c7 c8"
         >
           <div
-            className="c20"
+            className="c9"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
@@ -3648,7 +1958,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           </div>
         </div>
         <div
-          className="c21"
+          className="c10"
         />
       </div>
       <div
@@ -3669,7 +1979,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           Meta description preview:
         </span>
         <div
-          className="c22"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -3683,7 +1993,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 `;
 
 exports[`SnippetPreview renders a caret on hover 1`] = `
-.c12 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -3691,143 +2001,22 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   box-sizing: border-box;
 }
 
-.c13 {
+.c2 {
   width: 600px;
 }
 
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c3 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c4:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c10 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  box-shadow: none;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c11 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c4 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c6 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -3842,17 +2031,17 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c5 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c7 {
   white-space: nowrap;
 }
 
-.c19 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -3862,7 +2051,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   font-size: 14px;
 }
 
-.c20 {
+.c9 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -3875,7 +2064,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   max-width: 100%;
 }
 
-.c22 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -3883,7 +2072,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   font-size: 13px;
 }
 
-.c21 {
+.c10 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -3893,15 +2082,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c14::before {
+.c3::before {
   display: block;
   position: absolute;
   top: -3px;
@@ -3913,53 +2094,13 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   content: "";
 }
 
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help c0"
-    >
-      <button
-        aria-controls={null}
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help__button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        className="c10"
-      />
-    </div>
-  </div>
   <div
-    className="c11 c12"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c13"
+      className="c2"
       width={600}
     >
       <div
@@ -3980,16 +2121,16 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c14 c15"
+          className="c3 c4"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c5 c6"
           >
             <span
-              className="c18"
+              className="c7"
             >
               Title
             </span>
@@ -4010,10 +2151,10 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
           Url preview:
         </span>
         <div
-          className="c19"
+          className="c8"
         >
           <div
-            className="c20"
+            className="c9"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
@@ -4022,7 +2163,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
           </div>
         </div>
         <div
-          className="c21"
+          className="c10"
         />
       </div>
       <div
@@ -4043,7 +2184,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c22"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -4057,7 +2198,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 `;
 
 exports[`SnippetPreview renders a caret on hover 2`] = `
-.c12 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -4065,143 +2206,22 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   box-sizing: border-box;
 }
 
-.c13 {
+.c2 {
   width: 600px;
 }
 
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c3 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c4:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c10 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  box-shadow: none;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c11 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c14 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c16 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -4216,17 +2236,17 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c6 {
   white-space: nowrap;
 }
 
-.c18 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -4236,7 +2256,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   font-size: 14px;
 }
 
-.c19 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -4249,7 +2269,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   max-width: 100%;
 }
 
-.c22 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -4257,7 +2277,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   font-size: 13px;
 }
 
-.c20 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -4267,15 +2287,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c21::before {
+.c10::before {
   display: block;
   position: absolute;
   top: -3px;
@@ -4287,53 +2299,13 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   content: "";
 }
 
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help c0"
-    >
-      <button
-        aria-controls={null}
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help__button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        className="c10"
-      />
-    </div>
-  </div>
   <div
-    className="c11 c12"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c13"
+      className="c2"
       width={600}
     >
       <div
@@ -4354,16 +2326,16 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
           SEO title preview:
         </span>
         <div
-          className="c14"
+          className="c3"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c15 c16"
+            className="c4 c5"
           >
             <span
-              className="c17"
+              className="c6"
             >
               Title
             </span>
@@ -4384,10 +2356,10 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
           Url preview:
         </span>
         <div
-          className="c18"
+          className="c7"
         >
           <div
-            className="c19"
+            className="c8"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
@@ -4396,7 +2368,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
           </div>
         </div>
         <div
-          className="c20"
+          className="c9"
         />
       </div>
       <div
@@ -4417,7 +2389,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
           Meta description preview:
         </span>
         <div
-          className="c21 c22"
+          className="c10 c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -4431,7 +2403,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 `;
 
 exports[`SnippetPreview renders a caret on hover 3`] = `
-.c12 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -4439,143 +2411,22 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   box-sizing: border-box;
 }
 
-.c13 {
+.c2 {
   width: 600px;
 }
 
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c3 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c4:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c10 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  box-shadow: none;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c11 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c14 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c16 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -4590,17 +2441,17 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c6 {
   white-space: nowrap;
 }
 
-.c19 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -4610,7 +2461,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   font-size: 14px;
 }
 
-.c20 {
+.c9 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -4623,7 +2474,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   max-width: 100%;
 }
 
-.c22 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -4631,7 +2482,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   font-size: 13px;
 }
 
-.c21 {
+.c10 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -4641,15 +2492,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c18::before {
+.c7::before {
   display: block;
   position: absolute;
   top: -3px;
@@ -4661,53 +2504,13 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   content: "";
 }
 
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help c0"
-    >
-      <button
-        aria-controls={null}
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help__button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        className="c10"
-      />
-    </div>
-  </div>
   <div
-    className="c11 c12"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c13"
+      className="c2"
       width={600}
     >
       <div
@@ -4728,16 +2531,16 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
           SEO title preview:
         </span>
         <div
-          className="c14"
+          className="c3"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c15 c16"
+            className="c4 c5"
           >
             <span
-              className="c17"
+              className="c6"
             >
               Title
             </span>
@@ -4758,10 +2561,10 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
           Url preview:
         </span>
         <div
-          className="c18 c19"
+          className="c7 c8"
         >
           <div
-            className="c20"
+            className="c9"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
@@ -4770,7 +2573,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
           </div>
         </div>
         <div
-          className="c21"
+          className="c10"
         />
       </div>
       <div
@@ -4791,7 +2594,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
           Meta description preview:
         </span>
         <div
-          className="c22"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -4805,7 +2608,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 `;
 
 exports[`SnippetPreview shows the date if a date is passed 1`] = `
-.c12 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -4813,143 +2616,22 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   box-sizing: border-box;
 }
 
-.c13 {
+.c2 {
   width: 600px;
 }
 
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c3 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c4:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c10 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  box-shadow: none;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c11 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c14 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c16 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -4964,17 +2646,17 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c6 {
   white-space: nowrap;
 }
 
-.c18 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -4984,7 +2666,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   font-size: 14px;
 }
 
-.c19 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -4997,7 +2679,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -5005,7 +2687,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   font-size: 13px;
 }
 
-.c20 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -5015,65 +2697,17 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   vertical-align: top;
 }
 
-.c22 {
+.c11 {
   color: #808080;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help c0"
-    >
-      <button
-        aria-controls={null}
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help__button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        className="c10"
-      />
-    </div>
-  </div>
   <div
-    className="c11 c12"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c13"
+      className="c2"
       width={600}
     >
       <div
@@ -5094,16 +2728,16 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c14"
+          className="c3"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c15 c16"
+            className="c4 c5"
           >
             <span
-              className="c17"
+              className="c6"
             >
               Title
             </span>
@@ -5124,10 +2758,10 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
           Url preview:
         </span>
         <div
-          className="c18"
+          className="c7"
         >
           <div
-            className="c19"
+            className="c8"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
@@ -5136,7 +2770,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
           </div>
         </div>
         <div
-          className="c20"
+          className="c9"
         />
       </div>
       <div
@@ -5157,13 +2791,13 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c21"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <span
-            className="c22"
+            className="c11"
           >
             Today
              - 
