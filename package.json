@@ -106,6 +106,7 @@
     "grunt-contrib-imagemin": "^2.0.1"
   },
   "dependencies": {
+    "@babel/runtime": "7.0.0-beta.55",
     "@wordpress/components": "^1.0.1",
     "@wordpress/data": "^1.0.1",
     "@wordpress/element": "^1.0.1",
@@ -132,7 +133,7 @@
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
     "yoast-components": "git+https://github.com/Yoast/yoast-components.git#develop",
-    "yoastseo": "^1.36.0"
+    "yoastseo": "^1.36.1"
   },
   "yoast": {
     "pluginVersion": "8.0-RC1"
