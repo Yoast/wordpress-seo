@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 // YoastSEO.js dependencies.
-import AnalysisWorkerWrapper from "yoastseo/worker/AnalysisWorkerWrapper";
+import AnalysisWorker from "yoastseo/worker";
 
 // Internal dependencies.
 import './App.css';
@@ -21,7 +21,7 @@ class App extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.analysisWorker = new AnalysisWorkerWrapper();
+		this.analysisWorker = new AnalysisWorker();
 
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
