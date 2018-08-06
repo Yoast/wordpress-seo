@@ -6,22 +6,58 @@ import Task from "./Task";
 
 const DEFAULT_CONFIGURATION = {
 	queueSystem: "LIFO",
+	pollTime: 50,
+	resetQueue: false,
 };
 
 class Scheduler {
 	/**
 	 * Initializes a Scheduler.
 	 *
-	 * @param {Worker} worker                      The worker to use.
-	 * @param {Object} [configuration]             The configuration.
-	 * @param {string} [configuration.queueSystem] FIFO or LIFO, defaults to the
-	 *                                             latter.
+	 * @param {Object}  [configuration]             The configuration.
+	 * @param {string}  [configuration.queueSystem] FIFO or LIFO, defaults to the
+	 *                                              latter.
+	 * @param {number}  [configuration.pollTime]    The time in between each task
+	 *                                              poll in milliseconds,
+	 *                                              defaults to 50.
+	 * @param {boolean} [configuration.resetQueue]  Whether to reset the queue
+	 *                                              after each task, defaults to
+	 *                                              false.
 	 */
-	constructor( worker, configuration = {} ) {
-		this._worker = worker;
+	constructor( configuration = {} ) {
 		this._configuration = merge( DEFAULT_CONFIGURATION, configuration );
 		this._tasks = [];
 		this._id = 0;
+		this._pollHandle = null;
+
+		// Bind functions to this scope.
+		this.startPolling = this.startPolling.bind( this );
+		this.stopPolling = this.stopPolling.bind( this );
+
+		this.startPolling();
+	}
+
+	/**
+	 * Initialize polling.
+	 *
+	 * @returns {void}
+	 */
+	startPolling() {
+		this.executeNextTask();
+		if ( this._configuration.resetQueue ) {
+			this.resetQueue();
+		}
+		this._pollHandle = setTimeout( this.startPolling, this._configuration.pollTime );
+	}
+
+	/**
+	 * Stop polling.
+	 *
+	 * @returns {void}
+	 */
+	stopPolling() {
+		clearTimeout( this._pollHandle );
+		this._pollHandle = null;
 	}
 
 	/**
@@ -65,16 +101,18 @@ class Scheduler {
 	}
 
 	/**
-	 * Run while there are tasks in the queue.
+	 * Executes the next task.
 	 *
 	 * @returns {void}
 	 */
-	async processQueue() {
-		let task;
-		while( ( task = this.getNextTask() ) !== null ) {
-			const result = await task.execute( task.data );
-			task.done( result );
+	async executeNextTask() {
+		const task = this.getNextTask();
+		if ( task === null ) {
+			return;
 		}
+
+		const result = await task.execute( task.data );
+		task.done( result );
 	}
 
 	/**

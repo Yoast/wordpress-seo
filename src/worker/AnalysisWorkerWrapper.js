@@ -119,14 +119,15 @@ class AnalysisWorkerWrapper {
 	}
 
 	/**
-	 * Auto increment an ID for a namespace, starting with 0.
+	 * Auto increment an ID for a namespace, starting with 1.
 	 *
 	 * @param {string} name The namespace of the ID.
 	 *
 	 * @returns {number} The new ID.
 	 */
 	incrementID( name ) {
-		this._ids[ name ] = this._ids[ name ] ? this._ids[ name ] + 1 : 0;
+		this._ids[ name ] = this.getID( name );
+		this._ids[ name ]++;
 		return this._ids[ name ];
 	}
 
