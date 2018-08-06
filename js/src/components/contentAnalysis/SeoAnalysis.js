@@ -46,30 +46,14 @@ class SeoAnalysis extends React.Component {
 	}
 
 	renderMultipleKeywordsUpsell() {
-		const labels = {
-			modalAriaLabel: "Whatever",
-			open: "MultipleKeywords",
-			closeIconButton: "MultipleKeywords",
-		};
+		let config = yoastModalConfig;
+		let multipleKeywordsConfig = config.filter( ( modalConfig ) => {
+			return modalConfig.content === "MultipleKeywords";
+		} );
 
-		const classes = {
-			openButton: "",
-			closeIconButton: "",
-		};
 
-		this.renderKeywordUpsell = this.renderKeywordUpsell.bind( this );
-
-		return (
-			<IntlProvider messages={ labels }>
-				<ModalIntl
-					className="whatever"
-					appElement="#wpwrap"
-					openButtonIcon="dunno"
-					labels={ labels }
-					classes={ classes }
-					modalContent={ this.renderKeywordUpsell }
-				/>
-			</IntlProvider>
+		return(
+			<ModalButtonContainer { ...multipleKeywordsConfig[ multipleKeywordsConfig.length - 1 ] } />
 		);
 	}
 

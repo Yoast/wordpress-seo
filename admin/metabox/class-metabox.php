@@ -581,6 +581,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( WPSEO_Utils::is_yoast_seo_premium() === false ) {
 			$button = new WPSEO_Metabox_Keyword_Synonyms_Config();
 			$button->enqueue_translations();
+
+			$multipleKeywordsButton = new WPSEO_Metabox_Multiple_Keywords_Config();
+			$multipleKeywordsButton->enqueue_translations();
 		}
 
 		switch ( $meta_field_def['type'] ) {
