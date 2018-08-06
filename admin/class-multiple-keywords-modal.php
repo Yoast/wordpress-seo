@@ -40,9 +40,9 @@ class WPSEO_Multiple_Keywords_Modal {
 	}
 
 	/**
-	 * Passes translations to JS for the Keyword Synonyms modal component.
+	 * Passes translations to JS for the Multiple Keywords modal component.
 	 *
-	 * @return array Translated text strings for the Keyword Synonyms modal component.
+	 * @return array Translated text strings for the Multiple Keywords modal component.
 	 */
 	public function get_translations_for_js() {
 		$translations = $this->get_translations();
@@ -53,7 +53,7 @@ class WPSEO_Multiple_Keywords_Modal {
 	}
 
 	/**
-	 * Prints the localized Keyword Synonyms modal translations for JS.
+	 * Prints the localized Multiple Keywords modal translations for JS.
 	 */
 	public function enqueue_translations() {
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'yoastMultipleKeywordsModalL10n', $this->get_translations_for_js() );

@@ -121,7 +121,7 @@ class SeoAnalysis extends React.Component {
 					/>
 					<Slot name="YoastSynonyms" />
 					{ this.props.shouldUpsell && this.renderSynonymsUpsell() }
-					{ this.props.shouldUpsell && this.renderMultipleKeywordsUpsell( this.props.keywordUpsell ) }
+					{ this.props.shouldUpsell && this.renderMultipleKeywordsUpsell( ) }
 					<AnalysisHeader>
 						Analysis results:
 					</AnalysisHeader>
