@@ -15,6 +15,9 @@ import Input from "./components/Input";
 import TextArea from "./components/TextArea";
 import * as paperActionCreators from "./redux/actionCreators/paper";
 import * as configurationActionCreators from "./redux/actionCreators/configuration";
+import { setResults } from "./redux/actions/results";
+import Results from "./Results";
+import { clearStorage } from "./redux/utils/localstorage";
 
 class App extends React.Component {
 	constructor( props ) {
@@ -36,7 +39,11 @@ class App extends React.Component {
 
 	analyze( paper = this.props.paper ) {
 		this.analysisWorker.analyze( paper )
-		    .then( data => console.log( "analysis done!", data ) );
+		.then( data => {
+			this.props.setResults( {
+				readability: data.results,
+			} );
+		} );
 	}
 
 	analyzeSpam() {
@@ -75,6 +82,7 @@ class App extends React.Component {
 						<div className="button-container">
 							<Button onClick={ this.initialize }>Initialize</Button>
 							<Button onClick={ this.analyze }>Analyze</Button>
+							<Button onClick={ () => { clearStorage(); window.location.reload(); } }>Clear</Button>
 							<Button onClick={ this.analyzeSpam }>Analyze Spam</Button>
 						</div>
 
@@ -101,6 +109,7 @@ class App extends React.Component {
 
 						</div>
 						<h2>Content assessments</h2>
+						<Results results={ this.props.results.readability } />
 						<div id="contentOutput" className="output">
 
 						</div>
@@ -179,6 +188,10 @@ function mapDispatchToProps( dispatch ) {
 			...configurationActionCreators,
 			...paperActionCreators,
 		}, dispatch ),
+
+		setResults: ( results ) => {
+			dispatch( setResults( results ) );
+		}
 	};
 }
 
