@@ -65,6 +65,7 @@ class AnalysisWebWorker {
 				break;
 			case "analyze":
 				this._scheduler.schedule( {
+					id,
 					execute: this.analyze,
 					done: this.analyzeDone,
 					data: decodePayload( payload ),
@@ -159,7 +160,6 @@ class AnalysisWebWorker {
 	/**
 	 * Runs analyses on a paper.
 	 *
-	 * @param {number} id                      The id of this analyze request.
 	 * @param {Object} payload                 The payload object.
 	 * @param {Object} payload.paper           The paper to analyze.
 	 * @param {Object} [payload.configuration] The configuration for the
@@ -167,8 +167,8 @@ class AnalysisWebWorker {
 	 *
 	 * @returns {Object} The result.
 	 */
-	analyze( id, { paper, configuration = {} } ) {
-		console.log( "run analyze", id, paper, configuration );
+	analyze( { paper, configuration = {} } ) {
+		console.log( "run analyze", paper, configuration );
 
 		this._paper = new Paper( paper.text, omit( paper, "text" ) );
 		this._researcher.setPaper( this._paper );
@@ -184,7 +184,6 @@ class AnalysisWebWorker {
 		const score = this._contentAssessor.calculateOverallScore();
 
 		return {
-			id,
 			category: "readability",
 			results,
 			score,
@@ -194,12 +193,13 @@ class AnalysisWebWorker {
 	/**
 	 * Sends the result back.
 	 *
-	 * @param {Object} result The result to be send.
+	 * @param {number} id     The request id.
+	 * @param {Object} result The result.
 	 *
 	 * @returns {void}
 	 */
-	analyzeDone( result ) {
-		this.send( "analyze:done", result );
+	analyzeDone( id, result ) {
+		this.send( "analyze:done", id, result );
 	}
 }
 

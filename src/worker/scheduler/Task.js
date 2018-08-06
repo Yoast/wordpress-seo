@@ -8,10 +8,10 @@ class Task {
 	/**
 	 * Initializes a task.
 	 *
-	 * @param {number|string} id      The task identifier.
-	 * @param {function}      execute Executes the job with the data.
-	 * @param {function}      done    Callback for the scheduler.
-	 * @param {Object}        [data]  Optional data for when executing the task.
+	 * @param {number}   id      The task identifier.
+	 * @param {function} execute Executes the job with the data.
+	 * @param {function} done    Callback for the scheduler.
+	 * @param {Object}   [data]  Optional data for when executing the task.
 	 */
 	constructor( id, execute, done, data = {} ) {
 		if ( ! ( isString( id ) || isNumber( id ) ) ) {
