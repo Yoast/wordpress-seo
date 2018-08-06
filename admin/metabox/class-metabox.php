@@ -582,8 +582,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$button = new WPSEO_Metabox_Keyword_Synonyms_Config();
 			$button->enqueue_translations();
 
-			$multipleKeywordsButton = new WPSEO_Metabox_Multiple_Keywords_Config();
-			$multipleKeywordsButton->enqueue_translations();
+			$multiple_keywords_button = new WPSEO_Metabox_Multiple_Keywords_Config();
+			$multiple_keywords_button->enqueue_translations();
 		}
 
 		switch ( $meta_field_def['type'] ) {
