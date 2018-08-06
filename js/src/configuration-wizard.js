@@ -1,4 +1,4 @@
-/* global yoastWizardConfig */
+/* global yoastWizardConfig, wpseoAdminL10n */
 import React from "react";
 import ReactDOM from "react-dom";
 import "./helpers/babel-polyfill";
@@ -142,7 +142,7 @@ class App extends React.Component {
 			mixedString:
 			"The configuration wizard could not be started." +
 			" The likely cause is an interfering plugin. Please {{link}}check for plugin conflicts{{/link}} to solve this problem. ",
-			components: { link: <a href="https://yoa.st/configuration-wizard-error-plugin-conflict" target="_blank" /> },
+			components: { link: <a href={ wpseoAdminL10n[ "shortlinks.configuration_wizard_conflict" ] } target="_blank" /> },
 		};
 
 		return (
