@@ -1,17 +1,24 @@
-import { SET_RESULTS } from "../actions/results";
+import * as actions from "../actions/results";
 
-const defaultState = {
+const INITIAL_STATE = {
 	seo: [],
 	readability: [],
 };
 
-export default function resultsReducer( state = defaultState, action ) {
+/**
+ * A reducer for the analysis results.
+ *
+ * @param {Object} state  The current state of the object.
+ * @param {Object} action The current action received.
+ *
+ * @returns {Object} The state.
+ */
+export default function results( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
-
-		case SET_RESULTS:
+		case actions.SET_RESULTS:
 			return action.results;
-			break;
-	}
 
-	return state;
+		default:
+			return state;
+	}
 }

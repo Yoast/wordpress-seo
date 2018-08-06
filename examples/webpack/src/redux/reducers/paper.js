@@ -10,7 +10,7 @@ const INITIAL_STATE = {};
  *
  * @returns {Object} The state.
  */
-function paper( state = INITIAL_STATE, action ) {
+export default function paper( state = INITIAL_STATE, action ) {
 	switch( action.type ) {
 		case actions.SET_PAPER:
 			return action.paper;
@@ -25,5 +25,3 @@ function paper( state = INITIAL_STATE, action ) {
 			return state;
 	}
 }
-
-export default paper;

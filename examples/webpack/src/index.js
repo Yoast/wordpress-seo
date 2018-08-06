@@ -1,6 +1,7 @@
 // Internal dependencies.
-import './index.css';
-import App from './App';
+import "./index.css";
+import App from "./App";
+
 import configureStore from "./redux/utils/store";
 import { renderReactApp } from "./redux/utils/render";
 import { createStorageMiddleware, getStorageData } from "./redux/utils/localstorage";

@@ -10,7 +10,7 @@ const INITIAL_STATE = {};
  *
  * @returns {Object} The state.
  */
-function configuration( state = INITIAL_STATE, action ) {
+export default function configuration( state = INITIAL_STATE, action ) {
 	switch( action.type ) {
 		case actions.SET_CONFIGURATION:
 			return action.configuration;
@@ -25,5 +25,3 @@ function configuration( state = INITIAL_STATE, action ) {
 			return state;
 	}
 }
-
-export default configuration;
