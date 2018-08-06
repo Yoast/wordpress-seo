@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.36.1 August 6th, 2018
+### Changed
+* Increased the debounce delay in the App to make sure the refresh is triggered less often.
+
 ## 1.36.0 July 24th, 2018
 ### Added
 * Adds a link to a relevant article about re-using keywords to the feedback of the assessment that checks if the keyword was used previously.
