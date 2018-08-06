@@ -48,7 +48,7 @@ class WPSEO_Gutenberg_Compatibility_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation where Gutenberg is not installed.
 	 *
-	 * @covers WPSEO_Gutenberg_Compatibility::get_installed_version
+	 * @covers WPSEO_Gutenberg_Compatibility::is_installed
 	 */
 	public function test_gutenberg_not_installed() {
 		$mock = $this
