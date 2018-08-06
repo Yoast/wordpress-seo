@@ -23,7 +23,7 @@ class Results extends Component {
 				return 1;
 			}
 
-			// Value a must be equal to b
+			// Value a must be equal to value b
 			return 0;
 		} );
 

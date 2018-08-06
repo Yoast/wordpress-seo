@@ -68,6 +68,11 @@ class App extends React.Component {
 			} );
 	}
 
+	/**
+	 * Runs analysis on the full-text test papers.
+	 *
+	 * @returns {void}
+	 */
 	analyzeSpam() {
 		for ( let i = 0; i < 10; i++ ) {
 			testPapers.forEach( ( { paper: paper } ) => {
@@ -78,7 +83,7 @@ class App extends React.Component {
 			} );
 		}
 	}
-	
+
 	/**
 	 * Renders a form input for a paper attribute.
 	 *
