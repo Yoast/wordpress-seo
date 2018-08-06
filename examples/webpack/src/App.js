@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 
 // YoastSEO.js dependencies.
 import AnalysisWorkerWrapper from "yoastseo/worker/AnalysisWorkerWrapper";
+import testPapers from "yoastspec/fullTextTests/testTexts";
 
 // Internal dependencies.
 import "./App.css";
@@ -38,6 +39,7 @@ class App extends React.Component {
 
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
+		this.analyzeSpam = this.analyzeSpam.bind( this );
 	}
 
 	/**
@@ -57,9 +59,7 @@ class App extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	analyze() {
-		const { actions, paper } = this.props;
-
+	analyze( paper = this.props.paper ) {
 		this.analysisWorker.analyze( paper )
 			.then( data => {
 				actions.setResults( {
@@ -68,6 +68,17 @@ class App extends React.Component {
 			} );
 	}
 
+	analyzeSpam() {
+		for ( let i = 0; i < 10; i++ ) {
+			testPapers.forEach( ( { paper: paper } ) => {
+				this.analyze( {
+					text: paper._text,
+					...paper._attributes,
+				} );
+			} );
+		}
+	}
+	
 	/**
 	 * Renders a form input for a paper attribute.
 	 *
@@ -110,6 +121,7 @@ class App extends React.Component {
 							<Button onClick={ this.initialize }>Initialize</Button>
 							<Button onClick={ this.analyze }>Analyze</Button>
 							<Button onClick={ () => { clearStorage(); window.location.reload(); } }>Clear</Button>
+							<Button onClick={ this.analyzeSpam }>Analyze Spam</Button>
 						</div>
 
 						{ this.renderPaperAttribute( "text", "Write a text", null, TextArea ) }

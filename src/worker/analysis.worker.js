@@ -31,7 +31,7 @@ class AnalysisWebWorker {
 			useKeywordDistribution: false,
 			locale: "en_US",
 		};
-		this._scheduler = new Scheduler( self );
+		this._scheduler = new Scheduler( { resetQueue: true } );
 		this._i18n = AnalysisWebWorker.createI18n();
 		this._paper = new Paper( "" );
 		this._researcher = new Researcher( this._paper );
@@ -68,7 +68,6 @@ class AnalysisWebWorker {
 					done: this.analyzeDone,
 					data: decodePayload( payload ),
 				} );
-				this._scheduler.processQueue();
 				break;
 			default:
 				console.warn( "Unrecognized command", type );
