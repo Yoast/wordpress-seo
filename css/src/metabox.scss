@@ -727,58 +727,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 @media screen and ( max-width: 782px ) {
-	.wpseo-metabox-sidebar {
-		float: none;
-		display: inline-block; /* Contain floated children, don't use overflow hidden to avoid cutting-off content. */
-		width: auto;
-		margin: 0 0 10px -5px;
-		padding: 0;
-		vertical-align: top;
-	}
-
-	.wpseo-meta-section.active {
-		display: block;
-		max-width: none;
-		clear: both;
-	}
-
-	.wpseo-metabox-sidebar ul {
-		display: inline-block; /* Contain floated children. */
-	}
-
-	.wpseo-metabox-sidebar li {
-		float: left;
-		text-align: center;
-	}
-
-	.wpseo-metabox-sidebar .wpseo-meta-section-link {
-		width: 40px;
-		height: 40px;
-	}
-
-	.wpseo-meta-section-link .dashicons,
-	.wpseo-meta-section-link .yst-traffic-light-container {
-		display: block;
-		width: 40px;
-		height: 45px;
-		margin: 0;
-		padding: 5px 0 0;
-		border-left-width: 0;
-		border-bottom-width: 3px;
-	}
-
-	/* Traffic light svg and CSS generated dashicons. */
-	.wpseo-meta-section-link .yst-traffic-light,
-	.wpseo-meta-section-link .dashicons:before {
-		margin: 0;
-	}
-
-	/* The "advanced" dashicon (the gear) is not perfectly centered and needs to be adjusted. */
-	.wpseo-meta-section-link .dashicons-admin-generic:before {
-		position: relative;
-		left: 1px;
-	}
-
 	/* The Go Premium dashicon must stay unchanged in the responsive view. */
 	.wpseo-metabox-buy-premium .wpseo-buy-premium {
 		display: inline-block;
