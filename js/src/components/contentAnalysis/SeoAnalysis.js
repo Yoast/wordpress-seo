@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import colors from "yoast-components/style-guide/colors.json";
+import { HelpText } from "yoast-components";
 import Collapsible from "../SidebarCollapsible";
 import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
 import Results from "./Results";
@@ -21,9 +22,6 @@ const AnalysisHeader = styled.span`
 	font-weight: bold;
 	margin: 1.5em 0 1em;
 	display: block;
-`;
-
-const ExplanationText = styled.p`
 `;
 
 const FocusKeywordLink = utils.makeOutboundLink();
@@ -118,13 +116,13 @@ class SeoAnalysis extends React.Component {
 					prefixIconCollapsed={ getIconForScore( score.className ) }
 					subTitle={ this.props.keyword }
 				>
-					<ExplanationText>
+					<HelpText>
 						{ __( "A focus keyword is the term (or phrase) you'd like to be found with, in search engines. " +
 							"Enter it below to see how you can improve your text for this term.", "wordpress-seo" ) + " " }
 						<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }>
 							{ __( "Learn more about the Keyword Analysis", "wordpress-seo" ) }
 						</FocusKeywordLink>
-					</ExplanationText>
+					</HelpText>
 					<KeywordInput
 						id="focus-keyword-input"
 						onChange={ this.props.onFocusKeywordChange }
