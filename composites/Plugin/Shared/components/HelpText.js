@@ -55,7 +55,7 @@ export const helpTextPropType = {
 
 HelpText.propTypes = {
 	...helpTextPropType,
-	children: helpTextPropType.text.isRequired,
+	children: helpTextPropType.children.isRequired,
 };
 
 HelpText.defaultProps = {
