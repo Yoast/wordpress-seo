@@ -8,18 +8,18 @@
 /**
  * Button to show the premium upsell.
  */
-class WPSEO_Metabox_Keyword_Synonyms_Config {
+class WPSEO_Metabox_Multiple_Keywords_Config {
 
 	/**
-	 * Enqueues the translations necessary for the synonyms modal + button
+	 * Enqueues the translations necessary for the multiple keywords modal + button
 	 *
 	 * @return void
 	 */
 	public function enqueue_translations() {
-		$keyword_synonyms_modal_config = array(
+		$multiple_keywords_modal_config = array(
 			'openButtonIcon' => '',
 			'intl'           => array(
-				'open'           => '+ ' . __( 'Add synonyms', 'wordpress-seo' ),
+				'open'           => '+ ' . __( 'Add additional keyword', 'wordpress-seo' ),
 				'modalAriaLabel' =>
 					/* translators: %s expands to 'Yoast SEO Premium'. */
 					sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
@@ -28,17 +28,17 @@ class WPSEO_Metabox_Keyword_Synonyms_Config {
 					sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 			),
 			'classes'        => array(
-				'openButton' => 'wpseo-keyword-synonyms button-link',
+				'openButton' => 'wpseo-multiple-keywords button-link',
 			),
-			'content'        => 'KeywordSynonyms',
+			'content'        => 'MultipleKeywords',
 		);
 
-		$translations = new WPSEO_Keyword_Synonyms_Modal();
+		$translations = new WPSEO_Multiple_Keywords_Modal();
 		$translations->enqueue_translations();
 
-		$benefits = new WPSEO_Premium_Benefits_For_Synonyms_List();
+		$benefits = new WPSEO_Premium_Benefits_List();
 		$benefits->enqueue_translations();
 
-		Yoast_Modal::add( $keyword_synonyms_modal_config );
+		Yoast_Modal::add( $multiple_keywords_modal_config );
 	}
 }

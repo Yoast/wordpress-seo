@@ -1,12 +1,12 @@
-/* global yoastPremiumBenefitsForSynonymsL10n */
+/* global yoastPremiumBenefitsL10n */
 import React from "react";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 import { getRtlStyle } from "yoast-components";
 
 let localizedData = null;
-if ( window.yoastPremiumBenefitsForSynonymsL10n ) {
-	localizedData = yoastPremiumBenefitsForSynonymsL10n;
+if ( window.yoastPremiumBenefitsL10n ) {
+	localizedData = yoastPremiumBenefitsL10n;
 }
 
 const StyledList = styled.ul`
@@ -25,7 +25,7 @@ const StyledList = styled.ul`
 	}
 `;
 
-const PremiumBenefitsForSynonymsList = () => {
+const PremiumBenefitsList = () => {
 	return (
 		localizedData &&
 			<StyledList role="list">
@@ -42,4 +42,4 @@ const PremiumBenefitsForSynonymsList = () => {
 	);
 };
 
-export default PremiumBenefitsForSynonymsList;
+export default PremiumBenefitsList;
