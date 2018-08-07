@@ -188,41 +188,32 @@ class AnalysisWebWorker {
 	 * @param {Object} [arguments.configuration] The configuration for the
 	 *                                           specific analyses.
 	 *
-	 * @returns {Object} The result.
+	 * @returns {Object} The result, may not contain readability or seo.
 	 */
 	analyze( { id, paper, configuration = {} } ) {
 		console.log( "run analyze", id, paper, configuration );
+		const result = { id };
 
 		this._paper = new Paper( paper.text, omit( paper, "text" ) );
 		this._researcher.setPaper( this._paper );
 
-		if (
-			! this._contentAssessor ||
-			! this._configuration.contentAnalysisActive ||
-			! this._seoAssessor ||
-			! this._configuration.keywordAnalysisActive
-		) {
-			return;
+		if ( this._configuration.contentAnalysisActive && this._contentAssessor ) {
+			this._contentAssessor.assess( this._paper );
+			result.readability = {
+				results: this._contentAssessor.results,
+				score: this._contentAssessor.calculateOverallScore(),
+			};
 		}
-		this._contentAssessor.assess( this._paper );
-		const resultsReadability = this._contentAssessor.results;
-		const scoreReadability = this._contentAssessor.calculateOverallScore();
 
-		this._seoAssessor.assess( this._paper );
-		const resultsSEO = this._seoAssessor.results;
-		const scoreSEO = this._seoAssessor.calculateOverallScore();
+		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
+			this._seoAssessor.assess( this._paper );
+			result.seo = {
+				results: this._seoAssessor.results,
+				score: this._seoAssessor.calculateOverallScore(),
+			};
+		}
 
-		return {
-			id,
-			readability: {
-				resultsReadability,
-				scoreReadability,
-			},
-			seo: {
-				resultsSEO,
-				scoreSEO,
-			},
-		};
+		return result;
 	}
 
 	/**
