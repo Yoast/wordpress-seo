@@ -37,7 +37,6 @@ class Edit {
 	 */
 	constructor( args ) {
 		this._localizedData = this.getLocalizedData();
-		this._postType =      this.getPostType();
 		this._args =          args;
 	}
 
@@ -52,20 +51,6 @@ class Edit {
 			window.wpseoTermScraperL10n ||
 			{ intl: {}, isRtl: false }
 		);
-	}
-
-	/**
-	 * Get the post type.
-	 *
-	 * @returns {string} The post type.
-	 */
-	getPostType() {
-		if ( window.wpseoPostScraperL10n ) {
-			return "post";
-		} else if ( window.wpseoTermScraperL10n ) {
-			return "term";
-		}
-		return "";
 	}
 
 	init() {
@@ -174,16 +159,17 @@ class Edit {
 	/**
 	 * Initialize used keyword analysis.
 	 *
-	 * @param {App} app YoastSEO.js app.
+	 * @param {App}    app        YoastSEO.js app.
+	 * @param {string} ajaxAction The ajax action to use when retrieving the used keywords data.
 	 *
 	 * @returns {void}
 	 */
-	initializeUsedKeywords( app ) {
+	initializeUsedKeywords( app, ajaxAction ) {
 		const store =         this._store;
 		const localizedData = this._localizedData;
 
 		const usedKeywords = new UsedKeywords(
-			this._postType === "post" ? "get_focus_keyword_usage" : "get_term_keyword_usage",
+			ajaxAction,
 			localizedData,
 			app
 		);

@@ -252,7 +252,7 @@ window.yoastHideMarkers = true;
 
 		app = new App( args );
 
-		edit.initializeUsedKeywords( app );
+		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
 
 		store.subscribe( handleStoreChange.bind( null, store, app ) );
 

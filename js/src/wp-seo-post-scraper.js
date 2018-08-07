@@ -408,7 +408,7 @@ setWordPressSeoL10n();
 		const appArgs = getAppArgs( editStore );
 		app = new App( appArgs );
 
-		edit.initializeUsedKeywords( app );
+		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
 
 		postDataCollector.app = app;
 
