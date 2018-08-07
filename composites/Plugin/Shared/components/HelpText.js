@@ -49,8 +49,8 @@ export const helpTextPropType = {
 		PropTypes.string,
 		PropTypes.array,
 	] ),
-	textColor: PropTypes.string,
-	textFontSize: PropTypes.string,
+	color: PropTypes.string,
+	fontSize: PropTypes.string,
 };
 
 HelpText.propTypes = {
@@ -59,6 +59,6 @@ HelpText.propTypes = {
 };
 
 HelpText.defaultProps = {
-	textColor: colors.$color_grey_medium_dark,
-	textFontSize: "0.8em",
+	color: colors.$color_grey_medium_darker,
+	fontSize: "0.8em",
 };
