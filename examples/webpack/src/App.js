@@ -63,11 +63,13 @@ class App extends React.Component {
 	 */
 	analyze( paper = this.props.paper ) {
 		this.analysisWorker.analyze( paper )
-			.then( data => {
+		    .then( data => {
+	            console.log( "analysis done!", data );
 				this.props.actions.setResults( {
-					readability: data.results,
+					readability: data.readability.results,
+					seo: data.seo.results,
 				} );
-			} );
+		    } );
 	}
 
 	/**
@@ -160,6 +162,7 @@ class App extends React.Component {
 					</div>
 					<div className="output-container">
 						<h2>SEO assessments</h2>
+						<Results results={ this.props.results.seo } />
 						<div id="output" className="output">
 
 						</div>

@@ -63,11 +63,7 @@ class AnalysisWorkerWrapper {
 					console.log( "not the most recent request" );
 				}
 
-				this.getCallback( "analyze", payload.id )( null, {
-					category: payload.category,
-					results: payload.results,
-					score: payload.score,
-				} );
+				this.getCallback( "analyze", payload.id )( null, payload );
 				break;
 			default:
 				console.warn( "AnalysisWorker unrecognized action", type );

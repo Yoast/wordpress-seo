@@ -7,7 +7,9 @@ import merge from "lodash/merge";
 import * as Paper from "yoastseo/values/Paper";
 import * as Researcher from "yoastseo/researcher";
 import * as ContentAssessor from "yoastseo/contentAssessor";
+import * as SEOAssessor from "yoastseo/seoAssessor";
 import * as CornerstoneContentAssessor from "yoastseo/cornerstone/contentAssessor";
+import * as CornerstoneSEOAssessor from "yoastseo/cornerstone/seoAssessor";
 
 // Internal dependencies.
 import { Scheduler } from "./scheduler";
@@ -36,6 +38,7 @@ class AnalysisWebWorker {
 		this._paper = new Paper( "" );
 		this._researcher = new Researcher( this._paper );
 		this._contentAssessor = null;
+		this._seoAssessor = null;
 
 		// Bind actions to this scope.
 		this.analyze = this.analyze.bind( this );
@@ -121,6 +124,29 @@ class AnalysisWebWorker {
 	}
 
 	/**
+	 * Initializes the appropriate SEO assessor.
+	 *
+	 * @returns {null|SEOAssessor|CornerstoneSEOAssessor} The chosen
+	 *                                                    SEO
+	 *                                                    assessor.
+	 */
+	createSEOAssessor() {
+		const {
+			keywordAnalysisActive,
+			useCornerstone,
+			locale,
+		} = this._configuration;
+
+		if ( keywordAnalysisActive === false ) {
+			return null;
+		}
+		if ( useCornerstone === true ) {
+			return new CornerstoneSEOAssessor( this._i18n, { locale } );
+		}
+		return new SEOAssessor( this._i18n, { locale } );
+	}
+
+	/**
 	 * Sends a message.
 	 *
 	 * @param {string}   type    The type of the message.
@@ -148,6 +174,7 @@ class AnalysisWebWorker {
 		console.log( "run initialize", configuration, this._configuration );
 
 		this._contentAssessor = this.createContentAssessor();
+		this._seoAssessor = this.createSEOAssessor();
 
 		this.send( "initialize:done" );
 	}
@@ -161,30 +188,32 @@ class AnalysisWebWorker {
 	 * @param {Object} [arguments.configuration] The configuration for the
 	 *                                           specific analyses.
 	 *
-	 * @returns {Object} The result.
+	 * @returns {Object} The result, may not contain readability or seo.
 	 */
 	analyze( { id, paper, configuration = {} } ) {
 		console.log( "run analyze", id, paper, configuration );
+		const result = { id };
 
 		this._paper = new Paper( paper.text, omit( paper, "text" ) );
 		this._researcher.setPaper( this._paper );
 
-		if (
-			! this._contentAssessor ||
-			! this._configuration.contentAnalysisActive
-		) {
-			return;
+		if ( this._configuration.contentAnalysisActive && this._contentAssessor ) {
+			this._contentAssessor.assess( this._paper );
+			result.readability = {
+				results: this._contentAssessor.results,
+				score: this._contentAssessor.calculateOverallScore(),
+			};
 		}
-		this._contentAssessor.assess( this._paper );
-		const results = this._contentAssessor.results;
-		const score = this._contentAssessor.calculateOverallScore();
 
-		return {
-			id,
-			category: "readability",
-			results,
-			score,
-		};
+		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
+			this._seoAssessor.assess( this._paper );
+			result.seo = {
+				results: this._seoAssessor.results,
+				score: this._seoAssessor.calculateOverallScore(),
+			};
+		}
+
+		return result;
 	}
 
 	/**
