@@ -190,8 +190,12 @@ class WPSEO_Post_Type_Archive_Notifier_Test extends WPSEO_UnitTestCase {
 
 		$handler = $this
 			->getMockBuilder( 'WPSEO_Post_Type_Archive_Notification_Handler' )
-			->setMethods( array( 'get_post_types' ) )
+			->setMethods( array( 'get_post_types', 'is_new_install' ) )
 			->getMock();
+
+		$handler
+			->method( 'is_new_install' )
+			->will( $this->returnValue( false ) );
 
 		$handler
 			->expects( $this->once() )
@@ -219,8 +223,12 @@ class WPSEO_Post_Type_Archive_Notifier_Test extends WPSEO_UnitTestCase {
 
 		$handler = $this
 			->getMockBuilder( 'WPSEO_Post_Type_Archive_Notification_Handler' )
-			->setMethods( array( 'get_post_types' ) )
+			->setMethods( array( 'get_post_types', 'is_new_install' ) )
 			->getMock();
+
+		$handler
+			->method( 'is_new_install' )
+			->will( $this->returnValue( false ) );
 
 		$handler
 			->expects( $this->exactly( 2 ) )
