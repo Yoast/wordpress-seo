@@ -386,7 +386,6 @@ setWordPressSeoL10n();
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
 		const edit = new Edit( editArgs );
-		edit.init();
 
 		editStore =  edit.getStore();
 		const data = edit.getData();

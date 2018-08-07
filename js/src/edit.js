@@ -38,6 +38,8 @@ class Edit {
 	constructor( args ) {
 		this._localizedData = this.getLocalizedData();
 		this._args =          args;
+
+		this._init();
 	}
 
 	/**
@@ -53,7 +55,7 @@ class Edit {
 		);
 	}
 
-	init() {
+	_init() {
 		this._store = this._registerStoreInGutenberg();
 
 		this._registerPlugin();

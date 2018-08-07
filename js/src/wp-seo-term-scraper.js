@@ -207,6 +207,7 @@ window.yoastHideMarkers = true;
 		};
 
 		const edit = new Edit( editArgs );
+
 		const store = edit.getStore();
 
 		insertTinyMCE();
