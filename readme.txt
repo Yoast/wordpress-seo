@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
-Tested up to: 4.9.7
+Tested up to: 4.9.8
 Stable tag: 7.9
 Requires PHP: 5.2.4
 
@@ -106,6 +106,27 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.9.1 =
+Release Date: August 7th, 2018
+
+Enhancements:
+* Improves the link to claim your website on Pinterest by directly sending you to the right location.
+* Adds the passive voice assessment for Dutch.
+* Adds a link to a relevant article about re-using keywords to the feedback of the assessment that checks if the keyword was used previously.
+
+Bugfixes:
+* Adds a missing H1 heading to the Network Admin > SEO > Edit Files page.
+* Fixes the textarea sizes in the Search Appearance > RSS tab.
+* Fixes a bug where adding a company image in step 4 of the Configuration Wizard, would make the wizard crash.
+* Fixes a bug where PHP error notices were given when the search result doesn't have any WooCommerce products. Props to [jaska120](https://github.com/jaska120).
+* Improves the order in which assessments are triggered. The keyword in the title is only checked once there's a title, the keyword in the introduction is only checked once there's a text, and the keyword in the meta description is only checked once there's a meta description.
+* Fixes a bug that caused keywords to be incorrectly recognized within possessive forms (e.g. `Natalia` in `Natalia's fix`).
+* Improves the recognition of keywords with special diacritics in the URL.
+* Improves keyword recognition through adding Spanish inverted exclamation and question marks to the rules that determine word boundaries.
+
+Other:
+* Corrects the WP_Filesystem() initialization call to support settings import for non-default FS_METHOD definitions. Props to [ptbello](https://github.com/ptbello).
+
 = 7.9.0 =
 Release Date: July 24th, 2018
 
@@ -132,28 +153,6 @@ Other:
 * Adds the white background to the template of media on the Search Appearance page.
 * Changes feedback in the keyword density assessment to make it more explicit that synonyms are not taken into consideration when calculating the score.
 * Shows a notification with the message that you should check your post type archive settings when these are possibly reset to their defaults in 7.7 or 7.8.
-
-= 7.8.0 =
-Release Date: July 10th, 2018
-
-Enhancements:
-* Improves the way that the OpenGraph is determined for front pages, especially in the case of static front pages.
-* Adds links to relevant articles to all SEO assessments.
-* Adds Flesch Reading Ease assessment for French.
-* Adds Flesch Reading Ease assessment for Spanish.
-* Adds passive voice assessment for Italian.
-
-Bugfixes:
-* Fixes a bug where images from password protected posts could potentially end up in OpenGraph image tags.
-* Fixes a bug where very old notifications could not be be dismissed or restored.
-* Fixes a bug where the `Insert snippet variable` button alignment was incorrect.
-* Fixes a bug where the snippet variables had a different label in the Search Appearance settings compared to the snippet variables when writing a post, pages and taxonomies.
-* Fixes a bug where instances of the same keyword with different kinds of apostrophes (e.g., brain’s and brain's) were not recognized as the same. This affects the following assessments: keyword in meta description, keyword in subheading, keyword in first paragraph, keyword in title and keyword in URL.
-* Fixes a bug where the custom set breadcrumb title for the WooCommerce Shop page wasn't used.
-
-Other:
-* Adds a reminder message to create a redirect if a user deletes a category or tag.
-* Removes a banner spot in the admin.
 
 = Earlier versions =
 
