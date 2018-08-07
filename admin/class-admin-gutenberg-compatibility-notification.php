@@ -75,11 +75,12 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification implements WPSEO_WordPres
 			'Gutenberg'
 		);
 
-		$notification = Yoast_Notification(
+		$notification = new Yoast_Notification(
 			$message,
 			array(
 				'id'   => $this->notification_id,
 				'type' => $level,
+				'priority' => 1,
 			)
 		);
 
