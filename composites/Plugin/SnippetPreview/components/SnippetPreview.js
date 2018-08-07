@@ -717,7 +717,6 @@ SnippetPreview.propTypes = {
 	locale: PropTypes.string,
 	mode: PropTypes.oneOf( MODES ),
 	isAmp: PropTypes.bool,
-	helpText: PropTypes.string,
 
 	onMouseUp: PropTypes.func.isRequired,
 	onHover: PropTypes.func,
