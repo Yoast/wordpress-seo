@@ -280,7 +280,7 @@ window.yoastHideMarkers = true;
 		termScraper.bindElementEvents( app );
 
 		if ( isKeywordAnalysisActive() ) {
-			initializeKeywordAnalysis( app, termScraper );
+			initializeKeywordAnalysis( termScraper );
 		}
 
 		if ( isContentAnalysisActive() ) {
