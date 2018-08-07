@@ -4,21 +4,21 @@
  */
 
 /**
- * Class to print out the translatable strings for the Keyword Synonyms modal.
+ * Class to print out the translatable strings for the Multiple Keywords modal.
  */
-class WPSEO_Keyword_Synonyms_Modal {
+class WPSEO_Multiple_Keywords_Modal {
 
 	/**
-	 * Returns the translations for the Keyword Synonyms modal.
+	 * Returns the translations for the Multiple Keywords modal.
 	 *
 	 * These strings are not escaped because they're meant to be used with React
 	 * which already takes care of that. If used in PHP, they should be escaped.
 	 *
-	 * @return array Translated text strings for the Keyword Synonyms modal.
+	 * @return array Translated text strings for the Multiple Keywords modal.
 	 */
 	public function get_translations() {
 		return array(
-			'title'                    => __( 'Would you like to add keyword synonyms?', 'wordpress-seo' ),
+			'title'                    => __( 'Would you like to add another keyword?', 'wordpress-seo' ),
 			'intro'                    => sprintf(
 				/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
 				__( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
@@ -30,7 +30,7 @@ class WPSEO_Keyword_Synonyms_Modal {
 				__( 'Other benefits of %s for you:', 'wordpress-seo' ),
 				'Yoast SEO Premium'
 			),
-			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/keyword-synonyms-popup' ),
+			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ),
 			'buy'                      => sprintf(
 				/* translators: %s expands to 'Yoast SEO Premium'. */
 				__( 'Get %s now!', 'wordpress-seo' ),
@@ -42,9 +42,9 @@ class WPSEO_Keyword_Synonyms_Modal {
 	}
 
 	/**
-	 * Passes translations to JS for the Keyword Synonyms modal component.
+	 * Passes translations to JS for the Multiple Keywords modal component.
 	 *
-	 * @return array Translated text strings for the Keyword Synonyms modal component.
+	 * @return array Translated text strings for the Multiple Keywords modal component.
 	 */
 	public function get_translations_for_js() {
 		$translations = $this->get_translations();
@@ -56,11 +56,11 @@ class WPSEO_Keyword_Synonyms_Modal {
 	}
 
 	/**
-	 * Prints the localized Keyword Synonyms modal translations for JS.
+	 * Prints the localized Multiple Keywords modal translations for JS.
 	 *
 	 * @return void
 	 */
 	public function enqueue_translations() {
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'yoastKeywordSynonymsModalL10n', $this->get_translations_for_js() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'yoastMultipleKeywordsModalL10n', $this->get_translations_for_js() );
 	}
 }
