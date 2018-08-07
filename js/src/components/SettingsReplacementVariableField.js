@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "yoast-components/composites/Plugin/SnippetEditor";
+} from "yoast-components";
 import { ReplaceVarEditor } from "yoast-components";
 import styled from "styled-components";
 
