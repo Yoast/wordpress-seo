@@ -194,6 +194,7 @@ class WPSEO_Post_Type_Archive_Notifier_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$handler
+			->expects( $this->once() )
 			->method( 'is_new_install' )
 			->will( $this->returnValue( false ) );
 
