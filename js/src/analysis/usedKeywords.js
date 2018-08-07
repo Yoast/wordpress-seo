@@ -88,7 +88,7 @@ UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
 	if ( response && isArray( response ) ) {
 		this._keywordUsage[ keyword ] = response;
 		this._plugin.updateKeywordUsage( this._keywordUsage );
-		this._app.analyzeTimer();
+		this._app.refresh();
 	}
 };
 
