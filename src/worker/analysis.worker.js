@@ -10,7 +10,6 @@ import * as ContentAssessor from "yoastseo/contentAssessor";
 import * as SEOAssessor from "yoastseo/seoAssessor";
 import * as CornerstoneContentAssessor from "yoastseo/cornerstone/contentAssessor";
 import * as CornerstoneSEOAssessor from "yoastseo/cornerstone/seoAssessor";
-const removeHtmlBlocks = require( "../stringProcessing/htmlParser.js" );
 
 // Internal dependencies.
 import { Scheduler } from "./scheduler";
@@ -195,7 +194,7 @@ class AnalysisWebWorker {
 		console.log( "run analyze", id, paper, configuration );
 		const result = { id };
 
-		this._paper = new Paper( removeHtmlBlocks( paper.text ), omit( paper, "text" ) );
+		this._paper = new Paper( paper.text, omit( paper, "text" ) );
 		this._researcher.setPaper( this._paper );
 
 		if ( this._configuration.contentAnalysisActive && this._contentAssessor ) {
