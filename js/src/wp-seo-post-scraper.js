@@ -10,7 +10,7 @@ import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
 // Internal dependencies.
 import "./helpers/babel-polyfill";
-import initializeEdit from "./edit";
+import Edit from "./edit";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
@@ -26,7 +26,6 @@ import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
-import UsedKeywords from "./analysis/usedKeywords";
 
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
@@ -134,38 +133,14 @@ setWordPressSeoL10n();
 	}
 
 	/**
-	 * Updates the used keyword analysis when the keyword has changed.
-	 *
-	 * @returns {void}
-	 */
-	function initializeUsedKeywords() {
-		const usedKeywords = new UsedKeywords( "get_focus_keyword_usage", wpseoPostScraperL10n, app );
-		usedKeywords.init();
-
-		let lastData = {};
-		editStore.subscribe( () => {
-			const state = editStore.getState() || {};
-			if ( state.focusKeyword === lastData.focusKeyword ) {
-				return;
-			}
-			lastData = state;
-			usedKeywords.setKeyword( state.focusKeyword );
-		} );
-	}
-
-	/**
 	 * Initializes keyword analysis.
 	 *
-	 * @param {App} app                       The App object.
-	 * @param {PostDataCollector} postScraper The post scraper object.
 	 * @param {Object} publishBox             The publish box object.
 	 *
 	 * @returns {void}
 	 */
-	function initializeKeywordAnalysis( app, postScraper, publishBox ) {
+	function initializeKeywordAnalysis( publishBox ) {
 		const savedKeywordScore = $( "#yoast_wpseo_linkdex" ).val();
-
-		initializeUsedKeywords();
 
 		const indicator = getIndicatorForScore( savedKeywordScore );
 
@@ -324,7 +299,7 @@ setWordPressSeoL10n();
 	 */
 	function activateEnabledAnalysis() {
 		if ( isKeywordAnalysisActive() ) {
-			initializeKeywordAnalysis( app, postDataCollector, publishBox );
+			initializeKeywordAnalysis( publishBox );
 		}
 
 		if ( isContentAnalysisActive() ) {
@@ -410,8 +385,11 @@ setWordPressSeoL10n();
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
-		const { store, data } = initializeEdit( editArgs );
-		editStore = store;
+		const edit = new Edit( editArgs );
+		edit.init();
+
+		editStore =  edit.getStore();
+		const data = edit.getData();
 
 		metaboxContainer = $( "#wpseo_meta" );
 
@@ -427,14 +405,16 @@ setWordPressSeoL10n();
 		postDataCollector = initializePostDataCollector( data );
 		publishBox.initialize();
 
-		const appArgs = getAppArgs( store );
+		const appArgs = getAppArgs( editStore );
 		app = new App( appArgs );
+
+		edit.initializeUsedKeywords( app );
 
 		postDataCollector.app = app;
 
 		editStore.subscribe( handleStoreChange.bind( null, editStore, app ) );
 
-		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
+		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, editStore );
 		const shortcodePlugin = new YoastShortcodePlugin( app );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
@@ -474,11 +454,11 @@ setWordPressSeoL10n();
 		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
 		// Set the initial snippet editor data.
-		store.dispatch( updateData( snippetEditorData ) );
-		store.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === "true" ) );
+		editStore.dispatch( updateData( snippetEditorData ) );
+		editStore.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === "true" ) );
 
 		// Save the keyword, in order to compare it to store changes.
-		let focusKeyword = store.getState().focusKeyword;
+		let focusKeyword = editStore.getState().focusKeyword;
 
 		const refreshAfterFocusKeywordChange = debounce( () => {
 			app.refresh();
@@ -486,9 +466,9 @@ setWordPressSeoL10n();
 
 		let previousCornerstoneValue = null;
 
-		store.subscribe( () => {
+		editStore.subscribe( () => {
 			// Verify whether the focusKeyword changed. If so, trigger refresh:
-			let newFocusKeyword = store.getState().focusKeyword;
+			let newFocusKeyword = editStore.getState().focusKeyword;
 
 			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
@@ -497,7 +477,7 @@ setWordPressSeoL10n();
 				refreshAfterFocusKeywordChange();
 			}
 
-			const data = snippetEditorHelpers.getDataFromStore( store );
+			const data = snippetEditorHelpers.getDataFromStore( editStore );
 			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
 
 
@@ -513,7 +493,7 @@ setWordPressSeoL10n();
 				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
 			}
 
-			let currentState = store.getState();
+			let currentState = editStore.getState();
 
 			if ( previousCornerstoneValue !== currentState.isCornerstone ) {
 				previousCornerstoneValue = currentState.isCornerstone;
@@ -530,7 +510,7 @@ setWordPressSeoL10n();
 		} );
 
 		if ( ! isGutenbergDataAvailable() ) {
-			renderClassicEditorMetabox( store );
+			renderClassicEditorMetabox( editStore );
 		}
 	}
 
