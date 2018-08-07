@@ -29,11 +29,11 @@ export default class HelpText extends PureComponent {
 	 * @returns {ReactElement} The rendered help text component.
 	 */
 	render() {
-		const { text, textColor, textFontSize } = this.props;
+		const { children, textColor, textFontSize } = this.props;
 
 		return (
 			<YoastHelpText textColor={ textColor } textFontSize={ textFontSize } >
-				{ text }
+				{ children }
 			</YoastHelpText>
 		);
 	}
@@ -45,7 +45,7 @@ export default class HelpText extends PureComponent {
  * Use this in your components to pass along the text.
  */
 export const helpTextPropType = {
-	text: PropTypes.oneOfType( [
+	children: PropTypes.oneOfType( [
 		PropTypes.string,
 		PropTypes.array,
 	] ),
@@ -55,7 +55,7 @@ export const helpTextPropType = {
 
 HelpText.propTypes = {
 	...helpTextPropType,
-	text: helpTextPropType.text.isRequired,
+	children: helpTextPropType.text.isRequired,
 };
 
 HelpText.defaultProps = {
