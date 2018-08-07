@@ -15,8 +15,6 @@ import FixedWidthContainer from "./FixedWidthContainer";
 import colors from "../../../../style-guide/colors";
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
-import HelpTextWrapper from "../components/HelpTextWrapper";
-import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
 import { angleLeft, angleRight } from "../../SnippetEditor/components/Shared";
 import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
@@ -54,8 +52,6 @@ export const BaseTitle = styled.div`
 	cursor: pointer;
 	position: relative;
 `;
-
-const HelpTextLink = makeOutboundLink();
 
 /**
  * Adds caret styles to a component.
@@ -634,14 +630,6 @@ export default class SnippetPreview extends PureComponent {
 		const downArrow = mode === MODE_DESKTOP ? <UrlDownArrow/> : null;
 		const amp       = mode === MODE_DESKTOP || ! isAmp ? null : <Amp/>;
 
-		const helpText = [
-			__( "This is a rendering of what this post might look like in Google's search results. ", "yoast-components" ),
-			<HelpTextLink key="1" href="https://yoa.st/snippet-preview">
-				{ __( "Learn more about the Snippet Preview.", "yoast-components" ) }
-			</HelpTextLink>,
-		];
-		const helpTextLabel = __( "Help on the Snippet Preview", "yoast-components" );
-
 		/*
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
 		 * However this is not relevant in this case, because the title and description are
@@ -650,13 +638,6 @@ export default class SnippetPreview extends PureComponent {
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return (
 			<section>
-				<div>
-					<HelpTextWrapper
-						helpText={ helpText }
-						helpTextButtonLabel={ helpTextLabel }
-						panelMaxWidth="400px"
-					/>
-				</div>
 				<Container
 					onMouseLeave={ this.onMouseLeave }
 					width={ MAX_WIDTH + ( 2 * WIDTH_PADDING ) }
@@ -736,7 +717,6 @@ SnippetPreview.propTypes = {
 	locale: PropTypes.string,
 	mode: PropTypes.oneOf( MODES ),
 	isAmp: PropTypes.bool,
-	helpText: PropTypes.string,
 
 	onMouseUp: PropTypes.func.isRequired,
 	onHover: PropTypes.func,
