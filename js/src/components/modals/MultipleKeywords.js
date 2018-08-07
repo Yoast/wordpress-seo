@@ -1,4 +1,4 @@
-/* global yoastKeywordSynonymsModalL10n */
+/* global yoastMultipleKeywordsModalL10n */
 import React from "react";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
@@ -7,12 +7,12 @@ import IntlProvider from "../IntlProvider";
 import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
 import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
 import { makeOutboundLink } from "yoast-components/utils/makeOutboundLink";
-import PremiumBenefitsForSynonymsList from "../PremiumBenefitsForSynonymsList";
+import PremiumBenefitsList from "../PremiumBenefitsList";
 import { getRtlStyle } from "yoast-components";
 
 let localizedData = null;
-if ( window.yoastKeywordSynonymsModalL10n ) {
-	localizedData = yoastKeywordSynonymsModalL10n;
+if ( window.yoastMultipleKeywordsModalL10n ) {
+	localizedData = yoastMultipleKeywordsModalL10n;
 }
 
 const PremiumLandingPageLink = makeOutboundLink();
@@ -43,11 +43,11 @@ const StyledIcon = styled( Icon )`
 `;
 
 /**
- * Creates the content for a keyword synonyms upsell modal.
+ * Creates the content for a Multiple Keywords upsell modal.
  *
- * @returns {ReactElement} The Keyword Synonyms upsell component.
+ * @returns {ReactElement} The Multiple Keywords upsell component.
  */
-const KeywordSynonyms = () => {
+const MultipleKeywords = () => {
 	return (
 		localizedData && <IntlProvider messages={ localizedData.intl }>
 			<StyledContainer>
@@ -60,7 +60,7 @@ const KeywordSynonyms = () => {
 					} ) }
 				</p>
 				<p>{ localizedData.intl.other }</p>
-				<PremiumBenefitsForSynonymsList />
+				<PremiumBenefitsList />
 				<BuyButtonLink href={ localizedData.intl.buylink } className="button button-primary">
 					{ localizedData.intl.buy }
 				</BuyButtonLink>
@@ -71,4 +71,4 @@ const KeywordSynonyms = () => {
 	);
 };
 
-export default KeywordSynonyms;
+export default MultipleKeywords;
