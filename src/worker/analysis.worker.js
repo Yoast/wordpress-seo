@@ -35,7 +35,7 @@ class AnalysisWebWorker {
 			locale: "en_US",
 		};
 		this._scheduler = new Scheduler( { resetQueue: true } );
-		this._i18n = AnalysisWebWorker.createI18n();
+		this._i18n = AnalysisWebWorker.createI18n( this._configuration.translations );
 		this._paper = new Paper( "" );
 		this._researcher = new Researcher( this._paper );
 		this._contentAssessor = null;
