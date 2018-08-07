@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { injectIntl, intlShape } from "react-intl";
 
-import { YoastModal } from "yoast-components";
-import { SvgIcon } from "yoast-components";
+import { YoastModal, SvgIcon } from "yoast-components";
 
 const StyledButton = styled.button`
 	// Increase specificity to override WP rules.

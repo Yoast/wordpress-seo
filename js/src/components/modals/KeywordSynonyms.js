@@ -4,9 +4,7 @@ import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 
 import IntlProvider from "../IntlProvider";
-import { Icon } from "yoast-components";
-import { YoastSeoIcon } from "yoast-components";
-import { utils } from "yoast-components";
+import { Icon, YoastSeoIcon, utils } from "yoast-components";
 import PremiumBenefitsForSynonymsList from "../PremiumBenefitsForSynonymsList";
 
 let localizedData = null;

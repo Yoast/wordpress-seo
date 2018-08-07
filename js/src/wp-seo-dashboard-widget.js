@@ -4,13 +4,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import "./helpers/babel-polyfill";
-import SeoAssessment from "yoast-components";
-import ScoreAssessments from "yoast-components";
-import utils from "yoast-components";
-const { getFeed } = utils.getFeed();
-import WordpressFeed from "yoast-components";
-import { colors } from "yoast-components";
+import { SeoAssessment, StyledSection, ScoreAssessments, utils, WordpressFeed, colors } from "yoast-components";
 import { setYoastComponentsL10n } from "./helpers/i18n";
+const { getFeed } = utils.getFeed();
 
 class DashboardWidget extends React.Component {
 
