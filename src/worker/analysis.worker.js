@@ -32,6 +32,7 @@ class AnalysisWebWorker {
 			keywordAnalysisActive: true,
 			useCornerstone: false,
 			useKeywordDistribution: false,
+			// The locale used for language-specific configurations in Flesch-reading ease and Sentence length assessments.
 			locale: "en_US",
 		};
 		this._scheduler = new Scheduler( { resetQueue: true } );
@@ -169,8 +170,11 @@ class AnalysisWebWorker {
 	/**
 	 * Configures the analysis worker.
 	 *
-	 * @param {number} id            The id of the request.
-	 * @param {Object} configuration The configuration object.
+	 * @param {number}  id                                       The id of the request.
+	 * @param {Object}  configuration                            The configuration object.
+	 * @param {boolean} configuration.useCornerstone             Whether the paper is cornerstone or not.
+	 * @param {boolean} configuration.useKeywordDistribution     Whether the largestKeywordDistance assessment should be run.
+	 * @param {string}  configuration.locale                     The locale of the configuration.
 	 *
 	 * @returns {void}
 	 */
@@ -179,10 +183,31 @@ class AnalysisWebWorker {
 		console.log( "run initialize", configuration, this._configuration );
 
 		this._i18n = AnalysisWebWorker.createI18n( this._configuration.translations );
-		this._contentAssessor = this.createContentAssessor();
+
+		this.setLocale( this._configuration.locale );
+		if ( this._contentAssessor === null ) {
+			this._contentAssessor = this.createContentAssessor();
+		}
+
 		this._seoAssessor = this.createSEOAssessor();
 
 		this.send( "initialize:done", id );
+	}
+
+	/**
+	 * Checks if the configuration locale is the same as the paper locale.
+	 * If it is not, updates the configuration locale to the paper locale and creates a language-specific content assessor.
+	 *
+	 * @param {string} locale   The locale to compare to.
+	 *
+	 * @returns {void}
+	 */
+	setLocale( locale ) {
+		if ( this._configuration.locale === locale ) {
+			return;
+		}
+		this._configuration.locale = locale;
+		this._contentAssessor = this.createContentAssessor();
 	}
 
 	/**
@@ -190,16 +215,18 @@ class AnalysisWebWorker {
 	 *
 	 * @param {Object} payload                 The payload object.
 	 * @param {Object} payload.paper           The paper to analyze.
-	 * @param {Object} [payload.configuration] The configuration for the
-	 *                                         specific analyses.
 	 *
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
-	analyze( { id, paper, configuration = {} } ) {
-		console.log( "run analyze", id, paper, configuration );
+	analyze( { id, paper } ) {
+		console.log( "run analyze", id, paper );
 		const result = { id };
 
 		this._paper = new Paper( removeHtmlBlocks( paper.text ), omit( paper, "text" ) );
+
+		// Remake the content assessor if the locale of the paper is not en_EN.
+		this.setLocale( this._paper.getLocale() );
+
 		this._researcher.setPaper( this._paper );
 
 		if ( this._configuration.contentAnalysisActive && this._contentAssessor ) {
