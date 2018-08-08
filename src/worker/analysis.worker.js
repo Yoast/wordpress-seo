@@ -1,15 +1,15 @@
 // External dependencies.
-import Jed from "jed";
-import omit from "lodash/omit";
-import merge from "lodash/merge";
+const Jed = require( "jed" );
+const omit = require( "lodash/omit" );
+const merge = require( "lodash/merge" );
 
 // YoastSEO.js dependencies.
-import * as Paper from "yoastseo/values/Paper";
-import * as Researcher from "yoastseo/researcher";
-import * as ContentAssessor from "yoastseo/contentAssessor";
-import * as SEOAssessor from "yoastseo/seoAssessor";
-import * as CornerstoneContentAssessor from "yoastseo/cornerstone/contentAssessor";
-import * as CornerstoneSEOAssessor from "yoastseo/cornerstone/seoAssessor";
+const Paper = require( "../values/Paper" );
+const Researcher = require( "../researcher" );
+const ContentAssessor = require( "../contentAssessor" );
+const SEOAssessor = require( "../seoAssessor" );
+const CornerstoneContentAssessor = require( "../cornerstone/contentAssessor" );
+const CornerstoneSEOAssessor = require( "../cornerstone/seoAssessor" );
 
 // Internal dependencies.
 import { Scheduler } from "./scheduler";

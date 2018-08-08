@@ -1,8 +1,8 @@
 // External dependencies.
-import isFunction from "lodash/isFunction";
-import isNumber from "lodash/isNumber";
-import isObject from "lodash/isObject";
-import isString from "lodash/isString";
+const isFunction = require( "lodash/isFunction" );
+const isNumber = require( "lodash/isNumber" );
+const isObject = require( "lodash/isObject" );
+const isString = require( "lodash/isString" );
 
 class Task {
 	/**
