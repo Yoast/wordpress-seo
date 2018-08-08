@@ -4,7 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import "./helpers/babel-polyfill";
-import { SeoAssessment, StyledSection, ScoreAssessments, utils, WordpressFeed, colors } from "yoast-components";
+import { SeoAssessment, ScoreAssessments, utils, WordpressFeed, colors } from "yoast-components";
 import { setYoastComponentsL10n } from "./helpers/i18n";
 const { getFeed } = utils.getFeed();
 
