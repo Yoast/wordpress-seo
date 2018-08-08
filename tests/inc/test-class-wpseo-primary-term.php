@@ -35,7 +35,6 @@ class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 		$class_instance->set_primary_term( $this->primary_term_id );
 
 		$this->assertEquals( $this->primary_term_id, $class_instance->get_primary_term() );
-
 	}
 
 	/**

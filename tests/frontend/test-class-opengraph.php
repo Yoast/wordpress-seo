@@ -168,7 +168,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( $expected_html );
 
 		$this->assertEquals( self::$class_instance->og_title( false ), $expected_title );
-
 	}
 
 	/**
@@ -803,5 +802,4 @@ EXPECTED;
 
 		return $attach_id;
 	}
-
 }
