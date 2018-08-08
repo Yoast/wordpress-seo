@@ -8,13 +8,14 @@ import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
 import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
 import { makeOutboundLink } from "yoast-components/utils/makeOutboundLink";
 import PremiumBenefitsForSynonymsList from "../PremiumBenefitsForSynonymsList";
+import { getRtlStyle } from "yoast-components";
 
 let localizedData = null;
 if ( window.yoastKeywordSynonymsModalL10n ) {
 	localizedData = yoastKeywordSynonymsModalL10n;
 }
 
-const YesYouCanLink = makeOutboundLink();
+const PremiumLandingPageLink = makeOutboundLink();
 const BuyButtonLink = makeOutboundLink();
 
 const StyledContainer = styled.div`
@@ -27,10 +28,13 @@ const StyledContainer = styled.div`
 `;
 
 const StyledIcon = styled( Icon )`
-	float: right;
-	margin: 0 0 16px 16px;
+	float: ${ getRtlStyle( "right", "left" ) };
+	margin: ${ getRtlStyle( "0 0 16px 16px", "0 16px 16px 0" ) };
 
 	&& {
+		width: 150px;
+		height: 150px;
+
 		@media screen and ( max-width: 680px ) {
 			width: 80px;
 			height: 80px;
@@ -38,16 +42,21 @@ const StyledIcon = styled( Icon )`
 	}
 `;
 
+/**
+ * Creates the content for a keyword synonyms upsell modal.
+ *
+ * @returns {ReactElement} The Keyword Synonyms upsell component.
+ */
 const KeywordSynonyms = () => {
 	return (
 		localizedData && <IntlProvider messages={ localizedData.intl }>
 			<StyledContainer>
-				<StyledIcon icon={ YoastSeoIcon } width="150px" height="150px" />
+				<StyledIcon icon={ YoastSeoIcon } />
 				<h2>{ localizedData.intl.title }</h2>
 				<p>
 					{ interpolateComponents( {
 						mixedString: localizedData.intl.intro,
-						components: { link: <YesYouCanLink href={ localizedData.intl.link } /> },
+						components: { link: <PremiumLandingPageLink href={ localizedData.intl.link } /> },
 					} ) }
 				</p>
 				<p>{ localizedData.intl.other }</p>
