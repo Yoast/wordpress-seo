@@ -9,7 +9,7 @@ import debounce from "lodash/debounce";
 
 // Internal dependencies.
 import "./helpers/babel-polyfill";
-import initializeEdit from "./edit";
+import Edit from "./edit";
 import { termsTmceId as tmceId } from "./wp-seo-tinymce";
 import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
@@ -19,7 +19,6 @@ import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
-import UsedKeywords from "./analysis/usedKeywords";
 import TaxonomyAssessor from "./assessors/taxonomyAssessor";
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
@@ -127,16 +126,13 @@ window.yoastHideMarkers = true;
 	/**
 	 * Initializes keyword analysis.
 	 *
-	 * @param {App} app The App object.
 	 * @param {TermDataCollector} termScraper The post scraper object.
 	 *
 	 * @returns {void}
 	 */
-	function initializeKeywordAnalysis( app, termScraper ) {
+	function initializeKeywordAnalysis( termScraper ) {
 		var savedKeywordScore = $( "#hidden_wpseo_linkdex" ).val();
-		var usedKeywords = new UsedKeywords( "#hidden_wpseo_focuskw", "get_term_keyword_usage", wpseoTermScraperL10n, app );
 
-		usedKeywords.init();
 		termScraper.initKeywordTabTemplate();
 
 		var indicator = getIndicatorForScore( savedKeywordScore );
@@ -210,7 +206,9 @@ window.yoastHideMarkers = true;
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
 
-		const { store } = initializeEdit( editArgs );
+		const edit = new Edit( editArgs );
+
+		const store = edit.getStore();
 
 		insertTinyMCE();
 
@@ -255,6 +253,8 @@ window.yoastHideMarkers = true;
 
 		app = new App( args );
 
+		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
+
 		store.subscribe( handleStoreChange.bind( null, store, app ) );
 
 		if ( isKeywordAnalysisActive() ) {
@@ -281,7 +281,7 @@ window.yoastHideMarkers = true;
 		termScraper.bindElementEvents( app );
 
 		if ( isKeywordAnalysisActive() ) {
-			initializeKeywordAnalysis( app, termScraper );
+			initializeKeywordAnalysis( termScraper );
 		}
 
 		if ( isContentAnalysisActive() ) {
