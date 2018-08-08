@@ -67,7 +67,7 @@ class App extends React.Component {
 				this.props.actions.setResults( {
 					readability: result.results,
 				} );
-			} );
+		    } );
 	}
 
 	/**
@@ -160,6 +160,7 @@ class App extends React.Component {
 					</div>
 					<div className="output-container">
 						<h2>SEO assessments</h2>
+						<Results results={ this.props.results.seo } />
 						<div id="output" className="output">
 
 						</div>
