@@ -104,7 +104,8 @@ class Data {
 		return {
 			content: getPostAttribute( "content" ),
 			title: getPostAttribute( "title" ),
-			slug: getPostAttribute( "slug" ),
+			/* Use the generated slug when the slug is empty */
+			slug: getPostAttribute( "slug" ) || getPostAttribute( "generated_slug" ),
 			excerpt: getPostAttribute( "excerpt" ),
 		};
 	}
@@ -139,6 +140,7 @@ class Data {
 	 */
 	refreshYoastSEO() {
 		let gutenbergData = this.collectGutenbergData( this.getPostAttribute );
+		console.log( gutenbergData );
 
 		// Set isDirty to true if the current data and Gutenberg data are unequal.
 		let isDirty = ! this.isShallowEqual( this._data, gutenbergData );
