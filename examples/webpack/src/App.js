@@ -65,7 +65,8 @@ class App extends React.Component {
 		this.analysisWorker.analyze( paper )
 			.then( ( { result } ) => {
 				this.props.actions.setResults( {
-					readability: result.results,
+					readability: result.readability.results,
+					seo: result.seo.results,
 				} );
 		    } );
 	}
