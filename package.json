@@ -37,7 +37,8 @@
     },
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
-    ]
+    ],
+    "testURL": "http://localhost/"
   },
   "devDependencies": {
     "@wordpress/babel-plugin-makepot": "^1.0.0",
