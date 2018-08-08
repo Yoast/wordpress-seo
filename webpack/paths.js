@@ -8,9 +8,9 @@ const cssDistPath = path.resolve( "css", "dist" );
 // Output filename: Entry file (relative to jsSrcPath)
 const entry = {
 	vendor: [
+		"babel-polyfill",
 		"react",
 		"react-dom",
-		"babel-polyfill",
 	],
 	"configuration-wizard": "./configuration-wizard.js",
 	"search-appearance": "./search-appearance.js",
