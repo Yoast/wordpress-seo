@@ -2,7 +2,6 @@
 import isFunction from "lodash/isFunction";
 import isNumber from "lodash/isNumber";
 import isObject from "lodash/isObject";
-import isString from "lodash/isString";
 
 class Task {
 	/**
@@ -14,8 +13,8 @@ class Task {
 	 * @param {Object}   [data]  Optional data for when executing the task.
 	 */
 	constructor( id, execute, done, data = {} ) {
-		if ( ! ( isString( id ) || isNumber( id ) ) ) {
-			throw new Error( "Task.id should be a number or a string." );
+		if ( ! isNumber( id ) ) {
+			throw new Error( "Task.id should be a number." );
 		}
 		if ( ! isFunction( execute ) ) {
 			throw new Error( "Task.execute should be a function." );

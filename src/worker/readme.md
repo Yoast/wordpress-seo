@@ -8,7 +8,7 @@ The role of the plugin is fulfilled by wordpress-seo or the webpack example of t
 The wrapper is the API for the worker. Meaning that the plugin should not have to know about there being a worker. It should just be able to request a command and get a result back asynchronously.
 
 ##### Request
-A request holds the promise information (resolve & reject) along with optional extra data. It's purpose is to match a request with a response.
+A request holds the promise information (resolve & reject) along with optional extra data. Its purpose is to match a request with a response.
 
 ##### Result
 A result object contains the payload and optional extra data. 
