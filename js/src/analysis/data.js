@@ -140,7 +140,6 @@ class Data {
 	 */
 	refreshYoastSEO() {
 		let gutenbergData = this.collectGutenbergData( this.getPostAttribute );
-		console.log( gutenbergData );
 
 		// Set isDirty to true if the current data and Gutenberg data are unequal.
 		let isDirty = ! this.isShallowEqual( this._data, gutenbergData );
