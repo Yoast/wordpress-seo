@@ -10,7 +10,10 @@
  */
 class WPSEO_Term_Indexable extends WPSEO_Indexable {
 
-	private $updateable_fields = array(
+	/**
+	 * @var array The updateable fields.
+	 */
+	protected $updateable_fields = array(
 		'canonical',
 		'title',
 		'description',
@@ -85,10 +88,7 @@ class WPSEO_Term_Indexable extends WPSEO_Indexable {
 	 * @return WPSEO_Indexable A new instance with the updated data.
 	 */
 	public function update( $data ) {
-
-		var_dump(array_intersect( $data, $this->updateable_fields ) );die;
-
-		$data = array_merge( $this->data, $data );
+		$data = array_merge( $this->data, $this->filter_updateable_data( $data ) );
 
 		return new self( $data );
 	}

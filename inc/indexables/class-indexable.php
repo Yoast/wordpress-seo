@@ -11,7 +11,12 @@
 abstract class WPSEO_Indexable {
 
 	/**
-	 * @var array
+	 * @var array The updateable fields.
+	 */
+	protected $updateable_fields = array();
+
+	/**
+	 * @var array The indexable's data.
 	 */
 	protected $data;
 
@@ -96,6 +101,17 @@ abstract class WPSEO_Indexable {
 	 * @return WPSEO_Indexable A new instance with the updated data.
 	 */
 	public abstract function update( $data );
+
+	/**
+	 * Filters out data that isn't considered updateable and returns a valid dataset.
+	 *
+	 * @param array $data The dataset to filter.
+	 *
+	 * @return array The updateable dataset.
+	 */
+	public function filter_updateable_data( $data ) {
+		return array_intersect_key( $data, array_flip( $this->updateable_fields ) );
+	}
 
 	/**
 	 * Returns the data as an array.
