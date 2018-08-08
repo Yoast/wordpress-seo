@@ -10,8 +10,7 @@ import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
 // Internal dependencies.
 import "./helpers/babel-polyfill";
-import initializeEdit from "./edit";
-import { tmceId, setStore } from "./wp-seo-tinymce";
+import Edit from "./edit";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
@@ -21,16 +20,15 @@ import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
 
 import PostDataCollector from "./analysis/PostDataCollector";
+import CompatibilityHelper from "./compatibility/compatibilityHelper";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
-import UsedKeywords from "./analysis/usedKeywords";
 
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
-import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 import { updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setCornerstoneContent } from "./redux/actions/cornerstoneContent";
@@ -105,7 +103,7 @@ setWordPressSeoL10n();
 	 * @returns {boolean} True when markers should be shown.
 	 */
 	function displayMarkers() {
-		return ! isGutenbergPostAvailable() && wpseoPostScraperL10n.show_markers === "1";
+		return ! isGutenbergDataAvailable() && wpseoPostScraperL10n.show_markers === "1";
 	}
 
 	/**
@@ -124,9 +122,9 @@ setWordPressSeoL10n();
 		}
 
 		return function( paper, marks ) {
-			if ( tinyMCEHelper.isTinyMCEAvailable( tmceId ) ) {
+			if ( tinyMCEHelper.isTinyMCEAvailable( tinyMCEHelper.tmceId ) ) {
 				if ( null === decorator ) {
-					decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
+					decorator = tinyMCEDecorator( tinyMCE.get( tinyMCEHelper.tmceId ) );
 				}
 
 				decorator( paper, marks );
@@ -137,17 +135,12 @@ setWordPressSeoL10n();
 	/**
 	 * Initializes keyword analysis.
 	 *
-	 * @param {App} app                       The App object.
-	 * @param {PostDataCollector} postScraper The post scraper object.
 	 * @param {Object} publishBox             The publish box object.
 	 *
 	 * @returns {void}
 	 */
-	function initializeKeywordAnalysis( app, postScraper, publishBox ) {
+	function initializeKeywordAnalysis( publishBox ) {
 		const savedKeywordScore = $( "#yoast_wpseo_linkdex" ).val();
-		const usedKeywords = new UsedKeywords( "#yoast_wpseo_focuskw", "get_focus_keyword_usage", wpseoPostScraperL10n, app );
-
-		usedKeywords.init();
 
 		const indicator = getIndicatorForScore( savedKeywordScore );
 
@@ -230,7 +223,8 @@ setWordPressSeoL10n();
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
-				tmceId,
+				tinyMCEHelper.tmceId,
+				"yoast_wpseo_focuskw_text_input",
 				"yoast_wpseo_metadesc",
 				"excerpt",
 				"editable-post-name",
@@ -305,7 +299,7 @@ setWordPressSeoL10n();
 	 */
 	function activateEnabledAnalysis() {
 		if ( isKeywordAnalysisActive() ) {
-			initializeKeywordAnalysis( app, postDataCollector, publishBox );
+			initializeKeywordAnalysis( publishBox );
 		}
 
 		if ( isContentAnalysisActive() ) {
@@ -351,6 +345,34 @@ setWordPressSeoL10n();
 	}
 
 	/**
+	 * Handles page builder compatibility, regarding the marker buttons.
+	 *
+	 * @returns {void}
+	 */
+	function handlePageBuilderCompatibility() {
+		const compatibilityHelper = new CompatibilityHelper();
+
+		if ( compatibilityHelper.isClassicEditorHidden() ) {
+			tinyMCEHelper.disableMarkerButtons();
+		}
+
+		if ( compatibilityHelper.vcActive ) {
+			tinyMCEHelper.disableMarkerButtons();
+		} else {
+			compatibilityHelper.listen( {
+				classicEditorHidden: () => {
+					tinyMCEHelper.disableMarkerButtons();
+				},
+				classicEditorShown: () => {
+					if( ! tinyMCEHelper.isTextViewActive() ) {
+						tinyMCEHelper.enableMarkerButtons();
+					}
+				},
+			} );
+		}
+	}
+
+	/**
 	 * Initializes analysis for the post edit screen.
 	 *
 	 * @returns {void}
@@ -363,10 +385,16 @@ setWordPressSeoL10n();
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
-		const { store, data } = initializeEdit( editArgs );
-		editStore = store;
+		const edit = new Edit( editArgs );
+
+		editStore =  edit.getStore();
+		const data = edit.getData();
 
 		metaboxContainer = $( "#wpseo_meta" );
+
+		tinyMCEHelper.setStore( editStore );
+		tinyMCEHelper.wpTextViewOnInitCheck();
+		handlePageBuilderCompatibility();
 
 		// Avoid error when snippet metabox is not rendered.
 		if ( metaboxContainer.length === 0 ) {
@@ -376,14 +404,16 @@ setWordPressSeoL10n();
 		postDataCollector = initializePostDataCollector( data );
 		publishBox.initialize();
 
-		const appArgs = getAppArgs( store );
+		const appArgs = getAppArgs( editStore );
 		app = new App( appArgs );
+
+		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
 
 		postDataCollector.app = app;
 
 		editStore.subscribe( handleStoreChange.bind( null, editStore, app ) );
 
-		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
+		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, editStore );
 		const shortcodePlugin = new YoastShortcodePlugin( app );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
@@ -392,9 +422,6 @@ setWordPressSeoL10n();
 		}
 
 		exposeGlobals( app, replaceVarsPlugin, shortcodePlugin );
-
-		setStore( store );
-		tinyMCEHelper.wpTextViewOnInitCheck();
 
 		activateEnabledAnalysis();
 
@@ -426,11 +453,11 @@ setWordPressSeoL10n();
 		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
 		// Set the initial snippet editor data.
-		store.dispatch( updateData( snippetEditorData ) );
-		store.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === "true" ) );
+		editStore.dispatch( updateData( snippetEditorData ) );
+		editStore.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === "true" ) );
 
 		// Save the keyword, in order to compare it to store changes.
-		let focusKeyword = store.getState().focusKeyword;
+		let focusKeyword = editStore.getState().focusKeyword;
 
 		const refreshAfterFocusKeywordChange = debounce( () => {
 			app.refresh();
@@ -438,9 +465,9 @@ setWordPressSeoL10n();
 
 		let previousCornerstoneValue = null;
 
-		store.subscribe( () => {
+		editStore.subscribe( () => {
 			// Verify whether the focusKeyword changed. If so, trigger refresh:
-			let newFocusKeyword = store.getState().focusKeyword;
+			let newFocusKeyword = editStore.getState().focusKeyword;
 
 			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
@@ -449,7 +476,7 @@ setWordPressSeoL10n();
 				refreshAfterFocusKeywordChange();
 			}
 
-			const data = snippetEditorHelpers.getDataFromStore( store );
+			const data = snippetEditorHelpers.getDataFromStore( editStore );
 			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
 
 
@@ -465,7 +492,7 @@ setWordPressSeoL10n();
 				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
 			}
 
-			let currentState = store.getState();
+			let currentState = editStore.getState();
 
 			if ( previousCornerstoneValue !== currentState.isCornerstone ) {
 				previousCornerstoneValue = currentState.isCornerstone;
@@ -482,7 +509,7 @@ setWordPressSeoL10n();
 		} );
 
 		if ( ! isGutenbergDataAvailable() ) {
-			renderClassicEditorMetabox( store );
+			renderClassicEditorMetabox( editStore );
 		}
 	}
 

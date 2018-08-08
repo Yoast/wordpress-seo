@@ -1,12 +1,23 @@
 const webpack = require( "webpack" );
 const UnminifiedWebpackPlugin = require( "unminified-webpack-plugin" );
 const path = require( "path" );
+const mapValues = require( "lodash/mapValues" );
+const isString = require( "lodash/isString" );
 
 const paths = require( "./paths" );
 const pkg = require( "../package.json" );
 
 const pluginVersionSlug = paths.flattenVersionForFile( pkg.yoast.pluginVersion );
 const outputFilename = "[name]-" + pluginVersionSlug + ".min.js";
+
+const root = path.join( __dirname, "../" );
+const entry = mapValues( paths.entry, entry => {
+	if ( ! isString( entry ) ) {
+		return entry;
+	}
+
+	return "./" + path.join( "js/src/", entry );
+} );
 
 const externals = {
 	// This is necessary for Gutenberg to work.
@@ -28,11 +39,11 @@ const wpDependencies = [
 
 const alias = {
 	// This prevents loading multiple versions of React:
-	react: path.join( __dirname, "../", "node_modules/react" ),
-	"react-dom": path.join( __dirname, "../", "node_modules/react-dom" ),
+	react: path.join( root, "node_modules/react" ),
+	"react-dom": path.join( root, "node_modules/react-dom" ),
 
 	// This prevents loading multiple versions of @wordpress/i18n:
-	"@wordpress/i18n": path.join( __dirname, "../", "node_modules/@wordpress/i18n" ),
+	"@wordpress/i18n": path.join( root, "node_modules/@wordpress/i18n" ),
 };
 
 wpDependencies.forEach( wpDependency => {
@@ -58,9 +69,9 @@ module.exports = function( env = { environment: "production" } ) {
 	];
 
 	const base = {
-		devtool: "cheap-module-eval-source-map",
-		entry: paths.entry,
-		context: paths.jsSrc,
+		devtool: mode === "development" ? "cheap-module-eval-source-map" : false,
+		entry: entry,
+		context: root,
 		output: {
 			path: paths.jsDist,
 			filename: outputFilename,
@@ -117,6 +128,7 @@ module.exports = function( env = { environment: "production" } ) {
 				"@wordpress/element": "window.yoast._wp.element",
 				"@wordpress/data": "window.yoast._wp.data",
 				"@wordpress/components": "window.yoast._wp.components",
+				"@wordpress/i18n": "window.yoast._wp.i18n",
 
 				"styled-components": "window.yoast.styledComponents",
 			},
@@ -131,7 +143,7 @@ module.exports = function( env = { environment: "production" } ) {
 		{
 			...base,
 			entry: {
-				"wp-seo-wp-globals-backport": "./wp-seo-wp-globals-backport.js",
+				"wp-seo-wp-globals-backport": "./js/src/wp-seo-wp-globals-backport.js",
 			},
 			plugins,
 		},

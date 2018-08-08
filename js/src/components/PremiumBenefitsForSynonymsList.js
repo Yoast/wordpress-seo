@@ -2,6 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
+import { getRtlStyle } from "yoast-components";
 
 let localizedData = null;
 if ( window.yoastPremiumBenefitsForSynonymsL10n ) {
@@ -14,11 +15,11 @@ const StyledList = styled.ul`
 
 	li {
 		margin: 5px 0 0 0;
-		padding-left: 16px;
+		padding-${ getRtlStyle( "left", "right" ) }: 16px;
 	}
 
 	span[aria-hidden="true"]:before {
-		margin: 0 8px 0 -16px;
+		margin: ${ getRtlStyle( "0 8px 0 -16px", "0 -16px 0 8px" ) };
 		font-weight: bold;
 		content: "+";
 	}

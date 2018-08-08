@@ -356,10 +356,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->get_advanced_meta_section();
 		}
 
-		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
-			$content_sections[] = $this->get_buy_premium_section();
-		}
-
 		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
 			$content_sections[] = $this->get_addons_meta_section();
 		}
@@ -420,75 +416,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	private function get_buy_premium_link() {
-		return sprintf( "<div class='%s'><a href='#wpseo-meta-section-premium' class='wpseo-meta-section-link'><span class='dashicons dashicons-star-filled wpseo-buy-premium'></span>%s</a></div>",
+		return sprintf( '<div class="%1$s"><a target="_blank" rel="noopener noreferrer" href="%2$s" class="wpseo-meta-section-link"><span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>%3$s</a></div>',
 			'wpseo-metabox-buy-premium',
+			esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ) ),
 			__( 'Go Premium', 'wordpress-seo' )
-		);
-	}
-
-	/**
-	 * Returns the metabox section for the Premium section.
-	 *
-	 * @return WPSEO_Metabox_Section
-	 */
-	private function get_buy_premium_section() {
-		$content = sprintf( "<div class='wpseo-premium-description'>
-			%s
-			<ul class='wpseo-premium-advantages-list'>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-			</ul>
-
-			<a target='_blank' id='wpseo-buy-premium-popup-button' class='button button-buy-premium wpseo-metabox-go-to' href='%s'>
-				%s
-			</a>
-
-			<p><a target='_blank' class='wpseo-metabox-go-to' href='%s'>%s</a></p>
-		</div>",
-			/* translators: %1$s expands to Yoast SEO Premium. */
-			sprintf( __( 'You\'re not getting the benefits of %1$s yet. If you had %1$s, you could use its awesome features:', 'wordpress-seo' ), 'Yoast SEO Premium' ),
-			__( 'Redirect manager', 'wordpress-seo' ),
-			__( 'Create and manage redirects within your WordPress install.', 'wordpress-seo' ),
-			__( 'Multiple focus keywords', 'wordpress-seo' ),
-			__( 'Optimize a single post for up to 5 keywords.', 'wordpress-seo' ),
-			__( 'Social Previews', 'wordpress-seo' ),
-			__( 'Check what your Facebook or Twitter post will look like.', 'wordpress-seo' ),
-			__( 'Premium support', 'wordpress-seo' ),
-			__( 'Gain access to our 24/7 support team.', 'wordpress-seo' ),
-			WPSEO_Shortlinker::get( 'https://yoa.st/pe-buy-premium' ),
-			/* translators: %s expands to Yoast SEO Premium. */
-			sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
-			WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
-			__( 'More info', 'wordpress-seo' )
-		);
-
-		$tab = new WPSEO_Metabox_Form_Tab(
-			'premium',
-			$content,
-			'Yoast SEO Premium',
-			array(
-				'single' => true,
-			)
-		);
-
-		return new WPSEO_Metabox_Tab_Section(
-			'premium',
-			'<span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>',
-			array( $tab ),
-			array(
-				'link_aria_label' => 'Yoast SEO Premium',
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
-			)
 		);
 	}
 
@@ -581,6 +512,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( WPSEO_Utils::is_yoast_seo_premium() === false ) {
 			$button = new WPSEO_Metabox_Keyword_Synonyms_Config();
 			$button->enqueue_translations();
+
+			$multiple_keywords_button = new WPSEO_Metabox_Multiple_Keywords_Config();
+			$multiple_keywords_button->enqueue_translations();
 		}
 
 		switch ( $meta_field_def['type'] ) {
@@ -862,7 +796,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Help_Center::get_translated_texts() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
