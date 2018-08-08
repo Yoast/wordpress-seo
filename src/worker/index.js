@@ -1,3 +1,3 @@
-import AnalysisWorkerWrapper from "./AnalysisWorkerWrapper";
+import AnalysisWorker from "./AnalysisWorkerWrapper";
 
-export default AnalysisWorkerWrapper;
+export default AnalysisWorker;
