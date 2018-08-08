@@ -1111,10 +1111,10 @@ SVG;
 		}
 
 		// Store the result in a variable to prevent multiple lookups.
-		if ( null === $network_active ) {
+		if ( $network_active === null ) {
 			$network_active_plugins = wp_get_active_network_plugins();
 
-			if ( in_array( WP_PLUGIN_DIR . '/' . WPSEO_BASENAME, $network_active_plugins, true ) || 0 === strpos( wp_normalize_path( WPSEO_FILE ), wp_normalize_path( WPMU_PLUGIN_DIR ) ) ) {
+			if ( strpos( wp_normalize_path( WPSEO_FILE ), wp_normalize_path( WPMU_PLUGIN_DIR ) ) === 0 || in_array( WP_PLUGIN_DIR . '/' . WPSEO_BASENAME, $network_active_plugins, true ) ) {
 				$network_active = true;
 			}
 			else {
