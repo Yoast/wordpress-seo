@@ -12,7 +12,7 @@ import * as CornerstoneContentAssessor from "yoastseo/cornerstone/contentAssesso
 import * as CornerstoneSEOAssessor from "yoastseo/cornerstone/seoAssessor";
 
 // Internal dependencies.
-import { Scheduler } from "./scheduler";
+import Scheduler from "./scheduler";
 import { encodePayload, decodePayload } from "./utils";
 
 /**
@@ -56,17 +56,19 @@ class AnalysisWebWorker {
 	 * @param {MessageEvent} event              The post message event.
 	 * @param {Object}       event.data         The data object.
 	 * @param {string}       event.data.type    The action type.
+	 * @param {string}       event.data.id      The request id.
 	 * @param {string}       event.data.payload The payload of the action.
 	 *
 	 * @returns {void}
 	 */
-	handleMessage( { data: { type, payload } } ) {
+	handleMessage( { data: { type, id, payload } } ) {
 		switch( type ) {
 			case "initialize":
-				this.initialize( decodePayload( payload ) );
+				this.initialize( id, decodePayload( payload ) );
 				break;
 			case "analyze":
 				this._scheduler.schedule( {
+					id,
 					execute: this.analyze,
 					done: this.analyzeDone,
 					data: decodePayload( payload ),
@@ -149,15 +151,17 @@ class AnalysisWebWorker {
 	/**
 	 * Sends a message.
 	 *
-	 * @param {string}   type    The type of the message.
-	 * @param {Object|*} payload The payload to deliver.
+	 * @param {string} type      The message type.
+	 * @param {number} id        The request id.
+	 * @param {Object} [payload] The payload to deliver.
 	 *
 	 * @returns {void}
 	 */
-	send( type, payload ) {
-		console.log( "worker => wrapper", type, payload );
+	send( type, id, payload = {} ) {
+		console.log( "worker => wrapper", type, id, payload );
 		self.postMessage( {
 			type,
+			id,
 			payload: encodePayload( payload ),
 		} );
 	}
@@ -165,28 +169,28 @@ class AnalysisWebWorker {
 	/**
 	 * Configures the analysis worker.
 	 *
+	 * @param {number} id            The id of the request.
 	 * @param {Object} configuration The configuration object.
 	 *
 	 * @returns {void}
 	 */
-	initialize( configuration ) {
+	initialize( id, configuration ) {
 		this._configuration = merge( this._configuration, configuration );
 		console.log( "run initialize", configuration, this._configuration );
 
 		this._contentAssessor = this.createContentAssessor();
 		this._seoAssessor = this.createSEOAssessor();
 
-		this.send( "initialize:done" );
+		this.send( "initialize:done", id );
 	}
 
 	/**
 	 * Runs analyses on a paper.
 	 *
-	 * @param {Object} arguments                 The payload object.
-	 * @param {number} arguments.id              The id of this analyze request.
-	 * @param {Object} arguments.paper           The paper to analyze.
-	 * @param {Object} [arguments.configuration] The configuration for the
-	 *                                           specific analyses.
+	 * @param {Object} payload                 The payload object.
+	 * @param {Object} payload.paper           The paper to analyze.
+	 * @param {Object} [payload.configuration] The configuration for the
+	 *                                         specific analyses.
 	 *
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
@@ -219,12 +223,13 @@ class AnalysisWebWorker {
 	/**
 	 * Sends the result back.
 	 *
-	 * @param {Object} result The result to be send.
+	 * @param {number} id     The request id.
+	 * @param {Object} result The result.
 	 *
 	 * @returns {void}
 	 */
-	analyzeDone( result ) {
-		this.send( "analyze:done", result );
+	analyzeDone( id, result ) {
+		this.send( "analyze:done", id, result );
 	}
 }
 
