@@ -4,16 +4,17 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import { __ } from "@wordpress/i18n";
 
 import Results from "./Results";
-import { Collapsible } from "yoast-components";
+import Collapsible from "../SidebarCollapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
 	font-weight: bold;
-	margin: 1.5em 0 1em;
+	margin: 0 0 8px;
 	display: block;
 `;
 
@@ -32,7 +33,7 @@ class ReadabilityAnalysis extends React.Component {
 		const score = getIndicatorForScore( this.props.overallScore );
 		return (
 			<Collapsible
-				title="Readability analysis"
+				title={ __( "Readability", "wordpress-seo" ) }
 				titleScreenReaderText={ score.screenReaderReadabilityText }
 				prefixIcon={ getIconForScore( score.className ) }
 				prefixIconCollapsed={ getIconForScore( score.className ) }

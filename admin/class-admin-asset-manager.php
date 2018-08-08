@@ -466,6 +466,11 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'analysis',
 				'src'  => 'analysis-' . $flat_version,
 			),
+			array(
+				'name' => 'structured-data-blocks',
+				'src'  => 'wp-seo-structured-data-blocks-' . $flat_version,
+				'deps' => array( 'wp-blocks', 'wp-i18n', 'wp-element' ),
+			),
 		);
 	}
 
@@ -521,10 +526,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'yst_seo_score-' . $flat_version,
 			),
 			array(
-				'name' => 'snippet',
-				'src'  => 'snippet-' . $flat_version,
-			),
-			array(
 				'name' => 'adminbar',
 				'src'  => 'adminbar-' . $flat_version,
 			),
@@ -558,6 +559,11 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
+			),
+			array(
+				'name' => 'structured-data-blocks',
+				'src'  => 'structured-data-blocks-' . $flat_version,
+				'deps' => array( 'wp-edit-blocks' ),
 			),
 		);
 	}

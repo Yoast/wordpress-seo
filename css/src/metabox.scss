@@ -57,8 +57,20 @@ ul.wpseo-metabox-tabs:after {
 	clear: both;
 }
 
-.wpseo-metabox-tabs-div ul {
-	list-style: none;
+.wpseo-metabox-tabs-div {
+	margin: 0 5px 5px;
+
+	ul {
+		list-style: none;
+	}
+}
+
+#wpseo-meta-section-addons {
+	padding: 0 5px 5px;
+
+	.wpseo-metabox-tabs-div {
+		margin: 0;
+	}
 }
 
 ul.wpseo-metabox-tabs li.active {
@@ -76,7 +88,6 @@ ul.wpseo-metabox-tabs li.active {
 
 .wpseo-meta-section.active {
 	display: inline-block;
-	padding: 0 5px 5px;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -215,7 +226,7 @@ ul.wpseo-metabox-tabs li {
 
 .wpseotab {
 	display: none;
-	padding: 20px 35px;
+	padding: 16px;
 	border: 1px solid #ddd;
 	background-color: #fdfdfd;
 
@@ -232,16 +243,6 @@ ul.wpseo-metabox-tabs li {
 	display: block;
 }
 
-/* Content tab. */
-#wpseosnippet,
-#wpseofocuskeyword {
-	margin-bottom: 2em;
-}
-
-#wpseo-focuskeyword-section .wpseo-keyword-synonyms {
-	margin-top: 16px;
-}
-
 /* Tab links. */
 .wpseo-metabox-tabs .wpseo_tablink {
 	display: inline-block;
@@ -251,8 +252,7 @@ ul.wpseo-metabox-tabs li {
 }
 
 /* Bigger right padding only for the content tab and the main keyword tabs */
-.wpseo-metabox-tabs .wpseo_content_tab a,
-.wpseo-metabox-tabs .wpseo_content_tab + .wpseo_keyword_tab a {
+.wpseo-metabox-tabs .wpseo_content_tab a {
 	padding-right: 12px;
 }
 
@@ -364,7 +364,6 @@ ul.wpseo-metabox-tabs li {
 	margin: 0.5em 0;
 }
 
-.wpseotab #yoast_wpseo_focuskw_text_input,
 .wpseotab select[multiple] {
 	margin-top: 0;
 }
@@ -635,14 +634,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	text-decoration: none;
 }
 
-/* Ensure the snippet preview section has always the proper width whatever the default yoast-section width is. */
-.wpseosnippet .yoast-section {
-	width: auto;
-	max-width: 640px;
-	/* The inner .snippet-editor__preview already has padding so we need to reset the .yoast-section default padding. */
-	padding: 0;
-}
-
 #TB_window {
 	#TB_ajaxContent {
 		p {
@@ -736,58 +727,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 @media screen and ( max-width: 782px ) {
-	.wpseo-metabox-sidebar {
-		float: none;
-		display: inline-block; /* Contain floated children, don't use overflow hidden to avoid cutting-off content. */
-		width: auto;
-		margin: 0 0 10px -5px;
-		padding: 0;
-		vertical-align: top;
-	}
-
-	.wpseo-meta-section.active {
-		display: block;
-		max-width: none;
-		clear: both;
-	}
-
-	.wpseo-metabox-sidebar ul {
-		display: inline-block; /* Contain floated children. */
-	}
-
-	.wpseo-metabox-sidebar li {
-		float: left;
-		text-align: center;
-	}
-
-	.wpseo-metabox-sidebar .wpseo-meta-section-link {
-		width: 40px;
-		height: 40px;
-	}
-
-	.wpseo-meta-section-link .dashicons,
-	.wpseo-meta-section-link .yst-traffic-light-container {
-		display: block;
-		width: 40px;
-		height: 45px;
-		margin: 0;
-		padding: 5px 0 0;
-		border-left-width: 0;
-		border-bottom-width: 3px;
-	}
-
-	/* Traffic light svg and CSS generated dashicons. */
-	.wpseo-meta-section-link .yst-traffic-light,
-	.wpseo-meta-section-link .dashicons:before {
-		margin: 0;
-	}
-
-	/* The "advanced" dashicon (the gear) is not perfectly centered and needs to be adjusted. */
-	.wpseo-meta-section-link .dashicons-admin-generic:before {
-		position: relative;
-		left: 1px;
-	}
-
 	/* The Go Premium dashicon must stay unchanged in the responsive view. */
 	.wpseo-metabox-buy-premium .wpseo-buy-premium {
 		display: inline-block;
@@ -817,12 +756,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 @media screen and ( max-width: 600px ) {
-	/* Reduce the tabs padding on smaller screens. */
-	.wpseotab {
-		padding: 20px 20px;
-	}
-
 	.wpseotab.content {
-		padding: 20px 0;
+		padding: 16px 0;
 	}
 }

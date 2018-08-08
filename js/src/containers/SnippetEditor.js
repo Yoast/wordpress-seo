@@ -1,10 +1,13 @@
+/* globals wpseoAdminL10n */
 import React from "react";
 import { connect } from "react-redux";
 import { SnippetEditor } from "yoast-components";
 import identity from "lodash/identity";
 import get from "lodash/get";
 import { __ } from "@wordpress/i18n";
+import { dispatch as wpDataDispatch } from "@wordpress/data";
 import analysis from "yoastseo";
+import { utils } from "yoast-components";
 const { stripHTMLTags: stripFullTags } = analysis.string;
 
 import {
@@ -13,7 +16,9 @@ import {
 } from "../redux/actions/snippetEditor";
 import { updateAnalysisData } from "../redux/actions/analysisData";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
-import Collapsible from "yoast-components/composites/Plugin/Shared/components/Collapsible";
+import Collapsible from "../components/SidebarCollapsible";
+
+const ExplanationLink = utils.makeOutboundLink();
 
 /**
  * Runs the legacy replaceVariables function on the data in the snippet preview.
@@ -95,7 +100,13 @@ export const mapEditorDataToPreview = function( data, context ) {
 };
 
 const SnippetEditorWrapper = ( props ) => (
-	<Collapsible title={ __( "Snippet Preview", "wordpress-seo" ) } >
+	<Collapsible title={ __( "Snippet Preview", "wordpress-seo" ) } initialIsOpen={ true }>
+		<p>
+			{ __( "This is a rendering of what this post might look like in Google's search results.", "wordpress-seo" ) + " " }
+			<ExplanationLink href={ wpseoAdminL10n[ "shortlinks.snippet_preview_info" ] }>
+				{ __( "Learn more about the Snippet Preview.", "wordpress-seo" ) }
+			</ExplanationLink>
+		</p>
 		<SnippetPreviewSection
 			icon="eye"
 			hasPaperStyle={ props.hasPaperStyle }
@@ -155,6 +166,17 @@ export function mapDispatchToProps( dispatch ) {
 			}
 
 			dispatch( action );
+
+			/*
+			 * Update the gutenberg store with the new slug, after updating our own store,
+			 * to make sure our store isn't updated twice.
+			 */
+			if ( key === "slug" ) {
+				const coreEditorDispatch = wpDataDispatch( "core/editor" );
+				if ( coreEditorDispatch ) {
+					coreEditorDispatch.editPost( { slug: value } );
+				}
+			}
 		},
 		onChangeAnalysisData: ( analysisData ) => {
 			dispatch( updateAnalysisData( analysisData ) );

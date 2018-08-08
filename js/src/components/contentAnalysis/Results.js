@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { LanguageNotice, ContentAnalysis } from "yoast-components";
+import { Fragment } from "@wordpress/element";
 
 import mapResults from "./mapResults";
-import { LanguageNotice, ContentAnalysis } from "yoast-components";
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
@@ -71,7 +72,7 @@ class Results extends React.Component {
 			problemsResults,
 		} = mappedResults;
 		return (
-			<React.Fragment>
+			<Fragment>
 				<LanguageNotice
 					changeLanguageLink={ this.props.changeLanguageLink }
 					language={ this.props.language }
@@ -88,7 +89,7 @@ class Results extends React.Component {
 					marksButtonClassName={ this.props.marksButtonClassName }
 					marksButtonStatus={ this.props.marksButtonStatus }
 				/>
-			</React.Fragment>
+			</Fragment>
 		);
 	}
 }

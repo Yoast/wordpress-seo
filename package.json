@@ -18,6 +18,7 @@
   "scripts": {
     "test": "jest",
     "build": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
+    "webpack-analyze-bundle": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json js/dist",
     "i18n-yoast-components": "NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot > /dev/null",
     "i18n-wordpress-seo": "NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot > /dev/null",
     "start": "webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development"
@@ -100,16 +101,18 @@
     "time-grunt": "^1.0.0",
     "unminified-webpack-plugin": "^1.4.2",
     "webpack": "^3.4.1",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-dev-server": "^2.11.0"
   },
   "optionalDependencies": {
     "grunt-contrib-imagemin": "^2.0.1"
   },
   "dependencies": {
+    "@babel/runtime": "7.0.0-beta.55",
     "@wordpress/components": "^1.0.1",
     "@wordpress/data": "^1.0.1",
     "@wordpress/element": "^1.0.1",
-    "@wordpress/i18n": "^1.1.1",
+    "@wordpress/i18n": "^1.2.2",
     "@wordpress/is-shallow-equal": "^1.0.2",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
@@ -132,9 +135,9 @@
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
     "yoast-components": "git+https://github.com/Yoast/yoast-components.git#develop",
-    "yoastseo": "^1.36.0"
+    "yoastseo": "^1.36.1"
   },
   "yoast": {
-    "pluginVersion": "7.9"
+    "pluginVersion": "8.0-RC2"
   }
 }

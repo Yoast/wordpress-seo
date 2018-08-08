@@ -5,30 +5,29 @@ import { App } from "yoastseo";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import isUndefined from "lodash/isUndefined";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
-import { render } from "@wordpress/element";
-import { SlotFillProvider } from "@wordpress/components";
+import debounce from "lodash/debounce";
 
 // Internal dependencies.
 import "./helpers/babel-polyfill";
-import initializeEdit from "./edit";
+import Edit from "./edit";
 import { termsTmceId as tmceId } from "./wp-seo-tinymce";
 import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
-import TabManager from "./analysis/tabManager";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
-import snippetPreviewHelpers from "./analysis/snippetPreview";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
-import UsedKeywords from "./analysis/usedKeywords";
 import TaxonomyAssessor from "./assessors/taxonomyAssessor";
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
-import MetaboxPortal from "./components/MetaboxPortal";
+import {
+	registerReactComponent,
+	renderClassicEditorMetabox
+} from "./helpers/classicEditor";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -36,13 +35,9 @@ setWordPressSeoL10n();
 window.yoastHideMarkers = true;
 
 ( function( $, window ) {
-	var snippetContainer;
-
 	var app;
 
 	var termSlugInput;
-
-	var tabManager;
 
 	let store;
 
@@ -131,16 +126,13 @@ window.yoastHideMarkers = true;
 	/**
 	 * Initializes keyword analysis.
 	 *
-	 * @param {App} app The App object.
 	 * @param {TermDataCollector} termScraper The post scraper object.
 	 *
 	 * @returns {void}
 	 */
-	function initializeKeywordAnalysis( app, termScraper ) {
+	function initializeKeywordAnalysis( termScraper ) {
 		var savedKeywordScore = $( "#hidden_wpseo_linkdex" ).val();
-		var usedKeywords = new UsedKeywords( "#wpseo_focuskw", "get_term_keyword_usage", wpseoTermScraperL10n, app );
 
-		usedKeywords.init();
 		termScraper.initKeywordTabTemplate();
 
 		var indicator = getIndicatorForScore( savedKeywordScore );
@@ -201,28 +193,6 @@ window.yoastHideMarkers = true;
 	}
 
 	/**
-	 * Renders a React tree for the classic editor.
-	 *
-	 * @param {Object} store The active redux store.
-	 *
-	 * @returns {void}
-	 */
-	function renderClassicEditorMetabox( store ) {
-		const theme = {
-			isRtl: wpseoTermScraperL10n.isRtl,
-		};
-
-		render(
-			(
-				<SlotFillProvider>
-					<MetaboxPortal target="wpseo-meta-section-react" store={ store } theme={ theme } />
-				</SlotFillProvider>
-			),
-			document.getElementById( "wpseo-meta-section-react" )
-		);
-	}
-
-	/**
 	 * Initializes analysis for the term edit screen.
 	 *
 	 * @returns {void}
@@ -231,28 +201,18 @@ window.yoastHideMarkers = true;
 		var args, termScraper, translations;
 
 		const editArgs = {
-			analysisSection: "pageanalysis",
 			snippetEditorBaseUrl: wpseoTermScraperL10n.base_url,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
 
-		const { store } = initializeEdit( editArgs );
+		const edit = new Edit( editArgs );
 
-		snippetContainer = $( "#wpseosnippet" );
+		const store = edit.getStore();
 
 		insertTinyMCE();
 
-		tabManager = new TabManager( {
-			strings: wpseoTermScraperL10n,
-			focusKeywordField: "#wpseo_focuskw",
-			contentAnalysisActive: isContentAnalysisActive(),
-			keywordAnalysisActive: isKeywordAnalysisActive(),
-		} );
-
-		tabManager.init();
-
-		termScraper = new TermDataCollector( { tabManager, store } );
+		termScraper = new TermDataCollector( { store } );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
@@ -268,18 +228,13 @@ window.yoastHideMarkers = true;
 		};
 
 		if ( isKeywordAnalysisActive() ) {
+			store.dispatch( setFocusKeyword( document.getElementById( "hidden_wpseo_focuskw" ).value ) );
+
 			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
 			args.callbacks.updatedKeywordsResults = function( results ) {
-				let keyword = tabManager.getKeywordTab().getKeyWord();
-
-				if ( tabManager.isMainKeyword( keyword ) ) {
-					if ( keyword === "" ) {
-						keyword = termScraper.getName();
-					}
-					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
-					store.dispatch( setFocusKeyword( keyword ) );
-					store.dispatch( refreshSnippetEditor() );
-				}
+				const keyword = store.getState().focusKeyword;
+				store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+				store.dispatch( refreshSnippetEditor() );
 			};
 		}
 
@@ -297,6 +252,8 @@ window.yoastHideMarkers = true;
 		}
 
 		app = new App( args );
+
+		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
 
 		store.subscribe( handleStoreChange.bind( null, store, app ) );
 
@@ -318,16 +275,13 @@ window.yoastHideMarkers = true;
 		// For backwards compatibility.
 		YoastSEO.analyzerArgs = args;
 
+		YoastSEO._registerReactComponent = registerReactComponent;
+
 		initTermSlugWatcher();
 		termScraper.bindElementEvents( app );
 
 		if ( isKeywordAnalysisActive() ) {
-			initializeKeywordAnalysis( app, termScraper );
-			tabManager.getKeywordTab().activate();
-		} else if ( isContentAnalysisActive() ) {
-			tabManager.getContentTab().activate();
-		} else {
-			snippetPreviewHelpers.isolate( snippetContainer );
+			initializeKeywordAnalysis( termScraper );
 		}
 
 		if ( isContentAnalysisActive() ) {
@@ -352,8 +306,24 @@ window.yoastHideMarkers = true;
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
 
+		let focusKeyword;
+
+		const refreshAfterFocusKeywordChange = debounce( () => {
+			app.refresh();
+		}, 50 );
+
 		// Subscribe to the store to save the snippet editor data.
 		store.subscribe( () => {
+			// Verify whether the focusKeyword changed. If so, trigger refresh:
+			let newFocusKeyword = store.getState().focusKeyword;
+
+			if ( focusKeyword !== newFocusKeyword ) {
+				focusKeyword = newFocusKeyword;
+
+				document.getElementById( "hidden_wpseo_focuskw" ).value = focusKeyword;
+				refreshAfterFocusKeywordChange();
+			}
+
 			const data = snippetEditorHelpers.getDataFromStore( store );
 			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
 
