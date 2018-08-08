@@ -60,5 +60,4 @@ HelpText.propTypes = {
 
 HelpText.defaultProps = {
 	textColor: colors.$color_help_text,
-	textFontSize: "0.8em",
 };

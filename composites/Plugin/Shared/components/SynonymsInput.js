@@ -11,7 +11,7 @@ const SynonymsInput = ( { id, label, value, onChange, explanationText } ) => {
 			<YoastInputLabel htmlFor={ id }>
 				{ label }
 			</YoastInputLabel>
-			{ explanationText !== null && (
+			{ explanationText && (
 				<HelpText>
 					{ explanationText }
 				</HelpText>
