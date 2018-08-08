@@ -88,12 +88,12 @@ export default class KeywordExample extends Component {
 	render() {
 		return (
 			<Container>
-				<HelpText text={ [
-					"Enter the search term you'd like this post to be found with and see how it would rank. ",
+				<HelpText>
+					{ "Enter the search term you'd like this post to be found with and see how it would rank. " },
 					<HelpTextLink key="1" href="https://yoa.st/">
 						Learn more about the Content Analysis Tool.
 					</HelpTextLink>,
-				] }/>
+				</HelpText>
 				<KeywordInput
 					id="focus-keyword"
 					label={ "Focus keyword"}

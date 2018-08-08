@@ -7,7 +7,7 @@ import styled from "styled-components";
 import colors from "../../../../style-guide/colors";
 
 const YoastHelpText = styled.p`
-	textColor: ${ props => props.textColor };
+	color: ${ props => props.textColor };
 	font-size: ${ props => props.textFontSize };
 	margin-top: 0;
 `;
@@ -49,8 +49,8 @@ export const helpTextPropType = {
 		PropTypes.string,
 		PropTypes.array,
 	] ),
-	color: PropTypes.string,
-	fontSize: PropTypes.string,
+	textColor: PropTypes.string,
+	textFontSize: PropTypes.string,
 };
 
 HelpText.propTypes = {
@@ -59,6 +59,6 @@ HelpText.propTypes = {
 };
 
 HelpText.defaultProps = {
-	color: colors.$color_grey_medium_darker,
-	fontSize: "0.8em",
+	textColor: colors.$color_help_text,
+	textFontSize: "0.8em",
 };
