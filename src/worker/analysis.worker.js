@@ -34,7 +34,6 @@ class AnalysisWebWorker {
 			locale: "en_US",
 		};
 		this._scheduler = new Scheduler( { resetQueue: true } );
-		this._i18n = AnalysisWebWorker.createI18n();
 		this._paper = new Paper( "" );
 		this._researcher = new Researcher( this._paper );
 		this._contentAssessor = null;
@@ -178,6 +177,7 @@ class AnalysisWebWorker {
 		this._configuration = merge( this._configuration, configuration );
 		console.log( "run initialize", configuration, this._configuration );
 
+		this._i18n = AnalysisWebWorker.createI18n( this._configuration.translations );
 		this._contentAssessor = this.createContentAssessor();
 		this._seoAssessor = this.createSEOAssessor();
 
