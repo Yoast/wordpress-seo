@@ -114,6 +114,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c10 {
@@ -300,6 +301,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c10 {
@@ -498,6 +500,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c10 {
@@ -684,6 +687,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c10 {
@@ -882,6 +886,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c10 {
@@ -1080,6 +1085,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c10 {
@@ -1266,6 +1272,7 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c10 {
@@ -1442,6 +1449,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c10 {
@@ -1618,6 +1626,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c10 {
@@ -1794,6 +1803,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c11 {

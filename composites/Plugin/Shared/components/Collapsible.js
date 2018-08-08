@@ -57,6 +57,7 @@ export const StyledIconsButton = styled( IconsButton )`
 const StyledTitleContainer = styled.span`
 	flex-grow: 1;
 	overflow-x: hidden;
+	line-height: normal; // Avoid vertical scrollbar in IE 11 when rendered in the WP sidebar.
 `;
 
 const StyledTitle = styled.span`
