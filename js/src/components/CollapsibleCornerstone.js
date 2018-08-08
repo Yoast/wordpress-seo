@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import {
 	utils,
-	HelpText
+	HelpText,
 } from "yoast-components";
 
 import Collapsible from "./SidebarCollapsible";
