@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 // YoastSEO.js dependencies.
-import AnalysisWorkerWrapper from "yoastseo/worker/AnalysisWorkerWrapper";
+import AnalysisWorker from "yoastseo/worker";
 import testPapers from "yoastspec/fullTextTests/testTexts";
 
 // Internal dependencies.
@@ -35,7 +35,7 @@ class App extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.analysisWorker = new AnalysisWorkerWrapper();
+		this.analysisWorker = new AnalysisWorker();
 
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
@@ -63,11 +63,10 @@ class App extends React.Component {
 	 */
 	analyze( paper = this.props.paper ) {
 		this.analysisWorker.analyze( paper )
-		    .then( data => {
-	            console.log( "analysis done!", data );
+			.then( ( { result } ) => {
 				this.props.actions.setResults( {
-					readability: data.readability.results,
-					seo: data.seo.results,
+					readability: result.readability.results,
+					seo: result.seo.results,
 				} );
 		    } );
 	}

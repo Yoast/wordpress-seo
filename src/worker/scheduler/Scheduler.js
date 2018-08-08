@@ -27,7 +27,6 @@ class Scheduler {
 	constructor( configuration = {} ) {
 		this._configuration = merge( DEFAULT_CONFIGURATION, configuration );
 		this._tasks = [];
-		this._id = 0;
 		this._pollHandle = null;
 
 		// Bind functions to this scope.
@@ -64,25 +63,16 @@ class Scheduler {
 	 * Schedule a task.
 	 *
 	 * @param {Object}   task         The task object.
+	 * @param {number}   task.id      The task id.
 	 * @param {function} task.execute The function to run for task execution.
 	 * @param {function} task.done    The function to run when the task is done.
 	 * @param {Object}   task.data    The data object to execute with.
 	 *
 	 * @returns {void}
 	 */
-	schedule( { execute, done, data } ) {
-		const task = new Task( this.createId(), execute, done, data );
+	schedule( { id, execute, done, data } ) {
+		const task = new Task( id, execute, done, data );
 		this._tasks.push( task );
-	}
-
-	/**
-	 * Increments internal counter and returns the latest.
-	 *
-	 * @returns {number} The unique id.
-	 */
-	createId() {
-		this._id++;
-		return this._id;
 	}
 
 	/**
@@ -112,7 +102,7 @@ class Scheduler {
 		}
 
 		const result = await task.execute( task.data );
-		task.done( result );
+		task.done( task.id, result );
 	}
 
 	/**

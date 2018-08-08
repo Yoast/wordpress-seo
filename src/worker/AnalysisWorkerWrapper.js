@@ -5,6 +5,7 @@ const noop = require( "lodash/noop" );
 // Internal dependencies.
 import Worker from "./analysis.worker";
 import { encodePayload, decodePayload } from "./utils";
+import Request from "./request";
 
 /**
  * Analysis worker is an API around the Web Worker.
@@ -16,8 +17,8 @@ class AnalysisWorkerWrapper {
 	constructor() {
 		// Initialize instance variables.
 		this._worker = new Worker();
-		this._callbacks = {};
-		this._ids = {};
+		this._requests = {};
+		this._autoIncrementedRequestId = -1;
 
 		// Bind actions to this scope.
 		this.initialize = this.initialize.bind( this );
@@ -39,34 +40,41 @@ class AnalysisWorkerWrapper {
 	 *
 	 * See: https://developer.mozilla.org/en-US/docs/Web/API/Worker/onmessage
 	 *
-	 * @param {MessageEvent} arguments              The post message event.
-	 * @param {Object}       arguments.data         The data object.
-	 * @param {string}       arguments.data.type    The action type.
-	 * @param {string}       arguments.data.payload The payload of the action.
+	 * @param {MessageEvent} event              The post message event.
+	 * @param {Object}       event.data         The data object.
+	 * @param {string}       event.data.type    The action type.
+	 * @param {number}       event.data.id      The request id.
+	 * @param {string}       event.data.payload The payload of the action.
 	 *
 	 * @returns {void}
 	 */
-	handleMessage( { data: { type, payload } } ) {
-		let id;
-		console.log( "wrapper", type, payload );
+	handleMessage( { data: { type, id, payload } } ) {
+		let response, request;
+		console.log( "wrapper", type, id, payload );
+
 		switch( type ) {
 			case "initialize:done":
-				payload = decodePayload( payload );
-				id = this.getID( "initialize" );
-
-				this.getCallback( "initialize", id )( null, payload );
-				break;
-			case "analyze:done":
-				payload = decodePayload( payload );
-				id = this.getID( "analyze" );
-				if ( payload.id !== id ) {
-					console.log( "not the most recent request" );
+				response = decodePayload( payload );
+				request = this._requests[ id ];
+				if ( ! request ) {
+					console.warn( "AnalysisWorker: unmatched response", response );
+					break;
 				}
 
-				this.getCallback( "analyze", payload.id )( null, payload );
+				request.resolve( response );
+				break;
+			case "analyze:done":
+				response = decodePayload( payload );
+				request = this._requests[ id ];
+				if ( ! request ) {
+					console.warn( "AnalysisWorker: unmatched response", response );
+					break;
+				}
+
+				request.resolve( response );
 				break;
 			default:
-				console.warn( "AnalysisWorker unrecognized action", type );
+				console.warn( "AnalysisWorker: unrecognized action", type );
 		}
 	}
 
@@ -99,91 +107,42 @@ class AnalysisWorkerWrapper {
 	}
 
 	/**
-	 * Get the current ID for a namespace.
+	 * Increments the request id.
 	 *
-	 * @param {string} name The namespace of the ID.
-	 *
-	 * @returns {number} The current ID.
+	 * @returns {number} The incremented id.
 	 */
-	getID( name ) {
-		return this._ids[ name ] || 0;
+	createRequestId() {
+		this._autoIncrementedRequestId++;
+		return this._autoIncrementedRequestId;
 	}
 
 	/**
-	 * Auto increment an ID for a namespace, starting with 1.
+	 * Creates a new request inside a Promise.
 	 *
-	 * @param {string} name The namespace of the ID.
-	 *
-	 * @returns {number} The new ID.
-	 */
-	incrementID( name ) {
-		this._ids[ name ] = this.getID( name );
-		this._ids[ name ]++;
-		return this._ids[ name ];
-	}
-
-	/**
-	 * Retrieves the callback for a namespace.
-	 *
-	 * @param {string} name The namespace of the callback.
-	 * @param {number} [id] The ID of the callback, defaults to current.
-	 *
-	 * @returns {function} The registered callback.
-	 */
-	getCallback( name, id = -1 ) {
-		if ( id < 0 ) {
-			id = this.getID( name );
-		}
-		return get( this._callbacks, [ name, id ], noop );
-	}
-
-	/**
-	 * Initializes the callback for a namespace and id.
-	 *
-	 * @param {string}   name     The namespace of the callback.
-	 * @param {number}   id       The ID of the callback.
-	 * @param {function} callback The callback function.
-	 *
-	 * @returns {void}
-	 */
-	setCallback( name, id, callback ) {
-		if ( ! this._callbacks[ name ] ) {
-			this._callbacks[ name ] = {};
-		}
-		this._callbacks[ name ][ id ] = callback;
-	}
-
-	/**
-	 * Creates a new Promise that uses the callback.
-	 *
-	 * @param {string} name The namespace of the callback.
-	 * @param {number} id   The ID of the callback.
+	 * @param {number} id The request id.
 	 *
 	 * @returns {Promise} The callback promise.
 	 */
-	createCallbackPromise( name, id ) {
+	createRequestPromise( id ) {
 		return new Promise( ( resolve, reject ) => {
-			this.setCallback( name, id, ( error, result ) => {
-				if ( error ) {
-					return reject( new Error( error ) );
-				}
-				resolve( result );
-			} );
+			this._requests[ id ] = new Request( resolve, reject );
 		} );
 	}
 
 	/**
 	 * Sends a message to the worker.
 	 *
-	 * @param {string}   type    The type of the message.
-	 * @param {Object|*} payload The payload to deliver.
+	 * @param {string} type      The message type.
+	 * @param {number} id        The request id.
+	 * @param {Object} [payload] The payload to deliver.
 	 *
 	 * @returns {void}
 	 */
-	send( type, payload ) {
-		console.log( "wrapper => worker", type, payload );
+	send( type, id, payload = {} ) {
+		console.log( "wrapper => worker", type, id, payload );
 		this._worker.postMessage( {
 			type,
+			id,
 			payload: encodePayload( payload ),
 		} );
 	}
@@ -197,12 +156,11 @@ class AnalysisWorkerWrapper {
 	 * @returns {Promise} The promise of initialization.
 	 */
 	initialize( configuration ) {
-		const name = "initialize";
-		const id = this.incrementID( name );
+		const id = this.createRequestId();
+		const promise = this.createRequestPromise( id );
 
-		this.send( name, configuration );
-
-		return this.createCallbackPromise( name, id );
+		this.send( "initialize", id, configuration );
+		return promise;
 	}
 
 	/**
@@ -214,16 +172,11 @@ class AnalysisWorkerWrapper {
 	 * @returns {Promise} The promise of analyses.
 	 */
 	analyze( paper, configuration = {} ) {
-		const name = "analyze";
-		const id = this.incrementID( name );
+		const id = this.createRequestId();
+		const promise = this.createRequestPromise( id );
 
-		this.send( name, {
-			id,
-			paper,
-			configuration,
-		} );
-
-		return this.createCallbackPromise( name, id );
+		this.send( "analyze", id, { paper, configuration } );
+		return promise;
 	}
 }
 
