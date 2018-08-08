@@ -1,7 +1,3 @@
-// External dependencies.
-const get = require( "lodash/get" );
-const noop = require( "lodash/noop" );
-
 // Internal dependencies.
 import Worker from "./analysis.worker";
 import { encodePayload, decodePayload } from "./utils";
