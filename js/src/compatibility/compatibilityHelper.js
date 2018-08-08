@@ -63,7 +63,7 @@ class CompatibilityHelper {
 	 * @returns {boolean} Whether the classic editor is hidden.
 	 */
 	isClassicEditorHidden() {
-		return ( this.diviActive && DiviHelper.isTinyMCEHidden() );
+		return !! ( this.diviActive && DiviHelper.isTinyMCEHidden() );
 	}
 }
 

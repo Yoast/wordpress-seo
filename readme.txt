@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
-Tested up to: 4.9.7
-Stable tag: 7.9
+Tested up to: 4.9.8
+Stable tag: 7.9.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -116,13 +116,18 @@ Enhancements:
 * Implement a plugin-specific network settings API and use it in the network settings screen.
 * Standardizes the multisite settings screen.
 * Introduces a network admin-specific admin bar menu.
+* Replaces the SnippetPreview help button with an explanation text above the snippet preview.
+* Adds notifications to the Notification Center in regards to Gutenberg compatibility. If Gutenberg is older than the minimum supported version by Yoast SEO, a 'problem' notification is added. If Gutenberg is only slightly outdated, a 'normal' notification is added.
+* Improves the cornerstone collapsible l10n and a11y.
 
 Bugfixes:
 * Fixes a bug where `/sitemap.xml` would not correctly redirect to `/sitemap_index.xml` in some environments.
 * Fixes a bug where sitemap cache transients would not be correctly cleared.
+* Fixes a bug where a non-existing global was being checked against to determine whether markers should be displayed is Gutenberg, resulting in markers wrongfully displaying in Gutenberg.
 
 Other:
 * Moves the network's Restore Site functionality into its own tab.
+* Replaces all shortlinks used in the React components to be parsed by the `WPSEO_Expose_Shortlinks` class.
 
 = 7.9.1 =
 Release Date: August 7th, 2018

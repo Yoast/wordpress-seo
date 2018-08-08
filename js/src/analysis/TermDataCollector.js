@@ -35,7 +35,7 @@ var TermDataCollector = function( args ) {
 /**
  * Returns data fetched from input fields.
  *
- * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}} The object with data.
+ * @returns {Object} The object with data.
  */
 TermDataCollector.prototype.getData = function() {
 	const otherData = {

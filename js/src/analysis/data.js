@@ -1,5 +1,8 @@
 import debounce from "lodash/debounce";
-import { updateReplacementVariable } from "../redux/actions/snippetEditor";
+import {
+	updateReplacementVariable,
+	updateData,
+} from "../redux/actions/snippetEditor";
 import {
 	fillReplacementVariables,
 	mapCustomFields,
@@ -122,6 +125,10 @@ class Data {
 		if ( this._data.excerpt !== newData.excerpt ) {
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
 			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt ) );
+		}
+		// Handle slug change
+		if ( this._data.slug !== newData.slug ) {
+			this._store.dispatch( updateData( { slug: newData.slug } ) );
 		}
 	}
 
