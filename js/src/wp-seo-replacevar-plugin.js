@@ -167,10 +167,15 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
 			const page = new wp.api.models.Page( { id: newParent } );
 			page.fetch().then(
-				( response ) => {
+				response => {
 					this._currentParentPageTitle = response.title.rendered;
 					fetchedParents[ newParent ]  = this._currentParentPageTitle;
 
+					this.declareReloaded();
+				}
+			).fail(
+				() => {
+					this._currentParentPageTitle = "";
 					this.declareReloaded();
 				}
 			);
