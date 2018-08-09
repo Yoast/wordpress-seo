@@ -9,7 +9,6 @@
  * Represents the indexable post service.
  */
 class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_Provider {
-	
 	/**
 	 * Returns an array with data for the target object.
 	 *

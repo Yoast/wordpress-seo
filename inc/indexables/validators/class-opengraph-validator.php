@@ -17,7 +17,7 @@ class WPSEO_OpenGraph_Validator implements WPSEO_Endpoint_Validator {
 	 *
 	 * @return void
 	 *
-	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
+	 * @throws WPSEO_Invalid_Argument_Exception Thrown if one of the OpenGraph properties is of an invalid value type.
 	 */
 	public function validate( $request_data ) {
 		if ( WPSEO_Validator::key_exists( $request_data, 'og_title' ) && ! WPSEO_Validator::is_string( $request_data['og_title'] ) ) {

@@ -15,7 +15,7 @@ class WPSEO_Keyword_Validator implements WPSEO_Endpoint_Validator {
 	 *
 	 * @param array $request_data The request data to validate.
 	 *
-	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
+	 * @throws WPSEO_Invalid_Argument_Exception Thrown if the keyword or the score is of an invalid value type.
 	 */
 	public function validate( $request_data ) {
 		if ( WPSEO_Validator::key_exists( $request_data, 'keyword' ) && ! WPSEO_Validator::is_string( $request_data['keyword'] ) ) {

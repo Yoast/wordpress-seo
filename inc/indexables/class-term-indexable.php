@@ -38,14 +38,10 @@ class WPSEO_Term_Indexable extends WPSEO_Indexable {
 	 *
 	 * @return WPSEO_Indexable The indexable.
 	 *
-	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
+	 * @throws WPSEO_Invalid_Argument_Exception Thrown if the passed ID is not for an object of type 'term'.
 	 */
 	public static function from_object( $object_id ) {
 		$term = WPSEO_Term_Object_Type::from_object( $object_id );
-
-		if ( $term === null ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_type( 'object id' );
-		}
 
 		$term_object_id = $term->get_id();
 

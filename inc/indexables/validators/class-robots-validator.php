@@ -28,7 +28,7 @@ class WPSEO_Robots_Validator implements WPSEO_Endpoint_Validator {
 	 *
 	 * @return void
 	 *
-	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
+	 * @throws WPSEO_Invalid_Argument_Exception Thrown if the robots values are not a boolean type.
 	 */
 	public function validate( $request_data ) {
 		foreach ( $this->robots_to_validate as $item ) {

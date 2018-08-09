@@ -43,7 +43,7 @@ class WPSEO_Post_Indexable extends WPSEO_Indexable {
 	 *
 	 * @return WPSEO_Indexable The indexable.
 	 *
-	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
+	 * @throws WPSEO_Invalid_Argument_Exception Thrown if the passed ID is not for an object of type 'post'.
 	 */
 	public static function from_object( $object_id ) {
 		$post = WPSEO_Post_Object_Type::from_object( $object_id );

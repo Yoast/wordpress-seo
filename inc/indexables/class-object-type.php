@@ -20,7 +20,7 @@ abstract class WPSEO_Object_Type {
 	protected $type;
 
 	/**
-	 * @var string The sub-type of the object.
+	 * @var string The subtype of the object.
 	 */
 	protected $sub_type;
 
@@ -32,7 +32,7 @@ abstract class WPSEO_Object_Type {
 	/**
 	 * WPSEO_Object_Type constructor.
 	 *
-	 * @param int $id			The ID of the object.
+	 * @param int 	 $id 		The ID of the object.
 	 * @param string $type		The type of object.
 	 * @param string $subtype	The subtype of the object.
 	 * @param string $permalink	The permalink of the object.
@@ -63,9 +63,9 @@ abstract class WPSEO_Object_Type {
 	}
 
 	/**
-	 * Gets the sub-type.
+	 * Gets the subtype.
 	 *
-	 * @return string The sub-type.
+	 * @return string The subtype.
 	 */
 	public function get_subtype() {
 		return $this->sub_type;
@@ -92,11 +92,11 @@ abstract class WPSEO_Object_Type {
 	}
 
 	/**
-	 * Determines whether the passed sub-type is equal to the object's sub-type.
+	 * Determines whether the passed subtype is equal to the object's subtype.
 	 *
-	 * @param string $sub_type The sub-type to check.
+	 * @param string $sub_type The subtype to check.
 	 *
-	 * @return bool Whether or not the passed sub-type is equal.
+	 * @return bool Whether or not the passed subtype is equal.
 	 */
 	public function is_subtype( $sub_type ) {
 		return $this->sub_type === $sub_type;

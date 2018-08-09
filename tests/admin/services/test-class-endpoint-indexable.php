@@ -46,7 +46,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 
 		$response = $this->service->get_indexable( $request );
 
-		$this->assertEquals( new WP_REST_Response( 'Invalid type for `provider` passed. Expected `callable`, but got `string`', 500 ), $response );
+		$this->assertEquals( new WP_REST_Response( 'Invalid type for parameter `provider` passed. Expected `callable`, but got `string`', 500 ), $response );
 	}
 
 	/**
