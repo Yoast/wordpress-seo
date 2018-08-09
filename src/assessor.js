@@ -171,6 +171,10 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 		result = assessment.getResult( paper, researcher, this.i18n );
 		result.setIdentifier( assessment.identifier );
 
+		if ( result.hasMarks() ) {
+			result.marks = assessment.getMarks( paper, researcher );
+		}
+
 		if ( result.hasMarks() && this.hasMarker( assessment ) ) {
 			this.setHasMarkers( true );
 
