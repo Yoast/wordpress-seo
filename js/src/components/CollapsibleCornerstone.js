@@ -21,7 +21,7 @@ export default function CollapsibleCornerstone( { isCornerstone, onChange } ) {
 	return (
 		<Collapsible title={ __( "Cornerstone content", "wordpress-seo" ) }>
 			<HelpText>
-				{ __( "Cornerstone content should be the most important and extensive articles on your site. ", "wordpress-seo" ) }
+				{ __( "Cornerstone content should be the most important and extensive articles on your site.", "wordpress-seo" ) + " " }
 				<LearnMoreLink href={ wpseoAdminL10n[ "shortlinks.cornerstone_content_info" ] } rel={ null }>
 					{ __( "Learn more about Cornerstone Content.", "wordpress-seo" ) }
 				</LearnMoreLink>
