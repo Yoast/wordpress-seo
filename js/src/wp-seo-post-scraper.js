@@ -432,6 +432,16 @@ setWordPressSeoL10n();
 
 		YoastSEO._registerReactComponent = registerReactComponent;
 
+		// Initialize the analysis worker.
+		YoastSEO.analysisWorker.initialize( {
+			translations: appArgs.translations,
+			locale: appArgs.locale,
+			contentAnalysisActive: appArgs.contentAnalysisActive,
+			keywordAnalysisActive: appArgs.keywordAnalysisActive,
+		} )
+			.then( result => console.log( result ) )
+			.catch( error => console.warn( error ) );
+
 		jQuery( window ).trigger( "YoastSEO:ready" );
 
 		// Backwards compatibility.
