@@ -110,24 +110,20 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: August 14th, 2018
 
 Enhancements:
-* Implements the Yoast sidebar for Gutenberg: Added the Readability, Focus Keyword and Cornerstone content tabs to the sidebar.
+* Implements the Yoast sidebar for Gutenberg: added the Readability, Focus Keyword and Cornerstone content tabs to the sidebar.
 * Revamps the Yoast metabox to use the same vertical design as the new sidebar.
 * Implements the same tabbed layout in the plugin's network settings screen that is also used in the plugin's site settings screens.
 * Implement a plugin-specific network settings API and use it in the network settings screen.
-* Standardizes the multisite settings screen.
 * Introduces a network admin-specific admin bar menu.
-* Replaces the SnippetPreview help button with an explanation text above the snippet preview.
 * Adds notifications to the Notification Center in regards to Gutenberg compatibility. If Gutenberg is older than the minimum supported version by Yoast SEO, a 'problem' notification is added. If Gutenberg is only slightly outdated, a 'normal' notification is added.
-* Improves the cornerstone collapsible l10n and a11y.
 
 Bugfixes:
 * Fixes a bug where `/sitemap.xml` would not correctly redirect to `/sitemap_index.xml` in some environments.
 * Fixes a bug where sitemap cache transients would not be correctly cleared.
-* Fixes a bug where a non-existing global was being checked against to determine whether markers should be displayed is Gutenberg, resulting in markers wrongfully displaying in Gutenberg.
+* Fixes a bug where markers were wrongfully displayed in Gutenberg.
 
 Other:
 * Moves the network's Restore Site functionality into its own tab.
-* Replaces all shortlinks used in the React components to be parsed by the `WPSEO_Expose_Shortlinks` class.
 
 = 7.9.1 =
 Release Date: August 7th, 2018
