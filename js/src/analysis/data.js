@@ -115,8 +115,19 @@ class Data {
 			return "";
 		}
 
+		let generatedSlug = this.getPostAttribute( "generated_slug" );
+
+		/**
+		 * This should be removed when the following issue is resolved:
+		 *
+		 * https://github.com/WordPress/gutenberg/issues/8770
+		 */
+		if ( generatedSlug === "auto-draft" ) {
+			generatedSlug = "";
+		}
+
 		// When no custom slug is provided we should use the generated_slug attribute.
-		return this.getPostAttribute( "slug" ) || this.getPostAttribute( "generated_slug" );
+		return this.getPostAttribute( "slug" ) || generatedSlug;
 	}
 
 	/**
