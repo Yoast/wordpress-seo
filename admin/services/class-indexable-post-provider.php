@@ -9,18 +9,7 @@
  * Represents the indexable post service.
  */
 class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_Provider {
-
-	/**
-	 * @var array List of non-updateable fields.
-	 */
-	private $non_updateable_fields = array(
-		'object_id',
-		'object_type',
-		'object_subtype',
-		'created_at',
-		'updated_at',
-	);
-
+	
 	/**
 	 * Returns an array with data for the target object.
 	 *
@@ -91,10 +80,6 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 		$values = $this->convert_indexable_data( $indexable->to_array() );
 
 		foreach ( $values as $key => $item ) {
-			if ( in_array( $key, $this->non_updateable_fields, true ) ) {
-				continue;
-			}
-
 			WPSEO_Meta::set_value( $key, $item, $values['object_id'] );
 		}
 

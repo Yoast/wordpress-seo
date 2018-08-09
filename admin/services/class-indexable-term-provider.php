@@ -11,24 +11,6 @@
 class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_Provider {
 
 	/**
-	 * @var array List of non-updateable fields.
-	 */
-	private $non_updateable_fields = array(
-		'object_id',
-		'object_type',
-		'object_subtype',
-		'created_at',
-		'updated_at',
-		'is_robots_nofollow',
-		'is_robots_noarchive',
-		'is_robots_noimageindex',
-		'is_robots_nosnippet',
-		'is_cornerstone',
-		'link_count',
-		'incoming_link_count',
-	);
-
-	/**
 	 * @var array List of fields that need to be renamed.
 	 */
 	private $renameable_fields = array(
@@ -133,8 +115,7 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 			$indexable_data['is_robots_noindex'] = $this->convert_noindex( $indexable_data['is_robots_noindex'] );
 		}
 
-		$translated_values = $this->rename_indexable_data( $indexable_data );
-		$updateable_values = $this->filter_updateable_values( $translated_values );
+		$updateable_values = $this->rename_indexable_data( $indexable_data );
 
 		foreach ( $updateable_values as $key => $updateable_value ) {
 			$converted_values[ 'wpseo_' . $key ] = $updateable_value;

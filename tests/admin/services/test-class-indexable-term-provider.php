@@ -194,48 +194,6 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the renaming of indexable data.
-	 *
-	 * @covers WPSEO_Indexable_Service_Term_Provider::rename_indexable_data()
-	 */
-	public function test_filter_updateable_values() {
-		$supplied_values = array(
-			'object_id'					  => '1',
-			'description'				  => '',
-			'breadcrumb_title'			  => '',
-			'og_title'					  => '',
-			'og_description'			  => '',
-			'og_image'					  => '',
-			'twitter_title'				  => '',
-			'twitter_description'		  => '',
-			'twitter_image'				  => '',
-			'is_robots_noindex'			  => '',
-			'primary_focus_keyword'		  => '',
-			'primary_focus_keyword_score' => '',
-			'readability_score'			  => '',
-		);
-
-		$expected = array(
-			'description'				  => '',
-			'breadcrumb_title'			  => '',
-			'og_title'					  => '',
-			'og_description'			  => '',
-			'og_image'					  => '',
-			'twitter_title'				  => '',
-			'twitter_description'		  => '',
-			'twitter_image'				  => '',
-			'is_robots_noindex'			  => '',
-			'primary_focus_keyword'		  => '',
-			'primary_focus_keyword_score' => '',
-			'readability_score'			  => '',
-		);
-
-		$data = $this->provider->filter_updateable_values( $supplied_values );
-
-		$this->assertEquals( $expected, $data );
-	}
-
-	/**
 	 * Tests the conversion of the indexable data.
 	 *
 	 * @covers WPSEO_Indexable_Service_Term_Provider::convert_indexable_data()
@@ -246,7 +204,6 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 				->setMethods(
 					array(
 						'rename_indexable_data',
-						'filter_updateable_values',
 						'convert_noindex'
 					)
 				)
@@ -258,10 +215,6 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 
 		$instance->expects( $this->once() )
 				 ->method( 'rename_indexable_data' )
-				 ->will(  $this->returnArgument( 0 ) );
-
-		$instance->expects( $this->once() )
-				 ->method( 'filter_updateable_values' )
 				 ->will(  $this->returnArgument( 0 ) );
 
 		$supplied_values = array(

@@ -50,6 +50,42 @@ class WPSEO_Indexable_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the filtering of updateable data.
+	 *
+	 * @covers WPSEO_Indexable::filter_updateable_data()
+	 */
+	public function test_filter_updateable_data() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Indexable_Double' )
+			->setConstructorArgs(
+				array(
+					array(
+						'object_id' => '1',
+						'description' => '',
+						'title' => '',
+					)
+				)
+			)
+			->setMethods( array( 'validate_data' ) )
+			->getMock();
+
+		$supplied_values = array(
+			'object_id'		=> '1',
+			'description'	=> '',
+			'title'			=> '',
+		);
+
+		$expected = array(
+			'description'	=> '',
+			'title'			=> '',
+		);
+
+		$data = $instance->filter_updateable_data( $supplied_values );
+
+		$this->assertEquals( $expected, $data );
+	}
+
+	/**
 	 * Returns an array with test data.
 	 *
 	 * @return array The test data.

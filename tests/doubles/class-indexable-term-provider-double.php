@@ -27,13 +27,6 @@ class WPSEO_Indexable_Service_Term_Provider_Double extends WPSEO_Indexable_Servi
 	/**
 	 * @inheritdoc
 	 */
-	public function filter_updateable_values( $values ) {
-		return parent::filter_updateable_values( $values );
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function convert_noindex( $noindex ) {
 		return parent::convert_noindex( $noindex );
 	}
