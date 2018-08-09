@@ -162,6 +162,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c14 {
@@ -791,6 +792,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c14 {
@@ -1396,6 +1398,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c14 {
@@ -2049,6 +2052,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c14 {
@@ -2702,6 +2706,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c14 {
@@ -3193,6 +3198,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c14 {
@@ -3684,6 +3690,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c14 {
@@ -4244,6 +4251,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   -ms-flex-positive: 1;
   flex-grow: 1;
   overflow-x: hidden;
+  line-height: normal;
 }
 
 .c14 {
