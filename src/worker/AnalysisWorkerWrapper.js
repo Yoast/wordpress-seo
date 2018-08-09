@@ -8,6 +8,10 @@ import Request from "./request";
 class AnalysisWorkerWrapper {
 	/**
 	 * Initializes the AnalysisWorkerWrapper class.
+	 *
+	 * @param {Worker} worker The worker to wrap.
+	 *
+	 * @constructor
 	 */
 	constructor( worker ) {
 		// Initialize instance variables.
