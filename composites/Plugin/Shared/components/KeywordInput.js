@@ -8,8 +8,9 @@ import noop from "lodash/noop";
 
 // Internal dependencies.
 import colors from "../../../../style-guide/colors.json";
-import { YoastInputButtonContainer, YoastInputField } from "./YoastInput";
+import { YoastInputField } from "./YoastInput";
 import SvgIcon from "./SvgIcon";
+import { addFocusStyle } from "./Button";
 
 const errorColor = colors.$color_red;
 const greyColor = colors.$color_grey_medium;
@@ -28,12 +29,13 @@ const KeywordFieldLabel = styled.label`
 
 const KeywordField = styled( YoastInputField )`
 	flex: 1 !important;
-	border: none !important;
-	box-shadow: none !important;
+	box-sizing: border-box;
+	max-width: 100%;
+	margin: 0; // Reset margins inherited from WordPress.
 
-	&.hasError {
-		border-color: ${ errorColor };
-		outline-color: ${ errorColor };
+	&.has-error {
+		border-color: ${ errorColor } !important;
+		box-shadow: 0 0 2px ${ errorColor } !important;
 	}
 `;
 
@@ -43,15 +45,51 @@ const ErrorText = styled.p`
 	min-height: 1.8em;
 `;
 
-const BorderlessButton = styled.button`
-	border: none;
-	box-shadow: none;
-	background: none;
-`;
+const BorderlessButton = addFocusStyle(
+	styled.button`
+		border: 1px solid transparent;
+		box-shadow: none;
+		background: none;
+		flex: 0 0 32px;
+		height: 32px;
+		max-width: 32px;
+		padding: 0;
+		cursor: pointer;
+	`
+);
+
+BorderlessButton.propTypes = {
+	type: PropTypes.string,
+	focusColor: PropTypes.string,
+	focusBackgroundColor: PropTypes.string,
+	focusBorderColor: PropTypes.string,
+};
+
+BorderlessButton.defaultProps = {
+	type: "button",
+	focusColor: colors.$color_button_text_hover,
+	focusBackgroundColor: colors.$color_white,
+	focusBorderColor: colors.$color_blue,
+};
 
 const RemoveIcon = styled( SvgIcon )`
 	margin-top: 4px;
-	cursor: pointer;
+`;
+
+export const YoastInputButtonContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	&.has-remove-keyword-button {
+		${ KeywordField } {
+			padding-right: 40px;
+		}
+
+		${ BorderlessButton } {
+			margin-left: -32px;
+		}
+	}
 `;
 
 class KeywordInput extends React.Component {
@@ -127,21 +165,25 @@ class KeywordInput extends React.Component {
 		// The aria label should not be shown if there is a visible label.
 		const showAriaLabel = ! showLabel;
 
+		const showRemoveKeywordButton = onRemoveKeyword !== noop;
+
 		return(
 			<KeywordInputContainer>
 				{ showLabel && <KeywordFieldLabel htmlFor={ id }>
 					{ label }
 				</KeywordFieldLabel> }
-				<YoastInputButtonContainer>
+				<YoastInputButtonContainer
+					className={ showRemoveKeywordButton ? "has-remove-keyword-button" : null }
+				>
 					<KeywordField
 						aria-label={ showAriaLabel ? label : null }
 						type="text"
 						id={ id }
-						className={ showErrorMessage ? "hasError" : null }
+						className={ showErrorMessage ? "has-error" : null }
 						onChange={ this.handleChange }
 						value={ keyword }
 					/>
-					{ onRemoveKeyword !== noop && (
+					{ showRemoveKeywordButton && (
 						<BorderlessButton onClick={ onRemoveKeyword } >
 							<RemoveIcon
 								size="18px"
