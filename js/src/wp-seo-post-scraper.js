@@ -1,7 +1,7 @@
 /* global YoastSEO: true, tinyMCE, wpseoReplaceVarsL10n, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 
 // External dependencies.
-import { App } from "yoastseo";
+import { App, AnalysisWorkerWrapper, createWorker } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
 import debounce from "lodash/debounce";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
@@ -282,11 +282,13 @@ setWordPressSeoL10n();
 	 * @param {App} app The app to expose globally.
 	 * @param {YoastReplaceVarPlugin} replaceVarsPlugin The replace vars plugin to expose.
 	 * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
+	 * @param {AnalysisWorkerWrapper} analysisWorker The analysis worker to expose.
 	 * @returns {void}
 	 */
-	function exposeGlobals( app, replaceVarsPlugin, shortcodePlugin ) {
+	function exposeGlobals( app, replaceVarsPlugin, shortcodePlugin, analysisWorker ) {
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
+		window.YoastSEO.analysisWorker = analysisWorker;
 
 		// Init Plugins.
 		window.YoastSEO.wp = {};
@@ -410,6 +412,7 @@ setWordPressSeoL10n();
 
 		const appArgs = getAppArgs( store );
 		app = new App( appArgs );
+		const analysisWorker = new AnalysisWorkerWrapper( createWorker( "http://localhost:8080/wp-seo-analysis-worker-80-RC1.js?ver=8.0-RC1" ) );
 
 		postDataCollector.app = app;
 
@@ -423,7 +426,7 @@ setWordPressSeoL10n();
 			markdownPlugin.register();
 		}
 
-		exposeGlobals( app, replaceVarsPlugin, shortcodePlugin );
+		exposeGlobals( app, replaceVarsPlugin, shortcodePlugin, analysisWorker );
 
 		activateEnabledAnalysis();
 
