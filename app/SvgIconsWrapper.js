@@ -16,7 +16,7 @@ export const SvgIconsContainer = styled.div`
 
 	svg {
 		margin: 0 auto;
-		background:  ${ colors.$color_white };
+		background: ${ colors.$color_white };
 	}
 `;
 
@@ -28,7 +28,7 @@ const SingleSvgContainer = styled.span`
 	padding: 8px;
 	background: lightblue;
 	text-align: center;
-	background:  ${ colors.$color_grey };
+	background: ${ colors.$color_grey };
 
 	span {
 		white-space: nowrap;
@@ -44,9 +44,10 @@ const SingleSvgContainer = styled.span`
 export default function SvgIconsWrapper() {
 	const getIcons = () => {
 		return transform( icons, ( result, value, key ) => {
+			let color = key === "seo-score-ok" ? colors.$color_ok : colors.$color_black;
 			return result.push(
 				<SingleSvgContainer key={ key }>
-					<SvgIcon icon={ key } size="40px" />
+					<SvgIcon icon={ key } size="40px" color={ color } />
 					<span title={ key }>{ key }</span>
 				</SingleSvgContainer>
 			);
