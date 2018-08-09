@@ -22,11 +22,13 @@ import { encodePayload, decodePayload } from "./utils";
  * Worker API:     https://developer.mozilla.org/en-US/docs/Web/API/Worker
  * Webpack loader: https://github.com/webpack-contrib/worker-loader
  */
-class AnalysisWebWorker {
+export default class AnalysisWebWorker {
 	/**
 	 * Initializes the AnalysisWebWorker class.
 	 */
-	constructor() {
+	constructor( scope ) {
+		this._scope = scope;
+
 		this._configuration = {
 			contentAnalysisActive: true,
 			keywordAnalysisActive: true,
@@ -46,6 +48,14 @@ class AnalysisWebWorker {
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
+
+	}
+
+	/**
+	 * Registers this web worker with the scope passed to it's constructor.
+	 */
+	register() {
+		this._scope.onmessage = this.handleMessage;
 	}
 
 	/**
@@ -159,7 +169,7 @@ class AnalysisWebWorker {
 	 */
 	send( type, id, payload = {} ) {
 		console.log( "worker => wrapper", type, id, payload );
-		self.postMessage( {
+		this._scope.postMessage( {
 			type,
 			id,
 			payload: encodePayload( payload ),
@@ -169,7 +179,7 @@ class AnalysisWebWorker {
 	/**
 	 * Configures the analysis worker.
 	 *
-	 * @param {number} id            The id of the request.
+	 * @param {number} id            The request id.
 	 * @param {Object} configuration The configuration object.
 	 *
 	 * @returns {void}
@@ -233,9 +243,3 @@ class AnalysisWebWorker {
 		this.send( "analyze:done", id, result );
 	}
 }
-
-// Create an instance of the analysis web worker.
-const analysisWebWorker = new AnalysisWebWorker();
-
-// Bind the post message handler.
-self.addEventListener( "message", analysisWebWorker.handleMessage );

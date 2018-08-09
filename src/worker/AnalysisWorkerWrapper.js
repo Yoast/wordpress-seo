@@ -1,5 +1,4 @@
 // Internal dependencies.
-import Worker from "./analysis.worker";
 import { encodePayload, decodePayload } from "./utils";
 import Request from "./request";
 
@@ -10,9 +9,9 @@ class AnalysisWorkerWrapper {
 	/**
 	 * Initializes the AnalysisWorkerWrapper class.
 	 */
-	constructor() {
+	constructor( worker ) {
 		// Initialize instance variables.
-		this._worker = new Worker();
+		this._worker = worker;
 		this._requests = {};
 		this._autoIncrementedRequestId = -1;
 
@@ -53,7 +52,7 @@ class AnalysisWorkerWrapper {
 				response = decodePayload( payload );
 				request = this._requests[ id ];
 				if ( ! request ) {
-					console.warn( "AnalysisWorker: unmatched response", response );
+					console.warn( "AnalysisWebWorker: unmatched response", response );
 					break;
 				}
 
@@ -63,14 +62,14 @@ class AnalysisWorkerWrapper {
 				response = decodePayload( payload );
 				request = this._requests[ id ];
 				if ( ! request ) {
-					console.warn( "AnalysisWorker: unmatched response", response );
+					console.warn( "AnalysisWebWorker: unmatched response", response );
 					break;
 				}
 
 				request.resolve( response );
 				break;
 			default:
-				console.warn( "AnalysisWorker: unrecognized action", type );
+				console.warn( "AnalysisWebWorker: unrecognized action", type );
 		}
 	}
 
@@ -85,7 +84,7 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	handleMessageError( event ) {
-		console.warn( "AnalysisWorker message error:", event );
+		console.warn( "AnalysisWebWorker message error:", event );
 	}
 
 	/**
@@ -99,7 +98,7 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	handleError( event ) {
-		console.error( "AnalysisWorker error:", event );
+		console.error( "AnalysisWebWorker error:", event );
 	}
 
 	/**

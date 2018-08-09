@@ -13,7 +13,7 @@ A request holds the promise information (resolve & reject) along with optional e
 ##### Result
 A result object contains the payload and optional extra data. 
 
-#### AnalysisWorker
+#### AnalysisWebWorker
 The worker actually does all the work. It does this in it’s own workspace, so it relies on messages (from and to the Wrapper) for what to do. The worker picks up the last queued task to work on and (still to be implemented!) throws away the rest of the tasks in the queue.
 
 ##### Scheduler

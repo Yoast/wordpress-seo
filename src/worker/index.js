@@ -1,3 +1,9 @@
-import AnalysisWorker from "./AnalysisWorkerWrapper";
+import AnalysisWebWorker from "./AnalysisWebWorker";
+import AnalysisWorkerWrapper from "./AnalysisWorkerWrapper";
+import createWorker from "./createWorker";
 
-export default AnalysisWorker;
+export {
+	AnalysisWebWorker,
+	AnalysisWorkerWrapper,
+	createWorker,
+};
