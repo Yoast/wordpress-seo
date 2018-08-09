@@ -89,14 +89,14 @@ export default class KeywordExample extends Component {
 		return (
 			<Container>
 				<HelpText>
-					{ "Enter the search term you'd like this post to be found with and see how it would rank. " },
-					<HelpTextLink key="1" href="https://yoa.st/">
+					{ "Enter the search term you'd like this post to be found with and see how it would rank." }{ " " }
+					<HelpTextLink href="https://yoa.st/">
 						Learn more about the Content Analysis Tool.
-					</HelpTextLink>,
+					</HelpTextLink>
 				</HelpText>
 				<KeywordInput
 					id="focus-keyword"
-					label={ "Focus keyword"}
+					label="Focus keyword"
 					onChange={ this.updateKeyword }
 					keyword={ this.state.keyword }
 					onRemoveKeyword={ () => {
@@ -104,11 +104,10 @@ export default class KeywordExample extends Component {
 					} }
 				/>
 				<SynonymsInput
-					showLabel={ true }
-					label={ "Synonyms:" }
+					label="Synonyms:"
 					onChange={ this.updateSynonymsInput }
 					value={ this.state.synonyms }
-					explanationText={ "This is a fine explanation" }
+					explanationText="This is a fine explanation"
 				/>
 			</Container>
 		);

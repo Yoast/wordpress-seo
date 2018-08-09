@@ -122,7 +122,7 @@ class HelpTextWrapper extends React.Component {
 						panelMaxWidth={ this.props.panelMaxWidth }
 					>
 						<HelpText>
-							{ this.props.helpText },
+							{ this.props.helpText }
 						</HelpText>
 					</HelpTextPanel>
 				</YoastSlideToggle>
