@@ -114,9 +114,8 @@ class Data {
 		if ( this.getPostAttribute( "status" ) === "auto-draft" ) {
 			return "";
 		}
-		/**
-		 * When no custom slug is provided we should use the generated_slug attribute.
-		 */
+
+		// When no custom slug is provided we should use the generated_slug attribute.
 		return this.getPostAttribute( "slug" ) || this.getPostAttribute( "generated_slug" );
 	}
 
