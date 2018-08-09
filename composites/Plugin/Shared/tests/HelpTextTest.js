@@ -9,7 +9,7 @@ describe( "HelpText", () => {
 	it( "matches the snapshot by default", () => {
 		const component = renderer.create(
 			<HelpText>
-				{ "Some help text." },
+				{ "Some help text." }
 			</HelpText>
 		);
 
@@ -20,7 +20,7 @@ describe( "HelpText", () => {
 	it( "matches the snapshot when an array is provided as text", () => {
 		const component = renderer.create(
 			<HelpText>
-				{ [ "Text ", "<a href=\"https://www.example.com\">with a link</a>", " in the middle." ] },
+				{ [ "Text ", <a key="1" href="https://www.example.org">with a link</a>, " in the middle." ] }
 			</HelpText>
 		);
 
