@@ -13,15 +13,6 @@ const Content = styled.div`
 	margin-bottom: 16px;
 `;
 
-const spinnerCSS = ".spinner { " +
-		"animation: rotator 1.4s linear infinite; " +
-		"fill: #64a60a; " +
-	"} " +
-	"@keyframes rotator { " +
-		"0% { transform: rotate( 0deg ); } " +
-		"100% { transform: rotate( 360deg ); } " +
-	"}";
-
 const StyledContainer = styled.div`
 	background-color: ${ colors.$color_white };
 `;
@@ -56,7 +47,6 @@ export const StyledIconsButton = styled( IconsButton )`
 		${ props => props.hasSubTitle ? "align-self: flex-start;" : "" }
 		&:first-child {
 			${ getRtlStyle( "margin-right: 8px", "margin-left: 8px" ) };
-			${ props => props.prefixIcon === "loading-spinner" ?  spinnerCSS : "" };
 		}
 		&:last-child {
 			${ getRtlStyle( "margin-left: 8px", "margin-right: 8px" ) };

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import loadingSpinner from "./css/loadingSpinner.css";
 
 const DEFAULT_VIEWBOX = "0 0 1792 1792";
 /* eslint-disable max-len, quote-props */
@@ -75,7 +76,7 @@ export default class SvgIcon extends React.Component {
 				role="img"
 				focusable="false"
 				size={ size }
-				className={ iconClass }
+				className={ [ iconClass, loadingSpinner ].join( " " ) }
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox={ viewbox }
 				fill={ color }
