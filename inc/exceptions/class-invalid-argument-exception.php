@@ -107,8 +107,8 @@ class WPSEO_Invalid_Argument_Exception extends InvalidArgumentException {
 	/**
 	 * Creates an unknown object exception.
 	 *
-	 * @param $id The ID that was searched for.
-	 * @param $type The type of object that was being searched for.
+	 * @param int 	 $id 	The ID that was searched for.
+	 * @param string $type 	The type of object that was being searched for.
 	 *
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */

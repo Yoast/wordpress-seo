@@ -16,6 +16,8 @@ class WPSEO_Term_Object_Type extends WPSEO_Object_Type {
 	 * @param int $object_id The object ID to base the object on.
 	 *
 	 * @return WPSEO_Term_Object_Type The class instance.
+	 *
+	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
 	 */
 	public static function from_object( $object_id ) {
 		$term = get_term( $object_id );
