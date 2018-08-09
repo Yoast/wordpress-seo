@@ -143,7 +143,7 @@ export function mapStateToProps( state ) {
 		keyword: state.focusKeyword,
 		baseUrl: state.settings.snippetEditor.baseUrl,
 		date: state.settings.snippetEditor.date,
-		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplaceVars,
+		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
 	};
 }
 
