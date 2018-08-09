@@ -19,7 +19,6 @@ class WPSEO_Endpoint_Factory {
 		'POST',
 		'PUT',
 		'DELETE',
-		WP_REST_Server::EDITABLE,
 	);
 
 	/**

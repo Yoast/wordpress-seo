@@ -46,40 +46,40 @@ class WPSEO_Post_Indexable extends WPSEO_Indexable {
 	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
 	 */
 	public static function from_object( $object_id ) {
-		if ( get_post( $object_id ) === null ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_type( 'object id' );
-		}
+		$post = WPSEO_Post_Object_Type::from_object( $object_id );
 
 		$link_count = new WPSEO_Link_Column_Count();
 		$link_count->set( array( $object_id ) );
 
+		$post_object_id = $post->get_id();
+
 		return new self(
 			array(
-				'object_id'                   => (int) $object_id,
-				'object_type'                 => 'post',
-				'object_subtype'              => get_post_type( $object_id ),
-				'permalink'                   => get_permalink( $object_id ),
-				'canonical'                   => WPSEO_Meta::get_value( 'canonical', $object_id ),
-				'title'                       => WPSEO_Meta::get_value( 'title', $object_id ),
-				'description'                 => WPSEO_Meta::get_value( 'metadesc', $object_id ),
-				'breadcrumb_title'            => WPSEO_Meta::get_value( 'bctitle', $object_id ),
-				'og_title'                    => WPSEO_Meta::get_value( 'opengraph-title', $object_id ),
-				'og_description'              => WPSEO_Meta::get_value( 'opengraph-description', $object_id ),
-				'og_image'                    => WPSEO_Meta::get_value( 'opengraph-image', $object_id ),
-				'twitter_title'               => WPSEO_Meta::get_value( 'twitter-title', $object_id ),
-				'twitter_description'         => WPSEO_Meta::get_value( 'twitter-description', $object_id ),
-				'twitter_image'               => WPSEO_Meta::get_value( 'twitter-image', $object_id ),
-				'is_robots_noindex'           => self::get_robots_noindex_value( WPSEO_Meta::get_value( 'meta-robots-noindex', $object_id ) ),
-				'is_robots_nofollow'          => WPSEO_Meta::get_value( 'meta-robots-nofollow', $object_id ) === '1',
-				'is_robots_noarchive'         => self::has_advanced_meta_value( $object_id, 'noarchive' ),
-				'is_robots_noimageindex'      => self::has_advanced_meta_value( $object_id, 'noimageindex' ),
-				'is_robots_nosnippet'         => self::has_advanced_meta_value( $object_id, 'nosnippet' ),
-				'primary_focus_keyword'       => WPSEO_Meta::get_value( 'focuskw', $object_id ),
-				'primary_focus_keyword_score' => (int) WPSEO_Meta::get_value( 'linkdex', $object_id ),
-				'readability_score'           => (int) WPSEO_Meta::get_value( 'content_score', $object_id ),
-				'is_cornerstone'              => WPSEO_Meta::get_value( 'is_cornerstone', $object_id ) === '1',
-				'link_count'                  => (int) $link_count->get( $object_id ),
-				'incoming_link_count'         => (int) $link_count->get( $object_id, 'incoming_link_count' ),
+				'object_id'                   => $post_object_id,
+				'object_type'                 => $post->get_type(),
+				'object_subtype'              => $post->get_subtype(),
+				'permalink'                   => $post->get_permalink(),
+				'canonical'                   => WPSEO_Meta::get_value( 'canonical', $post_object_id ),
+				'title'                       => WPSEO_Meta::get_value( 'title', $post_object_id ),
+				'description'                 => WPSEO_Meta::get_value( 'metadesc', $post_object_id ),
+				'breadcrumb_title'            => WPSEO_Meta::get_value( 'bctitle', $post_object_id ),
+				'og_title'                    => WPSEO_Meta::get_value( 'opengraph-title', $post_object_id ),
+				'og_description'              => WPSEO_Meta::get_value( 'opengraph-description', $post_object_id ),
+				'og_image'                    => WPSEO_Meta::get_value( 'opengraph-image', $post_object_id ),
+				'twitter_title'               => WPSEO_Meta::get_value( 'twitter-title', $post_object_id ),
+				'twitter_description'         => WPSEO_Meta::get_value( 'twitter-description', $post_object_id ),
+				'twitter_image'               => WPSEO_Meta::get_value( 'twitter-image', $post_object_id ),
+				'is_robots_noindex'           => self::get_robots_noindex_value( WPSEO_Meta::get_value( 'meta-robots-noindex', $post_object_id ) ),
+				'is_robots_nofollow'          => WPSEO_Meta::get_value( 'meta-robots-nofollow', $post_object_id ) === '1',
+				'is_robots_noarchive'         => self::has_advanced_meta_value( $post_object_id, 'noarchive' ),
+				'is_robots_noimageindex'      => self::has_advanced_meta_value( $post_object_id, 'noimageindex' ),
+				'is_robots_nosnippet'         => self::has_advanced_meta_value( $post_object_id, 'nosnippet' ),
+				'primary_focus_keyword'       => WPSEO_Meta::get_value( 'focuskw', $post_object_id ),
+				'primary_focus_keyword_score' => (int) WPSEO_Meta::get_value( 'linkdex', $post_object_id ),
+				'readability_score'           => (int) WPSEO_Meta::get_value( 'content_score', $post_object_id ),
+				'is_cornerstone'              => WPSEO_Meta::get_value( 'is_cornerstone', $post_object_id ) === '1',
+				'link_count'                  => (int) $link_count->get( $post_object_id ),
+				'incoming_link_count'         => (int) $link_count->get( $post_object_id, 'incoming_link_count' ),
 				'created_at'                  => null,
 				'updated_at'                  => null,
 			)

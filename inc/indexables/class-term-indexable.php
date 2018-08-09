@@ -41,18 +41,20 @@ class WPSEO_Term_Indexable extends WPSEO_Indexable {
 	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
 	 */
 	public static function from_object( $object_id ) {
-		$term = get_term( $object_id );
+		$term = WPSEO_Term_Object_Type::from_object( $object_id );
 
 		if ( $term === null ) {
 			throw WPSEO_Invalid_Argument_Exception::invalid_type( 'object id' );
 		}
 
+		$term_object_id = $term->get_id();
+
 		return new self(
 			array(
-				'object_id'                   => (int) $object_id,
-				'object_type'                 => 'term',
-				'object_subtype'              => $term->taxonomy,
-				'permalink'                   => get_term_link( $term ),
+				'object_id'                   => $term_object_id,
+				'object_type'                 => $term->get_type(),
+				'object_subtype'              => $term->get_subtype(),
+				'permalink'                   => $term->get_permalink(),
 				'canonical'                   => self::get_meta_value( 'canonical', $term ),
 				'title'                       => self::get_meta_value( 'title', $term ),
 				'description'                 => self::get_meta_value( 'desc', $term ),
@@ -96,13 +98,13 @@ class WPSEO_Term_Indexable extends WPSEO_Indexable {
 	/**
 	 * Returns the needed term meta field.
 	 *
-	 * @param string $field The requested field.
-	 * @param mixed  $term  The term object.
+	 * @param string 				 $field The requested field.
+	 * @param WPSEO_Term_Object_Type $term  The term object.
 	 *
 	 * @return bool|mixed The value of the requested field.
 	 */
 	protected static function get_meta_value( $field, $term ) {
-		return WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, $field );
+		return WPSEO_Taxonomy_Meta::get_term_meta( $term->get_id(), $term->get_subtype(), $field );
 	}
 
 	/**

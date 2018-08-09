@@ -103,4 +103,18 @@ class WPSEO_Invalid_Argument_Exception extends InvalidArgumentException {
 			sprintf( '`%s`is of an invalid type.', $name )
 		);
 	}
+
+	/**
+	 * Creates an unknown object exception.
+	 *
+	 * @param $id The ID that was searched for.
+	 * @param $type The type of object that was being searched for.
+	 *
+	 * @return WPSEO_Invalid_Argument_Exception The exception.
+	 */
+	public static function unknown_object( $id, $type ) {
+		return new self(
+			sprintf( 'No %s with the ID `%s`could be found.', $type, $id )
+		);
+	}
 }
