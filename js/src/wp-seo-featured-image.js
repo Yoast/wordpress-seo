@@ -13,8 +13,8 @@ import "./helpers/babel-polyfill";
 	var $postImageDiv;
 	var $postImageDivHeading;
 
-	var FeaturedImagePlugin = function( app ) {
-		this._app = app;
+	var FeaturedImagePlugin = function() {
+		this._app = YoastSEO.app;
 
 		this.featuredImage = null;
 		this.pluginName = "addFeaturedImagePlugin";

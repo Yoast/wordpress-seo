@@ -38,6 +38,7 @@ import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
 } from "./helpers/classicEditor";
+import Pluggable from "./pluggable";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -279,14 +280,33 @@ setWordPressSeoL10n();
 	/**
 	 * Exposes globals necessary for functionality of plugins integrating.
 	 *
-	 * @param {App} app The app to expose globally.
 	 * @param {YoastReplaceVarPlugin} replaceVarsPlugin The replace vars plugin to expose.
 	 * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
 	 * @returns {void}
 	 */
-	function exposeGlobals( app, replaceVarsPlugin, shortcodePlugin ) {
+	function exposeGlobals( replaceVarsPlugin, shortcodePlugin ) {
 		window.YoastSEO = {};
-		window.YoastSEO.app = app;
+		window.YoastSEO.app = {
+			registerPlugin: ( pluginName, options ) => {
+				return Pluggable._registerPlugin( pluginName, options );
+			},
+			pluginReady: ( pluginName ) => {
+				return Pluggable._ready( pluginName );
+			},
+			pluginReloaded: ( pluginName ) => {
+				return Pluggable._reloaded( pluginName );
+			},
+			registerModification: ( modification, callable, pluginName, priority ) => {
+			return Pluggable._registerModification( modification, callable, pluginName, priority );
+			},
+			// todo: requires additional functionality in the web worker
+			// registerAssessment: ( name, assessment, pluginName ) => {
+			// 	if ( ! isUndefined( this.seoAssessor ) ) {
+			// 		return this.pluggable._registerAssessment( this.defaultSeoAssessor, name, assessment, pluginName ) &&
+			// 			this.pluggable._registerAssessment( this.cornerStoneSeoAssessor, name, assessment, pluginName );
+			// 	}
+			// },
+		};
 
 		// Init Plugins.
 		window.YoastSEO.wp = {};
