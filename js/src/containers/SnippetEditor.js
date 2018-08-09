@@ -1,7 +1,10 @@
 /* globals wpseoAdminL10n */
 import React from "react";
 import { connect } from "react-redux";
-import { SnippetEditor } from "yoast-components";
+import {
+	SnippetEditor,
+	HelpText,
+} from "yoast-components";
 import identity from "lodash/identity";
 import get from "lodash/get";
 import { __ } from "@wordpress/i18n";
@@ -59,7 +62,7 @@ const applyReplaceUsingPlugin = function( data ) {
 
 	const applyModifications = pluggable._applyModifications.bind( pluggable );
 
-	return  {
+	return {
 		url: data.url,
 		title: stripFullTags( applyModifications( "data_page_title", data.title ) ),
 		description: stripFullTags( applyModifications( "data_meta_desc", data.description ) ),
@@ -81,7 +84,7 @@ const applyReplaceUsingPlugin = function( data ) {
 export const mapEditorDataToPreview = function( data, context ) {
 	let baseUrlLength = 0;
 
-	if( context.shortenedBaseUrl && typeof( context.shortenedBaseUrl ) === "string" ) {
+	if ( context.shortenedBaseUrl && typeof( context.shortenedBaseUrl ) === "string" ) {
 		baseUrlLength = context.shortenedBaseUrl.length;
 	}
 
@@ -101,12 +104,12 @@ export const mapEditorDataToPreview = function( data, context ) {
 
 const SnippetEditorWrapper = ( props ) => (
 	<Collapsible title={ __( "Snippet Preview", "wordpress-seo" ) } initialIsOpen={ true }>
-		<p>
+		<HelpText>
 			{ __( "This is a rendering of what this post might look like in Google's search results.", "wordpress-seo" ) + " " }
-			<ExplanationLink href={ wpseoAdminL10n[ "shortlinks.snippet_preview_info" ] }>
+			<ExplanationLink href={ wpseoAdminL10n[ "shortlinks.snippet_preview_info" ] } rel={ null }>
 				{ __( "Learn more about the Snippet Preview.", "wordpress-seo" ) }
 			</ExplanationLink>
-		</p>
+		</HelpText>
 		<SnippetPreviewSection
 			icon="eye"
 			hasPaperStyle={ props.hasPaperStyle }
