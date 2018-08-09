@@ -21,7 +21,7 @@ class WPSEO_Invalid_Indexable_Exception extends InvalidArgumentException {
 		return new self(
 			sprintf(
 				/* translators: %1$s expands to the indexable's ID. */
-				__( 'Indexable with id `%1$s` does not exist', 'wordpress-seo' ),
+				__( 'Indexable with ID `%1$s` does not exist', 'wordpress-seo' ),
 				$id
 			)
 		);

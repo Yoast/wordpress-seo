@@ -107,7 +107,7 @@ class WPSEO_Invalid_Argument_Exception extends InvalidArgumentException {
 		return new self(
 			sprintf(
 				/* translators: %1$s expands to the object type. */
-				__( 'The object type `%1$s`is invalid', 'wordpress-seo' ),
+				__( 'The object type `%1$s` is invalid', 'wordpress-seo' ),
 				$type
 			)
 		);
@@ -125,7 +125,7 @@ class WPSEO_Invalid_Argument_Exception extends InvalidArgumentException {
 		return new self(
 			sprintf(
 				/* translators: %1$s expands to the object subtype. %2$s resolved to the object type. */
-				__( '`%1$s`is not a valid subtype of `%2$s`', 'wordpress-seo' ),
+				__( '`%1$s` is not a valid subtype of `%2$s`', 'wordpress-seo' ),
 				$subtype,
 				$type
 			)
