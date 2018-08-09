@@ -89,7 +89,7 @@ class Data {
 	 *
 	 * @param {string} attribute The post attribute you'd like to retrieve.
 	 *
-	 * @returns {string} The post attribute .
+	 * @returns {string} The post attribute.
 	 */
 	getPostAttribute( attribute ) {
 		if ( ! this._coreEditorSelect ) {
