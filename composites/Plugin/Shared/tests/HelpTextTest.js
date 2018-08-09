@@ -8,7 +8,9 @@ import HelpText from "../components/HelpText";
 describe( "HelpText", () => {
 	it( "matches the snapshot by default", () => {
 		const component = renderer.create(
-			<HelpText text="Some help text." />
+			<HelpText>
+				{ "Some help text." }
+			</HelpText>
 		);
 
 		let tree = component.toJSON();
@@ -17,7 +19,9 @@ describe( "HelpText", () => {
 
 	it( "matches the snapshot when an array is provided as text", () => {
 		const component = renderer.create(
-			<HelpText text={ [ "Text ", "<a href=\"https://www.example.com\">with a link</a>", " in the middle." ] } />
+			<HelpText>
+				{ [ "Text ", <a key="1" href="https://www.example.org">with a link</a>, " in the middle." ] }
+			</HelpText>
 		);
 
 		let tree = component.toJSON();

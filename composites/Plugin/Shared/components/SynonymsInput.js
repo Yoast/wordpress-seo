@@ -1,13 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import uniqueId from "lodash/uniqueId";
-import { YoastInputContainer, YoastInputField, YoastInputLabel } from "./YoastInput";
-import colors from "../../../../style-guide/colors.json";
 
-const ExplanationText = styled.p`
-	color: ${ colors.$color_grey_text };
-`;
+import { YoastInputContainer, YoastInputField, YoastInputLabel } from "./YoastInput";
+import HelpText from "../../Shared/components/HelpText";
 
 const SynonymsInput = ( { id, label, value, onChange, explanationText } ) => {
 	return(
@@ -15,10 +11,10 @@ const SynonymsInput = ( { id, label, value, onChange, explanationText } ) => {
 			<YoastInputLabel htmlFor={ id }>
 				{ label }
 			</YoastInputLabel>
-			{ explanationText !== null && (
-				<ExplanationText>
+			{ explanationText && (
+				<HelpText>
 					{ explanationText }
-				</ExplanationText>
+				</HelpText>
 			) }
 			<YoastInputField
 				type="text"
