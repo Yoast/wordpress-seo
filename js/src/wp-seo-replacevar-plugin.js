@@ -1,4 +1,4 @@
-/* global wpseoReplaceVarsL10n, require, wp, wpApiSettings */
+/* global wpseoReplaceVarsL10n, require, wp */
 import forEach from "lodash/forEach";
 import filter from "lodash/filter";
 import trim from "lodash/trim";
@@ -11,7 +11,6 @@ import {
 } from "./redux/actions/snippetEditor";
 import "./helpers/babel-polyfill";
 import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
-import {debounce} from "lodash";
 
 ( function() {
 	var modifiableFields = [
@@ -133,7 +132,7 @@ import {debounce} from "lodash";
 	/**
 	 * Subscribes to Gutenberg to watch a possible parent page change.
 	 *
-	 * @return {void}
+	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.subscribeToGutenberg = function() {
 		if ( ! isGutenbergDataAvailable() ) {
@@ -142,46 +141,40 @@ import {debounce} from "lodash";
 
 		let fetchedParents = { 0: "" };
 		let currentParent  = null;
-		const wpData       = wp.data;
-		wpData.subscribe(
-			function() {
-				let newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
+		const wpData       = window.wp.data;
+		wpData.subscribe( () => {
+			let newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
 
-				if ( typeof newParent === "undefined" || currentParent === newParent ) {
-					return;
-				}
+			if ( typeof newParent === "undefined" || currentParent === newParent ) {
+				return;
+			}
 
-				currentParent = newParent;
+			currentParent = newParent;
 
-				if ( newParent < 1 ) {
-					this._currentParentPageTitle = "";
+			if ( newParent < 1 ) {
+				this._currentParentPageTitle = "";
 
-					this.declareReloaded();
+				this.declareReloaded();
 
-					return;
-				}
+				return;
+			}
 
-				if ( ! isUndefined( fetchedParents[ newParent ] ) ) {
-					this._currentParentPageTitle = fetchedParents[ newParent ];
+			if ( ! isUndefined( fetchedParents[ newParent ] ) ) {
+				this._currentParentPageTitle = fetchedParents[ newParent ];
 
-					return;
-				}
+				return;
+			}
 
-				jQuery.ajax(
-					{
-						url: wpApiSettings.root + "wp/v2/pages/" + newParent,
-						method: "GET",
-						beforeSend: function( xhr ) {
-							xhr.setRequestHeader( "X-WP-Nonce", wpApiSettings.nonce );
-						},
-					}
-				).done( function( response ) {
+			const page = new wp.api.models.Page( { id: newParent } );
+			page.fetch().then(
+				( response ) => {
 					this._currentParentPageTitle = response.title.rendered;
 					fetchedParents[ newParent ]  = this._currentParentPageTitle;
 
 					this.declareReloaded();
-				}.bind( this ) );
-			}.bind( this ), 800 );
+				}
+			);
+		} );
 	};
 
 	/**
