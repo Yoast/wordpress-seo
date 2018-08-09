@@ -125,7 +125,7 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-times-circle c9 c10"
-        fill="#ccc"
+        fill="#767676"
         focusable="false"
         role="img"
         size="18px"

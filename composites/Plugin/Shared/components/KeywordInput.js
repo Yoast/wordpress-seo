@@ -13,7 +13,7 @@ import SvgIcon from "./SvgIcon";
 import { addFocusStyle } from "./Button";
 
 const errorColor = colors.$color_red;
-const greyColor = colors.$color_grey_medium;
+const greyColor = colors.$color_grey_text_light;
 
 const KeywordInputContainer = styled.div`
 	display: flex;
