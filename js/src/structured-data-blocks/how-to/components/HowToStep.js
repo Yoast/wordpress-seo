@@ -1,7 +1,4 @@
-import React from "react";
 import PropTypes from "prop-types";
-
-import { stripHTML } from "../../../helpers/stringHelpers";
 
 const { Component } = window.wp.element;
 const { __ } = window.wp.i18n;
