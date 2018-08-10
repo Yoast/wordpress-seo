@@ -1,5 +1,6 @@
 // External dependencies.
 import { AnalysisWorkerWrapper, createWorker } from "yoastseo";
+import get from "lodash/get";
 import isUndefined from "lodash/isUndefined";
 
 // Internal dependencies.
@@ -14,7 +15,8 @@ import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
  * @returns {AnalysisWorkerWrapper} The analysis worker.
  */
 export function createAnalysisWorker() {
-	return new AnalysisWorkerWrapper( createWorker( "http://localhost:8080/wp-seo-analysis-worker-80-RC2.js?ver=8.0-RC2" ) );
+	const url = get( global, [ "wpseoAnalysisWorkerL10n", "url" ], "wp-seo-analysis-worker.js" );
+	return new AnalysisWorkerWrapper( createWorker( url ) );
 }
 
 /**
