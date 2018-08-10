@@ -188,7 +188,6 @@ function mapStateToProps( state, ownProps ) {
 		overallScore = state.analysis.seo[ keyword ].overallScore;
 	}
 
-	console.log( overallScore );
 	return {
 		results,
 		marksButtonStatus,
