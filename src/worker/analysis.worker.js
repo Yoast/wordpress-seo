@@ -2,6 +2,7 @@
 import Jed from "jed";
 import omit from "lodash/omit";
 import merge from "lodash/merge";
+import isEqual from "lodash/isEqual";
 
 // YoastSEO.js dependencies.
 import * as Paper from "yoastseo/values/Paper";
@@ -39,6 +40,15 @@ class AnalysisWebWorker {
 		this._researcher = new Researcher( this._paper );
 		this._contentAssessor = null;
 		this._seoAssessor = null;
+		this._result = {
+			id: "",
+			readability: {
+				results: [],
+			},
+			seo: {
+				results: [],
+			},
+		};
 
 		// Bind actions to this scope.
 		this.analyze = this.analyze.bind( this );
@@ -197,28 +207,44 @@ class AnalysisWebWorker {
 	 */
 	analyze( { id, paper, configuration = {} } ) {
 		console.log( "run analyze", id, paper, configuration );
-		const result = { id };
+		this._result.id = id;
 
-		this._paper = new Paper( removeHtmlBlocks( paper.text ), omit( paper, "text" ) );
-		this._researcher.setPaper( this._paper );
+		const newPaper = new Paper( removeHtmlBlocks( paper.text ), omit( paper, "text" ) );
 
-		if ( this._configuration.contentAnalysisActive && this._contentAssessor ) {
-			this._contentAssessor.assess( this._paper );
-			result.readability = {
-				results: this._contentAssessor.results,
-				score: this._contentAssessor.calculateOverallScore(),
-			};
+		if ( isEqual( this._paper, newPaper ) ) {
+			console.log( "The paper has not changed since you analyzed it last." );
+
+			return this._result;
 		}
 
+		console.log( "The paper has changed since you analyzed it last. Running the analysis." );
+		this._researcher.setPaper( newPaper );
+
+		// Rerunning the SEO analysis if the text or attributes of the paper have changed.
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
-			this._seoAssessor.assess( this._paper );
-			result.seo = {
+			this._seoAssessor.assess( newPaper );
+			this._result.seo = {
 				results: this._seoAssessor.results,
 				score: this._seoAssessor.calculateOverallScore(),
 			};
 		}
 
-		return result;
+		// Return old readability results if the text of the paper has not changed.
+		if ( this._paper.getText() === newPaper.getText() ) {
+			console.log( "The text of your paper has not changed, returning the content analysis results from the previous analysis." );
+			this._paper = newPaper;
+			return this._result;
+		}
+
+		if ( this._configuration.contentAnalysisActive && this._contentAssessor ) {
+			this._contentAssessor.assess( newPaper );
+			this._result.readability = {
+				results: this._contentAssessor.results,
+				score: this._contentAssessor.calculateOverallScore(),
+			};
+		}
+		this._paper = newPaper;
+		return this._result;
 	}
 
 	/**
