@@ -119,7 +119,7 @@ class KeywordInput extends React.Component {
 	 * @returns {ReactElement} The KeywordField react component including its label and eventual error message.
 	 */
 	render() {
-		const { id, showLabel, keyword, onRemoveKeyword } = this.props;
+		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword } = this.props;
 		const showErrorMessage = this.checkKeywordInput( keyword );
 
 		const label = __( "Focus keyword:", "yoast-components" );
@@ -139,6 +139,7 @@ class KeywordInput extends React.Component {
 						id={ id }
 						className={ showErrorMessage ? "hasError" : null }
 						onChange={ this.handleChange }
+						onBlur={ onBlurKeyword }
 						value={ keyword }
 					/>
 					{ onRemoveKeyword !== noop && (
@@ -163,6 +164,7 @@ KeywordInput.propTypes = {
 	keyword: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
 	onRemoveKeyword: PropTypes.func,
+	onBlurKeyword: PropTypes.func,
 };
 
 KeywordInput.defaultProps = {
@@ -170,6 +172,7 @@ KeywordInput.defaultProps = {
 	showLabel: true,
 	keyword: "",
 	onRemoveKeyword: noop,
+	onBlurKeyword: noop,
 };
 
 export default KeywordInput;
