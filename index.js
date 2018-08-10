@@ -41,6 +41,7 @@ export {
 	Loader,
 };
 
+export { default as HelpText } from "./composites/Plugin/Shared/components/HelpText";
 export { default as SynonymsInput } from "./composites/Plugin/Shared/components/SynonymsInput";
 export * from "./composites/Plugin/SnippetPreview";
 export * from "./composites/Plugin/SnippetEditor";

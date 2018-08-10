@@ -6,6 +6,7 @@ $palette_grey:               #ddd;    // Safe to use with $palette_grey_dark –
 $palette_grey_medium:        #ccc;    // Safe to use with $palette_grey_dark – $palette_black.
 $palette_grey_disabled:      #a0a5aa; // Should be used only for disabled controls text. Also used for the "none"" score icon.
 $palette_grey_medium_dark:   #888;    // Safe to use with $palette_black or $palette_white bold > 18.5px.
+$palette_grey_text_light:    #767676; // Lightest gray for text on a white background.
 $palette_grey_text:          #646464; // Safe to use with $palette_white – $palette_grey_light.
 $palette_grey_dark:          #555;    // Safe to use with $palette_white – $palette_grey_medium.
 $palette_black:              #000;    // Safe to use with $palette_white – $palette_grey_medium.
@@ -58,6 +59,8 @@ $color_border_light:         $palette_grey_ultra_light;
 $color_border:               $palette_grey_medium;
 
 $color_input_border:         $palette_grey;
+
+$color_help_text:            $palette_grey_text_light;
 
 $color_background_light:     $palette_grey_ultra_light;
 
