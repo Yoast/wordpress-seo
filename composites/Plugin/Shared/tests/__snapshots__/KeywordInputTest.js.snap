@@ -83,6 +83,7 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
       aria-label={null}
       className="c3 c4"
       id="test-id"
+      onBlur={[Function]}
       onChange={[Function]}
       type="text"
       value=""
