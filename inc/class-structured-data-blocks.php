@@ -8,7 +8,7 @@
 /**
  * Class to load assets required for structured data blocks.
  */
-class WPSEO_Structured_Data_Blocks {
+class WPSEO_Structured_Data_Blocks implements WPSEO_WordPress_Integration {
 	/**
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
@@ -19,9 +19,13 @@ class WPSEO_Structured_Data_Blocks {
 	 */
 	public function __construct() {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
+	}
 
+	public function register_hooks() {
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 		add_filter( 'block_categories', array( $this, 'add_block_category' ) );
+
+		WPSEO_How_To_Block::register();
 	}
 
 	/**
