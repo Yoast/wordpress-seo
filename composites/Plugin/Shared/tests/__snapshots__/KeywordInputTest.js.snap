@@ -45,6 +45,10 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
   margin: 0;
 }
 
+.c4::-ms-clear {
+  display: none;
+}
+
 .c4.has-error {
   border-color: #dc3232 !important;
   box-shadow: 0 0 2px #dc3232 !important;

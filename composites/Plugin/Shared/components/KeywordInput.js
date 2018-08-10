@@ -34,6 +34,11 @@ const KeywordField = styled( YoastInputField )`
 	max-width: 100%;
 	margin: 0; // Reset margins inherited from WordPress.
 
+	// Hide native X in Edge and IE11.
+	&::-ms-clear {
+		display: none;
+	}
+
 	&.has-error {
 		border-color: ${ errorColor } !important;
 		box-shadow: 0 0 2px ${ errorColor } !important;
