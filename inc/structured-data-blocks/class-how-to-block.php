@@ -27,9 +27,22 @@ class WPSEO_How_To_Block {
 	 * @param array  $attributes The attributes of the block.
 	 * @param string $content    The HTML content of the block.
 	 *
-	 * @return string
+	 * @return string The block preceded by it's JSON LD script.
 	 */
 	public static function render( $attributes, $content ) {
+		$json_ld = self::get_json_ld( $attributes );
+
+		return '<script type="application/ld+json">' .  json_encode( $json_ld ) . '</script>' . $content;
+	}
+
+	/**
+	 * Returns the JSON LD for a how-to block in array form.
+	 *
+	 * @param array $attributes The attributes of the how-to block.
+	 *
+	 * @return array The JSON LD representation of the how-to block in array form.
+	 */
+	protected static function get_json_ld( $attributes ) {
 		$json_ld = array(
 			"@context" => "http://schema.org",
 			"@type" => "HowTo",
@@ -53,23 +66,35 @@ class WPSEO_How_To_Block {
 		if ( ! empty( $attributes['steps'] && is_array( $attributes['steps' ] ) ) ) {
 			$json_ld['step'] = array();
 			foreach( $attributes['steps'] as $index => $step ) {
-				$step_json_ld = array(
-					"@type" => "HowToStep",
-					"position" => $index + 1,
-					"text" => $step['jsonContents'],
-				);
-
-				if ( ! empty( $step['jsonImageSrc'] ) ) {
-					$step_json_ld['associatedMedia'] = array(
-						"@type" => "ImageObject",
-						"contentUrl" => $step['jsonImageSrc'],
-					);
-				}
-
-				$json_ld['step'][] = $step_json_ld;
+				$json_ld['step'][] = self::get_step_json_ld( $step, $index );
 			}
 		}
 
-		return '<script type="application/ld+json">' .  json_encode( $json_ld ) . '</script>' . $content;
+		return $json_ld;
+	}
+
+	/**
+	 * Returns the JSON LD for a step in a how-to block in array form.
+	 *
+	 * @param array $step  The attributes of a step in the how-to block.
+	 * @param int   $index The index of the step in the how-to block.
+	 *
+	 * @return array The JSON LD representation of the step in a how-to block in array form.
+	 */
+	protected static function get_step_json_ld( $step, $index ) {
+		$step_json_ld = array(
+			"@type" => "HowToStep",
+			"position" => $index + 1,
+			"text" => $step['jsonContents'],
+		);
+
+		if ( ! empty( $step['jsonImageSrc'] ) ) {
+			$step_json_ld['associatedMedia'] = array(
+				"@type" => "ImageObject",
+				"contentUrl" => $step['jsonImageSrc'],
+			);
+		}
+
+		return $step_json_ld;
 	}
 }
