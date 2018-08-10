@@ -5,6 +5,9 @@
  * @package WPSEO\Structured_Data_Blocks
  */
 
+/**
+ * Class WPSEO_How_To_Block
+ */
 class WPSEO_How_To_Block {
 	/**
 	 * Registers the how-to block as a server-side rendered block.
@@ -32,7 +35,7 @@ class WPSEO_How_To_Block {
 	public static function render( $attributes, $content ) {
 		$json_ld = self::get_json_ld( $attributes );
 
-		return '<script type="application/ld+json">' .  json_encode( $json_ld ) . '</script>' . $content;
+		return '<script type="application/ld+json">' . wp_json_encode( $json_ld ) . '</script>' . $content;
 	}
 
 	/**
@@ -44,15 +47,15 @@ class WPSEO_How_To_Block {
 	 */
 	protected static function get_json_ld( $attributes ) {
 		$json_ld = array(
-			"@context" => "http://schema.org",
-			"@type" => "HowTo",
+			'@context' => 'http://schema.org',
+			'@type' => 'HowTo',
 		);
 
 		if ( ! empty( $attributes['jsonTitle'] ) ) {
 			$json_ld['name'] = $attributes['jsonTitle'];
 		}
 
-		if( ! empty( $attributes['hasDuration'] ) && $attributes['hasDuration'] === true ) {
+		if ( ! empty( $attributes['hasDuration'] ) && $attributes['hasDuration'] === true ) {
 			$hours   = empty( $attributes['hours'] ) ? 0 : $attributes['hours'];
 			$minutes = empty( $attributes['minutes'] ) ? 0 : $attributes['minutes'];
 
@@ -65,7 +68,7 @@ class WPSEO_How_To_Block {
 
 		if ( ! empty( $attributes['steps'] && is_array( $attributes['steps' ] ) ) ) {
 			$json_ld['step'] = array();
-			foreach( $attributes['steps'] as $index => $step ) {
+			foreach ( $attributes['steps'] as $index => $step ) {
 				$json_ld['step'][] = self::get_step_json_ld( $step, $index );
 			}
 		}
@@ -83,15 +86,15 @@ class WPSEO_How_To_Block {
 	 */
 	protected static function get_step_json_ld( $step, $index ) {
 		$step_json_ld = array(
-			"@type" => "HowToStep",
-			"position" => $index + 1,
-			"text" => $step['jsonContents'],
+			'@type' => 'HowToStep',
+			'position' => $index + 1,
+			'text' => $step['jsonContents'],
 		);
 
 		if ( ! empty( $step['jsonImageSrc'] ) ) {
 			$step_json_ld['associatedMedia'] = array(
-				"@type" => "ImageObject",
-				"contentUrl" => $step['jsonImageSrc'],
+				'@type' => 'ImageObject',
+				'contentUrl' => $step['jsonImageSrc'],
 			);
 		}
 
