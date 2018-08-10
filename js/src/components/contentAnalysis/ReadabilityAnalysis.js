@@ -11,6 +11,8 @@ import Collapsible from "../SidebarCollapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 
+var isUndefined = require( "lodash/isUndefined" );
+
 const AnalysisHeader = styled.span`
 	font-size: 1em;
 	font-weight: bold;
@@ -32,8 +34,8 @@ class ReadabilityAnalysis extends React.Component {
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
 
-		if ( this.props.overallScore === null || this.props.overallScore === undefined ) {
-			score.className = "loading"
+		if ( this.props.overallScore === null ||  isUndefined( this.props.overallScore ) ) {
+			score.className = "loading";
 		}
 
 		return (

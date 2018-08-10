@@ -17,6 +17,8 @@ import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import { utils } from "yoast-components";
 
+var isUndefined = require( "lodash/isUndefined" );
+
 const AnalysisHeader = styled.span`
 	font-size: 1em;
 	font-weight: bold;
@@ -107,8 +109,8 @@ class SeoAnalysis extends React.Component {
 			score.screenReaderReadabilityText = __( "Enter a focus keyword to calculate the SEO score", "wordpress-seo" );
 		}
 
-		if ( this.props.overallScore === null || this.props.overallScore === undefined ) {
-			score.className = "loading"
+		if ( this.props.overallScore === null ||  isUndefined( this.props.overallScore ) ) {
+			score.className = "loading";
 		}
 
 		return (
