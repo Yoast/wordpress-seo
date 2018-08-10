@@ -25,6 +25,9 @@ import { encodePayload, decodePayload } from "./utils";
 export default class AnalysisWebWorker {
 	/**
 	 * Initializes the AnalysisWebWorker class.
+	 *
+	 * @param {Object} scope The scope for the messaging. Expected to have the
+	 *                       `onmessage` event and the `postMessage` function.
 	 */
 	constructor( scope ) {
 		this._scope = scope;
@@ -48,11 +51,12 @@ export default class AnalysisWebWorker {
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
-
 	}
 
 	/**
 	 * Registers this web worker with the scope passed to it's constructor.
+	 *
+	 * @returns {void}
 	 */
 	register() {
 		this._scope.onmessage = this.handleMessage;
