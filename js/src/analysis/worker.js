@@ -14,7 +14,7 @@ import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
  * @returns {AnalysisWorkerWrapper} The analysis worker.
  */
 export function createAnalysisWorker() {
-	return new AnalysisWorkerWrapper( createWorker( "http://localhost:8080/wp-seo-analysis-worker-80-RC1.js?ver=8.0-RC1" ) );
+	return new AnalysisWorkerWrapper( createWorker( "http://localhost:8080/wp-seo-analysis-worker-80-RC2.js?ver=8.0-RC2" ) );
 }
 
 /**
