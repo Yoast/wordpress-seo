@@ -280,33 +280,39 @@ setWordPressSeoL10n();
 	/**
 	 * Exposes globals necessary for functionality of plugins integrating.
 	 *
+	 * @param {App} app The app to expose globally.
 	 * @param {YoastReplaceVarPlugin} replaceVarsPlugin The replace vars plugin to expose.
 	 * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
+	 *
 	 * @returns {void}
 	 */
-	function exposeGlobals( replaceVarsPlugin, shortcodePlugin ) {
+	function exposeGlobals( app, replaceVarsPlugin, shortcodePlugin ) {
 		window.YoastSEO = {};
-		window.YoastSEO.app = {
-			registerPlugin: ( pluginName, options ) => {
-				return Pluggable._registerPlugin( pluginName, options );
-			},
-			pluginReady: ( pluginName ) => {
-				return Pluggable._ready( pluginName );
-			},
-			pluginReloaded: ( pluginName ) => {
-				return Pluggable._reloaded( pluginName );
-			},
-			registerModification: ( modification, callable, pluginName, priority ) => {
-			return Pluggable._registerModification( modification, callable, pluginName, priority );
-			},
-			// todo: requires additional functionality in the web worker
-			// registerAssessment: ( name, assessment, pluginName ) => {
-			// 	if ( ! isUndefined( this.seoAssessor ) ) {
-			// 		return this.pluggable._registerAssessment( this.defaultSeoAssessor, name, assessment, pluginName ) &&
-			// 			this.pluggable._registerAssessment( this.cornerStoneSeoAssessor, name, assessment, pluginName );
-			// 	}
-			// },
+		window.YoastSEO.app = app;
+
+		window.YoastSEO.app.registerPlugin = function( pluginName, options ) {
+			return Pluggable._registerPlugin( pluginName, options );
 		};
+
+		window.YoastSEO.app.pluginReady = function( pluginName ) {
+			return Pluggable._ready( pluginName );
+		};
+
+		window.YoastSEO.app.pluginReloaded = function( pluginName ) {
+			return Pluggable._reloaded( pluginName );
+		};
+
+		window.YoastSEO.app.registerModification = function( modification, callable, pluginName, priority ) {
+		return Pluggable._registerModification( modification, callable, pluginName, priority );
+		};
+
+		// todo: requires additional functionality in the web worker
+		// window.YoastSEO.app.registerAssessment = function( name, assessment, pluginName ) {
+		// 	if ( ! isUndefined( this.seoAssessor ) ) {
+		// 		return this.pluggable._registerAssessment( this.defaultSeoAssessor, name, assessment, pluginName ) &&
+		// 			this.pluggable._registerAssessment( this.cornerStoneSeoAssessor, name, assessment, pluginName );
+		// 	}
+		// };
 
 		// Init Plugins.
 		window.YoastSEO.wp = {};
