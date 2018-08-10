@@ -271,6 +271,19 @@ setWordPressSeoL10n();
 	}
 
 	/**
+	 * Registers a custom data callback.
+	 *
+	 * @param {Function} callback The callback to register.
+	 *
+	 * @returns {void}
+	 */
+	function registerCustomDataCallback ( callback ) {
+		if ( isFunction( callback ) ) {
+			YoastSEO.app.customCallbacks.push( callback );
+		}
+	}
+
+	/**
 	 * Exposes globals necessary for functionality of plugins integrating.
 	 *
 	 * @param {App} app The app to expose globally.
@@ -281,6 +294,8 @@ setWordPressSeoL10n();
 	function exposeGlobals( app, replaceVarsPlugin, shortcodePlugin ) {
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
+		window.YoastSEO.app.customCallbacks = [];
+		window.YoastSEO.app.registerCustomDataCallback = registerCustomDataCallback;
 
 		// Init Plugins.
 		window.YoastSEO.wp = {};
