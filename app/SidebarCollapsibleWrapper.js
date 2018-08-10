@@ -137,6 +137,17 @@ export default function SidebarCollapsibleWrapper() {
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 						</StyledContent>
 					</StyledCollapsible>
+					<StyledCollapsible
+						title="Collapsible with loading icon"
+						prefixIcon={ { icon: "loading-spinner", color: colors.$color_purple } }
+						prefixIconCollapsed={ { icon: "loading-spinner", color: colors.$color_purple } }
+						suffixIcon={ { icon: "plus-circle", color: colors.$color_red, size: "30px" } }
+						suffixIconCollapsed={ { icon: "plus-circle", color: colors.$color_red, size: "30px" } }
+					>
+						<StyledContent>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+						</StyledContent>
+					</StyledCollapsible>
 				</WidgetContainer>
 			</SortableContainer>
 			<br />

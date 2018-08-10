@@ -143,7 +143,7 @@ export const CollapsibleStateless = ( props ) => {
 			<props.Heading
 				aria-expanded={ props.isOpen }
 				onClick={ props.onToggle }
-				prefixIcon={ { icon: "loading-spinner", color: "red" } }
+				prefixIcon={ props.isOpen ? props.prefixIcon : props.prefixIconCollapsed }
 				suffixIcon={ props.isOpen ? props.suffixIcon : props.suffixIconCollapsed }
 				hasSubTitle={ !! props.subTitle }
 			>

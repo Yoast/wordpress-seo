@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import loadingSpinner from "./css/loadingSpinner.css";
 import isArray from "lodash/isArray";
 
 const DEFAULT_VIEWBOX = "0 0 1792 1792";
@@ -82,7 +81,7 @@ export default class SvgIcon extends React.Component {
 				role="img"
 				focusable="false"
 				size={ size }
-				className={ [ iconClass, loadingSpinner ].join( " " ) }
+				className={ iconClass }
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox={ viewbox }
 				fill={ color }
