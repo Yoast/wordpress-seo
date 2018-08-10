@@ -31,6 +31,11 @@ if( window.wpseoPostScraperL10n ) {
 class ReadabilityAnalysis extends React.Component {
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
+
+		if ( this.props.overallScore === null || this.props.overallScore === undefined ) {
+			score.className = "loading"
+		}
+
 		return (
 			<Collapsible
 				title={ __( "Readability", "wordpress-seo" ) }

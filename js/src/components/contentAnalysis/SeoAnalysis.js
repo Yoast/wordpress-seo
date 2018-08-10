@@ -107,6 +107,10 @@ class SeoAnalysis extends React.Component {
 			score.screenReaderReadabilityText = __( "Enter a focus keyword to calculate the SEO score", "wordpress-seo" );
 		}
 
+		if ( this.props.overallScore === null || this.props.overallScore === undefined ) {
+			score.className = "loading"
+		}
+
 		return (
 			<React.Fragment>
 				<Collapsible
@@ -183,6 +187,8 @@ function mapStateToProps( state, ownProps ) {
 		results = state.analysis.seo[ keyword ].results;
 		overallScore = state.analysis.seo[ keyword ].overallScore;
 	}
+
+	console.log( overallScore );
 	return {
 		results,
 		marksButtonStatus,
