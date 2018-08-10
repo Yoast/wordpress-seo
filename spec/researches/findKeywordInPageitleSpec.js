@@ -60,7 +60,6 @@ describe( "Match keywords in string", function() {
 		var mockPaper = new Paper( "", { keyword: "äbc", title: "äbc und Äbc", locale: "de_DE" } );
 		result = pageTitleKeyword( mockPaper );
 		expect( result.matches ).toBe( 2 );
-
 	} );
 } );
 
