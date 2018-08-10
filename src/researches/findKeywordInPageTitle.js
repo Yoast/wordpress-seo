@@ -14,7 +14,7 @@ const escapeRegExp = require( "lodash/escapeRegExp" );
 
 module.exports = function( paper ) {
 	const title = paper.getTitle();
-	const keyword = escapeRegExp( paper.getKeyword() ).toLocaleLowerCase();
+	const keyword = escapeRegExp( paper.getKeyword() );
 	const locale = paper.getLocale();
 	const result = { matches: 0, position: -1 };
 	const wordMatched = wordMatch( title, keyword, locale );

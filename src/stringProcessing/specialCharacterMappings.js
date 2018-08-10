@@ -11,7 +11,7 @@ const memoize = require( "lodash/memoize" );
  * @returns {Array} indices The array of indices in the text at which the characterToFind occurs.
  */
 function getIndicesOfCharacter( text, characterToFind ) {
-	let indices = [];
+	const indices = [];
 
 	if ( text.indexOf( characterToFind ) > -1 ) {
 		for( let i = 0; i < text.length; i++ ) {
@@ -83,7 +83,7 @@ function combinations( array ) {
  * @returns {string} result The string of the original text with the characters on specified indices are substituted with the substitute character.
  */
 function replaceCharactersByIndex( text, indices, substitute ) {
-	let modifiedTextSplitByLetter = text.split( "" );
+	const modifiedTextSplitByLetter = text.split( "" );
 
 	indices.forEach( function( index ) {
 		modifiedTextSplitByLetter.splice( index, 1, substitute );
@@ -101,7 +101,7 @@ function replaceCharactersByIndex( text, indices, substitute ) {
  */
 function replaceTurkishIs( text ) {
 	// Get indices of all occurrences of İ, I, i, or ı.
-	let indicesOfAllIs = getIndicesOfCharacter( text, "İ" ).concat(
+	const indicesOfAllIs = getIndicesOfCharacter( text, "İ" ).concat(
 		getIndicesOfCharacter( text, "I" ),
 		getIndicesOfCharacter( text, "i" ),
 		getIndicesOfCharacter( text, "ı" )
@@ -113,7 +113,7 @@ function replaceTurkishIs( text ) {
 		return [ text ];
 	}
 
-	let results = [];
+	const results = [];
 
 	// First round of creating combinations: assign which indices will be replaced by İ
 	const combinationsDottedI = combinations( indicesOfAllIs );
@@ -152,7 +152,7 @@ function replaceTurkishIs( text ) {
 		}
 	} );
 
-	let textAlternations = [];
+	const textAlternations = [];
 
 	results.forEach( function( result ) {
 		const toDottedI = replaceCharactersByIndex( text, result[ 0 ], "İ" );
