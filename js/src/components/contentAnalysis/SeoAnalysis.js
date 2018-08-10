@@ -134,7 +134,7 @@ class SeoAnalysis extends React.Component {
 					{ this.props.shouldUpsell && this.renderSynonymsUpsell() }
 					{ this.props.shouldUpsell && this.renderMultipleKeywordsUpsell() }
 					<AnalysisHeader>
-						Analysis results:
+						Analysis results
 					</AnalysisHeader>
 					<Results
 						showLanguageNotice={ false }
