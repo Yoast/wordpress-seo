@@ -11,6 +11,7 @@ import colors from "../../../../style-guide/colors.json";
 import { YoastInputField } from "./YoastInput";
 import SvgIcon from "./SvgIcon";
 import { addFocusStyle } from "./Button";
+import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 const errorColor = colors.$color_red;
 const greyColor = colors.$color_grey_text_light;
@@ -83,11 +84,11 @@ export const YoastInputButtonContainer = styled.div`
 
 	&.has-remove-keyword-button {
 		${ KeywordField } {
-			padding-right: 40px;
+			${ getRtlStyle( "padding-right: 40px", "padding-left: 40px" ) };
 		}
 
 		${ BorderlessButton } {
-			margin-left: -32px;
+			${ getRtlStyle( "margin-left: -32px", "margin-right: -32px" ) };
 		}
 	}
 `;
