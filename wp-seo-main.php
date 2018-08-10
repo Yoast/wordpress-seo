@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '8.0-RC1' );
+define( 'WPSEO_VERSION', '8.0-RC2' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -379,7 +379,6 @@ function wpseo_frontend_head_init() {
 	if ( WPSEO_Options::get( 'opengraph' ) === true ) {
 		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph();
 	}
-
 }
 
 /**

@@ -179,7 +179,6 @@ abstract class WPSEO_Option {
 	}
 
 // @codingStandardsIgnoreStart
-
 	/**
 	 * All concrete classes *must* contain the get_instance method.
 	 *
@@ -215,7 +214,6 @@ abstract class WPSEO_Option {
 	}
 
 	// @codingStandardsIgnoreStart
-
 	/**
 	 * Validate webmaster tools & Pinterest verification strings.
 	 *
@@ -332,7 +330,6 @@ abstract class WPSEO_Option {
 		remove_filter( 'default_option_' . $this->option_name, array( $this, 'get_defaults' ) );
 	}
 
-
 	/**
 	 * Get the enriched default value for an option.
 	 *
@@ -355,7 +352,6 @@ abstract class WPSEO_Option {
 		return apply_filters( 'wpseo_defaults', $this->defaults, $this->option_name );
 	}
 
-
 	/**
 	 * Add filters to make sure that the option is merged with its defaults before being returned.
 	 *
@@ -368,7 +364,6 @@ abstract class WPSEO_Option {
 		}
 	}
 
-
 	/**
 	 * Remove the option filters.
 	 * Called from the clean_up methods to make sure we retrieve the original old option.
@@ -378,7 +373,6 @@ abstract class WPSEO_Option {
 	public function remove_option_filters() {
 		remove_filter( 'option_' . $this->option_name, array( $this, 'get_option' ) );
 	}
-
 
 	/**
 	 * Merge an option with its default values.
@@ -405,7 +399,6 @@ abstract class WPSEO_Option {
 		return $filtered;
 	}
 
-
 	/* *********** METHODS influencing add_uption(), update_option() and saving from admin pages. *********** */
 
 	/**
@@ -430,7 +423,6 @@ abstract class WPSEO_Option {
 
 		register_setting( $this->group_name, $this->option_name );
 	}
-
 
 	/**
 	 * Validate the option
@@ -467,7 +459,6 @@ abstract class WPSEO_Option {
 		return $clean;
 	}
 
-
 	/**
 	 * All concrete classes must contain a validate_option() method which validates all
 	 * values within the option.
@@ -477,7 +468,6 @@ abstract class WPSEO_Option {
 	 * @param  array $old   Old value of the option.
 	 */
 	abstract protected function validate_option( $dirty, $clean, $old );
-
 
 	/* *********** METHODS for ADDING/UPDATING/UPGRADING the option. *********** */
 
@@ -522,7 +512,6 @@ abstract class WPSEO_Option {
 		}
 	}
 
-
 	/**
 	 * Update a site_option.
 	 *
@@ -551,7 +540,6 @@ abstract class WPSEO_Option {
 		}
 	}
 
-
 	/**
 	 * Retrieve the real old value (unmerged with defaults), clean and re-save the option.
 	 *
@@ -566,7 +554,6 @@ abstract class WPSEO_Option {
 		$option_value = $this->get_original_option();
 		$this->import( $option_value, $current_version );
 	}
-
 
 	/**
 	 * Clean and re-save the option.
@@ -659,7 +646,6 @@ abstract class WPSEO_Option {
 
 		return $filtered;
 	}
-
 
 	/**
 	 * Make sure that any set option values relating to post_types and/or taxonomies are retained,

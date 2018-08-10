@@ -203,5 +203,4 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 			->setMethods( array( 'process' ) )
 			->getMock();
 	}
-
 }
