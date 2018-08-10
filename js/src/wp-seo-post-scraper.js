@@ -1,7 +1,7 @@
 /* global YoastSEO: true, tinyMCE, wpseoReplaceVarsL10n, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 
 // External dependencies.
-import { App, AnalysisWorkerWrapper, createWorker } from "yoastseo";
+import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
 import debounce from "lodash/debounce";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
@@ -38,6 +38,7 @@ import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
 } from "./helpers/classicEditor";
+import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -412,7 +413,7 @@ setWordPressSeoL10n();
 
 		const appArgs = getAppArgs( store );
 		app = new App( appArgs );
-		const analysisWorker = new AnalysisWorkerWrapper( createWorker( "http://localhost:8080/wp-seo-analysis-worker-80-RC1.js?ver=8.0-RC1" ) );
+		const analysisWorker = createAnalysisWorker();
 
 		postDataCollector.app = app;
 
@@ -433,12 +434,7 @@ setWordPressSeoL10n();
 		YoastSEO._registerReactComponent = registerReactComponent;
 
 		// Initialize the analysis worker.
-		YoastSEO.analysisWorker.initialize( {
-			translations: appArgs.translations,
-			locale: appArgs.locale,
-			contentAnalysisActive: appArgs.contentAnalysisActive,
-			keywordAnalysisActive: appArgs.keywordAnalysisActive,
-		} )
+		YoastSEO.analysisWorker.initialize( getAnalysisConfiguration() )
 			.then( result => console.log( result ) )
 			.catch( error => console.warn( error ) );
 
