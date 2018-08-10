@@ -139,8 +139,8 @@ export default function SidebarCollapsibleWrapper() {
 					</StyledCollapsible>
 					<StyledCollapsible
 						title="Collapsible with loading icon"
-						prefixIcon={ { icon: "loading-spinner", color: colors.$color_purple } }
-						prefixIconCollapsed={ { icon: "loading-spinner", color: colors.$color_purple } }
+						prefixIcon={ { icon: "loading-spinner", color: colors.$color_green_medium_light } }
+						prefixIconCollapsed={ { icon: "loading-spinner", color: colors.$color_green_medium_light } }
 						suffixIcon={ { icon: "plus-circle", color: colors.$color_red, size: "30px" } }
 						suffixIconCollapsed={ { icon: "plus-circle", color: colors.$color_red, size: "30px" } }
 					>
