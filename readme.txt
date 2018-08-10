@@ -113,9 +113,10 @@ Enhancements:
 * Implements the Yoast sidebar for Gutenberg: added the Readability, Focus Keyword and Cornerstone content tabs to the sidebar.
 * Revamps the Yoast metabox to use the same vertical design as the new sidebar.
 * Implements the same tabbed layout in the plugin's network settings screen that is also used in the plugin's site settings screens.
-* Implement a plugin-specific network settings API and use it in the network settings screen.
+* Implements a plugin-specific network settings API and use it in the network settings screen.
 * Introduces a network admin-specific admin bar menu.
 * Adds notifications to the Notification Center in regards to Gutenberg compatibility. If Gutenberg is older than the minimum supported version by Yoast SEO, a 'problem' notification is added. If Gutenberg is only slightly outdated, a 'normal' notification is added.
+* Implements the automatic detection of the keyword for terms based on the term's title.
 
 Bugfixes:
 * Fixes a bug where `/sitemap.xml` would not correctly redirect to `/sitemap_index.xml` in some environments.
