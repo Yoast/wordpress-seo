@@ -48,7 +48,7 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	handleMessage( { data: { type, id, payload } } ) {
-		let response, request;
+		let request;
 		console.log( "wrapper", type, id, payload );
 
 		switch( type ) {

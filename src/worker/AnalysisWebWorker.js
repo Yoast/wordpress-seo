@@ -213,32 +213,28 @@ export default class AnalysisWebWorker {
 	 * @param {number} id                      The request id.
 	 * @param {Object} payload                 The payload object.
 	 * @param {Object} payload.paper           The paper to analyze.
-	 * @param {Object} [payload.configuration] The configuration for the
-	 *                                         specific analyses.
 	 *
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
-	analyze( id, { paper, configuration = {} } ) {
-		const result = {};
-
+	analyze( id, { paper } ) {
 		paper.text = removeHtmlBlocks( paper.text );
 		const newPaper = Paper.parse( paper );
 		const paperIsIdentical = isEqual( this._paper, newPaper );
 		const textIsIdentical = this._paper.getText() === newPaper.getText();
-		this._paper = newPaper;
 
 		if ( paperIsIdentical ) {
 			console.log( "The paper has not changed since you analyzed it last." );
 			return this._result;
 		}
 
+		this._paper = newPaper;
 		this._researcher.setPaper( this._paper );
 
 		// Rerunning the SEO analysis if the text or attributes of the paper have changed.
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
 			this._seoAssessor.assess( this._paper );
 			this._result.seo = {
-				results: this._seoAssessor.results,
+				results: this._seoAssessor.results.map( result => result.serialize() ),
 				score: this._seoAssessor.calculateOverallScore(),
 			};
 		}
@@ -254,14 +250,6 @@ export default class AnalysisWebWorker {
 			this._result.readability = {
 				results: this._contentAssessor.results.map( result => result.serialize() ),
 				score: this._contentAssessor.calculateOverallScore(),
-			};
-		}
-
-		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
-			this._seoAssessor.assess( this._paper );
-			this._result.seo = {
-				results: this._seoAssessor.results.map( result => result.serialize() ),
-				score: this._seoAssessor.calculateOverallScore(),
 			};
 		}
 
