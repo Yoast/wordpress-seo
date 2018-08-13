@@ -74,8 +74,8 @@ export default () => {
 		 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 		 * @returns {Component} The display component.
 		 */
-		save: function( { attributes, className } ) {
-			return HowTo.getContent( attributes, className );
+		save: function( { attributes } ) {
+			return HowTo.getContent( attributes );
 		},
 	} );
 };

@@ -54,6 +54,8 @@ class WPSEO_Taxonomy_Metabox {
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'help-center' );
+		$asset_manager->enqueue_style( 'yoast-components' );
+
 
 		$content_sections = $this->get_content_sections();
 
