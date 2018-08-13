@@ -4,7 +4,12 @@
 import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
 import debounce from "lodash/debounce";
-import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import {
+	setReadabilityResults,
+	setSeoResultsForKeyword,
+	setOverallReadabilityScore,
+	setOverallSeoScore,
+} from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
@@ -274,25 +279,17 @@ setWordPressSeoL10n();
 	/**
 	 * Exposes globals necessary for functionality of plugins integrating.
 	 *
-	 * @param {App} app The app to expose globally.
 	 * @param {YoastReplaceVarPlugin} replaceVarsPlugin The replace vars plugin to expose.
 	 * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
-	 * @param {AnalysisWorkerWrapper} analysisWorker The analysis worker to expose.
 	 * @returns {void}
 	 */
-	function exposeGlobals( app, replaceVarsPlugin, shortcodePlugin, analysisWorker ) {
-		window.YoastSEO = {};
-		window.YoastSEO.app = app;
-		window.YoastSEO.analysisWorker = analysisWorker;
-
+	function exposeGlobals( replaceVarsPlugin, shortcodePlugin ) {
 		// Init Plugins.
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = replaceVarsPlugin;
 		window.YoastSEO.wp.shortcodePlugin = shortcodePlugin;
 
 		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
-
-		window.YoastSEO.store = editStore;
 	}
 
 	/**
@@ -376,6 +373,52 @@ setWordPressSeoL10n();
 	}
 
 	/**
+	 * Refreshes the analysis.
+	 *
+	 * @returns {void}
+	 */
+	function refreshAnalysis() {
+		const { YoastSEO } = window;
+		const {
+			app: { getData, rawData },
+			analysisWorker,
+			store,
+		} = YoastSEO;
+
+		// Collect the paper data.
+		getData.call( YoastSEO.app );
+		const {
+			text, keyword, synonyms,
+			snippetMeta, snippetTitle,
+			url, permalink, snippetCite,
+			locale,
+		} = rawData;
+
+		// Request analyses.
+		analysisWorker.analyze( {
+			text,
+			keyword,
+			synonyms,
+			description: snippetMeta,
+			title: snippetTitle,
+			url,
+			permalink: permalink + snippetCite,
+			locale,
+		} )
+			.then( ( { result: { seo, readability } } ) => {
+				if ( seo ) {
+					store.dispatch( setSeoResultsForKeyword( keyword, seo.results ) );
+					store.dispatch( setOverallSeoScore( seo.score, keyword ) );
+				}
+				if ( readability ) {
+					store.dispatch( setReadabilityResults( readability.results )  );
+					store.dispatch( setOverallReadabilityScore( readability.score ) );
+				}
+			} )
+			.catch( error => console.warn( error ) );
+	}
+
+	/**
 	 * Initializes analysis for the post edit screen.
 	 *
 	 * @returns {void}
@@ -409,7 +452,15 @@ setWordPressSeoL10n();
 
 		const appArgs = getAppArgs( editStore );
 		app = new App( appArgs );
-		const analysisWorker = createAnalysisWorker();
+
+		// Expose globals.
+		window.YoastSEO = {};
+		window.YoastSEO.app = app;
+		window.YoastSEO.analysisWorker = createAnalysisWorker();
+		window.YoastSEO.store = editStore;
+
+		// Replace the app refresh.
+		YoastSEO.app.refresh = refreshAnalysis;
 
 		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
 
@@ -425,7 +476,7 @@ setWordPressSeoL10n();
 			markdownPlugin.register();
 		}
 
-		exposeGlobals( app, replaceVarsPlugin, shortcodePlugin, analysisWorker );
+		exposeGlobals( replaceVarsPlugin, shortcodePlugin );
 
 		activateEnabledAnalysis();
 
@@ -433,10 +484,10 @@ setWordPressSeoL10n();
 
 		// Initialize the analysis worker.
 		YoastSEO.analysisWorker.initialize( getAnalysisConfiguration() )
-			.then( result => console.log( result ) )
+			.then( () => {
+				jQuery( window ).trigger( "YoastSEO:ready" );
+			} )
 			.catch( error => console.warn( error ) );
-
-		jQuery( window ).trigger( "YoastSEO:ready" );
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
