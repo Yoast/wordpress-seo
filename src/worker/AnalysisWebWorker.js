@@ -74,6 +74,7 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	handleMessage( { data: { type, id, payload } } ) {
+		console.log( "worker", type, id, payload );
 		switch( type ) {
 			case "initialize":
 				this.initialize( id, payload );
@@ -170,7 +171,6 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	send( type, id, payload = {} ) {
-		console.log( "worker => wrapper", type, id, payload );
 		this._scope.postMessage( {
 			type,
 			id,
@@ -188,7 +188,6 @@ export default class AnalysisWebWorker {
 	 */
 	initialize( id, configuration ) {
 		this._configuration = merge( this._configuration, configuration );
-		console.log( "run initialize", configuration, this._configuration );
 
 		this._i18n = AnalysisWebWorker.createI18n( this._configuration.translations );
 		this._contentAssessor = this.createContentAssessor();
@@ -200,6 +199,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Runs analyses on a paper.
 	 *
+	 * @param {number} id                      The request id.
 	 * @param {Object} payload                 The payload object.
 	 * @param {Object} payload.paper           The paper to analyze.
 	 * @param {Object} [payload.configuration] The configuration for the
@@ -207,9 +207,8 @@ export default class AnalysisWebWorker {
 	 *
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
-	analyze( { id, paper, configuration = {} } ) {
-		console.log( "run analyze", id, paper, configuration );
-		const result = { id };
+	analyze( id, { paper, configuration = {} } ) {
+		const result = {};
 
 		paper.text = removeHtmlBlocks( paper.text );
 		this._paper = Paper.parse( paper );

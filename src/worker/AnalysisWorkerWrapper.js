@@ -144,7 +144,6 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	send( type, id, payload = {} ) {
-		console.log( "wrapper => worker", type, id, payload );
 		this._worker.postMessage( {
 			type,
 			id,

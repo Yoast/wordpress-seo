@@ -101,7 +101,7 @@ class Scheduler {
 			return;
 		}
 
-		const result = await task.execute( task.data );
+		const result = await task.execute( task.id, task.data );
 		task.done( task.id, result );
 	}
 
