@@ -108,12 +108,26 @@ Assessor.prototype.getMarker = function( assessment, paper, researcher ) {
 	var specificMarker = this._options.marker;
 
 	return function() {
-		var marks = assessment.getMarks( paper, researcher );
-
-		marks = removeDuplicateMarks( marks );
+		const marks = this.getMarks( assessment, paper, researcher );
 
 		specificMarker( paper, marks );
 	};
+};
+
+/**
+ * Returns the marks for a given assessment.
+ *
+ * @param {Object} assessment The assessment for which we are retrieving the marks.
+ * @param {Paper} paper The paper to retrieve the marker for.
+ * @param {Researcher} researcher The researcher for the paper.
+
+ * @returns {Array} The assessment's marks.
+ */
+Assessor.prototype.getMarks = function( assessment, paper, researcher ) {
+	let marks = assessment.getMarks( paper, researcher );
+	marks = removeDuplicateMarks( marks );
+
+	return marks;
 };
 
 /**
@@ -172,7 +186,7 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 		result.setIdentifier( assessment.identifier );
 
 		if ( result.hasMarks() ) {
-			result.marks = assessment.getMarks( paper, researcher );
+			result.marks = this.getMarks( assessment, paper, researcher );
 		}
 
 		if ( result.hasMarks() && this.hasMarker( assessment ) ) {
