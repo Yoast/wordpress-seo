@@ -66,7 +66,7 @@ class WPSEO_How_To_Block {
 			$json_ld['description'] = $attributes['jsonDescription'];
 		}
 
-		if ( ! empty( $attributes['steps'] && is_array( $attributes['steps'] ) ) ) {
+		if ( ! empty( $attributes['steps'] ) && is_array( $attributes['steps'] ) ) {
 			$json_ld['step'] = array();
 			foreach ( $attributes['steps'] as $index => $step ) {
 				$json_ld['step'][] = self::get_step_json_ld( $step, $index );
