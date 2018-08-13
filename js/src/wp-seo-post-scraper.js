@@ -245,6 +245,7 @@ setWordPressSeoL10n();
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			hasSnippetPreview: false,
+			debouncedRefresh: false,
 		};
 
 		if ( isKeywordAnalysisActive() ) {
