@@ -2,6 +2,7 @@
 import Jed from "jed";
 import omit from "lodash/omit";
 import merge from "lodash/merge";
+import isEqual from "lodash/isEqual";
 
 // YoastSEO.js dependencies.
 import * as Paper from "yoastseo/values/Paper";
@@ -39,6 +40,15 @@ class AnalysisWebWorker {
 		this._researcher = new Researcher( this._paper );
 		this._contentAssessor = null;
 		this._seoAssessor = null;
+		this._result = {
+			id: -1,
+			readability: {
+				results: [],
+			},
+			seo: {
+				results: [],
+			},
+		};
 
 		// Bind actions to this scope.
 		this.analyze = this.analyze.bind( this );
@@ -181,7 +191,8 @@ class AnalysisWebWorker {
 		this._i18n = AnalysisWebWorker.createI18n( this._configuration.translations );
 		this._contentAssessor = this.createContentAssessor();
 		this._seoAssessor = this.createSEOAssessor();
-
+		// Reset the paper in order to not use the cached results on analyze.
+		this._paper = new Paper( "" );
 		this.send( "initialize:done", id );
 	}
 
@@ -197,28 +208,46 @@ class AnalysisWebWorker {
 	 */
 	analyze( { id, paper, configuration = {} } ) {
 		console.log( "run analyze", id, paper, configuration );
-		const result = { id };
+		this._result.id = id;
 
-		this._paper = new Paper( removeHtmlBlocks( paper.text ), omit( paper, "text" ) );
-		this._researcher.setPaper( this._paper );
+		const newPaper = new Paper( removeHtmlBlocks( paper.text ), omit( paper, "text" ) );
+		const paperIsIdentical = isEqual( this._paper, newPaper );
+		const textIsIdentical = this._paper.getText() === newPaper.getText();
+		this._paper = newPaper;
 
-		if ( this._configuration.contentAnalysisActive && this._contentAssessor ) {
-			this._contentAssessor.assess( this._paper );
-			result.readability = {
-				results: this._contentAssessor.results,
-				score: this._contentAssessor.calculateOverallScore(),
-			};
+		if ( paperIsIdentical ) {
+			console.log( "The paper has not changed since you analyzed it last." );
+
+			return this._result;
 		}
 
+		console.log( "The paper has changed since you analyzed it last. Running the analysis." );
+		this._researcher.setPaper( this._paper );
+
+		// Rerunning the SEO analysis if the text or attributes of the paper have changed.
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
 			this._seoAssessor.assess( this._paper );
-			result.seo = {
+			this._result.seo = {
 				results: this._seoAssessor.results,
 				score: this._seoAssessor.calculateOverallScore(),
 			};
 		}
 
-		return result;
+		// Return old readability results if the text of the paper has not changed.
+		if ( textIsIdentical ) {
+			console.log( "The text of your paper has not changed, returning the content analysis results from the previous analysis." );
+			return this._result;
+		}
+
+		if ( this._configuration.contentAnalysisActive && this._contentAssessor ) {
+			this._contentAssessor.assess( this._paper );
+			this._result.readability = {
+				results: this._contentAssessor.results,
+				score: this._contentAssessor.calculateOverallScore(),
+			};
+		}
+
+		return this._result;
 	}
 
 	/**
