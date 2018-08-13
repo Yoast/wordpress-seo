@@ -185,4 +185,28 @@ Paper.prototype.getPermalink = function() {
 	return this._attributes.permalink;
 };
 
+/**
+ * Serializes the Paper instance to an object.
+ *
+ * @returns {Object} The serialized Paper.
+ */
+Paper.prototype.serialize = function() {
+	return {
+		text: this._text,
+		...this._attributes,
+	};
+};
+
+/**
+ * Parses the object to an Paper.
+ *
+ * @param {Object} serialized The serialized object.
+ *
+ * @returns {Paper} The parsed Paper.
+ */
+Paper.parse = function( serialized ) {
+	const { text, ...attributes } = serialized;
+	return new Paper( text, attributes );
+};
+
 module.exports = Paper;
