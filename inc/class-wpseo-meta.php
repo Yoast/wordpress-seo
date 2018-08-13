@@ -466,6 +466,11 @@ class WPSEO_Meta {
 				}
 				break;
 
+			case ( $field_def['type'] === 'hidden' && $meta_key === self::$meta_prefix . 'is_cornerstone' ):
+				if ( $meta_value === 'true') {
+					$clean = '1';
+				}
+				break;
 
 			case ( $field_def['type'] === 'textarea' ):
 				if ( is_string( $meta_value ) ) {
