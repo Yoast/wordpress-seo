@@ -82,38 +82,6 @@ class WPSEO_Gutenberg_Compatibility_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests that the installed Gutenberg version is the latest one.
-	 *
-	 * @covers WPSEO_Gutenberg_Compatibility::is_latest_version
-	 */
-	public function test_gutenberg_version_is_latest() {
-		$this->default_mock
-			->expects( $this->once() )
-			->method( 'get_latest_release' )
-			->will( $this->returnValue( '3.3.0' ) );
-
-		$this->default_mock->set_installed_gutenberg_version( '3.3.0' );
-
-		$this->assertEquals( $this->default_mock->is_latest_version(), true );
-	}
-
-	/**
-	 * Tests that the installed Gutenberg version is not the latest one.
-	 *
-	 * @covers WPSEO_Gutenberg_Compatibility::is_latest_version
-	 */
-	public function test_gutenberg_version_is_not_latest() {
-		$this->default_mock
-			->expects( $this->once() )
-			->method( 'get_latest_release' )
-			->will( $this->returnValue( '3.4.0' ) );
-
-		$this->default_mock->set_installed_gutenberg_version( '3.3.0' );
-
-		$this->assertEquals( $this->default_mock->is_latest_version(), false );
-	}
-
-	/**
 	 * Tests that the installed Gutenberg version is considered fully compatible.
 	 *
 	 * @covers WPSEO_Gutenberg_Compatibility::is_fully_compatible
