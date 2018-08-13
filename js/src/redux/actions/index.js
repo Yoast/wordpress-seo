@@ -4,6 +4,7 @@ import * as cornerstoneContent from "./cornerstoneContent";
 import * as keywords from "./keywords";
 import * as markerButtons from "./markerButtons";
 import * as openSidebarSections from "./openSidebarSections";
+import * as primaryCategory from "./primaryCategory";
 
 export default {
 	focusKeyword,
@@ -12,4 +13,5 @@ export default {
 	keywords,
 	markerButtons,
 	openSidebarSections,
+	primaryCategory,
 };

@@ -20,6 +20,9 @@ import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPrio
 import * as selectors from "./redux/selectors";
 import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
+import PrimaryCategoryPicker from "./components/PrimaryCategoryPicker";
+
+const PLUGIN_NAMESPACE = "yoast-seo";
 
 const PinnedPluginIcon = styled( PluginIcon )`
 	width: 20px;
@@ -58,6 +61,8 @@ class Edit {
 	_init() {
 		this._store = this._registerStoreInGutenberg();
 
+		this._registerCategorySelectorFilter();
+
 		this._registerPlugin();
 
 		this._data = this._initializeData();
@@ -81,6 +86,30 @@ class Edit {
 			reducer: combineReducers( reducers ),
 			selectors,
 		} );
+	}
+
+	_registerCategorySelectorFilter() {
+		const addFilter = get( window, "wp.hooks.addFilter" );
+
+		addFilter(
+			"editor.PostTaxonomyType",
+			PLUGIN_NAMESPACE,
+			OriginalComponent => {
+				const TaxonomySelectorFilter = props => {
+					if ( props.slug !== "category" ) {
+						return <OriginalComponent { ...props } />;
+					}
+					console.log( props );
+					return (
+						<Fragment>
+							<OriginalComponent { ...props } />
+							<PrimaryCategoryPicker />
+						</Fragment>
+					);
+				};
+				return TaxonomySelectorFilter;
+			}
+		);
 	}
 
 	/**
@@ -130,7 +159,7 @@ class Edit {
 			</Fragment>
 		);
 
-		registerPlugin( "yoast-seo", {
+		registerPlugin( PLUGIN_NAMESPACE, {
 			render: YoastSidebar,
 			icon: <PinnedPluginIcon />,
 		} );
