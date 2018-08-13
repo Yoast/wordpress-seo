@@ -24,6 +24,7 @@ var AssessmentResult = function( values ) {
 	this._marker = emptyMarker;
 	this.score = 0;
 	this.text = "";
+	this.marks = [];
 
 	if ( isUndefined( values ) ) {
 		values = {};
