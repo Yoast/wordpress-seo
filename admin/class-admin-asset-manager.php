@@ -193,7 +193,7 @@ class WPSEO_Admin_Asset_Manager {
 		$backport_wp_dependencies = array( self::PREFIX . 'react-dependencies' );
 
 		// If Gutenberg is present we can borrow their globals for our own.
-		if ( $this->load_gutenberg_assets() ) {
+		if ( $this->should_load_gutenberg_assets() ) {
 			$backport_wp_dependencies[] = 'wp-element';
 			$backport_wp_dependencies[] = 'wp-data';
 			$backport_wp_dependencies[] = 'wp-components';
@@ -573,7 +573,7 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 * @return bool True wheter Gutenberg assets must be loaded.
 	 */
-	protected function load_gutenberg_assets() {
+	protected function should_load_gutenberg_assets() {
 		// When Gutenberg is not active, just return false.
 		if ( ! function_exists( 'gutenberg_register_scripts_and_styles' ) ) {
 			return false;
