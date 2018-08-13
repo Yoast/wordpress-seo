@@ -90,6 +90,9 @@ export function getIconForScore( score ) {
 	let icon = { icon: "seo-score-none", color: colors.$color_grey_disabled };
 
 	switch( score ) {
+		case "loading":
+			icon = { icon: "loading-spinner", color: colors.$color_green_medium_light };
+			break;
 		case "good":
 			icon = { icon: "seo-score-good", color: colors.$color_green_medium };
 			break;
