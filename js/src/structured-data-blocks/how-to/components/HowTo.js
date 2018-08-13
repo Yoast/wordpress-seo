@@ -259,7 +259,7 @@ export default class HowTo extends Component {
 		const listClassNames = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( i ) => i ).join( " " );
 
 		return (
-			<div className={ `schema-how-to ${ className }` }>
+			<div className={ classNames }>
 				<RichText.Content
 					tagName="h2"
 					className="schema-how-to-title"
@@ -279,8 +279,8 @@ export default class HowTo extends Component {
 					value={ description }
 				/>
 				{ unorderedList
-					? <ul className={ `schema-how-to-steps ${ additionalListCssClasses }` }>{ steps }</ul>
-					: <ol className={ `schema-how-to-steps ${ additionalListCssClasses }` }>{ steps }</ol>
+					? <ul className={ listClassNames }>{ steps }</ul>
+					: <ol className={ listClassNames }>{ steps }</ol>
 				}
 			</div>
 		);
