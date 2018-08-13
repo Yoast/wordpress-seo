@@ -1,5 +1,4 @@
 // Internal dependencies.
-import { encodePayload, decodePayload } from "./utils";
 import Request from "./request";
 const AssessmentResult = require( "../values/AssessmentResult" );
 
@@ -54,32 +53,30 @@ class AnalysisWorkerWrapper {
 
 		switch( type ) {
 			case "initialize:done":
-				response = decodePayload( payload );
 				request = this._requests[ id ];
 				if ( ! request ) {
-					console.warn( "AnalysisWebWorker: unmatched response", response );
+					console.warn( "AnalysisWebWorker: unmatched response", payload );
 					break;
 				}
 
-				request.resolve( response );
+				request.resolve( payload );
 				break;
 			case "analyze:done":
-				response = decodePayload( payload );
 				request = this._requests[ id ];
 				if ( ! request ) {
-					console.warn( "AnalysisWebWorker: unmatched response", response );
+					console.warn( "AnalysisWebWorker: unmatched response", payload );
 					break;
 				}
 
 				// Map the results back to classes, because we encode and decode the message payload.
-				if ( response.seo ) {
-					response.seo.results = response.seo.results.map( result => AssessmentResult.parse( result ) );
+				if ( payload.seo ) {
+					payload.seo.results = payload.seo.results.map( result => AssessmentResult.parse( result ) );
 				}
-				if ( response.readability ) {
-					response.readability.results = response.readability.results.map( result => AssessmentResult.parse( result ) );
+				if ( payload.readability ) {
+					payload.readability.results = payload.readability.results.map( result => AssessmentResult.parse( result ) );
 				}
 
-				request.resolve( response );
+				request.resolve( payload );
 				break;
 			default:
 				console.warn( "AnalysisWebWorker: unrecognized action", type );
@@ -151,7 +148,7 @@ class AnalysisWorkerWrapper {
 		this._worker.postMessage( {
 			type,
 			id,
-			payload: encodePayload( payload ),
+			payload,
 		} );
 	}
 

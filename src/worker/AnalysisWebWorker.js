@@ -13,7 +13,6 @@ const removeHtmlBlocks = require( "../stringProcessing/htmlParser" );
 
 // Internal dependencies.
 import Scheduler from "./scheduler";
-import { encodePayload, decodePayload } from "./utils";
 
 /**
  * Analysis Web Worker.
@@ -77,14 +76,14 @@ export default class AnalysisWebWorker {
 	handleMessage( { data: { type, id, payload } } ) {
 		switch( type ) {
 			case "initialize":
-				this.initialize( id, decodePayload( payload ) );
+				this.initialize( id, payload );
 				break;
 			case "analyze":
 				this._scheduler.schedule( {
 					id,
 					execute: this.analyze,
 					done: this.analyzeDone,
-					data: decodePayload( payload ),
+					data: payload,
 				} );
 				break;
 			default:
@@ -175,7 +174,7 @@ export default class AnalysisWebWorker {
 		this._scope.postMessage( {
 			type,
 			id,
-			payload: encodePayload( payload ),
+			payload,
 		} );
 	}
 
