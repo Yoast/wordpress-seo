@@ -11,7 +11,7 @@ import SvgIcon from "../../Shared/components/SvgIcon";
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled icon button.
+ * @returns {ReactElement} styled icon button.
  */
 const HelpCenterButtonBase = ( props ) => {
 	return (

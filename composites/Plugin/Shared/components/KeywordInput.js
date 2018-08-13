@@ -1,88 +1,116 @@
+// External dependencies.
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import uniqueId from "lodash/uniqueId";
+import { __ } from "@wordpress/i18n";
+import noop from "lodash/noop";
 
+// Internal dependencies.
 import colors from "../../../../style-guide/colors.json";
+import { YoastInputButtonContainer, YoastInputField } from "./YoastInput";
+import SvgIcon from "./SvgIcon";
 
-let KeywordField = styled.input`
-	margin-right: 0.5em;
-	border-color: ${ props => props.borderColor };
+const errorColor = colors.$color_red;
+const greyColor = colors.$color_grey_medium;
+
+const KeywordInputContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	margin: 1em 0;
 `;
 
-const ErrorText = styled.div`
+const KeywordFieldLabel = styled.label`
 	font-size: 1em;
-	color: ${ colors.$color_red };
-	margin: 1em 0;
+	font-weight: bold;
+	margin-bottom: 0.5em;
+`;
+
+const KeywordField = styled( YoastInputField )`
+	flex: 1 !important;
+	border: none !important;
+	box-shadow: none !important;
+
+	&.hasError {
+		border-color: ${ errorColor };
+		outline-color: ${ errorColor };
+	}
+`;
+
+const ErrorText = styled.p`
+	color: ${ errorColor };
+	margin: 0.5em 0 0 0;
 	min-height: 1.8em;
 `;
 
-const ErrorMessage = "Are you trying to use multiple keywords? You should add them separately below.";
+const BorderlessButton = styled.button`
+	border: none;
+	box-shadow: none;
+	background: none;
+`;
+
+const RemoveIcon = styled( SvgIcon )`
+	margin-top: 4px;
+	cursor: pointer;
+`;
 
 class KeywordInput extends React.Component {
 	/**
-	 * Constructs a KeywordInput component
+	 * Constructs a KeywordInput component.
 	 *
-	 * @param {Object}      props          The props for this input field component.
-	 * @param {String}    	props.id       The id of the KeywordInput.
-	 * @param {IconsButton} props.label    The label of the KeywordInput.
-	 * @param {boolean}     props.keyword  The initial keyword passed to the state.
+	 * @param {Object}   props           The props for the KeywordInput.
+	 * @param {string}   props.id        The id of the KeywordInput.
+	 * @param {string}   props.label     The label of the KeywordInput.
+	 * @param {boolean}  props.showLabel Toggle between an actual label or an aria-label on the input.
+	 * @param {string}   props.keyword   The initial keyword passed to the state.
+	 * @param {Function} props.onChange  The function that is triggered when the keyword input field is changed.
 	 *
 	 * @returns {void}
 	 */
 	constructor( props ) {
 		super( props );
 
-		this.onChange = this.handleChange.bind( this );
-
-		this.state = {
-			showErrorMessage: false,
-			keyword: props.keyword,
-		};
+		this.handleChange = this.handleChange.bind( this );
+		this.displayErrorMessage = this.displayErrorMessage.bind( this );
 	}
 
 	/**
-	 * Checks the keyword input for comma-separated words
+	 * Checks the keyword input for comma-separated words.
 	 *
-	 * @param {String} keywordText The text of the input
+	 * @param {string} keywordText The text of the input.
 	 *
-	 * @returns {void}
+	 * @returns {boolean} Returns true if a comma was found.
 	 */
 	checkKeywordInput( keywordText ) {
-		let separatedWords = keywordText.split( "," );
-		if ( separatedWords.length > 1 ) {
-			this.setState( { showErrorMessage: true } );
-		} else {
-			this.setState( { showErrorMessage: false } );
-		}
+		return keywordText.includes( "," );
 	}
 
 	/**
 	 * Displays the error message
 	 *
-	 * @param {String} input The text of the input
+	 * @param {boolean} showErrorMessage Whether or not the error message has to be shown.
 	 *
-	 * @returns {Element} ErrorText The error message element
+	 * @returns {ReactElement} ErrorText The error message element.
 	 */
-	displayErrorMessage( input = "" ) {
-		if ( this.state.showErrorMessage && input !== "" ) {
+	displayErrorMessage( showErrorMessage ) {
+		if ( showErrorMessage && this.props.keyword !== "" ) {
 			return (
-				<ErrorText id="KeywordError" role="alert">
-					{ ErrorMessage }
+				<ErrorText role="alert">
+					{ __( "Are you trying to use multiple keywords? You should add them separately below.", "yoast-components" ) }
 				</ErrorText>
 			);
 		}
 	}
 
 	/**
-	 * Handles changes in the KeywordInput.
+	 * Handles changes in the KeywordInput, sets the state if a change has been made.
 	 *
-	 * @param {Event} event The onChange event.
+	 * @param {SyntheticEvent} event The onChange event.
 	 *
-	 * @returns {void} Calls the checkKeywordInput-function.
+	 * @returns {void}
 	 */
 	handleChange( event ) {
-		this.setState( { keyword: event.target.value } );
-		this.checkKeywordInput( event.target.value );
+		this.props.onChange( event.target.value );
 	}
 
 	/**
@@ -91,31 +119,60 @@ class KeywordInput extends React.Component {
 	 * @returns {ReactElement} The KeywordField react component including its label and eventual error message.
 	 */
 	render() {
-		const color = this.state.showErrorMessage ? "red" : "white";
+		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword } = this.props;
+		const showErrorMessage = this.checkKeywordInput( keyword );
+
+		const label = __( "Focus keyword:", "yoast-components" );
+
+		// The aria label should not be shown if there is a visible label.
+		const showAriaLabel = ! showLabel;
+
 		return(
-			<React.Fragment>
-				<label htmlFor={ this.props.id }>
-					{ this.props.label }
-				</label>
-				<KeywordField type="text" id={ this.props.id }
-							  borderColor={ color }
-							  onChange = { this.onChange }
-				/>
-				{ this.displayErrorMessage( this.state.keyword ) }
-			</React.Fragment>
+			<KeywordInputContainer>
+				{ showLabel && <KeywordFieldLabel htmlFor={ id }>
+					{ label }
+				</KeywordFieldLabel> }
+				<YoastInputButtonContainer>
+					<KeywordField
+						aria-label={ showAriaLabel ? label : null }
+						type="text"
+						id={ id }
+						className={ showErrorMessage ? "hasError" : null }
+						onChange={ this.handleChange }
+						onBlur={ onBlurKeyword }
+						value={ keyword }
+					/>
+					{ onRemoveKeyword !== noop && (
+						<BorderlessButton onClick={ onRemoveKeyword } >
+							<RemoveIcon
+								size="18px"
+								icon="times-circle"
+								color={ greyColor }
+							/>
+						</BorderlessButton>
+					) }
+				</YoastInputButtonContainer>
+				{ this.displayErrorMessage( showErrorMessage ) }
+			</KeywordInputContainer>
 		);
 	}
 }
 
 KeywordInput.propTypes = {
-	id: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
+	id: PropTypes.string,
+	showLabel: PropTypes.bool,
 	keyword: PropTypes.string,
+	onChange: PropTypes.func.isRequired,
+	onRemoveKeyword: PropTypes.func,
+	onBlurKeyword: PropTypes.func,
 };
 
 KeywordInput.defaultProps = {
+	id: uniqueId( "yoast-keyword-input-" ),
+	showLabel: true,
 	keyword: "",
+	onRemoveKeyword: noop,
+	onBlurKeyword: noop,
 };
 
 export default KeywordInput;
-

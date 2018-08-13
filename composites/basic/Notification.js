@@ -77,7 +77,7 @@ const StyledIcon = styled( SvgIcon )`
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled notification.
+ * @returns {ReactElement} styled notification.
  */
 function Notification( props ) {
 	const Heading = `${ props.headingLevel }`;

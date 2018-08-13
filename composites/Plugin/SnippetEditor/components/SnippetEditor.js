@@ -46,7 +46,6 @@ const EditSnippetButton = SnippetEditorButton.extend`
 
 const CloseEditorButton = SnippetEditorButton.extend`
 	margin-top: 24px;
-	${ getRtlStyle( "margin-left", "margin-right" ) }: 20px;
 `;
 
 /**

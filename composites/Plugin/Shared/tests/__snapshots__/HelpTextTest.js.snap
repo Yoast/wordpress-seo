@@ -2,7 +2,8 @@
 
 exports[`HelpText matches the snapshot by default 1`] = `
 .c0 {
-  font-size: 13px;
+  color: #767676;
+  margin-top: 0;
 }
 
 <p
@@ -14,14 +15,19 @@ exports[`HelpText matches the snapshot by default 1`] = `
 
 exports[`HelpText matches the snapshot when an array is provided as text 1`] = `
 .c0 {
-  font-size: 13px;
+  color: #767676;
+  margin-top: 0;
 }
 
 <p
   className="c0"
 >
   Text 
-  &lt;a href="https://www.example.com"&gt;with a link&lt;/a&gt;
+  <a
+    href="https://www.example.org"
+  >
+    with a link
+  </a>
    in the middle.
 </p>
 `;

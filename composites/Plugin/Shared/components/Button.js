@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import colors from "../../../../style-guide/colors.json";
 import SvgIcon from "./SvgIcon";
 import { rgba } from "../../../../style-guide/helpers";
+import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 const settings = {
 	minHeight: 32,
@@ -39,7 +40,7 @@ export function addBaseStyle( component ) {
 		font-size: inherit;
 		font-family: inherit;
 		font-weight: inherit;
-		text-align: left;
+		text-align: ${ getRtlStyle( "left", "right" ) };
 		overflow: visible;
 		min-height: ${ `${ settings.minHeight }px` };
 
@@ -153,7 +154,7 @@ export const addButtonStyles = flow( [
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled button.
+ * @returns {ReactElement} styled button.
  */
 export const BaseButton = addButtonStyles(
 	styled.button`
@@ -203,7 +204,7 @@ BaseButton.defaultProps = {
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled button.
+ * @returns {ReactElement} styled button.
  */
 export const Button = addFontSizeStyles( BaseButton );
 
@@ -216,7 +217,7 @@ export const Button = addFontSizeStyles( BaseButton );
  */
 function addIconTextStyle( icon ) {
 	return styled( icon )`
-		margin: 0 8px 0 0;
+		margin: ${ getRtlStyle( "0 8px 0 0", "0 0 0 8px" ) };
 		flex-shrink: 0;
 	`;
 }
@@ -226,7 +227,7 @@ function addIconTextStyle( icon ) {
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled icon button.
+ * @returns {ReactElement} styled icon button.
  */
 export const IconButton = ( props ) => {
 	const { children: text, icon, iconColor } = props;
@@ -265,27 +266,50 @@ IconButton.defaultProps = {
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled icon button.
+ * @returns {ReactElement} styled icon button.
  */
 export const IconsButton = ( props ) => {
-	const { children: text, prefixIcon, prefixIconColor, suffixIcon, suffixIconColor } = props;
-
-	const newProps = omit( props, [ "prefixIcon", "prefixIconColor", "suffixIcon", "suffixIconColor" ] );
+	const {
+		children,
+		className,
+		prefixIcon,
+		suffixIcon,
+		...buttonProps
+	} = props;
 
 	return (
-		<Button { ...newProps }>
-			{ prefixIcon ? <SvgIcon icon={ prefixIcon } color={ prefixIconColor } /> : null }
-			{ text }
-			{ suffixIcon ? <SvgIcon icon={ suffixIcon } color={ suffixIconColor } /> : null }
+		<Button className={ className } { ...buttonProps }>
+			{ prefixIcon &&
+				<SvgIcon
+					icon={ prefixIcon.icon }
+					color={ prefixIcon.color }
+					size={ prefixIcon.size }
+				/>
+			}
+			{ children }
+			{ suffixIcon &&
+				<SvgIcon
+					icon={ suffixIcon.icon }
+					color={ suffixIcon.color }
+					size={ suffixIcon.size }
+				/>
+			}
 		</Button>
 	);
 };
 
 IconsButton.propTypes = {
-	prefixIcon: PropTypes.string,
-	prefixIconColor: PropTypes.string,
-	suffixIcon: PropTypes.string,
-	suffixIconColor: PropTypes.string,
+	className: PropTypes.string,
+	prefixIcon: PropTypes.shape( {
+		icon: PropTypes.string,
+		color: PropTypes.string,
+		size: PropTypes.string,
+	} ),
+	suffixIcon: PropTypes.shape( {
+		icon: PropTypes.string,
+		color: PropTypes.string,
+		size: PropTypes.string,
+	} ),
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
@@ -294,6 +318,14 @@ IconsButton.propTypes = {
 };
 
 IconsButton.defaultProps = {
-	prefixIconColor: "#000",
-	suffixIconColor: "#000",
+	prefixIcon: {
+		icon: "",
+		color: colors.$black,
+		size: "16px",
+	},
+	suffixIcon: {
+		icon: "",
+		color: colors.$black,
+		size: "16px",
+	},
 };

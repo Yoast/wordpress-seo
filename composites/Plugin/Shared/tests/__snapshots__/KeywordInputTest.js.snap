@@ -1,22 +1,112 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`KeywordInput matches the snapshot by default 1`] = `
-Array [
-  <label
-    htmlFor="test-id"
-  >
-    test label
-  </label>,
-  .c0 {
-  margin-right: 0.5em;
-  border-color: white;
+.c4 {
+  border: 1px solid #ddd;
+  padding: 0.75em;
+  font-size: 1em;
 }
 
-<input
-    className="c0"
-    id="test-id"
-    onChange={[Function]}
-    type="text"
-  />,
-]
+.c2 {
+  border: 1px solid #ddd;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 1em 0;
+}
+
+.c1 {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.c3 {
+  -webkit-flex: 1 !important;
+  -ms-flex: 1 !important;
+  flex: 1 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.c3.hasError {
+  border-color: #dc3232;
+  outline-color: #dc3232;
+}
+
+.c5 {
+  border: none;
+  box-shadow: none;
+  background: none;
+}
+
+.c6 {
+  margin-top: 4px;
+  cursor: pointer;
+}
+
+.c7 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+<div
+  className="c0"
+>
+  <label
+    className="c1"
+    htmlFor="test-id"
+  >
+    Focus keyword:
+  </label>
+  <div
+    className="c2"
+  >
+    <input
+      aria-label={null}
+      className="c3 c4"
+      id="test-id"
+      onBlur={[Function]}
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+    <button
+      className="c5"
+      onClick={[Function]}
+    >
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-times-circle c6 c7"
+        fill="#ccc"
+        focusable="false"
+        role="img"
+        size="18px"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8 3.58-8 8-8zm5 11l-3-3 3-3-2-2-3 3-3-3-2 2 3 3-3 3 2 2 3-3 3 3z"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
 `;

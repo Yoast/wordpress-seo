@@ -10,7 +10,6 @@ import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/constants
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import SvgIcon from "../../Shared/components/SvgIcon";
 import PropTypes from "prop-types";
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 /**
  * Renders a switcher button.
@@ -54,8 +53,6 @@ const DesktopButton = SwitcherButton.extend`
 const Switcher = styled.div`
 	display: inline-block;
 	margin-top: 10px;
-	margin-right: ${ getRtlStyle( "0px", "20px" ) };
-	margin-left: ${ getRtlStyle( "20px", "4px" ) };
 	border: 1px solid #dbdbdb;
 	border-radius: 4px;
 	background-color: #f7f7f7;

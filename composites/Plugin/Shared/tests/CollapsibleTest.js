@@ -103,9 +103,8 @@ describe( "CollapsibleStateless", () => {
 			<CollapsibleStateless
 				title="Lorem ipsum dolor sit amet"
 				titleScreenReaderText="bad SEO score"
-				prefixIcon="circle"
-				prefixIconCollapsed="circle"
-				prefixIconColor="red"
+				prefixIcon={ { icon: "circle", color: "red" } }
+				prefixIconCollapsed={ { icon: "circle", color: "red" } }
 				isOpen={ true }
 				onToggle={ () => {} }
 			>

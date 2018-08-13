@@ -4,8 +4,9 @@ $palette_grey_ultra_light:   #f7f7f7; // Safe to use with $palette_grey_text –
 $palette_grey_light:         #f1f1f1; // Safe to use with $palette_grey_text – $palette_black.
 $palette_grey:               #ddd;    // Safe to use with $palette_grey_dark – $palette_black.
 $palette_grey_medium:        #ccc;    // Safe to use with $palette_grey_dark – $palette_black.
-$palette_grey_disabled:      #a0a5aa; // Should be used only for disabled controls text.
+$palette_grey_disabled:      #a0a5aa; // Should be used only for disabled controls text. Also used for the "none"" score icon.
 $palette_grey_medium_dark:   #888;    // Safe to use with $palette_black or $palette_white bold > 18.5px.
+$palette_grey_text_light:    #767676; // Lightest gray for text on a white background.
 $palette_grey_text:          #646464; // Safe to use with $palette_white – $palette_grey_light.
 $palette_grey_dark:          #555;    // Safe to use with $palette_white – $palette_grey_medium.
 $palette_black:              #000;    // Safe to use with $palette_white – $palette_grey_medium.
@@ -22,13 +23,14 @@ $palette_blue_dark:          #084a67; // Safe to use with $palette_white – $pa
 $palette_green:              #77b227; // Safe to use with $palette_black.
 $palette_green_light:        #7ad03a; // Safe to use with $palette_black.
 $palette_green_medium_light: #64a60a; // Safe to use with $palette_black or $palette_white bold > 18.5px.
-$palette_green_medium:       #008a00; // Safe to use with $palette_white and $palette_black.
+$palette_green_medium:       #008a00; // Safe to use with $palette_white and $palette_black. Also used for the smiley score icon.
 $palette_green_blue:         #009288; // Safe to use with $palette_black.
 $palette_orange:             #dc5c04; // Safe to use with $palette_black.
 $palette_orange_light:       #ee7c1b; // Safe to use with $palette_black.
 $palette_red:                #dc3232; // Safe to use with $palette_white and $palette_black.
 $palette_red_light:          #f9bdbd; // Safe to use with $palette_grey_dark.
 $palette_yellow:             #ffeb3b; // Safe to use with $palette_grey_text - $palette_black.
+$palette_yellow_score:       #f5c819; // Used for the OK SEO score icon.
 
 $color_bad:                  $palette_red;
 $color_ok:                   $palette_orange_light;
@@ -57,6 +59,8 @@ $color_border_light:         $palette_grey_ultra_light;
 $color_border:               $palette_grey_medium;
 
 $color_input_border:         $palette_grey;
+
+$color_help_text:            $palette_grey_text_light;
 
 $color_background_light:     $palette_grey_ultra_light;
 
@@ -96,4 +100,5 @@ $color_grey_disabled:        $palette_grey_disabled;
 $color_grey_medium:          $palette_grey_medium;
 $color_grey_light:           $palette_grey_light;
 $color_yellow:               $palette_yellow;
+$color_yellow_score:         $palette_yellow_score;
 $color_error_message:        $palette_red_light;
