@@ -1,6 +1,5 @@
 // External dependencies.
 const Jed = require( "jed" );
-const omit = require( "lodash/omit" );
 const merge = require( "lodash/merge" );
 
 // YoastSEO.js dependencies.

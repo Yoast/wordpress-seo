@@ -73,7 +73,7 @@ class AnalysisWorkerWrapper {
 
 				// Map the results back to classes, because we encode and decode the message payload.
 				if ( response.seo ) {
-					response.seo.results = response.seo.results .map( result => AssessmentResult.parse( result ) );
+					response.seo.results = response.seo.results.map( result => AssessmentResult.parse( result ) );
 				}
 				if ( response.readability ) {
 					response.readability.results = response.readability.results.map( result => AssessmentResult.parse( result ) );
