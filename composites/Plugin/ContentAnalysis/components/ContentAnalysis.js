@@ -12,7 +12,6 @@ import Collapsible, { StyledIconsButton } from "../../../../composites/Plugin/Sh
 export const ContentAnalysisContainer = styled.div`
 	width: 100%;
 	background-color: white;
-	max-width: 800px;
 	border-bottom: 1px solid transparent; // Avoid parent and child margin collapsing.
 `;
 

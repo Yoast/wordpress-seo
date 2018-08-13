@@ -136,6 +136,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c5:focus {
@@ -170,6 +171,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c3 {
@@ -182,7 +184,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 .c0 {
   width: 100%;
   background-color: white;
-  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 
@@ -766,6 +767,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c5:focus {
@@ -800,6 +802,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c3 {
@@ -812,7 +815,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 .c0 {
   width: 100%;
   background-color: white;
-  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 
@@ -1372,6 +1374,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c5:focus {
@@ -1406,6 +1409,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c3 {
@@ -1418,7 +1422,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 .c0 {
   width: 100%;
   background-color: white;
-  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 
@@ -2026,6 +2029,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c5:focus {
@@ -2060,6 +2064,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c3 {
@@ -2072,7 +2077,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 .c0 {
   width: 100%;
   background-color: white;
-  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 
@@ -2680,6 +2684,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c5:focus {
@@ -2714,6 +2719,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c3 {
@@ -2726,7 +2732,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 .c0 {
   width: 100%;
   background-color: white;
-  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 
@@ -3172,6 +3177,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c5:focus {
@@ -3206,6 +3212,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c3 {
@@ -3218,7 +3225,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 .c0 {
   width: 100%;
   background-color: white;
-  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 
@@ -3664,6 +3670,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c5:focus {
@@ -3698,6 +3705,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c3 {
@@ -3710,7 +3718,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 .c0 {
   width: 100%;
   background-color: white;
-  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 
@@ -4225,6 +4232,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c5:focus {
@@ -4259,6 +4267,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c3 {
@@ -4271,7 +4280,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 .c0 {
   width: 100%;
   background-color: white;
-  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 

@@ -32,6 +32,7 @@ export const StyledIconsButton = styled( IconsButton )`
 	border: none;
 	border-radius: 0;
 	box-shadow: none;
+	font-weight: normal;
 
 	:focus {
 		outline: 1px solid ${ colors.$color_blue };
