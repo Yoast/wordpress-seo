@@ -27,4 +27,5 @@ export const YoastInputButtonContainer = styled.div`
 	border: 1px solid ${ colors.$color_input_border };
 	display: flex;
 	flex-direction: row;
+	box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
 `;
