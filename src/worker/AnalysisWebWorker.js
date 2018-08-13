@@ -1,6 +1,7 @@
 // External dependencies.
 const Jed = require( "jed" );
 const merge = require( "lodash/merge" );
+const isEqual = require( "lodash/isEqual" );
 
 // YoastSEO.js dependencies.
 const Paper = require( "../values/Paper" );
@@ -42,6 +43,15 @@ export default class AnalysisWebWorker {
 		this._researcher = new Researcher( this._paper );
 		this._contentAssessor = null;
 		this._seoAssessor = null;
+		this._result = {
+			id: -1,
+			readability: {
+				results: [],
+			},
+			seo: {
+				results: [],
+			},
+		};
 
 		// Bind actions to this scope.
 		this.analyze = this.analyze.bind( this );
@@ -192,7 +202,8 @@ export default class AnalysisWebWorker {
 		this._i18n = AnalysisWebWorker.createI18n( this._configuration.translations );
 		this._contentAssessor = this.createContentAssessor();
 		this._seoAssessor = this.createSEOAssessor();
-
+		// Reset the paper in order to not use the cached results on analyze.
+		this._paper = new Paper( "" );
 		this.send( "initialize:done", id );
 	}
 
@@ -211,12 +222,36 @@ export default class AnalysisWebWorker {
 		const result = {};
 
 		paper.text = removeHtmlBlocks( paper.text );
-		this._paper = Paper.parse( paper );
+		const newPaper = Paper.parse( paper );
+		const paperIsIdentical = isEqual( this._paper, newPaper );
+		const textIsIdentical = this._paper.getText() === newPaper.getText();
+		this._paper = newPaper;
+
+		if ( paperIsIdentical ) {
+			console.log( "The paper has not changed since you analyzed it last." );
+			return this._result;
+		}
+
 		this._researcher.setPaper( this._paper );
+
+		// Rerunning the SEO analysis if the text or attributes of the paper have changed.
+		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
+			this._seoAssessor.assess( this._paper );
+			this._result.seo = {
+				results: this._seoAssessor.results,
+				score: this._seoAssessor.calculateOverallScore(),
+			};
+		}
+
+		// Return old readability results if the text of the paper has not changed.
+		if ( textIsIdentical ) {
+			console.log( "The text of your paper has not changed, returning the content analysis results from the previous analysis." );
+			return this._result;
+		}
 
 		if ( this._configuration.contentAnalysisActive && this._contentAssessor ) {
 			this._contentAssessor.assess( this._paper );
-			result.readability = {
+			this._result.readability = {
 				results: this._contentAssessor.results.map( result => result.serialize() ),
 				score: this._contentAssessor.calculateOverallScore(),
 			};
@@ -224,13 +259,13 @@ export default class AnalysisWebWorker {
 
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
 			this._seoAssessor.assess( this._paper );
-			result.seo = {
+			this._result.seo = {
 				results: this._seoAssessor.results.map( result => result.serialize() ),
 				score: this._seoAssessor.calculateOverallScore(),
 			};
 		}
 
-		return result;
+		return this._result;
 	}
 
 	/**
