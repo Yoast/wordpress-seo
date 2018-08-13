@@ -41,7 +41,7 @@ class AnalysisWebWorker {
 		this._contentAssessor = null;
 		this._seoAssessor = null;
 		this._result = {
-			id: "",
+			id: -1,
 			readability: {
 				results: [],
 			},
@@ -191,7 +191,8 @@ class AnalysisWebWorker {
 		this._i18n = AnalysisWebWorker.createI18n( this._configuration.translations );
 		this._contentAssessor = this.createContentAssessor();
 		this._seoAssessor = this.createSEOAssessor();
-
+		// Reset the paper in order to not use the cached results on analyze.
+		this._paper = new Paper( "" );
 		this.send( "initialize:done", id );
 	}
 
@@ -210,19 +211,22 @@ class AnalysisWebWorker {
 		this._result.id = id;
 
 		const newPaper = new Paper( removeHtmlBlocks( paper.text ), omit( paper, "text" ) );
+		const paperIsIdentical = isEqual( this._paper, newPaper );
+		const textIsIdentical = this._paper.getText() === newPaper.getText();
+		this._paper = newPaper;
 
-		if ( isEqual( this._paper, newPaper ) ) {
+		if ( paperIsIdentical ) {
 			console.log( "The paper has not changed since you analyzed it last." );
 
 			return this._result;
 		}
 
 		console.log( "The paper has changed since you analyzed it last. Running the analysis." );
-		this._researcher.setPaper( newPaper );
+		this._researcher.setPaper( this._paper );
 
 		// Rerunning the SEO analysis if the text or attributes of the paper have changed.
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
-			this._seoAssessor.assess( newPaper );
+			this._seoAssessor.assess( this._paper );
 			this._result.seo = {
 				results: this._seoAssessor.results,
 				score: this._seoAssessor.calculateOverallScore(),
@@ -230,20 +234,19 @@ class AnalysisWebWorker {
 		}
 
 		// Return old readability results if the text of the paper has not changed.
-		if ( this._paper.getText() === newPaper.getText() ) {
+		if ( textIsIdentical ) {
 			console.log( "The text of your paper has not changed, returning the content analysis results from the previous analysis." );
-			this._paper = newPaper;
 			return this._result;
 		}
 
 		if ( this._configuration.contentAnalysisActive && this._contentAssessor ) {
-			this._contentAssessor.assess( newPaper );
+			this._contentAssessor.assess( this._paper );
 			this._result.readability = {
 				results: this._contentAssessor.results,
 				score: this._contentAssessor.calculateOverallScore(),
 			};
 		}
-		this._paper = newPaper;
+
 		return this._result;
 	}
 
