@@ -122,6 +122,7 @@ Bugfixes:
 * Fixes a bug where `/sitemap.xml` would not correctly redirect to `/sitemap_index.xml` in some environments.
 * Fixes a bug where sitemap cache transients would not be correctly cleared.
 * Fixes a bug where markers were wrongfully displayed in Gutenberg.
+* Fixes a bug where SEO titles were incorrectly evaluated as being of a good length when they were actually slightly too long.
 
 Other:
 * Moves the network's Restore Site functionality into its own tab.
