@@ -27,7 +27,6 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		$input['shortlinks.snippet_preview_info']          = WPSEO_Shortlinker::get( 'https://yoa.st/snippet-preview' );
 		$input['shortlinks.cornerstone_content_info']      = WPSEO_Shortlinker::get( 'https://yoa.st/1i9' );
 		$input['shortlinks.readability_analysis_info']     = WPSEO_Shortlinker::get( 'https://yoa.st/readability-analysis' );
-		$input['shortlinks.linking_suggestions_info']      = WPSEO_Shortlinker::get( 'https://yoa.st/site-structure-metabox' );
 
 		return $input;
 	}
