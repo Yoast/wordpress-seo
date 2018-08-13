@@ -91,6 +91,7 @@ var defaults = {
 	keywordAnalysisActive: true,
 	contentAnalysisActive: true,
 	hasSnippetPreview: true,
+	debounceRefresh: true,
 };
 
 /**
@@ -245,6 +246,8 @@ function verifyArguments( args ) {
  * @param {Function} args.marker The marker to use to apply the list of marks retrieved from an assessment.
  *
  * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
+ * @param {boolean} [args.debouncedRefresh] Whether or not to debounce the
+ *                                          refresh function. Defaults to true.
  *
  * @constructor
  */
@@ -259,7 +262,9 @@ var App = function( args ) {
 
 	this.config = args;
 
-	this.refresh = debounce( this.refresh.bind( this ), inputDebounceDelay );
+	if ( args.debouncedRefresh === true ) {
+		this.refresh = debounce( this.refresh.bind( this ), inputDebounceDelay );
+	}
 	this._pureRefresh = throttle( this._pureRefresh.bind( this ), this.config.typeDelay );
 
 	this.callbacks = this.config.callbacks;
