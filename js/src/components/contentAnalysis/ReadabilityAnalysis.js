@@ -1,4 +1,4 @@
-/* global wpseoPostScraperL10n wpseoTermScraperL10n */
+/* global wpseoPostScraperL10n wpseoTermScraperL10n wpseoAdminL10n */
 
 import React from "react";
 import PropTypes from "prop-types";
