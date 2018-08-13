@@ -10,7 +10,7 @@ const ContentAssessor = require( "../contentAssessor" );
 const SEOAssessor = require( "../seoAssessor" );
 const CornerstoneContentAssessor = require( "../cornerstone/contentAssessor" );
 const CornerstoneSEOAssessor = require( "../cornerstone/seoAssessor" );
-const removeHtmlBlocks = require( "../stringProcessing/htmlParser.js" );
+const removeHtmlBlocks = require( "../stringProcessing/htmlParser" );
 
 // Internal dependencies.
 import Scheduler from "./scheduler";
@@ -213,13 +213,14 @@ export default class AnalysisWebWorker {
 		console.log( "run analyze", id, paper, configuration );
 		const result = { id };
 
-		this._paper = new Paper( removeHtmlBlocks( paper.text ), omit( paper, "text" ) );
+		paper.text = removeHtmlBlocks( paper.text );
+		this._paper = Paper.parse( paper );
 		this._researcher.setPaper( this._paper );
 
 		if ( this._configuration.contentAnalysisActive && this._contentAssessor ) {
 			this._contentAssessor.assess( this._paper );
 			result.readability = {
-				results: this._contentAssessor.results,
+				results: this._contentAssessor.results.map( result => result.serialize() ),
 				score: this._contentAssessor.calculateOverallScore(),
 			};
 		}
@@ -227,7 +228,7 @@ export default class AnalysisWebWorker {
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
 			this._seoAssessor.assess( this._paper );
 			result.seo = {
-				results: this._seoAssessor.results,
+				results: this._seoAssessor.results.map( result => result.serialize() ),
 				score: this._seoAssessor.calculateOverallScore(),
 			};
 		}

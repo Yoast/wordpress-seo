@@ -1,6 +1,7 @@
 // Internal dependencies.
 import { encodePayload, decodePayload } from "./utils";
 import Request from "./request";
+const AssessmentResult = require( "../values/AssessmentResult" );
 
 /**
  * Analysis worker is an API around the Web Worker.
@@ -68,6 +69,14 @@ class AnalysisWorkerWrapper {
 				if ( ! request ) {
 					console.warn( "AnalysisWebWorker: unmatched response", response );
 					break;
+				}
+
+				// Map the results back to classes, because we encode and decode the message payload.
+				if ( response.seo ) {
+					response.seo.results = response.seo.results .map( result => AssessmentResult.parse( result ) );
+				}
+				if ( response.readability ) {
+					response.readability.results = response.readability.results.map( result => AssessmentResult.parse( result ) );
 				}
 
 				request.resolve( response );
