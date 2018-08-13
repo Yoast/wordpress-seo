@@ -3,6 +3,8 @@ import * as bundledPlugins from "./js/bundledPlugins";
 import * as helpers from "./js/helpers";
 import * as markers from "./js/markers";
 import * as string from "./js/stringProcessing";
+import * as interpreters from "./js/interpreters";
+import * as config from "./js/config";
 
 module.exports = {
 	Assessor: require( "./js/assessor" ),
@@ -21,4 +23,6 @@ module.exports = {
 	helpers,
 	markers,
 	string,
+	interpreters,
+	config,
 };

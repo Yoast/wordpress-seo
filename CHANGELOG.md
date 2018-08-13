@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.37.0 August 13th, 2018
+* Updates the font size of the snippet title measure element to correctly mimic Google's desktop snippet title.
+* Deprecates the switch assessor.
+
 ## 1.36.1 August 6th, 2018
 ### Changed
 * Increased the debounce delay in the App to make sure the refresh is triggered less often.
