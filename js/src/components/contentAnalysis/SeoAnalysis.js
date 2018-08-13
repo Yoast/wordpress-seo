@@ -15,7 +15,6 @@ import ModalButtonContainer from "../ModalButtonContainer";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import { utils } from "yoast-components";
-import isNil from "lodash/isNil";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -108,10 +107,6 @@ class SeoAnalysis extends React.Component {
 		if( this.props.keyword === "" ) {
 			score.className = "na";
 			score.screenReaderReadabilityText = __( "Enter a focus keyword to calculate the SEO score", "wordpress-seo" );
-		}
-
-		if ( isNil( this.props.overallScore ) ) {
-			score.className = "loading";
 		}
 
 		return (
