@@ -579,11 +579,12 @@ class WPSEO_Admin_Asset_Manager {
 			return false;
 		}
 
+		// When working in the classic editor shipped with Gutenberg, the assets shouldn't be loaded. Fixes IE11 bug.
 		if ( isset( $_GET['classic-editor'] ) ) {
 			return false;
 		}
 
-		// When classic editor plugin and Gutenberg are active the Gutenberg assets shouldn't be loaded.
+		// When classic editor plugin and Gutenberg are active, the Gutenberg assets shouldn't be loaded.
 		if ( function_exists( 'classic_editor_is_gutenberg_active' ) && classic_editor_is_gutenberg_active() ) {
 			return false;
 		}
