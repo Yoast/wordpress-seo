@@ -1,4 +1,3 @@
-/* globals wpseoAdminL10n */
 import React from "react";
 import PropTypes from "prop-types";
 import LinkSuggestion from "./composites/LinkSuggestion";
@@ -6,7 +5,6 @@ import Clipboard from "clipboard";
 import { localize } from "../../utils/i18n";
 import interpolateComponents from "interpolate-components";
 import { speak } from "@wordpress/a11y";
-import { __ } from "@wordpress/i18n";
 
 /**
  * Represents the Suggestions component.
@@ -107,7 +105,6 @@ class LinkSuggestions extends React.Component {
 		let articleLinkString = this.props.translate( "This is a list of related content to which you could link in your post. " +
 		                                              "Read {{a}}our article about site structure{{/a}} " +
 		                                              "to learn more about how internal linking can help improve your SEO." );
-
 		let articleLink = interpolateComponents( {
 			mixedString: articleLinkString,
 			components: {
