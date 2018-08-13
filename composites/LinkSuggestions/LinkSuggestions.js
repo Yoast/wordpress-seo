@@ -104,7 +104,7 @@ class LinkSuggestions extends React.Component {
 		let maximumSuggestions = this.props.maxSuggestions;
 
 		// Translators: Text between {{a}} and {{/a}} will be a link to an article about site structure.
-		let articleLinkString = this.props.translate( "This is a list of related content to which you could link in your post." +
+		let articleLinkString = this.props.translate( "This is a list of related content to which you could link in your post. " +
 		                                              "Read {{a}}our article about site structure{{/a}} " +
 		                                              "to learn more about how internal linking can help improve your SEO." );
 
