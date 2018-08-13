@@ -51,15 +51,6 @@ class WPSEO_Gutenberg_Compatibility {
 	}
 
 	/**
-	 * Determines whether or not the currently installed version of Gutenberg is the latest known version.
-	 *
-	 * @return bool True if the currently installed version is the latest known version. False otherwise.
-	 */
-	public function is_latest_version() {
-		return version_compare( $this->current_version, $this->get_latest_release(), '==' );
-	}
-
-	/**
 	 * Gets the currently installed version.
 	 *
 	 * @return string The currently installed version.
