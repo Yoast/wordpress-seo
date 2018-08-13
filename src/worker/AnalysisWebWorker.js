@@ -44,7 +44,6 @@ export default class AnalysisWebWorker {
 		this._contentAssessor = null;
 		this._seoAssessor = null;
 		this._result = {
-			id: -1,
 			readability: {
 				results: [],
 			},
