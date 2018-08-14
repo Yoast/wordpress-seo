@@ -66,7 +66,7 @@ const StyledTitle = styled.span`
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow-x: hidden;
-	color: ${ colors.$palette_grey_dark };
+	color: ${ colors.$color_headings };
 `;
 
 const StyledSubTitle = styled.span`
