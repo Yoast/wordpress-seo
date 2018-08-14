@@ -28,6 +28,7 @@ import {
 	registerReactComponent,
 	renderClassicEditorMetabox
 } from "./helpers/classicEditor";
+import CustomAnalysisData from "./analysis/CustomAnalysisData";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -40,6 +41,7 @@ window.yoastHideMarkers = true;
 	var termSlugInput;
 
 	let store;
+	const customAnalysisData = new CustomAnalysisData();
 
 	/**
 	 * Get the editor created via wp_editor() and append it to the term-description-wrap
@@ -264,6 +266,8 @@ window.yoastHideMarkers = true;
 
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
+		window.YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
+
 		window.YoastSEO.store = store;
 
 		termScraper.initKeywordTabTemplate();

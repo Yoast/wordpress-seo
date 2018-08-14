@@ -1,45 +1,47 @@
-import merge from "lodash/merge";
-import isArray from "lodash/isArray";
+/* global YoastSEO */
 
-// In PR #10602 Pluggable is moved from YoastSEO.js to this path.
-import Pluggable from "../pluggable";
+import merge from "lodash/merge";
+
 import { measureTextWidth } from "../helpers/measureTextWidth";
 
 /**
- * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
+ * Retrieves the data needed for the analyses.
  *
- * @returns {void}
+ * We use the following data sources:
+ * 1. Redux Store.
+ * 2. Custom data callbacks.
+ * 3. Pluggable modifications.
+ *
+ * @param {Object}             store              The redux store.
+ * @param {CustomAnalysisData} customAnalysisData The custom analysis data.
+ * @param {Pluggable}          pluggable          The Pluggable.
+ *
+ * @returns {Object} The paper data used for the analyses.
  */
-export function getData() {
-	// Get the data from the store
-	let rawData = window.YoastSEO.store.getState();
+export default function getAnalysisData( store, customAnalysisData, pluggable ) {
+	let rawData = store.getState();
+	rawData = merge( rawData, customAnalysisData.getData() );
 
-	// Add the custom data (Premium) to the raw data.
-	if ( isArray( window.YoastSEO.app.customCallbacks ) ) {
-		window.YoastSEO.app.customCallbacks.forEach( ( customCallback ) => {
-			const customData = customCallback();
+	// Make a data structure for the paper data.
+	const data = {
+		text: rawData.text,
+		keyword: rawData.keyword,
+		synonyms: rawData.synonyms,
+		description: rawData.analysisData.snippet.description,
+		title: rawData.analysisData.snippet.title,
+		url: rawData.snippetEditor.data.slug,
+		permalink: rawData.settings.snippetEditor.baseUrl + rawData.snippetEditor.data.slug,
+	};
 
-			rawData = merge( rawData, customData );
-		} );
+	// Modify the data through pluggable.
+	if ( pluggable.loaded ) {
+		data.title = pluggable._applyModifications( "data_page_title", data.title );
+		data.description = pluggable._applyModifications( "data_meta_desc", data.description );
 	}
 
-	// Add snippet preview data
-	if ( window.YoastSEO.app.hasSnippetPreview() ) {
-		// Gets the data FOR the analyzer
-		const dataSnippet = window.YoastSEO.app.snippetPreview.getAnalyzerData();
+	data.titleWidth = measureTextWidth( data.title );
+	// TODO: change this to getContentLocale after PR #10605 gets merged.
+	data.locale = YoastSEO.app.config.locale;
 
-		rawData.rawData.metaTitle = dataSnippet.title;
-		rawData.rawData.url = dataSnippet.url;
-		rawData.rawData.meta = dataSnippet.metaDesc;
-	}
-
-	// Do the following two if all plugins are loaded: todo call refresh status here
-	rawData.metaTitle = Pluggable._applyModifications( "data_page_title", rawData.metaTitle );
-	rawData.meta = Pluggable._applyModifications( "data_meta_desc", rawData.meta );
-
-	// Provide titleWidth and locale values
-	rawData.titleWidth = measureTextWidth( rawData.metaTitle );
-	rawData.locale = window.YoastSEO.app.config.locale;
-
-	return rawData;
+	return data;
 }

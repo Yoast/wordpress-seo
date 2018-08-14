@@ -27,6 +27,7 @@ import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
+import CustomAnalysisData from "./analysis/CustomAnalysisData";
 
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
@@ -53,6 +54,7 @@ setWordPressSeoL10n();
 	let app;
 	let decorator = null;
 	let postDataCollector;
+	const customAnalysisData = new CustomAnalysisData();
 
 	let editStore;
 
@@ -272,19 +274,6 @@ setWordPressSeoL10n();
 	}
 
 	/**
-	 * Registers a custom data callback.
-	 *
-	 * @param {Function} callback The callback to register.
-	 *
-	 * @returns {void}
-	 */
-	function registerCustomDataCallback ( callback ) {
-		if ( isFunction( callback ) ) {
-			YoastSEO.app.customCallbacks.push( callback );
-		}
-	}
-
-	/**
 	 * Exposes globals necessary for functionality of plugins integrating.
 	 *
 	 * @param {App} app The app to expose globally.
@@ -295,8 +284,7 @@ setWordPressSeoL10n();
 	function exposeGlobals( app, replaceVarsPlugin, shortcodePlugin ) {
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
-		window.YoastSEO.app.customCallbacks = [];
-		window.YoastSEO.app.registerCustomDataCallback = registerCustomDataCallback;
+		window.YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 
 		// Init Plugins.
 		window.YoastSEO.wp = {};
