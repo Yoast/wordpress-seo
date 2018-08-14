@@ -1,21 +1,19 @@
 // External dependencies.
-import Jed from "jed";
-import omit from "lodash/omit";
-import merge from "lodash/merge";
-import isEqual from "lodash/isEqual";
+const Jed = require( "jed" );
+const merge = require( "lodash/merge" );
+const isEqual = require( "lodash/isEqual" );
 
 // YoastSEO.js dependencies.
-import * as Paper from "yoastseo/values/Paper";
-import * as Researcher from "yoastseo/researcher";
-import * as ContentAssessor from "yoastseo/contentAssessor";
-import * as SEOAssessor from "yoastseo/seoAssessor";
-import * as CornerstoneContentAssessor from "yoastseo/cornerstone/contentAssessor";
-import * as CornerstoneSEOAssessor from "yoastseo/cornerstone/seoAssessor";
-const removeHtmlBlocks = require( "../stringProcessing/htmlParser.js" );
+const Paper = require( "../values/Paper" );
+const Researcher = require( "../researcher" );
+const ContentAssessor = require( "../contentAssessor" );
+const SEOAssessor = require( "../seoAssessor" );
+const CornerstoneContentAssessor = require( "../cornerstone/contentAssessor" );
+const CornerstoneSEOAssessor = require( "../cornerstone/seoAssessor" );
+const removeHtmlBlocks = require( "../stringProcessing/htmlParser" );
 
 // Internal dependencies.
 import Scheduler from "./scheduler";
-import { encodePayload, decodePayload } from "./utils";
 
 /**
  * Analysis Web Worker.
@@ -23,11 +21,16 @@ import { encodePayload, decodePayload } from "./utils";
  * Worker API:     https://developer.mozilla.org/en-US/docs/Web/API/Worker
  * Webpack loader: https://github.com/webpack-contrib/worker-loader
  */
-class AnalysisWebWorker {
+export default class AnalysisWebWorker {
 	/**
 	 * Initializes the AnalysisWebWorker class.
+	 *
+	 * @param {Object} scope The scope for the messaging. Expected to have the
+	 *                       `onmessage` event and the `postMessage` function.
 	 */
-	constructor() {
+	constructor( scope ) {
+		this._scope = scope;
+
 		this._configuration = {
 			contentAnalysisActive: true,
 			keywordAnalysisActive: true,
@@ -41,7 +44,6 @@ class AnalysisWebWorker {
 		this._contentAssessor = null;
 		this._seoAssessor = null;
 		this._result = {
-			id: -1,
 			readability: {
 				results: [],
 			},
@@ -59,6 +61,15 @@ class AnalysisWebWorker {
 	}
 
 	/**
+	 * Registers this web worker with the scope passed to it's constructor.
+	 *
+	 * @returns {void}
+	 */
+	register() {
+		this._scope.onmessage = this.handleMessage;
+	}
+
+	/**
 	 * Receives the post message and determines the action.
 	 *
 	 * See: https://developer.mozilla.org/en-US/docs/Web/API/Worker/onmessage
@@ -72,16 +83,17 @@ class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	handleMessage( { data: { type, id, payload } } ) {
+		console.log( "worker", type, id, payload );
 		switch( type ) {
 			case "initialize":
-				this.initialize( id, decodePayload( payload ) );
+				this.initialize( id, payload );
 				break;
 			case "analyze":
 				this._scheduler.schedule( {
 					id,
 					execute: this.analyze,
 					done: this.analyzeDone,
-					data: decodePayload( payload ),
+					data: payload,
 				} );
 				break;
 			default:
@@ -168,25 +180,23 @@ class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	send( type, id, payload = {} ) {
-		console.log( "worker => wrapper", type, id, payload );
-		self.postMessage( {
+		this._scope.postMessage( {
 			type,
 			id,
-			payload: encodePayload( payload ),
+			payload,
 		} );
 	}
 
 	/**
 	 * Configures the analysis worker.
 	 *
-	 * @param {number} id            The id of the request.
+	 * @param {number} id            The request id.
 	 * @param {Object} configuration The configuration object.
 	 *
 	 * @returns {void}
 	 */
 	initialize( id, configuration ) {
 		this._configuration = merge( this._configuration, configuration );
-		console.log( "run initialize", configuration, this._configuration );
 
 		this._i18n = AnalysisWebWorker.createI18n( this._configuration.translations );
 		this._contentAssessor = this.createContentAssessor();
@@ -199,36 +209,31 @@ class AnalysisWebWorker {
 	/**
 	 * Runs analyses on a paper.
 	 *
+	 * @param {number} id                      The request id.
 	 * @param {Object} payload                 The payload object.
 	 * @param {Object} payload.paper           The paper to analyze.
-	 * @param {Object} [payload.configuration] The configuration for the
-	 *                                         specific analyses.
 	 *
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
-	analyze( { id, paper, configuration = {} } ) {
-		console.log( "run analyze", id, paper, configuration );
-		this._result.id = id;
-
-		const newPaper = new Paper( removeHtmlBlocks( paper.text ), omit( paper, "text" ) );
+	analyze( id, { paper } ) {
+		paper.text = removeHtmlBlocks( paper.text );
+		const newPaper = Paper.parse( paper );
 		const paperIsIdentical = isEqual( this._paper, newPaper );
 		const textIsIdentical = this._paper.getText() === newPaper.getText();
-		this._paper = newPaper;
 
 		if ( paperIsIdentical ) {
 			console.log( "The paper has not changed since you analyzed it last." );
-
 			return this._result;
 		}
 
-		console.log( "The paper has changed since you analyzed it last. Running the analysis." );
+		this._paper = newPaper;
 		this._researcher.setPaper( this._paper );
 
 		// Rerunning the SEO analysis if the text or attributes of the paper have changed.
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
 			this._seoAssessor.assess( this._paper );
 			this._result.seo = {
-				results: this._seoAssessor.results,
+				results: this._seoAssessor.results.map( result => result.serialize() ),
 				score: this._seoAssessor.calculateOverallScore(),
 			};
 		}
@@ -242,7 +247,7 @@ class AnalysisWebWorker {
 		if ( this._configuration.contentAnalysisActive && this._contentAssessor ) {
 			this._contentAssessor.assess( this._paper );
 			this._result.readability = {
-				results: this._contentAssessor.results,
+				results: this._contentAssessor.results.map( result => result.serialize() ),
 				score: this._contentAssessor.calculateOverallScore(),
 			};
 		}
@@ -262,9 +267,3 @@ class AnalysisWebWorker {
 		this.send( "analyze:done", id, result );
 	}
 }
-
-// Create an instance of the analysis web worker.
-const analysisWebWorker = new AnalysisWebWorker();
-
-// Bind the post message handler.
-self.addEventListener( "message", analysisWebWorker.handleMessage );

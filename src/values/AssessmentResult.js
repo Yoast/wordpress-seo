@@ -1,5 +1,8 @@
-var isUndefined = require( "lodash/isUndefined" );
-var isNumber = require( "lodash/isNumber" );
+const isArray = require( "lodash/isArray" );
+const isUndefined = require( "lodash/isUndefined" );
+const isNumber = require( "lodash/isNumber" );
+
+const Mark = require( "./Mark" );
 
 /**
  * A function that only returns an empty that can be used as an empty marker
@@ -36,6 +39,10 @@ var AssessmentResult = function( values ) {
 
 	if ( ! isUndefined( values.text ) ) {
 		this.setText( values.text );
+	}
+
+	if ( ! isUndefined( values.marks ) ) {
+		this.setMarks( values.marks );
 	}
 };
 
@@ -97,6 +104,29 @@ AssessmentResult.prototype.setText = function( text ) {
 };
 
 /**
+ * Gets the available marks.
+ *
+ * @returns {array} The marks associated with the AssessmentResult.
+ */
+AssessmentResult.prototype.getMarks = function() {
+	return this.marks;
+};
+
+/**
+ * Sets the marks for the assessment.
+ *
+ * @param {array} marks The marks to be used for the marks property
+ *
+ * @returns {void}
+ */
+AssessmentResult.prototype.setMarks = function( marks ) {
+	if ( isArray( marks ) ) {
+		this.marks = marks;
+		this._hasMarks = marks.length > 0;
+	}
+};
+
+/**
  * Sets the identifier
  *
  * @param {string} identifier An alphanumeric identifier for this result.
@@ -131,7 +161,7 @@ AssessmentResult.prototype.setMarker = function( marker ) {
  * @returns {boolean} Whether or this result has a marker.
  */
 AssessmentResult.prototype.hasMarker = function() {
-	return this._hasMarks && this._marker !== emptyMarker;
+	return this._hasMarks && this._marker !== this.emptyMarker;
 };
 
 /**
@@ -160,6 +190,38 @@ AssessmentResult.prototype.setHasMarks = function( hasMarks ) {
  */
 AssessmentResult.prototype.hasMarks = function() {
 	return this._hasMarks;
+};
+
+/**
+ * Serializes the AssessmentResult instance to an object.
+ *
+ * @returns {Object} The serialized AssessmentResult.
+ */
+AssessmentResult.prototype.serialize = function() {
+	return {
+		identifier: this._identifier,
+		score: this.score,
+		text: this.text,
+		marks: this.marks.map( mark => mark.serialize() ),
+	};
+};
+
+/**
+ * Parses the object to an AssessmentResult.
+ *
+ * @param {Object} serialized The serialized object.
+ *
+ * @returns {AssessmentResult} The parsed AssessmentResult.
+ */
+AssessmentResult.parse = function( serialized ) {
+	const result = new AssessmentResult( {
+		text: serialized.text,
+		score: serialized.score,
+		marks: serialized.marks.map( mark => Mark.parse( mark ) ),
+	} );
+	result.setIdentifier( serialized.identifier );
+
+	return result;
 };
 
 module.exports = AssessmentResult;
