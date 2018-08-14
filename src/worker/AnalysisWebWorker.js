@@ -2,6 +2,7 @@
 const Jed = require( "jed" );
 const merge = require( "lodash/merge" );
 const isEqual = require( "lodash/isEqual" );
+const isUndefined = require( "lodash/isUndefined" );
 
 // YoastSEO.js dependencies.
 const Paper = require( "../values/Paper" );
@@ -11,6 +12,7 @@ const SEOAssessor = require( "../seoAssessor" );
 const CornerstoneContentAssessor = require( "../cornerstone/contentAssessor" );
 const CornerstoneSEOAssessor = require( "../cornerstone/seoAssessor" );
 const removeHtmlBlocks = require( "../stringProcessing/htmlParser" );
+const LargestKeywordDistanceAssessment = require( "../assessments/seo/LargestKeywordDistanceAssessment" );
 
 // Internal dependencies.
 import Scheduler from "./scheduler";
@@ -36,6 +38,7 @@ export default class AnalysisWebWorker {
 			keywordAnalysisActive: true,
 			useCornerstone: false,
 			useKeywordDistribution: false,
+			// The locale used for language-specific configurations in Flesch-reading ease and Sentence length assessments.
 			locale: "en_US",
 		};
 		this._scheduler = new Scheduler( { resetQueue: true } );
@@ -141,10 +144,12 @@ export default class AnalysisWebWorker {
 		if ( contentAnalysisActive === false ) {
 			return null;
 		}
-		if ( useCornerstone === true ) {
-			return new CornerstoneContentAssessor( this._i18n, { locale } );
-		}
-		return new ContentAssessor( this._i18n, { locale } );
+
+		const assessor = useCornerstone === true
+			? new CornerstoneContentAssessor( this._i18n, { locale } )
+			: new ContentAssessor( this._i18n, { locale } );
+
+		return assessor;
 	}
 
 	/**
@@ -158,16 +163,23 @@ export default class AnalysisWebWorker {
 		const {
 			keywordAnalysisActive,
 			useCornerstone,
+			useKeywordDistribution,
 			locale,
 		} = this._configuration;
 
 		if ( keywordAnalysisActive === false ) {
 			return null;
 		}
-		if ( useCornerstone === true ) {
-			return new CornerstoneSEOAssessor( this._i18n, { locale } );
+
+		const assessor = useCornerstone === true
+			? new CornerstoneSEOAssessor( this._i18n, { locale } )
+			: new SEOAssessor( this._i18n, { locale } );
+
+		if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "largestKeywordDistance" ) ) ) {
+			assessor.addAssessment( "largestKeywordDistance", LargestKeywordDistanceAssessment );
 		}
-		return new SEOAssessor( this._i18n, { locale } );
+
+		return assessor;
 	}
 
 	/**
@@ -190,8 +202,13 @@ export default class AnalysisWebWorker {
 	/**
 	 * Configures the analysis worker.
 	 *
-	 * @param {number} id            The request id.
-	 * @param {Object} configuration The configuration object.
+	 * @param {number}  id                                     The request id.
+	 * @param {Object}  configuration                          The configuration object.
+	 * @param {boolean} [configuration.contentAnalysisActive]  Whether the content analysis is active.
+	 * @param {boolean} [configuration.keywordAnalysisActive]  Whether the keyword analysis is active.
+	 * @param {boolean} [configuration.useCornerstone]         Whether the keyword is cornerstone or not.
+	 * @param {boolean} [configuration.useKeywordDistribution] Whether the largestKeywordDistance assessment should run.
+	 * @param {string}  [configuration.locale]                 The locale used in the seo assessor.
 	 *
 	 * @returns {void}
 	 */
@@ -199,11 +216,36 @@ export default class AnalysisWebWorker {
 		this._configuration = merge( this._configuration, configuration );
 
 		this._i18n = AnalysisWebWorker.createI18n( this._configuration.translations );
-		this._contentAssessor = this.createContentAssessor();
+
+		this.setLocale( this._configuration.locale );
+		// Ensure we always have a content assessor.
+		if ( this._contentAssessor === null ) {
+			this._contentAssessor = this.createContentAssessor();
+		}
+
 		this._seoAssessor = this.createSEOAssessor();
 		// Reset the paper in order to not use the cached results on analyze.
 		this._paper = new Paper( "" );
 		this.send( "initialize:done", id );
+	}
+
+	/**
+	 * Changes the locale in the configuration.
+	 *
+	 * If the locale is different:
+	 * - Update the configuration locale.
+	 * - Create the content assessor.
+	 *
+	 * @param {string} locale The locale to set.
+	 *
+	 * @returns {void}
+	 */
+	setLocale( locale ) {
+		if ( this._configuration.locale === locale ) {
+			return;
+		}
+		this._configuration.locale = locale;
+		this._contentAssessor = this.createContentAssessor();
 	}
 
 	/**
@@ -228,6 +270,9 @@ export default class AnalysisWebWorker {
 
 		this._paper = newPaper;
 		this._researcher.setPaper( this._paper );
+
+		// Update the configuration locale to the paper locale.
+		this.setLocale( this._paper.getLocale() );
 
 		// Rerunning the SEO analysis if the text or attributes of the paper have changed.
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
