@@ -5,7 +5,7 @@ const elementId = "yoast-measurement-element";
  *
  * @returns {HTMLElement} The created hidden element.
  */
-const createMeasurementElement = function() {
+function createMeasurementElement() {
 	const hiddenElement = document.createElement( "div" );
 
 	hiddenElement.id = elementId;
@@ -22,7 +22,7 @@ const createMeasurementElement = function() {
 
 	document.body.appendChild( hiddenElement );
 	return hiddenElement;
-};
+}
 
 /**
  * Measures the width of the text using a hidden element.
@@ -30,11 +30,11 @@ const createMeasurementElement = function() {
  * @param {string} text The text to measure the width for.
  * @returns {number} The width in pixels.
  */
-export const measureTextWidth = function( text ) {
+export default function measureTextWidth( text ) {
 	let element = document.getElementById( elementId );
 	if ( ! element ) {
 		element = createMeasurementElement();
 	}
 	element.innerHTML = text;
 	return element.offsetWidth;
-};
+}

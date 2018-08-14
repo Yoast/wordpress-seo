@@ -2,7 +2,7 @@
 
 import merge from "lodash/merge";
 
-import { measureTextWidth } from "../helpers/measureTextWidth";
+import measureTextWidth from "../helpers/measureTextWidth";
 
 /**
  * Retrieves the data needed for the analyses.
