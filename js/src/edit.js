@@ -7,6 +7,9 @@ import { Fragment } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import { combineReducers, registerStore } from "@wordpress/data";
 import get from "lodash/get";
+import values from "lodash/values";
+import flow from "lodash/flow";
+import map from "lodash/map";
 
 /* Internal dependencies */
 import Data from "./analysis/data.js";
@@ -91,12 +94,16 @@ class Edit {
 	_registerCategorySelectorFilter() {
 		const addFilter = get( window, "wp.hooks.addFilter" );
 
+		const primaryTaxonomies = values( get( window.wpseoPrimaryCategoryL10n, "taxonomies" ) ).map(
+			taxonomy => taxonomy.name
+		);
+
 		addFilter(
 			"editor.PostTaxonomyType",
 			PLUGIN_NAMESPACE,
 			OriginalComponent => {
 				const TaxonomySelectorFilter = props => {
-					if ( props.slug !== "category" ) {
+					if ( ! primaryTaxonomies.includes( props.slug ) ) {
 						return <OriginalComponent { ...props } />;
 					}
 					console.log( props );
