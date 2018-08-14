@@ -19,11 +19,14 @@ import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
 import CompatibilityHelper from "./compatibility/compatibilityHelper";
 
+// UI dependencies.
 import publishBox from "./ui/publishBox";
 import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
 
+// Analysis dependencies.
 import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
+import refreshAnalysis from "./analysis/refreshAnalysis";
 import PostDataCollector from "./analysis/PostDataCollector";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
@@ -31,6 +34,7 @@ import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 
+// Redux dependencies.
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { updateData } from "./redux/actions/snippetEditor";
@@ -38,6 +42,7 @@ import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setCornerstoneContent } from "./redux/actions/cornerstoneContent";
 import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
 
+// Helper dependencies.
 import "./helpers/babel-polyfill";
 import {
 	registerReactComponent,
@@ -375,56 +380,6 @@ setWordPressSeoL10n();
 	}
 
 	/**
-	 * Refreshes the analysis.
-	 *
-	 * @param {AnalysisWorkerWrapper} analysisWorker The analysis worker to
-	 *                                               request the analysis from.
-	 *
-	 * @returns {void}
-	 */
-	function refreshAnalysis( analysisWorker ) {
-		/* START OF TEMPORARY FETCH DATA -- until PR #10609 gets merged. */
-		const { YoastSEO } = window;
-		const {
-			app: { getData, rawData },
-			store,
-		} = YoastSEO;
-
-		// Collect the paper data.
-		getData.call( YoastSEO.app );
-		const {
-			text, keyword, synonyms,
-			snippetMeta, snippetTitle,
-			url, permalink, snippetCite,
-			locale,
-		} = rawData;
-		/* END OF TEMPORARY FETCH DATA */
-
-		// Request analyses.
-		analysisWorker.analyze( {
-			text,
-			keyword,
-			synonyms,
-			description: snippetMeta,
-			title: snippetTitle,
-			url,
-			permalink: permalink + snippetCite,
-			locale,
-		} )
-			.then( ( { result: { seo, readability } } ) => {
-				if ( seo ) {
-					store.dispatch( setSeoResultsForKeyword( keyword, seo.results ) );
-					store.dispatch( setOverallSeoScore( seo.score, keyword ) );
-				}
-				if ( readability ) {
-					store.dispatch( setReadabilityResults( readability.results ) );
-					store.dispatch( setOverallReadabilityScore( readability.score ) );
-				}
-			} )
-			.catch( error => console.warn( error ) );
-	}
-
-	/**
 	 * Initializes analysis for the post edit screen.
 	 *
 	 * @returns {void}
@@ -466,7 +421,7 @@ setWordPressSeoL10n();
 		window.YoastSEO.store = editStore;
 
 		// Replace the app refresh.
-		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker );
+		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker, YoastSEO.store );
 
 		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
 

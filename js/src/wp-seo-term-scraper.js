@@ -13,14 +13,16 @@ import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 import debounce from "lodash/debounce";
 
 // Internal dependencies.
-import "./helpers/babel-polyfill";
 import Edit from "./edit";
 import { termsTmceId as tmceId } from "./wp-seo-tinymce";
 
+// UI dependencies.
 import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
 
+// Analysis dependencies.
 import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
+import refreshAnalysis from "./analysis/refreshAnalysis";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
@@ -30,15 +32,18 @@ import TermDataCollector from "./analysis/TermDataCollector";
 
 import TaxonomyAssessor from "./assessors/taxonomyAssessor";
 
+// Redux dependencies.
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
 
+// Helper dependencies.
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
 } from "./helpers/classicEditor";
+import "./helpers/babel-polyfill";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -204,56 +209,6 @@ window.yoastHideMarkers = true;
 	}
 
 	/**
-	 * Refreshes the analysis.
-	 *
-	 * @param {AnalysisWorkerWrapper} analysisWorker The analysis worker to
-	 *                                               request the analysis from.
-	 *
-	 * @returns {void}
-	 */
-	function refreshAnalysis( analysisWorker ) {
-		/* START OF TEMPORARY FETCH DATA -- until PR #10609 gets merged. */
-		const { YoastSEO } = window;
-		const {
-			app: { getData, rawData },
-			store,
-		} = YoastSEO;
-
-		// Collect the paper data.
-		getData.call( YoastSEO.app );
-		const {
-			text, keyword, synonyms,
-			snippetMeta, snippetTitle,
-			url, permalink, snippetCite,
-			locale,
-		} = rawData;
-		/* END OF TEMPORARY FETCH DATA */
-
-		// Request analyses.
-		analysisWorker.analyze( {
-			text,
-			keyword,
-			synonyms,
-			description: snippetMeta,
-			title: snippetTitle,
-			url,
-			permalink: permalink + snippetCite,
-			locale,
-		} )
-			.then( ( { result: { seo, readability } } ) => {
-				if ( seo ) {
-					store.dispatch( setSeoResultsForKeyword( keyword, seo.results ) );
-					store.dispatch( setOverallSeoScore( seo.score, keyword ) );
-				}
-				if ( readability ) {
-					store.dispatch( setReadabilityResults( readability.results ) );
-					store.dispatch( setOverallReadabilityScore( readability.score ) );
-				}
-			} )
-			.catch( error => console.warn( error ) );
-	}
-
-	/**
 	 * Initializes analysis for the term edit screen.
 	 *
 	 * @returns {void}
@@ -322,7 +277,7 @@ window.yoastHideMarkers = true;
 		window.YoastSEO.store = store;
 
 		// Replace the app refresh.
-		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker );
+		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker, YoastSEO.store );
 
 		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
 
