@@ -5,8 +5,6 @@ import { App } from "yoastseo";
 import {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
-	setOverallReadabilityScore,
-	setOverallSeoScore,
 } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import isUndefined from "lodash/isUndefined";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
