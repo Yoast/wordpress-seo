@@ -3,13 +3,14 @@ import PropTypes from "prop-types";
 import { Provider as StoreProvider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 import { Fragment } from "@wordpress/element";
-import { Fill } from "@wordpress/components";
 
+import { Fill } from "@wordpress/components";
 import SidebarItem from "./SidebarItem";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 import keywordUpsellProps from "../values/keywordUpsellProps";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
+import SidebarSnippetPreviewButton from "./SidebarSnippetPreviewButton";
 
 /**
  * Creates the Sidebar component.
@@ -26,6 +27,15 @@ export default function Sidebar( { settings, store, theme } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
+				{ <SidebarItem renderPriority={ 5 }>
+					<ThemeProvider theme={ theme }>
+						<StoreProvider store={ store }>
+							<div>
+								<SidebarSnippetPreviewButton  />
+							</div>
+						</StoreProvider>
+					</ThemeProvider>
+				</SidebarItem> }
 				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
 					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>

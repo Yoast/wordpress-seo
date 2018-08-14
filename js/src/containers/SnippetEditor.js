@@ -16,7 +16,6 @@ import {
 } from "../redux/actions/snippetEditor";
 import { updateAnalysisData } from "../redux/actions/analysisData";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
-import Collapsible from "../components/SidebarCollapsible";
 
 const ExplanationLink = utils.makeOutboundLink();
 
@@ -100,7 +99,7 @@ export const mapEditorDataToPreview = function( data, context ) {
 };
 
 const SnippetEditorWrapper = ( props ) => (
-	<Collapsible title={ __( "Snippet Preview", "wordpress-seo" ) } initialIsOpen={ true }>
+	<React.Fragment>
 		<p>
 			{ __( "This is a rendering of what this post might look like in Google's search results.", "wordpress-seo" ) + " " }
 			<ExplanationLink href={ wpseoAdminL10n[ "shortlinks.snippet_preview_info" ] }>
@@ -117,7 +116,7 @@ const SnippetEditorWrapper = ( props ) => (
 				mapEditorDataToPreview={ mapEditorDataToPreview }
 			/>
 		</SnippetPreviewSection>
-	</Collapsible>
+	</React.Fragment>
 );
 
 /**
