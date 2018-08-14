@@ -1,4 +1,4 @@
-var defaults = require( "lodash/defaults" );
+const defaults = require( "lodash/defaults" );
 
 /**
  * Represents a marked piece of text
@@ -42,6 +42,26 @@ Mark.prototype.getMarked = function() {
 Mark.prototype.applyWithReplace = function( text ) {
 	// Cute method to replace everything in a string without using regex.
 	return text.split( this._properties.original ).join( this._properties.marked );
+};
+
+/**
+ * Serializes the Mark instance to an object.
+ *
+ * @returns {Object} The serialized Mark.
+ */
+Mark.prototype.serialize = function() {
+	return this._properties;
+};
+
+/**
+ * Parses the object to an Mark.
+ *
+ * @param {Object} serialized The serialized object.
+ *
+ * @returns {Mark} The parsed Mark.
+ */
+Mark.parse = function( serialized ) {
+	return new Mark( serialized );
 };
 
 module.exports = Mark;

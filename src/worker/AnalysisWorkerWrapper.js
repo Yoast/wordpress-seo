@@ -1,7 +1,6 @@
 // Internal dependencies.
-import Worker from "./analysis.worker";
-import { encodePayload, decodePayload } from "./utils";
 import Request from "./request";
+const AssessmentResult = require( "../values/AssessmentResult" );
 
 /**
  * Analysis worker is an API around the Web Worker.
@@ -9,10 +8,14 @@ import Request from "./request";
 class AnalysisWorkerWrapper {
 	/**
 	 * Initializes the AnalysisWorkerWrapper class.
+	 *
+	 * @param {Worker} worker The worker to wrap.
+	 *
+	 * @constructor
 	 */
-	constructor() {
+	constructor( worker ) {
 		// Initialize instance variables.
-		this._worker = new Worker();
+		this._worker = worker;
 		this._requests = {};
 		this._autoIncrementedRequestId = -1;
 
@@ -45,32 +48,38 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	handleMessage( { data: { type, id, payload } } ) {
-		let response, request;
+		let request;
 		console.log( "wrapper", type, id, payload );
 
 		switch( type ) {
 			case "initialize:done":
-				response = decodePayload( payload );
 				request = this._requests[ id ];
 				if ( ! request ) {
-					console.warn( "AnalysisWorker: unmatched response", response );
+					console.warn( "AnalysisWebWorker: unmatched response", payload );
 					break;
 				}
 
-				request.resolve( response );
+				request.resolve( payload );
 				break;
 			case "analyze:done":
-				response = decodePayload( payload );
 				request = this._requests[ id ];
 				if ( ! request ) {
-					console.warn( "AnalysisWorker: unmatched response", response );
+					console.warn( "AnalysisWebWorker: unmatched response", payload );
 					break;
 				}
 
-				request.resolve( response );
+				// Map the results back to classes, because we encode and decode the message payload.
+				if ( payload.seo ) {
+					payload.seo.results = payload.seo.results.map( result => AssessmentResult.parse( result ) );
+				}
+				if ( payload.readability ) {
+					payload.readability.results = payload.readability.results.map( result => AssessmentResult.parse( result ) );
+				}
+
+				request.resolve( payload );
 				break;
 			default:
-				console.warn( "AnalysisWorker: unrecognized action", type );
+				console.warn( "AnalysisWebWorker: unrecognized action", type );
 		}
 	}
 
@@ -85,7 +94,7 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	handleMessageError( event ) {
-		console.warn( "AnalysisWorker message error:", event );
+		console.warn( "AnalysisWebWorker message error:", event );
 	}
 
 	/**
@@ -99,7 +108,7 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	handleError( event ) {
-		console.error( "AnalysisWorker error:", event );
+		console.error( "AnalysisWebWorker error:", event );
 	}
 
 	/**
@@ -135,11 +144,10 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	send( type, id, payload = {} ) {
-		console.log( "wrapper => worker", type, id, payload );
 		this._worker.postMessage( {
 			type,
 			id,
-			payload: encodePayload( payload ),
+			payload,
 		} );
 	}
 

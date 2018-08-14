@@ -1,22 +1,21 @@
 // External dependencies.
-import Jed from "jed";
-import omit from "lodash/omit";
-import merge from "lodash/merge";
+const Jed = require( "jed" );
+const merge = require( "lodash/merge" );
+const isEqual = require( "lodash/isEqual" );
 const isUndefined = require( "lodash/isUndefined" );
 
 // YoastSEO.js dependencies.
-import * as Paper from "yoastseo/values/Paper";
-import * as Researcher from "yoastseo/researcher";
-import * as ContentAssessor from "yoastseo/contentAssessor";
-import * as SEOAssessor from "yoastseo/seoAssessor";
-import * as CornerstoneContentAssessor from "yoastseo/cornerstone/contentAssessor";
-import * as CornerstoneSEOAssessor from "yoastseo/cornerstone/seoAssessor";
-const removeHtmlBlocks = require( "../stringProcessing/htmlParser.js" );
-const LargestKeywordDistanceAssessment = require( "yoastseo/assessments/seo/LargestKeywordDistanceAssessment" );
+const Paper = require( "../values/Paper" );
+const Researcher = require( "../researcher" );
+const ContentAssessor = require( "../contentAssessor" );
+const SEOAssessor = require( "../seoAssessor" );
+const CornerstoneContentAssessor = require( "../cornerstone/contentAssessor" );
+const CornerstoneSEOAssessor = require( "../cornerstone/seoAssessor" );
+const removeHtmlBlocks = require( "../stringProcessing/htmlParser" );
+const LargestKeywordDistanceAssessment = require( "../assessments/seo/LargestKeywordDistanceAssessment" );
 
 // Internal dependencies.
 import Scheduler from "./scheduler";
-import { encodePayload, decodePayload } from "./utils";
 
 /**
  * Analysis Web Worker.
@@ -24,11 +23,16 @@ import { encodePayload, decodePayload } from "./utils";
  * Worker API:     https://developer.mozilla.org/en-US/docs/Web/API/Worker
  * Webpack loader: https://github.com/webpack-contrib/worker-loader
  */
-class AnalysisWebWorker {
+export default class AnalysisWebWorker {
 	/**
 	 * Initializes the AnalysisWebWorker class.
+	 *
+	 * @param {Object} scope The scope for the messaging. Expected to have the
+	 *                       `onmessage` event and the `postMessage` function.
 	 */
-	constructor() {
+	constructor( scope ) {
+		this._scope = scope;
+
 		this._configuration = {
 			contentAnalysisActive: true,
 			keywordAnalysisActive: true,
@@ -42,6 +46,14 @@ class AnalysisWebWorker {
 		this._researcher = new Researcher( this._paper );
 		this._contentAssessor = null;
 		this._seoAssessor = null;
+		this._result = {
+			readability: {
+				results: [],
+			},
+			seo: {
+				results: [],
+			},
+		};
 
 		// Bind actions to this scope.
 		this.analyze = this.analyze.bind( this );
@@ -49,6 +61,15 @@ class AnalysisWebWorker {
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
+	}
+
+	/**
+	 * Registers this web worker with the scope passed to it's constructor.
+	 *
+	 * @returns {void}
+	 */
+	register() {
+		this._scope.onmessage = this.handleMessage;
 	}
 
 	/**
@@ -65,16 +86,17 @@ class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	handleMessage( { data: { type, id, payload } } ) {
+		console.log( "worker", type, id, payload );
 		switch( type ) {
 			case "initialize":
-				this.initialize( id, decodePayload( payload ) );
+				this.initialize( id, payload );
 				break;
 			case "analyze":
 				this._scheduler.schedule( {
 					id,
 					execute: this.analyze,
 					done: this.analyzeDone,
-					data: decodePayload( payload ),
+					data: payload,
 				} );
 				break;
 			default:
@@ -170,18 +192,17 @@ class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	send( type, id, payload = {} ) {
-		console.log( "worker => wrapper", type, id, payload );
-		self.postMessage( {
+		this._scope.postMessage( {
 			type,
 			id,
-			payload: encodePayload( payload ),
+			payload,
 		} );
 	}
 
 	/**
 	 * Configures the analysis worker.
 	 *
-	 * @param {number}  id                                     The id of the request.
+	 * @param {number}  id                                     The request id.
 	 * @param {Object}  configuration                          The configuration object.
 	 * @param {boolean} [configuration.contentAnalysisActive]  Whether the content analysis is active.
 	 * @param {boolean} [configuration.keywordAnalysisActive]  Whether the keyword analysis is active.
@@ -193,7 +214,6 @@ class AnalysisWebWorker {
 	 */
 	initialize( id, configuration ) {
 		this._configuration = merge( this._configuration, configuration );
-		console.log( "run initialize", configuration, this._configuration );
 
 		this._i18n = AnalysisWebWorker.createI18n( this._configuration.translations );
 
@@ -204,7 +224,8 @@ class AnalysisWebWorker {
 		}
 
 		this._seoAssessor = this.createSEOAssessor();
-
+		// Reset the paper in order to not use the cached results on analyze.
+		this._paper = new Paper( "" );
 		this.send( "initialize:done", id );
 	}
 
@@ -230,39 +251,53 @@ class AnalysisWebWorker {
 	/**
 	 * Runs analyses on a paper.
 	 *
+	 * @param {number} id                      The request id.
 	 * @param {Object} payload                 The payload object.
 	 * @param {Object} payload.paper           The paper to analyze.
 	 *
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
-	analyze( { id, paper } ) {
-		console.log( "run analyze", id, paper );
-		const result = { id };
+	analyze( id, { paper } ) {
+		paper.text = removeHtmlBlocks( paper.text );
+		const newPaper = Paper.parse( paper );
+		const paperIsIdentical = isEqual( this._paper, newPaper );
+		const textIsIdentical = this._paper.getText() === newPaper.getText();
 
-		this._paper = new Paper( removeHtmlBlocks( paper.text ), omit( paper, "text" ) );
+		if ( paperIsIdentical ) {
+			console.log( "The paper has not changed since you analyzed it last." );
+			return this._result;
+		}
+
+		this._paper = newPaper;
+		this._researcher.setPaper( this._paper );
 
 		// Update the configuration locale to the paper locale.
 		this.setLocale( this._paper.getLocale() );
 
-		this._researcher.setPaper( this._paper );
-
-		if ( this._configuration.contentAnalysisActive && this._contentAssessor ) {
-			this._contentAssessor.assess( this._paper );
-			result.readability = {
-				results: this._contentAssessor.results,
-				score: this._contentAssessor.calculateOverallScore(),
-			};
-		}
-
+		// Rerunning the SEO analysis if the text or attributes of the paper have changed.
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
 			this._seoAssessor.assess( this._paper );
-			result.seo = {
-				results: this._seoAssessor.results,
+			this._result.seo = {
+				results: this._seoAssessor.results.map( result => result.serialize() ),
 				score: this._seoAssessor.calculateOverallScore(),
 			};
 		}
 
-		return result;
+		// Return old readability results if the text of the paper has not changed.
+		if ( textIsIdentical ) {
+			console.log( "The text of your paper has not changed, returning the content analysis results from the previous analysis." );
+			return this._result;
+		}
+
+		if ( this._configuration.contentAnalysisActive && this._contentAssessor ) {
+			this._contentAssessor.assess( this._paper );
+			this._result.readability = {
+				results: this._contentAssessor.results.map( result => result.serialize() ),
+				score: this._contentAssessor.calculateOverallScore(),
+			};
+		}
+
+		return this._result;
 	}
 
 	/**
@@ -277,9 +312,3 @@ class AnalysisWebWorker {
 		this.send( "analyze:done", id, result );
 	}
 }
-
-// Create an instance of the analysis web worker.
-const analysisWebWorker = new AnalysisWebWorker();
-
-// Bind the post message handler.
-self.addEventListener( "message", analysisWebWorker.handleMessage );
