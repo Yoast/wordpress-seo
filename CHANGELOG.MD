@@ -5,11 +5,36 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.9.0 August 13th, 2018
+### Added
+* Adds a standalone `LanguageNotice` component. Before, this component was part of the `ContentAnalysis` component.
+* Adds a `HelpText` component.
+* Adds a label to the `KeywordInput` component.
+* Adds an `onBlur` event to the `KeywordInput` component.
+* Adds a button to the `KeywordInput` component that allows removal of that keyword section.
+* Adds a `ContentOptimizationContainer` component.
+* Adds a `SynonymsInput` component.
+* Adds a `CornerstoneToggle` component.
+* Adds a demo page for the SVG icons rendered by the SvgIcon component to the App.
+* Adds a subtitle to the `CollapsibleHeader` component.
+
+### Removed
+* Removes the `helpTextButton` from the `SnippetPreview` component as it has been replaced by a description that is always present.
+
+### Fixed
+* Fixes the styling of the `Collapsible` component for right-to-left languages.
+* Fixes a bug where the `Collapsible` component would show scrollbars in Internet Explorer 11.
+
+### Other
+* Increases the font size of the synonyms help text and changes its color.
+* Makes it possible to render multi-shape SVG icons.
+* Adds clipboard and a11y-speak to the package.json.
+
 ## 4.8.0 July 25th, 2018
 ### Added
 * Add setOverallSeoScore and setOverallReadabilityScore reducer.
 * Add help text to the content analysis in the standalone.
-* Add a IconLabelledButton component to render a button with visible textual label
+* Add a IconLabelledButton component to render a button with visible textual label.
 
 ### Fixed
 * Fix alignment of video in help center when no ads are present.
