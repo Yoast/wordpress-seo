@@ -10,22 +10,21 @@ import {
 	setOverallReadabilityScore,
 	setOverallSeoScore,
 } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
-import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
 // Internal dependencies.
-import "./helpers/babel-polyfill";
 import Edit from "./edit";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
+import CompatibilityHelper from "./compatibility/compatibilityHelper";
 
 import publishBox from "./ui/publishBox";
 import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
 
+import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
 import PostDataCollector from "./analysis/PostDataCollector";
-import CompatibilityHelper from "./compatibility/compatibilityHelper";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
@@ -37,12 +36,14 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setCornerstoneContent } from "./redux/actions/cornerstoneContent";
-import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
+import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
+
+import "./helpers/babel-polyfill";
 import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
 } from "./helpers/classicEditor";
-import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
+import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -376,13 +377,16 @@ setWordPressSeoL10n();
 	/**
 	 * Refreshes the analysis.
 	 *
+	 * @param {AnalysisWorkerWrapper} analysisWorker The analysis worker to
+	 *                                               request the analysis from.
+	 *
 	 * @returns {void}
 	 */
-	function refreshAnalysis() {
+	function refreshAnalysis( analysisWorker ) {
+		/* START OF TEMPORARY FETCH DATA -- until PR #10609 gets merged. */
 		const { YoastSEO } = window;
 		const {
 			app: { getData, rawData },
-			analysisWorker,
 			store,
 		} = YoastSEO;
 
@@ -394,6 +398,7 @@ setWordPressSeoL10n();
 			url, permalink, snippetCite,
 			locale,
 		} = rawData;
+		/* END OF TEMPORARY FETCH DATA */
 
 		// Request analyses.
 		analysisWorker.analyze( {
@@ -412,7 +417,7 @@ setWordPressSeoL10n();
 					store.dispatch( setOverallSeoScore( seo.score, keyword ) );
 				}
 				if ( readability ) {
-					store.dispatch( setReadabilityResults( readability.results )  );
+					store.dispatch( setReadabilityResults( readability.results ) );
 					store.dispatch( setOverallReadabilityScore( readability.score ) );
 				}
 			} )
@@ -461,7 +466,7 @@ setWordPressSeoL10n();
 		window.YoastSEO.store = editStore;
 
 		// Replace the app refresh.
-		YoastSEO.app.refresh = refreshAnalysis;
+		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker );
 
 		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
 

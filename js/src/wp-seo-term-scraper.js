@@ -2,7 +2,12 @@
 
 // External dependencies.
 import { App } from "yoastseo";
-import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import {
+	setReadabilityResults,
+	setSeoResultsForKeyword,
+	setOverallReadabilityScore,
+	setOverallSeoScore,
+} from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import isUndefined from "lodash/isUndefined";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 import debounce from "lodash/debounce";
@@ -11,22 +16,28 @@ import debounce from "lodash/debounce";
 import "./helpers/babel-polyfill";
 import Edit from "./edit";
 import { termsTmceId as tmceId } from "./wp-seo-tinymce";
+
 import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
+
+import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
+
 import TaxonomyAssessor from "./assessors/taxonomyAssessor";
+
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
+
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import {
 	registerReactComponent,
-	renderClassicEditorMetabox
+	renderClassicEditorMetabox,
 } from "./helpers/classicEditor";
 
 setYoastComponentsL10n();
@@ -193,6 +204,56 @@ window.yoastHideMarkers = true;
 	}
 
 	/**
+	 * Refreshes the analysis.
+	 *
+	 * @param {AnalysisWorkerWrapper} analysisWorker The analysis worker to
+	 *                                               request the analysis from.
+	 *
+	 * @returns {void}
+	 */
+	function refreshAnalysis( analysisWorker ) {
+		/* START OF TEMPORARY FETCH DATA -- until PR #10609 gets merged. */
+		const { YoastSEO } = window;
+		const {
+			app: { getData, rawData },
+			store,
+		} = YoastSEO;
+
+		// Collect the paper data.
+		getData.call( YoastSEO.app );
+		const {
+			text, keyword, synonyms,
+			snippetMeta, snippetTitle,
+			url, permalink, snippetCite,
+			locale,
+		} = rawData;
+		/* END OF TEMPORARY FETCH DATA */
+
+		// Request analyses.
+		analysisWorker.analyze( {
+			text,
+			keyword,
+			synonyms,
+			description: snippetMeta,
+			title: snippetTitle,
+			url,
+			permalink: permalink + snippetCite,
+			locale,
+		} )
+			.then( ( { result: { seo, readability } } ) => {
+				if ( seo ) {
+					store.dispatch( setSeoResultsForKeyword( keyword, seo.results ) );
+					store.dispatch( setOverallSeoScore( seo.score, keyword ) );
+				}
+				if ( readability ) {
+					store.dispatch( setReadabilityResults( readability.results ) );
+					store.dispatch( setOverallReadabilityScore( readability.score ) );
+				}
+			} )
+			.catch( error => console.warn( error ) );
+	}
+
+	/**
 	 * Initializes analysis for the term edit screen.
 	 *
 	 * @returns {void}
@@ -225,6 +286,7 @@ window.yoastHideMarkers = true;
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			hasSnippetPreview: false,
+			debouncedRefresh: false,
 		};
 
 		if ( isKeywordAnalysisActive() ) {
@@ -253,6 +315,15 @@ window.yoastHideMarkers = true;
 
 		app = new App( args );
 
+		// Expose globals.
+		window.YoastSEO = {};
+		window.YoastSEO.app = app;
+		window.YoastSEO.analysisWorker = createAnalysisWorker();
+		window.YoastSEO.store = store;
+
+		// Replace the app refresh.
+		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker );
+
 		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
 
 		store.subscribe( handleStoreChange.bind( null, store, app ) );
@@ -261,10 +332,6 @@ window.yoastHideMarkers = true;
 			app.seoAssessor = new TaxonomyAssessor( app.i18n );
 			app.seoAssessorPresenter.assessor = app.seoAssessor;
 		}
-
-		window.YoastSEO = {};
-		window.YoastSEO.app = app;
-		window.YoastSEO.store = store;
 
 		termScraper.initKeywordTabTemplate();
 
@@ -288,7 +355,12 @@ window.yoastHideMarkers = true;
 			initializeContentAnalysis();
 		}
 
-		jQuery( window ).trigger( "YoastSEO:ready" );
+		// Initialize the analysis worker.
+		YoastSEO.analysisWorker.initialize( getAnalysisConfiguration() )
+			.then( () => {
+				jQuery( window ).trigger( "YoastSEO:ready" );
+			} )
+			.catch( error => console.warn( error ) );
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );
