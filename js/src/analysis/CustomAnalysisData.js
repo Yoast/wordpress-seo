@@ -14,8 +14,10 @@ export default class CustomAnalysisData {
 	}
 
 	/**
-	 * Checks whether the callback is a function and if so, adds it to the array of callbacks. Each callback should
-	 * return a data object.
+	 * Registers a function as custom analysis data retriever.
+	 *
+	 * Checks whether the callback is a function and if so, adds it to the array
+	 * of callbacks. Each callback should return a data object.
 	 *
 	 * @param {Function} callback The callback function to add.
 	 *
