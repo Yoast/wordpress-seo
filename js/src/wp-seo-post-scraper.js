@@ -26,6 +26,7 @@ import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
+import CustomAnalysisData from "./analysis/CustomAnalysisData";
 
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
@@ -52,6 +53,7 @@ setWordPressSeoL10n();
 	let app;
 	let decorator = null;
 	let postDataCollector;
+	const customAnalysisData = new CustomAnalysisData();
 
 	let editStore;
 
@@ -281,6 +283,7 @@ setWordPressSeoL10n();
 	function exposeGlobals( app, replaceVarsPlugin, shortcodePlugin ) {
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
+		window.YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 
 		// Init Plugins.
 		window.YoastSEO.wp = {};
