@@ -57,79 +57,150 @@ ul.wpseo-metabox-tabs:after {
 	clear: both;
 }
 
-.wpseo-metabox-tabs-div ul {
-	list-style: none;
+.wpseo-metabox-tabs-div {
+	margin: 0 5px 5px;
+
+	ul {
+		list-style: none;
+	}
+}
+
+#wpseo-meta-section-addons {
+	padding: 0 5px 5px;
+
+	.wpseo-metabox-tabs-div {
+		margin: 0;
+	}
 }
 
 ul.wpseo-metabox-tabs li.active {
 	background-color: #fdfdfd;
 }
 
-.wpseo-meta-section {
+.wpseo-meta-section, .wpseo-meta-section-react {
 	display: none;
 	width: 100%;
+	min-height: 100%;
+	height: auto;
 	max-width: calc( 100% - 50px );
 	vertical-align: top;
 }
 
 .wpseo-meta-section.active {
 	display: inline-block;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.wpseo-meta-section-react.active {
+	display: block;
+	margin-bottom: 10px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.wpseo-metabox-content {
+	display: flex;
 }
 
 .wpseo-metabox-sidebar {
-	float: left;
-	width: 50px;
+	width: 46px;
 	padding: 0;
 	background-color: #fff;
-}
 
-.wpseo-metabox-sidebar ul {
-	margin: 0;
-}
+	ul {
+		margin: 0 1px 0 0;
 
-.wpseo-metabox-sidebar li {
-	display: inline-block; /* Microsoft Edge 38. */
-	margin-bottom: 0;
-	padding: 5px;
-}
+		li:nth-child(1) {
+			z-index: 10;
+		}
+		li:nth-child(2) {
+			z-index: 9;
+		}
+		li:nth-child(3) {
+			z-index: 8;
+		}
+		li:nth-child(4) {
+			z-index: 7;
+		}
+		li:nth-child(5) {
+			z-index: 6;
+		}
+		li:nth-child(6) {
+			z-index: 5;
+		}
 
-.wpseo-metabox-sidebar a {
-	display: inline-block;
-	width: 35px;
-	height: 35px;
-	font-size: 20px;
-	line-height: 30px;
-	text-decoration: none;
-}
+		li {
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 
-.wpseo-metabox-sidebar li span {
-	margin: 3px 0 0 -5px;
-	padding: 0 2px 0 5px;
-	border: 0 solid transparent;
-	border-left-width: 3px;
-	border-radius: 3px;
+			display: block; /* Microsoft Edge 38. */
+			margin-bottom: 0;
+			text-align: center;
+			position: relative;
 
-	&.wpseo-buy-premium {
-		color: #a4286a;
+			a {
+				color: black;
+				padding: 8px 8px;
+				background-color: #f8f8f8;
+			}
 
-		&:hover {
-			color: #832055;
+			.yst-traffic-light {
+				margin: 0;
+			}
+
+			span {
+				&.dashicons {
+					width: 100%;
+				}
+
+				&.wpseo-buy-premium {
+					color: #a4286a;
+
+					&:hover {
+						color: #832055;
+					}
+				}
+			}
+
+			&.active {
+				z-index: 50;
+
+				&:after {
+					display: block;
+					float: right;
+					position: absolute;
+					top: 0;
+					right: -3px;
+					width: 3px;
+					height: 46px;
+					background-color: white;
+					content: " ";
+					z-index: 110;
+				}
+
+				a {
+					color: #0073aa;
+					background-color: #ffffff;
+				}
+
+				span {
+					&.wpseo-buy-premium {
+						color: #a4286a;
+						border-color: #a4286a;
+
+						&:hover {
+							color: #832055;
+							border-color: #832055;
+						}
+					}
+				}
+			}
 		}
 	}
-}
 
-.wpseo-metabox-sidebar li.active span {
-	border-color: #333;
-	color: #333;
-
-	&.wpseo-buy-premium {
-		color: #a4286a;
-		border-color: #a4286a;
-
-		&:hover {
-			color: #832055;
-			border-color: #832055;
-		}
+	a {
+		padding: 5px;
+		display: block;
+		text-decoration: none;
+		vertical-align: middle;
 	}
 }
 
@@ -155,7 +226,7 @@ ul.wpseo-metabox-tabs li {
 
 .wpseotab {
 	display: none;
-	padding: 20px 35px;
+	padding: 16px;
 	border: 1px solid #ddd;
 	background-color: #fdfdfd;
 
@@ -172,16 +243,6 @@ ul.wpseo-metabox-tabs li {
 	display: block;
 }
 
-/* Content tab. */
-#wpseosnippet,
-#wpseofocuskeyword {
-	margin-bottom: 2em;
-}
-
-#wpseo-focuskeyword-section .wpseo-keyword-synonyms {
-	margin-top: 16px;
-}
-
 /* Tab links. */
 .wpseo-metabox-tabs .wpseo_tablink {
 	display: inline-block;
@@ -191,8 +252,7 @@ ul.wpseo-metabox-tabs li {
 }
 
 /* Bigger right padding only for the content tab and the main keyword tabs */
-.wpseo-metabox-tabs .wpseo_content_tab a,
-.wpseo-metabox-tabs .wpseo_content_tab + .wpseo_keyword_tab a {
+.wpseo-metabox-tabs .wpseo_content_tab a {
 	padding-right: 12px;
 }
 
@@ -304,7 +364,6 @@ ul.wpseo-metabox-tabs li {
 	margin: 0.5em 0;
 }
 
-.wpseotab #yoast_wpseo_focuskw_text_input,
 .wpseotab select[multiple] {
 	margin-top: 0;
 }
@@ -575,14 +634,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	text-decoration: none;
 }
 
-/* Ensure the snippet preview section has always the proper width whatever the default yoast-section width is. */
-.wpseosnippet .yoast-section {
-	width: auto;
-	max-width: 640px;
-	/* The inner .snippet-editor__preview already has padding so we need to reset the .yoast-section default padding. */
-	padding: 0;
-}
-
 #TB_window {
 	#TB_ajaxContent {
 		p {
@@ -676,58 +727,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 @media screen and ( max-width: 782px ) {
-	.wpseo-metabox-sidebar {
-		float: none;
-		display: inline-block; /* Contain floated children, don't use overflow hidden to avoid cutting-off content. */
-		width: auto;
-		margin: 0 0 10px -5px;
-		padding: 0;
-		vertical-align: top;
-	}
-
-	.wpseo-meta-section.active {
-		display: block;
-		max-width: none;
-		clear: both;
-	}
-
-	.wpseo-metabox-sidebar ul {
-		display: inline-block; /* Contain floated children. */
-	}
-
-	.wpseo-metabox-sidebar li {
-		float: left;
-		text-align: center;
-	}
-
-	.wpseo-metabox-sidebar .wpseo-meta-section-link {
-		width: 40px;
-		height: 40px;
-	}
-
-	.wpseo-meta-section-link .dashicons,
-	.wpseo-meta-section-link .yst-traffic-light-container {
-		display: block;
-		width: 40px;
-		height: 45px;
-		margin: 0;
-		padding: 5px 0 0;
-		border-left-width: 0;
-		border-bottom-width: 3px;
-	}
-
-	/* Traffic light svg and CSS generated dashicons. */
-	.wpseo-meta-section-link .yst-traffic-light,
-	.wpseo-meta-section-link .dashicons:before {
-		margin: 0;
-	}
-
-	/* The "advanced" dashicon (the gear) is not perfectly centered and needs to be adjusted. */
-	.wpseo-meta-section-link .dashicons-admin-generic:before {
-		position: relative;
-		left: 1px;
-	}
-
 	/* The Go Premium dashicon must stay unchanged in the responsive view. */
 	.wpseo-metabox-buy-premium .wpseo-buy-premium {
 		display: inline-block;
@@ -757,12 +756,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 @media screen and ( max-width: 600px ) {
-	/* Reduce the tabs padding on smaller screens. */
-	.wpseotab {
-		padding: 20px 20px;
-	}
-
 	.wpseotab.content {
-		padding: 20px 0;
+		padding: 16px 0;
 	}
 }

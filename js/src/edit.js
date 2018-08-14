@@ -1,85 +1,106 @@
-/* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp yoast */
+/* global window process wp */
 /* External dependencies */
 import React from "react";
-import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import flatten from "lodash/flatten";
-import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
+import { Fragment } from "@wordpress/element";
+import { Slot } from "@wordpress/components";
+import { combineReducers, registerStore } from "@wordpress/data";
+import get from "lodash/get";
 
 /* Internal dependencies */
-import IntlProvider from "./components/IntlProvider";
-import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
 import reducers from "./redux/reducers";
 import PluginIcon from "../../images/Yoast_icon_kader.svg";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
-import SnippetEditor from "./containers/SnippetEditor";
-import SidebarItem from "./components/SidebarItem";
-
-// This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
-let localizedData = { intl: {}, isRtl: false };
-if( window.wpseoPostScraperL10n ) {
-	localizedData = wpseoPostScraperL10n;
-} else if ( window.wpseoTermScraperL10n ) {
-	localizedData = wpseoTermScraperL10n;
-}
+import Sidebar from "./containers/Sidebar";
+import MetaboxPortal from "./components/MetaboxPortal";
+import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPriority";
+import * as selectors from "./redux/selectors";
+import { setSettings } from "./redux/actions/settings";
+import UsedKeywords from "./analysis/usedKeywords";
 
 const PinnedPluginIcon = styled( PluginIcon )`
 	width: 20px;
 	height: 20px;
 `;
 
-/**
- * Registers a redux store in Gutenberg.
- *
- * @returns {Object} The store.
- */
-function registerStoreInGutenberg() {
-	const { combineReducers, registerStore } = yoast._wp.data;
+class Edit {
+	/**
+	 * @param {Object}   args                                 Edit initialize arguments.
+	 * @param {Function} args.onRefreshRequest                The function to refresh the analysis.
+	 * @param {Object}   args.replaceVars                     The replaceVars object.
+	 * @param {string}   args.snippetEditorBaseUrl            Base URL of the site the user is editing.
+	 * @param {string}   args.snippetEditorDate               The date for the snippet editor.
+	 * @param {array}    args.recommendedReplacementVariables The recommended replacement variables for this context.
+	 */
+	constructor( args ) {
+		this._localizedData = this.getLocalizedData();
+		this._args =          args;
 
-	return registerStore( "yoast-seo/editor", {
-		reducer: combineReducers( reducers ),
-	} );
-}
-
-/**
- * Sorts components by a prop `renderPriority`.
- *
- * The array is flattened before sorting to make sure that components inside of
- * a collection are also included. This is to allow sorting multiple fills of
- * which at least one includes an array of components.
- *
- * @param {ReactElement|array} components The component(s) to be sorted.
- *
- * @returns {ReactElement|array} The sorted component(s).
- */
-function sortComponentsByPosition( components ) {
-	if ( typeof components.length === "undefined" ) {
-		return components;
+		this._init();
 	}
 
-	return flatten( components ).sort( ( a, b ) => {
-		if ( typeof a.props.renderPriority === "undefined" ) {
-			return 1;
-		}
-		return a.props.renderPriority - b.props.renderPriority;
-	} );
-}
+	/**
+	 * Get the localized data from the global namespace.
+	 *
+	 * @returns {Object} Localized data.
+	 */
+	getLocalizedData() {
+		return (
+			window.wpseoPostScraperL10n ||
+			window.wpseoTermScraperL10n ||
+			{ intl: {}, isRtl: false }
+		);
+	}
 
-/**
- * Registers the plugin into the gutenberg editor, creates a sidebar entry for the plugin,
- * and creates that sidebar's content.
- *
- * @returns {void}
- **/
-function registerPlugin() {
-	if ( isGutenbergDataAvailable() ) {
-		const { Fragment } = yoast._wp.element;
+	_init() {
+		this._store = this._registerStoreInGutenberg();
+
+		this._registerPlugin();
+
+		this._data = this._initializeData();
+
+		this._store.dispatch( setSettings( {
+			snippetEditor: {
+				baseUrl: this._args.snippetEditorBaseUrl,
+				date: this._args.snippetEditorDate,
+				recommendedReplacementVariables: this._args.recommendedReplaceVars,
+			},
+		} ) );
+	}
+
+	/**
+	 * Registers a redux store in Gutenberg.
+	 *
+	 * @returns {Object} The store.
+	 */
+	_registerStoreInGutenberg() {
+		return registerStore( "yoast-seo/editor", {
+			reducer: combineReducers( reducers ),
+			selectors,
+		} );
+	}
+
+	/**
+	 * Registers the plugin into the gutenberg editor, creates a sidebar entry for the plugin,
+	 * and creates that sidebar's content.
+	 *
+	 * @returns {void}
+	 **/
+	_registerPlugin() {
+		if ( ! isGutenbergDataAvailable() )  {
+			return;
+		}
+
 		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 		const { registerPlugin } = wp.plugins;
-		const { Slot, Fill } = wp.components;
+		const store = this._store;
+
+		const theme = {
+			isRtl: this._localizedData.isRtl,
+		};
 
 		const YoastSidebar = () => (
 			<Fragment>
@@ -95,14 +116,17 @@ function registerPlugin() {
 				>
 					<Slot name="YoastSidebar">
 						{ ( fills ) => {
-							return sortComponentsByPosition( fills );
+							return sortComponentsByRenderPriority( fills );
 						} }
 					</Slot>
 				</PluginSidebar>
-				<Fill name="YoastSidebar">
-					<SidebarItem renderPriority={ 10 }>Readability analysis</SidebarItem>
-					<SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem>
-				</Fill>
+
+				<Provider store={ store } >
+					<Fragment>
+						<Sidebar store={ store } theme={ theme } />
+						<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+					</Fragment>
+				</Provider>
 			</Fragment>
 		);
 
@@ -111,163 +135,76 @@ function registerPlugin() {
 			icon: <PinnedPluginIcon />,
 		} );
 	}
-}
 
-/**
- * Wraps a component in the required top level components.
- *
- * @param {ReactElement} Component The component to be wrapped.
- * @param {Object} store Redux store.
- * @param {Object} props React props to pass to the Component.
- *
- * @returns {ReactElement} The wrapped component.
- */
-function wrapInTopLevelComponents( Component, store, props ) {
-	const theme = {
-		isRtl: localizedData.isRtl,
-	};
+	/**
+	 * Initialize the appropriate data class.
+	 *
+	 * @returns {Object} The instantiated data class.
+	 */
+	_initializeData() {
+		const store =   this._store;
+		const args =    this._args;
+		const wpData =  get( window, "wp.data" );
 
-	return (
-		<IntlProvider
-			messages={ localizedData.intl } >
-			<Provider store={ store } >
-				<ThemeProvider theme={ theme }>
-					<Component { ...props } />
-				</ThemeProvider>
-			</Provider>
-		</IntlProvider>
-	);
-}
+		// Only use Gutenberg's data if Gutenberg is available.
+		if ( isGutenbergDataAvailable() ) {
+			const gutenbergData = new Data( wpData, args.onRefreshRequest, store );
+			gutenbergData.initialize( args.replaceVars );
+			return gutenbergData;
+		}
 
-/**
- * Render a react app to a target element.
- *
- * @param {string} target Target element id.
- * @param {ReactElement} component The component to render.
- * @param {Object} store Redux store.
- *
- * @returns {void}
- */
-function renderReactApp( target, component, store ) {
-	const targetElement = document.getElementById( target );
-	const props = {
-		title: localizedData.analysisHeadingTitle,
-		hideMarksButtons: localizedData.show_markers !== "1",
-	};
-	if( targetElement ) {
-		ReactDOM.render(
-			wrapInTopLevelComponents( component, store, props ),
-			targetElement
+		const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store );
+		classicEditorData.initialize( args.replaceVars );
+		return classicEditorData;
+	}
+
+	/**
+	 * Initialize used keyword analysis.
+	 *
+	 * @param {App}    app        YoastSEO.js app.
+	 * @param {string} ajaxAction The ajax action to use when retrieving the used keywords data.
+	 *
+	 * @returns {void}
+	 */
+	initializeUsedKeywords( app, ajaxAction ) {
+		const store =         this._store;
+		const localizedData = this._localizedData;
+
+		const usedKeywords = new UsedKeywords(
+			ajaxAction,
+			localizedData,
+			app
 		);
+		usedKeywords.init();
+
+		let lastData = {};
+		store.subscribe( () => {
+			const state = store.getState() || {};
+			if ( state.focusKeyword === lastData.focusKeyword ) {
+				return;
+			}
+			lastData = state;
+			usedKeywords.setKeyword( state.focusKeyword );
+		} );
+	}
+
+	/**
+	 * Returns the store.
+	 *
+	 * @returns {Object} The redux store.
+	 */
+	getStore() {
+		return this._store;
+	}
+
+	/**
+	 * Returns the data object.
+	 *
+	 * @returns {Object} The data object.
+	 */
+	getData() {
+		return this._data;
 	}
 }
 
-/**
- * Renders the snippet preview for display.
- *
- * @param {Object} store                                 Redux store.
- * @param {Object} props                                 Props to be passed to
- *                                                       the snippet preview.
- * @param {string} props.baseUrl                         Base URL of the site
- *                                                       the user is editing.
- * @param {string} props.date                            The date.
- * @param {array}  props.recommendedReplacementVariables The recommended
- *                                                       replacement variables
- *                                                       for this context.
- *
- * @returns {void}
- */
-function renderSnippetPreview( store, props ) {
-	const targetElement = document.getElementById( "wpseosnippet" );
-
-	if ( ! targetElement ) {
-		return;
-	}
-
-	ReactDOM.render(
-		wrapInTopLevelComponents( SnippetEditor, store, props ),
-		targetElement,
-	);
-}
-
-/**
- * Renders the react apps.
- *
- * @param {Object} store                Redux store.
- * @param {Object} args                 Arguments.
- * @param {string} args.analysisSection The target element id for the analysis
- *                                      section.
- *
- * @returns {void}
- */
-function renderReactApps( store, args ) {
-	renderReactApp( args.analysisSection, AnalysisSection, store );
-}
-
-/**
- * Initialize the appropriate data class.
- *
- * @param {Object}   data                   The data from the editor.
- * @param {Object}   args                   The args.
- * @param {Function} args.onRefreshRequest  The function to call on refresh request.
- * @param {Object}   args.replaceVars       The replaceVars object.
- * @param {Object}   store                  The redux store.
- *
- * @returns {Object} The instantiated data class.
- */
-export function initializeData( data, args, store ) {
-	// Only use Gutenberg's data if Gutenberg is available.
-	if ( isGutenbergDataAvailable() ) {
-		const gutenbergData = new Data( data, args.onRefreshRequest, store );
-		gutenbergData.initialize( args.replaceVars );
-		return gutenbergData;
-	}
-	const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store );
-	classicEditorData.initialize( args.replaceVars );
-	return classicEditorData;
-}
-
-/**
- * Initializes all functionality on the edit screen.
- *
- * This can be a post or a term edit screen.
- *
- * @param {Object}   args                                 Edit initialize arguments.
- * @param {string}   args.analysisSection                 The target element id
- *                                                        for the analysis section.
- * @param {Function} args.onRefreshRequest                The function to refresh
- *                                                        the analysis.
- * @param {Object}   args.replaceVars                     The replaceVars object.
- * @param {string}   args.snippetEditorBaseUrl            Base URL of the site
- *                                                        the user is editing.
- * @param {string}   args.snippetEditorDate               The date for the
- *                                                        snippet editor.
- * @param {array}    args.recommendedReplacementVariables The recommended
- *                                                        replacement variables
- *                                                        for this context.
- *
- * @returns {Object} The store and the data.
- */
-export function initialize( args ) {
-	const store = registerStoreInGutenberg();
-	if( args.shouldRenderGutenbergSidebar ) {
-		registerPlugin();
-	}
-
-	const data = initializeData( wp.data, args, store );
-
-	renderReactApps( store, args );
-
-	renderSnippetPreview( store, {
-		baseUrl: args.snippetEditorBaseUrl,
-		date: args.snippetEditorDate,
-		recommendedReplacementVariables: args.recommendedReplaceVars,
-	} );
-
-	return {
-		store,
-		data,
-	};
-}
-
-export default initialize;
+export default Edit;

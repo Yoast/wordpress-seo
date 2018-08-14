@@ -17,15 +17,18 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "NODE_ENV=production webpack --config ./webpack/webpack.config.prod.js",
+    "build": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
     "i18n-yoast-components": "NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot > /dev/null",
     "i18n-wordpress-seo": "NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot > /dev/null",
-    "start": "webpack-dev-server --config ./webpack/webpack.config.dev.js --progress"
+    "start": "webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",
     "transformIgnorePatterns": [
-      "/node_modules/(?!yoast-components).+\\.js$"
+      "/node_modules/(?!yoast-components|yoastseo).+\\.js$"
+    ],
+    "testPathIgnorePatterns": [
+      "/js/tests/edit.test.js"
     ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/js/tests/__mocks__/fileMock.js",
@@ -34,7 +37,8 @@
     },
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
-    ]
+    ],
+    "testURL": "http://localhost/"
   },
   "devDependencies": {
     "@wordpress/babel-plugin-makepot": "^1.0.0",
@@ -65,13 +69,11 @@
     "eslint-plugin-react": "^6.0.0",
     "eslint-plugin-yoast": "^1.0.1",
     "grunt": "^1.0.2",
-    "grunt-browserify": "^5.0.0",
     "grunt-checktextdomain": "^1.0.1",
     "grunt-contrib-clean": "~1.0.0",
     "grunt-contrib-compress": "^1.4.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^1.0.1",
-    "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^19.0.0",
     "grunt-glotpress": "^0.2.2",
@@ -91,8 +93,8 @@
     "jest": "^23.3.0",
     "load-grunt-config": "^0.19.2",
     "raf": "^3.4.0",
-    "react": "^16.2.0",
-    "react-dom": "16.2.0",
+    "react": "^16.3.0",
+    "react-dom": "16.3.0",
     "redux-logger": "^3.0.6",
     "sassdash": "^0.8.1",
     "svg-react-loader": "^0.4.5",
@@ -105,7 +107,11 @@
     "grunt-contrib-imagemin": "^2.0.1"
   },
   "dependencies": {
-    "@wordpress/i18n": "^1.1.1",
+    "@babel/runtime": "7.0.0-beta.55",
+    "@wordpress/components": "^1.0.1",
+    "@wordpress/data": "^1.0.1",
+    "@wordpress/element": "^1.0.1",
+    "@wordpress/i18n": "^1.2.2",
     "@wordpress/is-shallow-equal": "^1.0.2",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
@@ -127,10 +133,10 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "^4.8.0",
-    "yoastseo": "^1.36.0"
+    "yoast-components": "^4.9.0",
+    "yoastseo": "^1.37"
   },
   "yoast": {
-    "pluginVersion": "7.9.1"
+    "pluginVersion": "8.0"
   }
 }

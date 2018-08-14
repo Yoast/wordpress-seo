@@ -1,16 +1,17 @@
 /* global jQuery, ajaxurl */
 
-var UsedKeywordsPlugin = require( "yoastseo" ).bundledPlugins.usedKeywords;
-var _has = require( "lodash/has" );
-var _debounce = require( "lodash/debounce" );
-var _isArray = require( "lodash/isArray" );
+import has from "lodash/has";
+import debounce from "lodash/debounce";
+import isArray from "lodash/isArray";
+import { bundledPlugins } from "yoastseo";
+const UsedKeywordsPlugin = bundledPlugins.usedKeywords;
+
 var $ = jQuery;
 
 /**
  * Object that handles keeping track if the current keyword has been used before and retrieves this usage from the
  * server.
  *
- * @param {string} focusKeywordElement A jQuery selector for the focus keyword input element.
  * @param {string} ajaxAction The ajax action to use when retrieving the used keywords data.
  * @param {Object} options The options for the used keywords assessment plugin.
  * @param {Object} options.keyword_usage An object that contains the keyword usage when instantiating.
@@ -20,9 +21,8 @@ var $ = jQuery;
  *
  * @returns {void}
  */
-function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
+function UsedKeywords( ajaxAction, options, app ) {
 	this._keywordUsage = options.keyword_usage;
-	this._focusKeywordElement = $( focusKeywordElement );
 
 	this._plugin = new UsedKeywordsPlugin( app, {
 		usedKeywords: options.keyword_usage,
@@ -42,21 +42,20 @@ function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
  * @returns {void}
  */
 UsedKeywords.prototype.init = function() {
-	var eventHandler = _debounce( this.keywordChangeHandler.bind( this ), 500 );
+	this.requestKeywordUsage = debounce( this.requestKeywordUsage.bind( this ), 500 );
 
 	this._plugin.registerPlugin();
-	this._focusKeywordElement.on( "input", eventHandler );
 };
 
 /**
  * Handles an event of the keyword input field
  *
+ * @param {string} keyword The keyword to request the usage for.
+ *
  * @returns {void}
  */
-UsedKeywords.prototype.keywordChangeHandler = function() {
-	var keyword = this._focusKeywordElement.val();
-
-	if ( ! _has( this._keywordUsage, keyword ) ) {
+UsedKeywords.prototype.setKeyword = function( keyword ) {
+	if ( ! has( this._keywordUsage, keyword ) ) {
 		this.requestKeywordUsage( keyword );
 	}
 };
@@ -86,10 +85,10 @@ UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
  * @returns {void}
  */
 UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
-	if ( response && _isArray( response ) ) {
+	if ( response && isArray( response ) ) {
 		this._keywordUsage[ keyword ] = response;
 		this._plugin.updateKeywordUsage( this._keywordUsage );
-		this._app.analyzeTimer();
+		this._app.refresh();
 	}
 };
 

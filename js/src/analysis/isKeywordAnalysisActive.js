@@ -3,9 +3,9 @@ var getL10nObject = require( "./getL10nObject" );
 var isUndefined = require( "lodash/isUndefined" );
 
 /**
- * Returns whether or not the content analysis is active
+ * Returns whether or not the keyword analysis is active
  *
- * @returns {void}
+ * @returns {boolean} Whether or not the keyword analysis is active.
  */
 function isKeywordAnalysisActive() {
 	var l10nObject = getL10nObject();

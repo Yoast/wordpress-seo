@@ -65,7 +65,12 @@ class WPSEO_Sitemaps_Router {
 			$current_url = 'https://';
 		}
 
-		$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] );
+		$domain = $_SERVER['SERVER_NAME'];
+		if ( ! empty( $_SERVER['HTTP_HOST'] ) ) {
+			$domain = $_SERVER['HTTP_HOST'];
+		}
+
+		$current_url .= sanitize_text_field( $domain );
 		$current_url .= sanitize_text_field( $_SERVER['REQUEST_URI'] );
 
 		if ( home_url( '/sitemap.xml' ) === $current_url && $wp_query->is_404 ) {

@@ -65,7 +65,7 @@ class WPSEO_Meta {
 	 * @var    array  $meta_fields Meta box field definitions for the meta box form
 	 *                Array format:
 	 *                (required)        'type'            => (string) field type. i.e. text / textarea / checkbox /
-	 *                                                    radio / select / multiselect / upload / snippetpreview etc
+	 *                                                    radio / select / multiselect / upload etc
 	 *                (required)        'title'            => (string) table row title
 	 *                (recommended)    'default_value' => (string|array) default value for the field
 	 *                                                    IMPORTANT:
@@ -102,21 +102,6 @@ class WPSEO_Meta {
 	 */
 	public static $meta_fields = array(
 		'general'  => array(
-			'snippetpreview' => array(
-				'type'         => 'snippetpreview',
-				'title'        => '', // Translation added later.
-				'help'         => '', // Translation added later.
-				'help-button'  => '', // Translation added later.
-			),
-			'focuskw_text_input' => array(
-				'type'          => 'focuskeyword',
-				'title'         => '', // Translation added later.
-				'default_value' => '',
-				'autocomplete'  => false,
-				'help'          => '', // Translation added later.
-				'description'   => '<div id="focuskwresults"></div>',
-				'help-button'   => '', // Translation added later.
-			),
 			'focuskw' => array(
 				'type'  => 'hidden',
 				'title' => '',
@@ -150,16 +135,10 @@ class WPSEO_Meta {
 				'description'   => '',
 			),
 			'is_cornerstone' => array(
-				'type'          => 'non-form',
+				'type'          => 'hidden',
 				'title'         => 'is_cornerstone',
-				'default_value' => '0',
+				'default_value' => 'false',
 				'description'   => '',
-			),
-			'pageanalysis' => array(
-				'type'         => 'pageanalysis',
-				'title'        => '', // Translation added later.
-				'help'         => '', // Translation added later.
-				'help-button'  => '', // Translation added later.
 			),
 		),
 		'advanced' => array(
@@ -298,30 +277,28 @@ class WPSEO_Meta {
 
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
-				if ( $field_def['type'] !== 'snippetpreview' ) {
-					if ( $register === true ) {
-						register_meta( 'post', self::$meta_prefix . $key, array(
-							'sanitize_callback' => array( __CLASS__, 'sanitize_post_meta' ),
-						) );
-					}
-					else {
-						add_filter( 'sanitize_post_meta_' . self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ), 10, 2 );
-					}
+				if ( $register === true ) {
+					register_meta( 'post', self::$meta_prefix . $key, array(
+						'sanitize_callback' => array( __CLASS__, 'sanitize_post_meta' ),
+					) );
+				}
+				else {
+					add_filter( 'sanitize_post_meta_' . self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ), 10, 2 );
+				}
 
-					// Set the $fields_index property for efficiency.
-					self::$fields_index[ self::$meta_prefix . $key ] = array(
-						'subset' => $subset,
-						'key'    => $key,
-					);
+				// Set the $fields_index property for efficiency.
+				self::$fields_index[ self::$meta_prefix . $key ] = array(
+					'subset' => $subset,
+					'key'    => $key,
+				);
 
-					// Set the $defaults property for efficiency.
-					if ( isset( $field_def['default_value'] ) ) {
-						self::$defaults[ self::$meta_prefix . $key ] = $field_def['default_value'];
-					}
-					else {
-						// Meta will always be a string, so let's make the meta meta default also a string.
-						self::$defaults[ self::$meta_prefix . $key ] = '';
-					}
+				// Set the $defaults property for efficiency.
+				if ( isset( $field_def['default_value'] ) ) {
+					self::$defaults[ self::$meta_prefix . $key ] = $field_def['default_value'];
+				}
+				else {
+					// Meta will always be a string, so let's make the meta meta default also a string.
+					self::$defaults[ self::$meta_prefix . $key ] = '';
 				}
 			}
 		}
@@ -489,6 +466,14 @@ class WPSEO_Meta {
 				}
 				break;
 
+			case ( $field_def['type'] === 'hidden' && $meta_key === self::$meta_prefix . 'is_cornerstone' ):
+				$clean = $meta_value;
+
+				// This used to be a checkbox, then became a hidden input. To make sure the value remains consistent, we cast 'true' to '1'.
+				if ( $meta_value === 'true' ) {
+					$clean = '1';
+				}
+				break;
 
 			case ( $field_def['type'] === 'textarea' ):
 				if ( is_string( $meta_value ) ) {
@@ -875,7 +860,7 @@ class WPSEO_Meta {
 
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
-				if ( $field_def['type'] === 'snippetpreview' || ! isset( $field_def['default_value'] ) ) {
+				if ( ! isset( $field_def['default_value'] ) ) {
 					continue;
 				}
 

@@ -1,5 +1,6 @@
 /* External dependencies */
-import removeMarks from "yoastseo/js/markers/removeMarks";
+import analysis from "yoastseo";
+const { removeMarks } = analysis.markers;
 
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";

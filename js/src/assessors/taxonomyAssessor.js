@@ -1,17 +1,22 @@
-const Assessor = require( "yoastseo/js/assessor.js" );
+import {
+	Assessor,
+	assessments,
+} from "yoastseo";
 
-import IntroductionKeywordAssessment from "yoastseo/js/assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "yoastseo/js/assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "yoastseo/js/assessments/seo/KeywordDensityAssessment";
-const keywordStopWords = require( "yoastseo/js/assessments/seo/keywordStopWordsAssessment.js" );
-import MetaDescriptionKeywordAssessment from "yoastseo/js/assessments/seo/MetaDescriptionKeywordAssessment";
-const MetaDescriptionLength = require( "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment.js" );
-import TitleKeywordAssessment from "yoastseo/js/assessments/seo/TitleKeywordAssessment";
-const TitleWidth = require( "yoastseo/js/assessments/seo/pageTitleWidthAssessment.js" );
-import UrlKeywordAssessment from "yoastseo/js/assessments/seo/UrlKeywordAssessment";
-const UrlLength = require( "yoastseo/js/assessments/seo/urlLengthAssessment.js" );
-const urlStopWords = require( "yoastseo/js/assessments/seo/urlStopWordsAssessment.js" );
-const taxonomyTextLength = require( "yoastseo/js/assessments/seo/taxonomyTextLengthAssessment" );
+const {
+	IntroductionKeywordAssessment,
+	KeyphraseLengthAssessment,
+	KeywordDensityAssessment,
+	KeywordStopWordsAssessment,
+	MetaDescriptionKeywordAssessment,
+	MetaDescriptionLengthAssessment,
+	TitleKeywordAssessment,
+	PageTitleWidthAssessment,
+	UrlKeywordAssessment,
+	UrlLengthAssessment,
+	UrlStopWordsAssessment,
+	TaxonomyTextLengthAssessment,
+} = assessments.seo;
 
 /**
  * Creates the Assessor
@@ -26,19 +31,18 @@ const TaxonomyAssessor = function( i18n ) {
 		new IntroductionKeywordAssessment(),
 		new KeyphraseLengthAssessment(),
 		new KeywordDensityAssessment(),
-		keywordStopWords,
+		KeywordStopWordsAssessment,
 		new MetaDescriptionKeywordAssessment(),
-		new MetaDescriptionLength(),
-		taxonomyTextLength,
+		new MetaDescriptionLengthAssessment(),
+		TaxonomyTextLengthAssessment,
 		new TitleKeywordAssessment(),
-		new TitleWidth(),
+		new PageTitleWidthAssessment(),
 		new UrlKeywordAssessment(),
-		new UrlLength(),
-		urlStopWords,
+		new UrlLengthAssessment(),
+		UrlStopWordsAssessment,
 	];
 };
 
 module.exports = TaxonomyAssessor;
 
 require( "util" ).inherits( module.exports, Assessor );
-

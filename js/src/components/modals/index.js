@@ -1,9 +1,9 @@
-import AddKeyword from "./AddKeyword";
 import KeywordSynonyms from "./KeywordSynonyms";
+import MultipleKeywords from "./MultipleKeywords";
 
 const modals = {
-	AddKeyword: AddKeyword,
 	KeywordSynonyms: KeywordSynonyms,
+	MultipleKeywords: MultipleKeywords,
 };
 
 export default modals;

@@ -54,7 +54,7 @@ temp/
 ############
 ## Composer
 ############
-vendor/
+/vendor/
 
 ############
 ## WPSEO
@@ -70,3 +70,4 @@ test.sh
 /coverage
 /gettext.pot
 /.wordpress-svn
+/webpack-stats.json
