@@ -1,3 +1,4 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 import {
@@ -42,6 +43,10 @@ class PrimaryTaxonomyPicker extends React.Component {
 
 		this.onChange = this.onChange.bind( this );
 
+		const { field_id: fieldId, name } = props.taxonomy;
+		this.input = document.getElementById( fieldId );
+		props.setPrimaryTaxonomy( name, this.input.value );
+
 		this.state = {
 			termsTree: buildTermsTree( props.terms ),
 		};
@@ -54,7 +59,11 @@ class PrimaryTaxonomyPicker extends React.Component {
 	}
 
 	onChange( taxonomyId ) {
-		console.log( taxonomyId );
+		const { name } = this.props.taxonomy;
+
+		this.props.setPrimaryTaxonomy( name, taxonomyId );
+
+		this.input.value = taxonomyId;
 	}
 
 	render() {
@@ -71,7 +80,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 				</label>
 				<TreeSelect
 					value={ primaryTaxonomy }
-					onChange={ console.log }
+					onChange={ this.onChange }
 					id="yoast-primary-category-picker"
 					tree={ this.state.termsTree }/>
 			</div>
@@ -82,6 +91,11 @@ class PrimaryTaxonomyPicker extends React.Component {
 PrimaryTaxonomyPicker.propTypes = {
 	terms: PropTypes.array,
 	primaryTaxonomy: PropTypes.string,
+	setPrimaryTaxonomy: PropTypes.func,
+	taxonomy: PropTypes.shape( {
+		name: PropTypes.string,
+		field_id: PropTypes.string,
+	} ),
 };
 
 export default compose( [
@@ -97,6 +111,8 @@ export default compose( [
 	withDispatch( dispatch => {
 		const yoastDispatch = dispatch( "yoast-seo/editor" );
 
-
+		return {
+			setPrimaryTaxonomy: yoastDispatch.setPrimaryTaxonomy,
+		};
 	} ),
 ] )( PrimaryTaxonomyPicker );
