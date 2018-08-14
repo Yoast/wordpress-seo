@@ -1,17 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import omit from "lodash/omit";
 
 import colors from "../../../../style-guide/colors.json";
 import { IconsButton } from "../../Shared/components/Button";
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import { getRtlStyle } from "../../../../utils/helpers/styled-components";
-
-const Content = styled.div`
-	padding: 0 16px;
-	margin-bottom: 16px;
-`;
 
 const StyledContainer = styled.div`
 	background-color: ${ colors.$color_white };
@@ -111,16 +105,11 @@ const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1
  * Base panel. Optionally has a heading around the button.
  *
  * @param {Object}      props                       The properties for the component.
-
  * @param {string}      props.className             The name of the CSS class used for alternate styling.
  * @param {IconsButton} props.Heading               Heading button. May be wrapped or styled or both.
-
- * @param {boolean}     props.hasPadding            True adds padding to the content. False means no padding.
  * @param {boolean}     props.hasSeparator          True displays borders around the section. False means no borders.
-
  * @param {Object}      props.prefixIcon            Heading icon before the title.
  * @param {string}      props.subTitle              Sub-title for the Heading.
-
  * @param {Object}      props.suffixIcon            Heading icon after the title.
  * @param {string}      props.title                 Title for the Heading.
  * @param {string}      props.titleScreenReaderText Chance for an extra text to feed to a screenreader.
@@ -176,6 +165,5 @@ ButtonSection.propTypes = {
 ButtonSection.defaultProps = {
 	Heading: StyledHeading,
 };
-
 
 export default ButtonSection;
