@@ -33,6 +33,7 @@ import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
+import CustomAnalysisData from "./analysis/CustomAnalysisData";
 
 // Redux dependencies.
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
@@ -64,6 +65,7 @@ setWordPressSeoL10n();
 	let app;
 	let decorator = null;
 	let postDataCollector;
+	const customAnalysisData = new CustomAnalysisData();
 
 	let editStore;
 
@@ -420,8 +422,9 @@ setWordPressSeoL10n();
 		window.YoastSEO.analysisWorker = createAnalysisWorker();
 		window.YoastSEO.store = editStore;
 
-		// Replace the app refresh.
+		// YoastSEO.app overwrites.
 		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker, YoastSEO.store );
+		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 
 		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
 

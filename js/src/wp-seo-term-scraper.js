@@ -29,6 +29,7 @@ import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
+import CustomAnalysisData from "./analysis/CustomAnalysisData";
 
 import TaxonomyAssessor from "./assessors/taxonomyAssessor";
 
@@ -56,6 +57,7 @@ window.yoastHideMarkers = true;
 	var termSlugInput;
 
 	let store;
+	const customAnalysisData = new CustomAnalysisData();
 
 	/**
 	 * Get the editor created via wp_editor() and append it to the term-description-wrap
@@ -276,8 +278,9 @@ window.yoastHideMarkers = true;
 		window.YoastSEO.analysisWorker = createAnalysisWorker();
 		window.YoastSEO.store = store;
 
-		// Replace the app refresh.
+		// YoastSEO.app overwrites.
 		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker, YoastSEO.store );
+		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 
 		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
 
