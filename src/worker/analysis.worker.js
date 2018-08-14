@@ -123,9 +123,9 @@ class AnalysisWebWorker {
 			return null;
 		}
 
-		const assessor = useCornerstone === true ?
-			new CornerstoneSEOAssessor( this._i18n, { locale } ) :
-			new SEOAssessor( this._i18n, { locale } );
+		const assessor = useCornerstone === true
+			? new CornerstoneContentAssessor( this._i18n, { locale } )
+			: new ContentAssessor( this._i18n, { locale } );
 
 		return assessor;
 	}
@@ -149,9 +149,9 @@ class AnalysisWebWorker {
 			return null;
 		}
 
-		const assessor = useCornerstone === true ?
-			new CornerstoneSEOAssessor( this._i18n, { locale } ) :
-			new SEOAssessor( this._i18n, { locale } );
+		const assessor = useCornerstone === true
+			? new CornerstoneSEOAssessor( this._i18n, { locale } )
+			: new SEOAssessor( this._i18n, { locale } );
 
 		if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "largestKeywordDistance" ) ) ) {
 			assessor.addAssessment( "largestKeywordDistance", LargestKeywordDistanceAssessment );
