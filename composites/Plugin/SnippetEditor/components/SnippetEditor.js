@@ -98,35 +98,24 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
 	 *
-	 * @param {Object}   props                                 The props for the snippet
-	 *                                                         editor.
-	 * @param {Object[]} props.replacementVariables            The replacement variables
-	 *                                                         for this editor.
-	 * @param {Object[]} props.recommendedReplacementVariables The recommended replacement
-	 *                                                         variables for this editor.
+	 * @param {Object}   props                                 The props for the snippet editor.
+	 * @param {Object[]} props.replacementVariables            The replacement variables for this editor.
+	 * @param {Object[]} props.recommendedReplacementVariables The recommended replacement variables for this editor.
 	 * @param {Object}   props.data                            The initial editor data.
 	 * @param {string}   props.keyword                         The focus keyword.
 	 * @param {string}   props.data.title                      The initial title.
 	 * @param {string}   props.data.slug                       The initial slug.
 	 * @param {string}   props.data.description                The initial description.
-	 * @param {string}   props.baseUrl                         The base URL to use
-	 *                                                         for the preview.
-	 * @param {string}   props.mode                            The mode the editor
-	 *                                                         should be in.
-	 * @param {Function} props.onChange                        Called when the data
-	 *                                                         changes.
-	 * @param {Object}   props.titleLengthProgress             The values for the title
-	 *                                                         length assessment.
-	 * @param {Object}   props.descriptionLengthProgress       The values for the
-	 *                                                         description length
-	 *                                                         assessment.
-	 * @param {Function} props.mapEditorDataToPreview          Function to map the
-	 *                                                         editor data to data
-	 *                                                         for the preview.
+	 * @param {string}   props.baseUrl                         The base URL to use for the preview.
+	 * @param {string}   props.mode                            The mode the editor should be in.
+	 * @param {Function} props.onChange                        Called when the data changes.
+	 * @param {Object}   props.titleLengthProgress             The values for the title length assessment.
+	 * @param {Object}   props.descriptionLengthProgress       The values for the description length assessment.
+	 * @param {Function} props.mapEditorDataToPreview          Function to map the editor data to data for the preview.
 	 * @param {string}   props.locale                          The locale of the page.
-	 * @param {bool}     props.hasPaperStyle                   Whether or not it has
-	 *                                                         paper style.
-	 *
+	 * @param {bool}     props.hasPaperStyle                   Whether or not it has paper style.
+	 * @param {bool}     props.editorAlwaysOpen                Whether or not users have the option to open and close
+	 *                                                         the editor.
 	 * @returns {void}
 	 */
 	constructor( props ) {
@@ -136,7 +125,7 @@ class SnippetEditor extends React.Component {
 		const previewData = this.mapDataToPreview( measurementData );
 
 		this.state = {
-			isOpen: false,
+			isOpen: props.editorAlwaysOpen,
 			activeField: null,
 			hoveredField: null,
 			mappedData: previewData,
@@ -247,6 +236,7 @@ class SnippetEditor extends React.Component {
 			recommendedReplacementVariables,
 			descriptionEditorFieldPlaceholder,
 			hasPaperStyle,
+			editorAlwaysOpen,
 		} = this.props;
 		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
 
@@ -270,9 +260,7 @@ class SnippetEditor extends React.Component {
 					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
 					containerPadding={ hasPaperStyle ? "0 20px" : "0" }
 				/>
-				<CloseEditorButton onClick={ this.close }>
-					{ __( "Close snippet editor", "yoast-components" ) }
-				</CloseEditorButton>
+				{ editorAlwaysOpen ? "" :<CloseEditorButton onClick={ this.close }>{ __( "Close snippet editor", "yoast-components" ) } </CloseEditorButton> }
 			</React.Fragment>
 		);
 	}
@@ -508,12 +496,14 @@ class SnippetEditor extends React.Component {
 			date,
 			locale,
 			keyword,
+			editorAlwaysOpen,
 		} = this.props;
 
 		const {
 			activeField,
 			hoveredField,
 			isOpen,
+
 		} = this.state;
 
 		const measurementData = this.mapDataToMeasurements( data );
@@ -542,14 +532,14 @@ class SnippetEditor extends React.Component {
 
 					<ModeSwitcher onChange={ ( mode ) => onChange( "mode", mode ) } active={ mode } />
 
-					<EditSnippetButton
+					{ ! editorAlwaysOpen && <EditSnippetButton
 						onClick={ isOpen ? this.close : this.open }
 						aria-expanded={ isOpen }
 						innerRef={ this.setEditButtonRef }
 					>
 						<SvgIcon icon="edit" />
 						{ __( "Edit snippet", "yoast-components" ) }
-					</EditSnippetButton>
+					</EditSnippetButton> }
 
 					{ this.renderEditor() }
 				</div>
@@ -579,6 +569,7 @@ SnippetEditor.propTypes = {
 	keyword: PropTypes.string,
 	locale: PropTypes.string,
 	hasPaperStyle: PropTypes.bool,
+	editorAlwaysOpen: PropTypes.bool,
 };
 
 SnippetEditor.defaultProps = {
@@ -601,6 +592,7 @@ SnippetEditor.defaultProps = {
 	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
 	onChangeAnalysisData: noop,
 	hasPaperStyle: true,
+	editorAlwaysOpen: false,
 };
 
 export default SnippetEditor;
