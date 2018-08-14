@@ -34,8 +34,8 @@ export default class CustomAnalysisData {
 	 */
 	getData() {
 		let data = {};
-		this._callbacks.forEach( ( callback ) => {
-			data = merge( data, callback() );
+		this._callbacks.forEach( ( fetchData ) => {
+			data = merge( data, fetchData() );
 		} );
 		return data;
 	}
