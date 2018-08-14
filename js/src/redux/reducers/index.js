@@ -7,7 +7,7 @@ import snippetEditor from "./snippetEditor";
 import analysisDataReducer from "./analysisData";
 import preferences from "./preferences";
 import settings from "./settings";
-import primaryCategory from "./primaryCategory";
+import primaryTaxonomies from "./primaryTaxonomies";
 
 export default {
 	analysis,
@@ -18,5 +18,5 @@ export default {
 	analysisData: analysisDataReducer,
 	preferences,
 	settings,
-	primaryCategory,
+	primaryTaxonomies,
 };

@@ -1,6 +1,6 @@
-import { SET_PRIMARY_CATEGORY } from "../actions/primaryCategory";
+import { SET_PRIMARY_TAXONOMY } from "../actions/primaryTaxonomies";
 
-const INITIAL_STATE = "";
+const INITIAL_STATE = {};
 
 /**
  * A reducer for the focus keyword.
@@ -12,8 +12,11 @@ const INITIAL_STATE = "";
  */
 function focusKeywordReducer( state = INITIAL_STATE, action ) {
 	switch( action.type ) {
-		case SET_PRIMARY_CATEGORY:
-			return action.keyword;
+		case SET_PRIMARY_TAXONOMY:
+			return {
+				...state,
+				[ action.taxonomy ]: action.termId,
+			};
 		default:
 			return state;
 	}

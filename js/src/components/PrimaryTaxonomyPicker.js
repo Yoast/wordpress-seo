@@ -1,8 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withSelect } from "@wordpress/data";
+import {
+	withSelect,
+	withDispatch,
+} from "@wordpress/data";
 import { TreeSelect } from "@wordpress/components";
-import { compose } from "@wordpress/element";
+import { compose } from "@wordpress/compose";
 import groupBy from "lodash/groupBy";
 
 /**
@@ -33,53 +36,67 @@ export function buildTermsTree( flatTerms ) {
 	return fillWithChildren( termsByParent[ "0" ] || [] );
 }
 
-class PrimaryCategoryPicker extends React.Component {
+class PrimaryTaxonomyPicker extends React.Component {
 	constructor( props ) {
 		super( props );
 
+		this.onChange = this.onChange.bind( this );
+
 		this.state = {
-			categoriesTree: buildTermsTree( props.categories )
+			termsTree: buildTermsTree( props.terms ),
 		};
 	}
 
 	componentDidUpdate( prevProps ) {
-		if ( prevProps.categories !== this.props.categories ) {
-			this.setState( { categoriesTree: buildTermsTree( this.props.categories ) } );
+		if ( prevProps.terms !== this.props.terms ) {
+			this.setState( { termsTree: buildTermsTree( this.props.terms ) } );
 		}
+	}
+
+	onChange( taxonomyId ) {
+		console.log( taxonomyId );
 	}
 
 	render() {
 		const {
-			primaryCategory,
+			primaryTaxonomy,
 		} = this.props;
 
 		return (
 			<div className="components-base-control__field">
 				<label
-					htmlFor="yoast-primary-category-selector"
+					htmlFor="yoast-primary-category-picker"
 					className="components-base-control__label">
 					Select the primary category
 				</label>
 				<TreeSelect
-					value={ primaryCategory }
+					value={ primaryTaxonomy }
 					onChange={ console.log }
-					id="yoast-primary-category-selector"
-					tree={ this.state.categoriesTree }/>
+					id="yoast-primary-category-picker"
+					tree={ this.state.termsTree }/>
 			</div>
 		);
 	}
 }
 
-PrimaryCategoryPicker.propTypes = {
-	categories: PropTypes.array,
+PrimaryTaxonomyPicker.propTypes = {
+	terms: PropTypes.array,
+	primaryTaxonomy: PropTypes.string,
 };
 
-export default withSelect( select => {
-	const coreData = select( "core" );
-	const yoastData = select( "yoast-seo/editor" );
+export default compose( [
+	withSelect( select => {
+		const coreData = select( "core" );
+		const yoastData = select( "yoast-seo/editor" );
 
-	return {
-		categories: coreData.getEntityRecords( "taxonomy", "category" ),
-		primaryCategory: yoastData.getPrimaryCategory(),
-	};
-} )( PrimaryCategoryPicker );
+		return {
+			terms: coreData.getEntityRecords( "taxonomy", "category" ),
+			primaryTaxonomy: yoastData.getPrimaryTaxonomy( "category" ),
+		};
+	} ),
+	withDispatch( dispatch => {
+		const yoastDispatch = dispatch( "yoast-seo/editor" );
+
+
+	} ),
+] )( PrimaryTaxonomyPicker );

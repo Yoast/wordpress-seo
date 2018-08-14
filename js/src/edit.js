@@ -8,8 +8,6 @@ import { Slot } from "@wordpress/components";
 import { combineReducers, registerStore } from "@wordpress/data";
 import get from "lodash/get";
 import values from "lodash/values";
-import flow from "lodash/flow";
-import map from "lodash/map";
 
 /* Internal dependencies */
 import Data from "./analysis/data.js";
@@ -21,9 +19,10 @@ import Sidebar from "./containers/Sidebar";
 import MetaboxPortal from "./components/MetaboxPortal";
 import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPriority";
 import * as selectors from "./redux/selectors";
+import * as actions from "./redux/actions";
 import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
-import PrimaryCategoryPicker from "./components/PrimaryCategoryPicker";
+import PrimaryTaxonomyPicker from "./components/PrimaryTaxonomyPicker";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -88,13 +87,18 @@ class Edit {
 		return registerStore( "yoast-seo/editor", {
 			reducer: combineReducers( reducers ),
 			selectors,
+			actions: {
+				...actions.primaryTaxonomies,
+			},
 		} );
 	}
 
 	_registerCategorySelectorFilter() {
 		const addFilter = get( window, "wp.hooks.addFilter" );
 
-		const primaryTaxonomies = values( get( window.wpseoPrimaryCategoryL10n, "taxonomies" ) ).map(
+		const taxonomies = get( window.wpseoPrimaryCategoryL10n, "taxonomies" );
+
+		const primaryTaxonomies = values( taxonomies ).map(
 			taxonomy => taxonomy.name
 		);
 
@@ -106,11 +110,13 @@ class Edit {
 					if ( ! primaryTaxonomies.includes( props.slug ) ) {
 						return <OriginalComponent { ...props } />;
 					}
-					console.log( props );
+
+					const taxonomy = taxonomies[ props.slug ];
+
 					return (
 						<Fragment>
 							<OriginalComponent { ...props } />
-							<PrimaryCategoryPicker />
+							<PrimaryTaxonomyPicker taxonomy={ taxonomy } />
 						</Fragment>
 					);
 				};

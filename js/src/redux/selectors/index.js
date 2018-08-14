@@ -1,2 +1,2 @@
 export * from "./results";
-export * from "./primaryCategory";
+export * from "./primaryTaxonomies";
