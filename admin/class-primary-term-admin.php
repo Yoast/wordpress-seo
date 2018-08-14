@@ -52,10 +52,14 @@ class WPSEO_Primary_Term_Admin {
 
 	protected function primary_term_field( $taxonomy_name, $primary_term ) {
 		$output = '<input type="hidden" class="yoast-wpseo-primary-term"';
-		$output .= 'id="yoast-wpseo-primary-' . $taxonomy_name . '"';
+		$output .= 'id="' . $this->generate_field_id( $taxonomy_name ) . '"';
 		$output .= 'name="' . esc_attr( WPSEO_Meta::$form_prefix ) . 'primary_' . $taxonomy_name . '_term"';
 		$output .= 'value="' . $primary_term . '">';
 		return $output;
+	}
+
+	protected function generate_field_id( $taxonomy_name ) {
+		return 'yoast-wpseo-primary-' . $taxonomy_name;
 	}
 
 	/**
@@ -219,10 +223,11 @@ class WPSEO_Primary_Term_Admin {
 		}
 
 		return array(
-			'title'   => $taxonomy->labels->singular_name,
-			'name'    => $taxonomy->name,
-			'primary' => $primary_term,
-			'terms'   => array_map( array( $this, 'map_terms_for_js' ), get_terms( $taxonomy->name ) ),
+			'title'    => $taxonomy->labels->singular_name,
+			'name'     => $taxonomy->name,
+			'primary'  => $primary_term,
+			'field_id' => $this->generate_field_id( $taxonomy->name ),
+			'terms'    => array_map( array( $this, 'map_terms_for_js' ), get_terms( $taxonomy->name ) ),
 		);
 	}
 
