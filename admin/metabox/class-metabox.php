@@ -370,6 +370,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	private function get_content_meta_section() {
 		$content = $this->get_tab_content( 'general' );
+		$content = apply_filters( 'wpseo_content_meta_section_content', $content );
 
 		return new WPSEO_Metabox_Section_React(
 			'content',
