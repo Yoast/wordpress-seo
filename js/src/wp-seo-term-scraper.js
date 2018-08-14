@@ -2,33 +2,47 @@
 
 // External dependencies.
 import { App } from "yoastseo";
-import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import {
+	setReadabilityResults,
+	setSeoResultsForKeyword,
+} from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import isUndefined from "lodash/isUndefined";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 import debounce from "lodash/debounce";
 
 // Internal dependencies.
-import "./helpers/babel-polyfill";
-import initializeEdit from "./edit";
+import Edit from "./edit";
 import { termsTmceId as tmceId } from "./wp-seo-tinymce";
+
+// UI dependencies.
 import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
+
+// Analysis dependencies.
+import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
+import refreshAnalysis from "./analysis/refreshAnalysis";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
-import UsedKeywords from "./analysis/usedKeywords";
+import CustomAnalysisData from "./analysis/CustomAnalysisData";
+
 import TaxonomyAssessor from "./assessors/taxonomyAssessor";
+
+// Redux dependencies.
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
+
+// Helper dependencies.
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import {
 	registerReactComponent,
-	renderClassicEditorMetabox
+	renderClassicEditorMetabox,
 } from "./helpers/classicEditor";
+import "./helpers/babel-polyfill";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -41,6 +55,7 @@ window.yoastHideMarkers = true;
 	var termSlugInput;
 
 	let store;
+	const customAnalysisData = new CustomAnalysisData();
 
 	/**
 	 * Get the editor created via wp_editor() and append it to the term-description-wrap
@@ -127,16 +142,13 @@ window.yoastHideMarkers = true;
 	/**
 	 * Initializes keyword analysis.
 	 *
-	 * @param {App} app The App object.
 	 * @param {TermDataCollector} termScraper The post scraper object.
 	 *
 	 * @returns {void}
 	 */
-	function initializeKeywordAnalysis( app, termScraper ) {
+	function initializeKeywordAnalysis( termScraper ) {
 		var savedKeywordScore = $( "#hidden_wpseo_linkdex" ).val();
-		var usedKeywords = new UsedKeywords( "#hidden_wpseo_focuskw", "get_term_keyword_usage", wpseoTermScraperL10n, app );
 
-		usedKeywords.init();
 		termScraper.initKeywordTabTemplate();
 
 		var indicator = getIndicatorForScore( savedKeywordScore );
@@ -210,7 +222,9 @@ window.yoastHideMarkers = true;
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
 
-		const { store } = initializeEdit( editArgs );
+		const edit = new Edit( editArgs );
+
+		const store = edit.getStore();
 
 		insertTinyMCE();
 
@@ -227,6 +241,7 @@ window.yoastHideMarkers = true;
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			hasSnippetPreview: false,
+			debouncedRefresh: false,
 		};
 
 		if ( isKeywordAnalysisActive() ) {
@@ -255,16 +270,24 @@ window.yoastHideMarkers = true;
 
 		app = new App( args );
 
+		// Expose globals.
+		window.YoastSEO = {};
+		window.YoastSEO.app = app;
+		window.YoastSEO.analysisWorker = createAnalysisWorker();
+		window.YoastSEO.store = store;
+
+		// YoastSEO.app overwrites.
+		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker, YoastSEO.store );
+		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
+
+		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
+
 		store.subscribe( handleStoreChange.bind( null, store, app ) );
 
 		if ( isKeywordAnalysisActive() ) {
 			app.seoAssessor = new TaxonomyAssessor( app.i18n );
 			app.seoAssessorPresenter.assessor = app.seoAssessor;
 		}
-
-		window.YoastSEO = {};
-		window.YoastSEO.app = app;
-		window.YoastSEO.store = store;
 
 		termScraper.initKeywordTabTemplate();
 
@@ -281,14 +304,19 @@ window.yoastHideMarkers = true;
 		termScraper.bindElementEvents( app );
 
 		if ( isKeywordAnalysisActive() ) {
-			initializeKeywordAnalysis( app, termScraper );
+			initializeKeywordAnalysis( termScraper );
 		}
 
 		if ( isContentAnalysisActive() ) {
 			initializeContentAnalysis();
 		}
 
-		jQuery( window ).trigger( "YoastSEO:ready" );
+		// Initialize the analysis worker.
+		YoastSEO.analysisWorker.initialize( getAnalysisConfiguration() )
+			.then( () => {
+				jQuery( window ).trigger( "YoastSEO:ready" );
+			} )
+			.catch( error => console.warn( error ) );
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );

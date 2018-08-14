@@ -32,6 +32,12 @@ const FocusKeywordLink = utils.makeOutboundLink();
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends React.Component {
+
+	/**
+	 * Renders the keyword synonyms upsell modal.
+	 *
+	 * @returns {ReactElement} A modalButtonContainer component with the modal for a keyword synonyms upsell.
+	 */
 	renderSynonymsUpsell() {
 		let config = yoastModalConfig;
 		let synonymsConfig = config.filter( ( modalConfig ) => {
@@ -40,6 +46,22 @@ class SeoAnalysis extends React.Component {
 
 		return(
 			<ModalButtonContainer { ...synonymsConfig[ synonymsConfig.length - 1 ] } />
+		);
+	}
+
+	/**
+	 * Renders the multiple keywords upsell modal.
+	 *
+	 * @returns {ReactElement} A modalButtonContainer component with the modal for a multiple keywords upsell.
+	 */
+	renderMultipleKeywordsUpsell() {
+		let config = yoastModalConfig;
+		let multipleKeywordsConfig = config.filter( ( modalConfig ) => {
+			return modalConfig.content === "MultipleKeywords";
+		} );
+
+		return(
+			<ModalButtonContainer { ...multipleKeywordsConfig[ multipleKeywordsConfig.length - 1 ] } />
 		);
 	}
 
@@ -97,7 +119,8 @@ class SeoAnalysis extends React.Component {
 					subTitle={ this.props.keyword }
 				>
 					<ExplanationText>
-						{ __( "A focus keyword is the term (or phrase) you'd like to be found with in search engines. Enter it below to see how you can improve your text for this term.", "wordpress-seo" ) + " " }
+						{ __( "A focus keyword is the term (or phrase) you'd like to be found with, in search engines. " +
+							"Enter it below to see how you can improve your text for this term.", "wordpress-seo" ) + " " }
 						<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }>
 							{ __( "Learn more about the Keyword Analysis", "wordpress-seo" ) }
 						</FocusKeywordLink>
@@ -109,6 +132,7 @@ class SeoAnalysis extends React.Component {
 					/>
 					<Slot name="YoastSynonyms" />
 					{ this.props.shouldUpsell && this.renderSynonymsUpsell() }
+					{ this.props.shouldUpsell && this.renderMultipleKeywordsUpsell() }
 					<AnalysisHeader>
 						Analysis results:
 					</AnalysisHeader>

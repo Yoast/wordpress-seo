@@ -27,12 +27,14 @@ class WPSEO_Keyword_Synonyms_Modal {
 			'link'                     => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
 			'other'                    => sprintf(
 				/* translators: %s expands to 'Yoast SEO Premium'. */
-				__( 'Other benefits of %s for you:', 'wordpress-seo' ), 'Yoast SEO Premium'
+				__( 'Other benefits of %s for you:', 'wordpress-seo' ),
+				'Yoast SEO Premium'
 			),
 			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/keyword-synonyms-popup' ),
 			'buy'                      => sprintf(
 				/* translators: %s expands to 'Yoast SEO Premium'. */
-				__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
+				__( 'Get %s now!', 'wordpress-seo' ),
+				'Yoast SEO Premium'
 			),
 			'small'                    => __( '1 year free updates and upgrades included!', 'wordpress-seo' ),
 			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
@@ -46,6 +48,7 @@ class WPSEO_Keyword_Synonyms_Modal {
 	 */
 	public function get_translations_for_js() {
 		$translations = $this->get_translations();
+
 		return array(
 			'locale' => WPSEO_Utils::get_user_locale(),
 			'intl'   => $translations,
@@ -54,6 +57,8 @@ class WPSEO_Keyword_Synonyms_Modal {
 
 	/**
 	 * Prints the localized Keyword Synonyms modal translations for JS.
+	 *
+	 * @return void
 	 */
 	public function enqueue_translations() {
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'yoastKeywordSynonymsModalL10n', $this->get_translations_for_js() );

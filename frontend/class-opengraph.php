@@ -738,7 +738,6 @@ class WPSEO_OpenGraph {
 		}
 	}
 
-
 	/**
 	 * Outputs the site owner.
 	 *
@@ -768,5 +767,4 @@ class WPSEO_OpenGraph {
 
 		$this->image( $image );
 	}
-
 } /* End of class */

@@ -9,6 +9,7 @@
  * Class WPSEO_Configuration_Service_Mock
  */
 class WPSEO_Configuration_Service_Mock extends WPSEO_Configuration_Service {
+
 	/**
 	 * @param string $item Property to get.
 	 *

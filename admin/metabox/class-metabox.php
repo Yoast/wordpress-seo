@@ -512,6 +512,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( WPSEO_Utils::is_yoast_seo_premium() === false ) {
 			$button = new WPSEO_Metabox_Keyword_Synonyms_Config();
 			$button->enqueue_translations();
+
+			$multiple_keywords_button = new WPSEO_Metabox_Multiple_Keywords_Config();
+			$multiple_keywords_button->enqueue_translations();
 		}
 
 		switch ( $meta_field_def['type'] ) {
@@ -784,6 +787,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
 		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' );
+
+		$analysis_worker_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoAnalysisWorkerL10n', array( 'url' => $analysis_worker_location->get_url() ) );
+
 		/**
 		 * Remove the emoji script as it is incompatible with both React and any
 		 * contenteditable fields.
@@ -837,7 +844,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return array();
 	}
-
 
 	/**
 	 * Returns an array with shortcode tags for all registered shortcodes.

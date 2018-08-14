@@ -18,5 +18,4 @@ class WPSEO_Features_Mock extends WPSEO_Features {
 	public function is_free() {
 		return false;
 	}
-
 }

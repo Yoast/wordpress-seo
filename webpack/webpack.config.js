@@ -137,6 +137,9 @@ module.exports = function( env = { environment: "production" } ) {
 				new webpack.optimize.CommonsChunkPlugin( {
 					name: "vendor",
 					filename: "commons-" + pluginVersionSlug + ".min.js",
+
+					// Exclude the worker from the commons, because it is loaded completely separately.
+					chunks: Object.keys( paths.entry ).filter( entry => entry !== "wp-seo-analysis-worker" ),
 				} ),
 			],
 		},

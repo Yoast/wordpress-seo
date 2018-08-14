@@ -88,7 +88,6 @@ class WPSEO_OpenGraph_Image {
 		if ( ! post_password_required() ) {
 			$this->set_images();
 		}
-
 	}
 
 	/**
