@@ -9,14 +9,10 @@
  * Adds the UI to change the primary term for a post
  */
 class WPSEO_Primary_Term_Admin {
-	private $taxonomies;
-
 	/**
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->taxonomies = $this->get_primary_term_taxonomies();
-
 		add_filter( 'wpseo_content_meta_section_content', array( $this, 'add_input_fields' ) );
 
 		add_action( 'admin_footer', array( $this, 'wp_footer' ), 10 );
@@ -44,8 +40,12 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	public function add_input_fields( $content ) {
-		foreach ( $this->taxonomies as $taxonomy ) {
-			$content .= $this->primary_term_field( $taxonomy->name, "" );
+		$taxonomies = $this->get_primary_term_taxonomies();
+
+		foreach ( $taxonomies as $taxonomy ) {
+			$primary_term = $this->get_primary_term( $taxonomy->name );
+			$content .= $this->primary_term_field( $taxonomy->name, $primary_term );
+			$content .= wp_nonce_field( 'save-primary-term',WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce', false, false );
 		}
 		return $content;
 	}
@@ -81,8 +81,10 @@ class WPSEO_Primary_Term_Admin {
 			return;
 		}
 
+		$taxonomies = $this->get_primary_term_taxonomies();
+
 		// Only enqueue if there are taxonomies that need a primary term.
-		if ( empty( $this->taxonomies ) ) {
+		if ( empty( $taxonomies ) ) {
 			return;
 		}
 
@@ -90,7 +92,7 @@ class WPSEO_Primary_Term_Admin {
 		$asset_manager->enqueue_style( 'primary-category' );
 		$asset_manager->enqueue_script( 'primary-category' );
 
-		$mapped_taxonomies = array_map( array( $this, 'map_taxonomies_for_js' ), $this->taxonomies );
+		$mapped_taxonomies = array_map( array( $this, 'map_taxonomies_for_js' ), $taxonomies );
 
 		$data = array(
 			'taxonomies' => $mapped_taxonomies,
@@ -137,7 +139,6 @@ class WPSEO_Primary_Term_Admin {
 	 * @return array
 	 */
 	protected function get_primary_term_taxonomies( $post_id = null ) {
-
 		if ( null === $post_id ) {
 			$post_id = $this->get_current_id();
 		}
