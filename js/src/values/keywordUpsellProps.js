@@ -21,7 +21,7 @@ export default {
 	infoParagraphs: [
 		interpolateComponents( {
 			mixedString: upsellIntro.intro,
-			components: { link: <YesYouCanLink href={ upsellIntro.link } /> },
+			components: { link: <YesYouCanLink href={ upsellIntro.link } rel={ null } /> },
 		} ),
 		upsellIntro.other,
 	],

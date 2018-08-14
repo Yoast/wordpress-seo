@@ -94,7 +94,7 @@ export function getIconForScore( score ) {
 			icon = { icon: "seo-score-good", color: colors.$color_green_medium };
 			break;
 		case "ok":
-			icon = { icon: "seo-score-ok", color: colors.$color_yellow_score };
+			icon = { icon: "seo-score-ok", color: colors.$color_ok };
 			break;
 		case "bad":
 			icon = { icon: "seo-score-bad", color: colors.$color_red };

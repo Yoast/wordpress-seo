@@ -290,21 +290,23 @@ export default class HowTo extends Component {
 	 * the How-to block on Wordpress (e.g. not in the editor).
 	 *
 	 * @param {object} attributes the attributes of the How-to block
-	 * @param {string} className  the class to apply to the root component.
 	 *
 	 * @returns {Component} the component representing a How-to block
 	 */
-	static getContent( attributes, className ) {
-		let { steps, title, hours, minutes, description, unorderedList, additionalListCssClasses } = attributes;
+	static getContent( attributes ) {
+		let { steps, title, hours, minutes, description, unorderedList, className, additionalListCssClasses } = attributes;
 
 		steps = steps ? steps.map( ( step ) =>
 			HowToStep.getContent( step )
 		) : null;
 
+		const classNames = [ "schema-how-to", className ].filter( ( i ) => i ).join( " " );
+		const listClassNames = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( i ) => i ).join( " " );
+
 		return (
 			<Fragment>
 				{ this.renderJSONLD( attributes ) }
-				<div className={ `schema-how-to ${ className }` }>
+				<div className={ classNames }>
 					<RichText.Content
 						tagName="h2"
 						className="schema-how-to-title"
@@ -324,8 +326,8 @@ export default class HowTo extends Component {
 						value={ description }
 					/>
 					{ unorderedList
-						? <ul className={ `schema-how-to-steps ${ additionalListCssClasses }` }>{ steps }</ul>
-						: <ol className={ `schema-how-to-steps ${ additionalListCssClasses }` }>{ steps }</ol>
+						? <ul className={ listClassNames }>{ steps }</ul>
+						: <ol className={ listClassNames }>{ steps }</ol>
 					}
 				</div>
 			</Fragment>
