@@ -23,6 +23,7 @@ const entry = {
 	"wp-seo-replacevar-plugin": "./wp-seo-replacevar-plugin.js",
 	"wp-seo-structured-data-blocks": "./wp-seo-structured-data-blocks.js",
 	analysis: "./analysis.js",
+	"wp-seo-analysis-worker": "./wp-seo-analysis-worker.js",
 
 	"wp-seo-admin-global": "./wp-seo-admin-global.js",
 	"wp-seo-admin-gsc": "./wp-seo-admin-gsc.js",

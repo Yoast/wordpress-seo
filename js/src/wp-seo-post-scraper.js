@@ -4,23 +4,28 @@
 import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
 import debounce from "lodash/debounce";
-import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
-import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
+import {
+	setReadabilityResults,
+	setSeoResultsForKeyword,
+} from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
 // Internal dependencies.
-import "./helpers/babel-polyfill";
 import Edit from "./edit";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
+import CompatibilityHelper from "./compatibility/compatibilityHelper";
 
+// UI dependencies.
 import publishBox from "./ui/publishBox";
 import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
 
+// Analysis dependencies.
+import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
+import refreshAnalysis from "./analysis/refreshAnalysis";
 import PostDataCollector from "./analysis/PostDataCollector";
-import CompatibilityHelper from "./compatibility/compatibilityHelper";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
@@ -28,16 +33,21 @@ import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
 
+// Redux dependencies.
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setCornerstoneContent } from "./redux/actions/cornerstoneContent";
-import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
+import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
+
+// Helper dependencies.
+import "./helpers/babel-polyfill";
 import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
 } from "./helpers/classicEditor";
+import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -241,6 +251,7 @@ setWordPressSeoL10n();
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			hasSnippetPreview: false,
+			debouncedRefresh: false,
 		};
 
 		if ( isKeywordAnalysisActive() ) {
@@ -275,24 +286,17 @@ setWordPressSeoL10n();
 	/**
 	 * Exposes globals necessary for functionality of plugins integrating.
 	 *
-	 * @param {App} app The app to expose globally.
 	 * @param {YoastReplaceVarPlugin} replaceVarsPlugin The replace vars plugin to expose.
 	 * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
 	 * @returns {void}
 	 */
-	function exposeGlobals( app, replaceVarsPlugin, shortcodePlugin ) {
-		window.YoastSEO = {};
-		window.YoastSEO.app = app;
-		window.YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
-
+	function exposeGlobals( replaceVarsPlugin, shortcodePlugin ) {
 		// Init Plugins.
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = replaceVarsPlugin;
 		window.YoastSEO.wp.shortcodePlugin = shortcodePlugin;
 
 		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
-
-		window.YoastSEO.store = editStore;
 	}
 
 	/**
@@ -410,6 +414,16 @@ setWordPressSeoL10n();
 		const appArgs = getAppArgs( editStore );
 		app = new App( appArgs );
 
+		// Expose globals.
+		window.YoastSEO = {};
+		window.YoastSEO.app = app;
+		window.YoastSEO.analysisWorker = createAnalysisWorker();
+		window.YoastSEO.store = editStore;
+
+		// YoastSEO.app overwrites.
+		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker, YoastSEO.store );
+		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
+
 		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
 
 		postDataCollector.app = app;
@@ -424,13 +438,18 @@ setWordPressSeoL10n();
 			markdownPlugin.register();
 		}
 
-		exposeGlobals( app, replaceVarsPlugin, shortcodePlugin );
+		exposeGlobals( replaceVarsPlugin, shortcodePlugin );
 
 		activateEnabledAnalysis();
 
 		YoastSEO._registerReactComponent = registerReactComponent;
 
-		jQuery( window ).trigger( "YoastSEO:ready" );
+		// Initialize the analysis worker.
+		YoastSEO.analysisWorker.initialize( getAnalysisConfiguration() )
+			.then( () => {
+				jQuery( window ).trigger( "YoastSEO:ready" );
+			} )
+			.catch( error => console.warn( error ) );
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
