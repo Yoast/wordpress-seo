@@ -33,8 +33,7 @@ class SnippetPreviewModal extends React.Component {
 					hasSeparator={ true }
 					onTitleClick={ this.openModal }
 					{ ...this.props }
-				>
-				</ButtonSection>
+				/>
 				{ this.state.isOpen && <Modal
 					title={ __( "Snippet preview", "wordpress-seo" ) }
 					style={ { height: "initial", minHeight: "50px" } }
