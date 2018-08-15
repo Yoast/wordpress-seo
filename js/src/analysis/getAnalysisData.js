@@ -22,15 +22,20 @@ import measureTextWidth from "../helpers/measureTextWidth";
 export default function getAnalysisData( edit, store, customAnalysisData, pluggable ) {
 	let storeData = store.getState();
 	storeData = merge( storeData, customAnalysisData.getData() );
-	const editData = edit.getData();
+	const editData = edit.getData().getData();
 
 	// Make a data structure for the paper data.
 	const data = {
 		text: editData.content,
 		keyword: storeData.focusKeyword,
 		synonyms: storeData.synonyms,
-		description: storeData.analysisData.snippet.description,
-		title: storeData.analysisData.snippet.title,
+		/*
+		 * The analysis data is provided by the snippet editor. The snippet editor transforms the title and the
+		 * description on change only. Therefore, we have to use the original data when the analysis data isn't
+		 * available. This data is transformed by the replacevar plugin via pluggable.
+		 */
+		description: storeData.analysisData.snippet.description || storeData.snippetEditor.data.description,
+		title: storeData.analysisData.snippet.title || storeData.snippetEditor.data.title,
 		url: storeData.snippetEditor.data.slug,
 		permalink: storeData.settings.snippetEditor.baseUrl + storeData.snippetEditor.data.slug,
 	};
