@@ -191,7 +191,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Includes templates file
+	 * Includes templates file.
 	 */
 	protected function include_js_templates() {
 		include_once WPSEO_PATH . 'admin/views/js-templates-primary-term.php';
@@ -240,7 +240,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Createss a map of taxonomies for localization.
+	 * Creates a map of taxonomies for localization.
 	 *
 	 * @param array $taxonomies The taxononmies that should be mapped.
 	 *
@@ -251,7 +251,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Returns an array suitable for use in the javascript
+	 * Returns an array suitable for use in the javascript.
 	 *
 	 * @param stdClass $taxonomy The taxonomy to map.
 	 *
@@ -278,7 +278,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Returns an array suitable for use in the javascript
+	 * Returns an array suitable for use in the javascript.
 	 *
 	 * @param stdClass $term The term to map.
 	 *
@@ -292,7 +292,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Returns whether or not a taxonomy is hierarchical
+	 * Returns whether or not a taxonomy is hierarchical.
 	 *
 	 * @param stdClass $taxonomy Taxonomy object.
 	 *
