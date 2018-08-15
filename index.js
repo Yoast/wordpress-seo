@@ -37,7 +37,7 @@ export {
 	ContentAnalysis,
 	Collapsible,
 	LoadingIndicator,
-	ScoreAssessment,
+	ScoreAssessments,
 	YoastButton,
 	YoastModal,
 	SvgIcon,
