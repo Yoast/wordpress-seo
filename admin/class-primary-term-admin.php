@@ -6,7 +6,7 @@
  */
 
 /**
- * Adds the UI to change the primary term for a post
+ * Adds the UI to change the primary term for a post.
  */
 class WPSEO_Primary_Term_Admin {
 	/**
@@ -26,7 +26,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Get the current post ID.
+	 * Gets the current post ID.
 	 *
 	 * @return integer The post ID.
 	 */
@@ -40,7 +40,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Add hidden fields for primary taxonomies.
+	 * Adds hidden fields for primary taxonomies.
 	 *
 	 * @param {string} $content The metabox content.
 	 *
@@ -73,7 +73,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Generate an id for a primary taxonomy's hidden field.
+	 * Generates an id for a primary taxonomy's hidden field.
 	 *
 	 * @param {string} $taxonomy_name The taxonomy's slug.
 	 *
@@ -84,7 +84,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 *  * Generate a name for a primary taxonomy's hidden field.
+	 * Generates a name for a primary taxonomy's hidden field.
 	 *
 	 * @param {string} $taxonomy_name The taxonomy's slug.
 	 *
@@ -95,7 +95,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Add primary term templates
+	 * Adds primary term templates.
 	 */
 	public function wp_footer() {
 		$taxonomies = $this->get_primary_term_taxonomies();
@@ -155,8 +155,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * /**
-	 * Get the id of the primary term
+	 * Gets the id of the primary term
 	 *
 	 * @param string $taxonomy_name Taxonomy name for the term.
 	 *
@@ -192,14 +191,14 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Include templates file
+	 * Includes templates file
 	 */
 	protected function include_js_templates() {
 		include_once WPSEO_PATH . 'admin/views/js-templates-primary-term.php';
 	}
 
 	/**
-	 * Save the primary term for a specific taxonomy
+	 * Saves the primary term for a specific taxonomy.
 	 *
 	 * @param int     $post_id  Post ID to save primary term for.
 	 * @param WP_Term $taxonomy Taxonomy to save primary term for.
@@ -215,7 +214,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Generate the primary term taxonomies.
+	 * Generates the primary term taxonomies.
 	 *
 	 * @param int $post_id ID of the post.
 	 *
@@ -241,7 +240,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Creates a map of taxonomies for localization.
+	 * Createss a map of taxonomies for localization.
 	 *
 	 * @param array $taxonomies The taxononmies that should be mapped.
 	 *
@@ -256,7 +255,7 @@ class WPSEO_Primary_Term_Admin {
 	 *
 	 * @param stdClass $taxonomy The taxonomy to map.
 	 *
-	 * @return array
+	 * @return array The mapped taxonomy.
 	 */
 	private function map_taxonomies_for_js( $taxonomy ) {
 		$primary_term = $this->get_primary_term( $taxonomy->name );
@@ -283,7 +282,7 @@ class WPSEO_Primary_Term_Admin {
 	 *
 	 * @param stdClass $term The term to map.
 	 *
-	 * @return array
+	 * @return array The mapped terms.
 	 */
 	private function map_terms_for_js( $term ) {
 		return array(
