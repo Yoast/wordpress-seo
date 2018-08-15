@@ -22,7 +22,6 @@ class TaxonomyPicker extends React.Component {
 				return term.id === value;
 			} );
 			if ( ! selectedTerm ) {
-				console.log( terms[ 0 ], value, selectedTerm );
 				this.props.onChange( terms[ 0 ].id );
 			}
 		}
