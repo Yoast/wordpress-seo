@@ -245,7 +245,7 @@ window.yoastHideMarkers = true;
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			store.dispatch( setFocusKeyword( document.getElementById( "hidden_wpseo_focuskw" ).value ) );
+			store.dispatch( setFocusKeyword( termScraper.getKeyword() ) );
 
 			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
 			args.callbacks.updatedKeywordsResults = function( results ) {
