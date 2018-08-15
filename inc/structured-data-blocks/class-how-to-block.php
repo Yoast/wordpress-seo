@@ -15,11 +15,13 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		if ( function_exists( 'register_block_type' ) ) {
-			register_block_type( 'yoast/how-to-block', array(
-				'render_callback' => array( $this, 'render' ),
-			) );
+		if ( ! function_exists( 'register_block_type' ) ) {
+			return;
 		}
+
+		register_block_type( 'yoast/how-to-block', array(
+			'render_callback' => array( $this, 'render' ),
+		) );
 	}
 
 	/**
@@ -33,6 +35,10 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	 * @return string The block preceded by it's JSON LD script.
 	 */
 	public function render( $attributes, $content ) {
+		if ( ! is_array( $attributes ) ) {
+			return $content;
+		}
+
 		$json_ld = $this->get_json_ld( $attributes );
 
 		return '<script type="application/ld+json">' . wp_json_encode( $json_ld ) . '</script>' . $content;
@@ -45,10 +51,10 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	 *
 	 * @return array The JSON LD representation of the how-to block in array form.
 	 */
-	protected function get_json_ld( $attributes ) {
+	protected function get_json_ld( array $attributes ) {
 		$json_ld = array(
 			'@context' => 'http://schema.org',
-			'@type' => 'HowTo',
+			'@type'    => 'HowTo',
 		);
 
 		if ( ! empty( $attributes['jsonTitle'] ) ) {
@@ -69,7 +75,9 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 		if ( ! empty( $attributes['steps'] ) && is_array( $attributes['steps'] ) ) {
 			$json_ld['step'] = array();
 			foreach ( $attributes['steps'] as $index => $step ) {
-				$json_ld['step'][] = $this->get_step_json_ld( $step, $index );
+				if ( is_array( $step ) ) {
+					$json_ld['step'][] = $this->get_step_json_ld( $step, $index );
+				}
 			}
 		}
 
@@ -84,11 +92,11 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	 *
 	 * @return array The JSON LD representation of the step in a how-to block in array form.
 	 */
-	protected function get_step_json_ld( $step, $index ) {
+	protected function get_step_json_ld( array $step, $index ) {
 		$step_json_ld = array(
-			'@type' => 'HowToStep',
+			'@type'    => 'HowToStep',
 			'position' => $index + 1,
-			'text' => $step['jsonContents'],
+			'text'     => $step['jsonContents'],
 		);
 
 		if ( ! empty( $step['jsonImageSrc'] ) ) {
