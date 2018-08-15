@@ -24,7 +24,6 @@ import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/K
 // Composites/basic imports.
 import { default as Loader } from "./composites/basic/Loader";
 
-
 export {
 	OnboardingWizard,
 	AlgoliaSearcher,

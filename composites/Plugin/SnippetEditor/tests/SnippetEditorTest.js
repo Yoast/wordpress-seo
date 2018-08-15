@@ -66,6 +66,10 @@ describe( "SnippetEditor", () => {
 		renderSnapshotWithArgs( { date: "date string" } );
 	} );
 
+	it( "With the close button not visible.", () => {
+		renderSnapshotWithArgs( { showCloseButton: false } );
+	} );
+
 	it( "accepts a custom data mapping function", () => {
 		const mapper = jest.fn( () => {
 			return {

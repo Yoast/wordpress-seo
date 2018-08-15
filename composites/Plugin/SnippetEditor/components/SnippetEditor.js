@@ -114,7 +114,7 @@ class SnippetEditor extends React.Component {
 	 * @param {Function} props.mapEditorDataToPreview          Function to map the editor data to data for the preview.
 	 * @param {string}   props.locale                          The locale of the page.
 	 * @param {bool}     props.hasPaperStyle                   Whether or not it has paper style.
-	 * @param {bool}     props.editorAlwaysOpen                Whether or not users have the option to open and close
+	 * @param {bool}     props.showCloseButton                Whether or not users have the option to open and close
 	 *                                                         the editor.
 	 * @returns {void}
 	 */
@@ -125,7 +125,8 @@ class SnippetEditor extends React.Component {
 		const previewData = this.mapDataToPreview( measurementData );
 
 		this.state = {
-			isOpen: props.editorAlwaysOpen,
+			// Is opened by default when show close button is hidden.
+			isOpen: ! props.showCloseButton,
 			activeField: null,
 			hoveredField: null,
 			mappedData: previewData,
@@ -236,7 +237,7 @@ class SnippetEditor extends React.Component {
 			recommendedReplacementVariables,
 			descriptionEditorFieldPlaceholder,
 			hasPaperStyle,
-			editorAlwaysOpen,
+			showCloseButton,
 		} = this.props;
 		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
 
@@ -260,7 +261,9 @@ class SnippetEditor extends React.Component {
 					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
 					containerPadding={ hasPaperStyle ? "0 20px" : "0" }
 				/>
-				{ editorAlwaysOpen ? "" :<CloseEditorButton onClick={ this.close }>{ __( "Close snippet editor", "yoast-components" ) } </CloseEditorButton> }
+				{ showCloseButton &&
+					<CloseEditorButton onClick={ this.close }>{ __( "Close snippet editor", "yoast-components" ) }</CloseEditorButton>
+				}
 			</React.Fragment>
 		);
 	}
@@ -496,14 +499,13 @@ class SnippetEditor extends React.Component {
 			date,
 			locale,
 			keyword,
-			editorAlwaysOpen,
+			showCloseButton,
 		} = this.props;
 
 		const {
 			activeField,
 			hoveredField,
 			isOpen,
-
 		} = this.state;
 
 		const measurementData = this.mapDataToMeasurements( data );
@@ -532,7 +534,7 @@ class SnippetEditor extends React.Component {
 
 					<ModeSwitcher onChange={ ( mode ) => onChange( "mode", mode ) } active={ mode } />
 
-					{ ! editorAlwaysOpen && <EditSnippetButton
+					{ showCloseButton && <EditSnippetButton
 						onClick={ isOpen ? this.close : this.open }
 						aria-expanded={ isOpen }
 						innerRef={ this.setEditButtonRef }
@@ -569,7 +571,7 @@ SnippetEditor.propTypes = {
 	keyword: PropTypes.string,
 	locale: PropTypes.string,
 	hasPaperStyle: PropTypes.bool,
-	editorAlwaysOpen: PropTypes.bool,
+	showCloseButton: PropTypes.bool,
 };
 
 SnippetEditor.defaultProps = {
@@ -592,7 +594,7 @@ SnippetEditor.defaultProps = {
 	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
 	onChangeAnalysisData: noop,
 	hasPaperStyle: true,
-	editorAlwaysOpen: false,
+	showCloseButton: true,
 };
 
 export default SnippetEditor;
