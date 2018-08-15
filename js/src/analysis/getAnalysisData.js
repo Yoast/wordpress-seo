@@ -12,25 +12,27 @@ import measureTextWidth from "../helpers/measureTextWidth";
  * 2. Custom data callbacks.
  * 3. Pluggable modifications.
  *
+ * @param {Edit}               edit               The edit instance.
  * @param {Object}             store              The redux store.
  * @param {CustomAnalysisData} customAnalysisData The custom analysis data.
  * @param {Pluggable}          pluggable          The Pluggable.
  *
  * @returns {Object} The paper data used for the analyses.
  */
-export default function getAnalysisData( store, customAnalysisData, pluggable ) {
-	let rawData = store.getState();
-	rawData = merge( rawData, customAnalysisData.getData() );
+export default function getAnalysisData( edit, store, customAnalysisData, pluggable ) {
+	let storeData = store.getState();
+	storeData = merge( storeData, customAnalysisData.getData() );
+	const editData = edit.getData();
 
 	// Make a data structure for the paper data.
 	const data = {
-		text: rawData.text,
-		keyword: rawData.keyword,
-		synonyms: rawData.synonyms,
-		description: rawData.analysisData.snippet.description,
-		title: rawData.analysisData.snippet.title,
-		url: rawData.snippetEditor.data.slug,
-		permalink: rawData.settings.snippetEditor.baseUrl + rawData.snippetEditor.data.slug,
+		text: editData.content,
+		keyword: storeData.focusKeyword,
+		synonyms: storeData.synonyms,
+		description: storeData.analysisData.snippet.description,
+		title: storeData.analysisData.snippet.title,
+		url: storeData.snippetEditor.data.slug,
+		permalink: storeData.settings.snippetEditor.baseUrl + storeData.snippetEditor.data.slug,
 	};
 
 	// Modify the data through pluggable.
