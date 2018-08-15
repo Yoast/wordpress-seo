@@ -42,7 +42,7 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Adds hidden fields for primary taxonomies.
 	 *
-	 * @param {string} $content The metabox content.
+	 * @param string $content The metabox content.
 	 *
 	 * @return string The HTML content.
 	 */
