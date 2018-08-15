@@ -30,7 +30,7 @@ export default function Sidebar( { settings, store, theme } ) {
 				{ <SidebarItem renderPriority={ 5 }>
 					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
-							<SnippetPreviewModal  />
+							<SnippetPreviewModal />
 						</StoreProvider>
 					</ThemeProvider>
 				</SidebarItem> }
