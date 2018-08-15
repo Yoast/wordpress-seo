@@ -54,8 +54,6 @@ ButtonSection.propTypes = {
 	hasSeparator: PropTypes.bool,
 	className: PropTypes.string,
 	Heading: PropTypes.func,
-	isOpen: PropTypes.bool.isRequired,
-	hasPadding: PropTypes.bool,
 	prefixIcon: PropTypes.shape( {
 		icon: PropTypes.string,
 		color: PropTypes.string,
