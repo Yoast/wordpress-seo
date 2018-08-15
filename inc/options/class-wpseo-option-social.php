@@ -70,7 +70,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		// 'product'             => '',
 	);
 
-
 	/**
 	 * Get the singleton instance of this class.
 	 *
@@ -200,7 +199,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 		return $clean;
 	}
-
 
 	/**
 	 * Clean a given option value.

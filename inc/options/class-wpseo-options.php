@@ -444,7 +444,7 @@ class WPSEO_Options {
 	 * @return boolean Returns true if the option is successfully saved in the database.
 	 */
 	public static function save_option( $wpseo_options_group_name, $option_name, $option_value ) {
-		$options                 = WPSEO_Options::get_option( $wpseo_options_group_name );
+		$options                 = self::get_option( $wpseo_options_group_name );
 		$options[ $option_name ] = $option_value;
 		update_option( $wpseo_options_group_name, $options );
 
