@@ -101,7 +101,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 							/* Translators: %s: category name */
 							__( "Select the primary %s" ),
 							this.props.taxonomy.singular_label.toLowerCase()
-						);
+						)
 					}
 				</PrimaryTaxonomyPickerLabel>
 				<TaxonomyPicker
