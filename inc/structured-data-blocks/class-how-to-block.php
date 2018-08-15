@@ -32,7 +32,7 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	 * @param array  $attributes The attributes of the block.
 	 * @param string $content    The HTML content of the block.
 	 *
-	 * @return string The block preceded by it's JSON LD script.
+	 * @return string The block preceded by its JSON LD script.
 	 */
 	public function render( $attributes, $content ) {
 		if ( ! is_array( $attributes ) ) {
@@ -65,7 +65,9 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 			$hours   = empty( $attributes['hours'] ) ? 0 : $attributes['hours'];
 			$minutes = empty( $attributes['minutes'] ) ? 0 : $attributes['minutes'];
 
-			$json_ld['totalTime'] = 'PT' . $hours . 'H' . $minutes . 'M';
+			if ( $hours !== 0 || $minutes !== 0 ) {
+				$json_ld['totalTime'] = 'PT' . $hours . 'H' . $minutes . 'M';
+			}
 		}
 
 		if ( ! empty( $attributes['jsonDescription'] ) ) {
