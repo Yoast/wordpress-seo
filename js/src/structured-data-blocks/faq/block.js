@@ -24,7 +24,7 @@ export default () => {
 			},
 			jsonTitle: {
 				type: "string",
-			}
+			},
 			questions: {
 				type: "array",
 			},
@@ -61,7 +61,7 @@ export default () => {
 		 * @returns {Component} The display component.
 		 */
 		save: function( { attributes } ) {
-			return FAQ.getContent( attributes );
+			return <FAQ.Content { ...attributes } />;
 		},
 	} );
 };

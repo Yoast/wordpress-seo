@@ -59,8 +59,6 @@ export default class FAQ extends Component {
 	 * @returns {void}
 	 */
 	changeQuestion( newQuestion, newAnswer, prevQuestion, prevAnswer, index ) {
-		console.log( "CHANGE QUESTION!" );
-
 		let questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
 
 		if ( index >= questions.length ) {
@@ -71,7 +69,20 @@ export default class FAQ extends Component {
 			return;
 		}
 
-		questions[ index ] = { id: questions[ index ].id, question: newQuestion, answer: newAnswer };
+		questions[ index ] = {
+			id: questions[ index ].id,
+			question: newQuestion,
+			answer: newAnswer,
+			jsonQuestion: stripHTML( renderToString( newQuestion ) ),
+			jsonAnswer: stripHTML( renderToString( newAnswer ) ),
+		};
+
+		let imageSrc = Question.getImageSrc( newAnswer );
+
+		if ( imageSrc ) {
+			questions[ index ].jsonImageSrc = imageSrc;
+		}
+
 		this.props.setAttributes( { questions } );
 	}
 
@@ -251,31 +262,6 @@ export default class FAQ extends Component {
 	}
 
 	/**
-	 * Serializes a How-to block into a JSON-LD representation.
-	 *
-	 * @param {object} attributes the attributes of the How-to block.
-	 *
-	 * @returns {object} the JSON-LD representation of this How-to block.
-	 */
-	static toJSONLD( attributes ) {
-		let jsonLD = {
-			"@context": "http://schema.org",
-			"@graph":
-			[
-				{
-					"@type": "FAQPage",
-				},
-			]
-		};
-
-		if( attributes.questions && attributes.questions.length > 0 ) {
-			jsonLD.question = attributes.questions.map( ( question, index ) => Question.toJSONLD( question, index ) );
-		}
-
-		return jsonLD;
-	}
-
-	/**
 	 * Returns the component to be used to render
 	 * the FAQ block on Wordpress (e.g. not in the editor).
 	 *
@@ -284,7 +270,7 @@ export default class FAQ extends Component {
 	 *
 	 * @returns {Component} the component representing a FAQ block
 	 */
-	static getContent( attributes ) {
+	static Content( attributes ) {
 		let { title, questions, additionalListCssClasses, className } = attributes;
 
 		let questionList = questions ? questions.map( ( question ) =>
@@ -292,17 +278,15 @@ export default class FAQ extends Component {
 		) : null;
 
 		return (
-			<Fragment>
-				<div className={ `schema-faq ${ className }` }>
-					<RichText.Content
-						tagName="h2"
-						className="schema-faq-title"
-						value={ title }
-						id={ stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
-					/>
-					{ questionList }
-				</div>
-			</Fragment>
+			<div className={ `schema-faq ${ className }` }>
+				<RichText.Content
+					tagName="h2"
+					className="schema-faq-title"
+					value={ title }
+					id={ stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
+				/>
+				{ questionList }
+			</div>
 		);
 	}
 
@@ -322,7 +306,7 @@ export default class FAQ extends Component {
 					value={ attributes.title }
 					isSelected={ this.state.focus === "title" }
 					setFocusedElement={ () => this.setFocus( "title" ) }
-					onChange={ ( title ) => setAttributes( { title } ) }
+					onChange={ ( title ) => setAttributes( { title, jsonTitle: stripHTML( renderToString( title ) ) } ) }
 					onSetup={ ( ref ) => {
 						this.editorRefs.title = ref;
 					} }

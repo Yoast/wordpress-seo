@@ -142,49 +142,6 @@ export default class Question extends Component {
 	}
 
 	/**
-	 * Generates a JSON-LD representation of the given How-to step.
-	 *
-	 * @param {object} question          The question.
-	 * @param {array}  question.question The array with contents of this question's question.
-	 * @param {array}  question.answer   The array with contents of this question's answer.
-	 * @param {number} index             The index of the question in the FAQ block (or section).
-	 *
-	 * @returns {Object} the JSON-LD representation of the given question.
-	 */
-	static toJSONLD( question, index ) {
-		let jsonLD = {
-			"@type": "Question",
-			name: stripHTML( renderToString( question.question ) ),
-			answerCount: "1",
-			acceptedAnswer: {
-				"@type": "Answer",
-				text: stripHTML( renderToString( question.answer ) ),
-			},
-			position: ( index + 1 ).toString(),
-			text: stripHTML( renderToString( question.question ) ),
-		};
-		let imageSrc = Question.getImageSrc( question.question );
-
-		if ( imageSrc ) {
-			jsonLD.associatedMedia = {
-				"@type": "ImageObject",
-				contentUrl: imageSrc,
-			};
-		}
-
-		let imageSrcAnswer = Question.getImageSrc( question.answer );
-
-		if ( imageSrcAnswer ) {
-			jsonLD.acceptedAnswer.associatedMedia = {
-				"@type": "ImageObject",
-				contentUrl: imageSrcAnswer,
-			};
-		}
-
-		return jsonLD;
-	}
-
-	/**
 	 * Returns the component of the given question and answer to be rendered in a WordPress post
 	 * (e.g. not in the editor).
 	 *
