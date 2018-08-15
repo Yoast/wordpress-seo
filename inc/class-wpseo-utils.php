@@ -1109,17 +1109,16 @@ SVG;
 			return false;
 		}
 
-		// Store the result in a variable to prevent multiple lookups.
-		if ( $network_active === null ) {
-			$network_active_plugins = wp_get_active_network_plugins();
-
-			if ( strpos( wp_normalize_path( WPSEO_FILE ), wp_normalize_path( WPMU_PLUGIN_DIR ) ) === 0 || in_array( WP_PLUGIN_DIR . '/' . WPSEO_BASENAME, $network_active_plugins, true ) ) {
-				$network_active = true;
-			}
-			else {
-				$network_active = false;
-			}
+		// If a cached result is available, bail early.
+		if ( $network_active !== null ) {
+			return $network_active;
 		}
+
+		$network_active_plugins = wp_get_active_network_plugins();
+
+		// Consider MU plugins and network-activated plugins as network-active.
+		$network_active = strpos( wp_normalize_path( WPSEO_FILE ), wp_normalize_path( WPMU_PLUGIN_DIR ) ) === 0
+			|| in_array( WP_PLUGIN_DIR . '/' . WPSEO_BASENAME, $network_active_plugins, true );
 
 		return $network_active;
 	}
