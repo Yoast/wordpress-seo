@@ -32,7 +32,7 @@ var removeHtmlBlocks = require( "./stringProcessing/htmlParser.js" );
 
 const largestKeywordDistance = new LargestKeywordDistanceAssessment();
 
-var inputDebounceDelay = 400;
+var inputDebounceDelay = 800;
 
 /**
  * Default config for YoastSEO.js
