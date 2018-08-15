@@ -1,3 +1,4 @@
+/* global wp */
 /* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
@@ -85,9 +86,12 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {void}
 	 */
 	fetchTerms() {
-		fetch( `/wp-json/wp/v2/${ this.props.taxonomy.rest_base}` )
-		.then( data => data.json() )
-		.then( terms => {
+		const TaxonomyCollection = wp.api.getCollectionByRoute( `/wp/v2/${ this.props.taxonomy.rest_base }` );
+		if ( ! TaxonomyCollection ) {
+			return;
+		}
+		const collection = new TaxonomyCollection();
+		collection.fetch().then( terms => {
 			const oldState = this.state;
 			this.setState( {
 				terms,
