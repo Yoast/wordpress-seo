@@ -1,5 +1,5 @@
 import { makeOutboundLink } from "./makeOutboundLink";
-import { getFeed } from "./getFeed";
+import getFeed from "./getFeed";
 
 export default {
 	getFeed,
