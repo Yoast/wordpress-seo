@@ -28,7 +28,13 @@ class WPSEO_Structured_Data_Blocks implements WPSEO_WordPress_Integration {
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 		add_filter( 'block_categories', array( $this, 'add_block_category' ) );
 
-		WPSEO_How_To_Block::register();
+		$integrations = array(
+			new WPSEO_How_To_Block(),
+		);
+
+		foreach ( $integrations as $integration ) {
+			$integration->register_hooks();
+		}
 	}
 
 	/**

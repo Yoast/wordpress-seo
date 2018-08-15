@@ -218,19 +218,16 @@ export default class HowTo extends Component {
 					className="schema-how-to-duration-input"
 					type="number"
 					value={ attributes.hours }
-					min="0"
 					onFocus={ () => this.setFocus( "hours" ) }
-					onChange={ ( event ) => setAttributes( { hours: event.target.value } ) }
+					onChange={ ( event ) => setAttributes( { hours: Math.max( 0, event.target.value ) } ) }
 					placeholder="HH"/>
 				<span>:</span>
 				<input
 					className="schema-how-to-duration-input"
 					type="number"
-					min="0"
-					max="59"
 					value={ attributes.minutes }
 					onFocus={ () => this.setFocus( "minutes" ) }
-					onChange={ ( event ) => setAttributes( { minutes: event.target.value } ) }
+					onChange={ ( event ) => setAttributes( { minutes: Math.min( Math.max( 0, event.target.value ), 60 ) } ) }
 					placeholder="MM" />
 				<IconButton
 					className="schema-how-to-duration-button editor-inserter__toggle"

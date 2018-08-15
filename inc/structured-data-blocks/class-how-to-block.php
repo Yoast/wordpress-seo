@@ -8,16 +8,16 @@
 /**
  * Class WPSEO_How_To_Block
  */
-class WPSEO_How_To_Block {
+class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	/**
 	 * Registers the how-to block as a server-side rendered block.
 	 *
 	 * @return void
 	 */
-	public static function register() {
+	public function register_hooks() {
 		if ( function_exists( 'register_block_type' ) ) {
 			register_block_type( 'yoast/how-to-block', array(
-				'render_callback' => 'WPSEO_How_To_Block::render',
+				'render_callback' => array( $this, 'render' ),
 			) );
 		}
 	}
@@ -32,8 +32,8 @@ class WPSEO_How_To_Block {
 	 *
 	 * @return string The block preceded by it's JSON LD script.
 	 */
-	public static function render( $attributes, $content ) {
-		$json_ld = self::get_json_ld( $attributes );
+	public function render( $attributes, $content ) {
+		$json_ld = $this->get_json_ld( $attributes );
 
 		return '<script type="application/ld+json">' . wp_json_encode( $json_ld ) . '</script>' . $content;
 	}
@@ -45,7 +45,7 @@ class WPSEO_How_To_Block {
 	 *
 	 * @return array The JSON LD representation of the how-to block in array form.
 	 */
-	protected static function get_json_ld( $attributes ) {
+	protected function get_json_ld( $attributes ) {
 		$json_ld = array(
 			'@context' => 'http://schema.org',
 			'@type' => 'HowTo',
@@ -69,7 +69,7 @@ class WPSEO_How_To_Block {
 		if ( ! empty( $attributes['steps'] ) && is_array( $attributes['steps'] ) ) {
 			$json_ld['step'] = array();
 			foreach ( $attributes['steps'] as $index => $step ) {
-				$json_ld['step'][] = self::get_step_json_ld( $step, $index );
+				$json_ld['step'][] = $this->get_step_json_ld( $step, $index );
 			}
 		}
 
@@ -84,7 +84,7 @@ class WPSEO_How_To_Block {
 	 *
 	 * @return array The JSON LD representation of the step in a how-to block in array form.
 	 */
-	protected static function get_step_json_ld( $step, $index ) {
+	protected function get_step_json_ld( $step, $index ) {
 		$step_json_ld = array(
 			'@type' => 'HowToStep',
 			'position' => $index + 1,
