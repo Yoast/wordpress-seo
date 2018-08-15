@@ -3,48 +3,29 @@ import {
 	setOverallSeoScore, setReadabilityResults,
 	setSeoResultsForKeyword
 } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import getAnalysisData from "./getAnalysisData";
 
 /**
  * Refreshes the analysis.
  *
- * @param {AnalysisWorkerWrapper} analysisWorker The analysis worker to
- *                                               request the analysis from.
- * @param {Object}                store          The store.
+ * @param {Edit}                  edit               The edit instance.
+ * @param {AnalysisWorkerWrapper} analysisWorker     The analysis worker to
+ *                                                   request the analysis from.
+ * @param {Object}                store              The store.
+ * @param {CustomAnalysisData}    customAnalysisData The custom analysis data.
+ * @param {Pluggable}             pluggable          The Pluggable.
  *
  * @returns {void}
  */
-export default function refreshAnalysis( analysisWorker, store ) {
-	/* START OF TEMPORARY FETCH DATA -- until PR #10609 gets merged. */
-	const { YoastSEO } = window;
-	const {
-		app: { getData, rawData },
-	} = YoastSEO;
-
-	// Collect the paper data.
-	getData.call( YoastSEO.app );
-	const {
-		text, keyword, synonyms,
-		snippetMeta, snippetTitle,
-		url, permalink, snippetCite,
-		locale,
-	} = rawData;
-	/* END OF TEMPORARY FETCH DATA */
+export default function refreshAnalysis( edit, analysisWorker, store, customAnalysisData, pluggable ) {
+	const data = getAnalysisData( edit, store, customAnalysisData, pluggable );
 
 	// Request analyses.
-	analysisWorker.analyze( {
-		text,
-		keyword,
-		synonyms,
-		description: snippetMeta,
-		title: snippetTitle,
-		url,
-		permalink: permalink + snippetCite,
-		locale,
-	} )
+	analysisWorker.analyze( data )
 		.then( ( { result: { seo, readability } } ) => {
 			if ( seo ) {
-				store.dispatch( setSeoResultsForKeyword( keyword, seo.results ) );
-				store.dispatch( setOverallSeoScore( seo.score, keyword ) );
+				store.dispatch( setSeoResultsForKeyword( data.keyword, seo.results ) );
+				store.dispatch( setOverallSeoScore( seo.score, data.keyword ) );
 			}
 			if ( readability ) {
 				store.dispatch( setReadabilityResults( readability.results ) );

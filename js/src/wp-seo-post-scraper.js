@@ -66,6 +66,7 @@ setWordPressSeoL10n();
 	const customAnalysisData = new CustomAnalysisData();
 
 	let editStore;
+	let edit;
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
@@ -392,7 +393,7 @@ setWordPressSeoL10n();
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
-		const edit = new Edit( editArgs );
+		edit = new Edit( editArgs );
 
 		editStore =  edit.getStore();
 		const data = edit.getData();
@@ -421,7 +422,8 @@ setWordPressSeoL10n();
 		window.YoastSEO.store = editStore;
 
 		// YoastSEO.app overwrites.
-		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker, YoastSEO.store );
+		// Todo: change app.pluggable to pluggable (if we don't overwrite).
+		YoastSEO.app.refresh = refreshAnalysis.bind( null, edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 
 		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
