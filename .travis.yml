@@ -41,7 +41,11 @@ jobs:
       if: branch = deploy # Only build when on the `deploy` branch, this functionality is not used yet and is taking a long time to complete.
       before_script: skip
       script: grunt artifact
-      before_install: skip
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_06a9c1b95cfa_key -iv $encrypted_06a9c1b95cfa_iv -in ./deploy_keys/travis_dist_id_rsa.enc -out ./deploy_keys/travis_dist_id_rsa -d
+        - chmod 600 ./deploy_keys/travis_dist_id_rsa
+        - eval $(ssh-agent -s)
+        - ssh-add ./deploy_keys/travis_dist_id_rsa
       install:
         - yarn global add grunt-cli
         - yarn install
