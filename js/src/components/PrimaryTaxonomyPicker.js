@@ -95,7 +95,10 @@ class PrimaryTaxonomyPicker extends React.Component {
 				<PrimaryTaxonomyPickerLabel
 					htmlFor="yoast-primary-category-picker"
 					className="components-base-control__label">
-					{ sprintf( "Select the primary %s", this.props.taxonomy.singular_label.toLowerCase() ) }
+					{
+						/* Translators: %s: category name */
+						sprintf( "Select the primary %s", this.props.taxonomy.singular_label.toLowerCase() )
+					}
 				</PrimaryTaxonomyPickerLabel>
 				<TaxonomyPicker
 					value={ primaryTaxonomy }
