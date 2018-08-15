@@ -4,9 +4,7 @@ import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 
 import IntlProvider from "../IntlProvider";
-import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
-import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
-import { makeOutboundLink } from "yoast-components/utils/makeOutboundLink";
+import { Icon, YoastSeoIcon, utils } from "yoast-components";
 import PremiumBenefitsForSynonymsList from "../PremiumBenefitsForSynonymsList";
 import { getRtlStyle } from "yoast-components";
 
@@ -15,8 +13,8 @@ if ( window.yoastKeywordSynonymsModalL10n ) {
 	localizedData = yoastKeywordSynonymsModalL10n;
 }
 
-const PremiumLandingPageLink = makeOutboundLink();
-const BuyButtonLink = makeOutboundLink();
+const PremiumLandingPageLink = utils.makeOutboundLink();
+const BuyButtonLink = utils.makeOutboundLink();
 
 const StyledContainer = styled.div`
 	min-width: 600px;

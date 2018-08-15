@@ -1,4 +1,4 @@
-import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
+import { analysis } from "yoast-components";
 
 import isCornerstone from "./cornerstoneContent";
 import focusKeyword from "./focusKeyword";
