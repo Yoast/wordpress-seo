@@ -26,25 +26,26 @@ class SnippetPreviewModal extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<React.Fragment>
 				<ButtonSection
 					title={ __( "Snippet preview", "wordpress-seo" ) }
-					suffixIcon={ { icon: "pencil-square" } }
+					suffixIcon={ { size: "20px", icon: "pencil-square" } }
 					hasSeparator={ true }
 					onTitleClick={ this.openModal }
 					{ ...this.props }
-				/>
-				{ this.state.isOpen &&
-					<Modal
-						title={ __( "Snippet preview", "wordpress-seo" ) }
-						onRequestClose={ this.closeModal }>
-						<SnippetEditorWrapper editorAlwaysOpen={true} hasPaperStyle={false} />
-						<Button isDefault onClick={ this.closeModal }>
-							Close
-						</Button>
-					</Modal>
+				>
+				</ButtonSection>
+				{ this.state.isOpen && <Modal
+					title={ __( "Snippet preview", "wordpress-seo" ) }
+					style={ { height: "initial", minHeight: "50px" } }
+					onRequestClose={ this.closeModal }>
+					<SnippetEditorWrapper editorAlwaysOpen={true} hasPaperStyle={false} />
+					<Button isDefault onClick={ this.closeModal }>
+						Close
+					</Button>
+				</Modal>
 				}
-			</div>
+			</React.Fragment>
 		);
 	}
 }
