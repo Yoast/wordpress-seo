@@ -1,12 +1,9 @@
 import PropTypes from "prop-types";
-import { stripHTML } from "../../../helpers/stringHelpers";
-import isArray from "lodash/isArray";
 
-const { Component, renderToString } = window.wp.element;
+const { Component } = window.wp.element;
 const { __ } = window.wp.i18n;
 const { IconButton } = window.wp.components;
 const { RichText, MediaUpload } = window.wp.editor;
-const { getBlockContent } = window.wp.blocks;
 
 /**
  * A Question and answer pair within a FAQ block.
@@ -31,8 +28,6 @@ export default class Question extends Component {
 	 */
 	getButtons() {
 		const {
-			index,
-			focusPart,
 			attributes,
 			removeQuestion,
 			insertQuestion,
@@ -56,15 +51,15 @@ export default class Question extends Component {
 			<IconButton
 				className="schema-faq-question-button editor-inserter__toggle"
 				icon="trash"
-				label={ __( "Delete step", "wordpress-seo" ) }
+				label={ __( "Delete question", "wordpress-seo" ) }
 				onClick={ removeQuestion }
 			>
 			</IconButton>
 			<IconButton
 				className="schema-faq-question-button editor-inserter__toggle"
 				icon="insert"
-				label={ __( "Insert step", "wordpress-seo" ) }
-				onClick={ () => insertQuestion( index ) }
+				label={ __( "Insert question", "wordpress-seo" ) }
+				onClick={ insertQuestion }
 			>
 			</IconButton>
 		</div>;
@@ -149,7 +144,7 @@ export default class Question extends Component {
 	 *
 	 * @returns {Component} the component to be rendered.
 	 */
-	static getContent( question ) {
+	static Content( question ) {
 		return(
 			<div className={ "schema-faq-question" } key={ question.id }>
 				<RichText.Content
@@ -175,8 +170,7 @@ export default class Question extends Component {
 	 */
 	render() {
 		let {
-			focusElement,
-			index,
+			focusPart,
 			attributes,
 			onChange,
 			onFocus,
@@ -191,24 +185,24 @@ export default class Question extends Component {
 				<RichText
 					className="schema-faq-question-question"
 					tagName="h3"
-					onSetup={ ( ref ) => editorRef( 'question', ref ) }
+					onSetup={ ( ref ) => editorRef( "question", ref ) }
 					key={ id + "-question" }
 					value={ question }
 					onChange={ ( value ) => onChange( value, answer, question, answer ) }
-					isSelected={ focusElement === `${ index }:question` }
-					setFocusedElement={ () => onFocus( 'question' ) }
+					isSelected={ isSelected && focusPart === "question" }
+					setFocusedElement={ () => onFocus( "question" ) }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
 				<RichText
 					className="schema-faq-question-answer"
 					tagName="p"
-					onSetup={  ( ref ) => editorRef( 'answer', ref )  }
+					onSetup={  ( ref ) => editorRef( "answer", ref )  }
 					key={ id + "-answer" }
 					value={ answer }
 					onChange={ ( value ) => onChange( question, value, question, answer ) }
-					isSelected={ focusElement === `${ index }:answer` }
-					setFocusedElement={ () => onFocus( 'answer' ) }
+					isSelected={ isSelected && focusPart === "answer" }
+					setFocusedElement={ () => onFocus( "answer" ) }
 					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
@@ -220,7 +214,6 @@ export default class Question extends Component {
 }
 
 Question.propTypes = {
-	index: PropTypes.number.isRequired,
 	attributes: PropTypes.object.isRequired,
 	onChange: PropTypes.func.isRequired,
 	insertQuestion: PropTypes.func.isRequired,

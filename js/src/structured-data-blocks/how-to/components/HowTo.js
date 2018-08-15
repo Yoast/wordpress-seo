@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 
 import HowToStep from "./HowToStep";
 import { stripHTML } from "../../../helpers/stringHelpers";
+import isUndefined from "lodash/isUndefined";
 
 const { __ } = window.wp.i18n;
 const { RichText, InspectorControls } = window.wp.editor;
@@ -87,7 +88,7 @@ export default class HowTo extends Component {
 	insertStep( index, contents = [], focus = true ) {
 		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
-		if ( ! index ) {
+		if ( isUndefined( index ) ) {
 			index = steps.length - 1;
 		}
 
@@ -368,8 +369,11 @@ export default class HowTo extends Component {
 	render() {
 		let { attributes, setAttributes, className } = this.props;
 
+		const classNames = [ "schema-how-to", className ].filter( ( i ) => i ).join( " " );
+		const listClassNames = [ "schema-how-to-steps", attributes.additionalListCssClasses ].filter( ( i ) => i ).join( " " );
+
 		return (
-			<div className={ `schema-how-to ${ className }` }>
+			<div className={ classNames }>
 				<RichText
 					tagName="h2"
 					className="schema-how-to-title"
@@ -397,7 +401,7 @@ export default class HowTo extends Component {
 					placeholder={ __( "Enter a description", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
-				<ul className={ `schema-how-to-steps ${ attributes.additionalListCssClasses }` }>
+				<ul className={ listClassNames }>
 					{ this.getSteps() }
 				</ul>
 				<div className="schema-how-to-buttons">{ this.getAddStepButton() }</div>

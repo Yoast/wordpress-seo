@@ -2,14 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import Question from "./Question";
 import { stripHTML } from "../../../helpers/stringHelpers";
-import HowToStep from "../../how-to/components/HowToStep";
+import isUndefined from "lodash/isUndefined";
 
 const { __ } = window.wp.i18n;
-const { RichText, InspectorControls } = window.wp.editor;
+const { RichText } = window.wp.editor;
 const { IconButton } = window.wp.components;
-// const { IconButton , PanelBody, TextControl, ToggleControl } = window.wp.components;
 const { Component, renderToString } = window.wp.element;
-const { Fragment } = window.wp.element;
 
 /**
  * A FAQ block component.
@@ -52,9 +50,11 @@ export default class FAQ extends Component {
 	/**
 	 * Replaces the FAQ Question with the given index.
 	 *
-	 * @param {array|string} newQuestion The new contents of the question.
-	 * @param {array|string} newAnswer   The new contents of the answer to this question.
-	 * @param {number}       index       The index of the Question that needs to be changed.
+	 * @param {array|string} newQuestion  The new contents of the question.
+	 * @param {array|string} newAnswer    The new contents of the answer to this question.
+	 * @param {array}        prevQuestion The old question.
+	 * @param {array}        prevAnswer   The old answer.
+	 * @param {number}       index        The index of the Question that needs to be changed.
 	 *
 	 * @returns {void}
 	 */
@@ -90,7 +90,8 @@ export default class FAQ extends Component {
 	 * Inserts an empty Question into a FAQ block at the given index.
 	 *
 	 * @param {number}       [index]      The index of the Question after which a new Question should be added.
-	 * @param {array|string} [contents]   The contents of the new Question.
+	 * @param {array|string} [question]   The question of the new Question.
+	 * @param {array|string} [answer]   The answer of the new Question.
 	 * @param {bool}         [focus=true] Whether or not to focus the new Question.
 	 *
 	 * @returns {void}
@@ -98,7 +99,7 @@ export default class FAQ extends Component {
 	insertQuestion( index, question = [], answer = [], focus = true ) {
 		let questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
 
-		if ( ! index ) {
+		if ( isUndefined( index ) ) {
 			index = questions.length - 1;
 		}
 
@@ -230,7 +231,7 @@ export default class FAQ extends Component {
 		}
 
 		let [ focusIndex, focusPart ] = this.state.focus.split( ":" );
-		console.log( "RENDER!!!! attributes.questions: ", attributes.questions );
+
 		return(
 			attributes.questions.map(
 				( question, index ) => {
@@ -238,17 +239,14 @@ export default class FAQ extends Component {
 						<Question
 							key={ question.id }
 							attributes={ question }
-							insertQuestion={ this.insertQuestion }
+							insertQuestion={ () => this.insertQuestion( index ) }
 							removeQuestion={ () => this.removeQuestion( index ) }
 							editorRef={ ( part, ref ) => {
-								console.log( "Setting ref: " );
 								this.editorRefs[ `${ index }:${ part }` ] = ref;
 							} }
-							index={ index }
 							onChange={ ( question, answer, prevQuestion, prevAnswer ) => this.changeQuestion( question, answer, prevQuestion, prevAnswer, index ) }
 							onFocus={ ( part ) => this.setFocus( `${ index }:${ part }` ) }
 							isSelected={ focusIndex === `${ index }` }
-							focusElement={ this.state.focus }
 							focusPart={ focusPart }
 							onMoveUp={ () => this.swapQuestions( index, index - 1 ) }
 							onMoveDown={ () => this.swapQuestions( index, index + 1 ) }
@@ -271,14 +269,16 @@ export default class FAQ extends Component {
 	 * @returns {Component} the component representing a FAQ block
 	 */
 	static Content( attributes ) {
-		let { title, questions, additionalListCssClasses, className } = attributes;
+		let { title, questions, className } = attributes;
 
 		let questionList = questions ? questions.map( ( question ) =>
-			Question.getContent( question )
+			<Question.Content { ...question } />
 		) : null;
 
+		const classNames = [ "schema-faq", className ].filter( ( i ) => i ).join( " " );
+
 		return (
-			<div className={ `schema-faq ${ className }` }>
+			<div className={ classNames }>
 				<RichText.Content
 					tagName="h2"
 					className="schema-faq-title"
@@ -297,9 +297,11 @@ export default class FAQ extends Component {
 	 */
 	render() {
 		let { attributes, setAttributes, className } = this.props;
-		console.log( "PARENT RENDER!!!!!" );
+
+		const classNames = [ "schema-faq", className ].filter( ( i ) => i ).join( " " );
+
 		return (
-			<div className={ `schema-faq ${ className }` }>
+			<div className={ classNames }>
 				<RichText
 					tagName="h2"
 					className="schema-faq-title"

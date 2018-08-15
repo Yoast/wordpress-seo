@@ -74,8 +74,7 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	 */
 	protected function get_faq_json_ld( array $attributes ) {
 		$json_ld = array(
-			'@context' => 'http://schema.org',
-			'@type'    => 'FAQPage',
+			'@type' => 'FAQPage',
 		);
 
 		if ( ! empty( $attributes['jsonTitle'] ) ) {
@@ -94,8 +93,7 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	 */
 	protected function get_question_json_ld( array $question ) {
 		$json_ld = array(
-			'@context' => 'http://schema.org',
-			'@type'    => 'Question',
+			'@type' => 'Question',
 		);
 
 		if ( ! empty( $question['jsonQuestion'] ) ) {
@@ -108,6 +106,13 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 				'@type' => 'Answer',
 				'text'  => $question['jsonAnswer'],
 			);
+
+			if( ! empty( $question['jsonImageSrc'] ) ) {
+				$json_ld['acceptedAnswer']['associatedMedia'] = array(
+					'@type'      => 'ImageObject',
+					'contentUrl' => $question['jsonImageSrc'],
+				);
+			}
 		}
 
 		return $json_ld;
