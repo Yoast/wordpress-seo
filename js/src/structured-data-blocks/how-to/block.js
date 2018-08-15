@@ -78,7 +78,7 @@ export default () => {
 		 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 		 * @returns {Component} The display component.
 		 */
-		// eslint-disable-next-line
+		// eslint-disable-next-line react/display-name
 		save: function( { attributes } ) {
 			return <HowTo.Content { ...attributes }/>;
 		},
