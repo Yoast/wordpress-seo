@@ -21,7 +21,6 @@ class WPSEO_Import_Plugin_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( false, $importer->status->status );
 		$this->assertEquals( 'All In One SEO Pack data not found.', $importer->status->get_msg() );
-
 	}
 
 	/**
@@ -49,7 +48,6 @@ class WPSEO_Import_Plugin_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( false, $importer->status->status );
 		$this->assertEquals( 'All In One SEO Pack data not found.', $importer->status->get_msg() );
-
 	}
 
 	/**
@@ -77,7 +75,6 @@ class WPSEO_Import_Plugin_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( false, $importer->status->status );
 		$this->assertEquals( 'All In One SEO Pack data not found.', $importer->status->get_msg() );
-
 	}
 
 	/**

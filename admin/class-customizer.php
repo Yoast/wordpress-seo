@@ -56,7 +56,6 @@ class WPSEO_Customizer {
 				'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 			)
 		);
-
 	}
 
 	/**

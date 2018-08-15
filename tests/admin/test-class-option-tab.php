@@ -64,5 +64,4 @@ class WPSEO_Option_Tab_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( $option_tab->has_save_button() );
 	}
-
 }

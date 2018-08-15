@@ -256,7 +256,6 @@ class Yoast_Plugin_Conflict {
 		}
 	}
 
-
 	/**
 	 * Check if given plugin exists in array with all_active_plugins
 	 *
@@ -304,7 +303,6 @@ class Yoast_Plugin_Conflict {
 				return $plugin_section;
 			}
 		}
-
 	}
 
 	/**

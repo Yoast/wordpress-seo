@@ -19,5 +19,4 @@ class WPSEO_Taxonomy_Settings_Fields_Double extends WPSEO_Taxonomy_Settings_Fiel
 	public function set_option( $option_name, $option_value ) {
 		WPSEO_Options::set( $option_name, $option_value );
 	}
-
 }

@@ -369,7 +369,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
-
 	}
 
 	/**
@@ -461,5 +460,4 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
 	}
-
 }
