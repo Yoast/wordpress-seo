@@ -76,3 +76,39 @@ input + button.schema-how-to-duration-button.components-icon-button {
   }
 }
 
+// FAQ styling
+.schema-faq-question {
+  position: relative;
+  padding: 8px 4px 8px 32px;
+  margin: 4px 0;
+  border: 1px lightgrey solid;
+  list-style-type: none;
+}
+
+.schema-faq-question-mover {
+  position: absolute;
+  top: 0;
+  left: -29px;
+}
+
+.schema-faq-question-button-container {
+  text-align: right;
+
+  .schema-faq-question-add-media {
+    float: left;
+  }
+
+  button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+    box-shadow: none;
+    color: #007cba;
+  }
+}
+
+.schema-faq-buttons {
+  text-align: center;
+
+  button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+    box-shadow: none;
+    color: #007cba;
+  }
+}
