@@ -540,6 +540,7 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
         onClick={[Function]}
       >
         Close snippet editor
+         
       </Button>
     </React.Fragment>
   </div>
@@ -1074,6 +1075,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       "score": 0,
     }
   }
+  editorAlwaysOpen={false}
   hasPaperStyle={true}
   intl={
     Object {
@@ -2442,6 +2444,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     type="button"
                   >
                     Close snippet editor
+                     
                   </button>
                 </Button__BaseButton>
               </Button>
@@ -2982,6 +2985,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       "score": 0,
     }
   }
+  editorAlwaysOpen={false}
   hasPaperStyle={true}
   intl={
     Object {
@@ -4350,6 +4354,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     type="button"
                   >
                     Close snippet editor
+                     
                   </button>
                 </Button__BaseButton>
               </Button>
@@ -4890,6 +4895,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       "score": 0,
     }
   }
+  editorAlwaysOpen={false}
   hasPaperStyle={true}
   intl={
     Object {
@@ -6258,6 +6264,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     type="button"
                   >
                     Close snippet editor
+                     
                   </button>
                 </Button__BaseButton>
               </Button>
@@ -6798,6 +6805,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       "score": 0,
     }
   }
+  editorAlwaysOpen={false}
   hasPaperStyle={true}
   intl={
     Object {
@@ -8166,6 +8174,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     type="button"
                   >
                     Close snippet editor
+                     
                   </button>
                 </Button__BaseButton>
               </Button>
@@ -8463,6 +8472,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       "score": 0,
     }
   }
+  editorAlwaysOpen={false}
   hasPaperStyle={true}
   intl={
     Object {
@@ -9726,6 +9736,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       "score": 0,
     }
   }
+  editorAlwaysOpen={false}
   hasPaperStyle={true}
   intl={
     Object {
@@ -11094,6 +11105,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     type="button"
                   >
                     Close snippet editor
+                     
                   </button>
                 </Button__BaseButton>
               </Button>
@@ -11634,6 +11646,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       "score": 9,
     }
   }
+  editorAlwaysOpen={false}
   hasPaperStyle={true}
   intl={
     Object {
@@ -13002,6 +13015,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     type="button"
                   >
                     Close snippet editor
+                     
                   </button>
                 </Button__BaseButton>
               </Button>
@@ -14490,6 +14504,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       "score": 0,
     }
   }
+  editorAlwaysOpen={false}
   hasPaperStyle={true}
   intl={
     Object {
@@ -15866,6 +15881,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     type="button"
                   >
                     Close snippet editor
+                     
                   </button>
                 </Button__BaseButton>
               </Button>
@@ -16418,6 +16434,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
       "score": 0,
     }
   }
+  editorAlwaysOpen={false}
   hasPaperStyle={true}
   intl={
     Object {
@@ -17794,6 +17811,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     type="button"
                   >
                     Close snippet editor
+                     
                   </button>
                 </Button__BaseButton>
               </Button>
@@ -18334,6 +18352,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       "score": 0,
     }
   }
+  editorAlwaysOpen={false}
   hasPaperStyle={true}
   intl={
     Object {
@@ -19702,6 +19721,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     type="button"
                   >
                     Close snippet editor
+                     
                   </button>
                 </Button__BaseButton>
               </Button>
@@ -20242,6 +20262,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
       "score": 0,
     }
   }
+  editorAlwaysOpen={false}
   hasPaperStyle={true}
   intl={
     Object {
@@ -21698,6 +21719,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     type="button"
                   >
                     Close snippet editor
+                     
                   </button>
                 </Button__BaseButton>
               </Button>
@@ -22260,6 +22282,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
         onClick={[Function]}
       >
         Close snippet editor
+         
       </Button>
     </React.Fragment>
   </div>
@@ -22794,6 +22817,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
       "score": 0,
     }
   }
+  editorAlwaysOpen={false}
   hasPaperStyle={true}
   intl={
     Object {
@@ -24162,6 +24186,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     type="button"
                   >
                     Close snippet editor
+                     
                   </button>
                 </Button__BaseButton>
               </Button>
