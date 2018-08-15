@@ -40,6 +40,15 @@ class CompatibilityHelper {
 	}
 
 	/**
+	 * Determines if a page builder is active.
+	 *
+	 * @returns {boolean} True whether a page is active.
+	 */
+	isPageBuilderActive() {
+		return this.diviActive || this.vcActive;
+	}
+
+	/**
 	 * Initializes listeners for page builder events regarding the classic editor.
 	 *
 	 * @param {Object}   callbacks                     The listener callbacks.
