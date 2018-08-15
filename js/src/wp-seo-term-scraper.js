@@ -13,6 +13,7 @@ import debounce from "lodash/debounce";
 // Internal dependencies.
 import Edit from "./edit";
 import { termsTmceId as tmceId } from "./wp-seo-tinymce";
+import Pluggable from "./pluggable";
 
 // UI dependencies.
 import { update as updateTrafficLight } from "./ui/trafficLight";
