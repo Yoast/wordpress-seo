@@ -7,14 +7,15 @@ import IntlProvider from "../IntlProvider";
 import { Icon, YoastSeoIcon, utils } from "yoast-components";
 import PremiumBenefitsForSynonymsList from "../PremiumBenefitsForSynonymsList";
 import { getRtlStyle } from "yoast-components";
+const { makeOutboundLink } = utils;
 
 let localizedData = null;
 if ( window.yoastKeywordSynonymsModalL10n ) {
 	localizedData = yoastKeywordSynonymsModalL10n;
 }
 
-const PremiumLandingPageLink = utils.makeOutboundLink();
-const BuyButtonLink = utils.makeOutboundLink();
+const PremiumLandingPageLink = makeOutboundLink();
+const BuyButtonLink = makeOutboundLink();
 
 const StyledContainer = styled.div`
 	min-width: 600px;
