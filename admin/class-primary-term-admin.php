@@ -59,7 +59,7 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Generates the HTML for a hidden field for a primary taxonomy.
 	 *
-	 * @param {string} $taxonomy_name The taxonomy's slug.
+	 * @param string $taxonomy_name The taxonomy's slug.
 	 *
 	 * @return string The HTML for a hidden primary taxonomy field.
 	 */
@@ -75,7 +75,7 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Generates an id for a primary taxonomy's hidden field.
 	 *
-	 * @param {string} $taxonomy_name The taxonomy's slug.
+	 * @param string $taxonomy_name The taxonomy's slug.
 	 *
 	 * @return string The field id.
 	 */
@@ -86,7 +86,7 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Generates a name for a primary taxonomy's hidden field.
 	 *
-	 * @param {string} $taxonomy_name The taxonomy's slug.
+	 * @param string $taxonomy_name The taxonomy's slug.
 	 *
 	 * @return string The field id.
 	 */
