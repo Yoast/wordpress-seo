@@ -101,7 +101,7 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 
 		if ( ! empty( $step['jsonImageSrc'] ) ) {
 			$step_json_ld['associatedMedia'] = array(
-				'@type' => 'ImageObject',
+				'@type'      => 'ImageObject',
 				'contentUrl' => $step['jsonImageSrc'],
 			);
 		}
