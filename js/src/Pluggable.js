@@ -45,6 +45,13 @@ export default class Pluggable {
 		this.plugins = {};
 		this.modifications = {};
 
+		this._registerPlugin = this._registerPlugin.bind( this );
+		this._ready = this._ready.bind( this );
+		this._reloaded = this._reloaded.bind( this );
+		this._registerModification = this._registerModification.bind( this );
+		this._registerAssessment = this._registerAssessment.bind( this );
+		this._applyModifications = this._applyModifications.bind( this );
+
 		// Allow plugins 1500 ms to register before we start polling them.
 		setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
 	}
@@ -62,7 +69,7 @@ export default class Pluggable {
 	 *
 	 * @returns {boolean} Whether or not the plugin was successfully registered.
 	 */
-	registerPlugin( pluginName, options ) {
+	_registerPlugin( pluginName, options ) {
 		if ( ! isString( pluginName ) ) {
 			console.error( "Failed to register plugin. Expected parameter `pluginName` to be a string." );
 			return false;
@@ -94,7 +101,7 @@ export default class Pluggable {
 	 * @returns {boolean} Whether or not the plugin was successfully declared
 	 *                    ready.
 	 */
-	ready( pluginName ) {
+	_ready( pluginName ) {
 		if ( ! isString( pluginName ) ) {
 			console.error( "Failed to modify status for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
 			return false;
@@ -122,7 +129,7 @@ export default class Pluggable {
 	 * @returns {boolean} Whether or not the plugin was successfully declared as
 	 *                    reloaded.
 	 */
-	reloaded( pluginName ) {
+	_reloaded( pluginName ) {
 		if ( ! isString( pluginName ) ) {
 			console.error( "Failed to reload Content Analysis for " + pluginName + ". Expected parameter `pluginName` to be a string." );
 			return false;
@@ -153,7 +160,7 @@ export default class Pluggable {
 	 *
 	 * @returns {boolean} Whether or not applying the hook was successful.
 	 */
-	registerModification( modification, callable, pluginName, priority ) {
+	_registerModification( modification, callable, pluginName, priority ) {
 		if ( ! isString( modification ) ) {
 			console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `modification` to be a string." );
 			return false;
@@ -199,7 +206,7 @@ export default class Pluggable {
 	 *
 	 * @returns {boolean} Whether registering the assessment was successful.
 	 */
-	registerAssessment( assessor, name, assessment, pluginName ) {
+	_registerAssessment( assessor, name, assessment, pluginName ) {
 		if ( ! isString( name ) ) {
 			console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
 			return false;
@@ -235,7 +242,7 @@ export default class Pluggable {
 	 *
 	 * @returns {*} The filtered data.
 	 */
-	applyModifications( modification, data, context ) {
+	_applyModifications( modification, data, context ) {
 		let callChain = this.modifications[ modification ];
 
 		if ( ! isArray( callChain ) || callChain.length < 1 ) {

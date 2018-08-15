@@ -16,7 +16,7 @@ import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
 import CompatibilityHelper from "./compatibility/compatibilityHelper";
-import Pluggable from "./pluggable";
+import Pluggable from "./Pluggable";
 
 // UI dependencies.
 import publishBox from "./ui/publishBox";
@@ -425,10 +425,17 @@ setWordPressSeoL10n();
 		// YoastSEO.app overwrites.
 		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker, YoastSEO.store );
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
-		YoastSEO.app.registerPlugin = Pluggable.registerPlugin;
-		YoastSEO.app.pluginReady = Pluggable.ready;
-		YoastSEO.app.pluginReloaded = Pluggable.reloaded;
-		YoastSEO.app.registerModification = Pluggable.registerModification;
+		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
+		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;
+		YoastSEO.app.pluginReady = YoastSEO.app.pluggable._ready;
+		YoastSEO.app.pluginReloaded = YoastSEO.app.pluggable._reloaded;
+		YoastSEO.app.registerModification = YoastSEO.app.pluggable._registerModification;
+		YoastSEO.app.registerAssessment = ( name, assessment, pluginName ) => {
+			if ( ! isUndefined( YoastSEO.app.seoAssessor ) ) {
+				return YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.defaultSeoAssessor, name, assessment, pluginName ) &&
+					YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.cornerStoneSeoAssessor, name, assessment, pluginName );
+			}
+		};
 
 		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
 
