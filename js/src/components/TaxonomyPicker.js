@@ -2,9 +2,20 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+/**
+ * A select box for selecting a taxonomy.
+ *
+ * Also calls `onChange` prop when the currently selected options is no longer available.
+ */
 class TaxonomyPicker extends React.Component {
+	/**
+	 * Checks if the selected primary taxonomy was removed from the selected taxonomies for the post.
+	 *
+	 * @param {Object} prevProps The previous props.
+	 *
+	 * @returns {void}
+	 */
 	componentDidUpdate( prevProps ) {
-		// Check if the selected primary taxonomy was removed from the seletced taxonomies for the post.
 		const { terms, value } = this.props;
 		if ( terms.length > 0 && terms !== prevProps.terms ) {
 			const selectedTerm = terms.find( term => {
@@ -17,6 +28,11 @@ class TaxonomyPicker extends React.Component {
 		}
 	}
 
+	/**
+	 * Renders the TaxonomyPicker component.
+	 *
+	 * @returns {ReactElement} The rendered component.
+	 */
 	render() {
 		const {
 			value,

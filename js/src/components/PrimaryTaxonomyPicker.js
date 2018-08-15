@@ -11,6 +11,9 @@ import { sprintf } from "@wordpress/i18n";
 /* Internal dependencies */
 import TaxonomyPicker from "./TaxonomyPicker";
 
+/**
+ * A component for selecting a primary taxonomy term.
+ */
 class PrimaryTaxonomyPicker extends React.Component {
 	constructor( props ) {
 		super( props );
@@ -23,6 +26,13 @@ class PrimaryTaxonomyPicker extends React.Component {
 		props.setPrimaryTaxonomy( name, parseInt( this.input.value, 10 ) );
 	}
 
+	/**
+	 * Updates the replacement variable when the terms were not yet retrieved on mount.
+	 *
+	 * @param {Object} prevProps The previous props.
+	 *
+	 * @returns {void}
+	 */
 	componentDidUpdate( prevProps ) {
 		// Update replacement variable when taxonomy has not yet been retrieved on mount.
 		if ( prevProps.terms.length === 0 && this.props.terms.length > 0 ) {
@@ -30,6 +40,15 @@ class PrimaryTaxonomyPicker extends React.Component {
 		}
 	}
 
+	/**
+	 * Handles an onChange event.
+	 *
+	 * Updates the primary taxonomy in the store, as well as the replacement variable and the hidden field.
+	 *
+	 * @param {number} termId The term's id.
+	 *
+	 * @returns {void}
+	 */
 	onChange( termId ) {
 		const { name } = this.props.taxonomy;
 
@@ -40,6 +59,13 @@ class PrimaryTaxonomyPicker extends React.Component {
 		this.input.value = termId;
 	}
 
+	/**
+	 * Updates the primary taxonomy replacement variable.
+	 *
+	 * @param {number} termId The term's id.
+	 *
+	 * @returns {void}
+	 */
 	updateReplacementVariable( termId ) {
 		if ( this.props.taxonomy.name === "category" ) {
 			const primaryTerm = this.props.terms.find( term => term.id === termId );
@@ -49,6 +75,11 @@ class PrimaryTaxonomyPicker extends React.Component {
 		}
 	}
 
+	/**
+	 * Renders the PrimaryTaxonomyPicker component.
+	 *
+	 * @returns {ReactElement} The rendered component.
+	 */
 	render() {
 		const {
 			primaryTaxonomy,
@@ -78,8 +109,11 @@ PrimaryTaxonomyPicker.propTypes = {
 	updateReplacementVariable: PropTypes.func,
 	taxonomy: PropTypes.shape( {
 		name: PropTypes.string,
-		// eslint-disable-next-line
+		/* eslint-disable */
 		field_id: PropTypes.string,
+		rest_base: PropTypes.string,
+		singular_label: PropTypes.string,
+		/* eslint-enable */
 	} ),
 };
 

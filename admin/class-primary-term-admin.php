@@ -39,6 +39,13 @@ class WPSEO_Primary_Term_Admin {
 		return $post_id;
 	}
 
+	/**
+	 * Filter to add hidden fields for primary taxonomies to the metabox.
+	 *
+	 * @param {string} $content The metabox content.
+	 *
+	 * @return string The HTML content.
+	 */
 	public function add_input_fields( $content ) {
 		$taxonomies = $this->get_primary_term_taxonomies();
 
@@ -50,6 +57,14 @@ class WPSEO_Primary_Term_Admin {
 		return $content;
 	}
 
+	/**
+	 * Generates the HTML for a hidden field for a primary taxonomy.
+	 *
+	 * @param {string} $taxonomy_name The taxonomy's slug.
+	 * @param {string} $primary_term  The primary term's id.
+	 *
+	 * @return string The HTML for a hidden primary taxonomy field.
+	 */
 	protected function primary_term_field( $taxonomy_name, $primary_term ) {
 		$output = '<input type="hidden" class="yoast-wpseo-primary-term"';
 		$output .= 'id="' . $this->generate_field_id( $taxonomy_name ) . '"';
@@ -58,6 +73,13 @@ class WPSEO_Primary_Term_Admin {
 		return $output;
 	}
 
+	/**
+	 * Generate an id for a primary taxonomy's hidden field.
+	 *
+	 * @param {string} $taxonomy_name The taxonomy's slug.
+	 *
+	 * @return string The field id.
+	 */
 	protected function generate_field_id( $taxonomy_name ) {
 		return 'yoast-wpseo-primary-' . $taxonomy_name;
 	}
