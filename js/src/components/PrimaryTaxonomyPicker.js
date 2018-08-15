@@ -72,11 +72,12 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {void}
 	 */
 	updateReplacementVariable( termId ) {
-		if ( this.props.taxonomy.name === "category" ) {
-			const primaryTerm = this.props.terms.find( term => term.id === termId );
-			if ( primaryTerm ) {
-				this.props.updateReplacementVariable( `primary_${ this.props.taxonomy.name }`, primaryTerm.name );
-			}
+		if ( this.props.taxonomy.name !== "category" ) {
+			return;
+		}
+		const primaryTerm = this.props.terms.find( term => term.id === termId );
+		if ( primaryTerm ) {
+			this.props.updateReplacementVariable( `primary_${ this.props.taxonomy.name }`, primaryTerm.name );
 		}
 	}
 

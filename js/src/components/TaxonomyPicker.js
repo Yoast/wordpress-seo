@@ -9,21 +9,32 @@ import PropTypes from "prop-types";
  */
 class TaxonomyPicker extends React.Component {
 	/**
-	 * Checks if the selected primary taxonomy was removed from the selected taxonomies for the post.
+	 * Checks if the terms have changes and calls the appropriate handler.
 	 *
 	 * @param {Object} prevProps The previous props.
 	 *
 	 * @returns {void}
 	 */
 	componentDidUpdate( prevProps ) {
-		const { terms, value } = this.props;
+		const { terms } = this.props;
 		if ( terms.length > 0 && terms !== prevProps.terms ) {
-			const selectedTerm = terms.find( term => {
-				return term.id === value;
-			} );
-			if ( ! selectedTerm ) {
-				this.props.onChange( terms[ 0 ].id );
-			}
+			this.handleTermsChange();
+		}
+	}
+
+	/**
+	 * Checks if the current value still has a corresponding option, and if not changes
+	 * the value to the first term's id.
+	 *
+	 * @returns {void}
+	 */
+	handleTermsChange() {
+		const { terms, value } = this.props;
+		const selectedTerm = terms.find( term => {
+			return term.id === value;
+		} );
+		if ( ! selectedTerm ) {
+			this.props.onChange( terms[ 0 ].id );
 		}
 	}
 
