@@ -425,25 +425,10 @@ setWordPressSeoL10n();
 		// YoastSEO.app overwrites.
 		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker, YoastSEO.store );
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
-		YoastSEO.app.registerPlugin = function( pluginName, options ) {
-			return Pluggable._registerPlugin( pluginName, options );
-		};
-		YoastSEO.app.pluginReady = function( pluginName ) {
-			return Pluggable._ready( pluginName );
-		};
-		YoastSEO.app.pluginReloaded = function( pluginName ) {
-			return Pluggable._reloaded( pluginName );
-		};
-		YoastSEO.app.registerModification = function( modification, callable, pluginName, priority ) {
-			return Pluggable._registerModification( modification, callable, pluginName, priority );
-		};
-		// TODO: requires additional functionality in the web worker
-		// YoastSEO.app.registerAssessment = function( name, assessment, pluginName ) {
-		// 	if ( ! isUndefined( this.seoAssessor ) ) {
-		// 		return this.pluggable._registerAssessment( this.defaultSeoAssessor, name, assessment, pluginName ) &&
-		// 			this.pluggable._registerAssessment( this.cornerStoneSeoAssessor, name, assessment, pluginName );
-		// 	}
-		// };
+		YoastSEO.app.registerPlugin = Pluggable.registerPlugin;
+		YoastSEO.app.pluginReady = Pluggable.ready;
+		YoastSEO.app.pluginReloaded = Pluggable.reloaded;
+		YoastSEO.app.registerModification = Pluggable.registerModification;
 
 		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
 

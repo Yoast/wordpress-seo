@@ -279,6 +279,10 @@ window.yoastHideMarkers = true;
 		// YoastSEO.app overwrites.
 		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker, YoastSEO.store );
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
+		YoastSEO.app.registerPlugin = Pluggable.registerPlugin;
+		YoastSEO.app.pluginReady = Pluggable.ready;
+		YoastSEO.app.pluginReloaded = Pluggable.reloaded;
+		YoastSEO.app.registerModification = Pluggable.registerModification;
 
 		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
 
