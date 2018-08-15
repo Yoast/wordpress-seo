@@ -250,7 +250,7 @@ class WPSEO_Primary_Term_Admin {
 			'primary'        => $primary_term,
 			'singular_label' => $taxonomy->labels->singular_name,
 			'field_id'       => $this->generate_field_id( $taxonomy->name ),
-			'rest_base'      => $taxonomy->rest_base ? $taxonomy->rest_base : $taxonomy->name,
+			'rest_base'      => ( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name,
 			'terms'          => array_map( array( $this, 'map_terms_for_js' ), get_terms( $taxonomy->name ) ),
 		);
 	}

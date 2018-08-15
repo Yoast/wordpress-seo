@@ -5,7 +5,7 @@ import "./helpers/babel-polyfill";
 ( function( $ ) {
 	"use strict";
 
-	var primaryTermInputTemplate, primaryTermUITemplate, primaryTermScreenReaderTemplate;
+	var primaryTermUITemplate, primaryTermScreenReaderTemplate;
 	var taxonomies = wpseoPrimaryCategoryL10n.taxonomies;
 
 	/**
