@@ -1,789 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SnippetEditor With the close button not visible. 1`] = `
-.c18 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c13 {
-  font-size: 0.8rem;
-}
-
-.c14 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c14 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c15:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c16::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c16:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c17:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c27 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c27 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c27::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c29::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
-  background-size: 25px;
-  content: "";
-}
-
-.c31 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c31 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c31 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c31::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
-  background-size: 25px;
-  content: "";
-}
-
-.c23 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin: 24px 0 0 0;
-}
-
-.c22 {
-  padding: 0 20px;
-}
-
-.c24 {
-  -webkit-flex: 1 1 200px;
-  -ms-flex: 1 1 200px;
-  flex: 1 1 200px;
-  min-width: 200px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin: 4px 0;
-}
-
-.c25 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  padding-left: 8px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-}
-
-.c25 svg {
-  margin-right: 7px;
-  fill: #555;
-}
-
-.c0 {
-  border-bottom: 1px hidden #fff;
-  border-radius: 2px;
-  box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-
-.c2 {
-  cursor: pointer;
-  position: relative;
-}
-
-.c4 {
-  color: #1e0fbe;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
-  font-weight: normal;
-  margin: 0;
-  display: inline-block;
-  overflow: hidden;
-  max-width: 600px;
-  vertical-align: top;
-  text-overflow: ellipsis;
-}
-
-.c3 {
-  max-width: 600px;
-  vertical-align: top;
-  text-overflow: ellipsis;
-}
-
-.c5 {
-  display: inline-block;
-  font-size: 16px;
-  line-height: 1.2em;
-  max-height: 2.4em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.c6 {
-  display: inline-block;
-  color: #006621;
-  cursor: pointer;
-  position: relative;
-  max-width: 90%;
-  white-space: nowrap;
-  font-size: 14px;
-}
-
-.c7 {
-  display: inline-block;
-  color: #006621;
-  cursor: pointer;
-  position: relative;
-  max-width: 90%;
-  white-space: nowrap;
-  font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
-.c10 {
-  color: #545454;
-  cursor: pointer;
-  position: relative;
-  max-width: 600px;
-  font-size: 13px;
-}
-
-.c9 {
-  font-size: 14px;
-  line-height: 20px;
-}
-
-.c1 {
-  padding: 8px 16px;
-}
-
-.c8 {
-  border: 0;
-  border-bottom: 1px solid #DFE1E5;
-  margin: 0;
-}
-
-.c28 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c28::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c28::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c28::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c28::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
-.c32 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c32::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c32::-webkit-progress-value {
-  background-color: #ee7c1b;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c32::-moz-progress-bar {
-  background-color: #ee7c1b;
-}
-
-.c32::-ms-fill {
-  background-color: #ee7c1b;
-  border: 0;
-}
-
-.c30 {
-  border: none;
-  width: 100%;
-  height: inherit;
-  line-height: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-}
-
-.c30:focus {
-  outline: 0;
-}
-
-.c12 {
-  border: none;
-  border-bottom: 4px solid transparent;
-  width: 31px;
-  height: 31px;
-  border-color: #555;
-  color: #555;
-  -webkit-transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
-  transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
-  -webkit-transition-property: border-color;
-  transition-property: border-color;
-  border-radius: 3px 0 0 3px;
-}
-
-.c12:hover,
-.c12:focus {
-  background-color: #fff;
-  border: none;
-  border-bottom: 4px solid transparent;
-  border-color: #1e8cbe;
-  color: #1e8cbe;
-  box-shadow: none;
-}
-
-.c20 {
-  border: none;
-  border-bottom: 4px solid transparent;
-  width: 31px;
-  height: 31px;
-  border-color: transparent;
-  color: #555;
-  -webkit-transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
-  transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
-  -webkit-transition-property: border-color;
-  transition-property: border-color;
-  border-radius: 0 3px 3px 0;
-}
-
-.c20:hover,
-.c20:focus {
-  background-color: #fff;
-  border: none;
-  border-bottom: 4px solid transparent;
-  border-color: #1e8cbe;
-  color: #1e8cbe;
-  box-shadow: none;
-}
-
-.c11 {
-  display: inline-block;
-  margin-top: 10px;
-  border: 1px solid #dbdbdb;
-  border-radius: 4px;
-  background-color: #f7f7f7;
-  vertical-align: top;
-}
-
-.c19 {
-  width: 22px;
-  height: 22px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c21 {
-  width: 18px;
-  height: 18px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c26 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c14::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
-<div>
-  <section>
-    <div
-      className="c0"
-      onMouseLeave={undefined}
-      width={640}
-    >
-      <div
-        className="c1"
-      >
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          SEO title preview:
-        </span>
-        <div
-          className="c2"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-        >
-          <div
-            className="c3 c4"
-          >
-            <span
-              className="c5"
-            >
-              Test title
-            </span>
-          </div>
-        </div>
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          Url preview:
-        </span>
-        <div
-          className="c6"
-        >
-          <div
-            className="c7"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-          >
-            example.org › test-slug
-          </div>
-        </div>
-      </div>
-      <hr
-        className="c8"
-      />
-      <div
-        className="c1"
-      >
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          Meta description preview:
-        </span>
-        <div
-          className="c9 c10"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-        >
-          <div
-            className="c9 c10"
-          >
-            Test description, %%replacement_variable%%
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <div
-    className="c11"
-  >
-    <button
-      aria-pressed={true}
-      className="c12 c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 c18"
-      onClick={[Function]}
-      type="button"
-    >
-      <svg
-        aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-mobile c19"
-        fill="currentColor"
-        focusable="false"
-        role="img"
-        size="22px"
-        viewBox="0 0 1792 1792"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M976 1408q0-33-23.5-56.5t-56.5-23.5-56.5 23.5-23.5 56.5 23.5 56.5 56.5 23.5 56.5-23.5 23.5-56.5zm208-160v-704q0-13-9.5-22.5t-22.5-9.5h-512q-13 0-22.5 9.5t-9.5 22.5v704q0 13 9.5 22.5t22.5 9.5h512q13 0 22.5-9.5t9.5-22.5zm-192-848q0-16-16-16h-160q-16 0-16 16t16 16h160q16 0 16-16zm288-16v1024q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-1024q0-52 38-90t90-38h512q52 0 90 38t38 90z"
-        />
-      </svg>
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        Mobile preview
-      </span>
-    </button>
-    <button
-      aria-pressed={false}
-      className="c20 c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 c18"
-      onClick={[Function]}
-      type="button"
-    >
-      <svg
-        aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-desktop c21"
-        fill="currentColor"
-        focusable="false"
-        role="img"
-        size="18px"
-        viewBox="0 0 1792 1792"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M1728 992v-832q0-13-9.5-22.5t-22.5-9.5h-1600q-13 0-22.5 9.5t-9.5 22.5v832q0 13 9.5 22.5t22.5 9.5h1600q13 0 22.5-9.5t9.5-22.5zm128-832v1088q0 66-47 113t-113 47h-544q0 37 16 77.5t32 71 16 43.5q0 26-19 45t-45 19h-512q-26 0-45-19t-19-45q0-14 16-44t32-70 16-78h-544q-66 0-113-47t-47-113v-1088q0-66 47-113t113-47h1600q66 0 113 47t47 113z"
-        />
-      </svg>
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        Desktop preview
-      </span>
-    </button>
-  </div>
-  <section
-    className="c22"
-  >
-    <div
-      className="c23"
-    >
-      <div
-        className="c24"
-        id="2"
-        onClick={[Function]}
-      >
-        SEO title
-      </div>
-      <button
-        className="c25 c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 c18"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-plus-circle c26"
-          fill={undefined}
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-        Insert snippet variable
-      </button>
-      <div
-        className="c27"
-        id="snippet-editor-field-title"
-        onClick={[Function]}
-      >
-        <div />
-      </div>
-      <progress
-        aria-hidden="true"
-        className="c28"
-        max={600}
-        value={0}
-      />
-    </div>
-    <div
-      className="c23"
-    >
-      <div
-        className="c24"
-        id="snippet-editor-field-1-slug"
-        onClick={[Function]}
-      >
-        Slug
-      </div>
-      <div
-        className="c29"
-        onClick={[Function]}
-      >
-        <input
-          aria-labelledby="snippet-editor-field-1-slug"
-          className="c30"
-          id="snippet-editor-field-slug"
-          onBlur={[Function]}
-          onChange={[Function]}
-          onFocus={[Function]}
-          value="test-slug"
-        />
-      </div>
-    </div>
-    <div
-      className="c23"
-    >
-      <div
-        className="c24"
-        id="3"
-        onClick={[Function]}
-      >
-        Meta description
-      </div>
-      <button
-        className="c25 c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 c18"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-plus-circle c26"
-          fill={undefined}
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-        Insert snippet variable
-      </button>
-      <div
-        className="c31"
-        id="snippet-editor-field-description"
-        onClick={[Function]}
-      >
-        <div />
-      </div>
-      <progress
-        aria-hidden="true"
-        className="c32"
-        max={156}
-        value={42}
-      />
-    </div>
-  </section>
-</div>
-`;
-
 exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 .c18 {
   color: #555;
@@ -25433,6 +24649,790 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
     </svg>
     Edit snippet
   </button>
+</div>
+`;
+
+exports[`SnippetEditor renders the snippet editor without a close button when showCloseButton is false 1`] = `
+.c18 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c13 {
+  font-size: 0.8rem;
+}
+
+.c14 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c14 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c15:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c16::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c16:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c17:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c27 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c27 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c27::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c29::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c31 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c31 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c31 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c31::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c23 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c22 {
+  padding: 0 20px;
+}
+
+.c24 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c25 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c25 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
+.c0 {
+  border-bottom: 1px hidden #fff;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  max-width: 600px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.c2 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c4 {
+  color: #1e0fbe;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c3 {
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c5 {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 1.2em;
+  max-height: 2.4em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.c6 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.c7 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.c10 {
+  color: #545454;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  font-size: 13px;
+}
+
+.c9 {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.c1 {
+  padding: 8px 16px;
+}
+
+.c8 {
+  border: 0;
+  border-bottom: 1px solid #DFE1E5;
+  margin: 0;
+}
+
+.c28 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c28::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c28::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c28::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c28::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c32 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c32::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c32::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c32::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c32::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
+}
+
+.c30 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c30:focus {
+  outline: 0;
+}
+
+.c12 {
+  border: none;
+  border-bottom: 4px solid transparent;
+  width: 31px;
+  height: 31px;
+  border-color: #555;
+  color: #555;
+  -webkit-transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
+  transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
+  -webkit-transition-property: border-color;
+  transition-property: border-color;
+  border-radius: 3px 0 0 3px;
+}
+
+.c12:hover,
+.c12:focus {
+  background-color: #fff;
+  border: none;
+  border-bottom: 4px solid transparent;
+  border-color: #1e8cbe;
+  color: #1e8cbe;
+  box-shadow: none;
+}
+
+.c20 {
+  border: none;
+  border-bottom: 4px solid transparent;
+  width: 31px;
+  height: 31px;
+  border-color: transparent;
+  color: #555;
+  -webkit-transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
+  transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
+  -webkit-transition-property: border-color;
+  transition-property: border-color;
+  border-radius: 0 3px 3px 0;
+}
+
+.c20:hover,
+.c20:focus {
+  background-color: #fff;
+  border: none;
+  border-bottom: 4px solid transparent;
+  border-color: #1e8cbe;
+  color: #1e8cbe;
+  box-shadow: none;
+}
+
+.c11 {
+  display: inline-block;
+  margin-top: 10px;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  background-color: #f7f7f7;
+  vertical-align: top;
+}
+
+.c19 {
+  width: 22px;
+  height: 22px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c21 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c26 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c14::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<div>
+  <section>
+    <div
+      className="c0"
+      onMouseLeave={undefined}
+      width={640}
+    >
+      <div
+        className="c1"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c2"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <div
+            className="c3 c4"
+          >
+            <span
+              className="c5"
+            >
+              Test title
+            </span>
+          </div>
+        </div>
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c6"
+        >
+          <div
+            className="c7"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+          >
+            example.org › test-slug
+          </div>
+        </div>
+      </div>
+      <hr
+        className="c8"
+      />
+      <div
+        className="c1"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c9 c10"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <div
+            className="c9 c10"
+          >
+            Test description, %%replacement_variable%%
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div
+    className="c11"
+  >
+    <button
+      aria-pressed={true}
+      className="c12 c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 c18"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-mobile c19"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        size="22px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M976 1408q0-33-23.5-56.5t-56.5-23.5-56.5 23.5-23.5 56.5 23.5 56.5 56.5 23.5 56.5-23.5 23.5-56.5zm208-160v-704q0-13-9.5-22.5t-22.5-9.5h-512q-13 0-22.5 9.5t-9.5 22.5v704q0 13 9.5 22.5t22.5 9.5h512q13 0 22.5-9.5t9.5-22.5zm-192-848q0-16-16-16h-160q-16 0-16 16t16 16h160q16 0 16-16zm288-16v1024q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-1024q0-52 38-90t90-38h512q52 0 90 38t38 90z"
+        />
+      </svg>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Mobile preview
+      </span>
+    </button>
+    <button
+      aria-pressed={false}
+      className="c20 c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 c18"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-desktop c21"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        size="18px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1728 992v-832q0-13-9.5-22.5t-22.5-9.5h-1600q-13 0-22.5 9.5t-9.5 22.5v832q0 13 9.5 22.5t22.5 9.5h1600q13 0 22.5-9.5t9.5-22.5zm128-832v1088q0 66-47 113t-113 47h-544q0 37 16 77.5t32 71 16 43.5q0 26-19 45t-45 19h-512q-26 0-45-19t-19-45q0-14 16-44t32-70 16-78h-544q-66 0-113-47t-47-113v-1088q0-66 47-113t113-47h1600q66 0 113 47t47 113z"
+        />
+      </svg>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Desktop preview
+      </span>
+    </button>
+  </div>
+  <section
+    className="c22"
+  >
+    <div
+      className="c23"
+    >
+      <div
+        className="c24"
+        id="2"
+        onClick={[Function]}
+      >
+        SEO title
+      </div>
+      <button
+        className="c25 c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 c18"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-plus-circle c26"
+          fill={undefined}
+          focusable="false"
+          role="img"
+          size="16px"
+          viewBox="0 0 1792 1792"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
+        Insert snippet variable
+      </button>
+      <div
+        className="c27"
+        id="snippet-editor-field-title"
+        onClick={[Function]}
+      >
+        <div />
+      </div>
+      <progress
+        aria-hidden="true"
+        className="c28"
+        max={600}
+        value={0}
+      />
+    </div>
+    <div
+      className="c23"
+    >
+      <div
+        className="c24"
+        id="snippet-editor-field-1-slug"
+        onClick={[Function]}
+      >
+        Slug
+      </div>
+      <div
+        className="c29"
+        onClick={[Function]}
+      >
+        <input
+          aria-labelledby="snippet-editor-field-1-slug"
+          className="c30"
+          id="snippet-editor-field-slug"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          value="test-slug"
+        />
+      </div>
+    </div>
+    <div
+      className="c23"
+    >
+      <div
+        className="c24"
+        id="3"
+        onClick={[Function]}
+      >
+        Meta description
+      </div>
+      <button
+        className="c25 c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 c18"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-plus-circle c26"
+          fill={undefined}
+          focusable="false"
+          role="img"
+          size="16px"
+          viewBox="0 0 1792 1792"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
+        Insert snippet variable
+      </button>
+      <div
+        className="c31"
+        id="snippet-editor-field-description"
+        onClick={[Function]}
+      >
+        <div />
+      </div>
+      <progress
+        aria-hidden="true"
+        className="c32"
+        max={156}
+        value={42}
+      />
+    </div>
+  </section>
 </div>
 `;
 

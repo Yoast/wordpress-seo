@@ -66,7 +66,7 @@ describe( "SnippetEditor", () => {
 		renderSnapshotWithArgs( { date: "date string" } );
 	} );
 
-	it( "With the close button not visible.", () => {
+	it( "renders the snippet editor without a close button when showCloseButton is false", () => {
 		renderSnapshotWithArgs( { showCloseButton: false } );
 	} );
 
