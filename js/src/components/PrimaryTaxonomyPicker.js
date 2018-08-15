@@ -7,9 +7,14 @@ import {
 } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 import { sprintf } from "@wordpress/i18n";
+import styled from "styled-components";
 
 /* Internal dependencies */
 import TaxonomyPicker from "./TaxonomyPicker";
+
+const PrimaryTaxonomyPickerLabel = styled.label`
+	padding-top: 16px;
+`;
 
 /**
  * A component for selecting a primary taxonomy term.
@@ -87,11 +92,11 @@ class PrimaryTaxonomyPicker extends React.Component {
 
 		return (
 			<div className="components-base-control__field">
-				<label
+				<PrimaryTaxonomyPickerLabel
 					htmlFor="yoast-primary-category-picker"
 					className="components-base-control__label">
 					{ sprintf( "Select the primary %s", this.props.taxonomy.singular_label.toLowerCase() ) }
-				</label>
+				</PrimaryTaxonomyPickerLabel>
 				<TaxonomyPicker
 					value={ primaryTaxonomy }
 					onChange={ this.onChange }
