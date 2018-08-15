@@ -11,6 +11,9 @@ class SnippetPreviewModal extends React.Component {
 		this.state = {
 			isOpen: false,
 		};
+
+		this.openModal = this.openModal.bind( this );
+		this.closeModal = this.closeModal.bind( this );
 	}
 
 	openModal() {
@@ -26,22 +29,21 @@ class SnippetPreviewModal extends React.Component {
 			<div>
 				<ButtonSection
 					title={ __( "Snippet preview", "wordpress-seo" ) }
-					suffixIcon={ { icon: "edit" } }
+					suffixIcon={ { icon: "pencil-square" } }
 					hasSeparator={ true }
-					onClick={ this.openModal.bind( this ) }
+					onTitleClick={ this.openModal }
 					{ ...this.props }
 				/>
-				<p onClick={ this.openModal.bind( this ) } > Snippet Preview Editor </p>
-				{ this.state.isOpen
-					? <Modal
-						title="Snippet Preview"
-						onRequestClose={ this.closeModal.bind( this ) }>
+				{ this.state.isOpen &&
+					<Modal
+						title={ __( "Snippet preview", "wordpress-seo" ) }
+						onRequestClose={ this.closeModal }>
 						<SnippetEditorWrapper editorAlwaysOpen={true} hasPaperStyle={false} />
-						<Button isDefault onClick={ this.closeModal.bind( this ) }>
+						<Button isDefault onClick={ this.closeModal }>
 							Close
 						</Button>
 					</Modal>
-					: null }
+				}
 			</div>
 		);
 	}
