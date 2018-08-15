@@ -6,7 +6,7 @@ import {
 	withDispatch,
 } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
-import { sprintf } from "@wordpress/i18n";
+import { sprintf, __ } from "@wordpress/i18n";
 import styled from "styled-components";
 
 /* Internal dependencies */
@@ -97,8 +97,11 @@ class PrimaryTaxonomyPicker extends React.Component {
 					htmlFor="yoast-primary-category-picker"
 					className="components-base-control__label">
 					{
-						/* Translators: %s: category name */
-						sprintf( "Select the primary %s", this.props.taxonomy.singular_label.toLowerCase() )
+						sprintf(
+							/* Translators: %s: category name */
+							__( "Select the primary %s" ),
+							this.props.taxonomy.singular_label.toLowerCase()
+						);
 					}
 				</PrimaryTaxonomyPickerLabel>
 				<TaxonomyPicker
