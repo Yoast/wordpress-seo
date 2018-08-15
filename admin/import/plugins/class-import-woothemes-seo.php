@@ -134,5 +134,4 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 		);
 		return $wpdb->__get( 'result' );
 	}
-
 }

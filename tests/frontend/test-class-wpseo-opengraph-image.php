@@ -11,6 +11,7 @@
  * @group OpenGraph
  */
 class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Set up class instance.
 	 */
@@ -61,7 +62,6 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$this->assertAttributeInstanceOf( 'WPSEO_OpenGraph', 'opengraph', $class_instance );
 	}
 
-
 	/**
 	 * Tests instantiating of the object OpenGraph 'not being set'.
 	 *
@@ -75,7 +75,6 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$GLOBALS['wpseo_og'] = $old_og;
 
 		$this->assertAttributeInstanceOf( 'WPSEO_OpenGraph', 'opengraph', $class_instance );
-
 	}
 
 	/**
@@ -175,7 +174,6 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 			),
 		);
 	}
-
 
 	/**
 	 * Test setting the front page image.

@@ -39,7 +39,7 @@ class ReadabilityAnalysis extends React.Component {
 				prefixIconCollapsed={ getIconForScore( score.className ) }
 			>
 				<AnalysisHeader>
-					Analysis results:
+					Analysis results
 				</AnalysisHeader>
 				<Results
 					canChangeLanguage={ ! ( localizedData.settings_link === "" ) }

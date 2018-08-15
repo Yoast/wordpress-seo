@@ -9,6 +9,7 @@
  * WPSEO_Content_Images
  */
 class WPSEO_Content_Images implements WPSEO_WordPress_Integration {
+
 	/**
 	 * Registers the hooks.
 	 *

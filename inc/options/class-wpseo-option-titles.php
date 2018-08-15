@@ -145,7 +145,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		add_action( 'init', array( $this, 'end_of_init' ), 999 );
 	}
 
-
 	/**
 	 * Make sure we can recognize the right action for the double cleaning.
 	 */
@@ -207,7 +206,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		$this->defaults['breadcrumbs-home']          = __( 'Home', 'wordpress-seo' );
 		$this->defaults['breadcrumbs-searchprefix']  = __( 'You searched for', 'wordpress-seo' );
 	}
-
 
 	/**
 	 * Add dynamically created default options based on available post types and taxonomies.
@@ -766,7 +764,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		return $option_value;
 	}
-
 
 	/**
 	 * Make sure that any set option values relating to post_types and/or taxonomies are retained,
