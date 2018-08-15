@@ -265,6 +265,8 @@ class WPSEO_Primary_Term_Admin {
 			$primary_term = '';
 		}
 
+		$terms = get_terms( $taxonomy->name );
+
 		return array(
 			'title'          => $taxonomy->labels->singular_name,
 			'name'           => $taxonomy->name,
@@ -272,7 +274,7 @@ class WPSEO_Primary_Term_Admin {
 			'singular_label' => $taxonomy->labels->singular_name,
 			'field_id'       => $this->generate_field_id( $taxonomy->name ),
 			'rest_base'      => ( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name,
-			'terms'          => array_map( array( $this, 'map_terms_for_js' ), get_terms( $taxonomy->name ) ),
+			'terms'          => array_map( array( $this, 'map_terms_for_js' ), $terms ),
 		);
 	}
 
