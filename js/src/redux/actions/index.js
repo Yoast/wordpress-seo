@@ -1,11 +1,5 @@
-import * as focusKeyword from "./focusKeyword";
-import * as cornerstoneContent from "./cornerstoneContent";
-import * as markerButtons from "./markerButtons";
-import * as primaryTaxonomies from "./primaryTaxonomies";
-
-export default {
-	focusKeyword,
-	cornerstoneContent,
-	markerButtons,
-	primaryTaxonomies,
-};
+export * from "./focusKeyword";
+export * from "./cornerstoneContent";
+export * from "./markerButtons";
+export * from "./primaryTaxonomies";
+export * from "./snippetEditor";

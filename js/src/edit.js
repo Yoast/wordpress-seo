@@ -8,6 +8,7 @@ import { Slot } from "@wordpress/components";
 import { combineReducers, registerStore } from "@wordpress/data";
 import get from "lodash/get";
 import values from "lodash/values";
+import pickBy from "lodash/pickBy";
 
 /* Internal dependencies */
 import Data from "./analysis/data.js";
@@ -19,7 +20,7 @@ import Sidebar from "./containers/Sidebar";
 import MetaboxPortal from "./components/MetaboxPortal";
 import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPriority";
 import * as selectors from "./redux/selectors";
-import actions from "./redux/actions";
+import * as actions from "./redux/actions";
 import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
 import PrimaryTaxonomyPicker from "./components/PrimaryTaxonomyPicker";
@@ -87,9 +88,7 @@ class Edit {
 		return registerStore( "yoast-seo/editor", {
 			reducer: combineReducers( reducers ),
 			selectors,
-			actions: {
-				setPrimaryTaxonomy: actions.primaryTaxonomies.setPrimaryTaxonomy,
-			},
+			actions: pickBy( actions, x => typeof x === "function" ),
 		} );
 	}
 
