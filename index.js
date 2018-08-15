@@ -9,7 +9,7 @@ import { default as sendRequest } from "./composites/OnboardingWizard/helpers/aj
 // Composites/AngoliaSearch imports.
 import { default as AlgoliaSearcher } from "./composites/AlgoliaSearch/AlgoliaSearcher";
 // Composites/Plugin imports.
-import { default as ScoreAssessment } from "./composites/Plugin/Shared/components/ScoreAssessments";
+import { default as ScoreAssessments } from "./composites/Plugin/Shared/components/ScoreAssessments";
 import { default as Collapsible } from "./composites/Plugin/Shared/components/Collapsible";
 import { default as LanguageNotice } from "./composites/Plugin/Shared/components/LanguageNotice";
 import { default as YoastButton } from "./composites/Plugin/Shared/components/YoastButton";
@@ -62,7 +62,7 @@ export { replacementVariablesShape, recommendedReplacementVariablesShape } from 
 export { default as analysis } from "./composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 export { default as decodeHTML } from "./composites/OnboardingWizard/helpers/htmlDecoder";
 export { WordpressFeed } from "./composites/Plugin/DashboardWidget/components/WordpressFeed";
-export { SeoAssesment } from "./composites/Plugin/DashboardWidget/components/SeoAssessment";
+export { SeoAssessment } from "./composites/Plugin/DashboardWidget/components/SeoAssessment";
 export { default as VideoTutorial } from "./composites/HelpCenter/views/VideoTutorial";
 export { default as KeywordInput } from "./composites/Plugin/Shared/components/KeywordInput";
 export { default as Icon } from "./composites/Plugin/Shared/components/Icon";
