@@ -67,6 +67,7 @@ setWordPressSeoL10n();
 	const customAnalysisData = new CustomAnalysisData();
 
 	let editStore;
+	let edit;
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
@@ -394,7 +395,7 @@ setWordPressSeoL10n();
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
-		const edit = new Edit( editArgs );
+		edit = new Edit( editArgs );
 
 		editStore =  edit.getStore();
 		const data = edit.getData();
@@ -423,7 +424,8 @@ setWordPressSeoL10n();
 		window.YoastSEO.store = editStore;
 
 		// YoastSEO.app overwrites.
-		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker, YoastSEO.store );
+		// Todo: change app.pluggable to pluggable (if we don't overwrite).
+		YoastSEO.app.refresh = refreshAnalysis.bind( null, edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
 		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;
@@ -489,7 +491,8 @@ setWordPressSeoL10n();
 
 		// Set the initial snippet editor data.
 		editStore.dispatch( updateData( snippetEditorData ) );
-		editStore.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === "true" ) );
+		// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
+		editStore.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === "1" ) );
 
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = editStore.getState().focusKeyword;

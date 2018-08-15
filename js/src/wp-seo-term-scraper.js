@@ -56,6 +56,7 @@ window.yoastHideMarkers = true;
 	var termSlugInput;
 
 	let store;
+	let edit;
 	const customAnalysisData = new CustomAnalysisData();
 
 	/**
@@ -223,7 +224,7 @@ window.yoastHideMarkers = true;
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
 
-		const edit = new Edit( editArgs );
+		edit = new Edit( editArgs );
 
 		const store = edit.getStore();
 
@@ -246,7 +247,7 @@ window.yoastHideMarkers = true;
 		};
 
 		if ( isKeywordAnalysisActive() ) {
-			store.dispatch( setFocusKeyword( document.getElementById( "hidden_wpseo_focuskw" ).value ) );
+			store.dispatch( setFocusKeyword( termScraper.getKeyword() ) );
 
 			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
 			args.callbacks.updatedKeywordsResults = function( results ) {
@@ -278,7 +279,8 @@ window.yoastHideMarkers = true;
 		window.YoastSEO.store = store;
 
 		// YoastSEO.app overwrites.
-		YoastSEO.app.refresh = refreshAnalysis.bind( null, YoastSEO.analysisWorker, YoastSEO.store );
+		// Todo: change app.pluggable to pluggable (if we don't overwrite).
+		YoastSEO.app.refresh = refreshAnalysis.bind( null, edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
 		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;
