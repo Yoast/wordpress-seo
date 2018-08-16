@@ -243,9 +243,9 @@ export default class HowTo extends Component {
 	 * Returns the component to be used to render
 	 * the How-to block on Wordpress (e.g. not in the editor).
 	 *
-	 * @param {object} props the attributes of the How-to block
+	 * @param {object} props the attributes of the How-to block.
 	 *
-	 * @returns {Component} the component representing a How-to block
+	 * @returns {Component} The component representing a How-to block.
 	 */
 	static Content( props ) {
 		let { steps, title, hasDuration, hours, minutes, description, unorderedList, additionalListCssClasses, className } = props;
