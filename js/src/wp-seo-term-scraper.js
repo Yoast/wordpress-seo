@@ -13,6 +13,7 @@ import debounce from "lodash/debounce";
 // Internal dependencies.
 import Edit from "./edit";
 import { termsTmceId as tmceId } from "./wp-seo-tinymce";
+import Pluggable from "./Pluggable";
 
 // UI dependencies.
 import { update as updateTrafficLight } from "./ui/trafficLight";
@@ -281,6 +282,17 @@ window.yoastHideMarkers = true;
 		// Todo: change app.pluggable to pluggable (if we don't overwrite).
 		YoastSEO.app.refresh = refreshAnalysis.bind( null, edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
+		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
+		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;
+		YoastSEO.app.pluginReady = YoastSEO.app.pluggable._ready;
+		YoastSEO.app.pluginReloaded = YoastSEO.app.pluggable._reloaded;
+		YoastSEO.app.registerModification = YoastSEO.app.pluggable._registerModification;
+		YoastSEO.app.registerAssessment = ( name, assessment, pluginName ) => {
+			if ( ! isUndefined( YoastSEO.app.seoAssessor ) ) {
+				return YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.defaultSeoAssessor, name, assessment, pluginName ) &&
+					YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.cornerStoneSeoAssessor, name, assessment, pluginName );
+			}
+		};
 
 		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
 

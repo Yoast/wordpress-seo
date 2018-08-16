@@ -16,6 +16,7 @@ import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
 import CompatibilityHelper from "./compatibility/compatibilityHelper";
+import Pluggable from "./Pluggable";
 
 // UI dependencies.
 import publishBox from "./ui/publishBox";
@@ -289,6 +290,7 @@ setWordPressSeoL10n();
 	 *
 	 * @param {YoastReplaceVarPlugin} replaceVarsPlugin The replace vars plugin to expose.
 	 * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
+	 *
 	 * @returns {void}
 	 */
 	function exposeGlobals( replaceVarsPlugin, shortcodePlugin ) {
@@ -425,6 +427,17 @@ setWordPressSeoL10n();
 		// Todo: change app.pluggable to pluggable (if we don't overwrite).
 		YoastSEO.app.refresh = refreshAnalysis.bind( null, edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
+		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
+		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;
+		YoastSEO.app.pluginReady = YoastSEO.app.pluggable._ready;
+		YoastSEO.app.pluginReloaded = YoastSEO.app.pluggable._reloaded;
+		YoastSEO.app.registerModification = YoastSEO.app.pluggable._registerModification;
+		YoastSEO.app.registerAssessment = ( name, assessment, pluginName ) => {
+			if ( ! isUndefined( YoastSEO.app.seoAssessor ) ) {
+				return YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.defaultSeoAssessor, name, assessment, pluginName ) &&
+					YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.cornerStoneSeoAssessor, name, assessment, pluginName );
+			}
+		};
 
 		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
 
