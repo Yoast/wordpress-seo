@@ -774,6 +774,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'metabox-css' );
 		$asset_manager->enqueue_style( 'scoring' );
 		$asset_manager->enqueue_style( 'select2' );
+		$asset_manager->enqueue_style( 'yoast-components' );
 
 		$asset_manager->enqueue_script( 'metabox' );
 		$asset_manager->enqueue_script( 'help-center' );
