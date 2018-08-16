@@ -103,7 +103,16 @@ export default class HowTo extends Component {
 			lastIndex--;
 		}
 
-		steps.splice( index + 1, 0, { id: HowTo.generateId( "how-to-step" ), contents, jsonContents: stripHTML( renderToString( contents ) ) } );
+		steps.splice(
+			index + 1,
+			0,
+			{
+				id: HowTo.generateId( "how-to-step" ),
+				contents,
+				jsonContents: stripHTML( renderToString( contents ) ),
+			}
+		);
+
 		this.props.setAttributes( { steps } );
 
 		if ( focus ) {

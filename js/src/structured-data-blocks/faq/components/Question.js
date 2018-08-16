@@ -11,17 +11,6 @@ const { RichText, MediaUpload } = window.wp.editor;
 export default class Question extends Component {
 
 	/**
-	 * Constructs a Question editor component.
-	 *
-	 * @param {Object} props This component's properties.
-	 *
-	 * @returns {void}
-	 */
-	constructor( props ) {
-		super( props );
-	}
-
-	/**
 	 * The insert and remove question buttons.
 	 *
 	 * @returns {Component} The buttons.
@@ -68,7 +57,7 @@ export default class Question extends Component {
 	/**
 	 * The mover buttons.
 	 *
-	 * @returns {Component} the buttons.
+	 * @returns {Component} The buttons.
 	 */
 	getMover() {
 		return <div className="schema-faq-question-mover">
@@ -94,8 +83,7 @@ export default class Question extends Component {
 	/**
 	 * Callback when an image from the media library has been selected.
 	 *
-	 * @param {Object} media      The selected image.
-	 * @param {string} targetPart The target part (question/answer) to push the image to.
+	 * @param {Object} media The selected image.
 	 *
 	 * @returns {void}
 	 */
@@ -113,7 +101,6 @@ export default class Question extends Component {
 
 		this.props.onChange( question, newAnswer, question, answer );
 	}
-
 
 	/**
 	 * Returns the image src from step contents.
@@ -142,7 +129,7 @@ export default class Question extends Component {
 	 *
 	 * @param {object} question The question and its answer.
 	 *
-	 * @returns {Component} the component to be rendered.
+	 * @returns {Component} The component to be rendered.
 	 */
 	static Content( question ) {
 		return(
@@ -222,9 +209,10 @@ Question.propTypes = {
 	editorRef: PropTypes.func.isRequired,
 	onMoveUp: PropTypes.func.isRequired,
 	onMoveDown: PropTypes.func.isRequired,
-
+	focusPart: PropTypes.string,
 	focus: PropTypes.string,
 	isSelected: PropTypes.bool,
 	isFirst: PropTypes.bool,
 	isLast: PropTypes.bool,
 };
+
