@@ -87,6 +87,10 @@ class PrimaryTaxonomyPicker extends React.Component {
 			return term.id === primaryTaxonomyId;
 		} );
 		if ( ! selectedTerm ) {
+			/**
+			 * If the selected term is no longer available, set the primary term id to
+			 * the first term, and to -1 if no term is available.
+ 			 */
 			this.onChange( selectedTerms.length ? selectedTerms[ 0 ].id : -1 );
 		}
 	}
@@ -172,15 +176,13 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {void}
 	 */
 	onChange( termId ) {
-		const termIdNum = typeof termId === "string" ? parseInt( termId, 10 ) : termId;
-
 		const { name } = this.props.taxonomy;
 
-		this.updateReplacementVariable( termIdNum );
+		this.updateReplacementVariable( termId );
 
-		this.props.setPrimaryTaxonomyId( name, termIdNum );
+		this.props.setPrimaryTaxonomyId( name, termId );
 
-		this.input.value = termIdNum === -1 ? "" : termIdNum;
+		this.input.value = termId === -1 ? "" : termId;
 	}
 
 	/**
@@ -199,9 +201,10 @@ class PrimaryTaxonomyPicker extends React.Component {
 			return;
 		}
 		const primaryTerm = this.state.selectedTerms.find( term => term.id === termId );
-		if ( primaryTerm ) {
-			this.props.updateReplacementVariable( `primary_${ this.props.taxonomy.name }`, primaryTerm.name );
-		}
+		this.props.updateReplacementVariable(
+			`primary_${ this.props.taxonomy.name }`,
+			primaryTerm ? primaryTerm.name : ""
+		);
 	}
 
 	/**

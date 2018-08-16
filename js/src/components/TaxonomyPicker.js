@@ -24,7 +24,7 @@ const TaxonomyPicker = ( props ) => {
 			id={ id }
 			value={ value }
 			onChange={ e => {
-				onChange( e.target.value );
+				onChange( parseInt( e.target.value, 10 ) );
 			} } >
 			{
 				terms.map( term => {
