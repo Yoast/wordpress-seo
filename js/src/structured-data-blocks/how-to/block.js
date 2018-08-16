@@ -1,5 +1,3 @@
-import React from "react";
-
 import HowTo from "./components/HowTo";
 
 const { __ } = window.wp.i18n;
@@ -22,6 +20,9 @@ export default () => {
 				source: "children",
 				selector: ".schema-how-to-title",
 			},
+			jsonTitle: {
+				type: "string",
+			},
 			hasDuration: {
 				type: "boolean",
 			},
@@ -35,6 +36,9 @@ export default () => {
 				type: "array",
 				source: "children",
 				selector: ".schema-how-to-description",
+			},
+			jsonDescription: {
+				type: "string",
 			},
 			steps: {
 				type: "array",
@@ -74,8 +78,9 @@ export default () => {
 		 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 		 * @returns {Component} The display component.
 		 */
-		save: function( { attributes, className } ) {
-			return HowTo.getContent( attributes, className );
+		// eslint-disable-next-line react/display-name
+		save: function( { attributes } ) {
+			return <HowTo.Content { ...attributes }/>;
 		},
 	} );
 };

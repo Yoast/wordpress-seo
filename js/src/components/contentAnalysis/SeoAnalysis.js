@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import colors from "yoast-components/style-guide/colors.json";
+import { HelpText } from "yoast-components";
 import Collapsible from "../SidebarCollapsible";
-import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
+import { KeywordInput, colors } from "yoast-components";
 import Results from "./Results";
 import UpsellBox from "../UpsellBox";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
@@ -15,15 +15,13 @@ import ModalButtonContainer from "../ModalButtonContainer";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import { utils } from "yoast-components";
+import isNil from "lodash/isNil";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
 	font-weight: bold;
 	margin: 1.5em 0 1em;
 	display: block;
-`;
-
-const ExplanationText = styled.p`
 `;
 
 const FocusKeywordLink = utils.makeOutboundLink();
@@ -77,9 +75,9 @@ class SeoAnalysis extends React.Component {
 		const upsell = this.props.keywordUpsell;
 		return (
 			<Collapsible
-			prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
-			prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
-			title={ __( "Add additional keyword", "wordpress-seo" ) }
+				prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
+				prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
+				title={ __( "Add additional keyword", "wordpress-seo" ) }
 			>
 				<UpsellBox
 					benefits={ upsell.benefits }
@@ -88,7 +86,7 @@ class SeoAnalysis extends React.Component {
 					upsellButton={ {
 						href: upsell.buttonLink,
 						className: "button button-primary",
-						"aria-labelledby": "label-id",
+						rel: null,
 					} }
 					upsellButtonLabel={ upsell.buttonLabel }
 				/>
@@ -104,9 +102,13 @@ class SeoAnalysis extends React.Component {
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
 
-		if( this.props.keyword === "" ) {
+		if ( this.props.keyword === "" ) {
 			score.className = "na";
 			score.screenReaderReadabilityText = __( "Enter a focus keyword to calculate the SEO score", "wordpress-seo" );
+		}
+
+		if ( isNil( this.props.overallScore ) ) {
+			score.className = "loading";
 		}
 
 		return (
@@ -118,13 +120,13 @@ class SeoAnalysis extends React.Component {
 					prefixIconCollapsed={ getIconForScore( score.className ) }
 					subTitle={ this.props.keyword }
 				>
-					<ExplanationText>
+					<HelpText>
 						{ __( "A focus keyword is the term (or phrase) you'd like to be found with, in search engines. " +
 							"Enter it below to see how you can improve your text for this term.", "wordpress-seo" ) + " " }
-						<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }>
-							{ __( "Learn more about the Keyword Analysis", "wordpress-seo" ) }
+						<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } rel={ null }>
+							{ __( "Learn more about the Keyword Analysis.", "wordpress-seo" ) }
 						</FocusKeywordLink>
-					</ExplanationText>
+					</HelpText>
 					<KeywordInput
 						id="focus-keyword-input"
 						onChange={ this.props.onFocusKeywordChange }
@@ -181,7 +183,7 @@ function mapStateToProps( state, ownProps ) {
 
 	let results = null;
 	let overallScore = null;
-	if( state.analysis.seo[ keyword ] ) {
+	if ( state.analysis.seo[ keyword ] ) {
 		results = state.analysis.seo[ keyword ].results;
 		overallScore = state.analysis.seo[ keyword ].overallScore;
 	}

@@ -11,6 +11,8 @@ import keywordUpsellProps from "../values/keywordUpsellProps";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
+import { __ } from "@wordpress/i18n/build/index";
+import Collapsible from "./SidebarCollapsible";
 
 /**
  * Creates the Metabox component.
@@ -28,7 +30,9 @@ export default function Metabox( { settings, store, theme } ) {
 				<SidebarItem renderPriority={ 9 }>
 					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
-							<SnippetEditor hasPaperStyle={ false }/>
+							<Collapsible title={ __( "Snippet Preview", "wordpress-seo" ) } initialIsOpen={ true }>
+								<SnippetEditor hasPaperStyle={ false }/>
+							</Collapsible>
 						</StoreProvider>
 					</ThemeProvider>
 				</SidebarItem>

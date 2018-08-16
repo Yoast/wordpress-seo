@@ -110,10 +110,6 @@ module.exports = function( env = { environment: "production" } ) {
 						},
 					],
 				},
-				{
-					test: /\.json$/,
-					use: [ "json-loader" ],
-				},
 			],
 		},
 		externals,
