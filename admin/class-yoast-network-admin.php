@@ -39,7 +39,10 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 			$choices['-'] = __( 'None', 'wordpress-seo' );
 		}
 
-		$sites = get_sites( array( 'deleted' => 0 ) );
+		$sites = get_sites( array(
+			'deleted'    => 0,
+			'network_id' => get_current_network_id(),
+		) );
 		foreach ( $sites as $site ) {
 			$site_name = $site->domain . $site->path;
 			if ( $show_title ) {
