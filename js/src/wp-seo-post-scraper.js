@@ -14,7 +14,6 @@ import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 import Edit from "./edit";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
-import { tinyMCEDecorator } from "./decorator/tinyMCE";
 import CompatibilityHelper from "./compatibility/compatibilityHelper";
 import Pluggable from "./Pluggable";
 
@@ -33,6 +32,7 @@ import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
+import getMarker from "./analysis/getMarker";
 
 // Redux dependencies.
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
@@ -62,7 +62,6 @@ setWordPressSeoL10n();
 	let metaboxContainer;
 	let titleElement;
 	let app;
-	let decorator = null;
 	let postDataCollector;
 	const customAnalysisData = new CustomAnalysisData();
 
@@ -121,29 +120,20 @@ setWordPressSeoL10n();
 	}
 
 	/**
-	 * Returns the marker callback method for the assessor.
+	 * Checks if the store's marker status should be hidden.
 	 *
-	 * @returns {*|bool} False when tinyMCE is undefined or when there are no markers.
+	 * @param {Object} store The store.
+	 *
+	 * @returns {bool} Whether there should be markers.
 	 */
-	function getMarker() {
+	function updateMarkerStatus( store ) {
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
 		if ( typeof tinyMCE === "undefined" || ! displayMarkers() ) {
-			if ( ! isUndefined( editStore ) ) {
-				editStore.dispatch( setMarkerStatus( "hidden" ) );
-			}
+			store.dispatch( setMarkerStatus( "hidden" ) );
 			return false;
 		}
-
-		return function( paper, marks ) {
-			if ( tinyMCEHelper.isTinyMCEAvailable( tinyMCEHelper.tmceId ) ) {
-				if ( null === decorator ) {
-					decorator = tinyMCEDecorator( tinyMCE.get( tinyMCEHelper.tmceId ) );
-				}
-
-				decorator( paper, marks );
-			}
-		};
+		return true;
 	}
 
 	/**
@@ -234,6 +224,7 @@ setWordPressSeoL10n();
 	 * @returns {Object} The arguments to initialize the app
 	 */
 	function getAppArgs( store ) {
+		const showMarkers = updateMarkerStatus( store );
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
@@ -249,7 +240,7 @@ setWordPressSeoL10n();
 				getData: postDataCollector.getData.bind( postDataCollector ),
 			},
 			locale: wpseoPostScraperL10n.contentLocale,
-			marker: getMarker(),
+			marker: getMarker( showMarkers ),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			hasSnippetPreview: false,
