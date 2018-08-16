@@ -3,16 +3,23 @@ const Jed = require( "jed" );
 const merge = require( "lodash/merge" );
 const isEqual = require( "lodash/isEqual" );
 const isUndefined = require( "lodash/isUndefined" );
+const isString = require( "lodash/isString" );
+const isObject = require( "lodash/isObject" );
 
 // YoastSEO.js dependencies.
-const Paper = require( "../values/Paper" );
-const Researcher = require( "../researcher" );
-const ContentAssessor = require( "../contentAssessor" );
-const SEOAssessor = require( "../seoAssessor" );
+const YoastSEO = require( "../../index" );
+const {
+	Paper,
+	Researcher,
+	ContentAssessor,
+	SEOAssessor,
+	string: { htmlParser: removeHtmlBlocks },
+	assessments: { seo: { LargestKeywordDistanceAssessment } },
+} = YoastSEO;
+
 const CornerstoneContentAssessor = require( "../cornerstone/contentAssessor" );
 const CornerstoneSEOAssessor = require( "../cornerstone/seoAssessor" );
-const removeHtmlBlocks = require( "../stringProcessing/htmlParser" );
-const LargestKeywordDistanceAssessment = require( "../assessments/seo/LargestKeywordDistanceAssessment" );
+const InvalidTypeError = require( "../errors/invalidType" );
 
 // Internal dependencies.
 import Scheduler from "./scheduler";
@@ -54,10 +61,16 @@ export default class AnalysisWebWorker {
 				results: [],
 			},
 		};
+		this._registeredAssessments = [];
+		this._registeredMessageHandlers = {};
 
 		// Bind actions to this scope.
 		this.analyze = this.analyze.bind( this );
 		this.analyzeDone = this.analyzeDone.bind( this );
+		this.loadScript = this.loadScript.bind( this );
+		this.loadScriptDone = this.loadScriptDone.bind( this );
+		this.registerAssessment = this.registerAssessment.bind( this );
+		this.registerMessageHandler = this.registerMessageHandler.bind( this );
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
@@ -70,6 +83,11 @@ export default class AnalysisWebWorker {
 	 */
 	register() {
 		this._scope.onmessage = this.handleMessage;
+		this._scope.analysisWorker = {
+			registerAssessment: this.registerAssessment,
+			registerMessageHandler: this.registerMessageHandler,
+		};
+		this._scope.YoastSEO = YoastSEO;
 	}
 
 	/**
@@ -98,6 +116,27 @@ export default class AnalysisWebWorker {
 					done: this.analyzeDone,
 					data: payload,
 				} );
+				break;
+			case "loadScript":
+				this._scheduler.schedule( {
+					id,
+					execute: this.loadScript,
+					done: this.loadScriptDone,
+					data: payload,
+				} );
+				break;
+			case "customMessage":
+				const name = payload.name;
+				if ( name && this._registeredMessageHandlers[ name ] ) {
+					this._scheduler.schedule( {
+						id,
+						execute: this.customMessage,
+						done: this.customMessageDone,
+						data: payload,
+					} );
+					break;
+				}
+				this.customMessageDone( id, { error: new Error( "No message handler registered for messages with name: " + name ) } );
 				break;
 			default:
 				console.warn( "Unrecognized command", type );
@@ -179,6 +218,12 @@ export default class AnalysisWebWorker {
 			assessor.addAssessment( "largestKeywordDistance", LargestKeywordDistanceAssessment );
 		}
 
+		this._registeredAssessments.forEach( ( { name, assessment } ) => {
+			if ( isUndefined( assessor.getAssessment( name ) ) ) {
+				assessor.addAssessment( name, assessment );
+			}
+		} );
+
 		return assessor;
 	}
 
@@ -227,6 +272,59 @@ export default class AnalysisWebWorker {
 		// Reset the paper in order to not use the cached results on analyze.
 		this._paper = new Paper( "" );
 		this.send( "initialize:done", id );
+	}
+
+	/**
+	 *
+	 *
+	 * @param name
+	 * @param assessment
+	 * @param pluginName
+	 * @returns {boolean}
+	 */
+	registerAssessment( name, assessment, pluginName ) {
+		if ( ! isString( name ) ) {
+			throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName + ". Expected parameter `name` to be a string." );
+		}
+
+		if ( ! isObject( assessment ) ) {
+			throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
+				". Expected parameter `assessment` to be a function." );
+		}
+
+		if ( ! isString( pluginName ) ) {
+			throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
+				". Expected parameter `pluginName` to be a string." );
+		}
+
+		// Prefix the name with the pluginName so the test name is always unique.
+		name = pluginName + "-" + name;
+
+		this._seoAssessor.addAssessment( name, assessment );
+		this._registeredAssessments.push( { name, assessment } );
+
+		return true;
+	}
+
+	registerMessageHandler( name, handler, pluginName ) {
+		if ( ! isString( name ) ) {
+			throw new InvalidTypeError( "Failed to register handler for plugin " + pluginName + ". Expected parameter `name` to be a string." );
+		}
+
+		if ( ! isObject( handler ) ) {
+			throw new InvalidTypeError( "Failed to register handler for plugin " + pluginName +
+				". Expected parameter `handler` to be a function." );
+		}
+
+		if ( ! isString( pluginName ) ) {
+			throw new InvalidTypeError( "Failed to register handler for plugin " + pluginName +
+				". Expected parameter `pluginName` to be a string." );
+		}
+
+		// Prefix the name with the pluginName so the test name is always unique.
+		name = pluginName + "-" + name;
+
+		this._registeredMessageHandlers[ name ] = handler;
 	}
 
 	/**
@@ -301,7 +399,44 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
-	 * Sends the result back.
+	 * Loads a new script from an external source.
+	 *
+	 * @param {number} id   The request id.
+	 * @param url
+	 */
+	loadScript( id, { url } ) {
+		if ( isUndefined( url ) ) {
+			return { loaded: false, url, message: "Load Script was called without an URL." };
+		}
+
+		try {
+			importScripts( this._scope.location.protocol + this._scope.location.host + url );
+		} catch ( error ) {
+			return { loaded: false, url, message: error.message };
+		}
+
+		return { loaded: true, url };
+	}
+
+	/**
+	 * Sends the load script result back.
+	 *
+	 * @param {number} id     The request id.
+	 * @param {Object} result The result.
+	 *
+	 * @returns {void}
+	 */
+	loadScriptDone( id, result ) {
+		if ( ! result.loaded ) {
+			this.send( "loadScript:failed", id, result );
+			return;
+		}
+
+		this.send( "loadScript:done", id, result );
+	}
+
+	/**
+	 * Sends the analyze result back.
 	 *
 	 * @param {number} id     The request id.
 	 * @param {Object} result The result.
@@ -310,5 +445,41 @@ export default class AnalysisWebWorker {
 	 */
 	analyzeDone( id, result ) {
 		this.send( "analyze:done", id, result );
+	}
+
+	/**
+	 * Handle a custom message using the registered handler.
+	 *
+	 * @param {number} id   The request id.
+	 * @param {string} name The name of the message.
+	 * @param {Object} data The data of the message.
+	 *
+	 * @returns {Object} An object containing either success and data or an error.
+	 */
+	customMessage( id, { name, data } ) {
+		try {
+			return {
+				success: true,
+				data: this._registeredMessageHandlers[ name ]( data ),
+			};
+		} catch( error ) {
+			return { error };
+		}
+	}
+
+	/**
+	 * Send the result of a custom message back.
+	 *
+	 * @param {number} id     The request id.
+	 * @param {Object} result The result.
+	 *
+	 * @returns {void}
+	 */
+	customMessageDone( id, result ) {
+		if ( result.success ) {
+			this.send( "customMessage:done", id, result.data );
+			return;
+		}
+		this.send( "customMessage:failed", result.error );
 	}
 }

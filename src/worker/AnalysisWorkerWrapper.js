@@ -22,6 +22,8 @@ class AnalysisWorkerWrapper {
 		// Bind actions to this scope.
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
+		this.importScript = this.importScript.bind( this );
+		this.sendMessage = this.sendMessage.bind( this );
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
@@ -48,26 +50,21 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	handleMessage( { data: { type, id, payload } } ) {
-		let request;
 		console.log( "wrapper", type, id, payload );
+
+		const request = this._requests[ id ];
+		if ( ! request ) {
+			console.warn( "AnalysisWebWorker: unmatched response", payload );
+			return;
+		}
 
 		switch( type ) {
 			case "initialize:done":
-				request = this._requests[ id ];
-				if ( ! request ) {
-					console.warn( "AnalysisWebWorker: unmatched response", payload );
-					break;
-				}
-
+			case "loadScript:done":
+			case "customMessage:done":
 				request.resolve( payload );
 				break;
 			case "analyze:done":
-				request = this._requests[ id ];
-				if ( ! request ) {
-					console.warn( "AnalysisWebWorker: unmatched response", payload );
-					break;
-				}
-
 				// Map the results back to classes, because we encode and decode the message payload.
 				if ( payload.seo ) {
 					payload.seo.results = payload.seo.results.map( result => AssessmentResult.parse( result ) );
@@ -77,6 +74,13 @@ class AnalysisWorkerWrapper {
 				}
 
 				request.resolve( payload );
+				break;
+
+				request.resolve( payload );
+				break;
+			case "loadScript:failed":
+			case "customMessage:failed":
+				request.reject( payload );
 				break;
 			default:
 				console.warn( "AnalysisWebWorker: unrecognized action", type );
@@ -135,6 +139,22 @@ class AnalysisWorkerWrapper {
 	}
 
 	/**
+	 * Sends a request to the worker and returns a promise that will resolve or reject once the worker finishes.
+	 *
+	 * @param {string} action  The action of the request.
+	 * @param {Object} payload The payload of the request.
+	 *
+	 * @returns {Promise} A promise that will resolve or reject once the worker finishes.
+	 */
+	sendRequest( action, payload ) {
+		const id = this.createRequestId();
+		const promise = this.createRequestPromise( id );
+
+		this.send( action, id, payload );
+		return promise;
+	}
+
+	/**
 	 * Sends a message to the worker.
 	 *
 	 * @param {string} type      The message type.
@@ -160,11 +180,7 @@ class AnalysisWorkerWrapper {
 	 * @returns {Promise} The promise of initialization.
 	 */
 	initialize( configuration ) {
-		const id = this.createRequestId();
-		const promise = this.createRequestPromise( id );
-
-		this.send( "initialize", id, configuration );
-		return promise;
+		return this.sendRequest( "initialize", configuration );
 	}
 
 	/**
@@ -176,11 +192,32 @@ class AnalysisWorkerWrapper {
 	 * @returns {Promise} The promise of analyses.
 	 */
 	analyze( paper, configuration = {} ) {
-		const id = this.createRequestId();
-		const promise = this.createRequestPromise( id );
+		return this.sendRequest( "analyze", { paper, configuration } );
+	}
 
-		this.send( "analyze", id, { paper, configuration } );
-		return promise;
+	/**
+	 * Imports a script to the worker.
+	 *
+	 * @param {string} url The relative url to the script to be loaded.
+	 *
+	 * @returns {Promise} The promise of the script import.
+	 */
+	importScript( url ) {
+		return this.sendRequest( "importScript", { url } );
+	}
+
+	/**
+	 * Sends a custom message to the worker.
+	 *
+	 * @param {string} name       The name of the message.
+	 * @param {string} data       The data of the message.
+	 * @param {string} pluginName The plugin that registered this type of message.
+	 *
+	 * @returns {Promise} The promise of the custom message.
+	 */
+	sendMessage( name, data, pluginName ) {
+		name = pluginName + "-" + name;
+		return this.sendRequest( "customMessage", { name, data } );
 	}
 }
 
