@@ -91,7 +91,14 @@ class PrimaryTaxonomyPicker extends React.Component {
 			return;
 		}
 		const collection = new TaxonomyCollection();
-		collection.fetch().then( terms => {
+		collection.fetch( {
+			data: {
+				per_page: -1,
+				orderby: "count",
+				order: "desc",
+				_fields: [ "id", "name" ],
+			},
+		} ).then( terms => {
 			const oldState = this.state;
 			this.setState( {
 				terms,
@@ -113,6 +120,10 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {Array} The selected terms.
 	 */
 	getSelectedTerms( terms, selectedTermIds ) {
+		const selectedTerms = terms.filter( term => {
+			return selectedTermIds.includes( term.id );
+		} );
+		console.log( terms, selectedTermIds, selectedTerms );
 		return terms.filter( term => {
 			return selectedTermIds.includes( term.id );
 		} );
