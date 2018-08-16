@@ -4,6 +4,7 @@ import styled from "styled-components";
 import noop from "lodash/noop";
 
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
+import colors from "../../../../style-guide/colors.json";
 
 export const StyledTitleContainer = styled.span`
 	flex-grow: 1;
@@ -16,6 +17,7 @@ export const StyledTitle = styled.span`
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow-x: hidden;
+	color: ${ colors.$color_headings };
 `;
 
 export const StyledSubTitle = styled.span`
