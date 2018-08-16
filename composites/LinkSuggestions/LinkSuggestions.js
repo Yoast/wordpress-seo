@@ -145,7 +145,7 @@ class LinkSuggestions extends React.Component {
 		}
 
 		// Translators: Text between {{a}} and {{/a}} will be a link to an article about cornerstone content.
-		let articleLinkString = this.props.translate( "Consider linking to these {{a}}cornerstone articles{{/a}}" );
+		let articleLinkString = this.props.translate( "Consider linking to these {{a}}cornerstone articles:{{/a}}" );
 		let articleLink = interpolateComponents( {
 			mixedString: articleLinkString,
 			components: {
