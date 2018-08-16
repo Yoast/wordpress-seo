@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 /**
  * A select box for selecting a taxonomy.
  *
- * @param {object} props The component's props.
+ * @param {Object} props The component's props.
  *
  * @returns {ReactElement} The rendered TaxonomyPicker component.
  */
