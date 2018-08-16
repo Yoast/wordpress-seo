@@ -12,10 +12,12 @@ const SEOAssessor = require( "../seoAssessor" );
 const CornerstoneContentAssessor = require( "../cornerstone/contentAssessor" );
 const CornerstoneSEOAssessor = require( "../cornerstone/seoAssessor" );
 const removeHtmlBlocks = require( "../stringProcessing/htmlParser" );
-const LargestKeywordDistanceAssessment = require( "../assessments/seo/LargestKeywordDistanceAssessment" );
+import LargestKeywordDistanceAssessment from "../assessments/seo/LargestKeywordDistanceAssessment";
 
 // Internal dependencies.
 import Scheduler from "./scheduler";
+
+const largestKeywordDistanceAssessment = new LargestKeywordDistanceAssessment();
 
 /**
  * Analysis Web Worker.
@@ -176,7 +178,7 @@ export default class AnalysisWebWorker {
 			: new SEOAssessor( this._i18n, { locale } );
 
 		if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "largestKeywordDistance" ) ) ) {
-			assessor.addAssessment( "largestKeywordDistance", LargestKeywordDistanceAssessment );
+			assessor.addAssessment( "largestKeywordDistance", largestKeywordDistanceAssessment );
 		}
 
 		return assessor;
