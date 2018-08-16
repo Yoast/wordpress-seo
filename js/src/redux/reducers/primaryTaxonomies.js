@@ -3,7 +3,7 @@ import { SET_PRIMARY_TAXONOMY } from "../actions/primaryTaxonomies";
 const INITIAL_STATE = {};
 
 /**
- * A reducer for the focus keyword.
+ * A reducer for the primary taxonomies.
  *
  * @param {string} state The current state of the object.
  * @param {Object} action The current action received.

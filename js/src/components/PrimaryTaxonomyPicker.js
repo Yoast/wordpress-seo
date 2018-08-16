@@ -30,7 +30,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 
 		const { field_id: fieldId, name } = props.taxonomy;
 		this.input = document.getElementById( fieldId );
-		props.setPrimaryTaxonomy( name, parseInt( this.input.value, 10 ) );
+		props.setPrimaryTaxonomyId( name, parseInt( this.input.value, 10 ) );
 
 		this.state = {
 			selectedTerms: [],
@@ -156,7 +156,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 
 		this.updateReplacementVariable( termIdNum );
 
-		this.props.setPrimaryTaxonomy( name, termIdNum );
+		this.props.setPrimaryTaxonomyId( name, termIdNum );
 
 		this.input.value = termIdNum === -1 ? "" : termIdNum;
 	}
@@ -221,7 +221,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 PrimaryTaxonomyPicker.propTypes = {
 	selectedTermIds: PropTypes.arrayOf( PropTypes.number ),
 	primaryTaxonomy: PropTypes.string,
-	setPrimaryTaxonomy: PropTypes.func,
+	setPrimaryTaxonomyId: PropTypes.func,
 	updateReplacementVariable: PropTypes.func,
 	receiveEntityRecords: PropTypes.func,
 	taxonomy: PropTypes.shape( {
@@ -245,17 +245,17 @@ export default compose( [
 
 		return {
 			selectedTermIds,
-			primaryTaxonomy: yoastData.getPrimaryTaxonomy( taxonomy.name ),
+			primaryTaxonomy: yoastData.getPrimaryTaxonomyId( taxonomy.name ),
 		};
 	} ),
 	withDispatch( dispatch => {
 		const {
-			setPrimaryTaxonomy,
+			setPrimaryTaxonomyId,
 			updateReplacementVariable,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
-			setPrimaryTaxonomy,
+			setPrimaryTaxonomyId,
 			updateReplacementVariable,
 		};
 	} ),
