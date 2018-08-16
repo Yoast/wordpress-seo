@@ -111,7 +111,7 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 				'text'  => $question['jsonAnswer'],
 			);
 
-			if( ! empty( $question['jsonImageSrc'] ) ) {
+			if ( ! empty( $question['jsonImageSrc'] ) ) {
 				$json_ld['acceptedAnswer']['associatedMedia'] = array(
 					'@type'      => 'ImageObject',
 					'contentUrl' => $question['jsonImageSrc'],

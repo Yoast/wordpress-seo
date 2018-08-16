@@ -216,8 +216,8 @@ export default class HowToStep extends Component {
 			<li className="schema-how-to-step" onFocus={ onFocus } >
 				<span className="schema-how-to-step-number">
 					{ isUnorderedList
-						? '•'
-						: (index + 1) + '.'
+						? "•"
+						: ( index + 1 ) + "."
 					}
 				</span>
 				<RichText

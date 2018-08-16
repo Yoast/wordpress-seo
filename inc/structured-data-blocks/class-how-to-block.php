@@ -101,7 +101,7 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 		);
 
 		if ( ! empty( $step['jsonContents'] ) ) {
-			$step_json_ld[ 'text' ] = $step['jsonContents'];
+			$step_json_ld['text'] = $step['jsonContents'];
 		}
 
 		if ( ! empty( $step['jsonImageSrc'] ) ) {

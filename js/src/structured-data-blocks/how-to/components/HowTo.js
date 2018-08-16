@@ -286,7 +286,16 @@ export default class HowTo extends Component {
 	static Content( props ) {
 		let { steps, title, hasDuration, hours, minutes, description, unorderedList, additionalListCssClasses, className } = props;
 
-		steps = steps ? steps.map( ( step ) => <HowToStep.Content { ...step } key={ step.id } /> ) : null;
+		steps = steps
+			? steps.map( ( step ) => {
+				return(
+					<HowToStep.Content
+						{ ...step }
+						key={ step.id }
+					/>
+				);
+			} )
+			: null;
 
 		const classNames = [ "schema-how-to", className ].filter( ( i ) => i ).join( " " );
 		const listClassNames = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( i ) => i ).join( " " );
