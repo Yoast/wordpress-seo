@@ -1,5 +1,7 @@
 /* global tinyMCE, require, YoastSEO */
 
+import CompatibilityHelper from "./compatibility/compatibilityHelper";
+
 var forEach = require( "lodash/forEach" );
 var isUndefined = require( "lodash/isUndefined" );
 var editorHasMarks = require( "./decorator/tinyMCE" ).editorHasMarks;
@@ -212,7 +214,14 @@ var termsTmceId = "description";
 		addEventHandler( tmceId, [ "input", "change", "cut", "paste" ], app.refresh.bind( app ) );
 
 		addEventHandler( tmceId, [ "hide" ], disableMarkerButtons );
-		addEventHandler( tmceId, [ "show" ], enableMarkerButtons );
+
+		let enableEvents = [ "show" ];
+		let compatibilityHelper = new CompatibilityHelper();
+		if ( ! compatibilityHelper.isPageBuilderActive() ) {
+			enableEvents.push( "init" );
+		}
+
+		addEventHandler( tmceId, enableEvents, enableMarkerButtons );
 
 		addEventHandler( "content", [ "focus" ], function( evt ) {
 			var editor = evt.target;

@@ -4,7 +4,7 @@
 import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
 import debounce from "lodash/debounce";
-import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components";
 import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
@@ -454,7 +454,8 @@ setWordPressSeoL10n();
 
 		// Set the initial snippet editor data.
 		editStore.dispatch( updateData( snippetEditorData ) );
-		editStore.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === "true" ) );
+		// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
+		editStore.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === "1" ) );
 
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = editStore.getState().focusKeyword;

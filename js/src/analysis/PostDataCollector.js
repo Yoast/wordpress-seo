@@ -5,7 +5,7 @@ import get from "lodash/get";
 import analysis from "yoastseo";
 const { measureTextWidth } = analysis.helpers;
 const { removeMarks } = analysis.markers;
-import { setOverallReadabilityScore, setOverallSeoScore } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import { setOverallReadabilityScore, setOverallSeoScore } from "yoast-components";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";

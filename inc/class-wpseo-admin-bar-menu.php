@@ -134,10 +134,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	protected function add_root_menu( WP_Admin_Bar $wp_admin_bar ) {
 		$title = $this->get_title();
 
-		$score        = '';
-		$settings_url = '';
-		$counter      = '';
-		$alert_popup  = '';
+		$score         = '';
+		$settings_url  = '';
+		$counter       = '';
+		$alert_popup   = '';
 
 		$post = $this->get_singular_post();
 		if ( $post ) {
@@ -172,8 +172,8 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'parent' => self::MENU_IDENTIFIER,
 				'id'     => 'wpseo-notifications',
 				'title'  => __( 'Notifications', 'wordpress-seo' ) . $counter,
-				'href'   => $settings_url,
-				'meta'   => array( 'tabindex' => ! empty( $settings_url ) ? false : '0' ),
+				'href'  => $settings_url,
+				'meta'  => array( 'tabindex' => ! empty( $settings_url ) ? false : '0' ),
 			) );
 		}
 

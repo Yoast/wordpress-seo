@@ -108,7 +108,7 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 		);
 		$message .= PHP_EOL . PHP_EOL;
 		$message .= sprintf(
-			/* translators: %1$s is the notification dismissal link start tag, %2$s is the link closing tag. */
+		/* translators: %1$s is the notification dismissal link start tag, %2$s is the link closing tag. */
 			__( '%1$sRemove this message%2$s', 'wordpress-seo' ),
 			'<a class="button" href="' . admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=' . $this->notification_identifier ) . '">',
 			'</a>'
