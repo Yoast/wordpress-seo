@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 
 import HowToStep from "./HowToStep";
@@ -8,7 +7,6 @@ const { __ } = window.wp.i18n;
 const { RichText, InspectorControls } = window.wp.editor;
 const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;
 const { Component, renderToString } = window.wp.element;
-const { Fragment } = window.wp.element;
 
 /**
  * A How-to block component.
@@ -65,7 +63,15 @@ export default class HowTo extends Component {
 			return;
 		}
 
-		steps[ index ].contents = newContents;
+		steps[ index ].contents     = newContents;
+		steps[ index ].jsonContents = stripHTML( renderToString( newContents ) );
+
+		let imageSrc = HowToStep.getImageSrc( newContents );
+
+		if ( imageSrc ) {
+			steps[ index ].jsonImageSrc = imageSrc;
+		}
+
 		this.props.setAttributes( { steps } );
 	}
 
@@ -212,19 +218,16 @@ export default class HowTo extends Component {
 					className="schema-how-to-duration-input"
 					type="number"
 					value={ attributes.hours }
-					min="0"
 					onFocus={ () => this.setFocus( "hours" ) }
-					onChange={ ( event ) => setAttributes( { hours: event.target.value } ) }
+					onChange={ ( event ) => setAttributes( { hours: Math.max( 0, event.target.value ) } ) }
 					placeholder="HH"/>
 				<span>:</span>
 				<input
 					className="schema-how-to-duration-input"
 					type="number"
-					min="0"
-					max="59"
 					value={ attributes.minutes }
 					onFocus={ () => this.setFocus( "minutes" ) }
-					onChange={ ( event ) => setAttributes( { minutes: event.target.value } ) }
+					onChange={ ( event ) => setAttributes( { minutes: Math.min( Math.max( 0, event.target.value ), 60 ) } ) }
 					placeholder="MM" />
 				<IconButton
 					className="schema-how-to-duration-button editor-inserter__toggle"
@@ -237,100 +240,46 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Serializes a How-to block into a JSON-LD representation.
-	 *
-	 * @param {object} attributes the attributes of the How-to block.
-	 *
-	 * @returns {object} the JSON-LD representation of this How-to block.
-	 */
-	static toJSONLD( attributes ) {
-		let jsonLD = {
-			"@context": "http://schema.org",
-			"@type": "HowTo",
-			name: stripHTML( renderToString( attributes.title ) ),
-		};
-
-		if( attributes.hasDuration ) {
-			jsonLD.totalTime = `PT${ attributes.hours || 0 }H${ attributes.minutes || 0 }M`;
-		}
-		if( attributes.description && attributes.description.length > 0 ) {
-			jsonLD.description = stripHTML( renderToString( attributes.description ) );
-		}
-		if( attributes.steps && attributes.steps.length > 0 ) {
-			jsonLD.step = attributes.steps.map( ( step, index ) => HowToStep.toJSONLD( step, index ) );
-		}
-
-		return jsonLD;
-	}
-
-	/**
-	 * Renders a JSON-LD representation of this How-to block.
-	 *
-	 * @param {object} attributes the attributes of the How-to block.
-	 *
-	 * @returns {Component} the JSON-LD representation, wrapped in a script tag of type "application/ld+json".
-	 */
-	static renderJSONLD( attributes ) {
-		let stringified = JSON.stringify( this.toJSONLD( attributes ), null, 3 );
-
-		/*
-		 * Gutenberg uses a slightly different JSON stringifier,
-		 * Combined with the fact that Gutenberg compares the stringified JSONs
-		 * By replacing all subsequent whitespaces with one space means that
-		 * Everything breaks when encountering "[ {" instead of "[{" etc.
-		 */
-		stringified = stringified.replace( /\[[\s]+\{/g, "[{" );
-
-		return <script type="application/ld+json">{ stringified }</script>;
-	}
-
-
-	/**
 	 * Returns the component to be used to render
 	 * the How-to block on Wordpress (e.g. not in the editor).
 	 *
-	 * @param {object} attributes the attributes of the How-to block
+	 * @param {object} props the attributes of the How-to block.
 	 *
-	 * @returns {Component} the component representing a How-to block
+	 * @returns {Component} The component representing a How-to block.
 	 */
-	static getContent( attributes ) {
-		let { steps, title, hours, minutes, description, unorderedList, className, additionalListCssClasses } = attributes;
+	static Content( props ) {
+		let { steps, title, hasDuration, hours, minutes, description, unorderedList, additionalListCssClasses, className } = props;
 
-		steps = steps ? steps.map( ( step ) =>
-			HowToStep.getContent( step )
-		) : null;
+		steps = steps ? steps.map( ( step ) => <HowToStep.Content { ...step }/> ) : null;
 
 		const classNames = [ "schema-how-to", className ].filter( ( i ) => i ).join( " " );
 		const listClassNames = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( i ) => i ).join( " " );
 
 		return (
-			<Fragment>
-				{ this.renderJSONLD( attributes ) }
-				<div className={ classNames }>
-					<RichText.Content
-						tagName="h2"
-						className="schema-how-to-title"
-						value={ title }
-						id={ stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
-					/>
-					{ ( attributes.hasDuration ) &&
-						<p className="schema-how-to-total-time">
-							{ __( "Total time:", "wordpress-seo" ) }
-							&nbsp;
-							{ hours || 0 }:{ ( "00" + ( minutes || 0 ) ).slice( -2 ) }
-						</p>
-					}
-					<RichText.Content
-						tagName="p"
-						className="schema-how-to-description"
-						value={ description }
-					/>
-					{ unorderedList
-						? <ul className={ listClassNames }>{ steps }</ul>
-						: <ol className={ listClassNames }>{ steps }</ol>
-					}
-				</div>
-			</Fragment>
+			<div className={ classNames }>
+				<RichText.Content
+					tagName="h2"
+					className="schema-how-to-title"
+					value={ title }
+					id={ stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
+				/>
+				{ ( hasDuration ) &&
+					<p className="schema-how-to-total-time">
+						{ __( "Total time:", "wordpress-seo" ) }
+						&nbsp;
+						{ hours || 0 }:{ ( "00" + ( minutes || 0 ) ).slice( -2 ) }
+					</p>
+				}
+				<RichText.Content
+					tagName="p"
+					className="schema-how-to-description"
+					value={ description }
+				/>
+				{ unorderedList
+					? <ul className={ listClassNames }>{ steps }</ul>
+					: <ol className={ listClassNames }>{ steps }</ol>
+				}
+			</div>
 		);
 	}
 
@@ -427,7 +376,7 @@ export default class HowTo extends Component {
 					value={ attributes.title }
 					isSelected={ this.state.focus === "title" }
 					setFocusedElement={ () => this.setFocus( "title" ) }
-					onChange={ ( title ) => setAttributes( { title } ) }
+					onChange={ ( title ) => setAttributes( { title, jsonTitle: stripHTML( renderToString( title ) ) } ) }
 					onSetup={ ( ref ) => {
 						this.editorRefs.title = ref;
 					} }
@@ -441,7 +390,7 @@ export default class HowTo extends Component {
 					value={ attributes.description }
 					isSelected={ this.state.focus === "description" }
 					setFocusedElement={ () => this.setFocus( "description" ) }
-					onChange={ ( description ) => setAttributes( { description } ) }
+					onChange={ ( description ) => setAttributes( { description, jsonDescription: stripHTML( renderToString( description ) ) } ) }
 					onSetup={ ( ref ) => {
 						this.editorRefs.description = ref;
 					} }
