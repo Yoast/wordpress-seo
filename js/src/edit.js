@@ -9,6 +9,7 @@ import { combineReducers, registerStore } from "@wordpress/data";
 import get from "lodash/get";
 import values from "lodash/values";
 import pickBy from "lodash/pickBy";
+import noop from "lodash/noop";
 
 /* Internal dependencies */
 import Data from "./analysis/data.js";
@@ -97,9 +98,9 @@ class Edit {
 			return;
 		}
 
-		const addFilter = get( window, "wp.hooks.addFilter" );
+		const addFilter = get( window, "wp.hooks.addFilter", noop );
 
-		const taxonomies = get( window.wpseoPrimaryCategoryL10n, "taxonomies" );
+		const taxonomies = get( window.wpseoPrimaryCategoryL10n, "taxonomies", {} );
 
 		const primaryTaxonomies = values( taxonomies ).map(
 			taxonomy => taxonomy.name
@@ -109,6 +110,15 @@ class Edit {
 			"editor.PostTaxonomyType",
 			PLUGIN_NAMESPACE,
 			OriginalComponent => {
+				/**
+				 * A component that renders the PrimaryTaxonomyPicker under Gutenberg's
+				 * taxonomy picker if the taxonomy has primary term enabled.
+				 *
+				 * @param {Object} props      The component's props.
+				 * @param {string} props.slug The taxonomy's slug.
+				 *
+				 * @returns {ReactElement} Rendered TaxonomySelectorFilter component.
+				 */
 				const TaxonomySelectorFilter = props => {
 					if ( ! primaryTaxonomies.includes( props.slug ) ) {
 						return <OriginalComponent { ...props } />;
