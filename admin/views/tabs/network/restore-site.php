@@ -23,7 +23,7 @@ if ( get_blog_count() <= 100 ) {
 	$yform->select(
 		'site_id',
 		__( 'Site ID', 'wordpress-seo' ),
-		$network_admin->get_site_choices()
+		$network_admin->get_site_choices( false, true )
 	);
 }
 else {
