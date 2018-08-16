@@ -65,7 +65,7 @@ export default class HowToStep extends Component {
 				className="schema-how-to-step-button editor-inserter__toggle"
 				icon="insert"
 				label={ __( "Insert step", "wordpress-seo" ) }
-				onClick={ insertStep }
+				onClick={ () => insertStep() }
 			>
 			</IconButton>
 		</div>;
@@ -207,13 +207,16 @@ export default class HowToStep extends Component {
 			onFocus,
 			isSelected,
 			editorRef,
+			isUnorderedList,
 		} = this.props;
 
 		let { id, contents } = step;
 
 		return (
 			<li className="schema-how-to-step" onFocus={ onFocus } >
-				<span className="schema-how-to-step-number">{ index + 1 }.</span>
+				{ ! isUnorderedList &&
+					<span className="schema-how-to-step-number">{ index + 1 }.</span>
+				}
 				<RichText
 					onSetup={ editorRef }
 					key={ id }

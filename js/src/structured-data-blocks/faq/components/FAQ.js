@@ -110,7 +110,13 @@ export default class FAQ extends Component {
 			lastIndex--;
 		}
 
-		questions.splice( index + 1, 0, { id: FAQ.generateId( "faq-question" ), question, answer } );
+		questions.splice( index + 1, 0, {
+			id: FAQ.generateId( "faq-question" ),
+			question,
+			answer,
+			jsonQuestion: "",
+			jsonAnswer: "",
+		} );
 
 		this.props.setAttributes( { questions } );
 
@@ -168,7 +174,7 @@ export default class FAQ extends Component {
 		delete this.editorRefs[ `${ index }:answer` ];
 
 		let nextIndex = index + 1;
-		while ( this.editorRefs[ `${ nextIndex }:question`] || this.editorRefs[ `${ nextIndex }:answer`] ) {
+		while ( this.editorRefs[ `${ nextIndex }:question` ] || this.editorRefs[ `${ nextIndex }:answer` ] ) {
 			this.editorRefs[ `${ nextIndex - 1 }:question` ] = this.editorRefs[ `${ nextIndex }:question` ];
 			this.editorRefs[ `${ nextIndex - 1 }:answer` ] = this.editorRefs[ `${ nextIndex }:answer` ];
 			nextIndex++;

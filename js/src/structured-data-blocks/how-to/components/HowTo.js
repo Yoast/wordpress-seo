@@ -59,7 +59,6 @@ export default class HowTo extends Component {
 	 */
 	changeStep( newContents, index ) {
 		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
-
 		if ( index >= steps.length ) {
 			return;
 		}
@@ -92,7 +91,13 @@ export default class HowTo extends Component {
 			index = steps.length - 1;
 		}
 
-		steps.splice( index + 1, 0, { id: HowTo.generateId( "how-to-step" ), contents } );
+		let lastIndex = steps.length - 1;
+		while ( lastIndex > index ) {
+			this.editorRefs[ lastIndex + 1 ] = this.editorRefs[ lastIndex ];
+			lastIndex--;
+		}
+
+		steps.splice( index + 1, 0, { id: HowTo.generateId( "how-to-step" ), contents, jsonContents: stripHTML( renderToString( contents ) ) } );
 		this.props.setAttributes( { steps } );
 
 		if ( focus ) {
@@ -137,8 +142,20 @@ export default class HowTo extends Component {
 	 */
 	removeStep( index ) {
 		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
+
 		steps.splice( index, 1 );
 		this.props.setAttributes( { steps } );
+
+		delete this.editorRefs[ index ];
+
+		let nextIndex = index + 1;
+		while ( this.editorRefs[ nextIndex ] ) {
+			this.editorRefs[ nextIndex - 1 ] = this.editorRefs[ nextIndex ];
+			nextIndex++;
+		}
+
+		delete this.editorRefs[ steps.length ];
+
 		if ( index > 0 ) {
 			this.setFocus( index - 1 );
 		} else {
@@ -171,24 +188,27 @@ export default class HowTo extends Component {
 			return null;
 		}
 
-		return this.props.attributes.steps.map( ( step, index ) =>
-			<HowToStep
-				key={ step.id }
-				step={ step }
-				index={ index }
-				editorRef={ ( ref ) => {
-					this.editorRefs[ index ] = ref;
-				} }
-				onChange={ ( newStepContents ) => this.changeStep( newStepContents, index ) }
-				insertStep={ ( contents ) => this.insertStep( index, contents ) }
-				removeStep={ () => this.removeStep( index ) }
-				onFocus={ () => this.setFocus( index ) }
-				onMoveUp={ () => this.swapSteps( index, index - 1 ) }
-				onMoveDown={ () => this.swapSteps( index, index + 1 ) }
-				isFirst={ index === 0 }
-				isLast={ index === this.props.attributes.steps.length - 1 }
-				isSelected={ this.state.focus === index }
-			/>
+		return this.props.attributes.steps.map( ( step, index ) => {
+			return (
+				<HowToStep
+					key={ step.id }
+					step={ step }
+					index={ index }
+					editorRef={ ( ref ) => {
+						this.editorRefs[ index ] = ref;
+					} }
+					onChange={ ( newStepContents ) => this.changeStep( newStepContents, index ) }
+					insertStep={ ( contents ) => this.insertStep( index, contents ) }
+					removeStep={ () => this.removeStep( index ) }
+					onFocus={ () => this.setFocus( index ) }
+					onMoveUp={ () => this.swapSteps( index, index - 1 ) }
+					onMoveDown={ () => this.swapSteps( index, index + 1 ) }
+					isFirst={ index === 0 }
+					isLast={ index === this.props.attributes.steps.length - 1 }
+					isSelected={ this.state.focus === index }
+					isUnorderedList={ this.props.attributes.unorderedList }
+				/>
+			); }
 		);
 	}
 
@@ -251,7 +271,7 @@ export default class HowTo extends Component {
 	static Content( props ) {
 		let { steps, title, hasDuration, hours, minutes, description, unorderedList, additionalListCssClasses, className } = props;
 
-		steps = steps ? steps.map( ( step ) => <HowToStep.Content { ...step }/> ) : null;
+		steps = steps ? steps.map( ( step ) => <HowToStep.Content { ...step } key={ step.id } /> ) : null;
 
 		const classNames = [ "schema-how-to", className ].filter( ( i ) => i ).join( " " );
 		const listClassNames = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( i ) => i ).join( " " );
