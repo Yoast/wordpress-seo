@@ -38,6 +38,7 @@ export const icons = {
 	] },
 	"times": { viewbox: DEFAULT_VIEWBOX, path: "M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z" },
 	"times-circle": { viewbox: "0 0 20 20", path: "M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8 3.58-8 8-8zm5 11l-3-3 3-3-2-2-3 3-3-3-2 2 3 3-3 3 2 2 3-3 3 3z" },
+	"loading-spinner": { viewbox: "0 0 66 66", path: [ <circle key="5" className="path" fill="none" strokeWidth="6" strokeLinecap="round" cx="33" cy="33" r="30" /> ] },
 };
 /* eslint-enable */
 
