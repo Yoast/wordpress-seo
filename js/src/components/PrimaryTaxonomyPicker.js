@@ -51,10 +51,11 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * Handle prop changes when needed.
 	 *
 	 * @param {Object} prevProps The previous props.
+	 * @param {Object} prevState The previous state.
 	 *
 	 * @returns {void}
 	 */
-	componentDidUpdate( prevProps ) {
+	componentDidUpdate( prevProps, prevState ) {
 		// Check if a term has been added and retrieve new terms if so.
 		if ( prevProps.selectedTermIds.length < this.props.selectedTermIds.length ) {
 			const newId = diff( this.props.selectedTermIds, prevProps.selectedTermIds )[ 0 ];
@@ -66,6 +67,27 @@ class PrimaryTaxonomyPicker extends React.Component {
 		// Check if the selected terms have changed.
 		if ( prevProps.selectedTermIds !== this.props.selectedTermIds ) {
 			this.updateSelectedTerms( this.state.terms, this.props.selectedTermIds );
+		}
+		// Handle terms change.
+		if ( prevState.selectedTerms !== this.state.selectedTerms ) {
+			this.handleSelectedTermsChange();
+		}
+	}
+
+	/**
+	 * Checks if the current value still has a corresponding option, and if not changes
+	 * the value to the first term's id.
+	 *
+	 * @returns {void}
+	 */
+	handleSelectedTermsChange() {
+		const { selectedTerms } = this.state;
+		const { primaryTaxonomyId } = this.props;
+		const selectedTerm = selectedTerms.find( term => {
+			return term.id === primaryTaxonomyId;
+		} );
+		if ( ! selectedTerm ) {
+			this.onChange( selectedTerms.length ? selectedTerms[ 0 ].id : -1 );
 		}
 	}
 
@@ -105,7 +127,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 				selectedTerms: this.getSelectedTerms( terms, this.props.selectedTermIds ),
 			}, () => {
 				if ( oldState.terms.length === 0 && this.state.terms.length > 0 ) {
-					this.updateReplacementVariable( this.props.primaryTaxonomy );
+					this.updateReplacementVariable( this.props.primaryTaxonomyId );
 				}
 			} );
 		} );
@@ -189,15 +211,15 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 */
 	render() {
 		const {
-			primaryTaxonomy,
+			primaryTaxonomyId,
 			taxonomy,
 		} = this.props;
-
-		const fieldId = `yoast-primary-${ taxonomy.name }-picker`;
 
 		if ( this.state.selectedTerms.length < 2 ) {
 			return null;
 		}
+
+		const fieldId = `yoast-primary-${ taxonomy.name }-picker`;
 
 		return (
 			<div className="components-base-control__field">
@@ -213,7 +235,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 					}
 				</PrimaryTaxonomyPickerLabel>
 				<TaxonomyPicker
-					value={ primaryTaxonomy }
+					value={ primaryTaxonomyId }
 					onChange={ this.onChange }
 					id={ fieldId }
 					terms={ this.state.selectedTerms }/>
@@ -224,7 +246,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 
 PrimaryTaxonomyPicker.propTypes = {
 	selectedTermIds: PropTypes.arrayOf( PropTypes.number ),
-	primaryTaxonomy: PropTypes.string,
+	primaryTaxonomyId: PropTypes.number,
 	setPrimaryTaxonomyId: PropTypes.func,
 	updateReplacementVariable: PropTypes.func,
 	receiveEntityRecords: PropTypes.func,
@@ -247,7 +269,7 @@ export default compose( [
 
 		return {
 			selectedTermIds,
-			primaryTaxonomy: yoastData.getPrimaryTaxonomyId( taxonomy.name ),
+			primaryTaxonomyId: yoastData.getPrimaryTaxonomyId( taxonomy.name ),
 		};
 	} ),
 	withDispatch( dispatch => {
