@@ -72,6 +72,22 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c0 {
   background-color: #fff;
 }
@@ -106,22 +122,6 @@ exports[`Collapsible matches the snapshot by default 1`] = `
 
 .c2 svg:last-child {
   margin-left: 8px;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 
 .c1 {
@@ -161,6 +161,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
     >
       <span
         className="c9"
+        onClick={[Function]}
       >
         <span
           className="c10"
@@ -259,6 +260,22 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c0 {
   background-color: #fff;
 }
@@ -293,22 +310,6 @@ exports[`Collapsible matches the snapshot by default 2`] = `
 
 .c2 svg:last-child {
   margin-left: 8px;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 
 .c1 {
@@ -348,6 +349,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
     >
       <span
         className="c9"
+        onClick={[Function]}
       >
         <span
           className="c10"
@@ -458,6 +460,22 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c0 {
   background-color: #fff;
 }
@@ -492,22 +510,6 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
 
 .c2 svg:last-child {
   margin-left: 8px;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 
 .c1 {
@@ -547,6 +549,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
     >
       <span
         className="c9"
+        onClick={[Function]}
       >
         <span
           className="c10"
@@ -645,6 +648,22 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c0 {
   background-color: #fff;
 }
@@ -679,22 +698,6 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
 
 .c2 svg:last-child {
   margin-left: 8px;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 
 .c1 {
@@ -734,6 +737,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
     >
       <span
         className="c9"
+        onClick={[Function]}
       >
         <span
           className="c10"
@@ -844,6 +848,22 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c0 {
   background-color: #fff;
 }
@@ -878,22 +898,6 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
 
 .c2 svg:last-child {
   margin-left: 8px;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 
 .c1 {
@@ -933,6 +937,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
     >
       <span
         className="c9"
+        onClick={[Function]}
       >
         <span
           className="c10"
@@ -1043,6 +1048,22 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c0 {
   background-color: #fff;
 }
@@ -1077,22 +1098,6 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
 
 .c2 svg:last-child {
   margin-left: 8px;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 
 .c1 {
@@ -1132,6 +1137,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
     >
       <span
         className="c9"
+        onClick={[Function]}
       >
         <span
           className="c10"
@@ -1230,6 +1236,22 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c0 {
   background-color: #fff;
 }
@@ -1266,22 +1288,6 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   margin-left: 8px;
 }
 
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-}
-
 .c1 {
   margin: 0 !important;
   padding: 0 !important;
@@ -1311,6 +1317,7 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
     >
       <span
         className="c9"
+        onClick={[Function]}
       >
         <span
           className="c10"
@@ -1407,6 +1414,22 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c0 {
   background-color: #fff;
 }
@@ -1443,22 +1466,6 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   margin-left: 8px;
 }
 
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-}
-
 .c1 {
   margin: 0 !important;
   padding: 0 !important;
@@ -1488,6 +1495,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
     >
       <span
         className="c9"
+        onClick={[Function]}
       >
         <span
           className="c10"
@@ -1584,6 +1592,22 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c0 {
   background-color: #fff;
 }
@@ -1620,22 +1644,6 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   margin-left: 8px;
 }
 
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-}
-
 .c1 {
   margin: 0 !important;
   padding: 0 !important;
@@ -1665,6 +1673,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
     >
       <span
         className="c9"
+        onClick={[Function]}
       >
         <span
           className="c10"
@@ -1761,6 +1770,22 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c10 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c11 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c0 {
   background-color: #fff;
 }
@@ -1795,22 +1820,6 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
 
 .c2 svg:last-child {
   margin-left: 8px;
-}
-
-.c10 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c11 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 
 .c1 {
@@ -1864,6 +1873,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
       </svg>
       <span
         className="c10"
+        onClick={[Function]}
       >
         <span
           className="c11"

@@ -11,6 +11,7 @@ import { default as AlgoliaSearcher } from "./composites/AlgoliaSearch/AlgoliaSe
 // Composites/Plugin imports.
 import { default as ScoreAssessments } from "./composites/Plugin/Shared/components/ScoreAssessments";
 import { default as Collapsible } from "./composites/Plugin/Shared/components/Collapsible";
+import { default as ButtonSection } from "./composites/Plugin/Shared/components/ButtonSection";
 import { default as LanguageNotice } from "./composites/Plugin/Shared/components/LanguageNotice";
 import { default as YoastButton } from "./composites/Plugin/Shared/components/YoastButton";
 import { default as YoastModal } from "./composites/Plugin/Shared/components/YoastModal";
@@ -36,6 +37,7 @@ export {
 	LanguageNotice,
 	ContentAnalysis,
 	Collapsible,
+	ButtonSection,
 	LoadingIndicator,
 	ScoreAssessments,
 	YoastButton,
