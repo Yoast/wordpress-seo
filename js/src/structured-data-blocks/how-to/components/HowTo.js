@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import HowToStep from "./HowToStep";
 import { stripHTML } from "../../../helpers/stringHelpers";
 import isUndefined from "lodash/isUndefined";
+import moment from "moment";
 
 const { __ } = window.wp.i18n;
 const { RichText, InspectorControls } = window.wp.editor;
