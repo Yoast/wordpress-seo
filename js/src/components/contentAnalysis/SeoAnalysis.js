@@ -147,13 +147,16 @@ class SeoAnalysis extends React.Component {
 			link    = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_additional_link" ];
 			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_additional_button" ];
 		}
-
+		
 		return(
 			<Modal { ...modalProps }>
 				<StyledContainer>
 					<StyledIcon icon={ YoastSeoIcon } />
 					<h2>{ __( "Would you like to add another keyword?", "wordpress-seo" ) }</h2>
-					<MultipleKeywords link={link} buyLink={buyLink} />
+					<MultipleKeywords
+						link={link}
+						buyLink={buyLink}
+					/>
 				</StyledContainer>
 			</Modal>
 		);
@@ -246,13 +249,6 @@ SeoAnalysis.propTypes = {
 	hideMarksButtons: PropTypes.bool,
 	keyword: PropTypes.string,
 	onFocusKeywordChange: PropTypes.func,
-	keywordUpsell: PropTypes.shape( {
-		benefits: PropTypes.array,
-		infoParagraphs: PropTypes.array,
-		buttonLink: PropTypes.string,
-		buttonText: PropTypes.string,
-		buttonLabel: PropTypes.string,
-	} ),
 	shouldUpsell:	PropTypes.bool,
 	overallScore: PropTypes.number,
 	location: PropTypes.string,

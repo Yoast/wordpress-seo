@@ -7,7 +7,6 @@ import { Fill } from "@wordpress/components";
 
 import SidebarItem from "./SidebarItem";
 import SnippetEditor from "../containers/SnippetEditor";
-import keywordUpsellProps from "../values/keywordUpsellProps";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
@@ -44,7 +43,6 @@ export default function Metabox( { settings, store, theme } ) {
 						<StoreProvider store={ store }>
 							<SeoAnalysis
 								shouldUpsell={ settings.shouldUpsell }
-								keywordUpsell={ keywordUpsellProps }
 								location="metabox"
 							/>
 						</StoreProvider>

@@ -8,7 +8,6 @@ import { Fill } from "@wordpress/components";
 import SidebarItem from "./SidebarItem";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
-import keywordUpsellProps from "../values/keywordUpsellProps";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 
 /**
@@ -38,7 +37,6 @@ export default function Sidebar( { settings, store, theme } ) {
 						<StoreProvider store={ store }>
 							<SeoAnalysis
 								shouldUpsell={ settings.shouldUpsell }
-								keywordUpsell={ keywordUpsellProps }
 								location="sidebar"
 							/>
 						</StoreProvider>
