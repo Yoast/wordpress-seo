@@ -39,9 +39,9 @@ export default class FAQ extends Component {
 	/**
 	 * Generates a pseudo-unique" id.
 	 *
-	 * @param {string} prefix an (optional) prefix to use.
+	 * @param {string} prefix An (optional) prefix to use.
 	 *
-	 * @returns {string} a pseudo-unique string, consisting of the optional prefix + the curent time in milliseconds.
+	 * @returns {string} A pseudo-unique string, consisting of the optional prefix + the curent time in milliseconds.
 	 */
 	static generateId( prefix ) {
 		return `${ prefix }-${ new Date().getTime() }`;
@@ -50,22 +50,22 @@ export default class FAQ extends Component {
 	/**
 	 * Replaces the FAQ Question with the given index.
 	 *
-	 * @param {array|string} newQuestion  The new contents of the question.
-	 * @param {array|string} newAnswer    The new contents of the answer to this question.
-	 * @param {array}        prevQuestion The old question.
-	 * @param {array}        prevAnswer   The old answer.
-	 * @param {number}       index        The index of the Question that needs to be changed.
+	 * @param {array|string} newQuestion      The new contents of the question.
+	 * @param {array|string} newAnswer        The new contents of the answer to this question.
+	 * @param {array}        previousQuestion The old question.
+	 * @param {array}        previousAnswer   The old answer.
+	 * @param {number}       index            The index of the question that needs to be changed.
 	 *
 	 * @returns {void}
 	 */
-	changeQuestion( newQuestion, newAnswer, prevQuestion, prevAnswer, index ) {
+	changeQuestion( newQuestion, newAnswer, previousQuestion, previousAnswer, index ) {
 		let questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
 
 		if ( index >= questions.length ) {
 			return;
 		}
 
-		if ( questions[ index ].question !== prevQuestion || questions[ index ].answer !== prevAnswer ) {
+		if ( questions[ index ].question !== previousQuestion || questions[ index ].answer !== previousAnswer ) {
 			return;
 		}
 
@@ -78,7 +78,6 @@ export default class FAQ extends Component {
 		};
 
 		let imageSrc = Question.getImageSrc( newAnswer );
-
 		if ( imageSrc ) {
 			questions[ index ].jsonImageSrc = imageSrc;
 		}
@@ -91,7 +90,7 @@ export default class FAQ extends Component {
 	 *
 	 * @param {number}       [index]      The index of the Question after which a new Question should be added.
 	 * @param {array|string} [question]   The question of the new Question.
-	 * @param {array|string} [answer]   The answer of the new Question.
+	 * @param {array|string} [answer]     The answer of the new Question.
 	 * @param {bool}         [focus=true] Whether or not to focus the new Question.
 	 *
 	 * @returns {void}
@@ -128,8 +127,8 @@ export default class FAQ extends Component {
 	/**
 	 * Swaps two questions in the FAQ block.
 	 *
-	 * @param {number} index1 The index of the first block.
-	 * @param {number} index2 The index of the second block.
+	 * @param {number} index1 The index of the first question.
+	 * @param {number} index2 The index of the second question.
 	 *
 	 * @returns {void}
 	 */
@@ -160,7 +159,7 @@ export default class FAQ extends Component {
 	/**
 	 * Removes a Question from a FAQ block.
 	 *
-	 * @param {number} index the index of the Question that needs to be removed.
+	 * @param {number} index The index of the Question that needs to be removed.
 	 *
 	 * @returns {void}
 	 */
@@ -184,37 +183,38 @@ export default class FAQ extends Component {
 		delete this.editorRefs[ `${ deletedIndex }:question` ];
 		delete this.editorRefs[ `${ deletedIndex }:answer` ];
 
+		let fieldToFocus = "title";
 		if ( this.editorRefs[ `${ index }:question` ] ) {
-			this.setFocus( `${ index }:question` );
+			fieldToFocus = `${ index }:question`;
 		} else if ( this.editorRefs[ `${ index - 1 }:answer` ] ) {
-			this.setFocus( `${ index - 1 }:answer` );
-		} else {
-			this.setFocus( "title" );
+			fieldToFocus = `${ index - 1 }:answer`;
 		}
+
+		this.setFocus( fieldToFocus );
 	}
 	/**
 	 * Sets the focus to a specific QA pair in the FAQ block.
 	 *
-	 * @param {number|string} focus the element to focus, either the index of the Question that should be in focus or name of the input.
+	 * @param {number|string} elementToFocus The element to focus, either the index of the Question that should be in focus or name of the input.
 	 *
 	 * @returns {void}
 	 */
-	setFocus( focus ) {
-		if( focus === this.state.focus ) {
+	setFocus( elementToFocus ) {
+		if ( elementToFocus === this.state.focus ) {
 			return;
 		}
 
-		this.setState( { focus } );
+		this.setState( { focus: elementToFocus } );
 
-		if ( this.editorRefs[ focus ] ) {
-			this.editorRefs[ focus ].focus();
+		if ( this.editorRefs[ elementToFocus ] ) {
+			this.editorRefs[ elementToFocus ].focus();
 		}
 	}
 
 	/**
-	 * A button to add a step to the front of the list.
+	 * Retrieves a button to add a step to the front of the list.
 	 *
-	 * @returns {Component} a button to add a step
+	 * @returns {Component} The button for adding add a step.
 	 */
 	getAddQuestionButton() {
 		return (
@@ -228,6 +228,11 @@ export default class FAQ extends Component {
 		);
 	}
 
+	/**
+	 * Retrieves a list of questions.
+	 *
+	 * @returns {array} List of questions.
+	 */
 	getQuestions() {
 		let { attributes } = this.props;
 
@@ -249,7 +254,10 @@ export default class FAQ extends Component {
 							editorRef={ ( part, ref ) => {
 								this.editorRefs[ `${ index }:${ part }` ] = ref;
 							} }
-							onChange={ ( question, answer, prevQuestion, prevAnswer ) => this.changeQuestion( question, answer, prevQuestion, prevAnswer, index ) }
+							onChange={
+								( question, answer, prevQuestion, prevAnswer ) =>
+									this.changeQuestion( question, answer, prevQuestion, prevAnswer, index )
+							}
 							onFocus={ ( part ) => this.setFocus( `${ index }:${ part }` ) }
 							isSelected={ focusIndex === `${ index }` }
 							focusPart={ focusPart }
@@ -268,10 +276,9 @@ export default class FAQ extends Component {
 	 * Returns the component to be used to render
 	 * the FAQ block on Wordpress (e.g. not in the editor).
 	 *
-	 * @param {object} attributes the attributes of the FAQ block
-	 * @param {string} className  the class to apply to the root component.
+	 * @param {object} attributes The attributes of the FAQ block.
 	 *
-	 * @returns {Component} the component representing a FAQ block
+	 * @returns {Component} The component representing a FAQ block.
 	 */
 	static Content( attributes ) {
 		let { title, questions, className } = attributes;

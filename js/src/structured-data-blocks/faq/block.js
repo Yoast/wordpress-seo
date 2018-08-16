@@ -7,7 +7,6 @@ const { registerBlockType } = window.wp.blocks;
 
 export default () => {
 	registerBlockType( "yoast/faq-block", {
-		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __( "FAQ", "wordpress-seo" ),
 		icon: "editor-ul",
 		category: "yoast-structured-data-blocks",

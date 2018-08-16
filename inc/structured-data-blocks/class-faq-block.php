@@ -35,6 +35,10 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	 * @return string The block preceded by it's JSON LD script.
 	 */
 	public function render( $attributes, $content ) {
+		if ( ! is_array( $attributes ) ) {
+			return $content;
+		}
+
 		$json_ld = $this->get_json_ld( $attributes );
 
 		return '<script type="application/ld+json">' . wp_json_encode( $json_ld ) . '</script>' . $content;
@@ -107,7 +111,7 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 				'text'  => $question['jsonAnswer'],
 			);
 
-			if( ! empty( $question['jsonImageSrc'] ) ) {
+			if ( ! empty( $question['jsonImageSrc'] ) ) {
 				$json_ld['acceptedAnswer']['associatedMedia'] = array(
 					'@type'      => 'ImageObject',
 					'contentUrl' => $question['jsonImageSrc'],

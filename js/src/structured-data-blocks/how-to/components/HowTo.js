@@ -103,7 +103,16 @@ export default class HowTo extends Component {
 			lastIndex--;
 		}
 
-		steps.splice( index + 1, 0, { id: HowTo.generateId( "how-to-step" ), contents, jsonContents: stripHTML( renderToString( contents ) ) } );
+		steps.splice(
+			index + 1,
+			0,
+			{
+				id: HowTo.generateId( "how-to-step" ),
+				contents,
+				jsonContents: stripHTML( renderToString( contents ) ),
+			}
+		);
+
 		this.props.setAttributes( { steps } );
 
 		if ( focus ) {
@@ -270,14 +279,23 @@ export default class HowTo extends Component {
 	 * Returns the component to be used to render
 	 * the How-to block on Wordpress (e.g. not in the editor).
 	 *
-	 * @param {object} props the attributes of the How-to block
+	 * @param {object} props the attributes of the How-to block.
 	 *
-	 * @returns {Component} the component representing a How-to block
+	 * @returns {Component} The component representing a How-to block.
 	 */
 	static Content( props ) {
 		let { steps, title, hasDuration, hours, minutes, description, unorderedList, additionalListCssClasses, className } = props;
 
-		steps = steps ? steps.map( ( step ) => <HowToStep.Content { ...step } key={ step.id } /> ) : null;
+		steps = steps
+			? steps.map( ( step ) => {
+				return(
+					<HowToStep.Content
+						{ ...step }
+						key={ step.id }
+					/>
+				);
+			} )
+			: null;
 
 		const classNames = [ "schema-how-to", className ].filter( ( i ) => i ).join( " " );
 		const listClassNames = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( i ) => i ).join( " " );

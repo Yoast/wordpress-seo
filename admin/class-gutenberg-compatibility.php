@@ -18,7 +18,7 @@ class WPSEO_Gutenberg_Compatibility {
 	/**
 	 * The minimally supported version of Gutenberg by the plugin.
 	 */
-	const MINIMUM_SUPPORTED = '3.4.0';
+	const MINIMUM_SUPPORTED = '3.5.0';
 
 	/**
 	 * @var string

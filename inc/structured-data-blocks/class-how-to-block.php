@@ -76,10 +76,9 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 
 		if ( ! empty( $attributes['steps'] ) && is_array( $attributes['steps'] ) ) {
 			$json_ld['step'] = array();
-			foreach ( $attributes['steps'] as $index => $step ) {
-				if ( is_array( $step ) ) {
-					$json_ld['step'][] = $this->get_step_json_ld( $step, $index );
-				}
+			$steps = array_filter( $attributes['steps'], 'is_array' );
+			foreach ( $steps as $index => $step ) {
+				$json_ld['step'][] = $this->get_step_json_ld( $step, $index );
 			}
 		}
 
@@ -101,7 +100,7 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 		);
 
 		if ( ! empty( $step['jsonContents'] ) ) {
-			$step_json_ld[ 'text' ] = $step['jsonContents'];
+			$step_json_ld['text'] = $step['jsonContents'];
 		}
 
 		if ( ! empty( $step['jsonImageSrc'] ) ) {

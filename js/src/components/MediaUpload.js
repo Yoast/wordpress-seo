@@ -3,7 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
-import { localize } from "yoast-components/utils/i18n";
+import { localize } from "yoast-components";
 
 /**
  * @summary Media upload component.
