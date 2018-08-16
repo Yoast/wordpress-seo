@@ -52,14 +52,20 @@ export default class HowTo extends Component {
 	/**
 	 * Replaces the How-to step with the given index.
 	 *
-	 * @param {array|string} newContents The new contents of the step.
-	 * @param {number}       index       The index of the step that needs to be replaced.
+	 * @param {array|string} newContents  The new contents of the step.
+	 * @param {array|string} prevContents The previous contents of the step.
+	 * @param {number}       index        The index of the step that needs to be replaced.
 	 *
 	 * @returns {void}
 	 */
-	changeStep( newContents, index ) {
+	changeStep( newContents, prevContents, index ) {
 		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
+
 		if ( index >= steps.length ) {
+			return;
+		}
+
+		if ( prevContents !== steps[ index ].contents ) {
 			return;
 		}
 
@@ -197,7 +203,7 @@ export default class HowTo extends Component {
 					editorRef={ ( ref ) => {
 						this.editorRefs[ index ] = ref;
 					} }
-					onChange={ ( newStepContents ) => this.changeStep( newStepContents, index ) }
+					onChange={ ( newStepContents ) => this.changeStep( newStepContents, step.contents, index ) }
 					insertStep={ ( contents ) => this.insertStep( index, contents ) }
 					removeStep={ () => this.removeStep( index ) }
 					onFocus={ () => this.setFocus( index ) }

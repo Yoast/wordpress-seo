@@ -214,14 +214,17 @@ export default class HowToStep extends Component {
 
 		return (
 			<li className="schema-how-to-step" onFocus={ onFocus } >
-				{ ! isUnorderedList &&
-					<span className="schema-how-to-step-number">{ index + 1 }.</span>
-				}
+				<span className="schema-how-to-step-number">
+					{ isUnorderedList
+						? '•'
+						: (index + 1) + '.'
+					}
+				</span>
 				<RichText
 					onSetup={ editorRef }
 					key={ id }
 					value={ contents }
-					onChange={ onChange }
+					onChange={ ( value ) => onChange( value, contents ) }
 					isSelected={ isSelected }
 					onSplit={ this.onSplit }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
