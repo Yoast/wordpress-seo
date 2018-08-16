@@ -19,7 +19,6 @@ const TaxonomyPicker = ( props ) => {
 
 	return (
 		<select
-			disabled={ terms.length < 2 }
 			className="components-select-control__input"
 			id={ id }
 			value={ value }
