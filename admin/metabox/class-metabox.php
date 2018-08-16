@@ -371,6 +371,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_content_meta_section() {
 		$content = $this->get_tab_content( 'general' );
 
+		/**
+		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
+		 *
+		 * @api string $post_content The metabox content string.
+		 */
+		$content = apply_filters( 'wpseo_content_meta_section_content', $content );
+
 		return new WPSEO_Metabox_Section_React(
 			'content',
 			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
