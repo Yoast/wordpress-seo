@@ -5,15 +5,15 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import colors from "yoast-components/style-guide/colors.json";
 import {getRtlStyle, HelpText} from "yoast-components";
 import Collapsible from "../SidebarCollapsible";
-import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
+import { KeywordInput, colors } from "yoast-components";
 import Results from "./Results";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import { utils } from "yoast-components";
+import isNil from "lodash/isNil";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
 import Modal from "../modals/Modal";
 import MultipleKeywords from "../modals/MultipleKeywords";
@@ -204,6 +204,10 @@ class SeoAnalysis extends React.Component {
 		if ( this.props.keyword === "" ) {
 			score.className = "na";
 			score.screenReaderReadabilityText = __( "Enter a focus keyword to calculate the SEO score", "wordpress-seo" );
+		}
+
+		if ( isNil( this.props.overallScore ) ) {
+			score.className = "loading";
 		}
 
 		return (

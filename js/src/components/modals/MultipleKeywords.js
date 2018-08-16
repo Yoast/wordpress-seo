@@ -1,9 +1,11 @@
 import React from "react";
 import interpolateComponents from "interpolate-components";
-import { makeOutboundLink } from "yoast-components/utils/makeOutboundLink";
+import { utils } from "yoast-components";
 import {__, sprintf} from "@wordpress/i18n";
 import UpsellBox from "../UpsellBox";
 import PropTypes from "prop-types";
+
+const { makeOutboundLink } = utils;
 
 const PremiumLandingPageLink = makeOutboundLink();
 

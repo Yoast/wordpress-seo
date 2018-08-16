@@ -2,7 +2,7 @@
 
 // External dependencies.
 import { App } from "yoastseo";
-import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components";
 import isUndefined from "lodash/isUndefined";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 import debounce from "lodash/debounce";
