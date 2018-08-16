@@ -207,7 +207,7 @@ class WPSEO_Primary_Term_Admin {
 		$primary_term = filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term', FILTER_SANITIZE_NUMBER_INT );
 
 		// We accept an empty string here because we need to save that if no terms are selected.
-		if ( null !== $primary_term && wp_verify_nonce( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce' ) ) {
+		if ( null !== $primary_term && check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce' ) ) {
 			$primary_term_object = new WPSEO_Primary_Term( $taxonomy->name, $post_id );
 			$primary_term_object->set_primary_term( $primary_term );
 		}

@@ -64,7 +64,9 @@ class PrimaryTaxonomyPicker extends React.Component {
 			}
 		}
 		// Check if the selected terms have changed.
-		if ( prevProps.selectedTermIds !== this.props.selectedTermIds ) {
+		if (
+			prevProps.selectedTermIds !== this.props.selectedTermIds
+		) {
 			this.updateSelectedTerms( this.state.terms, this.props.selectedTermIds );
 		}
 	}
@@ -120,10 +122,6 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {Array} The selected terms.
 	 */
 	getSelectedTerms( terms, selectedTermIds ) {
-		const selectedTerms = terms.filter( term => {
-			return selectedTermIds.includes( term.id );
-		} );
-		console.log( terms, selectedTermIds, selectedTerms );
 		return terms.filter( term => {
 			return selectedTermIds.includes( term.id );
 		} );
@@ -132,8 +130,8 @@ class PrimaryTaxonomyPicker extends React.Component {
 	/**
 	 * Updates the state with the selected terms.
 	 *
-	 * @param {array} terms           The available terms.
-	 * @param {array} selectedTermIds The ids of the selected terms.
+	 * @param {Array} terms           The available terms.
+	 * @param {Array} selectedTermIds The ids of the selected terms.
 	 *
 	 * @returns {void}
 	 */
@@ -154,13 +152,15 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {void}
 	 */
 	onChange( termId ) {
+		const termIdNum = parseInt( termId, 10 );
+
 		const { name } = this.props.taxonomy;
 
-		this.updateReplacementVariable( termId );
+		this.updateReplacementVariable( termIdNum );
 
-		this.props.setPrimaryTaxonomy( name, termId );
+		this.props.setPrimaryTaxonomy( name, termIdNum );
 
-		this.input.value = termId;
+		this.input.value = termIdNum;
 	}
 
 	/**
