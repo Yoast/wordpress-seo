@@ -128,7 +128,6 @@ export default class FAQ extends Component {
 	 * @returns {void}
 	 */
 	swapQuestions( index1, index2 ) {
-		console.log( ">>>>>>>>I AM IN SWAAAAAAP QUESTION!!!!!!<<<<<<<<<<<<<" );
 		let questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
 		let question  = questions[ index1 ];
 
