@@ -5,8 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 // YoastSEO.js dependencies.
-import AnalysisWorker from "yoastseo/worker";
-import Worker from "yoastseo/worker/analysis.worker";
+import { AnalysisWorkerWrapper } from "yoastseo/worker";
 import testPapers from "yoastspec/fullTextTests/testTexts";
 
 // Internal dependencies.
@@ -15,10 +14,11 @@ import Button from "./components/Button";
 import Checkbox from "./components/Checkbox";
 import Input from "./components/Input";
 import TextArea from "./components/TextArea";
+import Results from "./Results";
+import AnalysisWebWorker from "./analysis.worker";
 import * as configurationActionCreators from "./redux/actionCreators/configuration";
 import * as paperActionCreators from "./redux/actionCreators/paper";
 import * as resultsActionCreators from "./redux/actionCreators/results";
-import Results from "./Results";
 import { clearStorage } from "./redux/utils/localstorage";
 
 class App extends React.Component {
@@ -36,11 +36,13 @@ class App extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.analysisWorker = new AnalysisWorker( new Worker() );
+		this.analysisWorker = new AnalysisWorkerWrapper( new AnalysisWebWorker() );
 
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
 		this.analyzeSpam = this.analyzeSpam.bind( this );
+
+		this.initialize();
 	}
 
 	/**
@@ -119,7 +121,7 @@ class App extends React.Component {
 	 * @returns {ReactElement} The app.
 	 */
 	render() {
-		const { paper, actions } = this.props;
+		const { configuration, actions } = this.props;
 
 		return (
 			<div className="app">
@@ -127,20 +129,13 @@ class App extends React.Component {
 					<div className="form-container">
 						<h2>Analysis Worker</h2>
 						<div className="button-container">
-							<Button onClick={
-								this.initialize
-							}>Initialize</Button>
-							<Button onClick={
-								this.analyze
-							}>Analyze</Button>
-							<Button onClick={
-								() => {
-									clearStorage(); window.location.reload();
-								}
-							}>Clear</Button>
-							<Button onClick={
-								this.analyzeSpam
-							}>Analyze Spam</Button>
+							<Button onClick={ this.initialize }>Initialize</Button>
+							<Button onClick={ this.analyze }>Analyze</Button>
+							<Button onClick={ () => {
+								clearStorage();
+								window.location.reload();
+							} }>Clear</Button>
+							<Button onClick={ this.analyzeSpam }>Analyze Spam</Button>
 						</div>
 
 						{ this.renderPaperAttribute( "text", "Write a text", null, TextArea ) }
@@ -153,7 +148,7 @@ class App extends React.Component {
 						<h2>Configuration</h2>
 						<Checkbox
 							id="premium"
-							value={ paper.premium !== false }
+							value={ configuration.useKeywordDistribution }
 							label="Premium"
 							onChange={ value => {
 								actions.setConfigurationAttribute( "useKeywordDistribution", value );

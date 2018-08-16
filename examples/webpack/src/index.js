@@ -12,7 +12,7 @@ const storageStates = [
 ];
 const preloadedState = {
 	configuration: {
-		useKeywordDistribution: true,
+		useKeywordDistribution: false,
 	},
 	paper: {
 		text: "",
