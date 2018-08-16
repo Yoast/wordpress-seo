@@ -2,6 +2,7 @@ import { stripHTML } from "../../../helpers/stringHelpers";
 
 const { renderToString } = window.wp.element;
 const { RichText } = window.wp.editor;
+const { __ } = window.wp.i18n;
 
 let LegacyHowToStep = ( props ) => {
 	return <RichText.Content
@@ -12,8 +13,10 @@ let LegacyHowToStep = ( props ) => {
 	/>;
 };
 
-export default function ( props ) {
-	let { steps, title, hasDuration, hours, minutes, description, unorderedList, additionalListCssClasses, className } = props;
+export default function ( { attributes } ) {
+	console.log( "Rendering legacy with: ", attributes );
+
+	let { steps, title, hasDuration, hours, minutes, description, unorderedList, additionalListCssClasses, className } = attributes;
 
 	steps = steps ? steps.map( ( step ) => <LegacyHowToStep { ...step } key={ step.id } /> ) : null;
 
@@ -34,7 +37,7 @@ export default function ( props ) {
 				&nbsp;
 				{ hours || 0 }:{ ( "00" + ( minutes || 0 ) ).slice( -2 ) }
 			</p>
-			}ß
+			}
 			<RichText.Content
 				tagName="p"
 				className="schema-how-to-description"

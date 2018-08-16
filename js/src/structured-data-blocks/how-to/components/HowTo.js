@@ -277,12 +277,15 @@ export default class HowTo extends Component {
 	static Content( props ) {
 		let { steps, title, hasDuration, hours, minutes, description, unorderedList, additionalListCssClasses, className } = props;
 
-		console.log( typeof hours, hours );
-		console.log( typeof minutes, minutes );
 		steps = steps ? steps.map( ( step ) => <HowToStep.Content { ...step } key={ step.id } /> ) : null;
 
 		const classNames = [ "schema-how-to", className ].filter( ( i ) => i ).join( " " );
 		const listClassNames = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( i ) => i ).join( " " );
+
+		const timeString = [
+			hours && moment.duration( hours, "hours" ).humanize(),
+			minutes && moment.duration( minutes, "minutes" ).humanize(),
+		].filter( ( i ) => i ).join( " and " );
 
 		return (
 			<div className={ classNames }>
@@ -296,14 +299,7 @@ export default class HowTo extends Component {
 					<p className="schema-how-to-total-time">
 						{ __( "Time needed:", "wordpress-seo" ) }
 						&nbsp;
-						{/*{ hours || 0 }:{ ( "00" + ( minutes || 0 ) ).slice( -2 ) }*/}
-						{
-							moment.duration( hours, "hours" ).humanize()
-						}
-						&nbsp;and&nbsp;
-						{
-							moment.duration( minutes, "minutes" ).humanize()
-						}
+						{ timeString }.
 					</p>
 				}
 				<RichText.Content
