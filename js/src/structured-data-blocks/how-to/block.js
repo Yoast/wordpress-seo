@@ -42,7 +42,6 @@ const attributes = {
 
 export default () => {
 	registerBlockType( "yoast/how-to-block", {
-		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __( "How-to", "wordpress-seo" ),
 		icon: "editor-ol",
 		category: "yoast-structured-data-blocks",
