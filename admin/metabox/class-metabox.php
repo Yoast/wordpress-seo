@@ -509,14 +509,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$description      = '<p id="' . $esc_form_key . '-desc" class="yoast-metabox__description">' . $meta_field_def['description'] . '</p>';
 		}
 
-		if ( WPSEO_Utils::is_yoast_seo_premium() === false ) {
-			$button = new WPSEO_Metabox_Keyword_Synonyms_Config();
-			$button->enqueue_translations();
-
-			$multiple_keywords_button = new WPSEO_Metabox_Multiple_Keywords_Config();
-			$multiple_keywords_button->enqueue_translations();
-		}
-
 		switch ( $meta_field_def['type'] ) {
 			case 'text':
 				$ac = '';

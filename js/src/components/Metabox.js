@@ -45,6 +45,7 @@ export default function Metabox( { settings, store, theme } ) {
 							<SeoAnalysis
 								shouldUpsell={ settings.shouldUpsell }
 								keywordUpsell={ keywordUpsellProps }
+								location="metabox"
 							/>
 						</StoreProvider>
 					</ThemeProvider>

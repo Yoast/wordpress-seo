@@ -45,9 +45,6 @@ class WPSEO_Metabox_Formatter {
 		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
-		$premium_benefits = new WPSEO_Premium_Benefits_List();
-		$premium_benefits->enqueue_translations();
-
 		return array(
 			'language'              => WPSEO_Language_Utils::get_site_language_name(),
 			'settings_link'         => $this->get_settings_link(),
