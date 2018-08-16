@@ -5,21 +5,21 @@ import omit from "lodash/omit";
 
 import colors from "../../../../style-guide/colors.json";
 import { IconsButton } from "../../Shared/components/Button";
-import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import { getRtlStyle } from "../../../../utils/helpers/styled-components";
+import { SectionTitle } from "./SectionTitle";
 
 const Content = styled.div`
 	padding: 0 16px;
 	margin-bottom: 16px;
 `;
 
-const StyledContainer = styled.div`
+export const StyledContainer = styled.div`
 	background-color: ${ colors.$color_white };
 `;
 
-const StyledContainerTopLevel = styled( StyledContainer )`
-	border-top: 1px solid ${ colors.$color_border_gutenberg };
-	border-bottom: 1px solid ${ colors.$color_border_gutenberg };
+export const StyledContainerTopLevel = styled( StyledContainer )`
+	border-top: 1px solid ${ colors.$palette_grey_light };
+	border-bottom: 1px solid ${ colors.$palette_grey_light };
 	margin-top: -1px;
 `;
 
@@ -53,29 +53,6 @@ export const StyledIconsButton = styled( IconsButton )`
 			${ getRtlStyle( "margin-left: 8px", "margin-right: 8px" ) };
 		}
 	}
-`;
-
-const StyledTitleContainer = styled.span`
-	flex-grow: 1;
-	overflow-x: hidden;
-	line-height: normal; // Avoid vertical scrollbar in IE 11 when rendered in the WP sidebar.
-`;
-
-const StyledTitle = styled.span`
-	display: block;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow-x: hidden;
-	color: ${ colors.$color_headings };
-`;
-
-const StyledSubTitle = styled.span`
-	display: block;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow-x: hidden;
-	font-size: 0.8125rem;
-	margin-top: 2px;
 `;
 
 /**
@@ -149,13 +126,11 @@ export const CollapsibleStateless = ( props ) => {
 				suffixIcon={ props.isOpen ? props.suffixIcon : props.suffixIconCollapsed }
 				hasSubTitle={ !! props.subTitle }
 			>
-				<StyledTitleContainer>
-					<StyledTitle>
-						{ props.title }
-						{ props.titleScreenReaderText && <ScreenReaderText>{ " " + props.titleScreenReaderText }</ScreenReaderText> }
-					</StyledTitle>
-					{ props.subTitle && <StyledSubTitle>{ props.subTitle }</StyledSubTitle> }
-				</StyledTitleContainer>
+				<SectionTitle
+					title={ props.title }
+					titleScreenReaderText={ props.titleScreenReaderText }
+					subTitle={ props.subTitle }
+				/>
 			</props.Heading>
 			{ children }
 		</Container>

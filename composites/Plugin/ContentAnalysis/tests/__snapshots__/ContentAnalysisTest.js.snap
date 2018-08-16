@@ -120,6 +120,22 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -136,7 +152,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   border: none;
   border-radius: 0;
   box-shadow: none;
-  font-weight: normal;
 }
 
 .c5:focus {
@@ -157,23 +172,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   margin-left: 8px;
 }
 
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
 .c3 {
   margin: 0 !important;
   padding: 0 !important;
@@ -184,6 +182,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 .c0 {
   width: 100%;
   background-color: white;
+  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 
@@ -261,6 +260,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -330,6 +330,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -423,6 +424,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -492,6 +494,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -561,6 +564,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -751,6 +755,22 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -767,7 +787,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   border: none;
   border-radius: 0;
   box-shadow: none;
-  font-weight: normal;
 }
 
 .c5:focus {
@@ -788,23 +807,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   margin-left: 8px;
 }
 
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
 .c3 {
   margin: 0 !important;
   padding: 0 !important;
@@ -815,6 +817,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 .c0 {
   width: 100%;
   background-color: white;
+  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 
@@ -892,6 +895,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -961,6 +965,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1030,6 +1035,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1099,6 +1105,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1168,6 +1175,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1358,6 +1366,22 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -1374,7 +1398,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   border: none;
   border-radius: 0;
   box-shadow: none;
-  font-weight: normal;
 }
 
 .c5:focus {
@@ -1395,23 +1418,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   margin-left: 8px;
 }
 
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
 .c3 {
   margin: 0 !important;
   padding: 0 !important;
@@ -1422,6 +1428,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 .c0 {
   width: 100%;
   background-color: white;
+  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 
@@ -1499,6 +1506,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1568,6 +1576,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1661,6 +1670,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1730,6 +1740,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1799,6 +1810,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -2013,6 +2025,22 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -2029,7 +2057,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   border: none;
   border-radius: 0;
   box-shadow: none;
-  font-weight: normal;
 }
 
 .c5:focus {
@@ -2050,23 +2077,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   margin-left: 8px;
 }
 
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
 .c3 {
   margin: 0 !important;
   padding: 0 !important;
@@ -2077,6 +2087,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 .c0 {
   width: 100%;
   background-color: white;
+  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 
@@ -2154,6 +2165,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -2223,6 +2235,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -2316,6 +2329,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -2385,6 +2399,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -2454,6 +2469,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -2668,6 +2684,22 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -2684,7 +2716,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   border: none;
   border-radius: 0;
   box-shadow: none;
-  font-weight: normal;
 }
 
 .c5:focus {
@@ -2705,23 +2736,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   margin-left: 8px;
 }
 
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
 .c3 {
   margin: 0 !important;
   padding: 0 !important;
@@ -2732,6 +2746,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 .c0 {
   width: 100%;
   background-color: white;
+  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 
@@ -2809,6 +2824,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -2878,6 +2894,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -2947,6 +2964,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -3161,6 +3179,22 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -3177,7 +3211,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   border: none;
   border-radius: 0;
   box-shadow: none;
-  font-weight: normal;
 }
 
 .c5:focus {
@@ -3198,23 +3231,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   margin-left: 8px;
 }
 
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
 .c3 {
   margin: 0 !important;
   padding: 0 !important;
@@ -3225,6 +3241,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 .c0 {
   width: 100%;
   background-color: white;
+  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 
@@ -3302,6 +3319,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -3371,6 +3389,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -3440,6 +3459,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -3654,6 +3674,22 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -3670,7 +3706,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   border: none;
   border-radius: 0;
   box-shadow: none;
-  font-weight: normal;
 }
 
 .c5:focus {
@@ -3691,23 +3726,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   margin-left: 8px;
 }
 
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
 .c3 {
   margin: 0 !important;
   padding: 0 !important;
@@ -3718,6 +3736,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 .c0 {
   width: 100%;
   background-color: white;
+  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 
@@ -3795,6 +3814,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -3864,6 +3884,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -3933,6 +3954,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -4002,6 +4024,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -4216,6 +4239,22 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -4232,7 +4271,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   border: none;
   border-radius: 0;
   box-shadow: none;
-  font-weight: normal;
 }
 
 .c5:focus {
@@ -4253,23 +4291,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   margin-left: 8px;
 }
 
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
 .c3 {
   margin: 0 !important;
   padding: 0 !important;
@@ -4280,6 +4301,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 .c0 {
   width: 100%;
   background-color: white;
+  max-width: 800px;
   border-bottom: 1px solid transparent;
 }
 
@@ -4357,6 +4379,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
@@ -4426,6 +4449,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
         </svg>
         <span
           className="c13"
+          onClick={[Function]}
         >
           <span
             className="c14"
