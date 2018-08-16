@@ -297,13 +297,13 @@ export default class HowTo extends Component {
 			} )
 			: null;
 
-		const classNames = [ "schema-how-to", className ].filter( ( i ) => i ).join( " " );
-		const listClassNames = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( i ) => i ).join( " " );
+		const classNames = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
+		const listClassNames = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
 
 		const timeString = [
 			hours && moment.duration( hours, "hours" ).humanize(),
 			minutes && moment.duration( minutes, "minutes" ).humanize(),
-		].filter( ( i ) => i ).join( " and " );
+		].filter( ( item ) => item ).join( " and " );
 
 		return (
 			<div className={ classNames }>
@@ -418,8 +418,8 @@ export default class HowTo extends Component {
 	render() {
 		let { attributes, setAttributes, className } = this.props;
 
-		const classNames = [ "schema-how-to", className ].filter( ( i ) => i ).join( " " );
-		const listClassNames = [ "schema-how-to-steps", attributes.additionalListCssClasses ].filter( ( i ) => i ).join( " " );
+		const classNames = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
+		const listClassNames = [ "schema-how-to-steps", attributes.additionalListCssClasses ].filter( ( item ) => item ).join( " " );
 
 		return (
 			<div className={ classNames }>
