@@ -97,8 +97,11 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 		$step_json_ld = array(
 			'@type'    => 'HowToStep',
 			'position' => $index + 1,
-			'text'     => $step['jsonContents'],
 		);
+
+		if ( ! empty( $step['jsonContents'] ) ) {
+			$step_json_ld['text'] = $step['jsonContents'];
+		}
 
 		if ( ! empty( $step['jsonImageSrc'] ) ) {
 			$step_json_ld['associatedMedia'] = array(
