@@ -93,6 +93,10 @@ class Edit {
 	}
 
 	_registerCategorySelectorFilter() {
+		if( ! isGutenbergDataAvailable() ) {
+			return;
+		}
+
 		const addFilter = get( window, "wp.hooks.addFilter" );
 
 		const taxonomies = get( window.wpseoPrimaryCategoryL10n, "taxonomies" );
