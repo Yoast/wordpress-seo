@@ -3,6 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import { utils } from "yoast-components";
 
@@ -10,6 +11,13 @@ import Results from "./Results";
 import Collapsible from "../SidebarCollapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
+
+const AnalysisHeader = styled.span`
+	font-size: 1em;
+	font-weight: bold;
+	margin: 0 0 8px;
+	display: block;
+`;
 
 let localizedData = {};
 if( window.wpseoPostScraperL10n ) {
@@ -34,6 +42,9 @@ class ReadabilityAnalysis extends React.Component {
 				prefixIcon={ getIconForScore( score.className ) }
 				prefixIconCollapsed={ getIconForScore( score.className ) }
 			>
+				<AnalysisHeader>
+					Analysis results
+				</AnalysisHeader>
 				<p>{ __( "This analysis checks your writing for grammar and writing style so your content " +
 						"is as clear as it can be.", "wordpress-seo" ) }
 					{" "}
