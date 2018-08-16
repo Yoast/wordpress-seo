@@ -48,7 +48,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 	}
 
 	/**
-	 * Updates the replacement variable when the terms were not yet retrieved on mount.
+	 * Handle prop changes when needed.
 	 *
 	 * @param {Object} prevProps The previous props.
 	 *
@@ -64,9 +64,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 			}
 		}
 		// Check if the selected terms have changed.
-		if (
-			prevProps.selectedTermIds !== this.props.selectedTermIds
-		) {
+		if ( prevProps.selectedTermIds !== this.props.selectedTermIds ) {
 			this.updateSelectedTerms( this.state.terms, this.props.selectedTermIds );
 		}
 	}
@@ -152,7 +150,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {void}
 	 */
 	onChange( termId ) {
-		const termIdNum = parseInt( termId, 10 );
+		const termIdNum = typeof termId === "string" ? parseInt( termId, 10 ) : termId;
 
 		const { name } = this.props.taxonomy;
 
@@ -160,7 +158,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 
 		this.props.setPrimaryTaxonomy( name, termIdNum );
 
-		this.input.value = termIdNum;
+		this.input.value = termIdNum === -1 ? "" : termIdNum;
 	}
 
 	/**
@@ -171,6 +169,10 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {void}
 	 */
 	updateReplacementVariable( termId ) {
+		/**
+		 * We only use the primary category replacement variable, therefore only do this for the
+		 * category taxonomy.
+		 */
 		if ( this.props.taxonomy.name !== "category" ) {
 			return;
 		}
@@ -188,25 +190,28 @@ class PrimaryTaxonomyPicker extends React.Component {
 	render() {
 		const {
 			primaryTaxonomy,
+			taxonomy,
 		} = this.props;
+
+		const fieldId = `yoast-primary-${ taxonomy.name }-picker`;
 
 		return (
 			<div className="components-base-control__field">
 				<PrimaryTaxonomyPickerLabel
-					htmlFor="yoast-primary-category-picker"
+					htmlFor={ fieldId }
 					className="components-base-control__label">
 					{
 						sprintf(
-							/* Translators: %s: category name */
+							/* Translators: %s expands to the taxonomy name */
 							__( "Select the primary %s" ),
-							this.props.taxonomy.singular_label.toLowerCase()
+							taxonomy.singular_label.toLowerCase()
 						)
 					}
 				</PrimaryTaxonomyPickerLabel>
 				<TaxonomyPicker
 					value={ primaryTaxonomy }
 					onChange={ this.onChange }
-					id="yoast-primary-category-picker"
+					id={ fieldId }
 					terms={ this.state.selectedTerms }/>
 			</div>
 		);

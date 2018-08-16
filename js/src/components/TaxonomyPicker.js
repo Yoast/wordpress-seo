@@ -17,7 +17,7 @@ class TaxonomyPicker extends React.Component {
 	 */
 	componentDidUpdate( prevProps ) {
 		const { terms } = this.props;
-		if ( terms.length > 0 && terms !== prevProps.terms ) {
+		if ( terms !== prevProps.terms ) {
 			this.handleTermsChange();
 		}
 	}
@@ -34,7 +34,7 @@ class TaxonomyPicker extends React.Component {
 			return term.id === value;
 		} );
 		if ( ! selectedTerm ) {
-			this.props.onChange( terms[ 0 ].id );
+			this.props.onChange( terms.length ? terms[ 0 ].id : -1 );
 		}
 	}
 
