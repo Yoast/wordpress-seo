@@ -195,6 +195,10 @@ class PrimaryTaxonomyPicker extends React.Component {
 
 		const fieldId = `yoast-primary-${ taxonomy.name }-picker`;
 
+		if ( this.state.selectedTerms.length < 2 ) {
+			return null;
+		}
+
 		return (
 			<div className="components-base-control__field">
 				<PrimaryTaxonomyPickerLabel
