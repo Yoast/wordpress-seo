@@ -1,5 +1,4 @@
 import HowTo from "./components/HowTo";
-import legacy from "./legacy";
 
 const { __ } = window.wp.i18n;
 const { registerBlockType } = window.wp.blocks;
@@ -85,12 +84,5 @@ export default () => {
 		save: function( { attributes } ) {
 			return <HowTo.Content { ...attributes }/>;
 		},
-
-		deprecated: [
-			{
-				attributes,
-				save: legacy.v1,
-			}
-		]
 	} );
 };
