@@ -57,7 +57,7 @@ jobs:
         on:
           repo: Yoast/wordpress-seo
           all_branches: true
-     - stage: github-distribution-deploy
+    - stage: github-distribution-deploy
         if: tag IS present
         before_install:
         - openssl aes-256-cbc -K $encrypted_06a9c1b95cfa_key -iv $encrypted_06a9c1b95cfa_iv -in ./deploy_keys/travis_dist_id_rsa.enc -out ./deploy_keys/travis_dist_id_rsa -d
