@@ -28,7 +28,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 		this.onChange = this.onChange.bind( this );
 		this.updateReplacementVariable = this.updateReplacementVariable.bind( this );
 
-		const { field_id: fieldId, name } = props.taxonomy;
+		const { fieldId, name } = props.taxonomy;
 		this.input = document.getElementById( fieldId );
 		props.setPrimaryTaxonomyId( name, parseInt( this.input.value, 10 ) );
 
@@ -86,7 +86,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {void}
 	 */
 	fetchTerms() {
-		const TaxonomyCollection = wp.api.getCollectionByRoute( `/wp/v2/${ this.props.taxonomy.rest_base }` );
+		const TaxonomyCollection = wp.api.getCollectionByRoute( `/wp/v2/${ this.props.taxonomy.restBase }` );
 		if ( ! TaxonomyCollection ) {
 			return;
 		}
@@ -204,7 +204,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 						sprintf(
 							/* Translators: %s expands to the taxonomy name */
 							__( "Select the primary %s" ),
-							taxonomy.singular_label.toLowerCase()
+							taxonomy.singularLabel.toLowerCase()
 						)
 					}
 				</PrimaryTaxonomyPickerLabel>
@@ -226,11 +226,9 @@ PrimaryTaxonomyPicker.propTypes = {
 	receiveEntityRecords: PropTypes.func,
 	taxonomy: PropTypes.shape( {
 		name: PropTypes.string,
-		/* eslint-disable */
-		field_id: PropTypes.string,
-		rest_base: PropTypes.string,
-		singular_label: PropTypes.string,
-		/* eslint-enable */
+		fieldId: PropTypes.string,
+		restBase: PropTypes.string,
+		singularLabel: PropTypes.string,
 	} ),
 };
 
@@ -241,7 +239,7 @@ export default compose( [
 
 		const { taxonomy } = props;
 
-		const selectedTermIds = editorData.getEditedPostAttribute( taxonomy[ "rest_base" ] ) || [];
+		const selectedTermIds = editorData.getEditedPostAttribute( taxonomy.restBase ) || [];
 
 		return {
 			selectedTermIds,

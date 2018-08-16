@@ -267,13 +267,13 @@ class WPSEO_Primary_Term_Admin {
 		$terms = get_terms( $taxonomy->name );
 
 		return array(
-			'title'          => $taxonomy->labels->singular_name,
-			'name'           => $taxonomy->name,
-			'primary'        => $primary_term,
-			'singular_label' => $taxonomy->labels->singular_name,
-			'field_id'       => $this->generate_field_id( $taxonomy->name ),
-			'rest_base'      => ( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name,
-			'terms'          => array_map( array( $this, 'map_terms_for_js' ), $terms ),
+			'title'         => $taxonomy->labels->singular_name,
+			'name'          => $taxonomy->name,
+			'primary'       => $primary_term,
+			'singularLabel' => $taxonomy->labels->singular_name,
+			'fieldId'       => $this->generate_field_id( $taxonomy->name ),
+			'restBase'      => ( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name,
+			'terms'         => array_map( array( $this, 'map_terms_for_js' ), $terms ),
 		);
 	}
 
