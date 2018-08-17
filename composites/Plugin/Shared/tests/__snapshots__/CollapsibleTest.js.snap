@@ -171,6 +171,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
+        fill={undefined}
         focusable="false"
         role="img"
         size="9px"
@@ -357,6 +358,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
+        fill={undefined}
         focusable="false"
         role="img"
         size="9px"
@@ -555,6 +557,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
+        fill={undefined}
         focusable="false"
         role="img"
         size="9px"
@@ -741,6 +744,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
+        fill={undefined}
         focusable="false"
         role="img"
         size="9px"
@@ -939,6 +943,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
+        fill={undefined}
         focusable="false"
         role="img"
         size="9px"
@@ -1137,6 +1142,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
+        fill={undefined}
         focusable="false"
         role="img"
         size="9px"

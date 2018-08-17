@@ -78,6 +78,7 @@ exports[`the YoastButton executes callback 1`] = `
 }
 
 <button
+  aria-expanded={undefined}
   className="c0 YoastButton-hNXTAd c1"
   onClick={[Function]}
   type="button"
@@ -166,6 +167,7 @@ exports[`the YoastButton executes callback 2`] = `
 }
 
 <button
+  aria-expanded={undefined}
   className="c0 YoastButton-hNXTAd c1"
   onClick={[Function]}
   type="button"
@@ -254,7 +256,9 @@ exports[`the YoastButton matches the snapshot 1`] = `
 }
 
 <button
+  aria-expanded={undefined}
   className="c0 YoastButton-hNXTAd c1"
+  onClick={undefined}
   type="button"
 >
   <span>

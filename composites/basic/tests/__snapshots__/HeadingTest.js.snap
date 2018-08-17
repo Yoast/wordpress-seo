@@ -9,7 +9,9 @@ exports[`the Heading with props matches the snapshot 1`] = `
 `;
 
 exports[`the Heading without props matches the snapshot 1`] = `
-<h1>
+<h1
+  className={undefined}
+>
   Text
 </h1>
 `;

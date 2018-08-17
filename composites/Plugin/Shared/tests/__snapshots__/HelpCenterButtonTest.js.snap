@@ -103,6 +103,7 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
 <button
   aria-expanded={false}
   className="c0 c1 YoastButton-hNXTAd c2"
+  onClick={undefined}
   type="button"
 >
   <span>
