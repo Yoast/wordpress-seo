@@ -67,7 +67,7 @@ ButtonSection.propTypes = {
 	subTitle: PropTypes.string,
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
-	onClick: PropTypes.func,
+	onClick: PropTypes.func.isRequired,
 };
 
 ButtonSection.defaultProps = {
