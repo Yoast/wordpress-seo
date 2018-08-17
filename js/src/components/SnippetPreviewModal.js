@@ -1,7 +1,7 @@
 import React from "react";
 import { ButtonSection } from "yoast-components";
 import { Button, Modal } from "@wordpress/components";
-import { __ } from "@wordpress/i18n/build/index";
+import { __ } from "@wordpress/i18n";
 import SnippetEditorWrapper from "../containers/SnippetEditor";
 
 class SnippetPreviewModal extends React.Component {
@@ -25,7 +25,6 @@ class SnippetPreviewModal extends React.Component {
 	}
 
 	render() {
-		console.log( this.props );
 		return (
 			<React.Fragment>
 				<ButtonSection
