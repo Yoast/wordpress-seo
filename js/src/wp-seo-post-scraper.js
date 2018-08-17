@@ -4,6 +4,7 @@
 import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
 import debounce from "lodash/debounce";
+import merge from "lodash/merge";
 import {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
@@ -438,6 +439,10 @@ setWordPressSeoL10n();
 					YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.cornerStoneSeoAssessor, name, assessment, pluginName );
 			}
 		};
+		YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
+			YoastSEO.analysisWorker.initialize( assessorOptions );
+			YoastSEO.app.refresh();
+		};
 
 		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
 
@@ -537,7 +542,7 @@ setWordPressSeoL10n();
 				document.getElementById( "yoast_wpseo_is_cornerstone" ).value = currentState.isCornerstone;
 
 				app.changeAssessorOptions( {
-					useCornerStone: currentState.isCornerstone,
+					useCornerstone: currentState.isCornerstone,
 				} );
 			}
 
