@@ -61,7 +61,7 @@ export default class SvgIcon extends React.Component {
 		let iconName = icons[ icon ];
 
 		if ( ! iconName ) {
-			console.warn( "Invalid icon name passed to the SvgIcon component." );
+			console.warn( `Invalid icon name ("${ icon }") passed to the SvgIcon component.` );
 			return null;
 		}
 
