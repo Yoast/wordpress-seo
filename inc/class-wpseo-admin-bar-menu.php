@@ -484,7 +484,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			return '';
 		}
 
-
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
 			return '';
 		}
@@ -534,7 +533,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return string Score markup, or empty string if none available.
 	 */
 	protected function get_term_score( $term ) {
-		if ( ! is_object( $term ) || ! property_exists( $term, 'term_id' ) || property_exists( $term, 'taxonomy' ) ) {
+		if ( ! is_object( $term ) || ! property_exists( $term, 'term_id' ) || ! property_exists( $term, 'taxonomy' ) ) {
 			return '';
 		}
 
