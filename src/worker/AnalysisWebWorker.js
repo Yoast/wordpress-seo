@@ -52,6 +52,8 @@ const InvalidTypeError = require( "../errors/invalidType" );
 // Internal dependencies.
 import Scheduler from "./scheduler";
 
+const largestKeywordDistanceAssessment = new assessments.seo.LargestKeywordDistanceAssessment();
+
 /**
  * Analysis Web Worker.
  *
@@ -250,7 +252,7 @@ export default class AnalysisWebWorker {
 			: new SEOAssessor( this._i18n, { locale } );
 
 		if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "largestKeywordDistance" ) ) ) {
-			assessor.addAssessment( "largestKeywordDistance", assessments.seo.LargestKeywordDistanceAssessment );
+			assessor.addAssessment( "largestKeywordDistance", largestKeywordDistanceAssessment );
 		}
 
 		this._registeredAssessments.forEach( ( { name, assessment } ) => {
