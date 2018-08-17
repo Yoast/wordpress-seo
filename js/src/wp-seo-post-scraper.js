@@ -4,7 +4,6 @@
 import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
 import debounce from "lodash/debounce";
-import merge from "lodash/merge";
 import {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
