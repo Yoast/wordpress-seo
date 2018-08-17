@@ -31,7 +31,7 @@ class SnippetPreviewModal extends React.Component {
 					title={ __( "Snippet preview", "wordpress-seo" ) }
 					suffixIcon={ { size: "20px", icon: "pencil-square" } }
 					hasSeparator={ true }
-					onTitleClick={ this.openModal }
+					onClick={ this.openModal }
 					{ ...this.props }
 				/>
 				{ this.state.isOpen && <Modal
