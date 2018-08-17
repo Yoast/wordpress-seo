@@ -1,7 +1,7 @@
 import React from "react";
 import interpolateComponents from "interpolate-components";
 import { utils } from "yoast-components";
-import {__, sprintf} from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import UpsellBox from "../UpsellBox";
 import PropTypes from "prop-types";
 
@@ -11,6 +11,8 @@ const PremiumLandingPageLink = makeOutboundLink();
 
 /**
  * Creates the content for a Multiple Keywords upsell modal.
+ *
+ * @param {Object} props The props for the component.
  *
  * @returns {ReactElement} The Multiple Keywords upsell component.
  */
@@ -63,9 +65,9 @@ const MultipleKeywords = ( props ) => {
 				)
 			}
 			upsellButton={ {
-					href: props.buyLink,
-					className: "button button-primary",
-					rel: null,
+				href: props.buyLink,
+				className: "button button-primary",
+				rel: null,
 			} }
 			upsellButtonLabel={ __( "1 year free updates and upgrades included!", "wordpress-seo" ) }
 		/>

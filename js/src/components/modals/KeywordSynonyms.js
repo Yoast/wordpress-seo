@@ -12,6 +12,8 @@ const PremiumLandingPageLink = makeOutboundLink();
 /**
  * Creates the content for a keyword synonyms upsell modal.
  *
+ * @param {Object} props The props for the component.
+ *
  * @returns {ReactElement} The Keyword Synonyms upsell component.
  */
 const KeywordSynonyms = ( props ) => {

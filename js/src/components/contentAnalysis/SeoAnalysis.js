@@ -1,11 +1,11 @@
-/* globals yoastModalConfig, wpseoAdminL10n */
+/* globals wpseoAdminL10n */
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import {getRtlStyle, HelpText} from "yoast-components";
+import { getRtlStyle, HelpText } from "yoast-components";
 import Collapsible from "../SidebarCollapsible";
 import { KeywordInput, colors } from "yoast-components";
 import Results from "./Results";
@@ -61,6 +61,8 @@ class SeoAnalysis extends React.Component {
 	/**
 	 * Renders the keyword synonyms upsell modal.
 	 *
+	 * @param {string} location The location of the upsell component. Used to determine the shortlinks in the component.
+	 *
 	 * @returns {ReactElement} A modalButtonContainer component with the modal for a keyword synonyms upsell.
 	 */
 	renderSynonymsUpsell( location ) {
@@ -68,12 +70,12 @@ class SeoAnalysis extends React.Component {
 			appElement: "#wpwrap",
 			openButtonIcon: "",
 			classes: {
-				"openButton": "wpseo-keyword-synonyms button-link",
+				openButton: "wpseo-keyword-synonyms button-link",
 			},
 			labels: {
 				open: "+ " + __( "Add synonyms", "wordpress-seo" ),
-				a11yNotice : {
-					opensInNewTab: __( "(Opens in a new browser tab!)", "wordpress-seo" )
+				a11yNotice: {
+					opensInNewTab: __( "(Opens in a new browser tab!)", "wordpress-seo" ),
 				},
 				modalAriaLabel: sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
@@ -88,7 +90,7 @@ class SeoAnalysis extends React.Component {
 			},
 		};
 
-		// Default to metabox
+		// Defaults to metabox.
 		let link    = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_synonyms_link" ];
 		let buyLink = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_synonyms_button" ];
 
@@ -112,6 +114,8 @@ class SeoAnalysis extends React.Component {
 	/**
 	 * Renders the multiple keywords upsell modal.
 	 *
+	 * @param {string} location The location of the upsell component. Used to determine the shortlinks in the component.
+	 *
 	 * @returns {ReactElement} A modalButtonContainer component with the modal for a multiple keywords upsell.
 	 */
 	renderMultipleKeywordsUpsell( location ) {
@@ -119,12 +123,12 @@ class SeoAnalysis extends React.Component {
 			appElement: "#wpwrap",
 			openButtonIcon: "",
 			classes: {
-				"openButton": "wpseo-multiple-keywords button-link",
+				openButton: "wpseo-multiple-keywords button-link",
 			},
 			labels: {
 				open: "+ " + __( "Add additional keyword", "wordpress-seo" ),
-				a11yNotice : {
-					opensInNewTab: __( "(Opens in a new browser tab!)", "wordpress-seo" )
+				a11yNotice: {
+					opensInNewTab: __( "(Opens in a new browser tab!)", "wordpress-seo" ),
 				},
 				modalAriaLabel: sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
@@ -139,7 +143,7 @@ class SeoAnalysis extends React.Component {
 			},
 		};
 
-		// Default to metabox
+		// Defaults to metabox
 		let link    = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_additional_link" ];
 		let buyLink = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_additional_button" ];
 
@@ -165,7 +169,7 @@ class SeoAnalysis extends React.Component {
 	/**
 	 * Renders the UpsellBox component.
 	 *
-	 * @param {Object} upsell The upsell object containing the properties.
+	 * @param {string} location The location of the upsell component. Used to determine the shortlinks in the component.
 	 *
 	 * @returns {ReactElement} The UpsellBox component.
 	 */
