@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import noop from "lodash/noop";
 
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 
@@ -29,7 +28,7 @@ export const StyledSubTitle = styled.span`
 
 export const SectionTitle = ( props ) => {
 	return (
-		<StyledTitleContainer onClick={ props.onTitleClick }>
+		<StyledTitleContainer>
 			<StyledTitle>
 				{ props.title }
 				{ props.titleScreenReaderText && <ScreenReaderText>{ " " + props.titleScreenReaderText }</ScreenReaderText> }
@@ -40,12 +39,7 @@ export const SectionTitle = ( props ) => {
 };
 
 SectionTitle.propTypes = {
-	onTitleClick: PropTypes.func,
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
 	subTitle: PropTypes.string,
-};
-
-SectionTitle.defaultProps = {
-	onTitleClick: noop,
 };
