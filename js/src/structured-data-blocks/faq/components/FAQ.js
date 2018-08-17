@@ -1,10 +1,13 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
+import isUndefined from "lodash/isUndefined";
+import { __ } from "@wordpress/i18n";
+
+/* Internal dependencies */
 import Question from "./Question";
 import { stripHTML } from "../../../helpers/stringHelpers";
-import isUndefined from "lodash/isUndefined";
 
-const { __ } = window.wp.i18n;
 const { RichText } = window.wp.editor;
 const { IconButton } = window.wp.components;
 const { Component, renderToString } = window.wp.element;

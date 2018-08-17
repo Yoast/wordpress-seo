@@ -1,11 +1,13 @@
+/* External dependencies */
 import PropTypes from "prop-types";
-
 import HowToStep from "./HowToStep";
-import { stripHTML } from "../../../helpers/stringHelpers";
 import isUndefined from "lodash/isUndefined";
 import moment from "moment";
+import { __ } from "@wordpress/i18n";
 
-const { __ } = window.wp.i18n;
+/* Internal dependencies */
+import { stripHTML } from "../../../helpers/stringHelpers";
+
 const { RichText, InspectorControls } = window.wp.editor;
 const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;
 const { Component, renderToString } = window.wp.element;

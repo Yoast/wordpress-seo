@@ -1,7 +1,8 @@
+/* External dependencies */
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
 
 const { Component } = window.wp.element;
-const { __ } = window.wp.i18n;
 const { IconButton } = window.wp.components;
 const { RichText, MediaUpload } = window.wp.editor;
 
