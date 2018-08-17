@@ -1,56 +1,36 @@
-import HowTo from "./components/HowTo";
+import React from "react";
+
+import FAQ from "./components/FAQ";
 
 const { __ } = window.wp.i18n;
 const { registerBlockType } = window.wp.blocks;
 
-const attributes = {
-	title: {
-		type: "array",
-		source: "children",
-		selector: ".schema-how-to-title",
-	},
-	jsonTitle: {
-		type: "string",
-	},
-	hasDuration: {
-		type: "boolean",
-	},
-	hours: {
-		type: "number",
-	},
-	minutes: {
-		type: "number",
-	},
-	description: {
-		type: "array",
-		source: "children",
-		selector: ".schema-how-to-description",
-	},
-	jsonDescription: {
-		type: "string",
-	},
-	steps: {
-		type: "array",
-	},
-	additionalListCssClasses: {
-		type: "string",
-	},
-	unorderedList: {
-		type: "boolean",
-	},
-};
-
 export default () => {
-	registerBlockType( "yoast/how-to-block", {
-		title: __( "How-to", "wordpress-seo" ),
-		icon: "editor-ol",
+	registerBlockType( "yoast/faq-block", {
+		title: __( "FAQ", "wordpress-seo" ),
+		icon: "editor-ul",
 		category: "yoast-structured-data-blocks",
 		keywords: [
-			__( "How-to", "wordpress-seo" ),
-			__( "How to", "wordpress-seo" ),
+			__( "FAQ", "wordpress-seo" ),
+			__( "Frequently Asked Questions", "wordpress-seo" ),
 		],
 		// Block attributes - decides what to save and how to parse it from and to HTML.
-		attributes,
+		attributes: {
+			title: {
+				type: "array",
+				source: "children",
+				selector: ".schema-faq-title",
+			},
+			jsonTitle: {
+				type: "string",
+			},
+			questions: {
+				type: "array",
+			},
+			additionalListCssClasses: {
+				type: "string",
+			},
+		},
 
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.
@@ -63,11 +43,11 @@ export default () => {
 		 */
 		edit: ( { attributes, setAttributes, className } ) => {
 			// Because setAttributes is quite slow right after a block has been added we fake having a single step.
-			if ( ! attributes.steps || attributes.steps.length === 0 ) {
-				attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), contents: [] } ];
+			if ( ! attributes.questions || attributes.questions.length === 0 ) {
+				attributes.questions = [ { id: FAQ.generateId( "faq-question" ), question: [], answer: [] } ];
 			}
 
-			return <HowTo { ...{ attributes, setAttributes, className } }/>;
+			return <FAQ { ...{ attributes, setAttributes, className } }/>;
 		},
 
 		/**
@@ -81,7 +61,7 @@ export default () => {
 		 */
 		// eslint-disable-next-line react/display-name
 		save: function( { attributes } ) {
-			return <HowTo.Content { ...attributes }/>;
+			return <FAQ.Content { ...attributes } />;
 		},
 	} );
 };
