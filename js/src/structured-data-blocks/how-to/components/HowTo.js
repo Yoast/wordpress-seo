@@ -250,7 +250,7 @@ export default class HowTo extends Component {
 
 		return (
 			<div className="schema-how-to-duration">
-				<span>{ __( "Total time:", "wordpress-seo" ) }&nbsp;</span>
+				<span>{  __( "Time needed:", "wordpress-seo" ) }&nbsp;</span>
 				<input
 					className="schema-how-to-duration-input"
 					type="number"
