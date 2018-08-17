@@ -1,8 +1,10 @@
+/* External dependencies */
 import React from "react";
+import { __ } from "@wordpress/i18n";
 
+/* Internal dependencies */
 import FAQ from "./components/FAQ";
 
-const { __ } = window.wp.i18n;
 const { registerBlockType } = window.wp.blocks;
 
 export default () => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { ButtonSection } from "yoast-components";
 import { Button, Modal } from "@wordpress/components";
-import { __ } from "@wordpress/i18n/build/index";
+import { __ } from "@wordpress/i18n";
 import SnippetEditorWrapper from "../containers/SnippetEditor";
 
 class SnippetPreviewModal extends React.Component {
@@ -31,7 +31,7 @@ class SnippetPreviewModal extends React.Component {
 					title={ __( "Snippet preview", "wordpress-seo" ) }
 					suffixIcon={ { size: "20px", icon: "pencil-square" } }
 					hasSeparator={ true }
-					onTitleClick={ this.openModal }
+					onClick={ this.openModal }
 					{ ...this.props }
 				/>
 				{ this.state.isOpen && <Modal

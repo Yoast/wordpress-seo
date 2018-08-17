@@ -1,6 +1,9 @@
+/* External dependencies */
+import { __ } from "@wordpress/i18n";
+
+/* Internal dependencies */
 import HowTo from "./components/HowTo";
 
-const { __ } = window.wp.i18n;
 const { registerBlockType } = window.wp.blocks;
 
 const attributes = {

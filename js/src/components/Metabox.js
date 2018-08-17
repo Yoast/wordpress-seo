@@ -11,7 +11,7 @@ import keywordUpsellProps from "../values/keywordUpsellProps";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
-import { __ } from "@wordpress/i18n/build/index";
+import { __ } from "@wordpress/i18n";
 import Collapsible from "./SidebarCollapsible";
 
 /**
