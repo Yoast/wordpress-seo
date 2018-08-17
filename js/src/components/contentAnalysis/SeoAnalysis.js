@@ -174,12 +174,12 @@ class SeoAnalysis extends React.Component {
 	 * @returns {ReactElement} The UpsellBox component.
 	 */
 	renderKeywordUpsell( location ) {
-		// Default to metabox
+		// Default to metabox.
 		let link    = wpseoAdminL10n[ "shortlinks.upsell.metabox.additional_link" ];
 		let buyLink = wpseoAdminL10n[ "shortlinks.upsell.metabox.additional_button" ];
 
 		if ( location.toLowerCase() === "sidebar" ) {
-			link    = wpseoAdminL10n[ "shortlinks.upsell.sidebar.metabox" ];
+			link    = wpseoAdminL10n[ "shortlinks.upsell.sidebar.additional_link" ];
 			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.additional_button" ];
 		}
 
