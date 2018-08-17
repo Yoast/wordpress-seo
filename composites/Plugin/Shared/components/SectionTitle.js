@@ -29,7 +29,7 @@ export const StyledSubTitle = styled.span`
 
 export const SectionTitle = ( props ) => {
 	return (
-		<StyledTitleContainer onClick={ props.onTitleClick }>
+		<StyledTitleContainer>
 			<StyledTitle>
 				{ props.title }
 				{ props.titleScreenReaderText && <ScreenReaderText>{ " " + props.titleScreenReaderText }</ScreenReaderText> }
@@ -40,12 +40,7 @@ export const SectionTitle = ( props ) => {
 };
 
 SectionTitle.propTypes = {
-	onTitleClick: PropTypes.func,
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
 	subTitle: PropTypes.string,
-};
-
-SectionTitle.defaultProps = {
-	onTitleClick: noop,
 };
