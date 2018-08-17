@@ -279,7 +279,7 @@ export const IconsButton = ( props ) => {
 
 	return (
 		<Button className={ className } { ...buttonProps }>
-			{ prefixIcon &&
+			{ prefixIcon && prefixIcon.icon &&
 				<SvgIcon
 					icon={ prefixIcon.icon }
 					color={ prefixIcon.color }
@@ -287,7 +287,7 @@ export const IconsButton = ( props ) => {
 				/>
 			}
 			{ children }
-			{ suffixIcon &&
+			{ suffixIcon && suffixIcon.icon &&
 				<SvgIcon
 					icon={ suffixIcon.icon }
 					color={ suffixIcon.color }
@@ -315,17 +315,4 @@ IconsButton.propTypes = {
 		PropTypes.node,
 		PropTypes.string,
 	] ),
-};
-
-IconsButton.defaultProps = {
-	prefixIcon: {
-		icon: "",
-		color: colors.$black,
-		size: "16px",
-	},
-	suffixIcon: {
-		icon: "",
-		color: colors.$black,
-		size: "16px",
-	},
 };
