@@ -1,4 +1,4 @@
-const Assessor = require( "../src/taxonomyAssessor.js" );
+const Assessor = require( "../js/taxonomyAssessor.js" );
 const Paper = require( "../js/values/Paper.js" );
 const factory = require( "./helpers/factory.js" );
 const i18n = factory.buildJed();
