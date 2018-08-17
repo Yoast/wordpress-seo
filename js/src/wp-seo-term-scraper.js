@@ -326,7 +326,7 @@ window.yoastHideMarkers = true;
 		}
 
 		// Initialize the analysis worker.
-		YoastSEO.analysisWorker.initialize( getAnalysisConfiguration() )
+		YoastSEO.analysisWorker.initialize( getAnalysisConfiguration( { useTaxonomy: true } ) )
 			.then( () => {
 				jQuery( window ).trigger( "YoastSEO:ready" );
 			} )

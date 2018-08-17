@@ -2,6 +2,7 @@
 import { AnalysisWorkerWrapper, createWorker } from "yoastseo";
 import get from "lodash/get";
 import isUndefined from "lodash/isUndefined";
+import merge from "lodash/merge";
 
 // Internal dependencies.
 import getContentLocale from "./getContentLocale";
@@ -22,14 +23,18 @@ export function createAnalysisWorker() {
 /**
  * Retrieves the analysis configuration for the worker.
  *
+ * @param {Object} [customConfiguration] The custom configuration to use.
+ *
  * @returns {Object} The analysis configuration.
  */
-export function getAnalysisConfiguration() {
-	const configuration = {
+export function getAnalysisConfiguration( customConfiguration = {}) {
+	let configuration = {
 		locale: getContentLocale(),
 		contentAnalysisActive: isContentAnalysisActive(),
 		keywordAnalysisActive: isKeywordAnalysisActive(),
 	};
+
+	configuration = merge( configuration, customConfiguration );
 
 	const translations = getTranslations();
 	if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
