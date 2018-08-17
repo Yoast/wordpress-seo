@@ -27,7 +27,7 @@ export function createAnalysisWorker() {
  *
  * @returns {Object} The analysis configuration.
  */
-export function getAnalysisConfiguration( customConfiguration = {}) {
+export function getAnalysisConfiguration( customConfiguration = {} ) {
 	let configuration = {
 		locale: getContentLocale(),
 		contentAnalysisActive: isContentAnalysisActive(),
