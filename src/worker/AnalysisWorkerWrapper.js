@@ -22,7 +22,7 @@ class AnalysisWorkerWrapper {
 		// Bind actions to this scope.
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
-		this.importScript = this.importScript.bind( this );
+		this.loadScript = this.loadScript.bind( this );
 		this.sendMessage = this.sendMessage.bind( this );
 
 		// Bind event handlers to this scope.
@@ -72,9 +72,6 @@ class AnalysisWorkerWrapper {
 				if ( payload.readability ) {
 					payload.readability.results = payload.readability.results.map( result => AssessmentResult.parse( result ) );
 				}
-
-				request.resolve( payload );
-				break;
 
 				request.resolve( payload );
 				break;
@@ -128,13 +125,14 @@ class AnalysisWorkerWrapper {
 	/**
 	 * Creates a new request inside a Promise.
 	 *
-	 * @param {number} id The request id.
+	 * @param {number} id     The request id.
+	 * @param {Object} [data] Optional extra data.
 	 *
 	 * @returns {Promise} The callback promise.
 	 */
-	createRequestPromise( id ) {
+	createRequestPromise( id, data = {} ) {
 		return new Promise( ( resolve, reject ) => {
-			this._requests[ id ] = new Request( resolve, reject );
+			this._requests[ id ] = new Request( resolve, reject, data );
 		} );
 	}
 
@@ -143,12 +141,13 @@ class AnalysisWorkerWrapper {
 	 *
 	 * @param {string} action  The action of the request.
 	 * @param {Object} payload The payload of the request.
+	 * @param {Object} [data]  Optional extra data.
 	 *
 	 * @returns {Promise} A promise that will resolve or reject once the worker finishes.
 	 */
-	sendRequest( action, payload ) {
+	sendRequest( action, payload, data = {} ) {
 		const id = this.createRequestId();
-		const promise = this.createRequestPromise( id );
+		const promise = this.createRequestPromise( id, data );
 
 		this.send( action, id, payload );
 		return promise;
@@ -202,8 +201,8 @@ class AnalysisWorkerWrapper {
 	 *
 	 * @returns {Promise} The promise of the script import.
 	 */
-	importScript( url ) {
-		return this.sendRequest( "importScript", { url } );
+	loadScript( url ) {
+		return this.sendRequest( "loadScript", { url } );
 	}
 
 	/**
@@ -217,7 +216,7 @@ class AnalysisWorkerWrapper {
 	 */
 	sendMessage( name, data, pluginName ) {
 		name = pluginName + "-" + name;
-		return this.sendRequest( "customMessage", { name, data } );
+		return this.sendRequest( "customMessage", { name, data }, data );
 	}
 }
 

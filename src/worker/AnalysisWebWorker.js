@@ -7,15 +7,43 @@ const isString = require( "lodash/isString" );
 const isObject = require( "lodash/isObject" );
 
 // YoastSEO.js dependencies.
-const YoastSEO = require( "../../index" );
-const {
-	Paper,
-	Researcher,
-	ContentAssessor,
+import * as assessments from "../assessments";
+import * as bundledPlugins from "../bundledPlugins";
+import * as helpers from "../helpers";
+import * as markers from "../markers";
+import * as string from "../stringProcessing";
+import * as interpreters from "../interpreters";
+import * as config from "../config";
+
+const Assessor = require( "../assessor" );
+const SEOAssessor = require( "../seoAssessor" );
+const ContentAssessor = require( "../contentAssessor" );
+const Pluggable = require( "../pluggable" );
+const Researcher = require( "../researcher" );
+const SnippetPreview = require( "../snippetPreview" );
+
+const Paper = require( "../values/Paper" );
+const AssessmentResult = require( "../values/AssessmentResult" );
+
+const YoastSEO = {
+	Assessor,
 	SEOAssessor,
-	string: { htmlParser: removeHtmlBlocks },
-	assessments: { seo: { LargestKeywordDistanceAssessment } },
-} = YoastSEO;
+	ContentAssessor,
+	Pluggable,
+	Researcher,
+	SnippetPreview,
+
+	Paper,
+	AssessmentResult,
+
+	assessments,
+	bundledPlugins,
+	helpers,
+	markers,
+	string,
+	interpreters,
+	config,
+};
 
 const CornerstoneContentAssessor = require( "../cornerstone/contentAssessor" );
 const CornerstoneSEOAssessor = require( "../cornerstone/seoAssessor" );
@@ -48,7 +76,7 @@ export default class AnalysisWebWorker {
 			// The locale used for language-specific configurations in Flesch-reading ease and Sentence length assessments.
 			locale: "en_US",
 		};
-		this._scheduler = new Scheduler( { resetQueue: true } );
+		this._scheduler = new Scheduler( { resetQueue: false } );
 		this._paper = new Paper( "" );
 		this._researcher = new Researcher( this._paper );
 		this._contentAssessor = null;
@@ -69,8 +97,13 @@ export default class AnalysisWebWorker {
 		this.analyzeDone = this.analyzeDone.bind( this );
 		this.loadScript = this.loadScript.bind( this );
 		this.loadScriptDone = this.loadScriptDone.bind( this );
+		this.customMessage = this.customMessage.bind( this );
+		this.customMessageDone = this.customMessageDone.bind( this );
+
+		// Bind register functions to this scope.
 		this.registerAssessment = this.registerAssessment.bind( this );
 		this.registerMessageHandler = this.registerMessageHandler.bind( this );
+		this.clearCache = this.clearCache.bind( this );
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
@@ -86,6 +119,7 @@ export default class AnalysisWebWorker {
 		this._scope.analysisWorker = {
 			registerAssessment: this.registerAssessment,
 			registerMessageHandler: this.registerMessageHandler,
+			clearCache: this.clearCache,
 		};
 		this._scope.YoastSEO = YoastSEO;
 	}
@@ -125,7 +159,7 @@ export default class AnalysisWebWorker {
 					data: payload,
 				} );
 				break;
-			case "customMessage":
+			case "customMessage": {
 				const name = payload.name;
 				if ( name && this._registeredMessageHandlers[ name ] ) {
 					this._scheduler.schedule( {
@@ -138,6 +172,7 @@ export default class AnalysisWebWorker {
 				}
 				this.customMessageDone( id, { error: new Error( "No message handler registered for messages with name: " + name ) } );
 				break;
+			}
 			default:
 				console.warn( "Unrecognized command", type );
 		}
@@ -215,7 +250,7 @@ export default class AnalysisWebWorker {
 			: new SEOAssessor( this._i18n, { locale } );
 
 		if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "largestKeywordDistance" ) ) ) {
-			assessor.addAssessment( "largestKeywordDistance", LargestKeywordDistanceAssessment );
+			assessor.addAssessment( "largestKeywordDistance", assessments.seo.LargestKeywordDistanceAssessment );
 		}
 
 		this._registeredAssessments.forEach( ( { name, assessment } ) => {
@@ -275,12 +310,13 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
+	 * Register an assessment for a specific plugin
 	 *
+	 * @param {string}   name       The name of the assessment.
+	 * @param {function} assessment The function to run as an assessment.
+	 * @param {string}   pluginName The name of the plugin associated with the assessment.
 	 *
-	 * @param name
-	 * @param assessment
-	 * @param pluginName
-	 * @returns {boolean}
+	 * @returns {boolean} Whether registering the assessment was successful.
 	 */
 	registerAssessment( name, assessment, pluginName ) {
 		if ( ! isString( name ) ) {
@@ -306,6 +342,15 @@ export default class AnalysisWebWorker {
 		return true;
 	}
 
+	/**
+	 * Register a message handler for a specific plugin
+	 *
+	 * @param {string}   name       The name of the message handler.
+	 * @param {function} handler    The function to run as an message handler.
+	 * @param {string}   pluginName The name of the plugin associated with the message handler.
+	 *
+	 * @returns {boolean} Whether registering the message handler was successful.
+	 */
 	registerMessageHandler( name, handler, pluginName ) {
 		if ( ! isString( name ) ) {
 			throw new InvalidTypeError( "Failed to register handler for plugin " + pluginName + ". Expected parameter `name` to be a string." );
@@ -325,6 +370,15 @@ export default class AnalysisWebWorker {
 		name = pluginName + "-" + name;
 
 		this._registeredMessageHandlers[ name ] = handler;
+	}
+
+	/**
+	 * Clears the worker cache to force a new analysis.
+	 *
+	 * @returns {void}
+	 */
+	clearCache() {
+		this._paper = new Paper( "" );
 	}
 
 	/**
@@ -356,7 +410,7 @@ export default class AnalysisWebWorker {
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
 	analyze( id, { paper } ) {
-		paper.text = removeHtmlBlocks( paper.text );
+		paper.text = string.stripHTMLTags( paper.text );
 		const newPaper = Paper.parse( paper );
 		const paperIsIdentical = isEqual( this._paper, newPaper );
 		const textIsIdentical = this._paper.getText() === newPaper.getText();
@@ -401,8 +455,10 @@ export default class AnalysisWebWorker {
 	/**
 	 * Loads a new script from an external source.
 	 *
-	 * @param {number} id   The request id.
-	 * @param url
+	 * @param {number} id  The request id.
+	 * @param {string} url The url of the script to load;
+	 *
+	 * @returns {Object} An object containing whether or not the url was loaded, the url and possibly an error message.
 	 */
 	loadScript( id, { url } ) {
 		if ( isUndefined( url ) ) {
@@ -410,7 +466,7 @@ export default class AnalysisWebWorker {
 		}
 
 		try {
-			importScripts( this._scope.location.protocol + this._scope.location.host + url );
+			this._scope.importScripts( url );
 		} catch ( error ) {
 			return { loaded: false, url, message: error.message };
 		}
