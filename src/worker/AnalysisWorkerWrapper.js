@@ -170,16 +170,16 @@ class AnalysisWorkerWrapper {
 	/**
 	 * Analyzes the paper.
 	 *
-	 * @param {Object} paper         The paper to analyze.
-	 * @param {Object} configuration The configuration specific to these analyses.
+	 * @param {Object} paper           The paper to analyze.
+	 * @param {Object} relatedKeywords The related keywords.
 	 *
 	 * @returns {Promise} The promise of analyses.
 	 */
-	analyze( paper, configuration = {} ) {
+	analyze( paper, relatedKeywords = {} ) {
 		const id = this.createRequestId();
 		const promise = this.createRequestPromise( id );
 
-		this.send( "analyze", id, { paper, configuration } );
+		this.send( "analyze", id, { paper, relatedKeywords } );
 		return promise;
 	}
 }
