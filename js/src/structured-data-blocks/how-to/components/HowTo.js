@@ -258,7 +258,12 @@ export default class HowTo extends Component {
 					type="number"
 					value={ attributes.hours }
 					onFocus={ () => this.setFocus( "hours" ) }
-					onChange={ ( event ) => setAttributes( { hours: Math.max( 0, event.target.value ) } ) }
+					id="hours-input"
+					onChange={ ( event ) => {
+						const newValue = event.target.value.replace( /^[0]+/, "" );
+						setAttributes( { hours: Math.max( 0, newValue ) } );
+						document.getElementById( "hours-input" ).value = newValue;
+					} }
 					placeholder="HH"/>
 				<span>:</span>
 				<input
@@ -266,7 +271,12 @@ export default class HowTo extends Component {
 					type="number"
 					value={ attributes.minutes }
 					onFocus={ () => this.setFocus( "minutes" ) }
-					onChange={ ( event ) => setAttributes( { minutes: Math.min( Math.max( 0, event.target.value ), 60 ) } ) }
+					id="minutes-input"
+					onChange={ ( event ) => {
+						const newValue = event.target.value.replace( /^[0]+/, "" );
+						setAttributes( { minutes: Math.min( Math.max( 0, newValue ), 59 ) } );
+						document.getElementById( "minutes-input" ).value = newValue;
+					} }
 					placeholder="MM" />
 				<IconButton
 					className="schema-how-to-duration-button editor-inserter__toggle"
