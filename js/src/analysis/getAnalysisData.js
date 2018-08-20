@@ -1,5 +1,6 @@
 /* global YoastSEO */
 
+import cloneDeep from "lodash/cloneDeep";
 import merge from "lodash/merge";
 
 import measureTextWidth from "../helpers/measureTextWidth";
@@ -20,8 +21,8 @@ import measureTextWidth from "../helpers/measureTextWidth";
  * @returns {Object} The paper data used for the analyses.
  */
 export default function getAnalysisData( edit, store, customAnalysisData, pluggable ) {
-	let storeData = store.getState();
-	storeData = merge( storeData, customAnalysisData.getData() );
+	const storeData = cloneDeep( store.getState() );
+	merge( storeData, customAnalysisData.getData() );
 	const editData = edit.getData().getData();
 
 	// Make a data structure for the paper data.
