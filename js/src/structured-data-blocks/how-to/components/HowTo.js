@@ -316,7 +316,7 @@ export default class HowTo extends Component {
 					value={ title }
 					id={ stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
 				/>
-				{ ( hasDuration ) &&
+				{ ( hasDuration && timeString.length > 0 ) &&
 					<p className="schema-how-to-total-time">
 						{ __( "Time needed:", "wordpress-seo" ) }
 						&nbsp;
