@@ -566,7 +566,7 @@ class WPSEO_OpenGraph_Image {
 	protected function get_image_url_path( $url ) {
 		$parsed_url = wp_parse_url( $url );
 
-		if ( $parsed_url === false ) {
+		if ( $parsed_url === false && !isset( $parsed_url['path'] ) ) {
 			return '';
 		}
 
