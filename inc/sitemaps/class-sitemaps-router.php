@@ -56,11 +56,13 @@ class WPSEO_Sitemaps_Router {
 	 * Redirects sitemap.xml to sitemap_index.xml.
 	 */
 	public function template_redirect() {
-		if ( $this->needs_sitemap_index_redirect() ) {
-			header( 'X-Redirect-By: Yoast SEO' );
-			wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
-			exit;
+		if ( ! $this->needs_sitemap_index_redirect() ) {
+			return;
 		}
+
+		header( 'X-Redirect-By: Yoast SEO' );
+		wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
+		exit;
 	}
 
 	/**
