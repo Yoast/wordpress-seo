@@ -41,6 +41,9 @@ const attributes = {
 	unorderedList: {
 		type: "boolean",
 	},
+	headingID: {
+		type: "string",
+	},
 };
 
 export default () => {
