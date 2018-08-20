@@ -9,6 +9,26 @@ import getAnalysisData from "./getAnalysisData";
 import getMarker from "./getMarker";
 
 /**
+ * Recreates the getMarker function for the assessment result.
+ *
+ * @param {AssessmentResult}    result  The assessment result for which to recreate the getMarker function.
+ * @param {Object}              store   The store.
+ * @param {Object}              data    The paper data used for the analyses.
+ *
+ * @returns {void}
+ */
+const recreateGetMarkerFunction = function( result, store, data ) {
+	const { marksButtonStatus } = store.getState();
+	const showMarkers = marksButtonStatus === "enabled";
+	result.getMarker = () => {
+		return () => {
+			const marker = getMarker( showMarkers );
+			marker( Paper.parse( data ), result.marks );
+		};
+	};
+};
+
+/**
  * Refreshes the analysis.
  *
  * @param {Edit}                  edit               The edit instance.
@@ -23,20 +43,14 @@ import getMarker from "./getMarker";
 export default function refreshAnalysis( edit, analysisWorker, store, customAnalysisData, pluggable ) {
 	const data = getAnalysisData( edit, store, customAnalysisData, pluggable );
 
+
 	// Request analyses.
 	analysisWorker.analyze( data )
 		.then( ( { result: { seo, readability } } ) => {
 			if ( seo ) {
 				// Recreate the getMarker function after the worker is done.
-				seo.results.map( function( result ) {
-					result.getMarker = () => {
-						const { marksButtonStatus } = store.getState();
-						const showMarkers = marksButtonStatus === "enabled";
-						return () => {
-							const marker = getMarker( showMarkers );
-							marker( Paper.parse( data ), result.marks );
-						};
-					};
+				seo.results.map ( function( result ) {
+					recreateGetMarkerFunction( result, store, data );
 				}
 			);
 				store.dispatch( setSeoResultsForKeyword( data.keyword, seo.results ) );
@@ -44,14 +58,7 @@ export default function refreshAnalysis( edit, analysisWorker, store, customAnal
 			}
 			if ( readability ) {
 				readability.results.map( function( result ) {
-					result.getMarker = () => {
-						const { marksButtonStatus } = store.getState();
-						const showMarkers = marksButtonStatus === "enabled";
-						return () => {
-							const marker = getMarker( showMarkers );
-							marker( Paper.parse( data ), result.marks );
-						};
-					};
+					recreateGetMarkerFunction( result, store, data );
 				}
 			);
 				store.dispatch( setReadabilityResults( readability.results ) );
