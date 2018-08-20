@@ -1,73 +1,82 @@
-/* global yoastKeywordSynonymsModalL10n */
 import React from "react";
-import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
+import { __, sprintf } from "@wordpress/i18n";
 
-import IntlProvider from "../IntlProvider";
-import { Icon, YoastSeoIcon, utils } from "yoast-components";
-import PremiumBenefitsForSynonymsList from "../PremiumBenefitsForSynonymsList";
-import { getRtlStyle } from "yoast-components";
+import { utils } from "yoast-components";
+import PropTypes from "prop-types";
+import UpsellBox from "../UpsellBox";
+
 const { makeOutboundLink } = utils;
-
-let localizedData = null;
-if ( window.yoastKeywordSynonymsModalL10n ) {
-	localizedData = yoastKeywordSynonymsModalL10n;
-}
-
 const PremiumLandingPageLink = makeOutboundLink();
-const BuyButtonLink = makeOutboundLink();
-
-const StyledContainer = styled.div`
-	min-width: 600px;
-
-	@media screen and ( max-width: 680px ) {
-		min-width: 0;
-		width: 86vw;
-	}
-`;
-
-const StyledIcon = styled( Icon )`
-	float: ${ getRtlStyle( "right", "left" ) };
-	margin: ${ getRtlStyle( "0 0 16px 16px", "0 16px 16px 0" ) };
-
-	&& {
-		width: 150px;
-		height: 150px;
-
-		@media screen and ( max-width: 680px ) {
-			width: 80px;
-			height: 80px;
-		}
-	}
-`;
 
 /**
  * Creates the content for a keyword synonyms upsell modal.
  *
+ * @param {Object} props The props for the component.
+ *
  * @returns {ReactElement} The Keyword Synonyms upsell component.
  */
-const KeywordSynonyms = () => {
-	return (
-		localizedData && <IntlProvider messages={ localizedData.intl }>
-			<StyledContainer>
-				<StyledIcon icon={ YoastSeoIcon } />
-				<h2>{ localizedData.intl.title }</h2>
-				<p>
-					{ interpolateComponents( {
-						mixedString: localizedData.intl.intro,
-						components: { link: <PremiumLandingPageLink href={ localizedData.intl.link } /> },
-					} ) }
-				</p>
-				<p>{ localizedData.intl.other }</p>
-				<PremiumBenefitsForSynonymsList />
-				<BuyButtonLink href={ localizedData.intl.buylink } className="button button-primary">
-					{ localizedData.intl.buy }
-				</BuyButtonLink>
-				<br/>
-				<small>{ localizedData.intl.small }</small>
-			</StyledContainer>
-		</IntlProvider>
+const KeywordSynonyms = ( props ) => {
+	const intro = sprintf(
+		/* translators: %s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
+		__( "Great news: you can, with %s!", "wordpress-seo" ),
+		"{{link}}Yoast SEO Premium{{/link}}"
 	);
+
+	const interpolated = interpolateComponents( {
+		mixedString: intro,
+		components: { link: <PremiumLandingPageLink href={ props.link } /> },
+	} );
+
+	const benefits = [
+		`<strong>${ __( "Rank for up to 5 focus keywords per page", "wordpress-seo" ) }</strong>`,
+		sprintf(
+			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+			__( "%1$sNo more dead links%2$s: easy redirect manager", "wordpress-seo" ),
+			"<strong>",
+			"</strong>"
+		),
+		`<strong>${ __( "Superfast internal links suggestions", "wordpress-seo" ) }</strong>`,
+		sprintf(
+			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+			__( "%1$sSocial media preview%2$s: Facebook & Twitter", "wordpress-seo" ),
+			"<strong>",
+			"</strong>"
+		),
+		`<strong>${ __( "24/7 support", "wordpress-seo" ) }</strong>`,
+		`<strong>${ __( "No ads!", "wordpress-seo" ) }</strong>`,
+	];
+
+	const otherBenefits = sprintf(
+		/* translators: %s expands to 'Yoast SEO Premium'. */
+		__( "Other benefits of %s for you:", "wordpress-seo" ),
+		"Yoast SEO Premium"
+	);
+
+	return (
+		<UpsellBox
+			infoParagraphs={ [ interpolated, otherBenefits ] }
+			benefits={ benefits }
+			upsellButtonText={
+				sprintf(
+					/* translators: %s expands to 'Yoast SEO Premium'. */
+					__( "Get %s now!", "wordpress-seo" ),
+					"Yoast SEO Premium"
+				)
+			}
+			upsellButton={ {
+				href: props.buyLink,
+				className: "button button-primary",
+				rel: null,
+			} }
+			upsellButtonLabel={ __( "1 year free updates and upgrades included!", "wordpress-seo" ) }
+		/>
+	);
+};
+
+KeywordSynonyms.propTypes = {
+	link: PropTypes.string.isRequired,
+	buyLink: PropTypes.string.isRequired,
 };
 
 export default KeywordSynonyms;
