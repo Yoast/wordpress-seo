@@ -127,6 +127,7 @@
     "lodash": "^4.17.4",
     "marked": "^0.3.6",
     "material-ui": "^0.20.0",
+    "moment": "2.22.2",
     "prop-types": "^15.5.10",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
@@ -139,6 +140,6 @@
     "yoastseo": "^1.37"
   },
   "yoast": {
-    "pluginVersion": "8.0"
+    "pluginVersion": "8.1-RC1"
   }
 }
