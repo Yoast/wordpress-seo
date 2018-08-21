@@ -127,7 +127,7 @@ export default class AnalysisWebWorker {
 			registerMessageHandler: this.registerMessageHandler,
 			refreshAssessment: this.refreshAssessment,
 		};
-		this._scope.YoastSEO = YoastSEO;
+		this._scope.yoast = { analysis: YoastSEO };
 	}
 
 	/**
