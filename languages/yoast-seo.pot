@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: yoastseo 1.36.0\n"
+"Project-Id-Version: yoastseo 1.37.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-06 14:50+0200\n"
+"POT-Creation-Date: 2018-08-15 13:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -240,7 +240,7 @@ msgid ""
 msgstr ""
 
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
-#: js/assessments/seo/internalLinksAssessment.js:80
+#: js/assessments/seo/InternalLinksAssessment.js:80
 #, javascript-format
 msgid ""
 "No %1$sinternal links%2$s appear in this page, consider adding some as "
@@ -249,21 +249,21 @@ msgstr ""
 
 #. Translators: %1$s expands the number of internal links, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag
-#: js/assessments/seo/internalLinksAssessment.js:89
+#: js/assessments/seo/InternalLinksAssessment.js:89
 #, javascript-format
 msgid "This page has %1$s %2$sinternal link(s)%3$s, all nofollowed."
 msgstr ""
 
 #. Translators: %1$s expands to the number of internal links, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag
-#: js/assessments/seo/internalLinksAssessment.js:98
+#: js/assessments/seo/InternalLinksAssessment.js:98
 #, javascript-format
 msgid "This page has %1$s %2$sinternal link(s)%3$s."
 msgstr ""
 
 #. Translators: %1$s expands to the number of nofollow links, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s to the number of internal links
-#: js/assessments/seo/internalLinksAssessment.js:106
+#: js/assessments/seo/InternalLinksAssessment.js:106
 #, javascript-format
 msgid ""
 "This page has %1$s nofollowed %2$sinternal link(s)%3$s and %4$s normal "
@@ -271,13 +271,13 @@ msgid ""
 msgstr ""
 
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
-#: js/assessments/seo/introductionKeywordAssessment.js:76
+#: js/assessments/seo/IntroductionKeywordAssessment.js:76
 #, javascript-format
 msgid "The focus keyword appears in the %1$sfirst paragraph%2$s of the copy."
 msgstr ""
 
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
-#: js/assessments/seo/introductionKeywordAssessment.js:83
+#: js/assessments/seo/IntroductionKeywordAssessment.js:83
 #, javascript-format
 msgid ""
 "The focus keyword doesn't appear in the %1$sfirst paragraph%2$s of the copy. "
@@ -285,7 +285,7 @@ msgid ""
 msgstr ""
 
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
-#: js/assessments/seo/keyphraseLengthAssessment.js:71
+#: js/assessments/seo/KeyphraseLengthAssessment.js:71
 #, javascript-format
 msgid ""
 "No %1$sfocus keyword%2$s was set for this page. If you do not set a focus "
@@ -293,19 +293,19 @@ msgid ""
 msgstr ""
 
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
-#: js/assessments/seo/keyphraseLengthAssessment.js:79
+#: js/assessments/seo/KeyphraseLengthAssessment.js:79
 #, javascript-format
 msgid "The %1$skeyphrase%2$s is over 10 words, a keyphrase should be shorter."
 msgstr ""
 
-#: js/assessments/seo/keywordDensityAssessment.js:129
+#: js/assessments/seo/KeywordDensityAssessment.js:129
 #, javascript-format
 msgid ""
 "The exact-match %3$skeyword density%4$s is %1$s, which is too low; the focus "
 "keyword was found %2$d times."
 msgstr ""
 
-#: js/assessments/seo/keywordDensityAssessment.js:142
+#: js/assessments/seo/KeywordDensityAssessment.js:142
 #, javascript-format
 msgid ""
 "The exact-match %3$skeyword density%4$s is %1$s, which is too low; the focus "
@@ -316,7 +316,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/assessments/seo/keywordDensityAssessment.js:156
+#: js/assessments/seo/KeywordDensityAssessment.js:156
 #, javascript-format
 msgid ""
 "The exact-match %3$skeyword density%4$s is %1$s, which is great; the focus "
@@ -327,7 +327,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/assessments/seo/keywordDensityAssessment.js:171
+#: js/assessments/seo/KeywordDensityAssessment.js:171
 #, javascript-format
 msgid ""
 "The exact-match %4$skeyword density%5$s is %1$s, which is over the advised "
@@ -338,7 +338,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/assessments/seo/keywordDensityAssessment.js:186
+#: js/assessments/seo/KeywordDensityAssessment.js:186
 #, javascript-format
 msgid ""
 "The exact-match %4$skeyword density%5$s is %1$s, which is way over the "
@@ -363,7 +363,7 @@ msgstr[1] ""
 
 #. Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
 #. %2$s expands to the anchor end tag
-#: js/assessments/seo/largestKeywordDistanceAssessment.js:81
+#: js/assessments/seo/LargestKeywordDistanceAssessment.js:81
 #, javascript-format
 msgid ""
 "Use your keyword or synonyms more often in your text so that we can check "
@@ -372,7 +372,7 @@ msgstr ""
 
 #. Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
 #. %2$s expands to the anchor end tag
-#: js/assessments/seo/largestKeywordDistanceAssessment.js:90
+#: js/assessments/seo/LargestKeywordDistanceAssessment.js:90
 #, javascript-format
 msgid ""
 "Large parts of your text do not contain the keyword. Try to %1$sdistribute"
@@ -385,7 +385,7 @@ msgstr[1] ""
 
 #. Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
 #. %2$s expands to the anchor end tag
-#: js/assessments/seo/largestKeywordDistanceAssessment.js:99
+#: js/assessments/seo/LargestKeywordDistanceAssessment.js:99
 #, javascript-format
 msgid ""
 "Some parts of your text do not contain the keyword. Try to %1$sdistribute"
@@ -398,7 +398,7 @@ msgstr[1] ""
 
 #. Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
 #. %2$s expands to the anchor end tag
-#: js/assessments/seo/largestKeywordDistanceAssessment.js:107
+#: js/assessments/seo/LargestKeywordDistanceAssessment.js:107
 #, javascript-format
 msgid ""
 "Your keyword is %1$sdistributed%2$s evenly throughout the text. That's great."
@@ -409,7 +409,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
-#: js/assessments/seo/metaDescriptionKeywordAssessment.js:73
+#: js/assessments/seo/MetaDescriptionKeywordAssessment.js:73
 #, javascript-format
 msgid ""
 "A meta description has been specified, but it %1$sdoes not contain the focus "
@@ -596,7 +596,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
-#: js/assessments/seo/textCompetingLinksAssessment.js:83
+#: js/assessments/seo/TextCompetingLinksAssessment.js:83
 #, javascript-format
 msgid ""
 "You're %1$slinking to another page with the focus keyword%2$s you want this "
@@ -636,13 +636,13 @@ msgstr ""
 
 #. Translators: %1$s expands to the keyphrase, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag.
-#: js/assessments/seo/titleKeywordAssessment.js:85
+#: js/assessments/seo/TitleKeywordAssessment.js:85
 #, javascript-format
 msgid "The focus keyword '%1$s' does not appear in the %2$sSEO title%3$s."
 msgstr ""
 
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
-#: js/assessments/seo/titleKeywordAssessment.js:93
+#: js/assessments/seo/TitleKeywordAssessment.js:93
 #, javascript-format
 msgid ""
 "The %1$sSEO title%2$s contains the focus keyword, at the beginning which is "
@@ -650,7 +650,7 @@ msgid ""
 msgstr ""
 
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
-#: js/assessments/seo/titleKeywordAssessment.js:100
+#: js/assessments/seo/TitleKeywordAssessment.js:100
 #, javascript-format
 msgid ""
 "The %1$sSEO title%2$s contains the focus keyword, but it does not appear at "
@@ -658,7 +658,7 @@ msgid ""
 msgstr ""
 
 #. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
-#: js/assessments/seo/urlKeywordAssessment.js:72
+#: js/assessments/seo/UrlKeywordAssessment.js:72
 #, javascript-format
 msgid ""
 "The focus keyword does not appear in the %1$sURL%2$s for this page. If you "
@@ -667,7 +667,7 @@ msgid ""
 msgstr ""
 
 #. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
-#: js/assessments/seo/urlKeywordAssessment.js:80
+#: js/assessments/seo/UrlKeywordAssessment.js:80
 #, javascript-format
 msgid "The focus keyword appears in the %1$sURL%2$s for this page."
 msgstr ""
@@ -692,7 +692,7 @@ msgid "http://en.wikipedia.org/wiki/Stop_words"
 msgstr ""
 
 #. Translators: %1$s expands to the name of the assessment.
-#: js/assessor.js:165
+#: js/assessor.js:166
 #, javascript-format
 msgid "An error occurred in the '%1$s' assessment"
 msgstr ""

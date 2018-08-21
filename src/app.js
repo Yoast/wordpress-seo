@@ -91,6 +91,7 @@ var defaults = {
 	keywordAnalysisActive: true,
 	contentAnalysisActive: true,
 	hasSnippetPreview: true,
+	debounceRefresh: true,
 };
 
 /**
@@ -245,6 +246,8 @@ function verifyArguments( args ) {
  * @param {Function} args.marker The marker to use to apply the list of marks retrieved from an assessment.
  *
  * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
+ * @param {boolean} [args.debouncedRefresh] Whether or not to debounce the
+ *                                          refresh function. Defaults to true.
  *
  * @constructor
  */
@@ -259,7 +262,9 @@ var App = function( args ) {
 
 	this.config = args;
 
-	this.refresh = debounce( this.refresh.bind( this ), inputDebounceDelay );
+	if ( args.debouncedRefresh === true ) {
+		this.refresh = debounce( this.refresh.bind( this ), inputDebounceDelay );
+	}
 	this._pureRefresh = throttle( this._pureRefresh.bind( this ), this.config.typeDelay );
 
 	this.callbacks = this.config.callbacks;
@@ -285,7 +290,7 @@ var App = function( args ) {
 		app.*/
 		if ( this.snippetPreview.refObj !== this ) {
 			this.snippetPreview.refObj = this;
-			this.snippetPreview.i18n = this.i18n;
+			this.snippetPreview._i18n = this.i18n;
 		}
 	} else if ( args.hasSnippetPreview ) {
 		this.snippetPreview = createDefaultSnippetPreview.call( this );
@@ -415,10 +420,10 @@ App.prototype.initializeContentAssessor = function( args ) {
 	this.cornerStoneContentAssessor = new CornerstoneContentAssessor( this.i18n, { marker: this.config.marker, locale: this.config.locale } );
 
 	// Set the content assessor
-	if ( isUndefined( args.contentAssessor ) ) {
+	if ( isUndefined( args._contentAssessor ) ) {
 		this.contentAssessor = this.defaultContentAssessor;
 	} else {
-		this.contentAssessor = args.contentAssessor;
+		this.contentAssessor = args._contentAssessor;
 	}
 };
 
