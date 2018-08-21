@@ -5,7 +5,6 @@ import { __ } from "@wordpress/i18n";
 const { Component } = window.wp.element;
 const { IconButton } = window.wp.components;
 const { RichText, MediaUpload } = window.wp.editor;
-const { getBlockContent } = window.wp.blocks;
 
 /**
  * A How-to step within a How-to block.
@@ -22,7 +21,6 @@ export default class HowToStep extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.onSplit       = this.onSplit.bind( this );
 		this.onSelectImage = this.onSelectImage.bind( this );
 	}
 
