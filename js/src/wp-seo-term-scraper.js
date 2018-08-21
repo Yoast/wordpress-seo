@@ -1,7 +1,7 @@
 /* global YoastSEO: true, wpseoReplaceVarsL10n, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
 
 // External dependencies.
-import { App } from "yoastseo";
+import { App, TaxonomyAssessor } from "yoastseo";
 import {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
@@ -29,8 +29,6 @@ import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
-
-import TaxonomyAssessor from "./assessors/taxonomyAssessor";
 
 // Redux dependencies.
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
@@ -326,7 +324,7 @@ window.yoastHideMarkers = true;
 		}
 
 		// Initialize the analysis worker.
-		YoastSEO.analysisWorker.initialize( getAnalysisConfiguration() )
+		YoastSEO.analysisWorker.initialize( getAnalysisConfiguration( { useTaxonomy: true } ) )
 			.then( () => {
 				jQuery( window ).trigger( "YoastSEO:ready" );
 			} )
