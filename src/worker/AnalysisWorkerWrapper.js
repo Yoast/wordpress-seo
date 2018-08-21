@@ -1,3 +1,6 @@
+// External dependencies.
+const forEach = require( "lodash/forEach" );
+
 // Internal dependencies.
 import Request from "./request";
 const AssessmentResult = require( "../values/AssessmentResult" );
@@ -70,7 +73,9 @@ class AnalysisWorkerWrapper {
 
 				// Map the results back to classes, because we encode and decode the message payload.
 				if ( payload.seo ) {
-					payload.seo.results = payload.seo.results.map( result => AssessmentResult.parse( result ) );
+					forEach( payload.seo, ( { results }, key ) => {
+						payload.seo[ key ].results = results.map( result => AssessmentResult.parse( result ) );
+					} );
 				}
 				if ( payload.readability ) {
 					payload.readability.results = payload.readability.results.map( result => AssessmentResult.parse( result ) );

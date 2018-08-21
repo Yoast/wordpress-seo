@@ -281,7 +281,7 @@ export default class AnalysisWebWorker {
 	 *
 	 * @returns {boolean} True if there are changes detected.
 	 */
-	paperHasReadabilityChanges( paper ) {
+	shouldReadabilityUpdate( paper ) {
 		if ( this._paper.getText() !== paper.getText() ) {
 			return true;
 		}
@@ -299,7 +299,7 @@ export default class AnalysisWebWorker {
 	 *
 	 * @returns {boolean} True if there are changes detected.
 	 */
-	relatedKeywordHasChanges( key, { keyword, synonyms } ) {
+	shouldSeoUpdate( key, { keyword, synonyms } ) {
 		if ( isUndefined( this._relatedKeywords[ key ] ) ) {
 			return true;
 		}
@@ -330,7 +330,7 @@ export default class AnalysisWebWorker {
 		paper.text = removeHtmlBlocks( paper.text );
 		const newPaper = Paper.parse( paper );
 		const paperHasChanges = ! this._paper.equals( newPaper );
-		const paperHasReadabilityChanges = this.paperHasReadabilityChanges( newPaper );
+		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( newPaper );
 
 		if ( paperHasChanges ) {
 			this._paper = newPaper;
@@ -357,7 +357,7 @@ export default class AnalysisWebWorker {
 			forEach( relatedKeywords, ( relatedKeyword, key ) => {
 				requestedRelatedKeywordKeys.push( key );
 
-				if ( this.relatedKeywordHasChanges( key, relatedKeyword ) ) {
+				if ( this.shouldSeoUpdate( key, relatedKeyword ) ) {
 					this._relatedKeywords[ key ] = relatedKeyword;
 
 					const relatedPaper = Paper.parse( {
@@ -380,7 +380,7 @@ export default class AnalysisWebWorker {
 			}
 		}
 
-		if ( this._configuration.contentAnalysisActive && this._contentAssessor && paperHasReadabilityChanges ) {
+		if ( this._configuration.contentAnalysisActive && this._contentAssessor && shouldReadabilityUpdate ) {
 			this._contentAssessor.assess( this._paper );
 
 			this._results.readability = {
