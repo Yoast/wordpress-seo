@@ -231,6 +231,28 @@ export default class HowTo extends Component {
 	}
 
 	/**
+	 * Formats the time in the input fields by removing leading zeros.
+	 *
+	 * @param {number}       duration     The duration as entered by the user.
+	 * @param {number} maxDuration  The (optional) max duration a field can have.
+	 *
+	 * @returns {number}     newDuration  The formatted duration.
+	 */
+	formatDuration( duration, maxDuration = null ) {
+		const newDuration = duration.replace( /^[0]+/, "" );
+
+		if ( newDuration === "" ) {
+			return null;
+		}
+
+		if ( maxDuration !== null ) {
+			return Math.min( Math.max( 0, newDuration ), maxDuration );
+		}
+
+		return Math.max( 0, newDuration );
+	}
+
+	/**
 	 * Returns a component to manage this how-to block"s duration.
 	 *
 	 * @returns {Component} The duration editor component.
@@ -260,8 +282,8 @@ export default class HowTo extends Component {
 					onFocus={ () => this.setFocus( "hours" ) }
 					id="hours-input"
 					onChange={ ( event ) => {
-						const newValue = event.target.value.replace( /^[0]+/, "" );
-						setAttributes( { hours: Math.max( 0, newValue ) } );
+						const newValue = this.formatDuration( event.target.value );
+						setAttributes( { hours: newValue } );
 						document.getElementById( "hours-input" ).value = newValue;
 					} }
 					placeholder="HH"/>
@@ -273,8 +295,8 @@ export default class HowTo extends Component {
 					onFocus={ () => this.setFocus( "minutes" ) }
 					id="minutes-input"
 					onChange={ ( event ) => {
-						const newValue = event.target.value.replace( /^[0]+/, "" );
-						setAttributes( { minutes: Math.min( Math.max( 0, newValue ), 59 ) } );
+						const newValue = this.formatDuration( event.target.value, 59 );
+						setAttributes( { minutes: newValue } );
 						document.getElementById( "minutes-input" ).value = newValue;
 					} }
 					placeholder="MM" />
