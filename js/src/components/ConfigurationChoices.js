@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { localize } from "yoast-components/utils/i18n";
+import { localize } from "yoast-components";
 import ConfigurationChoice from "./ConfigurationChoice";
 
 class ConfigurationChoices extends React.Component {

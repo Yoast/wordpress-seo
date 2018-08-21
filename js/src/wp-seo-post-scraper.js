@@ -7,7 +7,7 @@ import debounce from "lodash/debounce";
 import {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
-} from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+} from "yoast-components";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
 // Internal dependencies.

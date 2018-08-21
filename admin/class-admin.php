@@ -49,9 +49,6 @@ class WPSEO_Admin {
 
 		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
 			$this->admin_features['primary_category']       = new WPSEO_Primary_Term_Admin();
-			if ( defined( 'YOAST_FEATURE_GUTENBERG_STRUCTURED_DATA_BLOCKS' ) ) {
-				$this->admin_features['structured_data_blocks'] = new WPSEO_Structured_Data_Blocks();
-			}
 		}
 
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' && filter_input( INPUT_GET, 'tool' ) === null ) {
