@@ -67,7 +67,7 @@ export default () => {
 		edit: ( { attributes, setAttributes, className } ) => {
 			// Because setAttributes is quite slow right after a block has been added we fake having a single step.
 			if ( ! attributes.steps || attributes.steps.length === 0 ) {
-				attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), contents: [] } ];
+				attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), name: [], text: [] } ];
 			}
 
 			return <HowTo { ...{ attributes, setAttributes, className } }/>;
