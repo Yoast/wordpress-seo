@@ -788,8 +788,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' );
 
-		$analysis_worker_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoAnalysisWorkerL10n', array( 'url' => $analysis_worker_location->get_url() ) );
+		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
+		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoAnalysisWorkerL10n', array(
+			'url'                     => $analysis_worker_location->get_url(),
+			'keywords_assessment_url' => $used_keywords_assessment_location->get_url(),
+		) );
 
 		/**
 		 * Remove the emoji script as it is incompatible with both React and any
