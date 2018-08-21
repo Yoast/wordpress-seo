@@ -4,6 +4,7 @@ import cloneDeep from "lodash/cloneDeep";
 import merge from "lodash/merge";
 
 import measureTextWidth from "../helpers/measureTextWidth";
+import getContentLocale from "./getContentLocale";
 
 /**
  * Retrieves the data needed for the analyses.
@@ -48,8 +49,7 @@ export default function getAnalysisData( edit, store, customAnalysisData, plugga
 	}
 
 	data.titleWidth = measureTextWidth( data.title );
-	// TODO: change this to getContentLocale after PR #10605 gets merged.
-	data.locale = YoastSEO.app.config.locale;
+	data.locale = getContentLocale();
 
 	return data;
 }
