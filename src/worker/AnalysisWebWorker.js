@@ -101,11 +101,12 @@ export default class AnalysisWebWorker {
 		this.loadScriptDone = this.loadScriptDone.bind( this );
 		this.customMessage = this.customMessage.bind( this );
 		this.customMessageDone = this.customMessageDone.bind( this );
+		this.clearCache = this.clearCache.bind( this );
 
 		// Bind register functions to this scope.
 		this.registerAssessment = this.registerAssessment.bind( this );
 		this.registerMessageHandler = this.registerMessageHandler.bind( this );
-		this.clearCache = this.clearCache.bind( this );
+		this.refreshAssessment = this.refreshAssessment.bind( this );
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
@@ -121,7 +122,7 @@ export default class AnalysisWebWorker {
 		this._scope.analysisWorker = {
 			registerAssessment: this.registerAssessment,
 			registerMessageHandler: this.registerMessageHandler,
-			clearCache: this.clearCache,
+			refreshAssessment: this.refreshAssessment,
 		};
 		this._scope.YoastSEO = YoastSEO;
 	}
@@ -312,7 +313,7 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
-	 * Register an assessment for a specific plugin
+	 * Register an assessment for a specific plugin.
 	 *
 	 * @param {string}   name       The name of the assessment.
 	 * @param {function} assessment The function to run as an assessment.
@@ -345,7 +346,7 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
-	 * Register a message handler for a specific plugin
+	 * Register a message handler for a specific plugin.
 	 *
 	 * @param {string}   name       The name of the message handler.
 	 * @param {function} handler    The function to run as an message handler.
@@ -372,6 +373,30 @@ export default class AnalysisWebWorker {
 		name = pluginName + "-" + name;
 
 		this._registeredMessageHandlers[ name ] = handler;
+	}
+
+	/**
+	 * Refreshes an assessment in the analysis.
+	 *
+	 * Custom assessments can use this to mark their assessment as needing a
+	 * refresh.
+	 *
+	 * @param {string} name The name of the assessment.
+	 * @param {string} pluginName The name of the plugin associated with the assessment.
+	 *
+	 * @returns {boolean} Whether refreshing the assessment was successful.
+	 */
+	refreshAssessment( name, pluginName ) {
+		if ( ! isString( name ) ) {
+			throw new InvalidTypeError( "Failed to refresh assessment for plugin " + pluginName + ". Expected parameter `name` to be a string." );
+		}
+
+		if ( ! isString( pluginName ) ) {
+			throw new InvalidTypeError( "Failed to refresh assessment for plugin " + pluginName +
+				". Expected parameter `pluginName` to be a string." );
+		}
+
+		this.clearCache();
 	}
 
 	/**
