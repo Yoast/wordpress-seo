@@ -4,6 +4,7 @@ import HowToStep from "./HowToStep";
 import isUndefined from "lodash/isUndefined";
 import moment from "moment";
 import { __ } from "@wordpress/i18n";
+import toString from "lodash/toString";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
@@ -233,10 +234,10 @@ export default class HowTo extends Component {
 	/**
 	 * Formats the time in the input fields by removing leading zeros.
 	 *
-	 * @param {number}       duration     The duration as entered by the user.
-	 * @param {number} maxDuration  The (optional) max duration a field can have.
+	 * @param {number}          duration     The duration as entered by the user.
+	 * @param {number}          maxDuration  The (optional) max duration a field can have.
 	 *
-	 * @returns {number}     newDuration  The formatted duration.
+	 * @returns {number}        newDuration  The formatted duration.
 	 */
 	formatDuration( duration, maxDuration = null ) {
 		const newDuration = duration.replace( /^[0]+/, "" );
@@ -283,8 +284,7 @@ export default class HowTo extends Component {
 					id="hours-input"
 					onChange={ ( event ) => {
 						const newValue = this.formatDuration( event.target.value );
-						setAttributes( { hours: newValue } );
-						document.getElementById( "hours-input" ).value = newValue;
+						setAttributes( { hours: toString( newValue ) } );
 					} }
 					placeholder="HH"/>
 				<span>:</span>
@@ -296,8 +296,7 @@ export default class HowTo extends Component {
 					id="minutes-input"
 					onChange={ ( event ) => {
 						const newValue = this.formatDuration( event.target.value, 59 );
-						setAttributes( { minutes: newValue } );
-						document.getElementById( "minutes-input" ).value = newValue;
+						setAttributes( { minutes: toString( newValue ) } );
 					} }
 					placeholder="MM" />
 				<IconButton
