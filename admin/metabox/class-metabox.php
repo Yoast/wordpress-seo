@@ -423,7 +423,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	private function get_buy_premium_link() {
-		return sprintf( '<div class="%1$s"><a target="_blank" rel="noopener noreferrer" href="%2$s" class="wpseo-meta-section-link"><span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>%3$s</a></div>',
+		return sprintf( '<div class="%1$s"><a target="_blank" rel="noopener noreferrer" href="%2$s"><span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>%3$s</a></div>',
 			'wpseo-metabox-buy-premium',
 			esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ) ),
 			__( 'Go Premium', 'wordpress-seo' )
@@ -514,14 +514,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( isset( $meta_field_def['description'] ) ) {
 			$aria_describedby = ' aria-describedby="' . $esc_form_key . '-desc"';
 			$description      = '<p id="' . $esc_form_key . '-desc" class="yoast-metabox__description">' . $meta_field_def['description'] . '</p>';
-		}
-
-		if ( WPSEO_Utils::is_yoast_seo_premium() === false ) {
-			$button = new WPSEO_Metabox_Keyword_Synonyms_Config();
-			$button->enqueue_translations();
-
-			$multiple_keywords_button = new WPSEO_Metabox_Multiple_Keywords_Config();
-			$multiple_keywords_button->enqueue_translations();
 		}
 
 		switch ( $meta_field_def['type'] ) {
