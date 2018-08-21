@@ -5,7 +5,7 @@ import { App, TaxonomyAssessor } from "yoastseo";
 import {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
-} from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+} from "yoast-components";
 import isUndefined from "lodash/isUndefined";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 import debounce from "lodash/debounce";

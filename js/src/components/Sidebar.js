@@ -8,8 +8,8 @@ import { Fill } from "@wordpress/components";
 import SidebarItem from "./SidebarItem";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
-import keywordUpsellProps from "../values/keywordUpsellProps";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
+import SnippetPreviewModal from "./SnippetPreviewModal";
 
 /**
  * Creates the Sidebar component.
@@ -26,6 +26,13 @@ export default function Sidebar( { settings, store, theme } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
+				{ <SidebarItem renderPriority={ 5 }>
+					<ThemeProvider theme={ theme }>
+						<StoreProvider store={ store }>
+							<SnippetPreviewModal />
+						</StoreProvider>
+					</ThemeProvider>
+				</SidebarItem> }
 				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
 					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
@@ -38,7 +45,7 @@ export default function Sidebar( { settings, store, theme } ) {
 						<StoreProvider store={ store }>
 							<SeoAnalysis
 								shouldUpsell={ settings.shouldUpsell }
-								keywordUpsell={ keywordUpsellProps }
+								location="sidebar"
 							/>
 						</StoreProvider>
 					</ThemeProvider>

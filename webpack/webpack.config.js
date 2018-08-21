@@ -110,10 +110,6 @@ module.exports = function( env = { environment: "production" } ) {
 						},
 					],
 				},
-				{
-					test: /\.json$/,
-					use: [ "json-loader" ],
-				},
 			],
 		},
 		externals,
@@ -152,7 +148,7 @@ module.exports = function( env = { environment: "production" } ) {
 		// Config for files that should only use externals available in the web worker context.
 		{
 			...base,
-			externals: { yoastseo: "YoastSEO" },
+			externals: { yoastseo: "yoast.analysis" },
 			entry: {
 				"wp-seo-used-keywords-assessment": "./js/src/wp-seo-used-keywords-assessment.js",
 			},

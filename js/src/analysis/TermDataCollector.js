@@ -3,7 +3,7 @@
 /* External dependencies */
 import get from "lodash/get";
 import analysis from "yoastseo";
-import { setOverallReadabilityScore, setOverallSeoScore } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import { setOverallReadabilityScore, setOverallSeoScore } from "yoast-components";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";

@@ -106,6 +106,21 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 8.1.0 =
+Release Date: August 28th, 2018
+
+Enhancements:
+
+* Implements the Snippet Preview Editor in the sidebar, accessible through a modal.
+* Introduces a HowTo-block for Gutenberg that also automatically generates the proper JSON+LD markup for tutorial-style posts.
+* Introduces an FAQ-block for Gutenberg that also automatically generates the proper JSON+LD markup for FAQ-style posts.
+* Introduces the Primary Category picker to Gutenberg.
+
+Bugfixes:
+
+* Fixes a bug where the analysis scores would change multiple times due to a delay in the loading of the actual scores. We now show loading indicators until the actual scores have been calculated.
+* Fixes a bug where the parent title snippet variable wasn't properly being replaced with the actual parent title in Gutenberg.
+
 = 8.0.0 =
 Release Date: August 14th, 2018
 

@@ -1,13 +1,50 @@
-import React from "react";
+/* External dependencies */
+import { __ } from "@wordpress/i18n";
 
+/* Internal dependencies */
 import HowTo from "./components/HowTo";
 
-const { __ } = window.wp.i18n;
 const { registerBlockType } = window.wp.blocks;
+
+const attributes = {
+	title: {
+		type: "array",
+		source: "children",
+		selector: ".schema-how-to-title",
+	},
+	jsonTitle: {
+		type: "string",
+	},
+	hasDuration: {
+		type: "boolean",
+	},
+	hours: {
+		type: "number",
+	},
+	minutes: {
+		type: "number",
+	},
+	description: {
+		type: "array",
+		source: "children",
+		selector: ".schema-how-to-description",
+	},
+	jsonDescription: {
+		type: "string",
+	},
+	steps: {
+		type: "array",
+	},
+	additionalListCssClasses: {
+		type: "string",
+	},
+	unorderedList: {
+		type: "boolean",
+	},
+};
 
 export default () => {
 	registerBlockType( "yoast/how-to-block", {
-		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __( "How-to", "wordpress-seo" ),
 		icon: "editor-ol",
 		category: "yoast-structured-data-blocks",
@@ -16,36 +53,7 @@ export default () => {
 			__( "How to", "wordpress-seo" ),
 		],
 		// Block attributes - decides what to save and how to parse it from and to HTML.
-		attributes: {
-			title: {
-				type: "array",
-				source: "children",
-				selector: ".schema-how-to-title",
-			},
-			hasDuration: {
-				type: "boolean",
-			},
-			hours: {
-				type: "number",
-			},
-			minutes: {
-				type: "number",
-			},
-			description: {
-				type: "array",
-				source: "children",
-				selector: ".schema-how-to-description",
-			},
-			steps: {
-				type: "array",
-			},
-			additionalListCssClasses: {
-				type: "string",
-			},
-			unorderedList: {
-				type: "boolean",
-			},
-		},
+		attributes,
 
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.
@@ -74,8 +82,9 @@ export default () => {
 		 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 		 * @returns {Component} The display component.
 		 */
+		// eslint-disable-next-line react/display-name
 		save: function( { attributes } ) {
-			return HowTo.getContent( attributes );
+			return <HowTo.Content { ...attributes }/>;
 		},
 	} );
 };
