@@ -24,7 +24,7 @@ class UsedKeywordsAssessment {
 		}
 
 		// Clear worker paper cache to force new analysis.
-		analysisWorker.clearCache();
+		analysisWorker.refreshAssessment( "usedKeywords", "previouslyUsedKeywords" );
 		this._plugin.updateKeywordUsage( keywordUsage );
 	}
 }
