@@ -5,6 +5,9 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.38.1 August 21st, 2018
+* Improves web worker functionality.
+
 ## 1.38.0 August 21st, 2018
 * Adds basic web worker functionality.
 
