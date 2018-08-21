@@ -18,6 +18,7 @@ import * as config from "../config";
 const Assessor = require( "../assessor" );
 const SEOAssessor = require( "../seoAssessor" );
 const ContentAssessor = require( "../contentAssessor" );
+const TaxonomyAssessor = require( "../taxonomyAssessor" );
 const Pluggable = require( "../pluggable" );
 const Researcher = require( "../researcher" );
 const SnippetPreview = require( "../snippetPreview" );
@@ -29,6 +30,7 @@ const YoastSEO = {
 	Assessor,
 	SEOAssessor,
 	ContentAssessor,
+	TaxonomyAssessor,
 	Pluggable,
 	Researcher,
 	SnippetPreview,
@@ -74,6 +76,7 @@ export default class AnalysisWebWorker {
 			contentAnalysisActive: true,
 			keywordAnalysisActive: true,
 			useCornerstone: false,
+			useTaxonomy: false,
 			useKeywordDistribution: false,
 			// The locale used for language-specific configurations in Flesch-reading ease and Sentence length assessments.
 			locale: "en_US",
@@ -232,15 +235,16 @@ export default class AnalysisWebWorker {
 	/**
 	 * Initializes the appropriate SEO assessor.
 	 *
-	 * @returns {null|SEOAssessor|CornerstoneSEOAssessor} The chosen
-	 *                                                    SEO
-	 *                                                    assessor.
+	 * @returns {null|SEOAssessor|CornerstoneSEOAssessor|TaxonomyAssessor} The chosen
+	 *                                                                     SEO
+	 *                                                                     assessor.
 	 */
 	createSEOAssessor() {
 		const {
 			keywordAnalysisActive,
 			useCornerstone,
 			useKeywordDistribution,
+			useTaxonomy,
 			locale,
 		} = this._configuration;
 
@@ -248,9 +252,16 @@ export default class AnalysisWebWorker {
 			return null;
 		}
 
-		const assessor = useCornerstone === true
-			? new CornerstoneSEOAssessor( this._i18n, { locale } )
-			: new SEOAssessor( this._i18n, { locale } );
+		let assessor;
+
+		if( useTaxonomy === true ) {
+			assessor = new TaxonomyAssessor( this._i18n );
+		} else {
+			assessor = useCornerstone === true
+				? new CornerstoneSEOAssessor( this._i18n, { locale } )
+				: new SEOAssessor( this._i18n, { locale } );
+		}
+
 
 		if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "largestKeywordDistance" ) ) ) {
 			assessor.addAssessment( "largestKeywordDistance", largestKeywordDistanceAssessment );
@@ -289,7 +300,8 @@ export default class AnalysisWebWorker {
 	 * @param {Object}  configuration                          The configuration object.
 	 * @param {boolean} [configuration.contentAnalysisActive]  Whether the content analysis is active.
 	 * @param {boolean} [configuration.keywordAnalysisActive]  Whether the keyword analysis is active.
-	 * @param {boolean} [configuration.useCornerstone]         Whether the keyword is cornerstone or not.
+	 * @param {boolean} [configuration.useCornerstone]         Whether the paper is cornerstone or not.
+	 * @param {boolean} [configuration.useTaxonomy]            Whether the taxonomy assessor should be used.
 	 * @param {boolean} [configuration.useKeywordDistribution] Whether the largestKeywordDistance assessment should run.
 	 * @param {string}  [configuration.locale]                 The locale used in the seo assessor.
 	 *
