@@ -1,4 +1,4 @@
-import { AnalysisWebWorker, AnalysisWorkerWrapper, createWorker } from "./js/worker";
+import { AnalysisWebWorker, AnalysisWorkerWrapper, createWorker } from "./src/worker";
 import * as assessments from "./js/assessments";
 import * as bundledPlugins from "./js/bundledPlugins";
 import * as helpers from "./js/helpers";
