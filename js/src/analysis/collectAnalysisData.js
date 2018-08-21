@@ -20,7 +20,7 @@ import measureTextWidth from "../helpers/measureTextWidth";
  *
  * @returns {Object} The paper data used for the analyses.
  */
-export default function getAnalysisData( edit, store, customAnalysisData, pluggable ) {
+export default function collectAnalysisData( edit, store, customAnalysisData, pluggable ) {
 	const storeData = cloneDeep( store.getState() );
 	merge( storeData, customAnalysisData.getData() );
 	const editData = edit.getData().getData();

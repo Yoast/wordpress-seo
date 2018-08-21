@@ -21,6 +21,7 @@ import { update as updateAdminBar } from "./ui/adminBar";
 
 // Analysis dependencies.
 import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
+import collectAnalysisData from "./analysis/collectAnalysisData";
 import refreshAnalysis from "./analysis/refreshAnalysis";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
@@ -29,6 +30,7 @@ import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
+import getApplyMarks from "./analysis/getApplyMarks";
 
 // Redux dependencies.
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
@@ -273,12 +275,19 @@ window.yoastHideMarkers = true;
 		// Expose globals.
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
-		window.YoastSEO.analysisWorker = createAnalysisWorker();
 		window.YoastSEO.store = store;
+		window.YoastSEO.analysis = {};
+		window.YoastSEO.analysis.worker = createAnalysisWorker();
+		window.YoastSEO.analysis.collectData = () => collectAnalysisData( edit, YoastSEO.store, customAnalysisData, YoastSEO.app.pluggable );
+		window.YoastSEO.analysis.applyMarks = ( paper, result ) => getApplyMarks( YoastSEO.store )( paper, result );
 
 		// YoastSEO.app overwrites.
-		// Todo: change app.pluggable to pluggable (if we don't overwrite).
-		YoastSEO.app.refresh = refreshAnalysis.bind( null, edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
+		YoastSEO.app.refresh = () => refreshAnalysis(
+			YoastSEO.analysis.worker,
+			YoastSEO.analysis.collectData,
+			YoastSEO.analysis.applyMarks,
+			YoastSEO.store
+		);
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
 		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;
@@ -324,7 +333,7 @@ window.yoastHideMarkers = true;
 		}
 
 		// Initialize the analysis worker.
-		YoastSEO.analysisWorker.initialize( getAnalysisConfiguration( { useTaxonomy: true } ) )
+		YoastSEO.analysis.worker.initialize( getAnalysisConfiguration( { useTaxonomy: true } ) )
 			.then( () => {
 				jQuery( window ).trigger( "YoastSEO:ready" );
 			} )
