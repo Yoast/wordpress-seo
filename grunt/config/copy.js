@@ -56,7 +56,7 @@ module.exports = {
 					"images/**",
 					"inc/**",
 					"cli/**",
-					"js/vendor/**/*.min.js",
+					"js/vendor/**/*.js",
 					"js/dist/**/*.min.js",
 					"js/dist/select2/i18n/*.js",
 					"languages/**",
