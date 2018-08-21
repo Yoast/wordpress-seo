@@ -4,6 +4,7 @@ const transliterate = require( "./transliterate" );
 const replaceDiacritics = require( "./replaceDiacritics" );
 const imageInText = require( "./imageInText" );
 const relevantWords = require( "./relevantWords" );
+const removeHtmlBlocks = require( "./htmlParser" );
 
 export {
 	stripHTMLTags,
@@ -12,4 +13,5 @@ export {
 	replaceDiacritics,
 	imageInText,
 	relevantWords,
+	removeHtmlBlocks,
 };

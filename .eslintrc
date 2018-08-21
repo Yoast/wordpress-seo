@@ -2,3 +2,8 @@ extends: yoast
 
 rules:
   complexity: [1, 6]
+
+parserOptions:
+  ecmaVersion: 2017
+  ecmaFeatures:
+    experimentalObjectRestSpread: true
