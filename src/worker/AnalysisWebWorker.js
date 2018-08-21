@@ -412,7 +412,7 @@ export default class AnalysisWebWorker {
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
 	analyze( id, { paper } ) {
-		paper.text = string.stripHTMLTags( paper.text );
+		paper.text = string.removeHtmlBlocks( paper.text );
 		const newPaper = Paper.parse( paper );
 		const paperIsIdentical = isEqual( this._paper, newPaper );
 		const textIsIdentical = this._paper.getText() === newPaper.getText();
