@@ -200,11 +200,6 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	private function set_front_page_image() {
-		$this->set_user_defined_image();
-
-		if ( $this->has_images() ) {
-			return;
-		}
 
 		// If no frontpage image is found, don't add anything.
 		if ( WPSEO_Options::get( 'og_frontpage_image', '' ) === '' ) {
