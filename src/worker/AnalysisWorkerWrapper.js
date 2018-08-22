@@ -67,6 +67,7 @@ class AnalysisWorkerWrapper {
 			case "customMessage:done":
 				request.resolve( payload );
 				break;
+			case "analyzeRelatedKeywords:done":
 			case "analyze:done":
 				// Map the results back to classes, because we encode and decode the message payload.
 				if ( payload.seo ) {
@@ -185,6 +186,18 @@ class AnalysisWorkerWrapper {
 	 */
 	initialize( configuration ) {
 		return this.sendRequest( "initialize", configuration );
+	}
+
+	/**
+	 * Analyzes the paper.
+	 *
+	 * @param {Object} paper           The paper to analyze.
+	 * @param {Object} relatedKeywords The related keywords.
+	 *
+	 * @returns {Promise} The promise of analyses.
+	 */
+	analyzeRelatedKeywords( paper, relatedKeywords = {} ) {
+		return this.sendRequest( "analyzeRelatedKeywords", { paper, relatedKeywords } );
 	}
 
 	/**

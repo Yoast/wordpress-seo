@@ -183,6 +183,14 @@ export default class AnalysisWebWorker {
 					data: payload,
 				} );
 				break;
+			case "analyzeRelatedKeywords":
+				this._scheduler.schedule( {
+					id,
+					execute: this.analyze,
+					done: this.analyzeRelatedKeywordsDone,
+					data: payload,
+				} );
+				break;
 			case "loadScript":
 				this._scheduler.schedule( {
 					id,
@@ -632,6 +640,18 @@ export default class AnalysisWebWorker {
 	 */
 	analyzeDone( id, result ) {
 		this.send( "analyze:done", id, result );
+	}
+
+	/**
+	 * Sends the analyze related keywords result back.
+	 *
+	 * @param {number} id     The request id.
+	 * @param {Object} result The result.
+	 *
+	 * @returns {void}
+	 */
+	analyzeRelatedKeywordsDone( id, result ) {
+		this.send( "analyzeRelatedKeywords:done", id, result );
 	}
 
 	/**
