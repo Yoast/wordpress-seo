@@ -37,7 +37,7 @@ export default class HowToStep extends Component {
 		} = this.props;
 
 		return <div className="schema-how-to-step-button-container">
-			{ ! HowToStep.getImageSrc( step.contents ) &&
+			{ ! HowToStep.getImageSrc( step.text ) &&
 			<MediaUpload
 				onSelect={ this.onSelectImage }
 				type="image"
@@ -104,16 +104,18 @@ export default class HowToStep extends Component {
 	 * @returns {void}
 	 */
 	onSelectImage( media ) {
-		let contents = this.props.step.contents.slice();
+		const { name, text } = this.props.step;
+
+		let newText = text.slice();
 		let image    = <img key={ media.id } alt={ media.alt } src={ media.url } />;
 
-		if ( contents.push ) {
-			contents.push( image );
+		if ( newText.push ) {
+			newText.push( image );
 		} else {
-			contents = [ contents, image ];
+			newText = [ newText, image ];
 		}
 
-		this.props.onChange( contents );
+		this.props.onChange( name, newText, name, text );
 	}
 
 	/**
