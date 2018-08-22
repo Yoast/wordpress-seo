@@ -115,11 +115,15 @@ Enhancements:
 * Introduces a HowTo-block for Gutenberg that also automatically generates the proper JSON+LD markup for tutorial-style posts.
 * Introduces an FAQ-block for Gutenberg that also automatically generates the proper JSON+LD markup for FAQ-style posts.
 * Introduces the Primary Category picker to Gutenberg.
+* Optimizes the content analysis calculations. This fixes the issue where the UI would freeze when you have a long post.
 
 Bugfixes:
 
 * Fixes a bug where the analysis scores would change multiple times due to a delay in the loading of the actual scores. We now show loading indicators until the actual scores have been calculated.
 * Fixes a bug where the parent title snippet variable wasn't properly being replaced with the actual parent title in Gutenberg.
+* Fixes a bug where the UI would freeze on longer texts, through moving the text analysis module to a webworker.
+* Fixes a bug where a type error would be thrown when the passed score for terms and posts isn't of the type WP_Post as this can collide with third-party plugins.
+* Fixes a bug where adding the defer or async attributes to our script handles would result in an error.
 
 = 8.0.0 =
 Release Date: August 14th, 2018
