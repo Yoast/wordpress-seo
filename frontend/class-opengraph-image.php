@@ -372,7 +372,7 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @return void
 	 */
-	protected function add_image_by_url( $url ) {
+	public function add_image_by_url( $url ) {
 		if ( empty( $url ) ) {
 			return;
 		}
@@ -442,7 +442,7 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @return void
 	 */
-	protected function add_image_by_id( $attachment_id ) {
+	public function add_image_by_id( $attachment_id ) {
 		if ( ! $this->is_valid_attachment( $attachment_id ) ) {
 			return;
 		}
