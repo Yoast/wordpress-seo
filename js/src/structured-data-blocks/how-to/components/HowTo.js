@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import HowToStep from "./HowToStep";
 import isUndefined from "lodash/isUndefined";
 import moment from "moment";
+import momentDurationFormatSetup from "moment-duration-format";
 import { __ } from "@wordpress/i18n";
 import toString from "lodash/toString";
 
@@ -12,6 +13,8 @@ import { stripHTML } from "../../../helpers/stringHelpers";
 const { RichText, InspectorControls } = window.wp.editor;
 const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;
 const { Component, renderToString } = window.wp.element;
+
+momentDurationFormatSetup( moment );
 
 /**
  * A How-to block component.
@@ -234,23 +237,26 @@ export default class HowTo extends Component {
 	/**
 	 * Formats the time in the input fields by removing leading zeros.
 	 *
-	 * @param {number}          duration     The duration as entered by the user.
+	 * @param {string}          duration     The duration as entered by the user.
 	 * @param {number}          maxDuration  The (optional) max duration a field can have.
 	 *
-	 * @returns {number}        newDuration  The formatted duration.
+	 * @returns {number} The formatted duration.
 	 */
 	formatDuration( duration, maxDuration = null ) {
-		const newDuration = duration.replace( /^[0]+/, "" );
+		if ( duration === "" ) {
+			return "";
+		}
 
+		const newDuration = duration.replace( /^[0]+/, "" );
 		if ( newDuration === "" ) {
-			return null;
+			return 0;
 		}
 
 		if ( maxDuration !== null ) {
-			return Math.min( Math.max( 0, newDuration ), maxDuration );
+			return Math.min( Math.max( 0, parseInt( newDuration ) ), maxDuration );
 		}
 
-		return Math.max( 0, newDuration );
+		return Math.max( 0, parseInt( newDuration ) );
 	}
 
 	/**
@@ -334,10 +340,16 @@ export default class HowTo extends Component {
 		const classNames = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
 		const listClassNames = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
 
-		const timeString = [
-			hours && moment.duration( hours, "hours" ).humanize(),
-			minutes && moment.duration( minutes, "minutes" ).humanize(),
-		].filter( ( item ) => item ).join( " and " );
+		const durationHours = hours ? parseInt( hours ) : 0;
+		const durationMinutes = minutes ? parseInt( minutes ) : 0;
+		const durationFormat = ( durationHours === 0 ? "" : "h [hours]" ) +
+							   ( durationHours && durationMinutes ? __( " [and] ", "wordpress-seo" ): "" ) +
+							   ( durationMinutes === 0 ? "" : "m [minutes]" );
+
+		const timeString = moment.duration( {
+			hours: durationHours,
+			minutes: durationMinutes,
+		} ).format( durationFormat );
 
 		return (
 			<div className={ classNames }>
