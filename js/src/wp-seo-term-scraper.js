@@ -21,7 +21,7 @@ import { update as updateAdminBar } from "./ui/adminBar";
 
 // Analysis dependencies.
 import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
-import refreshAnalysis from "./analysis/refreshAnalysis";
+import refreshAnalysis, { initializationDone } from "./analysis/refreshAnalysis";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
@@ -311,6 +311,8 @@ window.yoastHideMarkers = true;
 		YoastSEO.analyzerArgs = args;
 
 		YoastSEO._registerReactComponent = registerReactComponent;
+
+		initializationDone();
 
 		initTermSlugWatcher();
 		termScraper.bindElementEvents( app );
