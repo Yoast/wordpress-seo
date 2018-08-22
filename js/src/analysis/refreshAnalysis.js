@@ -11,23 +11,6 @@ import getMarker from "./getMarker";
 let isInitialized = false;
 
 /**
- * Sets isInitialized to true and passes all arguments to the analysis refresh function.
- *
- * @param {Edit}                  edit               The edit instance.
- * @param {AnalysisWorkerWrapper} analysisWorker     The analysis worker to
- *                                                   request the analysis from.
- * @param {Object}                store              The store.
- * @param {CustomAnalysisData}    customAnalysisData The custom analysis data.
- * @param {Pluggable}             pluggable          The Pluggable.
- *
- * @returns {void}
- */
-export function initializationDone( edit, analysisWorker, store, customAnalysisData, pluggable ) {
-	isInitialized = true;
-	refreshAnalysis( edit, analysisWorker, store, customAnalysisData, pluggable );
-}
-
-/**
  * Recreates the getMarker function for the assessment result.
  *
  * @param {AssessmentResult}    result  The assessment result for which to recreate the getMarker function.
@@ -89,3 +72,21 @@ export default function refreshAnalysis( edit, analysisWorker, store, customAnal
 		} )
 		.catch( error => console.warn( error ) );
 }
+
+/**
+ * Sets isInitialized to true and passes all arguments to the analysis refresh function.
+ *
+ * @param {Edit}                  edit               The edit instance.
+ * @param {AnalysisWorkerWrapper} analysisWorker     The analysis worker to
+ *                                                   request the analysis from.
+ * @param {Object}                store              The store.
+ * @param {CustomAnalysisData}    customAnalysisData The custom analysis data.
+ * @param {Pluggable}             pluggable          The Pluggable.
+ *
+ * @returns {void}
+ */
+export function initializationDone( edit, analysisWorker, store, customAnalysisData, pluggable ) {
+	isInitialized = true;
+	refreshAnalysis( edit, analysisWorker, store, customAnalysisData, pluggable );
+}
+
