@@ -283,8 +283,6 @@ TermDataCollector.prototype.saveScores = function( score ) {
 	document.getElementById( "hidden_wpseo_linkdex" ).value = score;
 	jQuery( window ).trigger( "YoastSEO:numericScore", score );
 
-	this._store.dispatch( setOverallSeoScore( score, keyword ) );
-
 	updateTrafficLight( indicator );
 	updateAdminBar( indicator );
 };
@@ -298,8 +296,6 @@ TermDataCollector.prototype.saveScores = function( score ) {
  */
 TermDataCollector.prototype.saveContentScore = function( score ) {
 	var indicator = getIndicatorForScore( score );
-
-	this._store.dispatch( setOverallReadabilityScore( score ) );
 
 	if ( ! isKeywordAnalysisActive() ) {
 		updateTrafficLight( indicator );

@@ -286,7 +286,8 @@ window.yoastHideMarkers = true;
 			YoastSEO.analysis.worker,
 			YoastSEO.analysis.collectData,
 			YoastSEO.analysis.applyMarks,
-			YoastSEO.store
+			YoastSEO.store,
+			termScraper
 		);
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );

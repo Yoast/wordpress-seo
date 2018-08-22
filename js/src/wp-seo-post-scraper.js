@@ -421,7 +421,8 @@ setWordPressSeoL10n();
 			YoastSEO.analysis.worker,
 			YoastSEO.analysis.collectData,
 			YoastSEO.analysis.applyMarks,
-			YoastSEO.store
+			YoastSEO.store,
+			postDataCollector,
 		);
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
