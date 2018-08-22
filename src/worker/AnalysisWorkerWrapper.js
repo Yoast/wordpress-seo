@@ -205,12 +205,11 @@ class AnalysisWorkerWrapper {
 	 * Analyzes the paper.
 	 *
 	 * @param {Object} paper           The paper to analyze.
-	 * @param {Object} relatedKeywords The related keywords.
 	 *
 	 * @returns {Promise} The promise of analyses.
 	 */
-	analyze( paper, relatedKeywords = {} ) {
-		return this.sendRequest( "analyze", { paper, relatedKeywords } );
+	analyze( paper ) {
+		return this.sendRequest( "analyze", { paper } );
 	}
 
 	/**
