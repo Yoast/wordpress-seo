@@ -86,12 +86,12 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns the JSON LD for a step in a how-to block in array form.
+	 * Returns the JSON LD for a step text (description) in a how-to block in array form.
 	 *
-	 * @param array $step  The attributes of a step in the how-to block.
-	 * @param int   $index The index of the step in the how-to block.
+	 * @param array $step  The attributes of a step(-section) in the how-to block.
+	 * @param int   $index The index of the section in the how-to block.
 	 *
-	 * @return array The JSON LD representation of the step in a how-to block in array form.
+	 * @return array The JSON LD representation of the step text (description) in a how-to block in array form.
 	 */
 	protected function get_step_json_ld( array $step, $index ) {
 		$step_json_ld = array(
@@ -106,12 +106,23 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 		return $step_json_ld;
 	}
 
+	/**
+	 * Returns the JSON LD for a step-section in a how-to block in array form.
+	 *
+	 * @param array $step  The attributes of a step(-section) in the how-to block.
+	 * @param int   $index The index of the section in the how-to block.
+	 *
+	 * @return array The JSON LD representation of the step-section in a how-to block in array form.
+	 */
 	protected function get_section_json_ld( array $step, $index ) {
 		$section_json_ld = array(
 			'@type'           => 'HowToSection',
-			'name'            => $step['jsonName'],
-			'itemListElement' => $this->get_step_json_ld( $step, $index )
+			'itemListElement' => $this->get_step_json_ld( $step, $index ),
 		);
+
+		if ( ! empty( $step['jsonName'] ) ) {
+			$section_json_ld['name'] = $step['jsonName'];
+		}
 
 		if ( ! empty( $step['jsonImageSrc'] ) ) {
 			$section_json_ld['associatedMedia'] = array(

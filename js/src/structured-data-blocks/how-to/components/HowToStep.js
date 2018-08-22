@@ -201,7 +201,7 @@ export default class HowToStep extends Component {
 					value={ name }
 					onChange={ ( value ) => onChange( value, text, name, text ) }
 					isSelected={ isSelected && focusPart === "name" }
-					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
+					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					setFocusedElement={ () => onFocus( "name" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
