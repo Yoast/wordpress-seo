@@ -141,17 +141,27 @@ export default class HowToStep extends Component {
 	 * Returns the component of the given How-to step to be rendered in a WordPress post
 	 * (e.g. not in the editor).
 	 *
-	 * @param {object} props The props of the how-to step.
+	 * @param {object} step The how-to step.
 	 *
-	 * @returns {Component} the component to be rendered.
+	 * @returns {Component} The component to be rendered.
 	 */
-	static Content( props ) {
-		return <RichText.Content
-			tagName="li"
-			className="schema-how-to-step"
-			key={ props.id }
-			value={ props.contents }
-		/>;
+	static Content( step ) {
+		return(
+			<li className={ "schema-how-to-step" } key={ step.id } >
+				<RichText.Content
+					tagName="strong"
+					className="schema-how-to-step-name"
+					key={ step.id + "-name" }
+					value={ step.name }
+				/>
+				<RichText.Content
+					tagName="p"
+					className="schema-how-to-step-text"
+					key={ step.id + "-text" }
+					value={ step.text }
+				/>
+			</li>
+		);
 	}
 
 	/**
