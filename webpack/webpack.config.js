@@ -136,10 +136,21 @@ module.exports = function( env = { environment: "production" } ) {
 				} ),
 			],
 		},
+		// Config for files that should not use any externals at all.
 		{
 			...base,
 			entry: {
 				"wp-seo-wp-globals-backport": "./js/src/wp-seo-wp-globals-backport.js",
+				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
+			},
+			plugins,
+		},
+		// Config for files that should only use externals available in the web worker context.
+		{
+			...base,
+			externals: { yoastseo: "yoast.analysis" },
+			entry: {
+				"wp-seo-used-keywords-assessment": "./js/src/wp-seo-used-keywords-assessment.js",
 			},
 			plugins,
 		},
