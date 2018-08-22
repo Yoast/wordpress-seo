@@ -253,10 +253,10 @@ export default class HowTo extends Component {
 		}
 
 		if ( maxDuration !== null ) {
-			return Math.min( Math.max( 0, parseInt( newDuration ) ), maxDuration );
+			return Math.min( Math.max( 0, parseInt( newDuration, 10 ) ), maxDuration );
 		}
 
-		return Math.max( 0, parseInt( newDuration ) );
+		return Math.max( 0, parseInt( newDuration, 10 ) );
 	}
 
 	/**
@@ -340,8 +340,8 @@ export default class HowTo extends Component {
 		const classNames = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
 		const listClassNames = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
 
-		const durationHours = hours ? parseInt( hours ) : 0;
-		const durationMinutes = minutes ? parseInt( minutes ) : 0;
+		const durationHours = hours ? parseInt( hours, 10 ) : 0;
+		const durationMinutes = minutes ? parseInt( minutes, 10 ) : 0;
 		const durationFormat = ( durationHours === 0 ? "" : "h [hours]" ) +
 							   ( durationHours && durationMinutes ? __( " [and] ", "wordpress-seo" ): "" ) +
 							   ( durationMinutes === 0 ? "" : "m [minutes]" );
