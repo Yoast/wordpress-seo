@@ -8,6 +8,14 @@ import { Paper } from "yoastseo";
 import getAnalysisData from "./getAnalysisData";
 import getMarker from "./getMarker";
 
+let initialized = false;
+
+export function initializationDone( edit, analysisWorker, store, customAnalysisDAta, pluggable ) {
+	initialized = true;
+
+	refreshAnalysis( edit, analysisWorker, store, customAnalysisDAta, pluggable );
+}
+
 /**
  * Recreates the getMarker function for the assessment result.
  *
@@ -43,6 +51,9 @@ const recreateGetMarkerFunction = function( result, store, data ) {
 export default function refreshAnalysis( edit, analysisWorker, store, customAnalysisData, pluggable ) {
 	const data = getAnalysisData( edit, store, customAnalysisData, pluggable );
 
+	if ( ! initialized ) {
+		return;
+	}
 
 	// Request analyses.
 	analysisWorker.analyze( data )
