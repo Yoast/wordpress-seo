@@ -16,6 +16,7 @@ import * as interpreters from "../interpreters";
 import * as config from "../config";
 
 const Assessor = require( "../assessor" );
+const Assessment = require( "../assessment" );
 const SEOAssessor = require( "../seoAssessor" );
 const ContentAssessor = require( "../contentAssessor" );
 const TaxonomyAssessor = require( "../taxonomyAssessor" );
@@ -28,6 +29,7 @@ const AssessmentResult = require( "../values/AssessmentResult" );
 
 const YoastSEO = {
 	Assessor,
+	Assessment,
 	SEOAssessor,
 	ContentAssessor,
 	TaxonomyAssessor,
@@ -127,7 +129,7 @@ export default class AnalysisWebWorker {
 			registerMessageHandler: this.registerMessageHandler,
 			refreshAssessment: this.refreshAssessment,
 		};
-		this._scope.YoastSEO = YoastSEO;
+		this._scope.yoast = { analysis: YoastSEO };
 	}
 
 	/**
