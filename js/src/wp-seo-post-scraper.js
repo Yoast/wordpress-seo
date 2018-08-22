@@ -252,7 +252,6 @@ setWordPressSeoL10n();
 
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
-				console.log( results )
 				const keyword = store.getState().focusKeyword;
 
 				store.dispatch( setSeoResultsForKeyword( keyword, results ) );
