@@ -52,6 +52,10 @@ export default () => {
 			__( "How-to", "wordpress-seo" ),
 			__( "How to", "wordpress-seo" ),
 		],
+		// Allow only one How-To block per post.
+		supports: {
+			multiple: false,
+		},
 		// Block attributes - decides what to save and how to parse it from and to HTML.
 		attributes,
 
