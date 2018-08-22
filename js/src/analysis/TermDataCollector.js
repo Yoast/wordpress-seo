@@ -3,7 +3,6 @@
 /* External dependencies */
 import get from "lodash/get";
 import analysis from "yoastseo";
-import { setOverallReadabilityScore, setOverallSeoScore } from "yoast-components";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
@@ -278,7 +277,6 @@ TermDataCollector.prototype.inputElementEventBinder = function( app ) {
  */
 TermDataCollector.prototype.saveScores = function( score ) {
 	var indicator = getIndicatorForScore( score );
-	var keyword = this.getKeyword();
 
 	document.getElementById( "hidden_wpseo_linkdex" ).value = score;
 	jQuery( window ).trigger( "YoastSEO:numericScore", score );
