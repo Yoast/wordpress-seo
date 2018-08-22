@@ -78,7 +78,7 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 			$json_ld['step'] = array();
 			$steps = array_filter( $attributes['steps'], 'is_array' );
 			foreach ( $steps as $index => $step ) {
-				$json_ld['step'][] = $this->get_step_json_ld( $step, $index );
+				$json_ld['step'][] = $this->get_section_json_ld( $step, $index );
 			}
 		}
 
@@ -99,17 +99,27 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 			'position' => $index + 1,
 		);
 
-		if ( ! empty( $step['jsonContents'] ) ) {
-			$step_json_ld['text'] = $step['jsonContents'];
+		if ( ! empty( $step['jsonText'] ) ) {
+			$step_json_ld['text'] = $step['jsonText'];
 		}
 
+		return $step_json_ld;
+	}
+
+	protected function get_section_json_ld( array $step, $index ) {
+		$section_json_ld = array(
+			'@type'           => 'HowToSection',
+			'name'            => $step['jsonName'],
+			'itemListElement' => $this->get_step_json_ld( $step, $index )
+		);
+
 		if ( ! empty( $step['jsonImageSrc'] ) ) {
-			$step_json_ld['associatedMedia'] = array(
+			$section_json_ld['associatedMedia'] = array(
 				'@type'      => 'ImageObject',
 				'contentUrl' => $step['jsonImageSrc'],
 			);
 		}
 
-		return $step_json_ld;
+		return $section_json_ld;
 	}
 }
