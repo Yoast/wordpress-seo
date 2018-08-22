@@ -8,12 +8,23 @@ import { Paper } from "yoastseo";
 import getAnalysisData from "./getAnalysisData";
 import getMarker from "./getMarker";
 
-let initialized = false;
+let isInitialized = false;
 
-export function initializationDone( edit, analysisWorker, store, customAnalysisDAta, pluggable ) {
-	initialized = true;
-
-	refreshAnalysis( edit, analysisWorker, store, customAnalysisDAta, pluggable );
+/**
+ * Sets isInitialized to true and passes all arguments to the analysis refresh function.
+ *
+ * @param {Edit}                  edit               The edit instance.
+ * @param {AnalysisWorkerWrapper} analysisWorker     The analysis worker to
+ *                                                   request the analysis from.
+ * @param {Object}                store              The store.
+ * @param {CustomAnalysisData}    customAnalysisData The custom analysis data.
+ * @param {Pluggable}             pluggable          The Pluggable.
+ *
+ * @returns {void}
+ */
+export function initializationDone( edit, analysisWorker, store, customAnalysisData, pluggable ) {
+	isInitialized = true;
+	refreshAnalysis( edit, analysisWorker, store, customAnalysisData, pluggable );
 }
 
 /**
@@ -51,7 +62,7 @@ const recreateGetMarkerFunction = function( result, store, data ) {
 export default function refreshAnalysis( edit, analysisWorker, store, customAnalysisData, pluggable ) {
 	const data = getAnalysisData( edit, store, customAnalysisData, pluggable );
 
-	if ( ! initialized ) {
+	if ( ! isInitialized ) {
 		return;
 	}
 

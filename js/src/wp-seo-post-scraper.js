@@ -24,7 +24,7 @@ import { update as updateAdminBar } from "./ui/adminBar";
 
 // Analysis dependencies.
 import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
-import refreshAnalysis from "./analysis/refreshAnalysis";
+import refreshAnalysis, { initializationDone } from "./analysis/refreshAnalysis";
 import PostDataCollector from "./analysis/PostDataCollector";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
@@ -252,6 +252,7 @@ setWordPressSeoL10n();
 
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
+				console.log( results )
 				const keyword = store.getState().focusKeyword;
 
 				store.dispatch( setSeoResultsForKeyword( keyword, results ) );
@@ -544,6 +545,9 @@ setWordPressSeoL10n();
 		if ( ! isGutenbergDataAvailable() ) {
 			renderClassicEditorMetabox( editStore );
 		}
+
+		// When the initialization is done, start the analysis.
+		initializationDone( edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable )
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );

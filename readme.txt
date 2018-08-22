@@ -113,6 +113,7 @@ Enhancements:
 
 * Adds the Snippet Preview Editor to the sidebar.
 * Introduces the Primary Category picker to Gutenberg.
+* Introduces a loading indicator in the analysis that is shown until we're ready to analyze the content.
 * Optimizes the content analysis calculations. This fixes the issue where the UI could freeze when you have a long post.
 
 Bugfixes:
