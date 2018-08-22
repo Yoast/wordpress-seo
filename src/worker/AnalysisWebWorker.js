@@ -81,7 +81,7 @@ export default class AnalysisWebWorker {
 			// The locale used for language-specific configurations in Flesch-reading ease and Sentence length assessments.
 			locale: "en_US",
 		};
-		this._scheduler = new Scheduler( { resetQueue: false } );
+		this._scheduler = new Scheduler();
 		this._paper = new Paper( "" );
 		this._researcher = new Researcher( this._paper );
 		this._contentAssessor = null;
@@ -150,11 +150,13 @@ export default class AnalysisWebWorker {
 				this.initialize( id, payload );
 				break;
 			case "analyze":
+			case "analyzeRelatedKeywords":
 				this._scheduler.schedule( {
 					id,
 					execute: this.analyze,
 					done: this.analyzeDone,
 					data: payload,
+					type: type,
 				} );
 				break;
 			case "loadScript":
@@ -163,6 +165,7 @@ export default class AnalysisWebWorker {
 					execute: this.loadScript,
 					done: this.loadScriptDone,
 					data: payload,
+					type: type,
 				} );
 				break;
 			case "customMessage": {
@@ -173,6 +176,7 @@ export default class AnalysisWebWorker {
 						execute: this.customMessage,
 						done: this.customMessageDone,
 						data: payload,
+						type: type,
 					} );
 					break;
 				}

@@ -1,5 +1,6 @@
 // External dependencies.
 const merge = require( "lodash/merge" );
+const isUndefined = require( "lodash/isUndefined" );
 
 // Internal dependencies.
 import Task from "./Task";
@@ -7,7 +8,6 @@ import Task from "./Task";
 const DEFAULT_CONFIGURATION = {
 	queueSystem: "LIFO",
 	pollTime: 50,
-	resetQueue: false,
 };
 
 class Scheduler {
@@ -20,13 +20,15 @@ class Scheduler {
 	 * @param {number}  [configuration.pollTime]    The time in between each task
 	 *                                              poll in milliseconds,
 	 *                                              defaults to 50.
-	 * @param {boolean} [configuration.resetQueue]  Whether to reset the queue
-	 *                                              after each task, defaults to
-	 *                                              false.
 	 */
 	constructor( configuration = {} ) {
 		this._configuration = merge( DEFAULT_CONFIGURATION, configuration );
-		this._tasks = [];
+		this._tasks = {
+			customMessage: [],
+			loadScript: [],
+			analyze: [],
+			analyzeRelatedKeywords: [],
+		};
 		this._pollHandle = null;
 
 		// Bind functions to this scope.
@@ -43,9 +45,6 @@ class Scheduler {
 	 */
 	startPolling() {
 		this.executeNextTask();
-		if ( this._configuration.resetQueue ) {
-			this.resetQueue();
-		}
 		this._pollHandle = setTimeout( this.startPolling, this._configuration.pollTime );
 	}
 
@@ -70,9 +69,28 @@ class Scheduler {
 	 *
 	 * @returns {void}
 	 */
-	schedule( { id, execute, done, data } ) {
-		const task = new Task( id, execute, done, data );
-		this._tasks.push( task );
+	schedule( { id, execute, done, data, type } ) {
+		const task = new Task( id, execute, done, data, type );
+		switch( type ) {
+			case "customMessage": {
+				this._tasks.customMessage.push( task );
+				break;
+			}
+			case "loadScript": {
+				this._tasks.loadScript.push( task );
+				break;
+			}
+			case "analyzeRelatedKeywords": {
+				this._tasks.analyzeRelatedKeywords = [];
+				this._tasks.analyzeRelatedKeywords.push( task );
+				break;
+			}
+			default: {
+				this._tasks.analyze = [];
+				this._tasks.analyze.push( task );
+			}
+		}
+		console.log( "A new task was scheduled: ", task );
 	}
 
 	/**
@@ -81,13 +99,25 @@ class Scheduler {
 	 * @returns {Task|null} The next task or null if none are available.
 	 */
 	getNextTask() {
-		if ( this._tasks.length === 0 ) {
-			return null;
+		if ( this._tasks.customMessage.length > 0 ) {
+			console.log( "The next task will be", this._tasks.customMessage[ 0 ] );
+			return this._tasks.customMessage.shift();
 		}
-		if ( this._configuration.queueSystem === "LIFO" ) {
-			return this._tasks.pop();
+
+		if ( this._tasks.loadScript.length > 0 ) {
+			console.log( "The next task will be", this._tasks.loadScript[ 0 ] );
+			return this._tasks.loadScript.shift();
 		}
-		return this._tasks.shift();
+
+		if ( this._tasks.analyzeRelatedKeywords.length > 0 ) {
+			console.log( "The next task will be", this._tasks.analyzeRelatedKeywords[ 0 ] );
+			return this._tasks.analyzeRelatedKeywords.shift();
+		}
+
+		if ( this._tasks.analyze.length > 0 ) {
+			console.log( "The next task will be", this._tasks.analyze[ 0 ] );
+			return this._tasks.analyze.shift();
+		}
 	}
 
 	/**
@@ -97,21 +127,11 @@ class Scheduler {
 	 */
 	async executeNextTask() {
 		const task = this.getNextTask();
-		if ( task === null ) {
+		if ( isUndefined( task ) ) {
 			return;
 		}
-
 		const result = await task.execute( task.id, task.data );
 		task.done( task.id, result );
-	}
-
-	/**
-	 * Clears the task queue.
-	 *
-	 * @returns {void}
-	 */
-	resetQueue() {
-		this._tasks = [];
 	}
 }
 
