@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import HowToStep from "./HowToStep";
 import isUndefined from "lodash/isUndefined";
 import moment from "moment";
+import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
@@ -11,6 +12,17 @@ import { stripHTML } from "../../../helpers/stringHelpers";
 const { RichText, InspectorControls } = window.wp.editor;
 const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;
 const { Component, renderToString } = window.wp.element;
+
+/**
+ * Modified Text Control to provide a better layout experience.
+ *
+ * @returns {ReactElement} The TextControl with additional spacing below.
+ */
+const SpacedTextControl = styled( TextControl )`
+	&&& {
+		margin-bottom: 32px;
+	}
+`;
 
 /**
  * A How-to block component.
@@ -424,17 +436,17 @@ export default class HowTo extends Component {
 	getSidebar( unorderedList, additionalClasses, headingID ) {
 		return <InspectorControls>
 			<PanelBody title={ __( "Settings", "wordpress-seo" ) } className="blocks-font-size">
-				<TextControl
-					label={ __( "Heading ID for list", "wordpress-seo" ) }
+				<SpacedTextControl
+					label={ __( "HTML ID to apply to the title", "wordpress-seo" ) }
 					value={ headingID }
 					onChange={ this.updateHeadingID }
-					help={ __( "The ID for the heading", "wordpress-seo" ) }
+					help={ __( "Optional. This can give you better control over the styling of the heading.", "wordpress-seo" ) }
 				/>
-				<TextControl
-					label={ __( "Additional CSS Classes for list", "wordpress-seo" ) }
+				<SpacedTextControl
+					label={ __( "CSS class(es) to apply to the steps", "wordpress-seo" ) }
 					value={ additionalClasses }
 					onChange={ this.addCSSClasses }
-					help={ __( "CSS classes to add to the list of steps (excluding the how-to header)", "wordpress-seo" ) }
+					help={ __( "Optional. This can give you better control over the styling of the steps.", "wordpress-seo" ) }
 				/>
 				<ToggleControl
 					label={ __( "Unordered list", "wordpress-seo" ) }
