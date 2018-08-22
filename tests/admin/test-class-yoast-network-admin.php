@@ -68,6 +68,31 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests getting site choices output.
+	 *
+	 * @group yoastnetwork
+	 *
+	 * @group ms-required
+	 * @covers Yoast_Network_Admin::get_site_choices()
+	 */
+	public function test_get_site_choices_output() {
+		$admin = new Yoast_Network_Admin();
+
+		$site = get_site();
+
+		$choices = $admin->get_site_choices();
+		$this->assertSame( $site->id, (int) key( $choices ) );
+		$this->assertContains( (string) $site->id, $choices[ $site->id ] );
+		$this->assertContains( $site->domain . $site->path, $choices[ $site->id ] );
+
+		$choices = $admin->get_site_choices( false, true );
+		$this->assertSame( $site->id, (int) key( $choices ) );
+		$this->assertContains( (string) $site->id, $choices[ $site->id ] );
+		$this->assertContains( $site->blogname, $choices[ $site->id ] );
+		$this->assertContains( $site->domain . $site->path, $choices[ $site->id ] );
+	}
+
+	/**
 	 * Tests getting a site's states.
 	 *
 	 * @group ms-required

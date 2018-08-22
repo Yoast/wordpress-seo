@@ -25,6 +25,8 @@ const externals = {
 
 	yoastseo: "window.yoast.analysis",
 
+	"yoast-components": "window.yoast.components",
+
 	lodash: "window.lodash",
 };
 
