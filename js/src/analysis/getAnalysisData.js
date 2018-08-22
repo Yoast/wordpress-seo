@@ -45,9 +45,7 @@ export default function getAnalysisData( edit, store, customAnalysisData, plugga
 	if ( pluggable.loaded ) {
 		data.title = pluggable._applyModifications( "data_page_title", data.title );
 		data.title = pluggable._applyModifications( "title", data.title);
-		data.title = pluggable._applyModifications( "snippet_title", data.title);
 		data.description = pluggable._applyModifications( "data_meta_desc", data.description );
-		data.description = pluggable._applyModifications( "snippet_meta", data.description);
 		data.text = pluggable._applyModifications( "content", data.text );
 	}
 
