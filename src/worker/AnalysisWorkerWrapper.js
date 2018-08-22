@@ -25,6 +25,7 @@ class AnalysisWorkerWrapper {
 		// Bind actions to this scope.
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
+		this.analyzeRelatedKeywords = this.analyzeRelatedKeywords.bind( this );
 		this.loadScript = this.loadScript.bind( this );
 		this.sendMessage = this.sendMessage.bind( this );
 

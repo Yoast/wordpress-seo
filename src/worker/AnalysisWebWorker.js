@@ -126,6 +126,7 @@ export default class AnalysisWebWorker {
 		// Bind actions to this scope.
 		this.analyze = this.analyze.bind( this );
 		this.analyzeDone = this.analyzeDone.bind( this );
+		this.analyzeRelatedKeywordsDone = this.analyzeRelatedKeywordsDone.bind( this );
 		this.loadScript = this.loadScript.bind( this );
 		this.loadScriptDone = this.loadScriptDone.bind( this );
 		this.customMessage = this.customMessage.bind( this );
