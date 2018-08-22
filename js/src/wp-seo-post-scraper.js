@@ -545,8 +545,8 @@ setWordPressSeoL10n();
 			renderClassicEditorMetabox( editStore );
 		}
 
-		// When the initialization is done, start the analysis.
-		initializationDone( edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
+		initializationDone();
+		refreshAnalysis( edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );

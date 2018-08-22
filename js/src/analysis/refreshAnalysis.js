@@ -74,19 +74,11 @@ export default function refreshAnalysis( edit, analysisWorker, store, customAnal
 }
 
 /**
- * Sets isInitialized to true and passes all arguments to the analysis refresh function.
- *
- * @param {Edit}                  edit               The edit instance.
- * @param {AnalysisWorkerWrapper} analysisWorker     The analysis worker to
- *                                                   request the analysis from.
- * @param {Object}                store              The store.
- * @param {CustomAnalysisData}    customAnalysisData The custom analysis data.
- * @param {Pluggable}             pluggable          The Pluggable.
+ * Sets isInitialized to true.
  *
  * @returns {void}
  */
-export function initializationDone( edit, analysisWorker, store, customAnalysisData, pluggable ) {
+export function initializationDone() {
 	isInitialized = true;
-	refreshAnalysis( edit, analysisWorker, store, customAnalysisData, pluggable );
 }
 
