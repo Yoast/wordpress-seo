@@ -416,7 +416,7 @@ setWordPressSeoL10n();
 
 		// YoastSEO.app overwrites.
 		// Todo: change app.pluggable to pluggable (if we don't overwrite).
-		YoastSEO.app.refresh = refreshAnalysis.bind( null, edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
+		YoastSEO.app.refresh = () => refreshAnalysis( edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
 		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;
