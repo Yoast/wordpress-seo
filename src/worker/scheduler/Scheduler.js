@@ -6,7 +6,6 @@ const isUndefined = require( "lodash/isUndefined" );
 import Task from "./Task";
 
 const DEFAULT_CONFIGURATION = {
-	queueSystem: "FIFO",
 	pollTime: 50,
 };
 
