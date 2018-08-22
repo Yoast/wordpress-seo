@@ -217,8 +217,8 @@ class WPSEO_Admin_Asset_Manager {
 			}
 			else {
 				if ( ! wp_script_is( self::PREFIX . 'lodash', 'registered' ) ) {
-					wp_register_script( self::PREFIX . 'lodash', plugins_url( 'js/vendor/lodash.min.js', WPSEO_FILE ) );
-					wp_add_inline_script( self::PREFIX . 'lodash', 'window.lodash = _.noConflict();', 'after' );
+					wp_register_script( self::PREFIX . 'lodash-base', plugins_url( 'js/vendor/lodash.min.js', WPSEO_FILE ), array(), false, true );
+					wp_register_script( self::PREFIX . 'lodash', plugins_url( 'js/vendor/lodash-noconflict.js', WPSEO_FILE ), array( self::PREFIX . 'lodash-base' ), false, true );
 				}
 				$backport_wp_dependencies[] = self::PREFIX . 'lodash';
 			}
