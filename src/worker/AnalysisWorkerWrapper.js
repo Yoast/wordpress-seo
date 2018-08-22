@@ -1,3 +1,6 @@
+// External dependencies.
+const forEach = require( "lodash/forEach" );
+
 // Internal dependencies.
 import Request from "./request";
 const AssessmentResult = require( "../values/AssessmentResult" );
@@ -22,6 +25,7 @@ class AnalysisWorkerWrapper {
 		// Bind actions to this scope.
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
+		this.analyzeRelatedKeywords = this.analyzeRelatedKeywords.bind( this );
 		this.loadScript = this.loadScript.bind( this );
 		this.sendMessage = this.sendMessage.bind( this );
 
@@ -64,10 +68,13 @@ class AnalysisWorkerWrapper {
 			case "customMessage:done":
 				request.resolve( payload );
 				break;
+			case "analyzeRelatedKeywords:done":
 			case "analyze:done":
 				// Map the results back to classes, because we encode and decode the message payload.
 				if ( payload.seo ) {
-					payload.seo.results = payload.seo.results.map( result => AssessmentResult.parse( result ) );
+					forEach( payload.seo, ( { results }, key ) => {
+						payload.seo[ key ].results = results.map( result => AssessmentResult.parse( result ) );
+					} );
 				}
 				if ( payload.readability ) {
 					payload.readability.results = payload.readability.results.map( result => AssessmentResult.parse( result ) );
@@ -185,13 +192,24 @@ class AnalysisWorkerWrapper {
 	/**
 	 * Analyzes the paper.
 	 *
-	 * @param {Object} paper         The paper to analyze.
-	 * @param {Object} configuration The configuration specific to these analyses.
+	 * @param {Object} paper           The paper to analyze.
+	 * @param {Object} relatedKeywords The related keywords.
 	 *
 	 * @returns {Promise} The promise of analyses.
 	 */
-	analyze( paper, configuration = {} ) {
-		return this.sendRequest( "analyze", { paper, configuration } );
+	analyzeRelatedKeywords( paper, relatedKeywords = {} ) {
+		return this.sendRequest( "analyzeRelatedKeywords", { paper, relatedKeywords } );
+	}
+
+	/**
+	 * Analyzes the paper.
+	 *
+	 * @param {Object} paper           The paper to analyze.
+	 *
+	 * @returns {Promise} The promise of analyses.
+	 */
+	analyze( paper ) {
+		return this.sendRequest( "analyze", { paper } );
 	}
 
 	/**
