@@ -234,10 +234,10 @@ export default class HowTo extends Component {
 	/**
 	 * Formats the time in the input fields by removing leading zeros.
 	 *
-	 * @param {number}          duration     The duration as entered by the user.
-	 * @param {number}          maxDuration  The (optional) max duration a field can have.
+	 * @param {number} duration    The duration as entered by the user.
+	 * @param {number} maxDuration Optional. The max duration a field can have.
 	 *
-	 * @returns {number}        newDuration  The formatted duration.
+	 * @returns {number} The formatted duration.
 	 */
 	formatDuration( duration, maxDuration = null ) {
 		const newDuration = duration.replace( /^[0]+/, "" );
@@ -409,7 +409,7 @@ export default class HowTo extends Component {
 	/**
 	 * Returns the help text for this how-to block"s list type.
 	 *
-	 * @param  {boolean} checked Whether or not the list is unordered.
+	 * @param {boolean} checked Whether or not the list is unordered.
 	 *
 	 * @returns {string} The list type help string.
 	 */
