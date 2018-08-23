@@ -13,7 +13,6 @@ import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import { utils } from "yoast-components";
-import isNil from "lodash/isNil";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
 import Modal from "../modals/Modal";
 import MultipleKeywords from "../modals/MultipleKeywords";
@@ -205,13 +204,9 @@ class SeoAnalysis extends React.Component {
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
 
-		if ( this.props.keyword === "" ) {
+		if ( score.className !== "loading" && this.props.keyword === "" ) {
 			score.className = "na";
 			score.screenReaderReadabilityText = __( "Enter a focus keyword to calculate the SEO score", "wordpress-seo" );
-		}
-
-		if ( isNil( this.props.overallScore ) ) {
-			score.className = "loading";
 		}
 
 		return (
