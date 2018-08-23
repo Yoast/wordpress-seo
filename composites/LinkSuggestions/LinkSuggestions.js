@@ -125,7 +125,7 @@ class LinkSuggestions extends React.Component {
 
 		return (
 			<div>
-				<p>{articleLink}</p>
+				<p>{ articleLink }</p>
 				{ cornerStoneSuggestions }
 				{ defaultSuggestions }
 			</div>
