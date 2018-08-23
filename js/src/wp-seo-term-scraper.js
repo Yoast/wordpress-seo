@@ -403,7 +403,7 @@ window.yoastHideMarkers = true;
 		}
 
 		initializationDone();
-		refreshAnalysis( edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
+		YoastSEO.app.refresh();
 	}
 
 	jQuery( document ).ready( initializeTermAnalysis );
