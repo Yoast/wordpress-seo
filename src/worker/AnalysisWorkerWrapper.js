@@ -3,7 +3,7 @@ const forEach = require( "lodash/forEach" );
 
 // Internal dependencies.
 import Request from "./request";
-const AssessmentResult = require( "../values/AssessmentResult" );
+import Transporter from "./transporter";
 
 /**
  * Analysis worker is an API around the Web Worker.
@@ -54,32 +54,22 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	handleMessage( { data: { type, id, payload } } ) {
-		console.log( "wrapper", type, id, payload );
-
 		const request = this._requests[ id ];
 		if ( ! request ) {
 			console.warn( "AnalysisWebWorker: unmatched response", payload );
 			return;
 		}
 
+		payload = Transporter.parse( payload );
+
+		console.log( "wrapper <- worker", type, id, payload );
+
 		switch( type ) {
 			case "initialize:done":
 			case "loadScript:done":
 			case "customMessage:done":
-				request.resolve( payload );
-				break;
 			case "analyzeRelatedKeywords:done":
 			case "analyze:done":
-				// Map the results back to classes, because we encode and decode the message payload.
-				if ( payload.seo ) {
-					forEach( payload.seo, ( { results }, key ) => {
-						payload.seo[ key ].results = results.map( result => AssessmentResult.parse( result ) );
-					} );
-				}
-				if ( payload.readability ) {
-					payload.readability.results = payload.readability.results.map( result => AssessmentResult.parse( result ) );
-				}
-
 				request.resolve( payload );
 				break;
 			case "loadScript:failed":
@@ -170,6 +160,10 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	send( type, id, payload = {} ) {
+		payload = Transporter.serialize( payload );
+
+		console.log( "wrapper -> worker", type, id, payload );
+
 		this._worker.postMessage( {
 			type,
 			id,

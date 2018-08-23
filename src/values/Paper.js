@@ -203,6 +203,7 @@ Paper.prototype.getPermalink = function() {
  */
 Paper.prototype.serialize = function() {
 	return {
+		_parseClass: "Paper",
 		text: this._text,
 		...this._attributes,
 	};
@@ -220,14 +221,14 @@ Paper.prototype.equals = function( paper ) {
 };
 
 /**
- * Parses the object to an Paper.
+ * Parses the object to a Paper.
  *
  * @param {Object} serialized The serialized object.
  *
  * @returns {Paper} The parsed Paper.
  */
 Paper.parse = function( serialized ) {
-	const { text, ...attributes } = serialized;
+	const { text, _parseClass, ...attributes } = serialized;
 	return new Paper( text, attributes );
 };
 
