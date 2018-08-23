@@ -1,6 +1,3 @@
-// External dependencies.
-const forEach = require( "lodash/forEach" );
-
 // Internal dependencies.
 import Request from "./request";
 import Transporter from "./transporter";

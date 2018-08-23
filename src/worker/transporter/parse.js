@@ -20,6 +20,13 @@ const PARSE_CLASSES = {
 	WordCombination,
 };
 
+/**
+ * Parses a data structure that has previously been serialized.
+ *
+ * @param {*} thing The data structure to parse.
+ *
+ * @returns {*} The parsed data structure.
+ */
 export default function parse( thing ) {
 	if ( isArray( thing ) ) {
 		return thing.map( parse );
@@ -36,4 +43,4 @@ export default function parse( thing ) {
 	}
 
 	return thing;
-};
+}

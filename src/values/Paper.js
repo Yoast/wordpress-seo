@@ -203,7 +203,6 @@ Paper.prototype.getPermalink = function() {
  */
 Paper.prototype.serialize = function() {
 	return {
-		_parseClass: "Paper",
 		text: this._text,
 		...this._attributes,
 	};
@@ -228,7 +227,10 @@ Paper.prototype.equals = function( paper ) {
  * @returns {Paper} The parsed Paper.
  */
 Paper.parse = function( serialized ) {
+	// _parseClass is taken here so it doesn't end up in the attributes.
+	// eslint-disable-next-line no-unused-vars
 	const { text, _parseClass, ...attributes } = serialized;
+
 	return new Paper( text, attributes );
 };
 

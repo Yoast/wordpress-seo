@@ -199,7 +199,6 @@ AssessmentResult.prototype.hasMarks = function() {
  */
 AssessmentResult.prototype.serialize = function() {
 	return {
-		_parseClass: "AssessmentResult",
 		identifier: this._identifier,
 		score: this.score,
 		text: this.text,

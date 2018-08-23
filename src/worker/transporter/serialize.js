@@ -2,6 +2,13 @@ const isArray = require( "lodash/isArray" );
 const isObject = require( "lodash/isObject" );
 const mapValues = require( "lodash/mapValues" );
 
+/**
+ * Serializes a data structure to transfer it over a web worker message.
+ *
+ * @param {*} thing The data structure to serialize.
+ *
+ * @returns {*} The serialized data structure.
+ */
 export default function serialize( thing ) {
 	if ( isArray( thing ) ) {
 		return thing.map( serialize );
@@ -10,7 +17,10 @@ export default function serialize( thing ) {
 	const thingIsObject = isObject( thing );
 
 	if ( thingIsObject && thing.serialize ) {
-		return thing.serialize();
+		return {
+			...thing.serialize(),
+			_parseClass: thing.constructor.name,
+		};
 	}
 
 	if ( thingIsObject ) {
@@ -18,4 +28,4 @@ export default function serialize( thing ) {
 	}
 
 	return thing;
-};
+}
