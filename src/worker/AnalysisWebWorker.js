@@ -88,7 +88,7 @@ export default class AnalysisWebWorker {
 
 		this._scheduler = new Scheduler();
 
-		this._paper = new Paper( "", {} );
+		this._paper = null;
 		this._relatedKeywords = {};
 
 		this._researcher = new Researcher( this._paper );
@@ -175,6 +175,7 @@ export default class AnalysisWebWorker {
 		switch( type ) {
 			case "initialize":
 				this.initialize( id, payload );
+				this._scheduler.startPolling();
 				break;
 			case "analyze":
 				this._scheduler.schedule( {
@@ -358,8 +359,10 @@ export default class AnalysisWebWorker {
 		}
 
 		this._seoAssessor = this.createSEOAssessor();
+
 		// Reset the paper in order to not use the cached results on analyze.
-		this._paper = new Paper( "" );
+		this.clearCache();
+
 		this.send( "initialize:done", id );
 	}
 
@@ -456,7 +459,7 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	clearCache() {
-		this._paper = new Paper( "" );
+		this._paper = null;
 	}
 
 	/**
@@ -486,6 +489,10 @@ export default class AnalysisWebWorker {
 	 * @returns {boolean} True if there are changes detected.
 	 */
 	shouldReadabilityUpdate( paper ) {
+		if ( this._paper === null ) {
+			return true;
+		}
+
 		if ( this._paper.getText() !== paper.getText() ) {
 			return true;
 		}
@@ -533,7 +540,7 @@ export default class AnalysisWebWorker {
 	analyze( id, { paper, relatedKeywords = {} } ) {
 		paper.text = string.removeHtmlBlocks( paper.text );
 		const newPaper = Paper.parse( paper );
-		const paperHasChanges = ! this._paper.equals( newPaper );
+		const paperHasChanges = this._paper === null || ! this._paper.equals( newPaper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( newPaper );
 
 		if ( paperHasChanges ) {
