@@ -1,10 +1,8 @@
-import React from "react";
+/* External dependencies */
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
 
-import { stripHTML } from "../../../helpers/stringHelpers";
-
-const { Component, renderToString } = window.wp.element;
-const { __ } = window.wp.i18n;
+const { Component } = window.wp.element;
 const { IconButton } = window.wp.components;
 const { RichText, MediaUpload } = window.wp.editor;
 const { getBlockContent } = window.wp.blocks;
@@ -68,7 +66,7 @@ export default class HowToStep extends Component {
 				className="schema-how-to-step-button editor-inserter__toggle"
 				icon="insert"
 				label={ __( "Insert step", "wordpress-seo" ) }
-				onClick={ insertStep }
+				onClick={ () => insertStep() }
 			>
 			</IconButton>
 		</div>;
@@ -181,46 +179,19 @@ export default class HowToStep extends Component {
 	}
 
 	/**
-	 * Generates a JSON-LD representation of the given How-to step.
-	 *
-	 * @param {object} step          The how-to step.
-	 * @param {string} step.contents The text of the How-to step.
-	 * @param {number} index         The index of the step in the How-to block (or section).
-	 *
-	 * @returns {Object} the JSON-LD representation of the given step.
-	 */
-	static toJSONLD( step, index ) {
-		let jsonLD = {
-			"@type": "HowToStep",
-			position: ( index + 1 ).toString(),
-			text: stripHTML( renderToString( step.contents ) ),
-		};
-		let imageSrc = HowToStep.getImageSrc( step.contents );
-
-		if ( imageSrc ) {
-			jsonLD.associatedMedia = {
-				"@type": "ImageObject",
-				contentUrl: imageSrc,
-			};
-		}
-
-		return jsonLD;
-	}
-
-	/**
 	 * Returns the component of the given How-to step to be rendered in a WordPress post
 	 * (e.g. not in the editor).
 	 *
-	 * @param {object} step The how-to step.
+	 * @param {object} props The props of the how-to step.
 	 *
 	 * @returns {Component} the component to be rendered.
 	 */
-	static getContent( step ) {
+	static Content( props ) {
 		return <RichText.Content
 			tagName="li"
 			className="schema-how-to-step"
-			key={ step.id }
-			value={ step.contents }
+			key={ props.id }
+			value={ props.contents }
 		/>;
 	}
 
@@ -237,18 +208,24 @@ export default class HowToStep extends Component {
 			onFocus,
 			isSelected,
 			editorRef,
+			isUnorderedList,
 		} = this.props;
 
 		let { id, contents } = step;
 
 		return (
 			<li className="schema-how-to-step" onFocus={ onFocus } >
-				<span className="schema-how-to-step-number">{ index + 1 }.</span>
+				<span className="schema-how-to-step-number">
+					{ isUnorderedList
+						? "•"
+						: ( index + 1 ) + "."
+					}
+				</span>
 				<RichText
 					onSetup={ editorRef }
 					key={ id }
 					value={ contents }
-					onChange={ onChange }
+					onChange={ ( value ) => onChange( value, contents ) }
 					isSelected={ isSelected }
 					onSplit={ this.onSplit }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }

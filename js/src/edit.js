@@ -7,6 +7,9 @@ import { Fragment } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import { combineReducers, registerStore } from "@wordpress/data";
 import get from "lodash/get";
+import values from "lodash/values";
+import pickBy from "lodash/pickBy";
+import noop from "lodash/noop";
 
 /* Internal dependencies */
 import Data from "./analysis/data.js";
@@ -18,8 +21,12 @@ import Sidebar from "./containers/Sidebar";
 import MetaboxPortal from "./components/MetaboxPortal";
 import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPriority";
 import * as selectors from "./redux/selectors";
+import * as actions from "./redux/actions";
 import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
+import PrimaryTaxonomyPicker from "./components/PrimaryTaxonomyPicker";
+
+const PLUGIN_NAMESPACE = "yoast-seo";
 
 const PinnedPluginIcon = styled( PluginIcon )`
 	width: 20px;
@@ -34,6 +41,7 @@ class Edit {
 	 * @param {string}   args.snippetEditorBaseUrl            Base URL of the site the user is editing.
 	 * @param {string}   args.snippetEditorDate               The date for the snippet editor.
 	 * @param {array}    args.recommendedReplacementVariables The recommended replacement variables for this context.
+	 * @param {Object}   args.classicEditorDataSettings       Settings for the ClassicEditorData object.
 	 */
 	constructor( args ) {
 		this._localizedData = this.getLocalizedData();
@@ -58,6 +66,8 @@ class Edit {
 	_init() {
 		this._store = this._registerStoreInGutenberg();
 
+		this._registerCategorySelectorFilter();
+
 		this._registerPlugin();
 
 		this._data = this._initializeData();
@@ -80,7 +90,53 @@ class Edit {
 		return registerStore( "yoast-seo/editor", {
 			reducer: combineReducers( reducers ),
 			selectors,
+			actions: pickBy( actions, x => typeof x === "function" ),
 		} );
+	}
+
+	_registerCategorySelectorFilter() {
+		if( ! isGutenbergDataAvailable() ) {
+			return;
+		}
+
+		const addFilter = get( window, "wp.hooks.addFilter", noop );
+
+		const taxonomies = get( window.wpseoPrimaryCategoryL10n, "taxonomies", {} );
+
+		const primaryTaxonomies = values( taxonomies ).map(
+			taxonomy => taxonomy.name
+		);
+
+		addFilter(
+			"editor.PostTaxonomyType",
+			PLUGIN_NAMESPACE,
+			OriginalComponent => {
+				/**
+				 * A component that renders the PrimaryTaxonomyPicker under Gutenberg's
+				 * taxonomy picker if the taxonomy has primary term enabled.
+				 *
+				 * @param {Object} props      The component's props.
+				 * @param {string} props.slug The taxonomy's slug.
+				 *
+				 * @returns {ReactElement} Rendered TaxonomySelectorFilter component.
+				 */
+				const TaxonomySelectorFilter = props => {
+					if ( ! primaryTaxonomies.includes( props.slug ) ) {
+						return <OriginalComponent { ...props } />;
+					}
+
+					const taxonomy = taxonomies[ props.slug ];
+
+					return (
+						<Fragment>
+							<OriginalComponent { ...props } />
+							<PrimaryTaxonomyPicker taxonomy={ taxonomy } />
+						</Fragment>
+					);
+				};
+				return TaxonomySelectorFilter;
+			}
+		);
 	}
 
 	/**
@@ -130,7 +186,7 @@ class Edit {
 			</Fragment>
 		);
 
-		registerPlugin( "yoast-seo", {
+		registerPlugin( PLUGIN_NAMESPACE, {
 			render: YoastSidebar,
 			icon: <PinnedPluginIcon />,
 		} );
@@ -153,7 +209,7 @@ class Edit {
 			return gutenbergData;
 		}
 
-		const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store );
+		const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store, args.classicEditorDataSettings );
 		classicEditorData.initialize( args.replaceVars );
 		return classicEditorData;
 	}
@@ -167,13 +223,15 @@ class Edit {
 	 * @returns {void}
 	 */
 	initializeUsedKeywords( app, ajaxAction ) {
-		const store =         this._store;
+		const store         = this._store;
 		const localizedData = this._localizedData;
+		const scriptUrl     = get( global, [ "wpseoAnalysisWorkerL10n", "keywords_assessment_url" ], "wp-seo-used-keywords-assessment.js" );
 
 		const usedKeywords = new UsedKeywords(
 			ajaxAction,
 			localizedData,
-			app
+			app,
+			scriptUrl
 		);
 		usedKeywords.init();
 

@@ -15,7 +15,7 @@ import MediaUpload from "./components/MediaUpload";
 import Suggestions from "./components/Suggestions";
 import FinalStep from "./components/FinalStep";
 
-import { setTranslations } from "yoast-components/utils/i18n";
+import { setTranslations } from "yoast-components";
 import isUndefined from "lodash/isUndefined";
 
 import YoastIcon from "../../images/Yoast_SEO_Icon.svg";

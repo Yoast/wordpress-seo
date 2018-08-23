@@ -11,11 +11,7 @@ import { setYoastComponentsL10n } from "./helpers/i18n";
 
 /* Internal dependencies */
 import "./helpers/babel-polyfill";
-import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTutorial";
-import AlgoliaSearcher from "yoast-components/composites/AlgoliaSearch/AlgoliaSearcher";
-import HelpCenterYC from "yoast-components/composites/Plugin/HelpCenter/HelpCenter";
-import colors from "yoast-components/style-guide/colors.json";
-import { YoastButton } from "yoast-components/composites/Plugin/Shared/components/YoastButton";
+import { VideoTutorial, AlgoliaSearcher, HelpCenter as HelpCenterYC, colors, YoastButton } from "yoast-components";
 
 /**
  * Executes an action with an argument.
