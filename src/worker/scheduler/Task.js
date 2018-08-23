@@ -11,8 +11,9 @@ class Task {
 	 * @param {function} execute Executes the job with the data.
 	 * @param {function} done    Callback for the scheduler.
 	 * @param {Object}   [data]  Optional data for when executing the task.
+	 * @param {string}   type    The type of the task (analyze, analyzeRelatedKeywords, loadScript or customMessage)
 	 */
-	constructor( id, execute, done, data = {} ) {
+	constructor( id, execute, done, data = {}, type = "analyze" ) {
 		if ( ! isNumber( id ) ) {
 			throw new Error( "Task.id should be a number." );
 		}
@@ -29,6 +30,7 @@ class Task {
 		this.execute = execute;
 		this.done = done;
 		this.data = data;
+		this.type = type;
 	}
 }
 
