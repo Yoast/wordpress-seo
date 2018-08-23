@@ -1,5 +1,3 @@
-/* global YoastSEO */
-
 import cloneDeep from "lodash/cloneDeep";
 import merge from "lodash/merge";
 
