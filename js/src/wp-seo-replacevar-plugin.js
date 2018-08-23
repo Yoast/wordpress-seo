@@ -155,6 +155,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 			}
 			if ( ! isUndefined( fetchedParents[ newParent ] ) ) {
 				this._currentParentPageTitle = fetchedParents[ newParent ];
+				this.declareReloaded();
 				return;
 			}
 			const page = new wp.api.models.Page( { id: newParent } );
