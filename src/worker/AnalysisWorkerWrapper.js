@@ -236,6 +236,18 @@ class AnalysisWorkerWrapper {
 		name = pluginName + "-" + name;
 		return this.sendRequest( "customMessage", { name, data }, data );
 	}
+
+	/**
+	 * Runs the specified research in the worker. Optionally pass a paper.
+	 *
+	 * @param {string} name    The name of the research to run.
+	 * @param {Object} [paper] The paper to run the research on if it shouldn't be run on the latest paper.
+	 *
+	 * @returns {Promise} The promise of the research.
+	 */
+	runResearch( name, paper = null ) {
+		return this.sendRequest( "runResearch", { name, paper } );
+	}
 }
 
 export default AnalysisWorkerWrapper;

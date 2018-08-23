@@ -200,6 +200,14 @@ export default class AnalysisWebWorker {
 					data: payload,
 				} );
 				break;
+			case "runResearch":
+				// this._scheduler.schedule( {
+				// 	id,
+				// 	execute: this.loadScript,
+				// 	done: this.loadScriptDone,
+				// 	data: payload,
+				// } );
+				// break;
 			case "customMessage": {
 				const name = payload.name;
 				if ( name && this._registeredMessageHandlers[ name ] ) {
