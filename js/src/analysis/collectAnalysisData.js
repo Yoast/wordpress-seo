@@ -4,6 +4,8 @@ import merge from "lodash/merge";
 import measureTextWidth from "../helpers/measureTextWidth";
 import getContentLocale from "./getContentLocale";
 
+import { Paper } from "yoastseo";
+
 /**
  * Retrieves the data needed for the analyses.
  *
@@ -17,7 +19,7 @@ import getContentLocale from "./getContentLocale";
  * @param {CustomAnalysisData} customAnalysisData The custom analysis data.
  * @param {Pluggable}          pluggable          The Pluggable.
  *
- * @returns {Object} The paper data used for the analyses.
+ * @returns {Paper} The paper data used for the analyses.
  */
 export default function collectAnalysisData( edit, store, customAnalysisData, pluggable ) {
 	const storeData = cloneDeep( store.getState() );
@@ -51,5 +53,5 @@ export default function collectAnalysisData( edit, store, customAnalysisData, pl
 	data.titleWidth = measureTextWidth( data.title );
 	data.locale = getContentLocale();
 
-	return data;
+	return Paper.parse( data );
 }
