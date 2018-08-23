@@ -26,7 +26,6 @@ import { update as updateAdminBar } from "./ui/adminBar";
 import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
 import refreshAnalysis, { initializationDone } from "./analysis/refreshAnalysis";
 import collectAnalysisData from "./analysis/collectAnalysisData";
-import refreshAnalysis from "./analysis/refreshAnalysis";
 import PostDataCollector from "./analysis/PostDataCollector";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
@@ -554,7 +553,7 @@ setWordPressSeoL10n();
 		}
 
 		initializationDone();
-		refreshAnalysis( edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
+		YoastSEO.app.refresh();
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );

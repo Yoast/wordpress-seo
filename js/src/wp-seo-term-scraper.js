@@ -23,7 +23,6 @@ import { update as updateAdminBar } from "./ui/adminBar";
 import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
 import refreshAnalysis, { initializationDone } from "./analysis/refreshAnalysis";
 import collectAnalysisData from "./analysis/collectAnalysisData";
-import refreshAnalysis from "./analysis/refreshAnalysis";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
