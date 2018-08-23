@@ -1,4 +1,4 @@
-/* global wpseoReplaceVarsL10n, require */
+/* global wpseoReplaceVarsL10n, require, wp */
 import forEach from "lodash/forEach";
 import filter from "lodash/filter";
 import trim from "lodash/trim";
@@ -10,6 +10,8 @@ import {
 	refreshSnippetEditor,
 } from "./redux/actions/snippetEditor";
 import "./helpers/babel-polyfill";
+
+import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
 ( function() {
 	var modifiableFields = [
@@ -44,6 +46,7 @@ import "./helpers/babel-polyfill";
 		this.registerReplacements();
 		this.registerModifications();
 		this.registerEvents();
+		this.subscribeToGutenberg();
 	};
 
 	/*
@@ -114,7 +117,7 @@ import "./helpers/babel-polyfill";
 	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.registerEvents = function() {
-		var currentScope = wpseoReplaceVarsL10n.scope;
+		const currentScope = wpseoReplaceVarsL10n.scope;
 
 		if ( currentScope === "post" ) {
 			// Set events for each taxonomy box.
@@ -125,6 +128,49 @@ import "./helpers/babel-polyfill";
 			// Add support for custom fields as well.
 			jQuery( "#postcustomstuff > #list-table" ).each( this.bindFieldEvents.bind( this ) );
 		}
+	};
+
+	/**
+	 * Subscribes to Gutenberg to watch a possible parent page change.
+	 *
+	 * @returns {void}
+	 */
+	YoastReplaceVarPlugin.prototype.subscribeToGutenberg = function() {
+		if ( ! isGutenbergDataAvailable() ) {
+			return;
+		}
+		let fetchedParents = { 0: "" };
+		let currentParent  = null;
+		const wpData       = window.wp.data;
+		wpData.subscribe( () => {
+			let newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
+			if ( typeof newParent === "undefined" || currentParent === newParent ) {
+				return;
+			}
+			currentParent = newParent;
+			if ( newParent < 1 ) {
+				this._currentParentPageTitle = "";
+				this.declareReloaded();
+				return;
+			}
+			if ( ! isUndefined( fetchedParents[ newParent ] ) ) {
+				this._currentParentPageTitle = fetchedParents[ newParent ];
+				return;
+			}
+			const page = new wp.api.models.Page( { id: newParent } );
+			page.fetch().then(
+				response => {
+					this._currentParentPageTitle = response.title.rendered;
+					fetchedParents[ newParent ]  = this._currentParentPageTitle;
+					this.declareReloaded();
+				}
+			).fail(
+				() => {
+					this._currentParentPageTitle = "";
+					this.declareReloaded();
+				}
+			);
+		} );
 	};
 
 	/**
@@ -509,10 +555,14 @@ import "./helpers/babel-polyfill";
 	 * @returns {string} The data with all its placeholders replaced by actual values.
 	 */
 	YoastReplaceVarPlugin.prototype.parentReplace = function( data ) {
-		var parent = jQuery( "#parent_id, #parent" ).eq( 0 );
+		let parent = jQuery( "#parent_id, #parent" ).eq( 0 );
 
 		if ( this.hasParentTitle( parent ) ) {
 			data = data.replace( /%%parent_title%%/, this.getParentTitleReplacement( parent ) );
+		}
+
+		if ( isGutenbergDataAvailable() && ! isUndefined( this._currentParentPageTitle ) ) {
+			data = data.replace( /%%parent_title%%/, this._currentParentPageTitle );
 		}
 
 		return data;
