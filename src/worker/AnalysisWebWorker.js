@@ -175,6 +175,7 @@ export default class AnalysisWebWorker {
 		switch( type ) {
 			case "initialize":
 				this.initialize( id, payload );
+				this._scheduler.startPolling();
 				break;
 			case "analyze":
 				this._scheduler.schedule( {
