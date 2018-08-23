@@ -557,21 +557,19 @@ export default class AnalysisWebWorker {
 			forEach( relatedKeywords, ( relatedKeyword, key ) => {
 				requestedRelatedKeywordKeys.push( key );
 
-				if ( this.shouldSeoUpdate( key, relatedKeyword ) ) {
-					this._relatedKeywords[ key ] = relatedKeyword;
+				this._relatedKeywords[ key ] = relatedKeyword;
 
-					const relatedPaper = Paper.parse( {
-						...this._paper.serialize(),
-						keyword: this._relatedKeywords[ key ].keyword,
-						synonyms: this._relatedKeywords[ key ].synonyms,
-					} );
-					this._seoAssessor.assess( relatedPaper );
+				const relatedPaper = Paper.parse( {
+					...this._paper.serialize(),
+					keyword: this._relatedKeywords[ key ].keyword,
+					synonyms: this._relatedKeywords[ key ].synonyms,
+				} );
+				this._seoAssessor.assess( relatedPaper );
 
-					this._results.seo[ key ] = {
-						results: this._seoAssessor.results.map( result => result.serialize() ),
-						score: this._seoAssessor.calculateOverallScore(),
-					};
-				}
+				this._results.seo[ key ] = {
+					results: this._seoAssessor.results.map( result => result.serialize() ),
+					score: this._seoAssessor.calculateOverallScore(),
+				};
 			} );
 
 			// Clear the unrequested results, but only if there are requested related keywords.
