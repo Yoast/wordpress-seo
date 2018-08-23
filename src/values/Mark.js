@@ -50,11 +50,13 @@ Mark.prototype.applyWithReplace = function( text ) {
  * @returns {Object} The serialized Mark.
  */
 Mark.prototype.serialize = function() {
-	return this._properties;
+	return {
+		...this._properties,
+	};
 };
 
 /**
- * Parses the object to an Mark.
+ * Parses the object to a Mark.
  *
  * @param {Object} serialized The serialized object.
  *

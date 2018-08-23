@@ -8,5 +8,5 @@ const getSentences = require( "../stringProcessing/getSentences" );
  * @returns {Array} Sentences found in the paper.
  */
 export default function( paper ) {
-    return getSentences( paper.getText() );
+	return getSentences( paper.getText() );
 }

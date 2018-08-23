@@ -220,14 +220,17 @@ Paper.prototype.equals = function( paper ) {
 };
 
 /**
- * Parses the object to an Paper.
+ * Parses the object to a Paper.
  *
  * @param {Object} serialized The serialized object.
  *
  * @returns {Paper} The parsed Paper.
  */
 Paper.parse = function( serialized ) {
-	const { text, ...attributes } = serialized;
+	// _parseClass is taken here so it doesn't end up in the attributes.
+	// eslint-disable-next-line no-unused-vars
+	const { text, _parseClass, ...attributes } = serialized;
+
 	return new Paper( text, attributes );
 };
 
