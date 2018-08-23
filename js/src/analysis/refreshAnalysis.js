@@ -46,7 +46,7 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 				store.dispatch( setOverallSeoScore( seoResults.score, data.keyword ) );
 				store.dispatch( refreshSnippetEditor() );
 
-				dataCollector.saveScores( seoResults.score );
+				dataCollector.saveScores( seoResults.score, data.keyword );
 			}
 			if ( readability ) {
 				// Recreate the getMarker function after the worker is done.

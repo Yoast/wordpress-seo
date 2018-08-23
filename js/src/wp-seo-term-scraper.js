@@ -31,6 +31,7 @@ import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
 import getApplyMarks from "./analysis/getApplyMarks";
+import { termsTmceId } from "./wp-seo-tinymce";
 
 // Redux dependencies.
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
@@ -222,6 +223,9 @@ window.yoastHideMarkers = true;
 			snippetEditorBaseUrl: wpseoTermScraperL10n.base_url,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
+			classicEditorDataSettings: {
+				tinyMceId: termsTmceId,
+			},
 		};
 
 		edit = new Edit( editArgs );

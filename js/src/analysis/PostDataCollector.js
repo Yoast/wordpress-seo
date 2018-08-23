@@ -16,7 +16,6 @@ import { update as updateAdminBar } from "../ui/adminBar";
 import publishBox from "../ui/publishBox";
 
 let $ = jQuery;
-let currentKeyword = "";
 
 /**
  * Show warning in console when the unsupported CkEditor is used
@@ -81,7 +80,6 @@ PostDataCollector.prototype.getData = function() {
  */
 PostDataCollector.prototype.getKeyword = function() {
 	var val = document.getElementById( "yoast_wpseo_focuskw" ) && document.getElementById( "yoast_wpseo_focuskw" ).value || "";
-	currentKeyword = val;
 
 	return val;
 };
@@ -368,17 +366,18 @@ PostDataCollector.prototype.inputElementEventBinder = function( app ) {
  * Outputs the score in the overall target.
  *
  * @param {string} score The score to save.
+ * @param {string} keyword The keyword for the score.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.saveScores = function( score ) {
+PostDataCollector.prototype.saveScores = function( score, keyword ) {
 	var indicator = getIndicatorForScore( score );
 
 	publishBox.updateScore( "content", indicator.className );
 
 	document.getElementById( "yoast_wpseo_linkdex" ).value = score;
 
-	if ( "" === currentKeyword ) {
+	if ( "" === keyword ) {
 		indicator.className = "na";
 		indicator.screenReaderText = this.app.i18n.dgettext(
 			"js-text-analysis",
