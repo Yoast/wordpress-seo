@@ -217,6 +217,13 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,
+			'id'     => 'wpseo-kwresearchtraining',
+			'title'  => __( 'Keyword research training', 'wordpress-seo' ),
+			'href'   => WPSEO_Shortlinker::get( 'https://yoa.st/wp-admin-bar' ),
+			'meta'   => array( 'target' => '_blank' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,
 			'id'     => 'wpseo-adwordsexternal',
 			'title'  => __( 'AdWords External', 'wordpress-seo' ),
 			'href'   => $adwords_url,
