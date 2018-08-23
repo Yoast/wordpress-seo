@@ -5,6 +5,8 @@ import merge from "lodash/merge";
 
 import measureTextWidth from "../helpers/measureTextWidth";
 
+import { Paper } from "yoastseo";
+
 /**
  * Retrieves the data needed for the analyses.
  *
@@ -18,7 +20,7 @@ import measureTextWidth from "../helpers/measureTextWidth";
  * @param {CustomAnalysisData} customAnalysisData The custom analysis data.
  * @param {Pluggable}          pluggable          The Pluggable.
  *
- * @returns {Object} The paper data used for the analyses.
+ * @returns {Paper} The paper data used for the analyses.
  */
 export default function collectAnalysisData( edit, store, customAnalysisData, pluggable ) {
 	const storeData = cloneDeep( store.getState() );
@@ -53,5 +55,5 @@ export default function collectAnalysisData( edit, store, customAnalysisData, pl
 	// TODO: change this to getContentLocale after PR #10605 gets merged.
 	data.locale = YoastSEO.app.config.locale;
 
-	return data;
+	return Paper.parse( data );
 }
