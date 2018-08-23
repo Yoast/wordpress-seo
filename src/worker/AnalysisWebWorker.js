@@ -177,7 +177,6 @@ export default class AnalysisWebWorker {
 				this.initialize( id, payload );
 				break;
 			case "analyze":
-			case "analyzeRelatedKeywords":
 				this._scheduler.schedule( {
 					id,
 					execute: this.analyze,
@@ -192,6 +191,7 @@ export default class AnalysisWebWorker {
 					execute: this.analyze,
 					done: this.analyzeRelatedKeywordsDone,
 					data: payload,
+					type: type,
 				} );
 				break;
 			case "loadScript":
