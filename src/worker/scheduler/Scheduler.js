@@ -87,7 +87,6 @@ class Scheduler {
 				this._tasks.analyze.push( task );
 			}
 		}
-		console.log( "A new task was scheduled: ", task );
 	}
 
 	/**
@@ -97,22 +96,18 @@ class Scheduler {
 	 */
 	getNextTask() {
 		if ( this._tasks.loadScript.length > 0 ) {
-			console.log( "The next task will be", this._tasks.loadScript[ 0 ] );
 			return this._tasks.loadScript.shift();
 		}
 
 		if ( this._tasks.customMessage.length > 0 ) {
-			console.log( "The next task will be", this._tasks.customMessage[ 0 ] );
 			return this._tasks.customMessage.shift();
 		}
 
 		if ( this._tasks.analyze.length > 0 ) {
-			console.log( "The next task will be", this._tasks.analyze[ 0 ] );
 			return this._tasks.analyze.shift();
 		}
 
 		if ( this._tasks.analyzeRelatedKeywords.length > 0 ) {
-			console.log( "The next task will be", this._tasks.analyzeRelatedKeywords[ 0 ] );
 			return this._tasks.analyzeRelatedKeywords.shift();
 		}
 
