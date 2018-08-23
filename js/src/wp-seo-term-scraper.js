@@ -312,9 +312,6 @@ window.yoastHideMarkers = true;
 
 		YoastSEO._registerReactComponent = registerReactComponent;
 
-		initializationDone();
-		refreshAnalysis( edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
-
 		initTermSlugWatcher();
 		termScraper.bindElementEvents( app );
 
@@ -390,6 +387,9 @@ window.yoastHideMarkers = true;
 		if ( ! isGutenbergDataAvailable() ) {
 			renderClassicEditorMetabox( store );
 		}
+
+		initializationDone();
+		refreshAnalysis( edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
 	}
 
 	jQuery( document ).ready( initializeTermAnalysis );
