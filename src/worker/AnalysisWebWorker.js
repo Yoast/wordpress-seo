@@ -86,7 +86,7 @@ export default class AnalysisWebWorker {
 			locale: "en_US",
 		};
 
-		this._scheduler = new Scheduler( { resetQueue: false } );
+		this._scheduler = new Scheduler();
 
 		this._paper = new Paper( "", {} );
 		this._relatedKeywords = {};
@@ -184,6 +184,7 @@ export default class AnalysisWebWorker {
 					execute: this.analyze,
 					done: this.analyzeDone,
 					data: payload,
+					type: type,
 				} );
 				break;
 			case "analyzeRelatedKeywords":
@@ -192,6 +193,7 @@ export default class AnalysisWebWorker {
 					execute: this.analyze,
 					done: this.analyzeRelatedKeywordsDone,
 					data: payload,
+					type: type,
 				} );
 				break;
 			case "loadScript":
@@ -200,6 +202,7 @@ export default class AnalysisWebWorker {
 					execute: this.loadScript,
 					done: this.loadScriptDone,
 					data: payload,
+					type: type,
 				} );
 				break;
 			case "runResearch":
@@ -218,6 +221,7 @@ export default class AnalysisWebWorker {
 						execute: this.customMessage,
 						done: this.customMessageDone,
 						data: payload,
+						type: type,
 					} );
 					break;
 				}
@@ -567,21 +571,19 @@ export default class AnalysisWebWorker {
 			forEach( relatedKeywords, ( relatedKeyword, key ) => {
 				requestedRelatedKeywordKeys.push( key );
 
-				if ( this.shouldSeoUpdate( key, relatedKeyword ) ) {
-					this._relatedKeywords[ key ] = relatedKeyword;
+				this._relatedKeywords[ key ] = relatedKeyword;
 
-					const relatedPaper = Paper.parse( {
-						...this._paper.serialize(),
-						keyword: this._relatedKeywords[ key ].keyword,
-						synonyms: this._relatedKeywords[ key ].synonyms,
-					} );
-					this._seoAssessor.assess( relatedPaper );
+				const relatedPaper = Paper.parse( {
+					...this._paper.serialize(),
+					keyword: this._relatedKeywords[ key ].keyword,
+					synonyms: this._relatedKeywords[ key ].synonyms,
+				} );
+				this._seoAssessor.assess( relatedPaper );
 
-					this._results.seo[ key ] = {
-						results: this._seoAssessor.results.map( result => result.serialize() ),
-						score: this._seoAssessor.calculateOverallScore(),
-					};
-				}
+				this._results.seo[ key ] = {
+					results: this._seoAssessor.results.map( result => result.serialize() ),
+					score: this._seoAssessor.calculateOverallScore(),
+				};
 			} );
 
 			// Clear the unrequested results, but only if there are requested related keywords.
