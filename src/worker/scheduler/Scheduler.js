@@ -31,6 +31,7 @@ class Scheduler {
 		// Bind functions to this scope.
 		this.startPolling = this.startPolling.bind( this );
 		this.stopPolling = this.stopPolling.bind( this );
+		this.tick = this.tick.bind( this );
 	}
 
 	/**
@@ -45,8 +46,19 @@ class Scheduler {
 
 		this._started = true;
 
-		this.executeNextTask();
-		this._pollHandle = setTimeout( this.startPolling, this._configuration.pollTime );
+		this.tick();
+	}
+
+	/**
+	 * Do a tick and execute a task.
+	 *
+	 * @returns {void}
+	 */
+	tick() {
+		this.executeNextTask()
+			.then( () => {
+				setTimeout( this.tick, this._configuration.pollTime );
+			} );
 	}
 
 	/**
