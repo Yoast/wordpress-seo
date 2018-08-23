@@ -1,6 +1,5 @@
 // External dependencies.
 const merge = require( "lodash/merge" );
-const isUndefined = require( "lodash/isUndefined" );
 
 // Internal dependencies.
 import Task from "./Task";
@@ -14,8 +13,6 @@ class Scheduler {
 	 * Initializes a Scheduler.
 	 *
 	 * @param {Object}  [configuration]             The configuration.
-	 * @param {string}  [configuration.queueSystem] FIFO or LIFO, defaults to the
-	 *                                              latter.
 	 * @param {number}  [configuration.pollTime]    The time in between each task
 	 *                                              poll in milliseconds,
 	 *                                              defaults to 50.
@@ -65,6 +62,7 @@ class Scheduler {
 	 * @param {function} task.execute The function to run for task execution.
 	 * @param {function} task.done    The function to run when the task is done.
 	 * @param {Object}   task.data    The data object to execute with.
+	 * @param {string}   task.type    The type of the task.
 	 *
 	 * @returns {void}
 	 */
@@ -93,19 +91,24 @@ class Scheduler {
 	}
 
 	/**
-	 * Retrieves the next task from the queue.
+	 * Retrieves the next task from the queue. Queues are sorted from lowest to highest priority.
 	 *
 	 * @returns {Task|null} The next task or null if none are available.
 	 */
 	getNextTask() {
+		if ( this._tasks.loadScript.length > 0 ) {
+			console.log( "The next task will be", this._tasks.loadScript[ 0 ] );
+			return this._tasks.loadScript.shift();
+		}
+
 		if ( this._tasks.customMessage.length > 0 ) {
 			console.log( "The next task will be", this._tasks.customMessage[ 0 ] );
 			return this._tasks.customMessage.shift();
 		}
 
-		if ( this._tasks.loadScript.length > 0 ) {
-			console.log( "The next task will be", this._tasks.loadScript[ 0 ] );
-			return this._tasks.loadScript.shift();
+		if ( this._tasks.analyze.length > 0 ) {
+			console.log( "The next task will be", this._tasks.analyze[ 0 ] );
+			return this._tasks.analyze.shift();
 		}
 
 		if ( this._tasks.analyzeRelatedKeywords.length > 0 ) {
@@ -113,10 +116,7 @@ class Scheduler {
 			return this._tasks.analyzeRelatedKeywords.shift();
 		}
 
-		if ( this._tasks.analyze.length > 0 ) {
-			console.log( "The next task will be", this._tasks.analyze[ 0 ] );
-			return this._tasks.analyze.shift();
-		}
+		return null;
 	}
 
 	/**
@@ -126,7 +126,7 @@ class Scheduler {
 	 */
 	async executeNextTask() {
 		const task = this.getNextTask();
-		if ( isUndefined( task ) ) {
+		if ( task === null ) {
 			return;
 		}
 		const result = await task.execute( task.id, task.data );
