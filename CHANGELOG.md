@@ -5,6 +5,12 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.38.3 August 24th, 2018
+
+### Bugs:
+
+* Fixes an issue where the worker communication wouldn't work when the script was minified.
+
 ## 1.38.2 August 24th, 2018
 
 ### Bugs:

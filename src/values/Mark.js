@@ -51,6 +51,7 @@ Mark.prototype.applyWithReplace = function( text ) {
  */
 Mark.prototype.serialize = function() {
 	return {
+		_parseClass: "Mark",
 		...this._properties,
 	};
 };

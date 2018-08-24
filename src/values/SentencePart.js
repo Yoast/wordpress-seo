@@ -67,6 +67,7 @@ SentencePart.prototype.setPassive = function( passive ) {
  */
 SentencePart.prototype.serialize = function() {
 	return {
+		_parseClass: "SentencePart",
 		sentencePartText: this._sentencePartText,
 		auxiliaries: this._auxiliaries,
 		locale: this._locale,

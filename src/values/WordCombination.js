@@ -182,6 +182,7 @@ WordCombination.prototype.getDensity = function( wordCount ) {
  */
 WordCombination.prototype.serialize = function() {
 	return {
+		_parseClass: "WordCombination",
 		words: this._words,
 		occurrences: this._occurrences,
 		functionWords: this._functionWords,
