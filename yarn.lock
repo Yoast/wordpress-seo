@@ -11090,9 +11090,21 @@ yauzl@^2.2.1:
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-yoastseo@^1.37.0, yoastseo@^1.38.2:
+yoastseo@^1.37.0:
   version "1.38.2"
   resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.38.2.tgz#c51ea75be8c919bf5839e26682bcfe44001f43c6"
+  dependencies:
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    jest "^23.0.0"
+    lodash "^4.14.1"
+    node-sass "^4.7.2"
+    sassdash "0.9.0"
+    tokenizer2 "^2.0.0"
+
+yoastseo@^1.38.3:
+  version "1.38.3"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.38.3.tgz#e200237cb348d9d964529dda6518c28936c07001"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
