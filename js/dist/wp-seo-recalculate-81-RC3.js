@@ -22,7 +22,7 @@ if (typeof window._babelPolyfill === "undefined" || !window._babelPolyfill) {
 
 __webpack_require__(160);
 
-var _yoastseo = __webpack_require__(258);
+var _yoastseo = __webpack_require__(384);
 
 var Jed = __webpack_require__(401); /* global wpseoAdminL10n */
 /* global ajaxurl */
@@ -317,7 +317,7 @@ var isUndefined = __webpack_require__(65);
 
 /***/ }),
 
-/***/ 258:
+/***/ 384:
 /***/ (function(module, exports) {
 
 module.exports = window.yoast.analysis;

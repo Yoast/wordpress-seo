@@ -2318,8 +2318,7 @@ var objectKeys = Object.keys || function (obj) {
 /* 256 */,
 /* 257 */,
 /* 258 */,
-/* 259 */,
-/* 260 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayMap = __webpack_require__(249),
@@ -2378,12 +2377,12 @@ module.exports = map;
 
 
 /***/ }),
+/* 260 */,
 /* 261 */,
 /* 262 */,
 /* 263 */,
 /* 264 */,
-/* 265 */,
-/* 266 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayLikeKeys = __webpack_require__(240),
@@ -2426,6 +2425,7 @@ module.exports = keys;
 
 
 /***/ }),
+/* 266 */,
 /* 267 */,
 /* 268 */,
 /* 269 */,
@@ -5723,7 +5723,7 @@ module.exports = arrayEach;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseFor = __webpack_require__(239),
-    keys = __webpack_require__(266);
+    keys = __webpack_require__(265);
 
 /**
  * The base implementation of `_.forOwn` without support for iteratee shorthands.
@@ -10525,7 +10525,7 @@ module.exports = function (text) {
 var stripTags = __webpack_require__(222).stripFullTags;
 var stripSpaces = __webpack_require__(87);
 var removePunctuation = __webpack_require__(1183);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var filter = __webpack_require__(521);
 /**
  * Returns an array with words used in the text.
@@ -10556,7 +10556,7 @@ module.exports = function (text) {
 "use strict";
 
 
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var isUndefined = __webpack_require__(68);
 var forEach = __webpack_require__(84);
 var isNaN = __webpack_require__(1916);
@@ -10870,7 +10870,7 @@ var removePunctuation = __webpack_require__(1183);
 var unifyWhitespace = __webpack_require__(1542).unifyAllSpaces;
 var matchStringWithTransliteration = __webpack_require__(1543);
 var normalizeQuotes = __webpack_require__(1096).normalize;
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 /**
  * Returns the number of matches in a given string
  *
@@ -11129,7 +11129,7 @@ var isUndefined = __webpack_require__(68);
 var isFunction = __webpack_require__(136);
 var forEach = __webpack_require__(84);
 var filter = __webpack_require__(521);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var findIndex = __webpack_require__(1585);
 var find = __webpack_require__(1346);
 var ScoreRating = 9;
@@ -11661,7 +11661,7 @@ module.exports = function (locale, languages) {
 /** @module stringProcessing/createRegexFromArray */
 
 var addWordBoundary = __webpack_require__(391);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 /**
  * Creates a regex of combined strings from the input array.
  *
@@ -12000,7 +12000,7 @@ module.exports = baseFlatten;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseFlatten = __webpack_require__(1153),
-    map = __webpack_require__(260);
+    map = __webpack_require__(259);
 
 /**
  * Creates a flattened array of values by running each element in `collection`
@@ -14355,7 +14355,7 @@ var contentConfiguration = __webpack_require__(1595);
     var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
  */
 var scoreToRating = __webpack_require__(1194);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var sum = __webpack_require__(1586);
 /**
  * Creates the Assessor
@@ -15355,7 +15355,7 @@ var Mark = __webpack_require__(236);
 var marker = __webpack_require__(1077);
 var inRange = __webpack_require__(246).inRangeEndInclusive;
 var filter = __webpack_require__(521);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 // 150 is the recommendedValue for the maximum paragraph length.
 var recommendedValue = 150;
 /**
@@ -15499,7 +15499,7 @@ var inRange = __webpack_require__(246).inRangeEndInclusive;
 var stripTags = __webpack_require__(222).stripIncompleteTags;
 var Mark = __webpack_require__(236);
 var marker = __webpack_require__(1077);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var getLanguageAvailability = __webpack_require__(1107);
 var availableLanguages = ["en", "de", "fr", "es", "ru", "it", "nl"];
 /**
@@ -15607,7 +15607,7 @@ var AssessmentResult = __webpack_require__(63);
 var stripTags = __webpack_require__(222).stripIncompleteTags;
 var partition = __webpack_require__(1896);
 var sortBy = __webpack_require__(1538);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var filter = __webpack_require__(521);
 var flatten = __webpack_require__(1318);
 var Mark = __webpack_require__(236);
@@ -15776,7 +15776,7 @@ var inRange = __webpack_require__(246).inRangeEndInclusive;
 var stripTags = __webpack_require__(222).stripIncompleteTags;
 var Mark = __webpack_require__(236);
 var addMark = __webpack_require__(1077);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var merge = __webpack_require__(103);
 /**
  * Represents the assessment that will calculate the length of sentences in the text.
@@ -16008,7 +16008,7 @@ var isTextTooLong = __webpack_require__(1315);
 var getSubheadings = __webpack_require__(1540).getSubheadings;
 var getWords = __webpack_require__(1065);
 var filter = __webpack_require__(521);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var merge = __webpack_require__(103);
 var Mark = __webpack_require__(236);
 var marker = __webpack_require__(1077);
@@ -16267,7 +16267,7 @@ module.exports = {
 
 var AssessmentResult = __webpack_require__(63);
 var formatNumber = __webpack_require__(1095);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var inRange = __webpack_require__(246).inRangeStartInclusive;
 var stripTags = __webpack_require__(222).stripIncompleteTags;
 var Mark = __webpack_require__(236);
@@ -17010,7 +17010,7 @@ function _inherits(subClass, superClass) {
 }
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var merge = __webpack_require__(103);
 var isUndefined = __webpack_require__(68);
 var Assessment = __webpack_require__(109);
@@ -23229,7 +23229,7 @@ module.exports = equalArrays;
 
 var baseGetAllKeys = __webpack_require__(1521),
     getSymbols = __webpack_require__(1307),
-    keys = __webpack_require__(266);
+    keys = __webpack_require__(265);
 
 /**
  * Creates an array of own enumerable property names and symbols of `object`.
@@ -23638,7 +23638,7 @@ module.exports = toFinite;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseValues = __webpack_require__(1893),
-    keys = __webpack_require__(266);
+    keys = __webpack_require__(265);
 
 /**
  * Creates an array of the own enumerable string keyed property values of `object`.
@@ -23888,7 +23888,7 @@ module.exports = function (sentences, recommendedValue) {
 "use strict";
 
 
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 /**
  * Gets all subheadings from the text and returns these in an array.
  *
@@ -23997,7 +23997,7 @@ module.exports = {
 "use strict";
 
 
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var addWordBoundary = __webpack_require__(391);
 var stripSpaces = __webpack_require__(87);
 var transliterate = __webpack_require__(405);
@@ -24542,7 +24542,7 @@ var normalizeQuotes = __webpack_require__(1096).normalize;
 var functionWordLists = __webpack_require__(1927)();
 var getLanguage = __webpack_require__(238);
 var filter = __webpack_require__(521);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var forEach = __webpack_require__(84);
 var has = __webpack_require__(1554);
 var flatMap = __webpack_require__(1154);
@@ -28297,7 +28297,7 @@ module.exports = function (text) {
 /** @module analyses/getLinkStatistics */
 
 var getAnchors = __webpack_require__(1581);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var url = __webpack_require__(1345);
 /**
  * Checks a text for anchors and returns the number found.
@@ -28354,7 +28354,7 @@ var forEach = __webpack_require__(84);
 var filter = __webpack_require__(521);
 var find = __webpack_require__(1346);
 var isUndefined = __webpack_require__(68);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var sum = __webpack_require__(1586);
 var memoize = __webpack_require__(156);
 var flatMap = __webpack_require__(1154);
@@ -28617,7 +28617,7 @@ module.exports = function (paper) {
 "use strict";
 
 
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var flatMap = __webpack_require__(1154);
 var filter = __webpack_require__(521);
 var getBlocks = __webpack_require__(406).getBlocks;
@@ -31503,7 +31503,7 @@ module.exports = WeakMap;
 /***/ (function(module, exports, __webpack_require__) {
 
 var isStrictComparable = __webpack_require__(1524),
-    keys = __webpack_require__(266);
+    keys = __webpack_require__(265);
 
 /**
  * Gets the property names, values, and compare flags of `object`.
@@ -36954,7 +36954,7 @@ module.exports = {"vowels":"aeiouáéíóúü","deviations":{"vowels":[{"fragmen
 
 var baseIteratee = __webpack_require__(1047),
     isArrayLike = __webpack_require__(64),
-    keys = __webpack_require__(266);
+    keys = __webpack_require__(265);
 
 /**
  * Creates a `_.find` or `_.findLast` function.
@@ -37613,7 +37613,7 @@ module.exports = function (paper) {
 var getWords = __webpack_require__(1065);
 var countSyllables = __webpack_require__(1584);
 var getSentences = __webpack_require__(1066);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var forEach = __webpack_require__(84);
 /**
  * Gets the complexity per word, along with the index for the sentence.
@@ -39145,7 +39145,7 @@ var exceptionsParticiplesActive = __webpack_require__(2052)();
 var auxiliaries = __webpack_require__(1156)().participleLike;
 var exceptionsRegex = /\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t.,'()"+-;!?:/»«‹›<>])/ig;
 var includes = __webpack_require__(1033);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 /**
  * Creates an Participle object for the German language.
  *
@@ -39337,7 +39337,7 @@ var followsIndex = __webpack_require__(2056);
 var filter = __webpack_require__(521);
 var isUndefined = __webpack_require__(68);
 var includes = __webpack_require__(1033);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var forEach = __webpack_require__(84);
 // English-specific variables and imports.
 var SentencePartEnglish = __webpack_require__(2057);
@@ -39918,7 +39918,7 @@ module.exports = function () {
 
 var forEach = __webpack_require__(84);
 var isEmpty = __webpack_require__(515);
-var map = __webpack_require__(260);
+var map = __webpack_require__(259);
 var arrayToRegex = __webpack_require__(1108);
 var stripSpaces = __webpack_require__(87);
 // German-specific imports.
@@ -41077,7 +41077,7 @@ var Stack = __webpack_require__(396),
     isMap = __webpack_require__(2109),
     isObject = __webpack_require__(37),
     isSet = __webpack_require__(2111),
-    keys = __webpack_require__(266);
+    keys = __webpack_require__(265);
 
 /** Used to compose bitmasks for cloning. */
 var CLONE_DEEP_FLAG = 1,
@@ -41235,7 +41235,7 @@ module.exports = baseClone;
 /***/ (function(module, exports, __webpack_require__) {
 
 var copyObject = __webpack_require__(394),
-    keys = __webpack_require__(266);
+    keys = __webpack_require__(265);
 
 /**
  * The base implementation of `_.assign` without support for multiple sources
