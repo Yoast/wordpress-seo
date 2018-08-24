@@ -8406,6 +8406,7 @@ AssessmentResult.prototype.hasMarks = function () {
  */
 AssessmentResult.prototype.serialize = function () {
     return {
+        _parseClass: "AssessmentResult",
         identifier: this._identifier,
         score: this.score,
         text: this.text,
@@ -17653,7 +17654,7 @@ Mark.prototype.applyWithReplace = function (text) {
  * @returns {Object} The serialized Mark.
  */
 Mark.prototype.serialize = function () {
-  return Object.assign({}, this._properties);
+  return Object.assign({ _parseClass: "Mark" }, this._properties);
 };
 /**
  * Parses the object to a Mark.

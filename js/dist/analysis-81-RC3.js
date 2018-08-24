@@ -413,6 +413,7 @@ AssessmentResult.prototype.hasMarks = function () {
  */
 AssessmentResult.prototype.serialize = function () {
     return {
+        _parseClass: "AssessmentResult",
         identifier: this._identifier,
         score: this.score,
         text: this.text,
@@ -1930,7 +1931,7 @@ Mark.prototype.applyWithReplace = function (text) {
  * @returns {Object} The serialized Mark.
  */
 Mark.prototype.serialize = function () {
-  return Object.assign({}, this._properties);
+  return Object.assign({ _parseClass: "Mark" }, this._properties);
 };
 /**
  * Parses the object to a Mark.
@@ -11509,6 +11510,7 @@ Participle.prototype.setSentencePartPassiveness = function (passive) {
  */
 Participle.prototype.serialize = function () {
     return {
+        _parseClass: "Participle",
         attributes: this._attributes,
         participle: this._participle,
         sentencePart: this._sentencePart,
@@ -11601,6 +11603,7 @@ SentencePart.prototype.setPassive = function (passive) {
  */
 SentencePart.prototype.serialize = function () {
     return {
+        _parseClass: "SentencePart",
         sentencePartText: this._sentencePartText,
         auxiliaries: this._auxiliaries,
         locale: this._locale,
@@ -14683,7 +14686,7 @@ Paper.prototype.getPermalink = function () {
  * @returns {Object} The serialized Paper.
  */
 Paper.prototype.serialize = function () {
-    return Object.assign({ text: this._text }, this._attributes);
+    return Object.assign({ _parseClass: "Paper", text: this._text }, this._attributes);
 };
 /**
  * Checks whether the given paper has the same properties as this instance.
@@ -24982,6 +24985,7 @@ WordCombination.prototype.getDensity = function (wordCount) {
  */
 WordCombination.prototype.serialize = function () {
     return {
+        _parseClass: "WordCombination",
         words: this._words,
         occurrences: this._occurrences,
         functionWords: this._functionWords,
@@ -28765,6 +28769,7 @@ Sentence.prototype.setPassive = function (passive) {
  */
 Sentence.prototype.serialize = function () {
     return {
+        _parseClass: "Sentence",
         sentenceText: this._sentenceText,
         locale: this._locale,
         isPassive: this._isPassive
@@ -42299,7 +42304,7 @@ function serialize(thing) {
     }
     var thingIsObject = isObject(thing);
     if (thingIsObject && thing.serialize) {
-        return Object.assign({}, thing.serialize(), { _parseClass: thing.constructor.name });
+        return thing.serialize();
     }
     if (thingIsObject) {
         return mapValues(thing, function (value) {
