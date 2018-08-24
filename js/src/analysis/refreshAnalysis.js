@@ -1,4 +1,3 @@
-import { Paper } from "yoastseo";
 import {
 	setOverallReadabilityScore,
 	setOverallSeoScore,
@@ -21,14 +20,13 @@ let isInitialized = false;
  * @returns {void}
  */
 export default function refreshAnalysis( worker, collectData, applyMarks, store, dataCollector ) {
-	const data = collectData();
-	const paper = Paper.parse( data );
+	const paper = collectData();
 
 	if ( ! isInitialized ) {
 		return;
 	}
 
-	worker.analyze( data )
+	worker.analyze( paper )
 		.then( ( { result: { seo, readability } } ) => {
 			if ( seo ) {
 				// Only update the main results, which are located under the empty string key.
@@ -39,11 +37,11 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 					result.getMarker = () => () => applyMarks( paper, result.marks );
 				} );
 
-				store.dispatch( setSeoResultsForKeyword( data.keyword, seoResults.results ) );
-				store.dispatch( setOverallSeoScore( seoResults.score, data.keyword ) );
+				store.dispatch( setSeoResultsForKeyword( paper.getKeyword(), seoResults.results ) );
+				store.dispatch( setOverallSeoScore( seoResults.score, paper.getKeyword() ) );
 				store.dispatch( refreshSnippetEditor() );
 
-				dataCollector.saveScores( seoResults.score, data.keyword );
+				dataCollector.saveScores( seoResults.score, paper.getKeyword() );
 			}
 
 			if ( readability ) {
