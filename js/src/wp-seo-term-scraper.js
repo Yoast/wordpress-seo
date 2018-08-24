@@ -21,8 +21,8 @@ import { update as updateAdminBar } from "./ui/adminBar";
 
 // Analysis dependencies.
 import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
+import refreshAnalysis, { initializationDone } from "./analysis/refreshAnalysis";
 import collectAnalysisData from "./analysis/collectAnalysisData";
-import refreshAnalysis from "./analysis/refreshAnalysis";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
@@ -401,6 +401,9 @@ window.yoastHideMarkers = true;
 		if ( ! isGutenbergDataAvailable() ) {
 			renderClassicEditorMetabox( store );
 		}
+
+		initializationDone();
+		YoastSEO.app.refresh();
 	}
 
 	jQuery( document ).ready( initializeTermAnalysis );
