@@ -27,12 +27,12 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	/**
 	 * Renders the block.
 	 *
-	 * Because we can't save script tags in Gutenberg without sufficient user permissions we render these server-side.
+	 * Because we can't save script tags in Gutenberg without sufficient user permissions, we render these server-side.
 	 *
 	 * @param array  $attributes The attributes of the block.
 	 * @param string $content    The HTML content of the block.
 	 *
-	 * @return string The block preceded by its JSON LD script.
+	 * @return string The block preceded by its JSON-LD script.
 	 */
 	public function render( $attributes, $content ) {
 		if ( ! is_array( $attributes ) ) {
@@ -45,11 +45,11 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns the JSON LD for a how-to block in array form.
+	 * Returns the JSON-LD for a how-to block.
 	 *
 	 * @param array $attributes The attributes of the how-to block.
 	 *
-	 * @return array The JSON LD representation of the how-to block in array form.
+	 * @return array The JSON-LD representation of the how-to block.
 	 */
 	protected function get_json_ld( array $attributes ) {
 		$json_ld = array(
@@ -86,12 +86,12 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns the JSON LD for a step text (description) in a how-to block in array form.
+	 * Returns the JSON-LD for a step's description in a how-to block.
 	 *
 	 * @param array $step  The attributes of a step(-section) in the how-to block.
 	 * @param int   $index The index of the section in the how-to block.
 	 *
-	 * @return array The JSON LD representation of the step text (description) in a how-to block in array form.
+	 * @return array The JSON-LD representation of the step's description in a how-to block.
 	 */
 	protected function get_step_json_ld( array $step, $index ) {
 		$step_json_ld = array(
@@ -107,12 +107,12 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns the JSON LD for a step-section in a how-to block in array form.
+	 * Returns the JSON-LD for a step-section in a how-to block.
 	 *
-	 * @param array $step  The attributes of a step(-section) in the how-to block.
+	 * @param array $step  The attributes of a step-section in the how-to block.
 	 * @param int   $index The index of the section in the how-to block.
 	 *
-	 * @return array The JSON LD representation of the step-section in a how-to block in array form.
+	 * @return array The JSON-LD representation of the step-section in a how-to block.
 	 */
 	protected function get_section_json_ld( array $step, $index ) {
 		$section_json_ld = array(

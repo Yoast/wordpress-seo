@@ -42,11 +42,11 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Generates a pseudo-unique" id.
+	 * Generates a pseudo-unique id.
 	 *
-	 * @param {string} prefix an (optional) prefix to use.
+	 * @param {string} [prefix] The prefix to use.
 	 *
-	 * @returns {string} a pseudo-unique string, consisting of the optional prefix + the curent time in milliseconds.
+	 * @returns {string} A pseudo-unique string, consisting of the optional prefix + the curent time in milliseconds.
 	 */
 	static generateId( prefix ) {
 		return `${ prefix }-${ new Date().getTime() }`;
@@ -55,25 +55,31 @@ export default class HowTo extends Component {
 	/**
 	 * Replaces the How-to step with the given index.
 	 *
-	 * @param {array|string} newName      The new contents of the step-name.
-	 * @param {array|string} newText      The new contents of the step-text.
-	 * @param {array|string} previousName The previous contents of the step-name.
-	 * @param {array|string} previousText The previous contents of the step-text.
-	 * @param {number}       index        The index of the step that needs to be changed.
+	 * @param {array} newName      The new step-name.
+	 * @param {array} newText      The new step-text.
+	 * @param {array} previousName The previous step-name.
+	 * @param {array} previousText The previous step-text.
+	 * @param {number} index       The index of the step that needs to be changed.
 	 *
 	 * @returns {void}
 	 */
 	changeStep( newName, newText, previousName, previousText, index ) {
 		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
+		// If the index exceeds the amount of steps, don't change anything.
 		if ( index >= steps.length ) {
 			return;
 		}
 
+		/*
+		 * If the name of the step and the previous name don't match or if the text of the step and the text of
+		 * the previous step don't match, don't change anything.
+		 */
 		if ( steps[ index ].name !== previousName || steps[ index ].text !== previousText ) {
 			return;
 		}
 
+		// Rebuild the step with the newly made changes.
 		steps[ index ] = {
 			id: steps[ index ].id,
 			name: newName,
@@ -94,10 +100,10 @@ export default class HowTo extends Component {
 	/**
 	 * Inserts an empty step into a how-to block at the given index.
 	 *
-	 * @param {number}       [index]      The index of the step after which a new step should be added.
-	 * @param {array|string} [name]       The name of the new step.
-	 * @param {array|string} [text]       The text of the new step.
-	 * @param {bool}         [focus=true] Whether or not to focus the new step.
+	 * @param {number} [index]      The index of the step after which a new step should be added.
+	 * @param {string} [name]       The name of the new step.
+	 * @param {string} [text]       The text of the new step.
+	 * @param {bool}   [focus=true] Whether or not to focus the new step.
 	 *
 	 * @returns {void}
 	 */
@@ -148,6 +154,7 @@ export default class HowTo extends Component {
 		const NameEditorRef = this.editorRefs[ `${ index1 }:name` ];
 		this.editorRefs[ `${ index1 }:name` ] = this.editorRefs[ `${ index2 }:name` ];
 		this.editorRefs[ `${ index2 }:name` ] = NameEditorRef;
+
 		const TextEditorRef = this.editorRefs[ `${ index1 }:text` ];
 		this.editorRefs[ `${ index1 }:text` ] = this.editorRefs[ `${ index2 }:text` ];
 		this.editorRefs[ `${ index2 }:text` ] = TextEditorRef;
@@ -157,7 +164,9 @@ export default class HowTo extends Component {
 		let [ focusIndex, focusPart ] = this.state.focus.split( ":" );
 		if ( focusIndex === `${ index1 }` ) {
 			this.setFocus( `${ index2 }:${ focusPart }` );
-		} else if ( focusIndex === `${ index2 }` ) {
+		}
+
+		if ( focusIndex === `${ index2 }` ) {
 			this.setFocus( `${ index1 }:${ focusPart }` );
 		}
 	}
@@ -165,7 +174,7 @@ export default class HowTo extends Component {
 	/**
 	 * Removes a step from a how-to block.
 	 *
-	 * @param {number} index the index of the step that needs to be removed.
+	 * @param {number} index The index of the step that needs to be removed.
 	 *
 	 * @returns {void}
 	 */
@@ -202,7 +211,7 @@ export default class HowTo extends Component {
 	/**
 	 * Sets the focus to a specific step in the How-to block.
 	 *
-	 * @param {number|string} elementToFocus the element to focus, either the index of the step that should be in focus or name of the input.
+	 * @param {number|string} elementToFocus The element to focus, either the index of the step that should be in focus or name of the input.
 	 *
 	 * @returns {void}
 	 */
@@ -219,7 +228,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Returns an array of How-to step components, to be rendered on screen.
+	 * Returns an array of How-to step components to be rendered on screen.
 	 *
 	 * @returns {Component[]} The step components.
 	 */
@@ -240,8 +249,8 @@ export default class HowTo extends Component {
 						this.editorRefs[ `${ index }:${ part }` ] = ref;
 					} }
 					onChange={
-						( name, text, prevName, prevText ) =>
-							this.changeStep( name, text, prevName, prevText, index )
+						( newName, newText, previousName, previousText ) =>
+							this.changeStep( newName, newText, previousName, previousText, index )
 					}
 					insertStep={ () => this.insertStep( index ) }
 					removeStep={ () => this.removeStep( index ) }
@@ -254,12 +263,12 @@ export default class HowTo extends Component {
 					isSelected={ focusIndex === `${ index }` }
 					isUnorderedList={ this.props.attributes.unorderedList }
 				/>
-			); }
-		);
+			);
+		} );
 	}
 
 	/**
-	 * Returns a component to manage this how-to block"s duration.
+	 * Returns a component to manage this how-to block's duration.
 	 *
 	 * @returns {Component} The duration editor component.
 	 */
@@ -339,7 +348,7 @@ export default class HowTo extends Component {
 		return (
 			<div className={ classNames }>
 				<RichText.Content
-					tagName="h2"
+					tagName="strong"
 					className="schema-how-to-title"
 					value={ title }
 					id={ stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
@@ -455,7 +464,7 @@ export default class HowTo extends Component {
 		return (
 			<div className={ classNames }>
 				<RichText
-					tagName="h2"
+					tagName="strong"
 					className="schema-how-to-title"
 					value={ attributes.title }
 					isSelected={ this.state.focus === "title" }
