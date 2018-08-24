@@ -26,12 +26,12 @@ class Scheduler {
 			analyzeRelatedKeywords: [],
 		};
 		this._pollHandle = null;
+		this._started = false;
 
 		// Bind functions to this scope.
 		this.startPolling = this.startPolling.bind( this );
 		this.stopPolling = this.stopPolling.bind( this );
-
-		this.startPolling();
+		this.tick = this.tick.bind( this );
 	}
 
 	/**
@@ -40,8 +40,25 @@ class Scheduler {
 	 * @returns {void}
 	 */
 	startPolling() {
-		this.executeNextTask();
-		this._pollHandle = setTimeout( this.startPolling, this._configuration.pollTime );
+		if ( this._started ) {
+			return;
+		}
+
+		this._started = true;
+
+		this.tick();
+	}
+
+	/**
+	 * Do a tick and execute a task.
+	 *
+	 * @returns {void}
+	 */
+	tick() {
+		this.executeNextTask()
+			.then( () => {
+				setTimeout( this.tick, this._configuration.pollTime );
+			} );
 	}
 
 	/**

@@ -57,6 +57,7 @@ const InvalidTypeError = require( "../errors/invalidType" );
 
 // Internal dependencies.
 import Scheduler from "./scheduler";
+import Transporter from "./transporter";
 
 const largestKeywordDistanceAssessment = new assessments.seo.LargestKeywordDistanceAssessment();
 
@@ -88,7 +89,7 @@ export default class AnalysisWebWorker {
 
 		this._scheduler = new Scheduler();
 
-		this._paper = new Paper( "", {} );
+		this._paper = null;
 		this._relatedKeywords = {};
 
 		this._researcher = new Researcher( this._paper );
@@ -173,10 +174,14 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	handleMessage( { data: { type, id, payload } } ) {
-		console.log( "worker", type, id, payload );
+		payload = Transporter.parse( payload );
+
+		console.log( "worker <- wrapper", type, id, payload );
+
 		switch( type ) {
 			case "initialize":
 				this.initialize( id, payload );
+				this._scheduler.startPolling();
 				break;
 			case "analyze":
 				this._scheduler.schedule( {
@@ -335,6 +340,10 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	send( type, id, payload = {} ) {
+		payload = Transporter.serialize( payload );
+
+		console.log( "worker -> wrapper", type, id, payload );
+
 		this._scope.postMessage( {
 			type,
 			id,
@@ -368,8 +377,10 @@ export default class AnalysisWebWorker {
 		}
 
 		this._seoAssessor = this.createSEOAssessor();
+
 		// Reset the paper in order to not use the cached results on analyze.
-		this._paper = new Paper( "" );
+		this.clearCache();
+
 		this.send( "initialize:done", id );
 	}
 
@@ -466,7 +477,7 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	clearCache() {
-		this._paper = new Paper( "" );
+		this._paper = null;
 	}
 
 	/**
@@ -496,6 +507,10 @@ export default class AnalysisWebWorker {
 	 * @returns {boolean} True if there are changes detected.
 	 */
 	shouldReadabilityUpdate( paper ) {
+		if ( this._paper === null ) {
+			return true;
+		}
+
 		if ( this._paper.getText() !== paper.getText() ) {
 			return true;
 		}
@@ -541,13 +556,12 @@ export default class AnalysisWebWorker {
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
 	analyze( id, { paper, relatedKeywords = {} } ) {
-		paper.text = string.removeHtmlBlocks( paper.text );
-		const newPaper = Paper.parse( paper );
-		const paperHasChanges = ! this._paper.equals( newPaper );
-		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( newPaper );
+		paper._text = string.removeHtmlBlocks( paper._text );
+		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
+		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
 
 		if ( paperHasChanges ) {
-			this._paper = newPaper;
+			this._paper = paper;
 			this._researcher.setPaper( this._paper );
 
 			// Update the configuration locale to the paper locale.
@@ -561,7 +575,7 @@ export default class AnalysisWebWorker {
 				// Reset the cached results for the related keywords here too.
 				this._results.seo = {};
 				this._results.seo[ "" ] = {
-					results: this._seoAssessor.results.map( result => result.serialize() ),
+					results: this._seoAssessor.results,
 					score: this._seoAssessor.calculateOverallScore(),
 				};
 			}
@@ -581,7 +595,7 @@ export default class AnalysisWebWorker {
 				this._seoAssessor.assess( relatedPaper );
 
 				this._results.seo[ key ] = {
-					results: this._seoAssessor.results.map( result => result.serialize() ),
+					results: this._seoAssessor.results,
 					score: this._seoAssessor.calculateOverallScore(),
 				};
 			} );
@@ -596,7 +610,7 @@ export default class AnalysisWebWorker {
 			this._contentAssessor.assess( this._paper );
 
 			this._results.readability = {
-				results: this._contentAssessor.results.map( result => result.serialize() ),
+				results: this._contentAssessor.results,
 				score: this._contentAssessor.calculateOverallScore(),
 			};
 		}
