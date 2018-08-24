@@ -60,7 +60,10 @@ class AnalysisWorkerWrapper {
 
 		payload = Transporter.parse( payload );
 
-		console.log( "wrapper <- worker", type, id, payload );
+		if ( process.env.NODE_ENV === "development" ) {
+			// eslint-disable-next-line no-console
+			console.log( "wrapper <- worker", type, id, payload );
+		}
 
 		switch( type ) {
 			case "initialize:done":
@@ -161,7 +164,10 @@ class AnalysisWorkerWrapper {
 	send( type, id, payload = {} ) {
 		payload = Transporter.serialize( payload );
 
-		console.log( "wrapper -> worker", type, id, payload );
+		if ( process.env.NODE_ENV === "development" ) {
+			// eslint-disable-next-line no-console
+			console.log( "wrapper -> worker", type, id, payload );
+		}
 
 		this._worker.postMessage( {
 			type,
@@ -234,7 +240,7 @@ class AnalysisWorkerWrapper {
 	 * Runs the specified research in the worker. Optionally pass a paper.
 	 *
 	 * @param {string} name    The name of the research to run.
-	 * @param {Object} [paper] The paper to run the research on if it shouldn't
+	 * @param {Paper} [paper] The paper to run the research on if it shouldn't
 	 *                         be run on the latest paper.
 	 *
 	 * @returns {Promise} The promise of the research.

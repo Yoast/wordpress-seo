@@ -176,7 +176,10 @@ export default class AnalysisWebWorker {
 	handleMessage( { data: { type, id, payload } } ) {
 		payload = Transporter.parse( payload );
 
-		console.log( "worker <- wrapper", type, id, payload );
+		if ( process.env.NODE_ENV === "development" ) {
+			// eslint-disable-next-line no-console
+			console.log( "worker <- wrapper", type, id, payload );
+		}
 
 		switch( type ) {
 			case "initialize":
@@ -342,7 +345,10 @@ export default class AnalysisWebWorker {
 	send( type, id, payload = {} ) {
 		payload = Transporter.serialize( payload );
 
-		console.log( "worker -> wrapper", type, id, payload );
+		if ( process.env.NODE_ENV === "development" ) {
+			// eslint-disable-next-line no-console
+			console.log( "worker -> wrapper", type, id, payload );
+		}
 
 		this._scope.postMessage( {
 			type,
