@@ -121,6 +121,7 @@ Bugfixes:
 * Fixes a bug where the parent title snippet variable wasn't properly being replaced with the actual parent title in Gutenberg.
 * Fixes a plugin compatibility bug where the SEO score in the admin bar could not be retrieved.
 * Fixes a bug where the editor would not be usable when deferred or async loading of JavaScript is being forced.
+* Fixes a bug where the analysis for previously used keywords would only be triggered if the keyword was changed, resulting in an incorrect SEO score.
 
 = 8.0.0 =
 Release Date: August 14th, 2018
