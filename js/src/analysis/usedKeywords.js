@@ -53,10 +53,13 @@ UsedKeywords.prototype.init = function() {
 		.then( () => {
 			this._initialized = true;
 
-			if ( ! isEqual( this._options.usedKeywords, this._keywordUsage ) ) {
-				worker.sendMessage( "updateKeywordUsage", this._keywordUsage, "used-keywords-assessment" )
-					.then( () => this._app.refresh() );
+			if ( isEqual( this._options.usedKeywords, this._keywordUsage ) ) {
+				this._app.refresh();
+				return;
 			}
+
+			worker.sendMessage( "updateKeywordUsage", this._keywordUsage, "used-keywords-assessment" )
+				.then( () => this._app.refresh() );
 		} )
 		.catch( error => console.error( error ) );
 };
