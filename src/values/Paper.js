@@ -203,6 +203,7 @@ Paper.prototype.getPermalink = function() {
  */
 Paper.prototype.serialize = function() {
 	return {
+		_parseClass: "Paper",
 		text: this._text,
 		...this._attributes,
 	};

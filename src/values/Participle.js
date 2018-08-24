@@ -143,6 +143,7 @@ Participle.prototype.setSentencePartPassiveness = function( passive ) {
  */
 Participle.prototype.serialize = function() {
 	return {
+		_parseClass: "Participle",
 		attributes: this._attributes,
 		participle: this._participle,
 		sentencePart: this._sentencePart,
