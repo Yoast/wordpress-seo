@@ -49,6 +49,7 @@ const attributes = {
 export default () => {
 	registerBlockType( "yoast/how-to-block", {
 		title: __( "How-to", "wordpress-seo" ),
+		description: __( "Create a How-to guide in an SEO-friendly way.", "wordpress-seo" ),
 		icon: "editor-ol",
 		category: "yoast-structured-data-blocks",
 		keywords: [
