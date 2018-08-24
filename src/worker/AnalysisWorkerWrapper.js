@@ -25,6 +25,7 @@ class AnalysisWorkerWrapper {
 		this.analyzeRelatedKeywords = this.analyzeRelatedKeywords.bind( this );
 		this.loadScript = this.loadScript.bind( this );
 		this.sendMessage = this.sendMessage.bind( this );
+		this.runResearch = this.runResearch.bind( this );
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
@@ -65,6 +66,7 @@ class AnalysisWorkerWrapper {
 			case "initialize:done":
 			case "loadScript:done":
 			case "customMessage:done":
+			case "runResearch:done":
 			case "analyzeRelatedKeywords:done":
 			case "analyze:done":
 				request.resolve( payload );
@@ -226,6 +228,19 @@ class AnalysisWorkerWrapper {
 	sendMessage( name, data, pluginName ) {
 		name = pluginName + "-" + name;
 		return this.sendRequest( "customMessage", { name, data }, data );
+	}
+
+	/**
+	 * Runs the specified research in the worker. Optionally pass a paper.
+	 *
+	 * @param {string} name    The name of the research to run.
+	 * @param {Object} [paper] The paper to run the research on if it shouldn't
+	 *                         be run on the latest paper.
+	 *
+	 * @returns {Promise} The promise of the research.
+	 */
+	runResearch( name, paper = null ) {
+		return this.sendRequest( "runResearch", { name, paper } );
 	}
 }
 

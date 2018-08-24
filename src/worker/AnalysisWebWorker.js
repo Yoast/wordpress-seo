@@ -133,6 +133,8 @@ export default class AnalysisWebWorker {
 		this.customMessage = this.customMessage.bind( this );
 		this.customMessageDone = this.customMessageDone.bind( this );
 		this.clearCache = this.clearCache.bind( this );
+		this.runResearch = this.runResearch.bind( this );
+		this.runResearchDone = this.runResearchDone.bind( this );
 
 		// Bind register functions to this scope.
 		this.registerAssessment = this.registerAssessment.bind( this );
@@ -206,6 +208,14 @@ export default class AnalysisWebWorker {
 					done: this.loadScriptDone,
 					data: payload,
 					type: type,
+				} );
+				break;
+			case "runResearch":
+				this._scheduler.schedule( {
+					id,
+					execute: this.runResearch,
+					done: this.runResearchDone,
+					data: payload,
 				} );
 				break;
 			case "customMessage": {
@@ -705,5 +715,36 @@ export default class AnalysisWebWorker {
 			return;
 		}
 		this.send( "customMessage:failed", result.error );
+	}
+
+	/**
+	 * Runs the specified research in the worker. Optionally pass a paper.
+	 *
+	 * @param {number} id     The request id.
+	 * @param {string} name   The name of the research to run.
+	 * @param {Paper} [paper] The paper to run the research on if it shouldn't
+	 *                        be run on the latest paper.
+	 *
+	 * @returns {Promise} The promise of the research.
+	 */
+	runResearch( id, { name, paper = null } ) {
+		// When a specific paper is passed we create a temporary new researcher.
+		const researcher = paper === null
+			? this._researcher
+			: new Researcher( paper );
+
+		return researcher.getResearch( name );
+	}
+
+	/**
+	 * Send the result of a custom message back.
+	 *
+	 * @param {number} id     The request id.
+	 * @param {Object} result The result.
+	 *
+	 * @returns {void}
+	 */
+	runResearchDone( id, result ) {
+		this.send( "runResearch:done", id, result );
 	}
 }

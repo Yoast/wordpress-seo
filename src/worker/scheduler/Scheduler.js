@@ -20,8 +20,8 @@ class Scheduler {
 	constructor( configuration = {} ) {
 		this._configuration = merge( DEFAULT_CONFIGURATION, configuration );
 		this._tasks = {
-			customMessage: [],
-			loadScript: [],
+			standard: [],
+			extensions: [],
 			analyze: [],
 			analyzeRelatedKeywords: [],
 		};
@@ -86,23 +86,18 @@ class Scheduler {
 	schedule( { id, execute, done, data, type } ) {
 		const task = new Task( id, execute, done, data, type );
 		switch( type ) {
-			case "customMessage": {
-				this._tasks.customMessage.push( task );
+			case "customMessage":
+			case "loadScript":
+				this._tasks.extensions.push( task );
 				break;
-			}
-			case "loadScript": {
-				this._tasks.loadScript.push( task );
+			case "analyze":
+				this._tasks.analyze = [ task ];
 				break;
-			}
-			case "analyzeRelatedKeywords": {
-				this._tasks.analyzeRelatedKeywords = [];
-				this._tasks.analyzeRelatedKeywords.push( task );
+			case "analyzeRelatedKeywords":
+				this._tasks.analyzeRelatedKeywords = [ task ];
 				break;
-			}
-			default: {
-				this._tasks.analyze = [];
-				this._tasks.analyze.push( task );
-			}
+			default:
+				this._tasks.standard.push( task );
 		}
 	}
 
@@ -112,12 +107,8 @@ class Scheduler {
 	 * @returns {Task|null} The next task or null if none are available.
 	 */
 	getNextTask() {
-		if ( this._tasks.loadScript.length > 0 ) {
-			return this._tasks.loadScript.shift();
-		}
-
-		if ( this._tasks.customMessage.length > 0 ) {
-			return this._tasks.customMessage.shift();
+		if ( this._tasks.extensions.length > 0 ) {
+			return this._tasks.extensions.shift();
 		}
 
 		if ( this._tasks.analyze.length > 0 ) {
@@ -126,6 +117,10 @@ class Scheduler {
 
 		if ( this._tasks.analyzeRelatedKeywords.length > 0 ) {
 			return this._tasks.analyzeRelatedKeywords.shift();
+		}
+
+		if ( this._tasks.standard.length > 0 ) {
+			return this._tasks.standard.shift();
 		}
 
 		return null;
