@@ -136,4 +136,32 @@ Participle.prototype.setSentencePartPassiveness = function( passive ) {
 	this._determinesSentencePartIsPassive = passive;
 };
 
+/**
+ * Serializes the Participle instance to an object.
+ *
+ * @returns {Object} The serialized Participle.
+ */
+Participle.prototype.serialize = function() {
+	return {
+		attributes: this._attributes,
+		participle: this._participle,
+		sentencePart: this._sentencePart,
+		determinesSentencePartIsPassive: this._determinesSentencePartIsPassive,
+	};
+};
+
+/**
+ * Parses the object to a Participle.
+ *
+ * @param {Object} serialized The serialized object.
+ *
+ * @returns {Participle} The parsed Participle.
+ */
+Participle.parse = function( serialized ) {
+	const participle = new Participle( serialized.participle, serialized.sentencePart, serialized.attributes );
+	participle.setSentencePartPassiveness( serialized.determinesSentencePartIsPassive );
+
+	return participle;
+};
+
 module.exports = Participle;

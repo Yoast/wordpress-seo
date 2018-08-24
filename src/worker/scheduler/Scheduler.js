@@ -5,9 +5,7 @@ const merge = require( "lodash/merge" );
 import Task from "./Task";
 
 const DEFAULT_CONFIGURATION = {
-	queueSystem: "FIFO",
 	pollTime: 50,
-	resetQueue: false,
 };
 
 class Scheduler {
@@ -15,25 +13,25 @@ class Scheduler {
 	 * Initializes a Scheduler.
 	 *
 	 * @param {Object}  [configuration]             The configuration.
-	 * @param {string}  [configuration.queueSystem] FIFO or LIFO, defaults to the
-	 *                                              latter.
 	 * @param {number}  [configuration.pollTime]    The time in between each task
 	 *                                              poll in milliseconds,
 	 *                                              defaults to 50.
-	 * @param {boolean} [configuration.resetQueue]  Whether to reset the queue
-	 *                                              after each task, defaults to
-	 *                                              false.
 	 */
 	constructor( configuration = {} ) {
 		this._configuration = merge( DEFAULT_CONFIGURATION, configuration );
-		this._tasks = [];
+		this._tasks = {
+			standard: [],
+			extensions: [],
+			analyze: [],
+			analyzeRelatedKeywords: [],
+		};
 		this._pollHandle = null;
+		this._started = false;
 
 		// Bind functions to this scope.
 		this.startPolling = this.startPolling.bind( this );
 		this.stopPolling = this.stopPolling.bind( this );
-
-		this.startPolling();
+		this.tick = this.tick.bind( this );
 	}
 
 	/**
@@ -42,11 +40,25 @@ class Scheduler {
 	 * @returns {void}
 	 */
 	startPolling() {
-		this.executeNextTask();
-		if ( this._configuration.resetQueue ) {
-			this.resetQueue();
+		if ( this._started ) {
+			return;
 		}
-		this._pollHandle = setTimeout( this.startPolling, this._configuration.pollTime );
+
+		this._started = true;
+
+		this.tick();
+	}
+
+	/**
+	 * Do a tick and execute a task.
+	 *
+	 * @returns {void}
+	 */
+	tick() {
+		this.executeNextTask()
+			.then( () => {
+				setTimeout( this.tick, this._configuration.pollTime );
+			} );
 	}
 
 	/**
@@ -67,27 +79,51 @@ class Scheduler {
 	 * @param {function} task.execute The function to run for task execution.
 	 * @param {function} task.done    The function to run when the task is done.
 	 * @param {Object}   task.data    The data object to execute with.
+	 * @param {string}   task.type    The type of the task.
 	 *
 	 * @returns {void}
 	 */
-	schedule( { id, execute, done, data } ) {
-		const task = new Task( id, execute, done, data );
-		this._tasks.push( task );
+	schedule( { id, execute, done, data, type } ) {
+		const task = new Task( id, execute, done, data, type );
+		switch( type ) {
+			case "customMessage":
+			case "loadScript":
+				this._tasks.extensions.push( task );
+				break;
+			case "analyze":
+				this._tasks.analyze = [ task ];
+				break;
+			case "analyzeRelatedKeywords":
+				this._tasks.analyzeRelatedKeywords = [ task ];
+				break;
+			default:
+				this._tasks.standard.push( task );
+		}
 	}
 
 	/**
-	 * Retrieves the next task from the queue.
+	 * Retrieves the next task from the queue. Queues are sorted from lowest to highest priority.
 	 *
 	 * @returns {Task|null} The next task or null if none are available.
 	 */
 	getNextTask() {
-		if ( this._tasks.length === 0 ) {
-			return null;
+		if ( this._tasks.extensions.length > 0 ) {
+			return this._tasks.extensions.shift();
 		}
-		if ( this._configuration.queueSystem === "LIFO" ) {
-			return this._tasks.pop();
+
+		if ( this._tasks.analyze.length > 0 ) {
+			return this._tasks.analyze.shift();
 		}
-		return this._tasks.shift();
+
+		if ( this._tasks.analyzeRelatedKeywords.length > 0 ) {
+			return this._tasks.analyzeRelatedKeywords.shift();
+		}
+
+		if ( this._tasks.standard.length > 0 ) {
+			return this._tasks.standard.shift();
+		}
+
+		return null;
 	}
 
 	/**
@@ -100,18 +136,8 @@ class Scheduler {
 		if ( task === null ) {
 			return;
 		}
-
 		const result = await task.execute( task.id, task.data );
 		task.done( task.id, result );
-	}
-
-	/**
-	 * Clears the task queue.
-	 *
-	 * @returns {void}
-	 */
-	resetQueue() {
-		this._tasks = [];
 	}
 }
 

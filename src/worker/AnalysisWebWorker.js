@@ -1,7 +1,9 @@
 // External dependencies.
 const Jed = require( "jed" );
+const forEach = require( "lodash/forEach" );
 const merge = require( "lodash/merge" );
-const isEqual = require( "lodash/isEqual" );
+const pickBy = require( "lodash/pickBy" );
+const includes = require( "lodash/includes" );
 const isUndefined = require( "lodash/isUndefined" );
 const isString = require( "lodash/isString" );
 const isObject = require( "lodash/isObject" );
@@ -55,6 +57,7 @@ const InvalidTypeError = require( "../errors/invalidType" );
 
 // Internal dependencies.
 import Scheduler from "./scheduler";
+import Transporter from "./transporter";
 
 const largestKeywordDistanceAssessment = new assessments.seo.LargestKeywordDistanceAssessment();
 
@@ -83,17 +86,39 @@ export default class AnalysisWebWorker {
 			// The locale used for language-specific configurations in Flesch-reading ease and Sentence length assessments.
 			locale: "en_US",
 		};
-		this._scheduler = new Scheduler( { resetQueue: false } );
-		this._paper = new Paper( "" );
+
+		this._scheduler = new Scheduler();
+
+		this._paper = null;
+		this._relatedKeywords = {};
+
 		this._researcher = new Researcher( this._paper );
 		this._contentAssessor = null;
 		this._seoAssessor = null;
-		this._result = {
+
+		/*
+		 * The cached analyses results.
+		 *
+		 * A single result has the following structure:
+		 * {AssessmentResult[]} readability.results An array of assessment results; in serialized format.
+		 * {number}             readability.score   The overall score.
+		 *
+		 * The results have the following structure.
+		 * {Object} readability Content assessor results.
+		 * {Object} seo         SEO assessor results, per keyword identifier or empty string for the main.
+		 * {Object} seo[ "" ]   The result of the paper analysis for the main keyword.
+		 * {Object} seo[ key ]  Same as above, but instead for a related keyword.
+		 */
+		this._results = {
 			readability: {
 				results: [],
+				score: 0,
 			},
 			seo: {
-				results: [],
+				"": {
+					results: [],
+					score: 0,
+				},
 			},
 		};
 		this._registeredAssessments = [];
@@ -102,11 +127,14 @@ export default class AnalysisWebWorker {
 		// Bind actions to this scope.
 		this.analyze = this.analyze.bind( this );
 		this.analyzeDone = this.analyzeDone.bind( this );
+		this.analyzeRelatedKeywordsDone = this.analyzeRelatedKeywordsDone.bind( this );
 		this.loadScript = this.loadScript.bind( this );
 		this.loadScriptDone = this.loadScriptDone.bind( this );
 		this.customMessage = this.customMessage.bind( this );
 		this.customMessageDone = this.customMessageDone.bind( this );
 		this.clearCache = this.clearCache.bind( this );
+		this.runResearch = this.runResearch.bind( this );
+		this.runResearchDone = this.runResearchDone.bind( this );
 
 		// Bind register functions to this scope.
 		this.registerAssessment = this.registerAssessment.bind( this );
@@ -146,10 +174,17 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	handleMessage( { data: { type, id, payload } } ) {
-		console.log( "worker", type, id, payload );
+		payload = Transporter.parse( payload );
+
+		if ( process.env.NODE_ENV === "development" ) {
+			// eslint-disable-next-line no-console
+			console.log( "worker <- wrapper", type, id, payload );
+		}
+
 		switch( type ) {
 			case "initialize":
 				this.initialize( id, payload );
+				this._scheduler.startPolling();
 				break;
 			case "analyze":
 				this._scheduler.schedule( {
@@ -157,6 +192,16 @@ export default class AnalysisWebWorker {
 					execute: this.analyze,
 					done: this.analyzeDone,
 					data: payload,
+					type: type,
+				} );
+				break;
+			case "analyzeRelatedKeywords":
+				this._scheduler.schedule( {
+					id,
+					execute: this.analyze,
+					done: this.analyzeRelatedKeywordsDone,
+					data: payload,
+					type: type,
 				} );
 				break;
 			case "loadScript":
@@ -164,6 +209,15 @@ export default class AnalysisWebWorker {
 					id,
 					execute: this.loadScript,
 					done: this.loadScriptDone,
+					data: payload,
+					type: type,
+				} );
+				break;
+			case "runResearch":
+				this._scheduler.schedule( {
+					id,
+					execute: this.runResearch,
+					done: this.runResearchDone,
 					data: payload,
 				} );
 				break;
@@ -175,6 +229,7 @@ export default class AnalysisWebWorker {
 						execute: this.customMessage,
 						done: this.customMessageDone,
 						data: payload,
+						type: type,
 					} );
 					break;
 				}
@@ -288,6 +343,13 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	send( type, id, payload = {} ) {
+		payload = Transporter.serialize( payload );
+
+		if ( process.env.NODE_ENV === "development" ) {
+			// eslint-disable-next-line no-console
+			console.log( "worker -> wrapper", type, id, payload );
+		}
+
 		this._scope.postMessage( {
 			type,
 			id,
@@ -321,8 +383,10 @@ export default class AnalysisWebWorker {
 		}
 
 		this._seoAssessor = this.createSEOAssessor();
+
 		// Reset the paper in order to not use the cached results on analyze.
-		this._paper = new Paper( "" );
+		this.clearCache();
+
 		this.send( "initialize:done", id );
 	}
 
@@ -351,10 +415,12 @@ export default class AnalysisWebWorker {
 		}
 
 		// Prefix the name with the pluginName so the test name is always unique.
-		name = pluginName + "-" + name;
+		const combinedName = pluginName + "-" + name;
 
-		this._seoAssessor.addAssessment( name, assessment );
-		this._registeredAssessments.push( { name, assessment } );
+		this._seoAssessor.addAssessment( combinedName, assessment );
+		this._registeredAssessments.push( { combinedName, assessment } );
+
+		this.refreshAssessment( name, pluginName );
 
 		return true;
 	}
@@ -419,7 +485,7 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	clearCache() {
-		this._paper = new Paper( "" );
+		this._paper = null;
 	}
 
 	/**
@@ -442,55 +508,122 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
+	 * Checks if the paper contains changes that are used for readability.
+	 *
+	 * @param {Paper} paper The paper to check against the cached paper.
+	 *
+	 * @returns {boolean} True if there are changes detected.
+	 */
+	shouldReadabilityUpdate( paper ) {
+		if ( this._paper === null ) {
+			return true;
+		}
+
+		if ( this._paper.getText() !== paper.getText() ) {
+			return true;
+		}
+
+		return this._paper.getLocale() !== paper.getLocale();
+	}
+
+	/**
+	 * Checks if the related keyword contains changes that are used for seo.
+	 *
+	 * @param {string} key                     The identifier of the related keyword.
+	 * @param {Object} relatedKeyword          The related keyword object.
+	 * @param {string} relatedKeyword.keyword  The keyword.
+	 * @param {string} relatedKeyword.synonyms The synonyms.
+	 *
+	 * @returns {boolean} True if there are changes detected.
+	 */
+	shouldSeoUpdate( key, { keyword, synonyms } ) {
+		if ( isUndefined( this._relatedKeywords[ key ] ) ) {
+			return true;
+		}
+
+		if ( this._relatedKeywords[ key ].keyword !== keyword ) {
+			return true;
+		}
+
+		return this._relatedKeywords[ key ].synonyms !== synonyms;
+	}
+
+	/**
 	 * Runs analyses on a paper.
 	 *
-	 * @param {number} id                      The request id.
-	 * @param {Object} payload                 The payload object.
-	 * @param {Object} payload.paper           The paper to analyze.
+	 * The paper includes the keyword and synonyms data. However, this is
+	 * possibly just one instance of these. From here we are going to split up
+	 * this data and keep track of the different sets of keyword-synonyms and
+	 * their results.
+	 *
+	 * @param {number} id                        The request id.
+	 * @param {Object} payload                   The payload object.
+	 * @param {Object} payload.paper             The paper to analyze.
+	 * @param {Object} [payload.relatedKeywords] The related keywords.
 	 *
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
-	analyze( id, { paper } ) {
-		paper.text = string.removeHtmlBlocks( paper.text );
-		const newPaper = Paper.parse( paper );
-		const paperIsIdentical = isEqual( this._paper, newPaper );
-		const textIsIdentical = this._paper.getText() === newPaper.getText();
+	analyze( id, { paper, relatedKeywords = {} } ) {
+		paper._text = string.removeHtmlBlocks( paper._text );
+		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
+		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
 
-		if ( paperIsIdentical ) {
-			console.log( "The paper has not changed since you analyzed it last." );
-			return this._result;
+		if ( paperHasChanges ) {
+			this._paper = paper;
+			this._researcher.setPaper( this._paper );
+
+			// Update the configuration locale to the paper locale.
+			this.setLocale( this._paper.getLocale() );
 		}
 
-		this._paper = newPaper;
-		this._researcher.setPaper( this._paper );
-
-		// Update the configuration locale to the paper locale.
-		this.setLocale( this._paper.getLocale() );
-
-		// Rerunning the SEO analysis if the text or attributes of the paper have changed.
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
-			this._seoAssessor.assess( this._paper );
-			this._result.seo = {
-				results: this._seoAssessor.results.map( result => result.serialize() ),
-				score: this._seoAssessor.calculateOverallScore(),
-			};
+			if ( paperHasChanges ) {
+				this._seoAssessor.assess( this._paper );
+
+				// Reset the cached results for the related keywords here too.
+				this._results.seo = {};
+				this._results.seo[ "" ] = {
+					results: this._seoAssessor.results,
+					score: this._seoAssessor.calculateOverallScore(),
+				};
+			}
+
+			// Start an analysis for every related keyword.
+			const requestedRelatedKeywordKeys = [ "" ];
+			forEach( relatedKeywords, ( relatedKeyword, key ) => {
+				requestedRelatedKeywordKeys.push( key );
+
+				this._relatedKeywords[ key ] = relatedKeyword;
+
+				const relatedPaper = Paper.parse( {
+					...this._paper.serialize(),
+					keyword: this._relatedKeywords[ key ].keyword,
+					synonyms: this._relatedKeywords[ key ].synonyms,
+				} );
+				this._seoAssessor.assess( relatedPaper );
+
+				this._results.seo[ key ] = {
+					results: this._seoAssessor.results,
+					score: this._seoAssessor.calculateOverallScore(),
+				};
+			} );
+
+			// Clear the unrequested results, but only if there are requested related keywords.
+			if ( requestedRelatedKeywordKeys.length > 1 ) {
+				this._results.seo = pickBy( this._results.seo, ( relatedKeyword, key ) => includes( requestedRelatedKeywordKeys, key ) );
+			}
 		}
 
-		// Return old readability results if the text of the paper has not changed.
-		if ( textIsIdentical ) {
-			console.log( "The text of your paper has not changed, returning the content analysis results from the previous analysis." );
-			return this._result;
-		}
-
-		if ( this._configuration.contentAnalysisActive && this._contentAssessor ) {
+		if ( this._configuration.contentAnalysisActive && this._contentAssessor && shouldReadabilityUpdate ) {
 			this._contentAssessor.assess( this._paper );
-			this._result.readability = {
-				results: this._contentAssessor.results.map( result => result.serialize() ),
+
+			this._results.readability = {
+				results: this._contentAssessor.results,
 				score: this._contentAssessor.calculateOverallScore(),
 			};
 		}
 
-		return this._result;
+		return this._results;
 	}
 
 	/**
@@ -545,6 +678,18 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
+	 * Sends the analyze related keywords result back.
+	 *
+	 * @param {number} id     The request id.
+	 * @param {Object} result The result.
+	 *
+	 * @returns {void}
+	 */
+	analyzeRelatedKeywordsDone( id, result ) {
+		this.send( "analyzeRelatedKeywords:done", id, result );
+	}
+
+	/**
 	 * Handle a custom message using the registered handler.
 	 *
 	 * @param {number} id   The request id.
@@ -578,5 +723,36 @@ export default class AnalysisWebWorker {
 			return;
 		}
 		this.send( "customMessage:failed", result.error );
+	}
+
+	/**
+	 * Runs the specified research in the worker. Optionally pass a paper.
+	 *
+	 * @param {number} id     The request id.
+	 * @param {string} name   The name of the research to run.
+	 * @param {Paper} [paper] The paper to run the research on if it shouldn't
+	 *                        be run on the latest paper.
+	 *
+	 * @returns {Promise} The promise of the research.
+	 */
+	runResearch( id, { name, paper = null } ) {
+		// When a specific paper is passed we create a temporary new researcher.
+		const researcher = paper === null
+			? this._researcher
+			: new Researcher( paper );
+
+		return researcher.getResearch( name );
+	}
+
+	/**
+	 * Send the result of a custom message back.
+	 *
+	 * @param {number} id     The request id.
+	 * @param {Object} result The result.
+	 *
+	 * @returns {void}
+	 */
+	runResearchDone( id, result ) {
+		this.send( "runResearch:done", id, result );
 	}
 }

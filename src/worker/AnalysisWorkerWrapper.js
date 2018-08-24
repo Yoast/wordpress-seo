@@ -1,6 +1,6 @@
 // Internal dependencies.
 import Request from "./request";
-const AssessmentResult = require( "../values/AssessmentResult" );
+import Transporter from "./transporter";
 
 /**
  * Analysis worker is an API around the Web Worker.
@@ -22,8 +22,10 @@ class AnalysisWorkerWrapper {
 		// Bind actions to this scope.
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
+		this.analyzeRelatedKeywords = this.analyzeRelatedKeywords.bind( this );
 		this.loadScript = this.loadScript.bind( this );
 		this.sendMessage = this.sendMessage.bind( this );
+		this.runResearch = this.runResearch.bind( this );
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
@@ -50,29 +52,26 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	handleMessage( { data: { type, id, payload } } ) {
-		console.log( "wrapper", type, id, payload );
-
 		const request = this._requests[ id ];
 		if ( ! request ) {
 			console.warn( "AnalysisWebWorker: unmatched response", payload );
 			return;
 		}
 
+		payload = Transporter.parse( payload );
+
+		if ( process.env.NODE_ENV === "development" ) {
+			// eslint-disable-next-line no-console
+			console.log( "wrapper <- worker", type, id, payload );
+		}
+
 		switch( type ) {
 			case "initialize:done":
 			case "loadScript:done":
 			case "customMessage:done":
-				request.resolve( payload );
-				break;
+			case "runResearch:done":
+			case "analyzeRelatedKeywords:done":
 			case "analyze:done":
-				// Map the results back to classes, because we encode and decode the message payload.
-				if ( payload.seo ) {
-					payload.seo.results = payload.seo.results.map( result => AssessmentResult.parse( result ) );
-				}
-				if ( payload.readability ) {
-					payload.readability.results = payload.readability.results.map( result => AssessmentResult.parse( result ) );
-				}
-
 				request.resolve( payload );
 				break;
 			case "loadScript:failed":
@@ -163,6 +162,13 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	send( type, id, payload = {} ) {
+		payload = Transporter.serialize( payload );
+
+		if ( process.env.NODE_ENV === "development" ) {
+			// eslint-disable-next-line no-console
+			console.log( "wrapper -> worker", type, id, payload );
+		}
+
 		this._worker.postMessage( {
 			type,
 			id,
@@ -185,13 +191,24 @@ class AnalysisWorkerWrapper {
 	/**
 	 * Analyzes the paper.
 	 *
-	 * @param {Object} paper         The paper to analyze.
-	 * @param {Object} configuration The configuration specific to these analyses.
+	 * @param {Object} paper           The paper to analyze.
+	 * @param {Object} relatedKeywords The related keywords.
 	 *
 	 * @returns {Promise} The promise of analyses.
 	 */
-	analyze( paper, configuration = {} ) {
-		return this.sendRequest( "analyze", { paper, configuration } );
+	analyzeRelatedKeywords( paper, relatedKeywords = {} ) {
+		return this.sendRequest( "analyzeRelatedKeywords", { paper, relatedKeywords } );
+	}
+
+	/**
+	 * Analyzes the paper.
+	 *
+	 * @param {Object} paper           The paper to analyze.
+	 *
+	 * @returns {Promise} The promise of analyses.
+	 */
+	analyze( paper ) {
+		return this.sendRequest( "analyze", { paper } );
 	}
 
 	/**
@@ -217,6 +234,19 @@ class AnalysisWorkerWrapper {
 	sendMessage( name, data, pluginName ) {
 		name = pluginName + "-" + name;
 		return this.sendRequest( "customMessage", { name, data }, data );
+	}
+
+	/**
+	 * Runs the specified research in the worker. Optionally pass a paper.
+	 *
+	 * @param {string} name    The name of the research to run.
+	 * @param {Paper} [paper] The paper to run the research on if it shouldn't
+	 *                         be run on the latest paper.
+	 *
+	 * @returns {Promise} The promise of the research.
+	 */
+	runResearch( name, paper = null ) {
+		return this.sendRequest( "runResearch", { name, paper } );
 	}
 }
 

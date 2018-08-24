@@ -5,6 +5,19 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.38.2 August 24th, 2018
+
+### Bugs:
+
+* Fixes an issue where we would show bad results for an empty Paper.
+
+### Enhancements:
+
+* Automatically parse and serialize all value objects send to and from the worker. This means `Paper` objects can be passed to the analysis wrapper.
+* Add a method to the worker that can run any arbitrary research, `runResearch`.
+* Add a priority system to the Scheduler, this means extensions run before the analysis to make sure they are loaded.
+* Adds support for related keywords.
+
 ## 1.38.1 August 21st, 2018
 * Improves web worker functionality.
 
