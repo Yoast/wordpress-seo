@@ -195,17 +195,22 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Sets the focus to a specific step in the How-to block.
+	 * Sets the focus to a specific element in the How-to block.
 	 *
-	 * @param {number|string} focus the element to focus, either the index of the step that should be in focus or name of the input.
+	 * @param {number|string} elementToFocus The element to focus: either the index of
+	 *                                       a step or a focusable element ref name.
 	 *
 	 * @returns {void}
 	 */
-	setFocus( focus ) {
-		this.setState( { focus } );
+	setFocus( elementToFocus ) {
+		if ( elementToFocus === this.state.focus ) {
+			return;
+		}
 
-		if ( this.editorRefs[ focus ] ) {
-			this.editorRefs[ focus ].focus();
+		this.setState( { focus: elementToFocus } );
+
+		if ( this.editorRefs[ elementToFocus ] ) {
+			this.editorRefs[ elementToFocus ].focus();
 		}
 	}
 
