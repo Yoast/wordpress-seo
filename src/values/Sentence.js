@@ -61,6 +61,7 @@ Sentence.prototype.setPassive = function( passive ) {
  */
 Sentence.prototype.serialize = function() {
 	return {
+		_parseClass: "Sentence",
 		sentenceText: this._sentenceText,
 		locale: this._locale,
 		isPassive: this._isPassive,

@@ -17,10 +17,7 @@ export default function serialize( thing ) {
 	const thingIsObject = isObject( thing );
 
 	if ( thingIsObject && thing.serialize ) {
-		return {
-			...thing.serialize(),
-			_parseClass: thing.constructor.name,
-		};
+		return thing.serialize();
 	}
 
 	if ( thingIsObject ) {
