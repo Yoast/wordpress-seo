@@ -6,28 +6,25 @@ import {
 } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import { refreshSnippetEditor } from "../redux/actions/snippetEditor";
 
+let isInitialized = false;
+
 /**
  * Refreshes the analysis.
  *
- * @param {AnalysisWorkerWrapper}               worker        The analysis
- *                                                            worker to request
- *                                                            the analysis from.
- * @param {Function}                            collectData   Function that
- *                                                            collects the
- *                                                            analysis data.
- * @param {Function}                            applyMarks    Function that
- *                                                            applies the marks
- *                                                            in the content.
+ * @param {AnalysisWorkerWrapper}               worker        The analysis worker to request the analysis from.
+ * @param {Function}                            collectData   Function that collects the analysis data.
+ * @param {Function}                            applyMarks    Function that applies the marks in the content.
  * @param {Object}                              store         The store.
- * @param {PostDataCollector|TermDataCollector} dataCollector The data collector
- *                                                            to update the
- *                                                            score of the
- *                                                            results.
+ * @param {PostDataCollector|TermDataCollector} dataCollector The data collector to update the score of the results.
  *
  * @returns {void}
  */
 export default function refreshAnalysis( worker, collectData, applyMarks, store, dataCollector ) {
 	const paper = collectData();
+
+	if ( ! isInitialized ) {
+		return;
+	}
 
 	worker.analyze( paper )
 		.then( ( { result: { seo, readability } } ) => {
@@ -46,6 +43,7 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 
 				dataCollector.saveScores( seoResults.score, paper.getKeyword() );
 			}
+
 			if ( readability ) {
 				// Recreate the getMarker function after the worker is done.
 				readability.results.forEach( result => {
@@ -61,3 +59,13 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 		} )
 		.catch( error => console.warn( error ) );
 }
+
+/**
+ * Sets isInitialized to true.
+ *
+ * @returns {void}
+ */
+export function initializationDone() {
+	isInitialized = true;
+}
+
