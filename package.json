@@ -136,7 +136,7 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "git+https://github.com/Yoast/yoast-components.git#develop",
+    "yoast-components": "^4.10",
     "yoastseo": "^1.38.3"
   },
   "yoast": {
