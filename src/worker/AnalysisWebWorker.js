@@ -25,6 +25,7 @@ const TaxonomyAssessor = require( "../taxonomyAssessor" );
 const Pluggable = require( "../pluggable" );
 const Researcher = require( "../researcher" );
 const SnippetPreview = require( "../snippetPreview" );
+const morphologyData = require( "../morphology/english/englishMorphology.json" );
 
 const Paper = require( "../values/Paper" );
 const AssessmentResult = require( "../values/AssessmentResult" );
@@ -93,6 +94,9 @@ export default class AnalysisWebWorker {
 		this._relatedKeywords = {};
 
 		this._researcher = new Researcher( this._paper );
+		// Todo: replace this work-around with a real import from the server
+		this._researcher.addResearchDataProvider( "morphology", morphologyData );
+
 		this._contentAssessor = null;
 		this._seoAssessor = null;
 

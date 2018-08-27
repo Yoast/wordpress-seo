@@ -1,6 +1,8 @@
 const contentConfiguration = require( "../../js/config/content/combinedConfig" );
 const factory = require( "../helpers/factory.js" );
 const i18n = factory.buildJed();
+const morphologyData = require( "../../js/morphology/english/englishMorphology.json" );
+const Researcher = require( "../../js/researcher" );
 
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../js/assessments/seo/IntroductionKeywordAssessment";
@@ -67,6 +69,9 @@ import testPapers from "./testTexts";
 testPapers.forEach( function( testPaper ) {
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+
 		const locale = paper.getLocale();
 		const expectedResults = testPaper.expectedResults;
 		let result = {};
@@ -167,7 +172,7 @@ testPapers.forEach( function( testPaper ) {
 				factory.buildMockResearcher(
 					{
 						imageCount: imageCount( paper ),
-						altTagCount: altTagCount( paper ),
+						altTagCount: altTagCount( paper, researcher ),
 					},
 					true
 				),

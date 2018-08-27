@@ -12,7 +12,6 @@ const isUndefined = require( "lodash/isUndefined" );
 const escapeRegExp = require( "lodash/escapeRegExp" );
 const unique = require( "lodash/uniq" );
 const flatten = require( "lodash/flatten" );
-const memoize = require( "lodash/memoize" );
 
 /**
  * Filters function words from an array of words based on the language.
@@ -118,9 +117,6 @@ const collectForms = function( keyphrase, synonyms, language = "en", morphologyD
 	};
 };
 
-const collectFormsMemoized = memoize( collectForms );
-
-
 /**
  * Calls the function that builds keyphrase and synonyms forms for a specific research data.
  *
@@ -130,10 +126,10 @@ const collectFormsMemoized = memoize( collectForms );
  * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms.
  */
 function research( paper, researcher ) {
+	// TODO: include functionality for language-specific imports
 	const language = getLanguage( paper.getLocale() );
 
-	const morphologyData = researcher.getProvidedData( "morphology", language );
-
+	const morphologyData = researcher.getProvidedData( "morphology" );
 	return collectForms( paper.getKeyword(), paper.getSynonyms(), language, morphologyData );
 }
 
@@ -141,6 +137,5 @@ module.exports = {
 	filterFunctionWords: filterFunctionWords,
 	buildForms: buildForms,
 	collectForms: collectForms,
-	collectFormsMemoized: collectFormsMemoized,
 	research: research,
 };

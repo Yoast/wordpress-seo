@@ -79,3 +79,12 @@ describe( "Adding to a Researcher", function() {
 		expect( researcher.getResearch( "wordCountInText" ) ).toEqual( 9000 );
 	} );
 } );
+
+describe( "Adding and getting researchData to/from a Researcher", function() {
+	const researcher = new Researcher( new Paper( "This is another paper!" ) );
+
+	it( "adds a research data provider", function() {
+		researcher.addResearchDataProvider( "newResearch", "some data" );
+		expect( researcher.getProvidedData( "newResearch" ) ).toEqual( "some data" );
+	} );
+} );

@@ -75,7 +75,6 @@ class TextImagesAssessment extends Assessment {
 	 * @returns {Object} The calculated score and the feedback string.
 	 */
 	calculateResult( imageCount, altProperties, i18n ) {
-
 		if ( imageCount === 0 ) {
 			return {
 				score: this._config.scores.noImages,

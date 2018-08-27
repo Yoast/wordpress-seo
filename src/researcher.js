@@ -175,12 +175,11 @@ Researcher.prototype.addResearchDataProvider = function( research, provider ) {
 /**
  * Return the Research by name.
  * @param {string} research The identifier of the research.
- * @param {string} language The language to get the data for.
  * @returns {*} The data provided by the provider, false if the data do not exist
  */
-Researcher.prototype.getProvidedData = function( research, language ) {
+Researcher.prototype.getProvidedData = function( research ) {
 	if ( this._dataProviders.hasOwnProperty( research ) ) {
-		return this._dataProviders[ research ]( language );
+		return this._dataProviders[ research ];
 	}
 
 	return false;

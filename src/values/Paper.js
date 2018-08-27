@@ -2,8 +2,6 @@ var defaults = require( "lodash/defaults" );
 const isEmpty = require( "lodash/isEmpty" );
 const isEqual = require( "lodash/isEqual" );
 
-const collectTopicForms = require( "../researches/buildKeywordForms" ).collectForms;
-
 /**
  * Default attributes to be used by the Paper if they are left undefined.
  * @type {{keyword: string, synonyms: string, description: string, title: string, url: string}}
@@ -196,54 +194,6 @@ Paper.prototype.hasPermalink = function() {
  */
 Paper.prototype.getPermalink = function() {
 	return this._attributes.permalink;
-};
-
-/**
- * Check whether keyphraseForms are available.
- * @returns {boolean} Returns true if the Paper has keyphrase forms.
- */
-Paper.prototype.hasKeyphraseForms = function() {
-	return ! ( isEmpty( this._attributes.topicForms.keyphraseForms ) );
-};
-
-/**
- * Return the keyphrase forms or an empty array if no keyphrase forms are available.
- * @returns {Array} Returns Keyphrase forms
- */
-Paper.prototype.getKeyphraseForms = function() {
-	return this._attributes.topicForms.keyphraseForms;
-};
-
-/**
- * Check whether synonymsForms are available.
- * @returns {boolean} Returns true if the Paper has synonyms forms.
- */
-Paper.prototype.hasSynonymsForms = function() {
-	return ! ( isEmpty( this._attributes.topicForms.synonymsForms ) );
-};
-
-/**
- * Return the synonyms forms or an empty array if no synonyms forms are available.
- * @returns {Array} Returns synonyms forms
- */
-Paper.prototype.getSynonymsForms = function() {
-	return this._attributes.topicForms.synonymsForms;
-};
-
-/**
- * Check whether topicForms are available.
- * @returns {boolean} Returns true if the Paper has topic forms.
- */
-Paper.prototype.hasTopicForms = function() {
-	return ! ( isEmpty( this._attributes.topicForms ) );
-};
-
-/**
- * Return the topic forms or an empty object if no topic forms are available.
- * @returns {Object} Returns topic forms
- */
-Paper.prototype.getTopicForms = function() {
-	return this._attributes.topicForms;
 };
 
 /*
