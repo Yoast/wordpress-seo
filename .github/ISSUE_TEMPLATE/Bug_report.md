@@ -37,7 +37,7 @@ Add any other context about the problem here.
 * WordPress version:
 * Yoast SEO version:
 <!-- You can check these boxes once you've created the issue. -->
-* If relevant, which editor is affected (or editors): 
+* If relevant, which editor is affected (or editors):
 - [ ] Classic Editor
 - [ ] Gutenberg
 - [ ] Classic Editor plugin
