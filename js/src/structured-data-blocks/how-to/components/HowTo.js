@@ -39,7 +39,7 @@ export default class HowTo extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.state = { focus: null };
+		this.state = { focus: "" };
 
 		this.changeStep      = this.changeStep.bind( this );
 		this.insertStep      = this.insertStep.bind( this );
@@ -55,11 +55,11 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Generates a pseudo-unique" id.
+	 * Generates a pseudo-unique id.
 	 *
-	 * @param {string} prefix an (optional) prefix to use.
+	 * @param {string} [prefix] The prefix to use.
 	 *
-	 * @returns {string} a pseudo-unique string, consisting of the optional prefix + the curent time in milliseconds.
+	 * @returns {string} A pseudo-unique string, consisting of the optional prefix + the curent time in milliseconds.
 	 */
 	static generateId( prefix ) {
 		return `${ prefix }-${ new Date().getTime() }`;
@@ -68,27 +68,44 @@ export default class HowTo extends Component {
 	/**
 	 * Replaces the How-to step with the given index.
 	 *
-	 * @param {array|string} newContents  The new contents of the step.
-	 * @param {array|string} prevContents The previous contents of the step.
-	 * @param {number}       index        The index of the step that needs to be replaced.
+	 * @param {array}  newName      The new step-name.
+	 * @param {array}  newText      The new step-text.
+	 * @param {array}  previousName The previous step-name.
+	 * @param {array}  previousText The previous step-text.
+	 * @param {number} index        The index of the step that needs to be changed.
 	 *
 	 * @returns {void}
 	 */
-	changeStep( newContents, prevContents, index ) {
+	changeStep( newName, newText, previousName, previousText, index ) {
 		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
+		// If the index exceeds the number of steps, don't change anything.
 		if ( index >= steps.length ) {
 			return;
 		}
 
-		if ( prevContents !== steps[ index ].contents ) {
+		/*
+		 * Because the DOM re-uses input elements, the changeStep function was triggered when removing/inserting/swapping
+		 * input elements. We need to check for such events, and return early if the changeStep was called without any
+		 * user changes to the input field, but because the underlying input elements moved around in the DOM.
+		 *
+		 * In essence, when the name at the current index does not match the name that was in the input field previously,
+		 * the changeStep was triggered by input fields moving in the DOM.
+		 */
+		if ( steps[ index ].name !== previousName || steps[ index ].text !== previousText ) {
 			return;
 		}
 
-		steps[ index ].contents     = newContents;
-		steps[ index ].jsonContents = stripHTML( renderToString( newContents ) );
+		// Rebuild the step with the newly made changes.
+		steps[ index ] = {
+			id: steps[ index ].id,
+			name: newName,
+			text: newText,
+			jsonName: stripHTML( renderToString( newName ) ),
+			jsonText: stripHTML( renderToString( newText ) ),
+		};
 
-		let imageSrc = HowToStep.getImageSrc( newContents );
+		let imageSrc = HowToStep.getImageSrc( newText );
 
 		if ( imageSrc ) {
 			steps[ index ].jsonImageSrc = imageSrc;
@@ -100,13 +117,14 @@ export default class HowTo extends Component {
 	/**
 	 * Inserts an empty step into a how-to block at the given index.
 	 *
-	 * @param {number}       [index]      The index of the step after which a new step should be added.
-	 * @param {array|string} [contents]   The contents of the new step.
-	 * @param {bool}         [focus=true] Whether or not to focus the new step.
+	 * @param {number} [index]      The index of the step after which a new step should be added.
+	 * @param {string} [name]       The name of the new step.
+	 * @param {string} [text]       The text of the new step.
+	 * @param {bool}   [focus=true] Whether or not to focus the new step.
 	 *
 	 * @returns {void}
 	 */
-	insertStep( index, contents = [], focus = true ) {
+	insertStep( index, name = [], text = [], focus = true ) {
 		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
 		if ( isUndefined( index ) ) {
@@ -115,24 +133,23 @@ export default class HowTo extends Component {
 
 		let lastIndex = steps.length - 1;
 		while ( lastIndex > index ) {
-			this.editorRefs[ lastIndex + 1 ] = this.editorRefs[ lastIndex ];
+			this.editorRefs[ `${ lastIndex + 1 }:name` ] = this.editorRefs[ `${ lastIndex }:name` ];
+			this.editorRefs[ `${ lastIndex + 1 }:text` ] = this.editorRefs[ `${ lastIndex }:text` ];
 			lastIndex--;
 		}
 
-		steps.splice(
-			index + 1,
-			0,
-			{
-				id: HowTo.generateId( "how-to-step" ),
-				contents,
-				jsonContents: stripHTML( renderToString( contents ) ),
-			}
-		);
+		steps.splice( index + 1, 0, {
+			id: HowTo.generateId( "how-to-step" ),
+			name,
+			text,
+			jsonName: "",
+			jsonText: "",
+		} );
 
 		this.props.setAttributes( { steps } );
 
 		if ( focus ) {
-			setTimeout( this.setFocus.bind( this, index + 1 ) );
+			setTimeout( this.setFocus.bind( this, `${ index + 1 }:name` ) );
 		}
 	}
 
@@ -151,23 +168,30 @@ export default class HowTo extends Component {
 		steps[ index1 ] = steps[ index2 ];
 		steps[ index2 ] = step;
 
-		let stepEditorRef = this.editorRefs[ index1 ];
-		this.editorRefs[ index1 ] = this.editorRefs[ index2 ];
-		this.editorRefs[ index2 ] = stepEditorRef;
+		const NameEditorRef = this.editorRefs[ `${ index1 }:name` ];
+		this.editorRefs[ `${ index1 }:name` ] = this.editorRefs[ `${ index2 }:name` ];
+		this.editorRefs[ `${ index2 }:name` ] = NameEditorRef;
+
+		const TextEditorRef = this.editorRefs[ `${ index1 }:text` ];
+		this.editorRefs[ `${ index1 }:text` ] = this.editorRefs[ `${ index2 }:text` ];
+		this.editorRefs[ `${ index2 }:text` ] = TextEditorRef;
 
 		this.props.setAttributes( { steps } );
 
-		if ( this.state.focus === index1 ) {
-			this.setFocus( index2 );
-		} else if ( this.state.focus === index2 ) {
-			this.setFocus( index1 );
+		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
+		if ( focusIndex === `${ index1 }` ) {
+			this.setFocus( `${ index2 }:${ subElement }` );
+		}
+
+		if ( focusIndex === `${ index2 }` ) {
+			this.setFocus( `${ index1 }:${ subElement }` );
 		}
 	}
 
 	/**
 	 * Removes a step from a how-to block.
 	 *
-	 * @param {number} index the index of the step that needs to be removed.
+	 * @param {number} index The index of the step that needs to be removed.
 	 *
 	 * @returns {void}
 	 */
@@ -177,40 +201,51 @@ export default class HowTo extends Component {
 		steps.splice( index, 1 );
 		this.props.setAttributes( { steps } );
 
-		delete this.editorRefs[ index ];
+		delete this.editorRefs[ `${ index }:name` ];
+		delete this.editorRefs[ `${ index }:text` ];
 
 		let nextIndex = index + 1;
-		while ( this.editorRefs[ nextIndex ] ) {
-			this.editorRefs[ nextIndex - 1 ] = this.editorRefs[ nextIndex ];
+		while ( this.editorRefs[ `${ nextIndex }:name` ] || this.editorRefs[ `${ nextIndex }:text` ] ) {
+			this.editorRefs[ `${ nextIndex - 1 }:name` ] = this.editorRefs[ `${ nextIndex }:name` ];
+			this.editorRefs[ `${ nextIndex - 1 }:text` ] = this.editorRefs[ `${ nextIndex }:text` ];
 			nextIndex++;
 		}
 
-		delete this.editorRefs[ steps.length ];
+		const indexToRemove = steps.length;
+		delete this.editorRefs[ `${ indexToRemove }:name` ];
+		delete this.editorRefs[ `${ indexToRemove }:text` ];
 
-		if ( index > 0 ) {
-			this.setFocus( index - 1 );
-		} else {
-			this.setFocus( "description" );
+		let fieldToFocus = "description";
+		if ( this.editorRefs[ `${ index }:name` ] ) {
+			fieldToFocus = `${ index }:name`;
+		} else if ( this.editorRefs[ `${ index - 1 }:text` ] ) {
+			fieldToFocus = `${ index - 1 }:text`;
 		}
+
+		this.setFocus( fieldToFocus );
 	}
 
 	/**
 	 * Sets the focus to a specific step in the How-to block.
 	 *
-	 * @param {number|string} focus the element to focus, either the index of the step that should be in focus or name of the input.
+	 * @param {number|string} elementToFocus The element to focus, either the index of the step that should be in focus or name of the input.
 	 *
 	 * @returns {void}
 	 */
-	setFocus( focus ) {
-		this.setState( { focus } );
+	setFocus( elementToFocus ) {
+		if ( elementToFocus === this.state.focus ) {
+			return;
+		}
 
-		if ( this.editorRefs[ focus ] ) {
-			this.editorRefs[ focus ].focus();
+		this.setState( { focus: elementToFocus } );
+
+		if ( this.editorRefs[ elementToFocus ] ) {
+			this.editorRefs[ elementToFocus ].focus();
 		}
 	}
 
 	/**
-	 * Returns an array of How-to step components, to be rendered on screen.
+	 * Returns an array of How-to step components to be rendered on screen.
 	 *
 	 * @returns {Component[]} The step components.
 	 */
@@ -219,24 +254,30 @@ export default class HowTo extends Component {
 			return null;
 		}
 
+		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
+
 		return this.props.attributes.steps.map( ( step, index ) => {
 			return (
 				<HowToStep
 					key={ step.id }
 					step={ step }
 					index={ index }
-					editorRef={ ( ref ) => {
-						this.editorRefs[ index ] = ref;
+					editorRef={ ( part, ref ) => {
+						this.editorRefs[ `${ index }:${ part }` ] = ref;
 					} }
-					onChange={ ( newStepContents ) => this.changeStep( newStepContents, step.contents, index ) }
-					insertStep={ ( contents ) => this.insertStep( index, contents ) }
+					onChange={
+						( newName, newText, previousName, previousText ) =>
+							this.changeStep( newName, newText, previousName, previousText, index )
+					}
+					insertStep={ () => this.insertStep( index ) }
 					removeStep={ () => this.removeStep( index ) }
-					onFocus={ () => this.setFocus( index ) }
+					onFocus={ ( elementToFocus ) => this.setFocus( `${ index }:${ elementToFocus }` ) }
+					subElement={ subElement }
 					onMoveUp={ () => this.swapSteps( index, index - 1 ) }
 					onMoveDown={ () => this.swapSteps( index, index + 1 ) }
 					isFirst={ index === 0 }
 					isLast={ index === this.props.attributes.steps.length - 1 }
-					isSelected={ this.state.focus === index }
+					isSelected={ focusIndex === `${ index }` }
 					isUnorderedList={ this.props.attributes.unorderedList }
 				/>
 			);
@@ -244,7 +285,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Returns a component to manage this how-to block"s duration.
+	 * Returns a component to manage this how-to block's duration.
 	 *
 	 * @returns {Component} The duration editor component.
 	 */
@@ -336,7 +377,7 @@ export default class HowTo extends Component {
 		return (
 			<div className={ classNames }>
 				<RichText.Content
-					tagName="h2"
+					tagName="strong"
 					className="schema-how-to-title"
 					value={ title }
 					id={ contentHeadingID.replace( /\s+/g, "-" ) }
@@ -472,7 +513,7 @@ export default class HowTo extends Component {
 		return (
 			<div className={ classNames }>
 				<RichText
-					tagName="h2"
+					tagName="strong"
 					id={ attributes.headingID }
 					className="schema-how-to-title"
 					value={ attributes.title }

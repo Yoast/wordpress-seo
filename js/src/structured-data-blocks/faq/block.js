@@ -16,6 +16,10 @@ export default () => {
 			__( "FAQ", "wordpress-seo" ),
 			__( "Frequently Asked Questions", "wordpress-seo" ),
 		],
+		// Allow only one FAQ block per post.
+		supports: {
+			multiple: false,
+		},
 		// Block attributes - decides what to save and how to parse it from and to HTML.
 		attributes: {
 			title: {

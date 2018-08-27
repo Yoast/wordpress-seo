@@ -55,6 +55,10 @@ export default () => {
 			__( "How-to", "wordpress-seo" ),
 			__( "How to", "wordpress-seo" ),
 		],
+		// Allow only one How-To block per post.
+		supports: {
+			multiple: false,
+		},
 		// Block attributes - decides what to save and how to parse it from and to HTML.
 		attributes,
 
@@ -70,7 +74,7 @@ export default () => {
 		edit: ( { attributes, setAttributes, className } ) => {
 			// Because setAttributes is quite slow right after a block has been added we fake having a single step.
 			if ( ! attributes.steps || attributes.steps.length === 0 ) {
-				attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), contents: [] } ];
+				attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), name: [], text: [] } ];
 			}
 
 			return <HowTo { ...{ attributes, setAttributes, className } }/>;

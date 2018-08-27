@@ -5,7 +5,6 @@ import { __ } from "@wordpress/i18n";
 const { Component } = window.wp.element;
 const { IconButton } = window.wp.components;
 const { RichText, MediaUpload } = window.wp.editor;
-const { getBlockContent } = window.wp.blocks;
 
 /**
  * A How-to step within a How-to block.
@@ -22,7 +21,6 @@ export default class HowToStep extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.onSplit       = this.onSplit.bind( this );
 		this.onSelectImage = this.onSelectImage.bind( this );
 	}
 
@@ -39,7 +37,7 @@ export default class HowToStep extends Component {
 		} = this.props;
 
 		return <div className="schema-how-to-step-button-container">
-			{ ! HowToStep.getImageSrc( step.contents ) &&
+			{ ! HowToStep.getImageSrc( step.text ) &&
 			<MediaUpload
 				onSelect={ this.onSelectImage }
 				type="image"
@@ -66,7 +64,7 @@ export default class HowToStep extends Component {
 				className="schema-how-to-step-button editor-inserter__toggle"
 				icon="insert"
 				label={ __( "Insert step", "wordpress-seo" ) }
-				onClick={ () => insertStep() }
+				onClick={ insertStep }
 			>
 			</IconButton>
 		</div>;
@@ -106,55 +104,18 @@ export default class HowToStep extends Component {
 	 * @returns {void}
 	 */
 	onSelectImage( media ) {
-		let contents = this.props.step.contents.slice();
+		const { name, text } = this.props.step;
+
+		let newText = text.slice();
 		let image    = <img key={ media.id } alt={ media.alt } src={ media.url } />;
 
-		if ( contents.push ) {
-			contents.push( image );
+		if ( newText.push ) {
+			newText.push( image );
 		} else {
-			contents = [ contents, image ];
+			newText = [ newText, image ];
 		}
 
-		this.props.onChange( contents );
-	}
-
-	/**
-	 * Splits this step into multiple steps.
-	 *
-	 * @param {array}        before The content before the split.
-	 * @param {array|string} after  The content after the split.
-	 * @param {WPBlock[]}    blocks The blocks that should be inserted at the split.
-	 *
-	 * @returns {void}
-	 */
-	onSplit( before, after, ...blocks ) {
-		let newSteps = [];
-
-		for ( let i = 0; i < blocks.length; i++ ) {
-			let block = blocks[ i ];
-
-			// If list blocks are inserted split them into their values.
-			if ( block.name === "core/list" ) {
-				newSteps = newSteps.concat( block.attributes.values.map( ( value ) => value.props.children ) );
-				continue;
-			}
-
-			// Otherwise add the block.
-			newSteps.push( getBlockContent( block ) );
-		}
-
-		if ( after ) {
-			newSteps.push( after );
-		}
-
-		// If there"s no before then the first new step is this step.
-		if ( ! before ) {
-			before = newSteps.pop();
-		}
-
-		this.props.onChange( before );
-
-		newSteps.forEach( this.props.insertStep );
+		this.props.onChange( name, newText, name, text );
 	}
 
 	/**
@@ -182,17 +143,27 @@ export default class HowToStep extends Component {
 	 * Returns the component of the given How-to step to be rendered in a WordPress post
 	 * (e.g. not in the editor).
 	 *
-	 * @param {object} props The props of the how-to step.
+	 * @param {object} step The how-to step.
 	 *
-	 * @returns {Component} the component to be rendered.
+	 * @returns {Component} The component to be rendered.
 	 */
-	static Content( props ) {
-		return <RichText.Content
-			tagName="li"
-			className="schema-how-to-step"
-			key={ props.id }
-			value={ props.contents }
-		/>;
+	static Content( step ) {
+		return(
+			<li className={ "schema-how-to-step" } key={ step.id } >
+				<RichText.Content
+					tagName="strong"
+					className="schema-how-to-step-name"
+					key={ step.id + "-name" }
+					value={ step.name }
+				/>
+				<RichText.Content
+					tagName="p"
+					className="schema-how-to-step-text"
+					key={ step.id + "-text" }
+					value={ step.text }
+				/>
+			</li>
+		);
 	}
 
 	/**
@@ -207,14 +178,15 @@ export default class HowToStep extends Component {
 			onChange,
 			onFocus,
 			isSelected,
+			focusPart,
 			editorRef,
 			isUnorderedList,
 		} = this.props;
 
-		let { id, contents } = step;
+		let { id, name, text } = step;
 
 		return (
-			<li className="schema-how-to-step" onFocus={ onFocus } >
+			<li className="schema-how-to-step" key={ id } >
 				<span className="schema-how-to-step-number">
 					{ isUnorderedList
 						? "•"
@@ -222,13 +194,27 @@ export default class HowToStep extends Component {
 					}
 				</span>
 				<RichText
-					onSetup={ editorRef }
-					key={ id }
-					value={ contents }
-					onChange={ ( value ) => onChange( value, contents ) }
-					isSelected={ isSelected }
-					onSplit={ this.onSplit }
+					className="schema-how-to-step-name"
+					tagName="strong"
+					onSetup={ ( ref ) => editorRef( "name", ref ) }
+					key={ `${ id }-name` }
+					value={ name }
+					onChange={ ( value ) => onChange( value, text, name, text ) }
+					isSelected={ isSelected && focusPart === "name" }
+					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
+					setFocusedElement={ () => onFocus( "name" ) }
+					keepPlaceholderOnFocus={ true }
+				/>
+				<RichText
+					className="schema-how-to-step-text"
+					tagName="p"
+					onSetup={ ( ref ) => editorRef( "text", ref ) }
+					key={ `${ id }-text` }
+					value={ text }
+					onChange={ ( value ) => onChange( name, value, name, text ) }
+					isSelected={ isSelected && focusPart === "text" }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
+					setFocusedElement={ () => onFocus( "text" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
 				{ isSelected && this.getMover() }
