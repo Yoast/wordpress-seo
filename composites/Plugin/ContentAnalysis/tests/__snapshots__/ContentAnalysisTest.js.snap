@@ -120,6 +120,22 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -154,22 +170,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 
 .c5 svg:last-child {
   margin-left: 8px;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 
 .c3 {
@@ -750,6 +750,22 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -784,22 +800,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 
 .c5 svg:last-child {
   margin-left: 8px;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 
 .c3 {
@@ -1356,6 +1356,22 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -1390,22 +1406,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 
 .c5 svg:last-child {
   margin-left: 8px;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 
 .c3 {
@@ -2010,6 +2010,22 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -2044,22 +2060,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 
 .c5 svg:last-child {
   margin-left: 8px;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 
 .c3 {
@@ -2664,6 +2664,22 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -2698,22 +2714,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 
 .c5 svg:last-child {
   margin-left: 8px;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 
 .c3 {
@@ -3156,6 +3156,22 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -3190,22 +3206,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 
 .c5 svg:last-child {
   margin-left: 8px;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 
 .c3 {
@@ -3648,6 +3648,22 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -3682,22 +3698,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 
 .c5 svg:last-child {
   margin-left: 8px;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 
 .c3 {
@@ -4209,6 +4209,22 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .c2 {
   background-color: #fff;
 }
@@ -4243,22 +4259,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 
 .c5 svg:last-child {
   margin-left: 8px;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
 
 .c3 {

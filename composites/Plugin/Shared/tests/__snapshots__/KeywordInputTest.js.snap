@@ -1,21 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`KeywordInput matches the snapshot by default 1`] = `
-.c4 {
+.c5 {
   border: 1px solid #ddd;
   padding: 0.75em;
   font-size: 1em;
 }
 
-.c2 {
-  border: 1px solid #ddd;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c0 {
@@ -35,31 +36,64 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
   margin-bottom: 0.5em;
 }
 
-.c3 {
+.c4 {
   -webkit-flex: 1 !important;
   -ms-flex: 1 !important;
   flex: 1 !important;
-  border: none !important;
-  box-shadow: none !important;
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 0;
 }
 
-.c3.hasError {
-  border-color: #dc3232;
-  outline-color: #dc3232;
+.c4::-ms-clear {
+  display: none;
 }
 
-.c5 {
-  border: none;
+.c4.has-error {
+  border-color: #dc3232 !important;
+  box-shadow: 0 0 2px #dc3232 !important;
+}
+
+.c8 {
+  border: 1px solid transparent;
   box-shadow: none;
   background: none;
-}
-
-.c6 {
-  margin-top: 4px;
+  -webkit-flex: 0 0 32px;
+  -ms-flex: 0 0 32px;
+  flex: 0 0 32px;
+  height: 32px;
+  max-width: 32px;
+  padding: 0;
   cursor: pointer;
 }
 
-.c7 {
+.c9 {
+  margin-top: 4px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c2.has-remove-keyword-button .c3 {
+  padding-right: 40px;
+}
+
+.c2.has-remove-keyword-button .c6 {
+  margin-left: -32px;
+}
+
+.c10 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -77,11 +111,11 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
     Focus keyword:
   </label>
   <div
-    className="c2"
+    className="has-remove-keyword-button c2"
   >
     <input
       aria-label={null}
-      className="c3 c4"
+      className="c3 c4 c5"
       id="test-id"
       onBlur={[Function]}
       onChange={[Function]}
@@ -89,13 +123,14 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
       value=""
     />
     <button
-      className="c5"
+      className="c6 c7 c8"
       onClick={[Function]}
+      type="button"
     >
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-times-circle c6 c7"
-        fill="#ccc"
+        className="yoast-svg-icon yoast-svg-icon-times-circle c9 c10"
+        fill="#767676"
         focusable="false"
         role="img"
         size="18px"

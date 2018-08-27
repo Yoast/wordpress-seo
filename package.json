@@ -1,6 +1,6 @@
 {
   "name": "yoast-components",
-  "version": "4.9.0",
+  "version": "4.10.0",
   "description": "Yoast Generic Components",
   "homepage": "https://github.com/Yoast/",
   "main": "index.js",
