@@ -15,25 +15,58 @@ class WPSEO_Sitemaps_Router {
 	 */
 	public function __construct() {
 
-		add_action( 'init', array( $this, 'init' ), 1 );
+		add_action( 'yoast_add_dynamic_rewrite_rules', array( $this, 'add_rewrite_rules' ) );
+		add_filter( 'query_vars', array( $this, 'add_query_vars' ) );
 		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
 		add_action( 'template_redirect', array( $this, 'template_redirect' ), 0 );
 	}
 
 	/**
 	 * Sets up rewrite rules.
+	 *
+	 * @deprecated 8.4
+	 *
+	 * @global WP $wp WordPress core initialization object
 	 */
 	public function init() {
-
 		global $wp;
 
-		$wp->add_query_var( 'sitemap' );
-		$wp->add_query_var( 'sitemap_n' );
-		$wp->add_query_var( 'xsl' );
+		_deprecated_function( __METHOD__, 'WPSEO 8.4', 'This method is deprecated.' );
 
-		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
-		add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
-		add_rewrite_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?xsl=$matches[1]', 'top' );
+		$extra_query_vars = $this->add_query_vars( array() );
+		foreach ( $extra_query_vars as $extra_query_var ) {
+			$wp->add_query_var( $extra_query_var );
+		}
+
+		$this->add_rewrite_rules( Yoast_Dynamic_Rewrites::instance() );
+	}
+
+	/**
+	 * Adds query variables for sitemaps.
+	 *
+	 * @param array $query_vars List of query variables to filter.
+	 *
+	 * @return array Filtered query variables.
+	 */
+	public function add_query_vars( array $query_vars ) {
+		$query_vars[] = 'sitemap';
+		$query_vars[] = 'sitemap_n';
+		$query_vars[] = 'xsl';
+
+		return $query_vars;
+	}
+
+	/**
+	 * Adds rewrite routes for sitemaps.
+	 *
+	 * @param Yoast_Dynamic_Rewrites $dynamic_rewrites Dynamic rewrites handler instance.
+	 *
+	 * @return void
+	 */
+	public function add_rewrite_rules( Yoast_Dynamic_Rewrites $dynamic_rewrites ) {
+		$dynamic_rewrites->add_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
+		$dynamic_rewrites->add_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
+		$dynamic_rewrites->add_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?xsl=$matches[1]', 'top' );
 	}
 
 	/**

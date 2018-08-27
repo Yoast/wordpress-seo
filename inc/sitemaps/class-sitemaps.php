@@ -130,7 +130,7 @@ class WPSEO_Sitemaps {
 	public function register_sitemap( $name, $function, $rewrite = '' ) {
 		add_action( 'wpseo_do_sitemap_' . $name, $function );
 		if ( ! empty( $rewrite ) ) {
-			add_rewrite_rule( $rewrite, 'index.php?sitemap=' . $name, 'top' );
+			Yoast_Dynamic_Rewrites::instance()->add_rule( $rewrite, 'index.php?sitemap=' . $name, 'top' );
 		}
 	}
 
@@ -146,7 +146,7 @@ class WPSEO_Sitemaps {
 	public function register_xsl( $name, $function, $rewrite = '' ) {
 		add_action( 'wpseo_xsl_' . $name, $function );
 		if ( ! empty( $rewrite ) ) {
-			add_rewrite_rule( $rewrite, 'index.php?xsl=' . $name, 'top' );
+			Yoast_Dynamic_Rewrites::instance()->add_rule( $rewrite, 'index.php?xsl=' . $name, 'top' );
 		}
 	}
 
