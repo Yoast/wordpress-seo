@@ -274,7 +274,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$wp_admin_bar->add_menu( array(
 			'parent' => self::ANALYSIS_SUBMENU_IDENTIFIER,
 			'id'     => 'wpseo-inlinks',
-			'title'  => __( 'Check Inlinks', 'wordpress-seo' ),
+			'title'  => __( 'Check links to this URL', 'wordpress-seo' ),
 			'href'   => 'https://search.google.com/search-console/links/drilldown?resource_id=' . urlencode( get_option( 'siteurl' ) ) . '&type=EXTERNAL&target=' . urlencode( $url ) . '&domain=',
 			'meta'   => array( 'target' => '_blank' ),
 		) );
