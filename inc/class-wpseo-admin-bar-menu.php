@@ -273,9 +273,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => self::ANALYSIS_SUBMENU_IDENTIFIER,
-			'id'     => 'wpseo-inlinks-ose',
-			'title'  => __( 'Check Inlinks (OSE)', 'wordpress-seo' ),
-			'href'   => '//moz.com/researchtools/ose/links?site=' . urlencode( $url ),
+			'id'     => 'wpseo-inlinks',
+			'title'  => __( 'Check Inlinks', 'wordpress-seo' ),
+			'href'   => 'https://moz.com/link-explorer',
 			'meta'   => array( 'target' => '_blank' ),
 		) );
 		$wp_admin_bar->add_menu( array(
