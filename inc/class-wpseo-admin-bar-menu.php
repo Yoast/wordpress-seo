@@ -114,7 +114,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 */
 	public function meets_requirements() {
 		if ( is_network_admin() ) {
-			return true;
+			return WPSEO_Utils::is_plugin_network_active();
 		}
 
 		if ( WPSEO_Options::get( 'enable_admin_bar_menu' ) !== true ) {
@@ -214,6 +214,13 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			'id'     => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,
 			'title'  => __( 'Keyword Research', 'wordpress-seo' ),
 			'meta'   => array( 'tabindex' => '0' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,
+			'id'     => 'wpseo-kwresearchtraining',
+			'title'  => __( 'Keyword research training', 'wordpress-seo' ),
+			'href'   => WPSEO_Shortlinker::get( 'https://yoa.st/wp-admin-bar' ),
+			'meta'   => array( 'target' => '_blank' ),
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,

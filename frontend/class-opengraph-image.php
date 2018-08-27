@@ -200,18 +200,14 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	private function set_front_page_image() {
-		$this->set_user_defined_image();
+		if ( get_option( 'show_on_front' ) === 'page' ) {
+			$this->set_user_defined_image();
 
-		if ( $this->has_images() ) {
+			// Don't fall back to the frontpage image below, as that's not set for this situation, so we should fall back to the default image.
 			return;
 		}
 
-		// If no frontpage image is found, don't add anything.
-		if ( WPSEO_Options::get( 'og_frontpage_image', '' ) === '' ) {
-			return;
-		}
-
-		$this->add_image_by_url( WPSEO_Options::get( 'og_frontpage_image' ) );
+		$this->add_image_by_url( WPSEO_Options::get( 'og_frontpage_image', '' ) );
 	}
 
 	/**
@@ -372,7 +368,7 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @return void
 	 */
-	protected function add_image_by_url( $url ) {
+	public function add_image_by_url( $url ) {
 		if ( empty( $url ) ) {
 			return;
 		}
@@ -442,7 +438,7 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @return void
 	 */
-	protected function add_image_by_id( $attachment_id ) {
+	public function add_image_by_id( $attachment_id ) {
 		if ( ! $this->is_valid_attachment( $attachment_id ) ) {
 			return;
 		}

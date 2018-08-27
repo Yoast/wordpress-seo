@@ -41,6 +41,7 @@ class Edit {
 	 * @param {string}   args.snippetEditorBaseUrl            Base URL of the site the user is editing.
 	 * @param {string}   args.snippetEditorDate               The date for the snippet editor.
 	 * @param {array}    args.recommendedReplacementVariables The recommended replacement variables for this context.
+	 * @param {Object}   args.classicEditorDataSettings       Settings for the ClassicEditorData object.
 	 */
 	constructor( args ) {
 		this._localizedData = this.getLocalizedData();
@@ -208,7 +209,7 @@ class Edit {
 			return gutenbergData;
 		}
 
-		const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store );
+		const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store, args.classicEditorDataSettings );
 		classicEditorData.initialize( args.replaceVars );
 		return classicEditorData;
 	}
@@ -222,13 +223,15 @@ class Edit {
 	 * @returns {void}
 	 */
 	initializeUsedKeywords( app, ajaxAction ) {
-		const store =         this._store;
+		const store         = this._store;
 		const localizedData = this._localizedData;
+		const scriptUrl     = get( global, [ "wpseoAnalysisWorkerL10n", "keywords_assessment_url" ], "wp-seo-used-keywords-assessment.js" );
 
 		const usedKeywords = new UsedKeywords(
 			ajaxAction,
 			localizedData,
-			app
+			app,
+			scriptUrl
 		);
 		usedKeywords.init();
 

@@ -238,4 +238,5 @@ HowToStep.propTypes = {
 	isSelected: PropTypes.bool,
 	isFirst: PropTypes.bool,
 	isLast: PropTypes.bool,
+	isUnorderedList: PropTypes.bool,
 };

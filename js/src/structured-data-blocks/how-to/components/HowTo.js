@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import HowToStep from "./HowToStep";
 import isUndefined from "lodash/isUndefined";
 import moment from "moment";
+import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
@@ -11,6 +12,17 @@ import { stripHTML } from "../../../helpers/stringHelpers";
 const { RichText, InspectorControls } = window.wp.editor;
 const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;
 const { Component, renderToString } = window.wp.element;
+
+/**
+ * Modified Text Control to provide a better layout experience.
+ *
+ * @returns {ReactElement} The TextControl with additional spacing below.
+ */
+const SpacedTextControl = styled( TextControl )`
+	&&& {
+		margin-bottom: 32px;
+	}
+`;
 
 /**
  * A How-to block component.
@@ -29,14 +41,15 @@ export default class HowTo extends Component {
 
 		this.state = { focus: "" };
 
-		this.changeStep = this.changeStep.bind( this );
-		this.insertStep = this.insertStep.bind( this );
-		this.removeStep = this.removeStep.bind( this );
-		this.swapSteps = this.swapSteps.bind( this );
-		this.setFocus = this.setFocus.bind( this );
-		this.addCSSClasses = this.addCSSClasses.bind( this );
+		this.changeStep      = this.changeStep.bind( this );
+		this.insertStep      = this.insertStep.bind( this );
+		this.removeStep      = this.removeStep.bind( this );
+		this.swapSteps       = this.swapSteps.bind( this );
+		this.setFocus        = this.setFocus.bind( this );
+		this.addCSSClasses   = this.addCSSClasses.bind( this );
 		this.getListTypeHelp = this.getListTypeHelp.bind( this );
-		this.toggleListType = this.toggleListType.bind( this );
+		this.toggleListType  = this.toggleListType.bind( this );
+		this.updateHeadingID = this.updateHeadingID.bind( this );
 
 		this.editorRefs = {};
 	}
@@ -328,7 +341,18 @@ export default class HowTo extends Component {
 	 * @returns {Component} The component representing a How-to block.
 	 */
 	static Content( props ) {
-		let { steps, title, hasDuration, hours, minutes, description, unorderedList, additionalListCssClasses, className } = props;
+		let {
+			steps,
+			title,
+			hasDuration,
+			hours,
+			minutes,
+			description,
+			unorderedList,
+			additionalListCssClasses,
+			className,
+			headingID,
+		} = props;
 
 		steps = steps
 			? steps.map( ( step ) => {
@@ -341,8 +365,9 @@ export default class HowTo extends Component {
 			} )
 			: null;
 
-		const classNames = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
-		const listClassNames = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
+		const classNames        = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
+		const listClassNames    = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
+		const contentHeadingID  = headingID ? headingID : stripHTML( renderToString( title ) ).toLowerCase();
 
 		const timeString = [
 			hours && moment.duration( hours, "hours" ).humanize(),
@@ -355,9 +380,9 @@ export default class HowTo extends Component {
 					tagName="strong"
 					className="schema-how-to-title"
 					value={ title }
-					id={ stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
+					id={ contentHeadingID.replace( /\s+/g, "-" ) }
 				/>
-				{ ( hasDuration ) &&
+				{ ( hasDuration && timeString.length > 0 ) &&
 					<p className="schema-how-to-total-time">
 						{ __( "Time needed:", "wordpress-seo" ) }
 						&nbsp;
@@ -417,6 +442,17 @@ export default class HowTo extends Component {
 	}
 
 	/**
+	 * Changes the heading's ID.
+	 *
+	 * @param {string} headingID The header's new ID.
+	 *
+	 * @returns {void}
+	 */
+	updateHeadingID( headingID ) {
+		this.props.setAttributes( { headingID: headingID } );
+	}
+
+	/**
 	 * Returns the help text for this how-to block"s list type.
 	 *
 	 * @param  {boolean} checked Whether or not the list is unordered.
@@ -431,18 +467,27 @@ export default class HowTo extends Component {
 
 	/**
 	 * Adds controls to the editor sidebar to control the given parameters.
-	 * @param {boolean} unorderedList whether to show the list as an unordered list.
-	 * @param {string} additionalClasses the additional CSS classes to add to the list.
-	 * @returns {Component} the controls to add to the sidebar.
+	 *
+	 * @param {boolean} unorderedList     Whether to show the list as an unordered list.
+	 * @param {string}  additionalClasses The additional CSS classes to add to the list.
+	 * @param {string}  headingID         The heading's ID.
+	 *
+	 * @returns {Component} The controls to add to the sidebar.
 	 */
-	getSidebar( unorderedList, additionalClasses ) {
+	getSidebar( unorderedList, additionalClasses, headingID ) {
 		return <InspectorControls>
 			<PanelBody title={ __( "Settings", "wordpress-seo" ) } className="blocks-font-size">
-				<TextControl
-					label={ __( "Additional CSS Classes for list", "wordpress-seo" ) }
+				<SpacedTextControl
+					label={ __( "HTML ID to apply to the title", "wordpress-seo" ) }
+					value={ headingID }
+					onChange={ this.updateHeadingID }
+					help={ __( "Optional. This can give you better control over the styling of the heading.", "wordpress-seo" ) }
+				/>
+				<SpacedTextControl
+					label={ __( "CSS class(es) to apply to the steps", "wordpress-seo" ) }
 					value={ additionalClasses }
 					onChange={ this.addCSSClasses }
-					help={ __( "CSS classes to add to the list of steps (excluding the how-to header)", "wordpress-seo" ) }
+					help={ __( "Optional. This can give you better control over the styling of the steps.", "wordpress-seo" ) }
 				/>
 				<ToggleControl
 					label={ __( "Unordered list", "wordpress-seo" ) }
@@ -462,13 +507,14 @@ export default class HowTo extends Component {
 	render() {
 		let { attributes, setAttributes, className } = this.props;
 
-		const classNames = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
+		const classNames     = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
 		const listClassNames = [ "schema-how-to-steps", attributes.additionalListCssClasses ].filter( ( item ) => item ).join( " " );
 
 		return (
 			<div className={ classNames }>
 				<RichText
 					tagName="strong"
+					id={ attributes.headingID }
 					className="schema-how-to-title"
 					value={ attributes.title }
 					isSelected={ this.state.focus === "title" }
@@ -498,7 +544,7 @@ export default class HowTo extends Component {
 					{ this.getSteps() }
 				</ul>
 				<div className="schema-how-to-buttons">{ this.getAddStepButton() }</div>
-				{ this.getSidebar( attributes.unorderedList, attributes.additionalListCssClasses ) }
+				{ this.getSidebar( attributes.unorderedList, attributes.additionalListCssClasses, attributes.headingID ) }
 			</div>
 		);
 	}
