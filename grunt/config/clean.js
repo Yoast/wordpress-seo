@@ -4,6 +4,9 @@ module.exports = {
 		"<%= paths.languages %>*",
 		"!<%= paths.languages %>index.php",
 	],
+	"after-po-download": [
+		"<%= paths.languages %><%= pkg.plugin.textdomain %>-*-{formal,informal,ao90}.{po,json}",
+	],
 	"po-files": [
 		"<%= paths.languages %>*.po",
 		"<%= paths.languages %><%= pkg.plugin.textdomain %>-temp.pot",
