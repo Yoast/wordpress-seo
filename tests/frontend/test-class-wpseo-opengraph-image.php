@@ -181,7 +181,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph_Image::set_front_page_image
 	 */
 	public function test_frontpage_image() {
-		WPSEO_Options::set( 'og_frontpage_image', '/test.png' );
+		WPSEO_Options::set( 'og_frontpage_image', '/frontpage.png' );
+		WPSEO_Options::set( 'og_default_image', '/test.png' );
 
 		$current_page_on_front = get_option( 'page_on_front' );
 		$current_show_on_front = get_option( 'show_on_front' );
@@ -195,6 +196,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 		$class_instance = $this->setup_class();
 
+		// With a static frontpage, the image should be the default image, or the image from the static front page itself, not the frontpage image.
 		$this->assertEquals( $this->sample_array(), $class_instance->get_images() );
 
 		update_option( 'show_on_front', $current_show_on_front );
