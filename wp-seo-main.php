@@ -307,9 +307,7 @@ function wpseo_init() {
 	$integrations   = array();
 	$integrations[] = new WPSEO_Slug_Change_Watcher();
 
-	if ( defined( 'YOAST_FEATURE_GUTENBERG_STRUCTURED_DATA_BLOCKS' ) ) {
 		$integrations[] = new WPSEO_Structured_Data_Blocks();
-	}
 
 	foreach ( $integrations as $integration ) {
 		$integration->register_hooks();
