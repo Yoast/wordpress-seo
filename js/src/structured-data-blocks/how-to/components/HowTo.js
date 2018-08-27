@@ -107,7 +107,7 @@ export default class HowTo extends Component {
 	 *
 	 * @returns {void}
 	 */
-	insertStep( index, name = [], text=[], focus = true ) {
+	insertStep( index, name = [], text = [], focus = true ) {
 		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
 		if ( isUndefined( index ) ) {
@@ -161,13 +161,13 @@ export default class HowTo extends Component {
 
 		this.props.setAttributes( { steps } );
 
-		let [ focusIndex, focusPart ] = this.state.focus.split( ":" );
+		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
 		if ( focusIndex === `${ index1 }` ) {
-			this.setFocus( `${ index2 }:${ focusPart }` );
+			this.setFocus( `${ index2 }:${ subElement }` );
 		}
 
 		if ( focusIndex === `${ index2 }` ) {
-			this.setFocus( `${ index1 }:${ focusPart }` );
+			this.setFocus( `${ index1 }:${ subElement }` );
 		}
 	}
 
@@ -194,9 +194,9 @@ export default class HowTo extends Component {
 			nextIndex++;
 		}
 
-		const deletedIndex = steps.length;
-		delete this.editorRefs[ `${ deletedIndex }:name` ];
-		delete this.editorRefs[ `${ deletedIndex }:text` ];
+		const indexToRemove = steps.length;
+		delete this.editorRefs[ `${ indexToRemove }:name` ];
+		delete this.editorRefs[ `${ indexToRemove }:text` ];
 
 		let fieldToFocus = "description";
 		if ( this.editorRefs[ `${ index }:name` ] ) {
@@ -237,7 +237,7 @@ export default class HowTo extends Component {
 			return null;
 		}
 
-		let [ focusIndex, focusPart ] = this.state.focus.split( ":" );
+		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
 
 		return this.props.attributes.steps.map( ( step, index ) => {
 			return (
@@ -254,8 +254,8 @@ export default class HowTo extends Component {
 					}
 					insertStep={ () => this.insertStep( index ) }
 					removeStep={ () => this.removeStep( index ) }
-					onFocus={ ( part ) => this.setFocus( `${ index }:${ part }` ) }
-					focusPart={ focusPart }
+					onFocus={ ( elementToFocus ) => this.setFocus( `${ index }:${ elementToFocus }` ) }
+					subElement={ subElement }
 					onMoveUp={ () => this.swapSteps( index, index - 1 ) }
 					onMoveDown={ () => this.swapSteps( index, index + 1 ) }
 					isFirst={ index === 0 }

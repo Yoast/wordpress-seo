@@ -151,7 +151,7 @@ export default class HowToStep extends Component {
 		return(
 			<li className={ "schema-how-to-step" } key={ step.id } >
 				<RichText.Content
-					tagName="strong"
+					tagName="h3"
 					className="schema-how-to-step-name"
 					key={ step.id + "-name" }
 					value={ step.name }
