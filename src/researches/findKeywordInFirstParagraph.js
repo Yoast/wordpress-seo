@@ -29,18 +29,20 @@ function paragraphConsistsOfImagesOnly( text ) {
 }
 
 /**
+ * Checks if the introductory paragraph contains keyphrase or synonyms.
  * First splits the first paragraph by sentences. Finds the first paragraph which contains sentences e.g., not an image).
- * Tries to find all (content) words from the keyphrase or a synonym phrase within one sentence.
- *    If found all words within one sentence, returns an object with foundInOneSentence = true and
- *                                                                         keyphraseOrSynonym = "keyphrase" or "synonym".
- *    Else goes ahead with matching then entire first paragraph.
- * Tries to find all (content) words from the keyphrase or a synonym phrase within the paragraph.
- *    If found all words within the paragraph, returns an object with foundInOneSentence = false,
- *                                            foundInParagraph = true, and keyphraseOrSynonym = "keyphrase" or "synonym".
- *    If found not all words within the paragraph of nothing at all, returns an object with foundInOneSentence = false,
- *                                                                 foundInParagraph = false, and keyphraseOrSynonym = "".
+ * (1) Tries to find all (content) words from the keyphrase or a synonym phrase within one sentence.
+ * If found all words within one sentence, returns an object with foundInOneSentence = true and keyphraseOrSynonym = "keyphrase"
+ * or "synonym".
+ * If it did not find all words within one sentence, goes ahead with matching the keyphrase with the entire first paragraph.
+ * (2) Tries to find all (content) words from the keyphrase or a synonym phrase within the paragraph.
+ * If found all words within the paragraph, returns an object with foundInOneSentence = false, foundInParagraph = true,
+ * and keyphraseOrSynonym = "keyphrase" or "synonym".
+ * If found not all words within the paragraph of nothing at all, returns an object with foundInOneSentence = false,
+ * foundInParagraph = false, and keyphraseOrSynonym = "".
  *
  * @param {Paper} paper The text to check for paragraphs.
+ *
  * @returns {Object} Whether the keyphrase words were found in one sentence, whether the keyphrase words were found in
  * the paragraph, whether a keyphrase or a synonym phrase was matched.
  */
@@ -51,18 +53,21 @@ export default function( paper ) {
 	let paragraphs = matchParagraphs( paper.getText() );
 	paragraphs = reject( paragraphs, isEmpty );
 
-	let paragraph = reject( paragraphs, paragraphConsistsOfImagesOnly )[ 0 ] || "";
+	paragraphs = reject( paragraphs, paragraphConsistsOfImagesOnly )[ 0 ] || "";
 
-	let result = {
+	const result = {
 		foundInOneSentence: false,
 		foundInParagraph: false,
 		keyphraseOrSynonym: "",
 	};
 
-	const sentences = getSentences( paragraph );
+	const sentences = getSentences( paragraphs );
+	// Use both keyphrase and synonyms to match topic words in the first paragraph.
+	const useSynonyms = true;
+
 	if ( ! isEmpty( sentences ) ) {
 		sentences.forEach( function( sentence ) {
-			const resultSentence = findTopicFormsInString( topicForms, sentence, true, locale );
+			const resultSentence = findTopicFormsInString( topicForms, sentence, useSynonyms, locale );
 			if ( resultSentence.percentWordMatches === 100 ) {
 				result.foundInOneSentence = true;
 				result.foundInParagraph = true;
@@ -71,7 +76,7 @@ export default function( paper ) {
 			}
 		} );
 
-		const resultParagraph = findTopicFormsInString( topicForms, paragraph, true, locale );
+		const resultParagraph = findTopicFormsInString( topicForms, paragraphs, useSynonyms, locale );
 		if ( resultParagraph.percentWordMatches === 100 ) {
 			result.foundInParagraph = true;
 			result.keyphraseOrSynonym = resultParagraph.keyphraseOrSynonym;
