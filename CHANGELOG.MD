@@ -5,6 +5,18 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.10.0 August 27th, 2018
+### Added
+* Adds a `ButtonSection` component.
+* Adds a `loadingSpinner` svg icon.
+
+### Fixed
+* Fixes a bug where an invalid icon warning was thrown because no icon was provided to the `IconsButton`.
+* Fixes a bug where only the header of the `ButtonSection` component was clickable, instead of the entire component.
+
+### Other
+* Improves the keyword input field focus style and contrast ratio.
+
 ## 4.9.0 August 13th, 2018
 ### Added
 * Adds a standalone `LanguageNotice` component. Before, this component was part of the `ContentAnalysis` component.
