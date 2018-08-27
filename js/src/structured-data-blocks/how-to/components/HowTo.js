@@ -55,25 +55,29 @@ export default class HowTo extends Component {
 	/**
 	 * Replaces the How-to step with the given index.
 	 *
-	 * @param {array} newName      The new step-name.
-	 * @param {array} newText      The new step-text.
-	 * @param {array} previousName The previous step-name.
-	 * @param {array} previousText The previous step-text.
-	 * @param {number} index       The index of the step that needs to be changed.
+	 * @param {array}  newName      The new step-name.
+	 * @param {array}  newText      The new step-text.
+	 * @param {array}  previousName The previous step-name.
+	 * @param {array}  previousText The previous step-text.
+	 * @param {number} index        The index of the step that needs to be changed.
 	 *
 	 * @returns {void}
 	 */
 	changeStep( newName, newText, previousName, previousText, index ) {
 		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
-		// If the index exceeds the amount of steps, don't change anything.
+		// If the index exceeds the number of steps, don't change anything.
 		if ( index >= steps.length ) {
 			return;
 		}
 
 		/*
-		 * If the name of the step and the previous name don't match or if the text of the step and the text of
-		 * the previous step don't match, don't change anything.
+		 * Because the DOM re-uses input elements, the changeStep function was triggered when removing/inserting/swapping
+		 * input elements. We need to check for such events, and return early if the changeStep was called without any
+		 * user changes to the input field, but because the underlying input elements moved around in the DOM.
+		 *
+		 * In essence, when the name at the current index does not match the name that was in the input field previously,
+		 * the changeStep was triggered by input fields moving in the DOM.
 		 */
 		if ( steps[ index ].name !== previousName || steps[ index ].text !== previousText ) {
 			return;
