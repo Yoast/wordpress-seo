@@ -75,10 +75,6 @@ Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
  * @returns {boolean} Whether or not the assessment has a marker.
  */
 Assessor.prototype.hasMarker = function( assessment ) {
-	if ( ! isUndefined( window ) && ! isUndefined( window.yoastHideMarkers ) && window.yoastHideMarkers ) {
-		return false;
-	}
-
 	return isFunction( this._options.marker ) && ( assessment.hasOwnProperty( "getMarks" ) || typeof assessment.getMarks === "function" );
 };
 
@@ -112,8 +108,7 @@ Assessor.prototype.getMarker = function( assessment, paper, researcher ) {
 	var specificMarker = this._options.marker;
 
 	return function() {
-		var marks = assessment.getMarks( paper, researcher );
-
+		let marks = assessment.getMarks( paper, researcher );
 		marks = removeDuplicateMarks( marks );
 
 		specificMarker( paper, marks );
@@ -174,6 +169,11 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 	try {
 		result = assessment.getResult( paper, researcher, this.i18n );
 		result.setIdentifier( assessment.identifier );
+
+		if ( result.hasMarks() ) {
+			result.marks = assessment.getMarks( paper, researcher );
+			result.marks = removeDuplicateMarks( result.marks );
+		}
 
 		if ( result.hasMarks() && this.hasMarker( assessment ) ) {
 			this.setHasMarkers( true );

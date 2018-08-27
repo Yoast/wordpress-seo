@@ -1,0 +1,2 @@
+export const SET_PAPER = "SET_PAPER";
+export const SET_PAPER_ATTRIBUTE = "SET_PAPER_ATTRIBUTE";

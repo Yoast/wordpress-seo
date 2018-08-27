@@ -1,5 +1,7 @@
 var defaults = require( "lodash/defaults" );
 const isEmpty = require( "lodash/isEmpty" );
+const isEqual = require( "lodash/isEqual" );
+
 const collectTopicForms = require( "../researches/buildKeywordForms" ).collectForms;
 
 /**
@@ -19,8 +21,18 @@ var defaultAttributes = {
 
 /**
  * Construct the Paper object and set the keyword property.
- * @param {string} text The text to use in the analysis.
- * @param {object} attributes The object containing all attributes.
+ *
+ * @param {string} text                     The text to use in the analysis.
+ * @param {object} [attributes]             The object containing all attributes.
+ * @param {Object} [attributes.keyword]     The main keyword.
+ * @param {Object} [attributes.synonyms]    The main keyword's synonyms.
+ * @param {Object} [attributes.title]       The SEO title.
+ * @param {Object} [attributes.description] The SEO description.
+ * @param {Object} [attributes.titleWidth]  The width of the title in pixels.
+ * @param {Object} [attributes.url]         The slug.
+ * @param {Object} [attributes.permalink]   The base url + slug.
+ * @param {Object} [attributes.locale]      The locale.
+ *
  * @constructor
  */
 var Paper = function( text, attributes ) {
@@ -234,6 +246,45 @@ Paper.prototype.hasTopicForms = function() {
  */
 Paper.prototype.getTopicForms = function() {
 	return this._attributes.topicForms;
+};
+
+/*
+ * Serializes the Paper instance to an object.
+ *
+ * @returns {Object} The serialized Paper.
+ */
+Paper.prototype.serialize = function() {
+	return {
+		_parseClass: "Paper",
+		text: this._text,
+		...this._attributes,
+	};
+};
+
+/**
+ * Checks whether the given paper has the same properties as this instance.
+ *
+ * @param {Paper} paper The paper to compare to.
+ *
+ * @returns {boolean} Whether the given paper is identical or not.
+ */
+Paper.prototype.equals = function( paper ) {
+	return this._text === paper.getText() && isEqual( this._attributes, paper._attributes );
+};
+
+/**
+ * Parses the object to a Paper.
+ *
+ * @param {Object} serialized The serialized object.
+ *
+ * @returns {Paper} The parsed Paper.
+ */
+Paper.parse = function( serialized ) {
+	// _parseClass is taken here so it doesn't end up in the attributes.
+	// eslint-disable-next-line no-unused-vars
+	const { text, _parseClass, ...attributes } = serialized;
+
+	return new Paper( text, attributes );
 };
 
 module.exports = Paper;
