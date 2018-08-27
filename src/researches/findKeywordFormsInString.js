@@ -86,7 +86,7 @@ const findTopicFormsInString = function( topicForms, text, useSynonyms, locale )
 	return result;
 };
 
-module.exports = {
-	findWordFormsInString: findWordFormsInString,
-	findTopicFormsInString: findTopicFormsInString,
+export {
+	findWordFormsInString,
+	findTopicFormsInString,
 };

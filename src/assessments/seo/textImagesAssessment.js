@@ -25,6 +25,7 @@ class TextImagesAssessment extends Assessment {
 				withAlt: 6,
 				noAlt: 6,
 			},
+			url: "<a href='https://yoa.st/2pj' target='_blank'>",
 		};
 
 		this.identifier = "textImages";
@@ -45,8 +46,10 @@ class TextImagesAssessment extends Assessment {
 		const imageCount = researcher.getResearch( "imageCount" );
 		const altProperties = researcher.getResearch( "altTagCount" );
 
-		assessmentResult.setScore( this.calculateScore( imageCount, altProperties ) );
-		assessmentResult.setText( this.translateScore( imageCount, altProperties, i18n ) );
+		const calculatedScore = this.calculateResult( imageCount, altProperties, i18n );
+
+		assessmentResult.setScore( calculatedScore.score );
+		assessmentResult.setText( calculatedScore.resultText );
 
 		return assessmentResult;
 	}
@@ -63,99 +66,77 @@ class TextImagesAssessment extends Assessment {
 	}
 
 	/**
-	 * Calculate the score based on the current image count and current image alt-tag count.
-	 *
-	 * @param {number} imageCount The amount of images to be checked against.
-	 * @param {Object} altProperties An object containing the various alt-tags.
-	 *
-	 * @returns {number} The calculated score.
-	 */
-	calculateScore( imageCount, altProperties ) {
-		if ( imageCount === 0 ) {
-			return this._config.scores.noImages;
-		}
-
-		// Has alt-tag and keywords
-		if ( altProperties.withAltKeyword > 0 ) {
-			return this._config.scores.withAltKeyword;
-		}
-
-		// Has alt-tag, but no keywords and it's not okay
-		if ( altProperties.withAltNonKeyword > 0 ) {
-			return this._config.scores.withAltNonKeyword;
-		}
-
-		// Has alt-tag, but no keyword is set
-		if ( altProperties.withAlt > 0 ) {
-			return this._config.scores.withAlt;
-		}
-
-		// Has no alt-tag
-		if ( altProperties.noAlt > 0 ) {
-			return this._config.scores.noAlt;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Translates the score to a message the user can understand.
+	 * Calculate the score and the feedback string based on the current image count and current image alt-tag count.
 	 *
 	 * @param {number} imageCount The amount of images to be checked against.
 	 * @param {Object} altProperties An object containing the various alt-tags.
 	 * @param {Jed} i18n The object used for translations.
 	 *
-	 * @returns {string} The translated string.
+	 * @returns {Object} The calculated score and the feedback string.
 	 */
-	translateScore( imageCount, altProperties, i18n ) {
-		const url = "<a href='https://yoa.st/2pj' target='_blank'>";
+	calculateResult( imageCount, altProperties, i18n ) {
 
 		if ( imageCount === 0 ) {
-			return i18n.sprintf(
-				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis", "No %1$simages%2$s appear in this page, consider adding some as appropriate." ),
-				url,
-				"</a>"
-			);
+			return {
+				score: this._config.scores.noImages,
+				resultText: i18n.sprintf(
+					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					i18n.dgettext( "js-text-analysis", "No %1$simages%2$s appear in this page, consider adding some as appropriate." ),
+					this._config.url,
+					"</a>"
+				),
+			};
 		}
 
 		// Has alt-tag and keywords
 		if ( altProperties.withAltKeyword > 0 ) {
-			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page contain alt attributes with the focus keyword." ),
-				url,
-				"</a>"
-			);
+			return {
+				score: this._config.scores.withAltKeyword,
+				resultText: i18n.sprintf(
+					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page contain alt attributes with the topic words." ),
+					this._config.url,
+					"</a>"
+				),
+			};
 		}
 
 		// Has alt-tag, but no keywords and it's not okay
 		if ( altProperties.withAltNonKeyword > 0 ) {
-			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page do not have alt attributes containing the focus keyword." ),
-				url,
-				"</a>"
-			);
+			return {
+				score: this._config.scores.withAltNonKeyword,
+				resultText: i18n.sprintf(
+					i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page do not have alt attributes with the topic words." ),
+					this._config.url,
+					"</a>"
+				),
+			};
 		}
 
 		// Has alt-tag, but no keyword is set
 		if ( altProperties.withAlt > 0 ) {
-			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page contain alt attributes." ),
-				url,
-				"</a>"
-			);
+			return {
+				score: this._config.scores.withAlt,
+				resultText: i18n.sprintf(
+					i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page contain alt attributes." ),
+					this._config.url,
+					"</a>"
+				),
+			};
 		}
 
 		// Has no alt-tag
 		if ( altProperties.noAlt > 0 ) {
-			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page are missing alt attributes." ),
-				url,
-				"</a>"
-			);
+			return {
+				score: this._config.scores.noAlt,
+				resultText: i18n.sprintf(
+					i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page are missing alt attributes." ),
+					this._config.url,
+					"</a>"
+				),
+			};
 		}
-
-		return "";
+		return null;
 	}
 }
 
