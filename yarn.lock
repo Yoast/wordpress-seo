@@ -11061,7 +11061,7 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-yoast-components@^4.10:
+yoast-components@^4.10.0:
   version "4.10.0"
   resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.10.0.tgz#5c8475606d9255e830fff711220f776efcb6a8bf"
   dependencies:
