@@ -59,11 +59,12 @@ class Yoast_Dynamic_Rewrites implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
+		add_action( 'init', array( $this, 'trigger_dynamic_rewrite_rules_hook' ), 1 );
 		add_filter( 'option_rewrite_rules', array( $this, 'filter_rewrite_rules_option' ) );
 	}
 
 	/**
-	 * Adds a rewrite rule that transforms a URL structure to a set of query vars.
+	 * Adds a dynamic rewrite rule that transforms a URL structure to a set of query vars.
 	 *
 	 * Rules registered with this method are applied dynamically and do not require the rewrite rules
 	 * to be flushed in order to become active, which is a benefit over the regular WordPress core API.
@@ -98,6 +99,25 @@ class Yoast_Dynamic_Rewrites implements WPSEO_WordPress_Integration {
 		}
 
 		$this->extra_rules_top[ $regex ] = $query;
+	}
+
+	/**
+	 * Triggers the hook on which rewrite rules should be added.
+	 *
+	 * This allows for a more specific point in time from the generic `init` hook where this is
+	 * otherwise handled.
+	 *
+	 * @return void
+	 */
+	public function trigger_dynamic_rewrite_rules_hook() {
+
+		/**
+		 * Fires when the plugin's dynamic rewrite rules should be added.
+		 *
+		 * @param self $dynamic_rewrites Dynamic rewrites handler instance. Use its `add_rule()` method
+		 *                               to add dynamic rewrite rules.
+		 */
+		do_action( 'yoast_add_dynamic_rewrite_rules', $this );
 	}
 
 	/**
