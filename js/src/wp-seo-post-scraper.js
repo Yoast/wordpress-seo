@@ -34,6 +34,7 @@ import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
 import getApplyMarks from "./analysis/getApplyMarks";
+import { refreshDelay } from "./analysis/constants";
 
 // Redux dependencies.
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
@@ -417,13 +418,13 @@ setWordPressSeoL10n();
 		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks( YoastSEO.store )( paper, marks );
 
 		// YoastSEO.app overwrites.
-		YoastSEO.app.refresh = () => refreshAnalysis(
+		YoastSEO.app.refresh = debounce( () => refreshAnalysis(
 			YoastSEO.analysis.worker,
 			YoastSEO.analysis.collectData,
 			YoastSEO.analysis.applyMarks,
 			YoastSEO.store,
 			postDataCollector,
-		);
+		), refreshDelay );
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
 		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;
