@@ -2,20 +2,17 @@
 import PropTypes from "prop-types";
 import HowToStep from "./HowToStep";
 import isUndefined from "lodash/isUndefined";
-import moment from "moment";
-import momentDurationFormatSetup from "moment-duration-format";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import toString from "lodash/toString";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
+import buildDurationString from "../utils/buildDurationString";
 
 const { RichText, InspectorControls } = window.wp.editor;
 const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;
 const { Component, renderToString } = window.wp.element;
-
-momentDurationFormatSetup( moment );
 
 /**
  * Modified Text Control to provide a better layout experience.
@@ -381,50 +378,6 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Formats the durations into a string.
-	 *
-	 * @param {Object} durations         The duration values.
-	 * @param {string} durations.days    Number of days.
-	 * @param {string} durations.hours   Number of hours.
-	 * @param {string} durations.minutes Number of minutes.
-	 *
-	 * @returns {string} Formatted duration.
-	 */
-	static buildDurationString( durations ) {
-		const durationDays = durations.days ? parseInt( durations.days, 10 ) : 0;
-		const durationHours = durations.hours ? parseInt( durations.hours, 10 ) : 0;
-		const durationMinutes = durations.minutes ? parseInt( durations.minutes, 10 ) : 0;
-
-		const elements = [];
-		if ( durationDays !== 0 ) {
-			elements.push( `d [${ __( "days", "wordpress-seo" ) }]` );
-		}
-		if ( durationHours !== 0 ) {
-			elements.push( `h [${ __( "hours", "wordpress-seo" ) }]` );
-		}
-		if ( durationMinutes !== 0 ) {
-			elements.push( `m [${ __( "minutes", "wordpress-seo" ) }]` );
-		}
-
-		if ( elements.length === 0 ) {
-			return "";
-		}
-
-		const formatString = [
-			...elements,
-			elements
-				.splice( elements.length - 2 )
-				.join( ` [${ __( "and", "wordpress-seo" ) }] ` ),
-		].join( ", " );
-
-		return moment.duration( {
-			days: durationDays,
-			hours: durationHours,
-			minutes: durationMinutes,
-		} ).format( formatString );
-	}
-
-	/**
 	 * Returns the component to be used to render
 	 * the How-to block on Wordpress (e.g. not in the editor).
 	 *
@@ -462,7 +415,7 @@ export default class HowTo extends Component {
 		const listClassNames    = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
 		const contentHeadingID  = headingID ? headingID : stripHTML( renderToString( title ) ).toLowerCase();
 
-		const timeString = HowTo.buildDurationString( { days, hours, minutes } );
+		const timeString = buildDurationString( { days, hours, minutes } );
 
 		return (
 			<div className={ classNames }>
