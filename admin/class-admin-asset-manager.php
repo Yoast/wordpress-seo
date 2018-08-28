@@ -246,6 +246,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					self::PREFIX . 'wp-globals-backport',
+					self::PREFIX . 'components',
 				),
 			),
 			array(
@@ -254,6 +255,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					self::PREFIX . 'wp-globals-backport',
+					self::PREFIX . 'components',
 				),
 			),
 			array(
@@ -335,6 +337,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'wp-globals-backport',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'components',
 				),
 			),
 			array(
@@ -344,6 +347,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'wp-globals-backport',
 					self::PREFIX . 'analysis',
+					self::PREFIX . 'components',
 				),
 			),
 			array(
@@ -352,6 +356,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					self::PREFIX . 'react-dependencies',
 					self::PREFIX . 'analysis',
+					self::PREFIX . 'components',
 				),
 			),
 			array(
@@ -407,6 +412,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					self::PREFIX . 'wp-globals-backport',
+					self::PREFIX . 'components',
 				),
 			),
 			array(
@@ -452,6 +458,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'api',
 					'jquery',
 					self::PREFIX . 'wp-globals-backport',
+					self::PREFIX . 'components',
 				),
 			),
 			array(
@@ -465,6 +472,10 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'analysis',
 				'src'  => 'analysis-' . $flat_version,
+			),
+			array(
+				'name' => 'components',
+				'src'  => 'components-' . $flat_version,
 			),
 			array(
 				'name' => 'structured-data-blocks',
@@ -559,6 +570,9 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
+				'deps' => array(
+					self::PREFIX . 'components',
+				),
 			),
 			array(
 				'name' => 'structured-data-blocks',
