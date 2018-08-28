@@ -61,6 +61,7 @@ class Yoast_Dynamic_Rewrites implements WPSEO_WordPress_Integration {
 	public function register_hooks() {
 		add_action( 'init', array( $this, 'trigger_dynamic_rewrite_rules_hook' ), 1 );
 		add_filter( 'option_rewrite_rules', array( $this, 'filter_rewrite_rules_option' ) );
+		add_filter( 'sanitize_option_rewrite_rules', array( $this, 'sanitize_rewrite_rules_option' ) );
 	}
 
 	/**
@@ -135,5 +136,23 @@ class Yoast_Dynamic_Rewrites implements WPSEO_WordPress_Integration {
 		}
 
 		return array_merge( $this->extra_rules_top, $rewrite_rules, $this->extra_rules_bottom );
+	}
+
+	/**
+	 * Sanitizes the rewrite rules option prior to writing it to the database.
+	 *
+	 * This method ensures that the dynamic rewrite rules do not become part of the actual option.
+	 *
+	 * @param array|string $rewrite_rules Array pf rewrite rule $regex => $query pairs, or empty string
+	 *                                    in order to unset.
+	 *
+	 * @return array|string Filtered value of $rewrite_rules before writing the option.
+	 */
+	public function sanitize_rewrite_rules_option( $rewrite_rules ) {
+		if ( empty( $rewrite_rules ) ) {
+			return $rewrite_rules;
+		}
+
+		return array_diff_key( $rewrite_rules, $this->extra_rules_top, $this->extra_rules_bottom );
 	}
 }
