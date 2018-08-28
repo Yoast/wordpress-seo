@@ -31,6 +31,7 @@ import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
 import getApplyMarks from "./analysis/getApplyMarks";
+import { refreshDelay } from "./analysis/constants";
 
 // Redux dependencies.
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
@@ -285,13 +286,13 @@ window.yoastHideMarkers = true;
 		window.YoastSEO.analysis.applyMarks = ( paper, result ) => getApplyMarks( YoastSEO.store )( paper, result );
 
 		// YoastSEO.app overwrites.
-		YoastSEO.app.refresh = () => refreshAnalysis(
+		YoastSEO.app.refresh = debounce( () => refreshAnalysis(
 			YoastSEO.analysis.worker,
 			YoastSEO.analysis.collectData,
 			YoastSEO.analysis.applyMarks,
 			YoastSEO.store,
 			termScraper
-		);
+		), refreshDelay );
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
 		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;
