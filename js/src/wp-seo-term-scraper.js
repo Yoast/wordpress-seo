@@ -12,7 +12,7 @@ import debounce from "lodash/debounce";
 
 // Internal dependencies.
 import Edit from "./edit";
-import { termsTmceId as tmceId } from "./wp-seo-tinymce";
+import { termsTmceId } from "./wp-seo-tinymce";
 import Pluggable from "./Pluggable";
 
 // UI dependencies.
@@ -31,7 +31,6 @@ import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
 import getApplyMarks from "./analysis/getApplyMarks";
-import { termsTmceId } from "./wp-seo-tinymce";
 
 // Redux dependencies.
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
@@ -238,7 +237,7 @@ window.yoastHideMarkers = true;
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [ tmceId, "yoast_wpseo_focuskw", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
+			elementTarget: [ termsTmceId, "yoast_wpseo_focuskw", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
 			targets: retrieveTargets(),
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
