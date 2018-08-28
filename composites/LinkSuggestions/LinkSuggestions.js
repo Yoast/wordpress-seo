@@ -1,3 +1,4 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 import LinkSuggestion from "./composites/LinkSuggestion";
@@ -5,6 +6,11 @@ import Clipboard from "clipboard";
 import { localize } from "../../utils/i18n";
 import interpolateComponents from "interpolate-components";
 import { speak } from "@wordpress/a11y";
+
+/* Internal dependencies */
+import { makeOutboundLink } from "../../utils/makeOutboundLink";
+
+const HelpTextLink = makeOutboundLink();
 
 /**
  * Represents the Suggestions component.
@@ -78,7 +84,7 @@ class LinkSuggestions extends React.Component {
 			mixedString: articleLinkString,
 			components: {
 				// eslint-disable-next-line jsx-a11y/anchor-has-content
-				a: <a href="https://yoa.st/site-structure-metabox" />,
+				a: <HelpTextLink href="https://yoa.st/site-structure-metabox" />,
 			},
 		} );
 
@@ -113,7 +119,7 @@ class LinkSuggestions extends React.Component {
 			mixedString: articleLinkString,
 			components: {
 				// eslint-disable-next-line jsx-a11y/anchor-has-content
-				a: <a href="https://yoa.st/site-structure-metabox" />,
+				a: <HelpTextLink href="https://yoa.st/site-structure-metabox" />,
 			},
 		} );
 
@@ -154,7 +160,7 @@ class LinkSuggestions extends React.Component {
 			mixedString: articleLinkString,
 			components: {
 				// eslint-disable-next-line jsx-a11y/anchor-has-content
-				a: <a href="https://yoa.st/metabox-ls-help-cornerstone" rel="noopener noreferrer" target="_blank" />,
+				a: <HelpTextLink href="https://yoa.st/metabox-ls-help-cornerstone" />,
 			},
 		} );
 
