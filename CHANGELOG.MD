@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.10.1 August 28th, 2018
+### Fixed
+* Fixes an incorrect import of `YoastButton` in `index.js`.
+
 ## 4.10.0 August 27th, 2018
 ### Added
 * Adds a `ButtonSection` component.
