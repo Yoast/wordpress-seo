@@ -126,6 +126,7 @@ rules:
   no-undefined: 2
   no-unused-vars: 2
   no-use-before-define: 2
+  prefer-const: 1
 
   # Node.js and CommonJS
   callback-return: 2
