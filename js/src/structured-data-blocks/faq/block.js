@@ -10,6 +10,7 @@ const { registerBlockType } = window.wp.blocks;
 export default () => {
 	registerBlockType( "yoast/faq-block", {
 		title: __( "FAQ", "wordpress-seo" ),
+		description: __( "List your Frequently Asked Questions in an SEO-friendly way. You can only use one FAQ block per post.", "wordpress-seo" ),
 		icon: "editor-ul",
 		category: "yoast-structured-data-blocks",
 		keywords: [

@@ -4578,9 +4578,9 @@ grunt-eslint@^19.0.0:
     chalk "^1.0.0"
     eslint "^3.0.0"
 
-grunt-glotpress@^0.2.2:
+"grunt-glotpress@https://github.com/Yoast/grunt-glotpress.git#master":
   version "0.2.2"
-  resolved "https://registry.yarnpkg.com/grunt-glotpress/-/grunt-glotpress-0.2.2.tgz#1bdb00c80157f42740163fb3772a091f16f35d97"
+  resolved "https://github.com/Yoast/grunt-glotpress.git#6c0b12698cdc3e6e1b686bd74286c5595615e5b2"
   dependencies:
     request "^2.79.0"
 
@@ -7279,6 +7279,10 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkd
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
+
+moment-duration-format@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/moment-duration-format/-/moment-duration-format-2.2.2.tgz#b957612de26016c9ad9eb6087c054573e5127779"
 
 moment-timezone@0.5.11:
   version "0.5.11"
@@ -11061,9 +11065,9 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-"yoast-components@git+https://github.com/Yoast/yoast-components.git#develop":
-  version "4.9.0"
-  resolved "git+https://github.com/Yoast/yoast-components.git#cdf708bb37c11c8fc3cca5301c5d8abf1061bcd0"
+yoast-components@^4.10.1:
+  version "4.10.1"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.10.1.tgz#22005701bc6fb83de3bff7958a7bc0cc0e6630d3"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
