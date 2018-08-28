@@ -41,6 +41,7 @@ class Edit {
 	 * @param {string}   args.snippetEditorBaseUrl            Base URL of the site the user is editing.
 	 * @param {string}   args.snippetEditorDate               The date for the snippet editor.
 	 * @param {array}    args.recommendedReplacementVariables The recommended replacement variables for this context.
+	 * @param {Object}   args.classicEditorDataSettings       Settings for the ClassicEditorData object.
 	 */
 	constructor( args ) {
 		this._localizedData = this.getLocalizedData();
@@ -208,7 +209,7 @@ class Edit {
 			return gutenbergData;
 		}
 
-		const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store );
+		const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store, args.classicEditorDataSettings );
 		classicEditorData.initialize( args.replaceVars );
 		return classicEditorData;
 	}

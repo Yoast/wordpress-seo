@@ -295,7 +295,7 @@ export default class FAQ extends Component {
 		return (
 			<div className={ classNames }>
 				<RichText.Content
-					tagName="h2"
+					tagName="strong"
 					className="schema-faq-title"
 					value={ title }
 					id={ stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
@@ -318,7 +318,7 @@ export default class FAQ extends Component {
 		return (
 			<div className={ classNames }>
 				<RichText
-					tagName="h2"
+					tagName="strong"
 					className="schema-faq-title"
 					value={ attributes.title }
 					isSelected={ this.state.focus === "title" }

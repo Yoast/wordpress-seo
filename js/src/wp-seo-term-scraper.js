@@ -21,7 +21,8 @@ import { update as updateAdminBar } from "./ui/adminBar";
 
 // Analysis dependencies.
 import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
-import refreshAnalysis from "./analysis/refreshAnalysis";
+import refreshAnalysis, { initializationDone } from "./analysis/refreshAnalysis";
+import collectAnalysisData from "./analysis/collectAnalysisData";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
@@ -29,6 +30,8 @@ import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
+import getApplyMarks from "./analysis/getApplyMarks";
+import { termsTmceId } from "./wp-seo-tinymce";
 
 // Redux dependencies.
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
@@ -220,6 +223,9 @@ window.yoastHideMarkers = true;
 			snippetEditorBaseUrl: wpseoTermScraperL10n.base_url,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
+			classicEditorDataSettings: {
+				tinyMceId: termsTmceId,
+			},
 		};
 
 		edit = new Edit( editArgs );
@@ -273,12 +279,20 @@ window.yoastHideMarkers = true;
 		// Expose globals.
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
-		window.YoastSEO.analysisWorker = createAnalysisWorker();
 		window.YoastSEO.store = store;
+		window.YoastSEO.analysis = {};
+		window.YoastSEO.analysis.worker = createAnalysisWorker();
+		window.YoastSEO.analysis.collectData = () => collectAnalysisData( edit, YoastSEO.store, customAnalysisData, YoastSEO.app.pluggable );
+		window.YoastSEO.analysis.applyMarks = ( paper, result ) => getApplyMarks( YoastSEO.store )( paper, result );
 
 		// YoastSEO.app overwrites.
-		// Todo: change app.pluggable to pluggable (if we don't overwrite).
-		YoastSEO.app.refresh = refreshAnalysis.bind( null, edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
+		YoastSEO.app.refresh = () => refreshAnalysis(
+			YoastSEO.analysis.worker,
+			YoastSEO.analysis.collectData,
+			YoastSEO.analysis.applyMarks,
+			YoastSEO.store,
+			termScraper
+		);
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
 		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;
@@ -324,7 +338,7 @@ window.yoastHideMarkers = true;
 		}
 
 		// Initialize the analysis worker.
-		YoastSEO.analysisWorker.initialize( getAnalysisConfiguration( { useTaxonomy: true } ) )
+		YoastSEO.analysis.worker.initialize( getAnalysisConfiguration( { useTaxonomy: true } ) )
 			.then( () => {
 				jQuery( window ).trigger( "YoastSEO:ready" );
 			} )
@@ -387,6 +401,9 @@ window.yoastHideMarkers = true;
 		if ( ! isGutenbergDataAvailable() ) {
 			renderClassicEditorMetabox( store );
 		}
+
+		initializationDone();
+		YoastSEO.app.refresh();
 	}
 
 	jQuery( document ).ready( initializeTermAnalysis );

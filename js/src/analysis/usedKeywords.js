@@ -42,21 +42,24 @@ function UsedKeywords( ajaxAction, options, app, scriptUrl ) {
  * @returns {void}
  */
 UsedKeywords.prototype.init = function() {
-	const { analysisWorker } = window.YoastSEO;
+	const { worker } = window.YoastSEO.analysis;
 
 	this.requestKeywordUsage = debounce( this.requestKeywordUsage.bind( this ), 500 );
 
-	analysisWorker.loadScript( this._scriptUrl )
+	worker.loadScript( this._scriptUrl )
 		.then( () => {
-			analysisWorker.sendMessage( "initialize", this._options, "used-keywords-assessment" );
+			worker.sendMessage( "initialize", this._options, "used-keywords-assessment" );
 		} )
 		.then( () => {
 			this._initialized = true;
 
-			if ( ! isEqual( this._options.usedKeywords, this._keywordUsage ) ) {
-				analysisWorker.sendMessage( "updateKeywordUsage", this._keywordUsage, "used-keywords-assessment" )
-					.then( () => this._app.refresh() );
+			if ( isEqual( this._options.usedKeywords, this._keywordUsage ) ) {
+				this._app.refresh();
+				return;
 			}
+
+			worker.sendMessage( "updateKeywordUsage", this._keywordUsage, "used-keywords-assessment" )
+				.then( () => this._app.refresh() );
 		} )
 		.catch( error => console.error( error ) );
 };
@@ -99,13 +102,13 @@ UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
  * @returns {void}
  */
 UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
-	const { analysisWorker } = window.YoastSEO;
+	const { worker } = window.YoastSEO.analysis;
 
 	if ( response && isArray( response ) ) {
 		this._keywordUsage[ keyword ] = response;
 
 		if ( this._initialized ) {
-			analysisWorker.sendMessage( "updateKeywordUsage", this._keywordUsage, "used-keywords-assessment" )
+			worker.sendMessage( "updateKeywordUsage", this._keywordUsage, "used-keywords-assessment" )
 				.then( () => this._app.refresh() );
 		}
 	}
