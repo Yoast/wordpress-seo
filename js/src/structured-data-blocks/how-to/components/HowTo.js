@@ -397,13 +397,13 @@ export default class HowTo extends Component {
 
 		const elements = [];
 		if ( durationDays !== 0 ) {
-			elements.push( "d [days]" );
+			elements.push( `d [${ __( "days", "wordpress-seo" ) }]` );
 		}
 		if ( durationHours !== 0 ) {
-			elements.push( "h [hours]" );
+			elements.push( `h [${ __( "hours", "wordpress-seo" ) }]` );
 		}
 		if ( durationMinutes !== 0 ) {
-			elements.push( "m [minutes]" );
+			elements.push( `m [${ __( "minutes", "wordpress-seo" ) }]` );
 		}
 
 		if ( elements.length === 0 ) {
