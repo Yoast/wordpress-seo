@@ -122,7 +122,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$this->page_url = "&nonce={$this->nonce}&type={$this->page_type}#top#{$this->page_type}";
 
 		$this->populate_editable_post_types();
-
 	}
 
 	/**
@@ -207,7 +206,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		}
 	}
 
-
 	/**
 	 * Will shown the navigation for the table like pagenavigation and pagefilter;
 	 *
@@ -277,7 +275,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		return $subquery;
 	}
-
 
 	/**
 	 * @return array
@@ -363,7 +360,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		return $status_links;
 	}
-
 
 	/**
 	 * @param string $which Table nav location (such as top).
@@ -488,7 +484,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$_GET['post_status']          = $current_status;
 		$_GET['orderby']              = $current_order['orderby'];
 		$_GET['order']                = $current_order['order'];
-
 	}
 
 	/**
@@ -513,7 +508,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		// Get the metadata for the current items ($this->items).
 		$this->get_meta_data();
-
 	}
 
 	/**
@@ -605,7 +599,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			'per_page' => $per_page,
 			'offset'   => ( $paged - 1 ) * $per_page,
 		);
-
 	}
 
 	/**
@@ -845,7 +838,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$return .= $this->row_actions( $actions );
 
 		return $return;
-
 	}
 
 	/**
@@ -942,7 +934,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		// Little housekeeping.
 		unset( $post_ids, $meta_data );
-
 	}
 
 	/**
@@ -992,7 +983,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		foreach ( $meta_data as $row ) {
 			$this->meta_data[ $row->post_id ][ $row->meta_key ] = $row->meta_value;
 		}
-
 	}
 
 	/**

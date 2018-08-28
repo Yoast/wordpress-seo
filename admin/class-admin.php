@@ -49,9 +49,6 @@ class WPSEO_Admin {
 
 		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
 			$this->admin_features['primary_category']       = new WPSEO_Primary_Term_Admin();
-			if ( defined( 'YOAST_FEATURE_GUTENBERG_STRUCTURED_DATA_BLOCKS' ) ) {
-				$this->admin_features['structured_data_blocks'] = new WPSEO_Structured_Data_Blocks();
-			}
 		}
 
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' && filter_input( INPUT_GET, 'tool' ) === null ) {
@@ -73,8 +70,6 @@ class WPSEO_Admin {
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
 
 		add_action( 'admin_init', array( $this, 'map_manage_options_cap' ) );
-
-		add_action( 'admin_init', array( $this, 'check_php_version' ) );
 
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'home' );
@@ -323,54 +318,12 @@ class WPSEO_Admin {
 	/**
 	 * Initializes Whip to show a notice for outdated PHP versions.
 	 *
-	 * @todo Deprecate this method when WordPress 5.1 is our currently minimal supported version.
+	 * @deprecated 8.1
 	 *
 	 * @return void
 	 */
 	public function check_php_version() {
-		// If the user isn't an admin, don't display anything.
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		// Check if the user is running PHP 5.2.
-		if ( WPSEO_Admin_Utils::is_supported_php_version_installed() === false ) {
-			$this->show_unsupported_php_message();
-
-			return;
-		}
-
-		/*
-		 * The Whip message shouldn't be shown from WordPress 5.0.0 and higher because
-		 * that version introduces Serve Happy which is almost similar to Whip.
-		 */
-		$minimal_wp_version = '5.0.0';
-		if ( version_compare( $GLOBALS['wp_version'], $minimal_wp_version, '>=' ) ) {
-			return;
-		}
-
-		if ( ! $this->on_dashboard_page() ) {
-			return;
-		}
-
-		whip_wp_check_versions( array(
-			'php' => '>=5.4',
-		) );
-	}
-
-	/**
-	 * Creates a new message to display regarding the usage of PHP 5.2 (or lower).
-	 *
-	 * @return void
-	 */
-	protected function show_unsupported_php_message() {
-		$presenter = new Whip_WPMessagePresenter(
-			new WPSEO_Unsupported_PHP_Message(),
-			new Whip_MessageDismisser( time(), ( WEEK_IN_SECONDS * 4 ), new Whip_WPDismissOption() ),
-			__( 'Remind me again in 4 weeks.', 'wordpress-seo' )
-		);
-
-		$presenter->register_hooks();
+		// Intentionally left empty.
 	}
 
 	/**

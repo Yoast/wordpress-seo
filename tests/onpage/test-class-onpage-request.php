@@ -60,5 +60,4 @@ class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 			)
 		);
 	}
-
 }

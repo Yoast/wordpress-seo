@@ -5,7 +5,7 @@ import "./helpers/babel-polyfill";
 ( function( $ ) {
 	"use strict";
 
-	var primaryTermInputTemplate, primaryTermUITemplate, primaryTermScreenReaderTemplate;
+	var primaryTermUITemplate, primaryTermScreenReaderTemplate;
 	var taxonomies = wpseoPrimaryCategoryL10n.taxonomies;
 
 	/**
@@ -204,15 +204,7 @@ import "./helpers/babel-polyfill";
 
 	$.fn.initYstSEOPrimaryCategory = function() {
 		return this.each( function( i, taxonomy ) {
-			var metaboxTaxonomy, html;
-
-			metaboxTaxonomy = $( "#" + taxonomy.name + "div" );
-
-			html = primaryTermInputTemplate( {
-				taxonomy: taxonomy,
-			} );
-
-			metaboxTaxonomy.append( html );
+			const metaboxTaxonomy = $( "#" + taxonomy.name + "div" );
 
 			updatePrimaryTermSelectors( taxonomy.name );
 
@@ -227,7 +219,6 @@ import "./helpers/babel-polyfill";
 
 	$( function() {
 		// Initialize our templates
-		primaryTermInputTemplate = wp.template( "primary-term-input" );
 		primaryTermUITemplate = wp.template( "primary-term-ui" );
 		primaryTermScreenReaderTemplate = wp.template( "primary-term-screen-reader" );
 

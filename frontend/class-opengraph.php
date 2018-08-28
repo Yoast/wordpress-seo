@@ -268,7 +268,7 @@ class WPSEO_OpenGraph {
 		 *
 		 * @api string $unsigned Canonical URL.
 		 */
-		$url = apply_filters( 'wpseo_opengraph_url', WPSEO_Frontend::get_instance()->canonical( false ) );
+		$url = apply_filters( 'wpseo_opengraph_url', WPSEO_Frontend::get_instance()->canonical( false, true ) );
 
 		if ( is_string( $url ) && $url !== '' ) {
 			$this->og_tag( 'og:url', esc_url( $url ) );
@@ -738,7 +738,6 @@ class WPSEO_OpenGraph {
 		}
 	}
 
-
 	/**
 	 * Outputs the site owner.
 	 *
@@ -768,5 +767,4 @@ class WPSEO_OpenGraph {
 
 		$this->image( $image );
 	}
-
 } /* End of class */

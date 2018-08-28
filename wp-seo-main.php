@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '8.0' );
+define( 'WPSEO_VERSION', '8.1' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -307,6 +307,10 @@ function wpseo_init() {
 	$integrations   = array();
 	$integrations[] = new WPSEO_Slug_Change_Watcher();
 
+	if ( defined( 'YOAST_FEATURE_GUTENBERG_STRUCTURED_DATA_BLOCKS' ) ) {
+		$integrations[] = new WPSEO_Structured_Data_Blocks();
+	}
+
 	foreach ( $integrations as $integration ) {
 		$integration->register_hooks();
 	}
@@ -379,7 +383,6 @@ function wpseo_frontend_head_init() {
 	if ( WPSEO_Options::get( 'opengraph' ) === true ) {
 		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph();
 	}
-
 }
 
 /**

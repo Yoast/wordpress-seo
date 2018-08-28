@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
+import isNil from "lodash/isNil";
 
 import Results from "./Results";
 import Collapsible from "../SidebarCollapsible";
@@ -31,6 +32,11 @@ if( window.wpseoPostScraperL10n ) {
 class ReadabilityAnalysis extends React.Component {
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
+
+		if ( isNil( this.props.overallScore ) ) {
+			score.className = "loading";
+		}
+
 		return (
 			<Collapsible
 				title={ __( "Readability", "wordpress-seo" ) }
@@ -39,7 +45,7 @@ class ReadabilityAnalysis extends React.Component {
 				prefixIconCollapsed={ getIconForScore( score.className ) }
 			>
 				<AnalysisHeader>
-					Analysis results:
+					Analysis results
 				</AnalysisHeader>
 				<Results
 					canChangeLanguage={ ! ( localizedData.settings_link === "" ) }

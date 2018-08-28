@@ -240,7 +240,6 @@ class WPSEO_Meta {
 		'image'       => 'upload',
 	);
 
-
 	/**
 	 * Register our actions and filters
 	 *
@@ -307,7 +306,6 @@ class WPSEO_Meta {
 		add_filter( 'update_post_metadata', array( __CLASS__, 'remove_meta_if_default' ), 10, 5 );
 		add_filter( 'add_post_metadata', array( __CLASS__, 'dont_save_meta_if_default' ), 10, 4 );
 	}
-
 
 	/**
 	 * Retrieve the meta box form field definitions for the given tab and post type.
@@ -403,7 +401,6 @@ class WPSEO_Meta {
 
 		return apply_filters( 'wpseo_metabox_entries_' . $tab, $field_defs, $post_type );
 	}
-
 
 	/**
 	 * Validate the post meta values
@@ -516,7 +513,6 @@ class WPSEO_Meta {
 		return $clean;
 	}
 
-
 	/**
 	 * Validate a meta-robots-adv meta value
 	 *
@@ -566,7 +562,6 @@ class WPSEO_Meta {
 		return $clean;
 	}
 
-
 	/**
 	 * Prevent saving of default values and remove potential old value from the database if replaced by a default
 	 *
@@ -596,7 +591,6 @@ class WPSEO_Meta {
 		return $check; // Go on with the normal execution (update) in meta.php.
 	}
 
-
 	/**
 	 * Prevent adding of default values to the database
 	 *
@@ -618,7 +612,6 @@ class WPSEO_Meta {
 		return $check; // Go on with the normal execution (add) in meta.php.
 	}
 
-
 	/**
 	 * Is the given meta value the same as the default value ?
 	 *
@@ -632,7 +625,6 @@ class WPSEO_Meta {
 	public static function meta_value_is_default( $meta_key, $meta_value ) {
 		return ( isset( self::$defaults[ $meta_key ] ) && $meta_value === self::$defaults[ $meta_key ] );
 	}
-
 
 	/**
 	 * Get a custom post meta value
@@ -696,7 +688,6 @@ class WPSEO_Meta {
 			return '';
 		}
 	}
-
 
 	/**
 	 * Update a meta value for a post
@@ -780,7 +771,6 @@ class WPSEO_Meta {
 			delete_post_meta_by_key( $old_metakey );
 		}
 	}
-
 
 	/**
 	 * General clean-up of the saved meta values
@@ -953,7 +943,6 @@ class WPSEO_Meta {
 
 		do_action( 'wpseo_meta_clean_up' );
 	}
-
 
 	/**
 	 * Recursively merge a variable number of arrays, using the left array as base,

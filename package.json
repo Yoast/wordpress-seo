@@ -18,6 +18,7 @@
   "scripts": {
     "test": "jest",
     "build": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
+    "webpack-analyze-bundle": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json js/dist",
     "i18n-yoast-components": "NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot > /dev/null",
     "i18n-wordpress-seo": "NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot > /dev/null",
     "start": "webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development"
@@ -76,7 +77,7 @@
     "grunt-contrib-cssmin": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^19.0.0",
-    "grunt-glotpress": "^0.2.2",
+    "grunt-glotpress": "https://github.com/Yoast/grunt-glotpress.git#master",
     "grunt-phpcs": "^0.4.0",
     "grunt-phplint": "^0.1.0",
     "grunt-po2json": "^0.3.0",
@@ -101,6 +102,7 @@
     "time-grunt": "^1.0.0",
     "unminified-webpack-plugin": "^1.4.2",
     "webpack": "^3.4.1",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-dev-server": "^2.11.0"
   },
   "optionalDependencies": {
@@ -125,6 +127,7 @@
     "lodash": "^4.17.4",
     "marked": "^0.3.6",
     "material-ui": "^0.20.0",
+    "moment": "2.22.2",
     "prop-types": "^15.5.10",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
@@ -133,10 +136,10 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "^4.9.0",
-    "yoastseo": "^1.37"
+    "yoast-components": "^4.10.1",
+    "yoastseo": "^1.38.3"
   },
   "yoast": {
-    "pluginVersion": "8.0"
+    "pluginVersion": "8.1"
   }
 }

@@ -217,6 +217,13 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,
+			'id'     => 'wpseo-kwresearchtraining',
+			'title'  => __( 'Keyword research training', 'wordpress-seo' ),
+			'href'   => WPSEO_Shortlinker::get( 'https://yoa.st/wp-admin-bar' ),
+			'meta'   => array( 'target' => '_blank' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,
 			'id'     => 'wpseo-adwordsexternal',
 			'title'  => __( 'AdWords External', 'wordpress-seo' ),
 			'href'   => $adwords_url,
@@ -266,9 +273,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => self::ANALYSIS_SUBMENU_IDENTIFIER,
-			'id'     => 'wpseo-inlinks-ose',
-			'title'  => __( 'Check Inlinks (OSE)', 'wordpress-seo' ),
-			'href'   => '//moz.com/researchtools/ose/links?site=' . urlencode( $url ),
+			'id'     => 'wpseo-inlinks',
+			'title'  => __( 'Check links to this URL', 'wordpress-seo' ),
+			'href'   => 'https://search.google.com/search-console/links/drilldown?resource_id=' . urlencode( get_option( 'siteurl' ) ) . '&type=EXTERNAL&target=' . urlencode( $url ) . '&domain=',
 			'meta'   => array( 'target' => '_blank' ),
 		) );
 		$wp_admin_bar->add_menu( array(
@@ -479,7 +486,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * @return string Score markup, or empty string if none available.
 	 */
-	protected function get_post_score( WP_Post $post ) {
+	protected function get_post_score( $post ) {
+		if ( ! is_object( $post ) || ! property_exists( $post, 'ID' ) ) {
+			return '';
+		}
+
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
 			return '';
 		}
@@ -528,7 +539,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * @return string Score markup, or empty string if none available.
 	 */
-	protected function get_term_score( WP_Term $term ) {
+	protected function get_term_score( $term ) {
+		if ( ! is_object( $term ) || ! property_exists( $term, 'term_id' ) || ! property_exists( $term, 'taxonomy' ) ) {
+			return '';
+		}
+
 		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 

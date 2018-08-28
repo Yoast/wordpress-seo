@@ -9,6 +9,7 @@
  * Helps with creating shortlinks in the plugin
  */
 class WPSEO_Shortlinker {
+
 	/**
 	 * Builds a URL to use in the plugin as shortlink.
 	 *

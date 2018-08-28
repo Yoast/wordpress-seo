@@ -113,5 +113,4 @@ class WPSEO_Taxonomy_Social_Fields_Test extends WPSEO_UnitTestCase {
 		// Fields for opengraph should be there.
 		$this->assertTrue( array_key_exists( 'opengraph-title', $fields ) );
 	}
-
 }
