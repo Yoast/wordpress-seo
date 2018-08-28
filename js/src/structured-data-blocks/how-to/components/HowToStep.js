@@ -234,7 +234,7 @@ HowToStep.propTypes = {
 	editorRef: PropTypes.func.isRequired,
 	onMoveUp: PropTypes.func.isRequired,
 	onMoveDown: PropTypes.func.isRequired,
-
+	focusPart: PropTypes.string,
 	isSelected: PropTypes.bool,
 	isFirst: PropTypes.bool,
 	isLast: PropTypes.bool,
