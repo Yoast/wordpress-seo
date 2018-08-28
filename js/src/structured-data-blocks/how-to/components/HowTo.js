@@ -338,7 +338,7 @@ export default class HowTo extends Component {
 				<legend
 					className="schema-how-to-duration-legend"
 				>
-					{ __( "Time needed:", "wordpress-seo" ) }&nbsp;
+					{ __( "Time needed:", "wordpress-seo" ) }
 				</legend>
 				<label
 					htmlFor="schema-how-to-duration-hours"
@@ -360,7 +360,7 @@ export default class HowTo extends Component {
 				/>
 				<span>:</span>
 				<label
-					htmlFor="schema-how-to-duration-hours"
+					htmlFor="schema-how-to-duration-minutes"
 					className="screen-reader-text"
 				>
 					{ __( "minutes", "wordpress-seo" ) }
