@@ -23,6 +23,11 @@ const complexWordsToTest = [
 	[ "embargoing", [ "embargo", "embargoes", "embargoed" ] ],
 	[ "embargoed", [ "embargo", "embargoes", "embargoing" ] ],
 	[ "word's", [ "word", "words", "words'", "words's" ] ],
+	[ "focus", [ "foci", "focuses", "focused", "focusing" ] ],
+	[ "focuses", [ "focus", "focused", "focusing" ] ],
+	[ "focused", [ "focus", "focuses", "focusing" ] ],
+	[ "focusing", [ "focus", "focuses", "focused" ] ],
+	[ "foci", [ "focus" ] ],
 ];
 
 const possessivesToTest = [

@@ -299,6 +299,7 @@ const regularNounsToTest = [
 	[ "bacillus", "bacilli" ],
 	[ "hippopotamus", "hippopotami" ],
 	[ "modulus", "moduli" ],
+	[ "focus", "foci" ],
 
 	// Latin: itis - itides
 	[ "adenitis", "adenitides" ],
