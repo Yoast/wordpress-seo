@@ -24,6 +24,7 @@ const externals = {
 	tinymce: "window.tinymce",
 
 	yoastseo: "window.yoast.analysis",
+	"yoast-components": "window.yoast.components",
 
 	lodash: "window.lodash",
 };
