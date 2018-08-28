@@ -319,8 +319,8 @@ export default class AnalysisWebWorker {
 			assessor = new TaxonomyAssessor( this._i18n );
 		} else {
 			assessor = useCornerstone === true
-				? new CornerstoneSEOAssessor( this._i18n, { locale } )
-				: new SEOAssessor( this._i18n, { locale } );
+				? new CornerstoneSEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
+				: new SEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
 		}
 
 
