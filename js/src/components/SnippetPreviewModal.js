@@ -36,7 +36,6 @@ class SnippetPreviewModal extends React.Component {
 				/>
 				{ this.state.isOpen && <Modal
 					title={ __( "Snippet preview", "wordpress-seo" ) }
-					style={ { height: "initial", minHeight: "50px" } }
 					onRequestClose={ this.closeModal }>
 					<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
 					<Button isDefault onClick={ this.closeModal }>
