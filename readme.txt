@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.8
-Stable tag: 8.0
+Stable tag: 8.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -115,6 +115,7 @@ Enhancements:
 * Introduces the Primary Category picker to Gutenberg.
 * Introduces a loading indicator in the analysis that is shown until we're ready to analyze the content.
 * Optimizes the content analysis calculations. This fixes the issue where the UI could freeze when you have a long post.
+* Changes the "Check Inlinks (OSE)" menu item in the Yoast Admin bar "Analyze this page" dropdown from the Moz OpenSite Explorer (OSE) to Google Search Console, as the former service is being disabled on August 30th 2018.
 
 Bugfixes:
 
