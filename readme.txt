@@ -115,6 +115,7 @@ Enhancements:
 * Introduces the Primary Category picker to Gutenberg.
 * Introduces a loading indicator in the analysis that is shown until we're ready to analyze the content.
 * Optimizes the content analysis calculations. This fixes the issue where the UI could freeze when you have a long post.
+* Changes the "Check Inlinks (OSE)" menu item in the Yoast Admin bar "Analyze this page" dropdown from the Moz OpenSite Explorer (OSE) to Google Search Console, as the former service is being disabled on August 30th 2018.
 
 Bugfixes:
 
