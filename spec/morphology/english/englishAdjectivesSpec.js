@@ -4,7 +4,7 @@ const buildOneFormFromRegex  = require( "../../../js/morphology/morphoHelpers/bu
 const buildTwoFormsFromRegex  = require( "../../../js/morphology/morphoHelpers/buildFormFromRegex" ).buildTwoFormsFromRegex;
 const createRulesFromJsonArrays = require( "../../../js/morphology/morphoHelpers/createRulesFromJsonArrays" );
 
-const adjectiveData = require( "../../../js/morphology/english/englishMorphology.json" ).adjectives;
+const adjectiveData = require( "../../../js/morphology/english/englishMorphology.json" ).en.adjectives;
 const irregularAdjectivesToTest = adjectiveData.irregularAdjectives;
 const regexAdjective = adjectiveData.regexAdjective;
 

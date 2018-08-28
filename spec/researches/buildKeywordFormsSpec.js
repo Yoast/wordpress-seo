@@ -65,12 +65,12 @@ const twoForms = [ "two", "twos", "two's", "twos's", "twos'", "twoes", "twoing",
 describe( "A test for building forms of words for an array of words", function() {
 	it( "returns an empty array if the input keyphrase is undefined", function() {
 		let keyphrase;
-		const forms = buildForms( keyphrase, "en", morphologyData );
+		const forms = buildForms( keyphrase, "en", morphologyData.en );
 		expect( forms ).toEqual( [] );
 	} );
 
 	it( "returns the exact match if the input string is embedded in quotation marks (the language and morphAnalyzer do not matter)", function() {
-		const forms = buildForms( "\"I am going for a walk\"", "en", morphologyData );
+		const forms = buildForms( "\"I am going for a walk\"", "en", morphologyData.en );
 		expect( forms ).toEqual( [ [ "I am going for a walk" ] ] );
 	} );
 
@@ -95,7 +95,7 @@ describe( "A test for building forms of words for an array of words", function()
 	} );
 
 	it( "returns the arrays for all forms for English if Premium if only function words are supplied", function() {
-		const forms = buildForms( "One and two", "en", morphologyData );
+		const forms = buildForms( "One and two", "en", morphologyData.en );
 		expect( forms ).toEqual( [ oneForms, andForms, twoForms ] );
 	} );
 } );
@@ -114,7 +114,7 @@ describe( "A test for building keyword and synonyms forms for a paper", function
 				[ workForms, diligentlyForms ],
 			],
 		};
-		expect( collectForms( keyword, synonyms, language, morphologyData ) ).toEqual( expectedResult );
+		expect( collectForms( keyword, synonyms, language, morphologyData.en ) ).toEqual( expectedResult );
 	} );
 
 	it( "returns the exact matches if the input strings are embedded in quotation marks and word forms if not; for English", function() {
@@ -130,7 +130,7 @@ describe( "A test for building keyword and synonyms forms for a paper", function
 				[ workForms, diligentlyForms ],
 			],
 		};
-		expect( collectForms( keyword, synonyms, language, morphologyData ) ).toEqual( expectedResult );
+		expect( collectForms( keyword, synonyms, language, morphologyData.en ) ).toEqual( expectedResult );
 	} );
 
 	it( "returns the exact matches if the input strings are embedded in quotation marks and single-word arrays if not; for French (no morphology yet)", function() {
@@ -174,7 +174,7 @@ describe( "A test for building keyword and synonyms forms for a paper", function
 			keyphraseForms: [],
 			synonymsForms: [],
 		};
-		expect( collectForms( keyword, synonyms, language, morphologyData ) ).toEqual( expectedResult );
+		expect( collectForms( keyword, synonyms, language, morphologyData.en ) ).toEqual( expectedResult );
 	} );
 
 	it( "returns an empty field if no keyword was supplied ", function() {
@@ -190,7 +190,7 @@ describe( "A test for building keyword and synonyms forms for a paper", function
 				[ workForms, diligentlyForms ],
 			],
 		};
-		expect( collectForms( keyword, synonyms, language, morphologyData ) ).toEqual( expectedResult );
+		expect( collectForms( keyword, synonyms, language, morphologyData.en ) ).toEqual( expectedResult );
 	} );
 
 	it( "returns an empty field if no synonyms were supplied ", function() {
@@ -202,7 +202,7 @@ describe( "A test for building keyword and synonyms forms for a paper", function
 			keyphraseForms: [ [ "I am going for a walk" ] ],
 			synonymsForms: [],
 		};
-		expect( collectForms( keyword, synonyms, language, morphologyData ) ).toEqual( expectedResult );
+		expect( collectForms( keyword, synonyms, language, morphologyData.en ) ).toEqual( expectedResult );
 	} );
 } );
 

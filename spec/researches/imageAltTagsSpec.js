@@ -161,4 +161,28 @@ describe( "Counts images in an text", function() {
 		expect( stringToCheck.withAltKeyword ).toBe( 6 );
 		expect( stringToCheck.withAltNonKeyword ).toBe( 1 );
 	} );
+
+	it( "does not apply EN morphology to search in other languages", function() {
+		const paper = new Paper(
+			"string <img src='http://plaatje' alt='keyword' /> " +
+			"<img src='http://plaatje' alt='synonym and test' /> " +
+			"string <img src='http://plaatje' alt='synonyms' /> " +
+			"string <img src='http://plaatje' alt='keyword in quotes' /> " +
+			"<img src='http://plaatje' alt='interestingly enough, it is a paper' /> " +
+			"string <img src='http://plaatje' alt='paper interesting test synonyms' /> " +
+			"<img src='http://plaatje' alt='papering' />", {
+				keyword: "keyword",
+				synonyms: "synonym, test, interesting paper",
+				locale: "fr_FR",
+			}
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		const stringToCheck = altTagCountFunction( paper, researcher );
+
+		expect( stringToCheck.noAlt ).toBe( 0 );
+		expect( stringToCheck.withAlt ).toBe( 0 );
+		expect( stringToCheck.withAltKeyword ).toBe( 5 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 2 );
+	} );
 } );

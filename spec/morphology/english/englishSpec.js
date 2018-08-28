@@ -1,5 +1,5 @@
 const getForms = require( "../../../js/morphology/english/getForms.js" );
-const morphologyData = require( "../../../js/morphology/english/englishMorphology.json" );
+const morphologyData = require( "../../../js/morphology/english/englishMorphology.json" ).en;
 
 const includes = require( "lodash/includes" );
 

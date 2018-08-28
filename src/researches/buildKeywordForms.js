@@ -12,6 +12,7 @@ const isUndefined = require( "lodash/isUndefined" );
 const escapeRegExp = require( "lodash/escapeRegExp" );
 const unique = require( "lodash/uniq" );
 const flatten = require( "lodash/flatten" );
+const get = require( "lodash/get" );
 
 /**
  * Filters function words from an array of words based on the language.
@@ -26,9 +27,9 @@ const filterFunctionWords = function( array, language ) {
 		language = "en";
 	}
 
-	const functionWords = getFunctionWords[ language ];
+	const functionWords = get( getFunctionWords, [ language ], [] );
 
-	if ( array.length > 1 && ! ( isUndefined( functionWords ) ) ) {
+	if ( array.length > 1 ) {
 		const arrayFiltered = filter( array, function( word ) {
 			return ( ! includes( functionWords.all, word.trim().toLocaleLowerCase() ) );
 		} );
@@ -126,10 +127,10 @@ const collectForms = function( keyphrase, synonyms, language = "en", morphologyD
  * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms.
  */
 function research( paper, researcher ) {
-	// TODO: include functionality for language-specific imports
 	const language = getLanguage( paper.getLocale() );
 
-	const morphologyData = researcher.getProvidedData( "morphology" );
+	const morphologyData = get( researcher.getProvidedData( "morphology" ), [ language ], false );
+
 	return collectForms( paper.getKeyword(), paper.getSynonyms(), language, morphologyData );
 }
 

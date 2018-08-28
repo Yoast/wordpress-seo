@@ -1,4 +1,4 @@
-const verbData = require( "../../../js/morphology/english/englishMorphology.json" ).verbs;
+const verbData = require( "../../../js/morphology/english/englishMorphology.json" ).en.verbs;
 const irregularVerbsToTest = verbData.irregularVerbs;
 
 const getVerbForms  = require(  "../../../js/morphology/english/getVerbForms" ).getVerbForms;
