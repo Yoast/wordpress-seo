@@ -305,52 +305,50 @@ export default class HowTo extends Component {
 		}
 
 		return (
-			<div className="schema-how-to-duration">
-				<fieldset>
-					<legend
-						className="schema-how-to-duration-legend"
-					>
-						{ __( "Time needed:", "wordpress-seo" ) }&nbsp;
-					</legend>
-					<label
-						htmlFor="schema-how-to-duration-hours"
-						className="screen-reader-text"
-					>
-						{ __( "hours", "wordpress-seo" ) }
-					</label>
-					<input
-						id="schema-how-to-duration-hours"
-						className="schema-how-to-duration-input"
-						type="number"
-						value={ attributes.hours }
-						onFocus={ () => this.setFocus( "hours" ) }
-						onChange={ ( event ) => setAttributes( { hours: Math.max( 0, event.target.value ) } ) }
-						placeholder="HH"
-					/>
-					<span>:</span>
-					<label
-						htmlFor="schema-how-to-duration-hours"
-						className="screen-reader-text"
-					>
-						{ __( "minutes", "wordpress-seo" ) }
-					</label>
-					<input
-						id="schema-how-to-duration-minutes"
-						className="schema-how-to-duration-input"
-						type="number"
-						value={ attributes.minutes }
-						onFocus={ () => this.setFocus( "minutes" ) }
-						onChange={ ( event ) => setAttributes( { minutes: Math.min( Math.max( 0, event.target.value ), 60 ) } ) }
-						placeholder="MM"
-					/>
-					<IconButton
-						className="schema-how-to-duration-button editor-inserter__toggle"
-						icon="trash"
-						label={ __( "Delete total time", "wordpress-seo" ) }
-						onClick={ () => setAttributes( { hasDuration: false } ) }
-					/>
-				</fieldset>
-			</div>
+			<fieldset className="schema-how-to-duration">
+				<legend
+					className="schema-how-to-duration-legend"
+				>
+					{ __( "Time needed:", "wordpress-seo" ) }&nbsp;
+				</legend>
+				<label
+					htmlFor="schema-how-to-duration-hours"
+					className="screen-reader-text"
+				>
+					{ __( "hours", "wordpress-seo" ) }
+				</label>
+				<input
+					id="schema-how-to-duration-hours"
+					className="schema-how-to-duration-input"
+					type="number"
+					value={ attributes.hours }
+					onFocus={ () => this.setFocus( "hours" ) }
+					onChange={ ( event ) => setAttributes( { hours: Math.max( 0, event.target.value ) } ) }
+					placeholder="HH"
+				/>
+				<span>:</span>
+				<label
+					htmlFor="schema-how-to-duration-hours"
+					className="screen-reader-text"
+				>
+					{ __( "minutes", "wordpress-seo" ) }
+				</label>
+				<input
+					id="schema-how-to-duration-minutes"
+					className="schema-how-to-duration-input"
+					type="number"
+					value={ attributes.minutes }
+					onFocus={ () => this.setFocus( "minutes" ) }
+					onChange={ ( event ) => setAttributes( { minutes: Math.min( Math.max( 0, event.target.value ), 60 ) } ) }
+					placeholder="MM"
+				/>
+				<IconButton
+					className="schema-how-to-duration-button editor-inserter__toggle"
+					icon="trash"
+					label={ __( "Delete total time", "wordpress-seo" ) }
+					onClick={ () => setAttributes( { hasDuration: false } ) }
+				/>
+			</fieldset>
 		);
 	}
 
