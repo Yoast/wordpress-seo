@@ -1,5 +1,5 @@
 const Researcher = require( "../../js/researcher" );
-const morphologyData = require( "../../src/morphology/english/englishMorphology.json" );
+const morphologyData = require( "../../src/morphology/morphologyData.json" );
 const altTagCountFunction = require( "../../js/researches/imageAltTags" );
 const Paper = require( "../../js/values/Paper" );
 

@@ -25,7 +25,7 @@ const TaxonomyAssessor = require( "../taxonomyAssessor" );
 const Pluggable = require( "../pluggable" );
 const Researcher = require( "../researcher" );
 const SnippetPreview = require( "../snippetPreview" );
-const morphologyData = require( "../morphology/english/englishMorphology.json" );
+const morphologyData = require( "../morphology/morphologyData.json" );
 
 const Paper = require( "../values/Paper" );
 const AssessmentResult = require( "../values/AssessmentResult" );
