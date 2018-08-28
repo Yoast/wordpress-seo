@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import HowToStep from "./HowToStep";
 import isUndefined from "lodash/isUndefined";
 import moment from "moment";
+import momentDurationFormatSetup from "moment-duration-format";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
+import toString from "lodash/toString";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
@@ -12,6 +14,8 @@ import { stripHTML } from "../../../helpers/stringHelpers";
 const { RichText, InspectorControls } = window.wp.editor;
 const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;
 const { Component, renderToString } = window.wp.element;
+
+momentDurationFormatSetup( moment );
 
 /**
  * Modified Text Control to provide a better layout experience.
@@ -285,6 +289,31 @@ export default class HowTo extends Component {
 	}
 
 	/**
+	 * Formats the time in the input fields by removing leading zeros.
+	 *
+	 * @param {number} duration    The duration as entered by the user.
+	 * @param {number} maxDuration Optional. The max duration a field can have.
+	 *
+	 * @returns {number} The formatted duration.
+	 */
+	formatDuration( duration, maxDuration = null ) {
+		if ( duration === "" ) {
+			return "";
+		}
+
+		const newDuration = duration.replace( /^[0]+/, "" );
+		if ( newDuration === "" ) {
+			return 0;
+		}
+
+		if ( maxDuration !== null ) {
+			return Math.min( Math.max( 0, parseInt( newDuration, 10 ) ), maxDuration );
+		}
+
+		return Math.max( 0, parseInt( newDuration, 10 ) );
+	}
+
+	/**
 	 * Returns a component to manage this how-to block's duration.
 	 *
 	 * @returns {Component} The duration editor component.
@@ -312,7 +341,11 @@ export default class HowTo extends Component {
 					type="number"
 					value={ attributes.hours }
 					onFocus={ () => this.setFocus( "hours" ) }
-					onChange={ ( event ) => setAttributes( { hours: Math.max( 0, event.target.value ) } ) }
+					id="hours-input"
+					onChange={ ( event ) => {
+						const newValue = this.formatDuration( event.target.value );
+						setAttributes( { hours: toString( newValue ) } );
+					} }
 					placeholder="HH"/>
 				<span>:</span>
 				<input
@@ -320,7 +353,11 @@ export default class HowTo extends Component {
 					type="number"
 					value={ attributes.minutes }
 					onFocus={ () => this.setFocus( "minutes" ) }
-					onChange={ ( event ) => setAttributes( { minutes: Math.min( Math.max( 0, event.target.value ), 60 ) } ) }
+					id="minutes-input"
+					onChange={ ( event ) => {
+						const newValue = this.formatDuration( event.target.value, 59 );
+						setAttributes( { minutes: toString( newValue ) } );
+					} }
 					placeholder="MM" />
 				<IconButton
 					className="schema-how-to-duration-button editor-inserter__toggle"
@@ -369,10 +406,16 @@ export default class HowTo extends Component {
 		const listClassNames    = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
 		const contentHeadingID  = headingID ? headingID : stripHTML( renderToString( title ) ).toLowerCase();
 
-		const timeString = [
-			hours && moment.duration( hours, "hours" ).humanize(),
-			minutes && moment.duration( minutes, "minutes" ).humanize(),
-		].filter( ( item ) => item ).join( " and " );
+		const durationHours = hours ? parseInt( hours, 10 ) : 0;
+		const durationMinutes = minutes ? parseInt( minutes, 10 ) : 0;
+		const durationFormat = ( durationHours === 0 ? "" : "h [hours]" ) +
+							   ( durationHours && durationMinutes ? __( " [and] ", "wordpress-seo" ): "" ) +
+							   ( durationMinutes === 0 ? "" : "m [minutes]" );
+
+		const timeString = moment.duration( {
+			hours: durationHours,
+			minutes: durationMinutes,
+		} ).format( durationFormat );
 
 		return (
 			<div className={ classNames }>
@@ -455,7 +498,7 @@ export default class HowTo extends Component {
 	/**
 	 * Returns the help text for this how-to block"s list type.
 	 *
-	 * @param  {boolean} checked Whether or not the list is unordered.
+	 * @param {boolean} checked Whether or not the list is unordered.
 	 *
 	 * @returns {string} The list type help string.
 	 */
