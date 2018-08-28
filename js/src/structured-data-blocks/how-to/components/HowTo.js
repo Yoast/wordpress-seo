@@ -430,10 +430,12 @@ export default class HowTo extends Component {
 							   ( durationHours && durationMinutes ? __( " [and] ", "wordpress-seo" ): "" ) +
 							   ( durationMinutes === 0 ? "" : "m [minutes]" );
 
-		const timeString = moment.duration( {
+		let timeString = moment.duration( {
 			hours: durationHours,
 			minutes: durationMinutes,
-		} ).format( durationFormat );
+		} );
+
+		timeString = durationFormat ? timeString.format( durationFormat ) : "";
 
 		return (
 			<div className={ classNames }>
@@ -443,7 +445,7 @@ export default class HowTo extends Component {
 					value={ title }
 					id={ contentHeadingID.replace( /\s+/g, "-" ) }
 				/>
-				{ ( hasDuration && timeString.length > 0 ) &&
+				{ ( hasDuration && typeof timeString === "string" && timeString.length > 0 ) &&
 					<p className="schema-how-to-total-time">
 						{ __( "Time needed:", "wordpress-seo" ) }
 						&nbsp;
