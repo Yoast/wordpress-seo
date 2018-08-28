@@ -339,11 +339,22 @@ export default class HowTo extends Component {
 				<input
 					className="schema-how-to-duration-input"
 					type="number"
+					value={ attributes.days }
+					onFocus={ () => this.setFocus( "days" ) }
+					id="days-input"
+					onChange={ ( event ) => {
+						const newValue = this.formatDuration( event.target.value );
+						setAttributes( { days: toString( newValue ) } );
+					} }
+					placeholder="DD"/>
+				<input
+					className="schema-how-to-duration-input"
+					type="number"
 					value={ attributes.hours }
 					onFocus={ () => this.setFocus( "hours" ) }
 					id="hours-input"
 					onChange={ ( event ) => {
-						const newValue = this.formatDuration( event.target.value );
+						const newValue = this.formatDuration( event.target.value, 23 );
 						setAttributes( { hours: toString( newValue ) } );
 					} }
 					placeholder="HH"/>
@@ -370,6 +381,50 @@ export default class HowTo extends Component {
 	}
 
 	/**
+	 * Formats the durations into a string.
+	 *
+	 * @param {Object} durations         The duration values.
+	 * @param {string} durations.days    Number of days.
+	 * @param {string} durations.hours   Number of hours.
+	 * @param {string} durations.minutes Number of minutes.
+	 *
+	 * @returns {string} Formatted duration.
+	 */
+	static buildDurationString( durations ) {
+		const durationDays = durations.days ? parseInt( durations.days, 10 ) : 0;
+		const durationHours = durations.hours ? parseInt( durations.hours, 10 ) : 0;
+		const durationMinutes = durations.minutes ? parseInt( durations.minutes, 10 ) : 0;
+
+		const elements = [];
+		if ( durationDays !== 0 ) {
+			elements.push( "d [days]" );
+		}
+		if ( durationHours !== 0 ) {
+			elements.push( "h [hours]" );
+		}
+		if ( durationMinutes !== 0 ) {
+			elements.push( "m [minutes]" );
+		}
+
+		if ( elements.length === 0 ) {
+			return "";
+		}
+
+		const formatString = [
+			...elements,
+			elements
+				.splice( elements.length - 2 )
+				.join( ` [${ __( "and", "wordpress-seo" ) }] ` ),
+		].join( ", " );
+
+		return moment.duration( {
+			days: durationDays,
+			hours: durationHours,
+			minutes: durationMinutes,
+		} ).format( formatString );
+	}
+
+	/**
 	 * Returns the component to be used to render
 	 * the How-to block on Wordpress (e.g. not in the editor).
 	 *
@@ -382,6 +437,7 @@ export default class HowTo extends Component {
 			steps,
 			title,
 			hasDuration,
+			days,
 			hours,
 			minutes,
 			description,
@@ -406,16 +462,7 @@ export default class HowTo extends Component {
 		const listClassNames    = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
 		const contentHeadingID  = headingID ? headingID : stripHTML( renderToString( title ) ).toLowerCase();
 
-		const durationHours = hours ? parseInt( hours, 10 ) : 0;
-		const durationMinutes = minutes ? parseInt( minutes, 10 ) : 0;
-		const durationFormat = ( durationHours === 0 ? "" : "h [hours]" ) +
-							   ( durationHours && durationMinutes ? __( " [and] ", "wordpress-seo" ): "" ) +
-							   ( durationMinutes === 0 ? "" : "m [minutes]" );
-
-		const timeString = moment.duration( {
-			hours: durationHours,
-			minutes: durationMinutes,
-		} ).format( durationFormat );
+		const timeString = HowTo.buildDurationString( { days, hours, minutes } );
 
 		return (
 			<div className={ classNames }>
