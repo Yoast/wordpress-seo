@@ -13,6 +13,8 @@ const italianParticiples = require( "../../italian/passiveVoice/participles" )()
 const irregularsDutch = require( "../../dutch/passiveVoice/irregulars" )();
 const nlRegex1 = /^(ge|be|ont|ver|her|er)\S+(d|t)$/ig;
 const nlRegex2 = /^(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+(d|t|n)$/ig;
+const polishParticiples = require( "../../polish/passiveVoice/participles" )();
+
 
 // The language-specific participle regexes.
 const languageVariables = {
@@ -37,8 +39,8 @@ const languageVariables = {
  * @returns {Array} A list with the matches.
  */
 let regularParticiples = function( word, language ) {
-	// In Spanish and Italian we don't match participles with a regular regex pattern.
-	if ( ( language === "es" ) || ( language === "it" ) ) {
+	// In Spanish, Italian and Polish we don't match participles with a regular regex pattern.
+	if ( ( language === "es" ) || ( language === "it" ) || ( language === "pl" )  ) {
 		return [];
 	}
 
@@ -116,6 +118,12 @@ let irregularParticiples = function( word, language ) {
 			break;
 		case "nl":
 			if ( includes( irregularsDutch, word ) ) {
+				matches.push( word );
+			}
+			break;
+		case "pl":
+			// In Polish, we only match passives from a word list.
+			if ( includes( polishParticiples, word ) ) {
 				matches.push( word );
 			}
 			break;
