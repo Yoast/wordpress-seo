@@ -1,4 +1,4 @@
-const Paper = require( "../../../js/values/Paper.js" );
+const Paper = require( "../../../src/values/Paper.js" );
 
 const name = "englishPaper2";
 
