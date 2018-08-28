@@ -138,7 +138,7 @@
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
     "yoast-components": "^4.10.1",
-    "yoastseo": "^1.38.3"
+    "yoastseo": "^1.39.0"
   },
   "yoast": {
     "pluginVersion": "8.1"
