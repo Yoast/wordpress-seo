@@ -56,7 +56,6 @@ window.yoastHideMarkers = true;
 
 	var termSlugInput;
 
-	let store;
 	let edit;
 	const customAnalysisData = new CustomAnalysisData();
 
@@ -110,7 +109,7 @@ window.yoastHideMarkers = true;
 			slug: termSlugInput.val(),
 		};
 
-		store.dispatch( updateData( snippetEditorData ) );
+		YoastSEO.store.dispatch( updateData( snippetEditorData ) );
 	}
 
 	/**
