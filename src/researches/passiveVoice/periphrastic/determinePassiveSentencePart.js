@@ -8,6 +8,9 @@ const getParticiplesGerman = require( "../../german/passiveVoice/getParticiples.
 // Imports specific for Dutch.
 const auxiliariesDutch = require( "../../dutch/passiveVoice/auxiliaries.js" )();
 
+// Imports specific for Polish.
+const auxiliariesPolish = require( "../../polish/passiveVoice/auxiliaries.js" )();
+
 // The language-specific auxiliaries.
 const languageVariables = {
 	de: {
@@ -15,6 +18,9 @@ const languageVariables = {
 	},
 	nl: {
 		auxiliaries: auxiliariesDutch,
+	},
+	pl: {
+		auxiliaries: auxiliariesPolish,
 	},
 };
 
@@ -29,8 +35,8 @@ const languageVariables = {
  */
 module.exports = function( sentencePartText, sentencePartAuxiliaries, language ) {
 	let participles = [];
-	// For German and Dutch, this path is taken in order to ensure that sentence parts without auxiliaries are not set to passive.
-	if ( language === "de" || language === "nl" ) {
+	// For German, Dutch and Polish, this path is taken in order to ensure that sentence parts without auxiliaries are not set to passive.
+	if ( language === "de" || language === "nl" || language === "pl" ) {
 		// Return false if there are no auxiliaries in the sentence part.
 		if ( ! sentencePartAuxiliaries.some( auxiliary => languageVariables[ language ].auxiliaries.includes( auxiliary ) ) ) {
 			return false;
@@ -39,8 +45,8 @@ module.exports = function( sentencePartText, sentencePartAuxiliaries, language )
 		if ( language === "de" ) {
 			participles = getParticiplesGerman( sentencePartText, sentencePartAuxiliaries, language );
 		}
-		// For Dutch, we use the same function as for other languages.
-		if ( language === "nl" ) {
+		// For Dutch and Polish, we use the same function as for other languages.
+		if ( language === "nl" || language === "pl" ) {
 			participles = getParticiples( sentencePartText, sentencePartAuxiliaries, language );
 		}
 	} else {
