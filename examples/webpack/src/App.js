@@ -69,7 +69,7 @@ class App extends React.Component {
 			.then( ( { result } ) => {
 				this.props.actions.setResults( {
 					readability: result.readability.results,
-					seo: result.seo.results,
+					seo: result.seo[ "" ].results,
 				} );
 		    } );
 	}
