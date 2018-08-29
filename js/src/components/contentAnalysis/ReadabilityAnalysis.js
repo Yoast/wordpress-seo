@@ -46,8 +46,7 @@ class ReadabilityAnalysis extends React.Component {
 					Analysis results
 				</AnalysisHeader>
 				<p>{ __( "This analysis checks your writing for grammar and writing style so your content " +
-						"is as clear as it can be.", "wordpress-seo" ) }
-					{" "}
+						"is as clear as it can be.", "wordpress-seo" ) + " " }
 					<LearnMoreLink href={ wpseoAdminL10n[ "shortlinks.readability_analysis_info" ] } rel={ null }>
 						{ __( "Learn more about Readability Analysis.", "wordpress-seo" ) }
 					</LearnMoreLink>
