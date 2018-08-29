@@ -5,11 +5,12 @@ import { setLocaleData } from "@wordpress/i18n";
 
 Enzyme.configure( { adapter: new EnzymeAdapter() } );
 
-/* eslint-disable */
 setLocaleData( {
 	"": {
 		domain: "wordpress-seo",
 		lang: "en",
+		/* eslint-disable */
 		plural_forms: "nplurals=2; plural=(n != 1);",
+		/* eslint-enable */
 	},
 }, "wordpress-seo" );

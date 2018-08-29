@@ -37,4 +37,14 @@ describe( "buildDurationString", () => {
 
 		expect( actual ).toEqual( expected );
 	} );
+
+	it( "can handle singular values", () => {
+		const expected = "1 day and 1 hour";
+		const actual = buildDurationString( {
+			days: "1",
+			hours: "1",
+		} );
+
+		expect( actual ).toEqual( expected );
+	} );
 } );
