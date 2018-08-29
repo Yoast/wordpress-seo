@@ -2,20 +2,17 @@
 import PropTypes from "prop-types";
 import HowToStep from "./HowToStep";
 import isUndefined from "lodash/isUndefined";
-import moment from "moment";
-import momentDurationFormatSetup from "moment-duration-format";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import toString from "lodash/toString";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
+import buildDurationString from "../utils/buildDurationString";
 
 const { RichText, InspectorControls } = window.wp.editor;
 const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;
 const { Component, renderToString } = window.wp.element;
-
-momentDurationFormatSetup( moment );
 
 /**
  * Modified Text Control to provide a better layout experience.
@@ -341,6 +338,24 @@ export default class HowTo extends Component {
 					{ __( "Time needed:", "wordpress-seo" ) }
 				</legend>
 				<label
+					htmlFor="schema-how-to-duration-days"
+					className="screen-reader-text"
+				>
+					{ __( "days", "wordpress-seo" ) }
+				</label>
+				<input
+					id="schema-how-to-duration-days"
+					className="schema-how-to-duration-input"
+					type="number"
+					value={ attributes.days }
+					onFocus={ () => this.setFocus( "days" ) }
+					onChange={ ( event ) => {
+						const newValue = this.formatDuration( event.target.value );
+						setAttributes( { days: toString( newValue ) } );
+					} }
+					placeholder="DD"
+				/>
+				<label
 					htmlFor="schema-how-to-duration-hours"
 					className="screen-reader-text"
 				>
@@ -354,7 +369,7 @@ export default class HowTo extends Component {
 					onFocus={ () => this.setFocus( "hours" ) }
 					placeholder="HH"
 					onChange={ ( event ) => {
-						const newValue = this.formatDuration( event.target.value );
+						const newValue = this.formatDuration( event.target.value, 23 );
 						setAttributes( { hours: toString( newValue ) } );
 					} }
 				/>
@@ -400,6 +415,7 @@ export default class HowTo extends Component {
 			steps,
 			title,
 			hasDuration,
+			days,
 			hours,
 			minutes,
 			description,
@@ -424,18 +440,7 @@ export default class HowTo extends Component {
 		const listClassNames   = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
 		const contentHeadingID = headingID ? headingID : stripHTML( renderToString( title ) ).toLowerCase();
 
-		const durationHours = hours ? parseInt( hours, 10 ) : 0;
-		const durationMinutes = minutes ? parseInt( minutes, 10 ) : 0;
-		const durationFormat = ( durationHours === 0 ? "" : "h [hours]" ) +
-							   ( durationHours && durationMinutes ? __( " [and] ", "wordpress-seo" ) : "" ) +
-							   ( durationMinutes === 0 ? "" : "m [minutes]" );
-
-		let timeString = moment.duration( {
-			hours: durationHours,
-			minutes: durationMinutes,
-		} );
-
-		timeString = durationFormat ? timeString.format( durationFormat ) : "";
+		const timeString = buildDurationString( { days, hours, minutes } );
 
 		return (
 			<div className={ classNames }>

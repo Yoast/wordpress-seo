@@ -18,6 +18,9 @@ const attributes = {
 	hasDuration: {
 		type: "boolean",
 	},
+	days: {
+		type: "number",
+	},
 	hours: {
 		type: "number",
 	},
