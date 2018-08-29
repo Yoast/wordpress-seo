@@ -331,49 +331,74 @@ export default class HowTo extends Component {
 		}
 
 		return (
-			<div className="schema-how-to-duration">
-				<span>{ __( "Time needed:", "wordpress-seo" ) }&nbsp;</span>
+			<fieldset className="schema-how-to-duration">
+				<legend
+					className="schema-how-to-duration-legend"
+				>
+					{ __( "Time needed:", "wordpress-seo" ) }
+				</legend>
+				<label
+					htmlFor="schema-how-to-duration-days"
+					className="screen-reader-text"
+				>
+					{ __( "days", "wordpress-seo" ) }
+				</label>
 				<input
+					id="schema-how-to-duration-days"
 					className="schema-how-to-duration-input"
 					type="number"
 					value={ attributes.days }
 					onFocus={ () => this.setFocus( "days" ) }
-					id="days-input"
 					onChange={ ( event ) => {
 						const newValue = this.formatDuration( event.target.value );
 						setAttributes( { days: toString( newValue ) } );
 					} }
-					placeholder="DD"/>
+					placeholder="DD"
+				/>
+				<label
+					htmlFor="schema-how-to-duration-hours"
+					className="screen-reader-text"
+				>
+					{ __( "hours", "wordpress-seo" ) }
+				</label>
 				<input
+					id="schema-how-to-duration-hours"
 					className="schema-how-to-duration-input"
 					type="number"
 					value={ attributes.hours }
 					onFocus={ () => this.setFocus( "hours" ) }
-					id="hours-input"
+					placeholder="HH"
 					onChange={ ( event ) => {
 						const newValue = this.formatDuration( event.target.value, 23 );
 						setAttributes( { hours: toString( newValue ) } );
 					} }
-					placeholder="HH"/>
-				<span>:</span>
+				/>
+				<span aria-hidden="true">:</span>
+				<label
+					htmlFor="schema-how-to-duration-minutes"
+					className="screen-reader-text"
+				>
+					{ __( "minutes", "wordpress-seo" ) }
+				</label>
 				<input
+					id="schema-how-to-duration-minutes"
 					className="schema-how-to-duration-input"
 					type="number"
 					value={ attributes.minutes }
 					onFocus={ () => this.setFocus( "minutes" ) }
-					id="minutes-input"
 					onChange={ ( event ) => {
 						const newValue = this.formatDuration( event.target.value, 59 );
 						setAttributes( { minutes: toString( newValue ) } );
 					} }
-					placeholder="MM" />
+					placeholder="MM"
+				/>
 				<IconButton
 					className="schema-how-to-duration-button editor-inserter__toggle"
 					icon="trash"
 					label={ __( "Delete total time", "wordpress-seo" ) }
 					onClick={ () => setAttributes( { hasDuration: false } ) }
 				/>
-			</div>
+			</fieldset>
 		);
 	}
 
@@ -411,9 +436,9 @@ export default class HowTo extends Component {
 			} )
 			: null;
 
-		const classNames        = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
-		const listClassNames    = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
-		const contentHeadingID  = headingID ? headingID : stripHTML( renderToString( title ) ).toLowerCase();
+		const classNames       = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
+		const listClassNames   = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
+		const contentHeadingID = headingID ? headingID : stripHTML( renderToString( title ) ).toLowerCase();
 
 		const timeString = buildDurationString( { days, hours, minutes } );
 
@@ -425,7 +450,7 @@ export default class HowTo extends Component {
 					value={ title }
 					id={ contentHeadingID.replace( /\s+/g, "-" ) }
 				/>
-				{ ( hasDuration && timeString.length > 0 ) &&
+				{ ( hasDuration && typeof timeString === "string" && timeString.length > 0 ) &&
 					<p className="schema-how-to-total-time">
 						{ __( "Time needed:", "wordpress-seo" ) }
 						&nbsp;

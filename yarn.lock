@@ -4578,9 +4578,9 @@ grunt-eslint@^19.0.0:
     chalk "^1.0.0"
     eslint "^3.0.0"
 
-grunt-glotpress@^0.2.2:
+"grunt-glotpress@https://github.com/Yoast/grunt-glotpress.git#master":
   version "0.2.2"
-  resolved "https://registry.yarnpkg.com/grunt-glotpress/-/grunt-glotpress-0.2.2.tgz#1bdb00c80157f42740163fb3772a091f16f35d97"
+  resolved "https://github.com/Yoast/grunt-glotpress.git#6c0b12698cdc3e6e1b686bd74286c5595615e5b2"
   dependencies:
     request "^2.79.0"
 
@@ -11066,8 +11066,8 @@ yauzl@^2.2.1:
     fd-slicer "~1.0.1"
 
 "yoast-components@git+https://github.com/Yoast/yoast-components.git#develop":
-  version "4.9.0"
-  resolved "git+https://github.com/Yoast/yoast-components.git#cdf708bb37c11c8fc3cca5301c5d8abf1061bcd0"
+  version "4.10.1"
+  resolved "git+https://github.com/Yoast/yoast-components.git#135aa69ee2dfe259897a5e72fa5b048397de0ca3"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -11090,13 +11090,13 @@ yauzl@^2.2.1:
     striptags "^3.1.0"
     styled-components "^2.1.2"
     whatwg-fetch "^1.0.0"
-    yoastseo "^1.37.0"
+    yoastseo "^1.39.0"
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-yoastseo@^1.37.0, yoastseo@^1.38.3:
-  version "1.38.3"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.38.3.tgz#e200237cb348d9d964529dda6518c28936c07001"
+yoastseo@^1.39.0:
+  version "1.39.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.39.0.tgz#e21f9e6caccf5f9b211bab645f0f648c6700e7b3"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"

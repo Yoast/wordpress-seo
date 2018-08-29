@@ -26,7 +26,7 @@ function parseIntDefault( str, defaultInt = 0 ) {
 function getPluralizedDurations( { days, hours, minutes } ) {
 	const plurals = [];
 	if ( days !== 0 ) {
-		plurals.push( sprintf( _n( "%d day", "%d days", 7, "wordpress-seo" ), days ) );
+		plurals.push( sprintf( _n( "%d day", "%d days", days, "wordpress-seo" ), days ) );
 	}
 	if ( hours !== 0 ) {
 		plurals.push( sprintf( _n( "%d hour", "%d hours", hours, "wordpress-seo" ), hours ) );
