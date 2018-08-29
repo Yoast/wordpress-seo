@@ -4,39 +4,53 @@
 import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
 import debounce from "lodash/debounce";
-import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components";
-import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
+import {
+	setReadabilityResults,
+	setSeoResultsForKeyword,
+} from "yoast-components";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
 // Internal dependencies.
-import "./helpers/babel-polyfill";
 import Edit from "./edit";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
-import { tinyMCEDecorator } from "./decorator/tinyMCE";
+import CompatibilityHelper from "./compatibility/compatibilityHelper";
+import Pluggable from "./Pluggable";
 
+// UI dependencies.
 import publishBox from "./ui/publishBox";
 import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
 
+// Analysis dependencies.
+import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
+import refreshAnalysis, { initializationDone } from "./analysis/refreshAnalysis";
+import collectAnalysisData from "./analysis/collectAnalysisData";
 import PostDataCollector from "./analysis/PostDataCollector";
-import CompatibilityHelper from "./compatibility/compatibilityHelper";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
+import CustomAnalysisData from "./analysis/CustomAnalysisData";
+import getApplyMarks from "./analysis/getApplyMarks";
+import { refreshDelay } from "./analysis/constants";
 
+// Redux dependencies.
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setCornerstoneContent } from "./redux/actions/cornerstoneContent";
-import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
+import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
+
+// Helper dependencies.
+import "./helpers/babel-polyfill";
 import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
 } from "./helpers/classicEditor";
+import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -50,10 +64,11 @@ setWordPressSeoL10n();
 	let metaboxContainer;
 	let titleElement;
 	let app;
-	let decorator = null;
 	let postDataCollector;
+	const customAnalysisData = new CustomAnalysisData();
 
 	let editStore;
+	let edit;
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
@@ -107,29 +122,18 @@ setWordPressSeoL10n();
 	}
 
 	/**
-	 * Returns the marker callback method for the assessor.
+	 * Updates the store to indicate if the markers should be hidden.
 	 *
-	 * @returns {*|bool} False when tinyMCE is undefined or when there are no markers.
+	 * @param {Object} store The store.
+	 *
+	 * @returns {void}
 	 */
-	function getMarker() {
+	function updateMarkerStatus( store ) {
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
 		if ( typeof tinyMCE === "undefined" || ! displayMarkers() ) {
-			if ( ! isUndefined( editStore ) ) {
-				editStore.dispatch( setMarkerStatus( "hidden" ) );
-			}
-			return false;
+			store.dispatch( setMarkerStatus( "hidden" ) );
 		}
-
-		return function( paper, marks ) {
-			if ( tinyMCEHelper.isTinyMCEAvailable( tinyMCEHelper.tmceId ) ) {
-				if ( null === decorator ) {
-					decorator = tinyMCEDecorator( tinyMCE.get( tinyMCEHelper.tmceId ) );
-				}
-
-				decorator( paper, marks );
-			}
-		};
 	}
 
 	/**
@@ -220,6 +224,7 @@ setWordPressSeoL10n();
 	 * @returns {Object} The arguments to initialize the app
 	 */
 	function getAppArgs( store ) {
+		updateMarkerStatus( store );
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
@@ -235,10 +240,11 @@ setWordPressSeoL10n();
 				getData: postDataCollector.getData.bind( postDataCollector ),
 			},
 			locale: wpseoPostScraperL10n.contentLocale,
-			marker: getMarker(),
+			marker: getApplyMarks( store ),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			hasSnippetPreview: false,
+			debouncedRefresh: false,
 		};
 
 		if ( isKeywordAnalysisActive() ) {
@@ -273,23 +279,18 @@ setWordPressSeoL10n();
 	/**
 	 * Exposes globals necessary for functionality of plugins integrating.
 	 *
-	 * @param {App} app The app to expose globally.
 	 * @param {YoastReplaceVarPlugin} replaceVarsPlugin The replace vars plugin to expose.
 	 * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
+	 *
 	 * @returns {void}
 	 */
-	function exposeGlobals( app, replaceVarsPlugin, shortcodePlugin ) {
-		window.YoastSEO = {};
-		window.YoastSEO.app = app;
-
+	function exposeGlobals( replaceVarsPlugin, shortcodePlugin ) {
 		// Init Plugins.
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = replaceVarsPlugin;
 		window.YoastSEO.wp.shortcodePlugin = shortcodePlugin;
 
 		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
-
-		window.YoastSEO.store = editStore;
 	}
 
 	/**
@@ -385,7 +386,7 @@ setWordPressSeoL10n();
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
-		const edit = new Edit( editArgs );
+		edit = new Edit( editArgs );
 
 		editStore =  edit.getStore();
 		const data = edit.getData();
@@ -407,6 +408,40 @@ setWordPressSeoL10n();
 		const appArgs = getAppArgs( editStore );
 		app = new App( appArgs );
 
+		// Expose globals.
+		window.YoastSEO = {};
+		window.YoastSEO.app = app;
+		window.YoastSEO.store = editStore;
+		window.YoastSEO.analysis = {};
+		window.YoastSEO.analysis.worker = createAnalysisWorker();
+		window.YoastSEO.analysis.collectData = () => collectAnalysisData( edit, YoastSEO.store, customAnalysisData, YoastSEO.app.pluggable );
+		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks( YoastSEO.store )( paper, marks );
+
+		// YoastSEO.app overwrites.
+		YoastSEO.app.refresh = debounce( () => refreshAnalysis(
+			YoastSEO.analysis.worker,
+			YoastSEO.analysis.collectData,
+			YoastSEO.analysis.applyMarks,
+			YoastSEO.store,
+			postDataCollector,
+		), refreshDelay );
+		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
+		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
+		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;
+		YoastSEO.app.pluginReady = YoastSEO.app.pluggable._ready;
+		YoastSEO.app.pluginReloaded = YoastSEO.app.pluggable._reloaded;
+		YoastSEO.app.registerModification = YoastSEO.app.pluggable._registerModification;
+		YoastSEO.app.registerAssessment = ( name, assessment, pluginName ) => {
+			if ( ! isUndefined( YoastSEO.app.seoAssessor ) ) {
+				return YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.defaultSeoAssessor, name, assessment, pluginName ) &&
+					YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.cornerStoneSeoAssessor, name, assessment, pluginName );
+			}
+		};
+		YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
+			YoastSEO.analysis.worker.initialize( assessorOptions );
+			YoastSEO.app.refresh();
+		};
+
 		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
 
 		postDataCollector.app = app;
@@ -421,13 +456,18 @@ setWordPressSeoL10n();
 			markdownPlugin.register();
 		}
 
-		exposeGlobals( app, replaceVarsPlugin, shortcodePlugin );
+		exposeGlobals( replaceVarsPlugin, shortcodePlugin );
 
 		activateEnabledAnalysis();
 
 		YoastSEO._registerReactComponent = registerReactComponent;
 
-		jQuery( window ).trigger( "YoastSEO:ready" );
+		// Initialize the analysis worker.
+		YoastSEO.analysis.worker.initialize( getAnalysisConfiguration() )
+			.then( () => {
+				jQuery( window ).trigger( "YoastSEO:ready" );
+			} )
+			.catch( error => console.warn( error ) );
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
@@ -500,7 +540,7 @@ setWordPressSeoL10n();
 				document.getElementById( "yoast_wpseo_is_cornerstone" ).value = currentState.isCornerstone;
 
 				app.changeAssessorOptions( {
-					useCornerStone: currentState.isCornerstone,
+					useCornerstone: currentState.isCornerstone,
 				} );
 			}
 
@@ -512,6 +552,9 @@ setWordPressSeoL10n();
 		if ( ! isGutenbergDataAvailable() ) {
 			renderClassicEditorMetabox( editStore );
 		}
+
+		initializationDone();
+		YoastSEO.app.refresh();
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );

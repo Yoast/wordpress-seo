@@ -9,9 +9,9 @@ var Jed = require( "jed" );
 import {
 	Paper,
 	SEOAssessor,
+	TaxonomyAssessor,
 } from "yoastseo";
 
-var TaxonomyAssessor = require( "./assessors/taxonomyAssessor" );
 var isUndefined = require( "lodash/isUndefined" );
 
 ( function( $ ) {

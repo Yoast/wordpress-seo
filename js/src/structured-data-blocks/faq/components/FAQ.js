@@ -151,11 +151,11 @@ export default class FAQ extends Component {
 
 		this.props.setAttributes( { questions } );
 
-		let [ focusIndex, focusPart ] = this.state.focus.split( ":" );
+		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
 		if ( focusIndex === `${ index1 }` ) {
-			this.setFocus( `${ index2 }:${ focusPart }` );
+			this.setFocus( `${ index2 }:${ subElement }` );
 		} else if ( focusIndex === `${ index2 }` ) {
-			this.setFocus( `${ index1 }:${ focusPart }` );
+			this.setFocus( `${ index1 }:${ subElement }` );
 		}
 	}
 
@@ -243,7 +243,7 @@ export default class FAQ extends Component {
 			return null;
 		}
 
-		let [ focusIndex, focusPart ] = this.state.focus.split( ":" );
+		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
 
 		return(
 			attributes.questions.map(
@@ -263,7 +263,7 @@ export default class FAQ extends Component {
 							}
 							onFocus={ ( part ) => this.setFocus( `${ index }:${ part }` ) }
 							isSelected={ focusIndex === `${ index }` }
-							focusPart={ focusPart }
+							subElement={ subElement }
 							onMoveUp={ () => this.swapQuestions( index, index - 1 ) }
 							onMoveDown={ () => this.swapQuestions( index, index + 1 ) }
 							isFirst={ index === 0 }
@@ -295,7 +295,7 @@ export default class FAQ extends Component {
 		return (
 			<div className={ classNames }>
 				<RichText.Content
-					tagName="h2"
+					tagName="strong"
 					className="schema-faq-title"
 					value={ title }
 					id={ stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
@@ -318,7 +318,7 @@ export default class FAQ extends Component {
 		return (
 			<div className={ classNames }>
 				<RichText
-					tagName="h2"
+					tagName="strong"
 					className="schema-faq-title"
 					value={ attributes.title }
 					isSelected={ this.state.focus === "title" }
