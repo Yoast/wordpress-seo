@@ -1,4 +1,4 @@
-const uniq = require( "lodash/uniq" );
+import { uniq } from "lodash-es";
 
 const arrayToRegex = require( "../../../../stringProcessing/createRegexFromArray.js" );
 const getWordIndices = require( "../getIndicesWithRegex.js" );

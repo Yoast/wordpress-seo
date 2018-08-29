@@ -1,4 +1,4 @@
-var isUndefined = require( "lodash/isUndefined" );
+import { isUndefined } from "lodash-es";
 
 /**
  * Shows and error trace of the error message in the console if the console is available.

@@ -5,8 +5,8 @@ var Mark = require( "../../values/Mark.js" );
 var marker = require( "../../markers/addMark.js" );
 var inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
 
-var filter = require( "lodash/filter" );
-var map = require( "lodash/map" );
+import { filter } from "lodash-es";
+import { map } from "lodash-es";
 
 // 150 is the recommendedValue for the maximum paragraph length.
 var recommendedValue = 150;

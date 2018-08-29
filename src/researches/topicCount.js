@@ -2,8 +2,8 @@
 const matchTextWithArray = require( "../stringProcessing/matchTextWithArray.js" );
 const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 const parseSynonyms = require( "../stringProcessing/parseSynonyms" );
-const unique = require( "lodash/uniq" );
-const isEmpty = require( "lodash/isEmpty" );
+import { uniq as unique } from "lodash-es";
+import { isEmpty } from "lodash-es";
 const getSentences = require( "../stringProcessing/getSentences" );
 const arrayToRegex = require( "../stringProcessing/createRegexFromArray" );
 const addMark = require( "../markers/addMarkSingleWord" );

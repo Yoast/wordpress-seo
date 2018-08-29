@@ -1,4 +1,4 @@
-var map = require( "lodash/map" );
+import { map } from "lodash-es";
 
 /**
  * Gets all subheadings from the text and returns these in an array.

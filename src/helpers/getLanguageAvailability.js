@@ -1,4 +1,4 @@
-var indexOf = require( "lodash/indexOf" );
+import { indexOf } from "lodash-es";
 
 var getLanguage = require( "./getLanguage.js" );
 

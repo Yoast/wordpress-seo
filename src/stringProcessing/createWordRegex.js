@@ -1,12 +1,10 @@
-/** @module stringProcessing/stringToRegex */
-var isUndefined = require( "lodash/isUndefined" );
+import { isUndefined } from "lodash-es";
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
 var sanitizeString = require( "../stringProcessing/sanitizeString" );
 
-var escapeRegExp = require( "lodash/escapeRegExp" );
-
-var memoize = require( "lodash/memoize" );
+import { escapeRegExp } from "lodash-es";
+import { memoize } from "lodash-es";
 
 /**
  * Creates a regex from a string so it can be matched everywhere in the same way.

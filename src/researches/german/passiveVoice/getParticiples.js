@@ -9,8 +9,8 @@ var irregularParticiples = require( "./irregulars.js" )();
 
 var GermanParticiple = require( "./GermanParticiple.js" );
 
-var forEach = require( "lodash/forEach" );
-var includes = require( "lodash/includes" );
+import { forEach } from "lodash-es";
+import { includes } from "lodash-es";
 
 /**
  * Creates GermanParticiple Objects for the participles found in a sentence.

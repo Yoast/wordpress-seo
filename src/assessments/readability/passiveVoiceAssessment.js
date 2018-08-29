@@ -6,7 +6,7 @@ const stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompl
 const Mark = require( "../../values/Mark.js" );
 const marker = require( "../../markers/addMark.js" );
 
-const map = require( "lodash/map" );
+import { map } from "lodash-es";
 
 const getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
 const availableLanguages = [ "en", "de", "fr", "es", "ru", "it", "nl", "pl" ];

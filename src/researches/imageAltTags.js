@@ -4,7 +4,7 @@ var imageInText = require( "../stringProcessing/imageInText" );
 var imageAlttag = require( "../stringProcessing/getAlttagContent" );
 var wordMatch = require( "../stringProcessing/matchTextWithWord" );
 
-var escapeRegExp = require( "lodash/escapeRegExp" );
+import { escapeRegExp } from "lodash-es";
 
 /**
  * Matches the alt-tags in the images found in the text.

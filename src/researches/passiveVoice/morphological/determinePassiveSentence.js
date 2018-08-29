@@ -1,4 +1,4 @@
-const filter = require( "lodash/filter" );
+import { filter } from "lodash-es";
 const getWords = require( "../../../stringProcessing/getWords.js" );
 
 // Verb-form lists per language

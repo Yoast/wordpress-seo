@@ -1,5 +1,5 @@
-const isUndefined = require( "lodash/isUndefined" );
-const merge = require( "lodash/merge" );
+import { isUndefined } from "lodash-es";
+import { merge } from "lodash-es";
 
 const Assessment = require( "../../assessment" );
 const AssessmentResult = require( "../../values/AssessmentResult" );

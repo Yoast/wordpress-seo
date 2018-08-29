@@ -1,10 +1,10 @@
 import sentences from "./researches/sentences";
 
-var merge = require( "lodash/merge" );
+import { merge } from "lodash-es";
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/isUndefined" );
-var isEmpty = require( "lodash/isEmpty" );
+import { isUndefined } from "lodash-es";
+import { isEmpty } from "lodash-es";
 
 // Researches
 var wordCountInText = require( "./researches/wordCountInText.js" );

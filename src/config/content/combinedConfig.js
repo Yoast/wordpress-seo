@@ -1,4 +1,4 @@
-let defaultsDeep = require( "lodash/defaultsDeep" );
+import { defaultsDeep } from "lodash-es";
 let getLanguage = require( "./../../helpers/getLanguage" );
 let defaultConfig = require( "./default" );
 let it = require( "./it" );

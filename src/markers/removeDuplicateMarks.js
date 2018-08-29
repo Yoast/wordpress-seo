@@ -1,4 +1,4 @@
-var uniqBy = require( "lodash/uniqBy" );
+import { uniqBy } from "lodash-es";
 
 /**
  * Removes duplicate marks from an array

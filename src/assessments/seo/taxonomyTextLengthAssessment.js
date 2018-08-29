@@ -1,5 +1,5 @@
 const AssessmentResult = require( "../../values/AssessmentResult.js" );
-const inRange = require( "lodash/inRange" );
+import { inRange } from "lodash-es";
 
 const recommendedMinimum = 150;
 /**

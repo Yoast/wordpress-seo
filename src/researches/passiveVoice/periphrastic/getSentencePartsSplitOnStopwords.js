@@ -1,6 +1,6 @@
-const forEach = require( "lodash/forEach" );
-const isEmpty = require( "lodash/isEmpty" );
-const map = require( "lodash/map" );
+import { forEach } from "lodash-es";
+import { isEmpty } from "lodash-es";
+import { map } from "lodash-es";
 
 const arrayToRegex = require( "../../../stringProcessing/createRegexFromArray.js" );
 const stripSpaces = require( "../../../stringProcessing/stripSpaces.js" );
