@@ -1,1 +1,1 @@
-export const refreshDelay = 1000;
+export const refreshDelay = 500;
