@@ -444,8 +444,8 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$expected = $this->metatag( 'card', 'summary_large_image' );
 
 		// Insert image into DB so we have something to test against.
-		$filename  = 'image.jpg';
-		$id        = $this->factory->attachment->create_object( $filename, 0, array(
+		$filename = 'image.jpg';
+		$id       = $this->factory->attachment->create_object( $filename, 0, array(
 			'post_mime_type' => 'image/jpeg',
 			'post_type'      => 'attachment',
 		) );
@@ -458,6 +458,61 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		self::$class_instance->type();
 		self::$class_instance->image();
+		$this->expectOutput( $expected );
+	}
+
+	/**
+	 * @covers WPSEO_OpenGraph::opengraph
+	 */
+	public function test_opengraph() {
+		self::$class_instance->twitter();
+		$this->assertEquals( 1, did_action( 'wpseo_twitter' ) );
+		ob_clean();
+	}
+
+	/**
+	 * @covers WPSEO_OpenGraph::og_title
+	 */
+	public function test_twitter_title_with_variables() {
+		$expected_title = 'Test title';
+		// Create and go to post.
+		$post_id = $this->factory->post->create();
+		wp_update_post( array(
+			'ID'         => $post_id,
+			'post_title' => $expected_title,
+		) );
+		WPSEO_Meta::set_value( 'twitter-title', '%%title%%', $post_id );
+
+		$this->go_to( get_permalink( $post_id ) );
+
+		$expected = $this->metatag( 'title', $expected_title );
+
+		self::$class_instance->title();
+		$this->expectOutput( $expected );
+	}
+
+	/**
+	 * @covers WPSEO_Twitter::description
+	 */
+	public function test_twitter_description_with_variables() {
+		$expected_title = 'Post title';
+
+		// Create and go to post.
+		$post_id = $this->factory->post->create();
+		wp_update_post( array(
+				'ID'         => $post_id,
+				'post_title' => $expected_title,
+			)
+		);
+
+		// Test wpseo meta.
+		WPSEO_Meta::set_value( 'twitter-description', '%%title%%', $post_id );
+
+		$this->go_to( get_permalink( $post_id ) );
+
+		$expected = $this->metatag( 'description', $expected_title );
+
+		self::$class_instance->description();
 		$this->expectOutput( $expected );
 	}
 }
