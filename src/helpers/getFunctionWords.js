@@ -11,6 +11,7 @@ let italianFunctionWords = require( "../researches/italian/functionWords.js" )()
 let frenchFunctionWords = require( "../researches/french/functionWords.js" )();
 let portugueseFunctionWords = require( "../researches/portuguese/functionWords.js" )();
 let russianFunctionWords = require( "../researches/russian/functionWords.js" )();
+let polishFunctionWords = require( "../researches/polish/functionWords.js" )();
 
 module.exports = function() {
 	return {
@@ -22,5 +23,6 @@ module.exports = function() {
 		it: italianFunctionWords,
 		pt: portugueseFunctionWords,
 		ru: russianFunctionWords,
+		pl: polishFunctionWords,
 	};
 };

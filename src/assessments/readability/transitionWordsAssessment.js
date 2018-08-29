@@ -8,7 +8,7 @@ let Mark = require( "../../values/Mark.js" );
 let marker = require( "../../markers/addMark.js" );
 
 let getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
-let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca" ];
+let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca", "pl" ];
 
 /**
  * Calculates the actual percentage of transition words in the sentences.
