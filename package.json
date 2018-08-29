@@ -16,8 +16,7 @@
   },
   "scripts": {
     "build": "grunt build:js",
-    "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
-    "postlint": "grunt check",
+    "lint": "grunt check",
     "pretest": "grunt build:test",
     "test": "jest"
   },
@@ -26,8 +25,6 @@
     "node": ">=8.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^23.0.0",
-    "@types/node": "^9.3.0",
     "autoprefixer": "^8.0.0",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.26.0",
@@ -53,14 +50,9 @@
     "grunt-postcss": "^0.9.0",
     "grunt-sass": "^3.0.0",
     "grunt-shell": "^2.0.0",
-    "grunt-ts": "^5.5.1",
-    "grunt-tslint": "^5.0.1",
     "istanbul": "^0.4.0",
     "load-grunt-config": "^0.19.1",
-    "lodash-cli": "^4.14.1",
-    "ts-jest": "^22.0.0",
-    "tslint": "^5.7.0",
-    "typescript": "^2.4.2"
+    "lodash-cli": "^4.14.1"
   },
   "bugs": {
     "url": "https://github.com/Yoast/js-text-analysis/issues"
@@ -82,15 +74,12 @@
   "jest": {
     "collectCoverage": true,
     "moduleFileExtensions": [
-      "ts",
-      "tsx",
       "js"
     ],
     "transform": {
-      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest"
     },
-    "testRegex": "/spec/.*\\.(ts|tsx|js)$",
+    "testRegex": "/spec/.*\\.(js)$",
     "testEnvironment": "jsdom",
     "moduleDirectories": [
       "node_modules"
