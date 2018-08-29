@@ -136,7 +136,7 @@ export default class Question extends Component {
 		return(
 			<div className={ "schema-faq-question" } key={ question.id }>
 				<RichText.Content
-					tagName="h3"
+					tagName="strong"
 					className="schema-faq-question-question"
 					key={ question.id + "-question" }
 					value={ question.question }
@@ -172,7 +172,7 @@ export default class Question extends Component {
 			<div className="schema-faq-question" key={ id } >
 				<RichText
 					className="schema-faq-question-question"
-					tagName="h3"
+					tagName="strong"
 					onSetup={ ( ref ) => editorRef( "question", ref ) }
 					key={ id + "-question" }
 					value={ question }
