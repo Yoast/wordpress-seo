@@ -6,6 +6,8 @@ const cannotDirectlyPrecedePassiveParticipleEnglish = require( "../researches/en
 const cannotDirectlyPrecedePassiveParticipleSpanish = require( "../researches/spanish/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
 const cannotDirectlyPrecedePassiveParticipleItalian = require( "../researches/italian/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
 const cannotDirectlyPrecedePassiveParticipleDutch = require( "../researches/dutch/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
+const cannotDirectlyPrecedePassiveParticiplePolish = require( "../researches/polish/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
+
 
 /**
  * Checks whether the participle is directly preceded by a word from the direct precedence exception list.
@@ -32,6 +34,9 @@ module.exports = function( sentencePart, participleIndex, language ) {
 			break;
 		case "nl":
 			directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticipleDutch );
+			break;
+		case "pl":
+			directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticiplePolish );
 			break;
 		case "en":
 		default:

@@ -10,6 +10,7 @@ const FrenchParticiple = require( "../../french/passiveVoice/FrenchParticiple.js
 const SpanishParticiple = require( "../../spanish/passiveVoice/SpanishParticiple.js" );
 const ItalianParticiple = require( "../../italian/passiveVoice/ItalianParticiple.js" );
 const DutchParticiple = require( "../../dutch/passiveVoice/DutchParticiple.js" );
+const PolishParticiple = require( "../../polish/passiveVoice/PolishParticiple.js" );
 
 /**
  * Creates participle objects for the participles found in a sentence part.
@@ -47,6 +48,10 @@ module.exports = function( sentencePartText, auxiliaries, language ) {
 					break;
 				case "nl":
 					foundParticiples.push( new DutchParticiple( word, sentencePartText,
+						{ auxiliaries: auxiliaries, type: type, language: language } ) );
+					break;
+				case "pl":
+					foundParticiples.push( new PolishParticiple( word, sentencePartText,
 						{ auxiliaries: auxiliaries, type: type, language: language } ) );
 					break;
 				case "en":

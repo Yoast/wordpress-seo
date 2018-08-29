@@ -12,7 +12,7 @@ const getPeriphrasticSentencePartsDefault = require( "./passiveVoice/periphrasti
 const getPeriphrasticSentencePartsSplitOnStopwords = require( "./passiveVoice/periphrastic/getSentencePartsSplitOnStopwords.js" );
 
 const morphologicalLanguages = [ "ru", "tr" ];
-const periphrasticLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn" ];
+const periphrasticLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn", "pl" ];
 
 /* Languages that employ both morphological and periphrastic passive voice marking have not been implemented yet.
  * const morphologicalAndPeriphrasticLanguages = [ "sv", "da", "nb" ];
@@ -58,7 +58,7 @@ const getPeriphrasticPassives = function( sentences, language ) {
 		// The functionality based on sentencePart objects should be rewritten using array indices of stopwords and auxiliaries.
 		let sentenceParts = [];
 
-		if ( language === "de" || language === "nl" ) {
+		if ( language === "de" || language === "nl" || language === "pl" ) {
 			sentenceParts = getPeriphrasticSentencePartsSplitOnStopwords( strippedSentence, language );
 		} else {
 			sentenceParts = getPeriphrasticSentencePartsDefault( strippedSentence, language );
