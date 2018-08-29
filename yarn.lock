@@ -6140,9 +6140,9 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
-tokenizer2@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/tokenizer2/-/tokenizer2-2.0.0.tgz#8e93f6142bbc9d1e9b68e29293517187b9833b5f"
+tokenizer2@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/tokenizer2/-/tokenizer2-2.0.1.tgz#c62846214bd05d6b74e4924156d246e6cc070f3e"
   dependencies:
     through2 "^2.0.0"
 
