@@ -1,4 +1,4 @@
-var linkTypeFunction = require( "../../js/stringProcessing/getLinkType.js" );
+var linkTypeFunction = require( "../../src/stringProcessing/getLinkType.js" );
 
 describe( "getLinkType", function() {
 	it( "should classify relative links as internal", function() {

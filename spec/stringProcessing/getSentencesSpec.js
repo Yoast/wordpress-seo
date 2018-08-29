@@ -1,4 +1,4 @@
-var getSentences = require( "../../js/stringProcessing/getSentences.js" );
+var getSentences = require( "../../src/stringProcessing/getSentences.js" );
 
 var forEach = require( "lodash/forEach" );
 

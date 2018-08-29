@@ -1,4 +1,4 @@
-var DeviationFragment = require( "../../../js/stringProcessing/syllables/DeviationFragment" );
+var DeviationFragment = require( "../../../src/stringProcessing/syllables/DeviationFragment" );
 
 describe( "DeviationFragment", function() {
 	describe( "getRegex", function() {

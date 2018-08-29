@@ -1,4 +1,4 @@
-var findKeywordInUrl = require( "../../js/stringProcessing/findKeywordInUrl" );
+var findKeywordInUrl = require( "../../src/stringProcessing/findKeywordInUrl" );
 
 describe( "findKeywordInUrl", function() {
 	it( "returns false when passed no anchor tag", function() {

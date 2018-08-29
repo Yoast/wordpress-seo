@@ -1,6 +1,6 @@
-const stripWordBoundariesStart = require( "../../js/stringProcessing/stripWordBoundaries.js" ).stripWordBoundariesStart;
-const stripWordBoundariesEnd = require( "../../js/stringProcessing/stripWordBoundaries.js" ).stripWordBoundariesEnd;
-const stripWordBoundariesEverywhere = require( "../../js/stringProcessing/stripWordBoundaries.js" ).stripWordBoundariesEverywhere;
+const stripWordBoundariesStart = require( "../../src/stringProcessing/stripWordBoundaries.js" ).stripWordBoundariesStart;
+const stripWordBoundariesEnd = require( "../../src/stringProcessing/stripWordBoundaries.js" ).stripWordBoundariesEnd;
+const stripWordBoundariesEverywhere = require( "../../src/stringProcessing/stripWordBoundaries.js" ).stripWordBoundariesEverywhere;
 
 describe( "function to remove word boundaries from words", function() {
 	it( "returns a string with word boundaries in the beginning of the word removed", function() {

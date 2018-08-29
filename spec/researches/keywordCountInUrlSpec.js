@@ -1,5 +1,5 @@
-var urlKeyword = require( "../../js/researches/keywordCountInUrl.js" );
-var Paper = require( "../../js/values/Paper.js" );
+var urlKeyword = require( "../../src/researches/keywordCountInUrl.js" );
+var Paper = require( "../../src/values/Paper.js" );
 
 describe( "test to check url for keyword", function() {
 	it( "returns matches", function() {

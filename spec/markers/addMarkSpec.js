@@ -1,4 +1,4 @@
-const addMarkSingleWord = require( "../../js/markers/addMarkSingleWord.js" );
+const addMarkSingleWord = require( "../../src/markers/addMarkSingleWord.js" );
 
 describe( "addMark", function() {
 	it( "should mark an empty text", function() {

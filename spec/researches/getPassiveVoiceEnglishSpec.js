@@ -1,5 +1,5 @@
-var passiveVoice = require( "../../js/researches/getPassiveVoice.js" );
-var Paper = require( "../../js/values/Paper.js" );
+var passiveVoice = require( "../../src/researches/getPassiveVoice.js" );
+var Paper = require( "../../src/values/Paper.js" );
 
 // Tests inspired by the examples on http://www.englishpage.com/verbpage/activepassive.html
 describe( "detecting passive voice in sentences", function() {

@@ -1,5 +1,5 @@
-var firstParagraph = require( "../../js/researches/findKeywordInFirstParagraph.js" );
-var Paper = require( "../../js/values/Paper.js" );
+var firstParagraph = require( "../../src/researches/findKeywordInFirstParagraph.js" );
+var Paper = require( "../../src/values/Paper.js" );
 
 
 describe( "checks for the keyword in the first paragraph", function() {

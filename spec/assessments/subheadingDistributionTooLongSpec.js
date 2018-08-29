@@ -1,7 +1,7 @@
-import SubheadingDistributionTooLong from "../../js/assessments/readability/subheadingDistributionTooLongAssessment.js";
-import Paper from "../../js/values/Paper.js";
+import SubheadingDistributionTooLong from "../../src/assessments/readability/subheadingDistributionTooLongAssessment.js";
+import Paper from "../../src/values/Paper.js";
 import Factory from "../helpers/factory.js";
-import Mark from "../../js/values/Mark.js";
+import Mark from "../../src/values/Mark.js";
 let i18n = Factory.buildJed();
 
 let subheadingDistributionTooLong = new SubheadingDistributionTooLong();

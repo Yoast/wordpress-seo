@@ -1,5 +1,5 @@
-const FleschReadingAssessment = require( "../../js/assessments/readability/fleschReadingEaseAssessment.js" );
-let Paper = require( "../../js/values/Paper.js" );
+const FleschReadingAssessment = require( "../../src/assessments/readability/fleschReadingEaseAssessment.js" );
+let Paper = require( "../../src/values/Paper.js" );
 
 const factory = require( "../helpers/factory.js" );
 const i18n = factory.buildJed();

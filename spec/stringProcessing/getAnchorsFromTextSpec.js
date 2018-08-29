@@ -1,4 +1,4 @@
-var linkMatches = require( "../../js/stringProcessing/getAnchorsFromText.js" );
+var linkMatches = require( "../../src/stringProcessing/getAnchorsFromText.js" );
 
 describe( "matches links in URL", function() {
 	it( "returns array with matches", function() {
