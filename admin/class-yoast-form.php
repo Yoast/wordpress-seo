@@ -103,7 +103,10 @@ class Yoast_Form {
 			else {
 				$action_url       = admin_url( 'options.php' );
 				$hidden_fields_cb = 'settings_fields';
-				$this->set_override_option( 'wpseo_ms' );
+				$override_option  = WPSEO_Options::get_instance()->get_option_instance( $option )->get_override_option_name();
+				if ( $override_option ) {
+					$this->set_override_option( $override_option );
+				}
 			}
 
 			echo '<form action="' . esc_url( $action_url ) . '" method="post" id="wpseo-conf"' . $enctype . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';

@@ -468,6 +468,15 @@ abstract class WPSEO_Option {
 	}
 
 	/**
+	 * Retrieves the name of the override option, if set.
+	 *
+	 * @return string|null Override option name, or null if not set.
+	 */
+	public function get_override_option_name() {
+		return $this->override_option_name;
+	}
+
+	/**
 	 * All concrete classes must contain a validate_option() method which validates all
 	 * values within the option.
 	 *
