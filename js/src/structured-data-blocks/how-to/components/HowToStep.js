@@ -178,7 +178,7 @@ export default class HowToStep extends Component {
 			onChange,
 			onFocus,
 			isSelected,
-			focusPart,
+			subElement,
 			editorRef,
 			isUnorderedList,
 		} = this.props;
@@ -200,7 +200,7 @@ export default class HowToStep extends Component {
 					key={ `${ id }-name` }
 					value={ name }
 					onChange={ ( value ) => onChange( value, text, name, text ) }
-					isSelected={ isSelected && focusPart === "name" }
+					isSelected={ isSelected && subElement === "name" }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					setFocusedElement={ () => onFocus( "name" ) }
 					keepPlaceholderOnFocus={ true }
@@ -212,7 +212,7 @@ export default class HowToStep extends Component {
 					key={ `${ id }-text` }
 					value={ text }
 					onChange={ ( value ) => onChange( name, value, name, text ) }
-					isSelected={ isSelected && focusPart === "text" }
+					isSelected={ isSelected && subElement === "text" }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
 					setFocusedElement={ () => onFocus( "text" ) }
 					keepPlaceholderOnFocus={ true }
@@ -234,7 +234,7 @@ HowToStep.propTypes = {
 	editorRef: PropTypes.func.isRequired,
 	onMoveUp: PropTypes.func.isRequired,
 	onMoveDown: PropTypes.func.isRequired,
-	focusPart: PropTypes.string,
+	subElement: PropTypes.string,
 	isSelected: PropTypes.bool,
 	isFirst: PropTypes.bool,
 	isLast: PropTypes.bool,
