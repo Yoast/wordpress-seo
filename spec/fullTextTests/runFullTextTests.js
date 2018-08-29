@@ -1,7 +1,7 @@
 const contentConfiguration = require( "../../js/config/content/combinedConfig" );
 const factory = require( "../helpers/factory.js" );
 const i18n = factory.buildJed();
-const morphologyData = require( "../../js/morphology/english/englishMorphology.json" );
+const morphologyData = require( "../../js/morphology/morphologyData.json" );
 const Researcher = require( "../../js/researcher" );
 
 // Import SEO assessments
