@@ -106,6 +106,27 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 8.2.0 =
+Release Date: September 11th, 2018
+
+Enhancements:
+
+* Adds readability analysis for Polish.
+* On Multisite environments, in addition to the site domain, path and ID, also site titles are now present in the site selection dropdowns.
+
+Bugfixes:
+
+* Fixes a bug where changing the WordPress slug would not correctly update the snippet editor.
+* Fixes a bug where the user input would trigger an analysis every time.
+* Fixes a bug with incorrect zooming on older iPhones within the installation wizard.
+* Fixes a bug where the OpenGraph image wouldn't show correctly for the frontpage in a few situations. Props to [@mt8](https://github.com/mt8) for the solution direction.
+* Fixes a bug where the Yoast SEO network admin menu and admin bar menu would appear when the plugin was only active for the main site, and not for the entire network.
+* Fixes a bug where snippet variables in the Twitter card title and description wouldn't be properly replaced.
+
+Other:
+
+* Replaces the "Check Inlinks (OSE)" menu item from the Yoast Admin bar dropdown "Analyze this page" from the Moz OpenSite Explorer (OSE) to Google Search Console as the former service is being disabled on August 30th, 2018.
+
 = 8.1.0 =
 Release Date: August 28th, 2018
 
