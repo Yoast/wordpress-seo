@@ -6,7 +6,7 @@ const filterFunctionWords = buildKeywordForms.filterFunctionWords;
 const buildForms = buildKeywordForms.buildForms;
 const collectForms = buildKeywordForms.collectForms;
 
-const morphologyData = require( "../../js/morphology/english/englishMorphology.json" );
+const morphologyData = require( "../../js/morphology/morphologyData.json" );
 
 describe( "A test for filtering out function words from an array of words for a given language", function() {
 	it( "returns the array of content words for absent locale", function() {
