@@ -129,6 +129,8 @@ Assessor.prototype.getMarker = function( assessment, paper, researcher ) {
 Assessor.prototype.assess = function( paper ) {
 	if ( isUndefined( this._researcher ) ) {
 		this._researcher = new Researcher( paper );
+	} else {
+		this._researcher.setPaper( paper );
 	}
 
 	var assessments = this.getAvailableAssessments();
