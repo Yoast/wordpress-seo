@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.36.0",
+  "version": "1.39.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/YoastSEO.js"
@@ -22,10 +22,13 @@
     "test": "jest"
   },
   "browser": "js/browser.js",
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "devDependencies": {
     "@types/jest": "^23.0.0",
     "@types/node": "^9.3.0",
-    "autoprefixer": "^8.0.0",
+    "autoprefixer": "^9.0.0",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.26.0",
     "babel-jest": "^23.0.0",
@@ -44,11 +47,11 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify": "^3.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-eslint": "^20.0.0",
+    "grunt-eslint": "^21.0.0",
     "grunt-exorcise": "^2.1.1",
     "grunt-po2json": "git+https://github.com/atimmer/grunt-po2json.git#f26c05653af89ef0f7a72456dbe141eb56bf5471",
     "grunt-postcss": "^0.9.0",
-    "grunt-sass": "^2.0.0",
+    "grunt-sass": "^3.0.0",
     "grunt-shell": "^2.0.0",
     "grunt-ts": "^5.5.1",
     "grunt-tslint": "^5.0.1",
