@@ -37,7 +37,7 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that only require a keyword", function() {
+	it( "additionally runs assessments only require a text and a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
