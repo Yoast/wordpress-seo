@@ -36,7 +36,7 @@ const sentenceBeginningsAssessment = require( "../../js/assessments/readability/
 
 
 // Import researches
-const findKeywordInFirstParagraph = require( "../../js/researches/findKeywordInFirstParagraph.js" );
+import findKeywordInFirstParagraph from "../../js/researches/findKeywordInFirstParagraph.js";
 const keyphraseLength = require( "../../js/researches/keyphraseLength" );
 const keywordCount = require( "../../js/researches/keywordCount" );
 const getKeywordDensity = require( "../../js/researches/getKeywordDensity.js" );
