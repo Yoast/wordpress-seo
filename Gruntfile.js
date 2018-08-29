@@ -6,7 +6,7 @@ module.exports = function( grunt ) {
 	var project = {
 		paths: {
 			grunt: "grunt/",
-			js: "js/",
+			js: "src/",
 			css: "css/",
 			get config() {
 				return this.grunt + "config/";
@@ -21,7 +21,7 @@ module.exports = function( grunt ) {
 				"!js",
 			],
 			jsDontLint: [
-				"!js/templates.js",
+				"!src/templates.js",
 			],
 			jsTests: [
 				"spec/**/*.js",
