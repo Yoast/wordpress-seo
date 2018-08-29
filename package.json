@@ -15,9 +15,8 @@
     "url": "https://github.com/Yoast/YoastSEO.js"
   },
   "scripts": {
-    "build": "grunt build:js",
+    "build": "grunt publish",
     "lint": "grunt check",
-    "pretest": "grunt build:test",
     "test": "jest"
   },
   "browser": "js/browser.js",
@@ -94,8 +93,8 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 76,
-        "functions": 77,
+        "branches": 74,
+        "functions": 78,
         "lines": 85,
         "statements": 85
       }
