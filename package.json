@@ -141,6 +141,6 @@
     "yoastseo": "^1.39.0"
   },
   "yoast": {
-    "pluginVersion": "8.1"
+    "pluginVersion": "8.2-RC1"
   }
 }
