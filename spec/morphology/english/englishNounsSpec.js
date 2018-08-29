@@ -1,4 +1,4 @@
-const nounData = require( "../../../js/morphology/english/englishMorphology.json" ).en.nouns;
+const nounData = require( "../../../js/morphology/morphologyData.json" ).en.nouns;
 const irregularNounsToTest = nounData.irregularNouns;
 const regexNoun = nounData.regexNoun;
 

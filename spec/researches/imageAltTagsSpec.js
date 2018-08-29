@@ -209,5 +209,4 @@ describe( "Counts images in an text", function() {
 		expect( stringToCheck.withAltKeyword ).toBe( 1 );
 		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
 	} );
-
-	} );
+} );
