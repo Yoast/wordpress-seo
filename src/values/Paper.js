@@ -248,6 +248,11 @@ Paper.prototype.getTopicForms = function() {
 	return this._attributes.topicForms;
 };
 
+/*
+ * Serializes the Paper instance to an object.
+ *
+ * @returns {Object} The serialized Paper.
+ */
 Paper.prototype.serialize = function() {
 	return {
 		_parseClass: "Paper",

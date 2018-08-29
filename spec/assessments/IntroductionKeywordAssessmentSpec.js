@@ -19,7 +19,7 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 		expect( assessment.getText() ).toBe( "All topic words appear within one sentence in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy." );
 	} );
 
-	it( "returns synonyms words found in one sentence of the first paragraph", function() {
+	it( "returns synonym words found in one sentence of the first paragraph", function() {
 		const assessment = new IntroductionKeywordAssessment().getResult(
 			new Paper( "some text with some keywords", { keyword: "something", synonyms: "some keyword", locale: "en_EN" } ),
 			Factory.buildMockResearcher( {
