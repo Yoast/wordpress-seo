@@ -80,7 +80,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {
 			result.introductionKeyword = new IntroductionKeywordAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( findKeywordInFirstParagraph( paper ) ),
+				factory.buildMockResearcher( findKeywordInFirstParagraph( paper, researcher ) ),
 				i18n
 			);
 			expect( result.introductionKeyword.getScore() ).toBe( expectedResults.introductionKeyword.score );

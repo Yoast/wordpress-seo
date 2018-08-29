@@ -1,3 +1,5 @@
+const Researcher = require( "../../js/researcher" );
+const morphologyData = require( "../../src/morphology/morphologyData.json" );
 import firstParagraph from "../../js/researches/findKeywordInFirstParagraph.js";
 const Paper = require( "../../js/values/Paper.js" );
 
@@ -6,20 +8,29 @@ const sentenceWithAllKeywordsEN = "I like to take walks in the nature, because m
 const sentenceWithSomeKeywordsEN = "I like to take walks in the nature. ";
 const sentenceWithTheOtherKeywordsEN = "My body and brain benefit from it! ";
 const sentenceWithoutKeywordsEN = "I also enjoy cycling. ";
+const sentenceWithExactMatchOfAllKeywordsEN = "I like walking in the nature, because my brain benefits from it! ";
+const sentenceWithExactMatchOfSomeKeywordsEN = "I like walking in the nature. ";
+const sentenceWithExactMatchOfTheOtherKeywordsEN = "My brain benefits from it! ";
 
 const paragraphWithSentenceMatchEN = "<p>" + sentenceWithAllKeywordsEN + sentenceWithSomeKeywordsEN + sentenceWithoutKeywordsEN + "/<p>";
 const paragraphWithParagraphMatchEN = "<p>" + sentenceWithSomeKeywordsEN + sentenceWithTheOtherKeywordsEN +
+	sentenceWithSomeKeywordsEN + sentenceWithoutKeywordsEN + "/<p>";
+const paragraphWithExactSentenceMatchEN = "<p>" + sentenceWithExactMatchOfAllKeywordsEN + sentenceWithSomeKeywordsEN + sentenceWithoutKeywordsEN + "/<p>";
+const paragraphWithExactParagraphMatchEN = "<p>" + sentenceWithExactMatchOfSomeKeywordsEN + sentenceWithExactMatchOfTheOtherKeywordsEN +
 	sentenceWithSomeKeywordsEN + sentenceWithoutKeywordsEN + "/<p>";
 const paragraphWithoutMatchEN = "<p>" + sentenceWithoutKeywordsEN + sentenceWithoutKeywordsEN + sentenceWithoutKeywordsEN + "/<p>";
 
 describe( "checks for the content words from the keyphrase in the first paragraph (English)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithSentenceMatchEN, {
 				keyword: keyphraseEN,
 				locale: "en_EN",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -27,12 +38,15 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 	} );
 
 	it( "returns whether all keywords were matched in the paragraph", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithParagraphMatchEN, {
 				keyword: keyphraseEN,
 				locale: "en_EN",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -40,12 +54,62 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 	} );
 
 	it( "returns whether all keywords were matched in the paragraph", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithoutMatchEN, {
 				keyword: keyphraseEN,
 				locale: "en_EN",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+} );
+
+describe( "checks for the content words from the keyphrase in the first paragraph (English, but no morphology data provided)", function() {
+	it( "returns whether all keywords were matched in one sentence", function() {
+		const paper = new Paper(
+			paragraphWithExactSentenceMatchEN, {
+				keyword: keyphraseEN,
+				locale: "en_EN",
+			}
+		);
+		const researcher = new Researcher( paper );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		const paper = new Paper(
+			paragraphWithExactParagraphMatchEN, {
+				keyword: keyphraseEN,
+				locale: "en_EN",
+			}
+		);
+		const researcher = new Researcher( paper );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		const paper = new Paper(
+			paragraphWithoutMatchEN, {
+				keyword: keyphraseEN,
+				locale: "en_EN",
+			}
+		);
+		const researcher = new Researcher( paper );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -55,13 +119,16 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 
 describe( "checks for the content words from a synonym phrase in the first paragraph (English)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithSentenceMatchEN, {
 				keyword: "something unrelated",
 				synonyms: keyphraseEN,
 				locale: "en_EN",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "synonym",
@@ -69,13 +136,16 @@ describe( "checks for the content words from a synonym phrase in the first parag
 	} );
 
 	it( "returns whether all keywords were matched in the paragraph", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithParagraphMatchEN, {
 				keyword: "something unrelated",
 				synonyms: keyphraseEN,
 				locale: "en_EN",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "synonym",
@@ -83,13 +153,16 @@ describe( "checks for the content words from a synonym phrase in the first parag
 	} );
 
 	it( "returns whether all keywords were matched in the paragraph", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithoutMatchEN, {
 				keyword: "something unrelated",
 				synonyms: keyphraseEN,
 				locale: "en_EN",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -110,12 +183,15 @@ const paragraphWithoutMatchFR = "<p>" + sentenceWithoutKeywordsFR + sentenceWith
 
 describe( "checks for the content words from the keyphrase in the first paragraph (French - no morphology)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithSentenceMatchFR, {
 				keyword: keyphraseFR,
 				locale: "fr_FR",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -123,12 +199,15 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 	} );
 
 	it( "returns whether all keywords were matched in the paragraph", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithParagraphMatchFR, {
 				keyword: keyphraseFR,
 				locale: "fr_FR",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -136,12 +215,15 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 	} );
 
 	it( "returns whether all keywords were matched in the paragraph", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithoutMatchFR, {
 				keyword: keyphraseFR,
 				locale: "fr_FR",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -151,13 +233,16 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 
 describe( "checks for the content words from a synonym phrase in the first paragraph (French - no morphology)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithSentenceMatchFR, {
 				keyword: "quelque chose de irrelevant",
 				synonyms: keyphraseFR,
 				locale: "fr_FR",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "synonym",
@@ -165,13 +250,16 @@ describe( "checks for the content words from a synonym phrase in the first parag
 	} );
 
 	it( "returns whether all keywords were matched in the paragraph", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithParagraphMatchFR, {
 				keyword: "quelque chose de irrelevant",
 				synonyms: keyphraseFR,
 				locale: "fr_FR",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "synonym",
@@ -179,13 +267,16 @@ describe( "checks for the content words from a synonym phrase in the first parag
 	} );
 
 	it( "returns whether all keywords were matched in the paragraph", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithoutMatchFR, {
 				keyword: "quelque chose de irrelevant",
 				synonyms: keyphraseFR,
 				locale: "fr_FR",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -206,12 +297,15 @@ const paragraphWithoutMatchSW = "<p>" + sentenceWithoutKeywordsSW + sentenceWith
 
 describe( "checks for all words from the keyphrase or synonyms in the first paragraph (Swedish - no morphology or function words)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithSentenceMatchSW, {
 				keyword: keyphraseSW,
 				locale: "sw_SE",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -219,12 +313,15 @@ describe( "checks for all words from the keyphrase or synonyms in the first para
 	} );
 
 	it( "returns whether all keywords were matched in the paragraph", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithParagraphMatchSW, {
 				keyword: keyphraseSW,
 				locale: "sw_SE",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -232,12 +329,15 @@ describe( "checks for all words from the keyphrase or synonyms in the first para
 	} );
 
 	it( "returns whether all keywords were matched in the paragraph", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithoutMatchSW, {
 				keyword: keyphraseSW,
 				locale: "sw_SE",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -247,13 +347,16 @@ describe( "checks for all words from the keyphrase or synonyms in the first para
 
 describe( "checks for the content words from a synonym phrase in the first paragraph (Swedish - no morphology or function words)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithSentenceMatchSW, {
 				keyword: "något orelaterat",
 				synonyms: keyphraseSW,
 				locale: "sw_SE",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "synonym",
@@ -261,13 +364,16 @@ describe( "checks for the content words from a synonym phrase in the first parag
 	} );
 
 	it( "returns whether all keywords were matched in the paragraph", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithParagraphMatchSW, {
 				keyword: "något orelaterat",
 				synonyms: keyphraseSW,
 				locale: "sw_SE",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "synonym",
@@ -275,13 +381,16 @@ describe( "checks for the content words from a synonym phrase in the first parag
 	} );
 
 	it( "returns whether all keywords were matched in the paragraph", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			paragraphWithoutMatchSW, {
 				keyword: "något orelaterat",
 				synonyms: keyphraseSW,
 				locale: "sw_SE",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -291,12 +400,15 @@ describe( "checks for the content words from a synonym phrase in the first parag
 
 describe( "tests for edge cases", function() {
 	it( "returns not found if no keyphrase or synonyms were specified", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			"something", {
 				keyword: "",
 				synonyms: "",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -304,12 +416,15 @@ describe( "tests for edge cases", function() {
 	} );
 
 	it( "returns not found if there is no text", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			"", {
 				keyword: "keyword",
 				synonyms: "synonyms",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -317,12 +432,15 @@ describe( "tests for edge cases", function() {
 	} );
 
 	it( "returns not found if the paragraph has no text", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			"<p></p>", {
 				keyword: "keyword",
 				synonyms: "synonyms",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -330,12 +448,15 @@ describe( "tests for edge cases", function() {
 	} );
 
 	it( "returns not found if the paragraph has no text (with double-new-line)", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			" \n\n ", {
 				keyword: "keyword",
 				synonyms: "synonyms",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -343,12 +464,15 @@ describe( "tests for edge cases", function() {
 	} );
 
 	it( "returns correct result if the first paragraph has no text, but the second one does and contains the keyphrase", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			"<p></p><p>something keyword something else</p>", {
 				keyword: "keyword",
 				synonyms: "synonyms",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -356,12 +480,15 @@ describe( "tests for edge cases", function() {
 	} );
 
 	it( "returns correct result if the first paragraph has no text, but the second one does and contains the keyphrase (with double-new-line)", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			"\n\nsomething keyword something else", {
 				keyword: "keyword",
 				synonyms: "synonyms",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -369,7 +496,7 @@ describe( "tests for edge cases", function() {
 	} );
 
 	it( "skips the first paragraph if there is nothing but an image there", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			"<p><img class=\"alignnone size-medium wp-image-95\" src=\"test.png\" alt=\"image1\" width=\"300\" height=\"36\" /></p>" +
 			"<p></p>" +
 			"<p><img class=\"alignnone size-medium wp-image-95\" src=\"test.png\" alt=\"image1\" width=\"300\" height=\"36\" /></p></p>" +
@@ -378,7 +505,10 @@ describe( "tests for edge cases", function() {
 				keyword: "keyword",
 				synonyms: "",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -386,13 +516,16 @@ describe( "tests for edge cases", function() {
 	} );
 
 	it( "skips paragraphs until there is text", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			"<p><img class=\"alignnone size-medium wp-image-95\" src=\"test.png\" alt=\"image1\" width=\"300\" height=\"36\" /></p>" +
 			"<p>A sentence with a keyword</p>", {
 				keyword: "keyword",
 				synonyms: "",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
@@ -400,12 +533,15 @@ describe( "tests for edge cases", function() {
 	} );
 
 	it( "returns correct result if the first paragraph has text, but the keyphrase is only in the second paragraph", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			"<p>something</p><p>something keyword something else</p>", {
 				keyword: "keyword",
 				synonyms: "synonyms",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
@@ -413,12 +549,15 @@ describe( "tests for edge cases", function() {
 	} );
 
 	it( "returns correct result if the first paragraph has text, but the keyphrase is only in the second paragraph (with double-new-line)", function() {
-		expect( firstParagraph( new Paper(
+		const paper = new Paper(
 			"Something meaningful.\n\nSomething keyword something else", {
 				keyword: "keyword",
 				synonyms: "synonyms",
 			}
-		) ) ).toEqual( {
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",

@@ -42,12 +42,13 @@ function paragraphConsistsOfImagesOnly( text ) {
  * foundInParagraph = false, and keyphraseOrSynonym = "".
  *
  * @param {Paper} paper The text to check for paragraphs.
+ * @param {Researcher} researcher The researcher to use for analysis.
  *
  * @returns {Object} Whether the keyphrase words were found in one sentence, whether the keyphrase words were found in
  * the paragraph, whether a keyphrase or a synonym phrase was matched.
  */
-export default function( paper ) {
-	const topicForms = paper.getTopicForms();
+export default function( paper, researcher ) {
+	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
 
 	let paragraphs = matchParagraphs( paper.getText() );
