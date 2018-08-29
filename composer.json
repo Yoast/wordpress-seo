@@ -26,8 +26,7 @@
 		"yoast/license-manager": "1.6.0",
 		"yoast/i18n-module": "^3.0",
 		"yoast/api-libs": "^2.0",
-		"xrstf/composer-php52": "^1.0.20",
-		"yoast/whip": "^1.1.0"
+		"xrstf/composer-php52": "^1.0.20"
 	},
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",

@@ -217,8 +217,8 @@ class WPSEO_Admin_Asset_Manager {
 			}
 			else {
 				if ( ! wp_script_is( self::PREFIX . 'lodash', 'registered' ) ) {
-					wp_register_script( self::PREFIX . 'lodash', plugins_url( 'js/vendor/lodash.min.js', WPSEO_FILE ) );
-					wp_add_inline_script( self::PREFIX . 'lodash', 'window.lodash = _.noConflict();', 'after' );
+					wp_register_script( self::PREFIX . 'lodash-base', plugins_url( 'js/vendor/lodash.min.js', WPSEO_FILE ), array(), false, true );
+					wp_register_script( self::PREFIX . 'lodash', plugins_url( 'js/vendor/lodash-noconflict.js', WPSEO_FILE ), array( self::PREFIX . 'lodash-base' ), false, true );
 				}
 				$backport_wp_dependencies[] = self::PREFIX . 'lodash';
 			}
@@ -233,7 +233,10 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
-				'deps' => 'react-dependencies',
+				'deps' => array(
+					'react-dependencies',
+					self::PREFIX . 'components',
+				),
 			),
 			array(
 				'name' => 'wp-globals-backport',
@@ -246,6 +249,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					self::PREFIX . 'wp-globals-backport',
+					self::PREFIX . 'components',
 				),
 			),
 			array(
@@ -254,6 +258,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					self::PREFIX . 'wp-globals-backport',
+					self::PREFIX . 'components',
 				),
 			),
 			array(
@@ -335,6 +340,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'wp-globals-backport',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'components',
 				),
 			),
 			array(
@@ -344,6 +350,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'wp-globals-backport',
 					self::PREFIX . 'analysis',
+					self::PREFIX . 'components',
 				),
 			),
 			array(
@@ -352,6 +359,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					self::PREFIX . 'react-dependencies',
 					self::PREFIX . 'analysis',
+					self::PREFIX . 'components',
 				),
 			),
 			array(
@@ -407,6 +415,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					self::PREFIX . 'wp-globals-backport',
+					self::PREFIX . 'components',
 				),
 			),
 			array(
@@ -452,6 +461,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'api',
 					'jquery',
 					self::PREFIX . 'wp-globals-backport',
+					self::PREFIX . 'components',
 				),
 			),
 			array(
@@ -465,6 +475,10 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'analysis',
 				'src'  => 'analysis-' . $flat_version,
+			),
+			array(
+				'name' => 'components',
+				'src'  => 'components-' . $flat_version,
 			),
 			array(
 				'name' => 'structured-data-blocks',
@@ -559,6 +573,9 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
+				'deps' => array(
+					self::PREFIX . 'components',
+				),
 			),
 			array(
 				'name' => 'structured-data-blocks',

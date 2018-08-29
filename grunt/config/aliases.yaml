@@ -43,6 +43,11 @@ build:
 # Download and build the latest translations
 'build:i18n:translations':
   - 'glotpress_download'
+
+  # Custom tasks required because of WordPress.org
+  - 'copy:de_CH-informal'
+  - 'clean:after-po-download'
+
   - 'copy:json-translations'
   - 'po2json'
   - 'i18n-clean-json'

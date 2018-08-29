@@ -8,7 +8,7 @@ import {
 } from "yoast-components";
 
 import Collapsible from "./SidebarCollapsible";
-import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
+import { CornerstoneToggle } from "yoast-components";
 const LearnMoreLink = utils.makeOutboundLink();
 
 /**

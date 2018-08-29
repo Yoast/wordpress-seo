@@ -1,4 +1,4 @@
-import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
+import { analysis } from "yoast-components";
 
 import isCornerstone from "./cornerstoneContent";
 import focusKeyword from "./focusKeyword";
@@ -7,6 +7,7 @@ import snippetEditor from "./snippetEditor";
 import analysisDataReducer from "./analysisData";
 import preferences from "./preferences";
 import settings from "./settings";
+import primaryTaxonomies from "./primaryTaxonomies";
 
 export default {
 	analysis,
@@ -17,4 +18,5 @@ export default {
 	analysisData: analysisDataReducer,
 	preferences,
 	settings,
+	primaryTaxonomies,
 };

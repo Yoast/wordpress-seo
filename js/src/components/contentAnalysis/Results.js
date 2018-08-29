@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { LanguageNotice, ContentAnalysis } from "yoast-components";
 import { Fragment } from "@wordpress/element";
+import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";
 
@@ -52,9 +53,7 @@ class Results extends React.Component {
 	 * @returns {void}
 	 */
 	removeMarkers() {
-		const assessor = window.YoastSEO.app.contentAssessor;
-		const marker = assessor.getSpecificMarker();
-		marker( assessor.getPaper(), [] );
+		window.YoastSEO.analysis.applyMarks( new Paper( "", {} ), [] );
 	}
 
 	/**

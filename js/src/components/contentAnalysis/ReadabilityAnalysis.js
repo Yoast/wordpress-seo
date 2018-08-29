@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import { utils } from "yoast-components";
+import isNil from "lodash/isNil";
 
 import Results from "./Results";
 import Collapsible from "../SidebarCollapsible";
@@ -35,6 +36,11 @@ const LearnMoreLink = makeOutboundLink();
 class ReadabilityAnalysis extends React.Component {
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
+
+		if ( isNil( this.props.overallScore ) ) {
+			score.className = "loading";
+		}
+
 		return (
 			<Collapsible
 				title={ __( "Readability Analysis", "wordpress-seo" ) }

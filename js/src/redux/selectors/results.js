@@ -23,4 +23,14 @@ export function getResultsForKeyword( state, keyword ) {
 	return get( seoResults, keyword, [] );
 }
 
+/**
+ * Returns the marks button status.
+ *
+ * @param {object} state The state.
+ *
+ * @returns {string} The status of the mark buttons.
+ */
+export function getMarkButtonStatus( state ) {
+	return state.marksButtonStatus;
+}
 

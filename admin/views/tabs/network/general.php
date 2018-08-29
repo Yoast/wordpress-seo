@@ -32,7 +32,7 @@ if ( get_blog_count() <= 100 ) {
 	$yform->select(
 		'defaultblog',
 		__( 'New sites in the network inherit their SEO settings from this site', 'wordpress-seo' ),
-		$network_admin->get_site_choices( true )
+		$network_admin->get_site_choices( true, true )
 	);
 	echo '<p>' . esc_html__( 'Choose the site whose settings you want to use as default for all sites that are added to your network. If you choose \'None\', the normal plugin defaults will be used.', 'wordpress-seo' ) . '</p>';
 }
