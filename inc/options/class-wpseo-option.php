@@ -100,6 +100,11 @@ abstract class WPSEO_Option {
 	public $ms_exclude = array();
 
 	/**
+	 * @var string Name for an option higher in the hierarchy to override setting access.
+	 */
+	protected $override_option_name;
+
+	/**
 	 * @var  object  Instance of this class.
 	 */
 	protected static $instance;
@@ -449,6 +454,9 @@ abstract class WPSEO_Option {
 		}
 		$clean = $this->validate_option( $option_value, $clean, $old );
 
+		// Prevent updates to variables that are disabled via the override option.
+		$clean = $this->prevent_disabled_options_update( $clean, $old );
+
 		/* Retain the values for variable array keys even when the post type/taxonomy is not yet registered. */
 		if ( isset( $this->variable_array_key_patterns ) ) {
 			$clean = $this->retain_variable_keys( $option_value, $clean );
@@ -645,6 +653,48 @@ abstract class WPSEO_Option {
 		$filtered = array_merge( $defaults, $options );
 
 		return $filtered;
+	}
+
+	/**
+	 * Sets updated values for variables that are disabled via the override option back to their previous values.
+	 *
+	 * @param array $updated Updated option value.
+	 * @param array $old     Old option value.
+	 *
+	 * @return array Updated option value, with all disabled variables set to their old values.
+	 */
+	protected function prevent_disabled_options_update( $updated, $old ) {
+		$override_option = $this->get_override_option();
+		if ( empty( $override_option ) ) {
+			return $updated;
+		}
+
+		foreach ( $old as $var => $value ) {
+			if ( isset( $override_option[ 'allow_' . $var ] ) && ! $override_option[ 'allow_' . $var ] ) {
+				$updated[ $var ] = $old[ $var ];
+			}
+		}
+
+		return $updated;
+	}
+
+	/**
+	 * Retrieves the value of the override option, if available.
+	 *
+	 * An override option contains values that may determine access to certain sub-variables
+	 * of this option.
+	 *
+	 * Only regular options in multisite can have override options, which in that case
+	 * would be network options.
+	 *
+	 * @return array Override option value, or empty array if unavailable.
+	 */
+	protected function get_override_option() {
+		if ( empty( $this->override_option_name ) || $this->multisite_only === true || ! is_multisite() ) {
+			return array();
+		}
+
+		return get_site_option( $this->override_option_name, array() );
 	}
 
 	/**

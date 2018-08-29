@@ -83,6 +83,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	);
 
 	/**
+	 * @var string Name for an option higher in the hierarchy to override setting access.
+	 */
+	protected $override_option_name = 'wpseo_ms';
+
+	/**
 	 * Add the actions and filters for the option.
 	 *
 	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
@@ -204,6 +209,43 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		}
 
 		return $clean;
+	}
+
+	/**
+	 * Merge an option with its default values.
+	 *
+	 * This method should *not* be called directly!!! It is only meant to filter the get_option() results.
+	 *
+	 * @param   mixed $options Option value.
+	 *
+	 * @return  mixed        Option merged with the defaults for that option.
+	 */
+	public function get_option( $options = null ) {
+		$filtered = parent::get_option( $options );
+
+		$override_option = $this->get_override_option();
+		if ( empty( $override_option ) ) {
+			return $filtered;
+		}
+
+		// For the feature variables, there's special handling which sets their values to off in case they are disabled.
+		$feature_vars = array(
+			'disableadvanced_meta',
+			'onpage_indexability',
+			'content_analysis_active',
+			'keyword_analysis_active',
+			'enable_admin_bar_menu',
+			'enable_cornerstone_content',
+			'enable_xml_sitemap',
+			'enable_text_link_counter',
+		);
+		foreach ( $feature_vars as $feature_var ) {
+			if ( isset( $override_option[ 'allow_' . $feature_var ] ) && ! $override_option[ 'allow_' . $feature_var ] ) {
+				$filtered[ $feature_var ] = false;
+			}
+		}
+
+		return $filtered;
 	}
 
 	/**

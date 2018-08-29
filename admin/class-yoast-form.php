@@ -31,6 +31,24 @@ class Yoast_Form {
 	public $options;
 
 	/**
+	 * Option name for additional higher level options, if present.
+	 *
+	 * This can be the name of a set of network options in a multisite for example.
+	 *
+	 * @var string
+	 */
+	protected $override_option_name = '';
+
+	/**
+	 * Additional higher level options, if present.
+	 *
+	 * This can be the the network options in a multisite for example.
+	 *
+	 * @var array
+	 */
+	protected $override_options = array();
+
+	/**
 	 * Get the singleton instance of this class
 	 *
 	 * @since 2.0
@@ -85,6 +103,7 @@ class Yoast_Form {
 			else {
 				$action_url       = admin_url( 'options.php' );
 				$hidden_fields_cb = 'settings_fields';
+				$this->set_override_option( 'wpseo_ms' );
 			}
 
 			echo '<form action="' . esc_url( $action_url ) . '" method="post" id="wpseo-conf"' . $enctype . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
@@ -134,6 +153,47 @@ class Yoast_Form {
 		}
 
 		return get_option( $this->option_name );
+	}
+
+	/**
+	 * Sets the higher level option used in output for form elements.
+	 *
+	 * @param string $option_name Option key.
+	 *
+	 * @return void
+	 */
+	public function set_override_option( $option_name ) {
+		$this->override_option_name = $option_name;
+		$this->override_options     = $this->get_override_option();
+	}
+
+	/**
+	 * Sets a value in the higher level options.
+	 *
+	 * @param string $key       The key of the option to set.
+	 * @param mixed  $value     The value to set the option to.
+	 * @param bool   $overwrite Whether to overwrite existing options. Default is false.
+	 *
+	 * @return void
+	 */
+	public function set_override_options_value( $key, $value, $overwrite = false ) {
+		if ( $overwrite || ! array_key_exists( $key, $this->override_options ) ) {
+			$this->override_options[ $key ] = $value;
+		}
+	}
+
+	/**
+	 * Retrieves higher level options based on whether we're on multisite or not.
+	 *
+	 * @return array
+	 */
+	public function get_override_option() {
+		// There is no higher level than the network admin.
+		if ( is_network_admin() ) {
+			return array();
+		}
+
+		return get_site_option( $this->override_option_name );
 	}
 
 	/**
@@ -266,7 +326,7 @@ class Yoast_Form {
 			$class = 'double';
 		}
 
-		echo '<input class="checkbox ', esc_attr( $class ), '" type="checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), '/>';
+		echo '<input class="checkbox ', esc_attr( $class ), '" type="checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>';
 
 		if ( ! empty( $label ) ) {
 			$this->label( $label, array( 'for' => $var ) );
@@ -317,7 +377,7 @@ class Yoast_Form {
 		echo "<div class='switch-container$help_class'>",
 		"<span class='switch-light-visual-label'>{$label}</span>" . $help,
 		'<label class="', $class, '"><b class="switch-yoast-seo-jaws-a11y">&nbsp;</b>',
-		'<input type="checkbox" aria-labelledby="', $aria_labelledby, '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), '/>',
+		'<input type="checkbox" aria-labelledby="', $aria_labelledby, '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>',
 		"<b class='label-text screen-reader-text' id='{$aria_labelledby}'>{$label}</b>",
 		'<span aria-hidden="true">
 			<span>', esc_html( $off_button ) ,'</span>
@@ -356,7 +416,7 @@ class Yoast_Form {
 				'class' => 'textinput',
 			)
 		);
-		echo '<input class="textinput ' . esc_attr( $attr['class'] ) . ' " placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"/>', '<br class="clear" />';
+		echo '<input class="textinput ' . esc_attr( $attr['class'] ) . ' " placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
 	}
 
 	/**
@@ -388,7 +448,7 @@ class Yoast_Form {
 				'class' => 'textinput',
 			)
 		);
-		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="textinput ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']">' . esc_textarea( $val ) . '</textarea><br class="clear" />';
+		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="textinput ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']"', disabled( $this->is_control_disabled( $var ), true, false ), '>' . esc_textarea( $val ) . '</textarea><br class="clear" />';
 	}
 
 	/**
@@ -440,6 +500,9 @@ class Yoast_Form {
 
 		$select = new Yoast_Input_Select( $field_name, $select_name, $select_options, $active_option );
 		$select->add_attribute( 'class', 'select' );
+		if ( $this->is_control_disabled( $var ) ) {
+			$select->add_attribute( 'disabled', 'disabled' );
+		}
 		$select->output_html();
 
 		echo '<br class="clear"/>';
@@ -467,7 +530,7 @@ class Yoast_Form {
 				'class' => 'select',
 			)
 		);
-		echo '<input type="file" value="' . esc_attr( $val ) . '" class="textinput" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" id="' . $var_esc . '"/>';
+		echo '<input type="file" value="' . esc_attr( $val ) . '" class="textinput" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" id="' . $var_esc . '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>';
 
 		// Need to save separate array items in hidden inputs, because empty file inputs type will be deleted by settings API.
 		if ( ! empty( $this->options[ $var ] ) ) {
@@ -502,7 +565,7 @@ class Yoast_Form {
 			)
 		);
 		echo '<input class="textinput" id="wpseo_', $var_esc, '" type="text" size="36" name="', esc_attr( $this->option_name ), '[', $var_esc, ']" value="', esc_attr( $val ), '" />';
-		echo '<input id="wpseo_', $var_esc, '_button" class="wpseo_image_upload_button button" type="button" value="', esc_attr__( 'Upload Image', 'wordpress-seo' ), '" />';
+		echo '<input id="wpseo_', $var_esc, '_button" class="wpseo_image_upload_button button" type="button" value="', esc_attr__( 'Upload Image', 'wordpress-seo' ), '"', disabled( $this->is_control_disabled( $var ), true, false ), ' />';
 		echo '<br class="clear"/>';
 	}
 
@@ -540,7 +603,7 @@ class Yoast_Form {
 
 		foreach ( $values as $key => $value ) {
 			$key_esc = esc_attr( $key );
-			echo '<input type="radio" class="radio" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . ' />';
+			echo '<input type="radio" class="radio" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . disabled( $this->is_control_disabled( $var ), true, false ) . ' />';
 			$this->label(
 				$value,
 				array(
@@ -598,7 +661,7 @@ class Yoast_Form {
 
 			$key_esc = esc_attr( $key );
 			$for     = $var_esc . '-' . $key_esc;
-			echo '<input type="radio" id="' . $for . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . ' />',
+			echo '<input type="radio" id="' . $for . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . disabled( $this->is_control_disabled( $var ), true, false ) . ' />',
 			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html,'</label>';
 		}
 
@@ -652,5 +715,16 @@ class Yoast_Form {
 		);
 
 		$this->toggle_switch( $var, $show_hide_switch, $label, $help );
+	}
+
+	/**
+	 * Checks whether a given control should be disabled.
+	 *
+	 * @param string $var The variable within the option to check whether its control should be disabled.
+	 *
+	 * @return bool True if control should be disabled, false otherwise.
+	 */
+	protected function is_control_disabled( $var ) {
+		return isset( $this->override_options[ 'allow_' . $var ] ) && ! $this->override_options[ 'allow_' . $var ];
 	}
 }
