@@ -1,7 +1,11 @@
 // See https://github.com/sindresorhus/grunt-sass
+
+const sass = require( "node-sass" );
+
 module.exports = {
 	options: {
 		outputStyle: "compressed",
+		implementation: sass,
 	},
 	build: {
 		files: {
