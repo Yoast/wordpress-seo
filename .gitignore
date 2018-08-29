@@ -5,7 +5,6 @@ node_modules/
 out/
 coverage/
 dist/
-js/
 .tscache/
 
 /examples/browserified/example-browserified.js
