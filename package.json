@@ -22,6 +22,9 @@
     "test": "jest"
   },
   "browser": "js/browser.js",
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "devDependencies": {
     "@types/jest": "^23.0.0",
     "@types/node": "^9.3.0",
