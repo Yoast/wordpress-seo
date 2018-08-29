@@ -1,6 +1,29 @@
 const filter = require( "lodash/filter" );
 const includes = require( "lodash/includes" );
 const memoize = require( "lodash/memoize" );
+const getWords = require( "./getWords" );
+
+/**
+ * Gets positions of the first character of a word in the input text.
+ *
+ * @param {string} text The original text, for which the indices of word beginnings need to be determined.
+ *
+ * @returns {Array} indices The array of indices in the text at which words start.
+ */
+function getIndicesOfWords( text ) {
+	const indices = [];
+	const words = getWords( text );
+	let startSearchFrom = 0;
+
+	words.forEach( function( word ) {
+		const currentIndex = text.indexOf( word, startSearchFrom );
+		indices.push( currentIndex );
+		startSearchFrom = currentIndex + word.length;
+	} );
+
+	return indices;
+}
+
 
 /**
  * Gets indices of a specific character in the input text.
@@ -36,6 +59,20 @@ function getIndicesOfCharacter( text, characterToFind ) {
 function arraysDifference( bigArray, subarray ) {
 	return filter( bigArray, function( element ) {
 		return ( ! includes( subarray, element ) );
+	} );
+}
+
+/**
+ * Compares two arrays and returns the array of elements that occur in both arrays.
+ *
+ * @param {Array} firstArray The first array with elements to compare.
+ * @param {Array} secondArray The second array with elements to compare.
+ *
+ * @returns {Array} overlap An array of all elements of firstArray which are also in secondArray.
+ */
+function arraysOverlap( firstArray, secondArray ) {
+	return filter( firstArray, function( element ) {
+		return ( includes( secondArray, element ) );
 	} );
 }
 
@@ -112,18 +149,19 @@ function replaceTurkishIs( text ) {
 	if ( indicesOfAllIs.length === 0 ) {
 		return [ text ];
 	}
+	const indicesOfIsInWordBeginnings = arraysOverlap( getIndicesOfWords( text ), indicesOfAllIs );
 
 	const results = [];
 
 	// First round of creating combinations: assign which indices will be replaced by İ
-	const combinationsDottedI = combinations( indicesOfAllIs );
+	const combinationsDottedI = combinations( indicesOfIsInWordBeginnings );
 
 	combinationsDottedI.forEach( function( oneCombinationDottedI ) {
 		// If the combination is full array, just add it to results immediately without going through the rest of iterations.
-		if ( oneCombinationDottedI === indicesOfAllIs ) {
+		if ( oneCombinationDottedI === indicesOfIsInWordBeginnings ) {
 			results.push( [ oneCombinationDottedI, [], [], [] ] );
 		} else {
-			const indicesNotDottedI = arraysDifference( indicesOfAllIs, oneCombinationDottedI );
+			const indicesNotDottedI = arraysDifference( indicesOfIsInWordBeginnings, oneCombinationDottedI );
 
 			// Second round of creating combinations: assign which indices will be replaced by I
 			const combinationsDotlessI = combinations( indicesNotDottedI );
@@ -168,8 +206,10 @@ function replaceTurkishIs( text ) {
 const replaceTurkishIsMemoized = memoize( replaceTurkishIs );
 
 export {
+	getIndicesOfWords,
 	getIndicesOfCharacter,
 	arraysDifference,
+	arraysOverlap,
 	combinations,
 	replaceTurkishIs,
 	replaceTurkishIsMemoized,

@@ -1,4 +1,4 @@
-import { arraysDifference, getIndicesOfCharacter, replaceTurkishIs, replaceTurkishIsMemoized } from "../../js/stringProcessing/specialCharacterMappings";
+import { arraysOverlap, arraysDifference, getIndicesOfWords, getIndicesOfCharacter, replaceTurkishIs, replaceTurkishIsMemoized } from "../../js/stringProcessing/specialCharacterMappings";
 
 describe( "a test for substituting Turkish letters in a string", function() {
 	it( "returns an array with the original string if there are no Is", function() {
@@ -19,6 +19,12 @@ describe( "a test for substituting Turkish letters in a string", function() {
 
 	it( "returns an array with all substitutions for a string with ı", function() {
 		expect( replaceTurkishIs( "ıstanbul" ) ).toEqual( [ "İstanbul", "Istanbul", "istanbul", "ıstanbul" ] );
+	} );
+
+	it( "only checks the first position in the word", function() {
+		expect( replaceTurkishIs( "ıstanbulI" ) ).toEqual( [ "İstanbulI", "IstanbulI", "istanbulI", "ıstanbulI" ] );
+		expect( replaceTurkishIs( "ıstanbulİ" ) ).toEqual( [ "İstanbulİ", "Istanbulİ", "istanbulİ", "ıstanbulİ" ] );
+		expect( replaceTurkishIs( "İstanbuli" ) ).toEqual( [ "İstanbuli", "Istanbuli", "istanbuli", "ıstanbuli" ] );
 	} );
 
 	it( "returns an array with all possible substitutions for a string with İ I i ı", function() {
@@ -136,7 +142,35 @@ describe( "a test for finding a difference between two arrays", function() {
 	it( "returns the difference", function() {
 		expect( arraysDifference( [ 0, 1, 2, 3 ], [ 0 ] ) ).toEqual( [ 1, 2, 3 ] );
 		expect( arraysDifference( [ 0, 1, 2, 3 ], [ 0, 2 ] ) ).toEqual( [ 1, 3 ] );
-
 		expect( arraysDifference( [ 0, 1, 2, 3 ], [ 3, 2, 1 ] ) ).toEqual( [ 0 ] );
+	} );
+
+	it( "does not bother is the second array has elements which are not in the first one", function() {
+		expect( arraysDifference( [ 0, 1, 2, 3 ], [ 5 ] ) ).toEqual( [ 0, 1, 2, 3 ] );
+		expect( arraysDifference( [ 0, 1, 2, 3 ], [ 1, 5 ] ) ).toEqual( [ 0, 2, 3 ] );
+	} );
+} );
+
+describe( "a test for finding an overlap between two arrays", function() {
+	it( "returns the first array if the arrays are identical", function() {
+		expect( arraysOverlap( [ 0, 1, 2, 3 ], [ 0, 1, 2, 3 ] ) ).toEqual( [ 0, 1, 2, 3 ] );
+	} );
+
+	it( "returns an empty array if one of the input arrays is empty", function() {
+		expect( arraysOverlap( [ 0, 1, 2, 3 ], [] ) ).toEqual( [] );
+	} );
+
+	it( "returns the overlap", function() {
+		expect( arraysOverlap( [ 0, 1, 2, 3 ], [ 0 ] ) ).toEqual( [ 0 ] );
+		expect( arraysOverlap( [ 0, 1, 2, 3 ], [ 3, 4, 5 ] ) ).toEqual( [ 3 ] );
+		expect( arraysOverlap( [ 0, 1, 2, 3 ], [ 5, 1, 0 ] ) ).toEqual( [ 0, 1 ] );
+	} );
+} );
+
+describe( "a test for finding indices of all words in a sentence", function() {
+	it( "returns positions of the first letters of every word in the sentence", function() {
+		expect( getIndicesOfWords( "I do not know what to say." ) ).toEqual( [ 0, 2, 5, 9, 14, 19, 22 ] );
+		expect( getIndicesOfWords( "I do not know, what to say." ) ).toEqual( [ 0, 2, 5, 9, 15, 20, 23 ] );
+		expect( getIndicesOfWords( "I do not know, what, what? what! to say." ) ).toEqual( [ 0, 2, 5, 9, 15, 21, 27, 33, 36 ] );
 	} );
 } );
