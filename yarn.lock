@@ -4178,12 +4178,12 @@ locate-path@^2.0.0:
     path-exists "^3.0.0"
 
 lodash-cli@^4.14.1:
-  version "4.17.4"
-  resolved "https://registry.yarnpkg.com/lodash-cli/-/lodash-cli-4.17.4.tgz#23b727cd0e91e28484fafda1521900a8a811df81"
+  version "4.17.5"
+  resolved "https://registry.yarnpkg.com/lodash-cli/-/lodash-cli-4.17.5.tgz#1bab72c8c9980febf4fe7a1900b0971ce040dd0b"
   dependencies:
     closure-compiler "0.2.12"
     glob "7.1.1"
-    lodash "4.17.4"
+    lodash "4.17.5"
     semver "5.3.0"
     uglify-js "2.7.5"
 
@@ -4211,9 +4211,9 @@ lodash@2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-2.4.1.tgz#5b7723034dda4d262e5a46fb2c58d7cc22f71420"
 
-lodash@4.17.4, lodash@^4.3.0:
-  version "4.17.4"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
+lodash@4.17.5:
+  version "4.17.5"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
 lodash@^3.3.1, lodash@~3.10.1:
   version "3.10.1"
@@ -4222,6 +4222,10 @@ lodash@^3.3.1, lodash@~3.10.1:
 lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.4, lodash@^4.17.5, lodash@~4.17.10, lodash@~4.17.5:
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
+
+lodash@^4.3.0:
+  version "4.17.4"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
 longest@^1.0.1:
   version "1.0.1"
