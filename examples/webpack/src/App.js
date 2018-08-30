@@ -16,9 +16,9 @@ import Input from "./components/Input";
 import TextArea from "./components/TextArea";
 import Results from "./Results";
 import AnalysisWebWorker from "./analysis.worker";
-import * as configurationActionCreators from "./redux/actionCreators/configuration";
-import * as paperActionCreators from "./redux/actionCreators/paper";
-import * as resultsActionCreators from "./redux/actionCreators/results";
+import * as configurationActionCreators from "./redux/actions/configuration";
+import * as paperActionCreators from "./redux/actions/paper";
+import * as resultsActionCreators from "./redux/actions/results";
 import { clearStorage } from "./redux/utils/localstorage";
 
 class App extends React.Component {
