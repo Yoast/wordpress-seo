@@ -69,7 +69,7 @@
   "dependencies": {
     "htmlparser2": "^3.9.2",
     "jed": "^1.1.0",
-    "lodash": "^4.17.10",
+    "lodash-es": "^4.17.10",
     "sassdash": "0.9.0",
     "tokenizer2": "^2.0.1"
   },
@@ -89,6 +89,9 @@
       "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!lodash-es/.*)"
+    ],
     "testRegex": "/spec/.*\\.(ts|tsx|js)$",
     "testEnvironment": "jsdom",
     "moduleDirectories": [

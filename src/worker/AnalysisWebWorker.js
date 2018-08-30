@@ -1,12 +1,12 @@
 // External dependencies.
 const Jed = require( "jed" );
-const forEach = require( "lodash/forEach" );
-const merge = require( "lodash/merge" );
-const pickBy = require( "lodash/pickBy" );
-const includes = require( "lodash/includes" );
-const isUndefined = require( "lodash/isUndefined" );
-const isString = require( "lodash/isString" );
-const isObject = require( "lodash/isObject" );
+import { forEach } from "lodash-es";
+import { merge } from "lodash-es";
+import { pickBy } from "lodash-es";
+import { includes } from "lodash-es";
+import { isUndefined } from "lodash-es";
+import { isString } from "lodash-es";
+import { isObject } from "lodash-es";
 
 // YoastSEO.js dependencies.
 import * as assessments from "../assessments";

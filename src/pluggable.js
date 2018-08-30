@@ -1,8 +1,8 @@
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
-var reduce = require( "lodash/reduce" );
-var isString = require( "lodash/isString" );
-var isObject = require( "lodash/isObject" );
+import { isUndefined } from "lodash-es";
+import { forEach } from "lodash-es";
+import { reduce } from "lodash-es";
+import { isString } from "lodash-es";
+import { isObject } from "lodash-es";
 var InvalidTypeError = require( "./errors/invalidType" );
 
 /**

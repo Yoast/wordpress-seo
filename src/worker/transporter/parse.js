@@ -1,6 +1,6 @@
-const isArray = require( "lodash/isArray" );
-const isObject = require( "lodash/isObject" );
-const mapValues = require( "lodash/mapValues" );
+import { isArray } from "lodash-es";
+import { isObject } from "lodash-es";
+import { mapValues } from "lodash-es";
 
 const AssessmentResult = require( "../../values/AssessmentResult" );
 const Mark = require( "../../values/Mark" );

@@ -1,6 +1,6 @@
 var countWords = require( "../stringProcessing/countWords.js" );
 var matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
-var filter = require( "lodash/filter" );
+import { filter } from "lodash-es";
 
 /**
  * Gets all paragraphs and their word counts from the text.

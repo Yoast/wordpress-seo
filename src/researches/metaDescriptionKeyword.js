@@ -1,6 +1,6 @@
 var matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
 
-var escapeRegExp = require( "lodash/escapeRegExp" );
+import { escapeRegExp } from "lodash-es";
 
 /**
  * Matches the keyword in the description if a description and keyword are available.

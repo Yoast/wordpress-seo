@@ -1,6 +1,6 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
 let formatNumber = require( "../../helpers/formatNumber.js" );
-let map = require( "lodash/map" );
+import { map } from "lodash-es";
 let inRange = require( "../../helpers/inRange.js" ).inRangeStartInclusive;
 let stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
 

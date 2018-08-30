@@ -1,5 +1,5 @@
 var wordBoundaries = require( "../config/wordBoundaries.js" )();
-var includes = require( "lodash/includes" );
+import { includes } from "lodash-es";
 var addWordBoundary = require( "./addWordboundary.js" );
 
 /**

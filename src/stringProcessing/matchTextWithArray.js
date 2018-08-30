@@ -3,7 +3,7 @@
 const stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 const removePunctuation = require( "../stringProcessing/removePunctuation.js" );
 const matchTextWithWord = require( "../stringProcessing/matchTextWithWord" );
-const unique = require( "lodash/uniq" );
+import { uniq as unique } from "lodash-es";
 /**
  * Matches strings from an array against a given text.
  *

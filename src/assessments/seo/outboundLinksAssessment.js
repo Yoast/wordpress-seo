@@ -1,5 +1,5 @@
-const isEmpty = require( "lodash/isEmpty" );
-const merge = require( "lodash/merge" );
+import { isEmpty } from "lodash-es";
+import { merge } from "lodash-es";
 
 const AssessmentResult = require( "../../values/AssessmentResult.js" );
 const Assessment = require( "../../assessment.js" );

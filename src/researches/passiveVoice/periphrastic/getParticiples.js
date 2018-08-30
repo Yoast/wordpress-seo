@@ -1,4 +1,4 @@
-const forEach = require( "lodash/forEach" );
+import { forEach } from "lodash-es";
 
 const getWords = require( "../../../stringProcessing/getWords.js" );
 const matchParticiples = require( "./matchParticiples" )();
