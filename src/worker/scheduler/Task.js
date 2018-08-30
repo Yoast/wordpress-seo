@@ -1,3 +1,4 @@
+// External dependencies.
 import { isFunction } from "lodash-es";
 import { isNumber } from "lodash-es";
 import { isObject } from "lodash-es";

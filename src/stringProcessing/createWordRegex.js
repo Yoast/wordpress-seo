@@ -1,3 +1,4 @@
+/** @module stringProcessing/stringToRegex */
 import { isUndefined } from "lodash-es";
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );

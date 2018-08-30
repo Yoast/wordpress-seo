@@ -1,3 +1,4 @@
+// External dependencies.
 import { merge } from "lodash-es";
 
 // Internal dependencies.
