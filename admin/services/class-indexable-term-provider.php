@@ -8,12 +8,12 @@
 /**
  * Represents the indexable term service.
  */
-class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_Provider {
+class WPSEO_Indexable_Service_Term_Provider extends WPSEO_Indexable_Provider {
 
 	/**
 	 * @var array List of fields that need to be renamed.
 	 */
-	private $renameable_fields = array(
+	protected $renameable_fields = array(
 		'description'				  => 'desc',
 		'breadcrumb_title'			  => 'bctitle',
 		'og_title'					  => 'opengraph-title',
@@ -93,10 +93,13 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	 * @return bool True if the indexable object was successfully stored.
 	 */
 	protected function store_indexable( WPSEO_Indexable $indexable ) {
-		$values 			= $indexable->to_array();
-		$prepared_indexable = $this->convert_indexable_data( $values );
+		$values 		= $this->convert_indexable_data( $indexable->to_array() );
+		$renamed_values = $this->rename_indexable_data( $values );
 
-		WPSEO_Taxonomy_Meta::set_values( $values['object_id'], $values['object_subtype'], $prepared_indexable );
+
+		foreach ( $renamed_values as $key => $item ) {
+			WPSEO_Taxonomy_Meta::set_value( $values['object_id'], $values['object_subtype'], $key, $item );
+		}
 
 		return true;
 	}
@@ -109,30 +112,11 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	 * @return array The converted indexable data.
 	 */
 	protected function convert_indexable_data( $indexable_data ) {
-		$converted_values  = array();
-
 		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_noindex' ) ) {
 			$indexable_data['is_robots_noindex'] = $this->convert_noindex( $indexable_data['is_robots_noindex'] );
 		}
 
-		$updateable_values = $this->rename_indexable_data( $indexable_data );
-
-		foreach ( $updateable_values as $key => $updateable_value ) {
-			$converted_values[ 'wpseo_' . $key ] = $updateable_value;
-		}
-
-		return $converted_values;
-	}
-
-	/**
-	 * Filters out any non-updateable values.
-	 *
-	 * @param array $values The values to filter.
-	 *
-	 * @return array The filtered out values that are considered updateable.
-	 */
-	protected function filter_updateable_values( $values ) {
-		return array_diff_key( $values, array_flip( $this->non_updateable_fields ) );
+		return $indexable_data;
 	}
 
 	/**
@@ -146,25 +130,6 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 		$term = get_term( $object_id );
 
 		return ( $term !== null && ! is_wp_error( $term ) );
-	}
-
-	/**
-	 * Renames and converts some of the indexable data to its database variant.
-	 *
-	 * @param array $indexable_data The indexable data to rename and convert.
-	 *
-	 * @return array The renamed and converted indexable data.
-	 */
-	protected function rename_indexable_data( &$indexable_data ) {
-		foreach ( $this->renameable_fields as $old_key => $new_key ) {
-			if ( WPSEO_Validator::key_exists( $indexable_data, $old_key ) ) {
-				$indexable_data[ $new_key ] = $indexable_data[ $old_key ];
-
-				unset( $indexable_data[ $old_key ] );
-			}
-		}
-
-		return $indexable_data;
 	}
 
 	/**

@@ -202,20 +202,13 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 		$instance = $this
 				->getMockBuilder( 'WPSEO_Indexable_Service_Term_Provider_Double' )
 				->setMethods(
-					array(
-						'rename_indexable_data',
-						'convert_noindex'
-					)
+					array( 'convert_noindex' )
 				)
 				->getMock();
 
 		$instance->expects( $this->once() )
 				 ->method( 'convert_noindex' )
 				 ->will( $this->returnArgument( 0 ) );
-
-		$instance->expects( $this->once() )
-				 ->method( 'rename_indexable_data' )
-				 ->will(  $this->returnArgument( 0 ) );
 
 		$supplied_values = array(
 			'desc'				=> 'I am the test description',
@@ -225,10 +218,10 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 		);
 
 		$expected = array(
-			'wpseo_desc'				=> 'I am the test description',
-			'wpseo_bctitle'				=> 'Some breadcrumb title',
-			'wpseo_opengraph-title'		=> 'The OpenGraph title',
-			'wpseo_is_robots_noindex'	=> 'index',
+			'desc'				=> 'I am the test description',
+			'bctitle'			=> 'Some breadcrumb title',
+			'opengraph-title'	=> 'The OpenGraph title',
+			'is_robots_noindex'	=> 'index',
 		);
 
 		$data = $instance->convert_indexable_data( $supplied_values );

@@ -8,7 +8,27 @@
 /**
  * Represents the indexable post service.
  */
-class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_Provider {
+class WPSEO_Indexable_Service_Post_Provider extends WPSEO_Indexable_Provider {
+
+	/**
+	 * @var array List of fields that need to be renamed.
+	 */
+	protected $renameable_fields = array(
+		'description'				  => 'metadesc',
+		'breadcrumb_title'			  => 'bctitle',
+		'og_title'					  => 'opengraph-title',
+		'og_description'			  => 'opengraph-description',
+		'og_image'					  => 'opengraph-image',
+		'twitter_title'				  => 'twitter-title',
+		'twitter_description'		  => 'twitter-description',
+		'twitter_image'				  => 'twitter-image',
+		'is_robots_noindex'			  => 'meta-robots-noindex',
+		'is_robots_nofollow'		  => 'meta-robots-nofollow',
+		'primary_focus_keyword'		  => 'focuskw',
+		'primary_focus_keyword_score' => 'linkdex',
+		'readability_score'			  => 'content_score',
+	);
+
 	/**
 	 * Returns an array with data for the target object.
 	 *
@@ -77,8 +97,9 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	 */
 	protected function store_indexable( WPSEO_Indexable $indexable ) {
 		$values = $this->convert_indexable_data( $indexable->to_array() );
+		$renamed_values = $this->rename_indexable_data( $values );
 
-		foreach ( $values as $key => $item ) {
+		foreach ( $renamed_values as $key => $item ) {
 			WPSEO_Meta::set_value( $key, $item, $values['object_id'] );
 		}
 
@@ -158,19 +179,19 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	protected function convert_advanced( &$indexable_data ) {
 		$translated_advanced_data = array();
 
-		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_nosnippet' ) && $indexable_data['is_robots_nosnippet'] === true ) {
+		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_nosnippet' ) && (bool) $indexable_data['is_robots_nosnippet'] === true ) {
 			$translated_advanced_data[] = 'nosnippet';
 
 			unset( $indexable_data['is_robots_nosnippet'] );
 		}
 
-		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_noarchive' ) && $indexable_data['is_robots_noarchive'] === true ) {
+		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_noarchive' ) && (bool) $indexable_data['is_robots_noarchive'] === true ) {
 			$translated_advanced_data[] = 'noarchive';
 
 			unset( $indexable_data['is_robots_noarchive'] );
 		}
 
-		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_noimageindex' ) && $indexable_data['is_robots_noimageindex'] === true ) {
+		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_noimageindex' ) && (bool) $indexable_data['is_robots_noimageindex'] === true ) {
 			$translated_advanced_data[] = 'noimageindex';
 
 			unset( $indexable_data['is_robots_noimageindex'] );
