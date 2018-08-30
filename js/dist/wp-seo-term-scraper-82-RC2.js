@@ -21268,7 +21268,6 @@ window.yoastHideMarkers = true;
 
 	var termSlugInput;
 
-	var store = void 0;
 	var edit = void 0;
 	var customAnalysisData = new _CustomAnalysisData2.default();
 
@@ -21322,7 +21321,7 @@ window.yoastHideMarkers = true;
 			slug: termSlugInput.val()
 		};
 
-		store.dispatch((0, _snippetEditor3.updateData)(snippetEditorData));
+		YoastSEO.store.dispatch((0, _snippetEditor3.updateData)(snippetEditorData));
 	}
 
 	/**
