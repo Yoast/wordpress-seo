@@ -712,10 +712,12 @@ class WPSEO_OpenGraph {
 			}
 		}
 
-		$pub = get_the_date( DATE_W3C );
+		$post = get_post();
+
+		$pub = mysql2date( DATE_W3C, $post->post_date, false );
 		$this->og_tag( 'article:published_time', $pub );
 
-		$mod = get_the_modified_date( DATE_W3C );
+		$mod = mysql2date( DATE_W3C, $post->post_modified, false );
 		if ( $mod !== $pub ) {
 			$this->og_tag( 'article:modified_time', $mod );
 			$this->og_tag( 'og:updated_time', $mod );
