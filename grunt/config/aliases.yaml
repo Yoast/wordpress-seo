@@ -62,26 +62,23 @@ check:
   - 'update-version:pluginFile'
   - 'update-version:initializer'
 
-'prepare-artifact':
+'artifact':
   - 'shell:production-composer-install'
   # Build like we normally would
   - 'release'
   # Remove build folder
   - 'clean:artifact'
-
-'artifact':
-  - 'prepare-artifact'
   # Copy only the relevant files to the folder
   - 'copy:artifact'
   # Create a zip file
   - 'compress:artifact'
 
 'composer-artifact':
-  - 'prepare-artifact'
-  # Copy only the relevant files to the folder
-  - 'copy:composer_artifact'
-  # Create a zip file
-  - 'compress:artifact'
+  # Create our composer targeted artifact
+  - 'clean:composer-artifact'
+  - 'copy:composer-artifact'
+  - 'clean:composer-files'
+  - 'copy:composer-files'
 
 # Get the project ready for release
 release:

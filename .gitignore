@@ -65,6 +65,7 @@ travis.sh
 test.sh
 /artifact/
 /artifact.zip
+/artifact-composer/
 
 ############
 # Dist files

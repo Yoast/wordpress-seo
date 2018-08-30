@@ -52,6 +52,8 @@ module.exports = function( grunt ) {
 					yoastComponents: "<%= paths.languages %>yoast-components.php",
 				},
 			},
+			artifact: "artifact",
+			artifactComposer: "artifact-composer",
 			phptests: "tests/**/*.php",
 			get config() {
 				return project.paths.config + "*.js";

@@ -22,6 +22,12 @@ module.exports = {
 		"!css/dist/select2/*.min.css",
 	],
 	artifact: [
-		"artifact",
+		"<%= files.artifact %>",
+	],
+	"composer-artifact": [
+		"<%= files.artifactComposer %>",
+	],
+	"composer-files": [
+		"<%= files.artifactComposer %>/vendor",
 	],
 };

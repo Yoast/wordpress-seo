@@ -1,13 +1,4 @@
 // See https://github.com/gruntjs/grunt-contrib-copy
-
-// Take the artifact src file path and remove the vendor folder
-let composerFiles = function() {
-	//let files = this.__esModule.exports.artifact.files;
-	//console.log(files);
-	//let index = files.indexOf( "vendor/**" );
-	//files.splice( index, 1 )
-	return this.__esModule.exports.artifact.files;
-};
 module.exports = {
 	dependencies: {
 		files: [
@@ -58,38 +49,31 @@ module.exports = {
 					"!**/composer.json",
 					"!**/README.md",
 				],
-				dest: "artifact",
+				dest: "<%= files.artifact %>",
 			},
 		],
 	},
-	composer_artifact: {
-		files: [
-			{
-				expand: true,
-				cwd: ".",
-				src: [
-					"admin/**",
-					"css/**/*.min.css",
-					"css/main-sitemap.xsl",
-					"deprecated/**",
-					"frontend/**",
-					"images/**",
-					"inc/**",
-					"js/dist/**/*.min.js",
-					"js/dist/select2/i18n/*.js",
-					"languages/**",
-					"index.php",
-					"license.txt",
-					"readme.txt",
-					"wp-seo*.php",
-					"wpml-config.xml",
-					"!languages/wordpress-seo.pot",
-					"composer.lock",
-					"composer.json",
-					"!**/README.md",
-				],
-				dest: "artifact",
-			},
-		],
-	}
+	"composer-artifact": {
+		files: [ {
+			expand: true,
+			cwd: "<%= files.artifact %>",
+			src: [
+				"**/*",
+			],
+			dest: "<%= files.artifactComposer %>",
+		} ],
+	},
+	"composer-files": {
+		files: [ {
+			expand: true,
+			cwd: ".",
+			src: [
+				"composer.lock",
+				"composer.json",
+			],
+			dest: "<%= files.artifactComposer %>",
+		} ],
+		"composer.lock": [ "<%= files.artifact %>/composer.lock" ],
+		"composer.json": [ "<%= files.artifact %>/composer.json" ],
+	},
 };
