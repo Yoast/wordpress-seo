@@ -51,7 +51,8 @@
     "istanbul": "^0.4.0",
     "jest": "^23.5.0",
     "load-grunt-config": "^0.19.1",
-    "lodash-cli": "^4.14.1"
+    "lodash-cli": "^4.14.1",
+    "node-sass": "^4.9.3"
   },
   "bugs": {
     "url": "https://github.com/Yoast/js-text-analysis/issues"
