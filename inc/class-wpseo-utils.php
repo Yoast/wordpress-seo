@@ -1,7 +1,9 @@
 <?php
 /**
- * @package    WPSEO\Internals
- * @since      1.8.0
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Internals
+ * @since   1.8.0
  */
 
 /**
@@ -386,7 +388,6 @@ class WPSEO_Utils {
 			'on',
 			'On',
 			'ON',
-
 		);
 		$false = array(
 			'0',
@@ -738,7 +739,6 @@ class WPSEO_Utils {
 		return apply_filters( 'wpseo_format_admin_url', $formatted_url );
 	}
 
-
 	/**
 	 * Get plugin name from file.
 	 *
@@ -922,13 +922,65 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function get_icon_svg( $base64 = true ) {
-		$svg = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" height="100%" style="fill:#82878c" viewBox="0 0 512 512"><g><g><g><g><path d="M203.6,395c6.8-17.4,6.8-36.6,0-54l-79.4-204h70.9l47.7,149.4l74.8-207.6H116.4c-41.8,0-76,34.2-76,76V357c0,41.8,34.2,76,76,76H173C189,424.1,197.6,410.3,203.6,395z"/></g><g><path d="M471.6,154.8c0-41.8-34.2-76-76-76h-3L285.7,365c-9.6,26.7-19.4,49.3-30.3,68h216.2V154.8z"/></g></g><path stroke-width="2.974" stroke-miterlimit="10" d="M338,1.3l-93.3,259.1l-42.1-131.9h-89.1l83.8,215.2c6,15.5,6,32.5,0,48c-7.4,19-19,37.3-53,41.9l-7.2,1v76h8.3c81.7,0,118.9-57.2,149.6-142.9L431.6,1.3H338z M279.4,362c-32.9,92-67.6,128.7-125.7,131.8v-45c37.5-7.5,51.3-31,59.1-51.1c7.5-19.3,7.5-40.7,0-60l-75-192.7h52.8l53.3,166.8l105.9-294h58.1L279.4,362z"/></g></g></svg>';
+		$svg = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" height="100%" style="fill:#82878c" viewBox="0 0 512 512" role="img" aria-hidden="true" focusable="false"><g><g><g><g><path d="M203.6,395c6.8-17.4,6.8-36.6,0-54l-79.4-204h70.9l47.7,149.4l74.8-207.6H116.4c-41.8,0-76,34.2-76,76V357c0,41.8,34.2,76,76,76H173C189,424.1,197.6,410.3,203.6,395z"/></g><g><path d="M471.6,154.8c0-41.8-34.2-76-76-76h-3L285.7,365c-9.6,26.7-19.4,49.3-30.3,68h216.2V154.8z"/></g></g><path stroke-width="2.974" stroke-miterlimit="10" d="M338,1.3l-93.3,259.1l-42.1-131.9h-89.1l83.8,215.2c6,15.5,6,32.5,0,48c-7.4,19-19,37.3-53,41.9l-7.2,1v76h8.3c81.7,0,118.9-57.2,149.6-142.9L431.6,1.3H338z M279.4,362c-32.9,92-67.6,128.7-125.7,131.8v-45c37.5-7.5,51.3-31,59.1-51.1c7.5-19.3,7.5-40.7,0-60l-75-192.7h52.8l53.3,166.8l105.9-294h58.1L279.4,362z"/></g></g></svg>';
 
 		if ( $base64 ) {
 			return 'data:image/svg+xml;base64,' . base64_encode( $svg );
 		}
 
 		return $svg;
+	}
+
+	/**
+	 * Returns the SVG for the traffic light in the metabox.
+	 *
+	 * @return string
+	 */
+	public static function traffic_light_svg() {
+		return <<<SVG
+<svg class="yst-traffic-light init" version="1.1" xmlns="http://www.w3.org/2000/svg"
+	 role="img" aria-hidden="true" focusable="false"
+	 x="0px" y="0px" viewBox="0 0 30 47" enable-background="new 0 0 30 47" xml:space="preserve">
+<g id="BG_1_">
+</g>
+<g id="traffic_light">
+	<g>
+		<g>
+			<g>
+				<path fill="#5B2942" d="M22,0H8C3.6,0,0,3.6,0,7.9v31.1C0,43.4,3.6,47,8,47h14c4.4,0,8-3.6,8-7.9V7.9C30,3.6,26.4,0,22,0z
+					 M27.5,38.8c0,3.1-2.6,5.7-5.8,5.7H8.3c-3.2,0-5.8-2.5-5.8-5.7V8.3c0-1.5,0.6-2.9,1.7-4c1.1-1,2.5-1.6,4.1-1.6h13.4
+					c1.5,0,3,0.6,4.1,1.6c1.1,1.1,1.7,2.5,1.7,4V38.8z"/>
+			</g>
+			<g class="traffic-light-color traffic-light-red">
+				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#DC3232" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+			</g>
+			<g class="traffic-light-color traffic-light-orange">
+				<ellipse fill="#F49A00" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+			</g>
+			<g class="traffic-light-color traffic-light-green">
+				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#63B22B" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+			</g>
+			<g class="traffic-light-color traffic-light-empty">
+				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+			</g>
+			<g class="traffic-light-color traffic-light-init">
+				<ellipse fill="#5B2942" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#5B2942" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#5B2942" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+			</g>
+		</g>
+	</g>
+</g>
+</svg>
+SVG;
 	}
 
 	/**
@@ -1034,5 +1086,57 @@ class WPSEO_Utils {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Determines whether or not WooCommerce is active.
+	 *
+	 * @return bool Whether or not WooCommerce is active.
+	 */
+	public static function is_woocommerce_active() {
+		return class_exists( 'Woocommerce' );
+	}
+
+	/**
+	 * Determines whether the plugin is active for the entire network.
+	 *
+	 * @return bool Whether or not the plugin is network-active.
+	 */
+	public static function is_plugin_network_active() {
+		static $network_active = null;
+
+		if ( ! is_multisite() ) {
+			return false;
+		}
+
+		// If a cached result is available, bail early.
+		if ( $network_active !== null ) {
+			return $network_active;
+		}
+
+		$network_active_plugins = wp_get_active_network_plugins();
+
+		// Consider MU plugins and network-activated plugins as network-active.
+		$network_active = strpos( wp_normalize_path( WPSEO_FILE ), wp_normalize_path( WPMU_PLUGIN_DIR ) ) === 0
+			|| in_array( WP_PLUGIN_DIR . '/' . WPSEO_BASENAME, $network_active_plugins, true );
+
+		return $network_active;
+	}
+
+	/**
+	 * Getter for the Adminl10n array. Applies the wpseo_admin_l10n filter.
+	 *
+	 * @return array The Adminl10n array.
+	 */
+	public static function get_admin_l10n() {
+		$wpseo_admin_l10n = array();
+		$wpseo_admin_l10n = array_merge( $wpseo_admin_l10n, WPSEO_Help_Center::get_translated_texts() );
+
+		$additional_entries = apply_filters( 'wpseo_admin_l10n', array() );
+		if ( is_array( $additional_entries ) ) {
+			$wpseo_admin_l10n = array_merge( $wpseo_admin_l10n, $additional_entries );
+		}
+
+		return $wpseo_admin_l10n;
 	}
 }

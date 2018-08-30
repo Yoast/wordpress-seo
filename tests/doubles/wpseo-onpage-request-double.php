@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Doubles
  */
 
@@ -44,7 +46,5 @@ class WPSEO_OnPage_Request_Double extends WPSEO_OnPage_Request {
 		}
 
 		return $remote_data;
-
 	}
-
 }

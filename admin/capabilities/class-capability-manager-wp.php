@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Capabilities
  */
 
@@ -7,6 +9,7 @@
  * Default WordPress capability manager implementation.
  */
 final class WPSEO_Capability_Manager_WP extends WPSEO_Abstract_Capability_Manager {
+
 	/**
 	 * Adds the capabilities to the roles.
 	 *

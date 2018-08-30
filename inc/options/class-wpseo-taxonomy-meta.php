@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Internals\Options
  */
 
@@ -92,7 +94,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'flush_w3tc_cache' ) );
 	}
 
-
 	/**
 	 * Get the singleton instance of this class.
 	 *
@@ -107,7 +108,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		return self::$instance;
 	}
 
-
 	/**
 	 * Add extra default options received from a filter.
 	 */
@@ -117,7 +117,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 			self::$defaults_per_term = array_merge( $extra_defaults_per_term, self::$defaults_per_term );
 		}
 	}
-
 
 	/**
 	 * Helper method - Combines a fixed array of default values with an options array
@@ -174,7 +173,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		}
 	*/
 
-
 	/**
 	 * Validate the option.
 	 *
@@ -228,7 +226,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 		return $clean;
 	}
-
 
 	/**
 	 * Validate the meta data for one individual term and removes default values (no need to save those).
@@ -314,7 +311,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		return array_diff_assoc( $clean, self::$defaults_per_term );
 	}
 
-
 	/**
 	 * Clean a given option value.
 	 * - Convert old option values to new
@@ -388,7 +384,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		return $option_value;
 	}
 
-
 	/**
 	 * Retrieve a taxonomy term's meta value(s).
 	 *
@@ -446,9 +441,11 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 */
 	public static function get_meta_without_term( $meta ) {
 		$term = $GLOBALS['wp_query']->get_queried_object();
+		if ( ! $term || empty( $term->taxonomy ) ) {
+			return false;
+		}
 
 		return self::get_term_meta( $term, $term->taxonomy, $meta );
-
 	}
 
 	/**

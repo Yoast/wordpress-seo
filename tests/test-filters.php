@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests
  */
 
@@ -32,5 +34,4 @@ class Filters_Test extends WPSEO_UnitTestCase {
 		$this->assertArrayNotHasKey( 'jetpack_og_tags', $wp_head[10] );
 		$this->assertArrayNotHasKey( 'wp_no_robots', $wp_head[10] );
 	}
-
 }

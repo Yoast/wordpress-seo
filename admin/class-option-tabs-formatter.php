@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Options\Tabs
  */
 
@@ -44,11 +46,31 @@ class WPSEO_Option_Tabs_Formatter {
 			$class = 'wpseotab ' . ( $tab->has_save_button() ? 'save' : 'nosave' );
 			printf( '<div id="%1$s" class="%2$s">', esc_attr( $identifier ), esc_attr( $class ) );
 
-			// Output the settings view for all tabs.
-			$tab_view = $this->get_tab_view( $option_tabs, $tab );
-			if ( is_file( $tab_view ) ) {
-				$yform = Yoast_Form::get_instance();
-				require_once $tab_view;
+			$tab_filter_name = sprintf( '%s_%s', $option_tabs->get_base(), $tab->get_name() );
+
+			/**
+			 * Allows to override the content that is display on the specific option tab.
+			 *
+			 * @internal For internal Yoast SEO use only.
+			 *
+			 * @api      string|null The content that should be displayed for this tab. Leave empty for default behaviour.
+			 *
+			 * @param WPSEO_Option_Tabs $option_tabs The registered option tabs.
+			 * @param WPSEO_Option_Tab  $tab         The tab that is being displayed.
+			 */
+			$option_tab_content = apply_filters( 'wpseo_option_tab-' . $tab_filter_name, null, $option_tabs, $tab );
+			if ( ! empty( $option_tab_content ) ) {
+				echo $option_tab_content;
+			}
+
+			if ( empty( $option_tab_content ) ) {
+				// Output the settings view for all tabs.
+				$tab_view = $this->get_tab_view( $option_tabs, $tab );
+
+				if ( is_file( $tab_view ) ) {
+					$yform = Yoast_Form::get_instance();
+					require $tab_view;
+				}
 			}
 
 			echo '</div>';

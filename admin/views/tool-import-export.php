@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -9,12 +11,11 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$yform = Yoast_Form::get_instance();
-
-$import  = false;
+$yform  = Yoast_Form::get_instance();
+$import = false;
 
 /**
- * The import method is used to dermine if there should be something imported.
+ * The import method is used to determine if there should be something imported.
  *
  * In case of POST the user is on the Yoast SEO import page and in case of the GET the user sees a notice from
  * Yoast SEO that we can import stuff for that plugin.
@@ -23,19 +24,23 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 	check_admin_referer( 'wpseo-import' );
 
 	$post_wpseo = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-	$action = 'import';
+	$action     = 'import';
 }
 elseif ( filter_input( INPUT_POST, 'import_external' ) ) {
 	check_admin_referer( 'wpseo-import-plugins' );
 
 	$class = filter_input( INPUT_POST, 'import_external_plugin' );
-	$import = new WPSEO_Import_Plugin( new $class, 'import' );
+	if ( class_exists( $class ) ) {
+		$import = new WPSEO_Import_Plugin( new $class(), 'import' );
+	}
 }
 elseif ( filter_input( INPUT_POST, 'clean_external' ) ) {
 	check_admin_referer( 'wpseo-clean-plugins' );
 
 	$class = filter_input( INPUT_POST, 'clean_external_plugin' );
-	$import = new WPSEO_Import_Plugin( new $class, 'cleanup' );
+	if ( class_exists( $class ) ) {
+		$import = new WPSEO_Import_Plugin( new $class(), 'cleanup' );
+	}
 }
 elseif ( isset( $_FILES['settings_import_file'] ) ) {
 	check_admin_referer( 'wpseo-import-file' );
@@ -51,12 +56,18 @@ elseif ( isset( $_FILES['settings_import_file'] ) ) {
 $import = apply_filters( 'wpseo_handle_import', $import );
 
 if ( $import ) {
+
+	$message = '';
+	if ( $import->status instanceof WPSEO_Import_Status ) {
+		$message = $import->status->get_msg();
+	}
+
 	/**
-	 * Allow customization of import&export message
+	 * Allow customization of import/export message.
 	 *
 	 * @api  string  $msg  The message.
 	 */
-	$msg = apply_filters( 'wpseo_import_message', $import->status->get_msg() );
+	$msg = apply_filters( 'wpseo_import_message', $message );
 
 	if ( ! empty( $msg ) ) {
 		$status = 'error';
@@ -64,7 +75,7 @@ if ( $import ) {
 			$status = 'updated';
 		}
 
-		echo '<div id="message" class="message ', $status, '"><p>', $msg, '</p></div>';
+		echo '<div id="message" class="message ', $status, '"><p>', esc_html( $msg ), '</p></div>';
 	}
 }
 

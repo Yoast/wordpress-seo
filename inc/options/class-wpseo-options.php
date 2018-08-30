@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Internals\Options
  */
 
@@ -30,10 +32,17 @@ class WPSEO_Options {
 	 */
 	protected static $instance;
 
+	/** @var WPSEO_Options_Backfill Backfill instance. */
+	protected static $backfill;
+
 	/**
 	 * Instantiate all the WPSEO option management classes.
 	 */
 	protected function __construct() {
+		// Backfill option values after transferring them to another base.
+		self::$backfill = new WPSEO_Options_Backfill();
+		self::$backfill->register_hooks();
+
 		$is_multisite = is_multisite();
 
 		foreach ( self::$options as $option_name => $option_class ) {
@@ -104,12 +113,11 @@ class WPSEO_Options {
 	 * @return bool
 	 */
 	public static function update_site_option( $option_name, $value ) {
-		if ( is_network_admin() && isset( self::$option_instances[ $option_name ] ) ) {
+		if ( is_multisite() && isset( self::$option_instances[ $option_name ] ) ) {
 			return self::$option_instances[ $option_name ]->update_site_option( $value );
 		}
-		else {
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
@@ -217,7 +225,13 @@ class WPSEO_Options {
 	 * @return mixed|null Returns value if found, $default if not.
 	 */
 	public static function get( $key, $default = null ) {
+		self::$backfill->remove_hooks();
+
 		$option = self::get_all();
+		$option = self::add_ms_option( $option );
+
+		self::$backfill->register_hooks();
+
 		if ( isset( $option[ $key ] ) ) {
 			return $option[ $key ];
 		}
@@ -430,7 +444,7 @@ class WPSEO_Options {
 	 * @return boolean Returns true if the option is successfully saved in the database.
 	 */
 	public static function save_option( $wpseo_options_group_name, $option_name, $option_value ) {
-		$options                 = WPSEO_Options::get_option( $wpseo_options_group_name );
+		$options                 = self::get_option( $wpseo_options_group_name );
 		$options[ $option_name ] = $option_value;
 		update_option( $wpseo_options_group_name, $options );
 
@@ -441,18 +455,40 @@ class WPSEO_Options {
 	}
 
 	/**
+	 * Adds the multisite options to the option stack if relevant.
+	 *
+	 * @param array $option The currently present options settings.
+	 *
+	 * @return array Options possibly including multisite.
+	 */
+	protected static function add_ms_option( $option ) {
+		if ( ! is_multisite() ) {
+			return $option;
+		}
+
+		$ms_option = self::get_option( 'wpseo_ms' );
+
+		return array_merge( $option, $ms_option );
+	}
+
+	/**
 	 * Retrieves a lookup table to find in which option_group a key is stored.
 	 *
 	 * @return array The lookup table.
 	 */
 	private static function get_lookup_table() {
 		$lookup_table = array();
+
+		self::$backfill->remove_hooks();
+
 		foreach ( array_keys( self::$options ) as $option_name ) {
 			$full_option = self::get_option( $option_name );
 			foreach ( $full_option as $key => $value ) {
 				$lookup_table[ $key ] = $option_name;
 			}
 		}
+
+		self::$backfill->register_hooks();
 
 		return $lookup_table;
 	}

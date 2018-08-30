@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\XML_Sitemaps
  */
 
@@ -54,22 +56,40 @@ class WPSEO_Sitemaps_Router {
 	 * Redirects sitemap.xml to sitemap_index.xml.
 	 */
 	public function template_redirect() {
+		if ( ! $this->needs_sitemap_index_redirect() ) {
+			return;
+		}
 
+		header( 'X-Redirect-By: Yoast SEO' );
+		wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
+		exit;
+	}
+
+	/**
+	 * Checks whether the current request needs to be redirected to sitemap_index.xml.
+	 *
+	 * @global WP_Query $wp_query Current query.
+	 *
+	 * @return bool True if redirect is needed, false otherwise.
+	 */
+	public function needs_sitemap_index_redirect() {
 		global $wp_query;
 
-		$current_url = 'http://';
-
+		$protocol = 'http://';
 		if ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ) {
-			$current_url = 'https://';
+			$protocol = 'https://';
 		}
 
-		$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] );
-		$current_url .= sanitize_text_field( $_SERVER['REQUEST_URI'] );
+		$domain = sanitize_text_field( $_SERVER['SERVER_NAME'] );
+		$path   = sanitize_text_field( $_SERVER['REQUEST_URI'] );
 
-		if ( home_url( '/sitemap.xml' ) === $current_url && $wp_query->is_404 ) {
-			wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
-			exit;
+		// Due to different environment configurations, we need to check both SERVER_NAME and HTTP_HOST.
+		$check_urls = array( $protocol . $domain . $path );
+		if ( ! empty( $_SERVER['HTTP_HOST'] ) ) {
+			$check_urls[] = $protocol . sanitize_text_field( $_SERVER['HTTP_HOST'] ) . $path;
 		}
+
+		return $wp_query->is_404 && in_array( home_url( '/sitemap.xml' ), $check_urls, true );
 	}
 
 	/**

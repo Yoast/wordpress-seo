@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Views
  */
 
@@ -35,6 +37,20 @@ $googleverify_link = add_query_arg(
 	'https://www.google.com/webmasters/verification/verification'
 );
 
+$yform->textinput( 'baiduverify', __( 'Baidu verification code', 'wordpress-seo' ) );
+echo '<p class="desc label">';
+printf(
+	/* translators: %1$s expands to a link start tag to the Baidu Webmaster Tools site add page, %2$s is the link closing tag. */
+	esc_html__( 'Get your Baidu verification code in %1$sBaidu Webmaster Tools%2$s.', 'wordpress-seo' ),
+	/**
+	 * Get the Baidu Webmaster Tools site add link from this 3rd party article
+	 * http://www.dragonmetrics.com/how-to-optimize-your-site-with-baidu-webmaster-tools/.
+	 * We are unable to create a Baidu Webmaster Tools account due to the Chinese phone number verification.
+	 */
+	'<a target="_blank" href="' . esc_url( 'https://ziyuan.baidu.com/site/siteadd' ) . '" rel="noopener noreferrer">',
+	'</a>'
+);
+echo '</p>';
 
 $yform->textinput( 'msverify', __( 'Bing verification code', 'wordpress-seo' ) );
 echo '<p class="desc label">';

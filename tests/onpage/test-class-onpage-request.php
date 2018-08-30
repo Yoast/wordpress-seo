@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\OnPage
  */
 
@@ -58,5 +60,4 @@ class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 			)
 		);
 	}
-
 }

@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Doubles
  */
 
@@ -16,7 +18,5 @@ class WPSEO_Taxonomy_Content_Fields_Double extends WPSEO_Taxonomy_Content_Fields
 	 */
 	public function set_option( $option_name, $option_value ) {
 		$this->options[ $option_name ] = $option_value;
-
 	}
-
 }

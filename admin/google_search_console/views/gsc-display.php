@@ -1,6 +1,8 @@
 <?php
 /**
- * @package WPSEO\Admin|Google_Search_Console
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Google_Search_Console
  */
 
 // Admin header.
@@ -138,7 +140,7 @@ switch ( $platform_tabs->current_tab() ) {
 	);
 
 	echo '</p>';
-?>
+	?>
 
 	<br class="clear" />
 <?php

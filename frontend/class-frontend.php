@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Frontend
  */
 
@@ -48,6 +50,7 @@ class WPSEO_Frontend {
 	private $title = null;
 	/** @var WPSEO_Frontend_Page_Type */
 	protected $frontend_page_type;
+
 	/** @var WPSEO_WooCommerce_Shop_Page */
 	protected $woocommerce_shop_page;
 
@@ -88,6 +91,9 @@ class WPSEO_Frontend {
 
 		add_filter( 'loginout', array( $this, 'nofollow_link' ) );
 		add_filter( 'register', array( $this, 'nofollow_link' ) );
+
+		// Add support for shortcodes to category descriptions.
+		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 
 		// Fix the WooThemes woo_title() output.
 		add_filter( 'woo_title', array( $this, 'fix_woo_title' ), 99 );
@@ -191,28 +197,40 @@ class WPSEO_Frontend {
 	/**
 	 * Determine whether this is the homepage and shows posts.
 	 *
-	 * @return bool
+	 * @deprecated 7.7
+	 *
+	 * @return bool Whether or not the current page is the homepage that displays posts.
 	 */
 	public function is_home_posts_page() {
-		return ( is_home() && 'posts' === get_option( 'show_on_front' ) );
+		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_home_posts_page' );
+
+		return $this->frontend_page_type->is_home_posts_page();
 	}
 
 	/**
 	 * Determine whether the this is the static frontpage.
 	 *
-	 * @return bool
+	 * @deprecated 7.7
+	 *
+	 * @return bool Whether or not the current page is a static frontpage.
 	 */
 	public function is_home_static_page() {
-		return ( is_front_page() && 'page' === get_option( 'show_on_front' ) && is_page( get_option( 'page_on_front' ) ) );
+		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_home_static_page' );
+
+		return $this->frontend_page_type->is_home_static_page();
 	}
 
 	/**
 	 * Determine whether this is the posts page, when it's not the frontpage.
 	 *
-	 * @return bool
+	 * @deprecated 7.7
+	 *
+	 * @return bool Whether or not it's a non-frontpage, posts page.
 	 */
 	public function is_posts_page() {
-		return ( is_home() && 'page' === get_option( 'show_on_front' ) );
+		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_posts_page' );
+
+		return $this->frontend_page_type->is_posts_page();
 	}
 
 	/**
@@ -443,10 +461,10 @@ class WPSEO_Frontend {
 		// that is used to generate default titles.
 		$title_part = '';
 
-		if ( $this->is_home_static_page() ) {
+		if ( $this->frontend_page_type->is_home_static_page() ) {
 			$title = $this->get_content_title();
 		}
-		elseif ( $this->is_home_posts_page() ) {
+		elseif ( $this->frontend_page_type->is_home_posts_page() ) {
 			$title = $this->get_title_from_options( 'title-home-wpseo' );
 		}
 		elseif ( $this->woocommerce_shop_page->is_shop_page() ) {
@@ -630,6 +648,9 @@ class WPSEO_Frontend {
 	 * Output Webmaster Tools authentication strings.
 	 */
 	public function webmaster_tools_authentication() {
+		// Baidu.
+		$this->webmaster_tools_helper( 'baiduverify', 'baidu-site-verification' );
+
 		// Bing.
 		$this->webmaster_tools_helper( 'msverify', 'msvalidate.01' );
 
@@ -697,7 +718,7 @@ class WPSEO_Frontend {
 		$robots['follow'] = 'follow';
 		$robots['other']  = array();
 
-		if ( is_object( $post ) && is_singular() ) {
+		if ( ( is_object( $post ) && is_singular() ) || $this->woocommerce_shop_page->is_shop_page() ) {
 			$private = 'private' === $post->post_status;
 			$noindex = ! WPSEO_Post_Type::is_post_type_indexable( $post->post_type );
 
@@ -787,7 +808,7 @@ class WPSEO_Frontend {
 		}
 
 		// If a page has a noindex, it should _not_ have a canonical, as these are opposing indexing directives.
-		if ( $robots['index'] === 'noindex' ) {
+		if ( strpos( $robotsstr, 'noindex' ) !== false ) {
 			remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		}
 
@@ -906,7 +927,7 @@ class WPSEO_Frontend {
 			elseif ( is_front_page() ) {
 				$canonical = WPSEO_Utils::home_url();
 			}
-			elseif ( $this->is_posts_page() ) {
+			elseif ( $this->frontend_page_type->is_posts_page() ) {
 
 				$posts_page_id = get_option( 'page_for_posts' );
 				$canonical     = $this->get_seo_meta_value( 'canonical', $posts_page_id );
@@ -1063,7 +1084,7 @@ class WPSEO_Frontend {
 		}
 
 		$page = max( 1, (int) get_query_var( 'page' ) );
-		$url = get_permalink( get_queried_object_id() );
+		$url  = get_permalink( get_queried_object_id() );
 
 		if ( $page > 1 ) {
 			$this->adjacent_rel_link( 'prev', $url, ( $page - 1 ), 'page' );
@@ -1150,7 +1171,7 @@ class WPSEO_Frontend {
 	private function get_pagination_base() {
 		// If the current page is the frontpage, pagination should use /base/.
 		$base = '';
-		if ( ! is_singular() || $this->is_home_static_page() ) {
+		if ( ! is_singular() || $this->frontend_page_type->is_home_static_page() ) {
 			$base = trailingslashit( $GLOBALS['wp_rewrite']->pagination_base );
 		}
 		return $base;
@@ -1184,16 +1205,24 @@ class WPSEO_Frontend {
 			$this->generate_metadesc();
 		}
 
-		if ( $echo !== false ) {
-			if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
-				echo '<meta name="description" content="', esc_attr( wp_strip_all_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
-			}
-			elseif ( current_user_can( 'wpseo_manage_options' ) && is_singular() ) {
-				echo '<!-- ', esc_html__( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
-			}
-		}
-		else {
+		if ( $echo === false ) {
 			return $this->metadesc;
+		}
+
+		if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
+			echo '<meta name="description" content="', esc_attr( wp_strip_all_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
+			return '';
+		}
+
+		if ( current_user_can( 'wpseo_manage_options' ) && is_singular() ) {
+			echo '<!-- ';
+			printf(
+				/* Translators: %1$s resolves to the SEO menu item, %2$s resolves to the Search Appearance submenu item. */
+				esc_html__( 'Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [%1$s - %2$s] menu and set up a template.', 'wordpress-seo' ),
+				__( 'SEO', 'wordpress-seo' ),
+				__( 'Search Appearance', 'wordpress-seo' )
+			);
+			echo ' -->' . "\n";
 		}
 	}
 
@@ -1224,19 +1253,22 @@ class WPSEO_Frontend {
 		}
 		elseif ( $this->frontend_page_type->is_simple_page() ) {
 			$post      = get_post( $this->frontend_page_type->get_simple_page_id() );
-			$post_type = $post->post_type;
+			$post_type = isset( $post->post_type ) ? $post->post_type : '';
 
 			if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get( 'metadesc-' . $post_type, '' ) !== '' ) {
 				$template = WPSEO_Options::get( 'metadesc-' . $post_type );
 				$term     = $post;
 			}
-			$metadesc_override = $this->get_seo_meta_value( 'metadesc', $post->ID );
+
+			if ( is_object( $post ) ) {
+				$metadesc_override = $this->get_seo_meta_value( 'metadesc', $post->ID );
+			}
 		}
 		else {
 			if ( is_search() ) {
 				$metadesc = '';
 			}
-			elseif ( $this->is_home_posts_page() ) {
+			elseif ( $this->frontend_page_type->is_home_posts_page() ) {
 				$template = WPSEO_Options::get( 'metadesc-home-wpseo' );
 				$term     = array();
 
@@ -1244,7 +1276,7 @@ class WPSEO_Frontend {
 					$template = get_bloginfo( 'description' );
 				}
 			}
-			elseif ( $this->is_home_static_page() ) {
+			elseif ( $this->frontend_page_type->is_home_static_page() ) {
 				$metadesc = $this->get_seo_meta_value( 'metadesc' );
 				if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get( 'metadesc-' . $post_type, '' ) !== '' ) {
 					$template = WPSEO_Options::get( 'metadesc-' . $post_type );
@@ -1323,6 +1355,7 @@ class WPSEO_Frontend {
 
 			$redir = $this->get_seo_meta_value( 'redirect', $post->ID );
 			if ( $redir !== '' ) {
+				header( 'X-Redirect-By: Yoast SEO' );
 				wp_redirect( $redir, 301 );
 				exit;
 			}
@@ -1335,6 +1368,7 @@ class WPSEO_Frontend {
 	 * Outputs noindex values for the current page.
 	 */
 	public function noindex_page() {
+		remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		echo '<meta name="robots" content="noindex" />', "\n";
 	}
 
@@ -1401,15 +1435,37 @@ class WPSEO_Frontend {
 			return false;
 		}
 
-		$url = wp_get_attachment_url( get_queried_object_id() );
+		/**
+		 * Allow the developer to change the target redirection URL for attachments.
+		 *
+		 * @api   string $attachment_url The attachment URL for the queried object.
+		 * @api   object $queried_object The queried object.
+		 *
+		 * @since 7.5.3
+		 */
+		$url = apply_filters( 'wpseo_attachment_redirect_url', wp_get_attachment_url( get_queried_object_id() ), get_queried_object() );
+
 
 		if ( ! empty( $url ) ) {
-			$this->redirect( $url, 301 );
+			$this->do_attachment_redirect( $url );
 
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Performs the redirect from the attachment page to the image file itself.
+	 *
+	 * @param string $attachment_url The attachment image url.
+	 *
+	 * @return void
+	 */
+	public function do_attachment_redirect( $attachment_url ) {
+		header( 'X-Redirect-By: Yoast SEO' );
+		wp_redirect( $attachment_url, 301 );
+		exit;
 	}
 
 	/**
@@ -1650,6 +1706,7 @@ class WPSEO_Frontend {
 	 * @param int    $status   Status code to use.
 	 */
 	public function redirect( $location, $status = 302 ) {
+		header( 'X-Redirect-By: Yoast SEO' );
 		wp_safe_redirect( $location, $status );
 		exit;
 	}
@@ -1749,6 +1806,21 @@ class WPSEO_Frontend {
 		$replacer = new WPSEO_Replace_Vars();
 
 		return $replacer->replace( $string, $args, $omit );
+	}
+
+	/**
+	 * Adds shortcode support to category descriptions.
+	 *
+	 * @param string $desc String to add shortcodes in.
+	 *
+	 * @return string Content with shortcodes filtered out.
+	 */
+	public function custom_category_descriptions_add_shortcode_support( $desc ) {
+		// Wrap in output buffering to prevent shortcodes that echo stuff instead of return from breaking things.
+		ob_start();
+		$desc = do_shortcode( $desc );
+		ob_end_clean();
+		return $desc;
 	}
 
 	/** Deprecated functions */

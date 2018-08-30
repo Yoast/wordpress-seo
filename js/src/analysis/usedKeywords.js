@@ -1,39 +1,39 @@
 /* global jQuery, ajaxurl */
 
-var UsedKeywordsPlugin = require( "yoastseo" ).bundledPlugins.usedKeywords;
-var _has = require( "lodash/has" );
-var _debounce = require( "lodash/debounce" );
-var _isArray = require( "lodash/isArray" );
+import has from "lodash/has";
+import debounce from "lodash/debounce";
+import isArray from "lodash/isArray";
+import isEqual from "lodash/isEqual";
+
 var $ = jQuery;
 
 /**
  * Object that handles keeping track if the current keyword has been used before and retrieves this usage from the
  * server.
  *
- * @param {string} focusKeywordElement A jQuery selector for the focus keyword input element.
  * @param {string} ajaxAction The ajax action to use when retrieving the used keywords data.
  * @param {Object} options The options for the used keywords assessment plugin.
  * @param {Object} options.keyword_usage An object that contains the keyword usage when instantiating.
  * @param {Object} options.search_url The URL to link the user to if the keyword has been used multiple times.
  * @param {Object} options.post_edit_url The URL to link the user to if the keyword has been used a single time.
  * @param {App} app The app for which to keep track of the used keywords.
+ * @param {string} scriptUrl The URL to the used keywords assessment script.
  *
  * @returns {void}
  */
-function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
-	this._keywordUsage = options.keyword_usage;
-	this._focusKeywordElement = $( focusKeywordElement );
-
-	this._plugin = new UsedKeywordsPlugin( app, {
+function UsedKeywords( ajaxAction, options, app, scriptUrl ) {
+	this._scriptUrl = scriptUrl;
+	this._options = {
 		usedKeywords: options.keyword_usage,
 		searchUrl: options.search_url,
 		postUrl: options.post_edit_url,
-	}, app.i18n );
-
+	};
+	this._keywordUsage = options.keyword_usage;
 	this._postID = $( "#post_ID, [name=tag_ID]" ).val();
 	this._taxonomy = $( "[name=taxonomy]" ).val() || "";
 	this._ajaxAction = ajaxAction;
 	this._app = app;
+	this._initialized = false;
 }
 
 /**
@@ -42,21 +42,37 @@ function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
  * @returns {void}
  */
 UsedKeywords.prototype.init = function() {
-	var eventHandler = _debounce( this.keywordChangeHandler.bind( this ), 500 );
+	const { worker } = window.YoastSEO.analysis;
 
-	this._plugin.registerPlugin();
-	this._focusKeywordElement.on( "input", eventHandler );
+	this.requestKeywordUsage = debounce( this.requestKeywordUsage.bind( this ), 500 );
+
+	worker.loadScript( this._scriptUrl )
+		.then( () => {
+			worker.sendMessage( "initialize", this._options, "used-keywords-assessment" );
+		} )
+		.then( () => {
+			this._initialized = true;
+
+			if ( isEqual( this._options.usedKeywords, this._keywordUsage ) ) {
+				this._app.refresh();
+				return;
+			}
+
+			worker.sendMessage( "updateKeywordUsage", this._keywordUsage, "used-keywords-assessment" )
+				.then( () => this._app.refresh() );
+		} )
+		.catch( error => console.error( error ) );
 };
 
 /**
  * Handles an event of the keyword input field
  *
+ * @param {string} keyword The keyword to request the usage for.
+ *
  * @returns {void}
  */
-UsedKeywords.prototype.keywordChangeHandler = function() {
-	var keyword = this._focusKeywordElement.val();
-
-	if ( ! _has( this._keywordUsage, keyword ) ) {
+UsedKeywords.prototype.setKeyword = function( keyword ) {
+	if ( ! has( this._keywordUsage, keyword ) ) {
 		this.requestKeywordUsage( keyword );
 	}
 };
@@ -86,10 +102,15 @@ UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
  * @returns {void}
  */
 UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
-	if ( response && _isArray( response ) ) {
+	const { worker } = window.YoastSEO.analysis;
+
+	if ( response && isArray( response ) ) {
 		this._keywordUsage[ keyword ] = response;
-		this._plugin.updateKeywordUsage( this._keywordUsage );
-		this._app.analyzeTimer();
+
+		if ( this._initialized ) {
+			worker.sendMessage( "updateKeywordUsage", this._keywordUsage, "used-keywords-assessment" )
+				.then( () => this._app.refresh() );
+		}
 	}
 };
 

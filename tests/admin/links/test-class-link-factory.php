@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Admin\Links
  */
 
@@ -133,5 +135,4 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 
 		return $filter;
 	}
-
 }

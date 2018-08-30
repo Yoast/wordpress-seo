@@ -1,13 +1,16 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
- * @since      1.8.0
+ * @since   1.8.0
  */
 
 /**
  * Customizes user profile.
  */
 class WPSEO_Admin_User_Profile {
+
 	/**
 	 * Class constructor.
 	 */

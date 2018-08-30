@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Doubles
  */
 
@@ -46,6 +48,13 @@ class WPSEO_Frontend_Double extends WPSEO_Frontend {
 	 * @param int    $status   Status code to use.
 	 */
 	public function redirect( $location, $status = 302 ) {
+		// Intentionally left empty to remove actual redirection code to be able to test it.
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function do_attachment_redirect( $attachment_url ) {
 		// Intentionally left empty to remove actual redirection code to be able to test it.
 	}
 

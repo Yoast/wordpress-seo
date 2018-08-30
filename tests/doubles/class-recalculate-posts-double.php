@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Doubles
  */
 
@@ -18,5 +20,4 @@ class WPSEO_Recalculate_Posts_Test_Double extends WPSEO_Recalculate_Posts {
 	public function call_item_to_response( $item ) {
 		return $this->item_to_response( $item );
 	}
-
 }

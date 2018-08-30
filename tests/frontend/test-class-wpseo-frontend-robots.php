@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Frontend
  */
 
@@ -219,7 +221,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		// Test that when this is _not_ set, we also do NOT have a noindex.
 		$user_id = $this->factory->user->create();
 		$this->go_to( get_author_posts_url( $user_id ) );
-		$expected = ''; // index,follow is automatically set to empty string.
+		$expected = ''; // The default "index,follow" is automatically set to empty string.
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 	}
 
@@ -283,6 +285,5 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	public function test_noindex_page() {
 		$expected = '<meta name="robots" content="noindex" />' . "\n";
 		$this->expectOutput( $expected, self::$class_instance->noindex_page() );
-
 	}
 }

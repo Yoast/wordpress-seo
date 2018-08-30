@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Admin\Links
  */
 
@@ -34,15 +36,6 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 
 		delete_transient( 'wpseo_link_table_inaccessible' );
 		delete_transient( 'wpseo_meta_table_inaccessible' );
-	}
-
-	/**
-	 * Tests the usage of a custom table prefix.
-	 */
-	public function test_table_prefix() {
-		$storage = new WPSEO_Link_Storage( 'custom_prefix_' );
-
-		$this->assertEquals( 'custom_prefix_yoast_seo_links', $storage->get_table_name() );
 	}
 
 	/**
@@ -82,6 +75,7 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 			)
 		);
 	}
+
 	/**
 	 * Tests the cleanup for a given post id.
 	 */
@@ -91,6 +85,4 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 1, $storage->cleanup( 2 ) );
 	}
-
-
 }

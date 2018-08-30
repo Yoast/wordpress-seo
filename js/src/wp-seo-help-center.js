@@ -1,17 +1,17 @@
 /* global wpseoHelpCenterData jQuery */
 
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import get from "lodash/get";
 import { injectIntl, intlShape } from "react-intl";
 import IntlProvider from "./components/IntlProvider";
+import { setYoastComponentsL10n } from "./helpers/i18n";
 
-import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTutorial";
-import AlgoliaSearcher from "yoast-components/composites/AlgoliaSearch/AlgoliaSearcher";
-import HelpCenterYC from "yoast-components/composites/Plugin/HelpCenter/HelpCenter";
-import colors from "yoast-components/style-guide/colors.json";
-import { YoastButton } from "yoast-components/composites/Plugin/Shared/components/YoastButton";
+/* Internal dependencies */
+import "./helpers/babel-polyfill";
+import { VideoTutorial, AlgoliaSearcher, HelpCenter as HelpCenterYC, colors, YoastButton } from "yoast-components";
 
 /**
  * Executes an action with an argument.
@@ -276,6 +276,8 @@ function handleTabSelect() {
 }
 
 if ( window.wpseoHelpCenterData ) {
+	setYoastComponentsL10n();
+
 	ReactDOM.render(
 		<IntlProvider
 			messages={ wpseoHelpCenterData.translations }>

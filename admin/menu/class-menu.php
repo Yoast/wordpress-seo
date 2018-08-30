@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Menu
  */
 
@@ -22,8 +24,10 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 		$admin_menu = new WPSEO_Admin_Menu( $this );
 		$admin_menu->register_hooks();
 
-		$network_admin_menu = new WPSEO_Network_Admin_Menu( $this );
-		$network_admin_menu->register_hooks();
+		if ( WPSEO_Utils::is_plugin_network_active() ) {
+			$network_admin_menu = new WPSEO_Network_Admin_Menu( $this );
+			$network_admin_menu->register_hooks();
+		}
 
 		$capability_normalizer = new WPSEO_Submenu_Capability_Normalize();
 		$capability_normalizer->register_hooks();

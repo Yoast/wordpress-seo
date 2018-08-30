@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Admin\Import
  */
 
@@ -9,6 +11,8 @@
 class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Tests whether we can set a status message for the detect action.
+	 *
 	 * @covers WPSEO_Import_Status::__construct
 	 * @covers WPSEO_Import_Status::get_action
 	 * @covers WPSEO_Import_Status::get_msg
@@ -21,7 +25,9 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
- 	 * @covers WPSEO_Import_Status::get_msg
+	 * Tests whether we can set a status message for the import action.
+	 *
+	 * @covers WPSEO_Import_Status::get_msg
 	 * @covers WPSEO_Import_Status::get_action
 	 */
 	public function test_import_message() {
@@ -32,6 +38,8 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can set a status message for the cleanup action.
+	 *
 	 * @covers WPSEO_Import_Status::get_msg
 	 * @covers WPSEO_Import_Status::get_action
 	 */
@@ -42,6 +50,8 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can set an action.
+	 *
 	 * @covers WPSEO_Import_Status::set_action
 	 * @covers WPSEO_Import_Status::get_action
 	 */
@@ -53,6 +63,8 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can set a message.
+	 *
 	 * @covers WPSEO_Import_Status::set_msg
 	 * @covers WPSEO_Import_Status::get_msg
 	 */
@@ -63,6 +75,8 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can set a status.
+	 *
 	 * @covers WPSEO_Import_Status::set_status
 	 */
 	public function test_set_status() {
@@ -72,6 +86,8 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can get a default message for a successful import action.
+	 *
 	 * @covers WPSEO_Import_Status::get_msg
 	 * @covers WPSEO_Import_Status::get_default_success_message
 	 */
@@ -81,6 +97,8 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can get a default message for a faulty import action.
+	 *
 	 * @covers WPSEO_Import_Status::get_msg
 	 */
 	public function test_default_import_message_false() {
@@ -89,6 +107,8 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can get a default message for a successful detect action.
+	 *
 	 * @covers WPSEO_Import_Status::get_msg
 	 * @covers WPSEO_Import_Status::get_default_success_message
 	 */
@@ -98,6 +118,8 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can get a default message for a faulty detect action.
+	 *
 	 * @covers WPSEO_Import_Status::get_msg
 	 */
 	public function test_default_detect_message_false() {
@@ -106,6 +128,8 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can get a default message for a successful cleanup action.
+	 *
 	 * @covers WPSEO_Import_Status::get_msg
 	 * @covers WPSEO_Import_Status::get_default_success_message
 	 */
@@ -115,6 +139,8 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can get a default message for a faulty cleanup action.
+	 *
 	 * @covers WPSEO_Import_Status::get_msg
 	 */
 	public function test_default_cleanup_message_false() {

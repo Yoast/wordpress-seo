@@ -4,7 +4,7 @@ module.exports = {
 		options: {
 			url: "<%= pkg.plugin.glotpress %>",
 			domainPath: "<%= paths.languages %>",
-			file_format: "%domainPath%/%textdomain%-%wp_locale%.%format%",
+			file_format: "%domainPath%/%textdomain%-%wp_locale%%slugSuffix%.%format%",
 			slug: "wp-plugins/<%= pkg.plugin.textdomain %>/dev/",
 			textdomain: "<%= pkg.plugin.textdomain %>",
 			formats: [ "po" ],
@@ -13,6 +13,17 @@ module.exports = {
 				minimum_percentage: 50,
 				waiting_strings: false,
 			},
+		},
+	},
+	"plugin-json": {
+		options: {
+			url: "<%= pkg.plugin.glotpress %>",
+			domainPath: "<%= paths.languages %>",
+			file_format: "%domainPath%/%textdomain%-%wp_locale%%slugSuffix%.json",
+			slug: "wp-plugins/<%= pkg.plugin.textdomain %>/dev/",
+			textdomain: "<%= pkg.plugin.textdomain %>",
+			formats: [ "jed1x" ],
+			filter: "<%= glotpress_download.plugin.options.filter %>",
 		},
 	},
 };

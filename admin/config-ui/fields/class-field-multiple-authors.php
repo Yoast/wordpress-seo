@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\ConfigurationUI
  */
 
@@ -7,6 +9,7 @@
  * Class WPSEO_Config_Field_Multiple_Authors
  */
 class WPSEO_Config_Field_Multiple_Authors extends WPSEO_Config_Field_Choice {
+
 	/**
 	 * WPSEO_Config_Field_Multiple_Authors constructor.
 	 */

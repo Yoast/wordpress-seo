@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Doubles
  */
 
@@ -26,5 +28,4 @@ class WPSEO_Admin_Banner_Renderer_Mock extends WPSEO_Admin_Banner_Renderer {
 			$banner->get_alt()
 		);
 	}
-
 }

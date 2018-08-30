@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Frontend
  */
 
@@ -103,7 +105,6 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $category, $this->subject->post_link_category( $category ) );
 	}
 
-
 	/**
 	 * When there is a post passed into the function.
 	 *
@@ -151,5 +152,4 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $category, $this->subject->post_link_category( $category, null, $post ) );
 	}
-
 }

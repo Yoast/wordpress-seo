@@ -1,29 +1,59 @@
-/* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, tinyMCE, wpseoReplaceVarsL10n, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
+
+// External dependencies.
 import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
+import debounce from "lodash/debounce";
+import {
+	setReadabilityResults,
+	setSeoResultsForKeyword,
+} from "yoast-components";
+import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
-import { tmceId, setStore } from "./wp-seo-tinymce";
+// Internal dependencies.
+import Edit from "./edit";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
-
-import initializeEdit from "./edit";
-import { setActiveKeyword } from "./redux/actions/activeKeyword";
-import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import tinyMCEHelper from "./wp-seo-tinymce";
-import { tinyMCEDecorator } from "./decorator/tinyMCE";
+import CompatibilityHelper from "./compatibility/compatibilityHelper";
+import Pluggable from "./Pluggable";
 
+// UI dependencies.
 import publishBox from "./ui/publishBox";
 import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
 
+// Analysis dependencies.
+import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
+import refreshAnalysis, { initializationDone } from "./analysis/refreshAnalysis";
+import collectAnalysisData from "./analysis/collectAnalysisData";
 import PostDataCollector from "./analysis/PostDataCollector";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
-import TabManager from "./analysis/tabManager";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
-import snippetPreviewHelpers from "./analysis/snippetPreview";
-import UsedKeywords from "./analysis/usedKeywords";
+import snippetEditorHelpers from "./analysis/snippetEditor";
+import CustomAnalysisData from "./analysis/CustomAnalysisData";
+import getApplyMarks from "./analysis/getApplyMarks";
+import { refreshDelay } from "./analysis/constants";
+
+// Redux dependencies.
+import { setFocusKeyword } from "./redux/actions/focusKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
+import { updateData } from "./redux/actions/snippetEditor";
+import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
+import { setCornerstoneContent } from "./redux/actions/cornerstoneContent";
+import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
+
+// Helper dependencies.
+import "./helpers/babel-polyfill";
+import {
+	registerReactComponent,
+	renderClassicEditorMetabox,
+} from "./helpers/classicEditor";
+import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
+
+setYoastComponentsL10n();
+setWordPressSeoL10n();
 
 ( function( $ ) {
 	"use strict"; // eslint-disable-line
@@ -31,13 +61,14 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		return;
 	}
 
-	let snippetContainer;
+	let metaboxContainer;
 	let titleElement;
-	let app, snippetPreview;
-	let decorator = null;
-	let tabManager, postDataCollector;
+	let app;
+	let postDataCollector;
+	const customAnalysisData = new CustomAnalysisData();
 
-	let store;
+	let editStore;
+	let edit;
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
@@ -72,74 +103,48 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 			 */
 			postDataCollector.leavePostNameUntouched = true;
 
-			app.snippetPreview.setUrlPath( getUrlPathFromResponse( response ) );
+
+			const snippetEditorData = {
+				slug: getUrlPathFromResponse( response ),
+			};
+
+			editStore.dispatch( updateData( snippetEditorData ) );
 		}
 	} );
 
-	/**
-	 * Initializes the snippet preview.
-	 *
-	 * @param {PostDataCollector} postScraper Object for getting post data.
-	 *
-	 * @returns {SnippetPreview} The created snippetpreview element.
-	 */
-	function initSnippetPreview( postScraper ) {
-		return snippetPreviewHelpers.create( snippetContainer, {
-			title: postScraper.getSnippetTitle(),
-			urlPath: postScraper.getSnippetCite(),
-			metaDesc: postScraper.getSnippetMeta(),
-		}, postScraper.saveSnippetData.bind( postScraper ) );
-	}
 	/**
 	 * Determines if markers should be shown.
 	 *
 	 * @returns {boolean} True when markers should be shown.
 	 */
 	function displayMarkers() {
-		return wpseoPostScraperL10n.show_markers === "1";
+		return ! isGutenbergDataAvailable() && wpseoPostScraperL10n.show_markers === "1";
 	}
 
 	/**
-	 * Returns the marker callback method for the assessor.
+	 * Updates the store to indicate if the markers should be hidden.
 	 *
-	 * @returns {*|bool} False when tinyMCE is undefined or when there are no markers.
+	 * @param {Object} store The store.
+	 *
+	 * @returns {void}
 	 */
-	function getMarker() {
+	function updateMarkerStatus( store ) {
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
 		if ( typeof tinyMCE === "undefined" || ! displayMarkers() ) {
-			if ( ! isUndefined( store ) ) {
-				store.dispatch( setMarkerStatus( "hidden" ) );
-			}
-			return false;
+			store.dispatch( setMarkerStatus( "hidden" ) );
 		}
-
-		return function( paper, marks ) {
-			if ( tinyMCEHelper.isTinyMCEAvailable( tmceId ) ) {
-				if ( null === decorator ) {
-					decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
-				}
-
-				decorator( paper, marks );
-			}
-		};
 	}
 
 	/**
 	 * Initializes keyword analysis.
 	 *
-	 * @param {App} app                       The App object.
-	 * @param {PostDataCollector} postScraper The post scraper object.
 	 * @param {Object} publishBox             The publish box object.
 	 *
 	 * @returns {void}
 	 */
-	function initializeKeywordAnalysis( app, postScraper, publishBox ) {
+	function initializeKeywordAnalysis( publishBox ) {
 		const savedKeywordScore = $( "#yoast_wpseo_linkdex" ).val();
-		const usedKeywords = new UsedKeywords( "#yoast_wpseo_focuskw_text_input", "get_focus_keyword_usage", wpseoPostScraperL10n, app );
-
-		usedKeywords.init();
-		postScraper.initKeywordTabTemplate();
 
 		const indicator = getIndicatorForScore( savedKeywordScore );
 
@@ -167,30 +172,6 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	}
 
 	/**
-	 * Makes sure the hidden focus keyword field is filled with the correct keyword.
-	 *
-	 * @returns {void}
-	 */
-	function keywordElementSubmitHandler() {
-		if ( isKeywordAnalysisActive() && ! YoastSEO.multiKeyword ) {
-			/*
-			 * Hitting the enter on the focus keyword input field will trigger a form submit. Because of delay in
-			 * copying focus keyword to the hidden field, the focus keyword won't be saved properly. By adding a
-			 * onsubmit event that is copying the focus keyword, this should be solved.
-			 */
-			$( "#post" ).on( "submit", function() {
-				const hiddenKeyword       = $( "#yoast_wpseo_focuskw" );
-				const hiddenKeywordValue  = hiddenKeyword.val();
-				const visibleKeywordValue = tabManager.getKeywordTab().getKeywordFromElement();
-
-				if ( hiddenKeywordValue !== visibleKeywordValue ) {
-					hiddenKeyword.val( visibleKeywordValue );
-				}
-			} );
-		}
-	}
-
-	/**
 	 * Retrieves the target to be passed to the App.
 	 *
 	 * @returns {Object} The targets object for the App.
@@ -199,50 +180,37 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		const targets = {};
 
 		if ( isKeywordAnalysisActive() ) {
-			targets.output = "wpseo-pageanalysis";
+			targets.output = "does-not-really-exist-but-it-needs-something";
 		}
 
 		if ( isContentAnalysisActive() ) {
-			targets.contentOutput = "yoast-seo-content-analysis";
+			targets.contentOutput = "also-does-not-really-exist-but-it-needs-something";
 		}
 
 		return targets;
 	}
 
 	/**
-	 * Hides the add keyword button.
-	 *
-	 * @returns {void}
-	 */
-	function hideAddKeywordButton() {
-		$( ".wpseo-tab-add-keyword" ).hide();
-	}
-
-	/**
-	 * Initializes tab manager.
-	 *
-	 * @returns {TabManager} The initialized tab manager.
-	 */
-	function initializeTabManager() {
-		let tabManager = new TabManager( {
-			strings: wpseoPostScraperL10n,
-			contentAnalysisActive: isContentAnalysisActive(),
-			keywordAnalysisActive: isKeywordAnalysisActive(),
-		} );
-		tabManager.init();
-
-		return tabManager;
-	}
-
-	/**
 	 * Initializes post data collector.
+	 *
+	 * @param {Object} data The data.
 	 *
 	 * @returns {PostDataCollector} The initialized post data collector.
 	 */
-	function initializePostDataCollector() {
+	function initializePostDataCollector( data ) {
 		let postDataCollector = new PostDataCollector( {
-			tabManager,
+			data,
+			store: editStore,
 		} );
+
+		/*
+		 * Initially any change on the slug needs to be persisted as post name.
+		 *
+		 * This value will change whenever an AJAX call is being detected that
+		 * populates the slug with a generated value based on the Title (or ID if no title is set).
+		 *
+		 * See bind event on "ajaxComplete" in this file.
+		 */
 		postDataCollector.leavePostNameUntouched = false;
 
 		return postDataCollector;
@@ -251,13 +219,16 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	/**
 	 * Returns the arguments necessary to initialize the app.
 	 *
+	 * @param {Object} store The store.
+	 *
 	 * @returns {Object} The arguments to initialize the app
 	 */
-	function getAppArgs() {
+	function getAppArgs( store ) {
+		updateMarkerStatus( store );
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
-				tmceId,
+				tinyMCEHelper.tmceId,
 				"yoast_wpseo_focuskw_text_input",
 				"yoast_wpseo_metadesc",
 				"excerpt",
@@ -269,25 +240,22 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 				getData: postDataCollector.getData.bind( postDataCollector ),
 			},
 			locale: wpseoPostScraperL10n.contentLocale,
-			marker: getMarker(),
+			marker: getApplyMarks( store ),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
-			snippetPreview: snippetPreview,
+			hasSnippetPreview: false,
+			debouncedRefresh: false,
 		};
 
 		if ( isKeywordAnalysisActive() ) {
+			store.dispatch( setFocusKeyword( $( "#yoast_wpseo_focuskw" ).val() ) );
+
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
-				let keyword = tabManager.getKeywordTab().getKeyWord();
+				const keyword = store.getState().focusKeyword;
 
-				/*
-				 * The results from the main App callback are always for the first keyword. So
-				 * we ignore these results unless the current active keyword is the main
-				 * keyword.
-				 */
-				if ( tabManager.isMainKeyword( keyword ) ) {
-					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
-				}
+				store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+				store.dispatch( refreshSnippetEditor() );
 			};
 		}
 
@@ -295,6 +263,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 			args.callbacks.saveContentScore = postDataCollector.saveContentScore.bind( postDataCollector );
 			args.callbacks.updatedContentResults = function( results ) {
 				store.dispatch( setReadabilityResults( results ) );
+				store.dispatch( refreshSnippetEditor() );
 			};
 		}
 
@@ -310,47 +279,32 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	/**
 	 * Exposes globals necessary for functionality of plugins integrating.
 	 *
-	 * @param {App} app The app to expose globally.
-	 * @param {TabManager} tabManager The tab manager to expose globally.
 	 * @param {YoastReplaceVarPlugin} replaceVarsPlugin The replace vars plugin to expose.
 	 * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
+	 *
 	 * @returns {void}
 	 */
-	function exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin ) {
-		window.YoastSEO = {};
-		window.YoastSEO.app = app;
-
+	function exposeGlobals( replaceVarsPlugin, shortcodePlugin ) {
 		// Init Plugins.
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = replaceVarsPlugin;
 		window.YoastSEO.wp.shortcodePlugin = shortcodePlugin;
 
-		window.YoastSEO.wp._tabManager = tabManager;
 		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
-
-		window.YoastSEO.store = store;
 	}
 
 	/**
 	 * Activates the correct analysis and tab based on which analyses are enabled.
 	 *
-	 * @param {TabManager} tabManager The tab manager to use to activate tabs.
 	 * @returns {void}
 	 */
-	function activateEnabledAnalysis( tabManager ) {
+	function activateEnabledAnalysis() {
 		if ( isKeywordAnalysisActive() ) {
-			initializeKeywordAnalysis( app, postDataCollector, publishBox );
-			tabManager.getKeywordTab().activate();
-		} else {
-			hideAddKeywordButton();
+			initializeKeywordAnalysis( publishBox );
 		}
 
 		if ( isContentAnalysisActive() ) {
 			initializeContentAnalysis( publishBox );
-		}
-
-		if ( ! isKeywordAnalysisActive() && isContentAnalysisActive() ) {
-			tabManager.getContentTab().activate();
 		}
 	}
 
@@ -371,6 +325,54 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		}
 	}
 
+	let currentAnalysisData;
+
+	/**
+	 * Rerun the analysis when the title or metadescription in the snippet changes.
+	 *
+	 * @param {Object} store The store.
+	 * @param {Object} app The YoastSEO app.
+	 *
+	 * @returns {void}
+	 */
+	function handleStoreChange( store, app ) {
+		const previousAnalysisData = currentAnalysisData || "";
+		currentAnalysisData = store.getState().analysisData.snippet;
+
+		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
+		if ( isDirty ) {
+			app.refresh();
+		}
+	}
+
+	/**
+	 * Handles page builder compatibility, regarding the marker buttons.
+	 *
+	 * @returns {void}
+	 */
+	function handlePageBuilderCompatibility() {
+		const compatibilityHelper = new CompatibilityHelper();
+
+		if ( compatibilityHelper.isClassicEditorHidden() ) {
+			tinyMCEHelper.disableMarkerButtons();
+		}
+
+		if ( compatibilityHelper.vcActive ) {
+			tinyMCEHelper.disableMarkerButtons();
+		} else {
+			compatibilityHelper.listen( {
+				classicEditorHidden: () => {
+					tinyMCEHelper.disableMarkerButtons();
+				},
+				classicEditorShown: () => {
+					if( ! tinyMCEHelper.isTextViewActive() ) {
+						tinyMCEHelper.enableMarkerButtons();
+					}
+				},
+			} );
+		}
+	}
+
 	/**
 	 * Initializes analysis for the post edit screen.
 	 *
@@ -378,81 +380,181 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	 */
 	function initializePostAnalysis() {
 		const editArgs = {
-			readabilityTarget: "yoast-seo-content-analysis",
-			seoTarget: "wpseo-pageanalysis",
+			onRefreshRequest: () => {},
+			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,
+			snippetEditorDate: wpseoPostScraperL10n.metaDescriptionDate,
+			replaceVars: wpseoReplaceVarsL10n.replace_vars,
+			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
-		store = initializeEdit( editArgs ).store;
+		edit = new Edit( editArgs );
 
-		snippetContainer = $( "#wpseosnippet" );
+		editStore =  edit.getStore();
+		const data = edit.getData();
+
+		metaboxContainer = $( "#wpseo_meta" );
+
+		tinyMCEHelper.setStore( editStore );
+		tinyMCEHelper.wpTextViewOnInitCheck();
+		handlePageBuilderCompatibility();
 
 		// Avoid error when snippet metabox is not rendered.
-		if ( snippetContainer.length === 0 ) {
+		if ( metaboxContainer.length === 0 ) {
 			return;
 		}
 
-		tabManager = initializeTabManager();
-		postDataCollector = initializePostDataCollector();
-		publishBox.initalise();
-		snippetPreview = initSnippetPreview( postDataCollector );
+		postDataCollector = initializePostDataCollector( data );
+		publishBox.initialize();
 
-		let appArgs = getAppArgs();
+		const appArgs = getAppArgs( editStore );
 		app = new App( appArgs );
+
+		// Expose globals.
+		window.YoastSEO = {};
+		window.YoastSEO.app = app;
+		window.YoastSEO.store = editStore;
+		window.YoastSEO.analysis = {};
+		window.YoastSEO.analysis.worker = createAnalysisWorker();
+		window.YoastSEO.analysis.collectData = () => collectAnalysisData( edit, YoastSEO.store, customAnalysisData, YoastSEO.app.pluggable );
+		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks( YoastSEO.store )( paper, marks );
+
+		// YoastSEO.app overwrites.
+		YoastSEO.app.refresh = debounce( () => refreshAnalysis(
+			YoastSEO.analysis.worker,
+			YoastSEO.analysis.collectData,
+			YoastSEO.analysis.applyMarks,
+			YoastSEO.store,
+			postDataCollector,
+		), refreshDelay );
+		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
+		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
+		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;
+		YoastSEO.app.pluginReady = YoastSEO.app.pluggable._ready;
+		YoastSEO.app.pluginReloaded = YoastSEO.app.pluggable._reloaded;
+		YoastSEO.app.registerModification = YoastSEO.app.pluggable._registerModification;
+		YoastSEO.app.registerAssessment = ( name, assessment, pluginName ) => {
+			if ( ! isUndefined( YoastSEO.app.seoAssessor ) ) {
+				return YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.defaultSeoAssessor, name, assessment, pluginName ) &&
+					YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.cornerStoneSeoAssessor, name, assessment, pluginName );
+			}
+		};
+		YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
+			YoastSEO.analysis.worker.initialize( assessorOptions );
+			YoastSEO.app.refresh();
+		};
+
+		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
 
 		postDataCollector.app = app;
 
-		let replaceVarsPlugin = new YoastReplaceVarPlugin( app );
-		let shortcodePlugin = new YoastShortcodePlugin( app );
+		editStore.subscribe( handleStoreChange.bind( null, editStore, app ) );
+
+		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, editStore );
+		const shortcodePlugin = new YoastShortcodePlugin( app );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
 			let markdownPlugin = new YoastMarkdownPlugin( app );
 			markdownPlugin.register();
 		}
 
-		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
+		exposeGlobals( replaceVarsPlugin, shortcodePlugin );
 
-		setStore( store );
-		tinyMCEHelper.wpTextViewOnInitCheck();
+		activateEnabledAnalysis();
 
-		activateEnabledAnalysis( tabManager );
+		YoastSEO._registerReactComponent = registerReactComponent;
 
-		jQuery( window ).trigger( "YoastSEO:ready" );
-
-		/*
-		 * Checks the snippet preview size and toggles views when the WP admin menu state changes.
-		 * In WordPress, `wp-collapse-menu` fires when clicking on the Collapse/expand button.
-		 * `wp-menu-state-set` fires also when the window gets resized and the menu can be folded/auto-folded/collapsed/expanded/responsive.
-		 */
-		jQuery( document ).on( "wp-collapse-menu wp-menu-state-set", function() {
-			app.snippetPreview.handleWindowResizing();
-		} );
+		// Initialize the analysis worker.
+		YoastSEO.analysis.worker.initialize( getAnalysisConfiguration() )
+			.then( () => {
+				jQuery( window ).trigger( "YoastSEO:ready" );
+			} )
+			.catch( error => console.warn( error ) );
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
 
-		keywordElementSubmitHandler();
 		postDataCollector.bindElementEvents( app );
-
-		if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
-			snippetPreviewHelpers.isolate( snippetContainer );
-		}
-
-		// Switch between assessors when checkbox has been checked.
-		let cornerstoneCheckbox = jQuery( "#_yst_is_cornerstone" );
-		app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
-		cornerstoneCheckbox.change( function() {
-			app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
-		} );
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );
-		let originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
+		const originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
 		app.initAssessorPresenters = function() {
 			originalInitAssessorPresenters();
 			disableYoastSEORenderers( app );
 		};
 
-		// Set initial keyword.
-		store.dispatch( setActiveKeyword( tabManager.getKeywordTab().getKeyWord() ) );
+		// Set refresh function. data.setRefresh is only defined when Gutenberg is available.
+		if ( data.setRefresh ) {
+			data.setRefresh( app.refresh );
+		}
+
+		// Initialize the snippet editor data.
+		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( postDataCollector );
+		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoPostScraperL10n );
+		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
+
+		// Set the initial snippet editor data.
+		editStore.dispatch( updateData( snippetEditorData ) );
+		// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
+		editStore.dispatch( setCornerstoneContent( document.getElementById( "yoast_wpseo_is_cornerstone" ).value === "1" ) );
+
+		// Save the keyword, in order to compare it to store changes.
+		let focusKeyword = editStore.getState().focusKeyword;
+
+		const refreshAfterFocusKeywordChange = debounce( () => {
+			app.refresh();
+		}, 50 );
+
+		let previousCornerstoneValue = null;
+
+		editStore.subscribe( () => {
+			// Verify whether the focusKeyword changed. If so, trigger refresh:
+			let newFocusKeyword = editStore.getState().focusKeyword;
+
+			if ( focusKeyword !== newFocusKeyword ) {
+				focusKeyword = newFocusKeyword;
+
+				$( "#yoast_wpseo_focuskw" ).val( focusKeyword );
+				refreshAfterFocusKeywordChange();
+			}
+
+			const data = snippetEditorHelpers.getDataFromStore( editStore );
+			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
+
+
+			if ( snippetEditorData.title !== data.title ) {
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
+			}
+
+			if ( snippetEditorData.slug !== data.slug ) {
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
+			}
+
+			if ( snippetEditorData.description !== data.description ) {
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
+			}
+
+			let currentState = editStore.getState();
+
+			if ( previousCornerstoneValue !== currentState.isCornerstone ) {
+				previousCornerstoneValue = currentState.isCornerstone;
+				document.getElementById( "yoast_wpseo_is_cornerstone" ).value = currentState.isCornerstone;
+
+				app.changeAssessorOptions( {
+					useCornerstone: currentState.isCornerstone,
+				} );
+			}
+
+			snippetEditorData.title = data.title;
+			snippetEditorData.slug = data.slug;
+			snippetEditorData.description = data.description;
+		} );
+
+		if ( ! isGutenbergDataAvailable() ) {
+			renderClassicEditorMetabox( editStore );
+		}
+
+		initializationDone();
+		YoastSEO.app.refresh();
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );

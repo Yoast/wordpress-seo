@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Links
  */
 
@@ -165,7 +167,10 @@ class WPSEO_Link_Columns {
 	 *
 	 * @return array The extended array with columns.
 	 */
-	public function add_post_columns( array $columns ) {
+	public function add_post_columns( $columns ) {
+		if ( ! is_array( $columns ) ) {
+			return $columns;
+		}
 		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = '<span class="yoast-linked-to yoast-column-header-has-tooltip" data-label="' . esc_attr__( 'Number of internal links in this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ) . '"><span class="screen-reader-text">' . __( '# links in post', 'wordpress-seo' ) . '</span></span>';
 
 		if ( ! WPSEO_Link_Query::has_unprocessed_posts( $this->public_post_types ) ) {

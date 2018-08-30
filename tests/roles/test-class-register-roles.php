@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Roles
  */
 
@@ -7,6 +9,7 @@
  * Unit Test Class.
  */
 class WPSEO_Register_Roles_Tests extends PHPUnit_Framework_TestCase {
+
 	public function test_register() {
 		$manager = WPSEO_Role_Manager_Factory::get();
 

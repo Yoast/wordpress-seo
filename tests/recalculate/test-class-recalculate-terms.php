@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Recalculate
  */
 
@@ -78,7 +80,5 @@ class WPSEO_Recalculate_Terms_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 4, $response['total_items'] );
 		$this->assertTrue( is_array( $response['items'] ) );
-
 	}
-
 }

@@ -1,13 +1,15 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Internal
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Internal
  */
 
 /**
  * This code handles the option upgrades
  */
 class WPSEO_Upgrade {
+
 	/**
 	 * Class constructor
 	 */
@@ -69,7 +71,7 @@ class WPSEO_Upgrade {
 		}
 
 		if ( version_compare( $version, '5.0', '>=' )
-			 && version_compare( $version, '5.1', '<' )
+			&& version_compare( $version, '5.1', '<' )
 		) {
 			$this->upgrade_50_51();
 		}
@@ -98,6 +100,26 @@ class WPSEO_Upgrade {
 			$this->upgrade_71();
 		}
 
+		if ( version_compare( $version, '7.3-RC0', '<' ) ) {
+			$this->upgrade_73();
+		}
+
+		if ( version_compare( $version, '7.4-RC0', '<' ) ) {
+			$this->upgrade_74();
+		}
+
+		if ( version_compare( $version, '7.5.3', '<' ) ) {
+			$this->upgrade_753();
+		}
+
+		if ( version_compare( $version, '7.7-RC0', '<' ) ) {
+			$this->upgrade_77();
+		}
+
+		if ( version_compare( $version, '7.7.2-RC0', '<' ) ) {
+			$this->upgrade_772();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -113,50 +135,9 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Helper function to remove keys from options.
-	 *
-	 * @param string       $option The option to remove the keys from.
-	 * @param string|array $keys   The key or keys to remove.
-	 */
-	private function remove_key_from_option( $option, $keys ) {
-		$options = WPSEO_Options::get_option( $option );
-
-		if ( ! is_array( $keys ) ) {
-			$keys = array( $keys );
-		}
-		foreach ( $keys as $key ) {
-			unset( $options[ $key ] );
-		}
-
-		update_option( $option, $options );
-	}
-
-	/**
-	 * Helper function to move a key from one option to another.
-	 *
-	 * @param array       $old_options The option containing the value to be migrated.
-	 * @param string      $new_option  Name of the "to" option.
-	 * @param string      $old_key     Name of the key in the "from" option.
-	 * @param string|null $new_key     Name of the key in the "to" option.
-	 */
-	private function move_key_to_other_option( $old_options, $new_option, $old_key, $new_key = null ) {
-		if ( $new_key === null ) {
-			$new_key = $old_key;
-		}
-
-		$new_options = WPSEO_Options::get_option( $new_option );
-
-		if ( isset( $old_options[ $old_key ] ) ) {
-			$new_options[ $new_key ] = $old_options[ $old_key ];
-
-			update_option( $new_option, $new_options );
-		}
-	}
-
-	/**
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
 	 */
-	private function finish_up() {
+	protected function finish_up() {
 		WPSEO_Options::set( 'version', WPSEO_VERSION );
 
 		add_action( 'shutdown', 'flush_rewrite_rules' );                     // Just flush rewrites, always, to at least make them work after an upgrade.
@@ -186,7 +167,11 @@ class WPSEO_Upgrade {
 		 */
 		delete_option( 'wpseo_ms' );
 
-		$this->move_key_to_other_option( 'wpseo', 'wpseo_social', 'pinterestverify' );
+		$wpseo = $this->get_option_from_database( 'wpseo' );
+		$this->save_option_setting( $wpseo, 'pinterestverify' );
+
+		// Re-save option to trigger sanitization.
+		$this->cleanup_option_data( 'wpseo' );
 	}
 
 	/**
@@ -219,13 +204,7 @@ class WPSEO_Upgrade {
 		// Unschedule our tracking.
 		wp_clear_scheduled_hook( 'yoast_tracking' );
 
-		// Clear the tracking settings, the seen about setting and the ignore tour setting.
-		$this->remove_key_from_option( 'wpseo', array(
-			'tracking_popup_done',
-			'yoast_tracking',
-			'seen_about',
-			'ignore_tour',
-		) );
+		$this->cleanup_option_data( 'wpseo' );
 	}
 
 	/**
@@ -297,20 +276,21 @@ class WPSEO_Upgrade {
 	 * Removes the about notice when its still in the database.
 	 */
 	private function upgrade_40() {
-		$center       = Yoast_Notification_Center::get();
-		$notification = $center->get_notification_by_id( 'wpseo-dismiss-about' );
-
-		if ( $notification ) {
-			$center->remove_notification( $notification );
-		}
+		$center = Yoast_Notification_Center::get();
+		$center->remove_notification_by_id( 'wpseo-dismiss-about' );
 	}
 
 	/**
 	 * Moves the content-analysis-active and keyword-analysis-acive options from wpseo-titles to wpseo.
 	 */
 	private function upgrade_44() {
-		$this->move_key_to_other_option( 'wpseo_titles', 'wpseo', 'content-analysis-active', 'content_analysis_active' );
-		$this->move_key_to_other_option( 'wpseo_titles', 'wpseo', 'keyword-analysis-active', 'keyword_analysis_active' );
+		$wpseo_titles = $this->get_option_from_database( 'wpseo_titles' );
+
+		$this->save_option_setting( $wpseo_titles, 'content-analysis-active', 'content_analysis_active' );
+		$this->save_option_setting( $wpseo_titles, 'keyword-analysis-active', 'keyword_analysis_active' );
+
+		// Remove irrelevant content from the option.
+		$this->cleanup_option_data( 'wpseo_titles' );
 	}
 
 	/**
@@ -471,53 +451,45 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_63() {
-		$this->remove_key_from_option( 'wpseo_titles', array( 'noindex-subpages-wpseo', 'usemetakeywords' ) );
-
-		// Remove all the meta keyword template options we've stored.
-		$option_titles = WPSEO_Options::get_option( 'wpseo_titles' );
-		foreach ( array_keys( $option_titles ) as $key ) {
-			if ( strpos( $key, 'metakey' ) === 0 ) {
-				unset( $option_titles[ $key ] );
-			}
-		}
-		update_option( 'wpseo_titles', $option_titles );
+		$this->cleanup_option_data( 'wpseo_titles' );
 	}
 
 	/**
 	 * Perform the 7.0 upgrade, moves settings around, deletes several options.
+	 *
+	 * @return void
 	 */
 	private function upgrade_70() {
 
-		$wpseo_permalinks    = get_option( 'wpseo_permalinks' );
-		$wpseo_xml           = get_option( 'wpseo_xml' );
-		$wpseo_rss           = get_option( 'wpseo_rss' );
-		$wpseo               = get_option( 'wpseo' );
-		$wpseo_internallinks = (array) get_option( 'wpseo_internallinks' );
+		$wpseo_permalinks    = $this->get_option_from_database( 'wpseo_permalinks' );
+		$wpseo_xml           = $this->get_option_from_database( 'wpseo_xml' );
+		$wpseo_rss           = $this->get_option_from_database( 'wpseo_rss' );
+		$wpseo               = $this->get_option_from_database( 'wpseo' );
+		$wpseo_internallinks = $this->get_option_from_database( 'wpseo_internallinks' );
 
 		// Move some permalink settings, then delete the option.
-		$this->move_key_to_other_option( $wpseo_permalinks, 'wpseo_titles', 'redirectattachment', 'disable-attachment' );
-		$this->move_key_to_other_option( $wpseo_permalinks, 'wpseo_titles', 'stripcategorybase' );
-
+		$this->save_option_setting( $wpseo_permalinks, 'redirectattachment', 'disable-attachment' );
+		$this->save_option_setting( $wpseo_permalinks, 'stripcategorybase' );
 
 		// Move one XML sitemap setting, then delete the option.
-		$this->move_key_to_other_option( $wpseo_xml, 'wpseo', 'enablexmlsitemap', 'enable_xml_sitemap' );
+		$this->save_option_setting( $wpseo_xml, 'enablexmlsitemap', 'enable_xml_sitemap' );
 
 
 		// Move the RSS settings to the search appearance settings, then delete the RSS option.
-		$this->move_key_to_other_option( $wpseo_rss, 'wpseo_titles', 'rssbefore' );
-		$this->move_key_to_other_option( $wpseo_rss, 'wpseo_titles', 'rssafter' );
+		$this->save_option_setting( $wpseo_rss, 'rssbefore' );
+		$this->save_option_setting( $wpseo_rss, 'rssafter' );
 
-		$this->move_key_to_other_option( $wpseo, 'wpseo_titles', 'company_logo' );
-		$this->move_key_to_other_option( $wpseo, 'wpseo_titles', 'company_name' );
-		$this->move_key_to_other_option( $wpseo, 'wpseo_titles', 'company_or_person' );
-		$this->move_key_to_other_option( $wpseo, 'wpseo_titles', 'person_name' );
+		$this->save_option_setting( $wpseo, 'company_logo' );
+		$this->save_option_setting( $wpseo, 'company_name' );
+		$this->save_option_setting( $wpseo, 'company_or_person' );
+		$this->save_option_setting( $wpseo, 'person_name' );
 
 		// Remove the website name and altername name as we no longer need them.
-		$this->remove_key_from_option( 'wpseo', array( 'website_name', 'alternate_website_name', 'company_logo', 'company_name', 'company_or_person', 'person_name' ) );
+		$this->cleanup_option_data( 'wpseo' );
 
 		// All the breadcrumbs settings have moved to the search appearance settings.
 		foreach ( array_keys( $wpseo_internallinks ) as $key ) {
-			$this->move_key_to_other_option( $wpseo_internallinks, 'wpseo_titles', $key );
+			$this->save_option_setting( $wpseo_internallinks, $key );
 		}
 
 		// Convert hidden metabox options to display metabox options.
@@ -554,8 +526,248 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Perform the 7.1 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_71() {
-		$this->remove_key_from_option( 'wpseo_social', array( 'fbadminapp', 'fb_admins', 'fbconnectkey', 'fb_adminid', 'fb_appid' ) );
+		$this->cleanup_option_data( 'wpseo_social' );
+
+		// Move the breadcrumbs setting and invert it.
+		$title_options = $this->get_option_from_database( 'wpseo_titles' );
+
+		if ( array_key_exists( 'breadcrumbs-blog-remove', $title_options ) ) {
+			WPSEO_Options::set( 'breadcrumbs-display-blog-page', ! $title_options['breadcrumbs-blog-remove'] );
+
+			$this->cleanup_option_data( 'wpseo_titles' );
+		}
+	}
+
+	/**
+	 * Perform the 7.3 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_73() {
+		global $wpdb;
+		// We've moved the cornerstone checkbox to our proper namespace.
+		$wpdb->query( "UPDATE $wpdb->postmeta SET meta_key = '_yoast_wpseo_is_cornerstone' WHERE meta_key = '_yst_is_cornerstone'" );
+
+		// Remove the previous Whip dismissed message, as this is a new one regarding PHP 5.2.
+		delete_option( 'whip_dismiss_timestamp' );
+	}
+
+	/**
+	 * Performs the 7.4 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_74() {
+		$this->remove_sitemap_validators();
+	}
+
+	/**
+	 * Performs the 7.5.3 upgrade.
+	 *
+	 * When upgrading purging media is potentially relevant.
+	 *
+	 * @return void
+	 */
+	private function upgrade_753() {
+		// Only when attachments are not disabled.
+		if ( WPSEO_Options::get( 'disable-attachment' ) === true ) {
+			return;
+		}
+
+		// Only when attachments are not no-indexed.
+		if ( WPSEO_Options::get( 'noindex-attachment' ) === true ) {
+			return;
+		}
+
+		// Set purging relevancy.
+		WPSEO_Options::set( 'is-media-purge-relevant', true );
+	}
+
+	/**
+	 * Performs the 7.7 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_77() {
+		// Remove all OpenGraph content image cache.
+		$this->delete_post_meta( '_yoast_wpseo_post_image_cache' );
+	}
+
+	/**
+	 * Performs the 7.7.2 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_772() {
+		if ( WPSEO_Utils::is_woocommerce_active() ) {
+			$this->migrate_woocommerce_archive_setting_to_shop_page();
+		}
+	}
+
+	/**
+	 * Removes the post meta fields for a given meta key.
+	 *
+	 * @param string $meta_key The meta key.
+	 *
+	 * @return void
+	 */
+	private function delete_post_meta( $meta_key ) {
+		global $wpdb;
+
+		$deleted = $wpdb->delete( $wpdb->postmeta, array( 'meta_key' => $meta_key ), array( '%s' ) );
+
+		if ( $deleted ) {
+			wp_cache_set( 'last_changed', microtime(), 'posts' );
+		}
+	}
+
+	/**
+	 * Removes all sitemap validators.
+	 *
+	 * This should be executed on every upgrade routine until we have removed the sitemap caching in the database.
+	 *
+	 * @return void
+	 */
+	private function remove_sitemap_validators() {
+		global $wpdb;
+
+		// Remove all sitemap validators.
+		$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'wpseo_sitemap%validator%'" );
+	}
+
+	/**
+	 * Retrieves the option value directly from the database.
+	 *
+	 * @param string $option_name Option to retrieve.
+	 *
+	 * @return array|mixed The content of the option if exists, otherwise an empty array.
+	 */
+	protected function get_option_from_database( $option_name ) {
+		global $wpdb;
+
+		// Load option directly from the database, to avoid filtering and sanitization.
+		$sql     = $wpdb->prepare( 'SELECT option_value FROM ' . $wpdb->options . ' WHERE option_name = %s', $option_name );
+		$results = $wpdb->get_results( $sql, ARRAY_A );
+		if ( ! empty( $results ) ) {
+			return maybe_unserialize( $results[0]['option_value'] );
+		}
+
+		return array();
+	}
+
+	/**
+	 * Cleans the option to make sure only relevant settings are there.
+	 *
+	 * @param string $option_name Option name save.
+	 *
+	 * @return void
+	 */
+	protected function cleanup_option_data( $option_name ) {
+		$data = get_option( $option_name, array() );
+		if ( ! is_array( $data ) || $data === array() ) {
+			return;
+		}
+
+		/*
+		 * Clean up the option by re-saving it.
+		 *
+		 * The option framework will remove any settings that are not configured
+		 * for this option, removing any migrated settings.
+		 */
+		update_option( $option_name, $data );
+	}
+
+	/**
+	 * Saves an option setting to where it should be stored.
+	 *
+	 * @param array       $source_data    The option containing the value to be migrated.
+	 * @param string      $source_setting Name of the key in the "from" option.
+	 * @param string|null $target_setting Name of the key in the "to" option.
+	 *
+	 * @return void
+	 */
+	protected function save_option_setting( $source_data, $source_setting, $target_setting = null ) {
+		if ( $target_setting === null ) {
+			$target_setting = $source_setting;
+		}
+
+		if ( isset( $source_data[ $source_setting ] ) ) {
+			WPSEO_Options::set( $target_setting, $source_data[ $source_setting ] );
+		}
+	}
+
+	/**
+	 * Migrates WooCommerce archive settings to the WooCommerce Shop page meta-data settings.
+	 *
+	 * If no Shop page is defined, nothing will be migrated.
+	 *
+	 * @return void
+	 */
+	private function migrate_woocommerce_archive_setting_to_shop_page() {
+		$shop_page_id = wc_get_page_id( 'shop' );
+
+		if ( $shop_page_id === -1 ) {
+			return;
+		}
+
+		$title = WPSEO_Meta::get_value( 'title', $shop_page_id );
+
+		if ( empty( $title ) ) {
+			$option_title = WPSEO_Options::get( 'title-ptarchive-product' );
+
+			WPSEO_Meta::set_value(
+				'title',
+				$option_title,
+				$shop_page_id
+			);
+
+			WPSEO_Options::set( 'title-ptarchive-product', '' );
+		}
+
+		$meta_description = WPSEO_Meta::get_value( 'metadesc', $shop_page_id );
+
+		if ( empty( $meta_description ) ) {
+			$option_metadesc = WPSEO_Options::get( 'metadesc-ptarchive-product' );
+
+			WPSEO_Meta::set_value(
+				'metadesc',
+				$option_metadesc,
+				$shop_page_id
+			);
+
+			WPSEO_Options::set( 'metadesc-ptarchive-product', '' );
+		}
+
+		$bc_title = WPSEO_Meta::get_value( 'bctitle', $shop_page_id );
+
+		if ( empty( $bc_title ) ) {
+			$option_bctitle = WPSEO_Options::get( 'bctitle-ptarchive-product' );
+
+			WPSEO_Meta::set_value(
+				'bctitle',
+				$option_bctitle,
+				$shop_page_id
+			);
+
+			WPSEO_Options::set( 'bctitle-ptarchive-product', '' );
+		}
+
+		$noindex = WPSEO_Meta::get_value( 'meta-robots-noindex', $shop_page_id );
+
+		if ( $noindex === '0' ) {
+			$option_noindex = WPSEO_Options::get( 'noindex-ptarchive-product' );
+
+			WPSEO_Meta::set_value(
+				'meta-robots-noindex',
+				$option_noindex,
+				$shop_page_id
+			);
+
+			WPSEO_Options::set( 'noindex-ptarchive-product', false );
+		}
 	}
 }

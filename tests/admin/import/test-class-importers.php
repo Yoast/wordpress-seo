@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Admin\Import\Plugins
  */
 
@@ -9,12 +11,11 @@
 class WPSEO_Plugin_Importers_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Makes sure WPSEO_Plugin_Importers::$importers is around
+	 * Makes sure we can get a list of importers.
 	 *
 	 * @covers WPSEO_Plugin_Importers::get
 	 */
 	public function test_importers() {
-		$this->assertCount( 7, WPSEO_Plugin_Importers::get() );
+		$this->assertCount( 14, WPSEO_Plugin_Importers::get() );
 	}
-
 }

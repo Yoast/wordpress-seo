@@ -1,102 +1,93 @@
 <?php
 /**
+ * File with the class to handle data from WooThemes SEO.
+ *
  * @package WPSEO\Admin\Import\Plugins
  */
 
 /**
  * Class WPSEO_Import_WooThemes_SEO
  *
- * Class with functionality to import Yoast SEO settings from WooThemes SEO.
+ * Class with functionality to import & clean WooThemes SEO post metadata.
  */
-class WPSEO_Import_WooThemes_SEO implements WPSEO_Plugin_Importer {
+class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	/**
-	 * @var wpdb Holds the WPDB instance.
-	 */
-	protected $wpdb;
-
-	/**
-	 * Holds the import status object.
+	 * The plugin name.
 	 *
-	 * @var WPSEO_Import_Status
+	 * @var string
 	 */
-	private $status;
+	protected $plugin_name = 'WooThemes SEO';
 
 	/**
-	 * WPSEO_Import_WooThemes_SEO constructor.
-	 */
-	public function __construct() {
-		global $wpdb;
-		$this->wpdb = $wpdb;
-	}
-
-	/**
-	 * Detects whether there is post meta data to import.
+	 * Meta key, used in SQL LIKE clause for delete query.
 	 *
-	 * @return WPSEO_Import_Status Import status object.
+	 * @var string
 	 */
-	public function detect() {
-		$this->status = new WPSEO_Import_Status( 'detect', false );
-		if ( ! $this->detect_helper() ) {
-			return $this->status;
-		}
-		return $this->status->set_status( true );
-	}
+	protected $meta_key = 'seo_title';
 
 	/**
-	 * Returns the plugin name.
+	 * Array of meta keys to detect and import.
 	 *
-	 * @return string Plugin name.
+	 * @var array
 	 */
-	public function plugin_name() {
-		return 'WooThemes SEO';
-	}
+	protected $clone_keys = array(
+		array(
+			'old_key' => 'seo_description',
+			'new_key' => 'metadesc',
+		),
+		array(
+			'old_key' => 'seo_title',
+			'new_key' => 'title',
+		),
+		array(
+			'old_key' => 'seo_noindex',
+			'new_key' => 'meta-robots-noindex',
+		),
+		array(
+			'old_key' => 'seo_follow',
+			'new_key' => 'meta-robots-nofollow',
+		),
+	);
 
 	/**
-	 * Imports WooThemes SEO settings.
+	 * Holds the meta fields we can delete after import.
 	 *
-	 * @return WPSEO_Import_Status Import status object.
+	 * @var array
 	 */
-	public function import() {
-		$this->status = new WPSEO_Import_Status( 'import', false );
+	protected $cleanup_metas = array(
+		'seo_follow',
+		'seo_noindex',
+		'seo_title',
+		'seo_description',
+		'seo_keywords',
+	);
 
-		if ( ! $this->detect_helper() ) {
-			return $this->status;
-		}
-
-		$this->import_metas();
-
-		return $this->status->set_status( true );
-	}
+	/**
+	 * Holds the options we can delete after import.
+	 *
+	 * @var array
+	 */
+	protected $cleanup_options = array(
+		'seo_woo_archive_layout',
+		'seo_woo_single_layout',
+		'seo_woo_page_layout',
+		'seo_woo_wp_title',
+		'seo_woo_meta_single_desc',
+		'seo_woo_meta_single_key',
+		'seo_woo_home_layout',
+	);
 
 	/**
 	 * Cleans up the WooThemes SEO settings.
 	 *
-	 * @return WPSEO_Import_Status Import status object.
+	 * @return bool Cleanup status.
 	 */
-	public function cleanup() {
-		$this->status = new WPSEO_Import_Status( 'cleanup', false );
-
-		if ( ! $this->detect_helper() ) {
-			return $this->status;
+	protected function cleanup() {
+		$result = $this->cleanup_meta();
+		if ( $result ) {
+			$this->cleanup_options();
 		}
-
-		$this->cleanup_options();
-		$this->cleanup_meta();
-
-		return $this->status->set_status( true );
-	}
-
-	/**
-	 * Detects whether there is post meta data to import.
-	 *
-	 * @return bool Boolean indicating whether there is something to import.
-	 */
-	private function detect_helper() {
-		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key = 'seo_title'" );
-		if ( $count === '0' ) {
-			return false;
-		}
-		return true;
+		return $result;
 	}
 
 	/**
@@ -105,15 +96,7 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_Plugin_Importer {
 	 * @return void
 	 */
 	private function cleanup_options() {
-		foreach ( array(
-			'seo_woo_archive_layout',
-			'seo_woo_single_layout',
-			'seo_woo_page_layout',
-			'seo_woo_wp_title',
-			'seo_woo_meta_single_desc',
-			'seo_woo_meta_single_key',
-			'seo_woo_home_layout',
-			) as $option ) {
+		foreach ( $this->cleanup_options as $option ) {
 			delete_option( $option );
 		}
 	}
@@ -121,12 +104,16 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_Plugin_Importer {
 	/**
 	 * Removes the post meta fields from the database.
 	 *
-	 * @return void
+	 * @return bool Cleanup status.
 	 */
 	private function cleanup_meta() {
-		foreach ( array( 'seo_follow', 'seo_noindex', 'seo_title', 'seo_description', 'seo_keywords' ) as $key ) {
-			$this->cleanup_meta_key( $key );
+		foreach ( $this->cleanup_metas as $key ) {
+			$result = $this->cleanup_meta_key( $key );
+			if ( ! $result ) {
+				return false;
+			}
 		}
+		return true;
 	}
 
 	/**
@@ -134,21 +121,17 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_Plugin_Importer {
 	 *
 	 * @param string $key The meta_key to delete.
 	 *
-	 * @return void
+	 * @return bool Cleanup status.
 	 */
 	private function cleanup_meta_key( $key ) {
-		$this->wpdb->query( $this->wpdb->prepare( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key = %s", $key ) );
-	}
+		global $wpdb;
 
-	/**
-	 * Imports meta values if they're applicable.
-	 *
-	 * @return void
-	 */
-	private function import_metas() {
-		WPSEO_Meta::replace_meta( 'seo_follow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', false );
-		WPSEO_Meta::replace_meta( 'seo_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', false );
-		WPSEO_Meta::replace_meta( 'seo_title', WPSEO_Meta::$meta_prefix . 'title', false );
-		WPSEO_Meta::replace_meta( 'seo_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM {$wpdb->postmeta} WHERE meta_key = %s",
+				$key
+			)
+		);
+		return $wpdb->__get( 'result' );
 	}
 }

@@ -1,10 +1,8 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Views
- */
-
-/**
- * @var Yoast_Form $yform
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -13,8 +11,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-// To improve readability, this tab has been divided into 5 separate blocks, included below.
-require dirname( __FILE__ ) . '/general/force-rewrite-title.php';
-require dirname( __FILE__ ) . '/general/title-separator.php';
-require dirname( __FILE__ ) . '/general/homepage.php';
-require dirname( __FILE__ ) . '/general/knowledge-graph.php';
+$wpseo_general_presenter = new WPSEO_Paper_Presenter(
+	'',
+	dirname( __FILE__ ) . '/paper-content/general-content.php'
+);
+
+echo $wpseo_general_presenter->get_output();

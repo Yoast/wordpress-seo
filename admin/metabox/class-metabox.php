@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -35,8 +37,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'post_submitbox_start', array( $this, 'publish_box' ) );
 		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
-		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
-		add_action( 'admin_footer', array( $this, 'template_generic_tab' ) );
 
 		// Check if one of the social settings is checked in the options, if so, initialize the social_admin object.
 		if ( WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false ) ) {
@@ -57,22 +57,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
 	 */
 	public static function translate_meta_boxes() {
-		self::$meta_fields['general']['snippetpreview']['title'] = __( 'Snippet editor', 'wordpress-seo' );
-		/* translators: 1: link open tag; 2: link close tag. */
-		self::$meta_fields['general']['snippetpreview']['help']        = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. %1$sLearn more about the Snippet Preview%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/snippet-preview' ) . '">', '</a>' );
-		self::$meta_fields['general']['snippetpreview']['help-button'] = __( 'Show information about the snippet editor', 'wordpress-seo' );
-
-		self::$meta_fields['general']['pageanalysis']['title'] = __( 'Analysis', 'wordpress-seo' );
-		/* translators: 1: link open tag; 2: link close tag. */
-		self::$meta_fields['general']['pageanalysis']['help']        = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. %1$sLearn more about the Content Analysis Tool%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/content-analysis' ) . '">', '</a>' );
-		self::$meta_fields['general']['pageanalysis']['help-button'] = __( 'Show information about the content analysis', 'wordpress-seo' );
-
-		self::$meta_fields['general']['focuskw_text_input']['title'] = __( 'Focus keyword', 'wordpress-seo' );
-		self::$meta_fields['general']['focuskw_text_input']['label'] = __( 'Enter a focus keyword', 'wordpress-seo' );
-		/* translators: 1: link open tag; 2: link close tag. */
-		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. %1$sLearn more about the Focus Keyword%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/focus-keyword' ) . '">', '</a>' );
-		self::$meta_fields['general']['focuskw_text_input']['help-button'] = __( 'Show information about the focus keyword', 'wordpress-seo' );
-
 		self::$meta_fields['general']['title']['title'] = __( 'SEO title', 'wordpress-seo' );
 
 		self::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );
@@ -183,6 +167,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
+		$tab_registered = false;
+
 		foreach ( $post_types as $post_type ) {
 			if ( $this->display_metabox( $post_type ) === false ) {
 				continue;
@@ -197,6 +183,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			if ( get_current_screen() !== null ) {
 				$screen_id = get_current_screen()->id;
 				add_filter( "postbox_classes_{$screen_id}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
+			}
+
+			if ( ! $tab_registered ) {
+				// Add template variables tab to the Help Center.
+				$tab = new WPSEO_Help_Center_Template_Variables_Tab();
+				$tab->register_hooks();
+
+				$tab_registered = true;
 			}
 
 			add_meta_box( 'wpseo_meta', $product_title, array(
@@ -245,9 +239,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function localize_replace_vars_script() {
 		return array(
-			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
-			'replace_vars'   => $this->get_replace_vars(),
-			'scope'          => $this->determine_scope(),
+			'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
+			'replace_vars'             => $this->get_replace_vars(),
+			'recommended_replace_vars' => $this->get_recommended_replace_vars(),
+			'scope'                    => $this->determine_scope(),
 		);
 	}
 
@@ -268,7 +263,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Pass some variables to js for the edit / post page overview, snippet preview, etc.
+	 * Pass some variables to js for the edit / post page overview, etc.
 	 *
 	 * @return  array
 	 */
@@ -291,7 +286,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		<div id="<?php echo esc_attr( 'wpseo_' . $id ); ?>" class="wpseotab <?php echo esc_attr( $id ); ?>">
 			<?php echo $content; ?>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**
@@ -332,12 +327,25 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
+	 * Determines whether the React section should be rendered.
+	 *
+	 * @param string $section_name The name of the section.
+	 *
+	 * @return bool Whether the React section should be rendered.
+	 */
+	private function should_load_react_section( $section_name ) {
+		return $section_name === 'content';
+	}
+
+	/**
 	 * Returns the relevant metabox sections for the current view.
 	 *
 	 * @return WPSEO_Metabox_Section[]
 	 */
 	private function get_content_sections() {
-		$content_sections = array( $this->get_content_meta_section() );
+		$content_sections = array();
+
+		$content_sections[] = $this->get_content_meta_section();
 
 		// Check if social_admin is an instance of WPSEO_Social_Admin.
 		if ( $this->social_admin instanceof WPSEO_Social_Admin ) {
@@ -346,10 +354,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
 			$content_sections[] = $this->get_advanced_meta_section();
-		}
-
-		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
-			$content_sections[] = $this->get_buy_premium_section();
 		}
 
 		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
@@ -367,23 +371,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_content_meta_section() {
 		$content = $this->get_tab_content( 'general' );
 
-		$tabs = array();
+		/**
+		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
+		 *
+		 * @api string $post_content The metabox content string.
+		 */
+		$content = apply_filters( 'wpseo_content_meta_section_content', $content );
 
-		$tabs[] = new WPSEO_Metabox_Form_Tab(
+		return new WPSEO_Metabox_Section_React(
 			'content',
+			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
 			$content,
-			'',
-			array(
-				'tab_class' => 'yoast-seo__remove-tab',
-			)
-		);
-
-		$tabs[] = new WPSEO_Metabox_Add_Keyword_Tab();
-
-		return new WPSEO_Metabox_Tab_Section(
-			'content',
-			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . $this->traffic_light_svg() . '</span>',
-			$tabs,
 			array(
 				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
 				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
@@ -425,75 +423,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	private function get_buy_premium_link() {
-		return sprintf( "<div class='%s'><a href='#wpseo-meta-section-premium' class='wpseo-meta-section-link'><span class='dashicons dashicons-star-filled wpseo-buy-premium'></span>%s</a></div>",
+		return sprintf( '<div class="%1$s"><a target="_blank" rel="noopener noreferrer" href="%2$s"><span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>%3$s</a></div>',
 			'wpseo-metabox-buy-premium',
+			esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ) ),
 			__( 'Go Premium', 'wordpress-seo' )
-		);
-	}
-
-	/**
-	 * Returns the metabox section for the Premium section.
-	 *
-	 * @return WPSEO_Metabox_Section
-	 */
-	private function get_buy_premium_section() {
-		$content = sprintf( "<div class='wpseo-premium-description'>
-			%s
-			<ul class='wpseo-premium-advantages-list'>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-			</ul>
-
-			<a target='_blank' id='wpseo-buy-premium-popup-button' class='button button-buy-premium wpseo-metabox-go-to' href='%s'>
-				%s
-			</a>
-
-			<p><a target='_blank' class='wpseo-metabox-go-to' href='%s'>%s</a></p>
-		</div>",
-			/* translators: %1$s expands to Yoast SEO Premium. */
-			sprintf( __( 'You\'re not getting the benefits of %1$s yet. If you had %1$s, you could use its awesome features:', 'wordpress-seo' ), 'Yoast SEO Premium' ),
-			__( 'Redirect manager', 'wordpress-seo' ),
-			__( 'Create and manage redirects within your WordPress install.', 'wordpress-seo' ),
-			__( 'Multiple focus keywords', 'wordpress-seo' ),
-			__( 'Optimize a single post for up to 5 keywords.', 'wordpress-seo' ),
-			__( 'Social Previews', 'wordpress-seo' ),
-			__( 'Check what your Facebook or Twitter post will look like.', 'wordpress-seo' ),
-			__( 'Premium support', 'wordpress-seo' ),
-			__( 'Gain access to our 24/7 support team.', 'wordpress-seo' ),
-			WPSEO_Shortlinker::get( 'https://yoa.st/pe-buy-premium' ),
-			/* translators: %s expands to Yoast SEO Premium. */
-			sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
-			WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
-			__( 'More info', 'wordpress-seo' )
-		);
-
-		$tab = new WPSEO_Metabox_Form_Tab(
-			'premium',
-			$content,
-			'Yoast SEO Premium',
-			array(
-				'single' => true,
-			)
-		);
-
-		return new WPSEO_Metabox_Tab_Section(
-			'premium',
-			'<span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>',
-			array( $tab ),
-			array(
-				'link_aria_label' => 'Yoast SEO Premium',
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
-			)
 		);
 	}
 
@@ -516,7 +449,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Gets the contents for the metabox tab.
+	 * Retrieves the contents for the metabox tab.
 	 *
 	 * @param string $tab_name Tab for which to retrieve the field definitions.
 	 *
@@ -527,9 +460,28 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
 			$content .= $this->do_meta_box( $meta_field, $key );
 		}
-		unset( $key, $meta_field );
 
 		return $content;
+	}
+
+	/**
+	 * Retrieves the hidden fields for the metabox tab.
+	 *
+	 * @param string $tab_name Tab for which to retrieve the field definitions.
+	 *
+	 * @return string
+	 */
+	private function get_hidden_tab_fields( $tab_name ) {
+		$hidden_fields = '';
+		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
+			if ( $meta_field['type'] !== 'hidden' ) {
+				continue;
+			}
+
+			$hidden_fields .= $this->do_meta_box( $meta_field, $key );
+		}
+
+		return $hidden_fields;
 	}
 
 	/**
@@ -565,41 +517,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		switch ( $meta_field_def['type'] ) {
-			case 'pageanalysis':
-				if ( WPSEO_Options::get( 'content_analysis_active' ) === false && WPSEO_Options::get( 'keyword_analysis_active' ) === false ) {
-					break;
-				}
-
-				$content .= '<div id="pageanalysis">';
-				$content .= '<section class="yoast-section" id="wpseo-pageanalysis-section">';
-				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-list">' . __( 'Analysis', 'wordpress-seo' ) . '</h3>';
-				$content .= '<div id="wpseo-pageanalysis"></div>';
-				$content .= '<div id="yoast-seo-content-analysis"></div>';
-				$content .= '</section>';
-				$content .= '</div>';
-				break;
-			case 'snippetpreview':
-				$content .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
-				break;
-			case 'focuskeyword':
-				if ( $placeholder !== '' ) {
-					$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
-				}
-
-				$content .= '<div id="wpseofocuskeyword">';
-				$content .= '<section class="yoast-section" id="wpseo-focuskeyword-section">';
-				$content .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">' . esc_html( $meta_field_def['title'] ) . '</h3>';
-				$content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
-				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/>';
-
-				if ( WPSEO_Options::get( 'enable_cornerstone_content', false ) ) {
-					$cornerstone_field = new WPSEO_Cornerstone_Field();
-
-					$content .= $cornerstone_field->get_html( $this->get_metabox_post() );
-				}
-				$content .= '</section>';
-				$content .= '</div>';
-				break;
 			case 'text':
 				$ac = '';
 				if ( isset( $meta_field_def['autocomplete'] ) && $meta_field_def['autocomplete'] === false ) {
@@ -627,7 +544,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$content .= '<select name="' . $esc_form_key . '" id="' . $esc_form_key . '" class="yoast' . $class . '">';
 					foreach ( $meta_field_def['options'] as $val => $option ) {
 						$selected = selected( $meta_value, $val, false );
-						$content  .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
+						$content .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
 					}
 					unset( $val, $option, $selected );
 					$content .= '</select>';
@@ -666,8 +583,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				break;
 
 			case 'checkbox':
-				$checked = checked( $meta_value, 'on', false );
-				$expl    = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
+				$checked  = checked( $meta_value, 'on', false );
+				$expl     = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
 				$content .= '<input type="checkbox" id="' . $esc_form_key . '" name="' . $esc_form_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"' . $aria_describedby . '/> <label for="' . $esc_form_key . '">' . $expl . '</label>';
 				unset( $checked, $expl );
 				break;
@@ -675,7 +592,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			case 'radio':
 				if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
 					foreach ( $meta_field_def['options'] as $val => $option ) {
-						$checked = checked( $meta_value, $val, false );
+						$checked  = checked( $meta_value, $val, false );
 						$content .= '<input type="radio" ' . $checked . ' id="' . $esc_form_key . '_' . esc_attr( $val ) . '" name="' . $esc_form_key . '" value="' . esc_attr( $val ) . '"/> <label for="' . $esc_form_key . '_' . esc_attr( $val ) . '">' . esc_html( $option ) . '</label> ';
 					}
 					unset( $val, $option, $checked );
@@ -719,16 +636,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$label = '';
 			}
 
-			// Special meta box sections such as the Snippet Preview, the Analysis, etc.
-			if ( in_array( $meta_field_def['type'], array(
-				'snippetpreview',
-				'pageanalysis',
-				'focuskeyword',
-			), true )
-			) {
-				return $this->create_content_box( $content, $meta_field_def['type'], $help_button, $help_panel );
-			}
-
 			// Other meta box content or form fields.
 			if ( $meta_field_def['type'] === 'hidden' ) {
 				$html = $content;
@@ -737,23 +644,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$html = $label . $help_button . $help_panel . $content . $description;
 			}
 		}
-
-		return $html;
-	}
-
-	/**
-	 * Creates a sections specific row.
-	 *
-	 * @param string $content          The content to show.
-	 * @param string $hidden_help_name Escaped form key name.
-	 * @param string $help_button      The help button.
-	 * @param string $help_panel       The help text.
-	 *
-	 * @return string
-	 */
-	private function create_content_box( $content, $hidden_help_name, $help_button, $help_panel ) {
-		$html = $content;
-		$html .= '<div class="wpseo_hidden" id="help-yoast-' . $hidden_help_name . '">' . $help_button . $help_panel . '</div>';
 
 		return $html;
 	}
@@ -871,42 +761,58 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( self::is_post_overview( $pagenow ) ) {
 			$asset_manager->enqueue_style( 'edit-page' );
 			$asset_manager->enqueue_script( 'edit-page-script' );
+
+			return;
 		}
-		else {
 
-			if ( get_queried_object_id() !== 0 ) {
-				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // Enqueue files needed for upload functionality.
-			}
+		if ( get_queried_object_id() !== 0 ) {
+			// Enqueue files needed for upload functionality.
+			wp_enqueue_media( array( 'post' => get_queried_object_id() ) );
+		}
 
-			$asset_manager->enqueue_style( 'metabox-css' );
-			$asset_manager->enqueue_style( 'scoring' );
-			$asset_manager->enqueue_style( 'snippet' );
-			$asset_manager->enqueue_style( 'select2' );
+		$asset_manager->enqueue_style( 'metabox-css' );
+		$asset_manager->enqueue_style( 'scoring' );
+		$asset_manager->enqueue_style( 'select2' );
 
-			$asset_manager->enqueue_script( 'metabox' );
-			$asset_manager->enqueue_script( 'help-center' );
-			$asset_manager->enqueue_script( 'admin-media' );
+		$asset_manager->enqueue_script( 'metabox' );
+		$asset_manager->enqueue_script( 'help-center' );
+		$asset_manager->enqueue_script( 'admin-media' );
 
-			$asset_manager->enqueue_script( 'post-scraper' );
-			$asset_manager->enqueue_script( 'replacevar-plugin' );
-			$asset_manager->enqueue_script( 'shortcode-plugin' );
+		$asset_manager->enqueue_script( 'post-scraper' );
+		$asset_manager->enqueue_script( 'replacevar-plugin' );
+		$asset_manager->enqueue_script( 'shortcode-plugin' );
 
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
+		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' );
 
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Help_Center::get_translated_texts() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
+		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
+		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoAnalysisWorkerL10n', array(
+			'url'                     => $analysis_worker_location->get_url(),
+			'keywords_assessment_url' => $used_keywords_assessment_location->get_url(),
+		) );
 
-			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
-				$asset_manager->enqueue_style( 'featured-image' );
+		/**
+		 * Remove the emoji script as it is incompatible with both React and any
+		 * contenteditable fields.
+		 */
+		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
-				$asset_manager->enqueue_script( 'featured-image' );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
-				$featured_image_l10 = array( 'featured_image_notice' => __( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ) );
-				wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoFeaturedImageL10n', $featured_image_l10 );
-			}
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
+
+		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
+			$asset_manager->enqueue_style( 'featured-image' );
+
+			$asset_manager->enqueue_script( 'featured-image' );
+
+			$featured_image_l10 = array( 'featured_image_notice' => __( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ) );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoFeaturedImageL10n', $featured_image_l10 );
 		}
 	}
 
@@ -942,7 +848,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return array();
 	}
 
-
 	/**
 	 * Returns an array with shortcode tags for all registered shortcodes.
 	 *
@@ -975,10 +880,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'sitedesc',
 			'sep',
 			'page',
-			'currenttime',
-			'currentdate',
-			'currentday',
-			'currentmonth',
 			'currentyear',
 		);
 
@@ -988,6 +889,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		// Merge custom replace variables with the WordPress ones.
 		return array_merge( $cached_replacement_vars, $this->get_custom_replace_vars( $post ) );
+	}
+
+	/**
+	 * Prepares the recommended replace vars for localization.
+	 *
+	 * @return array Recommended replacement variables.
+	 */
+	private function get_recommended_replace_vars() {
+		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		$post                     = $this->get_metabox_post();
+
+		// What is recommended depends on the current context.
+		$post_type = $recommended_replace_vars->determine_for_post( $post );
+
+		return $recommended_replace_vars->get_recommended_replacevars_for( $post_type );
 	}
 
 	/**
@@ -1063,106 +979,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return $custom_replace_vars;
 	}
 
-
-	/**
-	 * Return the SVG for the traffic light in the metabox.
-	 */
-	public function traffic_light_svg() {
-		return <<<SVG
-<svg class="yst-traffic-light init" version="1.1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
-	 x="0px" y="0px" viewBox="0 0 30 47" enable-background="new 0 0 30 47" xml:space="preserve">
-<g id="BG_1_">
-</g>
-<g id="traffic_light">
-	<g>
-		<g>
-			<g>
-				<path fill="#5B2942" d="M22,0H8C3.6,0,0,3.6,0,7.9v31.1C0,43.4,3.6,47,8,47h14c4.4,0,8-3.6,8-7.9V7.9C30,3.6,26.4,0,22,0z
-					 M27.5,38.8c0,3.1-2.6,5.7-5.8,5.7H8.3c-3.2,0-5.8-2.5-5.8-5.7V8.3c0-1.5,0.6-2.9,1.7-4c1.1-1,2.5-1.6,4.1-1.6h13.4
-					c1.5,0,3,0.6,4.1,1.6c1.1,1.1,1.7,2.5,1.7,4V38.8z"/>
-			</g>
-			<g class="traffic-light-color traffic-light-red">
-				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
-				<ellipse fill="#DC3232" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
-				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
-			</g>
-			<g class="traffic-light-color traffic-light-orange">
-				<ellipse fill="#F49A00" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
-				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
-				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
-			</g>
-			<g class="traffic-light-color traffic-light-green">
-				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
-				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
-				<ellipse fill="#63B22B" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
-			</g>
-			<g class="traffic-light-color traffic-light-empty">
-				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
-				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
-				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
-			</g>
-			<g class="traffic-light-color traffic-light-init">
-				<ellipse fill="#5B2942" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
-				<ellipse fill="#5B2942" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
-				<ellipse fill="#5B2942" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
-			</g>
-		</g>
-	</g>
-</g>
-</svg>
-SVG;
-
-	}
-
-	/**
-	 * Generic tab.
-	 */
-	public function template_generic_tab() {
-		// This template belongs to the post scraper so don't echo it if it isn't enqueued.
-		if ( ! wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' ) ) {
-			return;
-		}
-
-		echo '<script type="text/html" id="tmpl-generic_tab">
-				<li class="<# if ( data.classes ) { #>{{data.classes}}<# } #><# if ( data.active ) { #> active<# } #>">
-					<a class="wpseo_tablink" href="#wpseo_generic" data-score="{{data.score}}">
-						<span class="wpseo-score-icon {{data.score}}"></span>
-						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
-						<span class="wpseo-tab-label">{{data.label}}</span>
-						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}</span>
-					</a>
-					<# if ( data.hideable ) { #>
-						<button type="button" class="remove-tab" aria-label="{{data.removeLabel}}"><span>x</span></button>
-					<# } #>
-				</li>
-			</script>';
-	}
-
-	/**
-	 * Keyword tab for enabling analysis of multiple keywords.
-	 */
-	public function template_keyword_tab() {
-		// This template belongs to the post scraper so don't echo it if it isn't enqueued.
-		if ( ! wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' ) ) {
-			return;
-		}
-
-		echo '<script type="text/html" id="tmpl-keyword_tab">
-				<li class="<# if ( data.classes ) { #>{{data.classes}}<# } #><# if ( data.active ) { #> active<# } #>">
-					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
-						<span class="wpseo-score-icon {{data.score}}"></span>
-						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
-						<em class="wpseo-keyword">{{data.label}}</em>
-						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}</span>
-					</a>
-					<# if ( data.hideable ) { #>
-						<button type="button" class="remove-keyword" aria-label="{{data.removeLabel}}"><span>x</span></button>
-					<# } #>
-				</li>
-			</script>';
-	}
-
 	/**
 	 * @param string $page The page to check for the post overview page.
 	 *
@@ -1179,6 +995,6 @@ SVG;
 	 */
 	public static function is_post_edit( $page ) {
 		return 'post.php' === $page
-			   || 'post-new.php' === $page;
+			|| 'post-new.php' === $page;
 	}
 }

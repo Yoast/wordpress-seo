@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Doubles
  */
 
@@ -7,6 +9,7 @@
  * Class WPSEO_Configuration_Options_Adapter_Mock
  */
 class WPSEO_Configuration_Options_Adapter_Mock extends WPSEO_Configuration_Options_Adapter {
+
 	public function get_lookups() {
 		return $this->lookup;
 	}

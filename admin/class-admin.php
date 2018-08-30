@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -46,7 +48,7 @@ class WPSEO_Admin {
 		);
 
 		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
-			$this->admin_features['primary_category'] = new WPSEO_Primary_Term_Admin();
+			$this->admin_features['primary_category']       = new WPSEO_Primary_Term_Admin();
 		}
 
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' && filter_input( INPUT_GET, 'tool' ) === null ) {
@@ -84,21 +86,27 @@ class WPSEO_Admin {
 
 		$this->set_upsell_notice();
 
-		$this->check_php_version();
 		$this->initialize_cornerstone_content();
+
+		new Yoast_Modal();
+
+		if ( WPSEO_Utils::is_plugin_network_active() ) {
+			$integrations[] = new Yoast_Network_Admin();
+		}
 
 		$integrations[] = new WPSEO_Yoast_Columns();
 		$integrations[] = new WPSEO_License_Page_Manager();
 		$integrations[] = new WPSEO_Statistic_Integration();
-		$integrations[] = new WPSEO_Slug_Change_Watcher();
 		$integrations[] = new WPSEO_Capability_Manager_Integration( WPSEO_Capability_Manager_Factory::get() );
+		$integrations[] = new WPSEO_Admin_Media_Purge_Notification();
+		$integrations[] = new WPSEO_Admin_Gutenberg_Compatibility_Notification();
+		$integrations[] = new WPSEO_Expose_Shortlinks();
 		$integrations   = array_merge( $integrations, $this->initialize_seo_links() );
 
 		/** @var WPSEO_WordPress_Integration $integration */
 		foreach ( $integrations as $integration ) {
 			$integration->register_hooks();
 		}
-
 	}
 
 	/**
@@ -276,6 +284,8 @@ class WPSEO_Admin {
 	 */
 	private function localize_admin_global_script() {
 		return array(
+			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
+			'variable_warning'        => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
 			'dismiss_about_url'       => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
 			'dismiss_tagline_url'     => $this->get_dismiss_url( 'wpseo-dismiss-tagline-notice' ),
 			'help_video_iframe_title' => __( 'Yoast SEO video tutorial', 'wordpress-seo' ),
@@ -310,19 +320,13 @@ class WPSEO_Admin {
 
 	/**
 	 * Initializes Whip to show a notice for outdated PHP versions.
+	 *
+	 * @deprecated 8.1
+	 *
+	 * @return void
 	 */
-	protected function check_php_version() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		if ( ! $this->on_dashboard_page() ) {
-			return;
-		}
-
-		whip_wp_check_versions( array(
-			'php' => '>=5.4',
-		) );
+	public function check_php_version() {
+		// Intentionally left empty.
 	}
 
 	/**

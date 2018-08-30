@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -74,8 +76,19 @@ class Yoast_Form {
 		<?php
 		if ( $form === true ) {
 			$enctype = ( $contains_files ) ? ' enctype="multipart/form-data"' : '';
-			echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf"' . $enctype . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
-			settings_fields( $option_long_name );
+
+			$network_admin = new Yoast_Network_Admin();
+			if ( $network_admin->meets_requirements() ) {
+				$action_url       = network_admin_url( 'settings.php' );
+				$hidden_fields_cb = array( $network_admin, 'settings_fields' );
+			}
+			else {
+				$action_url       = admin_url( 'options.php' );
+				$hidden_fields_cb = 'settings_fields';
+			}
+
+			echo '<form action="' . esc_url( $action_url ) . '" method="post" id="wpseo-conf"' . $enctype . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+			call_user_func( $hidden_fields_cb, $option_long_name );
 		}
 		$this->set_option( $option );
 	}
@@ -115,7 +128,7 @@ class Yoast_Form {
 	 *
 	 * @return array
 	 */
-	private function get_option() {
+	public function get_option() {
 		if ( is_network_admin() ) {
 			return get_site_option( $this->option_name );
 		}
@@ -142,7 +155,7 @@ class Yoast_Form {
 		/**
 		 * Apply general admin_footer hooks
 		 */
-		do_action( 'wpseo_admin_footer' );
+		do_action( 'wpseo_admin_footer', $this );
 
 		/**
 		 * Run possibly set actions to add for example an i18n box
@@ -158,22 +171,7 @@ class Yoast_Form {
 
 		echo '</div><!-- end of div wpseo_content_wrapper -->';
 
-
-		if ( ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) ) {
-			$xdebug = ( extension_loaded( 'xdebug' ) ? true : false );
-			echo '
-			<div id="wpseo-debug-info" class="yoast-container">
-
-				<h2>' . esc_html__( 'Debug Information', 'wordpress-seo' ) . '</h2>
-				<div>
-					<h3 class="wpseo-debug-heading">' . esc_html__( 'Current option:', 'wordpress-seo' ) . ' <span class="wpseo-debug">' . esc_html( $this->option_name ) . '</span></h3>
-					' . ( ( $xdebug ) ? '' : '<pre>' );
-			var_dump( $this->get_option() );
-			echo '
-					' . ( ( $xdebug ) ? '' : '</pre>' ) . '
-				</div>
-			</div>';
-		}
+		do_action( 'wpseo_admin_below_content', $this );
 
 		echo '
 			</div><!-- end of wrap -->';
@@ -196,17 +194,7 @@ class Yoast_Form {
 			}
 		}
 
-		$sidebar_renderer = new WPSEO_Admin_Banner_Sidebar_Renderer( new WPSEO_Admin_Banner_Spot_Renderer() );
-
-		$banner_renderer = new WPSEO_Admin_Banner_Renderer();
-		$banner_renderer->set_base_path( plugins_url( 'images/banner/', WPSEO_FILE ) );
-
-		/* translators: %1$s expands to "Yoast". */
-		$sidebar = new WPSEO_Admin_Banner_Sidebar( sprintf( __( '%1s recommendations for you', 'wordpress-seo' ), 'Yoast' ), $banner_renderer );
-		$sidebar->initialize( new WPSEO_Features() );
-
-		echo $sidebar_renderer->render( $sidebar );
-
+		require_once 'views/sidebar.php';
 	}
 
 	/**
@@ -376,9 +364,9 @@ class Yoast_Form {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $var   The variable within the option to create the textarea for.
-	 * @param string $label The label to show for the variable.
-	 * @param array  $attr  The CSS class to assign to the textarea.
+	 * @param string       $var   The variable within the option to create the textarea for.
+	 * @param string       $label The label to show for the variable.
+	 * @param string|array $attr  The CSS class or an array of attributes to assign to the textarea.
 	 */
 	public function textarea( $var, $label, $attr = array() ) {
 		if ( ! is_array( $attr ) ) {
@@ -563,7 +551,6 @@ class Yoast_Form {
 		}
 		echo '</fieldset>';
 	}
-
 
 	/**
 	 * Create a toggle switch input field using two radio buttons.

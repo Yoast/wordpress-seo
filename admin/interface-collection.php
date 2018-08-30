@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -14,5 +16,4 @@ interface WPSEO_Collection {
 	 * @return array The collection data.
 	 */
 	public function get();
-
 }

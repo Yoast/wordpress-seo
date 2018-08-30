@@ -1,8 +1,17 @@
-/* global wpseoReplaceVarsL10n, require */
-var forEach = require( "lodash/forEach" );
-var filter = require( "lodash/filter" );
-var isUndefined = require( "lodash/isUndefined" );
-var ReplaceVar = require( "./values/replaceVar" );
+/* global wpseoReplaceVarsL10n, require, wp */
+import forEach from "lodash/forEach";
+import filter from "lodash/filter";
+import trim from "lodash/trim";
+import isUndefined from "lodash/isUndefined";
+import ReplaceVar from "./values/replaceVar";
+import {
+	removeReplacementVariable,
+	updateReplacementVariable,
+	refreshSnippetEditor,
+} from "./redux/actions/snippetEditor";
+import "./helpers/babel-polyfill";
+
+import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
 ( function() {
 	var modifiableFields = [
@@ -21,17 +30,23 @@ var ReplaceVar = require( "./values/replaceVar" );
 	/**
 	 * Variable replacement plugin for WordPress.
 	 *
-	 * @param {app} app The app object.
+	 * @param {app}    app   The app object.
+	 * @param {Object} store The redux store.
 	 *
 	 * @returns {void}
 	 */
-	var YoastReplaceVarPlugin = function( app ) {
+	var YoastReplaceVarPlugin = function( app, store ) {
 		this._app = app;
 		this._app.registerPlugin( "replaceVariablePlugin", { status: "ready" } );
+
+		this._store = store;
+
+		this.replaceVariables = this.replaceVariables.bind( this );
 
 		this.registerReplacements();
 		this.registerModifications();
 		this.registerEvents();
+		this.subscribeToGutenberg();
 	};
 
 	/*
@@ -50,6 +65,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		this.addReplacement( new ReplaceVar( "%%currenttime%%",     "currenttime" ) );
 		this.addReplacement( new ReplaceVar( "%%currentyear%%",     "currentyear" ) );
 		this.addReplacement( new ReplaceVar( "%%date%%",            "date" ) );
+		this.addReplacement( new ReplaceVar( "%%userid%%",          "userid" ) );
 		this.addReplacement( new ReplaceVar( "%%id%%",              "id" ) );
 		this.addReplacement( new ReplaceVar( "%%page%%",            "page" ) );
 		this.addReplacement( new ReplaceVar( "%%searchphrase%%",    "searchphrase" ) );
@@ -69,7 +85,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		} ) );
 
 		this.addReplacement( new ReplaceVar( "%%term_title%%", "term_title", {
-			scope: [ "post", "term" ],
+			scope: [ "term" ],
 		} ) );
 
 		this.addReplacement( new ReplaceVar( "%%title%%", "title", {
@@ -101,7 +117,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.registerEvents = function() {
-		var currentScope = wpseoReplaceVarsL10n.scope;
+		const currentScope = wpseoReplaceVarsL10n.scope;
 
 		if ( currentScope === "post" ) {
 			// Set events for each taxonomy box.
@@ -112,6 +128,50 @@ var ReplaceVar = require( "./values/replaceVar" );
 			// Add support for custom fields as well.
 			jQuery( "#postcustomstuff > #list-table" ).each( this.bindFieldEvents.bind( this ) );
 		}
+	};
+
+	/**
+	 * Subscribes to Gutenberg to watch a possible parent page change.
+	 *
+	 * @returns {void}
+	 */
+	YoastReplaceVarPlugin.prototype.subscribeToGutenberg = function() {
+		if ( ! isGutenbergDataAvailable() ) {
+			return;
+		}
+		let fetchedParents = { 0: "" };
+		let currentParent  = null;
+		const wpData       = window.wp.data;
+		wpData.subscribe( () => {
+			let newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
+			if ( typeof newParent === "undefined" || currentParent === newParent ) {
+				return;
+			}
+			currentParent = newParent;
+			if ( newParent < 1 ) {
+				this._currentParentPageTitle = "";
+				this.declareReloaded();
+				return;
+			}
+			if ( ! isUndefined( fetchedParents[ newParent ] ) ) {
+				this._currentParentPageTitle = fetchedParents[ newParent ];
+				this.declareReloaded();
+				return;
+			}
+			const page = new wp.api.models.Page( { id: newParent } );
+			page.fetch().then(
+				response => {
+					this._currentParentPageTitle = response.title.rendered;
+					fetchedParents[ newParent ]  = this._currentParentPageTitle;
+					this.declareReloaded();
+				}
+			).fail(
+				() => {
+					this._currentParentPageTitle = "";
+					this.declareReloaded();
+				}
+			);
+		} );
 	};
 
 	/**
@@ -157,8 +217,6 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 */
 	YoastReplaceVarPlugin.prototype.replaceVariables = function( data ) {
 		if ( ! isUndefined( data ) ) {
-			data = this.termtitleReplace( data );
-
 			// This order currently needs to be maintained until we can figure out a nicer way to replace this.
 			data = this.parentReplace( data );
 			data = this.replaceCustomTaxonomy( data );
@@ -229,6 +287,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 */
 	YoastReplaceVarPlugin.prototype.declareReloaded = function() {
 		this._app.pluginReloaded( "replaceVariablePlugin" );
+		this._store.dispatch( refreshSnippetEditor() );
 	};
 
 	/*
@@ -266,15 +325,30 @@ var ReplaceVar = require( "./values/replaceVar" );
 			taxonomyElements[ taxonomyName ] = {};
 		}
 
+		const checkHierarchicalTerm = [];
+
 		forEach( checkboxes, function( checkbox ) {
 			checkbox = jQuery( checkbox );
-			var taxonomyID = checkbox.val();
+			const taxonomyID = checkbox.val();
 
+			const hierarchicalTermName = this.getCategoryName( checkbox );
+			const isChecked = checkbox.prop( "checked" );
 			taxonomyElements[ taxonomyName ][ taxonomyID ] = {
-				label: this.getCategoryName( checkbox ),
-				checked: checkbox.prop( "checked" ),
+				label: hierarchicalTermName,
+				checked: isChecked,
 			};
+			if( isChecked && checkHierarchicalTerm.indexOf( hierarchicalTermName ) === -1 ) {
+				// Only push the categoryName to the checkedCategories array if it's not already in there.
+				checkHierarchicalTerm.push( hierarchicalTermName );
+			}
 		}.bind( this ) );
+
+		// Custom taxonomies (ie. taxonomies that are not "category") should be prefixed with ct_.
+		if ( taxonomyName !== "category" ) {
+			taxonomyName = "ct_" + taxonomyName;
+		}
+
+		this._store.dispatch( updateReplacementVariable( taxonomyName, checkHierarchicalTerm.join( ", " ) ) );
 	};
 
 	/**
@@ -357,7 +431,6 @@ var ReplaceVar = require( "./values/replaceVar" );
 
 			filtered.push( item.label );
 		} );
-
 		return jQuery.unique( filtered ).join( ", " );
 	};
 
@@ -376,9 +449,14 @@ var ReplaceVar = require( "./values/replaceVar" );
 		jQuery( customFields ).each( function( i, customField ) {
 			var customFieldName = jQuery( "#" + customField.id + "-key" ).val();
 			var customValue = jQuery( "#" + customField.id + "-value" ).val();
+			const sanitizedFieldName = "cf_" + this.sanitizeCustomFieldNames( customFieldName );
+
+			// The label will just be the value of the name field, with " (custom field)" appended.
+			const label = customFieldName + " (custom field)";
 
 			// Register these as new replacevars. The replacement text will be a literal string.
-			this.addReplacement( new ReplaceVar( "%%cf_" + this.sanitizeCustomFieldNames( customFieldName ) + "%%",
+			this._store.dispatch( updateReplacementVariable( sanitizedFieldName, customValue, label ) );
+			this.addReplacement( new ReplaceVar( `%%${ sanitizedFieldName }%%`,
 				customValue,
 				{ source: "direct" }
 			) );
@@ -408,7 +486,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * @returns {string} The sanitized field name.
 	 */
 	YoastReplaceVarPlugin.prototype.sanitizeCustomFieldNames = function( customFieldName ) {
-		return customFieldName.replace( " ", "_" );
+		return customFieldName.replace( /\s/g, "_" );
 	};
 
 	/**
@@ -421,7 +499,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		// Remove all the custom fields prior. This ensures that deleted fields don't show up anymore.
 		this.removeCustomFields();
 
-		var textFields = jQuery( targetMetaBox ).find( "#the-list > tr:visible" );
+		var textFields = jQuery( targetMetaBox ).find( "#the-list > tr:visible[id]" );
 
 		if ( textFields.length > 0 ) {
 			this.parseFields( textFields );
@@ -462,6 +540,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		} );
 
 		forEach( customFields, function( item ) {
+			this._store.dispatch( removeReplacementVariable( trim( item.placeholder, "%%" ) ) );
 			this.removeReplacement( item );
 		}.bind( this ) );
 	};
@@ -471,30 +550,20 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 */
 
 	/**
-	 * Replaces %%term_title%% with the title of the term.
-	 *
-	 * @param {string} data The data that needs its placeholders replaced.
-	 * @returns {string} The data with all its placeholders replaced by actual values.
-	 */
-	YoastReplaceVarPlugin.prototype.termtitleReplace = function( data ) {
-		var termTitle = this._app.rawData.name;
-
-		data = data.replace( /%%term_title%%/g, termTitle );
-
-		return data;
-	};
-
-	/**
 	 * Replaces %%parent_title%% with the selected value from selectbox (if available on pages only).
 	 *
 	 * @param {string} data The data that needs its placeholders replaced.
 	 * @returns {string} The data with all its placeholders replaced by actual values.
 	 */
 	YoastReplaceVarPlugin.prototype.parentReplace = function( data ) {
-		var parent = jQuery( "#parent_id, #parent" ).eq( 0 );
+		let parent = jQuery( "#parent_id, #parent" ).eq( 0 );
 
 		if ( this.hasParentTitle( parent ) ) {
 			data = data.replace( /%%parent_title%%/, this.getParentTitleReplacement( parent ) );
+		}
+
+		if ( isGutenbergDataAvailable() && ! isUndefined( this._currentParentPageTitle ) ) {
+			data = data.replace( /%%parent_title%%/, this._currentParentPageTitle );
 		}
 
 		return data;

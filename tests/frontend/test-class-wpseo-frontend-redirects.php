@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Frontend
  */
 
@@ -9,6 +11,7 @@
  * @group frontend
  */
 final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
+
 	/**
 	 * Test if no redirect is done when not set.
 	 *
@@ -147,5 +150,34 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->go_to( get_permalink( $post_id ) );
 
 		$this->assertFalse( self::$class_instance->attachment_redirect() );
+	}
+
+	/**
+	 * Tests if do_attachment_redirect has been called.
+	 *
+	 * @covers WPSEO_Frontend::attachment_redirect
+	 */
+	public function test_do_attachment_redirect() {
+		WPSEO_Options::set( 'disable-attachment', true );
+		$class_instance = $this
+			->getMockBuilder( 'WPSEO_Frontend_Double' )
+			->setMethods( array( 'do_attachment_redirect' ) )
+			->getMock();
+
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'do_attachment_redirect' );
+
+		// Create an attachment with parent.
+		$post_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'attachment',
+			)
+		);
+		$this->go_to( get_permalink( $post_id ) );
+
+		// Make sure the redirect is applied.
+		$class_instance->attachment_redirect();
 	}
 }

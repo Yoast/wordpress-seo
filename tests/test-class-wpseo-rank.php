@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests
  */
 
@@ -89,7 +91,6 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 		$rank = new WPSEO_Rank( $rank );
 
 		$this->assertEquals( $expected, $rank->get_drop_down_label() );
-
 	}
 
 	/**
@@ -117,7 +118,6 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 		$rank = new WPSEO_Rank( $rank );
 
 		$this->assertEquals( $expected, $rank->get_starting_score() );
-
 	}
 
 	/**
@@ -145,7 +145,6 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 		$rank = new WPSEO_Rank( $rank );
 
 		$this->assertEquals( $expected, $rank->get_end_score() );
-
 	}
 
 	/**

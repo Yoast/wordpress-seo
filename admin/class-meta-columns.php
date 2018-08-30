@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -272,7 +274,7 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Determines the Readabilty score filter to the meta query, based on the passed Readabilty filter.
+	 * Determines the Readability score filter to the meta query, based on the passed Readability filter.
 	 *
 	 * @param string $readability_filter The Readability filter to use to determine what further filter to apply.
 	 *
@@ -293,9 +295,9 @@ class WPSEO_Meta_Columns {
 	 */
 	protected function get_keyword_filter( $keyword_filter ) {
 		return array(
-			'post_type'  => get_query_var( 'post_type', 'post' ),
-			'meta_key'   => WPSEO_Meta::$meta_prefix . 'focuskw',
-			'meta_value' => sanitize_text_field( $keyword_filter ),
+			'post_type' => get_query_var( 'post_type', 'post' ),
+			'key'       => WPSEO_Meta::$meta_prefix . 'focuskw',
+			'value'     => sanitize_text_field( $keyword_filter ),
 		);
 	}
 

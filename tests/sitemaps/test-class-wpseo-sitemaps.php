@@ -1,15 +1,19 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Sitemaps
  */
 
 /**
  * Class WPSEO_Sitemaps_Test
+ *
+ * @group sitemaps
  */
 class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Sitemaps
+	 * @var WPSEO_Sitemaps_Double
 	 */
 	private static $class_instance;
 

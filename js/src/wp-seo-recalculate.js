@@ -2,10 +2,16 @@
 /* global ajaxurl */
 /* global require */
 
+import "./helpers/babel-polyfill";
+
 var Jed = require( "jed" );
-var Paper = require( "yoastseo/js/values/Paper" );
-var SEOAssessor = require( "yoastseo/js/seoAssessor" );
-var TaxonomyAssessor = require( "./assessors/taxonomyAssessor" );
+
+import {
+	Paper,
+	SEOAssessor,
+	TaxonomyAssessor,
+} from "yoastseo";
+
 var isUndefined = require( "lodash/isUndefined" );
 
 ( function( $ ) {

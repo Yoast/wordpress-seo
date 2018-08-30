@@ -1,6 +1,7 @@
 /* global yoastWizardConfig */
 import React from "react";
 import ReactDOM from "react-dom";
+import "./helpers/babel-polyfill";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
@@ -14,8 +15,12 @@ import MediaUpload from "./components/MediaUpload";
 import Suggestions from "./components/Suggestions";
 import FinalStep from "./components/FinalStep";
 
-import { setTranslations } from "yoast-components/utils/i18n";
+import { setTranslations } from "yoast-components";
 import isUndefined from "lodash/isUndefined";
+
+import YoastIcon from "../../images/Yoast_SEO_Icon.svg";
+
+import { setYoastComponentsL10n } from "./helpers/i18n";
 
 injectTapEventPlugin();
 
@@ -127,7 +132,7 @@ class App extends React.Component {
 		if ( typeof ( this.state.config ) !== "undefined" && this.state.config !== {} ) {
 			return (
 				<div>
-					<OnboardingWizard { ...this.state.config }/>
+					<OnboardingWizard { ...this.state.config } headerIcon={YoastIcon} />
 				</div>
 			);
 		}
@@ -142,10 +147,12 @@ class App extends React.Component {
 
 		return (
 			<div>
-				<MessageBox { ...message }/>
+				<MessageBox { ...message } icon={YoastIcon} />
 			</div>
 		);
 	}
 }
+
+setYoastComponentsL10n();
 
 ReactDOM.render( <App/>, document.getElementById( "wizard" ) );

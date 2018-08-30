@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Import\Plugins
  */
 
@@ -30,14 +32,14 @@ class WPSEO_Import_Plugin {
 
 		switch ( $action ) {
 			case 'cleanup':
-				$this->status = $this->importer->cleanup();
+				$this->status = $this->importer->run_cleanup();
 				break;
 			case 'import':
-				$this->status = $this->importer->import();
+				$this->status = $this->importer->run_import();
 				break;
 			case 'detect':
 			default:
-				$this->status = $this->importer->detect();
+				$this->status = $this->importer->run_detect();
 		}
 
 		$this->status->set_msg( $this->complete_msg( $this->status->get_msg() ) );
@@ -51,6 +53,6 @@ class WPSEO_Import_Plugin {
 	 * @return string Returns message with plugin name instead of replacement variables.
 	 */
 	protected function complete_msg( $msg ) {
-		return sprintf( $msg, $this->importer->plugin_name() );
+		return sprintf( $msg, $this->importer->get_plugin_name() );
 	}
 }

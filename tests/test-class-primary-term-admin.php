@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests
  */
 
@@ -113,7 +115,8 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 				'labels' => (object) array(
 					'singular_name' => 'Category',
 				),
-				'name'   => 'category',
+				'name'      => 'category',
+				'rest_base' => 'categories',
 			),
 		);
 

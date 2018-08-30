@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests
  */
 
@@ -98,6 +100,27 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test if the Asset Manager works with a custom prefix
+	 *
+	 * @covers WPSEO_Admin_Asset_Manager::register_script
+	 */
+	public function test_register_script_with_prefix() {
+		$prefix = 'yoast-custom-prefix';
+
+		$asset_manager = new WPSEO_Admin_Asset_Manager( null, $prefix );
+		$asset_manager->register_script( new WPSEO_Admin_Asset( array(
+			'name'      => 'handle',
+			'src'       => 'src',
+		) ) );
+
+		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
+		// Use the WordPress internals to assert instead.
+		global $wp_scripts;
+
+		$this->assertTrue( isset( $wp_scripts->registered[ $prefix . 'handle' ] ) );
+	}
+
+	/**
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
 	 */
 	public function test_register_script_suffix() {
@@ -141,6 +164,27 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( array( 'deps' ), $result->deps );
 		$this->assertEquals( 'version', $result->ver );
 		$this->assertEquals( 'print', $result->args );
+	}
+
+	/**
+	 * Test if the Asset Manager works with a custom prefix
+	 *
+	 * @covers WPSEO_Admin_Asset_Manager::register_style
+	 */
+	public function test_register_style_with_prefix() {
+		$prefix = 'yoast-custom-prefix';
+
+		$asset_manager = new WPSEO_Admin_Asset_Manager( null, $prefix );
+		$asset_manager->register_style( new WPSEO_Admin_Asset( array(
+			'name'      => 'handle',
+			'src'       => 'src',
+		) ) );
+
+		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
+		// Use the WordPress internals to assert instead.
+		global $wp_scripts;
+
+		$this->assertTrue( isset( $wp_scripts->registered[ $prefix . 'handle' ] ) );
 	}
 
 	/**

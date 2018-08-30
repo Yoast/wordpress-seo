@@ -1,13 +1,36 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { LanguageNotice, ContentAnalysis } from "yoast-components";
+import { Fragment } from "@wordpress/element";
+import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";
-import ContentAnalysis from "yoast-components/composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
  */
 class Results extends React.Component {
+	constructor( props ) {
+		super( props );
+
+		this.state = {
+			mappedResults: mapResults( this.props.results ),
+		};
+	}
+
+	componentWillReceiveProps( nextProps ) {
+		/*
+		 * Check if there are new results.
+		 * When the new results are null, we presume we are loading the analysis.
+		 * Only update the mappedResults when we have new and non-null results.
+		 */
+		if ( nextProps.results !== null && nextProps.results !== this.props.results ) {
+			this.setState( {
+				mappedResults: mapResults( nextProps.results ),
+			} );
+		}
+	}
+
 	/**
 	 * Handles a click on a marker button, to mark the text in the editor.
 	 *
@@ -30,9 +53,7 @@ class Results extends React.Component {
 	 * @returns {void}
 	 */
 	removeMarkers() {
-		const assessor = window.YoastSEO.app.contentAssessor;
-		const marker = assessor.getSpecificMarker();
-		marker( assessor.getPaper(), [] );
+		window.YoastSEO.analysis.applyMarks( new Paper( "", {} ), [] );
 	}
 
 	/**
@@ -41,7 +62,7 @@ class Results extends React.Component {
 	 * @returns {ReactElement} The react element.
 	 */
 	render() {
-		const mappedResults = mapResults( this.props.results );
+		const { mappedResults } = this.state;
 		const {
 			errorsResults,
 			improvementsResults,
@@ -49,21 +70,25 @@ class Results extends React.Component {
 			considerationsResults,
 			problemsResults,
 		} = mappedResults;
-		return(
-			<ContentAnalysis
-				errorsResults={ errorsResults }
-				problemsResults={ problemsResults }
-				improvementsResults={ improvementsResults }
-				considerationsResults={ considerationsResults }
-				goodResults={ goodResults }
-				changeLanguageLink={ this.props.changeLanguageLink }
-				language={ this.props.language }
-				showLanguageNotice={ this.props.showLanguageNotice }
-				canChangeLanguage={ this.props.canChangeLanguage }
-				onMarkButtonClick={ this.handleMarkButtonClick.bind( this ) }
-				marksButtonClassName={ this.props.marksButtonClassName }
-				marksButtonStatus={ this.props.marksButtonStatus }
-			/>
+		return (
+			<Fragment>
+				<LanguageNotice
+					changeLanguageLink={ this.props.changeLanguageLink }
+					language={ this.props.language }
+					showLanguageNotice={ this.props.showLanguageNotice }
+					canChangeLanguage={ this.props.canChangeLanguage }
+				/>
+				<ContentAnalysis
+					errorsResults={ errorsResults }
+					problemsResults={ problemsResults }
+					improvementsResults={ improvementsResults }
+					considerationsResults={ considerationsResults }
+					goodResults={ goodResults }
+					onMarkButtonClick={ this.handleMarkButtonClick.bind( this ) }
+					marksButtonClassName={ this.props.marksButtonClassName }
+					marksButtonStatus={ this.props.marksButtonStatus }
+				/>
+			</Fragment>
 		);
 	}
 }

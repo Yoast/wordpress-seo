@@ -1,113 +1,107 @@
 <?php
 /**
+ * File with the class to handle data from All in One SEO Pack.
+ *
  * @package WPSEO\Admin\Import\Plugins
  */
 
 /**
- * Class with functionality to import Yoast SEO settings from All In One SEO.
+ * Class with functionality to import & clean All in One SEO Pack post metadata.
  */
-class WPSEO_Import_AIOSEO implements WPSEO_Plugin_Importer {
+class WPSEO_Import_AIOSEO extends WPSEO_Plugin_Importer {
 	/**
-	 * @var wpdb Holds the WPDB instance.
-	 */
-	protected $wpdb;
-
-	/**
-	 * Holds the import status object.
+	 * The plugin name.
 	 *
-	 * @var WPSEO_Import_Status
+	 * @var string
 	 */
-	private $status;
+	protected $plugin_name = 'All In One SEO Pack';
 
 	/**
-	 * WPSEO_Import_AIOSEO constructor.
-	 */
-	public function __construct() {
-		global $wpdb;
-
-		$this->wpdb = $wpdb;
-	}
-
-	/**
-	 * Returns the plugin name.
+	 * Meta key, used in SQL LIKE clause for delete query.
 	 *
-	 * @return string Plugin name.
+	 * @var string
 	 */
-	public function plugin_name() {
-		return 'All In One SEO Pack';
-	}
+	protected $meta_key = '_aioseop_%';
 
 	/**
-	 * Returns whether there is post meta data to import.
+	 * OpenGraph keys to import.
 	 *
-	 * @return WPSEO_Import_Status Import status object.
+	 * @var array
 	 */
-	public function detect() {
-		$this->status = new WPSEO_Import_Status( 'detect', false );
+	protected $import_keys = array(
+		'aioseop_opengraph_settings_title'             => 'opengraph-title',
+		'aioseop_opengraph_settings_desc'              => 'opengraph-description',
+		'aioseop_opengraph_settings_customimg'         => 'opengraph-image',
+		'aioseop_opengraph_settings_customimg_twitter' => 'twitter-image',
+	);
 
-		if ( ! $this->detect_helper() ) {
-			return $this->status;
+	/**
+	 * Array of meta keys to detect and import.
+	 *
+	 * @var array
+	 */
+	protected $clone_keys = array(
+		array(
+			'old_key' => '_aioseop_title',
+			'new_key' => 'title',
+		),
+		array(
+			'old_key' => '_aioseop_description',
+			'new_key' => 'metadesc',
+		),
+		array(
+			'old_key' => '_aioseop_noindex',
+			'new_key' => 'meta-robots-noindex',
+			'convert' => array( 'on' => 1 ),
+		),
+		array(
+			'old_key' => '_aioseop_nofollow',
+			'new_key' => 'meta-robots-nofollow',
+			'convert' => array( 'on' => 1 ),
+		),
+	);
+
+	/**
+	 * Import All In One SEO meta values.
+	 *
+	 * @return bool Import success status.
+	 */
+	protected function import() {
+		$status = parent::import();
+		if ( $status ) {
+			$this->import_opengraph();
 		}
-
-		return $this->status->set_status( true );
+		return $status;
 	}
 
 	/**
-	 * Imports the All in one SEO Pack settings.
+	 * Imports the OpenGraph and Twitter settings for all posts.
 	 *
-	 * @return WPSEO_Import_Status Import status object.
+	 * @return bool
 	 */
-	public function import() {
-		$this->status = new WPSEO_Import_Status( 'import', false );
+	protected function import_opengraph() {
+		$query_posts = new WP_Query( 'post_type=any&meta_key=_aioseop_opengraph_settings&order=ASC&fields=ids&nopaging=true' );
 
-		if ( ! $this->detect_helper() ) {
-			return $this->status;
-		}
-
-		$this->import_metas();
-
-		return $this->status->set_status( true );
-	}
-
-	/**
-	 * Removes the All in one SEO pack data from the database.
-	 *
-	 * @return WPSEO_Import_Status Import status object.
-	 */
-	public function cleanup() {
-		$this->status = new WPSEO_Import_Status( 'cleanup', false );
-
-		if ( ! $this->detect_helper() ) {
-			return $this->status;
-		}
-
-		$this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_aioseop_%'" );
-
-		return $this->status->set_status( true );
-	}
-
-	/**
-	 * Detects whether there is post meta data to import.
-	 *
-	 * @return bool Boolean indicating whether there is something to import.
-	 */
-	private function detect_helper() {
-		$result = $this->wpdb->get_var( "SELECT COUNT(*) AS `count` FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_aioseop_%'" );
-		if ( $result === '0' ) {
-			return false;
+		if ( ! empty( $query_posts->posts ) ) {
+			foreach ( array_values( $query_posts->posts ) as $post_id ) {
+				$this->import_post_opengraph( $post_id );
+			}
 		}
 
 		return true;
 	}
 
 	/**
-	 * Import All In One SEO meta values.
+	 * Imports the OpenGraph and Twitter settings for a single post.
 	 *
-	 * @return void
+	 * @param int $post_id Post ID.
 	 */
-	private function import_metas() {
-		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
-		WPSEO_Meta::replace_meta( '_aioseop_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', false );
-		WPSEO_Meta::replace_meta( '_aioseop_title', WPSEO_Meta::$meta_prefix . 'title', false );
+	private function import_post_opengraph( $post_id ) {
+		$meta = get_post_meta( $post_id, '_aioseop_opengraph_settings', true );
+		$meta = maybe_unserialize( $meta );
+
+		foreach ( $this->import_keys as $old_key => $new_key ) {
+			$this->maybe_save_post_meta( $new_key, $meta[ $old_key ], $post_id );
+		}
 	}
 }

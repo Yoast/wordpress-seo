@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Recalculate
  */
 
@@ -89,7 +91,6 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 2, $response['total_items'] );
 		$this->assertTrue( is_array( $response['items'] ) );
-
 	}
 
 	/**
@@ -210,5 +211,4 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	public function add_dummy_content_with_shortcode( $content, WP_Post $post = null ) {
 		return $content . ' [caption]My Caption[/caption]';
 	}
-
 }

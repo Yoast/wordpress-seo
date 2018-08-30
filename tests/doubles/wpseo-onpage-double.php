@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Doubles
  */
 
@@ -9,7 +11,7 @@
 class WPSEO_OnPage_Double extends WPSEO_OnPage {
 
 	/**
-	 * Overwrite the request_indexibility method, because it uses a dependency
+	 * Overwrite the request_indexibility method, because it uses a dependency.
 	 *
 	 * @return int
 	 */
@@ -30,4 +32,10 @@ class WPSEO_OnPage_Double extends WPSEO_OnPage {
 
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function should_show_notice() {
+		return parent::should_show_notice();
+	}
 }

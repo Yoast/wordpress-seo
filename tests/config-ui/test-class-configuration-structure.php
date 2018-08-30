@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\ConfigUI
  */
 
@@ -81,5 +83,4 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 			$steps[ $identifier ]
 		);
 	}
-
 }

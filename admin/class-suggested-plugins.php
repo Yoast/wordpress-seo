@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Suggested_Plugins
  */
 
@@ -58,7 +60,7 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 			$dependency_names = $checker->get_dependency_names( $plugin );
 			$notification     = $this->get_yoast_seo_suggested_plugins_notification( $plugin_name, $plugin, $dependency_names[0] );
 
-			if ( ! $checker->is_installed( $plugin ) || ! $checker->is_active( $plugin['slug'] ) ) {
+			if ( ! WPSEO_Utils::is_yoast_seo_premium() && ( ! $checker->is_installed( $plugin ) || ! $checker->is_active( $plugin['slug'] ) ) ) {
 				$this->notification_center->add_notification( $notification );
 
 				continue;

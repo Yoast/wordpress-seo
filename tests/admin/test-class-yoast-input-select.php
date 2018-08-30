@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Admin
  */
 
@@ -127,7 +129,6 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( "<select name=\"test-field\" id=\"test-id\">\n\t</select>\n" );
 	}
 
-
 	/**
 	 * Testing with options and one being active.
 	 *
@@ -145,6 +146,4 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 
 		$this->assertContains( '<select class="test" name="test-field" id="test-id">', $html );
 	}
-
-
 }

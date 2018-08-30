@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Admin
+ */
 
 /**
  * Tests WPSEO_Admin_Asset

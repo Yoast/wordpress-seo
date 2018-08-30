@@ -1,99 +1,40 @@
 <?php
 /**
+ * File with the class to handle data from Jetpack's Advanced SEO settings.
+ *
  * @package WPSEO\Admin\Import\Plugins
  */
 
 /**
  * Class WPSEO_Import_Jetpack_SEO
  *
- * Class with functionality to import Yoast SEO settings from Jetpack Advanced SEO.
+ * Class with functionality to import & clean Jetpack SEO post metadata.
  */
-class WPSEO_Import_Jetpack_SEO implements WPSEO_Plugin_Importer {
+class WPSEO_Import_Jetpack_SEO extends WPSEO_Plugin_Importer {
 	/**
-	 * @var wpdb Holds the WPDB instance.
-	 */
-	protected $wpdb;
-
-	/**
-	 * Holds the import status object.
+	 * The plugin name.
 	 *
-	 * @var WPSEO_Import_Status
+	 * @var string
 	 */
-	private $status;
+	protected $plugin_name = 'Jetpack';
 
 	/**
-	 * WPSEO_Import_Jetpack_SEO constructor.
-	 */
-	public function __construct() {
-		global $wpdb;
-
-		$this->wpdb = $wpdb;
-	}
-
-	/**
-	 * Returns the plugin name.
+	 * Meta key, used in SQL LIKE clause for delete query.
 	 *
-	 * @return string Plugin name.
+	 * @var string
 	 */
-	public function plugin_name() {
-		return 'Jetpack';
-	}
+	protected $meta_key = 'advanced_seo_description';
 
 	/**
-	 * Detects whether there is post meta data to import.
+	 *  Array of meta keys to detect and import.
 	 *
-	 * @return WPSEO_Import_Status Import status object.
+	 * @var array
 	 */
-	public function detect() {
-		$this->status = new WPSEO_Import_Status( 'detect', false );
-		if ( ! $this->detect_helper() ) {
-			return $this->status;
-		}
+	protected $clone_keys = array(
+		array(
+			'old_key' => 'advanced_seo_description',
+			'new_key' => 'metadesc',
+		),
+	);
 
-		return $this->status->set_status( true );
-	}
-
-	/**
-	 * Removes the Jetpack SEO data from the database.
-	 *
-	 * @return WPSEO_Import_Status Import status object.
-	 */
-	public function cleanup() {
-		$this->status = new WPSEO_Import_Status( 'cleanup', false );
-		if ( ! $this->detect_helper() ) {
-			return $this->status;
-		}
-
-		$this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key = 'advanced_seo_description'" );
-		return $this->status->set_status( true );
-	}
-
-	/**
-	 * Imports Jetpack SEO meta values.
-	 *
-	 * @return WPSEO_Import_Status Import status object.
-	 */
-	public function import() {
-		$this->status = new WPSEO_Import_Status( 'import', false );
-		if ( ! $this->detect_helper() ) {
-			return $this->status;
-		}
-
-		WPSEO_Meta::replace_meta( 'advanced_seo_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
-		return $this->status->set_status( true );
-	}
-
-	/**
-	 * Detects whether there is post meta data to import.
-	 *
-	 * @return bool Boolean indicating whether there is something to import.
-	 */
-	private function detect_helper() {
-		$result = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key = 'advanced_seo_description'" );
-		if ( $result === '0' ) {
-			return false;
-		}
-
-		return true;
-	}
 }

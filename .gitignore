@@ -54,7 +54,7 @@ temp/
 ############
 ## Composer
 ############
-vendor/
+/vendor/
 
 ############
 ## WPSEO
@@ -66,11 +66,14 @@ test.sh
 /artifact/
 /artifact.zip
 /artifact-composer/
+/coverage
+/gettext.pot
+/.wordpress-svn
+/webpack-stats.json
 
 ############
 # Dist files
 ############
-languages/
-js/dist/
-css/dist/
-languages/
+/languages/
+/js/dist/
+/css/dist/

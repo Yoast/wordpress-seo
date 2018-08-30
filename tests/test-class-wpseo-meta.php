@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests
  */
 
@@ -128,7 +130,6 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		// String should be cleaned.
 		$this->assertEquals( 'noarchive,nosnippet', WPSEO_Meta::validate_meta_robots_adv( 'noarchive, nosnippet' ) );
 		$this->assertEquals( 'noarchive,nosnippet', WPSEO_Meta::validate_meta_robots_adv( array( 'noarchive', 'nosnippet' ) ) );
-
 	}
 
 	/**

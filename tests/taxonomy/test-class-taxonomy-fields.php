@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Taxonomy
  */
 
@@ -16,5 +18,4 @@ class WPSEO_Taxonomy_Fields_Test extends WPSEO_UnitTestCase {
 			$class->get()
 		);
 	}
-
 }

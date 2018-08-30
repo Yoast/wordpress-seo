@@ -1,7 +1,7 @@
 Yoast SEO
 ======================
 
-[![Build Status](https://api.travis-ci.org/Yoast/wordpress-seo.png?branch=master)](https://travis-ci.org/Yoast/wordpress-seo)
+[![Build Status](https://api.travis-ci.org/Yoast/wordpress-seo.svg?branch=master)](https://travis-ci.org/Yoast/wordpress-seo)
 [![Stable Version](https://poser.pugx.org/yoast/wordpress-seo/v/stable.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 [![License](https://poser.pugx.org/yoast/wordpress-seo/license.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 [![Maintainability](https://api.codeclimate.com/v1/badges/9f5d48fd95e3ab3d8472/maintainability)](https://codeclimate.com/repos/54523c9069568068a70b3279/maintainability)

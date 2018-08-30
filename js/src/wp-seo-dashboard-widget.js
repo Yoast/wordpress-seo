@@ -3,11 +3,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import SeoAssessment from "yoast-components/composites/Plugin/DashboardWidget/components/SeoAssessment";
-import ScoreAssessments from "yoast-components/composites/Plugin/Shared/components/ScoreAssessments";
-import getFeed from "yoast-components/utils/getFeed";
-import WordpressFeed from "yoast-components/composites/Plugin/DashboardWidget/components/WordpressFeed";
-import colors from "yoast-components/style-guide/colors.json";
+import "./helpers/babel-polyfill";
+import { SeoAssessment, ScoreAssessments, utils, WordpressFeed, colors } from "yoast-components";
+import { setYoastComponentsL10n } from "./helpers/i18n";
+const { getFeed } = utils;
 
 class DashboardWidget extends React.Component {
 
@@ -31,7 +30,7 @@ class DashboardWidget extends React.Component {
 	/**
 	 * Returns a color to be used for a given score.
 	 *
-	 * @param {string} score The score, expected to be 'na', 'bad', 'ok', 'good'.
+	 * @param {string} score The score, expected to be 'na', 'bad', 'ok', 'good' or 'noindex'.
 	 *
 	 * @returns {string} The color to use for this score. Defaults to grey if no such color exists.
 	 */
@@ -189,5 +188,7 @@ class DashboardWidget extends React.Component {
 const element = document.getElementById( "yoast-seo-dashboard-widget" );
 
 if( element ) {
+	setYoastComponentsL10n();
+
 	ReactDOM.render( <DashboardWidget/>, element );
 }

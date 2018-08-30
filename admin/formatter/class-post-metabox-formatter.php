@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Formatter
  */
 
@@ -151,10 +153,16 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Retrieves the title template.
 	 *
-	 * @return string
+	 * @return string The title template.
 	 */
 	private function get_title_template() {
-		return $this->get_template( 'title' );
+		$title = $this->get_template( 'title' );
+
+		if ( $title === '' ) {
+			return '%%title%% %%sep%% %%sitename%%';
+		}
+
+		return $title;
 	}
 
 	/**

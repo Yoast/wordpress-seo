@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Internals\Options
  */
 
@@ -21,67 +23,68 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 */
 	protected $defaults = array(
 		// Non-form fields, set via (ajax) function.
-		'title_test'                   => 0,
+		'title_test'                    => 0,
 		// Form fields.
-		'forcerewritetitle'            => false,
-		'separator'                    => 'sc-dash',
-		'title-home-wpseo'             => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // Text field.
-		'title-author-wpseo'           => '', // Text field.
-		'title-archive-wpseo'          => '%%date%% %%page%% %%sep%% %%sitename%%', // Text field.
-		'title-search-wpseo'           => '', // Text field.
-		'title-404-wpseo'              => '', // Text field.
+		'forcerewritetitle'             => false,
+		'separator'                     => 'sc-dash',
+		'title-home-wpseo'              => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // Text field.
+		'title-author-wpseo'            => '', // Text field.
+		'title-archive-wpseo'           => '%%date%% %%page%% %%sep%% %%sitename%%', // Text field.
+		'title-search-wpseo'            => '', // Text field.
+		'title-404-wpseo'               => '', // Text field.
 
-		'metadesc-home-wpseo'          => '', // Text area.
-		'metadesc-author-wpseo'        => '', // Text area.
-		'metadesc-archive-wpseo'       => '', // Text area.
-		'rssbefore'                    => '', // Text area.
-		'rssafter'                     => '', // Text area.
+		'metadesc-home-wpseo'           => '', // Text area.
+		'metadesc-author-wpseo'         => '', // Text area.
+		'metadesc-archive-wpseo'        => '', // Text area.
+		'rssbefore'                     => '', // Text area.
+		'rssafter'                      => '', // Text area.
 
-		'noindex-author-wpseo'         => false,
-		'noindex-author-noposts-wpseo' => true,
-		'noindex-archive-wpseo'        => true,
+		'noindex-author-wpseo'          => false,
+		'noindex-author-noposts-wpseo'  => true,
+		'noindex-archive-wpseo'         => true,
 
-		'disable-author'               => false,
-		'disable-date'                 => false,
-		'disable-post_format'          => false,
-		'disable-attachment'           => true,
+		'disable-author'                => false,
+		'disable-date'                  => false,
+		'disable-post_format'           => false,
+		'disable-attachment'            => true,
+		'is-media-purge-relevant'       => false,
 
-		'breadcrumbs-404crumb'         => '', // Text field.
-		'breadcrumbs-blog-remove'      => false,
-		'breadcrumbs-boldlast'         => false,
-		'breadcrumbs-archiveprefix'    => '', // Text field.
-		'breadcrumbs-enable'           => false,
-		'breadcrumbs-home'             => '', // Text field.
-		'breadcrumbs-prefix'           => '', // Text field.
-		'breadcrumbs-searchprefix'     => '', // Text field.
-		'breadcrumbs-sep'              => '&raquo;', // Text field.
+		'breadcrumbs-404crumb'          => '', // Text field.
+		'breadcrumbs-display-blog-page' => true,
+		'breadcrumbs-boldlast'          => false,
+		'breadcrumbs-archiveprefix'     => '', // Text field.
+		'breadcrumbs-enable'            => false,
+		'breadcrumbs-home'              => '', // Text field.
+		'breadcrumbs-prefix'            => '', // Text field.
+		'breadcrumbs-searchprefix'      => '', // Text field.
+		'breadcrumbs-sep'               => '&raquo;', // Text field.
 
-		'website_name'                 => '',
-		'person_name'                  => '',
-		'alternate_website_name'       => '',
-		'company_logo'                 => '',
-		'company_name'                 => '',
-		'company_or_person'            => '',
+		'website_name'                  => '',
+		'person_name'                   => '',
+		'alternate_website_name'        => '',
+		'company_logo'                  => '',
+		'company_name'                  => '',
+		'company_or_person'             => '',
 
-		'stripcategorybase'            => false,
+		'stripcategorybase'             => false,
 
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
-		 * - 'title-' . $pt->name        => ''; // Text field.
-		 * - 'metadesc-' . $pt->name      => ''; // Text field.
-		 * - 'noindex-' . $pt->name        => false;
-		 * - 'showdate-' . $pt->name      => false;
-		 * - 'display-metabox-pt-' . $pt->name      => false;
+		 * - 'title-' . $pt->name                => ''; // Text field.
+		 * - 'metadesc-' . $pt->name             => ''; // Text field.
+		 * - 'noindex-' . $pt->name              => false;
+		 * - 'showdate-' . $pt->name             => false;
+		 * - 'display-metabox-pt-' . $pt->name   => false;
 		 *
-		 * - 'title-ptarchive-' . $pt->name    => ''; // Text field.
-		 * - 'metadesc-ptarchive-' . $pt->name  => ''; // Text field.
-		 * - 'bctitle-ptarchive-' . $pt->name  => ''; // Text field.
-		 * - 'noindex-ptarchive-' . $pt->name  => false;
+		 * - 'title-ptarchive-' . $pt->name      => ''; // Text field.
+		 * - 'metadesc-ptarchive-' . $pt->name   => ''; // Text field.
+		 * - 'bctitle-ptarchive-' . $pt->name    => ''; // Text field.
+		 * - 'noindex-ptarchive-' . $pt->name    => false;
 		 *
-		 * - 'title-tax-' . $tax->name      => '''; // Text field.
-		 * - 'metadesc-tax-' . $tax->name    => ''; // Text field.
-		 * - 'noindex-tax-' . $tax->name    => false;
-		 * - 'display-metabox-tax-' . $tax->name  => false;
+		 * - 'title-tax-' . $tax->name           => '''; // Text field.
+		 * - 'metadesc-tax-' . $tax->name        => ''; // Text field.
+		 * - 'noindex-tax-' . $tax->name         => false;
+		 * - 'display-metabox-tax-' . $tax->name => false;
 		 */
 	);
 
@@ -141,7 +144,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
 		add_action( 'init', array( $this, 'end_of_init' ), 999 );
 	}
-
 
 	/**
 	 * Make sure we can recognize the right action for the double cleaning.
@@ -205,7 +207,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		$this->defaults['breadcrumbs-searchprefix']  = __( 'You searched for', 'wordpress-seo' );
 	}
 
-
 	/**
 	 * Add dynamically created default options based on available post types and taxonomies.
 	 *
@@ -233,10 +234,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		if ( $post_type_names !== array() ) {
 			foreach ( $post_type_names as $pt ) {
-				$this->defaults[ 'title-' . $pt ]       = '%%title%% %%page%% %%sep%% %%sitename%%'; // Text field.
-				$this->defaults[ 'metadesc-' . $pt ]    = ''; // Text area.
-				$this->defaults[ 'noindex-' . $pt ]     = false;
-				$this->defaults[ 'showdate-' . $pt ]    = false;
+				$this->defaults[ 'title-' . $pt ]              = '%%title%% %%page%% %%sep%% %%sitename%%'; // Text field.
+				$this->defaults[ 'metadesc-' . $pt ]           = ''; // Text area.
+				$this->defaults[ 'noindex-' . $pt ]            = false;
+				$this->defaults[ 'showdate-' . $pt ]           = false;
 				$this->defaults[ 'display-metabox-pt-' . $pt ] = true;
 			}
 			unset( $pt );
@@ -246,7 +247,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			/* translators: %s expands to the name of a post type (plural). */
 			$archive = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' );
 			foreach ( $post_type_objects_custom as $pt ) {
-				if ( ! $pt->has_archive ) {
+				if ( ! WPSEO_Post_Type::has_archive( $pt ) ) {
 					continue;
 				}
 
@@ -262,8 +263,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			/* translators: %s expands to the variable used for term title. */
 			$archives = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
 			foreach ( $taxonomy_names as $tax ) {
-				$this->defaults[ 'title-tax-' . $tax ]       = $archives . ' %%page%% %%sep%% %%sitename%%'; // Text field.
-				$this->defaults[ 'metadesc-tax-' . $tax ]    = ''; // Text area.
+				$this->defaults[ 'title-tax-' . $tax ]           = $archives . ' %%page%% %%sep%% %%sitename%%'; // Text field.
+				$this->defaults[ 'metadesc-tax-' . $tax ]        = ''; // Text area.
 				$this->defaults[ 'display-metabox-tax-' . $tax ] = true;
 
 				if ( $tax !== 'post_format' ) {
@@ -375,12 +376,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'metadesc-' . $pt->name
 				 *  'metadesc-ptarchive-' . $pt->name
 				 *  'metadesc-tax-' . $tax->name
+				 *  and also:
+				 *  'bctitle-ptarchive-' . $pt->name
 				 */
 				case 'metadesc-':
-					/*
-					 * Covers:
-					 *  'bctitle-ptarchive-' . $pt->name
-					 */
 				case 'bctitle-ptarchive-':
 				case 'company_name':
 				case 'person_name':
@@ -389,13 +388,13 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					}
 					break;
 
-					/*
-					 * Covers: 'rssbefore', 'rssafter'
-					 */
+				/*
+				 * Covers: 'rssbefore', 'rssafter'
+				 */
 				case 'rssbefore':
 				case 'rssafter':
 					if ( isset( $dirty[ $key ] ) ) {
-						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
+						$clean[ $key ] = wp_kses_post( $dirty[ $key ] );
 					}
 					break;
 
@@ -528,10 +527,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'display-metabox-pt-'. $pt->name
 				 *  'display-metabox-tax-'
 				 *  'display-metabox-tax-' . $tax->name
-				 *  'breadcrumbs-blog-remove'
+				 *  'breadcrumbs-display-blog-page'
 				 *  'breadcrumbs-boldlast'
 				 *  'breadcrumbs-enable'
 				 *  'stripcategorybase'
+				 *  'is-media-purge-relevant'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
@@ -564,7 +564,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $type ) {
-				if ( $type->has_archive ) {
+				if ( WPSEO_Post_Type::has_archive( $type ) ) {
 					$allowed_post_types[] = $type->name;
 				}
 			}
@@ -764,7 +764,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		return $option_value;
 	}
-
 
 	/**
 	 * Make sure that any set option values relating to post_types and/or taxonomies are retained,

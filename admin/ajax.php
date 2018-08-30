@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -178,7 +180,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 		$upsert_results['status']  = 'failure';
 		$upsert_results['results'] = sprintf(
 			/* translators: %s expands to post type. */
-			__( 'Post has an invalid Post Type: %s.', 'wordpress-seo' ),
+			__( 'Post has an invalid Content Type: %s.', 'wordpress-seo' ),
 			$the_post->post_type
 		);
 
@@ -329,6 +331,21 @@ function ajax_get_term_keyword_usage() {
 }
 
 add_action( 'wp_ajax_get_term_keyword_usage', 'ajax_get_term_keyword_usage' );
+
+/**
+ * Registers hooks for all AJAX integrations.
+ *
+ * @return void
+ */
+function wpseo_register_ajax_integrations() {
+	$integrations = array( new Yoast_Network_Admin() );
+
+	foreach ( $integrations as $integration ) {
+		$integration->register_ajax_hooks();
+	}
+}
+
+wpseo_register_ajax_integrations();
 
 // Crawl Issue Manager AJAX hooks.
 new WPSEO_GSC_Ajax();

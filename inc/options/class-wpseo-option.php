@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Internals\Options
  */
 
@@ -147,6 +149,9 @@ abstract class WPSEO_Option {
 		*/
 		add_filter( 'sanitize_option_' . $this->option_name, array( $this, 'validate' ) );
 
+		// Flushes the rewrite rules when option is updated.
+		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_rewrites' ) );
+
 		/* Register our option for the admin pages */
 		add_action( 'admin_init', array( $this, 'register_setting' ) );
 
@@ -174,7 +179,6 @@ abstract class WPSEO_Option {
 	}
 
 // @codingStandardsIgnoreStart
-
 	/**
 	 * All concrete classes *must* contain the get_instance method.
 	 *
@@ -210,7 +214,6 @@ abstract class WPSEO_Option {
 	}
 
 	// @codingStandardsIgnoreStart
-
 	/**
 	 * Validate webmaster tools & Pinterest verification strings.
 	 *
@@ -237,6 +240,11 @@ abstract class WPSEO_Option {
 				$service = '';
 
 				switch ( $key ) {
+					case 'baiduverify':
+						$regex   = '`^[A-Za-z0-9_-]+$`';
+						$service = 'Baidu Webmaster tools';
+						break;
+
 					case 'googleverify':
 						$regex   = '`^[A-Za-z0-9_-]+$`';
 						$service = 'Google Webmaster tools';
@@ -322,7 +330,6 @@ abstract class WPSEO_Option {
 		remove_filter( 'default_option_' . $this->option_name, array( $this, 'get_defaults' ) );
 	}
 
-
 	/**
 	 * Get the enriched default value for an option.
 	 *
@@ -345,7 +352,6 @@ abstract class WPSEO_Option {
 		return apply_filters( 'wpseo_defaults', $this->defaults, $this->option_name );
 	}
 
-
 	/**
 	 * Add filters to make sure that the option is merged with its defaults before being returned.
 	 *
@@ -358,7 +364,6 @@ abstract class WPSEO_Option {
 		}
 	}
 
-
 	/**
 	 * Remove the option filters.
 	 * Called from the clean_up methods to make sure we retrieve the original old option.
@@ -368,7 +373,6 @@ abstract class WPSEO_Option {
 	public function remove_option_filters() {
 		remove_filter( 'option_' . $this->option_name, array( $this, 'get_option' ) );
 	}
-
 
 	/**
 	 * Merge an option with its default values.
@@ -395,7 +399,6 @@ abstract class WPSEO_Option {
 		return $filtered;
 	}
 
-
 	/* *********** METHODS influencing add_uption(), update_option() and saving from admin pages. *********** */
 
 	/**
@@ -406,11 +409,20 @@ abstract class WPSEO_Option {
 	 * @return void
 	 */
 	public function register_setting() {
-		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
-			register_setting( $this->group_name, $this->option_name );
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+			return;
 		}
-	}
 
+		if ( $this->multisite_only === true ) {
+			$network_settings_api = Yoast_Network_Settings_API::get();
+			if ( $network_settings_api->meets_requirements() ) {
+				$network_settings_api->register_setting( $this->group_name, $this->option_name );
+			}
+			return;
+		}
+
+		register_setting( $this->group_name, $this->option_name );
+	}
 
 	/**
 	 * Validate the option
@@ -447,7 +459,6 @@ abstract class WPSEO_Option {
 		return $clean;
 	}
 
-
 	/**
 	 * All concrete classes must contain a validate_option() method which validates all
 	 * values within the option.
@@ -457,7 +468,6 @@ abstract class WPSEO_Option {
 	 * @param  array $old   Old value of the option.
 	 */
 	abstract protected function validate_option( $dirty, $clean, $old );
-
 
 	/* *********** METHODS for ADDING/UPDATING/UPGRADING the option. *********** */
 
@@ -502,7 +512,6 @@ abstract class WPSEO_Option {
 		}
 	}
 
-
 	/**
 	 * Update a site_option.
 	 *
@@ -531,7 +540,6 @@ abstract class WPSEO_Option {
 		}
 	}
 
-
 	/**
 	 * Retrieve the real old value (unmerged with defaults), clean and re-save the option.
 	 *
@@ -546,7 +554,6 @@ abstract class WPSEO_Option {
 		$option_value = $this->get_original_option();
 		$this->import( $option_value, $current_version );
 	}
-
 
 	/**
 	 * Clean and re-save the option.
@@ -639,7 +646,6 @@ abstract class WPSEO_Option {
 
 		return $filtered;
 	}
-
 
 	/**
 	 * Make sure that any set option values relating to post_types and/or taxonomies are retained,
