@@ -123,10 +123,6 @@ Bugfixes:
 * Fixes a bug where the Yoast SEO network admin menu and admin bar menu would appear when the plugin was only active for the main site, and not for the entire network.
 * Fixes a bug where snippet variables in the Twitter card title and description wouldn't be properly replaced.
 
-Other:
-
-* Replaces the "Check Inlinks (OSE)" menu item from the Yoast Admin bar dropdown "Analyze this page" from the Moz OpenSite Explorer (OSE) to Google Search Console as the former service is being disabled on August 30th, 2018.
-
 = 8.1.0 =
 Release Date: August 28th, 2018
 
