@@ -98,7 +98,7 @@
     "testPathIgnorePatterns": [
       "/spec/helpers/factory.js",
       "/spec/specHelpers/paperChanger.js",
-      "/spec/specHelpers/getAssesorResults.js",
+      "/spec/specHelpers/getAssessorResults.js",
       "/spec/fullTextTests/testTexts"
     ],
     "coveragePathIgnorePatterns": [
