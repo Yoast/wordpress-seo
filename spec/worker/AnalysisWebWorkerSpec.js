@@ -1,4 +1,7 @@
-import { AnalysisWebWorker } from "../../index";
+import {
+	AnalysisWebWorker,
+	Paper,
+} from "../../index";
 
 /**
  * Creates a mocked scope.
@@ -31,21 +34,18 @@ function createMessage( type, payload = {}, id = 0 ) {
 }
 
 // Reusing these global variables.
-let scope;
-let worker;
+let scope = null;
+let worker = null;
 
 describe( "AnalysisWebWorker", () => {
-	beforeAll( () => {
-		scope = null;
-		worker = null;
-	} );
-
 	describe( "constructor", () => {
 		test( "initializes without errors", () => {
 			scope = createScope();
+			worker = null;
 			try {
 				worker = new AnalysisWebWorker( scope );
 			} catch( error ) {
+				// eslint-ignore-line no-empty
 			}
 
 			expect( worker ).not.toBeNull();
@@ -98,6 +98,15 @@ describe( "AnalysisWebWorker", () => {
 				worker.register();
 			} );
 
+			test( "calls initialize", () => {
+				const configuration = { testing: true };
+				worker.initialize = jest.fn();
+				scope.onmessage( createMessage( "initialize", { configuration } ) );
+
+				expect( worker.initialize ).toHaveBeenCalledTimes( 1 );
+				expect( worker.initialize ).toHaveBeenCalledWith( 0, { configuration } );
+			} );
+
 			test( "updates the configuration", () => {
 				scope.onmessage( createMessage( "initialize", { testing: true } ) );
 
@@ -111,13 +120,14 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize", {
 					translations: {
 						domain: "messages",
+						// eslint-disable-next-line camelcase
 						locale_data: {
 							messages: {
-								"" : {},
+								"": {},
 								test: [ "1234" ],
-							}
+							},
 						},
-					}
+					},
 				} ) );
 
 				expect( worker._i18n ).toBeDefined();
@@ -159,11 +169,50 @@ describe( "AnalysisWebWorker", () => {
 				expect( scope.postMessage ).toBeCalledWith( createMessage( "initialize:done" ).data );
 			} );
 
-			test( "starts the polling", () => {
+			test( "starts the polling of the scheduler", () => {
 				worker._scheduler.startPolling = jest.fn();
 				scope.onmessage( createMessage( "initialize" ) );
 
 				expect( worker._scheduler.startPolling ).toHaveBeenCalledTimes( 1 );
+			} );
+		} );
+
+		describe( "analyze", () => {
+			beforeEach( () => {
+				scope = createScope();
+				worker = new AnalysisWebWorker( scope );
+				worker.register();
+			} );
+
+			test( "schedules a task", () => {
+				const paper = new Paper( "This is my content." );
+				worker._scheduler.schedule = jest.fn();
+				scope.onmessage( createMessage( "analyze", { paper } ) );
+
+				expect( worker._scheduler.schedule ).toHaveBeenCalledTimes( 1 );
+				expect( worker._scheduler.schedule ).toHaveBeenCalledWith( {
+					id: 0,
+					execute: worker.analyze,
+					done: worker.analyzeDone,
+					data: { paper },
+					type: "analyze",
+				} );
+			} );
+
+			test( "runs an analysis", done => {
+				const paper = new Paper( "This is my content." );
+				const spy = spyOn( worker, "analyze" );
+
+				// Due to the task being async, use analyzeDone as test trigger.
+				worker.analyzeDone = () => {
+					expect( spy ).toHaveBeenCalledTimes( 1 );
+					expect( spy ).toHaveBeenCalledWith( 0, { paper } );
+					done();
+				};
+
+				// Initialize is needed to start the scheduler.
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "analyze", { paper } ) );
 			} );
 		} );
 	} );
