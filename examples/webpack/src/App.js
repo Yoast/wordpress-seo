@@ -1,25 +1,25 @@
 // External dependencies.
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
 // YoastSEO.js dependencies.
 import { AnalysisWorkerWrapper } from "yoastseo/worker";
 import testPapers from "yoastspec/fullTextTests/testTexts";
+import Paper from "../../../src/values/Paper";
 
 // Internal dependencies.
 import "./App.css";
 import Button from "./components/Button";
 import Checkbox from "./components/Checkbox";
-import Input from "./components/Input";
-import TextArea from "./components/TextArea";
 import Results from "./Results";
 import AnalysisWebWorker from "./analysis.worker";
-import * as configurationActionCreators from "./redux/actions/configuration";
-import * as paperActionCreators from "./redux/actions/paper";
-import * as resultsActionCreators from "./redux/actions/results";
+
 import { clearStorage } from "./redux/utils/localstorage";
+import WorkerStatus from "./components/WorkerStatus";
+import { connect } from "react-redux";
+import { setResults } from "./redux/actions/results";
+import { setConfigurationAttribute } from "./redux/actions/configuration";
+import Inputs from "./components/Inputs";
 
 class App extends React.Component {
 	/**
@@ -65,9 +65,13 @@ class App extends React.Component {
 	 * @returns {void}
 	 */
 	analyze( paper = this.props.paper ) {
+		paper = Paper.parse( paper );
+
 		this.analysisWorker.analyze( paper )
 			.then( ( { result } ) => {
-				this.props.actions.setResults( {
+				console.log( result );
+
+				this.props.setResults( {
 					readability: result.readability.results,
 					seo: result.seo[ "" ].results,
 				} );
@@ -91,40 +95,50 @@ class App extends React.Component {
 	}
 
 	/**
-	 * Renders a form input for a paper attribute.
-	 *
-	 * @param {string}         id           The id.
-	 * @param {string}         placeholder  The placeholder.
-	 * @param {string}         label        The label.
-	 * @param {ReactComponent} Component    The component.
-	 * @param {string}         defaultValue The default value.
-	 *
-	 * @returns {ReactElement} The form input for a paper attribute.
-	 */
-	renderPaperAttribute( id, placeholder, label = null, Component = Input, defaultValue = "" ) {
-		const { actions, paper } = this.props;
-
-		return (
-			<Component
-				id={ id }
-				value={ paper[ id ] || defaultValue }
-				label={ label || id }
-				placeholder={ placeholder }
-				onChange={ value => actions.setPaperAttribute( id, value ) }
-			/>
-		);
-	}
-
-	/**
 	 * Renders the app.
 	 *
 	 * @returns {ReactElement} The app.
 	 */
 	render() {
-		const { configuration, actions } = this.props;
+		const { configuration } = this.props;
 
 		return (
 			<div className="app">
+				<h1>YoastSEO.js development tool</h1>
+
+				<h2>Worker status</h2>
+
+				<WorkerStatus />
+
+				Updating
+				Analyzing
+				Idling
+
+				<h3>How long did the last analysis take?</h3>
+
+				30ms
+
+				<ul>
+					<li>Debugging information</li>
+					<li>Worker communication</li>
+					<li>Information about when it is refreshing</li>
+					<li>Buttons for standard texts in different languages</li>
+					<li>Language switcher</li>
+
+					<li>Input fields for everything</li>
+					<li>Total scores</li>
+					<li>Analysis results</li>
+
+					<li>All research data</li>
+					<li>Relevant words</li>
+
+					<li>Performance information</li>
+				</ul>
+
+				<h2>Input</h2>
+
+				<Inputs />
+
 				<div className="left-container">
 					<div className="form-container">
 						<h2>Analysis Worker</h2>
@@ -138,20 +152,13 @@ class App extends React.Component {
 							<Button onClick={ this.analyzeSpam }>Analyze Spam</Button>
 						</div>
 
-						{ this.renderPaperAttribute( "text", "Write a text", null, TextArea ) }
-						{ this.renderPaperAttribute( "keyword", "Choose a focus keyword", "focus keyword" ) }
-						{ this.renderPaperAttribute( "synonyms", "Choose keyword synonyms" ) }
-						{ this.renderPaperAttribute( "title", "Write the SEO title" ) }
-						{ this.renderPaperAttribute( "description", "Write a meta description" ) }
-						{ this.renderPaperAttribute( "locale", "en_US" ) }
-
 						<h2>Configuration</h2>
 						<Checkbox
 							id="premium"
 							value={ configuration.useKeywordDistribution }
 							label="Premium"
 							onChange={ value => {
-								actions.setConfigurationAttribute( "useKeywordDistribution", value );
+								this.props.setConfigurationAttribute( "useKeywordDistribution", value );
 							} }
 						/>
 					</div>
@@ -212,7 +219,6 @@ class App extends React.Component {
 						<h2>Raw marked text</h2>
 						<pre className="marked-text-raw"/>
 					</div>
-
 				</div>
 			</div>
 		);
@@ -220,38 +226,19 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-	actions: PropTypes.object.isRequired,
 	configuration: PropTypes.object.isRequired,
 	paper: PropTypes.object.isRequired,
 	results: PropTypes.object.isRequired,
 };
 
-/**
- * Maps state to props.
- *
- * @param {Object} state The store's state.
- *
- * @returns {Object} Selection from the state.
- */
-function mapStateToProps( state ) {
-	return state;
-}
-
-/**
- * Maps dispatch to props.
- *
- * @param {function} dispatch The store's dispatch.
- *
- * @returns {Object} Dispatch actions.
- */
-function mapDispatchToProps( dispatch ) {
-	return {
-		actions: bindActionCreators( {
-			...configurationActionCreators,
-			...paperActionCreators,
-			...resultsActionCreators,
-		}, dispatch ),
-	};
-}
-
-export default connect( mapStateToProps, mapDispatchToProps )( App );
+export default connect(
+	( state ) => {
+		return state;
+	},
+	( dispatch ) => {
+		return {
+			setResults: ( ...args ) => dispatch( setResults( ...args ) ),
+			setConfigurationAttribute: ( ...args ) => dispatch( setConfigurationAttribute( ...args ) ),
+		};
+	}
+)( App );
