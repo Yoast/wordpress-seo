@@ -4,12 +4,10 @@ import Input from "./Input";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import * as configurationActionCreators from "../redux/actions/configuration";
-import * as paperActionCreators from "../redux/actions/paper";
-import * as resultsActionCreators from "../redux/actions/results";
+import { setPaperAttribute } from "../redux/actions/paper";
 
 function renderPaperAttribute( props, id, placeholder, label = null, Component = Input, defaultValue = "" ) {
-	const { actions, paper } = props;
+	const { setPaperAttribute, paper } = props;
 
 	return (
 		<Component
@@ -17,19 +15,19 @@ function renderPaperAttribute( props, id, placeholder, label = null, Component =
 			value={ paper[ id ] || defaultValue }
 			label={ label || id }
 			placeholder={ placeholder }
-			onChange={ value => actions.setPaperAttribute( id, value ) }
+			onChange={ value => setPaperAttribute( id, value ) }
 		/>
 	);
 }
 
 function Inputs( props ) {
 	return <section>
-		{ renderPaperAttribute( props, "Text", "Write a text", null, TextArea ) }
-		{ renderPaperAttribute( props, "Keyword", "Choose a focus keyword", "Focus keyword" ) }
-		{ renderPaperAttribute( props, "Synonyms", "Choose keyword synonyms" ) }
-		{ renderPaperAttribute( props, "Title", "Write the SEO title" ) }
-		{ renderPaperAttribute( props, "Description", "Write a meta description" ) }
-		{ renderPaperAttribute( props, "Locale", "en_US" ) }
+		{ renderPaperAttribute( props, "text", "Write a text", null, TextArea ) }
+		{ renderPaperAttribute( props, "keyword", "Choose a focus keyword", "Focus keyword" ) }
+		{ renderPaperAttribute( props, "synonyms", "Choose keyword synonyms" ) }
+		{ renderPaperAttribute( props, "title", "Write the SEO title" ) }
+		{ renderPaperAttribute( props, "description", "Write a meta description" ) }
+		{ renderPaperAttribute( props, "locale", "en_US" ) }
 	</section>;
 }
 
@@ -40,12 +38,8 @@ export default connect(
 		};
 	},
 	( dispatch ) => {
-		return {
-			actions: bindActionCreators( {
-				...configurationActionCreators,
-				...paperActionCreators,
-				...resultsActionCreators,
-			}, dispatch ),
-		};
+		return bindActionCreators( {
+			setPaperAttribute,
+		}, dispatch );
 	}
 )( Inputs );

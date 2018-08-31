@@ -6,11 +6,14 @@ import { connect } from "react-redux";
 import Button from "./Button";
 import { clearStorage } from "../redux/utils/localstorage";
 import Checkbox from "./Checkbox";
+import AutomaticAnalysis from "./AutomaticAnalysis";
 
 
 function Controls( { useKeywordDistribution, onInitialize, onAnalyze, onAnalyzeSpam } ) {
 	return <Fragment>
 		<div className="button-container">
+			<AutomaticAnalysis />
+
 			<Button onClick={ onInitialize }>Initialize</Button>
 			<Button onClick={ onAnalyze }>Analyze</Button>
 			<Button onClick={ () => {

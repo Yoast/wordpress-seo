@@ -2,13 +2,11 @@
 import React, { Fragment } from "react";
 
 // YoastSEO.js dependencies.
-import { AnalysisWorkerWrapper } from "../../../src/worker";
 import testPapers from "yoastspec/fullTextTests/testTexts";
 import Paper from "../../../src/values/Paper";
 
 // Internal dependencies.
 import Results from "./components/Results";
-import AnalysisWebWorker from "./analysis.worker";
 import Collapsible from "./components/Collapsible";
 
 import WorkerStatus from "./components/WorkerStatus";
@@ -34,8 +32,6 @@ class App extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.analysisWorker = new AnalysisWorkerWrapper( new AnalysisWebWorker() );
-
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
 		this.analyzeSpam = this.analyzeSpam.bind( this );
@@ -49,9 +45,9 @@ class App extends React.Component {
 	 * @returns {void}
 	 */
 	initialize() {
-		const { configuration } = this.props;
+		const { configuration, worker } = this.props;
 
-		this.analysisWorker.initialize( configuration )
+		worker.initialize( configuration )
 		    .then( data => console.log( "initialization done!", data ) );
 	}
 
@@ -63,13 +59,13 @@ class App extends React.Component {
 	 * @returns {void}
 	 */
 	analyze( paper = this.props.paper ) {
-		const { setWorkerStatus } = this.props;
+		const { setWorkerStatus, worker } = this.props;
 
 		paper = Paper.parse( paper );
 
 		setWorkerStatus( "analyzing" );
 
-		this.analysisWorker.analyze( paper )
+		worker.analyze( paper )
 			.then( ( { result } ) => {
 				setWorkerStatus( "idling" );
 

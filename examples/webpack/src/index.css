@@ -9,6 +9,7 @@ body, html {
 }
 
 body {
+	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
 	background-color: #f1f1f1;
 	padding: 24px;
 }
@@ -16,6 +17,7 @@ body {
 *, *:after, *:before {
 	box-sizing: inherit;
 }
+
 
 /* needs higher specificity than other score icons */
 .wpseo-score-icon {

@@ -1,7 +1,8 @@
-import { SET_STATUS } from "../actions/worker";
+import { SET_STATUS, SET_AUTOMATIC_REFRESH } from "../actions/worker";
 
 const defaultState = {
 	status: "idling",
+	isAutomaticRefreshEnabled: true,
 };
 
 /**
@@ -18,6 +19,12 @@ export default function worker( state = defaultState, action ) {
 			return {
 				...state,
 				status: action.status,
+			};
+
+		case SET_AUTOMATIC_REFRESH:
+			return {
+				...state,
+				isAutomaticRefreshEnabled: action.enabled,
 			};
 	}
 
