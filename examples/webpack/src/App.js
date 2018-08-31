@@ -7,14 +7,12 @@ import testPapers from "yoastspec/fullTextTests/testTexts";
 import Paper from "../../../src/values/Paper";
 
 // Internal dependencies.
-import Button from "./components/Button";
-import Checkbox from "./components/Checkbox";
 import Results from "./components/Results";
 import AnalysisWebWorker from "./analysis.worker";
 import Collapsible from "./components/Collapsible";
 
-import { clearStorage } from "./redux/utils/localstorage";
 import WorkerStatus from "./components/WorkerStatus";
+import Controls from "./components/Controls";
 import { connect } from "react-redux";
 import { setResults } from "./redux/actions/results";
 import { setConfigurationAttribute } from "./redux/actions/configuration";
@@ -98,57 +96,12 @@ class App extends React.Component {
 		}
 	}
 
-
-	/*
-	Collapsible.propTypes = {
-	children: PropTypes.oneOfType( [
-	PropTypes.arrayOf( PropTypes.node ),
-	PropTypes.node,
-	] ),
-	className: PropTypes.string,
-	initialIsOpen: PropTypes.bool,
-	hasSeparator: PropTypes.bool,
-	hasPadding: PropTypes.bool,
-	prefixIcon: PropTypes.shape( {
-	icon: PropTypes.string,
-	color: PropTypes.string,
-	size: PropTypes.string,
-	} ),
-	prefixIconCollapsed: PropTypes.shape( {
-	icon: PropTypes.string,
-	color: PropTypes.string,
-	size: PropTypes.string,
-	} ),
-	suffixIcon: PropTypes.shape( {
-	icon: PropTypes.string,
-	color: PropTypes.string,
-	size: PropTypes.string,
-	} ),
-	suffixIconCollapsed: PropTypes.shape( {
-	icon: PropTypes.string,
-	color: PropTypes.string,
-	size: PropTypes.string,
-	} ),
-	title: PropTypes.string.isRequired,
-	titleScreenReaderText: PropTypes.string,
-	subTitle: PropTypes.string,
-	headingProps: PropTypes.shape( {
-	level: PropTypes.number,
-	fontSize: PropTypes.string,
-	fontWeight: PropTypes.string,
-	} ),
-	};
-
-	 */
-
 	/**
 	 * Renders the app.
 	 *
 	 * @returns {ReactElement} The app.
 	 */
 	render() {
-		const { useKeywordDistribution } = this.props;
-
 		return (
 			<Fragment>
 				<h1>YoastSEO.js development tool</h1>
@@ -166,24 +119,10 @@ class App extends React.Component {
 				</Collapsible>
 
 				<Collapsible title="Controls">
-					<div className="button-container">
-						<Button onClick={ this.initialize }>Initialize</Button>
-						<Button onClick={ this.analyze }>Analyze</Button>
-						<Button onClick={ () => {
-							clearStorage();
-							window.location.reload();
-						} }>Clear</Button>
-						<Button onClick={ this.analyzeSpam }>Analyze Spam</Button>
-					</div>
-
-					<h2>Configuration</h2>
-					<Checkbox
-						id="premium"
-						value={ useKeywordDistribution }
-						label="Premium"
-						onChange={ value => {
-							this.props.setConfigurationAttribute( "useKeywordDistribution", value );
-						} }
+					<Controls
+						onInitialize={ this.initialize }
+						onAnalyze={ this.analyze }
+						onAnalyzeSpam={ this.analyzeSpam }
 					/>
 				</Collapsible>
 
@@ -222,6 +161,7 @@ export default connect(
 	( state ) => {
 		return {
 			useKeywordDistribution: state.configuration.useKeywordDistribution,
+			paper: state.paper,
 		};
 	},
 	( dispatch ) => {
