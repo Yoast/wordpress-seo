@@ -2,6 +2,7 @@ import Paper from "../../../../../src/values/Paper";
 import { isEqual, debounce } from "lodash-es";
 
 import { setStatus } from "../actions/worker";
+import { setResults } from "../actions/results";
 
 export default class StoreSubscriber {
 	constructor( { store, worker } ) {
@@ -36,8 +37,12 @@ export default class StoreSubscriber {
 		if ( ! isEqual( paper, prevPaper ) ) {
 			this.dispatch( setStatus( "analyzing" ) );
 			this._worker.analyze( Paper.parse( paper ) )
-				.then( () => {
+				.then( ( { result } ) => {
 					this.dispatch( setStatus( "idling" ) );
+					this.dispatch( setResults( {
+						readability: result.readability.results,
+						seo: result.seo[ "" ].results,
+					} ) );
 				} );
 		}
 	}

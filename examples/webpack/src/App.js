@@ -137,6 +137,7 @@ class App extends React.Component {
 					<li>Relevant words</li>
 
 					<li>Performance information</li>
+					<li>Re-order collapsibles</li>
 				</ul>
 
 				Design Todos:
