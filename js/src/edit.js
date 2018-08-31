@@ -7,7 +7,6 @@ import { Fragment } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import { combineReducers, registerStore } from "@wordpress/data";
 import get from "lodash/get";
-import values from "lodash/values";
 import pickBy from "lodash/pickBy";
 import noop from "lodash/noop";
 
@@ -24,7 +23,7 @@ import * as selectors from "./redux/selectors";
 import * as actions from "./redux/actions";
 import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
-import PrimaryTaxonomyPicker from "./components/PrimaryTaxonomyPicker";
+import PrimaryTaxonomyFilter from "./components/PrimaryTaxonomyFilter";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -101,41 +100,21 @@ class Edit {
 
 		const addFilter = get( window, "wp.hooks.addFilter", noop );
 
-		const taxonomies = get( window.wpseoPrimaryCategoryL10n, "taxonomies", {} );
-
-		const primaryTaxonomies = values( taxonomies ).map(
-			taxonomy => taxonomy.name
-		);
-
 		addFilter(
 			"editor.PostTaxonomyType",
 			PLUGIN_NAMESPACE,
 			OriginalComponent => {
-				/**
-				 * A component that renders the PrimaryTaxonomyPicker under Gutenberg's
-				 * taxonomy picker if the taxonomy has primary term enabled.
-				 *
-				 * @param {Object} props      The component's props.
-				 * @param {string} props.slug The taxonomy's slug.
-				 *
-				 * @returns {ReactElement} Rendered TaxonomySelectorFilter component.
-				 */
-				const TaxonomySelectorFilter = props => {
-					if ( ! primaryTaxonomies.includes( props.slug ) ) {
-						return <OriginalComponent { ...props } />;
+				return class Filter extends React.Component {
+					render() {
+						return (
+							<PrimaryTaxonomyFilter
+								OriginalComponent={ OriginalComponent }
+								{ ...this.props }
+							/>
+						);
 					}
-
-					const taxonomy = taxonomies[ props.slug ];
-
-					return (
-						<Fragment>
-							<OriginalComponent { ...props } />
-							<PrimaryTaxonomyPicker taxonomy={ taxonomy } />
-						</Fragment>
-					);
 				};
-				return TaxonomySelectorFilter;
-			}
+			},
 		);
 	}
 
