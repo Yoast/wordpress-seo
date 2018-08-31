@@ -26,13 +26,16 @@ function getDisplayName( Component ) {
 	);
 }
 
+let taxonomyData = null,
+	taxonomiesWithPrimaryTermSupport = null;
+
 class PrimaryTaxonomyFilter extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		if ( ! PrimaryTaxonomyFilter.taxonomies || ! PrimaryTaxonomyFilter.primaryTaxonomies ) {
-			PrimaryTaxonomyFilter.taxonomies = get( window.wpseoPrimaryCategoryL10n, "taxonomies", {} );
-			PrimaryTaxonomyFilter.primaryTaxonomies = values( this.taxonomies ).map(
+		if ( ! taxonomyData || ! taxonomiesWithPrimaryTermSupport ) {
+			taxonomyData = get( window.wpseoPrimaryCategoryL10n, "taxonomies", {} );
+			taxonomiesWithPrimaryTermSupport = values( taxonomyData ).map(
 				taxonomy => taxonomy.name
 			);
 		}
@@ -48,11 +51,6 @@ class PrimaryTaxonomyFilter extends React.Component {
 	 * @returns {void}
 	 */
 	componentDidCatch() {
-		const { OriginalComponent } = this.props;
-		console.warn(
-			`An error occurred in ${ getDisplayName( PrimaryTaxonomyFilter ) },` +
-			`falling back to ${ getDisplayName( OriginalComponent ) }.`
-		);
 		this.setState( { fallbackToOriginalComponent: true } );
 	}
 
@@ -62,7 +60,7 @@ class PrimaryTaxonomyFilter extends React.Component {
 	 * @returns {boolean} Whether or not the taxonomy has primary term support.
 	 */
 	taxonomyHasPrimaryTermSupport() {
-		return PrimaryTaxonomyFilter.primaryTaxonomies.includes( this.props.slug );
+		return taxonomiesWithPrimaryTermSupport.includes( this.props.slug );
 	}
 
 	/**
@@ -83,12 +81,10 @@ class PrimaryTaxonomyFilter extends React.Component {
 			return <OriginalComponent { ...this.props } />;
 		}
 
-		const taxonomy = PrimaryTaxonomyFilter.taxonomies[ slug ];
-
 		return (
 			<Fragment>
 				<OriginalComponent { ...this.props } />
-				<PrimaryTaxonomyPicker taxonomy={ taxonomy } />
+				<PrimaryTaxonomyPicker taxonomy={ taxonomyData[ slug ] } />
 			</Fragment>
 		);
 	}
