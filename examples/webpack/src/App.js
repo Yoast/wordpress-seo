@@ -19,6 +19,7 @@ import { connect } from "react-redux";
 import { setResults } from "./redux/actions/results";
 import { setConfigurationAttribute } from "./redux/actions/configuration";
 import Inputs from "./components/Inputs";
+import { setStatus } from "./redux/actions/worker";
 
 class App extends React.Component {
 	/**
@@ -64,11 +65,15 @@ class App extends React.Component {
 	 * @returns {void}
 	 */
 	analyze( paper = this.props.paper ) {
+		const { setWorkerStatus } = this.props;
+
 		paper = Paper.parse( paper );
+
+		setWorkerStatus( "analyzing" );
 
 		this.analysisWorker.analyze( paper )
 			.then( ( { result } ) => {
-				console.log( result );
+				setWorkerStatus( "idling" );
 
 				this.props.setResults( {
 					readability: result.readability.results,
@@ -107,12 +112,6 @@ class App extends React.Component {
 
 				<h2>Worker status</h2>
 
-				<WorkerStatus />
-
-				Updating
-				Analyzing
-				Idling
-
 				<h3>How long did the last analysis take?</h3>
 
 				30ms
@@ -149,6 +148,7 @@ class App extends React.Component {
 								window.location.reload();
 							} }>Clear</Button>
 							<Button onClick={ this.analyzeSpam }>Analyze Spam</Button>
+							<WorkerStatus />
 						</div>
 
 						<h2>Configuration</h2>
@@ -238,6 +238,7 @@ export default connect(
 		return {
 			setResults: ( ...args ) => dispatch( setResults( ...args ) ),
 			setConfigurationAttribute: ( ...args ) => dispatch( setConfigurationAttribute( ...args ) ),
+			setWorkerStatus: ( status ) => dispatch( setStatus( status ) ),
 		};
 	}
 )( App );

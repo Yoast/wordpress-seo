@@ -16,8 +16,8 @@ export default function worker( state = defaultState, action ) {
 	switch ( action.type ) {
 		case SET_STATUS:
 			return {
-				status: action.status,
 				...state,
+				status: action.status,
 			};
 	}
 
