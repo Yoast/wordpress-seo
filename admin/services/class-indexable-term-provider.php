@@ -59,7 +59,7 @@ class WPSEO_Indexable_Service_Term_Provider extends WPSEO_Indexable_Provider {
 	 * @return void
 	 *
 	 * @throws WPSEO_Invalid_Indexable_Exception The indexable exception.
-	 * @throws Exception 						 Exception that is thrown if patching the object has failed.
+	 * @throws WPSEO_REST_Request_Exception		 Exception that is thrown if patching the object has failed.
 	 */
 	public function patch( $object_id, $requestdata ) {
 		$indexable = $this->get( $object_id, true );
@@ -75,14 +75,7 @@ class WPSEO_Indexable_Service_Term_Provider extends WPSEO_Indexable_Provider {
 			return;
 		}
 
-		throw new Exception(
-			sprintf(
-				/* translators: %1$s expands to 'Term'. %2$s resolved to the object ID. */
-				__( '%1$s with ID %2$s couldn\'t be patched', 'wordpress-seo' ),
-				'Term',
-				$object_id
-			)
-		);
+		throw WPSEO_REST_Request_Exception::patch( 'Term', $object_id );
 	}
 
 	/**
