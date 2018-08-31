@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 // Internal dependencies.
-import scoreToRating from "yoastseo/interpreters/scoreToRating";
+import scoreToRating from "../../../src/interpreters/scoreToRating";
 
 class Results extends Component {
 	/**

@@ -24,12 +24,12 @@ function renderPaperAttribute( props, id, placeholder, label = null, Component =
 
 function Inputs( props ) {
 	return <section>
-		{ renderPaperAttribute( props, "text", "Write a text", null, TextArea ) }
-		{ renderPaperAttribute( props, "keyword", "Choose a focus keyword", "focus keyword" ) }
-		{ renderPaperAttribute( props, "synonyms", "Choose keyword synonyms" ) }
-		{ renderPaperAttribute( props, "title", "Write the SEO title" ) }
-		{ renderPaperAttribute( props, "description", "Write a meta description" ) }
-		{ renderPaperAttribute( props, "locale", "en_US" ) }
+		{ renderPaperAttribute( props, "Text", "Write a text", null, TextArea ) }
+		{ renderPaperAttribute( props, "Keyword", "Choose a focus keyword", "Focus keyword" ) }
+		{ renderPaperAttribute( props, "Synonyms", "Choose keyword synonyms" ) }
+		{ renderPaperAttribute( props, "Title", "Write the SEO title" ) }
+		{ renderPaperAttribute( props, "Description", "Write a meta description" ) }
+		{ renderPaperAttribute( props, "Locale", "en_US" ) }
 	</section>;
 }
 
