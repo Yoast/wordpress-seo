@@ -8,7 +8,6 @@ import testPapers from "yoastspec/fullTextTests/testTexts";
 import Paper from "../../../src/values/Paper";
 
 // Internal dependencies.
-import "./App.css";
 import Button from "./components/Button";
 import Checkbox from "./components/Checkbox";
 import Results from "./Results";

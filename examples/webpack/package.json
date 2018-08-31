@@ -98,13 +98,8 @@
       "react-app"
     ]
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "yoast"
-    ]
-  },
   "devDependencies": {
+    "styled-components": "^3.4.5",
     "ts-loader": "^3.5.0"
   }
 }

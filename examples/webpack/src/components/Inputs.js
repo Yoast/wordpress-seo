@@ -2,11 +2,11 @@ import TextArea from "./TextArea";
 import React from "react";
 import Input from "./Input";
 import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
 import * as configurationActionCreators from "../redux/actions/configuration";
 import * as paperActionCreators from "../redux/actions/paper";
 import * as resultsActionCreators from "../redux/actions/results";
-import { connect } from "react-redux";
 
 function renderPaperAttribute( props, id, placeholder, label = null, Component = Input, defaultValue = "" ) {
 	const { actions, paper } = props;

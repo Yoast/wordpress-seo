@@ -12,10 +12,6 @@ body, html {
 	box-sizing: inherit;
 }
 
-h2{
-	color: #777;
-}
-
 /* needs higher specificity than other score icons */
 .wpseo-score-icon {
 	float: left;
