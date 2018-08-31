@@ -10,7 +10,7 @@ import Paper from "../../../src/values/Paper";
 // Internal dependencies.
 import Button from "./components/Button";
 import Checkbox from "./components/Checkbox";
-import Results from "./Results";
+import Results from "./components/Results";
 import AnalysisWebWorker from "./analysis.worker";
 import Collapsible from "./components/Collapsible";
 
@@ -154,27 +154,16 @@ class App extends React.Component {
 			<Fragment>
 				<h1>YoastSEO.js development tool</h1>
 
-				<h2>Worker status</h2>
-
 				<Collapsible title="Input">
 					<Inputs />
 				</Collapsible>
 
 				<Collapsible title="Results">
-					<h2>SEO assessments</h2>
-					<Results results={ this.props.results.seo } />
-					<div id="output" className="output">
-
-					</div>
-					<h2>Content assessments</h2>
-					<Results results={ this.props.results.readability } />
-					<div id="contentOutput" className="output">
-
-					</div>
+					<Results />
 				</Collapsible>
 
 				<Collapsible title="Worker status">
-
+					<WorkerStatus />
 				</Collapsible>
 
 				<Collapsible title="Controls">
