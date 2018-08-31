@@ -1,6 +1,5 @@
 // External dependencies.
 import React, { Fragment } from "react";
-import PropTypes from "prop-types";
 
 // YoastSEO.js dependencies.
 import { AnalysisWorkerWrapper } from "../../../src/worker";
@@ -148,7 +147,7 @@ class App extends React.Component {
 	 * @returns {ReactElement} The app.
 	 */
 	render() {
-		const { configuration } = this.props;
+		const { useKeywordDistribution } = this.props;
 
 		return (
 			<Fragment>
@@ -175,13 +174,12 @@ class App extends React.Component {
 							window.location.reload();
 						} }>Clear</Button>
 						<Button onClick={ this.analyzeSpam }>Analyze Spam</Button>
-						<WorkerStatus />
 					</div>
 
 					<h2>Configuration</h2>
 					<Checkbox
 						id="premium"
-						value={ configuration.useKeywordDistribution }
+						value={ useKeywordDistribution }
 						label="Premium"
 						onChange={ value => {
 							this.props.setConfigurationAttribute( "useKeywordDistribution", value );
@@ -220,15 +218,11 @@ class App extends React.Component {
 	}
 }
 
-App.propTypes = {
-	configuration: PropTypes.object.isRequired,
-	paper: PropTypes.object.isRequired,
-	results: PropTypes.object.isRequired,
-};
-
 export default connect(
 	( state ) => {
-		return state;
+		return {
+			useKeywordDistribution: state.configuration.useKeywordDistribution,
+		};
 	},
 	( dispatch ) => {
 		return {
