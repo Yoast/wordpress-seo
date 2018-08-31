@@ -9,23 +9,6 @@ import values from "lodash/values";
 /* Internal dependencies */
 import PrimaryTaxonomyPicker from "./PrimaryTaxonomyPicker";
 
-/**
- * Gets the display name for a react component.
- *
- * @param {ReactComponent} Component The react component.
- *
- * @returns {string} The component's display name.
- */
-function getDisplayName( Component ) {
-	return (
-		Component.displayName ||
-		Component.name ||
-		( typeof Component === "string" && Component.length > 0
-			? Component
-			: "Unknown" )
-	);
-}
-
 let taxonomyData = null,
 	taxonomiesWithPrimaryTermSupport = null;
 
