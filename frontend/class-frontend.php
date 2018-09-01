@@ -11,11 +11,15 @@
  */
 class WPSEO_Frontend {
 	/**
-	 * @var    object    Instance of this class.
+	 * Instance of this class.
+	 *
+	 * @var object
 	 */
 	public static $instance;
 	/**
-	 * @var boolean Boolean indicating whether output buffering has been started.
+	 * Boolean indicating whether output buffering has been started.
+	 *
+	 * @var boolean
 	 */
 	private $ob_started = false;
 	/**
@@ -30,6 +34,12 @@ class WPSEO_Frontend {
 	 * @var string
 	 */
 	private $canonical_no_override = null;
+	/**
+	 * Holds the canonical URL for the current page retrieved from manual canonical input.
+	 *
+	 * @var string
+	 */
+	private $canonical_override = null;
 	/**
 	 * Holds the canonical URL for the current page without pagination.
 	 *
@@ -48,10 +58,17 @@ class WPSEO_Frontend {
 	 * @var string
 	 */
 	private $title = null;
-	/** @var WPSEO_Frontend_Page_Type */
+	/**
+	 * The frontend page type.
+	 *
+	 * @var WPSEO_Frontend_Page_Type
+	 */
 	protected $frontend_page_type;
-
-	/** @var WPSEO_WooCommerce_Shop_Page */
+	/**
+	 * The WooCommerce shop page object.
+	 *
+	 * @var WPSEO_WooCommerce_Shop_Page
+	 */
 	protected $woocommerce_shop_page;
 
 	/**
@@ -870,6 +887,9 @@ class WPSEO_Frontend {
 		if ( $un_paged ) {
 			$canonical = $this->canonical_unpaged;
 		}
+		if ( ! $no_override && $this->canonical_override !== null ) {
+			$canonical = $this->canonical_override;
+		}
 		elseif ( $no_override ) {
 			$canonical = $this->canonical_no_override;
 		}
@@ -890,8 +910,7 @@ class WPSEO_Frontend {
 	 * @return void
 	 */
 	private function generate_canonical() {
-		$canonical          = false;
-		$canonical_override = false;
+		$canonical = false;
 
 		// Set decent canonicals for homepage, singulars and taxonomy pages.
 		if ( is_singular() ) {
@@ -900,7 +919,7 @@ class WPSEO_Frontend {
 
 			$this->canonical_unpaged = $canonical;
 
-			$canonical_override = $this->get_seo_meta_value( 'canonical' );
+			$this->canonical_override = $this->get_seo_meta_value( 'canonical' );
 
 			// Fix paginated pages canonical, but only if the page is truly paginated.
 			if ( get_query_var( 'page' ) > 1 ) {
@@ -931,6 +950,9 @@ class WPSEO_Frontend {
 
 				$posts_page_id = get_option( 'page_for_posts' );
 				$canonical     = $this->get_seo_meta_value( 'canonical', $posts_page_id );
+				if ( ! empty( $canonical ) ) {
+					$this->canonical_override = $canonical;
+				}
 
 				if ( empty( $canonical ) ) {
 					$canonical = get_permalink( $posts_page_id );
@@ -941,9 +963,8 @@ class WPSEO_Frontend {
 				$term = get_queried_object();
 
 				if ( ! empty( $term ) && ! $this->is_multiple_terms_query() ) {
-
-					$canonical_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
-					$term_link          = get_term_link( $term, $term->taxonomy );
+					$this->canonical_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
+					$term_link                = get_term_link( $term, $term->taxonomy );
 
 					if ( ! is_wp_error( $term_link ) ) {
 						$canonical = $term_link;
@@ -997,10 +1018,6 @@ class WPSEO_Frontend {
 			if ( WPSEO_Utils::is_url_relative( $canonical ) === true ) {
 				$canonical = $this->base_url( $canonical );
 			}
-		}
-
-		if ( is_string( $canonical_override ) && $canonical_override !== '' ) {
-			$canonical = $canonical_override;
 		}
 
 		/**
