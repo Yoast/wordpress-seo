@@ -50,7 +50,6 @@ export default class HowTo extends Component {
 		this.addCSSClasses   = this.addCSSClasses.bind( this );
 		this.getListTypeHelp = this.getListTypeHelp.bind( this );
 		this.toggleListType  = this.toggleListType.bind( this );
-		this.updateHeadingID = this.updateHeadingID.bind( this );
 
 		this.editorRefs = {};
 	}
@@ -321,6 +320,7 @@ export default class HowTo extends Component {
 		if ( ! attributes.hasDuration ) {
 			return (
 				<IconButton
+					focus={ true }
 					icon="insert"
 					onClick={ () => setAttributes( { hasDuration: true } ) }
 					className="schema-how-to-duration-button editor-inserter__toggle"
@@ -413,7 +413,6 @@ export default class HowTo extends Component {
 	static Content( props ) {
 		let {
 			steps,
-			title,
 			hasDuration,
 			days,
 			hours,
@@ -422,7 +421,6 @@ export default class HowTo extends Component {
 			unorderedList,
 			additionalListCssClasses,
 			className,
-			headingID,
 		} = props;
 
 		steps = steps
@@ -438,18 +436,11 @@ export default class HowTo extends Component {
 
 		const classNames       = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
 		const listClassNames   = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
-		const contentHeadingID = headingID ? headingID : stripHTML( renderToString( title ) ).toLowerCase();
 
 		const timeString = buildDurationString( { days, hours, minutes } );
 
 		return (
 			<div className={ classNames }>
-				<RichText.Content
-					tagName="strong"
-					className="schema-how-to-title"
-					value={ title }
-					id={ contentHeadingID.replace( /\s+/g, "-" ) }
-				/>
 				{ ( hasDuration && typeof timeString === "string" && timeString.length > 0 ) &&
 					<p className="schema-how-to-total-time">
 						{ __( "Time needed:", "wordpress-seo" ) }
@@ -510,17 +501,6 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Changes the heading's ID.
-	 *
-	 * @param {string} headingID The header's new ID.
-	 *
-	 * @returns {void}
-	 */
-	updateHeadingID( headingID ) {
-		this.props.setAttributes( { headingID: headingID } );
-	}
-
-	/**
 	 * Returns the help text for this how-to block"s list type.
 	 *
 	 * @param {boolean} checked Whether or not the list is unordered.
@@ -538,19 +518,12 @@ export default class HowTo extends Component {
 	 *
 	 * @param {boolean} unorderedList     Whether to show the list as an unordered list.
 	 * @param {string}  additionalClasses The additional CSS classes to add to the list.
-	 * @param {string}  headingID         The heading's ID.
 	 *
 	 * @returns {Component} The controls to add to the sidebar.
 	 */
-	getSidebar( unorderedList, additionalClasses, headingID ) {
+	getSidebar( unorderedList, additionalClasses ) {
 		return <InspectorControls>
 			<PanelBody title={ __( "Settings", "wordpress-seo" ) } className="blocks-font-size">
-				<SpacedTextControl
-					label={ __( "HTML ID to apply to the title", "wordpress-seo" ) }
-					value={ headingID }
-					onChange={ this.updateHeadingID }
-					help={ __( "Optional. This can give you better control over the styling of the heading.", "wordpress-seo" ) }
-				/>
 				<SpacedTextControl
 					label={ __( "CSS class(es) to apply to the steps", "wordpress-seo" ) }
 					value={ additionalClasses }
@@ -567,6 +540,13 @@ export default class HowTo extends Component {
 		</InspectorControls>;
 	}
 
+	componentDidMount() {
+		if ( this.firstFocusableElement ) {
+			console.log( this.firstFocusableElement );
+			this.firstFocusableElement.focus();
+		}
+	}
+
 	/**
 	 * Renders this component.
 	 *
@@ -580,20 +560,6 @@ export default class HowTo extends Component {
 
 		return (
 			<div className={ classNames }>
-				<RichText
-					tagName="strong"
-					id={ attributes.headingID }
-					className="schema-how-to-title"
-					value={ attributes.title }
-					isSelected={ this.state.focus === "title" }
-					setFocusedElement={ () => this.setFocus( "title" ) }
-					onChange={ ( title ) => setAttributes( { title, jsonTitle: stripHTML( renderToString( title ) ) } ) }
-					onSetup={ ( ref ) => {
-						this.editorRefs.title = ref;
-					} }
-					placeholder={ __( "Enter a title for your instructions", "wordpress-seo" ) }
-					keepPlaceholderOnFocus={ true }
-				/>
 				{ this.getDuration() }
 				<RichText
 					tagName="p"
@@ -602,7 +568,7 @@ export default class HowTo extends Component {
 					isSelected={ this.state.focus === "description" }
 					setFocusedElement={ () => this.setFocus( "description" ) }
 					onChange={ ( description ) => setAttributes( { description, jsonDescription: stripHTML( renderToString( description ) ) } ) }
-					onSetup={ ( ref ) => {
+					unstableOnSetup={ ( ref ) => {
 						this.editorRefs.description = ref;
 					} }
 					placeholder={ __( "Enter a description", "wordpress-seo" ) }
@@ -612,7 +578,7 @@ export default class HowTo extends Component {
 					{ this.getSteps() }
 				</ul>
 				<div className="schema-how-to-buttons">{ this.getAddStepButton() }</div>
-				{ this.getSidebar( attributes.unorderedList, attributes.additionalListCssClasses, attributes.headingID ) }
+				{ this.getSidebar( attributes.unorderedList, attributes.additionalListCssClasses ) }
 			</div>
 		);
 	}
