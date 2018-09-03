@@ -334,6 +334,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
 					'wp-util',
+					'wp-api',
 					self::PREFIX . 'wp-globals-backport',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'react-dependencies',

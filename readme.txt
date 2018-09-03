@@ -106,6 +106,15 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 8.1.1 =
+Release Date: September 3rd, 2018
+
+Bugfixes:
+* Fixes compatibility with Gutenberg 3.7, which removed a feature we were relying on.
+* Fixes a bug where the Twitter meta-tags would not have the snippet variables replaced with their dynamic values.
+* Fixes a bug where the `og:url` would not be set to the canonical URL if the canonical URL is explicitly set on Post types, Terms or Tags.
+* Fixes a bug on the Term page when editting the `slug`, it would not be updated in the Snippet Preview directly.
+
 = 8.1.0 =
 Release Date: August 28th, 2018
 
