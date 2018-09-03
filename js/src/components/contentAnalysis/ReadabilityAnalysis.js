@@ -49,7 +49,7 @@ class ReadabilityAnalysis extends React.Component {
 				prefixIconCollapsed={ getIconForScore( score.className ) }
 			>
 				<AnalysisHeader>
-					Analysis results
+					{ __( "Analysis results", "wordpress-seo" ) }
 				</AnalysisHeader>
 				<p>{ __( "This analysis checks your writing for grammar and writing style so your content " +
 						"is as clear as it can be.", "wordpress-seo" ) + " " }
