@@ -1,4 +1,4 @@
-const createRulesFromJsonArrays = require(  "../morphoHelpers/createRulesFromJsonArrays.js" );
+const createRulesFromMorphologyData = require(  "../morphoHelpers/createRulesFromMorphologyData.js" );
 
 const checkPossessive = require( "./getNounForms.js" ).checkPossessive;
 const getNounFormsWithPossessives = require( "./getNounForms.js" ).getNounFormsWithPossessives;
@@ -17,7 +17,7 @@ const flatten = require( "lodash/flatten" );
  * @returns {Array} Array of all forms to be searched for keyword-based assessments.
  */
 const getForms = function( word, morphologyData ) {
-	if ( checkPossessive( word, createRulesFromJsonArrays( morphologyData.nouns.regexNoun.possessiveToBase ) ) ) {
+	if ( checkPossessive( word, createRulesFromMorphologyData( morphologyData.nouns.regexNoun.possessiveToBase ) ) ) {
 		return unique( getNounFormsWithPossessives( word, morphologyData.nouns ) );
 	}
 	return unique( flatten( [

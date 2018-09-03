@@ -1,8 +1,8 @@
 // "use strict";
 const countSyllablesInText = require( "../../stringProcessing/syllables/count" );
-const createRulesFromJsonArrays = require( "../morphoHelpers/createRulesFromJsonArrays.js" );
-const buildOneFormFromRegex = require( "../morphoHelpers/buildFormFromRegex" ).buildOneFormFromRegex;
-const buildTwoFormsFromRegex = require( "../morphoHelpers/buildFormFromRegex" ).buildTwoFormsFromRegex;
+const createRulesFromMorphologyData = require( "../morphoHelpers/createRulesFromMorphologyData.js" );
+const buildOneFormFromRegex = require( "../morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
+const buildTwoFormsFromRegex = require( "../morphoHelpers/buildFormRule" ).buildTwoFormsFromRegex;
 
 const isUndefined = require( "lodash/isUndefined.js" );
 const unique = require( "lodash/uniq" );
@@ -145,14 +145,14 @@ const getAdjectiveForms = function( word, adjectiveData ) {
 	let forms = [];
 
 	const regexAdjective = adjectiveData.regexAdjective;
-	const ically = buildTwoFormsFromRegex( word, createRulesFromJsonArrays( regexAdjective.icallyAdverbs ) );
+	const ically = buildTwoFormsFromRegex( word, createRulesFromMorphologyData( regexAdjective.icallyAdverbs ) );
 	if ( ! isUndefined( ically ) ) {
 		return ically.concat( word );
 	}
 
-	const comparativeToBaseRegex = createRulesFromJsonArrays( regexAdjective.comparativeToBase );
-	const superlativeToBaseRegex = createRulesFromJsonArrays( regexAdjective.superlativeToBase );
-	const adverbToBaseRegex = createRulesFromJsonArrays( regexAdjective.adverbToBase );
+	const comparativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.comparativeToBase );
+	const superlativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.superlativeToBase );
+	const adverbToBaseRegex = createRulesFromMorphologyData( regexAdjective.adverbToBase );
 
 	let base = getBase( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex ).base;
 
@@ -164,15 +164,15 @@ const getAdjectiveForms = function( word, adjectiveData ) {
 	forms = forms.concat( word );
 
 	forms.push( base );
-	forms.push( buildOneFormFromRegex( base, createRulesFromJsonArrays( regexAdjective.adverb ) ) );
+	forms.push( buildOneFormFromRegex( base, createRulesFromMorphologyData( regexAdjective.adverb ) ) );
 
 	const noComparativeOrSuperlative = new RegExp( regexAdjective.noComparativeOrSuperlative, "i" );
 	if ( checkWordTooLong( base ) === true || noComparativeOrSuperlative.test( base ) === true ) {
 		return unique( forms.filter( Boolean ) );
 	}
 
-	forms.push( buildOneFormFromRegex( base, createRulesFromJsonArrays( regexAdjective.comparative ) ) );
-	forms.push( buildOneFormFromRegex( base, createRulesFromJsonArrays( regexAdjective.superlative ) ) );
+	forms.push( buildOneFormFromRegex( base, createRulesFromMorphologyData( regexAdjective.comparative ) ) );
+	forms.push( buildOneFormFromRegex( base, createRulesFromMorphologyData( regexAdjective.superlative ) ) );
 
 	return unique( flatten( forms.filter( Boolean ) ) );
 };

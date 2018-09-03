@@ -1,7 +1,7 @@
 // "use strict";
-const createRulesFromJsonArrays = require( "../morphoHelpers/createRulesFromJsonArrays.js" );
-const buildOneFormFromRegex = require( "../morphoHelpers/buildFormFromRegex" ).buildOneFormFromRegex;
-const buildTwoFormsFromRegex = require( "../morphoHelpers/buildFormFromRegex" ).buildTwoFormsFromRegex;
+const createRulesFromMorphologyData = require( "../morphoHelpers/createRulesFromMorphologyData.js" );
+const buildOneFormFromRegex = require( "../morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
+const buildTwoFormsFromRegex = require( "../morphoHelpers/buildFormRule" ).buildTwoFormsFromRegex;
 
 
 const isUndefined = require( "lodash/isUndefined.js" );
@@ -12,13 +12,13 @@ const flatten = require( "lodash/flatten" );
  * Checks if the input word is a possessive form (e.g., "boy's" in "the boy's car") and returns true if that is the case.
  *
  * @param {string} word The word for which to determine if it's a possessive.
- * @param {Array} possessiveToBaseRegex An array of regex-based rules to bring possessives to base.
+ * @param {Array} possessiveToBaseRegexes An array of regex-based rules to bring possessives to base.
  *
  * @returns {boolean} Whether the input word is a possessive form or not.
  */
-const checkPossessive = function( word, possessiveToBaseRegex ) {
-	for ( let i = 0; i < possessiveToBaseRegex.length; i++ ) {
-		if ( possessiveToBaseRegex[ i ].reg.test( word ) ) {
+const checkPossessive = function( word, possessiveToBaseRegexes ) {
+	for ( let i = 0; i < possessiveToBaseRegexes.length; i++ ) {
+		if ( possessiveToBaseRegexes[ i ].reg.test( word ) ) {
 			return true;
 		}
 	}
@@ -59,7 +59,7 @@ const getNounForms = function( word, nounData ) {
 
 	const regexNoun = nounData.regexNoun;
 
-	const baseIfPossessive = buildOneFormFromRegex( word, createRulesFromJsonArrays( regexNoun.possessiveToBase ) );
+	const baseIfPossessive = buildOneFormFromRegex( word, createRulesFromMorphologyData( regexNoun.possessiveToBase ) );
 	if ( ! isUndefined( baseIfPossessive ) ) {
 		base = baseIfPossessive;
 		forms = forms.concat( base );
@@ -70,18 +70,18 @@ const getNounForms = function( word, nounData ) {
 		return irregular;
 	}
 
-	const hispanic = buildTwoFormsFromRegex( base, createRulesFromJsonArrays( regexNoun.hispanic ) );
+	const hispanic = buildTwoFormsFromRegex( base, createRulesFromMorphologyData( regexNoun.hispanic ) );
 	if ( ! isUndefined( hispanic ) ) {
 		forms.push( hispanic[ 0 ], hispanic[ 1 ] );
 		return forms;
 	}
 
-	const singular = buildOneFormFromRegex( base, createRulesFromJsonArrays( regexNoun.singularize ) );
+	const singular = buildOneFormFromRegex( base, createRulesFromMorphologyData( regexNoun.singularize ) );
 	if ( ! isUndefined( singular ) ) {
 		forms.push( singular );
 	}
 
-	const plural = buildOneFormFromRegex( base, createRulesFromJsonArrays( regexNoun.pluralize ) );
+	const plural = buildOneFormFromRegex( base, createRulesFromMorphologyData( regexNoun.pluralize ) );
 	if ( ! isUndefined( plural ) ) {
 		forms.push( plural );
 	}
@@ -106,8 +106,8 @@ const getNounFormsWithPossessives = function( word, nounData ) {
 	 * Because returning nothing generates undefined objects, filter(Boolean) to get rid of them.
 	 */
 	forms = forms.concat( forms.map( function( form ) {
-		if ( ! checkPossessive( form, createRulesFromJsonArrays( nounData.regexNoun.possessiveToBase ) ) ) {
-			return ( buildTwoFormsFromRegex( form, createRulesFromJsonArrays( nounData.regexNoun.baseToPossessive ) ) );
+		if ( ! checkPossessive( form, createRulesFromMorphologyData( nounData.regexNoun.possessiveToBase ) ) ) {
+			return ( buildTwoFormsFromRegex( form, createRulesFromMorphologyData( nounData.regexNoun.baseToPossessive ) ) );
 		}
 	} ) ).filter( Boolean );
 	return unique( flatten( forms ) );

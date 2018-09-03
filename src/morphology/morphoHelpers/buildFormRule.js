@@ -3,14 +3,14 @@
  * This function is used for other more specific functions.
  *
  * @param {string} word The word to build forms for.
- * @param {Array} regex The regex-based array of rules to compare the word against.
+ * @param {Array} regexes The regex-based array of rules to compare the word against.
  *
  * @returns {string} The newly built form of the word.
  */
-const buildOneFormFromRegex = function( word, regex ) {
-	for ( let i = 0; i < regex.length; i++ ) {
-		if ( regex[ i ].reg.test( word ) === true ) {
-			return word.replace( regex[ i ].reg, regex[ i ].repl );
+const buildOneFormFromRegex = function( word, regexes ) {
+	for ( let i = 0; i < regexes.length; i++ ) {
+		if ( regexes[ i ].reg.test( word ) === true ) {
+			return word.replace( regexes[ i ].reg, regexes[ i ].repl );
 		}
 	}
 };
@@ -20,16 +20,16 @@ const buildOneFormFromRegex = function( word, regex ) {
  * This function is used for other more specific functions.
  *
  * @param {string} word The word for which to determine its forms.
- * @param {Array} regex The regex-based array of rules to compare the word against.
+ * @param {Array} regexes The regex-based array of rules to compare the word against.
  *
  * @returns {Array} Array of word forms.
  */
-const buildTwoFormsFromRegex = function( word, regex ) {
-	for ( let i = 0; i < regex.length; i++ ) {
-		if ( regex[ i ].reg.test( word ) === true ) {
+const buildTwoFormsFromRegex = function( word, regexes ) {
+	for ( let i = 0; i < regexes.length; i++ ) {
+		if ( regexes[ i ].reg.test( word ) === true ) {
 			return [
-				word.replace( regex[ i ].reg, regex[ i ].repl1 ),
-				word.replace( regex[ i ].reg, regex[ i ].repl2 ),
+				word.replace( regexes[ i ].reg, regexes[ i ].repl1 ),
+				word.replace( regexes[ i ].reg, regexes[ i ].repl2 ),
 			];
 		}
 	}

@@ -125,7 +125,7 @@ Researcher.prototype.addResearch = function( name, research ) {
 };
 
 /**
- * Check wheter or not the research is known by the Researcher.
+ * Check whether or not the research is known by the Researcher.
  * @param {string} name The name to reference the research by.
  * @returns {boolean} Whether or not the research is known by the Researcher
  */
@@ -147,6 +147,7 @@ Researcher.prototype.getAvailableResearches = function() {
 /**
  * Return the Research by name.
  * @param {string} name The name to reference the research by.
+ *
  * @returns {*} Returns the result of the research or false if research does not exist.
  * @throws {MissingArgument} Research name cannot be empty.
  */
@@ -163,9 +164,11 @@ Researcher.prototype.getResearch = function( name ) {
 };
 
 /**
- * Return the Research by name.
+ * Add research data provider to the researcher by the research name.
+ *
  * @param {string} research The identifier of the research.
  * @param {function} provider The reference to the dataProvider.
+ *
  * @returns {void}.
  */
 Researcher.prototype.addResearchDataProvider = function( research, provider ) {
@@ -173,8 +176,10 @@ Researcher.prototype.addResearchDataProvider = function( research, provider ) {
 };
 
 /**
- * Return the Research by name.
+ * Return the research data from a research data provider by research name.
+ *
  * @param {string} research The identifier of the research.
+ *
  * @returns {*} The data provided by the provider, false if the data do not exist
  */
 Researcher.prototype.getProvidedData = function( research ) {

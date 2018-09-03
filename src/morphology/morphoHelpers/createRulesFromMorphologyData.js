@@ -6,7 +6,7 @@
  *
  * @returns {Array} Array of objects to be used in the regex-based rules.
  */
-const createRulesFromJsonArrays = function( array ) {
+const createRulesFromMorphologyData = function( array ) {
 	return array.map( function( pair ) {
 		if ( pair.length === 2 ) {
 			return {
@@ -24,4 +24,4 @@ const createRulesFromJsonArrays = function( array ) {
 	} );
 };
 
-module.exports = createRulesFromJsonArrays;
+module.exports = createRulesFromMorphologyData;

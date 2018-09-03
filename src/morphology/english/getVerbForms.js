@@ -1,6 +1,6 @@
 // "use strict";
-const createRulesFromJsonArrays = require( "../morphoHelpers/createRulesFromJsonArrays.js" );
-const buildOneFormFromRegex = require( "../morphoHelpers/buildFormFromRegex" ).buildOneFormFromRegex;
+const createRulesFromMorphologyData = require( "../morphoHelpers/createRulesFromMorphologyData.js" );
+const buildOneFormFromRegex = require( "../morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
 
 const isUndefined = require( "lodash/isUndefined.js" );
 const unique = require( "lodash/uniq" );
@@ -243,9 +243,9 @@ const getVerbForms = function( word, verbsData ) {
 
 	let forms = [];
 
-	const sFormToInfinitiveRegex = createRulesFromJsonArrays( regexVerb.sFormToInfinitive );
-	const ingFormToInfinitiveRegex = createRulesFromJsonArrays( regexVerb.ingFormToInfinitive );
-	const edFormToInfinitiveRegex = createRulesFromJsonArrays( regexVerb.edFormToInfinitive );
+	const sFormToInfinitiveRegex = createRulesFromMorphologyData( regexVerb.sFormToInfinitive );
+	const ingFormToInfinitiveRegex = createRulesFromMorphologyData( regexVerb.ingFormToInfinitive );
+	const edFormToInfinitiveRegex = createRulesFromMorphologyData( regexVerb.edFormToInfinitive );
 
 	let infinitive = getInfinitive( word, sFormToInfinitiveRegex, ingFormToInfinitiveRegex, edFormToInfinitiveRegex ).infinitive;
 
@@ -257,9 +257,9 @@ const getVerbForms = function( word, verbsData ) {
 	forms = forms.concat( word );
 
 	forms.push( infinitive );
-	forms.push( buildOneFormFromRegex( infinitive, createRulesFromJsonArrays( regexVerb.infinitiveToSForm ) ) );
-	forms.push( buildOneFormFromRegex( infinitive, createRulesFromJsonArrays( regexVerb.infinitiveToIngForm ) ) );
-	forms.push( buildOneFormFromRegex( infinitive, createRulesFromJsonArrays( regexVerb.infinitiveToEdForm ) ) );
+	forms.push( buildOneFormFromRegex( infinitive, createRulesFromMorphologyData( regexVerb.infinitiveToSForm ) ) );
+	forms.push( buildOneFormFromRegex( infinitive, createRulesFromMorphologyData( regexVerb.infinitiveToIngForm ) ) );
+	forms.push( buildOneFormFromRegex( infinitive, createRulesFromMorphologyData( regexVerb.infinitiveToEdForm ) ) );
 
 	forms = forms.filter( Boolean );
 
