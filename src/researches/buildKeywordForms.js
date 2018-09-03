@@ -6,13 +6,14 @@ const parseSynonyms = require( "../stringProcessing/parseSynonyms" );
 import { getVariationsApostrophe } from "../stringProcessing/getVariationsApostrophe";
 import { getVariationsApostropheInArray } from "../stringProcessing/getVariationsApostrophe";
 
-const includes = require( "lodash/includes" );
-const filter = require( "lodash/filter" );
-const isUndefined = require( "lodash/isUndefined" );
-const escapeRegExp = require( "lodash/escapeRegExp" );
-const unique = require( "lodash/uniq" );
-const flatten = require( "lodash/flatten" );
-const get = require( "lodash/get" );
+import { includes } from "lodash-es";
+import { filter } from "lodash-es";
+import { isUndefined } from "lodash-es";
+import { escapeRegExp } from "lodash-es";
+import { unique } from "lodash-es";
+import { flatten } from "lodash-es";
+import { get } from "lodash-es";
+import { memoize } from "lodash-es";
 
 /**
  * Filters function words from an array of words based on the language.
@@ -106,7 +107,7 @@ const buildForms = function( keyphrase, language, morphologyData ) {
  *
  * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms.
  */
-const collectForms = function( keyphrase, synonyms, language = "en", morphologyData ) {
+const collectKeyphraseAndSynonymsForms = function( keyphrase, synonyms, language = "en", morphologyData ) {
 	const synonymsSplit = parseSynonyms( synonyms );
 
 	let keyphraseForms = buildForms( keyphrase, language, morphologyData );
@@ -117,6 +118,45 @@ const collectForms = function( keyphrase, synonyms, language = "en", morphologyD
 		synonymsForms: synonymsForms,
 	};
 };
+
+/**
+ * Cashes morphological forms depending on the currently available morphologyData and (separately) keyphrase, synonyms,
+ * and language. In this way, if the morphologyData remains the same in multiple calls of this function, the function
+ * that collects actual morphological forms only needs to check if the keyphrase, synonyms and language also remain the
+ * same to return the cashed result. The joining of keyphrase, synonyms and language for this function is needed,
+ * because by default memoize cashes by the first key only, which in the current case would mean that the function would
+ * return the cashed forms if the keyphrase has not changed (without checking if synonyms and language were changed).
+ *
+ * @param {Object|boolean} morphologyData The available morphology data.
+ *
+ * @returns {function} The function that collects the forms for a given set of keyphrase, synonyms, language and
+ * morphologyData.
+ */
+const primeMorphologyData = memoize( ( morphologyData ) => {
+	return memoize( ( keyphrase, synonyms, language = "en" ) => {
+		return collectKeyphraseAndSynonymsForms( keyphrase, synonyms, language, morphologyData );
+	}, ( keyphrase, synonyms, language ) => {
+		return keyphrase + "," + synonyms + "," + language;
+	} );
+} );
+
+
+/**
+ * Retrieves morphological forms of words of the keyphrase and of each synonym phrase using the function that cashes
+ * the results of previous calls of this function.
+ *
+ * @param {string} keyphrase The paper's keyphrase.
+ * @param {string} synonyms The paper's synonyms.
+ * @param {string} language The paper's language.
+ * @param {Object} morphologyData The available morphology data to be used by the getForms function (language specific).
+ *
+ * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms.
+ */
+function collectForms( keyphrase, synonyms, language = "en", morphologyData ) {
+	const collectFormsWithMorphologyData = primeMorphologyData( morphologyData );
+
+	return collectFormsWithMorphologyData( keyphrase, synonyms, language );
+}
 
 /**
  * Calls the function that builds keyphrase and synonyms forms for a specific research data.
