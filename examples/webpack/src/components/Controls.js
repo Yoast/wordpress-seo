@@ -5,11 +5,14 @@ import { connect } from "react-redux";
 /* Internal */
 import Button from "./Button";
 import { clearStorage } from "../redux/utils/localstorage";
-import Checkbox from "./Checkbox";
 import AutomaticAnalysis from "./AutomaticAnalysis";
+import { setConfigurationAttribute } from "../redux/actions/configuration";
+import Toggle
+	from "yoast-components/composites/Plugin/Shared/components/Toggle";
+import { noop } from "lodash-es";
 
 
-function Controls( { useKeywordDistribution, onInitialize, onAnalyze, onAnalyzeSpam } ) {
+function Controls( { useKeywordDistribution, onInitialize, onAnalyze, onAnalyzeSpam, setConfigurationAttribute } ) {
 	return <Fragment>
 		<div className="button-container">
 			<AutomaticAnalysis />
@@ -24,13 +27,15 @@ function Controls( { useKeywordDistribution, onInitialize, onAnalyze, onAnalyzeS
 		</div>
 
 		<h2>Configuration</h2>
-		<Checkbox
-			id="premium"
-			value={ useKeywordDistribution }
-			label="Premium"
-			onChange={ value => {
-				this.props.setConfigurationAttribute( "useKeywordDistribution", value );
+
+		<Toggle
+			id="toggle-use-keyword-distribution"
+			labelText="Use keyword distribution"
+			isEnabled={ useKeywordDistribution }
+			onSetToggleState={ value => {
+				setConfigurationAttribute( "useKeywordDistribution", value );
 			} }
+			onToggleDisabled={ noop }
 		/>
 	</Fragment>;
 }
@@ -41,4 +46,9 @@ export default connect(
 			useKeywordDistribution: state.configuration.useKeywordDistribution,
 		};
 	},
+	( dispatch ) => {
+		return {
+			setConfigurationAttribute: ( name, value ) => dispatch( setConfigurationAttribute( name, value ) ),
+		};
+	}
 )( Controls );

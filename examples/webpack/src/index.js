@@ -34,6 +34,7 @@ const storageMiddleware = createStorageMiddleware( storageStates );
 
 const store = configureStore( initialState, [ storageMiddleware  ] );
 const worker = new AnalysisWorkerWrapper( new AnalysisWebWorker() );
+
 const subscriber = new StoreSubscriber( { store, worker } );
 subscriber.subscribe();
 

@@ -49,7 +49,8 @@ class App extends React.Component {
 		const { configuration, worker } = this.props;
 
 		worker.initialize( configuration )
-		    .then( data => console.log( "initialization done!", data ) );
+			.then( data => console.log( "initialization done!", data ) )
+			.then( this.analyze );
 	}
 
 	/**
