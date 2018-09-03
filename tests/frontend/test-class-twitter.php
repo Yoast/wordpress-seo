@@ -462,16 +462,16 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_OpenGraph::opengraph
+	 * @covers WPSEO_Twitter::twitter
 	 */
-	public function test_opengraph() {
+	public function test_twitter_action_execution() {
 		self::$class_instance->twitter();
 		$this->assertEquals( 1, did_action( 'wpseo_twitter' ) );
 		ob_clean();
 	}
 
 	/**
-	 * @covers WPSEO_OpenGraph::og_title
+	 * @covers WPSEO_Twitter::title
 	 */
 	public function test_twitter_title_with_variables() {
 		$expected_title = 'Test title';
