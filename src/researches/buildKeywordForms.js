@@ -10,7 +10,7 @@ import { includes } from "lodash-es";
 import { filter } from "lodash-es";
 import { isUndefined } from "lodash-es";
 import { escapeRegExp } from "lodash-es";
-import { unique } from "lodash-es";
+import { uniq as unique } from "lodash-es";
 import { flatten } from "lodash-es";
 import { get } from "lodash-es";
 import { memoize } from "lodash-es";
