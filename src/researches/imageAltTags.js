@@ -4,7 +4,6 @@ const imageInText = require( "../stringProcessing/imageInText" );
 const imageAlttag = require( "../stringProcessing/getAlttagContent" );
 import { findTopicFormsInString } from "../researches/findKeywordFormsInString";
 
-import { escapeRegExp } from "lodash-es";
 import { isEmpty } from "lodash-es";
 
 /**
