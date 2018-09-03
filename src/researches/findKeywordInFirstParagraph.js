@@ -3,9 +3,9 @@
 const matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
 const wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
 
-const escapeRegExp = require( "lodash/escapeRegExp" );
-const reject = require( "lodash/reject" );
-const isEmpty = require( "lodash/isEmpty" );
+import { escapeRegExp } from "lodash-es";
+import { reject } from "lodash-es";
+import { isEmpty } from "lodash-es";
 
 /**
  * Counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,

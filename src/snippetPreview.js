@@ -1,10 +1,10 @@
-var isEmpty = require( "lodash/isEmpty" );
-var isElement = require( "lodash/isElement" );
-var isUndefined = require( "lodash/isUndefined" );
-var clone = require( "lodash/clone" );
-var defaultsDeep = require( "lodash/defaultsDeep" );
-var forEach = require( "lodash/forEach" );
-var debounce = require( "lodash/debounce" );
+import { isEmpty } from "lodash-es";
+import { isElement } from "lodash-es";
+import { isUndefined } from "lodash-es";
+import { clone } from "lodash-es";
+import { defaultsDeep } from "lodash-es";
+import { forEach } from "lodash-es";
+import { debounce } from "lodash-es";
 
 var createWordRegex = require( "./stringProcessing/createWordRegex.js" );
 var stripHTMLTags = require( "./stringProcessing/stripHTMLTags.js" ).stripFullTags;

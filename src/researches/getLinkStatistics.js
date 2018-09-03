@@ -6,7 +6,7 @@ var getLinkType = require( "../stringProcessing/getLinkType.js" );
 var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
 var urlHelper = require( "../stringProcessing/url.js" );
 
-var escapeRegExp = require( "lodash/escapeRegExp" );
+import { escapeRegExp } from "lodash-es";
 
 /**
  * Checks whether or not an anchor contains the passed keyword.

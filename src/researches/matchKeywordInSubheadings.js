@@ -4,7 +4,7 @@ var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
 var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
 var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
 
-var escapeRegExp = require( "lodash/escapeRegExp" );
+import { escapeRegExp } from "lodash-es";
 
 /**
  * Checks if there are any subheadings like h2 in the text

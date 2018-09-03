@@ -1,7 +1,7 @@
 var SyllableCountStep = require( "./syllableCountStep.js" );
 
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
+import { isUndefined } from "lodash-es";
+import { forEach } from "lodash-es";
 
 /**
  * Creates a syllable count iterator.

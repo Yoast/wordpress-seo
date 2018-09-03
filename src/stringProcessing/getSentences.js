@@ -1,12 +1,12 @@
-var map = require( "lodash/map" );
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
-var isNaN = require( "lodash/isNaN" );
-var filter = require( "lodash/filter" );
-var flatMap = require( "lodash/flatMap" );
-var isEmpty = require( "lodash/isEmpty" );
-var negate = require( "lodash/negate" );
-var memoize = require( "lodash/memoize" );
+import { map } from "lodash-es";
+import { isUndefined } from "lodash-es";
+import { forEach } from "lodash-es";
+import { isNaN } from "lodash-es";
+import { filter } from "lodash-es";
+import { flatMap } from "lodash-es";
+import { isEmpty } from "lodash-es";
+import { negate } from "lodash-es";
+import { memoize } from "lodash-es";
 
 var core = require( "tokenizer2/core" );
 

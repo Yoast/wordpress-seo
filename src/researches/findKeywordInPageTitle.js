@@ -3,7 +3,7 @@
 const wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
 const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 
-const escapeRegExp = require( "lodash/escapeRegExp" );
+import { escapeRegExp } from "lodash-es";
 
 /**
  * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches

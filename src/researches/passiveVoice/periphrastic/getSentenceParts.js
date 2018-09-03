@@ -9,11 +9,11 @@ const getWordIndices = require( "./getIndicesWithRegex.js" );
 const includesIndex = require( "../../../stringProcessing/includesIndex" );
 const followsIndex = require( "../../../stringProcessing/followsIndex" );
 
-const filter = require( "lodash/filter" );
-const isUndefined = require( "lodash/isUndefined" );
-const includes = require( "lodash/includes" );
-const map = require( "lodash/map" );
-const forEach = require( "lodash/forEach" );
+import { filter } from "lodash-es";
+import { isUndefined } from "lodash-es";
+import { includes } from "lodash-es";
+import { map } from "lodash-es";
+import { forEach } from "lodash-es";
 
 // English-specific variables and imports.
 const SentencePartEnglish = require( "../../english/passiveVoice/SentencePart" );

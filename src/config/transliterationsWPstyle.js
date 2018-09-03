@@ -3,7 +3,7 @@
  */
 
 const getLanguage = require( "../helpers/getLanguage.js" );
-const isUndefined = require( "lodash/isUndefined" );
+import { isUndefined } from "lodash-es";
 
 
 const transliterationsGeneral =	[

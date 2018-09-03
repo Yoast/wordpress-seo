@@ -2,7 +2,7 @@
 
 var matchTextWithTransliteration = require( "./matchTextWithTransliteration.js" );
 
-var escapeRegExp = require( "lodash/escapeRegExp" );
+import { escapeRegExp } from "lodash-es";
 
 /**
  * Matches the keyword in the URL.
