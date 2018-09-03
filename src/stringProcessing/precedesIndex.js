@@ -1,5 +1,5 @@
-var isEmpty = require( "lodash/isEmpty" );
-var forEach = require( "lodash/forEach" );
+import { isEmpty } from "lodash-es";
+import { forEach } from "lodash-es";
 
 /**
  * Checks whether a given word precedes a participle directly or indirectly.

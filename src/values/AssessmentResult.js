@@ -1,6 +1,6 @@
-const isArray = require( "lodash/isArray" );
-const isUndefined = require( "lodash/isUndefined" );
-const isNumber = require( "lodash/isNumber" );
+import { isArray } from "lodash-es";
+import { isUndefined } from "lodash-es";
+import { isNumber } from "lodash-es";
 
 const Mark = require( "./Mark" );
 

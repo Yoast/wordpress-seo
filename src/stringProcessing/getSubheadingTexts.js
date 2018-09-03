@@ -1,4 +1,4 @@
-const isEmpty = require( "lodash/isEmpty.js" );
+import { isEmpty } from "lodash-es";
 /**
  * Returns all texts per subheading.
  * @param {string} text The text to analyze from.

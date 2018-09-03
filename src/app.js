@@ -2,18 +2,18 @@ require( "./config/config.js" );
 
 var SnippetPreview = require( "./snippetPreview.js" );
 
-var defaultsDeep = require( "lodash/defaultsDeep" );
-var isObject = require( "lodash/isObject" );
-var isString = require( "lodash/isString" );
+import { defaultsDeep } from "lodash-es";
+import { isObject } from "lodash-es";
+import { isString } from "lodash-es";
 var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/isUndefined" );
-var isEmpty = require( "lodash/isEmpty" );
-var isFunction = require( "lodash/isFunction" );
-var isArray = require( "lodash/isArray" );
-var forEach = require( "lodash/forEach" );
-var debounce = require( "lodash/debounce" );
-var throttle = require( "lodash/throttle" );
-const merge = require( "lodash/merge" );
+import { isUndefined } from "lodash-es";
+import { isEmpty } from "lodash-es";
+import { isFunction } from "lodash-es";
+import { isArray } from "lodash-es";
+import { forEach } from "lodash-es";
+import { debounce } from "lodash-es";
+import { throttle } from "lodash-es";
+import { merge } from "lodash-es";
 
 var Jed = require( "jed" );
 

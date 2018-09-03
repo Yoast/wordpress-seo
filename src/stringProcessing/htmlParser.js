@@ -2,7 +2,7 @@
 let htmlparser = require( "htmlparser2" );
 
 
-let includes = require( "lodash/includes" );
+import { includes } from "lodash-es";
 
 // The array containing the text parts without the blocks defined in inlineTags.
 let textArray;

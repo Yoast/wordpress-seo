@@ -3,8 +3,8 @@
 var stripTags = require( "./stripHTMLTags.js" ).stripFullTags;
 var stripSpaces = require( "./stripSpaces.js" );
 var removePunctuation = require( "./removePunctuation.js" );
-var map = require( "lodash/map" );
-var filter = require( "lodash/filter" );
+import { map } from "lodash-es";
+import { filter } from "lodash-es";
 
 /**
  * Returns an array with words used in the text.

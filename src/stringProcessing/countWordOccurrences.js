@@ -1,4 +1,4 @@
-var filter = require( "lodash/filter" );
+import { filter } from "lodash-es";
 
 var transliterate = require( "./transliterate.js" );
 var getWords = require( "./getWords.js" );

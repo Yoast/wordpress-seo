@@ -38,14 +38,13 @@
     "babelify": "^8.0.0",
     "console.table": "^0.10.0",
     "eslint-config-yoast": "^3.0.0",
-    "eslint-plugin-react": "^7.0.0",
+    "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-yoast": "^1.0.1",
     "grunt": "^1.0.1",
     "grunt-babel": "^7.0.0",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-uglify": "^3.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^21.0.0",
     "grunt-exorcise": "^2.1.1",
@@ -56,8 +55,10 @@
     "grunt-ts": "^5.5.1",
     "grunt-tslint": "^5.0.1",
     "istanbul": "^0.4.0",
+    "jest": "^23.5.0",
     "load-grunt-config": "^0.19.1",
     "lodash-cli": "^4.14.1",
+    "node-sass": "^4.9.3",
     "ts-jest": "^22.0.0",
     "tslint": "^5.7.0",
     "typescript": "^2.4.2"
@@ -68,11 +69,9 @@
   "dependencies": {
     "htmlparser2": "^3.9.2",
     "jed": "^1.1.0",
-    "jest": "^23.0.0",
-    "lodash": "^4.14.1",
-    "node-sass": "^4.7.2",
+    "lodash-es": "^4.17.10",
     "sassdash": "0.9.0",
-    "tokenizer2": "^2.0.0"
+    "tokenizer2": "^2.0.1"
   },
   "browserify": {
     "transform": [
@@ -90,6 +89,9 @@
       "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!lodash-es/.*)"
+    ],
     "testRegex": "/spec/.*\\.(ts|tsx|js)$",
     "testEnvironment": "jsdom",
     "moduleDirectories": [

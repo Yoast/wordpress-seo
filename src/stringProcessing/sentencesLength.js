@@ -1,5 +1,5 @@
 var wordCount = require( "./countWords.js" );
-var forEach = require( "lodash/forEach" );
+import { forEach } from "lodash-es";
 var stripHTMLTags = require( "./stripHTMLTags.js" ).stripFullTags;
 
 /**

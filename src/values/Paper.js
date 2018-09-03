@@ -1,6 +1,6 @@
-var defaults = require( "lodash/defaults" );
-const isEmpty = require( "lodash/isEmpty" );
-const isEqual = require( "lodash/isEqual" );
+import { defaults } from "lodash-es";
+import { isEmpty } from "lodash-es";
+import { isEqual } from "lodash-es";
 
 const collectTopicForms = require( "../researches/buildKeywordForms" ).collectForms;
 

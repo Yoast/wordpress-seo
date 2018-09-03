@@ -8,8 +8,8 @@ var auxiliaries = require( "./auxiliaries.js" )().participleLike;
 var exceptionsRegex =
 	/\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t.,'()"+-;!?:/»«‹›<>])/ig;
 
-var includes = require( "lodash/includes" );
-var map = require( "lodash/map" );
+import { includes } from "lodash-es";
+import { map } from "lodash-es";
 
 /**
  * Creates an Participle object for the German language.

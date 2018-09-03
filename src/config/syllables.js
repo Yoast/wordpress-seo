@@ -1,7 +1,7 @@
 /** @module config/syllables */
 
 let getLanguage = require( "../helpers/getLanguage.js" );
-let isUndefined = require( "lodash/isUndefined" );
+import { isUndefined } from "lodash-es";
 
 let de = require( "./syllables/de.json" );
 let en = require( './syllables/en.json' );
