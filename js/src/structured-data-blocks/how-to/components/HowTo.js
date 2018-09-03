@@ -540,13 +540,6 @@ export default class HowTo extends Component {
 		</InspectorControls>;
 	}
 
-	componentDidMount() {
-		if ( this.firstFocusableElement ) {
-			console.log( this.firstFocusableElement );
-			this.firstFocusableElement.focus();
-		}
-	}
-
 	/**
 	 * Renders this component.
 	 *
