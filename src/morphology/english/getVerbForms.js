@@ -2,9 +2,9 @@
 const createRulesFromMorphologyData = require( "../morphoHelpers/createRulesFromMorphologyData.js" );
 const buildOneFormFromRegex = require( "../morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
 
-const isUndefined = require( "lodash/isUndefined.js" );
-const unique = require( "lodash/uniq" );
-const flatten = require( "lodash/flatten" );
+import { isUndefined } from "lodash-es";
+import { uniq as unique } from "lodash-es";
+import { flatten } from "lodash-es";
 
 /**
  * Checks if the input word has one of the standard verb prefixes and if so returns a prefix and a de-prefixed verb to be

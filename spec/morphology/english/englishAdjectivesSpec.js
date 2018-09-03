@@ -1,14 +1,14 @@
 const getAdjectiveForms  = require( "../../../js/morphology/english/getAdjectiveForms" ).getAdjectiveForms;
 const getBase  = require( "../../../js/morphology/english/getAdjectiveForms" ).getBase;
-const buildOneFormFromRegex  = require( "../../../js/morphology/morphoHelpers/buildFormFromRegex" ).buildOneFormFromRegex;
-const buildTwoFormsFromRegex  = require( "../../../js/morphology/morphoHelpers/buildFormFromRegex" ).buildTwoFormsFromRegex;
-const createRulesFromJsonArrays = require( "../../../js/morphology/morphoHelpers/createRulesFromJsonArrays" );
+const buildOneFormFromRegex  = require( "../../../js/morphology/morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
+const buildTwoFormsFromRegex  = require( "../../../js/morphology/morphoHelpers/buildFormRule" ).buildTwoFormsFromRegex;
+const createRulesFromMorphologyData = require( "../../../js/morphology/morphoHelpers/createRulesFromMorphologyData" );
 
 const adjectiveData = require( "../../../js/morphology/morphologyData.json" ).en.adjectives;
 const irregularAdjectivesToTest = adjectiveData.irregularAdjectives;
 const regexAdjective = adjectiveData.regexAdjective;
 
-const includes = require( "lodash/includes" );
+import { includes } from "lodash-es";
 
 const regularAdjectivesToTest = [
 	[ "short", "shorter", "shortest", "shortly" ],
@@ -319,9 +319,9 @@ describe( "Test for getting all possible word forms for irregular adjectives", f
 
 let returnedGetBaseResult = "";
 
-const comparativeToBaseRegex = createRulesFromJsonArrays( regexAdjective.comparativeToBase );
-const superlativeToBaseRegex = createRulesFromJsonArrays( regexAdjective.superlativeToBase );
-const adverbToBaseRegex = createRulesFromJsonArrays( regexAdjective.adverbToBase );
+const comparativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.comparativeToBase );
+const superlativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.superlativeToBase );
+const adverbToBaseRegex = createRulesFromMorphologyData( regexAdjective.adverbToBase );
 
 describe( "Test for getting the base from all types of regular adjectives", function() {
 	allFormsToTestForBase.forEach( function( paradigm ) {
@@ -358,7 +358,7 @@ describe( "Test for getting the base from all types of regular adjectives", func
 describe( "Test for getting two types of base forms for -ically adverbs", function() {
 	icallyAdverbs.forEach( function( paradigm ) {
 		it( "returns two possible base forms for a -ically adverb", function() {
-			receivedForms = buildTwoFormsFromRegex( paradigm[ 2 ], createRulesFromJsonArrays( regexAdjective.icallyAdverbs ) );
+			receivedForms = buildTwoFormsFromRegex( paradigm[ 2 ], createRulesFromMorphologyData( regexAdjective.icallyAdverbs ) );
 			expect( receivedForms ).toContain( paradigm[ 1 ] );
 			expect( receivedForms ).toContain( paradigm[ 0 ] );
 		} );
@@ -387,8 +387,8 @@ describe( "Test for returning the input form and the adverb of the adjectives th
 	onlyBaseAndAdverb.forEach( function( word ) {
 		it( "returns the input word and the adverb form", function() {
 			receivedForms = getAdjectiveForms( word, adjectiveData );
-			const fakeComparative = buildOneFormFromRegex( word, createRulesFromJsonArrays( regexAdjective.comparative ) );
-			const fakeSuperlative = buildOneFormFromRegex( word, createRulesFromJsonArrays( regexAdjective.superlative ) );
+			const fakeComparative = buildOneFormFromRegex( word, createRulesFromMorphologyData( regexAdjective.comparative ) );
+			const fakeSuperlative = buildOneFormFromRegex( word, createRulesFromMorphologyData( regexAdjective.superlative ) );
 
 			const whetherReceivedFormsHaveComparative = includes( receivedForms, fakeComparative );
 			const whetherReceivedFormsHaveSuperlative = includes( receivedForms, fakeSuperlative );

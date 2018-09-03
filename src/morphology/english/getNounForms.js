@@ -3,10 +3,9 @@ const createRulesFromMorphologyData = require( "../morphoHelpers/createRulesFrom
 const buildOneFormFromRegex = require( "../morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
 const buildTwoFormsFromRegex = require( "../morphoHelpers/buildFormRule" ).buildTwoFormsFromRegex;
 
-
-const isUndefined = require( "lodash/isUndefined.js" );
-const unique = require( "lodash/uniq" );
-const flatten = require( "lodash/flatten" );
+import { isUndefined } from "lodash-es";
+import { uniq as unique } from "lodash-es";
+import { flatten } from "lodash-es";
 
 /**
  * Checks if the input word is a possessive form (e.g., "boy's" in "the boy's car") and returns true if that is the case.

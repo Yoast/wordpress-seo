@@ -5,8 +5,8 @@ const getNounFormsWithPossessives = require( "./getNounForms.js" ).getNounFormsW
 const getVerbForms = require( "./getVerbForms.js" ).getVerbForms;
 const getAdjectiveForms = require( "./getAdjectiveForms.js" ).getAdjectiveForms;
 
-const unique = require( "lodash/uniq" );
-const flatten = require( "lodash/flatten" );
+import { uniq as unique } from "lodash-es";
+import { flatten } from "lodash-es";
 
 /**
  * Returns all possible forms of the input word using the morphologyData (language-specific).

@@ -1,5 +1,5 @@
-const buildOneFormFromRegex = require( "../../../js/morphology/morphoHelpers/buildFormFromRegex" ).buildOneFormFromRegex;
-const buildTwoFormsFromRegex = require( "../../../js/morphology/morphoHelpers/buildFormFromRegex" ).buildTwoFormsFromRegex;
+const buildOneFormFromRegex = require( "../../../js/morphology/morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
+const buildTwoFormsFromRegex = require( "../../../js/morphology/morphoHelpers/buildFormRule" ).buildTwoFormsFromRegex;
 
 
 describe( "Test for making a form of a word based on a regex rule", function() {

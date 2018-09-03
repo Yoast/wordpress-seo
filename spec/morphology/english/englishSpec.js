@@ -1,7 +1,7 @@
 const getForms = require( "../../../js/morphology/english/getForms.js" );
 const morphologyData = require( "../../../js/morphology/morphologyData.json" ).en;
 
-const includes = require( "lodash/includes" );
+import { includes } from "lodash-es";
 
 const simpleWordsToTest = [
 	[ "word", "words", "wording", "worded" ],

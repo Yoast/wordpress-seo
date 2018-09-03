@@ -6,9 +6,9 @@ const getNounFormsWithPossessives = require(  "../../../js/morphology/english/ge
 const getNounForms = require(  "../../../js/morphology/english/getNounForms" ).getNounForms;
 const checkPossessive = require(  "../../../js/morphology/english/getNounForms" ).checkPossessive;
 
-const buildOneFormFromRegex  = require( "../../../js/morphology/morphoHelpers/buildFormFromRegex" ).buildOneFormFromRegex;
-const buildTwoFormsFromRegex  = require( "../../../js/morphology/morphoHelpers/buildFormFromRegex" ).buildTwoFormsFromRegex;
-const createRulesFromJsonArrays = require( "../../../js/morphology/morphoHelpers/createRulesFromJsonArrays" );
+const buildOneFormFromRegex  = require( "../../../js/morphology/morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
+const buildTwoFormsFromRegex  = require( "../../../js/morphology/morphoHelpers/buildFormRule" ).buildTwoFormsFromRegex;
+const createRulesFromMorphologyData = require( "../../../js/morphology/morphoHelpers/createRulesFromMorphologyData" );
 
 const regularNounsToTest = [
 	[ "word", "words" ],
@@ -501,7 +501,7 @@ describe( "Test for getting all possible word forms for hispanic words", functio
 describe( "Test for getting two types of plural word forms for hispanic words", function() {
 	hispanicNounsToTest.forEach( function( paradigm ) {
 		it( "returns two possible plural word forms for a hispanic singular", function() {
-			receivedForms = buildTwoFormsFromRegex( paradigm[ 0 ], createRulesFromJsonArrays( regexNoun.hispanic ) );
+			receivedForms = buildTwoFormsFromRegex( paradigm[ 0 ], createRulesFromMorphologyData( regexNoun.hispanic ) );
 			expect( receivedForms ).toContain( paradigm[ 1 ] );
 			expect( receivedForms ).toContain( paradigm[ 2 ] );
 		} );
@@ -533,8 +533,8 @@ describe( "Test for a possessive", function() {
 		const base = paradigm[ 0 ];
 		const possessive = paradigm[ 1 ];
 		it( "returns if the word is a possessive", function() {
-			expect( checkPossessive( base, createRulesFromJsonArrays( regexNoun.possessiveToBase ) ) || false ).toEqual( false );
-			expect( checkPossessive( possessive, createRulesFromJsonArrays( regexNoun.possessiveToBase ) ) || false ).toEqual( true );
+			expect( checkPossessive( base, createRulesFromMorphologyData( regexNoun.possessiveToBase ) ) || false ).toEqual( false );
+			expect( checkPossessive( possessive, createRulesFromMorphologyData( regexNoun.possessiveToBase ) ) || false ).toEqual( true );
 		} );
 	} );
 } );
@@ -544,7 +544,7 @@ describe( "Test for getting the base from a possessive", function() {
 		const base = paradigm[ 0 ];
 		const possessive = paradigm[ 1 ];
 		it( "returns the base for a possessive word", function() {
-			const receivedForm = buildOneFormFromRegex( possessive, createRulesFromJsonArrays( regexNoun.possessiveToBase ) );
+			const receivedForm = buildOneFormFromRegex( possessive, createRulesFromMorphologyData( regexNoun.possessiveToBase ) );
 			expect( receivedForm ).toContain( base );
 		} );
 	} );
