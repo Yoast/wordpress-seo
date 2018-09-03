@@ -62,8 +62,8 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 			$hours   = empty( $attributes['hours'] ) ? 0 : $attributes['hours'];
 			$minutes = empty( $attributes['minutes'] ) ? 0 : $attributes['minutes'];
 
-			if ( $hours !== 0 || $minutes !== 0 ) {
-				$json_ld['totalTime'] = 'PT' . $days . 'D' . $hours . 'H' . $minutes . 'M';
+			if ( ( $days + $hours + $minutes ) > 0 ) {
+				$json_ld['totalTime'] = 'P' . $days . 'DT' . $hours . 'H' . $minutes . 'M';
 			}
 		}
 
