@@ -4,9 +4,9 @@ var normalizeSingleQuotes = require( "../stringProcessing/quotes.js" ).normalize
 var getTransitionWords = require( "../helpers/getTransitionWords.js" );
 var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" ).isWordInSentence;
 
-var forEach = require( "lodash/forEach" );
-var filter = require( "lodash/filter" );
-var memoize = require( "lodash/memoize" );
+import { forEach } from "lodash-es";
+import { filter } from "lodash-es";
+import { memoize } from "lodash-es";
 
 var createRegexFromDoubleArrayCached = memoize( createRegexFromDoubleArray );
 /**

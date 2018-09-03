@@ -2,8 +2,8 @@ var getWords = require( "../stringProcessing/getWords.js" );
 var countSyllables = require( "../stringProcessing/syllables/count.js" );
 var getSentences = require( "../stringProcessing/getSentences.js" );
 
-var map = require( "lodash/map" );
-var forEach = require( "lodash/forEach" );
+import { map } from "lodash-es";
+import { forEach } from "lodash-es";
 
 /**
  * Gets the complexity per word, along with the index for the sentence.

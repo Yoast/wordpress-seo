@@ -5,16 +5,16 @@ let normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 let functionWordLists = require( "../helpers/getFunctionWords.js" )();
 let getLanguage = require( "../helpers/getLanguage.js" );
 
-let filter = require( "lodash/filter" );
-let map = require( "lodash/map" );
-let forEach = require( "lodash/forEach" );
-let has = require( "lodash/has" );
-let flatMap = require( "lodash/flatMap" );
-let values = require( "lodash/values" );
-let take = require( "lodash/take" );
-let includes = require( "lodash/includes" );
-let intersection = require( "lodash/intersection" );
-let isEmpty = require( "lodash/isEmpty" );
+import { filter } from "lodash-es";
+import { map } from "lodash-es";
+import { forEach } from "lodash-es";
+import { has } from "lodash-es";
+import { flatMap } from "lodash-es";
+import { values } from "lodash-es";
+import { take } from "lodash-es";
+import { includes } from "lodash-es";
+import { intersection } from "lodash-es";
+import { isEmpty } from "lodash-es";
 
 let densityLowerLimit = 0;
 let densityUpperLimit = 0.03;

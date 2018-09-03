@@ -1,4 +1,4 @@
-var isUndefined = require( "lodash/isUndefined" );
+import { isUndefined } from "lodash-es";
 
 var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
 

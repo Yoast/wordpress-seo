@@ -4,7 +4,7 @@ const imageInText = require( "../stringProcessing/imageInText" );
 const imageAlttag = require( "../stringProcessing/getAlttagContent" );
 import { findTopicFormsInString } from "../researches/findKeywordFormsInString";
 
-const isEmpty = require( "lodash/isEmpty" );
+import { isEmpty } from "lodash-es";
 
 /**
  * Matches the alt-tags in the images found in the text.

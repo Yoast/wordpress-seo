@@ -5,9 +5,9 @@ var nonVerbsEndingEd = require( "./non-verb-ending-ed.js" )();
 var directPrecedenceException = require( "../../../stringProcessing/directPrecedenceException" );
 var precedenceException = require( "../../../stringProcessing/precedenceException" );
 
-var includes = require( "lodash/includes" );
-var isEmpty = require( "lodash/isEmpty" );
-var intersection = require( "lodash/intersection" );
+import { includes } from "lodash-es";
+import { isEmpty } from "lodash-es";
+import { intersection } from "lodash-es";
 
 var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
 

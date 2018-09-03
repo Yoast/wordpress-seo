@@ -8,8 +8,8 @@ let WordCombination = require( "../../js/values/WordCombination" );
 let getWords = require( "../../js/stringProcessing/getWords" );
 let template = require( "../../js/templates.js" ).relevantWords;
 
-let map = require( "lodash/map" );
-let forEach = require( "lodash/forEach" );
+import { map } from "lodash-es";
+import { forEach } from "lodash-es";
 
 
 /**

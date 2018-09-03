@@ -3,9 +3,9 @@ const Assessment = require( "../../assessment.js" );
 const isTextTooLong = require( "../../helpers/isValueTooLong" );
 const getSubheadings = require( "../../stringProcessing/getSubheadings.js" ).getSubheadings;
 const getWords = require( "../../stringProcessing/getWords.js" );
-const filter = require( "lodash/filter" );
-const map = require( "lodash/map" );
-const merge = require( "lodash/merge" );
+import { filter } from "lodash-es";
+import { map } from "lodash-es";
+import { merge } from "lodash-es";
 
 const Mark = require( "../../values/Mark.js" );
 const marker = require( "../../markers/addMark.js" );

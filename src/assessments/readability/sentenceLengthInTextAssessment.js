@@ -8,8 +8,8 @@ let stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncomplet
 let Mark = require( "../../values/Mark.js" );
 let addMark = require( "../../markers/addMark.js" );
 
-let map = require( "lodash/map" );
-let merge = require( "lodash/merge" );
+import { map } from "lodash-es";
+import { merge } from "lodash-es";
 
 /**
  * Represents the assessment that will calculate the length of sentences in the text.

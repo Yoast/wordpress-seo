@@ -1,4 +1,4 @@
-var filter = require( "lodash/filter" );
+import { filter } from "lodash-es";
 var isSentenceTooLong = require( "../helpers/isValueTooLong" );
 
 /**

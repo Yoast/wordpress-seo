@@ -1,6 +1,6 @@
-var isEmpty = require( "lodash/isEmpty" );
-var forEach = require( "lodash/forEach" );
-var includes = require( "lodash/includes" );
+import { isEmpty } from "lodash-es";
+import { forEach } from "lodash-es";
+import { includes } from "lodash-es";
 
 /**
  * Checks whether a given word is directly preceded by a word from a list of words.

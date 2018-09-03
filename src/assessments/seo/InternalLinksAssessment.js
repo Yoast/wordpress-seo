@@ -1,4 +1,4 @@
-const merge = require( "lodash/merge" );
+import { merge } from "lodash-es";
 
 const Assessment = require( "../../assessment" );
 const AssessmentResult = require( "../../values/AssessmentResult" );

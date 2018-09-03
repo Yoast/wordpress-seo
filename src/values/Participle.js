@@ -1,8 +1,8 @@
 var getType = require( "./../helpers/types.js" ).getType;
 var isSameType = require( "./../helpers/types.js" ).isSameType;
 
-var defaults = require( "lodash/defaults" );
-var forEach = require( "lodash/forEach" );
+import { defaults } from "lodash-es";
+import { forEach } from "lodash-es";
 
 /**
  * Default attributes to be used by the Participle if they are left undefined.

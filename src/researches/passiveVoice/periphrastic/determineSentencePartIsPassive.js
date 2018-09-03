@@ -1,4 +1,4 @@
-const forEach = require( "lodash/forEach" );
+import { forEach } from "lodash-es";
 
 /**
  * Checks if the participles make the sentence part passive.

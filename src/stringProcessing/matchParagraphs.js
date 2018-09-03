@@ -1,6 +1,6 @@
-var map = require( "lodash/map" );
-var flatMap = require( "lodash/flatMap" );
-var filter = require( "lodash/filter" );
+import { map } from "lodash-es";
+import { flatMap } from "lodash-es";
+import { filter } from "lodash-es";
 
 var getBlocks = require( "../helpers/html" ).getBlocks;
 

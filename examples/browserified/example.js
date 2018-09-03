@@ -3,8 +3,8 @@ var App = require( "../../js/app" );
 var PreviouslyUsedKeywords = require( "../../js/bundledPlugins/previouslyUsedKeywords.js" );
 var TestPlugin = require( "./example-plugin-test.js" );
 
-var forEach = require( "lodash/forEach" );
-var escape = require( "lodash/escape" );
+import { forEach } from "lodash-es";
+import { escape } from "lodash-es";
 
 /**
  * Set the locale.
