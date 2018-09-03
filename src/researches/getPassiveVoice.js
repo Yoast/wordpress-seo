@@ -3,7 +3,7 @@ const stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFul
 const getLanguage = require( "../helpers/getLanguage.js" );
 const Sentence = require( "../values/Sentence.js" );
 
-const forEach = require( "lodash/forEach" );
+import { forEach } from "lodash-es";
 
 const isPassiveSentencePart = require( "./passiveVoice/periphrastic/determinePassiveSentencePart.js" );
 const isPassiveSentence = require( "./passiveVoice/morphological/determinePassiveSentence.js" );

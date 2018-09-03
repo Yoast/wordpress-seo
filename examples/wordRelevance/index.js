@@ -24,8 +24,8 @@ var formatNumber = function ( number ) {
 };
 var getWords = require( "../../js/stringProcessing/getWords" );
 
-var map = require( "lodash/map" );
-var forEach = require( "lodash/forEach" );
+import { map } from "lodash-es";
+import { forEach } from "lodash-es";
 
 var fs = require( "fs" );
 

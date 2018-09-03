@@ -1,5 +1,5 @@
-var forEach = require( "lodash/forEach" );
-var has = require( "lodash/has" );
+import { forEach } from "lodash-es";
+import { has } from "lodash-es";
 
 /**
  * Returns whether or not the given word is a function word.

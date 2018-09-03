@@ -8,9 +8,9 @@ var exceptionsParticiplesNounsVowel = require( "./exceptionsParticiples.js" )().
 var exceptionsParticiplesNounsConsonant = require( "./exceptionsParticiples.js" )().nounsStartingWithConsonant;
 var exceptionsParticiplesOthers = require( "./exceptionsParticiples.js" )().others;
 
-var includes = require( "lodash/includes" );
-var forEach = require( "lodash/forEach" );
-var memoize = require( "lodash/memoize" );
+import { includes } from "lodash-es";
+import { forEach } from "lodash-es";
+import { memoize } from "lodash-es";
 
 /**
  * Creates an Participle object for the French language.

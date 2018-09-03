@@ -1,4 +1,4 @@
-var forEach = require( "lodash/forEach" );
+import { forEach } from "lodash-es";
 var domManipulation = require( "./helpers/domManipulation.js" );
 
 var previewModes = {

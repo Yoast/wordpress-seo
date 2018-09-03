@@ -1,4 +1,4 @@
-const includes = require( "lodash/includes" );
+import { includes } from "lodash-es";
 
 const Participle = require( "../../../values/Participle.js" );
 const checkException = require( "../../passiveVoice/periphrastic/checkException.js" );

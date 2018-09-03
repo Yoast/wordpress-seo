@@ -1,8 +1,8 @@
-const find = require( "lodash/find" );
-const forEach = require( "lodash/forEach" );
-const memoize = require( "lodash/memoize" );
-const includes = require( "lodash/includes" );
-const flattenDeep = require( "lodash/flattenDeep" );
+import { find } from "lodash-es";
+import { forEach } from "lodash-es";
+import { memoize } from "lodash-es";
+import { includes } from "lodash-es";
+import { flattenDeep } from "lodash-es";
 
 const irregularsEnglish = require( "../../english/passiveVoice/irregulars" )();
 const irregularsRegularFrench = require( "../../french/passiveVoice/irregulars" )().irregularsRegular;

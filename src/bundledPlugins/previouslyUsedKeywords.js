@@ -1,5 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var isUndefined = require( "lodash/isUndefined" );
+import { isUndefined } from "lodash-es";
 
 var MissingArgument = require( "../errors/missingArgument" );
 /**

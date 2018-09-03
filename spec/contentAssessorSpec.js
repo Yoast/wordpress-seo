@@ -3,7 +3,7 @@ var AssessmentResult = require( "../src/values/AssessmentResult.js" );
 var Factory = require( "./helpers/factory.js" );
 var Paper = require( "../src/values/Paper.js" );
 
-var forEach = require( "lodash/forEach" );
+import { forEach } from "lodash-es";
 
 var i18n = Factory.buildJed();
 

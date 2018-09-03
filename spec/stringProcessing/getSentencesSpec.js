@@ -1,6 +1,6 @@
 var getSentences = require( "../../src/stringProcessing/getSentences.js" );
 
-var forEach = require( "lodash/forEach" );
+import { forEach } from "lodash-es";
 
 /**
  * Helper to test sentence detection.

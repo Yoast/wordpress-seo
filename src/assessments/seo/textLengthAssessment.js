@@ -1,5 +1,5 @@
-const inRange = require( "lodash/inRange" );
-const merge = require( "lodash/merge" );
+import { inRange } from "lodash-es";
+import { merge } from "lodash-es";
 
 const AssessmentResult = require( "../../values/AssessmentResult.js" );
 const Assessment = require( "../../assessment.js" );

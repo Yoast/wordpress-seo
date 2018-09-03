@@ -1,5 +1,5 @@
-var isUndefined = require( "lodash/isUndefined" );
-var pick = require( "lodash/pick" );
+import { isUndefined } from "lodash-es";
+import { pick } from "lodash-es";
 
 /**
  * Represents a partial deviation when counting syllables

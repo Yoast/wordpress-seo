@@ -2,7 +2,7 @@ let ContentAssessor = require( "../../src/cornerstone/contentAssessor.js" );
 let AssessmentResult = require( "../../src/values/AssessmentResult.js" );
 let Factory = require( "../helpers/factory.js" );
 let Paper = require( "../../src/values/Paper.js" );
-let forEach = require( "lodash/forEach" );
+import { forEach } from "lodash-es";
 let i18n = Factory.buildJed();
 
 describe( "A content assessor", function() {
