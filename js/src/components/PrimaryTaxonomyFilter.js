@@ -13,8 +13,8 @@ let taxonomyData = null,
 	taxonomiesWithPrimaryTermSupport = null;
 
 class PrimaryTaxonomyFilter extends React.Component {
-	constructor( props ) {
-		super( props );
+	constructor() {
+		super();
 
 		if ( ! taxonomyData || ! taxonomiesWithPrimaryTermSupport ) {
 			taxonomyData = get( window.wpseoPrimaryCategoryL10n, "taxonomies", {} );
@@ -29,7 +29,7 @@ class PrimaryTaxonomyFilter extends React.Component {
 	}
 
 	/**
-	 * Fall back to the original component if an error occurs in the PrimaryTaxonomyPicker.
+	 * Falls back to the original component if an error occurs in the PrimaryTaxonomyPicker.
 	 *
 	 * @returns {void}
 	 */
@@ -38,7 +38,7 @@ class PrimaryTaxonomyFilter extends React.Component {
 	}
 
 	/**
-	 * Determine whether the taxonomy has primary term support.
+	 * Determines whether the taxonomy has primary term support.
 	 *
 	 * @returns {boolean} Whether or not the taxonomy has primary term support.
 	 */
