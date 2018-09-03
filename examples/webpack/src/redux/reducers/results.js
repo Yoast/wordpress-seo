@@ -1,8 +1,10 @@
 import * as actions from "../actions/results";
+import { SET_ACTIVE_MARKER } from "../actions/results";
 
 const INITIAL_STATE = {
 	seo: [],
 	readability: [],
+	activeMarker: "",
 };
 
 /**
@@ -16,7 +18,17 @@ const INITIAL_STATE = {
 export default function results( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
 		case actions.SET_RESULTS:
-			return action.results;
+			return {
+				...state,
+				seo: action.results.seo,
+				readability: action.results.readability,
+			};
+
+		case SET_ACTIVE_MARKER:
+			return {
+				...state,
+				activeMarker: action.activeMarker,
+			};
 
 		default:
 			return state;

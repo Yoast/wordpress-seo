@@ -11,6 +11,7 @@ import Collapsible from "./components/Collapsible";
 
 import WorkerStatus from "./components/WorkerStatus";
 import Controls from "./components/Controls";
+import Markings from "./components/Markings";
 import { connect } from "react-redux";
 import { setResults } from "./redux/actions/results";
 import { setConfigurationAttribute } from "./redux/actions/configuration";
@@ -120,6 +121,10 @@ class App extends React.Component {
 						onAnalyze={ this.analyze }
 						onAnalyzeSpam={ this.analyzeSpam }
 					/>
+				</Collapsible>
+
+				<Collapsible title="Markings">
+					<Markings />
 				</Collapsible>
 
 				<ul>

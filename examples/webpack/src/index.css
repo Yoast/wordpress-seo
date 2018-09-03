@@ -18,6 +18,14 @@ body {
 	box-sizing: inherit;
 }
 
+.yoast-text-mark {
+	background-color: #e1bee7;
+}
+
+.yoast-text-mark__highlight {
+	background-color: #4a148c;
+	color: white;
+}
 
 /* needs higher specificity than other score icons */
 .wpseo-score-icon {

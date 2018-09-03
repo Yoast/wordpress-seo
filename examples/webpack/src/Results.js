@@ -34,12 +34,16 @@ class Results extends Component {
 
 					const className = "wpseo-score-icon " + rating;
 
+					const hasMarks = result.marks.length !== 0;
+
 					return (
 						<li key={ result._identifier } style={ { marginTop: "1em" } }>
 							<span className={ className }/>
 							<span dangerouslySetInnerHTML={ { __html: result.text } }/>
 
 							<div style={ { clear: "both" } }/>
+
+							{ hasMarks && <button type="button" onClick={ this.props.onMark.bind( null, result._identifier ) }>Mark</button> }
 						</li>
 					);
 				} ) }

@@ -8,13 +8,14 @@ import { connect } from "react-redux";
 import AnalysisList from "../Results";
 
 import { H3 } from "./headings";
+import { setActiveMarker } from "../redux/actions/results";
 
-function Results( { seo, readability } ) {
+function Results( { seo, readability, onMark } ) {
 	return <Fragment>
 		<H3>Readability</H3>
-		<AnalysisList results={ seo } />
+		<AnalysisList results={ seo } onMark={ onMark } />
 		<H3>SEO</H3>
-		<AnalysisList results={ readability } />
+		<AnalysisList results={ readability } onMark={ onMark } />
 	</Fragment>;
 }
 
@@ -23,6 +24,11 @@ export default connect(
 		return {
 			seo: state.results.seo,
 			readability: state.results.readability,
+		};
+	},
+	( dispatch ) => {
+		return {
+			onMark: ( marker ) => dispatch( setActiveMarker( marker ) ),
 		};
 	}
 )( Results );
