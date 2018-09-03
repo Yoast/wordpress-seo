@@ -62,14 +62,12 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( array_key_exists( 'translations', $result ) );
 		$this->assertTrue( is_array( $result['translations'] ) );
-		$this->assertEquals( $result['translations'], array( 'key' => 'value' ) );
+		$this->assertEquals( array( 'key' => 'value' ), $result['translations'] );
 
 		unlink( $file_name );
 
 		$result = $class_instance->get_values();
 
 		$this->assertEquals( $result['translations'], array() );
-
 	}
-
 }

@@ -1,13 +1,18 @@
 /* global jQuery, wpseoTermScraperL10n */
 
-import getIndicatorForScore from "../analysis/getIndicatorForScore";
+/* External dependencies */
+import get from "lodash/get";
+import analysis from "yoastseo";
+
+/* Internal dependencies */
+import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import tmceHelper from "../wp-seo-tinymce";
+import { termsTmceId as tmceId } from "../wp-seo-tinymce";
+import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
-import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
-import { termsTmceId as tmceId } from "../wp-seo-tinymce";
-import get from "lodash/get";
-import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
+
+const { measureTextWidth } = analysis.helpers;
 
 let $ = jQuery;
 
@@ -15,7 +20,6 @@ let $ = jQuery;
  * Show warning in console when the unsupported CkEditor is used.
  *
  * @param {Object} args The arguments for the post scraper.
- * @param {TabManager} args.tabManager The tab manager for this post.
  *
  * @constructor
  */
@@ -24,14 +28,13 @@ var TermDataCollector = function( args ) {
 		console.warn( "YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE." );
 	}
 
-	this._tabManager = args.tabManager;
 	this._store = args.store;
 };
 
 /**
  * Returns data fetched from input fields.
  *
- * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}} The object with data.
+ * @returns {Object} The object with data.
  */
 TermDataCollector.prototype.getData = function() {
 	const otherData = {
@@ -80,7 +83,7 @@ TermDataCollector.prototype.getTitle = function() {
 TermDataCollector.prototype.getKeyword = function() {
 	var elem, val;
 
-	elem = document.getElementById( "wpseo_focuskw" );
+	elem = document.getElementById( "hidden_wpseo_focuskw" );
 	val = elem.value;
 	if ( val === "" ) {
 		val = document.getElementById( "name" ).value;
@@ -274,12 +277,9 @@ TermDataCollector.prototype.inputElementEventBinder = function( app ) {
  */
 TermDataCollector.prototype.saveScores = function( score ) {
 	var indicator = getIndicatorForScore( score );
-	var keyword = this.getKeyword();
 
 	document.getElementById( "hidden_wpseo_linkdex" ).value = score;
 	jQuery( window ).trigger( "YoastSEO:numericScore", score );
-
-	this._tabManager.updateKeywordTab( score, keyword );
 
 	updateTrafficLight( indicator );
 	updateAdminBar( indicator );
@@ -294,8 +294,6 @@ TermDataCollector.prototype.saveScores = function( score ) {
  */
 TermDataCollector.prototype.saveContentScore = function( score ) {
 	var indicator = getIndicatorForScore( score );
-
-	this._tabManager.updateContentTab( score );
 
 	if ( ! isKeywordAnalysisActive() ) {
 		updateTrafficLight( indicator );

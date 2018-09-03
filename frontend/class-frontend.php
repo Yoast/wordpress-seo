@@ -718,7 +718,7 @@ class WPSEO_Frontend {
 		$robots['follow'] = 'follow';
 		$robots['other']  = array();
 
-		if ( ( is_object( $post ) && is_singular() ) || ( WPSEO_Utils::is_woocommerce_active() && is_shop() ) ) {
+		if ( ( is_object( $post ) && is_singular() ) || $this->woocommerce_shop_page->is_shop_page() ) {
 			$private = 'private' === $post->post_status;
 			$noindex = ! WPSEO_Post_Type::is_post_type_indexable( $post->post_type );
 
@@ -1813,7 +1813,7 @@ class WPSEO_Frontend {
 	 *
 	 * @param string $desc String to add shortcodes in.
 	 *
-	 * @return string
+	 * @return string Content with shortcodes filtered out.
 	 */
 	public function custom_category_descriptions_add_shortcode_support( $desc ) {
 		// Wrap in output buffering to prevent shortcodes that echo stuff instead of return from breaking things.

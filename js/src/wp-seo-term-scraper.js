@@ -1,29 +1,50 @@
 /* global YoastSEO: true, wpseoReplaceVarsL10n, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
 
 // External dependencies.
-import { App } from "yoastseo";
-import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import { App, TaxonomyAssessor } from "yoastseo";
+import {
+	setReadabilityResults,
+	setSeoResultsForKeyword,
+} from "yoast-components";
 import isUndefined from "lodash/isUndefined";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
+import debounce from "lodash/debounce";
 
 // Internal dependencies.
-import initializeEdit from "./edit";
-import { termsTmceId as tmceId } from "./wp-seo-tinymce";
+import Edit from "./edit";
+import { termsTmceId } from "./wp-seo-tinymce";
+import Pluggable from "./Pluggable";
+
+// UI dependencies.
 import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
+
+// Analysis dependencies.
+import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
+import refreshAnalysis, { initializationDone } from "./analysis/refreshAnalysis";
+import collectAnalysisData from "./analysis/collectAnalysisData";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
-import TabManager from "./analysis/tabManager";
 import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
-import snippetPreviewHelpers from "./analysis/snippetPreview";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
-import UsedKeywords from "./analysis/usedKeywords";
-import TaxonomyAssessor from "./assessors/taxonomyAssessor";
-import { setActiveKeyword } from "./redux/actions/activeKeyword";
+import CustomAnalysisData from "./analysis/CustomAnalysisData";
+import getApplyMarks from "./analysis/getApplyMarks";
+import { refreshDelay } from "./analysis/constants";
+
+// Redux dependencies.
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
+import { setFocusKeyword } from "./redux/actions/focusKeyword";
+
+// Helper dependencies.
+import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
+import {
+	registerReactComponent,
+	renderClassicEditorMetabox,
+} from "./helpers/classicEditor";
+import "./helpers/babel-polyfill";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -31,15 +52,12 @@ setWordPressSeoL10n();
 window.yoastHideMarkers = true;
 
 ( function( $, window ) {
-	var snippetContainer;
-
 	var app;
 
 	var termSlugInput;
 
-	var tabManager;
-
-	let store;
+	let edit;
+	const customAnalysisData = new CustomAnalysisData();
 
 	/**
 	 * Get the editor created via wp_editor() and append it to the term-description-wrap
@@ -91,7 +109,7 @@ window.yoastHideMarkers = true;
 			slug: termSlugInput.val(),
 		};
 
-		store.dispatch( updateData( snippetEditorData ) );
+		YoastSEO.store.dispatch( updateData( snippetEditorData ) );
 	}
 
 	/**
@@ -126,16 +144,13 @@ window.yoastHideMarkers = true;
 	/**
 	 * Initializes keyword analysis.
 	 *
-	 * @param {App} app The App object.
 	 * @param {TermDataCollector} termScraper The post scraper object.
 	 *
 	 * @returns {void}
 	 */
-	function initializeKeywordAnalysis( app, termScraper ) {
+	function initializeKeywordAnalysis( termScraper ) {
 		var savedKeywordScore = $( "#hidden_wpseo_linkdex" ).val();
-		var usedKeywords = new UsedKeywords( "#wpseo_focuskw", "get_term_keyword_usage", wpseoTermScraperL10n, app );
 
-		usedKeywords.init();
 		termScraper.initKeywordTabTemplate();
 
 		var indicator = getIndicatorForScore( savedKeywordScore );
@@ -195,35 +210,34 @@ window.yoastHideMarkers = true;
 		}
 	}
 
-	jQuery( document ).ready( function() {
+	/**
+	 * Initializes analysis for the term edit screen.
+	 *
+	 * @returns {void}
+	 */
+	function initializeTermAnalysis() {
 		var args, termScraper, translations;
 
 		const editArgs = {
-			analysisSection: "pageanalysis",
 			snippetEditorBaseUrl: wpseoTermScraperL10n.base_url,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
+			classicEditorDataSettings: {
+				tinyMceId: termsTmceId,
+			},
 		};
-		store = initializeEdit( editArgs ).store;
 
-		snippetContainer = $( "#wpseosnippet" );
+		edit = new Edit( editArgs );
+
+		const store = edit.getStore();
 
 		insertTinyMCE();
 
-		tabManager = new TabManager( {
-			strings: wpseoTermScraperL10n,
-			focusKeywordField: "#wpseo_focuskw",
-			contentAnalysisActive: isContentAnalysisActive(),
-			keywordAnalysisActive: isKeywordAnalysisActive(),
-		} );
-
-		tabManager.init();
-
-		termScraper = new TermDataCollector( { tabManager, store } );
+		termScraper = new TermDataCollector( { store } );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [ tmceId, "yoast_wpseo_focuskw", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
+			elementTarget: [ termsTmceId, "yoast_wpseo_focuskw", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
 			targets: retrieveTargets(),
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
@@ -232,21 +246,17 @@ window.yoastHideMarkers = true;
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			hasSnippetPreview: false,
+			debouncedRefresh: false,
 		};
 
 		if ( isKeywordAnalysisActive() ) {
+			store.dispatch( setFocusKeyword( termScraper.getKeyword() ) );
+
 			args.callbacks.saveScores = termScraper.saveScores.bind( termScraper );
 			args.callbacks.updatedKeywordsResults = function( results ) {
-				let keyword = tabManager.getKeywordTab().getKeyWord();
-
-				if ( tabManager.isMainKeyword( keyword ) ) {
-					if ( keyword === "" ) {
-						keyword = termScraper.getName();
-					}
-					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
-					store.dispatch( setActiveKeyword( keyword ) );
-					store.dispatch( refreshSnippetEditor() );
-				}
+				const keyword = store.getState().focusKeyword;
+				store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+				store.dispatch( refreshSnippetEditor() );
 			};
 		}
 
@@ -265,16 +275,44 @@ window.yoastHideMarkers = true;
 
 		app = new App( args );
 
+		// Expose globals.
+		window.YoastSEO = {};
+		window.YoastSEO.app = app;
+		window.YoastSEO.store = store;
+		window.YoastSEO.analysis = {};
+		window.YoastSEO.analysis.worker = createAnalysisWorker();
+		window.YoastSEO.analysis.collectData = () => collectAnalysisData( edit, YoastSEO.store, customAnalysisData, YoastSEO.app.pluggable );
+		window.YoastSEO.analysis.applyMarks = ( paper, result ) => getApplyMarks( YoastSEO.store )( paper, result );
+
+		// YoastSEO.app overwrites.
+		YoastSEO.app.refresh = debounce( () => refreshAnalysis(
+			YoastSEO.analysis.worker,
+			YoastSEO.analysis.collectData,
+			YoastSEO.analysis.applyMarks,
+			YoastSEO.store,
+			termScraper
+		), refreshDelay );
+		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
+		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
+		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;
+		YoastSEO.app.pluginReady = YoastSEO.app.pluggable._ready;
+		YoastSEO.app.pluginReloaded = YoastSEO.app.pluggable._reloaded;
+		YoastSEO.app.registerModification = YoastSEO.app.pluggable._registerModification;
+		YoastSEO.app.registerAssessment = ( name, assessment, pluginName ) => {
+			if ( ! isUndefined( YoastSEO.app.seoAssessor ) ) {
+				return YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.defaultSeoAssessor, name, assessment, pluginName ) &&
+					YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.cornerStoneSeoAssessor, name, assessment, pluginName );
+			}
+		};
+
+		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
+
 		store.subscribe( handleStoreChange.bind( null, store, app ) );
 
 		if ( isKeywordAnalysisActive() ) {
 			app.seoAssessor = new TaxonomyAssessor( app.i18n );
 			app.seoAssessorPresenter.assessor = app.seoAssessor;
 		}
-
-		window.YoastSEO = {};
-		window.YoastSEO.app = app;
-		window.YoastSEO.store = store;
 
 		termScraper.initKeywordTabTemplate();
 
@@ -285,23 +323,25 @@ window.yoastHideMarkers = true;
 		// For backwards compatibility.
 		YoastSEO.analyzerArgs = args;
 
+		YoastSEO._registerReactComponent = registerReactComponent;
+
 		initTermSlugWatcher();
 		termScraper.bindElementEvents( app );
 
 		if ( isKeywordAnalysisActive() ) {
-			initializeKeywordAnalysis( app, termScraper );
-			tabManager.getKeywordTab().activate();
-		} else if ( isContentAnalysisActive() ) {
-			tabManager.getContentTab().activate();
-		} else {
-			snippetPreviewHelpers.isolate( snippetContainer );
+			initializeKeywordAnalysis( termScraper );
 		}
 
 		if ( isContentAnalysisActive() ) {
 			initializeContentAnalysis();
 		}
 
-		jQuery( window ).trigger( "YoastSEO:ready" );
+		// Initialize the analysis worker.
+		YoastSEO.analysis.worker.initialize( getAnalysisConfiguration( { useTaxonomy: true } ) )
+			.then( () => {
+				jQuery( window ).trigger( "YoastSEO:ready" );
+			} )
+			.catch( error => console.warn( error ) );
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );
@@ -319,8 +359,24 @@ window.yoastHideMarkers = true;
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
 
+		let focusKeyword;
+
+		const refreshAfterFocusKeywordChange = debounce( () => {
+			app.refresh();
+		}, 50 );
+
 		// Subscribe to the store to save the snippet editor data.
 		store.subscribe( () => {
+			// Verify whether the focusKeyword changed. If so, trigger refresh:
+			let newFocusKeyword = store.getState().focusKeyword;
+
+			if ( focusKeyword !== newFocusKeyword ) {
+				focusKeyword = newFocusKeyword;
+
+				document.getElementById( "hidden_wpseo_focuskw" ).value = focusKeyword;
+				refreshAfterFocusKeywordChange();
+			}
+
 			const data = snippetEditorHelpers.getDataFromStore( store );
 			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
 
@@ -340,5 +396,14 @@ window.yoastHideMarkers = true;
 			snippetEditorData.slug = data.slug;
 			snippetEditorData.description = data.description;
 		} );
-	} );
+
+		if ( ! isGutenbergDataAvailable() ) {
+			renderClassicEditorMetabox( store );
+		}
+
+		initializationDone();
+		YoastSEO.app.refresh();
+	}
+
+	jQuery( document ).ready( initializeTermAnalysis );
 }( jQuery, window ) );

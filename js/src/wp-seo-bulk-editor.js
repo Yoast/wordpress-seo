@@ -2,6 +2,8 @@
 /* global JSON */
 /* global wpseoBulkEditorNonce */
 /* jshint -W097 */
+import "./helpers/babel-polyfill";
+
 ( function() {
 	"use strict";
 	var bulkEditor = function( currentTable ) {

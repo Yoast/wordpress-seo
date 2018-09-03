@@ -10,11 +10,8 @@ import IntlProvider from "./components/IntlProvider";
 import { setYoastComponentsL10n } from "./helpers/i18n";
 
 /* Internal dependencies */
-import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTutorial";
-import AlgoliaSearcher from "yoast-components/composites/AlgoliaSearch/AlgoliaSearcher";
-import HelpCenterYC from "yoast-components/composites/Plugin/HelpCenter/HelpCenter";
-import colors from "yoast-components/style-guide/colors.json";
-import { YoastButton } from "yoast-components/composites/Plugin/Shared/components/YoastButton";
+import "./helpers/babel-polyfill";
+import { VideoTutorial, AlgoliaSearcher, HelpCenter as HelpCenterYC, colors, YoastButton } from "yoast-components";
 
 /**
  * Executes an action with an argument.

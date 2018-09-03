@@ -646,6 +646,53 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests removal of a notification when there isn't any with given id.
+	 *
+	 * @covers Yoast_Notification_Center::remove_notification_by_id()
+	 */
+	public function test_remove_notification_by_id_when_no_notification_is_found() {
+		$notification_center = $this
+			->getMockBuilder( 'Yoast_Notification_Center' )
+			->disableOriginalConstructor()
+			->setMethods( array( 'remove_notification' ) )
+			->getMock();
+
+		$notification_center
+			->expects( $this->never() )
+			->method( 'remove_notification' );
+
+		$notification_center->remove_notification_by_id( 'this-id-does-not-exists' );
+	}
+
+	/**
+	 * Tests removal of a notification
+	 *
+	 * @covers Yoast_Notification_Center::remove_notification_by_id()
+	 */
+	public function test_remove_notification_by_id_when_notification_is_found() {
+		$notification_center = $this
+			->getMockBuilder( 'Yoast_Notification_Center' )
+			->disableOriginalConstructor()
+			->setMethods( array( 'remove_notification', 'get_notification_by_id' ) )
+			->getMock();
+
+		$notification_center
+			->expects( $this->once() )
+			->method( 'remove_notification' );
+
+		$notification_center
+			->expects( $this->once() )
+			->method( 'get_notification_by_id' )
+			->will(
+				$this->returnValue(
+					new Yoast_Notification( 'message', array( 'id' => 'this-id-exists' ) )
+				)
+			);
+
+		$notification_center->remove_notification_by_id( 'this-id-exists' );
+	}
+
+	/**
 	 * Gets some notification objects.
 	 *
 	 * This method is used as a filter to override notifications.

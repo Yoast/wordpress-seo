@@ -1,4 +1,8 @@
-import scoreToRating from "yoastseo/js/interpreters/scoreToRating";
+import analysis from "yoastseo";
+import { colors } from "yoast-components";
+
+const { scoreToRating } = analysis.helpers;
+
 
 /**
  * Mapped result definition.
@@ -73,6 +77,34 @@ function processResult( mappedResult, mappedResults ) {
 			break;
 	}
 	return mappedResults;
+}
+
+/**
+ * Retrieves the icons and colors for the icon for a certain result.
+ *
+ * @param {string} score The score for which to return the icon and color.
+ *
+ * @returns {Object} The icon and color for the score.
+ */
+export function getIconForScore( score ) {
+	let icon = { icon: "seo-score-none", color: colors.$color_grey_disabled };
+
+	switch( score ) {
+		case "loading":
+			icon = { icon: "loading-spinner", color: colors.$color_green_medium_light };
+			break;
+		case "good":
+			icon = { icon: "seo-score-good", color: colors.$color_green_medium };
+			break;
+		case "ok":
+			icon = { icon: "seo-score-ok", color: colors.$color_ok };
+			break;
+		case "bad":
+			icon = { icon: "seo-score-bad", color: colors.$color_red };
+			break;
+	}
+
+	return icon;
 }
 
 /**

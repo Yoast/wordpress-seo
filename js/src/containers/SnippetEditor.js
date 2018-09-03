@@ -1,10 +1,17 @@
+/* globals wpseoAdminL10n */
 import React from "react";
 import { connect } from "react-redux";
-import { SnippetEditor } from "yoast-components";
+import {
+	SnippetEditor,
+	HelpText,
+} from "yoast-components";
 import identity from "lodash/identity";
 import get from "lodash/get";
-import { stripFullTags } from "yoastseo/js/stringProcessing/stripHTMLTags";
 import { __ } from "@wordpress/i18n";
+import { dispatch as wpDataDispatch } from "@wordpress/data";
+import analysis from "yoastseo";
+import { utils } from "yoast-components";
+const { stripHTMLTags: stripFullTags } = analysis.string;
 
 import {
 	switchMode,
@@ -12,6 +19,8 @@ import {
 } from "../redux/actions/snippetEditor";
 import { updateAnalysisData } from "../redux/actions/analysisData";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
+
+const ExplanationLink = utils.makeOutboundLink();
 
 /**
  * Runs the legacy replaceVariables function on the data in the snippet preview.
@@ -52,7 +61,7 @@ const applyReplaceUsingPlugin = function( data ) {
 
 	const applyModifications = pluggable._applyModifications.bind( pluggable );
 
-	return  {
+	return {
 		url: data.url,
 		title: stripFullTags( applyModifications( "data_page_title", data.title ) ),
 		description: stripFullTags( applyModifications( "data_meta_desc", data.description ) ),
@@ -74,7 +83,7 @@ const applyReplaceUsingPlugin = function( data ) {
 export const mapEditorDataToPreview = function( data, context ) {
 	let baseUrlLength = 0;
 
-	if( context.shortenedBaseUrl && typeof( context.shortenedBaseUrl ) === "string" ) {
+	if ( context.shortenedBaseUrl && typeof( context.shortenedBaseUrl ) === "string" ) {
 		baseUrlLength = context.shortenedBaseUrl.length;
 	}
 
@@ -93,17 +102,24 @@ export const mapEditorDataToPreview = function( data, context ) {
 };
 
 const SnippetEditorWrapper = ( props ) => (
-	<SnippetPreviewSection
-		title={ __( "Snippet preview", "wordpress-seo" ) }
-		icon="eye"
-		hasPaperStyle={ props.hasPaperStyle }
-	>
-		<SnippetEditor
-			{ ...props }
-			descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below." ) }
-			mapEditorDataToPreview={ mapEditorDataToPreview }
-		/>
-	</SnippetPreviewSection>
+	<React.Fragment>
+		<HelpText>
+			{ __( "This is a rendering of what this post might look like in Google's search results.", "wordpress-seo" ) + " " }
+			<ExplanationLink href={ wpseoAdminL10n[ "shortlinks.snippet_preview_info" ] } rel={ null }>
+				{ __( "Learn more about the Snippet Preview.", "wordpress-seo" ) }
+			</ExplanationLink>
+		</HelpText>
+		<SnippetPreviewSection
+			icon="eye"
+			hasPaperStyle={ props.hasPaperStyle }
+		>
+			<SnippetEditor
+				{ ...props }
+				descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below." ) }
+				mapEditorDataToPreview={ mapEditorDataToPreview }
+			/>
+		</SnippetPreviewSection>
+	</React.Fragment>
 );
 
 /**
@@ -119,14 +135,17 @@ export function mapStateToProps( state ) {
 
 	// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
 	replacementVariables.forEach( ( replaceVariable ) => {
-		if( replaceVariable.value === "" && ! [ "title", "excerpt", "excerpt_only" ].includes( replaceVariable.name ) ) {
+		if ( replaceVariable.value === "" && ! [ "title", "excerpt", "excerpt_only" ].includes( replaceVariable.name ) ) {
 			replaceVariable.value = "%%" + replaceVariable.name + "%%";
 		}
 	} );
 
 	return {
 		...state.snippetEditor,
-		keyword: state.activeKeyword,
+		keyword: state.focusKeyword,
+		baseUrl: state.settings.snippetEditor.baseUrl,
+		date: state.settings.snippetEditor.date,
+		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
 	};
 }
 
@@ -149,6 +168,17 @@ export function mapDispatchToProps( dispatch ) {
 			}
 
 			dispatch( action );
+
+			/*
+			 * Update the gutenberg store with the new slug, after updating our own store,
+			 * to make sure our store isn't updated twice.
+			 */
+			if ( key === "slug" ) {
+				const coreEditorDispatch = wpDataDispatch( "core/editor" );
+				if ( coreEditorDispatch ) {
+					coreEditorDispatch.editPost( { slug: value } );
+				}
+			}
 		},
 		onChangeAnalysisData: ( analysisData ) => {
 			dispatch( updateAnalysisData( analysisData ) );

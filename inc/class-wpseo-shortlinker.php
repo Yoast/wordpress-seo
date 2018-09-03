@@ -9,6 +9,7 @@
  * Helps with creating shortlinks in the plugin
  */
 class WPSEO_Shortlinker {
+
 	/**
 	 * Builds a URL to use in the plugin as shortlink.
 	 *
@@ -25,6 +26,7 @@ class WPSEO_Shortlinker {
 				'software'         => $this->get_software(),
 				'software_version' => WPSEO_VERSION,
 				'role'             => $this->get_filtered_user_role(),
+				'days_active'      => $this->get_days_active(),
 			),
 			$url
 		);
@@ -99,5 +101,17 @@ class WPSEO_Shortlinker {
 			$role = 'unknown';
 		}
 		return $role;
+	}
+
+	/**
+	 * Gets the number of days the plugin has been active.
+	 *
+	 * @return int The number of days the plugin is active.
+	 */
+	private function get_days_active() {
+		$date_activated = WPSEO_Options::get( 'first_activated_on' );
+		$datediff       = ( time() - $date_activated );
+
+		return (int) round( $datediff / DAY_IN_SECONDS );
 	}
 }

@@ -44,6 +44,7 @@ class WPSEO_GSC_Issues {
 			$this->save_fetched_issues( $fetched_issues );
 		}
 	}
+
 	/**
 	 * Getting the issues from the options.
 	 *

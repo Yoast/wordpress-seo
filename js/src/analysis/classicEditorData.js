@@ -1,5 +1,6 @@
 /* External dependencies */
-import removeMarks from "yoastseo/js/markers/removeMarks";
+import analysis from "yoastseo";
+const { removeMarks } = analysis.markers;
 
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
@@ -7,7 +8,6 @@ import {
 	fillReplacementVariables,
 	mapCustomFields,
 	mapCustomTaxonomies,
-	decodeSeparatorVariable,
 } from "../helpers/replacementVariableHelpers";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
 import debounce from "lodash/debounce";
@@ -19,16 +19,21 @@ class ClassicEditorData {
 	/**
 	 * Sets the wp data, Yoast SEO refresh function and data object.
 	 *
-	 * @param {Function} refresh The YoastSEO refresh function.
-	 * @param {Object} store     The YoastSEO Redux store.
+	 * @param {Function} refresh          The YoastSEO refresh function.
+	 * @param {Object} store              The YoastSEO Redux store.
+	 * @param {Object} settings           The settings for this classic editor data
+	 *                                    object.
+	 * @param {string} settings.tinyMceId The ID of the tinyMCE editor.
+	 *
 	 * @returns {void}
 	 */
-	constructor( refresh, store ) {
+	constructor( refresh, store, settings = { tinyMceId: "" } ) {
 		this._refresh = refresh;
 		this._store = store;
 		this._data = {};
 		// This will be used for the comparison whether the title, description and slug are dirty.
 		this._previousData = {};
+		this._settings = settings;
 		this.updateReplacementData = this.updateReplacementData.bind( this );
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
@@ -42,7 +47,7 @@ class ClassicEditorData {
 	 */
 	initialize( replaceVars ) {
 		this._data = this.getInitialData( replaceVars );
-		fillReplacementVariables( decodeSeparatorVariable( this._data ), this._store );
+		fillReplacementVariables( this._data, this._store );
 		this.subscribeToElements();
 		this.subscribeToStore();
 	}
@@ -92,7 +97,13 @@ class ClassicEditorData {
 	 * @returns {string} The content of the document.
 	 */
 	getContent() {
-		return removeMarks( tmceHelper.getContentTinyMce( tmceId ) );
+		let tinyMceId = this._settings.tinyMceId;
+
+		if ( tinyMceId === "" ) {
+			tinyMceId = tmceId;
+		}
+
+		return removeMarks( tmceHelper.getContentTinyMce( tinyMceId ) );
 	}
 
 	/**
@@ -205,8 +216,8 @@ class ClassicEditorData {
 	 * @returns {Object} The data.
 	 */
 	getInitialData( replaceVars ) {
-		replaceVars = mapCustomFields( replaceVars );
-		replaceVars = mapCustomTaxonomies( replaceVars );
+		replaceVars = mapCustomFields( replaceVars, this._store );
+		replaceVars = mapCustomTaxonomies( replaceVars, this._store );
 		return {
 			...replaceVars,
 			title: this.getTitle(),

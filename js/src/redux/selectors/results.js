@@ -11,16 +11,6 @@ export function getSeoResults( state ) {
 }
 
 /**
- * Gets the active keyword.
- *
- * @param {Object} state The state.
- * @returns {String} The active keyword.
- */
-export function getActiveKeyword( state ) {
-	return state.activeKeyword;
-}
-
-/**
  * Gets the SEO results for a specific keywords.
  *
  * @param {Object} state The state.
@@ -33,4 +23,14 @@ export function getResultsForKeyword( state, keyword ) {
 	return get( seoResults, keyword, [] );
 }
 
+/**
+ * Returns the marks button status.
+ *
+ * @param {object} state The state.
+ *
+ * @returns {string} The status of the mark buttons.
+ */
+export function getMarkButtonStatus( state ) {
+	return state.marksButtonStatus;
+}
 

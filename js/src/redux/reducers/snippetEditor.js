@@ -7,7 +7,7 @@ import {
 	REMOVE_REPLACEMENT_VARIABLE,
 	REFRESH,
 } from "../actions/snippetEditor";
-import { createLabelFromName } from "../../helpers/replacementVariableHelpers";
+import { pushNewReplaceVar } from "../../helpers/replacementVariableHelpers";
 
 /**
  * Returns the initial state for the snippetEditorReducer.
@@ -65,13 +65,11 @@ function snippetEditorReducer( state = getInitialState(), action ) {
 				}
 				return replaceVar;
 			} );
+
 			if ( isNewReplaceVar ) {
-				nextReplacementVariables.push( {
-					name: action.name,
-					label: action.label || createLabelFromName( action.name ),
-					value: action.value,
-				} );
+				nextReplacementVariables = pushNewReplaceVar( nextReplacementVariables, action );
 			}
+
 			return {
 				...state,
 				replacementVariables: nextReplacementVariables,

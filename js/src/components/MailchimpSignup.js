@@ -1,10 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import sendRequest from "yoast-components/composites/OnboardingWizard/helpers/ajaxHelper";
 import RaisedButton from "material-ui/RaisedButton";
-import { localize } from "yoast-components/utils/i18n";
 import IconMailOutline from "material-ui/svg-icons/communication/mail-outline";
-import LoadingIndicator from "yoast-components/composites/OnboardingWizard/LoadingIndicator";
+import { LoadingIndicator, sendRequest, localize } from "yoast-components";
 
 /**
  * @summary Mailchimp signup component.
@@ -27,7 +25,6 @@ class MailchimpSignup extends React.Component {
 			isLoading: false,
 		};
 
-		this.setNameInputRef = this.setNameInputRef.bind( this );
 		this.setEmailInputRef = this.setEmailInputRef.bind( this );
 	}
 
@@ -64,14 +61,11 @@ class MailchimpSignup extends React.Component {
 	signup() {
 		let email = this._emailInput.value;
 		let data = `EMAIL=${email}`;
-		let name = this._nameInput.value.trim();
 
-		if ( name !== "" ) {
-			data = data + `&NAME=${encodeURIComponent( name )}`;
-		}
 		this.setState( {
 			isLoading: true,
 		} );
+
 		let result = sendRequest(
 			this.props.properties.mailchimpActionUrl,
 			{
@@ -172,17 +166,6 @@ class MailchimpSignup extends React.Component {
 		return (
 			<div className="yoast-wizard-overlay"><LoadingIndicator/></div>
 		);
-	}
-
-	/**
-	 * Set the name input reference.
-	 *
-	 * @param {Object} ref The name input element.
-	 *
-	 * @returns {void}
-	 */
-	setNameInputRef( ref ) {
-		this._nameInput = ref;
 	}
 
 	/**

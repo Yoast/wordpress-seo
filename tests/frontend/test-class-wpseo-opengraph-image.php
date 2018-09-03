@@ -11,6 +11,7 @@
  * @group OpenGraph
  */
 class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Set up class instance.
 	 */
@@ -61,7 +62,6 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$this->assertAttributeInstanceOf( 'WPSEO_OpenGraph', 'opengraph', $class_instance );
 	}
 
-
 	/**
 	 * Tests instantiating of the object OpenGraph 'not being set'.
 	 *
@@ -75,7 +75,6 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$GLOBALS['wpseo_og'] = $old_og;
 
 		$this->assertAttributeInstanceOf( 'WPSEO_OpenGraph', 'opengraph', $class_instance );
-
 	}
 
 	/**
@@ -123,7 +122,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider invalid_image_provider
 	 *
-	 * @param mixed $image The image data.
+	 * @param mixed  $image   The image data.
 	 * @param string $message The message to show when test fails.
 	 */
 	public function test_invalid_images( $image, $message ) {
@@ -151,23 +150,23 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 			),
 			array(
 				array( 'url' => '' ),
-				'With an empty url given'
+				'With an empty url given',
 			),
 			array(
 				array( 'url' => null ),
-				'With null given as url'
+				'With null given as url',
 			),
 			array(
 				array(),
-				'With empty array'
+				'With empty array',
 			),
 			array(
 				null,
-				'With null given as data'
+				'With null given as data',
 			),
 			array(
 				false,
-				'With false given as data'
+				'With false given as data',
 			),
 			array(
 				(object) array( 'url' => null ),
@@ -176,14 +175,14 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		);
 	}
 
-
 	/**
 	 * Test setting the front page image.
 	 *
- 	 * @covers WPSEO_OpenGraph_Image::set_front_page_image
+	 * @covers WPSEO_OpenGraph_Image::set_front_page_image
 	 */
 	public function test_frontpage_image() {
-		WPSEO_Options::set( 'og_frontpage_image', '/test.png' );
+		WPSEO_Options::set( 'og_frontpage_image', '/frontpage.png' );
+		WPSEO_Options::set( 'og_default_image', '/test.png' );
 
 		$current_page_on_front = get_option( 'page_on_front' );
 		$current_show_on_front = get_option( 'show_on_front' );
@@ -197,6 +196,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 		$class_instance = $this->setup_class();
 
+		// With a static frontpage, the image should be the default image, or the image from the static front page itself, not the frontpage image.
 		$this->assertEquals( $this->sample_array(), $class_instance->get_images() );
 
 		update_option( 'show_on_front', $current_show_on_front );
@@ -383,7 +383,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 * @return array $attachment. Contains the url to the attachment image and the attachment id.
 	 */
 	public function add_image_attachment_to_post( $image, $post_id, $use_name = '' ) {
-		 // Copy the image to the upload folder.
+		// Copy the image to the upload folder.
 		$basename = basename( $image );
 		if ( ! empty( $use_name ) ) {
 			$basename = $use_name;
@@ -406,7 +406,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 		return array(
 			'image' => $attached_image,
-			'id'    => $attach_id );
+			'id'    => $attach_id,
+		);
 	}
 
 	/**
@@ -461,8 +462,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		// Create our post.
 		$post_id = $this->create_post();
 
-		$attachment     = $this->add_image_attachment_to_post( '/assets/yoast.png', $post_id );
-		$image2_url     = 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg';
+		$attachment = $this->add_image_attachment_to_post( '/assets/yoast.png', $post_id );
+		$image2_url = 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg';
 
 		// Update the post content.
 		$post_content = '<p>This is a post. It has an image hosted on a cdn:</p>
@@ -498,8 +499,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		// Create our post.
 		$post_id = $this->create_post();
 
-		$attachment         = $this->add_image_attachment_to_post( '/assets/yoast.png', $post_id );
-		$attachment_two     = $this->add_image_attachment_to_post( '/assets/yoast.png', $post_id, 'yoast-two.png' );
+		$attachment     = $this->add_image_attachment_to_post( '/assets/yoast.png', $post_id );
+		$attachment_two = $this->add_image_attachment_to_post( '/assets/yoast.png', $post_id, 'yoast-two.png' );
 
 		// Update the post content.
 		$post_content = '<p>This is a post. It has an image:</p>

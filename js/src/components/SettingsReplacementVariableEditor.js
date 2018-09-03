@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "yoast-components/composites/Plugin/SnippetEditor/constants";
+} from "yoast-components";
 
 /* Internal dependencies */
 import SnippetPreviewSection from "./SnippetPreviewSection";
