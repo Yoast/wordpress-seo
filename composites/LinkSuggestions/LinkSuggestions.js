@@ -1,3 +1,4 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 import LinkSuggestion from "./composites/LinkSuggestion";
@@ -5,6 +6,11 @@ import Clipboard from "clipboard";
 import { localize } from "../../utils/i18n";
 import interpolateComponents from "interpolate-components";
 import { speak } from "@wordpress/a11y";
+
+/* Internal dependencies */
+import { makeOutboundLink } from "../../utils/makeOutboundLink";
+
+const HelpTextLink = makeOutboundLink();
 
 /**
  * Represents the Suggestions component.
@@ -70,18 +76,20 @@ class LinkSuggestions extends React.Component {
 	 */
 	renderEmptyList() {
 		// Translators: Text between {{a}} and {{/a}} will be a link to an article about site structure.
-		let articleLinkString = this.props.translate( "Read {{a}}our article about site structure{{/a}} " +
+		let articleLinkString = this.props.translate(
+			"Read {{a}}our article about site structure{{/a}} " +
 			"to learn more about how internal linking can help improve your SEO." );
 
 		let articleLink = interpolateComponents( {
 			mixedString: articleLinkString,
 			components: {
 				// eslint-disable-next-line jsx-a11y/anchor-has-content
-				a: <a href="https://yoa.st/site-structure-metabox" />,
+				a: <HelpTextLink href="https://yoa.st/site-structure-metabox" />,
 			},
 		} );
 
-		let moreCopyMessage = this.props.translate( "Once you add a bit more copy, we'll give you a list of related " +
+		let moreCopyMessage = this.props.translate(
+			"Once you add a bit more copy, we'll give you a list of related " +
 			"content here to which you could link in your post." );
 
 		return (
@@ -90,7 +98,7 @@ class LinkSuggestions extends React.Component {
 				<p>{articleLink}</p>
 			</div>
 		);
-	 }
+	}
 
 	/**
 	 * @summary Renders the suggestions.
@@ -100,6 +108,20 @@ class LinkSuggestions extends React.Component {
 	render() {
 		let suggestions = this.props.suggestions;
 		let maximumSuggestions = this.props.maxSuggestions;
+
+		// Translators: Text between {{a}} and {{/a}} will be a link to an article about site structure.
+		let articleLinkString = this.props.translate(
+			"This is a list of related content to which you could link in your post. " +
+			"{{a}}Read our article about site structure{{/a}} " +
+			"to learn more about how internal linking can help improve your SEO." );
+
+		let articleLink = interpolateComponents( {
+			mixedString: articleLinkString,
+			components: {
+				// eslint-disable-next-line jsx-a11y/anchor-has-content
+				a: <HelpTextLink href="https://yoa.st/site-structure-metabox" />,
+			},
+		} );
 
 		if ( suggestions.length === 0 ) {
 			return this.renderEmptyList();
@@ -113,6 +135,7 @@ class LinkSuggestions extends React.Component {
 
 		return (
 			<div>
+				<p>{ articleLink }</p>
 				{ cornerStoneSuggestions }
 				{ defaultSuggestions }
 			</div>
@@ -132,12 +155,12 @@ class LinkSuggestions extends React.Component {
 		}
 
 		// Translators: Text between {{a}} and {{/a}} will be a link to an article about cornerstone content.
-		let articleLinkString = this.props.translate( "Consider linking to these {{a}}cornerstone articles{{/a}}" );
+		let articleLinkString = this.props.translate( "Consider linking to these {{a}}cornerstone articles:{{/a}}" );
 		let articleLink = interpolateComponents( {
 			mixedString: articleLinkString,
 			components: {
 				// eslint-disable-next-line jsx-a11y/anchor-has-content
-				a: <a href="https://yoa.st/metabox-ls-help-cornerstone" rel="noopener noreferrer" target="_blank" />,
+				a: <HelpTextLink href="https://yoa.st/metabox-ls-help-cornerstone" />,
 			},
 		} );
 
@@ -156,7 +179,7 @@ class LinkSuggestions extends React.Component {
 			return null;
 		}
 
-		return this.getSuggestionsList( this.props.translate( "Consider linking to these articles" ), suggestions );
+		return this.getSuggestionsList( this.props.translate( "Consider linking to these articles:" ), suggestions );
 	}
 
 	/**
