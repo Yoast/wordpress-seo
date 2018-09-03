@@ -120,12 +120,12 @@ const collectKeyphraseAndSynonymsForms = function( keyphrase, synonyms, language
 };
 
 /**
- * Cashes morphological forms depending on the currently available morphologyData and (separately) keyphrase, synonyms,
+ * Caches morphological forms depending on the currently available morphologyData and (separately) keyphrase, synonyms,
  * and language. In this way, if the morphologyData remains the same in multiple calls of this function, the function
  * that collects actual morphological forms only needs to check if the keyphrase, synonyms and language also remain the
- * same to return the cashed result. The joining of keyphrase, synonyms and language for this function is needed,
- * because by default memoize cashes by the first key only, which in the current case would mean that the function would
- * return the cashed forms if the keyphrase has not changed (without checking if synonyms and language were changed).
+ * same to return the cached result. The joining of keyphrase, synonyms and language for this function is needed,
+ * because by default memoize caches by the first key only, which in the current case would mean that the function would
+ * return the cached forms if the keyphrase has not changed (without checking if synonyms and language were changed).
  *
  * @param {Object|boolean} morphologyData The available morphology data.
  *
@@ -142,7 +142,7 @@ const primeMorphologyData = memoize( ( morphologyData ) => {
 
 
 /**
- * Retrieves morphological forms of words of the keyphrase and of each synonym phrase using the function that cashes
+ * Retrieves morphological forms of words of the keyphrase and of each synonym phrase using the function that caches
  * the results of previous calls of this function.
  *
  * @param {string} keyphrase The paper's keyphrase.
