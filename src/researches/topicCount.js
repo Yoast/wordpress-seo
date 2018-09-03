@@ -48,7 +48,7 @@ module.exports = function( paper, onlyKeyword = false ) {
 	let matchesIndices = [];
 
 	sentences.forEach( function( sentence ) {
-		topicFoundInSentence = matchTextWithArray( sentence, topicWords ).matches;
+		topicFoundInSentence = matchTextWithArray( sentence, topicWords, paper.getLocale() ).matches;
 		if ( topicFoundInSentence.length > 0 ) {
 			topicFoundInSentence.forEach( function( occurrence ) {
 				const indexOfOccurrenceInSentence = sentence.indexOf( occurrence, indexRunningThroughSentence );
