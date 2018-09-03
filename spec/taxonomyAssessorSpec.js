@@ -3,16 +3,7 @@ const Paper = require( "../js/values/Paper.js" );
 const factory = require( "./helpers/factory.js" );
 const i18n = factory.buildJed();
 const assessor = new Assessor( i18n );
-
-const getResults = function( Results ) {
-	let assessments = [];
-
-	for ( let Result of Results ) {
-		assessments.push( Result._identifier );
-	}
-
-	return assessments;
-};
+import getResults from "./specHelpers/getAssessorResults";
 
 describe( "running assessments in the assessor", function() {
 	it( "runs assessments without any specific requirements", function() {
