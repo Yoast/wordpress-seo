@@ -1,7 +1,8 @@
-import {
-	AnalysisWebWorker,
-	Paper,
-} from "../../index";
+import { isArray, isObject, isNumber } from "lodash-es";
+
+import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
+import Paper from "../../src/values/Paper";
+import testTexts from "../fullTextTests/testTexts";
 
 /**
  * Creates a mocked scope.
@@ -33,9 +34,10 @@ function createMessage( type, payload = {}, id = 0 ) {
 	};
 }
 
-// Reusing these global variables.
+// Re-using these global variables.
 let scope = null;
 let worker = null;
+let spy = null;
 
 describe( "AnalysisWebWorker", () => {
 	describe( "constructor", () => {
@@ -114,6 +116,14 @@ describe( "AnalysisWebWorker", () => {
 				expect( worker._configuration.testing ).toBe( true );
 			} );
 
+			test( "overwrites default configuration", () => {
+				expect( worker._configuration.contentAnalysisActive ).toBe( true );
+
+				scope.onmessage( createMessage( "initialize", { contentAnalysisActive: false } ) );
+
+				expect( worker._configuration.contentAnalysisActive ).toBe( false );
+			} );
+
 			test( "creates the i18n", () => {
 				expect( worker._i18n ).not.toBeDefined();
 
@@ -177,6 +187,12 @@ describe( "AnalysisWebWorker", () => {
 			} );
 		} );
 
+		/*
+		 * Couple of things to note:
+		 * - Transporter is used to serialize and parse the payload. However,
+		 *   without the wrapper we need to pass serialized data in the message.
+		 * - A task is async. Using analyzeDone as a test trigger.
+		 */
 		describe( "analyze", () => {
 			beforeEach( () => {
 				scope = createScope();
@@ -184,10 +200,18 @@ describe( "AnalysisWebWorker", () => {
 				worker.register();
 			} );
 
+			afterEach( () => {
+				if ( spy ) {
+					spy.mockRestore();
+					spy = null;
+				}
+			} );
+
 			test( "schedules a task", () => {
-				const paper = new Paper( "This is my content." );
+				const paper = new Paper( "This is the content." );
+
 				worker._scheduler.schedule = jest.fn();
-				scope.onmessage( createMessage( "analyze", { paper } ) );
+				scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
 
 				expect( worker._scheduler.schedule ).toHaveBeenCalledTimes( 1 );
 				expect( worker._scheduler.schedule ).toHaveBeenCalledWith( {
@@ -199,20 +223,52 @@ describe( "AnalysisWebWorker", () => {
 				} );
 			} );
 
-			test( "runs an analysis", done => {
-				const paper = new Paper( "This is my content." );
+			test( "calls analyze", done => {
+				const paper = new Paper( "This is the content." );
 				const spy = spyOn( worker, "analyze" );
 
-				// Due to the task being async, use analyzeDone as test trigger.
-				worker.analyzeDone = () => {
+				worker.analyzeDone = ( id, result ) => {
 					expect( spy ).toHaveBeenCalledTimes( 1 );
 					expect( spy ).toHaveBeenCalledWith( 0, { paper } );
 					done();
 				};
 
-				// Initialize is needed to start the scheduler.
 				scope.onmessage( createMessage( "initialize" ) );
-				scope.onmessage( createMessage( "analyze", { paper } ) );
+				scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
+			} );
+
+			test( "returns results", done => {
+				const paper = testTexts[ 0 ].paper;
+
+				worker.analyzeDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( isObject( result ) ).toBe( true );
+					expect( isObject( result.readability ) ).toBe( true );
+					expect( isArray( result.readability.results ) ).toBe( true );
+					expect( isNumber( result.readability.score ) ).toBe( true );
+					expect( isObject( result.seo ) ).toBe( true );
+					expect( isObject( result.seo[ "" ] ) ).toBe( true );
+					expect( isArray( result.seo[ "" ].results ) ).toBe( true );
+					expect( isNumber( result.seo[ "" ].score ) ).toBe( true );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
+			} );
+
+			test( "listens to the contentAnalysisActive configuration", done => {
+				const paper = new Paper( "This is the content." );
+
+				worker.analyzeDone = ( id, result ) => {
+					// Results still get initialized.
+					expect( result.readability.results.length ).toBe( 0 );
+					expect( result.readability.score ).toBe( 0 );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize", { contentAnalysisActive: false } ) );
+				scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
 			} );
 		} );
 	} );
