@@ -1,4 +1,4 @@
-const sortBy = require( "lodash/sortBy" );
+import { sortBy } from "lodash-es";
 const topicCount = require( "./topicCount" );
 
 /**

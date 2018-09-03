@@ -1,5 +1,5 @@
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
+import { isUndefined } from "lodash-es";
+import { forEach } from "lodash-es";
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" ).isWordInSentence;
 var characterInBoundary = require( "../stringProcessing/matchWordInSentence.js" ).characterInBoundary;

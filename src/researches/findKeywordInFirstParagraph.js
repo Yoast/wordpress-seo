@@ -5,8 +5,8 @@ const getSentences = require( "../stringProcessing/getSentences.js" );
 const findTopicFormsInString = require( "./findKeywordFormsInString.js" ).findTopicFormsInString;
 const imageInText = require( "../stringProcessing/imageInText" );
 
-const reject = require( "lodash/reject" );
-const isEmpty = require( "lodash/isEmpty" );
+import { reject } from "lodash-es";
+import { isEmpty } from "lodash-es";
 
 /**
  * Checks if the paragraph consists only of images.

@@ -1,6 +1,6 @@
 const getSubheadingTexts = require( "../stringProcessing/getSubheadingTexts" );
 const countWords = require( "../stringProcessing/countWords" );
-const forEach = require( "lodash/forEach" );
+import { forEach } from "lodash-es";
 
 /**
  * Gets the subheadings from the text and returns the length of these subheading in an array.

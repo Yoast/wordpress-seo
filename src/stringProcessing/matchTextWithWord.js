@@ -6,7 +6,7 @@ const removePunctuation = require( "../stringProcessing/removePunctuation.js" );
 const unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" ).unifyAllSpaces;
 const matchStringWithTransliteration = require( "../stringProcessing/matchTextWithTransliteration.js" );
 const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
-const map = require( "lodash/map" );
+import { map } from "lodash-es";
 
 /**
  * Returns the number of matches in a given string

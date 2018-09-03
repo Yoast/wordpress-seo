@@ -1,7 +1,7 @@
 /** @module stringProcessing/createRegexFromArray */
 
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
-var map = require( "lodash/map" );
+import { map } from "lodash-es";
 
 /**
  * Creates a regex of combined strings from the input array.

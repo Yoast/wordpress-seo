@@ -1,4 +1,4 @@
-var map = require( "lodash/map" );
+import { map } from "lodash-es";
 var addWordBoundary = require( "./addWordboundary.js" );
 var stripSpaces = require( "./stripSpaces.js" );
 var transliterate = require( "./transliterate.js" );

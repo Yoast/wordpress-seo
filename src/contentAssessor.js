@@ -20,8 +20,8 @@ let contentConfiguration = require( "./config/content/combinedConfig.js" );
 
 let scoreToRating = require( "./interpreters/scoreToRating" );
 
-let map = require( "lodash/map" );
-let sum = require( "lodash/sum" );
+import { map } from "lodash-es";
+import { sum } from "lodash-es";
 
 /**
  * Creates the Assessor

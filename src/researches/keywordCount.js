@@ -1,7 +1,7 @@
 /** @module analyses/getKeywordCount */
 const matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-const unique = require( "lodash/uniq" );
-const escapeRegExp = require( "lodash/escapeRegExp" );
+import { uniq as unique } from "lodash-es";
+import { escapeRegExp } from "lodash-es";
 
 /**
  * Calculates the keyword count.

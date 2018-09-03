@@ -2,7 +2,7 @@
 
 let getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
 
-let map = require( "lodash/map" );
+import { map } from "lodash-es";
 let url = require( "../stringProcessing/url.js" );
 
 /**

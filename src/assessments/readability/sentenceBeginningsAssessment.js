@@ -1,11 +1,11 @@
 let AssessmentResult = require( "../../values/AssessmentResult.js" );
 let stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
 
-let partition = require( "lodash/partition" );
-let sortBy = require( "lodash/sortBy" );
-let map = require( "lodash/map" );
-let filter = require( "lodash/filter" );
-let flatten = require( "lodash/flatten" );
+import { partition } from "lodash-es";
+import { sortBy } from "lodash-es";
+import { map } from "lodash-es";
+import { filter } from "lodash-es";
+import { flatten } from "lodash-es";
 
 let Mark = require( "../../values/Mark.js" );
 let marker = require( "../../markers/addMark.js" );

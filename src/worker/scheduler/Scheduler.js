@@ -1,5 +1,5 @@
 // External dependencies.
-const merge = require( "lodash/merge" );
+import { merge } from "lodash-es";
 
 // Internal dependencies.
 import Task from "./Task";

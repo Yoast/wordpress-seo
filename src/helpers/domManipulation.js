@@ -1,4 +1,4 @@
-var forEach = require( "lodash/forEach" );
+import { forEach } from "lodash-es";
 
 /**
  * Adds a class to an element

@@ -4,13 +4,13 @@ var removeDuplicateMarks = require( "./markers/removeDuplicateMarks" );
 var AssessmentResult = require( "./values/AssessmentResult.js" );
 var showTrace = require( "./helpers/errors.js" ).showTrace;
 
-var isUndefined = require( "lodash/isUndefined" );
-var isFunction = require( "lodash/isFunction" );
-var forEach = require( "lodash/forEach" );
-var filter = require( "lodash/filter" );
-var map = require( "lodash/map" );
-var findIndex = require( "lodash/findIndex" );
-var find = require( "lodash/find" );
+import { isUndefined } from "lodash-es";
+import { isFunction } from "lodash-es";
+import { forEach } from "lodash-es";
+import { filter } from "lodash-es";
+import { map } from "lodash-es";
+import { findIndex } from "lodash-es";
+import { find } from "lodash-es";
 
 var ScoreRating = 9;
 
