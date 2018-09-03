@@ -581,7 +581,7 @@ export default class HowTo extends Component {
 		return (
 			<div className={ classNames }>
 				<RichText
-					tagName="strong"
+					tagName="p"
 					id={ attributes.headingID }
 					className="schema-how-to-title"
 					value={ attributes.title }
