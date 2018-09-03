@@ -1,7 +1,8 @@
 .schema-how-to-duration .schema-how-to-duration-input[type="number"] {
 	width: 40px;
 	margin: 0 2px;
-	text-align: right;
+	padding: 6px 4px;
+	text-align: center;
 	-moz-appearance: textfield;
 
 	&::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
