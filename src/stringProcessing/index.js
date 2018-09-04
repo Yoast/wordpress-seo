@@ -5,6 +5,8 @@ const replaceDiacritics = require( "./replaceDiacritics" );
 const imageInText = require( "./imageInText" );
 const relevantWords = require( "./relevantWords" );
 const removeHtmlBlocks = require( "./htmlParser" );
+const createWordRegex = require( "./createWordRegex" );
+const wordBoundaries = require( "../config/wordBoundaries" );
 
 export {
 	stripHTMLTags,
@@ -14,4 +16,8 @@ export {
 	imageInText,
 	relevantWords,
 	removeHtmlBlocks,
+	wordBoundaries,
+
+	// We don't want to expose this, but yoast-components needs it.
+	createWordRegex as __createWordRegex,
 };
