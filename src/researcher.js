@@ -22,7 +22,7 @@ var calculateFleschReading = require( "./researches/calculateFleschReading.js" )
 var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
 var imageCount = require( "./researches/imageCountInText.js" );
 var altTagCount = require( "./researches/imageAltTags.js" );
-var keyphraseLength = require( "./researches/keyphraseLength" );
+import keyphraseLength from "./researches/keyphraseLength";
 var metaDescriptionKeyword = require( "./researches/metaDescriptionKeyword.js" );
 var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
 import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";

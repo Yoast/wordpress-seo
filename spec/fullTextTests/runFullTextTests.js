@@ -37,7 +37,7 @@ const sentenceBeginningsAssessment = require( "../../src/assessments/readability
 
 // Import researches
 import findKeywordInFirstParagraph from "../../src/researches/findKeywordInFirstParagraph.js";
-const keyphraseLength = require( "../../src/researches/keyphraseLength" );
+import keyphraseLength from "../../src/researches/keyphraseLength";
 const keywordCount = require( "../../src/researches/keywordCount" );
 const getKeywordDensity = require( "../../src/researches/getKeywordDensity.js" );
 const stopWordsInKeyword = require( "../../src/researches/stopWordsInKeyword" );
@@ -90,7 +90,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the keyphraseLength assessment", function() {
 			result.keyphraseLength = new KeyphraseLengthAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( keyphraseLength( paper ) ),
+				factory.buildMockResearcher( keyphraseLength( paper, researcher ) ),
 				i18n
 			);
 			expect( result.keyphraseLength.getScore() ).toBe( expectedResults.keyphraseLength.score );
