@@ -148,6 +148,11 @@ let miscellaneous = [ "sim", "não", "ok", "amém", "etc", "euro", "euros", "ade
 
 let titles = [ "sr", "sra", "sras", "dr", "dra", "prof" ];
 
+/**
+ * Returns the Portuguese function words.
+ *
+ * @returns {Object} Portuguese function words.
+ */
 export default function() {
 	return {
 		// These word categories are filtered at the beginning of word combinations.

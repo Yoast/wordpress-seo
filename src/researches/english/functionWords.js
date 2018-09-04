@@ -131,6 +131,11 @@ let titlesPreceding = [ "ms", "mss", "mrs", "mr", "dr", "prof" ];
 
 let titlesFollowing = [ "jr", "sr" ];
 
+/**
+ * Returns function words for english.
+ *
+ * @returns {Object} English function words.
+ */
 export default function() {
 	return {
 		// These word categories are filtered at the ending of word combinations.

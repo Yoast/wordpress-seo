@@ -23,6 +23,11 @@ const russianFunctionWords = russianFunctionWordsFactory();
 import polishFunctionWordsFactory from "../researches/polish/functionWords.js";
 const polishFunctionWords = polishFunctionWordsFactory();
 
+/**
+ * Returns the function words for all languages.
+ *
+ * @returns {Object} Function words for all languages.
+ */
 export default function() {
 	return {
 		en: englishFunctionWords,

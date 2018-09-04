@@ -33,6 +33,11 @@ var notFilteredAuxiliaries = [
 	"what's",
 ];
 
+/**
+ * Returns a list of English auxiliaries.
+ *
+ * @returns {Object} English auxiliaries.
+ */
 export default function() {
 	return {
 		filteredAuxiliaries: filteredAuxiliaries,

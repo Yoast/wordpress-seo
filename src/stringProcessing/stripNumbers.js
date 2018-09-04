@@ -8,7 +8,6 @@ import stripSpaces from "../stringProcessing/stripSpaces.js";
  * @param {string} text to remove words
  * @returns {string} The text with numberonly words removed.
  */
-
 export default function( text ) {
 	// Remove "words" comprised only of numbers
 	text = text.replace( /\b[0-9]+\b/g, "" );

@@ -20,6 +20,13 @@ let transitionWordsPolish = require( "../researches/polish/transitionWords.js" )
 import twoPartTransitionWordsPolish from "../researches/polish/twoPartTransitionWords.js";
 import getLanguage from "./getLanguage.js";
 
+/**
+ * Returns transition words for a specific locale.
+ *
+ * @param {string} locale The locale to return function words for.
+ *
+ * @returns {Object} The function words for a locale.
+ */
 export default function( locale ) {
 	switch( getLanguage( locale ) ) {
 		case "de":

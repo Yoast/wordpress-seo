@@ -144,6 +144,11 @@ let irregularParticiples = function( word, language ) {
 	return matches;
 };
 
+/**
+ * Returns methods to return participles for a language.
+ *
+ * @returns {Object} Methods to return participles in a language.
+ */
 export default function() {
 	return {
 		regularParticiples: memoize( regularParticiples ),

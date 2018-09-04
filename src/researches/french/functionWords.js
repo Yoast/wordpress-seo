@@ -225,6 +225,11 @@ let titlesPreceding = [ "mme", "mmes", "mlle", "mlles", "mm", "dr", "pr" ];
 
 let titlesFollowing = [ "jr", "sr" ];
 
+/**
+ * Returns a list of function words for French.
+ *
+ * @returns {Object} French function words.
+ */
 export default function() {
 	return {
 		// These word categories are filtered at the ending of word combinations.

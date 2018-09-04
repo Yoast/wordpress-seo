@@ -8,6 +8,13 @@ import firstWordExceptionsRussian from "../researches/russian/firstWordException
 import firstWordExceptionsPolish from "../researches/polish/firstWordExceptions.js";
 import getLanguage from "./getLanguage.js";
 
+/**
+ * Returns the first word exceptions function for a locale.
+ *
+ * @param {string} locale The locale to return word exceptions for.
+ *
+ * @returns {Function} A function that will return the first word exceptions.
+ */
 export default function( locale ) {
 	switch( getLanguage( locale ) ) {
 		case "de":

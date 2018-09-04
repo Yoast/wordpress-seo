@@ -263,6 +263,11 @@ let titlesPreceding = [ "fr", "hr", "dr", "prof" ];
 
 let titlesFollowing = [ "jr", "jun", "sen", "sr" ];
 
+/**
+ * Returns function words for German.
+ *
+ * @returns {Object} German function words.
+ */
 export default function() {
 	return {
 		// These word categories are filtered at the beginning of word combinations.

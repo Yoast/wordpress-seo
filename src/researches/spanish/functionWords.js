@@ -261,6 +261,11 @@ let titlesPreceding = [ "sra", "sras", "srta", "sr", "sres", "dra", "dr", "profa
 
 let titlesFollowing = [ "jr", "sr" ];
 
+/**
+ * Returns the function words for Spanish.
+ *
+ * @returns {Object} The Spanish function words.
+ */
 export default function() {
 	return {
 

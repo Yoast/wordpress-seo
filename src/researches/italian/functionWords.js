@@ -227,11 +227,12 @@ let titlesPreceding = [ "sig.na", "sig.ra", "sig", "sigg", "dr", "dr.ssa", "dott
 	"gent.mi", "gent.ma", "gent.me", "egr", "egr.i", "egr.ia", "egr.ie", "preg.mo", "preg.mo", "preg.ma", "preg.me", "ill", "ill.mo",
 	"ill.mi", "ill.ma", "ill.me", "cav", "on", "spett" ];
 
-/*
- Exports all function words concatenated, and specific word categories and category combinations
- to be used as filters for the prominent words.
+/**
+ * Exports all function words concatenated, and specific word categories and category combinations
+ * to be used as filters for the prominent words.
+ *
+ * @returns {Object} Italian function words.
  */
-
 export default function() {
 	return {
 		// These word categories are filtered at the beginning of word combinations.

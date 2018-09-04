@@ -1,4 +1,8 @@
-// This is a list of irregular participles used in Dutch.
+/**
+ * Returns irregular participles for Dutch.
+ *
+ * @returns {string[]} Dutch irregular participles.
+ */
 export default function() {
 	return [
 		"aaneengedraaid",

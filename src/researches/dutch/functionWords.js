@@ -155,11 +155,12 @@ let titlesPreceding = [ "mevr", "dhr", "mr", "dr", "prof" ];
 
 let titlesFollowing = [ "jr", "sr" ];
 
-/*
-Exports all function words concatenated, and specific word categories and category combinations
-to be used as filters for the prominent words.
+/**
+ * Exports all function words concatenated, and specific word categories and category combinations
+ * to be used as filters for the prominent words.
+ *
+ * @returns {Object} Dutch function words.
  */
-
 export default function() {
 	return {
 		// These word categories are filtered at the ending of word combinations.

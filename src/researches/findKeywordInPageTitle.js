@@ -11,7 +11,6 @@ import { escapeRegExp } from "lodash-es";
  * @param {object} paper The paper containing title and keyword.
  * @returns {object} result with the matches and position.
  */
-
 export default function( paper ) {
 	const title = paper.getTitle();
 	const keyword = escapeRegExp( paper.getKeyword() );

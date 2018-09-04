@@ -356,7 +356,11 @@ const measurementUnits = [ "°C", "°F", "ar", "ary", "arów", "arach", "c", "cl
 
 const miscellaneous = [ "nie", "no", "oto", "tak", "sobie", "ok", "okej" ];
 
-
+/**
+ * Returns the Polish function words.
+ *
+ * @returns {Object} Polish function words.
+ */
 export default function() {
 	return {
 

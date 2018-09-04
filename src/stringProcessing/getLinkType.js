@@ -9,7 +9,6 @@ import urlHelper from "./url";
  * @param {string} url URL to match against.
  * @returns {string} The link type (other, external or internal).
  */
-
 export default function( text, url ) {
 	const anchorUrl = urlHelper.getFromAnchorTag( text );
 

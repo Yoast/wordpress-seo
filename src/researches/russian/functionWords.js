@@ -487,6 +487,11 @@ const titlesPreceding = [ "г-н", "г-жа", "тов", "гр-н", "гр-а", "�
 // "ст" is already included in recipe words
 const titlesFollowing = [ "мл" ];
 
+/**
+ * Returns the russian function words.
+ *
+ * @returns {Object} Russion function words.
+ */
 export default function() {
 	return {
 		// These word categories are filtered at the ending of word combinations.
