@@ -489,9 +489,9 @@ const titlesPreceding = [ "г-н", "г-жа", "тов", "гр-н", "гр-а", "�
 const titlesFollowing = [ "мл" ];
 
 /**
- * Returns the russian function words.
+ * Returns the Russian function words.
  *
- * @returns {Object} Russion function words.
+ * @returns {Object} Russian function words.
  */
 export default function() {
 	return {
