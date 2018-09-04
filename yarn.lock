@@ -6771,6 +6771,10 @@ locate-path@^2.0.0:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
 
+lodash-es@^4.17.10:
+  version "4.17.10"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.10.tgz#62cd7104cdf5dd87f235a837f0ede0e8e5117e05"
+
 lodash-es@^4.2.0, lodash-es@^4.2.1:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
@@ -10232,7 +10236,7 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
-tokenizer2@^2.0.0:
+tokenizer2@^2.0.0, tokenizer2@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/tokenizer2/-/tokenizer2-2.0.1.tgz#c62846214bd05d6b74e4924156d246e6cc070f3e"
   dependencies:
@@ -11105,6 +11109,16 @@ yoastseo@^1.39.0:
     node-sass "^4.7.2"
     sassdash "0.9.0"
     tokenizer2 "^2.0.0"
+
+"yoastseo@https://github.com/Yoast/YoastSEO.js.git#develop":
+  version "1.39.0"
+  resolved "https://github.com/Yoast/YoastSEO.js.git#6c897786306ea0e903ec3b7f7b286a558a4ae4c5"
+  dependencies:
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    lodash-es "^4.17.10"
+    sassdash "0.9.0"
+    tokenizer2 "^2.0.1"
 
 zip-stream@^1.1.0:
   version "1.2.0"
