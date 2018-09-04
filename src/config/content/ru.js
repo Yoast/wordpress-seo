@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	sentenceLength: {
 		recommendedWordCount: 15,
 	},

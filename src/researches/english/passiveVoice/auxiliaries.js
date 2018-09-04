@@ -33,10 +33,15 @@ var notFilteredAuxiliaries = [
 	"what's",
 ];
 
-module.exports = function() {
+/**
+ * Returns a list of English auxiliaries.
+ *
+ * @returns {Object} English auxiliaries.
+ */
+export default function() {
 	return {
 		filteredAuxiliaries: filteredAuxiliaries,
 		notFilteredAuxiliaries: notFilteredAuxiliaries,
 		all: filteredAuxiliaries.concat( notFilteredAuxiliaries ),
 	};
-};
+}

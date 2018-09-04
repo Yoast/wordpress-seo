@@ -1,7 +1,7 @@
 import { merge } from "lodash-es";
 
-const AssessmentResult = require( "../../values/AssessmentResult.js" );
-const Assessment = require( "../../assessment.js" );
+import AssessmentResult from "../../values/AssessmentResult.js";
+import Assessment from "../../assessment.js";
 
 /**
  * Assessment that checks if the url is long enough.
@@ -89,4 +89,4 @@ class UrlLengthAssessment extends Assessment {
 	}
 }
 
-module.exports = UrlLengthAssessment;
+export default UrlLengthAssessment;

@@ -29,7 +29,13 @@ var unifyAllSpaces = function( text ) {
 	return unifyWhiteSpace( text );
 };
 
-module.exports = {
+export {
+	unifyNonBreakingSpace,
+	unifyWhiteSpace,
+	unifyAllSpaces,
+};
+
+export default {
 	unifyNonBreakingSpace: unifyNonBreakingSpace,
 	unifyWhiteSpace: unifyWhiteSpace,
 	unifyAllSpaces: unifyAllSpaces,

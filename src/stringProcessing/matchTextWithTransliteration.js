@@ -1,8 +1,8 @@
 import { map } from "lodash-es";
-var addWordBoundary = require( "./addWordboundary.js" );
-var stripSpaces = require( "./stripSpaces.js" );
-var transliterate = require( "./transliterate.js" );
-var transliterateWP = require( "./transliterateWPstyle.js" );
+import addWordBoundary from "./addWordboundary.js";
+import stripSpaces from "./stripSpaces.js";
+import transliterate from "./transliterate.js";
+import transliterateWP from "./transliterateWPstyle.js";
 import { replaceTurkishIsMemoized } from "./specialCharacterMappings";
 
 /**
@@ -22,7 +22,7 @@ var toRegex = function( keyword ) {
  * @param {string} locale The locale used for transliteration.
  * @returns {Array} All matches from the original as the transliterated text and keyword.
  */
-module.exports = function( text, keyword, locale ) {
+export default function( text, keyword, locale ) {
 	var keywordRegex = toRegex( keyword );
 
 	if ( locale === "tr_TR" ) {
@@ -50,6 +50,6 @@ module.exports = function( text, keyword, locale ) {
 	return map( combinedArray, function( keyword ) {
 		return stripSpaces( keyword );
 	} );
-};
+}
 
 

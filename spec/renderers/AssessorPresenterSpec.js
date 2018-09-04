@@ -1,6 +1,6 @@
-var AssessorPresenter = require( "../../src/renderers/AssessorPresenter.js" );
-var AssessmentResult = require( "../../src/values/AssessmentResult" );
-var Factory = require( "../helpers/factory.js" );
+import AssessorPresenter from "../../src/renderers/AssessorPresenter.js";
+import AssessmentResult from "../../src/values/AssessmentResult";
+import Factory from "../helpers/factory.js";
 
 describe( "an AssessorPresenter", function() {
 	var i18n;

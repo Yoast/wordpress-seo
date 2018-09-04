@@ -8,16 +8,16 @@ import TextCompetingLinksAssessment from "./assessments/seo/TextCompetingLinksAs
 import InternalLinksAssessment from "./assessments/seo/InternalLinksAssessment";
 import TitleKeywordAssessment from "./assessments/seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
-const Assessor = require( "./assessor" );
-const keywordStopWords = require( "./assessments/seo/keywordStopWordsAssessment" );
-const MetaDescriptionLength = require( "./assessments/seo/metaDescriptionLengthAssessment" );
-const SubheadingsKeyword = require( "./assessments/seo/subheadingsKeywordAssessment" );
-const TextImages = require( "./assessments/seo/textImagesAssessment" );
-const TextLength = require( "./assessments/seo/textLengthAssessment" );
-const OutboundLinks = require( "./assessments/seo/outboundLinksAssessment" );
-const TitleWidth = require( "./assessments/seo/pageTitleWidthAssessment" );
-const UrlLength = require( "./assessments/seo/urlLengthAssessment" );
-const urlStopWords = require( "./assessments/seo/urlStopWordsAssessment" );
+import Assessor from "./assessor";
+import keywordStopWords from "./assessments/seo/keywordStopWordsAssessment";
+import MetaDescriptionLength from "./assessments/seo/metaDescriptionLengthAssessment";
+import SubheadingsKeyword from "./assessments/seo/subheadingsKeywordAssessment";
+import TextImages from "./assessments/seo/textImagesAssessment";
+import TextLength from "./assessments/seo/textLengthAssessment";
+import OutboundLinks from "./assessments/seo/outboundLinksAssessment";
+import TitleWidth from "./assessments/seo/pageTitleWidthAssessment";
+import UrlLength from "./assessments/seo/urlLengthAssessment";
+import urlStopWords from "./assessments/seo/urlStopWordsAssessment";
 /**
  * Creates the Assessor
  *
@@ -53,4 +53,4 @@ const SEOAssessor = function( i18n, options ) {
 
 inherits( SEOAssessor, Assessor );
 
-module.exports = SEOAssessor;
+export default SEOAssessor;

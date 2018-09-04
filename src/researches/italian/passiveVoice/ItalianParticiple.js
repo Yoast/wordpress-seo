@@ -1,7 +1,7 @@
-var Participle = require( "../../../values/Participle.js" );
-var checkException = require( "../../passiveVoice/periphrastic/checkException.js" );
-var directPrecedenceException = require( "../../../stringProcessing/directPrecedenceException" );
-var precedenceException = require( "../../../stringProcessing/precedenceException" );
+import Participle from "../../../values/Participle.js";
+import checkException from "../../passiveVoice/periphrastic/checkException.js";
+import directPrecedenceException from "../../../stringProcessing/directPrecedenceException";
+import precedenceException from "../../../stringProcessing/precedenceException";
 
 
 /**
@@ -39,4 +39,4 @@ ItalianParticiple.prototype.directPrecedenceException = directPrecedenceExceptio
 
 ItalianParticiple.prototype.precedenceException = precedenceException;
 
-module.exports = ItalianParticiple;
+export default ItalianParticiple;

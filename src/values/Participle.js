@@ -1,5 +1,5 @@
-var getType = require( "./../helpers/types.js" ).getType;
-var isSameType = require( "./../helpers/types.js" ).isSameType;
+import { getType } from "./../helpers/types.js";
+import { isSameType } from "./../helpers/types.js";
 
 import { defaults } from "lodash-es";
 import { forEach } from "lodash-es";
@@ -165,4 +165,4 @@ Participle.parse = function( serialized ) {
 	return participle;
 };
 
-module.exports = Participle;
+export default Participle;

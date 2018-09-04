@@ -1,7 +1,7 @@
-var Researcher = require( "../src/researcher.js" );
-var Paper = require( "../src/values/Paper.js" );
-var InvalidTypeError = require( "../src/errors/invalidType.js" );
-var MissingArgument = require( "../src/errors/missingArgument" );
+import Researcher from "../src/researcher.js";
+import Paper from "../src/values/Paper.js";
+import InvalidTypeError from "../src/errors/invalidType.js";
+import MissingArgument from "../src/errors/missingArgument";
 
 
 describe( "Creating a Researcher", function() {

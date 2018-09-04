@@ -5,7 +5,7 @@
  *
  * @returns {array} diacritics map
  */
-module.exports = function() {
+export default function() {
 	return [
 		{
 			base: "a",

@@ -1,6 +1,6 @@
 /** @module analyses/findKeywordInPageTitle */
 
-const wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+import wordMatch from "../stringProcessing/matchTextWithWord.js";
 
 import { escapeRegExp } from "lodash-es";
 
@@ -11,8 +11,7 @@ import { escapeRegExp } from "lodash-es";
  * @param {object} paper The paper containing title and keyword.
  * @returns {object} result with the matches and position.
  */
-
-module.exports = function( paper ) {
+export default function( paper ) {
 	const title = paper.getTitle();
 	const keyword = escapeRegExp( paper.getKeyword() );
 	const locale = paper.getLocale();
@@ -21,4 +20,4 @@ module.exports = function( paper ) {
 	result.matches = wordMatched.count;
 	result.position = wordMatched.position;
 	return result;
-};
+}

@@ -34,7 +34,14 @@ function inRangeStartEndInclusive( number, start, end ) {
 	return number >= start && number <= end;
 }
 
-module.exports = {
+export {
+	inRangeEndInclusive as inRange,
+	inRangeStartInclusive,
+	inRangeEndInclusive,
+	inRangeStartEndInclusive,
+};
+
+export default {
 	inRange: inRangeEndInclusive,
 	inRangeStartInclusive: inRangeStartInclusive,
 	inRangeEndInclusive: inRangeEndInclusive,

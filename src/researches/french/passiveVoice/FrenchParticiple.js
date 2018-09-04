@@ -1,12 +1,16 @@
-var Participle = require( "../../../values/Participle.js" );
-var checkException = require( "../../passiveVoice/periphrastic/checkException.js" );
-var directPrecedenceException = require( "../../../stringProcessing/directPrecedenceException" );
-var precedenceException = require( "../../../stringProcessing/precedenceException" );
+import Participle from "../../../values/Participle.js";
+import checkException from "../../passiveVoice/periphrastic/checkException.js";
+import directPrecedenceException from "../../../stringProcessing/directPrecedenceException";
+import precedenceException from "../../../stringProcessing/precedenceException";
 
-var exceptionsParticiplesAdjectivesVerbs = require( "./exceptionsParticiples.js" )().adjectivesVerbs;
-var exceptionsParticiplesNounsVowel = require( "./exceptionsParticiples.js" )().nounsStartingWithVowel;
-var exceptionsParticiplesNounsConsonant = require( "./exceptionsParticiples.js" )().nounsStartingWithConsonant;
-var exceptionsParticiplesOthers = require( "./exceptionsParticiples.js" )().others;
+import exceptionsParticiplesAdjectivesVerbsFactory from "./exceptionsParticiples.js";
+var exceptionsParticiplesAdjectivesVerbs = exceptionsParticiplesAdjectivesVerbsFactory().adjectivesVerbs;
+import exceptionsParticiplesNounsVowelFactory from "./exceptionsParticiples.js";
+var exceptionsParticiplesNounsVowel = exceptionsParticiplesNounsVowelFactory().nounsStartingWithVowel;
+import exceptionsParticiplesNounsConsonantFactory from "./exceptionsParticiples.js";
+var exceptionsParticiplesNounsConsonant = exceptionsParticiplesNounsConsonantFactory().nounsStartingWithConsonant;
+import exceptionsParticiplesOthersFactory from "./exceptionsParticiples.js";
+var exceptionsParticiplesOthers = exceptionsParticiplesOthersFactory().others;
 
 import { includes } from "lodash-es";
 import { forEach } from "lodash-es";
@@ -159,4 +163,4 @@ FrenchParticiple.prototype.directPrecedenceException = directPrecedenceException
 
 FrenchParticiple.prototype.precedenceException = precedenceException;
 
-module.exports = FrenchParticiple;
+export default FrenchParticiple;
