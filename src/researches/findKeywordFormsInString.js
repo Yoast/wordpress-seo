@@ -20,7 +20,6 @@ const findWordFormsInString = function( keywordForms, text, locale ) {
 		const found = matchTextWithArray( text, keywordForms[ i ], locale ).count > 0;
 		foundWords[ i ] = found ? 1 : 0;
 	}
-
 	const foundNumberOfWords = sum( foundWords );
 	const result = {
 		countWordMatches: foundNumberOfWords,

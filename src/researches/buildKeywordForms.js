@@ -81,7 +81,7 @@ const buildForms = function( keyphrase, language, morphologyData ) {
 	 */
 	if ( morphologyData === false || isUndefined( getForms ) ) {
 		words.forEach( function( word ) {
-			const wordToLowerCase = escapeRegExp( word.toLocaleLowerCase() );
+			const wordToLowerCase = escapeRegExp( word.toLocaleLowerCase( language ) );
 
 			forms.push( unique( [].concat( wordToLowerCase, getVariationsApostrophe( wordToLowerCase ) ) ) );
 		} );

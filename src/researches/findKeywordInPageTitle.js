@@ -1,7 +1,6 @@
 /** @module analyses/findKeywordInPageTitle */
 
-const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
-const wordMatch = require( "../stringProcessing/matchTextWithWord" );
+const wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
 
 import { escapeRegExp } from "lodash-es";
 
@@ -14,12 +13,13 @@ import { escapeRegExp } from "lodash-es";
  */
 
 module.exports = function( paper ) {
-	const title = normalizeQuotes( paper.getTitle() );
-	const keyword = escapeRegExp( normalizeQuotes( paper.getKeyword() ).toLocaleLowerCase() );
+	const title = paper.getTitle();
+	const keyword = escapeRegExp( paper.getKeyword() );
 	const locale = paper.getLocale();
 	const result = { matches: 0, position: -1 };
-	result.matches = wordMatch( title, keyword, locale ).count;
-	result.position = title.toLocaleLowerCase().indexOf( keyword );
+	const wordMatched = wordMatch( title, keyword, locale );
+	result.matches = wordMatched.count;
+	result.position = wordMatched.position;
 
 	return result;
 };

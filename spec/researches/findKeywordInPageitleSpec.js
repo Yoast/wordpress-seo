@@ -42,6 +42,28 @@ describe( "Match keywords in string", function() {
 		var mockPaper = new Paper( "", { keyword: "$keyword", title: "A title with a $keyword" } );
 		result = pageTitleKeyword( mockPaper );
 		expect( result.matches ).toBe( 1 );
+
+		var mockPaper = new Paper( "", { keyword: "Istanbul", title: "İstanbul and the rest of Turkey", locale: "tr_TR" } );
+		result = pageTitleKeyword( mockPaper );
+		expect( result.matches ).toBe( 1 );
+		expect( result.position ).toBe( 0 );
+
+		var mockPaper = new Paper( "", { keyword: "İstanbul", title: "İstanbul and the rest of Turkey", locale: "tr_TR" } );
+		result = pageTitleKeyword( mockPaper );
+		expect( result.matches ).toBe( 1 );
+		expect( result.position ).toBe( 0 );
+
+		var mockPaper = new Paper( "", { keyword: "äbc", title: "äbc und abc" } );
+		result = pageTitleKeyword( mockPaper );
+		expect( result.matches ).toBe( 2 );
+
+		var mockPaper = new Paper( "", { keyword: "äbc", title: "äbc und abc", locale: "de_DE" } );
+		result = pageTitleKeyword( mockPaper );
+		expect( result.matches ).toBe( 1 );
+
+		var mockPaper = new Paper( "", { keyword: "äbc", title: "äbc und Äbc", locale: "de_DE" } );
+		result = pageTitleKeyword( mockPaper );
+		expect( result.matches ).toBe( 2 );
 	} );
 } );
 

@@ -563,4 +563,52 @@ describe( "tests for edge cases", function() {
 			keyphraseOrSynonym: "",
 		} );
 	} );
+
+	it( "returns correct result for Turkish with dotted I", function() {
+		const paper = new Paper(
+			"<p>Bu yıldız, Vikipedi'deki seçkin içeriği sembolize eder İstanbul.</p>", {
+				keyword: "İstanbul",
+				locale: "tr_TR",
+			}
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "returns correct result for Turkish with dotless I", function() {
+		const paper = new Paper(
+			"<p>Bu yıldız, Vikipedi'deki seçkin içeriği sembolize eder Istanbul.</p>", {
+				keyword: "istanbul",
+				locale: "tr_TR",
+			}
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "returns correct result for German", function() {
+		const paper = new Paper(
+			"<p>äbc und Äbc</p>", {
+				keyword: "äbc",
+				locale: "de_DE",
+			}
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
 } );
