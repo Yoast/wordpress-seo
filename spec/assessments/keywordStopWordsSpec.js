@@ -1,5 +1,5 @@
-var stopWordsInKeywordAssessment = require( "../../js/assessments/seo/keywordStopWordsAssessment.js" );
-var Paper = require( "../../js/values/Paper.js" );
+var stopWordsInKeywordAssessment = require( "../../src/assessments/seo/keywordStopWordsAssessment.js" );
+var Paper = require( "../../src/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
 

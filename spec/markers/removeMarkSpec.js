@@ -1,4 +1,4 @@
-var removeMarks = require( "../../js/markers/removeMarks.js" );
+var removeMarks = require( "../../src/markers/removeMarks.js" );
 
 describe( "removeMarks", function() {
 	it( "should not touch an empty text", function() {

@@ -1,4 +1,4 @@
-var domManipulation = require( "../../js/helpers/domManipulation.js" );
+var domManipulation = require( "../../src/helpers/domManipulation.js" );
 
 var hasClass = domManipulation.hasClass;
 var addClass = domManipulation.addClass;

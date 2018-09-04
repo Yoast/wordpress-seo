@@ -1,8 +1,8 @@
-var Pluggable = require( "../js/pluggable" );
+var Pluggable = require( "../src/pluggable" );
 
-var InvalidTypeError = require( "../js/errors/invalidType" );
+var InvalidTypeError = require( "../src/errors/invalidType" );
 
-var Assessor = require( "../js/assessor.js" );
+var Assessor = require( "../src/assessor.js" );
 
 var factory = require( "./helpers/factory.js" );
 var i18n = factory.buildJed();

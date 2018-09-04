@@ -1,8 +1,8 @@
-var sentenceBeginningsAssessment = require( "../../js/assessments/readability/sentenceBeginningsAssessment.js" );
-var Paper = require( "../../js/values/Paper.js" );
+var sentenceBeginningsAssessment = require( "../../src/assessments/readability/sentenceBeginningsAssessment.js" );
+var Paper = require( "../../src/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
-var Mark = require( "../../js/values/Mark.js" );
+var Mark = require( "../../src/values/Mark.js" );
 
 var paper = new Paper();
 describe( "An assessment for scoring repeated sentence beginnings.", function() {

@@ -1,4 +1,4 @@
-var transliteration = require( "../../js/stringProcessing/transliterate.js" );
+var transliteration = require( "../../src/stringProcessing/transliterate.js" );
 
 describe( "a test removing special characters from text", function() {
 	it( "returns a Spanish string without special characters.", function() {

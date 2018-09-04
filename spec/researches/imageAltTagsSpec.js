@@ -1,5 +1,5 @@
-var altTagCountFunction = require( "../../js/researches/imageAltTags" );
-var Paper = require( "../../js/values/Paper" );
+var altTagCountFunction = require( "../../src/researches/imageAltTags" );
+var Paper = require( "../../src/values/Paper" );
 
 describe( "Counts images in an text", function() {
 	it( "returns an empty object with all alt-counts as zero", function() {

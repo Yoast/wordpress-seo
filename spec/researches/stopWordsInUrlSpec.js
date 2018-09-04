@@ -1,5 +1,5 @@
-var urlStopwords = require( "../../js/researches/stopWordsInUrl.js" );
-var Paper = require( "../../js/values/Paper.js" );
+var urlStopwords = require( "../../src/researches/stopWordsInUrl.js" );
+var Paper = require( "../../src/values/Paper.js" );
 
 describe( "Checks the URL for stopwords", function() {
 	it( "returns any stopwords found", function() {

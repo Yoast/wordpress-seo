@@ -1,5 +1,5 @@
-var SubheadingsKeywordAssessment = require( "../../js/assessments/seo/subheadingsKeywordAssessment.js" );
-var Paper = require( "../../js/values/Paper.js" );
+var SubheadingsKeywordAssessment = require( "../../src/assessments/seo/subheadingsKeywordAssessment.js" );
+var Paper = require( "../../src/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
 

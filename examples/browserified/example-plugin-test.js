@@ -1,4 +1,4 @@
-var AssessmentResult = require( "../../js/values/AssessmentResult.js" );
+var AssessmentResult = require( "../../src/values/AssessmentResult.js" );
 
 /**
  * Creates the testplugin

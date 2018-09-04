@@ -1,4 +1,4 @@
-import { arraysOverlap, arraysDifference, getIndicesOfWords, getIndicesOfCharacter, replaceTurkishIs, replaceTurkishIsMemoized } from "../../js/stringProcessing/specialCharacterMappings";
+import { arraysOverlap, arraysDifference, getIndicesOfWords, getIndicesOfCharacter, replaceTurkishIs, replaceTurkishIsMemoized } from "../../src/stringProcessing/specialCharacterMappings";
 
 describe( "a test for substituting Turkish letters in a string", function() {
 	it( "returns an array with the original string if there are no Is", function() {

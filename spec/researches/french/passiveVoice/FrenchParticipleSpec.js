@@ -1,5 +1,5 @@
-var FrenchParticiple = require( "../../../../js/researches/french/passiveVoice/FrenchParticiple.js" );
-var checkException = require( "../../../../js/researches/passiveVoice/periphrastic/checkException.js" );
+var FrenchParticiple = require( "../../../../src/researches/french/passiveVoice/FrenchParticiple.js" );
+var checkException = require( "../../../../src/researches/passiveVoice/periphrastic/checkException.js" );
 
 describe( "A test for checking the French participle", function() {
 	it( "checks the properties of the French participle object with a passive", function() {

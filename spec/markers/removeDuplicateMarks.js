@@ -1,5 +1,5 @@
-var Mark = require( "../../js/values/Mark" );
-var removeDuplicateMarks = require( "../../js/markers/removeDuplicateMarks" );
+var Mark = require( "../../src/values/Mark" );
+var removeDuplicateMarks = require( "../../src/markers/removeDuplicateMarks" );
 
 describe( "removeDuplicateMarks", function() {
 	it( "should not touch an empty array", function() {

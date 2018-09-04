@@ -1,7 +1,7 @@
 import changePaperFactory from "../specHelpers/paperChanger";
 
-let Paper = require( "../../js/values/Paper.js" );
-let Researcher = require( "../../js/researcher" );
+let Paper = require( "../../src/values/Paper.js" );
+let Researcher = require( "../../src/researcher" );
 
 describe( "gets the sentence beginnings and the count of consecutive duplicates.", function() {
 	const researcher = new Researcher( new Paper() );

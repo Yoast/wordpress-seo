@@ -1,12 +1,12 @@
-let Paper = require( "../../js/values/Paper" );
-let relevantWords = require( "../../js/stringProcessing/relevantWords" );
+let Paper = require( "../../src/values/Paper" );
+let relevantWords = require( "../../src/stringProcessing/relevantWords" );
 let getRelevantWords = relevantWords.getRelevantWords;
 let getWordCombinations = relevantWords.getWordCombinations;
 let calculateOccurrences = relevantWords.calculateOccurrences;
 let getRelevantCombinations = relevantWords.getRelevantCombinations;
-let WordCombination = require( "../../js/values/WordCombination" );
-let getWords = require( "../../js/stringProcessing/getWords" );
-let template = require( "../../js/templates.js" ).relevantWords;
+let WordCombination = require( "../../src/values/WordCombination" );
+let getWords = require( "../../src/stringProcessing/getWords" );
+let template = require( "../../src/templates.js" ).relevantWords;
 
 import { map } from "lodash-es";
 import { forEach } from "lodash-es";

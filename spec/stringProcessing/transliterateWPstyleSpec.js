@@ -1,5 +1,5 @@
-const transliterationObjects = require( "../../js/config/transliterationsWPstyle.js" );
-const transliteration = require( "../../js/stringProcessing/transliterateWPstyle.js" );
+const transliterationObjects = require( "../../src/config/transliterationsWPstyle.js" );
+const transliteration = require( "../../src/stringProcessing/transliterateWPstyle.js" );
 
 describe( "a test for returning correct number of transliteration objects for different languages", function() {
 	it( "returns only generic transliteration objects for Spanish.", function() {

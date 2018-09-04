@@ -1,5 +1,5 @@
-import TitleKeywordAssessment from "../../js/assessments/seo/TitleKeywordAssessment";
-const Paper = require( "../../js/values/Paper" );
+import TitleKeywordAssessment from "../../src/assessments/seo/TitleKeywordAssessment";
+const Paper = require( "../../src/values/Paper" );
 const Factory = require( "../helpers/factory" );
 
 const i18n = Factory.buildJed();

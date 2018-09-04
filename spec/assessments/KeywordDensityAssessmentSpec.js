@@ -1,6 +1,6 @@
 /* global describe it expect */
-import KeywordDensityAssessment from "../../js/assessments/seo/KeywordDensityAssessment";
-const Paper = require( "../../js/values/Paper.js" );
+import KeywordDensityAssessment from "../../src/assessments/seo/KeywordDensityAssessment";
+const Paper = require( "../../src/values/Paper.js" );
 const Mark = require( "../../src/values/Mark.js" );
 const factory = require( "../helpers/factory.js" );
 const i18n = factory.buildJed();

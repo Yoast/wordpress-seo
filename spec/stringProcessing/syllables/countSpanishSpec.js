@@ -1,4 +1,4 @@
-let countSyllableFunction = require( "../../../js/stringProcessing/syllables/count.js" );
+let countSyllableFunction = require( "../../../src/stringProcessing/syllables/count.js" );
 
 describe( "a syllable counter for Spanish text strings", function() {
 	it( "returns the number of syllables of words containing the add syllable i[ií]", function() {

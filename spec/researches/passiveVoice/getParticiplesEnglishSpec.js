@@ -1,5 +1,5 @@
-var getParticiples = require( "../../../js/researches/passiveVoice/periphrastic/getParticiples.js" );
-var sentencePart = require( "../../../js/values/SentencePart.js" );
+var getParticiples = require( "../../../src/researches/passiveVoice/periphrastic/getParticiples.js" );
+var sentencePart = require( "../../../src/values/SentencePart.js" );
 
 describe( "Test for matching English participles", function() {
 	it( "returns matched regular participles.", function() {

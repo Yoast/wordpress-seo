@@ -11,20 +11,6 @@ module.exports = {
 			dest: "dist/images",
 		} ],
 	},
-	js: {
-		files: [
-			{
-				expand: true,
-				cwd: "src/",
-				src: "**/*.json",
-				dest: "js",
-			},
-			{
-				src: [ "src/templates.js" ],
-				dest: "js/templates.js",
-			},
-		],
-	},
 	publish: {
 		files: [ {
 			src: "css/**/*",
@@ -45,7 +31,7 @@ module.exports = {
 			src: "LICENSE",
 			dest: "dist/",
 		}, {
-			src: "js/config/syllables/**/*.json",
+			src: "src/config/syllables/**/*.json",
 			dest: "dist/",
 		} ],
 	},

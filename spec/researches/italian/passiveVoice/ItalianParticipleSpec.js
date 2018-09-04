@@ -1,5 +1,5 @@
-var ItalianParticiple = require( "../../../../js/researches/italian/passiveVoice/ItalianParticiple.js" );
-var checkException = require( "../../../../js/researches/passiveVoice/periphrastic/checkException.js" );
+var ItalianParticiple = require( "../../../../src/researches/italian/passiveVoice/ItalianParticiple.js" );
+var checkException = require( "../../../../src/researches/passiveVoice/periphrastic/checkException.js" );
 
 describe( "A test for checking the Italian participle", function() {
 	it( "checks the properties of the Italian participle object with a passive", function() {
