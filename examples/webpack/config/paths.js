@@ -58,4 +58,5 @@ module.exports = {
 	servedPath: getServedPath( resolveApp( 'package.json' ) ),
 	yoastSrc: resolveApp( '../../src' ),
 	yoastSpec: resolveApp( '../../spec' ),
+	yoastComponents: resolveApp( 'node_modules/yoast-components' ),
 };

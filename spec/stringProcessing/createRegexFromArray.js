@@ -1,4 +1,4 @@
-var arrayToRegex = require( "../../js/stringProcessing/createRegexFromArray.js" );
+var arrayToRegex = require( "../../src/stringProcessing/createRegexFromArray.js" );
 
 describe( "a test creating a regex from an array with strings", function() {
 	it( "adds start and end boundaries", function() {

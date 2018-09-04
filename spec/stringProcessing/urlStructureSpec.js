@@ -1,4 +1,4 @@
-let UrlStructure = require( "../../js/stringProcessing/urlStructure" );
+let UrlStructure = require( "../../src/stringProcessing/urlStructure" );
 
 describe( "UrlStructure", () => {
 	it( "accepts a url structure", () => {

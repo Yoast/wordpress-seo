@@ -1,7 +1,7 @@
-let WordCombination = require( "../../js/values/WordCombination" );
-let relevantWords = require( "../../js/stringProcessing/relevantWords" );
+let WordCombination = require( "../../src/values/WordCombination" );
+let relevantWords = require( "../../src/stringProcessing/relevantWords" );
 let getRelevantWords = relevantWords.getRelevantWords;
-let italianFunctionWords = require( "../../js/researches/italian/functionWords.js" )().all;
+let italianFunctionWords = require( "../../src/researches/italian/functionWords.js" )().all;
 
 describe( "gets Italian word combinations", function() {
 	it( "returns word combinations", function() {

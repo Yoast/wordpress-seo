@@ -1,25 +1,22 @@
 // External dependencies.
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, { Fragment } from "react";
 
 // YoastSEO.js dependencies.
-import { AnalysisWorkerWrapper } from "yoastseo/worker";
 import testPapers from "yoastspec/fullTextTests/testTexts";
+import Paper from "../../../src/values/Paper";
 
 // Internal dependencies.
-import "./App.css";
-import Button from "./components/Button";
-import Checkbox from "./components/Checkbox";
-import Input from "./components/Input";
-import TextArea from "./components/TextArea";
-import Results from "./Results";
-import AnalysisWebWorker from "./analysis.worker";
-import * as configurationActionCreators from "./redux/actionCreators/configuration";
-import * as paperActionCreators from "./redux/actionCreators/paper";
-import * as resultsActionCreators from "./redux/actionCreators/results";
-import { clearStorage } from "./redux/utils/localstorage";
+import Results from "./components/Results";
+import Collapsible from "./components/Collapsible";
+
+import WorkerStatus from "./components/WorkerStatus";
+import Controls from "./components/Controls";
+import Markings from "./components/Markings";
+import { connect } from "react-redux";
+import { setResults } from "./redux/actions/results";
+import { setConfigurationAttribute } from "./redux/actions/configuration";
+import Inputs from "./components/Inputs";
+import { setStatus } from "./redux/actions/worker";
 
 class App extends React.Component {
 	/**
@@ -36,8 +33,6 @@ class App extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.analysisWorker = new AnalysisWorkerWrapper( new AnalysisWebWorker() );
-
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
 		this.analyzeSpam = this.analyzeSpam.bind( this );
@@ -51,10 +46,11 @@ class App extends React.Component {
 	 * @returns {void}
 	 */
 	initialize() {
-		const { configuration } = this.props;
+		const { configuration, worker } = this.props;
 
-		this.analysisWorker.initialize( configuration )
-		    .then( data => console.log( "initialization done!", data ) );
+		worker.initialize( configuration )
+			.then( data => console.log( "initialization done!", data ) )
+			.then( this.analyze );
 	}
 
 	/**
@@ -65,9 +61,17 @@ class App extends React.Component {
 	 * @returns {void}
 	 */
 	analyze( paper = this.props.paper ) {
-		this.analysisWorker.analyze( paper )
+		const { setWorkerStatus, worker } = this.props;
+
+		paper = Paper.parse( paper );
+
+		setWorkerStatus( "analyzing" );
+
+		worker.analyze( paper )
 			.then( ( { result } ) => {
-				this.props.actions.setResults( {
+				setWorkerStatus( "idling" );
+
+				this.props.setResults( {
 					readability: result.readability.results,
 					seo: result.seo[ "" ].results,
 				} );
@@ -91,167 +95,83 @@ class App extends React.Component {
 	}
 
 	/**
-	 * Renders a form input for a paper attribute.
-	 *
-	 * @param {string}         id           The id.
-	 * @param {string}         placeholder  The placeholder.
-	 * @param {string}         label        The label.
-	 * @param {ReactComponent} Component    The component.
-	 * @param {string}         defaultValue The default value.
-	 *
-	 * @returns {ReactElement} The form input for a paper attribute.
-	 */
-	renderPaperAttribute( id, placeholder, label = null, Component = Input, defaultValue = "" ) {
-		const { actions, paper } = this.props;
-
-		return (
-			<Component
-				id={ id }
-				value={ paper[ id ] || defaultValue }
-				label={ label || id }
-				placeholder={ placeholder }
-				onChange={ value => actions.setPaperAttribute( id, value ) }
-			/>
-		);
-	}
-
-	/**
 	 * Renders the app.
 	 *
 	 * @returns {ReactElement} The app.
 	 */
 	render() {
-		const { configuration, actions } = this.props;
-
 		return (
-			<div className="app">
-				<div className="left-container">
-					<div className="form-container">
-						<h2>Analysis Worker</h2>
-						<div className="button-container">
-							<Button onClick={ this.initialize }>Initialize</Button>
-							<Button onClick={ this.analyze }>Analyze</Button>
-							<Button onClick={ () => {
-								clearStorage();
-								window.location.reload();
-							} }>Clear</Button>
-							<Button onClick={ this.analyzeSpam }>Analyze Spam</Button>
-						</div>
+			<Fragment>
+				<h1>YoastSEO.js development tool</h1>
 
-						{ this.renderPaperAttribute( "text", "Write a text", null, TextArea ) }
-						{ this.renderPaperAttribute( "keyword", "Choose a focus keyword", "focus keyword" ) }
-						{ this.renderPaperAttribute( "synonyms", "Choose keyword synonyms" ) }
-						{ this.renderPaperAttribute( "title", "Write the SEO title" ) }
-						{ this.renderPaperAttribute( "description", "Write a meta description" ) }
-						{ this.renderPaperAttribute( "locale", "en_US" ) }
+				<Collapsible title="Input">
+					<Inputs />
+				</Collapsible>
 
-						<h2>Configuration</h2>
-						<Checkbox
-							id="premium"
-							value={ configuration.useKeywordDistribution }
-							label="Premium"
-							onChange={ value => {
-								actions.setConfigurationAttribute( "useKeywordDistribution", value );
-							} }
-						/>
-					</div>
-					<div className="output-container">
-						<h2>SEO assessments</h2>
-						<Results results={ this.props.results.seo } />
-						<div id="output" className="output">
+				<Collapsible title="Results">
+					<Results />
+				</Collapsible>
 
-						</div>
-						<h2>Content assessments</h2>
-						<Results results={ this.props.results.readability } />
-						<div id="contentOutput" className="output">
+				<Collapsible title="Worker status">
+					<WorkerStatus />
+				</Collapsible>
 
-						</div>
-					</div>
-				</div>
-				<div className="right-container">
-					<h2>The SEO score</h2>
+				<Collapsible title="Controls">
+					<Controls
+						onInitialize={ this.initialize }
+						onAnalyze={ this.analyze }
+						onAnalyzeSpam={ this.analyzeSpam }
+					/>
+				</Collapsible>
 
-					<p>This is the overall score for the text and snippet preview.</p>
+				<Collapsible title="Markings">
+					<Markings />
+				</Collapsible>
 
-					<div id="overallScore" className="overallScore">
-						<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 500 500"
-						     enableBackground="new 0 0 500 500" width="100" height="100" role="img" aria-hidden="true"
-						     focusable="false">
-							<g id="BG"/>
-							<g id="BG_dark"/>
-							<g id="bg_light">
-								<path fill="#5B2942"
-								      d={ "M415,500H85c-46.8,0-85-38.2-85-85V85C0,38.2,38.2,0,85,0" +
-								          "h330c46.8,0,85,38.2,85,85v330 C500,461.8,461.8,500,415,500z" }/>
-								<path fill="none" stroke="#7EADB9" strokeWidth="17" strokeMiterlimit="10"
-								      d={ "M404.6,467H95.4C61.1,467,33,438.9,33,404.6V95.4 C33,61.1,61.1,33,95.4,33" +
-								          "h309.2c34.3,0,62.4,28.1,62.4,62.4v309.2C467,438.9,438.9,467,404.6,467z" }/>
-							</g>
-							<g id="Layer_2">
-								<circle id="score_circle_shadow" fill="#77B227" cx="250" cy="250" r="155"/>
-								<path id="score_circle" fill="#9FDA4F"
-								      d="M172.5,384.2C98.4,341.4,73,246.6,115.8,172.5S253.4,73,327.5,115.8"/>
-								<g>
-									<g>
-										<g display="none">
-											<path display="inline" fill="#FEC228"
-											      d="M668,338.4c-30.4,0-55-24.6-55-55s24.6-55,55-55"/>
-											<path display="inline" fill="#8BDA53"
-											      d="M668,215.1c-30.4,0-55-24.6-55-55s24.6-55,55-55"/>
-											<path display="inline" fill="#FF443D"
-											      d="M668,461.7c-30.4,0-55-24.6-55-55s24.6-55,55-55"/>
-										</g>
-									</g>
-								</g>
-							</g>
-						</svg>
+				<ul>
+					<li>Debugging information</li>
+					<li>Worker communication</li>
+					<li>Information about when it is refreshing</li>
+					<li>Buttons for standard texts in different languages</li>
+					<li>Language switcher</li>
 
-						<h2>Marked text</h2>
-						<div className="marked-text"/>
-						<hr/>
-						<h2>Raw marked text</h2>
-						<pre className="marked-text-raw"/>
-					</div>
+					<li>Input fields for everything</li>
+					<li>Total scores</li>
+					<li>Analysis results</li>
 
-				</div>
-			</div>
+					<li>All research data</li>
+					<li>Relevant words</li>
+
+					<li>Performance information</li>
+					<li>Re-order collapsibles</li>
+				</ul>
+
+				Design Todos:
+				<ul>
+					<li>Overall score</li>
+				</ul>
+
+				My todos:
+				<ul>
+					<li>Include place to mark text</li>
+				</ul>
+			</Fragment>
 		);
 	}
 }
 
-App.propTypes = {
-	actions: PropTypes.object.isRequired,
-	configuration: PropTypes.object.isRequired,
-	paper: PropTypes.object.isRequired,
-	results: PropTypes.object.isRequired,
-};
-
-/**
- * Maps state to props.
- *
- * @param {Object} state The store's state.
- *
- * @returns {Object} Selection from the state.
- */
-function mapStateToProps( state ) {
-	return state;
-}
-
-/**
- * Maps dispatch to props.
- *
- * @param {function} dispatch The store's dispatch.
- *
- * @returns {Object} Dispatch actions.
- */
-function mapDispatchToProps( dispatch ) {
-	return {
-		actions: bindActionCreators( {
-			...configurationActionCreators,
-			...paperActionCreators,
-			...resultsActionCreators,
-		}, dispatch ),
-	};
-}
-
-export default connect( mapStateToProps, mapDispatchToProps )( App );
+export default connect(
+	( state ) => {
+		return {
+			useKeywordDistribution: state.configuration.useKeywordDistribution,
+			paper: state.paper,
+		};
+	},
+	( dispatch ) => {
+		return {
+			setResults: ( ...args ) => dispatch( setResults( ...args ) ),
+			setConfigurationAttribute: ( ...args ) => dispatch( setConfigurationAttribute( ...args ) ),
+			setWorkerStatus: ( status ) => dispatch( setStatus( status ) ),
+		};
+	}
+)( App );

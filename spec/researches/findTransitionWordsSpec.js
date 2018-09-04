@@ -1,5 +1,5 @@
-let transitionWordsResearch = require( "../../js/researches/findTransitionWords.js" );
-let Paper = require( "../../js/values/Paper.js" );
+let transitionWordsResearch = require( "../../src/researches/findTransitionWords.js" );
+let Paper = require( "../../src/values/Paper.js" );
 
 describe( "a test for finding transition words from a string", function() {
 	let mockPaper, result;

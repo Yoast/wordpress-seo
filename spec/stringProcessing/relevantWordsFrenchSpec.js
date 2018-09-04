@@ -1,7 +1,7 @@
-let WordCombination = require( "../../js/values/WordCombination" );
-let relevantWords = require( "../../js/stringProcessing/relevantWords" );
+let WordCombination = require( "../../src/values/WordCombination" );
+let relevantWords = require( "../../src/stringProcessing/relevantWords" );
 let getRelevantWords = relevantWords.getRelevantWords;
-let frenchFunctionWords = require( "../../js/researches/french/functionWords.js" )().all;
+let frenchFunctionWords = require( "../../src/researches/french/functionWords.js" )().all;
 
 describe( "gets French word combinations", function() {
 	it( "returns word combinations", function() {

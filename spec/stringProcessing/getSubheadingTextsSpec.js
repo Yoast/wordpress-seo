@@ -1,4 +1,4 @@
-var getSubheadingTexts = require( "../../js/stringProcessing/getSubheadingTexts.js" );
+var getSubheadingTexts = require( "../../src/stringProcessing/getSubheadingTexts.js" );
 
 var result;
 describe( "A function to get all text blocks from subheadings", function() {

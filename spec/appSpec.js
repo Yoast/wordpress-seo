@@ -1,7 +1,7 @@
-var MissingArgument = require( "../js/errors/missingArgument.js" );
-var SnippetPreview = require( "../js/snippetPreview.js" );
+var MissingArgument = require( "../src/errors/missingArgument.js" );
+var SnippetPreview = require( "../src/snippetPreview.js" );
 
-var App = require( "../js/app.js" );
+var App = require( "../src/app.js" );
 
 // Mock these function to prevent us from needing an actual DOM in the tests.
 App.prototype.createSnippetPreview = function() {};

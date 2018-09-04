@@ -1,24 +1,24 @@
-import { AnalysisWebWorker, AnalysisWorkerWrapper, createWorker } from "./js/worker";
-import * as assessments from "./js/assessments";
-import * as bundledPlugins from "./js/bundledPlugins";
-import * as helpers from "./js/helpers";
-import * as markers from "./js/markers";
-import * as string from "./js/stringProcessing";
-import * as interpreters from "./js/interpreters";
-import * as config from "./js/config";
+import { AnalysisWebWorker, AnalysisWorkerWrapper, createWorker } from "./src/worker";
+import * as assessments from "./src/assessments";
+import * as bundledPlugins from "./src/bundledPlugins";
+import * as helpers from "./src/helpers";
+import * as markers from "./src/markers";
+import * as string from "./src/stringProcessing";
+import * as interpreters from "./src/interpreters";
+import * as config from "./src/config";
 
 module.exports = {
-	Assessor: require( "./js/assessor" ),
-	SEOAssessor: require( "./js/seoAssessor" ),
-	ContentAssessor: require( "./js/contentAssessor" ),
-	TaxonomyAssessor: require( "./js/taxonomyAssessor" ),
-	App: require( "./js/app" ),
-	Pluggable: require( "./js/pluggable" ),
-	Researcher: require( "./js/researcher" ),
-	SnippetPreview: require( "./js/snippetPreview" ),
+	Assessor: require( "./src/assessor" ),
+	SEOAssessor: require( "./src/seoAssessor" ),
+	ContentAssessor: require( "./src/contentAssessor" ),
+	TaxonomyAssessor: require( "./src/taxonomyAssessor" ),
+	App: require( "./src/app" ),
+	Pluggable: require( "./src/pluggable" ),
+	Researcher: require( "./src/researcher" ),
+	SnippetPreview: require( "./src/snippetPreview" ),
 
-	Paper: require( "./js/values/Paper" ),
-	AssessmentResult: require( "./js/values/AssessmentResult" ),
+	Paper: require( "./src/values/Paper" ),
+	AssessmentResult: require( "./src/values/AssessmentResult" ),
 
 	AnalysisWebWorker,
 	AnalysisWorkerWrapper,

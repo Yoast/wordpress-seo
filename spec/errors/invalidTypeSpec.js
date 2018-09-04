@@ -1,4 +1,4 @@
-import InvalidTypeError from "../../js/errors/invalidType";
+import InvalidTypeError from "../../src/errors/invalidType";
 
 describe( "Invalid type error", function() {
 	it( "has the correct name and message", function() {

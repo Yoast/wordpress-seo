@@ -1,5 +1,5 @@
-var textPresence = require( "../../js/assessments/readability/textPresenceAssessment.js" );
-var Paper = require( "../../js/values/Paper.js" );
+var textPresence = require( "../../src/assessments/readability/textPresenceAssessment.js" );
+var Paper = require( "../../src/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
 

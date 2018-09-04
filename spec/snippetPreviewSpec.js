@@ -1,6 +1,6 @@
-var SnippetPreview = require( "../js/snippetPreview.js" );
+var SnippetPreview = require( "../src/snippetPreview.js" );
 
-require( "../js/app.js" );
+require( "../src/app.js" );
 var Factory = require( "./helpers/factory.js" );
 
 describe( "The snippet preview constructor", function() {

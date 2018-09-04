@@ -1,4 +1,4 @@
-const createRulesFromMorphologyData = require( "../../../js/morphology/morphoHelpers/createRulesFromMorphologyData" );
+const createRulesFromMorphologyData = require( "../../../src/morphology/morphoHelpers/createRulesFromMorphologyData" );
 
 describe( "Test for creating regex-based rules for arrays of strings", function() {
 	it( "returns an array of pairs `reg` and `repl`", function() {

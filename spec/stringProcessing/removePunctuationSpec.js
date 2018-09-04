@@ -1,4 +1,4 @@
-var removePunctuation = require( "../../js/stringProcessing/removePunctuation.js" );
+var removePunctuation = require( "../../src/stringProcessing/removePunctuation.js" );
 
 describe( "a test removing punctuation from a string", function() {
 	it( "returns string without dash at the end", function() {

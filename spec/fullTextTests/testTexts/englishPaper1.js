@@ -101,7 +101,7 @@ const expectedResults = {
 	},
 	titleKeyword: {
 		score: 9,
-		resultText: "The exact match of the focus keyphrase appears at the beginning of the <a href='https://yoa.st/2pn' target='_blank'>SEO title</a>, which is considered to improve rankings."
+		resultText: "The exact match of the focus keyphrase appears at the beginning of the <a href='https://yoa.st/2pn' target='_blank'>SEO title</a>, which is considered to improve rankings.",
 	},
 	titleWidth: {
 		score: 9,

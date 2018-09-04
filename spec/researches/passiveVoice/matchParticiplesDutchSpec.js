@@ -1,4 +1,4 @@
-const matchParticiples = require( "../../../js/researches/passiveVoice/periphrastic/matchParticiples" )();
+const matchParticiples = require( "../../../src/researches/passiveVoice/periphrastic/matchParticiples" )();
 
 describe( "a test for matching regular participles", function() {
 	it( "matches a regular participle following the first regex pattern", function() {

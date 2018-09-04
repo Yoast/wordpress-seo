@@ -1,5 +1,5 @@
-const findKeywordFormsInString = require( "../../js/researches/findKeywordFormsInString.js" ).findWordFormsInString;
-const findTopicFormsInString = require( "../../js/researches/findKeywordFormsInString.js" ).findTopicFormsInString;
+const findKeywordFormsInString = require( "../../src/researches/findKeywordFormsInString.js" ).findWordFormsInString;
+const findTopicFormsInString = require( "../../src/researches/findKeywordFormsInString.js" ).findTopicFormsInString;
 
 describe( "Test findKeywordFormsInString: checks for the keyword forms are in the supplied string", function() {
 	it( "returns the number and the percentage of words matched", function() {

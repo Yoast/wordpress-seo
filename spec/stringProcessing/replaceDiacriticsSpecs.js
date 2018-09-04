@@ -1,4 +1,4 @@
-var diacritics = require( "../../js/stringProcessing/replaceDiacritics.js" );
+var diacritics = require( "../../src/stringProcessing/replaceDiacritics.js" );
 
 describe( "a test removing diacritics from text", function() {
 	it( "returns string without diacritics.", function() {

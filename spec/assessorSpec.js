@@ -1,7 +1,7 @@
-var Assessor = require( "../js/assessor.js" );
-var Paper = require( "../js/values/Paper.js" );
-var AssessmentResult = require( "../js/values/AssessmentResult.js" );
-var MissingArgument = require( "../js/errors/missingArgument" );
+var Assessor = require( "../src/assessor.js" );
+var Paper = require( "../src/values/Paper.js" );
+var AssessmentResult = require( "../src/values/AssessmentResult.js" );
+var MissingArgument = require( "../src/errors/missingArgument" );
 
 var factory = require( "./helpers/factory.js" );
 var i18n = factory.buildJed();

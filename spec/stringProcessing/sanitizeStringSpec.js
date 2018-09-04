@@ -1,4 +1,4 @@
-var sanitizeString = require( "../../js/stringProcessing/sanitizeString.js" );
+var sanitizeString = require( "../../src/stringProcessing/sanitizeString.js" );
 
 describe( "Test for removing unwanted characters", function() {
 	it( "returns cleaned string", function() {

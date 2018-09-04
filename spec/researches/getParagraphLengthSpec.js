@@ -1,5 +1,5 @@
-var getParagraphLength = require( "../../js/researches/getParagraphLength.js" );
-var Paper = require( "../../js/values/Paper.js" );
+var getParagraphLength = require( "../../src/researches/getParagraphLength.js" );
+var Paper = require( "../../src/values/Paper.js" );
 
 
 describe( "a test for getting paragraph length", function() {

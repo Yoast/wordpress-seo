@@ -1,14 +1,14 @@
-const nounData = require( "../../../js/morphology/morphologyData.json" ).en.nouns;
+const nounData = require( "../../../src/morphology/morphologyData.json" ).en.nouns;
 const irregularNounsToTest = nounData.irregularNouns;
 const regexNoun = nounData.regexNoun;
 
-const getNounFormsWithPossessives = require(  "../../../js/morphology/english/getNounForms" ).getNounFormsWithPossessives;
-const getNounForms = require(  "../../../js/morphology/english/getNounForms" ).getNounForms;
-const checkPossessive = require(  "../../../js/morphology/english/getNounForms" ).checkPossessive;
+const getNounFormsWithPossessives = require(  "../../../src/morphology/english/getNounForms" ).getNounFormsWithPossessives;
+const getNounForms = require(  "../../../src/morphology/english/getNounForms" ).getNounForms;
+const checkPossessive = require(  "../../../src/morphology/english/getNounForms" ).checkPossessive;
 
-const buildOneFormFromRegex  = require( "../../../js/morphology/morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
-const buildTwoFormsFromRegex  = require( "../../../js/morphology/morphoHelpers/buildFormRule" ).buildTwoFormsFromRegex;
-const createRulesFromMorphologyData = require( "../../../js/morphology/morphoHelpers/createRulesFromMorphologyData" );
+const buildOneFormFromRegex  = require( "../../../src/morphology/morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
+const buildTwoFormsFromRegex  = require( "../../../src/morphology/morphoHelpers/buildFormRule" ).buildTwoFormsFromRegex;
+const createRulesFromMorphologyData = require( "../../../src/morphology/morphoHelpers/createRulesFromMorphologyData" );
 
 const regularNounsToTest = [
 	[ "word", "words" ],

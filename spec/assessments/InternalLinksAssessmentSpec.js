@@ -1,6 +1,6 @@
-import InternalLinksAssessment from "../../js/assessments/seo/InternalLinksAssessment";
+import InternalLinksAssessment from "../../src/assessments/seo/InternalLinksAssessment";
 
-const Paper = require( "../../js/values/Paper.js" );
+const Paper = require( "../../src/values/Paper.js" );
 
 const factory = require( "../helpers/factory.js" );
 const i18n = factory.buildJed();

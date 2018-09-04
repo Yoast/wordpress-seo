@@ -1,4 +1,4 @@
-let functionWords = require( "../../../js/researches/french/functionWords.js" );
+let functionWords = require( "../../../src/researches/french/functionWords.js" );
 
 describe( "a test for the existence of the properties of functionWords", function() {
 	it( "returns true for all of its properties", function() {

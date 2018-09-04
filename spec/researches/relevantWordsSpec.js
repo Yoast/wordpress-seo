@@ -1,7 +1,7 @@
-let relevantWordsResearch = require( "../../js/researches/relevantWords" );
-let Paper = require( "../../js/values/Paper" );
-let WordCombination = require( "../../js/values/WordCombination" );
-let functionWords = require( "../../js/researches/english/functionWords.js" )().all;
+let relevantWordsResearch = require( "../../src/researches/relevantWords" );
+let Paper = require( "../../src/values/Paper" );
+let WordCombination = require( "../../src/values/WordCombination" );
+let functionWords = require( "../../src/researches/english/functionWords.js" )().all;
 
 describe( "relevantWords research", function() {
 	it( "calls through to the string processing function", function() {

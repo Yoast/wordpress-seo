@@ -1,4 +1,4 @@
-var GermanSentencePart = require( "../../../../js/researches/german/passiveVoice/SentencePart.js" );
+var GermanSentencePart = require( "../../../../src/researches/german/passiveVoice/SentencePart.js" );
 
 describe( "creates a german sentence part", function() {
 	it( "makes sure the german sentence part inherits all functions", function() {

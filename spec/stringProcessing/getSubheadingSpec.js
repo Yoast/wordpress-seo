@@ -1,5 +1,5 @@
-var getSubheadingContents = require( "../../js/stringProcessing/getSubheadings.js" ).getSubheadingContents;
-var getSubheadings = require( "../../js/stringProcessing/getSubheadings.js" ).getSubheadings;
+var getSubheadingContents = require( "../../src/stringProcessing/getSubheadings.js" ).getSubheadingContents;
+var getSubheadings = require( "../../src/stringProcessing/getSubheadings.js" ).getSubheadings;
 
 describe( "A test for getting subheadings", function() {
 	it( "returns subheadings", function() {

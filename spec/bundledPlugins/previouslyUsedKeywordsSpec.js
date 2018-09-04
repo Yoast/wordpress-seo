@@ -1,7 +1,7 @@
-var PreviouslyUsedKeywords = require( "../../js/bundledPlugins/previouslyUsedKeywords.js" );
+var PreviouslyUsedKeywords = require( "../../src/bundledPlugins/previouslyUsedKeywords.js" );
 
 var usedKeywords = { keyword: [ 1 ], test: [ 2, 3, 4 ] };
-var Paper = require( "../../js/values/Paper.js" );
+var Paper = require( "../../src/values/Paper.js" );
 
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
