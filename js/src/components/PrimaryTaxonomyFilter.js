@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import { Fragment } from "@wordpress/element";
 import get from "lodash/get";
 import values from "lodash/values";
+import { __, sprintf } from "@wordpress/i18n";
+import { ClipboardButton } from "@wordpress/components";
 
 /* Internal dependencies */
 import PrimaryTaxonomyPicker from "./PrimaryTaxonomyPicker";
@@ -25,16 +27,20 @@ class PrimaryTaxonomyFilter extends React.Component {
 
 		this.state = {
 			fallbackToOriginalComponent: false,
+			error: null,
 		};
 	}
 
 	/**
 	 * Falls back to the original component if an error occurs in the PrimaryTaxonomyPicker.
 	 *
+	 * @param {string} error The occurred error.
+	 *
 	 * @returns {void}
 	 */
-	componentDidCatch() {
-		this.setState( { fallbackToOriginalComponent: true } );
+	componentDidCatch( error ) {
+		console.log( error );
+		this.setState( { fallbackToOriginalComponent: true, error } );
 	}
 
 	/**
@@ -61,7 +67,21 @@ class PrimaryTaxonomyFilter extends React.Component {
 			( ! this.taxonomyHasPrimaryTermSupport() ) ||
 			this.state.fallbackToOriginalComponent
 		) {
-			return <OriginalComponent { ...this.props } />;
+			return (
+				<Fragment>
+					<OriginalComponent { ...this.props } />
+					<div>
+						{ sprintf(
+							/* Translators: %s expands to Yoast SEO. */
+							__( "An error occurred loading the %s primary taxonomy picker.", "wordpress-seo" ),
+							"Yoast SEO"
+						) }
+					</div>
+					<ClipboardButton isLarge text={ this.state.error.stack }>
+						{ __( "Copy error", "wordpress-seo" ) }
+					</ClipboardButton>
+				</Fragment>
+			);
 		}
 
 		return (
