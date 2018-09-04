@@ -33,7 +33,7 @@ export {
 	unifyNonBreakingSpace,
 	unifyWhiteSpace,
 	unifyAllSpaces,
-}
+};
 
 export default {
 	unifyNonBreakingSpace: unifyNonBreakingSpace,
