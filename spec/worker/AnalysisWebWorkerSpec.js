@@ -321,6 +321,22 @@ describe( "AnalysisWebWorker", () => {
 				}
 			} );
 
+			test( "schedules a task", () => {
+				const payload = { url: "http://example.com" };
+
+				worker._scheduler.schedule = jest.fn();
+				scope.onmessage( createMessage( "loadScript", payload ) );
+
+				expect( worker._scheduler.schedule ).toHaveBeenCalledTimes( 1 );
+				expect( worker._scheduler.schedule ).toHaveBeenCalledWith( {
+					id: 0,
+					execute: worker.loadScript,
+					done: worker.loadScriptDone,
+					data: payload,
+					type: "loadScript",
+				} );
+			} );
+
 			test( "calls loadScript", done => {
 				const payload = { url: "http://example.com" };
 				const spy = spyOn( worker, "loadScript" );
@@ -378,6 +394,188 @@ describe( "AnalysisWebWorker", () => {
 
 				scope.onmessage( createMessage( "initialize" ) );
 				scope.onmessage( createMessage( "loadScript", payload ) );
+			} );
+		} );
+
+		describe( "customMessage", () => {
+			beforeEach( () => {
+				scope = createScope();
+				worker = new AnalysisWebWorker( scope );
+				worker.register();
+			} );
+
+			afterEach( () => {
+				if ( spy ) {
+					spy.mockRestore();
+					spy = null;
+				}
+			} );
+
+			test( "schedules a task", () => {
+				const name = "test";
+				const payload = { name, data: { test: true } };
+
+				worker._scheduler.schedule = jest.fn();
+				worker._registeredMessageHandlers[ name ] = ( data ) => data;
+				scope.onmessage( createMessage( "customMessage", payload ) );
+
+				expect( worker._scheduler.schedule ).toHaveBeenCalledTimes( 1 );
+				expect( worker._scheduler.schedule ).toHaveBeenCalledWith( {
+					id: 0,
+					execute: worker.customMessage,
+					done: worker.customMessageDone,
+					data: payload,
+					type: "customMessage",
+				} );
+			} );
+
+			test( "calls customMessage", done => {
+				const name = "test";
+				const payload = { name, data: { test: true } };
+				const spy = spyOn( worker, "customMessage" );
+
+				worker._registeredMessageHandlers[ name ] = ( data ) => data;
+				worker.customMessageDone = ( id, result ) => {
+					expect( spy ).toHaveBeenCalledTimes( 1 );
+					expect( spy ).toHaveBeenCalledWith( 0, payload );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "customMessage", payload ) );
+			} );
+
+			test( "handles no registered message handler", done => {
+				const name = "test";
+				const payload = { name, data: { test: true } };
+
+				worker.customMessageDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( isObject( result ) ).toBe( true);
+					expect( result.error ).toBeDefined();
+					expect( result.error.message ).toBe( "No message handler registered for messages with name: " + name );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "customMessage", payload ) );
+			} );
+
+			test( "handles message handler error", done => {
+				const name = "test";
+				const payload = { name, data: { test: true } };
+
+				worker._registeredMessageHandlers[ name ] = () => {
+					throw new Error( "Simulated error!" );
+				};
+				worker.customMessageDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( isObject( result ) ).toBe( true );
+					expect( result.error ).toBeDefined();
+					expect( result.error.message ).toBe( "Simulated error!" );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "customMessage", payload ) );
+			} );
+
+			test( "returns custom data", done => {
+				const name = "test";
+				const payload = { name, data: { test: true } };
+
+				worker._registeredMessageHandlers[ name ] = ( data ) => {
+					data.handled = "yes";
+					return data;
+				};
+				worker.customMessageDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( isObject( result ) ).toBe( true );
+					expect( result.error ).toBeUndefined();
+					expect( result.data ).toEqual( {
+						test: true,
+						handled: "yes",
+					} );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "customMessage", payload ) );
+			} );
+		} );
+
+		describe( "runResearch", () => {
+			beforeEach( () => {
+				scope = createScope();
+				worker = new AnalysisWebWorker( scope );
+				worker.register();
+			} );
+
+			afterEach( () => {
+				if ( spy ) {
+					spy.mockRestore();
+					spy = null;
+				}
+			} );
+
+			test( "schedules a task", () => {
+				const name = "test";
+				const payload = { name };
+
+				worker._scheduler.schedule = jest.fn();
+				scope.onmessage( createMessage( "runResearch", payload ) );
+
+				expect( worker._scheduler.schedule ).toHaveBeenCalledTimes( 1 );
+				expect( worker._scheduler.schedule ).toHaveBeenCalledWith( {
+					id: 0,
+					execute: worker.runResearch,
+					done: worker.runResearchDone,
+					data: payload,
+				} );
+			} );
+
+			test( "calls runResearch", done => {
+				const name = "test";
+				const payload = { name };
+				const spy = spyOn( worker, "runResearch" );
+
+				worker.runResearchDone = ( id, result ) => {
+					expect( spy ).toHaveBeenCalledTimes( 1 );
+					expect( spy ).toHaveBeenCalledWith( 0, payload );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "runResearch", payload ) );
+			} );
+
+			test( "handles a non-existing research request", done => {
+				const name = "test";
+				const payload = { name };
+
+				worker.runResearchDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( result ).toBe( false );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "runResearch", payload ) );
+			} );
+
+			test( "returns the research result", done => {
+				const name = "firstParagraph";
+				const paper = testTexts[ 0 ].paper;
+				const payload = { name, paper: paper.serialize() };
+
+				worker.runResearchDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( isNumber( result ) ).toBe( true );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "runResearch", payload ) );
 			} );
 		} );
 	} );
