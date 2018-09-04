@@ -1,5 +1,5 @@
-const getForms = require( "../../../js/morphology/english/getForms.js" );
-const morphologyData = require( "../../../js/morphology/morphologyData.json" ).en;
+const getForms = require( "../../../src/morphology/english/getForms.js" );
+const morphologyData = require( "../../../src/morphology/morphologyData.json" ).en;
 
 import { includes } from "lodash-es";
 

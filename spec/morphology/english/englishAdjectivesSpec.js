@@ -1,10 +1,10 @@
-const getAdjectiveForms  = require( "../../../js/morphology/english/getAdjectiveForms" ).getAdjectiveForms;
-const getBase  = require( "../../../js/morphology/english/getAdjectiveForms" ).getBase;
-const buildOneFormFromRegex  = require( "../../../js/morphology/morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
-const buildTwoFormsFromRegex  = require( "../../../js/morphology/morphoHelpers/buildFormRule" ).buildTwoFormsFromRegex;
-const createRulesFromMorphologyData = require( "../../../js/morphology/morphoHelpers/createRulesFromMorphologyData" );
+const getAdjectiveForms  = require( "../../../src/morphology/english/getAdjectiveForms" ).getAdjectiveForms;
+const getBase  = require( "../../../src/morphology/english/getAdjectiveForms" ).getBase;
+const buildOneFormFromRegex  = require( "../../../src/morphology/morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
+const buildTwoFormsFromRegex  = require( "../../../src/morphology/morphoHelpers/buildFormRule" ).buildTwoFormsFromRegex;
+const createRulesFromMorphologyData = require( "../../../src/morphology/morphoHelpers/createRulesFromMorphologyData" );
 
-const adjectiveData = require( "../../../js/morphology/morphologyData.json" ).en.adjectives;
+const adjectiveData = require( "../../../src/morphology/morphologyData.json" ).en.adjectives;
 const irregularAdjectivesToTest = adjectiveData.irregularAdjectives;
 const regexAdjective = adjectiveData.regexAdjective;
 
