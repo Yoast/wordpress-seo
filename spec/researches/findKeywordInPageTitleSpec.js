@@ -1,4 +1,4 @@
-const Researcher = require( "../../js/researcher" );
+const Researcher = require( "../../src/researcher" );
 const morphologyData = require( "../../src/morphology/morphologyData.json" );
 
 const pageTitleKeyword = require( "../../src/researches/findKeywordInPageTitle.js" );
