@@ -12,6 +12,7 @@ import testTexts from "../fullTextTests/testTexts";
 function createScope() {
 	return {
 		postMessage: jest.fn(),
+		importScripts: jest.fn(),
 	};
 }
 
@@ -39,6 +40,13 @@ let scope = null;
 let worker = null;
 let spy = null;
 
+/*
+ * Couple of things to note:
+ * - Transporter is used to serialize and parse the payload. However,
+ *   without the wrapper we need to pass serialized data in the message.
+ * - A task is async. Using the *Done functions as the test triggers.
+ * - Initialize needs to get called first most of the time.
+ */
 describe( "AnalysisWebWorker", () => {
 	describe( "constructor", () => {
 		test( "initializes without errors", () => {
@@ -187,12 +195,6 @@ describe( "AnalysisWebWorker", () => {
 			} );
 		} );
 
-		/*
-		 * Couple of things to note:
-		 * - Transporter is used to serialize and parse the payload. However,
-		 *   without the wrapper we need to pass serialized data in the message.
-		 * - A task is async. Using analyzeDone as a test trigger.
-		 */
 		describe( "analyze", () => {
 			beforeEach( () => {
 				scope = createScope();
@@ -258,7 +260,7 @@ describe( "AnalysisWebWorker", () => {
 			} );
 
 			test( "listens to the contentAnalysisActive configuration", done => {
-				const paper = new Paper( "This is the content." );
+				const paper = testTexts[ 0 ].paper;
 
 				worker.analyzeDone = ( id, result ) => {
 					// Results still get initialized.
@@ -269,6 +271,113 @@ describe( "AnalysisWebWorker", () => {
 
 				scope.onmessage( createMessage( "initialize", { contentAnalysisActive: false } ) );
 				scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
+			} );
+
+			test( "listens to the keywordAnalysisActive configuration", done => {
+				const paper = testTexts[ 0 ].paper;
+
+				worker.analyzeDone = ( id, result ) => {
+					// Results still get initialized.
+					expect( result.seo[ "" ].results.length ).toBe( 0 );
+					expect( result.seo[ "" ].score ).toBe( 0 );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize", { keywordAnalysisActive: false } ) );
+				scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
+			} );
+
+			test( "processes related keywords", done => {
+				const paper = testTexts[ 0 ].paper;
+
+				worker.analyzeDone = ( id, result ) => {
+					expect( isObject( result.seo[ "a" ] ) ).toBe( true );
+					expect( isArray( result.seo[ "a" ].results ) ).toBe( true );
+					expect( isNumber( result.seo[ "a" ].score ) ).toBe( true );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "analyze", {
+					paper: paper.serialize(),
+					relatedKeywords: {
+						a: { keyword: "technology" },
+					},
+				} ) );
+			} );
+		} );
+
+		describe( "loadScript", () => {
+			beforeEach( () => {
+				scope = createScope();
+				worker = new AnalysisWebWorker( scope );
+				worker.register();
+			} );
+
+			afterEach( () => {
+				if ( spy ) {
+					spy.mockRestore();
+					spy = null;
+				}
+			} );
+
+			test( "calls loadScript", done => {
+				const payload = { url: "http://example.com" };
+				const spy = spyOn( worker, "loadScript" );
+
+				worker.loadScriptDone = ( id, result ) => {
+					expect( spy ).toHaveBeenCalledTimes( 1 );
+					expect( spy ).toHaveBeenCalledWith( 0, payload );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "loadScript", payload ) );
+			} );
+
+			test( "loads a script", done => {
+				const payload = { url: "http://example.com" };
+
+				worker.loadScriptDone = ( id, result ) => {
+					expect( scope.importScripts ).toHaveBeenCalledTimes( 1 );
+					expect( scope.importScripts ).toHaveBeenCalledWith( payload.url );
+					expect( result.loaded ).toBe( true );
+					expect( result.url ).toBe( payload.url );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "loadScript", payload ) );
+			} );
+
+			test( "handles undefined with a message", done => {
+				worker.loadScriptDone = ( id, result ) => {
+					expect( result.loaded ).toBe( false );
+					expect( result.message ).toBe( "Load Script was called without an URL." );
+					expect( result.url ).toBeUndefined();
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "loadScript" ) );
+			} );
+
+			test( "handles importScripts error with the error message", done => {
+				const payload = { url: "http://example.com" };
+
+				scope.importScripts = () => {
+					throw new Error( "Simulated error!" );
+				};
+
+				worker.loadScriptDone = ( id, result ) => {
+					expect( result.loaded ).toBe( false );
+					expect( result.message ).toBe( "Simulated error!" );
+					expect( result.url ).toBe( payload.url );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "loadScript", payload ) );
 			} );
 		} );
 	} );
