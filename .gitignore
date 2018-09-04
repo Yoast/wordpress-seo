@@ -75,5 +75,5 @@ test.sh
 # Dist files
 ############
 /languages/
-/js/dist/
-/css/dist/
+#/js/dist/
+#/css/dist/
