@@ -1,7 +1,7 @@
-let getWords = require( "../stringProcessing/getWords.js" );
-let stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-let stripTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFullTags;
-let getFirstWordExceptions = require( "../helpers/getFirstWordExceptions.js" );
+import getWords from '../stringProcessing/getWords.js';
+import stripSpaces from '../stringProcessing/stripSpaces.js';
+import { stripFullTags as stripTags } from '../stringProcessing/stripHTMLTags.js';
+import getFirstWordExceptions from '../helpers/getFirstWordExceptions.js';
 
 import { isEmpty } from "lodash-es";
 import { forEach } from "lodash-es";
@@ -88,6 +88,7 @@ function getSentenceBeginning( sentence, firstWordExceptions ) {
 
 	return firstWord;
 }
+
 /**
  * Gets the first word of each sentence from the text, and returns an object containing the first word of each sentence and the corresponding counts.
  *
@@ -95,7 +96,7 @@ function getSentenceBeginning( sentence, firstWordExceptions ) {
  * @param {Researcher} researcher The researcher this research is a part of.
  * @returns {Object} The object containing the first word of each sentence and the corresponding counts.
  */
-module.exports = function( paper, researcher ) {
+export default function( paper, researcher ) {
 	let sentences = researcher.getResearch( "sentences" );
 	let firstWordExceptions = getFirstWordExceptions( paper.getLocale() )();
 

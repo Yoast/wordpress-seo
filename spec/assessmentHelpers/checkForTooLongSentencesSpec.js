@@ -1,4 +1,4 @@
-var checkForTooLongSentences = require( "../../src/assessmentHelpers/checkForTooLongSentences.js" );
+import checkForTooLongSentences from '../../src/assessmentHelpers/checkForTooLongSentences.js';
 
 describe( "Checks if sentences are too long", function() {
 	it( "Returns no sentences, none are too long", function() {

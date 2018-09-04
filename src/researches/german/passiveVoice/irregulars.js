@@ -1,5 +1,5 @@
 // This is a list of irregular participles used in German.
-module.exports = function() {
+export default function() {
 	return [
 		"angefangen",
 		"aufgerissen",

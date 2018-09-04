@@ -1,9 +1,11 @@
 /** @module stringProcessing/matchTextWithArray */
 
-const stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-const removePunctuation = require( "../stringProcessing/removePunctuation.js" );
-const matchTextWithWord = require( "../stringProcessing/matchTextWithWord" );
+import stripSpaces from '../stringProcessing/stripSpaces.js';
+
+import removePunctuation from '../stringProcessing/removePunctuation.js';
+import matchTextWithWord from '../stringProcessing/matchTextWithWord';
 import { uniq as unique } from "lodash-es";
+
 /**
  * Matches strings from an array against a given text.
  *
@@ -13,7 +15,7 @@ import { uniq as unique } from "lodash-es";
  *
  * @returns {Array} array An array with all matches of the text.
  */
-module.exports = function( text, array, locale = "en_EN" ) {
+export default function( text, array, locale = "en_EN" ) {
 	let count = 0;
 	let matches = [];
 	unique( array ).forEach( function( wordToMatch ) {

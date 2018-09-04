@@ -1,12 +1,12 @@
 /** @module analyses/calculateFleschReading */
 
-let stripNumbers = require( "../stringProcessing/stripNumbers.js" );
-let countSentences = require( "../stringProcessing/countSentences.js" );
-let countWords = require( "../stringProcessing/countWords.js" );
-let countSyllables = require( "../stringProcessing/syllables/count.js" );
-let formatNumber = require( "../helpers/formatNumber.js" );
+import stripNumbers from '../stringProcessing/stripNumbers.js';
 
-let getLanguage = require( "../helpers/getLanguage.js" );
+import countSentences from '../stringProcessing/countSentences.js';
+import countWords from '../stringProcessing/countWords.js';
+import countSyllables from '../stringProcessing/syllables/count.js';
+import formatNumber from '../helpers/formatNumber.js';
+import getLanguage from '../helpers/getLanguage.js';
 
 /**
  * Calculates an average from a total and an amount
@@ -25,7 +25,7 @@ let getAverage = function( total, amount ) {
  * @param {object} paper The paper containing the text
  * @returns {number} The score of the flesch reading test
  */
-module.exports = function( paper ) {
+export default function( paper ) {
 	let score;
 	let text = paper.getText();
 	let locale = paper.getLocale();

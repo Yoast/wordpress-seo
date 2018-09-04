@@ -33,7 +33,7 @@ var notFilteredAuxiliaries = [
 	"what's",
 ];
 
-module.exports = function() {
+export default function() {
 	return {
 		filteredAuxiliaries: filteredAuxiliaries,
 		notFilteredAuxiliaries: notFilteredAuxiliaries,

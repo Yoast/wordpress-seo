@@ -2,10 +2,10 @@ import { map } from "lodash-es";
 import { merge } from "lodash-es";
 import { isUndefined } from "lodash-es";
 
-const Assessment = require( "../../assessment" );
-const AssessmentResult = require( "../../values/AssessmentResult" );
-const Mark = require( "../../values/Mark" );
-const addMark = require( "../../markers/addMark" );
+import Assessment from '../../assessment';
+import AssessmentResult from '../../values/AssessmentResult';
+import Mark from '../../values/Mark';
+import addMark from '../../markers/addMark';
 
 /**
  * Assessment to check whether you're linking to a different page with the focus keyword from this page.

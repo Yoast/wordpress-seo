@@ -3,7 +3,7 @@
  * @param {string} message The message to show when the error is thrown
  * @returns {void}
  */
-module.exports = function InvalidTypeError( message ) {
+export default function InvalidTypeError( message ) {
 	Error.captureStackTrace( this, this.constructor );
 	this.name = this.constructor.name;
 	this.message = message;

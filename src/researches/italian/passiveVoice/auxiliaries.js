@@ -2,7 +2,7 @@
  * Returns a list with auxiliaries for the Italian passive voice assessment.
  * @returns {Array} The list with auxiliaries.
  */
-module.exports = function() {
+export default function() {
 	return [
 		"fui",
 		"fu",

@@ -1,4 +1,4 @@
-var countWordOccurrences = require( "../../src/stringProcessing/countWordOccurrences.js" );
+import countWordOccurrences from '../../src/stringProcessing/countWordOccurrences.js';
 
 describe( "Counts words in text and returns occurrences", function() {
 	it( "returns counts", function() {

@@ -1,9 +1,8 @@
-var PreviouslyUsedKeywords = require( "../../src/bundledPlugins/previouslyUsedKeywords.js" );
+import PreviouslyUsedKeywords from '../../src/bundledPlugins/previouslyUsedKeywords.js';
 
 var usedKeywords = { keyword: [ 1 ], test: [ 2, 3, 4 ] };
-var Paper = require( "../../src/values/Paper.js" );
-
-var Factory = require( "../helpers/factory.js" );
+import Paper from '../../src/values/Paper.js';
+import Factory from '../helpers/factory.js';
 var i18n = Factory.buildJed();
 
 var app = {};

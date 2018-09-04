@@ -35,7 +35,7 @@ function getSubheadingContents( text ) {
 	return subheadings;
 }
 
-module.exports = {
+export default {
 	getSubheadings: getSubheadings,
 	getSubheadingContents: getSubheadingContents,
 };

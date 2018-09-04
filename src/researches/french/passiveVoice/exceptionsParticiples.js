@@ -1511,7 +1511,7 @@ var others = [
 ];
 
 
-module.exports = function() {
+export default function() {
 	return {
 		adjectivesVerbs: adjectivesVerbs,
 		nounsStartingWithVowel: nounsStartingWithVowel,

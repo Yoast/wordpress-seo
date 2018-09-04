@@ -6288,7 +6288,7 @@ const passiveVerbs = [
  * Returns lists with passive verb-forms to be used by the passive voice assessment.
  * @returns {Object} The object with passive verb-form lists.
  */
-module.exports = function() {
+export default function() {
 	return {
 		all: passiveVerbs,
 	};

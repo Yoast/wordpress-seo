@@ -1,4 +1,4 @@
-var getSentenceParts = require( "../../../src/researches/passiveVoice/periphrastic/getSentenceParts.js" );
+import getSentenceParts from '../../../src/researches/passiveVoice/periphrastic/getSentenceParts.js';
 
 describe( "splits English sentences into parts", function() {
 	it( "returns all sentence parts from the auxiliary to the end of the sentence", function() {

@@ -1,6 +1,5 @@
-const AssessmentResult = require( "../../values/AssessmentResult.js" );
-
-const getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
+import AssessmentResult from '../../values/AssessmentResult.js';
+import getLanguageAvailability from '../../helpers/getLanguageAvailability.js';
 
 const availableLanguages = [ "en" ];
 
@@ -56,7 +55,7 @@ const keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = {
+export default {
 	identifier: "keywordStopWords",
 	getResult: keywordHasStopWordsAssessment,
 	isApplicable: function( paper ) {

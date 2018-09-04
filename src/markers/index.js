@@ -1,4 +1,4 @@
-const removeMarks = require( "./removeMarks" );
+import removeMarks from './removeMarks';
 
 export {
 	removeMarks,

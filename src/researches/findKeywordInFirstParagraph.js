@@ -1,7 +1,8 @@
 /** @module analyses/findKeywordInFirstParagraph */
 
-const matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
-const wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+import matchParagraphs from '../stringProcessing/matchParagraphs.js';
+
+import wordMatch from '../stringProcessing/matchTextWithWord.js';
 
 import { escapeRegExp } from "lodash-es";
 import { reject } from "lodash-es";
@@ -15,7 +16,7 @@ import { isEmpty } from "lodash-es";
  * @param {Paper} paper The text to check for paragraphs.
  * @returns {number} The number of occurrences of the keyword in the first paragraph.
  */
-module.exports = function( paper ) {
+export default function( paper ) {
 	const paragraphs = matchParagraphs( paper.getText() );
 	const keyword = escapeRegExp( paper.getKeyword() );
 	const paragraph = reject( paragraphs, isEmpty )[ 0 ] || "";

@@ -4,7 +4,7 @@
  * Returns an array with two-part transition words to be used by the assessments.
  * @returns {Array} The array filled with two-part transition words.
  */
-module.exports = function() {
+export default function() {
 	return [ [ "будь то", "или" ], [ "возможно", "а может быть" ], [ "возможно", "возможно" ], [ "достаточно", "чтобы" ],
 		[ "едва", "как" ], [ "ежели", "то" ], [ "если говорить о", "то" ], [ "если и не", "то" ], [ "если не", "то" ],
 		[ "если", "то" ], [ "мало того что", "еще и" ], [ "мало того, что", "еще и" ], [ "не сказать чтобы", "но" ],

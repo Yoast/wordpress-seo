@@ -1,9 +1,10 @@
-let getWords = require( "../stringProcessing/getWords.js" );
-let getSentences = require( "../stringProcessing/getSentences.js" );
-let WordCombination = require( "../values/WordCombination.js" );
-let normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
-let functionWordLists = require( "../helpers/getFunctionWords.js" )();
-let getLanguage = require( "../helpers/getLanguage.js" );
+import getWords from '../stringProcessing/getWords.js';
+import getSentences from '../stringProcessing/getSentences.js';
+import WordCombination from '../values/WordCombination.js';
+import { normalize as normalizeQuotes } from '../stringProcessing/quotes.js';
+import functionWordListsFactory from '../helpers/getFunctionWords.js';
+const functionWordLists = functionWordListsFactory();
+import getLanguage from '../helpers/getLanguage.js';
 
 import { filter } from "lodash-es";
 import { map } from "lodash-es";
@@ -307,7 +308,7 @@ function getRelevantWords( text, locale ) {
 	return take( combinations, relevantWordLimit );
 }
 
-module.exports = {
+export default {
 	getWordCombinations: getWordCombinations,
 	getRelevantWords: getRelevantWords,
 	calculateOccurrences: calculateOccurrences,

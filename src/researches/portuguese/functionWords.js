@@ -148,7 +148,7 @@ let miscellaneous = [ "sim", "não", "ok", "amém", "etc", "euro", "euros", "ade
 
 let titles = [ "sr", "sra", "sras", "dr", "dra", "prof" ];
 
-module.exports = function() {
+export default function() {
 	return {
 		// These word categories are filtered at the beginning of word combinations.
 		filteredAtBeginning: generalAdjectivesAdverbs,

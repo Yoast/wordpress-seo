@@ -263,7 +263,7 @@ let titlesPreceding = [ "fr", "hr", "dr", "prof" ];
 
 let titlesFollowing = [ "jr", "jun", "sen", "sr" ];
 
-module.exports = function() {
+export default function() {
 	return {
 		// These word categories are filtered at the beginning of word combinations.
 		filteredAtBeginning: [].concat( otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive, delexicalizedVerbsInfinitive,

@@ -2,7 +2,7 @@
   * Returns a list with stopwords for the Italian passive voice assessment.
   * @returns {Array} The list with stopwords.
   */
-module.exports = function() {
+export default function() {
 	return [
 		"a condizione che",
 		"a meno che non",

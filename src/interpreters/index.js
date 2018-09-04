@@ -1,4 +1,4 @@
-const scoreToRating = require( "./scoreToRating" );
+import scoreToRating from './scoreToRating';
 
 export {
 	scoreToRating,

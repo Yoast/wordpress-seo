@@ -79,11 +79,12 @@ var infinitiveAuxiliaries = [
 	"gehören",
 	"erhalten",
 ];
+
 /**
  * Returns lists with auxiliaries.
  * @returns {Array} The lists with auxiliaries.
  */
-module.exports = function() {
+export default function() {
 	return {
 		participleLike: participleLike,
 		otherAuxiliaries: otherAuxiliaries.concat( infinitiveAuxiliaries ),

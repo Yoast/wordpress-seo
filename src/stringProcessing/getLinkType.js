@@ -1,6 +1,6 @@
 /** @module stringProcess/getLinkType */
 
-const urlHelper = require( "./url" );
+import urlHelper from './url';
 
 /**
  * Determines the type of link.
@@ -10,7 +10,7 @@ const urlHelper = require( "./url" );
  * @returns {string} The link type (other, external or internal).
  */
 
-module.exports = function( text, url ) {
+export default function( text, url ) {
 	const anchorUrl = urlHelper.getFromAnchorTag( text );
 
 	/**

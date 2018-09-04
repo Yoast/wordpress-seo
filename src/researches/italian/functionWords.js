@@ -232,7 +232,7 @@ let titlesPreceding = [ "sig.na", "sig.ra", "sig", "sigg", "dr", "dr.ssa", "dott
  to be used as filters for the prominent words.
  */
 
-module.exports = function() {
+export default function() {
 	return {
 		// These word categories are filtered at the beginning of word combinations.
 		filteredAtBeginning: generalAdjectivesAdverbs,

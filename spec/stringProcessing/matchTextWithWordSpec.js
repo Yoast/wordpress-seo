@@ -1,4 +1,4 @@
-var wordMatch = require( "../../src/stringProcessing/matchTextWithWord.js" );
+import wordMatch from '../../src/stringProcessing/matchTextWithWord.js';
 
 describe( "Counts the occurences of a word in a string", function() {
 	it( "returns number", function() {

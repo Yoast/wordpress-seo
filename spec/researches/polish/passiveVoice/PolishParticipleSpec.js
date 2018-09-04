@@ -1,5 +1,5 @@
-const PolishParticiple = require( "../../../../src/researches/polish/passiveVoice/PolishParticiple.js" );
-const checkException = require( "../../../../src/researches/passiveVoice/periphrastic/checkException.js" );
+import PolishParticiple from '../../../../src/researches/polish/passiveVoice/PolishParticiple.js';
+import checkException from '../../../../src/researches/passiveVoice/periphrastic/checkException.js';
 
 describe( "A test for checking the Polish participle", function() {
 	it( "checks the properties of the Polish participle object with a passive", function() {

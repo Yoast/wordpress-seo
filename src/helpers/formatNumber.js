@@ -3,7 +3,7 @@
  * @param {number} number The unrounded number
  * @returns {number} Rounded number
  */
-module.exports = function( number ) {
+export default function( number ) {
 	if ( Math.round( number ) === number ) {
 		return Math.round( number );
 	}

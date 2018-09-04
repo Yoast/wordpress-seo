@@ -1,10 +1,11 @@
 /** @module analyses/getLinkStatistics */
 
-var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
-var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
-var getLinkType = require( "../stringProcessing/getLinkType.js" );
-var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
-var urlHelper = require( "../stringProcessing/url.js" );
+import getAnchors from '../stringProcessing/getAnchorsFromText.js';
+
+import findKeywordInUrl from '../stringProcessing/findKeywordInUrl.js';
+import getLinkType from '../stringProcessing/getLinkType.js';
+import checkNofollow from '../stringProcessing/checkNofollow.js';
+import urlHelper from '../stringProcessing/url.js';
 
 import { escapeRegExp } from "lodash-es";
 
@@ -94,6 +95,6 @@ var countLinkTypes = function( paper ) {
  * @param {Paper} paper The paper object containing text, keyword and url.
  * @returns {Object} The object containing all linktypes.
  */
-module.exports = function( paper ) {
+export default function( paper ) {
 	return countLinkTypes( paper );
 };

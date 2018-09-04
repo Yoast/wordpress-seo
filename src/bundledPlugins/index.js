@@ -1,4 +1,4 @@
-const usedKeywords = require( "./previouslyUsedKeywords" );
+import usedKeywords from './previouslyUsedKeywords';
 
 export {
 	usedKeywords,

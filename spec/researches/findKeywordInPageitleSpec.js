@@ -1,5 +1,5 @@
-var pageTitleKeyword = require( "../../src/researches/findKeywordInPageTitle.js" );
-var Paper = require( "../../src/values/Paper.js" );
+import pageTitleKeyword from '../../src/researches/findKeywordInPageTitle.js';
+import Paper from '../../src/values/Paper.js';
 var result;
 
 describe( "Match keywords in string", function() {

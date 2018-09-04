@@ -10,7 +10,7 @@ import { includes } from "lodash-es";
  *
  * @returns {boolean} Returns true if the match is followed by a given word, otherwise returns false.
  */
-module.exports = function( followingWords, match ) {
+export default function( followingWords, match ) {
 	if ( isEmpty( followingWords ) ) {
 		return false;
 	}

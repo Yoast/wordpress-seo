@@ -4,16 +4,21 @@ import { memoize } from "lodash-es";
 import { includes } from "lodash-es";
 import { flattenDeep } from "lodash-es";
 
-const irregularsEnglish = require( "../../english/passiveVoice/irregulars" )();
+import irregularsEnglishFactory from '../../english/passiveVoice/irregulars';
+const irregularsEnglish = irregularsEnglishFactory();
 const irregularsRegularFrench = require( "../../french/passiveVoice/irregulars" )().irregularsRegular;
 const irregularsIrregularFrench = require( "../../french/passiveVoice/irregulars" )().irregularsIrregular;
 const irregularsEndingInSFrench = require( "../../french/passiveVoice/irregulars" )().irregularsEndingInS;
-const spanishParticiples = require( "../../spanish/passiveVoice/participles" )();
-const italianParticiples = require( "../../italian/passiveVoice/participles" )();
-const irregularsDutch = require( "../../dutch/passiveVoice/irregulars" )();
+import spanishParticiplesFactory from '../../spanish/passiveVoice/participles';
+const spanishParticiples = spanishParticiplesFactory();
+import italianParticiplesFactory from '../../italian/passiveVoice/participles';
+const italianParticiples = italianParticiplesFactory();
+import irregularsDutchFactory from '../../dutch/passiveVoice/irregulars';
+const irregularsDutch = irregularsDutchFactory();
 const nlRegex1 = /^(ge|be|ont|ver|her|er)\S+(d|t)$/ig;
 const nlRegex2 = /^(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+(d|t|n)$/ig;
-const polishParticiples = require( "../../polish/passiveVoice/participles" )();
+import polishParticiplesFactory from '../../polish/passiveVoice/participles';
+const polishParticiples = polishParticiplesFactory();
 
 
 // The language-specific participle regexes.
@@ -139,7 +144,7 @@ let irregularParticiples = function( word, language ) {
 	return matches;
 };
 
-module.exports = function() {
+export default function() {
 	return {
 		regularParticiples: memoize( regularParticiples ),
 		irregularParticiples: memoize( irregularParticiples ),

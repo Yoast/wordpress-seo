@@ -1,7 +1,7 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
-var formatNumber = require( "../../helpers/formatNumber.js" );
-var countTooLongSentences = require( "./../../assessmentHelpers/checkForTooLongSentences.js" );
-var inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
+import AssessmentResult from '../../values/AssessmentResult.js';
+import formatNumber from '../../helpers/formatNumber.js';
+import countTooLongSentences from './../../assessmentHelpers/checkForTooLongSentences.js';
+import { inRangeEndInclusive as inRange } from '../../helpers/inRange.js';
 
 /**
  * Calculates sentence length score
@@ -79,7 +79,7 @@ var sentenceLengthInDescriptionAssessment = function( paper, researcher, i18n ) 
 	return assessmentResult;
 };
 
-module.exports = {
+export default {
 	identifier: "metaDescriptionSentenceLength",
 	getResult: sentenceLengthInDescriptionAssessment,
 	isApplicable: function( paper ) {

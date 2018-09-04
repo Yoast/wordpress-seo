@@ -131,7 +131,7 @@ let titlesPreceding = [ "ms", "mss", "mrs", "mr", "dr", "prof" ];
 
 let titlesFollowing = [ "jr", "sr" ];
 
-module.exports = function() {
+export default function() {
 	return {
 		// These word categories are filtered at the ending of word combinations.
 		filteredAtEnding: [].concat( ordinalNumerals, continuousVerbs, generalAdjectivesAdverbs ),

@@ -1,5 +1,6 @@
 // Make sure the Jed object is globally available
-let Jed = require( "jed" );
+import Jed from 'jed';
+
 let FactoryProto = function() {};
 
 FactoryProto.prototype.buildJed = function() {
@@ -73,4 +74,4 @@ FactoryProto.prototype.buildMockString = function( string, repetitions ) {
 
 let Factory = new FactoryProto();
 
-module.exports = Factory;
+export default Factory;

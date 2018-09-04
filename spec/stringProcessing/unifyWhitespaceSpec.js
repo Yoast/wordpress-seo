@@ -1,4 +1,4 @@
-var unifyWhitespace = require( "../../src/stringProcessing/unifyWhitespace.js" );
+import unifyWhitespace from '../../src/stringProcessing/unifyWhitespace.js';
 
 describe( "A test to check if the whitespaces are filtered correctly", function() {
 	it( "returns a string with uniform whitespaces", function() {

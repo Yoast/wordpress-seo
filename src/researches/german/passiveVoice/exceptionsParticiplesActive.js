@@ -1,5 +1,5 @@
 // This is a list of words that look like a participle, but aren't participles.
-module.exports = function() {
+export default function() {
 	return [
 		"geht",
 		"gämsbart",

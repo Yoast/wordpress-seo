@@ -1,6 +1,6 @@
-const getWordIndices = require( "../researches/passiveVoice/periphrastic/getIndicesWithRegex.js" );
-const includesIndex = require( "./includesIndex" );
-const arrayToRegex = require( "./createRegexFromArray.js" );
+import getWordIndices from '../researches/passiveVoice/periphrastic/getIndicesWithRegex.js';
+import includesIndex from './includesIndex';
+import arrayToRegex from './createRegexFromArray.js';
 const cannotDirectlyPrecedePassiveParticipleFrench = require( "../researches/french/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
 const cannotDirectlyPrecedePassiveParticipleEnglish = require( "../researches/english/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
 const cannotDirectlyPrecedePassiveParticipleSpanish = require( "../researches/spanish/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
@@ -20,7 +20,7 @@ const cannotDirectlyPrecedePassiveParticiplePolish = require( "../researches/pol
  * @returns {boolean} Returns true if a word from the direct precedence exception list is directly preceding
  * the participle, otherwise returns false.
  */
-module.exports = function( sentencePart, participleIndex, language ) {
+export default function( sentencePart, participleIndex, language ) {
 	let directPrecedenceExceptionRegex;
 	switch ( language ) {
 		case "fr":

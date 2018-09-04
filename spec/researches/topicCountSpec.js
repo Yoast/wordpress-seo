@@ -1,6 +1,7 @@
 /* global describe it expect */
-const topicCount = require( "../../src/researches/topicCount.js" );
-const Paper = require( "../../src/values/Paper.js" );
+import topicCount from '../../src/researches/topicCount.js';
+
+import Paper from '../../src/values/Paper.js';
 describe( "Test for counting the keyword and synonyms in a text", function() {
 	it( "returns topic count equal to keyword count if only keyword is supplied", function() {
 		let mockPaper = new Paper( "a string of text with the keyword in it.", { keyword: "keyword" } );

@@ -1,13 +1,14 @@
 /** @module analyses/getTopicCount */
-const matchTextWithArray = require( "../stringProcessing/matchTextWithArray.js" );
-const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
-const parseSynonyms = require( "../stringProcessing/parseSynonyms" );
+import matchTextWithArray from '../stringProcessing/matchTextWithArray.js';
+
+import { normalize as normalizeQuotes } from '../stringProcessing/quotes.js';
+import parseSynonyms from '../stringProcessing/parseSynonyms';
 import { uniq as unique } from "lodash-es";
 import { isEmpty } from "lodash-es";
-const getSentences = require( "../stringProcessing/getSentences" );
-const arrayToRegex = require( "../stringProcessing/createRegexFromArray" );
-const addMark = require( "../markers/addMarkSingleWord" );
-const Mark = require( "../values/Mark.js" );
+import getSentences from '../stringProcessing/getSentences';
+import arrayToRegex from '../stringProcessing/createRegexFromArray';
+import addMark from '../markers/addMarkSingleWord';
+import Mark from '../values/Mark.js';
 
 /**
  * Calculates the topic count, i.e., how many times the keyword or its synonyms were encountered in the text.
@@ -17,7 +18,7 @@ const Mark = require( "../values/Mark.js" );
  *
  * @returns {number} The keyword count.
  */
-module.exports = function( paper, onlyKeyword = false ) {
+export default function( paper, onlyKeyword = false ) {
 	const keyword = paper.getKeyword();
 	const synonyms = parseSynonyms( paper.getSynonyms() );
 	const text = normalizeQuotes( paper.getText() );

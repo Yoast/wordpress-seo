@@ -1,6 +1,6 @@
 /** @module researches/imageInText */
 
-var imageInText = require( "./../stringProcessing/imageInText" );
+import imageInText from './../stringProcessing/imageInText';
 
 /**
  * Checks the amount of images in the text.
@@ -8,6 +8,6 @@ var imageInText = require( "./../stringProcessing/imageInText" );
  * @param {Paper} paper The paper to check for images
  * @returns {number} The amount of found images
  */
-module.exports = function( paper ) {
+export default function( paper ) {
 	return imageInText( paper.getText() ).length;
 };

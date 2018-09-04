@@ -2,7 +2,7 @@ import { map } from "lodash-es";
 import { flatMap } from "lodash-es";
 import { filter } from "lodash-es";
 
-var getBlocks = require( "../helpers/html" ).getBlocks;
+import { getBlocks } from '../helpers/html';
 
 /**
  * Matches the paragraphs in <p>-tags and returns the text in them.
@@ -30,7 +30,7 @@ var getParagraphsInTags = function( text ) {
  * @param {string} text The text to match paragraph in.
  * @returns {Array} The array containing all paragraphs from the text.
  */
-module.exports = function( text ) {
+export default function( text ) {
 	var paragraphs = getParagraphsInTags( text );
 
 	if ( paragraphs.length > 0 ) {

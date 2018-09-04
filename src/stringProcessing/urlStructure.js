@@ -1,4 +1,4 @@
-let core = require( "tokenizer2/core" );
+import core from 'tokenizer2/core';
 
 /**
  * Contains a URL tokenizer that is capable of tokenizing a URL structure string.
@@ -146,4 +146,4 @@ class UrlStructure {
 	}
 }
 
-module.exports = UrlStructure;
+export default UrlStructure;

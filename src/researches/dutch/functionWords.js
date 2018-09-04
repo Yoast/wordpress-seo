@@ -160,7 +160,7 @@ Exports all function words concatenated, and specific word categories and catego
 to be used as filters for the prominent words.
  */
 
-module.exports = function() {
+export default function() {
 	return {
 		// These word categories are filtered at the ending of word combinations.
 		filteredAtBeginning: [].concat( passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive ),

@@ -22,7 +22,7 @@ var greaterThanContentRegex = /^<[^><]*$/;
 
 var commentRegex = /<!--(.|[\r\n])*?-->/g;
 
-var core = require( "tokenizer2/core" );
+import core from 'tokenizer2/core';
 import { forEach } from "lodash-es";
 import { memoize } from "lodash-es";
 
@@ -158,7 +158,7 @@ function getBlocks( text ) {
 	return blocks;
 }
 
-module.exports = {
+export default {
 	blockElements: blockElements,
 	inlineElements: inlineElements,
 	isBlockElement: isBlockElement,

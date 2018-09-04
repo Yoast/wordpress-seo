@@ -2,7 +2,7 @@
  *  Returns an array with exceptions for the sentence beginning researcher.
  *  @returns {Array} The array filled with exceptions.
  *  */
-module.exports = function() {
+export default function() {
 	return [
 		// Numbers 1-10:
 		"jeden", "jedna", "jedno", "dwa", "dwie", "trzy", "cztery", "pięć", "sześć", "siedem", "osiem", "dziewięć", "dziesięć",

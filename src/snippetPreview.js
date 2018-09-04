@@ -6,19 +6,17 @@ import { defaultsDeep } from "lodash-es";
 import { forEach } from "lodash-es";
 import { debounce } from "lodash-es";
 
-var createWordRegex = require( "./stringProcessing/createWordRegex.js" );
-var stripHTMLTags = require( "./stringProcessing/stripHTMLTags.js" ).stripFullTags;
-var stripSpaces = require( "./stringProcessing/stripSpaces.js" );
-var replaceDiacritics = require( "./stringProcessing/replaceDiacritics.js" );
-var transliterate = require( "./stringProcessing/transliterate.js" );
-
-var templates = require( "./templates.js" );
+import createWordRegex from './stringProcessing/createWordRegex.js';
+import { stripFullTags as stripHTMLTags } from './stringProcessing/stripHTMLTags.js';
+import stripSpaces from './stringProcessing/stripSpaces.js';
+import replaceDiacritics from './stringProcessing/replaceDiacritics.js';
+import transliterate from './stringProcessing/transliterate.js';
+import templates from './templates.js';
 var snippetEditorTemplate = templates.snippetEditor;
 var hiddenElement = templates.hiddenSpan;
 
-var SnippetPreviewToggler = require( "./snippetPreviewToggler" );
-
-var domManipulation = require( "./helpers/domManipulation.js" );
+import SnippetPreviewToggler from './snippetPreviewToggler';
+import domManipulation from './helpers/domManipulation.js';
 
 import Config from "./config/config";
 
@@ -1358,5 +1356,6 @@ SnippetPreview.prototype.hideEditIcon = function() {};
  * @param ev The event.
  */
 SnippetPreview.prototype.setFocus = function( ev ) {};
+
 /* eslint-disable */
-module.exports = SnippetPreview;
+export default SnippetPreview;

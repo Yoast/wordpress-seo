@@ -5,7 +5,7 @@ import Mark from "../../src/values/Mark.js";
 let i18n = Factory.buildJed();
 
 let sentenceLengthInTextAssessment = new SentenceLengthInTextAssessment();
-let contentConfiguration = require( "../../src/config/content/combinedConfig.js" );
+import contentConfiguration from '../../src/config/content/combinedConfig.js';
 
 describe( "An assessment for sentence length", function() {
 	let mockPaper, assessment;

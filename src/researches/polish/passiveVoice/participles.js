@@ -3,7 +3,7 @@
  * For each participle, versions for all four possible suffixes (-y, -a, -e, -i) are included.
  * @returns {Array} The list with participles.
  */
-module.exports = function() {
+export default function() {
 	return [
 		"abdykowany",
 		"absorbowany",

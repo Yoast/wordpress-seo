@@ -1,5 +1,5 @@
-var subheadingFunction = require( "../../src/researches/matchKeywordInSubheadings.js" );
-var Paper = require( "../../src/values/Paper.js" );
+import subheadingFunction from '../../src/researches/matchKeywordInSubheadings.js';
+import Paper from '../../src/values/Paper.js';
 
 describe( "a test for matching subheadings", function() {
 	it( "returns the number of subheadings in the text", function() {

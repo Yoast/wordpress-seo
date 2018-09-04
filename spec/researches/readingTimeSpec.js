@@ -1,5 +1,5 @@
-var readingTime = require( "../../src/researches/readingTime.js" );
-var Paper = require( "../../src/values/Paper.js" );
+import readingTime from '../../src/researches/readingTime.js';
+import Paper from '../../src/values/Paper.js';
 
 describe( "Calculates the reading time for the paper (rounded up to the next highest full minute)", function() {
 	it( "calculates the reading time for a paper with a short text", function() {

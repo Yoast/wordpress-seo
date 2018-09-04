@@ -1,5 +1,5 @@
 var urlFromAnchorRegex = /href=(["'])([^"']+)\1/i;
-var urlMethods = require( "url" );
+import urlMethods from 'url';
 
 /**
  * Removes a hash from a URL, assumes a well formed URL.
@@ -147,7 +147,7 @@ function isRelativeFragmentURL( url ) {
 	return url.indexOf( "#" ) === 0;
 }
 
-module.exports = {
+export default {
 	removeHash: removeHash,
 	removeQueryArgs: removeQueryArgs,
 	removeTrailingSlash: removeTrailingSlash,

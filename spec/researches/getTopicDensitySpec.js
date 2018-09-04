@@ -1,6 +1,7 @@
 /* global describe it expect */
-const getTopicDensity = require( "../../src/researches/getTopicDensity.js" );
-const Paper = require( "../../src/values/Paper.js" );
+import getTopicDensity from '../../src/researches/getTopicDensity.js';
+
+import Paper from '../../src/values/Paper.js';
 describe( "Test for counting the keyword and synonyms in a text", function() {
 	it( "returns topic count equal to keyword count if only keyword is supplied", function() {
 		let mockPaper = new Paper( "a string of text with the keyword in it.", { keyword: "keyword" } );

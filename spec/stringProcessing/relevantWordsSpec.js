@@ -1,5 +1,5 @@
-let WordCombination = require( "../../src/values/WordCombination" );
-let relevantWords = require( "../../src/stringProcessing/relevantWords" );
+import WordCombination from '../../src/values/WordCombination';
+import relevantWords from '../../src/stringProcessing/relevantWords';
 let getWordCombinations = relevantWords.getWordCombinations;
 let getRelevantWords = relevantWords.getRelevantWords;
 let calculateOccurrences = relevantWords.calculateOccurrences;

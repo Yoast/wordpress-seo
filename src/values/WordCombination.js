@@ -204,4 +204,4 @@ WordCombination.parse = function( serialized ) {
 	return wordCombination;
 };
 
-module.exports = WordCombination;
+export default WordCombination;

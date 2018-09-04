@@ -1,7 +1,6 @@
-var SnippetPreview = require( "../src/snippetPreview.js" );
-
-require( "../src/app.js" );
-var Factory = require( "./helpers/factory.js" );
+import SnippetPreview from '../src/snippetPreview.js';
+import '../src/app.js';
+import Factory from './helpers/factory.js';
 
 describe( "The snippet preview constructor", function() {
 	it( "accepts an App object as an opts property", function() {

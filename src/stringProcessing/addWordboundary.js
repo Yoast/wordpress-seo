@@ -9,7 +9,7 @@
  * @param {string} [extraWordBoundary] Extra characters to match a word boundary on.
  * @returns {string} A regex string that matches the matchString with word boundaries.
  */
-module.exports = function( matchString, positiveLookAhead = false, extraWordBoundary = "" ) {
+export default function( matchString, positiveLookAhead = false, extraWordBoundary = "" ) {
 	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
 
 	wordBoundary = "[ \\u00a0 \\n\\r\\t\.,\(\)”“〝〞〟‟„\"+\\-;!¡?¿:\/»«‹›" + extraWordBoundary + "<>";

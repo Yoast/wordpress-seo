@@ -1,15 +1,19 @@
-const determineSentencePartIsPassive = require( "./determineSentencePartIsPassive.js" );
-const getParticiples = require( "./getParticiples.js" );
+import determineSentencePartIsPassive from './determineSentencePartIsPassive.js';
+import getParticiples from './getParticiples.js';
 
 // Imports specific for German.
 const auxiliariesGerman = require( "../../german/passiveVoice/auxiliaries.js" )().allAuxiliaries;
-const getParticiplesGerman = require( "../../german/passiveVoice/getParticiples.js" );
+import getParticiplesGerman from '../../german/passiveVoice/getParticiples.js';
 
 // Imports specific for Dutch.
-const auxiliariesDutch = require( "../../dutch/passiveVoice/auxiliaries.js" )();
+import auxiliariesDutchFactory from '../../dutch/passiveVoice/auxiliaries.js';
+
+const auxiliariesDutch = auxiliariesDutchFactory();
 
 // Imports specific for Polish.
-const auxiliariesPolish = require( "../../polish/passiveVoice/auxiliaries.js" )();
+import auxiliariesPolishFactory from '../../polish/passiveVoice/auxiliaries.js';
+
+const auxiliariesPolish = auxiliariesPolishFactory();
 
 // The language-specific auxiliaries.
 const languageVariables = {
@@ -33,7 +37,7 @@ const languageVariables = {
 
  * @returns {boolean} Returns true if passive, otherwise returns false.
  */
-module.exports = function( sentencePartText, sentencePartAuxiliaries, language ) {
+export default function( sentencePartText, sentencePartAuxiliaries, language ) {
 	let participles = [];
 	// For German, Dutch and Polish, this path is taken in order to ensure that sentence parts without auxiliaries are not set to passive.
 	if ( language === "de" || language === "nl" || language === "pl" ) {

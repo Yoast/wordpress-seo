@@ -1,19 +1,20 @@
 /** @module config/syllables */
 
-let getLanguage = require( "../helpers/getLanguage.js" );
+import getLanguage from '../helpers/getLanguage.js';
+
 import { isUndefined } from "lodash-es";
 
-let de = require( "./syllables/de.json" );
-let en = require( './syllables/en.json' );
-let nl = require( './syllables/nl.json' );
-let it = require( './syllables/it.json' );
-let ru = require( './syllables/ru.json' );
-let fr = require( './syllables/fr.json' );
-let es = require( './syllables/es.json' );
+import de from './syllables/de.json';
+import en from './syllables/en.json';
+import nl from './syllables/nl.json';
+import it from './syllables/it.json';
+import ru from './syllables/ru.json';
+import fr from './syllables/fr.json';
+import es from './syllables/es.json';
 
 let languages = { de, nl, en, it, ru, fr, es };
 
-module.exports = function( locale = "en_US" ) {
+export default function( locale = "en_US" ) {
 	let language = getLanguage( locale );
 
 	if( languages.hasOwnProperty( language ) ) {

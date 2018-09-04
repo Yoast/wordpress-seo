@@ -1,6 +1,6 @@
-var ImageCountAssessment = require( "../../src/assessments/seo/textImagesAssessment" );
-var Paper = require( "../../src/values/Paper.js" );
-var Factory = require( "../helpers/factory.js" );
+import ImageCountAssessment from '../../src/assessments/seo/textImagesAssessment';
+import Paper from '../../src/values/Paper.js';
+import Factory from '../helpers/factory.js';
 var i18n = Factory.buildJed();
 
 let imageCountAssessment = new ImageCountAssessment();

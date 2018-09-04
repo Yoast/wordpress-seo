@@ -46,7 +46,7 @@ var multipleWords = [ "above all", "after all", "after that", "all in all", "all
  * Returns lists with transition words to be used by the assessments.
  * @returns {Object} The object with transition word lists.
  */
-module.exports = function() {
+export default function() {
 	return {
 		singleWords: singleWords,
 		multipleWords: multipleWords,

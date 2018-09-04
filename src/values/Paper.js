@@ -235,4 +235,4 @@ Paper.parse = function( serialized ) {
 	return new Paper( text, attributes );
 };
 
-module.exports = Paper;
+export default Paper;

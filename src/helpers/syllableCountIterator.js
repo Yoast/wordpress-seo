@@ -1,4 +1,4 @@
-var SyllableCountStep = require( "./syllableCountStep.js" );
+import SyllableCountStep from './syllableCountStep.js';
 
 import { isUndefined } from "lodash-es";
 import { forEach } from "lodash-es";
@@ -51,4 +51,4 @@ SyllableCountIterator.prototype.countSyllables = function( word ) {
 	return syllableCount;
 };
 
-module.exports = SyllableCountIterator;
+export default SyllableCountIterator;

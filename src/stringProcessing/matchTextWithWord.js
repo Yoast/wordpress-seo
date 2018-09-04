@@ -1,11 +1,12 @@
 /** @module stringProcessing/matchTextWithWord */
 
-const stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
-const stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-const removePunctuation = require( "../stringProcessing/removePunctuation.js" );
-const unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" ).unifyAllSpaces;
-const matchStringWithTransliteration = require( "../stringProcessing/matchTextWithTransliteration.js" );
-const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
+import stripSomeTags from '../stringProcessing/stripNonTextTags.js';
+
+import stripSpaces from '../stringProcessing/stripSpaces.js';
+import removePunctuation from '../stringProcessing/removePunctuation.js';
+import { unifyAllSpaces as unifyWhitespace } from '../stringProcessing/unifyWhitespace.js';
+import matchStringWithTransliteration from '../stringProcessing/matchTextWithTransliteration.js';
+import { normalize as normalizeQuotes } from '../stringProcessing/quotes.js';
 import { map } from "lodash-es";
 
 /**
@@ -17,7 +18,7 @@ import { map } from "lodash-es";
  * @param {string} [extraBoundary] An extra string that can be added to the wordboundary regex
  * @returns {Object} The matches found and the number of matches.
  */
-module.exports = function( text, wordToMatch, locale, extraBoundary ) {
+export default function( text, wordToMatch, locale, extraBoundary ) {
 	text = stripSomeTags( text );
 	text = unifyWhitespace( text );
 	text = normalizeQuotes( text );

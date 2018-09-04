@@ -8,12 +8,10 @@ import { isEmpty } from "lodash-es";
 import { negate } from "lodash-es";
 import { memoize } from "lodash-es";
 
-var core = require( "tokenizer2/core" );
-
-var getBlocks = require( "../helpers/html.js" ).getBlocks;
-var normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
-
-var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" ).unifyNonBreakingSpace;
+import core from 'tokenizer2/core';
+import { getBlocks } from '../helpers/html.js';
+import { normalize as normalizeQuotes } from '../stringProcessing/quotes.js';
+import { unifyNonBreakingSpace as unifyWhitespace } from '../stringProcessing/unifyWhitespace.js';
 
 // All characters that indicate a sentence delimiter.
 var fullStop = ".";
@@ -315,7 +313,7 @@ var getSentencesFromBlockCached = memoize( getSentencesFromBlock );
  * @param {String} text The string to count sentences in.
  * @returns {Array} Sentences found in the text.
  */
-module.exports = function( text ) {
+export default function( text ) {
 	text = unifyWhitespace( text );
 	var sentences, blocks = getBlocks( text );
 

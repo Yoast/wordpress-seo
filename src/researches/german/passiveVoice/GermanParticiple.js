@@ -1,8 +1,8 @@
-var Participle = require( "../../../values/Participle.js" );
-
-var getIndices = require( "../../../stringProcessing/indices.js" ).getIndicesByWord;
-var getIndicesOfList = require( "../../../stringProcessing/indices.js" ).getIndicesByWordList;
-var exceptionsParticiplesActive = require( "./exceptionsParticiplesActive.js" )();
+import Participle from '../../../values/Participle.js';
+import { getIndicesByWord as getIndices } from '../../../stringProcessing/indices.js';
+import { getIndicesByWordList as getIndicesOfList } from '../../../stringProcessing/indices.js';
+import exceptionsParticiplesActiveFactory from './exceptionsParticiplesActive.js';
+const exceptionsParticiplesActive = exceptionsParticiplesActiveFactory();
 var auxiliaries = require( "./auxiliaries.js" )().participleLike;
 
 var exceptionsRegex =
@@ -87,4 +87,4 @@ GermanParticiple.prototype.isAuxiliary = function() {
 };
 
 
-module.exports = GermanParticiple;
+export default GermanParticiple;

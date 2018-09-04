@@ -487,7 +487,7 @@ const titlesPreceding = [ "г-н", "г-жа", "тов", "гр-н", "гр-а", "�
 // "ст" is already included in recipe words
 const titlesFollowing = [ "мл" ];
 
-module.exports = function() {
+export default function() {
 	return {
 		// These word categories are filtered at the ending of word combinations.
 		filteredAtEnding: [].concat( ordinalNumerals, generalAdjectivesAdverbs ),

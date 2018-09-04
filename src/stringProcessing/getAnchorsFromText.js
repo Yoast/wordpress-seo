@@ -6,7 +6,7 @@
  * @param {String} text The text to check for matches.
  * @returns {Array} The matched links in text.
  */
-module.exports = function( text ) {
+export default function( text ) {
 	var matches;
 
 	// Regex matches everything between <a> and </a>

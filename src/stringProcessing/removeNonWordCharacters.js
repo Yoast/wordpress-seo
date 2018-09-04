@@ -6,6 +6,6 @@
  * @param {string} string The string to replace spaces from.
  * @returns {string} string The string without spaces.
  */
-module.exports = function( string ) {
+export default function( string ) {
 	return string.replace( /[\s\n\r\t.,'()"+;!?:/]/g, "" );
 };

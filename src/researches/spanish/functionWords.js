@@ -261,7 +261,7 @@ let titlesPreceding = [ "sra", "sras", "srta", "sr", "sres", "dra", "dr", "profa
 
 let titlesFollowing = [ "jr", "sr" ];
 
-module.exports = function() {
+export default function() {
 	return {
 
 		// These word categories are filtered at the beginning of word combinations.

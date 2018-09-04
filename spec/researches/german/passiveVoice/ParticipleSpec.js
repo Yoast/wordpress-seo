@@ -1,4 +1,4 @@
-var GermanParticiple = require( "../../../../src/researches/german/passiveVoice/GermanParticiple.js" );
+import GermanParticiple from '../../../../src/researches/german/passiveVoice/GermanParticiple.js';
 
 describe( "A test for checking the german Participle", function() {
 	it( "checks the properties of the german participle object without a passive", function() {

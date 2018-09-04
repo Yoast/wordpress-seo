@@ -1,6 +1,5 @@
-const getParticiples = require( "./getParticiples.js" );
-
-const determineSentencePartIsPassive =  require( "./determineSentencePartIsPassive.js" );
+import getParticiples from './getParticiples.js';
+import determineSentencePartIsPassive from './determineSentencePartIsPassive.js';
 
 /**
  * Determines whether a sentence part is passive.
@@ -10,7 +9,7 @@ const determineSentencePartIsPassive =  require( "./determineSentencePartIsPassi
  * @param {string} language The language to determine voice for.
  * @returns {boolean} Returns true if passive, otherwise returns false.
  */
-module.exports = function( sentencePart, auxiliaries, language ) {
+export default function( sentencePart, auxiliaries, language ) {
 	let participles = getParticiples( sentencePart, auxiliaries, language );
 	return determineSentencePartIsPassive( participles );
 };

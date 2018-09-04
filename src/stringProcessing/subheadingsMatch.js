@@ -1,6 +1,7 @@
-const replaceString = require( "../stringProcessing/replaceString.js" );
-const removalWords = require( "../config/removalWords.js" )();
-const matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
+import replaceString from '../stringProcessing/replaceString.js';
+import removalWordsFactory from '../config/removalWords.js';
+const removalWords = removalWordsFactory();
+import matchTextWithWord from '../stringProcessing/matchTextWithWord.js';
 
 /**
  * Matches the keyword in an array of strings
@@ -10,7 +11,7 @@ const matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
  * @param {string} locale The locale used for transliteration.
  * @returns {number} The number of occurrences of the keyword in the headings.
  */
-module.exports = function( matches, keyword, locale ) {
+export default function( matches, keyword, locale ) {
 	let foundInHeader = -1;
 
 	if ( matches !== null ) {

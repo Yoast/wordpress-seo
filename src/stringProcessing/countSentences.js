@@ -1,6 +1,6 @@
 /** @module stringProcessing/countSentences */
 
-var getSentences = require( "../stringProcessing/getSentences.js" );
+import getSentences from '../stringProcessing/getSentences.js';
 
 /**
  * Counts the number of sentences in a given string.
@@ -8,7 +8,7 @@ var getSentences = require( "../stringProcessing/getSentences.js" );
  * @param {string} text The text used to count sentences.
  * @returns {number} The number of sentences in the text.
  */
-module.exports = function( text ) {
+export default function( text ) {
 	var sentences = getSentences( text );
 	var sentenceCount = 0;
 	for ( var i = 0; i < sentences.length; i++ ) {

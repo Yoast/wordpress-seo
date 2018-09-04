@@ -5,6 +5,6 @@
  * @param {number} valueLength      The length of the value to check.
  * @returns {boolean} True if the length is greater than the recommendedValue, false if it is smaller.
  */
-module.exports = function( recommendedValue, valueLength ) {
+export default function( recommendedValue, valueLength ) {
 	return valueLength > recommendedValue;
 };

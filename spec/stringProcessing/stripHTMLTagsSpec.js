@@ -1,5 +1,5 @@
-var stripHTMLTags = require( "../../src/stringProcessing/stripHTMLTags.js" ).stripFullTags;
-var stripTagParts = require( "../../src/stringProcessing/stripHTMLTags.js" ).stripIncompleteTags;
+import { stripFullTags as stripHTMLTags } from '../../src/stringProcessing/stripHTMLTags.js';
+import { stripIncompleteTags as stripTagParts } from '../../src/stringProcessing/stripHTMLTags.js';
 
 describe( "strips the HTMLtags from a string", function() {
 	it( "returns a string without HTMLtags", function() {

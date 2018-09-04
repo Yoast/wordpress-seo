@@ -19,6 +19,6 @@ function showTrace( errorMessage ) {
 	}
 }
 
-module.exports = {
+export default {
 	showTrace: showTrace,
 };

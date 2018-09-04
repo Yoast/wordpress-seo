@@ -1,5 +1,5 @@
-var stripHTMLTags = require( "../../stringProcessing/stripHTMLTags" ).stripFullTags;
-var AssessmentResult = require( "../../values/AssessmentResult" );
+import { stripFullTags as stripHTMLTags } from '../../stringProcessing/stripHTMLTags';
+import AssessmentResult from '../../values/AssessmentResult';
 
 /**
  * Assesses that the paper has at least a little bit of content.
@@ -24,7 +24,7 @@ function textPresenceAssessment( paper, researcher, i18n ) {
 	return new AssessmentResult();
 }
 
-module.exports = {
+export default {
 	identifier: "textPresence",
 	getResult: textPresenceAssessment,
 };

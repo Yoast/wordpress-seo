@@ -1,6 +1,6 @@
 /** @module stringProcessing/replaceDiacritics */
 
-var transliterationsMap = require( "../config/transliterations.js" );
+import transliterationsMap from '../config/transliterations.js';
 
 /**
  * Replaces all special characters from the text based on the transliterations map.
@@ -9,7 +9,7 @@ var transliterationsMap = require( "../config/transliterations.js" );
  * @param {string} locale The locale.
  * @returns {string} The text with all special characters replaced.
  */
-module.exports = function( text, locale ) {
+export default function( text, locale ) {
 	var map = transliterationsMap( locale );
 	for ( var i = 0; i < map.length; i++ ) {
 		text = text.replace(

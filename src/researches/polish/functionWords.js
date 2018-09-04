@@ -357,7 +357,7 @@ const measurementUnits = [ "°C", "°F", "ar", "ary", "arów", "arach", "c", "cl
 const miscellaneous = [ "nie", "no", "oto", "tak", "sobie", "ok", "okej" ];
 
 
-module.exports = function() {
+export default function() {
 	return {
 
 		// These word categories are filtered at the ending of word combinations.

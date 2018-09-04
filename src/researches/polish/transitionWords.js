@@ -40,7 +40,7 @@ let multipleWords = [ "a konkretnie", "a propos", "aby wrocić do rzeczy", "anal
  * Returns an list with transition words to be used by the assessments.
  * @returns {Object} The list filled with transition word lists.
  */
-module.exports = function() {
+export default function() {
 	return {
 		singleWords: singleWords,
 		multipleWords: multipleWords,

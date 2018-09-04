@@ -558,7 +558,7 @@ var irregularsEndingInS = [
 	"requis",
 ];
 
-module.exports = function() {
+export default function() {
 	return {
 		irregularsRegular: irregularsRegular,
 		irregularsIrregular: irregularsIrregular,

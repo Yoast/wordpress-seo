@@ -28,4 +28,4 @@ let ScoreToRating = function( score ) {
 	return "";
 };
 
-module.exports = ScoreToRating;
+export default ScoreToRating;

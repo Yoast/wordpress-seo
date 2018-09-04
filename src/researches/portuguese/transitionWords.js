@@ -22,7 +22,7 @@ let multipleWords = [ "a fim de", "a fim de que", "a menos que", "a princípio",
  * Returns lists with transition words to be used by the assessments.
  * @returns {Object} The object with transition word lists.
  */
-module.exports = function() {
+export default function() {
 	return {
 		singleWords: singleWords,
 		multipleWords: multipleWords,

@@ -1,4 +1,4 @@
-const { stripWordBoundariesStart, stripWordBoundariesEnd } = require( "../stringProcessing/stripWordBoundaries" );
+import { stripWordBoundariesStart, stripWordBoundariesEnd } from '../stringProcessing/stripWordBoundaries';
 
 /**
  * Marks a text with HTML tags, deals with word boundaries that were matched by regexes, but which should not be marked.
@@ -7,7 +7,7 @@ const { stripWordBoundariesStart, stripWordBoundariesEnd } = require( "../string
  *
  * @returns {string} The marked text.
  */
-module.exports = function( text ) {
+export default function( text ) {
 	// Strip the word boundaries at the start of the text.
 	const strippedTextStart = stripWordBoundariesStart( text );
 	let wordBoundaryStart = "";

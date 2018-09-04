@@ -67,7 +67,7 @@ var exceptions = function( word ) {
 	return word.match( exceptionsRegex ) || [];
 };
 
-module.exports = function() {
+export default function() {
 	return {
 		verbsBeginningWithGe: verbsBeginningWithGe,
 		verbsBeginningWithErVerEntBeZerHerUber: verbsBeginningWithErVerEntBeZerHerUber,

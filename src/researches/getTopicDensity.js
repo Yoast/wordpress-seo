@@ -1,7 +1,8 @@
 /** @module analyses/getTopicDensity */
 
-const countWords = require( "../stringProcessing/countWords.js" );
-const topicCount = require( "./topicCount.js" );
+import countWords from '../stringProcessing/countWords.js';
+
+import topicCount from './topicCount.js';
 
 /**
  * Calculates the topic density .
@@ -9,7 +10,7 @@ const topicCount = require( "./topicCount.js" );
  * @param {Object} paper The paper containing keyword, (synonyms) and text.
  * @returns {number} The topic density.
  */
-module.exports = function( paper ) {
+export default function( paper ) {
 	const wordCount = countWords( paper.getText() );
 	if ( wordCount === 0 ) {
 		return 0;

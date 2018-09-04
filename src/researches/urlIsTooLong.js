@@ -6,7 +6,7 @@
  * @param {object} paper the paper to run this assessment on
  * @returns {boolean} true if the URL is too long, false if it isn't
  */
-module.exports = function( paper ) {
+export default function( paper ) {
 	var urlLength = paper.getUrl().length;
 	var keywordLength = paper.getKeyword().length;
 	var maxUrlLength = 40;

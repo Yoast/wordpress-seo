@@ -1,5 +1,5 @@
 import { forEach } from "lodash-es";
-var domManipulation = require( "./helpers/domManipulation.js" );
+import domManipulation from './helpers/domManipulation.js';
 
 var previewModes = {
 	desktop: "snippet-editor__view--desktop",
@@ -236,4 +236,4 @@ SnippetPreviewToggler.prototype._setActiveState = function( elementToActivate ) 
 	elementToActivate.setAttribute( "aria-pressed", "true" );
 };
 
-module.exports = SnippetPreviewToggler;
+export default SnippetPreviewToggler;

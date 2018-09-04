@@ -1,5 +1,5 @@
-let wordCountInText = require( "./wordCountInText.js" );
-let imageCount = require( "./imageCountInText.js" );
+import wordCountInText from './wordCountInText.js';
+import imageCount from './imageCountInText.js';
 
 /**
  * Calculates the expected reading time of a text.
@@ -7,7 +7,7 @@ let imageCount = require( "./imageCountInText.js" );
  * @param {Paper} paper The paper to calculate the reading time for.
  * @returns {number} The expected reading time in minutes.
  */
-module.exports = function( paper ) {
+export default function( paper ) {
 	// These numbers are based on research into average reading times.
 	const wordsPerMinute = 200;
 	const minutesPerImage = 0.2;

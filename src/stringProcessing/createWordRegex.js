@@ -1,8 +1,8 @@
 /** @module stringProcessing/stringToRegex */
 import { isUndefined } from "lodash-es";
-var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
-var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
-var sanitizeString = require( "../stringProcessing/sanitizeString" );
+import replaceDiacritics from '../stringProcessing/replaceDiacritics.js';
+import addWordBoundary from '../stringProcessing/addWordboundary.js';
+import sanitizeString from '../stringProcessing/sanitizeString';
 
 import { escapeRegExp } from "lodash-es";
 import { memoize } from "lodash-es";
@@ -15,7 +15,7 @@ import { memoize } from "lodash-es";
  * @param {boolean} [doReplaceDiacritics=true] If set to false, it doesn't replace diacritics. Defaults to true.
  * @returns {RegExp} regex The regex made from the keyword
  */
-module.exports = memoize( function( string, extraBoundary, doReplaceDiacritics ) {
+export default memoize( function( string, extraBoundary, doReplaceDiacritics ) {
 	if ( isUndefined( extraBoundary ) ) {
 		extraBoundary = "";
 	}

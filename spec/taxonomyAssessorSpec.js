@@ -1,6 +1,6 @@
-const Assessor = require( "../src/taxonomyAssessor.js" );
-const Paper = require( "../src/values/Paper.js" );
-const factory = require( "./helpers/factory.js" );
+import Assessor from '../src/taxonomyAssessor.js';
+import Paper from '../src/values/Paper.js';
+import factory from './helpers/factory.js';
 const i18n = factory.buildJed();
 const assessor = new Assessor( i18n );
 

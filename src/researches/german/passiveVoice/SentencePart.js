@@ -1,6 +1,5 @@
-var SentencePart = require( "../../../values/SentencePart.js" );
-
-var getParticiples = require( "./getParticiples.js" );
+import SentencePart from '../../../values/SentencePart.js';
+import getParticiples from './getParticiples.js';
 
 /**
  * Creates a German-specific sentence part.
@@ -24,4 +23,4 @@ GermanSentencePart.prototype.getParticiples = function() {
 	return getParticiples( this.getSentencePartText(), this.getAuxiliaries() );
 };
 
-module.exports = GermanSentencePart;
+export default GermanSentencePart;

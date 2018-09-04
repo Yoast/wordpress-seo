@@ -9,7 +9,7 @@ import { forEach } from "lodash-es";
  *
  * @returns {boolean} Returns true if the participle is preceded by a given word, otherwise returns false.
  */
-module.exports = function( precedingWords, participleIndex ) {
+export default function( precedingWords, participleIndex ) {
 	if ( isEmpty( precedingWords ) ) {
 		return false;
 	}

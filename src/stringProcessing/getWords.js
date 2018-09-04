@@ -1,8 +1,9 @@
 /** @module stringProcessing/countWords */
 
-var stripTags = require( "./stripHTMLTags.js" ).stripFullTags;
-var stripSpaces = require( "./stripSpaces.js" );
-var removePunctuation = require( "./removePunctuation.js" );
+import { stripFullTags as stripTags } from './stripHTMLTags.js';
+
+import stripSpaces from './stripSpaces.js';
+import removePunctuation from './removePunctuation.js';
 import { map } from "lodash-es";
 import { filter } from "lodash-es";
 
@@ -12,7 +13,7 @@ import { filter } from "lodash-es";
  * @param {string} text The text to be counted.
  * @returns {Array} The array with all words.
  */
-module.exports = function( text ) {
+export default function( text ) {
 	text = stripSpaces( stripTags( text ) );
 	if ( text === "" ) {
 		return [];

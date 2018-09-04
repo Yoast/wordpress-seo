@@ -1,6 +1,6 @@
 /** @module stringProcessing/getAlttagContent */
 
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+import stripSpaces from '../stringProcessing/stripSpaces.js';
 
 var regexAltTag = /alt=(['"])(.*?)\1/i;
 
@@ -10,7 +10,7 @@ var regexAltTag = /alt=(['"])(.*?)\1/i;
  * @param {String} text Textstring to match alt
  * @returns {String} the contents of the alttag, empty if none is set.
  */
-module.exports = function( text ) {
+export default function( text ) {
 	var alt = "";
 
 	var matches = text.match( regexAltTag );

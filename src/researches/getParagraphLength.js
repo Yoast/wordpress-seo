@@ -1,5 +1,5 @@
-var countWords = require( "../stringProcessing/countWords.js" );
-var matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
+import countWords from '../stringProcessing/countWords.js';
+import matchParagraphs from '../stringProcessing/matchParagraphs.js';
 import { filter } from "lodash-es";
 
 /**
@@ -8,7 +8,7 @@ import { filter } from "lodash-es";
  * @param {Paper} paper The paper object to get the text from.
  * @returns {Array} The array containing an object with the paragraph word count and paragraph text.
  */
-module.exports = function( paper ) {
+export default function( paper ) {
 	var text = paper.getText();
 	var paragraphs = matchParagraphs( text );
 	var paragraphsLength = [];

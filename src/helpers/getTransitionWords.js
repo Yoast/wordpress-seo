@@ -1,27 +1,26 @@
 let transitionWordsEnglish = require( "../researches/english/transitionWords.js" )().allWords;
-let twoPartTransitionWordsEnglish = require( "../researches/english/twoPartTransitionWords.js" );
+import twoPartTransitionWordsEnglish from '../researches/english/twoPartTransitionWords.js';
 let transitionWordsGerman = require( "../researches/german/transitionWords.js" )().allWords;
-let twoPartTransitionWordsGerman = require( "../researches/german/twoPartTransitionWords.js" );
+import twoPartTransitionWordsGerman from '../researches/german/twoPartTransitionWords.js';
 let transitionWordsFrench = require( "../researches/french/transitionWords.js" )().allWords;
-let twoPartTransitionWordsFrench = require( "../researches/french/twoPartTransitionWords.js" );
+import twoPartTransitionWordsFrench from '../researches/french/twoPartTransitionWords.js';
 let transitionWordsSpanish = require( "../researches/spanish/transitionWords.js" )().allWords;
-let twoPartTransitionWordsSpanish = require( "../researches/spanish/twoPartTransitionWords.js" );
+import twoPartTransitionWordsSpanish from '../researches/spanish/twoPartTransitionWords.js';
 let transitionWordsDutch = require( "../researches/dutch/transitionWords.js" )().allWords;
-let twoPartTransitionWordsDutch = require( "../researches/dutch/twoPartTransitionWords.js" );
+import twoPartTransitionWordsDutch from '../researches/dutch/twoPartTransitionWords.js';
 let transitionWordsItalian = require( "../researches/italian/transitionWords.js" )().allWords;
-let twoPartTransitionWordsItalian = require( "../researches/italian/twoPartTransitionWords.js" );
+import twoPartTransitionWordsItalian from '../researches/italian/twoPartTransitionWords.js';
 let transitionWordsPortuguese = require( "../researches/portuguese/transitionWords.js" )().allWords;
-let twoPartTransitionWordsPortuguese = require( "../researches/portuguese/twoPartTransitionWords.js" );
+import twoPartTransitionWordsPortuguese from '../researches/portuguese/twoPartTransitionWords.js';
 let transitionWordsRussian = require( "../researches/russian/transitionWords.js" )().allWords;
-let twoPartTransitionWordsRussian = require( "../researches/russian/twoPartTransitionWords.js" );
+import twoPartTransitionWordsRussian from '../researches/russian/twoPartTransitionWords.js';
 let transitionWordsCatalan = require( "../researches/catalan/transitionWords.js" )().allWords;
-let twoPartTransitionWordsCatalan = require( "../researches/catalan/twoPartTransitionWords.js" );
+import twoPartTransitionWordsCatalan from '../researches/catalan/twoPartTransitionWords.js';
 let transitionWordsPolish = require( "../researches/polish/transitionWords.js" )().allWords;
-let twoPartTransitionWordsPolish = require( "../researches/polish/twoPartTransitionWords.js" );
+import twoPartTransitionWordsPolish from '../researches/polish/twoPartTransitionWords.js';
+import getLanguage from './getLanguage.js';
 
-let getLanguage = require( "./getLanguage.js" );
-
-module.exports = function( locale ) {
+export default function( locale ) {
 	switch( getLanguage( locale ) ) {
 		case "de":
 			return {

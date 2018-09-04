@@ -1,4 +1,4 @@
-var addMark = require( "../../src/markers/addMark.js" );
+import addMark from '../../src/markers/addMark.js';
 
 describe( "addMark", function() {
 	it( "should mark an empty text", function() {

@@ -1,11 +1,11 @@
 import { merge } from "lodash-es";
 
-const Assessment = require( "../../assessment" );
-const AssessmentResult = require( "../../values/AssessmentResult" );
-const countWords = require( "../../stringProcessing/countWords" );
-const inRange = require( "../../helpers/inRange" );
-const formatNumber = require( "../../helpers/formatNumber" );
-const topicCount = require( "../../researches/topicCount" );
+import Assessment from '../../assessment';
+import AssessmentResult from '../../values/AssessmentResult';
+import countWords from '../../stringProcessing/countWords';
+import inRange from '../../helpers/inRange';
+import formatNumber from '../../helpers/formatNumber';
+import topicCount from '../../researches/topicCount';
 
 const inRangeEndInclusive = inRange.inRangeEndInclusive;
 const inRangeStartInclusive = inRange.inRangeStartInclusive;

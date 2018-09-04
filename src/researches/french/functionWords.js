@@ -225,7 +225,7 @@ let titlesPreceding = [ "mme", "mmes", "mlle", "mlles", "mm", "dr", "pr" ];
 
 let titlesFollowing = [ "jr", "sr" ];
 
-module.exports = function() {
+export default function() {
 	return {
 		// These word categories are filtered at the ending of word combinations.
 		filteredAtEnding: [].concat( ordinalNumerals, otherAuxiliariesInfinitive, delexicalizedVerbsInfinitive, copulaInfinitive,

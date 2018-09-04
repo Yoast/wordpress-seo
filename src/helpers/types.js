@@ -23,7 +23,7 @@ var isSameType = function( subject, expectedType ) {
 	return passedType === expectedType;
 };
 
-module.exports = {
+export default {
 	getType: getType,
 	isSameType: isSameType,
 };

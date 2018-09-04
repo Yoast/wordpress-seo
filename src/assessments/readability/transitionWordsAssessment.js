@@ -1,13 +1,11 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
-let formatNumber = require( "../../helpers/formatNumber.js" );
+import AssessmentResult from '../../values/AssessmentResult.js';
+import formatNumber from '../../helpers/formatNumber.js';
 import { map } from "lodash-es";
-let inRange = require( "../../helpers/inRange.js" ).inRangeStartInclusive;
-let stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
-
-let Mark = require( "../../values/Mark.js" );
-let marker = require( "../../markers/addMark.js" );
-
-let getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
+import { inRangeStartInclusive as inRange } from '../../helpers/inRange.js';
+import { stripIncompleteTags as stripTags } from '../../stringProcessing/stripHTMLTags';
+import Mark from '../../values/Mark.js';
+import marker from '../../markers/addMark.js';
+import getLanguageAvailability from '../../helpers/getLanguageAvailability.js';
 let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca", "pl" ];
 
 /**
@@ -120,7 +118,7 @@ let transitionWordsMarker = function( paper, researcher ) {
 	} );
 };
 
-module.exports = {
+export default {
 	identifier: "textTransitionWords",
 	getResult: transitionWordsAssessment,
 	isApplicable: function( paper ) {
