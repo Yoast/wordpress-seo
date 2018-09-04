@@ -570,7 +570,7 @@ class WPSEO_OpenGraph_Image {
 			return '';
 		}
 
-		return $parsed_url['path'];
+		return $parsed_url;
 	}
 
 	/**
