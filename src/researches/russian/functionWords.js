@@ -511,4 +511,4 @@ export default function() {
 			transitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
 			recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing ),
 	};
-};
+}

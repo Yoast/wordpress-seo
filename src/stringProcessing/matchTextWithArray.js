@@ -1,9 +1,9 @@
 /** @module stringProcessing/matchTextWithArray */
 
-import stripSpaces from '../stringProcessing/stripSpaces.js';
+import stripSpaces from "../stringProcessing/stripSpaces.js";
 
-import removePunctuation from '../stringProcessing/removePunctuation.js';
-import matchTextWithWord from '../stringProcessing/matchTextWithWord';
+import removePunctuation from "../stringProcessing/removePunctuation.js";
+import matchTextWithWord from "../stringProcessing/matchTextWithWord";
 import { uniq as unique } from "lodash-es";
 
 /**
@@ -36,4 +36,4 @@ export default function( text, array, locale = "en_EN" ) {
 		count: count,
 		matches: matches,
 	};
-};
+}

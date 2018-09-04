@@ -55,4 +55,4 @@ export default function() {
 		"tranne che",
 		"una volta che",
 	];
-};
+}

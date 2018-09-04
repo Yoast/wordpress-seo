@@ -1,8 +1,8 @@
 import { map } from "lodash-es";
-import addWordBoundary from './addWordboundary.js';
-import stripSpaces from './stripSpaces.js';
-import transliterate from './transliterate.js';
-import transliterateWP from './transliterateWPstyle.js';
+import addWordBoundary from "./addWordboundary.js";
+import stripSpaces from "./stripSpaces.js";
+import transliterate from "./transliterate.js";
+import transliterateWP from "./transliterateWPstyle.js";
 import { replaceTurkishIsMemoized } from "./specialCharacterMappings";
 
 /**
@@ -50,6 +50,6 @@ export default function( text, keyword, locale ) {
 	return map( combinedArray, function( keyword ) {
 		return stripSpaces( keyword );
 	} );
-};
+}
 
 

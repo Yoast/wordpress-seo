@@ -1,4 +1,4 @@
-import addMarkSingleWord from '../../src/markers/addMarkSingleWord.js';
+import addMarkSingleWord from "../../src/markers/addMarkSingleWord.js";
 
 describe( "addMark", function() {
 	it( "should mark an empty text", function() {

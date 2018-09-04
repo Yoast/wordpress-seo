@@ -13,6 +13,6 @@ export default function() {
 		// Demonstrative pronouns:
 		"este", "estos", "esta", "estas", "ese", "esos", "esa", "esas", "aquel",
 		"aquellos", "aquella", "aquellas", "esto", "eso", "aquello" ];
-};
+}
 
 

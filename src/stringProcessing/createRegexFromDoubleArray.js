@@ -1,6 +1,6 @@
 /** @module stringProcessing/createRegexFromDoubleArray */
 
-import addWordBoundary from '../stringProcessing/addWordboundary.js';
+import addWordBoundary from "../stringProcessing/addWordboundary.js";
 
 /**
  * Creates a regex string of combined strings from the input array.
@@ -25,4 +25,4 @@ export default function( array ) {
 	} );
 	var regexString = "(" + array.join( ")|(" ) + ")";
 	return new RegExp( regexString, "ig" );
-};
+}

@@ -1,7 +1,7 @@
 import TextCompetingLinksAssessment from "../../src/assessments/seo/TextCompetingLinksAssessment";
-import Mark from '../../src/values/Mark';
-import Paper from '../../src/values/Paper';
-import Factory from '../helpers/factory';
+import Mark from "../../src/values/Mark";
+import Paper from "../../src/values/Paper";
+import Factory from "../helpers/factory";
 
 const i18n = Factory.buildJed();
 

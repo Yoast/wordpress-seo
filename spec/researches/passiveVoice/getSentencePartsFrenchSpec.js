@@ -1,4 +1,4 @@
-import getSentenceParts from '../../../src/researches/passiveVoice/periphrastic/getSentenceParts.js';
+import getSentenceParts from "../../../src/researches/passiveVoice/periphrastic/getSentenceParts.js";
 
 describe( "splits French sentences into parts", function() {
 	it( "returns all sentence parts from the auxiliary to the stopword and from the stopword to the end of the sentence", function() {

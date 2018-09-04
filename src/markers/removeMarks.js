@@ -8,4 +8,4 @@ export default function( text ) {
 	return text
 		.replace( new RegExp( "<yoastmark[^>]*>", "g" ), "" )
 		.replace( new RegExp( "</yoastmark>", "g" ), "" );
-};
+}

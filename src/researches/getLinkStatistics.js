@@ -1,11 +1,11 @@
 /** @module analyses/getLinkStatistics */
 
-import getAnchors from '../stringProcessing/getAnchorsFromText.js';
+import getAnchors from "../stringProcessing/getAnchorsFromText.js";
 
-import findKeywordInUrl from '../stringProcessing/findKeywordInUrl.js';
-import getLinkType from '../stringProcessing/getLinkType.js';
-import checkNofollow from '../stringProcessing/checkNofollow.js';
-import urlHelper from '../stringProcessing/url.js';
+import findKeywordInUrl from "../stringProcessing/findKeywordInUrl.js";
+import getLinkType from "../stringProcessing/getLinkType.js";
+import checkNofollow from "../stringProcessing/checkNofollow.js";
+import urlHelper from "../stringProcessing/url.js";
 
 import { escapeRegExp } from "lodash-es";
 
@@ -97,4 +97,4 @@ var countLinkTypes = function( paper ) {
  */
 export default function( paper ) {
 	return countLinkTypes( paper );
-};
+}

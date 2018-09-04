@@ -1,4 +1,4 @@
-import participleRegexesFactory from '../../../src/researches/passiveVoice/periphrastic/matchParticiples';
+import participleRegexesFactory from "../../../src/researches/passiveVoice/periphrastic/matchParticiples";
 const participleRegexes = participleRegexesFactory();
 
 describe( "a test for matching irregular participles.", function() {

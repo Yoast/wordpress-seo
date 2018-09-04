@@ -1,7 +1,7 @@
-import Participle from '../../../values/Participle.js';
-import { getIndicesByWord as getIndices } from '../../../stringProcessing/indices.js';
-import { getIndicesByWordList as getIndicesOfList } from '../../../stringProcessing/indices.js';
-import exceptionsParticiplesActiveFactory from './exceptionsParticiplesActive.js';
+import Participle from "../../../values/Participle.js";
+import { getIndicesByWord as getIndices } from "../../../stringProcessing/indices.js";
+import { getIndicesByWordList as getIndicesOfList } from "../../../stringProcessing/indices.js";
+import exceptionsParticiplesActiveFactory from "./exceptionsParticiplesActive.js";
 const exceptionsParticiplesActive = exceptionsParticiplesActiveFactory();
 var auxiliaries = require( "./auxiliaries.js" )().participleLike;
 

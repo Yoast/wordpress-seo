@@ -1,8 +1,8 @@
-import createRegexFromDoubleArray from '../stringProcessing/createRegexFromDoubleArray.js';
-import getSentences from '../stringProcessing/getSentences.js';
-import { normalizeSingle as normalizeSingleQuotes } from '../stringProcessing/quotes.js';
-import getTransitionWords from '../helpers/getTransitionWords.js';
-import { isWordInSentence as matchWordInSentence } from '../stringProcessing/matchWordInSentence.js';
+import createRegexFromDoubleArray from "../stringProcessing/createRegexFromDoubleArray.js";
+import getSentences from "../stringProcessing/getSentences.js";
+import { normalizeSingle as normalizeSingleQuotes } from "../stringProcessing/quotes.js";
+import getTransitionWords from "../helpers/getTransitionWords.js";
+import { isWordInSentence as matchWordInSentence } from "../stringProcessing/matchWordInSentence.js";
 
 import { forEach } from "lodash-es";
 import { filter } from "lodash-es";
@@ -95,4 +95,4 @@ export default function( paper ) {
 		sentenceResults: sentenceResults,
 		transitionWordSentences: sentenceResults.length,
 	};
-};
+}

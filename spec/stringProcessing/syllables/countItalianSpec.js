@@ -1,4 +1,4 @@
-import countSyllableFunction from '../../../src/stringProcessing/syllables/count.js';
+import countSyllableFunction from "../../../src/stringProcessing/syllables/count.js";
 
 describe( "a syllable counter for Italian text strings", function() {
 	// I cannot find an example for 'aí', but theoretically this combination would be 2 syllables.

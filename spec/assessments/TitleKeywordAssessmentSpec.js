@@ -1,6 +1,6 @@
 import TitleKeywordAssessment from "../../src/assessments/seo/TitleKeywordAssessment";
-import Paper from '../../src/values/Paper';
-import Factory from '../helpers/factory';
+import Paper from "../../src/values/Paper";
+import Factory from "../helpers/factory";
 
 const i18n = Factory.buildJed();
 

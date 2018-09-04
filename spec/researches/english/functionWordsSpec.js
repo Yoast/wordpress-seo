@@ -1,4 +1,4 @@
-import functionWords from '../../../src/researches/english/functionWords.js';
+import functionWords from "../../../src/researches/english/functionWords.js";
 
 describe( "a test for the existence of the properties of functionWords", function() {
 	it( "returns true for all of its properties", function() {

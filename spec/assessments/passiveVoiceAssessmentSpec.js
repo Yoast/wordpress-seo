@@ -1,8 +1,8 @@
-import passiveVoiceAssessment from '../../src/assessments/readability/passiveVoiceAssessment.js';
-import Paper from '../../src/values/Paper.js';
-import Factory from '../helpers/factory.js';
+import passiveVoiceAssessment from "../../src/assessments/readability/passiveVoiceAssessment.js";
+import Paper from "../../src/values/Paper.js";
+import Factory from "../helpers/factory.js";
 var i18n = Factory.buildJed();
-import Mark from '../../src/values/Mark.js';
+import Mark from "../../src/values/Mark.js";
 
 var paper = new Paper();
 describe( "An assessment for scoring passive voice.", function() {

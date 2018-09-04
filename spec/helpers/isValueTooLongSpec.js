@@ -1,4 +1,4 @@
-import isValueTooLong from '../../src/helpers/isValueTooLong.js';
+import isValueTooLong from "../../src/helpers/isValueTooLong.js";
 
 describe( "Checks whether a value is too long", function() {
 	it( "returns false, because the value is smaller than the given maximum", function() {

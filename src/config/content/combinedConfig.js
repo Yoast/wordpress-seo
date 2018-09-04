@@ -1,9 +1,9 @@
 import { defaultsDeep } from "lodash-es";
-import getLanguage from './../../helpers/getLanguage';
-import defaultConfig from './default';
-import it from './it';
-import ru from './ru';
-import pl from './pl';
+import getLanguage from "./../../helpers/getLanguage";
+import defaultConfig from "./default";
+import it from "./it";
+import ru from "./ru";
+import pl from "./pl";
 
 let configurations = {
 	it: it,
@@ -18,4 +18,4 @@ export default function( locale ) {
 	}
 
 	return defaultConfig;
-};
+}

@@ -94,5 +94,5 @@ export default function() {
 		infinitiveAuxiliaries: infinitiveAuxiliaries,
 		allAuxiliaries: participleLike.concat( otherAuxiliaries, infinitiveAuxiliaries ),
 	};
-};
+}
 

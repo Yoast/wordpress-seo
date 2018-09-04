@@ -1,6 +1,6 @@
-import Assessor from '../../src/cornerstone/seoAssessor.js';
-import Paper from '../../src/values/Paper.js';
-import factory from '../helpers/factory.js';
+import Assessor from "../../src/cornerstone/seoAssessor.js";
+import Paper from "../../src/values/Paper.js";
+import factory from "../helpers/factory.js";
 let i18n = factory.buildJed();
 let assessor = new Assessor( i18n );
 

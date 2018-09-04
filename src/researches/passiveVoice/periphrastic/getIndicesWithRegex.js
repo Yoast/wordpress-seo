@@ -17,4 +17,4 @@ export default function( sentencePart, regex ) {
 		} );
 	}
 	return results;
-};
+}

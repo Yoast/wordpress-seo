@@ -1,11 +1,11 @@
-import AssessmentResult from '../../values/AssessmentResult.js';
-import Assessment from '../../assessment.js';
-import countTooLongSentences from '../../assessmentHelpers/checkForTooLongSentences.js';
-import formatNumber from '../../helpers/formatNumber.js';
-import { inRangeEndInclusive as inRange } from '../../helpers/inRange.js';
-import { stripIncompleteTags as stripTags } from '../../stringProcessing/stripHTMLTags';
-import Mark from '../../values/Mark.js';
-import addMark from '../../markers/addMark.js';
+import AssessmentResult from "../../values/AssessmentResult.js";
+import Assessment from "../../assessment.js";
+import countTooLongSentences from "../../assessmentHelpers/checkForTooLongSentences.js";
+import formatNumber from "../../helpers/formatNumber.js";
+import { inRangeEndInclusive as inRange } from "../../helpers/inRange.js";
+import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
+import Mark from "../../values/Mark.js";
+import addMark from "../../markers/addMark.js";
 
 import { map } from "lodash-es";
 import { merge } from "lodash-es";

@@ -564,4 +564,4 @@ export default function() {
 		irregularsIrregular: irregularsIrregular,
 		irregularsEndingInS: irregularsEndingInS,
 	};
-};
+}

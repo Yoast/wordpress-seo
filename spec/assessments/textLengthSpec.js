@@ -1,6 +1,6 @@
-import TextLengthAssessment from '../../src/assessments/seo/textLengthAssessment.js';
-import Paper from '../../src/values/Paper.js';
-import Factory from '../helpers/factory.js';
+import TextLengthAssessment from "../../src/assessments/seo/textLengthAssessment.js";
+import Paper from "../../src/values/Paper.js";
+import Factory from "../helpers/factory.js";
 var i18n = Factory.buildJed();
 
 let wordCountAssessment = new TextLengthAssessment();

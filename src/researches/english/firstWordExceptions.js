@@ -13,4 +13,4 @@ export default function() {
 		// Demonstrative pronouns:
 		"this", "that", "these", "those",
 	];
-};
+}

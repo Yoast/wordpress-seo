@@ -24,4 +24,4 @@ export default function( followingWords, match ) {
 	} );
 
 	return includes( followingWordsIndices, wordAfterMatchIndex );
-};
+}

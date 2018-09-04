@@ -1,7 +1,7 @@
-import arrayToRegex from '../../../stringProcessing/createRegexFromArray.js';
+import arrayToRegex from "../../../stringProcessing/createRegexFromArray.js";
 var auxiliaries = require( "./auxiliaries.js" )().allAuxiliaries;
-import getParticiples from './getParticiples.js';
-import determineSentencePartIsPassive from '../../passiveVoice/periphrastic/determineSentencePartIsPassive.js';
+import getParticiples from "./getParticiples.js";
+import determineSentencePartIsPassive from "../../passiveVoice/periphrastic/determineSentencePartIsPassive.js";
 
 var auxiliaryRegex = arrayToRegex( auxiliaries );
 
@@ -22,4 +22,4 @@ export default function( sentencePartText, auxiliaries, language ) {
 	}
 	var participles = getParticiples( sentencePartText, auxiliaries, language );
 	return determineSentencePartIsPassive( participles );
-};
+}

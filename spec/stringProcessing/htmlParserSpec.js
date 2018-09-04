@@ -1,4 +1,4 @@
-import htmlParser from '../../src/stringProcessing/htmlParser.js';
+import htmlParser from "../../src/stringProcessing/htmlParser.js";
 
 describe( "A function to remove the entire HTML style/script tag block.", function() {
 	it( "filters an entire style block", function() {

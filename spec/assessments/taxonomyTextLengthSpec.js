@@ -1,6 +1,6 @@
-import taxonomyTextLengthAssessment from '../../src/assessments/seo/taxonomyTextLengthAssessment.js';
-import Paper from '../../src/values/Paper.js';
-import Factory from '../helpers/factory.js';
+import taxonomyTextLengthAssessment from "../../src/assessments/seo/taxonomyTextLengthAssessment.js";
+import Paper from "../../src/values/Paper.js";
+import Factory from "../helpers/factory.js";
 var i18n = Factory.buildJed();
 
 describe( "A word count assessment", function() {

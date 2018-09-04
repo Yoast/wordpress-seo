@@ -1,4 +1,4 @@
-import GermanSentencePart from '../../../../src/researches/german/passiveVoice/SentencePart.js';
+import GermanSentencePart from "../../../../src/researches/german/passiveVoice/SentencePart.js";
 
 describe( "creates a german sentence part", function() {
 	it( "makes sure the german sentence part inherits all functions", function() {

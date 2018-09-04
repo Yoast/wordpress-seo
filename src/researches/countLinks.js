@@ -1,6 +1,6 @@
 /** @module analyses/getLinkStatistics */
 
-import getLinks from './getLinks';
+import getLinks from "./getLinks";
 
 /**
  * Checks a text for anchors and returns the number found.
@@ -12,4 +12,4 @@ export default function( paper ) {
 	var anchors = getLinks( paper );
 
 	return anchors.length;
-};
+}

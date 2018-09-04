@@ -15,4 +15,4 @@ export default function( text ) {
 	text = text.replace( punctuationRegexEnd, "" );
 
 	return text;
-};
+}

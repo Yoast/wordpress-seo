@@ -395,4 +395,4 @@ export default function() {
 			quantifiers, intensifiers, possessivePronouns, reflexivePronounsNominative, reflexivePronounsOther, ordinalNumerals, generalAdjectives,
 			generalAdverbs, delexicalisedVerbsInfinitive, otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive ),
 	};
-};
+}

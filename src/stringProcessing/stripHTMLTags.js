@@ -1,8 +1,8 @@
 /** @module stringProcessing/stripHTMLTags */
 
-import stripSpaces from '../stringProcessing/stripSpaces.js';
+import stripSpaces from "../stringProcessing/stripSpaces.js";
 
-import { blockElements } from '../helpers/html.js';
+import { blockElements } from "../helpers/html.js";
 
 var blockElementStartRegex = new RegExp( "^<(" + blockElements.join( "|" ) + ")[^>]*?>", "i" );
 var blockElementEndRegex = new RegExp( "</(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );

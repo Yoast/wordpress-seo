@@ -1,4 +1,4 @@
-import removeMarks from './removeMarks';
+import removeMarks from "./removeMarks";
 
 export {
 	removeMarks,

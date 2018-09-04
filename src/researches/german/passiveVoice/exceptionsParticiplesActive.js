@@ -2226,4 +2226,4 @@ export default function() {
 		"überziehungskredit",
 		"ueberziehungskredit",
 	];
-};
+}

@@ -30,4 +30,4 @@ export default function( precedingWords, matchIndex, addSpace = true ) {
 		precedingWordsEndIndices.push( precedingWordsEndIndex );
 	} );
 	return includes( precedingWordsEndIndices, matchIndex );
-};
+}

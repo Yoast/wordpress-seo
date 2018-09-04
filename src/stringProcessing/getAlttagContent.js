@@ -1,6 +1,6 @@
 /** @module stringProcessing/getAlttagContent */
 
-import stripSpaces from '../stringProcessing/stripSpaces.js';
+import stripSpaces from "../stringProcessing/stripSpaces.js";
 
 var regexAltTag = /alt=(['"])(.*?)\1/i;
 
@@ -22,4 +22,4 @@ export default function( text ) {
 		alt = alt.replace( /&#039;/g, "'" );
 	}
 	return alt;
-};
+}

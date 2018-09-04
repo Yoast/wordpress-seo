@@ -1,4 +1,4 @@
-import firstWordExceptions from '../../src/helpers/getFirstWordExceptions.js';
+import firstWordExceptions from "../../src/helpers/getFirstWordExceptions.js";
 
 describe( "a test for getting the correct first word exception array", function() {
 	it( "returns the English first word exception array in case of en_US locale", function() {

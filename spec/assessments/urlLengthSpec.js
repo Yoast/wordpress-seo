@@ -1,6 +1,6 @@
-import UrlLengthAssessment from '../../src/assessments/seo/urlLengthAssessment.js';
-import Paper from '../../src/values/Paper.js';
-import factory from '../helpers/factory.js';
+import UrlLengthAssessment from "../../src/assessments/seo/urlLengthAssessment.js";
+import Paper from "../../src/values/Paper.js";
+import factory from "../helpers/factory.js";
 var i18n = factory.buildJed();
 
 let urlLengthAssessment = new UrlLengthAssessment();

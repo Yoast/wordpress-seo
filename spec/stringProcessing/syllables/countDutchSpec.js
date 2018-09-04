@@ -1,4 +1,4 @@
-import countSyllableFunction from '../../../src/stringProcessing/syllables/count.js';
+import countSyllableFunction from "../../../src/stringProcessing/syllables/count.js";
 import { forEach } from "lodash-es";
 
 /**

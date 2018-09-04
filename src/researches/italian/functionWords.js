@@ -270,5 +270,5 @@ export default function() {
 			interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords,
 			titlesPreceding ),
 	};
-};
+}
 

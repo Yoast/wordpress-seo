@@ -2512,4 +2512,4 @@ export default function() {
 		"ervaart",
 		"erft",
 	];
-};
+}

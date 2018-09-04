@@ -1,4 +1,4 @@
-import { getRelevantWords } from '../stringProcessing/relevantWords';
+import { getRelevantWords } from "../stringProcessing/relevantWords";
 
 /**
  * Retrieves the relevant words from the given paper.

@@ -22,7 +22,7 @@ var greaterThanContentRegex = /^<[^><]*$/;
 
 var commentRegex = /<!--(.|[\r\n])*?-->/g;
 
-import core from 'tokenizer2/core';
+import core from "tokenizer2/core";
 import { forEach } from "lodash-es";
 import { memoize } from "lodash-es";
 

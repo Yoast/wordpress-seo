@@ -1,9 +1,9 @@
 /** @module stringProcessing/countWords */
 
-import { stripFullTags as stripTags } from './stripHTMLTags.js';
+import { stripFullTags as stripTags } from "./stripHTMLTags.js";
 
-import stripSpaces from './stripSpaces.js';
-import removePunctuation from './removePunctuation.js';
+import stripSpaces from "./stripSpaces.js";
+import removePunctuation from "./removePunctuation.js";
 import { map } from "lodash-es";
 import { filter } from "lodash-es";
 
@@ -28,5 +28,5 @@ export default function( text ) {
 	return filter( words, function( word ) {
 		return word.trim() !== "";
 	} );
-};
+}
 

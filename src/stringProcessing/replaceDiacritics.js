@@ -1,6 +1,6 @@
 /** @module stringProcessing/replaceDiacritics */
 
-import diacriticsRemovalMap from '../config/diacritics.js';
+import diacriticsRemovalMap from "../config/diacritics.js";
 
 /**
  * Replaces all diacritics from the text based on the diacritics removal map.
@@ -18,4 +18,4 @@ export default function( text ) {
 		);
 	}
 	return text;
-};
+}

@@ -1,6 +1,6 @@
 /** @module researches/countKeywordInUrl */
 
-import wordMatch from '../stringProcessing/matchTextWithWord.js';
+import wordMatch from "../stringProcessing/matchTextWithWord.js";
 
 import { escapeRegExp } from "lodash-es";
 
@@ -14,4 +14,4 @@ export default function( paper ) {
 	var keyword = paper.getKeyword().replace( "'", "" ).replace( /\s/ig, "-" );
 	keyword = escapeRegExp( keyword );
 	return wordMatch( paper.getUrl(), keyword, paper.getLocale() ).count;
-};
+}

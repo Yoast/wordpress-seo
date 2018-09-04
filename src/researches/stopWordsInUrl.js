@@ -1,6 +1,6 @@
 /** @module researches/stopWordsInUrl */
 
-import stopWordsInText from './stopWordsInText.js';
+import stopWordsInText from "./stopWordsInText.js";
 
 /**
  * Matches stopwords in the URL. Replaces - and _ with whitespace.
@@ -9,4 +9,4 @@ import stopWordsInText from './stopWordsInText.js';
  */
 export default function( paper ) {
 	return stopWordsInText( paper.getUrl().replace( /[-_]/g, " " ) );
-};
+}

@@ -7,4 +7,4 @@
  */
 export default function( recommendedValue, valueLength ) {
 	return valueLength > recommendedValue;
-};
+}

@@ -21,4 +21,4 @@ export default function( matchString, positiveLookAhead = false, extraWordBounda
 	}
 
 	return wordBoundaryStart + matchString + wordBoundaryEnd;
-};
+}

@@ -1,7 +1,7 @@
-import wordBoundariesFactory from '../config/wordBoundaries.js';
+import wordBoundariesFactory from "../config/wordBoundaries.js";
 const wordBoundaries = wordBoundariesFactory();
 import { includes } from "lodash-es";
-import addWordBoundary from './addWordboundary.js';
+import addWordBoundary from "./addWordboundary.js";
 
 /**
  * Checks whether a character is present in the list of word boundaries.

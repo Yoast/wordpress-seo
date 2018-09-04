@@ -1,7 +1,7 @@
 /** @module stringProcessing/checkNofollow */
 
 // We use an external library, which can be found here: https://github.com/fb55/htmlparser2.
-import htmlparser from 'htmlparser2';
+import htmlparser from "htmlparser2";
 
 /**
  * Checks if a link has a `rel` attribute with a `nofollow` value. If it has, returns Nofollow, otherwise Dofollow.
@@ -35,4 +35,4 @@ export default function( anchorHTML ) {
 	parser.end();
 
 	return linkFollow;
-};
+}

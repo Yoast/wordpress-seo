@@ -7,4 +7,4 @@ export default function() {
 		[ "não apenas", "como também" ], [ "não só", "bem como" ], [ "não só", "como também" ],
 		[ "não só", "mas também" ], [ "ora", "ora" ], [ "ou", "ou" ], [ "quer", "quer" ],
 	];
-};
+}

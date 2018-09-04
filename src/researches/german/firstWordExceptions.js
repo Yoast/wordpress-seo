@@ -14,6 +14,6 @@ export default function() {
 		"denen", "deren", "derer", "dessen", "diese", "diesem", "diesen", "dieser", "dieses", "jene",
 		"jenem", "jenen", "jener", "jenes", "welch", "welcher", "welches",
 	];
-};
+}
 
 

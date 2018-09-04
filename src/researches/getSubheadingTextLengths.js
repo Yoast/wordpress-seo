@@ -1,5 +1,5 @@
-import getSubheadingTexts from '../stringProcessing/getSubheadingTexts';
-import countWords from '../stringProcessing/countWords';
+import getSubheadingTexts from "../stringProcessing/getSubheadingTexts";
+import countWords from "../stringProcessing/countWords";
 import { forEach } from "lodash-es";
 
 /**
@@ -19,4 +19,4 @@ export default function( paper ) {
 		} );
 	} );
 	return subHeadingTexts;
-};
+}

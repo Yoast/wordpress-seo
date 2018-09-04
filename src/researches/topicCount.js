@@ -1,14 +1,14 @@
 /** @module analyses/getTopicCount */
-import matchTextWithArray from '../stringProcessing/matchTextWithArray.js';
+import matchTextWithArray from "../stringProcessing/matchTextWithArray.js";
 
-import { normalize as normalizeQuotes } from '../stringProcessing/quotes.js';
-import parseSynonyms from '../stringProcessing/parseSynonyms';
+import { normalize as normalizeQuotes } from "../stringProcessing/quotes.js";
+import parseSynonyms from "../stringProcessing/parseSynonyms";
 import { uniq as unique } from "lodash-es";
 import { isEmpty } from "lodash-es";
-import getSentences from '../stringProcessing/getSentences';
-import arrayToRegex from '../stringProcessing/createRegexFromArray';
-import addMark from '../markers/addMarkSingleWord';
-import Mark from '../values/Mark.js';
+import getSentences from "../stringProcessing/getSentences";
+import arrayToRegex from "../stringProcessing/createRegexFromArray";
+import addMark from "../markers/addMarkSingleWord";
+import Mark from "../values/Mark.js";
 
 /**
  * Calculates the topic count, i.e., how many times the keyword or its synonyms were encountered in the text.
@@ -80,6 +80,6 @@ export default function( paper, onlyKeyword = false ) {
 		markings: markings,
 		matchesIndices: matchesIndices,
 	};
-};
+}
 
 

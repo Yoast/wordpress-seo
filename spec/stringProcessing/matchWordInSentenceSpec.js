@@ -1,4 +1,4 @@
-import matchWordInSentence from '../../src/stringProcessing/matchWordInSentence';
+import matchWordInSentence from "../../src/stringProcessing/matchWordInSentence";
 let characterInBoundary = matchWordInSentence.characterInBoundary;
 let isWordInSentence = matchWordInSentence.isWordInSentence;
 

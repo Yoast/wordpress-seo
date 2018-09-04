@@ -1,5 +1,5 @@
-import SentencePart from '../../../values/SentencePart.js';
-import getParticiples from '../../passiveVoice/periphrastic/getParticiples.js';
+import SentencePart from "../../../values/SentencePart.js";
+import getParticiples from "../../passiveVoice/periphrastic/getParticiples.js";
 
 /**
  * Creates a Spanish-specific sentence part.

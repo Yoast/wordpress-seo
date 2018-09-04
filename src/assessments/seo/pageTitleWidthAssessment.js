@@ -1,8 +1,8 @@
 import { merge } from "lodash-es";
 
-import AssessmentResult from '../../values/AssessmentResult.js';
-import Assessment from '../../assessment.js';
-import { inRangeEndInclusive as inRange } from '../../helpers/inRange';
+import AssessmentResult from "../../values/AssessmentResult.js";
+import Assessment from "../../assessment.js";
+import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
 
 const maximumLength = 600;
 /**

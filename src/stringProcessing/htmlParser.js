@@ -1,5 +1,5 @@
 // We use an external library, which can be found here: https://github.com/fb55/htmlparser2.
-import htmlparser from 'htmlparser2';
+import htmlparser from "htmlparser2";
 
 
 import { includes } from "lodash-es";
@@ -81,4 +81,4 @@ export default function( text ) {
 	textArray = [];
 	parser.write( text );
 	return textArray.join( "" );
-};
+}

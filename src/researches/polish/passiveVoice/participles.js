@@ -26432,4 +26432,4 @@ export default function() {
 		"konsakrowane",
 		"konsakrowani",
 	];
-};
+}

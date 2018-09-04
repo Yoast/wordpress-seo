@@ -1,10 +1,10 @@
 import { uniq } from "lodash-es";
 
-import arrayToRegex from '../../../../stringProcessing/createRegexFromArray.js';
-import getWordIndices from '../getIndicesWithRegex.js';
+import arrayToRegex from "../../../../stringProcessing/createRegexFromArray.js";
+import getWordIndices from "../getIndicesWithRegex.js";
 const cannotBeBetweenAuxiliaryAndParticiplePolish =
 	require( "../../../polish/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-import { getIndicesByWordListSorted } from '../../../../stringProcessing/indices.js';
+import { getIndicesByWordListSorted } from "../../../../stringProcessing/indices.js";
 
 /**
  * Checks whether there are any exception words in between the auxiliary and participle. If there are, it doesn't return a passive.
@@ -49,4 +49,4 @@ export default function( sentencePart, participle, auxiliaries, language ) {
 		( precedenceExceptionIndex.index > participleAuxiliary.index && precedenceExceptionIndex.index < participleIndex ) );
 
 	return remaningPrecedenceExceptionIndices.length > 0;
-};
+}

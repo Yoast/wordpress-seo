@@ -13,4 +13,4 @@ export default function() {
 		[ "non seulement", "mais encore" ], [ "plus de", "que" ], [ "quelque", "que" ], [ "si", "que" ], [ "soit", "soit" ],
 		[ "tantôt", "tantôt" ],	[ "tout d'abord", "ensuite" ], [ "tout", "que" ],
 	];
-};
+}

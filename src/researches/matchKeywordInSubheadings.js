@@ -1,9 +1,9 @@
 /* @module analyses/matchKeywordInSubheadings */
 
-import stripSomeTags from '../stringProcessing/stripNonTextTags.js';
+import stripSomeTags from "../stringProcessing/stripNonTextTags.js";
 
-import subheadingMatch from '../stringProcessing/subheadingsMatch.js';
-import { getSubheadingContents } from '../stringProcessing/getSubheadings.js';
+import subheadingMatch from "../stringProcessing/subheadingsMatch.js";
+import { getSubheadingContents } from "../stringProcessing/getSubheadings.js";
 
 import { escapeRegExp } from "lodash-es";
 
@@ -28,5 +28,5 @@ export default function( paper ) {
 	}
 
 	return result;
-};
+}
 

@@ -1,10 +1,10 @@
-import './config/config.js';
-import SnippetPreview from './snippetPreview.js';
+import "./config/config.js";
+import SnippetPreview from "./snippetPreview.js";
 
 import { defaultsDeep } from "lodash-es";
 import { isObject } from "lodash-es";
 import { isString } from "lodash-es";
-import MissingArgument from './errors/missingArgument';
+import MissingArgument from "./errors/missingArgument";
 import { isUndefined } from "lodash-es";
 import { isEmpty } from "lodash-es";
 import { isFunction } from "lodash-es";
@@ -14,19 +14,19 @@ import { debounce } from "lodash-es";
 import { throttle } from "lodash-es";
 import { merge } from "lodash-es";
 
-import Jed from 'jed';
-import SEOAssessor from './seoAssessor.js';
+import Jed from "jed";
+import SEOAssessor from "./seoAssessor.js";
 import LargestKeywordDistanceAssessment from "./assessments/seo/LargestKeywordDistanceAssessment.js";
-import ContentAssessor from './contentAssessor.js';
-import CornerstoneSEOAssessor from './cornerstone/seoAssessor.js';
-import CornerstoneContentAssessor from './cornerstone/contentAssessor.js';
-import Researcher from './researcher.js';
-import AssessorPresenter from './renderers/AssessorPresenter.js';
-import Pluggable from './pluggable.js';
-import Paper from './values/Paper.js';
+import ContentAssessor from "./contentAssessor.js";
+import CornerstoneSEOAssessor from "./cornerstone/seoAssessor.js";
+import CornerstoneContentAssessor from "./cornerstone/contentAssessor.js";
+import Researcher from "./researcher.js";
+import AssessorPresenter from "./renderers/AssessorPresenter.js";
+import Pluggable from "./pluggable.js";
+import Paper from "./values/Paper.js";
 import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
-import removeHtmlBlocks from './stringProcessing/htmlParser.js';
+import removeHtmlBlocks from "./stringProcessing/htmlParser.js";
 
 const largestKeywordDistance = new LargestKeywordDistanceAssessment();
 

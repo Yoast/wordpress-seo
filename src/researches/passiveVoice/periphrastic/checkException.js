@@ -12,4 +12,4 @@ export default function() {
 	}
 
 	this.setSentencePartPassiveness( this.isPassive() );
-};
+}

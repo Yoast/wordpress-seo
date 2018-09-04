@@ -1,7 +1,7 @@
 import { merge } from "lodash-es";
 
-import AssessmentResult from '../../values/AssessmentResult.js';
-import Assessment from '../../assessment.js';
+import AssessmentResult from "../../values/AssessmentResult.js";
+import Assessment from "../../assessment.js";
 
 /**
  * Represents the assessment that checks if the keyword is present in one of the subheadings.

@@ -1,8 +1,8 @@
-import Researcher from './researcher.js';
-import MissingArgument from './errors/missingArgument';
-import removeDuplicateMarks from './markers/removeDuplicateMarks';
-import AssessmentResult from './values/AssessmentResult.js';
-import { showTrace } from './helpers/errors.js';
+import Researcher from "./researcher.js";
+import MissingArgument from "./errors/missingArgument";
+import removeDuplicateMarks from "./markers/removeDuplicateMarks";
+import AssessmentResult from "./values/AssessmentResult.js";
+import { showTrace } from "./helpers/errors.js";
 
 import { isUndefined } from "lodash-es";
 import { isFunction } from "lodash-es";

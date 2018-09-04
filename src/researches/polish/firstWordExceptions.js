@@ -11,4 +11,4 @@ export default function() {
 		"takim", "takimi", "tamten", "tamta", "tamto", "tamci", "tamte", "tamtą", "tamtego", "tamtej", "tamtemu", "tamtych",
 		"tamtym", "tamtymi", "tą", "tę", "tego", "tej", "temu", "tych", "tymi", "tym", "tak",
 	];
-};
+}

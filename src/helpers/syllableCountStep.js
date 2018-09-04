@@ -1,6 +1,6 @@
 import { isUndefined } from "lodash-es";
 
-import arrayToRegex from '../stringProcessing/createRegexFromArray.js';
+import arrayToRegex from "../stringProcessing/createRegexFromArray.js";
 
 /**
  * Constructs a language syllable regex that contains a regex for matching syllable exclusion.

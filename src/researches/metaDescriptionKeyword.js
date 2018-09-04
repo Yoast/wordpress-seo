@@ -1,4 +1,4 @@
-import matchTextWithWord from '../stringProcessing/matchTextWithWord.js';
+import matchTextWithWord from "../stringProcessing/matchTextWithWord.js";
 
 import { escapeRegExp } from "lodash-es";
 
@@ -15,5 +15,5 @@ export default function( paper ) {
 	}
 	var keyword = escapeRegExp( paper.getKeyword() );
 	return matchTextWithWord( paper.getDescription(), keyword, paper.getLocale() ).count;
-};
+}
 

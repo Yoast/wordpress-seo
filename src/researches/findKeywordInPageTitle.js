@@ -1,6 +1,6 @@
 /** @module analyses/findKeywordInPageTitle */
 
-import wordMatch from '../stringProcessing/matchTextWithWord.js';
+import wordMatch from "../stringProcessing/matchTextWithWord.js";
 
 import { escapeRegExp } from "lodash-es";
 
@@ -21,4 +21,4 @@ export default function( paper ) {
 	result.matches = wordMatched.count;
 	result.position = wordMatched.position;
 	return result;
-};
+}

@@ -1,4 +1,4 @@
-import sentenceCount from '../../src/stringProcessing/countSentences.js';
+import sentenceCount from "../../src/stringProcessing/countSentences.js";
 
 describe( "Counting of sentences", function() {
 	it( "returns the number of sentences in a string", function() {

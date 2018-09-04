@@ -1,8 +1,8 @@
 /** @module stringProcessing/sanitizeString */
 
-import { stripFullTags as stripTags } from '../stringProcessing/stripHTMLTags.js';
+import { stripFullTags as stripTags } from "../stringProcessing/stripHTMLTags.js";
 
-import stripSpaces from '../stringProcessing/stripSpaces.js';
+import stripSpaces from "../stringProcessing/stripSpaces.js";
 
 /**
  * Strip HTMLtags characters from string that break regex
@@ -15,4 +15,4 @@ export default function( text ) {
 	text = stripSpaces( text );
 
 	return text;
-};
+}

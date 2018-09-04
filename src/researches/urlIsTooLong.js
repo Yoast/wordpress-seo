@@ -16,4 +16,4 @@ export default function( paper ) {
 		return true;
 	}
 	return false;
-};
+}

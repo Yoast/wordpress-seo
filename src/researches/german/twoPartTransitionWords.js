@@ -10,4 +10,4 @@ export default function() {
 		[ "nicht nur", "sondern auch" ], [ "ob", "oder" ], [ "ohne", "dass" ], [ "so", "dass" ], [ "sowohl", "als auch" ],
 		[ "sowohl", "wie auch" ], [ "unbeschadet dessen", "dass" ], [ "weder", "noch" ], [ "wenn", "auch" ],
 		[ "wenn", "schon" ], [ "nicht weil", "sondern" ]  ];
-};
+}

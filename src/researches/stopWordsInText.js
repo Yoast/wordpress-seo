@@ -1,6 +1,6 @@
-import stopwordsFactory from '../config/stopwords.js';
+import stopwordsFactory from "../config/stopwords.js";
 const stopwords = stopwordsFactory();
-import toRegex from '../stringProcessing/createWordRegex.js';
+import toRegex from "../stringProcessing/createWordRegex.js";
 
 /**
  * Checks a text to see if there are any stopwords, that are defined in the stopwords config.
@@ -18,4 +18,4 @@ export default function( text ) {
 	}
 
 	return matches;
-};
+}

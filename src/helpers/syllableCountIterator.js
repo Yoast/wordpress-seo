@@ -1,4 +1,4 @@
-import SyllableCountStep from './syllableCountStep.js';
+import SyllableCountStep from "./syllableCountStep.js";
 
 import { isUndefined } from "lodash-es";
 import { forEach } from "lodash-es";

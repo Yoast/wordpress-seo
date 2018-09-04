@@ -1,5 +1,5 @@
-import countWords from '../stringProcessing/countWords.js';
-import matchParagraphs from '../stringProcessing/matchParagraphs.js';
+import countWords from "../stringProcessing/countWords.js";
+import matchParagraphs from "../stringProcessing/matchParagraphs.js";
 import { filter } from "lodash-es";
 
 /**
@@ -22,4 +22,4 @@ export default function( paper ) {
 	return filter( paragraphsLength, function( paragraphLength ) {
 		return ( paragraphLength.wordCount > 0 );
 	} );
-};
+}

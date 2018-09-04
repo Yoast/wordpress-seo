@@ -1,12 +1,12 @@
 /** @module stringProcessing/matchTextWithWord */
 
-import stripSomeTags from '../stringProcessing/stripNonTextTags.js';
+import stripSomeTags from "../stringProcessing/stripNonTextTags.js";
 
-import stripSpaces from '../stringProcessing/stripSpaces.js';
-import removePunctuation from '../stringProcessing/removePunctuation.js';
-import { unifyAllSpaces as unifyWhitespace } from '../stringProcessing/unifyWhitespace.js';
-import matchStringWithTransliteration from '../stringProcessing/matchTextWithTransliteration.js';
-import { normalize as normalizeQuotes } from '../stringProcessing/quotes.js';
+import stripSpaces from "../stringProcessing/stripSpaces.js";
+import removePunctuation from "../stringProcessing/removePunctuation.js";
+import { unifyAllSpaces as unifyWhitespace } from "../stringProcessing/unifyWhitespace.js";
+import matchStringWithTransliteration from "../stringProcessing/matchTextWithTransliteration.js";
+import { normalize as normalizeQuotes } from "../stringProcessing/quotes.js";
 import { map } from "lodash-es";
 
 /**
@@ -39,4 +39,4 @@ export default function( text, wordToMatch, locale, extraBoundary ) {
 		matches: matches,
 		position: Math.min( ...positions ),
 	};
-};
+}

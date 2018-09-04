@@ -1,7 +1,7 @@
 import { merge } from "lodash-es";
 
-import AssessmentResult from '../../values/AssessmentResult.js';
-import Assessment from '../../assessment.js';
+import AssessmentResult from "../../values/AssessmentResult.js";
+import Assessment from "../../assessment.js";
 
 /**
  * Assessment that checks if the url is long enough.

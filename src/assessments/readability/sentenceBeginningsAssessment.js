@@ -1,5 +1,5 @@
-import AssessmentResult from '../../values/AssessmentResult.js';
-import { stripIncompleteTags as stripTags } from '../../stringProcessing/stripHTMLTags';
+import AssessmentResult from "../../values/AssessmentResult.js";
+import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
 
 import { partition } from "lodash-es";
 import { sortBy } from "lodash-es";
@@ -7,12 +7,12 @@ import { map } from "lodash-es";
 import { filter } from "lodash-es";
 import { flatten } from "lodash-es";
 
-import Mark from '../../values/Mark.js';
-import marker from '../../markers/addMark.js';
+import Mark from "../../values/Mark.js";
+import marker from "../../markers/addMark.js";
 
 let maximumConsecutiveDuplicates = 2;
 
-import getLanguageAvailability from '../../helpers/getLanguageAvailability.js';
+import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
 let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "ru", "pl" ];
 
 /**

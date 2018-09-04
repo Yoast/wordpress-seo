@@ -10,4 +10,4 @@ var sentenceTerminators = /[.?!:;,]/g;
  */
 export default function( text ) {
 	return text.replace( sentenceTerminators, "" );
-};
+}

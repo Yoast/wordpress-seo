@@ -7,4 +7,4 @@ export default function() {
 		[ "aan de ene kant", "aan de andere kant" ], [ "enerzijds", "anderzijds" ], [ "natuurlijk", "maar" ],
 		[ "niet alleen", "maar ook" ], [ "noch", "noch" ], [ "zowel", "als" ],
 	];
-};
+}

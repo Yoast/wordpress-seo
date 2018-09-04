@@ -6,4 +6,4 @@
  */
 export default function() {
 	return [ [ "ara", "ara" ], [ "ni", "ni" ] ];
-};
+}

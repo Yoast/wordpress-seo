@@ -1,4 +1,4 @@
-import { stripWordBoundariesStart, stripWordBoundariesEnd } from '../stringProcessing/stripWordBoundaries';
+import { stripWordBoundariesStart, stripWordBoundariesEnd } from "../stringProcessing/stripWordBoundaries";
 
 /**
  * Marks a text with HTML tags, deals with word boundaries that were matched by regexes, but which should not be marked.
@@ -28,4 +28,4 @@ export default function( text ) {
 	}
 
 	return wordBoundaryStart + "<yoastmark class='yoast-text-mark'>" + strippedTextEnd + "</yoastmark>" + wordBoundaryEnd;
-};
+}

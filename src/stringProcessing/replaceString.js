@@ -12,4 +12,4 @@ export default function( text, stringToReplace, replacement ) {
 	text = text.replace( stringToReplace, replacement );
 
 	return text;
-};
+}

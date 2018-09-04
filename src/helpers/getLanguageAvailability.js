@@ -1,6 +1,6 @@
 import { indexOf } from "lodash-es";
 
-import getLanguage from './getLanguage.js';
+import getLanguage from "./getLanguage.js";
 
 /**
  * Checks whether the language of the locale is available.
@@ -12,4 +12,4 @@ import getLanguage from './getLanguage.js';
 export default function( locale, languages ) {
 	var language = getLanguage( locale );
 	return indexOf( languages, language ) > -1;
-};
+}

@@ -292,4 +292,4 @@ export default function() {
 			delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,
 			timeWords, titlesPreceding, titlesFollowing ),
 	};
-};
+}

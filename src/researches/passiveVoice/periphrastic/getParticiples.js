@@ -1,17 +1,17 @@
 import { forEach } from "lodash-es";
 
-import getWords from '../../../stringProcessing/getWords.js';
-import matchParticiplesFactory from './matchParticiples';
+import getWords from "../../../stringProcessing/getWords.js";
+import matchParticiplesFactory from "./matchParticiples";
 const matchParticiples = matchParticiplesFactory();
 const regularParticipleRegex = matchParticiples.regularParticiples;
 const irregularParticipleRegex = matchParticiples.irregularParticiples;
 
-import EnglishParticiple from '../../english/passiveVoice/EnglishParticiple.js';
-import FrenchParticiple from '../../french/passiveVoice/FrenchParticiple.js';
-import SpanishParticiple from '../../spanish/passiveVoice/SpanishParticiple.js';
-import ItalianParticiple from '../../italian/passiveVoice/ItalianParticiple.js';
-import DutchParticiple from '../../dutch/passiveVoice/DutchParticiple.js';
-import PolishParticiple from '../../polish/passiveVoice/PolishParticiple.js';
+import EnglishParticiple from "../../english/passiveVoice/EnglishParticiple.js";
+import FrenchParticiple from "../../french/passiveVoice/FrenchParticiple.js";
+import SpanishParticiple from "../../spanish/passiveVoice/SpanishParticiple.js";
+import ItalianParticiple from "../../italian/passiveVoice/ItalianParticiple.js";
+import DutchParticiple from "../../dutch/passiveVoice/DutchParticiple.js";
+import PolishParticiple from "../../polish/passiveVoice/PolishParticiple.js";
 
 /**
  * Creates participle objects for the participles found in a sentence part.
@@ -64,4 +64,4 @@ export default function( sentencePartText, auxiliaries, language ) {
 		}
 	} );
 	return foundParticiples;
-};
+}

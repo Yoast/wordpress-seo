@@ -1,4 +1,4 @@
-import core from 'tokenizer2/core';
+import core from "tokenizer2/core";
 
 /**
  * Contains a URL tokenizer that is capable of tokenizing a URL structure string.

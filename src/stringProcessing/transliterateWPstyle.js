@@ -1,4 +1,4 @@
-import transliterationsMap from '../config/transliterationsWPstyle.js';
+import transliterationsMap from "../config/transliterationsWPstyle.js";
 
 /**
  * Replaces all special characters from the text based on the transliterations map specific for WP
@@ -18,4 +18,4 @@ export default function( text, locale ) {
 		);
 	}
 	return text;
-};
+}

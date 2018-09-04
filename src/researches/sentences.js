@@ -1,4 +1,4 @@
-import getSentences from '../stringProcessing/getSentences';
+import getSentences from "../stringProcessing/getSentences";
 
 /**
  * Returns the sentences from a paper.

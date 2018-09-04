@@ -1,6 +1,6 @@
 /** @module researches/imageInText */
 
-import imageInText from './../stringProcessing/imageInText';
+import imageInText from "./../stringProcessing/imageInText";
 
 /**
  * Checks the amount of images in the text.
@@ -10,4 +10,4 @@ import imageInText from './../stringProcessing/imageInText';
  */
 export default function( paper ) {
 	return imageInText( paper.getText() ).length;
-};
+}

@@ -1,7 +1,7 @@
-import filter from 'lodash/filter';
-import includes from 'lodash/includes';
-import memoize from 'lodash/memoize';
-import getWords from './getWords';
+import filter from "lodash/filter";
+import includes from "lodash/includes";
+import memoize from "lodash/memoize";
+import getWords from "./getWords";
 
 /**
  * Gets positions of the first character of a word in the input text.

@@ -1,6 +1,6 @@
 /** @module stringProcess/getLinkType */
 
-import urlHelper from './url';
+import urlHelper from "./url";
 
 /**
  * Determines the type of link.
@@ -29,4 +29,4 @@ export default function( text, url ) {
 	}
 
 	return "external";
-};
+}

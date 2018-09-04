@@ -2916,4 +2916,4 @@ export default function() {
 	return {
 		all: passiveVerbs.concat( orthographicFormsPassiveVerbs, alternativeVerbForms, adjectiveParticiples ),
 	};
-};
+}

@@ -1,6 +1,6 @@
-import getWords from '../stringProcessing/getWords.js';
-import countSyllables from '../stringProcessing/syllables/count.js';
-import getSentences from '../stringProcessing/getSentences.js';
+import getWords from "../stringProcessing/getWords.js";
+import countSyllables from "../stringProcessing/syllables/count.js";
+import getSentences from "../stringProcessing/getSentences.js";
 
 import { map } from "lodash-es";
 import { forEach } from "lodash-es";
@@ -39,5 +39,5 @@ export default function( paper ) {
 			words: getWordComplexityForSentence( sentence ),
 		};
 	} );
-};
+}
 

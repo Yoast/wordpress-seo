@@ -1,5 +1,5 @@
-import getParticiples from '../../../src/researches/passiveVoice/periphrastic/getParticiples.js';
-import sentencePart from '../../../src/values/SentencePart.js';
+import getParticiples from "../../../src/researches/passiveVoice/periphrastic/getParticiples.js";
+import sentencePart from "../../../src/values/SentencePart.js";
 
 describe( "Test for matching Spanish participles", function() {
 	it( "returns matched irregular participles.", function() {

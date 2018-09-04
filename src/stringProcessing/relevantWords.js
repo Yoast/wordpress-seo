@@ -1,10 +1,10 @@
-import getWords from '../stringProcessing/getWords.js';
-import getSentences from '../stringProcessing/getSentences.js';
-import WordCombination from '../values/WordCombination.js';
-import { normalize as normalizeQuotes } from '../stringProcessing/quotes.js';
-import functionWordListsFactory from '../helpers/getFunctionWords.js';
+import getWords from "../stringProcessing/getWords.js";
+import getSentences from "../stringProcessing/getSentences.js";
+import WordCombination from "../values/WordCombination.js";
+import { normalize as normalizeQuotes } from "../stringProcessing/quotes.js";
+import functionWordListsFactory from "../helpers/getFunctionWords.js";
 const functionWordLists = functionWordListsFactory();
-import getLanguage from '../helpers/getLanguage.js';
+import getLanguage from "../helpers/getLanguage.js";
 
 import { filter } from "lodash-es";
 import { map } from "lodash-es";

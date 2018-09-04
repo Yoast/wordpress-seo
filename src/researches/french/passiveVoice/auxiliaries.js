@@ -106,4 +106,4 @@ export default function() {
 		"furent-ils",
 		"furent-elles",
 	];
-};
+}

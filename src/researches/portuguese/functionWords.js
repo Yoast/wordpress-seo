@@ -175,4 +175,4 @@ export default function() {
 			intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, generalAdjectivesAdverbs, generalAdjectivesPreceding, interjections,
 			recipeWords, timeWords, vagueNouns, miscellaneous, titles ),
 	};
-};
+}

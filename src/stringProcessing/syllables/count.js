@@ -1,8 +1,8 @@
 /** @module stringProcessing/countSyllables */
 
-import syllableMatchers from '../../config/syllables.js';
+import syllableMatchers from "../../config/syllables.js";
 
-import getWords from '../getWords.js';
+import getWords from "../getWords.js";
 
 import { forEach } from "lodash-es";
 import { filter } from "lodash-es";
@@ -13,8 +13,8 @@ import { sum } from "lodash-es";
 import { memoize } from "lodash-es";
 import { flatMap } from "lodash-es";
 
-import SyllableCountIterator from '../../helpers/syllableCountIterator.js';
-import DeviationFragment from './DeviationFragment';
+import SyllableCountIterator from "../../helpers/syllableCountIterator.js";
+import DeviationFragment from "./DeviationFragment";
 
 /**
  * Counts vowel groups inside a word.

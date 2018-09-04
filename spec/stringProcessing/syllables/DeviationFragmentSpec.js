@@ -1,4 +1,4 @@
-import DeviationFragment from '../../../src/stringProcessing/syllables/DeviationFragment';
+import DeviationFragment from "../../../src/stringProcessing/syllables/DeviationFragment";
 
 describe( "DeviationFragment", function() {
 	describe( "getRegex", function() {

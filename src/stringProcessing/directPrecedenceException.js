@@ -1,6 +1,6 @@
-import getWordIndices from '../researches/passiveVoice/periphrastic/getIndicesWithRegex.js';
-import includesIndex from './includesIndex';
-import arrayToRegex from './createRegexFromArray.js';
+import getWordIndices from "../researches/passiveVoice/periphrastic/getIndicesWithRegex.js";
+import includesIndex from "./includesIndex";
+import arrayToRegex from "./createRegexFromArray.js";
 const cannotDirectlyPrecedePassiveParticipleFrench = require( "../researches/french/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
 const cannotDirectlyPrecedePassiveParticipleEnglish = require( "../researches/english/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
 const cannotDirectlyPrecedePassiveParticipleSpanish = require( "../researches/spanish/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
@@ -45,4 +45,4 @@ export default function( sentencePart, participleIndex, language ) {
 	}
 	const directPrecedenceExceptionMatch = getWordIndices( sentencePart, directPrecedenceExceptionRegex );
 	return includesIndex( directPrecedenceExceptionMatch, participleIndex );
-};
+}

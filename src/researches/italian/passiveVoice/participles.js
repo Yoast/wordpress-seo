@@ -28730,4 +28730,4 @@ export default function() {
 		"zumati",
 		"zuppati",
 	];
-};
+}

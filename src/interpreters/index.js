@@ -1,4 +1,4 @@
-import scoreToRating from './scoreToRating';
+import scoreToRating from "./scoreToRating";
 
 export {
 	scoreToRating,

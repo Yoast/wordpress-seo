@@ -2,7 +2,7 @@ import { isArray } from "lodash-es";
 import { isUndefined } from "lodash-es";
 import { isNumber } from "lodash-es";
 
-import Mark from './Mark';
+import Mark from "./Mark";
 
 /**
  * A function that only returns an empty that can be used as an empty marker

@@ -1,8 +1,8 @@
-import Assessor from '../src/assessor.js';
-import Paper from '../src/values/Paper.js';
-import AssessmentResult from '../src/values/AssessmentResult.js';
-import MissingArgument from '../src/errors/missingArgument';
-import factory from './helpers/factory.js';
+import Assessor from "../src/assessor.js";
+import Paper from "../src/values/Paper.js";
+import AssessmentResult from "../src/values/AssessmentResult.js";
+import MissingArgument from "../src/errors/missingArgument";
+import factory from "./helpers/factory.js";
 var i18n = factory.buildJed();
 
 global.window = {};

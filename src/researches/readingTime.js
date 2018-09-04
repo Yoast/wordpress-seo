@@ -1,5 +1,5 @@
-import wordCountInText from './wordCountInText.js';
-import imageCount from './imageCountInText.js';
+import wordCountInText from "./wordCountInText.js";
+import imageCount from "./imageCountInText.js";
 
 /**
  * Calculates the expected reading time of a text.
@@ -21,4 +21,4 @@ export default function( paper ) {
 	 * rounded up to the nearest minute.
 	 */
 	return Math.ceil( ( numberOfWords / wordsPerMinute ) + ( numberOfImages * minutesPerImage ) );
-};
+}

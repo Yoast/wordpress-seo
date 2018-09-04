@@ -1,5 +1,5 @@
-import { getType } from './../helpers/types.js';
-import { isSameType } from './../helpers/types.js';
+import { getType } from "./../helpers/types.js";
+import { isSameType } from "./../helpers/types.js";
 
 import { defaults } from "lodash-es";
 import { forEach } from "lodash-es";

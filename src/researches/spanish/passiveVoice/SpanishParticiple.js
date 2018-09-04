@@ -1,7 +1,7 @@
-import Participle from '../../../values/Participle.js';
-import checkException from '../../passiveVoice/periphrastic/checkException.js';
-import directPrecedenceException from '../../../stringProcessing/directPrecedenceException';
-import precedenceException from '../../../stringProcessing/precedenceException';
+import Participle from "../../../values/Participle.js";
+import checkException from "../../passiveVoice/periphrastic/checkException.js";
+import directPrecedenceException from "../../../stringProcessing/directPrecedenceException";
+import precedenceException from "../../../stringProcessing/precedenceException";
 
 
 /**

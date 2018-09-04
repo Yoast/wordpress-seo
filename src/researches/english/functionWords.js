@@ -166,4 +166,4 @@ export default function() {
 			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
 			recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing ),
 	};
-};
+}

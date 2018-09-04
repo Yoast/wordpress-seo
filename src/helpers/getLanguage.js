@@ -6,4 +6,4 @@
  */
 export default function( locale ) {
 	return locale.split( "_" )[ 0 ];
-};
+}

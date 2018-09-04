@@ -1,6 +1,6 @@
 import { measureTextWidth } from "./createMeasurementElement";
 
-import scoreToRating from '../interpreters/scoreToRating';
+import scoreToRating from "../interpreters/scoreToRating";
 
 export {
 	measureTextWidth,

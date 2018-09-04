@@ -1,4 +1,4 @@
-import regexMatchFunction from '../../src/stringProcessing/matchStringWithRegex.js';
+import regexMatchFunction from "../../src/stringProcessing/matchStringWithRegex.js";
 
 describe( "Matches text with a regex", function() {
 	it( "returns the number of matches", function() {

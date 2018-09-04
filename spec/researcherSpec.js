@@ -1,7 +1,7 @@
-import Researcher from '../src/researcher.js';
-import Paper from '../src/values/Paper.js';
-import InvalidTypeError from '../src/errors/invalidType.js';
-import MissingArgument from '../src/errors/missingArgument';
+import Researcher from "../src/researcher.js";
+import Paper from "../src/values/Paper.js";
+import InvalidTypeError from "../src/errors/invalidType.js";
+import MissingArgument from "../src/errors/missingArgument";
 
 
 describe( "Creating a Researcher", function() {

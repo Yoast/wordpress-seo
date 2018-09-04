@@ -1,6 +1,6 @@
-import PageTitleLengthAssessment from '../../src/assessments/seo/pageTitleWidthAssessment.js';
-import Paper from '../../src/values/Paper.js';
-import factory from '../helpers/factory.js';
+import PageTitleLengthAssessment from "../../src/assessments/seo/pageTitleWidthAssessment.js";
+import Paper from "../../src/values/Paper.js";
+import factory from "../helpers/factory.js";
 var i18n = factory.buildJed();
 
 let pageTitleLengthAssessment = new PageTitleLengthAssessment();

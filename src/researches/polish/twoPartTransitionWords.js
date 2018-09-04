@@ -6,4 +6,4 @@
  */
 export default function() {
 	return [ [ "albo", "albo" ], [ "ani", "ani" ], [ "czy", "czy" ], [ "im", "tym" ], [ "tak", "jak" ] ];
-};
+}

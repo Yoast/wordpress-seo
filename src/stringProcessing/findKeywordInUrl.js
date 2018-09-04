@@ -1,6 +1,6 @@
 /** @module stringProcessing/findKeywordInUrl */
 
-import matchTextWithTransliteration from './matchTextWithTransliteration.js';
+import matchTextWithTransliteration from "./matchTextWithTransliteration.js";
 
 import { escapeRegExp } from "lodash-es";
 
@@ -21,4 +21,4 @@ export default function( url, keyword, locale ) {
 	}
 
 	return false;
-};
+}

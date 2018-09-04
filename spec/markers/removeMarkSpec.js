@@ -1,4 +1,4 @@
-import removeMarks from '../../src/markers/removeMarks.js';
+import removeMarks from "../../src/markers/removeMarks.js";
 
 describe( "removeMarks", function() {
 	it( "should not touch an empty text", function() {

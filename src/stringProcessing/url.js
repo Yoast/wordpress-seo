@@ -1,5 +1,5 @@
 var urlFromAnchorRegex = /href=(["'])([^"']+)\1/i;
-import urlMethods from 'url';
+import urlMethods from "url";
 
 /**
  * Removes a hash from a URL, assumes a well formed URL.

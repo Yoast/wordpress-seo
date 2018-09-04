@@ -3,24 +3,24 @@
  * stringProcessing script
  */
 
-import germanFunctionWordsFactory from '../researches/german/functionWords.js';
+import germanFunctionWordsFactory from "../researches/german/functionWords.js";
 
 const germanFunctionWords = germanFunctionWordsFactory();
-import englishFunctionWordsFactory from '../researches/english/functionWords.js';
+import englishFunctionWordsFactory from "../researches/english/functionWords.js";
 const englishFunctionWords = englishFunctionWordsFactory();
-import dutchFunctionWordsFactory from '../researches/dutch/functionWords.js';
+import dutchFunctionWordsFactory from "../researches/dutch/functionWords.js";
 const dutchFunctionWords = dutchFunctionWordsFactory();
-import spanishFunctionWordsFactory from '../researches/spanish/functionWords.js';
+import spanishFunctionWordsFactory from "../researches/spanish/functionWords.js";
 const spanishFunctionWords = spanishFunctionWordsFactory();
-import italianFunctionWordsFactory from '../researches/italian/functionWords.js';
+import italianFunctionWordsFactory from "../researches/italian/functionWords.js";
 const italianFunctionWords = italianFunctionWordsFactory();
-import frenchFunctionWordsFactory from '../researches/french/functionWords.js';
+import frenchFunctionWordsFactory from "../researches/french/functionWords.js";
 const frenchFunctionWords = frenchFunctionWordsFactory();
-import portugueseFunctionWordsFactory from '../researches/portuguese/functionWords.js';
+import portugueseFunctionWordsFactory from "../researches/portuguese/functionWords.js";
 const portugueseFunctionWords = portugueseFunctionWordsFactory();
-import russianFunctionWordsFactory from '../researches/russian/functionWords.js';
+import russianFunctionWordsFactory from "../researches/russian/functionWords.js";
 const russianFunctionWords = russianFunctionWordsFactory();
-import polishFunctionWordsFactory from '../researches/polish/functionWords.js';
+import polishFunctionWordsFactory from "../researches/polish/functionWords.js";
 const polishFunctionWords = polishFunctionWordsFactory();
 
 export default function() {
@@ -35,4 +35,4 @@ export default function() {
 		ru: russianFunctionWords,
 		pl: polishFunctionWords,
 	};
-};
+}

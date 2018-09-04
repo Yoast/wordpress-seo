@@ -1,8 +1,8 @@
 import { inRange } from "lodash-es";
 import { merge } from "lodash-es";
 
-import AssessmentResult from '../../values/AssessmentResult.js';
-import Assessment from '../../assessment.js';
+import AssessmentResult from "../../values/AssessmentResult.js";
+import Assessment from "../../assessment.js";
 
 /**
  * Assessment that will test if the text is long enough.

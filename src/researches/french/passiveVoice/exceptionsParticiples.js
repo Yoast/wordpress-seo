@@ -1518,4 +1518,4 @@ export default function() {
 		nounsStartingWithConsonant: nounsStartingWithConsonant,
 		others: others,
 	};
-};
+}

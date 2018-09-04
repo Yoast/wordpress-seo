@@ -1,5 +1,5 @@
-import linkCount from '../../src/researches/countLinks.js';
-import Paper from '../../src/values/Paper.js';
+import linkCount from "../../src/researches/countLinks.js";
+import Paper from "../../src/values/Paper.js";
 var foundLinks;
 
 describe( "Tests a string for anchors", function() {

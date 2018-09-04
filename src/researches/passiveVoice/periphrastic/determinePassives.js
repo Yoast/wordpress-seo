@@ -1,5 +1,5 @@
-import getParticiples from './getParticiples.js';
-import determineSentencePartIsPassive from './determineSentencePartIsPassive.js';
+import getParticiples from "./getParticiples.js";
+import determineSentencePartIsPassive from "./determineSentencePartIsPassive.js";
 
 /**
  * Determines whether a sentence part is passive.
@@ -12,4 +12,4 @@ import determineSentencePartIsPassive from './determineSentencePartIsPassive.js'
 export default function( sentencePart, auxiliaries, language ) {
 	let participles = getParticiples( sentencePart, auxiliaries, language );
 	return determineSentencePartIsPassive( participles );
-};
+}

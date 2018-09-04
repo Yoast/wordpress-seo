@@ -1,4 +1,4 @@
-import removePunctuation from '../../src/stringProcessing/removePunctuation.js';
+import removePunctuation from "../../src/stringProcessing/removePunctuation.js";
 
 describe( "a test removing punctuation from a string", function() {
 	it( "returns string without dash at the end", function() {

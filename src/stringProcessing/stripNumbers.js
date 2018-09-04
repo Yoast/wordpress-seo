@@ -1,6 +1,6 @@
 /** @module stringProcessing/stripNumbers */
 
-import stripSpaces from '../stringProcessing/stripSpaces.js';
+import stripSpaces from "../stringProcessing/stripSpaces.js";
 
 /**
  * Removes all words comprised only of numbers.
@@ -19,4 +19,4 @@ export default function( text ) {
 		text = "";
 	}
 	return text;
-};
+}

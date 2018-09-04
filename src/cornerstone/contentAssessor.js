@@ -1,14 +1,14 @@
-import Assessor from '../assessor.js';
-import ContentAssessor from '../contentAssessor';
-import FleschReadingEase from '../assessments/readability/fleschReadingEaseAssessment.js';
-import paragraphTooLong from '../assessments/readability/paragraphTooLongAssessment.js';
-import SentenceLengthInText from '../assessments/readability/sentenceLengthInTextAssessment.js';
-import SubheadingDistributionTooLong from '../assessments/readability/subheadingDistributionTooLongAssessment.js';
-import transitionWords from '../assessments/readability/transitionWordsAssessment.js';
-import passiveVoice from '../assessments/readability/passiveVoiceAssessment.js';
-import sentenceBeginnings from '../assessments/readability/sentenceBeginningsAssessment.js';
-import textPresence from '../assessments/readability/textPresenceAssessment.js';
-import contentConfiguration from './../config/content/combinedConfig.js';
+import Assessor from "../assessor.js";
+import ContentAssessor from "../contentAssessor";
+import FleschReadingEase from "../assessments/readability/fleschReadingEaseAssessment.js";
+import paragraphTooLong from "../assessments/readability/paragraphTooLongAssessment.js";
+import SentenceLengthInText from "../assessments/readability/sentenceLengthInTextAssessment.js";
+import SubheadingDistributionTooLong from "../assessments/readability/subheadingDistributionTooLongAssessment.js";
+import transitionWords from "../assessments/readability/transitionWordsAssessment.js";
+import passiveVoice from "../assessments/readability/passiveVoiceAssessment.js";
+import sentenceBeginnings from "../assessments/readability/sentenceBeginningsAssessment.js";
+import textPresence from "../assessments/readability/textPresenceAssessment.js";
+import contentConfiguration from "./../config/content/combinedConfig.js";
 
 /*
  Temporarily disabled:

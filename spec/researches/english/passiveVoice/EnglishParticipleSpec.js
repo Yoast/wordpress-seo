@@ -1,5 +1,5 @@
-import EnglishParticiple from '../../../../src/researches/english/passiveVoice/EnglishParticiple.js';
-import checkException from '../../../../src/researches/passiveVoice/periphrastic/checkException.js';
+import EnglishParticiple from "../../../../src/researches/english/passiveVoice/EnglishParticiple.js";
+import checkException from "../../../../src/researches/passiveVoice/periphrastic/checkException.js";
 
 describe( "A test for checking the English Participle", function() {
 	it( "checks the properties of the English participle object with a passive", function() {

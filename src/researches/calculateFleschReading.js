@@ -1,12 +1,12 @@
 /** @module analyses/calculateFleschReading */
 
-import stripNumbers from '../stringProcessing/stripNumbers.js';
+import stripNumbers from "../stringProcessing/stripNumbers.js";
 
-import countSentences from '../stringProcessing/countSentences.js';
-import countWords from '../stringProcessing/countWords.js';
-import countSyllables from '../stringProcessing/syllables/count.js';
-import formatNumber from '../helpers/formatNumber.js';
-import getLanguage from '../helpers/getLanguage.js';
+import countSentences from "../stringProcessing/countSentences.js";
+import countWords from "../stringProcessing/countWords.js";
+import countSyllables from "../stringProcessing/syllables/count.js";
+import formatNumber from "../helpers/formatNumber.js";
+import getLanguage from "../helpers/getLanguage.js";
 
 /**
  * Calculates an average from a total and an amount
@@ -79,4 +79,4 @@ export default function( paper ) {
 
 
 	return formatNumber( score );
-};
+}

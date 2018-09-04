@@ -3041,4 +3041,4 @@ export default function() {
 		"zinkified",
 		"zombified",
 	];
-};
+}

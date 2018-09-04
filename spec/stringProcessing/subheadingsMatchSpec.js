@@ -1,4 +1,4 @@
-import subheadingsMatch from '../../src/stringProcessing/subheadingsMatch';
+import subheadingsMatch from "../../src/stringProcessing/subheadingsMatch";
 
 describe( "subheadingsMatch", function() {
 	it( "should return -1 when match is null", function() {

@@ -1,5 +1,5 @@
 import { forEach } from "lodash-es";
-import domManipulation from './helpers/domManipulation.js';
+import domManipulation from "./helpers/domManipulation.js";
 
 var previewModes = {
 	desktop: "snippet-editor__view--desktop",

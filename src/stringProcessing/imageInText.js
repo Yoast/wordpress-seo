@@ -1,6 +1,6 @@
 /** @module stringProcessing/imageInText */
 
-import matchStringWithRegex from './matchStringWithRegex.js';
+import matchStringWithRegex from "./matchStringWithRegex.js";
 
 /**
  * Checks the text for images.
@@ -10,4 +10,4 @@ import matchStringWithRegex from './matchStringWithRegex.js';
  */
 export default function( text ) {
 	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
-};
+}

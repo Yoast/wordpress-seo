@@ -32,4 +32,4 @@ export default function( precedingWords, participleIndex ) {
 		return true;
 	}
 	return false;
-};
+}

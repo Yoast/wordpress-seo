@@ -17,4 +17,4 @@ export default function( text ) {
 	text = text.replace( /^\s+|\s+$/g, "" );
 
 	return text;
-};
+}

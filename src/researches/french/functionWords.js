@@ -261,4 +261,4 @@ export default function() {
 			generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords,
 			titlesPreceding, titlesFollowing ),
 	};
-};
+}

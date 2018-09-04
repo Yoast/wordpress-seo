@@ -13,5 +13,5 @@ export default function() {
 		// Demonstrative pronouns:
 		"celui", "celle", "ceux", "celles", "celui-ci", "celle-là", "celui-là", "celle-ci",
 	];
-};
+}
 

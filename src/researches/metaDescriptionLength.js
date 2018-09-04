@@ -5,4 +5,4 @@
  */
 export default function( paper ) {
 	return paper.getDescription().length;
-};
+}

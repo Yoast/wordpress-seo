@@ -1,4 +1,4 @@
-import getParticiples from '../../../../src/researches/german/passiveVoice/getParticiples.js';
+import getParticiples from "../../../../src/researches/german/passiveVoice/getParticiples.js";
 
 describe( "Test for matching German participles", function() {
 	it( "returns matched participles with 'ge' at the beginning.", function() {

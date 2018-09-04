@@ -16,4 +16,4 @@ export default function( text, regexString ) {
 	}
 
 	return matches;
-};
+}

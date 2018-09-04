@@ -1,5 +1,5 @@
 // Make sure the Jed object is globally available
-import Jed from 'jed';
+import Jed from "jed";
 
 let FactoryProto = function() {};
 

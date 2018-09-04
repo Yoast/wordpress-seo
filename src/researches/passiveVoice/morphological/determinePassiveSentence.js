@@ -1,5 +1,5 @@
 import { filter } from "lodash-es";
-import getWords from '../../../stringProcessing/getWords.js';
+import getWords from "../../../stringProcessing/getWords.js";
 
 // Verb-form lists per language
 const getPassiveVerbsRussian = require( "../../russian/passiveVoice/participlesShortenedList.js" )().all;
@@ -45,4 +45,4 @@ let determineSentenceIsPassive = function( sentence, language ) {
  */
 export default function( sentenceText, language ) {
 	return determineSentenceIsPassive( sentenceText, language );
-};
+}

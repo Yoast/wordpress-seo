@@ -1,5 +1,5 @@
-import FrenchParticiple from '../../../../src/researches/french/passiveVoice/FrenchParticiple.js';
-import checkException from '../../../../src/researches/passiveVoice/periphrastic/checkException.js';
+import FrenchParticiple from "../../../../src/researches/french/passiveVoice/FrenchParticiple.js";
+import checkException from "../../../../src/researches/passiveVoice/periphrastic/checkException.js";
 
 describe( "A test for checking the French participle", function() {
 	it( "checks the properties of the French participle object with a passive", function() {

@@ -1,5 +1,5 @@
-import { stripFullTags as stripHTMLTags } from '../../stringProcessing/stripHTMLTags';
-import AssessmentResult from '../../values/AssessmentResult';
+import { stripFullTags as stripHTMLTags } from "../../stringProcessing/stripHTMLTags";
+import AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Assesses that the paper has at least a little bit of content.

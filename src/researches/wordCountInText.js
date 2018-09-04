@@ -1,4 +1,4 @@
-import wordCount from '../stringProcessing/countWords.js';
+import wordCount from "../stringProcessing/countWords.js";
 
 /**
  * Count the words in the text
@@ -7,4 +7,4 @@ import wordCount from '../stringProcessing/countWords.js';
  */
 export default function( paper ) {
 	return wordCount( paper.getText() );
-};
+}

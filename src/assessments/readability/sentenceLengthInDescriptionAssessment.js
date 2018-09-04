@@ -1,7 +1,7 @@
-import AssessmentResult from '../../values/AssessmentResult.js';
-import formatNumber from '../../helpers/formatNumber.js';
-import countTooLongSentences from './../../assessmentHelpers/checkForTooLongSentences.js';
-import { inRangeEndInclusive as inRange } from '../../helpers/inRange.js';
+import AssessmentResult from "../../values/AssessmentResult.js";
+import formatNumber from "../../helpers/formatNumber.js";
+import countTooLongSentences from "./../../assessmentHelpers/checkForTooLongSentences.js";
+import { inRangeEndInclusive as inRange } from "../../helpers/inRange.js";
 
 /**
  * Calculates sentence length score

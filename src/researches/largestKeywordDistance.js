@@ -1,5 +1,5 @@
 import { sortBy } from "lodash-es";
-import topicCount from './topicCount';
+import topicCount from "./topicCount";
 
 /**
  * Gets the distance (in terms of characters) between two keywords, between the beginning
@@ -97,4 +97,4 @@ export default function( paper ) {
 	const largestKeywordDistanceInCharacters = getLargestDistanceInCharacters( keywordDistances );
 
 	return ( largestKeywordDistanceInCharacters / textLength ) * 100;
-};
+}

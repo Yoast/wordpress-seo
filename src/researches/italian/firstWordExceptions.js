@@ -14,6 +14,6 @@ export default function() {
 		"questo", "questa", "quello", "quella", "questi", "queste", "quelli", "quelle", "codesto", "codesti", "codesta",
 		"codeste",
 	];
-};
+}
 
 

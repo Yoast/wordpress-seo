@@ -1,6 +1,6 @@
 /** @module stringProcessing/createRegexFromArray */
 
-import addWordBoundary from '../stringProcessing/addWordboundary.js';
+import addWordBoundary from "../stringProcessing/addWordboundary.js";
 
 import { map } from "lodash-es";
 
@@ -25,4 +25,4 @@ export default function( array, disableWordBoundary ) {
 	regexString = "(" + boundedArray.join( ")|(" ) + ")";
 
 	return new RegExp( regexString, "ig" );
-};
+}

@@ -8,4 +8,4 @@
  */
 export default function( string ) {
 	return string.replace( /[\s\n\r\t.,'()"+;!?:/]/g, "" );
-};
+}

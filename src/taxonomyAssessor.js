@@ -6,13 +6,13 @@ import KeywordDensityAssessment from "./assessments/seo/KeywordDensityAssessment
 import MetaDescriptionKeywordAssessment from "./assessments/seo/MetaDescriptionKeywordAssessment";
 import TitleKeywordAssessment from "./assessments/seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
-import Assessor from './assessor';
-import keywordStopWordsAssessment from './assessments/seo/keywordStopWordsAssessment';
-import MetaDescriptionLengthAssessment from './assessments/seo/metaDescriptionLengthAssessment';
-import taxonomyTextLengthAssessment from './assessments/seo/taxonomyTextLengthAssessment';
-import PageTitleWidthAssessment from './assessments/seo/pageTitleWidthAssessment';
-import UrlLengthAssessment from './assessments/seo/urlLengthAssessment';
-import urlStopWordsAssessment from './assessments/seo/urlStopWordsAssessment';
+import Assessor from "./assessor";
+import keywordStopWordsAssessment from "./assessments/seo/keywordStopWordsAssessment";
+import MetaDescriptionLengthAssessment from "./assessments/seo/metaDescriptionLengthAssessment";
+import taxonomyTextLengthAssessment from "./assessments/seo/taxonomyTextLengthAssessment";
+import PageTitleWidthAssessment from "./assessments/seo/pageTitleWidthAssessment";
+import UrlLengthAssessment from "./assessments/seo/urlLengthAssessment";
+import urlStopWordsAssessment from "./assessments/seo/urlStopWordsAssessment";
 
 /**
  * Creates the Assessor used for taxonomy pages.

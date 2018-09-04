@@ -1,4 +1,4 @@
-import getSentences from '../../src/stringProcessing/getSentences.js';
+import getSentences from "../../src/stringProcessing/getSentences.js";
 
 import { forEach } from "lodash-es";
 

@@ -1,8 +1,8 @@
 /** @module stringProcessing/parseSynonyms */
 
-import stripSpaces from '../stringProcessing/stripSpaces.js';
+import stripSpaces from "../stringProcessing/stripSpaces.js";
 
-import removePunctuation from '../stringProcessing/removePunctuation.js';
+import removePunctuation from "../stringProcessing/removePunctuation.js";
 
 /**
  * Matches strings from an array against a given text.
@@ -20,4 +20,4 @@ export default function( synonyms ) {
 		return synonym;
 	} );
 	return synonymsSplit;
-};
+}

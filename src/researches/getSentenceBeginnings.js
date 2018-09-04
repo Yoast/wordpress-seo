@@ -1,7 +1,7 @@
-import getWords from '../stringProcessing/getWords.js';
-import stripSpaces from '../stringProcessing/stripSpaces.js';
-import { stripFullTags as stripTags } from '../stringProcessing/stripHTMLTags.js';
-import getFirstWordExceptions from '../helpers/getFirstWordExceptions.js';
+import getWords from "../stringProcessing/getWords.js";
+import stripSpaces from "../stringProcessing/stripSpaces.js";
+import { stripFullTags as stripTags } from "../stringProcessing/stripHTMLTags.js";
+import getFirstWordExceptions from "../helpers/getFirstWordExceptions.js";
 
 import { isEmpty } from "lodash-es";
 import { forEach } from "lodash-es";
@@ -110,6 +110,6 @@ export default function( paper, researcher ) {
 	sentenceBeginnings = filter( sentenceBeginnings );
 
 	return compareFirstWords( sentenceBeginnings, sentences );
-};
+}
 
 

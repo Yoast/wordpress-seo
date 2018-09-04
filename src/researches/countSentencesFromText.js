@@ -1,5 +1,5 @@
-import getSentences from '../stringProcessing/getSentences';
-import sentencesLength from './../stringProcessing/sentencesLength.js';
+import getSentences from "../stringProcessing/getSentences";
+import sentencesLength from "./../stringProcessing/sentencesLength.js";
 
 /**
  * Count sentences in the text.
@@ -9,4 +9,4 @@ import sentencesLength from './../stringProcessing/sentencesLength.js';
 export default function( paper ) {
 	var sentences = getSentences( paper.getText() );
 	return sentencesLength( sentences );
-};
+}

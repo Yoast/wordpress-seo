@@ -1,8 +1,8 @@
 /** @module analyses/findKeywordInFirstParagraph */
 
-import matchParagraphs from '../stringProcessing/matchParagraphs.js';
+import matchParagraphs from "../stringProcessing/matchParagraphs.js";
 
-import wordMatch from '../stringProcessing/matchTextWithWord.js';
+import wordMatch from "../stringProcessing/matchTextWithWord.js";
 
 import { escapeRegExp } from "lodash-es";
 import { reject } from "lodash-es";
@@ -21,4 +21,4 @@ export default function( paper ) {
 	const keyword = escapeRegExp( paper.getKeyword() );
 	const paragraph = reject( paragraphs, isEmpty )[ 0 ] || "";
 	return wordMatch( paragraph, keyword, paper.getLocale() ).count;
-};
+}

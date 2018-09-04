@@ -1,6 +1,6 @@
-import wordComplexityAssessment from '../../src/assessments/readability/wordComplexityAssessment.js';
-import Paper from '../../src/values/Paper.js';
-import factory from '../helpers/factory.js';
+import wordComplexityAssessment from "../../src/assessments/readability/wordComplexityAssessment.js";
+import Paper from "../../src/values/Paper.js";
+import factory from "../helpers/factory.js";
 var i18n = factory.buildJed();
 
 describe( "an assessment returning complex words", function() {

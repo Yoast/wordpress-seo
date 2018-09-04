@@ -1,8 +1,8 @@
-import AssessmentResult from '../../values/AssessmentResult.js';
-import Assessment from '../../assessment.js';
+import AssessmentResult from "../../values/AssessmentResult.js";
+import Assessment from "../../assessment.js";
 import { inRange } from "lodash-es";
 
-import getLanguageAvailability from '../../helpers/getLanguageAvailability.js';
+import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
 
 const availableLanguages = [ "en", "nl", "de", "it", "ru", "fr", "es" ];
 

@@ -1,4 +1,4 @@
-import { showTrace } from '../../src/helpers/errors';
+import { showTrace } from "../../src/helpers/errors";
 
 describe( "showTrace", function() {
 	beforeEach( function() {

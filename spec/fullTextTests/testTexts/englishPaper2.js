@@ -1,4 +1,4 @@
-import Paper from '../../../src/values/Paper.js';
+import Paper from "../../../src/values/Paper.js";
 
 const name = "englishPaper2";
 

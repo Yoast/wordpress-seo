@@ -1,5 +1,5 @@
-import WordCombination from '../../src/values/WordCombination';
-import relevantWords from '../../src/stringProcessing/relevantWords';
+import WordCombination from "../../src/values/WordCombination";
+import relevantWords from "../../src/stringProcessing/relevantWords";
 let getRelevantWords = relevantWords.getRelevantWords;
 let italianFunctionWords = require( "../../src/researches/italian/functionWords.js" )().all;
 

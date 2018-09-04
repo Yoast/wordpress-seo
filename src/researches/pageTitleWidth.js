@@ -8,4 +8,4 @@ export default function( paper ) {
 		return paper.getTitleWidth();
 	}
 	return 0;
-};
+}

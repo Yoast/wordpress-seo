@@ -1,4 +1,4 @@
-import EnglishSentencePart from '../../../../src/researches/english/passiveVoice/SentencePart.js';
+import EnglishSentencePart from "../../../../src/researches/english/passiveVoice/SentencePart.js";
 
 describe( "creates a English sentence part", function() {
 	it( "makes sure the English sentence part inherits all functions", function() {

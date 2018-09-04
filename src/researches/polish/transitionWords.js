@@ -46,4 +46,4 @@ export default function() {
 		multipleWords: multipleWords,
 		allWords: singleWords.concat( multipleWords ),
 	};
-};
+}

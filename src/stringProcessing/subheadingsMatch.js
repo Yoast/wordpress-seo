@@ -1,7 +1,7 @@
-import replaceString from '../stringProcessing/replaceString.js';
-import removalWordsFactory from '../config/removalWords.js';
+import replaceString from "../stringProcessing/replaceString.js";
+import removalWordsFactory from "../config/removalWords.js";
 const removalWords = removalWordsFactory();
-import matchTextWithWord from '../stringProcessing/matchTextWithWord.js';
+import matchTextWithWord from "../stringProcessing/matchTextWithWord.js";
 
 /**
  * Matches the keyword in an array of strings
@@ -30,4 +30,4 @@ export default function( matches, keyword, locale ) {
 		}
 	}
 	return foundInHeader;
-};
+}

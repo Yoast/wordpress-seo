@@ -1,9 +1,9 @@
 import { includes } from "lodash-es";
 
-import Participle from '../../../values/Participle.js';
-import checkException from '../../passiveVoice/periphrastic/checkException.js';
-import nonParticiples from './nonParticiples';
-import directPrecedenceException from '../../../stringProcessing/directPrecedenceException';
+import Participle from "../../../values/Participle.js";
+import checkException from "../../passiveVoice/periphrastic/checkException.js";
+import nonParticiples from "./nonParticiples";
+import directPrecedenceException from "../../../stringProcessing/directPrecedenceException";
 
 /**
  * Creates an Participle object for the Dutch language.

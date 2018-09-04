@@ -1,8 +1,8 @@
 /** @module analyses/getTopicDensity */
 
-import countWords from '../stringProcessing/countWords.js';
+import countWords from "../stringProcessing/countWords.js";
 
-import topicCount from './topicCount.js';
+import topicCount from "./topicCount.js";
 
 /**
  * Calculates the topic density .
@@ -17,4 +17,4 @@ export default function( paper ) {
 	}
 	const topicCountResult = topicCount( paper ).count;
 	return ( topicCountResult / wordCount ) * 100;
-};
+}

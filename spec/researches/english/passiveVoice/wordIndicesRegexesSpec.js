@@ -1,7 +1,7 @@
-import wordIndicesRegexes from '../../../../src/researches/passiveVoice/periphrastic/getIndicesWithRegex.js';
+import wordIndicesRegexes from "../../../../src/researches/passiveVoice/periphrastic/getIndicesWithRegex.js";
 
 var cannotDirectlyPrecedePassiveParticiple = require( "../../../../src/researches/english/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
-import arrayToRegex from '../../../../src/stringProcessing/createRegexFromArray.js';
+import arrayToRegex from "../../../../src/stringProcessing/createRegexFromArray.js";
 var directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticiple );
 
 describe( "a test for matching words that cannot directly precede a participle.", function() {

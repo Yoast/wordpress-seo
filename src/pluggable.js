@@ -3,7 +3,7 @@ import { forEach } from "lodash-es";
 import { reduce } from "lodash-es";
 import { isString } from "lodash-es";
 import { isObject } from "lodash-es";
-import InvalidTypeError from './errors/invalidType';
+import InvalidTypeError from "./errors/invalidType";
 
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.

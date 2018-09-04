@@ -1,8 +1,8 @@
-import AssessmentResult from '../../values/AssessmentResult.js';
-import removeSentenceTerminators from '../../stringProcessing/removeSentenceTerminators';
-import formatNumber from '../../helpers/formatNumber.js';
-import Mark from '../../values/Mark.js';
-import addMark from '../../markers/addMark.js';
+import AssessmentResult from "../../values/AssessmentResult.js";
+import removeSentenceTerminators from "../../stringProcessing/removeSentenceTerminators";
+import formatNumber from "../../helpers/formatNumber.js";
+import Mark from "../../values/Mark.js";
+import addMark from "../../markers/addMark.js";
 
 import { filter } from "lodash-es";
 import { flatMap } from "lodash-es";

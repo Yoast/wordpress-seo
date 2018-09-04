@@ -1,4 +1,4 @@
-import indices from '../../src/stringProcessing/indices.js';
+import indices from "../../src/stringProcessing/indices.js";
 let getIndices = indices.getIndicesByWord;
 let getIndicesOfList = indices.getIndicesByWordList;
 let getIndicesByWordListSorted = indices.getIndicesByWordListSorted;

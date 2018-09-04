@@ -1,6 +1,6 @@
 /** @module analyses/getKeywordDensity */
 
-import countWords from '../stringProcessing/countWords.js';
+import countWords from "../stringProcessing/countWords.js";
 
 /**
  * Calculates the keyword density .
@@ -16,4 +16,4 @@ export default function( paper, researcher ) {
 	}
 	const keywordCount = researcher.getResearch( "keywordCount" );
 	return ( keywordCount.count / wordCount ) * 100;
-};
+}

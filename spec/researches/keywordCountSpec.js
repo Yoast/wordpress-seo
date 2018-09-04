@@ -1,7 +1,7 @@
 /* global describe it expect */
-import keywordCount from '../../src/researches/keywordCount.js';
+import keywordCount from "../../src/researches/keywordCount.js";
 
-import Paper from '../../src/values/Paper.js';
+import Paper from "../../src/values/Paper.js";
 
 describe( "Test for counting the keyword in a text", function() {
 	it( "returns keyword count", function() {

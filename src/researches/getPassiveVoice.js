@@ -1,14 +1,14 @@
-import getSentences from '../stringProcessing/getSentences.js';
-import { stripFullTags as stripHTMLTags } from '../stringProcessing/stripHTMLTags.js';
-import getLanguage from '../helpers/getLanguage.js';
-import Sentence from '../values/Sentence.js';
+import getSentences from "../stringProcessing/getSentences.js";
+import { stripFullTags as stripHTMLTags } from "../stringProcessing/stripHTMLTags.js";
+import getLanguage from "../helpers/getLanguage.js";
+import Sentence from "../values/Sentence.js";
 
 import { forEach } from "lodash-es";
 
-import isPassiveSentencePart from './passiveVoice/periphrastic/determinePassiveSentencePart.js';
-import isPassiveSentence from './passiveVoice/morphological/determinePassiveSentence.js';
-import getPeriphrasticSentencePartsDefault from './passiveVoice/periphrastic/getSentenceParts.js';
-import getPeriphrasticSentencePartsSplitOnStopwords from './passiveVoice/periphrastic/getSentencePartsSplitOnStopwords.js';
+import isPassiveSentencePart from "./passiveVoice/periphrastic/determinePassiveSentencePart.js";
+import isPassiveSentence from "./passiveVoice/morphological/determinePassiveSentence.js";
+import getPeriphrasticSentencePartsDefault from "./passiveVoice/periphrastic/getSentenceParts.js";
+import getPeriphrasticSentencePartsSplitOnStopwords from "./passiveVoice/periphrastic/getSentencePartsSplitOnStopwords.js";
 
 const morphologicalLanguages = [ "ru", "tr" ];
 const periphrasticLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn", "pl" ];
@@ -105,4 +105,4 @@ export default function( paper ) {
 			passives: getPeriphrasticPassives( sentences, language ).passiveSentences,
 		};
 	}
-};
+}

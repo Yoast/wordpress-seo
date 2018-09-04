@@ -1,5 +1,5 @@
-import AssessmentResult from '../../values/AssessmentResult.js';
-import getLanguageAvailability from '../../helpers/getLanguageAvailability.js';
+import AssessmentResult from "../../values/AssessmentResult.js";
+import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
 
 const availableLanguages = [ "en" ];
 

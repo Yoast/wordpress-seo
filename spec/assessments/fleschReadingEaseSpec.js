@@ -1,9 +1,9 @@
-import FleschReadingAssessment from '../../src/assessments/readability/fleschReadingEaseAssessment.js';
-import Paper from '../../src/values/Paper.js';
-import factory from '../helpers/factory.js';
+import FleschReadingAssessment from "../../src/assessments/readability/fleschReadingEaseAssessment.js";
+import Paper from "../../src/values/Paper.js";
+import factory from "../helpers/factory.js";
 const i18n = factory.buildJed();
 
-import contentConfiguration from '../../src/config/content/combinedConfig.js';
+import contentConfiguration from "../../src/config/content/combinedConfig.js";
 
 describe( "An assessment for the flesch reading", function() {
 	it( "returns a 'very easy' score and the associated feedback text for a paper.", function() {

@@ -1,6 +1,6 @@
-import wordCount from './countWords.js';
+import wordCount from "./countWords.js";
 import { forEach } from "lodash-es";
-import { stripFullTags as stripHTMLTags } from './stripHTMLTags.js';
+import { stripFullTags as stripHTMLTags } from "./stripHTMLTags.js";
 
 /**
  * Returns an array with the number of words in a sentence.
@@ -24,4 +24,4 @@ export default function( sentences ) {
 		} );
 	} );
 	return sentencesWordCount;
-};
+}

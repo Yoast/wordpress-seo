@@ -1,6 +1,6 @@
 /** @module stringProcessing/countSentences */
 
-import getSentences from '../stringProcessing/getSentences.js';
+import getSentences from "../stringProcessing/getSentences.js";
 
 /**
  * Counts the number of sentences in a given string.
@@ -15,4 +15,4 @@ export default function( text ) {
 		sentenceCount++;
 	}
 	return sentenceCount;
-};
+}

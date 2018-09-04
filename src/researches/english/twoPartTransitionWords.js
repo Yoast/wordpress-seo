@@ -7,4 +7,4 @@
 export default function() {
 	return [ [ "both", "and" ], [ "if", "then" ], [ "not only", "but also" ], [ "neither", "nor" ], [ "either", "or" ], [ "not", "but" ],
 		[ "whether", "or" ], [ "no sooner", "than" ] ];
-};
+}

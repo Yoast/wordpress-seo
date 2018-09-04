@@ -1,4 +1,4 @@
-import parseSynonyms from '../../src/stringProcessing/parseSynonyms';
+import parseSynonyms from "../../src/stringProcessing/parseSynonyms";
 
 describe( "A test for parsing a comma-separated list of synonyms into an array of words or phrases", function() {
 	it( "Should return an array from a comma-separated string", function() {

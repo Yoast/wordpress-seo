@@ -1,4 +1,4 @@
-import usedKeywords from './previouslyUsedKeywords';
+import usedKeywords from "./previouslyUsedKeywords";
 
 export {
 	usedKeywords,

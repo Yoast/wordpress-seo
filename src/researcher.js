@@ -1,46 +1,46 @@
 import sentences from "./researches/sentences";
 
 import { merge } from "lodash-es";
-import InvalidTypeError from './errors/invalidType';
-import MissingArgument from './errors/missingArgument';
+import InvalidTypeError from "./errors/invalidType";
+import MissingArgument from "./errors/missingArgument";
 import { isUndefined } from "lodash-es";
 import { isEmpty } from "lodash-es";
 
 // Researches
-import wordCountInText from './researches/wordCountInText.js';
+import wordCountInText from "./researches/wordCountInText.js";
 
-import getLinkStatistics from './researches/getLinkStatistics.js';
-import linkCount from './researches/countLinks.js';
-import getLinks from './researches/getLinks.js';
-import urlLength from './researches/urlIsTooLong.js';
-import findKeywordInPageTitle from './researches/findKeywordInPageTitle.js';
-import matchKeywordInSubheadings from './researches/matchKeywordInSubheadings.js';
-import getKeywordDensity from './researches/getKeywordDensity.js';
-import keywordCount from './researches/keywordCount';
-import stopWordsInKeyword from './researches/stopWordsInKeyword';
-import stopWordsInUrl from './researches/stopWordsInUrl';
-import calculateFleschReading from './researches/calculateFleschReading.js';
-import metaDescriptionLength from './researches/metaDescriptionLength.js';
-import imageCount from './researches/imageCountInText.js';
-import altTagCount from './researches/imageAltTags.js';
-import keyphraseLength from './researches/keyphraseLength';
-import metaDescriptionKeyword from './researches/metaDescriptionKeyword.js';
-import keywordCountInUrl from './researches/keywordCountInUrl';
-import findKeywordInFirstParagraph from './researches/findKeywordInFirstParagraph.js';
-import pageTitleWidth from './researches/pageTitleWidth.js';
-import wordComplexity from './researches/getWordComplexity.js';
-import getParagraphLength from './researches/getParagraphLength.js';
-import countSentencesFromText from './researches/countSentencesFromText.js';
-import countSentencesFromDescription from './researches/countSentencesFromDescription.js';
-import getSubheadingTextLengths from './researches/getSubheadingTextLengths.js';
-import findTransitionWords from './researches/findTransitionWords.js';
-import passiveVoice from './researches/getPassiveVoice.js';
-import getSentenceBeginnings from './researches/getSentenceBeginnings.js';
-import relevantWords from './researches/relevantWords';
-import readingTime from './researches/readingTime';
-import getTopicDensity from './researches/getTopicDensity';
-import topicCount from './researches/topicCount';
-import largestKeywordDistance from './researches/largestKeywordDistance';
+import getLinkStatistics from "./researches/getLinkStatistics.js";
+import linkCount from "./researches/countLinks.js";
+import getLinks from "./researches/getLinks.js";
+import urlLength from "./researches/urlIsTooLong.js";
+import findKeywordInPageTitle from "./researches/findKeywordInPageTitle.js";
+import matchKeywordInSubheadings from "./researches/matchKeywordInSubheadings.js";
+import getKeywordDensity from "./researches/getKeywordDensity.js";
+import keywordCount from "./researches/keywordCount";
+import stopWordsInKeyword from "./researches/stopWordsInKeyword";
+import stopWordsInUrl from "./researches/stopWordsInUrl";
+import calculateFleschReading from "./researches/calculateFleschReading.js";
+import metaDescriptionLength from "./researches/metaDescriptionLength.js";
+import imageCount from "./researches/imageCountInText.js";
+import altTagCount from "./researches/imageAltTags.js";
+import keyphraseLength from "./researches/keyphraseLength";
+import metaDescriptionKeyword from "./researches/metaDescriptionKeyword.js";
+import keywordCountInUrl from "./researches/keywordCountInUrl";
+import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
+import pageTitleWidth from "./researches/pageTitleWidth.js";
+import wordComplexity from "./researches/getWordComplexity.js";
+import getParagraphLength from "./researches/getParagraphLength.js";
+import countSentencesFromText from "./researches/countSentencesFromText.js";
+import countSentencesFromDescription from "./researches/countSentencesFromDescription.js";
+import getSubheadingTextLengths from "./researches/getSubheadingTextLengths.js";
+import findTransitionWords from "./researches/findTransitionWords.js";
+import passiveVoice from "./researches/getPassiveVoice.js";
+import getSentenceBeginnings from "./researches/getSentenceBeginnings.js";
+import relevantWords from "./researches/relevantWords";
+import readingTime from "./researches/readingTime";
+import getTopicDensity from "./researches/getTopicDensity";
+import topicCount from "./researches/topicCount";
+import largestKeywordDistance from "./researches/largestKeywordDistance";
 
 /**
  * This contains all possible, default researches.

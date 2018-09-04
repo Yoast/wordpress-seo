@@ -1,8 +1,8 @@
 /** @module stringProcessing/stringToRegex */
 import { isUndefined } from "lodash-es";
-import replaceDiacritics from '../stringProcessing/replaceDiacritics.js';
-import addWordBoundary from '../stringProcessing/addWordboundary.js';
-import sanitizeString from '../stringProcessing/sanitizeString';
+import replaceDiacritics from "../stringProcessing/replaceDiacritics.js";
+import addWordBoundary from "../stringProcessing/addWordboundary.js";
+import sanitizeString from "../stringProcessing/sanitizeString";
 
 import { escapeRegExp } from "lodash-es";
 import { memoize } from "lodash-es";

@@ -1,8 +1,8 @@
 /* global describe it expect */
 import KeywordDensityAssessment from "../../src/assessments/seo/KeywordDensityAssessment";
-import Paper from '../../src/values/Paper.js';
-import Mark from '../../src/values/Mark.js';
-import factory from '../helpers/factory.js';
+import Paper from "../../src/values/Paper.js";
+import Mark from "../../src/values/Mark.js";
+import factory from "../helpers/factory.js";
 const i18n = factory.buildJed();
 
 describe( "An assessment for the keywordDensity", function() {

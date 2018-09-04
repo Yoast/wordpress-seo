@@ -1,6 +1,6 @@
 /** @module researches/stopWordsInKeyword */
 
-import stopWordsInText from './stopWordsInText.js';
+import stopWordsInText from "./stopWordsInText.js";
 
 import { escapeRegExp } from "lodash-es";
 
@@ -12,4 +12,4 @@ import { escapeRegExp } from "lodash-es";
 export default function( paper ) {
 	var keyword = escapeRegExp( paper.getKeyword() );
 	return stopWordsInText( keyword );
-};
+}

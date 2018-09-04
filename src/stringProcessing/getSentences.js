@@ -8,10 +8,10 @@ import { isEmpty } from "lodash-es";
 import { negate } from "lodash-es";
 import { memoize } from "lodash-es";
 
-import core from 'tokenizer2/core';
-import { getBlocks } from '../helpers/html.js';
-import { normalize as normalizeQuotes } from '../stringProcessing/quotes.js';
-import { unifyNonBreakingSpace as unifyWhitespace } from '../stringProcessing/unifyWhitespace.js';
+import core from "tokenizer2/core";
+import { getBlocks } from "../helpers/html.js";
+import { normalize as normalizeQuotes } from "../stringProcessing/quotes.js";
+import { unifyNonBreakingSpace as unifyWhitespace } from "../stringProcessing/unifyWhitespace.js";
 
 // All characters that indicate a sentence delimiter.
 var fullStop = ".";
@@ -325,4 +325,4 @@ export default function( text ) {
 	sentences = flatMap( blocks, getSentencesFromBlockCached );
 
 	return filter( sentences, negate( isEmpty ) );
-};
+}
