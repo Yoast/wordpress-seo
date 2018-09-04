@@ -39,6 +39,7 @@ jobs:
       env: WP_VERSION=master
     - stage: 🚀 deployment
       if: branch = deploy # Only build when on the `deploy` branch, this functionality is not used yet and is taking a long time to complete.
+      env: SC_ATTR=wordpress-seo
       before_script: skip
       script: grunt artifact
       install:
