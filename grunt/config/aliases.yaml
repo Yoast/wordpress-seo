@@ -3,11 +3,7 @@
 # Build everything
 build:
   - 'build:css'
-  - 'build:jst'
   - 'build:translations'
-# Precompile JavaScript templates
-'build:jst':
-  - 'build-templates'
 # Build JavaScript from assets to production
 'build:browserified':
   - 'build:js'
