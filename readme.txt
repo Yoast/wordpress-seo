@@ -127,7 +127,6 @@ Bugfixes:
 Release Date: September 3rd, 2018
 
 Bugfixes:
-
 * Fixes compatibility with Gutenberg 3.7, which removed a feature we were relying on.
 * Fixes a bug where the Twitter meta-tags would not have the snippet variables replaced with their dynamic values.
 * Fixes a bug where the `og:url` would not be set to the canonical URL if the canonical URL is explicitly set on Post types, Terms or Tags.
