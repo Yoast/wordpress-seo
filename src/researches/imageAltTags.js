@@ -58,9 +58,13 @@ const matchAltProperties = function( imageMatches, topicForms, locale ) {
 /**
  * Checks the text for images, checks the type of each image and alt attributes for containing keywords
  *
- * @param {Paper} paper The paper to check for images
+ * @param {Paper} paper The paper to check for images.
+ * @param {Researcher} researcher The researcher to use for analysis.
+ *
  * @returns {object} Object containing all types of found images
  */
-module.exports = function( paper ) {
-	return matchAltProperties( imageInText( paper.getText() ), paper.getTopicForms(), paper.getLocale() );
+module.exports = function( paper, researcher ) {
+	const topicForms = researcher.getResearch( "morphology" );
+
+	return matchAltProperties( imageInText( paper.getText() ), topicForms, paper.getLocale() );
 };

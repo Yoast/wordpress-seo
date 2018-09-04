@@ -1,9 +1,14 @@
-const getNounForms = require( "../../js/morphology/english/getNounForms.js" ).getNounForms;
-const getNounFormsWithPossessives = require( "../../js/morphology/english/getNounForms.js" ).getNounFormsWithPossessives;
-const checkHispanic = require( "../../js/morphology/english/getNounForms.js" ).checkHispanic;
-const checkPossessive = require( "../../js/morphology/english/getNounForms.js" ).checkPossessive;
-const getBaseFromPossessive = require( "../../js/morphology/english/getNounForms.js" ).getBaseFromPossessive;
-const irregularNounsToTest = require( "../../js/morphology/english/irregularNouns.js" );
+const nounData = require( "../../../js/morphology/morphologyData.json" ).en.nouns;
+const irregularNounsToTest = nounData.irregularNouns;
+const regexNoun = nounData.regexNoun;
+
+const getNounFormsWithPossessives = require(  "../../../js/morphology/english/getNounForms" ).getNounFormsWithPossessives;
+const getNounForms = require(  "../../../js/morphology/english/getNounForms" ).getNounForms;
+const checkPossessive = require(  "../../../js/morphology/english/getNounForms" ).checkPossessive;
+
+const buildOneFormFromRegex  = require( "../../../js/morphology/morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
+const buildTwoFormsFromRegex  = require( "../../../js/morphology/morphoHelpers/buildFormRule" ).buildTwoFormsFromRegex;
+const createRulesFromMorphologyData = require( "../../../js/morphology/morphoHelpers/createRulesFromMorphologyData" );
 
 const regularNounsToTest = [
 	[ "word", "words" ],
@@ -294,6 +299,7 @@ const regularNounsToTest = [
 	[ "bacillus", "bacilli" ],
 	[ "hippopotamus", "hippopotami" ],
 	[ "modulus", "moduli" ],
+	[ "focus", "foci" ],
 
 	// Latin: itis - itides
 	[ "adenitis", "adenitides" ],
@@ -447,7 +453,7 @@ let receivedForms = [];
 describe( "Test for getting all possible word forms for regular words", function() {
 	regularNounsToTest.forEach( function( paradigm ) {
 		it( "returns an array of word forms for a regular singular", function() {
-			receivedForms = getNounForms( paradigm[ 0 ] );
+			receivedForms = getNounForms( paradigm[ 0 ], nounData );
 
 			paradigm.forEach( function( form ) {
 				expect( receivedForms ).toContain( form );
@@ -455,7 +461,7 @@ describe( "Test for getting all possible word forms for regular words", function
 		} );
 
 		it( "returns an array of word forms for a regular plural", function() {
-			receivedForms = getNounForms( paradigm[ 1 ] );
+			receivedForms = getNounForms( paradigm[ 1 ], nounData );
 
 			paradigm.forEach( function( form ) {
 				expect( receivedForms ).toContain( form );
@@ -467,7 +473,7 @@ describe( "Test for getting all possible word forms for regular words", function
 describe( "Test for getting all possible word forms for hispanic words", function() {
 	hispanicNounsToTest.forEach( function( paradigm ) {
 		it( "returns an array of word forms for a hispanic singular", function() {
-			receivedForms = getNounForms( paradigm[ 0 ] );
+			receivedForms = getNounForms( paradigm[ 0 ], nounData );
 
 			paradigm.forEach( function( form ) {
 				expect( receivedForms ).toContain( form );
@@ -475,7 +481,7 @@ describe( "Test for getting all possible word forms for hispanic words", functio
 		} );
 
 		it( "returns an array of word forms for a hispanic plural with -os", function() {
-			receivedForms = getNounForms( paradigm[ 1 ] );
+			receivedForms = getNounForms( paradigm[ 1 ], nounData );
 
 			paradigm.forEach( function( form ) {
 				expect( receivedForms ).toContain( form );
@@ -483,7 +489,7 @@ describe( "Test for getting all possible word forms for hispanic words", functio
 		} );
 
 		it( "returns an array of word forms for a hispanic plural with -oes", function() {
-			receivedForms = getNounForms( paradigm[ 2 ] );
+			receivedForms = getNounForms( paradigm[ 2 ], nounData );
 
 			paradigm.forEach( function( form ) {
 				expect( receivedForms ).toContain( form );
@@ -495,7 +501,7 @@ describe( "Test for getting all possible word forms for hispanic words", functio
 describe( "Test for getting two types of plural word forms for hispanic words", function() {
 	hispanicNounsToTest.forEach( function( paradigm ) {
 		it( "returns two possible plural word forms for a hispanic singular", function() {
-			receivedForms = checkHispanic( paradigm[ 0 ] );
+			receivedForms = buildTwoFormsFromRegex( paradigm[ 0 ], createRulesFromMorphologyData( regexNoun.hispanic ) );
 			expect( receivedForms ).toContain( paradigm[ 1 ] );
 			expect( receivedForms ).toContain( paradigm[ 2 ] );
 		} );
@@ -504,7 +510,7 @@ describe( "Test for getting two types of plural word forms for hispanic words", 
 
 describe( "Test for not getting plural form", function() {
 	it( "returns nothing for a plural form of an empty string", function() {
-		receivedForms = getNounForms( "" );
+		receivedForms = getNounForms( "", nounData );
 		expect( receivedForms ).toEqual( [ "" ] );
 	} );
 } );
@@ -513,7 +519,7 @@ describe( "Test for getting all possible word forms for irregular words", functi
 	irregularNounsToTest.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
 			it( "returns an array of word forms for an irregular word", function() {
-				receivedForms = getNounForms( wordInParadigm );
+				receivedForms = getNounForms( wordInParadigm, nounData );
 				paradigm.forEach( function( form ) {
 					expect( receivedForms ).toContain( form );
 				} );
@@ -527,8 +533,8 @@ describe( "Test for a possessive", function() {
 		const base = paradigm[ 0 ];
 		const possessive = paradigm[ 1 ];
 		it( "returns if the word is a possessive", function() {
-			expect( checkPossessive( base ) || false ).toEqual( false );
-			expect( checkPossessive( possessive ) || false ).toEqual( true );
+			expect( checkPossessive( base, createRulesFromMorphologyData( regexNoun.possessiveToBase ) ) || false ).toEqual( false );
+			expect( checkPossessive( possessive, createRulesFromMorphologyData( regexNoun.possessiveToBase ) ) || false ).toEqual( true );
 		} );
 	} );
 } );
@@ -538,7 +544,7 @@ describe( "Test for getting the base from a possessive", function() {
 		const base = paradigm[ 0 ];
 		const possessive = paradigm[ 1 ];
 		it( "returns the base for a possessive word", function() {
-			const receivedForm = getBaseFromPossessive( possessive );
+			const receivedForm = buildOneFormFromRegex( possessive, createRulesFromMorphologyData( regexNoun.possessiveToBase ) );
 			expect( receivedForm ).toContain( base );
 		} );
 	} );
@@ -548,7 +554,7 @@ describe( "Test for getting all possible word forms (including possessives)", fu
 	possessivesFormationToTest.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
 			it( "returns an array of word forms for a word", function() {
-				receivedForms = getNounFormsWithPossessives( wordInParadigm );
+				receivedForms = getNounFormsWithPossessives( wordInParadigm, nounData );
 				paradigm.forEach( function( form ) {
 					expect( receivedForms ).toContain( form );
 				} );

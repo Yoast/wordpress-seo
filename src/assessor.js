@@ -20,6 +20,7 @@ var ScoreRating = 9;
  * @param {Object} i18n The i18n object used for translations.
  * @param {Object} options The options for this assessor.
  * @param {Object} options.marker The marker to pass the list of marks to.
+ * @param {Object} options.researcher The researcher to use in the assessor.
  *
  * @constructor
  */
@@ -28,6 +29,10 @@ var Assessor = function( i18n, options ) {
 	this._assessments = [];
 
 	this._options = options || {};
+
+	if ( ! isUndefined( this._options.researcher ) ) {
+		this._researcher = this._options.researcher;
+	}
 };
 
 /**
@@ -122,16 +127,21 @@ Assessor.prototype.getMarker = function( assessment, paper, researcher ) {
  * @returns {void}
  */
 Assessor.prototype.assess = function( paper ) {
-	var researcher = new Researcher( paper );
+	if ( isUndefined( this._researcher ) ) {
+		this._researcher = new Researcher( paper );
+	} else {
+		this._researcher.setPaper( paper );
+	}
+
 	var assessments = this.getAvailableAssessments();
 	this.results = [];
 
 	assessments = filter( assessments, function( assessment ) {
-		return this.isApplicable( assessment, paper, researcher );
+		return this.isApplicable( assessment, paper, this._researcher );
 	}.bind( this ) );
 
 	this.setHasMarkers( false );
-	this.results = map( assessments, this.executeAssessment.bind( this, paper, researcher ) );
+	this.results = map( assessments, this.executeAssessment.bind( this, paper, this._researcher ) );
 
 	this._lastPaper = paper;
 };

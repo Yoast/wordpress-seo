@@ -1,6 +1,8 @@
-const getVerbForms = require( "../../js/morphology/english/getVerbForms.js" ).getVerbForms;
-const normalizePrefixed = require( "../../js/morphology/english/getVerbForms.js" ).normalizePrefixed;
-const irregularVerbsToTest = require( "../../js/morphology/english/irregularVerbs.js" );
+const verbData = require( "../../../js/morphology/morphologyData.json" ).en.verbs;
+const irregularVerbsToTest = verbData.irregularVerbs;
+
+const getVerbForms  = require(  "../../../js/morphology/english/getVerbForms" ).getVerbForms;
+const normalizePrefixed  = require(  "../../../js/morphology/english/getVerbForms" ).normalizePrefixed;
 
 const regularVerbsToTest = [
 	[ "bill", "bills", "billing", "billed" ],
@@ -254,7 +256,7 @@ describe( "Test for normalizing verb prefix", function() {
 		const expectedNormalization = paradigm[ 1 ].normalizedWord;
 		const expectedPrefix = paradigm[ 1 ].prefix;
 		it( "returns a normalized form for a prefixed verb", function() {
-			const receivedNormalization = normalizePrefixed( verbToNormalize );
+			const receivedNormalization = normalizePrefixed( verbToNormalize, verbData.regexVerb.verbPrefixes );
 			expect( receivedNormalization.normalizedWord ).toEqual( expectedNormalization );
 			expect( receivedNormalization.prefix ).toEqual( expectedPrefix );
 		} );
@@ -265,7 +267,7 @@ describe( "Test for getting all possible word forms for regular verbs", function
 	regularVerbsToTest.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
 			it( "returns an array of word forms for a regular verb", function() {
-				receivedForms = getVerbForms( wordInParadigm );
+				receivedForms = getVerbForms( wordInParadigm, verbData );
 				paradigm.forEach( function( form ) {
 					expect( receivedForms ).toContain( form );
 				} );
@@ -278,7 +280,7 @@ describe( "Test for getting all possible word forms for doubleConsonantsAtTheEnd
 	doubleConsonantsAtTheEnd.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
 			it( "returns an array of word forms for a doubleConsonantsAtTheEnd verb", function() {
-				receivedForms = getVerbForms( wordInParadigm );
+				receivedForms = getVerbForms( wordInParadigm, verbData );
 				paradigm.forEach( function( form ) {
 					expect( receivedForms ).toContain( form );
 				} );
@@ -291,7 +293,7 @@ describe( "Test for getting all possible word forms for yAtTheEnd verbs", functi
 	yAtTheEnd.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
 			it( "returns an array of word forms for a yAtTheEnd verb", function() {
-				receivedForms = getVerbForms( wordInParadigm );
+				receivedForms = getVerbForms( wordInParadigm, verbData );
 				paradigm.forEach( function( form ) {
 					expect( receivedForms ).toContain( form );
 				} );
@@ -304,7 +306,7 @@ describe( "Test for getting all possible word forms for eAtTheEnd verbs", functi
 	eAtTheEnd.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
 			it( "returns an array of word forms for a eAtTheEnd verb", function() {
-				receivedForms = getVerbForms( wordInParadigm );
+				receivedForms = getVerbForms( wordInParadigm, verbData );
 				paradigm.forEach( function( form ) {
 					expect( receivedForms ).toContain( form );
 				} );
@@ -317,7 +319,7 @@ describe( "Test for getting all possible word forms for needsDoublingLastConsona
 	needsDoublingLastConsonant.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
 			it( "returns an array of word forms for a needsDoublingLastConsonant verb", function() {
-				receivedForms = getVerbForms( wordInParadigm );
+				receivedForms = getVerbForms( wordInParadigm, verbData );
 				paradigm.forEach( function( form ) {
 					expect( receivedForms ).toContain( form );
 				} );
@@ -330,7 +332,7 @@ describe( "Test for getting all possible word forms for irregular verbs", functi
 	irregularVerbsToTest.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
 			it( "returns an array of word forms for an irregular verbs", function() {
-				receivedForms = getVerbForms( wordInParadigm );
+				receivedForms = getVerbForms( wordInParadigm, verbData );
 				paradigm.forEach( function( form ) {
 					expect( receivedForms ).toContain( form );
 				} );
@@ -343,7 +345,7 @@ describe( "Test for getting all possible word forms for irregular verbs with pre
 	irregularVerbsWithPrefixes.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
 			it( "returns an array of word forms for an irregular verbs with prefixes", function() {
-				receivedForms = getVerbForms( wordInParadigm );
+				receivedForms = getVerbForms( wordInParadigm, verbData );
 				paradigm.forEach( function( form ) {
 					expect( receivedForms ).toContain( form );
 				} );

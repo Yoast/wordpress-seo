@@ -1,28 +1,22 @@
 // "use strict";
 const countSyllablesInText = require( "../../stringProcessing/syllables/count" );
+const createRulesFromMorphologyData = require( "../morphoHelpers/createRulesFromMorphologyData.js" );
+const buildOneFormFromRegex = require( "../morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
+const buildTwoFormsFromRegex = require( "../morphoHelpers/buildFormRule" ).buildTwoFormsFromRegex;
 
-const irregularAdjectives = require( "./irregularAdjectives.js" );
-const noComparativeOrSuperlative = require( "./regexAdjective.js" ).noComparativeOrSuperlative;
-const comparativeRegex = require( "./regexAdjective.js" ).comparative;
-const superlativeRegex = require( "./regexAdjective.js" ).superlative;
-const comparativeToBaseRegex = require( "./regexAdjective.js" ).comparativeToBase;
-const superlativeToBaseRegex = require( "./regexAdjective.js" ).superlativeToBase;
-const adverbRegex = require( "./regexAdjective.js" ).adverb;
-const adverbToBaseRegex = require( "./regexAdjective.js" ).adverbToBase;
-const icallyAdverbsRegex = require( "./regexAdjective.js" ).icallyAdverbs;
-
-const isUndefined = require( "lodash/isUndefined.js" );
-const unique = require( "lodash/uniq" );
-
+import { isUndefined } from "lodash-es";
+import { uniq as unique } from "lodash-es";
+import { flatten } from "lodash-es";
 
 /**
  * Checks if the input word occurs in the list of irregular adjectives and if so returns all its irregular forms.
  *
  * @param {string} word The word for which to determine its irregular forms.
+ * @param {Array} irregularAdjectives The list of irregular adjectives.
  *
  * @returns {Array} Array of word forms from the exception list.
  */
-const checkIrregulars = function( word ) {
+const checkIrregulars = function( word, irregularAdjectives ) {
 	let irregulars;
 
 	irregularAdjectives.forEach( function( paradigm ) {
@@ -36,24 +30,6 @@ const checkIrregulars = function( word ) {
 };
 
 /**
- * Checks if the input word ends in -ically, in which case return two possible base forms
- *
- * @param {string} word The word for which to determine its forms.
- *
- * @returns {Array} Array of word forms.
- */
-const checkIcally = function( word ) {
-	for ( let i = 0; i < icallyAdverbsRegex.length; i++ ) {
-		if ( icallyAdverbsRegex[ i ].reg.test( word ) === true ) {
-			return [
-				word.replace( icallyAdverbsRegex[ i ].reg, icallyAdverbsRegex[ i ].repl1 ),
-				word.replace( icallyAdverbsRegex[ i ].reg, icallyAdverbsRegex[ i ].repl2 ),
-			];
-		}
-	}
-};
-
-/**
  * Checks if the input word is longer than 2 syllables (in this case comparative and superlative forms do not need to be formed).
  *
  * @param {string} word The word for which to determine its length.
@@ -61,10 +37,7 @@ const checkIcally = function( word ) {
  * @returns {boolean} True if the input word is longer than 2 syllables.
  */
 const checkWordTooLong = function( word ) {
-	// todo: provide proper locale definition
-	const lengthInSyllables = countSyllablesInText( word, "en_EN" );
-
-	return lengthInSyllables > 2;
+	return countSyllablesInText( word, "en_EN" ) > 2;
 };
 
 /**
@@ -117,115 +90,33 @@ const endsWithLy = function( word ) {
 
 
 /**
- * Checks if the input word qualifies for the input regex and if so builds a required form.
- * This function is used for other more specific functions.
- *
- * @param {string} word The word to build forms for.
- * @param {string} regex The regex to compare the word against.
- *
- * @returns {string} The newly built form of the word.
- */
-const buildAdjectiveFormFromRegex = function( word, regex ) {
-	for ( let i = 0; i < regex.length; i++ ) {
-		if ( regex[ i ].reg.test( word ) === true ) {
-			return word.replace( regex[ i ].reg, regex[ i ].repl );
-		}
-	}
-};
-
-/**
- * Forms a comparative from the base form.
- *
- * @param {string} word The word to build forms for.
- *
- * @returns {string} The comparative formed from the input word.
- */
-const comparative = function( word ) {
-	return buildAdjectiveFormFromRegex( word, comparativeRegex );
-};
-
-/**
- * Forms a superlative from the base form.
- *
- * @param {string} word The word to build forms for.
- *
- * @returns {string} The superlative formed from the input word.
- */
-const superlative = function( word ) {
-	return buildAdjectiveFormFromRegex( word, superlativeRegex );
-};
-
-/**
- * Forms an adverb from the base form.
- *
- * @param {string} word The word to build forms for.
- *
- * @returns {string} The adverb formed from the input word.
- */
-const adverb = function( word ) {
-	return buildAdjectiveFormFromRegex( word, adverbRegex );
-};
-
-
-/**
- * Forms the base form from the comparative.
- *
- * @param {string} word The word to build forms for.
- *
- * @returns {string} The base form formed from the input word.
- */
-const comparativeToBase = function( word ) {
-	return buildAdjectiveFormFromRegex( word, comparativeToBaseRegex );
-};
-
-/**
- * Forms the base form from the superlative.
- *
- * @param {string} word The word to build forms for.
- *
- * @returns {string} The base form from the input word.
- */
-const superlativeToBase = function( word ) {
-	return buildAdjectiveFormFromRegex( word, superlativeToBaseRegex );
-};
-
-/**
- * Forms the base form from the adverb.
- *
- * @param {string} word The word to build forms for.
- *
- * @returns {string} The base form from the input word.
- */
-const adverbToBase = function( word ) {
-	return buildAdjectiveFormFromRegex( word, adverbToBaseRegex );
-};
-
-
-/**
  * Forms the base form from an input word.
  *
  * @param {string} word The word to build the base form for.
+ * @param {Array} comparativeToBaseRegex The Array of regex-based rules to bring comparatives to base.
+ * @param {Array} superlativeToBaseRegex The Array of regex-based rules to bring superlatives to base.
+ * @param {Array} adverbToBaseRegex The Array of regex-based rules to bring adverbs to base.
  *
  * @returns {string} The base form of the input word.
  */
-const getBase = function( word ) {
+const getBase = function( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex ) {
 	if ( endsWithEr( word ) ) {
 		return {
-			base: comparativeToBase( word ),
+			base: buildOneFormFromRegex( word, comparativeToBaseRegex ),
 			guessedForm: "er",
 		};
 	}
 
 	if ( endsWithEst( word ) ) {
 		return {
-			base: superlativeToBase( word ),
+			base: buildOneFormFromRegex( word, superlativeToBaseRegex ),
 			guessedForm: "est",
 		};
 	}
 
 	if ( endsWithLy( word ) ) {
 		return {
-			base: adverbToBase( word ),
+			base: buildOneFormFromRegex( word, adverbToBaseRegex ),
 			guessedForm: "ly",
 		};
 	}
@@ -241,23 +132,29 @@ const getBase = function( word ) {
  * adverb ending in -ically, comparative, or superlative.
  *
  * @param {string} word The word for which to determine its forms.
+ * @param {Object} adjectiveData The morphologyData available for this language.
  *
  * @returns {Array} Array of word forms.
  */
-const getAdjectiveForms = function( word ) {
-	const irregular = checkIrregulars( word );
+const getAdjectiveForms = function( word, adjectiveData ) {
+	const irregular = checkIrregulars( word, adjectiveData.irregularAdjectives );
 	if ( ! isUndefined( irregular ) ) {
 		return irregular;
 	}
 
 	let forms = [];
 
-	const ically = checkIcally( word );
+	const regexAdjective = adjectiveData.regexAdjective;
+	const ically = buildTwoFormsFromRegex( word, createRulesFromMorphologyData( regexAdjective.icallyAdverbs ) );
 	if ( ! isUndefined( ically ) ) {
 		return ically.concat( word );
 	}
 
-	let base = getBase( word ).base;
+	const comparativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.comparativeToBase );
+	const superlativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.superlativeToBase );
+	const adverbToBaseRegex = createRulesFromMorphologyData( regexAdjective.adverbToBase );
+
+	let base = getBase( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex ).base;
 
 	if ( isUndefined( base ) ) {
 		base = word;
@@ -267,23 +164,20 @@ const getAdjectiveForms = function( word ) {
 	forms = forms.concat( word );
 
 	forms.push( base );
-	forms.push( adverb( base ) );
+	forms.push( buildOneFormFromRegex( base, createRulesFromMorphologyData( regexAdjective.adverb ) ) );
 
+	const noComparativeOrSuperlative = new RegExp( regexAdjective.noComparativeOrSuperlative, "i" );
 	if ( checkWordTooLong( base ) === true || noComparativeOrSuperlative.test( base ) === true ) {
 		return unique( forms.filter( Boolean ) );
 	}
 
-	forms.push( comparative( base ) );
-	forms.push( superlative( base ) );
+	forms.push( buildOneFormFromRegex( base, createRulesFromMorphologyData( regexAdjective.comparative ) ) );
+	forms.push( buildOneFormFromRegex( base, createRulesFromMorphologyData( regexAdjective.superlative ) ) );
 
-	return unique( forms.filter( Boolean ) );
+	return unique( flatten( forms.filter( Boolean ) ) );
 };
 
 module.exports = {
 	getAdjectiveForms: getAdjectiveForms,
 	getBase: getBase,
-	comparative: comparative,
-	superlative: superlative,
-	checkIcally: checkIcally,
-
 };

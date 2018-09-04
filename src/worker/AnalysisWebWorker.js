@@ -25,6 +25,7 @@ const TaxonomyAssessor = require( "../taxonomyAssessor" );
 const Pluggable = require( "../pluggable" );
 const Researcher = require( "../researcher" );
 const SnippetPreview = require( "../snippetPreview" );
+const morphologyData = require( "../morphology/morphologyData.json" );
 
 const Paper = require( "../values/Paper" );
 const AssessmentResult = require( "../values/AssessmentResult" );
@@ -93,6 +94,9 @@ export default class AnalysisWebWorker {
 		this._relatedKeywords = {};
 
 		this._researcher = new Researcher( this._paper );
+		// Todo: replace this work-around with a real import from the server
+		this._researcher.addResearchDataProvider( "morphology", morphologyData );
+
 		this._contentAssessor = null;
 		this._seoAssessor = null;
 
@@ -315,8 +319,8 @@ export default class AnalysisWebWorker {
 			assessor = new TaxonomyAssessor( this._i18n );
 		} else {
 			assessor = useCornerstone === true
-				? new CornerstoneSEOAssessor( this._i18n, { locale } )
-				: new SEOAssessor( this._i18n, { locale } );
+				? new CornerstoneSEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
+				: new SEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
 		}
 
 
