@@ -43,7 +43,6 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 			'open-graph-protocol-framework/open-graph-protocol-framework.php',
 			// Open Graph Protocol Framework.
 			'seo-facebook-comments/seofacebook.php',                 // SEO Facebook Comments.
-			'seo-ultimate/seo-ultimate.php',                         // SEO Ultimate.
 			'sexybookmarks/sexy-bookmarks.php',                      // Shareaholic.
 			'shareaholic/sexy-bookmarks.php',                        // Shareaholic.
 			'sharepress/sharepress.php',                             // SharePress.
@@ -102,6 +101,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 		),
 		'seo' => array(
 			'all-in-one-seo-pack/all_in_one_seo_pack.php',           // All in One SEO Pack.
+			'seo-ultimate/seo-ultimate.php',                         // SEO Ultimate.
 		),
 	);
 
