@@ -1,6 +1,6 @@
 const matchTextWithArray = require( "../stringProcessing/matchTextWithArray.js" );
-const sum = require( "lodash/sum.js" );
-const isEmpty = require( "lodash/isEmpty.js" );
+import { sum } from "lodash-es" ;
+import { isEmpty } from "lodash-es";
 
 /**
  * Matches forms of words in the keyphrase against a given text.
