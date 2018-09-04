@@ -161,7 +161,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 		/* translators: %2$s expands to 'RS Head Cleaner' plugin name of possibly conflicting plugin with regard to differentiating output between search engines and normal users. */
 		$plugin_sections['cloaking'] = __( 'The plugin %2$s changes your site\'s output and in doing that differentiates between search engines and normal users, a process that\'s called cloaking. We highly recommend that you disable it.', 'wordpress-seo' );
 
-		/* translators: %1$s expands to Yoast SEO, %2$s: 'All in One SEO Pack' plugin name of possibly conflicting plugin with regard to the creation of duplicate SEO meta. */
+		/* translators: %1$s expands to Yoast SEO, %2$s: 'SEO' plugin name of possibly conflicting plugin with regard to the creation of duplicate SEO meta. */
 		$plugin_sections['seo'] = __( 'Both %1$s and %2$s manage the SEO of your site. Running two SEO plugins at the same time is detrimental.', 'wordpress-seo' );
 
 		$instance->check_plugin_conflicts( $plugin_sections );
