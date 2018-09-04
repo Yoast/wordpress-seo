@@ -1,4 +1,4 @@
-var removeSentenceTerminators = require( "../../js/stringProcessing/removeSentenceTerminators" );
+var removeSentenceTerminators = require( "../../src/stringProcessing/removeSentenceTerminators" );
 
 describe( "a test removing sentence terminators from a string", function() {
 	it( "returns string without full stops", function() {

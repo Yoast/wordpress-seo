@@ -8,12 +8,23 @@ body, html {
 	padding: 0;
 }
 
+body {
+	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+	background-color: #f1f1f1;
+	padding: 24px;
+}
+
 *, *:after, *:before {
 	box-sizing: inherit;
 }
 
-h2{
-	color: #777;
+.yoast-text-mark {
+	background-color: #e1bee7;
+}
+
+.yoast-text-mark__highlight {
+	background-color: #4a148c;
+	color: white;
 }
 
 /* needs higher specificity than other score icons */

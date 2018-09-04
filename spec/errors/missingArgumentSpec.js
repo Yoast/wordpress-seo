@@ -1,4 +1,4 @@
-import MissingArgumentError from "../../js/errors/missingArgument.js";
+import MissingArgumentError from "../../src/errors/missingArgument.js";
 
 describe( "missing argument error", function() {
 	it( "has the correct name and message", function() {

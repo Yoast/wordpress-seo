@@ -1,5 +1,5 @@
-const getParticiples = require( "../../../js/researches/passiveVoice/periphrastic/getParticiples.js" );
-const SentencePart = require( "../../../js/values/SentencePart.js" );
+const getParticiples = require( "../../../src/researches/passiveVoice/periphrastic/getParticiples.js" );
+const SentencePart = require( "../../../src/values/SentencePart.js" );
 
 describe( "Test for matching Polish participles", function() {
 	it( "returns matched irregular participles.", function() {

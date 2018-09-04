@@ -1,5 +1,5 @@
-var wordComplexity = require( "../../js/researches/getWordComplexity.js" );
-var Paper = require( "../../js/values/Paper" );
+var wordComplexity = require( "../../src/researches/getWordComplexity.js" );
+var Paper = require( "../../src/values/Paper" );
 
 describe( "A function for getting the syllables per word",  function() {
 	it( "returns an array with the number of syllables per word", function() {

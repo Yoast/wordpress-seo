@@ -1,4 +1,4 @@
-var types = require( "../../js/helpers/types" );
+var types = require( "../../src/helpers/types" );
 
 var getType = types.getType;
 

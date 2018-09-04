@@ -1,5 +1,5 @@
-var PageTitleLengthAssessment = require( "../../js/assessments/seo/pageTitleWidthAssessment.js" );
-var Paper = require( "../../js/values/Paper.js" );
+var PageTitleLengthAssessment = require( "../../src/assessments/seo/pageTitleWidthAssessment.js" );
+var Paper = require( "../../src/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );
 var i18n = factory.buildJed();

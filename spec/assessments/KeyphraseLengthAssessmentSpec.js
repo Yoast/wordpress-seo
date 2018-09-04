@@ -1,5 +1,5 @@
-import KeyphraseLengthAssessment from "../../js/assessments/seo/KeyphraseLengthAssessment";
-const Paper = require( "../../js/values/Paper.js" );
+import KeyphraseLengthAssessment from "../../src/assessments/seo/KeyphraseLengthAssessment";
+const Paper = require( "../../src/values/Paper.js" );
 
 const factory = require( "../helpers/factory.js" );
 const i18n = factory.buildJed();

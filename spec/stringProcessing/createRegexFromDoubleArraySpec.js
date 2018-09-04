@@ -1,4 +1,4 @@
-var regexToDoubleArray = require( "../../js/stringProcessing/createRegexFromDoubleArray.js" );
+var regexToDoubleArray = require( "../../src/stringProcessing/createRegexFromDoubleArray.js" );
 
 describe( "a test creating a regex from an array with arrays.", function() {
 	it( "matches a sentence containing one of the word combinations", function() {

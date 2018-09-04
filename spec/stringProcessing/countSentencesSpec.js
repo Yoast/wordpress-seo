@@ -1,4 +1,4 @@
-var sentenceCount = require( "../../js/stringProcessing/countSentences.js" );
+var sentenceCount = require( "../../src/stringProcessing/countSentences.js" );
 
 describe( "Counting of sentences", function() {
 	it( "returns the number of sentences in a string", function() {

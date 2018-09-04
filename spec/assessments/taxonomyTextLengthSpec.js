@@ -1,5 +1,5 @@
-var taxonomyTextLengthAssessment = require( "../../js/assessments/seo/taxonomyTextLengthAssessment.js" );
-var Paper = require( "../../js/values/Paper.js" );
+var taxonomyTextLengthAssessment = require( "../../src/assessments/seo/taxonomyTextLengthAssessment.js" );
+var Paper = require( "../../src/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
 

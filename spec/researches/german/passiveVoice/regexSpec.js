@@ -1,4 +1,4 @@
-let regex = require( "./../../../../js/researches/german/passiveVoice/regex.js" );
+let regex = require( "./../../../../src/researches/german/passiveVoice/regex.js" );
 let verbsBeginningWithGe = regex().verbsBeginningWithGe;
 let	verbsBeginningWithErVerEntBeZerHerUber = regex().verbsBeginningWithErVerEntBeZerHerUber;
 let verbsWithGeInMiddle = regex().verbsWithGeInMiddle;

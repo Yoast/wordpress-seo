@@ -1,5 +1,5 @@
-const passiveVoice = require( "../../js/researches/getPassiveVoice.js" );
-const Paper = require( "../../js/values/Paper.js" );
+const passiveVoice = require( "../../src/researches/getPassiveVoice.js" );
+const Paper = require( "../../src/values/Paper.js" );
 
 describe( "detecting passive voice in sentences", function() {
 	it( "returns active voice (present)", function() {

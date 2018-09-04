@@ -1,4 +1,4 @@
-var AssessmentResult = require( "../../js/values/AssessmentResult.js" );
+var AssessmentResult = require( "../../src/values/AssessmentResult.js" );
 
 describe( "a result of an assessment", function() {
 	it( "should receive a text and a score in the constructor", function() {

@@ -11,7 +11,7 @@ import ReactDOM from "react-dom";
  *
  * @returns {ReactElement} The wrapped component.
  */
-export function wrapInTopLevelComponents( Component, store, props = {} ) {
+export function wrapInTopLevelComponents( Component, { store, ...props } = {} ) {
 	return (
 		<Provider store={ store }>
 			<Component { ...props } />
@@ -24,14 +24,13 @@ export function wrapInTopLevelComponents( Component, store, props = {} ) {
  *
  * @param {string}       targetElement Target element.
  * @param {ReactElement} component     The component to render.
- * @param {Object}       store         Redux store.
  * @param {Object}       props         The component props.
  *
  * @returns {void}
  */
-export function renderReactApp( targetElement, component, store, props = {} ) {
+export function renderReactApp( targetElement, component, props = {} ) {
 	ReactDOM.render(
-		wrapInTopLevelComponents( component, store, props ),
+		wrapInTopLevelComponents( component, props ),
 		targetElement
 	);
 }

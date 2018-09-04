@@ -1,5 +1,5 @@
-let OutboundLinksAssessment = require( "../../js/assessments/seo/outboundLinksAssessment.js" );
-var Paper = require( "../../js/values/Paper.js" );
+let OutboundLinksAssessment = require( "../../src/assessments/seo/outboundLinksAssessment.js" );
+var Paper = require( "../../src/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );
 var i18n = factory.buildJed();

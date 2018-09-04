@@ -1,5 +1,5 @@
-var AssessorPresenter = require( "../../js/renderers/AssessorPresenter.js" );
-var AssessmentResult = require( "../../js/values/AssessmentResult" );
+var AssessorPresenter = require( "../../src/renderers/AssessorPresenter.js" );
+var AssessmentResult = require( "../../src/values/AssessmentResult" );
 var Factory = require( "../helpers/factory.js" );
 
 describe( "an AssessorPresenter", function() {

@@ -1,5 +1,5 @@
-var linkCount = require( "../../js/researches/countLinks.js" );
-var Paper = require( "../../js/values/Paper.js" );
+var linkCount = require( "../../src/researches/countLinks.js" );
+var Paper = require( "../../src/values/Paper.js" );
 var foundLinks;
 
 describe( "Tests a string for anchors", function() {

@@ -1,4 +1,4 @@
-let countSyllableFunction = require( "../../../js/stringProcessing/syllables/count.js" );
+let countSyllableFunction = require( "../../../src/stringProcessing/syllables/count.js" );
 import { forEach } from "lodash-es";
 
 /**

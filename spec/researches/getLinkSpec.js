@@ -1,5 +1,5 @@
-let getLinks = require( "../../js/researches/getLinks" );
-let Paper = require( "../../js/values/Paper.js" );
+let getLinks = require( "../../src/researches/getLinks" );
+let Paper = require( "../../src/values/Paper.js" );
 
 describe( "A test for getting the links from a text", function() {
 	it( "returns all links from the text", function() {

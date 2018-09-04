@@ -1,4 +1,4 @@
-var participleRegexes = require( "../../../js/researches/passiveVoice/periphrastic/matchParticiples" )();
+var participleRegexes = require( "../../../src/researches/passiveVoice/periphrastic/matchParticiples" )();
 
 describe( "a test for matching regular participles.", function() {
 	it( "matches a regular participle", function() {

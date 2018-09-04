@@ -1,4 +1,4 @@
-var getLanguage = require( "../../js/helpers/getLanguage.js" );
+var getLanguage = require( "../../src/helpers/getLanguage.js" );
 
 describe( "a function to get the language from the locale ", function() {
 	it( "returns en in case of en_US", function() {
