@@ -12,7 +12,6 @@ class TitleKeywordAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
-	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum of keyword occurrences in the title.
 	 * @param {number} [config.parameters.recommendedPosition] The recommended position of the keyword within the title.
 	 * @param {number} [config.scores.good] The score to return if the keyword is found at the recommended position.
 	 * @param {number} [config.scores.okay] The score to return if the keyword is found, but not at the recommended position.
@@ -26,7 +25,6 @@ class TitleKeywordAssessment extends Assessment {
 
 		const defaultConfig = {
 			parameters: {
-				recommendedMinimum: 1,
 				recommendedPosition: 0,
 			},
 			scores: {
@@ -75,55 +73,78 @@ class TitleKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Calculates the result based on the keyphraseLength research.
+	 * Calculates the result based on whether and how the keyphrase was matched in the title. Returns GOOD result if
+	 * an exact match of the keyword is found in the beginning of the title. Returns OK results if all content words
+	 * from the keyphrase are in the title (in any form). Returns BAD otherwise.
 	 *
 	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {Object} Object with score and text.
 	 */
 	calculateResult( i18n ) {
-		const matches = this._keywordMatches.matches;
+		const exactMatch = this._keywordMatches.exactMatch;
 		const position = this._keywordMatches.position;
+		const allWordsFound = this._keywordMatches.allWordsFound;
 
-		if ( matches < this._config.parameters.recommendedMinimum ) {
+		if ( exactMatch === true ) {
+			if ( position === 0 )  {
+				return {
+					score: this._config.scores.good,
+					resultText: i18n.sprintf(
+						/* Translators: %1$s expands to the keyphrase, %2$s expands to a link on yoast.com,
+						%3$s expands to the anchor end tag. */
+						i18n.dgettext(
+							"js-text-analysis",
+							"The exact match of the focus keyphrase appears at the beginning of the %1$sSEO title%2$s, " +
+							"which is considered to improve rankings."
+
+						),
+						this._config.url,
+						"</a>"
+					),
+				};
+			}
 			return {
-				score: this._config.scores.bad,
+				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to the keyphrase, %2$s expands to a link on yoast.com,
 					%3$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The focus keyword '%1$s' does not appear in the %2$sSEO title%3$s."
+						"The exact match of the focus keyphrase appears in " +
+						"the <a href='https://yoa.st/2pn' target='_blank'>SEO title</a>, but not at the beginning; " +
+						"try and move it to the beginning."
 					),
-					this._keyword,
 					this._config.url,
 					"</a>"
 				),
 			};
 		}
-		if ( matches >= this._config.parameters.recommendedMinimum && position === this._config.parameters.recommendedPosition ) {
+
+		if ( allWordsFound ) {
 			return {
-				score: this._config.scores.good,
+				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The %1$sSEO title%2$s contains the focus keyword, at the beginning which is considered to improve rankings."
+						"The %1$sSEO title%2$s contains all words from the focus keyphrase, but not its exact match."
 					),
 					this._config.url,
 					"</a>"
 				),
 			};
 		}
+
 		return {
-			score: this._config.scores.okay,
+			score: this._config.scores.bad,
 			resultText: i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 				i18n.dgettext(
 					"js-text-analysis",
-					"The %1$sSEO title%2$s contains the focus keyword, but it does not appear at the beginning; " +
-					"try and move it to the beginning."
+					"The focus keyword '%1$s' does not appear in the %2$sSEO title%3$s."
 				),
+				this._keyword,
 				this._config.url,
 				"</a>"
 			),

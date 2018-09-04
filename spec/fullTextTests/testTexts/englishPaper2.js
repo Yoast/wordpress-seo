@@ -90,7 +90,8 @@ const expectedResults = {
 	},
 	titleKeyword: {
 		score: 6,
-		resultText: "The <a href='https://yoa.st/2pn' target='_blank'>SEO title</a> contains the focus keyword, but it does not appear at the beginning; try and move it to the beginning.",
+		resultText: "The exact match of the focus keyphrase appears in the <a href='https://yoa.st/2pn' target='_blank'>SEO title</a>, " +
+		"but not at the beginning; try and move it to the beginning."
 	},
 	titleWidth: {
 		score: 9,
