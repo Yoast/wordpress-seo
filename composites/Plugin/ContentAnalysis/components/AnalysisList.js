@@ -14,7 +14,7 @@ import colors from "../../../../style-guide/colors";
  *
  * @returns {React.Element} The rendered tree.
  */
-const AnalysisList = styled.ul`
+const AnalysisListBase = styled.ul`
 	margin: 8px 0;
 	padding: 0;
 	list-style: none;
@@ -52,8 +52,8 @@ export function renderRatingToColor( rating ) {
  *
  * @returns {React.Element} The rendered list.
  */
-export default function ResultsList( { results, marksButtonActivatedResult, marksButtonStatus, marksButtonClassName, onMarksButtonClick } ) {
-	return <AnalysisList role="list">
+export default function AnalysisList( { results, marksButtonActivatedResult, marksButtonStatus, marksButtonClassName, onMarksButtonClick } ) {
+	return <AnalysisListBase role="list">
 		{ results.map( ( result ) => {
 			let color = renderRatingToColor( result.rating );
 			let isMarkButtonPressed = result.id === marksButtonActivatedResult;
@@ -80,10 +80,10 @@ export default function ResultsList( { results, marksButtonActivatedResult, mark
 				marksButtonStatus={ marksButtonStatus }
 			/>;
 		} ) }
-	</AnalysisList>;
+	</AnalysisListBase>;
 }
 
-ResultsList.propTypes = {
+AnalysisList.propTypes = {
 	results: PropTypes.array.isRequired,
 	marksButtonActivatedResult: PropTypes.string,
 	marksButtonStatus: PropTypes.string,
@@ -91,7 +91,7 @@ ResultsList.propTypes = {
 	onMarksButtonClick: PropTypes.func,
 };
 
-ResultsList.defaultProps = {
+AnalysisList.defaultProps = {
 	marksButtonActivatedResult: "",
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
