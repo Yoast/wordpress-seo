@@ -124,6 +124,14 @@ var getIndicesByWordListSorted = function( words, text ) {
 	return matchedWords;
 };
 
+export {
+	getIndicesByWord,
+	getIndicesByWordList,
+	filterIndices,
+	sortIndices,
+	getIndicesByWordListSorted,
+};
+
 export default {
 	getIndicesByWord: getIndicesByWord,
 	getIndicesByWordList: getIndicesByWordList,

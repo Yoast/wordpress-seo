@@ -8,7 +8,9 @@ import stripSpaces from "../../../stringProcessing/stripSpaces.js";
 // German-specific imports.
 import SentencePartGerman from "../../german/passiveVoice/SentencePart.js";
 
-const auxiliariesGerman = require( "../../german/passiveVoice/auxiliaries.js" )().allAuxiliaries;
+import auxiliariesGermanFactory from "../../german/passiveVoice/auxiliaries.js";
+
+const auxiliariesGerman = auxiliariesGermanFactory().allAuxiliaries;
 import stopwordsGermanFactory from "../../german/passiveVoice/stopwords.js";
 const stopwordsGerman = stopwordsGermanFactory();
 

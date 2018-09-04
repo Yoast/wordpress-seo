@@ -1,7 +1,9 @@
 import WordCombination from "../../src/values/WordCombination";
 import relevantWords from "../../src/stringProcessing/relevantWords";
+import germanFunctionWordsFactory from "../../src/researches/german/functionWords.js";
+
 let getRelevantWords = relevantWords.getRelevantWords;
-let germanFunctionWords = require( "../../src/researches/german/functionWords.js" )().all;
+let germanFunctionWords = germanFunctionWordsFactory().all;
 
 describe( "gets German word combinations", function() {
 	it( "returns word combinations", function() {

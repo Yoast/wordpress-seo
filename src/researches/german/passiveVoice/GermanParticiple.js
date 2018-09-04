@@ -3,7 +3,9 @@ import { getIndicesByWord as getIndices } from "../../../stringProcessing/indice
 import { getIndicesByWordList as getIndicesOfList } from "../../../stringProcessing/indices.js";
 import exceptionsParticiplesActiveFactory from "./exceptionsParticiplesActive.js";
 const exceptionsParticiplesActive = exceptionsParticiplesActiveFactory();
-var auxiliaries = require( "./auxiliaries.js" )().participleLike;
+
+import auxiliariesFactory from "./auxiliaries.js";
+var auxiliaries = auxiliariesFactory().participleLike;
 
 var exceptionsRegex =
 	/\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t.,'()"+-;!?:/»«‹›<>])/ig;

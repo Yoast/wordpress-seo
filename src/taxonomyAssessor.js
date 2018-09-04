@@ -39,6 +39,6 @@ const TaxonomyAssessor = function( i18n ) {
 	];
 };
 
-export default TaxonomyAssessor;
+inherits( TaxonomyAssessor, Assessor );
 
-inherits( module.exports, Assessor );
+export default TaxonomyAssessor;

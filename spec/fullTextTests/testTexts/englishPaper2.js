@@ -146,6 +146,12 @@ const expectedResults = {
 	},
 };
 
+export {
+	name,
+	paper,
+	expectedResults,
+};
+
 export default {
 	name: name,
 	paper: paper,

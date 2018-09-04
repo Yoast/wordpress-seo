@@ -43,6 +43,12 @@ var stripFullTags = function( text ) {
 	return text;
 };
 
+export {
+	stripFullTags,
+	stripIncompleteTags,
+	stripBlockTagsAtStartEnd,
+};
+
 export default {
 	stripFullTags: stripFullTags,
 	stripIncompleteTags: stripIncompleteTags,

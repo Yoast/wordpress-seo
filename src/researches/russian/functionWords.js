@@ -1,4 +1,5 @@
-const transitionWords = require( "./transitionWords.js" )().allWords;
+import transitionWordsFactory from "./transitionWords.js";
+const transitionWords = transitionWordsFactory().allWords;
 
 /**
  * Returns an object with exceptions for the prominent words researcher

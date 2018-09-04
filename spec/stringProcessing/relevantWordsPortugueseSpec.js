@@ -1,7 +1,9 @@
 import WordCombination from "../../src/values/WordCombination";
 import relevantWords from "../../src/stringProcessing/relevantWords";
+import portugueseFunctionWordsFactory from "../../src/researches/portuguese/functionWords.js";
+
 let getRelevantWords = relevantWords.getRelevantWords;
-let portugueseFunctionWords = require( "../../src/researches/portuguese/functionWords.js" )().all;
+let portugueseFunctionWords = portugueseFunctionWordsFactory().all;
 
 describe( "gets Portuguese word combinations", function() {
 	it( "returns word combinations", function() {

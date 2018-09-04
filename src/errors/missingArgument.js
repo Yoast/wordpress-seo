@@ -1,3 +1,5 @@
+import util from "util";
+
 /**
  * Error that means that an argument should be passed that wasn't passed.
  *
@@ -7,10 +9,12 @@
  *
  * @returns {void}
  */
-export default function MissingArgumentError( message ) {
+function MissingArgumentError( message ) {
 	Error.captureStackTrace( this, this.constructor );
 	this.name = this.constructor.name;
 	this.message = message;
 }
 
-require( "util" ).inherits( module.exports, Error );
+util.inherits( MissingArgumentError, Error );
+
+export default MissingArgumentError;

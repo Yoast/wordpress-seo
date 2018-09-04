@@ -1,4 +1,5 @@
-let transitionWords = require( "./transitionWords.js" )().singleWords;
+import transitionWordsFactory from "./transitionWords.js";
+let transitionWords = transitionWordsFactory().singleWords;
 
 /**
  * Returns an object with exceptions for the prominent words researcher.

@@ -28,6 +28,12 @@ function normalizeQuotes( text ) {
 	return normalizeDoubleQuotes( normalizeSingleQuotes( text ) );
 }
 
+export {
+	normalizeSingleQuotes as normalizeSingle,
+	normalizeDoubleQuotes as normalizeDouble,
+	normalizeQuotes as normalize,
+};
+
 export default {
 	normalizeSingle: normalizeSingleQuotes,
 	normalizeDouble: normalizeDoubleQuotes,

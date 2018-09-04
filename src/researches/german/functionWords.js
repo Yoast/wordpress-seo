@@ -1,6 +1,9 @@
-let filteredPassiveAuxiliaries = require( "./passiveVoice/auxiliaries.js" )().filteredAuxiliaries;
-let passiveAuxiliariesInfinitive = require( "./passiveVoice/auxiliaries.js" )().infinitiveAuxiliaries;
-let transitionWords = require( "./transitionWords.js" )().singleWords;
+import filteredPassiveAuxiliariesFactory from "./passiveVoice/auxiliaries.js";
+let filteredPassiveAuxiliaries = filteredPassiveAuxiliariesFactory().filteredAuxiliaries;
+import passiveAuxiliariesInfinitiveFactory from "./passiveVoice/auxiliaries.js";
+let passiveAuxiliariesInfinitive = passiveAuxiliariesInfinitiveFactory().infinitiveAuxiliaries;
+import transitionWordsFactory from "./transitionWords.js";
+let transitionWords = transitionWordsFactory().singleWords;
 
 /**
  * Returns an object with exceptions for the prominent words researcher

@@ -308,6 +308,21 @@ function getRelevantWords( text, locale ) {
 	return take( combinations, relevantWordLimit );
 }
 
+export {
+	getWordCombinations,
+	getRelevantWords,
+	calculateOccurrences,
+	getRelevantCombinations,
+	sortCombinations,
+	filterFunctionWordsAtEnding,
+	filterFunctionWordsAtBeginning,
+	filterFunctionWords,
+	filterFunctionWordsAnywhere,
+	filterOnDensity,
+	filterOneCharacterWordCombinations,
+	filterEndingWith,
+};
+
 export default {
 	getWordCombinations: getWordCombinations,
 	getRelevantWords: getRelevantWords,

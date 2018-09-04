@@ -19,6 +19,8 @@ function showTrace( errorMessage ) {
 	}
 }
 
+export { showTrace };
+
 export default {
 	showTrace: showTrace,
 };

@@ -35,6 +35,11 @@ function getSubheadingContents( text ) {
 	return subheadings;
 }
 
+export {
+	getSubheadings,
+	getSubheadingContents,
+};
+
 export default {
 	getSubheadings: getSubheadings,
 	getSubheadingContents: getSubheadingContents,

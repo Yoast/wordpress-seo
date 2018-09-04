@@ -1,7 +1,9 @@
 import WordCombination from "../../src/values/WordCombination";
 import relevantWords from "../../src/stringProcessing/relevantWords";
+import polishFunctionWordsFactory from "../../src/researches/polish/functionWords.js";
+
 let getRelevantWords = relevantWords.getRelevantWords;
-let polishFunctionWords = require( "../../src/researches/polish/functionWords.js" )().all;
+let polishFunctionWords = polishFunctionWordsFactory().all;
 
 describe( "gets Polish word combinations", function() {
 	it( "returns word combinations", function() {

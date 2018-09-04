@@ -6,9 +6,15 @@ import { flattenDeep } from "lodash-es";
 
 import irregularsEnglishFactory from "../../english/passiveVoice/irregulars";
 const irregularsEnglish = irregularsEnglishFactory();
-const irregularsRegularFrench = require( "../../french/passiveVoice/irregulars" )().irregularsRegular;
-const irregularsIrregularFrench = require( "../../french/passiveVoice/irregulars" )().irregularsIrregular;
-const irregularsEndingInSFrench = require( "../../french/passiveVoice/irregulars" )().irregularsEndingInS;
+
+import irregularsFrenchFactory from "../../french/passiveVoice/irregulars";
+
+const irregularsFrench = irregularsFrenchFactory();
+
+const irregularsRegularFrench = irregularsFrench.irregularsRegular;
+const irregularsIrregularFrench = irregularsFrench.irregularsIrregular;
+const irregularsEndingInSFrench = irregularsFrench.irregularsEndingInS;
+
 import spanishParticiplesFactory from "../../spanish/passiveVoice/participles";
 const spanishParticiples = spanishParticiplesFactory();
 import italianParticiplesFactory from "../../italian/passiveVoice/participles";

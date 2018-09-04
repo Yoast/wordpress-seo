@@ -158,10 +158,20 @@ function getBlocks( text ) {
 	return blocks;
 }
 
+const memoizedGetBlocks = memoize( getBlocks );
+
+export {
+	blockElements,
+	inlineElements,
+	isBlockElement,
+	isInlineElement,
+	memoizedGetBlocks as getBlocks,
+};
+
 export default {
 	blockElements: blockElements,
 	inlineElements: inlineElements,
 	isBlockElement: isBlockElement,
 	isInlineElement: isInlineElement,
-	getBlocks: memoize( getBlocks ),
+	getBlocks: memoizedGetBlocks,
 };

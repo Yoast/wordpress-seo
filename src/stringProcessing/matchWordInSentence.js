@@ -49,6 +49,11 @@ var isWordInSentence = function( word, sentence ) {
 	return ( ( previousCharacter ) && ( nextCharacter ) );
 };
 
+export {
+	characterInBoundary,
+	isWordInSentence,
+};
+
 export default {
 	characterInBoundary: characterInBoundary,
 	isWordInSentence: isWordInSentence,

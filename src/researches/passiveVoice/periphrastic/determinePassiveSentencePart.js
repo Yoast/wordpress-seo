@@ -2,7 +2,8 @@ import determineSentencePartIsPassive from "./determineSentencePartIsPassive.js"
 import getParticiples from "./getParticiples.js";
 
 // Imports specific for German.
-const auxiliariesGerman = require( "../../german/passiveVoice/auxiliaries.js" )().allAuxiliaries;
+import auxiliariesGermanFactory from "../../german/passiveVoice/auxiliaries.js";
+const auxiliariesGerman = auxiliariesGermanFactory().allAuxiliaries;
 import getParticiplesGerman from "../../german/passiveVoice/getParticiples.js";
 
 // Imports specific for Dutch.

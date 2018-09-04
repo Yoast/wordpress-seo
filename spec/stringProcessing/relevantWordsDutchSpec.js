@@ -1,7 +1,8 @@
 import WordCombination from "../../src/values/WordCombination";
 import relevantWords from "../../src/stringProcessing/relevantWords";
+import dutchFunctionWordsFactory from "../../src/researches/dutch/functionWords.js";
 let getRelevantWords = relevantWords.getRelevantWords;
-let dutchFunctionWords = require( "../../src/researches/dutch/functionWords.js" )().all;
+let dutchFunctionWords = dutchFunctionWordsFactory().all;
 
 describe( "gets Dutch word combinations", function() {
 	it( "returns word combinations", function() {

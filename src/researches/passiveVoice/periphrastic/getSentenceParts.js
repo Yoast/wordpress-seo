@@ -18,8 +18,10 @@ import { forEach } from "lodash-es";
 // English-specific variables and imports.
 import SentencePartEnglish from "../../english/passiveVoice/SentencePart";
 
-const auxiliariesEnglish = require( "../../english/passiveVoice/auxiliaries.js" )().all;
+import auxiliariesEnglishFactory from "../../english/passiveVoice/auxiliaries.js";
 import stopwordsEnglishFactory from "../../english/passiveVoice/stopwords.js";
+const auxiliariesEnglish = auxiliariesEnglishFactory().all;
+
 const stopwordsEnglish = stopwordsEnglishFactory();
 const stopCharacterRegexEnglish = /([:,]|('ll)|('ve))(?=[ \n\r\t'"+\-»«‹›<>])/ig;
 const verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;

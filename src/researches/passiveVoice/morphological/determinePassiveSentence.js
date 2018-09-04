@@ -2,7 +2,8 @@ import { filter } from "lodash-es";
 import getWords from "../../../stringProcessing/getWords.js";
 
 // Verb-form lists per language
-const getPassiveVerbsRussian = require( "../../russian/passiveVoice/participlesShortenedList.js" )().all;
+import getPassiveVerbsRussianFactory from "../../russian/passiveVoice/participlesShortenedList.js";
+const getPassiveVerbsRussian = getPassiveVerbsRussianFactory().all;
 
 /**
  * Matches the sentence against passive verbs.
