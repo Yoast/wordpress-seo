@@ -17,7 +17,7 @@ import { isEmpty } from "lodash-es";
  */
 module.exports = function( paper ) {
 	const paragraphs = matchParagraphs( paper.getText() );
-	const keyword = escapeRegExp( paper.getKeyword().toLocaleLowerCase() );
+	const keyword = escapeRegExp( paper.getKeyword() );
 	const paragraph = reject( paragraphs, isEmpty )[ 0 ] || "";
 	return wordMatch( paragraph, keyword, paper.getLocale() ).count;
 };

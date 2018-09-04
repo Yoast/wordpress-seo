@@ -33,4 +33,18 @@ describe( "a test getting words from a sentence", function() {
 			"punctuation",
 		] );
 	} );
+
+	it( "does not do anything with repetitions", function() {
+		var words = getWords( "A sentence sentence, sentence! Sentence with words." );
+
+		expect( words ).toEqual( [
+			"A",
+			"sentence",
+			"sentence",
+			"sentence",
+			"Sentence",
+			"with",
+			"words",
+		] );
+	} );
 } );
