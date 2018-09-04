@@ -234,7 +234,7 @@ class SeoAnalysis extends React.Component {
 					{ this.props.shouldUpsell && this.renderSynonymsUpsell(	this.props.location	) }
 					{ this.props.shouldUpsell && this.renderMultipleKeywordsUpsell( this.props.location ) }
 					<AnalysisHeader>
-						{ __( "Analysis results:", "wordpress-seo" ) }
+						{ __( "Analysis results", "wordpress-seo" ) }
 					</AnalysisHeader>
 					<Results
 						showLanguageNotice={ false }
