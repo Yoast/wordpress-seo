@@ -752,11 +752,11 @@ class WPSEO_Frontend {
 				if ( WPSEO_Options::get( 'noindex-author-wpseo', false ) ) {
 					$robots['index'] = 'noindex';
 				}
-				$curauth = $wp_query->get_queried_object();
-				if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', false ) && count_user_posts( $curauth->ID, 'any' ) === 0 ) {
+				$author_id = $wp_query->get_queried_object_id();
+				if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', false ) && $author_id && count_user_posts( $author_id, 'any' ) === 0 ) {
 					$robots['index'] = 'noindex';
 				}
-				if ( get_user_meta( $curauth->ID, 'wpseo_noindex_author', true ) === 'on' ) {
+				if ( $author_id && get_user_meta( $author_id, 'wpseo_noindex_author', true ) === 'on' ) {
 					$robots['index'] = 'noindex';
 				}
 			}
