@@ -46,11 +46,12 @@ import "./helpers/babel-polyfill";
 	function getCategoryTermName( categoryTermId ) {
 		const categoryListItem = $( "#category-all" )
 			.find( `#category-${ categoryTermId } > label` );
-		if( categoryListItem.length === 0 ) {
+		if ( categoryListItem.length === 0 ) {
 			return "";
 		}
 		const clone = categoryListItem.clone();
 		clone.children().remove();
+		console.log( $.trim( categoryListItem.text() ), $.trim( clone.text() ) );
 		return $.trim( clone.text() );
 	}
 
@@ -67,7 +68,7 @@ import "./helpers/babel-polyfill";
 		primaryTermInput.val( termId ).trigger( "change" );
 
 		const yoastEditor = dispatch( "yoast-seo/editor" );
-		if( yoastEditor ) {
+		if ( yoastEditor ) {
 			const termIdInt = parseInt( termId, 10 );
 			yoastEditor.setPrimaryTaxonomyId( taxonomyName, termIdInt );
 			// If the taxonomy is category update the replacement variable.
