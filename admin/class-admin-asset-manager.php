@@ -389,6 +389,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'wp-util',
 					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
