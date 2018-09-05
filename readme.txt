@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.8
-Stable tag: 8.1.1
+Stable tag: 8.1.2
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -110,12 +110,14 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: September 5th, 2018
 
 Bugfixes:
+
 * Fixes a bug where our JavaScript memory usage would increase indefinitely. This could result in a browser crash after a long enough period.
 
 = 8.1.1 =
 Release Date: September 3rd, 2018
 
 Bugfixes:
+
 * Fixes compatibility with Gutenberg 3.7, which removed a feature we were relying on.
 * Fixes a bug where the Twitter meta-tags would not have the snippet variables replaced with their dynamic values.
 * Fixes a bug where the `og:url` would not be set to the canonical URL if the canonical URL is explicitly set on Post types, Terms or Tags.
