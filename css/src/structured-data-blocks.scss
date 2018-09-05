@@ -1,7 +1,8 @@
 .schema-how-to-duration .schema-how-to-duration-input[type="number"] {
 	width: 40px;
 	margin: 0 2px;
-	text-align: right;
+	padding: 6px 4px;
+	text-align: center;
 	-moz-appearance: textfield;
 
 	&::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
@@ -67,6 +68,12 @@ legend.schema-how-to-duration-legend {
 	left: 4px;
 	width: 24px;
 	text-align: right;
+}
+
+.schema-how-to-step-name,
+.schema-faq-title,
+.schema-faq-question-question {
+	font-weight: 600;
 }
 
 .schema-how-to-step-button-container {

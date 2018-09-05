@@ -121,7 +121,6 @@
     "draft-js-mention-plugin": "^3.0.4",
     "find-with-regex": "~1.0.2",
     "grunt-wp-deploy": "^1.2.1",
-    "gutenberg": "Wordpress/gutenberg",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
     "lodash": "^4.17.4",
@@ -141,6 +140,6 @@
     "yoastseo": "https://github.com/Yoast/YoastSEO.js.git#develop"
   },
   "yoast": {
-    "pluginVersion": "8.1.1"
+    "pluginVersion": "8.2-RC3"
   }
 }

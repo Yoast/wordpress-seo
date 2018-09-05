@@ -195,7 +195,7 @@ export default class HowToStep extends Component {
 				</span>
 				<RichText
 					className="schema-how-to-step-name"
-					tagName="strong"
+					tagName="p"
 					onSetup={ ( ref ) => editorRef( "name", ref ) }
 					key={ `${ id }-name` }
 					value={ name }
