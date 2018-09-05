@@ -1,7 +1,7 @@
-const Researcher = require( "../../src/researcher" );
-const morphologyData = require( "../../src/morphology/morphologyData.json" );
+import Researcher from "../../src/researcher";
+import morphologyData from "../../src/morphology/morphologyData.json";
 import keyphraseLength from "../../src/researches/keyphraseLength.js";
-const Paper = require( "../../src/values/Paper.js" );
+import Paper from "../../src/values/Paper.js";
 
 describe( "the keyphrase length research", function() {
 	it( "should count the words in the input", function() {

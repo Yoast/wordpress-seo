@@ -1,4 +1,4 @@
-var Participle = require( "../../src/values/Participle.js" );
+import Participle from "../../src/values/Participle.js";
 
 describe( "A test for checking the Participle", function() {
 	it( "checks the properties of a participle object without a passive", function() {

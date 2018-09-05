@@ -2,23 +2,33 @@ import { forEach } from "lodash-es";
 import { isEmpty } from "lodash-es";
 import { map } from "lodash-es";
 
-const arrayToRegex = require( "../../../stringProcessing/createRegexFromArray.js" );
-const stripSpaces = require( "../../../stringProcessing/stripSpaces.js" );
+import arrayToRegex from "../../../stringProcessing/createRegexFromArray.js";
+import stripSpaces from "../../../stringProcessing/stripSpaces.js";
 
 // German-specific imports.
-const SentencePartGerman = require( "../../german/passiveVoice/SentencePart.js" );
-const auxiliariesGerman = require( "../../german/passiveVoice/auxiliaries.js" )().allAuxiliaries;
-const stopwordsGerman = require( "../../german/passiveVoice/stopwords.js" )();
+import SentencePartGerman from "../../german/passiveVoice/SentencePart.js";
+
+import auxiliariesGermanFactory from "../../german/passiveVoice/auxiliaries.js";
+
+const auxiliariesGerman = auxiliariesGermanFactory().allAuxiliaries;
+import stopwordsGermanFactory from "../../german/passiveVoice/stopwords.js";
+const stopwordsGerman = stopwordsGermanFactory();
 
 // Dutch-specific imports.
-const SentencePartDutch = require( "../../dutch/passiveVoice/SentencePart.js" );
-const stopwordsDutch = require( "../../dutch/passiveVoice/stopwords.js" )();
-const auxiliariesDutch = require( "../../dutch/passiveVoice/auxiliaries.js" )();
+import SentencePartDutch from "../../dutch/passiveVoice/SentencePart.js";
+
+import stopwordsDutchFactory from "../../dutch/passiveVoice/stopwords.js";
+const stopwordsDutch = stopwordsDutchFactory();
+import auxiliariesDutchFactory from "../../dutch/passiveVoice/auxiliaries.js";
+const auxiliariesDutch = auxiliariesDutchFactory();
 
 // Polish-specific imports.
-const SentencePartPolish = require( "../../polish/passiveVoice/SentencePart.js" );
-const stopwordsPolish = require( "../../polish/passiveVoice/stopwords.js" )();
-const auxiliariesPolish = require( "../../polish/passiveVoice/auxiliaries.js" )();
+import SentencePartPolish from "../../polish/passiveVoice/SentencePart.js";
+
+import stopwordsPolishFactory from "../../polish/passiveVoice/stopwords.js";
+const stopwordsPolish = stopwordsPolishFactory();
+import auxiliariesPolishFactory from "../../polish/passiveVoice/auxiliaries.js";
+const auxiliariesPolish = auxiliariesPolishFactory();
 
 
 // The language-specific variables.
@@ -115,4 +125,4 @@ function splitSentence( sentence, language ) {
 	return createSentenceParts( splitSentences, language );
 }
 
-module.exports = splitSentence;
+export default splitSentence;

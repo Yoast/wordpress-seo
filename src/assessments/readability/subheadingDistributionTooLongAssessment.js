@@ -1,15 +1,15 @@
-const AssessmentResult = require( "../../values/AssessmentResult.js" );
-const Assessment = require( "../../assessment.js" );
-const isTextTooLong = require( "../../helpers/isValueTooLong" );
-const getSubheadings = require( "../../stringProcessing/getSubheadings.js" ).getSubheadings;
-const getWords = require( "../../stringProcessing/getWords.js" );
+import AssessmentResult from "../../values/AssessmentResult.js";
+import Assessment from "../../assessment.js";
+import isTextTooLong from "../../helpers/isValueTooLong";
+import { getSubheadings } from "../../stringProcessing/getSubheadings.js";
+import getWords from "../../stringProcessing/getWords.js";
 import { filter } from "lodash-es";
 import { map } from "lodash-es";
 import { merge } from "lodash-es";
 
-const Mark = require( "../../values/Mark.js" );
-const marker = require( "../../markers/addMark.js" );
-const inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
+import Mark from "../../values/Mark.js";
+import marker from "../../markers/addMark.js";
+import { inRangeEndInclusive as inRange } from "../../helpers/inRange.js";
 
 /**
  * Represents the assessment for calculating the text after each subheading.
@@ -253,4 +253,4 @@ class SubheadingsDistributionTooLong extends Assessment {
 	}
 }
 
-module.exports = SubheadingsDistributionTooLong;
+export default SubheadingsDistributionTooLong;

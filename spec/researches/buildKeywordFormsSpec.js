@@ -1,5 +1,5 @@
-const Paper = require( "../../src/values/Paper" );
-const Researcher = require( "../../src/researcher" );
+import Paper from "../../src/values/Paper";
+import Researcher from "../../src/researcher";
 
 const buildKeywordForms = require( "../../src/researches/buildKeywordForms.js" );
 const filterFunctionWords = buildKeywordForms.filterFunctionWords;

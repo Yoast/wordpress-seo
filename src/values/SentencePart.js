@@ -89,4 +89,4 @@ SentencePart.parse = function( serialized ) {
 	return sentencePart;
 };
 
-module.exports = SentencePart;
+export default SentencePart;

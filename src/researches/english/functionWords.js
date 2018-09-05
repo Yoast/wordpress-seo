@@ -1,6 +1,9 @@
-let filteredPassiveAuxiliaries = require( "./passiveVoice/auxiliaries.js" )().filteredAuxiliaries;
-let notFilteredPassiveAuxiliaries = require( "./passiveVoice/auxiliaries.js" )().notFilteredAuxiliaries;
-let transitionWords = require( "./transitionWords.js" )().singleWords;
+import filteredPassiveAuxiliariesFactory from "./passiveVoice/auxiliaries.js";
+let filteredPassiveAuxiliaries = filteredPassiveAuxiliariesFactory().filteredAuxiliaries;
+import notFilteredPassiveAuxiliariesFactory from "./passiveVoice/auxiliaries.js";
+let notFilteredPassiveAuxiliaries = notFilteredPassiveAuxiliariesFactory().notFilteredAuxiliaries;
+import transitionWordsFactory from "./transitionWords.js";
+let transitionWords = transitionWordsFactory().singleWords;
 
 /**
  * Returns an object with exceptions for the prominent words researcher
@@ -131,7 +134,12 @@ let titlesPreceding = [ "ms", "mss", "mrs", "mr", "dr", "prof" ];
 
 let titlesFollowing = [ "jr", "sr" ];
 
-module.exports = function() {
+/**
+ * Returns function words for english.
+ *
+ * @returns {Object} English function words.
+ */
+export default function() {
 	return {
 		// These word categories are filtered at the ending of word combinations.
 		filteredAtEnding: [].concat( ordinalNumerals, continuousVerbs, generalAdjectivesAdverbs ),
@@ -166,4 +174,4 @@ module.exports = function() {
 			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
 			recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing ),
 	};
-};
+}

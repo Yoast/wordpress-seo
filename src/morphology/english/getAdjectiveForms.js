@@ -1,8 +1,7 @@
 // "use strict";
-const countSyllablesInText = require( "../../stringProcessing/syllables/count" );
-const createRulesFromMorphologyData = require( "../morphoHelpers/createRulesFromMorphologyData.js" );
-const buildOneFormFromRegex = require( "../morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
-const buildTwoFormsFromRegex = require( "../morphoHelpers/buildFormRule" ).buildTwoFormsFromRegex;
+import countSyllablesInText from "../../stringProcessing/syllables/count";
+import createRulesFromMorphologyData from "../morphoHelpers/createRulesFromMorphologyData.js";
+import { buildOneFormFromRegex, buildTwoFormsFromRegex } from "../morphoHelpers/buildFormRule";
 
 import { isUndefined } from "lodash-es";
 import { uniq as unique } from "lodash-es";
@@ -177,7 +176,7 @@ const getAdjectiveForms = function( word, adjectiveData ) {
 	return unique( flatten( forms.filter( Boolean ) ) );
 };
 
-module.exports = {
-	getAdjectiveForms: getAdjectiveForms,
-	getBase: getBase,
+export {
+	getAdjectiveForms,
+	getBase,
 };

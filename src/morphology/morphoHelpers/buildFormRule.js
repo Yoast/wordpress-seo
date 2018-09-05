@@ -35,7 +35,7 @@ const buildTwoFormsFromRegex = function( word, regexes ) {
 	}
 };
 
-module.exports = {
-	buildOneFormFromRegex: buildOneFormFromRegex,
-	buildTwoFormsFromRegex: buildTwoFormsFromRegex,
+export {
+	buildOneFormFromRegex,
+	buildTwoFormsFromRegex,
 };

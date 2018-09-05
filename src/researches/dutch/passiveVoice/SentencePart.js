@@ -1,6 +1,5 @@
-var SentencePart = require( "../../../values/SentencePart.js" );
-
-var getParticiples = require( "../../passiveVoice/periphrastic/getParticiples.js" );
+import SentencePart from "../../../values/SentencePart.js";
+import getParticiples from "../../passiveVoice/periphrastic/getParticiples.js";
 
 /**
  * Creates a Dutch-specific sentence part.
@@ -24,4 +23,4 @@ DutchSentencePart.prototype.getParticiples = function() {
 	return getParticiples( this.getSentencePartText(), this.getAuxiliaries(), "nl" );
 };
 
-module.exports = DutchSentencePart;
+export default DutchSentencePart;

@@ -1,8 +1,6 @@
-const getAdjectiveForms  = require( "../../../src/morphology/english/getAdjectiveForms" ).getAdjectiveForms;
-const getBase  = require( "../../../src/morphology/english/getAdjectiveForms" ).getBase;
-const buildOneFormFromRegex  = require( "../../../src/morphology/morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
-const buildTwoFormsFromRegex  = require( "../../../src/morphology/morphoHelpers/buildFormRule" ).buildTwoFormsFromRegex;
-const createRulesFromMorphologyData = require( "../../../src/morphology/morphoHelpers/createRulesFromMorphologyData" );
+import { getAdjectiveForms, getBase  } from "../../../src/morphology/english/getAdjectiveForms";
+import { buildOneFormFromRegex, buildTwoFormsFromRegex } from "../../../src/morphology/morphoHelpers/buildFormRule";
+import createRulesFromMorphologyData from "../../../src/morphology/morphoHelpers/createRulesFromMorphologyData";
 
 const adjectiveData = require( "../../../src/morphology/morphologyData.json" ).en.adjectives;
 const irregularAdjectivesToTest = adjectiveData.irregularAdjectives;

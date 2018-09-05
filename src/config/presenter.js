@@ -3,7 +3,7 @@
  * @param {Jed} i18n The translator object.
  * @returns {Object} The config object.
  */
-module.exports = function ( i18n ) {
+export default function ( i18n ) {
 	return {
 		feedback: {
 			className: "na",

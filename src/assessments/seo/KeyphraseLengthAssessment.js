@@ -2,8 +2,8 @@ import { isUndefined } from "lodash-es";
 import { merge } from "lodash-es";
 import { inRange } from "lodash-es";
 
-const Assessment = require( "../../assessment" );
-const AssessmentResult = require( "../../values/AssessmentResult" );
+import Assessment from "../../assessment";
+import AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Assessment to check whether the keyphrase has a good length.

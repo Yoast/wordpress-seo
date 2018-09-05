@@ -1,7 +1,7 @@
-const Researcher = require( "../../src/researcher" );
-const morphologyData = require( "../../src/morphology/morphologyData.json" );
-const altTagCountFunction = require( "../../src/researches/imageAltTags" );
-const Paper = require( "../../src/values/Paper" );
+import Researcher from "../../src/researcher";
+import morphologyData from "../../src/morphology/morphologyData.json";
+import altTagCountFunction from "../../src/researches/imageAltTags";
+import Paper from "../../src/values/Paper";
 
 describe( "Counts images in an text", function() {
 	it( "returns an empty object with all alt-counts as zero", function() {

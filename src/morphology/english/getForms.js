@@ -1,9 +1,8 @@
-const createRulesFromMorphologyData = require(  "../morphoHelpers/createRulesFromMorphologyData.js" );
+import createRulesFromMorphologyData from  "../morphoHelpers/createRulesFromMorphologyData.js";
 
-const checkPossessive = require( "./getNounForms.js" ).checkPossessive;
-const getNounFormsWithPossessives = require( "./getNounForms.js" ).getNounFormsWithPossessives;
-const getVerbForms = require( "./getVerbForms.js" ).getVerbForms;
-const getAdjectiveForms = require( "./getAdjectiveForms.js" ).getAdjectiveForms;
+import { checkPossessive, getNounFormsWithPossessives } from "./getNounForms.js";
+import { getVerbForms } from "./getVerbForms.js";
+import { getAdjectiveForms } from "./getAdjectiveForms.js";
 
 import { uniq as unique } from "lodash-es";
 import { flatten } from "lodash-es";

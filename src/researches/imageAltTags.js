@@ -1,7 +1,7 @@
 /** @module researches/imageAltTags */
 
-const imageInText = require( "../stringProcessing/imageInText" );
-const imageAlttag = require( "../stringProcessing/getAlttagContent" );
+import imageInText from "../stringProcessing/imageInText";
+import imageAlttag from "../stringProcessing/getAlttagContent";
 import { findTopicFormsInString } from "../researches/findKeywordFormsInString";
 
 import { isEmpty } from "lodash-es";
@@ -63,8 +63,8 @@ const matchAltProperties = function( imageMatches, topicForms, locale ) {
  *
  * @returns {object} Object containing all types of found images
  */
-module.exports = function( paper, researcher ) {
+export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
 
 	return matchAltProperties( imageInText( paper.getText() ), topicForms, paper.getLocale() );
-};
+}

@@ -2,7 +2,7 @@ import { isArray } from "lodash-es";
 import { isUndefined } from "lodash-es";
 import { isNumber } from "lodash-es";
 
-const Mark = require( "./Mark" );
+import Mark from "./Mark";
 
 /**
  * A function that only returns an empty that can be used as an empty marker
@@ -225,4 +225,4 @@ AssessmentResult.parse = function( serialized ) {
 	return result;
 };
 
-module.exports = AssessmentResult;
+export default AssessmentResult;

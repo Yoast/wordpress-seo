@@ -67,7 +67,12 @@ var exceptions = function( word ) {
 	return word.match( exceptionsRegex ) || [];
 };
 
-module.exports = function() {
+/**
+ * Returns lists of verbs that are relevant for determining passive voice in German.
+ *
+ * @returns {Object} German lists of words relevant for passive voice.
+ */
+export default function() {
 	return {
 		verbsBeginningWithGe: verbsBeginningWithGe,
 		verbsBeginningWithErVerEntBeZerHerUber: verbsBeginningWithErVerEntBeZerHerUber,
@@ -76,4 +81,4 @@ module.exports = function() {
 		verbsEndingWithIert: verbsEndingWithIert,
 		exceptions: exceptions,
 	};
-};
+}
