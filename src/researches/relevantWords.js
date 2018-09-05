@@ -1,4 +1,4 @@
-var getRelevantWords = require( "../stringProcessing/relevantWords" ).getRelevantWords;
+import { getRelevantWords } from "../stringProcessing/relevantWords";
 
 /**
  * Retrieves the relevant words from the given paper.
@@ -11,4 +11,4 @@ function relevantWords( paper ) {
 }
 
 
-module.exports = relevantWords;
+export default relevantWords;

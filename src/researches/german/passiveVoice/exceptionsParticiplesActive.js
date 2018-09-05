@@ -1,5 +1,9 @@
-// This is a list of words that look like a participle, but aren't participles.
-module.exports = function() {
+/**
+ * Returns a list of participle exceptions for German.
+ *
+ * @returns {string[]} German participle exceptions.
+ */
+export default function() {
 	return [
 		"geht",
 		"gämsbart",
@@ -2226,4 +2230,4 @@ module.exports = function() {
 		"überziehungskredit",
 		"ueberziehungskredit",
 	];
-};
+}

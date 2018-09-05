@@ -1,4 +1,4 @@
-const presenter = require( "./presenter" );
+import presenter from './presenter';
 
 export {
 	presenter,

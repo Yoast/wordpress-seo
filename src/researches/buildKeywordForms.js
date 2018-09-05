@@ -1,8 +1,10 @@
-const getFormsForLanguage = require( "../helpers/getFormsForLanguage.js" )();
-const getWords = require( "../stringProcessing/getWords.js" );
-const getLanguage = require( "../helpers/getLanguage.js" );
-const getFunctionWords = require( "../helpers/getFunctionWords.js" )();
-const parseSynonyms = require( "../stringProcessing/parseSynonyms" );
+import getFormsForLanguageFactory from "../helpers/getFormsForLanguage.js";
+const getFormsForLanguage = getFormsForLanguageFactory();
+import getWords from "../stringProcessing/getWords.js";
+import getLanguage from "../helpers/getLanguage.js";
+import getFunctionWordsFactory from "../helpers/getFunctionWords.js";
+const getFunctionWords = getFunctionWordsFactory();
+import parseSynonyms from "../stringProcessing/parseSynonyms";
 import { getVariationsApostrophe } from "../stringProcessing/getVariationsApostrophe";
 import { getVariationsApostropheInArray } from "../stringProcessing/getVariationsApostrophe";
 

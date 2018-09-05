@@ -4,6 +4,6 @@
  * @param {string} locale The locale.
  * @returns {string} The language part of the locale.
  */
-module.exports = function( locale ) {
+export default function( locale ) {
 	return locale.split( "_" )[ 0 ];
-};
+}

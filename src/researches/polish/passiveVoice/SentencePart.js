@@ -1,6 +1,5 @@
-const SentencePart = require( "../../../values/SentencePart.js" );
-
-const getParticiples = require( "../../passiveVoice/periphrastic/getParticiples.js" );
+import SentencePart from "../../../values/SentencePart.js";
+import getParticiples from "../../passiveVoice/periphrastic/getParticiples.js";
 
 /**
  * Creates a Polish-specific sentence part.
@@ -24,4 +23,4 @@ PolishSentencePart.prototype.getParticiples = function() {
 	return getParticiples( this.getSentencePartText(), this.getAuxiliaries(), "pl" );
 };
 
-module.exports = PolishSentencePart;
+export default PolishSentencePart;

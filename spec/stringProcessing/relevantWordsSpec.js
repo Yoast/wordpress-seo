@@ -1,5 +1,7 @@
-let WordCombination = require( "../../src/values/WordCombination" );
-let relevantWords = require( "../../src/stringProcessing/relevantWords" );
+import WordCombination from "../../src/values/WordCombination";
+import relevantWords from "../../src/stringProcessing/relevantWords";
+import englishFunctionWordsFactory from "../../src/researches/english/functionWords.js";
+
 let getWordCombinations = relevantWords.getWordCombinations;
 let getRelevantWords = relevantWords.getRelevantWords;
 let calculateOccurrences = relevantWords.calculateOccurrences;
@@ -11,7 +13,7 @@ let filterFunctionWordsAnywhere = relevantWords.filterFunctionWordsAnywhere;
 let filterOneCharacterWordCombinations = relevantWords.filterOneCharacterWordCombinations;
 let filterOnDensity = relevantWords.filterOnDensity;
 let filterEndingWith = relevantWords.filterEndingWith;
-let englishFunctionWords = require( "../../src/researches/english/functionWords.js" )().all;
+let englishFunctionWords = englishFunctionWordsFactory().all;
 
 describe( "getWordCombinations", function() {
 	it( "splits a sentence on words", function() {

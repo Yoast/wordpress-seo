@@ -30,4 +30,4 @@ class Assessment {
 
 /* eslint-enable no-unused-vars */
 
-module.exports = Assessment;
+export default Assessment;

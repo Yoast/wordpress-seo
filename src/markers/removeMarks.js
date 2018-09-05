@@ -4,8 +4,8 @@
  * @param {string} text The marked text.
  * @returns {string} The unmarked text.
  */
-module.exports = function( text ) {
+export default function( text ) {
 	return text
 		.replace( new RegExp( "<yoastmark[^>]*>", "g" ), "" )
 		.replace( new RegExp( "</yoastmark>", "g" ), "" );
-};
+}

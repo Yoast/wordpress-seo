@@ -45,7 +45,13 @@ const stripWordBoundariesEverywhere = function( text ) {
 	return text;
 };
 
-module.exports = {
+export {
+	stripWordBoundariesStart,
+	stripWordBoundariesEnd,
+	stripWordBoundariesEverywhere,
+};
+
+export default {
 	stripWordBoundariesStart: stripWordBoundariesStart,
 	stripWordBoundariesEnd: stripWordBoundariesEnd,
 	stripWordBoundariesEverywhere: stripWordBoundariesEverywhere,

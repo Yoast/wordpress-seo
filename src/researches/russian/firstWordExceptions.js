@@ -2,7 +2,7 @@
  *  Returns an array with exceptions for the sentence beginning researcher.
  *  @returns {Array} The array filled with exceptions.
  *  */
-module.exports = function() {
+export default function() {
 	return [
 		// Numbers 1-10:
 		"один", "одна", "одно", "два", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять",
@@ -12,4 +12,4 @@ module.exports = function() {
 		"такого", "такому", "таким", "такая", "такую", "такое", "такие", "таких", "таким", "такими", "стольких",
 		"стольким", "столько", "столькими", "вот",
 	];
-};
+}

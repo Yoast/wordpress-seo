@@ -1,5 +1,5 @@
-var fleschFunction = require( "../../src/researches/calculateFleschReading.js" );
-var Paper = require( "../../src/values/Paper.js" );
+import fleschFunction from "../../src/researches/calculateFleschReading.js";
+import Paper from "../../src/values/Paper.js";
 
 describe( "a test to calculate the fleschReading score", function() {
 	it( "returns a score", function() {

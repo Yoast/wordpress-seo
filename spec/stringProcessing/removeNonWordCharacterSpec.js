@@ -1,4 +1,4 @@
-var removeNonWord = require( "../../src/stringProcessing/removeNonWordCharacters.js" );
+import removeNonWord from "../../src/stringProcessing/removeNonWordCharacters.js";
 
 describe( "a test removing spaces from a string", function() {
 	it( "returns string without spaces", function() {

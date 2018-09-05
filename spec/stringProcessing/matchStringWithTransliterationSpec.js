@@ -1,4 +1,4 @@
-var matchStringWithTransliteration = require( "../../src/stringProcessing/matchTextWithTransliteration.js" );
+import matchStringWithTransliteration from "../../src/stringProcessing/matchTextWithTransliteration.js";
 
 describe( "matches a string to it's transliterated value", function() {
 	var str = "this is a string with the keyword in it";

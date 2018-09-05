@@ -1,6 +1,6 @@
 /** @module stringProcessing/stripNumbers */
 
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+import stripSpaces from "../stringProcessing/stripSpaces.js";
 
 /**
  * Removes all words comprised only of numbers.
@@ -8,8 +8,7 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
  * @param {string} text to remove words
  * @returns {string} The text with numberonly words removed.
  */
-
-module.exports = function( text ) {
+export default function( text ) {
 	// Remove "words" comprised only of numbers
 	text = text.replace( /\b[0-9]+\b/g, "" );
 
@@ -19,4 +18,4 @@ module.exports = function( text ) {
 		text = "";
 	}
 	return text;
-};
+}

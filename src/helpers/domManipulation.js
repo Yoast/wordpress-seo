@@ -57,7 +57,7 @@ var hasClass = function( element, className ) {
 	return element.className.indexOf( className ) > -1;
 };
 
-module.exports = {
+export default {
 	hasClass: hasClass,
 	addClass: addClass,
 	removeClass: removeClass,

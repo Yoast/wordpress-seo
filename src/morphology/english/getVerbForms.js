@@ -1,6 +1,6 @@
 // "use strict";
-const createRulesFromMorphologyData = require( "../morphoHelpers/createRulesFromMorphologyData.js" );
-const buildOneFormFromRegex = require( "../morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
+import createRulesFromMorphologyData from "../morphoHelpers/createRulesFromMorphologyData.js";
+import { buildOneFormFromRegex } from "../morphoHelpers/buildFormRule";
 
 import { isUndefined } from "lodash-es";
 import { uniq as unique } from "lodash-es";
@@ -266,7 +266,7 @@ const getVerbForms = function( word, verbsData ) {
 	return unique( flatten( forms ) );
 };
 
-module.exports = {
-	getVerbForms: getVerbForms,
-	normalizePrefixed: normalizePrefixed,
+export {
+	getVerbForms,
+	normalizePrefixed,
 };

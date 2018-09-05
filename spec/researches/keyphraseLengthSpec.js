@@ -1,5 +1,5 @@
-var keyphraseLength = require( "../../src/researches/keyphraseLength.js" );
-var Paper = require( "../../src/values/Paper.js" );
+import keyphraseLength from "../../src/researches/keyphraseLength.js";
+import Paper from "../../src/values/Paper.js";
 
 describe( "the keyphrase length research", function() {
 	it( "should count the words in the input", function() {

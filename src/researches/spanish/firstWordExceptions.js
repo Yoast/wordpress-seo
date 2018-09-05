@@ -2,7 +2,7 @@
  * Returns an array with exceptions for the sentence beginning researcher.
  * @returns {Array} The array filled with exceptions.
  */
-module.exports = function() {
+export default function() {
 	return [
 		// Definite articles:
 		"el", "los", "la", "las",
@@ -13,6 +13,6 @@ module.exports = function() {
 		// Demonstrative pronouns:
 		"este", "estos", "esta", "estas", "ese", "esos", "esa", "esas", "aquel",
 		"aquellos", "aquella", "aquellas", "esto", "eso", "aquello" ];
-};
+}
 
 

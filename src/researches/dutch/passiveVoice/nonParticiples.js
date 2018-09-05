@@ -2,7 +2,7 @@
  * Returns a list of non-participles which would incorrectly be recognized as participles if they weren't filtered.
  * @returns {Array} The list with non-participles.
  */
-module.exports = function() {
+export default function() {
 	return [
 		"gebraad",
 		"gebed",
@@ -2512,4 +2512,4 @@ module.exports = function() {
 		"ervaart",
 		"erft",
 	];
-};
+}

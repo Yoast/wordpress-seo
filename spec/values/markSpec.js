@@ -1,4 +1,4 @@
-var Mark = require( "../../src/values/Mark" );
+import Mark from "../../src/values/Mark";
 
 describe( "a mark value object", function() {
 	it( "should have default properties", function() {

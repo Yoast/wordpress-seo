@@ -1,4 +1,4 @@
-var matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
+import matchTextWithWord from "../stringProcessing/matchTextWithWord.js";
 
 import { escapeRegExp } from "lodash-es";
 
@@ -9,11 +9,11 @@ import { escapeRegExp } from "lodash-es";
  * @param {Paper} paper The paper object containing the description.
  * @returns {number} The number of matches with the keyword
  */
-module.exports = function( paper ) {
+export default function( paper ) {
 	if ( paper.getDescription() === "" ) {
 		return -1;
 	}
 	var keyword = escapeRegExp( paper.getKeyword() );
 	return matchTextWithWord( paper.getDescription(), keyword, paper.getLocale() ).count;
-};
+}
 

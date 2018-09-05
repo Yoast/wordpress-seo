@@ -1,7 +1,7 @@
 import { merge } from "lodash-es";
 
-const AssessmentResult = require( "../../values/AssessmentResult.js" );
-const Assessment = require( "../../assessment.js" );
+import AssessmentResult from "../../values/AssessmentResult.js";
+import Assessment from "../../assessment.js";
 
 /**
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
@@ -116,4 +116,4 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	}
 }
 
-module.exports = SubHeadingsKeywordAssessment;
+export default SubHeadingsKeywordAssessment;
