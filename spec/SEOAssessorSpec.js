@@ -44,6 +44,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"metaDescriptionLength",
 			"textImages",
 			"textLength",
@@ -60,6 +61,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"metaDescriptionLength",
 			"textImages",
 			"textLength",
@@ -77,6 +79,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
 			"textImages",
@@ -110,6 +113,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"metaDescriptionLength",
 			"textImages",
 			"textLength",
@@ -140,6 +144,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
 			"textImages",
@@ -169,6 +174,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
 			"textImages",
