@@ -5,6 +5,8 @@ import isUndefined from "lodash/isUndefined";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import toString from "lodash/toString";
+import noop from "lodash/noop";
+import get from "lodash/get";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
@@ -51,6 +53,18 @@ export default class HowTo extends Component {
 		this.getListTypeHelp = this.getListTypeHelp.bind( this );
 		this.toggleListType  = this.toggleListType.bind( this );
 		this.setDurationText = this.setDurationText.bind( this );
+
+		const applyFilters = get( window, "wp.hooks.applyFilters", noop );
+
+		if( ! this.props.attributes.durationText ) {
+			this.props.attributes.durationText = applyFilters( "wpseo_duration_text", __( "Time needed:" ) );
+		}
+
+		const addFilter = get( window, "wp.hooks.addFilter", noop );
+
+		addFilter( "wpseo_duration_text", "", () => {
+			return "newDing";
+		}  );
 
 		this.editorRefs = {};
 	}
@@ -336,7 +350,7 @@ export default class HowTo extends Component {
 				<legend
 					className="schema-how-to-duration-legend"
 				>
-					{ attributes.durationText || __( "Time needed:", "wordpress-seo" ) }
+					{ attributes.durationText }
 				</legend>
 				<span className="schema-how-to-duration-time-input">
 					<label
@@ -447,7 +461,7 @@ export default class HowTo extends Component {
 			<div className={ classNames }>
 				{ ( hasDuration && typeof timeString === "string" && timeString.length > 0 ) &&
 					<p className="schema-how-to-total-time">
-						{ durationText || __( "Time needed:", "wordpress-seo" ) }
+						{ durationText }
 						&nbsp;
 						{ timeString }.
 					</p>
