@@ -42,6 +42,8 @@ export default class HowTo extends Component {
 	constructor( props ) {
 		super( props );
 
+		const applyFilters = get( window, "wp.hooks.applyFilters", noop );
+		const defaultDurationText = applyFilters( "wpseo_duration_text", __( "Time needed:" ) );
 		this.state = { focus: "" };
 
 		this.changeStep      = this.changeStep.bind( this );
@@ -54,17 +56,9 @@ export default class HowTo extends Component {
 		this.toggleListType  = this.toggleListType.bind( this );
 		this.setDurationText = this.setDurationText.bind( this );
 
-		const applyFilters = get( window, "wp.hooks.applyFilters", noop );
-
 		if( ! this.props.attributes.durationText ) {
-			this.props.attributes.durationText = applyFilters( "wpseo_duration_text", __( "Time needed:" ) );
+			this.setDurationText( defaultDurationText );
 		}
-
-		const addFilter = get( window, "wp.hooks.addFilter", noop );
-
-		addFilter( "wpseo_duration_text", "", () => {
-			return "newDing";
-		}  );
 
 		this.editorRefs = {};
 	}
