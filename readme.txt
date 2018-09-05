@@ -106,6 +106,12 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 8.1.2 =
+Release Date: September 5th, 2018
+
+Bugfixes:
+* Fixes a bug where our JavaScript memory usage would increase indefinitely. This could result in a browser crash after a long enough period.
+
 = 8.1.1 =
 Release Date: September 3rd, 2018
 
