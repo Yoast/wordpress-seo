@@ -39,6 +39,9 @@ const attributes = {
 	unorderedList: {
 		type: "boolean",
 	},
+	durationText: {
+		type: "string",
+	},
 	headingID: {
 		type: "string",
 	},

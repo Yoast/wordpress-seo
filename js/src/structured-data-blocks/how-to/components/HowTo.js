@@ -50,6 +50,7 @@ export default class HowTo extends Component {
 		this.addCSSClasses   = this.addCSSClasses.bind( this );
 		this.getListTypeHelp = this.getListTypeHelp.bind( this );
 		this.toggleListType  = this.toggleListType.bind( this );
+		this.setDurationText = this.setDurationText.bind( this );
 
 		this.editorRefs = {};
 	}
@@ -335,69 +336,71 @@ export default class HowTo extends Component {
 				<legend
 					className="schema-how-to-duration-legend"
 				>
-					{ __( "Time needed:", "wordpress-seo" ) }
+					{ attributes.durationText || __( "Time needed:", "wordpress-seo" ) }
 				</legend>
-				<label
-					htmlFor="schema-how-to-duration-days"
-					className="screen-reader-text"
-				>
-					{ __( "days", "wordpress-seo" ) }
-				</label>
-				<input
-					id="schema-how-to-duration-days"
-					className="schema-how-to-duration-input"
-					type="number"
-					value={ attributes.days }
-					onFocus={ () => this.setFocus( "days" ) }
-					onChange={ ( event ) => {
-						const newValue = this.formatDuration( event.target.value );
-						setAttributes( { days: toString( newValue ) } );
-					} }
-					placeholder="DD"
-				/>
-				<label
-					htmlFor="schema-how-to-duration-hours"
-					className="screen-reader-text"
-				>
-					{ __( "hours", "wordpress-seo" ) }
-				</label>
-				<input
-					id="schema-how-to-duration-hours"
-					className="schema-how-to-duration-input"
-					type="number"
-					value={ attributes.hours }
-					onFocus={ () => this.setFocus( "hours" ) }
-					placeholder="HH"
-					onChange={ ( event ) => {
-						const newValue = this.formatDuration( event.target.value, 23 );
-						setAttributes( { hours: toString( newValue ) } );
-					} }
-				/>
-				<span aria-hidden="true">:</span>
-				<label
-					htmlFor="schema-how-to-duration-minutes"
-					className="screen-reader-text"
-				>
-					{ __( "minutes", "wordpress-seo" ) }
-				</label>
-				<input
-					id="schema-how-to-duration-minutes"
-					className="schema-how-to-duration-input"
-					type="number"
-					value={ attributes.minutes }
-					onFocus={ () => this.setFocus( "minutes" ) }
-					onChange={ ( event ) => {
-						const newValue = this.formatDuration( event.target.value, 59 );
-						setAttributes( { minutes: toString( newValue ) } );
-					} }
-					placeholder="MM"
-				/>
-				<IconButton
-					className="schema-how-to-duration-button editor-inserter__toggle"
-					icon="trash"
-					label={ __( "Delete total time", "wordpress-seo" ) }
-					onClick={ () => setAttributes( { hasDuration: false } ) }
-				/>
+				<span className="schema-how-to-duration-time-input">
+					<label
+						htmlFor="schema-how-to-duration-days"
+						className="screen-reader-text"
+					>
+						{ __( "days", "wordpress-seo" ) }
+					</label>
+					<input
+						id="schema-how-to-duration-days"
+						className="schema-how-to-duration-input"
+						type="number"
+						value={ attributes.days }
+						onFocus={ () => this.setFocus( "days" ) }
+						onChange={ ( event ) => {
+							const newValue = this.formatDuration( event.target.value );
+							setAttributes( { days: toString( newValue ) } );
+						} }
+						placeholder="DD"
+					/>
+					<label
+						htmlFor="schema-how-to-duration-hours"
+						className="screen-reader-text"
+					>
+						{ __( "hours", "wordpress-seo" ) }
+					</label>
+					<input
+						id="schema-how-to-duration-hours"
+						className="schema-how-to-duration-input"
+						type="number"
+						value={ attributes.hours }
+						onFocus={ () => this.setFocus( "hours" ) }
+						placeholder="HH"
+						onChange={ ( event ) => {
+							const newValue = this.formatDuration( event.target.value, 23 );
+							setAttributes( { hours: toString( newValue ) } );
+						} }
+					/>
+					<span aria-hidden="true">:</span>
+					<label
+						htmlFor="schema-how-to-duration-minutes"
+						className="screen-reader-text"
+					>
+						{ __( "minutes", "wordpress-seo" ) }
+					</label>
+					<input
+						id="schema-how-to-duration-minutes"
+						className="schema-how-to-duration-input"
+						type="number"
+						value={ attributes.minutes }
+						onFocus={ () => this.setFocus( "minutes" ) }
+						onChange={ ( event ) => {
+							const newValue = this.formatDuration( event.target.value, 59 );
+							setAttributes( { minutes: toString( newValue ) } );
+						} }
+						placeholder="MM"
+					/>
+					<IconButton
+						className="schema-how-to-duration-button editor-inserter__toggle"
+						icon="trash"
+						label={ __( "Delete total time", "wordpress-seo" ) }
+						onClick={ () => setAttributes( { hasDuration: false } ) }
+					/>
+				</span>
 			</fieldset>
 		);
 	}
@@ -421,6 +424,7 @@ export default class HowTo extends Component {
 			unorderedList,
 			additionalListCssClasses,
 			className,
+			durationText,
 		} = props;
 
 		steps = steps
@@ -443,7 +447,7 @@ export default class HowTo extends Component {
 			<div className={ classNames }>
 				{ ( hasDuration && typeof timeString === "string" && timeString.length > 0 ) &&
 					<p className="schema-how-to-total-time">
-						{ __( "Time needed:", "wordpress-seo" ) }
+						{ durationText || __( "Time needed:", "wordpress-seo" ) }
 						&nbsp;
 						{ timeString }.
 					</p>
@@ -501,6 +505,17 @@ export default class HowTo extends Component {
 	}
 
 	/**
+	 * Sets the duration text to describe the time to intruction takes.
+	 *
+	 * @param {string} text The text to describe the duration.
+	 *
+	 * @returns {void}
+	 */
+	setDurationText( text ) {
+		this.props.setAttributes( { durationText: text } );
+	}
+
+	/**
 	 * Returns the help text for this how-to block"s list type.
 	 *
 	 * @param {boolean} checked Whether or not the list is unordered.
@@ -518,10 +533,11 @@ export default class HowTo extends Component {
 	 *
 	 * @param {boolean} unorderedList     Whether to show the list as an unordered list.
 	 * @param {string}  additionalClasses The additional CSS classes to add to the list.
+	 * @param {string}  durationText      The text to describe the duration.
 	 *
 	 * @returns {Component} The controls to add to the sidebar.
 	 */
-	getSidebar( unorderedList, additionalClasses ) {
+	getSidebar( unorderedList, additionalClasses, durationText ) {
 		return <InspectorControls>
 			<PanelBody title={ __( "Settings", "wordpress-seo" ) } className="blocks-font-size">
 				<SpacedTextControl
@@ -529,6 +545,12 @@ export default class HowTo extends Component {
 					value={ additionalClasses }
 					onChange={ this.addCSSClasses }
 					help={ __( "Optional. This can give you better control over the styling of the steps.", "wordpress-seo" ) }
+				/>
+				<SpacedTextControl
+					label={ __( "Describe the duration of the guide:", "wordpress-seo" ) }
+					value={ durationText }
+					onChange={ this.setDurationText }
+					help={ __( "Optional. Customize how you want to describe the duration of the guide.", "wordpress-seo" ) }
 				/>
 				<ToggleControl
 					label={ __( "Unordered list", "wordpress-seo" ) }
@@ -571,7 +593,7 @@ export default class HowTo extends Component {
 					{ this.getSteps() }
 				</ul>
 				<div className="schema-how-to-buttons">{ this.getAddStepButton() }</div>
-				{ this.getSidebar( attributes.unorderedList, attributes.additionalListCssClasses ) }
+				{ this.getSidebar( attributes.unorderedList, attributes.additionalListCssClasses, attributes.durationText ) }
 			</div>
 		);
 	}
