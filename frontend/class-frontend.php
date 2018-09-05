@@ -303,7 +303,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function get_author_title() {
-		$author_id = get_query_var( 'author' );
+		$author_id = (int) get_query_var( 'author' );
 		$title     = trim( get_the_author_meta( 'wpseo_title', $author_id ) );
 
 		if ( $title !== '' ) {
@@ -752,7 +752,7 @@ class WPSEO_Frontend {
 				if ( WPSEO_Options::get( 'noindex-author-wpseo', false ) ) {
 					$robots['index'] = 'noindex';
 				}
-				$author_id = $wp_query->get_queried_object_id();
+				$author_id = (int) get_query_var( 'author' );
 				if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', false ) && $author_id && count_user_posts( $author_id, 'any' ) === 0 ) {
 					$robots['index'] = 'noindex';
 				}
@@ -1290,7 +1290,7 @@ class WPSEO_Frontend {
 				}
 			}
 			elseif ( is_author() ) {
-				$author_id = get_query_var( 'author' );
+				$author_id = (int) get_query_var( 'author' );
 				$metadesc  = get_the_author_meta( 'wpseo_metadesc', $author_id );
 				if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && WPSEO_Options::get( 'metadesc-author-wpseo', '' ) !== '' ) {
 					$template = WPSEO_Options::get( 'metadesc-author-wpseo' );
