@@ -513,7 +513,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Sets the duration text to describe the time to intruction takes.
+	 * Sets the duration text to describe the time the guide in the how-to block takes.
 	 *
 	 * @param {string} text The text to describe the duration.
 	 *
