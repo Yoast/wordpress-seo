@@ -2,7 +2,7 @@
  * Returns an array with exceptions for the sentence beginning researcher.
  * @returns {Array} The array filled with exceptions.
  */
-module.exports = function() {
+export default function() {
 	return [
 		// Definite articles:
 		"das", "dem", "den", "der", "des", "die",
@@ -14,6 +14,6 @@ module.exports = function() {
 		"denen", "deren", "derer", "dessen", "diese", "diesem", "diesen", "dieser", "dieses", "jene",
 		"jenem", "jenen", "jener", "jenes", "welch", "welcher", "welches",
 	];
-};
+}
 
 

@@ -1,8 +1,7 @@
-var Assessor = require( "../src/seoAssessor.js" );
-var Paper = require( "../src/values/Paper.js" );
+import Assessor from "../src/seoAssessor.js";
+import Paper from "../src/values/Paper.js";
 import getResults from "./specHelpers/getAssessorResults";
-
-var factory = require( "./helpers/factory.js" );
+import factory from "./helpers/factory.js";
 var i18n = factory.buildJed();
 
 var assessor = new Assessor( i18n );

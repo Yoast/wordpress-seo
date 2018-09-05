@@ -67,4 +67,4 @@ Mark.parse = function( serialized ) {
 	return new Mark( serialized );
 };
 
-module.exports = Mark;
+export default Mark;

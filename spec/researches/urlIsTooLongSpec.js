@@ -1,5 +1,5 @@
-var urlIsTooLong = require( "../../src/researches/urlIsTooLong.js" );
-var Paper = require( "../../src/values/Paper.js" );
+import urlIsTooLong from "../../src/researches/urlIsTooLong.js";
+import Paper from "../../src/values/Paper.js";
 
 describe( "Checks length of Url", function() {
 	it( "is too long", function() {

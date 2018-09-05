@@ -3,9 +3,9 @@ import { isNumber } from "lodash-es";
 import { isObject } from "lodash-es";
 import { isUndefined } from "lodash-es";
 import { difference } from "lodash-es";
-var template = require( "../templates.js" ).assessmentPresenterResult;
-var scoreToRating = require( "../interpreters/scoreToRating.js" );
-var createConfig = require( "../config/presenter.js" );
+import { assessmentPresenterResult as template } from "../templates.js";
+import scoreToRating from "../interpreters/scoreToRating.js";
+import createConfig from "../config/presenter.js";
 
 /**
  * Constructs the AssessorPresenter.
@@ -374,4 +374,4 @@ AssessorPresenter.prototype.renderOverallRating = function() {
 	overallRatingElement.className = "overallScore " + this.getIndicatorColorClass( overallRating.rating );
 };
 
-module.exports = AssessorPresenter;
+export default AssessorPresenter;

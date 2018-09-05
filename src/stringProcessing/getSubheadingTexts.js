@@ -1,10 +1,11 @@
 import { isEmpty } from "lodash-es";
+
 /**
  * Returns all texts per subheading.
  * @param {string} text The text to analyze from.
  * @returns {Array} an array with text blocks per subheading.
  */
-module.exports = function( text ) {
+export default function( text ) {
 	/*
 	 Matching this in a regex is pretty hard, since we need to find a way for matching the text after a heading, and before the end of the text.
 	 The hard thing capturing this is with a capture, it captures the next subheading as well, so it skips the next part of the text,
@@ -22,6 +23,6 @@ module.exports = function( text ) {
 	}
 
 	return subheadingsTexts;
-};
+}
 
 

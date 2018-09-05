@@ -2,7 +2,7 @@
  * Returns a list with auxiliaries for the Polish passive voice assessment.
  * @returns {Array} The list with auxiliaries.
  */
-module.exports = function() {
+export default function() {
 	return [
 		"być",
 		"jestem",
@@ -84,4 +84,4 @@ module.exports = function() {
 		"zostaliby",
 		"zostałyby",
 	];
-};
+}

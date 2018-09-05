@@ -1,6 +1,6 @@
 import { measureTextWidth } from "./createMeasurementElement";
 
-const scoreToRating = require( "../interpreters/scoreToRating" );
+import scoreToRating from "../interpreters/scoreToRating";
 
 export {
 	measureTextWidth,

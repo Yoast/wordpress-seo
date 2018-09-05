@@ -1,8 +1,7 @@
-var arrayToRegex = require( "../../../stringProcessing/createRegexFromArray.js" );
+import arrayToRegex from "../../../stringProcessing/createRegexFromArray.js";
 var auxiliaries = require( "./auxiliaries.js" )().allAuxiliaries;
-var getParticiples = require( "./getParticiples.js" );
-
-var determineSentencePartIsPassive =  require( "../../passiveVoice/periphrastic/determineSentencePartIsPassive.js" );
+import getParticiples from "./getParticiples.js";
+import determineSentencePartIsPassive from "../../passiveVoice/periphrastic/determineSentencePartIsPassive.js";
 
 var auxiliaryRegex = arrayToRegex( auxiliaries );
 
@@ -15,7 +14,7 @@ var auxiliaryRegex = arrayToRegex( auxiliaries );
 
  * @returns {boolean} Returns true if passive, otherwise returns false.
  */
-module.exports = function( sentencePartText, auxiliaries, language ) {
+export default function( sentencePartText, auxiliaries, language ) {
 	var passive = false;
 	var auxiliaryMatches = sentencePartText.match( auxiliaryRegex );
 	if ( auxiliaryMatches === null ) {
@@ -23,4 +22,4 @@ module.exports = function( sentencePartText, auxiliaries, language ) {
 	}
 	var participles = getParticiples( sentencePartText, auxiliaries, language );
 	return determineSentencePartIsPassive( participles );
-};
+}

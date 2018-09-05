@@ -1,9 +1,9 @@
-var Participle = require( "../../../values/Participle.js" );
-var checkException = require( "../../passiveVoice/periphrastic/checkException.js" );
-
-var nonVerbsEndingEd = require( "./non-verb-ending-ed.js" )();
-var directPrecedenceException = require( "../../../stringProcessing/directPrecedenceException" );
-var precedenceException = require( "../../../stringProcessing/precedenceException" );
+import Participle from "../../../values/Participle.js";
+import checkException from "../../passiveVoice/periphrastic/checkException.js";
+import nonVerbsEndingEdFactory from "./non-verb-ending-ed.js";
+const nonVerbsEndingEd = nonVerbsEndingEdFactory();
+import directPrecedenceException from "../../../stringProcessing/directPrecedenceException";
+import precedenceException from "../../../stringProcessing/precedenceException";
 
 import { includes } from "lodash-es";
 import { isEmpty } from "lodash-es";
@@ -77,4 +77,4 @@ EnglishParticiple.prototype.directPrecedenceException = directPrecedenceExceptio
 
 EnglishParticiple.prototype.precedenceException = precedenceException;
 
-module.exports = EnglishParticiple;
+export default EnglishParticiple;

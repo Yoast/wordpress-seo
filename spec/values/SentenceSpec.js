@@ -1,4 +1,4 @@
-var Sentence = require( "../../src/values/Sentence.js" );
+import Sentence from "../../src/values/Sentence.js";
 
 describe( "Creates a sentence object", function() {
 	it( "returns an object containing a text", function() {

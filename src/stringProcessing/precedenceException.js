@@ -1,14 +1,19 @@
-const getWordIndices = require( "../researches/passiveVoice/periphrastic/getIndicesWithRegex.js" );
-const precedesIndex = require( "./precedesIndex" );
-const arrayToRegex = require( "./createRegexFromArray.js" );
+import getWordIndices from "../researches/passiveVoice/periphrastic/getIndicesWithRegex.js";
+import precedesIndex from "./precedesIndex";
+import arrayToRegex from "./createRegexFromArray.js";
+
+import cannotBeBetweenAuxiliaryAndParticipleFrenchFactory from "../researches/french/functionWords.js";
 const cannotBeBetweenAuxiliaryAndParticipleFrench =
-	require( "../researches/french/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+	cannotBeBetweenAuxiliaryAndParticipleFrenchFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+import cannotBeBetweenAuxiliaryAndParticipleEnglishFactory from "../researches/english/functionWords.js";
 const cannotBeBetweenAuxiliaryAndParticipleEnglish =
-	require( "../researches/english/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+	cannotBeBetweenAuxiliaryAndParticipleEnglishFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+import cannotBeBetweenAuxiliaryAndParticipleSpanishFactory from "../researches/spanish/functionWords.js";
 const cannotBeBetweenAuxiliaryAndParticipleSpanish =
-	require( "../researches/spanish/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+	cannotBeBetweenAuxiliaryAndParticipleSpanishFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+import cannotBeBetweenAuxiliaryAndParticipleItalianFactory from "../researches/italian/functionWords.js";
 const cannotBeBetweenAuxiliaryAndParticipleItalian =
-	require( "../researches/italian/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+	cannotBeBetweenAuxiliaryAndParticipleItalianFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple;
 
 /**
  * Checks whether a word from the precedence exception list occurs anywhere in the sentence part before the participle.
@@ -21,7 +26,7 @@ const cannotBeBetweenAuxiliaryAndParticipleItalian =
  * @returns {boolean} Returns true if a word from the precedence exception list occurs anywhere in the
  * sentence part before the participle, otherwise returns false.
  */
-module.exports = function( sentencePart, participleIndex, language ) {
+export default function( sentencePart, participleIndex, language ) {
 	let precedenceExceptionRegex;
 	switch ( language ) {
 		case "fr":
@@ -41,4 +46,4 @@ module.exports = function( sentencePart, participleIndex, language ) {
 
 	const precedenceExceptionMatch = getWordIndices( sentencePart, precedenceExceptionRegex );
 	return precedesIndex( precedenceExceptionMatch, participleIndex );
-};
+}

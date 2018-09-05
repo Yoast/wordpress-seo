@@ -1,6 +1,6 @@
-var wordComplexityAssessment = require( "../../src/assessments/readability/wordComplexityAssessment.js" );
-var Paper = require( "../../src/values/Paper.js" );
-var factory = require( "../helpers/factory.js" );
+import wordComplexityAssessment from "../../src/assessments/readability/wordComplexityAssessment.js";
+import Paper from "../../src/values/Paper.js";
+import factory from "../helpers/factory.js";
 var i18n = factory.buildJed();
 
 describe( "an assessment returning complex words", function() {

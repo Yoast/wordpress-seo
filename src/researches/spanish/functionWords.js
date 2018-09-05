@@ -1,4 +1,5 @@
-let transitionWords = require( "./transitionWords.js" )().singleWords;
+import transitionWordsFactory from "./transitionWords.js";
+let transitionWords = transitionWordsFactory().singleWords;
 
 /**
  * Returns an array with exceptions for the prominent words researcher
@@ -261,7 +262,12 @@ let titlesPreceding = [ "sra", "sras", "srta", "sr", "sres", "dra", "dr", "profa
 
 let titlesFollowing = [ "jr", "sr" ];
 
-module.exports = function() {
+/**
+ * Returns the function words for Spanish.
+ *
+ * @returns {Object} The Spanish function words.
+ */
+export default function() {
 	return {
 
 		// These word categories are filtered at the beginning of word combinations.
@@ -300,4 +306,4 @@ module.exports = function() {
 			delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,
 			titlesPreceding, titlesFollowing ),
 	};
-};
+}

@@ -1,4 +1,5 @@
-const transitionWords = require( "./transitionWords.js" )().singleWords;
+import transitionWordsFactory from "./transitionWords.js";
+const transitionWords = transitionWordsFactory().singleWords;
 
 /**
  * Returns an array with exceptions for the prominent words researcher
@@ -356,8 +357,12 @@ const measurementUnits = [ "°C", "°F", "ar", "ary", "arów", "arach", "c", "cl
 
 const miscellaneous = [ "nie", "no", "oto", "tak", "sobie", "ok", "okej" ];
 
-
-module.exports = function() {
+/**
+ * Returns the Polish function words.
+ *
+ * @returns {Object} Polish function words.
+ */
+export default function() {
 	return {
 
 		// These word categories are filtered at the ending of word combinations.
@@ -395,4 +400,4 @@ module.exports = function() {
 			quantifiers, intensifiers, possessivePronouns, reflexivePronounsNominative, reflexivePronounsOther, ordinalNumerals, generalAdjectives,
 			generalAdverbs, delexicalisedVerbsInfinitive, otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive ),
 	};
-};
+}

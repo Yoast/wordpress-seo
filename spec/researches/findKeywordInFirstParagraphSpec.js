@@ -1,7 +1,7 @@
-const Researcher = require( "../../src/researcher" );
-const morphologyData = require( "../../src/morphology/morphologyData.json" );
+import Researcher from "../../src/researcher";
+import morphologyData from "../../src/morphology/morphologyData.json";
 import firstParagraph from "../../src/researches/findKeywordInFirstParagraph.js";
-const Paper = require( "../../src/values/Paper.js" );
+import Paper from "../../src/values/Paper.js";
 
 const keyphraseEN = "walking in nature benefits";
 const sentenceWithAllKeywordsEN = "I like to take walks in the nature, because my body and brain benefit from it! ";

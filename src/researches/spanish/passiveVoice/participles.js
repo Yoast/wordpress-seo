@@ -3,7 +3,7 @@
  * For each participle, versions for all four possible suffixes (-o, -a, -os, -as) are included.
  * @returns {Array} The list with participles.
  */
-module.exports = function() {
+export default function() {
 	return [
 		"abajado",
 		"abalanzado",
@@ -13758,4 +13758,4 @@ module.exports = function() {
 		"zurcidas",
 		"zurradas",
 	];
-};
+}

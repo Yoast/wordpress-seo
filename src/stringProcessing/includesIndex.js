@@ -11,8 +11,7 @@ import { includes } from "lodash-es";
  *
  * @returns {boolean} Returns true if the match is preceded by a given word, otherwise returns false.
  */
-
-module.exports = function( precedingWords, matchIndex, addSpace = true ) {
+export default function( precedingWords, matchIndex, addSpace = true ) {
 	/*
 	1 if there is a space between the match and the preceding word
 	(because the end word boundary is not included in the match).
@@ -30,4 +29,4 @@ module.exports = function( precedingWords, matchIndex, addSpace = true ) {
 		precedingWordsEndIndices.push( precedingWordsEndIndex );
 	} );
 	return includes( precedingWordsEndIndices, matchIndex );
-};
+}

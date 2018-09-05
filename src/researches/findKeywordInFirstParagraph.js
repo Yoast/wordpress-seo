@@ -1,9 +1,9 @@
 /** @module analyses/findKeywordInFirstParagraph */
 
-const matchParagraphs = require( "../stringProcessing/matchParagraphs.js" );
-const getSentences = require( "../stringProcessing/getSentences.js" );
-const findTopicFormsInString = require( "./findKeywordFormsInString.js" ).findTopicFormsInString;
-const imageInText = require( "../stringProcessing/imageInText" );
+import matchParagraphs from "../stringProcessing/matchParagraphs.js";
+import getSentences from "../stringProcessing/getSentences.js";
+import { findTopicFormsInString } from "./findKeywordFormsInString.js";
+import imageInText from "../stringProcessing/imageInText";
 
 import { reject } from "lodash-es";
 import { isEmpty } from "lodash-es";

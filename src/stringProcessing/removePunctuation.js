@@ -10,9 +10,9 @@ var punctuationRegexEnd = new RegExp( punctuationRegexString + "$" );
  *
  * @returns {String} The sanitized text.
  */
-module.exports = function( text ) {
+export default function( text ) {
 	text = text.replace( punctuationRegexStart, "" );
 	text = text.replace( punctuationRegexEnd, "" );
 
 	return text;
-};
+}

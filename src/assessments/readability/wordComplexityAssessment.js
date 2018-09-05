@@ -1,8 +1,8 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
-var removeSentenceTerminators = require( "../../stringProcessing/removeSentenceTerminators" );
-var formatNumber = require( "../../helpers/formatNumber.js" );
-var Mark = require( "../../values/Mark.js" );
-var addMark = require( "../../markers/addMark.js" );
+import AssessmentResult from "../../values/AssessmentResult.js";
+import removeSentenceTerminators from "../../stringProcessing/removeSentenceTerminators";
+import formatNumber from "../../helpers/formatNumber.js";
+import Mark from "../../values/Mark.js";
+import addMark from "../../markers/addMark.js";
 
 import { filter } from "lodash-es";
 import { flatMap } from "lodash-es";
@@ -176,7 +176,7 @@ var wordComplexityAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = {
+export default {
 	identifier: "wordComplexity",
 	getResult: wordComplexityAssessment,
 	isApplicable: function( paper ) {

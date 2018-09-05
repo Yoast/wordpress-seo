@@ -1,8 +1,8 @@
 import { merge } from "lodash-es";
 import { escape } from "lodash-es";
 
-const Assessment = require( "../../assessment" );
-const AssessmentResult = require( "../../values/AssessmentResult" );
+import Assessment from "../../assessment";
+import AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Assessment to check whether the keyword is included in (the beginning of) the SEO title.

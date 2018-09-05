@@ -1,8 +1,7 @@
-const Researcher = require( "../../src/researcher" );
-const morphologyData = require( "../../src/morphology/morphologyData.json" );
-
-const pageTitleKeyword = require( "../../src/researches/findKeywordInPageTitle.js" );
-const Paper = require( "../../src/values/Paper.js" );
+import Researcher from "../../src/researcher";
+import morphologyData from "../../src/morphology/morphologyData.json";
+import pageTitleKeyword from "../../src/researches/findKeywordInPageTitle.js";
+import Paper from "../../src/values/Paper.js";
 let result;
 
 describe( "Match keywords in string", function() {

@@ -2,7 +2,7 @@
  * Returns a list with stopwords for the Spanish passive voice assessment.
  * @returns {Array} The list with stopwords.
  */
-module.exports = function() {
+export default function() {
 	return [
 		"pero",
 		"ora",
@@ -32,4 +32,4 @@ module.exports = function() {
 		"cuya",
 		"cuyas",
 	];
-};
+}

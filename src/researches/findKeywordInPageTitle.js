@@ -1,6 +1,6 @@
 /** @module analyses/findKeywordInPageTitle */
 
-const wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+import wordMatch from "../stringProcessing/matchTextWithWord.js";
 const findTopicFormsInString = require( "./findKeywordFormsInString.js" ).findTopicFormsInString;
 
 import { escapeRegExp } from "lodash-es";
@@ -16,8 +16,7 @@ import { escapeRegExp } from "lodash-es";
  *
  * @returns {Object} result with the information on whether the keyphrase was matched in the title and how.
  */
-
-module.exports = function( paper, researcher ) {
+export default function( paper, researcher ) {
 	const keyword = escapeRegExp( paper.getKeyword() );
 	const title = paper.getTitle();
 	const locale = paper.getLocale();
@@ -48,4 +47,4 @@ module.exports = function( paper, researcher ) {
 	}
 
 	return result;
-};
+}

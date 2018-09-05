@@ -1,5 +1,5 @@
-const matchTextWithArray = require( "../stringProcessing/matchTextWithArray.js" );
-import { sum } from "lodash-es" ;
+import matchTextWithArray from "../stringProcessing/matchTextWithArray.js";
+import { sum } from "lodash-es";
 import { isEmpty } from "lodash-es";
 
 /**
