@@ -6,9 +6,27 @@ var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" 
 
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
-var memoize = require( "lodash/memoize" );
+var flattenDeep = require( "lodash/flattenDeep" );
 
-var createRegexFromDoubleArrayCached = memoize( createRegexFromDoubleArray );
+let regexFromDoubleArray = null;
+let regexFromDoubleArrayCacheKey = "";
+
+/**
+ * Memoizes the createRegexFromDoubleArray with the twoPartTransitionWords.
+ *
+ * @param {Array} twoPartTransitionWords The array containing two-part transition words.
+ *
+ * @returns {RegExp} The RegExp to match text with a double array.
+ */
+function getRegexFromDoubleArray( twoPartTransitionWords ) {
+	const cacheKey = flattenDeep( twoPartTransitionWords ).join( "" );
+	if ( regexFromDoubleArrayCacheKey !== cacheKey || regexFromDoubleArray === null ) {
+		regexFromDoubleArrayCacheKey = cacheKey;
+		regexFromDoubleArray = createRegexFromDoubleArray( twoPartTransitionWords );
+	}
+	return regexFromDoubleArray;
+}
+
 /**
  * Matches the sentence against two part transition words.
  *
@@ -18,7 +36,7 @@ var createRegexFromDoubleArrayCached = memoize( createRegexFromDoubleArray );
  */
 var matchTwoPartTransitionWords = function( sentence, twoPartTransitionWords ) {
 	sentence = normalizeSingleQuotes( sentence );
-	var twoPartTransitionWordsRegex = createRegexFromDoubleArrayCached( twoPartTransitionWords );
+	var twoPartTransitionWordsRegex = getRegexFromDoubleArray( twoPartTransitionWords );
 	return sentence.match( twoPartTransitionWordsRegex );
 };
 
