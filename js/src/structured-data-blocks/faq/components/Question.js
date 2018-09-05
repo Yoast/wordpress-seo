@@ -172,7 +172,7 @@ export default class Question extends Component {
 			<div className="schema-faq-question" key={ id } >
 				<RichText
 					className="schema-faq-question-question"
-					tagName="strong"
+					tagName="p"
 					onSetup={ ( ref ) => editorRef( "question", ref ) }
 					key={ id + "-question" }
 					value={ question }
@@ -216,4 +216,3 @@ Question.propTypes = {
 	isFirst: PropTypes.bool,
 	isLast: PropTypes.bool,
 };
-

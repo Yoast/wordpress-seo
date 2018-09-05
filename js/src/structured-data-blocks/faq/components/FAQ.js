@@ -318,7 +318,7 @@ export default class FAQ extends Component {
 		return (
 			<div className={ classNames }>
 				<RichText
-					tagName="strong"
+					tagName="p"
 					className="schema-faq-title"
 					value={ attributes.title }
 					isSelected={ this.state.focus === "title" }

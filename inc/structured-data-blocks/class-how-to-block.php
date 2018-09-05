@@ -57,16 +57,13 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 			'@type'    => 'HowTo',
 		);
 
-		if ( ! empty( $attributes['jsonTitle'] ) ) {
-			$json_ld['name'] = $attributes['jsonTitle'];
-		}
-
 		if ( ! empty( $attributes['hasDuration'] ) && $attributes['hasDuration'] === true ) {
+			$days    = empty( $attributes['days'] ) ? 0 : $attributes['days'];
 			$hours   = empty( $attributes['hours'] ) ? 0 : $attributes['hours'];
 			$minutes = empty( $attributes['minutes'] ) ? 0 : $attributes['minutes'];
 
-			if ( $hours !== 0 || $minutes !== 0 ) {
-				$json_ld['totalTime'] = 'PT' . $hours . 'H' . $minutes . 'M';
+			if ( ( $days + $hours + $minutes ) > 0 ) {
+				$json_ld['totalTime'] = 'P' . $days . 'DT' . $hours . 'H' . $minutes . 'M';
 			}
 		}
 
