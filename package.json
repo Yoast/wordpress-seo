@@ -65,7 +65,7 @@
     "striptags": "^3.1.0",
     "styled-components": "^2.1.2",
     "whatwg-fetch": "^1.0.0",
-    "yoastseo": "^1.39.0"
+    "yoastseo": "^1.39.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
