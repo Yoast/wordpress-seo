@@ -143,6 +143,13 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		parent::__construct();
 		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
 		add_action( 'init', array( $this, 'end_of_init' ), 999 );
+
+		add_action( 'registered_post_type',                  array( $this, 'invalidate_enrich_defaults_cache' ) );
+		add_action( 'unregistered_post_type',                array( $this, 'invalidate_enrich_defaults_cache' ) );
+		add_action( 'registered_taxonomy',                   array( $this, 'invalidate_enrich_defaults_cache' ) );
+		add_action( 'unregistered_taxonomy',                 array( $this, 'invalidate_enrich_defaults_cache' ) );
+		add_action( 'registered_taxonomy_for_object_type',   array( $this, 'invalidate_enrich_defaults_cache' ) );
+		add_action( 'unregistered_taxonomy_for_object_type', array( $this, 'invalidate_enrich_defaults_cache' ) );
 	}
 
 
@@ -217,12 +224,15 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	public function enrich_defaults() {
 		$cache_key = 'yoast_titles_rich_defaults_' . $this->option_name;
 
-		if ( $enriched_defaults = wp_cache_get( $cache_key ) ) {
+		$enriched_defaults = wp_cache_get( $cache_key );
+		if ( false !== $enriched_defaults ) {
 			$this->defaults += $enriched_defaults;
 			return;
 		}
 
-		/**
+		$enriched_defaults = array();
+
+		/*
 		 * Retrieve all the relevant post type and taxonomy arrays.
 		 *
 		 * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
@@ -245,7 +255,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					$enriched_defaults[ 'post_types-' . $pt->name . '-maintax' ] = 0; // Select box.
 				}
 
-				if ( ! $pt->_builtin /** custom post type */ ) {
+				if ( ! $pt->_builtin ) {
 					if ( ! WPSEO_Post_Type::has_archive( $pt ) ) {
 						continue;
 					}
@@ -282,34 +292,21 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			}
 		}
 
-		/**
-		 * Add cache invalidation callbacks.
-		 */
-		if ( ! has_action( 'registered_post_type', $callback = array( $this, 'invalide_enrich_defaults_cache' ) ) ) {
-			add_action( 'registered_post_type',   $callback );
-			add_action( 'unregistered_post_type', $callback );
-			add_action( 'registered_taxonomy',    $callback );
-			add_action( 'unregistered_taxonomy',  $callback );
-			// when implemented hook into:
-			// @todo registered_taxonomy_for_object_type
-			// @todo unregistered_taxonomy_for_object_type
-		}
-
 		wp_cache_set( $cache_key, $enriched_defaults );
 		$this->defaults += $enriched_defaults;
 	}
 
 	/**
-	 * Invalidates enrich_defaults cache.
+	 * Invalidates enrich_defaults() cache.
 	 *
 	 * Called from actions:
-	 *     (un)registered_taxonomy
 	 *     (un)registered_post_type
-	 *     @todo: register_taxonomy_for_object_type
+	 *     (un)registered_taxonomy
+	 *     (un)registered_taxonomy_for_object_type
 	 *
 	 * @return void
 	 */
-	public function invalide_enrich_defaults_cache() {
+	public function invalidate_enrich_defaults_cache() {
 		wp_cache_delete( 'yoast_titles_rich_defaults_' . $this->option_name );
 	}
 
