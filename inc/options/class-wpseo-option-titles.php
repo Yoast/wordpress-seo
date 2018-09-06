@@ -148,8 +148,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		add_action( 'unregistered_post_type',                array( $this, 'invalidate_enrich_defaults_cache' ) );
 		add_action( 'registered_taxonomy',                   array( $this, 'invalidate_enrich_defaults_cache' ) );
 		add_action( 'unregistered_taxonomy',                 array( $this, 'invalidate_enrich_defaults_cache' ) );
-		add_action( 'registered_taxonomy_for_object_type',   array( $this, 'invalidate_enrich_defaults_cache' ) );
-		add_action( 'unregistered_taxonomy_for_object_type', array( $this, 'invalidate_enrich_defaults_cache' ) );
 	}
 
 
@@ -245,15 +243,12 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			$archive = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' );
 
 			foreach ( $post_type_objects as $pt ) {
-				$enriched_defaults[ 'title-' . $pt->name ]              = '%%title%% %%page%% %%sep%% %%sitename%%'; // Text field.
-				$enriched_defaults[ 'metadesc-' . $pt->name ]           = ''; // Text area.
-				$enriched_defaults[ 'noindex-' . $pt->name ]            = false;
-				$enriched_defaults[ 'showdate-' . $pt->name ]           = false;
-				$enriched_defaults[ 'display-metabox-pt-' . $pt->name ] = true;
-
-				if ( get_object_taxonomies( $pt->name, 'names' ) ) {
-					$enriched_defaults[ 'post_types-' . $pt->name . '-maintax' ] = 0; // Select box.
-				}
+				$enriched_defaults[ 'title-' . $pt->name ]                   = '%%title%% %%page%% %%sep%% %%sitename%%'; // Text field.
+				$enriched_defaults[ 'metadesc-' . $pt->name ]                = ''; // Text area.
+				$enriched_defaults[ 'noindex-' . $pt->name ]                 = false;
+				$enriched_defaults[ 'showdate-' . $pt->name ]                = false;
+				$enriched_defaults[ 'display-metabox-pt-' . $pt->name ]      = true;
+				$enriched_defaults[ 'post_types-' . $pt->name . '-maintax' ] = 0; // Select box.
 
 				if ( ! $pt->_builtin ) {
 					if ( ! WPSEO_Post_Type::has_archive( $pt ) ) {
@@ -297,7 +292,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * Called from actions:
 	 *     (un)registered_post_type
 	 *     (un)registered_taxonomy
-	 *     (un)registered_taxonomy_for_object_type
 	 *
 	 * @return void
 	 */

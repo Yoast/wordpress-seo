@@ -25,10 +25,6 @@ class WPSEO_Option_Titles_Test extends WPSEO_UnitTestCase {
 		register_taxonomy( 'custom-taxonomy', 'post' );
 		$this->assertArrayHasKey( 'title-tax-custom-taxonomy', $wpseo_option_titles->get_defaults() );
 
-		register_taxonomy_for_object_type( 'custom-taxonomy', 'custom-post-type' );
-		$this->assertArrayHasKey( 'post_types-custom-post-type-maintax', $wpseo_option_titles->get_defaults() );
-
-		unregister_taxonomy_for_object_type( 'custom-taxonomy', 'custom-post-type' );
 		unregister_taxonomy( 'custom-taxonomy' );
 		unregister_post_type( 'custom-post-type' );
 	}
