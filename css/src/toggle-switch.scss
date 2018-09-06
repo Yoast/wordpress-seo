@@ -64,6 +64,14 @@
 		z-index: 3;
 	}
 
+	/* Override core style. */
+	.switch-light input[type=radio].disabled,
+	.switch-light input[type=radio].disabled:checked:before,
+	.switch-light input[type=radio]:disabled,
+	.switch-light input[type=radio]:disabled:checked:before {
+		opacity: 0;
+	}
+
 	.switch-light input:checked ~ span a {
 		right: 0%;
 	}
@@ -264,6 +272,10 @@
 		vertical-align: middle;
 	}
 
+	.fieldset-switch-toggle .disabled-note {
+		float: left;
+	}
+
 	.switch-container__has-help legend,
 	.switch-container__has-help .switch-light-visual-label {
 		float: left;
@@ -302,6 +314,13 @@
 		border: 1px solid #b5b5b5;
 		border-radius: 0.5em;
 		background: #a4286a;
+	}
+
+	.switch-toggle.switch-yoast-seo input.disabled + a,
+	.switch-toggle.switch-yoast-seo input.disabled ~ a,
+	.switch-toggle.switch-yoast-seo input:disabled + a,
+	.switch-toggle.switch-yoast-seo input:disabled ~ a {
+		background: #9b9b9b;
 	}
 
 	.switch-toggle.switch-yoast-seo input:focus ~ span a,

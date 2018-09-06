@@ -480,11 +480,11 @@ class Yoast_Form {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $field_name     The variable within the option to create the select for.
+	 * @param string $var            The variable within the option to create the select for.
 	 * @param string $label          The label to show for the variable.
 	 * @param array  $select_options The select options to choose from.
 	 */
-	public function select( $field_name, $label, array $select_options ) {
+	public function select( $var, $label, array $select_options ) {
 
 		if ( empty( $select_options ) ) {
 			return;
@@ -493,15 +493,15 @@ class Yoast_Form {
 		$this->label(
 			$label . ':',
 			array(
-				'for'   => $field_name,
+				'for'   => $var,
 				'class' => 'select',
 			)
 		);
 
-		$select_name   = esc_attr( $this->option_name ) . '[' . esc_attr( $field_name ) . ']';
-		$active_option = ( isset( $this->options[ $field_name ] ) ) ? $this->options[ $field_name ] : '';
+		$select_name   = esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']';
+		$active_option = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 
-		$select = new Yoast_Input_Select( $field_name, $select_name, $select_options, $active_option );
+		$select = new Yoast_Input_Select( $var, $select_name, $select_options, $active_option );
 		$select->add_attribute( 'class', 'select' );
 		if ( $this->is_control_disabled( $var ) ) {
 			$select->add_attribute( 'disabled', 'disabled' );
@@ -649,8 +649,9 @@ class Yoast_Form {
 		$var_esc = esc_attr( $var );
 
 		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class ) );
-		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help,
-		'<div class="switch-toggle switch-candy switch-yoast-seo">';
+		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help;
+		$this->print_disabled_note( $var );
+		echo '<div class="switch-toggle switch-candy switch-yoast-seo">';
 
 		foreach ( $values as $key => $value ) {
 			$screen_reader_text      = '';
@@ -729,5 +730,24 @@ class Yoast_Form {
 	 */
 	protected function is_control_disabled( $var ) {
 		return isset( $this->override_options[ 'allow_' . $var ] ) && ! $this->override_options[ 'allow_' . $var ];
+	}
+
+	/**
+	 * Prints a explanation note if a given control is disabled.
+	 *
+	 * @param string $var The variable within the option to print a disabled note for.
+	 *
+	 * @return void
+	 */
+	protected function print_disabled_note( $var ) {
+		if ( ! $this->is_control_disabled( $var ) ) {
+			return;
+		}
+
+		?>
+		<div class="disabled-note">
+			<?php esc_html_e( 'This feature has been disabled by the network admin.', 'wordpress-seo' ); ?>
+		</div>
+		<?php
 	}
 }
