@@ -452,7 +452,9 @@ export default class AnalysisWebWorker {
 		// Prefix the name with the pluginName so the test name is always unique.
 		const combinedName = pluginName + "-" + name;
 
-		this._seoAssessor.addAssessment( combinedName, assessment );
+		if ( this._seoAssessor !== null ) {
+			this._seoAssessor.addAssessment( combinedName, assessment );
+		}
 		this._registeredAssessments.push( { combinedName, assessment } );
 
 		this.refreshAssessment( name, pluginName );
