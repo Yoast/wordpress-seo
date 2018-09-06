@@ -234,7 +234,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
 				'deps' => array(
-					'react-dependencies',
+					self::PREFIX . 'react-dependencies',
 					self::PREFIX . 'components',
 				),
 			),
@@ -575,9 +575,6 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
-				'deps' => array(
-					self::PREFIX . 'components',
-				),
 			),
 			array(
 				'name' => 'structured-data-blocks',

@@ -51,7 +51,6 @@ import "./helpers/babel-polyfill";
 		}
 		const clone = categoryListItem.clone();
 		clone.children().remove();
-		console.log( $.trim( categoryListItem.text() ), $.trim( clone.text() ) );
 		return $.trim( clone.text() );
 	}
 
