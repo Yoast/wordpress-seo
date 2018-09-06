@@ -90,8 +90,31 @@ module.exports = {
 					"!**/composer.json",
 					"!**/README.md",
 				],
-				dest: "artifact",
+				dest: "<%= files.artifact %>",
 			},
 		],
+	},
+	"composer-artifact": {
+		files: [ {
+			expand: true,
+			cwd: "<%= files.artifact %>",
+			src: [
+				"**/*",
+			],
+			dest: "<%= files.artifactComposer %>",
+		} ],
+	},
+	"composer-files": {
+		files: [ {
+			expand: true,
+			cwd: ".",
+			src: [
+				"composer.lock",
+				"composer.json",
+			],
+			dest: "<%= files.artifactComposer %>",
+		} ],
+		"composer.lock": [ "<%= files.artifact %>/composer.lock" ],
+		"composer.json": [ "<%= files.artifact %>/composer.json" ],
 	},
 };

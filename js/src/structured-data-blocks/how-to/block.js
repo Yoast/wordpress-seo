@@ -7,16 +7,14 @@ import HowTo from "./components/HowTo";
 const { registerBlockType } = window.wp.blocks;
 
 const attributes = {
-	title: {
-		type: "array",
-		source: "children",
-		selector: ".schema-how-to-title",
-	},
 	jsonTitle: {
 		type: "string",
 	},
 	hasDuration: {
 		type: "boolean",
+	},
+	days: {
+		type: "number",
 	},
 	hours: {
 		type: "number",
