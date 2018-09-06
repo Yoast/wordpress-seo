@@ -57,9 +57,9 @@ class WPSEO_Structured_Data_Blocks implements WPSEO_WordPress_Integration {
 		$categories[] = array(
 			'slug'  => 'yoast-structured-data-blocks',
 			'title' => sprintf(
-				/* translators: %1$s expands to Yoast SEO. */
+				/* translators: %1$s expands to Yoast. */
 				__( '%1$s Structured Data Blocks', 'wordpress-seo' ),
-				'Yoast SEO'
+				'Yoast'
 			),
 		);
 
