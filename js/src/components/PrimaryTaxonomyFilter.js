@@ -7,12 +7,17 @@ import get from "lodash/get";
 import values from "lodash/values";
 import { __, sprintf } from "@wordpress/i18n";
 import { ClipboardButton } from "@wordpress/components";
+import styled from "styled-components";
 
 /* Internal dependencies */
 import PrimaryTaxonomyPicker from "./PrimaryTaxonomyPicker";
 
 let taxonomyData = null,
 	taxonomiesWithPrimaryTermSupport = null;
+
+const ErrorContainer = styled.div`
+	margin: 16px 0 8px;
+`;
 
 class PrimaryTaxonomyFilter extends React.Component {
 	constructor() {
@@ -70,15 +75,17 @@ class PrimaryTaxonomyFilter extends React.Component {
 				<Fragment>
 					<OriginalComponent { ...this.props } />
 					<div>
-						{ sprintf(
-							/* Translators: %s expands to Yoast SEO. */
-							__( "An error occurred loading the %s primary taxonomy picker.", "wordpress-seo" ),
-							"Yoast SEO"
-						) }
+						<ErrorContainer>
+							{ sprintf(
+								/* Translators: %s expands to Yoast SEO. */
+								__( "An error occurred loading the %s primary taxonomy picker.", "wordpress-seo" ),
+								"Yoast SEO"
+							) }
+						</ErrorContainer>
+						<ClipboardButton isLarge text={ this.state.error.stack }>
+							{ __( "Copy error", "wordpress-seo" ) }
+						</ClipboardButton>
 					</div>
-					<ClipboardButton isLarge text={ this.state.error.stack }>
-						{ __( "Copy error", "wordpress-seo" ) }
-					</ClipboardButton>
 				</Fragment>
 			);
 		}
