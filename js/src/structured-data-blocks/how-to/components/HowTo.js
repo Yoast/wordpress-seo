@@ -5,7 +5,6 @@ import isUndefined from "lodash/isUndefined";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import toString from "lodash/toString";
-import noop from "lodash/noop";
 import get from "lodash/get";
 
 /* Internal dependencies */
@@ -42,8 +41,6 @@ export default class HowTo extends Component {
 	constructor( props ) {
 		super( props );
 
-		const applyFilters = get( window, "wp.hooks.applyFilters", noop );
-		const defaultDurationText = applyFilters( "wpseo_duration_text", __( "Time needed:" ) );
 		this.state = { focus: "" };
 
 		this.changeStep      = this.changeStep.bind( this );
@@ -56,11 +53,29 @@ export default class HowTo extends Component {
 		this.toggleListType  = this.toggleListType.bind( this );
 		this.setDurationText = this.setDurationText.bind( this );
 
-		if( ! this.props.attributes.durationText ) {
+		if ( ! this.props.attributes.durationText ) {
+			const defaultDurationText = this.getDefaultDurationText();
+
 			this.setDurationText( defaultDurationText );
 		}
 
 		this.editorRefs = {};
+	}
+
+	/**
+	 * Returns the default duration text.
+	 *
+	 * @returns {string} The default duration text.
+	 */
+	getDefaultDurationText() {
+		const applyFilters = get( window, "wp.hooks.applyFilters" );
+		let defaultDurationText = __( "Time needed:", "wordpress-seo" );
+
+		if ( applyFilters ) {
+			defaultDurationText = applyFilters( "wpseo_duration_text", defaultDurationText );
+		}
+
+		return defaultDurationText;
 	}
 
 	/**
@@ -455,8 +470,10 @@ export default class HowTo extends Component {
 			<div className={ classNames }>
 				{ ( hasDuration && typeof timeString === "string" && timeString.length > 0 ) &&
 					<p className="schema-how-to-total-time">
-						{ durationText }
-						&nbsp;
+						<span className="schema-how-to-duration-time-text">
+							{ durationText }
+							&nbsp;
+						</span>
 						{ timeString }.
 					</p>
 				}
@@ -520,6 +537,9 @@ export default class HowTo extends Component {
 	 * @returns {void}
 	 */
 	setDurationText( text ) {
+		if( text === "" ) {
+			text = this.getDefaultDurationText();
+		}
 		this.props.setAttributes( { durationText: text } );
 	}
 
@@ -546,6 +566,10 @@ export default class HowTo extends Component {
 	 * @returns {Component} The controls to add to the sidebar.
 	 */
 	getSidebar( unorderedList, additionalClasses, durationText ) {
+		if( durationText === this.getDefaultDurationText() ) {
+			durationText = "";
+		}
+
 		return <InspectorControls>
 			<PanelBody title={ __( "Settings", "wordpress-seo" ) } className="blocks-font-size">
 				<SpacedTextControl
@@ -555,10 +579,11 @@ export default class HowTo extends Component {
 					help={ __( "Optional. This can give you better control over the styling of the steps.", "wordpress-seo" ) }
 				/>
 				<SpacedTextControl
-					label={ __( "Describe the duration of the guide:", "wordpress-seo" ) }
+					label={ __( "Describe the duration of the instruction:", "wordpress-seo" ) }
 					value={ durationText }
 					onChange={ this.setDurationText }
-					help={ __( "Optional. Customize how you want to describe the duration of the guide.", "wordpress-seo" ) }
+					help={ __( "Optional. Customize how you want to describe the duration of the instruction", "wordpress-seo" ) }
+					placeholder={ this.getDefaultDurationText() }
 				/>
 				<ToggleControl
 					label={ __( "Unordered list", "wordpress-seo" ) }
