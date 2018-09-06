@@ -447,11 +447,14 @@ abstract class WPSEO_Option {
 
 		$option_value = array_map( array( 'WPSEO_Utils', 'trim_recursive' ), $option_value );
 		if ( $this->multisite_only !== true ) {
-			$old = get_option( $this->option_name );
+			$old = get_option( $this->option_name, array() );
 		}
 		else {
-			$old = get_site_option( $this->option_name );
+			$old = get_site_option( $this->option_name, array() );
 		}
+
+		$old = array_merge( $this->defaults, $old );
+
 		$clean = $this->validate_option( $option_value, $clean, $old );
 
 		// Prevent updates to variables that are disabled via the override option.
