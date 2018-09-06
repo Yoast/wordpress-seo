@@ -1,6 +1,8 @@
-import { forEach, isArray, isObject, isNumber } from "lodash-es";
+import { forEach, get, isArray, isObject, isNumber } from "lodash-es";
 
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
+import SubheadingDistributionTooLong from "../../src/assessments/readability/subheadingDistributionTooLongAssessment";
+import SentenceLengthInText from "../../src/assessments/readability/sentenceLengthInTextAssessment";
 import Paper from "../../src/values/Paper";
 import testTexts from "../fullTextTests/testTexts";
 
@@ -34,6 +36,31 @@ function createMessage( type, payload = {}, id = 0 ) {
 		},
 	};
 }
+
+/**
+ * Checks if the assessor is a cornerstone assessor.
+ *
+ * Use the assessment configs to determine whether we have the cornerstone
+ * content assessor or the not.
+ *
+ * @param {ContentAssessor|CornerstoneContentAssessor} assessor The assessor to check.
+ *
+ * @returns {boolean} True if it is a cornerstone assessor.
+ */
+function isCornerstoneAssessor( assessor ) {
+	const subheadingConfig = get( assessor, [ "_assessments", "1", "_config", "parameters", "recommendedMaximumWordCount" ], defaultAssessmentConfigValues.subheading );
+	if ( subheadingConfig !== defaultAssessmentConfigValues.subheading ) {
+		return true;
+	}
+
+	const sentenceLengthConfig = get( assessor, [ "_assessments", "3", "_config", "slightlyTooMany" ], defaultAssessmentConfigValues.sentenceLength );
+	return sentenceLengthConfig !== defaultAssessmentConfigValues.sentenceLength;
+}
+
+const defaultAssessmentConfigValues = {
+	subheading: get ( new SubheadingDistributionTooLong(), [ "_config", "parameters", "recommendedMaximumWordCount" ], -1 ),
+	sentenceLength: get ( new SentenceLengthInText(), [ "_config", "slightlyTooMany" ], -1 ),
+};
 
 // Re-using these global variables.
 let scope = null;
@@ -548,6 +575,30 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize" ) );
 				scope.onmessage( createMessage( "runResearch", payload ) );
 			} );
+		} );
+	} );
+
+	describe( "createContentAssessor", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope );
+			worker._i18n = AnalysisWebWorker.createI18n();
+		} );
+
+		test( "listens to contentAnalysisActive", () => {
+			worker._configuration.contentAnalysisActive = false;
+			expect( worker.createContentAssessor() ).toBeNull();
+
+			worker._configuration.contentAnalysisActive = true;
+			expect( worker.createContentAssessor() ).not.toBeNull();
+		} );
+
+		test( "listens to useCornerstone", () => {
+			worker._configuration.useCornerstone = false;
+			expect( isCornerstoneAssessor( worker.createContentAssessor() ) ).toBe( false );
+
+			worker._configuration.useCornerstone = true;
+			expect( isCornerstoneAssessor( worker.createContentAssessor() ) ).toBe( true );
 		} );
 	} );
 } );

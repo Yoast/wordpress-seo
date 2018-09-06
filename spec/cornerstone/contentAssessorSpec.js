@@ -210,4 +210,14 @@ describe( "A content assessor", function() {
 			expect( actual ).toBe( expected );
 		} );
 	} );
+
+	describe( "has a specific config", () => {
+		const contentAssessor = new ContentAssessor( i18n );
+
+		test( "SubheadingDistributionTooLong", () => {
+			const assessment = contentAssessor._assessments[ 1 ];
+
+			expect( assessment._config. );
+		} );
+	} );
 } );
