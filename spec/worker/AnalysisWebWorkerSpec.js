@@ -1,4 +1,4 @@
-import { isArray, isObject, isNumber } from "lodash-es";
+import { forEach, isArray, isObject, isNumber } from "lodash-es";
 
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 import Paper from "../../src/values/Paper";
@@ -38,13 +38,12 @@ function createMessage( type, payload = {}, id = 0 ) {
 // Re-using these global variables.
 let scope = null;
 let worker = null;
-let spy = null;
 
 /*
  * Couple of things to note:
  * - Transporter is used to serialize and parse the payload. However,
  *   without the wrapper we need to pass serialized data in the message.
- * - A task is async. Using the *Done functions as the test triggers.
+ * - A task is async. Using the send function as the test trigger.
  * - Initialize needs to get called first most of the time.
  */
 describe( "AnalysisWebWorker", () => {
@@ -202,13 +201,6 @@ describe( "AnalysisWebWorker", () => {
 				worker.register();
 			} );
 
-			afterEach( () => {
-				if ( spy ) {
-					spy.mockRestore();
-					spy = null;
-				}
-			} );
-
 			test( "schedules a task", () => {
 				const paper = new Paper( "This is the content." );
 
@@ -314,13 +306,6 @@ describe( "AnalysisWebWorker", () => {
 				worker.register();
 			} );
 
-			afterEach( () => {
-				if ( spy ) {
-					spy.mockRestore();
-					spy = null;
-				}
-			} );
-
 			test( "schedules a task", () => {
 				const payload = { url: "http://example.com" };
 
@@ -402,13 +387,6 @@ describe( "AnalysisWebWorker", () => {
 				scope = createScope();
 				worker = new AnalysisWebWorker( scope );
 				worker.register();
-			} );
-
-			afterEach( () => {
-				if ( spy ) {
-					spy.mockRestore();
-					spy = null;
-				}
 			} );
 
 			test( "schedules a task", () => {
@@ -509,13 +487,6 @@ describe( "AnalysisWebWorker", () => {
 				scope = createScope();
 				worker = new AnalysisWebWorker( scope );
 				worker.register();
-			} );
-
-			afterEach( () => {
-				if ( spy ) {
-					spy.mockRestore();
-					spy = null;
-				}
 			} );
 
 			test( "schedules a task", () => {
