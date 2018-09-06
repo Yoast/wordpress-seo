@@ -36,9 +36,7 @@ const computeScoresPerSentenceLongTopic = function( topic, sentences, locale) {
 		}
 		const foundInNeighbourhood = findWordFormsInString( topic, neighbourhood, locale );
 
-		if  ( foundInCurrentSentence.percentWordMatches === 100 ) {
-			sentenceScores[ i ] = 9;
-		} else if ( foundInCurrentSentence.countWordMatches >= 3 && foundInNeighbourhood.percentWordMatches === 100 ) {
+		if ( foundInCurrentSentence.countWordMatches >= 3 && foundInNeighbourhood.percentWordMatches === 100 ) {
 			sentenceScores[ i ] = 9;
 		} else if ( foundInCurrentSentence.percentWordMatches > 0 ) {
 			sentenceScores[ i ] = 6;

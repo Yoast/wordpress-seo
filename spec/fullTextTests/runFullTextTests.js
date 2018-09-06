@@ -53,7 +53,8 @@ import pageTitleWidth from "../../src/researches/pageTitleWidth.js";
 import keywordCountInUrl from "../../src/researches/keywordCountInUrl";
 import urlLength from "../../src/researches/urlIsTooLong.js";
 import stopWordsInUrl from "../../src/researches/stopWordsInUrl";
-import largestKeywordDistance from "../../src/researches/largestKeywordDistance";
+import { largestKeywordDistanceResearcher } from "../../src/researches/largestKeywordDistance";
+const largestKeywordDistance = largestKeywordDistanceResearcher;
 import calculateFleschReading from "../../src/researches/calculateFleschReading.js";
 import getSubheadingTextLengths from "../../src/researches/getSubheadingTextLengths.js";
 import getParagraphLength from "../../src/researches/getParagraphLength.js";
@@ -265,7 +266,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the largestKeywordDistance assessment", function() {
 			result.largestKeywordDistance = new LargestKeywordDistanceAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( largestKeywordDistance( paper ) ),
+				factory.buildMockResearcher( largestKeywordDistance( paper, researcher ) ),
 				i18n
 			);
 			expect( result.largestKeywordDistance.getScore() ).toBe( expectedResults.largestKeywordDistance.score );

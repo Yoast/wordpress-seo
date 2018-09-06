@@ -40,7 +40,8 @@ import relevantWords from "./researches/relevantWords";
 import readingTime from "./researches/readingTime";
 import getTopicDensity from "./researches/getTopicDensity";
 import topicCount from "./researches/topicCount";
-import largestKeywordDistance from "./researches/largestKeywordDistance";
+import { largestKeywordDistanceResearcher } from "./researches/largestKeywordDistance";
+const largestKeywordDistance = largestKeywordDistanceResearcher;
 import { research } from "./researches/buildKeywordForms";
 const morphology = research;
 

@@ -5,6 +5,9 @@ import AssessmentResult from "../../values/AssessmentResult";
 import countWords from "../../stringProcessing/countWords";
 import topicCount from "../../researches/topicCount";
 import { inRangeStartEndInclusive } from "../../helpers/inRange";
+import arrayToRegex from "../../stringProcessing/createRegexFromArray";
+import Mark from "../../values/Mark";
+import addMark from "../../markers/addMarkSingleWord";
 
 /**
  * Returns a score based on the largest percentage of text in
@@ -15,10 +18,10 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
-	 * @param {number} [config.parameters.overRecommendedMaximumKeywordDistance]
-	 *      The percentage of the text that is already way too high to be allowed to be in between two keyword occurrences.
-	 * @param {number} [config.parameters.recommendedMaximumKeywordDistance]
-	 *      The percentage of the text that is maximally allowed to be in between two keyword occurrences.
+	 * @param {number} [config.parameters.recommendedAverageDistributionScore]
+	 *      The average distribution score that needs to be received from the step function to get a GOOD result.
+	 * @param {number} [config.parameters.lowAverageDistributionScore]
+	 *      The average distribution score that needs to be received from the step function to get an OKAY result.
 	 * @param {number} [config.scores.good] The score to return if there is not too much text between keyword occurrences.
 	 * @param {number} [config.scores.okay] The score to return if there is somewhat much text between keyword occurrences.
 	 * @param {number} [config.scores.bad] The score to return if there is way too much text between keyword occurrences.
@@ -31,14 +34,13 @@ class LargestKeywordDistanceAssessment extends Assessment {
 
 		const defaultConfig = {
 			parameters: {
-				overRecommendedMaximumKeywordDistance: 50,
-				recommendedMaximumKeywordDistance: 40,
+				recommendedAverageDistributionScore: 6,
+				lowAverageDistributionScore: 3,
 			},
 			scores: {
 				good: 9,
 				okay: 6,
 				bad: 1,
-				consideration: 0,
 			},
 			url: "<a href='https://yoa.st/2w7' target='_blank'>",
 		};
@@ -60,7 +62,6 @@ class LargestKeywordDistanceAssessment extends Assessment {
 		this._largestKeywordDistance = researcher.getResearch( "largestKeywordDistance" );
 
 		this._hasSynonyms = paper.hasSynonyms();
-		this._topicUsed = topicCount( paper ).count;
 
 		const assessmentResult = new AssessmentResult();
 
@@ -81,23 +82,8 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	 * @returns {Object} Object with score and feedback text.
 	 */
 	calculateResult( i18n ) {
-		if ( this._topicUsed < 2 ) {
-			return {
-				score: this._config.scores.consideration,
-				resultText: i18n.sprintf(
-					/* Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
-					%2$s expands to the anchor end tag */
-					i18n.dgettext(
-						"js-text-analysis",
-						"Use your keyword or synonyms more often in your text so that we can check %1$skeyword distribution%2$s."
-					),
-					this._config.url,
-					"</a>"
-				),
-			};
-		}
-
-		if ( this._largestKeywordDistance > this._config.parameters.overRecommendedMaximumKeywordDistance ) {
+		const averageScore = this._largestKeywordDistance.averageScore;
+		if ( averageScore <= this._config.parameters.lowAverageDistributionScore ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: i18n.sprintf(
@@ -115,10 +101,7 @@ class LargestKeywordDistanceAssessment extends Assessment {
 			};
 		}
 
-		if ( inRangeStartEndInclusive(
-			this._largestKeywordDistance,
-			this._config.parameters.recommendedMaximumKeywordDistance,
-			this._config.parameters.overRecommendedMaximumKeywordDistance ) ) {
+		if ( averageScore < this._config.parameters.recommendedAverageDistributionScore ) {
 			return {
 				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
@@ -154,14 +137,16 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	}
 
 	/**
-	 * Creates a marker for the keyword.
+	 * Creates a marker for all content words in keyphrase and synonyms.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
 	 * @returns {Array} All markers for the current text.
 	 */
 	getMarks( paper ) {
-		return topicCount( paper ).markings;
+		return this._largestKeywordDistance.formsToHighlight.map( function ( form ) {
+			return new Mark( { original: form, marked: addMark( form ) } )
+		} )
 	}
 
 
