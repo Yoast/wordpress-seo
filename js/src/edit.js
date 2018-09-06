@@ -125,7 +125,7 @@ class Edit {
 	 * @returns {void}
 	 **/
 	_registerPlugin() {
-		if ( ! isGutenbergDataAvailable() )  {
+		if ( ! isGutenbergDataAvailable() ) {
 			return;
 		}
 
@@ -177,9 +177,9 @@ class Edit {
 	 * @returns {Object} The instantiated data class.
 	 */
 	_initializeData() {
-		const store =   this._store;
-		const args =    this._args;
-		const wpData =  get( window, "wp.data" );
+		const store  = this._store;
+		const args   = this._args;
+		const wpData = get( window, "wp.data" );
 
 		// Only use Gutenberg's data if Gutenberg is available.
 		if ( isGutenbergDataAvailable() ) {

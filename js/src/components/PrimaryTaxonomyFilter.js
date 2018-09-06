@@ -39,7 +39,6 @@ class PrimaryTaxonomyFilter extends React.Component {
 	 * @returns {void}
 	 */
 	componentDidCatch( error ) {
-		console.log( error );
 		this.setState( { fallbackToOriginalComponent: true, error } );
 	}
 
