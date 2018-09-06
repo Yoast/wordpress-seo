@@ -274,7 +274,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$enriched_defaults[ 'metadesc-tax-' . $tax->name ]        = ''; // Text area.
 				$enriched_defaults[ 'display-metabox-tax-' . $tax->name ] = true;
 
-				$enriched_defaults[ 'noindex-tax-' . $tax->name ] = ( $tax->name !== 'post_format' );
+				$enriched_defaults[ 'noindex-tax-' . $tax->name ] = ( $tax->name === 'post_format' );
 
 				if ( ! $tax->_builtin ) {
 					$enriched_defaults[ 'taxonomy-' . $tax->name . '-ptparent' ] = 0; // Select box;.
