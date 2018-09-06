@@ -42,6 +42,8 @@ class Yoast_Feature_Toggle {
 	 *     @type int    $order           Value to specify the feature toggle order. A lower value indicates
 	 *                                   a higher priority. Default 100.
 	 * }
+	 *
+	 * @throws InvalidArgumentException Thrown when a required argument is missing.
 	 */
 	public function __construct( array $args ) {
 		$this->required_keys = array( 'name', 'setting', 'label' );
