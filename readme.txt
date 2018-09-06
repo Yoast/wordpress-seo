@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.8
-Stable tag: 8.1.1
+Stable tag: 8.1.2
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -122,6 +122,16 @@ Bugfixes:
 * Fixes a bug where the OpenGraph image wouldn't show correctly for the frontpage in a few situations. Props to [@mt8](https://github.com/mt8) for the solution direction.
 * Fixes a bug where the Yoast SEO network admin menu and admin bar menu would appear when the plugin was only active for the main site, and not for the entire network.
 * Fixes a bug where snippet variables in the Twitter card title and description wouldn't be properly replaced.
+* Fixes a bug where a non-existing dependency was requested on the Search Appearance settings page.
+* Fixes a bug where the value of the primary category snippet variable in the classic editor wouldn't change when the primary category was changed.
+* Fixes a bug where the Gutenberg editor in the Classic Editor plugin would crash when the primary category picker was loaded. If something goes wrong in the primary category picker, it now shows a notification, instead of making the entire editor crash.
+
+= 8.1.2 =
+Release Date: September 5th, 2018
+
+Bugfixes:
+
+* Fixes a bug where our JavaScript memory usage would increase indefinitely. This could result in a browser crash after a long enough period.
 
 = 8.1.1 =
 Release Date: September 3rd, 2018
