@@ -250,7 +250,7 @@ add_action( 'split_shared_term', 'wpseo_split_shared_term', 10, 4 );
 /**
  * Get all WPSEO related capabilities.
  *
- * @since 7.2.x
+ * @since 8.3
  * @return array
  */
 function wpseo_get_capabilities() {
