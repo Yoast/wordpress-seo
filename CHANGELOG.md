@@ -5,6 +5,13 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.39.2 September 6th, 2018
+
+### Bugs:
+
+* Fixes a bug where the readability analysis would not show the correct scores for cornerstone content.
+* Fixes a bug where switching off the SEO analysis would stop the readability analysis from loading.
+
 ## 1.39.1 September 5th, 2018
 
 * Fixes a bug where our JavaScript memory usage would increase indefinitely. This could result in a browser crash after a long enough period.
