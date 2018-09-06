@@ -65,9 +65,15 @@ travis.sh
 test.sh
 /artifact/
 /artifact.zip
-/languages/*
-!/languages/index.php
+/artifact-composer/
 /coverage
 /gettext.pot
 /.wordpress-svn
 /webpack-stats.json
+
+############
+# Dist files
+############
+/languages/
+#/js/dist/
+#/css/dist/

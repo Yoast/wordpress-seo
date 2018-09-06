@@ -171,6 +171,29 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * @covers WPSEO_OpenGraph::og_title
+	 */
+	public function test_og_title_with_variables() {
+		$expected_title = 'Test title';
+		// Create and go to post.
+		$post_id = $this->factory->post->create();
+		wp_update_post( array(
+			'ID'         => $post_id,
+			'post_title' => $expected_title,
+		) );
+		WPSEO_Meta::set_value( 'opengraph-title', '%%title%%', $post_id );
+
+		$this->go_to( get_permalink( $post_id ) );
+
+		$expected_html  = '<meta property="og:title" content="' . $expected_title . '" />' . "\n";
+
+		$this->assertTrue( self::$class_instance->og_title() );
+		$this->expectOutput( $expected_html );
+
+		$this->assertEquals( self::$class_instance->og_title( false ), $expected_title );
+	}
+
+	/**
 	 * @covers WPSEO_OpenGraph::url
 	 */
 	public function test_url() {

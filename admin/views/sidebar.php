@@ -80,7 +80,7 @@ $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 			<div>
 				<a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jq' ); ?>"><img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/Local_SEO_Icon.svg' ); ?>" alt=""></a>
 				<p>
-					<strong><a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jq' ); ?>"><?php esc_html_e( 'Local SEO', 'wordpress-seo' ); ?></a></strong><br>
+					<strong><a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jq' ); ?>">Local SEO</a></strong><br>
 					<?php esc_html_e( 'Be found in Google Maps and local results.', 'wordpress-seo' ); ?>
 				</p>
 				<br class="clear">
@@ -88,7 +88,7 @@ $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 			<div>
 				<a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jo' ); ?>"><img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/Video_SEO_Icon.svg' ); ?>" alt=""></a>
 				<p>
-					<strong><a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jo' ); ?>"><?php esc_html_e( 'Video SEO', 'wordpress-seo' ); ?></a></strong><br>
+					<strong><a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jo' ); ?>">Video SEO</a></strong><br>
 					<?php esc_html_e( 'Be found in Google Video search and enhance your video sharing on social media.', 'wordpress-seo' ); ?>
 				</p>
 				<br class="clear">
@@ -96,7 +96,7 @@ $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 			<div>
 				<a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jp' ); ?>"><img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/Woo_SEO_Icon.svg' ); ?>" alt=""></a>
 				<p>
-					<strong><a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jp' ); ?>"><?php esc_html_e( 'WooCommerce SEO', 'wordpress-seo' ); ?></a></strong><br>
+					<strong><a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jp' ); ?>">WooCommerce SEO</a></strong><br>
 					<?php esc_html_e( 'Optimize your shop\'s SEO and sell more products!', 'wordpress-seo' ); ?>
 				</p>
 				<br class="clear">
@@ -104,7 +104,7 @@ $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 			<div>
 				<a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jr' ); ?>"><img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/News_SEO_Icon.svg' ); ?>" alt=""></a>
 				<p>
-					<strong><a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jr' ); ?>"><?php esc_html_e( 'News SEO', 'wordpress-seo' ); ?></a></strong><br>
+					<strong><a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jr' ); ?>">News SEO</a></strong><br>
 					<?php esc_html_e( 'Optimize your site for Google News.', 'wordpress-seo' ); ?>
 				</p>
 				<br class="clear">

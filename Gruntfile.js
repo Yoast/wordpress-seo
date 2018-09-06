@@ -60,6 +60,8 @@ module.exports = function( grunt ) {
 					wordpressSeoJs: "<%= paths.languages %>wordpress-seojs.php",
 				},
 			},
+			artifact: "artifact",
+			artifactComposer: "artifact-composer",
 			phptests: "tests/**/*.php",
 			get config() {
 				return project.paths.config + "*.js";

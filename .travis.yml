@@ -10,7 +10,7 @@ branches:
     - /^hotfix\/\d+\.\d+(\.\d+)?(-\S*)?$/
     - /^feature\/*/
     # Also build tags like 1.1.1 or 1.1 for deployment.
-    - /(\d+\.)?(\d+\.)?(\*|\d+)/
+    - /^\d+\.\d+(\.\d+)?(-\S*)?$/
 
 jobs:
   fast_finish: true
@@ -73,6 +73,7 @@ jobs:
         - grunt set-version -new-version=$TRAVIS_TAG
         - grunt update-version
         - grunt artifact
+        - grunt composer-artifact
        # If the commit was tagged, create an artifact and push it to the distribution github
       deploy:
         skip_cleanup: true
