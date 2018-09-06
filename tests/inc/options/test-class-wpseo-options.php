@@ -192,7 +192,18 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::add_ms_option()
 	 */
 	public function test_ms_options_included_in_get_in_multisite() {
-		$ms_option_keys = array( 'access', 'defaultblog' );
+		$ms_option_keys = array(
+			'access',
+			'defaultblog',
+			'allow_disableadvanced_meta',
+			'allow_onpage_indexability',
+			'allow_content_analysis_active',
+			'allow_keyword_analysis_active',
+			'allow_enable_admin_bar_menu',
+			'allow_enable_cornerstone_content',
+			'allow_enable_xml_sitemap',
+			'allow_enable_text_link_counter',
+		);
 
 		foreach ( $ms_option_keys as $key ) {
 			$this->assertNotNull( WPSEO_Options::get( $key ) );
@@ -208,7 +219,18 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::add_ms_option()
 	 */
 	public function test_ms_options_excluded_in_get_non_multisite() {
-		$ms_option_keys = array( 'access', 'defaultblog' );
+		$ms_option_keys = array(
+			'access',
+			'defaultblog',
+			'allow_disableadvanced_meta',
+			'allow_onpage_indexability',
+			'allow_content_analysis_active',
+			'allow_keyword_analysis_active',
+			'allow_enable_admin_bar_menu',
+			'allow_enable_cornerstone_content',
+			'allow_enable_xml_sitemap',
+			'allow_enable_text_link_counter',
+		);
 
 		foreach ( $ms_option_keys as $key ) {
 			$this->assertNull( WPSEO_Options::get( $key ) );
