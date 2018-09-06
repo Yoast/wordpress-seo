@@ -132,6 +132,10 @@ tr.yst_row.even {
 	margin: 0 5px;
 	padding: 5px 8px;
 }
+.wpseo_content_wrapper .disabled-note {
+	margin-bottom: 8px;
+	color: #888;
+}
 .wpseo_content_wrapper #separator {
 	margin: 1.5em 0 0.5em;
 }

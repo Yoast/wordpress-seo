@@ -62,14 +62,14 @@
 		position: absolute;
 		opacity: 0;
 		z-index: 3;
-	}
 
-	/* Override core style. */
-	.switch-light input[type=radio].disabled,
-	.switch-light input[type=radio].disabled:checked:before,
-	.switch-light input[type=radio]:disabled,
-	.switch-light input[type=radio]:disabled:checked:before {
-		opacity: 0;
+		/* Override core style. */
+		&[type=radio].disabled,
+		&[type=radio].disabled:checked:before,
+		&[type=radio]:disabled,
+		&[type=radio]:disabled:checked:before {
+			opacity: 0;
+		}
 	}
 
 	.switch-light input:checked ~ span a {
@@ -116,6 +116,14 @@
 		position: absolute;
 		left: 0;
 		opacity: 0;
+
+		/* Override core style. */
+		&[type=radio].disabled,
+		&[type=radio].disabled:checked:before,
+		&[type=radio]:disabled,
+		&[type=radio]:disabled:checked:before {
+			opacity: 0;
+		}
 	}
 
 	.switch-toggle input + label {
@@ -274,6 +282,7 @@
 
 	.fieldset-switch-toggle .disabled-note {
 		float: left;
+		width: 100%;
 	}
 
 	.switch-container__has-help legend,
@@ -321,6 +330,7 @@
 	.switch-toggle.switch-yoast-seo input:disabled + a,
 	.switch-toggle.switch-yoast-seo input:disabled ~ a {
 		background: #9b9b9b;
+		border: 0;
 	}
 
 	.switch-toggle.switch-yoast-seo input:focus ~ span a,
@@ -378,6 +388,11 @@
 		 * using the empty onclick hack.
 		 */
 		cursor: pointer;
+	}
+
+	.switch-toggle.switch-yoast-seo input.disabled + label,
+	.switch-toggle.switch-yoast-seo input:disabled + label {
+		cursor: not-allowed;
 	}
 
 	.switch-yoast-seo .switch-yoast-seo-jaws-a11y {

@@ -59,6 +59,14 @@
 		position: absolute;
 		z-index: 3;
 		opacity: 0;
+		/* Override core style. */
+	}
+
+	.switch-light input[type=radio].disabled,
+	.switch-light input[type=radio].disabled:checked:before,
+	.switch-light input[type=radio]:disabled,
+	.switch-light input[type=radio]:disabled:checked:before {
+		opacity: 0;
 	}
 
 	.switch-light input:checked ~ span a {
@@ -104,6 +112,14 @@
 	.switch-toggle input {
 		position: absolute;
 		right: 0;
+		opacity: 0;
+		/* Override core style. */
+	}
+
+	.switch-toggle input[type=radio].disabled,
+	.switch-toggle input[type=radio].disabled:checked:before,
+	.switch-toggle input[type=radio]:disabled,
+	.switch-toggle input[type=radio]:disabled:checked:before {
 		opacity: 0;
 	}
 
@@ -251,6 +267,11 @@
 		vertical-align: middle;
 	}
 
+	.fieldset-switch-toggle .disabled-note {
+		float: right;
+		width: 100%;
+	}
+
 	.switch-container__has-help legend,
 	.switch-container__has-help .switch-light-visual-label {
 		float: right;
@@ -289,6 +310,14 @@
 		border: 1px solid #b5b5b5;
 		border-radius: 0.5em;
 		background: #a4286a;
+	}
+
+	.switch-toggle.switch-yoast-seo input.disabled + a,
+	.switch-toggle.switch-yoast-seo input.disabled ~ a,
+	.switch-toggle.switch-yoast-seo input:disabled + a,
+	.switch-toggle.switch-yoast-seo input:disabled ~ a {
+		border: 0;
+		background: #9b9b9b;
 	}
 
 	.switch-toggle.switch-yoast-seo input:focus ~ span a,
@@ -346,6 +375,11 @@
 		 * using the empty onclick hack.
 		 */
 		cursor: pointer;
+	}
+
+	.switch-toggle.switch-yoast-seo input.disabled + label,
+	.switch-toggle.switch-yoast-seo input:disabled + label {
+		cursor: not-allowed;
 	}
 
 	.switch-yoast-seo .switch-yoast-seo-jaws-a11y {
