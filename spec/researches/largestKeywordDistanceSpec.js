@@ -1,33 +1,113 @@
-import largestKeywordDistance from "../../src/researches/largestKeywordDistance.js";
+import { computeScoresPerSentenceShortTopic } from "../../src/researches/largestKeywordDistance.js";
+import { computeScoresPerSentenceLongTopic } from "../../src/researches/largestKeywordDistance.js";
+import { maximizeSentenceScores } from "../../src/researches/largestKeywordDistance.js";
+import { step } from "../../src/researches/largestKeywordDistance.js";
+import { largestKeywordDistanceResearcher } from "../../src/researches/largestKeywordDistance.js";
 import Paper from "../../src/values/Paper.js";
+import Researcher from "../../src/researcher";
+import morphologyData from "../../src/morphology/morphologyData.json";
 
-describe( "Test for checking the largest percentage of a text without keyword", function() {
-	it( "returns the largest distance when that is the distance between two keywords", function() {
-		let mockPaper = new Paper( "a text with the keyword in it and then there's some text and then the keyword appears again and the keyword appears one last time", { keyword: "keyword" } );
+describe( "Test for maximizing sentence scores", function() {
+	it( "returns the largest score per sentence over all topics", function() {
+		const inputArray = [
+			[ 1, 2, 3 ],
+			[ 10, 0, -3 ],
+			[ 4, 5, 6 ],
+			[ 100, 2, 0 ],
+			[ 7, 8, 9 ],
+		];
 
-		expect( largestKeywordDistance( mockPaper ) ).toBe( 41.86046511627907 );
+		const expectedOutput = [ 100, 8, 9 ];
+
+		expect( maximizeSentenceScores( inputArray ) ).toEqual( expectedOutput );
 	} );
 
-	it( "returns the largest distance when that is the distance between the beginning of the text and the first keyword", function() {
-		let mockPaper = new Paper( "a lot of text before the first keyword and again the keyword", { keyword: "keyword" } );
+	it( "returns the largest score per sentence over all topics", function() {
+		const inputArray = [
+			[ 0, 0, 0 ],
+			[ 5, 4, 1 ],
+			[ 2, 10, -3 ],
+		];
 
-		expect( largestKeywordDistance( mockPaper ) ).toBe( 51.66666666666667 );
+		const expectedOutput = [ 5, 10, 1 ];
+
+		expect( maximizeSentenceScores( inputArray ) ).toEqual( expectedOutput );
+	} );
+} );
+
+const sentences = [
+	"How remarkable!",
+	"Remarkable is a funny word.",
+	"I have found a key and a remarkable word.",
+	"And again a key something.",
+	"Here comes something that has nothing to do with a keyword.",
+	"Ha, a key!",
+	"Again nothing!",
+	"Words, words, words, how boring!",
+];
+
+const topicShort = [
+	[ "key", "keys" ],
+	[ "word", "words" ],
+];
+
+const topicLong = [
+	[ "key", "keys" ],
+	[ "word", "words" ],
+	[ "remarkable", "remarkables", "remarkably" ],
+	[ "something", "somethings" ],
+];
+
+
+describe( "Test for computing the sentence score", function() {
+	it( "for a short topic", function () {
+		expect(computeScoresPerSentenceShortTopic( topicShort, sentences, "en_EN" ) ).toEqual( [ 3, 6, 9, 6, 3, 6, 3, 6 ] );
 	} );
 
-	it( "returns the largest distance when that is the distance between the last keyword and the end of the text", function() {
-		let mockPaper = new Paper( "a keyword and again the keyword and then there's a lot of text after that", { keyword: "keyword" } );
-
-		expect( largestKeywordDistance( mockPaper ) ).toBe( 67.12328767123287 );
+	it( "for a long topic", function () {
+		expect(computeScoresPerSentenceLongTopic( topicLong, sentences, "en_EN" ) ).toEqual( [ 6, 6, 9, 6, 6, 6, 3, 6 ] );
 	} );
+} );
 
-	it( "returns the largest distance when there is only one keyword and the largest distance is between the keyword and the beginning of the text", function() {
-		let mockPaper = new Paper( "this text has only one keyword", { keyword: "keyword" } );
-		expect( largestKeywordDistance( mockPaper ) ).toBe( 76.66666666666667 );
+const inputSentenceScores = [ 1, 5, 7, 2, 4, 9, 1, 1, 1, 4, 1, 9 ];
+describe( "Test for computing the step function", function() {
+	it( "Returns the scores for the hypothetical text with a 3-sentence window", function () {
+		expect(step( inputSentenceScores, 3 ) ).toEqual( [ 13/3, 14/3, 13/3, 15/3, 14/3, 11/3, 3/3, 6/3, 6/3, 14/3 ] );
 	} );
+	it( "Returns the scores for the hypothetical text with a 5-sentence window", function () {
+		expect(step( inputSentenceScores, 5 ) ).toEqual( [  19/5, 27/5, 23/5, 17/5, 16/5, 16/5, 8/5, 16/5 ] );
+	} );
+} );
 
-	it( "returns the largest distance when there is only one keyword and the largest distance is between the keyword and the end of the text", function() {
-		let mockPaper = new Paper( "this is the only keyword in a very long text with lots of words", { keyword: "keyword" } );
+const wordForms = [ "word", "words", "word's", "words's", "words'", "wording", "worded", "wordly", "worder", "wordest",
+	"word‘s", "word’s", "word‛s", "word`s", "words‘s", "words’s", "words‛s", "words`s", "words‘", "words’", "words‛", "words`" ];
+const keyForms = [ "key", "keys", "key's", "keys's", "keys'", "keying", "keyed", "keyly", "keyer", "keyest", "key‘s",
+	"key’s", "key‛s", "key`s", "keys‘s", "keys’s", "keys‛s", "keys`s", "keys‘", "keys’", "keys‛", "keys`" ];
+const remarkableForms = [ "remarkable", "remarkables", "remarkable's", "remarkables's", "remarkables'", "remarkabling",
+	"remarkabled", "remarkably", "remarkable‘s", "remarkable’s", "remarkable‛s", "remarkable`s", "remarkables‘s",
+	"remarkables’s", "remarkables‛s", "remarkables`s", "remarkables‘", "remarkables’", "remarkables‛", "remarkables`" ];
+const somethingForms = [ "something", "somethings", "something's", "somethings's", "somethings'", "someth",
+	"someths", "somethed", "somethingly", "something‘s", "something’s", "something‛s", "something`s", "somethings‘s",
+	"somethings’s","somethings‛s", "somethings`s", "somethings‘", "somethings’", "somethings‛", "somethings`" ];
 
-		expect( largestKeywordDistance( mockPaper ) ).toBe( 73.01587301587301 );
+describe( "Test for a step-function research", function() {
+	it( "returns an average score over all sentences and all topic forms ", function () {
+		const paper = new Paper(
+			sentences.join( " " ),
+			{
+				locale: "en_EN",
+				keyword: "key word",
+				synonyms: "remarkable, something, word",
+
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+
+		expect( largestKeywordDistanceResearcher( paper, researcher ) ).toEqual( {
+			averageScore: 7.8,
+			formsToHighlight: keyForms.concat( wordForms, remarkableForms, somethingForms ),
+		} )
 	} );
 } );

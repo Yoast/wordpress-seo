@@ -1,100 +1,175 @@
-import { sortBy } from "lodash-es";
-import topicCount from "./topicCount";
+import getSentences from "../stringProcessing/getSentences";
+import { findWordFormsInString } from "./findKeywordFormsInString";
+import { max } from "lodash-es";
+import { round } from "lodash-es";
+import { sum } from "lodash-es";
+import { isUndefined } from "lodash-es";
+import { flatten } from "lodash-es";
+import { uniq } from "lodash-es";
 
 /**
- * Gets the distance (in terms of characters) between two keywords, between the beginning
- * of the text and the first keyword, or the last keyword and the end of the text.
+ * Checks whether at least 3 content words from the topic are found within one sentence and the rest within +-1 sentence
+ * away from it. Assigns a score to every sentence following the following schema:
+ * 9 if all content words from the topic are in the sentence, or at least 3 content words from the topic
+ * are in the sentence and the rest are in the neighbour sentences,
+ * 6 if only some content words from the topic are found in the sentence but not all,
+ * 3 if no content words from the topic were found in the sentence.
  *
- * @param {number}  keywordIndex     The index of the keyword.
- * @param {Array}   keywordIndices   All keyword indices.
- * @param {number}  textLength       The length of the text in characters.
+ * @param {Array}  topic     The word forms of all content words in a keyphrase or a synonym.
+ * @param {Array}  sentences An array of all sentences in the text.
+ * @param {string}  locale    The locale of the paper to analyse.
  *
- * @returns {Array} The distances for a given keyword in characters.
+ * @returns {Array} The scores per sentence.
  */
-const getKeywordDistances = function( keywordIndex, keywordIndices, textLength ) {
-	const currentIndexWithinArray = keywordIndices.indexOf( keywordIndex );
-	let indexOfPreviousKeyword;
+const computeScoresPerSentenceLongTopic = function( topic, sentences, locale) {
+	let sentenceScores = Array( sentences.length );
+	for ( let i = 0; i < sentences.length; i++ ) {
+		const currentSentence = sentences[ i ];
+		const foundInCurrentSentence = findWordFormsInString( topic, currentSentence, locale );
 
-	let distances = [];
+		let neighbourhood = currentSentence;
+		if ( ! isUndefined( sentences[ i - 1 ] ) ) {
+			neighbourhood = sentences[ i - 1 ].concat( " ", neighbourhood );
+		}
+		if ( ! isUndefined( sentences[ i + 1 ] ) ) {
+			neighbourhood = neighbourhood.concat( " ", sentences[ i + 1 ] );
+		}
+		const foundInNeighbourhood = findWordFormsInString( topic, neighbourhood, locale );
 
-	/*
-	 * If there's only one keyword, return the distance from the beginning
-	 * of the text to the keyword and from the keyword to the end of the text.
-	 */
-	if ( currentIndexWithinArray === 0 && keywordIndices.length === 1 ) {
-		distances.push( keywordIndex.index );
-		distances.push( textLength - keywordIndex.index );
-
-		return distances;
+		if  ( foundInCurrentSentence.percentWordMatches === 100 ) {
+			sentenceScores[ i ] = 9;
+		} else if ( foundInCurrentSentence.countWordMatches >= 3 && foundInNeighbourhood.percentWordMatches === 100 ) {
+			sentenceScores[ i ] = 9;
+		} else if ( foundInCurrentSentence.percentWordMatches > 0 ) {
+			sentenceScores[ i ] = 6;
+		} else {
+			sentenceScores[ i ] = 3;
+		}
 	}
-
-	/*
-	 * For the first instance of the keyword calculate the distance between
-	 * the beginning of the text and that keyword.
-	 */
-	if ( currentIndexWithinArray === 0 ) {
-		distances.push( keywordIndex.index );
-
-		return distances;
-	}
-
-	/*
-	 * For the last instance of the keyword, calculate the distance between that keyword
-	 * and the previous keyword and also the distance between that keyword and the end
-	 * of the text.
-	 */
-	if ( currentIndexWithinArray === keywordIndices.length - 1 ) {
-		indexOfPreviousKeyword = keywordIndices[ currentIndexWithinArray - 1 ].index;
-		distances.push( keywordIndex.index - indexOfPreviousKeyword );
-		distances.push( textLength - keywordIndex.index );
-
-		return distances;
-	}
-
-	/*
-	 * For all instances in between first and last, calculate the distance between
-	 * that keyword and the preceding keyword.
-	 */
-	indexOfPreviousKeyword = keywordIndices[ currentIndexWithinArray - 1 ].index;
-	distances.push( keywordIndex.index - indexOfPreviousKeyword );
-
-	return distances;
+	return sentenceScores;
 };
 
 /**
- * Gets the largest keyword distance (in characters) from the array of all keyword distances.
+ * Checks whether all content words from the topic are found within one sentence.
+ * Assigns a score to every sentence following the following schema:
+ * 9 if all content words from the topic are in the sentence,
+ * 6 if only some content words from the topic are found in the sentence but not all,
+ * 3 if no content words from the topic were found in the sentence.
  *
- * @param {Array} keywordDistances All keyword distances in characters.
+ * @param {Array}  topic     The word forms of all content words in a keyphrase or a synonym.
+ * @param {Array}  sentences An array of all sentences in the text.
+ * @param {string}  locale    The locale of the paper to analyse.
  *
- * @returns {number} The largest keyword distance in characters.
+ * @returns {Array} The scores per sentence.
  */
-const getLargestDistanceInCharacters = function( keywordDistances ) {
-	keywordDistances = sortBy( keywordDistances );
-	keywordDistances = keywordDistances.reverse();
-
-	return keywordDistances[ 0 ];
+const computeScoresPerSentenceShortTopic = function( topic, sentences, locale) {
+	let sentenceScores = Array( sentences.length );
+	for ( let i = 0; i < sentences.length; i++ ) {
+		const foundInCurrentSentence = findWordFormsInString( topic, sentences[ i ], locale );
+		if  ( foundInCurrentSentence.percentWordMatches === 100 ) {
+			sentenceScores[ i ] = 9;
+		} else if ( foundInCurrentSentence.percentWordMatches > 0 ) {
+			sentenceScores[ i ] = 6;
+		} else {
+			sentenceScores[ i ] = 3;
+		}
+	}
+	return sentenceScores;
 };
 
 /**
- * Calculates the largest percentage of the text without a keyword.
+ * Maximizes scores: Give every sentence a maximal score that it got from analysis of all topics
+ *
+ * @param {Array} sentenceScores The scores for every sentence, as assessed per keyphrase and every synonym.
+ *
+ * @returns {Array} Maximal scores of topic relevance per sentence.
+ */
+const maximizeSentenceScores = function( sentenceScores) {
+	const sentenceScoresTransposed = sentenceScores[0].map(function(col, i){
+		return sentenceScores.map(function(row){
+			return row[i];
+		});
+	});
+
+	return sentenceScoresTransposed.map( function( scoresForOneSentence ) {
+		return max( scoresForOneSentence );
+	} );
+};
+
+
+/**
+ * Start with the first third of the text (based on the total number of sentences) and calculate an average score
+ * over all sentences in this set. Move down by one sentence, calculate an average score again.
+ * Continue until the end of the text is reached.
+ *
+ * @param {Array} maximizedSentenceScores The maximal scores for every sentence.
+ * @param {number} stepSize The number of sentences that should be in every step to average over.
+ *
+ * @returns {Array} The scores per portion of text.
+ */
+const step = function( maximizedSentenceScores, stepSize) {
+	const numberOfSteps = maximizedSentenceScores.length - stepSize + 1;
+
+	let result = [];
+	let toAnalyze = [];
+
+	for ( let i = 0; i < numberOfSteps; i++ ) {
+		toAnalyze = maximizedSentenceScores.slice( i, stepSize + i );
+		result.push( sum( toAnalyze ) / stepSize );
+	}
+
+	return result;
+};
+
+
+/**
+ * Determines which portions of the text did not receive a lot of content words from keyphrase and synonyms.
  *
  * @param {Paper} paper The paper to check the keyword distance for.
+ * @param {Researcher} researcher The researcher to use for analysis.
  *
- * @returns {number} Returns the largest percentage of the text between two keyword occurrences
- *                   or a keyword occurrence and the start/end of the text.
+ * @returns {Object} The scores of topic relevance per portion of text and an array of all word forms to highlight
  */
-export default function( paper ) {
-	const keywordIndices = topicCount( paper ).matchesIndices;
-	const textLength = paper.getText().length;
+const largestKeywordDistanceResearcher = function( paper, researcher ) {
+	const sentences = getSentences( paper.getText() );
+	const topicForms = researcher.getResearch( "morphology" );
+	const locale = paper.getLocale();
+	const topicFormsInOneArray = [ topicForms.keyphraseForms ];
+	topicForms.synonymsForms.forEach( function( synonym ) {
+		topicFormsInOneArray.push( synonym );
+	} );
 
-	let keywordDistances = [];
+	// Compute per-sentence scores of topic-relatedness.
+	const topicNumber = topicFormsInOneArray.length;
 
-	for ( let keywordIndex of keywordIndices ) {
-		let currentDistances = getKeywordDistances( keywordIndex, keywordIndices, textLength );
-		keywordDistances = keywordDistances.concat( currentDistances );
+	let sentenceScores = Array( topicNumber );
+
+	for ( let i = 0; i < topicNumber; i++ ) {
+		const topic = topicFormsInOneArray[ i ];
+		if ( topic.length < 4 ) {
+			sentenceScores[ i ] = computeScoresPerSentenceShortTopic( topic, sentences, locale );
+		} else {
+			sentenceScores[ i ] = computeScoresPerSentenceLongTopic( topic, sentences, locale );
+		}
 	}
 
-	const largestKeywordDistanceInCharacters = getLargestDistanceInCharacters( keywordDistances );
 
-	return ( largestKeywordDistanceInCharacters / textLength ) * 100;
+	// Maximize scores: Give every sentence a maximal score that it got from analysis of all topics
+	const maximizedSentenceScores = maximizeSentenceScores( sentenceScores );
+
+	// Apply step function: to begin with take a third of the text or at least 3 sentences.
+	const textPortionScores = step( maximizedSentenceScores, max( [ round( sentences.length / 3 ), 3 ] ) );
+
+	return {
+		averageScore: round( sum( textPortionScores ) / textPortionScores.length, 1) ,
+		formsToHighlight: uniq( flatten( flatten( topicFormsInOneArray ) ) ),
+	}
+};
+
+export {
+	computeScoresPerSentenceShortTopic,
+	computeScoresPerSentenceLongTopic,
+	maximizeSentenceScores,
+	step,
+	largestKeywordDistanceResearcher,
 }
