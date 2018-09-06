@@ -65,7 +65,8 @@ tr.yst_row.even {
 
 	input.textinput,
 	textarea.textinput,
-	select.select {
+	select.select,
+	.wpseo_content_wrapper .select2-container {
 		margin: 0 0 15px 0;
 	}
 
