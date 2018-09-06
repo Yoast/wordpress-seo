@@ -125,6 +125,58 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	}
 
 	/**
+	 * Add filters to make sure that the option is merged with its defaults before being returned.
+	 *
+	 * @return void
+	 */
+	public function add_option_filters() {
+		parent::add_option_filters();
+
+		// Add filter to ensure the feature variables respect the network settings.
+		if ( has_filter( 'option_' . $this->option_name, array( $this, 'verify_features_against_network' ) ) === false ) {
+			add_filter( 'option_' . $this->option_name, array( $this, 'verify_features_against_network' ), 11 );
+		}
+	}
+
+	/**
+	 * Remove the option filters.
+	 * Called from the clean_up methods to make sure we retrieve the original old option.
+	 *
+	 * @return void
+	 */
+	public function remove_option_filters() {
+		parent::remove_option_filters();
+
+		remove_filter( 'option_' . $this->option_name, array( $this, 'verify_features_against_network' ), 11 );
+	}
+
+	/**
+	 * Add filters to make sure that the option default is returned if the option is not set.
+	 *
+	 * @return void
+	 */
+	public function add_default_filters() {
+		parent::add_default_filters();
+
+		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
+		if ( has_filter( 'default_option_' . $this->option_name, array( $this, 'verify_features_against_network' ) ) === false ) {
+			add_filter( 'default_option_' . $this->option_name, array( $this, 'verify_features_against_network' ), 11 );
+		}
+	}
+
+	/**
+	 * Remove the default filters.
+	 * Called from the validate() method to prevent failure to add new options.
+	 *
+	 * @return void
+	 */
+	public function remove_default_filters() {
+		parent::remove_default_filters();
+
+		remove_filter( 'default_option_' . $this->option_name, array( $this, 'verify_features_against_network' ), 11 );
+	}
+
+	/**
 	 * Validate the option.
 	 *
 	 * @param  array $dirty New value for the option.
@@ -212,23 +264,23 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	}
 
 	/**
-	 * Merge an option with its default values.
+	 * Verifies that the feature variables are turned off if the network is configured so.
 	 *
-	 * This method should *not* be called directly!!! It is only meant to filter the get_option() results.
+	 * @param mixed $options Value of the option to be returned. Typically an array.
 	 *
-	 * @param   mixed $options Option value.
-	 *
-	 * @return  mixed        Option merged with the defaults for that option.
+	 * @return mixed Filtered $options value.
 	 */
-	public function get_option( $options = null ) {
-		$filtered = parent::get_option( $options );
+	public function verify_features_against_network( $options = array() ) {
+		if ( ! is_array( $options ) || empty( $options ) ) {
+			return $options;
+		}
 
 		$override_option = $this->get_override_option();
 		if ( empty( $override_option ) ) {
-			return $filtered;
+			return $options;
 		}
 
-		// For the feature variables, there's special handling which sets their values to off in case they are disabled.
+		// For the feature variables, set their values to off in case they are disabled.
 		$feature_vars = array(
 			'disableadvanced_meta',
 			'onpage_indexability',
@@ -241,11 +293,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		);
 		foreach ( $feature_vars as $feature_var ) {
 			if ( isset( $override_option[ 'allow_' . $feature_var ] ) && ! $override_option[ 'allow_' . $feature_var ] ) {
-				$filtered[ $feature_var ] = false;
+				$options[ $feature_var ] = false;
 			}
 		}
 
-		return $filtered;
+		return $options;
 	}
 
 	/**
