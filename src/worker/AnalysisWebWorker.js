@@ -1,6 +1,7 @@
 // External dependencies.
 const Jed = require( "jed" );
 const forEach = require( "lodash/forEach" );
+const has = require( "lodash/has" );
 const merge = require( "lodash/merge" );
 const pickBy = require( "lodash/pickBy" );
 const includes = require( "lodash/includes" );
@@ -92,6 +93,7 @@ export default class AnalysisWebWorker {
 		this._paper = null;
 		this._relatedKeywords = {};
 
+		this._i18n = AnalysisWebWorker.createI18n();
 		this._researcher = new Researcher( this._paper );
 		this._contentAssessor = null;
 		this._seoAssessor = null;
@@ -368,21 +370,54 @@ export default class AnalysisWebWorker {
 	 * @param {boolean} [configuration.useTaxonomy]            Whether the taxonomy assessor should be used.
 	 * @param {boolean} [configuration.useKeywordDistribution] Whether the largestKeywordDistance assessment should run.
 	 * @param {string}  [configuration.locale]                 The locale used in the seo assessor.
+	 * @param {Object}  [configuration.translations]           The translation strings.
 	 *
 	 * @returns {void}
 	 */
 	initialize( id, configuration ) {
-		this._configuration = merge( this._configuration, configuration );
+		const update = {
+			readability: this._contentAssessor === null,
+			seo: this._seoAssessor === null,
+		};
 
-		this._i18n = AnalysisWebWorker.createI18n( this._configuration.translations );
-
-		this.setLocale( this._configuration.locale );
-		// Ensure we always have a content assessor.
-		if ( this._contentAssessor === null ) {
-			this._contentAssessor = this.createContentAssessor();
+		if ( has( configuration, "contentAnalysisActive" ) ) {
+			update.readability = true;
+		}
+		if ( has( configuration, "keywordAnalysisActive" ) ) {
+			update.seo = true;
 		}
 
-		this._seoAssessor = this.createSEOAssessor();
+		if ( has( configuration, "useCornerstone" ) ) {
+			update.readability = true;
+			update.seo = true;
+		}
+		if ( has( configuration, "useTaxonomy" ) ) {
+			update.seo = true;
+		}
+		if ( has( configuration, "useKeywordDistribution" ) ) {
+			update.seo = true;
+		}
+
+		if ( has( configuration, "locale" ) ) {
+			update.readability = true;
+			update.seo = true;
+		}
+		if ( has( configuration, "translations" ) ) {
+			this._i18n = AnalysisWebWorker.createI18n( configuration.translations );
+			// No need to actually save these in the configuration.
+			delete configuration.translations;
+			update.readability = true;
+			update.seo = true;
+		}
+
+		this._configuration = merge( this._configuration, configuration );
+
+		if ( update.readability ) {
+			this._contentAssessor = this.createContentAssessor();
+		}
+		if ( update.seo ) {
+			this._seoAssessor = this.createSEOAssessor();
+		}
 
 		// Reset the paper in order to not use the cached results on analyze.
 		this.clearCache();
