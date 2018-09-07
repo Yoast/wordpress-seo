@@ -180,7 +180,21 @@ rules:
   no-nested-ternary: 2
   no-new-object: 2
   no-plusplus: 0
-  no-restricted-syntax: 0
+  no-restricted-syntax: [
+    'error',
+    {
+      selector: 'CallExpression[callee.name=/^(__|_x)$/][arguments.length!=2]',
+      message: 'A textdomain needs to be provided for translation calls.',
+    },
+    {
+      selector: 'CallExpression[callee.name=/^(_n)$/][arguments.length!=4]',
+      message: 'A textdomain needs to be provided for translation calls.',
+    },
+    {
+      selector: 'CallExpression[callee.name=/^(_nx)$/][arguments.length!=5]',
+      message: 'A textdomain needs to be provided for translation calls.',
+    }
+  ]
   no-spaced-func: 1
   no-ternary: 0
   no-trailing-spaces: 2
