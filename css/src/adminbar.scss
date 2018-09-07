@@ -11,8 +11,7 @@
 		top: 32px;
 		left: 0;
 		white-space: nowrap;
-		line-height: 1.6;
-		padding: 2px 8px;
+		padding: 2px 12px;
 		border-radius: 0 10px 10px 10px;
 		color: white;
 		background-color: #a4286a;
@@ -50,6 +49,10 @@
 }
 
 @media screen and ( max-width: 782px ) {
+	.adminbar-seo-score {
+		margin: 16px 10px 0 2px !important;
+	}
+
 	#wpadminbar {
 		#wp-admin-bar-wpseo-menu {
 			display: block;
@@ -65,7 +68,8 @@
 
 		// Target just the first counter in the top level.
 		.yoast-logo + .yoast-issue-counter {
-			margin-left: -10px;
+			margin-left: -5px;
+			margin-right: 10px;
 		}
 
 		// Target just the second counter in the sub-menu.
@@ -79,6 +83,7 @@
 		.yoast-issue-added:hover {
 			top: 46px;
 			white-space: normal;
+			line-height: 1.8;
 		}
 	}
 

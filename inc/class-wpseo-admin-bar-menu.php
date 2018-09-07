@@ -616,7 +616,12 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		$notification = sprintf(
-			_n( 'There is a new notification.', 'There are new notifications.', $new_notifications_count, 'wordpress-seo' ),
+			_n(
+				'There is a new notification',
+				'There are new notifications',
+				$new_notifications_count,
+				'wordpress-seo'
+			),
 			$new_notifications_count
 		);
 
