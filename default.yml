@@ -217,7 +217,7 @@ rules:
   react/jsx-first-prop-new-line: [1, "multiline"]
   react/jsx-equals-spacing: 1
   react/jsx-curly-spacing: [1, {"when": "always", "children": true}]
-  react/jsx-closing-bracket-location: 1
+  react/jsx-closing-bracket-location: [1, "line-aligned"]
   react/jsx-boolean-value: [1, "always"]
 
   react/void-dom-elements-no-children: 1
