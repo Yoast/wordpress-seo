@@ -24,6 +24,7 @@
     "js-yaml": "^3.6.0"
   },
   "peerDependencies": {
-    "eslint-plugin-react": "^6.0.0"
+    "eslint-plugin-react": ">=6.0.0",
+    "eslint-plugin-jsx-a11y": ">=6.1.1"
   }
 }
