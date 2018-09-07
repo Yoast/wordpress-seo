@@ -37,12 +37,11 @@
 	position: absolute;
 	top: 32px;
 	left: 0;
-	padding: 2px 8px;
+	padding: 2px 12px;
 	border-radius: 0 10px 10px 10px;
 	color: white;
 	background-color: #a4286a;
 	box-shadow: 1px 1px 1px 1px grey;
-	line-height: 1.6;
 	white-space: nowrap;
 }
 
@@ -76,6 +75,10 @@
 }
 
 @media screen and (max-width: 782px) {
+	.adminbar-seo-score {
+		margin: 16px 10px 0 2px !important;
+	}
+
 	#wpadminbar #wp-admin-bar-wpseo-menu {
 		display: block;
 		position: static;
@@ -89,7 +92,8 @@
 	}
 
 	#wpadminbar .yoast-logo + .yoast-issue-counter {
-		margin-left: -10px;
+		margin-right: 10px;
+		margin-left: -5px;
 	}
 
 	#wpadminbar .ab-sub-wrapper .yoast-issue-counter {
@@ -101,6 +105,7 @@
 	#wpadminbar .yoast-issue-added,
 	#wpadminbar .yoast-issue-added:hover {
 		top: 46px;
+		line-height: 1.8;
 		white-space: normal;
 	}
 
