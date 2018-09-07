@@ -1,9 +1,9 @@
 /* global YoastSEO */
 
 import isUndefined  from "lodash/isUndefined";
-import { helpers } from "yoastseo";
+import analysis from "yoastseo";
 import isNil from "lodash/isNil";
-const { scoreToRating } = helpers;
+const { scoreToRating } = analysis.helpers;
 
 /**
  * Returns whether or not the current page has presenters.
