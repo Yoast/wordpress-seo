@@ -83,6 +83,14 @@ class Indexable_Term implements Integration {
 		$indexable->is_robots_nofollow = 0;
 
 		$indexable->save();
+
+		if ( ! empty( $indexable->id ) ) {
+			$indexable_post_meta = new Indexable_Meta( $indexable->id );
+
+			foreach ( $this->social_meta_lookup() as $meta_key => $indexable_key ) {
+				$indexable_post_meta->set_meta( $indexable_key, $term_meta[ $meta_key ] );
+			}
+		}
 	}
 
 	/**
@@ -134,14 +142,6 @@ class Indexable_Term implements Integration {
 			'wpseo_content_score' => 'readability_score',
 
 			'wpseo_bctitle' => 'breadcrumb_title',
-
-			'wpseo_opengraph-title'       => 'og_title',
-			'wpseo_opengraph-description' => 'og_description',
-			'wpseo_opengraph-image'       => 'og_image',
-
-			'wpseo_twitter-title'       => 'twitter_title',
-			'wpseo_twitter-description' => 'twitter_description',
-			'wpseo_twitter-image'       => 'twitter_image',
 		);
 
 		return $meta_to_indexable;
@@ -207,5 +207,21 @@ class Indexable_Term implements Integration {
 		}
 
 		return $score;
+	}
+
+	/**
+	 * Lookup table for the social meta fields.
+	 *
+	 * @return array The social meta fields.
+	 */
+	protected function social_meta_lookup() {
+		return array(
+			'wpseo_opengraph-title'       => 'og_title',
+			'wpseo_opengraph-description' => 'og_description',
+			'wpseo_opengraph-image'       => 'og_image',
+			'wpseo_twitter-title'         => 'twitter_title',
+			'wpseo_twitter-description'   => 'twitter_description',
+			'wpseo_twitter-image'         => 'twitter_image',
+		);
 	}
 }
