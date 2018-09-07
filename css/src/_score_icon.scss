@@ -1,29 +1,29 @@
 .wpseo-score-icon {
-  display: inline-block !important;
-  width: 12px !important;
-  height: 12px !important;
-  border-radius: 50% !important;
-  margin: 3px 10px 0 3px;
-  background: #888;
-  vertical-align: top;
+	display: inline-block !important;
+	width: 12px !important;
+	height: 12px !important;
+	border-radius: 50% !important;
+	margin: 3px 10px 0 3px;
+	background: #888;
+	vertical-align: top;
 
-  &.good {
-    background-color: #7ad03a;
-  }
+	&.good {
+		background-color: #7ad03a;
+	}
 
-  &.ok {
-    background-color: #ee7c1b;
-  }
+	&.ok {
+		background-color: #ee7c1b;
+	}
 
-  &.bad {
-    background-color: #dc3232;
-  }
+	&.bad {
+		background-color: #dc3232;
+	}
 
-  &.na {
-    background-color: #888;
-  }
+	&.na {
+		background-color: #888;
+	}
 
-  &.noindex {
-    background-color: #1e8cbe;
-  }
+	&.noindex {
+		background-color: #1e8cbe;
+	}
 }
