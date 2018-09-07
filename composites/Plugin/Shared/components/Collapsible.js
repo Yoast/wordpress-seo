@@ -66,19 +66,19 @@ export const StyledIconsButton = styled( IconsButton )`
  * @returns {Function} A function that will return the wrapped component with given properties.
  */
 export function wrapInHeading( Component, props ) {
-	const Heading = `h${ props.level }`;
-	const StyledHeading = styled( Heading )`
+	const HeadingLevel = `h${ props.level }`;
+	const StyledHeadingLevel = styled( HeadingLevel )`
 		margin: 0 !important;
 		padding: 0 !important;
 		font-size: ${ props.fontSize } !important;
 		font-weight: ${ props.fontWeight } !important;
 	`;
 
-	return function Wrapped( props ) {
+	return function Wrapped( componentProps ) {
 		return (
-			<StyledHeading>
-				<Component { ...props } />
-			</StyledHeading>
+			<StyledHeadingLevel>
+				<Component { ...componentProps } />
+			</StyledHeadingLevel>
 		);
 	};
 }

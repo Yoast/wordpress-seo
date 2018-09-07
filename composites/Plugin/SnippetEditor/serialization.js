@@ -153,7 +153,7 @@ export function serializeSelection( contentState, selection, blockDelimiter = " 
 				delimiters.end = selection.getEndOffset();
 			}
 
-			return serializeBlock( block, key => contentState.getEntity( key ), delimiters );
+			return serializeBlock( block, blockKey => contentState.getEntity( blockKey ), delimiters );
 		} )
 		.join( blockDelimiter );
 }
@@ -337,16 +337,16 @@ export function replaceVariableWithEntity( editorState, variable, blockKey ) {
  * Gets the selected text.
  *
  * @param {EditorState} editorState The editor state to find the selected text in.
- * @param {SelectionState} SelectionState The selection state to find the text for.
+ * @param {SelectionState} selectionState The selection state to find the text for.
  *
  * @returns {string} The selected text.
  */
-export function getSelectedText( editorState, SelectionState ) {
-	const anchorKey = SelectionState.getAnchorKey();
+export function getSelectedText( editorState, selectionState ) {
+	const anchorKey = selectionState.getAnchorKey();
 	const currentContent = editorState.getCurrentContent();
 	const currentBlock = currentContent.getBlockForKey( anchorKey );
-	const start = SelectionState.getStartOffset();
-	const end = SelectionState.getEndOffset();
+	const start = selectionState.getStartOffset();
+	const end = selectionState.getEndOffset();
 
 	return currentBlock.getText().slice( start, end );
 }

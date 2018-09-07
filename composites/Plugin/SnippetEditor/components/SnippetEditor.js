@@ -532,7 +532,7 @@ class SnippetEditor extends React.Component {
 						{ ...mappedData }
 					/>
 
-					<ModeSwitcher onChange={ ( mode ) => onChange( "mode", mode ) } active={ mode } />
+					<ModeSwitcher onChange={ ( setMode ) => onChange( "mode", setMode ) } active={ mode } />
 
 					{ showCloseButton && <EditSnippetButton
 						onClick={ isOpen ? this.close : this.open }

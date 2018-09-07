@@ -150,14 +150,14 @@ const parseRequestArgs = ( requestArgs, type ) => {
  */
 const sendRequest = ( url, args ) => {
 	if ( typeof jQuery === "undefined" || ! jQuery || ! jQuery.ajax ) {
-		const requestArgs = parseRequestArgs( args, "fetch" );
+		const fetchRequestArgs = parseRequestArgs( args, "fetch" );
 
-		return sendFetchRequest( url, requestArgs );
+		return sendFetchRequest( url, fetchRequestArgs );
 	}
 
-	const requestArgs = parseRequestArgs( args, "jquery" );
+	const jQueryRequestArgs = parseRequestArgs( args, "jquery" );
 
-	return sendJQueryRequest( url, requestArgs );
+	return sendJQueryRequest( url, jQueryRequestArgs );
 };
 
 export default sendRequest;

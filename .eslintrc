@@ -12,7 +12,6 @@ rules:
   complexity: [1, 6]
   // A wrapping label is not necessary when there already is an htmlFor attribute.
   jsx-a11y/label-has-for: [ "error", { required: "id" } ]
-  no-shadow: 1
   require-jsdoc: 1
   react/button-has-type: 1
   react/default-props-match-prop-types: 1

@@ -88,7 +88,7 @@ describe( "suggestionsFilter", () => {
 	} );
 
 	it( "Replacement variables are correctly mapped to suggestions by mapReplacementVariablesToSuggestions.", () => {
-		const expected = [
+		expected = [
 			{
 				replaceName: "category",
 				label: "Category",
