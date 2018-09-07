@@ -125,6 +125,8 @@ Bugfixes:
 * Fixes a bug where a non-existing dependency was requested on the Search Appearance settings page.
 * Fixes a bug where the value of the primary category snippet variable in the classic editor wouldn't change when the primary category was changed.
 * Fixes a bug where the Gutenberg editor in the Classic Editor plugin would crash when the primary category picker was loaded. If something goes wrong in the primary category picker, it now shows a notification, instead of making the entire editor crash.
+* Fixes a bug where the readability analysis would not show the correct scores for cornerstone content.
+* Fixes a bug where switching off the SEO analysis would stop the readability analysis from loading.
 
 = 8.1.2 =
 Release Date: September 5th, 2018
