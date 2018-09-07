@@ -133,17 +133,18 @@ export default class Question extends Component {
 	 * @returns {Component} The component to be rendered.
 	 */
 	static Content( question ) {
+		console.log("question.id", question.id)
 		return(
-			<div className={ "schema-faq-question" } key={ question.id }>
+			<div className={ "schema-faq-section" } key={ question.id }>
 				<RichText.Content
 					tagName="strong"
-					className="schema-faq-question-question"
+					className="schema-faq-question"
 					key={ question.id + "-question" }
 					value={ question.question }
 				/>
 				<RichText.Content
 					tagName="p"
-					className="schema-faq-question-answer"
+					className="schema-faq-answer"
 					key={ question.id + "-answer" }
 					value={ question.answer }
 				/>
