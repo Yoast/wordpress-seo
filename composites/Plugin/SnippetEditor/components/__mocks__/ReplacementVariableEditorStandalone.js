@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-let focus = jest.fn();
+const focus = jest.fn();
 
 class ReplacementVariableEditorStandalone extends React.Component {
 	/**
@@ -24,7 +24,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 */
 	render() {
 		return (
-			<div></div>
+			<div />
 		);
 	}
 }
@@ -41,7 +41,7 @@ const Wrapper = ( props ) => {
 	return <ReplacementVariableEditorStandalone
 		{ ...props }
 		ref={ props.innerRef }
-	/>;
+	       />;
 };
 
 Wrapper.propTypes = {

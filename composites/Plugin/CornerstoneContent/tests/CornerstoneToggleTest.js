@@ -7,6 +7,6 @@ test( "The CornerstoneToggle matches the snapshot", () => {
 		<CornerstoneToggle onChange={ () => {} } checked={ true } />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

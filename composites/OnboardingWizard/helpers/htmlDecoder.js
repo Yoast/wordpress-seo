@@ -6,7 +6,7 @@
  * @param {string} htmlText The HTML text.
  * @returns {string} The string with converted HTML entities.
  */
-let decodeHTML = ( htmlText ) => {
+const decodeHTML = ( htmlText ) => {
 	var txt = document.createElement( "textarea" );
 	txt.innerHTML = htmlText;
 	return txt.value;

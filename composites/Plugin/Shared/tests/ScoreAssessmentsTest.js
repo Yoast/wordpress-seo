@@ -21,7 +21,7 @@ test( "the ScoreAssessments matches the snapshot", () => {
 		<ScoreAssessments items={ items } />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -41,7 +41,7 @@ test( "the ScoreAssessments without scores matches the snapshot", () => {
 		<ScoreAssessments items={ items } />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -62,6 +62,6 @@ test( "the ScoreAssessments with some scores matches the snapshot", () => {
 		<ScoreAssessments items={ items } />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

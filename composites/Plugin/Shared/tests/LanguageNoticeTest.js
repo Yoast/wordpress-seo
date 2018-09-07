@@ -14,7 +14,7 @@ describe( "LanguageNotice", () => {
 			/>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 
@@ -27,7 +27,7 @@ describe( "LanguageNotice", () => {
 			/>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 
@@ -41,7 +41,7 @@ describe( "LanguageNotice", () => {
 			/>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 
@@ -55,7 +55,7 @@ describe( "LanguageNotice", () => {
 			/>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 } );

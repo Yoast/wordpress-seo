@@ -409,7 +409,7 @@ class SnippetEditor extends React.Component {
 
 		const shortenedBaseUrl = baseUrl.replace( /^http:\/\//i, "" );
 
-		let mappedData = {
+		const mappedData = {
 			title: this.processReplacementVariables( originalData.title, replacementVariables ),
 			url: shortenedBaseUrl + originalData.slug,
 			description: description,
@@ -538,7 +538,7 @@ class SnippetEditor extends React.Component {
 						onClick={ isOpen ? this.close : this.open }
 						aria-expanded={ isOpen }
 						innerRef={ this.setEditButtonRef }
-					>
+					                     >
 						<SvgIcon icon="edit" />
 						{ __( "Edit snippet", "yoast-components" ) }
 					</EditSnippetButton> }

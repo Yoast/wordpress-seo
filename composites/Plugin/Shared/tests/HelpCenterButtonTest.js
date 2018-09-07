@@ -8,6 +8,6 @@ test( "the HelpCenterButton matches the snapshot", () => {
 		<HelpCenterButton>Need Help?</HelpCenterButton>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

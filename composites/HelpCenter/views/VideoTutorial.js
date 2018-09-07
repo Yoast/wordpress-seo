@@ -120,9 +120,11 @@ export default function VideoTutorial( props ) {
 			{ hasParagraphs && <VideoDescriptions className={ `${ props.className }__descriptions` }>
 				{ props.paragraphs.map( paragraph => {
 					return (
-						<VideoDescriptionItem className={ `${ props.className }__description` }
+						<VideoDescriptionItem
+							className={ `${ props.className }__description` }
 							key={ paragraph.link }
-							{ ...paragraph } />
+							{ ...paragraph }
+						/>
 					);
 				} ) }
 			</VideoDescriptions> }

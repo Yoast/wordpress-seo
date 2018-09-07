@@ -55,8 +55,8 @@ export function renderRatingToColor( rating ) {
 export default function AnalysisList( { results, marksButtonActivatedResult, marksButtonStatus, marksButtonClassName, onMarksButtonClick } ) {
 	return <AnalysisListBase role="list">
 		{ results.map( ( result ) => {
-			let color = renderRatingToColor( result.rating );
-			let isMarkButtonPressed = result.id === marksButtonActivatedResult;
+			const color = renderRatingToColor( result.rating );
+			const isMarkButtonPressed = result.id === marksButtonActivatedResult;
 
 			let ariaLabel = "";
 			if ( marksButtonStatus === "disabled" ) {
@@ -78,7 +78,7 @@ export default function AnalysisList( { results, marksButtonActivatedResult, mar
 				onButtonClick={ () => onMarksButtonClick( result.id, result.marker ) }
 				marksButtonClassName={ marksButtonClassName }
 				marksButtonStatus={ marksButtonStatus }
-			/>;
+			       />;
 		} ) }
 	</AnalysisListBase>;
 }

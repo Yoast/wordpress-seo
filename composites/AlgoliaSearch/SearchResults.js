@@ -38,10 +38,10 @@ const SearchResultLink = styled.a`
  * @returns {ReactElement} The rendered search result.
  */
 export function SearchResult( props ) {
-	let post = props.post;
+	const post = props.post;
 
 	return (
-		<Row { ...props } >
+		<Row { ...props }>
 			<SearchResultLink href={ post.permalink } onClick={ props.onClick }>
 				<SearchResultTitle>{ post.post_title }</SearchResultTitle>
 			</SearchResultLink>
@@ -141,7 +141,7 @@ class SearchResults extends React.Component {
 					event.stopPropagation();
 					this.props.onClick( index );
 				} }
-			/>;
+			       />;
 		} );
 	}
 
@@ -151,7 +151,7 @@ class SearchResults extends React.Component {
 	 * @returns {ReactElement} Either returns the search results, or a message that no results were found.
 	 */
 	render() {
-		let resultsCount = this.props.results.length;
+		const resultsCount = this.props.results.length;
 
 		// Check whether no results are returned.
 		if ( resultsCount <= 0 ) {

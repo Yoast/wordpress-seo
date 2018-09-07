@@ -28,7 +28,7 @@ const defaultArgs = {
 
 const renderSnapshotWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
-	const tree = createComponentWithIntl( <SnippetEditor {...args} />, { locale: "en" } )
+	const tree = createComponentWithIntl( <SnippetEditor { ...args } />, { locale: "en" } )
 		.toJSON();
 
 	expect( tree ).toMatchSnapshot();

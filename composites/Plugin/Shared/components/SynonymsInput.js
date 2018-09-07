@@ -6,7 +6,7 @@ import { YoastInputContainer, YoastInputField, YoastInputLabel } from "./YoastIn
 import HelpText from "../../Shared/components/HelpText";
 
 const SynonymsInput = ( { id, label, value, onChange, explanationText } ) => {
-	return(
+	return (
 		<YoastInputContainer>
 			<YoastInputLabel htmlFor={ id }>
 				{ label }

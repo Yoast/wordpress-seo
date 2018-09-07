@@ -40,17 +40,20 @@ const ScoreAssessmentScore = styled( ScoreAssessmentPart )`
 const ScoreAssessment = ( props ) => {
 	return (
 		<ScoreAssessmentItem
-			className={ `${ props.className }` }>
+			className={ `${ props.className }` }
+		>
 			<ScoreAssessmentBullet
 				className={ `${ props.className }-bullet` }
-				scoreColor={ props.scoreColor }/>
+				scoreColor={ props.scoreColor }
+			/>
 			<ScoreAssessmentText
 				className={ `${ props.className }-text` }
-				dangerouslySetInnerHTML={ { __html: props.html } }>
-			</ScoreAssessmentText>
+				dangerouslySetInnerHTML={ { __html: props.html } }
+			/>
 			{ props.value &&
 				<ScoreAssessmentScore
-					className={ `${ props.className }-score` }>
+					className={ `${ props.className }-score` }
+				>
 					{ props.value }
 				</ScoreAssessmentScore>
 			}
@@ -79,14 +82,16 @@ const ScoreAssessments = ( props ) => {
 	return (
 		<ScoreAssessmentList
 			className={ props.className }
-			role="list">
+			role="list"
+		>
 			{ props.items.map( ( item, index ) =>
 				<ScoreAssessment
 					className={ `${ props.className }__item` }
 					key={ index }
 					scoreColor={ item.color }
 					html={ item.html }
-					value={ item.value }/>
+					value={ item.value }
+				/>
 			) }
 		</ScoreAssessmentList>
 	);

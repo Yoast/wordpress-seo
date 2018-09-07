@@ -5,9 +5,9 @@ import ArticleContent from "../ArticleContent.js";
 
 test( "the ArticleContent component  matches the snapshot", () => {
 	const component = renderer.create(
-		<ArticleContent post={ { permalink: "www.example.com/" } } title="KB article"/>
+		<ArticleContent post={ { permalink: "www.example.com/" } } title="KB article" />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

@@ -39,13 +39,13 @@ class StepIndicator extends React.Component {
 	 * @returns {JSX.Element} The button components.
 	 */
 	getStepButtonComponents() {
-		let keys = Object.keys( this.props.steps );
-		let amountOfSteps = keys.length;
+		const keys = Object.keys( this.props.steps );
+		const amountOfSteps = keys.length;
 		let button = {};
 
 		return keys.map( ( name, key ) => {
 			var currentField = this.props.steps[ name ];
-			let stepNumber = key.valueOf() + 1;
+			const stepNumber = key.valueOf() + 1;
 			/* %1$d expands to the number of the step, %2$s expands to the name of the step */
 			let ariaLabel = this.props.translate( "Step %1$d: %2$s" );
 			ariaLabel = ariaLabel.replace( "%1$d", stepNumber ).replace( "%2$s", currentField.title );
@@ -62,7 +62,7 @@ class StepIndicator extends React.Component {
 				}, currentField.title );
 			} else {
 				// Return a custom step button, without a label for non-active steps.
-				let className = this.getStepButtonClass( key, amountOfSteps );
+				const className = this.getStepButtonClass( key, amountOfSteps );
 
 				button = <CustomStepButton
 					index={ stepNumber.toString() }
@@ -72,7 +72,8 @@ class StepIndicator extends React.Component {
 					tooltipStyles={ { userSelect: "auto" } }
 					onClick={ ( evt ) => {
 						this.props.onClick( name, evt );
-					} } />;
+					} }
+				         />;
 			}
 			return React.createElement( Step, { key: "step-indicator-" + key }, button );
 		} );
@@ -86,8 +87,8 @@ class StepIndicator extends React.Component {
 	render() {
 		return (
 			<nav className="yoast-wizard--stepper">
-				<Stepper linear={false} activeStep={this.state.stepIndex}>
-					{this.getStepButtonComponents()}
+				<Stepper linear={ false } activeStep={ this.state.stepIndex }>
+					{ this.getStepButtonComponents() }
 				</Stepper>
 			</nav>
 		);

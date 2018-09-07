@@ -7,12 +7,12 @@ import ScreenReaderText from "../ScreenReaderText";
 import Styles from "../Styles";
 
 describe( "ScreenReaderText", () => {
-	let renderer = new ReactShallowRenderer();
+	const renderer = new ReactShallowRenderer();
 
 	it( "generates a ScreenReaderText div based on the props", () => {
 		renderer.render( <ScreenReaderText>example text</ScreenReaderText> );
 
-		let result = renderer.getRenderOutput();
+		const result = renderer.getRenderOutput();
 
 		expect( result.type ).toBe( "span" );
 		expect( result.props.children ).toBe( "example text" );
@@ -22,7 +22,7 @@ describe( "ScreenReaderText", () => {
 
 	it( "generates a warning when props.children is not a string.", () => {
 		console.error = jest.genMockFn();
-		renderer.render( <ScreenReaderText><div></div></ScreenReaderText> );
+		renderer.render( <ScreenReaderText><div /></ScreenReaderText> );
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )

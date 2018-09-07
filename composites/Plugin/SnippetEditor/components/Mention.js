@@ -19,10 +19,10 @@ const StyledMention = styled.span`
 
 export const Mention = ( { children, className } ) => {
 	return <StyledMention
-		className={className}
-		spellCheck={false}
-	>
-		{children}
+		className={ className }
+		spellCheck={ false }
+	       >
+		{ children }
 	</StyledMention>;
 };
 

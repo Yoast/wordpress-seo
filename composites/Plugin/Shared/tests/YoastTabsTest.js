@@ -26,7 +26,7 @@ test( "the YoastTabs matches the snapshot", () => {
 		<YoastTabs items={ items } />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -48,6 +48,6 @@ test( "the YoastTabs with props matches the snapshot", () => {
 		/>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

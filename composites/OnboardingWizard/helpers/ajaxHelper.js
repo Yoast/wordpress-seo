@@ -8,8 +8,8 @@ import "whatwg-fetch";
  *
  * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
-let sendFetchRequest = ( url, requestParams ) => {
-	let fetchPromise = fetch(
+const sendFetchRequest = ( url, requestParams ) => {
+	const fetchPromise = fetch(
 		url,
 		requestParams
 	);
@@ -43,7 +43,7 @@ let sendFetchRequest = ( url, requestParams ) => {
  *
  * @returns {Promise} A Promise, if the request is successful the promise is resolved, else it's rejected.
  */
-let sendJQueryRequest = ( url, requestParams ) => {
+const sendJQueryRequest = ( url, requestParams ) => {
 	Object.assign( requestParams, { url } );
 
 	return new Promise( ( resolve, reject )=> {
@@ -68,7 +68,7 @@ let sendJQueryRequest = ( url, requestParams ) => {
  * @param {Object} config The config containing the headers.
  * @returns {void}
  */
-let parseHeaders = ( type, config ) => {
+const parseHeaders = ( type, config ) => {
 	if ( type === "jquery" ) {
 		Object.assign( config, {
 			beforeSend: ( xhr ) => {
@@ -94,8 +94,8 @@ let parseHeaders = ( type, config ) => {
  * @param {Object} defaults Default values.
  * @returns {Object} 		Target object with overwritten values.
  */
-let overwriteObjectWithDefaultValues = ( target, defaults ) => {
-	for ( let key in defaults ) {
+const overwriteObjectWithDefaultValues = ( target, defaults ) => {
+	for ( const key in defaults ) {
 		if ( defaults.hasOwnProperty( key ) ) {
 			if ( typeof target[ key ] === "undefined" || target[ key ] === "" ) {
 				target[ key ] = defaults[ key ];
@@ -113,20 +113,20 @@ let overwriteObjectWithDefaultValues = ( target, defaults ) => {
  * @returns {object} Containing the parsed arguments for a request
  *                   with either jQuery or Fetch.
  */
-let parseRequestArgs = ( requestArgs, type ) => {
-	let defaults = {
+const parseRequestArgs = ( requestArgs, type ) => {
+	const defaults = {
 		dataType: "json",
 		method: "POST",
 		contentType: "application/json",
 	};
 
-	let config = overwriteObjectWithDefaultValues( requestArgs, defaults );
+	const config = overwriteObjectWithDefaultValues( requestArgs, defaults );
 
 	if ( typeof config.headers !== "undefined" || config.headers !== "" ) {
 		parseHeaders( type, config );
 	}
 
-	if( config.dataType === "json" ) {
+	if ( config.dataType === "json" ) {
 		config.data = JSON.stringify( config.data );
 	}
 
@@ -148,14 +148,14 @@ let parseRequestArgs = ( requestArgs, type ) => {
  *
  * @returns {Promise} Returns a wrapped promise.
  */
-let sendRequest = ( url, args ) => {
+const sendRequest = ( url, args ) => {
 	if ( typeof jQuery === "undefined" || ! jQuery || ! jQuery.ajax ) {
-		let requestArgs = parseRequestArgs( args, "fetch" );
+		const requestArgs = parseRequestArgs( args, "fetch" );
 
 		return sendFetchRequest( url, requestArgs );
 	}
 
-	let requestArgs = parseRequestArgs( args, "jquery" );
+	const requestArgs = parseRequestArgs( args, "jquery" );
 
 	return sendJQueryRequest( url, requestArgs );
 };
