@@ -7,28 +7,39 @@ import * as string from "./src/stringProcessing";
 import * as interpreters from "./src/interpreters";
 import * as config from "./src/config";
 
-module.exports = {
-	Assessor: require( "./src/assessor" ),
-	SEOAssessor: require( "./src/seoAssessor" ),
-	ContentAssessor: require( "./src/contentAssessor" ),
-	TaxonomyAssessor: require( "./src/taxonomyAssessor" ),
-	App: require( "./src/app" ),
-	Pluggable: require( "./src/pluggable" ),
-	Researcher: require( "./src/researcher" ),
-	SnippetPreview: require( "./src/snippetPreview" ),
+import App from "./src/app";
+import Assessor from "./src/assessor";
+import ContentAssessor from "./src/contentAssessor";
+import TaxonomyAssessor from "./src/taxonomyAssessor";
+import Pluggable from "./src/pluggable";
+import Researcher from "./src/researcher";
+import SnippetPreview from "./src/snippetPreview";
+import Paper from "./src/values/Paper";
+import AssessmentResult from "./src/values/AssessmentResult";
 
-	Paper: require( "./src/values/Paper" ),
-	AssessmentResult: require( "./src/values/AssessmentResult" ),
+export {
+	App,
+	Assessor,
+	ContentAssessor,
+	TaxonomyAssessor,
+	Pluggable,
+	Researcher,
+	SnippetPreview,
+
+	Paper,
+	AssessmentResult,
 
 	AnalysisWebWorker,
 	AnalysisWorkerWrapper,
 	createWorker,
+};
 
+export default {
 	assessments,
 	bundledPlugins,
+	config,
 	helpers,
 	markers,
 	string,
 	interpreters,
-	config,
 };
