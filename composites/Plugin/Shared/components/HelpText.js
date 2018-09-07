@@ -32,7 +32,7 @@ export default class HelpText extends PureComponent {
 		const { children, textColor, textFontSize } = this.props;
 
 		return (
-			<YoastHelpText textColor={ textColor } textFontSize={ textFontSize } >
+			<YoastHelpText textColor={ textColor } textFontSize={ textFontSize }>
 				{ children }
 			</YoastHelpText>
 		);

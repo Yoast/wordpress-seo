@@ -25,9 +25,10 @@ test( "the StackedProgressBar matches the snapshot", () => {
 
 	const component = renderer.create(
 		<StackedProgressBar
-			items={ items }/>
+			items={ items }
+		/>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

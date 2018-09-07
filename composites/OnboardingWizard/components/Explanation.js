@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 const Explanation = ( props ) => {
 	if ( typeof props.text !== "undefined" && props.text !== "" ) {
 		return <p className="yoast-wizard-input__explanation">
-			{props.text}
+			{ props.text }
 		</p>;
 	}
 	return null;

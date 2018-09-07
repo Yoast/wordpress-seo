@@ -5,32 +5,32 @@ import { ListTable, ZebrafiedListTable } from "../../Table/ListTable";
 
 test( "the ListTable component matches the snapshot", () => {
 	const component = renderer.create(
-		<ListTable/>
+		<ListTable />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
 test( "the ZebrafiedListTable component with one child matches the snapshot", () => {
 	const component = renderer.create(
 		<ZebrafiedListTable>
-			<li/>
+			<li />
 		</ZebrafiedListTable>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
 test( "the ZebrafiedListTable component with multiple children matches the snapshot", () => {
 	const component = renderer.create(
 		<ZebrafiedListTable>
-			<li/>
-			<li/>
+			<li />
+			<li />
 		</ZebrafiedListTable>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

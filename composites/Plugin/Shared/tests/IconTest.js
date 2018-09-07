@@ -9,7 +9,7 @@ test( "the Icon without props matches the snapshot", () => {
 		<Icon icon={ YoastSeoIcon } />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -18,6 +18,6 @@ test( "the Icon with props matches the snapshot", () => {
 		<Icon icon={ YoastSeoIcon } color="red" width="200px" height="200px" />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

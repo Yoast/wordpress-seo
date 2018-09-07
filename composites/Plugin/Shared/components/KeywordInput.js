@@ -173,7 +173,7 @@ class KeywordInput extends React.Component {
 
 		const showRemoveKeywordButton = onRemoveKeyword !== noop;
 
-		return(
+		return (
 			<KeywordInputContainer>
 				{ showLabel && <KeywordFieldLabel htmlFor={ id }>
 					{ label }
@@ -191,7 +191,7 @@ class KeywordInput extends React.Component {
 						value={ keyword }
 					/>
 					{ showRemoveKeywordButton && (
-						<BorderlessButton onClick={ onRemoveKeyword } >
+						<BorderlessButton onClick={ onRemoveKeyword }>
 							<RemoveIcon
 								size="18px"
 								icon="times-circle"

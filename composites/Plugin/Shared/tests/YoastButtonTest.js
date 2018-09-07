@@ -7,17 +7,19 @@ test( "the YoastButton matches the snapshot", () => {
 		<YoastButton backgroundColor="#c00" textColor="#fff">ButtonValue</YoastButton>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
 test( "the YoastButton executes callback", () => {
 	const component = renderer.create(
-		<YoastButton onClick={
-			() => {
-				return "clicked";
+		<YoastButton
+			onClick={
+				() => {
+					return "clicked";
+				}
 			}
-		}>ButtonValue</YoastButton>
+		>ButtonValue</YoastButton>
 	);
 
 	let tree = component.toJSON();

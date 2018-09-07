@@ -69,7 +69,7 @@ class AlgoliaSearcher extends React.Component {
 		if ( searchString === "" ) {
 			return;
 		}
-		let usedQueries = this.addUsedQuery( searchString );
+		const usedQueries = this.addUsedQuery( searchString );
 
 		if ( this.props.onQueryChange ) {
 			this.props.onQueryChange( usedQueries );
@@ -91,7 +91,7 @@ class AlgoliaSearcher extends React.Component {
 	 * @returns {Object} The usedQueries state object.
 	 */
 	addUsedQuery( searchString ) {
-		let usedQueries = this.state.usedQueries;
+		const usedQueries = this.state.usedQueries;
 
 		if ( isUndefined( usedQueries[ searchString ] ) ) {
 			usedQueries[ searchString ] = {};
@@ -168,8 +168,8 @@ class AlgoliaSearcher extends React.Component {
 	 * @returns {Object} Object containing the currently used queries with additional post data.
 	 */
 	addResultToUsedQueries( currentDetailViewIndex ) {
-		let post = this.state.results[ currentDetailViewIndex ];
-		let usedQueries = this.state.usedQueries;
+		const post = this.state.results[ currentDetailViewIndex ];
+		const usedQueries = this.state.usedQueries;
 
 		usedQueries[ this.state.searchString ][ post.objectID ] = {
 			title: post.post_title, // eslint-disable-line
@@ -187,7 +187,7 @@ class AlgoliaSearcher extends React.Component {
 	 * @returns {void}
 	 */
 	showDetailView( currentDetailViewIndex ) {
-		let usedQueries = this.addResultToUsedQueries( currentDetailViewIndex );
+		const usedQueries = this.addResultToUsedQueries( currentDetailViewIndex );
 
 		this.setState( {
 			currentDetailViewIndex,
@@ -301,7 +301,8 @@ class AlgoliaSearcher extends React.Component {
 			<AlgoliaSearchWrapper
 				innerRef={ ( el ) => {
 					this.searchViewWrapper = el;
-				} }>
+				} }
+			>
 				{ this.createSearchBar() }
 				{ this.determineSearchResultsView() }
 			</AlgoliaSearchWrapper>
@@ -333,10 +334,10 @@ class AlgoliaSearcher extends React.Component {
 	 * @returns {void}
 	 */
 	moveFocusBackToClickedSearchResult() {
-		let clickedLinkIndex = this.state.currentDetailViewIndex;
+		const clickedLinkIndex = this.state.currentDetailViewIndex;
 		// When is search view and a search results has been previously clicked.
 		if ( this.state.currentView === "SEARCH" && clickedLinkIndex >= 0 ) {
-			let resultLinks = this.searchViewWrapper.querySelectorAll( "ul a" );
+			const resultLinks = this.searchViewWrapper.querySelectorAll( "ul a" );
 
 			if ( ! resultLinks.length ) {
 				return;
@@ -354,7 +355,7 @@ class AlgoliaSearcher extends React.Component {
 	 * @returns {ReactElement} The content of the component.
 	 */
 	render() {
-		switch( this.state.currentView ) {
+		switch ( this.state.currentView ) {
 			case VIEW.SEARCH:
 				return this.getSearchView();
 			case VIEW.DETAIL:

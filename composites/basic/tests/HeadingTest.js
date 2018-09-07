@@ -8,7 +8,7 @@ test( "the Heading without props matches the snapshot", () => {
 		<Heading>Text</Heading>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -17,6 +17,6 @@ test( "the Heading with props matches the snapshot", () => {
 		<Heading level={ 2 } className="some-class">Text</Heading>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

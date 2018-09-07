@@ -8,7 +8,7 @@ test( "the VideoTutorial component matches the snapshot", () => {
 		<VideoTutorial
 			src="https://www.youtube.com/embed/bIgcj_pPIbw"
 			title="Video title"
-			paragraphs={[
+			paragraphs={ [
 				{
 					title: "Need some help?",
 					description: "Go Premium!",
@@ -21,10 +21,11 @@ test( "the VideoTutorial component matches the snapshot", () => {
 					link: "#2",
 					linkText: "Get Yoast SEO Premium now »",
 				},
-			] }/>
+			] }
+		/>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -36,6 +37,6 @@ test( "the VideoTutorial component without paragraphs matches the snapshot", () 
 		/>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

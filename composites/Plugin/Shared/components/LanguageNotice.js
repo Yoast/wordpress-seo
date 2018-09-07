@@ -16,11 +16,14 @@ const ChangeLanguageLink = makeOutboundLink( styled.a`
 	margin-left: 4px;
 ` );
 
-const changeLanguageText = __( "Change language" );
+const changeLanguageText = __( "Change language", "yoast-components" );
 /* Translators: %s expands to the actual language. */
-const canChangeLanguageText = __( "Your site language is set to %s. " );
+const canChangeLanguageText = __( "Your site language is set to %s. ", "yoast-components" );
 /* Translators: %s expands to the actual language. */
-const canNotChangeLanguageText = __( "Your site language is set to %s. If this is not correct, contact your site administrator." );
+const canNotChangeLanguageText = __(
+	"Your site language is set to %s. If this is not correct, contact your site administrator.",
+	"yoast-components"
+);
 
 /**
  * Returns the LanguageNotice component.

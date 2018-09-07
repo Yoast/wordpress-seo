@@ -67,7 +67,8 @@ class HelpCenter extends React.Component {
 	render() {
 		return (
 			<HelpCenterContainer
-				className={ `${ this.props.className }` }>
+				className={ `${ this.props.className }` }
+			>
 				<HelpCenterButton
 					className={ `${ this.props.className }__button` }
 					onClick={ this.onButtonClick.bind( this ) }

@@ -19,7 +19,7 @@ describe( "Collapsible", () => {
 			</Collapsible>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
@@ -34,7 +34,7 @@ describe( "Collapsible", () => {
 			</Collapsible>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
@@ -49,7 +49,7 @@ describe( "Collapsible", () => {
 			</Collapsible>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
@@ -75,7 +75,7 @@ describe( "CollapsibleStateless", () => {
 			</CollapsibleStateless>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 
@@ -90,7 +90,7 @@ describe( "CollapsibleStateless", () => {
 			</CollapsibleStateless>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
@@ -112,7 +112,7 @@ describe( "CollapsibleStateless", () => {
 			</CollapsibleStateless>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 } );

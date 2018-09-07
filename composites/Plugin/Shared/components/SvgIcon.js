@@ -31,15 +31,18 @@ export const icons = {
 	"seo-score-good": { viewbox: "0 0 496 512", path: "M248 8C111 8 0 119 0 256s111 248 248 248s248-111 248-248S385 8 248 8z M328 176c17.7 0 32 14.3 32 32 s-14.3 32-32 32s-32-14.3-32-32S310.3 176 328 176z M168 176c17.7 0 32 14.3 32 32s-14.3 32-32 32s-32-14.3-32-32S150.3 176 168 176 z M362.8 346.2C334.3 380.4 292.5 400 248 400s-86.3-19.6-114.8-53.8c-13.6-16.3 11-36.7 24.6-20.5c22.4 26.9 55.2 42.2 90.2 42.2 s67.8-15.4 90.2-42.2C351.6 309.5 376.3 329.9 362.8 346.2L362.8 346.2z" },
 	"seo-score-none": { viewbox: "0 0 496 512", path: "M248 8C111 8 0 119 0 256s111 248 248 248s248-111 248-248S385 8 248 8z" },
 	"seo-score-ok": { viewbox: "0 0 496 512", path: [
-		<path key="1" fill="#000000" d="M344 336c21.2 0 21.2 32 0 32H152c-21.2 0-21.2-32 0-32H344z"/>,
-		<circle key="2" fill="#000000" cx="328" cy="208" r="32"/>,
-		<circle key="3" fill="#000000" cx="168" cy="208" r="32"/>,
-		<path key="4" d="M248 8c137 0 248 111 248 248S385 504 248 504S0 393 0 256S111 8 248 8z M360 208c0-17.7-14.3-32-32-32 s-32 14.3-32 32s14.3 32 32 32S360 225.7 360 208z M344 368c21.2 0 21.2-32 0-32H152c-21.2 0-21.2 32 0 32H344z M200 208 c0-17.7-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32S200 225.7 200 208z"/>,
+		<path key="1" fill="#000000" d="M344 336c21.2 0 21.2 32 0 32H152c-21.2 0-21.2-32 0-32H344z" />,
+		<circle key="2" fill="#000000" cx="328" cy="208" r="32" />,
+		<circle key="3" fill="#000000" cx="168" cy="208" r="32" />,
+		<path key="4" d="M248 8c137 0 248 111 248 248S385 504 248 504S0 393 0 256S111 8 248 8z M360 208c0-17.7-14.3-32-32-32 s-32 14.3-32 32s14.3 32 32 32S360 225.7 360 208z M344 368c21.2 0 21.2-32 0-32H152c-21.2 0-21.2 32 0 32H344z M200 208 c0-17.7-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32S200 225.7 200 208z" />,
 	] },
 	"times": { viewbox: DEFAULT_VIEWBOX, path: "M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z" },
 	"times-circle": { viewbox: "0 0 20 20", path: "M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8 3.58-8 8-8zm5 11l-3-3 3-3-2-2-3 3-3-3-2 2 3 3-3 3 2 2 3-3 3 3z" },
 	"pencil-square": { viewbox: DEFAULT_VIEWBOX, path: "M888 1184l116-116-152-152-116 116v56h96v96h56zm440-720q-16-16-33 1l-350 350q-17 17-1 33t33-1l350-350q17-17 1-33zm80 594v190q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q63 0 117 25 15 7 18 23 3 17-9 29l-49 49q-14 14-32 8-23-6-45-6h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113v-126q0-13 9-22l64-64q15-15 35-7t20 29zm-96-738l288 288-672 672h-288v-288zm444 132l-92 92-288-288 92-92q28-28 68-28t68 28l152 152q28 28 28 68t-28 68z" },
-	"loading-spinner": { viewbox: "0 0 66 66", path: [ <circle key="5" className="path" fill="none" strokeWidth="6" strokeLinecap="round" cx="33" cy="33" r="30" /> ] },
+	"loading-spinner": { viewbox: "0 0 66 66", path: [ <circle
+		key="5" className="path" fill="none" strokeWidth="6" strokeLinecap="round" cx="33"
+		cy="33" r="30"
+	/> ] },
 };
 /* eslint-enable */
 
@@ -58,15 +61,15 @@ export default class SvgIcon extends React.Component {
 	 */
 	render() {
 		const { icon, className, color, size } = this.props;
-		let iconName = icons[ icon ];
+		const iconName = icons[ icon ];
 
 		if ( ! iconName ) {
 			console.warn( `Invalid icon name ("${ icon }") passed to the SvgIcon component.` );
 			return null;
 		}
 
-		let path = iconName.path;
-		let viewbox = iconName.viewbox;
+		const path = iconName.path;
+		const viewbox = iconName.viewbox;
 
 		const iconClass = [ "yoast-svg-icon", "yoast-svg-icon-" + icon, className ].filter( Boolean ).join( " " );
 
@@ -78,7 +81,7 @@ export default class SvgIcon extends React.Component {
 
 		return (
 			<StyledSvg
-				aria-hidden
+				aria-hidden={ true }
 				role="img"
 				focusable="false"
 				size={ size }

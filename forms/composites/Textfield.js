@@ -34,9 +34,9 @@ class Textfield extends React.Component {
 		}
 
 		return (
-			<div {...this.optionalAttributes.container}>
-				<Label for={this.props.name} optionalAttributes={this.optionalAttributes.label}>{this.props.label}</Label>
-				{this.getTextField()}
+			<div { ...this.optionalAttributes.container }>
+				<Label for={ this.props.name } optionalAttributes={ this.optionalAttributes.label }>{ this.props.label }</Label>
+				{ this.getTextField() }
 			</div>
 		);
 	}
@@ -50,28 +50,31 @@ class Textfield extends React.Component {
 		if ( this.props.multiline === true ) {
 			return (
 				<div>
-					<Textarea name={this.props.name}
-				              id={this.props.name}
-				              onChange={this.props.onChange}
-				              optionalAttributes={this.optionalAttributes.field}
-				              hasFocus={this.props.hasFocus}
-				              value={this.props.value}
+					<Textarea
+						name={ this.props.name }
+						id={ this.props.name }
+						onChange={ this.props.onChange }
+						optionalAttributes={ this.optionalAttributes.field }
+						hasFocus={ this.props.hasFocus }
+						value={ this.props.value }
 					/>
-					<Explanation text={this.props.explanation}/>
+					<Explanation text={ this.props.explanation } />
 				</div>
 			);
 		}
 
 		return (
 			<div>
-				<Input name={this.props.name}
-				       id={this.props.name}
-				       type="text"
-				       onChange={this.props.onChange}
-				       value={this.props.value}
-				       hasFocus={this.props.hasFocus}
-				       optionalAttributes={this.optionalAttributes.field}/>
-				<Explanation text={this.props.explanation}/>
+				<Input
+					name={ this.props.name }
+					id={ this.props.name }
+					type="text"
+					onChange={ this.props.onChange }
+					value={ this.props.value }
+					hasFocus={ this.props.hasFocus }
+					optionalAttributes={ this.optionalAttributes.field }
+				/>
+				<Explanation text={ this.props.explanation } />
 			</div>
 		);
 	}
@@ -82,10 +85,10 @@ class Textfield extends React.Component {
 	 * @returns {object} A categorized collection of attributes.
 	 */
 	parseOptionalAttributes() {
-		let containerConfiguration = {};
-		let labelConfiguration = {};
-		let fieldConfiguration = { id: this.props.name };
-		let props = Object.keys( this.props );
+		const containerConfiguration = {};
+		const labelConfiguration = {};
+		const fieldConfiguration = { id: this.props.name };
+		const props = Object.keys( this.props );
 
 		props.forEach( function( propKey ) {
 			if ( propKey.startsWith( "label-" ) ) {

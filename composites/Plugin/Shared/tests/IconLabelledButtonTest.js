@@ -8,7 +8,7 @@ test( "the IconLabelledButton matches the snapshot", () => {
 		<IconLabelledButton icon="question-circle">Need help?</IconLabelledButton>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -36,6 +36,6 @@ test( "the IconLabelledButton with props matches the snapshot", () => {
 		</IconLabelledButton>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

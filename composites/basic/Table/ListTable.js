@@ -72,7 +72,7 @@ class ListTable extends React.Component {
 	 * @returns {ReactElement} The ListTable component.
 	 */
 	render() {
-		let children = this.getChildren();
+		const children = this.getChildren();
 
 		return (
 			<List role="list">{ children }</List>
