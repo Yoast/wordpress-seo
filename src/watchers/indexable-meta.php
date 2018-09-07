@@ -8,13 +8,13 @@
 namespace Yoast\YoastSEO\Watchers;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
-use Yoast\YoastSEO\Models\Indexable_Meta;
+use Yoast\YoastSEO\Models\Indexable_Meta as Indexable_Meta_Model;
 use Yoast\YoastSEO\Yoast_Model;
 
 /**
  * Fills the Indexable Meta according to Post data.
  */
-class Indexable_Post_Meta {
+class Indexable_Meta {
 
 	/** @var int */
 	protected $indexable_id;
@@ -54,7 +54,7 @@ class Indexable_Post_Meta {
 	 * @param string $meta_key    The meta key to get object for.
 	 * @param bool   $auto_create Optional. Create the indexable if it does not exist.
 	 *
-	 * @return Indexable_Meta
+	 * @return Indexable_Meta_Model
 	 *
 	 * @throws No_Indexable_Found Exception when no Indexable entry could be found.
 	 */
@@ -68,7 +68,7 @@ class Indexable_Post_Meta {
 			/**
 			 * Indexable instance for the post.
 			 *
-			 * @var Indexable_Meta $indexable_meta
+			 * @var Indexable_Meta_Model $indexable_meta
 			 */
 			$indexable_meta               = Yoast_Model::of_type( 'Indexable_Meta' )->create();
 			$indexable_meta->indexable_id = $this->indexable_id;
