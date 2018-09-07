@@ -3,7 +3,7 @@ extends:
   - "plugin:react/recommended"
 
 parserOptions:
-  ecmaVersion: 6
+  ecmaVersion: 2017
   ecmaFeatures:
     jsx: true
   sourceType: "module"
@@ -104,6 +104,7 @@ rules:
   no-unused-expressions: 2
   no-useless-call: 2
   no-useless-concat: 2
+  no-useless-escape: 1
   no-void: 2
   no-warning-comments: [ 1, { "terms": [ "todo" ], "location": "anywhere" } ]
   no-with: 2
@@ -121,12 +122,13 @@ rules:
   no-delete-var: 2
   no-label-var: 2
   no-shadow-restricted-names: 2
-  no-shadow: 0
+  no-shadow: [ 1, { "builtinGlobals": false, "hoist": "all", "allow": [] } ]
   no-undef-init: 2
   no-undef: 2
   no-undefined: 2
   no-unused-vars: 2
   no-use-before-define: 2
+  prefer-const: 1
 
   # Node.js and CommonJS
   callback-return: 2
@@ -154,9 +156,10 @@ rules:
   func-style: 0
   id-length: 0
   id-match: 0
-  indent: [2, tab, {"SwitchCase": 1}]
-  jsx-quotes: 0
+  indent: [1, tab, {"SwitchCase": 1}]
+  jsx-quotes: [1, "prefer-double"]
   key-spacing: [1, {"beforeColon": false, "afterColon": true}]
+  keyword-spacing: [1, {"before": true, "after": true}]
   linebreak-style: [2, unix]
   lines-around-comment: 0
   max-depth: 2
@@ -179,7 +182,25 @@ rules:
   no-nested-ternary: 2
   no-new-object: 2
   no-plusplus: 0
-  no-restricted-syntax: 0
+  no-restricted-syntax: [
+    'error',
+    {
+      selector: 'CallExpression[callee.name=/^(__)$/][arguments.length!=2]',
+      message: 'A textdomain needs to be provided for translation calls.',
+    },
+    {
+      selector: 'CallExpression[callee.name=/^(_x)$/][arguments.length!=3]',
+      message: 'A textdomain needs to be provided for translation calls.',
+    },
+    {
+      selector: 'CallExpression[callee.name=/^(_n)$/][arguments.length!=4]',
+      message: 'A textdomain needs to be provided for translation calls.',
+    },
+    {
+      selector: 'CallExpression[callee.name=/^(_nx)$/][arguments.length!=5]',
+      message: 'A textdomain needs to be provided for translation calls.',
+    }
+  ]
   no-spaced-func: 1
   no-ternary: 0
   no-trailing-spaces: 2
@@ -190,10 +211,10 @@ rules:
   one-var: 0
   operator-assignment: 0
   operator-linebreak: 2
-  padded-blocks: [2, "never"]
+  padded-blocks: [1, "never"]
   quote-props: [2, "as-needed", {"keywords": true}]
   quotes: [2, double, avoid-escape]
-  require-jsdoc: 2
+  require-jsdoc: [1, {"require": {"MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true}}]
   semi-spacing: 2
   semi: [2, always]
   sort-vars: 0
@@ -204,6 +225,7 @@ rules:
   space-unary-ops: [2, {"words": false, "nonwords": false, "overrides": { "!": true }}]
   spaced-comment: [2, "always"]
   wrap-regex: 0
+
 
   # Accessibility rules. https://github.com/evcohen/eslint-plugin-jsx-a11y
   jsx-a11y/anchor-has-content: 1 # Passes if it's empty but has an aria-label attribute.
@@ -229,3 +251,33 @@ rules:
   jsx-a11y/role-supports-aria-props: 2
   jsx-a11y/scope: 2
   jsx-a11y/tabindex-no-positive: 2
+
+  # React plugins settings (https://github.com/yannickcr/eslint-plugin-react/tree/master/docs/rules)
+  react/jsx-tag-spacing: [1, {"beforeClosing": "never"}]
+  react/jsx-pascal-case: 1
+  react/jsx-no-bind: 1
+  react/jsx-max-props-per-line: [1, {"maximum": 6}] # A high maximum to make sure it is always a smell when it occurs.
+  react/jsx-max-depth: [1, {"max": 8}] # A high maximum to make sure it is always a smell when it occurs.
+  react/jsx-indent-props: [1, "tab"]
+  react/jsx-indent: [1, "tab"]
+  react/jsx-first-prop-new-line: [1, "multiline"]
+  react/jsx-equals-spacing: 1
+  react/jsx-curly-spacing: [1, {"when": "always", "children": true}]
+  react/jsx-closing-bracket-location: [1, "line-aligned"]
+  react/jsx-boolean-value: [1, "always"]
+
+  react/void-dom-elements-no-children: 1
+  react/self-closing-comp: 1
+  react/require-default-props: 1
+  react/prefer-es6-class: 1
+  react/no-unused-state: 1
+  react/no-unused-prop-types: 1
+  react/no-this-in-sfc: 1
+  react/no-typos: 1
+  react/no-render-return-value: 1
+  react/no-redundant-should-component-update: 1
+  react/no-access-state-in-setstate: 1
+  react/forbid-foreign-prop-types: 1
+  react/default-props-match-prop-types: 1
+  react/button-has-type: 1
+  react/boolean-prop-naming: 1
