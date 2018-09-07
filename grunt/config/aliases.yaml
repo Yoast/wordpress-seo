@@ -43,6 +43,11 @@ build:
 # Download and build the latest translations
 'build:i18n:translations':
   - 'glotpress_download'
+
+  # Custom tasks required because of WordPress.org
+  - 'copy:de_CH-informal'
+  - 'clean:after-po-download'
+
   - 'copy:json-translations'
   - 'po2json'
   - 'i18n-clean-json'
@@ -76,6 +81,13 @@ check:
   - 'copy:artifact'
   # Create a zip file
   - 'compress:artifact'
+
+'composer-artifact':
+  # Create our composer targeted artifact
+  - 'clean:composer-artifact'
+  - 'copy:composer-artifact'
+  - 'clean:composer-files'
+  - 'copy:composer-files'
 
 # Get the project ready for release
 release:

@@ -1,114 +1,131 @@
 .schema-how-to-duration .schema-how-to-duration-input[type="number"] {
-  width: 40px;
-  margin: 0 2px;
-  text-align: right;
-  -moz-appearance: textfield;
+	width: 40px;
+	margin: 0 2px;
+	padding: 6px 4px;
+	text-align: center;
+	-moz-appearance: textfield;
 
-  &::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+	&::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
 }
 
 .schema-how-to-buttons {
-  text-align: center;
+	text-align: center;
 
-  button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
-    box-shadow: none;
-    color: #007cba;
-  }
+	button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		box-shadow: none;
+		color: #007cba;
+	}
 }
 
 button.schema-how-to-duration-button.components-icon-button {
-  position: relative;
-  top: 5px;
-  padding: 8px 0;
+	position: relative;
+	top: 5px;
+	padding: 8px 0;
 
-  &:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
-    box-shadow: none;
-    color: #007cba;
-  }
+	&:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		box-shadow: none;
+		color: #007cba;
+	}
 }
 
 input + button.schema-how-to-duration-button.components-icon-button {
-  padding: 8px;
+	padding: 8px;
 }
 
 .schema-how-to-description {
-  margin: 8px 0;
+	margin: 8px 0;
+}
+
+legend.schema-how-to-duration-legend {
+	float: left;
+	margin-top: 8px;
+	margin-right: 4px;
 }
 
 .schema-how-to-step {
-  position: relative;
-  padding: 8px 4px 8px 32px;
-  margin: 4px 0;
-  border: 1px lightgrey solid;
-  list-style-type: none;
+	position: relative;
+	padding: 8px 4px 8px 32px;
+	margin: 4px 0;
+	border: 1px lightgrey solid;
+	list-style-type: none;
 }
 
 .schema-how-to-step-mover {
-  position: absolute;
-  top: 0;
-  left: -29px;
+	position: absolute;
+	top: 0;
+	left: -29px;
 }
 
 .schema-how-to-step-button {
-  margin: 0;
+	margin: 0;
 }
 
 .schema-how-to-step-number {
-  position: absolute;
-  left: 4px;
-  width: 24px;
-  text-align: right;
+	position: absolute;
+	left: 4px;
+	width: 24px;
+	text-align: right;
+}
+
+.schema-how-to-step-name,
+.schema-faq-title,
+.schema-faq-question-question {
+	font-weight: 600;
 }
 
 .schema-how-to-step-button-container {
-  text-align: right;
+	text-align: right;
 
-  .schema-how-to-step-add-media {
-    float: left;
-  }
+	.schema-how-to-step-add-media {
+		float: left;
+	}
 
-  button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
-    box-shadow: none;
-    color: #007cba;
-  }
+	button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		box-shadow: none;
+		color: #007cba;
+	}
+}
+
+#schema-how-to-duration-days {
+	margin-right: 8px;
 }
 
 // FAQ styling
 .schema-faq-question {
-  position: relative;
-  padding: 8px 4px 8px 32px;
-  margin: 4px 0;
-  border: 1px lightgrey solid;
-  list-style-type: none;
+	position: relative;
+	padding: 8px 4px 8px 32px;
+	margin: 4px 0;
+	border: 1px lightgrey solid;
+	list-style-type: none;
 }
 
 .schema-faq-question-mover {
-  position: absolute;
-  top: 0;
-  left: -29px;
+	position: absolute;
+	top: 0;
+	left: -29px;
 }
 
 .schema-faq-question-button-container {
-  text-align: right;
+	text-align: right;
 
-  .schema-faq-question-add-media {
-    float: left;
-  }
+	.schema-faq-question-add-media {
+		float: left;
+	}
 
-  button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
-    box-shadow: none;
-    color: #007cba;
-  }
+	button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		box-shadow: none;
+		color: #007cba;
+	}
 }
 
 .schema-faq-buttons {
-  text-align: center;
+	text-align: center;
 
-  button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
-    box-shadow: none;
-    color: #007cba;
-  }
+	button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		box-shadow: none;
+		color: #007cba;
+	}
 }

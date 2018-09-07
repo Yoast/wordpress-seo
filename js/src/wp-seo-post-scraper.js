@@ -24,7 +24,8 @@ import { update as updateAdminBar } from "./ui/adminBar";
 
 // Analysis dependencies.
 import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
-import refreshAnalysis from "./analysis/refreshAnalysis";
+import refreshAnalysis, { initializationDone } from "./analysis/refreshAnalysis";
+import collectAnalysisData from "./analysis/collectAnalysisData";
 import PostDataCollector from "./analysis/PostDataCollector";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getTranslations from "./analysis/getTranslations";
@@ -32,7 +33,8 @@ import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetEditorHelpers from "./analysis/snippetEditor";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
-import getMarker from "./analysis/getMarker";
+import getApplyMarks from "./analysis/getApplyMarks";
+import { refreshDelay } from "./analysis/constants";
 
 // Redux dependencies.
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
@@ -120,20 +122,18 @@ setWordPressSeoL10n();
 	}
 
 	/**
-	 * Checks if the store's marker status should be hidden.
+	 * Updates the store to indicate if the markers should be hidden.
 	 *
 	 * @param {Object} store The store.
 	 *
-	 * @returns {bool} Whether there should be markers.
+	 * @returns {void}
 	 */
 	function updateMarkerStatus( store ) {
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
 		if ( typeof tinyMCE === "undefined" || ! displayMarkers() ) {
 			store.dispatch( setMarkerStatus( "hidden" ) );
-			return false;
 		}
-		return true;
 	}
 
 	/**
@@ -224,7 +224,7 @@ setWordPressSeoL10n();
 	 * @returns {Object} The arguments to initialize the app
 	 */
 	function getAppArgs( store ) {
-		const showMarkers = updateMarkerStatus( store );
+		updateMarkerStatus( store );
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
@@ -240,7 +240,7 @@ setWordPressSeoL10n();
 				getData: postDataCollector.getData.bind( postDataCollector ),
 			},
 			locale: wpseoPostScraperL10n.contentLocale,
-			marker: getMarker( showMarkers ),
+			marker: getApplyMarks( store ),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			hasSnippetPreview: false,
@@ -411,12 +411,20 @@ setWordPressSeoL10n();
 		// Expose globals.
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
-		window.YoastSEO.analysisWorker = createAnalysisWorker();
 		window.YoastSEO.store = editStore;
+		window.YoastSEO.analysis = {};
+		window.YoastSEO.analysis.worker = createAnalysisWorker();
+		window.YoastSEO.analysis.collectData = () => collectAnalysisData( edit, YoastSEO.store, customAnalysisData, YoastSEO.app.pluggable );
+		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks( YoastSEO.store )( paper, marks );
 
 		// YoastSEO.app overwrites.
-		// Todo: change app.pluggable to pluggable (if we don't overwrite).
-		YoastSEO.app.refresh = () => refreshAnalysis( edit, YoastSEO.analysisWorker, YoastSEO.store, customAnalysisData, app.pluggable );
+		YoastSEO.app.refresh = debounce( () => refreshAnalysis(
+			YoastSEO.analysis.worker,
+			YoastSEO.analysis.collectData,
+			YoastSEO.analysis.applyMarks,
+			YoastSEO.store,
+			postDataCollector,
+		), refreshDelay );
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
 		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;
@@ -430,7 +438,7 @@ setWordPressSeoL10n();
 			}
 		};
 		YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
-			YoastSEO.analysisWorker.initialize( assessorOptions );
+			YoastSEO.analysis.worker.initialize( assessorOptions );
 			YoastSEO.app.refresh();
 		};
 
@@ -455,7 +463,7 @@ setWordPressSeoL10n();
 		YoastSEO._registerReactComponent = registerReactComponent;
 
 		// Initialize the analysis worker.
-		YoastSEO.analysisWorker.initialize( getAnalysisConfiguration() )
+		YoastSEO.analysis.worker.initialize( getAnalysisConfiguration() )
 			.then( () => {
 				jQuery( window ).trigger( "YoastSEO:ready" );
 			} )
@@ -544,6 +552,9 @@ setWordPressSeoL10n();
 		if ( ! isGutenbergDataAvailable() ) {
 			renderClassicEditorMetabox( editStore );
 		}
+
+		initializationDone();
+		YoastSEO.app.refresh();
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );

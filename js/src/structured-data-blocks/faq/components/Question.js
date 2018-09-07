@@ -136,7 +136,7 @@ export default class Question extends Component {
 		return(
 			<div className={ "schema-faq-question" } key={ question.id }>
 				<RichText.Content
-					tagName="h3"
+					tagName="strong"
 					className="schema-faq-question-question"
 					key={ question.id + "-question" }
 					value={ question.question }
@@ -158,7 +158,7 @@ export default class Question extends Component {
 	 */
 	render() {
 		let {
-			focusPart,
+			subElement,
 			attributes,
 			onChange,
 			onFocus,
@@ -172,12 +172,12 @@ export default class Question extends Component {
 			<div className="schema-faq-question" key={ id } >
 				<RichText
 					className="schema-faq-question-question"
-					tagName="h3"
+					tagName="p"
 					onSetup={ ( ref ) => editorRef( "question", ref ) }
 					key={ id + "-question" }
 					value={ question }
 					onChange={ ( value ) => onChange( value, answer, question, answer ) }
-					isSelected={ isSelected && focusPart === "question" }
+					isSelected={ isSelected && subElement === "question" }
 					setFocusedElement={ () => onFocus( "question" ) }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
@@ -189,7 +189,7 @@ export default class Question extends Component {
 					key={ id + "-answer" }
 					value={ answer }
 					onChange={ ( value ) => onChange( question, value, question, answer ) }
-					isSelected={ isSelected && focusPart === "answer" }
+					isSelected={ isSelected && subElement === "answer" }
 					setFocusedElement={ () => onFocus( "answer" ) }
 					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
@@ -210,10 +210,9 @@ Question.propTypes = {
 	editorRef: PropTypes.func.isRequired,
 	onMoveUp: PropTypes.func.isRequired,
 	onMoveDown: PropTypes.func.isRequired,
-	focusPart: PropTypes.string,
+	subElement: PropTypes.string,
 	focus: PropTypes.string,
 	isSelected: PropTypes.bool,
 	isFirst: PropTypes.bool,
 	isLast: PropTypes.bool,
 };
-

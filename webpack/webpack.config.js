@@ -24,37 +24,16 @@ const externals = {
 	tinymce: "window.tinymce",
 
 	yoastseo: "window.yoast.analysis",
-
 	"yoast-components": "window.yoast.components",
 
 	lodash: "window.lodash",
 };
 
-// This makes sure the @wordpress dependencies are correctly transformed.
-const wpDependencies = [
-	"blocks",
-	"utils",
-	"date",
-	"editor",
-	"viewport",
-];
-
 const alias = {
 	// This prevents loading multiple versions of React:
 	react: path.join( root, "node_modules/react" ),
 	"react-dom": path.join( root, "node_modules/react-dom" ),
-
-	// This prevents loading multiple versions of @wordpress/i18n:
-	"@wordpress/i18n": path.join( root, "node_modules/@wordpress/i18n" ),
 };
-
-wpDependencies.forEach( wpDependency => {
-	alias[ "@wordpress/" + wpDependency ] = path.join(
-		__dirname,
-		"../",
-		"node_modules/gutenberg/" + wpDependency
-	);
-} );
 
 module.exports = function( env = { environment: "production" } ) {
 	const mode = env.environment;

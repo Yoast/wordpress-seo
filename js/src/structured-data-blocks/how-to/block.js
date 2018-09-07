@@ -7,16 +7,14 @@ import HowTo from "./components/HowTo";
 const { registerBlockType } = window.wp.blocks;
 
 const attributes = {
-	title: {
-		type: "array",
-		source: "children",
-		selector: ".schema-how-to-title",
-	},
 	jsonTitle: {
 		type: "string",
 	},
 	hasDuration: {
 		type: "boolean",
+	},
+	days: {
+		type: "number",
 	},
 	hours: {
 		type: "number",
@@ -49,12 +47,17 @@ const attributes = {
 export default () => {
 	registerBlockType( "yoast/how-to-block", {
 		title: __( "How-to", "wordpress-seo" ),
+		description: __( "Create a How-to guide in an SEO-friendly way. You can only use one How-to block per post.", "wordpress-seo" ),
 		icon: "editor-ol",
 		category: "yoast-structured-data-blocks",
 		keywords: [
 			__( "How-to", "wordpress-seo" ),
 			__( "How to", "wordpress-seo" ),
 		],
+		// Allow only one How-To block per post.
+		supports: {
+			multiple: false,
+		},
 		// Block attributes - decides what to save and how to parse it from and to HTML.
 		attributes,
 
@@ -70,7 +73,7 @@ export default () => {
 		edit: ( { attributes, setAttributes, className } ) => {
 			// Because setAttributes is quite slow right after a block has been added we fake having a single step.
 			if ( ! attributes.steps || attributes.steps.length === 0 ) {
-				attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), contents: [] } ];
+				attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), name: [], text: [] } ];
 			}
 
 			return <HowTo { ...{ attributes, setAttributes, className } }/>;

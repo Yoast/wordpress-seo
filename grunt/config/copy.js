@@ -42,6 +42,20 @@ module.exports = {
 		src: "gettext.pot",
 		dest: "<%= files.pot.wordpressSeoJs %>",
 	},
+	// The default de_CH is formal on WordPress.org, but that one is not translated enough for wordpress-seo.
+	// So we need to copy the `-informal` so we have a good translation.
+	"de_CH-informal": {
+		files: [
+			{
+				src: "<%= paths.languages %>/<%= pkg.plugin.textdomain %>-de_CH-informal.po",
+				dest: "<%= paths.languages %>/<%= pkg.plugin.textdomain %>-de_CH.po",
+			},
+			{
+				src: "<%= paths.languages %>/<%= pkg.plugin.textdomain %>-de_CH-informal.json",
+				dest: "<%= paths.languages %>/<%= pkg.plugin.textdomain %>-de_CH.json",
+			},
+		],
+	},
 	artifact: {
 		files: [
 			{
@@ -76,8 +90,31 @@ module.exports = {
 					"!**/composer.json",
 					"!**/README.md",
 				],
-				dest: "artifact",
+				dest: "<%= files.artifact %>",
 			},
 		],
+	},
+	"composer-artifact": {
+		files: [ {
+			expand: true,
+			cwd: "<%= files.artifact %>",
+			src: [
+				"**/*",
+			],
+			dest: "<%= files.artifactComposer %>",
+		} ],
+	},
+	"composer-files": {
+		files: [ {
+			expand: true,
+			cwd: ".",
+			src: [
+				"composer.lock",
+				"composer.json",
+			],
+			dest: "<%= files.artifactComposer %>",
+		} ],
+		"composer.lock": [ "<%= files.artifact %>/composer.lock" ],
+		"composer.json": [ "<%= files.artifact %>/composer.json" ],
 	},
 };

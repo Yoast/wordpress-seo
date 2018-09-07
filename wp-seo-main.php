@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '8.1-RC2' );
+define( 'WPSEO_VERSION', '8.2-RC4' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -306,10 +306,7 @@ function wpseo_init() {
 
 	$integrations   = array();
 	$integrations[] = new WPSEO_Slug_Change_Watcher();
-
-	if ( defined( 'YOAST_FEATURE_GUTENBERG_STRUCTURED_DATA_BLOCKS' ) ) {
-		$integrations[] = new WPSEO_Structured_Data_Blocks();
-	}
+	$integrations[] = new WPSEO_Structured_Data_Blocks();
 
 	foreach ( $integrations as $integration ) {
 		$integration->register_hooks();

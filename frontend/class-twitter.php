@@ -178,6 +178,8 @@ class WPSEO_Twitter {
 			$meta_desc = $this->fallback_description();
 		}
 
+		$meta_desc = wpseo_replace_vars( $meta_desc, get_queried_object() );
+
 		/**
 		 * Filter: 'wpseo_twitter_description' - Allow changing the Twitter description as output in the Twitter card by Yoast SEO
 		 *
@@ -254,6 +256,8 @@ class WPSEO_Twitter {
 		else {
 			$title = $this->fallback_title();
 		}
+
+		$title = wpseo_replace_vars( $title, get_queried_object() );
 
 		/**
 		 * Filter: 'wpseo_twitter_title' - Allow changing the Twitter title as output in the Twitter card by Yoast SEO
