@@ -24,7 +24,7 @@ rules:
   # Possible Errors
   comma-dangle: [2, always-multiline]
   no-cond-assign: 2
-  no-console: [ 1, { allow: ["warn", "error", "trace"] } ]
+  no-console: [ 2, { allow: ["warn", "error", "trace"] } ]
   no-constant-condition: 2
   no-control-regex: 2
   no-debugger: 2
@@ -104,9 +104,9 @@ rules:
   no-unused-expressions: 2
   no-useless-call: 2
   no-useless-concat: 2
-  no-useless-escape: 1
+  no-useless-escape: 2
   no-void: 2
-  no-warning-comments: [ 1, { "terms": [ "todo" ], "location": "anywhere" } ]
+  no-warning-comments: [ 2, { "terms": [ "todo" ], "location": "anywhere" } ]
   no-with: 2
   radix: 2
   vars-on-top: 0
@@ -122,13 +122,13 @@ rules:
   no-delete-var: 2
   no-label-var: 2
   no-shadow-restricted-names: 2
-  no-shadow: [ 1, { "builtinGlobals": false, "hoist": "all", "allow": [] } ]
+  no-shadow: [ 2, { "builtinGlobals": false, "hoist": "all", "allow": [] } ]
   no-undef-init: 2
   no-undef: 2
   no-undefined: 2
   no-unused-vars: 2
   no-use-before-define: 2
-  prefer-const: 1
+  prefer-const: 2
 
   # Node.js and CommonJS
   callback-return: 2
@@ -146,7 +146,7 @@ rules:
   block-spacing: [2, always]
   brace-style: [2, 1tbs]
   camelcase: 2
-  capitalized-comments: 1
+  capitalized-comments: 2
   comma-spacing: 2
   comma-style: 2
   computed-property-spacing: [2, always]
@@ -156,10 +156,10 @@ rules:
   func-style: 0
   id-length: 0
   id-match: 0
-  indent: [1, tab, {"SwitchCase": 1}]
-  jsx-quotes: [1, "prefer-double"]
-  key-spacing: [1, {"beforeColon": false, "afterColon": true}]
-  keyword-spacing: [1, {"before": true, "after": true}]
+  indent: [2, tab, {"SwitchCase": 1}]
+  jsx-quotes: [2, "prefer-double"]
+  key-spacing: [2, {"beforeColon": false, "afterColon": true}]
+  keyword-spacing: [2, {"before": true, "after": true}]
   linebreak-style: [2, unix]
   lines-around-comment: 0
   max-depth: 2
@@ -201,7 +201,7 @@ rules:
       message: 'A textdomain needs to be provided for translation calls.',
     }
   ]
-  no-spaced-func: 1
+  no-spaced-func: 2
   no-ternary: 0
   no-trailing-spaces: 2
   no-underscore-dangle: 0
@@ -211,17 +211,17 @@ rules:
   one-var: 0
   operator-assignment: 0
   operator-linebreak: 2
-  padded-blocks: [1, "never"]
+  padded-blocks: [2, "never"]
   quote-props: [2, "as-needed", {"keywords": true}]
   quotes: [2, double, avoid-escape]
-  require-jsdoc: [1, {"require": {"MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true}}]
+  require-jsdoc: [2, {"require": {"MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true}}]
   semi-spacing: 2
   semi: [2, always]
   sort-vars: 0
   space-before-blocks: 2
   space-before-function-paren: [2, "never"]
   space-in-parens: [2, "always", {"exceptions": ["empty"]}]
-  space-infix-ops: 1
+  space-infix-ops: 2
   space-unary-ops: [2, {"words": false, "nonwords": false, "overrides": { "!": true }}]
   spaced-comment: [2, "always"]
   wrap-regex: 0
@@ -253,31 +253,31 @@ rules:
   jsx-a11y/tabindex-no-positive: 2
 
   # React plugins settings (https://github.com/yannickcr/eslint-plugin-react/tree/master/docs/rules)
-  react/jsx-tag-spacing: [1, {"beforeClosing": "never"}]
-  react/jsx-pascal-case: 1
-  react/jsx-no-bind: 1
-  react/jsx-max-props-per-line: [1, {"maximum": 6}] # A high maximum to make sure it is always a smell when it occurs.
-  react/jsx-max-depth: [1, {"max": 8}] # A high maximum to make sure it is always a smell when it occurs.
-  react/jsx-indent-props: [1, "tab"]
-  react/jsx-indent: [1, "tab"]
-  react/jsx-first-prop-new-line: [1, "multiline"]
-  react/jsx-equals-spacing: 1
-  react/jsx-curly-spacing: [1, {"when": "always", "children": true}]
-  react/jsx-closing-bracket-location: [1, "line-aligned"]
-  react/jsx-boolean-value: [1, "always"]
+  react/jsx-tag-spacing: [2, {"beforeClosing": "never"}]
+  react/jsx-pascal-case: 2
+  react/jsx-no-bind: 2
+  react/jsx-max-props-per-line: [2, {"maximum": 6}] # A high maximum to make sure it is always a smell when it occurs.
+  react/jsx-max-depth: [2, {"max": 8}] # A high maximum to make sure it is always a smell when it occurs.
+  react/jsx-indent-props: [2, "tab"]
+  react/jsx-indent: [2, "tab"]
+  react/jsx-first-prop-new-line: [2, "multiline"]
+  react/jsx-equals-spacing: 2
+  react/jsx-curly-spacing: [2, {"when": "always", "children": true}]
+  react/jsx-closing-bracket-location: [2, "line-aligned"]
+  react/jsx-boolean-value: [2, "always"]
 
-  react/void-dom-elements-no-children: 1
-  react/self-closing-comp: 1
-  react/require-default-props: 1
-  react/prefer-es6-class: 1
-  react/no-unused-state: 1
-  react/no-unused-prop-types: 1
-  react/no-this-in-sfc: 1
-  react/no-typos: 1
-  react/no-render-return-value: 1
-  react/no-redundant-should-component-update: 1
-  react/no-access-state-in-setstate: 1
-  react/forbid-foreign-prop-types: 1
-  react/default-props-match-prop-types: 1
-  react/button-has-type: 1
-  react/boolean-prop-naming: 1
+  react/void-dom-elements-no-children: 2
+  react/self-closing-comp: 2
+  react/require-default-props: 2
+  react/prefer-es6-class: 2
+  react/no-unused-state: 2
+  react/no-unused-prop-types: 2
+  react/no-this-in-sfc: 2
+  react/no-typos: 2
+  react/no-render-return-value: 2
+  react/no-redundant-should-component-update: 2
+  react/no-access-state-in-setstate: 2
+  react/forbid-foreign-prop-types: 2
+  react/default-props-match-prop-types: 2
+  react/button-has-type: 2
+  react/boolean-prop-naming: 2
