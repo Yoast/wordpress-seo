@@ -1,3 +1,13 @@
+.wpseo-score-icon {
+	display: inline-block !important;
+	width: 12px !important;
+	height: 12px !important;
+	margin: 3px 3px 0 10px;
+	border-radius: 50% !important;
+	background: #888;
+	vertical-align: top;
+}
+
 .wpseo-score-icon.good {
 	background-color: #7ad03a;
 }
