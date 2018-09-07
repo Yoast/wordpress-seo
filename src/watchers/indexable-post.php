@@ -8,7 +8,6 @@
 namespace Yoast\YoastSEO\Watchers;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
-use Yoast\YoastSEO\Models\Indexable_Meta;
 use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Yoast_Model;
 use Yoast\YoastSEO\Models\Indexable;
