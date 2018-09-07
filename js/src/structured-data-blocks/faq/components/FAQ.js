@@ -295,7 +295,7 @@ export default class FAQ extends Component {
 		return (
 			<div className={ classNames }>
 				<RichText.Content
-					tagName="strong"
+					tagName="p"
 					className="schema-faq-title"
 					value={ title }
 					id={ stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
@@ -312,6 +312,7 @@ export default class FAQ extends Component {
 	 */
 	render() {
 		let { attributes, setAttributes, className } = this.props;
+		let title = attributes.title ? attributes.title : <strong>{ __( "Enter a title for your FAQ section", "wordpress-seo" ) }</strong>;
 
 		const classNames = [ "schema-faq", className ].filter( ( i ) => i ).join( " " );
 
@@ -320,15 +321,13 @@ export default class FAQ extends Component {
 				<RichText
 					tagName="p"
 					className="schema-faq-title"
-					value={ attributes.title }
+					value={ title }
 					isSelected={ this.state.focus === "title" }
 					setFocusedElement={ () => this.setFocus( "title" ) }
 					onChange={ ( title ) => setAttributes( { title, jsonTitle: stripHTML( renderToString( title ) ) } ) }
 					onSetup={ ( ref ) => {
 						this.editorRefs.title = ref;
 					} }
-					placeholder={ __( "Enter a title for your FAQ section", "wordpress-seo" ) }
-					keepPlaceholderOnFocus={ true }
 				/>
 				<div>
 					{ this.getQuestions() }

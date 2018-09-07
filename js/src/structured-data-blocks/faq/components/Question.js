@@ -136,7 +136,7 @@ export default class Question extends Component {
 		return(
 			<div className={ "schema-faq-question" } key={ question.id }>
 				<RichText.Content
-					tagName="strong"
+					tagName="p"
 					className="schema-faq-question-question"
 					key={ question.id + "-question" }
 					value={ question.question }
@@ -167,6 +167,7 @@ export default class Question extends Component {
 		} = this.props;
 
 		let { id, question, answer } = attributes;
+		let questionText = question.length ? question : <strong>{ __( "Enter a question", "wordpress-seo" ) }</strong>;
 
 		return (
 			<div className="schema-faq-question" key={ id } >
@@ -175,12 +176,10 @@ export default class Question extends Component {
 					tagName="p"
 					onSetup={ ( ref ) => editorRef( "question", ref ) }
 					key={ id + "-question" }
-					value={ question }
+					value={ questionText }
 					onChange={ ( value ) => onChange( value, answer, question, answer ) }
 					isSelected={ isSelected && subElement === "question" }
 					setFocusedElement={ () => onFocus( "question" ) }
-					placeholder={ __( "Enter a question", "wordpress-seo" ) }
-					keepPlaceholderOnFocus={ true }
 				/>
 				<RichText
 					className="schema-faq-question-answer"

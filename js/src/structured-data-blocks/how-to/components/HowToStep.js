@@ -184,6 +184,7 @@ export default class HowToStep extends Component {
 		} = this.props;
 
 		let { id, name, text } = step;
+		let stepName = name.length ? name : <strong>{ __( "Enter a step title", "wordpress-seo" ) }</strong>;
 
 		return (
 			<li className="schema-how-to-step" key={ id } >
@@ -198,12 +199,10 @@ export default class HowToStep extends Component {
 					tagName="p"
 					onSetup={ ( ref ) => editorRef( "name", ref ) }
 					key={ `${ id }-name` }
-					value={ name }
+					value={ stepName }
 					onChange={ ( value ) => onChange( value, text, name, text ) }
 					isSelected={ isSelected && subElement === "name" }
-					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					setFocusedElement={ () => onFocus( "name" ) }
-					keepPlaceholderOnFocus={ true }
 				/>
 				<RichText
 					className="schema-how-to-step-text"
