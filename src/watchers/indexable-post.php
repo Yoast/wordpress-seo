@@ -85,11 +85,10 @@ class Indexable_Post implements Integration {
 		$indexable->save();
 
 		if ( ! empty( $indexable->id ) ) {
-			$indexable_post_meta = new Indexable_Post_Meta( $indexable->id );
+			$indexable_post_meta = new Indexable_Meta( $indexable->id );
 
 			foreach ( $this->social_meta_lookup() as $meta_key => $indexable_key ) {
-				$indexable_post_meta->set_meta( $meta_key, $this->get_meta_value( $meta_key, $post_id ) );
-
+				$indexable_post_meta->set_meta( $indexable_key, $this->get_meta_value( $meta_key, $post_id ) );
 			}
 		}
 	}
@@ -303,10 +302,9 @@ class Indexable_Post implements Integration {
 			'opengraph-title'       => 'og_title',
 			'opengraph-image'       => 'og_image',
 			'opengraph-description' => 'og_description',
-
-			'twitter-title'       => 'twitter_title',
-			'twitter-image'       => 'twitter_image',
-			'twitter-description' => 'twitter_description',
+			'twitter-title'         => 'twitter_title',
+			'twitter-image'         => 'twitter_image',
+			'twitter-description'   => 'twitter_description',
 		);
 	}
 }
