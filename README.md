@@ -14,7 +14,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-### [Unreleased] -
+### 4.0 - 2018-09-07
+
+#### Breaking changes
+
+* Changes all warnings added in 3.0 to errors.
+* Adds error for missing textdomain in `__`, `_n`, `_x`, `_nx`.
+* Adds errors and warnings for JSX a11y rules.
 
 ### 3.1 - 2018-08-28
 
