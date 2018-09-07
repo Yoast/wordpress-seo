@@ -183,7 +183,11 @@ rules:
   no-restricted-syntax: [
     'error',
     {
-      selector: 'CallExpression[callee.name=/^(__|_x)$/][arguments.length!=2]',
+      selector: 'CallExpression[callee.name=/^(__)$/][arguments.length!=2]',
+      message: 'A textdomain needs to be provided for translation calls.',
+    },
+    {
+      selector: 'CallExpression[callee.name=/^(_x)$/][arguments.length!=3]',
       message: 'A textdomain needs to be provided for translation calls.',
     },
     {
