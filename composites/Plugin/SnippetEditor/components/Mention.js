@@ -21,7 +21,7 @@ export const Mention = ( { children, className } ) => {
 	return <StyledMention
 		className={ className }
 		spellCheck={ false }
-	       >
+	>
 		{ children }
 	</StyledMention>;
 };

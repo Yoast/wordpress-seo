@@ -78,7 +78,7 @@ export default function AnalysisList( { results, marksButtonActivatedResult, mar
 				onButtonClick={ () => onMarksButtonClick( result.id, result.marker ) }
 				marksButtonClassName={ marksButtonClassName }
 				marksButtonStatus={ marksButtonStatus }
-			       />;
+			/>;
 		} ) }
 	</AnalysisListBase>;
 }

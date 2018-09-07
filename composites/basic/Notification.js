@@ -89,7 +89,7 @@ function Notification( props ) {
 				imageWidth={ props.imageWidth }
 				imageHeight={ props.imageHeight }
 				alt=""
-			                    /> }
+			/> }
 			<NotificationContent>
 				<Heading>{ props.title }</Heading>
 				<p className="prova" dangerouslySetInnerHTML={ { __html: props.html } } />
@@ -98,7 +98,7 @@ function Notification( props ) {
 				onClick={ props.onClick }
 				type="button"
 				aria-label={ __( "Dismiss this notice", "yoast-components" ) }
-			                         >
+			>
 				<StyledIcon icon="times" color={ colors.$color_grey_text } size="24px" />
 			</DismissButton> }
 		</NotificationContainer>

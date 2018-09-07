@@ -41,7 +41,7 @@ const Wrapper = ( props ) => {
 	return <ReplacementVariableEditorStandalone
 		{ ...props }
 		ref={ props.innerRef }
-	       />;
+	/>;
 };
 
 Wrapper.propTypes = {

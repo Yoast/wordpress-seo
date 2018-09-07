@@ -42,7 +42,7 @@ export const icons = {
 	"loading-spinner": { viewbox: "0 0 66 66", path: [ <circle
 		key="5" className="path" fill="none" strokeWidth="6" strokeLinecap="round" cx="33"
 		cy="33" r="30"
-	                                                   /> ] },
+	/> ] },
 };
 /* eslint-enable */
 

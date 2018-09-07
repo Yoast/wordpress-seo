@@ -257,7 +257,7 @@ class AlgoliaSearcher extends React.Component {
 			searchString={ this.state.searchString }
 			results={ this.state.results }
 			onClick={ this.showDetailView.bind( this ) }
-		       />;
+		/>;
 	}
 
 	/**

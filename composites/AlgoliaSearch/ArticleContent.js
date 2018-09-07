@@ -48,7 +48,7 @@ class ArticleContent extends React.Component {
 			src={ this.toAmp( this.props.post.permalink ) }
 			className="kb-search-content-frame"
 			title={ this.props.title }
-		         /> );
+		/> );
 	}
 }
 

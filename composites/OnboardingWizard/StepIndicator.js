@@ -73,7 +73,7 @@ class StepIndicator extends React.Component {
 					onClick={ ( evt ) => {
 						this.props.onClick( name, evt );
 					} }
-				         />;
+				/>;
 			}
 			return React.createElement( Step, { key: "step-indicator-" + key }, button );
 		} );

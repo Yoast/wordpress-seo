@@ -538,7 +538,7 @@ class SnippetEditor extends React.Component {
 						onClick={ isOpen ? this.close : this.open }
 						aria-expanded={ isOpen }
 						innerRef={ this.setEditButtonRef }
-					                     >
+					>
 						<SvgIcon icon="edit" />
 						{ __( "Edit snippet", "yoast-components" ) }
 					</EditSnippetButton> }

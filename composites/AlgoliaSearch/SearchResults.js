@@ -141,7 +141,7 @@ class SearchResults extends React.Component {
 					event.stopPropagation();
 					this.props.onClick( index );
 				} }
-			       />;
+			/>;
 		} );
 	}
 
