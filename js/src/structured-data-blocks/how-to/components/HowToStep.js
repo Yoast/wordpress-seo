@@ -1,6 +1,7 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import {Fragment} from "react";
 
 const { Component } = window.wp.element;
 const { IconButton } = window.wp.components;
@@ -149,20 +150,24 @@ export default class HowToStep extends Component {
 	 */
 	static Content( step ) {
 		return(
-			<li className={ "schema-how-to-step" } key={ step.id } >
-				<RichText.Content
-					tagName="strong"
-					className="schema-how-to-step-name"
-					key={ step.id + "-name" }
-					value={ step.name }
-				/>
-				<RichText.Content
-					tagName="p"
-					className="schema-how-to-step-text"
-					key={ step.id + "-text" }
-					value={ step.text }
-				/>
-			</li>
+			<Fragment>
+				<li className={ "schema-how-to-step" } key={ step.id } >
+					<RichText.Content
+						tagName="strong"
+						className="schema-how-to-step-name"
+						key={ step.id + "-name" }
+						value={ step.name }
+					/>
+					{ " " }
+					<RichText.Content
+						tagName="p"
+						className="schema-how-to-step-text"
+						key={ step.id + "-text" }
+						value={ step.text }
+					/>
+				</li>
+				{ " " }
+			</Fragment>
 		);
 	}
 

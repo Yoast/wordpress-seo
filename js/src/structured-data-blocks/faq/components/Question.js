@@ -141,6 +141,7 @@ export default class Question extends Component {
 					key={ question.id + "-question" }
 					value={ question.question }
 				/>
+				{ " " }
 				<RichText.Content
 					tagName="p"
 					className="schema-faq-question-answer"

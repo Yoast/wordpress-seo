@@ -448,11 +448,13 @@ export default class HowTo extends Component {
 						{ timeString }.
 					</p>
 				}
+				{ " " }
 				<RichText.Content
 					tagName="p"
 					className="schema-how-to-description"
 					value={ description }
 				/>
+				{ " " }
 				{ unorderedList
 					? <ul className={ listClassNames }>{ steps }</ul>
 					: <ol className={ listClassNames }>{ steps }</ol>

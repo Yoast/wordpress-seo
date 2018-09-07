@@ -1,5 +1,5 @@
 /* External dependencies */
-import React from "react";
+import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import isUndefined from "lodash/isUndefined";
 import { __ } from "@wordpress/i18n";
@@ -287,7 +287,10 @@ export default class FAQ extends Component {
 		let { title, questions, className } = attributes;
 
 		let questionList = questions ? questions.map( ( question ) =>
-			<Question.Content { ...question } />
+			<Fragment>
+				<Question.Content { ...question } />
+				{ " " }
+			</Fragment>
 		) : null;
 
 		const classNames = [ "schema-faq", className ].filter( ( i ) => i ).join( " " );
