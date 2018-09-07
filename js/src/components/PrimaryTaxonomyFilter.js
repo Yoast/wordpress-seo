@@ -31,7 +31,7 @@ class PrimaryTaxonomyFilter extends React.Component {
 		}
 
 		this.state = {
-			fallbackToOriginalComponent: false,
+			exceptionCaught: false,
 			error: null,
 		};
 	}
@@ -44,7 +44,7 @@ class PrimaryTaxonomyFilter extends React.Component {
 	 * @returns {void}
 	 */
 	componentDidCatch( error ) {
-		this.setState( { fallbackToOriginalComponent: true, error } );
+		this.setState( { exceptionCaught: true, error } );
 	}
 
 	/**
@@ -67,10 +67,8 @@ class PrimaryTaxonomyFilter extends React.Component {
 			OriginalComponent,
 		} = this.props;
 
-		if (
-			( ! this.taxonomyHasPrimaryTermSupport() ) ||
-			this.state.fallbackToOriginalComponent
-		) {
+		if ( this.state.exceptionCaught ) {
+			const stack = get( this.state, "error.stack" );
 			return (
 				<Fragment>
 					<OriginalComponent { ...this.props } />
@@ -81,10 +79,18 @@ class PrimaryTaxonomyFilter extends React.Component {
 							"Yoast SEO"
 						) }
 					</ErrorContainer>
-					<ClipboardButton isLarge text={ this.state.error.stack }>
-						{ __( "Copy error", "wordpress-seo" ) }
-					</ClipboardButton>
+					{
+						stack && <ClipboardButton isLarge text={ stack }>
+							{ __( "Copy error", "wordpress-seo" ) }
+						</ClipboardButton>
+					}
 				</Fragment>
+			);
+		}
+
+		if ( ! this.taxonomyHasPrimaryTermSupport() ) {
+			return (
+				<OriginalComponent { ...this.props } />
 			);
 		}
 
