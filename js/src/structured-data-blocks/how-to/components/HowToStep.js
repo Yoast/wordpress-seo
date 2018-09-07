@@ -1,7 +1,7 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import {Fragment} from "react";
+import { Fragment } from "react";
 
 const { Component } = window.wp.element;
 const { IconButton } = window.wp.components;

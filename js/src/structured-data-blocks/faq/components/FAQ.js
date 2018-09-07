@@ -1,5 +1,5 @@
 /* External dependencies */
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import isUndefined from "lodash/isUndefined";
 import { __ } from "@wordpress/i18n";
