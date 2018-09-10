@@ -21,7 +21,7 @@ describe( "KeywordSuggestions", function() {
 		var words = [];
 
 		let keywordSuggestions = renderer.create(
-			<KeywordSuggestions relevantWords={words} />
+			<KeywordSuggestions relevantWords={ words } />
 		);
 
 		let tree = keywordSuggestions.toJSON();
@@ -30,7 +30,7 @@ describe( "KeywordSuggestions", function() {
 		words = createWords( [ "word1", "word2", "word3" ] );
 
 		keywordSuggestions = renderer.create(
-			<KeywordSuggestions relevantWords={words} />
+			<KeywordSuggestions relevantWords={ words } />
 		);
 
 		tree = keywordSuggestions.toJSON();
@@ -38,13 +38,13 @@ describe( "KeywordSuggestions", function() {
 	} );
 
 	it( "renders correctly without items", () => {
-		let words = [];
+		const words = [];
 
-		let keywordSuggestions = renderer.create(
-			<KeywordSuggestions relevantWords={words} />
+		const keywordSuggestions = renderer.create(
+			<KeywordSuggestions relevantWords={ words } />
 		);
 
-		let tree = keywordSuggestions.toJSON();
+		const tree = keywordSuggestions.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 } );

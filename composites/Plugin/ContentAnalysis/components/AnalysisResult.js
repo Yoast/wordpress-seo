@@ -28,7 +28,7 @@ const AnalysisResultText = styled.p`
  * @param {Object} props The component's props.
  * @returns {boolean} True if buttons should be hidden.
  */
-let areButtonsHidden = function( props ) {
+const areButtonsHidden = function( props ) {
 	return props.marksButtonStatus === "hidden";
 };
 

@@ -409,7 +409,7 @@ class SnippetEditor extends React.Component {
 
 		const shortenedBaseUrl = baseUrl.replace( /^http:\/\//i, "" );
 
-		let mappedData = {
+		const mappedData = {
 			title: this.processReplacementVariables( originalData.title, replacementVariables ),
 			url: shortenedBaseUrl + originalData.slug,
 			description: description,
@@ -591,7 +591,7 @@ SnippetEditor.defaultProps = {
 	},
 	mapEditorDataToPreview: null,
 	locale: "en",
-	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
+	descriptionEditorFieldPlaceholder: __( "Modify your meta description by editing it right here", "yoast-components" ),
 	onChangeAnalysisData: noop,
 	hasPaperStyle: true,
 	showCloseButton: true,

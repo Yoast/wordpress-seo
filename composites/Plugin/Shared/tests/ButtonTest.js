@@ -8,17 +8,19 @@ test( "the BaseButton matches the snapshot", () => {
 		<BaseButton>ButtonValue</BaseButton>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
 test( "BaseButton executes callback", () => {
 	const component = renderer.create(
-		<BaseButton onClick={
-			() => {
-				return "clicked";
+		<BaseButton
+			onClick={
+				() => {
+					return "clicked";
+				}
 			}
-		}>ButtonValue</BaseButton>
+		>ButtonValue</BaseButton>
 	);
 
 	let tree = component.toJSON();
@@ -35,17 +37,19 @@ test( "the SnippetPreviewButton matches the snapshot", () => {
 		<Button>ButtonValue</Button>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
 test( "SnippetPreviewButton executes callback", () => {
 	const component = renderer.create(
-		<Button onClick={
-			() => {
-				return "clicked";
+		<Button
+			onClick={
+				() => {
+					return "clicked";
+				}
 			}
-		}>ButtonValue</Button>
+		>ButtonValue</Button>
 	);
 
 	let tree = component.toJSON();
@@ -62,7 +66,7 @@ test( "the IconButton matches the snapshot", () => {
 		<IconButton icon="edit" iconColor="black" />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -71,6 +75,6 @@ test( "the IconButton with text matches the snapshot", () => {
 		<IconButton icon="edit" iconColor="black">Click</IconButton>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

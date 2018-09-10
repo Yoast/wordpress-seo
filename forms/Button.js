@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
  */
 const Button = ( props ) => {
 	return (
-		<button className={props.className} type="button" onClick={props.onClick}  {...props.optionalAttributes}>{props.text}</button>
+		<button className={ props.className } type="button" onClick={ props.onClick }  { ...props.optionalAttributes }>{ props.text }</button>
 	);
 };
 

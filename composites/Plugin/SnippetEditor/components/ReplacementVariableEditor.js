@@ -28,7 +28,7 @@ class ReplacementVariableEditor extends React.Component {
 
 		this.uniqueId = uniqueId();
 
-		switch( props.type ) {
+		switch ( props.type ) {
 			case "description":
 				this.InputContainer = DescriptionInputContainer;
 				break;
@@ -39,7 +39,7 @@ class ReplacementVariableEditor extends React.Component {
 				this.InputContainer = TitleInputContainer;
 		}
 
-		if( props.withCaret ) {
+		if ( props.withCaret ) {
 			this.InputContainer = withCaretStyles( this.InputContainer );
 		}
 
@@ -82,7 +82,8 @@ class ReplacementVariableEditor extends React.Component {
 			<React.Fragment>
 				<SimulatedLabel
 					id={ this.uniqueId }
-					onClick={ onFocus } >
+					onClick={ onFocus }
+				>
 					{ label }
 				</SimulatedLabel>
 				<TriggerReplacementVariableSuggestionsButton
@@ -95,7 +96,8 @@ class ReplacementVariableEditor extends React.Component {
 					onClick={ onFocus }
 					isActive={ isActive }
 					isHovered={ isHovered }
-					id={ fieldId }>
+					id={ fieldId }
+				>
 					<ReplacementVariableEditorStandalone
 						placeholder={ placeholder }
 						content={ content }

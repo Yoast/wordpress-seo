@@ -21,11 +21,11 @@ const style = {
 const LoadingIndicator = () => (
 	<div className="yoast-wizard-overlay-loader">
 		<RefreshIndicator
-			size={40}
-			left={10}
-			top={100}
+			size={ 40 }
+			left={ 10 }
+			top={ 100 }
 			status="loading"
-			style={style.refresh}
+			style={ style.refresh }
 		/>
 	</div>
 );

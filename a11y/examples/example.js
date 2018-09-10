@@ -14,7 +14,7 @@ class App extends React.Component {
 			<div>
 				Below this line is a hidden link to another segment of this page. Tab to view it:
 				<ScreenReaderShortcut anchor="linklist">Jump to the list of links</ScreenReaderShortcut>
-				<div style={{ padding: "30px" }}>
+				<div style={ { padding: "30px" } }>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut pulvinar mi, ut rhoncus magna.
 					Etiam eget massa sed urna vulputate vulputate non sed mi.
 					Etiam sagittis vehicula augue, vitae tincidunt nisi faucibus et. Curabitur id massa arcu.
@@ -23,7 +23,7 @@ class App extends React.Component {
 					Aliquam imperdiet lectus eu ante tempor, eu rutrum ex euismod.
 					Nam neque purus, aliquet faucibus dui in, blandit volutpat velit.
 				</div>
-				<div style={{ padding: "30px" }}>
+				<div style={ { padding: "30px" } }>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut pulvinar mi, ut rhoncus magna.
 					Etiam eget massa sed urna vulputate vulputate non sed mi.
 					Etiam sagittis vehicula augue, vitae tincidunt nisi faucibus et. Curabitur id massa arcu.
@@ -32,7 +32,7 @@ class App extends React.Component {
 					Aliquam imperdiet lectus eu ante tempor, eu rutrum ex euismod.
 					Nam neque purus, aliquet faucibus dui in, blandit volutpat velit.
 				</div>
-				<div style={{ padding: "30px" }}>
+				<div style={ { padding: "30px" } }>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut pulvinar mi, ut rhoncus magna.
 					Etiam eget massa sed urna vulputate vulputate non sed mi.
 					Etiam sagittis vehicula augue, vitae tincidunt nisi faucibus et. Curabitur id massa arcu.
@@ -41,7 +41,7 @@ class App extends React.Component {
 					Aliquam imperdiet lectus eu ante tempor, eu rutrum ex euismod.
 					Nam neque purus, aliquet faucibus dui in, blandit volutpat velit.
 				</div>
-				<div style={{ padding: "30px" }}>
+				<div style={ { padding: "30px" } }>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut pulvinar mi, ut rhoncus magna.
 					Etiam eget massa sed urna vulputate vulputate non sed mi.
 					Etiam sagittis vehicula augue, vitae tincidunt nisi faucibus et. Curabitur id massa arcu.
@@ -50,7 +50,7 @@ class App extends React.Component {
 					Aliquam imperdiet lectus eu ante tempor, eu rutrum ex euismod.
 					Nam neque purus, aliquet faucibus dui in, blandit volutpat velit.
 				</div>
-				<div style={{ padding: "30px" }}>
+				<div style={ { padding: "30px" } }>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut pulvinar mi, ut rhoncus magna.
 					Etiam eget massa sed urna vulputate vulputate non sed mi.
 					Etiam sagittis vehicula augue, vitae tincidunt nisi faucibus et. Curabitur id massa arcu.
@@ -59,7 +59,7 @@ class App extends React.Component {
 					Aliquam imperdiet lectus eu ante tempor, eu rutrum ex euismod.
 					Nam neque purus, aliquet faucibus dui in, blandit volutpat velit.
 				</div>
-				<div id="linklist" style={{ padding: "30px" }}>
+				<div id="linklist" style={ { padding: "30px" } }>
 					Here is a list of links with screen reader text added to them. Use a screen reader to see what is added:
 					<ul>
 						<li>
@@ -74,7 +74,7 @@ class App extends React.Component {
 						</li>
 					</ul>
 				</div>
-				<div style={{ padding: "30px" }}>
+				<div style={ { padding: "30px" } }>
 					Aliquam dolor odio, ornare ac semper in, ornare a tellus. Sed et varius magna.
 					Duis et eleifend sem, ac luctus justo. Donec vel eros aliquet, consequat odio ac, interdum tortor.
 					Etiam placerat ex vel interdum gravida. In hac habitasse platea dictumst. Fusce nec egestas nisi.
@@ -83,7 +83,7 @@ class App extends React.Component {
 					Vestibulum aliquam tortor nec lacus blandit laoreet. Cras et posuere elit, sit amet congue nisl.
 					Donec dolor mauris, feugiat at ipsum venenatis, porttitor fringilla nisl.
 				</div>
-				<div style={{ padding: "30px" }}>
+				<div style={ { padding: "30px" } }>
 					Aliquam dolor odio, ornare ac semper in, ornare a tellus. Sed et varius magna.
 					Duis et eleifend sem, ac luctus justo. Donec vel eros aliquet, consequat odio ac, interdum tortor.
 					Etiam placerat ex vel interdum gravida. In hac habitasse platea dictumst. Fusce nec egestas nisi.
@@ -92,7 +92,7 @@ class App extends React.Component {
 					Vestibulum aliquam tortor nec lacus blandit laoreet. Cras et posuere elit, sit amet congue nisl.
 					Donec dolor mauris, feugiat at ipsum venenatis, porttitor fringilla nisl.
 				</div>
-				<div style={{ padding: "30px" }}>
+				<div style={ { padding: "30px" } }>
 					Aliquam dolor odio, ornare ac semper in, ornare a tellus. Sed et varius magna.
 					Duis et eleifend sem, ac luctus justo. Donec vel eros aliquet, consequat odio ac, interdum tortor.
 					Etiam placerat ex vel interdum gravida. In hac habitasse platea dictumst. Fusce nec egestas nisi.
@@ -101,7 +101,7 @@ class App extends React.Component {
 					Vestibulum aliquam tortor nec lacus blandit laoreet. Cras et posuere elit, sit amet congue nisl.
 					Donec dolor mauris, feugiat at ipsum venenatis, porttitor fringilla nisl.
 				</div>
-				<div style={{ padding: "30px" }}>
+				<div style={ { padding: "30px" } }>
 					Aliquam dolor odio, ornare ac semper in, ornare a tellus. Sed et varius magna.
 					Duis et eleifend sem, ac luctus justo. Donec vel eros aliquet, consequat odio ac, interdum tortor.
 					Etiam placerat ex vel interdum gravida. In hac habitasse platea dictumst. Fusce nec egestas nisi.
@@ -110,7 +110,7 @@ class App extends React.Component {
 					Vestibulum aliquam tortor nec lacus blandit laoreet. Cras et posuere elit, sit amet congue nisl.
 					Donec dolor mauris, feugiat at ipsum venenatis, porttitor fringilla nisl.
 				</div>
-				<div style={{ padding: "30px" }}>
+				<div style={ { padding: "30px" } }>
 					Aliquam dolor odio, ornare ac semper in, ornare a tellus. Sed et varius magna.
 					Duis et eleifend sem, ac luctus justo. Donec vel eros aliquet, consequat odio ac, interdum tortor.
 					Etiam placerat ex vel interdum gravida. In hac habitasse platea dictumst. Fusce nec egestas nisi.
@@ -119,7 +119,7 @@ class App extends React.Component {
 					Vestibulum aliquam tortor nec lacus blandit laoreet. Cras et posuere elit, sit amet congue nisl.
 					Donec dolor mauris, feugiat at ipsum venenatis, porttitor fringilla nisl.
 				</div>
-				<div style={{ padding: "30px" }}>
+				<div style={ { padding: "30px" } }>
 					Aliquam dolor odio, ornare ac semper in, ornare a tellus. Sed et varius magna.
 					Duis et eleifend sem, ac luctus justo. Donec vel eros aliquet, consequat odio ac, interdum tortor.
 					Etiam placerat ex vel interdum gravida. In hac habitasse platea dictumst. Fusce nec egestas nisi.
@@ -128,7 +128,7 @@ class App extends React.Component {
 					Vestibulum aliquam tortor nec lacus blandit laoreet. Cras et posuere elit, sit amet congue nisl.
 					Donec dolor mauris, feugiat at ipsum venenatis, porttitor fringilla nisl.
 				</div>
-				<div style={{ padding: "30px" }}>
+				<div style={ { padding: "30px" } }>
 					Aliquam dolor odio, ornare ac semper in, ornare a tellus. Sed et varius magna.
 					Duis et eleifend sem, ac luctus justo. Donec vel eros aliquet, consequat odio ac, interdum tortor.
 					Etiam placerat ex vel interdum gravida. In hac habitasse platea dictumst. Fusce nec egestas nisi.

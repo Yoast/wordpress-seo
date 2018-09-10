@@ -73,7 +73,8 @@ const ModeSwitcher = ( { onChange, active } ) => {
 		<MobileButton
 			onClick={ () => onChange( MODE_MOBILE ) }
 			isActive={ active === MODE_MOBILE }
-			aria-pressed={ active === MODE_MOBILE }>
+			aria-pressed={ active === MODE_MOBILE }
+		>
 			<SvgIcon icon="mobile" size="22px" color="currentColor" />
 			<ScreenReaderText>
 				{ __( "Mobile preview", "yoast-components" ) }
@@ -83,7 +84,8 @@ const ModeSwitcher = ( { onChange, active } ) => {
 		<DesktopButton
 			onClick={ () => onChange( MODE_DESKTOP ) }
 			isActive={ active === MODE_DESKTOP }
-			aria-pressed={ active === MODE_DESKTOP }>
+			aria-pressed={ active === MODE_DESKTOP }
+		>
 			<SvgIcon icon="desktop" size="18px" color="currentColor" />
 			<ScreenReaderText>
 				{ __( "Desktop preview", "yoast-components" ) }

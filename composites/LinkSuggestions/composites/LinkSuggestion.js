@@ -14,7 +14,7 @@ import { localize } from "../../../utils/i18n";
  * @constructor
  */
 const LinkSuggestion = ( { value, url, isActive, translate } ) => {
-	let label = translate( "Copy link" );
+	const label = translate( "Copy link" );
 	let ariaLabel = translate( "Copy link to suggested article: %s" );
 	ariaLabel = ariaLabel.replace( "%s", value );
 
@@ -39,13 +39,15 @@ const LinkSuggestion = ( { value, url, isActive, translate } ) => {
 	};
 
 	return (
-		<div className="yoast-link-suggestion" >
-			<button type="button" className={className}
-				onBlur={resetLabels}
-				data-clipboard-text={url} aria-label={ariaLabel} data-label={label}>
-				<span className="screen-reader-text">{label}</span>
+		<div className="yoast-link-suggestion">
+			<button
+				type="button" className={ className }
+				onBlur={ resetLabels }
+				data-clipboard-text={ url } aria-label={ ariaLabel } data-label={ label }
+			>
+				<span className="screen-reader-text">{ label }</span>
 			</button>
-			<a href={url} className="yoast-link-suggestion__value" target="_blank">{value}</a>
+			<a href={ url } className="yoast-link-suggestion__value" target="_blank">{ value }</a>
 		</div>
 	);
 };

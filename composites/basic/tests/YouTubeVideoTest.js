@@ -5,9 +5,9 @@ import YouTubeVideo from "../YouTubeVideo.js";
 
 test( "the YouTubeVideo component matches the snapshot", () => {
 	const component = renderer.create(
-		<YouTubeVideo src="https://www.youtube.com/embed/bIgcj_pPIbw" title="Video title"/>
+		<YouTubeVideo src="https://www.youtube.com/embed/bIgcj_pPIbw" title="Video title" />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

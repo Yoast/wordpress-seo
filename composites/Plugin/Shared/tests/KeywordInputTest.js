@@ -18,7 +18,7 @@ describe( KeywordInput, () => {
 			/>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 
@@ -49,7 +49,8 @@ describe( KeywordInput, () => {
 					wrapper.setProps( { keyword: value } );
 				} }
 				onRemoveKeyword={ () => {} }
-				label="test label" />
+				label="test label"
+			/>
 		);
 		wrapper.find( "input" ).simulate( "change", {
 			target: {

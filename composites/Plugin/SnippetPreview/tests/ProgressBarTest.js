@@ -5,27 +5,27 @@ import ProgressBar from "../components/ProgressBar";
 
 test( "the progress bar matches the snapshot", () => {
 	const component = renderer.create(
-		<ProgressBar/>
+		<ProgressBar />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
 test( "the progress bar with progress matches the snapshot", () => {
 	const component = renderer.create(
-		<ProgressBar max={100} value={50} />
+		<ProgressBar max={ 100 } value={ 50 } />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
 test( "the progress bar with custom color matches the snapshot", () => {
 	const component = renderer.create(
-		<ProgressBar progressColor="#000" max={100} value={50} />
+		<ProgressBar progressColor="#000" max={ 100 } value={ 50 } />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

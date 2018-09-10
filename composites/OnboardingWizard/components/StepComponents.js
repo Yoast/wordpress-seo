@@ -12,7 +12,7 @@ import HTML from "./Html";
  *          HTML: ((p1:Object))
  * }}
  */
-let Components = {
+const Components = {
 	Choice,
 	Input,
 	HTML,

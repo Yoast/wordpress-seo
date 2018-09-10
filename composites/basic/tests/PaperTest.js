@@ -8,7 +8,7 @@ test( "the Paper without props matches the snapshot", () => {
 		<Paper />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -17,6 +17,6 @@ test( "the Paper with props matches the snapshot", () => {
 		<Paper backgroundColor="#eee" minHeight="10em" />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

@@ -11,10 +11,11 @@ test( "the unpressed IconButtonToggle matches the snapshot", () => {
 			ariaLabel="important toggle"
 			icon="eye"
 			pressed={ false }
-			onClick={ () => {} }/>
+			onClick={ () => {} }
+		/>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -26,10 +27,11 @@ test( "the pressed IconButtonToggle matches the snapshot", () => {
 			ariaLabel="important toggle"
 			icon="eye"
 			pressed={ true }
-			onClick={ () => {} }/>
+			onClick={ () => {} }
+		/>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -42,9 +44,10 @@ test( "the disabled IconButtonToggle matches the snapshot", () => {
 			icon="eye"
 			pressed={ false }
 			onClick={ () => {} }
-			marksButtonStatus={ "disabled" }/>
+			marksButtonStatus={ "disabled" }
+		/>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
