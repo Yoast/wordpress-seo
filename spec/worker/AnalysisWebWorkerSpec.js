@@ -3,7 +3,10 @@ import { forEach, get, isArray, isObject, isNumber } from "lodash-es";
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 import Paper from "../../src/values/Paper";
 import testTexts from "../fullTextTests/testTexts";
-import isCornerstoneAssessor from "../helpers/isCornerstoneAssessor";
+import {
+	isCornerstoneContentAssessor,
+	isCornerstoneSeoAssessor,
+} from "../helpers/isCornerstoneAssessor";
 
 /**
  * Creates a mocked scope.
@@ -101,6 +104,31 @@ describe( "AnalysisWebWorker", () => {
 	} );
 
 	describe( "handleMessage", () => {
+		describe( "console", () => {
+			beforeEach( () => {
+				scope = createScope();
+				worker = new AnalysisWebWorker( scope );
+				worker.register();
+			} );
+
+			test( "falls back to a warning", () => {
+				console.warn = jest.fn();
+				scope.onmessage( createMessage( "non-existing message type" ) );
+
+				expect( console.warn ).toHaveBeenCalledTimes( 1 );
+				expect( console.warn ).toHaveBeenCalledWith( "Unrecognized command", "non-existing message type" );
+			} );
+
+			test( "logs in development", () => {
+				global.process.env.NODE_ENV = "development";
+				console.log = jest.fn();
+				scope.onmessage( createMessage( "testing" ) );
+
+				expect( console.log ).toHaveBeenCalledTimes( 1 );
+				expect( console.log ).toHaveBeenCalledWith( "worker <- wrapper", "testing", 0, {} );
+			} );
+		});
+
 		describe( "initialize", () => {
 			beforeEach( () => {
 				scope = createScope();
@@ -295,6 +323,103 @@ describe( "AnalysisWebWorker", () => {
 						a: { keyword: "technology" },
 					},
 				} ) );
+			} );
+		} );
+
+		describe( "analyzeRelatedKeywords", () => {
+			beforeEach( () => {
+				scope = createScope();
+				worker = new AnalysisWebWorker( scope );
+				worker.register();
+			} );
+
+			test( "schedules a task", () => {
+				const paper = new Paper( "This is the content." );
+				const relatedKeywords = { a: { keyword: "content", synonyms: "" } };
+
+				worker._scheduler.schedule = jest.fn();
+				scope.onmessage( createMessage( "analyzeRelatedKeywords", {
+					paper: paper.serialize(),
+					relatedKeywords,
+				} ) );
+
+				expect( worker._scheduler.schedule ).toHaveBeenCalledTimes( 1 );
+				expect( worker._scheduler.schedule ).toHaveBeenCalledWith( {
+					id: 0,
+					execute: worker.analyze,
+					done: worker.analyzeRelatedKeywordsDone,
+					data: { paper, relatedKeywords },
+					type: "analyzeRelatedKeywords",
+				} );
+			} );
+
+			test( "calls analyzeRelatedKeywords", done => {
+				const paper = new Paper( "This is the content." );
+				const relatedKeywords = { a: { keyword: "content", synonyms: "" } };
+				const spy = spyOn( worker, "analyze" );
+
+				worker.analyzeRelatedKeywordsDone = ( id, result ) => {
+					expect( spy ).toHaveBeenCalledTimes( 1 );
+					expect( spy ).toHaveBeenCalledWith( 0, { paper, relatedKeywords } );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "analyzeRelatedKeywords", { paper: paper.serialize(), relatedKeywords } ) );
+			} );
+
+			test( "returns results", done => {
+				const paper = testTexts[ 0 ].paper;
+				const relatedKeywords = { a: { keyword: "content", synonyms: "" } };
+
+				worker.analyzeRelatedKeywordsDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( isObject( result ) ).toBe( true );
+					expect( isObject( result.readability ) ).toBe( true );
+					expect( isArray( result.readability.results ) ).toBe( true );
+					expect( isNumber( result.readability.score ) ).toBe( true );
+					expect( isObject( result.seo ) ).toBe( true );
+					expect( isObject( result.seo[ "" ] ) ).toBe( true );
+					expect( isArray( result.seo[ "" ].results ) ).toBe( true );
+					expect( isNumber( result.seo[ "" ].score ) ).toBe( true );
+					expect( isObject( result.seo.a ) ).toBe( true );
+					expect( isArray( result.seo.a.results ) ).toBe( true );
+					expect( isNumber( result.seo.a.score ) ).toBe( true );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "analyzeRelatedKeywords", { paper: paper.serialize(), relatedKeywords } ) );
+			} );
+
+			test( "listens to the contentAnalysisActive configuration", done => {
+				const paper = testTexts[ 0 ].paper;
+				const relatedKeywords = { a: { keyword: "content", synonyms: "" } };
+
+				worker.analyzeRelatedKeywordsDone = ( id, result ) => {
+					// Results still get initialized.
+					expect( result.readability.results.length ).toBe( 0 );
+					expect( result.readability.score ).toBe( 0 );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize", { contentAnalysisActive: false } ) );
+				scope.onmessage( createMessage( "analyzeRelatedKeywords", { paper: paper.serialize(), relatedKeywords } ) );
+			} );
+
+			test( "listens to the keywordAnalysisActive configuration", done => {
+				const paper = testTexts[ 0 ].paper;
+				const relatedKeywords = { a: { keyword: "content", synonyms: "" } };
+
+				worker.analyzeRelatedKeywordsDone = ( id, result ) => {
+					// Results still get initialized.
+					expect( result.seo[ "" ].results.length ).toBe( 0 );
+					expect( result.seo[ "" ].score ).toBe( 0 );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize", { keywordAnalysisActive: false } ) );
+				scope.onmessage( createMessage( "analyzeRelatedKeywords", { paper: paper.serialize(), relatedKeywords } ) );
 			} );
 		} );
 
@@ -554,7 +679,6 @@ describe( "AnalysisWebWorker", () => {
 		beforeEach( () => {
 			scope = createScope();
 			worker = new AnalysisWebWorker( scope );
-			worker._i18n = AnalysisWebWorker.createI18n();
 		} );
 
 		test( "listens to contentAnalysisActive", () => {
@@ -567,10 +691,33 @@ describe( "AnalysisWebWorker", () => {
 
 		test( "listens to useCornerstone", () => {
 			worker._configuration.useCornerstone = false;
-			expect( isCornerstoneAssessor( worker.createContentAssessor() ) ).toBe( false );
+			expect( isCornerstoneContentAssessor( worker.createContentAssessor() ) ).toBe( false );
 
 			worker._configuration.useCornerstone = true;
-			expect( isCornerstoneAssessor( worker.createContentAssessor() ) ).toBe( true );
+			expect( isCornerstoneContentAssessor( worker.createContentAssessor() ) ).toBe( true );
+		} );
+	} );
+
+	describe( "createSEOAssessor", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope );
+		} );
+
+		test( "listens to keywordAnalysisActive", () => {
+			worker._configuration.keywordAnalysisActive = false;
+			expect( worker.createSEOAssessor() ).toBeNull();
+
+			worker._configuration.keywordAnalysisActive = true;
+			expect( worker.createSEOAssessor() ).not.toBeNull();
+		} );
+
+		test( "listens to useCornerstone", () => {
+			worker._configuration.useCornerstone = false;
+			expect( isCornerstoneSeoAssessor( worker.createSEOAssessor() ) ).toBe( false );
+
+			worker._configuration.useCornerstone = true;
+			expect( isCornerstoneSeoAssessor( worker.createSEOAssessor() ) ).toBe( true );
 		} );
 	} );
 } );
