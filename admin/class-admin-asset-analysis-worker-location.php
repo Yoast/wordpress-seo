@@ -13,12 +13,12 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 	/**
 	 * @var WPSEO_Admin_Asset_Location $asset_location.
 	 */
-	protected $asset_location;
+	private $asset_location;
 
 	/**
 	 * @var WPSEO_Admin_Asset $asset.
 	 */
-	protected $asset;
+	private $asset;
 
 	/**
 	 * Constructs the location of the analysis worker asset.
@@ -40,6 +40,15 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 	}
 
 	/**
+	 * Retrieves the analysis worker asset.
+	 *
+	 * @return WPSEO_Admin_Asset The analysis worker asset.
+	 */
+	public function get_asset() {
+		return $this->asset;
+	}
+
+	/**
 	 * Determines the URL of the asset on the dev server.
 	 *
 	 * @param WPSEO_Admin_Asset $asset The asset to determine the URL for.
@@ -48,9 +57,6 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 	 * @return string The URL of the asset.
 	 */
 	public function get_url( WPSEO_Admin_Asset $asset = null, $type = WPSEO_Admin_Asset::TYPE_JS ) {
-		if ( $asset === null ) {
-			$asset = $this->asset;
-		}
 		return $this->asset_location->get_url( $asset, $type );
 	}
 }
