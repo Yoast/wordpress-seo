@@ -57,11 +57,6 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 			'@graph'   => array( $this->get_faq_json_ld() ),
 		);
 
-		$post = get_post();
-		if ( $post->post_title ) {
-			$json_ld['name'] = $post->post_title;
-		}
-
 		if ( ! is_array( $attributes['questions'] ) ) {
 			return $json_ld;
 		}
@@ -83,6 +78,11 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 		$json_ld = array(
 			'@type' => 'FAQPage',
 		);
+
+		$post = get_post();
+		if ( $post->post_title ) {
+			$json_ld['name'] = $post->post_title;
+		}
 
 		return $json_ld;
 	}
