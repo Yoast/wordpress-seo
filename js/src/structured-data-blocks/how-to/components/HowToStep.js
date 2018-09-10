@@ -184,7 +184,7 @@ export default class HowToStep extends Component {
 		} = this.props;
 
 		let { id, name, text } = step;
-		let stepName = name.length ? name : <strong>{ __( "Enter a step title", "wordpress-seo" ) }</strong>;
+		let stepName = name.length ? name : <strong>{ __( "Step title…", "wordpress-seo" ) }</strong>;
 
 		return (
 			<li className="schema-how-to-step" key={ id } >
@@ -212,7 +212,7 @@ export default class HowToStep extends Component {
 					value={ text }
 					onChange={ ( value ) => onChange( name, value, name, text ) }
 					isSelected={ isSelected && subElement === "text" }
-					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
+					placeholder={ __( "Step description…", "wordpress-seo" ) }
 					setFocusedElement={ () => onFocus( "text" ) }
 					keepPlaceholderOnFocus={ true }
 				/>

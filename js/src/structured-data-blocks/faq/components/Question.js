@@ -167,7 +167,7 @@ export default class Question extends Component {
 		} = this.props;
 
 		let { id, question, answer } = attributes;
-		let questionText = question.length ? question : <strong>{ __( "Enter a question", "wordpress-seo" ) }</strong>;
+		let questionText = question.length ? question : <strong>{ __( "Question…", "wordpress-seo" ) }</strong>;
 
 		return (
 			<div className="schema-faq-question" key={ id } >
@@ -190,7 +190,7 @@ export default class Question extends Component {
 					onChange={ ( value ) => onChange( question, value, question, answer ) }
 					isSelected={ isSelected && subElement === "answer" }
 					setFocusedElement={ () => onFocus( "answer" ) }
-					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }
+					placeholder={ __( "Answer to the question…", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
 				{ isSelected && this.getButtons() }

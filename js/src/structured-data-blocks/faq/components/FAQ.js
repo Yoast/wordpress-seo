@@ -312,7 +312,7 @@ export default class FAQ extends Component {
 	 */
 	render() {
 		let { attributes, setAttributes, className } = this.props;
-		let title = attributes.title ? attributes.title : <strong>{ __( "Enter a title for your FAQ section", "wordpress-seo" ) }</strong>;
+		let title = attributes.title && attributes.title.length ? attributes.title : <strong>{ __( "Title for your FAQ section…", "wordpress-seo" ) }</strong>;
 
 		const classNames = [ "schema-faq", className ].filter( ( i ) => i ).join( " " );
 
