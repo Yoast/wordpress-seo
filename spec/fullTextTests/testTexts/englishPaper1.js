@@ -56,8 +56,8 @@ const expectedResults = {
 		resultText: "All topic words appear within one sentence in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy.",
 	},
 	keyphraseLength: {
-		score: 0,
-		resultText: "",
+		score: 9,
+		resultText: "Your <a href='https://yoa.st/2pdd' target='_blank'>keyphrase</a> has a nice length.",
 	},
 	keywordDensity: {
 		score: 9,
