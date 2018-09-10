@@ -45,11 +45,11 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns the JSON LD for a how-to block in array form.
+	 * Returns the JSON LD for a FAQ block in array form.
 	 *
-	 * @param array $attributes The attributes of the how-to block.
+	 * @param array $attributes The attributes of the FAQ block.
 	 *
-	 * @return array The JSON LD representation of the how-to block in array form.
+	 * @return array The JSON LD representation of the FAQ block in array form.
 	 */
 	protected function get_json_ld( array $attributes ) {
 		$json_ld = array(
@@ -83,10 +83,6 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 		$json_ld = array(
 			'@type' => 'FAQPage',
 		);
-
-		if ( ! get_post()->post_title ) {
-			$json_ld['name'] = get_post()->post_title;
-		}
 
 		return $json_ld;
 	}
