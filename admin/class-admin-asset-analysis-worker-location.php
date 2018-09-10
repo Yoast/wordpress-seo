@@ -56,7 +56,7 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 	 *
 	 * @return string The URL of the asset.
 	 */
-	public function get_url( WPSEO_Admin_Asset $asset, $type ) {
+	public function get_url( WPSEO_Admin_Asset $asset = null, $type = WPSEO_Admin_Asset::TYPE_JS ) {
 		return $this->asset_location->get_url( $asset, $type );
 	}
 }
