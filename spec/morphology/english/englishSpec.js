@@ -1,5 +1,6 @@
-const getForms = require( "../../../src/morphology/english/getForms.js" );
-const morphologyData = require( "../../../src/morphology/morphologyData.json" ).en;
+import { getForms } from  "../../../src/morphology/english/getForms.js";
+import morphologyData from "../../../src/morphology/morphologyData.json";
+const morphologyDataEN = morphologyData.en;
 
 import { includes } from "lodash-es";
 
@@ -40,7 +41,7 @@ describe( "Test for getting all possible word forms for regular words", function
 	simpleWordsToTest.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
 			it( "returns an array of word forms for a regular word", function() {
-				const receivedForms = getForms( wordInParadigm, morphologyData );
+				const receivedForms = getForms( wordInParadigm, morphologyDataEN );
 				paradigm.forEach( function( form ) {
 					expect( receivedForms ).toContain( form );
 				} );
@@ -51,7 +52,7 @@ describe( "Test for getting all possible word forms for regular words", function
 
 describe( "Test for getting all possible word forms for complex words", function() {
 	complexWordsToTest.forEach( function( paradigm ) {
-		const receivedForms = getForms( paradigm[ 0 ], morphologyData );
+		const receivedForms = getForms( paradigm[ 0 ], morphologyDataEN );
 		const expectedForms = paradigm[ 1 ];
 		expectedForms.forEach( function( wordExpected ) {
 			it( "returns an array of word forms for a complex word", function() {
@@ -63,7 +64,7 @@ describe( "Test for getting all possible word forms for complex words", function
 
 describe( "Test for NOT getting verb forms for possessives", function() {
 	possessivesToTest.forEach( function( paradigm ) {
-		const receivedForms = getForms( paradigm[ 0 ], morphologyData );
+		const receivedForms = getForms( paradigm[ 0 ], morphologyDataEN );
 		const formsNotExpected = paradigm[ 1 ];
 		formsNotExpected.forEach( function( formNotExpected ) {
 			it( "returns an array of word forms that should not be formed for a possessive", function() {
