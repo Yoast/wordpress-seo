@@ -591,7 +591,7 @@ SnippetEditor.defaultProps = {
 	},
 	mapEditorDataToPreview: null,
 	locale: "en",
-	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
+	descriptionEditorFieldPlaceholder: __( "Modify your meta description by editing it right here", "yoast-components" ),
 	onChangeAnalysisData: noop,
 	hasPaperStyle: true,
 	showCloseButton: true,
