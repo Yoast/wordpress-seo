@@ -120,10 +120,9 @@ class SnippetEditor extends React.Component {
 	 * @returns {void}
 	 */
 	constructor( props ) {
-		if ( props.descriptionEditorFieldPlaceholder === "" ) {
-			props.descriptionEditorFieldPlaceholder = __( "Modify your meta description by editing it right here", "yoast-components" );
-		}
-		super( props );
+		const newProps = props;
+
+		super( newProps );
 
 		const measurementData = this.mapDataToMeasurements( props.data );
 		const previewData = this.mapDataToPreview( measurementData );
@@ -239,14 +238,22 @@ class SnippetEditor extends React.Component {
 			data,
 			replacementVariables,
 			recommendedReplacementVariables,
-			descriptionEditorFieldPlaceholder,
 			hasPaperStyle,
 			showCloseButton,
 		} = this.props;
+
+		let {
+			descriptionEditorFieldPlaceholder,
+		} = this.props;
+
 		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
 
 		if ( ! isOpen ) {
 			return null;
+		}
+
+		if ( descriptionEditorFieldPlaceholder === "" ) {
+			descriptionEditorFieldPlaceholder = __( "Modify your meta description by editing it right here", "yoast-components" );
 		}
 
 		return (
