@@ -59,7 +59,7 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 
 		$post = get_post();
 		if ( $post->post_title ) {
-			$json_ld['name'] = get_post()->post_title;
+			$json_ld['name'] = $post->post_title;
 		}
 
 		if ( ! empty( $attributes['hasDuration'] ) && $attributes['hasDuration'] === true ) {
