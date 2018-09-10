@@ -1,8 +1,10 @@
 import Assessor from "../../src/cornerstone/seoAssessor.js";
 import Paper from "../../src/values/Paper.js";
 import factory from "../helpers/factory.js";
-let i18n = factory.buildJed();
-let assessor = new Assessor( i18n );
+import getAssessment from "../helpers/getAssessment";
+
+const i18n = factory.buildJed();
+const assessor = new Assessor( i18n );
 
 describe( "running assessments in the assessor", function() {
 	it( "runs assessments without any specific requirements", function() {
@@ -69,5 +71,75 @@ describe( "running assessments in the assessor", function() {
 			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas synonym." +
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword", synonyms: "synonym" } ) );
 		expect( assessor.getValidResults().length ).toBe( 8 );
+	} );
+
+	describe( "has configuration overrides", () => {
+		test( "MetaDescriptionLengthAssessment", () => {
+			const assessment = getAssessment( assessor, "metaDescriptionLength" );
+
+			expect( assessment ).not.toBeNull();
+			expect( assessment._config.scores.tooLong ).toBe( 3 );
+			expect( assessment._config.scores.tooShort ).toBe( 3 );
+		} );
+
+		test( "SubHeadingsKeywordAssessment", () => {
+			const assessment = getAssessment( assessor, "subheadingsKeyword" );
+
+			expect( assessment ).not.toBeNull();
+			expect( assessment._config.scores.noMatches ).toBe( 3 );
+			expect( assessment._config.scores.oneMatch ).toBe( 6 );
+			expect( assessment._config.scores.multipleMatches ).toBe( 9 );
+		} );
+
+		test( "TextImagesAssessment", () => {
+			const assessment = getAssessment( assessor, "textImages" );
+
+			expect( assessment ).not.toBeNull();
+			expect( assessment._config.scores.noImages ).toBe( 3 );
+			expect( assessment._config.scores.withAltNonKeyword ).toBe( 3 );
+			expect( assessment._config.scores.withAlt ).toBe( 3 );
+			expect( assessment._config.scores.noAlt ).toBe( 3 );
+		} );
+
+		test( "TextLengthAssessment", () => {
+			const assessment = getAssessment( assessor, "textLength" );
+
+			expect( assessment ).not.toBeNull();
+			expect( assessment._config.recommendedMinimum ).toBe( 900 );
+			expect( assessment._config.slightlyBelowMinimum ).toBe( 400 );
+			expect( assessment._config.belowMinimum ).toBe( 300 );
+			expect( assessment._config.farBelowMinimum ).toBe( 0 );
+			expect( assessment._config.scores.belowMinimum ).toBe( -20 );
+			expect( assessment._config.scores.farBelowMinimum ).toBe( -20 );
+		} );
+
+		test( "OutboundLinksAssessment", () => {
+			const assessment = getAssessment( assessor, "externalLinks" );
+
+			expect( assessment ).not.toBeNull();
+			expect( assessment._config.scores.noLinks ).toBe( 3 );
+		} );
+
+		test( "PageTitleWidthAssesment", () => {
+			const assessment = getAssessment( assessor, "titleWidth" );
+
+			expect( assessment ).not.toBeNull();
+			expect( assessment._config.scores.widthTooShort ).toBe( 3 );
+			expect( assessment._config.scores.widthTooLong ).toBe( 3 );
+		} );
+
+		test( "UrlKeywordAssessment", () => {
+			const assessment = getAssessment( assessor, "urlKeyword" );
+
+			expect( assessment ).not.toBeNull();
+			expect( assessment._config.scores.noKeywordInUrl ).toBe( 3 );
+		} );
+
+		test( "UrlLengthAssessment", () => {
+			const assessment = getAssessment( assessor, "urlLength" );
+
+			expect( assessment ).not.toBeNull();
+			expect( assessment._config.scores.tooLong ).toBe( 3 );
+		} );
 	} );
 } );
