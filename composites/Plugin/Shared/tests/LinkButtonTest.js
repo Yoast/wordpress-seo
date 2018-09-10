@@ -8,7 +8,7 @@ test( "the BaseLinkButton matches the snapshot", () => {
 		<BaseLinkButton>LinkButtonValue</BaseLinkButton>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -17,6 +17,6 @@ test( "the LinkButton matches the snapshot", () => {
 		<LinkButton>LinkButtonValue</LinkButton>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

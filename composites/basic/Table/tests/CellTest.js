@@ -10,7 +10,7 @@ test( "the CellPrimary component matches the snapshot", () => {
 		</CellPrimary>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -21,7 +21,7 @@ test( "the CellFixedWidth component matches the snapshot", () => {
 		</CellFixedWidth>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -32,7 +32,7 @@ test( "the CellMinWidth component matches the snapshot", () => {
 		</CellMinWidth>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -43,18 +43,18 @@ test( "the CellIcon component matches the snapshot", () => {
 		</CellIcon>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
 test( "the CellPrimary with responsiveHeaders matches the snapshot", () => {
-	let CellPrimaryResponsive = responsiveHeaders( CellPrimary );
+	const CellPrimaryResponsive = responsiveHeaders( CellPrimary );
 	const component = renderer.create(
 		<CellPrimaryResponsive headerLabel="responsiveHeaders">
 			This is a primary cell with responsive headers
 		</CellPrimaryResponsive>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

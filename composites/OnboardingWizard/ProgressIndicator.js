@@ -17,11 +17,11 @@ const ProgressIndicator = ( props ) => {
 	}
 
 	if ( props.totalSteps < props.currentStepNumber ) {
-		return <p>Step {props.currentStepNumber}</p>;
+		return <p>Step { props.currentStepNumber }</p>;
 	}
 
 	return (
-		<p>Step {props.currentStepNumber} of {props.totalSteps}</p>
+		<p>Step { props.currentStepNumber } of { props.totalSteps }</p>
 	);
 };
 

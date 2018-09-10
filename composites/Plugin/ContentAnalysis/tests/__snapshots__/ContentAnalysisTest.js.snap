@@ -49,6 +49,12 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -197,12 +203,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 .c1 .c4 {
   padding: 8px 0;
   color: #0066cd;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
 }
 
 .c12 {
@@ -679,6 +679,12 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -827,12 +833,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 .c1 .c4 {
   padding: 8px 0;
   color: #0066cd;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
 }
 
 .c12 {
@@ -1285,6 +1285,12 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -1433,12 +1439,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 .c1 .c4 {
   padding: 8px 0;
   color: #0066cd;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
 }
 
 .c12 {
@@ -1939,6 +1939,12 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -2087,12 +2093,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 .c1 .c4 {
   padding: 8px 0;
   color: #0066cd;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
 }
 
 .c12 {
@@ -2593,6 +2593,12 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -2741,12 +2747,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 .c1 .c4 {
   padding: 8px 0;
   color: #0066cd;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
 }
 
 .c12 {
@@ -3085,6 +3085,12 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -3233,12 +3239,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 .c1 .c4 {
   padding: 8px 0;
   color: #0066cd;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
 }
 
 .c12 {
@@ -3577,6 +3577,12 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -3725,12 +3731,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 .c1 .c4 {
   padding: 8px 0;
   color: #0066cd;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
 }
 
 .c12 {
@@ -4138,6 +4138,12 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -4286,12 +4292,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 .c1 .c4 {
   padding: 8px 0;
   color: #0066cd;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
 }
 
 .c12 {

@@ -32,16 +32,18 @@ const StackedProgressBar = ( props ) => {
 		return null;
 	}
 
-	return(
+	return (
 		<StackedProgressBarContainer
 			className={ props.className }
-			barHeight={ props.barHeight }>
+			barHeight={ props.barHeight }
+		>
 			{ props.items.map( ( item, index ) =>
 				<StackedProgressBarProgress
 					className={ `${ props.className }__part` }
 					key={ index }
 					progressColor={ item.color }
-					progressWidth={ item.value / totalValue * 100 }/>
+					progressWidth={ item.value / totalValue * 100 }
+				/>
 			) }
 		</StackedProgressBarContainer>
 	);

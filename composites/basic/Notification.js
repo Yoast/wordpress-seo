@@ -92,7 +92,7 @@ function Notification( props ) {
 			/> }
 			<NotificationContent>
 				<Heading>{ props.title }</Heading>
-				<p className="prova" dangerouslySetInnerHTML={ { __html: props.html } }/>
+				<p className="prova" dangerouslySetInnerHTML={ { __html: props.html } } />
 			</NotificationContent>
 			{ props.isDismissable && <DismissButton
 				onClick={ props.onClick }

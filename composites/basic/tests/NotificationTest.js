@@ -8,7 +8,7 @@ test( "the Notification without props matches the snapshot", () => {
 		<Notification />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -29,6 +29,6 @@ test( "the Notification with props matches the snapshot", () => {
 		/>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

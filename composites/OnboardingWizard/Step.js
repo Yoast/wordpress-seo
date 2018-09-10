@@ -44,7 +44,7 @@ class Step extends React.Component {
 	 * @returns {void}
 	 */
 	componentWillReceiveProps( props ) {
-		if( props.currentStep !== this.props.currentStep ) {
+		if ( props.currentStep !== this.props.currentStep ) {
 			this.setFieldValues( props.fields, props.currentStep );
 		}
 	}
@@ -58,8 +58,8 @@ class Step extends React.Component {
 	 * @returns {void}
 	 */
 	setFieldValues( fields, currentStep ) {
-		let fieldNames = Object.keys( fields );
-		let fieldValues = this.state.fieldValues;
+		const fieldNames = Object.keys( fields );
+		const fieldValues = this.state.fieldValues;
 
 		if ( typeof fieldValues[ currentStep ] === "undefined" ) {
 			fieldValues[ currentStep ] = {};
@@ -86,8 +86,8 @@ class Step extends React.Component {
 	 * @returns {void}
 	 */
 	onChange( evt ) {
-		let fieldValues = this.state.fieldValues;
-		let fieldName = evt.target.name;
+		const fieldValues = this.state.fieldValues;
+		const fieldName = evt.target.name;
 
 		// If the field value is undefined, add the fields to the field values.
 		if ( this.hasFieldValue( this.state.currentStep, fieldName ) ) {
@@ -127,7 +127,7 @@ class Step extends React.Component {
 		keys = this.filterConditonalFields( keys, fields );
 
 		return keys.map( ( name ) => {
-			let currentField = fields[ name ];
+			const currentField = fields[ name ];
 
 			if ( typeof this.components[ currentField.componentName ] === "undefined" ||
 				! this.components[ currentField.componentName ] ) {
@@ -135,8 +135,8 @@ class Step extends React.Component {
 				return null;
 			}
 
-			let fieldKey = `${this.state.currentStep}-${name}`;
-			let fieldProps = this.getFieldProps( currentField.componentName, fieldKey, name, currentField );
+			const fieldKey = `${this.state.currentStep}-${name}`;
+			const fieldProps = this.getFieldProps( currentField.componentName, fieldKey, name, currentField );
 
 			return React.createElement( this.components[ currentField.componentName ], fieldProps );
 		} );
@@ -152,7 +152,7 @@ class Step extends React.Component {
 	 */
 	filterConditonalFields( fieldKeys, fields ) {
 		return fieldKeys.filter( ( name ) => {
-			if( fields[ name ].hasOwnProperty( "requires" ) ) {
+			if ( fields[ name ].hasOwnProperty( "requires" ) ) {
 				return this.showConditionalField( fields[ name ].requires );
 			}
 
@@ -170,7 +170,7 @@ class Step extends React.Component {
 	 * @returns {boolean} True when the field matches the condition.
 	 */
 	showConditionalField( condition ) {
-		if( ! this.hasFieldValue( this.state.currentStep, condition.field ) ) {
+		if ( ! this.hasFieldValue( this.state.currentStep, condition.field ) ) {
 			return false;
 		}
 
@@ -188,8 +188,8 @@ class Step extends React.Component {
 	 * @returns {string} The field value
 	 */
 	getFieldValue( name, field ) {
-		let storedFieldValue = this.state.fieldValues[ this.state.currentStep ][ name ];
-		let configFieldValue = field.data;
+		const storedFieldValue = this.state.fieldValues[ this.state.currentStep ][ name ];
+		const configFieldValue = field.data;
 
 		// The field values are only stored when the step is filled in by the user.
 		if ( storedFieldValue !== "" ) {
@@ -211,7 +211,7 @@ class Step extends React.Component {
 	 * @returns {Object} The initialized properties for the element.
 	 */
 	getFieldProps( componentType, key, name, currentField ) {
-		let props = {
+		const props = {
 			key,
 			name,
 			onChange: this.onChange.bind( this ),
@@ -223,7 +223,7 @@ class Step extends React.Component {
 		};
 
 		if ( componentType === "Input" ) {
-			let inputFieldProperties = {
+			const inputFieldProperties = {
 				label: currentField.properties.label,
 				"label-className": `${this.props.classPrefix}-text-input-label`,
 				"field-className": `${this.props.classPrefix}-text-input-field`,
@@ -236,7 +236,7 @@ class Step extends React.Component {
 		}
 
 		if ( componentType === "Choice" ) {
-			let choiceFieldProperties = {
+			const choiceFieldProperties = {
 				className: `${this.props.classPrefix}-input-radio`,
 				optionClassName: `${this.props.classPrefix}-input-radio-option`,
 			};
@@ -253,7 +253,7 @@ class Step extends React.Component {
 	 * @returns {JSX.Element} Rendered Step component.
 	 */
 	render() {
-		let fullWidthClass = this.props.fullWidth ? ` ${ this.props.classPrefix }-content-container__is-full-width` : "";
+		const fullWidthClass = this.props.fullWidth ? ` ${ this.props.classPrefix }-content-container__is-full-width` : "";
 
 		return (
 			<div
@@ -262,8 +262,9 @@ class Step extends React.Component {
 					this.stepContainer = stepContainer;
 				} }
 				tabIndex="-1"
-				aria-labelledby="step-title">
-				<h1 id="step-title">{this.props.title}</h1>
+				aria-labelledby="step-title"
+			>
+				<h1 id="step-title">{ this.props.title }</h1>
 				<div className={ `${ this.props.classPrefix }-content-container${ fullWidthClass }` }>
 					{ this.getFieldComponents( this.props.fields ) }
 				</div>

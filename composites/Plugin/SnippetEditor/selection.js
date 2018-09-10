@@ -37,7 +37,7 @@ export function getEntityRange( contentState, blockKey, entityKey ) {
 export function getEntityAtPosition( contentState, blockKey, position ) {
 	const block = contentState.getBlockForKey( blockKey );
 
-	let entity = block.getEntityAt( position );
+	const entity = block.getEntityAt( position );
 	const entityRange = getEntityRange( contentState, blockKey, entity );
 
 	if ( entityRange === null ) {

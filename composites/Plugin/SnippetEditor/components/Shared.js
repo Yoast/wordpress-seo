@@ -72,7 +72,7 @@ export const InputContainer = styled.div.attrs( {
  * @returns {string} The background image.
  */
 function getBackgroundImage( props ) {
-	let rtlStyle = getRtlStyle(
+	const rtlStyle = getRtlStyle(
 		angleRight( getCaretColor( props ) ),
 		angleLeft( getCaretColor( props ) )
 	);

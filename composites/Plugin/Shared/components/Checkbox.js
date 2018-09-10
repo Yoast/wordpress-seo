@@ -41,7 +41,7 @@ class Checkbox extends React.Component {
 	 * @returns {ReactElement} The Checkbox react component including its label.
 	 */
 	render() {
-		return(
+		return (
 			<React.Fragment>
 				<YoastCheckbox type="checkbox" id={ this.props.id } onChange={ this.handleChange.bind( this ) } />
 				<label htmlFor={ this.props.id }>

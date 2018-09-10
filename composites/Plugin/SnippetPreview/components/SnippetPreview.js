@@ -353,7 +353,7 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {string} The new sentence.
 	 */
 	dropLastWord( sentence ) {
-		let titleParts = sentence.split( " " );
+		const titleParts = sentence.split( " " );
 		titleParts.pop();
 
 		return titleParts.join( " " );
@@ -491,7 +491,8 @@ export default class SnippetPreview extends PureComponent {
 			<BaseUrlOverflowContainer
 				onMouseUp={ onMouseUp.bind( null, "url" ) }
 				onMouseEnter={ onMouseEnter.bind( null, "url" ) }
-				onMouseLeave={ onMouseLeave.bind( null ) }>
+				onMouseLeave={ onMouseLeave.bind( null ) }
+			>
 				{ urlContent }
 			</BaseUrlOverflowContainer>
 		</Url>;
@@ -626,9 +627,9 @@ export default class SnippetPreview extends PureComponent {
 			Title,
 		} = this.getPreparedComponents( mode );
 
-		const separator = mode === MODE_DESKTOP ? null : <Separator/>;
-		const downArrow = mode === MODE_DESKTOP ? <UrlDownArrow/> : null;
-		const amp       = mode === MODE_DESKTOP || ! isAmp ? null : <Amp/>;
+		const separator = mode === MODE_DESKTOP ? null : <Separator />;
+		const downArrow = mode === MODE_DESKTOP ? <UrlDownArrow /> : null;
+		const amp       = mode === MODE_DESKTOP || ! isAmp ? null : <Amp />;
 
 		/*
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
@@ -653,7 +654,7 @@ export default class SnippetPreview extends PureComponent {
 							onMouseLeave={ onMouseLeave.bind( null ) }
 						>
 							<TitleBounded>
-								<TitleUnbounded innerRef={ this.setTitleRef } >
+								<TitleUnbounded innerRef={ this.setTitleRef }>
 									{ this.getTitle() }
 								</TitleUnbounded>
 							</TitleBounded>

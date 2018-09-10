@@ -13,7 +13,7 @@ describe( "HelpText", () => {
 			</HelpText>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 
@@ -24,7 +24,7 @@ describe( "HelpText", () => {
 			</HelpText>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 } );

@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import colors from "../../../../style-guide/colors.json";
-import AnalysisResult from "../components/AnalysisResult.js";
+import AnalysisList from "./AnalysisList";
 import Collapsible, { StyledIconsButton } from "../../../../composites/Plugin/Shared/components/Collapsible";
 
 export const ContentAnalysisContainer = styled.div`
@@ -27,12 +27,6 @@ const StyledCollapsible = styled( Collapsible )`
 		padding: 8px 0;
 		color: ${ colors.$color_blue }
 	}
-`;
-
-const AnalysisList = styled.ul`
-	margin: 8px 0;
-	padding: 0;
-	list-style: none;
 `;
 
 /**
@@ -81,60 +75,6 @@ class ContentAnalysis extends React.Component {
 	}
 
 	/**
-	 * Gets the color for the bullet, based on the rating.
-	 *
-	 * @param {string} rating The rating of the result.
-	 *
-	 * @returns {string} The color for the bullet.
-	 */
-	getColor( rating ) {
-		switch ( rating ) {
-			case "good":
-				return colors.$color_good;
-			case "OK":
-				return colors.$color_ok;
-			case "bad":
-				return colors.$color_bad;
-			default:
-				return colors.$color_score_icon;
-		}
-	}
-
-	/**
-	 * Returns an AnalysisResult component for each result.
-	 *
-	 * @param {array} results The analysis results.
-	 *
-	 * @returns {array} A list of AnalysisResult components.
-	 */
-	getResults( results ) {
-		return results.map( ( result ) => {
-			let color = this.getColor( result.rating );
-			let isPressed = result.id === this.state.checked;
-			let ariaLabel = "";
-			if ( this.props.marksButtonStatus === "disabled" ) {
-				ariaLabel = __( "Marks are disabled in current view", "yoast-components" );
-			} else if ( isPressed ) {
-				ariaLabel = __( "Remove highlight from the text", "yoast-components" );
-			} else {
-				ariaLabel = __( "Highlight this result in the text", "yoast-components" );
-			}
-			return <AnalysisResult
-				key={ result.id }
-				text={ result.text }
-				bulletColor={ color }
-				hasMarksButton={ result.hasMarks }
-				ariaLabel={ ariaLabel }
-				pressed={ isPressed }
-				buttonId={ result.id }
-				onButtonClick={ this.handleClick.bind( this, result.id, result.marker ) }
-				marksButtonClassName={ this.props.marksButtonClassName }
-				marksButtonStatus={ this.props.marksButtonStatus }
-			/>;
-		} );
-	}
-
-	/**
 	 * Renders a Collapsible component with a liset of Analysis results.
 	 *
 	 * @param {string} title        The title of the collapsible section.
@@ -154,7 +94,13 @@ class ContentAnalysis extends React.Component {
 				suffixIconCollapsed={ null }
 				headingProps={ { level: headingLevel, fontSize: "13px", fontWeight: "bold" } }
 			>
-				<AnalysisList role="list">{ this.getResults( results ) }</AnalysisList>
+				<AnalysisList
+					results={ results }
+					marksButtonActivatedResult={ this.state.checked }
+					marksButtonStatus={ this.props.marksButtonStatus }
+					marksButtonClassName={ this.props.marksButtonClassName }
+					onMarksButtonClick={ this.handleClick.bind( this ) }
+				/>
 			</StyledCollapsible>
 		);
 	}

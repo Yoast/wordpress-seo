@@ -3,7 +3,7 @@ import React from "react";
 import { createComponentWithIntl } from "../../../../utils/intlProvider";
 import HelpCenter from "../../../Plugin/HelpCenter/HelpCenter.js";
 
-let tabItems = [
+const tabItems = [
 	{
 		label: "Video tutorial",
 		id: "video_tutorial",
@@ -24,10 +24,10 @@ let tabItems = [
 
 test( "the HelpCenter matches the snapshot", () => {
 	const component = createComponentWithIntl(
-		<HelpCenter items={ tabItems }/>
+		<HelpCenter items={ tabItems } />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -47,6 +47,6 @@ test( "the HelpCenter with props matches the snapshot", () => {
 		/>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

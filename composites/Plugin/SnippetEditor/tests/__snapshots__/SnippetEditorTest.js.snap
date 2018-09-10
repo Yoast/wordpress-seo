@@ -1066,7 +1066,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
     }
   }
   date=""
-  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+  descriptionEditorFieldPlaceholder=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -2975,7 +2975,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
     }
   }
   date=""
-  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+  descriptionEditorFieldPlaceholder=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -4884,7 +4884,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
     }
   }
   date=""
-  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+  descriptionEditorFieldPlaceholder=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -6793,7 +6793,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
     }
   }
   date=""
-  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+  descriptionEditorFieldPlaceholder=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -8459,7 +8459,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
     }
   }
   date=""
-  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+  descriptionEditorFieldPlaceholder=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -9723,7 +9723,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
     }
   }
   date=""
-  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+  descriptionEditorFieldPlaceholder=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -11632,7 +11632,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
     }
   }
   date=""
-  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+  descriptionEditorFieldPlaceholder=""
   descriptionLengthProgress={
     Object {
       "actual": 330,
@@ -14489,7 +14489,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
     }
   }
   date=""
-  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+  descriptionEditorFieldPlaceholder=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -16418,7 +16418,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
     }
   }
   date=""
-  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+  descriptionEditorFieldPlaceholder=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -18335,7 +18335,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
     }
   }
   date=""
-  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+  descriptionEditorFieldPlaceholder=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -20244,7 +20244,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
     }
   }
   date=""
-  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+  descriptionEditorFieldPlaceholder=""
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -22797,7 +22797,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
     }
   }
   date=""
-  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
+  descriptionEditorFieldPlaceholder=""
   descriptionLengthProgress={
     Object {
       "actual": 0,

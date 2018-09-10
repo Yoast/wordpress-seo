@@ -27,6 +27,6 @@ test( "the WordpressFeed matches the snapshot", () => {
 		/>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

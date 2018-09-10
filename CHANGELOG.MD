@@ -5,6 +5,14 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.11.0 September 10th, 2018
+### Fixed
+* Fixes a bug where the placeholder "Modify your meta description by editing it right here" wasn't translatable.
+
+### Added
+* Exposes `AnalysisList` to render a plain list of content analysis results.
+* Exposes `renderRatingToColor` which renders a rating received from YoastSEO.js to a color that can be used in CSS.
+
 ## 4.10.1 August 28th, 2018
 ### Fixed
 * Fixes an incorrect import of `YoastButton` in `index.js`.

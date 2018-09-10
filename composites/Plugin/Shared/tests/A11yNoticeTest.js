@@ -8,7 +8,7 @@ test( "the A11yNotice matches the snapshot", () => {
 		<A11yNotice>A11yNoticeValue</A11yNotice>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -20,7 +20,7 @@ test( "the A11yNotice can be changed to a different element", () => {
 		<H2A11yNotice>H2A11yNoticeValue</H2A11yNotice>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 	expect( tree.type ).toEqual( "h2" );
 } );

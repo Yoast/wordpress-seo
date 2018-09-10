@@ -19,11 +19,11 @@ import {
 
 describe( "setSeoResultsForKeyword action creator", function() {
 	it( "creates the setSeoResultsForKeyword action", function() {
-		let results = [
+		const results = [
 			{ id: "result", score: 9, description: "This is a great score!", markingIsActive: true },
 			{ id: "result", score: 3, description: "This is a bad score!", markingIsActive: true },
 		];
-		let keyword = "keyword";
+		const keyword = "keyword";
 
 		const expected = {
 			type: SET_SEO_RESULTS_FOR_KEYWORD,
@@ -37,8 +37,8 @@ describe( "setSeoResultsForKeyword action creator", function() {
 
 describe( "updateSeoResult action creator", function() {
 	it( "creates the updateSeoResult action", function() {
-		let result = { id: "result", score: 9, description: "This is a great score!", markingIsActive: true };
-		let keyword = "keyword";
+		const result = { id: "result", score: 9, description: "This is a great score!", markingIsActive: true };
+		const keyword = "keyword";
 
 		const expected = {
 			type: UPDATE_SEO_RESULT,
@@ -52,7 +52,7 @@ describe( "updateSeoResult action creator", function() {
 
 describe( "updateReadabilityResult action creator", function() {
 	it( "creates the readabilitySeoResult action", function() {
-		let result = { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false };
+		const result = { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false };
 
 		const expected = {
 			type: UPDATE_READABILITY_RESULT,
@@ -65,8 +65,8 @@ describe( "updateReadabilityResult action creator", function() {
 
 describe( "setSeoResults function", function() {
 	it( "creates the setSeoResults action", function() {
-		let keyword = "keyword";
-		let resultsPerKeyword = [ {
+		const keyword = "keyword";
+		const resultsPerKeyword = [ {
 			keyword: keyword,
 			results: [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ],
 		} ];
@@ -82,7 +82,7 @@ describe( "setSeoResults function", function() {
 
 describe( "setReadabilityResults function", function() {
 	it( "creates the setReadabilityResults action", function() {
-		let results = [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ];
+		const results = [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ];
 
 		const expected = {
 			type: SET_READABILITY_RESULTS,
@@ -95,7 +95,7 @@ describe( "setReadabilityResults function", function() {
 
 describe( "removeKeyword function", function() {
 	it( "creates the removeKeywordsAction", function() {
-		let keyword = "keyword";
+		const keyword = "keyword";
 
 		const expected = {
 			type: REMOVE_KEYWORD,
@@ -108,7 +108,7 @@ describe( "removeKeyword function", function() {
 
 describe( "setOverallScore readability function", function() {
 	it( "creates the setOverallScore for readability results action", function() {
-		let overallScore = [
+		const overallScore = [
 			{ id: "overallScore", score: 3 },
 		];
 
@@ -123,8 +123,8 @@ describe( "setOverallScore readability function", function() {
 
 describe( "setOverallScore seo function", function() {
 	it( "creates the setOverallScore for seo results action", function() {
-		let keyword = "keyword1";
-		let overallScore = [
+		const keyword = "keyword1";
+		const overallScore = [
 			{ id: "overallScore", score: "3" },
 		];
 

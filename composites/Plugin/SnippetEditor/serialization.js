@@ -69,7 +69,7 @@ function inRange( position, start, end ) {
  * @returns {string} The content of the block serialized into a string.
  */
 export function serializeBlock( block, getEntity, { start = 0, end = block.getText().length } = {} ) {
-	let text = block.getText().slice( start, end );
+	const text = block.getText().slice( start, end );
 
 	const replacements = [];
 
