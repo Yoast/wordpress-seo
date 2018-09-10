@@ -1,7 +1,6 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { Fragment } from "react";
 import appendSpace from "../../../components/higherorder/appendSpace";
 
 const { Component } = window.wp.element;
