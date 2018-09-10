@@ -46,17 +46,12 @@ export default class LanguageNotice extends PureComponent {
 			return null;
 		}
 
-		const changeLanguageText = __( "Change language", "yoast-components" );
-		/* Translators: %s expands to the actual language. */
-		const canChangeLanguageText = __( "Your site language is set to %s. ", "yoast-components" );
-		/* Translators: %s expands to the actual language. */
-		const canNotChangeLanguageText = __(
-			"Your site language is set to %s. If this is not correct, contact your site administrator.",
-			"yoast-components"
-		);
-
 		// Determine the correct text.
-		let text = canChangeLanguage ? canChangeLanguageText : canNotChangeLanguageText;
+		let text = canChangeLanguage
+			/* Translators: %s expands to the actual language. */
+			? __( "Your site language is set to %s. ", "yoast-components" )
+			/* Translators: %s expands to the actual language. */
+			: __( "Your site language is set to %s. If this is not correct, contact your site administrator.", "yoast-components" );
 
 		// Replace the %s with a strong marked language.
 		text = sprintf( text, `{{strong}}${ language }{{/strong}}` );
@@ -71,7 +66,7 @@ export default class LanguageNotice extends PureComponent {
 			<YoastLanguageNotice>
 				{ text }
 				{ canChangeLanguage && <ChangeLanguageLink href={ changeLanguageLink }>
-					{ changeLanguageText }
+					{ __( "Change language", "yoast-components" ) }
 				</ChangeLanguageLink> }
 			</YoastLanguageNotice>
 		);
