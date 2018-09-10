@@ -537,7 +537,7 @@ export default class HowTo extends Component {
 	 * @returns {void}
 	 */
 	setDurationText( text ) {
-		if( text === "" ) {
+		if ( text === "" ) {
 			text = this.getDefaultDurationText();
 		}
 		this.props.setAttributes( { durationText: text } );
@@ -566,7 +566,7 @@ export default class HowTo extends Component {
 	 * @returns {Component} The controls to add to the sidebar.
 	 */
 	getSidebar( unorderedList, additionalClasses, durationText ) {
-		if( durationText === this.getDefaultDurationText() ) {
+		if ( durationText === this.getDefaultDurationText() ) {
 			durationText = "";
 		}
 
