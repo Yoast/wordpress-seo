@@ -9,10 +9,13 @@ import toString from "lodash/toString";
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
 import buildDurationString from "../utils/buildDurationString";
+import appendSpace from "../../../components/higherorder/appendSpace";
 
 const { RichText, InspectorControls } = window.wp.editor;
 const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;
 const { Component, renderToString } = window.wp.element;
+
+const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 
 /**
  * Modified Text Control to provide a better layout experience.
@@ -445,16 +448,14 @@ export default class HowTo extends Component {
 					<p className="schema-how-to-total-time">
 						{ __( "Time needed:", "wordpress-seo" ) }
 						&nbsp;
-						{ timeString }.
+						{ timeString + ". " }
 					</p>
 				}
-				{ " " }
-				<RichText.Content
+				<RichTextWithAppendedSpace
 					tagName="p"
 					className="schema-how-to-description"
 					value={ description }
 				/>
-				{ " " }
 				{ unorderedList
 					? <ul className={ listClassNames }>{ steps }</ul>
 					: <ol className={ listClassNames }>{ steps }</ol>

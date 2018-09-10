@@ -2,10 +2,14 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { Fragment } from "react";
+import appendSpace from "../../../components/higherorder/appendSpace";
 
 const { Component } = window.wp.element;
 const { IconButton } = window.wp.components;
 const { RichText, MediaUpload } = window.wp.editor;
+
+const RichTextWithAppendedSpace = appendSpace( RichText );
+const RichTextContentWithAppendedSpace = appendSpace( RichText.Content );
 
 /**
  * A How-to step within a How-to block.
@@ -152,21 +156,19 @@ export default class HowToStep extends Component {
 		return(
 			<Fragment>
 				<li className={ "schema-how-to-step" } key={ step.id } >
-					<RichText.Content
+					<RichTextContentWithAppendedSpace
 						tagName="strong"
 						className="schema-how-to-step-name"
 						key={ step.id + "-name" }
 						value={ step.name }
 					/>
-					{ " " }
-					<RichText.Content
+					<RichTextContentWithAppendedSpace
 						tagName="p"
 						className="schema-how-to-step-text"
 						key={ step.id + "-text" }
 						value={ step.text }
 					/>
 				</li>
-				{ " " }
 			</Fragment>
 		);
 	}
@@ -198,7 +200,7 @@ export default class HowToStep extends Component {
 						: ( index + 1 ) + "."
 					}
 				</span>
-				<RichText
+				<RichTextWithAppendedSpace
 					className="schema-how-to-step-name"
 					tagName="p"
 					onSetup={ ( ref ) => editorRef( "name", ref ) }
@@ -210,7 +212,7 @@ export default class HowToStep extends Component {
 					setFocusedElement={ () => onFocus( "name" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
-				<RichText
+				<RichTextWithAppendedSpace
 					className="schema-how-to-step-text"
 					tagName="p"
 					onSetup={ ( ref ) => editorRef( "text", ref ) }
