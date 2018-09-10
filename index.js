@@ -42,11 +42,26 @@ export {
 	interpreters,
 };
 
-/**
+/*
  * Used for backwards compatibility reasons.
  * For new exports, please add it as a named dependency above instead.
- **/
+ */
 export default {
+	App,
+	Assessor,
+	ContentAssessor,
+	TaxonomyAssessor,
+	Pluggable,
+	Researcher,
+	SnippetPreview,
+
+	Paper,
+	AssessmentResult,
+
+	AnalysisWebWorker,
+	AnalysisWorkerWrapper,
+	createWorker,
+
 	assessments,
 	bundledPlugins,
 	config,
