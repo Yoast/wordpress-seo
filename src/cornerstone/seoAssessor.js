@@ -66,7 +66,6 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 			recommendedMinimum: 900,
 			slightlyBelowMinimum: 400,
 			belowMinimum: 300,
-			farBelowMinimum: 0,
 
 			scores: {
 				belowMinimum: -20,
