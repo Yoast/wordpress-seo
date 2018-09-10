@@ -120,9 +120,7 @@ class SnippetEditor extends React.Component {
 	 * @returns {void}
 	 */
 	constructor( props ) {
-		const newProps = props;
-
-		super( newProps );
+		super( props );
 
 		const measurementData = this.mapDataToMeasurements( props.data );
 		const previewData = this.mapDataToPreview( measurementData );
