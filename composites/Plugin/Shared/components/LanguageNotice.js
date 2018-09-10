@@ -47,11 +47,12 @@ export default class LanguageNotice extends PureComponent {
 		}
 
 		// Determine the correct text.
-		let text = canChangeLanguage
+		/* Translators: %s expands to the actual language. */
+		let text = __( "Your site language is set to %s. ", "yoast-components" );
+		if ( ! canChangeLanguage ) {
 			/* Translators: %s expands to the actual language. */
-			? __( "Your site language is set to %s. ", "yoast-components" )
-			/* Translators: %s expands to the actual language. */
-			: __( "Your site language is set to %s. If this is not correct, contact your site administrator.", "yoast-components" );
+			text = __( "Your site language is set to %s. If this is not correct, contact your site administrator.", "yoast-components" );
+		}
 
 		// Replace the %s with a strong marked language.
 		text = sprintf( text, `{{strong}}${ language }{{/strong}}` );
