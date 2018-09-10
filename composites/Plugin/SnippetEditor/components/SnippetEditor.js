@@ -143,6 +143,10 @@ class SnippetEditor extends React.Component {
 		this.close = this.close.bind( this );
 		this.setEditButtonRef = this.setEditButtonRef.bind( this );
 		this.handleChange = this.handleChange.bind( this );
+
+		if ( this.props.descriptionEditorFieldPlaceholder === "" ) {
+			this.props.descriptionEditorFieldPlaceholder = __( "Modify your meta description by editing it right here", "yoast-components" );
+		}
 	}
 
 	/**
@@ -591,7 +595,7 @@ SnippetEditor.defaultProps = {
 	},
 	mapEditorDataToPreview: null,
 	locale: "en",
-	descriptionEditorFieldPlaceholder: __( "Modify your meta description by editing it right here", "yoast-components" ),
+	descriptionEditorFieldPlaceholder: "",
 	onChangeAnalysisData: noop,
 	hasPaperStyle: true,
 	showCloseButton: true,
