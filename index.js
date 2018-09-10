@@ -32,8 +32,20 @@ export {
 	AnalysisWebWorker,
 	AnalysisWorkerWrapper,
 	createWorker,
+
+	assessments,
+	bundledPlugins,
+	config,
+	helpers,
+	markers,
+	string,
+	interpreters,
 };
 
+/**
+ * Used for backwards compatibility reasons.
+ * For new exports, please add it as a named dependency above instead.
+ **/
 export default {
 	assessments,
 	bundledPlugins,
