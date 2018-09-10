@@ -66,8 +66,8 @@ export const StyledIconsButton = styled( IconsButton )`
  * @returns {Function} A function that will return the wrapped component with given properties.
  */
 export function wrapInHeading( Component, props ) {
-	const HeadingLevel = `h${ props.level }`;
-	const StyledHeadingLevel = styled( HeadingLevel )`
+	const headingLevel = `h${ props.level }`;
+	const StyledHeadingLevel = styled( headingLevel )`
 		margin: 0 !important;
 		padding: 0 !important;
 		font-size: ${ props.fontSize } !important;
