@@ -10,10 +10,13 @@ import get from "lodash/get";
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
 import buildDurationString from "../utils/buildDurationString";
+import appendSpace from "../../../components/higherorder/appendSpace";
 
 const { RichText, InspectorControls } = window.wp.editor;
 const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;
 const { Component, renderToString } = window.wp.element;
+
+const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 
 /**
  * Modified Text Control to provide a better layout experience.
@@ -474,10 +477,10 @@ export default class HowTo extends Component {
 							{ durationText }
 							&nbsp;
 						</span>
-						{ timeString }.
+						{ timeString + ". " }
 					</p>
 				}
-				<RichText.Content
+				<RichTextWithAppendedSpace
 					tagName="p"
 					className="schema-how-to-description"
 					value={ description }
@@ -530,20 +533,6 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Sets the duration text to describe the time the guide in the how-to block takes.
-	 *
-	 * @param {string} text The text to describe the duration.
-	 *
-	 * @returns {void}
-	 */
-	setDurationText( text ) {
-		if ( text === "" ) {
-			text = this.getDefaultDurationText();
-		}
-		this.props.setAttributes( { durationText: text } );
-	}
-
-	/**
 	 * Returns the help text for this how-to block"s list type.
 	 *
 	 * @param {boolean} checked Whether or not the list is unordered.
@@ -561,15 +550,10 @@ export default class HowTo extends Component {
 	 *
 	 * @param {boolean} unorderedList     Whether to show the list as an unordered list.
 	 * @param {string}  additionalClasses The additional CSS classes to add to the list.
-	 * @param {string}  durationText      The text to describe the duration.
 	 *
 	 * @returns {Component} The controls to add to the sidebar.
 	 */
-	getSidebar( unorderedList, additionalClasses, durationText ) {
-		if ( durationText === this.getDefaultDurationText() ) {
-			durationText = "";
-		}
-
+	getSidebar( unorderedList, additionalClasses ) {
 		return <InspectorControls>
 			<PanelBody title={ __( "Settings", "wordpress-seo" ) } className="blocks-font-size">
 				<SpacedTextControl
@@ -577,13 +561,6 @@ export default class HowTo extends Component {
 					value={ additionalClasses }
 					onChange={ this.addCSSClasses }
 					help={ __( "Optional. This can give you better control over the styling of the steps.", "wordpress-seo" ) }
-				/>
-				<SpacedTextControl
-					label={ __( "Describe the duration of the instruction:", "wordpress-seo" ) }
-					value={ durationText }
-					onChange={ this.setDurationText }
-					help={ __( "Optional. Customize how you want to describe the duration of the instruction", "wordpress-seo" ) }
-					placeholder={ this.getDefaultDurationText() }
 				/>
 				<ToggleControl
 					label={ __( "Unordered list", "wordpress-seo" ) }
@@ -626,7 +603,7 @@ export default class HowTo extends Component {
 					{ this.getSteps() }
 				</ul>
 				<div className="schema-how-to-buttons">{ this.getAddStepButton() }</div>
-				{ this.getSidebar( attributes.unorderedList, attributes.additionalListCssClasses, attributes.durationText ) }
+				{ this.getSidebar( attributes.unorderedList, attributes.additionalListCssClasses ) }
 			</div>
 		);
 	}

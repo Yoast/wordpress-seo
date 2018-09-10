@@ -140,6 +140,6 @@
     "yoastseo": "https://github.com/Yoast/YoastSEO.js.git#develop"
   },
   "yoast": {
-    "pluginVersion": "8.2-RC5"
+    "pluginVersion": "8.2-RC6"
   }
 }

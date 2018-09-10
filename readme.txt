@@ -111,6 +111,8 @@ Release Date: September 11th, 2018
 
 Enhancements:
 
+* Introduces a How-To block in Gutenberg to create a How-to guide in an SEO-friendly way. Read more about the Gutenblocks in [https://yoa.st/gutenblocks](our release post).
+* Introduces a FAQ block in Gutenberg to list your Frequently Asked Questions in an SEO-friendly way. Read more about the Gutenblocks in [https://yoa.st/gutenblocks](our release post).
 * Adds readability analysis for Polish.
 * On Multisite environments, in addition to the site domain, path and ID, also site titles are now present in the site selection dropdowns.
 
