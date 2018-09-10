@@ -9,7 +9,6 @@ import Question from "./Question";
 import { stripHTML } from "../../../helpers/stringHelpers";
 import appendSpace from "../../../components/higherorder/appendSpace";
 
-const { RichText } = window.wp.editor;
 const { IconButton } = window.wp.components;
 const { Component, renderToString } = window.wp.element;
 
