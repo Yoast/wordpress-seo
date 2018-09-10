@@ -24,11 +24,19 @@ export default function( paper, researcher ) {
 		matches: []
 	};
 
+	/*
+	 	Count the amount of key phrase occurrences in the sentences.
+	 	An occurrence is counted when all keywords of the key phrase are contained within the sentence.
+	 	Each sentence can contain multiple key phrases
+	 	(e.g. "The apple potato is an apple and a potato." has two occurrences of the key phrase "apple potato").
+	*/
 	sentences.forEach( sentence => {
 		let matches = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
 		let hasAllKeywords = matches.every( keywordForm => keywordForm.count > 0 );
+
 		if( hasAllKeywords ) {
-			keywordsFound.count += matches.reduce( ( sum, match) => sum + match.count, 0 );
+			let counts = matches.map( match => match.count );
+			keywordsFound.count += Math.min( ...counts );
 			keywordsFound.matches = matches.reduce( ( arr, match ) => [ ...arr, ...match.matches ] );
 		}
 	} );
