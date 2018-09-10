@@ -1,10 +1,9 @@
 import { forEach, get, isArray, isObject, isNumber } from "lodash-es";
 
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
-import SubheadingDistributionTooLong from "../../src/assessments/readability/subheadingDistributionTooLongAssessment";
-import SentenceLengthInText from "../../src/assessments/readability/sentenceLengthInTextAssessment";
 import Paper from "../../src/values/Paper";
 import testTexts from "../fullTextTests/testTexts";
+import isCornerstoneAssessor from "../helpers/isCornerstoneAssessor";
 
 /**
  * Creates a mocked scope.
@@ -36,31 +35,6 @@ function createMessage( type, payload = {}, id = 0 ) {
 		},
 	};
 }
-
-/**
- * Checks if the assessor is a cornerstone assessor.
- *
- * Use the assessment configs to determine whether we have the cornerstone
- * content assessor or the not.
- *
- * @param {ContentAssessor|CornerstoneContentAssessor} assessor The assessor to check.
- *
- * @returns {boolean} True if it is a cornerstone assessor.
- */
-function isCornerstoneAssessor( assessor ) {
-	const subheadingConfig = get( assessor, [ "_assessments", "1", "_config", "parameters", "recommendedMaximumWordCount" ], defaultAssessmentConfigValues.subheading );
-	if ( subheadingConfig !== defaultAssessmentConfigValues.subheading ) {
-		return true;
-	}
-
-	const sentenceLengthConfig = get( assessor, [ "_assessments", "3", "_config", "slightlyTooMany" ], defaultAssessmentConfigValues.sentenceLength );
-	return sentenceLengthConfig !== defaultAssessmentConfigValues.sentenceLength;
-}
-
-const defaultAssessmentConfigValues = {
-	subheading: get ( new SubheadingDistributionTooLong(), [ "_config", "parameters", "recommendedMaximumWordCount" ], -1 ),
-	sentenceLength: get ( new SentenceLengthInText(), [ "_config", "slightlyTooMany" ], -1 ),
-};
 
 // Re-using these global variables.
 let scope = null;
@@ -159,8 +133,6 @@ describe( "AnalysisWebWorker", () => {
 			} );
 
 			test( "creates the i18n", () => {
-				expect( worker._i18n ).not.toBeDefined();
-
 				scope.onmessage( createMessage( "initialize", {
 					translations: {
 						domain: "messages",

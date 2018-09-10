@@ -27,7 +27,7 @@ export default function isCornerstoneAssessor( assessor ) {
 		defaultConfigValues.subheading
 	);
 
-	const sentenceLengthAssessment = getAssessment( assessor, "subheadingsTooLong" );
+	const sentenceLengthAssessment = getAssessment( assessor, "textSentenceLength" );
 	const sentenceLengthConfig = get(
 		sentenceLengthAssessment,
 		[ "_config", "slightlyTooMany" ],
