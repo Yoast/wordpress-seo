@@ -54,7 +54,7 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	protected function get_json_ld( array $attributes ) {
 		$json_ld = array(
 			'@context' => 'http://schema.org',
-			'@graph'   => array( $this->get_faq_json_ld( $attributes ) ),
+			'@graph'   => array( $this->get_faq_json_ld() ),
 		);
 
 		if ( ! is_array( $attributes['questions'] ) ) {
@@ -72,17 +72,15 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns the JSON LD for a FAQPage in a faq block in array form.
 	 *
-	 * @param array $attributes The attributes of the faq block.
-	 *
 	 * @return array The JSON LD representation of the FAQPage in a faq block in array form.
 	 */
-	protected function get_faq_json_ld( array $attributes ) {
+	protected function get_faq_json_ld() {
 		$json_ld = array(
 			'@type' => 'FAQPage',
 		);
 
-		if ( ! empty( $attributes['jsonTitle'] ) ) {
-			$json_ld['name'] = $attributes['jsonTitle'];
+		if ( ! get_post()->post_title ) {
+			$json_ld['name'] = get_post()->post_title;
 		}
 
 		return $json_ld;
