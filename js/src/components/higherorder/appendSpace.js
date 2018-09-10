@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 
 /**
- * Appends a space to the passed component.
+ * A higher order component that appends a space to the given component.
  *
- * @param {ReactElement} WrappedComponent The component to append a space to.
- * @returns {ReactElement} The component with an appended space.
+ * @param {ReactComponent} WrappedComponent The component to append a space to.
+ * @returns {ReactComponent} The component with an appended space.
  */
 const appendSpace = function( WrappedComponent ) {
 	return class ComponentWithAppendedSpace extends React.Component {

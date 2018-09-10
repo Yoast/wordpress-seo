@@ -154,22 +154,20 @@ export default class HowToStep extends Component {
 	 */
 	static Content( step ) {
 		return(
-			<Fragment>
-				<li className={ "schema-how-to-step" } key={ step.id } >
-					<RichTextContentWithAppendedSpace
-						tagName="strong"
-						className="schema-how-to-step-name"
-						key={ step.id + "-name" }
-						value={ step.name }
-					/>
-					<RichTextContentWithAppendedSpace
-						tagName="p"
-						className="schema-how-to-step-text"
-						key={ step.id + "-text" }
-						value={ step.text }
-					/>
-				</li>
-			</Fragment>
+			<li className={ "schema-how-to-step" } key={ step.id } >
+				<RichTextContentWithAppendedSpace
+					tagName="strong"
+					className="schema-how-to-step-name"
+					key={ step.id + "-name" }
+					value={ step.name }
+				/>
+				<RichTextContentWithAppendedSpace
+					tagName="p"
+					className="schema-how-to-step-text"
+					key={ step.id + "-text" }
+					value={ step.text }
+				/>
+			</li>
 		);
 	}
 
