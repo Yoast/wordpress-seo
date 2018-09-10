@@ -308,8 +308,8 @@ class OnboardingWizard extends React.Component {
 						<div className="yoast-wizard">
 							{ this.renderErrorMessage() }
 							<Step
-								ref={ setStep => {
-									this.step = setStep;
+								ref={ ref => {
+									this.step = ref;
 								} }
 								currentStep={ this.state.currentStepId }
 								title={ step.title }
