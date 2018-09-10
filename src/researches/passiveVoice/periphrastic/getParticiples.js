@@ -1,16 +1,17 @@
 import { forEach } from "lodash-es";
 
-const getWords = require( "../../../stringProcessing/getWords.js" );
-const matchParticiples = require( "./matchParticiples" )();
+import getWords from "../../../stringProcessing/getWords.js";
+import matchParticiplesFactory from "./matchParticiples";
+const matchParticiples = matchParticiplesFactory();
 const regularParticipleRegex = matchParticiples.regularParticiples;
 const irregularParticipleRegex = matchParticiples.irregularParticiples;
 
-const EnglishParticiple = require( "../../english/passiveVoice/EnglishParticiple.js" );
-const FrenchParticiple = require( "../../french/passiveVoice/FrenchParticiple.js" );
-const SpanishParticiple = require( "../../spanish/passiveVoice/SpanishParticiple.js" );
-const ItalianParticiple = require( "../../italian/passiveVoice/ItalianParticiple.js" );
-const DutchParticiple = require( "../../dutch/passiveVoice/DutchParticiple.js" );
-const PolishParticiple = require( "../../polish/passiveVoice/PolishParticiple.js" );
+import EnglishParticiple from "../../english/passiveVoice/EnglishParticiple.js";
+import FrenchParticiple from "../../french/passiveVoice/FrenchParticiple.js";
+import SpanishParticiple from "../../spanish/passiveVoice/SpanishParticiple.js";
+import ItalianParticiple from "../../italian/passiveVoice/ItalianParticiple.js";
+import DutchParticiple from "../../dutch/passiveVoice/DutchParticiple.js";
+import PolishParticiple from "../../polish/passiveVoice/PolishParticiple.js";
 
 /**
  * Creates participle objects for the participles found in a sentence part.
@@ -20,7 +21,7 @@ const PolishParticiple = require( "../../polish/passiveVoice/PolishParticiple.js
  * @param {string} language The language to find the participles for.
  * @returns {Array} The list with participle objects.
  */
-module.exports = function( sentencePartText, auxiliaries, language ) {
+export default function( sentencePartText, auxiliaries, language ) {
 	let words = getWords( sentencePartText );
 	let foundParticiples = [];
 
@@ -63,4 +64,4 @@ module.exports = function( sentencePartText, auxiliaries, language ) {
 		}
 	} );
 	return foundParticiples;
-};
+}

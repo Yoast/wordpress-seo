@@ -3,7 +3,7 @@
  * For each participle, versions for all four possible suffixes (-o, -a, -e, -i) are included.
  * @returns {Array} The list with participles.
  */
-module.exports = function() {
+export default function() {
 	return [
 		"abalienato",
 		"abbacchiato",
@@ -28730,4 +28730,4 @@ module.exports = function() {
 		"zumati",
 		"zuppati",
 	];
-};
+}

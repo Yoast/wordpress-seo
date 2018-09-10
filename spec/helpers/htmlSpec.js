@@ -1,4 +1,4 @@
-var html = require( "../../js/helpers/html" );
+import html from "../../src/helpers/html";
 
 var blockElements = html.blockElements;
 var inlineElements = html.inlineElements;

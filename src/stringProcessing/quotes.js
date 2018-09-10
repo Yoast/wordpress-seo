@@ -28,7 +28,13 @@ function normalizeQuotes( text ) {
 	return normalizeDoubleQuotes( normalizeSingleQuotes( text ) );
 }
 
-module.exports = {
+export {
+	normalizeSingleQuotes as normalizeSingle,
+	normalizeDoubleQuotes as normalizeDouble,
+	normalizeQuotes as normalize,
+};
+
+export default {
 	normalizeSingle: normalizeSingleQuotes,
 	normalizeDouble: normalizeDoubleQuotes,
 	normalize: normalizeQuotes,

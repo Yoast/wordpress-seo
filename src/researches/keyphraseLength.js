@@ -1,5 +1,5 @@
-var countWords = require( "../stringProcessing/countWords" );
-var sanitizeString = require( "../stringProcessing/sanitizeString" );
+import countWords from "../stringProcessing/countWords";
+import sanitizeString from "../stringProcessing/sanitizeString";
 
 /**
  * Determines the length in words of a the keyphrase, the keyword is a keyphrase if it is more than one word.
@@ -13,4 +13,4 @@ function keyphraseLengthResearch( paper ) {
 	return countWords( keyphrase );
 }
 
-module.exports = keyphraseLengthResearch;
+export default keyphraseLengthResearch;

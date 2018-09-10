@@ -107,4 +107,4 @@ DeviationFragment.prototype.getSyllables = function() {
 	return this._syllables;
 };
 
-module.exports = DeviationFragment;
+export default DeviationFragment;

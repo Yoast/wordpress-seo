@@ -1,4 +1,4 @@
-import PolishSentencePart from "../../../../js/researches/polish/passiveVoice/SentencePart.js";
+import PolishSentencePart from "../../../../src/researches/polish/passiveVoice/SentencePart.js";
 
 describe( "creates a Polish sentence part", function() {
 	it( "makes sure the Polish sentence part inherits all functions", function() {

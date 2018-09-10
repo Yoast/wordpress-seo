@@ -1,8 +1,8 @@
-var Researcher = require( "./researcher.js" );
-var MissingArgument = require( "./errors/missingArgument" );
-var removeDuplicateMarks = require( "./markers/removeDuplicateMarks" );
-var AssessmentResult = require( "./values/AssessmentResult.js" );
-var showTrace = require( "./helpers/errors.js" ).showTrace;
+import Researcher from "./researcher.js";
+import MissingArgument from "./errors/missingArgument";
+import removeDuplicateMarks from "./markers/removeDuplicateMarks";
+import AssessmentResult from "./values/AssessmentResult.js";
+import { showTrace } from "./helpers/errors.js";
 
 import { isUndefined } from "lodash-es";
 import { isFunction } from "lodash-es";
@@ -295,4 +295,4 @@ Assessor.prototype.getApplicableAssessments = function() {
 };
 
 
-module.exports = Assessor;
+export default Assessor;

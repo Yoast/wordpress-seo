@@ -2,7 +2,7 @@
  * Returns a list with stopwords for the Dutch passive voice assessment.
  * @returns {Array} The list with stopwords.
  */
-module.exports = function() {
+export default function() {
 	return [
 		"alhoewel",
 		"als",
@@ -33,4 +33,4 @@ module.exports = function() {
 		"welke",
 		"welk",
 	];
-};
+}

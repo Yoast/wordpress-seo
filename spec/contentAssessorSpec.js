@@ -1,7 +1,7 @@
-var ContentAssessor = require( "../js/contentAssessor.js" );
-var AssessmentResult = require( "../js/values/AssessmentResult.js" );
-var Factory = require( "./helpers/factory.js" );
-var Paper = require( "../js/values/Paper.js" );
+import ContentAssessor from "../src/contentAssessor.js";
+import AssessmentResult from "../src/values/AssessmentResult.js";
+import Factory from "./helpers/factory.js";
+import Paper from "../src/values/Paper.js";
 
 import { forEach } from "lodash-es";
 

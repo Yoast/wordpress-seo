@@ -1,4 +1,4 @@
-var ItalianSentencePart = require( "../../../../js/researches/italian/passiveVoice/SentencePart.js" );
+import ItalianSentencePart from "../../../../src/researches/italian/passiveVoice/SentencePart.js";
 
 describe( "creates an Italian sentence part", function() {
 	it( "makes sure the Italian sentence part inherits all functions", function() {

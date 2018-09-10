@@ -1,4 +1,6 @@
-let transitionWords = require( "./transitionWords.js" )().singleWords;
+import transitionWordsFactory from "./transitionWords";
+
+let transitionWords = transitionWordsFactory().singleWords;
 
 /**
  * Returns an array with exceptions for the prominent words researcher.
@@ -155,12 +157,13 @@ let titlesPreceding = [ "mevr", "dhr", "mr", "dr", "prof" ];
 
 let titlesFollowing = [ "jr", "sr" ];
 
-/*
-Exports all function words concatenated, and specific word categories and category combinations
-to be used as filters for the prominent words.
+/**
+ * Exports all function words concatenated, and specific word categories and category combinations
+ * to be used as filters for the prominent words.
+ *
+ * @returns {Object} Dutch function words.
  */
-
-module.exports = function() {
+export default function() {
 	return {
 		// These word categories are filtered at the ending of word combinations.
 		filteredAtBeginning: [].concat( passiveAuxiliariesInfinitive, otherAuxiliariesInfinitive, copulaInfinitive, delexicalizedVerbsInfinitive ),
@@ -190,5 +193,5 @@ module.exports = function() {
 			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive,
 			interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing ),
 	};
-};
+}
 

@@ -6,13 +6,13 @@ import KeywordDensityAssessment from "./assessments/seo/KeywordDensityAssessment
 import MetaDescriptionKeywordAssessment from "./assessments/seo/MetaDescriptionKeywordAssessment";
 import TitleKeywordAssessment from "./assessments/seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
-const Assessor = require( "./assessor" );
-const keywordStopWordsAssessment = require( "./assessments/seo/keywordStopWordsAssessment" );
-const MetaDescriptionLengthAssessment = require( "./assessments/seo/metaDescriptionLengthAssessment" );
-const taxonomyTextLengthAssessment = require( "./assessments/seo/taxonomyTextLengthAssessment" );
-const PageTitleWidthAssessment = require( "./assessments/seo/pageTitleWidthAssessment" );
-const UrlLengthAssessment = require( "./assessments/seo/urlLengthAssessment" );
-const urlStopWordsAssessment = require( "./assessments/seo/urlStopWordsAssessment" );
+import Assessor from "./assessor";
+import keywordStopWordsAssessment from "./assessments/seo/keywordStopWordsAssessment";
+import MetaDescriptionLengthAssessment from "./assessments/seo/metaDescriptionLengthAssessment";
+import taxonomyTextLengthAssessment from "./assessments/seo/taxonomyTextLengthAssessment";
+import PageTitleWidthAssessment from "./assessments/seo/pageTitleWidthAssessment";
+import UrlLengthAssessment from "./assessments/seo/urlLengthAssessment";
+import urlStopWordsAssessment from "./assessments/seo/urlStopWordsAssessment";
 
 /**
  * Creates the Assessor used for taxonomy pages.
@@ -39,6 +39,6 @@ const TaxonomyAssessor = function( i18n ) {
 	];
 };
 
-module.exports = TaxonomyAssessor;
+inherits( TaxonomyAssessor, Assessor );
 
-inherits( module.exports, Assessor );
+export default TaxonomyAssessor;

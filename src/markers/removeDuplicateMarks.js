@@ -12,4 +12,4 @@ function removeDuplicateMarks( marks ) {
 	} );
 }
 
-module.exports = removeDuplicateMarks;
+export default removeDuplicateMarks;

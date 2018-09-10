@@ -1,6 +1,9 @@
-let filteredPassiveAuxiliaries = require( "./passiveVoice/auxiliaries.js" )().filteredAuxiliaries;
-let passiveAuxiliariesInfinitive = require( "./passiveVoice/auxiliaries.js" )().infinitiveAuxiliaries;
-let transitionWords = require( "./transitionWords.js" )().singleWords;
+import filteredPassiveAuxiliariesFactory from "./passiveVoice/auxiliaries.js";
+let filteredPassiveAuxiliaries = filteredPassiveAuxiliariesFactory().filteredAuxiliaries;
+import passiveAuxiliariesInfinitiveFactory from "./passiveVoice/auxiliaries.js";
+let passiveAuxiliariesInfinitive = passiveAuxiliariesInfinitiveFactory().infinitiveAuxiliaries;
+import transitionWordsFactory from "./transitionWords.js";
+let transitionWords = transitionWordsFactory().singleWords;
 
 /**
  * Returns an object with exceptions for the prominent words researcher
@@ -263,7 +266,12 @@ let titlesPreceding = [ "fr", "hr", "dr", "prof" ];
 
 let titlesFollowing = [ "jr", "jun", "sen", "sr" ];
 
-module.exports = function() {
+/**
+ * Returns function words for German.
+ *
+ * @returns {Object} German function words.
+ */
+export default function() {
 	return {
 		// These word categories are filtered at the beginning of word combinations.
 		filteredAtBeginning: [].concat( otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive, delexicalizedVerbsInfinitive,
@@ -292,4 +300,4 @@ module.exports = function() {
 			delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,
 			timeWords, titlesPreceding, titlesFollowing ),
 	};
-};
+}

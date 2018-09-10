@@ -1,4 +1,4 @@
-var SyllableCountStep = require( "../../js/helpers/syllableCountStep" );
+import SyllableCountStep from "../../src/helpers/syllableCountStep";
 
 describe( "SyllableCountStep", function() {
 	it( "will not count syllables without a regex", function() {

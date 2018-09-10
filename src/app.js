@@ -1,11 +1,10 @@
-require( "./config/config.js" );
-
-var SnippetPreview = require( "./snippetPreview.js" );
+import "./config/config.js";
+import SnippetPreview from "./snippetPreview.js";
 
 import { defaultsDeep } from "lodash-es";
 import { isObject } from "lodash-es";
 import { isString } from "lodash-es";
-var MissingArgument = require( "./errors/missingArgument" );
+import MissingArgument from "./errors/missingArgument";
 import { isUndefined } from "lodash-es";
 import { isEmpty } from "lodash-es";
 import { isFunction } from "lodash-es";
@@ -15,20 +14,19 @@ import { debounce } from "lodash-es";
 import { throttle } from "lodash-es";
 import { merge } from "lodash-es";
 
-var Jed = require( "jed" );
-
-var SEOAssessor = require( "./seoAssessor.js" );
+import Jed from "jed";
+import SEOAssessor from "./seoAssessor.js";
 import LargestKeywordDistanceAssessment from "./assessments/seo/LargestKeywordDistanceAssessment.js";
-var ContentAssessor = require( "./contentAssessor.js" );
-var CornerstoneSEOAssessor = require( "./cornerstone/seoAssessor.js" );
-var CornerstoneContentAssessor = require( "./cornerstone/contentAssessor.js" );
-var Researcher = require( "./researcher.js" );
-var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
-var Pluggable = require( "./pluggable.js" );
-var Paper = require( "./values/Paper.js" );
+import ContentAssessor from "./contentAssessor.js";
+import CornerstoneSEOAssessor from "./cornerstone/seoAssessor.js";
+import CornerstoneContentAssessor from "./cornerstone/contentAssessor.js";
+import Researcher from "./researcher.js";
+import AssessorPresenter from "./renderers/AssessorPresenter.js";
+import Pluggable from "./pluggable.js";
+import Paper from "./values/Paper.js";
 import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
-var removeHtmlBlocks = require( "./stringProcessing/htmlParser.js" );
+import removeHtmlBlocks from "./stringProcessing/htmlParser.js";
 
 const largestKeywordDistance = new LargestKeywordDistanceAssessment();
 
@@ -1012,4 +1010,4 @@ App.prototype.switchAssessors = function( useCornerStone ) {
 	} );
 };
 
-module.exports = App;
+export default App;

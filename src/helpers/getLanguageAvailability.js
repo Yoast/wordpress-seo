@@ -1,6 +1,6 @@
 import { indexOf } from "lodash-es";
 
-var getLanguage = require( "./getLanguage.js" );
+import getLanguage from "./getLanguage.js";
 
 /**
  * Checks whether the language of the locale is available.
@@ -9,7 +9,7 @@ var getLanguage = require( "./getLanguage.js" );
  * @param {array} languages The list of languages to match.
  * @returns {boolean} Returns true if the language is found in the array.
  */
-module.exports = function( locale, languages ) {
+export default function( locale, languages ) {
 	var language = getLanguage( locale );
 	return indexOf( languages, language ) > -1;
-};
+}

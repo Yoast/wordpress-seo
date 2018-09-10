@@ -1,4 +1,4 @@
-var stopwordsFunction = require( "../../js/researches/stopWordsInText.js" );
+import stopwordsFunction from "../../src/researches/stopWordsInText.js";
 
 describe( "a test for finding stopwords from a string", function() {
 	it( "returns stopwords found in a string", function() {

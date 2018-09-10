@@ -1,7 +1,7 @@
 import { merge } from "lodash-es";
 
-const AssessmentResult = require( "../../values/AssessmentResult.js" );
-const Assessment = require( "../../assessment.js" );
+import AssessmentResult from "../../values/AssessmentResult.js";
+import Assessment from "../../assessment.js";
 
 /**
  * Represents the assessment that will look if the images have alt-tags and checks if the keyword is present in one of them.
@@ -159,4 +159,4 @@ class TextImagesAssessment extends Assessment {
 	}
 }
 
-module.exports = TextImagesAssessment;
+export default TextImagesAssessment;

@@ -1,4 +1,4 @@
-var getWords = require( "../../js/stringProcessing/getWords" );
+import getWords from "../../src/stringProcessing/getWords";
 
 describe( "a test getting words from a sentence", function() {
 	it( "returns an empty array", function() {
@@ -31,6 +31,20 @@ describe( "a test getting words from a sentence", function() {
 			"And",
 			"some",
 			"punctuation",
+		] );
+	} );
+
+	it( "does not do anything with repetitions", function() {
+		var words = getWords( "A sentence sentence, sentence! Sentence with words." );
+
+		expect( words ).toEqual( [
+			"A",
+			"sentence",
+			"sentence",
+			"sentence",
+			"Sentence",
+			"with",
+			"words",
 		] );
 	} );
 } );

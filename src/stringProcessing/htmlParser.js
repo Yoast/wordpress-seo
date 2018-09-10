@@ -1,5 +1,5 @@
 // We use an external library, which can be found here: https://github.com/fb55/htmlparser2.
-let htmlparser = require( "htmlparser2" );
+import htmlparser from "htmlparser2";
 
 
 import { includes } from "lodash-es";
@@ -77,8 +77,8 @@ let parser = new htmlparser.Parser( {
  * @param {string} text The text to parse.
  * @returns {string} The text without the HTML blocks as defined in the inlineTags array.
  */
-module.exports = function( text ) {
+export default function( text ) {
 	textArray = [];
 	parser.write( text );
 	return textArray.join( "" );
-};
+}

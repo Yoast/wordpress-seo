@@ -1,7 +1,7 @@
-import transitionWordsAssessment from "../../js/assessments/readability/transitionWordsAssessment.js";
-import Paper from "../../js/values/Paper.js";
+import transitionWordsAssessment from "../../src/assessments/readability/transitionWordsAssessment.js";
+import Paper from "../../src/values/Paper.js";
 import Factory from "../helpers/factory.js";
-import Mark from "../../js/values/Mark.js";
+import Mark from "../../src/values/Mark.js";
 let i18n = Factory.buildJed();
 
 describe( "An assessment for transition word percentage", function() {

@@ -1,5 +1,5 @@
-var Mark = require( "../../js/values/Mark" );
-var removeDuplicateMarks = require( "../../js/markers/removeDuplicateMarks" );
+import Mark from "../../src/values/Mark";
+import removeDuplicateMarks from "../../src/markers/removeDuplicateMarks";
 
 describe( "removeDuplicateMarks", function() {
 	it( "should not touch an empty array", function() {

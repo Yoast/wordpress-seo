@@ -1,13 +1,13 @@
-const indices = require( "../../../stringProcessing/indices" );
+import indices from "../../../stringProcessing/indices";
 const getIndicesOfList = indices.getIndicesByWordList;
 const filterIndices = indices.filterIndices;
 const sortIndices = indices.sortIndices;
-const stripSpaces = require( "../../../stringProcessing/stripSpaces.js" );
-const normalizeSingleQuotes = require( "../../../stringProcessing/quotes.js" ).normalizeSingle;
-const arrayToRegex = require( "../../../stringProcessing/createRegexFromArray.js" );
-const getWordIndices = require( "./getIndicesWithRegex.js" );
-const includesIndex = require( "../../../stringProcessing/includesIndex" );
-const followsIndex = require( "../../../stringProcessing/followsIndex" );
+import stripSpaces from "../../../stringProcessing/stripSpaces.js";
+import { normalizeSingle as normalizeSingleQuotes } from "../../../stringProcessing/quotes.js";
+import arrayToRegex from "../../../stringProcessing/createRegexFromArray.js";
+import getWordIndices from "./getIndicesWithRegex.js";
+import includesIndex from "../../../stringProcessing/includesIndex";
+import followsIndex from "../../../stringProcessing/followsIndex";
 
 import { filter } from "lodash-es";
 import { isUndefined } from "lodash-es";
@@ -16,17 +16,24 @@ import { map } from "lodash-es";
 import { forEach } from "lodash-es";
 
 // English-specific variables and imports.
-const SentencePartEnglish = require( "../../english/passiveVoice/SentencePart" );
-const auxiliariesEnglish = require( "../../english/passiveVoice/auxiliaries.js" )().all;
-const stopwordsEnglish = require( "../../english/passiveVoice/stopwords.js" )();
+import SentencePartEnglish from "../../english/passiveVoice/SentencePart";
+
+import auxiliariesEnglishFactory from "../../english/passiveVoice/auxiliaries.js";
+import stopwordsEnglishFactory from "../../english/passiveVoice/stopwords.js";
+const auxiliariesEnglish = auxiliariesEnglishFactory().all;
+
+const stopwordsEnglish = stopwordsEnglishFactory();
 const stopCharacterRegexEnglish = /([:,]|('ll)|('ve))(?=[ \n\r\t'"+\-»«‹›<>])/ig;
 const verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
 const ingExclusionArray = [ "king", "cling", "ring", "being", "thing", "something", "anything" ];
 
 // French-specific variables and imports.
-const SentencePartFrench = require( "../../french/passiveVoice/SentencePart" );
-const auxiliariesFrench = require( "../../french/passiveVoice/auxiliaries.js" )();
-const stopwordsFrench = require( "../../french/passiveVoice/stopwords.js" )();
+import SentencePartFrench from "../../french/passiveVoice/SentencePart";
+
+import auxiliariesFrenchFactory from "../../french/passiveVoice/auxiliaries.js";
+const auxiliariesFrench = auxiliariesFrenchFactory();
+import stopwordsFrenchFactory from "../../french/passiveVoice/stopwords.js";
+const stopwordsFrench = stopwordsFrenchFactory();
 const stopCharacterRegexFrench = /(,)(?=[ \n\r\t'"+\-»«‹›<>])/ig;
 const followingAuxiliaryExceptionWordsFrench = [ "le", "la", "les", "une", "l'un", "l'une" ];
 const reflexivePronounsFrench = [ "se", "me", "te", "s'y", "m'y", "t'y", "nous nous", "vous vous" ];
@@ -35,15 +42,21 @@ const elisionAuxiliaryExceptionWords = [ "c'", "s'", "peut-" ];
 const elisionAuxiliaryExceptionRegex = arrayToRegex( elisionAuxiliaryExceptionWords, true );
 
 // Spanish-specific variables and imports.
-const SentencePartSpanish = require( "../../spanish/passiveVoice/SentencePart" );
-const auxiliariesSpanish = require( "../../spanish/passiveVoice/auxiliaries.js" )();
-const stopwordsSpanish = require( "../../spanish/passiveVoice/stopwords.js" )();
+import SentencePartSpanish from "../../spanish/passiveVoice/SentencePart";
+
+import auxiliariesSpanishFactory from "../../spanish/passiveVoice/auxiliaries.js";
+const auxiliariesSpanish = auxiliariesSpanishFactory();
+import stopwordsSpanishFactory from "../../spanish/passiveVoice/stopwords.js";
+const stopwordsSpanish = stopwordsSpanishFactory();
 const followingAuxiliaryExceptionWordsSpanish = [ "el", "la", "los", "las", "una" ];
 
 // Italian-specific variables and imports.
-const SentencePartItalian = require( "../../italian/passiveVoice/SentencePart" );
-const auxiliariesItalian = require( "../../italian/passiveVoice/auxiliaries.js" )();
-const stopwordsItalian = require( "../../italian/passiveVoice/stopwords.js" )();
+import SentencePartItalian from "../../italian/passiveVoice/SentencePart";
+
+import auxiliariesItalianFactory from "../../italian/passiveVoice/auxiliaries.js";
+const auxiliariesItalian = auxiliariesItalianFactory();
+import stopwordsItalianFactory from "../../italian/passiveVoice/stopwords.js";
+const stopwordsItalian = stopwordsItalianFactory();
 const followingAuxiliaryExceptionWordsItalian = [ "il", "i", "la", "le", "lo", "gli", "uno", "una" ];
 const reflexivePronounsItalian = [ "mi", "ti", "si", "ci", "vi" ];
 const directPrecedenceExceptionRegexItalian = arrayToRegex( reflexivePronounsItalian );
@@ -336,6 +349,6 @@ let getSentenceParts = function( sentence, language ) {
  * @param {string} language The language for which to get the sentence parts.
  * @returns {Array} A list with sentence parts.
  */
-module.exports = function( sentence, language ) {
+export default function( sentence, language ) {
 	return getSentenceParts( sentence, language );
-};
+}

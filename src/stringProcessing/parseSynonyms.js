@@ -1,7 +1,8 @@
 /** @module stringProcessing/parseSynonyms */
 
-const stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-const removePunctuation = require( "../stringProcessing/removePunctuation.js" );
+import stripSpaces from "../stringProcessing/stripSpaces.js";
+
+import removePunctuation from "../stringProcessing/removePunctuation.js";
 
 /**
  * Matches strings from an array against a given text.
@@ -10,7 +11,7 @@ const removePunctuation = require( "../stringProcessing/removePunctuation.js" );
  *
  * @returns {Array} An array with all synonyms.
  */
-module.exports = function( synonyms ) {
+export default function( synonyms ) {
 	let synonymsSplit = synonyms.split( "," );
 
 	synonymsSplit = synonymsSplit.map( function( synonym ) {
@@ -19,4 +20,4 @@ module.exports = function( synonyms ) {
 		return synonym;
 	} );
 	return synonymsSplit;
-};
+}
