@@ -21,9 +21,7 @@ final class Test_WPSEO_Admin_Asset_Analysis_Worker_Location extends PHPUnit_Fram
 		$location = new WPSEO_Admin_Asset_Analysis_Worker_Location( 'test' );
 
 		$actual_js = $location->get_url( $location->get_asset(), WPSEO_Admin_Asset::TYPE_JS );
-		$actual_null = $location->get_url( $location->get_asset(), null );
 
 		$this->assertEquals( $expected_js, $actual_js );
-		$this->assertEquals( $expected_js, $actual_null );
 	}
 }
