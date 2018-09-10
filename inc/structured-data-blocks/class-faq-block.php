@@ -57,6 +57,10 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 			'@graph'   => array( $this->get_faq_json_ld() ),
 		);
 
+		if ( get_post()->post_title ) {
+			$json_ld['name'] = get_post()->post_title;
+		}
+
 		if ( ! is_array( $attributes['questions'] ) ) {
 			return $json_ld;
 		}
