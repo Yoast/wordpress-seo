@@ -1,10 +1,16 @@
 /* External dependencies */
+import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
 const { Component } = window.wp.element;
 const { IconButton } = window.wp.components;
 const { RichText, MediaUpload } = window.wp.editor;
+
+/* Internal dependencies */
+import appendSpace from "../../../components/higherorder/appendSpace";
+
+const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 
 /**
  * A Question and answer pair within a FAQ block.
@@ -135,13 +141,13 @@ export default class Question extends Component {
 	static Content( question ) {
 		return(
 			<div className={ "schema-faq-section" } key={ question.id }>
-				<RichText.Content
+				<RichTextWithAppendedSpace
 					tagName="strong"
 					className="schema-faq-question"
 					key={ question.id + "-question" }
 					value={ question.question }
 				/>
-				<RichText.Content
+				<RichTextWithAppendedSpace
 					tagName="p"
 					className="schema-faq-answer"
 					key={ question.id + "-answer" }

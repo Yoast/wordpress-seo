@@ -111,6 +111,8 @@ Release Date: September 11th, 2018
 
 Enhancements:
 
+* Introduces a How-To block in Gutenberg to create a How-to guide in an SEO-friendly way. Read more about the Gutenblocks in [https://yoa.st/gutenblocks](our release post).
+* Introduces a FAQ block in Gutenberg to list your Frequently Asked Questions in an SEO-friendly way. Read more about the Gutenblocks in [https://yoa.st/gutenblocks](our release post).
 * Adds readability analysis for Polish.
 * On Multisite environments, in addition to the site domain, path and ID, also site titles are now present in the site selection dropdowns.
 
@@ -127,6 +129,7 @@ Bugfixes:
 * Fixes a bug where the Gutenberg editor in the Classic Editor plugin would crash when the primary category picker was loaded. If something goes wrong in the primary category picker, it now shows a notification, instead of making the entire editor crash.
 * Fixes a bug where the readability analysis would not show the correct scores for cornerstone content.
 * Fixes a bug where switching off the SEO analysis would stop the readability analysis from loading.
+* Fixes a fatal error on the Term and Post edit pages when the server is running on PHP 5.2.
 
 = 8.1.2 =
 Release Date: September 5th, 2018

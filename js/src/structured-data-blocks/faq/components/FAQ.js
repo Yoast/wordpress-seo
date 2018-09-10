@@ -7,10 +7,13 @@ import { __ } from "@wordpress/i18n";
 /* Internal dependencies */
 import Question from "./Question";
 import { stripHTML } from "../../../helpers/stringHelpers";
+import appendSpace from "../../../components/higherorder/appendSpace";
 
 const { RichText } = window.wp.editor;
 const { IconButton } = window.wp.components;
 const { Component, renderToString } = window.wp.element;
+
+const QuestionContentWithAppendedSpace = appendSpace( Question.Content );
 
 /**
  * A FAQ block component.
@@ -267,7 +270,7 @@ export default class FAQ extends Component {
 							onMoveUp={ () => this.swapQuestions( index, index - 1 ) }
 							onMoveDown={ () => this.swapQuestions( index, index + 1 ) }
 							isFirst={ index === 0 }
-							isLast={ index === attributes.questions.length-1 }
+							isLast={ index === attributes.questions.length - 1 }
 						/>
 					);
 				}
@@ -287,7 +290,7 @@ export default class FAQ extends Component {
 		let { questions, className } = attributes;
 
 		let questionList = questions ? questions.map( ( question ) =>
-			<Question.Content { ...question } />
+			<QuestionContentWithAppendedSpace { ...question } />
 		) : null;
 
 		const classNames = [ "schema-faq", className ].filter( ( i ) => i ).join( " " );
