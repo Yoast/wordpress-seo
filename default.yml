@@ -1,6 +1,7 @@
 extends:
   - "eslint:recommended"
   - "plugin:react/recommended"
+  - "plugin:jsx-a11y/recommended"
 
 parserOptions:
   ecmaVersion: 2017
@@ -226,31 +227,8 @@ rules:
   spaced-comment: [2, "always"]
   wrap-regex: 0
 
-
   # Accessibility rules. https://github.com/evcohen/eslint-plugin-jsx-a11y
-  jsx-a11y/anchor-has-content: 1 # Passes if it's empty but has an aria-label attribute.
-  jsx-a11y/aria-props: 2
-  jsx-a11y/aria-proptypes: 2
-  jsx-a11y/aria-role: 2
-  jsx-a11y/aria-unsupported-elements: 2
-  jsx-a11y/click-events-have-key-events: 2
-  jsx-a11y/heading-has-content: 2
-  jsx-a11y/href-no-hash: 1 # Checks only for `#` and doesn't check other invalid values. Passes if it has a role="button". However, consider to use a real button.
-  jsx-a11y/html-has-lang: 2
-  jsx-a11y/img-has-alt: 2
-  jsx-a11y/img-redundant-alt: 2
-  jsx-a11y/label-has-for: 1 # Checks only for the presence of the for attribute. Doesn't check if the for value is correct. Doesn't check for missing labels. A bit pointless.
-  jsx-a11y/mouse-events-have-key-events: 1 # Should be evaluated on a case by case basis.
-  jsx-a11y/no-access-key: 2
-  jsx-a11y/no-marquee: 2
-  jsx-a11y/no-onchange: 1 # Should be evaluated on a case by case basis. Try to avoid onchange anyways.
-  jsx-a11y/no-static-element-interactions: 1
-  jsx-a11y/onclick-has-focus: 2
-  jsx-a11y/onclick-has-role: 2
-  jsx-a11y/role-has-required-aria-props: 2
-  jsx-a11y/role-supports-aria-props: 2
-  jsx-a11y/scope: 2
-  jsx-a11y/tabindex-no-positive: 2
+  jsx-a11y/label-has-for: [ "error", { required: "id" } ]
 
   # React plugins settings (https://github.com/yannickcr/eslint-plugin-react/tree/master/docs/rules)
   react/jsx-tag-spacing: [2, {"beforeClosing": "never"}]
