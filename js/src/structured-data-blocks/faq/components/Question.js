@@ -1,4 +1,5 @@
 /* External dependencies */
+import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
@@ -8,7 +9,6 @@ const { RichText, MediaUpload } = window.wp.editor;
 
 /* Internal dependencies */
 import appendSpace from "../../../components/higherorder/appendSpace";
-import React from "react";
 
 const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 

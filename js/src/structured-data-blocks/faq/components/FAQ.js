@@ -316,6 +316,7 @@ export default class FAQ extends Component {
 	 */
 	render() {
 		const { attributes, setAttributes, className } = this.props;
+
 		const classNames = [ "schema-faq", className ].filter( ( i ) => i ).join( " " );
 
 		return (
