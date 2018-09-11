@@ -40,7 +40,7 @@ class SnippetPreviewModal extends React.Component {
 					onRequestClose={ this.closeModal }>
 					<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
 					<Button isDefault onClick={ this.closeModal }>
-						Close
+						{ __( "Close", "wordpress-seo" ) }
 					</Button>
 				</Modal>
 				}

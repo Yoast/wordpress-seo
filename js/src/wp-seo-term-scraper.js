@@ -12,7 +12,7 @@ import debounce from "lodash/debounce";
 
 // Internal dependencies.
 import Edit from "./edit";
-import { termsTmceId as tmceId } from "./wp-seo-tinymce";
+import { termsTmceId } from "./wp-seo-tinymce";
 import Pluggable from "./Pluggable";
 
 // UI dependencies.
@@ -31,7 +31,7 @@ import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
 import getApplyMarks from "./analysis/getApplyMarks";
-import { termsTmceId } from "./wp-seo-tinymce";
+import { refreshDelay } from "./analysis/constants";
 
 // Redux dependencies.
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
@@ -237,7 +237,7 @@ window.yoastHideMarkers = true;
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: [ tmceId, "yoast_wpseo_focuskw", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
+			elementTarget: [ termsTmceId, "yoast_wpseo_focuskw", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
 			targets: retrieveTargets(),
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
@@ -285,13 +285,13 @@ window.yoastHideMarkers = true;
 		window.YoastSEO.analysis.applyMarks = ( paper, result ) => getApplyMarks( YoastSEO.store )( paper, result );
 
 		// YoastSEO.app overwrites.
-		YoastSEO.app.refresh = () => refreshAnalysis(
+		YoastSEO.app.refresh = debounce( () => refreshAnalysis(
 			YoastSEO.analysis.worker,
 			YoastSEO.analysis.collectData,
 			YoastSEO.analysis.applyMarks,
 			YoastSEO.store,
 			termScraper
-		);
+		), refreshDelay );
 		YoastSEO.app.registerCustomDataCallback = customAnalysisData.register;
 		YoastSEO.app.pluggable = new Pluggable( YoastSEO.app.refresh );
 		YoastSEO.app.registerPlugin = YoastSEO.app.pluggable._registerPlugin;

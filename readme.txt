@@ -106,6 +106,31 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 8.2.0 =
+Release Date: September 11th, 2018
+
+Enhancements:
+
+* Introduces a How-To block in Gutenberg to create a How-to guide in an SEO-friendly way. Read more about the Gutenblocks in [https://yoa.st/gutenblocks](our release post).
+* Introduces a FAQ block in Gutenberg to list your Frequently Asked Questions in an SEO-friendly way. Read more about the Gutenblocks in [https://yoa.st/gutenblocks](our release post).
+* Adds readability analysis for Polish.
+* On Multisite environments, in addition to the site domain, path and ID, also site titles are now present in the site selection dropdowns.
+
+Bugfixes:
+
+* Fixes a bug where changing the WordPress slug would not correctly update the snippet editor.
+* Fixes a bug where the user input would trigger an analysis every time.
+* Fixes a bug with incorrect zooming on older iPhones within the installation wizard.
+* Fixes a bug where the OpenGraph image wouldn't show correctly for the frontpage in a few situations. Props to [@mt8](https://github.com/mt8) for the solution direction.
+* Fixes a bug where the Yoast SEO network admin menu and admin bar menu would appear when the plugin was only active for the main site, and not for the entire network.
+* Fixes a bug where snippet variables in the Twitter card title and description wouldn't be properly replaced.
+* Fixes a bug where a non-existing dependency was requested on the Search Appearance settings page.
+* Fixes a bug where the value of the primary category snippet variable in the classic editor wouldn't change when the primary category was changed.
+* Fixes a bug where the Gutenberg editor in the Classic Editor plugin would crash when the primary category picker was loaded. If something goes wrong in the primary category picker, it now shows a notification, instead of making the entire editor crash.
+* Fixes a bug where the readability analysis would not show the correct scores for cornerstone content.
+* Fixes a bug where switching off the SEO analysis would stop the readability analysis from loading.
+* Fixes a fatal error on the Term and Post edit pages when the server is running on PHP 5.2.
+
 = 8.1.2 =
 Release Date: September 5th, 2018
 
@@ -141,30 +166,6 @@ Bugfixes:
 * Fixes a plugin compatibility bug where the SEO score in the admin bar could not be retrieved.
 * Fixes a bug where the editor would not be usable when deferred or async loading of JavaScript is being forced.
 * Fixes a bug where the analysis for previously used keywords would only be triggered if the keyword was changed, resulting in an incorrect SEO score.
-
-= 8.0.0 =
-Release Date: August 14th, 2018
-
-Enhancements:
-
-* Implements the Yoast sidebar for Gutenberg: added the Readability, Focus Keyword and Cornerstone content tabs to the sidebar.
-* Revamps the Yoast metabox to use the same vertical design as the new sidebar.
-* Implements the same tabbed layout in the plugin's network settings screen that is also used in the plugin's site settings screens.
-* Implements a plugin-specific network settings API and use it in the network settings screen.
-* Introduces a network admin-specific admin bar menu.
-* Adds notifications to the Notification Center in regards to Gutenberg compatibility. If Gutenberg is older than the minimum supported version by Yoast SEO, a 'problem' notification is added. If Gutenberg is only slightly outdated, a 'normal' notification is added.
-* Implements the automatic detection of the keyword for terms based on the term's title.
-
-Bugfixes:
-
-* Fixes a bug where `/sitemap.xml` would not correctly redirect to `/sitemap_index.xml` in some environments.
-* Fixes a bug where sitemap cache transients would not be correctly cleared.
-* Fixes a bug where markers were wrongfully displayed in Gutenberg.
-* Fixes a bug where SEO titles were incorrectly evaluated as being of a good length when they were actually slightly too long.
-
-Other:
-
-* Moves the network's Restore Site functionality into its own tab.
 
 = Earlier versions =
 

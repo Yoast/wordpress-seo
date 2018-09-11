@@ -2,15 +2,31 @@
 import PropTypes from "prop-types";
 import HowToStep from "./HowToStep";
 import isUndefined from "lodash/isUndefined";
-import moment from "moment";
+import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
+import toString from "lodash/toString";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
+import buildDurationString from "../utils/buildDurationString";
+import appendSpace from "../../../components/higherorder/appendSpace";
 
 const { RichText, InspectorControls } = window.wp.editor;
 const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;
 const { Component, renderToString } = window.wp.element;
+
+const RichTextWithAppendedSpace = appendSpace( RichText.Content );
+
+/**
+ * Modified Text Control to provide a better layout experience.
+ *
+ * @returns {ReactElement} The TextControl with additional spacing below.
+ */
+const SpacedTextControl = styled( TextControl )`
+	&&& {
+		margin-bottom: 32px;
+	}
+`;
 
 /**
  * A How-to block component.
@@ -27,26 +43,26 @@ export default class HowTo extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.state = { focus: null };
+		this.state = { focus: "" };
 
-		this.changeStep = this.changeStep.bind( this );
-		this.insertStep = this.insertStep.bind( this );
-		this.removeStep = this.removeStep.bind( this );
-		this.swapSteps = this.swapSteps.bind( this );
-		this.setFocus = this.setFocus.bind( this );
-		this.addCSSClasses = this.addCSSClasses.bind( this );
+		this.changeStep      = this.changeStep.bind( this );
+		this.insertStep      = this.insertStep.bind( this );
+		this.removeStep      = this.removeStep.bind( this );
+		this.swapSteps       = this.swapSteps.bind( this );
+		this.setFocus        = this.setFocus.bind( this );
+		this.addCSSClasses   = this.addCSSClasses.bind( this );
 		this.getListTypeHelp = this.getListTypeHelp.bind( this );
-		this.toggleListType = this.toggleListType.bind( this );
+		this.toggleListType  = this.toggleListType.bind( this );
 
 		this.editorRefs = {};
 	}
 
 	/**
-	 * Generates a pseudo-unique" id.
+	 * Generates a pseudo-unique id.
 	 *
-	 * @param {string} prefix an (optional) prefix to use.
+	 * @param {string} [prefix] The prefix to use.
 	 *
-	 * @returns {string} a pseudo-unique string, consisting of the optional prefix + the curent time in milliseconds.
+	 * @returns {string} A pseudo-unique string, consisting of the optional prefix + the curent time in milliseconds.
 	 */
 	static generateId( prefix ) {
 		return `${ prefix }-${ new Date().getTime() }`;
@@ -55,27 +71,44 @@ export default class HowTo extends Component {
 	/**
 	 * Replaces the How-to step with the given index.
 	 *
-	 * @param {array|string} newContents  The new contents of the step.
-	 * @param {array|string} prevContents The previous contents of the step.
-	 * @param {number}       index        The index of the step that needs to be replaced.
+	 * @param {array}  newName      The new step-name.
+	 * @param {array}  newText      The new step-text.
+	 * @param {array}  previousName The previous step-name.
+	 * @param {array}  previousText The previous step-text.
+	 * @param {number} index        The index of the step that needs to be changed.
 	 *
 	 * @returns {void}
 	 */
-	changeStep( newContents, prevContents, index ) {
+	changeStep( newName, newText, previousName, previousText, index ) {
 		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
+		// If the index exceeds the number of steps, don't change anything.
 		if ( index >= steps.length ) {
 			return;
 		}
 
-		if ( prevContents !== steps[ index ].contents ) {
+		/*
+		 * Because the DOM re-uses input elements, the changeStep function was triggered when removing/inserting/swapping
+		 * input elements. We need to check for such events, and return early if the changeStep was called without any
+		 * user changes to the input field, but because the underlying input elements moved around in the DOM.
+		 *
+		 * In essence, when the name at the current index does not match the name that was in the input field previously,
+		 * the changeStep was triggered by input fields moving in the DOM.
+		 */
+		if ( steps[ index ].name !== previousName || steps[ index ].text !== previousText ) {
 			return;
 		}
 
-		steps[ index ].contents     = newContents;
-		steps[ index ].jsonContents = stripHTML( renderToString( newContents ) );
+		// Rebuild the step with the newly made changes.
+		steps[ index ] = {
+			id: steps[ index ].id,
+			name: newName,
+			text: newText,
+			jsonName: stripHTML( renderToString( newName ) ),
+			jsonText: stripHTML( renderToString( newText ) ),
+		};
 
-		let imageSrc = HowToStep.getImageSrc( newContents );
+		let imageSrc = HowToStep.getImageSrc( newText );
 
 		if ( imageSrc ) {
 			steps[ index ].jsonImageSrc = imageSrc;
@@ -87,13 +120,14 @@ export default class HowTo extends Component {
 	/**
 	 * Inserts an empty step into a how-to block at the given index.
 	 *
-	 * @param {number}       [index]      The index of the step after which a new step should be added.
-	 * @param {array|string} [contents]   The contents of the new step.
-	 * @param {bool}         [focus=true] Whether or not to focus the new step.
+	 * @param {number} [index]      The index of the step after which a new step should be added.
+	 * @param {string} [name]       The name of the new step.
+	 * @param {string} [text]       The text of the new step.
+	 * @param {bool}   [focus=true] Whether or not to focus the new step.
 	 *
 	 * @returns {void}
 	 */
-	insertStep( index, contents = [], focus = true ) {
+	insertStep( index, name = [], text = [], focus = true ) {
 		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
 		if ( isUndefined( index ) ) {
@@ -102,24 +136,23 @@ export default class HowTo extends Component {
 
 		let lastIndex = steps.length - 1;
 		while ( lastIndex > index ) {
-			this.editorRefs[ lastIndex + 1 ] = this.editorRefs[ lastIndex ];
+			this.editorRefs[ `${ lastIndex + 1 }:name` ] = this.editorRefs[ `${ lastIndex }:name` ];
+			this.editorRefs[ `${ lastIndex + 1 }:text` ] = this.editorRefs[ `${ lastIndex }:text` ];
 			lastIndex--;
 		}
 
-		steps.splice(
-			index + 1,
-			0,
-			{
-				id: HowTo.generateId( "how-to-step" ),
-				contents,
-				jsonContents: stripHTML( renderToString( contents ) ),
-			}
-		);
+		steps.splice( index + 1, 0, {
+			id: HowTo.generateId( "how-to-step" ),
+			name,
+			text,
+			jsonName: "",
+			jsonText: "",
+		} );
 
 		this.props.setAttributes( { steps } );
 
 		if ( focus ) {
-			setTimeout( this.setFocus.bind( this, index + 1 ) );
+			setTimeout( this.setFocus.bind( this, `${ index + 1 }:name` ) );
 		}
 	}
 
@@ -138,23 +171,30 @@ export default class HowTo extends Component {
 		steps[ index1 ] = steps[ index2 ];
 		steps[ index2 ] = step;
 
-		let stepEditorRef = this.editorRefs[ index1 ];
-		this.editorRefs[ index1 ] = this.editorRefs[ index2 ];
-		this.editorRefs[ index2 ] = stepEditorRef;
+		const NameEditorRef = this.editorRefs[ `${ index1 }:name` ];
+		this.editorRefs[ `${ index1 }:name` ] = this.editorRefs[ `${ index2 }:name` ];
+		this.editorRefs[ `${ index2 }:name` ] = NameEditorRef;
+
+		const TextEditorRef = this.editorRefs[ `${ index1 }:text` ];
+		this.editorRefs[ `${ index1 }:text` ] = this.editorRefs[ `${ index2 }:text` ];
+		this.editorRefs[ `${ index2 }:text` ] = TextEditorRef;
 
 		this.props.setAttributes( { steps } );
 
-		if ( this.state.focus === index1 ) {
-			this.setFocus( index2 );
-		} else if ( this.state.focus === index2 ) {
-			this.setFocus( index1 );
+		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
+		if ( focusIndex === `${ index1 }` ) {
+			this.setFocus( `${ index2 }:${ subElement }` );
+		}
+
+		if ( focusIndex === `${ index2 }` ) {
+			this.setFocus( `${ index1 }:${ subElement }` );
 		}
 	}
 
 	/**
 	 * Removes a step from a how-to block.
 	 *
-	 * @param {number} index the index of the step that needs to be removed.
+	 * @param {number} index The index of the step that needs to be removed.
 	 *
 	 * @returns {void}
 	 */
@@ -164,40 +204,51 @@ export default class HowTo extends Component {
 		steps.splice( index, 1 );
 		this.props.setAttributes( { steps } );
 
-		delete this.editorRefs[ index ];
+		delete this.editorRefs[ `${ index }:name` ];
+		delete this.editorRefs[ `${ index }:text` ];
 
 		let nextIndex = index + 1;
-		while ( this.editorRefs[ nextIndex ] ) {
-			this.editorRefs[ nextIndex - 1 ] = this.editorRefs[ nextIndex ];
+		while ( this.editorRefs[ `${ nextIndex }:name` ] || this.editorRefs[ `${ nextIndex }:text` ] ) {
+			this.editorRefs[ `${ nextIndex - 1 }:name` ] = this.editorRefs[ `${ nextIndex }:name` ];
+			this.editorRefs[ `${ nextIndex - 1 }:text` ] = this.editorRefs[ `${ nextIndex }:text` ];
 			nextIndex++;
 		}
 
-		delete this.editorRefs[ steps.length ];
+		const indexToRemove = steps.length;
+		delete this.editorRefs[ `${ indexToRemove }:name` ];
+		delete this.editorRefs[ `${ indexToRemove }:text` ];
 
-		if ( index > 0 ) {
-			this.setFocus( index - 1 );
-		} else {
-			this.setFocus( "description" );
+		let fieldToFocus = "description";
+		if ( this.editorRefs[ `${ index }:name` ] ) {
+			fieldToFocus = `${ index }:name`;
+		} else if ( this.editorRefs[ `${ index - 1 }:text` ] ) {
+			fieldToFocus = `${ index - 1 }:text`;
 		}
+
+		this.setFocus( fieldToFocus );
 	}
 
 	/**
 	 * Sets the focus to a specific step in the How-to block.
 	 *
-	 * @param {number|string} focus the element to focus, either the index of the step that should be in focus or name of the input.
+	 * @param {number|string} elementToFocus The element to focus, either the index of the step that should be in focus or name of the input.
 	 *
 	 * @returns {void}
 	 */
-	setFocus( focus ) {
-		this.setState( { focus } );
+	setFocus( elementToFocus ) {
+		if ( elementToFocus === this.state.focus ) {
+			return;
+		}
 
-		if ( this.editorRefs[ focus ] ) {
-			this.editorRefs[ focus ].focus();
+		this.setState( { focus: elementToFocus } );
+
+		if ( this.editorRefs[ elementToFocus ] ) {
+			this.editorRefs[ elementToFocus ].focus();
 		}
 	}
 
 	/**
-	 * Returns an array of How-to step components, to be rendered on screen.
+	 * Returns an array of How-to step components to be rendered on screen.
 	 *
 	 * @returns {Component[]} The step components.
 	 */
@@ -206,32 +257,63 @@ export default class HowTo extends Component {
 			return null;
 		}
 
+		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
+
 		return this.props.attributes.steps.map( ( step, index ) => {
 			return (
 				<HowToStep
 					key={ step.id }
 					step={ step }
 					index={ index }
-					editorRef={ ( ref ) => {
-						this.editorRefs[ index ] = ref;
+					editorRef={ ( part, ref ) => {
+						this.editorRefs[ `${ index }:${ part }` ] = ref;
 					} }
-					onChange={ ( newStepContents ) => this.changeStep( newStepContents, step.contents, index ) }
-					insertStep={ ( contents ) => this.insertStep( index, contents ) }
+					onChange={
+						( newName, newText, previousName, previousText ) =>
+							this.changeStep( newName, newText, previousName, previousText, index )
+					}
+					insertStep={ () => this.insertStep( index ) }
 					removeStep={ () => this.removeStep( index ) }
-					onFocus={ () => this.setFocus( index ) }
+					onFocus={ ( elementToFocus ) => this.setFocus( `${ index }:${ elementToFocus }` ) }
+					subElement={ subElement }
 					onMoveUp={ () => this.swapSteps( index, index - 1 ) }
 					onMoveDown={ () => this.swapSteps( index, index + 1 ) }
 					isFirst={ index === 0 }
 					isLast={ index === this.props.attributes.steps.length - 1 }
-					isSelected={ this.state.focus === index }
+					isSelected={ focusIndex === `${ index }` }
 					isUnorderedList={ this.props.attributes.unorderedList }
 				/>
-			); }
-		);
+			);
+		} );
 	}
 
 	/**
-	 * Returns a component to manage this how-to block"s duration.
+	 * Formats the time in the input fields by removing leading zeros.
+	 *
+	 * @param {number} duration    The duration as entered by the user.
+	 * @param {number} maxDuration Optional. The max duration a field can have.
+	 *
+	 * @returns {number} The formatted duration.
+	 */
+	formatDuration( duration, maxDuration = null ) {
+		if ( duration === "" ) {
+			return "";
+		}
+
+		const newDuration = duration.replace( /^[0]+/, "" );
+		if ( newDuration === "" ) {
+			return 0;
+		}
+
+		if ( maxDuration !== null ) {
+			return Math.min( Math.max( 0, parseInt( newDuration, 10 ) ), maxDuration );
+		}
+
+		return Math.max( 0, parseInt( newDuration, 10 ) );
+	}
+
+	/**
+	 * Returns a component to manage this how-to block's duration.
 	 *
 	 * @returns {Component} The duration editor component.
 	 */
@@ -241,6 +323,7 @@ export default class HowTo extends Component {
 		if ( ! attributes.hasDuration ) {
 			return (
 				<IconButton
+					focus={ true }
 					icon="insert"
 					onClick={ () => setAttributes( { hasDuration: true } ) }
 					className="schema-how-to-duration-button editor-inserter__toggle"
@@ -251,30 +334,74 @@ export default class HowTo extends Component {
 		}
 
 		return (
-			<div className="schema-how-to-duration">
-				<span>{ __( "Time needed:", "wordpress-seo" ) }&nbsp;</span>
+			<fieldset className="schema-how-to-duration">
+				<legend
+					className="schema-how-to-duration-legend"
+				>
+					{ __( "Time needed:", "wordpress-seo" ) }
+				</legend>
+				<label
+					htmlFor="schema-how-to-duration-days"
+					className="screen-reader-text"
+				>
+					{ __( "days", "wordpress-seo" ) }
+				</label>
 				<input
+					id="schema-how-to-duration-days"
+					className="schema-how-to-duration-input"
+					type="number"
+					value={ attributes.days }
+					onFocus={ () => this.setFocus( "days" ) }
+					onChange={ ( event ) => {
+						const newValue = this.formatDuration( event.target.value );
+						setAttributes( { days: toString( newValue ) } );
+					} }
+					placeholder="DD"
+				/>
+				<label
+					htmlFor="schema-how-to-duration-hours"
+					className="screen-reader-text"
+				>
+					{ __( "hours", "wordpress-seo" ) }
+				</label>
+				<input
+					id="schema-how-to-duration-hours"
 					className="schema-how-to-duration-input"
 					type="number"
 					value={ attributes.hours }
 					onFocus={ () => this.setFocus( "hours" ) }
-					onChange={ ( event ) => setAttributes( { hours: Math.max( 0, event.target.value ) } ) }
-					placeholder="HH"/>
-				<span>:</span>
+					placeholder="HH"
+					onChange={ ( event ) => {
+						const newValue = this.formatDuration( event.target.value, 23 );
+						setAttributes( { hours: toString( newValue ) } );
+					} }
+				/>
+				<span aria-hidden="true">:</span>
+				<label
+					htmlFor="schema-how-to-duration-minutes"
+					className="screen-reader-text"
+				>
+					{ __( "minutes", "wordpress-seo" ) }
+				</label>
 				<input
+					id="schema-how-to-duration-minutes"
 					className="schema-how-to-duration-input"
 					type="number"
 					value={ attributes.minutes }
 					onFocus={ () => this.setFocus( "minutes" ) }
-					onChange={ ( event ) => setAttributes( { minutes: Math.min( Math.max( 0, event.target.value ), 60 ) } ) }
-					placeholder="MM" />
+					onChange={ ( event ) => {
+						const newValue = this.formatDuration( event.target.value, 59 );
+						setAttributes( { minutes: toString( newValue ) } );
+					} }
+					placeholder="MM"
+				/>
 				<IconButton
 					className="schema-how-to-duration-button editor-inserter__toggle"
 					icon="trash"
 					label={ __( "Delete total time", "wordpress-seo" ) }
 					onClick={ () => setAttributes( { hasDuration: false } ) }
 				/>
-			</div>
+			</fieldset>
 		);
 	}
 
@@ -287,7 +414,17 @@ export default class HowTo extends Component {
 	 * @returns {Component} The component representing a How-to block.
 	 */
 	static Content( props ) {
-		let { steps, title, hasDuration, hours, minutes, description, unorderedList, additionalListCssClasses, className } = props;
+		let {
+			steps,
+			hasDuration,
+			days,
+			hours,
+			minutes,
+			description,
+			unorderedList,
+			additionalListCssClasses,
+			className,
+		} = props;
 
 		steps = steps
 			? steps.map( ( step ) => {
@@ -300,30 +437,21 @@ export default class HowTo extends Component {
 			} )
 			: null;
 
-		const classNames = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
-		const listClassNames = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
+		const classNames       = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
+		const listClassNames   = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
 
-		const timeString = [
-			hours && moment.duration( hours, "hours" ).humanize(),
-			minutes && moment.duration( minutes, "minutes" ).humanize(),
-		].filter( ( item ) => item ).join( " and " );
+		const timeString = buildDurationString( { days, hours, minutes } );
 
 		return (
 			<div className={ classNames }>
-				<RichText.Content
-					tagName="h2"
-					className="schema-how-to-title"
-					value={ title }
-					id={ stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
-				/>
-				{ ( hasDuration ) &&
+				{ ( hasDuration && typeof timeString === "string" && timeString.length > 0 ) &&
 					<p className="schema-how-to-total-time">
 						{ __( "Time needed:", "wordpress-seo" ) }
 						&nbsp;
-						{ timeString }.
+						{ timeString + ". " }
 					</p>
 				}
-				<RichText.Content
+				<RichTextWithAppendedSpace
 					tagName="p"
 					className="schema-how-to-description"
 					value={ description }
@@ -378,7 +506,7 @@ export default class HowTo extends Component {
 	/**
 	 * Returns the help text for this how-to block"s list type.
 	 *
-	 * @param  {boolean} checked Whether or not the list is unordered.
+	 * @param {boolean} checked Whether or not the list is unordered.
 	 *
 	 * @returns {string} The list type help string.
 	 */
@@ -390,18 +518,20 @@ export default class HowTo extends Component {
 
 	/**
 	 * Adds controls to the editor sidebar to control the given parameters.
-	 * @param {boolean} unorderedList whether to show the list as an unordered list.
-	 * @param {string} additionalClasses the additional CSS classes to add to the list.
-	 * @returns {Component} the controls to add to the sidebar.
+	 *
+	 * @param {boolean} unorderedList     Whether to show the list as an unordered list.
+	 * @param {string}  additionalClasses The additional CSS classes to add to the list.
+	 *
+	 * @returns {Component} The controls to add to the sidebar.
 	 */
 	getSidebar( unorderedList, additionalClasses ) {
 		return <InspectorControls>
 			<PanelBody title={ __( "Settings", "wordpress-seo" ) } className="blocks-font-size">
-				<TextControl
-					label={ __( "Additional CSS Classes for list", "wordpress-seo" ) }
+				<SpacedTextControl
+					label={ __( "CSS class(es) to apply to the steps", "wordpress-seo" ) }
 					value={ additionalClasses }
 					onChange={ this.addCSSClasses }
-					help={ __( "CSS classes to add to the list of steps (excluding the how-to header)", "wordpress-seo" ) }
+					help={ __( "Optional. This can give you better control over the styling of the steps.", "wordpress-seo" ) }
 				/>
 				<ToggleControl
 					label={ __( "Unordered list", "wordpress-seo" ) }
@@ -421,24 +551,11 @@ export default class HowTo extends Component {
 	render() {
 		let { attributes, setAttributes, className } = this.props;
 
-		const classNames = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
+		const classNames     = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
 		const listClassNames = [ "schema-how-to-steps", attributes.additionalListCssClasses ].filter( ( item ) => item ).join( " " );
 
 		return (
 			<div className={ classNames }>
-				<RichText
-					tagName="h2"
-					className="schema-how-to-title"
-					value={ attributes.title }
-					isSelected={ this.state.focus === "title" }
-					setFocusedElement={ () => this.setFocus( "title" ) }
-					onChange={ ( title ) => setAttributes( { title, jsonTitle: stripHTML( renderToString( title ) ) } ) }
-					onSetup={ ( ref ) => {
-						this.editorRefs.title = ref;
-					} }
-					placeholder={ __( "Enter a title for your instructions", "wordpress-seo" ) }
-					keepPlaceholderOnFocus={ true }
-				/>
 				{ this.getDuration() }
 				<RichText
 					tagName="p"
@@ -447,7 +564,7 @@ export default class HowTo extends Component {
 					isSelected={ this.state.focus === "description" }
 					setFocusedElement={ () => this.setFocus( "description" ) }
 					onChange={ ( description ) => setAttributes( { description, jsonDescription: stripHTML( renderToString( description ) ) } ) }
-					onSetup={ ( ref ) => {
+					unstableOnSetup={ ( ref ) => {
 						this.editorRefs.description = ref;
 					} }
 					placeholder={ __( "Enter a description", "wordpress-seo" ) }
