@@ -481,6 +481,7 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'components',
 				'src'  => 'components-' . $flat_version,
+				'deps' => array( self::PREFIX . 'analysis' ),
 			),
 			array(
 				'name' => 'structured-data-blocks',
