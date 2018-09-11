@@ -1,4 +1,4 @@
-import { forEach, get, isArray, isObject, isNumber } from "lodash-es";
+import { isArray, isObject, isNumber } from "lodash-es";
 
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 import Paper from "../../src/values/Paper";
@@ -121,13 +121,15 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "logs in development", () => {
 				global.process.env.NODE_ENV = "development";
+				/* eslint-disable no-console */
 				console.log = jest.fn();
 				scope.onmessage( createMessage( "testing" ) );
 
 				expect( console.log ).toHaveBeenCalledTimes( 1 );
 				expect( console.log ).toHaveBeenCalledWith( "worker <- wrapper", "testing", 0, {} );
+				/* eslint-enable no-console */
 			} );
-		});
+		} );
 
 		describe( "initialize", () => {
 			beforeEach( () => {
@@ -248,7 +250,7 @@ describe( "AnalysisWebWorker", () => {
 				const paper = new Paper( "This is the content." );
 				const spy = spyOn( worker, "analyze" );
 
-				worker.analyzeDone = ( id, result ) => {
+				worker.analyzeDone = () => {
 					expect( spy ).toHaveBeenCalledTimes( 1 );
 					expect( spy ).toHaveBeenCalledWith( 0, { paper } );
 					done();
@@ -310,9 +312,9 @@ describe( "AnalysisWebWorker", () => {
 				const paper = testTexts[ 0 ].paper;
 
 				worker.analyzeDone = ( id, result ) => {
-					expect( isObject( result.seo[ "a" ] ) ).toBe( true );
-					expect( isArray( result.seo[ "a" ].results ) ).toBe( true );
-					expect( isNumber( result.seo[ "a" ].score ) ).toBe( true );
+					expect( isObject( result.seo.a ) ).toBe( true );
+					expect( isArray( result.seo.a.results ) ).toBe( true );
+					expect( isNumber( result.seo.a.score ) ).toBe( true );
 					done();
 				};
 
@@ -358,7 +360,7 @@ describe( "AnalysisWebWorker", () => {
 				const relatedKeywords = { a: { keyword: "content", synonyms: "" } };
 				const spy = spyOn( worker, "analyze" );
 
-				worker.analyzeRelatedKeywordsDone = ( id, result ) => {
+				worker.analyzeRelatedKeywordsDone = () => {
 					expect( spy ).toHaveBeenCalledTimes( 1 );
 					expect( spy ).toHaveBeenCalledWith( 0, { paper, relatedKeywords } );
 					done();
@@ -450,7 +452,7 @@ describe( "AnalysisWebWorker", () => {
 				const payload = { url: "http://example.com" };
 				const spy = spyOn( worker, "loadScript" );
 
-				worker.loadScriptDone = ( id, result ) => {
+				worker.loadScriptDone = () => {
 					expect( spy ).toHaveBeenCalledTimes( 1 );
 					expect( spy ).toHaveBeenCalledWith( 0, payload );
 					done();
@@ -537,7 +539,7 @@ describe( "AnalysisWebWorker", () => {
 				const spy = spyOn( worker, "customMessage" );
 
 				worker._registeredMessageHandlers[ name ] = ( data ) => data;
-				worker.customMessageDone = ( id, result ) => {
+				worker.customMessageDone = () => {
 					expect( spy ).toHaveBeenCalledTimes( 1 );
 					expect( spy ).toHaveBeenCalledWith( 0, payload );
 					done();
@@ -553,7 +555,7 @@ describe( "AnalysisWebWorker", () => {
 
 				worker.customMessageDone = ( id, result ) => {
 					expect( id ).toBe( 0 );
-					expect( isObject( result ) ).toBe( true);
+					expect( isObject( result ) ).toBe( true );
 					expect( result.error ).toBeDefined();
 					expect( result.error.message ).toBe( "No message handler registered for messages with name: " + name );
 					done();
@@ -634,7 +636,7 @@ describe( "AnalysisWebWorker", () => {
 				const payload = { name };
 				const spy = spyOn( worker, "runResearch" );
 
-				worker.runResearchDone = ( id, result ) => {
+				worker.runResearchDone = () => {
 					expect( spy ).toHaveBeenCalledTimes( 1 );
 					expect( spy ).toHaveBeenCalledWith( 0, payload );
 					done();

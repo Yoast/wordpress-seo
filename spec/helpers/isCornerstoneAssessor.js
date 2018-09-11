@@ -3,8 +3,10 @@ import { get } from "lodash-es";
 import { readability, seo } from "../../src/assessments";
 import getAssessment from "./getAssessment";
 
-// List of all the readability assessments along with a list of the path to a
-// configuration that should be different in the cornerstone variant.
+/*
+ * List of all the readability assessments along with a list of the path to a
+ * configuration that should be different in the cornerstone variant.
+ */
 const readabilityConfig = [
 	{
 		assessment: new readability.SubheadingDistributionTooLongAssessment(),
@@ -23,8 +25,10 @@ const readabilityConfig = [
 	},
 ];
 
-// List of all the seo assessments along with a list of the path to a
-// configuration that should be different in the cornerstone variant.
+/*
+ * List of all the seo assessments along with a list of the path to a
+ * configuration that should be different in the cornerstone variant.
+ */
 const seoConfig = [
 	{
 		assessment: new seo.MetaDescriptionLengthAssessment(),
@@ -92,7 +96,7 @@ const seoConfig = [
  *
  * @param {Assessor}   assessor   The assessor to compare with.
  * @param {Assessment} assessment The assessment.
- * @param {string[][]} paths      Array of paths (which is an array of strings).
+ * @param {Array[]}    paths      Array of paths (which is an array of strings).
  *
  * @returns {boolean} True if the values of the paths are the same.
  */
