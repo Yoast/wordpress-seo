@@ -10478,7 +10478,7 @@ yauzl@^2.2.1:
 
 "yoast-components@git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/8.3":
   version "4.11.0"
-  resolved "git+https://github.com/Yoast/yoast-components.git#e2229255e85c1d5b93dc6ff38b949dab1d2ca5f4"
+  resolved "git+https://github.com/Yoast/yoast-components.git#2ebc027294088fb2aa104a0d8772c94b48d14e25"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -10501,13 +10501,13 @@ yauzl@^2.2.1:
     striptags "^3.1.0"
     styled-components "^2.1.2"
     whatwg-fetch "^1.0.0"
-    yoastseo "^1.39.2"
+    yoastseo "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/8.3"
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-yoastseo@^1.39.2, "yoastseo@https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/8.3":
+"yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/8.3":
   version "1.39.2"
-  resolved "https://github.com/Yoast/YoastSEO.js.git#fa6e637b29ec8f3551e912e45930e9dfad4bface"
+  resolved "git+https://github.com/Yoast/YoastSEO.js.git#fa6e637b29ec8f3551e912e45930e9dfad4bface"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
