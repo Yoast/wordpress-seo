@@ -1,7 +1,9 @@
 import { isArray, isObject, isNumber } from "lodash-es";
 
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
+import Assessment from "../../src/assessment";
 import Paper from "../../src/values/Paper";
+import AssessmentResult from "../../src/values/AssessmentResult";
 import testTexts from "../fullTextTests/testTexts";
 
 /**
@@ -33,6 +35,27 @@ function createMessage( type, payload = {}, id = 0 ) {
 			payload,
 		},
 	};
+}
+
+/**
+ * Creates an assessment.
+ *
+ * @param {string} name  The assessment identifier.
+ * @param {number} score The result score.
+ * @param {string} text  The result text.
+ *
+ * @returns {Assessment} The assessment.
+ */
+function createAssessment( name, score = 9, text = "Excellent" ) {
+	const assessment = new Assessment();
+	assessment.identifier = name;
+	assessment.getResult = () => {
+		const result = new AssessmentResult();
+		result.setScore( score );
+		result.setText( text );
+		return result;
+	};
+	return assessment;
 }
 
 // Re-using these global variables.
@@ -216,6 +239,80 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize" ) );
 
 				expect( worker._scheduler.startPolling ).toHaveBeenCalledTimes( 1 );
+			} );
+
+			test( "updates readability assessor", () => {
+				let timesCalled = 0;
+				worker.createContentAssessor = jest.fn();
+
+				// When initializing.
+				scope.onmessage( createMessage( "initialize", {} ) );
+				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
+
+				// When switching readability analysis on/off.
+				scope.onmessage( createMessage( "initialize", { contentAnalysisActive: true } ) );
+				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
+
+				// Not when switching seo analysis on/off.
+				scope.onmessage( createMessage( "initialize", { keywordAnalysisActive: true } ) );
+				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( timesCalled );
+
+				// When switching cornerstone content on/off.
+				scope.onmessage( createMessage( "initialize", { useCornerstone: true } ) );
+				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
+
+				// Not when switching taxonomy assessor on/off.
+				scope.onmessage( createMessage( "initialize", { useTaxonomy: true } ) );
+				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( timesCalled );
+
+				// Not when switching keyword distribution assessor on/off.
+				scope.onmessage( createMessage( "initialize", { useKeywordDistribution: true } ) );
+				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( timesCalled );
+
+				// When changing locale.
+				scope.onmessage( createMessage( "initialize", { locale: "en_US" } ) );
+				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
+
+				// When changing translations.
+				scope.onmessage( createMessage( "initialize", { translations: {} } ) );
+				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
+			} );
+
+			test( "updates seo assessor", () => {
+				let timesCalled = 0;
+				worker.createSEOAssessor = jest.fn();
+
+				// When initializing.
+				scope.onmessage( createMessage( "initialize", {} ) );
+				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
+
+				// Not when switching readability analysis on/off.
+				scope.onmessage( createMessage( "initialize", { contentAnalysisActive: true } ) );
+				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( timesCalled );
+
+				// When switching seo analysis on/off.
+				scope.onmessage( createMessage( "initialize", { keywordAnalysisActive: true } ) );
+				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
+
+				// When switching cornerstone content on/off.
+				scope.onmessage( createMessage( "initialize", { useCornerstone: true } ) );
+				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
+
+				// When switching taxonomy assessor on/off.
+				scope.onmessage( createMessage( "initialize", { useTaxonomy: true } ) );
+				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
+
+				// When switching keyword distribution assessor on/off.
+				scope.onmessage( createMessage( "initialize", { useKeywordDistribution: true } ) );
+				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
+
+				// When changing locale.
+				scope.onmessage( createMessage( "initialize", { locale: "en_US" } ) );
+				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
+
+				// When changing translations.
+				scope.onmessage( createMessage( "initialize", { translations: {} } ) );
+				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
 			} );
 		} );
 
@@ -736,6 +833,89 @@ describe( "AnalysisWebWorker", () => {
 			assessor = worker.createSEOAssessor();
 			expect( assessor ).not.toBeNull();
 			expect( assessor.type ).toBe( "TaxonomyAssessor" );
+		} );
+
+		test( "listens to useKeywordDistribution", () => {
+			worker._configuration.useKeywordDistribution = false;
+			let assessor = worker.createSEOAssessor();
+			expect( assessor ).not.toBeNull();
+			expect( assessor.type ).toBe( "SEOAssessor" );
+			let assessment = assessor.getAssessment( "largestKeywordDistance" );
+			expect( assessment ).not.toBeDefined();
+
+			worker._configuration.useKeywordDistribution = true;
+			assessor = worker.createSEOAssessor();
+			expect( assessor ).not.toBeNull();
+			expect( assessor.type ).toBe( "SEOAssessor" );
+			assessment = assessor.getAssessment( "largestKeywordDistance" );
+			expect( assessment ).toBeDefined();
+			expect( assessment.identifier ).toBe( "largestKeywordDistance" );
+
+			worker._configuration.useCornerstone = true;
+			worker._configuration.useKeywordDistribution = true;
+			assessor = worker.createSEOAssessor();
+			expect( assessor ).not.toBeNull();
+			expect( assessor.type ).toBe( "CornerstoneSEOAssessor" );
+			assessment = assessor.getAssessment( "largestKeywordDistance" );
+			expect( assessment ).toBeDefined();
+			expect( assessment.identifier ).toBe( "largestKeywordDistance" );
+		} );
+
+		test( "adds registered assessments", () => {
+			const assessment = createAssessment( "assessment" );
+			worker.registerAssessment( "assessment", assessment, "plugin" );
+
+			const assessor = worker.createSEOAssessor();
+			expect( assessor ).not.toBeNull();
+			const actualAssessment = assessor.getAssessment( "assessment" );
+			expect( actualAssessment ).toBeDefined();
+			expect( actualAssessment.identifier ).toBe( "assessment" );
+		} );
+	} );
+
+	describe( "registerAssessment", () => {
+		const assessmentName = "Knock knock";
+		const pluginName = "Who?";
+		const assessment = createAssessment( assessmentName );
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope );
+			worker.register();
+		} );
+
+		test( "throws an error when passing an invalid name", () => {
+			const errorMessage = "Failed to register assessment for plugin " + pluginName + ". Expected parameter `name` to be a string.";
+			expect( () => worker.registerAssessment( null, assessment, pluginName ) ).toThrowError( errorMessage );
+		} );
+
+		test( "throws an error when passing an invalid assessment", () => {
+			const errorMessage = "Failed to register assessment for plugin " + pluginName + ". Expected parameter `assessment` to be a function.";
+			expect( () => worker.registerAssessment( assessmentName, null, pluginName ) ).toThrowError( errorMessage );
+		} );
+
+		test( "throws an error when passing an invalid plugin name", () => {
+			const errorMessage = "Failed to register assessment for plugin null. Expected parameter `pluginName` to be a string.";
+			expect( () => worker.registerAssessment( assessmentName, assessment, null ) ).toThrowError( errorMessage );
+		} );
+
+		test( "adds the assessment", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			expect( worker._seoAssessor ).not.toBeNull();
+
+			worker.registerAssessment( assessmentName, assessment, pluginName );
+			const actualAssessment = worker._seoAssessor.getAssessment( assessmentName );
+			expect( actualAssessment ).toBeDefined();
+			expect( actualAssessment ).toBe( assessment );
+		} );
+
+		test( "add the assessment to the registered assessments", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			expect( worker._seoAssessor ).not.toBeNull();
+
+			worker.registerAssessment( assessmentName, assessment, pluginName );
+			expect( worker._registeredAssessments.length ).toBe( 1 );
+			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
 		} );
 	} );
 } );
