@@ -2,9 +2,9 @@
 import React, { PureComponent } from "react";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
-import transliterate from "yoastseo/js/stringProcessing/transliterate";
-import createWordRegex from "yoastseo/js/stringProcessing/createWordRegex";
-import replaceSpecialCharactersAndDiacritics from "yoastseo/js/stringProcessing/replaceDiacritics";
+import transliterate from "yoastseo/src/stringProcessing/transliterate";
+import createWordRegex from "yoastseo/src/stringProcessing/createWordRegex";
+import replaceSpecialCharactersAndDiacritics from "yoastseo/src/stringProcessing/replaceDiacritics";
 import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
 import { parse } from "url";

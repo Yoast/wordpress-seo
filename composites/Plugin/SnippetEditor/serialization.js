@@ -1,5 +1,5 @@
 import { EditorState, Modifier, SelectionState, ContentState } from "draft-js";
-import wordBoundaries from "yoastseo/js/config/wordBoundaries";
+import wordBoundaries from "yoastseo/src/config/wordBoundaries";
 
 const CIRCUMFIX = "%%";
 
