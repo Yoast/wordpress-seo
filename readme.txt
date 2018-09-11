@@ -105,6 +105,28 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+= 8.3.0 =
+Release Date: September 25th, 2018
+
+Bugs:
+
+* Fixes the import of `scoreToRating` in `mapResults.js` to be consistent with the import of the same function in `getIndicatorForScore.js`.
+
+Enhancements:
+
+* Adds colon `:`  as an optional Title Separator.
+* Adds a setting and filter allowing users to edit the text describing the needed time for a how-to guide.
+* Shows a notice on the Yoast SEO dashboard when both Yoast SEO and All in One SEO Pack plugins are active.
+* Introduces an API function to get all WPSEO related capabilities.
+
+Other:
+
+* Adds `target = "_blank"` to the anchor tag of the duplicate content link in the archive settings. Props @nikhilbarar.
+* Prevents localize the Open Graph publish and modify DateTime string.
+* Changes the notification message when a new issue has been found
+* Changes the second argument of the `wpseo_sitemap_exclude_empty_terms` filter call when determining which taxonomies should have a sitemap to the correct type. Props to: [liarco](https://github.com/liarco)
+* Removes the executable bits on SVN assets. Props to [mathieu-aubin](https://github.com/mathieu-aubin)
+* Adds a help text to the Readability Analysis.
 
 = 8.2.0 =
 Release Date: September 11th, 2018
@@ -130,42 +152,6 @@ Bugfixes:
 * Fixes a bug where the readability analysis would not show the correct scores for cornerstone content.
 * Fixes a bug where switching off the SEO analysis would stop the readability analysis from loading.
 * Fixes a fatal error on the Term and Post edit pages when the server is running on PHP 5.2.
-
-= 8.1.2 =
-Release Date: September 5th, 2018
-
-Bugfixes:
-
-* Fixes a bug where our JavaScript memory usage would increase indefinitely. This could result in a browser crash after a long enough period.
-
-= 8.1.1 =
-Release Date: September 3rd, 2018
-
-Bugfixes:
-
-* Fixes compatibility with Gutenberg 3.7, which removed a feature we were relying on.
-* Fixes a bug where the Twitter meta-tags would not have the snippet variables replaced with their dynamic values.
-* Fixes a bug where the `og:url` would not be set to the canonical URL if the canonical URL is explicitly set on Post types, Terms or Tags.
-* Fixes a bug on the Term page when editing the `slug`, it would not be updated in the Snippet Preview directly.
-
-= 8.1.0 =
-Release Date: August 28th, 2018
-
-Enhancements:
-
-* Adds the Snippet Preview Editor to the sidebar.
-* Introduces the Primary Category picker to Gutenberg.
-* Introduces a loading indicator in the analysis that is shown until we're ready to analyze the content.
-* Optimizes the content analysis calculations. This fixes the issue where the UI could freeze when you have a long post.
-* Changes the "Check Inlinks (OSE)" menu item in the Yoast Admin bar "Analyze this page" dropdown from the Moz OpenSite Explorer (OSE) to Google Search Console, as the former service is being disabled on August 30th 2018.
-
-Bugfixes:
-
-* Fixes a bug where the analysis scores would change multiple times due to a delay in the loading of the actual scores. We now show loading indicators until the actual scores have been calculated.
-* Fixes a bug where the parent title snippet variable wasn't properly being replaced with the actual parent title in Gutenberg.
-* Fixes a plugin compatibility bug where the SEO score in the admin bar could not be retrieved.
-* Fixes a bug where the editor would not be usable when deferred or async loading of JavaScript is being forced.
-* Fixes a bug where the analysis for previously used keywords would only be triggered if the keyword was changed, resulting in an incorrect SEO score.
 
 = Earlier versions =
 
