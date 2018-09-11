@@ -2,9 +2,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import MetaDescriptionLengthAssessment from "yoastseo/src/assessments/seo/metaDescriptionLengthAssessment";
-import PageTitleWidthAssesment from "yoastseo/src/assessments/seo/pageTitleWidthAssessment";
-import { measureTextWidth } from "yoastseo/src/helpers/createMeasurementElement";
+
+import { assessments } from "yoastseo";
+const {
+	MetaDescriptionLengthAssessment,
+	PageTitleWidthAssesment,
+} = assessments;
+
+import { helpers } from "yoastseo";
+const { measureTextWidth } = helpers;
+
 import stripSpaces from "yoastseo/src/stringProcessing/stripSpaces";
 import noop from "lodash/noop";
 
