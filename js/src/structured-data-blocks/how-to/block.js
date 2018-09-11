@@ -42,9 +42,6 @@ const attributes = {
 	durationText: {
 		type: "string",
 	},
-	headingID: {
-		type: "string",
-	},
 };
 
 export default () => {
