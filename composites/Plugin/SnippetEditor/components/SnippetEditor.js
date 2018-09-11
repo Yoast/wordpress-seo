@@ -7,7 +7,7 @@ import { assessments } from "yoastseo";
 const {
 	MetaDescriptionLengthAssessment,
 	PageTitleWidthAssesment,
-} = assessments;
+} = assessments.seo;
 
 import { helpers } from "yoastseo";
 const { measureTextWidth } = helpers;
