@@ -31,6 +31,7 @@ import urlStopWords from "../assessments/seo/urlStopWordsAssessment";
  */
 const CornerstoneSEOAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
+	this.type = "CornerstoneSEOAssessor";
 
 	this._assessments = [
 		new IntroductionKeywordAssessment(),

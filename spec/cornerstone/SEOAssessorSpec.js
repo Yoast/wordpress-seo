@@ -77,7 +77,9 @@ describe( "running assessments in the assessor", function() {
 		test( "MetaDescriptionLengthAssessment", () => {
 			const assessment = getAssessment( assessor, "metaDescriptionLength" );
 
-			expect( assessment ).not.toBeNull();
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
 			expect( assessment._config.scores.tooLong ).toBe( 3 );
 			expect( assessment._config.scores.tooShort ).toBe( 3 );
 		} );
@@ -85,7 +87,9 @@ describe( "running assessments in the assessor", function() {
 		test( "SubHeadingsKeywordAssessment", () => {
 			const assessment = getAssessment( assessor, "subheadingsKeyword" );
 
-			expect( assessment ).not.toBeNull();
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
 			expect( assessment._config.scores.noMatches ).toBe( 3 );
 			expect( assessment._config.scores.oneMatch ).toBe( 6 );
 			expect( assessment._config.scores.multipleMatches ).toBe( 9 );
@@ -94,7 +98,9 @@ describe( "running assessments in the assessor", function() {
 		test( "TextImagesAssessment", () => {
 			const assessment = getAssessment( assessor, "textImages" );
 
-			expect( assessment ).not.toBeNull();
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
 			expect( assessment._config.scores.noImages ).toBe( 3 );
 			expect( assessment._config.scores.withAltNonKeyword ).toBe( 3 );
 			expect( assessment._config.scores.withAlt ).toBe( 3 );
@@ -104,11 +110,12 @@ describe( "running assessments in the assessor", function() {
 		test( "TextLengthAssessment", () => {
 			const assessment = getAssessment( assessor, "textLength" );
 
-			expect( assessment ).not.toBeNull();
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.recommendedMinimum ).toBe( 900 );
 			expect( assessment._config.slightlyBelowMinimum ).toBe( 400 );
 			expect( assessment._config.belowMinimum ).toBe( 300 );
-			expect( assessment._config.farBelowMinimum ).toBe( 0 );
+			expect( assessment._config.scores ).toBeDefined();
 			expect( assessment._config.scores.belowMinimum ).toBe( -20 );
 			expect( assessment._config.scores.farBelowMinimum ).toBe( -20 );
 		} );
@@ -116,14 +123,18 @@ describe( "running assessments in the assessor", function() {
 		test( "OutboundLinksAssessment", () => {
 			const assessment = getAssessment( assessor, "externalLinks" );
 
-			expect( assessment ).not.toBeNull();
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
 			expect( assessment._config.scores.noLinks ).toBe( 3 );
 		} );
 
 		test( "PageTitleWidthAssesment", () => {
 			const assessment = getAssessment( assessor, "titleWidth" );
 
-			expect( assessment ).not.toBeNull();
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
 			expect( assessment._config.scores.widthTooShort ).toBe( 3 );
 			expect( assessment._config.scores.widthTooLong ).toBe( 3 );
 		} );
@@ -131,14 +142,18 @@ describe( "running assessments in the assessor", function() {
 		test( "UrlKeywordAssessment", () => {
 			const assessment = getAssessment( assessor, "urlKeyword" );
 
-			expect( assessment ).not.toBeNull();
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
 			expect( assessment._config.scores.noKeywordInUrl ).toBe( 3 );
 		} );
 
 		test( "UrlLengthAssessment", () => {
 			const assessment = getAssessment( assessor, "urlLength" );
 
-			expect( assessment ).not.toBeNull();
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
 			expect( assessment._config.scores.tooLong ).toBe( 3 );
 		} );
 	} );

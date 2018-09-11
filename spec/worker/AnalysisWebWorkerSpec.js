@@ -3,10 +3,6 @@ import { isArray, isObject, isNumber } from "lodash-es";
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 import Paper from "../../src/values/Paper";
 import testTexts from "../fullTextTests/testTexts";
-import {
-	isCornerstoneContentAssessor,
-	isCornerstoneSeoAssessor,
-} from "../helpers/isCornerstoneAssessor";
 
 /**
  * Creates a mocked scope.
@@ -693,10 +689,14 @@ describe( "AnalysisWebWorker", () => {
 
 		test( "listens to useCornerstone", () => {
 			worker._configuration.useCornerstone = false;
-			expect( isCornerstoneContentAssessor( worker.createContentAssessor() ) ).toBe( false );
+			let assessor = worker.createContentAssessor();
+			expect( assessor ).not.toBeNull();
+			expect( assessor.type ).toBe( "ContentAssessor" );
 
 			worker._configuration.useCornerstone = true;
-			expect( isCornerstoneContentAssessor( worker.createContentAssessor() ) ).toBe( true );
+			assessor = worker.createContentAssessor();
+			expect( assessor ).not.toBeNull();
+			expect( assessor.type ).toBe( "CornerstoneContentAssessor" );
 		} );
 	} );
 
@@ -716,10 +716,26 @@ describe( "AnalysisWebWorker", () => {
 
 		test( "listens to useCornerstone", () => {
 			worker._configuration.useCornerstone = false;
-			expect( isCornerstoneSeoAssessor( worker.createSEOAssessor() ) ).toBe( false );
+			let assessor = worker.createSEOAssessor();
+			expect( assessor ).not.toBeNull();
+			expect( assessor.type ).toBe( "SEOAssessor" );
 
 			worker._configuration.useCornerstone = true;
-			expect( isCornerstoneSeoAssessor( worker.createSEOAssessor() ) ).toBe( true );
+			assessor = worker.createSEOAssessor();
+			expect( assessor ).not.toBeNull();
+			expect( assessor.type ).toBe( "CornerstoneSEOAssessor" );
+		} );
+
+		test( "listens to useTaxonomy", () => {
+			worker._configuration.useTaxonomy = false;
+			let assessor = worker.createSEOAssessor();
+			expect( assessor ).not.toBeNull();
+			expect( assessor.type ).toBe( "SEOAssessor" );
+
+			worker._configuration.useTaxonomy = true;
+			assessor = worker.createSEOAssessor();
+			expect( assessor ).not.toBeNull();
+			expect( assessor.type ).toBe( "TaxonomyAssessor" );
 		} );
 	} );
 } );

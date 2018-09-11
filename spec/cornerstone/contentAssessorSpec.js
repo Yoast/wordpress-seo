@@ -220,7 +220,9 @@ describe( "A content assessor", function() {
 		test( "SubheadingsDistributionTooLong", () => {
 			const assessment = getAssessment( assessor, "subheadingsTooLong" );
 
-			expect( assessment ).not.toBeNull();
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.parameters ).toBeDefined();
 			expect( assessment._config.parameters.recommendedMaximumWordCount ).toBe( 250 );
 			expect( assessment._config.parameters.slightlyTooMany ).toBe( 250 );
 			expect( assessment._config.parameters.farTooMany ).toBe( 300 );
@@ -229,7 +231,8 @@ describe( "A content assessor", function() {
 		test( "SentenceLengthInTextAssessment", () => {
 			const assessment = getAssessment( assessor, "textSentenceLength" );
 
-			expect( assessment ).not.toBeNull();
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.slightlyTooMany ).toBe( 20 );
 			expect( assessment._config.farTooMany ).toBe( 25 );
 		} );
