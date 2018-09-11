@@ -1,5 +1,5 @@
 import contentConfiguration from "../../src/config/content/combinedConfig";
-import factory from "../helpers/factory.js";
+import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
 
 // Import SEO assessments

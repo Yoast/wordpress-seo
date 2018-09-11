@@ -1,6 +1,6 @@
 import textPresence from "../../src/assessments/readability/textPresenceAssessment.js";
 import Paper from "../../src/values/Paper.js";
-import Factory from "../helpers/factory.js";
+import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();
 
 describe( "Assesses presence of text", function() {

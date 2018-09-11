@@ -1,7 +1,7 @@
 import Assessor from "../../src/cornerstone/seoAssessor.js";
 import Paper from "../../src/values/Paper.js";
-import factory from "../helpers/factory.js";
-import getAssessment from "../helpers/getAssessment";
+import factory from "../specHelpers/factory.js";
+import getAssessment from "../specHelpers/getAssessment";
 
 const i18n = factory.buildJed();
 const assessor = new Assessor( i18n );

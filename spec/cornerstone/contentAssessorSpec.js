@@ -3,8 +3,8 @@ import { forEach } from "lodash-es";
 import ContentAssessor from "../../src/cornerstone/contentAssessor";
 import AssessmentResult from "../../src/values/AssessmentResult";
 import Paper from "../../src/values/Paper";
-import Factory from "../helpers/factory";
-import getAssessment from "../helpers/getAssessment";
+import Factory from "../specHelpers/factory";
+import getAssessment from "../specHelpers/getAssessment";
 
 const i18n = Factory.buildJed();
 

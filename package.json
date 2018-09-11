@@ -86,8 +86,7 @@
       "node_modules"
     ],
     "testPathIgnorePatterns": [
-      "/spec/helpers/factory.js",
-      "/spec/specHelpers/paperChanger.js",
+      "/spec/specHelpers/*",
       "/spec/fullTextTests/testTexts"
     ],
     "coveragePathIgnorePatterns": [

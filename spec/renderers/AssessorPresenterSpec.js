@@ -1,6 +1,6 @@
 import AssessorPresenter from "../../src/renderers/AssessorPresenter.js";
 import AssessmentResult from "../../src/values/AssessmentResult";
-import Factory from "../helpers/factory.js";
+import Factory from "../specHelpers/factory.js";
 
 describe( "an AssessorPresenter", function() {
 	var i18n;

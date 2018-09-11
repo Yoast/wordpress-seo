@@ -1,6 +1,6 @@
 import UrlKeywordAssessment from "../../src/assessments/seo/UrlKeywordAssessment";
 import Paper from "../../src/values/Paper.js";
-import Factory from "../helpers/factory.js";
+import Factory from "../specHelpers/factory.js";
 const i18n = Factory.buildJed();
 
 const keywordInUrl = new UrlKeywordAssessment();
