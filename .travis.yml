@@ -77,6 +77,7 @@ jobs:
         - chmod 600 ./deploy_keys/travis_dist_id_rsa
         - eval $(ssh-agent -s)
         - ssh-add ./deploy_keys/travis_dist_id_rsa
+
        # If the commit was tagged, create an artifact and push it to the distribution github
       deploy:
         skip_cleanup: true
