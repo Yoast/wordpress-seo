@@ -27,7 +27,6 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 			},
 			scores: {
 				good: 9,
-				ok: 6,
 				bad: 3,
 			},
 			url: "<a href='https://yoa.st/2pf' target='_blank'>",
@@ -65,32 +64,14 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 * @returns {Object} Result object with score and text.
 	 */
 	calculateResult( i18n ) {
-		// GOOD result when at least one sentence contains every keyword term at least once or twice.
-		if ( this._keywordMatches.perSentence.some( sentence => Math.min( ...sentence ) >= 1 && Math.min( ...sentence ) <= 2 ) ) {
+		if ( this._keywordMatches >= this._config.parameters.recommendedMinimum  ) {
 			return {
 				score: this._config.scores.good,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The meta description %1$scontains the focus keyword%2$s in at least one sentence."
-					),
-					this._config.url,
-					"</a>"
-				),
-			};
-		}
-
-		// OK result when the full description contains every keyword term at least once.
-		if ( this._keywordMatches.fullDescription.every( keywordCount => keywordCount > 0 ) ) {
-			return {
-				score: this._config.scores.ok,
-				resultText: i18n.sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
-					i18n.dngettext(
-						"js-text-analysis",
-						"The meta description %1$scontains the focus keyword%2$s. " +
-						"Try adding all the keyword terms into one sentence to make it better."
+						"The meta description %1$scontains the focus keyword%2$s."
 					),
 					this._config.url,
 					"</a>"

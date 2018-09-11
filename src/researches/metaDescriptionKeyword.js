@@ -1,38 +1,19 @@
-import matchTextWithArray from "../stringProcessing/matchTextWithArray";
-import getSentences from "../stringProcessing/getSentences";
+import matchTextWithWord from "../stringProcessing/matchTextWithWord.js";
+
+import { escapeRegExp } from "lodash-es";
 
 /**
  * Matches the keyword in the description if a description and keyword are available.
  * default is -1 if no description and/or keyword is specified
  *
  * @param {Paper} paper The paper object containing the description.
- * @param {Researcher} researcher
- * @returns { { fullDescription: Number[], perSentence: Number[][] } } The number of matches per keyword, for the entire description and for each individual sentence.
+ * @returns {number} The number of matches with the keyword
  */
-export default function( paper, researcher ) {
+export default function( paper ) {
 	if ( paper.getDescription() === "" ) {
-		return {
-			fullDescription: null,
-			perSentence: null
-		};
+		return -1;
 	}
-	const description = paper.getDescription();
-	const locale = paper.getLocale();
-
-	const keyPhraseForms = researcher.getResearch( "morphology" ).keyphraseForms;
-
-	const sentences = getSentences( description );
-
-	let matchResults = { };
-
-	matchResults.fullDescription = keyPhraseForms.map(
-		keywordForms => matchTextWithArray( description, keywordForms, locale ).count
-	);
-
-	matchResults.perSentence = sentences.map( sentence =>
-		keyPhraseForms.map( keywordForms => matchTextWithArray( sentence, keywordForms, locale ).count )
-	);
-
-	return matchResults;
+	var keyword = escapeRegExp( paper.getKeyword() );
+	return matchTextWithWord( paper.getDescription(), keyword, paper.getLocale() ).count;
 }
 
