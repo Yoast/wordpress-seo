@@ -9,12 +9,10 @@ import Question from "./Question";
 import { stripHTML } from "../../../helpers/stringHelpers";
 import appendSpace from "../../../components/higherorder/appendSpace";
 
-const { RichText } = window.wp.editor;
 const { IconButton } = window.wp.components;
 const { Component, renderToString } = window.wp.element;
 
 const QuestionContentWithAppendedSpace = appendSpace( Question.Content );
-const RichTextContentWithAppendedSpace = appendSpace( RichText.Content );
 
 /**
  * A FAQ block component.
@@ -190,7 +188,7 @@ export default class FAQ extends Component {
 		delete this.editorRefs[ `${ deletedIndex }:question` ];
 		delete this.editorRefs[ `${ deletedIndex }:answer` ];
 
-		let fieldToFocus = "title";
+		let fieldToFocus = "0:question";
 		if ( this.editorRefs[ `${ index }:question` ] ) {
 			fieldToFocus = `${ index }:question`;
 		} else if ( this.editorRefs[ `${ index - 1 }:answer` ] ) {
@@ -288,7 +286,7 @@ export default class FAQ extends Component {
 	 * @returns {Component} The component representing a FAQ block.
 	 */
 	static Content( attributes ) {
-		const { title, questions, className } = attributes;
+		let { questions, className } = attributes;
 
 		let questionList = questions ? questions.map( ( question ) =>
 			<QuestionContentWithAppendedSpace { ...question } />
@@ -298,12 +296,6 @@ export default class FAQ extends Component {
 
 		return (
 			<div className={ classNames }>
-				<RichTextContentWithAppendedSpace
-					tagName="h2"
-					className="schema-faq-title"
-					value={ title }
-					id={ stripHTML( renderToString( title ) ).toLowerCase().replace( /\s+/g, "-" ) }
-				/>
 				{ questionList }
 			</div>
 		);
@@ -315,25 +307,12 @@ export default class FAQ extends Component {
 	 * @returns {Component} The FAQ block editor.
 	 */
 	render() {
-		const { attributes, setAttributes, className } = this.props;
+		let { className } = this.props;
 
 		const classNames = [ "schema-faq", className ].filter( ( i ) => i ).join( " " );
 
 		return (
 			<div className={ classNames }>
-				<RichText
-					tagName="h2"
-					className="schema-faq-title"
-					value={ attributes.title }
-					isSelected={ this.state.focus === "title" }
-					setFocusedElement={ () => this.setFocus( "title" ) }
-					onChange={ ( title ) => setAttributes( { title, jsonTitle: stripHTML( renderToString( title ) ) } ) }
-					onSetup={ ( ref ) => {
-						this.editorRefs.title = ref;
-					} }
-					placeholder={ __( "Enter a title for your FAQ section", "wordpress-seo" ) }
-					keepPlaceholderOnFocus={ true }
-				/>
 				<div>
 					{ this.getQuestions() }
 				</div>

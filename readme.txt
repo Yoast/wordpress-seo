@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.8
-Stable tag: 8.1.2
+Stable tag: 8.2
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -129,6 +129,7 @@ Bugfixes:
 * Fixes a bug where the Gutenberg editor in the Classic Editor plugin would crash when the primary category picker was loaded. If something goes wrong in the primary category picker, it now shows a notification, instead of making the entire editor crash.
 * Fixes a bug where the readability analysis would not show the correct scores for cornerstone content.
 * Fixes a bug where switching off the SEO analysis would stop the readability analysis from loading.
+* Fixes a fatal error on the Term and Post edit pages when the server is running on PHP 5.2.
 
 = 8.1.2 =
 Release Date: September 5th, 2018
@@ -165,30 +166,6 @@ Bugfixes:
 * Fixes a plugin compatibility bug where the SEO score in the admin bar could not be retrieved.
 * Fixes a bug where the editor would not be usable when deferred or async loading of JavaScript is being forced.
 * Fixes a bug where the analysis for previously used keywords would only be triggered if the keyword was changed, resulting in an incorrect SEO score.
-
-= 8.0.0 =
-Release Date: August 14th, 2018
-
-Enhancements:
-
-* Implements the Yoast sidebar for Gutenberg: added the Readability, Focus Keyword and Cornerstone content tabs to the sidebar.
-* Revamps the Yoast metabox to use the same vertical design as the new sidebar.
-* Implements the same tabbed layout in the plugin's network settings screen that is also used in the plugin's site settings screens.
-* Implements a plugin-specific network settings API and use it in the network settings screen.
-* Introduces a network admin-specific admin bar menu.
-* Adds notifications to the Notification Center in regards to Gutenberg compatibility. If Gutenberg is older than the minimum supported version by Yoast SEO, a 'problem' notification is added. If Gutenberg is only slightly outdated, a 'normal' notification is added.
-* Implements the automatic detection of the keyword for terms based on the term's title.
-
-Bugfixes:
-
-* Fixes a bug where `/sitemap.xml` would not correctly redirect to `/sitemap_index.xml` in some environments.
-* Fixes a bug where sitemap cache transients would not be correctly cleared.
-* Fixes a bug where markers were wrongfully displayed in Gutenberg.
-* Fixes a bug where SEO titles were incorrectly evaluated as being of a good length when they were actually slightly too long.
-
-Other:
-
-* Moves the network's Restore Site functionality into its own tab.
 
 = Earlier versions =
 
