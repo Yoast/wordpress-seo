@@ -4,7 +4,6 @@ import ContentAssessor from "../../src/cornerstone/contentAssessor";
 import AssessmentResult from "../../src/values/AssessmentResult";
 import Paper from "../../src/values/Paper";
 import Factory from "../specHelpers/factory";
-import getAssessment from "../specHelpers/getAssessment";
 
 const i18n = Factory.buildJed();
 
@@ -218,7 +217,7 @@ describe( "A content assessor", function() {
 		const assessor = new ContentAssessor( i18n );
 
 		test( "SubheadingsDistributionTooLong", () => {
-			const assessment = getAssessment( assessor, "subheadingsTooLong" );
+			const assessment = assessor.getAssessment( "subheadingsTooLong" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
@@ -229,7 +228,7 @@ describe( "A content assessor", function() {
 		} );
 
 		test( "SentenceLengthInTextAssessment", () => {
-			const assessment = getAssessment( assessor, "textSentenceLength" );
+			const assessment = assessor.getAssessment( "textSentenceLength" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();

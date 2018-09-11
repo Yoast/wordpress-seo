@@ -1,7 +1,6 @@
 import Assessor from "../../src/cornerstone/seoAssessor.js";
 import Paper from "../../src/values/Paper.js";
 import factory from "../specHelpers/factory.js";
-import getAssessment from "../specHelpers/getAssessment";
 
 const i18n = factory.buildJed();
 const assessor = new Assessor( i18n );
@@ -75,7 +74,7 @@ describe( "running assessments in the assessor", function() {
 
 	describe( "has configuration overrides", () => {
 		test( "MetaDescriptionLengthAssessment", () => {
-			const assessment = getAssessment( assessor, "metaDescriptionLength" );
+			const assessment = assessor.getAssessment( "metaDescriptionLength" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
@@ -85,7 +84,7 @@ describe( "running assessments in the assessor", function() {
 		} );
 
 		test( "SubHeadingsKeywordAssessment", () => {
-			const assessment = getAssessment( assessor, "subheadingsKeyword" );
+			const assessment = assessor.getAssessment( "subheadingsKeyword" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
@@ -96,7 +95,7 @@ describe( "running assessments in the assessor", function() {
 		} );
 
 		test( "TextImagesAssessment", () => {
-			const assessment = getAssessment( assessor, "textImages" );
+			const assessment = assessor.getAssessment( "textImages" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
@@ -108,7 +107,7 @@ describe( "running assessments in the assessor", function() {
 		} );
 
 		test( "TextLengthAssessment", () => {
-			const assessment = getAssessment( assessor, "textLength" );
+			const assessment = assessor.getAssessment( "textLength" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
@@ -121,7 +120,7 @@ describe( "running assessments in the assessor", function() {
 		} );
 
 		test( "OutboundLinksAssessment", () => {
-			const assessment = getAssessment( assessor, "externalLinks" );
+			const assessment = assessor.getAssessment( "externalLinks" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
@@ -130,7 +129,7 @@ describe( "running assessments in the assessor", function() {
 		} );
 
 		test( "PageTitleWidthAssesment", () => {
-			const assessment = getAssessment( assessor, "titleWidth" );
+			const assessment = assessor.getAssessment( "titleWidth" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
@@ -140,7 +139,7 @@ describe( "running assessments in the assessor", function() {
 		} );
 
 		test( "UrlKeywordAssessment", () => {
-			const assessment = getAssessment( assessor, "urlKeyword" );
+			const assessment = assessor.getAssessment( "urlKeyword" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
@@ -149,7 +148,7 @@ describe( "running assessments in the assessor", function() {
 		} );
 
 		test( "UrlLengthAssessment", () => {
-			const assessment = getAssessment( assessor, "urlLength" );
+			const assessment = assessor.getAssessment( "urlLength" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
