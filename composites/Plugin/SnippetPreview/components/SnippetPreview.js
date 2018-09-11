@@ -219,8 +219,8 @@ function highlightKeyword( locale, keyword, text, cleanText ) {
 	// Match keyword case-insensitively.
 	const keywordMatcher = createWordRegex( keywordToUse, "", false );
 
-	text = textToUse.replace( keywordMatcher, function( keywordToUse ) {
-		return `{{strong}}${ keywordToUse }{{/strong}}`;
+	text = textToUse.replace( keywordMatcher, function( matchedKeyword ) {
+		return `{{strong}}${ matchedKeyword }{{/strong}}`;
 	} );
 
 	// Transliterate the keyword for highlighting
@@ -228,8 +228,8 @@ function highlightKeyword( locale, keyword, text, cleanText ) {
 	if ( transliteratedKeyword !== keyword ) {
 		const transliteratedKeywordMatcher = createWordRegex( transliteratedKeyword, "", false );
 		// Let the transliteration run on the text with no previous replacements.
-		text = text.replace( transliteratedKeywordMatcher, function( keyword ) {
-			return `{{strong}}${ keyword }{{/strong}}`;
+		text = text.replace( transliteratedKeywordMatcher, function( matchedKeyword ) {
+			return `{{strong}}${ matchedKeyword }{{/strong}}`;
 		} );
 	}
 
@@ -624,7 +624,7 @@ export default class SnippetPreview extends PureComponent {
 			PartContainer,
 			Container,
 			TitleUnbounded,
-			Title,
+			SnippetTitle,
 		} = this.getPreparedComponents( mode );
 
 		const separator = mode === MODE_DESKTOP ? null : <Separator />;
@@ -648,7 +648,7 @@ export default class SnippetPreview extends PureComponent {
 						<ScreenReaderText>
 							{ __( "SEO title preview", "yoast-components" ) + ":" }
 						</ScreenReaderText>
-						<Title
+						<SnippetTitle
 							onMouseUp={ onMouseUp.bind( null, "title" ) }
 							onMouseEnter={ onMouseEnter.bind( null, "title" ) }
 							onMouseLeave={ onMouseLeave.bind( null ) }
@@ -658,7 +658,7 @@ export default class SnippetPreview extends PureComponent {
 									{ this.getTitle() }
 								</TitleUnbounded>
 							</TitleBounded>
-						</Title>
+						</SnippetTitle>
 						<ScreenReaderText>
 							{ __( "Url preview", "yoast-components" ) + ":" }
 						</ScreenReaderText>
@@ -687,20 +687,20 @@ export default class SnippetPreview extends PureComponent {
 	 *     PartContainer: ReactComponent,
 	 *     Container: ReactComponent,
 	 *     TitleUnbounded: ReactComponent,
-	 *     Title: ReactComponent,
+	 *     SnippetTitle: ReactComponent,
 	 * }} The prepared components.
 	 */
 	getPreparedComponents( mode ) {
 		const PartContainer = mode === MODE_DESKTOP ? DesktopPartContainer : MobilePartContainer;
 		const Container = mode === MODE_DESKTOP ? DesktopContainer : MobileContainer;
 		const TitleUnbounded = mode === MODE_DESKTOP ? TitleUnboundedDesktop : TitleUnboundedMobile;
-		const Title = this.addCaretStyles( "title", BaseTitle );
+		const SnippetTitle = this.addCaretStyles( "title", BaseTitle );
 
 		return {
 			PartContainer,
 			Container,
 			TitleUnbounded,
-			Title,
+			SnippetTitle,
 		};
 	}
 }
