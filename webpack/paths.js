@@ -8,7 +8,6 @@ const cssDistPath = path.resolve( "css", "dist" );
 // Output filename: Entry file (relative to jsSrcPath)
 const entry = {
 	vendor: [
-		"babel-polyfill",
 		"react",
 		"react-dom",
 	],
@@ -40,6 +39,7 @@ const entry = {
 	"wp-seo-filter-explanation": "./wp-seo-filter-explanation.js",
 	"wp-seo-quick-edit-handler": "./wp-seo-quick-edit-handler.js",
 	"wp-seo-network-admin": "./wp-seo-network-admin.js",
+	"babel-polyfill": "./babel-polyfill.js",
 };
 
 /**

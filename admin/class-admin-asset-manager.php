@@ -210,8 +210,17 @@ class WPSEO_Admin_Asset_Manager {
 				wp_deregister_script( 'tinymce-latest' );
 				wp_register_script( 'tinymce-latest', includes_url( 'js/tinymce/' ) . 'wp-tinymce.php', array( 'jquery' ), false, true );
 			}
+
+			// Use Gutenberg's babel-polyfill.
+			$backport_wp_dependencies[] = 'wp-polyfill-ecmascript';
 		}
 		else {
+			// If Gutenberg's  babel-polyfill is not registered, use our own.
+			if ( ! wp_script_is( 'wp-polyfill-ecmascript', 'registered' ) ) {
+				wp_register_script( self::PREFIX . 'babel-polyfill', plugins_url( 'js/src/babel-polyfill.js', WPSEO_FILE ), array(), false, true );
+			}
+			$backport_wp_dependencies[] = self::PREFIX . 'babel-polyfill';
+
 			if ( wp_script_is( 'lodash', 'registered' ) ) {
 				$backport_wp_dependencies[] = 'lodash';
 			}

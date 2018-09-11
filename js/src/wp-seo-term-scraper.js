@@ -44,7 +44,6 @@ import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
 } from "./helpers/classicEditor";
-import "./helpers/babel-polyfill";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
