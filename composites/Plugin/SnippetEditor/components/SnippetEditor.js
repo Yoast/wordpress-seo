@@ -3,11 +3,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
-import { assessments } from "yoastseo";
-const {
-	MetaDescriptionLengthAssessment,
-	PageTitleWidthAssesment,
-} = assessments.seo;
+import MetaDescriptionLengthAssessment from "yoastseo/src/assessments/seo/metaDescriptionLengthAssessment";
+import PageTitleWidthAssesment from "yoastseo/src/assessments/seo/pageTitleWidthAssessment";
 
 import { helpers } from "yoastseo";
 const { measureTextWidth } = helpers;
