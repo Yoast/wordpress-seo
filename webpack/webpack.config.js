@@ -1,5 +1,6 @@
 const webpack = require( "webpack" );
 const UnminifiedWebpackPlugin = require( "unminified-webpack-plugin" );
+const CaseSensitivePathsPlugin = require( "case-sensitive-paths-webpack-plugin" );
 const path = require( "path" );
 const mapValues = require( "lodash/mapValues" );
 const isString = require( "lodash/isString" );
@@ -47,6 +48,7 @@ module.exports = function( env = { environment: "production" } ) {
 		new UnminifiedWebpackPlugin(),
 		new webpack.optimize.UglifyJsPlugin(),
 		new webpack.optimize.AggressiveMergingPlugin(),
+		new CaseSensitivePathsPlugin(),
 	];
 
 	const base = {

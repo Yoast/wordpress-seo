@@ -4,7 +4,7 @@ import noop from "lodash/noop";
 
 /* Internal dependencies */
 import DiviHelper from "./diviHelper";
-import VisualComposerHelper from "./visualComposerHelper";
+import VisualComposerHelper from "./VisualComposerHelper";
 
 const DEFAULTS = {
 	classicEditorHidden: noop,
