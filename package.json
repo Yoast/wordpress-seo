@@ -61,6 +61,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.11.1",
     "babelify": "^7.3.0",
+    "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "copy-webpack-plugin": "^4.0.1",
     "envify": "^3.4.1",
     "enzyme": "^3.3.0",
@@ -136,10 +137,10 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "git+https://github.com/Yoast/yoast-components.git#develop",
-    "yoastseo": "https://github.com/Yoast/YoastSEO.js.git#develop"
+    "yoast-components": "git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/8.3",
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/8.3"
   },
   "yoast": {
-    "pluginVersion": "8.2-RC6"
+    "pluginVersion": "8.3-RC1"
   }
 }
