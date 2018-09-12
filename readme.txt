@@ -109,6 +109,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: September 25th, 2018
 
 Bugfixes:
+
 * Fixes a bug where an incorrect time would be outputted in the `article:published_time` and `article:modified_time` meta properties when a timezone with numerical UTC offset was used (e.g. UTC+10).
 * Fixes a bug where the `article:published_time` and `article:modified_time` meta properties would be localized. Props to [AminulBD](https://github.com/AminulBD).
 
