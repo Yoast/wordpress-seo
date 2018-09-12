@@ -34,13 +34,13 @@ let CornerStoneContentAssessor = function( i18n, options = {} ) {
 	this._assessments = [
 
 		new FleschReadingEase( contentConfiguration( locale ).fleschReading ),
-		new SubheadingDistributionTooLong(
-			{
+		new SubheadingDistributionTooLong( {
+			parameters:	{
 				slightlyTooMany: 250,
 				farTooMany: 300,
 				recommendedMaximumWordCount: 250,
-			}
-		),
+			},
+		} ),
 		paragraphTooLong,
 		new SentenceLengthInText(
 			{

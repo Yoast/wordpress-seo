@@ -21,27 +21,29 @@ describe( "the keyphrase length assessment", function() {
 
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
-		expect( result.getScore() ).toEqual( 0 );
-		expect( result.getText() ).toEqual( "The <a href='https://yoa.st/2pd' target='_blank'>keyphrase</a> is over 10 words, a keyphrase should be shorter." );
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual( "Your <a href='https://yoa.st/2pd' target='_blank'>keyphrase</a> is 11 " +
+			"words long. That's way more than the recommended maximum of 4 words. Make the keyphrase shorter." );
 	} );
 
-	it( "should not assess a paper with a keyphrase that's the correct length", function() {
+	it( "should assess a paper with a keyphrase that's the correct length", function() {
 		const paper = new Paper( "", { keyword: "keyword" } );
-		const researcher = factory.buildMockResearcher( 10 );
+		const researcher = factory.buildMockResearcher( 3 );
 
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
-		expect( result.getScore() ).toEqual( 0 );
-		expect( result.getText() ).toEqual( "" );
+		expect( result.getScore() ).toEqual( 9 );
+		expect( result.getText() ).toEqual( "Your <a href='https://yoa.st/2pdd' target='_blank'>keyphrase</a> has a nice length." );
 	} );
 
-	it( "should not assess a paper with a keyphrase that's the correct length", function() {
-		const paper = new Paper( "", { keyword: "keyword" } );
-		const researcher = factory.buildMockResearcher( 1 );
+	it( "should assess a paper with a keyphrase that's a little longer than the correct length", function() {
+		const paper = new Paper( "", { keyword: "keyword keyword keyword keyword keyword" } );
+		const researcher = factory.buildMockResearcher( 5 );
 
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
-		expect( result.getScore() ).toEqual( 0 );
-		expect( result.getText() ).toEqual( "" );
+		expect( result.getScore() ).toEqual( 6 );
+		expect( result.getText() ).toEqual( "Your <a href='https://yoa.st/2pd' target='_blank'>keyphrase</a> is " +
+			"5 words long. That's more than the recommended maximum of 4 words. You might want to make the keyphrase a bit shorter." );
 	} );
 } );
