@@ -1005,4 +1005,30 @@ describe( "AnalysisWebWorker", () => {
 			expect( worker._paper ).toBeNull();
 		} );
 	} );
+
+	describe( "setLocale", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope );
+			worker.register();
+		} );
+
+		test( "sets the locale", () => {
+			expect( worker._configuration.locale ).toBe( "en_US" );
+			worker.setLocale( "nl_NL" );
+			expect( worker._configuration.locale ).toBe( "nl_NL" );
+		} );
+
+		test( "calls create content assessor", () => {
+			worker.createContentAssessor = jest.fn();
+			worker.setLocale( "nl_NL" );
+			expect( worker.createContentAssessor ).toHaveBeenCalledTimes( 1 );
+		} );
+
+		test( "returns when the passed locale is already set", () => {
+			worker.createContentAssessor = jest.fn();
+			worker.setLocale( "en_US" );
+			expect( worker.createContentAssessor ).toHaveBeenCalledTimes( 0 );
+		} );
+	} );
 } );
