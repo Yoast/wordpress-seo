@@ -71,7 +71,7 @@ function calculateAnnotationsForTextFormat( content, mark, block ) {
 
 	// Try again with a different HTML tag strip tactic.
 	if ( foundIndex === -1 ) {
-		original = mark.getOriginal().replace(/(<([^>]+)>)/ig, " ");
+		original = mark.getOriginal().replace(/(<([^>]+)>)/ig, "");
 		foundIndex = text.indexOf( original );
 	}
 
@@ -83,7 +83,14 @@ function calculateAnnotationsForTextFormat( content, mark, block ) {
 		const startXPath = "text()[1]";
 		const endXPath = "text()[1]";
 		const startOffset = foundIndex + offsets.startOffset;
-		const endOffset = foundIndex + offsets.endOffset;
+		let endOffset = foundIndex + offsets.endOffset;
+
+		// If the marks are at the beginning and the end we can use the length
+		// Which gives more consistent results given we strip HTML tags in there.
+		if ( offsets.startOffset === 0 && offsets.endOffset === mark.getOriginal().length ) {
+			endOffset = foundIndex + original.length;
+		}
+
 
 		// Simplest possible solution:
 		annotations.push( {
