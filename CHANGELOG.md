@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.4.3: September 12th, 2017
+
+### Fixed
+
+* Fixes YoastSEO.js imports
+
 ## 1.4.2: May 2nd, 2017
 
 ### Changes
