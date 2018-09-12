@@ -725,10 +725,10 @@ class WPSEO_OpenGraph {
 
 		$post = get_post();
 
-		$pub = mysql2date( DATE_W3C, $post->post_date, false );
+		$pub = mysql2date( DATE_W3C, $post->post_date_gmt, false );
 		$this->og_tag( 'article:published_time', $pub );
 
-		$mod = mysql2date( DATE_W3C, $post->post_modified, false );
+		$mod = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
 		if ( $mod !== $pub ) {
 			$this->og_tag( 'article:modified_time', $mod );
 			$this->og_tag( 'og:updated_time', $mod );
