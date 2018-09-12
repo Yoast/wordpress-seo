@@ -217,7 +217,10 @@ class WPSEO_Admin_Asset_Manager {
 		else {
 			// If Gutenberg's babel-polyfill is not registered, use our own.
 			if ( ! wp_script_is( 'wp-polyfill', 'registered' ) ) {
-				wp_register_script( self::PREFIX . 'babel-polyfill', plugins_url( 'js/src/babel-polyfill.js', WPSEO_FILE ), array(), false, true );
+				$this->register_script( new WPSEO_Admin_Asset( array(
+					'name' => 'babel-polyfill',
+					'src'  => 'babel-polyfill-' . $flat_version,
+				) ) );
 			}
 			$backport_wp_dependencies[] = self::PREFIX . 'babel-polyfill';
 
