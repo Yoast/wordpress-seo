@@ -7,35 +7,27 @@ import Mark from "../../src/values/Mark.js";
 let keywordDistanceAssessment = new LargestKeyWordDistanceAssessment();
 
 describe( "An assessment to check the largest percentage of text in your text in which no keyword occurs", function() {
-	it( "returns a gray score when there are too few keyword occurrences to calculate the keyword distribution", function() {
-		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword" } );
-		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 10 ), i18n );
-
-		expect( assessment.getScore() ).toEqual( 0 );
-		expect( assessment.getText() ).toEqual( "Use your keyword or synonyms more often in your text so that we can check <a href='https://yoa.st/2w7' target='_blank'>keyword distribution</a>." );
-	} );
-
-	it( "returns a bad score when the largest keyword distance is between more than 50%", function() {
+	it( "returns a bad score when the average score from the step function is below the recommended minimum", function() {
 		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword" } );
-		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 55 ), i18n );
+		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { averageScore: 2 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
 		expect( assessment.getText() ).toEqual( "Large parts of your text do not contain the keyword. " +
 			"Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> the keyword more evenly." );
 	} );
 
-	it( "returns an okay score when the largest keyword distance is between 40 and 50%", function() {
+	it( "returns an okay score when the average score from the step function is between recommended minimum and the a good average", function() {
 		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword" } );
-		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 45 ), i18n );
+		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { averageScore: 5 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "Some parts of your text do not contain the keyword. " +
 			"Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> the keyword more evenly." );
 	} );
 
-	it( "returns an good score when the largest keyword distance is less than 40%", function() {
+	it( "returns an okay score when the average score from the step function is higher than the recommended average", function() {
 		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword" } );
-		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 25 ), i18n );
+		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { averageScore: 7 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "Your keyword is <a href='https://yoa.st/2w7' target='_blank'>distributed</a> evenly " +
@@ -44,37 +36,37 @@ describe( "An assessment to check the largest percentage of text in your text in
 } );
 
 describe( "An assessment to check the largest percentage of text in which no keyword or synonyms occurred", function() {
-	it( "returns a bad score when the largest keyword distance is more than 40%", function() {
-		let mockPaper = new Paper( "string with the keyword and the synonym", { keyword: "keyword", synonyms: "synonym" } );
-		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 55 ), i18n );
+	it( "returns a bad score when the average score from the step function is below the recommended minimum; specific feedback for synonyms", function() {
+		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword", synonyms: "synonym" } );
+		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { averageScore: 2 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
 		expect( assessment.getText() ).toEqual( "Large parts of your text do not contain the keyword or its synonyms. " +
 			"Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> them more evenly." );
 	} );
 
-	it( "returns an okay score when the largest keyword distance is between 30 and 40%", function() {
-		let mockPaper = new Paper( "string with the keyword and the synonym", { keyword: "keyword", synonyms: "synonym, synonyms" } );
-		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 45 ), i18n );
+	it( "returns an okay score when the average score from the step function is between recommended minimum and the a good average; specific feedback for synonyms", function() {
+		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword", synonyms: "synonym, synonyms" } );
+		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { averageScore: 5 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "Some parts of your text do not contain the keyword or its synonyms. " +
 			"Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> them more evenly." );
 	} );
 
-	it( "returns an good score when the largest keyword distance is less than 30%", function() {
-		let mockPaper = new Paper( "string with the keyword and the synonym", { keyword: "keyword", synonyms: "synonym" } );
-		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 25 ), i18n );
+	it( "returns an okay score when the average score from the step function is higher than the recommended average; specific feedback for synonyms", function() {
+		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword", synonyms: "synonym, synonyms" } );
+		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { averageScore: 7 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "Your keyword and its synonyms are " +
-			"<a href='https://yoa.st/2w7' target='_blank'>distributed</a> evenly throughout the text. That's great." );
+		expect( assessment.getText() ).toEqual( "Your keyword and its synonyms are <a href='https://yoa.st/2w7' target='_blank'>distributed</a> evenly " +
+			"throughout the text. That's great." );
 	} );
 } );
 
 describe( "Checks if the assessment is applicable", function() {
-	it( "is applicable to papers with more than 200 words and 2 keywords", function() {
-		let mockPaper = new Paper( "This is a keyword and a keyword. Lorem ipsum dolor sit amet, vim illum aeque" +
+	it( "is applicable to papers with more than 200 words when a keyword is set", function() {
+		let mockPaper = new Paper( "Lorem ipsum dolor sit amet, vim illum aeque" +
 			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
 			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
 			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
@@ -92,8 +84,8 @@ describe( "Checks if the assessment is applicable", function() {
 		expect( assessment ).toBe( true );
 	} );
 
-	it( "is applicable to papers with more than 200 words and only 1 keyword", function() {
-		let mockPaper = new Paper( "This is the keyword. Lorem ipsum dolor sit amet, vim illum aeque" +
+	it( "is not applicable to papers with more than 200 words when no keyword is set", function() {
+		let mockPaper = new Paper( "Lorem ipsum dolor sit amet, vim illum aeque" +
 			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
 			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
 			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
@@ -105,14 +97,15 @@ describe( "Checks if the assessment is applicable", function() {
 			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
 			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
 			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
-			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } );
+			" Oratio vocibus offendit an mei, est esse pericula liberavisse." );
 		let assessment = keywordDistanceAssessment.isApplicable( mockPaper );
 
-		expect( assessment ).toBe( true );
+		expect( assessment ).toBe( false );
 	} );
 
-	it( "is not applicable to papers with less than 200 words that contain the keyword more than once", function() {
-		let mockPaper = new Paper( "Keyword and keyword. ", { keyword: "keyword" } );
+
+	it( "is not applicable to papers with less than 200 words", function() {
+		let mockPaper = new Paper( "Lorem ipsum dolor sit amet.", { keyword: "keyword" } );
 		let assessment = keywordDistanceAssessment.isApplicable( mockPaper );
 
 		expect( assessment ).toBe( false );
@@ -120,62 +113,33 @@ describe( "Checks if the assessment is applicable", function() {
 } );
 
 describe( "A test for marking keywords in the text", function() {
-	it( "returns markers for keywords in the text", function() {
-		const text = " a ".repeat( 200 );
-		const keyword = "keyword";
-		let mockPaper = new Paper( "".concat( keyword, " ", text, " ", keyword ), { keyword: keyword } );
-
-		expect( keywordDistanceAssessment.isApplicable( mockPaper ) ).toBe( true );
-
+	it( "returns markers for a single topic form in the text", function() {
+		let mockPaper = new Paper( "text", { keyword: "keyword" } );
+		keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher(
+			{ averageScore: 5, formsToHighlight: [ "keyword" ] } ), i18n );
 		let expected = [
 			new Mark( {
-				original: "".concat( keyword, " ", text, " ", keyword ),
-				marked: "".concat( "<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>", " ", text, " ",
-					"<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>" ),
-			} ),
+				original: "keyword",
+				marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>",
+			}, ),
 		];
-		expect( keywordDistanceAssessment.getMarks( mockPaper ) ).toEqual( expected );
+		expect( keywordDistanceAssessment.getMarks() ).toEqual( expected );
 	} );
 
-	it( "returns markers for keywords and synonyms in the text", function() {
-		const text = "a ".repeat( 200 );
-		const keyword = "keyword";
-		const synonym = "synonym";
-		let mockPaper = new Paper( "".concat( keyword, " ", text, " ", keyword, " ", text, " ", synonym ), { keyword: keyword, synonyms: synonym } );
-
-		expect( keywordDistanceAssessment.isApplicable( mockPaper ) ).toBe( true );
-
+	it( "returns markers for multiple topic forms in the text", function() {
+		let mockPaper = new Paper( "text", { keyword: "keyword" } );
+		keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher(
+			{ averageScore: 5, formsToHighlight: [ "keyword", "keywords" ] } ), i18n );
 		let expected = [
 			new Mark( {
-				original: "".concat( keyword, " ", text, " ", keyword, " ", text, " ", synonym ),
-				marked: "".concat( "<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>", " ", text, " ",
-					"<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>", " ",
-					text, " ", "<yoastmark class='yoast-text-mark'>", synonym, "</yoastmark>" ),
-			} ),
-		];
-		expect( keywordDistanceAssessment.getMarks( mockPaper ) ).toEqual( expected );
-	} );
-
-	it( "returns markers for keywords and synonyms in the text", function() {
-		const text = "a ".repeat( 200 );
-		const keyword = "keyword";
-		const synonym = "synonym";
-		let mockPaper = new Paper( "".concat( keyword, "! >", text, "? >", keyword, "> ", text, ") ", synonym ),
-			{ keyword: keyword, synonyms: synonym } );
-
-		expect( keywordDistanceAssessment.isApplicable( mockPaper ) ).toBe( true );
-
-		let expected = [
+				original: "keyword",
+				marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>",
+			}, ),
 			new Mark( {
-				original: "".concat( keyword, "!" ),
-				marked: "".concat( "<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>", "!" ),
-			} ),
-			new Mark( {
-				original: "".concat( ">", keyword, "> ", text, ") ", synonym ),
-				marked: "".concat( ">", "<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>", "> ", text,
-					") ", "<yoastmark class='yoast-text-mark'>", synonym, "</yoastmark>" ),
-			} ),
+				original: "keywords",
+				marked: "<yoastmark class='yoast-text-mark'>keywords</yoastmark>",
+			}, ),
 		];
-		expect( keywordDistanceAssessment.getMarks( mockPaper ) ).toEqual( expected );
+		expect( keywordDistanceAssessment.getMarks() ).toEqual( expected );
 	} );
 } );

@@ -109,8 +109,8 @@ const expectedResults = {
 		resultText: "The slug for this page contains a <a href='http://en.wikipedia.org/wiki/Stop_words' target='_blank'>stop word</a>, consider removing it.",
 	},
 	largestKeywordDistance: {
-		score: 1,
-		resultText: "Large parts of your text do not contain the keyword. Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> the keyword more evenly.",
+		score: 6,
+		resultText: "Some parts of your text do not contain the keyword. Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> the keyword more evenly.",
 	},
 	fleschReadingEase: {
 		score: 9,

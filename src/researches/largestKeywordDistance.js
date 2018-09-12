@@ -21,8 +21,9 @@ import { uniq } from "lodash-es";
  *
  * @returns {Array} The scores per sentence.
  */
-const computeScoresPerSentenceLongTopic = function( topic, sentences, locale) {
+const computeScoresPerSentenceLongTopic = function( topic, sentences, locale ) {
 	let sentenceScores = Array( sentences.length );
+
 	for ( let i = 0; i < sentences.length; i++ ) {
 		const currentSentence = sentences[ i ];
 		const foundInCurrentSentence = findWordFormsInString( topic, currentSentence, locale );
@@ -44,6 +45,7 @@ const computeScoresPerSentenceLongTopic = function( topic, sentences, locale) {
 			sentenceScores[ i ] = 3;
 		}
 	}
+
 	return sentenceScores;
 };
 
@@ -60,8 +62,9 @@ const computeScoresPerSentenceLongTopic = function( topic, sentences, locale) {
  *
  * @returns {Array} The scores per sentence.
  */
-const computeScoresPerSentenceShortTopic = function( topic, sentences, locale) {
+const computeScoresPerSentenceShortTopic = function( topic, sentences, locale ) {
 	let sentenceScores = Array( sentences.length );
+
 	for ( let i = 0; i < sentences.length; i++ ) {
 		const foundInCurrentSentence = findWordFormsInString( topic, sentences[ i ], locale );
 		if  ( foundInCurrentSentence.percentWordMatches === 100 ) {
@@ -72,6 +75,7 @@ const computeScoresPerSentenceShortTopic = function( topic, sentences, locale) {
 			sentenceScores[ i ] = 3;
 		}
 	}
+
 	return sentenceScores;
 };
 
@@ -82,12 +86,12 @@ const computeScoresPerSentenceShortTopic = function( topic, sentences, locale) {
  *
  * @returns {Array} Maximal scores of topic relevance per sentence.
  */
-const maximizeSentenceScores = function( sentenceScores) {
-	const sentenceScoresTransposed = sentenceScores[0].map(function(col, i){
-		return sentenceScores.map(function(row){
-			return row[i];
-		});
-	});
+const maximizeSentenceScores = function( sentenceScores ) {
+	const sentenceScoresTransposed = sentenceScores[ 0 ].map( function( col, i ) {
+		return sentenceScores.map( function( row ) {
+			return row[ i ];
+		} );
+	} );
 
 	return sentenceScoresTransposed.map( function( scoresForOneSentence ) {
 		return max( scoresForOneSentence );
@@ -105,7 +109,7 @@ const maximizeSentenceScores = function( sentenceScores) {
  *
  * @returns {Array} The scores per portion of text.
  */
-const step = function( maximizedSentenceScores, stepSize) {
+const step = function( maximizedSentenceScores, stepSize ) {
 	const numberOfSteps = maximizedSentenceScores.length - stepSize + 1;
 
 	let result = [];
@@ -151,17 +155,18 @@ const largestKeywordDistanceResearcher = function( paper, researcher ) {
 		}
 	}
 
-
 	// Maximize scores: Give every sentence a maximal score that it got from analysis of all topics
 	const maximizedSentenceScores = maximizeSentenceScores( sentenceScores );
 
 	// Apply step function: to begin with take a third of the text or at least 3 sentences.
 	const textPortionScores = step( maximizedSentenceScores, max( [ round( sentences.length / 3 ), 3 ] ) );
 
+	console.log( uniq( flatten( flatten( topicFormsInOneArray ) ) ) );
+
 	return {
-		averageScore: round( sum( textPortionScores ) / textPortionScores.length, 1) ,
+		averageScore: round( sum( textPortionScores ) / textPortionScores.length, 1 ),
 		formsToHighlight: uniq( flatten( flatten( topicFormsInOneArray ) ) ),
-	}
+	};
 };
 
 export {
@@ -170,4 +175,4 @@ export {
 	maximizeSentenceScores,
 	step,
 	largestKeywordDistanceResearcher,
-}
+};

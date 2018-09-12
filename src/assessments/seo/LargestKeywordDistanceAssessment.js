@@ -3,9 +3,6 @@ import { merge } from "lodash-es";
 import Assessment from "../../assessment";
 import AssessmentResult from "../../values/AssessmentResult";
 import countWords from "../../stringProcessing/countWords";
-import topicCount from "../../researches/topicCount";
-import { inRangeStartEndInclusive } from "../../helpers/inRange";
-import arrayToRegex from "../../stringProcessing/createRegexFromArray";
 import Mark from "../../values/Mark";
 import addMark from "../../markers/addMarkSingleWord";
 
@@ -60,7 +57,6 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		this._largestKeywordDistance = researcher.getResearch( "largestKeywordDistance" );
-
 		this._hasSynonyms = paper.hasSynonyms();
 
 		const assessmentResult = new AssessmentResult();
@@ -131,7 +127,7 @@ class LargestKeywordDistanceAssessment extends Assessment {
 					this._hasSynonyms + 1
 				),
 				this._config.url,
-				"</a>"
+			"</a>"
 			),
 		};
 	}
@@ -139,16 +135,17 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	/**
 	 * Creates a marker for all content words in keyphrase and synonyms.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
-	 *
 	 * @returns {Array} All markers for the current text.
 	 */
-	getMarks( paper ) {
-		return this._largestKeywordDistance.formsToHighlight.map( function ( form ) {
-			return new Mark( { original: form, marked: addMark( form ) } )
-		} )
-	}
+	getMarks() {
+		console.log( this._largestKeywordDistance.formsToHighlight.map( function( form ) {
+			return new Mark( { original: form, marked: addMark( form ) } );
+		} ) );
 
+		return this._largestKeywordDistance.formsToHighlight.map( function( form ) {
+			return new Mark( { original: form, marked: addMark( form ) } );
+		} );
+	}
 
 	/**
 	 * Checks whether the paper has a text with at least 200 words and a keyword.

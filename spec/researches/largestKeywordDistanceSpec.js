@@ -60,22 +60,22 @@ const topicLong = [
 
 
 describe( "Test for computing the sentence score", function() {
-	it( "for a short topic", function () {
-		expect(computeScoresPerSentenceShortTopic( topicShort, sentences, "en_EN" ) ).toEqual( [ 3, 6, 9, 6, 3, 6, 3, 6 ] );
+	it( "for a short topic", function() {
+		expect( computeScoresPerSentenceShortTopic( topicShort, sentences, "en_EN" ) ).toEqual( [ 3, 6, 9, 6, 3, 6, 3, 6 ] );
 	} );
 
-	it( "for a long topic", function () {
-		expect(computeScoresPerSentenceLongTopic( topicLong, sentences, "en_EN" ) ).toEqual( [ 6, 6, 9, 6, 6, 6, 3, 6 ] );
+	it( "for a long topic", function() {
+		expect( computeScoresPerSentenceLongTopic( topicLong, sentences, "en_EN" ) ).toEqual( [ 6, 6, 9, 6, 6, 6, 3, 6 ] );
 	} );
 } );
 
 const inputSentenceScores = [ 1, 5, 7, 2, 4, 9, 1, 1, 1, 4, 1, 9 ];
 describe( "Test for computing the step function", function() {
-	it( "Returns the scores for the hypothetical text with a 3-sentence window", function () {
-		expect(step( inputSentenceScores, 3 ) ).toEqual( [ 13/3, 14/3, 13/3, 15/3, 14/3, 11/3, 3/3, 6/3, 6/3, 14/3 ] );
+	it( "Returns the scores for the hypothetical text with a 3-sentence window", function() {
+		expect( step( inputSentenceScores, 3 ) ).toEqual( [ 13 / 3, 14 / 3, 13 / 3, 15 / 3, 14 / 3, 11 / 3, 3 / 3, 6 / 3, 6 / 3, 14 / 3 ] );
 	} );
-	it( "Returns the scores for the hypothetical text with a 5-sentence window", function () {
-		expect(step( inputSentenceScores, 5 ) ).toEqual( [  19/5, 27/5, 23/5, 17/5, 16/5, 16/5, 8/5, 16/5 ] );
+	it( "Returns the scores for the hypothetical text with a 5-sentence window", function() {
+		expect( step( inputSentenceScores, 5 ) ).toEqual( [  19 / 5, 27 / 5, 23 / 5, 17 / 5, 16 / 5, 16 / 5, 8 / 5, 16 / 5 ] );
 	} );
 } );
 
@@ -88,10 +88,10 @@ const remarkableForms = [ "remarkable", "remarkables", "remarkable's", "remarkab
 	"remarkables’s", "remarkables‛s", "remarkables`s", "remarkables‘", "remarkables’", "remarkables‛", "remarkables`" ];
 const somethingForms = [ "something", "somethings", "something's", "somethings's", "somethings'", "someth",
 	"someths", "somethed", "somethingly", "something‘s", "something’s", "something‛s", "something`s", "somethings‘s",
-	"somethings’s","somethings‛s", "somethings`s", "somethings‘", "somethings’", "somethings‛", "somethings`" ];
+	"somethings’s", "somethings‛s", "somethings`s", "somethings‘", "somethings’", "somethings‛", "somethings`" ];
 
 describe( "Test for a step-function research", function() {
-	it( "returns an average score over all sentences and all topic forms ", function () {
+	it( "returns an average score over all sentences and all topic forms ", function() {
 		const paper = new Paper(
 			sentences.join( " " ),
 			{
@@ -108,6 +108,6 @@ describe( "Test for a step-function research", function() {
 		expect( largestKeywordDistanceResearcher( paper, researcher ) ).toEqual( {
 			averageScore: 7.8,
 			formsToHighlight: keyForms.concat( wordForms, remarkableForms, somethingForms ),
-		} )
+		} );
 	} );
 } );
