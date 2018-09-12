@@ -419,6 +419,13 @@ describe( "AnalysisWebWorker", () => {
 					},
 				} ) );
 			} );
+
+			test( "analyze done calls send", () => {
+				worker.send = jest.fn();
+				worker.analyzeDone( 0, { result: true } );
+				expect( worker.send ).toHaveBeenCalledTimes( 1 );
+				expect( worker.send ).toHaveBeenCalledWith( "analyze:done", 0, { result: true } );
+			} );
 		} );
 
 		describe( "analyzeRelatedKeywords", () => {
@@ -516,6 +523,13 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize", { keywordAnalysisActive: false } ) );
 				scope.onmessage( createMessage( "analyzeRelatedKeywords", { paper: paper.serialize(), relatedKeywords } ) );
 			} );
+
+			test( "analyze related keywords done calls send", () => {
+				worker.send = jest.fn();
+				worker.analyzeRelatedKeywordsDone( 0, { result: true } );
+				expect( worker.send ).toHaveBeenCalledTimes( 1 );
+				expect( worker.send ).toHaveBeenCalledWith( "analyzeRelatedKeywords:done", 0, { result: true } );
+			} );
 		} );
 
 		describe( "loadScript", () => {
@@ -598,6 +612,20 @@ describe( "AnalysisWebWorker", () => {
 
 				scope.onmessage( createMessage( "initialize" ) );
 				scope.onmessage( createMessage( "loadScript", payload ) );
+			} );
+
+			test( "load script done calls send on success", () => {
+				worker.send = jest.fn();
+				worker.loadScriptDone( 0, { loaded: true } );
+				expect( worker.send ).toHaveBeenCalledTimes( 1 );
+				expect( worker.send ).toHaveBeenCalledWith( "loadScript:done", 0, { loaded: true } );
+			} );
+
+			test( "load script done calls send on failure", () => {
+				worker.send = jest.fn();
+				worker.loadScriptDone( 0, { loaded: false } );
+				expect( worker.send ).toHaveBeenCalledTimes( 1 );
+				expect( worker.send ).toHaveBeenCalledWith( "loadScript:failed", 0, { loaded: false } );
 			} );
 		} );
 
@@ -699,6 +727,20 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize" ) );
 				scope.onmessage( createMessage( "customMessage", payload ) );
 			} );
+
+			test( "custom message done calls send on success", () => {
+				worker.send = jest.fn();
+				worker.customMessageDone( 0, { success: true, data: "data" } );
+				expect( worker.send ).toHaveBeenCalledTimes( 1 );
+				expect( worker.send ).toHaveBeenCalledWith( "customMessage:done", 0, "data" );
+			} );
+
+			test( "custom message done calls send on failure", () => {
+				worker.send = jest.fn();
+				worker.customMessageDone( 0, { success: false, error: "failed" } );
+				expect( worker.send ).toHaveBeenCalledTimes( 1 );
+				expect( worker.send ).toHaveBeenCalledWith( "customMessage:failed", "failed" );
+			} );
 		} );
 
 		describe( "runResearch", () => {
@@ -766,6 +808,13 @@ describe( "AnalysisWebWorker", () => {
 
 				scope.onmessage( createMessage( "initialize" ) );
 				scope.onmessage( createMessage( "runResearch", payload ) );
+			} );
+
+			test( "run research done calls send", () => {
+				worker.send = jest.fn();
+				worker.runResearchDone( 0, { result: true } );
+				expect( worker.send ).toHaveBeenCalledTimes( 1 );
+				expect( worker.send ).toHaveBeenCalledWith( "runResearch:done", 0, { result: true } );
 			} );
 		} );
 	} );
