@@ -917,5 +917,92 @@ describe( "AnalysisWebWorker", () => {
 			expect( worker._registeredAssessments.length ).toBe( 1 );
 			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
 		} );
+
+		test( "call refresh assessment", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			worker.refreshAssessment = jest.fn();
+			worker.registerAssessment( assessmentName, assessment, pluginName );
+
+			expect( worker.refreshAssessment ).toHaveBeenCalledTimes( 1 );
+			expect( worker.refreshAssessment ).toHaveBeenCalledWith( assessmentName, pluginName );
+		} );
+	} );
+
+	describe( "registerMessageHandler", () => {
+		const handlerName = "Knock knock";
+		const pluginName = "Who?";
+		const handler = () => true;
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope );
+			worker.register();
+		} );
+
+		test( "throws an error when passing an invalid name", () => {
+			const errorMessage = "Failed to register handler for plugin " + pluginName + ". Expected parameter `name` to be a string.";
+			expect( () => worker.registerMessageHandler( null, handler, pluginName ) ).toThrowError( errorMessage );
+		} );
+
+		test( "throws an error when passing an invalid handler", () => {
+			const errorMessage = "Failed to register handler for plugin " + pluginName + ". Expected parameter `handler` to be a function.";
+			expect( () => worker.registerMessageHandler( handlerName, null, pluginName ) ).toThrowError( errorMessage );
+		} );
+
+		test( "throws an error when passing an invalid plugin name", () => {
+			const errorMessage = "Failed to register handler for plugin null. Expected parameter `pluginName` to be a string.";
+			expect( () => worker.registerMessageHandler( handlerName, handler, null ) ).toThrowError( errorMessage );
+		} );
+
+		test( "add the handler to the registered message handlers", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			expect( worker._seoAssessor ).not.toBeNull();
+
+			worker.registerMessageHandler( handlerName, handler, pluginName );
+			expect( worker._registeredMessageHandlers[ pluginName + "-" + handlerName ] ).toBe( handler );
+		} );
+	} );
+
+	describe( "refreshAssessment", () => {
+		const assessmentName = "Knock knock";
+		const pluginName = "Who?";
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope );
+			worker.register();
+		} );
+
+		test( "throws an error when passing an invalid name", () => {
+			const errorMessage = "Failed to refresh assessment for plugin " + pluginName + ". Expected parameter `name` to be a string.";
+			expect( () => worker.refreshAssessment( null, pluginName ) ).toThrowError( errorMessage );
+		} );
+
+		test( "throws an error when passing an invalid plugin name", () => {
+			const errorMessage = "Failed to refresh assessment for plugin null. Expected parameter `pluginName` to be a string.";
+			expect( () => worker.refreshAssessment( assessmentName, null ) ).toThrowError( errorMessage );
+		} );
+
+		test( "calls clear cache", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			worker.clearCache = jest.fn();
+
+			worker.refreshAssessment( assessmentName, pluginName );
+			expect( worker.clearCache ).toHaveBeenCalledTimes( 1 );
+		} );
+	} );
+
+	describe( "clearCache", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope );
+			worker.register();
+		} );
+
+		test( "sets paper to null", () => {
+			worker._paper = new Paper( "This is the content." );
+			worker.clearCache();
+			expect( worker._paper ).toBeNull();
+		} );
 	} );
 } );
