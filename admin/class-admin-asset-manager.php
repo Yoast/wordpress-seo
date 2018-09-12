@@ -212,11 +212,11 @@ class WPSEO_Admin_Asset_Manager {
 			}
 
 			// Use Gutenberg's babel-polyfill.
-			$backport_wp_dependencies[] = 'wp-polyfill-ecmascript';
+			$backport_wp_dependencies[] = 'wp-polyfill';
 		}
 		else {
 			// If Gutenberg's babel-polyfill is not registered, use our own.
-			if ( ! wp_script_is( 'wp-polyfill-ecmascript', 'registered' ) ) {
+			if ( ! wp_script_is( 'wp-polyfill', 'registered' ) ) {
 				wp_register_script( self::PREFIX . 'babel-polyfill', plugins_url( 'js/src/babel-polyfill.js', WPSEO_FILE ), array(), false, true );
 			}
 			$backport_wp_dependencies[] = self::PREFIX . 'babel-polyfill';
