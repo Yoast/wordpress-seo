@@ -11,6 +11,10 @@
 	}
 }
 
+.schema-how-to-duration-time-input {
+	white-space: nowrap;
+}
+
 .schema-how-to-buttons {
 	text-align: center;
 
@@ -72,7 +76,7 @@ legend.schema-how-to-duration-legend {
 
 .schema-how-to-step-name,
 .schema-faq-title,
-.schema-faq-question-question {
+.schema-faq-question {
 	font-weight: 600;
 }
 
@@ -94,7 +98,7 @@ legend.schema-how-to-duration-legend {
 }
 
 // FAQ styling
-.schema-faq-question {
+.schema-faq-section {
 	position: relative;
 	padding: 8px 4px 8px 32px;
 	margin: 4px 0;
@@ -102,16 +106,16 @@ legend.schema-how-to-duration-legend {
 	list-style-type: none;
 }
 
-.schema-faq-question-mover {
+.schema-faq-section-mover {
 	position: absolute;
 	top: 0;
 	left: -29px;
 }
 
-.schema-faq-question-button-container {
+.schema-faq-section-button-container {
 	text-align: right;
 
-	.schema-faq-question-add-media {
+	.schema-faq-section-add-media {
 		float: left;
 	}
 

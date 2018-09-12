@@ -1,10 +1,16 @@
 /* External dependencies */
+import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
 const { Component } = window.wp.element;
 const { IconButton } = window.wp.components;
 const { RichText, MediaUpload } = window.wp.editor;
+
+/* Internal dependencies */
+import appendSpace from "../../../components/higherorder/appendSpace";
+
+const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 
 /**
  * A Question and answer pair within a FAQ block.
@@ -23,14 +29,14 @@ export default class Question extends Component {
 			insertQuestion,
 		} = this.props;
 
-		return <div className="schema-faq-question-button-container">
+		return <div className="schema-faq-section-button-container">
 			<MediaUpload
 				onSelect={ ( media ) => this.onSelectImage( media ) }
 				type="image"
 				value={ attributes.id }
 				render={ ( { open } ) => (
 					<IconButton
-						className="schema-faq-question-button editor-inserter__toggle faq-question-add-media"
+						className="schema-faq-section-button editor-inserter__toggle faq-section-add-media"
 						icon="insert"
 						onClick={ open }
 					>
@@ -39,14 +45,14 @@ export default class Question extends Component {
 				) }
 			/>
 			<IconButton
-				className="schema-faq-question-button editor-inserter__toggle"
+				className="schema-faq-section-button editor-inserter__toggle"
 				icon="trash"
 				label={ __( "Delete question", "wordpress-seo" ) }
 				onClick={ removeQuestion }
 			>
 			</IconButton>
 			<IconButton
-				className="schema-faq-question-button editor-inserter__toggle"
+				className="schema-faq-section-button editor-inserter__toggle"
 				icon="insert"
 				label={ __( "Insert question", "wordpress-seo" ) }
 				onClick={ insertQuestion }
@@ -61,7 +67,7 @@ export default class Question extends Component {
 	 * @returns {Component} The buttons.
 	 */
 	getMover() {
-		return <div className="schema-faq-question-mover">
+		return <div className="schema-faq-section-mover">
 			{ ! this.props.isFirst &&
 			<IconButton
 				className="editor-block-mover__control"
@@ -134,16 +140,16 @@ export default class Question extends Component {
 	 */
 	static Content( question ) {
 		return(
-			<div className={ "schema-faq-question" } key={ question.id }>
-				<RichText.Content
+			<div className={ "schema-faq-section" } key={ question.id }>
+				<RichTextWithAppendedSpace
 					tagName="strong"
-					className="schema-faq-question-question"
+					className="schema-faq-question"
 					key={ question.id + "-question" }
 					value={ question.question }
 				/>
-				<RichText.Content
+				<RichTextWithAppendedSpace
 					tagName="p"
-					className="schema-faq-question-answer"
+					className="schema-faq-answer"
 					key={ question.id + "-answer" }
 					value={ question.answer }
 				/>
@@ -169,9 +175,9 @@ export default class Question extends Component {
 		let { id, question, answer } = attributes;
 
 		return (
-			<div className="schema-faq-question" key={ id } >
+			<div className="schema-faq-section" key={ id } >
 				<RichText
-					className="schema-faq-question-question"
+					className="schema-faq-question"
 					tagName="p"
 					onSetup={ ( ref ) => editorRef( "question", ref ) }
 					key={ id + "-question" }
@@ -183,7 +189,7 @@ export default class Question extends Component {
 					keepPlaceholderOnFocus={ true }
 				/>
 				<RichText
-					className="schema-faq-question-answer"
+					className="schema-faq-answer"
 					tagName="p"
 					onSetup={  ( ref ) => editorRef( "answer", ref )  }
 					key={ id + "-answer" }

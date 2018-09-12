@@ -23,14 +23,6 @@ export default () => {
 		},
 		// Block attributes - decides what to save and how to parse it from and to HTML.
 		attributes: {
-			title: {
-				type: "array",
-				source: "children",
-				selector: ".schema-faq-title",
-			},
-			jsonTitle: {
-				type: "string",
-			},
 			questions: {
 				type: "array",
 			},

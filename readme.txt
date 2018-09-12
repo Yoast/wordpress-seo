@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.8
-Stable tag: 8.1.2
+Stable tag: 8.2
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -105,12 +105,36 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+= 8.3.0 =
+Release Date: September 25th, 2018
+
+Bugs:
+
+* Fixes the import of `scoreToRating` in `mapResults.js` to be consistent with the import of the same function in `getIndicatorForScore.js`.
+
+Enhancements:
+
+* Adds colon `:`  as an optional Title Separator.
+* Adds a setting and filter allowing users to edit the text describing the needed time for a how-to guide.
+* Shows a notice on the Yoast SEO dashboard when both Yoast SEO and All in One SEO Pack plugins are active.
+* Introduces an API function to get all WPSEO related capabilities.
+
+Other:
+
+* Adds `target = "_blank"` to the anchor tag of the duplicate content link in the archive settings. Props @nikhilbarar.
+* Prevents localize the Open Graph publish and modify DateTime string.
+* Changes the notification message when a new issue has been found
+* Changes the second argument of the `wpseo_sitemap_exclude_empty_terms` filter call when determining which taxonomies should have a sitemap to the correct type. Props to: [liarco](https://github.com/liarco)
+* Removes the executable bits on SVN assets. Props to [mathieu-aubin](https://github.com/mathieu-aubin)
+* Adds a help text to the Readability Analysis.
 
 = 8.2.0 =
 Release Date: September 11th, 2018
 
 Enhancements:
 
+* Introduces a How-To block in Gutenberg to create a How-to guide in an SEO-friendly way. Read more about the Gutenblocks in [https://yoa.st/gutenblocks](our release post).
+* Introduces a FAQ block in Gutenberg to list your Frequently Asked Questions in an SEO-friendly way. Read more about the Gutenblocks in [https://yoa.st/gutenblocks](our release post).
 * Adds readability analysis for Polish.
 * On Multisite environments, in addition to the site domain, path and ID, also site titles are now present in the site selection dropdowns.
 
@@ -125,66 +149,9 @@ Bugfixes:
 * Fixes a bug where a non-existing dependency was requested on the Search Appearance settings page.
 * Fixes a bug where the value of the primary category snippet variable in the classic editor wouldn't change when the primary category was changed.
 * Fixes a bug where the Gutenberg editor in the Classic Editor plugin would crash when the primary category picker was loaded. If something goes wrong in the primary category picker, it now shows a notification, instead of making the entire editor crash.
-
-= 8.1.2 =
-Release Date: September 5th, 2018
-
-Bugfixes:
-
-* Fixes a bug where our JavaScript memory usage would increase indefinitely. This could result in a browser crash after a long enough period.
-
-= 8.1.1 =
-Release Date: September 3rd, 2018
-
-Bugfixes:
-
-* Fixes compatibility with Gutenberg 3.7, which removed a feature we were relying on.
-* Fixes a bug where the Twitter meta-tags would not have the snippet variables replaced with their dynamic values.
-* Fixes a bug where the `og:url` would not be set to the canonical URL if the canonical URL is explicitly set on Post types, Terms or Tags.
-* Fixes a bug on the Term page when editing the `slug`, it would not be updated in the Snippet Preview directly.
-
-= 8.1.0 =
-Release Date: August 28th, 2018
-
-Enhancements:
-
-* Adds the Snippet Preview Editor to the sidebar.
-* Introduces the Primary Category picker to Gutenberg.
-* Introduces a loading indicator in the analysis that is shown until we're ready to analyze the content.
-* Optimizes the content analysis calculations. This fixes the issue where the UI could freeze when you have a long post.
-* Changes the "Check Inlinks (OSE)" menu item in the Yoast Admin bar "Analyze this page" dropdown from the Moz OpenSite Explorer (OSE) to Google Search Console, as the former service is being disabled on August 30th 2018.
-
-Bugfixes:
-
-* Fixes a bug where the analysis scores would change multiple times due to a delay in the loading of the actual scores. We now show loading indicators until the actual scores have been calculated.
-* Fixes a bug where the parent title snippet variable wasn't properly being replaced with the actual parent title in Gutenberg.
-* Fixes a plugin compatibility bug where the SEO score in the admin bar could not be retrieved.
-* Fixes a bug where the editor would not be usable when deferred or async loading of JavaScript is being forced.
-* Fixes a bug where the analysis for previously used keywords would only be triggered if the keyword was changed, resulting in an incorrect SEO score.
-
-= 8.0.0 =
-Release Date: August 14th, 2018
-
-Enhancements:
-
-* Implements the Yoast sidebar for Gutenberg: added the Readability, Focus Keyword and Cornerstone content tabs to the sidebar.
-* Revamps the Yoast metabox to use the same vertical design as the new sidebar.
-* Implements the same tabbed layout in the plugin's network settings screen that is also used in the plugin's site settings screens.
-* Implements a plugin-specific network settings API and use it in the network settings screen.
-* Introduces a network admin-specific admin bar menu.
-* Adds notifications to the Notification Center in regards to Gutenberg compatibility. If Gutenberg is older than the minimum supported version by Yoast SEO, a 'problem' notification is added. If Gutenberg is only slightly outdated, a 'normal' notification is added.
-* Implements the automatic detection of the keyword for terms based on the term's title.
-
-Bugfixes:
-
-* Fixes a bug where `/sitemap.xml` would not correctly redirect to `/sitemap_index.xml` in some environments.
-* Fixes a bug where sitemap cache transients would not be correctly cleared.
-* Fixes a bug where markers were wrongfully displayed in Gutenberg.
-* Fixes a bug where SEO titles were incorrectly evaluated as being of a good length when they were actually slightly too long.
-
-Other:
-
-* Moves the network's Restore Site functionality into its own tab.
+* Fixes a bug where the readability analysis would not show the correct scores for cornerstone content.
+* Fixes a bug where switching off the SEO analysis would stop the readability analysis from loading.
+* Fixes a fatal error on the Term and Post edit pages when the server is running on PHP 5.2.
 
 = Earlier versions =
 
