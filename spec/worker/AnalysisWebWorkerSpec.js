@@ -1057,7 +1057,7 @@ describe( "AnalysisWebWorker", () => {
 		} );
 
 		test( "returns false when the text and locale are the same", () => {
-			const paper = new Paper( "This is the content.");
+			const paper = new Paper( "This is the content." );
 			worker._paper = new Paper( "This is the content." );
 			expect( worker.shouldReadabilityUpdate( paper ) ).toBe( false );
 		} );
