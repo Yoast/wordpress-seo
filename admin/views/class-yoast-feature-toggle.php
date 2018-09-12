@@ -19,11 +19,17 @@ class Yoast_Feature_Toggle {
 	/** @var string Feature toggle label. */
 	protected $label = '';
 
-	/** @var array Additional feature arguments. */
-	protected $args = array();
+	/** @var string URL to learn more about the feature. */
+	protected $read_more_url = '';
 
-	/** @var array Argument keys that must be specified. */
-	protected $required_keys = array();
+	/** @var string Label for the learn more link. */
+	protected $read_more_label = '';
+
+	/** @var string Additional help content for the feature. */
+	protected $extra = '';
+
+	/** @var string Value to specify the feature toggle order. */
+	protected $order = 100;
 
 	/**
 	 * Constructor.
@@ -46,24 +52,20 @@ class Yoast_Feature_Toggle {
 	 * @throws InvalidArgumentException Thrown when a required argument is missing.
 	 */
 	public function __construct( array $args ) {
-		$this->required_keys = array( 'name', 'setting', 'label' );
+		$required_keys = array( 'name', 'setting', 'label' );
 
-		foreach ( $this->required_keys as $key ) {
+		foreach ( $required_keys as $key ) {
 			if ( empty( $args[ $key ] ) ) {
 				/* translators: %s: argument name */
 				throw new InvalidArgumentException( sprintf( __( '%s is a required feature toggle argument.', 'wordpress-seo' ), $key ) );
 			}
-
-			$this->$key = $args[ $key ];
-			unset( $args[ $key ] );
 		}
 
-		$this->args = wp_parse_args( $args, array(
-			'read_more_url'   => '',
-			'read_more_label' => '',
-			'extra'           => '',
-			'order'           => 100,
-		) );
+		foreach ( $args as $key => $value ) {
+			if ( property_exists( $this, $key ) ) {
+				$this->$key = $value;
+			}
+		}
 	}
 
 	/**
@@ -74,11 +76,11 @@ class Yoast_Feature_Toggle {
 	 * @return bool True if set, false otherwise.
 	 */
 	public function __isset( $key ) {
-		if ( in_array( $key, $this->required_keys, true ) ) {
+		if ( in_array( $key, $required_keys, true ) ) {
 			return true;
 		}
 
-		return isset( $this->args[ $key ] );
+		return isset( $this->$key );
 	}
 
 	/**
@@ -89,12 +91,8 @@ class Yoast_Feature_Toggle {
 	 * @return mixed Value for the key, or null if not set.
 	 */
 	public function __get( $key ) {
-		if ( in_array( $key, $this->required_keys, true ) ) {
+		if ( isset( $this->$key ) ) {
 			return $this->$key;
-		}
-
-		if ( isset( $this->args[ $key ] ) ) {
-			return $this->args[ $key ];
 		}
 
 		return null;
