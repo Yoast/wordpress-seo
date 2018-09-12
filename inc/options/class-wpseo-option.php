@@ -678,9 +678,9 @@ abstract class WPSEO_Option {
 			return $updated;
 		}
 
-		foreach ( $old as $var => $value ) {
-			if ( isset( $override_option[ 'allow_' . $var ] ) && ! $override_option[ 'allow_' . $var ] ) {
-				$updated[ $var ] = $old[ $var ];
+		foreach ( $old as $key => $value ) {
+			if ( isset( $override_option[ 'allow_' . $key ] ) && ! $override_option[ 'allow_' . $key ] ) {
+				$updated[ $key ] = $old[ $key ];
 			}
 		}
 
