@@ -38,6 +38,7 @@ jobs:
     - php: nightly
       env: WP_VERSION=master
     - stage: 🚀 deployment
+      name: "Deploy to S3"
       if: branch = deploy # Only build when on the `deploy` branch, this functionality is not used yet and is taking a long time to complete.
       env: SC_ATTR=wordpress-seo
       before_script: skip
@@ -59,6 +60,7 @@ jobs:
           repo: Yoast/wordpress-seo
           all_branches: true
     - stage: 🚀 deployment
+      name: "Deploy to Yoast-dist"
       install:
         - yarn global add grunt-cli
         - yarn install
