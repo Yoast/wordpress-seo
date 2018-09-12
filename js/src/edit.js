@@ -18,6 +18,7 @@ import MetaboxPortal from "./components/MetaboxPortal";
 import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPriority";
 import * as selectors from "./redux/selectors";
 import { setSettings } from "./redux/actions/settings";
+import { setMarkerStatus } from "./redux/actions/markerButtons";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {}, isRtl: false };
@@ -149,6 +150,7 @@ export function initialize( args ) {
 			recommendedReplacementVariables: args.recommendedReplaceVars,
 		},
 	} ) );
+	store.dispatch( setMarkerStatus( "enabled" ) );
 
 	return {
 		store,

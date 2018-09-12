@@ -1,5 +1,9 @@
 // Assumes one mark element per mark object.
 import isString from "lodash/isString";
+import isArray from "lodash/isArray";
+
+import { string } from "yoastseo";
+const { stripHTMLTags } = string;
 
 function getOffsets( mark ) {
 	const marked = mark.getMarked();
@@ -15,6 +19,87 @@ function getOffsets( mark ) {
 	return { startOffset, endOffset };
 }
 
+let calculateAnnotationsForContentPieces = function( content, mark, block ) {
+	// Keeps track of how many text nodes have become before the current content piece.
+	let textNodes = 0;
+
+	const annotations = [];
+
+	// Content is an array so we need to loop over it.
+	content.forEach( ( contentPiece ) => {
+		if ( ! contentPiece.indexOf ) {
+			return;
+		}
+
+		const found = contentPiece.indexOf( mark.getOriginal() );
+
+		if ( found !== -1 ) {
+			const offsets = getOffsets( mark );
+
+			const startOffset = found + offsets.startOffset;
+			const endOffset = found + offsets.endOffset;
+			const startXPath = `text()[${ textNodes + 1 }]`;
+			const endXPath = `text()[${ textNodes + 1 }]`;
+
+			const annotation = {
+				block: block.clientId,
+				startXPath,
+				endXPath,
+				startOffset,
+				endOffset,
+			};
+
+			annotations.push( annotation );
+		}
+
+		if ( isString( contentPiece ) ) {
+			textNodes += 1;
+		}
+	} );
+
+	return annotations;
+};
+
+
+function calculateAnnotationsForTextFormat( content, mark, block ) {
+	const { text, formats } = content;
+
+	const annotations = [];
+
+	let original = stripHTMLTags( mark.getOriginal() );
+	let foundIndex = text.indexOf( original );
+
+	// Try again with a different HTML tag strip tactic.
+	if ( foundIndex === -1 ) {
+		original = mark.getOriginal().replace(/(<([^>]+)>)/ig, " ");
+		foundIndex = text.indexOf( original );
+	}
+
+	console.log( text, foundIndex );
+
+	if ( foundIndex !== -1 ) {
+		const offsets = getOffsets( mark );
+
+		const startXPath = "text()[1]";
+		const endXPath = "text()[1]";
+		const startOffset = foundIndex + offsets.startOffset;
+		const endOffset = foundIndex + offsets.endOffset;
+
+		// Simplest possible solution:
+		annotations.push( {
+			block: block.clientId,
+			startXPath,
+			endXPath,
+			startOffset,
+			endOffset,
+		} );
+	}
+
+	console.log( annotations );
+
+	return annotations;
+}
+
 /**
  * Test
  *
@@ -25,52 +110,29 @@ function getOffsets( mark ) {
  */
 export function decorate( paper, marks ) {
 	const blocks = wp.data.select( "core/editor" ).getBlocks();
-	const annotations = [];
+	let annotations = [];
 
 	blocks.forEach( ( block ) => {
 		if ( block.name !== "core/paragraph" ) {
 			return;
 		}
 
+		console.log( block );
+
 		const { attributes } = block;
 		const { content } = attributes;
 
 		// For each mark see if it applies to this block.
 		marks.forEach( ( mark ) => {
-			// Keeps track of how many text nodes have become before the current content piece.
-			let textNodes = 0;
+			let addAnnotations = [];
 
-			// Content is an array so we need to loop over it.
-			content.forEach( ( contentPiece ) => {
-				if ( ! contentPiece.indexOf ) {
-					return;
-				}
+			if ( isArray( content ) ) {
+				addAnnotations = calculateAnnotationsForContentPieces( content, mark, block );
+			} else {
+				addAnnotations = calculateAnnotationsForTextFormat( content, mark, block );
+			}
 
-				const found = contentPiece.indexOf( mark.getOriginal() );
-
-				if ( found !== -1 ) {
-					const offsets = getOffsets( mark );
-
-					const startOffset = found + offsets.startOffset;
-					const endOffset = found + offsets.endOffset;
-					const startXPath = `text()[${ textNodes + 1 }]`;
-					const endXPath = `text()[${ textNodes + 1 }]`;
-
-					const annotation = {
-						block: block.uid,
-						startXPath,
-						endXPath,
-						startOffset,
-						endOffset,
-					};
-
-					annotations.push( annotation );
-				}
-
-				if ( isString( contentPiece ) ) {
-					textNodes += 1;
-				}
-			} );
+			annotations = annotations.concat( addAnnotations );
 		} );
 	} );
 
