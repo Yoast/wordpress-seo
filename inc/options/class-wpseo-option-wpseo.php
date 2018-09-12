@@ -132,9 +132,12 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	public function add_option_filters() {
 		parent::add_option_filters();
 
+		$hookname = "option_{$this->option_name}";
+		$callback = array( $this, 'verify_features_against_network' );
+
 		// Add filter to ensure the feature variables respect the network settings.
-		if ( has_filter( 'option_' . $this->option_name, array( $this, 'verify_features_against_network' ) ) === false ) {
-			add_filter( 'option_' . $this->option_name, array( $this, 'verify_features_against_network' ), 11 );
+		if ( has_filter( $hookname, $callback ) === false ) {
+			add_filter( $hookname, $callback, 11 );
 		}
 	}
 
@@ -147,7 +150,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	public function remove_option_filters() {
 		parent::remove_option_filters();
 
-		remove_filter( 'option_' . $this->option_name, array( $this, 'verify_features_against_network' ), 11 );
+		$hookname = "option_{$this->option_name}";
+		$callback = array( $this, 'verify_features_against_network' );
+
+		remove_filter( $hookname, $callback, 11 );
 	}
 
 	/**
@@ -158,9 +164,12 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	public function add_default_filters() {
 		parent::add_default_filters();
 
+		$hookname = "default_option_{$this->option_name}";
+		$callback = array( $this, 'verify_features_against_network' );
+
 		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
-		if ( has_filter( 'default_option_' . $this->option_name, array( $this, 'verify_features_against_network' ) ) === false ) {
-			add_filter( 'default_option_' . $this->option_name, array( $this, 'verify_features_against_network' ), 11 );
+		if ( has_filter( $hook, $callback ) === false ) {
+			add_filter( $hook, $callback, 11 );
 		}
 	}
 
@@ -173,7 +182,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	public function remove_default_filters() {
 		parent::remove_default_filters();
 
-		remove_filter( 'default_option_' . $this->option_name, array( $this, 'verify_features_against_network' ), 11 );
+		$hookname = "default_option_{$this->option_name}";
+		$callback = array( $this, 'verify_features_against_network' );
+
+		remove_filter( $hook, $callback, 11 );
 	}
 
 	/**
