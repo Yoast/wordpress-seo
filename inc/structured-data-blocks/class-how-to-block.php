@@ -57,6 +57,11 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 			'@type'    => 'HowTo',
 		);
 
+		$post_title = get_the_title();
+		if ( ! empty( $post_title ) ) {
+			$json_ld['name'] = $post_title;
+		}
+
 		if ( ! empty( $attributes['hasDuration'] ) && $attributes['hasDuration'] === true ) {
 			$days    = empty( $attributes['days'] ) ? 0 : $attributes['days'];
 			$hours   = empty( $attributes['hours'] ) ? 0 : $attributes['hours'];

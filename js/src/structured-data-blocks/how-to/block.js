@@ -7,9 +7,6 @@ import HowTo from "./components/HowTo";
 const { registerBlockType } = window.wp.blocks;
 
 const attributes = {
-	jsonTitle: {
-		type: "string",
-	},
 	hasDuration: {
 		type: "boolean",
 	},
@@ -40,9 +37,6 @@ const attributes = {
 		type: "boolean",
 	},
 	durationText: {
-		type: "string",
-	},
-	headingID: {
 		type: "string",
 	},
 };
