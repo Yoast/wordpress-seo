@@ -21,7 +21,7 @@ export default function( paper, researcher ) {
 
 	let keywordsFound = {
 		count: 0,
-		matches: []
+		matches: [],
 	};
 
 	/*
