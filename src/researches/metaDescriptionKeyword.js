@@ -6,8 +6,8 @@ import getSentences from "../stringProcessing/getSentences";
  * Returns null if no description is specified in the given paper.
  *
  * @param {Paper} paper The paper object containing the description.
- * @param {Researcher} researcher
- * @returns { { fullDescription: Number[], perSentence: Number[][] } | null } The number of matches per keyword, for the entire description and for each individual sentence.
+ * @param {Researcher} researcher the researcher object to gather researchers from.
+ * @returns { Object | null } The number of matches per keyword term, for the entire description and for each individual sentence.
  */
 export default function( paper, researcher ) {
 	if ( paper.getDescription() === "" ) {
