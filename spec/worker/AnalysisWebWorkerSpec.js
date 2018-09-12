@@ -1062,4 +1062,34 @@ describe( "AnalysisWebWorker", () => {
 			expect( worker.shouldReadabilityUpdate( paper ) ).toBe( false );
 		} );
 	} );
+
+	describe( "shouldSeoUpdate", () => {
+		const key = "a";
+		const keyword = "test";
+		const synonyms = "spec";
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope );
+		} );
+
+		test( "returns true when the related keyword key is not known", () => {
+			expect( worker.shouldSeoUpdate( key, { keyword, synonyms } ) ).toBe( true );
+		} );
+
+		test( "returns true when the keyword is different", () => {
+			worker._relatedKeywords[ key ] = { keyword, synonyms };
+			expect( worker.shouldSeoUpdate( key, { keyword: "snowflake", synonyms } ) ).toBe( true );
+		} );
+
+		test( "returns true when the synonyms is different", () => {
+			worker._relatedKeywords[ key ] = { keyword, synonyms };
+			expect( worker.shouldSeoUpdate( key, { keyword, synonyms: "snowflake" } ) ).toBe( true );
+		} );
+
+		test( "returns false when the keyword and synonyms are the same", () => {
+			worker._relatedKeywords[ key ] = { keyword, synonyms };
+			expect( worker.shouldSeoUpdate( key, { keyword, synonyms } ) ).toBe( false );
+		} );
+	} );
 } );
