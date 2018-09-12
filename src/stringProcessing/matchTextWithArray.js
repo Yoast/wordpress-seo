@@ -5,6 +5,7 @@ import stripSpaces from "../stringProcessing/stripSpaces.js";
 import removePunctuation from "../stringProcessing/removePunctuation.js";
 import matchTextWithWord from "../stringProcessing/matchTextWithWord";
 import { uniq as unique } from "lodash-es";
+import escapeRegExp from "lodash-es/escapeRegExp";
 
 /**
  * Matches strings from an array against a given text.
@@ -18,8 +19,9 @@ import { uniq as unique } from "lodash-es";
 export default function( text, array, locale = "en_EN" ) {
 	let count = 0;
 	let matches = [];
+
 	unique( array ).forEach( function( wordToMatch ) {
-		const occurrence = matchTextWithWord( text, wordToMatch, locale );
+		const occurrence = matchTextWithWord( text, escapeRegExp( wordToMatch ), locale );
 		count += occurrence.count;
 		matches = matches.concat( occurrence.matches );
 	} );
@@ -31,6 +33,8 @@ export default function( text, array, locale = "en_EN" ) {
 	matches = matches.map( function( string ) {
 		return stripSpaces( removePunctuation( string ) );
 	} );
+
+
 
 	return {
 		count: count,
