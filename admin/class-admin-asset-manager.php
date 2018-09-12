@@ -215,7 +215,7 @@ class WPSEO_Admin_Asset_Manager {
 			$backport_wp_dependencies[] = 'wp-polyfill-ecmascript';
 		}
 		else {
-			// If Gutenberg's  babel-polyfill is not registered, use our own.
+			// If Gutenberg's babel-polyfill is not registered, use our own.
 			if ( ! wp_script_is( 'wp-polyfill-ecmascript', 'registered' ) ) {
 				wp_register_script( self::PREFIX . 'babel-polyfill', plugins_url( 'js/src/babel-polyfill.js', WPSEO_FILE ), array(), false, true );
 			}
