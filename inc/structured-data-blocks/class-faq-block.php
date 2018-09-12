@@ -35,7 +35,7 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	 * @return string The block preceded by it's JSON LD script.
 	 */
 	public function render( $attributes, $content ) {
-		if ( ! is_array( $attributes ) ) {
+		if ( ! is_array( $attributes ) || ! is_singular() ) {
 			return $content;
 		}
 
