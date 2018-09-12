@@ -168,8 +168,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		$callback = array( $this, 'verify_features_against_network' );
 
 		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
-		if ( has_filter( $hook, $callback ) === false ) {
-			add_filter( $hook, $callback, 11 );
+		if ( has_filter( $hookname, $callback ) === false ) {
+			add_filter( $hookname, $callback, 11 );
 		}
 	}
 
@@ -185,7 +185,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		$hookname = "default_option_{$this->option_name}";
 		$callback = array( $this, 'verify_features_against_network' );
 
-		remove_filter( $hook, $callback, 11 );
+		remove_filter( $hookname, $callback, 11 );
 	}
 
 	/**
