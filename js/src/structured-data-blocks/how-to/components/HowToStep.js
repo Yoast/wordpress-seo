@@ -184,7 +184,6 @@ export default class HowToStep extends Component {
 		} = this.props;
 
 		let { id, name, text } = step;
-		let stepName = name.length ? name : <strong>{ __( "Step title…", "wordpress-seo" ) }</strong>;
 
 		return (
 			<li className="schema-how-to-step" key={ id } >
@@ -197,22 +196,25 @@ export default class HowToStep extends Component {
 				<RichText
 					className="schema-how-to-step-name"
 					tagName="p"
-					onSetup={ ( ref ) => editorRef( "name", ref ) }
+					unstableOnSetup={ ( ref ) => editorRef( "name", ref ) }
 					key={ `${ id }-name` }
-					value={ stepName }
+					value={ name }
 					onChange={ ( value ) => onChange( value, text, name, text ) }
 					isSelected={ isSelected && subElement === "name" }
+					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					setFocusedElement={ () => onFocus( "name" ) }
+					keepPlaceholderOnFocus={ true }
+					formattingControls={ [ 'italic', 'strikethrough', 'link' ] }
 				/>
 				<RichText
 					className="schema-how-to-step-text"
 					tagName="p"
-					onSetup={ ( ref ) => editorRef( "text", ref ) }
+					unstableOnSetup={ ( ref ) => editorRef( "text", ref ) }
 					key={ `${ id }-text` }
 					value={ text }
 					onChange={ ( value ) => onChange( name, value, name, text ) }
 					isSelected={ isSelected && subElement === "text" }
-					placeholder={ __( "Step description…", "wordpress-seo" ) }
+					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
 					setFocusedElement={ () => onFocus( "text" ) }
 					keepPlaceholderOnFocus={ true }
 				/>

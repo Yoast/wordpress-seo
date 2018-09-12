@@ -136,7 +136,7 @@ export default class Question extends Component {
 		return(
 			<div className={ "schema-faq-question" } key={ question.id }>
 				<RichText.Content
-					tagName="p"
+					tagName="strong"
 					className="schema-faq-question-question"
 					key={ question.id + "-question" }
 					value={ question.question }
@@ -167,30 +167,32 @@ export default class Question extends Component {
 		} = this.props;
 
 		let { id, question, answer } = attributes;
-		let questionText = question.length ? question : <strong>{ __( "Question…", "wordpress-seo" ) }</strong>;
 
 		return (
 			<div className="schema-faq-question" key={ id } >
 				<RichText
 					className="schema-faq-question-question"
 					tagName="p"
-					onSetup={ ( ref ) => editorRef( "question", ref ) }
+					unstableOnSetup={ ( ref ) => editorRef( "question", ref ) }
 					key={ id + "-question" }
-					value={ questionText }
+					value={ question }
 					onChange={ ( value ) => onChange( value, answer, question, answer ) }
 					isSelected={ isSelected && subElement === "question" }
 					setFocusedElement={ () => onFocus( "question" ) }
+					placeholder={ __( "Enter a question", "wordpress-seo" ) }
+					keepPlaceholderOnFocus={ true }
+					formattingControls={ [ 'italic', 'strikethrough', 'link' ] }
 				/>
 				<RichText
 					className="schema-faq-question-answer"
 					tagName="p"
-					onSetup={  ( ref ) => editorRef( "answer", ref )  }
+					unstableOnSetup={  ( ref ) => editorRef( "answer", ref )  }
 					key={ id + "-answer" }
 					value={ answer }
 					onChange={ ( value ) => onChange( question, value, question, answer ) }
 					isSelected={ isSelected && subElement === "answer" }
 					setFocusedElement={ () => onFocus( "answer" ) }
-					placeholder={ __( "Answer to the question…", "wordpress-seo" ) }
+					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
 				{ isSelected && this.getButtons() }

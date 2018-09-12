@@ -70,10 +70,10 @@ legend.schema-how-to-duration-legend {
 	text-align: right;
 }
 
-// placeholders
-.schema-how-to-step-name + .schema-how-to-step-name,
-.schema-faq-title + .schema-faq-title,
-.schema-faq-question-question + .schema-faq-question-question {
+// TinyMCE fields and placeholders
+.schema-how-to-step-name,
+.schema-faq-title,
+.schema-faq-question-question {
 	font-weight: 600;
 }
 
