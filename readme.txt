@@ -110,7 +110,7 @@ Release Date: September 25th, 2018
 
 Bugfixes:
 * Fixes a bug where an incorrect time would be outputted in the `article:published_time` and `article:modified_time` meta properties when a timezone with numerical UTC offset was used (e.g. UTC+10).
-* Fixes a bug where the `article:published_time` and `article:modified_time` meta properties would be localized. Props to [AminulBD](https://github.com/AminulBD )
+* Fixes a bug where the `article:published_time` and `article:modified_time` meta properties would be localized. Props to [AminulBD](https://github.com/AminulBD).
 
 Enhancements:
 
@@ -123,9 +123,9 @@ Other:
 * Adds a notice to the Yoast SEO dashboard that is shown when both Yoast SEO and All in One SEO Pack plugins are active.
 * Makes the duplicate content link on the archive settings open in a new tab. Props [nikhilbarar](https://github.com/nikhilbarar).
 * Changes the notification message that is shown when a new SEO-related issue has been found.
-* Changes the second argument of the `wpseo_sitemap_exclude_empty_terms` filter call when determining which taxonomies should have a sitemap to the correct type. Props to: [liarco](https://github.com/liarco)
+* Uses the correct type as the second argument of the `wpseo_sitemap_exclude_empty_terms` filter call when determining which taxonomies should have a sitemap. Props to: [liarco](https://github.com/liarco).
 * Removes the executable bits on SVN assets. Props to [mathieu-aubin](https://github.com/mathieu-aubin).
-* Introduces an API function to get all Yoast SEO-related capabilities. Props to: [JoryHogeveen](https://github.com/JoryHogeveen)
+* Introduces an API function to get all Yoast SEO-related capabilities. Props to: [JoryHogeveen](https://github.com/JoryHogeveen).
 
 = 8.2.0 =
 Release Date: September 11th, 2018
