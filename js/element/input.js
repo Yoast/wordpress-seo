@@ -1,7 +1,8 @@
 var isEmpty = require( "lodash/lang/isEmpty" );
 var debounce = require( "lodash/function/debounce" );
-var stripHTMLTags = require( "yoastseo/js/stringProcessing/stripHTMLTags.js" );
-var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
+var analysis = require( "yoastseo" );
+var stripHTMLTags = analysis.string.stripHTMLTags;
+var stripSpaces = analysis.string.stripSpaces;
 
 /**
  * Represents a field and sets the events for that field.
