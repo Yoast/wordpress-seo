@@ -616,16 +616,14 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		$notification = sprintf(
-			/* translators: %d resolves to the number of alerts being added. */
-			_n( 'You have %d new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' ),
+			_n(
+				'There is a new notification.',
+				'There are new notifications.',
+				$new_notifications_count,
+				'wordpress-seo'
+			),
 			$new_notifications_count
 		);
-		if ( $new_notifications_count === 1 ) {
-			$notification = sprintf(
-				__( 'You have a new issue concerning your SEO!', 'wordpress-seo' ),
-				$new_notifications_count
-			);
-		}
 
 		return '<div class="yoast-issue-added">' . $notification . '</div>';
 	}
