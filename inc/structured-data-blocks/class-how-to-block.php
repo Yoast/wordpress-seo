@@ -53,7 +53,7 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	 */
 	protected function get_json_ld( array $attributes ) {
 		$json_ld = array(
-			'@context' => 'http://schema.org',
+			'@context' => 'https://schema.org',
 			'@type'    => 'HowTo',
 		);
 
