@@ -187,7 +187,7 @@ export default class Question extends Component {
 					setFocusedElement={ () => onFocus( "question" ) }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
-					formattingControls={ [ 'italic', 'strikethrough', 'link' ] }
+					formattingControls={ [ "italic", "strikethrough", "link" ] }
 				/>
 				<RichText
 					className="schema-faq-answer"
