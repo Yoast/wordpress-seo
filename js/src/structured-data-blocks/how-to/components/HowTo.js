@@ -56,11 +56,8 @@ export default class HowTo extends Component {
 		this.toggleListType  = this.toggleListType.bind( this );
 		this.setDurationText = this.setDurationText.bind( this );
 
-		if ( ! this.props.attributes.durationText ) {
-			const defaultDurationText = this.getDefaultDurationText();
-
-			this.setDurationText( defaultDurationText );
-		}
+		const defaultDurationText = this.getDefaultDurationText();
+		this.setDefaultDurationText( defaultDurationText );
 
 		this.editorRefs = {};
 	}
@@ -89,12 +86,20 @@ export default class HowTo extends Component {
 	 * @returns {void}
 	 */
 	setDurationText( text ) {
-		if ( text === "" ) {
-			text = this.getDefaultDurationText();
-		}
 		this.props.setAttributes( { durationText: text } );
 	}
 
+	/**
+	 * Sets the default duration text to describe the time the guide in the how-to block takes, when no duration text
+	 * was provided.
+	 *
+	 * @param {string} text The text to describe the duration.
+	 *
+	 * @returns {void}
+	 */
+	setDefaultDurationText( text ) {
+		this.props.setAttributes( { defaultDurationText: text } );
+	}
 
 	/**
 	 * Generates a pseudo-unique id.
@@ -371,6 +376,7 @@ export default class HowTo extends Component {
 			additionalListCssClasses,
 			className,
 			durationText,
+			defaultDurationText,
 		} = props;
 
 		steps = steps
@@ -394,7 +400,7 @@ export default class HowTo extends Component {
 				{ ( hasDuration && typeof timeString === "string" && timeString.length > 0 ) &&
 					<p className="schema-how-to-total-time">
 						<span className="schema-how-to-duration-time-text">
-							{ durationText }
+							{ durationText || defaultDurationText }
 							&nbsp;
 						</span>
 						{ timeString + ". " }
@@ -491,7 +497,7 @@ export default class HowTo extends Component {
 				<legend
 					className="schema-how-to-duration-legend"
 				>
-					{ attributes.durationText }
+					{ attributes.durationText || this.getDefaultDurationText() }
 				</legend>
 				<span className="schema-how-to-duration-time-input">
 					<label
