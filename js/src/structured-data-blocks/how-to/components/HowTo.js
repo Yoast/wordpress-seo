@@ -89,6 +89,9 @@ export default class HowTo extends Component {
 	 * @returns {void}
 	 */
 	setDurationText( text ) {
+		if ( text === "" ) {
+			text = this.getDefaultDurationText();
+		}
 		this.props.setAttributes( { durationText: text } );
 	}
 
@@ -488,7 +491,7 @@ export default class HowTo extends Component {
 				<legend
 					className="schema-how-to-duration-legend"
 				>
-					{ attributes.durationText || this.getDefaultDurationText() }
+					{ attributes.durationText }
 				</legend>
 				<span className="schema-how-to-duration-time-input">
 					<label
