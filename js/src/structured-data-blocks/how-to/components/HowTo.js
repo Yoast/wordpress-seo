@@ -56,11 +56,8 @@ export default class HowTo extends Component {
 		this.toggleListType  = this.toggleListType.bind( this );
 		this.setDurationText = this.setDurationText.bind( this );
 
-		if ( ! this.props.attributes.durationText ) {
-			const defaultDurationText = this.getDefaultDurationText();
-
-			this.setDurationText( defaultDurationText );
-		}
+		const defaultDurationText = this.getDefaultDurationText();
+		this.setDefaultDurationText( defaultDurationText );
 
 		this.editorRefs = {};
 	}
@@ -90,6 +87,10 @@ export default class HowTo extends Component {
 	 */
 	setDurationText( text ) {
 		this.props.setAttributes( { durationText: text } );
+	}
+
+	setDefaultDurationText( text ) {
+		this.props.setAttributes( { defaultDurationText: text } );
 	}
 
 
@@ -368,6 +369,7 @@ export default class HowTo extends Component {
 			additionalListCssClasses,
 			className,
 			durationText,
+			defaultDurationText,
 		} = props;
 
 		steps = steps
@@ -391,7 +393,7 @@ export default class HowTo extends Component {
 				{ ( hasDuration && typeof timeString === "string" && timeString.length > 0 ) &&
 					<p className="schema-how-to-total-time">
 						<span className="schema-how-to-duration-time-text">
-							{ durationText }
+							{ durationText || defaultDurationText }
 							&nbsp;
 						</span>
 						{ timeString + ". " }
