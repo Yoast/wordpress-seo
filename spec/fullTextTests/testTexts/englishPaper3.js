@@ -14,13 +14,13 @@ const paper = new Paper( "<h2>Which social media platform suits your business?</
 	"<p><img class=\"alignnone wp-image-649599 size-large\" src=\"https://yoast.com/app/uploads/2015/09/Image3_Social_media_strategy-600x500.png\" alt=\"Image3_Social_media_strategy\" width=\"600\" height=\"500\" srcset=\"https://yoast.com/app/uploads/2015/09/Image3_Social_media_strategy-600x500.png 600w, https://yoast.com/app/uploads/2015/09/Image3_Social_media_strategy-250x208.png 250w, https://yoast.com/app/uploads/2015/09/Image3_Social_media_strategy-768x640.png 768w, https://yoast.com/app/uploads/2015/09/Image3_Social_media_strategy-180x150.png 180w, https://yoast.com/app/uploads/2015/09/Image3_Social_media_strategy.png 1200w\" sizes=\"(max-width: 600px) 100vw, 600px\" /></p>\n" +
 	"<p>Facebook currently has nearly 1.5 billion active users <em>every month</em>. That&#8217;s over 20% of the entire world population who are on Facebook at least once a month. So you can see why this is one bandwagon you&#8217;ll want to get on.</p>\n" +
 	"<p>A blog or website should thus definitely have its own Facebook page. And your posts should all be shared on Facebook. That way, all the people who follow your page see new posts on their timeline. WordPress can do this automatically for you when you publish an article. Some people will like, share or comment on the Facebook posts, giving them even more exposure.</p></div>", {
-		keyword: "social media strategy",
-		description: "Social media should be a part of your SEO strategy. In this post, Marieke explains the first steps towards developing your own social media strategy.",
-		title: "Social Media Strategy: Where to begin?",
-		titleWidth: 450,
-		locale: "en_EN",
-		url: "https://yoast.com/social-media-strategy-where-to-begin/",
-		synonyms: "social media SEO strategy",
+	keyword: "social media strategy",
+	description: "Social media should be a part of your SEO strategy. In this post, Marieke explains the first steps towards developing your own social media strategy.",
+	title: "Social Media Strategy: Where to begin?",
+	titleWidth: 450,
+	locale: "en_EN",
+	url: "https://yoast.com/social-media-strategy-where-to-begin/",
+	synonyms: "social media SEO strategy",
 	} );
 
 const expectedResults = {
