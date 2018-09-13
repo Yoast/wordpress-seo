@@ -228,6 +228,7 @@ rules:
   wrap-regex: 0
 
   # Accessibility rules. https://github.com/evcohen/eslint-plugin-jsx-a11y
+  # Deprecated in v6.1.0 in favor of label-has-associated-control but we still want to require only for/id and not nesting.
   jsx-a11y/label-has-for: [ "error", { required: "id" } ]
 
   # React plugins settings (https://github.com/yannickcr/eslint-plugin-react/tree/master/docs/rules)
