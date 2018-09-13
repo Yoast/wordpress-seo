@@ -1,4 +1,4 @@
-var getTransitionWords = require( "../../js/helpers/getTransitionWords.js" );
+import getTransitionWords from "../../src/helpers/getTransitionWords.js";
 
 describe( "gets transition words, based on language", function() {
 	var properties = [ "transitionWords", "twoPartTransitionWords" ];
@@ -39,6 +39,11 @@ describe( "gets transition words, based on language", function() {
 
 	it( "checks if all properties are set for Catalan", function() {
 		var transitionWords = getTransitionWords( "ca_ES" );
+		expect( Object.keys( transitionWords ) ).toEqual( properties );
+	} );
+
+	it( "checks if all properties are set for Polish", function() {
+		var transitionWords = getTransitionWords( "pl_PL" );
 		expect( Object.keys( transitionWords ) ).toEqual( properties );
 	} );
 

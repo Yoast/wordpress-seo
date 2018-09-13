@@ -1,10 +1,11 @@
 /* @module analyses/matchKeywordInSubheadings */
 
-var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
-var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
-var getSubheadingContents = require( "../stringProcessing/getSubheadings.js" ).getSubheadingContents;
+import stripSomeTags from "../stringProcessing/stripNonTextTags.js";
 
-var escapeRegExp = require( "lodash/escapeRegExp" );
+import subheadingMatch from "../stringProcessing/subheadingsMatch.js";
+import { getSubheadingContents } from "../stringProcessing/getSubheadings.js";
+
+import { escapeRegExp } from "lodash-es";
 
 /**
  * Checks if there are any subheadings like h2 in the text
@@ -13,7 +14,7 @@ var escapeRegExp = require( "lodash/escapeRegExp" );
  * @param {object} paper The paper object containing the text and keyword.
  * @returns {object} the result object.
  */
-module.exports = function( paper ) {
+export default function( paper ) {
 	var text = paper.getText();
 	var keyword = escapeRegExp( paper.getKeyword() );
 	var locale = paper.getLocale();
@@ -27,5 +28,5 @@ module.exports = function( paper ) {
 	}
 
 	return result;
-};
+}
 

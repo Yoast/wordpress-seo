@@ -1,7 +1,8 @@
 /* global describe it expect */
-const getKeywordDensity = require( "../../js/researches/getKeywordDensity.js" );
-const Paper = require( "../../js/values/Paper.js" );
-const Researcher = require( "../../js/researcher" );
+import getKeywordDensity from "../../src/researches/getKeywordDensity.js";
+
+import Paper from "../../src/values/Paper.js";
+import Researcher from "../../src/researcher";
 
 describe( "Test for counting the keyword density in a text", function() {
 	it( "returns keyword density", function() {
@@ -34,7 +35,7 @@ describe( "Test for counting the keyword density in a text", function() {
 		expect( getKeywordDensity( mockPaper, new Researcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
 		mockPaper = new Paper( "a string of text with the Keyword in it, density should be 7.7%", { keyword: "keyword" } );
 		expect( getKeywordDensity( mockPaper, new Researcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
-		mockPaper = new Paper( "a string of text with the Key word in it, density should be 7.14%", { keyword: "key word" } );
+		mockPaper = new Paper( "a string of text with the Key word in it, density should be 14.29%", { keyword: "key word" } );
 		expect( getKeywordDensity( mockPaper, new Researcher( mockPaper ) ) ).toBe( 7.142857142857142 );
 		mockPaper = new Paper( "a string with quotes to match the key'word, even if the quotes differ", { keyword: "key’word" } );
 		expect( getKeywordDensity( mockPaper, new Researcher( mockPaper ) ) ).toBe( 7.6923076923076925 );

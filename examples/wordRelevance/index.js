@@ -1,12 +1,12 @@
 require( "console.table" );
 
-var Paper = require( "../../js/values/Paper" );
-var relevantWords = require( "../../js/stringProcessing/relevantWords" )
+var Paper = require( "../../src/values/Paper" );
+var relevantWords = require( "../../src/stringProcessing/relevantWords" )
 var getRelevantWords = relevantWords.getRelevantWords;
 var getWordCombinations = relevantWords.getWordCombinations;
 var calculateOccurrences = relevantWords.calculateOccurrences;
 var getRelevantCombinations = relevantWords.getRelevantCombinations;
-var WordCombination = require( "../../js/values/WordCombination" );
+var WordCombination = require( "../../src/values/WordCombination" );
 
 /**
  * Rounds number to four decimals.
@@ -24,8 +24,8 @@ var formatNumber = function ( number ) {
 };
 var getWords = require( "../../js/stringProcessing/getWords" );
 
-var map = require( "lodash/map" );
-var forEach = require( "lodash/forEach" );
+import { map } from "lodash-es";
+import { forEach } from "lodash-es";
 
 var fs = require( "fs" );
 

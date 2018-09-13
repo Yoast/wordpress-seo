@@ -1,5 +1,5 @@
-const passiveVoice = require( "../../js/researches/getPassiveVoice.js" );
-let Paper = require( "../../js/values/Paper.js" );
+import passiveVoice from "../../src/researches/getPassiveVoice.js";
+import Paper from "../../src/values/Paper.js";
 
 // Tests inspired by the examples on http://www.ruscorpora.ru
 describe( "detecting passive voice in sentences", function() {

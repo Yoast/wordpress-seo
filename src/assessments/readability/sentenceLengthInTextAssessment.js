@@ -1,15 +1,14 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
-let Assessment = require( "../../assessment.js" );
-let countTooLongSentences = require( "../../assessmentHelpers/checkForTooLongSentences.js" );
-let formatNumber = require( "../../helpers/formatNumber.js" );
-let inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
-let stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
+import AssessmentResult from "../../values/AssessmentResult.js";
+import Assessment from "../../assessment.js";
+import countTooLongSentences from "../../assessmentHelpers/checkForTooLongSentences.js";
+import formatNumber from "../../helpers/formatNumber.js";
+import { inRangeEndInclusive as inRange } from "../../helpers/inRange.js";
+import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
+import Mark from "../../values/Mark.js";
+import addMark from "../../markers/addMark.js";
 
-let Mark = require( "../../values/Mark.js" );
-let addMark = require( "../../markers/addMark.js" );
-
-let map = require( "lodash/map" );
-let merge = require( "lodash/merge" );
+import { map } from "lodash-es";
+import { merge } from "lodash-es";
 
 /**
  * Represents the assessment that will calculate the length of sentences in the text.
@@ -184,4 +183,4 @@ class SentenceLengthInTextAssessment extends Assessment {
 	}
 }
 
-module.exports = SentenceLengthInTextAssessment;
+export default SentenceLengthInTextAssessment;

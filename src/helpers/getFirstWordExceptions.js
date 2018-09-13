@@ -1,14 +1,21 @@
-let firstWordExceptionsEnglish = require( "../researches/english/firstWordExceptions.js" );
-let firstWordExceptionsGerman = require( "../researches/german/firstWordExceptions.js" );
-let firstWordExceptionsSpanish = require( "../researches/spanish/firstWordExceptions.js" );
-let firstWordExceptionsFrench = require( "../researches/french/firstWordExceptions.js" );
-let firstWordExceptionsDutch = require( "../researches/dutch/firstWordExceptions.js" );
-let firstWordExceptionsItalian = require( "../researches/italian/firstWordExceptions.js" );
-let firstWordExceptionsRussian = require( "../researches/russian/firstWordExceptions.js" );
+import firstWordExceptionsEnglish from "../researches/english/firstWordExceptions.js";
+import firstWordExceptionsGerman from "../researches/german/firstWordExceptions.js";
+import firstWordExceptionsSpanish from "../researches/spanish/firstWordExceptions.js";
+import firstWordExceptionsFrench from "../researches/french/firstWordExceptions.js";
+import firstWordExceptionsDutch from "../researches/dutch/firstWordExceptions.js";
+import firstWordExceptionsItalian from "../researches/italian/firstWordExceptions.js";
+import firstWordExceptionsRussian from "../researches/russian/firstWordExceptions.js";
+import firstWordExceptionsPolish from "../researches/polish/firstWordExceptions.js";
+import getLanguage from "./getLanguage.js";
 
-let getLanguage = require( "./getLanguage.js" );
-
-module.exports = function( locale ) {
+/**
+ * Returns the first word exceptions function for a locale.
+ *
+ * @param {string} locale The locale to return word exceptions for.
+ *
+ * @returns {Function} A function that will return the first word exceptions.
+ */
+export default function( locale ) {
 	switch( getLanguage( locale ) ) {
 		case "de":
 			return firstWordExceptionsGerman;
@@ -22,8 +29,10 @@ module.exports = function( locale ) {
 			return firstWordExceptionsItalian;
 		case "ru":
 		    return firstWordExceptionsRussian;
+		case "pl":
+			return firstWordExceptionsPolish;
 		default:
 		case "en":
 			return firstWordExceptionsEnglish;
 	}
-};
+}

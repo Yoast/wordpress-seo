@@ -1,5 +1,5 @@
-const subHeadingTextLength = require( "../../js/researches/getSubheadingTextLengths.js" );
-const Paper = require( "../../js/values/Paper.js" );
+import subHeadingTextLength from "../../src/researches/getSubheadingTextLengths.js";
+import Paper from "../../src/values/Paper.js";
 
 describe( "gets the length of text segments", function() {
 	it( "returns an array with lengths for a text with one subheading", function() {

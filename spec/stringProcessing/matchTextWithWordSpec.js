@@ -1,4 +1,4 @@
-var wordMatch = require( "../../js/stringProcessing/matchTextWithWord.js" );
+import wordMatch from "../../src/stringProcessing/matchTextWithWord.js";
 
 describe( "Counts the occurences of a word in a string", function() {
 	it( "returns number", function() {
@@ -60,6 +60,34 @@ describe( "Counts the occurences of a word in a string", function() {
 		expect( wordMatch( "Türkçe and Turkce", "Türkçe", "tr_TR" ).count ).toBe( 2 );
 		expect( wordMatch( "Türkçe and Turkce", "Türkçe", "tr_TR" ).matches ).toContain( "Türkçe" );
 		expect( wordMatch( "Türkçe and Turkce", "Türkçe", "tr_TR" ).matches ).toContain( "Turkce" );
+
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "İstanbul", "tr_TR" ).matches ).toContain( "İstanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "İstanbul", "tr_TR" ).matches ).toContain( "Istanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "İstanbul", "tr_TR" ).matches ).toContain( "istanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "İstanbul", "tr_TR" ).matches ).toContain( "ıstanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "İstanbul", "tr_TR" ).count ).toBe( 4 );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "İstanbul", "tr_TR" ).position ).toBe( 0 );
+
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "Istanbul", "tr_TR" ).matches ).toContain( "İstanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "Istanbul", "tr_TR" ).matches ).toContain( "Istanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "Istanbul", "tr_TR" ).matches ).toContain( "istanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "Istanbul", "tr_TR" ).matches ).toContain( "ıstanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "Istanbul", "tr_TR" ).count ).toBe( 4 );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "Istanbul", "tr_TR" ).position ).toBe( 0 );
+
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "istanbul", "tr_TR" ).matches ).toContain( "İstanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "istanbul", "tr_TR" ).matches ).toContain( "Istanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "istanbul", "tr_TR" ).matches ).toContain( "istanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "istanbul", "tr_TR" ).matches ).toContain( "ıstanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "istanbul", "tr_TR" ).count ).toBe( 4 );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "istanbul", "tr_TR" ).position ).toBe( 0 );
+
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "ıstanbul", "tr_TR" ).matches ).toContain( "İstanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "ıstanbul", "tr_TR" ).matches ).toContain( "Istanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "ıstanbul", "tr_TR" ).matches ).toContain( "istanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "ıstanbul", "tr_TR" ).matches ).toContain( "ıstanbul" );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "ıstanbul", "tr_TR" ).count ).toBe( 4 );
+		expect( wordMatch( "İstanbul and Istanbul and istanbul and ıstanbul", "ıstanbul", "tr_TR" ).position ).toBe( 0 );
 	} );
 
 	it( "should match words and numbers", function() {

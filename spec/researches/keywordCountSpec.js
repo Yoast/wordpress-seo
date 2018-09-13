@@ -1,6 +1,7 @@
 /* global describe it expect */
-const keywordCount = require( "../../js/researches/keywordCount.js" );
-const Paper = require( "../../js/values/Paper.js" );
+import keywordCount from "../../src/researches/keywordCount.js";
+
+import Paper from "../../src/values/Paper.js";
 
 describe( "Test for counting the keyword in a text", function() {
 	it( "returns keyword count", function() {

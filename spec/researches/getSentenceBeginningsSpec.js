@@ -1,7 +1,7 @@
 import changePaperFactory from "../specHelpers/paperChanger";
 
-let Paper = require( "../../js/values/Paper.js" );
-let Researcher = require( "../../js/researcher" );
+import Paper from "../../src/values/Paper.js";
+import Researcher from "../../src/researcher";
 
 describe( "gets the sentence beginnings and the count of consecutive duplicates.", function() {
 	const researcher = new Researcher( new Paper() );
@@ -186,6 +186,26 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 1 );
 		expect( getSentenceBeginnings()[ 1 ].word ).toBe( "где" );
 		expect( getSentenceBeginnings()[ 1 ].count ).toBe( 1 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in Polish starting with different words.", function() {
+		changePaper( { text: "Najpierw zjem jabłko. Potem zjem gruszkę. ", locale: "pl_PL" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "najpierw" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 1 );
+		expect( getSentenceBeginnings()[ 1 ].word ).toBe( "potem" );
+		expect( getSentenceBeginnings()[ 1 ].count ).toBe( 1 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in Polish starting with the same word.", function() {
+		changePaper( { text: "Zawsze cię widzę. Zawsze cię słyszę.", locale: "pl_PL" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "zawsze" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 2 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for three sentences in Polish all starting with one of the exception words.", function() {
+		changePaper( { text: "To dziecko jest ładne. To dziecko jest brzydkie. To dziecko jest małe.", locale: "pl_PL" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "to dziecko" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
 	} );
 
 	it( "returns an object with English sentence beginnings in lists", function() {

@@ -1,0 +1,58 @@
+html {
+	font-family: sans-serif;
+	box-sizing: border-box;
+}
+
+body, html {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+	background-color: #f1f1f1;
+	padding: 24px;
+}
+
+*, *:after, *:before {
+	box-sizing: inherit;
+}
+
+.yoast-text-mark {
+	background-color: #e1bee7;
+}
+
+.yoast-text-mark__highlight {
+	background-color: #4a148c;
+	color: white;
+}
+
+/* needs higher specificity than other score icons */
+.wpseo-score-icon {
+	float: left;
+	width: 12px;
+	height: 12px;
+	margin: 3px 10px 0 0;
+	border-radius: 50%;
+	background: #888;
+}
+
+.wpseo-score-icon.good {
+	background-color: #7ad03a;
+}
+
+.wpseo-score-icon.ok {
+	background-color: #ee7c1b;
+}
+
+.wpseo-score-icon.bad {
+	background-color: #dc3232;
+}
+
+.wpseo-score-icon.na {
+	background-color: #999;
+}
+
+.wpseo-score-icon.noindex {
+	background-color: #1e8cbe;
+}

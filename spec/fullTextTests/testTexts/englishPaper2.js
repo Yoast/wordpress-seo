@@ -1,4 +1,4 @@
-const Paper = require( "../../../js/values/Paper.js" );
+import Paper from "../../../src/values/Paper.js";
 
 const name = "englishPaper2";
 
@@ -41,12 +41,12 @@ const paper = new Paper( "<div class=\"content\"><p></p>\n" +
 
 const expectedResults = {
 	introductionKeyword: {
-		score: 3,
-		resultText: "The focus keyword doesn't appear in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy. Make sure the topic is clear immediately.",
+		score: 6,
+		resultText: "All topic words appear in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy, but not within one sentence.",
 	},
 	keyphraseLength: {
-		score: 0,
-		resultText: "",
+		score: 9,
+		resultText: "Your <a href='https://yoa.st/2pdd' target='_blank'>keyphrase</a> has a nice length.",
 	},
 	keywordDensity: {
 		score: 4,
@@ -73,8 +73,8 @@ const expectedResults = {
 		resultText: "",
 	},
 	textImages: {
-		score: 6,
-		resultText: "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page do not have alt attributes containing the focus keyword.",
+		score: 9,
+		resultText: "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page contain alt attributes with the topic words.",
 	},
 	textLength: {
 		score: 9,
@@ -146,7 +146,13 @@ const expectedResults = {
 	},
 };
 
-module.exports = {
+export {
+	name,
+	paper,
+	expectedResults,
+};
+
+export default {
 	name: name,
 	paper: paper,
 	expectedResults: expectedResults,

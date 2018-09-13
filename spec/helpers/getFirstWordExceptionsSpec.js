@@ -1,4 +1,4 @@
-let firstWordExceptions = require( "../../js/helpers/getFirstWordExceptions.js" );
+import firstWordExceptions from "../../src/helpers/getFirstWordExceptions.js";
 
 describe( "a test for getting the correct first word exception array", function() {
 	it( "returns the English first word exception array in case of en_US locale", function() {
@@ -27,6 +27,10 @@ describe( "a test for getting the correct first word exception array", function(
 
 	it( "returns the Russian first word exception array in case of ru_RU locale", function() {
 		expect( firstWordExceptions( "ru_RU" )() ).toEqual( [ "один", "одна", "одно", "два", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять", "этот", "этого", "этому", "этим", "этом", "эта", "этой", "эту", "это", "этого", "этому", "эти", "этих", "этим", "этими", "тот", "того", "тому", "тем", "том", "та", "той", "ту", "те", "тех", "тем", "теми", "тех", "такой", "такого", "такому", "таким", "такая", "такую", "такое", "такие", "таких", "таким", "такими", "стольких", "стольким", "столько", "столькими", "вот" ] );
+	} );
+
+	it( "returns the Polish first word exception array in case of pl_PL locale", function() {
+		expect( firstWordExceptions( "pl_PL" )() ).toEqual( [ "jeden", "jedna", "jedno", "dwa", "dwie", "trzy", "cztery", "pięć", "sześć", "siedem", "osiem", "dziewięć", "dziesięć", "ta", "to", "ten", "te", "ci", "taki", "tacy", "taka", "taką", "takich", "takie", "takiego", "takiej", "takiemu", "takim", "takimi", "tamten", "tamta", "tamto", "tamci", "tamte", "tamtą", "tamtego", "tamtej", "tamtemu", "tamtych", "tamtym", "tamtymi", "tą", "tę", "tego", "tej", "temu", "tych", "tymi", "tym", "tak" ] );
 	} );
 
 	it( "returns the English first word exception array in case of empty locale", function() {

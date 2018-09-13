@@ -8,8 +8,8 @@
  * @param {string} replacement The replacement of the string
  * @returns {string} The text with the string replaced
  */
-module.exports = function( text, stringToReplace, replacement ) {
+export default function( text, stringToReplace, replacement ) {
 	text = text.replace( stringToReplace, replacement );
 
 	return text;
-};
+}

@@ -1,8 +1,8 @@
-var getType = require( "./../helpers/types.js" ).getType;
-var isSameType = require( "./../helpers/types.js" ).isSameType;
+import { getType } from "./../helpers/types.js";
+import { isSameType } from "./../helpers/types.js";
 
-var defaults = require( "lodash/defaults" );
-var forEach = require( "lodash/forEach" );
+import { defaults } from "lodash-es";
+import { forEach } from "lodash-es";
 
 /**
  * Default attributes to be used by the Participle if they are left undefined.
@@ -136,4 +136,33 @@ Participle.prototype.setSentencePartPassiveness = function( passive ) {
 	this._determinesSentencePartIsPassive = passive;
 };
 
-module.exports = Participle;
+/**
+ * Serializes the Participle instance to an object.
+ *
+ * @returns {Object} The serialized Participle.
+ */
+Participle.prototype.serialize = function() {
+	return {
+		_parseClass: "Participle",
+		attributes: this._attributes,
+		participle: this._participle,
+		sentencePart: this._sentencePart,
+		determinesSentencePartIsPassive: this._determinesSentencePartIsPassive,
+	};
+};
+
+/**
+ * Parses the object to a Participle.
+ *
+ * @param {Object} serialized The serialized object.
+ *
+ * @returns {Participle} The parsed Participle.
+ */
+Participle.parse = function( serialized ) {
+	const participle = new Participle( serialized.participle, serialized.sentencePart, serialized.attributes );
+	participle.setSentencePartPassiveness( serialized.determinesSentencePartIsPassive );
+
+	return participle;
+};
+
+export default Participle;

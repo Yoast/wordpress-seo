@@ -1,45 +1,48 @@
 import sentences from "./researches/sentences";
 
-var merge = require( "lodash/merge" );
-var InvalidTypeError = require( "./errors/invalidType" );
-var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/isUndefined" );
-var isEmpty = require( "lodash/isEmpty" );
+import { merge } from "lodash-es";
+import InvalidTypeError from "./errors/invalidType";
+import MissingArgument from "./errors/missingArgument";
+import { isUndefined } from "lodash-es";
+import { isEmpty } from "lodash-es";
 
 // Researches
-var wordCountInText = require( "./researches/wordCountInText.js" );
-var getLinkStatistics = require( "./researches/getLinkStatistics.js" );
-var linkCount = require( "./researches/countLinks.js" );
-var getLinks = require( "./researches/getLinks.js" );
-var urlLength = require( "./researches/urlIsTooLong.js" );
-var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" );
-var matchKeywordInSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
-const getKeywordDensity = require( "./researches/getKeywordDensity.js" );
-const keywordCount = require( "./researches/keywordCount" );
-var stopWordsInKeyword = require( "./researches/stopWordsInKeyword" );
-var stopWordsInUrl = require( "./researches/stopWordsInUrl" );
-var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
-var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
-var imageCount = require( "./researches/imageCountInText.js" );
-var altTagCount = require( "./researches/imageAltTags.js" );
-var keyphraseLength = require( "./researches/keyphraseLength" );
-var metaDescriptionKeyword = require( "./researches/metaDescriptionKeyword.js" );
-var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
-var findKeywordInFirstParagraph = require( "./researches/findKeywordInFirstParagraph.js" );
-var pageTitleWidth = require( "./researches/pageTitleWidth.js" );
-var wordComplexity = require( "./researches/getWordComplexity.js" );
-var getParagraphLength = require( "./researches/getParagraphLength.js" );
-var countSentencesFromText = require( "./researches/countSentencesFromText.js" );
-var countSentencesFromDescription = require( "./researches/countSentencesFromDescription.js" );
-var getSubheadingTextLengths = require( "./researches/getSubheadingTextLengths.js" );
-var findTransitionWords = require( "./researches/findTransitionWords.js" );
-var passiveVoice = require( "./researches/getPassiveVoice.js" );
-var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
-var relevantWords = require( "./researches/relevantWords" );
-var readingTime = require( "./researches/readingTime" );
-var getTopicDensity = require( "./researches/getTopicDensity" );
-var topicCount = require( "./researches/topicCount" );
-const largestKeywordDistance = require( "./researches/largestKeywordDistance" );
+import wordCountInText from "./researches/wordCountInText.js";
+
+import getLinkStatistics from "./researches/getLinkStatistics.js";
+import linkCount from "./researches/countLinks.js";
+import getLinks from "./researches/getLinks.js";
+import urlLength from "./researches/urlIsTooLong.js";
+import findKeywordInPageTitle from "./researches/findKeywordInPageTitle.js";
+import matchKeywordInSubheadings from "./researches/matchKeywordInSubheadings.js";
+import getKeywordDensity from "./researches/getKeywordDensity.js";
+import keywordCount from "./researches/keywordCount";
+import stopWordsInKeyword from "./researches/stopWordsInKeyword";
+import stopWordsInUrl from "./researches/stopWordsInUrl";
+import calculateFleschReading from "./researches/calculateFleschReading.js";
+import metaDescriptionLength from "./researches/metaDescriptionLength.js";
+import imageCount from "./researches/imageCountInText.js";
+import altTagCount from "./researches/imageAltTags.js";
+import keyphraseLength from "./researches/keyphraseLength";
+import metaDescriptionKeyword from "./researches/metaDescriptionKeyword.js";
+import keywordCountInUrl from "./researches/keywordCountInUrl";
+import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
+import pageTitleWidth from "./researches/pageTitleWidth.js";
+import wordComplexity from "./researches/getWordComplexity.js";
+import getParagraphLength from "./researches/getParagraphLength.js";
+import countSentencesFromText from "./researches/countSentencesFromText.js";
+import countSentencesFromDescription from "./researches/countSentencesFromDescription.js";
+import getSubheadingTextLengths from "./researches/getSubheadingTextLengths.js";
+import findTransitionWords from "./researches/findTransitionWords.js";
+import passiveVoice from "./researches/getPassiveVoice.js";
+import getSentenceBeginnings from "./researches/getSentenceBeginnings.js";
+import relevantWords from "./researches/relevantWords";
+import readingTime from "./researches/readingTime";
+import getTopicDensity from "./researches/getTopicDensity";
+import topicCount from "./researches/topicCount";
+import largestKeywordDistance from "./researches/largestKeywordDistance";
+import { research } from "./researches/buildKeywordForms";
+const morphology = research;
 
 /**
  * This contains all possible, default researches.
@@ -85,7 +88,10 @@ var Researcher = function( paper ) {
 		topicCount: topicCount,
 		sentences,
 		largestKeywordDistance: largestKeywordDistance,
+		morphology: morphology,
 	};
+
+	this._dataProviders = {};
 
 	this.customResearches = {};
 };
@@ -121,7 +127,7 @@ Researcher.prototype.addResearch = function( name, research ) {
 };
 
 /**
- * Check wheter or not the research is known by the Researcher.
+ * Check whether or not the research is known by the Researcher.
  * @param {string} name The name to reference the research by.
  * @returns {boolean} Whether or not the research is known by the Researcher
  */
@@ -143,6 +149,7 @@ Researcher.prototype.getAvailableResearches = function() {
 /**
  * Return the Research by name.
  * @param {string} name The name to reference the research by.
+ *
  * @returns {*} Returns the result of the research or false if research does not exist.
  * @throws {MissingArgument} Research name cannot be empty.
  */
@@ -158,4 +165,31 @@ Researcher.prototype.getResearch = function( name ) {
 	return this.getAvailableResearches()[ name ]( this.paper, this );
 };
 
-module.exports = Researcher;
+/**
+ * Add research data provider to the researcher by the research name.
+ *
+ * @param {string} research The identifier of the research.
+ * @param {function} provider The reference to the dataProvider.
+ *
+ * @returns {void}.
+ */
+Researcher.prototype.addResearchDataProvider = function( research, provider ) {
+	this._dataProviders[ research ] = provider;
+};
+
+/**
+ * Return the research data from a research data provider by research name.
+ *
+ * @param {string} research The identifier of the research.
+ *
+ * @returns {*} The data provided by the provider, false if the data do not exist
+ */
+Researcher.prototype.getProvidedData = function( research ) {
+	if ( this._dataProviders.hasOwnProperty( research ) ) {
+		return this._dataProviders[ research ];
+	}
+
+	return false;
+};
+
+export default Researcher;

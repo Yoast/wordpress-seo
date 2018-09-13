@@ -1,4 +1,4 @@
-var forEach = require( "lodash/forEach" );
+import { forEach } from "lodash-es";
 
 /**
  * Adds a class to an element
@@ -57,7 +57,7 @@ var hasClass = function( element, className ) {
 	return element.className.indexOf( className ) > -1;
 };
 
-module.exports = {
+export default {
 	hasClass: hasClass,
 	addClass: addClass,
 	removeClass: removeClass,

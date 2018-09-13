@@ -1,11 +1,11 @@
-var forEach = require( "lodash/forEach" );
-var isNumber = require( "lodash/isNumber" );
-var isObject = require( "lodash/isObject" );
-var isUndefined = require( "lodash/isUndefined" );
-var difference = require( "lodash/difference" );
-var template = require( "../templates.js" ).assessmentPresenterResult;
-var scoreToRating = require( "../interpreters/scoreToRating.js" );
-var createConfig = require( "../config/presenter.js" );
+import { forEach } from "lodash-es";
+import { isNumber } from "lodash-es";
+import { isObject } from "lodash-es";
+import { isUndefined } from "lodash-es";
+import { difference } from "lodash-es";
+import { assessmentPresenterResult as template } from "../templates.js";
+import scoreToRating from "../interpreters/scoreToRating.js";
+import createConfig from "../config/presenter.js";
 
 /**
  * Constructs the AssessorPresenter.
@@ -374,4 +374,4 @@ AssessorPresenter.prototype.renderOverallRating = function() {
 	overallRatingElement.className = "overallScore " + this.getIndicatorColorClass( overallRating.rating );
 };
 
-module.exports = AssessorPresenter;
+export default AssessorPresenter;

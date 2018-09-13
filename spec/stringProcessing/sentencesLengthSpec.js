@@ -1,4 +1,4 @@
-var sentencesLength = require( "../../js/stringProcessing/sentencesLength" );
+import sentencesLength from "../../src/stringProcessing/sentencesLength";
 
 describe( "sentencesLength", function() {
 	it( "doesn't return a length for an empty sentence", function() {

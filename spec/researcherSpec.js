@@ -1,7 +1,7 @@
-var Researcher = require( "../js/researcher.js" );
-var Paper = require( "../js/values/Paper.js" );
-var InvalidTypeError = require( "../js/errors/invalidType.js" );
-var MissingArgument = require( "../js/errors/missingArgument" );
+import Researcher from "../src/researcher.js";
+import Paper from "../src/values/Paper.js";
+import InvalidTypeError from "../src/errors/invalidType.js";
+import MissingArgument from "../src/errors/missingArgument";
 
 
 describe( "Creating a Researcher", function() {
@@ -77,5 +77,14 @@ describe( "Adding to a Researcher", function() {
 		} );
 		expect( Object.keys( researcher.getAvailableResearches() ).length ).toEqual( totalLength );
 		expect( researcher.getResearch( "wordCountInText" ) ).toEqual( 9000 );
+	} );
+} );
+
+describe( "Adding and getting researchData to/from a Researcher", function() {
+	const researcher = new Researcher( new Paper( "This is another paper!" ) );
+
+	it( "adds a research data provider", function() {
+		researcher.addResearchDataProvider( "newResearch", "some data" );
+		expect( researcher.getProvidedData( "newResearch" ) ).toEqual( "some data" );
 	} );
 } );

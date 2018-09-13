@@ -1,4 +1,9 @@
-module.exports = function() {
+/**
+ * Returns a list of english irregulars.
+ *
+ * @returns {string[]} English irregulars.
+ */
+export default function() {
 	return [
 		"arisen",
 		"awoken",
@@ -348,4 +353,4 @@ module.exports = function() {
 		"overwritten",
 		"wrung",
 	];
-};
+}

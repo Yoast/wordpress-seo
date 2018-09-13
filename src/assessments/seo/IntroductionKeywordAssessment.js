@@ -1,19 +1,19 @@
-const merge = require( "lodash/merge" );
+import { merge } from "lodash-es";
 
-const Assessment = require( "../../assessment" );
-const AssessmentResult = require( "../../values/AssessmentResult" );
+import Assessment from "../../assessment";
+import AssessmentResult from "../../values/AssessmentResult";
 
 /**
- * Assessment to check whether the keyphrase is encountered in the first paragraph of the article.
+ * Assessment to check whether the keyphrase or synonyms are encountered in the first paragraph of the article.
  */
 class IntroductionKeywordAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
-	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum of keyword occurrences in the first paragraph.
-	 * @param {number} [config.scores.good] The score to return if there are enough keyword occurrences in the first paragraph.
-	 * @param {number} [config.scores.bad] The score to return if there aren't enough keyword occurrences in the first paragraph.
+	 * @param {number} [config.scores.good] The score to return if there is a match within one sentence in the first paragraph.
+	 * @param {number} [config.scores.okay] The score to return if all words are matched in the first paragraph.
+	 * @param {number} [config.scores.bad] The score to return if not all words are matched in the first paragraph.
 	 * @param {string} [config.url] The URL to the relevant article on Yoast.com.
 	 *
 	 * @returns {void}
@@ -22,11 +22,9 @@ class IntroductionKeywordAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			parameters: {
-				recommendedMinimum: 1,
-			},
 			scores: {
 				good: 9,
+				okay: 6,
 				bad: 3,
 			},
 			url: "<a href='https://yoa.st/2pc' target='_blank'>",
@@ -37,7 +35,7 @@ class IntroductionKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Assesses the presence of keyphrase in the first paragraph.
+	 * Assesses the presence of keyphrase or synonyms in the first paragraph.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
@@ -76,12 +74,30 @@ class IntroductionKeywordAssessment extends Assessment {
 	 * @returns {Object} result object with a score and translation text.
 	 */
 	calculateResult( i18n ) {
-		if ( this._firstParagraphMatches >= this._config.parameters.recommendedMinimum ) {
+		if ( this._firstParagraphMatches.foundInOneSentence ) {
 			return {
 				score: this._config.scores.good,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
-					i18n.dgettext( "js-text-analysis", "The focus keyword appears in the %1$sfirst paragraph%2$s of the copy." ),
+					i18n.dgettext(
+						"js-text-analysis",
+						"All topic words appear within one sentence in the %1$sfirst paragraph%2$s of the copy."
+					),
+					this._config.url,
+					"</a>"
+				),
+			};
+		}
+
+		if ( this._firstParagraphMatches.foundInParagraph ) {
+			return {
+				score: this._config.scores.okay,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+					i18n.dgettext(
+						"js-text-analysis",
+						"All topic words appear in the %1$sfirst paragraph%2$s of the copy, but not within one sentence."
+					),
 					this._config.url,
 					"</a>"
 				),
@@ -92,8 +108,10 @@ class IntroductionKeywordAssessment extends Assessment {
 			score: this._config.scores.bad,
 			resultText: i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
-				i18n.dgettext( "js-text-analysis", "The focus keyword doesn't appear in the %1$sfirst paragraph%2$s of the copy. " +
-					"Make sure the topic is clear immediately." ),
+				i18n.dgettext(
+					"js-text-analysis",
+					"Not all topic words appear in the %1$sfirst paragraph%2$s of the copy. Make sure the topic is clear immediately."
+				),
 				this._config.url,
 				"</a>"
 			),

@@ -1,15 +1,17 @@
-var Participle = require( "../../../values/Participle.js" );
+import Participle from "../../../values/Participle.js";
+import { getIndicesByWord as getIndices } from "../../../stringProcessing/indices.js";
+import { getIndicesByWordList as getIndicesOfList } from "../../../stringProcessing/indices.js";
+import exceptionsParticiplesActiveFactory from "./exceptionsParticiplesActive.js";
+const exceptionsParticiplesActive = exceptionsParticiplesActiveFactory();
 
-var getIndices = require( "../../../stringProcessing/indices.js" ).getIndicesByWord;
-var getIndicesOfList = require( "../../../stringProcessing/indices.js" ).getIndicesByWordList;
-var exceptionsParticiplesActive = require( "./exceptionsParticiplesActive.js" )();
-var auxiliaries = require( "./auxiliaries.js" )().participleLike;
+import auxiliariesFactory from "./auxiliaries.js";
+var auxiliaries = auxiliariesFactory().participleLike;
 
 var exceptionsRegex =
 	/\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t.,'()"+-;!?:/»«‹›<>])/ig;
 
-var includes = require( "lodash/includes" );
-var map = require( "lodash/map" );
+import { includes } from "lodash-es";
+import { map } from "lodash-es";
 
 /**
  * Creates an Participle object for the German language.
@@ -87,4 +89,4 @@ GermanParticiple.prototype.isAuxiliary = function() {
 };
 
 
-module.exports = GermanParticiple;
+export default GermanParticiple;

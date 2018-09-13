@@ -1,4 +1,4 @@
-const Paper = require( "../../../js/values/Paper.js" );
+import Paper from "../../../src/values/Paper.js";
 
 const name = "englishPaper1";
 
@@ -53,11 +53,11 @@ const paper = new Paper( "<p>My husband &#8211; <a href='https://yoast.com/about
 const expectedResults = {
 	introductionKeyword: {
 		score: 9,
-		resultText: "The focus keyword appears in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy.",
+		resultText: "All topic words appear within one sentence in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy.",
 	},
 	keyphraseLength: {
-		score: 0,
-		resultText: "",
+		score: 9,
+		resultText: "Your <a href='https://yoa.st/2pdd' target='_blank'>keyphrase</a> has a nice length.",
 	},
 	keywordDensity: {
 		score: 9,
@@ -157,7 +157,13 @@ const expectedResults = {
 	},
 };
 
-module.exports = {
+export {
+	name,
+	paper,
+	expectedResults,
+};
+
+export default {
 	name: name,
 	paper: paper,
 	expectedResults: expectedResults,

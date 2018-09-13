@@ -7,7 +7,7 @@
  * @param {String} regexString A string to use as regex.
  * @returns {Array} Array with matches, empty array if no matches found.
  */
-module.exports = function( text, regexString ) {
+export default function( text, regexString ) {
 	var regex = new RegExp( regexString, "ig" );
 	var matches = text.match( regex );
 
@@ -16,4 +16,4 @@ module.exports = function( text, regexString ) {
 	}
 
 	return matches;
-};
+}

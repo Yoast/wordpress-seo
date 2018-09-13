@@ -1,38 +1,36 @@
-require( "./config/config.js" );
+import "./config/config.js";
+import SnippetPreview from "./snippetPreview.js";
 
-var SnippetPreview = require( "./snippetPreview.js" );
+import { defaultsDeep } from "lodash-es";
+import { isObject } from "lodash-es";
+import { isString } from "lodash-es";
+import MissingArgument from "./errors/missingArgument";
+import { isUndefined } from "lodash-es";
+import { isEmpty } from "lodash-es";
+import { isFunction } from "lodash-es";
+import { isArray } from "lodash-es";
+import { forEach } from "lodash-es";
+import { debounce } from "lodash-es";
+import { throttle } from "lodash-es";
+import { merge } from "lodash-es";
 
-var defaultsDeep = require( "lodash/defaultsDeep" );
-var isObject = require( "lodash/isObject" );
-var isString = require( "lodash/isString" );
-var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/isUndefined" );
-var isEmpty = require( "lodash/isEmpty" );
-var isFunction = require( "lodash/isFunction" );
-var isArray = require( "lodash/isArray" );
-var forEach = require( "lodash/forEach" );
-var debounce = require( "lodash/debounce" );
-var throttle = require( "lodash/throttle" );
-const merge = require( "lodash/merge" );
-
-var Jed = require( "jed" );
-
-var SEOAssessor = require( "./seoAssessor.js" );
+import Jed from "jed";
+import SEOAssessor from "./seoAssessor.js";
 import LargestKeywordDistanceAssessment from "./assessments/seo/LargestKeywordDistanceAssessment.js";
-var ContentAssessor = require( "./contentAssessor.js" );
-var CornerstoneSEOAssessor = require( "./cornerstone/seoAssessor.js" );
-var CornerstoneContentAssessor = require( "./cornerstone/contentAssessor.js" );
-var Researcher = require( "./researcher.js" );
-var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
-var Pluggable = require( "./pluggable.js" );
-var Paper = require( "./values/Paper.js" );
+import ContentAssessor from "./contentAssessor.js";
+import CornerstoneSEOAssessor from "./cornerstone/seoAssessor.js";
+import CornerstoneContentAssessor from "./cornerstone/contentAssessor.js";
+import Researcher from "./researcher.js";
+import AssessorPresenter from "./renderers/AssessorPresenter.js";
+import Pluggable from "./pluggable.js";
+import Paper from "./values/Paper.js";
 import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
-var removeHtmlBlocks = require( "./stringProcessing/htmlParser.js" );
+import removeHtmlBlocks from "./stringProcessing/htmlParser.js";
 
 const largestKeywordDistance = new LargestKeywordDistanceAssessment();
 
-var inputDebounceDelay = 400;
+var inputDebounceDelay = 800;
 
 /**
  * Default config for YoastSEO.js
@@ -91,6 +89,7 @@ var defaults = {
 	keywordAnalysisActive: true,
 	contentAnalysisActive: true,
 	hasSnippetPreview: true,
+	debounceRefresh: true,
 };
 
 /**
@@ -245,6 +244,8 @@ function verifyArguments( args ) {
  * @param {Function} args.marker The marker to use to apply the list of marks retrieved from an assessment.
  *
  * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
+ * @param {boolean} [args.debouncedRefresh] Whether or not to debounce the
+ *                                          refresh function. Defaults to true.
  *
  * @constructor
  */
@@ -259,7 +260,9 @@ var App = function( args ) {
 
 	this.config = args;
 
-	this.refresh = debounce( this.refresh.bind( this ), inputDebounceDelay );
+	if ( args.debouncedRefresh === true ) {
+		this.refresh = debounce( this.refresh.bind( this ), inputDebounceDelay );
+	}
 	this._pureRefresh = throttle( this._pureRefresh.bind( this ), this.config.typeDelay );
 
 	this.callbacks = this.config.callbacks;
@@ -285,7 +288,7 @@ var App = function( args ) {
 		app.*/
 		if ( this.snippetPreview.refObj !== this ) {
 			this.snippetPreview.refObj = this;
-			this.snippetPreview.i18n = this.i18n;
+			this.snippetPreview._i18n = this.i18n;
 		}
 	} else if ( args.hasSnippetPreview ) {
 		this.snippetPreview = createDefaultSnippetPreview.call( this );
@@ -415,10 +418,10 @@ App.prototype.initializeContentAssessor = function( args ) {
 	this.cornerStoneContentAssessor = new CornerstoneContentAssessor( this.i18n, { marker: this.config.marker, locale: this.config.locale } );
 
 	// Set the content assessor
-	if ( isUndefined( args.contentAssessor ) ) {
+	if ( isUndefined( args._contentAssessor ) ) {
 		this.contentAssessor = this.defaultContentAssessor;
 	} else {
-		this.contentAssessor = args.contentAssessor;
+		this.contentAssessor = args._contentAssessor;
 	}
 };
 
@@ -999,9 +1002,12 @@ App.prototype.createSnippetPreview = function() {
  * @returns {void}
  */
 App.prototype.switchAssessors = function( useCornerStone ) {
+	// eslint-disable-next-line no-console
+	console.warn( "Switch assessor is deprecated since YoastSEO.js version 1.35.0" );
+
 	this.changeAssessorOptions( {
 		useCornerStone,
 	} );
 };
 
-module.exports = App;
+export default App;

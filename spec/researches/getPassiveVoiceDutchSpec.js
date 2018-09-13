@@ -1,5 +1,5 @@
-var passiveVoice = require( "../../js/researches/getPassiveVoice.js" );
-var Paper = require( "../../js/values/Paper.js" );
+import passiveVoice from "../../src/researches/getPassiveVoice.js";
+import Paper from "../../src/values/Paper.js";
 
 /*
  * Note: for perfect tenses, Dutch uses the auxiliary `zijn`. Because it is difficult to distinguish between passives

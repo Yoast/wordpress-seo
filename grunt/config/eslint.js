@@ -3,13 +3,14 @@ module.exports = {
 	target: {
 		src: [ "<%= files.js %>", "<%= files.jsDontLint %>" ],
 		options: {
-			maxWarnings: 110,
+			maxWarnings: 41,
 		},
 	},
 	tests: {
 		src: [ "<%= files.jsTests %>" ],
 		options: {
 			configFile: ".eslintrc-tests",
+			maxWarnings: 44,
 		},
 	},
 };

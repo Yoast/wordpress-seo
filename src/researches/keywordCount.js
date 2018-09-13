@@ -1,8 +1,9 @@
 /** @module analyses/getKeywordCount */
 
-const matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-const unique = require( "lodash/uniq" );
-const escapeRegExp = require( "lodash/escapeRegExp" );
+import matchWords from "../stringProcessing/matchTextWithWord.js";
+
+import { uniq as unique } from "lodash-es";
+import { escapeRegExp } from "lodash-es";
 
 /**
  * Calculates the keyword count.
@@ -10,7 +11,7 @@ const escapeRegExp = require( "lodash/escapeRegExp" );
  * @param {object} paper The paper containing keyword and text.
  * @returns {number} The keyword count.
  */
-module.exports = function( paper ) {
+export default function( paper ) {
 	const keyword = escapeRegExp( paper.getKeyword() );
 	const text = paper.getText();
 	const locale = paper.getLocale();
@@ -20,4 +21,4 @@ module.exports = function( paper ) {
 		count: keywordsFound.count,
 		matches: unique( keywordsFound.matches ).sort( ( a, b ) => b.length - a.length ),
 	};
-};
+}

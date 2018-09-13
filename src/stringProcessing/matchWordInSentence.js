@@ -1,6 +1,7 @@
-var wordBoundaries = require( "../config/wordBoundaries.js" )();
-var includes = require( "lodash/includes" );
-var addWordBoundary = require( "./addWordboundary.js" );
+import wordBoundariesFactory from "../config/wordBoundaries.js";
+const wordBoundaries = wordBoundariesFactory();
+import { includes } from "lodash-es";
+import addWordBoundary from "./addWordboundary.js";
 
 /**
  * Checks whether a character is present in the list of word boundaries.
@@ -48,7 +49,12 @@ var isWordInSentence = function( word, sentence ) {
 	return ( ( previousCharacter ) && ( nextCharacter ) );
 };
 
-module.exports = {
+export {
+	characterInBoundary,
+	isWordInSentence,
+};
+
+export default {
 	characterInBoundary: characterInBoundary,
 	isWordInSentence: isWordInSentence,
 };

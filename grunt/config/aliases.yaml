@@ -3,25 +3,15 @@
 # Build everything
 build:
   - 'build:css'
-  - 'build:jst'
-  - 'build:js'
   - 'build:translations'
-# Precompile JavaScript templates
-'build:jst':
-  - 'build:js'
-  - 'build-templates'
 # Build JavaScript from assets to production
-'build:js':
-  - 'ts'
-  - 'copy:js'
+'build:browserified':
+  - 'build:js'
   - 'browserify'
   - 'exorcise'
-'build:test':
-  - 'ts'
-  - 'copy:js'
 # Build CSS
 'build:css':
-  - 'copy'
+  - 'copy:css'
   - 'sass:build'
   - 'postcss:build'
 'build:translations':
@@ -35,7 +25,6 @@ default:
   - build
 # Create folder for npm publishing
 publish:
-  - 'ts'
-  - 'copy:js'
+  - 'clean:publish'
   - 'babel:publish'
   - 'copy:publish'

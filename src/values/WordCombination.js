@@ -1,5 +1,5 @@
-var forEach = require( "lodash/forEach" );
-var has = require( "lodash/has" );
+import { forEach } from "lodash-es";
+import { has } from "lodash-es";
 
 /**
  * Returns whether or not the given word is a function word.
@@ -175,4 +175,33 @@ WordCombination.prototype.getDensity = function( wordCount ) {
 	return this._occurrences / wordCount;
 };
 
-module.exports = WordCombination;
+/**
+ * Serializes the WordCombination instance to an object.
+ *
+ * @returns {Object} The serialized WordCombination.
+ */
+WordCombination.prototype.serialize = function() {
+	return {
+		_parseClass: "WordCombination",
+		words: this._words,
+		occurrences: this._occurrences,
+		functionWords: this._functionWords,
+		relevantWords: this._relevantWords,
+	};
+};
+
+/**
+ * Parses the object to a WordCombination.
+ *
+ * @param {Object} serialized The serialized object.
+ *
+ * @returns {WordCombination} The parsed WordCombination.
+ */
+WordCombination.parse = function( serialized ) {
+	const wordCombination = new WordCombination( serialized.words, serialized.occurrences, serialized.functionWords );
+	wordCombination.setRelevantWords( serialized.relevantWords );
+
+	return wordCombination;
+};
+
+export default WordCombination;

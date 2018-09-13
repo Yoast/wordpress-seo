@@ -1,5 +1,5 @@
-const AssessmentResult = require( "../../values/AssessmentResult.js" );
-const inRange = require( "lodash/inRange" );
+import AssessmentResult from "../../values/AssessmentResult.js";
+import { inRange } from "lodash-es";
 
 const recommendedMinimum = 150;
 /**
@@ -162,7 +162,7 @@ const taxonomyTextLengthAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = {
+export default {
 	identifier: "taxonomyTextLength",
 	getResult: taxonomyTextLengthAssessment,
 };

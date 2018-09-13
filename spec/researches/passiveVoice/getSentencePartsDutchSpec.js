@@ -1,4 +1,4 @@
-const getSentenceParts = require( "../../../js/researches/passiveVoice/periphrastic/getSentencePartsSplitOnStopwords.js" );
+import getSentenceParts from "../../../src/researches/passiveVoice/periphrastic/getSentencePartsSplitOnStopwords.js";
 
 describe( "splits Dutch sentences into parts", function() {
 	it( "returns the whole sentence when there is no stopword", function() {

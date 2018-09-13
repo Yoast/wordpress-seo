@@ -1,15 +1,15 @@
-const isEmpty = require( "lodash/isEmpty" );
+import { isEmpty } from "lodash-es";
 
 /**
  * Sets sentence part passiveness to passive if no exception rules for the participle apply.
  *
  * @returns {void}
  */
-module.exports =  function() {
+export default function() {
 	if ( isEmpty( this.getParticiple() ) ) {
 		this.setSentencePartPassiveness( false );
 		return;
 	}
 
 	this.setSentencePartPassiveness( this.isPassive() );
-};
+}

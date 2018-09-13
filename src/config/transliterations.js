@@ -1,5 +1,5 @@
-var getLanguage = require( "../helpers/getLanguage.js" );
-var isUndefined = require( "lodash/isUndefined" );
+import getLanguage from '../helpers/getLanguage.js';
+import { isUndefined } from "lodash-es";
 
 
 var transliterations = {
@@ -1429,7 +1429,7 @@ var transliterations = {
  * @param {string} locale The locale.
  * @returns {Array} An array containing transliteration objects.
  */
-module.exports = function( locale ) {
+export default function( locale ) {
 	if ( isUndefined( locale ) ) {
 		return [];
 	}

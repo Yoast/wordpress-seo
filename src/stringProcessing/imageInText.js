@@ -1,6 +1,6 @@
 /** @module stringProcessing/imageInText */
 
-var matchStringWithRegex = require( "./matchStringWithRegex.js" );
+import matchStringWithRegex from "./matchStringWithRegex.js";
 
 /**
  * Checks the text for images.
@@ -8,6 +8,6 @@ var matchStringWithRegex = require( "./matchStringWithRegex.js" );
  * @param {string} text The textstring to check for images
  * @returns {Array} Array containing all types of found images
  */
-module.exports = function( text ) {
+export default function( text ) {
 	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
-};
+}

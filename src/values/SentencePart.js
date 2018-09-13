@@ -60,4 +60,33 @@ SentencePart.prototype.setPassive = function( passive ) {
 	this._isPassive = passive;
 };
 
-module.exports = SentencePart;
+/**
+ * Serializes the SentencePart instance to an object.
+ *
+ * @returns {Object} The serialized SentencePart.
+ */
+SentencePart.prototype.serialize = function() {
+	return {
+		_parseClass: "SentencePart",
+		sentencePartText: this._sentencePartText,
+		auxiliaries: this._auxiliaries,
+		locale: this._locale,
+		isPassive: this._isPassive,
+	};
+};
+
+/**
+ * Parses the object to a SentencePart.
+ *
+ * @param {Object} serialized The serialized object.
+ *
+ * @returns {SentencePart} The parsed SentencePart.
+ */
+SentencePart.parse = function( serialized ) {
+	const sentencePart = new SentencePart( serialized.sentencePartText, serialized.auxiliaries, serialized.locale );
+	sentencePart.setPassive( serialized.isPassive );
+
+	return sentencePart;
+};
+
+export default SentencePart;

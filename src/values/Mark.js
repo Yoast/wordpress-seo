@@ -1,4 +1,4 @@
-var defaults = require( "lodash/defaults" );
+import { defaults } from "lodash-es";
 
 /**
  * Represents a marked piece of text
@@ -44,4 +44,27 @@ Mark.prototype.applyWithReplace = function( text ) {
 	return text.split( this._properties.original ).join( this._properties.marked );
 };
 
-module.exports = Mark;
+/**
+ * Serializes the Mark instance to an object.
+ *
+ * @returns {Object} The serialized Mark.
+ */
+Mark.prototype.serialize = function() {
+	return {
+		_parseClass: "Mark",
+		...this._properties,
+	};
+};
+
+/**
+ * Parses the object to a Mark.
+ *
+ * @param {Object} serialized The serialized object.
+ *
+ * @returns {Mark} The parsed Mark.
+ */
+Mark.parse = function( serialized ) {
+	return new Mark( serialized );
+};
+
+export default Mark;

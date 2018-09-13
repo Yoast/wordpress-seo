@@ -1,18 +1,17 @@
-const getSentences = require( "../stringProcessing/getSentences.js" );
-const stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFullTags;
-const getLanguage = require( "../helpers/getLanguage.js" );
-const Sentence = require( "../values/Sentence.js" );
+import getSentences from "../stringProcessing/getSentences.js";
+import { stripFullTags as stripHTMLTags } from "../stringProcessing/stripHTMLTags.js";
+import getLanguage from "../helpers/getLanguage.js";
+import Sentence from "../values/Sentence.js";
 
-const forEach = require( "lodash/forEach" );
+import { forEach } from "lodash-es";
 
-const isPassiveSentencePart = require( "./passiveVoice/periphrastic/determinePassiveSentencePart.js" );
-const isPassiveSentence = require( "./passiveVoice/morphological/determinePassiveSentence.js" );
-
-const getPeriphrasticSentencePartsDefault = require( "./passiveVoice/periphrastic/getSentenceParts.js" );
-const getPeriphrasticSentencePartsSplitOnStopwords = require( "./passiveVoice/periphrastic/getSentencePartsSplitOnStopwords.js" );
+import isPassiveSentencePart from "./passiveVoice/periphrastic/determinePassiveSentencePart.js";
+import isPassiveSentence from "./passiveVoice/morphological/determinePassiveSentence.js";
+import getPeriphrasticSentencePartsDefault from "./passiveVoice/periphrastic/getSentenceParts.js";
+import getPeriphrasticSentencePartsSplitOnStopwords from "./passiveVoice/periphrastic/getSentencePartsSplitOnStopwords.js";
 
 const morphologicalLanguages = [ "ru", "tr" ];
-const periphrasticLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn" ];
+const periphrasticLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn", "pl" ];
 
 /* Languages that employ both morphological and periphrastic passive voice marking have not been implemented yet.
  * const morphologicalAndPeriphrasticLanguages = [ "sv", "da", "nb" ];
@@ -58,7 +57,7 @@ const getPeriphrasticPassives = function( sentences, language ) {
 		// The functionality based on sentencePart objects should be rewritten using array indices of stopwords and auxiliaries.
 		let sentenceParts = [];
 
-		if ( language === "de" || language === "nl" ) {
+		if ( language === "de" || language === "nl" || language === "pl" ) {
 			sentenceParts = getPeriphrasticSentencePartsSplitOnStopwords( strippedSentence, language );
 		} else {
 			sentenceParts = getPeriphrasticSentencePartsDefault( strippedSentence, language );
@@ -84,7 +83,7 @@ const getPeriphrasticPassives = function( sentences, language ) {
  * @param {Paper} paper The paper object to get the text from.
  * @returns {Object} The total number of sentences in the text and the found passive sentences.
  */
-module.exports = function( paper ) {
+export default function( paper ) {
 	let text = paper.getText();
 	let locale = paper.getLocale();
 	let language = getLanguage( locale );
@@ -106,4 +105,4 @@ module.exports = function( paper ) {
 			passives: getPeriphrasticPassives( sentences, language ).passiveSentences,
 		};
 	}
-};
+}

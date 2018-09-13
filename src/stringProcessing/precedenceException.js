@@ -1,11 +1,19 @@
-var getWordIndices = require( "../researches/passiveVoice/periphrastic/getIndicesWithRegex.js" );
-var precedesIndex = require( "./precedesIndex" );
-var arrayToRegex = require( "./createRegexFromArray.js" );
-var cannotBeBetweenAuxiliaryAndParticipleFrench = require( "../researches/french/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-var cannotBeBetweenAuxiliaryAndParticipleEnglish = require( "../researches/english/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-var cannotBeBetweenAuxiliaryAndParticipleSpanish = require( "../researches/spanish/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-var cannotBeBetweenAuxiliaryAndParticipleItalian = require( "../researches/italian/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+import getWordIndices from "../researches/passiveVoice/periphrastic/getIndicesWithRegex.js";
+import precedesIndex from "./precedesIndex";
+import arrayToRegex from "./createRegexFromArray.js";
 
+import cannotBeBetweenAuxiliaryAndParticipleFrenchFactory from "../researches/french/functionWords.js";
+const cannotBeBetweenAuxiliaryAndParticipleFrench =
+	cannotBeBetweenAuxiliaryAndParticipleFrenchFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+import cannotBeBetweenAuxiliaryAndParticipleEnglishFactory from "../researches/english/functionWords.js";
+const cannotBeBetweenAuxiliaryAndParticipleEnglish =
+	cannotBeBetweenAuxiliaryAndParticipleEnglishFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+import cannotBeBetweenAuxiliaryAndParticipleSpanishFactory from "../researches/spanish/functionWords.js";
+const cannotBeBetweenAuxiliaryAndParticipleSpanish =
+	cannotBeBetweenAuxiliaryAndParticipleSpanishFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+import cannotBeBetweenAuxiliaryAndParticipleItalianFactory from "../researches/italian/functionWords.js";
+const cannotBeBetweenAuxiliaryAndParticipleItalian =
+	cannotBeBetweenAuxiliaryAndParticipleItalianFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple;
 
 /**
  * Checks whether a word from the precedence exception list occurs anywhere in the sentence part before the participle.
@@ -18,8 +26,8 @@ var cannotBeBetweenAuxiliaryAndParticipleItalian = require( "../researches/itali
  * @returns {boolean} Returns true if a word from the precedence exception list occurs anywhere in the
  * sentence part before the participle, otherwise returns false.
  */
-module.exports = function( sentencePart, participleIndex, language ) {
-	var precedenceExceptionRegex;
+export default function( sentencePart, participleIndex, language ) {
+	let precedenceExceptionRegex;
 	switch ( language ) {
 		case "fr":
 			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleFrench );
@@ -36,6 +44,6 @@ module.exports = function( sentencePart, participleIndex, language ) {
 			break;
 	}
 
-	var precedenceExceptionMatch = getWordIndices( sentencePart, precedenceExceptionRegex );
+	const precedenceExceptionMatch = getWordIndices( sentencePart, precedenceExceptionRegex );
 	return precedesIndex( precedenceExceptionMatch, participleIndex );
-};
+}

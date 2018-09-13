@@ -2,8 +2,9 @@
  * The list of accent characters and their ASCII alternatives is taken from wordpress-develop-mirror/blob/master/src/wp-includes/formatting.php.
  */
 
-const getLanguage = require( "../helpers/getLanguage.js" );
-const isUndefined = require( "lodash/isUndefined" );
+import getLanguage from '../helpers/getLanguage.js';
+
+import { isUndefined } from "lodash-es";
 
 
 const transliterationsGeneral =	[
@@ -760,7 +761,7 @@ const getLanguageSpecificTransliterations = function( language ) {
  *
  * @returns {Array} An array containing transliteration objects.
  */
-module.exports = function( locale ) {
+export default function( locale ) {
 	if ( isUndefined( locale ) ) {
 		return [];
 	}

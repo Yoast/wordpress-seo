@@ -1,8 +1,8 @@
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-var matchWordInSentence = require( "../stringProcessing/matchWordInSentence.js" ).isWordInSentence;
-var characterInBoundary = require( "../stringProcessing/matchWordInSentence.js" ).characterInBoundary;
+import { isUndefined } from "lodash-es";
+import { forEach } from "lodash-es";
+import stripSpaces from "../stringProcessing/stripSpaces.js";
+import { isWordInSentence as matchWordInSentence } from "../stringProcessing/matchWordInSentence.js";
+import { characterInBoundary } from "../stringProcessing/matchWordInSentence.js";
 
 /**
  * Returns the indices of a string in a text. If it is found multiple times, it will return multiple indices.
@@ -124,7 +124,15 @@ var getIndicesByWordListSorted = function( words, text ) {
 	return matchedWords;
 };
 
-module.exports = {
+export {
+	getIndicesByWord,
+	getIndicesByWordList,
+	filterIndices,
+	sortIndices,
+	getIndicesByWordListSorted,
+};
+
+export default {
 	getIndicesByWord: getIndicesByWord,
 	getIndicesByWordList: getIndicesByWordList,
 	filterIndices: filterIndices,

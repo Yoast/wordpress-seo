@@ -2,7 +2,7 @@
  * Returns a list with auxiliaries for the Dutch passive voice assessment.
  * @returns {Array} The list with auxiliaries.
  */
-module.exports = function() {
+export default function() {
 	return [
 		"word",
 		"wordt",
@@ -11,4 +11,4 @@ module.exports = function() {
 		"werden",
 		"wordend",
 	];
-};
+}

@@ -1,13 +1,13 @@
-var Participle = require( "../../../values/Participle.js" );
-var checkException = require( "../../passiveVoice/periphrastic/checkException.js" );
+import Participle from "../../../values/Participle.js";
+import checkException from "../../passiveVoice/periphrastic/checkException.js";
+import nonVerbsEndingEdFactory from "./non-verb-ending-ed.js";
+const nonVerbsEndingEd = nonVerbsEndingEdFactory();
+import directPrecedenceException from "../../../stringProcessing/directPrecedenceException";
+import precedenceException from "../../../stringProcessing/precedenceException";
 
-var nonVerbsEndingEd = require( "./non-verb-ending-ed.js" )();
-var directPrecedenceException = require( "../../../stringProcessing/directPrecedenceException" );
-var precedenceException = require( "../../../stringProcessing/precedenceException" );
-
-var includes = require( "lodash/includes" );
-var isEmpty = require( "lodash/isEmpty" );
-var intersection = require( "lodash/intersection" );
+import { includes } from "lodash-es";
+import { isEmpty } from "lodash-es";
+import { intersection } from "lodash-es";
 
 var irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
 
@@ -77,4 +77,4 @@ EnglishParticiple.prototype.directPrecedenceException = directPrecedenceExceptio
 
 EnglishParticiple.prototype.precedenceException = precedenceException;
 
-module.exports = EnglishParticiple;
+export default EnglishParticiple;

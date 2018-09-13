@@ -1,7 +1,9 @@
-let relevantWordsResearch = require( "../../js/researches/relevantWords" );
-let Paper = require( "../../js/values/Paper" );
-let WordCombination = require( "../../js/values/WordCombination" );
-let functionWords = require( "../../js/researches/english/functionWords.js" )().all;
+import relevantWordsResearch from "../../src/researches/relevantWords";
+import Paper from "../../src/values/Paper";
+import WordCombination from "../../src/values/WordCombination";
+
+import functionWordsFactory from "../../src/researches/english/functionWords.js";
+let functionWords = functionWordsFactory().all;
 
 describe( "relevantWords research", function() {
 	it( "calls through to the string processing function", function() {

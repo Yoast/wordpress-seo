@@ -1,6 +1,6 @@
-var ImageCountAssessment = require( "../../js/assessments/seo/textImagesAssessment" );
-var Paper = require( "../../js/values/Paper.js" );
-var Factory = require( "../helpers/factory.js" );
+import ImageCountAssessment from "../../src/assessments/seo/textImagesAssessment";
+import Paper from "../../src/values/Paper.js";
+import Factory from "../helpers/factory.js";
 var i18n = Factory.buildJed();
 
 let imageCountAssessment = new ImageCountAssessment();
@@ -56,7 +56,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page do not have alt attributes containing the focus keyword." );
+		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page do not have alt attributes with the topic words." );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set to keyword", function() {
@@ -72,6 +72,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page contain alt attributes with the topic words." );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set to keyword for 1 of 2 images", function() {
@@ -87,6 +88,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page contain alt attributes with the topic words." );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set to keyword for 1 of 2 images", function() {
@@ -102,5 +104,6 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page contain alt attributes with the topic words." );
 	} );
 } );

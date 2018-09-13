@@ -5,6 +5,62 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.39.2 September 6th, 2018
+
+### Bugs:
+
+* Fixes a bug where the readability analysis would not show the correct scores for cornerstone content.
+* Fixes a bug where switching off the SEO analysis would stop the readability analysis from loading.
+
+## 1.39.1 September 5th, 2018
+
+* Fixes a bug where our JavaScript memory usage would increase indefinitely. This could result in a browser crash after a long enough period.
+
+## 1.39 August 28th, 2018
+
+### Enhancements
+* Adds readability analysis for Polish.
+* Adds prominent words for Polish.
+
+## 1.38.4 September 5th, 2018
+
+### Bugs:
+
+* Fixes a bug where our JavaScript memory usage would increase indefinitely. This could result in a browser crash after a long enough period.
+
+## 1.38.3 August 24th, 2018
+
+### Bugs:
+
+* Fixes an issue where the worker communication wouldn't work when the script was minified.
+
+## 1.38.2 August 24th, 2018
+
+### Bugs:
+
+* Fixes an issue where we would show bad results for an empty Paper.
+
+### Enhancements:
+
+* Automatically parse and serialize all value objects send to and from the worker. This means `Paper` objects can be passed to the analysis wrapper.
+* Add a method to the worker that can run any arbitrary research, `runResearch`.
+* Add a priority system to the Scheduler, this means extensions run before the analysis to make sure they are loaded.
+* Adds support for related keywords.
+
+## 1.38.1 August 21st, 2018
+* Improves web worker functionality.
+
+## 1.38.0 August 21st, 2018
+* Adds basic web worker functionality.
+
+## 1.37.0 August 13th, 2018
+* Updates the font size of the snippet title measure element to correctly mimic Google's desktop snippet title.
+* Deprecates the switch assessor.
+
+## 1.36.1 August 6th, 2018
+### Changed
+* Increased the debounce delay in the App to make sure the refresh is triggered less often.
+
 ## 1.36.0 July 24th, 2018
 ### Added
 * Adds a link to a relevant article about re-using keywords to the feedback of the assessment that checks if the keyword was used previously.

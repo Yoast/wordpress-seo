@@ -1,16 +1,16 @@
-var Researcher = require( "./researcher.js" );
-var MissingArgument = require( "./errors/missingArgument" );
-var removeDuplicateMarks = require( "./markers/removeDuplicateMarks" );
-var AssessmentResult = require( "./values/AssessmentResult.js" );
-var showTrace = require( "./helpers/errors.js" ).showTrace;
+import Researcher from "./researcher.js";
+import MissingArgument from "./errors/missingArgument";
+import removeDuplicateMarks from "./markers/removeDuplicateMarks";
+import AssessmentResult from "./values/AssessmentResult.js";
+import { showTrace } from "./helpers/errors.js";
 
-var isUndefined = require( "lodash/isUndefined" );
-var isFunction = require( "lodash/isFunction" );
-var forEach = require( "lodash/forEach" );
-var filter = require( "lodash/filter" );
-var map = require( "lodash/map" );
-var findIndex = require( "lodash/findIndex" );
-var find = require( "lodash/find" );
+import { isUndefined } from "lodash-es";
+import { isFunction } from "lodash-es";
+import { forEach } from "lodash-es";
+import { filter } from "lodash-es";
+import { map } from "lodash-es";
+import { findIndex } from "lodash-es";
+import { find } from "lodash-es";
 
 var ScoreRating = 9;
 
@@ -20,6 +20,7 @@ var ScoreRating = 9;
  * @param {Object} i18n The i18n object used for translations.
  * @param {Object} options The options for this assessor.
  * @param {Object} options.marker The marker to pass the list of marks to.
+ * @param {Object} options.researcher The researcher to use in the assessor.
  *
  * @constructor
  */
@@ -28,6 +29,10 @@ var Assessor = function( i18n, options ) {
 	this._assessments = [];
 
 	this._options = options || {};
+
+	if ( ! isUndefined( this._options.researcher ) ) {
+		this._researcher = this._options.researcher;
+	}
 };
 
 /**
@@ -75,10 +80,6 @@ Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
  * @returns {boolean} Whether or not the assessment has a marker.
  */
 Assessor.prototype.hasMarker = function( assessment ) {
-	if ( ! isUndefined( window ) && ! isUndefined( window.yoastHideMarkers ) && window.yoastHideMarkers ) {
-		return false;
-	}
-
 	return isFunction( this._options.marker ) && ( assessment.hasOwnProperty( "getMarks" ) || typeof assessment.getMarks === "function" );
 };
 
@@ -112,8 +113,7 @@ Assessor.prototype.getMarker = function( assessment, paper, researcher ) {
 	var specificMarker = this._options.marker;
 
 	return function() {
-		var marks = assessment.getMarks( paper, researcher );
-
+		let marks = assessment.getMarks( paper, researcher );
 		marks = removeDuplicateMarks( marks );
 
 		specificMarker( paper, marks );
@@ -127,16 +127,21 @@ Assessor.prototype.getMarker = function( assessment, paper, researcher ) {
  * @returns {void}
  */
 Assessor.prototype.assess = function( paper ) {
-	var researcher = new Researcher( paper );
+	if ( isUndefined( this._researcher ) ) {
+		this._researcher = new Researcher( paper );
+	} else {
+		this._researcher.setPaper( paper );
+	}
+
 	var assessments = this.getAvailableAssessments();
 	this.results = [];
 
 	assessments = filter( assessments, function( assessment ) {
-		return this.isApplicable( assessment, paper, researcher );
+		return this.isApplicable( assessment, paper, this._researcher );
 	}.bind( this ) );
 
 	this.setHasMarkers( false );
-	this.results = map( assessments, this.executeAssessment.bind( this, paper, researcher ) );
+	this.results = map( assessments, this.executeAssessment.bind( this, paper, this._researcher ) );
 
 	this._lastPaper = paper;
 };
@@ -174,6 +179,11 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 	try {
 		result = assessment.getResult( paper, researcher, this.i18n );
 		result.setIdentifier( assessment.identifier );
+
+		if ( result.hasMarks() ) {
+			result.marks = assessment.getMarks( paper, researcher );
+			result.marks = removeDuplicateMarks( result.marks );
+		}
 
 		if ( result.hasMarks() && this.hasMarker( assessment ) ) {
 			this.setHasMarkers( true );
@@ -295,4 +305,4 @@ Assessor.prototype.getApplicableAssessments = function() {
 };
 
 
-module.exports = Assessor;
+export default Assessor;

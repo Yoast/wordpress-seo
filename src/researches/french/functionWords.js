@@ -1,4 +1,5 @@
-let transitionWords = require( "./transitionWords.js" )().singleWords;
+import transitionWordsFactory from "./transitionWords.js";
+let transitionWords = transitionWordsFactory().singleWords;
 
 /**
  * Returns an object with exceptions for the prominent words researcher
@@ -225,7 +226,12 @@ let titlesPreceding = [ "mme", "mmes", "mlle", "mlles", "mm", "dr", "pr" ];
 
 let titlesFollowing = [ "jr", "sr" ];
 
-module.exports = function() {
+/**
+ * Returns a list of function words for French.
+ *
+ * @returns {Object} French function words.
+ */
+export default function() {
 	return {
 		// These word categories are filtered at the ending of word combinations.
 		filteredAtEnding: [].concat( ordinalNumerals, otherAuxiliariesInfinitive, delexicalizedVerbsInfinitive, copulaInfinitive,
@@ -259,6 +265,6 @@ module.exports = function() {
 			prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
 			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections,
 			generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords,
-			titlesPreceding, titlesFollowing ),
+			titlesPreceding, titlesFollowing, personalPronounsStressed ),
 	};
-};
+}
