@@ -28,12 +28,12 @@ class Progressbar extends React.Component {
 	 * @returns {JSX.Element} The rendered fallback progress bar.
 	 */
 	fallback( value, max ) {
-		let progress = ( value / max ) * 100;
+		const progress = ( value / max ) * 100;
 
 		this.props.optionalAttributes.className = this.props.optionalAttributes.className + "--fallback";
 
 		return (
-			<div {...this.props.optionalAttributes} style={ { width: progress + "%" } }></div>
+			<div { ...this.props.optionalAttributes } style={ { width: progress + "%" } } />
 		);
 	}
 
@@ -49,11 +49,12 @@ class Progressbar extends React.Component {
 		}
 
 		return (
-			<progress name={this.props.name}
-					  value={this.props.value}
-					  min={this.props.min}
-					  max={this.props.max}
-					  {...this.props.optionalAttributes}
+			<progress
+				name={ this.props.name }
+				value={ this.props.value }
+				min={ this.props.min }
+				max={ this.props.max }
+				{ ...this.props.optionalAttributes }
 			/>
 		);
 	}

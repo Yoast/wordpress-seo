@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SnippetPreview changes the colors of the description if it was generated 1`] = `
-.c13 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -9,152 +9,22 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   box-sizing: border-box;
 }
 
-.c14 {
+.c2 {
   width: 600px;
 }
 
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -169,17 +39,17 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c6 {
   white-space: nowrap;
 }
 
-.c19 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -189,7 +59,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   font-size: 14px;
 }
 
-.c20 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -202,15 +72,15 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   max-width: 100%;
 }
 
-.c22 {
-  color: #777;
+.c10 {
+  color: #545454;
   cursor: pointer;
   position: relative;
   max-width: 600px;
   font-size: 13px;
 }
 
-.c21 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -220,80 +90,13 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-button__helpDiv"
-        aria-expanded={false}
-        aria-label="yoast-help-text"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
   <div
-    className="c12 c13"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c14"
+      className="c2"
       width={600}
     >
       <div
@@ -314,16 +117,16 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           SEO title preview:
         </span>
         <div
-          className="c15"
-          onClick={[Function]}
+          className="c3"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c4 c5"
           >
             <span
-              className="c18"
+              className="c6"
             >
               Title
             </span>
@@ -344,19 +147,19 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           Url preview:
         </span>
         <div
-          className="c19"
+          className="c7"
         >
           <div
-            className="c20"
-            onClick={[Function]}
+            className="c8"
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
         </div>
         <div
-          className="c21"
+          className="c9"
         />
       </div>
       <div
@@ -377,11 +180,10 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           Meta description preview:
         </span>
         <div
-          className="c22"
-          color="#777"
-          onClick={[Function]}
+          className="c10"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -392,7 +194,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 `;
 
 exports[`SnippetPreview highlights keywords even if they are transliterated 1`] = `
-.c13 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -400,152 +202,22 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   box-sizing: border-box;
 }
 
-.c14 {
+.c2 {
   width: 600px;
 }
 
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -560,17 +232,17 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c6 {
   white-space: nowrap;
 }
 
-.c19 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -580,7 +252,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   font-size: 14px;
 }
 
-.c20 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -593,7 +265,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   max-width: 100%;
 }
 
-.c22 {
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -601,7 +273,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   font-size: 13px;
 }
 
-.c21 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -611,80 +283,13 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-button__helpDiv"
-        aria-expanded={false}
-        aria-label="yoast-help-text"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
   <div
-    className="c12 c13"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c14"
+      className="c2"
       width={600}
     >
       <div
@@ -705,16 +310,16 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           SEO title preview:
         </span>
         <div
-          className="c15"
-          onClick={[Function]}
+          className="c3"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c4 c5"
           >
             <span
-              className="c18"
+              className="c6"
             >
               Title
             </span>
@@ -735,19 +340,19 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           Url preview:
         </span>
         <div
-          className="c19"
+          className="c7"
         >
           <div
-            className="c20"
-            onClick={[Function]}
+            className="c8"
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
         </div>
         <div
-          className="c21"
+          className="c9"
         />
       </div>
       <div
@@ -768,11 +373,10 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           Meta description preview:
         </span>
         <div
-          className="c22"
-          color="#545454"
-          onClick={[Function]}
+          className="c10"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Something with a transliterated
           <strong>
@@ -786,7 +390,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 `;
 
 exports[`SnippetPreview highlights keywords inside the description and url 1`] = `
-.c13 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -794,152 +398,22 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   box-sizing: border-box;
 }
 
-.c14 {
+.c2 {
   width: 600px;
 }
 
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -954,17 +428,17 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c6 {
   white-space: nowrap;
 }
 
-.c19 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -974,7 +448,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   font-size: 14px;
 }
 
-.c20 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -987,7 +461,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   max-width: 100%;
 }
 
-.c22 {
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -995,7 +469,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   font-size: 13px;
 }
 
-.c21 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -1005,80 +479,13 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-button__helpDiv"
-        aria-expanded={false}
-        aria-label="yoast-help-text"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
   <div
-    className="c12 c13"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c14"
+      className="c2"
       width={600}
     >
       <div
@@ -1099,16 +506,16 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           SEO title preview:
         </span>
         <div
-          className="c15"
-          onClick={[Function]}
+          className="c3"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c4 c5"
           >
             <span
-              className="c18"
+              className="c6"
             >
               Title
             </span>
@@ -1129,19 +536,19 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           Url preview:
         </span>
         <div
-          className="c19"
+          className="c7"
         >
           <div
-            className="c20"
-            onClick={[Function]}
+            className="c8"
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/this-keyword-url/
           </div>
         </div>
         <div
-          className="c21"
+          className="c9"
         />
       </div>
       <div
@@ -1162,11 +569,10 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           Meta description preview:
         </span>
         <div
-          className="c22"
-          color="#545454"
-          onClick={[Function]}
+          className="c10"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Something with a
           <strong>
@@ -1180,153 +586,22 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 `;
 
 exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] = `
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
   font-size: 14px;
 }
 
-.c14 {
+.c2 {
   cursor: pointer;
   position: relative;
 }
 
-.c16 {
+.c4 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -1341,22 +616,22 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c3 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c5 {
   display: inline-block;
+  font-size: 16px;
   line-height: 1.2em;
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 16px;
 }
 
-.c19 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -1366,7 +641,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   font-size: 14px;
 }
 
-.c20 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -1379,7 +654,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   max-width: 100%;
 }
 
-.c23 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1387,29 +662,22 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   font-size: 13px;
 }
 
-.c22 {
-  max-height: 4em;
-  padding-bottom: 3px;
-}
-
-.c24 {
-  overflow: hidden;
+.c10 {
   font-size: 14px;
   line-height: 20px;
-  max-height: calc( 4em + 3px );
 }
 
-.c13 {
+.c1 {
   padding: 8px 16px;
 }
 
-.c21 {
+.c9 {
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
 }
 
-.c18 {
+.c6 {
   background-size: 100% 100%;
   display: inline-block;
   height: 12px;
@@ -1420,81 +688,14 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   background-image: url( data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAQAAABLCVATAAABr0lEQVR4AbWWJYCUURhFD04Zi7hrLzgFd4nzV9x6wKHinmYb7g4zq71gIw2LWBnZ3Q8df/fh96Tn/t2HVIw4CVKk+fSFNCkSxInxW1pFkhLmoMRjVvFLmkEX5ocuZuBVPw5jv8hh+iEU5QEmuMK+prz7RN3dPMMEGQYzxpH/lGjzou5jgl7mAvOdZfcbF+jbm3MAbFZ7VX9SJnlL1D8UMyjLe+BrAYDb+jJUr59JrlNWRtcqX9GkrPCR4QBAf4qYJAkQoyQrbKKs8RiaEjEI0GvvQ1mLMC9xaBFFBaZS1TbMSwJSomg39erDF+TxpCCNOXjGQJTCvG6qn4ZPzkcxA61Tjhaf4KMj+6Q3XvW6Lopraa8IozRQxIi0a7NXorULc5JyHX/3F3q+0PsFYytVTaGgjz/AvCyiegE69IUsPxHNBMpa738i6tGWlzkAABjKe/+j9YeRHGVd9oWRnwe2ewDASp/L/UqoPQ5AmFeYZMavBP8dAJz0GWWDHQlzXApMdz4KYUfKICcxkKeOfGmQyrIPcgE9m+g/+kT812/Nr3+0kqzitxQjoKXh6xfor99nlEdFjyvH15gAAAAASUVORK5CYII= );
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-button__helpDiv"
-        aria-expanded={false}
-        aria-label="yoast-help-text"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
   <div
-    className="c12"
+    className="c0"
     onMouseLeave={undefined}
     width={640}
   >
     <div
-      className="c13"
+      className="c1"
     >
       <span
         className="screen-reader-text"
@@ -1511,16 +712,16 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         SEO title preview:
       </span>
       <div
-        className="c14"
-        onClick={[Function]}
+        className="c2"
+        onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
+        onMouseUp={[Function]}
       >
         <div
-          className="c15 c16"
+          className="c3 c4"
         >
           <span
-            className="c17"
+            className="c5"
           >
             Title
           </span>
@@ -1541,26 +742,26 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         Url preview:
       </span>
       <div
-        className="c18"
+        className="c6"
       />
       <div
-        className="c19"
+        className="c7"
       >
         <div
-          className="c20"
-          onClick={[Function]}
+          className="c8"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           https://example.org
         </div>
       </div>
     </div>
     <hr
-      className="c21"
+      className="c9"
     />
     <div
-      className="c13"
+      className="c1"
     >
       <span
         className="screen-reader-text"
@@ -1577,15 +778,13 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         Meta description preview:
       </span>
       <div
-        className="c22 c23"
-        color="#545454"
-        onClick={[Function]}
+        className="c10 c11"
+        onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
+        onMouseUp={[Function]}
       >
         <div
-          className="c24 c22 c23"
-          color="#545454"
+          className="c10 c11"
         >
           Description
         </div>
@@ -1596,153 +795,22 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
 `;
 
 exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
   font-size: 14px;
 }
 
-.c14 {
+.c2 {
   cursor: pointer;
   position: relative;
 }
 
-.c16 {
+.c4 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -1757,22 +825,22 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c3 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c5 {
   display: inline-block;
+  font-size: 16px;
   line-height: 1.2em;
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 16px;
 }
 
-.c18 {
+.c6 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -1782,7 +850,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   font-size: 14px;
 }
 
-.c19 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -1795,7 +863,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   max-width: 100%;
 }
 
-.c22 {
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1803,103 +871,29 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   font-size: 13px;
 }
 
-.c21 {
-  max-height: 4em;
-  padding-bottom: 3px;
-}
-
-.c23 {
-  overflow: hidden;
+.c9 {
   font-size: 14px;
   line-height: 20px;
-  max-height: calc( 4em + 3px );
 }
 
-.c13 {
+.c1 {
   padding: 8px 16px;
 }
 
-.c20 {
+.c8 {
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-button__helpDiv"
-        aria-expanded={false}
-        aria-label="yoast-help-text"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
   <div
-    className="c12"
+    className="c0"
     onMouseLeave={undefined}
     width={640}
   >
     <div
-      className="c13"
+      className="c1"
     >
       <span
         className="screen-reader-text"
@@ -1916,16 +910,16 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         SEO title preview:
       </span>
       <div
-        className="c14"
-        onClick={[Function]}
+        className="c2"
+        onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
+        onMouseUp={[Function]}
       >
         <div
-          className="c15 c16"
+          className="c3 c4"
         >
           <span
-            className="c17"
+            className="c5"
           >
             Title
           </span>
@@ -1946,23 +940,23 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         Url preview:
       </span>
       <div
-        className="c18"
+        className="c6"
       >
         <div
-          className="c19"
-          onClick={[Function]}
+          className="c7"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           https://example.org
         </div>
       </div>
     </div>
     <hr
-      className="c20"
+      className="c8"
     />
     <div
-      className="c13"
+      className="c1"
     >
       <span
         className="screen-reader-text"
@@ -1979,15 +973,13 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c21 c22"
-        color="#545454"
-        onClick={[Function]}
+        className="c9 c10"
+        onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
+        onMouseUp={[Function]}
       >
         <div
-          className="c23 c21 c22"
-          color="#545454"
+          className="c9 c10"
         >
           Description
         </div>
@@ -1998,153 +990,22 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 `;
 
 exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin: 0 20px 10px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
   font-size: 14px;
 }
 
-.c14 {
+.c2 {
   cursor: pointer;
   position: relative;
 }
 
-.c16 {
+.c4 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -2159,22 +1020,22 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c3 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c5 {
   display: inline-block;
+  font-size: 16px;
   line-height: 1.2em;
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 16px;
 }
 
-.c18 {
+.c6 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2184,7 +1045,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   font-size: 14px;
 }
 
-.c19 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2197,7 +1058,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   max-width: 100%;
 }
 
-.c22 {
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2205,103 +1066,29 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   font-size: 13px;
 }
 
-.c21 {
-  max-height: 4em;
-  padding-bottom: 3px;
-}
-
-.c23 {
-  overflow: hidden;
+.c9 {
   font-size: 14px;
   line-height: 20px;
-  max-height: calc( 4em + 3px );
 }
 
-.c13 {
+.c1 {
   padding: 8px 16px;
 }
 
-.c20 {
+.c8 {
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-button__helpDiv"
-        aria-expanded={false}
-        aria-label="yoast-help-text"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
   <div
-    className="c12"
+    className="c0"
     onMouseLeave={undefined}
     width={640}
   >
     <div
-      className="c13"
+      className="c1"
     >
       <span
         className="screen-reader-text"
@@ -2318,16 +1105,16 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         SEO title preview:
       </span>
       <div
-        className="c14"
-        onClick={[Function]}
+        className="c2"
+        onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
+        onMouseUp={[Function]}
       >
         <div
-          className="c15 c16"
+          className="c3 c4"
         >
           <span
-            className="c17"
+            className="c5"
           >
             Title
           </span>
@@ -2348,23 +1135,23 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         Url preview:
       </span>
       <div
-        className="c18"
+        className="c6"
       >
         <div
-          className="c19"
-          onClick={[Function]}
+          className="c7"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           https://example.org
         </div>
       </div>
     </div>
     <hr
-      className="c20"
+      className="c8"
     />
     <div
-      className="c13"
+      className="c1"
     >
       <span
         className="screen-reader-text"
@@ -2381,15 +1168,13 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c21 c22"
-        color="#545454"
-        onClick={[Function]}
+        className="c9 c10"
+        onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
+        onMouseUp={[Function]}
       >
         <div
-          className="c23 c21 c22"
-          color="#545454"
+          className="c9 c10"
         >
           Description
         </div>
@@ -2400,7 +1185,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 `;
 
 exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
-.c13 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -2408,152 +1193,22 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   box-sizing: border-box;
 }
 
-.c14 {
+.c2 {
   width: 600px;
 }
 
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -2568,17 +1223,17 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c6 {
   white-space: nowrap;
 }
 
-.c19 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2588,7 +1243,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   font-size: 14px;
 }
 
-.c20 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2601,7 +1256,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   max-width: 100%;
 }
 
-.c22 {
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2609,7 +1264,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   font-size: 13px;
 }
 
-.c21 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -2619,80 +1274,13 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-button__helpDiv"
-        aria-expanded={false}
-        aria-label="yoast-help-text"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
   <div
-    className="c12 c13"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c14"
+      className="c2"
       width={600}
     >
       <div
@@ -2713,16 +1301,16 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c15"
-          onClick={[Function]}
+          className="c3"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c4 c5"
           >
             <span
-              className="c18"
+              className="c6"
             >
               Title
             </span>
@@ -2743,19 +1331,19 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           Url preview:
         </span>
         <div
-          className="c19"
+          className="c7"
         >
           <div
-            className="c20"
-            onClick={[Function]}
+            className="c8"
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
         </div>
         <div
-          className="c21"
+          className="c9"
         />
       </div>
       <div
@@ -2776,11 +1364,10 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c22"
-          color="#545454"
-          onClick={[Function]}
+          className="c10"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -2791,7 +1378,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 `;
 
 exports[`SnippetPreview renders a caret on activation 1`] = `
-.c13 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -2799,152 +1386,22 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   box-sizing: border-box;
 }
 
-.c14 {
+.c2 {
   width: 600px;
 }
 
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c16 {
+.c4 {
   cursor: pointer;
   position: relative;
 }
 
-.c18 {
+.c6 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -2959,17 +1416,17 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c5 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c19 {
+.c7 {
   white-space: nowrap;
 }
 
-.c20 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2979,7 +1436,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   font-size: 14px;
 }
 
-.c21 {
+.c9 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2992,7 +1449,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   max-width: 100%;
 }
 
-.c23 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -3000,7 +1457,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c10 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -3010,92 +1467,25 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c15::before {
+.c3::before {
   display: block;
   position: absolute;
   top: -3px;
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
   background-size: 25px;
   content: "";
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-button__helpDiv"
-        aria-expanded={false}
-        aria-label="yoast-help-text"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
   <div
-    className="c12 c13"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c14"
+      className="c2"
       width={600}
     >
       <div
@@ -3116,16 +1506,16 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c15 c16"
-          onClick={[Function]}
+          className="c3 c4"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c17 c18"
+            className="c5 c6"
           >
             <span
-              className="c19"
+              className="c7"
             >
               Title
             </span>
@@ -3146,19 +1536,19 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           Url preview:
         </span>
         <div
-          className="c20"
+          className="c8"
         >
           <div
-            className="c21"
-            onClick={[Function]}
+            className="c9"
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
         </div>
         <div
-          className="c22"
+          className="c10"
         />
       </div>
       <div
@@ -3179,11 +1569,10 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c23"
-          color="#545454"
-          onClick={[Function]}
+          className="c11"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -3194,7 +1583,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 `;
 
 exports[`SnippetPreview renders a caret on activation 2`] = `
-.c13 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -3202,152 +1591,22 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   box-sizing: border-box;
 }
 
-.c14 {
+.c2 {
   width: 600px;
 }
 
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -3362,17 +1621,17 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c6 {
   white-space: nowrap;
 }
 
-.c19 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -3382,7 +1641,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   font-size: 14px;
 }
 
-.c20 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -3395,7 +1654,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   max-width: 100%;
 }
 
-.c23 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -3403,7 +1662,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   font-size: 13px;
 }
 
-.c21 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -3413,92 +1672,25 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c22::before {
+.c10::before {
   display: block;
   position: absolute;
   top: -3px;
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
   background-size: 25px;
   content: "";
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-button__helpDiv"
-        aria-expanded={false}
-        aria-label="yoast-help-text"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
   <div
-    className="c12 c13"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c14"
+      className="c2"
       width={600}
     >
       <div
@@ -3519,16 +1711,16 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           SEO title preview:
         </span>
         <div
-          className="c15"
-          onClick={[Function]}
+          className="c3"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c4 c5"
           >
             <span
-              className="c18"
+              className="c6"
             >
               Title
             </span>
@@ -3549,19 +1741,19 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           Url preview:
         </span>
         <div
-          className="c19"
+          className="c7"
         >
           <div
-            className="c20"
-            onClick={[Function]}
+            className="c8"
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
         </div>
         <div
-          className="c21"
+          className="c9"
         />
       </div>
       <div
@@ -3582,11 +1774,10 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           Meta description preview:
         </span>
         <div
-          className="c22 c23"
-          color="#545454"
-          onClick={[Function]}
+          className="c10 c11"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -3597,7 +1788,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 `;
 
 exports[`SnippetPreview renders a caret on activation 3`] = `
-.c13 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -3605,152 +1796,22 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   box-sizing: border-box;
 }
 
-.c14 {
+.c2 {
   width: 600px;
 }
 
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -3765,17 +1826,17 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c6 {
   white-space: nowrap;
 }
 
-.c20 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -3785,7 +1846,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   font-size: 14px;
 }
 
-.c21 {
+.c9 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -3798,7 +1859,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   max-width: 100%;
 }
 
-.c23 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -3806,7 +1867,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c10 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -3816,92 +1877,25 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c19::before {
+.c7::before {
   display: block;
   position: absolute;
   top: -3px;
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
   background-size: 25px;
   content: "";
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-button__helpDiv"
-        aria-expanded={false}
-        aria-label="yoast-help-text"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
   <div
-    className="c12 c13"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c14"
+      className="c2"
       width={600}
     >
       <div
@@ -3922,16 +1916,16 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           SEO title preview:
         </span>
         <div
-          className="c15"
-          onClick={[Function]}
+          className="c3"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c4 c5"
           >
             <span
-              className="c18"
+              className="c6"
             >
               Title
             </span>
@@ -3952,19 +1946,19 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           Url preview:
         </span>
         <div
-          className="c19 c20"
+          className="c7 c8"
         >
           <div
-            className="c21"
-            onClick={[Function]}
+            className="c9"
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
         </div>
         <div
-          className="c22"
+          className="c10"
         />
       </div>
       <div
@@ -3985,11 +1979,10 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           Meta description preview:
         </span>
         <div
-          className="c23"
-          color="#545454"
-          onClick={[Function]}
+          className="c11"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -4000,7 +1993,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 `;
 
 exports[`SnippetPreview renders a caret on hover 1`] = `
-.c13 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -4008,152 +2001,22 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   box-sizing: border-box;
 }
 
-.c14 {
+.c2 {
   width: 600px;
 }
 
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c16 {
+.c4 {
   cursor: pointer;
   position: relative;
 }
 
-.c18 {
+.c6 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -4168,17 +2031,17 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c5 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c19 {
+.c7 {
   white-space: nowrap;
 }
 
-.c20 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -4188,7 +2051,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   font-size: 14px;
 }
 
-.c21 {
+.c9 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -4201,7 +2064,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   max-width: 100%;
 }
 
-.c23 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -4209,7 +2072,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c10 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -4219,92 +2082,25 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c15::before {
+.c3::before {
   display: block;
   position: absolute;
   top: -3px;
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
   background-size: 25px;
   content: "";
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-button__helpDiv"
-        aria-expanded={false}
-        aria-label="yoast-help-text"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
   <div
-    className="c12 c13"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c14"
+      className="c2"
       width={600}
     >
       <div
@@ -4325,16 +2121,16 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c15 c16"
-          onClick={[Function]}
+          className="c3 c4"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c17 c18"
+            className="c5 c6"
           >
             <span
-              className="c19"
+              className="c7"
             >
               Title
             </span>
@@ -4355,19 +2151,19 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
           Url preview:
         </span>
         <div
-          className="c20"
+          className="c8"
         >
           <div
-            className="c21"
-            onClick={[Function]}
+            className="c9"
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
         </div>
         <div
-          className="c22"
+          className="c10"
         />
       </div>
       <div
@@ -4388,11 +2184,10 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c23"
-          color="#545454"
-          onClick={[Function]}
+          className="c11"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -4403,7 +2198,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 `;
 
 exports[`SnippetPreview renders a caret on hover 2`] = `
-.c13 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -4411,152 +2206,22 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   box-sizing: border-box;
 }
 
-.c14 {
+.c2 {
   width: 600px;
 }
 
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -4571,17 +2236,17 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c6 {
   white-space: nowrap;
 }
 
-.c19 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -4591,7 +2256,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   font-size: 14px;
 }
 
-.c20 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -4604,7 +2269,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   max-width: 100%;
 }
 
-.c23 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -4612,7 +2277,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   font-size: 13px;
 }
 
-.c21 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -4622,92 +2287,25 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c22::before {
+.c10::before {
   display: block;
   position: absolute;
   top: -3px;
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
   background-size: 25px;
   content: "";
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-button__helpDiv"
-        aria-expanded={false}
-        aria-label="yoast-help-text"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
   <div
-    className="c12 c13"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c14"
+      className="c2"
       width={600}
     >
       <div
@@ -4728,16 +2326,16 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
           SEO title preview:
         </span>
         <div
-          className="c15"
-          onClick={[Function]}
+          className="c3"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c4 c5"
           >
             <span
-              className="c18"
+              className="c6"
             >
               Title
             </span>
@@ -4758,19 +2356,19 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
           Url preview:
         </span>
         <div
-          className="c19"
+          className="c7"
         >
           <div
-            className="c20"
-            onClick={[Function]}
+            className="c8"
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
         </div>
         <div
-          className="c21"
+          className="c9"
         />
       </div>
       <div
@@ -4791,11 +2389,10 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
           Meta description preview:
         </span>
         <div
-          className="c22 c23"
-          color="#545454"
-          onClick={[Function]}
+          className="c10 c11"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -4806,7 +2403,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 `;
 
 exports[`SnippetPreview renders a caret on hover 3`] = `
-.c13 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -4814,152 +2411,22 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   box-sizing: border-box;
 }
 
-.c14 {
+.c2 {
   width: 600px;
 }
 
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -4974,17 +2441,17 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c6 {
   white-space: nowrap;
 }
 
-.c20 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -4994,7 +2461,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   font-size: 14px;
 }
 
-.c21 {
+.c9 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -5007,7 +2474,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   max-width: 100%;
 }
 
-.c23 {
+.c11 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -5015,7 +2482,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c10 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -5025,92 +2492,25 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   vertical-align: top;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c19::before {
+.c7::before {
   display: block;
   position: absolute;
   top: -3px;
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
   background-size: 25px;
   content: "";
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-button__helpDiv"
-        aria-expanded={false}
-        aria-label="yoast-help-text"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
   <div
-    className="c12 c13"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c14"
+      className="c2"
       width={600}
     >
       <div
@@ -5131,16 +2531,16 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
           SEO title preview:
         </span>
         <div
-          className="c15"
-          onClick={[Function]}
+          className="c3"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c4 c5"
           >
             <span
-              className="c18"
+              className="c6"
             >
               Title
             </span>
@@ -5161,19 +2561,19 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
           Url preview:
         </span>
         <div
-          className="c19 c20"
+          className="c7 c8"
         >
           <div
-            className="c21"
-            onClick={[Function]}
+            className="c9"
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
         </div>
         <div
-          className="c22"
+          className="c10"
         />
       </div>
       <div
@@ -5194,11 +2594,10 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
           Meta description preview:
         </span>
         <div
-          className="c23"
-          color="#545454"
-          onClick={[Function]}
+          className="c11"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -5209,7 +2608,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 `;
 
 exports[`SnippetPreview shows the date if a date is passed 1`] = `
-.c13 {
+.c1 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -5217,152 +2616,22 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   box-sizing: border-box;
 }
 
-.c14 {
+.c2 {
   width: 600px;
 }
 
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
 .c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c3 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c5 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -5377,17 +2646,17 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c4 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c6 {
   white-space: nowrap;
 }
 
-.c19 {
+.c7 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -5397,7 +2666,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   font-size: 14px;
 }
 
-.c20 {
+.c8 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -5410,7 +2679,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   max-width: 100%;
 }
 
-.c22 {
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -5418,7 +2687,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   font-size: 13px;
 }
 
-.c21 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -5428,84 +2697,17 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   vertical-align: top;
 }
 
-.c23 {
+.c11 {
   color: #808080;
 }
 
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
 <section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-button__helpDiv"
-        aria-expanded={false}
-        aria-label="yoast-help-text"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
   <div
-    className="c12 c13"
+    className="c0 c1"
     width={640}
   >
     <div
-      className="c14"
+      className="c2"
       width={600}
     >
       <div
@@ -5526,16 +2728,16 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c15"
-          onClick={[Function]}
+          className="c3"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c4 c5"
           >
             <span
-              className="c18"
+              className="c6"
             >
               Title
             </span>
@@ -5556,19 +2758,19 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
           Url preview:
         </span>
         <div
-          className="c19"
+          className="c7"
         >
           <div
-            className="c20"
-            onClick={[Function]}
+            className="c8"
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
         </div>
         <div
-          className="c21"
+          className="c9"
         />
       </div>
       <div
@@ -5589,14 +2791,13 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c22"
-          color="#545454"
-          onClick={[Function]}
+          className="c10"
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <span
-            className="c23"
+            className="c11"
           >
             Today
              - 

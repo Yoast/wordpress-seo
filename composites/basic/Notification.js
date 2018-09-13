@@ -77,7 +77,7 @@ const StyledIcon = styled( SvgIcon )`
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled notification.
+ * @returns {ReactElement} styled notification.
  */
 function Notification( props ) {
 	const Heading = `${ props.headingLevel }`;
@@ -92,7 +92,7 @@ function Notification( props ) {
 			/> }
 			<NotificationContent>
 				<Heading>{ props.title }</Heading>
-				<p className="prova" dangerouslySetInnerHTML={ { __html: props.html } }/>
+				<p className="prova" dangerouslySetInnerHTML={ { __html: props.html } } />
 			</NotificationContent>
 			{ props.isDismissable && <DismissButton
 				onClick={ props.onClick }

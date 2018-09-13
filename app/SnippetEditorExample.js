@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import debounce from "lodash/debounce";
+import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment";
 
 // Internal dependencies.
 import SnippetEditor from "../composites/Plugin/SnippetEditor/components/SnippetEditor";
@@ -9,25 +10,38 @@ import SnippetEditor from "../composites/Plugin/SnippetEditor/components/Snippet
 const Container = styled.div`
 	background-color: white;
 	margin: 5em auto 0;
+	padding: 0 0 10px;
 `;
 
 const replacementVariables = [
 	{
 		name: "title",
+		label: "Title",
 		value: "Title",
+		description: "This is the title of your post",
 	},
 	{
 		name: "post_type",
+		label: "Post type",
 		value: "Gallery",
+		description: "This is the post type of your post",
 	},
 	{
-		name: "snippet",
-		value: "The snippet of your post.",
+		name: "sep",
+		label: "Separator",
+		value: " - ",
+		description: "A separator that clarifies your search result snippet",
 	},
 	{
-		name: "snippet_manual",
-		value: "The manual snippet of your post.",
+		name: "term404",
+		label: "Error 404 slug",
+		value: "Error 404 slug",
+		description: "The slug which caused the error 404",
 	},
+];
+const recommendedReplacementVariables = [
+	replacementVariables[ 0 ].name,
+	replacementVariables[ 1 ].name,
 ];
 
 export default class SnippetEditorExample extends Component {
@@ -40,6 +54,9 @@ export default class SnippetEditorExample extends Component {
 	 */
 	constructor( props ) {
 		super( props );
+
+		const descriptionLengthAssessment = new MetaDescriptionLengthAssessment();
+		this.maximumMetaDescriptionLength = descriptionLengthAssessment.getMaximumLength();
 
 		this.state = {
 			title: "Welcome to the Gutenberg Editor - Local WordPress Dev. Snippet Title Snippet" +
@@ -68,61 +85,12 @@ export default class SnippetEditorExample extends Component {
 			},
 			breadcrumbs: [ "hallo", "is", "it", "me", "you" ],
 			isAmp: true,
-			isEditorOpen: false,
+			isOpen: false,
 			currentTitleLength: 0,
 			currentDescriptionLength: 0,
 		};
 
-		this.onMouseOver = this.onMouseOver.bind( this );
-		this.onMouseLeave = this.onMouseLeave.bind( this );
 		this.onChangedData = debounce( this.onChangedData.bind( this ), 150 );
-	}
-
-	/**
-	 * Handles the on mouse over for a field.
-	 *
-	 * @param {string} field The field that is hovered over.
-	 *
-	 * @returns {void}
-	 */
-	onMouseOver( field ) {
-		if ( this.state.hoveredField === field ) {
-			return;
-		}
-
-		this.setState( {
-			hoveredField: field,
-		} );
-	}
-
-	/**
-	 * Handles the on mouse leave for a field.
-	 *
-	 * @param {string} field The field that is left.
-	 *
-	 * @returns {void}
-	 */
-	onMouseLeave( field ) {
-		if ( field && this.state.hoveredField !== field ) {
-			return;
-		}
-
-		this.setState( {
-			hoveredField: "",
-		} );
-	}
-
-	/**
-	 * Handles switching the mode.
-	 *
-	 * @param {string} mode The mode to switch to.
-	 *
-	 * @returns {void}
-	 */
-	switch( mode ) {
-		this.setState( {
-			mode,
-		} );
 	}
 
 	/**
@@ -185,9 +153,9 @@ export default class SnippetEditorExample extends Component {
 		};
 
 		let descriptionLengthProgress = {
-			max: 320,
+			max: this.maximumMetaDescriptionLength,
 			actual: this.state.currentDescriptionLength,
-			score: this.state.currentDescriptionLength > 160 ? 9 : 3,
+			score: this.state.currentDescriptionLength > 120 ? 9 : 3,
 		};
 
 		return <Container>
@@ -197,22 +165,9 @@ export default class SnippetEditorExample extends Component {
 				baseUrl="https://local.wordpress.test/"
 				onChange={ this.onChangedData }
 				replacementVariables={ replacementVariables }
+				recommendedReplacementVariables={ recommendedReplacementVariables }
 				titleLengthProgress={ titleLengthProgress }
 				descriptionLengthProgress={ descriptionLengthProgress }
-			/>
-
-			<h2>Test sliders for progress bars</h2>
-			<input
-				type="range"
-				min={ 0 }
-				max={ 600 }
-				onChange={ ( event ) => this.onChangedData( "currentTitleLength", parseInt( event.target.value, 10 ) ) }
-			/>
-			<input
-				type="range"
-				min={ 0 }
-				max={ 320 }
-				onChange={ ( event ) => this.onChangedData( "currentDescriptionLength", parseInt( event.target.value, 10 ) ) }
 			/>
 		</Container>;
 	}

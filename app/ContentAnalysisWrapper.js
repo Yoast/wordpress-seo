@@ -1,6 +1,7 @@
 import React from "react";
 
 import ContentAnalysis from "../composites/Plugin/ContentAnalysis/components/ContentAnalysis";
+import LanguageNoticeWrapper from "./LanguageNoticeWrapper.js";
 
 /**
  * Returns the HelpCenterWrapper component.
@@ -62,20 +63,24 @@ export default function HelpCenterWrapper() {
 	];
 
 	return (
-		<ContentAnalysis
-			problemsResults={ problemsResults }
-			improvementsResults={ improvementsResults }
-			goodResults={ goodResults }
-			considerationsResults={ considerationsResults }
-			errorsResults={ errorsResults }
-			changeLanguageLink="#"
-			language="English"
-			showLanguageNotice={ true }
-			canChangeLanguage={ true }
-			onMarkButtonClick={ ( id, marker ) => {
-				console.log( "Marker button clicked", id, marker );
-			} }
-			marksButtonStatus={ "enabled" }
-		/>
+		<div>
+			<LanguageNoticeWrapper
+				changeLanguageLink="#"
+				language="English"
+				showLanguageNotice={ true }
+				canChangeLanguage={ true }
+			/>
+			<ContentAnalysis
+				problemsResults={ problemsResults }
+				improvementsResults={ improvementsResults }
+				goodResults={ goodResults }
+				considerationsResults={ considerationsResults }
+				errorsResults={ errorsResults }
+				onMarkButtonClick={ ( id, marker ) => {
+					console.log( "Marker button clicked", id, marker );
+				} }
+				marksButtonStatus={ "enabled" }
+			/>
+		</div>
 	);
 }

@@ -8,6 +8,6 @@ test( "the YoastLinkButton matches the snapshot", () => {
 		<YoastLinkButton>YoastLinkButtonValue</YoastLinkButton>
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

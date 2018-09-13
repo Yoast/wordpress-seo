@@ -1,32 +1,39 @@
 /* External dependencies */
-import React from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+/* Internal dependencies */
+import colors from "../../../../style-guide/colors";
+
 const YoastHelpText = styled.p`
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 13px;
+	color: ${ props => props.textColor };
+	font-size: ${ props => props.textFontSize };
+	margin-top: 0;
 `;
 
 /**
  * Returns the HelpText component.
  *
- * @param {Object} props Component props.
+ * @param {Object} props              Component props.
+ * @param {string} props.text         The help text.
+ * @param {string} props.textColor    The CSS textColor of the paragraph text.
+ * @param {string} props.textFontSize The CSS font-size of the paragraph text.
  *
  * @returns {ReactElement} HelpText component.
  */
-export default class HelpText extends React.Component {
+export default class HelpText extends PureComponent {
 	/**
 	 * Renders a help text component.
 	 *
 	 * @returns {ReactElement} The rendered help text component.
 	 */
 	render() {
-		const { text } = this.props;
+		const { children, textColor, textFontSize } = this.props;
 
 		return (
-			<YoastHelpText>
-				{ text }
+			<YoastHelpText textColor={ textColor } textFontSize={ textFontSize }>
+				{ children }
 			</YoastHelpText>
 		);
 	}
@@ -37,11 +44,20 @@ export default class HelpText extends React.Component {
  *
  * Use this in your components to pass along the text.
  */
-export const HelpTextPropType = PropTypes.oneOfType( [
-	PropTypes.string,
-	PropTypes.array,
-] );
+export const helpTextPropType = {
+	children: PropTypes.oneOfType( [
+		PropTypes.string,
+		PropTypes.array,
+	] ),
+	textColor: PropTypes.string,
+	textFontSize: PropTypes.string,
+};
 
 HelpText.propTypes = {
-	text: HelpTextPropType.isRequired,
+	...helpTextPropType,
+	children: helpTextPropType.children.isRequired,
+};
+
+HelpText.defaultProps = {
+	textColor: colors.$color_help_text,
 };

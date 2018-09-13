@@ -15,7 +15,7 @@ const VideoTutorialContainer = styled.div`
 `;
 
 const VideoContainer = styled.div`
-	float: left;
+	${ props => props.hasParagraphs ? "float: left;" : "margin: 0 auto;" }
 	width: ${ VIDEO_WIDTH };
 
 	@media screen and ( max-width: ${ breakpoints.tablet } ) {
@@ -24,6 +24,10 @@ const VideoContainer = styled.div`
 		margin: 0 auto;
 	}
 `;
+
+VideoContainer.propTypes = {
+	hasParagraphs: PropTypes.bool.isRequired,
+};
 
 const VideoDescriptions = styled.div`
 	margin-left: ${ VIDEO_WIDTH };
@@ -100,22 +104,30 @@ VideoDescriptionItem.defaultProps = {
  * @returns {ReactElement} The VideoTutorial component.
  */
 export default function VideoTutorial( props ) {
+	const hasParagraphs = props.paragraphs.length > 0;
+
 	return (
 		<VideoTutorialContainer className={ `${ props.className }__container` }>
-			<VideoContainer className={ `${ props.className }__video-container` }>
+			<VideoContainer
+				className={ `${ props.className }__video-container` }
+				hasParagraphs={ hasParagraphs }
+			>
 				<YouTubeVideo
 					src={ props.src }
-					title={ props.title } />
+					title={ props.title }
+				/>
 			</VideoContainer>
-			<VideoDescriptions className={ `${ props.className }__descriptions` }>
+			{ hasParagraphs && <VideoDescriptions className={ `${ props.className }__descriptions` }>
 				{ props.paragraphs.map( paragraph => {
 					return (
-						<VideoDescriptionItem className={ `${ props.className }__description` }
+						<VideoDescriptionItem
+							className={ `${ props.className }__description` }
 							key={ paragraph.link }
-							{ ...paragraph } />
+							{ ...paragraph }
+						/>
 					);
 				} ) }
-			</VideoDescriptions>
+			</VideoDescriptions> }
 		</VideoTutorialContainer>
 	);
 }
@@ -127,10 +139,11 @@ VideoTutorial.propTypes = {
 		PropTypes.shape(
 			VideoDescriptionItem.propTypes
 		)
-	).isRequired,
+	),
 	className: PropTypes.string,
 };
 
 VideoTutorial.defaultProps = {
 	className: "yoast-video-tutorial",
+	paragraphs: [],
 };

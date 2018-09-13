@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
  */
 const MessageBox = ( props ) => (
 	<div className="yoast-wizard-body">
-		<Icon icon={ props.icon } width="200px" height="93px" className="yoast-wizard__logo"/>
+		<Icon icon={ props.icon } width="200px" height="93px" className="yoast-wizard__logo" />
 		<div className="yoast-wizard-container yoast-wizard-container--no-navigation">
 			<div className="yoast-wizard">
 				{ interpolateComponents( props ) }

@@ -8,7 +8,7 @@ test( "the SvgIcon matches the snapshot", () => {
 		<SvgIcon icon="edit" color="black" size="32px" className="my-icon" />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 

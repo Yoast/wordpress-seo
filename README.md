@@ -13,9 +13,9 @@ npm install yoast-components
 ## Usage
 
 ```js
-import 'Input' from 'yoast-components/forms/Input'
+import Input from 'yoast-components/forms/Input'
 
-// Then you can Input in your React components
+// Then you can use the Input component within your React components
 ```
 
 ## Requirements
@@ -93,8 +93,6 @@ combineReducers( {
     // ...
 } );
 ```
-
-The Content Analysis requires the [`redux-thunk`](https://www.npmjs.com/package/redux-thunk) middleware.
 
 ## Setup
 - Run a `yarn install` in the root folder.

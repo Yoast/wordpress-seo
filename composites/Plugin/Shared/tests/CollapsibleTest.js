@@ -19,7 +19,7 @@ describe( "Collapsible", () => {
 			</Collapsible>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
@@ -34,7 +34,7 @@ describe( "Collapsible", () => {
 			</Collapsible>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
@@ -49,7 +49,7 @@ describe( "Collapsible", () => {
 			</Collapsible>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
@@ -75,7 +75,7 @@ describe( "CollapsibleStateless", () => {
 			</CollapsibleStateless>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 
@@ -90,7 +90,7 @@ describe( "CollapsibleStateless", () => {
 			</CollapsibleStateless>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
@@ -103,9 +103,8 @@ describe( "CollapsibleStateless", () => {
 			<CollapsibleStateless
 				title="Lorem ipsum dolor sit amet"
 				titleScreenReaderText="bad SEO score"
-				prefixIcon="circle"
-				prefixIconCollapsed="circle"
-				prefixIconColor="red"
+				prefixIcon={ { icon: "circle", color: "red" } }
+				prefixIconCollapsed={ { icon: "circle", color: "red" } }
 				isOpen={ true }
 				onToggle={ () => {} }
 			>
@@ -113,7 +112,7 @@ describe( "CollapsibleStateless", () => {
 			</CollapsibleStateless>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 } );

@@ -7,6 +7,6 @@ test( "the AlgoliaSearcher component with headingText matches the snapshot", () 
 		<AlgoliaSearcher />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

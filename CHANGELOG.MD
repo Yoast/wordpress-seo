@@ -5,6 +5,156 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.11.0 September 10th, 2018
+### Fixed
+* Fixes a bug where the placeholder "Modify your meta description by editing it right here" wasn't translatable.
+
+### Added
+* Exposes `AnalysisList` to render a plain list of content analysis results.
+* Exposes `renderRatingToColor` which renders a rating received from YoastSEO.js to a color that can be used in CSS.
+
+## 4.10.1 August 28th, 2018
+### Fixed
+* Fixes an incorrect import of `YoastButton` in `index.js`.
+
+## 4.10.0 August 27th, 2018
+### Added
+* Adds a `ButtonSection` component.
+* Adds a `loadingSpinner` svg icon.
+
+### Fixed
+* Fixes a bug where an invalid icon warning was thrown because no icon was provided to the `IconsButton`.
+* Fixes a bug where only the header of the `ButtonSection` component was clickable, instead of the entire component.
+
+### Other
+* Improves the keyword input field focus style and contrast ratio.
+
+## 4.9.0 August 13th, 2018
+### Added
+* Adds a standalone `LanguageNotice` component. Before, this component was part of the `ContentAnalysis` component.
+* Adds a `HelpText` component.
+* Adds a label to the `KeywordInput` component.
+* Adds an `onBlur` event to the `KeywordInput` component.
+* Adds a button to the `KeywordInput` component that allows removal of that keyword section.
+* Adds a `ContentOptimizationContainer` component.
+* Adds a `SynonymsInput` component.
+* Adds a `CornerstoneToggle` component.
+* Adds a demo page for the SVG icons rendered by the SvgIcon component to the App.
+* Adds a subtitle to the `CollapsibleHeader` component.
+
+### Removed
+* Removes the `helpTextButton` from the `SnippetPreview` component as it has been replaced by a description that is always present.
+
+### Fixed
+* Fixes the styling of the `Collapsible` component for right-to-left languages.
+* Fixes a bug where the `Collapsible` component would show scrollbars in Internet Explorer 11.
+
+### Other
+* Increases the font size of the synonyms help text and changes its color.
+* Makes it possible to render multi-shape SVG icons.
+* Adds clipboard and a11y-speak to the package.json.
+
+## 4.8.0 July 25th, 2018
+### Added
+* Add setOverallSeoScore and setOverallReadabilityScore reducer.
+* Add help text to the content analysis in the standalone.
+* Add a IconLabelledButton component to render a button with visible textual label.
+
+### Fixed
+* Fix alignment of video in help center when no ads are present.
+
+## 4.7.0 July 3rd, 2018
+### Added
+* Adds synonyms components.
+
+### Fixes
+* Fixes the CSS media query to target IE11 used for the buttons min-height.
+
+### Removed
+* Removes the unused replaceKeyword action.
+
+## 4.6.2 July 2nd, 2018
+### Fixes
+* Fixes a bug where console errors would be thrown because `ref` instead of `innerRef` was used in the `ReplacementVariableEditor`. 
+
+## 4.6.0 July 2nd, 2018
+### Added
+* Adds Styled Component's `withTheme` to the `ReplacementVariableEditorStandalone` component in order to set the `textDirectionality ` of the `Editor` based on the language direction that is passed to the theme.
+
+## 4.5.0 June 29nd, 2018
+### Fixes
+* Fixes the styling of the `ModeSwitcher`, `SnippetEditor`, `HelpTextWrapper`, `SnippetPreview` and `StyledSection` for right-to-left languages. [#629](https://github.com/Yoast/yoast-components/pull/629/files)
+* Fixes a bug where the snippet variable suggestions would disappear behind the admin menu bar when using a right-to-left language. [#628](https://github.com/Yoast/yoast-components/pull/628/files)
+* Fixes the 'insert snippet variable' button alignment by using only CSS and removing the JS widths calculations. [#618](https://github.com/Yoast/yoast-components/pull/618/files)
+
+## 4.4.0 June 22nd, 2018
+
+### Changes
+* `ReplacementVariableEditor` adds a space after replacement variable when there is no space yet. [#616](https://github.com/Yoast/yoast-components/pull/616)
+* Entities in `ReplacementVariableEditor` can no longer be partially selected. [#607](https://github.com/Yoast/yoast-components/pull/607)
+
+### Fixes
+* Improved change detection of replacement variables in `SnippetEditor`. [#610](https://github.com/Yoast/yoast-components/pull/610/files)
+
+## 4.3.0 June 22nd, 2018
+
+### Added
+* Added `ErrorBoundary` component to be used in the `SnippetEditor`. [#605](https://github.com/Yoast/yoast-components/pull/605)
+
+### Changes
+* Let the padding on the `StyledSection` depend on the title. [#606](https://github.com/Yoast/yoast-components/pull/606)
+* Implements an option for the paper style in the styled section component. [#612](https://github.com/Yoast/yoast-components/pull/612)
+* Moves the margin bottom from the FormSections to the CloseSnippetEditor button. [#615](https://github.com/Yoast/yoast-components/pull/615)
+
+### Fixes
+* Clicking the entire meta description field in `SnippetEditor` will now focus the input. [#600](https://github.com/Yoast/yoast-components/pull/600)
+* Improved snippet editor placeholder contrast. [#603](https://github.com/Yoast/yoast-components/pull/603)
+* Fixes an issue where in cases with a lot of snippet variables it would sometimes be partially hidden behind the WordPress toolbar. [#604](https://github.com/Yoast/yoast-components/pull/604)
+* Handle cut and paste behaviour in the `ReplacementVariableEditor`. [#611](https://github.com/Yoast/yoast-components/pull/611)
+
+## 4.2.0 June 12nd, 2018
+
+### Added
+- Implements the draft-js-single-line-plugin in order to keep the Draft-js Editor from creating new blocks on enter presses and pasting newlines.
+- Adds a meta description placeholder text.
+- Adds a SettingsSnippetEditor component.
+- Adds a button to the snippet editor to improve discoverability of the snippet variables.
+
+### Removed
+- Removes logic for decoding separators. This logic has been moved to wordpress-seo.
+
+### Fixed
+- Fixes a bug where the snippet editor fields would stay in an isActive state when blurred.
+- Fixes a bug where the progress bars for the snippet title and description wouldn't respond correctly to the content of the input fields.
+- Fixes a bug where multiple spaces and spaces at the beginning and end of the snippet description were taken into account for the description length progress calculation.
+- Fixes a bug where the snippet variable suggestions would be sometimes positioned outside of the viewport.
+
+### Other
+- Changes the replacement variable editor to automatically replace snippet variables with entities.
+- Improves the Help text accessibility and introduces a SlideToggle component based on react-transition-group.
+
+## 4.1.0 May 23rd, 2018
+
+### Changes
+* Maximum meta description length now retrieved from `yoastseo`.
+* Improve the Snippet Preview rendering with long text.
+* Better encode SVG images used as CSS background.
+* Snippet editor no longer manages the slug in local state.
+* Entire meta description field can now be clicked to focus the editor.
+* Removed `react-intl` remnants, which was removed in `v4.0.0`.
+* Snippet preview now decodes the separator replacement variable before it is passed along to the renderer.
+
+## 4.0.2 May 17th, 2018
+
+### Added
+
+* Added metadescription placeholder to `SnippetEditor`.
+* Replace the replace vars before measuring the title and description length to get the correct length.
+
+### Fixes
+
+* Fixes a problem with the Snippet Editor where it would crash when receiving new content.
+
 ## 4.0.1 May 17th, 2018
 
 ### Fixes

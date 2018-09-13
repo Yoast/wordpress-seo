@@ -19,7 +19,6 @@ import CloseIcon from "material-ui/svg-icons/navigation/close";
  * The OnboardingWizard class.
  */
 class OnboardingWizard extends React.Component {
-
 	/**
 	 * Initialize the steps and set the current stepId to the first step in the array
 	 *
@@ -49,18 +48,18 @@ class OnboardingWizard extends React.Component {
 	 * @returns {Object} The steps with added previous and next step.
 	 */
 	parseSteps( steps ) {
-		let stepKeyNames = Object.keys( steps );
+		const stepKeyNames = Object.keys( steps );
 
 		// Only add previous and next if there is more than one step.
 		if ( stepKeyNames.length < 2 ) {
 			return steps;
 		}
 
-		let stepKeyNamesLength = stepKeyNames.length;
+		const stepKeyNamesLength = stepKeyNames.length;
 
 		// Loop through the steps to set each next and/or previous step.
 		for ( let stepIndex = 0; stepIndex < stepKeyNamesLength; stepIndex++ ) {
-			let stepKeyName = stepKeyNames[ stepIndex ];
+			const stepKeyName = stepKeyNames[ stepIndex ];
 
 			if ( stepIndex > 0 ) {
 				steps[ stepKeyName ].previous = stepKeyNames[ stepIndex - 1 ];
@@ -84,7 +83,7 @@ class OnboardingWizard extends React.Component {
 	 * @returns {Object} The fields from the properties, based on the array passed in the arguments.
 	 */
 	getFields( fieldsToGet = [] ) {
-		let fields = {};
+		const fields = {};
 
 		fieldsToGet.forEach(
 			( fieldName ) => {
@@ -182,7 +181,7 @@ class OnboardingWizard extends React.Component {
 	 * @returns {void}
 	 */
 	setNextStep( evt ) {
-		let currentStep = this.getCurrentStep();
+		const currentStep = this.getCurrentStep();
 
 		this.postStep( currentStep.next, evt );
 	}
@@ -194,7 +193,7 @@ class OnboardingWizard extends React.Component {
 	 * @returns {void}
 	 */
 	setPreviousStep( evt ) {
-		let currentStep = this.getCurrentStep();
+		const currentStep = this.getCurrentStep();
 
 		this.postStep( currentStep.previous, evt );
 	}
@@ -214,10 +213,10 @@ class OnboardingWizard extends React.Component {
 	 * @returns {int} The step number when found, or 0 when the step is not found.
 	 */
 	getCurrentStepNumber() {
-		let currentStep = this.state.currentStepId;
-		let steps = Object.keys( this.state.steps );
+		const currentStep = this.state.currentStepId;
+		const steps = Object.keys( this.state.steps );
 
-		let stepNumber = steps.indexOf( currentStep );
+		const stepNumber = steps.indexOf( currentStep );
 
 		if ( stepNumber > -1 ) {
 			return stepNumber + 1;
@@ -244,7 +243,7 @@ class OnboardingWizard extends React.Component {
 			attributes[ "aria-label" ] = this.props.translate( "Close the Wizard" );
 			attributes.icon = <CloseIcon viewBox="0 0 28 28" />;
 			attributes.onClick = () => {
-				if( this.props.finishUrl !== "" ) {
+				if ( this.props.finishUrl !== "" ) {
 					window.location.href = this.props.finishUrl;
 
 					return;
@@ -257,7 +256,7 @@ class OnboardingWizard extends React.Component {
 			hideButton = true;
 		}
 
-		return ( hideButton ) ? "" : <RaisedButton className={className} {...attributes} />;
+		return ( hideButton ) ? "" : <RaisedButton className={ className } { ...attributes } />;
 	}
 
 	/**
@@ -266,11 +265,11 @@ class OnboardingWizard extends React.Component {
 	 * @returns {JSX.Element} The rendered step in the wizard.
 	 */
 	render() {
-		let step = this.getCurrentStep();
+		const step = this.getCurrentStep();
 
 		let navigation = "";
 		if ( ! step.hideNavigation ) {
-			let previousButton = this.getNavigationbutton( "previous", {
+			const previousButton = this.getNavigationbutton( "previous", {
 				label: this.props.translate( "Previous" ),
 				"aria-label": this.props.translate( "Previous step" ),
 				onClick: this.setPreviousStep,
@@ -279,7 +278,7 @@ class OnboardingWizard extends React.Component {
 				icon: <ArrowBackwardIcon viewBox="0 0 28 28" />,
 			}, step, "yoast-wizard--button yoast-wizard--button__previous" );
 
-			let nextButton = this.getNavigationbutton( "next", {
+			const nextButton = this.getNavigationbutton( "next", {
 				label: this.props.translate( "Next" ),
 				"aria-label": this.props.translate( "Next step" ),
 				primary: true,
@@ -290,7 +289,7 @@ class OnboardingWizard extends React.Component {
 				icon: <ArrowForwardIcon viewBox="0 0 28 28" />,
 			}, step, "yoast-wizard--button yoast-wizard--button__next" );
 
-			navigation = <div className="yoast-wizard--navigation">{previousButton}{nextButton}</div>;
+			navigation = <div className="yoast-wizard--navigation">{ previousButton }{ nextButton }</div>;
 		}
 
 		/* Translators: %s expands to "Yoast SEO for WordPress". */
@@ -298,11 +297,13 @@ class OnboardingWizard extends React.Component {
 		headerTitle = headerTitle.replace( "%s", "Yoast SEO for WordPress" );
 
 		return (
-			<MuiThemeProvider muiTheme={muiTheme}>
+			<MuiThemeProvider muiTheme={ muiTheme }>
 				<div className="yoast-wizard-body">
 					<Header headerTitle={ headerTitle } icon={ this.props.headerIcon } />
-					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
-					               onClick={( stepNumber, evt ) => this.postStep( stepNumber, evt )}/>
+					<StepIndicator
+						steps={ this.props.steps } stepIndex={ this.getCurrentStepNumber() - 1 }
+						onClick={ ( stepNumber, evt ) => this.postStep( stepNumber, evt ) }
+					/>
 					<main className="yoast-wizard-container">
 						<div className="yoast-wizard">
 							{ this.renderErrorMessage() }
@@ -320,7 +321,7 @@ class OnboardingWizard extends React.Component {
 							/>
 							{ navigation }
 						</div>
-						{( this.state.isLoading ) ? <div className="yoast-wizard-overlay"><LoadingIndicator/></div> : ""}
+						{ ( this.state.isLoading ) ? <div className="yoast-wizard-overlay"><LoadingIndicator /></div> : "" }
 					</main>
 				</div>
 			</MuiThemeProvider>
@@ -333,11 +334,11 @@ class OnboardingWizard extends React.Component {
 	 * @returns {JSX.Element|string} The rendered output.
 	 */
 	renderErrorMessage() {
-		if( this.state.errorMessage === "" ) {
+		if ( this.state.errorMessage === "" ) {
 			return "";
 		}
 
-		return <div className="yoast-wizard-notice yoast-wizard-notice__error">{this.state.errorMessage}</div>;
+		return <div className="yoast-wizard-notice yoast-wizard-notice__error">{ this.state.errorMessage }</div>;
 	}
 }
 

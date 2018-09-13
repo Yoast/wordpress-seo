@@ -2,6 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import uniqueId from "lodash/uniqueId";
 
 // Internal dependencies
 import HelpText from "../../Shared/components/HelpText";
@@ -9,20 +10,18 @@ import colors from "../../../../style-guide/colors.json";
 import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
 import { rgba } from "../../../../style-guide/helpers";
-
+import { YoastSlideToggle } from "../../../../utils/animations";
+import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 const HelpTextContainer = styled.div`
-    max-width: 600px;
-    font-weight: normal;
-    margin: 0 20px 10px 25px
+	max-width: 600px;
+	font-weight: normal;
+	// Don't apply a bottom margin to avoid "jumpiness".
+	margin: ${ getRtlStyle( "0 20px 0 25px", "0 20px 0 15px" ) };
 `;
 
-const HelpTextDiv = styled.div`
-	max-width: 400px;
-	display: block;
-	transition: all 0.5s ease;
-	overflow: hidden;
-	max-height: 0;
+const HelpTextPanel = styled.div`
+	max-width: ${ props => props.panelMaxWidth };
 `;
 
 const HelpTextButton = styled( Button )`
@@ -32,14 +31,13 @@ const HelpTextButton = styled( Button )`
 	height: 30px;
 	border-radius: 50%;
 	border: 1px solid transparent;
-	clip: rect(1px 1px 1px 1px);
 	box-shadow: none;
-	position: relative;
 	display: block;
 	margin: -44px -10px 10px 0;
 	background-color: transparent;
-	float: right;
-	padding: 3px 0 0 6px;
+	float: ${ getRtlStyle( "right", "left" ) };
+	padding: ${ getRtlStyle( "3px 0 0 6px", "3px 0 0 5px" ) };
+
 	&:hover {
 		color: ${ colors.$color_blue };
 	}
@@ -59,8 +57,6 @@ const HelpTextButton = styled( Button )`
 `;
 
 const StyledSvg = styled( SvgIcon )`
-	vertical-align: center;
-	position: relative;
 	&:hover {
 		fill: ${ colors.$color_blue };
 	}
@@ -68,13 +64,9 @@ const StyledSvg = styled( SvgIcon )`
 
 class HelpTextWrapper extends React.Component {
 	/**
-	 * Renders the HelpTextWrapper component.
+	 * Constructs the component and sets its initial state.
 	 *
-	 * @param {Object}       props               The passed props.
-	 * @param {string}       props.className     The class name.
-	 * @oaram {String|Array} props.helpText      The help text to be displayed.
-	 *
-	 * @returns {ReactComponent} The HelpTextWrapper component.
+	 * @param {Object} props The props to use for this component.
 	 */
 	constructor( props ) {
 		super( props );
@@ -82,12 +74,12 @@ class HelpTextWrapper extends React.Component {
 		this.state = {
 			isExpanded: false,
 		};
+
+		this.uniqueId = uniqueId( "yoast-help-" );
 	}
 
 	/**
-	 * Handles the onButtonClick event.
-	 *
-	 * Toggles the boolean isExpanded in the state.
+	 * Toggles the help text expanded state.
 	 *
 	 * @returns {void}
 	 */
@@ -101,15 +93,19 @@ class HelpTextWrapper extends React.Component {
 	 * @returns {ReactElement} The rendered help text wrapper.
 	 */
 	render() {
+		const helpPanelId = `${ this.uniqueId }-panel`;
+		const { isExpanded } = this.state;
+
 		return (
 			<HelpTextContainer
-				className={ this.props.className }>
+				className={ this.props.className }
+			>
 				<HelpTextButton
-					className={ this.props.className + "__yoast-help-button" }
+					className={ this.props.className + "__button" }
 					onClick={ this.onButtonClick.bind( this ) }
-					aria-expanded={ this.state.isExpanded }
-					aria-controls={ this.props.className + "__helpDiv" }
-					aria-label={ "yoast-help-text" }
+					aria-expanded={ isExpanded }
+					aria-controls={ isExpanded ? helpPanelId : null }
+					aria-label={ this.props.helpTextButtonLabel }
 				>
 					<StyledSvg
 						size="16px"
@@ -117,12 +113,19 @@ class HelpTextWrapper extends React.Component {
 						icon="question-circle"
 					/>
 				</HelpTextButton>
-				<HelpTextDiv className={  this.props.className + "__helpDiv" }
-							 aria-hidden={ ! this.state.isExpanded }
-							 style={{ maxHeight: this.state.isExpanded ? "200px" : "0" }}
+				<YoastSlideToggle
+					isOpen={ isExpanded }
 				>
-					<HelpText text={ this.props.helpText } />
-				</HelpTextDiv>
+					<HelpTextPanel
+						id={ helpPanelId }
+						className={ this.props.className + "__panel" }
+						panelMaxWidth={ this.props.panelMaxWidth }
+					>
+						<HelpText>
+							{ this.props.helpText }
+						</HelpText>
+					</HelpTextPanel>
+				</YoastSlideToggle>
 			</HelpTextContainer>
 		);
 	}
@@ -130,6 +133,8 @@ class HelpTextWrapper extends React.Component {
 
 HelpTextWrapper.propTypes = {
 	className: PropTypes.string,
+	helpTextButtonLabel: PropTypes.string.isRequired,
+	panelMaxWidth: PropTypes.string,
 	helpText: PropTypes.oneOfType( [
 		PropTypes.string,
 		PropTypes.array,
@@ -137,7 +142,8 @@ HelpTextWrapper.propTypes = {
 };
 
 HelpTextWrapper.defaultProps = {
-	className: "yoast-help-button",
+	className: "yoast-help",
+	panelMaxWidth: null,
 	helpText: "",
 };
 

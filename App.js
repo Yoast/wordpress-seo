@@ -1,5 +1,8 @@
 import React from "react";
 import { IntlProvider } from "react-intl";
+import styled, { ThemeProvider } from "styled-components";
+// Required to make Material UI work with touch screens.
+import injectTapEventPlugin from "react-tap-event-plugin";
 
 import ContentAnalysis from "./app/ContentAnalysisWrapper";
 import Wizard from "./app/WizardWrapper";
@@ -7,12 +10,12 @@ import DashboardWidget from "./app/DashboardWidgetWrapper";
 import Loader from "./composites/basic/Loader";
 import HelpCenterWrapper from "./app/HelpCenterWrapper";
 import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
+import KeywordSuggestionsWrapper from "./app/KeywordSuggestionWrapper";
 import SnippetEditor from "./app/SnippetEditorExample";
-
-// Required to make Material UI work with touch screens.
-import injectTapEventPlugin from "react-tap-event-plugin";
-import Checkbox from "./composites/Plugin/Shared/components/Checkbox";
-import KeywordInput from "./composites/Plugin/Shared/components/KeywordInput";
+import UIControlsWrapper from "./app/UIControlsWrapper";
+import KeywordExample from "./app/KeywordExample";
+import ButtonsWrapper from "./app/ButtonsWrapper";
+import SvgIconsWrapper from "./app/SvgIconsWrapper";
 
 const components = [
 	{
@@ -32,7 +35,7 @@ const components = [
 	},
 	{
 		id: "content-analysis",
-		name: "Content analysis",
+		name: "Content Analysis",
 		component: <ContentAnalysis />,
 	},
 	{
@@ -46,40 +49,42 @@ const components = [
 		component: <HelpCenterWrapper />,
 	},
 	{
-		id: "checkbox",
-		name: "Checkbox",
-		component: <Checkbox
-			id="example-checkbox"
-			label={ [
-				"This is a label that also accepts arrays, so you can pass links such as ",
-				<a
-					key="1"
-					href="https://yoa.st/metabox-help-cornerstone?utm_content=7.0.3"
-					target="_blank"
-					rel="noopener noreferrer"
-				>cornerstone content</a>,
-				", for example.",
-			] }
-			onChange={ event => console.log( event ) }
-		/>,
+		id: "ui-controls",
+		name: "UI Controls",
+		component: <UIControlsWrapper />,
 	},
 	{
-		id: "focus-keyword",
+		id: "keyword-example",
 		name: "Keyword",
-		component: <KeywordInput
-			id="focus-keyword"
-			label={ "Focus keyword"}
-		/>,
+		component: <KeywordExample />,
 	},
 	{
 		id: "sidebar-collapsible",
-		name: "Sidebar Collapsible",
+		name: "Collapsibles",
 		component: <SidebarCollapsibleWrapper />,
+	},
+	{
+		id: "keyword-suggestions",
+		name: "Keyword suggestions",
+		component: <KeywordSuggestionsWrapper />,
+	},
+	{
+		id: "buttons",
+		name: "Buttons",
+		component: <ButtonsWrapper />,
+	},
+	{
+		id: "svg-icons",
+		name: "SVG Icons",
+		component: <SvgIconsWrapper />,
 	},
 ];
 
-class App extends React.Component {
+const LanguageDirectionContainer = styled.div`
+	text-align: center;
+`;
 
+class App extends React.Component {
 	constructor() {
 		super();
 
@@ -87,13 +92,16 @@ class App extends React.Component {
 
 		this.state = {
 			activeComponent: "snippet-preview",
+			isRtl: false,
 		};
+
+		this.changeLanguageDirection = this.changeLanguageDirection.bind( this );
 	}
 
 	getContent() {
 		const activeComponent = this.state.activeComponent;
-		for( var i = 0; i < components.length; i++ )  {
-			if( activeComponent === components[ i ].id ) {
+		for ( var i = 0; i < components.length; i++ ) {
+			if ( activeComponent === components[ i ].id ) {
 				return components[ i ].component;
 			}
 		}
@@ -108,7 +116,7 @@ class App extends React.Component {
 	renderButton( id, title ) {
 		const isActive = this.state.activeComponent === id;
 		const style = {};
-		if( isActive ) {
+		if ( isActive ) {
 			style.backgroundColor = "#006671";
 			style.color = "#FFF";
 			style.borderRadius = "5px";
@@ -132,19 +140,56 @@ class App extends React.Component {
 				}
 				<p style={ { fontSize: "0.8em", margin: "5px 0" } }>
 					For redux devtools press <strong>Ctrl + H</strong>,
-					to change position press <strong>Ctrl + Q</strong>.
+					to change position press <strong>Ctrl + Q</strong>
 				</p>
 			</nav>
 		);
 	}
 
+
+	/**
+	 * Renders a switch language directionality button.
+	 *
+	 * @returns {ReactElement} The rendered button.
+	 */
+	renderLanguageDirectionButton() {
+		return (
+			<button type="button" onClick={ this.changeLanguageDirection }>
+				Change language direction
+			</button>
+		);
+	}
+
+	/**
+	 * Changes the language direction state.
+	 *
+	 * @returns {void}
+	 */
+	changeLanguageDirection() {
+		this.setState( {
+			isRtl: ! this.state.isRtl,
+		} );
+	}
+
+	componentDidUpdate( prevProps, prevState ) {
+		// Set and update the <html> element dir attribute based on the current language direction.
+		if ( prevState.isRtl !== this.state.isRtl ) {
+			document.documentElement.setAttribute( "dir", this.state.isRtl ? "rtl" : "ltr" );
+		}
+	}
+
 	render() {
 		return (
 			<IntlProvider locale="en">
-				<div>
-					{ this.getMenu() }
-					{ this.getContent() }
-				</div>
+				<ThemeProvider theme={ { isRtl: this.state.isRtl } }>
+					<div>
+						{ this.getMenu() }
+						<LanguageDirectionContainer>
+							{ this.renderLanguageDirectionButton() }
+						</LanguageDirectionContainer>
+						{ this.getContent() }
+					</div>
+				</ThemeProvider>
 			</IntlProvider>
 		);
 	}

@@ -10,48 +10,72 @@ Enzyme.configure( { adapter: new EnzymeAdapter() } );
 describe( KeywordInput, () => {
 	it( "matches the snapshot by default", () => {
 		const component = renderer.create(
-			<KeywordInput id="test-id" onChange={ () => {
-			} } label="test label"/>
+			<KeywordInput
+				id="test-id"
+				onChange={ () => {} }
+				onRemoveKeyword={ () => {} }
+				label="test label"
+			/>
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 
 	it( "does not display the error message for a single keyword", () => {
 		const wrapper = Enzyme.mount(
-			<KeywordInput id="test-id" label="test label" />
+			<KeywordInput
+				id="test-id"
+				onChange={ ( value ) => {
+					wrapper.setProps( { keyword: value } );
+				} }
+				onRemoveKeyword={ () => {} }
+				label="test label"
+			/>
 		);
 		wrapper.find( "input" ).simulate( "change", {
 			target: {
-				value: "Keyword1",
+				value: "Keyword",
 			},
 		} );
-		expect( wrapper.state().showErrorMessage ).toEqual( false );
+		expect( wrapper.find( "p[role=\"alert\"]" ).length ).toBe( 0 );
 	} );
 
 	it( "does not display the error message for two words separated by whitespace", () => {
 		const wrapper = Enzyme.mount(
-			<KeywordInput id="test-id" label="test label" />
+			<KeywordInput
+				id="test-id"
+				onChange={ ( value ) => {
+					wrapper.setProps( { keyword: value } );
+				} }
+				onRemoveKeyword={ () => {} }
+				label="test label"
+			/>
 		);
 		wrapper.find( "input" ).simulate( "change", {
 			target: {
 				value: "Keyword1 Keyword2",
 			},
 		} );
-		expect( wrapper.state().showErrorMessage ).toEqual( false );
+		expect( wrapper.find( "p[role=\"alert\"]" ).length ).toBe( 0 );
 	} );
 
 	it( "displays the error message for comma-separated words", () => {
 		const wrapper = Enzyme.mount(
-			<KeywordInput id="test-id" label="test label" />
+			<KeywordInput
+				id="test-id"
+				onChange={ ( value ) => {
+					wrapper.setProps( { keyword: value } );
+				} }
+				onRemoveKeyword={ () => {} }
+				label="test label"
+			/>
 		);
 		wrapper.find( "input" ).simulate( "change", {
 			target: {
 				value: "Keyword1, Keyword2",
 			},
 		} );
-		expect( wrapper.state().showErrorMessage ).toEqual( true );
-		expect( wrapper.find( "div" ).text() ).toBeTruthy();
+		expect( wrapper.find( "p[role=\"alert\"]" ).length ).toBe( 1 );
 	} );
 } );

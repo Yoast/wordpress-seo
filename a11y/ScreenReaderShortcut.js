@@ -10,7 +10,6 @@ import Styles from "./Styles";
  * @constructor
  */
 class ScreenReaderShortcut extends React.Component {
-
 	/**
 	 * Sets initial focused state to false.
 	 *
@@ -59,11 +58,13 @@ class ScreenReaderShortcut extends React.Component {
 	 */
 	render() {
 		return (
-			<a href={ "#" + this.props.anchor }
+			<a
+				href={ "#" + this.props.anchor }
 				className="screen-reader-shortcut"
 				style={ this.getStyles() }
 				onFocus={ this.focus.bind( this ) }
-				onBlur={ this.blur.bind( this ) }>{ this.props.children }</a>
+				onBlur={ this.blur.bind( this ) }
+			>{ this.props.children }</a>
 		);
 	}
 }

@@ -1,25 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the BaseLinkButton matches the snapshot 1`] = `
-.c0:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c1:hover {
-  color: #000;
-}
-
-.c2::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c2:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c3 {
+.c0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -48,10 +30,35 @@ exports[`the BaseLinkButton matches the snapshot 1`] = `
   min-height: 32px;
 }
 
-.c3 svg {
+.c0 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c1:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c2::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c2:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c4 {
@@ -63,8 +70,8 @@ exports[`the BaseLinkButton matches the snapshot 1`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c3::after {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c0::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -79,25 +86,7 @@ exports[`the BaseLinkButton matches the snapshot 1`] = `
 `;
 
 exports[`the LinkButton matches the snapshot 1`] = `
-.c1:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c2:hover {
-  color: #000;
-}
-
-.c3::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c3:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c4 {
+.c1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -126,10 +115,35 @@ exports[`the LinkButton matches the snapshot 1`] = `
   min-height: 32px;
 }
 
-.c4 svg {
+.c1 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c2:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c4:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
@@ -145,8 +159,8 @@ exports[`the LinkButton matches the snapshot 1`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c4::after {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c1::after {
     display: inline-block;
     content: "";
     min-height: 22px;

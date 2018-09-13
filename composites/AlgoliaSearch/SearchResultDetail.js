@@ -62,7 +62,6 @@ const RightYoastLinkButton = makeOutboundLink( styled( YoastLinkButton )`
  * @returns {ReactElement} A SearchResultDetail component.
  */
 class SearchResultDetail extends React.Component {
-
 	/**
 	 * Creates navigational elements.
 	 *
@@ -119,7 +118,7 @@ class SearchResultDetail extends React.Component {
 				} }
 			>
 				{ this.createNavigation() }
-				<ArticleContent post={ this.props.post } title={ iframeTitle }/>
+				<ArticleContent post={ this.props.post } title={ iframeTitle } />
 			</Detail>
 		);
 	}

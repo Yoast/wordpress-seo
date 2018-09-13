@@ -72,7 +72,7 @@ class ListTable extends React.Component {
 	 * @returns {ReactElement} The ListTable component.
 	 */
 	render() {
-		let children = this.getChildren();
+		const children = this.getChildren();
 
 		return (
 			<List role="list">{ children }</List>
@@ -84,7 +84,6 @@ class ListTable extends React.Component {
  * A zebrafied variant of the ListTable component.
  */
 class ZebrafiedListTable extends ListTable {
-
 	/**
 	 * Constructor for the component. Also makes a shadow copy of the props that we can manipulate.
 	 * @param {Object} props The props to assign to the current component.

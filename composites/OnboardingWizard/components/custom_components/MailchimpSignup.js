@@ -11,9 +11,9 @@ import PropTypes from "prop-types";
 const MailchimpSignup = ( props ) => {
 	return (
 		<div>
-			<h2>{props.properties.label}</h2>
-			<p>{props.properties.mailchimpActionUrl}</p>
-			<input onChange={props.onChange} type="text" name={props.name}  defaultValue={props.properties.currentUserEmail} />
+			<h2>{ props.properties.label }</h2>
+			<p>{ props.properties.mailchimpActionUrl }</p>
+			<input onChange={ props.onChange } type="text" name={ props.name }  defaultValue={ props.properties.currentUserEmail } />
 		</div>
 	);
 };

@@ -2,32 +2,32 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { __, sprintf } from "@wordpress/i18n";
-import interpolateComponents from "interpolate-components";
+import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import colors from "../../../../style-guide/colors.json";
-import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
-import AnalysisResult from "../components/AnalysisResult.js";
-import AnalysisCollapsible from "../components/AnalysisCollapsible.js";
+import AnalysisList from "./AnalysisList";
+import Collapsible, { StyledIconsButton } from "../../../../composites/Plugin/Shared/components/Collapsible";
 
 export const ContentAnalysisContainer = styled.div`
 	width: 100%;
 	background-color: white;
 	max-width: 800px;
-	margin: 0 auto;
+	border-bottom: 1px solid transparent; // Avoid parent and child margin collapsing.
 `;
 
-const LanguageNotice = styled.p`
-	min-height: 24px;
+const StyledCollapsible = styled( Collapsible )`
 	margin-bottom: 8px;
-	margin-left: 24px;
-`;
 
-const ChangeLanguageLink = makeOutboundLink( styled.a`
-	color: ${ colors.$color_blue };
-	margin-left: 4px;
-` );
+	button:first-child svg {
+		margin: -2px 8px 0 -2px; // Compensate icon size set to 18px.
+	}
+
+	${ StyledIconsButton } {
+		padding: 8px 0;
+		color: ${ colors.$color_blue }
+	}
+`;
 
 /**
  * Returns the ContentAnalysis component.
@@ -75,108 +75,33 @@ class ContentAnalysis extends React.Component {
 	}
 
 	/**
-	 * Gets the color for the bullet, based on the rating.
+	 * Renders a Collapsible component with a liset of Analysis results.
 	 *
-	 * @param {string} rating The rating of the result.
+	 * @param {string} title        The title of the collapsible section.
+	 * @param {number} headingLevel Heading level: 1 for h1, 2 for h2, etc.
+	 * @param {object} results      The list of results to display.
 	 *
-	 * @returns {string} The color for the bullet.
+	 * @returns {ReactElement} The collapsible section with list of results.
 	 */
-	getColor( rating ) {
-		switch ( rating ) {
-			case "good":
-				return colors.$color_good;
-			case "OK":
-				return colors.$color_ok;
-			case "bad":
-				return colors.$color_bad;
-			default:
-				return colors.$color_score_icon;
-		}
-	}
-
-	/**
-	 * Returns an AnalysisResult component for each result.
-	 *
-	 * @param {array} results The analysis results.
-	 *
-	 * @returns {array} A list of AnalysisResult components.
-	 */
-	getResults( results ) {
-		return results.map( ( result ) => {
-			let color = this.getColor( result.rating );
-			let isPressed = result.id === this.state.checked;
-			let ariaLabel = "";
-			if ( this.props.marksButtonStatus === "disabled" ) {
-				ariaLabel = __( "Marks are disabled in current view", "yoast-components" );
-			} else if ( isPressed ) {
-				ariaLabel = __( "Remove highlight from the text", "yoast-components" );
-			} else {
-				ariaLabel = __( "Highlight this result in the text", "yoast-components" );
-			}
-			return <AnalysisResult
-				key={ result.id }
-				text={ result.text }
-				bulletColor={ color }
-				hasMarksButton={ result.hasMarks }
-				ariaLabel={ ariaLabel }
-				pressed={ isPressed }
-				buttonId={ result.id }
-				onButtonClick={ this.handleClick.bind( this, result.id, result.marker ) }
-				marksButtonClassName={ this.props.marksButtonClassName }
-				marksButtonStatus={ this.props.marksButtonStatus }
-			/>;
-		} );
-	}
-
-	/**
-	 * Renders the language notice. Provides a link to a setting page in case of
-	 * administrator, a notice to contact an administrator otherwise.
-	 *
-	 * @returns {ReactElement} The rendered language notice.
-	 */
-	renderLanguageNotice() {
-		let showLanguageNotice = this.props.showLanguageNotice;
-		let canChangeLanguage = this.props.canChangeLanguage;
-		if ( ! showLanguageNotice ) {
-			return null;
-		}
-		if ( canChangeLanguage ) {
-			return (
-				<LanguageNotice>
-					{
-						interpolateComponents( {
-							/* Translators: %s is the translated name of the language. */
-							mixedString: sprintf(
-								__( "Your site language is set to %s.", "yoast-components" ),
-								"{{strong}}" + this.props.language + "{{/strong}}"
-							),
-							components: {
-								strong: <strong />,
-							},
-						} )
-					}
-					<ChangeLanguageLink href={ this.props.changeLanguageLink }>
-						{ __( "Change language", "yoast-components" ) }
-					</ChangeLanguageLink>
-				</LanguageNotice>
-			);
-		}
-
+	renderCollapsible( title, headingLevel, results ) {
 		return (
-			<LanguageNotice>
-				{
-					interpolateComponents( {
-						mixedString: sprintf(
-							/* Translators: %s is the translated name of the language. */
-							__( "Your site language is set to %s. If this is not correct, contact your site administrator.", "yoast-components" ),
-							"{{strong}}" + this.props.language  + "{{/strong}}"
-						),
-						components: {
-							strong: <strong />,
-						},
-					} )
-				}
-			</LanguageNotice>
+			<StyledCollapsible
+				initialIsOpen={ true }
+				title={ `${ title } (${ results.length })` }
+				prefixIcon={ { icon: "angle-up", color: colors.$color_grey_dark, size: "18px" } }
+				prefixIconCollapsed={ { icon: "angle-down", color: colors.$color_grey_dark, size: "18px" } }
+				suffixIcon={ null }
+				suffixIconCollapsed={ null }
+				headingProps={ { level: headingLevel, fontSize: "13px", fontWeight: "bold" } }
+			>
+				<AnalysisList
+					results={ results }
+					marksButtonActivatedResult={ this.state.checked }
+					marksButtonStatus={ this.props.marksButtonStatus }
+					marksButtonClassName={ this.props.marksButtonClassName }
+					onMarksButtonClick={ this.handleClick.bind( this ) }
+				/>
+			</StyledCollapsible>
 		);
 	}
 
@@ -186,76 +111,57 @@ class ContentAnalysis extends React.Component {
 	 * @returns {ReactElement} The rendered ContentAnalysis component.
 	 */
 	render() {
-		let problemsResults = this.props.problemsResults;
-		let improvementsResults = this.props.improvementsResults;
-		let goodResults = this.props.goodResults;
-		let considerationsResults = this.props.considerationsResults;
-		let errorsResults = this.props.errorsResults;
-		let headingLevel = this.props.headingLevel;
-		let errorsFound = errorsResults.length;
-		let problemsFound = problemsResults.length;
-		let improvementsFound = improvementsResults.length;
-		let considerationsFound = considerationsResults.length;
-		let goodResultsFound = goodResults.length;
+		const {
+			problemsResults,
+			improvementsResults,
+			goodResults,
+			considerationsResults,
+			errorsResults,
+			headingLevel,
+		} = this.props;
+		const errorsFound = errorsResults.length;
+		const problemsFound = problemsResults.length;
+		const improvementsFound = improvementsResults.length;
+		const considerationsFound = considerationsResults.length;
+		const goodResultsFound = goodResults.length;
 
 		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
 		return (
 			<ContentAnalysisContainer>
-				{ this.renderLanguageNotice() }
 				{ errorsFound > 0 &&
-				<AnalysisCollapsible
-					headingLevel={ headingLevel }
-					title={ __( "Errors", "yoast-components" ) }
-				>
-					{ this.getResults( errorsResults ) }
-				</AnalysisCollapsible> }
+					this.renderCollapsible( __( "Errors", "yoast-components" ), headingLevel, errorsResults )
+				}
 				{ problemsFound > 0 &&
-					<AnalysisCollapsible
-						headingLevel={ headingLevel }
-						title={ __( "Problems", "yoast-components" ) }
-					>
-						{ this.getResults( problemsResults ) }
-					</AnalysisCollapsible> }
+					this.renderCollapsible( __( "Problems", "yoast-components" ), headingLevel, problemsResults )
+				}
 				{ improvementsFound > 0 &&
-					<AnalysisCollapsible
-						headingLevel={ headingLevel }
-						title={ __( "Improvements", "yoast-components" ) }
-					>
-						{ this.getResults( improvementsResults ) }
-					</AnalysisCollapsible> }
+					this.renderCollapsible( __( "Improvements", "yoast-components" ), headingLevel, improvementsResults )
+				}
 				{ considerationsFound > 0 &&
-					<AnalysisCollapsible
-						headingLevel={ headingLevel }
-						title={ __( "Considerations", "yoast-components" ) }
-					>
-						{ this.getResults( considerationsResults ) }
-					</AnalysisCollapsible> }
+					this.renderCollapsible( __( "Considerations", "yoast-components" ), headingLevel, considerationsResults )
+				}
 				{ goodResultsFound > 0 &&
-					<AnalysisCollapsible
-						headingLevel={ headingLevel }
-						title={ __( "Good results", "yoast-components" ) }
-					>
-						{ this.getResults( goodResults ) }
-					</AnalysisCollapsible> }
+					this.renderCollapsible( __( "Good results", "yoast-components" ), headingLevel, goodResults )
+				}
 			</ContentAnalysisContainer>
 		);
 	}
 }
 
-ContentAnalysis.propTypes = {
+export const contentAnalysisPropType = {
 	onMarkButtonClick: PropTypes.func,
 	problemsResults: PropTypes.array,
 	improvementsResults: PropTypes.array,
 	goodResults: PropTypes.array,
 	considerationsResults: PropTypes.array,
 	errorsResults: PropTypes.array,
-	changeLanguageLink: PropTypes.string.isRequired,
-	canChangeLanguage: PropTypes.bool,
-	language: PropTypes.string.isRequired,
-	showLanguageNotice: PropTypes.bool,
 	headingLevel: PropTypes.number,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
+};
+
+ContentAnalysis.propTypes = {
+	...contentAnalysisPropType,
 };
 
 ContentAnalysis.defaultProps = {
@@ -265,8 +171,6 @@ ContentAnalysis.defaultProps = {
 	goodResults: [],
 	considerationsResults: [],
 	errorsResults: [],
-	showLanguageNotice: false,
-	canChangeLanguage: false,
 	headingLevel: 4,
 	marksButtonStatus: "enabled",
 };

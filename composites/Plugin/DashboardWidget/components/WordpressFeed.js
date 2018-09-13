@@ -72,12 +72,14 @@ const WordpressFeedFooter = styled.div`
 const WordpressFeedListItem = ( props ) => {
 	return (
 		<WordpressFeedListItemContainer
-			className={ props.className }>
+			className={ props.className }
+		>
 			<WordpressFeedLink
 				className={ `${ props.className }-link` }
 				href={ props.link }
 				target="_blank"
-				rel="noopener noreferrer">
+				rel="noopener noreferrer"
+			>
 				{ props.title }
 				<A11yNotice>
 					( Opens in a new browser tab )
@@ -111,33 +113,38 @@ WordpressFeedListItem.propTypes = {
 const WordpressFeed = ( props ) => {
 	return (
 		<WordpressFeedContainer
-			className={ props.className }>
+			className={ props.className }
+		>
 			<WordpressFeedHeader
-				className={ `${ props.className }__header` }>
+				className={ `${ props.className }__header` }
+			>
 				{ props.title ? props.title : props.feed.title }
 			</WordpressFeedHeader>
 			<WordpressFeedList
 				className={ `${ props.className }__posts` }
-				role="list">
+				role="list"
+			>
 				{ props.feed.items.map( item => (
 					<WordpressFeedListItem
 						className={ `${ props.className }__post` }
 						key={ item.link }
 						title={ item.title }
 						link={ item.link }
-						description={ item.description } />
+						description={ item.description }
+					/>
 				) ) }
 			</WordpressFeedList>
 			{ props.footerHtml &&
 				<WordpressFeedFooter
-					className={ `${ props.className }__footer` }>
+					className={ `${ props.className }__footer` }
+				>
 					<WordpressFeedLink
 						className={ `${ props.className }__footer-link` }
 						href={ props.feedLink ? props.feedLink : props.feed.link }
 						target="_blank"
 						rel="noopener noreferrer"
-						dangerouslySetInnerHTML={ { __html: props.footerHtml } } >
-					</WordpressFeedLink>
+						dangerouslySetInnerHTML={ { __html: props.footerHtml } }
+					/>
 				</WordpressFeedFooter>
 			}
 		</WordpressFeedContainer>

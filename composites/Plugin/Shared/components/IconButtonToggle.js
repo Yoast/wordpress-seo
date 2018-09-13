@@ -37,7 +37,7 @@ const IconButtonBase = styled.button`
  * @param {Object} props The component's props.
  * @returns {boolean} True if the buttons should be disabled.
  */
-let areButtonsDisabled = function( props ) {
+const areButtonsDisabled = function( props ) {
 	return props.marksButtonStatus === "disabled";
 };
 
@@ -71,19 +71,22 @@ const ChangingIconButton = ( props ) => {
 				<SvgIcon
 					icon={ props.icon }
 					color={ props.disabledIconColor }
-					size="18px"/>
+					size="18px"
+				/>
 			}
 			{ ! props.pressed && ! areButtonsDisabled( props ) &&
 				<SvgIcon
 					icon={ props.icon }
 					color={ props.unpressedIconColor }
-					size="18px"/>
+					size="18px"
+				/>
 			}
 			{ props.pressed && ! areButtonsDisabled( props ) &&
 				<SvgIcon
 					icon={ props.icon }
 					color={ props.pressedIconColor }
-					size="18px"/>
+					size="18px"
+				/>
 			}
 		</IconButtonBase>
 	);

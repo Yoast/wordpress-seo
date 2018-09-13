@@ -12,16 +12,16 @@ Enzyme.configure( { adapter: new EnzymeAdapter() } );
 describe( "HelpTextWrapper", () => {
 	it( "matches the snapshot by default", () => {
 		const component = renderer.create(
-			<HelpTextWrapper />
+			<HelpTextWrapper helpTextButtonLabel="Open help" />
 		);
 
-		let tree = component.toJSON();
+		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 
 	it( "matches the snapshot when the help text button is focused", () => {
 		const wrapper = Enzyme.mount(
-			<HelpTextWrapper />
+			<HelpTextWrapper helpTextButtonLabel="Open help" />
 		);
 		wrapper.find( "button" ).simulate( "click", {
 			state: {

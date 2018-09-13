@@ -11,7 +11,7 @@ describe( "A Textarea component", () => {
 	it( "generates a textarea based on the props", () => {
 		renderer.render( <Textarea name="customTextarea" /> );
 
-		let result = renderer.getRenderOutput();
+		const result = renderer.getRenderOutput();
 
 		expect( result.props.name ).toBe( "customTextarea" );
 		expect( result.props.value ).toBe( "" );
@@ -20,7 +20,7 @@ describe( "A Textarea component", () => {
 	it( "generates an input based on the defaults if required props are missing", () => {
 		renderer.render( <Textarea /> );
 
-		let result = renderer.getRenderOutput();
+		const result = renderer.getRenderOutput();
 
 		expect( result.props.name ).toBe( "textarea" );
 		expect( result.props.value ).toBe( "" );
@@ -29,7 +29,7 @@ describe( "A Textarea component", () => {
 	it( "generates a warning when a faulty value is passed", () => {
 		console.error = jest.genMockFn();
 
-		renderer.render( <Textarea value={0} /> );
+		renderer.render( <Textarea value={ 0 } /> );
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )
@@ -39,7 +39,7 @@ describe( "A Textarea component", () => {
 	it( "generates a warning when a faulty onChange callback is passed", () => {
 		console.error = jest.genMockFn();
 
-		renderer.render( <Textarea name="customTextarea" onChange={0} /> );
+		renderer.render( <Textarea name="customTextarea" onChange={ 0 } /> );
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )

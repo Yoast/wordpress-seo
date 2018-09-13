@@ -1,168 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ReplacementVariableEditor wraps a Draft.js editor instance 1`] = `
-<React.Fragment>
-  <PluginEditor
-    ariaLabelledBy="id"
-    customStyleMap={Object {}}
-    decorators={Array []}
-    defaultBlockRenderMap={true}
-    defaultKeyBindings={true}
-    editorState={
-      EditorState {
-        "_immutable": Immutable.Record {
-          "allowUndo": true,
-          "currentContent": Immutable.Record {
-            "entityMap": Object {},
-            "blockMap": Immutable.OrderedMap {
-              "1": Immutable.Record {
-                "key": "1",
-                "type": "unstyled",
-                "text": "Dummy content",
-                "characterList": Immutable.List [
-                  Immutable.Record {
-                    "style": Immutable.OrderedSet [],
-                    "entity": null,
-                  },
-                  Immutable.Record {
-                    "style": Immutable.OrderedSet [],
-                    "entity": null,
-                  },
-                  Immutable.Record {
-                    "style": Immutable.OrderedSet [],
-                    "entity": null,
-                  },
-                  Immutable.Record {
-                    "style": Immutable.OrderedSet [],
-                    "entity": null,
-                  },
-                  Immutable.Record {
-                    "style": Immutable.OrderedSet [],
-                    "entity": null,
-                  },
-                  Immutable.Record {
-                    "style": Immutable.OrderedSet [],
-                    "entity": null,
-                  },
-                  Immutable.Record {
-                    "style": Immutable.OrderedSet [],
-                    "entity": null,
-                  },
-                  Immutable.Record {
-                    "style": Immutable.OrderedSet [],
-                    "entity": null,
-                  },
-                  Immutable.Record {
-                    "style": Immutable.OrderedSet [],
-                    "entity": null,
-                  },
-                  Immutable.Record {
-                    "style": Immutable.OrderedSet [],
-                    "entity": null,
-                  },
-                  Immutable.Record {
-                    "style": Immutable.OrderedSet [],
-                    "entity": null,
-                  },
-                  Immutable.Record {
-                    "style": Immutable.OrderedSet [],
-                    "entity": null,
-                  },
-                  Immutable.Record {
-                    "style": Immutable.OrderedSet [],
-                    "entity": null,
-                  },
-                ],
-                "depth": 0,
-                "data": Immutable.Map {},
-              },
-            },
-            "selectionBefore": Immutable.Record {
-              "anchorKey": "1",
-              "anchorOffset": 0,
-              "focusKey": "1",
-              "focusOffset": 0,
-              "isBackward": false,
-              "hasFocus": false,
-            },
-            "selectionAfter": Immutable.Record {
-              "anchorKey": "1",
-              "anchorOffset": 0,
-              "focusKey": "1",
-              "focusOffset": 0,
-              "isBackward": false,
-              "hasFocus": false,
-            },
-          },
-          "decorator": null,
-          "directionMap": Immutable.OrderedMap {
-            "1": "LTR",
-          },
-          "forceSelection": false,
-          "inCompositionMode": false,
-          "inlineStyleOverride": null,
-          "lastChangeType": null,
-          "nativelyRenderedContent": null,
-          "redoStack": Immutable.Stack [],
-          "selection": Immutable.Record {
-            "anchorKey": "1",
-            "anchorOffset": 0,
-            "focusKey": "1",
-            "focusOffset": 0,
-            "isBackward": false,
-            "hasFocus": false,
-          },
-          "treeMap": Immutable.OrderedMap {
-            "1": Immutable.List [
-              Immutable.Record {
-                "start": 0,
-                "end": 13,
-                "decoratorKey": null,
-                "leaves": Immutable.List [
-                  Immutable.Record {
-                    "start": 0,
-                    "end": 13,
-                  },
-                ],
-              },
-            ],
-          },
-          "undoStack": Immutable.Stack [],
-        },
-      }
+<ReplacementVariableEditorStandalone
+  ariaLabelledBy="id"
+  className=""
+  content="Dummy content"
+  onBlur={[Function]}
+  onChange={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  placeholder=""
+  replacementVariables={Array []}
+  theme={
+    Object {
+      "isRtl": "false",
     }
-    onBlur={[Function]}
-    onChange={[Function]}
-    onFocus={[Function]}
-    plugins={
-      Array [
-        Object {
-          "MentionSuggestions": [Function],
-          "decorators": Array [
-            Object {
-              "component": [Function],
-              "strategy": [Function],
-            },
-            Object {
-              "component": [Function],
-              "strategy": [Function],
-            },
-          ],
-          "getAccessibilityProps": [Function],
-          "handleReturn": [Function],
-          "initialize": [Function],
-          "onChange": [Function],
-          "onDownArrow": [Function],
-          "onEscape": [Function],
-          "onTab": [Function],
-          "onUpArrow": [Function],
-        },
-      ]
-    }
-    stripPastedStyles={true}
-  />
-  <Decorated(MentionSuggestions)
-    onSearchChange={[Function]}
-  />
-</React.Fragment>
+  }
+/>
 `;
