@@ -2,7 +2,6 @@ import { isArray, isObject, isNumber } from "lodash-es";
 
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 import Assessment from "../../src/assessment";
-import SEOAssessor from "../../src/seoAssessor";
 import Paper from "../../src/values/Paper";
 import AssessmentResult from "../../src/values/AssessmentResult";
 import testTexts from "../fullTextTests/testTexts";
