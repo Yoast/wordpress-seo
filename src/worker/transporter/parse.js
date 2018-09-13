@@ -2,13 +2,13 @@ import { isArray } from "lodash-es";
 import { isObject } from "lodash-es";
 import { mapValues } from "lodash-es";
 
-const AssessmentResult = require( "../../values/AssessmentResult" );
-const Mark = require( "../../values/Mark" );
-const Paper = require( "../../values/Paper" );
-const Participle = require( "../../values/Participle" );
-const Sentence = require( "../../values/Sentence" );
-const SentencePart = require( "../../values/SentencePart" );
-const WordCombination = require( "../../values/WordCombination" );
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
+import Paper from "../../values/Paper";
+import Participle from "../../values/Participle";
+import Sentence from "../../values/Sentence";
+import SentencePart from "../../values/SentencePart";
+import WordCombination from "../../values/WordCombination";
 
 const PARSE_CLASSES = {
 	AssessmentResult,

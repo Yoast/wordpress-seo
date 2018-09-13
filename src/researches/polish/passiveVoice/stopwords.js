@@ -2,7 +2,7 @@
  * Returns a list with stopwords for the Polish passive voice assessment.
  * @returns {Array} The list with stopwords.
  */
-module.exports = function() {
+export default function() {
 	return [
 		"a",
 		"aby",
@@ -35,4 +35,4 @@ module.exports = function() {
 		"którymi",
 		"że",
 	];
-};
+}

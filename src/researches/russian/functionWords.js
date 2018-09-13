@@ -1,4 +1,5 @@
-const transitionWords = require( "./transitionWords.js" )().allWords;
+import transitionWordsFactory from "./transitionWords.js";
+const transitionWords = transitionWordsFactory().allWords;
 
 /**
  * Returns an object with exceptions for the prominent words researcher
@@ -487,7 +488,12 @@ const titlesPreceding = [ "г-н", "г-жа", "тов", "гр-н", "гр-а", "�
 // "ст" is already included in recipe words
 const titlesFollowing = [ "мл" ];
 
-module.exports = function() {
+/**
+ * Returns the Russian function words.
+ *
+ * @returns {Object} Russian function words.
+ */
+export default function() {
 	return {
 		// These word categories are filtered at the ending of word combinations.
 		filteredAtEnding: [].concat( ordinalNumerals, generalAdjectivesAdverbs ),
@@ -511,4 +517,4 @@ module.exports = function() {
 			transitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
 			recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing ),
 	};
-};
+}

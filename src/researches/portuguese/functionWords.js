@@ -1,4 +1,5 @@
-let transitionWords = require( "./transitionWords.js" )().singleWords;
+import transitionWordsFactory from "./transitionWords.js";
+let transitionWords = transitionWordsFactory().singleWords;
 
 /**
  * Returns an array with exceptions for the prominent words researcher.
@@ -148,7 +149,12 @@ let miscellaneous = [ "sim", "não", "ok", "amém", "etc", "euro", "euros", "ade
 
 let titles = [ "sr", "sra", "sras", "dr", "dra", "prof" ];
 
-module.exports = function() {
+/**
+ * Returns the Portuguese function words.
+ *
+ * @returns {Object} Portuguese function words.
+ */
+export default function() {
 	return {
 		// These word categories are filtered at the beginning of word combinations.
 		filteredAtBeginning: generalAdjectivesAdverbs,
@@ -175,4 +181,4 @@ module.exports = function() {
 			intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, generalAdjectivesAdverbs, generalAdjectivesPreceding, interjections,
 			recipeWords, timeWords, vagueNouns, miscellaneous, titles ),
 	};
-};
+}

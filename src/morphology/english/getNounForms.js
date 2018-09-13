@@ -1,7 +1,6 @@
 // "use strict";
-const createRulesFromMorphologyData = require( "../morphoHelpers/createRulesFromMorphologyData.js" );
-const buildOneFormFromRegex = require( "../morphoHelpers/buildFormRule" ).buildOneFormFromRegex;
-const buildTwoFormsFromRegex = require( "../morphoHelpers/buildFormRule" ).buildTwoFormsFromRegex;
+import createRulesFromMorphologyData from "../morphoHelpers/createRulesFromMorphologyData.js";
+import { buildOneFormFromRegex, buildTwoFormsFromRegex } from "../morphoHelpers/buildFormRule";
 
 import { isUndefined } from "lodash-es";
 import { uniq as unique } from "lodash-es";
@@ -112,7 +111,7 @@ const getNounFormsWithPossessives = function( word, nounData ) {
 	return unique( flatten( forms ) );
 };
 
-module.exports = {
+export {
 	getNounFormsWithPossessives,
 	getNounForms,
 	checkPossessive,

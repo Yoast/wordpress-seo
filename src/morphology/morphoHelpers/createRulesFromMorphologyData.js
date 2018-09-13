@@ -6,7 +6,7 @@
  *
  * @returns {Array} Array of objects to be used in the regex-based rules.
  */
-const createRulesFromMorphologyData = function( array ) {
+export default function( array ) {
 	return array.map( function( pair ) {
 		if ( pair.length === 2 ) {
 			return {
@@ -22,6 +22,4 @@ const createRulesFromMorphologyData = function( array ) {
 			};
 		}
 	} );
-};
-
-module.exports = createRulesFromMorphologyData;
+}

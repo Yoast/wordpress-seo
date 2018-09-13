@@ -144,16 +144,12 @@ class App extends React.Component {
 
 					<li>Performance information</li>
 					<li>Re-order collapsibles</li>
+					<li>Add button to trigger a ton of analyses continiously. This can be used to check for performance & memory leaks.</li>
 				</ul>
 
 				Design Todos:
 				<ul>
 					<li>Overall score</li>
-				</ul>
-
-				My todos:
-				<ul>
-					<li>Include place to mark text</li>
 				</ul>
 			</Fragment>
 		);

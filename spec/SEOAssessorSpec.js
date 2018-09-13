@@ -1,8 +1,7 @@
-var Assessor = require( "../src/seoAssessor.js" );
-var Paper = require( "../src/values/Paper.js" );
+import Assessor from "../src/seoAssessor.js";
+import Paper from "../src/values/Paper.js";
 import getResults from "./specHelpers/getAssessorResults";
-
-var factory = require( "./helpers/factory.js" );
+import factory from "./helpers/factory.js";
 var i18n = factory.buildJed();
 
 var assessor = new Assessor( i18n );
@@ -44,6 +43,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"metaDescriptionLength",
 			"textImages",
 			"textLength",
@@ -60,6 +60,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"metaDescriptionLength",
 			"textImages",
 			"textLength",
@@ -77,6 +78,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
 			"textImages",
@@ -110,6 +112,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"metaDescriptionLength",
 			"textImages",
 			"textLength",
@@ -140,6 +143,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
 			"textImages",
@@ -169,6 +173,7 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
 			"textImages",

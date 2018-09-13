@@ -1,6 +1,6 @@
 /** @module stringProcessing/countWords */
 
-var getWords = require( "../stringProcessing/getWords.js" );
+import getWords from "../stringProcessing/getWords.js";
 
 /**
  * Calculates the wordcount of a certain text.
@@ -8,6 +8,6 @@ var getWords = require( "../stringProcessing/getWords.js" );
  * @param {string} text The text to be counted.
  * @returns {int} The word count of the given text.
  */
-module.exports = function( text ) {
+export default function( text ) {
 	return getWords( text ).length;
-};
+}

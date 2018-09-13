@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.39.0",
+  "version": "1.39.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/YoastSEO.js"
@@ -98,8 +98,8 @@
       "global": {
         "branches": 74,
         "functions": 78,
-        "lines": 85,
-        "statements": 85
+        "lines": 83,
+        "statements": 83
       }
     }
   }

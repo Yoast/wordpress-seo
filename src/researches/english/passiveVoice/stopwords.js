@@ -2,7 +2,7 @@
  * Returns a list with stopwords for the English passive voice assessment.
  * @returns {Array} The list with stopwords.
  */
-module.exports = function() {
+export default function() {
 	return [
 		"to",
 		"which",
@@ -52,4 +52,4 @@ module.exports = function() {
 		"but",
 		"or",
 	];
-};
+}

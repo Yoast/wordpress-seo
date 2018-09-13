@@ -1,4 +1,4 @@
-const transliterationsMap = require( "../config/transliterationsWPstyle.js" );
+import transliterationsMap from "../config/transliterationsWPstyle.js";
 
 /**
  * Replaces all special characters from the text based on the transliterations map specific for WP
@@ -9,7 +9,7 @@ const transliterationsMap = require( "../config/transliterationsWPstyle.js" );
  *
  * @returns {string} The text with all special characters replaced.
  */
-module.exports = function( text, locale ) {
+export default function( text, locale ) {
 	const map = transliterationsMap( locale );
 	for ( let i = map.length - 1; i >= 0; i-- ) {
 		text = text.replace(
@@ -18,4 +18,4 @@ module.exports = function( text, locale ) {
 		);
 	}
 	return text;
-};
+}
