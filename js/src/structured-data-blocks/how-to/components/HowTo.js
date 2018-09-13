@@ -89,10 +89,17 @@ export default class HowTo extends Component {
 		this.props.setAttributes( { durationText: text } );
 	}
 
+	/**
+	 * Sets the default duration text to describe the time the guide in the how-to block takes, when no duration text
+	 * was provided.
+	 *
+	 * @param {string} text The text to describe the duration.
+	 *
+	 * @returns {void}
+	 */
 	setDefaultDurationText( text ) {
 		this.props.setAttributes( { defaultDurationText: text } );
 	}
-
 
 	/**
 	 * Generates a pseudo-unique id.
