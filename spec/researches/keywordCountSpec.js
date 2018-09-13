@@ -103,7 +103,7 @@ describe( "Test for counting the keyword in a text", function() {
 
 	it( "does not count a string with 'key-word' in it, if the keyword is 'key word'", function() {
 		let mockPaper = new Paper( "A string with a key-word." );
-		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 0 );
+		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
 	} );
 
 	it( "counts a string with a keyword with a '_' in it", function() {
@@ -143,6 +143,6 @@ describe( "Test for counting the keyword in a text", function() {
 
 	it( "counts a string of text with a keyword in it once, even if the text contains 'key-word' as well.", function() {
 		let mockPaper = new Paper( "Lorem ipsum dolor sit amet, key word consectetur key-word adipiscing elit " );
-		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
+		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 2 );
 	} );
 } );
