@@ -1,5 +1,6 @@
 import matchTextWithArray from "../stringProcessing/matchTextWithArray";
 import getSentences from "../stringProcessing/getSentences";
+import escapeRegExp from "lodash-es/escapeRegExp";
 
 /**
  * Matches the keyword in the description if a description and keyword are available.
@@ -16,7 +17,9 @@ export default function( paper, researcher ) {
 	const description = paper.getDescription();
 	const locale = paper.getLocale();
 
-	const keyPhraseForms = researcher.getResearch( "morphology" ).keyphraseForms;
+	let keyPhraseForms = researcher.getResearch( "morphology" ).keyphraseForms;
+	keyPhraseForms = keyPhraseForms.map( keyWordForms => keyWordForms.map( form => escapeRegExp( form ) )  );
+	console.log( keyPhraseForms );
 
 	const sentences = getSentences( description );
 
