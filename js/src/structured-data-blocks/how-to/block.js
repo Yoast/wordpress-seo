@@ -39,9 +39,6 @@ const attributes = {
 	durationText: {
 		type: "string",
 	},
-	defaultDurationText: {
-		type: "string",
-	},
 };
 
 export default () => {
