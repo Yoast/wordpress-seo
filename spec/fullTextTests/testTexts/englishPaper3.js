@@ -21,7 +21,7 @@ const paper = new Paper( "<h2>Which social media platform suits your business?</
 	locale: "en_EN",
 	url: "https://yoast.com/social-media-strategy-where-to-begin/",
 	synonyms: "social media SEO strategy",
-	} );
+} );
 
 const expectedResults = {
 	introductionKeyword: {
