@@ -250,11 +250,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$enriched_defaults[ 'display-metabox-pt-' . $pt->name ]      = true;
 				$enriched_defaults[ 'post_types-' . $pt->name . '-maintax' ] = 0; // Select box.
 
-				if ( ! $pt->_builtin ) {
-					if ( ! WPSEO_Post_Type::has_archive( $pt ) ) {
-						continue;
-					}
-
+				if ( ! $pt->_builtin && WPSEO_Post_Type::has_archive( $pt ) ) {
 					$enriched_defaults[ 'title-ptarchive-' . $pt->name ]    = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
 					$enriched_defaults[ 'metadesc-ptarchive-' . $pt->name ] = ''; // Text area.
 					$enriched_defaults[ 'bctitle-ptarchive-' . $pt->name ]  = ''; // Text field.
