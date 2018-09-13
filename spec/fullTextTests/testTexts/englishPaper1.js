@@ -69,7 +69,7 @@ const expectedResults = {
 	},
 	metaDescriptionKeyword: {
 		score: 9,
-		resultText: "The meta description <a href='https://yoa.st/2pf' target='_blank'>contains the focus keyword</a>.",
+		resultText: "The meta description <a href='https://yoa.st/2pf' target='_blank'>contains the focus keyword</a> in at least one sentence.",
 	},
 	metaDescriptionLength: {
 		score: 6,

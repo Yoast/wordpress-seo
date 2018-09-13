@@ -61,6 +61,7 @@ import findTransitionWords from "../../src/researches/findTransitionWords.js";
 import passiveVoice from "../../src/researches/getPassiveVoice.js";
 import getSentenceBeginnings from "../../src/researches/getSentenceBeginnings.js";
 import sentences from "../../src/researches/sentences";
+import { research } from "../../src/researches/buildKeywordForms";
 
 // Import test papers
 import testPapers from "./testTexts";
@@ -128,7 +129,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the metaDescriptionKeyword assessment", function() {
 			result.metaDescriptionKeyword = new MetaDescriptionKeywordAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( metaDescriptionKeyword( paper ) ),
+				factory.buildMockResearcher( metaDescriptionKeyword( paper, researcher ) ),
 				i18n
 			);
 			expect( result.metaDescriptionKeyword.getScore() ).toBe( expectedResults.metaDescriptionKeyword.score );

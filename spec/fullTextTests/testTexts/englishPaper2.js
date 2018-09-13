@@ -57,8 +57,8 @@ const expectedResults = {
 		resultText: "",
 	},
 	metaDescriptionKeyword: {
-		score: 3,
-		resultText: "A meta description has been specified, but it <a href='https://yoa.st/2pf' target='_blank'>does not contain the focus keyword</a>.",
+		score: 6,
+		resultText: "The meta description <a href='https://yoa.st/2pf' target='_blank'>contains the focus keyword</a>. Try adding all the keyword terms into one sentence to make it better.",
 	},
 	metaDescriptionLength: {
 		score: 9,
