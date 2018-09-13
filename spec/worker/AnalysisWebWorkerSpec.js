@@ -2,6 +2,7 @@ import { isArray, isObject, isNumber } from "lodash-es";
 
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 import Assessment from "../../src/assessment";
+import SEOAssessor from "../../src/seoAssessor";
 import Paper from "../../src/values/Paper";
 import AssessmentResult from "../../src/values/AssessmentResult";
 import testTexts from "../fullTextTests/testTexts";
@@ -139,13 +140,18 @@ describe( "AnalysisWebWorker", () => {
 			} );
 
 			test( "logs in development", () => {
+				const saveNodeEnv = global.process.env.NODE_ENV;
 				global.process.env.NODE_ENV = "development";
 				/* eslint-disable no-console */
 				console.log = jest.fn();
-				scope.onmessage( createMessage( "testing" ) );
+				scope.onmessage( createMessage( "initialize" ) );
+				expect( console.log ).toHaveBeenCalledTimes( 2 );
+				expect( console.log ).toHaveBeenCalledWith( "worker <- wrapper", "initialize", 0, {} );
+				expect( console.log ).toHaveBeenCalledWith( "worker -> wrapper", "initialize:done", 0, {} );
 
-				expect( console.log ).toHaveBeenCalledTimes( 1 );
-				expect( console.log ).toHaveBeenCalledWith( "worker <- wrapper", "testing", 0, {} );
+				global.process.env.NODE_ENV = saveNodeEnv;
+				scope.onmessage( createMessage( "initialize" ) );
+				expect( console.log ).toHaveBeenCalledTimes( 2 );
 				/* eslint-enable no-console */
 			} );
 		} );
@@ -366,6 +372,25 @@ describe( "AnalysisWebWorker", () => {
 					expect( isObject( result.seo[ "" ] ) ).toBe( true );
 					expect( isArray( result.seo[ "" ].results ) ).toBe( true );
 					expect( isNumber( result.seo[ "" ].score ) ).toBe( true );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
+			} );
+
+			test( "researcher does not set paper again if the paper has no changes", done => {
+				const paper = new Paper( "This is the content." );
+				worker._researcher.setPaper = jest.fn();
+
+				let firstRun = true;
+				worker.analyzeDone = () => {
+					expect( worker._researcher.setPaper ).toHaveBeenCalledTimes( 1 );
+					if ( firstRun ) {
+						scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
+						firstRun = false;
+						return;
+					}
 					done();
 				};
 
