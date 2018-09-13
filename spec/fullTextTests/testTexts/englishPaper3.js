@@ -26,7 +26,7 @@ const paper = new Paper( "<h2>Which social media platform suits your business?</
 const expectedResults = {
 	introductionKeyword: {
 		score: 9,
-		resultText: "The focus keyword appears in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy.",
+		resultText: "All topic words appear within one sentence in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy.",
 	},
 	keyphraseLength: {
 		score: 0,
@@ -57,8 +57,8 @@ const expectedResults = {
 		resultText: "",
 	},
 	textImages: {
-		score: 6,
-		resultText: "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page do not have alt attributes containing the focus keyword.",
+		score: 9,
+		resultText: "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page contain alt attributes with the topic words.",
 	},
 	textLength: {
 		score: 9,
