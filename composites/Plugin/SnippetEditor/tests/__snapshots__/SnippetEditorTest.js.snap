@@ -452,7 +452,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
     <svg
       aria-hidden={true}
       className="yoast-svg-icon yoast-svg-icon-edit c23"
-      fill={undefined}
+      fill="currentColor"
       focusable="false"
       role="img"
       size="16px"
@@ -498,6 +498,7 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
       onClick={[Function]}
     >
       <SvgIcon
+        color="currentColor"
         icon="edit"
         size="16px"
       />
@@ -1770,12 +1771,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     type="button"
                   >
                     <SvgIcon
+                      color="currentColor"
                       icon="edit"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
                         aria-hidden={true}
                         className="yoast-svg-icon yoast-svg-icon-edit"
+                        fill="currentColor"
                         focusable="false"
                         role="img"
                         size="16px"
@@ -1785,6 +1788,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         <svg
                           aria-hidden={true}
                           className="yoast-svg-icon yoast-svg-icon-edit c23"
+                          fill="currentColor"
                           focusable="false"
                           role="img"
                           size="16px"
@@ -1976,12 +1980,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -1991,6 +1997,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -2249,12 +2256,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -2264,6 +2273,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -3679,12 +3689,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     type="button"
                   >
                     <SvgIcon
+                      color="currentColor"
                       icon="edit"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
                         aria-hidden={true}
                         className="yoast-svg-icon yoast-svg-icon-edit"
+                        fill="currentColor"
                         focusable="false"
                         role="img"
                         size="16px"
@@ -3694,6 +3706,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         <svg
                           aria-hidden={true}
                           className="yoast-svg-icon yoast-svg-icon-edit c23"
+                          fill="currentColor"
                           focusable="false"
                           role="img"
                           size="16px"
@@ -3885,12 +3898,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -3900,6 +3915,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -4158,12 +4174,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -4173,6 +4191,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -5588,12 +5607,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     type="button"
                   >
                     <SvgIcon
+                      color="currentColor"
                       icon="edit"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
                         aria-hidden={true}
                         className="yoast-svg-icon yoast-svg-icon-edit"
+                        fill="currentColor"
                         focusable="false"
                         role="img"
                         size="16px"
@@ -5603,6 +5624,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         <svg
                           aria-hidden={true}
                           className="yoast-svg-icon yoast-svg-icon-edit c23"
+                          fill="currentColor"
                           focusable="false"
                           role="img"
                           size="16px"
@@ -5794,12 +5816,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -5809,6 +5833,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -6067,12 +6092,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -6082,6 +6109,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -7497,12 +7525,14 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     type="button"
                   >
                     <SvgIcon
+                      color="currentColor"
                       icon="edit"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
                         aria-hidden={true}
                         className="yoast-svg-icon yoast-svg-icon-edit"
+                        fill="currentColor"
                         focusable="false"
                         role="img"
                         size="16px"
@@ -7512,6 +7542,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         <svg
                           aria-hidden={true}
                           className="yoast-svg-icon yoast-svg-icon-edit c23"
+                          fill="currentColor"
                           focusable="false"
                           role="img"
                           size="16px"
@@ -7703,12 +7734,14 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -7718,6 +7751,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -7976,12 +8010,14 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -7991,6 +8027,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -9163,12 +9200,14 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                     type="button"
                   >
                     <SvgIcon
+                      color="currentColor"
                       icon="edit"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
                         aria-hidden={true}
                         className="yoast-svg-icon yoast-svg-icon-edit"
+                        fill="currentColor"
                         focusable="false"
                         role="img"
                         size="16px"
@@ -9178,6 +9217,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                         <svg
                           aria-hidden={true}
                           className="yoast-svg-icon yoast-svg-icon-edit c23"
+                          fill="currentColor"
                           focusable="false"
                           role="img"
                           size="16px"
@@ -10427,12 +10467,14 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     type="button"
                   >
                     <SvgIcon
+                      color="currentColor"
                       icon="edit"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
                         aria-hidden={true}
                         className="yoast-svg-icon yoast-svg-icon-edit"
+                        fill="currentColor"
                         focusable="false"
                         role="img"
                         size="16px"
@@ -10442,6 +10484,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         <svg
                           aria-hidden={true}
                           className="yoast-svg-icon yoast-svg-icon-edit c23"
+                          fill="currentColor"
                           focusable="false"
                           role="img"
                           size="16px"
@@ -10633,12 +10676,14 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -10648,6 +10693,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -10906,12 +10952,14 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -10921,6 +10969,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -12336,12 +12385,14 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     type="button"
                   >
                     <SvgIcon
+                      color="currentColor"
                       icon="edit"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
                         aria-hidden={true}
                         className="yoast-svg-icon yoast-svg-icon-edit"
+                        fill="currentColor"
                         focusable="false"
                         role="img"
                         size="16px"
@@ -12351,6 +12402,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         <svg
                           aria-hidden={true}
                           className="yoast-svg-icon yoast-svg-icon-edit c23"
+                          fill="currentColor"
                           focusable="false"
                           role="img"
                           size="16px"
@@ -12542,12 +12594,14 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -12557,6 +12611,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -12815,12 +12870,14 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -12830,6 +12887,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -13473,7 +13531,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
     <svg
       aria-hidden={true}
       className="yoast-svg-icon yoast-svg-icon-edit c23"
-      fill={undefined}
+      fill="currentColor"
       focusable="false"
       role="img"
       size="16px"
@@ -13941,7 +13999,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
     <svg
       aria-hidden={true}
       className="yoast-svg-icon yoast-svg-icon-edit c23"
-      fill={undefined}
+      fill="currentColor"
       focusable="false"
       role="img"
       size="16px"
@@ -15201,12 +15259,14 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     type="button"
                   >
                     <SvgIcon
+                      color="currentColor"
                       icon="edit"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
                         aria-hidden={true}
                         className="yoast-svg-icon yoast-svg-icon-edit"
+                        fill="currentColor"
                         focusable="false"
                         role="img"
                         size="16px"
@@ -15216,6 +15276,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         <svg
                           aria-hidden={true}
                           className="yoast-svg-icon yoast-svg-icon-edit c24"
+                          fill="currentColor"
                           focusable="false"
                           role="img"
                           size="16px"
@@ -15407,12 +15468,14 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -15422,6 +15485,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c24"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -15680,12 +15744,14 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -15695,6 +15761,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c24"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -17130,12 +17197,14 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     type="button"
                   >
                     <SvgIcon
+                      color="currentColor"
                       icon="edit"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
                         aria-hidden={true}
                         className="yoast-svg-icon yoast-svg-icon-edit"
+                        fill="currentColor"
                         focusable="false"
                         role="img"
                         size="16px"
@@ -17145,6 +17214,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         <svg
                           aria-hidden={true}
                           className="yoast-svg-icon yoast-svg-icon-edit c24"
+                          fill="currentColor"
                           focusable="false"
                           role="img"
                           size="16px"
@@ -17336,12 +17406,14 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -17351,6 +17423,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c24"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -17609,12 +17682,14 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -17624,6 +17699,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c24"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -19039,12 +19115,14 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     type="button"
                   >
                     <SvgIcon
+                      color="currentColor"
                       icon="edit"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
                         aria-hidden={true}
                         className="yoast-svg-icon yoast-svg-icon-edit"
+                        fill="currentColor"
                         focusable="false"
                         role="img"
                         size="16px"
@@ -19054,6 +19132,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         <svg
                           aria-hidden={true}
                           className="yoast-svg-icon yoast-svg-icon-edit c23"
+                          fill="currentColor"
                           focusable="false"
                           role="img"
                           size="16px"
@@ -19245,12 +19324,14 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -19260,6 +19341,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -19518,12 +19600,14 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -19533,6 +19617,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -20959,12 +21044,14 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     type="button"
                   >
                     <SvgIcon
+                      color="currentColor"
                       icon="edit"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
                         aria-hidden={true}
                         className="yoast-svg-icon yoast-svg-icon-edit"
+                        fill="currentColor"
                         focusable="false"
                         role="img"
                         size="16px"
@@ -20974,6 +21061,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         <svg
                           aria-hidden={true}
                           className="yoast-svg-icon yoast-svg-icon-edit c23"
+                          fill="currentColor"
                           focusable="false"
                           role="img"
                           size="16px"
@@ -21187,12 +21275,14 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -21202,6 +21292,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -21493,12 +21584,14 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -21508,6 +21601,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -22183,7 +22277,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
     <svg
       aria-hidden={true}
       className="yoast-svg-icon yoast-svg-icon-edit c24"
-      fill={undefined}
+      fill="currentColor"
       focusable="false"
       role="img"
       size="16px"
@@ -22229,6 +22323,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
       onClick={[Function]}
     >
       <SvgIcon
+        color="currentColor"
         icon="edit"
         size="16px"
       />
@@ -23501,12 +23596,14 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     type="button"
                   >
                     <SvgIcon
+                      color="currentColor"
                       icon="edit"
                       size="16px"
                     >
                       <SvgIcon__StyledSvg
                         aria-hidden={true}
                         className="yoast-svg-icon yoast-svg-icon-edit"
+                        fill="currentColor"
                         focusable="false"
                         role="img"
                         size="16px"
@@ -23516,6 +23613,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         <svg
                           aria-hidden={true}
                           className="yoast-svg-icon yoast-svg-icon-edit c23"
+                          fill="currentColor"
                           focusable="false"
                           role="img"
                           size="16px"
@@ -23707,12 +23805,14 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -23722,6 +23822,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -23980,12 +24081,14 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                   type="button"
                                 >
                                   <SvgIcon
+                                    color="currentColor"
                                     icon="plus-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-plus-circle"
+                                      fill="currentColor"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -23995,6 +24098,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-plus-circle c23"
+                                        fill="currentColor"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -24636,7 +24740,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
     <svg
       aria-hidden={true}
       className="yoast-svg-icon yoast-svg-icon-edit c23"
-      fill={undefined}
+      fill="currentColor"
       focusable="false"
       role="img"
       size="16px"
@@ -25335,7 +25439,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-plus-circle c26"
-          fill={undefined}
+          fill="currentColor"
           focusable="false"
           role="img"
           size="16px"
@@ -25405,7 +25509,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-plus-circle c26"
-          fill={undefined}
+          fill="currentColor"
           focusable="false"
           role="img"
           size="16px"
@@ -25888,7 +25992,7 @@ exports[`SnippetEditor shows the editor 1`] = `
     <svg
       aria-hidden={true}
       className="yoast-svg-icon yoast-svg-icon-edit c23"
-      fill={undefined}
+      fill="currentColor"
       focusable="false"
       role="img"
       size="16px"
