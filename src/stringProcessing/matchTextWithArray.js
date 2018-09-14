@@ -36,8 +36,6 @@ export default function( text, array, locale = "en_EN" ) {
 		return stripSpaces( removePunctuation( string ) );
 	} );
 
-
-
 	return {
 		count: count,
 		matches: matches,
