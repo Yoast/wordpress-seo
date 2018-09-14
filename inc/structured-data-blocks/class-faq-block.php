@@ -54,35 +54,26 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	protected function get_json_ld( array $attributes ) {
 		$json_ld = array(
 			'@context' => 'https://schema.org',
-			'@graph'   => array( $this->get_faq_json_ld() ),
-		);
-
-		if ( ! is_array( $attributes['questions'] ) ) {
-			return $json_ld;
-		}
-
-		$questions = array_filter( $attributes['questions'], 'is_array' );
-		foreach ( $questions as $question ) {
-			$json_ld['@graph'][] = $this->get_question_json_ld( $question );
-		}
-
-		return $json_ld;
-	}
-
-	/**
-	 * Returns the JSON LD for a FAQPage in a faq block in array form.
-	 *
-	 * @return array The JSON LD representation of the FAQPage in a faq block in array form.
-	 */
-	protected function get_faq_json_ld() {
-		$json_ld = array(
-			'@type' => 'FAQPage',
+			'@type'    => 'FAQPage',
 		);
 
 		$post_title = get_the_title();
 		if ( ! empty( $post_title ) ) {
 			$json_ld['name'] = $post_title;
 		}
+
+		if ( ! is_array( $attributes['questions'] ) ) {
+			return $json_ld;
+		}
+
+		$mainEntity = array();
+
+		$questions = array_filter( $attributes['questions'], 'is_array' );
+		foreach ( $questions as $question ) {
+			$mainEntity[] = $this->get_question_json_ld( $question );
+		}
+
+		$json_ld[ 'mainEntity' ] = $mainEntity;
 
 		return $json_ld;
 	}
@@ -111,7 +102,7 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 			);
 
 			if ( ! empty( $question['jsonImageSrc'] ) ) {
-				$json_ld['acceptedAnswer']['associatedMedia'] = array(
+				$json_ld['acceptedAnswer']['image'] = array(
 					'@type'      => 'ImageObject',
 					'contentUrl' => $question['jsonImageSrc'],
 				);
