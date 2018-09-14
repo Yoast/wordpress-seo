@@ -247,7 +247,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 		expect( findTopicFormsInString(
 			{
 				keyphraseForms: [ [ "lunch", "lunches" ], [ "moment", "moments" ] ],
-				synonymsForms: [ [ "lunch", "lunches" ], [ "moment", "moments" ] ],
+				synonymsForms: [ [ [ "lunch", "lunches" ], [ "moment", "moments" ] ] ],
 			},
 			"",
 			true,
@@ -263,7 +263,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 		expect( findTopicFormsInString(
 			{
 				keyphraseForms: [ [ "lunch", "lunches" ], [ "moment", "moments" ] ],
-				synonymsForms: [ [ "lunch", "lunches" ], [ "moment", "moments" ] ],
+				synonymsForms: [ [ [ "lunch", "lunches" ], [ "moment", "moments" ] ] ],
 			},
 			"It's lunch time!",
 			true
