@@ -330,7 +330,7 @@ function wpseo_init() {
 	$wpseo_onpage = new WPSEO_OnPage();
 	$wpseo_onpage->register_hooks();
 
-	if ( class_exists( '\Yoast\YoastSEO\Config\Plugin' ) ) {
+	if ( defined( 'YOAST_SEO_INDEXABLES' ) && YOAST_SEO_INDEXABLES === true && class_exists( '\Yoast\YoastSEO\Config\Plugin' ) ) {
 		$bootstrap = new \Yoast\YoastSEO\Config\Plugin();
 		$bootstrap->initialize();
 		$bootstrap->register_hooks();
