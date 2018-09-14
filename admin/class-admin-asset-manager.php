@@ -210,8 +210,20 @@ class WPSEO_Admin_Asset_Manager {
 				wp_deregister_script( 'tinymce-latest' );
 				wp_register_script( 'tinymce-latest', includes_url( 'js/tinymce/' ) . 'wp-tinymce.php', array( 'jquery' ), false, true );
 			}
+
+			// Use Gutenberg's babel-polyfill.
+			$babel_polyfill = 'wp-polyfill-ecmascript';
 		}
 		else {
+			// If Gutenberg's babel-polyfill is not registered, use our own.
+			if ( ! wp_script_is( 'wp-polyfill-ecmascript', 'registered' ) ) {
+				$this->register_script( new WPSEO_Admin_Asset( array(
+					'name' => 'babel-polyfill',
+					'src'  => 'babel-polyfill-' . $flat_version,
+				) ) );
+			}
+			$babel_polyfill = self::PREFIX . 'babel-polyfill';
+
 			if ( wp_script_is( 'lodash', 'registered' ) ) {
 				$backport_wp_dependencies[] = 'lodash';
 			}
@@ -229,6 +241,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'react-dependencies',
 				// Load webpack-commons for bundle support.
 				'src'  => 'commons-' . $flat_version,
+				'deps' => array( $babel_polyfill ),
 			),
 			array(
 				'name' => 'search-appearance',

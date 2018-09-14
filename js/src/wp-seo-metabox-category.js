@@ -3,7 +3,6 @@
 import { dispatch } from "@wordpress/data";
 
 /* Internal dependencies */
-import "./helpers/babel-polyfill";
 
 ( function( $ ) {
 	"use strict";
