@@ -4,8 +4,7 @@ import { max } from "lodash-es";
 import { round } from "lodash-es";
 import { sum } from "lodash-es";
 import { isUndefined } from "lodash-es";
-import { flatten } from "lodash-es";
-import { uniq } from "lodash-es";
+import { zipWith } from "lodash-es";
 
 /**
  * Checks whether at least 3 content words from the topic are found within one sentence and the rest within +-1 sentence
@@ -66,7 +65,9 @@ const computeScoresPerSentenceShortTopic = function( topic, sentences, locale ) 
 	let sentenceScores = Array( sentences.length );
 
 	for ( let i = 0; i < sentences.length; i++ ) {
-		const foundInCurrentSentence = findWordFormsInString( topic, sentences[ i ], locale );
+		const currentSentence = sentences[ i ];
+
+		const foundInCurrentSentence = findWordFormsInString( topic, currentSentence, locale );
 		if  ( foundInCurrentSentence.percentWordMatches === 100 ) {
 			sentenceScores[ i ] = 9;
 		} else if ( foundInCurrentSentence.percentWordMatches > 0 ) {
@@ -137,6 +138,7 @@ const largestKeywordDistanceResearcher = function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
 	const topicFormsInOneArray = [ topicForms.keyphraseForms ];
+
 	topicForms.synonymsForms.forEach( function( synonym ) {
 		topicFormsInOneArray.push( synonym );
 	} );
@@ -158,14 +160,23 @@ const largestKeywordDistanceResearcher = function( paper, researcher ) {
 	// Maximize scores: Give every sentence a maximal score that it got from analysis of all topics
 	const maximizedSentenceScores = maximizeSentenceScores( sentenceScores );
 
+	// An array combining each sentence with the associated maximized score.
+	const sentencesWithMaximizedScores = zipWith( sentences, maximizedSentenceScores, ( sentence, score ) => {
+		return { sentence, score };
+		} );
+
+	/*
+	 * Sentences that have a maximized score of 3 are used for marking because these do not contain any topic forms.
+	 * Hence these sentences require action most urgently.
+	 */
+	const sentencesWithoutTopic = sentencesWithMaximizedScores.filter( sentenceObject => sentenceObject.score < 4 );
+
 	// Apply step function: to begin with take a third of the text or at least 3 sentences.
 	const textPortionScores = step( maximizedSentenceScores, max( [ round( sentences.length / 3 ), 3 ] ) );
 
-	console.log( uniq( flatten( flatten( topicFormsInOneArray ) ) ) );
-
 	return {
 		averageScore: round( sum( textPortionScores ) / textPortionScores.length, 1 ),
-		formsToHighlight: uniq( flatten( flatten( topicFormsInOneArray ) ) ),
+		sentencesToHighlight: sentencesWithoutTopic.map( sentenceObject => sentenceObject.sentence ),
 	};
 };
 

@@ -113,31 +113,18 @@ describe( "Checks if the assessment is applicable", function() {
 } );
 
 describe( "A test for marking keywords in the text", function() {
-	it( "returns markers for a single topic form in the text", function() {
-		let mockPaper = new Paper( "text", { keyword: "keyword" } );
+	it( "returns markers for sentences specified by the researcher", function() {
+		let mockPaper = new Paper( "A sentence. A sentence containing keywords. Another sentence.", { keyword: "keyword" } );
 		keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher(
-			{ averageScore: 5, formsToHighlight: [ "keyword" ] } ), i18n );
+			{ averageScore: 5, sentencesToHighlight: [ "A sentence.", "Another sentence." ] } ), i18n );
 		let expected = [
 			new Mark( {
-				original: "keyword",
-				marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>",
-			}, ),
-		];
-		expect( keywordDistanceAssessment.getMarks() ).toEqual( expected );
-	} );
-
-	it( "returns markers for multiple topic forms in the text", function() {
-		let mockPaper = new Paper( "text", { keyword: "keyword" } );
-		keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher(
-			{ averageScore: 5, formsToHighlight: [ "keyword", "keywords" ] } ), i18n );
-		let expected = [
-			new Mark( {
-				original: "keyword",
-				marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>",
+				original: "A sentence.",
+				marked: "<yoastmark class='yoast-text-mark'>A sentence.</yoastmark>",
 			}, ),
 			new Mark( {
-				original: "keywords",
-				marked: "<yoastmark class='yoast-text-mark'>keywords</yoastmark>",
+				original: "Another sentence.",
+				marked: "<yoastmark class='yoast-text-mark'>Another sentence.</yoastmark>",
 			}, ),
 		];
 		expect( keywordDistanceAssessment.getMarks() ).toEqual( expected );

@@ -4,7 +4,7 @@ import Assessment from "../../assessment";
 import AssessmentResult from "../../values/AssessmentResult";
 import countWords from "../../stringProcessing/countWords";
 import Mark from "../../values/Mark";
-import addMark from "../../markers/addMarkSingleWord";
+import addMark from "../../markers/addMark";
 
 /**
  * Returns a score based on the largest percentage of text in
@@ -127,7 +127,7 @@ class LargestKeywordDistanceAssessment extends Assessment {
 					this._hasSynonyms + 1
 				),
 				this._config.url,
-			"</a>"
+				"</a>"
 			),
 		};
 	}
@@ -138,12 +138,8 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	 * @returns {Array} All markers for the current text.
 	 */
 	getMarks() {
-		console.log( this._largestKeywordDistance.formsToHighlight.map( function( form ) {
-			return new Mark( { original: form, marked: addMark( form ) } );
-		} ) );
-
-		return this._largestKeywordDistance.formsToHighlight.map( function( form ) {
-			return new Mark( { original: form, marked: addMark( form ) } );
+		return this._largestKeywordDistance.sentencesToHighlight.map( function( sentence ) {
+			return new Mark( { original: sentence, marked: addMark( sentence ) } );
 		} );
 	}
 

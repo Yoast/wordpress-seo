@@ -79,26 +79,14 @@ describe( "Test for computing the step function", function() {
 	} );
 } );
 
-const wordForms = [ "word", "words", "word's", "words's", "words'", "wording", "worded", "wordly", "worder", "wordest",
-	"word‘s", "word’s", "word‛s", "word`s", "words‘s", "words’s", "words‛s", "words`s", "words‘", "words’", "words‛", "words`" ];
-const keyForms = [ "key", "keys", "key's", "keys's", "keys'", "keying", "keyed", "keyly", "keyer", "keyest", "key‘s",
-	"key’s", "key‛s", "key`s", "keys‘s", "keys’s", "keys‛s", "keys`s", "keys‘", "keys’", "keys‛", "keys`" ];
-const remarkableForms = [ "remarkable", "remarkables", "remarkable's", "remarkables's", "remarkables'", "remarkabling",
-	"remarkabled", "remarkably", "remarkable‘s", "remarkable’s", "remarkable‛s", "remarkable`s", "remarkables‘s",
-	"remarkables’s", "remarkables‛s", "remarkables`s", "remarkables‘", "remarkables’", "remarkables‛", "remarkables`" ];
-const somethingForms = [ "something", "somethings", "something's", "somethings's", "somethings'", "someth",
-	"someths", "somethed", "somethingly", "something‘s", "something’s", "something‛s", "something`s", "somethings‘s",
-	"somethings’s", "somethings‛s", "somethings`s", "somethings‘", "somethings’", "somethings‛", "somethings`" ];
-
 describe( "Test for a step-function research", function() {
-	it( "returns an average score over all sentences and all topic forms ", function() {
+	it( "returns an average score over all sentences and all topic forms and markers for sentences that don't contain the topic at all", function() {
 		const paper = new Paper(
 			sentences.join( " " ),
 			{
 				locale: "en_EN",
 				keyword: "key word",
 				synonyms: "remarkable, something, word",
-
 			}
 		);
 
@@ -107,7 +95,7 @@ describe( "Test for a step-function research", function() {
 
 		expect( largestKeywordDistanceResearcher( paper, researcher ) ).toEqual( {
 			averageScore: 7.8,
-			formsToHighlight: keyForms.concat( wordForms, remarkableForms, somethingForms ),
+			sentencesToHighlight: [ "Again nothing!" ],
 		} );
 	} );
 } );

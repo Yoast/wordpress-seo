@@ -262,7 +262,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( result.urlStopWords.getText() ).toBe( expectedResults.urlStopWords.resultText );
 		} );
 
-		it( "returns a score and the associated feedback text for the largestKeywordDistance assessment", function() {
+		it( "returns a score and the associated feedback text for the english largestKeywordDistance assessment", function() {
 			result.largestKeywordDistance = new LargestKeywordDistanceAssessment().getResult(
 				paper,
 				factory.buildMockResearcher( largestKeywordDistance( paper, researcher ) ),
