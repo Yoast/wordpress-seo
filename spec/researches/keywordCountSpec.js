@@ -58,9 +58,10 @@ const mockResearcherApostrophe = factory.buildMockResearcher( {
 	},
 }, true );
 
+// Escape, since the morphology researcher escapes regex as well.
 const mockResearcherDollarSign = factory.buildMockResearcher( {
 	morphology: {
-		keyphraseForms: [ [ "$keyword" ] ],
+		keyphraseForms: [ [ "\\$keyword" ] ],
 	},
 }, true );
 
