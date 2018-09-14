@@ -4,66 +4,27 @@ import keywordCount from "../../src/researches/keywordCount.js";
 import Paper from "../../src/values/Paper.js";
 import factory from "../helpers/factory";
 
-const mockResearcher = factory.buildMockResearcher( {
-	morphology: {
-		keyphraseForms: [ [ "keyword", "keywords" ] ],
-	},
-}, true );
+const buildMorphologyMockResearcher = function( keyphraseForms ) {
+	return factory.buildMockResearcher( {
+		morphology: {
+			keyphraseForms: keyphraseForms,
+		},
+	}, true );
+};
 
-const mockResearcherGermanDiacritics = factory.buildMockResearcher( {
-	morphology: {
-		keyphraseForms: [ [ "äöüß" ] ],
-	},
-}, true );
-
-const mockResearcherMultipleKeywords = factory.buildMockResearcher( {
-	morphology: {
-		keyphraseForms: [ [ "keyword", "keywords" ], [ "strawberry", "strawberries" ] ],
-	},
-}, true );
-
-const mockResearcherMinus = factory.buildMockResearcher( {
-	morphology: {
-		keyphraseForms: [ [ "key-word", "key-words" ] ],
-	},
-}, true );
-
-const mockResearcherUnderscore = factory.buildMockResearcher( {
-	morphology: {
-		keyphraseForms: [ [ "key_word", "key_words" ] ],
-	},
-}, true );
-
-const mockResearcherKeyWord = factory.buildMockResearcher( {
-	morphology: {
-		keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
-	},
-}, true );
-
-const mockResearcherKaplaki = factory.buildMockResearcher( {
-	morphology: {
-		keyphraseForms: [ [ "kapaklı" ] ],
-	},
-}, true );
-
-const mockResearcherAmpersand = factory.buildMockResearcher( {
-	morphology: {
-		keyphraseForms: [ [ "key&word" ] ],
-	},
-}, true );
-
-const mockResearcherApostrophe = factory.buildMockResearcher( {
-	morphology: {
-		keyphraseForms: [ [ "key`word" ] ],
-	},
-}, true );
-
+const mockResearcher = buildMorphologyMockResearcher( [ [ "keyword", "keywords" ] ] );
+const mockResearcherGermanDiacritics = buildMorphologyMockResearcher( [ [ "äöüß" ] ] );
+const mockResearcherMultipleKeywords = buildMorphologyMockResearcher(
+	[ [ "keyword", "keywords" ], [ "strawberry", "strawberries" ] ]
+);
+const mockResearcherMinus = buildMorphologyMockResearcher( [ [ "key-word", "key-words" ] ] );
+const mockResearcherUnderscore = buildMorphologyMockResearcher( [ [ "key_word", "key_words" ] ] );
+const mockResearcherKeyWord = buildMorphologyMockResearcher( [ [ "key", "keys" ], [ "word", "words" ] ] );
+const mockResearcherKaplaki = buildMorphologyMockResearcher( [ [ "kapaklı" ] ] );
+const mockResearcherAmpersand = buildMorphologyMockResearcher( [ [ "key&word" ] ] );
+const mockResearcherApostrophe = buildMorphologyMockResearcher( [ [ "key`word" ] ] );
 // Escape, since the morphology researcher escapes regex as well.
-const mockResearcherDollarSign = factory.buildMockResearcher( {
-	morphology: {
-		keyphraseForms: [ [ "\\$keyword" ] ],
-	},
-}, true );
+const mockResearcherDollarSign = buildMorphologyMockResearcher( [ [ "\\$keyword" ] ] );
 
 describe( "Test for counting the keyword in a text", function() {
 	it( "counts a string of text with a keyword in it.", function() {
