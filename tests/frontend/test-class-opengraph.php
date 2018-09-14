@@ -691,6 +691,32 @@ EXPECTED;
 	}
 
 	/**
+	 * Testing with an Open Graph meta description for the taxonomy.
+	 *
+	 * @covers WPSEO_OpenGraph::description
+	 */
+	public function test_taxonomy_description_with_replacevars() {
+		$expected_title = 'Test title';
+		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category', 'name' => $expected_title ) );
+
+		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'opengraph-description', '%%term_title%%' );
+
+		$this->go_to( get_term_link( $term_id, 'category' ) );
+
+		$class_instance = new WPSEO_OpenGraph();
+
+		ob_start();
+
+		$class_instance->opengraph();
+
+		$output = ob_get_clean();
+
+		$expected_html  = '<meta property="og:description" content="' . $expected_title . '" />' . "\n";
+
+		$this->assertContains( $expected_html, $output );
+	}
+
+	/**
 	 * Testing with an Open Graph meta image for the taxonomy.
 	 *
 	 * @covers WPSEO_OpenGraph::image
