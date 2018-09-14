@@ -19,7 +19,6 @@ export default function( paper, researcher ) {
 
 	let keyPhraseForms = researcher.getResearch( "morphology" ).keyphraseForms;
 	keyPhraseForms = keyPhraseForms.map( keyWordForms => keyWordForms.map( form => escapeRegExp( form ) )  );
-	console.log( keyPhraseForms );
 
 	const sentences = getSentences( description );
 

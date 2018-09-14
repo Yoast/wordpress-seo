@@ -5,7 +5,6 @@ import stripSpaces from "../stringProcessing/stripSpaces.js";
 import removePunctuation from "../stringProcessing/removePunctuation.js";
 import matchTextWithWord from "../stringProcessing/matchTextWithWord";
 import { uniq as unique } from "lodash-es";
-import escapeRegExp from "lodash-es/escapeRegExp";
 
 /**
  * Matches strings from an array against a given text.
