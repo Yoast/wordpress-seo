@@ -22,7 +22,27 @@ module.exports = function( grunt ) {
 			},
 		},
 
-		"makepot-yoast-components": {
+		"combine-pots-yoast-components": {
+			fromFiles: [
+				"<%= files.pot.yoastComponentsConfigurationWizard %>",
+				"<%= files.pot.yoastComponentsRemaining %>",
+			],
+			toFile: "<%= files.pot.yoastComponents %>",
+			command: function() {
+				var files, toFile;
+
+				files = grunt.config.get( "shell.combine-pots-yoast-components.fromFiles" );
+				toFile = grunt.config.get( "shell.combine-pots-yoast-components.toFile" );
+
+				return "msgcat" +
+					// The use-first flag prevents the file header from being messed up.
+					" --use-first" +
+					" " + files.join( " " ) +
+					" > " + toFile;
+			},
+		},
+
+		"makepot-yoast-components-configuration-wizard": {
 			fromFiles: [
 				"node_modules/yoast-components/**/*.js",
 				"!node_modules/yoast-components/node_modules/**/*.js",
@@ -30,15 +50,23 @@ module.exports = function( grunt ) {
 			],
 			textdomain: "yoast-components",
 			command: function() {
-				let files = grunt.config.get( "shell.makepot-yoast-components.fromFiles" );
+				let files = grunt.config.get( "shell.makepot-yoast-components-configuration-wizard.fromFiles" );
 
 				files = grunt.file.expand( files );
 
 				return "./node_modules/.bin/i18n-calypso" +
-					" -o <%= files.pot.yoastComponents %>" +
+					" -o <%= files.pot.yoastComponentsConfigurationWizard %>" +
 					" -f POT" +
 					" " + files.join( " " );
 			},
+		},
+
+		"makepot-yoast-components-remaining": {
+			command: "yarn i18n-yoast-components",
+		},
+
+		"makepot-wordpress-seo": {
+			command: "yarn i18n-wordpress-seo",
 		},
 
 		"makepot-yoastseojs": {
@@ -47,7 +75,7 @@ module.exports = function( grunt ) {
 			command: function() {
 				var files;
 
-				files = [ "./node_modules/yoastseo/js/**/*.js" ];
+				files = [ "./node_modules/yoastseo/src/**/*.js" ];
 				files = grunt.file.expand( files );
 
 				return "xgettext" +

@@ -28,7 +28,6 @@
 		"yoast/i18n-module": "^3.0",
 		"yoast/api-libs": "^2.0",
 		"xrstf/composer-php52": "^1.0.20",
-		"yoast/whip": "^1.1.0",
 		"j4mie/idiorm": "^1.5",
 		"pimple/pimple": "^3.2",
 		"ruckusing/ruckusing-migrations": "^1.1"
@@ -46,6 +45,8 @@
 			"admin/",
 			"frontend/",
 			"inc/",
+			"deprecated/",
+			"cli/",
 			"deprecated/",
 			"vendor_prefixed/",
 			"src/"

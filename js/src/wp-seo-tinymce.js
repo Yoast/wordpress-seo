@@ -1,5 +1,7 @@
 /* global tinyMCE, require, YoastSEO */
 
+import CompatibilityHelper from "./compatibility/compatibilityHelper";
+
 var forEach = require( "lodash/forEach" );
 var isUndefined = require( "lodash/isUndefined" );
 var editorHasMarks = require( "./decorator/tinyMCE" ).editorHasMarks;
@@ -167,22 +169,36 @@ var termsTmceId = "description";
 	}
 
 	/**
+	 * If #wp-content-wrap has the 'html-active' class, text view is enabled in WordPress.
+	 * TMCE is not available, the text cannot be marked and so the marker buttons are disabled.
+	 *
+	 * @returns {boolean} Whether the text view is active.
+	 */
+	function isTextViewActive() {
+		const contentWrapElement = document.getElementById( "wp-content-wrap" );
+		if ( ! contentWrapElement ) {
+			return false;
+		}
+		return contentWrapElement.classList.contains( "html-active" );
+	}
+
+	/**
 	 * Check if the TinyMCE editor is created in the DOM. If it doesn't exist yet an on create event created.
 	 * This enables the marker buttons, when TinyMCE is created.
 	 *
 	 * @returns {void}
 	 */
 	function wpTextViewOnInitCheck() {
-		// If #wp-content-wrap has the 'html-active' class, text view is enabled in WordPress.
-		// TMCE is not available, the text cannot be marked and so the marker buttons are disabled.
-		if ( jQuery( "#wp-content-wrap" ).hasClass( "html-active" ) ) {
-			disableMarkerButtons();
+		if ( ! isTextViewActive() ) {
+			return;
+		}
 
-			if( isTinyMCELoaded() ) {
-				tinyMCE.on( "AddEditor", function() {
-					enableMarkerButtons();
-				} );
-			}
+		disableMarkerButtons();
+
+		if ( isTinyMCELoaded() ) {
+			tinyMCE.on( "AddEditor", function() {
+				enableMarkerButtons();
+			} );
 		}
 	}
 
@@ -198,7 +214,14 @@ var termsTmceId = "description";
 		addEventHandler( tmceId, [ "input", "change", "cut", "paste" ], app.refresh.bind( app ) );
 
 		addEventHandler( tmceId, [ "hide" ], disableMarkerButtons );
-		addEventHandler( tmceId, [ "init", "show" ], enableMarkerButtons );
+
+		let enableEvents = [ "show" ];
+		let compatibilityHelper = new CompatibilityHelper();
+		if ( ! compatibilityHelper.isPageBuilderActive() ) {
+			enableEvents.push( "init" );
+		}
+
+		addEventHandler( tmceId, enableEvents, enableMarkerButtons );
 
 		addEventHandler( "content", [ "focus" ], function( evt ) {
 			var editor = evt.target;
@@ -220,6 +243,7 @@ var termsTmceId = "description";
 		disableMarkerButtons: disableMarkerButtons,
 		enableMarkerButtons: enableMarkerButtons,
 		wpTextViewOnInitCheck: wpTextViewOnInitCheck,
+		isTextViewActive: isTextViewActive,
 		tmceId,
 		termsTmceId,
 		setStore,

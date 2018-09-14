@@ -102,6 +102,8 @@ class Yoast_Dashboard_Widget {
 		}
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'dashboard-widget', 'wpseoDashboardWidgetL10n', $this->localize_dashboard_script() );
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
+		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'dashboard-widget' );
 		$this->asset_manager->enqueue_script( 'dashboard-widget' );
 		$this->asset_manager->enqueue_style( 'wp-dashboard' );
 	}

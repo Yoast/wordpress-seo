@@ -10,6 +10,8 @@
     <exclude-pattern>node_modules/*</exclude-pattern>
     <exclude-pattern>deprecated/*</exclude-pattern>
     <exclude-pattern>languages/*</exclude-pattern>
+    <exclude-pattern>artifact/*</exclude-pattern>
+    <exclude-pattern>.wordpress-svn/*</exclude-pattern>
     <exclude-pattern>config/php-scoper/*</exclude-pattern>
 
     <arg name="extensions" value="php"/>
@@ -48,4 +50,8 @@
         <exclude-pattern>inc/class-wpseo-replace-vars.php</exclude-pattern>
     </rule>
 
+    <!-- TEMPORARY exclusion! Because we're not on 0.5 yet -->
+    <rule ref="WordPress.VIP.RestrictedFunctions">
+        <exclude-pattern>inc/class-wpseo-image-utils.php</exclude-pattern>
+    </rule>
 </ruleset>

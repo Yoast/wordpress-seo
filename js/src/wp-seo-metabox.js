@@ -1,5 +1,5 @@
 /* browser:true */
-/* global tb_show, wpseoSelect2Locale */
+/* global wpseoSelect2Locale */
 
 ( function( $ ) {
 	// eslint-disable-next-line
@@ -36,7 +36,8 @@
 		}
 
 		if ( jQuery( ".wpseo-meta-section" ).length > 0 ) {
-			jQuery( "#wpseo-meta-section-content" ).addClass( "active" );
+			jQuery( "#wpseo-meta-section-content, .wpseo-meta-section-react" ).addClass( "active" );
+
 			jQuery( ".wpseo-metabox-sidebar li" ).filter( function() {
 				return jQuery( this ).find( ".wpseo-meta-section-link" ).attr( "href" ) === "#wpseo-meta-section-content";
 			} ).addClass( "active" );
@@ -51,9 +52,13 @@
 
 					jQuery( ".wpseo-metabox-sidebar li" ).removeClass( "active" );
 					jQuery( ".wpseo-meta-section" ).removeClass( "active" );
+					jQuery( ".wpseo-meta-section-react.active" ).removeClass( "active" );
 
 					// Hide the Yoast tooltip when the element gets clicked.
 					jQuery( this ).addClass( "yoast-tooltip-hidden" );
+					if ( targetTab === "#wpseo-meta-section-content" ) {
+						jQuery( ".wpseo-meta-section-react" ).addClass( "active" );
+					}
 
 					targetTabElement.addClass( "active" );
 
@@ -95,87 +100,6 @@
 		$( "#yoast_wpseo_meta-robots-adv" ).select2( { width: "100%", language: wpseoSelect2Locale } );
 	}
 
-	/**
-	 * @summary Shows a informational popup if someone click the add keyword button.
-	 *
-	 * @returns {void}
-	 */
-	function addKeywordPopup() {
-		var $buyButton = $( "#wpseo-add-keyword-popup-button" ),
-			title = $buyButton.text(),
-			$popupWindow,
-			$closeButton;
-
-		tb_show( title, "#TB_inline?width=650&height=350&inlineId=wpseo-add-keyword-popup", "group" );
-
-		// The thicbox popup UI is now available.
-		$popupWindow = $( "#TB_window" );
-		$closeButton = $( "#TB_closeWindowButton" );
-
-		// The container window isn't the correct size, rectify this and also the centering.
-		$popupWindow.css( { width: 680, height: 350, "margin-left": -340 } );
-
-		// Accessibility improvements.
-		$popupWindow
-			.attr( {
-				role: "dialog",
-				"aria-labelledby": "TB_ajaxWindowTitle",
-				"aria-describedby": "TB_ajaxContent",
-			} )
-			.on( "keydown", function( event ) {
-				var id;
-
-				// Constrain tabbing within the modal.
-				if ( 9 === event.which ) {
-					id = event.target.id;
-
-					if ( id === "wpseo-add-keyword-popup-button" && ! event.shiftKey ) {
-						$closeButton.focus();
-						event.preventDefault();
-					} else if ( id === "TB_closeWindowButton" && event.shiftKey ) {
-						$buyButton.focus();
-						event.preventDefault();
-					}
-				}
-			} );
-
-		// Move focus back to the element that opened the modal.
-		$( "body" ).on( "thickbox:removed", function() {
-			$( ".wpseo-add-keyword" ).focus();
-		} );
-	}
-
-	/**
-	 * @summary Adds keyword popup if the template for it is found.
-	 *
-	 * @returns {void}
-	 */
-	function initAddKeywordPopup() {
-		// If add keyword popup exists bind it to the add keyword button
-		if ( 1 === $( "#wpseo-add-keyword-popup" ).length ) {
-			$( ".wpseo-add-keyword" ).on( "click", addKeywordPopup );
-		}
-	}
-
-	/**
-	 * Move the help elements by injecting them into the h3 elements.
-	 *
-	 * @returns {void}
-	 */
-	function moveHelpElements() {
-		jQuery( "#wpseo-focuskeyword-section" ).find( "h3" ).after(
-			jQuery( "#help-yoast-focuskeyword" ).detach().removeClass( "wpseo_hidden" )
-		);
-
-		jQuery( "#pageanalysis > section.yoast-section" ).find( "h3" ).after(
-			jQuery( "#help-yoast-pageanalysis" ).detach().removeClass( "wpseo_hidden" )
-		);
-
-		var snippetHelp = jQuery( "#help-yoast-snippetpreview" ).detach().removeClass( "wpseo_hidden" );
-		// Post/taxonomy/media meta box.
-		jQuery( "#wpseosnippet" ).find( "h3" ).after( snippetHelp );
-	}
-
 	jQuery( document ).ready( function() {
 		jQuery( ".wpseo-meta-section" ).each( function( _, el ) {
 			jQuery( el ).find( ".wpseo-metabox-tabs li:first" ).addClass( "active" );
@@ -183,10 +107,7 @@
 		} );
 		window.wpseo_init_tabs();
 
-		initAddKeywordPopup();
 		initSelect2();
-
-		jQuery( window ).on( "YoastSEO:ready", moveHelpElements );
 	} );
 }( jQuery ) );
 

@@ -61,6 +61,32 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Don't process trash posts.
+	 *
+	 * @covers WPSEO_Link_Watcher::save_post()
+	 */
+	public function test_skip_trash_posts() {
+
+		$post = self::factory()->post->create(
+			array(
+				'post_type' => 'post',
+			)
+		);
+
+		wp_delete_post( $post );
+
+		$post = get_post( $post );
+
+		$processor = $this->get_processor();
+		$processor
+			->expects( $this->never() )
+			->method( 'process' );
+
+		$watcher = new WPSEO_Link_Watcher( $processor );
+		$watcher->save_post( $post->ID, $post );
+	}
+
+	/**
 	 * Test with a draft post.
 	 *
 	 * This should be processed, but will not be displayed.
@@ -177,5 +203,4 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 			->setMethods( array( 'process' ) )
 			->getMock();
 	}
-
 }

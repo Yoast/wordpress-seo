@@ -53,24 +53,28 @@ class WPSEO_Config_Component_Configuration_Choices implements WPSEO_Config_Compo
 			),
 			plugin_dir_url( WPSEO_FILE ) . '/images/Yoast_SEO_Icon.svg'
 		);
+
+		$plugin_training_text = sprintf(
+			/* translators: %1$s expands to 'Yoast SEO for WordPress', %2$s to Joost de Valk. */
+			__( 'If you want to take full advantage of the plugin, get our %1$s training. Get insights from renowned SEO expert %2$s and the team behind the plugin. Actionable tips that\'ll help you configure your site to perform even better in search and for your visitors. Hours of video, sliced into bite-sized clips for you to learn from!', 'wordpress-seo' ),
+			'Yoast SEO for WordPress',
+			'Joost de Valk'
+		);
+
 		$field->add_choice(
 			sprintf(
 				/* translators: %s expands to 'Yoast SEO'. */
-				__( 'Let us set up %s for you', 'wordpress-seo' ), 'Yoast SEO'
+				__( 'Get the most out of the %s plugin', 'wordpress-seo' ), 'Yoast SEO'
 			),
-			sprintf(
-				/* translators: %1$s expands to 'Yoast SEO', %2$s expands to 'Yoast SEO Premium'. */
-				__( 'While we strive to make setting up %1$s as easy as possible, we understand it can still be daunting. If you would rather have us set up %1$s for you (and get a copy of %2$s in the process), order a %1$s configuration service and sit back while we configure your site.', 'wordpress-seo' ),
-				'Yoast SEO',
-				'Yoast SEO Premium'
-			),
+			$plugin_training_text,
 			array(
 				'type'   => 'secondary',
-				'label'  => __( 'Configuration service', 'wordpress-seo' ),
+				/* translators: %s expands to 'Yoast SEO'. */
+				'label'  => sprintf( __( 'Get the %s plugin training now', 'wordpress-seo' ), 'Yoast SEO' ),
 				'action' => 'followURL',
-				'url'    => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-configuration-upsell' ),
+				'url'    => WPSEO_Shortlinker::get( 'https://yoa.st/2vg' ),
 			),
-			plugin_dir_url( WPSEO_FILE ) . 'images/yoast-configuration-icon.svg'
+			plugin_dir_url( WPSEO_FILE ) . 'images/yoast_seo_for_wp_2.svg'
 		);
 
 		return $field;

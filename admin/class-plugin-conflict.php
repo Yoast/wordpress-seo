@@ -43,7 +43,6 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 			'open-graph-protocol-framework/open-graph-protocol-framework.php',
 			// Open Graph Protocol Framework.
 			'seo-facebook-comments/seofacebook.php',                 // SEO Facebook Comments.
-			'seo-ultimate/seo-ultimate.php',                         // SEO Ultimate.
 			'sexybookmarks/sexy-bookmarks.php',                      // Shareaholic.
 			'shareaholic/sexy-bookmarks.php',                        // Shareaholic.
 			'sharepress/sharepress.php',                             // SharePress.
@@ -99,6 +98,10 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 			// RS Head Cleaner Plus https://wordpress.org/plugins/rs-head-cleaner/.
 			'rs-head-cleaner-lite/rs-head-cleaner-lite.php',
 			// RS Head Cleaner Lite https://wordpress.org/plugins/rs-head-cleaner-lite/.
+		),
+		'seo' => array(
+			'all-in-one-seo-pack/all_in_one_seo_pack.php',           // All in One SEO Pack.
+			'seo-ultimate/seo-ultimate.php',                         // SEO Ultimate.
 		),
 	);
 
@@ -157,6 +160,9 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 
 		/* translators: %2$s expands to 'RS Head Cleaner' plugin name of possibly conflicting plugin with regard to differentiating output between search engines and normal users. */
 		$plugin_sections['cloaking'] = __( 'The plugin %2$s changes your site\'s output and in doing that differentiates between search engines and normal users, a process that\'s called cloaking. We highly recommend that you disable it.', 'wordpress-seo' );
+
+		/* translators: %1$s expands to Yoast SEO, %2$s: 'SEO' plugin name of possibly conflicting plugin with regard to the creation of duplicate SEO meta. */
+		$plugin_sections['seo'] = __( 'Both %1$s and %2$s manage the SEO of your site. Running two SEO plugins at the same time is detrimental.', 'wordpress-seo' );
 
 		$instance->check_plugin_conflicts( $plugin_sections );
 	}

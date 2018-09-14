@@ -10,7 +10,6 @@
  */
 class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 
-
 	/**
 	 * @covers WPSEO_Utils::grant_access
 	 */
@@ -180,5 +179,14 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'en', WPSEO_Utils::get_language( 'xxxx' ) );
 		$this->assertEquals( 'en', WPSEO_Utils::get_language( 'xxxx_XX' ) );
 		$this->assertEquals( 'en', WPSEO_Utils::get_language( '_XX' ) );
+	}
+
+	/**
+	 * Tests whether the plugin is network-active or not.
+	 *
+	 * @covers WPSEO_Utils::is_plugin_network_active()
+	 */
+	public function test_is_plugin_network_active() {
+		$this->assertFalse( WPSEO_Utils::is_plugin_network_active() );
 	}
 }

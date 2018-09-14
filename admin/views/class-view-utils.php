@@ -62,33 +62,23 @@ class Yoast_View_Utils {
 	/**
 	 * Shows the search appearance settings for a post type.
 	 *
-	 * @param string|object $post_type The post type to show the search appearance settings for.
+	 * @param string|object $post_type   The post type to show the search appearance settings for.
+	 * @param bool          $paper_style Whether or not the paper style should be shown.
 	 *
 	 * @return void
 	 */
-	public function show_post_type_settings( $post_type ) {
+	public function show_post_type_settings( $post_type, $paper_style = false ) {
 		if ( ! is_object( $post_type ) ) {
 			$post_type = get_post_type_object( $post_type );
 		}
 
 		$show_post_type_help = $this->search_results_setting_help( $post_type );
+		$noindex_option_name = 'noindex-' . $post_type->name;
 
 		$this->form->index_switch(
-			'noindex-' . $post_type->name,
+			$noindex_option_name,
 			$post_type->labels->name,
 			$show_post_type_help->get_button_html() . $show_post_type_help->get_panel_html()
-		);
-
-		$this->form->textinput(
-			'title-' . $post_type->name,
-			__( 'Title template', 'wordpress-seo' ),
-			'template posttype-template'
-		);
-
-		$this->form->textarea(
-			'metadesc-' . $post_type->name,
-			__( 'Meta description template', 'wordpress-seo' ),
-			array( 'class' => 'template posttype-template' )
 		);
 
 		$this->form->show_hide_switch(
@@ -101,5 +91,20 @@ class Yoast_View_Utils {
 			/* translators: %1$s expands to Yoast SEO */
 			sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' )
 		);
+
+		$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+		$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+
+		$editor = new WPSEO_Replacevar_Editor(
+			$this->form,
+			array(
+				'title'                 => 'title-' . $post_type->name,
+				'description'           => 'metadesc-' . $post_type->name,
+				'page_type_recommended' => $recommended_replace_vars->determine_for_post_type( $post_type->name ),
+				'page_type_specific'    => $editor_specific_replace_vars->determine_for_post_type( $post_type->name ),
+				'paper_style'           => $paper_style,
+			)
+		);
+		$editor->render();
 	}
 }

@@ -47,6 +47,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'disable-date'                  => false,
 		'disable-post_format'           => false,
 		'disable-attachment'            => true,
+		'is-media-purge-relevant'       => false,
 
 		'breadcrumbs-404crumb'          => '', // Text field.
 		'breadcrumbs-display-blog-page' => true,
@@ -117,6 +118,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'sc-dash'   => '-',
 		'sc-ndash'  => '&ndash;',
 		'sc-mdash'  => '&mdash;',
+		'sc-colon'  => ':',
 		'sc-middot' => '&middot;',
 		'sc-bull'   => '&bull;',
 		'sc-star'   => '*',
@@ -143,7 +145,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
 		add_action( 'init', array( $this, 'end_of_init' ), 999 );
 	}
-
 
 	/**
 	 * Make sure we can recognize the right action for the double cleaning.
@@ -207,7 +208,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		$this->defaults['breadcrumbs-searchprefix']  = __( 'You searched for', 'wordpress-seo' );
 	}
 
-
 	/**
 	 * Add dynamically created default options based on available post types and taxonomies.
 	 *
@@ -248,7 +248,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			/* translators: %s expands to the name of a post type (plural). */
 			$archive = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' );
 			foreach ( $post_type_objects_custom as $pt ) {
-				if ( ! $pt->has_archive ) {
+				if ( ! WPSEO_Post_Type::has_archive( $pt ) ) {
 					continue;
 				}
 
@@ -532,6 +532,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'breadcrumbs-boldlast'
 				 *  'breadcrumbs-enable'
 				 *  'stripcategorybase'
+				 *  'is-media-purge-relevant'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
@@ -564,7 +565,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $type ) {
-				if ( $type->has_archive ) {
+				if ( WPSEO_Post_Type::has_archive( $type ) ) {
 					$allowed_post_types[] = $type->name;
 				}
 			}
@@ -764,7 +765,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		return $option_value;
 	}
-
 
 	/**
 	 * Make sure that any set option values relating to post_types and/or taxonomies are retained,

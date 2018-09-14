@@ -6,16 +6,19 @@ branches:
   only:
     - master
     - trunk
-    - /^release\/\d+\.\d+(\.\d+)?(-\S*)?$/
+    - /^release\/*/
     - /^hotfix\/\d+\.\d+(\.\d+)?(-\S*)?$/
+    - /^feature\/*/
+    # Also build tags like 1.1.1 or 1.1 for deployment.
+    - /^\d+\.\d+(\.\d+)?(-\S*)?$/
 
 jobs:
   fast_finish: true
   include:
     - php: 7.2
-      env: WP_VERSION=4.9 WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 TRAVIS_NODE_VERSION=node
+      env: WP_VERSION=latest WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 TRAVIS_NODE_VERSION=node
     - php: 7.2
-      env: WP_VERSION=4.9 WP_MULTISITE=1 COVERAGE=1
+      env: WP_VERSION=latest WP_MULTISITE=1 COVERAGE=1
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
@@ -23,12 +26,11 @@ jobs:
     - php: 5.3
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
-      env: WP_VERSION=4.9
+      env: WP_VERSION=latest
     - php: 5.6
-      env: WP_VERSION=4.9
-    # WP >= 4.8 is needed for PHP 7.1
+      env: WP_VERSION=latest
     - php: 7.0
-      env: WP_VERSION=4.9
+      env: WP_VERSION=latest
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
@@ -36,10 +38,11 @@ jobs:
     - php: nightly
       env: WP_VERSION=master
     - stage: 🚀 deployment
+      name: "Deploy to S3"
       if: branch = deploy # Only build when on the `deploy` branch, this functionality is not used yet and is taking a long time to complete.
+      env: SC_ATTR=wordpress-seo
       before_script: skip
       script: grunt artifact
-      before_install: skip
       install:
         - yarn global add grunt-cli
         - yarn install
@@ -56,6 +59,37 @@ jobs:
         on:
           repo: Yoast/wordpress-seo
           all_branches: true
+    - stage: 🚀 deployment
+      name: "Deploy to Yoast-dist"
+      install:
+        - yarn global add grunt-cli
+        - yarn install
+      before_script: skip
+      script:
+        - grunt set-version -new-version=$TRAVIS_TAG
+        - grunt update-version
+        - grunt artifact
+        - grunt composer-artifact
+      if: tag IS present
+      before_install:
+        - nvm install node
+        - curl -o- -L https://yarnpkg.com/install.sh | bash
+        - export PATH=$HOME/.yarn/bin:$PATH
+        - openssl aes-256-cbc -K $encrypted_06a9c1b95cfa_key -iv $encrypted_06a9c1b95cfa_iv -in ./deploy_keys/travis_dist_id_rsa.enc -out ./deploy_keys/travis_dist_id_rsa -d
+        - chmod 600 ./deploy_keys/travis_dist_id_rsa
+        - eval $(ssh-agent -s)
+        - ssh-add ./deploy_keys/travis_dist_id_rsa
+
+       # If the commit was tagged, create an artifact and push it to the distribution github
+      deploy:
+        skip_cleanup: true
+        provider: script
+        script: bash scripts/deploy_to_dist.sh $TRAVIS_TAG wordpress-seo
+        on:
+          tags: true
+          repo: $TRAVIS_REPO_SLUG
+          all_branches: true
+
   allow_failures:
     # Allow failures for unstable builds.
     - php: nightly
@@ -98,6 +132,12 @@ install:
   fi
 
 before_script:
+# Careful: The HTTPS version of the following URL is different, therefore we need to use HTTP.
+- |
+  if [[ "$WP_VERSION" == "latest" ]]; then
+    curl -s http://api.wordpress.org/core/version-check/1.7/ > /tmp/wp-latest.json
+    WP_VERSION=$(grep -o '"version":"[^"]*' /tmp/wp-latest.json | sed 's/"version":"//')
+  fi
 - PLUGIN_SLUG=$(basename $(pwd))
 - export WP_DEVELOP_DIR=/tmp/wordpress/
 - git clone --depth=50 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
@@ -156,6 +196,9 @@ script:
 - |
   if [[ "$PHPLINT" == "1" ]]; then
     travis_fold start "PHP.check" && travis_time_start
+    if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then
+      SKIP_CLI="-o -path ./cli -prune"
+    fi
     if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then
       find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -path ./src -prune -o -path ./tests/src -prune -o -path ./config -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
     else

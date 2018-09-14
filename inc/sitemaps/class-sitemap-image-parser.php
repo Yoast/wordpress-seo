@@ -64,7 +64,7 @@ class WPSEO_Sitemap_Image_Parser {
 		if ( $thumbnail_id ) {
 
 			$src      = $this->get_absolute_url( $this->image_url( $thumbnail_id ) );
-			$alt      = get_post_meta( $thumbnail_id, '_wp_attachment_image_alt', true );
+			$alt      = WPSEO_Image_Utils::get_alt_tag( $thumbnail_id );
 			$title    = get_post_field( 'post_title', $thumbnail_id );
 			$images[] = $this->get_image_item( $post, $src, $title, $alt );
 		}
@@ -86,7 +86,7 @@ class WPSEO_Sitemap_Image_Parser {
 		foreach ( $this->parse_galleries( $post->post_content, $post->ID ) as $attachment ) {
 
 			$src = $this->get_absolute_url( $this->image_url( $attachment->ID ) );
-			$alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
+			$alt = WPSEO_Image_Utils::get_alt_tag( $attachment->ID );
 
 			$images[] = $this->get_image_item( $post, $src, $attachment->post_title, $alt );
 		}
@@ -94,7 +94,7 @@ class WPSEO_Sitemap_Image_Parser {
 		if ( 'attachment' === $post->post_type && wp_attachment_is_image( $post ) ) {
 
 			$src = $this->get_absolute_url( $this->image_url( $post->ID ) );
-			$alt = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
+			$alt = WPSEO_Image_Utils::get_alt_tag( $post->ID );
 
 			$images[] = $this->get_image_item( $post, $src, $post->post_title, $alt );
 		}
@@ -131,7 +131,7 @@ class WPSEO_Sitemap_Image_Parser {
 			$images[] = array(
 				'src'   => $this->get_absolute_url( $this->image_url( $attachment->ID ) ),
 				'title' => $attachment->post_title,
-				'alt'   => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),
+				'alt'   => WPSEO_Image_Utils::get_alt_tag( $attachment->ID ),
 			);
 		}
 

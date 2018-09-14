@@ -132,5 +132,4 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $this->subject, $test );
 	}
-
 }

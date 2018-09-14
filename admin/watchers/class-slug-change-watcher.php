@@ -16,24 +16,32 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-
 		// If the current plugin is Yoast SEO Premium, stop registering.
 		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
 			return;
 		}
 
-		// Detect a post slug change.
-		add_action( 'post_updated', array( $this, 'detect_slug_change' ), 12, 3 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+
+		// Detect a post trash.
+		add_action( 'wp_trash_post', array( $this, 'detect_post_trash' ) );
+
+		// Detect a post delete.
+		add_action( 'before_delete_post', array( $this, 'detect_post_delete' ) );
+
+		// Detects deletion of a term.
+		add_action( 'delete_term_taxonomy', array( $this, 'detect_term_delete' ) );
 	}
 
 	/**
 	 * Enqueues the quick edit handler.
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		global $pagenow;
 
-		if ( ! in_array( $pagenow, array( 'edit.php' ), true ) ) {
+		if ( ! in_array( $pagenow, array( 'edit.php', 'edit-tags.php' ), true ) ) {
 			return;
 		}
 
@@ -42,38 +50,139 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Detects if the slug changed, hooked into 'post_updated'.
+	 * Shows an message when a post is about to get trashed.
 	 *
-	 * @param integer $post_id     The ID of the post. Unused.
-	 * @param WP_Post $post        The post with the new values.
-	 * @param WP_Post $post_before The post with the previous values.
+	 * @param integer $post_id The current post ID.
 	 *
 	 * @return void
 	 */
-	public function detect_slug_change( $post_id, $post, $post_before ) {
-		// If post is a revision do not advise creating a redirect.
-		if ( wp_is_post_revision( $post_before ) && wp_is_post_revision( $post ) ) {
+	public function detect_post_trash( $post_id ) {
+		if ( ! $this->is_post_viewable( $post_id ) ) {
 			return;
 		}
 
-		// There is no slug change.
-		if ( $post->post_name === $post_before->post_name ) {
+		/* translators: %1$s expands to the translated name of the post type. */
+		$first_sentence = sprintf( __( 'You just trashed a %1$s.', 'wordpress-seo' ), $this->get_post_type_label( get_post_type( $post_id ) ) );
+		$message        = $this->get_message( $first_sentence );
+
+		$this->add_notification( $message );
+	}
+
+	/**
+	 * Shows an message when a post is about to get trashed.
+	 *
+	 * @param integer $post_id The current post ID.
+	 *
+	 * @return void
+	 */
+	public function detect_post_delete( $post_id ) {
+		if ( ! $this->is_post_viewable( $post_id ) ) {
 			return;
 		}
 
-		// If the post URL wasn't visible before, or isn't visible now, don't advise creating a redirect.
-		if ( ! $this->check_visible_post_status( $post_before->post_status ) || ! $this->check_visible_post_status( $post->post_status ) ) {
+		/* translators: %1$s expands to the translated name of the post type. */
+		$first_sentence = sprintf( __( 'You just deleted a %1$s.', 'wordpress-seo' ), $this->get_post_type_label( get_post_type( $post_id ) ) );
+		$message        = $this->get_message( $first_sentence );
+
+		$this->add_notification( $message );
+	}
+
+	/**
+	 * Shows a message when a term is about to get deleted.
+	 *
+	 * @param integer $term_id The term ID that will be deleted.
+	 *
+	 * @return void
+	 */
+	public function detect_term_delete( $term_id ) {
+		if ( ! $this->is_term_viewable( $term_id ) ) {
 			return;
 		}
 
-		$post_type_object = get_post_type_object( $post->post_type );
+		$first_sentence = sprintf(
+			/* translators: 1: term label */
+			__( 'You just deleted a %1$s.', 'wordpress-seo' ),
+			$this->get_taxonomy_label_for_term( $term_id )
+		);
+
+		$message = $this->get_message( $first_sentence );
+
+		$this->add_notification( $message );
+	}
+
+	/**
+	 * Checks if the post is viewable.
+	 *
+	 * @param string $post_id The post id to check.
+	 *
+	 * @return bool Whether the post is viewable or not.
+	 */
+	protected function is_post_viewable( $post_id ) {
+		$post_type = get_post_type( $post_id );
+		if ( ! WPSEO_Post_Type::is_post_type_accessible( $post_type ) ) {
+			return false;
+		}
+
+		$post_status = get_post_status( $post_id );
+		if ( ! $this->check_visible_post_status( $post_status ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks if the term is viewable.
+	 *
+	 * @param string $term_id The term ID to check.
+	 *
+	 * @return bool Whether the term is viewable or not.
+	 */
+	protected function is_term_viewable( $term_id ) {
+		$term = get_term( $term_id );
+
+		if ( ! $term || is_wp_error( $term ) ) {
+			return false;
+		}
+
+		$taxonomy = get_taxonomy( $term->taxonomy );
+		if ( ! $taxonomy ) {
+			return false;
+		}
+
+		return $taxonomy->publicly_queryable || $taxonomy->public;
+	}
+
+	/**
+	 * Gets the taxonomy label to use for a term.
+	 *
+	 * @param int $term_id The term ID.
+	 *
+	 * @return string The taxonomy's singular label.
+	 */
+	protected function get_taxonomy_label_for_term( $term_id ) {
+		$term     = get_term( $term_id );
+		$taxonomy = get_taxonomy( $term->taxonomy );
+
+		return $taxonomy->labels->singular_name;
+	}
+
+	/**
+	 * Retrieves the singular post type label.
+	 *
+	 * @param string $post_type Post type to retrieve label from.
+	 *
+	 * @return string The singular post type name.
+	 */
+	protected function get_post_type_label( $post_type ) {
+		$post_type_object = get_post_type_object( $post_type );
 
 		// If the post type of this post wasn't registered default back to post.
 		if ( $post_type_object === null ) {
 			$post_type_object = get_post_type_object( 'post' );
 		}
 
-		$this->add_notification( $post_type_object->labels->singular_name );
+		return $post_type_object->labels->singular_name;
 	}
 
 	/**
@@ -94,24 +203,37 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Returns the message around changed URLs.
+	 *
+	 * @param string $first_sentence The first sentence of the notification.
+	 *
+	 * @return string The full notification.
+	 */
+	protected function get_message( $first_sentence ) {
+		return '<h2>' . __( 'Make sure you don\'t miss out on traffic!', 'wordpress-seo' ) . '</h2>'
+			. '<p>'
+			. $first_sentence
+			. ' ' . __( 'Search engines and other websites can still send traffic to your deleted post.', 'wordpress-seo' )
+			. ' ' . __( 'You should create a redirect to ensure your visitors do not get a 404 error when they click on the no longer working URL.', 'wordpress-seo' )
+			. ' ' . __( 'With Yoast SEO Premium, you can easily create such redirects.', 'wordpress-seo' )
+			. '</p>'
+			. '<p><a class="button-primary" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">' . __( 'Get Yoast SEO Premium', 'wordpress-seo' ) . '</a></p>';
+	}
+
+	/**
 	 * Adds a notification to be shown on the next page request since posts are updated in an ajax request.
 	 *
-	 * @param string $post_type_label The singular_name label from a post_type_object.
+	 * @param string $message The message to add to the notification.
 	 *
 	 * @return void
 	 */
-	protected function add_notification( $post_type_label ) {
+	protected function add_notification( $message ) {
 		$notification = new Yoast_Notification(
-			sprintf(
-				/* translators: %1$s expands to the translated name of the post type, %2$s expands to the anchor opening tag, %3$s to the anchor closing tag. */
-				__(
-					'You just changed the URL of this %1$s. To ensure your visitors do not see a 404 on the old URL, you should create a redirect. %2$sLearn how to create redirects here.%3$s',
-					'wordpress-seo'
-				),
-				$post_type_label,
-				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">',
-				'</a>'
-			), array( 'type' => 'notice-info' )
+			$message,
+			array(
+				'type'           => 'notice-warning is-dismissible',
+				'yoast_branding' => true,
+			)
 		);
 
 		$notification_center = Yoast_Notification_Center::get();

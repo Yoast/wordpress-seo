@@ -9,6 +9,7 @@
  * Class WPSEO_Statistic_Integration
  */
 class WPSEO_Statistic_Integration implements WPSEO_WordPress_Integration {
+
 	/**
 	 * Adds hooks to clear the cache.
 	 *

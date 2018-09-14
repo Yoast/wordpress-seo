@@ -19,6 +19,7 @@ class WPSEO_Post_Type {
 	 */
 	public static function get_accessible_post_types() {
 		$post_types = get_post_types( array( 'public' => true ) );
+		$post_types = array_filter( $post_types, 'is_post_type_viewable' );
 
 		/**
 		 * Filter: 'wpseo_accessible_post_types' - Allow changing the accessible post types.
@@ -84,10 +85,25 @@ class WPSEO_Post_Type {
 	public static function is_rest_enabled( $post_type ) {
 		$post_type_object = get_post_type_object( $post_type );
 
-		if ( is_null( $post_type_object ) ) {
+		if ( null === $post_type_object ) {
 			return false;
 		}
 
 		return $post_type_object->show_in_rest === true;
+	}
+
+	/**
+	 * Checks if the current post type has an archive.
+	 *
+	 * Context: The has_archive value can be a string or a boolean. In most case it will be a boolean,
+	 * but it can be defined as a string. When it is a string the archive_slug will be overwritten to
+	 * define another endpoint.
+	 *
+	 * @param WP_Post_Type $post_type The post type object.
+	 *
+	 * @return bool True whether the post type has an archive.
+	 */
+	public static function has_archive( $post_type ) {
+		return ( ! empty( $post_type->has_archive ) );
 	}
 }

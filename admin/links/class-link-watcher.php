@@ -50,8 +50,9 @@ class WPSEO_Link_Watcher {
 			return;
 		}
 
-		// When the post status is auto-draft.
-		if ( $post->post_status === 'auto-draft' ) {
+		$post_statuses_to_skip = array( 'auto-draft', 'trash' );
+
+		if ( in_array( $post->post_status, $post_statuses_to_skip, true ) ) {
 			return;
 		}
 
