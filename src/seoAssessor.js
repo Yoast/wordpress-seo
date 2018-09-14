@@ -29,6 +29,7 @@ import urlStopWords from "./assessments/seo/urlStopWordsAssessment";
  */
 const SEOAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
+	this.type = "SEOAssessor";
 
 	this._assessments = [
 		new IntroductionKeywordAssessment(),

@@ -1,6 +1,6 @@
 import passiveVoiceAssessment from "../../src/assessments/readability/passiveVoiceAssessment.js";
 import Paper from "../../src/values/Paper.js";
-import Factory from "../helpers/factory.js";
+import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();
 import Mark from "../../src/values/Mark.js";
 
