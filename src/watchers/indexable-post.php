@@ -85,23 +85,24 @@ class Indexable_Post implements Integration {
 		$indexable->save();
 
 		if ( ! empty( $indexable->id ) ) {
-			$indexable_post_meta = $this->get_indexable_meta_instance( $indexable->id );
-
-			foreach ( $this->social_meta_lookup() as $meta_key => $indexable_key ) {
-				$indexable_post_meta->set_meta( $indexable_key, $this->get_meta_value( $meta_key, $post_id ) );
-			}
+			$this->save_social_meta( $indexable, $post_id );
 		}
 	}
 
 	/**
-	 * Retrieves an instance of the indexable meta object for given indexable id.
+	 * Saves the social meta data.
 	 *
-	 * @param int $indexable_id The indexable id.
+	 * @param Indexable $indexable The indexable to save the id for.
+	 * @param int       $post_id   Post ID.
 	 *
-	 * @return Indexable_Meta Instance of indexable meta.
+	 * @codeCoverageIgnore
 	 */
-	protected function get_indexable_meta_instance( $indexable_id ) {
-		return new Indexable_Meta( $indexable_id );
+	protected function save_social_meta( $indexable, $post_id ) {
+		$indexable_post_meta = new Indexable_Meta( $indexable->id );
+
+		foreach ( $this->social_meta_lookup() as $meta_key => $indexable_key ) {
+			$indexable_post_meta->set_meta( $indexable_key, $this->get_meta_value( $meta_key, $post_id ) );
+		}
 	}
 
 	/**

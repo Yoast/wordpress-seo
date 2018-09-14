@@ -169,7 +169,8 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 					'get_meta_value',
 					'get_robots_noindex',
 					'get_robots_options',
-					'set_link_count'
+					'set_link_count',
+					'save_social_meta',
 				)
 			)
 			->getMock();
@@ -232,6 +233,14 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 			->method( 'set_link_count' )
 			->with( $post_id, $indexable_mock )
 			->will( $this->returnValue( $indexable_mock ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'save_social_meta' )
+			->with( $this->equalTo( $indexable_mock ), $this->equalTo( $post_id ) );
+
+		// Set this value to true to let the routine think an indexable has been saved.
+		$indexable_mock->id = true;
 
 		$instance->save_meta( $post_id );
 

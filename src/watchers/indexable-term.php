@@ -85,11 +85,7 @@ class Indexable_Term implements Integration {
 		$indexable->save();
 
 		if ( ! empty( $indexable->id ) ) {
-			$indexable_post_meta = new Indexable_Meta( $indexable->id );
-
-			foreach ( $this->social_meta_lookup() as $meta_key => $indexable_key ) {
-				$indexable_post_meta->set_meta( $indexable_key, $term_meta[ $meta_key ] );
-			}
+			$this->save_social_meta( $indexable, $term_meta );
 		}
 	}
 
@@ -223,5 +219,21 @@ class Indexable_Term implements Integration {
 			'wpseo_twitter-description'   => 'twitter_description',
 			'wpseo_twitter-image'         => 'twitter_image',
 		);
+	}
+
+	/**
+	 * Saves the social meta data.
+	 *
+	 * @param Indexable $indexable The indexable to save the id for.
+	 * @param array     $term_meta The term meta data.
+	 *
+	 * @codeCoverageIgnore
+	 */
+	protected function save_social_meta( $indexable, $term_meta ) {
+		$indexable_post_meta = new Indexable_Meta( $indexable->id );
+
+		foreach ( $this->social_meta_lookup() as $meta_key => $indexable_key ) {
+			$indexable_post_meta->set_meta( $indexable_key, $term_meta[ $meta_key ] );
+		}
 	}
 }

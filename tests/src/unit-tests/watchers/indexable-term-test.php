@@ -154,6 +154,7 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 					'get_meta_data',
 					'get_meta_lookup',
 					'get_sitemap_include_value',
+					'save_social_meta',
 				)
 			)
 			->getMock();
@@ -186,6 +187,14 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 			->expects( $this->once() )
 			->method( 'get_meta_lookup' )
 			->will( $this->returnValue( array( 'a' => 'a' ) ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'save_social_meta' )
+			->with( $this->equalTo( $indexable_mock ), $this->equalTo( $term_meta ) );
+
+		// Set this value to true to let the routine think an indexable has been saved.
+		$indexable_mock->id = true;
 
 		$instance->save_meta( $post_id, '', 'taxonomy' );
 
