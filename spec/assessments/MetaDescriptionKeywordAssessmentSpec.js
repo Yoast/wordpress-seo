@@ -4,11 +4,11 @@ import Factory from "../helpers/factory";
 
 const i18n = Factory.buildJed();
 
-const mockResearcherNoMatches = Factory.buildMockResearcher( { "fullDescription": [ 0 ], "perSentence": [ [ 0 ] ] } );
-const mockResearcherOneMatch = Factory.buildMockResearcher( { "fullDescription": [ 1 ], "perSentence": [ [ 1 ] ] } );
-const mockResearcherTwoMatches = Factory.buildMockResearcher( { "fullDescription": [ 2 ], "perSentence": [ [ 2 ] ] } );
-const mockResearcherThreeMatches = Factory.buildMockResearcher( { "fullDescription": [ 3 ], "perSentence": [ [ 3 ] ] } );
-const mockResearcherMatchesDescription = Factory.buildMockResearcher( { "fullDescription": [ 1 ], "perSentence": [ [ 0 ] ] } );
+const mockResearcherNoMatches = Factory.buildMockResearcher( { fullDescription: [ 0 ], perSentence: [ [ 0 ] ] } );
+const mockResearcherOneMatch = Factory.buildMockResearcher( { fullDescription: [ 1 ], perSentence: [ [ 1 ] ] } );
+const mockResearcherTwoMatches = Factory.buildMockResearcher( { fullDescription: [ 2 ], perSentence: [ [ 2 ] ] } );
+const mockResearcherThreeMatches = Factory.buildMockResearcher( { fullDescription: [ 3 ], perSentence: [ [ 3 ] ] } );
+const mockResearcherMatchesDescription = Factory.buildMockResearcher( { fullDescription: [ 1 ], perSentence: [ [ 0 ] ] } );
 
 describe( "the metadescription keyword assessment", function() {
 	it( "returns a bad result when the meta description doesn't contain the keyword", function() {

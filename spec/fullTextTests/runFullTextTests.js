@@ -61,7 +61,6 @@ import findTransitionWords from "../../src/researches/findTransitionWords.js";
 import passiveVoice from "../../src/researches/getPassiveVoice.js";
 import getSentenceBeginnings from "../../src/researches/getSentenceBeginnings.js";
 import sentences from "../../src/researches/sentences";
-import { research } from "../../src/researches/buildKeywordForms";
 
 // Import test papers
 import testPapers from "./testTexts";
