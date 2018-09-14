@@ -38,14 +38,6 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'description', 'text', array( 'null' => true ) );
 		$indexable_table->column( 'breadcrumb_title', 'string', array( 'null' => true, 'limit' => 255 ) );
 
-		$indexable_table->column( 'og_title', 'string', array( 'null' => true, 'limit' => 255 ) );
-		$indexable_table->column( 'og_description', 'text', array( 'null' => true ) );
-		$indexable_table->column( 'og_image', 'string', array( 'null' => true, 'limit' => 255 ) );
-
-		$indexable_table->column( 'twitter_title', 'string', array( 'null' => true, 'limit' => 255 ) );
-		$indexable_table->column( 'twitter_description', 'text', array( 'null' => true ) );
-		$indexable_table->column( 'twitter_image', 'string', array( 'null' => true, 'limit' => 255 ) );
-
 		$indexable_table->column( 'is_robots_noindex', 'boolean', array( 'null' => true, 'default' => false ) );
 		$indexable_table->column( 'is_robots_nofollow', 'boolean', array( 'null' => true, 'default' => false ) );
 		$indexable_table->column( 'is_robots_noarchive', 'boolean', array( 'null' => true, 'default' => false ) );
