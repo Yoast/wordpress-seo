@@ -49,8 +49,8 @@ const expectedResults = {
 		resultText: "Your <a href='https://yoa.st/2pdd' target='_blank'>keyphrase</a> has a nice length.",
 	},
 	keywordDensity: {
-		score: 4,
-		resultText: "The exact-match <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 0%, which is too low; the focus keyword was found 0 times.",
+		score: 9,
+		resultText: "The exact-match <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 0.7%, which is great; the focus keyword was found 6 times.",
 	},
 	keywordStopWords: {
 		score: 0,

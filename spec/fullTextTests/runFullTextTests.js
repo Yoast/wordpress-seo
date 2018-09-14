@@ -103,13 +103,9 @@ testPapers.forEach( function( testPaper ) {
 					{
 						getKeywordDensity: getKeywordDensity(
 							paper,
-							factory.buildMockResearcher( keywordCount( paper, factory.buildMockResearcher( {
-								keyphraseForms: [ [ "voice", "voices" ], [ "search", "searches" ] ],
-							} ) ) )
+							researcher,
 						),
-						keywordCount: keywordCount( paper, factory.buildMockResearcher( {
-							keyphraseForms: [ [ "voice", "voices" ], [ "search", "searches" ] ],
-						} ) ),
+						keywordCount: keywordCount( paper, researcher ),
 					},
 					true
 				),

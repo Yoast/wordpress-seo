@@ -61,7 +61,7 @@ const expectedResults = {
 	},
 	keywordDensity: {
 		score: 9,
-		resultText: "The exact-match <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 1.4%, which is great; the focus keyword was found 10 times.",
+		resultText: "The exact-match <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 1.5%, which is great; the focus keyword was found 11 times.",
 	},
 	keywordStopWords: {
 		score: 0,
