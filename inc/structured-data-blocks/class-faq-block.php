@@ -66,14 +66,14 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 			return $json_ld;
 		}
 
-		$mainEntity = array();
+		$main_entity = array();
 
 		$questions = array_filter( $attributes['questions'], 'is_array' );
 		foreach ( $questions as $question ) {
-			$mainEntity[] = $this->get_question_json_ld( $question );
+			$main_entity[] = $this->get_question_json_ld( $question );
 		}
 
-		$json_ld[ 'mainEntity' ] = $mainEntity;
+		$json_ld['mainEntity'] = $main_entity;
 
 		return $json_ld;
 	}
