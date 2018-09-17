@@ -8,7 +8,6 @@ import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 
 /* Internal dependencies */
-import "./helpers/babel-polyfill";
 import SettingsReplacementVariableEditors from "./components/SettingsReplacementVariableEditors";
 import snippetEditorReducer from "./redux/reducers/snippetEditor";
 import configureEnhancers from "./redux/utils/configureEnhancers";

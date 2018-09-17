@@ -22,6 +22,7 @@ class WPSEO_Config_Field_Separator extends WPSEO_Config_Field_Choice {
 		$this->add_choice( 'sc-dash', '-', __( 'Dash', 'wordpress-seo' ) );
 		$this->add_choice( 'sc-ndash', '&ndash;', __( 'En dash', 'wordpress-seo' ) );
 		$this->add_choice( 'sc-mdash', '&mdash;', __( 'Em dash', 'wordpress-seo' ) );
+		$this->add_choice( 'sc-colon', ':', __( 'Colon', 'wordpress-seo' ) );
 		$this->add_choice( 'sc-middot', '&middot;', __( 'Middle dot', 'wordpress-seo' ) );
 		$this->add_choice( 'sc-bull', '&bull;', __( 'Bullet', 'wordpress-seo' ) );
 		$this->add_choice( 'sc-star', '*', __( 'Asterisk', 'wordpress-seo' ) );

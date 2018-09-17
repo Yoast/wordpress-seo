@@ -78,9 +78,16 @@ legend.schema-how-to-duration-legend {
 }
 
 .schema-how-to-step-name,
-.schema-faq-title,
 .schema-faq-question {
 	font-weight: 600;
+}
+
+.schema-how-to-description,
+.schema-how-to-step-name,
+.schema-how-to-step-text,
+.schema-faq-question,
+.schema-faq-answer {
+	line-height: inherit;
 }
 
 .schema-how-to-step-button-container {

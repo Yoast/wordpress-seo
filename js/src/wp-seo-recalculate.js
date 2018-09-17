@@ -2,8 +2,6 @@
 /* global ajaxurl */
 /* global require */
 
-import "./helpers/babel-polyfill";
-
 var Jed = require( "jed" );
 
 import {

@@ -35,7 +35,7 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	 * @return string The block preceded by it's JSON LD script.
 	 */
 	public function render( $attributes, $content ) {
-		if ( ! is_array( $attributes ) ) {
+		if ( ! is_array( $attributes ) || ! is_singular() ) {
 			return $content;
 		}
 
@@ -53,7 +53,7 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	 */
 	protected function get_json_ld( array $attributes ) {
 		$json_ld = array(
-			'@context' => 'http://schema.org',
+			'@context' => 'https://schema.org',
 			'@graph'   => array( $this->get_faq_json_ld() ),
 		);
 

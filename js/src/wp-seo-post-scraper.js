@@ -45,7 +45,6 @@ import { setCornerstoneContent } from "./redux/actions/cornerstoneContent";
 import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
 
 // Helper dependencies.
-import "./helpers/babel-polyfill";
 import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
