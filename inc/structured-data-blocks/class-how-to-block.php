@@ -90,7 +90,7 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns the JSON-LD for a step-section in a how-to block.
 	 *
-	 * @param array $step  The attributes of a step-section in the how-to block.
+	 * @param array $step The attributes of a step-section in the how-to block.
 	 *
 	 * @return array The JSON-LD representation of the step-section in a how-to block.
 	 */
@@ -117,13 +117,13 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns the JSON-LD for a step's description in a how-to block.
 	 *
-	 * @param array $step  The attributes of a step(-section) in the how-to block.
+	 * @param array $step The attributes of a step(-section) in the how-to block.
 	 *
 	 * @return array The JSON-LD representation of the step's description in a how-to block.
 	 */
 	protected function get_step_json_ld( array $step ) {
 		$step_json_ld = array(
-			'@type'    => 'HowToStep',
+			'@type' => 'HowToStep',
 		);
 
 		if ( ! empty( $step['jsonText'] ) ) {
