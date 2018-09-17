@@ -1,17 +1,17 @@
 import replaceString from "../stringProcessing/replaceString.js";
 import removalWordsFactory from "../config/removalWords.js";
 const removalWords = removalWordsFactory();
-import matchTextWithWord from "../stringProcessing/matchTextWithWord.js";
+import matchTextWithArray from "../stringProcessing/matchTextWithArray.js";
 
 /**
  * Matches the keyword in an array of strings
  *
  * @param {Array} matches The array with the matched headings.
- * @param {String} keyword The keyword to match
+ * @param {String[]} keywordForms The array of keyword forms to match
  * @param {string} locale The locale used for transliteration.
  * @returns {number} The number of occurrences of the keyword in the headings.
  */
-export default function( matches, keyword, locale ) {
+export default function( matches, keywordForms, locale ) {
 	let foundInHeader = -1;
 
 	if ( matches !== null ) {
@@ -22,8 +22,8 @@ export default function( matches, keyword, locale ) {
 				matches[ i ], removalWords
 			);
 			if (
-				matchTextWithWord( formattedHeaders, keyword, locale ).count > 0 ||
-				matchTextWithWord( matches[ i ], keyword, locale ).count > 0
+				matchTextWithArray( formattedHeaders, keywordForms, locale ).count > 0 ||
+				matchTextWithArray( matches[ i ], keywordForms, locale ).count > 0
 			) {
 				foundInHeader++;
 			}
