@@ -1,6 +1,6 @@
 import KeyphraseLengthAssessment from "../../src/assessments/seo/KeyphraseLengthAssessment";
 import Paper from "../../src/values/Paper.js";
-import factory from "../helpers/factory.js";
+import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
 
 describe( "the keyphrase length assessment", function() {
