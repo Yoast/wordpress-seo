@@ -17,4 +17,5 @@ export default function( paper, researcher ) {
 	keyword = escapeRegExp( keyword );
 
 	return wordMatch( paper.getUrl(), keyword, paper.getLocale() ).count;
+
 }
