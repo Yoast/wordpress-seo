@@ -231,7 +231,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			new WPSEO_Post_Metabox_Formatter( $post, array(), $permalink )
 		);
 
-		return $post_formatter->get_values();
+		$values     = $post_formatter->get_values();
+		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
+		if ( $values['cornerstoneActive'] && ! in_array( $post->post_type, $post_types, true ) ) {
+			$values['cornerstoneActive'] = false;
+		}
+
+		return $values;
 	}
 
 	/**
