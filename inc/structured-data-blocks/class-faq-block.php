@@ -27,12 +27,12 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	/**
 	 * Renders the block.
 	 *
-	 * Because we can't save script tags in Gutenberg without sufficient user permissions we render these server-side.
+	 * Because we can't save script tags in Gutenberg without sufficient user permissions, we render these server-side.
 	 *
 	 * @param array  $attributes The attributes of the block.
 	 * @param string $content    The HTML content of the block.
 	 *
-	 * @return string The block preceded by it's JSON LD script.
+	 * @return string The block preceded by its JSON-LD script.
 	 */
 	public function render( $attributes, $content ) {
 		if ( ! is_array( $attributes ) || ! is_singular() ) {
@@ -45,11 +45,11 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns the JSON LD for a FAQ block in array form.
+	 * Returns the JSON-LD for a FAQ block in array form.
 	 *
 	 * @param array $attributes The attributes of the FAQ block.
 	 *
-	 * @return array The JSON LD representation of the FAQ block in array form.
+	 * @return array The JSON-LD representation of the FAQ block in array form.
 	 */
 	protected function get_json_ld( array $attributes ) {
 		$json_ld = array(
@@ -79,11 +79,11 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns the JSON LD for a question in a faq block in array form.
+	 * Returns the JSON-LD for a question in a FAQ block in array form.
 	 *
-	 * @param array $question The attributes of a question in the faq block.
+	 * @param array $question The attributes of a question in the FAQ block.
 	 *
-	 * @return array The JSON LD representation of the question in a faq block in array form.
+	 * @return array The JSON-LD representation of the question in a FAQ block in array form.
 	 */
 	protected function get_question_json_ld( array $question ) {
 		$json_ld = array(
