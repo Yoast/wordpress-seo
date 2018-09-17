@@ -15,7 +15,7 @@ import { flatten } from "lodash-es";
  *
  * @returns {Array} Array of all forms to be searched for keyword-based assessments.
  */
-const getForms = function( word, morphologyData ) {
+export function getForms( word, morphologyData ) {
 	if ( checkPossessive( word, createRulesFromMorphologyData( morphologyData.nouns.regexNoun.possessiveToBase ) ) ) {
 		return unique( getNounFormsWithPossessives( word, morphologyData.nouns ) );
 	}
@@ -24,6 +24,4 @@ const getForms = function( word, morphologyData ) {
 		getVerbForms( word, morphologyData.verbs ),
 		getAdjectiveForms( word, morphologyData.adjectives ),
 	] ) );
-};
-
-module.exports = getForms;
+}
