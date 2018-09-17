@@ -1,8 +1,9 @@
-const AssessmentResult = require( "../../values/AssessmentResult.js" );
-const Assessment = require( "../../assessment.js" );
-const merge = require( "lodash/merge" );
-const inRangeStartEndInclusive = require( "../../helpers/inRange.js" ).inRangeStartEndInclusive;
-const getSubheadings = require( "../../stringProcessing/getSubheadings" ).getSubheadings;
+
+import AssessmentResult from "../../values/AssessmentResult";
+import Assessment from "../../assessment";
+import { merge } from "lodash-es";
+import { inRangeStartEndInclusive } from "../../helpers";
+import { getSubheadings } from "../../stringProcessing/getSubheadings";
 
 /**
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
