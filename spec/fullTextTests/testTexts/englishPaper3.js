@@ -2,7 +2,8 @@ import Paper from "../../../src/values/Paper";
 
 const name = "englishPaper3";
 
-const paper = new Paper( "<h2>Which social media platform suits your business?</h2>\n" +
+const paper = new Paper( "<div class=\"content\"><p></p>\n" +
+    "<h2>Which social media platform suits your business?</h2>\n" +
 	"<p>The first step in determining a social media strategy is whether that social medium is one that you&#8217;d <em>want</em> to be found on. In other words, does the social medium suit the message and branding of your company? And on top of that: does this social medium offer the options and reach you&#8217;re looking for?<br />\n" +
 	"</div><section class=\"alignright extra show-off\"><p><a class=\"link--naked link--cta\" href=\"https://yoast.com/academy/course/seo-copywriting-training/\">Learn how to write awesome and SEO friendly articles in our <span>SEO Copywriting training</span> &raquo;</a></p><a class=\"hide-on-mobile \" href=\"https://yoast.com/academy/course/seo-copywriting-training/\"><img src=\"https://yoast.com/app/uploads/2016/05/Copywriting_course_banner.png\" alt=\"SEO copywriting training\"></a><div class=\"plugin-buy-button\"><a href=\"https://yoast.com/eu/cart/?add-to-cart=37\" class=\"buy-button button default \" rel=\"nofollow\" data-product-id=\"37\" data-product-name=\"SEO copywriting training\" data-price=\"199\" data-currency=\"EUR\"><span class=\"woocommerce-Price-amount amount\"><span class=\"woocommerce-Price-currencySymbol\">&euro;</span>199</span> - Buy now &raquo;</a></div><a href=\"https://yoast.com/academy/course/seo-copywriting-training/\" class=\"button dimmed flat\"><i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i> Info</a></section><div class=\"content\"><br />\n" +
 	"Social media platforms like Facebook and Twitter offer a lot of ways to advertise and make your brand and company known beyond the scope of your followers. With other social media, this can be more difficult and it would require a lot of hard work to get the same results. Make sure to think about what presence on the considered social media would mean for your company. Make sure that this aligns with how you want to brand your business.</p>\n" +
@@ -29,8 +30,8 @@ const expectedResults = {
 		resultText: "All topic words appear within one sentence in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy.",
 	},
 	keyphraseLength: {
-		score: 0,
-		resultText: "",
+		score: 9,
+		resultText: "Your <a href='https://yoa.st/2pdd' target='_blank'>keyphrase</a> has a nice length.",
 	},
 	keywordDensity: {
 		score: 4,
@@ -42,7 +43,7 @@ const expectedResults = {
 	},
 	metaDescriptionKeyword: {
 		score: 9,
-		resultText: "The meta description <a href='https://yoa.st/2pf' target='_blank'> contains the focus keyword</a>.",
+		resultText: "The meta description <a href='https://yoa.st/2pf' target='_blank'>contains the focus keyword</a>.",
 	},
 	metaDescriptionLength: {
 		score: 9,
@@ -62,7 +63,7 @@ const expectedResults = {
 	},
 	textLength: {
 		score: 9,
-		resultText: "The text contains 388 words. This is more than or equal to the <a href='https://yoa.st/2pk' target='_blank'>recommended minimum</a> of 300 words.",
+		resultText: "The text contains 390 words. This is more than or equal to the <a href='https://yoa.st/2pk' target='_blank'>recommended minimum</a> of 300 words.",
 	},
 	externalLinks: {
 		score: 8,
@@ -90,15 +91,16 @@ const expectedResults = {
 	},
 	urlStopWords: {
 		score: 5,
-		resultText: "The slug for this page contains <a href='http://en.wikipedia.org/wiki/Stop_words' target='_blank'>stop words</a>, consider removing it.",
+		resultText: "The slug for this page contains <a href='http://en.wikipedia.org/wiki/Stop_words' target='_blank'>stop words</a>, consider removing them.",
 	},
 	largestKeywordDistance: {
-		score: 1,
-		resultText: "Large parts of your text do not contain the keyword. Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> the keyword more evenly.",
+		score: 0,
+		resultText: "Use your keyword or synonyms more often in your text so that we can check <a href='https://yoa.st/2w7' target='_blank'>keyword distribution</a>.",
 	},
+
 	fleschReadingEase: {
 		score: 9,
-		resultText: "The copy scores 66.7 in the <a href='https://yoa.st/flesch-reading' target='_blank'>Flesch Reading Ease</a> test, which is considered ok to read. ",
+		resultText: "The copy scores 70.5 in the <a href='https://yoa.st/flesch-reading' target='_blank'>Flesch Reading Ease</a> test, which is considered fairly easy to read. ",
 	},
 	subheadingsTooLong: {
 		score: 9,
@@ -110,15 +112,15 @@ const expectedResults = {
 	},
 	textSentenceLength: {
 		score: 9,
-		resultText: "13.3% of the sentences contain <a href='https://yoa.st/short-sentences' target='_blank'>more than 20 words</a>, which is less than or equal to the recommended maximum of 25%.",
+		resultText: "7.5% of the sentences contain <a href='https://yoa.st/short-sentences' target='_blank'>more than 20 words</a>, which is less than or equal to the recommended maximum of 25%.",
 	},
 	textTransitionWords: {
-		score: 9,
-		resultText: "36.7% of the sentences contain a <a href='https://yoa.st/transition-words' target='_blank'>transition word</a> or phrase, which is great.",
+		score: 6,
+		resultText: "23.9% of the sentences contain a <a href='https://yoa.st/transition-words' target='_blank'>transition word</a> or phrase, which is less than the recommended minimum of 30%.",
 	},
 	passiveVoice: {
 		score: 9,
-		resultText: "6.7% of the sentences contain <a href='https://yoa.st/passive-voice' target='_blank'>passive voice</a>, which is less than or equal to the recommended maximum of 10%.",
+		resultText: "4.3% of the sentences contain <a href='https://yoa.st/passive-voice' target='_blank'>passive voice</a>, which is less than or equal to the recommended maximum of 10%.",
 	},
 	textPresence: {
 		score: 0,
