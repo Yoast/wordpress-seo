@@ -62,7 +62,7 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 			$json_ld['name'] = $post_title;
 		}
 
-		if ( ! is_array( $attributes['questions'] ) ) {
+		if ( ! array_key_exists( 'questions', $attributes ) || ! is_array( $attributes['questions'] ) ) {
 			return $json_ld;
 		}
 
