@@ -25,6 +25,7 @@ var ScoreRating = 9;
  * @constructor
  */
 var Assessor = function( i18n, options ) {
+	this.type = "Assessor";
 	this.setI18n( i18n );
 	this._assessments = [];
 
