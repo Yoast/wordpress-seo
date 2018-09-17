@@ -1,4 +1,4 @@
-const Paper = require( "../../../js/values/Paper.js" );
+import Paper from "../../../src/values/Paper";
 
 const name = "englishPaper3";
 
@@ -130,9 +130,14 @@ const expectedResults = {
 	},
 };
 
-module.exports = {
+export {
+	name,
+	paper,
+	expectedResults,
+};
+
+export default {
 	name: name,
 	paper: paper,
 	expectedResults: expectedResults,
 };
-
