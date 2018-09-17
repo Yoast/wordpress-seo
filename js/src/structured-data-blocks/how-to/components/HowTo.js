@@ -90,7 +90,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Sets the default duration text to describe the time the guide in the how-to block takes, when no duration text
+	 * Sets the default duration text to describe the time the instructions in the how-to block take, when no duration text
 	 * was provided.
 	 *
 	 * @param {string} text The text to describe the duration.
