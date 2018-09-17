@@ -11,24 +11,24 @@ import matchTextWithArray from "../stringProcessing/matchTextWithArray";
  * (morphological forms included).
  *
  * @param {String} subheading the subheading to check.
- * @param {String[][]} keyphraseForms the key words and their forms to check.
+ * @param {Array<String[]>} keyphraseForms the key words and their forms to check.
  * @param {String} locale the current locale
- * @returns {boolean} if the fraction of found keywords in the subheading is bigger than 0.5.
+ * @returns {Boolean} if the fraction of found keywords in the subheading is bigger than 0.5.
  */
 const subheadingReflectsTopic = function( subheading, keyphraseForms, locale ) {
-	let keywordFormsFound = keyphraseForms.filter(
+	const keywordFormsFound = keyphraseForms.filter(
 		keywordForms => matchTextWithArray( subheading, keywordForms, locale ).count > 0
 	);
 
-	// over half the keywords should be in the subheading.
-	return (keywordFormsFound.length / keyphraseForms.length) > 0.5;
+	// Over half the keywords should be in the subheading.
+	return ( keywordFormsFound.length / keyphraseForms.length ) > 0.5;
 };
 
 /**
  * Computes the amount of subheadings reflecting the topic.
  *
  * @param {String[]} subheadings the subheadings to check.
- * @param {String[][]} keyphraseForms the key words and their forms to check.
+ * @param {Array<String[]>} keyphraseForms the key words and their forms to check.
  * @param {String} locale the current locale.
  * @returns {Number} the amount of subheadings reflecting the topic.
  */
@@ -51,10 +51,10 @@ const numberOfsubheadingsReflectingTopic = function( subheadings, keyphraseForms
 export default function( paper, researcher ) {
 	let text = paper.getText();
 	let topicForms = researcher.getResearch( "morphology" );
-	let locale = paper.getLocale();
-	let result = { count: 0 };
+	const locale = paper.getLocale();
+	const result = { count: 0 };
 	text = stripSomeTags( text );
-	let matches = getSubheadingContents( text );
+	const matches = getSubheadingContents( text );
 
 	if ( 0 !== matches.length ) {
 		result.count = matches.length;
