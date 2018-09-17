@@ -436,20 +436,32 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$archive_url = apply_filters( 'wpseo_sitemap_post_type_archive_link', $archive_url, $post_type );
 
 		if ( $archive_url ) {
-			/**
-			 * Filter the priority of the URL Yoast SEO uses in the XML sitemap.
-			 *
-			 * @param float  $priority  The priority for this URL, ranging from 0 to 1
-			 * @param string $post_type The post type this archive is for.
-			 */
-			$links[] = array(
-				'loc' => $archive_url,
-				'mod' => WPSEO_Sitemaps::get_last_modified_gmt( $post_type ),
 
-				// Deprecated, kept for backwards data compat. R.
-				'chf' => 'daily',
-				'pri' => 1,
-			);
+			/**
+			 * Filter post type archive URL as an array,
+			 * allowing it to work with many links
+			 *
+			 * @param array $archive_url A list of archive URLs
+			 * @param string $post_type  The post type this archive is for
+			 */
+			$archive_urls = apply_filters( 'wpseo_sitemap_post_type_archive_links', array( $archive_url ), $post_type );
+
+			foreach ( $archive_urls as $url ) {
+				/**
+				 * Filter the priority of the URL Yoast SEO uses in the XML sitemap.
+				 *
+				 * @param float  $priority  The priority for this URL, ranging from 0 to 1
+				 * @param string $post_type The post type this archive is for.
+				 */
+				$links[] = array(
+					'loc' => $url,
+					'mod' => WPSEO_Sitemaps::get_last_modified_gmt( $post_type ),
+
+					// Deprecated, kept for backwards data compat. R.
+					'chf' => 'daily',
+					'pri' => 1,
+				);
+			}
 		}
 
 		return $links;
