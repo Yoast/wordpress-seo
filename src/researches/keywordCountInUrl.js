@@ -1,6 +1,7 @@
 /** @module researches/countKeywordInUrl */
 
-import wordMatch from "../stringProcessing/matchTextWithWord.js";
+import findWordFormsInString from "./findKeywordFormsInString.js";
+
 
 import { escapeRegExp } from "lodash-es";
 
@@ -12,10 +13,21 @@ import { escapeRegExp } from "lodash-es";
  */
 export default function( paper, researcher ) {
 	const { keyphraseForms } = researcher.getResearch( "morphology" );
+	const keyphraseForms = keyphraseForms.replace( "'", "" );
+	//??keyword = escapeRegExp( keyword );
+	const slug = paper.getUrl() // strip of dashes and create array
+	const numberOfContentWords = keyphraseForms.length;
+	//I want this to count number of content words, not number of all forms
 
-	let keyword = paper.getKeyword().replace( "'", "" ).replace( /\s/ig, "-" );
-	keyword = escapeRegExp( keyword );
+	const matches = findWordFormsInString( keyphraseForms, slug, paper.getLocale() );
 
-	return wordMatch( paper.getUrl(), keyword, paper.getLocale() ).count;
+	if (numberOfContentWords === 1) {
 
+	}
+}
+
+// put outcome in a variable, then return it
+
+/**if (numberContentWords === 1) {
+	keyphraseForms.
 }
