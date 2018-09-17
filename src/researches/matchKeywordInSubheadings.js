@@ -28,14 +28,22 @@ const subheadingReflectsTopic = function( subheading, keyphraseForms, locale ) {
  * Computes the amount of subheadings reflecting the topic.
  *
  * @param {String[]} subheadings the subheadings to check.
- * @param {Array<String[]>} keyphraseForms the key words and their forms to check.
+ * @param {Object} topicForms the key words and their forms to check.
  * @param {String} locale the current locale.
  * @returns {Number} the amount of subheadings reflecting the topic.
  */
-const numberOfsubheadingsReflectingTopic = function( subheadings, keyphraseForms, locale ) {
+const numberOfsubheadingsReflectingTopic = function( subheadings, topicForms, locale ) {
+	// Number of headers reflecting the main key phrase.
 	return subheadings.filter(
-		subheading => subheadingReflectsTopic( subheading, keyphraseForms, locale )
+		subheading => {
+			const reflectsMainTopic = subheadingReflectsTopic( subheading, topicForms.keyphraseForms, locale );
+			const reflectsSynonym = topicForms.synonymsForms.some(
+				synonymForm => subheadingReflectsTopic( subheading, synonymForm, locale )
+			);
+			return reflectsMainTopic || reflectsSynonym;
+		}
 	).length;
+
 };
 
 /**
@@ -58,12 +66,7 @@ export default function( paper, researcher ) {
 
 	if ( 0 !== matches.length ) {
 		result.count = matches.length;
-		result.matches = numberOfsubheadingsReflectingTopic( matches, topicForms.keyphraseForms, locale );
-
-		result.matches = topicForms.synonymsForms.reduce(
-			( sum, keyphraseForms ) => sum + numberOfsubheadingsReflectingTopic( matches, keyphraseForms, locale )
-			, result.matches
-		);
+		result.matches = numberOfsubheadingsReflectingTopic( matches, topicForms, locale );
 	}
 
 	return result;
