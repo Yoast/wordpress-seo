@@ -28,12 +28,11 @@ const subheadingReflectsTopic = function( subheading, keyphraseForms, locale ) {
  * Computes the amount of subheadings reflecting the topic.
  *
  * @param {String[]} subheadings the subheadings to check.
- * @param {Object} topicForms the key words and their forms to check.
+ * @param {Object} topicForms the main key phrase and its synonyms to check.
  * @param {String} locale the current locale.
  * @returns {Number} the amount of subheadings reflecting the topic.
  */
 const numberOfsubheadingsReflectingTopic = function( subheadings, topicForms, locale ) {
-	// Number of headers reflecting the main key phrase.
 	return subheadings.filter(
 		subheading => {
 			const reflectsMainTopic = subheadingReflectsTopic( subheading, topicForms.keyphraseForms, locale );
@@ -62,11 +61,11 @@ export default function( paper, researcher ) {
 	const locale = paper.getLocale();
 	const result = { count: 0 };
 	text = stripSomeTags( text );
-	const matches = getSubheadingContents( text );
+	const subheadings = getSubheadingContents( text );
 
-	if ( 0 !== matches.length ) {
-		result.count = matches.length;
-		result.matches = numberOfsubheadingsReflectingTopic( matches, topicForms, locale );
+	if ( 0 !== subheadings.length ) {
+		result.count = subheadings.length;
+		result.matches = numberOfsubheadingsReflectingTopic( subheadings, topicForms, locale );
 	}
 
 	return result;
