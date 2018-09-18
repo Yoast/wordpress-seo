@@ -42,14 +42,14 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		}
 
 		$feature_help = new WPSEO_Admin_Help_Panel(
-			'allow_' . $feature->setting,
+			WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
 			/* translators: %s expands to a feature's name */
 			sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $feature->name ) ),
 			$help_text
 		);
 
 		$yform->toggle_switch(
-			'allow_' . $feature->setting,
+			WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
 			array(
 				'on'  => __( 'Allow Control', 'wordpress-seo' ),
 				'off' => __( 'Disable', 'wordpress-seo' ),

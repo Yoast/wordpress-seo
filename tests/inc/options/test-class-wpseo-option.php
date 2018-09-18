@@ -36,7 +36,7 @@ class WPSEO_Option_Test extends WPSEO_UnitTestCase {
 
 		foreach ( $option_vars as $option_var ) {
 			// Ensure the variable is disabled via the network.
-			WPSEO_Options::save_option( 'wpseo_ms', 'allow_' . $option_var, false );
+			WPSEO_Options::save_option( 'wpseo_ms', WPSEO_Option::ALLOW_KEY_PREFIX . $option_var, false );
 
 			// This must not have any effect since the variable should be disabled.
 			WPSEO_Options::save_option( 'wpseo', $option_var, false );

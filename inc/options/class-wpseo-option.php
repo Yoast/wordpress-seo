@@ -58,6 +58,11 @@
 abstract class WPSEO_Option {
 
 	/**
+	 * Prefix for override option keys that allow or disallow the option key of the same name.
+	 */
+	const ALLOW_KEY_PREFIX = 'allow_';
+
+	/**
 	 * @var  string  Option name - MUST be set in concrete class and set to public.
 	 */
 	protected $option_name;
@@ -482,7 +487,7 @@ abstract class WPSEO_Option {
 			return false;
 		}
 
-		return isset( $override_option[ 'allow_' . $key ] ) && ! $override_option[ 'allow_' . $key ];
+		return isset( $override_option[ self::ALLOW_KEY_PREFIX . $key ] ) && ! $override_option[ self::ALLOW_KEY_PREFIX . $key ];
 	}
 
 	/**
@@ -689,7 +694,7 @@ abstract class WPSEO_Option {
 
 		// This loop could as well call `is_disabled( $key )` for each iteration, however this would be worse performance-wise.
 		foreach ( $old as $key => $value ) {
-			if ( isset( $override_option[ 'allow_' . $key ] ) && ! $override_option[ 'allow_' . $key ] ) {
+			if ( isset( $override_option[ self::ALLOW_KEY_PREFIX . $key ] ) && ! $override_option[ self::ALLOW_KEY_PREFIX . $key ] ) {
 				$updated[ $key ] = $old[ $key ];
 			}
 		}

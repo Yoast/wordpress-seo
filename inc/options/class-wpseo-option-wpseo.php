@@ -287,27 +287,20 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			return $options;
 		}
 
-		$override_option = $this->get_override_option();
-		if ( empty( $override_option ) ) {
-			return $options;
-		}
-
 		// For the feature variables, set their values to off in case they are disabled.
 		$feature_vars = array(
-			'disableadvanced_meta',
-			'onpage_indexability',
-			'content_analysis_active',
-			'keyword_analysis_active',
-			'enable_admin_bar_menu',
-			'enable_cornerstone_content',
-			'enable_xml_sitemap',
-			'enable_text_link_counter',
+			'disableadvanced_meta'       => false,
+			'onpage_indexability'        => false,
+			'content_analysis_active'    => false,
+			'keyword_analysis_active'    => false,
+			'enable_admin_bar_menu'      => false,
+			'enable_cornerstone_content' => false,
+			'enable_xml_sitemap'         => false,
+			'enable_text_link_counter'   => false,
 		);
-		foreach ( $feature_vars as $feature_var ) {
-			if ( isset( $override_option[ 'allow_' . $feature_var ] ) && ! $override_option[ 'allow_' . $feature_var ] ) {
-				$options[ $feature_var ] = false;
-			}
-		}
+
+		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.
+		$options = $this->prevent_disabled_options_update( $options, $feature_vars );
 
 		return $options;
 	}

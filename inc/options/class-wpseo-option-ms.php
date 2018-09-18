@@ -38,16 +38,16 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 *        Shouldn't be requested directly, use $this->get_defaults();
 	 */
 	protected $defaults = array(
-		'access'                           => 'admin',
-		'defaultblog'                      => '', // Numeric blog ID or empty.
-		'allow_disableadvanced_meta'       => true,
-		'allow_onpage_indexability'        => true,
-		'allow_content_analysis_active'    => true,
-		'allow_keyword_analysis_active'    => true,
-		'allow_enable_admin_bar_menu'      => true,
-		'allow_enable_cornerstone_content' => true,
-		'allow_enable_xml_sitemap'         => true,
-		'allow_enable_text_link_counter'   => true,
+		'access'                                              => 'admin',
+		'defaultblog'                                         => '', // Numeric blog ID or empty.
+		self::ALLOW_KEY_PREFIX . 'disableadvanced_meta'       => true,
+		self::ALLOW_KEY_PREFIX . 'onpage_indexability'        => true,
+		self::ALLOW_KEY_PREFIX . 'content_analysis_active'    => true,
+		self::ALLOW_KEY_PREFIX . 'keyword_analysis_active'    => true,
+		self::ALLOW_KEY_PREFIX . 'enable_admin_bar_menu'      => true,
+		self::ALLOW_KEY_PREFIX . 'enable_cornerstone_content' => true,
+		self::ALLOW_KEY_PREFIX . 'enable_xml_sitemap'         => true,
+		self::ALLOW_KEY_PREFIX . 'enable_text_link_counter'   => true,
 	);
 
 	/**

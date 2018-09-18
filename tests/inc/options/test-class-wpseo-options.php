@@ -195,14 +195,14 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 		$ms_option_keys = array(
 			'access',
 			'defaultblog',
-			'allow_disableadvanced_meta',
-			'allow_onpage_indexability',
-			'allow_content_analysis_active',
-			'allow_keyword_analysis_active',
-			'allow_enable_admin_bar_menu',
-			'allow_enable_cornerstone_content',
-			'allow_enable_xml_sitemap',
-			'allow_enable_text_link_counter',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'disableadvanced_meta',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'onpage_indexability',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'content_analysis_active',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'keyword_analysis_active',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'enable_admin_bar_menu',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'enable_cornerstone_content',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'enable_xml_sitemap',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'enable_text_link_counter',
 		);
 
 		foreach ( $ms_option_keys as $key ) {
@@ -222,14 +222,14 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 		$ms_option_keys = array(
 			'access',
 			'defaultblog',
-			'allow_disableadvanced_meta',
-			'allow_onpage_indexability',
-			'allow_content_analysis_active',
-			'allow_keyword_analysis_active',
-			'allow_enable_admin_bar_menu',
-			'allow_enable_cornerstone_content',
-			'allow_enable_xml_sitemap',
-			'allow_enable_text_link_counter',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'disableadvanced_meta',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'onpage_indexability',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'content_analysis_active',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'keyword_analysis_active',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'enable_admin_bar_menu',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'enable_cornerstone_content',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'enable_xml_sitemap',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'enable_text_link_counter',
 		);
 
 		foreach ( $ms_option_keys as $key ) {

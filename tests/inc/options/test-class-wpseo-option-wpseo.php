@@ -35,7 +35,7 @@ class WPSEO_Option_WPSEO_Test extends WPSEO_UnitTestCase {
 
 		// Ensure the variables are disabled via the network.
 		foreach ( $this->feature_vars as $feature_var ) {
-			WPSEO_Options::save_option( 'wpseo_ms', 'allow_' . $feature_var, false );
+			WPSEO_Options::save_option( 'wpseo_ms', WPSEO_Option::ALLOW_KEY_PREFIX . $feature_var, false );
 		}
 
 		// Test method directly.
