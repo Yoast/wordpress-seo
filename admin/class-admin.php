@@ -71,6 +71,8 @@ class WPSEO_Admin {
 
 		add_action( 'admin_init', array( $this, 'map_manage_options_cap' ) );
 
+		add_action( 'save_post', array( $this, 'clear_opengraph_image_cache' ), 10, 1 );
+
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'home' );
 
@@ -327,6 +329,17 @@ class WPSEO_Admin {
 	 */
 	public function check_php_version() {
 		// Intentionally left empty.
+	}
+
+	/**
+	 * Removes the opengraph image cache for a post.
+	 *
+	 * @param int $post_id Post to remove the cache for.
+	 *
+	 * @return void
+	 */
+	public function clear_opengraph_image_cache( $post_id ) {
+		delete_post_meta( $post_id, 'wpseo_opengraph_image_cache' );
 	}
 
 	/**

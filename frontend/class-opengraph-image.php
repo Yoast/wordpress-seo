@@ -217,14 +217,17 @@ class WPSEO_OpenGraph_Image {
 	 */
 	private function set_posts_page_image() {
 		$post_id = get_option( 'page_for_posts' );
-
-		$this->set_image_post_meta( $post_id );
-
-		if ( $this->has_images() ) {
+		if ( $this->get_image_cache( $post_id ) ) {
 			return;
 		}
 
-		$this->set_featured_image( $post_id );
+		$this->set_image_post_meta( $post_id );
+
+		if ( ! $this->has_images() ) {
+			$this->set_featured_image( $post_id );
+		}
+
+		$this->store_image_cache( $post_id );
 	}
 
 	/**
@@ -238,14 +241,17 @@ class WPSEO_OpenGraph_Image {
 		if ( $post_id === null ) {
 			$post_id = $this->get_queried_object_id();
 		}
-
-		$this->set_user_defined_image( $post_id );
-
-		if ( $this->has_images() ) {
+		if ( $this->get_image_cache( $post_id ) ) {
 			return;
 		}
 
-		$this->add_first_usable_content_image( get_post( $post_id ) );
+		$this->set_user_defined_image( $post_id );
+
+		if ( ! $this->has_images() ) {
+			$this->add_first_usable_content_image( get_post( $post_id ) );
+		}
+
+		$this->store_image_cache( $post_id );
 	}
 
 	/**
@@ -600,5 +606,30 @@ class WPSEO_OpenGraph_Image {
 	 */
 	protected function get_queried_object_id() {
 		return get_queried_object_id();
+	}
+
+	/**
+	 * Retrieves cached image array from postmeta, if it exists.
+	 *
+	 * @param int $post_id The post we're grabbing the cache for.
+	 *
+	 * @return bool Whether we could get a cache or not.
+	 */
+	private function get_image_cache( $post_id ) {
+		$cache = get_post_meta( $post_id, 'wpseo_opengraph_image_cache', true );
+		if ( is_array( $cache ) ) {
+			$this->images = $cache;
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Stores the value of the current images array to postmeta for caching.
+	 *
+	 * @param int $post_id The post to save the cache for.
+	 */
+	private function store_image_cache( $post_id ) {
+		update_post_meta( $post_id, 'wpseo_opengraph_image_cache', $this->images );
 	}
 }
