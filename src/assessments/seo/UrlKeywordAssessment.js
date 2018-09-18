@@ -22,7 +22,8 @@ class UrlKeywordAssessment extends Assessment {
 
 		const defaultConfig = {
 			scores: {
-				noKeywordInUrl: 6,
+				noKeywordInUrl: 3,
+				ok: 6
 				good: 9,
 			},
 			url: "<a href='https://yoa.st/2pp' target='_blank'>",

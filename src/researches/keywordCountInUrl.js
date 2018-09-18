@@ -3,7 +3,7 @@
 import findWordFormsInString from "./findKeywordFormsInString.js";
 
 
-import { escapeRegExp } from "lodash-es";
+// import { escapeRegExp } from "lodash-es";
 
 /**
  * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
@@ -12,22 +12,32 @@ import { escapeRegExp } from "lodash-es";
  * @returns {int} Number of times the keyword is found.
  */
 export default function( paper, researcher ) {
-	const { keyphraseForms } = researcher.getResearch( "morphology" );
-	const keyphraseForms = keyphraseForms.replace( "'", "" );
-	//??keyword = escapeRegExp( keyword );
-	const slug = paper.getUrl() // strip of dashes and create array
+	const { keyphraseForms } = researcher.getResearch( "morphology" ).replace( "'" && "-", "" );
+	// keyphraseForms = escapeRegExp( keyphraseForms );
+
+	const slug = paper.getUrl().replace( "-", "" );
+	// create array??
 	const numberOfContentWords = keyphraseForms.length;
-	//I want this to count number of content words, not number of all forms
+	// I want this to count number of content words, not number of all forms
 
 	const matches = findWordFormsInString( keyphraseForms, slug, paper.getLocale() );
+	let score = "ok";
 
-	if (numberOfContentWords === 1) {
-
+	if ( numberOfContentWords === 1 || numberOfContentWords === 2 ) {
+		if ( matches.percentWordMatches === 100 ) {
+			score = "good";
+		} else {
+			score = "ok";
+		}
 	}
-}
 
-// put outcome in a variable, then return it
+	if ( numberOfContentWords > 2 ) {
+		if ( matches.percentWordMatches > 50 ) {
+			score = "good";
+		} else {
+			score = "ok";
+		}
+	}
 
-/**if (numberContentWords === 1) {
-	keyphraseForms.
+	return score;
 }
