@@ -381,11 +381,11 @@ PostDataCollector.prototype.saveScores = function( score, keyword ) {
 		indicator.className = "na";
 		indicator.screenReaderText = this.app.i18n.dgettext(
 			"js-text-analysis",
-			"Enter a focus keyword to calculate the SEO score"
+			"Enter a focus keyphrase to calculate the SEO score"
 		);
 		indicator.fullText = this.app.i18n.dgettext(
 			"js-text-analysis",
-			"Content optimization: Enter a focus keyword to calculate the SEO score"
+			"Content optimization: Enter a focus keyphrase to calculate the SEO score"
 		);
 	}
 
