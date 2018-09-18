@@ -31,22 +31,12 @@ class Yoast_Form {
 	public $options;
 
 	/**
-	 * Option name for additional higher level options, if present.
+	 * Option instance.
 	 *
-	 * This can be the name of a set of network options in a multisite for example.
-	 *
-	 * @var string
+	 * @since 8.4
+	 * @var WPSEO_Option
 	 */
-	protected $override_option_name = '';
-
-	/**
-	 * Additional higher level options, if present.
-	 *
-	 * This can be the the network options in a multisite for example.
-	 *
-	 * @var array
-	 */
-	protected $override_options = array();
+	protected $option_instance;
 
 	/**
 	 * Get the singleton instance of this class
@@ -103,10 +93,6 @@ class Yoast_Form {
 			else {
 				$action_url       = admin_url( 'options.php' );
 				$hidden_fields_cb = 'settings_fields';
-				$override_option  = WPSEO_Options::get_instance()->get_option_instance( $option )->get_override_option_name();
-				if ( $override_option ) {
-					$this->set_override_option( $override_option );
-				}
 			}
 
 			echo '<form action="' . esc_url( $action_url ) . '" method="post" id="wpseo-conf"' . $enctype . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
@@ -123,8 +109,9 @@ class Yoast_Form {
 	 * @param string $option_name Option key.
 	 */
 	public function set_option( $option_name ) {
-		$this->option_name = $option_name;
-		$this->options     = $this->get_option();
+		$this->option_instance = WPSEO_Options::get_option_instance( $option_name );
+		$this->option_name     = $option_name;
+		$this->options         = WPSEO_Options::get_option( $option_name );
 	}
 
 	/**
@@ -147,56 +134,18 @@ class Yoast_Form {
 	 *
 	 * @since 1.2.4
 	 * @since 2.0   Moved to this class.
+	 * @deprecated 8.4
 	 *
 	 * @return array
 	 */
 	public function get_option() {
+		_deprecated_function( __METHOD__, 'WPSEO 8.4' );
+
 		if ( is_network_admin() ) {
 			return get_site_option( $this->option_name );
 		}
 
 		return get_option( $this->option_name );
-	}
-
-	/**
-	 * Sets the higher level option used in output for form elements.
-	 *
-	 * @param string $option_name Option key.
-	 *
-	 * @return void
-	 */
-	public function set_override_option( $option_name ) {
-		$this->override_option_name = $option_name;
-		$this->override_options     = $this->get_override_option();
-	}
-
-	/**
-	 * Sets a value in the higher level options.
-	 *
-	 * @param string $key       The key of the option to set.
-	 * @param mixed  $value     The value to set the option to.
-	 * @param bool   $overwrite Whether to overwrite existing options. Default is false.
-	 *
-	 * @return void
-	 */
-	public function set_override_options_value( $key, $value, $overwrite = false ) {
-		if ( $overwrite || ! array_key_exists( $key, $this->override_options ) ) {
-			$this->override_options[ $key ] = $value;
-		}
-	}
-
-	/**
-	 * Retrieves higher level options based on whether we're on multisite or not.
-	 *
-	 * @return array
-	 */
-	public function get_override_option() {
-		// There is no higher level than the network admin.
-		if ( is_network_admin() ) {
-			return array();
-		}
-
-		return get_site_option( $this->override_option_name );
 	}
 
 	/**
@@ -729,7 +678,7 @@ class Yoast_Form {
 	 * @return bool True if control should be disabled, false otherwise.
 	 */
 	protected function is_control_disabled( $var ) {
-		return isset( $this->override_options[ 'allow_' . $var ] ) && ! $this->override_options[ 'allow_' . $var ];
+		return $this->option_instance->is_disabled( $var );
 	}
 
 	/**

@@ -468,12 +468,21 @@ abstract class WPSEO_Option {
 	}
 
 	/**
-	 * Retrieves the name of the override option, if set.
+	 * Checks whether a specific option key is disabled.
 	 *
-	 * @return string|null Override option name, or null if not set.
+	 * This is determined by whether an override option is available with a key that equals the given key prefixed
+	 * with 'allow_'.
+	 *
+	 * @param string $key Option key.
+	 * @return bool True if option key is disabled, false otherwise.
 	 */
-	public function get_override_option_name() {
-		return $this->override_option_name;
+	public function is_disabled( $key ) {
+		$override_option = $this->get_override_option();
+		if ( empty( $override_option ) ) {
+			return false;
+		}
+
+		return isset( $override_option[ 'allow_' . $key ] ) && ! $override_option[ 'allow_' . $key ];
 	}
 
 	/**
@@ -678,6 +687,7 @@ abstract class WPSEO_Option {
 			return $updated;
 		}
 
+		// This loop could as well call `is_disabled( $key )` for each iteration, however this would be worse performance-wise.
 		foreach ( $old as $key => $value ) {
 			if ( isset( $override_option[ 'allow_' . $key ] ) && ! $override_option[ 'allow_' . $key ] ) {
 				$updated[ $key ] = $old[ $key ];
