@@ -200,7 +200,7 @@ export default class HowToStep extends Component {
 				<RichTextWithAppendedSpace
 					className="schema-how-to-step-name"
 					tagName="p"
-					onSetup={ ( ref ) => editorRef( "name", ref ) }
+					unstableOnSetup={ ( ref ) => editorRef( "name", ref ) }
 					key={ `${ id }-name` }
 					value={ name }
 					onChange={ ( value ) => onChange( value, text, name, text ) }
@@ -208,11 +208,12 @@ export default class HowToStep extends Component {
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					setFocusedElement={ () => onFocus( "name" ) }
 					keepPlaceholderOnFocus={ true }
+					formattingControls={ [ "italic", "strikethrough", "link" ] }
 				/>
 				<RichTextWithAppendedSpace
 					className="schema-how-to-step-text"
 					tagName="p"
-					onSetup={ ( ref ) => editorRef( "text", ref ) }
+					unstableOnSetup={ ( ref ) => editorRef( "text", ref ) }
 					key={ `${ id }-text` }
 					value={ text }
 					onChange={ ( value ) => onChange( name, value, name, text ) }

@@ -39,7 +39,7 @@ const attributes = {
 	durationText: {
 		type: "string",
 	},
-	headingID: {
+	defaultDurationText: {
 		type: "string",
 	},
 };

@@ -72,7 +72,8 @@ tr.yst_row.even {
 }
 .wpseo_content_wrapper input.textinput,
 .wpseo_content_wrapper textarea.textinput,
-.wpseo_content_wrapper select.select {
+.wpseo_content_wrapper select.select,
+.wpseo_content_wrapper .select2-container {
 	margin: 0 0 15px 0;
 }
 .wpseo_content_wrapper input.radio,
