@@ -32,7 +32,7 @@ const subheadingReflectsTopic = function( subheading, keyphraseForms, locale ) {
  * @param {String} locale the current locale.
  * @returns {Number} the amount of subheadings reflecting the topic.
  */
-const numberOfsubheadingsReflectingTopic = function( subheadings, topicForms, locale ) {
+const numberOfSubheadingsReflectingTopic = function( subheadings, topicForms, locale ) {
 	return subheadings.filter(
 		subheading => {
 			const reflectsMainTopic = subheadingReflectsTopic( subheading, topicForms.keyphraseForms, locale );
@@ -65,7 +65,7 @@ export default function( paper, researcher ) {
 
 	if ( 0 !== subheadings.length ) {
 		result.count = subheadings.length;
-		result.matches = numberOfsubheadingsReflectingTopic( subheadings, topicForms, locale );
+		result.matches = numberOfSubheadingsReflectingTopic( subheadings, topicForms, locale );
 	}
 
 	return result;

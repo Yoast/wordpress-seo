@@ -76,8 +76,8 @@ const expectedResults = {
 		resultText: "The <a href='https://yoa.st/2pg' target='_blank'>meta description</a> is over 156 characters. Reducing the length will ensure the entire description will be visible.",
 	},
 	subheadingsKeyword: {
-		score: 6,
-		resultText: "You have not used the focus keyword in any <a href='https://yoa.st/2ph' target='_blank'>subheading</a> (such as an H2) in your copy.",
+		score: 3,
+		resultText: "You have not used the focus keyword in any <a href='https://yoa.st/2ph' target='_blank'>subheading</a> (such as an H2).",
 	},
 	textCompetingLinks: {
 		score: 0,
