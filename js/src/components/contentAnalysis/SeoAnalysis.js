@@ -219,7 +219,7 @@ class SeoAnalysis extends React.Component {
 					subTitle={ this.props.keyword }
 				>
 					<HelpText>
-						{ __( "A focus keyphrase is the phrase you'd like to be found with, in search engines. " +
+						{ __( "A focus keyphrase is the phrase you'd like to be found for in search engines. " +
 							"Enter it below to see how you can improve your text for this term.", "wordpress-seo" ) + " " }
 						<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } rel={ null }>
 							{ __( "Learn more about the Keyphrase Analysis.", "wordpress-seo" ) }
