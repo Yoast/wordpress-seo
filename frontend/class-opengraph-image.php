@@ -217,7 +217,7 @@ class WPSEO_OpenGraph_Image {
 	 */
 	private function set_posts_page_image() {
 		$post_id = get_option( 'page_for_posts' );
-		if ( $this->get_image_cache( $post_id ) ) {
+		if ( $this->has_image_cache( $post_id ) ) {
 			return;
 		}
 
@@ -241,7 +241,7 @@ class WPSEO_OpenGraph_Image {
 		if ( $post_id === null ) {
 			$post_id = $this->get_queried_object_id();
 		}
-		if ( $this->get_image_cache( $post_id ) ) {
+		if ( $this->has_image_cache( $post_id ) ) {
 			return;
 		}
 
@@ -615,7 +615,7 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @return bool Whether we could get a cache or not.
 	 */
-	private function get_image_cache( $post_id ) {
+	private function has_image_cache( $post_id ) {
 		$cache = get_post_meta( $post_id, 'wpseo_opengraph_image_cache', true );
 		if ( is_array( $cache ) ) {
 			$this->images = $cache;
