@@ -101,7 +101,7 @@ describe( "a test for matching keywords in subheadings", function() {
 		let mockResearcher = Factory.buildMockResearcher( {
 			keyphraseForms: [ [ 'abraham', 'abrahams' ], [ 'Darth', 'Darths' ] ], synonymsForms: [ [ [ 'cat', 'cats' ] ], [ [ 'banner', 'banners' ] ] ],
 		} );
-		// First heading has 2/3 key words, so should match (2/3 > 1/2), second heading should not (1/2 == 1/2)
+		// First heading matches key phrase "cats" 100% in first heading, so is counted as one.
 		let result = subheadingFunction( mockPaper, mockResearcher );
 		expect( result.matches ).toBe( 1 );
 	} );
