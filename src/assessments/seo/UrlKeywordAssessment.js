@@ -22,8 +22,7 @@ class UrlKeywordAssessment extends Assessment {
 
 		const defaultConfig = {
 			scores: {
-				noKeywordInUrl: 3,
-				ok: 6
+				okay: 6,
 				good: 9,
 			},
 			url: "<a href='https://yoa.st/2pp' target='_blank'>",
@@ -43,7 +42,7 @@ class UrlKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher, i18n ) {
-		this._totalKeywords = researcher.getResearch( "keywordCountInUrl" );
+		this._result = researcher.getResearch( "keywordCountInUrl" );
 
 		const assessmentResult = new AssessmentResult();
 
@@ -73,14 +72,15 @@ class UrlKeywordAssessment extends Assessment {
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
 	calculateResult( i18n ) {
-		if ( this._totalKeywords === 0 ) {
+		if ( (this._numberOfWords === 1 || this._numberOfWords === 2 && this._matches.percentWordMatches !== 100)
+		|| this._numberOfWords > 2 && this._matches.percentWordMatches <= 50) {
 			return {
-				score: this._config.scores.noKeywordInUrl,
+				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
 					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The focus keyword does not appear in the %1$sURL%2$s for this page. " +
+						"Not enough words from your keyphrase appear in the %1$sURL%2$s for this page. " +
 						"If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!"
 					),
 					this._config.url,
@@ -93,7 +93,7 @@ class UrlKeywordAssessment extends Assessment {
 			score: this._config.scores.good,
 			resultText: i18n.sprintf(
 				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis", "The focus keyword appears in the %1$sURL%2$s for this page." ),
+				i18n.dgettext( "js-text-analysis", "All or most of the words from your keyphrase appear in the %1$sURL%2$s for this page." ),
 				this._config.url,
 				"</a>"
 			),
