@@ -115,6 +115,7 @@ Bugfixes:
 * Fixes a bug where the structured data rendered by the Gutenberg How-To and FAQ blocks was rendered on pages with multiple posts.
 * Fixes a bug where snippet variables would not be replaced in the `og:description` of taxonomies when they were added in the Facebook Description input field.
 * Fixes a bug where `babel-polyfill` would throw an error that there shouldn't be two instances of babel-polyfill.
+* Fixes a bug where the `bold` button was available in the How-to block's step title and the FAQ block's Question field while they were already bold by default.
 
 Enhancements:
 
