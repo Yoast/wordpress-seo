@@ -112,11 +112,14 @@ Bugfixes:
 
 * Fixes a bug where an incorrect time would be outputted in the `article:published_time` and `article:modified_time` meta properties when a timezone with numerical UTC offset was used (e.g. UTC+10).
 * Fixes a bug where the `article:published_time` and `article:modified_time` meta properties would be localized. Props to [AminulBD](https://github.com/AminulBD).
+* Fixes a bug where the structured data rendered by the Gutenberg How-To and FAQ blocks was rendered on pages with multiple posts.
+* Fixes a bug where snippet variables would not be replaced in the `og:description` of taxonomies when they were added in the Facebook Description input field.
+* Fixes a bug where `babel-polyfill` would throw an error that there shouldn't be two instances of babel-polyfill.
 
 Enhancements:
 
 * Adds a colon to the list of possible title separators.
-* Adds a setting and filter to the how-to block that allows users to edit the text describing the time needed.
+* Adds a setting and filter (`wpseo_duration_text`) to the how-to block that allows users to edit the text describing the time needed.
 * Adds a help text to the readability analysis.
 
 Other:
@@ -127,6 +130,11 @@ Other:
 * Uses the correct type as the second argument of the `wpseo_sitemap_exclude_empty_terms` filter call when determining which taxonomies should have a sitemap. Props to: [liarco](https://github.com/liarco).
 * Removes the executable bits on SVN assets. Props to [mathieu-aubin](https://github.com/mathieu-aubin).
 * Introduces an API function to get all Yoast SEO-related capabilities. Props to: [JoryHogeveen](https://github.com/JoryHogeveen).
+* Changes the `@context` property from `http://schema.org` to `https://schema.org` in the FAQ and How-To block's structured data output.
+* Rename the `associatedMedia` property in the FAQ and How-To block's structured data output to `image`, to reflect a change in Google's guidelines.
+* Moves the `@type` and `name` properties to the root of the FAQ block's structured data output.
+* Nests the `Question` objects in the newly introduced `mainEntity` property in the FAQ block's structured data output.
+* Removes the superfluous `position` property from the How-To block's structured data output.
 
 = 8.2.0 =
 Release Date: September 11th, 2018
