@@ -33,7 +33,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				/* translators: %s resolves to Yoast SEO Premium */
 				sprintf( __( 'Outrank the competition with %s', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 				/* translators: %1$s resolves to Yoast SEO Premium */
-				sprintf( __( 'Do you want to outrank your competition? %1$s gives you awesome additional features that\'ll help you to set up your SEO strategy like a professional. Use the multiple focus keywords functionality, the redirect manager and our internal linking tool. %1$s will also give you access to premium support.', 'wordpress-seo' ), 'Yoast SEO Premium' ),
+				sprintf( __( 'Do you want to outrank your competition? %1$s gives you awesome additional features that\'ll help you to set up your SEO strategy like a professional. Use the multiple focus keyphrases functionality, the redirect manager and our internal linking tool. %1$s will also give you access to premium support.', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 				array(
 					'label' => __( 'Upgrade to Premium', 'wordpress-seo' ),
 					'type'  => 'primary',

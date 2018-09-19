@@ -41,7 +41,7 @@ $wpseo_no_index_author_label = sprintf(
 			for="wpseo_keyword_analysis_disable"><?php esc_html_e( 'Disable SEO analysis', 'wordpress-seo' ); ?></label>
 		<br>
 		<p class="description" id="wpseo_keyword_analysis_disable_desc">
-			<?php esc_html_e( 'Removes the keyword tab from the metabox and disables all SEO-related suggestions.', 'wordpress-seo' ); ?>
+			<?php esc_html_e( 'Removes the focus keyphrase section from the metabox and disables all SEO-related suggestions.', 'wordpress-seo' ); ?>
 		</p>
 	<?php endif; ?>
 
@@ -53,7 +53,7 @@ $wpseo_no_index_author_label = sprintf(
 			for="wpseo_content_analysis_disable"><?php esc_html_e( 'Disable readability analysis', 'wordpress-seo' ); ?></label>
 		<br>
 		<p class="description" id="wpseo_content_analysis_disable_desc">
-			<?php esc_html_e( 'Removes the readability tab from the metabox and disables all readability-related suggestions.', 'wordpress-seo' ); ?>
+			<?php esc_html_e( 'Removes the readability analysis section from the metabox and disables all readability-related suggestions.', 'wordpress-seo' ); ?>
 		</p>
 	<?php endif; ?>
 </div>
