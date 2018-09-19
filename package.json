@@ -101,10 +101,9 @@
     "sassdash": "^0.9.0",
     "svg-react-loader": "^0.4.5",
     "time-grunt": "^1.0.0",
-    "unminified-webpack-plugin": "^1.4.2",
-    "webpack": "^3.4.1",
-    "webpack-bundle-analyzer": "^2.13.1",
-    "webpack-dev-server": "^2.11.0"
+    "webpack": "^4.19.1",
+    "webpack-bundle-analyzer": "^3.0.2",
+    "webpack-dev-server": "^3.1.8"
   },
   "optionalDependencies": {
     "grunt-contrib-imagemin": "^2.0.1"

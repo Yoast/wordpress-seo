@@ -1,5 +1,3 @@
-const webpack = require( "webpack" );
-const UnminifiedWebpackPlugin = require( "unminified-webpack-plugin" );
 const CaseSensitivePathsPlugin = require( "case-sensitive-paths-webpack-plugin" );
 const path = require( "path" );
 const mapValues = require( "lodash/mapValues" );
@@ -9,7 +7,6 @@ const paths = require( "./paths" );
 const pkg = require( "../package.json" );
 
 const pluginVersionSlug = paths.flattenVersionForFile( pkg.yoast.pluginVersion );
-const outputFilename = "[name]-" + pluginVersionSlug + ".min.js";
 
 const root = path.join( __dirname, "../" );
 const entry = mapValues( paths.entry, entry => {
@@ -38,20 +35,15 @@ const alias = {
 
 module.exports = function( env = { environment: "production" } ) {
 	const mode = env.environment;
+	const outputFilenamePostfix = mode === "development" ? ".js" : ".min.js";
+	const outputFilename = "[name]-" + pluginVersionSlug + outputFilenamePostfix;
 
 	const plugins = [
-		new webpack.DefinePlugin( {
-			"process.env": {
-				NODE_ENV: JSON.stringify( mode ),
-			},
-		} ),
-		new UnminifiedWebpackPlugin(),
-		new webpack.optimize.UglifyJsPlugin(),
-		new webpack.optimize.AggressiveMergingPlugin(),
 		new CaseSensitivePathsPlugin(),
 	];
 
 	const base = {
+		mode: mode,
 		devtool: mode === "development" ? "cheap-module-eval-source-map" : false,
 		entry: entry,
 		context: root,
@@ -96,6 +88,9 @@ module.exports = function( env = { environment: "production" } ) {
 			],
 		},
 		externals,
+		optimization: {
+			minimize: true,
+		},
 	};
 
 	const config = [
@@ -113,10 +108,6 @@ module.exports = function( env = { environment: "production" } ) {
 			},
 			plugins: [
 				...plugins,
-				new webpack.optimize.CommonsChunkPlugin( {
-					name: "vendor",
-					filename: "commons-" + pluginVersionSlug + ".min.js",
-				} ),
 			],
 		},
 		// Config for files that should not use any externals at all.
