@@ -16,10 +16,10 @@ describe( "a step component", () => {
 		previousStep: () => {},
 	};
 
-	let renderer = new ReactShallowRenderer();
-	renderer.render( <Step {...inputProps} /> );
+	const renderer = new ReactShallowRenderer();
+	renderer.render( <Step { ...inputProps } /> );
 
-	let stepComponent = renderer.getRenderOutput();
+	const stepComponent = renderer.getRenderOutput();
 
 	it( "has div container with correct id", () => {
 		expect( stepComponent.type ).toEqual( "div" );
@@ -27,7 +27,7 @@ describe( "a step component", () => {
 	} );
 
 	it( "has a h1 header title", () => {
-		let header = stepComponent.props.children[ 0 ];
+		const header = stepComponent.props.children[ 0 ];
 
 		expect( header.type ).toEqual( "h1" );
 		expect( header.props.children ).toEqual( inputProps.title );
@@ -47,12 +47,12 @@ describe( "a step component", () => {
 	it( "throws an error when property fields is not an object ", () => {
 		console.error = jest.genMockFn();
 
-		let inputProps = {
+		inputProps = {
 			fields: "",
 			title: "Title",
 		};
 
-		renderer.render( <Step {...inputProps} /> );
+		renderer.render( <Step { ...inputProps } /> );
 		renderer.getRenderOutput();
 
 		expect( console.error ).toBeCalled();
@@ -64,11 +64,11 @@ describe( "a step component", () => {
 	it( "throws an error when property title is not a string", () => {
 		console.error = jest.genMockFn();
 
-		let inputProps = {
+		inputProps = {
 			title: 1,
 		};
 
-		renderer.render( <Step {...inputProps} /> );
+		renderer.render( <Step { ...inputProps } /> );
 		renderer.getRenderOutput();
 
 		expect( console.error ).toBeCalled();
@@ -79,12 +79,12 @@ describe( "a step component", () => {
 	it( "throws an error when property currentStep is not a string", () => {
 		console.error = jest.genMockFn();
 
-		let inputProps = {
+		inputProps = {
 			title: "Title",
 			currentStep: false,
 		};
 
-		renderer.render( <Step {...inputProps} /> );
+		renderer.render( <Step { ...inputProps } /> );
 		renderer.getRenderOutput();
 
 		expect( console.error ).toBeCalled();

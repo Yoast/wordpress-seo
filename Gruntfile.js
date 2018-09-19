@@ -1,9 +1,10 @@
-var path = require( "path" );
-var loadGruntConfig = require( "load-grunt-config" );
+/* eslint-disable require-jsdoc */
+const path = require( "path" );
+const loadGruntConfig = require( "load-grunt-config" );
 
 module.exports = function( grunt ) {
 	// Define project configuration
-	var project = {
+	const project = {
 		paths: {
 			grunt: "grunt/",
 			get config() {
@@ -12,10 +13,20 @@ module.exports = function( grunt ) {
 		},
 		files: {
 			components: [
-				"forms/**/*.js",
-				"a11y/**/*.js",
-				"composites/**/*.js",
-				"!composites/OnboardingWizard/tests/**/*.js",
+				"**/*.js",
+				"*.js",
+				"!node_modules/**",
+				"!node_modules/*",
+				"!grunt/config/*",
+				"!jest/**",
+				"!jest/*",
+				"!style-guide/*",
+				"!utils/**/*",
+				"!utils/*",
+				"!redux/**",
+				"!redux/*",
+				"!app/**",
+				"!app/*",
 				"!composites/OnboardingWizard/config/**/*.js",
 			],
 			get config() {

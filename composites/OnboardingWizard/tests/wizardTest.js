@@ -17,27 +17,23 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 Enzyme.configure( { adapter: new EnzymeAdapter() } );
 
 jest.mock( "../helpers/ajaxHelper", () => {
-
-	let ajaxHelper = ( url, data ) => {
-		return new Promise( ( resolve, reject ) => {
+	const ajaxHelper = () => {
+		return new Promise( ( resolve ) => {
 			resolve( "test" );
 		} );
 	};
-
 	return ajaxHelper;
 } );
 
 /**
- *
  * Test user events
  * Test the response to those events
  * Make sure the right things render at the right time
  * Re-run tests on file changes
- *
  */
 describe( "a wizard component", () => {
-	let renderedWizard = undefined;
-	let config = undefined;
+	let renderedWizard;
+	let config;
 
 	beforeAll( () => {
 		injectTapEventPlugin();
@@ -46,7 +42,7 @@ describe( "a wizard component", () => {
 	beforeEach( () => {
 		config = cloneDeep( Config );
 		config.endpoint = ApiConfig;
-		renderedWizard = Enzyme.mount( <Wizard {...config} /> );
+		renderedWizard = Enzyme.mount( <Wizard { ...config } /> );
 	} );
 
 	it( "loads props from config correctly", () => {
@@ -57,32 +53,12 @@ describe( "a wizard component", () => {
 		expect( renderedWizard.props().customComponents ).toEqual( config.customComponents );
 	} );
 
-	it( "has correct initial state", () => {
-		// Don't run this for now as it doesn't play nice with the localized wizard.
-		return;
-
-		expect( renderedWizard.state().isLoading ).toBeFalsy();
-
-		// Check if the current step is the same as the first step in the config.
-		const StepNames = Object.keys( config.steps );
-		expect( renderedWizard.state().currentStepId ).toEqual( StepNames[ 0 ] );
-
-		// Check if the steps are parsed correctly
-		const steps = renderedWizard.state().steps;
-		expect( steps.intro.next ).toBe( StepNames[ 1 ] );
-		expect( steps.intro.previous ).toBeUndefined();
-		expect( steps[ StepNames[ 1 ] ].previous ).toBe( StepNames[ 0 ] );
-
-		// Test step count.
-		expect( renderedWizard.node.stepCount ).toEqual( Object.keys( steps ).length );
-	} );
-
 	it( "renders a wizard component based on the config", () => {
 	} );
 
 	it( "goes to the next step", () => {
-		// check for isLoading
-		// check for previous button rendered
+		// Check for isLoading.
+		// Check for previous button rendered.
 	} );
 
 	it( "goes to the previous step", () => {

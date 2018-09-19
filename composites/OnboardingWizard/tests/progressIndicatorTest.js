@@ -1,21 +1,21 @@
-jest.unmock( '../ProgressIndicator' );
+jest.unmock( "../ProgressIndicator" );
 jest.unmock( "prop-types" );
 
 import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
-import ProgressIndicator from '../ProgressIndicator';
+import ProgressIndicator from "../ProgressIndicator";
 
 describe( "a processIndicator component", () => {
-	let renderer = new ReactShallowRenderer();
+	const renderer = new ReactShallowRenderer();
 
-	let inputProps = {
+	const inputProps = {
 		currentStepNumber: 1,
 		totalSteps: 1,
 	};
 
 	it( "shows a paragraph with the progress", () => {
-		let processIndicator = new ProgressIndicator( inputProps );
-		let children = processIndicator.props.children;
+		const processIndicator = new ProgressIndicator( inputProps );
+		const children = processIndicator.props.children;
 
 		expect( processIndicator.type ).toEqual( "p" );
 
@@ -26,7 +26,7 @@ describe( "a processIndicator component", () => {
 	} );
 
 	it( "shows unknown progress with currentStepNumber 0", () => {
-		let processIndicator = new ProgressIndicator(
+		const processIndicator = new ProgressIndicator(
 			{
 				currentStepNumber: 0,
 				totalSteps: 1,
@@ -38,16 +38,16 @@ describe( "a processIndicator component", () => {
 	} );
 
 	it( "shows unknown progress with total steps lower than the current step", () => {
-		let currentStepNumber = 2;
+		const currentStepNumber = 2;
 
-		let processIndicator = new ProgressIndicator(
+		const processIndicator = new ProgressIndicator(
 			{
 				currentStepNumber,
 				totalSteps: 1,
 			}
 		);
 
-		let children = processIndicator.props.children;
+		const children = processIndicator.props.children;
 
 		expect( children[ 0 ] ).toEqual( "Step " );
 		expect( children[ 1 ] ).toEqual( currentStepNumber );
@@ -60,7 +60,7 @@ describe( "a processIndicator component", () => {
 
 		expect( console.error ).toBeCalled();
 
-		let errors = console.error.mock.calls;
+		const errors = console.error.mock.calls;
 		expect( errors[ 0 ][ 0 ] )
 			.toContain( "Warning: Failed prop type" );
 		expect( errors[ 1 ][ 0 ] )
@@ -69,12 +69,12 @@ describe( "a processIndicator component", () => {
 
 	it( "throws error with invalid prop types", () => {
 		console.error = jest.genMockFn();
-		renderer.render( <ProgressIndicator currentStepNumber={"test"} totalSteps={[]}/> );
+		renderer.render( <ProgressIndicator currentStepNumber={ "test" } totalSteps={ [] } /> );
 		renderer.getRenderOutput();
 
 		expect( console.error ).toBeCalled();
 
-		let errors = console.error.mock.calls;
+		const errors = console.error.mock.calls;
 		expect( errors[ 0 ][ 0 ] )
 			.toContain( "Warning: Failed prop type" );
 		expect( errors[ 1 ][ 0 ] )
