@@ -98,7 +98,7 @@ module.exports = function( env = { environment: "production" } ) {
 		externals,
 	};
 
-	const config = [
+	let config = [
 		{
 			...base,
 			externals: {
@@ -144,6 +144,12 @@ module.exports = function( env = { environment: "production" } ) {
 		config[ 0 ].devServer = {
 			publicPath: "/",
 		};
+	}
+
+	// Remove unnecessary configuration
+	if ( process.env.ENTRY_FILTER ) {
+		config = config[ 0 ];
+		config.plugins = plugins;
 	}
 
 	return config;

@@ -1,12 +1,13 @@
 /* global require, module */
 const path = require( "path" );
+const pick = require( "lodash/pick" );
 
 const jsDistPath = path.resolve( "js", "dist" );
 const jsSrcPath = path.resolve( "js", "src" );
 const cssDistPath = path.resolve( "css", "dist" );
 
 // Output filename: Entry file (relative to jsSrcPath)
-const entry = {
+let entry = {
 	vendor: [
 		"react",
 		"react-dom",
@@ -40,6 +41,26 @@ const entry = {
 	"wp-seo-quick-edit-handler": "./wp-seo-quick-edit-handler.js",
 	"wp-seo-network-admin": "./wp-seo-network-admin.js",
 };
+
+
+// A tool for development to build only defined bundles from the entries list.
+if ( process.env.ENTRY_FILTER ) {
+	const filterTerms = process.env.ENTRY_FILTER.split( "," );
+	const filterEntryNames = ( entryName ) => {
+		return filterTerms.some( ( filterTerm ) => {
+			return entryName.includes( filterTerm );
+		} );
+	};
+
+	const filteredEntryKeys = Object.keys( entry ).filter( filterEntryNames );
+
+	console.log( filteredEntryKeys );
+
+	entry = pick(
+		entry,
+		filteredEntryKeys
+	);
+}
 
 /**
  * Flattens a version for usage in a filename.
