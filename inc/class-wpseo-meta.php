@@ -1046,7 +1046,7 @@ class WPSEO_Meta {
 		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
 			$query['meta_query'][] = array(
 				'key'     => '_yoast_wpseo_focuskeywords',
-				'value'   => sprintf( '"keyphrase":"%s"', $keyword ),
+				'value'   => sprintf( '"keyword":"%s"', $keyword ),
 				'compare' => 'LIKE',
 			);
 		}
