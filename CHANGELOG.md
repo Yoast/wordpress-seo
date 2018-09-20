@@ -5,6 +5,12 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.39.3 September 19th, 2018
+
+### Bugs:
+
+* Fixes a bug that would cause a browser crash in Chrome and Opera on Windows when the site language was Polish and the readability analysis was switched on.
+
 ## 1.39.2 September 6th, 2018
 
 ### Bugs:
