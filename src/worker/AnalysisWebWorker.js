@@ -27,7 +27,6 @@ import TaxonomyAssessor from "../taxonomyAssessor";
 import Pluggable from "../pluggable";
 import Researcher from "../researcher";
 import SnippetPreview from "../snippetPreview";
-import morphologyData from "../morphology/morphologyData.json";
 import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
 
@@ -96,8 +95,6 @@ export default class AnalysisWebWorker {
 
 		this._i18n = AnalysisWebWorker.createI18n();
 		this._researcher = new Researcher( this._paper );
-		// Todo: replace this work-around with a real import from the server
-		this._researcher.addResearchData( "morphology", morphologyData );
 
 		this._contentAssessor = null;
 		this._seoAssessor = null;
@@ -375,6 +372,7 @@ export default class AnalysisWebWorker {
 	 * @param {boolean} [configuration.useKeywordDistribution] Whether the largestKeywordDistance assessment should run.
 	 * @param {string}  [configuration.locale]                 The locale used in the seo assessor.
 	 * @param {Object}  [configuration.translations]           The translation strings.
+	 * @param {Object}  [configuration.researchData]           Extra research data.
 	 *
 	 * @returns {void}
 	 */
@@ -411,6 +409,13 @@ export default class AnalysisWebWorker {
 			// No need to actually save these in the configuration.
 			delete configuration.translations;
 			update.readability = true;
+			update.seo = true;
+		}
+
+		if ( has( configuration, "researchData" ) ) {
+			forEach( configuration.researchData, ( data, research ) => {
+				this._researcher.addResearchData( research, data );
+			} );
 			update.seo = true;
 		}
 
