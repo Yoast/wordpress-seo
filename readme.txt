@@ -106,6 +106,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 8.2.1 =
+Release Date: September 20th, 2018
+
+Bugfixes:
+
+* Fixes a bug where the Chrome or Opera browser tab would crash on Windows when a Polish text contains sentences in passive voice.
+
 = 8.2.0 =
 Release Date: September 11th, 2018
 
