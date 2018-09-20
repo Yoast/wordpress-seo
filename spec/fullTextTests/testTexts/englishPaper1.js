@@ -53,7 +53,7 @@ const paper = new Paper( "<p>My husband &#8211; <a href='https://yoast.com/about
 const expectedResults = {
 	introductionKeyword: {
 		score: 9,
-		resultText: "All topic words appear within one sentence in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy.",
+		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!",
 	},
 	keyphraseLength: {
 		score: 9,
@@ -85,7 +85,7 @@ const expectedResults = {
 	},
 	textImages: {
 		score: 3,
-		resultText: "No <a href='https://yoa.st/2pj' target='_blank'>images</a> appear in this page, consider adding some as appropriate.",
+		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: No images appear on this page. <a href='https://yoa.st/33d' target='_blank'>Add some</a>!",
 	},
 	textLength: {
 		score: 9,

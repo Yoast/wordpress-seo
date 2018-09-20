@@ -27,7 +27,8 @@ class IntroductionKeywordAssessment extends Assessment {
 				okay: 6,
 				bad: 3,
 			},
-			url: "<a href='https://yoa.st/2pc' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/33e' target='_blank'>",
+			urlCallToAction: "<a href='https://yoa.st/33f' target='_blank'>",
 		};
 
 		this.identifier = "introductionKeyword";
@@ -81,9 +82,9 @@ class IntroductionKeywordAssessment extends Assessment {
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"All topic words appear within one sentence in the %1$sfirst paragraph%2$s of the copy."
+						"%1$sKeyphrase in introduction%2$s: Well done!"
 					),
-					this._config.url,
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
@@ -93,12 +94,14 @@ class IntroductionKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"All topic words appear in the %1$sfirst paragraph%2$s of the copy, but not within one sentence."
+						"%1$sKeyphrase in introduction%3$s:" +
+						"Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. %2$sFix that%3$s!"
 					),
-					this._config.url,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -107,12 +110,14 @@ class IntroductionKeywordAssessment extends Assessment {
 		return {
 			score: this._config.scores.bad,
 			resultText: i18n.sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
 				i18n.dgettext(
 					"js-text-analysis",
-					"Not all topic words appear in the %1$sfirst paragraph%2$s of the copy. Make sure the topic is clear immediately."
+					"%1$sKeyphrase in introduction%3$s: Your keyphrase or its synonyms do not appear in the first paragraph. " +
+					"%2$sMake sure the topic is clear immediately%3$s."
 				),
-				this._config.url,
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>"
 			),
 		};

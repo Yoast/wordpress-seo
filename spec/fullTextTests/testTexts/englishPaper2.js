@@ -42,7 +42,7 @@ const paper = new Paper( "<div class=\"content\"><p></p>\n" +
 const expectedResults = {
 	introductionKeyword: {
 		score: 6,
-		resultText: "All topic words appear in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy, but not within one sentence.",
+		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>:Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. <a href='https://yoa.st/33f' target='_blank'>Fix that</a>!",
 	},
 	keyphraseLength: {
 		score: 9,
@@ -74,7 +74,7 @@ const expectedResults = {
 	},
 	textImages: {
 		score: 9,
-		resultText: "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page contain alt attributes with the topic words.",
+		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Some images on this page contain alt attributes with words from your keyphrase! Good job!",
 	},
 	textLength: {
 		score: 9,
