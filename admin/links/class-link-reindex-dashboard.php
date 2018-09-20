@@ -67,39 +67,6 @@ class WPSEO_Link_Reindex_Dashboard {
 	}
 
 	/**
-	 * Add the indexing interface for links to the dashboard.
-	 *
-	 * @deprecated 7.0
-	 *
-	 * @return void
-	 */
-	public function add_link_index_interface() {
-		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
-
-		$html  = '';
-		$html .= '<h2>' . esc_html__( 'Text link counter', 'wordpress-seo' ) . '</h2>';
-		$html .= '<p>' . sprintf(
-			/* translators: 1: link to yoast.com post about internal linking suggestion. 4: is Yoast.com 3: is anchor closing. */
-			__( 'The links in all your public texts need to be counted. This will provide insights of which texts need more links to them. If you want to know more about the why and how of internal linking, check out %1$sthe article about internal linking on %2$s%3$s.', 'wordpress-seo' ),
-				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/15n' ) . '" target="_blank">',
-				'Yoast.com',
-				'</a>'
-		) . '</p>';
-
-		if ( ! $this->has_unprocessed() ) {
-			$html .= '<p>' . $this->message_already_indexed() . '</p>';
-		}
-
-		if ( $this->has_unprocessed() ) {
-			$html .= '<p id="reindexLinks">' . $this->message_start_indexing() . '</p>';
-		}
-
-		$html .= '<br />';
-
-		echo $html;
-	}
-
-	/**
 	 * Generates the model box.
 	 *
 	 * @return void
@@ -220,5 +187,41 @@ class WPSEO_Link_Reindex_Dashboard {
 			175,
 			esc_attr__( 'Count links in your texts', 'wordpress-seo' )
 		);
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Add the indexing interface for links to the dashboard.
+	 *
+	 * @deprecated 7.0
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function add_link_index_interface() {
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
+
+		$html  = '';
+		$html .= '<h2>' . esc_html__( 'Text link counter', 'wordpress-seo' ) . '</h2>';
+		$html .= '<p>' . sprintf(
+			/* translators: 1: link to yoast.com post about internal linking suggestion. 4: is Yoast.com 3: is anchor closing. */
+			__( 'The links in all your public texts need to be counted. This will provide insights of which texts need more links to them. If you want to know more about the why and how of internal linking, check out %1$sthe article about internal linking on %2$s%3$s.', 'wordpress-seo' ),
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/15n' ) . '" target="_blank">',
+			'Yoast.com',
+			'</a>'
+		) . '</p>';
+
+		if ( ! $this->has_unprocessed() ) {
+			$html .= '<p>' . $this->message_already_indexed() . '</p>';
+		}
+
+		if ( $this->has_unprocessed() ) {
+			$html .= '<p id="reindexLinks">' . $this->message_start_indexing() . '</p>';
+		}
+
+		$html .= '<br />';
+
+		echo $html;
 	}
 }

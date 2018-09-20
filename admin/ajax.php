@@ -362,8 +362,7 @@ new WPSEO_Taxonomy_Columns();
 // Setting the notice for the recalculate the posts.
 new Yoast_Dismissable_Notice_Ajax( 'recalculate', Yoast_Dismissable_Notice_Ajax::FOR_SITE );
 
-/********************** DEPRECATED METHODS **********************/
-
+/* ********************* DEPRECATED FUNCTIONS ********************* */
 
 /**
  * Removes stopword from the sample permalink that is generated in an AJAX request

@@ -319,17 +319,6 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Initializes Whip to show a notice for outdated PHP versions.
-	 *
-	 * @deprecated 8.1
-	 *
-	 * @return void
-	 */
-	public function check_php_version() {
-		// Intentionally left empty.
-	}
-
-	/**
 	 * Whether we are on the admin dashboard page.
 	 *
 	 * @returns bool
@@ -408,13 +397,13 @@ class WPSEO_Admin {
 		return $integrations;
 	}
 
-	/********************** DEPRECATED METHODS **********************/
+	/* ********************* DEPRECATED METHODS ********************* */
 
-	// @codeCoverageIgnoreStart
 	/**
 	 * Register the menu item and its sub menu's.
 	 *
 	 * @deprecated 5.5
+	 * @codeCoverageIgnore
 	 */
 	public function register_settings_page() {
 		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
@@ -424,6 +413,7 @@ class WPSEO_Admin {
 	 * Register the settings page for the Network settings.
 	 *
 	 * @deprecated 5.5
+	 * @codeCoverageIgnore
 	 */
 	public function register_network_settings_page() {
 		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
@@ -433,6 +423,7 @@ class WPSEO_Admin {
 	 * Load the form for a WPSEO admin page.
 	 *
 	 * @deprecated 5.5
+	 * @codeCoverageIgnore
 	 */
 	public function load_page() {
 		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
@@ -442,6 +433,7 @@ class WPSEO_Admin {
 	 * Loads the form for the network configuration page.
 	 *
 	 * @deprecated 5.5
+	 * @codeCoverageIgnore
 	 */
 	public function network_config_page() {
 		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
@@ -451,6 +443,8 @@ class WPSEO_Admin {
 	 * Filters all advanced settings pages from the given pages.
 	 *
 	 * @deprecated 5.5
+	 * @codeCoverageIgnore
+	 *
 	 * @param array $pages The pages to filter.
 	 */
 	public function filter_settings_pages( array $pages ) {
@@ -461,6 +455,7 @@ class WPSEO_Admin {
 	 * Cleans stopwords out of the slug, if the slug hasn't been set yet.
 	 *
 	 * @deprecated 7.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -472,6 +467,7 @@ class WPSEO_Admin {
 	 * Filter the stopwords from the slug.
 	 *
 	 * @deprecated 7.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -483,6 +479,7 @@ class WPSEO_Admin {
 	 * Adds contextual help to the titles & metas page.
 	 *
 	 * @deprecated 5.6.0
+	 * @codeCoverageIgnore
 	 */
 	public function title_metas_help_tab() {
 		_deprecated_function( __METHOD__, '5.6.0' );
@@ -526,5 +523,15 @@ class WPSEO_Admin {
 		);
 	}
 
-	// @codeCoverageIgnoreEnd
+	/**
+	 * Initializes Whip to show a notice for outdated PHP versions.
+	 *
+	 * @deprecated 8.1
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function check_php_version() {
+		// Intentionally left empty.
+	}
 }

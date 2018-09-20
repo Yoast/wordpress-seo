@@ -752,6 +752,8 @@ class WPSEO_OpenGraph {
 		}
 	}
 
+	/* ********************* DEPRECATED METHODS ********************* */
+
 	/**
 	 * Outputs the site owner.
 	 *
