@@ -60,8 +60,8 @@ const expectedResults = {
 		resultText: "The <a href='https://yoa.st/2pg' target='_blank'>meta description</a> has a nice length.",
 	},
 	subheadingsKeyword: {
-		score: 9,
-		resultText: "The focus keyword appears in 1 (out of 4) <a href='https://yoa.st/2ph' target='_blank'>subheadings</a> in your copy.",
+		score: 3,
+		resultText: "The focus keyword appears in 4 out of 4 <a href='https://yoa.st/2ph' target='_blank'>subheadings</a>. That might sound a bit repetitive. Try to change some of those subheadings to make the flow of your text sound more natural.",
 	},
 	textCompetingLinks: {
 		score: 0,
