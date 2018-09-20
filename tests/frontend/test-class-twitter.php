@@ -444,8 +444,8 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$expected = $this->metatag( 'card', 'summary_large_image' );
 
 		// Insert image into DB so we have something to test against.
-		$filename = 'image.jpg';
-		$id       = $this->factory->attachment->create_object( $filename, 0, array(
+		$filename  = 'image.jpg';
+		$id        = $this->factory->attachment->create_object( $filename, 0, array(
 			'post_mime_type' => 'image/jpeg',
 			'post_type'      => 'attachment',
 		) );

@@ -110,7 +110,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 			$expected = array(
 				'blog/(uncategorized)/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' => 'index.php?category_name=$matches[1]&feed=$matches[2]',
 				'blog/(uncategorized)/page/?([0-9]{1,})/?$' => 'index.php?category_name=$matches[1]&paged=$matches[2]',
-				'blog/(uncategorized)/?$' => 'index.php?category_name=$matches[1]',
+				'blog/(uncategorized)/?$'                   => 'index.php?category_name=$matches[1]',
 			);
 
 			global $wp_rewrite;

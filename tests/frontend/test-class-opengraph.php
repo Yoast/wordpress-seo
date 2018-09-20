@@ -185,7 +185,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$this->go_to( get_permalink( $post_id ) );
 
-		$expected_html  = '<meta property="og:title" content="' . $expected_title . '" />' . "\n";
+		$expected_html = '<meta property="og:title" content="' . $expected_title . '" />' . "\n";
 
 		$this->assertTrue( self::$class_instance->og_title() );
 		$this->expectOutput( $expected_html );
@@ -712,7 +712,7 @@ EXPECTED;
 
 		$output = ob_get_clean();
 
-		$expected_html  = '<meta property="og:description" content="' . $expected_title . '" />' . "\n";
+		$expected_html = '<meta property="og:description" content="' . $expected_title . '" />' . "\n";
 
 		$this->assertContains( $expected_html, $output );
 	}

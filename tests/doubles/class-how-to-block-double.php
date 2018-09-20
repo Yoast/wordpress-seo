@@ -9,6 +9,7 @@
  * Test Helper Class.
  */
 class WPSEO_How_To_Block_Double extends WPSEO_How_To_Block {
+
 	/**
 	 * @inheritdoc
 	 */

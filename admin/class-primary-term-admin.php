@@ -9,6 +9,7 @@
  * Adds the UI to change the primary term for a post.
  */
 class WPSEO_Primary_Term_Admin {
+
 	/**
 	 * Constructor.
 	 */

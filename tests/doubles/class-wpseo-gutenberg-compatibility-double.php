@@ -24,5 +24,4 @@ class WPSEO_Gutenberg_Compatibility_Double extends WPSEO_Gutenberg_Compatibility
 
 		$this->current_version = $version;
 	}
-
 }
