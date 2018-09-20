@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.8
-Stable tag: 8.2
+Stable tag: 8.2.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -136,6 +136,13 @@ Other:
 * Moves the `@type` and `name` properties to the root of the FAQ block's structured data output.
 * Nests the `Question` objects in the newly introduced `mainEntity` property in the FAQ block's structured data output.
 * Removes the superfluous `position` property from the How-To block's structured data output.
+
+= 8.2.1 =
+Release Date: September 20th, 2018
+
+Bugfixes:
+
+* Fixes a bug where the Chrome or Opera browser tab would crash on Windows when a Polish text contains sentences in passive voice.
 
 = 8.2.0 =
 Release Date: September 11th, 2018
