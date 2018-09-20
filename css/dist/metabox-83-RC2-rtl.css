@@ -602,28 +602,11 @@ button.yoast-tooltip {
 .path {
 	-ms-transform-origin: center;
 	transform-origin: center;
-	animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite; 
+	animation: dash 1.4s ease-in-out infinite; 
 
+	stroke: #64a60a;
 	stroke-dasharray: 187;
 	stroke-dashoffset: 0;
-}
-
-@keyframes colors {
-	0% {
-		stroke: #64a60a;
-	}
-	25% {
-		stroke: #64a60a;
-	}
-	50% {
-		stroke: #64a60a;
-	}
-	75% {
-		stroke: #64a60a;
-	}
-	100% {
-		stroke: #64a60a;
-	}
 }
 
 @keyframes dash {
