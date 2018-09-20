@@ -1,5 +1,5 @@
 import SubheadingsKeywordAssessment from "../../src/assessments/seo/subheadingsKeywordAssessment";
-import Paper from "../../src/values/paper";
+import Paper from "../../src/values/Paper";
 import Factory from "../specHelpers/factory.js";
 const i18n = Factory.buildJed();
 
