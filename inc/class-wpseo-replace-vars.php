@@ -1340,7 +1340,7 @@ class WPSEO_Replace_Vars {
 			new WPSEO_Replacement_Variable( 'pagetotal', __( 'Pagetotal', 'wordpress-seo' ), __( 'Replaced with the current page total', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'pagenumber', __( 'Pagenumber', 'wordpress-seo' ), __( 'Replaced with the current page number', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'caption', __( 'Caption', 'wordpress-seo' ), __( 'Attachment caption', 'wordpress-seo' ) ),
-			new WPSEO_Replacement_Variable( 'focuskw', __( 'Focus keyword', 'wordpress-seo' ), __( 'Replaced with the posts focus keyword', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'focuskw', __( 'Focus keyword', 'wordpress-seo' ), __( 'Replaced with the posts focus keyphrase', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'term404', __( 'Term404', 'wordpress-seo' ), __( 'Replaced with the slug which caused the 404', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'cf_<custom-field-name>', '<custom-field-name> ' . __( '(custom field)', 'wordpress-seo' ), __( 'Replaced with a posts custom field value', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'ct_<custom-tax-name>', '<custom-tax-name> ' . __( '(custom taxonomy)', 'wordpress-seo' ), __( 'Replaced with a posts custom taxonomies, comma separated.', 'wordpress-seo' ) ),

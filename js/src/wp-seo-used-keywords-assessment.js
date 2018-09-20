@@ -42,7 +42,7 @@ class UsedKeywordsAssessment {
 	 */
 	updateKeywordUsage( keywordUsage ) {
 		if ( ! this._initialized ) {
-			throw new Error( "UsedKeywordsAssessment must be initialized before keywords can be updated." );
+			throw new Error( "UsedKeywordsAssessment must be initialized before keyphrases can be updated." );
 		}
 
 		this._plugin.updateKeywordUsage( keywordUsage );

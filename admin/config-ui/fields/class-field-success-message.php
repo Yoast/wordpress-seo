@@ -18,7 +18,7 @@ class WPSEO_Config_Field_Success_Message extends WPSEO_Config_Field {
 
 		$success_message = sprintf(
 			/* translators: %1$s expands to Yoast SEO. */
-			__( '%1$s will now take care of all the needed technical optimization of your site. To really improve your site\'s performance in the search results, it\'s important to start creating content that ranks well for keywords you care about. Check out this video in which we explain how to use the %1$s metabox when you edit posts or pages.', 'wordpress-seo' ),
+			__( '%1$s will now take care of all the needed technical optimization of your site. To really improve your site\'s performance in the search results, it\'s important to start creating content that ranks well for keyphrases you care about. Check out this video in which we explain how to use the %1$s metabox when you edit posts or pages.', 'wordpress-seo' ),
 			'Yoast SEO'
 		);
 

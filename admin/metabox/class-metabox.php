@@ -140,7 +140,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$score = self::get_value( 'linkdex', $post->ID );
 			if ( $score === '' ) {
 				$score_label = 'na';
-				$title       = __( 'No focus keyword set.', 'wordpress-seo' );
+				$title       = __( 'No focus keyphrase set.', 'wordpress-seo' );
 			}
 			else {
 				$score_label = WPSEO_Utils::translate_score( $score );
