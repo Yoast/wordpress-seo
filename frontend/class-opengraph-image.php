@@ -563,9 +563,9 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @return string The path of the image URL. Returns an empty string if URL parsing fails.
 	 */
-	 protected function get_image_url_path( $url ) {
-		 return (string) wp_parse_url( $url, PHP_URL_PATH );
-	 }
+	protected function get_image_url_path( $url ) {
+		return (string) wp_parse_url( $url, PHP_URL_PATH );
+	}
 
 	/**
 	 * Determines the file extension of the passed URL.
