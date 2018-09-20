@@ -17,7 +17,7 @@ export default function( matches, keywordForms, locale ) {
 	if ( matches !== null ) {
 		foundInHeader = 0;
 		for ( let i = 0; i < matches.length; i++ ) {
-			// TODO: This replaceString call seemingly doesn't work, as no replacement value is being sent to the .replace method in replaceString
+			// NOTE: This replaceString call seemingly doesn't work, as no replacement value is being sent to the .replace method in replaceString
 			const formattedHeaders = replaceString(
 				matches[ i ], removalWords
 			);
