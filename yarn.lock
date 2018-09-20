@@ -11130,6 +11130,18 @@ yoastseo@^1.39.2:
     sassdash "0.9.0"
     tokenizer2 "^2.0.0"
 
+yoastseo@^1.39.3:
+  version "1.39.3"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.39.3.tgz#bab6a0e81318d0db855f6827e9c776b3d61bc531"
+  dependencies:
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    jest "^23.0.0"
+    lodash "^4.14.1"
+    node-sass "^4.7.2"
+    sassdash "0.9.0"
+    tokenizer2 "^2.0.0"
+
 zip-stream@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/zip-stream/-/zip-stream-1.2.0.tgz#a8bc45f4c1b49699c6b90198baacaacdbcd4ba04"
