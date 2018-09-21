@@ -118,6 +118,32 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the wpseo_opengraph_is_valid_image_url filter.
+	 */
+	public function test_is_valid_image_url_filter() {
+
+		$class_instance = $this->setup_class();
+		$class_instance->add_image( 'https://via.placeholder.com/350x150' );
+
+		// Without the filter, this isn't considered a valid image URL.
+		$this->assertEmpty( $class_instance->get_images() );
+
+		// Enable the filter
+		add_filter( 'wpseo_opengraph_is_valid_image_url', array( $this, 'is_valid_image_url_filter' ), 10, 2 );
+
+		$class_instance->add_image( 'https://via.placeholder.com/350x150' );
+
+		// Verify the image was added.
+		$this->assertArrayHasKey( 'https://via.placeholder.com/350x150', $class_instance->get_images() );
+
+		remove_filter( 'wpseo_opengraph_is_valid_image_url', array( $this, 'is_valid_image_url_filter' ) );
+	}
+
+	public function is_valid_image_url_filter( $is_valid, $url ) {
+		return 'https://via.placeholder.com/350x150' === $url;
+	}
+
+	/**
 	 * Tests the situations where an image won't added.
 	 *
 	 * @dataProvider invalid_image_provider
