@@ -72,6 +72,7 @@ class Indexable_Post implements Integration {
 		);
 
 		$indexable->is_robots_noindex = $this->get_robots_noindex( $this->get_meta_value( 'meta-robots-noindex', $post_id ) );
+		$indexable->is_cornerstone = ( $this->get_meta_value( 'is_cornerstone', $post_id ) ) ? 1 : 0;
 
 		// Set additional meta-robots values.
 		$nonidex_advanced = $this->get_meta_value( 'meta-robots-adv', $post_id );
@@ -274,8 +275,6 @@ class Indexable_Post implements Integration {
 			'title'                => 'title',
 			'metadesc'             => 'description',
 			'bctitle'              => 'breadcrumb_title',
-
-			'is_cornerstone' => 'is_cornerstone',
 		);
 	}
 
