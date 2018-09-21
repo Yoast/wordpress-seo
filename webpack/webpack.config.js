@@ -89,7 +89,15 @@ module.exports = function( env = { environment: "production" } ) {
 		},
 		externals,
 		optimization: {
-			minimize: true,
+			// splitChunks: {
+			// 	cacheGroups: {
+			// 		commons: {
+			// 			name: "commons",
+			// 			chunks: "initial",
+			// 			minChunks: 2,
+			// 		}
+			// 	}
+			// }
 		},
 	};
 
