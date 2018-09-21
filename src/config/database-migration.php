@@ -137,7 +137,7 @@ class Database_Migration {
 	 * @return int|null Migration state.
 	 */
 	protected function get_migration_state() {
-		return \get_transient( $this->get_error_transient_key() );
+		return \get_transient( $this->get_error_transient_key(), self::MIGRATION_STATE_SUCCESS );
 	}
 
 	/**
