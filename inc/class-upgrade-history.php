@@ -84,7 +84,7 @@ class WPSEO_Upgrade_History {
 
 		$sql = $wpdb->prepare(
 			'
-			SELECT option_value, option_name FROM ' . $wpdb->prefix . 'options WHERE
+			SELECT option_value, option_name FROM ' . $wpdb->options . ' WHERE
 			option_name IN ( ' . implode( ',', array_fill( 0, count( $option_names ), '%s' ) ) . ' )
 			',
 			$option_names
