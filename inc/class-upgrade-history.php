@@ -62,7 +62,7 @@ class WPSEO_Upgrade_History {
 
 		// Add new entry.
 		$data[ time() ] = array(
-			'options' => $option_data,
+			'options'     => $option_data,
 			'old_version' => $old_version,
 			'new_version' => $new_version,
 		);
