@@ -549,7 +549,9 @@ class WPSEO_OpenGraph_Image {
 
 		$image_extension = $this->get_extension_from_url( $url );
 
-		return in_array( $image_extension, $this->valid_image_extensions, true );
+		$is_valid = in_array( $image_extension, $this->valid_image_extensions, true );
+
+		return apply_filters( 'wpseo_opengraph_is_valid_image_url', $is_valid, $url );
 	}
 
 	/**
