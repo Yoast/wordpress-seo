@@ -13,8 +13,8 @@ function getI18n() {
 
 	if ( isEmpty( translations ) ) {
 		i18n = new Jed( {
-			"domain": "js-text-analysis",
-			"locale_data": {
+			domain: "js-text-analysis",
+			locale_data: { // eslint-disable-line camelcase
 				"js-text-analysis": {
 					"": {},
 				},

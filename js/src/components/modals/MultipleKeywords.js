@@ -42,12 +42,12 @@ const MultipleKeywords = ( props ) => {
 	];
 
 	// Interpolate links
-	let interpolated = interpolateComponents( {
+	const interpolated = interpolateComponents( {
 		mixedString: intro,
 		components: { link: <PremiumLandingPageLink href={ props.link } /> },
 	} );
 
-	let otherBenefits = sprintf(
+	const otherBenefits = sprintf(
 		/* translators: %s expands to 'Yoast SEO Premium'. */
 		__( "Other benefits of %s for you:", "wordpress-seo" ),
 		"Yoast SEO Premium"

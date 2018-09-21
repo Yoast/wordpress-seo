@@ -1,4 +1,5 @@
 // Custom task
+/* eslint-disable no-useless-escape */
 module.exports = {
 	options: {
 		version: "<%= pluginVersion %>",
@@ -30,3 +31,4 @@ module.exports = {
 		src: "wp-seo-main.php",
 	},
 };
+/* eslint-enable no-useless-escape */

@@ -197,7 +197,7 @@ setWordPressSeoL10n();
 	 * @returns {PostDataCollector} The initialized post data collector.
 	 */
 	function initializePostDataCollector( data ) {
-		let postDataCollector = new PostDataCollector( {
+		const postDataCollector = new PostDataCollector( {
 			data,
 			store: editStore,
 		} );
@@ -315,10 +315,10 @@ setWordPressSeoL10n();
 	 * @returns {void}
 	 */
 	function disableYoastSEORenderers( app ) {
-		if( ! isUndefined( app.seoAssessorPresenter ) ) {
+		if ( ! isUndefined( app.seoAssessorPresenter ) ) {
 			app.seoAssessorPresenter.render = function() {};
 		}
-		if( ! isUndefined( app.contentAssessorPresenter ) ) {
+		if ( ! isUndefined( app.contentAssessorPresenter ) ) {
 			app.contentAssessorPresenter.render = function() {};
 			app.contentAssessorPresenter.renderIndividualRatings = function() {};
 		}
@@ -364,7 +364,7 @@ setWordPressSeoL10n();
 					tinyMCEHelper.disableMarkerButtons();
 				},
 				classicEditorShown: () => {
-					if( ! tinyMCEHelper.isTextViewActive() ) {
+					if ( ! tinyMCEHelper.isTextViewActive() ) {
 						tinyMCEHelper.enableMarkerButtons();
 					}
 				},
@@ -451,7 +451,7 @@ setWordPressSeoL10n();
 		const shortcodePlugin = new YoastShortcodePlugin( app );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
-			let markdownPlugin = new YoastMarkdownPlugin( app );
+			const markdownPlugin = new YoastMarkdownPlugin( app );
 			markdownPlugin.register();
 		}
 
@@ -507,7 +507,7 @@ setWordPressSeoL10n();
 
 		editStore.subscribe( () => {
 			// Verify whether the focusKeyword changed. If so, trigger refresh:
-			let newFocusKeyword = editStore.getState().focusKeyword;
+			const newFocusKeyword = editStore.getState().focusKeyword;
 
 			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
@@ -532,7 +532,7 @@ setWordPressSeoL10n();
 				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
 			}
 
-			let currentState = editStore.getState();
+			const currentState = editStore.getState();
 
 			if ( previousCornerstoneValue !== currentState.isCornerstone ) {
 				previousCornerstoneValue = currentState.isCornerstone;

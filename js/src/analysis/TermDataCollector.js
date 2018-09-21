@@ -14,7 +14,7 @@ import { update as updateAdminBar } from "../ui/adminBar";
 
 const { measureTextWidth } = analysis.helpers;
 
-let $ = jQuery;
+const $ = jQuery;
 
 /**
  * Show warning in console when the unsupported CkEditor is used.

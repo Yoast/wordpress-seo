@@ -1,8 +1,7 @@
-/* browser:true */
+/* Browser:true */
 /* global wpseoSelect2Locale */
 
 ( function( $ ) {
-	// eslint-disable-next-line
 	function wpseoInitTabs() {
 		if ( jQuery( ".wpseo-metabox-tabs-div" ).length > 0 ) {
 			jQuery( ".wpseo-metabox-tabs" )
@@ -83,11 +82,10 @@
 
 		jQuery( ".wpseo-metabox-tabs" ).show();
 		// End Tabs code.
-
 	}
 
 	window.wpseoInitTabs = wpseoInitTabs;
-	window.wpseo_init_tabs = wpseoInitTabs;
+	window.wpseo_init_tabs = wpseoInitTabs; // eslint-disable-line camelcase
 
 	/**
 	 * @summary Adds select2 for selected fields.

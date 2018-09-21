@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
 import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
 import RaisedURLNewWindowButton from "./RaisedURLNewWindowButton";
 
@@ -10,11 +11,11 @@ class Suggestion extends React.Component {
 	 * @returns {JSX.Element} Rendered Component.
 	 */
 	render() {
-		let buttonProps = {};
+		const buttonProps = {};
 
 		if ( this.props.button.type === "primary" ) {
 			buttonProps.labelPosition = "before";
-			buttonProps.icon = <ArrowForwardIcon viewBox="0 0 28 28"/>;
+			buttonProps.icon = <ArrowForwardIcon viewBox="0 0 28 28" />;
 		}
 
 		return (
@@ -25,8 +26,11 @@ class Suggestion extends React.Component {
 					<RaisedURLNewWindowButton { ...this.props.button } { ...buttonProps } />
 				</div>
 				<div className="yoast-wizard--column__push_left yoast-wizard--video-frame">
-					<iframe width="400" height="225" src={ this.props.video } frameBorder="0"
-							allowFullScreen/>
+					<iframe
+						width="400" height="225" src={ this.props.video } frameBorder="0"
+						allowFullScreen={ true }
+						title={ __( "Video tutorial", "wordpress-seo" ) }
+					/>
 				</div>
 			</div>
 		);

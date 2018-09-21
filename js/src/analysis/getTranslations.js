@@ -17,7 +17,7 @@ export default function getTranslations() {
 	// Retrieve the translations from the localization object.
 	const translations = get( l10nObject, "translations", {
 		domain: "js-text-analysis",
-		locale_data: { // eslint-disable-line camelcase, yoast/comment-starting-capital
+		locale_data: { // eslint-disable-line camelcase
 			"js-text-analysis": {
 				"": {},
 			},

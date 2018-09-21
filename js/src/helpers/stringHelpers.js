@@ -17,7 +17,7 @@ export function firstToUpperCase( string ) {
  * @returns {string} The string with HTML stripped.
  */
 export function stripHTML( string ) {
-	let tmp = document.createElement( "DIV" );
+	const tmp = document.createElement( "DIV" );
 	tmp.innerHTML = string;
 	return tmp.textContent || tmp.innerText || "";
 }
