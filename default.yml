@@ -59,7 +59,7 @@ rules:
   # Best Practices
   accessor-pairs: 2
   block-scoped-var: 0
-  complexity: [1, 6]
+  complexity: [2, 6]
   consistent-return: 0
   curly: 2
   default-case: 0
@@ -123,7 +123,7 @@ rules:
   no-delete-var: 2
   no-label-var: 2
   no-shadow-restricted-names: 2
-  no-shadow: [ 1, { "builtinGlobals": false, "hoist": "all", "allow": [] } ]
+  no-shadow: [ 2, { "builtinGlobals": false, "hoist": "all", "allow": [] } ]
   no-undef-init: 2
   no-undef: 2
   no-undefined: 2
@@ -143,14 +143,14 @@ rules:
   no-sync: 0
 
   # Stylistic Issues
-  array-bracket-spacing: [2, "always"]
-  block-spacing: [2, "always"]
+  array-bracket-spacing: [2, always]
+  block-spacing: [2, always]
   brace-style: [2, 1tbs]
   camelcase: 2
-  capitalized-comments: [2, "always", { "ignorePattern": "translators" }]
+  capitalized-comments: [2, always, { "ignorePattern": "translators" }]
   comma-spacing: 2
   comma-style: 2
-  computed-property-spacing: [2, "always"]
+  computed-property-spacing: [2, always]
   consistent-this: [2, "that"]
   eol-last: 2
   func-names: 0
@@ -215,9 +215,9 @@ rules:
   padded-blocks: [2, "never"]
   quote-props: [2, "as-needed", {"keywords": true}]
   quotes: [2, double, avoid-escape]
-  require-jsdoc: 1
+  require-jsdoc: [2, {"require": {"MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true}}]
   semi-spacing: 2
-  semi: [2, "always"]
+  semi: [2, always]
   sort-vars: 0
   space-before-blocks: 2
   space-before-function-paren: [2, "never"]
@@ -229,7 +229,7 @@ rules:
 
   # Accessibility rules. https://github.com/evcohen/eslint-plugin-jsx-a11y
   # Deprecated in v6.1.0 in favor of label-has-associated-control but we still want to require only for/id and not nesting.
-  jsx-a11y/label-has-for: [ 2, { "required": "id" } ]
+  jsx-a11y/label-has-for: [2, { "required": "id" } ]
 
   # React plugins settings (https://github.com/yannickcr/eslint-plugin-react/tree/master/docs/rules)
   react/jsx-tag-spacing: [2, {"beforeClosing": "never"}]
