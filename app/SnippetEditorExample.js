@@ -3,8 +3,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import debounce from "lodash/debounce";
 
-import { assessments } from "yoastseo";
-const { MetaDescriptionLengthAssessment } = assessments;
+import MetaDescriptionLengthAssessment from "yoastseo/src/assessments/seo/metaDescriptionLengthAssessment";
 
 // Internal dependencies.
 import SnippetEditor from "../composites/Plugin/SnippetEditor/components/SnippetEditor";
