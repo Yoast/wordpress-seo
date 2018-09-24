@@ -1,6 +1,6 @@
-import matchTextWithArray from "../stringProcessing/matchTextWithArray";
 import getSentences from "../stringProcessing/getSentences";
 import escapeRegExp from "lodash-es/escapeRegExp";
+import { findTopicFormsInString } from "./findKeywordFormsInString";
 
 /**
  * Matches the keyword in the description if a description and keyword are available.
@@ -17,25 +17,19 @@ export default function( paper, researcher ) {
 	const description = paper.getDescription();
 	const locale = paper.getLocale();
 
-	let keyPhraseForms = researcher.getResearch( "morphology" ).keyphraseForms;
-	keyPhraseForms = keyPhraseForms.map( keyWordForms => keyWordForms.map( form => escapeRegExp( form ) )  );
+	const topicForms = researcher.getResearch( "morphology" );
+	topicForms.keyphraseForms = topicForms.keyphraseForms.map( keyWordForms => keyWordForms.map( form => escapeRegExp( form ) )  );
 
 	const sentences = getSentences( description );
 
-	let matchResults = { };
+	const matchResults = { };
 
-	/*
-		Compute the number of matches for each keyword in the key phrase (morphology included).
-	   	Result is an array of match counts, e.g. [0,4,1] means keywords 2 and 3 and their
-	   	morphological forms have been matched 4 and 1 time(s) respectively.
-	 */
-	matchResults.fullDescription = keyPhraseForms.map(
-		keywordForms => matchTextWithArray( description, keywordForms, locale ).count
-	);
+	// Percentage of keyword matches in entire description, including synonyms.
+	matchResults.fullDescription = findTopicFormsInString( topicForms, description, true, locale ).percentWordMatches;
 
 	// The same as for the entire description, but per sentence.
 	matchResults.perSentence = sentences.map( sentence =>
-		keyPhraseForms.map( keywordForms => matchTextWithArray( sentence, keywordForms, locale ).count )
+		findTopicFormsInString( topicForms, sentence, true, locale ).percentWordMatches
 	);
 
 	return matchResults;

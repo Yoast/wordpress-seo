@@ -30,7 +30,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 				ok: 6,
 				bad: 3,
 			},
-			url: "<a href='https://yoa.st/2pf' target='_blank'>",
+			url: "<a href='https://yoa.st/33l' target='_blank'>",
 		};
 
 		this.identifier = "metaDescriptionKeyword";
@@ -65,15 +65,18 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 * @returns {Object} Result object with score and text.
 	 */
 	calculateResult( i18n ) {
-		// GOOD result when at least one sentence contains every keyword term at least once or twice.
-		if ( this._keywordMatches.perSentence.some( sentence => Math.min( ...sentence ) >= 1 && Math.min( ...sentence ) <= 2 ) ) {
+		const nrOfSentencesWithAllKeywords = this._keywordMatches.perSentence
+			.filter( percentageKeywordsMatched => percentageKeywordsMatched === 100 )
+			.length;
+		// GOOD result when one or two sentences contain every keyword term at least once.
+		if ( nrOfSentencesWithAllKeywords >= 1 && nrOfSentencesWithAllKeywords <= 2 ) {
 			return {
 				score: this._config.scores.good,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The meta description %1$scontains the focus keyword%2$s in at least one sentence."
+						"Key phrase in meta description: Focus key phrase or synonym %1$sappear in the meta description%2$s. Well done!",
 					),
 					this._config.url,
 					"</a>"
@@ -81,16 +84,37 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 			};
 		}
 
+		// BAD if the description contains every keyword term more than twice.
+		if ( nrOfSentencesWithAllKeywords >= 3 ) {
+			return {
+				score: this._config.scores.bad,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+					   %3$s expands to the number of sentences containing the key phrase.
+					*/
+					i18n.dngettext(
+						"js-text-analysis",
+						"Key phrase in meta description: The meta description %1$scontains the focus keyword%2$s %3$s times, " +
+						"which is over the advised maximum of 2 times. Limit that!",
+					),
+					this._config.url,
+					"</a>",
+					nrOfSentencesWithAllKeywords
+				),
+			};
+		}
+
 		// OK result when the full description contains every keyword term at least once.
-		if ( this._keywordMatches.fullDescription.every( keywordCount => keywordCount > 0 ) ) {
+		if ( this._keywordMatches.fullDescription === 100 ) {
 			return {
 				score: this._config.scores.ok,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The meta description %1$scontains the focus keyword%2$s. " +
-						"Try adding all the keyword terms into one sentence to make it better."
+						"Key phrase in meta description: All words of focus key phrase or synonym " +
+						"%1$sappear in the meta description%2$s, but not within one sentence. " +
+						"Try to use them in one sentence."
 					),
 					this._config.url,
 					"</a>"
@@ -98,13 +122,15 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 			};
 		}
 
+		// BAD if the key phrases is not contained in the meta description.
 		return {
 			score: this._config.scores.bad,
 			resultText: i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 				i18n.dgettext(
 					"js-text-analysis",
-					"A meta description has been specified, but it %1$sdoes not contain the focus keyword%2$s."
+					"Key phrase in meta description: The meta description has been specified, " +
+					"but it %1$sdoes not contain the focus key phrase%2$s. Fix that!"
 				),
 				this._config.url,
 				"</a>"

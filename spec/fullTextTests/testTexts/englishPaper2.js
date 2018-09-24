@@ -58,7 +58,7 @@ const expectedResults = {
 	},
 	metaDescriptionKeyword: {
 		score: 6,
-		resultText: "The meta description <a href='https://yoa.st/2pf' target='_blank'>contains the focus keyword</a>. Try adding all the keyword terms into one sentence to make it better.",
+		resultText: "Key phrase in meta description: All words of focus key phrase or synonym <a href='https://yoa.st/33l' target='_blank'>appear in the meta description</a>, but not within one sentence. Try to use them in one sentence.",
 	},
 	metaDescriptionLength: {
 		score: 9,
