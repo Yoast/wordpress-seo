@@ -3,13 +3,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
-import MetaDescriptionLengthAssessment from "yoastseo/src/assessments/seo/metaDescriptionLengthAssessment";
-import PageTitleWidthAssesment from "yoastseo/src/assessments/seo/pageTitleWidthAssessment";
+import { assessments } from "yoastseo";
+const { MetaDescriptionLengthAssessment, PageTitleWidthAssessment } = assessments.seo;
 
 import { helpers } from "yoastseo";
 const { measureTextWidth } = helpers;
 
 import stripSpaces from "yoastseo/src/stringProcessing/stripSpaces";
+
 import noop from "lodash/noop";
 
 // Internal dependencies.
@@ -61,7 +62,7 @@ const CloseEditorButton = SnippetEditorButton.extend`
  */
 function getTitleProgress( title ) {
 	const titleWidth = measureTextWidth( title );
-	const pageTitleWidthAssessment = new PageTitleWidthAssesment();
+	const pageTitleWidthAssessment = new PageTitleWidthAssessment();
 	const score = pageTitleWidthAssessment.calculateScore( titleWidth );
 	const maximumLength = pageTitleWidthAssessment.getMaximumLength();
 
