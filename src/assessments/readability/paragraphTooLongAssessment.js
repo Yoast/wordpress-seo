@@ -9,14 +9,14 @@ import { filter } from "lodash-es";
 import { map } from "lodash-es";
 
 // 150 is the recommendedValue for the maximum paragraph length.
-var recommendedValue = 150;
+const recommendedValue = 150;
 
 /**
  * Returns an array containing only the paragraphs longer than the recommended length.
  * @param {array} paragraphsLength The array containing the lengths of individual paragraphs.
  * @returns {number} The number of too long paragraphs.
  */
-var getTooLongParagraphs = function( paragraphsLength  ) {
+const getTooLongParagraphs = function( paragraphsLength  ) {
 	return filter( paragraphsLength, function( paragraph ) {
 		return isParagraphTooLong( recommendedValue, paragraph.wordCount );
 	} );
@@ -29,14 +29,16 @@ var getTooLongParagraphs = function( paragraphsLength  ) {
  * @param {object} i18n The i18n object used for translations.
  * @returns {{score: number, text: string }} the assessmentResult.
  */
-var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagraphs, i18n ) {
-	var score;
+let calculateParagraphLengthResult = function( paragraphsLength, tooLongParagraphs, i18n ) {
+	let score;
+	let urlTitle = "<a href='https://yoa.st/35d' target='_blank'>";
+	let urlCallToAction = "<a href='https://yoa.st/35e' target='_blank'>";
 
 	if ( paragraphsLength.length === 0 ) {
 		return {};
 	}
 
-	var longestParagraphLength = paragraphsLength[ 0 ].wordCount;
+	let longestParagraphLength = paragraphsLength[ 0 ].wordCount;
 
 	if ( longestParagraphLength <= 150 ) {
 		// Green indicator.
@@ -57,21 +59,35 @@ var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagrap
 		return {
 			score: score,
 			hasMarks: false,
-			text: i18n.dgettext( "js-text-analysis", "None of the paragraphs are too long, which is great." ),
+
+			// Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+			text: i18n.sprintf(
+				i18n.dgettext( "js-text-analysis",
+					"%1$sParagraph length%2$s: None of the paragraphs are too long. Great job!" ),
+				urlTitle,
+				"</a>"
+			),
 		};
 	}
 	return {
 		score: score,
 		hasMarks: true,
 
-		// Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
-		text: i18n.sprintf( i18n.dngettext(
-			"js-text-analysis",
-			"%1$d of the paragraphs contains more than the recommended maximum " +
-			"of %2$d words. Are you sure all information is about the same topic, and therefore belongs in one single paragraph?",
-			"%1$d of the paragraphs contain more than the recommended maximum of %2$d words. Are you sure all information within each of" +
-			" these paragraphs is about the same topic, and therefore belongs in a single paragraph?", tooLongParagraphs.length
-		), tooLongParagraphs.length, recommendedValue ),
+		/** Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag, %3$d expands to the
+		 * number of paragraphs over the recommended word limit, %4$d expands to the word limit
+		 */
+
+		text: i18n.sprintf(
+			i18n.dngettext( "js-text-analysis",
+				"%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum of %4$d words." +
+				" %5$sShorten your paragraphs%2$s!", "%1$sParagraph length%2$s: %3$d of the paragraphs contain more than the " +
+				"recommended maximum of %4$d words. %5$sShorten your paragraphs%2$s!", tooLongParagraphs.length ),
+			urlTitle,
+			"</a>",
+			tooLongParagraphs.length,
+			recommendedValue,
+			urlCallToAction
+		),
 	};
 };
 
