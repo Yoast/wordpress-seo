@@ -47,7 +47,7 @@ export default function getDefaultReplacementVariables() {
 		},
 		{
 			name: "focuskw",
-			label: __( "Focus keyword", "wordpress-seo" ),
+			label: __( "Focus keyphrase", "wordpress-seo" ),
 			value: "",
 		},
 		{

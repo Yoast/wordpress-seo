@@ -281,7 +281,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$wp_admin_bar->add_menu( array(
 			'parent' => self::ANALYSIS_SUBMENU_IDENTIFIER,
 			'id'     => 'wpseo-kwdensity',
-			'title'  => __( 'Check Keyword Density', 'wordpress-seo' ),
+			'title'  => __( 'Check Keyphrase Density', 'wordpress-seo' ),
 			// HTTPS not available.
 			'href'   => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . urlencode( $url ) . '&keyword=' . urlencode( $focus_keyword ),
 			'meta'   => array( 'target' => '_blank' ),

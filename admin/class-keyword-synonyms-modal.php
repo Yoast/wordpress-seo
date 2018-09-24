@@ -18,7 +18,7 @@ class WPSEO_Keyword_Synonyms_Modal {
 	 */
 	public function get_translations() {
 		return array(
-			'title'                    => __( 'Would you like to add keyword synonyms?', 'wordpress-seo' ),
+			'title'                    => __( 'Would you like to add keyphrase synonyms?', 'wordpress-seo' ),
 			'intro'                    => sprintf(
 				/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
 				__( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
