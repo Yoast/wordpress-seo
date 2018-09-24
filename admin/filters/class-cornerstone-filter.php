@@ -11,9 +11,25 @@
 class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 
 	/**
+	 * Name of the meta value.
+	 */
+	const META_NAME = 'is_cornerstone';
+
+	/**
+	 * Registers the hooks.
+	 *
+	 * @return void
+	 */
+	public function register_hooks() {
+		parent::register_hooks();
+
+		add_filter( 'wpseo_cornerstone_post_types', array( 'WPSEO_Post_Type', 'filter_attachment_post_type' ) );
+	}
+
+	/**
 	 * Returns the query value this filter uses.
 	 *
-	 * @return {string} The query value this filter uses.
+	 * @return string The query value this filter uses.
 	 */
 	public function get_query_val() {
 		return 'cornerstone';
@@ -32,7 +48,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 
 			$where .= sprintf(
 				' AND ' . $wpdb->posts . '.ID IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s" AND meta_value = "1" ) ',
-				WPSEO_Meta::$meta_prefix . WPSEO_Cornerstone::META_NAME
+				WPSEO_Meta::$meta_prefix . self::META_NAME
 			);
 		}
 
@@ -85,7 +101,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 				meta_value = "1" AND meta_key = %s
 				',
 				$this->get_current_post_type(),
-				WPSEO_Meta::$meta_prefix . WPSEO_Cornerstone::META_NAME
+				WPSEO_Meta::$meta_prefix . self::META_NAME
 			)
 		);
 	}
