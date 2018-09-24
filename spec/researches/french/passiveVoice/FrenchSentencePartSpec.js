@@ -1,4 +1,4 @@
-var FrenchSentencePart = require( "../../../../js/researches/french/passiveVoice/SentencePart.js" );
+import FrenchSentencePart from "../../../../src/researches/french/passiveVoice/SentencePart.js";
 
 describe( "creates a French sentence part", function() {
 	it( "makes sure the French sentence part inherits all functions", function() {

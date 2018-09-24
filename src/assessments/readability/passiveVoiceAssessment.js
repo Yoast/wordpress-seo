@@ -1,14 +1,13 @@
-const AssessmentResult = require( "../../values/AssessmentResult.js" );
-const formatNumber = require( "../../helpers/formatNumber.js" );
-const inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
-const stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
+import AssessmentResult from "../../values/AssessmentResult.js";
+import formatNumber from "../../helpers/formatNumber.js";
+import { inRangeEndInclusive as inRange } from "../../helpers/inRange.js";
+import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
+import Mark from "../../values/Mark.js";
+import marker from "../../markers/addMark.js";
 
-const Mark = require( "../../values/Mark.js" );
-const marker = require( "../../markers/addMark.js" );
+import { map } from "lodash-es";
 
-const map = require( "lodash/map" );
-
-const getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
+import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
 const availableLanguages = [ "en", "de", "fr", "es", "ru", "it", "nl", "pl" ];
 
 /**
@@ -125,7 +124,7 @@ let passiveVoiceAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = {
+export default {
 	identifier: "passiveVoice",
 	getResult: passiveVoiceAssessment,
 	isApplicable: function( paper ) {

@@ -82,4 +82,4 @@ Sentence.parse = function( serialized ) {
 	return sentence;
 };
 
-module.exports = Sentence;
+export default Sentence;

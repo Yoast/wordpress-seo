@@ -1,19 +1,17 @@
-var map = require( "lodash/map" );
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
-var isNaN = require( "lodash/isNaN" );
-var filter = require( "lodash/filter" );
-var flatMap = require( "lodash/flatMap" );
-var isEmpty = require( "lodash/isEmpty" );
-var negate = require( "lodash/negate" );
-var memoize = require( "lodash/memoize" );
+import { map } from "lodash-es";
+import { isUndefined } from "lodash-es";
+import { forEach } from "lodash-es";
+import { isNaN } from "lodash-es";
+import { filter } from "lodash-es";
+import { flatMap } from "lodash-es";
+import { isEmpty } from "lodash-es";
+import { negate } from "lodash-es";
+import { memoize } from "lodash-es";
 
-var core = require( "tokenizer2/core" );
-
-var getBlocks = require( "../helpers/html.js" ).getBlocks;
-var normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
-
-var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" ).unifyNonBreakingSpace;
+import core from "tokenizer2/core";
+import { getBlocks } from "../helpers/html.js";
+import { normalize as normalizeQuotes } from "../stringProcessing/quotes.js";
+import { unifyNonBreakingSpace as unifyWhitespace } from "../stringProcessing/unifyWhitespace.js";
 
 // All characters that indicate a sentence delimiter.
 var fullStop = ".";
@@ -315,7 +313,7 @@ var getSentencesFromBlockCached = memoize( getSentencesFromBlock );
  * @param {String} text The string to count sentences in.
  * @returns {Array} Sentences found in the text.
  */
-module.exports = function( text ) {
+export default function( text ) {
 	text = unifyWhitespace( text );
 	var sentences, blocks = getBlocks( text );
 
@@ -327,4 +325,4 @@ module.exports = function( text ) {
 	sentences = flatMap( blocks, getSentencesFromBlockCached );
 
 	return filter( sentences, negate( isEmpty ) );
-};
+}

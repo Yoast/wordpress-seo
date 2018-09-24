@@ -1,4 +1,4 @@
-const defaults = require( "lodash/defaults" );
+import { defaults } from "lodash-es";
 
 /**
  * Represents a marked piece of text
@@ -67,4 +67,4 @@ Mark.parse = function( serialized ) {
 	return new Mark( serialized );
 };
 
-module.exports = Mark;
+export default Mark;

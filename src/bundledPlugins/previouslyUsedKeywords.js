@@ -1,7 +1,7 @@
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var isUndefined = require( "lodash/isUndefined" );
+import AssessmentResult from "../values/AssessmentResult.js";
+import { isUndefined } from "lodash-es";
 
-var MissingArgument = require( "../errors/missingArgument" );
+import MissingArgument from "../errors/missingArgument";
 /**
  * @param {object} app The app
  * @param {object} args An arguments object with usedKeywords, searchUrl, postUrl,
@@ -143,4 +143,4 @@ PreviouslyUsedKeyword.prototype.assess = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = PreviouslyUsedKeyword;
+export default PreviouslyUsedKeyword;

@@ -1,10 +1,10 @@
-const merge = require( "lodash/merge" );
+import { merge } from "lodash-es";
 
-const Assessment = require( "../../assessment" );
-const AssessmentResult = require( "../../values/AssessmentResult" );
-const countWords = require( "../../stringProcessing/countWords" );
-const topicCount = require( "../../researches/topicCount" );
-const inRangeStartEndInclusive = require( "../../helpers/inRange" ).inRangeStartEndInclusive;
+import Assessment from "../../assessment";
+import AssessmentResult from "../../values/AssessmentResult";
+import countWords from "../../stringProcessing/countWords";
+import topicCount from "../../researches/topicCount";
+import { inRangeStartEndInclusive } from "../../helpers/inRange";
 
 /**
  * Returns a score based on the largest percentage of text in

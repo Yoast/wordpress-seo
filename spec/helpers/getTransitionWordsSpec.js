@@ -1,4 +1,4 @@
-var getTransitionWords = require( "../../js/helpers/getTransitionWords.js" );
+import getTransitionWords from "../../src/helpers/getTransitionWords.js";
 
 describe( "gets transition words, based on language", function() {
 	var properties = [ "transitionWords", "twoPartTransitionWords" ];

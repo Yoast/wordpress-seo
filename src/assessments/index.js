@@ -1,33 +1,33 @@
-const FleschReadingEaseAssessment = require( "./readability/fleschReadingEaseAssessment" );
-const ParagraphTooLongAssessment = require( "./readability/paragraphTooLongAssessment" );
-const PassiveVoiceAssessment = require( "./readability/passiveVoiceAssessment" );
-const SentenceBeginningsAssessment = require( "./readability/sentenceBeginningsAssessment" );
-const SentenceLengthInDescriptionAssessment = require( "./readability/sentenceLengthInDescriptionAssessment" );
-const SentenceLengthInTextAssessment = require( "./readability/sentenceLengthInTextAssessment" );
-const SubheadingDistributionTooLongAssessment = require( "./readability/subheadingDistributionTooLongAssessment" );
-const TextPresenceAssessment = require( "./readability/textPresenceAssessment" );
-const TransitionWordsAssessment = require( "./readability/transitionWordsAssessment" );
-const WordComplexityAssessment = require( "./readability/wordComplexityAssessment" );
+import FleschReadingEaseAssessment from "./readability/fleschReadingEaseAssessment";
+import ParagraphTooLongAssessment from "./readability/paragraphTooLongAssessment";
+import PassiveVoiceAssessment from "./readability/passiveVoiceAssessment";
+import SentenceBeginningsAssessment from "./readability/sentenceBeginningsAssessment";
+import SentenceLengthInDescriptionAssessment from "./readability/sentenceLengthInDescriptionAssessment";
+import SentenceLengthInTextAssessment from "./readability/sentenceLengthInTextAssessment";
+import SubheadingDistributionTooLongAssessment from "./readability/subheadingDistributionTooLongAssessment";
+import TextPresenceAssessment from "./readability/textPresenceAssessment";
+import TransitionWordsAssessment from "./readability/transitionWordsAssessment";
+import WordComplexityAssessment from "./readability/wordComplexityAssessment";
 
 import InternalLinksAssessment from "./seo/InternalLinksAssessment";
 import IntroductionKeywordAssessment from "./seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "./seo/KeywordDensityAssessment";
-const KeywordStopWordsAssessment = require( "./seo/keywordStopWordsAssessment" );
+import KeywordStopWordsAssessment from "./seo/keywordStopWordsAssessment";
 import LargestKeywordDistanceAssessment from "./seo/LargestKeywordDistanceAssessment";
 import MetaDescriptionKeywordAssessment from "./seo/MetaDescriptionKeywordAssessment";
-const MetaDescriptionLengthAssessment = require( "./seo/metaDescriptionLengthAssessment" );
-const OutboundLinksAssessment = require( "./seo/outboundLinksAssessment" );
-const PageTitleWidthAssessment = require( "./seo/pageTitleWidthAssessment" );
-const SubheadingsKeywordAssessment = require( "./seo/subheadingsKeywordAssessment" );
-const TaxonomyTextLengthAssessment = require( "./seo/taxonomyTextLengthAssessment" );
+import MetaDescriptionLengthAssessment from "./seo/metaDescriptionLengthAssessment";
+import OutboundLinksAssessment from "./seo/outboundLinksAssessment";
+import PageTitleWidthAssessment from "./seo/pageTitleWidthAssessment";
+import SubheadingsKeywordAssessment from "./seo/subheadingsKeywordAssessment";
+import TaxonomyTextLengthAssessment from "./seo/taxonomyTextLengthAssessment";
 import TextCompetingLinksAssessment from "./seo/TextCompetingLinksAssessment";
-const TextImagesAssessment = require( "./seo/textImagesAssessment" );
-const TextLengthAssessment = require( "./seo/textLengthAssessment" );
+import TextImagesAssessment from "./seo/textImagesAssessment";
+import TextLengthAssessment from "./seo/textLengthAssessment";
 import TitleKeywordAssessment from "./seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./seo/UrlKeywordAssessment";
-const UrlLengthAssessment = require( "./seo/urlLengthAssessment" );
-const UrlStopWordsAssessment = require( "./seo/urlStopWordsAssessment" );
+import UrlLengthAssessment from "./seo/urlLengthAssessment";
+import UrlStopWordsAssessment from "./seo/urlStopWordsAssessment";
 
 const readability = {
 	FleschReadingEaseAssessment,

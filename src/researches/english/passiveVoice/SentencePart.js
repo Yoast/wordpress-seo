@@ -1,5 +1,5 @@
-var SentencePart = require( "../../../values/SentencePart.js" );
-var getParticiples = require( "../../passiveVoice/periphrastic/getParticiples.js" );
+import SentencePart from "../../../values/SentencePart.js";
+import getParticiples from "../../passiveVoice/periphrastic/getParticiples.js";
 
 /**
  * Creates a English specific sentence part.
@@ -24,4 +24,4 @@ EnglishSentencePart.prototype.getParticiples = function() {
 	return getParticiples( this.getSentencePartText(), this.getAuxiliaries(), "en" );
 };
 
-module.exports = EnglishSentencePart;
+export default EnglishSentencePart;

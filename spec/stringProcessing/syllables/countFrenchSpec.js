@@ -1,5 +1,5 @@
-let countSyllableFunction = require( "../../../js/stringProcessing/syllables/count.js" );
-let forEach = require( "lodash/forEach" );
+import countSyllableFunction from "../../../src/stringProcessing/syllables/count.js";
+import { forEach } from "lodash-es";
 
 /**
  * Helper to test syllable count.

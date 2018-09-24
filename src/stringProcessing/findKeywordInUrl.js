@@ -1,8 +1,8 @@
 /** @module stringProcessing/findKeywordInUrl */
 
-var matchTextWithTransliteration = require( "./matchTextWithTransliteration.js" );
+import matchTextWithTransliteration from "./matchTextWithTransliteration.js";
 
-var escapeRegExp = require( "lodash/escapeRegExp" );
+import { escapeRegExp } from "lodash-es";
 
 /**
  * Matches the keyword in the URL.
@@ -12,7 +12,7 @@ var escapeRegExp = require( "lodash/escapeRegExp" );
  * @param {string} locale The locale used for transliteration.
  * @returns {boolean} If a keyword is found, returns true
  */
-module.exports = function( url, keyword, locale ) {
+export default function( url, keyword, locale ) {
 	var formatUrl = url.match( />(.*)/ig );
 	keyword = escapeRegExp( keyword );
 	if ( formatUrl !== null ) {
@@ -21,4 +21,4 @@ module.exports = function( url, keyword, locale ) {
 	}
 
 	return false;
-};
+}

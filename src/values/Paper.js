@@ -1,6 +1,6 @@
-var defaults = require( "lodash/defaults" );
-const isEmpty = require( "lodash/isEmpty" );
-const isEqual = require( "lodash/isEqual" );
+import { defaults } from "lodash-es";
+import { isEmpty } from "lodash-es";
+import { isEqual } from "lodash-es";
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
@@ -235,4 +235,4 @@ Paper.parse = function( serialized ) {
 	return new Paper( text, attributes );
 };
 
-module.exports = Paper;
+export default Paper;

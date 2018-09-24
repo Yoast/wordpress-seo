@@ -2,7 +2,7 @@
  * Returns an array with exceptions for the sentence beginning researcher.
  * @returns {Array} The array filled with exceptions.
  */
-module.exports = function() {
+export default function() {
 	return [
 		// Definite articles:
 		"the",
@@ -13,4 +13,4 @@ module.exports = function() {
 		// Demonstrative pronouns:
 		"this", "that", "these", "those",
 	];
-};
+}

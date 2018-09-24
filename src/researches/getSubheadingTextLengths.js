@@ -1,13 +1,13 @@
-const getSubheadingTexts = require( "../stringProcessing/getSubheadingTexts" );
-const countWords = require( "../stringProcessing/countWords" );
-const forEach = require( "lodash/forEach" );
+import getSubheadingTexts from "../stringProcessing/getSubheadingTexts";
+import countWords from "../stringProcessing/countWords";
+import { forEach } from "lodash-es";
 
 /**
  * Gets the subheadings from the text and returns the length of these subheading in an array.
  * @param {Paper} paper The Paper object to get the text from.
  * @returns {Array} The array with the length of each subheading.
  */
-module.exports = function( paper ) {
+export default function( paper ) {
 	const text = paper.getText();
 	let matches = getSubheadingTexts( text );
 
@@ -19,4 +19,4 @@ module.exports = function( paper ) {
 		} );
 	} );
 	return subHeadingTexts;
-};
+}

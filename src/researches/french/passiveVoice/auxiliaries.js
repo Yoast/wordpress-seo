@@ -2,7 +2,7 @@
  * Returns a list with auxiliaries for the French passive voice assessment.
  * @returns {Array} The list with auxiliaries.
  */
-module.exports = function() {
+export default function() {
 	return [
 		"être",
 		"d'être",
@@ -106,4 +106,4 @@ module.exports = function() {
 		"furent-ils",
 		"furent-elles",
 	];
-};
+}

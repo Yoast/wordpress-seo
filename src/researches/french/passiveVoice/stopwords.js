@@ -2,7 +2,7 @@
  * Returns a list with stopwords for the French passive voice assessment.
  * @returns {Array} The list with stopwords.
  */
-module.exports = function() {
+export default function() {
 	return [
 		"et",
 		"ou",
@@ -117,4 +117,4 @@ module.exports = function() {
 		"resurvenues",
 		"survenues",
 	];
-};
+}

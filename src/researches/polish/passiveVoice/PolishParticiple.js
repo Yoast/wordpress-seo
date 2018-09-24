@@ -1,8 +1,8 @@
-const Participle = require( "../../../values/Participle.js" );
-const checkException = require( "../../passiveVoice/periphrastic/checkException.js" );
-const directPrecedenceException = require( "../../../stringProcessing/directPrecedenceExceptionWithoutRegex" );
-const getWords = require( "../../../stringProcessing/getWords" );
-const nonDirectPrecedenceException = require( "../../passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/nonDirectParticiplePrecedenceException" );
+import Participle from "../../../values/Participle.js";
+import checkException from "../../passiveVoice/periphrastic/checkException.js";
+import directPrecedenceException from "../../../stringProcessing/directPrecedenceExceptionWithoutRegex";
+import getWords from "../../../stringProcessing/getWords";
+import nonDirectPrecedenceException from "../../passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/nonDirectParticiplePrecedenceException";
 
 /**
  * Creates an Participle object for the Polish language.
@@ -43,4 +43,4 @@ PolishParticiple.prototype.directPrecedenceException = directPrecedenceException
 
 PolishParticiple.prototype.nonDirectPrecedenceException = nonDirectPrecedenceException;
 
-module.exports = PolishParticiple;
+export default PolishParticiple;

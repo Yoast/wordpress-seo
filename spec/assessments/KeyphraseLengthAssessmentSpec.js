@@ -1,7 +1,6 @@
-import KeyphraseLengthAssessment from "../../js/assessments/seo/KeyphraseLengthAssessment";
-const Paper = require( "../../js/values/Paper.js" );
-
-const factory = require( "../helpers/factory.js" );
+import KeyphraseLengthAssessment from "../../src/assessments/seo/KeyphraseLengthAssessment";
+import Paper from "../../src/values/Paper.js";
+import factory from "../helpers/factory.js";
 const i18n = factory.buildJed();
 
 describe( "the keyphrase length assessment", function() {

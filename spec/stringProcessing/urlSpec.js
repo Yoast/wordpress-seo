@@ -1,4 +1,4 @@
-var url = require( "../../src/stringProcessing/url" );
+import url from "../../src/stringProcessing/url";
 
 describe( "A URL helper", function() {
 	describe( "removeHash", function() {

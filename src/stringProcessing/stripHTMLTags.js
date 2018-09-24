@@ -1,8 +1,8 @@
 /** @module stringProcessing/stripHTMLTags */
 
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+import stripSpaces from "../stringProcessing/stripSpaces.js";
 
-var blockElements = require( "../helpers/html.js" ).blockElements;
+import { blockElements } from "../helpers/html.js";
 
 var blockElementStartRegex = new RegExp( "^<(" + blockElements.join( "|" ) + ")[^>]*?>", "i" );
 var blockElementEndRegex = new RegExp( "</(" + blockElements.join( "|" ) + ")[^>]*?>$", "i" );
@@ -43,7 +43,13 @@ var stripFullTags = function( text ) {
 	return text;
 };
 
-module.exports = {
+export {
+	stripFullTags,
+	stripIncompleteTags,
+	stripBlockTagsAtStartEnd,
+};
+
+export default {
 	stripFullTags: stripFullTags,
 	stripIncompleteTags: stripIncompleteTags,
 	stripBlockTagsAtStartEnd: stripBlockTagsAtStartEnd,

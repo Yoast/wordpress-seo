@@ -1,5 +1,5 @@
-var firstParagraph = require( "../../js/researches/findKeywordInFirstParagraph.js" );
-var Paper = require( "../../js/values/Paper.js" );
+import firstParagraph from "../../src/researches/findKeywordInFirstParagraph.js";
+import Paper from "../../src/values/Paper.js";
 
 
 describe( "checks for the keyword in the first paragraph", function() {
@@ -19,6 +19,8 @@ describe( "checks for the keyword in the first paragraph", function() {
 		expect( firstParagraph( new Paper( "<p>this is a key_word</p>", { keyword: "key_word" } ) ) ).toBe( 1 );
 		expect( firstParagraph( new Paper( "<p>this is a key_word</p>", { keyword: "key word" } ) ) ).toBe( 0 );
 		expect( firstParagraph( new Paper( "<p>this is a $keyword with an extra char</p>", { keyword: "$keyword" } ) ) ).toBe( 1 );
+		expect( firstParagraph( new Paper( "<p>Bu yıldız, Vikipedi'deki seçkin içeriği sembolize eder İstanbul.</p>", { keyword: "İstanbul", locale: "tr_TR" } ) ) ).toBe( 1 );
+		expect( firstParagraph( new Paper( "<p>äbc und Äbc</p>", { keyword: "äbc", locale: "de_DE" } ) ) ).toBe( 2 );
 	} );
 } );
 

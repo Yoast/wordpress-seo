@@ -1,10 +1,11 @@
 /** @module researches/imageAltTags */
 
-var imageInText = require( "../stringProcessing/imageInText" );
-var imageAlttag = require( "../stringProcessing/getAlttagContent" );
-var wordMatch = require( "../stringProcessing/matchTextWithWord" );
+import imageInText from "../stringProcessing/imageInText";
 
-var escapeRegExp = require( "lodash/escapeRegExp" );
+import imageAlttag from "../stringProcessing/getAlttagContent";
+import wordMatch from "../stringProcessing/matchTextWithWord";
+
+import { escapeRegExp } from "lodash-es";
 
 /**
  * Matches the alt-tags in the images found in the text.
@@ -59,7 +60,7 @@ var matchAltProperties = function( imageMatches, keyword, locale ) {
  * @param {Paper} paper The paper to check for images
  * @returns {object} Object containing all types of found images
  */
-module.exports = function( paper ) {
+export default function( paper ) {
 	var keyword = escapeRegExp( paper.getKeyword().toLocaleLowerCase() );
 	return matchAltProperties( imageInText( paper.getText() ), keyword, paper.getLocale() );
-};
+}

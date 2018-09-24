@@ -1511,11 +1511,16 @@ var others = [
 ];
 
 
-module.exports = function() {
+/**
+ * Returns a list of participle exceptions for French.
+ *
+ * @returns {Object} French participle exceptions.
+ */
+export default function() {
 	return {
 		adjectivesVerbs: adjectivesVerbs,
 		nounsStartingWithVowel: nounsStartingWithVowel,
 		nounsStartingWithConsonant: nounsStartingWithConsonant,
 		others: others,
 	};
-};
+}

@@ -1,6 +1,6 @@
-const PolishParticiple = require( "../../../../js/researches/polish/passiveVoice/PolishParticiple.js" );
-const checkException = require( "../../../../js/researches/passiveVoice/periphrastic/checkException.js" );
-const getWords = require( "../../../../src/stringProcessing/getWords" );
+import PolishParticiple from "../../../../src/researches/polish/passiveVoice/PolishParticiple.js";
+import checkException from "../../../../src/researches/passiveVoice/periphrastic/checkException.js";
+import getWords from "../../../../src/stringProcessing/getWords";
 
 describe( "A test for checking the Polish participle", function() {
 	it( "checks the properties of the Polish participle object with a passive", function() {

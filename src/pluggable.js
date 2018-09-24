@@ -1,9 +1,9 @@
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
-var reduce = require( "lodash/reduce" );
-var isString = require( "lodash/isString" );
-var isObject = require( "lodash/isObject" );
-var InvalidTypeError = require( "./errors/invalidType" );
+import { isUndefined } from "lodash-es";
+import { forEach } from "lodash-es";
+import { reduce } from "lodash-es";
+import { isString } from "lodash-es";
+import { isObject } from "lodash-es";
+import InvalidTypeError from "./errors/invalidType";
 
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.
@@ -380,4 +380,4 @@ Pluggable.prototype._validateUniqueness = function( pluginName ) {
 	return true;
 };
 
-module.exports = Pluggable;
+export default Pluggable;

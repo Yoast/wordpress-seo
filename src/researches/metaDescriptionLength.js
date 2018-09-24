@@ -3,6 +3,6 @@
  * @param {Paper} paper The paper object containing the description.
  * @returns {number} The length of the description.
  */
-module.exports = function( paper ) {
+export default function( paper ) {
 	return paper.getDescription().length;
-};
+}

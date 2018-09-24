@@ -1,13 +1,14 @@
 // External dependencies.
-const Jed = require( "jed" );
-const forEach = require( "lodash/forEach" );
-const has = require( "lodash/has" );
-const merge = require( "lodash/merge" );
-const pickBy = require( "lodash/pickBy" );
-const includes = require( "lodash/includes" );
-const isUndefined = require( "lodash/isUndefined" );
-const isString = require( "lodash/isString" );
-const isObject = require( "lodash/isObject" );
+import Jed from "jed";
+
+import { forEach } from "lodash-es";
+import { has } from "lodash-es";
+import { merge } from "lodash-es";
+import { pickBy } from "lodash-es";
+import { includes } from "lodash-es";
+import { isUndefined } from "lodash-es";
+import { isString } from "lodash-es";
+import { isObject } from "lodash-es";
 
 // YoastSEO.js dependencies.
 import * as assessments from "../assessments";
@@ -18,17 +19,16 @@ import * as string from "../stringProcessing";
 import * as interpreters from "../interpreters";
 import * as config from "../config";
 
-const Assessor = require( "../assessor" );
-const Assessment = require( "../assessment" );
-const SEOAssessor = require( "../seoAssessor" );
-const ContentAssessor = require( "../contentAssessor" );
-const TaxonomyAssessor = require( "../taxonomyAssessor" );
-const Pluggable = require( "../pluggable" );
-const Researcher = require( "../researcher" );
-const SnippetPreview = require( "../snippetPreview" );
-
-const Paper = require( "../values/Paper" );
-const AssessmentResult = require( "../values/AssessmentResult" );
+import Assessor from "../assessor";
+import Assessment from "../assessment";
+import SEOAssessor from "../seoAssessor";
+import ContentAssessor from "../contentAssessor";
+import TaxonomyAssessor from "../taxonomyAssessor";
+import Pluggable from "../pluggable";
+import Researcher from "../researcher";
+import SnippetPreview from "../snippetPreview";
+import Paper from "../values/Paper";
+import AssessmentResult from "../values/AssessmentResult";
 
 const YoastSEO = {
 	Assessor,
@@ -52,9 +52,9 @@ const YoastSEO = {
 	config,
 };
 
-const CornerstoneContentAssessor = require( "../cornerstone/contentAssessor" );
-const CornerstoneSEOAssessor = require( "../cornerstone/seoAssessor" );
-const InvalidTypeError = require( "../errors/invalidType" );
+import CornerstoneContentAssessor from "../cornerstone/contentAssessor";
+import CornerstoneSEOAssessor from "../cornerstone/seoAssessor";
+import InvalidTypeError from "../errors/invalidType";
 
 // Internal dependencies.
 import Scheduler from "./scheduler";

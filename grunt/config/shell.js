@@ -7,7 +7,7 @@ module.exports = function( grunt ) {
 			command: function() {
 				var files;
 
-				files = [ "js/**/*.js" ];
+				files = [ "src/**/*.js" ];
 				files = grunt.file.expand( files );
 
 				return "xgettext" +

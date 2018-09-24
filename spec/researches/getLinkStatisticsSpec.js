@@ -1,5 +1,5 @@
-var linkCount = require( "../../js/researches/getLinkStatistics.js" );
-var Paper = require( "../../js/values/Paper.js" );
+import linkCount from "../../src/researches/getLinkStatistics.js";
+import Paper from "../../src/values/Paper.js";
 var foundLinks;
 
 describe( "Tests a string for anchors and its attributes", function() {

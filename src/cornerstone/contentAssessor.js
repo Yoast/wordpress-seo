@@ -1,16 +1,14 @@
-let Assessor = require( "../assessor.js" );
-let ContentAssessor = require( "../contentAssessor" );
-
-let FleschReadingEase = require( "../assessments/readability/fleschReadingEaseAssessment.js" );
-let paragraphTooLong = require( "../assessments/readability/paragraphTooLongAssessment.js" );
-let SentenceLengthInText = require( "../assessments/readability/sentenceLengthInTextAssessment.js" );
-let SubheadingDistributionTooLong = require( "../assessments/readability/subheadingDistributionTooLongAssessment.js" );
-let transitionWords = require( "../assessments/readability/transitionWordsAssessment.js" );
-let passiveVoice = require( "../assessments/readability/passiveVoiceAssessment.js" );
-let sentenceBeginnings = require( "../assessments/readability/sentenceBeginningsAssessment.js" );
-let textPresence = require( "../assessments/readability/textPresenceAssessment.js" );
-
-let contentConfiguration = require( "./../config/content/combinedConfig.js" );
+import Assessor from "../assessor.js";
+import ContentAssessor from "../contentAssessor";
+import FleschReadingEase from "../assessments/readability/fleschReadingEaseAssessment.js";
+import paragraphTooLong from "../assessments/readability/paragraphTooLongAssessment.js";
+import SentenceLengthInText from "../assessments/readability/sentenceLengthInTextAssessment.js";
+import SubheadingDistributionTooLong from "../assessments/readability/subheadingDistributionTooLongAssessment.js";
+import transitionWords from "../assessments/readability/transitionWordsAssessment.js";
+import passiveVoice from "../assessments/readability/passiveVoiceAssessment.js";
+import sentenceBeginnings from "../assessments/readability/sentenceBeginningsAssessment.js";
+import textPresence from "../assessments/readability/textPresenceAssessment.js";
+import contentConfiguration from "./../config/content/combinedConfig.js";
 
 /*
  Temporarily disabled:
@@ -62,5 +60,5 @@ let CornerStoneContentAssessor = function( i18n, options = {} ) {
 require( "util" ).inherits( CornerStoneContentAssessor, ContentAssessor );
 
 
-module.exports = CornerStoneContentAssessor;
+export default CornerStoneContentAssessor;
 

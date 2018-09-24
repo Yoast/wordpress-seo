@@ -1,10 +1,14 @@
-const uniq = require( "lodash/uniq" );
+import { uniq } from "lodash-es";
 
-const arrayToRegex = require( "../../../../stringProcessing/createRegexFromArray.js" );
-const getWordIndices = require( "../getIndicesWithRegex.js" );
+import arrayToRegex from "../../../../stringProcessing/createRegexFromArray.js";
+import getWordIndices from "../getIndicesWithRegex.js";
+
+import cannotBeBetweenAuxiliaryAndParticiplePolishFactory from "../../../polish/functionWords.js";
+
 const cannotBeBetweenAuxiliaryAndParticiplePolish =
-	require( "../../../polish/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-const getIndicesByWordListSorted = require( "../../../../stringProcessing/indices.js" ).getIndicesByWordListSorted;
+cannotBeBetweenAuxiliaryAndParticiplePolishFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+import { getIndicesByWordListSorted } from "../../../../stringProcessing/indices.js";
+
 
 /**
  * Checks whether there are any exception words in between the auxiliary and participle. If there are, it doesn't return a passive.
@@ -17,7 +21,7 @@ const getIndicesByWordListSorted = require( "../../../../stringProcessing/indice
  * @returns {boolean} Returns true if a word from the 'cannot be between passive auxiliary and participle' exception list
  * appears anywhere in between the last (closest to participle) auxiliary and the participle.
  */
-module.exports = function( sentencePart, participle, auxiliaries, language ) {
+export default function( sentencePart, participle, auxiliaries, language ) {
 	const auxiliariesUnique = uniq( auxiliaries );
 
 	const auxiliaryIndices = getIndicesByWordListSorted( auxiliariesUnique, sentencePart );
@@ -49,4 +53,4 @@ module.exports = function( sentencePart, participle, auxiliaries, language ) {
 		( precedenceExceptionIndex.index > participleAuxiliary.index && precedenceExceptionIndex.index < participleIndex ) );
 
 	return remaningPrecedenceExceptionIndices.length > 0;
-};
+}

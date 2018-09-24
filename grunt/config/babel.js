@@ -2,7 +2,7 @@ module.exports = {
 	publish: {
 		files: [ {
 			expand: true,
-			src: "js/**/*.js",
+			src: "src/**/*.js",
 			dest: "dist/",
 		} ],
 		options: {

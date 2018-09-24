@@ -1,4 +1,5 @@
-const cannotDirectlyPrecedePassiveParticiplePolish = require( "../researches/polish/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
+import cannotDirectlyPrecedePassiveParticiplePolishFactory from "../researches/polish/functionWords.js";
+const cannotDirectlyPrecedePassiveParticiplePolish = cannotDirectlyPrecedePassiveParticiplePolishFactory().cannotDirectlyPrecedePassiveParticiple;
 
 /**
  * Checks whether the participle is directly preceded by a word from the direct precedence exception list.
@@ -11,7 +12,7 @@ const cannotDirectlyPrecedePassiveParticiplePolish = require( "../researches/pol
  * @returns {boolean} Returns true if a word from the direct precedence exception list is directly preceding
  * the participle, otherwise returns false.
  */
-module.exports = function( wordsInSentencePart, participleIndex, language ) {
+export default function( wordsInSentencePart, participleIndex, language ) {
 	// If the participle is the first word, there can't be a word before that.
 	if ( participleIndex === 0 ) {
 		return false;
@@ -32,4 +33,4 @@ module.exports = function( wordsInSentencePart, participleIndex, language ) {
 	}
 
 	return false;
-};
+}

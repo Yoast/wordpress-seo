@@ -1,5 +1,5 @@
-const DutchParticiple = require( "../../../../js/researches/dutch/passiveVoice/DutchParticiple.js" );
-const checkException = require( "../../../../js/researches/passiveVoice/periphrastic/checkException.js" );
+import DutchParticiple from "../../../../src/researches/dutch/passiveVoice/DutchParticiple.js";
+import checkException from "../../../../src/researches/passiveVoice/periphrastic/checkException.js";
 
 describe( "A test for checking the Dutch participle", function() {
 	it( "checks the properties of the Dutch participle object with a passive", function() {

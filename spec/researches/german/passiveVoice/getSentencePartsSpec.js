@@ -1,4 +1,4 @@
-const getSentenceParts = require( "../../../../js/researches/passiveVoice/periphrastic/getSentencePartsSplitOnStopwords.js" );
+import getSentenceParts from "../../../../src/researches/passiveVoice/periphrastic/getSentencePartsSplitOnStopwords.js";
 
 describe( "splits German sentences into parts", function() {
 	it( "returns all sentence parts", function() {

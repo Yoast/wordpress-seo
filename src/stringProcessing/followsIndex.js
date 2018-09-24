@@ -1,6 +1,6 @@
-var isEmpty = require( "lodash/isEmpty" );
-var forEach = require( "lodash/forEach" );
-var includes = require( "lodash/includes" );
+import { isEmpty } from "lodash-es";
+import { forEach } from "lodash-es";
+import { includes } from "lodash-es";
 
 /**
  * Checks whether a given word is followed by any word from a given list.
@@ -10,7 +10,7 @@ var includes = require( "lodash/includes" );
  *
  * @returns {boolean} Returns true if the match is followed by a given word, otherwise returns false.
  */
-module.exports = function( followingWords, match ) {
+export default function( followingWords, match ) {
 	if ( isEmpty( followingWords ) ) {
 		return false;
 	}
@@ -24,4 +24,4 @@ module.exports = function( followingWords, match ) {
 	} );
 
 	return includes( followingWordsIndices, wordAfterMatchIndex );
-};
+}
