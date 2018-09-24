@@ -258,5 +258,5 @@ rules:
   react/no-access-state-in-setstate: 2
   react/forbid-foreign-prop-types: 2
   react/default-props-match-prop-types: 2
-  react/button-has-type: 1 # See https://github.com/yannickcr/eslint-plugin-react/issues/1555
+  react/button-has-type: 0 # See https://github.com/yannickcr/eslint-plugin-react/issues/1555
   react/boolean-prop-naming: 2
