@@ -57,7 +57,7 @@ const expectedResults = {
 	},
 	keyphraseLength: {
 		score: 9,
-		resultText: "Your <a href='https://yoa.st/2pdd' target='_blank'>keyphrase</a> has a nice length.",
+		resultText: "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!",
 	},
 	keywordDensity: {
 		score: 9,
