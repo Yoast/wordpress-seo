@@ -111,8 +111,7 @@ class TitleKeywordAssessment extends Assessment {
 					%3$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The exact match of the focus keyphrase appears in " +
-						"the <a href='https://yoa.st/2pn' target='_blank'>SEO title</a>, but not at the beginning; " +
+						"The exact match of the focus keyphrase appears in the %1$sSEO title%2$s, but not at the beginning; " +
 						"try and move it to the beginning."
 					),
 					this._config.url,
