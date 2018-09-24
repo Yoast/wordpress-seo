@@ -22,6 +22,7 @@ import urlStopWordsAssessment from "./assessments/seo/urlStopWordsAssessment";
  */
 const TaxonomyAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
+	this.type = "TaxonomyAssessor";
 
 	this._assessments = [
 		new IntroductionKeywordAssessment(),

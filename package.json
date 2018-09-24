@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.39.0",
+  "version": "1.39.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/YoastSEO.js"
@@ -86,9 +86,7 @@
       "node_modules"
     ],
     "testPathIgnorePatterns": [
-      "/spec/helpers/factory.js",
-      "/spec/specHelpers/paperChanger.js",
-      "/spec/specHelpers/getAssessorResults.js",
+      "/spec/specHelpers/*",
       "/spec/fullTextTests/testTexts"
     ],
     "coveragePathIgnorePatterns": [

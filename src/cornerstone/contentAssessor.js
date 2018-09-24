@@ -29,18 +29,19 @@ import contentConfiguration from "./../config/content/combinedConfig.js";
  */
 let CornerStoneContentAssessor = function( i18n, options = {} ) {
 	Assessor.call( this, i18n, options );
+	this.type = "CornerstoneContentAssessor";
 	let locale = ( options.hasOwnProperty( "locale" ) ) ? options.locale : "en_US";
 
 	this._assessments = [
 
 		new FleschReadingEase( contentConfiguration( locale ).fleschReading ),
-		new SubheadingDistributionTooLong(
-			{
+		new SubheadingDistributionTooLong( {
+			parameters:	{
 				slightlyTooMany: 250,
 				farTooMany: 300,
 				recommendedMaximumWordCount: 250,
-			}
-		),
+			},
+		} ),
 		paragraphTooLong,
 		new SentenceLengthInText(
 			{
