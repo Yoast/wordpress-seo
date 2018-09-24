@@ -303,7 +303,7 @@ class WPSEO_Upgrade {
 		$wpdb->query(
 			$wpdb->prepare(
 				'UPDATE ' . $wpdb->postmeta . ' SET meta_key = %s WHERE meta_key = "yst_is_cornerstone"',
-				'is_cornerstone'
+				WPSEO_Cornerstone_Filter::META_NAME
 			)
 		);
 	}
