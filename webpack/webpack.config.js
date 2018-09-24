@@ -23,6 +23,8 @@ const externals = {
 
 	yoastseo: "window.yoast.analysis",
 	"yoast-components": "window.yoast.components",
+	react: "window.yoast.react",
+	"react-dom": "window.yoast.reactDom",
 
 	lodash: "window.lodash",
 };
@@ -88,17 +90,6 @@ module.exports = function( env = { environment: "production" } ) {
 			],
 		},
 		externals,
-		optimization: {
-			// splitChunks: {
-			// 	cacheGroups: {
-			// 		commons: {
-			// 			name: "commons",
-			// 			chunks: "initial",
-			// 			minChunks: 2,
-			// 		}
-			// 	}
-			// }
-		},
 	};
 
 	const config = [
@@ -125,6 +116,9 @@ module.exports = function( env = { environment: "production" } ) {
 				"wp-seo-wp-globals-backport": "./js/src/wp-seo-wp-globals-backport.js",
 				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
 				"babel-polyfill": "./js/src/babel-polyfill.js",
+				"react-dependencies": "./js/src/react-dependencies.js",
+				"analysis": "./js/src/analysis.js",
+				"components": "./js/src/components.js",
 			},
 			plugins,
 		},

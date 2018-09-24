@@ -240,7 +240,7 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'react-dependencies',
 				// Load webpack-commons for bundle support.
-				'src'  => 'commons-' . $flat_version,
+				'src'  => 'react-dependencies-' . $flat_version,
 				'deps' => array( $babel_polyfill ),
 			),
 			array(

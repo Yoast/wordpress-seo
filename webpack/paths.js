@@ -7,10 +7,6 @@ const cssDistPath = path.resolve( "css", "dist" );
 
 // Output filename: Entry file (relative to jsSrcPath)
 const entry = {
-	commons: [
-		"react",
-		"react-dom",
-	],
 	"configuration-wizard": "./configuration-wizard.js",
 	"search-appearance": "./search-appearance.js",
 	"wp-seo-dashboard-widget": "./wp-seo-dashboard-widget.js",
@@ -21,8 +17,6 @@ const entry = {
 	"wp-seo-modal": "./wp-seo-modal.js",
 	"wp-seo-replacevar-plugin": "./wp-seo-replacevar-plugin.js",
 	"wp-seo-structured-data-blocks": "./wp-seo-structured-data-blocks.js",
-	analysis: "./analysis.js",
-	components: "./components.js",
 
 	"wp-seo-admin-global": "./wp-seo-admin-global.js",
 	"wp-seo-admin-gsc": "./wp-seo-admin-gsc.js",
