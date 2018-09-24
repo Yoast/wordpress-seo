@@ -132,12 +132,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	public function add_option_filters() {
 		parent::add_option_filters();
 
-		$hookname = "option_{$this->option_name}";
-		$callback = array( $this, 'verify_features_against_network' );
+		list( $hookname, $callback, $priority ) = $this->get_verify_features_option_filter_hook();
 
-		// Add filter to ensure the feature variables respect the network settings.
 		if ( has_filter( $hookname, $callback ) === false ) {
-			add_filter( $hookname, $callback, 11 );
+			add_filter( $hookname, $callback, $priority );
 		}
 	}
 
@@ -150,10 +148,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	public function remove_option_filters() {
 		parent::remove_option_filters();
 
-		$hookname = "option_{$this->option_name}";
-		$callback = array( $this, 'verify_features_against_network' );
+		list( $hookname, $callback, $priority ) = $this->get_verify_features_option_filter_hook();
 
-		remove_filter( $hookname, $callback, 11 );
+		remove_filter( $hookname, $callback, $priority );
 	}
 
 	/**
@@ -164,12 +161,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	public function add_default_filters() {
 		parent::add_default_filters();
 
-		$hookname = "default_option_{$this->option_name}";
-		$callback = array( $this, 'verify_features_against_network' );
+		list( $hookname, $callback, $priority ) = $this->get_verify_features_default_option_filter_hook();
 
-		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
 		if ( has_filter( $hookname, $callback ) === false ) {
-			add_filter( $hookname, $callback, 11 );
+			add_filter( $hookname, $callback, $priority );
 		}
 	}
 
@@ -182,10 +177,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	public function remove_default_filters() {
 		parent::remove_default_filters();
 
-		$hookname = "default_option_{$this->option_name}";
-		$callback = array( $this, 'verify_features_against_network' );
+		list( $hookname, $callback, $priority ) = $this->get_verify_features_default_option_filter_hook();
 
-		remove_filter( $hookname, $callback, 11 );
+		remove_filter( $hookname, $callback, $priority );
 	}
 
 	/**
@@ -303,6 +297,34 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		$options = $this->prevent_disabled_options_update( $options, $feature_vars );
 
 		return $options;
+	}
+
+	/**
+	 * Gets the filter hook name and callback for adjusting the retrieved option value against the network-allowed features.
+	 *
+	 * @return array Array where the first item is the hook name, the second is the hook callback,
+	 *               and the third is the hook priority.
+	 */
+	protected function get_verify_features_option_filter_hook() {
+		return array(
+			"option_{$this->option_name}",
+			array( $this, 'verify_features_against_network' ),
+			11,
+		);
+	}
+
+	/**
+	 * Gets the filter hook name and callback for adjusting the default option value against the network-allowed features.
+	 *
+	 * @return array Array where the first item is the hook name, the second is the hook callback,
+	 *               and the third is the hook priority.
+	 */
+	protected function get_verify_features_default_option_filter_hook() {
+		return array(
+			"default_option_{$this->option_name}",
+			array( $this, 'verify_features_against_network' ),
+			11,
+		);
 	}
 
 	/**

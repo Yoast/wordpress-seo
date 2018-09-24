@@ -130,25 +130,6 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Retrieve options based on whether we're on multisite or not.
-	 *
-	 * @since 1.2.4
-	 * @since 2.0   Moved to this class.
-	 * @deprecated 8.4
-	 *
-	 * @return array
-	 */
-	public function get_option() {
-		_deprecated_function( __METHOD__, 'WPSEO 8.4' );
-
-		if ( is_network_admin() ) {
-			return get_site_option( $this->option_name );
-		}
-
-		return get_option( $this->option_name );
-	}
-
-	/**
 	 * Generates the footer for admin pages
 	 *
 	 * @since 2.0
@@ -599,7 +580,7 @@ class Yoast_Form {
 
 		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class ) );
 		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help;
-		$this->print_disabled_note( $var );
+		echo $this->get_disabled_note( $var );
 		echo '<div class="switch-toggle switch-candy switch-yoast-seo">';
 
 		foreach ( $values as $key => $value ) {
@@ -682,21 +663,36 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Prints a explanation note if a given control is disabled.
+	 * Gets the explanation note to print if a given control is disabled.
 	 *
 	 * @param string $var The variable within the option to print a disabled note for.
 	 *
-	 * @return void
+	 * @return string Explanation note HTML string, or empty string if no note necessary.
 	 */
-	protected function print_disabled_note( $var ) {
+	protected function get_disabled_note( $var ) {
 		if ( ! $this->is_control_disabled( $var ) ) {
-			return;
+			return '';
 		}
 
-		?>
-		<div class="disabled-note">
-			<?php esc_html_e( 'This feature has been disabled by the network admin.', 'wordpress-seo' ); ?>
-		</div>
-		<?php
+		return '<div class="disabled-note">' . esc_html__( 'This feature has been disabled by the network admin.', 'wordpress-seo' ) . '</div>';
+	}
+
+	/**
+	 * Retrieve options based on whether we're on multisite or not.
+	 *
+	 * @since 1.2.4
+	 * @since 2.0   Moved to this class.
+	 * @deprecated 8.4
+	 *
+	 * @return array
+	 */
+	public function get_option() {
+		_deprecated_function( __METHOD__, 'WPSEO 8.4' );
+
+		if ( is_network_admin() ) {
+			return get_site_option( $this->option_name );
+		}
+
+		return get_option( $this->option_name );
 	}
 }
