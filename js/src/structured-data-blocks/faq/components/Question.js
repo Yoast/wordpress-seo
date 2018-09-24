@@ -201,8 +201,8 @@ export default class Question extends Component {
 					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
-				{ isSelected && this.getButtons() }
 				{ isSelected && this.getMover() }
+				{ isSelected && this.getButtons() }
 			</div>
 		);
 	}
