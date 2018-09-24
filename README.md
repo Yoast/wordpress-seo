@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-### 5.0 - 2018-09-21
+### 5.0 - 2018-09-24
 
 #### Breaking changes
 
@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 #### Changed
 
-* Sets `react/button-has-type` to warning as this rule [is pretty useless in its current state](https://github.com/yannickcr/eslint-plugin-react/issues/1555).
+* Sets `react/button-has-type` to disabled as this rule [is pretty useless in its current state](https://github.com/yannickcr/eslint-plugin-react/issues/1555).
 * Adds an exception for translators comments in `capitalized-comments`.
 
 ### 4.0 - 2018-09-07
