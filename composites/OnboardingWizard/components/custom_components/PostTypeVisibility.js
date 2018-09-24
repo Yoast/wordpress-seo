@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 const PostTypeVisibility = ( props ) => {
 	return (
 		<div>
-			<h2>{props.properties.label}</h2>
+			<h2>{ props.properties.label }</h2>
 		</div>
 	);
 };

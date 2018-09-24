@@ -140,7 +140,7 @@ class KeywordInput extends React.Component {
 		if ( showErrorMessage && this.props.keyword !== "" ) {
 			return (
 				<ErrorText role="alert">
-					{ __( "Are you trying to use multiple keywords? You should add them separately below.", "yoast-components" ) }
+					{ __( "Are you trying to use multiple keyphrases? You should add them separately below.", "yoast-components" ) }
 				</ErrorText>
 			);
 		}
@@ -166,14 +166,14 @@ class KeywordInput extends React.Component {
 		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword } = this.props;
 		const showErrorMessage = this.checkKeywordInput( keyword );
 
-		const label = __( "Focus keyword:", "yoast-components" );
+		const label = __( "Focus keyphrase:", "yoast-components" );
 
 		// The aria label should not be shown if there is a visible label.
 		const showAriaLabel = ! showLabel;
 
 		const showRemoveKeywordButton = onRemoveKeyword !== noop;
 
-		return(
+		return (
 			<KeywordInputContainer>
 				{ showLabel && <KeywordFieldLabel htmlFor={ id }>
 					{ label }
@@ -191,7 +191,7 @@ class KeywordInput extends React.Component {
 						value={ keyword }
 					/>
 					{ showRemoveKeywordButton && (
-						<BorderlessButton onClick={ onRemoveKeyword } >
+						<BorderlessButton onClick={ onRemoveKeyword }>
 							<RemoveIcon
 								size="18px"
 								icon="times-circle"

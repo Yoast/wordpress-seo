@@ -9,12 +9,12 @@ import PropTypes from "prop-types";
  * @constructor
  */
 const ConnectGoogleSearchConsole = ( props ) => {
-	let data = props.data;
+	const data = props.data;
 
 	return (
 		<div>
-			<h2>{data.token}</h2>
-			<div>{data.profile}</div>
+			<h2>{ data.token }</h2>
+			<div>{ data.profile }</div>
 		</div>
 	);
 };

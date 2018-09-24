@@ -155,7 +155,7 @@ describe( "findReplacementVariables", () => {
 
 describe( "serializeBlock", () => {
 	it( "serializes all the content into a string", () => {
-		let input = new ContentBlock( { text: "Piece of text" } );
+		const input = new ContentBlock( { text: "Piece of text" } );
 		const expected = "Piece of text";
 
 		const actual = serializeBlock( input, () => {} );
@@ -164,7 +164,7 @@ describe( "serializeBlock", () => {
 	} );
 
 	it( "serializes within the given selection", () => {
-		let input = new ContentBlock( { text: "Piece of text" } );
+		const input = new ContentBlock( { text: "Piece of text" } );
 		const expected = "ece";
 
 		const actual = serializeBlock( input, () => {}, { start: 2, end: 5 } );
@@ -174,7 +174,7 @@ describe( "serializeBlock", () => {
 
 	it( "serializes replacement variables as %%var%% tokens", () => {
 		let input = new ContentBlock( { text: "Piece of text" } );
-		let characterList = input
+		const characterList = input
 			.getCharacterList()
 			// Set character at position 7 to be entity 1.
 			.set( 6, new CharacterMetadata( { entity: 1 } ) )
@@ -199,7 +199,7 @@ describe( "serializeBlock", () => {
 
 	it( "ignores replacement variables that are half selected", () => {
 		let input = new ContentBlock( { text: "Piece of text" } );
-		let characterList = input
+		const characterList = input
 			.getCharacterList()
 			// Set character at position 7 to be entity 1.
 			.set( 6, new CharacterMetadata( { entity: 1 } ) )
@@ -224,7 +224,7 @@ describe( "serializeBlock", () => {
 
 	it( "works with multiple replacement variables", () => {
 		let input = new ContentBlock( { text: "Piece of the text" } );
-		let characterList = input
+		const characterList = input
 			.getCharacterList()
 			// Set character at position 7 to be entity 1.
 			.set( 6, new CharacterMetadata( { entity: 1 } ) )
@@ -290,8 +290,8 @@ describe( "replaceReplacementVariables", () => {
 			entityMap: {		},
 		};
 
-		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
-		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+		const editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		const replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
 
 		const actual = replaceReplacementVariables( editorState, replacementVariables ).getCurrentContent().toJS()
 			.blockMap.f4sem.text;
@@ -319,8 +319,8 @@ describe( "replaceReplacementVariables", () => {
 				focusOffset: 9,
 			} );
 
-		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
-		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+		const editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		const replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
 
 		const actual = replaceReplacementVariables( editorState, replacementVariables ).getSelection().toJS().anchorOffset;
 
@@ -341,8 +341,8 @@ describe( "replaceReplacementVariables", () => {
 			entityMap: {},
 		};
 
-		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
-		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+		const editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		const replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
 
 		const actual = replaceReplacementVariables( editorState, replacementVariables ).getCurrentContent().toJS()
 			.blockMap.f4sem.text;
@@ -365,8 +365,8 @@ describe( "replaceReplacementVariables", () => {
 			},
 		};
 
-		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
-		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+		const editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		const replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
 
 		const actual = replaceReplacementVariables( editorState, replacementVariables ).getCurrentContent().toJS()
 			.blockMap.f4sem.text;
@@ -397,7 +397,7 @@ describe( "replaceReplacementVariables", () => {
 
 		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
 		    editorState = EditorState.acceptSelection( editorState, selection );
-		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+		const replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
 
 		const actual = replaceReplacementVariables( editorState, replacementVariables ).getSelection();
 

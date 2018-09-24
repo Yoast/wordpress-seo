@@ -109,7 +109,7 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
     className="c1"
     htmlFor="test-id"
   >
-    Focus keyword:
+    Focus keyphrase:
   </label>
   <div
     className="has-remove-keyword-button c2"

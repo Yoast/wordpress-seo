@@ -16,12 +16,6 @@ const ChangeLanguageLink = makeOutboundLink( styled.a`
 	margin-left: 4px;
 ` );
 
-const changeLanguageText = __( "Change language" );
-/* Translators: %s expands to the actual language. */
-const canChangeLanguageText = __( "Your site language is set to %s. " );
-/* Translators: %s expands to the actual language. */
-const canNotChangeLanguageText = __( "Your site language is set to %s. If this is not correct, contact your site administrator." );
-
 /**
  * Returns the LanguageNotice component.
  *
@@ -53,7 +47,12 @@ export default class LanguageNotice extends PureComponent {
 		}
 
 		// Determine the correct text.
-		let text = canChangeLanguage ? canChangeLanguageText : canNotChangeLanguageText;
+		/* Translators: %s expands to the actual language. */
+		let text = __( "Your site language is set to %s. ", "yoast-components" );
+		if ( ! canChangeLanguage ) {
+			/* Translators: %s expands to the actual language. */
+			text = __( "Your site language is set to %s. If this is not correct, contact your site administrator.", "yoast-components" );
+		}
 
 		// Replace the %s with a strong marked language.
 		text = sprintf( text, `{{strong}}${ language }{{/strong}}` );
@@ -68,7 +67,7 @@ export default class LanguageNotice extends PureComponent {
 			<YoastLanguageNotice>
 				{ text }
 				{ canChangeLanguage && <ChangeLanguageLink href={ changeLanguageLink }>
-					{ changeLanguageText }
+					{ __( "Change language", "yoast-components" ) }
 				</ChangeLanguageLink> }
 			</YoastLanguageNotice>
 		);

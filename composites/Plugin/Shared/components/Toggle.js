@@ -117,7 +117,7 @@ class Toggle extends React.Component {
 	 * @returns {ReactElement} The rendered HTML.
 	 */
 	render() {
-		return(
+		return (
 			<ToggleDiv>
 				{ /* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */ }
 				<ToggleLabel

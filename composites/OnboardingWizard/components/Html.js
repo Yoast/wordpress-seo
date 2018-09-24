@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
  */
 const HTML = ( props ) => {
 	return (
-		<div dangerouslySetInnerHTML={{ __html: props.properties.html }}></div>
+		<div dangerouslySetInnerHTML={ { __html: props.properties.html } } />
 	);
 };
 

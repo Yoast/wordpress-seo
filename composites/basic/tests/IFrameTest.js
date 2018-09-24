@@ -8,7 +8,7 @@ test( "the IFrame without props matches the snapshot", () => {
 		<IFrame title="IFrame title" />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
@@ -17,6 +17,6 @@ test( "the IFrame with props matches the snapshot", () => {
 		<IFrame title="IFrame title" className="test-class-name" />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

@@ -307,10 +307,10 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					_n(
 						"%d result found, use up and down arrow keys to navigate",
 						"%d results found, use up and down arrow keys to navigate",
-						suggestions.length
+						suggestions.length,
+						"yoast-components"
 					),
 					suggestions.length,
-					"yoast-components"
 				),
 				"assertive"
 			);

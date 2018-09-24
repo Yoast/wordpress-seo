@@ -6,13 +6,13 @@ import ReactShallowRenderer from "react-test-renderer/shallow";
 import Textfield from "../Textfield";
 
 describe( "A Textfield component", () => {
-	let renderer = new ReactShallowRenderer();
+	const renderer = new ReactShallowRenderer();
 
 	it( "generates a textarea based on the props", () => {
-		renderer.render( <Textfield name="customTextArea" label="Custom Textarea" onChange={() => {}} /> );
+		renderer.render( <Textfield name="customTextArea" label="Custom Textarea" onChange={ () => {} } /> );
 
-		let result = renderer.getRenderOutput();
-		let children = result.props.children;
+		const result = renderer.getRenderOutput();
+		const children = result.props.children;
 
 		expect( result.type ).toBe( "div" );
 		expect( children.length ).toEqual( 2 );
@@ -34,7 +34,7 @@ describe( "A Textfield component", () => {
 	it( "generates a warning when a faulty value is passed", () => {
 		console.error = jest.genMockFn();
 
-		renderer.render( <Textfield label="customLabel" value={0} /> );
+		renderer.render( <Textfield label="customLabel" value={ 0 } /> );
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )
@@ -42,10 +42,10 @@ describe( "A Textfield component", () => {
 	} );
 
 	it( "generates a multiline textarea based on the props", () => {
-		renderer.render( <Textfield name="customTextArea" label="Custom Textarea" multiline={true} onChange={() => {}} /> );
+		renderer.render( <Textfield name="customTextArea" label="Custom Textarea" multiline={ true } onChange={ () => {} } /> );
 
-		let result = renderer.getRenderOutput();
-		let children = result.props.children;
+		const result = renderer.getRenderOutput();
+		const children = result.props.children;
 
 		expect( result.type ).toBe( "div" );
 		expect( children.length ).toEqual( 2 );

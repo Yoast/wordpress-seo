@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
  */
 const Label = ( props ) => {
 	return (
-		<label htmlFor={props.for} {...props.optionalAttributes}>{props.children}</label>
+		<label htmlFor={ props.for } { ...props.optionalAttributes }>{ props.children }</label>
 	);
 };
 

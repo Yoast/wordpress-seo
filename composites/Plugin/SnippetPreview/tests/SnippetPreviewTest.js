@@ -16,7 +16,7 @@ const defaultArgs = {
 
 const renderSnapshotWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
-	const tree = createComponentWithIntl( <SnippetPreview {...args} /> )
+	const tree = createComponentWithIntl( <SnippetPreview { ...args } /> )
 		.toJSON();
 
 	expect( tree ).toMatchSnapshot();
@@ -26,7 +26,8 @@ const mountWithArgs = ( props ) => {
 	return mountWithIntl(
 		<SnippetPreview
 			{ ...defaultArgs }
-			{ ...props } />
+			{ ...props }
+		/>
 	);
 };
 

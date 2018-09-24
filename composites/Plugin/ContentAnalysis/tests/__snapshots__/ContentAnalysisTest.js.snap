@@ -49,6 +49,12 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -200,12 +206,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   color: #0066cd;
 }
 
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c12 {
   width: 18px;
   height: 18px;
@@ -261,7 +261,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -331,7 +330,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -425,7 +423,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -495,7 +492,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -565,7 +561,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -685,6 +680,12 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -836,12 +837,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   color: #0066cd;
 }
 
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c12 {
   width: 18px;
   height: 18px;
@@ -897,7 +892,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -967,7 +961,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1037,7 +1030,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1107,7 +1099,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1177,7 +1168,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1297,6 +1287,12 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -1448,12 +1444,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   color: #0066cd;
 }
 
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c12 {
   width: 18px;
   height: 18px;
@@ -1509,7 +1499,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1579,7 +1568,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1673,7 +1661,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1743,7 +1730,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1813,7 +1799,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -1957,6 +1942,12 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -2108,12 +2099,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   color: #0066cd;
 }
 
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c12 {
   width: 18px;
   height: 18px;
@@ -2169,7 +2154,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -2239,7 +2223,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -2333,7 +2316,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -2403,7 +2385,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -2473,7 +2454,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -2617,6 +2597,12 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -2768,12 +2754,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   color: #0066cd;
 }
 
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c12 {
   width: 18px;
   height: 18px;
@@ -2829,7 +2809,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -2899,7 +2878,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -2969,7 +2947,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -3113,6 +3090,12 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -3264,12 +3247,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   color: #0066cd;
 }
 
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c12 {
   width: 18px;
   height: 18px;
@@ -3325,7 +3302,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -3395,7 +3371,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -3465,7 +3440,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -3609,6 +3583,12 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -3760,12 +3740,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   color: #0066cd;
 }
 
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c12 {
   width: 18px;
   height: 18px;
@@ -3821,7 +3795,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -3891,7 +3864,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -3961,7 +3933,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -4031,7 +4002,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -4175,6 +4145,12 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   flex: 1 1 auto;
 }
 
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -4326,12 +4302,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   color: #0066cd;
 }
 
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c12 {
   width: 18px;
   height: 18px;
@@ -4387,7 +4357,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"
@@ -4457,7 +4426,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
         </svg>
         <span
           className="c13"
-          onClick={[Function]}
         >
           <span
             className="c14"

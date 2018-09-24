@@ -13,7 +13,7 @@ import { default as ScoreAssessments } from "./composites/Plugin/Shared/componen
 import { default as Collapsible } from "./composites/Plugin/Shared/components/Collapsible";
 import { default as ButtonSection } from "./composites/Plugin/Shared/components/ButtonSection";
 import { default as LanguageNotice } from "./composites/Plugin/Shared/components/LanguageNotice";
-import { default as YoastButton } from "./composites/Plugin/Shared/components/YoastButton";
+import { YoastButton } from "./composites/Plugin/Shared/components/YoastButton";
 import { default as YoastModal } from "./composites/Plugin/Shared/components/YoastModal";
 import { default as SvgIcon } from "./composites/Plugin/Shared/components/SvgIcon";
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
@@ -53,6 +53,7 @@ export { default as SynonymsInput } from "./composites/Plugin/Shared/components/
 export * from "./composites/Plugin/SnippetPreview";
 export * from "./composites/Plugin/SnippetEditor";
 export * from "./forms";
+export * from "./composites/Plugin/ContentAnalysis";
 export { default as colors } from "./style-guide/colors.json";
 export { default as utils } from "./utils";
 export { getRtlStyle } from "./utils/helpers/styled-components";

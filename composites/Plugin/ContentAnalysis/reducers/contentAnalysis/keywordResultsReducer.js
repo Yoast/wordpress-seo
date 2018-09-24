@@ -22,7 +22,7 @@ const initialState = {};
  */
 function replaceResult( state, action ) {
 	const newResults = Array.from( state[ action.keyword ].results, ( result ) => {
-		if( result.id === action.result.id ) {
+		if ( result.id === action.result.id ) {
 			return action.result;
 		}
 		return result;
@@ -56,12 +56,12 @@ function setResultsForNewKeyword( state, keyword, results ) {
  * @returns {Object} The updated results.
  */
 function updateSeoResult( state, action ) {
-	if( ! state[ action.keyword ] ) {
+	if ( ! state[ action.keyword ] ) {
 		return setResultsForNewKeyword( state, action.keyword, [ action.result ] );
 	}
 
-	let resultIndex = findIndex( state[ action.keyword ].results, { id: action.result.id } );
-	if( resultIndex !== -1 ) {
+	const resultIndex = findIndex( state[ action.keyword ].results, { id: action.result.id } );
+	if ( resultIndex !== -1 ) {
 		return replaceResult( state, action );
 	}
 
@@ -79,7 +79,7 @@ function updateSeoResult( state, action ) {
  * @returns {Object} The updated results.
  */
 function updateSeoResultsForKeyword( state, action ) {
-	if( ! state[ action.keyword ] ) {
+	if ( ! state[ action.keyword ] ) {
 		return setResultsForNewKeyword( state, action.keyword, action.results );
 	}
 
@@ -95,7 +95,7 @@ function updateSeoResultsForKeyword( state, action ) {
  * @returns {Object} The SEO results per keyword.
  */
 function setSeoResults( action ) {
-	let resultsPerKeyword = {};
+	const resultsPerKeyword = {};
 	action.resultsPerKeyword.forEach( function( keywordResultsPair ) {
 		resultsPerKeyword[ keywordResultsPair.keyword ] = { results: keywordResultsPair.results };
 	} );

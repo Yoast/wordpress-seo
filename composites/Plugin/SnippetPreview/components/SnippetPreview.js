@@ -2,9 +2,9 @@
 import React, { PureComponent } from "react";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
-import transliterate from "yoastseo/js/stringProcessing/transliterate";
-import createWordRegex from "yoastseo/js/stringProcessing/createWordRegex";
-import replaceSpecialCharactersAndDiacritics from "yoastseo/js/stringProcessing/replaceDiacritics";
+import transliterate from "yoastseo/src/stringProcessing/transliterate";
+import createWordRegex from "yoastseo/src/stringProcessing/createWordRegex";
+import replaceSpecialCharactersAndDiacritics from "yoastseo/src/stringProcessing/replaceDiacritics";
 import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
 import { parse } from "url";
@@ -219,8 +219,8 @@ function highlightKeyword( locale, keyword, text, cleanText ) {
 	// Match keyword case-insensitively.
 	const keywordMatcher = createWordRegex( keywordToUse, "", false );
 
-	text = textToUse.replace( keywordMatcher, function( keywordToUse ) {
-		return `{{strong}}${ keywordToUse }{{/strong}}`;
+	text = textToUse.replace( keywordMatcher, function( matchedKeyword ) {
+		return `{{strong}}${ matchedKeyword }{{/strong}}`;
 	} );
 
 	// Transliterate the keyword for highlighting
@@ -228,8 +228,8 @@ function highlightKeyword( locale, keyword, text, cleanText ) {
 	if ( transliteratedKeyword !== keyword ) {
 		const transliteratedKeywordMatcher = createWordRegex( transliteratedKeyword, "", false );
 		// Let the transliteration run on the text with no previous replacements.
-		text = text.replace( transliteratedKeywordMatcher, function( keyword ) {
-			return `{{strong}}${ keyword }{{/strong}}`;
+		text = text.replace( transliteratedKeywordMatcher, function( matchedKeyword ) {
+			return `{{strong}}${ matchedKeyword }{{/strong}}`;
 		} );
 	}
 
@@ -353,7 +353,7 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {string} The new sentence.
 	 */
 	dropLastWord( sentence ) {
-		let titleParts = sentence.split( " " );
+		const titleParts = sentence.split( " " );
 		titleParts.pop();
 
 		return titleParts.join( " " );
@@ -491,7 +491,8 @@ export default class SnippetPreview extends PureComponent {
 			<BaseUrlOverflowContainer
 				onMouseUp={ onMouseUp.bind( null, "url" ) }
 				onMouseEnter={ onMouseEnter.bind( null, "url" ) }
-				onMouseLeave={ onMouseLeave.bind( null ) }>
+				onMouseLeave={ onMouseLeave.bind( null ) }
+			>
 				{ urlContent }
 			</BaseUrlOverflowContainer>
 		</Url>;
@@ -623,12 +624,12 @@ export default class SnippetPreview extends PureComponent {
 			PartContainer,
 			Container,
 			TitleUnbounded,
-			Title,
+			SnippetTitle,
 		} = this.getPreparedComponents( mode );
 
-		const separator = mode === MODE_DESKTOP ? null : <Separator/>;
-		const downArrow = mode === MODE_DESKTOP ? <UrlDownArrow/> : null;
-		const amp       = mode === MODE_DESKTOP || ! isAmp ? null : <Amp/>;
+		const separator = mode === MODE_DESKTOP ? null : <Separator />;
+		const downArrow = mode === MODE_DESKTOP ? <UrlDownArrow /> : null;
+		const amp       = mode === MODE_DESKTOP || ! isAmp ? null : <Amp />;
 
 		/*
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
@@ -647,17 +648,17 @@ export default class SnippetPreview extends PureComponent {
 						<ScreenReaderText>
 							{ __( "SEO title preview", "yoast-components" ) + ":" }
 						</ScreenReaderText>
-						<Title
+						<SnippetTitle
 							onMouseUp={ onMouseUp.bind( null, "title" ) }
 							onMouseEnter={ onMouseEnter.bind( null, "title" ) }
 							onMouseLeave={ onMouseLeave.bind( null ) }
 						>
 							<TitleBounded>
-								<TitleUnbounded innerRef={ this.setTitleRef } >
+								<TitleUnbounded innerRef={ this.setTitleRef }>
 									{ this.getTitle() }
 								</TitleUnbounded>
 							</TitleBounded>
-						</Title>
+						</SnippetTitle>
 						<ScreenReaderText>
 							{ __( "Url preview", "yoast-components" ) + ":" }
 						</ScreenReaderText>
@@ -686,20 +687,20 @@ export default class SnippetPreview extends PureComponent {
 	 *     PartContainer: ReactComponent,
 	 *     Container: ReactComponent,
 	 *     TitleUnbounded: ReactComponent,
-	 *     Title: ReactComponent,
+	 *     SnippetTitle: ReactComponent,
 	 * }} The prepared components.
 	 */
 	getPreparedComponents( mode ) {
 		const PartContainer = mode === MODE_DESKTOP ? DesktopPartContainer : MobilePartContainer;
 		const Container = mode === MODE_DESKTOP ? DesktopContainer : MobileContainer;
 		const TitleUnbounded = mode === MODE_DESKTOP ? TitleUnboundedDesktop : TitleUnboundedMobile;
-		const Title = this.addCaretStyles( "title", BaseTitle );
+		const SnippetTitle = this.addCaretStyles( "title", BaseTitle );
 
 		return {
 			PartContainer,
 			Container,
 			TitleUnbounded,
-			Title,
+			SnippetTitle,
 		};
 	}
 }

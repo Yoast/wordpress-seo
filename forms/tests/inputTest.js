@@ -6,12 +6,12 @@ import ReactShallowRenderer from "react-test-renderer/shallow";
 import Input from "../Input";
 
 describe( "Input", () => {
-	let renderer = new ReactShallowRenderer();
+	const renderer = new ReactShallowRenderer();
 
 	it( "generates an input based on the props", () => {
 		renderer.render( <Input type="text" name="textInput" /> );
 
-		let result = renderer.getRenderOutput();
+		const result = renderer.getRenderOutput();
 
 		expect( result.props.name ).toBe( "textInput" );
 		expect( result.props.defaultValue ).toBe( "" );
@@ -20,7 +20,7 @@ describe( "Input", () => {
 	it( "generates an input based on the defaults if required props are missing", () => {
 		renderer.render( <Input /> );
 
-		let result = renderer.getRenderOutput();
+		const result = renderer.getRenderOutput();
 
 		expect( result.props.name ).toBe( "input" );
 		expect( result.props.type ).toBe( "text" );
@@ -30,7 +30,7 @@ describe( "Input", () => {
 	it( "generates an input based on the defaults if required props are partially missing", () => {
 		renderer.render( <Input name="textInput" /> );
 
-		let result = renderer.getRenderOutput();
+		const result = renderer.getRenderOutput();
 
 		expect( result.props.name ).toBe( "textInput" );
 		expect( result.props.type ).toBe( "text" );
@@ -47,14 +47,14 @@ describe( "Input", () => {
 	} );
 
 	it( "generates an input based on the defaults and additional, optional attributes", () => {
-		let optionalAttributes = {
+		const optionalAttributes = {
 			className: "custom-input-class",
 			id: "custom-input-identifier",
 		};
 
-		renderer.render( <Input name="textInput" optionalAttributes={optionalAttributes} /> );
+		renderer.render( <Input name="textInput" optionalAttributes={ optionalAttributes } /> );
 
-		let result = renderer.getRenderOutput();
+		const result = renderer.getRenderOutput();
 
 		expect( result.props.className ).toBe( "custom-input-class" );
 		expect( result.props.id ).toBe( "custom-input-identifier" );
@@ -63,7 +63,7 @@ describe( "Input", () => {
 	it( "generates an input based on the defaults and an onChange event binding", () => {
 		renderer.render( <Input name="textInput" onChange={ () => {} } /> );
 
-		let result = renderer.getRenderOutput();
+		const result = renderer.getRenderOutput();
 
 		expect( result.props.onChange ).toBeDefined();
 		expect( typeof result.props.onChange ).toBe( "function" );
@@ -72,7 +72,7 @@ describe( "Input", () => {
 	it( "generates a warning when a faulty onChange callback is passed", () => {
 		console.error = jest.genMockFn();
 
-		renderer.render( <Input name="textInput" onChange={0} /> );
+		renderer.render( <Input name="textInput" onChange={ 0 } /> );
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )

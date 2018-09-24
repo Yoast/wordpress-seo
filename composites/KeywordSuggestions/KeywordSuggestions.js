@@ -14,7 +14,7 @@ import interpolateComponents from "interpolate-components";
  * @returns {JSX.Element} The translated text including rendered link components.
  */
 const getKeywordResearchArticleLink = ( translate ) => {
-	let keywordsResearchLinkTranslation =
+	const keywordsResearchLinkTranslation =
 		translate( "Read our %1$sultimate guide to keyword research%2$s" +
 		           " to learn more about keyword research and keyword strategy." )
 			.replace(
@@ -28,7 +28,7 @@ const getKeywordResearchArticleLink = ( translate ) => {
 		mixedString: keywordsResearchLinkTranslation,
 		components: {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a href="https://yoa.st/keyword-research-metabox"/>,
+			a: <a href="https://yoa.st/keyword-research-metabox" />,
 		},
 	} );
 };
@@ -72,16 +72,18 @@ const getKeywordSuggestionExplanation = ( translate, keywords ) => {
  * @returns {JSX.Element} Rendered KeywordSuggestions component.
  */
 const KeywordSuggestions = ( { translate, relevantWords, keywordLimit } ) => {
-	let keywords = relevantWords.slice( 0, keywordLimit ).map( word => word.getCombination() );
+	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => word.getCombination() );
 
-	let explanation = ( <p>{ getKeywordSuggestionExplanation( translate, keywords ) }</p> );
+	const explanation = ( <p>{ getKeywordSuggestionExplanation( translate, keywords ) }</p> );
 
-	let list = (
+	const list = (
 		<ol className="yoast-keyword-suggestions__list">
 			{ keywords.map( ( word ) => {
 				return (
-					<li key={word}
-					    className="yoast-keyword-suggestions__item">
+					<li
+						key={ word }
+						className="yoast-keyword-suggestions__item"
+					>
 						{ word }
 					</li>
 				);

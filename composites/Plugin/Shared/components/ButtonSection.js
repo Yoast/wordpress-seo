@@ -32,6 +32,7 @@ export const ButtonSection = ( props ) => {
 	return (
 		<Container
 			// Pass the classname to allow re-styling with styled-components.
+			onClick={ props.onClick }
 			className={ props.className }
 		>
 			<props.Heading
@@ -40,7 +41,6 @@ export const ButtonSection = ( props ) => {
 				hasSubTitle={ !! props.subTitle }
 			>
 				<SectionTitle
-					onTitleClick={ props.onTitleClick }
 					title={ props.title }
 					titleScreenReaderText={ props.titleScreenReaderText }
 					subTitle={ props.subTitle }
@@ -67,7 +67,7 @@ ButtonSection.propTypes = {
 	subTitle: PropTypes.string,
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
-	onTitleClick: PropTypes.func,
+	onClick: PropTypes.func.isRequired,
 };
 
 ButtonSection.defaultProps = {

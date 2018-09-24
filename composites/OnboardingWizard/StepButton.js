@@ -17,12 +17,14 @@ import colors from "../../style-guide/colors.json";
  * @constructor
  */
 const StepButton = ( props ) => (
-	<IconButton className={props.className} onClick={props.onClick} tooltip={props.tooltip} touch={true}
-	            tooltipPosition="top-center" tooltipStyles={props.tooltipStyles} aria-label={props.ariaLabel}>
-		<SvgIcon color={colors.$color_grey_text}>
-			<circle cx="12" cy="12" r="10"/>
-			<text x="12" y="16" textAnchor="middle" fontSize="12" fill={colors.$color_white}>
-				{props.index}
+	<IconButton
+		className={ props.className } onClick={ props.onClick } tooltip={ props.tooltip } touch={ true }
+		tooltipPosition="top-center" tooltipStyles={ props.tooltipStyles } aria-label={ props.ariaLabel }
+	>
+		<SvgIcon color={ colors.$color_grey_text }>
+			<circle cx="12" cy="12" r="10" />
+			<text x="12" y="16" textAnchor="middle" fontSize="12" fill={ colors.$color_white }>
+				{ props.index }
 			</text>
 		</SvgIcon>
 	</IconButton>

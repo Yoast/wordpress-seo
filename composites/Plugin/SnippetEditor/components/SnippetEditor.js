@@ -2,10 +2,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment";
-import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthAssessment";
-import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
-import stripSpaces from "yoastseo/js/stringProcessing/stripSpaces";
+
+import MetaDescriptionLengthAssessment from "yoastseo/src/assessments/seo/metaDescriptionLengthAssessment";
+import PageTitleWidthAssesment from "yoastseo/src/assessments/seo/pageTitleWidthAssessment";
+
+import { helpers } from "yoastseo";
+const { measureTextWidth } = helpers;
+
+import stripSpaces from "yoastseo/src/stringProcessing/stripSpaces";
 import noop from "lodash/noop";
 
 // Internal dependencies.
@@ -98,24 +102,25 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
 	 *
-	 * @param {Object}   props                                 The props for the snippet editor.
-	 * @param {Object[]} props.replacementVariables            The replacement variables for this editor.
-	 * @param {Object[]} props.recommendedReplacementVariables The recommended replacement variables for this editor.
-	 * @param {Object}   props.data                            The initial editor data.
-	 * @param {string}   props.keyword                         The focus keyword.
-	 * @param {string}   props.data.title                      The initial title.
-	 * @param {string}   props.data.slug                       The initial slug.
-	 * @param {string}   props.data.description                The initial description.
-	 * @param {string}   props.baseUrl                         The base URL to use for the preview.
-	 * @param {string}   props.mode                            The mode the editor should be in.
-	 * @param {Function} props.onChange                        Called when the data changes.
-	 * @param {Object}   props.titleLengthProgress             The values for the title length assessment.
-	 * @param {Object}   props.descriptionLengthProgress       The values for the description length assessment.
-	 * @param {Function} props.mapEditorDataToPreview          Function to map the editor data to data for the preview.
-	 * @param {string}   props.locale                          The locale of the page.
-	 * @param {bool}     props.hasPaperStyle                   Whether or not it has paper style.
-	 * @param {bool}     props.showCloseButton                Whether or not users have the option to open and close
-	 *                                                         the editor.
+	 * @param {Object}   props                                   The props for the snippet editor.
+	 * @param {Object[]} props.replacementVariables              The replacement variables for this editor.
+	 * @param {Object[]} props.recommendedReplacementVariables   The recommended replacement variables for this editor.
+	 * @param {Object}   props.data                              The initial editor data.
+	 * @param {string}   props.keyword                           The focus keyword.
+	 * @param {string}   props.data.title                        The initial title.
+	 * @param {string}   props.data.slug                         The initial slug.
+	 * @param {string}   props.data.description                  The initial description.
+	 * @param {string}   props.baseUrl                           The base URL to use for the preview.
+	 * @param {string}   props.mode                              The mode the editor should be in.
+	 * @param {Function} props.onChange                          Called when the data changes.
+	 * @param {Object}   props.titleLengthProgress               The values for the title length assessment.
+	 * @param {Object}   props.descriptionLengthProgress         The values for the description length assessment.
+	 * @param {Function} props.mapEditorDataToPreview            Function to map the editor data to data for the preview.
+	 * @param {string}   props.locale                            The locale of the page.
+	 * @param {bool}     props.hasPaperStyle                     Whether or not it has paper style.
+	 * @param {string}   props.descriptionEditorFieldPlaceholder The placeholder value for the description field.
+	 * @param {bool}     props.showCloseButton                   Whether or not users have the option to open and close
+	 *                                                           the editor.
 	 * @returns {void}
 	 */
 	constructor( props ) {
@@ -235,14 +240,22 @@ class SnippetEditor extends React.Component {
 			data,
 			replacementVariables,
 			recommendedReplacementVariables,
-			descriptionEditorFieldPlaceholder,
 			hasPaperStyle,
 			showCloseButton,
 		} = this.props;
+
+		let {
+			descriptionEditorFieldPlaceholder,
+		} = this.props;
+
 		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
 
 		if ( ! isOpen ) {
 			return null;
+		}
+
+		if ( descriptionEditorFieldPlaceholder === "" ) {
+			descriptionEditorFieldPlaceholder = __( "Modify your meta description by editing it right here", "yoast-components" );
 		}
 
 		return (
@@ -409,7 +422,7 @@ class SnippetEditor extends React.Component {
 
 		const shortenedBaseUrl = baseUrl.replace( /^http:\/\//i, "" );
 
-		let mappedData = {
+		const mappedData = {
 			title: this.processReplacementVariables( originalData.title, replacementVariables ),
 			url: shortenedBaseUrl + originalData.slug,
 			description: description,
@@ -532,7 +545,7 @@ class SnippetEditor extends React.Component {
 						{ ...mappedData }
 					/>
 
-					<ModeSwitcher onChange={ ( mode ) => onChange( "mode", mode ) } active={ mode } />
+					<ModeSwitcher onChange={ ( newMode ) => onChange( "mode", newMode ) } active={ mode } />
 
 					{ showCloseButton && <EditSnippetButton
 						onClick={ isOpen ? this.close : this.open }
@@ -591,7 +604,7 @@ SnippetEditor.defaultProps = {
 	},
 	mapEditorDataToPreview: null,
 	locale: "en",
-	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
+	descriptionEditorFieldPlaceholder: "",
 	onChangeAnalysisData: noop,
 	hasPaperStyle: true,
 	showCloseButton: true,

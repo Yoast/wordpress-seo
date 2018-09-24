@@ -16,11 +16,13 @@ class Textarea extends React.Component {
 	 */
 	render() {
 		return (
-			<textarea ref={this.setReference.bind( this )}
-			          name={this.props.name}
-			          value={this.props.value}
-			          onChange={this.props.onChange}
-			          {...this.props.optionalAttributes}></textarea>
+			<textarea
+				ref={ this.setReference.bind( this ) }
+				name={ this.props.name }
+				value={ this.props.value }
+				onChange={ this.props.onChange }
+				{ ...this.props.optionalAttributes }
+			/>
 		);
 	}
 

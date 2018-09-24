@@ -10,11 +10,11 @@ import PropTypes from "prop-types";
  * @constructor
  */
 const PublishingEntity = ( props ) => {
-	let data = props.data;
+	const data = props.data;
 
 	return (
 		<div>
-			<h2>{data.publishingEntityType}</h2>
+			<h2>{ data.publishingEntityType }</h2>
 		</div>
 	);
 };

@@ -8,12 +8,12 @@ import Styles from "../Styles";
 import { shallow } from "enzyme";
 
 describe( "ScreenReaderShortcut", () => {
-	let renderer = new ReactShallowRenderer();
+	const renderer = new ReactShallowRenderer();
 
 	it( "generates a ScreenReaderShortcut div based on the props", () => {
 		renderer.render( <ScreenReaderShortcut anchor="example">example text</ScreenReaderShortcut> );
 
-		let result = renderer.getRenderOutput();
+		const result = renderer.getRenderOutput();
 
 		expect( result.type ).toBe( "a" );
 		expect( result.props.children ).toBe( "example text" );
@@ -23,7 +23,7 @@ describe( "ScreenReaderShortcut", () => {
 	} );
 
 	it( "has the default styling when it's blurred and the focused styling when focused", () => {
-		let result = shallow( <ScreenReaderShortcut anchor="example">example text</ScreenReaderShortcut> );
+		const result = shallow( <ScreenReaderShortcut anchor="example">example text</ScreenReaderShortcut> );
 		expect( result.prop( "style" ) ).toBe( Styles.ScreenReaderText.default );
 		result.find( "a" ).simulate( "focus" );
 		expect( result.prop( "style" ) ).toBe( Styles.ScreenReaderText.focused );
@@ -33,7 +33,7 @@ describe( "ScreenReaderShortcut", () => {
 
 	it( "generates a warning when props.children is not a string.", () => {
 		console.error = jest.genMockFn();
-		renderer.render( <ScreenReaderShortcut anchor="example"><div></div></ScreenReaderShortcut> );
+		renderer.render( <ScreenReaderShortcut anchor="example"><div /></ScreenReaderShortcut> );
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )
@@ -43,7 +43,7 @@ describe( "ScreenReaderShortcut", () => {
 
 	it( "generates a warning when props.anchor is not a string.", () => {
 		console.error = jest.genMockFn();
-		renderer.render( <ScreenReaderShortcut anchor={1}>example text</ScreenReaderShortcut> );
+		renderer.render( <ScreenReaderShortcut anchor={ 1 }>example text</ScreenReaderShortcut> );
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )

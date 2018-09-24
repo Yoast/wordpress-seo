@@ -1,6 +1,6 @@
 {
   "name": "yoast-components",
-  "version": "4.9.0",
+  "version": "4.12.0",
   "description": "Yoast Generic Components",
   "homepage": "https://github.com/Yoast/",
   "main": "index.js",
@@ -38,6 +38,12 @@
     ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
     ]
   },
   "author": "Yoast",
@@ -65,7 +71,7 @@
     "striptags": "^3.1.0",
     "styled-components": "^2.1.2",
     "whatwg-fetch": "^1.0.0",
-    "yoastseo": "^1.37.0"
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/8.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
@@ -85,10 +91,10 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.3",
     "eslint": "^4.16.0",
-    "eslint-config-yoast": "^3.0.1",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.5.1",
-    "eslint-plugin-yoast": "^1.0.0",
+    "eslint-config-yoast": "^4.0.0",
+    "eslint-plugin-jsx-a11y": "^3.0.2",
+    "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-yoast": "^1.0.1",
     "grunt": "^1.0.1",
     "grunt-eslint": "^20.1.0",
     "grunt-postcss": "^0.8.0",

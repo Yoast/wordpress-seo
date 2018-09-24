@@ -5,9 +5,9 @@ import Loading from "../Loading.js";
 
 test( "the Loading component matches the snapshot", () => {
 	const component = renderer.create(
-		<Loading placeholder="Loading..."/>
+		<Loading placeholder="Loading..." />
 	);
 
-	let tree = component.toJSON();
+	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );

@@ -6,12 +6,12 @@ import ReactShallowRenderer from "react-test-renderer/shallow";
 import Label from "../Label";
 
 describe( "A Label component", () => {
-	let renderer = new ReactShallowRenderer();
+	const renderer = new ReactShallowRenderer();
 
 	it( "generates a Label based on the props", () => {
 		renderer.render( <Label for="">customLabel</Label> );
 
-		let result = renderer.getRenderOutput();
+		const result = renderer.getRenderOutput();
 
 		expect( result.props.children ).toBe( "customLabel" );
 		expect( result.props.htmlFor ).toBe( "" );
@@ -20,7 +20,7 @@ describe( "A Label component", () => {
 	it( "generates a warning when a required prop `for` is missing", () => {
 		console.error = jest.genMockFn();
 
-		renderer.render( <Label></Label> );
+		renderer.render( <Label /> );
 
 		expect( console.error ).toBeCalled();
 
@@ -31,7 +31,7 @@ describe( "A Label component", () => {
 	it( "generates a warning when a faulty htmlFor prop is passed", () => {
 		console.error = jest.genMockFn();
 
-		renderer.render( <Label for={0} /> );
+		renderer.render( <Label for={ 0 } /> );
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )

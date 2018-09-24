@@ -163,7 +163,6 @@ exports[`Collapsible matches the snapshot by default 1`] = `
     >
       <span
         className="c9"
-        onClick={[Function]}
       >
         <span
           className="c10"
@@ -174,7 +173,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
-        fill={undefined}
+        fill="currentColor"
         focusable="false"
         role="img"
         size="9px"
@@ -353,7 +352,6 @@ exports[`Collapsible matches the snapshot by default 2`] = `
     >
       <span
         className="c9"
-        onClick={[Function]}
       >
         <span
           className="c10"
@@ -364,7 +362,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
-        fill={undefined}
+        fill="currentColor"
         focusable="false"
         role="img"
         size="9px"
@@ -555,7 +553,6 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
     >
       <span
         className="c9"
-        onClick={[Function]}
       >
         <span
           className="c10"
@@ -566,7 +563,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
-        fill={undefined}
+        fill="currentColor"
         focusable="false"
         role="img"
         size="9px"
@@ -745,7 +742,6 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
     >
       <span
         className="c9"
-        onClick={[Function]}
       >
         <span
           className="c10"
@@ -756,7 +752,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
-        fill={undefined}
+        fill="currentColor"
         focusable="false"
         role="img"
         size="9px"
@@ -947,7 +943,6 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
     >
       <span
         className="c9"
-        onClick={[Function]}
       >
         <span
           className="c10"
@@ -958,7 +953,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
-        fill={undefined}
+        fill="currentColor"
         focusable="false"
         role="img"
         size="9px"
@@ -1149,7 +1144,6 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
     >
       <span
         className="c9"
-        onClick={[Function]}
       >
         <span
           className="c10"
@@ -1160,7 +1154,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
-        fill={undefined}
+        fill="currentColor"
         focusable="false"
         role="img"
         size="9px"
@@ -1331,7 +1325,6 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
     >
       <span
         className="c9"
-        onClick={[Function]}
       >
         <span
           className="c10"
@@ -1511,7 +1504,6 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
     >
       <span
         className="c9"
-        onClick={[Function]}
       >
         <span
           className="c10"
@@ -1691,7 +1683,6 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
     >
       <span
         className="c9"
-        onClick={[Function]}
       >
         <span
           className="c10"
@@ -1893,7 +1884,6 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
       </svg>
       <span
         className="c10"
-        onClick={[Function]}
       >
         <span
           className="c11"
