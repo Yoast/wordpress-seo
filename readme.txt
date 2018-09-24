@@ -116,6 +116,7 @@ Bugfixes:
 * Fixes a bug where snippet variables would not be replaced in the `og:description` of taxonomies when they were added in the Facebook Description input field.
 * Fixes a bug where `babel-polyfill` would throw an error that there shouldn't be two instances of babel-polyfill.
 * Fixes a bug where the `bold` button was available in the How-to block's step title and the FAQ block's Question field while they were already bold by default.
+* Fixes a bug that caused keywords beginning with the Turkish characters `İ` / `i` and `I` / `ı` not to be recognized when changing that character from lowercase to uppercase and vice versa.
 
 Enhancements:
 

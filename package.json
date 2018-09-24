@@ -138,7 +138,7 @@
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
     "yoast-components": "^4.12.1",
-    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/8.3"
+    "yoastseo": "^1.40.0"
   },
   "yoast": {
     "pluginVersion": "8.3-RC2"
