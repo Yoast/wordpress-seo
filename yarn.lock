@@ -10521,6 +10521,16 @@ yoast-components@^4.12.0:
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
+yoastseo@^1.40.0:
+  version "1.40.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.40.0.tgz#2be3b91422ddc614131ab4b6e5aab9e6c347170d"
+  dependencies:
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    lodash-es "^4.17.10"
+    sassdash "0.9.0"
+    tokenizer2 "^2.0.1"
+
 "yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/8.3":
   version "1.39.2"
   resolved "git+https://github.com/Yoast/YoastSEO.js.git#0906e9a056640e2c6808fa3e12a9d15ac0196d99"
