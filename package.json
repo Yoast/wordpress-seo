@@ -1,6 +1,6 @@
 {
   "name": "yoast-components",
-  "version": "4.11.0",
+  "version": "4.12.0",
   "description": "Yoast Generic Components",
   "homepage": "https://github.com/Yoast/",
   "main": "index.js",
@@ -38,6 +38,12 @@
     ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
     ]
   },
   "author": "Yoast",
@@ -65,7 +71,7 @@
     "striptags": "^3.1.0",
     "styled-components": "^2.1.2",
     "whatwg-fetch": "^1.0.0",
-    "yoastseo": "^1.39.2"
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/8.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
