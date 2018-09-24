@@ -86,7 +86,7 @@ const expectedResults = {
 	},
 	internalLinks: {
 		score: 3,
-		resultText: "No <a href='https://yoa.st/2pm' target='_blank'>internal links</a> appear in this page, consider adding some as appropriate.",
+		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: No internal links appear in this page, <a href='https://yoa.st/34a' target='_blank'>make sure to add some!</a>",
 	},
 	titleKeyword: {
 		score: 6,
