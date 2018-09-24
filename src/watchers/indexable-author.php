@@ -8,8 +8,8 @@
 namespace Yoast\YoastSEO\Watchers;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
+use Yoast\YoastSEO\Formatters\Indexable_Author as Indexable_Author_Formatter;
 use Yoast\YoastSEO\WordPress\Integration;
-use Yoast\YoastSEO\Yoast_Model;
 use Yoast\YoastSEO\Models\Indexable;
 
 /**
@@ -59,35 +59,27 @@ class Indexable_Author implements Integration {
 
 		$indexable->permalink = $this->get_permalink( $user_id );
 
-		$meta_data = $this->get_meta_data( $user_id );
+		$formatter      = new Indexable_Author_Formatter( $user_id );
+		$formatted_data = $formatter->format();
 
-		$indexable->title             = $meta_data['wpseo_title'];
-		$indexable->description       = $meta_data['wpseo_metadesc'];
-		$indexable->is_robots_noindex = $this->get_noindex_value( $meta_data['wpseo_noindex_author'] );
+		foreach( $this->get_indexable_fields() as $indexable_key ) {
+			$indexable->{ $indexable_key } = $formatted_data[ $indexable_key ];
+		}
 
 		$indexable->save();
 	}
 
 	/**
-	 * Retrieves the meta data for this indexable.
+	 * Lookup table for the indexable fields.
 	 *
-	 * @param int $user_id The user to fetch meta data for.
-	 *
-	 * @return array List of meta entries.
+	 * @return array The indexable fields.
 	 */
-	protected function get_meta_data( $user_id ) {
-		$keys = array(
-			'wpseo_title',
-			'wpseo_metadesc',
-			'wpseo_excludeauthorsitemap',
+	protected function get_indexable_fields() {
+		return array(
+			'title',
+			'description',
+			'is_robots_noindex',
 		);
-
-		$output = array();
-		foreach ( $keys as $key ) {
-			$output[ $key ] = $this->get_author_meta( $user_id, $key );
-		}
-
-		return $output;
 	}
 
 	/**
@@ -101,16 +93,7 @@ class Indexable_Author implements Integration {
 	 * @throws No_Indexable_Found Exception when no Indexable could be found for the supplied user.
 	 */
 	protected function get_indexable( $user_id, $auto_create = true ) {
-		$indexable = Yoast_Model::of_type( 'Indexable' )
-								->where( 'object_id', $user_id )
-								->where( 'object_type', 'user' )
-								->find_one();
-
-		if ( $auto_create && ! $indexable ) {
-			$indexable              = Yoast_Model::of_type( 'Indexable' )->create();
-			$indexable->object_id   = $user_id;
-			$indexable->object_type = 'user';
-		}
+		$indexable = Indexable::find_by_id_and_type( $user_id, 'user', $auto_create );
 
 		if ( ! $indexable ) {
 			throw No_Indexable_Found::from_author_id( $user_id );
@@ -130,30 +113,5 @@ class Indexable_Author implements Integration {
 	 */
 	protected function get_permalink( $user_id ) {
 		return \get_author_posts_url( $user_id );
-	}
-
-	/**
-	 * Retrieves the author meta.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int    $user_id Author to fetch the data of.
-	 * @param string $key     The meta entry to retrieve.
-	 *
-	 * @return string The value of the meta field.
-	 */
-	protected function get_author_meta( $user_id, $key ) {
-		return \get_the_author_meta( $key, $user_id );
-	}
-
-	/**
-	 * Retrieves the value for noindex.
-	 *
-	 * @param string $noindex Current noindex value.
-	 *
-	 * @return bool True if noindex is selected, false if not.
-	 */
-	protected function get_noindex_value( $noindex ) {
-		return $noindex === 'on';
 	}
 }

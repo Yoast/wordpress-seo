@@ -8,8 +8,8 @@
 namespace Yoast\YoastSEO\Watchers;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
+use Yoast\YoastSEO\Formatters\Indexable_Term as Indexable_Term_Formatter;
 use Yoast\YoastSEO\WordPress\Integration;
-use Yoast\YoastSEO\Yoast_Model;
 use Yoast\YoastSEO\Models\Indexable;
 
 /**
@@ -66,26 +66,20 @@ class Indexable_Term implements Integration {
 			return;
 		}
 
-		$indexable->permalink = $this->get_permalink( $term_id, $taxonomy );
+		$formatter      = new Indexable_Term_Formatter( $term_id, $taxonomy );
+		$formatted_data = $formatter->format();
 
-		$term_meta = $this->get_meta_data( $term_id, $taxonomy );
+		$indexable->permalink       = $this->get_permalink( $term_id, $taxonomy );
+		$indexable->object_sub_type = $taxonomy;
 
-		foreach ( $this->get_meta_lookup() as $meta_key => $indexable_key ) {
-			$indexable->{$indexable_key} = $term_meta[ $meta_key ];
+		foreach( $this->get_indexable_fields() as $indexable_key ) {
+			$indexable->{ $indexable_key } = $formatted_data[ $indexable_key ];
 		}
-
-		$indexable->primary_focus_keyword_score = $this->get_keyword_score( $term_meta['wpseo_focuskw'], $term_meta['wpseo_linkdex'] );
-
-		$indexable->is_robots_noindex = $this->get_noindex_value( $term_meta['wpseo_noindex'] );
-
-		// Not implemented yet.
-		$indexable->is_cornerstone     = 0;
-		$indexable->is_robots_nofollow = 0;
 
 		$indexable->save();
 
 		if ( ! empty( $indexable->id ) ) {
-			$this->save_social_meta( $indexable, $term_meta );
+			$this->save_indexable_meta( $indexable, $formatted_data );
 		}
 	}
 
@@ -101,19 +95,7 @@ class Indexable_Term implements Integration {
 	 * @throws No_Indexable_Found Exception when no indexable could be found for the supplied term.
 	 */
 	protected function get_indexable( $term_id, $taxonomy, $auto_create = true ) {
-		$indexable = Yoast_Model::of_type( 'Indexable' )
-								->where( 'object_id', $term_id )
-								->where( 'object_type', 'term' )
-								->where( 'object_sub_type', $taxonomy )
-								->find_one();
-
-		if ( $auto_create && ! $indexable ) {
-			/** @var Indexable $indexable */
-			$indexable                  = Yoast_Model::of_type( 'Indexable' )->create();
-			$indexable->object_id       = $term_id;
-			$indexable->object_type     = 'term';
-			$indexable->object_sub_type = $taxonomy;
-		}
+		$indexable = Indexable::find_by_id_and_type( $term_id, 'term', $auto_create );
 
 		if ( ! $indexable ) {
 			throw No_Indexable_Found::from_term_id( $term_id, $taxonomy );
@@ -123,56 +105,28 @@ class Indexable_Term implements Integration {
 	}
 
 	/**
-	 * Retrieves the meta lookup table.
+	 * Lookup table for the indexable fields.
 	 *
-	 * @return array The lookup table.
+	 * @return array The indexable fields.
 	 */
-	protected function get_meta_lookup() {
-		$meta_to_indexable = array(
-			'wpseo_canonical' => 'canonical',
-
-			'wpseo_focuskw' => 'primary_focus_keyword',
-
-			'wpseo_title'         => 'title',
-			'wpseo_desc'          => 'description',
-			'wpseo_content_score' => 'readability_score',
-
-			'wpseo_bctitle' => 'breadcrumb_title',
+	protected function get_indexable_fields() {
+		return array(
+			'primary_focus_keyword_score',
+			'is_cornerstone',
+			'is_robots_noindex',
+			'is_robots_noimageindex',
+			'is_robots_noarchive',
+			'is_robots_nosnippet',
+			'primary_focus_keyword',
+			'readability_score',
+			'canonical',
+			'is_robots_nofollow',
+			'title',
+			'description',
+			'breadcrumb_title',
+			'link_count',
+			'incoming_link_count',
 		);
-
-		return $meta_to_indexable;
-	}
-
-	/**
-	 * Converts the meta noindex value to the indexable value.
-	 *
-	 * @param string $meta_value Term meta to base the value on.
-	 *
-	 * @return bool|null
-	 */
-	protected function get_noindex_value( $meta_value ) {
-		switch ( (string) $meta_value ) {
-			case 'noindex':
-				return true;
-			case 'index':
-				return false;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Retrieves the meta data for a term.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int    $term_id  Term to use.
-	 * @param string $taxonomy Taxonomy to use.
-	 *
-	 * @return bool|array The meta data for the term.
-	 */
-	protected function get_meta_data( $term_id, $taxonomy ) {
-		return \WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );
 	}
 
 	/**
@@ -190,50 +144,32 @@ class Indexable_Term implements Integration {
 	}
 
 	/**
-	 * Determines the focus keyword score.
+	 * Saves the indexable meta data.
 	 *
-	 * @param string $keyword The focus keyword that is set.
-	 * @param int    $score   The score saved on the meta data.
-	 *
-	 * @return null|int Score to use.
-	 */
-	protected function get_keyword_score( $keyword, $score ) {
-		if ( empty( $keyword ) ) {
-			return null;
-		}
-
-		return $score;
-	}
-
-	/**
-	 * Lookup table for the social meta fields.
-	 *
-	 * @return array The social meta fields.
-	 */
-	protected function social_meta_lookup() {
-		return array(
-			'wpseo_opengraph-title'       => 'og_title',
-			'wpseo_opengraph-description' => 'og_description',
-			'wpseo_opengraph-image'       => 'og_image',
-			'wpseo_twitter-title'         => 'twitter_title',
-			'wpseo_twitter-description'   => 'twitter_description',
-			'wpseo_twitter-image'         => 'twitter_image',
-		);
-	}
-
-	/**
-	 * Saves the social meta data.
-	 *
-	 * @param Indexable $indexable The indexable to save the id for.
-	 * @param array     $term_meta The term meta data.
+	 * @param Indexable $indexable      The indexable to save the meta for.
+	 * @param array     $formatted_data The formatted data.
 	 *
 	 * @codeCoverageIgnore
 	 */
-	protected function save_social_meta( $indexable, $term_meta ) {
-		$indexable_post_meta = new Indexable_Meta( $indexable->id );
-
-		foreach ( $this->social_meta_lookup() as $meta_key => $indexable_key ) {
-			$indexable_post_meta->set_meta( $indexable_key, $term_meta[ $meta_key ] );
+	protected function save_indexable_meta( $indexable, $formatted_data ) {
+		foreach ( $this->get_indexable_meta_fields() as $indexable_key ) {
+			$indexable->set_meta( $indexable_key, $formatted_data[ $indexable_key ] );
 		}
+	}
+
+	/**
+	 * Lookup table for the indexable meta fields.
+	 *
+	 * @return array The indexable meta fields.
+	 */
+	protected function get_indexable_meta_fields() {
+		return array(
+			'og_title',
+			'og_image',
+			'og_description',
+			'twitter_title',
+			'twitter_image',
+			'twitter_description',
+		);
 	}
 }
