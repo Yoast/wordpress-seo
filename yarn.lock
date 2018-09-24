@@ -8840,9 +8840,9 @@ yeoman-generator@^2.0.4:
     through2 "^2.0.0"
     yeoman-environment "^2.0.5"
 
-"yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/8.3":
-  version "1.39.2"
-  resolved "git+https://github.com/Yoast/YoastSEO.js.git#fa6e637b29ec8f3551e912e45930e9dfad4bface"
+yoastseo@^1.40:
+  version "1.40.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.40.0.tgz#2be3b91422ddc614131ab4b6e5aab9e6c347170d"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
