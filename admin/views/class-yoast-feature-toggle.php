@@ -76,10 +76,6 @@ class Yoast_Feature_Toggle {
 	 * @return bool True if set, false otherwise.
 	 */
 	public function __isset( $key ) {
-		if ( in_array( $key, $required_keys, true ) ) {
-			return true;
-		}
-
 		return isset( $this->$key );
 	}
 
