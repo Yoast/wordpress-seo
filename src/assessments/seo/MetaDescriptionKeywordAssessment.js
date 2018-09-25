@@ -30,7 +30,8 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 				ok: 6,
 				bad: 3,
 			},
-			url: "<a href='https://yoa.st/33l' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/33k' target='_blank'>",
+			urlCallToAction: "<a href='https://yoa.st/33l' target='_blank'>",
 		};
 
 		this.identifier = "metaDescriptionKeyword";
@@ -68,17 +69,18 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 		const nrOfSentencesWithAllKeywords = this._keywordMatches.perSentence
 			.filter( percentageKeywordsMatched => percentageKeywordsMatched === 100 )
 			.length;
+
 		// GOOD result when one or two sentences contain every keyword term at least once.
 		if ( nrOfSentencesWithAllKeywords >= 1 && nrOfSentencesWithAllKeywords <= 2 ) {
 			return {
 				score: this._config.scores.good,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
-					i18n.dngettext(
+					i18n.dgettext(
 						"js-text-analysis",
-						"Key phrase in meta description: Focus key phrase or synonym %1$sappear in the meta description%2$s. Well done!",
+						"%1$sKey phrase in meta description%2$s: Focus key phrase or synonym appear in the meta description. Well done!",
 					),
-					this._config.url,
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
@@ -89,17 +91,22 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
-					   %3$s expands to the number of sentences containing the key phrase.
-					*/
-					i18n.dngettext(
+					/**
+					 * Translators:
+					 * %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+					 * %3$s expands to the number of sentences containing the key phrase,
+					 * %4$s expands to a link on yoast.com, %5$s expands to the anchor end tag.
+					 */
+					i18n.dgettext(
 						"js-text-analysis",
-						"Key phrase in meta description: The meta description %1$scontains the focus keyword%2$s %3$s times, " +
-						"which is over the advised maximum of 2 times. Limit that!",
+						"%1$sKey phrase in meta description%2$s: The meta description contains the focus keyword %3$s times, " +
+						"which is over the advised maximum of 2 times. %4$sLimit that!%5$s",
 					),
-					this._config.url,
+					this._config.urlTitle,
 					"</a>",
-					nrOfSentencesWithAllKeywords
+					nrOfSentencesWithAllKeywords,
+					this._config.urlCallToAction,
+					"</a>"
 				),
 			};
 		}
@@ -109,15 +116,22 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.ok,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+					/**
+					 * Translators:
+					 * %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+					 * %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag.
+					 */
 					i18n.dngettext(
 						"js-text-analysis",
-						"Key phrase in meta description: All words of focus key phrase or synonym " +
-						"%1$sappear in the meta description%2$s, but not within one sentence. " +
-						"Try to use them in one sentence."
+						"%1$sKey phrase in meta description%2$s: All words of focus key phrase or synonym " +
+						"appear in the meta description, but not within one sentence. " +
+						"%3$sTry to use them in one sentence.%4$s"
 					),
-					this._config.url,
+					this._config.urlTitle,
+					"</a>",
+					this._config.urlCallToAction,
 					"</a>"
+
 				),
 			};
 		}
@@ -126,13 +140,19 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 		return {
 			score: this._config.scores.bad,
 			resultText: i18n.sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+				/**
+				 * Translators:
+				 * %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+				 * %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag.
+				 */
 				i18n.dgettext(
 					"js-text-analysis",
-					"Key phrase in meta description: The meta description has been specified, " +
-					"but it %1$sdoes not contain the focus key phrase%2$s. Fix that!"
+					"%1$sKey phrase in meta description%2$s: The meta description has been specified, " +
+					"but it does not contain the focus key phrase. %3$sFix that!%4$s"
 				),
-				this._config.url,
+				this._config.urlTitle,
+				"</a>",
+				this._config.urlCallToAction,
 				"</a>"
 			),
 		};
