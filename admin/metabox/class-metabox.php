@@ -233,11 +233,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$values     = $post_formatter->get_values();
 
-		/**
-		 * Filter: 'wpseo_cornerstone_post_types' - Filters post types to exclude the cornerstone feature for.
-		 *
-		 * @api array - The accessible post types to filter.
-		 */
+		/** This filter is documented in admin/filters/class-cornerstone-filter.php */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
 		if ( $values['cornerstoneActive'] && ! in_array( $post->post_type, $post_types, true ) ) {
 			$values['cornerstoneActive'] = false;
