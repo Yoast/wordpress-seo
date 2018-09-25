@@ -17,9 +17,9 @@ const calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
 			score: 5,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link */
-				"The slug for this page contains a %1$sstop word%2$s, consider removing it.",
-				"The slug for this page contains %1$sstop words%2$s, consider removing them.",
+				/* Translators: %1$s and %2$s open links to an articles about stopwords, %3$s closes the links */
+				"%1$sSlug stopwords%3$s: The slug for this page contains a stop word. %2$sRemove it%3$s!",
+				"%1$sSlug stopwords%3$s: The slug for this page contains stop words. %2$sRemove them%3$s!",
 				stopWordCount
 			),
 		};
@@ -40,13 +40,16 @@ const calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
 const urlHasStopWordsAssessment = function( paper, researcher, i18n ) {
 	const stopWords = researcher.getResearch( "stopWordsInUrl" );
 	const stopWordsResult = calculateUrlStopWordsCountResult( stopWords.length, i18n );
+	const urlTitle = "<a href='https://yoa.st/34p' target='_blank'>";
+	const urlCallToAction = "<a href='https://yoa.st/34q' target='_blank'>";
 
 	const assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( stopWordsResult.score );
 	assessmentResult.setText( i18n.sprintf(
 		stopWordsResult.text,
 		/* Translators: this link is referred to in the content analysis when a slug contains one or more stop words */
-		"<a href='" + i18n.dgettext( "js-text-analysis", "http://en.wikipedia.org/wiki/Stop_words" ) + "' target='_blank'>",
+		urlTitle,
+		urlCallToAction,
 		"</a>"
 	) );
 

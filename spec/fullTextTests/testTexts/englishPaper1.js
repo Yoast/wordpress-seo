@@ -113,11 +113,11 @@ const expectedResults = {
 	},
 	urlLength: {
 		score: 6,
-		resultText: "The slug for this page is a bit long, consider shortening it.",
+		resultText: "<a href='https://yoa.st/35b' target='_blank'>Slug too long</a>: the slug for this page is a bit long. <a href='https://yoa.st/35c' target='_blank'>Shorten it</a>!",
 	},
 	urlStopWords: {
 		score: 5,
-		resultText: "The slug for this page contains a <a href='http://en.wikipedia.org/wiki/Stop_words' target='_blank'>stop word</a>, consider removing it.",
+		resultText: "<a href='https://yoa.st/34p' target='_blank'>Slug stopwords</a>: The slug for this page contains a stop word. <a href='https://yoa.st/34q' target='_blank'>Remove it</a>!",
 	},
 	largestKeywordDistance: {
 		score: 1,
