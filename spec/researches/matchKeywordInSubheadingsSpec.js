@@ -24,7 +24,9 @@ describe( "A test for matching keywords in subheadings", function() {
 			keyphraseForms: [ [ "\\$keyword" ] ], synonymsForms: [ ],
 		} );
 		const result = subheadingFunction( mockPaper, mockResearcher );
+		expect( result.count ).toBe( 1 );
 		expect( result.matches ).toBe( 1 );
+		expect( result.percentReflectingTopic ).toBe( 100 );
 	} );
 } );
 
@@ -37,6 +39,7 @@ describe( "a test for matching keywords in subheadings", function() {
 		let result = subheadingFunction( mockPaper, mockResearcher );
 		expect( result.count ).toBe( 1 );
 		expect( result.matches ).toBe( 0 );
+		expect( result.percentReflectingTopic ).toBe( 0 );
 
 		mockPaper = new Paper( "Pellentesque sit amet justo ex. Suspendisse feugiat pulvinar leo eu consectetur" );
 		mockResearcher = Factory.buildMockResearcher( {
@@ -44,6 +47,8 @@ describe( "a test for matching keywords in subheadings", function() {
 		} );
 		result = subheadingFunction( mockPaper, mockResearcher );
 		expect( result.count ).toBe( 0 );
+		expect( result.matches ).toBe( 0 );
+		expect( result.percentReflectingTopic ).toBe( 0 );
 
 		mockPaper = new Paper( "<h2>this is a heading with a diacritic keyword kapaklı </h2>", { keyword: "kapaklı" } );
 		mockResearcher = Factory.buildMockResearcher( {
@@ -51,6 +56,7 @@ describe( "a test for matching keywords in subheadings", function() {
 		} );
 		result = subheadingFunction( mockPaper, mockResearcher );
 		expect( result.matches ).toBe( 1 );
+		expect( result.percentReflectingTopic ).toBe( 100 );
 
 		mockPaper = new Paper( "<h2>this is a heading with a dashed key-word</h2>", { keyword: "key-word" } );
 		mockResearcher = Factory.buildMockResearcher( {
@@ -58,6 +64,7 @@ describe( "a test for matching keywords in subheadings", function() {
 		} );
 		result = subheadingFunction( mockPaper, mockResearcher );
 		expect( result.matches ).toBe( 1 );
+		expect( result.percentReflectingTopic ).toBe( 100 );
 
 		mockPaper = new Paper( "<h2>this is a heading with an underscored key_word</h2>", { keyword: "key_word" } );
 		mockResearcher = Factory.buildMockResearcher( {
@@ -65,6 +72,7 @@ describe( "a test for matching keywords in subheadings", function() {
 		} );
 		result = subheadingFunction( mockPaper, mockResearcher );
 		expect( result.matches ).toBe( 1 );
+		expect( result.percentReflectingTopic ).toBe( 100 );
 
 		mockPaper = new Paper( "<h2>this is a heading with a dashed key-word</h2>", { keyword: "key word" } );
 		mockResearcher = Factory.buildMockResearcher( {
@@ -72,6 +80,7 @@ describe( "a test for matching keywords in subheadings", function() {
 		} );
 		result = subheadingFunction( mockPaper, mockResearcher );
 		expect( result.matches ).toBe( 1 );
+		expect( result.percentReflectingTopic ).toBe( 100 );
 
 		mockPaper = new Paper( "<h2>this is a heading with an underscored key_word</h2>", { keyword: "key word" } );
 		mockResearcher = Factory.buildMockResearcher( {
@@ -79,6 +88,7 @@ describe( "a test for matching keywords in subheadings", function() {
 		} );
 		result = subheadingFunction( mockPaper, mockResearcher );
 		expect( result.matches ).toBe( 0 );
+		expect( result.percentReflectingTopic ).toBe( 0 );
 	} );
 
 	it( "should not count headings when less than half of the keywords are in it", function() {
@@ -91,6 +101,7 @@ describe( "a test for matching keywords in subheadings", function() {
 		// First heading has 2/3 key words, so should match (2/3 > 1/2), second heading should not (1/2 == 1/2)
 		const result = subheadingFunction( mockPaper, mockResearcher );
 		expect( result.matches ).toBe( 1 );
+		expect( result.percentReflectingTopic ).toBe( 50 );
 	} );
 
 	it( "should keep synonyms into account when checking subheadings for keywords", function() {
@@ -103,5 +114,6 @@ describe( "a test for matching keywords in subheadings", function() {
 		// First heading matches key phrase "cats" 100% in first heading, so is counted as one.
 		const result = subheadingFunction( mockPaper, mockResearcher );
 		expect( result.matches ).toBe( 1 );
+		expect( result.percentReflectingTopic ).toBe( 50 );
 	} );
 } );
