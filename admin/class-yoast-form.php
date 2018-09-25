@@ -684,7 +684,7 @@ class Yoast_Form {
 	 * @since 2.0   Moved to this class.
 	 * @deprecated 8.4
 	 *
-	 * @return array
+	 * @return array The option's value.
 	 */
 	public function get_option() {
 		_deprecated_function( __METHOD__, 'WPSEO 8.4' );
