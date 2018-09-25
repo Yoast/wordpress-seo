@@ -1,9 +1,10 @@
 import Assessor from "../../src/cornerstone/seoAssessor.js";
 import Paper from "../../src/values/Paper.js";
+import factory from "../specHelpers/factory.js";
 import getResults from "../specHelpers/getAssessorResults";
-import factory from "../helpers/factory.js";
-let i18n = factory.buildJed();
-let assessor = new Assessor( i18n );
+
+const i18n = factory.buildJed();
+const assessor = new Assessor( i18n );
 
 describe( "running assessments in the assessor", function() {
 	it( "runs assessments without any specific requirements", function() {
@@ -164,5 +165,90 @@ describe( "running assessments in the assessor", function() {
 			"internalLinks",
 			"titleWidth",
 		] );
+	} );
+
+	describe( "has configuration overrides", () => {
+		test( "MetaDescriptionLengthAssessment", () => {
+			const assessment = assessor.getAssessment( "metaDescriptionLength" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
+			expect( assessment._config.scores.tooLong ).toBe( 3 );
+			expect( assessment._config.scores.tooShort ).toBe( 3 );
+		} );
+
+		test( "SubHeadingsKeywordAssessment", () => {
+			const assessment = assessor.getAssessment( "subheadingsKeyword" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
+			expect( assessment._config.scores.noMatches ).toBe( 3 );
+			expect( assessment._config.scores.oneMatch ).toBe( 6 );
+			expect( assessment._config.scores.multipleMatches ).toBe( 9 );
+		} );
+
+		test( "TextImagesAssessment", () => {
+			const assessment = assessor.getAssessment( "textImages" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
+			expect( assessment._config.scores.noImages ).toBe( 3 );
+			expect( assessment._config.scores.withAltNonKeyword ).toBe( 3 );
+			expect( assessment._config.scores.withAlt ).toBe( 3 );
+			expect( assessment._config.scores.noAlt ).toBe( 3 );
+		} );
+
+		test( "TextLengthAssessment", () => {
+			const assessment = assessor.getAssessment( "textLength" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.recommendedMinimum ).toBe( 900 );
+			expect( assessment._config.slightlyBelowMinimum ).toBe( 400 );
+			expect( assessment._config.belowMinimum ).toBe( 300 );
+			expect( assessment._config.scores ).toBeDefined();
+			expect( assessment._config.scores.belowMinimum ).toBe( -20 );
+			expect( assessment._config.scores.farBelowMinimum ).toBe( -20 );
+		} );
+
+		test( "OutboundLinksAssessment", () => {
+			const assessment = assessor.getAssessment( "externalLinks" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
+			expect( assessment._config.scores.noLinks ).toBe( 3 );
+		} );
+
+		test( "PageTitleWidthAssesment", () => {
+			const assessment = assessor.getAssessment( "titleWidth" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
+			expect( assessment._config.scores.widthTooShort ).toBe( 3 );
+			expect( assessment._config.scores.widthTooLong ).toBe( 3 );
+		} );
+
+		test( "UrlKeywordAssessment", () => {
+			const assessment = assessor.getAssessment( "urlKeyword" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
+			expect( assessment._config.scores.noKeywordInUrl ).toBe( 3 );
+		} );
+
+		test( "UrlLengthAssessment", () => {
+			const assessment = assessor.getAssessment( "urlLength" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
+			expect( assessment._config.scores.tooLong ).toBe( 3 );
+		} );
 	} );
 } );

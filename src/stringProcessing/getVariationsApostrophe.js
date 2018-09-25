@@ -1,5 +1,5 @@
-const unique = require( "lodash/uniq" );
-const flatten = require( "lodash/flatten" );
+import { uniq as unique } from "lodash-es";
+import { flatten } from "lodash-es";
 
 /**
  * Checks if the input word contains a normalized or a non-normalized apostrophe.
