@@ -4122,7 +4122,7 @@ interpolate-components@^1.1.0:
   dependencies:
     react "^0.14.3 || ^15.1.0 || ^16.0.0"
     react-addons-create-fragment "^0.14.3 || ^15.1.0"
-    react-dom "^0.14.3 || ^15.1.0 || ^16.0.0"
+    react-dom "^0.14.3 || ^15.1.0 ||?^16.0.0"
 
 interpret@^1.0.0, interpret@^1.0.4:
   version "1.1.0"
@@ -6667,7 +6667,7 @@ react-dock@^0.2.4:
     lodash.debounce "^3.1.1"
     prop-types "^15.5.8"
 
-"react-dom@^0.14.3 || ^15.1.0 || ^16.0.0", react-dom@^16.2.0:
+"react-dom@^0.14.3 || ^15.1.0 ||?^16.0.0", react-dom@^16.2.0:
   version "16.3.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.3.2.tgz#cb90f107e09536d683d84ed5d4888e9640e0e4df"
   dependencies:
@@ -8842,7 +8842,7 @@ yeoman-generator@^2.0.4:
     shelljs "^0.8.0"
     text-table "^0.2.0"
     through2 "^2.0.0"
-    yeoman-environment "^2.
+    yeoman-environment "^2.0.5"
 
 yoastseo@^1.40:
   version "1.40.0"
