@@ -20,7 +20,7 @@ describe( "An assessor running the linkStatistics for internal links", function(
 		const assessment = new InternalLinksAssessment().getResult( mockPaper, factory.buildMockResearcher( { internalDofollow: 1, internalNofollow: 1, internalTotal: 2 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 8 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: The internal links on this page are both nofollowed and normal. Good job!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: There are both nofollowed and normal internal links on this page. Good job!" );
 	} );
 
 	it( "A paper with one internal link, which is no-follow", function() {
@@ -39,7 +39,7 @@ describe( "An assessor running the linkStatistics for internal links", function(
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: " +
-			"No internal links appear in this page, <a href='https://yoa.st/34a' target='_blank'>make sure to add some!</a>" );
+			"No internal links appear in this page, <a href='https://yoa.st/34a' target='_blank'>make sure to add some</a>!" );
 	} );
 
 	it( "A paper without text", function() {

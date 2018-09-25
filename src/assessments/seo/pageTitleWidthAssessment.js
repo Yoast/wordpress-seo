@@ -28,6 +28,8 @@ class PageTitleWidthAssesment extends Assessment {
 				widthTooLong: 3,
 				widthCorrect: 9,
 			},
+			urlTitle: "<a href='https://yoa.st/34h' target='_blank'>",
+			urlCallToAction: "<a href='https://yoa.st/34i' target='_blank'>",
 		};
 
 		this.identifier = "titleWidth";
@@ -97,14 +99,18 @@ class PageTitleWidthAssesment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( pageTitleWidth, i18n ) {
-		const url = "<a href='https://yoa.st/2po' target='_blank'>";
 		if ( inRange( pageTitleWidth, 1, 400 ) ) {
 			return i18n.sprintf(
-				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				/* Translators: %1$s and %1$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				i18n.dgettext(
 					"js-text-analysis",
-					"The %1$sSEO title%2$s is too short. Use the space to add keyword variations or create compelling call-to-action copy."
-				), url, "</a>" );
+					"%1$sSEO title width%3$s: The SEO title is too short. " +
+					"%2$sUse the space to add keyword variations or create compelling call-to-action copy%3$s."
+				),
+				this._config.urlTitle,
+				this._config.urlCallToAction,
+				"</a>"
+			);
 		}
 
 		if ( inRange( pageTitleWidth, this._config.minLength, this._config.maxLength ) ) {
@@ -112,23 +118,32 @@ class PageTitleWidthAssesment extends Assessment {
 				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				i18n.dgettext(
 					"js-text-analysis",
-					"The %1$sSEO title%2$s has a nice length."
-				), url, "</a>" );
+					"%1$sSEO title width%2$s: Good job!"
+				),
+				this._config.urlTitle,
+				"</a>"
+			);
 		}
 
 		if ( pageTitleWidth > this._config.maxLength ) {
 			return i18n.sprintf(
-				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				/* Translators: %1$s and %1$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				i18n.dgettext(
 					"js-text-analysis",
-					"The %1$sSEO title%2$s is wider than the viewable limit."
-				),  url, "</a>" );
+					"%1$sSEO title width%3$s: The SEO title wider than the viewable limit. %2$sTry to make it shorter%3$s."
+				),
+				this._config.urlTitle,
+				this._config.urlCallToAction,
+				"</a>"
+			);
 		}
 
 		return i18n.sprintf(
-			/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-			i18n.dgettext( "js-text-analysis", "Please create an %1$sSEO title%2$s." ),
-			url, "</a>"
+			/* Translators: %1$s and %1$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+			i18n.dgettext( "js-text-analysis", "%1$sSEO title width%3$s: %2$sPlease create an SEO title%3$s." ),
+			this._config.urlTitle,
+			this._config.urlCallToAction,
+			"</a>"
 		);
 	}
 }

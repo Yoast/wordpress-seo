@@ -62,7 +62,7 @@ const expectedResults = {
 	},
 	metaDescriptionLength: {
 		score: 9,
-		resultText: "The <a href='https://yoa.st/2pg' target='_blank'>meta description</a> has a nice length.",
+		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: Well done!",
 	},
 	subheadingsKeyword: {
 		score: 9,
@@ -78,15 +78,15 @@ const expectedResults = {
 	},
 	textLength: {
 		score: 9,
-		resultText: "The text contains 908 words. This is more than or equal to the <a href='https://yoa.st/2pk' target='_blank'>recommended minimum</a> of 300 words.",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 908 words. Good job!",
 	},
 	externalLinks: {
 		score: 8,
-		resultText: "This page has 0 nofollowed <a href='https://yoa.st/2pl' target='_blank'>outbound link(s)</a> and 6 normal outbound link(s).",
+		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: Good job!",
 	},
 	internalLinks: {
 		score: 3,
-		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: No internal links appear in this page, <a href='https://yoa.st/34a' target='_blank'>make sure to add some!</a>",
+		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: No internal links appear in this page, <a href='https://yoa.st/34a' target='_blank'>make sure to add some</a>!",
 	},
 	titleKeyword: {
 		score: 6,
@@ -94,7 +94,7 @@ const expectedResults = {
 	},
 	titleWidth: {
 		score: 9,
-		resultText: "The <a href='https://yoa.st/2po' target='_blank'>SEO title</a> has a nice length.",
+		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
 	urlKeyword: {
 		score: 9,

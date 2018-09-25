@@ -86,7 +86,7 @@ class InternalLinksAssessment extends Assessment {
 				resultText: i18n.sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext( "js-text-analysis", "%1$sInternal links%3$s: " +
-						"No internal links appear in this page, %2$smake sure to add some!%3$s" ),
+						"No internal links appear in this page, %2$smake sure to add some%3$s!" ),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
 					"</a>"
@@ -125,7 +125,7 @@ class InternalLinksAssessment extends Assessment {
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				i18n.dgettext(
 					"js-text-analysis",
-					"%1$sInternal links%2$s: The internal links on this page are both nofollowed and normal. Good job!"
+					"%1$sInternal links%2$s: There are both nofollowed and normal internal links on this page. Good job!"
 				),
 				this._config.urlTitle,
 				"</a>",
