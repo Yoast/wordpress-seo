@@ -1,5 +1,4 @@
 import getSentences from "../stringProcessing/getSentences";
-import escapeRegExp from "lodash-es/escapeRegExp";
 import { findTopicFormsInString } from "./findKeywordFormsInString";
 
 /**
@@ -18,7 +17,6 @@ export default function( paper, researcher ) {
 	const locale = paper.getLocale();
 
 	const topicForms = researcher.getResearch( "morphology" );
-	topicForms.keyphraseForms = topicForms.keyphraseForms.map( keyWordForms => keyWordForms.map( form => escapeRegExp( form ) )  );
 
 	const sentences = getSentences( description );
 

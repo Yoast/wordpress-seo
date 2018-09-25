@@ -4,7 +4,9 @@ import Factory from "../specHelpers/factory.js";
 
 const mockResearcherWord = Factory.buildMockResearcher( { keyphraseForms: [ [ "word", "words" ] ] } );
 const mockResearcherWordUmlaut = Factory.buildMockResearcher( { keyphraseForms: [ [ "keywörd", "keywörds" ] ] } );
-const mockResearcherWordDollarSign = Factory.buildMockResearcher( { keyphraseForms: [ [ "$keyword", "$keywords" ] ] } );
+
+// The morphological research escapes the forms that it adds to the list of forms, so we should mimic this behavior here.
+const mockResearcherWordDollarSign = Factory.buildMockResearcher( { keyphraseForms: [ [ "\\$keyword", "\\$keywords" ] ] } );
 
 describe( "the metadescription keyword match research", function() {
 	it( "returns the number ( 1 ) of keywords found", function() {
