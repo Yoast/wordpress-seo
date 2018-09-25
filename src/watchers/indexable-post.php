@@ -60,13 +60,16 @@ class Indexable_Post implements Integration {
 			return;
 		}
 
-		$formatter      = new Indexable_Post_Formatter( $post_id );
+		$formatter = $this->get_formatter( $post_id );
 		$formatted_data = $formatter->format();
 
 		$indexable->permalink       = $this->get_permalink( $post_id );
 		$indexable->object_sub_type = $this->get_post_type( $post_id );
 
 		foreach( $this->get_indexable_fields() as $indexable_key ) {
+			if ( ! isset( $formatted_data[ $indexable_key ] ) ) {
+				continue;
+			}
 			$indexable->{ $indexable_key } = $formatted_data[ $indexable_key ];
 		}
 
@@ -107,6 +110,10 @@ class Indexable_Post implements Integration {
 	 */
 	protected function save_indexable_meta( $indexable, $formatted_data ) {
 		foreach ( $this->get_indexable_meta_fields() as $indexable_key ) {
+			if ( ! isset( $formatted_data[ $indexable_key ] ) ) {
+				continue;
+			}
+
 			$indexable->set_meta( $indexable_key, $formatted_data[ $indexable_key ] );
 		}
 	}
@@ -205,6 +212,19 @@ class Indexable_Post implements Integration {
 	 */
 	protected function get_post_type( $post_id ) {
 		return \get_post_type( $post_id );
+	}
+
+	/**
+	 * Returns formatter for given post.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param int $post_id The post id.
+	 *
+	 * @return Indexable_Post_Formatter Instance.
+	 */
+	protected function get_formatter( $post_id ) {
+		return new Indexable_Post_Formatter( $post_id );
 	}
 
 }

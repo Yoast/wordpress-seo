@@ -2,7 +2,7 @@
 
 namespace Yoast\Tests\UnitTests\Watchers;
 
-use Yoast\Tests\Doubles\Indexable_Post as Indexable_Post_Double;
+use Yoast\Tests\Doubles\Indexable_Post_Watcher as Indexable_Post_Double;
 use Yoast\YoastSEO\Config\Database_Migration;
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
 use Yoast\YoastSEO\Watchers\Indexable_Post;
@@ -110,39 +110,6 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests retreiving a meta value
-	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_meta_value()
-	 */
-	public function test_get_meta_value() {
-		$instance = new Indexable_Post_Double();
-
-		\WPSEO_Meta::set_value( 'a', 'b', 1 );
-
-		$this->assertEquals( 'b', $instance->get_meta_value( 'a', 1 ) );
-	}
-
-	/**
-	 * Tests the robots noindex lookup method
-	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_robots_noindex()
-	 */
-	public function test_get_robots_noindex() {
-		$instance = new Indexable_Post_Double();
-
-		$this->assertNull( $instance->get_robots_noindex( 0 ) );
-		$this->assertNull( $instance->get_robots_noindex( 3 ) );
-		$this->assertNull( $instance->get_robots_noindex( 6 ) );
-		$this->assertNull( $instance->get_robots_noindex( 'a' ) );
-
-		$this->assertTrue( $instance->get_robots_noindex( 1 ) );
-		$this->assertTrue( $instance->get_robots_noindex( '1' ) );
-
-		$this->assertFalse( $instance->get_robots_noindex( 2 ) );
-		$this->assertFalse( $instance->get_robots_noindex( '2' ) );
-	}
-
-	/**
 	 * Tests the save meta functionality
 	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::save_meta()
@@ -157,27 +124,36 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 			->expects( $this->once() )
 			->method( 'save' );
 
+		$post_id = 1;
+
+		$formatted_data = array(
+			'title' => 'Test title'
+		);
+
+		$formatter_mock = $this
+			->getMockBuilder( '\Yoast\YoastSEO\Formatters\Indexable_Post' )
+			->setConstructorArgs( array( $post_id ) )
+			->setMethods( array( 'format' ) )
+			->getMock();
+
+		$formatter_mock
+			->expects($this->once() )
+			->method( 'format' )
+			->will( $this->returnValue( $formatted_data ) );
+
 		$instance = $this
 			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Post' )
 			->setMethods(
 				array(
 					'is_post_indexable',
 					'get_indexable',
+					'get_formatter',
 					'get_permalink',
-					'get_meta_data',
-					'get_meta_lookup',
-					'get_meta_value',
-					'get_robots_noindex',
-					'get_robots_options',
-					'set_link_count',
-					'save_social_meta',
+					'get_post_type',
+					'save_indexable_meta',
 				)
 			)
 			->getMock();
-
-		$robots = array( 'robots_1', 'robots_2', 'robots_3' );
-
-		$post_id = 1;
 
 		$instance
 			->expects( $this->once() )
@@ -191,53 +167,18 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 
 		$instance
 			->expects( $this->once() )
+			->method( 'get_formatter' )
+			->will( $this->returnValue( $formatter_mock ) );
+
+		$instance
+			->expects( $this->once() )
 			->method( 'get_permalink' )
 			->will( $this->returnValue( 'permalink' ) );
 
 		$instance
 			->expects( $this->once() )
-			->method( 'get_meta_lookup' )
-			->will( $this->returnValue( array( 'a' => 'a' ) ) );
-
-		$instance
-			->expects( $this->exactly( 5 ) )
-			->method( 'get_meta_value' )
-			->withConsecutive(
-				array( $this->equalTo('a') ),
-				array( $this->equalTo('focuskw') ),
-				array( $this->equalTo('linkdex') ),
-				array( $this->equalTo('meta-robots-noindex') ),
-				array( $this->equalTo('meta-robots-adv') )
-			)
-			->will( $this->onConsecutiveCalls(
-				'a',
-				'focus',
-				2,
-				1,
-				'robots_1,robots_2'
-			) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'get_robots_noindex' )
-			->with( 1 )
-			->will( $this->returnValue( true ) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'get_robots_options' )
-			->will( $this->returnValue( $robots ) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'set_link_count' )
-			->with( $post_id, $indexable_mock )
-			->will( $this->returnValue( $indexable_mock ) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'save_social_meta' )
-			->with( $this->equalTo( $indexable_mock ), $this->equalTo( $post_id ) );
+			->method( 'save_indexable_meta' )
+			->with( $this->equalTo( $indexable_mock ), $this->equalTo( $formatted_data ) );
 
 		// Set this value to true to let the routine think an indexable has been saved.
 		$indexable_mock->id = true;
@@ -245,11 +186,7 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 		$instance->save_meta( $post_id );
 
 		$this->assertAttributeEquals( 'permalink', 'permalink', $indexable_mock );
-		$this->assertAttributeEquals( true, 'is_robots_noindex', $indexable_mock );
-		$this->assertAttributeEquals( 'a', 'a', $indexable_mock );
-		$this->assertAttributeEquals( 1, 'is_robots_robots_1', $indexable_mock );
-		$this->assertAttributeEquals( 1, 'is_robots_robots_2', $indexable_mock );
-		$this->assertAttributeEquals( null, 'is_robots_robots_3', $indexable_mock );
+		$this->assertAttributeEquals( 'Test title', 'title', $indexable_mock );
 	}
 
 	/**
@@ -278,21 +215,11 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the meta lookup returns the expected type of data
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_meta_lookup()
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_indexable_fields()
 	 */
-	public function test_get_meta_lookup() {
+	public function test_get_indexable_fields() {
 		$instance = new Indexable_Post_Double();
-		$this->assertInternalType( 'array', $instance->get_meta_lookup() );
-	}
-
-	/**
-	 * Tests if robot options returns the expected type of data
-	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_robots_options()
-	 */
-	public function test_get_robots_options() {
-		$instance = new Indexable_Post_Double();
-		$this->assertInternalType( 'array', $instance->get_robots_options() );
+		$this->assertInternalType( 'array', $instance->get_indexable_fields() );
 	}
 
 	/**
@@ -312,5 +239,15 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 			->will( $this->throwException( new No_Indexable_Found() ) );
 
 		$instance->save_meta( -1 );
+	}
+
+	/**
+	 * Tests if the meta lookup returns the expected type of data
+	 *
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_indexable_meta_fields()
+	 */
+	public function test_get_indexable_meta_fields() {
+		$instance = new Indexable_Post_Double();
+		$this->assertInternalType( 'array', $instance->get_indexable_meta_fields() );
 	}
 }

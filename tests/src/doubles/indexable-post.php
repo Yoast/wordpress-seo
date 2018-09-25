@@ -2,12 +2,14 @@
 
 namespace Yoast\Tests\Doubles;
 
-class Indexable_Post extends \Yoast\YoastSEO\Watchers\Indexable_Post {
+use Yoast\YoastSEO\Formatters\Indexable_Post as Indexable_Post_Formatter;
+
+class Indexable_Post extends Indexable_Post_Formatter {
 	/**
 	 * @inheritdoc
 	 */
-	public function get_meta_value( $meta_key, $post_id ) {
-		return parent::get_meta_value( $meta_key, $post_id );
+	public function get_meta_value( $meta_key ) {
+		return parent::get_meta_value( $meta_key );
 	}
 
 	/**
@@ -29,12 +31,5 @@ class Indexable_Post extends \Yoast\YoastSEO\Watchers\Indexable_Post {
 	 */
 	public function get_robots_options() {
 		return parent::get_robots_options();
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function get_indexable( $post_id, $auto_create = true ) {
-		return parent::get_indexable( $post_id, $auto_create );
 	}
 }
