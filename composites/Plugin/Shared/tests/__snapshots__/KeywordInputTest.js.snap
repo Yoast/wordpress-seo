@@ -1,11 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`KeywordInput matches the snapshot by default 1`] = `
-.c5 {
+.c5.c5.c5 {
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   border: 1px solid #ddd;
   padding: 0.75em;
-  font-size: 1em;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07) !important;
+  font-size: 13px;
+  border-radius: 0;
 }
 
 .c7::-moz-focus-inner {
