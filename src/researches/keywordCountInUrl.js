@@ -14,7 +14,7 @@ import { escapeRegExp } from "lodash-es";
  * @returns {int} Number of times the keyword is found.
  */
 export default function( paper, researcher ) {
-	let { keyphraseForms } = researcher.getResearch( "morphology" ).replace( "-", "" );
+	let { keyphraseForms } = researcher.getResearch( "morphology" ).replace( "-" && "'" && "&", "" );
 	keyphraseForms = escapeRegExp(keyphraseForms);
 
 	const slug = paper.getUrl().replace( "-", "" );
@@ -22,6 +22,8 @@ export default function( paper, researcher ) {
 	const numberOfWords = keyphraseForms.length;
 
 	const matches = findWordFormsInString( keyphraseForms, slug, paper.getLocale() );
+
+	const result =
 
 
 	return ;
