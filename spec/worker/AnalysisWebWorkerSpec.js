@@ -378,13 +378,14 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
 			} );
 
-			test( "researcher does not set paper again if the paper has no changes", done => {
+			test( "skips over researcher set paper and locale when there are no paper changes", done => {
 				const paper = new Paper( "This is the content." );
-				worker._researcher.setPaper = jest.fn();
+				// Using setLocale because setPaper is also used in the researcher. This makes is simpler.
+				worker.setLocale = jest.fn();
 
 				let firstRun = true;
 				worker.analyzeDone = () => {
-					expect( worker._researcher.setPaper ).toHaveBeenCalledTimes( 1 );
+					expect( worker.setLocale ).toHaveBeenCalledTimes( 1 );
 					if ( firstRun ) {
 						scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
 						firstRun = false;
@@ -826,7 +827,10 @@ describe( "AnalysisWebWorker", () => {
 
 				worker.runResearchDone = ( id, result ) => {
 					expect( id ).toBe( 0 );
-					expect( isNumber( result ) ).toBe( true );
+					expect( isObject( result ) ).toBe( true );
+					expect( result.foundInOneSentence ).toBe( true );
+					expect( result.foundInParagraph ).toBe( true );
+					expect( result.keyphraseOrSynonym ).toBe( "keyphrase" );
 					done();
 				};
 
