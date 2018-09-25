@@ -106,6 +106,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 8.3.1 =
+Release Date: October 2nd, 2018
+
+Other:
+
+* Compatibility with Gutenberg 4.0.
+
 = 8.3.0 =
 Release Date: September 25th, 2018
 
