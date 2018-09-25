@@ -129,7 +129,7 @@ const expectedResults = {
 	},
 	subheadingsTooLong: {
 		score: 9,
-		resultText: "Great job with using <a href='https://yoa.st/headings' target='_blank'>subheadings</a>!",
+		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: Great job!",
 	},
 	textParagraphTooLong: {
 		score: 3,
@@ -138,11 +138,12 @@ const expectedResults = {
 	},
 	textSentenceLength: {
 		score: 9,
-		resultText: "4.8% of the sentences contain <a href='https://yoa.st/short-sentences' target='_blank'>more than 20 words</a>, which is less than or equal to the recommended maximum of 25%.",
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!",
 	},
 	textTransitionWords: {
 		score: 6,
-		resultText: "28.6% of the sentences contain a <a href='https://yoa.st/transition-words' target='_blank'>transition word</a> or phrase, which is less than the recommended minimum of 30%.",
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 28.6% of the sentences contain" +
+		" them, this is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more transition words</a>.",
 	},
 	passiveVoice: {
 		score: 9,
