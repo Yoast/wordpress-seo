@@ -1,6 +1,6 @@
 import metaDescriptionKeyword from "../../src/researches/metaDescriptionKeyword.js";
 import Paper from "../../src/values/Paper.js";
-import Factory from "../specHelpers/Factory.js";
+import Factory from "../specHelpers/factory.js";
 
 const mockResearcherWord = Factory.buildMockResearcher( { keyphraseForms: [ [ "word", "words" ] ] } );
 const mockResearcherWordUmlaut = Factory.buildMockResearcher( { keyphraseForms: [ [ "keywörd", "keywörds" ] ] } );
