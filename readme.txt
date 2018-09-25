@@ -105,6 +105,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+
 = 8.3.0 =
 Release Date: September 25th, 2018
 
@@ -127,11 +128,11 @@ Enhancements:
 Other:
 
 * Adds a notice to the Yoast SEO dashboard that is shown when both Yoast SEO and All in One SEO Pack plugins are active.
-* Makes the duplicate content link on the archive settings open in a new tab. Props [nikhilbarar](https://github.com/nikhilbarar).
+* Makes the duplicate content link on the archive settings open in a new tab. Props to [nikhilbarar](https://github.com/nikhilbarar).
 * Changes the notification message that is shown when a new SEO-related issue has been found.
-* Uses the correct type as the second argument of the `wpseo_sitemap_exclude_empty_terms` filter call when determining which taxonomies should have a sitemap. Props to: [liarco](https://github.com/liarco).
+* Uses the correct type as the second argument of the `wpseo_sitemap_exclude_empty_terms` filter call when determining which taxonomies should have a sitemap. Props to [liarco](https://github.com/liarco).
 * Removes the executable bits on SVN assets. Props to [mathieu-aubin](https://github.com/mathieu-aubin).
-* Introduces an API function to get all Yoast SEO-related capabilities. Props to: [JoryHogeveen](https://github.com/JoryHogeveen).
+* Introduces an API function to get all Yoast SEO-related capabilities. Props to [JoryHogeveen](https://github.com/JoryHogeveen).
 * Changes the `@context` property from `http://schema.org` to `https://schema.org` in the FAQ and How-To block's structured data output.
 * Rename the `associatedMedia` property in the FAQ and How-To block's structured data output to `image`, to reflect a change in Google's guidelines.
 * Moves the `@type` and `name` properties to the root of the FAQ block's structured data output.
