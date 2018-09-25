@@ -190,11 +190,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 				return {
 					score: this._config.scores.badSubheadings,
 					resultText: i18n.sprintf(
-						/*
-						 * Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
-						 * not separated by subheadings, %4$d expands to the recommended number of words following a
-						 * subheading, %2$s expands to the link closing tag.
-						 */
+						/* Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
+						not separated by subheadings, %4$d expands to the recommended number of words following a
+						subheading, %2$s expands to the link closing tag. */
 						i18n.dngettext(
 							"js-text-analysis",
 							"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d words and" +
@@ -214,7 +212,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			return {
 				score: this._config.scores.badLongTextNoSubheadings,
 				resultText: i18n.sprintf(
-					// Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+					/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sSubheading distribution%2$s: You are not using any subheadings, although your text is rather long." +
@@ -231,7 +229,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			return {
 				score: this._config.scores.goodSubheadings,
 				resultText: i18n.sprintf(
-					// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+					/* Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sSubheading distribution%2$s: Great job!"
@@ -245,7 +243,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 		return {
 			score: this._config.scores.goodShortTextNoSubheadings,
 			resultText: i18n.sprintf(
-				// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+				/* Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 				i18n.dgettext(
 					"js-text-analysis",
 					"%1$sSubheading distribution%2$s: You are not using any subheadings, but your text is short enough" +

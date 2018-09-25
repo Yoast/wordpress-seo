@@ -58,13 +58,11 @@ let calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18
 			score: score,
 			hasMarks: true,
 			text: i18n.sprintf(
+				/* Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
+				%3$d expands to the number of consecutive sentences starting with the same word,
+				%4$d expands to the number of instances where 3 or more consecutive sentences start with the same word. */
 				i18n.dngettext(
 					"js-text-analysis",
-
-					// Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
-					// %3$d expands to the number of consecutive sentences starting with the same word,
-					// %4$d expands to the number of instances where 3 or more consecutive sentences start with the same word.
-
 					"%1$sConsecutive sentences%2$s: The text contains %3$d consecutive sentences starting with the same word." +
 					" %5$sTry to mix things up%2$s!", "%1$sConsecutive sentences%2$s: The text contains %4$d instances where" +
 					" %3$d or more consecutive sentences start with the same word. %5$sTry to mix things up%2$s!",
@@ -82,9 +80,8 @@ let calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18
 		score: score,
 		hasMarks: false,
 
-		// Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
-
 		text: i18n.sprintf(
+			/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 			i18n.dgettext( "js-text-analysis",
 				"%1$sConsecutive sentences%2$s: There is enough variety in your sentences. That's great!" ),
 			urlTitle,

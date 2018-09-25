@@ -100,18 +100,20 @@ class SentenceLengthInTextAssessment extends Assessment {
 		let urlTitle = "<a href='https://yoa.st/34v' target='_blank'>";
 		let urlCallToAction = "<a href='https://yoa.st/34w' target='_blank'>";
 		if ( score >= 7 ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis",
-				// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+			return i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis",
 				"%1$sSentence length%2$s: Great!" ),
 			urlTitle,
 			"</a>"
 			);
 		}
 
-		return i18n.sprintf( i18n.dgettext( "js-text-analysis",
-			// Translators: %1$s and %6$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
-			// %3$d expands to percentage of sentences, %4$s expands to the recommended maximum sentence length,
-			// %5$s expands to the recommended maximum percentage.
+		return i18n.sprintf(
+			/* Translators: %1$s and %6$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
+			%3$d expands to percentage of sentences, %4$s expands to the recommended maximum sentence length,
+			%5$s expands to the recommended maximum percentage. */
+			i18n.dgettext( "js-text-analysis",
 			"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s words, which is more than the recommended maximum of %5$s." +
 			" %6$sTry to shorten the sentences%2$s." ),
 		urlTitle,

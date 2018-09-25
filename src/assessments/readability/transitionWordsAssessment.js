@@ -57,10 +57,9 @@ let calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 			score: formatNumber( score ),
 			hasMarks: hasMarks,
 			text: i18n.sprintf(
+				/* Translators: %1$s and %4$s expand to a link to yoast.com, %2$s expands to the anchor end tag,
+				%3$s expands to the percentage of sentences containing transition words, %4$s expands to the recommended value. */
 				i18n.dgettext( "js-text-analysis",
-
-					// Translators: %1$s and %4$s expand to a link to yoast.com, %2$s expands to the anchor end tag,
-					// %3$s expands to the percentage of sentences containing transition words, %4$s expands to the recommended value.
 					"%1$sTransition words%2$s: Only %3$s of the sentences contain them, this is not enough. %4$sUse more transition words%2$s."
 				),
 				urlTitle,
@@ -73,9 +72,9 @@ let calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	return {
 		score: formatNumber( score ),
 		hasMarks: hasMarks,
-		text: i18n.sprintf( i18n.dgettext( "js-text-analysis",
-
-			// Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag.
+		text: i18n.sprintf(
+			/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+			i18n.dgettext( "js-text-analysis",
 			"%1$sTransition words%2$s: Well done!"
 		),
 		urlTitle,

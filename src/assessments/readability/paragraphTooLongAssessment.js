@@ -60,8 +60,8 @@ let calculateParagraphLengthResult = function( paragraphsLength, tooLongParagrap
 			score: score,
 			hasMarks: false,
 
-			// Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 			text: i18n.sprintf(
+				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis",
 					"%1$sParagraph length%2$s: None of the paragraphs are too long. Great job!" ),
 				urlTitle,
@@ -72,12 +72,9 @@ let calculateParagraphLengthResult = function( paragraphsLength, tooLongParagrap
 	return {
 		score: score,
 		hasMarks: true,
-
-		/** Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag, %3$d expands to the
-		 * number of paragraphs over the recommended word limit, %4$d expands to the word limit
-		 */
-
 		text: i18n.sprintf(
+			/* Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag, %3$d expands to the
+			number of paragraphs over the recommended word limit, %4$d expands to the word limit */
 			i18n.dngettext( "js-text-analysis",
 				"%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum of %4$d words." +
 				" %5$sShorten your paragraphs%2$s!", "%1$sParagraph length%2$s: %3$d of the paragraphs contain more than the " +

@@ -51,10 +51,9 @@ let calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 			score: score,
 			hasMarks: hasMarks,
 			text: i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 				i18n.dgettext(
 					"js-text-analysis",
-
-					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 					"%1$sPassive voice%2$s: You're using enough active voice. That's great!" ),
 				urlTitle,
 				"</a>"
@@ -65,12 +64,10 @@ let calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 		score: score,
 		hasMarks: hasMarks,
 		text: i18n.sprintf(
+			/* Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
+			%3$s expands to the percentage of sentences in passive voice, %4$s expands to the recommended value. */
 			i18n.dgettext(
 				"js-text-analysis",
-
-				/* Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
-				   %3$s expands to the percentage of sentences in passive voice, %4$s expands to the recommended value.
-				*/
 				"%1$sPassive voice%2$s: %3$s of the sentences contain passive voice, which is more than the recommended maximum of %4$s. " +
 				"%5$sTry to use their active counterparts%2$s."
 
