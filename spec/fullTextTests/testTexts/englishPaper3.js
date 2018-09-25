@@ -61,7 +61,7 @@ const expectedResults = {
 	},
 	subheadingsKeyword: {
 		score: 3,
-		resultText: "The focus keyword appears in 4 out of 4 <a href='https://yoa.st/2ph' target='_blank'>subheadings</a>. That might sound a bit repetitive. Try to change some of those subheadings to make the flow of your text sound more natural.",
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: More than 75% of your subheadings reflect the topic of your copy. That's too much. <a href='https://yoa.st/33n' target='_blank'>Don't over-optimize!</a>",
 	},
 	textCompetingLinks: {
 		score: 0,

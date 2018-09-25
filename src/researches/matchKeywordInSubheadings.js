@@ -20,7 +20,6 @@ const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, us
 			return findTopicFormsInString( topicForms, subheading, useSynonyms, locale ).percentWordMatches > 50;
 		}
 	).length;
-
 };
 
 /**
@@ -37,7 +36,7 @@ export default function( paper, researcher ) {
 	const text = stripSomeTags( paper.getText() );
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
-	const result = { count: 0, matches: 0 };
+	const result = { count: 0, matches: 0, percentReflectingTopic: 0 };
 	const subheadings = getSubheadingContents( text );
 
 	const useSynonyms = true;
@@ -45,6 +44,7 @@ export default function( paper, researcher ) {
 	if ( 0 !== subheadings.length ) {
 		result.count = subheadings.length;
 		result.matches = numberOfSubheadingsReflectingTopic( topicForms, subheadings, useSynonyms, locale );
+		result.percentReflectingTopic = result.matches / result.count * 100;
 	}
 
 	return result;

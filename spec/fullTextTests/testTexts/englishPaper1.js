@@ -77,7 +77,7 @@ const expectedResults = {
 	},
 	subheadingsKeyword: {
 		score: 3,
-		resultText: "You have not used the focus keyword in any <a href='https://yoa.st/2ph' target='_blank'>subheading</a> (such as an H2).",
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keywords or synonyms in your subheadings!</a>",
 	},
 	textCompetingLinks: {
 		score: 0,

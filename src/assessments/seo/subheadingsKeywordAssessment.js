@@ -4,6 +4,7 @@ import Assessment from "../../assessment";
 import { merge } from "lodash-es";
 import { inRangeStartEndInclusive } from "../../helpers";
 import { getSubheadings } from "../../stringProcessing/getSubheadings";
+import formatNumber from "../../helpers/formatNumber";
 
 /**
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
@@ -21,16 +22,16 @@ class SubHeadingsKeywordAssessment extends Assessment {
 
 		const defaultConfig = {
 			parameters: {
-				lowerBoundary: 0.3,
-				upperBoundary: 0.75,
+				lowerBoundary: 30,
+				upperBoundary: 75,
 			},
 			scores: {
-				noMatches: 3,
 				tooFewMatches: 3,
 				goodNumberOfMatches: 9,
 				tooManyMatches: 3,
 			},
-			url: "<a href='https://yoa.st/2ph' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/33m' target='_blank'>",
+			urlCallToAction: "<a href='https://yoa.st/33n' target='_blank'>",
 		};
 
 		this.identifier = "subheadingsKeyword";
@@ -48,8 +49,6 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		this._subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
-		this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.parameters.lowerBoundary );
-		this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.parameters.upperBoundary );
 
 		let assessmentResult = new AssessmentResult();
 
@@ -84,38 +83,39 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether there are too few subheadings with the keyword. This is the case if the number of subheadings
-	 * with the keyword is more than 0 but less than the specified recommended minimum.
+	 * Checks whether there is a only one subheading and that subheading includes the keyword.
 	 *
-	 * @returns {boolean} Returns true if the keyword is included in too few subheadings.
+	 * @returns {boolean} Returns true if the keyword is included in the only subheading.
 	 */
-	hasTooFewMatches() {
-		return this._subHeadings.matches > 0 && this._subHeadings.matches < this._minNumberOfSubheadings;
+	hasOneOutOfOneMatch() {
+		return this._subHeadings.count === 1 && this._subHeadings.matches === 1;
 	}
 
 	/**
-	 * Checks whether there is a good number of subheadings with the keyword. This is the case if there
-	 * is only one subheading and that subheading includes the keyword or if the number of subheadings
-	 * with the keyword is within the specified recommended range.
+	 * Checks whether the percentage of subheadings with the keyphrase or synonyms is within the specified recommended
+	 * range (provided that there are more than 1 subheading).
 	 *
 	 * @returns {boolean} Returns true if the keyword is included in a sufficient number of subheadings.
 	 */
 	hasGoodNumberOfMatches() {
-		return ( this._subHeadings.count === 1 && this._subHeadings.matches === 1 ) ||
-			inRangeStartEndInclusive( this._subHeadings.matches, this._minNumberOfSubheadings, this._maxNumberOfSubheadings );
+		return inRangeStartEndInclusive(
+			this._subHeadings.percentReflectingTopic,
+			this._config.parameters.lowerBoundary,
+			this._config.parameters.upperBoundary,
+		);
 	}
 
 	/**
 	 * Checks whether there are too many subheadings with the keyword.
 	 * The upper limit is only applicable if there is more than one subheading.
-	 * If there is only one subheading with the keyword this would otherwise
+	 * If there is only one subheading with the keyphrase this would otherwise
 	 * always lead to a 100% match rate.
 	 *
 	 * @returns {boolean} Returns true if there is more than one subheading and if
-	 * the keyword is included in less subheadings than the recommended maximum.
+	 * the keyphrase is included in more subheadings than the recommended maximum.
 	 */
 	hasTooManyMatches() {
-		return this._subHeadings.count > 1 && this._subHeadings.matches > this._maxNumberOfSubheadings;
+		return this._subHeadings.count > 1 && this._subHeadings.percentReflectingTopic > this._config.parameters.upperBoundary;
 	}
 
 	/**
@@ -126,77 +126,82 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {Object} The object with the calculated score and the result text.
 	 */
 	calculateResult( i18n ) {
-		if ( this.hasTooFewMatches() ) {
+		if ( this.hasOneOutOfOneMatch() ) {
 			return {
-				score: this._config.scores.tooFewMatches,
+				score: this._config.scores.goodNumberOfMatches,
 				resultText: i18n.sprintf(
-					/* Translators: %1$d expands to the total number of subheadings.
-					%2$d expands to the number of subheadings containing the keyword,
-					%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
-					i18n.dgettext(
+					/**
+					 * Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+					 */
+					i18n.dngettext(
 						"js-text-analysis",
-						"The focus keyword appears only in %2$d out of %1$d %3$ssubheadings%4$s. " +
-						"Try to use it in more subheadings."
+						"%1$sKeyphrase in subheading%2$s: Your subheading reflects the topic of your copy. Good job!"
 					),
-					this._subHeadings.count,
-					this._subHeadings.matches,
-					this._config.url,
-					"</a>"
+					this._config.urlTitle,
+					"</a>",
 				),
 			};
 		}
 
 		if ( this.hasGoodNumberOfMatches() ) {
+			const roundedPercentReflectingTopic = formatNumber( this._subHeadings.percentReflectingTopic ) + "%";
 			return {
 				score: this._config.scores.goodNumberOfMatches,
 				resultText: i18n.sprintf(
-					/* Translators: %1$d expands to the total number of subheadings.
-					%2$d expands to the number of subheadings containing the keyword,
-					%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					/**
+					 * Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+					 * %3$s expands to the percentage of subheadings that reflect the topic of the copy.
+					 */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The focus keyword appears in %2$d out of %1$d %3$ssubheading%4$s. That's great.",
-						"The focus keyword appears in %2$d out of %1$d %3$ssubheadings%4$s. That's great.",
-						this._subHeadings.count
+						"%1$sKeyphrase in subheading%2$s: %3$s of your subheadings reflect the topic of your copy. Good job!"
 					),
-					this._subHeadings.count,
-					this._subHeadings.matches,
-					this._config.url,
-					"</a>"
+					this._config.urlTitle,
+					"</a>",
+					roundedPercentReflectingTopic,
 				),
 			};
 		}
 
 		if ( this.hasTooManyMatches() ) {
+			const percentRecommendedMaximum = this._config.parameters.upperBoundary + "%";
 			return {
 				score: this._config.scores.tooManyMatches,
 				resultText: i18n.sprintf(
-					/* Translators: %1$d expands to the total number of subheadings.
-					%2$d expands to the number of subheadings containing the keyword,
-					%3$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					/**
+					 * Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+					 * %3$s expands to the maximum recommended percentage of subheadings reflecting the topic,
+					 * %4%s expands to a link on yoast.com, %5$s expands to the anchor end tag.
+					 */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The focus keyword appears in %2$d out of %1$d %3$ssubheadings%4$s. That might sound a bit repetitive. " +
-						"Try to change some of those subheadings to make the flow of your text sound more natural."
+						"%1$sKeyphrase in subheading%2$s: More than %3$s of your subheadings reflect the topic of your copy. " +
+						"That's too much. %4$sDon't over-optimize!%5$s"
 					),
-					this._subHeadings.count,
-					this._subHeadings.matches,
-					this._config.url,
-					"</a>"
+					this._config.urlTitle,
+					"</a>",
+					percentRecommendedMaximum,
+					this._config.urlCallToAction,
+					"</a>",
 				),
 			};
 		}
 
 		return {
-			score: this._config.scores.noMatches,
+			score: this._config.scores.tooFewMatches,
 			resultText: i18n.sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
-				i18n.dgettext(
+				/**
+				 * Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+				 * %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag.
+				 */
+				i18n.dngettext(
 					"js-text-analysis",
-					"You have not used the focus keyword in any %1$ssubheading%2$s (such as an H2)."
+					"%1$sKeyphrase in subheading%2$s: %3$sUse more keywords or synonyms in your subheadings!%4$s"
 				),
-				this._config.url,
-				"</a>"
+				this._config.urlTitle,
+				"</a>",
+				this._config.urlCallToAction,
+				"</a>",
 			),
 		};
 	}
