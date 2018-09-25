@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.12.1 September 24th, 2018
+### Other
+* Compatibility with Yoast SEO 8.3.
+
 ## 4.12.0 September 24th, 2018
 ### Other
 * Compatibility with Yoast SEO 8.3.

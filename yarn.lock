@@ -8842,11 +8842,11 @@ yeoman-generator@^2.0.4:
     shelljs "^0.8.0"
     text-table "^0.2.0"
     through2 "^2.0.0"
-    yeoman-environment "^2.0.5"
+    yeoman-environment "^2.
 
-"yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#develop":
+yoastseo@^1.40:
   version "1.40.0"
-  resolved "git+https://github.com/Yoast/YoastSEO.js.git#5d0db042e89db92f92f18defc294a9319b1565fd"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.40.0.tgz#2be3b91422ddc614131ab4b6e5aab9e6c347170d"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
