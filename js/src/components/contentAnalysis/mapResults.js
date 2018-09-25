@@ -1,7 +1,7 @@
-import analysis from "yoastseo";
+import { helpers } from "yoastseo";
 import { colors } from "yoast-components";
 
-const { scoreToRating } = analysis.helpers;
+const { scoreToRating } = helpers;
 
 
 /**

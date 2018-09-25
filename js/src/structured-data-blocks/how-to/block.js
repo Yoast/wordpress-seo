@@ -3,6 +3,7 @@ import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import HowTo from "./components/HowTo";
+import legacy from "./legacy";
 
 const { registerBlockType } = window.wp.blocks;
 
@@ -36,7 +37,10 @@ const attributes = {
 	unorderedList: {
 		type: "boolean",
 	},
-	headingID: {
+	durationText: {
+		type: "string",
+	},
+	defaultDurationText: {
 		type: "string",
 	},
 };
@@ -89,5 +93,12 @@ export default () => {
 		save: function( { attributes } ) {
 			return <HowTo.Content { ...attributes }/>;
 		},
+
+		deprecated: [
+			{
+				attributes,
+				save: legacy.v8_2,
+			},
+		],
 	} );
 };

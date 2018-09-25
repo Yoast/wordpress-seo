@@ -603,6 +603,7 @@ class WPSEO_OpenGraph {
 			if ( $ogdesc === '' ) {
 				$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'desc' );
 			}
+			$ogdesc = wpseo_replace_vars( $ogdesc, get_queried_object() );
 		}
 
 		// Strip shortcodes if any.
@@ -723,10 +724,12 @@ class WPSEO_OpenGraph {
 			}
 		}
 
-		$pub = get_the_date( DATE_W3C );
+		$post = get_post();
+
+		$pub = mysql2date( DATE_W3C, $post->post_date_gmt, false );
 		$this->og_tag( 'article:published_time', $pub );
 
-		$mod = get_the_modified_date( DATE_W3C );
+		$mod = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
 		if ( $mod !== $pub ) {
 			$this->og_tag( 'article:modified_time', $mod );
 			$this->og_tag( 'og:updated_time', $mod );

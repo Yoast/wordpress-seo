@@ -8,7 +8,6 @@ const cssDistPath = path.resolve( "css", "dist" );
 // Output filename: Entry file (relative to jsSrcPath)
 const entry = {
 	vendor: [
-		"babel-polyfill",
 		"react",
 		"react-dom",
 	],

@@ -1,7 +1,6 @@
 /* global yoastWizardConfig */
 import React from "react";
 import ReactDOM from "react-dom";
-import "./helpers/babel-polyfill";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";

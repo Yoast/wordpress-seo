@@ -5,6 +5,7 @@ import isUndefined from "lodash/isUndefined";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import toString from "lodash/toString";
+import get from "lodash/get";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";
@@ -53,8 +54,51 @@ export default class HowTo extends Component {
 		this.addCSSClasses   = this.addCSSClasses.bind( this );
 		this.getListTypeHelp = this.getListTypeHelp.bind( this );
 		this.toggleListType  = this.toggleListType.bind( this );
+		this.setDurationText = this.setDurationText.bind( this );
+
+		const defaultDurationText = this.getDefaultDurationText();
+		this.setDefaultDurationText( defaultDurationText );
 
 		this.editorRefs = {};
+	}
+
+	/**
+	 * Returns the default duration text.
+	 *
+	 * @returns {string} The default duration text.
+	 */
+	getDefaultDurationText() {
+		const applyFilters = get( window, "wp.hooks.applyFilters" );
+		let defaultDurationText = __( "Time needed:", "wordpress-seo" );
+
+		if ( applyFilters ) {
+			defaultDurationText = applyFilters( "wpseo_duration_text", defaultDurationText );
+		}
+
+		return defaultDurationText;
+	}
+
+	/**
+	 * Sets the duration text to describe the time the guide in the how-to block takes.
+	 *
+	 * @param {string} text The text to describe the duration.
+	 *
+	 * @returns {void}
+	 */
+	setDurationText( text ) {
+		this.props.setAttributes( { durationText: text } );
+	}
+
+	/**
+	 * Sets the default duration text to describe the time the instructions in the how-to block take, when no duration text
+	 * was provided.
+	 *
+	 * @param {string} text The text to describe the duration.
+	 *
+	 * @returns {void}
+	 */
+	setDefaultDurationText( text ) {
+		this.props.setAttributes( { defaultDurationText: text } );
 	}
 
 	/**
@@ -313,99 +357,6 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Returns a component to manage this how-to block's duration.
-	 *
-	 * @returns {Component} The duration editor component.
-	 */
-	getDuration() {
-		const { attributes, setAttributes } = this.props;
-
-		if ( ! attributes.hasDuration ) {
-			return (
-				<IconButton
-					focus={ true }
-					icon="insert"
-					onClick={ () => setAttributes( { hasDuration: true } ) }
-					className="schema-how-to-duration-button editor-inserter__toggle"
-				>
-					{ __( "Add total time", "wordpress-seo" ) }
-				</IconButton>
-			);
-		}
-
-		return (
-			<fieldset className="schema-how-to-duration">
-				<legend
-					className="schema-how-to-duration-legend"
-				>
-					{ __( "Time needed:", "wordpress-seo" ) }
-				</legend>
-				<label
-					htmlFor="schema-how-to-duration-days"
-					className="screen-reader-text"
-				>
-					{ __( "days", "wordpress-seo" ) }
-				</label>
-				<input
-					id="schema-how-to-duration-days"
-					className="schema-how-to-duration-input"
-					type="number"
-					value={ attributes.days }
-					onFocus={ () => this.setFocus( "days" ) }
-					onChange={ ( event ) => {
-						const newValue = this.formatDuration( event.target.value );
-						setAttributes( { days: toString( newValue ) } );
-					} }
-					placeholder="DD"
-				/>
-				<label
-					htmlFor="schema-how-to-duration-hours"
-					className="screen-reader-text"
-				>
-					{ __( "hours", "wordpress-seo" ) }
-				</label>
-				<input
-					id="schema-how-to-duration-hours"
-					className="schema-how-to-duration-input"
-					type="number"
-					value={ attributes.hours }
-					onFocus={ () => this.setFocus( "hours" ) }
-					placeholder="HH"
-					onChange={ ( event ) => {
-						const newValue = this.formatDuration( event.target.value, 23 );
-						setAttributes( { hours: toString( newValue ) } );
-					} }
-				/>
-				<span aria-hidden="true">:</span>
-				<label
-					htmlFor="schema-how-to-duration-minutes"
-					className="screen-reader-text"
-				>
-					{ __( "minutes", "wordpress-seo" ) }
-				</label>
-				<input
-					id="schema-how-to-duration-minutes"
-					className="schema-how-to-duration-input"
-					type="number"
-					value={ attributes.minutes }
-					onFocus={ () => this.setFocus( "minutes" ) }
-					onChange={ ( event ) => {
-						const newValue = this.formatDuration( event.target.value, 59 );
-						setAttributes( { minutes: toString( newValue ) } );
-					} }
-					placeholder="MM"
-				/>
-				<IconButton
-					className="schema-how-to-duration-button editor-inserter__toggle"
-					icon="trash"
-					label={ __( "Delete total time", "wordpress-seo" ) }
-					onClick={ () => setAttributes( { hasDuration: false } ) }
-				/>
-			</fieldset>
-		);
-	}
-
-	/**
 	 * Returns the component to be used to render
 	 * the How-to block on Wordpress (e.g. not in the editor).
 	 *
@@ -424,6 +375,8 @@ export default class HowTo extends Component {
 			unorderedList,
 			additionalListCssClasses,
 			className,
+			durationText,
+			defaultDurationText,
 		} = props;
 
 		steps = steps
@@ -446,8 +399,10 @@ export default class HowTo extends Component {
 			<div className={ classNames }>
 				{ ( hasDuration && typeof timeString === "string" && timeString.length > 0 ) &&
 					<p className="schema-how-to-total-time">
-						{ __( "Time needed:", "wordpress-seo" ) }
-						&nbsp;
+						<span className="schema-how-to-duration-time-text">
+							{ durationText || defaultDurationText }
+							&nbsp;
+						</span>
 						{ timeString + ". " }
 					</p>
 				}
@@ -517,14 +472,114 @@ export default class HowTo extends Component {
 	}
 
 	/**
+	 * Returns a component to manage this how-to block's duration.
+	 *
+	 * @returns {Component} The duration editor component.
+	 */
+	getDuration() {
+		const { attributes, setAttributes } = this.props;
+
+		if ( ! attributes.hasDuration ) {
+			return (
+				<IconButton
+					focus={ true }
+					icon="insert"
+					onClick={ () => setAttributes( { hasDuration: true } ) }
+					className="schema-how-to-duration-button editor-inserter__toggle"
+				>
+					{ __( "Add total time", "wordpress-seo" ) }
+				</IconButton>
+			);
+		}
+
+		return (
+			<fieldset className="schema-how-to-duration">
+				<legend
+					className="schema-how-to-duration-legend"
+				>
+					{ attributes.durationText || this.getDefaultDurationText() }
+				</legend>
+				<span className="schema-how-to-duration-time-input">
+					<label
+						htmlFor="schema-how-to-duration-days"
+						className="screen-reader-text"
+					>
+						{ __( "days", "wordpress-seo" ) }
+					</label>
+					<input
+						id="schema-how-to-duration-days"
+						className="schema-how-to-duration-input"
+						type="number"
+						value={ attributes.days }
+						onFocus={ () => this.setFocus( "days" ) }
+						onChange={ ( event ) => {
+							const newValue = this.formatDuration( event.target.value );
+							setAttributes( { days: toString( newValue ) } );
+						} }
+						placeholder="DD"
+					/>
+					<label
+						htmlFor="schema-how-to-duration-hours"
+						className="screen-reader-text"
+					>
+						{ __( "hours", "wordpress-seo" ) }
+					</label>
+					<input
+						id="schema-how-to-duration-hours"
+						className="schema-how-to-duration-input"
+						type="number"
+						value={ attributes.hours }
+						onFocus={ () => this.setFocus( "hours" ) }
+						placeholder="HH"
+						onChange={ ( event ) => {
+							const newValue = this.formatDuration( event.target.value, 23 );
+							setAttributes( { hours: toString( newValue ) } );
+						} }
+					/>
+					<span aria-hidden="true">:</span>
+					<label
+						htmlFor="schema-how-to-duration-minutes"
+						className="screen-reader-text"
+					>
+						{ __( "minutes", "wordpress-seo" ) }
+					</label>
+					<input
+						id="schema-how-to-duration-minutes"
+						className="schema-how-to-duration-input"
+						type="number"
+						value={ attributes.minutes }
+						onFocus={ () => this.setFocus( "minutes" ) }
+						onChange={ ( event ) => {
+							const newValue = this.formatDuration( event.target.value, 59 );
+							setAttributes( { minutes: toString( newValue ) } );
+						} }
+						placeholder="MM"
+					/>
+					<IconButton
+						className="schema-how-to-duration-button editor-inserter__toggle"
+						icon="trash"
+						label={ __( "Delete total time", "wordpress-seo" ) }
+						onClick={ () => setAttributes( { hasDuration: false } ) }
+					/>
+				</span>
+			</fieldset>
+		);
+	}
+
+	/**
 	 * Adds controls to the editor sidebar to control the given parameters.
 	 *
 	 * @param {boolean} unorderedList     Whether to show the list as an unordered list.
 	 * @param {string}  additionalClasses The additional CSS classes to add to the list.
+	 * @param {string}  durationText      The text to describe the duration.
 	 *
 	 * @returns {Component} The controls to add to the sidebar.
 	 */
-	getSidebar( unorderedList, additionalClasses ) {
+	getSidebar( unorderedList, additionalClasses, durationText ) {
+		if ( durationText === this.getDefaultDurationText() ) {
+			durationText = "";
+		}
+
 		return <InspectorControls>
 			<PanelBody title={ __( "Settings", "wordpress-seo" ) } className="blocks-font-size">
 				<SpacedTextControl
@@ -532,6 +587,13 @@ export default class HowTo extends Component {
 					value={ additionalClasses }
 					onChange={ this.addCSSClasses }
 					help={ __( "Optional. This can give you better control over the styling of the steps.", "wordpress-seo" ) }
+				/>
+				<SpacedTextControl
+					label={ __( "Describe the duration of the instruction:", "wordpress-seo" ) }
+					value={ durationText }
+					onChange={ this.setDurationText }
+					help={ __( "Optional. Customize how you want to describe the duration of the instruction", "wordpress-seo" ) }
+					placeholder={ this.getDefaultDurationText() }
 				/>
 				<ToggleControl
 					label={ __( "Unordered list", "wordpress-seo" ) }
@@ -574,7 +636,7 @@ export default class HowTo extends Component {
 					{ this.getSteps() }
 				</ul>
 				<div className="schema-how-to-buttons">{ this.getAddStepButton() }</div>
-				{ this.getSidebar( attributes.unorderedList, attributes.additionalListCssClasses ) }
+				{ this.getSidebar( attributes.unorderedList, attributes.additionalListCssClasses, attributes.durationText ) }
 			</div>
 		);
 	}
