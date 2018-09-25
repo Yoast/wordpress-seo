@@ -303,6 +303,10 @@ window.yoastHideMarkers = true;
 					YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.cornerStoneSeoAssessor, name, assessment, pluginName );
 			}
 		};
+		YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
+			YoastSEO.analysis.worker.initialize( assessorOptions );
+			YoastSEO.app.refresh();
+		};
 
 		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
 

@@ -112,6 +112,11 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	 * @return array The post types to which this filter should be added.
 	 */
 	protected function get_post_types() {
+		/**
+		 * Filter: 'wpseo_cornerstone_post_types' - Filters post types to exclude the cornerstone feature for.
+		 *
+		 * @api array - The accessible post types to filter.
+		 */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', parent::get_post_types() );
 		if ( ! is_array( $post_types ) ) {
 			return array();
