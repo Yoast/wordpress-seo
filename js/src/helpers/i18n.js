@@ -13,18 +13,13 @@ import get from "lodash/get";
  * @returns {void}
  */
 export function setTextdomainL10n( textdomain, l10nNamespace = "wpseoYoastJSL10n" ) {
-	const jed = getI18n();
-	const currentTranslations = get( jed, [ "options", "locale_data", textdomain ], false );
+	const translations = get( window, [ l10nNamespace, textdomain, "locale_data", textdomain ], false );
 
-	if ( currentTranslations === false ) {
-		const translations = get( window, [ l10nNamespace, textdomain, "locale_data", textdomain ], false );
-
-		if ( translations === false ) {
-			// Jed needs to have meta information in the object keyed by an empty string.
-			setLocaleData( { "": {} }, textdomain );
-		} else {
-			setLocaleData( translations, textdomain );
-		}
+	if ( translations === false ) {
+		// Jed needs to have meta information in the object keyed by an empty string.
+		setLocaleData( { "": {} }, textdomain );
+	} else {
+		setLocaleData( translations, textdomain );
 	}
 }
 
