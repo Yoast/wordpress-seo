@@ -19,9 +19,10 @@ export const YoastInputLabel = styled.label`
 
 export const YoastInputField = styled.input`
 	&&& {
+		box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
 		border: 1px solid ${ colors.$color_input_border };
 		padding: 0.75em;
-		font-size: 1em;
-		box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+		font-size: 13px;
+		border-radius: 0;
 	}
 `;
