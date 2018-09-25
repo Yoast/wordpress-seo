@@ -125,6 +125,7 @@ module.exports = function( env = { environment: "production" } ) {
 			entry: {
 				"wp-seo-wp-globals-backport": "./js/src/wp-seo-wp-globals-backport.js",
 				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
+				"babel-polyfill": "./js/src/babel-polyfill.js",
 			},
 			plugins,
 		},

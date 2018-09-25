@@ -10,7 +10,6 @@ import IntlProvider from "./components/IntlProvider";
 import { setYoastComponentsL10n } from "./helpers/i18n";
 
 /* Internal dependencies */
-import "./helpers/babel-polyfill";
 import { VideoTutorial, AlgoliaSearcher, HelpCenter as HelpCenterYC, colors, YoastButton } from "yoast-components";
 
 /**

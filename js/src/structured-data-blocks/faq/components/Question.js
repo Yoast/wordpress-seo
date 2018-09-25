@@ -179,7 +179,7 @@ export default class Question extends Component {
 				<RichText
 					className="schema-faq-question"
 					tagName="p"
-					onSetup={ ( ref ) => editorRef( "question", ref ) }
+					unstableOnSetup={ ( ref ) => editorRef( "question", ref ) }
 					key={ id + "-question" }
 					value={ question }
 					onChange={ ( value ) => onChange( value, answer, question, answer ) }
@@ -187,11 +187,12 @@ export default class Question extends Component {
 					setFocusedElement={ () => onFocus( "question" ) }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
+					formattingControls={ [ "italic", "strikethrough", "link" ] }
 				/>
 				<RichText
 					className="schema-faq-answer"
 					tagName="p"
-					onSetup={  ( ref ) => editorRef( "answer", ref )  }
+					unstableOnSetup={  ( ref ) => editorRef( "answer", ref )  }
 					key={ id + "-answer" }
 					value={ answer }
 					onChange={ ( value ) => onChange( question, value, question, answer ) }

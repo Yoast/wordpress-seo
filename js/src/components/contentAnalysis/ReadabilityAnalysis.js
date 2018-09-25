@@ -43,7 +43,7 @@ class ReadabilityAnalysis extends React.Component {
 
 		return (
 			<Collapsible
-				title={ __( "Readability Analysis", "wordpress-seo" ) }
+				title={ __( "Readability analysis", "wordpress-seo" ) }
 				titleScreenReaderText={ score.screenReaderReadabilityText }
 				prefixIcon={ getIconForScore( score.className ) }
 				prefixIconCollapsed={ getIconForScore( score.className ) }
@@ -54,7 +54,7 @@ class ReadabilityAnalysis extends React.Component {
 				<p>{ __( "This analysis checks your writing for grammar and writing style so your content " +
 						"is as clear as it can be.", "wordpress-seo" ) + " " }
 					<LearnMoreLink href={ wpseoAdminL10n[ "shortlinks.readability_analysis_info" ] } rel={ null }>
-						{ __( "Learn more about Readability Analysis.", "wordpress-seo" ) }
+						{ __( "Learn more about the readability analysis.", "wordpress-seo" ) }
 					</LearnMoreLink>
 				</p>
 				<Results

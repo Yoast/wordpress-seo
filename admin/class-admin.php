@@ -346,9 +346,6 @@ class WPSEO_Admin {
 			return;
 		}
 
-		$cornerstone = new WPSEO_Cornerstone();
-		$cornerstone->register_hooks();
-
 		$cornerstone_filter = new WPSEO_Cornerstone_Filter();
 		$cornerstone_filter->register_hooks();
 	}

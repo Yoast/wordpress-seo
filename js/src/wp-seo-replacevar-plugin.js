@@ -9,7 +9,6 @@ import {
 	updateReplacementVariable,
 	refreshSnippetEditor,
 } from "./redux/actions/snippetEditor";
-import "./helpers/babel-polyfill";
 
 import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 

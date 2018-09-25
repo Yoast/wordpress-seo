@@ -2,7 +2,6 @@
 /* global wpseoAdminGlobalL10n, wpseoConsoleNotifications */
 /* jshint -W097 */
 /* jshint unused:false */
-import "./helpers/babel-polyfill";
 
 ( function( $ ) {
 	/**

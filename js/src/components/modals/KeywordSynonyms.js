@@ -29,7 +29,7 @@ const KeywordSynonyms = ( props ) => {
 	} );
 
 	const benefits = [
-		`<strong>${ __( "Rank for up to 5 focus keywords per page", "wordpress-seo" ) }</strong>`,
+		`<strong>${ __( "Rank for up to 5 focus keyphrases per page", "wordpress-seo" ) }</strong>`,
 		sprintf(
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
 			__( "%1$sNo more dead links%2$s: easy redirect manager", "wordpress-seo" ),

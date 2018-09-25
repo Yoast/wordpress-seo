@@ -19,7 +19,7 @@ class WPSEO_Metabox_Multiple_Keywords_Config {
 		$multiple_keywords_modal_config = array(
 			'openButtonIcon' => '',
 			'intl'           => array(
-				'open'           => '+ ' . __( 'Add additional keyword', 'wordpress-seo' ),
+				'open'           => '+ ' . __( 'Add additional keyphrase', 'wordpress-seo' ),
 				'modalAriaLabel' =>
 					/* translators: %s expands to 'Yoast SEO Premium'. */
 					sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
