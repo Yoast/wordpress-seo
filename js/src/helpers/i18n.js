@@ -1,4 +1,4 @@
-import { setLocaleData, getI18n } from "@wordpress/i18n";
+import { setLocaleData } from "@wordpress/i18n";
 import get from "lodash/get";
 
 /**
