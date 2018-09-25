@@ -5100,7 +5100,7 @@ imagemin@^5.3.1:
 
 immutable@~3.7.4:
   version "3.7.6"
-  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.7.6.tgz#13b4d3cb12befa15482a26fe1b2ebae640071e4b"
+  resolved "http://registry.npmjs.org/immutable/-/immutable-3.7.6.tgz#13b4d3cb12befa15482a26fe1b2ebae640071e4b"
 
 import-local@^1.0.0:
   version "1.0.0"
@@ -5296,7 +5296,7 @@ is-buffer@^1.1.5:
 
 is-builtin-module@^1.0.0:
   version "1.0.0"
-  resolved "https://registry.yarnpkg.com/is-builtin-module/-/is-builtin-module-1.0.0.tgz#540572d34f7ac3119f8f76c30cbc1b1e037affbe"
+  resolved "http://registry.npmjs.org/is-builtin-module/-/is-builtin-module-1.0.0.tgz#540572d34f7ac3119f8f76c30cbc1b1e037affbe"
   dependencies:
     builtin-modules "^1.0.0"
 
@@ -10488,9 +10488,9 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-yoast-components@^4.12.1:
-  version "4.12.1"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.12.1.tgz#21ea158280fdc9d117f8513552648e09b0c51653"
+"yoast-components@git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/8.4":
+  version "4.12.0"
+  resolved "git+https://github.com/Yoast/yoast-components.git#b588af78084376d9801216c4d8b9fb830ea48d38"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -10513,11 +10513,11 @@ yoast-components@^4.12.1:
     striptags "^3.1.0"
     styled-components "^2.1.2"
     whatwg-fetch "^1.0.0"
-    yoastseo "^1.40"
+    yoastseo "1.40.0"
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-yoastseo@^1.40, yoastseo@^1.40.0:
+yoastseo@1.40.0, yoastseo@^1.40.0:
   version "1.40.0"
   resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.40.0.tgz#2be3b91422ddc614131ab4b6e5aab9e6c347170d"
   dependencies:
