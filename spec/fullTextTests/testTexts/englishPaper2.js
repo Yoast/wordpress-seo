@@ -114,7 +114,7 @@ const expectedResults = {
 	},
 	fleschReadingEase: {
 		score: 9,
-		resultText: "The copy scores 75.1 in the <a href='https://yoa.st/flesch-reading' target='_blank'>Flesch Reading Ease</a> test, which is considered fairly easy to read. ",
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 75.1 in the test, which is considered fairly easy to read. Good job!",
 	},
 	subheadingsTooLong: {
 		score: 3,
