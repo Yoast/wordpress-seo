@@ -87,7 +87,8 @@ UsedKeywords.prototype.setKeyword = function( keyword ) {
 UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
 	$.post( ajaxurl, {
 		action: this._ajaxAction,
-		post_id: this._postID, // eslint-disable-line camelcase
+		/* eslint-disable-next-line camelcase */
+		post_id: this._postID,
 		keyword: keyword,
 		taxonomy: this._taxonomy,
 	}, this.updateKeywordUsage.bind( this, keyword ), "json" );

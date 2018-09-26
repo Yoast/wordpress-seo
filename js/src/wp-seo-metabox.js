@@ -85,7 +85,8 @@
 	}
 
 	window.wpseoInitTabs = wpseoInitTabs;
-	window.wpseo_init_tabs = wpseoInitTabs; // eslint-disable-line camelcase
+	/* eslint-disable-next-line camelcase */
+	window.wpseo_init_tabs = wpseoInitTabs;
 
 	/**
 	 * @summary Adds select2 for selected fields.

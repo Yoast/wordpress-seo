@@ -55,7 +55,8 @@ setYoastComponentsL10n();
 setWordPressSeoL10n();
 
 ( function( $ ) {
-	"use strict"; // eslint-disable-line
+	/* eslint-disable-next-line */
+	"use strict";
 	if ( typeof wpseoPostScraperL10n === "undefined" ) {
 		return;
 	}

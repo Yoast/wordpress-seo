@@ -15,7 +15,8 @@ var isUndefined = require( "lodash/isUndefined" );
 ( function( $ ) {
 	var i18n = new Jed( {
 		domain: "js-text-analysis",
-		locale_data: { // eslint-disable-line camelcase
+		/* eslint-disable-next-line camelcase */
+		locale_data: {
 			"js-text-analysis": {
 				"": {},
 			},
@@ -135,7 +136,8 @@ var isUndefined = require( "lodash/isUndefined" );
 	 */
 	YoastRecalculateScore.prototype.getScore = function( item ) {
 		return {
-			item_id: this.getItemID( item ), // eslint-disable-line camelcase
+			/* eslint-disable-next-line camelcase */
+			item_id: this.getItemID( item ),
 			taxonomy: ( item.taxonomy ) ? item.taxonomy : "",
 			score: this.calculateItemScore( item ),
 		};

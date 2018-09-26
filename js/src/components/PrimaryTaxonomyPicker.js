@@ -119,7 +119,8 @@ class PrimaryTaxonomyPicker extends React.Component {
 		const collection = new TaxonomyCollection();
 		collection.fetch( {
 			data: {
-				per_page: -1, // eslint-disable-line camelcase
+				/* eslint-disable-next-line camelcase */
+				per_page: -1,
 				orderby: "count",
 				order: "desc",
 				_fields: [ "id", "name" ],
