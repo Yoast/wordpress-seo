@@ -7,6 +7,8 @@
 
 namespace Yoast\YoastSEO\Formatters;
 
+use Yoast\YoastSEO\Models\Indexable;
+
 /**
  * Formats the term meta to indexable format.
  */
@@ -22,26 +24,30 @@ class Indexable_Author {
 	/**
 	 * Indexable Term constructor.
 	 *
-	 * @param int  $user_id     The user to retrieve the indexable for.
+	 * @codeCoverageIgnore
+	 *
+	 * @param int  $user_id The user to retrieve the indexable for.
 	 */
 	public function __construct( $user_id ) {
-		$this->user_id  = $user_id;
+		$this->user_id = $user_id;
 	}
 
 	/**
 	 * Formats the data.
 	 *
-	 * @return array The formatted data.
+	 * @param Indexable $indexable The indexable to format;
+	 *
+	 * @return Indexable The extended indexable.
 	 */
-	public function format() {
+	public function format( $indexable ) {
 		$meta_data = $this->get_meta_data();
-		$formatted = array();
 
-		$formatted['title']             = $meta_data['wpseo_title'];
-		$formatted['description']       = $meta_data['wpseo_metadesc'];
-		$formatted['is_robots_noindex'] = $this->get_noindex_value( $meta_data['wpseo_noindex_author'] );
+		$indexable->permalink         = $this->get_permalink();
+		$indexable->title             = $meta_data['wpseo_title'];
+		$indexable->description       = $meta_data['wpseo_metadesc'];
+		$indexable->is_robots_noindex = $this->get_noindex_value( $meta_data['wpseo_noindex_author'] );
 
-		return $formatted;
+		return $indexable;
 	}
 
 	/**
@@ -53,7 +59,7 @@ class Indexable_Author {
 		$keys = array(
 			'wpseo_title',
 			'wpseo_metadesc',
-			'wpseo_excludeauthorsitemap',
+			'wpseo_noindex_author',
 		);
 
 		$output = array();
@@ -86,5 +92,15 @@ class Indexable_Author {
 	 */
 	protected function get_author_meta( $key ) {
 		return \get_the_author_meta( $key, $this->user_id );
+	}
+	/**
+	 * Retrieves the permalink of a user.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return string The permalink.
+	 */
+	protected function get_permalink() {
+		return \get_author_posts_url( $this->user_id );
 	}
 }

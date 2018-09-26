@@ -8,8 +8,10 @@
 namespace Yoast\YoastSEO\Watchers;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
+use Yoast\YoastSEO\Models\Indexable;
+use Yoast\YoastSEO\Models\Primary_Term as Primary_Term_Indexable;
 use Yoast\YoastSEO\WordPress\Integration;
-use Yoast\YoastSEO\Yoast_Model;
+
 
 /**
  * Watches Posts to save the primary term when set.
@@ -69,11 +71,11 @@ class Primary_Term implements Integration {
 	 */
 	protected function save_primary_term( $post_id, $taxonomy ) {
 		// This request must be valid.
-		if ( ! check_admin_referer( 'save-primary-term', \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' ) ) {
+		$term_id = filter_input( INPUT_POST, \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', FILTER_SANITIZE_NUMBER_INT );
+		if ( $term_id && ! check_admin_referer( 'save-primary-term', \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' ) ) {
 			return;
 		}
 
-		$term_id = filter_input( INPUT_POST, \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', FILTER_SANITIZE_NUMBER_INT );
 		if ( empty( $term_id ) ) {
 			// @todo remove the indexable if found.
 			return;
@@ -85,7 +87,9 @@ class Primary_Term implements Integration {
 			return;
 		}
 
-		$primary_term->term_id = $term_id;
+		$primary_term->term_id  = $term_id;
+		$primary_term->post_id  = $post_id;
+		$primary_term->taxonomy = $taxonomy;
 		$primary_term->save();
 	}
 
@@ -168,23 +172,12 @@ class Primary_Term implements Integration {
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
 	 *
-	 * @return \Yoast\YoastSEO\Models\Primary_Term
+	 * @return Indexable
 	 *
 	 * @throws No_Indexable_Found Exception when no indexable could be found for the supplied post.
 	 */
 	protected function get_indexable( $post_id, $taxonomy, $auto_create = true ) {
-		/** @var \Yoast\YoastSEO\Models\Primary_Term $indexable */
-		$indexable = Yoast_Model::of_type( 'Primary_Term' )
-								->where( 'post_id', $post_id )
-								->where( 'taxonomy', $taxonomy )
-								->find_one();
-
-		if ( $auto_create && ! $indexable ) {
-			/** @var \Yoast\YoastSEO\Models\Primary_Term $indexable */
-			$indexable           = Yoast_Model::of_type( 'Primary_Term' )->create();
-			$indexable->post_id  = $post_id;
-			$indexable->taxonomy = $taxonomy;
-		}
+		$indexable = Primary_Term_Indexable::find_by_postid_and_taxonomy( $post_id, 'post', $auto_create );
 
 		if ( ! $indexable ) {
 			throw No_Indexable_Found::from_primary_term( $post_id, $taxonomy );

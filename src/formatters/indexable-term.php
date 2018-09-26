@@ -6,6 +6,7 @@
  */
 
 namespace Yoast\YoastSEO\Formatters;
+use Yoast\YoastSEO\Models\Indexable;
 
 /**
  * Formats the term meta to indexable format.
@@ -29,6 +30,8 @@ class Indexable_Term {
 	/**
 	 * Term constructor.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param int    $term_id  ID of the term to save data for.
 	 * @param string $taxonomy The taxonomy the term belongs to.
 	 */
@@ -37,31 +40,40 @@ class Indexable_Term {
 		$this->taxonomy = $taxonomy;
 	}
 
+
 	/**
 	 * Formats the data.
 	 *
-	 * @return array The formatted data.
+	 * @param Indexable $indexable The indexable to format.
+	 *
+	 * @return Indexable The extended indexable.
 	 */
-	public function format() {
+	public function format( $indexable ) {
 		$term_meta = $this->get_meta_data();
-		$formatted = array();
 
-		$formatted['primary_focus_keyword_score'] = $this->get_keyword_score(
+		$indexable->permalink       = $this->get_permalink();
+		$indexable->object_sub_type = $this->taxonomy;
+
+		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$term_meta['wpseo_focuskw'],
 			$term_meta['wpseo_linkdex']
 		);
 
-		$formatted['is_robots_noindex']  = $this->get_noindex_value( $term_meta['wpseo_noindex'] );
+		$indexable->is_robots_noindex = $this->get_noindex_value( $term_meta['wpseo_noindex'] );
 
-		foreach ( $this->get_meta_lookup() as $meta_key => $indexable_key ) {
-			$formatted[ $indexable_key ] = $term_meta[ $meta_key ];
+		foreach ( $this->get_indexable_lookup() as $meta_key => $indexable_key ) {
+			$indexable->{ $indexable_key } = $term_meta[ $meta_key ];
+		}
+
+		foreach ( $this->get_indexable_meta_lookup() as $meta_key => $indexable_key ) {
+			$indexable->set_meta( $indexable_key, $term_meta[ $meta_key ] );
 		}
 
 		// Not implemented yet.
-		$formatted['is_cornerstone']     = 0;
-		$formatted['is_robots_nofollow'] = 0;
+		$indexable->is_cornerstone     = 0;
+		$indexable->is_robots_nofollow = 0;
 
-		return $formatted;
+		return $indexable;
 	}
 
 	/**
@@ -72,11 +84,12 @@ class Indexable_Term {
 	 * @return bool|null
 	 */
 	protected function get_noindex_value( $meta_value ) {
-		switch ( (string) $meta_value ) {
-			case 'noindex':
-				return true;
-			case 'index':
-				return false;
+		if ( $meta_value === 'noindex' ) {
+			return true;
+		}
+
+		if ( $meta_value === 'index' ) {
+			return false;
 		}
 
 		return null;
@@ -101,16 +114,26 @@ class Indexable_Term {
 	/**
 	 * Retrieves the lookup table.
 	 *
-	 * @return array Lookup table for the meta fields.
+	 * @return array Lookup table for the indexable fields.
 	 */
-	protected function get_meta_lookup() {
+	protected function get_indexable_lookup() {
 		return array(
-			'wpseo_canonical'             => 'canonical',
-			'wpseo_focuskw'               => 'primary_focus_keyword',
-			'wpseo_title'                 => 'title',
-			'wpseo_desc'                  => 'description',
-			'wpseo_content_score'         => 'readability_score',
-			'wpseo_bctitle'               => 'breadcrumb_title',
+			'wpseo_canonical'     => 'canonical',
+			'wpseo_focuskw'       => 'primary_focus_keyword',
+			'wpseo_title'         => 'title',
+			'wpseo_desc'          => 'description',
+			'wpseo_content_score' => 'readability_score',
+			'wpseo_bctitle'       => 'breadcrumb_title',
+		);
+	}
+
+	/**
+	 * Retrieves the indexable meta lookup table.
+	 *
+	 * @return array Lookup table for the indexable meta fields.
+	 */
+	protected function get_indexable_meta_lookup() {
+		return array(
 			'wpseo_opengraph-title'       => 'og_title',
 			'wpseo_opengraph-description' => 'og_description',
 			'wpseo_opengraph-image'       => 'og_image',
@@ -119,6 +142,8 @@ class Indexable_Term {
 			'wpseo_twitter-image'         => 'twitter_image',
 		);
 	}
+
+
 
 	/**
 	 * Retrieves the meta data for a term.
@@ -129,5 +154,16 @@ class Indexable_Term {
 	 */
 	protected function get_meta_data() {
 		return \WPSEO_Taxonomy_Meta::get_term_meta( $this->term_id, $this->taxonomy );
+	}
+
+	/**
+	 * Retrieves the permalink for a term.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return string|\WP_Error The permalink for the term.
+	 */
+	protected function get_permalink() {
+		return \get_term_link( $this->term_id, $this->taxonomy );
 	}
 }

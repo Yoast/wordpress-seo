@@ -66,21 +66,10 @@ class Indexable_Term implements Integration {
 			return;
 		}
 
-		$formatter      = new Indexable_Term_Formatter( $term_id, $taxonomy );
-		$formatted_data = $formatter->format();
-
-		$indexable->permalink       = $this->get_permalink( $term_id, $taxonomy );
-		$indexable->object_sub_type = $taxonomy;
-
-		foreach( $this->get_indexable_fields() as $indexable_key ) {
-			$indexable->{ $indexable_key } = $formatted_data[ $indexable_key ];
-		}
+		$formatter = $this->get_formatter( $term_id, $taxonomy );
+		$indexable = $formatter->format( $indexable );
 
 		$indexable->save();
-
-		if ( ! empty( $indexable->id ) ) {
-			$this->save_indexable_meta( $indexable, $formatted_data );
-		}
 	}
 
 	/**
@@ -105,71 +94,16 @@ class Indexable_Term implements Integration {
 	}
 
 	/**
-	 * Lookup table for the indexable fields.
-	 *
-	 * @return array The indexable fields.
-	 */
-	protected function get_indexable_fields() {
-		return array(
-			'primary_focus_keyword_score',
-			'is_cornerstone',
-			'is_robots_noindex',
-			'is_robots_noimageindex',
-			'is_robots_noarchive',
-			'is_robots_nosnippet',
-			'primary_focus_keyword',
-			'readability_score',
-			'canonical',
-			'is_robots_nofollow',
-			'title',
-			'description',
-			'breadcrumb_title',
-			'link_count',
-			'incoming_link_count',
-		);
-	}
-
-	/**
-	 * Retrieves the permalink for a term.
+	 * Returns formatter for given taxonomy.
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param int    $term_id  The term to use.
-	 * @param string $taxonomy Taxonomy to use.
+	 * @param int    $term_id  ID of the term to save data for.
+	 * @param string $taxonomy The taxonomy the term belongs to.
 	 *
-	 * @return string|\WP_Error The permalink for the term.
+	 * @return Indexable_Term_Formatter Instance.
 	 */
-	protected function get_permalink( $term_id, $taxonomy ) {
-		return \get_term_link( $term_id, $taxonomy );
-	}
-
-	/**
-	 * Saves the indexable meta data.
-	 *
-	 * @param Indexable $indexable      The indexable to save the meta for.
-	 * @param array     $formatted_data The formatted data.
-	 *
-	 * @codeCoverageIgnore
-	 */
-	protected function save_indexable_meta( $indexable, $formatted_data ) {
-		foreach ( $this->get_indexable_meta_fields() as $indexable_key ) {
-			$indexable->set_meta( $indexable_key, $formatted_data[ $indexable_key ] );
-		}
-	}
-
-	/**
-	 * Lookup table for the indexable meta fields.
-	 *
-	 * @return array The indexable meta fields.
-	 */
-	protected function get_indexable_meta_fields() {
-		return array(
-			'og_title',
-			'og_image',
-			'og_description',
-			'twitter_title',
-			'twitter_image',
-			'twitter_description',
-		);
+	protected function get_formatter( $term_id, $taxonomy ) {
+		return new Indexable_Term_Formatter( $term_id, $taxonomy );
 	}
 }

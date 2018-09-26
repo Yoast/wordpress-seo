@@ -48,6 +48,13 @@ use Yoast\YoastSEO\Yoast_Model;
 class Indexable extends Yoast_Model {
 
 	/**
+	 * The Indexable meta data.
+	 *
+	 * @var array
+	 */
+	protected $meta_data = array();
+
+	/**
 	 * Retrieves an indexable by its ID and type.
 	 *
 	 * @param int    $object_id   The indexable object id.
@@ -110,6 +117,10 @@ class Indexable extends Yoast_Model {
 
 		if ( $saved ) {
 			do_action( 'wpseo_indexable_saved', $this );
+
+			if ( ! empty( $this->meta_data ) && ! empty( $this->id ) ) {
+				array_walk( $this->meta_data, array( $this, 'save_meta' ) );
+			}
 		}
 
 		return $saved;
@@ -139,6 +150,18 @@ class Indexable extends Yoast_Model {
 	 * @return void
 	 */
 	public function set_meta( $meta_key, $meta_value ) {
+		$this->meta_data[ $meta_key ] = $meta_value;
+	}
+
+	/**
+	 * Saves the meta data.
+	 *
+	 * @param string $meta_key   The key to set.
+	 * @param string $meta_value The value to set.
+	 *
+	 * @return void
+	 */
+	protected function save_meta( $meta_key, $meta_value ) {
 		try {
 			$indexable_meta = $this->get_meta( $meta_key );
 		} catch ( No_Indexable_Found $exception ) {
@@ -149,6 +172,7 @@ class Indexable extends Yoast_Model {
 		$indexable_meta->meta_value = $meta_value;
 		$indexable_meta->save();
 	}
+
 	/**
 	 * Fetches the indexable meta for a metafield and indexable.
 	 *

@@ -23,7 +23,7 @@ class Indexable_Author implements Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'profile_update', array( $this, 'save_meta' ), PHP_INT_MAX, 2 );
+		\add_action( 'profile_update', array( $this, 'save_meta' ), PHP_INT_MAX );
 		\add_action( 'deleted_user', array( $this, 'delete_meta' ) );
 	}
 
@@ -57,29 +57,10 @@ class Indexable_Author implements Integration {
 			return;
 		}
 
-		$indexable->permalink = $this->get_permalink( $user_id );
-
-		$formatter      = new Indexable_Author_Formatter( $user_id );
-		$formatted_data = $formatter->format();
-
-		foreach( $this->get_indexable_fields() as $indexable_key ) {
-			$indexable->{ $indexable_key } = $formatted_data[ $indexable_key ];
-		}
+		$formatter = $this->get_formatter( $user_id );
+		$indexable = $formatter->format( $indexable );
 
 		$indexable->save();
-	}
-
-	/**
-	 * Lookup table for the indexable fields.
-	 *
-	 * @return array The indexable fields.
-	 */
-	protected function get_indexable_fields() {
-		return array(
-			'title',
-			'description',
-			'is_robots_noindex',
-		);
 	}
 
 	/**
@@ -103,15 +84,15 @@ class Indexable_Author implements Integration {
 	}
 
 	/**
-	 * Retrieves the permalink of a user.
+	 * Returns formatter for given user.
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param int $user_id The user to fetch the permalink of.
+	 * @param int $user_id The user id.
 	 *
-	 * @return string The permalink.
+	 * @return Indexable_Author_Formatter Instance.
 	 */
-	protected function get_permalink( $user_id ) {
-		return \get_author_posts_url( $user_id );
+	protected function get_formatter( $user_id ) {
+		return new Indexable_Author_Formatter( $user_id );
 	}
 }

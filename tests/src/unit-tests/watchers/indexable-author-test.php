@@ -4,7 +4,7 @@ namespace Yoast\Tests\UnitTests\Watchers;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
 use Yoast\YoastSEO\Watchers\Indexable_Author;
-use Yoast\Tests\Doubles\Indexable_Author as Indexable_Author_Double;
+use Yoast\Tests\Doubles\Indexable_Author_Watcher as Indexable_Author_Double;
 
 /**
  * Class Indexable_Author_Test
@@ -15,8 +15,9 @@ use Yoast\Tests\Doubles\Indexable_Author as Indexable_Author_Double;
  * @package Yoast\Tests\Watchers
  */
 class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
+
 	/**
-	 * Tests if the expected hooks are registered
+	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author::register_hooks()
 	 */
@@ -92,7 +93,7 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests retreiving a meta value
+	 * Tests retreiving a meta value.
 	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author::get_indexable()
 	 */
@@ -103,27 +104,7 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if get meta data returns expected data
-	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author::get_meta_data()
-	 */
-	public function test_get_meta_data() {
-		$instance = $this->getMockBuilder( 'Yoast\Tests\Doubles\Indexable_Author' )
-						 ->setMethods( array( 'get_author_meta' ) )
-						 ->getMock();
-
-		$instance
-			->expects( $this->atLeastOnce() )
-			->method( 'get_author_meta' )
-			->will( $this->returnValue( 'result' ) );
-
-		/** @var Yoast\Tests\Doubles\Indexable_Author $instance */
-		$this->assertInternalType( 'array', $instance->get_meta_data( 1 ) );
-		$this->assertContains( 'result', $instance->get_meta_data( 1 ) );
-	}
-
-	/**
-	 * Tests the save meta functionality
+	 * Tests the save meta functionality.
 	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author::save_meta()
 	 */
@@ -137,25 +118,29 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 			->expects( $this->once() )
 			->method( 'save' );
 
+		$author_id = 1;
+
+		$formatter_mock = $this
+			->getMockBuilder( '\Yoast\YoastSEO\Formatters\Indexable_Author' )
+			->setConstructorArgs( array( $author_id ) )
+			->setMethods( array( 'format' ) )
+			->getMock();
+
+		$formatter_mock
+			->expects($this->once() )
+			->method( 'format' )
+			->with( $indexable_mock )
+			->will( $this->returnValue( $indexable_mock ) );
+
 		$instance = $this
 			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Author' )
 			->setMethods(
 				array(
 					'get_indexable',
-					'get_permalink',
-					'get_meta_data',
-					'get_sitemap_include_value',
+					'get_formatter',
 				)
 			)
 			->getMock();
-
-		$author_meta = array(
-			'wpseo_title'          => 'title',
-			'wpseo_metadesc'       => 'metadesc',
-			'wpseo_noindex_author' => 'on',
-		);
-
-		$author_id = - 1;
 
 		$instance
 			->expects( $this->once() )
@@ -164,23 +149,18 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 
 		$instance
 			->expects( $this->once() )
-			->method( 'get_permalink' )
-			->will( $this->returnValue( 'permalink' ) );
+			->method( 'get_formatter' )
+			->will( $this->returnValue( $formatter_mock ) );
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_meta_data' )
-			->will( $this->returnValue( $author_meta ) );
+
+		// Set this value to true to let the routine think an indexable has been saved.
+		$indexable_mock->id = true;
 
 		$instance->save_meta( $author_id );
-
-		$this->assertAttributeEquals( 'permalink', 'permalink', $indexable_mock );
-		$this->assertAttributeEquals( 'title', 'title', $indexable_mock );
-		$this->assertAttributeEquals( 'metadesc', 'description', $indexable_mock );
 	}
 
 	/**
-	 * Tests the save meta functionality
+	 * Tests the save meta functionality.
 	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author::save_meta()
 	 */
@@ -196,17 +176,5 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 			->will( $this->throwException( new No_Indexable_Found() ) );
 
 		$instance->save_meta( - 1 );
-	}
-
-	/**
-	 * Tests the noindex expected outcome.
-	 */
-	public function test_get_noindex_value() {
-		$instance = new Indexable_Author_Double();
-
-		$this->assertTrue( $instance->get_noindex_value( 'on' ) );
-		$this->assertFalse( $instance->get_noindex_value( '' ) );
-		$this->assertFalse( $instance->get_noindex_value( true ) );
-		$this->assertFalse( $instance->get_noindex_value( false ) );
 	}
 }

@@ -7,6 +7,8 @@
 
 namespace Yoast\YoastSEO\Formatters;
 
+use Yoast\YoastSEO\Models\Indexable;
+use Yoast\YoastSEO\Models\SEO_Meta;
 use Yoast\YoastSEO\Yoast_Model;
 
 /**
@@ -24,6 +26,8 @@ class Indexable_Post {
 	/**
 	 * Post constructor.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $post_id The post id to use.
 	 */
 	public function __construct( $post_id ) {
@@ -33,35 +37,42 @@ class Indexable_Post {
 	/**
 	 * Formats the data.
 	 *
-	 * @return array The formatted data.
+	 * @param Indexable $indexable The indexable to format.
+	 *
+	 * @return Indexable The extended indexable.
 	 */
-	public function format() {
-		$formatted = array();
+	public function format( $indexable ) {
+		$indexable->permalink       = $this->get_permalink();
+		$indexable->object_sub_type = $this->get_post_type();
 
-		$formatted['primary_focus_keyword_score'] = $this->get_keyword_score(
+		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( 'focuskw' ),
 			$this->get_meta_value( 'linkdex' )
 		);
 
-		$formatted['is_cornerstone']    = ( $this->get_meta_value( 'is_cornerstone' ) ) ? 1 : 0;
-		$formatted['is_robots_noindex'] = $this->get_robots_noindex(
+		$indexable->is_cornerstone    = ( $this->get_meta_value( 'is_cornerstone' ) ) ? 1 : 0;
+		$indexable->is_robots_noindex = $this->get_robots_noindex(
 			$this->get_meta_value( 'meta-robots-noindex' )
 		);
 
 		// Set additional meta-robots values.
-		$nonidex_advanced = $this->get_meta_value( 'meta-robots-adv' );
-		$meta_robots      = explode( ',', $nonidex_advanced );
+		$noindex_advanced = $this->get_meta_value( 'meta-robots-adv' );
+		$meta_robots      = explode( ',', $noindex_advanced );
 		foreach ( $this->get_robots_options() as $meta_robots_option ) {
-			$formatted['is_robots_' . $meta_robots_option ]= in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
+			$indexable->{ 'is_robots_' . $meta_robots_option } = in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}
 
-		foreach ( $this->get_meta_lookup() as $meta_key => $indexable_key ) {
-			$formatted[ $indexable_key ] = $this->get_meta_value( $meta_key );
+		foreach ( $this->get_indexable_lookup() as $meta_key => $indexable_key ) {
+			$indexable->{ $indexable_key } = $this->get_meta_value( $meta_key );
 		}
 
-		$formatted = $this->set_link_count( $formatted );
+		foreach ( $this->get_indexable_meta_lookup() as $meta_key => $indexable_key ) {
+			$indexable->set_meta( $indexable_key, $this->get_meta_value( $meta_key ) );
+		}
 
-		return $formatted;
+		$indexable = $this->set_link_count( $indexable );
+
+		return $indexable;
 	}
 
 	/**
@@ -94,17 +105,6 @@ class Indexable_Post {
 	}
 
 	/**
-	 * Retrieves the current value for the meta field.
-	 *
-	 * @param string $meta_key Meta key to fetch.
-	 *
-	 * @return mixed The value of the indexable entry to use.
-	 */
-	protected function get_meta_value( $meta_key ) {
-		return \WPSEO_Meta::get_value( $meta_key, $this->post_id );
-	}
-
-	/**
 	 * Determines the focus keyword score.
 	 *
 	 * @param string $keyword The focus keyword that is set.
@@ -123,9 +123,9 @@ class Indexable_Post {
 	/**
 	 * Retrieves the lookup table.
 	 *
-	 * @return array Lookup table for the meta fields.
+	 * @return array Lookup table for the indexable fields.
 	 */
-	protected function get_meta_lookup() {
+	protected function get_indexable_lookup() {
 		return array(
 			'focuskw'               => 'primary_focus_keyword',
 			'content_score'         => 'readability_score',
@@ -134,6 +134,16 @@ class Indexable_Post {
 			'title'                 => 'title',
 			'metadesc'              => 'description',
 			'bctitle'               => 'breadcrumb_title',
+		);
+	}
+
+	/**
+	 * Retrieves the indexable meta lookup table.
+	 *
+	 * @return array Lookup table for the indexable meta fields.
+	 */
+	protected function get_indexable_meta_lookup() {
+		return array(
 			'opengraph-title'       => 'og_title',
 			'opengraph-image'       => 'og_image',
 			'opengraph-description' => 'og_description',
@@ -146,24 +156,70 @@ class Indexable_Post {
 	/**
 	 * Updates the link count from existing data.
 	 *
-	 * @param array $formatted_data The data to extend.
+	 * @param Indexable $indexable The indexable to extend.
 	 *
-	 * @return array The extended data.
+	 * @return Indexable The extended indexable.
 	 */
-	protected function set_link_count( $formatted_data ) {
+	protected function set_link_count( $indexable ) {
 		try {
-			$seo_meta = Yoast_Model::of_type( 'SEO_Meta' )
-			                       ->where( 'object_id', $this->post_id )
-			                       ->find_one();
+			$seo_meta = $this->get_seo_meta();
 
 			if ( $seo_meta ) {
-				$formatted_data['link_count']          = $seo_meta->internal_link_count;
-				$formatted_data['incoming_link_count'] = $seo_meta->incoming_link_count;
+				$indexable->link_count          = $seo_meta->internal_link_count;
+				$indexable->incoming_link_count = $seo_meta->incoming_link_count;
 			}
 		} catch ( \Exception $exception ) {
-			return $formatted_data;
+			// Do nothing...
 		}
 
-		return $formatted_data;
+		return $indexable;
+	}
+
+	/**
+	 * Retrieves the current value for the meta field.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $meta_key Meta key to fetch.
+	 *
+	 * @return mixed The value of the indexable entry to use.
+	 */
+	protected function get_meta_value( $meta_key ) {
+		return \WPSEO_Meta::get_value( $meta_key, $this->post_id );
+	}
+
+	/**
+	 * Retrieves the permalink for a post.
+	 *
+	 * @codeCoverageIgnore
+	 **
+	 * @return false|string The permalink.
+	 */
+	protected function get_permalink() {
+		return \get_permalink( $this->post_id );
+	}
+
+	/**
+	 * Retrieves the post type of a post.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return false|string The post type.
+	 */
+	protected function get_post_type() {
+		return \get_post_type( $this->post_id );
+	}
+
+	/**
+	 * Retrieves the set SEO Meta for current post id.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return SEO_Meta The SEO meta for current post id.
+	 */
+	protected function get_seo_meta() {
+		return Yoast_Model::of_type( 'SEO_Meta' )
+			->where( 'object_id', $this->post_id )
+			->find_one();
 	}
 }

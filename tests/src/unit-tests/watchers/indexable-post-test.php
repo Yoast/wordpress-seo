@@ -126,10 +126,6 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 
 		$post_id = 1;
 
-		$formatted_data = array(
-			'title' => 'Test title'
-		);
-
 		$formatter_mock = $this
 			->getMockBuilder( '\Yoast\YoastSEO\Formatters\Indexable_Post' )
 			->setConstructorArgs( array( $post_id ) )
@@ -139,7 +135,8 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 		$formatter_mock
 			->expects($this->once() )
 			->method( 'format' )
-			->will( $this->returnValue( $formatted_data ) );
+			->with( $indexable_mock )
+			->will( $this->returnValue( $indexable_mock ) );
 
 		$instance = $this
 			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Post' )
@@ -148,9 +145,6 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 					'is_post_indexable',
 					'get_indexable',
 					'get_formatter',
-					'get_permalink',
-					'get_post_type',
-					'save_indexable_meta',
 				)
 			)
 			->getMock();
@@ -170,23 +164,11 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 			->method( 'get_formatter' )
 			->will( $this->returnValue( $formatter_mock ) );
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_permalink' )
-			->will( $this->returnValue( 'permalink' ) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'save_indexable_meta' )
-			->with( $this->equalTo( $indexable_mock ), $this->equalTo( $formatted_data ) );
 
 		// Set this value to true to let the routine think an indexable has been saved.
 		$indexable_mock->id = true;
 
 		$instance->save_meta( $post_id );
-
-		$this->assertAttributeEquals( 'permalink', 'permalink', $indexable_mock );
-		$this->assertAttributeEquals( 'Test title', 'title', $indexable_mock );
 	}
 
 	/**
@@ -212,15 +194,6 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 		$instance->save_meta( 1 );
 	}
 
-	/**
-	 * Tests if the meta lookup returns the expected type of data
-	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_indexable_fields()
-	 */
-	public function test_get_indexable_fields() {
-		$instance = new Indexable_Post_Double();
-		$this->assertInternalType( 'array', $instance->get_indexable_fields() );
-	}
 
 	/**
 	 * Tests the save meta functionality
@@ -239,15 +212,5 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 			->will( $this->throwException( new No_Indexable_Found() ) );
 
 		$instance->save_meta( -1 );
-	}
-
-	/**
-	 * Tests if the meta lookup returns the expected type of data
-	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_indexable_meta_fields()
-	 */
-	public function test_get_indexable_meta_fields() {
-		$instance = new Indexable_Post_Double();
-		$this->assertInternalType( 'array', $instance->get_indexable_meta_fields() );
 	}
 }

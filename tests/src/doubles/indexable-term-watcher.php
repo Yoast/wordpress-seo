@@ -2,7 +2,7 @@
 
 namespace Yoast\Tests\Doubles;
 
-class Indexable_Term extends \Yoast\YoastSEO\Watchers\Indexable_Term {
+class Indexable_Term_Watcher extends \Yoast\YoastSEO\Watchers\Indexable_Term {
 	/**
 	 * @inheritdoc
 	 */
