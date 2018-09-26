@@ -18,8 +18,8 @@ export const StyledContainer = styled.div`
 `;
 
 export const StyledContainerTopLevel = styled( StyledContainer )`
-	border-top: 1px solid ${ colors.$palette_grey_medium_light };
-	border-bottom: 1px solid ${ colors.$palette_grey_medium_light };
+	border-top: 1px solid ${ colors.$color_border_gutenberg };
+	border-bottom: 1px solid ${ colors.$color_border_gutenberg };
 	margin-top: -1px;
 `;
 
