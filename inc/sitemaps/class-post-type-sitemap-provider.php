@@ -156,7 +156,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				$sql = "
 				SELECT post_modified_gmt
-				    FROM ( SELECT @rownum:=0 ) init 
+				    FROM ( SELECT @rownum:=0 ) init
 				    JOIN {$wpdb->posts} USE INDEX( type_status_date )
 				    WHERE post_status IN ( 'publish', 'inherit' )
 				      AND post_type = %s
@@ -231,6 +231,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$stacked_urls     = array();
 		$posts_to_exclude = $this->get_excluded_posts();
+
+		// Create the temporary table
+		$this->create_temporary_table( $post_type );
 
 		while ( $total > $offset ) {
 
@@ -493,6 +496,54 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		global $wpdb;
 
+		$endOffset = $offset + $count;
+		$offset++;
+		$sql = "
+			SELECT
+				ID,
+				post_title,
+				post_content,
+				post_name,
+				post_parent,
+				post_author,
+				post_modified_gmt,
+				post_date,
+				post_date_gmt
+			FROM
+				{$wpdb->prefix}temp_sitemap_generator_{$post_type}
+			WHERE
+				sequence >= {$offset} AND
+				sequence <= {$endOffset}
+		";
+
+		$posts = $wpdb->get_results( $wpdb->prepare( $sql, $count, $offset ) );
+
+		$post_ids = array();
+
+		foreach ( $posts as $post ) {
+			$post->post_type   = $post_type;
+			$post->post_status = 'publish';
+			$post->filter      = 'sample';
+			$post->ID          = (int) $post->ID;
+			$post->post_parent = (int) $post->post_parent;
+			$post->post_author = (int) $post->post_author;
+			$post_ids[]        = $post->ID;
+		}
+
+		update_meta_cache( 'post', $post_ids );
+
+		return $posts;
+	}
+
+	/**
+	 * Create temporary table to sitemap
+	 *
+	 * @param string $post_type Post type to retrieve.
+	 */
+	protected function create_temporary_table( $post_type ) {
+
+		global $wpdb;
+
 		static $filters = array();
 
 		if ( ! isset( $filters[ $post_type ] ) ) {
@@ -520,38 +571,40 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$where_filter = $filters[ $post_type ]['where'];
 		$where        = $this->get_sql_where_clause( $post_type );
 
-		// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion.
-		// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/.
 		$sql = "
-			SELECT l.ID, post_title, post_content, post_name, post_parent, post_author, post_modified_gmt, post_date, post_date_gmt
-			FROM (
-				SELECT {$wpdb->posts}.ID
-				FROM {$wpdb->posts}
+			CREATE TEMPORARY TABLE {$wpdb->prefix}temp_sitemap_generator_{$post_type} (
+				sequence BIGINT NOT NULL AUTO_INCREMENT,
+				ID BIGINT NOT NULL,
+				post_title TEXT,
+				post_content LONGTEXT,
+				post_name VARCHAR(200),
+				post_parent BIGINT,
+				post_author BIGINT,
+				post_modified_gmt DATETIME,
+				post_date DATETIME,
+				post_date_gmt DATETIME,
+				PRIMARY KEY (sequence)
+			) AS (
+				SELECT
+					NULL AS sequence,
+					ID,
+					post_title,
+					post_content,
+					post_name,
+					post_parent,
+					post_author,
+					post_modified_gmt,
+					post_date,
+					post_date_gmt
+				FROM
+					{$wpdb->posts}
 				{$join_filter}
 				{$where}
 					{$where_filter}
-				ORDER BY {$wpdb->posts}.post_modified ASC LIMIT %d OFFSET %d
-			)
-			o JOIN {$wpdb->posts} l ON l.ID = o.ID
+				ORDER BY {$wpdb->posts}.post_modified ASC
+			);
 		";
-
-		$posts = $wpdb->get_results( $wpdb->prepare( $sql, $count, $offset ) );
-
-		$post_ids = array();
-
-		foreach ( $posts as $post ) {
-			$post->post_type   = $post_type;
-			$post->post_status = 'publish';
-			$post->filter      = 'sample';
-			$post->ID          = (int) $post->ID;
-			$post->post_parent = (int) $post->post_parent;
-			$post->post_author = (int) $post->post_author;
-			$post_ids[]        = $post->ID;
-		}
-
-		update_meta_cache( 'post', $post_ids );
-
-		return $posts;
+		$wpdb->query($sql);
 	}
 
 	/**
