@@ -52,15 +52,30 @@ let calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 		score = 9;
 	}
 
+	if ( score < 7 && percentage === 0 ) {
+		return {
+			score: formatNumber( score ),
+			hasMarks: hasMarks,
+			text: i18n.sprintf(
+				/* Translators: %1$s and %3$s expand to a link to yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis",
+					"%1$sTransition words%2$s: None of the sentences contain transition words. %3$sUse some%2$s."
+				),
+				urlTitle,
+				"</a>",
+				urlCallToAction ),
+		};
+	}
+
 	if ( score < 7 ) {
 		return {
 			score: formatNumber( score ),
 			hasMarks: hasMarks,
 			text: i18n.sprintf(
 				/* Translators: %1$s and %4$s expand to a link to yoast.com, %2$s expands to the anchor end tag,
-				%3$s expands to the percentage of sentences containing transition words, %4$s expands to the recommended value. */
+				%3$s expands to the percentage of sentences containing transition words */
 				i18n.dgettext( "js-text-analysis",
-					"%1$sTransition words%2$s: Only %3$s of the sentences contain them. This is not enough. %4$sUse more transition words%2$s."
+					"%1$sTransition words%2$s: Only %3$s of the sentences contain transition words, which is not enough. %4$sUse more of them%2$s."
 				),
 				urlTitle,
 				"</a>",

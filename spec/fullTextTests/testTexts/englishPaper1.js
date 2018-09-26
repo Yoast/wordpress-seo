@@ -142,8 +142,7 @@ const expectedResults = {
 	},
 	textTransitionWords: {
 		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 28.6% of the sentences contain" +
-		" them. This is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more transition words</a>.",
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 28.6% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		score: 9,
