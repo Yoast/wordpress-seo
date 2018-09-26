@@ -90,6 +90,12 @@ module.exports = function( env = { environment: "production" } ) {
 			],
 		},
 		externals,
+		optimization: {
+			runtimeChunk: {
+				name: "runtime",
+			}
+
+		}
 	};
 
 	const config = [

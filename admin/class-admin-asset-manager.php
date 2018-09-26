@@ -232,10 +232,17 @@ class WPSEO_Admin_Asset_Manager {
 
 		return array(
 			array(
+				'name' => 'webpack-runtime',
+				'src'  => 'runtime-' . $flat_version,
+			),
+			array(
 				'name' => 'react-dependencies',
 				// Load webpack-commons for bundle support.
 				'src'  => 'react-dependencies-' . $flat_version,
-				'deps' => array( $babel_polyfill ),
+				'deps' => array(
+					$babel_polyfill,
+					self::PREFIX . 'webpack-runtime',
+				),
 			),
 			array(
 				'name' => 'search-appearance',
