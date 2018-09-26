@@ -103,9 +103,9 @@ class SentenceLengthInTextAssessment extends Assessment {
 			return i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis",
-				"%1$sSentence length%2$s: Great!" ),
-			urlTitle,
-			"</a>"
+					"%1$sSentence length%2$s: Great!" ),
+				urlTitle,
+				"</a>"
 			);
 		}
 
@@ -114,14 +114,14 @@ class SentenceLengthInTextAssessment extends Assessment {
 			%3$d expands to percentage of sentences, %4$s expands to the recommended maximum sentence length,
 			%5$s expands to the recommended maximum percentage. */
 			i18n.dgettext( "js-text-analysis",
-			"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s words, which is more than the recommended maximum of %5$s." +
+				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s words, which is more than the recommended maximum of %5$s." +
 			" %6$sTry to shorten the sentences%2$s." ),
-		urlTitle,
-		"</a>",
-		percentage + "%",
-		this._config.recommendedWordCount,
-		this._config.slightlyTooMany + "%",
-		urlCallToAction
+			urlTitle,
+			"</a>",
+			percentage + "%",
+			this._config.recommendedWordCount,
+			this._config.slightlyTooMany + "%",
+			urlCallToAction
 		);
 	}
 

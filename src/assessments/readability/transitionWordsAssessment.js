@@ -75,10 +75,10 @@ let calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 		text: i18n.sprintf(
 			/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 			i18n.dgettext( "js-text-analysis",
-			"%1$sTransition words%2$s: Well done!"
-		),
-		urlTitle,
-		"</a>" ),
+				"%1$sTransition words%2$s: Well done!"
+			),
+			urlTitle,
+			"</a>" ),
 	};
 };
 

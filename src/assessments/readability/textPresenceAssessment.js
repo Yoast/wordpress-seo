@@ -21,10 +21,10 @@ function textPresenceAssessment( paper, researcher, i18n ) {
 			/* Translators: %1$s and %3$s expand to links to articles on Yoast.com,
 			%2$s expands to the anchor end tag*/
 			i18n.dgettext( "js-text-analysis",
-			"%1$sNot enough content%2$s: %3$sPlease add some content to enable a good analysis%2$s." ),
-		urlTitle,
-		"</a>",
-		urlCallToAction ) );
+				"%1$sNot enough content%2$s: %3$sPlease add some content to enable a good analysis%2$s." ),
+			urlTitle,
+			"</a>",
+			urlCallToAction ) );
 
 		result.setScore( 3 );
 		return result;
