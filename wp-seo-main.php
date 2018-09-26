@@ -342,7 +342,14 @@ function wpseo_init() {
 	$wpseo_content_images = new WPSEO_Content_Images();
 	$wpseo_content_images->register_hooks();
 
-	if ( defined( 'YOAST_SEO_INDEXABLES' ) && YOAST_SEO_INDEXABLES === true && class_exists( '\Yoast\YoastSEO\Config\Plugin' ) ) {
+	// When namespaces are not available, stop furthere execution.
+	if ( ! defined( '__NAMESPACE__' ) ) {
+		return;
+	}
+
+	$has_feature_flag = defined( 'YOAST_SEO_INDEXABLES' ) && YOAST_SEO_INDEXABLES === true;
+
+	if ( $has_feature_flag && class_exists( '\Yoast\YoastSEO\Config\Plugin' ) ) {
 		$bootstrap = new \Yoast\YoastSEO\Config\Plugin();
 		$bootstrap->initialize();
 		$bootstrap->register_hooks();
