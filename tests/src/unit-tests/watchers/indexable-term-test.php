@@ -93,17 +93,6 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests retreiving a meta value
-	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term::get_indexable()
-	 */
-	public function test_get_indexable_create() {
-		$instance = new Indexable_Term_Double();
-
-		$this->assertInstanceOf( '\Yoast\YoastSEO\Yoast_Model', $instance->get_indexable( 1, '',true ) );
-	}
-
-	/**
 	 * Tests the save meta
 	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term::save_meta()
