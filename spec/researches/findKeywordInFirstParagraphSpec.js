@@ -515,9 +515,42 @@ describe( "tests for edge cases", function() {
 		} );
 	} );
 
+	it( "skips the first paragraph if there is nothing but an image there (in a div)", function() {
+		const paper = new Paper(
+			"<div style=\"text-align: center;\"><img src=\"https://www.test.com/test.jpg\" alt=\"an alt tag\"></div>" +
+			"<div>A sentence with a keyword</div>", {
+				keyword: "keyword",
+				synonyms: "",
+			}
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "does not find keyword in the alt tag the first paragraph if there is nothing but an image there (in a div)", function() {
+		const paper = new Paper(
+			"<div style=\"text-align: center;\"><img src=\"https://www.test.com/test.jpg\" alt=\"an alt tag keyword\"></div>", {
+				keyword: "keyword",
+				synonyms: "",
+			}
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchDataProvider( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+
 	it( "skips paragraphs until there is text", function() {
 		const paper = new Paper(
-			"<p><img class=\"alignnone size-medium wp-image-95\" src=\"test.png\" alt=\"image1\" width=\"300\" height=\"36\" /></p>" +
+			"<p><img class=\"alignnone size-medium wp-image-95\" src=\"test.png\" alt=\"image1\" width=\"300\" height=\"36\"></p>" +
 			"<p>A sentence with a keyword</p>", {
 				keyword: "keyword",
 				synonyms: "",
