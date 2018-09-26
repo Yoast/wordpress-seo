@@ -1,9 +1,7 @@
 /** @module analyses/getKeywordCount */
 
-import matchWords from "../stringProcessing/matchTextWithArray";
-
-import { uniq as unique } from "lodash-es";
 import getSentences from "../stringProcessing/getSentences";
+import { findTopicFormsInString } from "./findKeywordFormsInString";
 
 /**
  * Calculates the keyword count, takes morphology into account.
@@ -19,10 +17,7 @@ export default function( paper, researcher ) {
 
 	const sentences = getSentences( text );
 
-	let keywordsFound = {
-		count: 0,
-		matches: [],
-	};
+	let keywordCount = 0;
 
 	/*
 	 	Count the amount of key phrase occurrences in the sentences.
@@ -31,18 +26,11 @@ export default function( paper, researcher ) {
 	 	(e.g. "The apple potato is an apple and a potato." has two occurrences of the key phrase "apple potato").
 	*/
 	sentences.forEach( sentence => {
-		let matches = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
-		let hasAllKeywords = matches.every( keywordForm => keywordForm.count > 0 );
-
-		if( hasAllKeywords ) {
-			let counts = matches.map( match => match.count );
-			keywordsFound.count += Math.min( ...counts );
-			keywordsFound.matches = matches.reduce( ( arr, match ) => [ ...arr, ...match.matches ] );
+		let matches = findTopicFormsInString( topicForms, sentence, true, locale );
+		if( matches.percentWordMatches === 100 ) {
+			keywordCount += matches.countWordMatches;
 		}
 	} );
 
-	return {
-		count: keywordsFound.count,
-		matches: unique( keywordsFound.matches ).sort( ( a, b ) => b.length - a.length ),
-	};
+	return keywordCount;
 }

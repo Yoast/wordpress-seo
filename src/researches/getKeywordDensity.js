@@ -16,5 +16,5 @@ export default function( paper, researcher ) {
 	}
 
 	const keywordCount = researcher.getResearch( "keywordCount" );
-	return ( keywordCount.count / wordCount ) * 100;
+	return ( keywordCount / wordCount ) * 100;
 }
