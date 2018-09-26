@@ -24,6 +24,29 @@ let calculateTransitionWordPercentage = function( sentences ) {
 };
 
 /**
+ * Calculates the score for the assessment based on the percentage of sentences containing transition words.
+ *
+ * @param {number} percentage The percentage of sentences containing transition words.
+ * @returns {number} The score.
+ */
+const calculateScoreFromPercentage = function( percentage ) {
+	if ( percentage < 20 ) {
+		// Red indicator.
+		return 3;
+	}
+
+	if ( inRange( percentage, 20, 30 ) ) {
+		// Orange indicator.
+		return 6;
+	}
+
+	if ( percentage >= 30 ) {
+		// Green indicator.
+		return 9;
+	}
+};
+
+/**
  * Calculates transition word result
  * @param {object} transitionWordSentences The object containing the total number of sentences and the number of sentences containing
  * a transition word.
@@ -31,26 +54,11 @@ let calculateTransitionWordPercentage = function( sentences ) {
  * @returns {object} Object containing score and text.
  */
 let calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
-	let score;
 	let percentage = calculateTransitionWordPercentage( transitionWordSentences );
+	let score = calculateScoreFromPercentage( percentage );
 	let hasMarks   = ( percentage > 0 );
 	let urlTitle = "<a href='https://yoa.st/34z' target='_blank'>";
 	let urlCallToAction = "<a href='https://yoa.st/35a' target='_blank'>";
-
-	if ( percentage < 20 ) {
-		// Red indicator.
-		score = 3;
-	}
-
-	if ( inRange( percentage, 20, 30 ) ) {
-		// Orange indicator.
-		score = 6;
-	}
-
-	if ( percentage >= 30 ) {
-		// Green indicator.
-		score = 9;
-	}
 
 	if ( score < 7 && percentage === 0 ) {
 		return {
