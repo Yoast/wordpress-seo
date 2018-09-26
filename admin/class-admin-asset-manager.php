@@ -210,20 +210,8 @@ class WPSEO_Admin_Asset_Manager {
 				wp_deregister_script( 'tinymce-latest' );
 				wp_register_script( 'tinymce-latest', includes_url( 'js/tinymce/' ) . 'wp-tinymce.php', array( 'jquery' ), false, true );
 			}
-
-			// Use Gutenberg's babel-polyfill.
-			$babel_polyfill = 'wp-polyfill-ecmascript';
 		}
 		else {
-			// If Gutenberg's babel-polyfill is not registered, use our own.
-			if ( ! wp_script_is( 'wp-polyfill-ecmascript', 'registered' ) ) {
-				$this->register_script( new WPSEO_Admin_Asset( array(
-					'name' => 'babel-polyfill',
-					'src'  => 'babel-polyfill-' . $flat_version,
-				) ) );
-			}
-			$babel_polyfill = self::PREFIX . 'babel-polyfill';
-
 			if ( wp_script_is( 'lodash', 'registered' ) ) {
 				$backport_wp_dependencies[] = 'lodash';
 			}
@@ -234,6 +222,12 @@ class WPSEO_Admin_Asset_Manager {
 				}
 				$backport_wp_dependencies[] = self::PREFIX . 'lodash';
 			}
+		}
+
+		// If Gutenberg's babel polyfill is not present, use our own.
+		$babel_polyfill = 'wp-polyfill-ecmascript';
+		if ( ! wp_script_is( 'wp-polyfill-ecmascript', 'registered' ) ) {
+			$babel_polyfill = self::PREFIX . 'babel-polyfill';
 		}
 
 		return array(
@@ -500,6 +494,10 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'structured-data-blocks',
 				'src'  => 'wp-seo-structured-data-blocks-' . $flat_version,
 				'deps' => array( 'wp-blocks', 'wp-i18n', 'wp-element' ),
+			),
+			array(
+				'name' => 'babel-polyfill',
+				'src'  => 'babel-polyfill-' . $flat_version,
 			),
 		);
 	}

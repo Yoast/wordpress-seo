@@ -194,7 +194,7 @@ class WPSEO_Statistics_Service {
 	private function labels() {
 		return array(
 			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
-			WPSEO_Rank::NO_FOCUS => sprintf( __( 'Posts %1$swithout%2$s a focus keyword', 'wordpress-seo' ), '<strong>', '</strong>' ),
+			WPSEO_Rank::NO_FOCUS => sprintf( __( 'Posts %1$swithout%2$s a focus keyphrase', 'wordpress-seo' ), '<strong>', '</strong>' ),
 			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
 			WPSEO_Rank::BAD      => sprintf( __( 'Posts with the SEO score: %1$sneeds improvement%2$s', 'wordpress-seo' ), '<strong>', '</strong>' ),
 			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */

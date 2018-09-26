@@ -61,7 +61,7 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	 *
 	 * @return string The listener value.
 	 *
-	 * @coveCoverageIgnore
+	 * @codeCoverageIgnore
 	 */
 	protected function get_listener_value() {
 		return filter_input( INPUT_GET, 'yoast_dismiss' );
@@ -72,7 +72,7 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	 *
 	 * @return void
 	 *
-	 * @coveCoverageIgnore
+	 * @codeCoverageIgnore
 	 */
 	protected function redirect_to_dashboard() {
 		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );

@@ -129,7 +129,7 @@ class WPSEO_Meta_Columns {
 
 				if ( '' === $focuskw_val ) {
 					echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">',
-						esc_html__( 'Focus keyword not set.', 'wordpress-seo' ),
+						esc_html__( 'Focus keyphrase not set.', 'wordpress-seo' ),
 						'</span>';
 					return;
 				}
@@ -613,7 +613,7 @@ class WPSEO_Meta_Columns {
 
 		if ( WPSEO_Meta::get_value( 'focuskw', $post_id ) === '' ) {
 			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_FOCUS );
-			$title = __( 'Focus keyword not set.', 'wordpress-seo' );
+			$title = __( 'Focus keyphrase not set.', 'wordpress-seo' );
 
 			return $this->render_score_indicator( $rank, $title );
 		}
