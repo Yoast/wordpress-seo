@@ -23,4 +23,17 @@ class SEO_Meta extends Yoast_Model {
 	 * @var string $_id_column
 	 */
 	public static $_id_column = 'object_id';
+
+	/**
+	 * Finds the SEO meta for given post.
+	 *
+	 * @param int $post_id The post id.
+	 *
+	 * @return SEO_Meta The SEO meta.
+	 */
+	public static function find_by_post_id( $post_id ) {
+		return Yoast_Model::of_type( 'SEO_Meta' )
+			->where( 'object_id', $post_id )
+			->find_one();
+	}
 }

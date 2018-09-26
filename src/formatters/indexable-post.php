@@ -218,8 +218,6 @@ class Indexable_Post {
 	 * @return SEO_Meta The SEO meta for current post id.
 	 */
 	protected function get_seo_meta() {
-		return Yoast_Model::of_type( 'SEO_Meta' )
-			->where( 'object_id', $this->post_id )
-			->find_one();
+		return SEO_Meta::find_by_post_id( $this->post_id );
 	}
 }

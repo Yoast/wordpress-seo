@@ -93,16 +93,6 @@ class Primary_Term implements Integration {
 		$primary_term->save();
 	}
 
-
-	/**
-	 * Get the current post ID.
-	 *
-	 * @return integer The post ID.
-	 */
-	protected function get_current_id() {
-		return get_the_ID();
-	}
-
 	/**
 	 * Returns all the taxonomies for which the primary term selection is enabled
 	 *
@@ -184,5 +174,16 @@ class Primary_Term implements Integration {
 		}
 
 		return $indexable;
+	}
+
+	/**
+	 * Get the current post ID.
+	 *
+	 * @coveCoverageIgnore
+	 *
+	 * @return integer The post ID.
+	 */
+	protected function get_current_id() {
+		return get_the_ID();
 	}
 }
