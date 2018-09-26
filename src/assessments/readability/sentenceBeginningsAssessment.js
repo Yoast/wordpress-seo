@@ -43,19 +43,12 @@ let groupSentenceBeginnings = function( sentenceBeginnings ) {
  * @returns {{score: number, text: string, hasMarks: boolean}} result object with score and text.
  */
 let calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18n ) {
-	let score;
 	let urlTitle = "<a href='https://yoa.st/35f' target='_blank'>";
 	let urlCallToAction = "<a href='https://yoa.st/35g' target='_blank'>";
 
 	if ( groupedSentenceBeginnings.total > 0 ) {
-		score = 3;
-	} else {
-		score = 9;
-	}
-
-	if ( score === 3 ) {
 		return {
-			score: score,
+			score: 3,
 			hasMarks: true,
 			text: i18n.sprintf(
 				/* Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
@@ -77,9 +70,8 @@ let calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18
 		};
 	}
 	return {
-		score: score,
+		score: 9,
 		hasMarks: false,
-
 		text: i18n.sprintf(
 			/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 			i18n.dgettext( "js-text-analysis",
