@@ -6,11 +6,12 @@ var i18n = factory.buildJed();
 let linkStatisticAssessment = new OutboundLinksAssessment();
 
 describe( "An assessor running the linkStatistics", function() {
-	it( "Accepts a paper and i18nobject  ", function() {
-		var attributes = {
-			keyword: "keyword",
-			url: "http://example.com",
-		};
+	var attributes = {
+		keyword: "keyword",
+		url: "http://example.com",
+	};
+
+	it( "Tests a paper with some do-follow outbound links and no no-follow outbound links", function() {
 		var mockPaper = new Paper( "a test with a <a href='http://yoast.com' alt=''>keyword link </a>"  );
 
 		var mockResult = { externalDofollow: 1,
@@ -30,8 +31,10 @@ describe( "An assessor running the linkStatistics", function() {
 
 		expect( assessment.getScore() ).toEqual( 8 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: Good job!" );
+	} );
 
-		mockPaper = new Paper( "a test with a <a href='http://yoast.com' alt='' rel='nofollow'> link </a>", attributes );
+	it( "Tests a paper with some no-folow outbound links and no do-follow outbound links", function() {
+		const mockPaper = new Paper( "a test with a <a href='http://yoast.com' alt='' rel='nofollow'> link </a>", attributes );
 
 		var mockResult = { externalDofollow: 0,
 			externalNofollow: 1,
@@ -46,7 +49,7 @@ describe( "An assessor running the linkStatistics", function() {
 			totalKeyword: 0,
 			totalNaKeyword: 0 };
 
-		assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ), i18n );
+		const assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 7 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: All outbound links on this page are nofollowed. <a href='https://yoa.st/34g' target='_blank'>Add some normal links</a>." );
@@ -74,7 +77,7 @@ describe( "An assessor running the linkStatistics", function() {
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: There are both nofollowed and normal outbound links on this page. Good job!" );
 	} );
 
-	it( "Accepts a paper and i18nobject  ", function() {
+	it( "Tests a paper without outbound links", function() {
 		var mockPaper = new Paper( "" );
 		var assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( { externalTotal: 0 } ), i18n );
 

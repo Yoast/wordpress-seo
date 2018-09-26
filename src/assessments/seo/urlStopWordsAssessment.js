@@ -12,15 +12,23 @@ const availableLanguages = [ "en" ];
  * @returns {Object} The resulting score object.
  */
 const calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
+	const urlTitle = "<a href='https://yoa.st/34p' target='_blank'>";
+	const urlCallToAction = "<a href='https://yoa.st/34q' target='_blank'>";
+
 	if ( stopWordCount > 0 ) {
 		return {
 			score: 5,
-			text: i18n.dngettext(
-				"js-text-analysis",
+			text: i18n.sprintf(
 				/* Translators: %1$s and %2$s open links to an articles about stopwords, %3$s closes the links */
-				"%1$sSlug stopwords%3$s: The slug for this page contains a stop word. %2$sRemove it%3$s!",
-				"%1$sSlug stopwords%3$s: The slug for this page contains stop words. %2$sRemove them%3$s!",
-				stopWordCount
+				i18n.dngettext(
+					"js-text-analysis",
+					"%1$sSlug stopwords%3$s: The slug for this page contains a stop word. %2$sRemove it%3$s!",
+					"%1$sSlug stopwords%3$s: The slug for this page contains stop words. %2$sRemove them%3$s!",
+					stopWordCount
+				),
+				urlTitle,
+				urlCallToAction,
+				"</a>"
 			),
 		};
 	}
@@ -39,19 +47,13 @@ const calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
  */
 const urlHasStopWordsAssessment = function( paper, researcher, i18n ) {
 	const stopWords = researcher.getResearch( "stopWordsInUrl" );
-	const stopWordsResult = calculateUrlStopWordsCountResult( stopWords.length, i18n );
-	const urlTitle = "<a href='https://yoa.st/34p' target='_blank'>";
-	const urlCallToAction = "<a href='https://yoa.st/34q' target='_blank'>";
 
 	const assessmentResult = new AssessmentResult();
+
+	const stopWordsResult = calculateUrlStopWordsCountResult( stopWords.length, i18n );
+
 	assessmentResult.setScore( stopWordsResult.score );
-	assessmentResult.setText( i18n.sprintf(
-		stopWordsResult.text,
-		/* Translators: this link is referred to in the content analysis when a slug contains one or more stop words */
-		urlTitle,
-		urlCallToAction,
-		"</a>"
-	) );
+	assessmentResult.setText( stopWordsResult.text );
 
 	return assessmentResult;
 };

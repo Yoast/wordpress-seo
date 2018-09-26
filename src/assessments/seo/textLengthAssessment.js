@@ -129,7 +129,7 @@ class TextLengthAssessment extends Assessment {
 					/* Translators: The preceding sentence is "Text length: The text contains x words.",
 					%3$s expands to a link on yoast.com,
 					%4$s expands to the anchor end tag,
-					%5$s expands to the recommended minimum of words. */
+					%5$d expands to the recommended minimum of words. */
 					"This is slightly below the recommended minimum of %5$d word. %3$sAdd a bit more copy%4$s.",
 					"This is slightly below the recommended minimum of %5$d words. %3$sAdd a bit more copy%4$s.",
 					this._config.recommendedMinimum
@@ -156,7 +156,7 @@ class TextLengthAssessment extends Assessment {
 					/* Translators: The preceding sentence is "Text length: The text contains x words.",
 					%3$s expands to a link on yoast.com,
 					%4$s expands to the anchor end tag,
-					%5$s expands to the recommended minimum of words. */
+					%5$d expands to the recommended minimum of words. */
 					"This is below the recommended minimum of %5$d word. %3$sAdd more content%4$s.",
 					"This is below the recommended minimum of %5$d words. %3$sAdd more content%4$s.",
 					this._config.recommendedMinimum
@@ -183,7 +183,7 @@ class TextLengthAssessment extends Assessment {
 					/* Translators: The preceding sentence is "Text length: The text contains x words.",
 					%3$s expands to a link on yoast.com,
 					%4$s expands to the anchor end tag,
-					%5$s expands to the recommended minimum of words. */
+					%5$d expands to the recommended minimum of words. */
 					"This is far below the recommended minimum of %5$d word. %3$sAdd more content%4$s.",
 					"This is far below the recommended minimum of %5$d words. %3$sAdd more content%4$s.",
 					this._config.recommendedMinimum

@@ -123,7 +123,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 				%4$d expands to the number of characters in the meta description, %5$d expands to
 				the total available number of characters in the meta description */
 				i18n.dgettext( "js-text-analysis", "%1$sMeta description length%3$s: The meta description is too short (under %4$d characters). " +
-				"Up to %5$d characters are available. %2$sUse the space!%3$s" ),
+				"Up to %5$d characters are available. %2$sUse the space%3$s!" ),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
 				"</a>",
@@ -137,7 +137,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 				%4$d expands to	the total available number of characters in the meta description */
 				i18n.dgettext( "js-text-analysis", "%1$sMeta description length%3$s: The meta description is over %4$d characters. " +
-				"To ensure the entire description will be visible, %2$syou should reduce the length!%3$s" ),
+				"To ensure the entire description will be visible, %2$syou should reduce the length%3$s!" ),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
 				"</a>",
