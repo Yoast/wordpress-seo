@@ -3431,9 +3431,9 @@ escope@^3.6.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-config-yoast@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-yoast/-/eslint-config-yoast-5.0.0.tgz#ec277e39544e45f5bae0ca375c6746680a7bdcff"
+eslint-config-yoast@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-yoast/-/eslint-config-yoast-5.0.1.tgz#d98d11dcb15194205dd7eed99bff12dd42e4db45"
   dependencies:
     js-yaml "^3.6.0"
 
