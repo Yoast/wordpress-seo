@@ -66,7 +66,7 @@ const expectedResults = {
 	},
 	subheadingsKeyword: {
 		score: 9,
-		resultText: "The focus keyword appears in 1 (out of 3) <a href='https://yoa.st/2ph' target='_blank'>subheadings</a> in your copy.",
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 33.3% of your subheadings reflect the topic of your copy. Good job!",
 	},
 	textCompetingLinks: {
 		score: 0,

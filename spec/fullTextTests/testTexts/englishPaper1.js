@@ -76,8 +76,8 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: The meta description is over 156 characters. To ensure the entire description will be visible, <a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
-		score: 6,
-		resultText: "You have not used the focus keyword in any <a href='https://yoa.st/2ph' target='_blank'>subheading</a> (such as an H2) in your copy.",
+		score: 3,
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keywords or synonyms in your subheadings</a>!",
 	},
 	textCompetingLinks: {
 		score: 0,

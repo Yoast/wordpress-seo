@@ -60,8 +60,8 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: Well done!",
 	},
 	subheadingsKeyword: {
-		score: 9,
-		resultText: "The focus keyword appears in 1 (out of 4) <a href='https://yoa.st/2ph' target='_blank'>subheadings</a> in your copy.",
+		score: 3,
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: More than 75% of your subheadings reflect the topic of your copy. That's too much. <a href='https://yoa.st/33n' target='_blank'>Don't over-optimize</a>!",
 	},
 	textCompetingLinks: {
 		score: 0,
