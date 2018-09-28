@@ -674,7 +674,7 @@ class Yoast_Form {
 			return '';
 		}
 
-		return '<div class="disabled-note">' . esc_html__( 'This feature has been disabled by the network admin.', 'wordpress-seo' ) . '</div>';
+		return '<p class="disabled-note">' . esc_html__( 'This feature has been disabled by the network admin.', 'wordpress-seo' ) . '</p>';
 	}
 
 	/**
