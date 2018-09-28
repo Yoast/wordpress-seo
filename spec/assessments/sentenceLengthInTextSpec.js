@@ -1,6 +1,6 @@
 import SentenceLengthInTextAssessment from "../../src/assessments/readability/sentenceLengthInTextAssessment";
 import Paper from "../../src/values/Paper.js";
-import Factory from "../helpers/factory.js";
+import Factory from "../specHelpers/factory.js";
 import Mark from "../../src/values/Mark.js";
 let i18n = Factory.buildJed();
 

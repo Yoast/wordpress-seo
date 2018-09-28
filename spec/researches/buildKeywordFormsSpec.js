@@ -1,12 +1,8 @@
 import Paper from "../../src/values/Paper";
 import Researcher from "../../src/researcher";
 
-const buildKeywordForms = require( "../../src/researches/buildKeywordForms.js" );
-const filterFunctionWords = buildKeywordForms.filterFunctionWords;
-const buildForms = buildKeywordForms.buildForms;
-const collectForms = buildKeywordForms.collectForms;
-
-const morphologyData = require( "../../src/morphology/morphologyData.json" );
+import { filterFunctionWords, buildForms, collectForms } from "../../src/researches/buildKeywordForms.js";
+import morphologyData from "../../src/morphology/morphologyData.json";
 
 describe( "A test for filtering out function words from an array of words for a given language", function() {
 	it( "returns the array of content words for absent locale", function() {

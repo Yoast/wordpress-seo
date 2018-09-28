@@ -176,9 +176,9 @@ function research( paper, researcher ) {
 	return collectForms( paper.getKeyword(), paper.getSynonyms(), language, morphologyData );
 }
 
-module.exports = {
-	filterFunctionWords: filterFunctionWords,
-	buildForms: buildForms,
-	collectForms: collectForms,
-	research: research,
+export {
+	filterFunctionWords,
+	buildForms,
+	collectForms,
+	research,
 };

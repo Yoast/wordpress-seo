@@ -33,6 +33,7 @@ import { sum } from "lodash-es";
  */
 let ContentAssessor = function( i18n, options = {} ) {
 	Assessor.call( this, i18n, options );
+	this.type = "ContentAssessor";
 	let locale = ( options.hasOwnProperty( "locale" ) ) ? options.locale : "en_US";
 
 	this._assessments = [

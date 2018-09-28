@@ -129,15 +129,23 @@ class Scheduler {
 	/**
 	 * Executes the next task.
 	 *
-	 * @returns {void}
+	 * @returns {Promise} Resolves once the task is done, with the result of the task.
 	 */
-	async executeNextTask() {
+	executeNextTask() {
 		const task = this.getNextTask();
 		if ( task === null ) {
-			return;
+			return Promise.resolve( null );
 		}
-		const result = await task.execute( task.id, task.data );
-		task.done( task.id, result );
+
+		return Promise.resolve()
+			.then( () => {
+				return task.execute( task.id, task.data );
+			} )
+			.then( ( result ) => {
+				task.done( task.id, result );
+
+				return result;
+			} );
 	}
 }
 

@@ -2,7 +2,7 @@ import PreviouslyUsedKeywords from "../../src/bundledPlugins/previouslyUsedKeywo
 
 var usedKeywords = { keyword: [ 1 ], test: [ 2, 3, 4 ] };
 import Paper from "../../src/values/Paper.js";
-import Factory from "../helpers/factory.js";
+import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();
 
 var app = {};

@@ -1,6 +1,6 @@
 import OutboundLinksAssessment from "../../src/assessments/seo/outboundLinksAssessment.js";
 import Paper from "../../src/values/Paper.js";
-import factory from "../helpers/factory.js";
+import factory from "../specHelpers/factory.js";
 var i18n = factory.buildJed();
 
 let linkStatisticAssessment = new OutboundLinksAssessment();
