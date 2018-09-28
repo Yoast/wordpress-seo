@@ -106,4 +106,9 @@ describe( "Test for counting the keyword in a text", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, key word consectetur key-word adipiscing elit " );
 		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 2 );
 	} );
+
+	it( "only counts full key phrases (when all keywords are in the sentence once, twice etc.) as matches.", function() {
+		const mockPaper = new Paper( "A string with three keys (key and another key) and one word." );
+		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
+	} )
 } );
