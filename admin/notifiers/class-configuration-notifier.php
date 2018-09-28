@@ -11,6 +11,7 @@
 class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	const META_NAME = 'wpseo-dismiss-configuration-notice';
 	const META_VALUE = 'yes';
+
 	/** @var bool */
 	protected $show_notification;
 
@@ -129,7 +130,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	private function notification( $title, $content, $show_dismissal = false ) {
 		$notification  = '<div class="yoast-container yoast-container__configuration-wizard">';
 		$notification .= sprintf(
-			'<img src="%1$s" height="%2$s" width="%3$d"  />',
+			'<img src="%1$s" height="%2$s" width="%3$d" />',
 			esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/new-to-configuration-notice.svg' ),
 			60,
 			60
