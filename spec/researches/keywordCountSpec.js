@@ -110,5 +110,5 @@ describe( "Test for counting the keyword in a text", function() {
 	it( "only counts full key phrases (when all keywords are in the sentence once, twice etc.) as matches.", function() {
 		const mockPaper = new Paper( "A string with three keys (key and another key) and one word." );
 		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
-	} )
+	} );
 } );
