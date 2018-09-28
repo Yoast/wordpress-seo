@@ -16,7 +16,7 @@ describe( "the metadescription keyword assessment", function() {
 		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherNoMatches, i18n );
 
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Key phrase in meta description</a>: The meta description has been specified, but it does not contain the focus key phrase. <a href='https://yoa.st/33l' target='_blank'>Fix that!</a>" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Key phrase in meta description</a>: The meta description has been specified, but it does not contain the focus key phrase. <a href='https://yoa.st/33l' target='_blank'>Fix that</a>!" );
 	} );
 
 	it( "returns a good result and an appropriate feedback message when at least one sentence contains every keyword term at least once in the same sentence.", function() {
@@ -40,7 +40,7 @@ describe( "the metadescription keyword assessment", function() {
 		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherThreeMatches, i18n );
 
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Key phrase in meta description</a>: The meta description contains the focus keyword 3 times, which is over the advised maximum of 2 times. <a href='https://yoa.st/33l' target='_blank'>Limit that!</a>" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Key phrase in meta description</a>: The meta description contains the focus keyword 3 times, which is over the advised maximum of 2 times. <a href='https://yoa.st/33l' target='_blank'>Limit that</a>!" );
 	} );
 
 	it( "returns an okay result when the meta description contains the keyword one time, but not in the same sentence", function() {
@@ -48,7 +48,7 @@ describe( "the metadescription keyword assessment", function() {
 		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherMatchesDescription, i18n );
 
 		expect( assessment.getScore() ).toBe( 6 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Key phrase in meta description</a>: All words of focus key phrase or synonym appear in the meta description, but not within one sentence. <a href='https://yoa.st/33l' target='_blank'>Try to use them in one sentence.</a>" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Key phrase in meta description</a>: All words of focus key phrase or synonym appear in the meta description, but not within one sentence. <a href='https://yoa.st/33l' target='_blank'>Try to use them in one sentence</a>." );
 	} );
 
 	it( "is not applicable when the paper doesn't have a keyword", function() {
