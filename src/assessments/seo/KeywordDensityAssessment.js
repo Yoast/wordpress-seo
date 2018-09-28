@@ -66,7 +66,7 @@ class KeywordDensityAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		const assessmentResult = new AssessmentResult();
 
-		this._keywordCount = researcher.getResearch( "keywordCount" );
+		this._keywordCount = researcher.getResearch( "keywordCount" ).count;
 
 		this._keywordDensity = researcher.getResearch( "getKeywordDensity" );
 
