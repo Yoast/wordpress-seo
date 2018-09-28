@@ -18,6 +18,7 @@ import { uniq as unique } from "lodash-es";
 export default function( text, array, locale = "en_EN" ) {
 	let count = 0;
 	let matches = [];
+
 	unique( array ).forEach( function( wordToMatch ) {
 		const occurrence = matchTextWithWord( text, wordToMatch, locale );
 		count += occurrence.count;

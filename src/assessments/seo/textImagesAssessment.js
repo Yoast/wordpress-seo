@@ -25,7 +25,8 @@ class TextImagesAssessment extends Assessment {
 				withAlt: 6,
 				noAlt: 6,
 			},
-			url: "<a href='https://yoa.st/2pj' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/33c' target='_blank'>",
+			urlCallToAction: "<a href='https://yoa.st/33d' target='_blank'>",
 		};
 
 		this.identifier = "textImages";
@@ -79,9 +80,10 @@ class TextImagesAssessment extends Assessment {
 			return {
 				score: this._config.scores.noImages,
 				resultText: i18n.sprintf(
-					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-					i18n.dgettext( "js-text-analysis", "No %1$simages%2$s appear in this page, consider adding some as appropriate." ),
-					this._config.url,
+					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					i18n.dgettext( "js-text-analysis", "%1$sImage alt attributes%3$s: No images appear on this page. %2$sAdd some%3$s!" ),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -93,8 +95,9 @@ class TextImagesAssessment extends Assessment {
 				score: this._config.scores.withAltKeyword,
 				resultText: i18n.sprintf(
 					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-					i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page contain alt attributes with the topic words." ),
-					this._config.url,
+					i18n.dgettext( "js-text-analysis", "%1$sImage alt attributes%2$s: " +
+						"Some images on this page contain alt attributes with words from your keyphrase! Good job!" ),
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
@@ -105,8 +108,11 @@ class TextImagesAssessment extends Assessment {
 			return {
 				score: this._config.scores.withAltNonKeyword,
 				resultText: i18n.sprintf(
-					i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page do not have alt attributes with the topic words." ),
-					this._config.url,
+					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					i18n.dgettext( "js-text-analysis", "%1$sImage alt attributes%3$s: " +
+						"Images on this page do not have alt attributes with words from your keyphrase. %2$sFix that%3$s!" ),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -117,8 +123,11 @@ class TextImagesAssessment extends Assessment {
 			return {
 				score: this._config.scores.withAlt,
 				resultText: i18n.sprintf(
-					i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page contain alt attributes." ),
-					this._config.url,
+					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					i18n.dgettext( "js-text-analysis", "%1$sImage alt attributes%3$s: " +
+						"Images on this page do not have alt attributes with words from your keyphrase. %2$sFix that%3$s!" ),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -129,8 +138,11 @@ class TextImagesAssessment extends Assessment {
 			return {
 				score: this._config.scores.noAlt,
 				resultText: i18n.sprintf(
-					i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page are missing alt attributes." ),
-					this._config.url,
+					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					i18n.dgettext( "js-text-analysis", "%1$sImage alt attributes%3$s: " +
+						"Images on this page do not have alt attributes with words from your keyphrase. %2$sFix that%3$s!" ),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};

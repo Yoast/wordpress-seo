@@ -53,11 +53,11 @@ const paper = new Paper( "<p>My husband &#8211; <a href='https://yoast.com/about
 const expectedResults = {
 	introductionKeyword: {
 		score: 9,
-		resultText: "All topic words appear within one sentence in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy.",
+		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!",
 	},
 	keyphraseLength: {
 		score: 9,
-		resultText: "Your <a href='https://yoa.st/2pdd' target='_blank'>keyphrase</a> has a nice length.",
+		resultText: "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!",
 	},
 	keywordDensity: {
 		score: 9,
@@ -69,11 +69,11 @@ const expectedResults = {
 	},
 	metaDescriptionKeyword: {
 		score: 9,
-		resultText: "The meta description <a href='https://yoa.st/2pf' target='_blank'>contains the focus keyword</a>.",
+		resultText: "<a href='https://yoa.st/33k' target='_blank'>Key phrase in meta description</a>: Focus key phrase or synonym appear in the meta description. Well done!",
 	},
 	metaDescriptionLength: {
 		score: 6,
-		resultText: "The <a href='https://yoa.st/2pg' target='_blank'>meta description</a> is over 156 characters. Reducing the length will ensure the entire description will be visible.",
+		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: The meta description is over 156 characters. To ensure the entire description will be visible, <a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
 		score: 6,
@@ -85,27 +85,27 @@ const expectedResults = {
 	},
 	textImages: {
 		score: 3,
-		resultText: "No <a href='https://yoa.st/2pj' target='_blank'>images</a> appear in this page, consider adding some as appropriate.",
+		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: No images appear on this page. <a href='https://yoa.st/33d' target='_blank'>Add some</a>!",
 	},
 	textLength: {
 		score: 9,
-		resultText: "The text contains 716 words. This is more than or equal to the <a href='https://yoa.st/2pk' target='_blank'>recommended minimum</a> of 300 words.",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 716 words. Good job!",
 	},
 	externalLinks: {
 		score: 8,
-		resultText: "This page has 0 nofollowed <a href='https://yoa.st/2pl' target='_blank'>outbound link(s)</a> and 1 normal outbound link(s).",
+		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: Good job!",
 	},
 	internalLinks: {
 		score: 3,
-		resultText: "No <a href='https://yoa.st/2pm' target='_blank'>internal links</a> appear in this page, consider adding some as appropriate.",
+		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: No internal links appear in this page, <a href='https://yoa.st/34a' target='_blank'>make sure to add some</a>!",
 	},
 	titleKeyword: {
 		score: 9,
-		resultText: "The <a href='https://yoa.st/2pn' target='_blank'>SEO title</a> contains the focus keyword, at the beginning which is considered to improve rankings.",
+		resultText: "The exact match of the focus keyphrase appears at the beginning of the <a href='https://yoa.st/2pn' target='_blank'>SEO title</a>, which is considered to improve rankings.",
 	},
 	titleWidth: {
 		score: 9,
-		resultText: "The <a href='https://yoa.st/2po' target='_blank'>SEO title</a> has a nice length.",
+		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
 	urlKeyword: {
 		score: 9,
@@ -113,11 +113,11 @@ const expectedResults = {
 	},
 	urlLength: {
 		score: 6,
-		resultText: "The slug for this page is a bit long, consider shortening it.",
+		resultText: "<a href='https://yoa.st/35b' target='_blank'>Slug too long</a>: the slug for this page is a bit long. <a href='https://yoa.st/35c' target='_blank'>Shorten it</a>!",
 	},
 	urlStopWords: {
 		score: 5,
-		resultText: "The slug for this page contains a <a href='http://en.wikipedia.org/wiki/Stop_words' target='_blank'>stop word</a>, consider removing it.",
+		resultText: "<a href='https://yoa.st/34p' target='_blank'>Slug stopwords</a>: The slug for this page contains a stop word. <a href='https://yoa.st/34q' target='_blank'>Remove it</a>!",
 	},
 	largestKeywordDistance: {
 		score: 1,
@@ -125,35 +125,36 @@ const expectedResults = {
 	},
 	fleschReadingEase: {
 		score: 9,
-		resultText: "The copy scores 78.7 in the <a href='https://yoa.st/flesch-reading' target='_blank'>Flesch Reading Ease</a> test, which is considered fairly easy to read. ",
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 78.7 in the test, which is considered fairly easy to read. Good job!",
 	},
 	subheadingsTooLong: {
 		score: 9,
-		resultText: "Great job with using <a href='https://yoa.st/headings' target='_blank'>subheadings</a>!",
+		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: Great job!",
 	},
 	textParagraphTooLong: {
 		score: 3,
-		resultText: "1 of the paragraphs contains more than the recommended maximum of 150 words. Are you sure all information is about the same topic, and therefore belongs in one single paragraph?",
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs contains more than the recommended maximum of 150 words." +
+		" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		score: 9,
-		resultText: "4.8% of the sentences contain <a href='https://yoa.st/short-sentences' target='_blank'>more than 20 words</a>, which is less than or equal to the recommended maximum of 25%.",
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!",
 	},
 	textTransitionWords: {
 		score: 6,
-		resultText: "28.6% of the sentences contain a <a href='https://yoa.st/transition-words' target='_blank'>transition word</a> or phrase, which is less than the recommended minimum of 30%.",
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 28.6% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		score: 9,
-		resultText: "7.1% of the sentences contain <a href='https://yoa.st/passive-voice' target='_blank'>passive voice</a>, which is less than or equal to the recommended maximum of 10%.",
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
 	},
 	textPresence: {
 		score: 0,
 		resultText: "",
 	},
 	sentenceBeginnings: {
-		score: 0,
-		resultText: "",
+		score: 9,
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!",
 	},
 };
 
