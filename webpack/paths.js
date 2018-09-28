@@ -10,7 +10,6 @@ const entry = {
 	vendor: [
 		"react",
 		"react-dom",
-		"babel-polyfill",
 	],
 	"configuration-wizard": "./configuration-wizard.js",
 	"search-appearance": "./search-appearance.js",
@@ -23,6 +22,7 @@ const entry = {
 	"wp-seo-replacevar-plugin": "./wp-seo-replacevar-plugin.js",
 	"wp-seo-structured-data-blocks": "./wp-seo-structured-data-blocks.js",
 	analysis: "./analysis.js",
+	components: "./components.js",
 
 	"wp-seo-admin-global": "./wp-seo-admin-global.js",
 	"wp-seo-admin-gsc": "./wp-seo-admin-gsc.js",

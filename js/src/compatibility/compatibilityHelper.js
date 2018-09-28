@@ -4,7 +4,7 @@ import noop from "lodash/noop";
 
 /* Internal dependencies */
 import DiviHelper from "./diviHelper";
-import VisualComposerHelper from "./visualComposerHelper";
+import VisualComposerHelper from "./VisualComposerHelper";
 
 const DEFAULTS = {
 	classicEditorHidden: noop,
@@ -37,6 +37,15 @@ class CompatibilityHelper {
 		if( VisualComposerHelper.isActive() ) {
 			this.vcActive = true;
 		}
+	}
+
+	/**
+	 * Determines if a page builder is active.
+	 *
+	 * @returns {boolean} True whether a page is active.
+	 */
+	isPageBuilderActive() {
+		return this.diviActive || this.vcActive;
 	}
 
 	/**

@@ -170,8 +170,8 @@ $wpseo_extensions_header = sprintf( __( '%1$s Extensions', 'wordpress-seo' ), 'Y
 						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'create and manage redirects from within your WordPress install.', 'wordpress-seo' ); ?></span>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Multiple focus keywords', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'optimize a single post for up to 5 keywords.', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Multiple focus keyphrases', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'optimize a single post for up to 5 keyphrases.', 'wordpress-seo' ); ?></span>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
 						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Social previews', 'wordpress-seo' ); ?></span>

@@ -134,6 +134,4 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( '%%title%% %%sep%% %%sitename%%', $result['title_template'] );
 		$this->assertEquals( 'This is a meta description', $result['metadesc_template'] );
 	}
-
-
 }

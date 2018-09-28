@@ -3,8 +3,7 @@
 import has from "lodash/has";
 import debounce from "lodash/debounce";
 import isArray from "lodash/isArray";
-import { bundledPlugins } from "yoastseo";
-const UsedKeywordsPlugin = bundledPlugins.usedKeywords;
+import isEqual from "lodash/isEqual";
 
 var $ = jQuery;
 
@@ -18,22 +17,23 @@ var $ = jQuery;
  * @param {Object} options.search_url The URL to link the user to if the keyword has been used multiple times.
  * @param {Object} options.post_edit_url The URL to link the user to if the keyword has been used a single time.
  * @param {App} app The app for which to keep track of the used keywords.
+ * @param {string} scriptUrl The URL to the used keywords assessment script.
  *
  * @returns {void}
  */
-function UsedKeywords( ajaxAction, options, app ) {
-	this._keywordUsage = options.keyword_usage;
-
-	this._plugin = new UsedKeywordsPlugin( app, {
+function UsedKeywords( ajaxAction, options, app, scriptUrl ) {
+	this._scriptUrl = scriptUrl;
+	this._options = {
 		usedKeywords: options.keyword_usage,
 		searchUrl: options.search_url,
 		postUrl: options.post_edit_url,
-	}, app.i18n );
-
+	};
+	this._keywordUsage = options.keyword_usage;
 	this._postID = $( "#post_ID, [name=tag_ID]" ).val();
 	this._taxonomy = $( "[name=taxonomy]" ).val() || "";
 	this._ajaxAction = ajaxAction;
 	this._app = app;
+	this._initialized = false;
 }
 
 /**
@@ -42,9 +42,26 @@ function UsedKeywords( ajaxAction, options, app ) {
  * @returns {void}
  */
 UsedKeywords.prototype.init = function() {
+	const { worker } = window.YoastSEO.analysis;
+
 	this.requestKeywordUsage = debounce( this.requestKeywordUsage.bind( this ), 500 );
 
-	this._plugin.registerPlugin();
+	worker.loadScript( this._scriptUrl )
+		.then( () => {
+			worker.sendMessage( "initialize", this._options, "used-keywords-assessment" );
+		} )
+		.then( () => {
+			this._initialized = true;
+
+			if ( isEqual( this._options.usedKeywords, this._keywordUsage ) ) {
+				this._app.refresh();
+				return;
+			}
+
+			worker.sendMessage( "updateKeywordUsage", this._keywordUsage, "used-keywords-assessment" )
+				.then( () => this._app.refresh() );
+		} )
+		.catch( error => console.error( error ) );
 };
 
 /**
@@ -85,10 +102,15 @@ UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
  * @returns {void}
  */
 UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
+	const { worker } = window.YoastSEO.analysis;
+
 	if ( response && isArray( response ) ) {
 		this._keywordUsage[ keyword ] = response;
-		this._plugin.updateKeywordUsage( this._keywordUsage );
-		this._app.refresh();
+
+		if ( this._initialized ) {
+			worker.sendMessage( "updateKeywordUsage", this._keywordUsage, "used-keywords-assessment" )
+				.then( () => this._app.refresh() );
+		}
 	}
 };
 

@@ -141,7 +141,5 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $result['title_template'], 'This is the title' );
 		$this->assertEquals( $result['metadesc_template'], '' );
-
 	}
-
 }

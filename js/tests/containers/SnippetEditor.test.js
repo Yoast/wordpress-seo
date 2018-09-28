@@ -27,7 +27,7 @@ describe( "SnippetEditor container", () => {
 				snippetEditor: {
 					baseUrl: "https://localhost.test",
 					date: "01-01-1970",
-					recommendedReplaceVars: [
+					recommendedReplacementVariables: [
 						{
 							name: "variable",
 							value: "Value",

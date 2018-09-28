@@ -95,7 +95,6 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 		wp_trash_post( self::$post_id );
 	}
 
-
 	/**
 	 * Tests showing notification when a post is deleted.
 	 *

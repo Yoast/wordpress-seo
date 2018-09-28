@@ -1,11 +1,13 @@
 /* global wp, _, wpseoPrimaryCategoryL10n */
+/* External dependencies */
+import { dispatch } from "@wordpress/data";
 
-import "./helpers/babel-polyfill";
+/* Internal dependencies */
 
 ( function( $ ) {
 	"use strict";
 
-	var primaryTermInputTemplate, primaryTermUITemplate, primaryTermScreenReaderTemplate;
+	var primaryTermUITemplate, primaryTermScreenReaderTemplate;
 	var taxonomies = wpseoPrimaryCategoryL10n.taxonomies;
 
 	/**
@@ -34,6 +36,24 @@ import "./helpers/babel-polyfill";
 	}
 
 	/**
+	 * Gets the name of a term for the category taxonomy.
+	 *
+	 * @param {number} categoryTermId The terms's id.
+	 *
+	 * @returns {string} The term's name.
+	 */
+	function getCategoryTermName( categoryTermId ) {
+		const categoryListItem = $( "#category-all" )
+			.find( `#category-${ categoryTermId } > label` );
+		if ( categoryListItem.length === 0 ) {
+			return "";
+		}
+		const clone = categoryListItem.clone();
+		clone.children().remove();
+		return $.trim( clone.text() );
+	}
+
+	/**
 	 * Sets the primary term for a taxonomy.
 	 *
 	 * @param {string} taxonomyName The taxonomy name.
@@ -42,10 +62,21 @@ import "./helpers/babel-polyfill";
 	 * @returns {void}
 	 */
 	function setPrimaryTerm( taxonomyName, termId ) {
-		var primaryTermInput;
-
-		primaryTermInput = $( "#yoast-wpseo-primary-" + taxonomyName );
+		const primaryTermInput = $( "#yoast-wpseo-primary-" + taxonomyName );
 		primaryTermInput.val( termId ).trigger( "change" );
+
+		const yoastEditor = dispatch( "yoast-seo/editor" );
+		if ( yoastEditor ) {
+			const termIdInt = parseInt( termId, 10 );
+			yoastEditor.setPrimaryTaxonomyId( taxonomyName, termIdInt );
+			// If the taxonomy is category update the replacement variable.
+			if ( taxonomyName === "category" ) {
+				yoastEditor.updateReplacementVariable(
+					"primary_category",
+					getCategoryTermName( termIdInt )
+				);
+			}
+		}
 	}
 
 	/**
@@ -204,15 +235,7 @@ import "./helpers/babel-polyfill";
 
 	$.fn.initYstSEOPrimaryCategory = function() {
 		return this.each( function( i, taxonomy ) {
-			var metaboxTaxonomy, html;
-
-			metaboxTaxonomy = $( "#" + taxonomy.name + "div" );
-
-			html = primaryTermInputTemplate( {
-				taxonomy: taxonomy,
-			} );
-
-			metaboxTaxonomy.append( html );
+			const metaboxTaxonomy = $( "#" + taxonomy.name + "div" );
 
 			updatePrimaryTermSelectors( taxonomy.name );
 
@@ -227,7 +250,6 @@ import "./helpers/babel-polyfill";
 
 	$( function() {
 		// Initialize our templates
-		primaryTermInputTemplate = wp.template( "primary-term-input" );
 		primaryTermUITemplate = wp.template( "primary-term-ui" );
 		primaryTermScreenReaderTemplate = wp.template( "primary-term-screen-reader" );
 

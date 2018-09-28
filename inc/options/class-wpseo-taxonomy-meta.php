@@ -172,7 +172,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		}
 	*/
 
-
 	/**
 	 * Validate the option.
 	 *

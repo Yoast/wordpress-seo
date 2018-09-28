@@ -205,5 +205,4 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 
 		$this->assertContains( '<p id="wpseo_fieldname-desc" class="yoast-metabox__description">description for the field</p>', $output );
 	}
-
 }
