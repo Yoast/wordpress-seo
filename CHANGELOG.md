@@ -5,6 +5,22 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.40.0 September 24th, 2018
+
+### Bugs:
+
+* Fixes a bug that caused keywords beginning with the Turkish characters `İ` / `i` and `I` / `ı` not to be recognized when changing that character from lowercase to uppercase and vice versa. 
+
+### Enhancements:
+
+* Exposes word boundaries for use in other libraries or applications.
+
+### Changed:
+
+* Drops TypeScript support.
+* Changes all usage of `lodash` to `lodash-es`.
+* `index.js` has been rewritten to use ES6 Module import and export logic, instead of Node's `require` logic.
+
 ## 1.39.3 September 19th, 2018
 
 ### Bugs:

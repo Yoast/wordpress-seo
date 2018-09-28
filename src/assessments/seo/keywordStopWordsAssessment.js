@@ -17,12 +17,10 @@ var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
 			score: 0,
 			text: i18n.dngettext(
 				"js-text-analysis",
-				/* Translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
-				"The focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
-				"%1$sLearn more about the stop words%2$s.",
-				"The focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
-				"%1$sLearn more about the stop words%2$s.",
-				stopWordCount
+				/* Translators: %1$s and %2$s open links to Yoast articles, %3$s is the anchor end tag */
+				"%1$sStopwords%3$s: The focus keyphrase contains stop words. " +
+				"This may or may not be wise depending on the circumstances. " +
+				"%2$sLearn more about stop words%3$s.",
 			),
 		};
 	}
@@ -47,7 +45,8 @@ const keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
 	assessmentResult.setScore( stopWordsResult.score );
 	assessmentResult.setText( i18n.sprintf(
 		stopWordsResult.text,
-		"<a href='https://yoa.st/stopwords/' target='_blank'>",
+		"<a href='https://yoa.st/34b' target='_blank'>",
+		"<a href='https://yoa.st/34c' target='_blank'>",
 		"</a>",
 		stopWords.length
 	) );

@@ -1,19 +1,35 @@
-import matchTextWithWord from "../stringProcessing/matchTextWithWord.js";
-
-import { escapeRegExp } from "lodash-es";
+import getSentences from "../stringProcessing/getSentences";
+import { findTopicFormsInString } from "./findKeywordFormsInString";
 
 /**
  * Matches the keyword in the description if a description and keyword are available.
- * default is -1 if no description and/or keyword is specified
+ * Returns null if no description is specified in the given paper.
  *
  * @param {Paper} paper The paper object containing the description.
- * @returns {number} The number of matches with the keyword
+ * @param {Researcher} researcher the researcher object to gather researchers from.
+ * @returns { Object | null } The number of matches per keyword term, for the entire description and for each individual sentence.
  */
-export default function( paper ) {
+export default function( paper, researcher ) {
 	if ( paper.getDescription() === "" ) {
-		return -1;
+		return null;
 	}
-	var keyword = escapeRegExp( paper.getKeyword() );
-	return matchTextWithWord( paper.getDescription(), keyword, paper.getLocale() ).count;
+	const description = paper.getDescription();
+	const locale = paper.getLocale();
+
+	const topicForms = researcher.getResearch( "morphology" );
+
+	const sentences = getSentences( description );
+
+	const matchResults = { };
+
+	// Percentage of keyword matches in entire description, including synonyms.
+	matchResults.fullDescription = findTopicFormsInString( topicForms, description, true, locale ).percentWordMatches;
+
+	// The same as for the entire description, but per sentence.
+	matchResults.perSentence = sentences.map( sentence =>
+		findTopicFormsInString( topicForms, sentence, true, locale ).percentWordMatches
+	);
+
+	return matchResults;
 }
 
