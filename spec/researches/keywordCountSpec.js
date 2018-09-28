@@ -2,7 +2,7 @@
 import keywordCount from "../../src/researches/keywordCount.js";
 
 import Paper from "../../src/values/Paper.js";
-import factory from "../helpers/factory";
+import factory from "../specHelpers/factory";
 
 const buildMorphologyMockResearcher = function( keyphraseForms ) {
 	return factory.buildMockResearcher( {
