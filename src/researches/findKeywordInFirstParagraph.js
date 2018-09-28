@@ -5,6 +5,8 @@ import getSentences from "../stringProcessing/getSentences.js";
 import { findTopicFormsInString } from "./findKeywordFormsInString.js";
 import imageInText from "../stringProcessing/imageInText";
 import findEmptyDivisions from "../stringProcessing/findEmptyDivisions";
+import getAnchorsFromText from "../stringProcessing/getAnchorsFromText";
+import matchStringWithRegex from "../stringProcessing/matchStringWithRegex";
 
 import { reject } from "lodash-es";
 import { isEmpty } from "lodash-es";
@@ -17,34 +19,46 @@ import { isEmpty } from "lodash-es";
  * @returns {boolean} True if the text consists only of images, false otherwise.
  */
 function paragraphConsistsOfImagesOnly( text ) {
-	// First find all images in the text (paragraph)
+	// Remove links from the text
+	const anchors = getAnchorsFromText( text );
+	if ( anchors.length > 0 ) {
+		anchors.forEach( function( anchor ) {
+			text = text.replace( anchor, "" );
+		} );
+
+		if ( text === "" ) {
+			return true;
+		}
+	}
+
+	// Remove images from the text
 	const images = imageInText( text );
-	if ( images.length < 1 ) {
-		return false;
+	const imageTags = matchStringWithRegex( text, "</img>" );
+
+	if ( images.length > 0 ) {
+		images.forEach( function( image ) {
+			text = text.replace( image, "" );
+		} );
+
+		imageTags.forEach( function( imageTag ) {
+			text = text.replace( imageTag, "" );
+		} );
+
+		if ( text === "" ) {
+			return true;
+		}
 	}
 
-	// Replace images with empty strings
-	images.forEach( function( image ) {
-		text = text.replace( image, "" );
-	} );
-
-	// Return true if there is nothing left after this replacement
-	if ( text === "" ) {
-		return true;
-	}
-
-	// If there is still something left in the text after replacing images with empty strings, match empty divisions
+	// Remove empty divisions from the text
 	const emptyDivisions = findEmptyDivisions( text );
 	if ( emptyDivisions.length < 1 ) {
 		return false;
 	}
 
-	// Replace all empty divisions with empty strings
 	emptyDivisions.forEach( function( emptyDivision ) {
 		text = text.replace( emptyDivision, "" );
 	} );
 
-	// Check if the text became empty after that and return the result
 	return text === "";
 }
 
@@ -73,7 +87,6 @@ export default function( paper, researcher ) {
 
 	let paragraphs = matchParagraphs( paper.getText() );
 	paragraphs = reject( paragraphs, isEmpty );
-
 	paragraphs = reject( paragraphs, paragraphConsistsOfImagesOnly )[ 0 ] || "";
 
 	const result = {
