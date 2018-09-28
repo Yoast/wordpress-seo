@@ -128,6 +128,10 @@ export default function mapResults( results ) {
 	if ( ! results ) {
 		return mappedResults;
 	}
+
+	// Sort the results alphabetically by their identifier.
+	results = results.sort( ( a, b ) => a._identifier.localeCompare( b._identifier ) );
+
 	for ( let i = 0; i < results.length; i++ ) {
 		const result = results[ i ];
 		if( ! result.text ) {
