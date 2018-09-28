@@ -22,8 +22,8 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 <div style="max-width:600px">
 	<?php
 	echo sprintf(
-		/* translators: %1$s expands to Yoast SEO */
-		esc_html__( '%1$s comes with a lot of features. You can enable / disable some of them below. Clicking the question mark gives more information about the feature.', 'wordpress-seo' ),
+		/* translators: %s expands to Yoast SEO */
+		esc_html__( 'This tab allows you to selectively disable %s features for all sites in the network. By default all features are enabled, which allows site admins to choose for themselves if they want to toggle a feature on or off for their site. When you disable a feature here, site admins will not be able to use that feature at all.', 'wordpress-seo' ),
 		'Yoast SEO'
 	);
 
@@ -42,17 +42,17 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		}
 
 		$feature_help = new WPSEO_Admin_Help_Panel(
-			$feature->setting,
+			WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
 			/* translators: %s expands to a feature's name */
 			sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $feature->name ) ),
 			$help_text
 		);
 
 		$yform->toggle_switch(
-			$feature->setting,
+			WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
 			array(
-				'on'  => __( 'On', 'wordpress-seo' ),
-				'off' => __( 'Off', 'wordpress-seo' ),
+				'on'  => __( 'Allow Control', 'wordpress-seo' ),
+				'off' => __( 'Disable', 'wordpress-seo' ),
 			),
 			'<strong>' . $feature->name . $feature_help->get_button_html() . '</strong>' . $feature_help->get_panel_html()
 		);

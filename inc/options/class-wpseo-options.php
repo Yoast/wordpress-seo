@@ -446,7 +446,13 @@ class WPSEO_Options {
 	public static function save_option( $wpseo_options_group_name, $option_name, $option_value ) {
 		$options                 = self::get_option( $wpseo_options_group_name );
 		$options[ $option_name ] = $option_value;
-		update_option( $wpseo_options_group_name, $options );
+
+		if ( isset( self::$option_instances[ $wpseo_options_group_name ] ) && self::$option_instances[ $wpseo_options_group_name ]->multisite_only === true ) {
+			self::update_site_option( $wpseo_options_group_name, $options );
+		}
+		else {
+			update_option( $wpseo_options_group_name, $options );
+		}
 
 		// Check if everything got saved properly.
 		$saved_option = self::get_option( $wpseo_options_group_name );
