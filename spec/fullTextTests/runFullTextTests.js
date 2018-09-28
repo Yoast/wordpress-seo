@@ -101,10 +101,7 @@ testPapers.forEach( function( testPaper ) {
 				paper,
 				factory.buildMockResearcher(
 					{
-						getKeywordDensity: getKeywordDensity(
-							paper,
-							researcher,
-						),
+						getKeywordDensity: getKeywordDensity( paper, researcher ),
 						keywordCount: keywordCount( paper, researcher ),
 					},
 					true
