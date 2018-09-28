@@ -447,7 +447,7 @@ class WPSEO_Options {
 		$options                 = self::get_option( $wpseo_options_group_name );
 		$options[ $option_name ] = $option_value;
 
-		if ( isset( self::$option_instances[ $wpseo_options_group_name ] ) && self::$option_instances[ $wpseo_options_group_name ]->multisite_only == true ) {
+		if ( isset( self::$option_instances[ $wpseo_options_group_name ] ) && self::$option_instances[ $wpseo_options_group_name ]->multisite_only === true ) {
 			self::update_site_option( $wpseo_options_group_name, $options );
 		}
 		else {
