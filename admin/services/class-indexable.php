@@ -45,16 +45,9 @@ class WPSEO_Indexable_Service {
 
 		try {
 			$provider = $this->get_provider( $object_type );
-			$provider->patch( $object_id, $request->get_params() );
+			$patched_result = $provider->patch( $object_id, $request->get_params() );
 
-			return new WP_REST_Response(
-				sprintf(
-					/* translators: %1$s expands to the requested object type. %2$s resolved to the object ID. */
-					__( '%1$s with ID %2$s was successfully patched', 'wordpress-seo' ),
-					ucfirst( $object_type ),
-					$object_id
-				)
-			);
+			return new WP_REST_Response( $patched_result );
 		}
 		catch ( Exception $exception ) {
 			return new WP_REST_Response( $exception->getMessage(), 500 );

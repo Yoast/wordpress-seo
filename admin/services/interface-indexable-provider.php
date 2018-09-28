@@ -26,7 +26,7 @@ interface WPSEO_Indexable_Service_Provider {
 	 * @param int   $object_id   The ID of the object.
 	 * @param array $requestdata The request data to store.
 	 *
-	 * @return void
+	 * @return array The patched indexable.
 	 */
 	public function patch( $object_id, $requestdata );
 
