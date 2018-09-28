@@ -25,7 +25,9 @@ rules:
   # Possible Errors
   comma-dangle: [2, "always-multiline"]
   no-cond-assign: 2
-  no-console: [ 2, { allow: ["warn", "error", "trace"] } ]
+
+  # Warning to allow webpack hot reloading to not fail on no-console.
+  no-console: [ 1, { allow: ["warn", "error", "trace"] } ]
   no-constant-condition: 2
   no-control-regex: 2
   no-debugger: 2
