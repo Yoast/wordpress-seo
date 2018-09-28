@@ -128,7 +128,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the metaDescriptionKeyword assessment", function() {
 			result.metaDescriptionKeyword = new MetaDescriptionKeywordAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( metaDescriptionKeyword( paper ) ),
+				factory.buildMockResearcher( metaDescriptionKeyword( paper, researcher ) ),
 				i18n
 			);
 			expect( result.metaDescriptionKeyword.getScore() ).toBe( expectedResults.metaDescriptionKeyword.score );
