@@ -66,7 +66,6 @@
     "react-tabs": "^2.2.1",
     "react-transition-group": "^2.3.1",
     "redux": "^3.7.2",
-    "striptags": "^3.1.0",
     "styled-components": "^2.1.2",
     "whatwg-fetch": "^1.0.0",
     "yoastseo": "^1.40"

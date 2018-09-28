@@ -7928,10 +7928,6 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
-striptags@^3.1.0:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/striptags/-/striptags-3.1.1.tgz#c8c3e7fdd6fb4bb3a32a3b752e5b5e3e38093ebd"
-
 stubby@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/stubby/-/stubby-0.3.1.tgz#e64b64c9e81cba92916a7d84a7c119e24c5b6701"
