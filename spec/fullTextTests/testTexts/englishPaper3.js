@@ -37,11 +37,11 @@ const paper = new Paper( "<div class=\"content content__first\">\n" +
 const expectedResults = {
 	introductionKeyword: {
 		score: 9,
-		resultText: "All topic words appear within one sentence in the <a href='https://yoa.st/2pc' target='_blank'>first paragraph</a> of the copy.",
+		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!",
 	},
 	keyphraseLength: {
 		score: 9,
-		resultText: "Your <a href='https://yoa.st/2pdd' target='_blank'>keyphrase</a> has a nice length.",
+		resultText: "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!",
 	},
 	keywordDensity: {
 		score: 9,
@@ -57,7 +57,7 @@ const expectedResults = {
 	},
 	metaDescriptionLength: {
 		score: 9,
-		resultText: "The <a href='https://yoa.st/2pg' target='_blank'>meta description</a> has a nice length.",
+		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: Well done!",
 	},
 	subheadingsKeyword: {
 		score: 9,
@@ -69,19 +69,19 @@ const expectedResults = {
 	},
 	textImages: {
 		score: 6,
-		resultText: "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page do not have alt attributes with the topic words.",
+		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Images on this page do not have alt attributes with words from your keyphrase. <a href='https://yoa.st/33d' target='_blank'>Fix that</a>!",
 	},
 	textLength: {
 		score: 9,
-		resultText: "The text contains 529 words. This is more than or equal to the <a href='https://yoa.st/2pk' target='_blank'>recommended minimum</a> of 300 words.",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 529 words. Good job!",
 	},
 	externalLinks: {
 		score: 8,
-		resultText: "This page has 0 nofollowed <a href='https://yoa.st/2pl' target='_blank'>outbound link(s)</a> and 1 normal outbound link(s).",
+		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: Good job!",
 	},
 	internalLinks: {
 		score: 3,
-		resultText: "No <a href='https://yoa.st/2pm' target='_blank'>internal links</a> appear in this page, consider adding some as appropriate.",
+		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: No internal links appear in this page, <a href='https://yoa.st/34a' target='_blank'>make sure to add some</a>!",
 	},
 	titleKeyword: {
 		score: 9,
@@ -89,7 +89,7 @@ const expectedResults = {
 	},
 	titleWidth: {
 		score: 9,
-		resultText: "The <a href='https://yoa.st/2po' target='_blank'>SEO title</a> has a nice length.",
+		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
 	urlKeyword: {
 		score: 9,
@@ -97,11 +97,11 @@ const expectedResults = {
 	},
 	urlLength: {
 		score: 6,
-		resultText: "The slug for this page is a bit long, consider shortening it.",
+		resultText: "<a href='https://yoa.st/35b' target='_blank'>Slug too long</a>: the slug for this page is a bit long. <a href='https://yoa.st/35c' target='_blank'>Shorten it</a>!",
 	},
 	urlStopWords: {
 		score: 5,
-		resultText: "The slug for this page contains <a href='http://en.wikipedia.org/wiki/Stop_words' target='_blank'>stop words</a>, consider removing them.",
+		resultText: "<a href='https://yoa.st/34p' target='_blank'>Slug stopwords</a>: The slug for this page contains stop words. <a href='https://yoa.st/34q' target='_blank'>Remove them</a>!",
 	},
 	largestKeywordDistance: {
 		score: 1,

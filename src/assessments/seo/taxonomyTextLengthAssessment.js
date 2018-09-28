@@ -9,7 +9,8 @@ const recommendedMinimum = 150;
  * @returns {object} The resulting score object.
  */
 const calculateWordCountResult = function( wordCount, i18n ) {
-	const url = "<a href='https://yoa.st/2pk' target='_blank'>";
+	const urlTitle = "<a href='https://yoa.st/34j' target='_blank'>";
+	const urlCallToAction = "<a href='https://yoa.st/34k' target='_blank'>";
 
 	if ( wordCount >= 150 ) {
 		return {
@@ -17,22 +18,14 @@ const calculateWordCountResult = function( wordCount, i18n ) {
 			text: i18n.sprintf(
 				i18n.dngettext(
 					"js-text-analysis",
-					/* Translators: %1$d expands to the number of words in the text. */
-					"The text contains %1$d word.",
-					"The text contains %1$d words.",
-					wordCount
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
-					%3$s expands to the anchor end tag,	%4$s expands to the recommended minimum of words. */
-					"This is more than or equal to the %2$srecommended minimum%3$s of %4$d word.",
-					"This is more than or equal to the %2$srecommended minimum%3$s of %4$d words.",
-					recommendedMinimum
-				),
+					/* Translators: %1$d expands to the number of words in the text,
+					%2$s expands to a link on yoast.com, %3$s expands to the anchor end tag */
+					"%2$sText length%3$s: The text contains %1$d word. Good job!",
+					"%2$sText length%3$s: The text contains %1$d words. Good job!",
+					wordCount ),
 				wordCount,
-				url,
+				urlTitle,
 				"</a>",
-				recommendedMinimum
 			),
 		};
 	}
@@ -43,20 +36,24 @@ const calculateWordCountResult = function( wordCount, i18n ) {
 			text: i18n.sprintf(
 				i18n.dngettext(
 					"js-text-analysis",
-					/* Translators: %1$d expands to the number of words in the text. */
-					"The text contains %1$d word.",
-					"The text contains %1$d words.",
+					/* Translators: %1$d expands to the number of words in the text,
+					%2$s expands to a link on yoast.com, %4$d expands to the anchor end tag. */
+					"%2$sText length%4$s: The text contains %1$d word.",
+					"%2$sText length%4$s: The text contains %1$d words.",
 					wordCount
 				) + " " + i18n.dngettext(
 					"js-text-analysis",
-					/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
-					%3$s expands to the anchor end tag, %4$s expands to the recommended minimum of words. */
-					"This is slightly below the %2$srecommended minimum%3$s of %4$d word. Add a bit more copy.",
-					"This is slightly below the %2$srecommended minimum%3$s of %4$d words. Add a bit more copy.",
+					/* Translators: The preceding sentence is "Text length: The text contains x words.",
+					%3$s expands to a link on yoast.com,
+					%4$s expands to the anchor end tag,
+					%5$d expands to the recommended minimum of words. */
+					"This is slightly below the recommended minimum of %5$d word. %3$sAdd a bit more copy%4$s.",
+					"This is slightly below the recommended minimum of %5$d words. %3$sAdd a bit more copy%4$s.",
 					recommendedMinimum
 				),
 				wordCount,
-				url,
+				urlTitle,
+				urlCallToAction,
 				"</a>",
 				recommendedMinimum
 			),
@@ -69,20 +66,24 @@ const calculateWordCountResult = function( wordCount, i18n ) {
 			text: i18n.sprintf(
 				i18n.dngettext(
 					"js-text-analysis",
-					/* Translators: %1$d expands to the number of words in the text. */
-					"The text contains %1$d word.",
-					"The text contains %1$d words.",
+					/* Translators: %1$d expands to the number of words in the text,
+					%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					"%2$sText length%4$s: The text contains %1$d word.",
+					"%2$sText length%4$s: The text contains %1$d words.",
 					wordCount
 				) + " " + i18n.dngettext(
 					"js-text-analysis",
-					/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
-					%3$s expands to the anchor end tag, %4$s expands to the recommended minimum of words. */
-					"This is below the %2$srecommended minimum%3$s of %4$d word. Add more content that is relevant for the topic.",
-					"This is below the %2$srecommended minimum%3$s of %4$d words. Add more content that is relevant for the topic.",
+					/* Translators: The preceding sentence is "Text length: The text contains x words.",
+					%3$s expands to a link on yoast.com,
+					%4$s expands to the anchor end tag,
+					%5$d expands to the recommended minimum of words. */
+					"This is below the recommended minimum of %5$d word. %3$sAdd more content%4$s.",
+					"This is below the recommended minimum of %5$d words. %3$sAdd more content%4$s.",
 					recommendedMinimum
 				),
 				wordCount,
-				url,
+				urlTitle,
+				urlCallToAction,
 				"</a>",
 				recommendedMinimum
 			),
@@ -95,20 +96,24 @@ const calculateWordCountResult = function( wordCount, i18n ) {
 			text: i18n.sprintf(
 				i18n.dngettext(
 					"js-text-analysis",
-					/* Translators: %1$d expands to the number of words in the text. */
-					"The text contains %1$d word.",
-					"The text contains %1$d words.",
+					/* Translators: %1$d expands to the number of words in the text,
+					%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					"%2$sText length%4$s: The text contains %1$d word.",
+					"%2$sText length%4$s: The text contains %1$d words.",
 					wordCount
 				) + " " + i18n.dngettext(
 					"js-text-analysis",
-					/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
-					%3$s expands to the anchor end tag, %4$s expands to the recommended minimum of words. */
-					"This is below the %2$srecommended minimum%3$s of %4$d word. Add more content that is relevant for the topic.",
-					"This is below the %2$srecommended minimum%3$s of %4$d words. Add more content that is relevant for the topic.",
+					/* Translators: The preceding sentence is "Text length: The text contains x words.",
+					%3$s expands to a link on yoast.com,
+					%4$s expands to the anchor end tag,
+					%5$d expands to the recommended minimum of words. */
+					"This is below the recommended minimum of %5$d word. %3$sAdd more content%4$s.",
+					"This is below the recommended minimum of %5$d words. %3$sAdd more content%4$s.",
 					recommendedMinimum
 				),
 				wordCount,
-				url,
+				urlTitle,
+				urlCallToAction,
 				"</a>",
 				recommendedMinimum
 			),
@@ -121,20 +126,24 @@ const calculateWordCountResult = function( wordCount, i18n ) {
 			text: i18n.sprintf(
 				i18n.dngettext(
 					"js-text-analysis",
-					/* Translators: %1$d expands to the number of words in the text. */
-					"The text contains %1$d word.",
-					"The text contains %1$d words.",
+					/* Translators: %1$d expands to the number of words in the text,
+					%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					"%2$sText length%4$s: The text contains %1$d word.",
+					"%2$sText length%4$s: The text contains %1$d words.",
 					wordCount
 				) + " " + i18n.dngettext(
 					"js-text-analysis",
-					/* Translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
-					%3$s expands to the anchor end tag,  %4$s expands to the recommended minimum of words. */
-					"This is far below the %2$srecommended minimum%3$s of %4$d word. Add more content that is relevant for the topic.",
-					"This is far below the %2$srecommended minimum%3$s of %4$d words. Add more content that is relevant for the topic.",
+					/* Translators: The preceding sentence is "Text length: The text contains x words.",
+					%3$s expands to a link on yoast.com,
+					%4$s expands to the anchor end tag,
+					%5$d expands to the recommended minimum of words. */
+					"This is far below the recommended minimum of %5$d word. %3$sAdd more content%4$s.",
+					"This is far below the recommended minimum of %5$d words. %3$sAdd more content%4$s.",
 					recommendedMinimum
 				),
 				wordCount,
-				url,
+				urlTitle,
+				urlCallToAction,
 				"</a>",
 				recommendedMinimum
 			),

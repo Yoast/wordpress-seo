@@ -25,6 +25,8 @@ class OutboundLinksAssessment extends Assessment {
 				moreNoFollowed: 8,
 				allFollowed: 9,
 			},
+			urlTitle: "<a href='https://yoa.st/34f' target='_blank'>",
+			urlCallToAction: "<a href='https://yoa.st/34g' target='_blank'>",
 		};
 
 		this.identifier = "externalLinks";
@@ -97,45 +99,51 @@ class OutboundLinksAssessment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( linkStatistics, i18n ) {
-		const url = "<a href='https://yoa.st/2pl' target='_blank'>";
-
 		if ( linkStatistics.externalTotal === 0 ) {
 			return i18n.sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis", "No %1$soutbound links%2$s appear in this page, consider adding some as appropriate." ),
-				url,
+				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%3$s: " +
+					"No outbound links appear in this page. " +
+					"%2$sAdd some%3$s!" ),
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>"
 			);
 		}
 
 		if ( linkStatistics.externalNofollow === linkStatistics.total ) {
 			return i18n.sprintf(
-				/* Translators: %1$s expands the number of outbound links, %2$s expands to a link on yoast.com,
-				%3$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis", "This page has %1$s %2$soutbound link(s)%3$s, all nofollowed." ),
-				linkStatistics.externalNofollow,
-				url,
+				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%3$s: " +
+					"All outbound links on this page are nofollowed. " +
+					"%2$sAdd some normal links%3$s." ),
+				this._config.urlTitle,
+				this._config.urlCallToAction,
+				"</a>"
+			);
+		}
+
+		if ( linkStatistics.externalDofollow === linkStatistics.total ) {
+			return i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%2$s: " +
+					"Good job!" ),
+				this._config.urlTitle,
 				"</a>"
 			);
 		}
 
 		if ( linkStatistics.externalNofollow < linkStatistics.externalTotal ) {
 			return i18n.sprintf(
-				/* Translators: %1$s expands to the number of nofollow links, %2$s expands to a link on yoast.com,
-				%3$s expands to the anchor end tag, %4$s to the number of outbound links */
-				i18n.dgettext( "js-text-analysis", "This page has %1$s nofollowed %2$soutbound link(s)%3$s and %4$s normal outbound link(s)." ),
-				linkStatistics.externalNofollow,
-				url,
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%2$s: " +
+					"There are both nofollowed and normal outbound links on this page. " +
+					"Good job!" ),
+				this._config.urlTitle,
 				"</a>",
-				linkStatistics.externalDofollow );
+			);
 		}
 
-		if ( linkStatistics.externalDofollow === linkStatistics.total ) {
-			return i18n.sprintf(
-				/* Translators: %1$s expands to the number of outbound links, %2$s expands to a link on yoast.com,
-				%3$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis", "This page has %1$s %2$soutbound link(s)%3$s." ), linkStatistics.externalTotal );
-		}
 
 		return "";
 	}
