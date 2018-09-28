@@ -61,7 +61,7 @@ const expectedResults = {
 	},
 	subheadingsKeyword: {
 		score: 3,
-		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: More than 75% of your subheadings reflect the topic of your copy. That's too much. <a href='https://yoa.st/33n' target='_blank'>Don't over-optimize!</a>",
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: More than 75% of your subheadings reflect the topic of your copy. That's too much. <a href='https://yoa.st/33n' target='_blank'>Don't over-optimize</a>!",
 	},
 	textCompetingLinks: {
 		score: 0,

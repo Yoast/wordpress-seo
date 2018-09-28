@@ -17,7 +17,7 @@ describe( "An assessment for matching keywords in subheadings", function() {
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual(
 			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>" +
-			"Use more keywords or synonyms in your subheadings!</a>"
+			"Use more keywords or synonyms in your subheadings</a>!"
 		);
 	} );
 
@@ -32,7 +32,7 @@ describe( "An assessment for matching keywords in subheadings", function() {
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual(
 			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>" +
-			"Use more keywords or synonyms in your subheadings!</a>"
+			"Use more keywords or synonyms in your subheadings</a>!"
 		);
 	} );
 
@@ -77,7 +77,7 @@ describe( "An assessment for matching keywords in subheadings", function() {
 		expect( assessment.getText() ).toEqual(
 			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: " +
 			"More than 75% of your subheadings reflect the topic of your copy. That's too much. " +
-			"<a href='https://yoa.st/33n' target='_blank'>Don't over-optimize!</a>"
+			"<a href='https://yoa.st/33n' target='_blank'>Don't over-optimize</a>!"
 		);
 	} );
 

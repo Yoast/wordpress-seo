@@ -176,7 +176,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sKeyphrase in subheading%2$s: More than %3$s of your subheadings reflect the topic of your copy. " +
-						"That's too much. %4$sDon't over-optimize!%5$s"
+						"That's too much. %4$sDon't over-optimize%5$s!"
 					),
 					this._config.urlTitle,
 					"</a>",
@@ -196,7 +196,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 				 */
 				i18n.dngettext(
 					"js-text-analysis",
-					"%1$sKeyphrase in subheading%2$s: %3$sUse more keywords or synonyms in your subheadings!%4$s"
+					"%1$sKeyphrase in subheading%2$s: %3$sUse more keywords or synonyms in your subheadings%4$s!"
 				),
 				this._config.urlTitle,
 				"</a>",

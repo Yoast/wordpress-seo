@@ -77,7 +77,7 @@ const expectedResults = {
 	},
 	subheadingsKeyword: {
 		score: 3,
-		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keywords or synonyms in your subheadings!</a>",
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keywords or synonyms in your subheadings</a>!",
 	},
 	textCompetingLinks: {
 		score: 0,

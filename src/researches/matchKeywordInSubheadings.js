@@ -8,11 +8,12 @@ import { findTopicFormsInString } from "./findKeywordFormsInString.js";
 /**
  * Computes the amount of subheadings reflecting the topic.
  *
- * @param {Object} topicForms the main key phrase and its synonyms to check.
- * @param {String[]} subheadings the subheadings to check.
- * @param {boolean} useSynonyms Whether to match synonyms or only main keyphrase.
- * @param {string} locale the current locale.
- * @returns {number} the amount of subheadings reflecting the topic.
+ * @param {Object}      topicForms      The main key phrase and its synonyms to check.
+ * @param {String[]}    subheadings     The subheadings to check.
+ * @param {boolean}     useSynonyms     Whether to match synonyms or only main keyphrase.
+ * @param {string}      locale          The current locale.
+ *
+ * @returns {number} The amount of subheadings reflecting the topic.
  */
 const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, useSynonyms, locale ) {
 	return subheadings.filter(
@@ -28,9 +29,10 @@ const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, us
  *
  * Also checks for synonyms.
  *
- * @param {Object} paper The paper object containing the text and keyword.
- * @param {Researcher} researcher The researcher object.
- * @returns {Object} the result object.
+ * @param {Object}      paper       The paper object containing the text and keyword.
+ * @param {Researcher}  researcher  The researcher object.
+ *
+ * @returns {Object} The result object.
  */
 export default function( paper, researcher ) {
 	const text = stripSomeTags( paper.getText() );
