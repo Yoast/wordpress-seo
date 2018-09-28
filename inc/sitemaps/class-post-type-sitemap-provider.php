@@ -438,11 +438,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		if ( $archive_url ) {
 
 			/**
-			 * Filter post type archive URL as an array,
-			 * allowing it to work with many links
+			 * Filter post type archive URL as an array, allowing it to work with many links.
 			 *
-			 * @param array $archive_url A list of archive URLs
-			 * @param string $post_type  The post type this archive is for
+			 * @param array $archive_url A list of archive URLs.
+			 * @param string $post_type  The post type this archive is for.
 			 */
 			$archive_urls = apply_filters( 'wpseo_sitemap_post_type_archive_links', array( $archive_url ), $post_type );
 
