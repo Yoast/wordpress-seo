@@ -777,6 +777,12 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function get_title_separator() {
+		
+		// Return out if no site tagline is set.
+		if( empty(get_bloginfo( 'description' ))) {
+            return;
+        }
+		
 		$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
 
 		// Get the titles option and the separator options.
