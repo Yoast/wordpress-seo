@@ -100,11 +100,11 @@ describe( "A test for marking keywords in the text", function() {
 			new Mark( {
 				original: "A sentence.",
 				marked: "<yoastmark class='yoast-text-mark'>A sentence.</yoastmark>",
-			}, ),
+			} ),
 			new Mark( {
 				original: "Another sentence.",
 				marked: "<yoastmark class='yoast-text-mark'>Another sentence.</yoastmark>",
-			}, ),
+			} ),
 		];
 		expect( keywordDistanceAssessment.getMarks() ).toEqual( expected );
 	} );
