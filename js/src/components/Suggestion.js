@@ -27,9 +27,9 @@ class Suggestion extends React.Component {
 				</div>
 				<div className="yoast-wizard--column__push_left yoast-wizard--video-frame">
 					<iframe
-						width="400" height="225" src={ this.props.video } frameBorder="0"
+						width="400" height="225" src={ this.props.video.url } frameBorder="0"
 						allowFullScreen={ true }
-						title={ __( "Video tutorial", "wordpress-seo" ) }
+						title={ this.props.video.title }
 					/>
 				</div>
 			</div>
@@ -42,6 +42,6 @@ export default Suggestion;
 Suggestion.propTypes = {
 	title: PropTypes.string.isRequired,
 	copy: PropTypes.string.isRequired,
-	video: PropTypes.string.isRequired,
+	video: PropTypes.object.isRequired,
 	button: PropTypes.object.isRequired,
 };

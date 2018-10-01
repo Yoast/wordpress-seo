@@ -22,12 +22,12 @@ class WPSEO_Config_Field_Suggestions extends WPSEO_Config_Field {
 	/**
 	 * Adds a suggestion to the properties
 	 *
-	 * @param string      $title  The title of the choice.
-	 * @param string      $copy   The text explaining the choice.
-	 * @param array       $button The button details.
-	 * @param null|string $video  The video accompanying the choice.
+	 * @param string $title  The title of the choice.
+	 * @param string $copy   The text explaining the choice.
+	 * @param array  $button The button details.
+	 * @param array  $video  URL and title of the video accompanying the choice.
 	 */
-	public function add_suggestion( $title, $copy, $button, $video = null ) {
+	public function add_suggestion( $title, $copy, $button, array $video = array() ) {
 		$suggestion = array(
 			'title'  => $title,
 			'copy'   => $copy,
@@ -41,4 +41,3 @@ class WPSEO_Config_Field_Suggestions extends WPSEO_Config_Field {
 		$this->properties['suggestions'][] = $suggestion;
 	}
 }
-
