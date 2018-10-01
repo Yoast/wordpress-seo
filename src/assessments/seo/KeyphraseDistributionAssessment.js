@@ -67,7 +67,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		assessmentResult.setHasMarks( calculatedResult.score > 0 );
+		assessmentResult.setHasMarks( calculatedResult.score > 0 && calculatedResult.score < 9 );
 
 		return assessmentResult;
 	}
