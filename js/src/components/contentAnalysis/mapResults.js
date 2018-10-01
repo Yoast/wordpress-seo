@@ -128,7 +128,6 @@ export default function mapResults( results ) {
 	if ( ! results ) {
 		return mappedResults;
 	}
-
 	for ( let i = 0; i < results.length; i++ ) {
 		const result = results[ i ];
 		if( ! result.text ) {

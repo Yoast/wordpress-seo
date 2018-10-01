@@ -11,7 +11,7 @@ import { KeywordInput, colors } from "yoast-components";
 import Results from "./Results";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
-import mapResults, { getIconForScore } from "./mapResults";
+import { getIconForScore } from "./mapResults";
 import { utils } from "yoast-components";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
 import Modal from "../modals/Modal";
