@@ -86,15 +86,34 @@ class WPSEO_Indexable_Service_Term_Provider extends WPSEO_Indexable_Provider {
 	 * @return bool True if the indexable object was successfully stored.
 	 */
 	protected function store_indexable( WPSEO_Indexable $indexable ) {
-		$values 		= $this->convert_indexable_data( $indexable->to_array() );
-		$renamed_values = $this->rename_indexable_data( $values );
+		$values 		 = $this->convert_indexable_data( $indexable->to_array() );
+		$renamed_values  = $this->rename_indexable_data( $values );
+		$prefixed_values = $this->prefix_indexable_data( $renamed_values );
 
-
-		foreach ( $renamed_values as $key => $item ) {
-			WPSEO_Taxonomy_Meta::set_value( $values['object_id'], $values['object_subtype'], $key, $item );
-		}
+		WPSEO_Taxonomy_Meta::set_values( $values['object_id'], $values['object_subtype'], $prefixed_values );
 
 		return true;
+	}
+
+	/**
+	 * Prefixes the indexable data to make it compatible with the database.
+	 *
+	 * @param array $indexable_data The indexable data to prefix.
+	 *
+	 * @return array The compatible indexable data.
+	 */
+	protected function prefix_indexable_data( $indexable_data ) {
+		$converted_data = array();
+
+		foreach ( $indexable_data as $key => $item ) {
+			if ( substr( strtolower( $key ), 0, 6 ) !== 'wpseo_' ) {
+				$key = 'wpseo_' . $key;
+			}
+
+			$converted_data[ $key ] = $item;
+		}
+
+		return $converted_data;
 	}
 
 	/**
