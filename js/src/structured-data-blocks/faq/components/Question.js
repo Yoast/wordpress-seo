@@ -93,7 +93,7 @@ export default class Question extends Component {
 		const { question, answer } = this.props.attributes;
 
 		let newAnswer = answer.slice();
-		const image     = <img key={ media.id } alt={ media.alt } src={ media.url } />;
+		const image   = <img key={ media.id } alt={ media.alt } src={ media.url } />;
 
 		if ( newAnswer.push ) {
 			newAnswer.push( image );
