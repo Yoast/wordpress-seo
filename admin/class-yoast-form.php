@@ -28,15 +28,15 @@ class Yoast_Form {
 	 * @var array
 	 * @since 2.0
 	 */
-	public $options;
+	public $options = array();
 
 	/**
 	 * Option instance.
 	 *
 	 * @since 8.4
-	 * @var WPSEO_Option
+	 * @var WPSEO_Option|null
 	 */
-	protected $option_instance;
+	protected $option_instance = null;
 
 	/**
 	 * Get the singleton instance of this class
@@ -109,9 +109,17 @@ class Yoast_Form {
 	 * @param string $option_name Option key.
 	 */
 	public function set_option( $option_name ) {
+		$this->option_name = $option_name;
+
+		$this->options = WPSEO_Options::get_option( $option_name );
+		if ( ! $this->options ) {
+			$this->options = array();
+		}
+
 		$this->option_instance = WPSEO_Options::get_option_instance( $option_name );
-		$this->option_name     = $option_name;
-		$this->options         = WPSEO_Options::get_option( $option_name );
+		if ( ! $this->option_instance ) {
+			$this->option_instance = null;
+		}
 	}
 
 	/**
@@ -659,6 +667,10 @@ class Yoast_Form {
 	 * @return bool True if control should be disabled, false otherwise.
 	 */
 	protected function is_control_disabled( $var ) {
+		if ( $this->option_instance === null ) {
+			return false;
+		}
+
 		return $this->option_instance->is_disabled( $var );
 	}
 
