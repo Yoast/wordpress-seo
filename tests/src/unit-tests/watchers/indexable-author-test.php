@@ -3,8 +3,8 @@
 namespace Yoast\Tests\UnitTests\Watchers;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
-use Yoast\YoastSEO\Watchers\Indexable_Author;
-use Yoast\Tests\Doubles\Indexable_Author_Watcher as Indexable_Author_Double;
+use Yoast\YoastSEO\Watchers\Indexable_Author_Watcher;
+use Yoast\Tests\Doubles\Indexable_Author_Watcher_Double as Indexable_Author_Double;
 
 /**
  * Class Indexable_Author_Test
@@ -19,10 +19,10 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the expected hooks are registered.
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author::register_hooks()
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author_Watcher::register_hooks()
 	 */
 	public function test_register_hooks() {
-		$instance = new Indexable_Author();
+		$instance = new Indexable_Author_Watcher();
 		$instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'profile_update', array( $instance, 'save_meta' ) ) );
@@ -32,11 +32,11 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the indexable is being deleted
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author::delete_meta()
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author_Watcher::delete_meta()
 	 */
 	public function test_delete_meta() {
 		$instance = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Author' )
+			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Author_Watcher' )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 
@@ -63,11 +63,11 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the indexable is being deleted
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author::delete_meta()
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author_Watcher::delete_meta()
 	 */
 	public function test_delete_meta_exception() {
 		$instance = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Author' )
+			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Author_Watcher' )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 
@@ -82,7 +82,7 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests retreiving a meta value
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author::get_indexable()
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author_Watcher::get_indexable()
 	 *
 	 * @expectedException \Yoast\YoastSEO\Exceptions\No_Indexable_Found
 	 */
@@ -95,7 +95,7 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the save meta functionality.
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author::save_meta()
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author_Watcher::save_meta()
 	 */
 	public function test_save_meta() {
 		$indexable_mock = $this
@@ -110,7 +110,7 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 		$author_id = 1;
 
 		$formatter_mock = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Formatters\Indexable_Author' )
+			->getMockBuilder( '\Yoast\YoastSEO\Formatters\Indexable_Author_Formatter' )
 			->setConstructorArgs( array( $author_id ) )
 			->setMethods( array( 'format' ) )
 			->getMock();
@@ -122,7 +122,7 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( $indexable_mock ) );
 
 		$instance = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Author' )
+			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Author_Watcher' )
 			->setMethods(
 				array(
 					'get_indexable',
@@ -151,11 +151,11 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the save meta functionality.
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author::save_meta()
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author_Watcher::save_meta()
 	 */
 	public function test_save_meta_exception() {
 		$instance = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Author' )
+			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Author_Watcher' )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 

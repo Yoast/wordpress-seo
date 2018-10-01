@@ -2,9 +2,9 @@
 
 namespace Yoast\Tests\Doubles;
 
-use Yoast\YoastSEO\Formatters\Indexable_Post;
+use Yoast\YoastSEO\Formatters\Indexable_Post_Formatter;
 
-class Indexable_Post_Formatter extends Indexable_Post {
+class Indexable_Post_Formatter_Double extends Indexable_Post_Formatter {
 
 	/**
 	 * @inheritdoc

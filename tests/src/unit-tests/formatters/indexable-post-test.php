@@ -2,7 +2,7 @@
 
 namespace Yoast\Tests\UnitTests\Formatters;
 
-use Yoast\Tests\Doubles\Indexable_Post_Formatter as Indexable_Post_Double;
+use Yoast\Tests\Doubles\Indexable_Post_Formatter_Double as Indexable_Post_Double;
 
 
 /**
@@ -16,11 +16,11 @@ use Yoast\Tests\Doubles\Indexable_Post_Formatter as Indexable_Post_Double;
 class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post::format
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post_Formatter::format
 	 */
 	public function test_format() {
 		$formatter = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Formatters\Indexable_Post' )
+			->getMockBuilder( '\Yoast\YoastSEO\Formatters\Indexable_Post_Formatter' )
 			->setConstructorArgs( array( 1 ) )
 			->setMethods(
 				array(
@@ -44,7 +44,7 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( 'post' ) );
 
 		$formatter
-			->expects( $this->exactly( 7 ) )
+			->expects( $this->any() )
 			->method( 'get_meta_value' )
 			->will(
 				$this->onConsecutiveCalls(
@@ -90,7 +90,7 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 			->method( 'set_meta' );
 
 		$indexable
-			->expects( $this->exactly( 11 ) )
+			->expects( $this->any() )
 			->method( '__set' );
 
 		$formatter->format( $indexable );
@@ -100,7 +100,7 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests retreiving a meta value
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post::get_meta_value()
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post_Formatter::get_meta_value()
 	 */
 	public function test_get_meta_value() {
 		$instance = new Indexable_Post_Double( 1 );
@@ -113,7 +113,7 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the robots noindex lookup method
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post::get_robots_noindex()
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post_Formatter::get_robots_noindex()
 	 */
 	public function test_get_robots_noindex() {
 		$instance = new Indexable_Post_Double( 1 );
@@ -133,7 +133,7 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if robot options returns the expected type of data
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post::get_robots_options()
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post_Formatter::get_robots_options()
 	 */
 	public function test_get_robots_options() {
 		$instance = new Indexable_Post_Double( 1 );
@@ -143,7 +143,7 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests retrieval of keyword scrore with keyword being set.
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post::get_keyword_score()
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post_Formatter::get_keyword_score()
 	 */
 	public function test_get_keyword_score() {
 		$instance = new Indexable_Post_Double( 1 );
@@ -154,7 +154,7 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests retrieval of keyword scrore with no keyword being set.
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post::get_keyword_score()
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post_Formatter::get_keyword_score()
 	 */
 	public function test_get_keyword_score_with_no_keyword() {
 		$instance = new Indexable_Post_Double( 1 );
@@ -165,7 +165,7 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the meta lookup returns the expected type of data
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post::get_indexable_lookup()
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post_Formatter::get_indexable_lookup()
 	 */
 	public function test_get_indexable_lookup() {
 		$instance = new Indexable_Post_Double( 1 );
@@ -175,7 +175,7 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the meta lookup returns the expected type of data
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post::get_indexable_meta_lookup()
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post_Formatter::get_indexable_meta_lookup()
 	 */
 	public function test_get_indexable_meta_lookup() {
 		$instance = new Indexable_Post_Double( 1 );
@@ -185,11 +185,11 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests setting the link count for an indexable.
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post::set_link_count()
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post_Formatter::set_link_count()
 	 */
 	public function test_set_link_count() {
 		$formatter = $this
-			->getMockBuilder( '\Yoast\Tests\Doubles\Indexable_Post_Formatter' )
+			->getMockBuilder( '\Yoast\Tests\Doubles\Indexable_Post_Formatter_Double' )
 			->setConstructorArgs( array( 1 ) )
 			->setMethods(
 				array(
@@ -217,11 +217,11 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests setting the link count for an indexable.
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post::set_link_count()
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post_Formatter::set_link_count()
 	 */
 	public function test_set_link_count_with_thrown_exception() {
 		$formatter = $this
-			->getMockBuilder( '\Yoast\Tests\Doubles\Indexable_Post_Formatter' )
+			->getMockBuilder( '\Yoast\Tests\Doubles\Indexable_Post_Formatter_Double' )
 			->setConstructorArgs( array( 1 ) )
 			->setMethods(
 				array(

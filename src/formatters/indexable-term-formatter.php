@@ -11,7 +11,7 @@ use Yoast\YoastSEO\Models\Indexable;
 /**
  * Formats the term meta to indexable format.
  */
-class Indexable_Term {
+class Indexable_Term_Formatter {
 
 	/**
 	 * The current term id.

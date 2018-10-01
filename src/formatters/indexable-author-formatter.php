@@ -12,7 +12,7 @@ use Yoast\YoastSEO\Models\Indexable;
 /**
  * Formats the term meta to indexable format.
  */
-class Indexable_Author {
+class Indexable_Author_Formatter {
 
 	/**
 	 * The current user id.

@@ -2,8 +2,8 @@
 
 namespace Yoast\Tests\UnitTests\Formatters;
 
-use Yoast\Tests\Doubles\Indexable_Term_Formatter;
-use Yoast\YoastSEO\Watchers\Indexable_Term;
+use Yoast\Tests\Doubles\Indexable_Term_Formatter_Double;
+use Yoast\YoastSEO\Watchers\Indexable_Term_Watcher;
 
 /**
  * Class Indexable_Term_Test
@@ -16,7 +16,7 @@ use Yoast\YoastSEO\Watchers\Indexable_Term;
 class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * @var Indexable_Term_Formatter
+	 * @var Indexable_Term_Formatter_Double
 	 */
 	protected $instance;
 
@@ -26,15 +26,15 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance =  new Indexable_Term_Formatter( 1, 'category' );
+		$this->instance =  new Indexable_Term_Formatter_Double( 1, 'category' );
 	}
 
 	/**
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term::format
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::format
 	 */
 	public function test_format() {
 		$formatter = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Formatters\Indexable_Term' )
+			->getMockBuilder( '\Yoast\YoastSEO\Formatters\Indexable_Term_Formatter' )
 			->setConstructorArgs( array( 1, 'category' ) )
 			->setMethods(
 				array(
@@ -106,7 +106,7 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the noindex expected outcome.
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term::get_noindex_value()
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::get_noindex_value()
 	 */
 	public function test_get_noindex_value() {
 		$this->assertTrue( $this->instance->get_noindex_value( 'noindex' ) );
@@ -120,7 +120,7 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests retrieval of keyword scrore with keyword being set.
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term::get_keyword_score()
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::get_keyword_score()
 	 */
 	public function test_get_keyword_score() {
 		$this->assertEquals( 100, $this->instance->get_keyword_score( 'keyword', 100 ) );
@@ -129,7 +129,7 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests retrieval of keyword scrore with no keyword being set.
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term::get_keyword_score()
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::get_keyword_score()
 	 */
 	public function test_get_keyword_score_with_no_keyword() {
 		$this->assertNull( $this->instance->get_keyword_score( '', 100 ) );
@@ -138,7 +138,7 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the meta lookup returns the expected type of data
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term::get_indexable_lookup()
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::get_indexable_lookup()
 	 */
 	public function test_get_indexable_lookup() {
 		$this->assertInternalType( 'array', $this->instance->get_indexable_lookup() );
@@ -147,10 +147,10 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the meta lookup returns the expected type of data
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term::get_indexable_meta_lookup()
+	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::get_indexable_meta_lookup()
 	 */
 	public function test_get_indexable_meta_lookup() {
-		$instance = new Indexable_Term_Formatter( 1, 'category' );
+		$instance = new Indexable_Term_Formatter_Double( 1, 'category' );
 		$this->assertInternalType( 'array', $instance->get_indexable_meta_lookup() );
 	}
 

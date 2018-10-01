@@ -10517,7 +10517,7 @@ yauzl@^2.2.1:
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-yoastseo@1.40.0:
+yoastseo@^1.40:
   version "1.40.0"
   resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.40.0.tgz#2be3b91422ddc614131ab4b6e5aab9e6c347170d"
   dependencies:

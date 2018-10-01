@@ -2,9 +2,9 @@
 
 namespace Yoast\Tests\Doubles;
 
-use Yoast\YoastSEO\Formatters\Indexable_Term;
+use Yoast\YoastSEO\Formatters\Indexable_Term_Formatter;
 
-class Indexable_Term_Formatter extends Indexable_Term {
+class Indexable_Term_Formatter_Double extends Indexable_Term_Formatter {
 
 	/**
 	 * @inheritdoc

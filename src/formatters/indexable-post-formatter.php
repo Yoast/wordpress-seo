@@ -9,12 +9,11 @@ namespace Yoast\YoastSEO\Formatters;
 
 use Yoast\YoastSEO\Models\Indexable;
 use Yoast\YoastSEO\Models\SEO_Meta;
-use Yoast\YoastSEO\Yoast_Model;
 
 /**
  * Formats the post meta to indexable format.
  */
-class Indexable_Post {
+class Indexable_Post_Formatter {
 
 	/**
 	 * The current post id.

@@ -8,14 +8,14 @@
 namespace Yoast\YoastSEO\Watchers;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
-use Yoast\YoastSEO\Formatters\Indexable_Term as Indexable_Term_Formatter;
+use Yoast\YoastSEO\Formatters\Indexable_Term_Formatter;
 use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Models\Indexable;
 
 /**
  * Watcher for terms to fill the related Indexable.
  */
-class Indexable_Term implements Integration {
+class Indexable_Term_Watcher implements Integration {
 
 	/**
 	 * Registers all hooks to WordPress.

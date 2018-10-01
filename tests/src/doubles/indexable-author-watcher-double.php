@@ -2,9 +2,9 @@
 
 namespace Yoast\Tests\Doubles;
 
-use Yoast\YoastSEO\Watchers\Indexable_Author;
+use Yoast\YoastSEO\Watchers\Indexable_Author_Watcher;
 
-class Indexable_Author_Watcher extends Indexable_Author {
+class Indexable_Author_Watcher_Double extends Indexable_Author_Watcher {
 	/**
 	 * @inheritdoc
 	 */

@@ -8,14 +8,14 @@
 namespace Yoast\YoastSEO\Watchers;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
-use Yoast\YoastSEO\Formatters\Indexable_Author as Indexable_Author_Formatter;
+use Yoast\YoastSEO\Formatters\Indexable_Author_Formatter;
 use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Models\Indexable;
 
 /**
  * Watches an Author to save the meta information when updated.
  */
-class Indexable_Author implements Integration {
+class Indexable_Author_Watcher implements Integration {
 
 	/**
 	 * Registers all hooks to WordPress.

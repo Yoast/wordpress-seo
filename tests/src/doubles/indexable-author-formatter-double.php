@@ -2,9 +2,9 @@
 
 namespace Yoast\Tests\Doubles;
 
-use Yoast\YoastSEO\Formatters\Indexable_Author;
+use Yoast\YoastSEO\Formatters\Indexable_Author_Formatter;
 
-class Indexable_Author_Formatter extends Indexable_Author {
+class Indexable_Author_Formatter_Double extends Indexable_Author_Formatter {
 	/**
 	 * @inheritdoc
 	 */

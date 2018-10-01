@@ -8,14 +8,14 @@
 namespace Yoast\YoastSEO\Watchers;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
-use Yoast\YoastSEO\Formatters\Indexable_Post as Indexable_Post_Formatter;
+use Yoast\YoastSEO\Formatters\Indexable_Post_Formatter;
 use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Models\Indexable;
 
 /**
  * Fills the Indexable according to Post data.
  */
-class Indexable_Post implements Integration {
+class Indexable_Post_Watcher implements Integration {
 	/**
 	 * Registers all hooks to WordPress.
 	 *
