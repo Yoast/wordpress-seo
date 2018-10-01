@@ -31,7 +31,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 */
 	protected $defaults = array();
 
-
 	/**
 	 * @var  string  Option name - same as $option_name property, but now also available to static methods.
 	 * @static
@@ -192,7 +191,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 			return $dirty;
 		}
-
 
 		foreach ( $dirty as $taxonomy => $terms ) {
 			/* Don't validate taxonomy - may not be registered yet and we don't want to remove valid ones. */
