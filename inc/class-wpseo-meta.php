@@ -272,15 +272,11 @@ class WPSEO_Meta {
 		}
 		unset( $extra_fields );
 
-		$register = function_exists( 'register_meta' );
-
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
-				if ( $register === true ) {
-					register_meta( 'post', self::$meta_prefix . $key, array(
-						'sanitize_callback' => array( __CLASS__, 'sanitize_post_meta' ),
-					) );
-				}
+				register_meta( 'post', self::$meta_prefix . $key, array(
+					'sanitize_callback' => array( __CLASS__, 'sanitize_post_meta' ),
+				) );
 				else {
 					add_filter( 'sanitize_post_meta_' . self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ), 10, 2 );
 				}
