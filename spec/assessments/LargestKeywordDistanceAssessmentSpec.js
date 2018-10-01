@@ -6,61 +6,40 @@ import Mark from "../../src/values/Mark.js";
 
 let keywordDistanceAssessment = new LargestKeyWordDistanceAssessment();
 
-describe( "An assessment to check the largest percentage of text in your text in which no keyword occurs", function() {
-	it( "returns a bad score when the average score from the step function is below the recommended minimum", function() {
+describe( "An assessment to check your keyphrase distribution", function() {
+	it( "returns a 'consideration' score when the Gini coefficient calculated from the step function is -1 (as a result of no keyword occurrences)", function() {
+		let mockPaper = new Paper( "a string", { keyword: "keyword" } );
+		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { keywordDistributionScore: -1 } ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 0 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q target='_blank'>Keyphrase distribution</a>: " +
+			"<a href='https://yoa.st/33u target='_blank'>Include your keyphrase or its synonyms in the text so that we can check keyword distribution</a>." );
+	} );
+
+	it( "returns a bad score when the Gini coefficient calculated from the step function is higher than the recommended good score", function() {
 		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword" } );
-		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { averageScore: 2 } ), i18n );
+		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { keywordDistributionScore: 0.7 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
-		expect( assessment.getText() ).toEqual( "Large parts of your text do not contain the keyword. " +
-			"Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> the keyword more evenly." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q target='_blank'>Keyphrase distribution</a>: Very uneven. " +
+			"Large parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u target='_blank'>Distribute them more evenly</a>." );
 	} );
 
-	it( "returns an okay score when the average score from the step function is between recommended minimum and the a good average", function() {
+	it( "returns an okay score when the Gini coefficient calculated from the step function is between recommended acceptable and good score", function() {
 		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword" } );
-		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { averageScore: 5 } ), i18n );
+		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { keywordDistributionScore: 0.5 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "Some parts of your text do not contain the keyword. " +
-			"Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> the keyword more evenly." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q target='_blank'>Keyphrase distribution</a>: Uneven. " +
+			"Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u target='_blank'>Distribute them more evenly</a>." );
 	} );
 
-	it( "returns an okay score when the average score from the step function is higher than the recommended average", function() {
+	it( "returns a good score score when the Gini coefficient calculated from the step functionn is lower than the recommended good score", function() {
 		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword" } );
-		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { averageScore: 7 } ), i18n );
+		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { keywordDistributionScore: 0.3 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "Your keyword is <a href='https://yoa.st/2w7' target='_blank'>distributed</a> evenly " +
-			"throughout the text. That's great." );
-	} );
-} );
-
-describe( "An assessment to check the largest percentage of text in which no keyword or synonyms occurred", function() {
-	it( "returns a bad score when the average score from the step function is below the recommended minimum; specific feedback for synonyms", function() {
-		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword", synonyms: "synonym" } );
-		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { averageScore: 2 } ), i18n );
-
-		expect( assessment.getScore() ).toEqual( 1 );
-		expect( assessment.getText() ).toEqual( "Large parts of your text do not contain the keyword or its synonyms. " +
-			"Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> them more evenly." );
-	} );
-
-	it( "returns an okay score when the average score from the step function is between recommended minimum and the a good average; specific feedback for synonyms", function() {
-		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword", synonyms: "synonym, synonyms" } );
-		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { averageScore: 5 } ), i18n );
-
-		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "Some parts of your text do not contain the keyword or its synonyms. " +
-			"Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> them more evenly." );
-	} );
-
-	it( "returns an okay score when the average score from the step function is higher than the recommended average; specific feedback for synonyms", function() {
-		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword", synonyms: "synonym, synonyms" } );
-		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( { averageScore: 7 } ), i18n );
-
-		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "Your keyword and its synonyms are <a href='https://yoa.st/2w7' target='_blank'>distributed</a> evenly " +
-			"throughout the text. That's great." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q target='_blank'>Keyphrase distribution</a>: Good job!" );
 	} );
 } );
 
@@ -116,7 +95,7 @@ describe( "A test for marking keywords in the text", function() {
 	it( "returns markers for sentences specified by the researcher", function() {
 		let mockPaper = new Paper( "A sentence. A sentence containing keywords. Another sentence.", { keyword: "keyword" } );
 		keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher(
-			{ averageScore: 5, sentencesToHighlight: [ "A sentence.", "Another sentence." ] } ), i18n );
+			{ keywordDistributionScore: 5, sentencesToHighlight: [ "A sentence.", "Another sentence." ] } ), i18n );
 		let expected = [
 			new Mark( {
 				original: "A sentence.",

@@ -84,19 +84,19 @@ const topicLongIT = [
 
 describe( "Test for computing the sentence score", function() {
 	it( "for a short topic", function() {
-		expect( computeScoresPerSentenceShortTopic( topicShort, sentences, "en_EN" ) ).toEqual( [ 3, 6, 9, 6, 3, 6, 3, 6 ] );
+		expect( computeScoresPerSentenceShortTopic( topicShort, sentences, "en_EN" ) ).toEqual( [ 0, 6, 9, 6, 0, 6, 0, 6 ] );
 	} );
 
 	it( "for a long topic", function() {
-		expect( computeScoresPerSentenceLongTopic( topicLong, sentences, "en_EN" ) ).toEqual( [ 6, 6, 9, 6, 6, 6, 3, 6 ] );
+		expect( computeScoresPerSentenceLongTopic( topicLong, sentences, "en_EN" ) ).toEqual( [ 6, 6, 9, 6, 6, 6, 0, 6 ] );
 	} );
 
 	it( "for a short topic for a language that doesn't support morphology", function() {
-		expect( computeScoresPerSentenceShortTopic( topicShortIT, sentencesIT, "it_IT" ) ).toEqual( [ 3, 6, 9, 6, 3, 6, 3, 6 ] );
+		expect( computeScoresPerSentenceShortTopic( topicShortIT, sentencesIT, "it_IT" ) ).toEqual( [ 0, 6, 9, 6, 0, 6, 0, 6 ] );
 	} );
 
 	it( "for a long topic for a language that doesn't support morphology", function() {
-		expect( computeScoresPerSentenceLongTopic( topicLongIT, sentencesIT, "it_IT" ) ).toEqual( [ 6, 6, 9, 6, 6, 6, 3, 6 ] );
+		expect( computeScoresPerSentenceLongTopic( topicLongIT, sentencesIT, "it_IT" ) ).toEqual( [ 6, 6, 9, 6, 6, 6, 0, 6 ] );
 	} );
 } );
 
@@ -125,7 +125,7 @@ describe( "Test for a step-function research", function() {
 		researcher.addResearchDataProvider( "morphology", morphologyData );
 
 		expect( largestKeywordDistanceResearcher( paper, researcher ) ).toEqual( {
-			averageScore: 7.8,
+			keywordDistributionScore: 0.12222222222222222,
 			sentencesToHighlight: [ "Again nothing!" ],
 		} );
 	} );
@@ -149,7 +149,7 @@ describe( "Test for a step-function research", function() {
 		researcher.addResearchDataProvider( "morphology", morphologyData );
 
 		expect( largestKeywordDistanceResearcher( paper, researcher ) ).toEqual( {
-			averageScore: 7.8,
+			keywordDistributionScore: 0.12222222222222222,
 			sentencesToHighlight: [ "Again nothing!" ],
 		} );
 	} );
@@ -168,7 +168,7 @@ describe( "Test for a step-function research", function() {
 		researcher.addResearchDataProvider( "morphology", morphologyData );
 
 		expect( largestKeywordDistanceResearcher( paper, researcher ) ).toEqual( {
-			averageScore: 7.8,
+			keywordDistributionScore: 0.12222222222222222,
 			sentencesToHighlight: [ "Ancora niente!" ],
 		} );
 	} );
@@ -187,7 +187,7 @@ describe( "Test for a step-function research", function() {
 		researcher.addResearchDataProvider( "morphology", morphologyData );
 
 		expect( largestKeywordDistanceResearcher( paper, researcher ) ).toEqual( {
-			averageScore: 7.8,
+			keywordDistributionScore: 0.12222222222222222,
 			sentencesToHighlight: [ "Ancora niente!" ],
 		} );
 	} );
@@ -212,7 +212,7 @@ describe( "Test for a step-function research", function() {
 		researcher.addResearchDataProvider( "morphology", morphologyData );
 
 		expect( largestKeywordDistanceResearcher( paper, researcher ) ).toEqual( {
-			averageScore: 7.8,
+			keywordDistributionScore: 0.12222222222222222,
 			sentencesToHighlight: [ "Ancora niente!" ],
 		} );
 	} );
@@ -233,7 +233,7 @@ describe( "Test for a step-function research", function() {
 		researcher.addResearchDataProvider( "morphology", morphologyData );
 
 		expect( largestKeywordDistanceResearcher( paper, researcher ) ).toEqual( {
-			averageScore: 6.7,
+			keywordDistributionScore: 0.13157894736842105,
 			sentencesToHighlight: [ "Ancora niente!" ],
 		} );
 	} );

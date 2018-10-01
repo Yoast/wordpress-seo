@@ -5,6 +5,7 @@ import { round } from "lodash-es";
 import { sum } from "lodash-es";
 import { isUndefined } from "lodash-es";
 import { zipWith } from "lodash-es";
+import gini from "../helpers/gini";
 
 /**
  * Checks whether at least 3 content words from the topic are found within one sentence and the rest within +-1 sentence
@@ -41,7 +42,7 @@ const computeScoresPerSentenceLongTopic = function( topic, sentences, locale ) {
 		} else if ( foundInCurrentSentence.percentWordMatches > 0 ) {
 			sentenceScores[ i ] = 6;
 		} else {
-			sentenceScores[ i ] = 3;
+			sentenceScores[ i ] = 0;
 		}
 	}
 
@@ -73,7 +74,7 @@ const computeScoresPerSentenceShortTopic = function( topic, sentences, locale ) 
 		} else if ( foundInCurrentSentence.percentWordMatches > 0 ) {
 			sentenceScores[ i ] = 6;
 		} else {
-			sentenceScores[ i ] = 3;
+			sentenceScores[ i ] = 0;
 		}
 	}
 
@@ -120,7 +121,6 @@ const step = function( maximizedSentenceScores, stepSize ) {
 		toAnalyze = maximizedSentenceScores.slice( i, stepSize + i );
 		result.push( sum( toAnalyze ) / stepSize );
 	}
-
 	return result;
 };
 
@@ -163,7 +163,7 @@ const largestKeywordDistanceResearcher = function( paper, researcher ) {
 	// An array combining each sentence with the associated maximized score.
 	const sentencesWithMaximizedScores = zipWith( sentences, maximizedSentenceScores, ( sentence, score ) => {
 		return { sentence, score };
-		} );
+	} );
 
 	/*
 	 * Sentences that have a maximized score of 3 are used for marking because these do not contain any topic forms.
@@ -172,10 +172,10 @@ const largestKeywordDistanceResearcher = function( paper, researcher ) {
 	const sentencesWithoutTopic = sentencesWithMaximizedScores.filter( sentenceObject => sentenceObject.score < 4 );
 
 	// Apply step function: to begin with take a third of the text or at least 3 sentences.
-	const textPortionScores = step( maximizedSentenceScores, max( [ round( sentences.length / 3 ), 3 ] ) );
+	const textPortionScores = step( maximizedSentenceScores, max( [ round( sentences.length / 10 ), 3 ] ) );
 
 	return {
-		averageScore: round( sum( textPortionScores ) / textPortionScores.length, 1 ),
+		keywordDistributionScore: gini( textPortionScores ),
 		sentencesToHighlight: sentencesWithoutTopic.map( sentenceObject => sentenceObject.sentence ),
 	};
 };

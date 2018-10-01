@@ -15,14 +15,15 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
-	 * @param {number} [config.parameters.recommendedAverageDistributionScore]
+	 * @param {number} [config.parameters.gootDistributionscore]
 	 *      The average distribution score that needs to be received from the step function to get a GOOD result.
-	 * @param {number} [config.parameters.lowAverageDistributionScore]
+	 * @param {number} [config.parameters.acceptableDistributionScore]
 	 *      The average distribution score that needs to be received from the step function to get an OKAY result.
-	 * @param {number} [config.scores.good] The score to return if there is not too much text between keyword occurrences.
-	 * @param {number} [config.scores.okay] The score to return if there is somewhat much text between keyword occurrences.
-	 * @param {number} [config.scores.bad] The score to return if there is way too much text between keyword occurrences.
-	 * @param {string} [config.url] The URL to the relevant KB article.
+	 * @param {number} [config.scores.good]             The score to return if keyword occurrences are very unevenly distributed.
+	 * @param {number} [config.scores.okay]             The score to return if keyword occurrences are somewhat unevenly distributed.
+	 * @param {number} [config.scores.bad]              The score to return if there is way too much text between keyword occurrences.
+	 * @param {number} [config.scores.consideration]    The score to return if there are no keyword occurrences.
+	 * @param {string} [config.url]                     The URL to the relevant KB article.
 	 *
 	 * @returns {void}
 	 */
@@ -31,15 +32,17 @@ class LargestKeywordDistanceAssessment extends Assessment {
 
 		const defaultConfig = {
 			parameters: {
-				recommendedAverageDistributionScore: 6,
-				lowAverageDistributionScore: 3,
+				goodDistributionScore: 0.4,
+				acceptableDistributionScore: 0.6,
 			},
 			scores: {
 				good: 9,
 				okay: 6,
 				bad: 1,
+				consideration: 0,
 			},
-			url: "<a href='https://yoa.st/2w7' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/33q target='_blank'>",
+			urlCallToAction: "<a href='https://yoa.st/33u target='_blank'>",
 		};
 
 		this.identifier = "largestKeywordDistance";
@@ -57,7 +60,6 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		this._largestKeywordDistance = researcher.getResearch( "largestKeywordDistance" );
-		this._hasSynonyms = paper.hasSynonyms();
 
 		const assessmentResult = new AssessmentResult();
 
@@ -78,38 +80,59 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	 * @returns {Object} Object with score and feedback text.
 	 */
 	calculateResult( i18n ) {
-		const averageScore = this._largestKeywordDistance.averageScore;
-		if ( averageScore <= this._config.parameters.lowAverageDistributionScore ) {
+		const distributionScore = this._largestKeywordDistance.keywordDistributionScore;
+
+		if ( distributionScore < 0 ) {
 			return {
-				score: this._config.scores.bad,
+				score: this._config.scores.consideration,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
-					%2$s expands to the anchor end tag */
-					i18n.dngettext(
+					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
+					%3$s expands to the anchor end tag */
+					i18n.dgettext(
 						"js-text-analysis",
-						"Large parts of your text do not contain the keyword. Try to %1$sdistribute%2$s the keyword more evenly.",
-						"Large parts of your text do not contain the keyword or its synonyms. Try to %1$sdistribute%2$s them more evenly.",
-						this._hasSynonyms + 1
+						"%1$sKeyphrase distribution%3$s: " +
+						"%2$sInclude your keyphrase or its synonyms in the text so that we can check keyword distribution%3$s.",
 					),
-					this._config.url,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
 		}
 
-		if ( averageScore < this._config.parameters.recommendedAverageDistributionScore ) {
+		if ( distributionScore > this._config.parameters.acceptableDistributionScore ) {
+			return {
+				score: this._config.scores.bad,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
+					%3$s expands to the anchor end tag */
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sKeyphrase distribution%3$s: " +
+						"Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+
+		if ( distributionScore > this._config.parameters.goodDistributionScore &&
+			distributionScore <= this._config.parameters.acceptableDistributionScore
+		) {
 			return {
 				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
-					%2$s expands to the anchor end tag */
-					i18n.dngettext(
+					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
+					%3$s expands to the anchor end tag */
+					i18n.dgettext(
 						"js-text-analysis",
-						"Some parts of your text do not contain the keyword. Try to %1$sdistribute%2$s the keyword more evenly.",
-						"Some parts of your text do not contain the keyword or its synonyms. Try to %1$sdistribute%2$s them more evenly.",
-						this._hasSynonyms + 1
+						"%1$sKeyphrase distribution%3$s: " +
+						"Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
 					),
-					this._config.url,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -118,15 +141,12 @@ class LargestKeywordDistanceAssessment extends Assessment {
 		return {
 			score: this._config.scores.good,
 			resultText: i18n.sprintf(
-				/* Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
-				%2$s expands to the anchor end tag */
-				i18n.dngettext(
+				/* Translators: %1$s expands to links to Yoast.com articles, %2$s expands to the anchor end tag */
+				i18n.dgettext(
 					"js-text-analysis",
-					"Your keyword is %1$sdistributed%2$s evenly throughout the text. That's great.",
-					"Your keyword and its synonyms are %1$sdistributed%2$s evenly throughout the text. That's great.",
-					this._hasSynonyms + 1
+					"%1$sKeyphrase distribution%2$s: Good job!",
 				),
-				this._config.url,
+				this._config.urlTitle,
 				"</a>"
 			),
 		};

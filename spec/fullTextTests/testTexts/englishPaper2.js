@@ -110,7 +110,8 @@ const expectedResults = {
 	},
 	largestKeywordDistance: {
 		score: 6,
-		resultText: "Some parts of your text do not contain the keyword. Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> the keyword more evenly.",
+		resultText: "<a href='https://yoa.st/33q target='_blank'>Keyphrase distribution</a>: Uneven. " +
+		"Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u target='_blank'>Distribute them more evenly</a>.",
 	},
 	fleschReadingEase: {
 		score: 9,
