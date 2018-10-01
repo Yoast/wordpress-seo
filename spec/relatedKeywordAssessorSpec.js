@@ -1,8 +1,8 @@
-import Assessor from "../../src/secondaryKeywordAssessor.js";
-import Paper from "../../src/values/Paper.js";
-import factory from "../specHelpers/factory.js";
-import getResults from "../specHelpers/getListOfAssessmentResults";
-let i18n = factory.buildJed();
+import Assessor from "../src/relatedKeywordAssessor";
+import Paper from "../src/values/Paper";
+import factory from "./specHelpers/factory";
+import getResults from "./specHelpers/getListOfAssessmentResults";
+const i18n = factory.buildJed();
 let assessor = new Assessor( i18n );
 
 describe( "running assessments in the assessor", function() {

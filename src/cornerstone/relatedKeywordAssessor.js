@@ -17,7 +17,7 @@ import TextCompetingLinks from "../assessments/seo/textCompetingLinksAssessment.
  *
  * @constructor
  */
-const secondaryKeywordAssessor = function( i18n, options ) {
+const relatedKeywordAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
 
 	this._assessments = [
@@ -37,6 +37,6 @@ const secondaryKeywordAssessor = function( i18n, options ) {
 	];
 };
 
-inherits( secondaryKeywordAssessor, Assessor );
+inherits( relatedKeywordAssessor, Assessor );
 
-export default secondaryKeywordAssessor;
+export default relatedKeywordAssessor;
