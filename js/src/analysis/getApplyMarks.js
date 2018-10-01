@@ -4,6 +4,7 @@ import noop from "lodash/noop";
 
 import tinyMCEHelper from "../wp-seo-tinymce";
 import { tinyMCEDecorator } from "../decorator/tinyMCE";
+import { decorate } from "../decorator/gutenberg";
 
 let decorator = null;
 
@@ -23,6 +24,8 @@ function applyMarks( paper, marks ) {
 
 		decorator( paper, marks );
 	}
+
+	decorate( paper, marks );
 }
 
 /**

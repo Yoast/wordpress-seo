@@ -24,6 +24,7 @@ import * as actions from "./redux/actions";
 import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
 import PrimaryTaxonomyFilter from "./components/PrimaryTaxonomyFilter";
+import { setMarkerStatus } from "./redux/actions";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -223,6 +224,8 @@ class Edit {
 			lastData = state;
 			usedKeywords.setKeyword( state.focusKeyword );
 		} );
+
+		store.dispatch( setMarkerStatus( "enabled" ) );
 	}
 
 	/**
