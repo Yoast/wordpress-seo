@@ -23,7 +23,6 @@ class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 		$instance = new Indexable_Term_Watcher();
 		$instance->register_hooks();
 
-		$this->assertNotFalse( \has_action( 'created_term', array( $instance, 'save_meta' ) ) );
 		$this->assertNotFalse( \has_action( 'edited_term', array( $instance, 'save_meta' ) ) );
 		$this->assertNotFalse( \has_action( 'deleted_term', array( $instance, 'delete_meta' ) ) );
 	}
