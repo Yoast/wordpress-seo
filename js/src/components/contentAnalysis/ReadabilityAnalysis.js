@@ -41,6 +41,12 @@ class ReadabilityAnalysis extends React.Component {
 			score.className = "loading";
 		}
 
+		// Sort the results alphabetically by their identifier.
+		let sortedResults = this.props.results;
+		if ( this.props.results ) {
+			sortedResults = this.props.results.sort( ( a, b ) => a._identifier.localeCompare( b._identifier ) );
+		}
+
 		return (
 			<Collapsible
 				title={ __( "Readability analysis", "wordpress-seo" ) }
@@ -62,7 +68,7 @@ class ReadabilityAnalysis extends React.Component {
 					showLanguageNotice={ true }
 					changeLanguageLink={ localizedData.settings_link }
 					language={ localizedData.language }
-					results={ this.props.results }
+					results={ sortedResults }
 					marksButtonClassName="yoast-tooltip yoast-tooltip-s"
 					marksButtonStatus={ this.props.marksButtonStatus }
 				/>

@@ -11,7 +11,7 @@ import { KeywordInput, colors } from "yoast-components";
 import Results from "./Results";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
-import { getIconForScore } from "./mapResults";
+import mapResults, { getIconForScore } from "./mapResults";
 import { utils } from "yoast-components";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
 import Modal from "../modals/Modal";
@@ -209,6 +209,12 @@ class SeoAnalysis extends React.Component {
 			score.screenReaderReadabilityText = __( "Enter a focus keyphrase to calculate the SEO score", "wordpress-seo" );
 		}
 
+		// Sort the results alphabetically by their identifier.
+		let sortedResults = this.props.results;
+		if ( this.props.results ) {
+			sortedResults = this.props.results.sort( ( a, b ) => a._identifier.localeCompare( b._identifier ) );
+		}
+
 		return (
 			<React.Fragment>
 				<Collapsible
@@ -238,7 +244,7 @@ class SeoAnalysis extends React.Component {
 					</AnalysisHeader>
 					<Results
 						showLanguageNotice={ false }
-						results={ this.props.results }
+						results={ sortedResults }
 						marksButtonClassName="yoast-tooltip yoast-tooltip-s"
 						marksButtonStatus={ this.props.marksButtonStatus }
 					/>
