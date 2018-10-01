@@ -128,12 +128,12 @@ const step = function( maximizedSentenceScores, stepSize ) {
 /**
  * Determines which portions of the text did not receive a lot of content words from keyphrase and synonyms.
  *
- * @param {Paper} paper The paper to check the keyword distance for.
- * @param {Researcher} researcher The researcher to use for analysis.
+ * @param {Paper}       paper       The paper to check the keyphrase distribution for.
+ * @param {Researcher}  researcher  The researcher to use for analysis.
  *
- * @returns {Object} The scores of topic relevance per portion of text and an array of all word forms to highlight
+ * @returns {Object} The scores of topic relevance per portion of text and an array of all word forms to highlight.
  */
-const largestKeywordDistanceResearcher = function( paper, researcher ) {
+const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const sentences = getSentences( paper.getText() );
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
@@ -175,7 +175,7 @@ const largestKeywordDistanceResearcher = function( paper, researcher ) {
 	const textPortionScores = step( maximizedSentenceScores, max( [ round( sentences.length / 10 ), 3 ] ) );
 
 	return {
-		keywordDistributionScore: gini( textPortionScores ),
+		keyphraseDistributionScore: gini( textPortionScores ),
 		sentencesToHighlight: sentencesWithoutTopic.map( sentenceObject => sentenceObject.sentence ),
 	};
 };
@@ -185,5 +185,5 @@ export {
 	computeScoresPerSentenceLongTopic,
 	maximizeSentenceScores,
 	step,
-	largestKeywordDistanceResearcher,
+	keyphraseDistributionResearcher,
 };

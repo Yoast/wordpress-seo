@@ -917,25 +917,25 @@ describe( "AnalysisWebWorker", () => {
 			let assessor = worker.createSEOAssessor();
 			expect( assessor ).not.toBeNull();
 			expect( assessor.type ).toBe( "SEOAssessor" );
-			let assessment = assessor.getAssessment( "largestKeywordDistance" );
+			let assessment = assessor.getAssessment( "keyphraseDistribution" );
 			expect( assessment ).not.toBeDefined();
 
 			worker._configuration.useKeywordDistribution = true;
 			assessor = worker.createSEOAssessor();
 			expect( assessor ).not.toBeNull();
 			expect( assessor.type ).toBe( "SEOAssessor" );
-			assessment = assessor.getAssessment( "largestKeywordDistance" );
+			assessment = assessor.getAssessment( "keyphraseDistribution" );
 			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "largestKeywordDistance" );
+			expect( assessment.identifier ).toBe( "keyphraseDistribution" );
 
 			worker._configuration.useCornerstone = true;
 			worker._configuration.useKeywordDistribution = true;
 			assessor = worker.createSEOAssessor();
 			expect( assessor ).not.toBeNull();
 			expect( assessor.type ).toBe( "CornerstoneSEOAssessor" );
-			assessment = assessor.getAssessment( "largestKeywordDistance" );
+			assessment = assessor.getAssessment( "keyphraseDistribution" );
 			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "largestKeywordDistance" );
+			expect( assessment.identifier ).toBe( "keyphraseDistribution" );
 		} );
 
 		test( "adds registered assessments", () => {

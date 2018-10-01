@@ -10,7 +10,7 @@ import addMark from "../../markers/addMark";
  * Returns a score based on the largest percentage of text in
  * which no keyword occurs.
  */
-class LargestKeywordDistanceAssessment extends Assessment {
+class KeyphraseDistributionAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -45,12 +45,12 @@ class LargestKeywordDistanceAssessment extends Assessment {
 			urlCallToAction: "<a href='https://yoa.st/33u target='_blank'>",
 		};
 
-		this.identifier = "largestKeywordDistance";
+		this.identifier = "keyphraseDistribution";
 		this._config = merge( defaultConfig, config );
 	}
 
 	/**
-	 * Runs the largestKeywordDistance research and based on this returns an assessment result.
+	 * Runs the keyphraseDistribution research and based on this returns an assessment result.
 	 *
 	 * @param {Paper}      paper      The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
@@ -59,7 +59,7 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		this._largestKeywordDistance = researcher.getResearch( "largestKeywordDistance" );
+		this._keyphraseDistribution = researcher.getResearch( "keyphraseDistribution" );
 
 		const assessmentResult = new AssessmentResult();
 
@@ -73,14 +73,14 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	}
 
 	/**
-	 * Calculates the result based on the largestKeywordDistance research.
+	 * Calculates the result based on the keyphraseDistribution research.
 	 *
 	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {Object} Object with score and feedback text.
 	 */
 	calculateResult( i18n ) {
-		const distributionScore = this._largestKeywordDistance.keywordDistributionScore;
+		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
 
 		if ( distributionScore < 0 ) {
 			return {
@@ -91,7 +91,7 @@ class LargestKeywordDistanceAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sKeyphrase distribution%3$s: " +
-						"%2$sInclude your keyphrase or its synonyms in the text so that we can check keyword distribution%3$s.",
+						"%2$sInclude your keyphrase or its synonyms in the text so that we can check keyphrase distribution%3$s.",
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -158,7 +158,7 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	 * @returns {Array} All markers for the current text.
 	 */
 	getMarks() {
-		return this._largestKeywordDistance.sentencesToHighlight.map( function( sentence ) {
+		return this._keyphraseDistribution.sentencesToHighlight.map( function( sentence ) {
 			return new Mark( { original: sentence, marked: addMark( sentence ) } );
 		} );
 	}
@@ -175,4 +175,4 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	}
 }
 
-export default LargestKeywordDistanceAssessment;
+export default KeyphraseDistributionAssessment;

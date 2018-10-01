@@ -1,8 +1,8 @@
-import { computeScoresPerSentenceShortTopic } from "../../src/researches/largestKeywordDistance.js";
-import { computeScoresPerSentenceLongTopic } from "../../src/researches/largestKeywordDistance.js";
-import { maximizeSentenceScores } from "../../src/researches/largestKeywordDistance.js";
-import { step } from "../../src/researches/largestKeywordDistance.js";
-import { largestKeywordDistanceResearcher } from "../../src/researches/largestKeywordDistance.js";
+import { computeScoresPerSentenceShortTopic } from "../../src/researches/keyphraseDistribution.js";
+import { computeScoresPerSentenceLongTopic } from "../../src/researches/keyphraseDistribution.js";
+import { maximizeSentenceScores } from "../../src/researches/keyphraseDistribution.js";
+import { step } from "../../src/researches/keyphraseDistribution.js";
+import { keyphraseDistributionResearcher } from "../../src/researches/keyphraseDistribution.js";
 import Paper from "../../src/values/Paper.js";
 import Researcher from "../../src/researcher";
 import morphologyData from "../../src/morphology/morphologyData.json";
@@ -124,8 +124,8 @@ describe( "Test for a step-function research", function() {
 		const researcher = new Researcher( paper );
 		researcher.addResearchDataProvider( "morphology", morphologyData );
 
-		expect( largestKeywordDistanceResearcher( paper, researcher ) ).toEqual( {
-			keywordDistributionScore: 0.12222222222222222,
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 0.12222222222222222,
 			sentencesToHighlight: [ "Again nothing!" ],
 		} );
 	} );
@@ -148,8 +148,8 @@ describe( "Test for a step-function research", function() {
 		const researcher = new Researcher( paper );
 		researcher.addResearchDataProvider( "morphology", morphologyData );
 
-		expect( largestKeywordDistanceResearcher( paper, researcher ) ).toEqual( {
-			keywordDistributionScore: 0.12222222222222222,
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 0.12222222222222222,
 			sentencesToHighlight: [ "Again nothing!" ],
 		} );
 	} );
@@ -167,8 +167,8 @@ describe( "Test for a step-function research", function() {
 		const researcher = new Researcher( paper );
 		researcher.addResearchDataProvider( "morphology", morphologyData );
 
-		expect( largestKeywordDistanceResearcher( paper, researcher ) ).toEqual( {
-			keywordDistributionScore: 0.12222222222222222,
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 0.12222222222222222,
 			sentencesToHighlight: [ "Ancora niente!" ],
 		} );
 	} );
@@ -186,8 +186,8 @@ describe( "Test for a step-function research", function() {
 		const researcher = new Researcher( paper );
 		researcher.addResearchDataProvider( "morphology", morphologyData );
 
-		expect( largestKeywordDistanceResearcher( paper, researcher ) ).toEqual( {
-			keywordDistributionScore: 0.12222222222222222,
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 0.12222222222222222,
 			sentencesToHighlight: [ "Ancora niente!" ],
 		} );
 	} );
@@ -211,8 +211,8 @@ describe( "Test for a step-function research", function() {
 		const researcher = new Researcher( paper );
 		researcher.addResearchDataProvider( "morphology", morphologyData );
 
-		expect( largestKeywordDistanceResearcher( paper, researcher ) ).toEqual( {
-			keywordDistributionScore: 0.12222222222222222,
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 0.12222222222222222,
 			sentencesToHighlight: [ "Ancora niente!" ],
 		} );
 	} );
@@ -232,8 +232,8 @@ describe( "Test for a step-function research", function() {
 		const researcher = new Researcher( paper );
 		researcher.addResearchDataProvider( "morphology", morphologyData );
 
-		expect( largestKeywordDistanceResearcher( paper, researcher ) ).toEqual( {
-			keywordDistributionScore: 0.13157894736842105,
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 0.13157894736842105,
 			sentencesToHighlight: [ "Ancora niente!" ],
 		} );
 	} );

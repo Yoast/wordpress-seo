@@ -103,7 +103,7 @@ const expectedResults = {
 		score: 5,
 		resultText: "<a href='https://yoa.st/34p' target='_blank'>Slug stopwords</a>: The slug for this page contains stop words. <a href='https://yoa.st/34q' target='_blank'>Remove them</a>!",
 	},
-	largestKeywordDistance: {
+	keyphraseDistribution: {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33q target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
