@@ -343,7 +343,7 @@ function wpseo_init() {
 	$wpseo_content_images->register_hooks();
 
 	// When namespaces are not available, stop further execution.
-	if ( version_compare( PHP_VERSION, '5.3.0' ) < 0 ) {
+	if ( version_compare( PHP_VERSION, '5.3.0', '<' ) ) {
 		return;
 	}
 
