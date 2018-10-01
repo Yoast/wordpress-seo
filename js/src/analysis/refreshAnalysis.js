@@ -9,6 +9,17 @@ import { refreshSnippetEditor } from "../redux/actions/snippetEditor";
 let isInitialized = false;
 
 /**
+ * Sorts analysis results alphabetically by their identifier.
+ *
+ * @param {Object}      results             The SEO or Readability analysis results to be sorted.
+ *
+ * @returns {object}    the sorted results.
+ */
+export function sortResultsByIdentifier( results ) {
+	return results.sort( ( a, b ) => a._identifier.localeCompare( b._identifier ) );
+}
+
+/**
  * Refreshes the analysis.
  *
  * @param {AnalysisWorkerWrapper}               worker        The analysis worker to request the analysis from.
@@ -37,6 +48,8 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 					result.getMarker = () => () => applyMarks( paper, result.marks );
 				} );
 
+				seoResults.results = sortResultsByIdentifier( seoResults.results );
+
 				store.dispatch( setSeoResultsForKeyword( paper.getKeyword(), seoResults.results ) );
 				store.dispatch( setOverallSeoScore( seoResults.score, paper.getKeyword() ) );
 				store.dispatch( refreshSnippetEditor() );
@@ -49,6 +62,8 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 				readability.results.forEach( result => {
 					result.getMarker = () => () => applyMarks( paper, result.marks );
 				} );
+
+				readability.results = sortResultsByIdentifier( readability.results );
 
 				store.dispatch( setReadabilityResults( readability.results ) );
 				store.dispatch( setOverallReadabilityScore( readability.score ) );

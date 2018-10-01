@@ -209,12 +209,6 @@ class SeoAnalysis extends React.Component {
 			score.screenReaderReadabilityText = __( "Enter a focus keyphrase to calculate the SEO score", "wordpress-seo" );
 		}
 
-		// Sort the results alphabetically by their identifier.
-		let sortedResults = this.props.results;
-		if ( this.props.results ) {
-			sortedResults = this.props.results.sort( ( a, b ) => a._identifier.localeCompare( b._identifier ) );
-		}
-
 		return (
 			<React.Fragment>
 				<Collapsible
@@ -244,7 +238,7 @@ class SeoAnalysis extends React.Component {
 					</AnalysisHeader>
 					<Results
 						showLanguageNotice={ false }
-						results={ sortedResults }
+						results={ this.props.results }
 						marksButtonClassName="yoast-tooltip yoast-tooltip-s"
 						marksButtonStatus={ this.props.marksButtonStatus }
 					/>
