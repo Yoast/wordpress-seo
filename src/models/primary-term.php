@@ -41,9 +41,4 @@ class Primary_Term extends Yoast_Model {
 
 		return $indexable;
 	}
-
-	public static function create_for_postid_and_taxonomy( $post_id, $taxonomy ) {
-	}
-
-
 }
