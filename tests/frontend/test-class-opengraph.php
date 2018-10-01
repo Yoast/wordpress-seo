@@ -185,7 +185,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$this->go_to( get_permalink( $post_id ) );
 
-		$expected_html  = '<meta property="og:title" content="' . $expected_title . '" />' . "\n";
+		$expected_html = '<meta property="og:title" content="' . $expected_title . '" />' . "\n";
 
 		$this->assertTrue( self::$class_instance->og_title() );
 		$this->expectOutput( $expected_html );
@@ -374,6 +374,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test if featured image gets added to opengraph when it is the correct size.
+	 *
 	 * @covers WPSEO_OpenGraph::image
 	 */
 	public function test_image_IS_SINGULAR_AND_HAS_featured_image_AND_HAS_RIGHT_size() {
@@ -711,7 +712,7 @@ EXPECTED;
 
 		$output = ob_get_clean();
 
-		$expected_html  = '<meta property="og:description" content="' . $expected_title . '" />' . "\n";
+		$expected_html = '<meta property="og:description" content="' . $expected_title . '" />' . "\n";
 
 		$this->assertContains( $expected_html, $output );
 	}

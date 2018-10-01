@@ -212,7 +212,7 @@ class WPSEO_Admin_Init {
 
 		// We are checking against the WordPress internal translation.
 		// @codingStandardsIgnoreLine
-		$translated_blog_description = __( 'Just another WordPress site' );
+		$translated_blog_description = __( 'Just another WordPress site', 'default' );
 
 		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
 	}

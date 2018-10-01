@@ -358,10 +358,13 @@ class WPSEO_Taxonomy {
 		add_action( "{$this->taxonomy}_term_edit_form_top", array( $this, 'custom_category_description_editor' ) );
 	}
 
+	/* ********************* DEPRECATED METHODS ********************* */
+
 	/**
 	 * Adds shortcode support to category descriptions.
 	 *
 	 * @deprecated 7.9.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $desc String to add shortcodes in.
 	 *

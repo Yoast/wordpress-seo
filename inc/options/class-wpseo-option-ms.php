@@ -37,10 +37,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 * @var  array  Array of defaults for the option
 	 *        Shouldn't be requested directly, use $this->get_defaults();
 	 */
-	protected $defaults = array(
-		'access'      => 'admin',
-		'defaultblog' => '', // Numeric blog ID or empty.
-	);
+	protected $defaults = array();
 
 	/**
 	 * @var  array $allowed_access_options Available options for the 'access' setting
@@ -74,6 +71,20 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 * Only run parent constructor in multisite context.
 	 */
 	public function __construct() {
+		$allow_prefix   = self::ALLOW_KEY_PREFIX;
+		$this->defaults = array(
+			'access'                                    => 'admin',
+			'defaultblog'                               => '', // Numeric blog ID or empty.
+			"{$allow_prefix}disableadvanced_meta"       => true,
+			"{$allow_prefix}onpage_indexability"        => true,
+			"{$allow_prefix}content_analysis_active"    => true,
+			"{$allow_prefix}keyword_analysis_active"    => true,
+			"{$allow_prefix}enable_admin_bar_menu"      => true,
+			"{$allow_prefix}enable_cornerstone_content" => true,
+			"{$allow_prefix}enable_xml_sitemap"         => true,
+			"{$allow_prefix}enable_text_link_counter"   => true,
+		);
+
 		if ( is_multisite() ) {
 			parent::__construct();
 		}
