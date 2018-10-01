@@ -13,6 +13,22 @@
 class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * @var WPSEO_Indexable_Service_Double
+	 */
+	protected $service;
+
+	/**
+	 * Sets an instance of the provider.
+	 *
+	 * @return void
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		$this->service = new WPSEO_Indexable_Service_Double();
+	}
+
+	/**
 	 * Tests the get_indexable for an invalid post type.
 	 *
 	 * @covers WPSEO_Indexable_Service::get_indexable()
@@ -24,14 +40,13 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$request
-			->expects( $this->once() )
+			->expects( $this->exactly( 2 ) )
 			->method( 'get_param' )
-			->will( $this->returnValue( 'foo' ) );
+			->will( $this->onConsecutiveCalls( 'foo', 100 ) );
 
-		$service  = new WPSEO_Indexable_Service();
-		$response = $service->get_indexable( $request );
+		$response = $this->service->get_indexable( $request );
 
-		$this->assertEquals( new WP_REST_Response( 'Unknown type foo', 400 ), $response );
+		$this->assertEquals( new WP_REST_Response( 'Invalid type for parameter `provider` passed. Expected `callable`, but got `string`', 500 ), $response );
 	}
 
 	/**
@@ -42,13 +57,13 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 	public function test_get_indexable_for_valid_post_type_with_a_non_indexable_object() {
 		$provider = $this
 			->getMockBuilder( 'WPSEO_Indexable_Foo_Provider' )
-			->setMethods( array( 'is_indexable' ) )
+			->setMethods( array( 'get' ) )
 			->getMock();
 
 		$provider
 			->expects( $this->once() )
-			->method( 'is_indexable' )
-			->will( $this->returnValue( false ) );
+			->method( 'get' )
+			->will( $this->returnValue( array() ) );
 
 		$service = $this
 			->getMockBuilder( 'WPSEO_Indexable_Service' )
@@ -77,7 +92,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 		 */
 		$response = $service->get_indexable( $request );
 
-		$this->assertEquals( new WP_REST_Response( 'Object foo with id 100 not found', 404 ), $response );
+		$this->assertEquals( new WP_REST_Response( array(), 200 ), $response );
 	}
 
 	/**
@@ -88,19 +103,13 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 	public function test_get_indexable_for_valid_post_type_with_an_indexable_object() {
 		$provider = $this
 			->getMockBuilder( 'WPSEO_Indexable_Foo_Provider' )
-			->setMethods( array( 'is_indexable', 'get' ) )
+			->setMethods( array('get' ) )
 			->getMock();
-
-		$provider
-			->expects( $this->once() )
-			->method( 'is_indexable' )
-			->will( $this->returnValue( true ) );
 
 		$provider
 			->expects( $this->once() )
 			->method( 'get' )
 			->will( $this->returnValue( 'This is the return value of the get method' ) );
-
 
 		$service = $this
 			->getMockBuilder( 'WPSEO_Indexable_Service' )
@@ -135,13 +144,21 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the return value of the get_provider.
 	 *
+	 * @expectedException WPSEO_Invalid_Argument_Exception
 	 * @covers WPSEO_Indexable_Service::get_provider()
 	 */
 	public function test_get_provider() {
-		$service = new WPSEO_Indexable_Service_Double();
+		$this->assertInstanceOf( 'WPSEO_Indexable_Service_Post_Provider', $this->service->get_provider( 'post' ) );
+		$this->assertInstanceOf( 'WPSEO_Indexable_Service_Term_Provider', $this->service->get_provider( 'term' ) );
+		$this->service->get_provider( 'foo' );
+	}
 
-		$this->assertInstanceOf( 'WPSEO_Indexable_Service_Post_Provider', $service->get_provider( 'post' ) );
-		$this->assertInstanceOf( 'WPSEO_Indexable_Service_Term_Provider', $service->get_provider( 'term' ) );
-		$this->assertNull( $service->get_provider( 'foo' ) );
+	/**
+	 * Tests the handling of an unknown object type.
+	 *
+	 * @covers WPSEO_Indexable_Service::handle_unknown_object_type()
+	 */
+	public function test_handle_unknown_object_type() {
+		$this->assertInstanceOf( 'WP_REST_Response', $this->service->handle_unknown_object_type( 'unknown' ) );
 	}
 }
