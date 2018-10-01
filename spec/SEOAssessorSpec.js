@@ -2,9 +2,9 @@ import Assessor from "../src/seoAssessor.js";
 import Paper from "../src/values/Paper.js";
 import factory from "./specHelpers/factory.js";
 import getResults from "./specHelpers/getAssessorResults";
-var i18n = factory.buildJed();
+const i18n = factory.buildJed();
 
-var assessor = new Assessor( i18n );
+const assessor = new Assessor( i18n );
 
 describe( "running assessments in the assessor", function() {
 	it( "runs assessments without any specific requirements", function() {
