@@ -15,6 +15,8 @@ echo 'Version: 1.0' . PHP_EOL . PHP_EOL;
 
 if ( false !== getenv( 'WP_PLUGIN_DIR' ) ) {
 	define( 'WP_PLUGIN_DIR', getenv( 'WP_PLUGIN_DIR' ) );
+} else {
+	define( 'WP_PLUGIN_DIR', dirname( dirname( dirname( __FILE__ ) ) ) );
 }
 
 $GLOBALS['wp_tests_options'] = array(

@@ -48,7 +48,6 @@ class WPSEO_Configuration_Page {
 		exit;
 	}
 
-
 	/**
 	 *  Registers the page for the wizard.
 	 */
@@ -107,7 +106,7 @@ class WPSEO_Configuration_Page {
 		<html <?php language_attributes(); ?>>
 		<!--<![endif]-->
 		<head>
-			<meta name="viewport" content="width=device-width"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 			<title><?php
 				printf(
@@ -157,7 +156,6 @@ class WPSEO_Configuration_Page {
 		</body>
 		</html>
 		<?php
-
 	}
 
 	/**
@@ -267,5 +265,4 @@ class WPSEO_Configuration_Page {
 	private function remove_notification_option() {
 		WPSEO_Options::set( 'show_onboarding_notice', false );
 	}
-
 }

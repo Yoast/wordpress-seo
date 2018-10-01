@@ -28,7 +28,7 @@ if ( $wpseo_post_type->name === 'product' && WPSEO_Utils::is_woocommerce_active(
 if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	$plural_label = $wpseo_post_type->labels->name;
 
-	// translators: %s is the plural version of the post type's name.
+	/* translators: %s is the plural version of the post type's name. */
 	echo '<h3>' . esc_html( sprintf( __( 'Settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
 
 	$custom_post_type_archive_help = $view_utils->search_results_setting_help( $wpseo_post_type, 'archive' );

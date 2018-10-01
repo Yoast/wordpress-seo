@@ -189,7 +189,6 @@ class WPSEO_Breadcrumbs {
 		return $url;
 	}
 
-
 	/**
 	 * Filter: 'wpseo_breadcrumb_single_link_wrapper' - Allows developer to change or wrap each breadcrumb element.
 	 *
@@ -221,7 +220,6 @@ class WPSEO_Breadcrumbs {
 			$this->wrapper = $wrapper;
 		}
 	}
-
 
 	/**
 	 * Get a term's parents.
@@ -681,7 +679,6 @@ class WPSEO_Breadcrumbs {
 		);
 	}
 
-
 	/**
 	 * Take the crumbs array and convert each crumb to a single breadcrumb string.
 	 *
@@ -954,7 +951,6 @@ class WPSEO_Breadcrumbs {
 			$this->output = $output;
 		}
 	}
-
 
 	/**
 	 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the Yoast SEO breadcrumbs wrapper element.

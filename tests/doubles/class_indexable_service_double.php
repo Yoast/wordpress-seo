@@ -9,6 +9,7 @@
  * Test Helper Class.
  */
 class WPSEO_Indexable_Service_Double extends WPSEO_Indexable_Service {
+
 	/**
 	 * @inheritdoc
 	 */

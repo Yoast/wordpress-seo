@@ -82,7 +82,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		false,
 	);
 
-
 	/**
 	 * Add the actions and filters for the option.
 	 *
@@ -106,7 +105,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		 */
 		$this->defaults = apply_filters( 'wpseo_option_wpseo_defaults', $this->defaults );
 	}
-
 
 	/**
 	 * Get the singleton instance of this class.
@@ -207,7 +205,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 		return $clean;
 	}
-
 
 	/**
 	 * Clean a given option value.

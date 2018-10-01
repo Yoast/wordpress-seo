@@ -168,7 +168,29 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( $expected_html );
 
 		$this->assertEquals( self::$class_instance->og_title( false ), $expected_title );
+	}
 
+	/**
+	 * @covers WPSEO_OpenGraph::og_title
+	 */
+	public function test_og_title_with_variables() {
+		$expected_title = 'Test title';
+		// Create and go to post.
+		$post_id = $this->factory->post->create();
+		wp_update_post( array(
+			'ID'         => $post_id,
+			'post_title' => $expected_title,
+		) );
+		WPSEO_Meta::set_value( 'opengraph-title', '%%title%%', $post_id );
+
+		$this->go_to( get_permalink( $post_id ) );
+
+		$expected_html  = '<meta property="og:title" content="' . $expected_title . '" />' . "\n";
+
+		$this->assertTrue( self::$class_instance->og_title() );
+		$this->expectOutput( $expected_html );
+
+		$this->assertEquals( self::$class_instance->og_title( false ), $expected_title );
 	}
 
 	/**
@@ -669,6 +691,32 @@ EXPECTED;
 	}
 
 	/**
+	 * Testing with an Open Graph meta description for the taxonomy.
+	 *
+	 * @covers WPSEO_OpenGraph::description
+	 */
+	public function test_taxonomy_description_with_replacevars() {
+		$expected_title = 'Test title';
+		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category', 'name' => $expected_title ) );
+
+		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'opengraph-description', '%%term_title%%' );
+
+		$this->go_to( get_term_link( $term_id, 'category' ) );
+
+		$class_instance = new WPSEO_OpenGraph();
+
+		ob_start();
+
+		$class_instance->opengraph();
+
+		$output = ob_get_clean();
+
+		$expected_html  = '<meta property="og:description" content="' . $expected_title . '" />' . "\n";
+
+		$this->assertContains( $expected_html, $output );
+	}
+
+	/**
 	 * Testing with an Open Graph meta image for the taxonomy.
 	 *
 	 * @covers WPSEO_OpenGraph::image
@@ -803,5 +851,4 @@ EXPECTED;
 
 		return $attach_id;
 	}
-
 }

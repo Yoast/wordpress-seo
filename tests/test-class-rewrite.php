@@ -121,5 +121,4 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $expected, $c->category_rewrite_rules() );
 	}
-
 }

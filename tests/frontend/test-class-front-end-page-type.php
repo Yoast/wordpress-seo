@@ -175,5 +175,4 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	public function simple_page_hook( $page_id ) {
 		return 100;
 	}
-
 }

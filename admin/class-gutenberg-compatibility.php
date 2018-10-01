@@ -13,12 +13,12 @@ class WPSEO_Gutenberg_Compatibility {
 	/**
 	 * The currently released version of Gutenberg.
 	 */
-	const CURRENT_RELEASE = '3.4.0';
+	const CURRENT_RELEASE = '3.5.0';
 
 	/**
 	 * The minimally supported version of Gutenberg by the plugin.
 	 */
-	const MINIMUM_SUPPORTED = '2.8.0';
+	const MINIMUM_SUPPORTED = '3.5.0';
 
 	/**
 	 * @var string
@@ -47,16 +47,7 @@ class WPSEO_Gutenberg_Compatibility {
 	 * @return bool True if the currently installed version is below the minimum supported version. False otherwise.
 	 */
 	public function is_below_minimum() {
-		return $this->get_major_minor_version( $this->current_version ) < $this->get_major_minor_version( $this->get_minimum_supported_version() );
-	}
-
-	/**
-	 * Determines whether or not the currently installed version of Gutenberg is the latest known version.
-	 *
-	 * @return bool True if the currently installed version is the latest known version. False otherwise.
-	 */
-	public function is_latest_version() {
-		return $this->get_major_minor_version( $this->current_version ) === $this->get_major_minor_version( $this->get_latest_release() );
+		return version_compare( $this->current_version, $this->get_minimum_supported_version(), '<' );
 	}
 
 	/**
@@ -74,7 +65,7 @@ class WPSEO_Gutenberg_Compatibility {
 	 * @return bool Whether or not the currently installed version is fully compatible.
 	 */
 	public function is_fully_compatible() {
-		return ! $this->is_below_minimum() && $this->is_latest_version();
+		return version_compare( $this->current_version, $this->get_latest_release(), '>=' );
 	}
 
 	/**
@@ -93,19 +84,6 @@ class WPSEO_Gutenberg_Compatibility {
 	 */
 	protected function get_minimum_supported_version() {
 		return self::MINIMUM_SUPPORTED;
-	}
-
-	/**
-	 * Gets the major/minor version of the plugin for easier comparing.
-	 *
-	 * @param string $version The version to trim.
-	 *
-	 * @return string The major/minor version of the plugin.
-	 */
-	protected function get_major_minor_version( $version ) {
-		$version_numbers = explode( '.', $version );
-
-		return implode( '.', array_slice( $version_numbers, 0, 2 ) );
 	}
 
 	/**

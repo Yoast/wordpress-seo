@@ -9,6 +9,7 @@
  * Test Helper Class.
  */
 class WPSEO_Sitemap_Image_Parser_Double extends WPSEO_Sitemap_Image_Parser {
+
 	/**
 	 * @inheritdoc
 	 */

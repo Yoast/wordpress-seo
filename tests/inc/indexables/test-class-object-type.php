@@ -48,7 +48,7 @@ class WPSEO_Object_Type_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the retrieval of the type.
+	 * Tests the retrieval of the subtype.
 	 *
 	 * @covers WPSEO_Object_Type::get_subtype
 	 */

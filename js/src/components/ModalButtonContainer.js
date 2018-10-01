@@ -1,6 +1,5 @@
 import React from "react";
 import ModalIntl from "./modals/Modal";
-import modals from "./modals";
 import IntlProvider from "./IntlProvider";
 
 const ModalButtonContainer = ( props ) => {
@@ -11,7 +10,7 @@ const ModalButtonContainer = ( props ) => {
 				openButtonIcon={ props.openButtonIcon }
 				labels={ props.intl }
 				classes={ props.classes }
-				modalContent={ modals[ props.content ] }
+				modalContent={ props.content }
 			/>
 		</IntlProvider>
 	);

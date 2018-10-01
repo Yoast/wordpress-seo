@@ -56,7 +56,7 @@ class WPSEO_Indexable_Service_Term_Provider extends WPSEO_Indexable_Provider {
 	 * @param int   $object_id   The ID of the object.
 	 * @param array $requestdata The request data to store.
 	 *
-	 * @return void
+	 * @return array The patched indexable.
 	 *
 	 * @throws WPSEO_Invalid_Indexable_Exception The indexable exception.
 	 * @throws WPSEO_REST_Request_Exception		 Exception that is thrown if patching the object has failed.
@@ -72,7 +72,7 @@ class WPSEO_Indexable_Service_Term_Provider extends WPSEO_Indexable_Provider {
 		$stored_indexable = $this->store_indexable( $new_indexable );
 
 		if ( $stored_indexable === true ) {
-			return;
+			return $new_indexable->to_array();
 		}
 
 		throw WPSEO_REST_Request_Exception::patch( 'Term', $object_id );

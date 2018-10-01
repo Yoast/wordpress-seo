@@ -1,10 +1,12 @@
-/* global wpseoPostScraperL10n wpseoTermScraperL10n */
+/* global wpseoPostScraperL10n wpseoTermScraperL10n wpseoAdminL10n */
 
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
+import { utils } from "yoast-components";
+import isNil from "lodash/isNil";
 
 import Results from "./Results";
 import Collapsible from "../SidebarCollapsible";
@@ -25,22 +27,36 @@ if( window.wpseoPostScraperL10n ) {
 	localizedData = wpseoTermScraperL10n;
 }
 
+const { makeOutboundLink } = utils;
+const LearnMoreLink = makeOutboundLink();
+
 /**
  * Redux container for the readability analysis.
  */
 class ReadabilityAnalysis extends React.Component {
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
+
+		if ( isNil( this.props.overallScore ) ) {
+			score.className = "loading";
+		}
+
 		return (
 			<Collapsible
-				title={ __( "Readability", "wordpress-seo" ) }
+				title={ __( "Readability analysis", "wordpress-seo" ) }
 				titleScreenReaderText={ score.screenReaderReadabilityText }
 				prefixIcon={ getIconForScore( score.className ) }
 				prefixIconCollapsed={ getIconForScore( score.className ) }
 			>
 				<AnalysisHeader>
-					Analysis results:
+					{ __( "Analysis results", "wordpress-seo" ) }
 				</AnalysisHeader>
+				<p>{ __( "This analysis checks your writing for grammar and writing style so your content " +
+						"is as clear as it can be.", "wordpress-seo" ) + " " }
+					<LearnMoreLink href={ wpseoAdminL10n[ "shortlinks.readability_analysis_info" ] } rel={ null }>
+						{ __( "Learn more about the readability analysis.", "wordpress-seo" ) }
+					</LearnMoreLink>
+				</p>
 				<Results
 					canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
 					showLanguageNotice={ true }

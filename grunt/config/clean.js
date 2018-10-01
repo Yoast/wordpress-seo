@@ -4,16 +4,18 @@ module.exports = {
 		"<%= paths.languages %>*",
 		"!<%= paths.languages %>index.php",
 	],
+	"after-po-download": [
+		"<%= paths.languages %><%= pkg.plugin.textdomain %>-*-{formal,informal,ao90}.{po,json}",
+	],
 	"po-files": [
 		"<%= paths.languages %>*.po",
-		"<%= paths.languages %><%= pkg.plugin.textdomain %>-temp.pot",
+		"<%= paths.languages %>*.pot",
 		"<%= paths.languages %>yoast-seo.json",
 
 		"<%= files.pot.yoastComponents %>",
 		"<%= files.pot.yoastComponentsConfigurationWizard %>",
 		"<%= files.pot.yoastComponentsRemaining %>",
 		"<%= files.pot.wordpressSeoJs %>",
-		"<%= paths.languages %>yoast-components.pot",
 		"<%= paths.languages %>yoast-components.json",
 
 		"<%= files.pot.yoastseojs %>",
@@ -29,6 +31,12 @@ module.exports = {
 		"!css/dist/select2/*.min.css",
 	],
 	artifact: [
-		"artifact",
+		"<%= files.artifact %>",
+	],
+	"composer-artifact": [
+		"<%= files.artifactComposer %>",
+	],
+	"composer-files": [
+		"<%= files.artifactComposer %>/vendor",
 	],
 };

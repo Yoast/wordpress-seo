@@ -9,6 +9,7 @@
  * This code handles the option upgrades
  */
 class WPSEO_Upgrade {
+
 	/**
 	 * Class constructor
 	 */
@@ -302,7 +303,7 @@ class WPSEO_Upgrade {
 		$wpdb->query(
 			$wpdb->prepare(
 				'UPDATE ' . $wpdb->postmeta . ' SET meta_key = %s WHERE meta_key = "yst_is_cornerstone"',
-				WPSEO_Cornerstone::META_NAME
+				WPSEO_Cornerstone_Filter::META_NAME
 			)
 		);
 	}

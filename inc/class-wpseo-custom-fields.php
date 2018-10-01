@@ -29,13 +29,14 @@ class WPSEO_Custom_Fields {
 			return self::$custom_fields;
 		}
 
+		self::$custom_fields = array();
+
 		/**
 		 * Filters the number of custom fields to retrieve for the drop-down
 		 * in the Custom Fields meta box.
 		 *
 		 * @param int $limit Number of custom fields to retrieve. Default 30.
 		 */
-		self::$custom_fields = array();
 		$limit  = apply_filters( 'postmeta_form_limit', 30 );
 		$sql    = "SELECT DISTINCT meta_key
 			FROM $wpdb->postmeta

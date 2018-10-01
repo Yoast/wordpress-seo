@@ -45,9 +45,6 @@ class WPSEO_Metabox_Formatter {
 		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
-		$premium_benefits = new WPSEO_Premium_Benefits_List();
-		$premium_benefits->enqueue_translations();
-
 		return array(
 			'language'              => WPSEO_Language_Utils::get_site_language_name(),
 			'settings_link'         => $this->get_settings_link(),
@@ -55,8 +52,8 @@ class WPSEO_Metabox_Formatter {
 			'post_edit_url'         => '',
 			'base_url'              => '',
 			'contentTab'            => __( 'Readability', 'wordpress-seo' ),
-			'keywordTab'            => __( 'Keyword:', 'wordpress-seo' ),
-			'removeKeyword'         => __( 'Remove keyword', 'wordpress-seo' ),
+			'keywordTab'            => __( 'Keyphrase:', 'wordpress-seo' ),
+			'removeKeyword'         => __( 'Remove keyphrase', 'wordpress-seo' ),
 			'contentLocale'         => get_locale(),
 			'userLocale'            => WPSEO_Utils::get_user_locale(),
 			'translations'          => $this->get_translations(),
@@ -185,7 +182,7 @@ class WPSEO_Metabox_Formatter {
 	 */
 	public function get_add_keyword_upsell_translations() {
 		return array(
-			'title'                    => __( 'Would you like to add more than one keyword?', 'wordpress-seo' ),
+			'title'                    => __( 'Would you like to add more than one keyphrase?', 'wordpress-seo' ),
 			'intro'                    => sprintf(
 			/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
 				__( 'Great news: you can, with %1$s!', 'wordpress-seo' ),

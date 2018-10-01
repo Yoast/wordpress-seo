@@ -2,6 +2,7 @@
 
 import isUndefined  from "lodash/isUndefined";
 import { helpers } from "yoastseo";
+import isNil from "lodash/isNil";
 const { scoreToRating } = helpers;
 
 /**
@@ -39,10 +40,6 @@ var getPresenter = function() {
  * @returns {Object} The indicator for the given score.
  */
 function getIndicatorForScore( score ) {
-	// Scale because scoreToRating works from 0 to 10.
-	score /= 10;
-
-
 	var indicator = {
 		className: "",
 		screenReaderText: "",
@@ -50,11 +47,20 @@ function getIndicatorForScore( score ) {
 		screenReaderReadabilityText: "",
 	};
 
-	var presenter = getPresenter();
-
 	if ( ! hasPresenter() ) {
 		return indicator;
 	}
+
+	if ( isNil( score ) ) {
+		indicator.className = "loading";
+
+		return indicator;
+	}
+
+	// Scale because scoreToRating works from 0 to 10.
+	score /= 10;
+
+	var presenter = getPresenter();
 
 	return presenter.getIndicator( scoreToRating( score ) );
 }

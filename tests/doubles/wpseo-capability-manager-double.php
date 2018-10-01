@@ -9,6 +9,7 @@
  * Test Helper Class.
  */
 class WPSEO_Capability_Manager_Double extends WPSEO_Abstract_Capability_Manager {
+
 	/**
 	 * Adds the registered capabilities to the system.
 	 */

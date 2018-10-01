@@ -242,7 +242,6 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'post_archive', $class_instance->determine_for_archive( 'post' ) );
 	}
 
-
 	/**
 	 * Tests that has_editor_specific_replace_vars returns true when it has recommended replacement
 	 * variables for the passed page type.

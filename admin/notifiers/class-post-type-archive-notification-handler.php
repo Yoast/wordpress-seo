@@ -61,7 +61,7 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	 *
 	 * @return string The listener value.
 	 *
-	 * @coveCoverageIgnore
+	 * @codeCoverageIgnore
 	 */
 	protected function get_listener_value() {
 		return filter_input( INPUT_GET, 'yoast_dismiss' );
@@ -72,7 +72,7 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	 *
 	 * @return void
 	 *
-	 * @coveCoverageIgnore
+	 * @codeCoverageIgnore
 	 */
 	protected function redirect_to_dashboard() {
 		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
@@ -95,8 +95,8 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 		);
 		$message .= PHP_EOL . PHP_EOL;
 		$message .= sprintf(
+			/* translators: %1$s is the archive template link start tag, %2$s is the link closing tag, %3$s is a comma separated string with content types. */
 			_n(
-				/* translators: %1$s is the archive template link start tag, %2$s is the link closing tag, %3$s is a comma separated string with content types. */
 				'Please check the %1$sarchive template%2$s for the following content type: %3$s.',
 				' Please check the %1$sarchive templates%2$s for the following content types: %3$s.',
 				count( $post_types ),

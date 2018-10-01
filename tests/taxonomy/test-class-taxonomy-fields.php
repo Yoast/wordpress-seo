@@ -18,5 +18,4 @@ class WPSEO_Taxonomy_Fields_Test extends WPSEO_UnitTestCase {
 			$class->get()
 		);
 	}
-
 }

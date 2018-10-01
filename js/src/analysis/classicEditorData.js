@@ -19,16 +19,21 @@ class ClassicEditorData {
 	/**
 	 * Sets the wp data, Yoast SEO refresh function and data object.
 	 *
-	 * @param {Function} refresh The YoastSEO refresh function.
-	 * @param {Object} store     The YoastSEO Redux store.
+	 * @param {Function} refresh          The YoastSEO refresh function.
+	 * @param {Object} store              The YoastSEO Redux store.
+	 * @param {Object} settings           The settings for this classic editor data
+	 *                                    object.
+	 * @param {string} settings.tinyMceId The ID of the tinyMCE editor.
+	 *
 	 * @returns {void}
 	 */
-	constructor( refresh, store ) {
+	constructor( refresh, store, settings = { tinyMceId: "" } ) {
 		this._refresh = refresh;
 		this._store = store;
 		this._data = {};
 		// This will be used for the comparison whether the title, description and slug are dirty.
 		this._previousData = {};
+		this._settings = settings;
 		this.updateReplacementData = this.updateReplacementData.bind( this );
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
@@ -92,7 +97,13 @@ class ClassicEditorData {
 	 * @returns {string} The content of the document.
 	 */
 	getContent() {
-		return removeMarks( tmceHelper.getContentTinyMce( tmceId ) );
+		let tinyMceId = this._settings.tinyMceId;
+
+		if ( tinyMceId === "" ) {
+			tinyMceId = tmceId;
+		}
+
+		return removeMarks( tmceHelper.getContentTinyMce( tinyMceId ) );
 	}
 
 	/**

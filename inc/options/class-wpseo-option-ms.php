@@ -57,7 +57,6 @@ class WPSEO_Option_MS extends WPSEO_Option {
 		'superadmin',
 	);
 
-
 	/**
 	 * Get the singleton instance of this class
 	 *
@@ -92,7 +91,6 @@ class WPSEO_Option_MS extends WPSEO_Option {
 		}
 	}
 
-
 	/**
 	 * Remove the default filters.
 	 * Called from the validate() method to prevent failure to add new options
@@ -102,7 +100,6 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	public function remove_default_filters() {
 		remove_filter( 'default_site_option_' . $this->option_name, array( $this, 'get_defaults' ) );
 	}
-
 
 	/**
 	 * Add filters to make sure that the option is merged with its defaults before being returned
@@ -116,7 +113,6 @@ class WPSEO_Option_MS extends WPSEO_Option {
 		}
 	}
 
-
 	/**
 	 * Remove the option filters.
 	 * Called from the clean_up methods to make sure we retrieve the original old option
@@ -127,9 +123,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 		remove_filter( 'site_option_' . $this->option_name, array( $this, 'get_option' ) );
 	}
 
-
 	/* *********** METHODS influencing add_uption(), update_option() and saving from admin pages *********** */
-
 
 	/**
 	 * Validate the option
@@ -205,7 +199,6 @@ class WPSEO_Option_MS extends WPSEO_Option {
 
 		return $clean;
 	}
-
 
 	/**
 	 * Clean a given option value
