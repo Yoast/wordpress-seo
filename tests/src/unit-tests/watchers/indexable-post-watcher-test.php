@@ -15,7 +15,7 @@ use Yoast\YoastSEO\Watchers\Indexable_Post_Watcher;
  *
  * @package Yoast\Tests\Watchers
  */
-class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
+class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	public function setUp() {
 		parent::setUp();
 
@@ -80,7 +80,7 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_indexable' )
-			->will( $this->throwException( new \Yoast\YoastSEO\Exceptions\No_Indexable_Found() ) );
+			->will( $this->throwException( new No_Indexable_Found() ) );
 
 		$instance->delete_meta( 1 );
 	}

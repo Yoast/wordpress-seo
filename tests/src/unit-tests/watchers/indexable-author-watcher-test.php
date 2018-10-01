@@ -14,7 +14,7 @@ use Yoast\Tests\Doubles\Indexable_Author_Watcher_Double as Indexable_Author_Doub
  *
  * @package Yoast\Tests\Watchers
  */
-class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
+class Indexable_Author_Watcher_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Tests if the expected hooks are registered.
@@ -74,13 +74,13 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_indexable' )
-			->will( $this->throwException( new \Yoast\YoastSEO\Exceptions\No_Indexable_Found() ) );
+			->will( $this->throwException( new No_Indexable_Found() ) );
 
 		$instance->delete_meta( - 1 );
 	}
 
 	/**
-	 * Tests retreiving a meta value
+	 * Tests retreiving the author indexable for a non-existing author.
 	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author_Watcher::get_indexable()
 	 *

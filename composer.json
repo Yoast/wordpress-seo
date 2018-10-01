@@ -30,7 +30,8 @@
 		"xrstf/composer-php52": "^1.0.20",
 		"j4mie/idiorm": "^1.5",
 		"pimple/pimple": "^3.2",
-		"ruckusing/ruckusing-migrations": "^1.1"
+		"ruckusing/ruckusing-migrations": "^1.1",
+		"psr/log": "^1.0"
 	},
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",

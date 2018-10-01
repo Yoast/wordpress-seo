@@ -14,7 +14,7 @@ use Yoast\Tests\Doubles\Indexable_Term_Watcher_Double as Indexable_Term_Double;
  *
  * @package Yoast\Tests\Watchers
  */
-class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
+class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the expected hooks are registered
 	 *

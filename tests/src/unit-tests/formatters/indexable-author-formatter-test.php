@@ -12,7 +12,7 @@ use Yoast\Tests\Doubles\Indexable_Author_Formatter_Double;
  *
  * @package Yoast\Tests\Formatters
  */
-class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
+class Indexable_Author_Formatter_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Author_Formatter::format

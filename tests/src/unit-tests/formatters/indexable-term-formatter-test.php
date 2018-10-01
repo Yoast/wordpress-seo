@@ -3,7 +3,6 @@
 namespace Yoast\Tests\UnitTests\Formatters;
 
 use Yoast\Tests\Doubles\Indexable_Term_Formatter_Double;
-use Yoast\YoastSEO\Watchers\Indexable_Term_Watcher;
 
 /**
  * Class Indexable_Term_Test
@@ -13,7 +12,7 @@ use Yoast\YoastSEO\Watchers\Indexable_Term_Watcher;
  *
  * @package Yoast\Tests\Formatters
  */
-class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
+class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @var Indexable_Term_Formatter_Double
@@ -30,6 +29,7 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the formatting of the indexable data.
 	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::format
 	 */
 	public function test_format() {
@@ -150,8 +150,7 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::get_indexable_meta_lookup()
 	 */
 	public function test_get_indexable_meta_lookup() {
-		$instance = new Indexable_Term_Formatter_Double( 1, 'category' );
-		$this->assertInternalType( 'array', $instance->get_indexable_meta_lookup() );
+		$this->assertInternalType( 'array', $this->instance->get_indexable_meta_lookup() );
 	}
 
 }

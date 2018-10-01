@@ -13,7 +13,7 @@ use Yoast\Tests\Doubles\Indexable_Post_Formatter_Double as Indexable_Post_Double
  *
  * @package Yoast\Tests\Watchers
  */
-class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
+class Indexable_Post_Formatter_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Post_Formatter::format
