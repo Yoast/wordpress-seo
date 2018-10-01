@@ -112,8 +112,8 @@ class Yoast_Form {
 		$this->option_name = $option_name;
 
 		$this->options = WPSEO_Options::get_option( $option_name );
-		if ( ! $this->options ) {
-			$this->options = array();
+		if ( $this->options === null ) {
+			$this->options = (array) get_option( $option_name, array() );
 		}
 
 		$this->option_instance = WPSEO_Options::get_option_instance( $option_name );
