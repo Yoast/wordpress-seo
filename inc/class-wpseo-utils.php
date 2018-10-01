@@ -780,8 +780,8 @@ class WPSEO_Utils {
 		
 		// Return out if no site tagline is set.
 		if( empty(get_bloginfo( 'description' ))) {
-            return;
-        }
+			return;
+		}
 		
 		$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
 
