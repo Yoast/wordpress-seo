@@ -58,9 +58,7 @@ legend.schema-how-to-duration-legend {
 }
 
 .schema-how-to-step-mover {
-	position: absolute;
-	top: 0;
-	left: -29px;
+	display: inline-block;
 }
 
 .schema-how-to-step-button {
@@ -89,6 +87,7 @@ legend.schema-how-to-duration-legend {
 }
 
 .schema-how-to-step-button-container {
+	display: inline-block;
 	text-align: right;
 
 	.schema-how-to-step-add-media {
@@ -115,12 +114,11 @@ legend.schema-how-to-duration-legend {
 }
 
 .schema-faq-section-mover {
-	position: absolute;
-	top: 0;
-	left: -29px;
+	display: inline-block;
 }
 
 .schema-faq-section-button-container {
+	display: inline-block;
 	text-align: right;
 
 	.schema-faq-section-add-media {
@@ -139,5 +137,25 @@ legend.schema-how-to-duration-legend {
 	button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
 		box-shadow: none;
 		color: #007cba;
+	}
+}
+
+.schema-how-to-step-mover,
+.schema-faq-section-mover {
+	.editor-block-mover__control {
+		display: inline-flex;
+		width: 36px;
+		height: 36px;
+	}
+}
+
+.schema-how-to-step-controls-container,
+.schema-faq-section-controls-container {
+	text-align: right;
+	margin-left: -28px; // compensate the 32px wrapper padding and keep a 4px space
+
+	.dashicons-arrow-up-alt2 {
+		position: relative;
+		top: -1px; // fix dashicon shape vertical centering
 	}
 }
