@@ -70,6 +70,8 @@ class Indexable_Post_Watcher implements Integration {
 	/**
 	 * Fetches the indexable for a post.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param int  $post_id     Post to fetch indexable for.
 	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
 	 *

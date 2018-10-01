@@ -4,7 +4,6 @@ namespace Yoast\Tests\UnitTests\Watchers;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
 use Yoast\YoastSEO\Watchers\Indexable_Author_Watcher;
-use Yoast\Tests\Doubles\Indexable_Author_Watcher_Double as Indexable_Author_Double;
 
 /**
  * Class Indexable_Author_Test
@@ -77,19 +76,6 @@ class Indexable_Author_Watcher_Test extends \PHPUnit_Framework_TestCase {
 			->will( $this->throwException( new No_Indexable_Found() ) );
 
 		$instance->delete_meta( - 1 );
-	}
-
-	/**
-	 * Tests retreiving the author indexable for a non-existing author.
-	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author_Watcher::get_indexable()
-	 *
-	 * @expectedException \Yoast\YoastSEO\Exceptions\No_Indexable_Found
-	 */
-	public function test_get_indexable_exception() {
-		$instance = new Indexable_Author_Double();
-
-		$instance->get_indexable( - 1, false );
 	}
 
 	/**

@@ -75,6 +75,8 @@ class Indexable_Term_Watcher implements Integration {
 	/**
 	 * Retrieves an indexable for a term.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param int    $term_id     The term the indexable is based upon.
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.

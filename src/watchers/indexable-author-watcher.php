@@ -66,6 +66,8 @@ class Indexable_Author_Watcher implements Integration {
 	/**
 	 * Retrieves the indexable for a user.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param int  $user_id     The user to retrieve the indexable for.
 	 * @param bool $auto_create Optional. Create the indexable when it does not exist yet.
 	 *

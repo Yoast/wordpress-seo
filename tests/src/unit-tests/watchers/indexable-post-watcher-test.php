@@ -2,7 +2,6 @@
 
 namespace Yoast\Tests\UnitTests\Watchers;
 
-use Yoast\Tests\Doubles\Indexable_Post_Watcher_Double as Indexable_Post_Double;
 use Yoast\YoastSEO\Config\Database_Migration;
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
 use Yoast\YoastSEO\Watchers\Indexable_Post_Watcher;
@@ -83,19 +82,6 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 			->will( $this->throwException( new No_Indexable_Found() ) );
 
 		$instance->delete_meta( 1 );
-	}
-
-	/**
-	 * Tests retreiving a meta value
-	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post_Watcher::get_indexable()
-	 *
-	 * @expectedException \Yoast\YoastSEO\Exceptions\No_Indexable_Found
-	 */
-	public function test_get_indexable_exception() {
-		$instance = new Indexable_Post_Double();
-
-		$instance->get_indexable( 1, false );
 	}
 
 	/**
