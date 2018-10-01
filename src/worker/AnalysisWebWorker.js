@@ -30,6 +30,7 @@ import SnippetPreview from "../snippetPreview";
 import morphologyData from "../morphology/morphologyData.json";
 import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
+import SecondaryKeywordAssessor from "../secondaryKeywordAssessor";
 
 const YoastSEO = {
 	Assessor,
@@ -40,6 +41,7 @@ const YoastSEO = {
 	Pluggable,
 	Researcher,
 	SnippetPreview,
+	SecondaryKeywordAssessor,
 
 	Paper,
 	AssessmentResult,
@@ -55,6 +57,7 @@ const YoastSEO = {
 
 import CornerstoneContentAssessor from "../cornerstone/contentAssessor";
 import CornerstoneSEOAssessor from "../cornerstone/seoAssessor";
+import CornerstoneSecondaryKeywordAssessor from "../cornerstone/secondaryKeywordAssessor";
 import InvalidTypeError from "../errors/invalidType";
 
 // Internal dependencies.
