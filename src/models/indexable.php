@@ -59,7 +59,7 @@ class Indexable extends Yoast_Model {
 	 *
 	 * @param int    $object_id   The indexable object id.
 	 * @param string $object_type The indexable object type.
-	 * @param bool $auto_create   Optional. Create the indexable if it does not exist.
+	 * @param bool   $auto_create Optional. Create the indexable if it does not exist.
 	 *
 	 * @return bool|Indexable Instance of indexable.
 	 */
@@ -106,7 +106,7 @@ class Indexable extends Yoast_Model {
 		try {
 			return $this->has_many( 'Indexable_Meta', 'indexable_id', 'id' );
 		}
-		catch( \Exception $exception ) {
+		catch ( \Exception $exception ) {
 			// @todo Log exception with YoastSEO/Logger
 			return array();
 		}
@@ -149,7 +149,7 @@ class Indexable extends Yoast_Model {
 	 *
 	 * @param string $meta_key    The key to set.
 	 * @param string $meta_value  The value to set.
-	 * @param bool   $auto_create
+	 * @param bool   $auto_create Optional. Create the indexable if it does not exist.
 	 *
 	 * @return void
 	 */
@@ -168,7 +168,7 @@ class Indexable extends Yoast_Model {
 			return;
 		}
 
-		foreach( $this->meta_data as $meta ) {
+		foreach ( $this->meta_data as $meta ) {
 			$meta->indexable_id = $this->id;
 			$meta->save();
 		}
@@ -202,8 +202,10 @@ class Indexable extends Yoast_Model {
 
 	/**
 	 * Initializes the meta data.
+	 *
+	 * @return void
 	 */
-	protected function initialize_meta( ) {
+	protected function initialize_meta() {
 		if ( $this->meta_data !== null ) {
 			return;
 		}

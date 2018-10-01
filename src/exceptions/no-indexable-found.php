@@ -38,7 +38,7 @@ class No_Indexable_Found extends \OutOfRangeException {
 	/**
 	 * Returns an exception when an indexable for a post is not found.
 	 *
-	 * @param integer                $post_id  The post id.
+	 * @param integer                       $post_id  The post id.
 	 * @param string|\stdClass|\WP_Taxonomy $taxonomy The taxonomy for the given Post ID.
 	 *
 	 * @return No_Indexable_Found The exception.

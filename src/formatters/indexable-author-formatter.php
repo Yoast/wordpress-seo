@@ -26,7 +26,7 @@ class Indexable_Author_Formatter {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param int  $user_id The user to retrieve the indexable for.
+	 * @param int $user_id The user to retrieve the indexable for.
 	 */
 	public function __construct( $user_id ) {
 		$this->user_id = $user_id;
@@ -35,7 +35,7 @@ class Indexable_Author_Formatter {
 	/**
 	 * Formats the data.
 	 *
-	 * @param Indexable $indexable The indexable to format;
+	 * @param Indexable $indexable The indexable to format.
 	 *
 	 * @return Indexable The extended indexable.
 	 */

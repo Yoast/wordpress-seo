@@ -63,17 +63,37 @@
 	<config name="testVersion" value="5.2-"/>
 	<rule ref="PHPCompatibilityWP"/>
 
-	<!-- WP-CLI has a minimum PHP requirement of PHP 5.3. -->
+	<!-- WP-CLI and src (indexables) have a minimum PHP requirement of PHP 5.3. -->
 	<rule ref="PHPCompatibility.PHP.NewLanguageConstructs.t_ns_separatorFound">
 		<exclude-pattern>*/cli/class-cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
 	</rule>
 	<rule ref="PHPCompatibility.PHP.NewKeywords.t_useFound">
 		<exclude-pattern>*/cli/class-cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
 	</rule>
 	<rule ref="PHPCompatibility.PHP.NewMagicMethods.__invokeFound">
 		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.PHP.LateStaticBinding.Found">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.PHP.NewKeywords.t_namespaceFound">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.PHP.NewFunctions.get_called_classFound">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.PHP.DynamicAccessToStatic.Found">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.PHP.NewClosure.Found">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
 
 	<!-- These usages of PHP > 5.2 code are surrounded by the correct safeguards. -->

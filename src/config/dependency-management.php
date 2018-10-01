@@ -21,6 +21,7 @@ class Dependency_Management {
 	 */
 	public function initialize() {
 		// Prepend the autoloader to the stack, allowing for discovery of prefixed classes.
+		// @codingStandardsIgnoreLine PHPCompatibility.PHP.NewFunctions.class_aliasFound -- PHP >= 5.3 only.
 		return \spl_autoload_register( array( $this, 'ensure_class_alias' ), true, true );
 	}
 
@@ -112,6 +113,7 @@ class Dependency_Management {
 	 * @return bool True on successful alias.
 	 */
 	protected function class_alias( $base, $alias ) {
+		// @codingStandardsIgnoreLine PHPCompatibility.PHP.NewFunctions.class_aliasFound -- PHP >= 5.3 only.
 		return class_alias( $base, $alias );
 	}
 }

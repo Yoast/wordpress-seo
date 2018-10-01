@@ -167,6 +167,7 @@ class Indexable_Post_Formatter {
 				$indexable->link_count          = $seo_meta->internal_link_count;
 				$indexable->incoming_link_count = $seo_meta->incoming_link_count;
 			}
+		// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 		} catch ( \Exception $exception ) {
 			// Do nothing...
 		}
@@ -191,7 +192,7 @@ class Indexable_Post_Formatter {
 	 * Retrieves the permalink for a post.
 	 *
 	 * @codeCoverageIgnore
-	 **
+	 *
 	 * @return false|string The permalink.
 	 */
 	protected function get_permalink() {
