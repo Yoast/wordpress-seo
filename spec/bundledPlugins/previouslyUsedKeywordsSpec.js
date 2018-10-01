@@ -2,7 +2,7 @@ import PreviouslyUsedKeywords from "../../src/bundledPlugins/previouslyUsedKeywo
 
 var usedKeywords = { keyword: [ 1 ], test: [ 2, 3, 4 ] };
 import Paper from "../../src/values/Paper.js";
-import Factory from "../helpers/factory.js";
+import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();
 
 var app = {};
@@ -22,22 +22,25 @@ describe( "checks for keyword doubles", function() {
 
 		var plugin = new PreviouslyUsedKeywords( app, args, i18n );
 		expect( plugin.scoreAssessment( { id: 1, count: 1 }, paper, i18n ).score ).toBe( 6 );
-		expect( plugin.scoreAssessment( { id: 1, count: 1 }, paper, i18n ).text ).toBe( "You've used this focus keyword <a href='http://post?1' target='_blank'>once before</a>. " +
-			"It’s probably a good idea to read about <a href='https://yoa.st/20x' target='_blank' rel='noopener noreferrer'>why you should not use your focus keyword more than once</a>." );
+		expect( plugin.scoreAssessment( { id: 1, count: 1 }, paper, i18n ).text ).toBe( "<a href='https://yoa.st/33x' target='_blank'>Previously used keyphrase</a>: " +
+			"You've used this focus keyphrase <a href='http://post?1' target='_blank'>once before</a>. " +
+			"<a href='https://yoa.st/33y' target='_blank'>Do not use your focus keyphrase more than once</a>." );
 
 		expect( plugin.scoreAssessment( { id: 1, count: 2 }, paper, i18n ).score ).toBe( 1 );
-		expect( plugin.scoreAssessment( { id: 1, count: 2 }, paper, i18n ).text ).toBe( "You've used this focus keyword <a href='http://search?keyword' target='_blank'>2 times before</a>. " +
-			"It’s probably a good idea to read about <a href='https://yoa.st/20x' target='_blank' rel='noopener noreferrer'>why you should not use your focus keyword more than once</a>." );
+		expect( plugin.scoreAssessment( { id: 1, count: 2 }, paper, i18n ).text ).toBe( "<a href='https://yoa.st/33x' target='_blank'>Previously used keyphrase</a>: " +
+			"You've used this focus keyphrase <a href='http://search?keyword' target='_blank'>2 times before</a>. " +
+			"<a href='https://yoa.st/33y' target='_blank'>Do not use your focus keyphrase more than once</a>." );
 
 		expect( plugin.scoreAssessment( { id: 0, count: 0 }, paper, i18n ).score ).toBe( 9 );
-		expect( plugin.scoreAssessment( { id: 0, count: 0 }, paper, i18n ).text ).toBe( "You've <a href='https://yoa.st/20x' target='_blank' rel='noopener noreferrer'>never used this focus keyword before</a>, very good." );
+		expect( plugin.scoreAssessment( { id: 0, count: 0 }, paper, i18n ).text ).toBe( "<a href='https://yoa.st/33x' target='_blank'>Previously used keyphrase</a>: You've not used this focus keyphrase before, very good." );
 	} );
 
 	it( "escapes the keyword's special characters in the url", function() {
 		var paper = new Paper( "text", { keyword: "keyword/bla" } );
 		var plugin = new PreviouslyUsedKeywords( app, args, i18n );
-		expect( plugin.scoreAssessment( { id: 1, count: 2 }, paper, i18n ).text ).toBe( "You've used this focus keyword <a href='http://search?keyword%2Fbla' target='_blank'>2 times before</a>. " +
-			"It’s probably a good idea to read about <a href='https://yoa.st/20x' target='_blank' rel='noopener noreferrer'>why you should not use your focus keyword more than once</a>." );
+		expect( plugin.scoreAssessment( { id: 1, count: 2 }, paper, i18n ).text ).toBe( "<a href='https://yoa.st/33x' target='_blank'>Previously used keyphrase</a>: " +
+			"You've used this focus keyphrase <a href='http://search?keyword%2Fbla' target='_blank'>2 times before</a>. " +
+			"<a href='https://yoa.st/33y' target='_blank'>Do not use your focus keyphrase more than once</a>." );
 	} );
 } );
 

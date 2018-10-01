@@ -97,24 +97,32 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {string} A string.
 	 */
 	translateScore( score, percentage,  i18n ) {
-		let sentenceLengthURL = "<a href='https://yoa.st/short-sentences' target='_blank'>";
+		let urlTitle = "<a href='https://yoa.st/34v' target='_blank'>";
+		let urlCallToAction = "<a href='https://yoa.st/34w' target='_blank'>";
 		if ( score >= 7 ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis",
-				// Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
-				// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
-				// %5$s expands to the recommended maximum percentage.
-				"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less than or equal to the recommended maximum of %5$s."
-			), percentage + "%", sentenceLengthURL, this._config.recommendedWordCount, "</a>", this._config.slightlyTooMany + "%"
+			return i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis",
+					"%1$sSentence length%2$s: Great!" ),
+				urlTitle,
+				"</a>"
 			);
 		}
 
-		return i18n.sprintf( i18n.dgettext( "js-text-analysis",
-			// Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
-			// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
-			// %5$s expands to the recommended maximum percentage.
-			"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more than the recommended maximum of %5$s. " +
-			"Try to shorten the sentences."
-		), percentage + "%", sentenceLengthURL, this._config.recommendedWordCount, "</a>", this._config.slightlyTooMany + "%" );
+		return i18n.sprintf(
+			/* Translators: %1$s and %6$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
+			%3$d expands to percentage of sentences, %4$s expands to the recommended maximum sentence length,
+			%5$s expands to the recommended maximum percentage. */
+			i18n.dgettext( "js-text-analysis",
+				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s words, which is more than the recommended maximum of %5$s." +
+			" %6$sTry to shorten the sentences%2$s." ),
+			urlTitle,
+			"</a>",
+			percentage + "%",
+			this._config.recommendedWordCount,
+			this._config.slightlyTooMany + "%",
+			urlCallToAction
+		);
 	}
 
 	/**

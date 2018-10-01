@@ -1,4 +1,5 @@
-const verbData = require( "../../../src/morphology/morphologyData.json" ).en.verbs;
+import morphologyData from "../../../src/morphology/morphologyData.json";
+const verbData = morphologyData.en.verbs;
 const irregularVerbsToTest = verbData.irregularVerbs;
 
 import { getVerbForms, normalizePrefixed } from "../../../src/morphology/english/getVerbForms";

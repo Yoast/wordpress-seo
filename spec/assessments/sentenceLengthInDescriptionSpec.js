@@ -1,6 +1,6 @@
 import sentenceLengthInDescriptionAssessment from "../../src/assessments/readability/sentenceLengthInDescriptionAssessment";
 import Paper from "../../src/values/Paper.js";
-import Factory from "../helpers/factory.js";
+import Factory from "../specHelpers/factory.js";
 let i18n = Factory.buildJed();
 
 describe( "An assessment for sentence length", function() {

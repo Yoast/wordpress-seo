@@ -1,4 +1,4 @@
-const englishGetForms = require( "../morphology/english/getForms.js" );
+import { getForms as englishGetForms } from "../morphology/english/getForms";
 
 /**
  * Collects all functions for word form building per language and returns this collection to a Researcher

@@ -1,7 +1,7 @@
 import Assessor from "../src/seoAssessor.js";
 import Paper from "../src/values/Paper.js";
+import factory from "./specHelpers/factory.js";
 import getResults from "./specHelpers/getAssessorResults";
-import factory from "./helpers/factory.js";
 var i18n = factory.buildJed();
 
 var assessor = new Assessor( i18n );

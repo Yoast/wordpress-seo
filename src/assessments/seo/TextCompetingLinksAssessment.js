@@ -31,7 +31,8 @@ class TextCompetingLinksAssessment extends Assessment {
 			scores: {
 				bad: 2,
 			},
-			url: "<a href='https://yoa.st/2pi' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/34l' target='_blank'>",
+			urlCallToAction: "<a href='https://yoa.st/34m' target='_blank'>",
 		};
 
 		this.identifier = "textCompetingLinks";
@@ -89,13 +90,15 @@ class TextCompetingLinksAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				resultText: i18n.sprintf(
-					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext(
 						"js-text-analysis",
-						"You're %1$slinking to another page with the focus keyword%2$s you want this page to rank for. " +
-						"Consider changing that if you truly want this page to rank."
+						"%1$sLink focus keyphrase%3$s: " +
+						"You're linking to another page with the words you want this page to rank for. " +
+						"%2$sDon't do that%3$s!"
 					),
-					this._config.url,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};

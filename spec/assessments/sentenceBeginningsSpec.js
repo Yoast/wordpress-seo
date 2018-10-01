@@ -1,6 +1,6 @@
 import sentenceBeginningsAssessment from "../../src/assessments/readability/sentenceBeginningsAssessment.js";
 import Paper from "../../src/values/Paper.js";
-import Factory from "../helpers/factory.js";
+import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();
 import Mark from "../../src/values/Mark.js";
 
@@ -10,42 +10,46 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 		var assessment = sentenceBeginningsAssessment.getResult( paper, Factory.buildMockResearcher( [ { word: "hey", count: 2 }, { word: "cup", count: 2 }, { word: "laptop", count: 1 },
 			{ word: "table", count: 4 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "The text contains 4 consecutive sentences starting with the same word. Try to mix things up!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: The text contains 4 consecutive sentences starting with the same word." +
+			" <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!" );
 	} );
 
 	it( "scores two instance with too many consecutive English sentences starting with the same word, 5 being the lowest count.", function() {
 		var assessment = sentenceBeginningsAssessment.getResult( paper, Factory.buildMockResearcher( [ { word: "hey", count: 2 }, { word: "banana", count: 6 }, { word: "pencil", count: 1 },
 			{ word: "bottle", count: 5 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "The text contains 2 instances where 5 or more consecutive sentences start with the same word. Try to mix things up!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
+			"The text contains 2 instances where 5 or more consecutive sentences start with the same word. <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!" );
 	} );
 
 	it( "scores zero instance with too many consecutive English sentences starting with the same word.", function() {
 		var assessment = sentenceBeginningsAssessment.getResult( paper, Factory.buildMockResearcher( [ { word: "hey", count: 1 }, { word: "telephone", count: 2 }, { word: "towel", count: 2 },
 			{ word: "couch", count: 1 } ] ), i18n );
-		expect( assessment.getScore() ).toBe( 0 );
-		expect( assessment.getText() ).toBe( "" );
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!" );
 	} );
 
 	it( "scores one instance with 4 consecutive German sentences starting with the same word.", function() {
 		var assessment = sentenceBeginningsAssessment.getResult( paper, Factory.buildMockResearcher( [ { word: "hallo", count: 2 }, { word: "Stuhl", count: 2 }, { word: "Banane", count: 1 },
 			{ word: "Tafel", count: 4 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "The text contains 4 consecutive sentences starting with the same word. Try to mix things up!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: The text contains 4 consecutive sentences starting with the same word." +
+			" <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!" );
 	} );
 
 	it( "scores two instance with too many consecutive German sentences starting with the same word, 5 being the lowest count.", function() {
 		var assessment = sentenceBeginningsAssessment.getResult( paper, Factory.buildMockResearcher( [ { word: "hallo", count: 2 }, { word: "Banane", count: 6 }, { word: "Blatt", count: 1 },
 			{ word: "Schloss", count: 5 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "The text contains 2 instances where 5 or more consecutive sentences start with the same word. Try to mix things up!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
+			"The text contains 2 instances where 5 or more consecutive sentences start with the same word. <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!" );
 	} );
 
 	it( "scores zero instance with too many consecutive German sentences starting with the same word.", function() {
 		var assessment = sentenceBeginningsAssessment.getResult( paper, Factory.buildMockResearcher( [ { word: "hallo", count: 1 }, { word: "Telefon", count: 2 }, { word: "Hund", count: 2 },
 			{ word: "Haus", count: 1 } ] ), i18n );
-		expect( assessment.getScore() ).toBe( 0 );
-		expect( assessment.getText() ).toBe( "" );
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!" );
 	} );
 
 	it( "is not applicable for a paper without text.", function() {

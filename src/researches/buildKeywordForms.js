@@ -69,7 +69,7 @@ const buildForms = function( keyphrase, language, morphologyData ) {
 	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
 	if ( includes( doubleQuotes, keyphrase[ 0 ] ) && includes( doubleQuotes, keyphrase[ keyphrase.length - 1 ] ) ) {
 		keyphrase = keyphrase.substring( 1, keyphrase.length - 1 );
-		return [ unique( [].concat( keyphrase, getVariationsApostrophe( keyphrase ) ) ) ];
+		return [ unique( [].concat( escapeRegExp( keyphrase ), getVariationsApostrophe( keyphrase ) ) ) ];
 	}
 
 	const words = filterFunctionWords( getWords( keyphrase ), language );
@@ -176,9 +176,9 @@ function research( paper, researcher ) {
 	return collectForms( paper.getKeyword(), paper.getSynonyms(), language, morphologyData );
 }
 
-module.exports = {
-	filterFunctionWords: filterFunctionWords,
-	buildForms: buildForms,
-	collectForms: collectForms,
-	research: research,
+export {
+	filterFunctionWords,
+	buildForms,
+	collectForms,
+	research,
 };

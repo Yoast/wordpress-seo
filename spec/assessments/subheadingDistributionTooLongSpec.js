@@ -1,6 +1,6 @@
 import SubheadingDistributionTooLong from "../../src/assessments/readability/subheadingDistributionTooLongAssessment.js";
 import Paper from "../../src/values/Paper.js";
-import Factory from "../helpers/factory.js";
+import Factory from "../specHelpers/factory.js";
 import Mark from "../../src/values/Mark.js";
 let i18n = Factory.buildJed();
 
@@ -19,7 +19,8 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "You are not using any <a href='https://yoa.st/headings' target='_blank'>subheadings</a>, but your text is short enough and probably doesn't need them." );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+			"You are not using any subheadings, but your text is short enough and probably doesn't need them." );
 	} );
 
 	it( "Scores a short text (<300 words), which has subheadings.", function() {
@@ -29,7 +30,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "Great job with using <a href='https://yoa.st/headings' target='_blank'>subheadings</a>!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: Great job!" );
 	} );
 
 	it( "Scores a long text (>300 words), which does not have subheadings.", function() {
@@ -39,7 +40,8 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 2 );
-		expect( assessment.getText() ).toBe( "You are not using any subheadings, although your text is rather long. Try and add  some <a href='https://yoa.st/headings' target='_blank'>subheadings</a>." );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+			"You are not using any subheadings, although your text is rather long. <a href='https://yoa.st/34y' target='_blank'>Try and add some subheadings</a>." );
 	} );
 
 	it( "Scores a long text (>300 words), which has subheadings and all sections of the text are <300 words.", function() {
@@ -49,7 +51,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "Great job with using <a href='https://yoa.st/headings' target='_blank'>subheadings</a>!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: Great job!" );
 	} );
 
 	it( "Scores a long text (>300 words), which has subheadings and all sections of the text are <300 words, except for one, which is between 300 and 350 words long.", function() {
@@ -59,7 +61,9 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 6 );
-		expect( assessment.getText() ).toBe( "1 section of your text is longer than 300 words and is not separated by any subheadings. Add <a href='https://yoa.st/headings' target='_blank'>subheadings</a> to improve readability." );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+			"1 section of your text is longer than 300 words and is not separated by any subheadings." +
+			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
 	it( "Scores a long text (>300 words), which has subheadings and all sections of the text are <300 words, except for two, which are between 300 and 350 words long.", function() {
@@ -69,7 +73,9 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 6 );
-		expect( assessment.getText() ).toBe( "2 sections of your text are longer than 300 words and are not separated by any subheadings. Add <a href='https://yoa.st/headings' target='_blank'>subheadings</a> to improve readability." );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+			"2 sections of your text are longer than 300 words and are not separated by any subheadings." +
+			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
 	it( "Scores a long text (>300 words), which has subheadings and all sections of the text are <300 words, except for one, which is above 350 words long.", function() {
@@ -79,7 +85,9 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "1 section of your text is longer than 300 words and is not separated by any subheadings. Add <a href='https://yoa.st/headings' target='_blank'>subheadings</a> to improve readability." );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+			"1 section of your text is longer than 300 words and is not separated by any subheadings." +
+			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
 	it( "Scores a long text (>300 words), which has subheadings and some sections of the text are above 350 words long.", function() {
@@ -89,7 +97,9 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "2 sections of your text are longer than 300 words and are not separated by any subheadings. Add <a href='https://yoa.st/headings' target='_blank'>subheadings</a> to improve readability." );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+			"2 sections of your text are longer than 300 words and are not separated by any subheadings." +
+			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
 

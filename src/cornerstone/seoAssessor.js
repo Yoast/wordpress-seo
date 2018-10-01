@@ -31,6 +31,7 @@ import urlStopWords from "../assessments/seo/urlStopWordsAssessment";
  */
 const CornerstoneSEOAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
+	this.type = "CornerstoneSEOAssessor";
 
 	this._assessments = [
 		new IntroductionKeywordAssessment(),
@@ -66,7 +67,6 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 			recommendedMinimum: 900,
 			slightlyBelowMinimum: 400,
 			belowMinimum: 300,
-			farBelowMinimum: 0,
 
 			scores: {
 				belowMinimum: -20,

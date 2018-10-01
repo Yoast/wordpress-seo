@@ -1,9 +1,11 @@
-import ContentAssessor from "../../src/cornerstone/contentAssessor.js";
-import AssessmentResult from "../../src/values/AssessmentResult.js";
-import Factory from "../helpers/factory.js";
-import Paper from "../../src/values/Paper.js";
 import { forEach } from "lodash-es";
-let i18n = Factory.buildJed();
+
+import ContentAssessor from "../../src/cornerstone/contentAssessor";
+import AssessmentResult from "../../src/values/AssessmentResult";
+import Paper from "../../src/values/Paper";
+import Factory from "../specHelpers/factory";
+
+const i18n = Factory.buildJed();
 
 describe( "A content assessor", function() {
 	var contentAssessor;
@@ -208,6 +210,30 @@ describe( "A content assessor", function() {
 			var actual = contentAssessor.getApplicableAssessments().length;
 			var expected = 4;
 			expect( actual ).toBe( expected );
+		} );
+	} );
+
+	describe( "has configuration overrides", () => {
+		const assessor = new ContentAssessor( i18n );
+
+		test( "SubheadingsDistributionTooLong", () => {
+			const assessment = assessor.getAssessment( "subheadingsTooLong" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.parameters ).toBeDefined();
+			expect( assessment._config.parameters.recommendedMaximumWordCount ).toBe( 250 );
+			expect( assessment._config.parameters.slightlyTooMany ).toBe( 250 );
+			expect( assessment._config.parameters.farTooMany ).toBe( 300 );
+		} );
+
+		test( "SentenceLengthInTextAssessment", () => {
+			const assessment = assessor.getAssessment( "textSentenceLength" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.slightlyTooMany ).toBe( 20 );
+			expect( assessment._config.farTooMany ).toBe( 25 );
 		} );
 	} );
 } );
