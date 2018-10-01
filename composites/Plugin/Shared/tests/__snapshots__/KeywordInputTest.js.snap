@@ -9,6 +9,11 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
   border-radius: 0;
 }
 
+.c5.c5.c5:focus {
+  border-color: #5b9dd9;
+  box-shadow: 0 0 2px rgba( 30,140,190,0.8 );
+}
+
 .c7::-moz-focus-inner {
   border-width: 0;
 }
