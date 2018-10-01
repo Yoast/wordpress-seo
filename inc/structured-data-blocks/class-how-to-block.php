@@ -9,6 +9,7 @@
  * Class WPSEO_How_To_Block
  */
 class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
+
 	/**
 	 * Registers the how-to block as a server-side rendered block.
 	 *
@@ -78,7 +79,7 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 
 		if ( ! empty( $attributes['steps'] ) && is_array( $attributes['steps'] ) ) {
 			$json_ld['step'] = array();
-			$steps = array_filter( $attributes['steps'], 'is_array' );
+			$steps           = array_filter( $attributes['steps'], 'is_array' );
 			foreach ( $steps as $step ) {
 				$json_ld['step'][] = $this->get_section_json_ld( $step );
 			}

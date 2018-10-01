@@ -36,6 +36,7 @@
 		"yoast/php-development-environment": "^1.0",
 		"yoast/yoastcs": "~0.4.3",
 		"roave/security-advisories": "dev-master",
+		"phpcompatibility/phpcompatibility-wp": "1.0.0",
 		"humbug/php-scoper": "^0.6.0"
 	},
 	"minimum-stability": "dev",
@@ -59,7 +60,7 @@
 	},
 	"scripts": {
 		"config-yoastcs": [
-			"\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs",
+			"\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-wp",
 			"\"vendor/bin/phpcs\" --config-set default_standard Yoast"
 		],
 		"check-cs": [

@@ -42,16 +42,16 @@ $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 		<div class="yoast-sidebar_section">
 			<h2><?php esc_html_e( 'Improve your SEO skills', 'wordpress-seo' ); ?></h2>
 			<div>
-				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/2oi' ) ?>" target="_blank" rel="noopener noreferrer"><img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/SEO_for_beginners.svg' ); ?>" alt=""></a>
+				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/2oi' ); ?>" target="_blank" rel="noopener noreferrer"><img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/SEO_for_beginners.svg' ); ?>" alt=""></a>
 				<p>
 					<strong>
 					<?php
-						printf(
-							/* translators: %1$s and %2$s convert to anchors. */
-							esc_html__( 'Free: %1$sSEO for Beginners course%2$s', 'wordpress-seo' ),
-							'<a target="_blank" rel="noopener noreferrer" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/2oi' ) ) . '">',
-							'</a>'
-						);
+					printf(
+						/* translators: %1$s and %2$s convert to anchors. */
+						esc_html__( 'Free: %1$sSEO for Beginners course%2$s', 'wordpress-seo' ),
+						'<a target="_blank" rel="noopener noreferrer" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/2oi' ) ) . '">',
+						'</a>'
+					);
 					?>
 					</strong><br>
 					<?php esc_html_e( 'Get quick wins to make your site rank higher in search engines.', 'wordpress-seo' ); ?>
