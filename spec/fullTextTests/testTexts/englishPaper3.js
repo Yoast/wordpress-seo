@@ -104,8 +104,8 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34p' target='_blank'>Slug stopwords</a>: The slug for this page contains stop words. <a href='https://yoa.st/34q' target='_blank'>Remove them</a>!",
 	},
 	largestKeywordDistance: {
-		score: 1,
-		resultText: "Large parts of your text do not contain the keyword or its synonyms. Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> them more evenly.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33q target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
 
 	fleschReadingEase: {
