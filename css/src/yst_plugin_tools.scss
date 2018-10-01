@@ -65,7 +65,8 @@ tr.yst_row.even {
 
 	input.textinput,
 	textarea.textinput,
-	select.select {
+	select.select,
+	.select2-container {
 		margin: 0 0 15px 0;
 	}
 
@@ -149,6 +150,11 @@ tr.yst_row.even {
 		float: right;
 		margin: 0 5px;
 		padding: 5px 8px;
+	}
+
+	.disabled-note {
+		margin: 0 0 8px;
+		color: #888;
 	}
 
 	/* Search Appearance: title separator. */

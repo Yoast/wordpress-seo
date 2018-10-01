@@ -235,7 +235,6 @@ class WPSEO_GSC {
 		// Do the redirect.
 		wp_redirect( $url );
 		exit;
-
 	}
 
 	/**

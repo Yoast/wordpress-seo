@@ -1,4 +1,4 @@
-import decodeHTML from "yoast-components/composites/OnboardingWizard/helpers/htmlDecoder";
+import { decodeHTML } from "yoast-components";
 
 export const SWITCH_MODE = "SNIPPET_EDITOR_SWITCH_MODE";
 export const UPDATE_DATA = "SNIPPET_EDITOR_UPDATE_DATA";
@@ -23,10 +23,10 @@ export function switchMode( mode ) {
 /**
  * Updates the data of the snippet editor.
  *
- * @param {Object} data             The snippet editor data.
- * @param {string} data.title       The title in the snippet editor.
- * @param {string} data.slug        The slug in the snippet editor.
- * @param {string} data.description The description in the snippet editor.
+ * @param {Object} data               The snippet editor data.
+ * @param {string} [data.title]       The title in the snippet editor.
+ * @param {string} [data.slug]        The slug in the snippet editor.
+ * @param {string} [data.description] The description in the snippet editor.
  *
  * @returns {Object} An action for redux.
  */

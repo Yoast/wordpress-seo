@@ -26,13 +26,13 @@
 		"yoast/license-manager": "1.6.0",
 		"yoast/i18n-module": "^3.0",
 		"yoast/api-libs": "^2.0",
-		"xrstf/composer-php52": "^1.0.20",
-		"yoast/whip": "^1.1.0"
+		"xrstf/composer-php52": "^1.0.20"
 	},
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",
 		"yoast/yoastcs": "~0.4.3",
-		"roave/security-advisories": "dev-master"
+		"roave/security-advisories": "dev-master",
+		"phpcompatibility/phpcompatibility-wp": "1.0.0"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -52,7 +52,7 @@
 	},
 	"scripts": {
 		"config-yoastcs": [
-			"\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs",
+			"\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-wp",
 			"\"vendor/bin/phpcs\" --config-set default_standard Yoast"
 		],
 		"check-cs": [

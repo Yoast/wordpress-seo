@@ -692,7 +692,6 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification_center->remove_notification_by_id( 'this-id-exists' );
 	}
 
-
 	/**
 	 * Gets some notification objects.
 	 *

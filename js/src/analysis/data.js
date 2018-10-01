@@ -1,5 +1,8 @@
 import debounce from "lodash/debounce";
-import { updateReplacementVariable } from "../redux/actions/snippetEditor";
+import {
+	updateReplacementVariable,
+	updateData,
+} from "../redux/actions/snippetEditor";
 import {
 	fillReplacementVariables,
 	mapCustomFields,
@@ -85,24 +88,59 @@ class Data {
 	 * Retrieves the Gutenberg data for the passed post attribute.
 	 *
 	 * @param {string} attribute The post attribute you'd like to retrieve.
-	 * @returns {string} The post attribute .
+	 *
+	 * @returns {string} The post attribute.
 	 */
 	getPostAttribute( attribute ) {
-		return this._wpData.select( "core/editor" ).getEditedPostAttribute( attribute );
+		if ( ! this._coreEditorSelect ) {
+			this._coreEditorSelect = this._wpData.select( "core/editor" );
+		}
+
+		return this._coreEditorSelect.getEditedPostAttribute( attribute );
+	}
+
+	/**
+	 * Get the post's slug.
+	 *
+	 * @returns {string} The post's slug.
+	 */
+	getSlug() {
+		/**
+		 * Before the post has been saved for the first time, the generated_slug is "auto-draft".
+		 *
+		 * Before the post is saved the post status is "auto-draft", so when this is the case the slug
+		 * should be empty.
+		 */
+		if ( this.getPostAttribute( "status" ) === "auto-draft" ) {
+			return "";
+		}
+
+		let generatedSlug = this.getPostAttribute( "generated_slug" );
+
+		/**
+		 * This should be removed when the following issue is resolved:
+		 *
+		 * https://github.com/WordPress/gutenberg/issues/8770
+		 */
+		if ( generatedSlug === "auto-draft" ) {
+			generatedSlug = "";
+		}
+
+		// When no custom slug is provided we should use the generated_slug attribute.
+		return this.getPostAttribute( "slug" ) || generatedSlug;
 	}
 
 	/**
 	 * Collects the content, title, slug and excerpt of a post from Gutenberg.
 	 *
-	 * @param {Function} getPostAttribute The post attribute retrieval function.
 	 * @returns {{content: string, title: string, slug: string, excerpt: string}} The content, title, slug and excerpt.
 	 */
-	collectGutenbergData( getPostAttribute ) {
+	collectGutenbergData() {
 		return {
-			content: getPostAttribute( "content" ),
-			title: getPostAttribute( "title" ),
-			slug: getPostAttribute( "slug" ),
-			excerpt: getPostAttribute( "excerpt" ),
+			content: this.getPostAttribute( "content" ),
+			title: this.getPostAttribute( "title" ),
+			slug: this.getSlug(),
+			excerpt: this.getPostAttribute( "excerpt" ),
 		};
 	}
 
@@ -123,6 +161,10 @@ class Data {
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
 			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt ) );
 		}
+		// Handle slug change
+		if ( this._data.slug !== newData.slug ) {
+			this._store.dispatch( updateData( { slug: newData.slug } ) );
+		}
 	}
 
 	/**
@@ -131,7 +173,7 @@ class Data {
 	 * @returns {void}
 	 */
 	refreshYoastSEO() {
-		let gutenbergData = this.collectGutenbergData( this.getPostAttribute );
+		let gutenbergData = this.collectGutenbergData();
 
 		// Set isDirty to true if the current data and Gutenberg data are unequal.
 		let isDirty = ! this.isShallowEqual( this._data, gutenbergData );

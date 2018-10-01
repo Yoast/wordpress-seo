@@ -142,5 +142,4 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 			$link_columns->column_sort( array() )
 		);
 	}
-
 }

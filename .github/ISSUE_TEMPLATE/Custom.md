@@ -11,7 +11,7 @@ about: Request a shortlink
 `wordpress`
 
 ### Content type
- 
+
 _What type of content are you linking to?_
 
 - [ ] `general` (a blogpost or general info page)

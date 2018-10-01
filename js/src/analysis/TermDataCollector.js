@@ -3,7 +3,6 @@
 /* External dependencies */
 import get from "lodash/get";
 import analysis from "yoastseo";
-import { setOverallReadabilityScore, setOverallSeoScore } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
@@ -35,7 +34,7 @@ var TermDataCollector = function( args ) {
 /**
  * Returns data fetched from input fields.
  *
- * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}} The object with data.
+ * @returns {Object} The object with data.
  */
 TermDataCollector.prototype.getData = function() {
 	const otherData = {
@@ -278,12 +277,9 @@ TermDataCollector.prototype.inputElementEventBinder = function( app ) {
  */
 TermDataCollector.prototype.saveScores = function( score ) {
 	var indicator = getIndicatorForScore( score );
-	var keyword = this.getKeyword();
 
 	document.getElementById( "hidden_wpseo_linkdex" ).value = score;
 	jQuery( window ).trigger( "YoastSEO:numericScore", score );
-
-	this._store.dispatch( setOverallSeoScore( score, keyword ) );
 
 	updateTrafficLight( indicator );
 	updateAdminBar( indicator );
@@ -298,8 +294,6 @@ TermDataCollector.prototype.saveScores = function( score ) {
  */
 TermDataCollector.prototype.saveContentScore = function( score ) {
 	var indicator = getIndicatorForScore( score );
-
-	this._store.dispatch( setOverallReadabilityScore( score ) );
 
 	if ( ! isKeywordAnalysisActive() ) {
 		updateTrafficLight( indicator );

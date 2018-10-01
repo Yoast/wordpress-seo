@@ -70,7 +70,6 @@ class WPSEO_Sitemaps_Cache {
 		return apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
 	}
 
-
 	/**
 	 * Retrieve the sitemap page from cache.
 	 *

@@ -75,6 +75,7 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 			)
 		);
 	}
+
 	/**
 	 * Tests the cleanup for a given post id.
 	 */
@@ -84,6 +85,4 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 1, $storage->cleanup( 2 ) );
 	}
-
-
 }

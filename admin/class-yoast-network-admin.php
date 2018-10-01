@@ -24,19 +24,31 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 	 * Gets the available sites as choices, e.g. for a dropdown.
 	 *
 	 * @param bool $include_empty Optional. Whether to include an initial placeholder choice.
+	 *                            Default false.
+	 * @param bool $show_title    Optional. Whether to show the title for each site. This requires
+	 *                            switching through the sites, so has performance implications for
+	 *                            sites that do not use a persistent cache.
+	 *                            Default false.
 	 *
 	 * @return array Choices as $site_id => $site_label pairs.
 	 */
-	public function get_site_choices( $include_empty = false ) {
+	public function get_site_choices( $include_empty = false, $show_title = false ) {
 		$choices = array();
 
 		if ( $include_empty ) {
 			$choices['-'] = __( 'None', 'wordpress-seo' );
 		}
 
-		$sites = get_sites( array( 'deleted' => 0 ) );
+		$sites = get_sites( array(
+			'deleted'    => 0,
+			'network_id' => get_current_network_id(),
+		) );
 		foreach ( $sites as $site ) {
-			$choices[ $site->blog_id ] = $site->blog_id . ': ' . $site->domain . $site->path;
+			$site_name = $site->domain . $site->path;
+			if ( $show_title ) {
+				$site_name = $site->blogname . ' (' . $site->domain . $site->path . ')';
+			}
+			$choices[ $site->blog_id ] = $site->blog_id . ': ' . $site_name;
 
 			$site_states = $this->get_site_states( $site );
 			if ( ! empty( $site_states ) ) {

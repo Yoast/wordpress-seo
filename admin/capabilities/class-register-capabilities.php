@@ -9,6 +9,7 @@
  * Capabilities registration class.
  */
 class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
+
 	/**
 	 * Registers the hooks.
 	 *

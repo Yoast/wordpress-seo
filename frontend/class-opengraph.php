@@ -263,12 +263,23 @@ class WPSEO_OpenGraph {
 	 * @return boolean
 	 */
 	public function url() {
+		$url         = WPSEO_Frontend::get_instance()->canonical( false, false );
+		$unpaged_url = WPSEO_Frontend::get_instance()->canonical( false, true );
+
+		/*
+		 * If the unpaged URL is the same as the normal URL but just with pagination added, use that.
+		 * This makes sure we always use the unpaged URL when we can, but doesn't break for overridden canonicals.
+		 */
+		if ( is_string( $unpaged_url ) && strpos( $url, $unpaged_url ) === 0 ) {
+			$url = $unpaged_url;
+		}
+
 		/**
 		 * Filter: 'wpseo_opengraph_url' - Allow changing the OpenGraph URL.
 		 *
 		 * @api string $unsigned Canonical URL.
 		 */
-		$url = apply_filters( 'wpseo_opengraph_url', WPSEO_Frontend::get_instance()->canonical( false ) );
+		$url = apply_filters( 'wpseo_opengraph_url', $url );
 
 		if ( is_string( $url ) && $url !== '' ) {
 			$this->og_tag( 'og:url', esc_url( $url ) );
@@ -592,6 +603,7 @@ class WPSEO_OpenGraph {
 			if ( $ogdesc === '' ) {
 				$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'desc' );
 			}
+			$ogdesc = wpseo_replace_vars( $ogdesc, get_queried_object() );
 		}
 
 		// Strip shortcodes if any.
@@ -712,10 +724,12 @@ class WPSEO_OpenGraph {
 			}
 		}
 
-		$pub = get_the_date( DATE_W3C );
+		$post = get_post();
+
+		$pub = mysql2date( DATE_W3C, $post->post_date_gmt, false );
 		$this->og_tag( 'article:published_time', $pub );
 
-		$mod = get_the_modified_date( DATE_W3C );
+		$mod = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
 		if ( $mod !== $pub ) {
 			$this->og_tag( 'article:modified_time', $mod );
 			$this->og_tag( 'og:updated_time', $mod );
@@ -738,6 +752,7 @@ class WPSEO_OpenGraph {
 		}
 	}
 
+	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
 	 * Outputs the site owner.
@@ -768,5 +783,4 @@ class WPSEO_OpenGraph {
 
 		$this->image( $image );
 	}
-
 } /* End of class */

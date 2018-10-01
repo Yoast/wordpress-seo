@@ -16,5 +16,4 @@ interface WPSEO_Metabox_Formatter_Interface {
 	 * @return array
 	 */
 	public function get_values();
-
 }

@@ -7,10 +7,11 @@ import { Fill } from "@wordpress/components";
 
 import SidebarItem from "./SidebarItem";
 import SnippetEditor from "../containers/SnippetEditor";
-import keywordUpsellProps from "../values/keywordUpsellProps";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
+import { __ } from "@wordpress/i18n";
+import Collapsible from "./SidebarCollapsible";
 
 /**
  * Creates the Metabox component.
@@ -23,36 +24,44 @@ import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
  */
 export default function Metabox( { settings, store, theme } ) {
 	return (
-		<Fill name="YoastMetabox">
-			<ThemeProvider theme={ theme }>
-				<Fragment>
-					<SidebarItem renderPriority={ 9 }>
+		<Fragment>
+			<Fill name="YoastMetabox">
+				<SidebarItem renderPriority={ 9 }>
+					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
-							<SnippetEditor hasPaperStyle={ false }/>
+							<Collapsible title={ __( "Snippet Preview", "wordpress-seo" ) } initialIsOpen={ true }>
+								<SnippetEditor hasPaperStyle={ false }/>
+							</Collapsible>
 						</StoreProvider>
-					</SidebarItem>
-					{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+					</ThemeProvider>
+				</SidebarItem>
+				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
 							<ReadabilityAnalysis />
 						</StoreProvider>
-					</SidebarItem> }
-					{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+					</ThemeProvider>
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
 							<SeoAnalysis
 								shouldUpsell={ settings.shouldUpsell }
-								keywordUpsell={ keywordUpsellProps }
+								location="metabox"
 							/>
 						</StoreProvider>
-					</SidebarItem> }
-					{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+					</ThemeProvider>
+				</SidebarItem> }
+				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
 							<CollapsibleCornerstone />
 						</StoreProvider>
-					</SidebarItem>
-					}
-				</Fragment>
-			</ThemeProvider>
-		</Fill>
+					</ThemeProvider>
+				</SidebarItem>
+				}
+			</Fill>
+		</Fragment>
 	);
 }
 

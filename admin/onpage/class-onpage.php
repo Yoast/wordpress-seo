@@ -229,7 +229,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 		 * Let's start showing the notices to all admins by removing the hide-notice meta data for each admin resulting
 		 * in popping up the notice again.
 		 */
-		delete_metadata( 'user', 0, WPSEO_OnPage::USER_META_KEY, '', true );
+		delete_metadata( 'user', 0, self::USER_META_KEY, '', true );
 	}
 
 	/**

@@ -114,7 +114,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 */
 	public function meets_requirements() {
 		if ( is_network_admin() ) {
-			return true;
+			return WPSEO_Utils::is_plugin_network_active();
 		}
 
 		if ( WPSEO_Options::get( 'enable_admin_bar_menu' ) !== true ) {
@@ -134,10 +134,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	protected function add_root_menu( WP_Admin_Bar $wp_admin_bar ) {
 		$title = $this->get_title();
 
-		$score         = '';
-		$settings_url  = '';
-		$counter       = '';
-		$alert_popup   = '';
+		$score        = '';
+		$settings_url = '';
+		$counter      = '';
+		$alert_popup  = '';
 
 		$post = $this->get_singular_post();
 		if ( $post ) {
@@ -172,8 +172,8 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'parent' => self::MENU_IDENTIFIER,
 				'id'     => 'wpseo-notifications',
 				'title'  => __( 'Notifications', 'wordpress-seo' ) . $counter,
-				'href'  => $settings_url,
-				'meta'  => array( 'tabindex' => ! empty( $settings_url ) ? false : '0' ),
+				'href'   => $settings_url,
+				'meta'   => array( 'tabindex' => ! empty( $settings_url ) ? false : '0' ),
 			) );
 		}
 
@@ -214,6 +214,13 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			'id'     => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,
 			'title'  => __( 'Keyword Research', 'wordpress-seo' ),
 			'meta'   => array( 'tabindex' => '0' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,
+			'id'     => 'wpseo-kwresearchtraining',
+			'title'  => __( 'Keyword research training', 'wordpress-seo' ),
+			'href'   => WPSEO_Shortlinker::get( 'https://yoa.st/wp-admin-bar' ),
+			'meta'   => array( 'target' => '_blank' ),
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,
@@ -266,15 +273,15 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => self::ANALYSIS_SUBMENU_IDENTIFIER,
-			'id'     => 'wpseo-inlinks-ose',
-			'title'  => __( 'Check Inlinks (OSE)', 'wordpress-seo' ),
-			'href'   => '//moz.com/researchtools/ose/links?site=' . urlencode( $url ),
+			'id'     => 'wpseo-inlinks',
+			'title'  => __( 'Check links to this URL', 'wordpress-seo' ),
+			'href'   => 'https://search.google.com/search-console/links/drilldown?resource_id=' . urlencode( get_option( 'siteurl' ) ) . '&type=EXTERNAL&target=' . urlencode( $url ) . '&domain=',
 			'meta'   => array( 'target' => '_blank' ),
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => self::ANALYSIS_SUBMENU_IDENTIFIER,
 			'id'     => 'wpseo-kwdensity',
-			'title'  => __( 'Check Keyword Density', 'wordpress-seo' ),
+			'title'  => __( 'Check Keyphrase Density', 'wordpress-seo' ),
 			// HTTPS not available.
 			'href'   => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . urlencode( $url ) . '&keyword=' . urlencode( $focus_keyword ),
 			'meta'   => array( 'target' => '_blank' ),
@@ -479,7 +486,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * @return string Score markup, or empty string if none available.
 	 */
-	protected function get_post_score( WP_Post $post ) {
+	protected function get_post_score( $post ) {
+		if ( ! is_object( $post ) || ! property_exists( $post, 'ID' ) ) {
+			return '';
+		}
+
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
 			return '';
 		}
@@ -528,7 +539,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * @return string Score markup, or empty string if none available.
 	 */
-	protected function get_term_score( WP_Term $term ) {
+	protected function get_term_score( $term ) {
+		if ( ! is_object( $term ) || ! property_exists( $term, 'term_id' ) || ! property_exists( $term, 'taxonomy' ) ) {
+			return '';
+		}
+
 		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
@@ -601,16 +616,14 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		$notification = sprintf(
-			/* translators: %d resolves to the number of alerts being added. */
-			_n( 'You have %d new issue concerning your SEO!', 'You have %d new issues concerning your SEO!', $new_notifications_count, 'wordpress-seo' ),
+			_n(
+				'There is a new notification.',
+				'There are new notifications.',
+				$new_notifications_count,
+				'wordpress-seo'
+			),
 			$new_notifications_count
 		);
-		if ( $new_notifications_count === 1 ) {
-			$notification = sprintf(
-				__( 'You have a new issue concerning your SEO!', 'wordpress-seo' ),
-				$new_notifications_count
-			);
-		}
 
 		return '<div class="yoast-issue-added">' . $notification . '</div>';
 	}

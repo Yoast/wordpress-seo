@@ -91,9 +91,9 @@ class WPSEO_Breadcrumbs {
 	 * Create the breadcrumb.
 	 */
 	protected function __construct() {
-		$this->post           = ( isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null );
-		$this->show_on_front  = get_option( 'show_on_front' );
-		$this->page_for_posts = get_option( 'page_for_posts' );
+		$this->post                  = ( isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null );
+		$this->show_on_front         = get_option( 'show_on_front' );
+		$this->page_for_posts        = get_option( 'page_for_posts' );
 		$this->woocommerce_shop_page = new WPSEO_WooCommerce_Shop_Page();
 
 		$this->filter_element();
@@ -189,7 +189,6 @@ class WPSEO_Breadcrumbs {
 		return $url;
 	}
 
-
 	/**
 	 * Filter: 'wpseo_breadcrumb_single_link_wrapper' - Allows developer to change or wrap each breadcrumb element.
 	 *
@@ -221,7 +220,6 @@ class WPSEO_Breadcrumbs {
 			$this->wrapper = $wrapper;
 		}
 	}
-
 
 	/**
 	 * Get a term's parents.
@@ -681,7 +679,6 @@ class WPSEO_Breadcrumbs {
 		);
 	}
 
-
 	/**
 	 * Take the crumbs array and convert each crumb to a single breadcrumb string.
 	 *
@@ -954,7 +951,6 @@ class WPSEO_Breadcrumbs {
 			$this->output = $output;
 		}
 	}
-
 
 	/**
 	 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the Yoast SEO breadcrumbs wrapper element.

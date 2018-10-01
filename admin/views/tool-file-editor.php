@@ -11,7 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$yform = Yoast_Form::get_instance();
+$yform          = Yoast_Form::get_instance();
 $robots_file    = get_home_path() . 'robots.txt';
 $ht_access_file = get_home_path() . '.htaccess';
 

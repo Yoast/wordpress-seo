@@ -8,8 +8,8 @@ import { Fill } from "@wordpress/components";
 import SidebarItem from "./SidebarItem";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
-import keywordUpsellProps from "../values/keywordUpsellProps";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
+import SnippetPreviewModal from "./SnippetPreviewModal";
 
 /**
  * Creates the Sidebar component.
@@ -24,31 +24,42 @@ import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
  */
 export default function Sidebar( { settings, store, theme } ) {
 	return (
-		<Fill name="YoastSidebar">
-			<ThemeProvider theme={ theme }>
-				<Fragment>
-					{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+		<Fragment>
+			<Fill name="YoastSidebar">
+				{ <SidebarItem renderPriority={ 5 }>
+					<ThemeProvider theme={ theme }>
+						<StoreProvider store={ store }>
+							<SnippetPreviewModal />
+						</StoreProvider>
+					</ThemeProvider>
+				</SidebarItem> }
+				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
 							<ReadabilityAnalysis />
 						</StoreProvider>
-					</SidebarItem> }
-					{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+					</ThemeProvider>
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
 							<SeoAnalysis
 								shouldUpsell={ settings.shouldUpsell }
-								keywordUpsell={ keywordUpsellProps }
+								location="sidebar"
 							/>
 						</StoreProvider>
-					</SidebarItem> }
-					{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+					</ThemeProvider>
+				</SidebarItem> }
+				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
 							<CollapsibleCornerstone />
 						</StoreProvider>
-					</SidebarItem>
-					}
-				</Fragment>
-			</ThemeProvider>
-		</Fill>
+					</ThemeProvider>
+				</SidebarItem>
+				}
+			</Fill>
+		</Fragment>
 	);
 }
 

@@ -140,7 +140,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$score = self::get_value( 'linkdex', $post->ID );
 			if ( $score === '' ) {
 				$score_label = 'na';
-				$title       = __( 'No focus keyword set.', 'wordpress-seo' );
+				$title       = __( 'No focus keyphrase set.', 'wordpress-seo' );
 			}
 			else {
 				$score_label = WPSEO_Utils::translate_score( $score );
@@ -231,7 +231,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			new WPSEO_Post_Metabox_Formatter( $post, array(), $permalink )
 		);
 
-		return $post_formatter->get_values();
+		$values     = $post_formatter->get_values();
+
+		/** This filter is documented in admin/filters/class-cornerstone-filter.php */
+		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
+		if ( $values['cornerstoneActive'] && ! in_array( $post->post_type, $post_types, true ) ) {
+			$values['cornerstoneActive'] = false;
+		}
+
+		return $values;
 	}
 
 	/**
@@ -250,7 +258,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Determines the scope based on the post type.
 	 * This can be used by the replacevar plugin to determine if a replacement needs to be executed.
 	 *
-	 * @return string String decribing the current scope.
+	 * @return string String describing the current scope.
 	 */
 	private function determine_scope() {
 		$post_type = get_post_type( $this->get_metabox_post() );
@@ -356,10 +364,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->get_advanced_meta_section();
 		}
 
-		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
-			$content_sections[] = $this->get_buy_premium_section();
-		}
-
 		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
 			$content_sections[] = $this->get_addons_meta_section();
 		}
@@ -374,6 +378,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	private function get_content_meta_section() {
 		$content = $this->get_tab_content( 'general' );
+
+		/**
+		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
+		 *
+		 * @api string $post_content The metabox content string.
+		 */
+		$content = apply_filters( 'wpseo_content_meta_section_content', $content );
 
 		return new WPSEO_Metabox_Section_React(
 			'content',
@@ -420,75 +431,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	private function get_buy_premium_link() {
-		return sprintf( "<div class='%s'><a href='#wpseo-meta-section-premium' class='wpseo-meta-section-link'><span class='dashicons dashicons-star-filled wpseo-buy-premium'></span>%s</a></div>",
+		return sprintf( '<div class="%1$s"><a target="_blank" rel="noopener noreferrer" href="%2$s"><span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>%3$s</a></div>',
 			'wpseo-metabox-buy-premium',
+			esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ) ),
 			__( 'Go Premium', 'wordpress-seo' )
-		);
-	}
-
-	/**
-	 * Returns the metabox section for the Premium section.
-	 *
-	 * @return WPSEO_Metabox_Section
-	 */
-	private function get_buy_premium_section() {
-		$content = sprintf( "<div class='wpseo-premium-description'>
-			%s
-			<ul class='wpseo-premium-advantages-list'>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-			</ul>
-
-			<a target='_blank' id='wpseo-buy-premium-popup-button' class='button button-buy-premium wpseo-metabox-go-to' href='%s'>
-				%s
-			</a>
-
-			<p><a target='_blank' class='wpseo-metabox-go-to' href='%s'>%s</a></p>
-		</div>",
-			/* translators: %1$s expands to Yoast SEO Premium. */
-			sprintf( __( 'You\'re not getting the benefits of %1$s yet. If you had %1$s, you could use its awesome features:', 'wordpress-seo' ), 'Yoast SEO Premium' ),
-			__( 'Redirect manager', 'wordpress-seo' ),
-			__( 'Create and manage redirects within your WordPress install.', 'wordpress-seo' ),
-			__( 'Multiple focus keywords', 'wordpress-seo' ),
-			__( 'Optimize a single post for up to 5 keywords.', 'wordpress-seo' ),
-			__( 'Social Previews', 'wordpress-seo' ),
-			__( 'Check what your Facebook or Twitter post will look like.', 'wordpress-seo' ),
-			__( 'Premium support', 'wordpress-seo' ),
-			__( 'Gain access to our 24/7 support team.', 'wordpress-seo' ),
-			WPSEO_Shortlinker::get( 'https://yoa.st/pe-buy-premium' ),
-			/* translators: %s expands to Yoast SEO Premium. */
-			sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
-			WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
-			__( 'More info', 'wordpress-seo' )
-		);
-
-		$tab = new WPSEO_Metabox_Form_Tab(
-			'premium',
-			$content,
-			'Yoast SEO Premium',
-			array(
-				'single' => true,
-			)
-		);
-
-		return new WPSEO_Metabox_Tab_Section(
-			'premium',
-			'<span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>',
-			array( $tab ),
-			array(
-				'link_aria_label' => 'Yoast SEO Premium',
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
-			)
 		);
 	}
 
@@ -576,11 +522,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( isset( $meta_field_def['description'] ) ) {
 			$aria_describedby = ' aria-describedby="' . $esc_form_key . '-desc"';
 			$description      = '<p id="' . $esc_form_key . '-desc" class="yoast-metabox__description">' . $meta_field_def['description'] . '</p>';
-		}
-
-		if ( WPSEO_Utils::is_yoast_seo_premium() === false ) {
-			$button = new WPSEO_Metabox_Keyword_Synonyms_Config();
-			$button->enqueue_translations();
 		}
 
 		switch ( $meta_field_def['type'] ) {
@@ -853,6 +794,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
 		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' );
+
+		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
+		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoAnalysisWorkerL10n', array(
+			'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
+			'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
+		) );
+
 		/**
 		 * Remove the emoji script as it is incompatible with both React and any
 		 * contenteditable fields.
@@ -862,7 +811,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Help_Center::get_translated_texts() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
@@ -906,7 +855,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return array();
 	}
-
 
 	/**
 	 * Returns an array with shortcode tags for all registered shortcodes.

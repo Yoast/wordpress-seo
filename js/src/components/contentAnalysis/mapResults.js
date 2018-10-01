@@ -1,7 +1,7 @@
-import analysis from "yoastseo";
-import colors from "yoast-components/style-guide/colors.json";
+import { helpers } from "yoastseo";
+import { colors } from "yoast-components";
 
-const { scoreToRating } = analysis.helpers;
+const { scoreToRating } = helpers;
 
 
 /**
@@ -90,11 +90,14 @@ export function getIconForScore( score ) {
 	let icon = { icon: "seo-score-none", color: colors.$color_grey_disabled };
 
 	switch( score ) {
+		case "loading":
+			icon = { icon: "loading-spinner", color: colors.$color_green_medium_light };
+			break;
 		case "good":
 			icon = { icon: "seo-score-good", color: colors.$color_green_medium };
 			break;
 		case "ok":
-			icon = { icon: "seo-score-ok", color: colors.$color_yellow_score };
+			icon = { icon: "seo-score-ok", color: colors.$color_ok };
 			break;
 		case "bad":
 			icon = { icon: "seo-score-bad", color: colors.$color_red };

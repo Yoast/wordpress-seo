@@ -739,7 +739,6 @@ class WPSEO_Utils {
 		return apply_filters( 'wpseo_format_admin_url', $formatted_url );
 	}
 
-
 	/**
 	 * Get plugin name from file.
 	 *
@@ -999,42 +998,6 @@ SVG;
 			&& version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
 	}
 
-	/********************** DEPRECATED METHODS **********************/
-
-	/**
-	 * Returns the language part of a given locale, defaults to english when the $locale is empty.
-	 *
-	 * @see        WPSEO_Language_Utils::get_language()
-	 *
-	 * @since      3.4
-	 *
-	 * @param string $locale The locale to get the language of.
-	 *
-	 * @returns string The language part of the locale.
-	 */
-	public static function get_language( $locale ) {
-		return WPSEO_Language_Utils::get_language( $locale );
-	}
-
-	/**
-	 * Returns the user locale for the language to be used in the admin.
-	 *
-	 * WordPress 4.7 introduced the ability for users to specify an Admin language
-	 * different from the language used on the front end. This checks if the feature
-	 * is available and returns the user's language, with a fallback to the site's language.
-	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
-	 * of WordPress get_user_locale() that already fallbacks to the site's locale.
-	 *
-	 * @see        WPSEO_Language_Utils::get_user_locale()
-	 *
-	 * @since      4.1
-	 *
-	 * @returns string The locale.
-	 */
-	public static function get_user_locale() {
-		return WPSEO_Language_Utils::get_user_locale();
-	}
-
 	/**
 	 * Determine whether or not the metabox should be displayed for a post type.
 	 *
@@ -1096,5 +1059,84 @@ SVG;
 	 */
 	public static function is_woocommerce_active() {
 		return class_exists( 'Woocommerce' );
+	}
+
+	/**
+	 * Determines whether the plugin is active for the entire network.
+	 *
+	 * @return bool Whether or not the plugin is network-active.
+	 */
+	public static function is_plugin_network_active() {
+		static $network_active = null;
+
+		if ( ! is_multisite() ) {
+			return false;
+		}
+
+		// If a cached result is available, bail early.
+		if ( $network_active !== null ) {
+			return $network_active;
+		}
+
+		$network_active_plugins = wp_get_active_network_plugins();
+
+		// Consider MU plugins and network-activated plugins as network-active.
+		$network_active = strpos( wp_normalize_path( WPSEO_FILE ), wp_normalize_path( WPMU_PLUGIN_DIR ) ) === 0
+			|| in_array( WP_PLUGIN_DIR . '/' . WPSEO_BASENAME, $network_active_plugins, true );
+
+		return $network_active;
+	}
+
+	/**
+	 * Getter for the Adminl10n array. Applies the wpseo_admin_l10n filter.
+	 *
+	 * @return array The Adminl10n array.
+	 */
+	public static function get_admin_l10n() {
+		$wpseo_admin_l10n = array();
+		$wpseo_admin_l10n = array_merge( $wpseo_admin_l10n, WPSEO_Help_Center::get_translated_texts() );
+
+		$additional_entries = apply_filters( 'wpseo_admin_l10n', array() );
+		if ( is_array( $additional_entries ) ) {
+			$wpseo_admin_l10n = array_merge( $wpseo_admin_l10n, $additional_entries );
+		}
+
+		return $wpseo_admin_l10n;
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Returns the language part of a given locale, defaults to english when the $locale is empty.
+	 *
+	 * @see        WPSEO_Language_Utils::get_language()
+	 *
+	 * @since      3.4
+	 *
+	 * @param string $locale The locale to get the language of.
+	 *
+	 * @returns string The language part of the locale.
+	 */
+	public static function get_language( $locale ) {
+		return WPSEO_Language_Utils::get_language( $locale );
+	}
+
+	/**
+	 * Returns the user locale for the language to be used in the admin.
+	 *
+	 * WordPress 4.7 introduced the ability for users to specify an Admin language
+	 * different from the language used on the front end. This checks if the feature
+	 * is available and returns the user's language, with a fallback to the site's language.
+	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
+	 * of WordPress get_user_locale() that already fallbacks to the site's locale.
+	 *
+	 * @see        WPSEO_Language_Utils::get_user_locale()
+	 *
+	 * @since      4.1
+	 *
+	 * @returns string The locale.
+	 */
+	public static function get_user_locale() {
+		return WPSEO_Language_Utils::get_user_locale();
 	}
 }

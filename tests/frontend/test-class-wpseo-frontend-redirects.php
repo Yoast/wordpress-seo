@@ -11,6 +11,7 @@
  * @group frontend
  */
 final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
+
 	/**
 	 * Test if no redirect is done when not set.
 	 *

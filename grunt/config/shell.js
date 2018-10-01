@@ -75,7 +75,7 @@ module.exports = function( grunt ) {
 			command: function() {
 				var files;
 
-				files = [ "./node_modules/yoastseo/js/**/*.js" ];
+				files = [ "./node_modules/yoastseo/src/**/*.js" ];
 				files = grunt.file.expand( files );
 
 				return "xgettext" +

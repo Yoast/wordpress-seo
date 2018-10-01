@@ -10,7 +10,8 @@
  */
 class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Admin_Editor_Specific_Replace_Vars_Double
+	/**
+	 * @var WPSEO_Admin_Editor_Specific_Replace_Vars_Double
 	 */
 	protected $class_instance;
 
@@ -76,7 +77,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 			),
 			array(
 				'no-name' => 'key present',
-			)
+			),
 		);
 
 		$this->assertEquals(
@@ -242,7 +243,6 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'post_archive', $class_instance->determine_for_archive( 'post' ) );
 	}
 
-
 	/**
 	 * Tests that has_editor_specific_replace_vars returns true when it has recommended replacement
 	 * variables for the passed page type.
@@ -323,7 +323,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 			'post_tag'                  => array( 'term_title', 'term_description', 'tag_description' ),
 			'post_format'               => array(),
 			'term-in-custom-taxonomy'   => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
-			'custom-post-type_archive' => array( 'pt_single', 'pt_plural' ),
+			'custom-post-type_archive'  => array( 'pt_single', 'pt_plural' ),
 			'search'                    => array( 'searchphrase' ),
 		);
 
@@ -343,7 +343,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * @return array The new editor_specific replacement variables.
 	 */
 	public function filter_editor_specific_replacement_variables( array $replacement_variables = array() ) {
-		$replacement_variables[ 'page' ] = array( 'pt_single', 'pt_plural', 'parent_title' );
+		$replacement_variables['page'] = array( 'pt_single', 'pt_plural', 'parent_title' );
 
 		return $replacement_variables;
 	}

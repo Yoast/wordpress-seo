@@ -4,7 +4,7 @@ import noop from "lodash/noop";
 
 /* Internal dependencies */
 import DiviHelper from "./diviHelper";
-import VisualComposerHelper from "./visualComposerHelper";
+import VisualComposerHelper from "./VisualComposerHelper";
 
 const DEFAULTS = {
 	classicEditorHidden: noop,
@@ -40,6 +40,15 @@ class CompatibilityHelper {
 	}
 
 	/**
+	 * Determines if a page builder is active.
+	 *
+	 * @returns {boolean} True whether a page is active.
+	 */
+	isPageBuilderActive() {
+		return this.diviActive || this.vcActive;
+	}
+
+	/**
 	 * Initializes listeners for page builder events regarding the classic editor.
 	 *
 	 * @param {Object}   callbacks                     The listener callbacks.
@@ -63,7 +72,7 @@ class CompatibilityHelper {
 	 * @returns {boolean} Whether the classic editor is hidden.
 	 */
 	isClassicEditorHidden() {
-		return ( this.diviActive && DiviHelper.isTinyMCEHidden() );
+		return !! ( this.diviActive && DiviHelper.isTinyMCEHidden() );
 	}
 }
 
