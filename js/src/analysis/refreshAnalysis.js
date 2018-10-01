@@ -11,9 +11,9 @@ let isInitialized = false;
 /**
  * Sorts analysis results alphabetically by their identifier.
  *
- * @param {Object}      results             The SEO or Readability analysis results to be sorted.
+ * @param {Array} results The SEO or Readability analysis results to be sorted.
  *
- * @returns {object}    the sorted results.
+ * @returns {Array} The sorted results.
  */
 export function sortResultsByIdentifier( results ) {
 	return results.sort( ( a, b ) => a._identifier.localeCompare( b._identifier ) );
@@ -83,4 +83,3 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 export function initializationDone() {
 	isInitialized = true;
 }
-
