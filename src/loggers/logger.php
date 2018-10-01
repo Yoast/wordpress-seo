@@ -2,7 +2,7 @@
 /**
  * Yoast extension of the Model class.
  *
- * @package Yoast\YoastSEO
+ * @package Yoast\YoastSEO\Loggers
  */
 
 namespace Yoast\YoastSEO\Loggers;
@@ -15,6 +15,11 @@ use Psr\Log\NullLogger;
  */
 class Logger {
 
+	/**
+	 * The instance of the logger.
+	 *
+	 * @var LoggerInterface|null
+	 */
 	protected static $logger;
 
 	/**
