@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.8
-Stable tag: 8.2.1
+Stable tag: 8.3
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -105,6 +105,20 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+
+= 8.4.0 =
+Release Date: October 9th, 2018
+
+Bugfixes:
+
+* Fixes a bug where the cornerstone content toggle was available for attachment pages.
+* Fixes a bug where the Search Console page displayed 'first detected' and 'last crawled' dates that were in the future.
+
+Enhancements:
+
+* Introduces the `wpseo_taxonomy_content_fields` filter to add additional fields to the taxonomy metabox.
+* Adds a margin below select fields so there's space between taxonomy settings for breadcrumbs. Props to [@emilyatmobtown](https://github.com/emilyatmobtown)
+
 = 8.3.0 =
 Release Date: September 25th, 2018
 
@@ -116,6 +130,7 @@ Bugfixes:
 * Fixes a bug where snippet variables would not be replaced in the `og:description` of taxonomies when they were added in the Facebook Description input field.
 * Fixes a bug where `babel-polyfill` would throw an error that there shouldn't be two instances of babel-polyfill.
 * Fixes a bug where the `bold` button was available in the How-to block's step title and the FAQ block's Question field while they were already bold by default.
+* Fixes a bug that caused keywords beginning with the Turkish characters `İ` / `i` and `I` / `ı` not to be recognized when changing that character from lowercase to uppercase and vice versa.
 
 Enhancements:
 
@@ -126,11 +141,11 @@ Enhancements:
 Other:
 
 * Adds a notice to the Yoast SEO dashboard that is shown when both Yoast SEO and All in One SEO Pack plugins are active.
-* Makes the duplicate content link on the archive settings open in a new tab. Props [nikhilbarar](https://github.com/nikhilbarar).
+* Makes the duplicate content link on the archive settings open in a new tab. Props to [nikhilbarar](https://github.com/nikhilbarar).
 * Changes the notification message that is shown when a new SEO-related issue has been found.
-* Uses the correct type as the second argument of the `wpseo_sitemap_exclude_empty_terms` filter call when determining which taxonomies should have a sitemap. Props to: [liarco](https://github.com/liarco).
+* Uses the correct type as the second argument of the `wpseo_sitemap_exclude_empty_terms` filter call when determining which taxonomies should have a sitemap. Props to [liarco](https://github.com/liarco).
 * Removes the executable bits on SVN assets. Props to [mathieu-aubin](https://github.com/mathieu-aubin).
-* Introduces an API function to get all Yoast SEO-related capabilities. Props to: [JoryHogeveen](https://github.com/JoryHogeveen).
+* Introduces an API function to get all Yoast SEO-related capabilities. Props to [JoryHogeveen](https://github.com/JoryHogeveen).
 * Changes the `@context` property from `http://schema.org` to `https://schema.org` in the FAQ and How-To block's structured data output.
 * Rename the `associatedMedia` property in the FAQ and How-To block's structured data output to `image`, to reflect a change in Google's guidelines.
 * Moves the `@type` and `name` properties to the root of the FAQ block's structured data output.

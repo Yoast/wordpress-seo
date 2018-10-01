@@ -141,6 +141,6 @@
     "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#develop"
   },
   "yoast": {
-    "pluginVersion": "8.3-RC2"
+    "pluginVersion": "8.4-RC1"
   }
 }

@@ -231,7 +231,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			new WPSEO_Post_Metabox_Formatter( $post, array(), $permalink )
 		);
 
-		return $post_formatter->get_values();
+		$values     = $post_formatter->get_values();
+
+		/** This filter is documented in admin/filters/class-cornerstone-filter.php */
+		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
+		if ( $values['cornerstoneActive'] && ! in_array( $post->post_type, $post_types, true ) ) {
+			$values['cornerstoneActive'] = false;
+		}
+
+		return $values;
 	}
 
 	/**
@@ -250,7 +258,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Determines the scope based on the post type.
 	 * This can be used by the replacevar plugin to determine if a replacement needs to be executed.
 	 *
-	 * @return string String decribing the current scope.
+	 * @return string String describing the current scope.
 	 */
 	private function determine_scope() {
 		$post_type = get_post_type( $this->get_metabox_post() );

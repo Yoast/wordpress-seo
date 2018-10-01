@@ -112,7 +112,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 
 		$taxonomies = array(
 			'category' => (object) array(
-				'labels' => (object) array(
+				'labels'    => (object) array(
 					'singular_name' => 'Category',
 				),
 				'name'      => 'category',

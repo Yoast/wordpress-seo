@@ -68,22 +68,20 @@ export default class Question extends Component {
 	 */
 	getMover() {
 		return <div className="schema-faq-section-mover">
-			{ ! this.props.isFirst &&
 			<IconButton
 				className="editor-block-mover__control"
-				onClick={ this.props.onMoveUp }
+				onClick={ this.props.isFirst ? null : this.props.onMoveUp }
 				icon="arrow-up-alt2"
 				label={ __( "Move question up", "wordpress-seo" ) }
+				aria-disabled={ this.props.isFirst }
 			/>
-			}
-			{ ! this.props.isLast &&
 			<IconButton
 				className="editor-block-mover__control"
-				onClick={ this.props.onMoveDown }
+				onClick={ this.props.isLast ? null : this.props.onMoveDown }
 				icon="arrow-down-alt2"
 				label={ __( "Move question down", "wordpress-seo" ) }
+				aria-disabled={ this.props.isLast }
 			/>
-			}
 		</div>;
 	}
 
@@ -201,8 +199,12 @@ export default class Question extends Component {
 					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
-				{ isSelected && this.getButtons() }
-				{ isSelected && this.getMover() }
+				{ isSelected &&
+					<div className="schema-faq-section-controls-container">
+						{ this.getMover() }
+						{ this.getButtons() }
+					</div>
+				}
 			</div>
 		);
 	}

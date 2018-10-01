@@ -9,6 +9,7 @@
  * Test Helper Class.
  */
 class WPSEO_FAQ_Block_Double extends WPSEO_FAQ_Block {
+
 	/**
 	 * @inheritdoc
 	 */

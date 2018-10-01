@@ -81,22 +81,20 @@ export default class HowToStep extends Component {
 	 */
 	getMover() {
 		return <div className="schema-how-to-step-mover">
-			{ ! this.props.isFirst &&
 			<IconButton
 				className="editor-block-mover__control"
-				onClick={ this.props.onMoveUp }
+				onClick={ this.props.isFirst ? null : this.props.onMoveUp }
 				icon="arrow-up-alt2"
 				label={ __( "Move step up", "wordpress-seo" ) }
+				aria-disabled={ this.props.isFirst }
 			/>
-			}
-			{ ! this.props.isLast &&
 			<IconButton
 				className="editor-block-mover__control"
 				onClick={ this.props.isLast ? null : this.props.onMoveDown }
 				icon="arrow-down-alt2"
 				label={ __( "Move step down", "wordpress-seo" ) }
+				aria-disabled={ this.props.isLast }
 			/>
-			}
 		</div>;
 	}
 
@@ -222,8 +220,12 @@ export default class HowToStep extends Component {
 					setFocusedElement={ () => onFocus( "text" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
-				{ isSelected && this.getMover() }
-				{ isSelected && this.getButtons() }
+				{ isSelected &&
+					<div className="schema-how-to-step-controls-container">
+						{ this.getMover() }
+						{ this.getButtons() }
+					</div>
+				}
 			</li>
 		);
 	}

@@ -10,7 +10,7 @@
  */
 class WPSEO_Link_Installer {
 
-	/** @var WPSEO_Installable[]  */
+	/** @var WPSEO_Installable[] */
 	protected $installables = array();
 
 	/**

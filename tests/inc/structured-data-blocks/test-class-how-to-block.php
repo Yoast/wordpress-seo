@@ -4,10 +4,12 @@
  *
  * @package WPSEO\Tests
  */
+
 /**
  * Unit Test Class.
  */
 class WPSEO_How_To_Block_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Tests the HowTo structured data object format that is output by get_json_ld.
 	 *
@@ -47,8 +49,8 @@ class WPSEO_How_To_Block_Test extends WPSEO_UnitTestCase {
 						'@type'    => 'HowToStep',
 						'text'     => 'Step 1 text',
 					),
-					'name' => 'Step 1',
-					'image' => array(
+					'name'            => 'Step 1',
+					'image'           => array(
 						'@type'      => 'ImageObject',
 						'contentUrl' => 'https://www.image.com/image.jpg',
 					),
@@ -59,7 +61,7 @@ class WPSEO_How_To_Block_Test extends WPSEO_UnitTestCase {
 						'@type'    => 'HowToStep',
 						'text'     => 'Step 2 text',
 					),
-					'name' => 'Step 2',
+					'name'            => 'Step 2',
 				),
 			),
 		);

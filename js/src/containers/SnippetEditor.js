@@ -115,7 +115,7 @@ const SnippetEditorWrapper = ( props ) => (
 		>
 			<SnippetEditor
 				{ ...props }
-				descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below." ) }
+				descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
 				mapEditorDataToPreview={ mapEditorDataToPreview }
 			/>
 		</SnippetPreviewSection>
