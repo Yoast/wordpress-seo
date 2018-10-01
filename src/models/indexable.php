@@ -50,9 +50,9 @@ class Indexable extends Yoast_Model {
 	/**
 	 * The Indexable meta data.
 	 *
-	 * @var array
+	 * @var Indexable_Meta[]
 	 */
-	protected $meta_data = array();
+	protected $meta_data;
 
 	/**
 	 * Retrieves an indexable by its ID and type.
@@ -101,10 +101,15 @@ class Indexable extends Yoast_Model {
 	 * Returns the related meta model.
 	 *
 	 * @return Indexable_Meta[] Array of meta objects.
-	 * @throws \Exception
 	 */
 	public function meta() {
-		return $this->has_many( 'Indexable_Meta', 'indexable_id', 'id' );
+		try {
+			return $this->has_many( 'Indexable_Meta', 'indexable_id', 'id' );
+		}
+		catch( \Exception $exception ) {
+			// @todo Log exception with YoastSEO/Logger
+			return array();
+		}
 	}
 
 	/**
@@ -116,11 +121,9 @@ class Indexable extends Yoast_Model {
 		$saved = parent::save();
 
 		if ( $saved ) {
-			do_action( 'wpseo_indexable_saved', $this );
+			$this->save_meta();
 
-			if ( ! empty( $this->meta_data ) && ! empty( $this->id ) ) {
-				array_walk( $this->meta_data, array( $this, 'save_meta' ) );
-			}
+			do_action( 'wpseo_indexable_saved', $this );
 		}
 
 		return $saved;
@@ -144,33 +147,31 @@ class Indexable extends Yoast_Model {
 	/**
 	 * Sets specific meta data for an indexable.
 	 *
-	 * @param string $meta_key   The key to set.
-	 * @param string $meta_value The value to set.
+	 * @param string $meta_key    The key to set.
+	 * @param string $meta_value  The value to set.
+	 * @param bool   $auto_create
 	 *
 	 * @return void
 	 */
-	public function set_meta( $meta_key, $meta_value ) {
-		$this->meta_data[ $meta_key ] = $meta_value;
+	public function set_meta( $meta_key, $meta_value, $auto_create = true ) {
+		$meta = $this->get_meta( $meta_key, $auto_create );
+		$meta->meta_value = $meta_value;
 	}
 
 	/**
 	 * Saves the meta data.
 	 *
-	 * @param string $meta_key   The key to set.
-	 * @param string $meta_value The value to set.
-	 *
 	 * @return void
 	 */
-	protected function save_meta( $meta_key, $meta_value ) {
-		try {
-			$indexable_meta = $this->get_meta( $meta_key );
-		} catch ( No_Indexable_Found $exception ) {
+	protected function save_meta() {
+		if ( empty( $this->meta_data ) ) {
 			return;
 		}
 
-		$indexable_meta->meta_key   = $meta_key;
-		$indexable_meta->meta_value = $meta_value;
-		$indexable_meta->save();
+		foreach( $this->meta_data as $meta ) {
+			$meta->indexable_id = $this->id;
+			$meta->save();
+		}
 	}
 
 	/**
@@ -184,17 +185,34 @@ class Indexable extends Yoast_Model {
 	 * @throws No_Indexable_Found Exception when no Indexable entry could be found.
 	 */
 	protected function get_meta( $meta_key, $auto_create = true ) {
-		$indexable_meta = Indexable_Meta::find_meta_for_indexable( $this->id, $meta_key );
+		$this->initialize_meta();
 
-		if ( $auto_create && ! $indexable_meta ) {
-			$indexable_meta  = Indexable_Meta::create_meta_for_indexable( $this->id, $meta_key );
+		if ( array_key_exists( $meta_key, $this->meta_data ) ) {
+			return $this->meta_data[ $meta_key ];
 		}
 
-		if ( ! $indexable_meta ) {
-			throw No_Indexable_Found::from_meta_key( $meta_key, $this->id );
+		if ( $auto_create ) {
+			$this->meta_data[ $meta_key ] = Indexable_Meta::create_meta_for_indexable( $this->id, $meta_key );
+
+			return $this->meta_data[ $meta_key ];
 		}
 
-		return $indexable_meta;
+		throw No_Indexable_Found::from_meta_key( $meta_key, $this->id );
 	}
 
+	/**
+	 * Initializes the meta data.
+	 */
+	protected function initialize_meta( ) {
+		if ( $this->meta_data !== null ) {
+			return;
+		}
+
+		$this->meta_data = array();
+
+		$meta_data = $this->meta();
+		foreach ( $meta_data as $meta ) {
+			$this->meta_data[ $meta->meta_key ] = $meta;
+		}
+	}
 }
