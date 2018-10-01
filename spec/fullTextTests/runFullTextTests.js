@@ -158,7 +158,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the textCompetingLinks assessment", function() {
 			result.textCompetingLinks = new TextCompetingLinksAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( getLinkStatistics( paper ) ),
+				factory.buildMockResearcher( getLinkStatistics( paper, researcher ) ),
 				i18n
 			);
 			expect( result.textCompetingLinks.getScore() ).toBe( expectedResults.textCompetingLinks.score );
@@ -194,7 +194,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the externalLinks assessment", function() {
 			result.externalLinks = new OutboundLinksAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( getLinkStatistics( paper ) ),
+				factory.buildMockResearcher( getLinkStatistics( paper, researcher ) ),
 				i18n
 			);
 			expect( result.externalLinks.getScore() ).toBe( expectedResults.externalLinks.score );
@@ -204,7 +204,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the internalLinks assessment", function() {
 			result.internalLinks = new InternalLinksAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( getLinkStatistics( paper ) ),
+				factory.buildMockResearcher( getLinkStatistics( paper, researcher ) ),
 				i18n
 			);
 			expect( result.internalLinks.getScore() ).toBe( expectedResults.internalLinks.score );
