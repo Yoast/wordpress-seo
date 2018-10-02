@@ -7,6 +7,7 @@
 
 namespace Yoast\YoastSEO\Models;
 
+use Yoast\YoastSEO\Loggers\Logger;
 use Yoast\YoastSEO\Yoast_Model;
 
 /**
@@ -51,6 +52,15 @@ class Indexable_Meta extends Yoast_Model {
 		$indexable_meta->indexable_id = $indexable_id;
 		$indexable_meta->meta_key     = $meta_key;
 
+		Logger::get_logger()->debug(
+			sprintf(
+				__( 'Indexable meta created for indexable id %1$s with meta key %2$s', 'wordpress-seo' ),
+				$indexable_id,
+				$meta_key
+			),
+			get_object_vars( $indexable_meta )
+		);
+
 		return $indexable_meta;
 	}
 
@@ -61,5 +71,23 @@ class Indexable_Meta extends Yoast_Model {
 	 */
 	public function indexable() {
 		return $this->belongs_to( 'Indexable' );
+	}
+
+	/**
+	 * Enhances the save method.
+	 *
+	 * @return boolean True on succes.
+	 */
+	public function save() {
+		$saved = parent::save();
+
+		if ( $saved ) {
+			Logger::get_logger()->debug(
+				__( 'Indexable meta saved', 'wordpress-seo' ),
+				get_object_vars( $this )
+			);
+		}
+
+		return $saved;
 	}
 }

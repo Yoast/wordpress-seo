@@ -7,6 +7,7 @@
 
 namespace Yoast\YoastSEO\Config;
 
+use Yoast\YoastSEO\Loggers\Logger;
 use Yoast\YoastSEO\Migration_Null_Logger;
 use Yoast\YoastSEO\Yoast_Model;
 use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
@@ -53,8 +54,10 @@ class Database_Migration {
 		try {
 			$main = $this->get_framework_runner();
 			$main->execute();
+		}
+		catch ( \Exception $exception ) {
+			Logger::get_logger()->notice( $exception->getMessage() );
 
-		} catch ( \Exception $exception ) {
 			// Something went wrong...
 			$this->set_failed_state( $exception->getMessage() );
 

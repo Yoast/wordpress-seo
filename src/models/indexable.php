@@ -95,6 +95,15 @@ class Indexable extends Yoast_Model {
 		$indexable->object_id   = $object_id;
 		$indexable->object_type = $object_type;
 
+		Logger::get_logger()->debug(
+			sprintf(
+				__( 'Indexable created for object %1$s with type', 'wordpress-seo' ),
+				$object_id,
+				$object_type
+			),
+			get_object_vars( $indexable )
+		);
+
 		return $indexable;
 	}
 
@@ -123,6 +132,11 @@ class Indexable extends Yoast_Model {
 		$saved = parent::save();
 
 		if ( $saved ) {
+			Logger::get_logger()->debug(
+				__( 'Indexable saved', 'wordpress-seo' ),
+				get_object_vars( $this )
+			);
+
 			$this->save_meta();
 
 			do_action( 'wpseo_indexable_saved', $this );
