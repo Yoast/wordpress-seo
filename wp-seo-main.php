@@ -342,20 +342,7 @@ function wpseo_init() {
 	$wpseo_content_images = new WPSEO_Content_Images();
 	$wpseo_content_images->register_hooks();
 
-	// When namespaces are not available, stop further execution.
-	if ( version_compare( PHP_VERSION, '5.3.0', '<' ) ) {
-		return;
-	}
-
-	$has_feature_flag = defined( 'YOAST_SEO_INDEXABLES' ) && YOAST_SEO_INDEXABLES === true;
-
-	// @codingStandardsIgnoreLine PHPCompatibility.PHP.NewLanguageConstructs.t_ns_separatorFound -- This is a > 5.3 feature.
-	if ( $has_feature_flag && class_exists( '\Yoast\YoastSEO\Config\Plugin' ) ) {
-		// @codingStandardsIgnoreLine PHPCompatibility.PHP.NewLanguageConstructs.t_ns_separatorFound -- This is a > 5.3 feature.
-		$bootstrap = new \Yoast\YoastSEO\Config\Plugin();
-		$bootstrap->initialize();
-		$bootstrap->register_hooks();
-	}
+	require_once WPSEO_PATH . 'src/loaders/indexable.php';
 }
 
 /**
