@@ -8,6 +8,28 @@ import { zipWith } from "lodash-es";
 import gini from "../helpers/gini";
 
 /**
+ * Gets neighbourhood for a sentence. For a sentence checks if there are sentences before and after it and returns a
+ * string with the concatenated neighbourhood (previous sentence - current sentence - next sentence).
+ *
+ * @param {Array}  sentences An array of all sentences in the text.
+ * @param {number} index     The index of the sentence to get neighbourhood for.
+ *
+ * @returns {string} The neighbourhood sentences.
+ */
+const getNeighbourhood = function( sentences, index ) {
+	let neighbourhood = sentences[ index ];
+
+	if ( ! isUndefined( sentences[ index - 1 ] ) ) {
+		neighbourhood = sentences[ index - 1 ].concat( " ", neighbourhood );
+	}
+	if ( ! isUndefined( sentences[ index + 1 ] ) ) {
+		neighbourhood = neighbourhood.concat( " ", sentences[ index + 1 ] );
+	}
+
+	return neighbourhood;
+};
+
+/**
  * Checks whether at least 3 content words from the topic are found within one sentence and the rest within +-1 sentence
  * away from it. Assigns a score to every sentence following the following schema:
  * 9 if all content words from the topic are in the sentence, or at least 3 content words from the topic
@@ -25,16 +47,11 @@ const computeScoresPerSentenceLongTopic = function( topic, sentences, locale ) {
 	let sentenceScores = Array( sentences.length );
 
 	for ( let i = 0; i < sentences.length; i++ ) {
-		const currentSentence = sentences[ i ];
-		const foundInCurrentSentence = findWordFormsInString( topic, currentSentence, locale );
+		// First search in the current sentence
+		const foundInCurrentSentence = findWordFormsInString( topic, sentences[ i ], locale );
 
-		let neighbourhood = currentSentence;
-		if ( ! isUndefined( sentences[ i - 1 ] ) ) {
-			neighbourhood = sentences[ i - 1 ].concat( " ", neighbourhood );
-		}
-		if ( ! isUndefined( sentences[ i + 1 ] ) ) {
-			neighbourhood = neighbourhood.concat( " ", sentences[ i + 1 ] );
-		}
+		// Then search in the current sentence and on previous and one next sentences.
+		const neighbourhood = getNeighbourhood( sentences, i );
 		const foundInNeighbourhood = findWordFormsInString( topic, neighbourhood, locale );
 
 		if ( foundInCurrentSentence.countWordMatches >= 3 && foundInNeighbourhood.percentWordMatches === 100 ) {
