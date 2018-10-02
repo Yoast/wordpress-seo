@@ -76,15 +76,13 @@ class Primary_Term implements Integration {
 			return;
 		}
 
+		// @todo: Removes the indexable when found.
+		if ( empty( $term_id ) ) {
+			return;
+		}
+
 		try {
 			$primary_term = $this->get_indexable( $post_id, $taxonomy );
-
-			// Removes the indexable when found.
-			if ( empty( $term_id ) ) {
-				$primary_term->delete();
-
-				return;
-			}
 		}
 		catch ( No_Indexable_Found $exception ) {
 			return;
@@ -167,7 +165,7 @@ class Primary_Term implements Integration {
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
 	 *
-	 * @return Indexable
+	 * @return \Yoast\YoastSEO\Models\Primary_Term
 	 *
 	 * @throws No_Indexable_Found Exception when no indexable could be found for the supplied post.
 	 */
