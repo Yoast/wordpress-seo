@@ -16,7 +16,6 @@ import Researcher from "./src/researcher";
 import SnippetPreview from "./src/snippetPreview";
 import Paper from "./src/values/Paper";
 import AssessmentResult from "./src/values/AssessmentResult";
-import RelatedKeywordAssessor from "./src/relatedKeywordAssessor";
 
 export {
 	App,
@@ -26,7 +25,6 @@ export {
 	Pluggable,
 	Researcher,
 	SnippetPreview,
-	RelatedKeywordAssessor,
 
 	Paper,
 	AssessmentResult,
