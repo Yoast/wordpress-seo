@@ -2,6 +2,7 @@ $palette_white:              #fff;    // Safe to use with $palette_grey_text –
 // Shades of gray from lighter to darker.
 $palette_grey_ultra_light:   #f7f7f7; // Safe to use with $palette_grey_text – $palette_black.
 $palette_grey_light:         #f1f1f1; // Safe to use with $palette_grey_text – $palette_black.
+$palette_grey_medium_light:  #e2e4e7; // Color copied from Gutenberg. 
 $palette_grey:               #ddd;    // Safe to use with $palette_grey_dark – $palette_black.
 $palette_grey_medium:        #ccc;    // Safe to use with $palette_grey_dark – $palette_black.
 $palette_grey_disabled:      #a0a5aa; // Should be used only for disabled controls text. Also used for the "none"" score icon.
@@ -56,6 +57,7 @@ $color_blue_dark:            $palette_blue_dark;
 $color_red:                  $palette_red;
 
 $color_border_light:         $palette_grey_ultra_light;
+$color_border_gutenberg:     $palette_grey_medium_light;
 $color_border:               $palette_grey_medium;
 
 $color_input_border:         $palette_grey;

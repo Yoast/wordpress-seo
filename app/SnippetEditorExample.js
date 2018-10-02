@@ -4,7 +4,7 @@ import styled from "styled-components";
 import debounce from "lodash/debounce";
 
 import { assessments } from "yoastseo";
-const { MetaDescriptionLengthAssessment } = assessments;
+const { MetaDescriptionLengthAssessment } = assessments.seo;
 
 // Internal dependencies.
 import SnippetEditor from "../composites/Plugin/SnippetEditor/components/SnippetEditor";
