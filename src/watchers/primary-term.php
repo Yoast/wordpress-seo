@@ -8,6 +8,7 @@
 namespace Yoast\YoastSEO\Watchers;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
+use Yoast\YoastSEO\Loggers\Logger;
 use Yoast\YoastSEO\Models\Indexable;
 use Yoast\YoastSEO\Models\Primary_Term as Primary_Term_Indexable;
 use Yoast\YoastSEO\WordPress\Integration;
@@ -56,6 +57,10 @@ class Primary_Term implements Integration {
 	 * @return void
 	 */
 	public function save_primary_terms( $post_id ) {
+		if ( ! $this->is_post_request() ) {
+			return;
+		}
+
 		foreach ( $this->get_primary_term_taxonomies( $post_id ) as $taxonomy ) {
 			$this->save_primary_term( $post_id, $taxonomy->name );
 		}
@@ -72,17 +77,24 @@ class Primary_Term implements Integration {
 	protected function save_primary_term( $post_id, $taxonomy ) {
 		// This request must be valid.
 		$term_id = $this->get_posted_term_id( $taxonomy );
-		if ( $term_id && $this->is_referer_valid( $taxonomy ) ) {
-			return;
-		}
-
-		// @todo: Removes the indexable when found.
-		if ( empty( $term_id ) ) {
+		if ( $term_id && ! $this->is_referer_valid( $taxonomy ) ) {
 			return;
 		}
 
 		try {
 			$primary_term = $this->get_indexable( $post_id, $taxonomy );
+
+			// Removes the indexable when found.
+			if ( empty( $term_id ) ) {
+				try {
+					$primary_term->delete();
+				}
+				catch( \Exception $exception ) {
+					Logger::get_logger()->notice(  $exception->getMessage() );
+				}
+
+				return;
+			}
 		}
 		catch ( No_Indexable_Found $exception ) {
 			return;
@@ -165,7 +177,7 @@ class Primary_Term implements Integration {
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
 	 *
-	 * @return \Yoast\YoastSEO\Models\Primary_Term
+	 * @return Indexable
 	 *
 	 * @throws No_Indexable_Found Exception when no indexable could be found for the supplied post.
 	 */
@@ -191,6 +203,17 @@ class Primary_Term implements Integration {
 	}
 
 	/**
+	 * Checks if the request is a post request.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool Whether thet method is a post request.
+	 */
+	protected function is_post_request() {
+		return $_SERVER['REQUEST_METHOD'] === 'post';
+	}
+
+	/**
 	 * Retrieves the posted term id based on the given taxonomy.
 	 *
 	 * @codeCoverageIgnore
@@ -213,7 +236,7 @@ class Primary_Term implements Integration {
 	 * @return bool Whether the referer is valid.
 	 */
 	protected function is_referer_valid( $taxonomy ) {
-		return ! check_admin_referer( 'save-primary-term', \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' );
+		return check_admin_referer( 'save-primary-term', \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' );
 	}
 
 }
