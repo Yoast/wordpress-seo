@@ -344,6 +344,13 @@ export default class AnalysisWebWorker {
 		return assessor;
 	}
 
+	/**
+	 * Initializes the appropriate SEO assessor for related keywords.
+	 *
+	 * @returns {null|SEOAssessor|CornerstoneSEOAssessor|TaxonomyAssessor} The chosen
+	 *                                                                     related keywords
+	 *                                                                     assessor.
+	 */
 	createRelatedKeywordsAssessor() {
 		const {
 			keywordAnalysisActive,
