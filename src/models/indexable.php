@@ -8,6 +8,7 @@
 namespace Yoast\YoastSEO\Models;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
+use Yoast\YoastSEO\Loggers\Logger;
 use Yoast\YoastSEO\Yoast_Model;
 
 /**
@@ -100,16 +101,17 @@ class Indexable extends Yoast_Model {
 	/**
 	 * Returns the related meta model.
 	 *
-	 * @return Indexable_Meta[] Array of meta objects.
+	 * @return Indexable_Meta Array of meta objects.
 	 */
 	public function meta() {
 		try {
 			return $this->has_many( 'Indexable_Meta', 'indexable_id', 'id' );
 		}
 		catch ( \Exception $exception ) {
-			// @todo Log exception with YoastSEO/Logger
-			return array();
+			Logger::get_logger()->info( $exception->getMessage() );
 		}
+
+		return null;
 	}
 
 	/**
@@ -213,8 +215,18 @@ class Indexable extends Yoast_Model {
 		$this->meta_data = array();
 
 		$meta_data = $this->meta();
-		foreach ( $meta_data as $meta ) {
-			$this->meta_data[ $meta->meta_key ] = $meta;
+		if ( ! $meta_data ) {
+			return;
+		}
+
+		try {
+			$meta_data = (array) $meta_data->find_many();
+			foreach ( $meta_data as $meta ) {
+				$this->meta_data[ $meta->meta_key ] = $meta;
+			}
+		}
+		catch ( \Exception $exception ) {
+			Logger::get_logger()->info( $exception->getMessage() );
 		}
 	}
 }
