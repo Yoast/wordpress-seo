@@ -76,13 +76,16 @@ class Primary_Term implements Integration {
 			return;
 		}
 
-		if ( empty( $term_id ) ) {
-			// @todo remove the indexable if found.
-			return;
-		}
-
 		try {
 			$primary_term = $this->get_indexable( $post_id, $taxonomy );
+
+			// Removes the indexable when found.
+			if ( empty( $term_id ) ) {
+				$primary_term->delete();
+
+				return;
+			}
+
 		} catch ( No_Indexable_Found $exception ) {
 			return;
 		}
