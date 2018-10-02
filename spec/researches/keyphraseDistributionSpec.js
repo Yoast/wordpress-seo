@@ -192,7 +192,7 @@ describe( "Test for a step-function research", function() {
 		} );
 	} );
 
-	it( "when the topic words don't contain function words, returns the same score for a language without morphological support when that language is set to a locale without function words ", function() {
+	it( "when the topic words don't contain function words and the function words for this locale are not defined, returns the same score", function() {
 		const paper = new Paper(
 			sentencesIT.join( " " ),
 			{
@@ -217,11 +217,11 @@ describe( "Test for a step-function research", function() {
 		} );
 	} );
 
-	it( "when the topic words contain function words, returns a different score for a language without morphological support when that language is set to a locale without function words", function() {
+	it( "when the topic words don't contain function words and the function words for this locale are not defined, returns a different score", function() {
 		const paper = new Paper(
 			sentencesIT.join( " " ),
 			{
-				// Fictitious locale that doens't have function word support.
+				// Fictitious locale that doesn't have function word support.
 				locale: "xx_XX",
 				keyword: "la parola chiave",
 				// The added function words are now analyzed as content words, so the score changes.

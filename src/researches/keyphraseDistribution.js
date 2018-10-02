@@ -126,23 +126,15 @@ const step = function( maximizedSentenceScores, stepSize ) {
 
 
 /**
- * Determines which portions of the text did not receive a lot of content words from keyphrase and synonyms.
+ * Computes the per-sentence scores depending on the length of the topic phrase and maximizes them over all topic phrases.
  *
- * @param {Paper}       paper       The paper to check the keyphrase distribution for.
- * @param {Researcher}  researcher  The researcher to use for analysis.
+ * @param {Array}  sentences              The sentences to get scores for.
+ * @param {Array}  topicFormsInOneArray   The topic phrases forms to seach for in the sentences.
+ * @param {string} locale                 The locale to work in.
  *
- * @returns {Object} The scores of topic relevance per portion of text and an array of all word forms to highlight.
+ * @returns {Object} An array with maximized score per sentence and an array with all sentences that do not contain the topic.
  */
-const keyphraseDistributionResearcher = function( paper, researcher ) {
-	const sentences = getSentences( paper.getText() );
-	const topicForms = researcher.getResearch( "morphology" );
-	const locale = paper.getLocale();
-	const topicFormsInOneArray = [ topicForms.keyphraseForms ];
-
-	topicForms.synonymsForms.forEach( function( synonym ) {
-		topicFormsInOneArray.push( synonym );
-	} );
-
+const getSentenceScores = function( sentences, topicFormsInOneArray, locale ) {
 	// Compute per-sentence scores of topic-relatedness.
 	const topicNumber = topicFormsInOneArray.length;
 
@@ -160,23 +152,54 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	// Maximize scores: Give every sentence a maximal score that it got from analysis of all topics
 	const maximizedSentenceScores = maximizeSentenceScores( sentenceScores );
 
-	// An array combining each sentence with the associated maximized score.
-	const sentencesWithMaximizedScores = zipWith( sentences, maximizedSentenceScores, ( sentence, score ) => {
+	// Zip an array combining each sentence with the associated maximized score.
+	const sentencesWithMaximizedScores =  zipWith( sentences, maximizedSentenceScores, ( sentence, score ) => {
 		return { sentence, score };
 	} );
 
-	/*
-	 * Sentences that have a maximized score of 3 are used for marking because these do not contain any topic forms.
-	 * Hence these sentences require action most urgently.
-	 */
+	// Filter sentences that contain no topic words.
 	const sentencesWithoutTopic = sentencesWithMaximizedScores.filter( sentenceObject => sentenceObject.score < 4 );
 
+	return {
+		maximizedSentenceScores: maximizedSentenceScores,
+		sentencesWithoutTopic: sentencesWithoutTopic.map( sentenceObject => sentenceObject.sentence ),
+	};
+};
+
+
+/**
+ * Determines which portions of the text did not receive a lot of content words from keyphrase and synonyms.
+ *
+ * @param {Paper}       paper       The paper to check the keyphrase distribution for.
+ * @param {Researcher}  researcher  The researcher to use for analysis.
+ *
+ * @returns {Object} The scores of topic relevance per portion of text and an array of all word forms to highlight.
+ */
+const keyphraseDistributionResearcher = function( paper, researcher ) {
+	const sentences = getSentences( paper.getText() );
+	const topicForms = researcher.getResearch( "morphology" );
+	const locale = paper.getLocale();
+	const topicFormsInOneArray = [ topicForms.keyphraseForms ];
+
+	topicForms.synonymsForms.forEach( function( synonym ) {
+		topicFormsInOneArray.push( synonym );
+	} );
+
+	// Get per-sentence scores and sentences that do not have topic.
+	const sentenceScores = getSentenceScores( sentences, topicFormsInOneArray, locale );
+
 	// Apply step function: to begin with take a third of the text or at least 3 sentences.
-	const textPortionScores = step( maximizedSentenceScores, max( [ round( sentences.length / 10 ), 3 ] ) );
+	const textPortionScores = step( sentenceScores.maximizedSentenceScores, max( [ round( sentences.length / 10 ), 3 ] ) );
 
 	return {
+		// Return Gini coefficient of per-portion scores.
 		keyphraseDistributionScore: gini( textPortionScores ),
-		sentencesToHighlight: sentencesWithoutTopic.map( sentenceObject => sentenceObject.sentence ),
+
+		/*
+	     * Sentences that have a maximized score of 3 are used for marking because these do not contain any topic forms.
+	     * Hence these sentences require action most urgently.
+	     */
+		sentencesToHighlight: sentenceScores.sentencesWithoutTopic,
 	};
 };
 

@@ -15,11 +15,11 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
-	 * @param {number} [config.parameters.gootDistributionscore]
+	 * @param {number} [config.parameters.goodDistributionScore]
 	 *      The average distribution score that needs to be received from the step function to get a GOOD result.
 	 * @param {number} [config.parameters.acceptableDistributionScore]
 	 *      The average distribution score that needs to be received from the step function to get an OKAY result.
-	 * @param {number} [config.scores.good]             The score to return if keyword occurrences are very unevenly distributed.
+	 * @param {number} [config.scores.good]             The score to return if keyword occurrences are evenly distributed.
 	 * @param {number} [config.scores.okay]             The score to return if keyword occurrences are somewhat unevenly distributed.
 	 * @param {number} [config.scores.bad]              The score to return if there is way too much text between keyword occurrences.
 	 * @param {number} [config.scores.consideration]    The score to return if there are no keyword occurrences.
