@@ -122,15 +122,15 @@ describe( "A test for marking multiple competing links", function() {
 		let expected = [
 			new Mark( {
 				original: "<a href='http://example.com/keyword'>keys test wording phrased</a>",
-				marked: "<yoastmark class='yoast-text-mark'><a href='http://example.com/keyword'>keys test wording phrased</a></yoastmark>"
+				marked: "<yoastmark class='yoast-text-mark'><a href='http://example.com/keyword'>keys test wording phrased</a></yoastmark>",
 			} ),
 			new Mark( {
 				original: "<a href='http://example.com/keyword'>articles which are interesting</a>",
-				marked: "<yoastmark class='yoast-text-mark'><a href='http://example.com/keyword'>articles which are interesting</a></yoastmark>"
+				marked: "<yoastmark class='yoast-text-mark'><a href='http://example.com/keyword'>articles which are interesting</a></yoastmark>",
 			} ),
 			new Mark( {
 				original: "<a href='http://example.com/keyword'>excited papers</a>",
-				marked: "<yoastmark class='yoast-text-mark'><a href='http://example.com/keyword'>excited papers</a></yoastmark>"
+				marked: "<yoastmark class='yoast-text-mark'><a href='http://example.com/keyword'>excited papers</a></yoastmark>",
 			} ),
 		];
 		expect( result._marker ).toEqual( expected );
