@@ -578,7 +578,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		};
 
 		var mockPaper = new Paper( "bonjour, c'est mon link pour  <a href='http://example.com/keyword'>promener avantages nature</a>" +
-			" et un merveilleux <a href='http://example.com/keyword'>nature cycler </a>, " +
+			" et un merveilleux <a href='http://example.com/keyword'>dans nature cycler </a>, " +
 			" et aussi <a href='http://example.com/keyword'>qqch</a>", attributes );
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchDataProvider( "morphology", morphologyData );
@@ -589,7 +589,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		expect( foundLinks.keyword.totalKeyword ).toEqual( 2 );
 		expect( foundLinks.keyword.matchedAnchors ).toEqual( [
 			"<a href='http://example.com/keyword'>promener avantages nature</a>",
-			"<a href='http://example.com/keyword'>nature cycler </a>",
+			"<a href='http://example.com/keyword'>dans nature cycler </a>",
 		] );
 	} );
 } );

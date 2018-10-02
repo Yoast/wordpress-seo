@@ -77,7 +77,7 @@ const filterAnchorsContainedInTopic = function( anchors, keyphraseAndSynonyms, l
 
 	anchors.forEach( function( currentAnchor ) {
 		// Create a fake paper to be able to generate the forms of the content words from within the anchor.
-		const fakePaper = new Paper( "", { keyword: currentAnchor } );
+		const fakePaper = new Paper( "", { keyword: currentAnchor, locale: locale } );
 		researcher.setPaper( fakePaper );
 		const linkTextForms = researcher.getResearch( "morphology" );
 
