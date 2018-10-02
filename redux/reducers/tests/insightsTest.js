@@ -9,7 +9,7 @@ jest.mock( "../prominentWords", () => {
 	};
 } );
 
-describe ( "insightsReducer with a SET_PROMINENT_WORDS action ", () => {
+describe( "insightsReducer with a SET_PROMINENT_WORDS action ", () => {
 	it( "returns the correct reducers", () => {
 		const state = {};
 		const action = {

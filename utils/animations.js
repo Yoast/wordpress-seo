@@ -83,7 +83,7 @@ export class YoastSlideToggle extends React.Component {
 					in={ this.props.isOpen }
 					timeout={ this.props.duration }
 					classNames="slide"
-					unmountOnExit
+					unmountOnExit={ true }
 					onEnter={ this.resetHeight }
 					onEntering={ this.setHeight }
 					onEntered={ this.removeHeight }

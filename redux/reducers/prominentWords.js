@@ -14,7 +14,7 @@ const INITIAL_STATE = [];
  * @returns {Object} The updated prominent words object.
  */
 export function prominentWordsReducer( state = INITIAL_STATE, action ) {
-	switch( action.type ) {
+	switch ( action.type ) {
 		case SET_PROMINENT_WORDS:
 			return action.prominentWords;
 		default:

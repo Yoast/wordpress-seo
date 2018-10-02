@@ -21,7 +21,6 @@ const Container = styled.div`
 `;
 
 export default class KeywordExample extends Component {
-
 	/**
 	 * Constructs a keywordInput example.
 	 *
@@ -121,6 +120,7 @@ export default class KeywordExample extends Component {
 					onChange={ this.updateAdditionalKeyword }
 					keyword={ this.state.additionalKeyword }
 					onRemoveKeyword={ () => {
+						// eslint-disable-next-line no-console
 						console.log( "CLOSED!" );
 					} }
 				/>

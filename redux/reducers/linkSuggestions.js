@@ -11,7 +11,7 @@ const INITIAL_STATE = [];
  * @returns {Object} The updated link suggestions object.
  */
 function linkSuggestionsReducer( state = INITIAL_STATE, action ) {
-	switch( action.type ) {
+	switch ( action.type ) {
 		case SET_LINK_SUGGESTIONS:
 			return action.linkSuggestions;
 		default:

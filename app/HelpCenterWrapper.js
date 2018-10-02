@@ -16,7 +16,7 @@ export const HelpCenterContainer = styled.div`
  * @returns {ReactElement} The HelpCenterWrapper component.
  */
 export default function HelpCenterWrapper() {
-	let items = [
+	const items = [
 		{
 			label: "Video tutorial",
 			id: "video-tutorial",

@@ -77,6 +77,7 @@ export default function HelpCenterWrapper() {
 				considerationsResults={ considerationsResults }
 				errorsResults={ errorsResults }
 				onMarkButtonClick={ ( id, marker ) => {
+					// eslint-disable-next-line no-console
 					console.log( "Marker button clicked", id, marker );
 				} }
 				marksButtonStatus={ "enabled" }

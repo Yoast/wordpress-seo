@@ -17,17 +17,6 @@ module.exports = function( grunt ) {
 				"*.js",
 				"!node_modules/**",
 				"!node_modules/*",
-				"!grunt/config/*",
-				"!jest/**",
-				"!jest/*",
-				"!style-guide/*",
-				"!utils/**/*",
-				"!utils/*",
-				"!redux/**",
-				"!redux/*",
-				"!app/**",
-				"!app/*",
-				"!composites/OnboardingWizard/config/**/*.js",
 			],
 			get config() {
 				return project.paths.config + "*.js";

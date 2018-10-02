@@ -52,36 +52,4 @@ describe( "a wizard component", () => {
 		expect( renderedWizard.props().fields.count ).toEqual( config.fields.count );
 		expect( renderedWizard.props().customComponents ).toEqual( config.customComponents );
 	} );
-
-	it( "renders a wizard component based on the config", () => {
-	} );
-
-	it( "goes to the next step", () => {
-		// Check for isLoading.
-		// Check for previous button rendered.
-	} );
-
-	it( "goes to the previous step", () => {
-
-	} );
-
-	it( "does not render the next button when on the last step", () => {
-
-	} );
-
-	it( "renders the step correctly", () => {
-
-	} );
-
-	it( "saves the current step, when moving to another step", () => {
-
-	} );
-
-	it( "does not go to another step, when saving the current progress fails", () => {
-
-	} );
-
-	it( "does not go to the next step, when saving the progress fails", () => {
-
-	} );
 } );

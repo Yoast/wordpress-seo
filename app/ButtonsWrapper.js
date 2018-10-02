@@ -68,13 +68,13 @@ export default class ButtonsList extends React.Component {
 	render() {
 		return (
 			<ButtonsContainer>
-				<BaseButton>BaseButton</BaseButton>{ ' ' }
-				<Button>Button</Button>{ ' ' }
-				<IconButton icon="edit">IconButton</IconButton>{ ' ' }
-				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ ' ' }
+				<BaseButton>BaseButton</BaseButton>{ " " }
+				<Button>Button</Button>{ " " }
+				<IconButton icon="edit">IconButton</IconButton>{ " " }
+				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ " " }
 				<IconsButton prefixIcon={ { icon: "search" } } suffixIcon={ { icon: "plus" } }>IconsButton</IconsButton>
 				<Separator />
-				<BaseLinkButton href="#someresource">BaseLinkButton</BaseLinkButton>{ ' ' }
+				<BaseLinkButton href="#someresource">BaseLinkButton</BaseLinkButton>{ " " }
 				<LinkButton href="#someresource">LinkButton</LinkButton>
 				<Separator />
 				<IconButtonToggle
@@ -115,31 +115,40 @@ export default class ButtonsList extends React.Component {
 				</IconLabelledButton>
 				<IconLabelledButton	icon="plus" textFontSize="13px">Custom Font Size</IconLabelledButton>
 				<Separator />
-				<FormButton text="FormButton" onClick={ () => {
-					console.log( "hello FormButton clicked" );
-				} } />
+				<FormButton
+					text="FormButton" onClick={ () => {
+						// eslint-disable-next-line no-console
+						console.info( "hello FormButton clicked" );
+					} }
+				/>
 				<Separator />
 				<h2>Special cases</h2>
-				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ ' ' }
-				<IconButton icon="edit" iconColor="#c00" className="with-max-width">With max-width and long text</IconButton>{ ' ' }
-				<YoastButton backgroundColor="lightblue" textColor="#333" withTextShadow={ false }>Color</YoastButton>{ ' ' }
-				<YoastButton className="test-large-button">Min width</YoastButton>{ ' ' }
+				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ " " }
+				<IconButton icon="edit" iconColor="#c00" className="with-max-width">With max-width and long text</IconButton>{ " " }
+				<YoastButton backgroundColor="lightblue" textColor="#333" withTextShadow={ false }>Color</YoastButton>{ " " }
+				<YoastButton className="test-large-button">Min width</YoastButton>{ " " }
 
 				<h2>Test min-height bugs</h2>
-				<p>Increase the `settings.minHeight` value in the components to check the Safari and IE11 bugs,
-					see <a href="https://github.com/Yoast/yoast-components/pull/262">https://github.com/Yoast/yoast-components/pull/262</a> and <a href="https://github.com/Yoast/yoast-components/pull/284">https://github.com/Yoast/yoast-components/pull/284</a>
+				<p>
+					Increase the `settings.minHeight` value in the components to check the Safari and IE11 bugs,
+					see
+					<a href="https://github.com/Yoast/yoast-components/pull/262">https://github.com/Yoast/yoast-components/pull/262</a>
+					and
+					<a href="https://github.com/Yoast/yoast-components/pull/284">https://github.com/Yoast/yoast-components/pull/284</a>
 				</p>
 				<h3>Buttons</h3>
-				<BaseButton>Base</BaseButton>{ ' ' }
-				<Button>Button</Button>{ ' ' }
-				<YoastButton backgroundColor="lightblue" textColor="#333" withTextShadow={ false }>Color</YoastButton>{ ' ' }
-				<YoastButton className="test-large-button">Min width</YoastButton>{ ' ' }
-				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ ' ' }
-				<IconButton icon="edit" iconColor="#c00" className="with-max-width">With max-width and long text</IconButton>{ ' ' }
+				<BaseButton>Base</BaseButton>{ " " }
+				<Button>Button</Button>{ " " }
+				<YoastButton backgroundColor="lightblue" textColor="#333" withTextShadow={ false }>Color</YoastButton>{ " " }
+				<YoastButton className="test-large-button">Min width</YoastButton>{ " " }
+				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ " " }
+				<IconButton icon="edit" iconColor="#c00" className="with-max-width">With max-width and long text</IconButton>{ " " }
 				<h3>Links</h3>
-				<BaseLinkButton href="#somewhere1">Base</BaseLinkButton>{ ' ' }
-				<LinkButton href="#somewhere2">Button</LinkButton>{ ' ' }
-				<YoastLinkButton href="#somewhere4" backgroundColor="lightblue" textColor="#333" withTextShadow={ false }>Color</YoastLinkButton>{ ' ' }
+				<BaseLinkButton href="#somewhere1">Base</BaseLinkButton>{ " " }
+				<LinkButton href="#somewhere2">Button</LinkButton>{ " " }
+				<YoastLinkButton href="#somewhere4" backgroundColor="lightblue" textColor="#333" withTextShadow={ false }>
+					Color
+				</YoastLinkButton>{ " " }
 				<YoastLinkButton className="test-large-button" href="#somewhere3">Min width</YoastLinkButton>
 			</ButtonsContainer>
 		);

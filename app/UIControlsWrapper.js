@@ -82,6 +82,7 @@ export default class UIControlsList extends React.Component {
 						>cornerstone content</a>,
 						", for example.",
 					] }
+					// eslint-disable-next-line no-console
 					onChange={ event => console.log( event ) }
 				/>
 				<Separator />
@@ -97,7 +98,9 @@ export default class UIControlsList extends React.Component {
 					id="disabled-toggle"
 					labelText="Disabled Toggle"
 					isEnabled={ false }
+					// eslint-disable-next-line no-console
 					onSetToggleState={ () => console.log( "onSetToggleState callback" ) }
+					// eslint-disable-next-line no-console
 					onToggleDisabled={ () => console.log( "onToggleDisabled callback" ) }
 					disable={ true }
 				/>
