@@ -71,8 +71,8 @@ class Primary_Term implements Integration {
 	 */
 	protected function save_primary_term( $post_id, $taxonomy ) {
 		// This request must be valid.
-		$term_id = filter_input( INPUT_POST, \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', FILTER_SANITIZE_NUMBER_INT );
-		if ( $term_id && ! check_admin_referer( 'save-primary-term', \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' ) ) {
+		$term_id = $this->get_posted_term_id( $taxonomy );
+		if ( $term_id && $this->is_referer_valid( $taxonomy ) ) {
 			return;
 		}
 
@@ -85,8 +85,8 @@ class Primary_Term implements Integration {
 
 				return;
 			}
-
-		} catch ( No_Indexable_Found $exception ) {
+		}
+		catch ( No_Indexable_Found $exception ) {
 			return;
 		}
 
@@ -161,6 +161,8 @@ class Primary_Term implements Integration {
 	/**
 	 * Retrieves an indexable for a primary taxonomy.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param int    $post_id     The post the indexable is based upon.
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
@@ -189,4 +191,31 @@ class Primary_Term implements Integration {
 	protected function get_current_id() {
 		return get_the_ID();
 	}
+
+	/**
+	 * Retrieves the posted term id based on the given taxonomy.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $taxonomy The taxonomy to check.
+	 *
+	 * @return int The term id.
+	 */
+	protected function get_posted_term_id( $taxonomy ) {
+		return filter_input( INPUT_POST, \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', FILTER_SANITIZE_NUMBER_INT );
+	}
+
+	/**
+	 * Checks if the referer is valid for given taxonomy.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $taxonomy The taxonomy to validate.
+	 *
+	 * @return bool Whether the referer is valid.
+	 */
+	protected function is_referer_valid( $taxonomy ) {
+		return ! check_admin_referer( 'save-primary-term', \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' );
+	}
+
 }
