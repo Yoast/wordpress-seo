@@ -133,7 +133,7 @@ class Indexable extends Yoast_Model {
 
 		if ( $saved ) {
 			Logger::get_logger()->debug(
-				__( 'Indexable saved', 'wordpress-seo' ),
+				__( 'Indexable saved.', 'wordpress-seo' ),
 				get_object_vars( $this )
 			);
 
@@ -154,6 +154,11 @@ class Indexable extends Yoast_Model {
 		$deleted = parent::delete();
 
 		if ( $deleted ) {
+			Logger::get_logger()->debug(
+				__( 'Indexable deleted.', 'wordpress-seo' ),
+				get_object_vars( $this )
+			);
+
 			do_action( 'wpseo_indexable_deleted', $this );
 		}
 

@@ -83,11 +83,29 @@ class Indexable_Meta extends Yoast_Model {
 
 		if ( $saved ) {
 			Logger::get_logger()->debug(
-				__( 'Indexable meta saved', 'wordpress-seo' ),
+				__( 'Indexable meta saved.', 'wordpress-seo' ),
 				get_object_vars( $this )
 			);
 		}
 
 		return $saved;
+	}
+
+	/**
+	 * Enhances the delete method.
+	 *
+	 * @return boolean True on succes.
+	 */
+	public function delete() {
+		$deleted = parent::delete();
+
+		if ( $deleted ) {
+			Logger::get_logger()->debug(
+				__( 'Indexable meta deleted.', 'wordpress-seo' ),
+				get_object_vars( $this )
+			);
+		}
+
+		return $deleted;
 	}
 }
