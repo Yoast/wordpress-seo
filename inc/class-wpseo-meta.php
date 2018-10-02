@@ -274,12 +274,10 @@ class WPSEO_Meta {
 
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
+				
 				register_meta( 'post', self::$meta_prefix . $key, array(
 					'sanitize_callback' => array( __CLASS__, 'sanitize_post_meta' ),
 				) );
-				else {
-					add_filter( 'sanitize_post_meta_' . self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ), 10, 2 );
-				}
 
 				// Set the $fields_index property for efficiency.
 				self::$fields_index[ self::$meta_prefix . $key ] = array(
