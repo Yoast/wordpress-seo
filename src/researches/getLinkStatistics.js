@@ -63,6 +63,40 @@ const filterAnchorsContainingTopic = function( anchors, topicForms, locale ) {
 	return anchors;
 };
 
+/**
+ * Filters anchors that are contained within keyphrase or synonyms.
+ * @param {Array} anchors An array with all anchors from the paper.
+ * @param {Array} keyphraseAndSynonyms An array with keyphrase and its synonyms.
+ * @param {string} locale The locale of the paper.
+ * @param {Researcher} researcher The morphological researcher.
+ *
+ * @returns {Array} The array of all anchors that contain keyphrase or synonyms.
+ */
+const filterAnchorsContainedInTopic = function( anchors, keyphraseAndSynonyms, locale, researcher ) {
+	let anchorsContainedInTopic = [];
+
+	anchors.forEach( function( currentAnchor ) {
+		// Create a fake paper to be able to generate the forms of the content words from within the anchor.
+		const fakePaper = new Paper( "", { keyword: currentAnchor } );
+		researcher.setPaper( fakePaper );
+		const linkTextForms = researcher.getResearch( "morphology" );
+
+		for ( let j = 0; j < keyphraseAndSynonyms.length; j++ ) {
+			const topic = keyphraseAndSynonyms[ j ];
+			if ( findTopicFormsInString( linkTextForms, topic, false, locale ).percentWordMatches === 100 ) {
+				anchorsContainedInTopic.push( true );
+				break;
+			}
+		}
+	} );
+
+	anchors = anchors.filter( function( anchor, index ) {
+		return anchorsContainedInTopic[ index ] === true;
+	} );
+
+	return anchors;
+};
+
 
 /**
  * Checks whether or not an anchor contains the passed keyword.
@@ -103,24 +137,9 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
 	const keyphraseAndSynonyms = flatten( [].concat( keyword, parseSynonyms( synonyms ) ) );
 
 
-	for ( let i = 0; i < anchors.length; i++ ) {
-		const currentAnchor = anchors[ i ];
-
-		// Create a fake paper to be able to generate the forms of the content words from within the anchor.
-		const fakePaper = new Paper( "", { keyword: currentAnchor } );
-		researcher.setPaper( fakePaper );
-		const linkTextForms = researcher.getResearch( "morphology" );
-
-
-		for ( let j = 0; j < keyphraseAndSynonyms.length; j++ ) {
-			const topic = keyphraseAndSynonyms[ j ];
-			if ( findTopicFormsInString( linkTextForms, topic, false, locale ).percentWordMatches === 100 ) {
-				result.totalKeyword++;
-				result.matchedAnchors.push( currentAnchor );
-				break;
-			}
-		}
-	}
+	anchors = filterAnchorsContainedInTopic( anchors, keyphraseAndSynonyms, locale, researcher );
+	result.totalKeyword = anchors.length;
+	result.matchedAnchors = anchors;
 
 	return result;
 };
