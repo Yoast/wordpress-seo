@@ -57,12 +57,13 @@ const YoastSEO = {
 
 import CornerstoneContentAssessor from "../cornerstone/contentAssessor";
 import CornerstoneSEOAssessor from "../cornerstone/seoAssessor";
-import CornerstoneSecondaryKeywordAssessor from "../cornerstone/relatedKeywordAssessor";
+import CornerstoneRelatedKeywordAssessor from "../cornerstone/relatedKeywordAssessor";
 import InvalidTypeError from "../errors/invalidType";
 
 // Internal dependencies.
 import Scheduler from "./scheduler";
 import Transporter from "./transporter";
+import RelatedKeywordTaxonomyAssessor from "../relatedKeywordTaxonomyAssessor";
 
 const largestKeywordDistanceAssessment = new assessments.seo.LargestKeywordDistanceAssessment();
 
@@ -104,6 +105,7 @@ export default class AnalysisWebWorker {
 
 		this._contentAssessor = null;
 		this._seoAssessor = null;
+		this._relatedKeywordAssessor = null;
 
 		/*
 		 * The cached analyses results.
@@ -342,6 +344,37 @@ export default class AnalysisWebWorker {
 		return assessor;
 	}
 
+	createRelatedKeywordsAssessor() {
+		const {
+			keywordAnalysisActive,
+			useCornerstone,
+			useTaxonomy,
+			locale,
+		} = this._configuration;
+
+		if ( keywordAnalysisActive === false ) {
+			return null;
+		}
+
+		let assessor;
+
+		if ( useTaxonomy === true ) {
+			assessor = new RelatedKeywordTaxonomyAssessor( this._i18n );
+		} else {
+			assessor = useCornerstone === true
+				? new CornerstoneRelatedKeywordAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
+				: new RelatedKeywordAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
+		}
+
+		this._registeredAssessments.forEach( ( { name, assessment } ) => {
+			if ( isUndefined( assessor.getAssessment( name ) ) ) {
+				assessor.addAssessment( name, assessment );
+			}
+		} );
+
+		return assessor;
+	}
+
 	/**
 	 * Sends a message.
 	 *
@@ -424,6 +457,7 @@ export default class AnalysisWebWorker {
 		}
 		if ( update.seo ) {
 			this._seoAssessor = this.createSEOAssessor();
+			this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
 		}
 
 		// Reset the paper in order to not use the cached results on analyze.
@@ -644,11 +678,12 @@ export default class AnalysisWebWorker {
 					keyword: this._relatedKeywords[ key ].keyword,
 					synonyms: this._relatedKeywords[ key ].synonyms,
 				} );
-				this._seoAssessor.assess( relatedPaper );
+				// TODO: Use related keyword (cornerstone) assessor here?
+				this._relatedKeywordAssessor.assess( relatedPaper );
 
 				this._results.seo[ key ] = {
-					results: this._seoAssessor.results,
-					score: this._seoAssessor.calculateOverallScore(),
+					results: this._relatedKeywordAssessor.results,
+					score: this._relatedKeywordAssessor.calculateOverallScore(),
 				};
 			} );
 
