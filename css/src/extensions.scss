@@ -57,7 +57,6 @@
 	}
 
 	&-button {
-
 		&--extension {
 			color: $color-white;
 			text-transform: uppercase;
@@ -69,6 +68,7 @@
 			}
 
 			&-buy {
+				font-size: 16px;
 				color: $color-black;
 				border-radius: 4px;
 				background-color: $color-upsell-button;
@@ -76,7 +76,6 @@
 				filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
 				min-height: 48px;
 				text-transform: initial;
-				font-size: 16px;
 				padding-left: 1em;
 				padding-right: 1em;
 
@@ -140,6 +139,9 @@
 			margin-left: $gutter;
 			margin-bottom: $gutter;
 		}
+		.yoast-button.yoast-button--extension-buy {
+			font-size: 16px;
+		}
 	}
 
 	&-promo-extension {
@@ -176,7 +178,6 @@
 				}
 			}
 		}
-
 
 		.yoast-button {
 			width: 100%;
