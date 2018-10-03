@@ -5,14 +5,14 @@
  * @package Yoast\YoastSEO
  */
 
-namespace Yoast\YoastSEO;
+namespace Yoast\YoastSEO\Loggers;
 
 use YoastSEO_Vendor\Ruckusing_Util_Logger;
 
 /**
  * Logger to make sure the output is not written into a file.
  */
-class Migration_Null_Logger extends Ruckusing_Util_Logger {
+class Migration_Logger extends Ruckusing_Util_Logger {
 	/**
 	 * Creates an instance of Ruckusing_Util_Logger
 	 *
@@ -32,6 +32,7 @@ class Migration_Null_Logger extends Ruckusing_Util_Logger {
 	 * @return void
 	 */
 	public function log( $msg ) {
+		Logger::get_logger()->info( $msg );
 	}
 
 	/**
