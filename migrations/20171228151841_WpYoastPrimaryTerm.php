@@ -22,7 +22,7 @@ class WpYoastPrimaryTerm extends Ruckusing_Migration_Base {
 
 		$indexable_table->column( 'post_id', 'integer', array( 'unsigned' => true, 'null' => false, 'limit' => 11 ) );
 		$indexable_table->column( 'term_id', 'integer', array( 'unsigned' => true, 'null' => false, 'limit' => 11 ) );
-		$indexable_table->column( 'taxonomy', 'string', array( 'null' => false, 'limit' => 255 ) );
+		$indexable_table->column( 'taxonomy', 'string', array( 'null' => false, 'limit' => 191 ) );
 
 		// Exexcute the SQL to create the table.
 		$indexable_table->finish();

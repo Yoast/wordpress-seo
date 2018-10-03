@@ -20,7 +20,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 
 		$indexable_table = $this->create_table( $table_name );
 
-		$indexable_table->column( 'permalink', 'string', array( 'null' => true, 'limit' => 255 ) );
+		$indexable_table->column( 'permalink', 'string', array( 'null' => true, 'limit' => 191 ) );
 
 		$indexable_table->column( 'object_id', 'integer', array( 'unsigned' => true, 'null' => true, 'limit' => 11 ) );
 		$indexable_table->column( 'object_type', 'string', array( 'limit' => 16 ) );
@@ -32,11 +32,11 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 			'limit'    => 11,
 		) );
 
-		$indexable_table->column( 'canonical', 'string', array( 'null' => true, 'limit' => 255 ) );
+		$indexable_table->column( 'canonical', 'string', array( 'null' => true, 'limit' => 191 ) );
 
-		$indexable_table->column( 'title', 'string', array( 'null' => true, 'limit' => 255 ) );
+		$indexable_table->column( 'title', 'string', array( 'null' => true, 'limit' => 191 ) );
 		$indexable_table->column( 'description', 'text', array( 'null' => true ) );
-		$indexable_table->column( 'breadcrumb_title', 'string', array( 'null' => true, 'limit' => 255 ) );
+		$indexable_table->column( 'breadcrumb_title', 'string', array( 'null' => true, 'limit' => 191 ) );
 
 		$indexable_table->column( 'is_robots_noindex', 'boolean', array( 'null' => true, 'default' => false ) );
 		$indexable_table->column( 'is_robots_nofollow', 'boolean', array( 'null' => true, 'default' => false ) );
@@ -44,7 +44,8 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'is_robots_noimageindex', 'boolean', array( 'null' => true, 'default' => false ) );
 		$indexable_table->column( 'is_robots_nosnippet', 'boolean', array( 'null' => true, 'default' => false ) );
 
-		$indexable_table->column( 'primary_focus_keyword', 'string', array( 'null' => true, 'limit' => 255 ) );
+		$indexable_table->column( 'primary_focus_keyword', 'string', array( 'null' => true, 'limit' => 191 ) );
+		$indexable_table->column( 'primary_focus_keyword', 'string', array( 'null' => true, 'limit' => 191 ) );
 		$indexable_table->column( 'primary_focus_keyword_score', 'integer', array( 'null' => true, 'limit' => 3 ) );
 
 		$indexable_table->column( 'readability_score', 'integer', array( 'null' => true, 'limit' => 3 ) );
