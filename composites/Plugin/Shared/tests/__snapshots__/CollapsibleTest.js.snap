@@ -86,6 +86,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c0 {
@@ -104,6 +105,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c2:focus {
@@ -273,6 +275,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c0 {
@@ -291,6 +294,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c2:focus {
@@ -472,6 +476,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c0 {
@@ -490,6 +495,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c2:focus {
@@ -659,6 +665,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c0 {
@@ -677,6 +684,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c2:focus {
@@ -858,6 +866,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c0 {
@@ -876,6 +885,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c2:focus {
@@ -1057,6 +1067,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c0 {
@@ -1075,6 +1086,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c2:focus {
@@ -1244,6 +1256,7 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c0 {
@@ -1262,6 +1275,7 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c2:focus {
@@ -1421,6 +1435,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c0 {
@@ -1439,6 +1454,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c2:focus {
@@ -1598,6 +1614,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c0 {
@@ -1616,6 +1633,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c2:focus {
@@ -1775,6 +1793,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  color: #555;
 }
 
 .c0 {
@@ -1793,6 +1812,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-weight: normal;
 }
 
 .c2:focus {
