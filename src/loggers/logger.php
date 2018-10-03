@@ -60,6 +60,9 @@ class Logger {
 	 * @param LoggerInterface|null $logger The logger to use.
 	 */
 	public static function set_logger( LoggerInterface $logger = null ) {
+		if ( ! $logger instanceof LoggerInterface ) {
+			$logger = new NullLogger();
+		}
 		self::$logger = $logger;
 	}
 }
