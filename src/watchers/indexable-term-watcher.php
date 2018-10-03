@@ -24,7 +24,7 @@ class Indexable_Term_Watcher implements Integration {
 	 */
 	public function register_hooks() {
 		\add_action( 'edited_term', array( $this, 'save_meta' ), PHP_INT_MAX, 3 );
-		\add_action( 'deleted_term', array( $this, 'delete_meta' ), PHP_INT_MAX, 3 );
+		\add_action( 'delete_term', array( $this, 'delete_meta' ), PHP_INT_MAX, 3 );
 	}
 
 	/**
