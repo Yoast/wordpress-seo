@@ -7,6 +7,7 @@ import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
 import filter from "lodash/filter";
 import includes from "lodash/includes";
+import get from "lodash/get";
 import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
 import { __, _n, sprintf } from "@wordpress/i18n";
@@ -355,6 +356,13 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.editor = editor;
 	}
 
+	setEditorFieldId() {
+		const editorContainer = get( this.editor, "editor.editorContainer" );
+		const editorField = editorContainer.querySelector( "div[contenteditable]" );
+
+		editorField.id = this.props.fieldId;
+	}
+
 	/**
 	 * Sets the mention reference on this component instance.
 	 *
@@ -481,6 +489,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		window.addEventListener( "scroll", this.debouncedUpdateMentionSuggestions );
 		document.addEventListener( "copy", this.handleCopyCutEvent );
 		document.addEventListener( "cut", this.handleCopyCutEvent );
+		this.setEditorFieldId();
 	}
 
 	/**
