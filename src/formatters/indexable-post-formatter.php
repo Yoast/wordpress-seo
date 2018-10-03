@@ -49,7 +49,7 @@ class Indexable_Post_Formatter {
 			$this->get_meta_value( 'linkdex' )
 		);
 
-		$indexable->is_cornerstone    = ( $this->get_meta_value( 'is_cornerstone' ) === '1' ) ? 1 : 0;
+		$indexable->is_cornerstone    = ( $this->get_meta_value( 'is_cornerstone' ) === '1' );
 		$indexable->is_robots_noindex = $this->get_robots_noindex(
 			$this->get_meta_value( 'meta-robots-noindex' )
 		);
@@ -185,7 +185,12 @@ class Indexable_Post_Formatter {
 	 * @return mixed The value of the indexable entry to use.
 	 */
 	protected function get_meta_value( $meta_key ) {
-		return \WPSEO_Meta::get_value( $meta_key, $this->post_id );
+		$value = \WPSEO_Meta::get_value( $meta_key, $this->post_id );
+		if ( is_string( $value ) && $value === '' ) {
+			return null;
+		}
+
+		return $value;
 	}
 
 	/**

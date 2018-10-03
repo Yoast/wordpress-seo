@@ -40,7 +40,6 @@ class Indexable_Term_Formatter {
 		$this->taxonomy = $taxonomy;
 	}
 
-
 	/**
 	 * Formats the data.
 	 *
@@ -55,22 +54,22 @@ class Indexable_Term_Formatter {
 		$indexable->object_sub_type = $this->taxonomy;
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
-			$term_meta['wpseo_focuskw'],
-			$term_meta['wpseo_linkdex']
+			$this->get_meta_value( 'wpseo_focuskw', $term_meta ),
+			$this->get_meta_value( 'wpseo_linkdex', $term_meta )
 		);
 
-		$indexable->is_robots_noindex = $this->get_noindex_value( $term_meta['wpseo_noindex'] );
+		$indexable->is_robots_noindex = $this->get_noindex_value( $this->get_meta_value( 'wpseo_noindex', $term_meta ) );
 
 		foreach ( $this->get_indexable_lookup() as $meta_key => $indexable_key ) {
-			$indexable->{ $indexable_key } = $term_meta[ $meta_key ];
+			$indexable->{ $indexable_key } = $this->get_meta_value( $meta_key, $term_meta );
 		}
 
 		foreach ( $this->get_indexable_meta_lookup() as $meta_key => $indexable_key ) {
-			$indexable->set_meta( $indexable_key, $term_meta[ $meta_key ] );
+			$indexable->set_meta( $indexable_key, $this->get_meta_value( $meta_key, $term_meta ) );
 		}
 
 		// Not implemented yet.
-		$indexable->is_cornerstone         = 0;
+		$indexable->is_cornerstone         = false;
 		$indexable->is_robots_nofollow     = null;
 		$indexable->is_robots_noarchive    = null;
 		$indexable->is_robots_noimageindex = null;
@@ -146,7 +145,26 @@ class Indexable_Term_Formatter {
 		);
 	}
 
+	/**
+	 * Retrieves a meta value from the given meta data.
+	 *
+	 * @param string $meta_key  The key to extract.
+	 * @param array  $term_meta The meta data.
+	 *
+	 * @return null|string The meta value.
+	 */
+	protected function get_meta_value( $meta_key, $term_meta ) {
+		if ( ! array_key_exists( $meta_key, $term_meta ) ) {
+			return null;
+		}
 
+		$value = $term_meta[ $meta_key ];
+		if ( is_string( $value ) && $value === '' ) {
+			return null;
+		}
+
+		return $value;
+	}
 
 	/**
 	 * Retrieves the meta data for a term.

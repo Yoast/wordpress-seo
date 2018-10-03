@@ -45,6 +45,7 @@ class Indexable_Author_Formatter {
 		$indexable->permalink              = $this->get_permalink();
 		$indexable->title                  = $meta_data['wpseo_title'];
 		$indexable->description            = $meta_data['wpseo_metadesc'];
+		$indexable->is_cornerstone         = false;
 		$indexable->is_robots_noindex      = $this->get_noindex_value( $meta_data['wpseo_noindex_author'] );
 		$indexable->is_robots_nofollow     = null;
 		$indexable->is_robots_noarchive    = null;
@@ -95,7 +96,12 @@ class Indexable_Author_Formatter {
 	 * @return string The value of the meta field.
 	 */
 	protected function get_author_meta( $key ) {
-		return \get_the_author_meta( $key, $this->user_id );
+		$value = \get_the_author_meta( $key, $this->user_id );
+		if ( is_string( $value ) && $value === '' ) {
+			return null;
+		}
+
+		return $value;
 	}
 	/**
 	 * Retrieves the permalink of a user.
