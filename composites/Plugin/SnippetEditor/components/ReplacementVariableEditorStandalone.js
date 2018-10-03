@@ -345,6 +345,13 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	setEditorRef( editor ) {
+
+		try {
+			editor.editor.editorContainer.firstChild.id = this.props.fieldId;
+		} catch ( error ) {
+			console.trace( error );
+		}
+
 		this.editor = editor;
 	}
 
@@ -501,6 +508,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		return (
 			<React.Fragment>
 				<Editor
+					id={ this.props.fieldId }
 					textDirectionality={ theme.isRtl ? "RTL" : "LTR" }
 					editorState={ editorState }
 					onChange={ this.onChange }
@@ -534,6 +542,7 @@ ReplacementVariableEditorStandalone.propTypes = {
 	onBlur: PropTypes.func,
 	theme: PropTypes.object,
 	placeholder: PropTypes.string,
+	fieldId: PropTypes.string,
 };
 
 ReplacementVariableEditorStandalone.defaultProps = {

@@ -99,6 +99,7 @@ class ReplacementVariableEditor extends React.Component {
 					id={ fieldId }
 				>
 					<ReplacementVariableEditorStandalone
+						fieldId={ `${ fieldId }-field` }
 						placeholder={ placeholder }
 						content={ content }
 						onChange={ onChange }
