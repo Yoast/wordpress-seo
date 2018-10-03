@@ -29,7 +29,6 @@ class WPSEO_Statistics_Service {
 	 */
 	public function __construct( WPSEO_Statistics $statistics ) {
 		$this->statistics = $statistics;
-		$this->labels     = $this->labels();
 	}
 
 	/**
@@ -38,7 +37,12 @@ class WPSEO_Statistics_Service {
 	 * @return WP_REST_Response The response object.
 	 */
 	public function get_statistics() {
-		$statistics = $this->statistic_items();
+		// Switch to the user locale with fallback to the site locale.
+		if ( function_exists( 'switch_to_locale' ) ) {
+			switch_to_locale( WPSEO_Utils::get_user_locale() );
+		}
+		$this->labels = $this->labels();
+		$statistics   = $this->statistic_items();
 
 		$data = array(
 			'header'     => $this->get_header_from_statistics( $statistics ),
