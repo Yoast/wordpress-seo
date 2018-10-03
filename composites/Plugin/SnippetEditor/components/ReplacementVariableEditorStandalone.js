@@ -346,7 +346,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	setEditorRef( editor ) {
-
 		try {
 			editor.editor.editorContainer.firstChild.id = this.props.fieldId;
 		} catch ( error ) {
