@@ -52,8 +52,7 @@ export function addButtonStyles( component ) {
 		&:hover,
 		&:focus,
 		&:active {
-			color: ${ colors.$color_black };
-			background: ${ colors.$color_button_hover_upsell }
+			background: ${ colors.$color_button_upsell_hover };
 		}
 
 		&:active {

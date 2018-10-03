@@ -88,7 +88,7 @@ export default class ButtonsList extends React.Component {
 				/> (IconButtonToggle: needs a tooltip to make its aria-label visible)
 				<Separator />
 				<YoastButton>YoastButton</YoastButton>{ ' ' }
-				<UpsellButton>Upsell Button</UpsellButton>
+				<UpsellButton>upsell Button</UpsellButton>
 
 				<Separator />
 				<IconLabelledButton icon="question-circle">Need help?</IconLabelledButton>
