@@ -49,7 +49,7 @@ class Indexable_Post_Formatter {
 			$this->get_meta_value( 'linkdex' )
 		);
 
-		$indexable->is_cornerstone    = ( $this->get_meta_value( 'is_cornerstone' ) ) ? 1 : 0;
+		$indexable->is_cornerstone    = ( $this->get_meta_value( 'is_cornerstone' ) === '1' ) ? 1 : 0;
 		$indexable->is_robots_noindex = $this->get_robots_noindex(
 			$this->get_meta_value( 'meta-robots-noindex' )
 		);
