@@ -16,6 +16,8 @@ use Yoast\YoastSEO\Yoast_Model;
  * @property int    $indexable_id
  * @property string $meta_key
  * @property string $meta_value
+ * @property string $created_at
+ * @property string $updated_at
  */
 class Indexable_Meta extends Yoast_Model {
 
@@ -79,6 +81,14 @@ class Indexable_Meta extends Yoast_Model {
 	 * @return boolean True on succes.
 	 */
 	public function save() {
+		if ( ! $this->created_at ) {
+			$this->created_at = gmdate( 'Y-m-d H:i:s' );
+		}
+
+		if ( $this->updated_at ) {
+			$this->updated_at = gmdate( 'Y-m-d H:i:s' );
+		}
+
 		$saved = parent::save();
 
 		if ( $saved ) {

@@ -16,6 +16,9 @@ use Yoast\YoastSEO\Yoast_Model;
  * @property int    $post_id  Post ID.
  * @property int    $term_id  Term ID.
  * @property string $taxonomy Taxonomy.
+ *
+ * @property string  $created_at
+ * @property string  $updated_at
  */
 class Primary_Term extends Yoast_Model {
 
@@ -41,4 +44,23 @@ class Primary_Term extends Yoast_Model {
 
 		return $indexable;
 	}
+
+	/**
+	 * Enhances the save method.
+	 *
+	 * @return boolean True on succes.
+	 */
+	public function save() {
+
+		if ( ! $this->created_at ) {
+			$this->created_at = gmdate( 'Y-m-d H:i:s' );
+		}
+
+		if ( $this->updated_at ) {
+			$this->updated_at = gmdate( 'Y-m-d H:i:s' );
+		}
+
+		return parent::save();
+	}
+
 }

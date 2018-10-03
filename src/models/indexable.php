@@ -129,6 +129,14 @@ class Indexable extends Yoast_Model {
 	 * @return boolean True on succes.
 	 */
 	public function save() {
+		if ( ! $this->created_at ) {
+			$this->created_at = gmdate( 'Y-m-d H:i:s' );
+		}
+
+		if ( $this->updated_at ) {
+			$this->updated_at = gmdate( 'Y-m-d H:i:s' );
+		}
+
 		$saved = parent::save();
 
 		if ( $saved ) {
