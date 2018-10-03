@@ -69,12 +69,35 @@
 			}
 
 			&-buy {
-				&, &:hover {
-					background-color: $color-pink-dark;
-				}
+				color: $color-black;
+				border-radius: 4px;
+				background-color: $color-upsell-button;
+				box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2);
+				filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+				min-height: 48px;
+				text-transform: initial;
+				font-size: 16px;
+				padding-left: 1em;
+				padding-right: 1em;
 
-				&:visited {
-					color: $color-white;
+				&:hover,
+				&:focus,
+				&:active {
+					color: $color-black;
+					background: $color-upsell-button-hover;
+					text-decoration: none;
+				}
+				&:active {
+					transform: translateY( 1px );
+					box-shadow: none;
+				}
+				// Only needed for IE 10+. Don't add spaces within brackets for this to work.
+				@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+					::after {
+						display: inline-block;
+						content: "";
+						min-height: 32px;
+					}
 				}
 			}
 
