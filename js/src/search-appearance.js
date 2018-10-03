@@ -52,7 +52,7 @@ function configureStore() {
 const editorElements = document.querySelectorAll( "[data-react-replacevar-editor]" );
 const singleFieldElements = document.querySelectorAll( "[data-react-replacevar-field]" );
 
-if( editorElements.length ) {
+if ( editorElements.length ) {
 	const element = document.createElement( "div" );
 	document.body.appendChild( element );
 
