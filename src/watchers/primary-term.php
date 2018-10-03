@@ -89,8 +89,8 @@ class Primary_Term implements Integration {
 				try {
 					$primary_term->delete();
 				}
-				catch( \Exception $exception ) {
-					Logger::get_logger()->notice(  $exception->getMessage() );
+				catch ( \Exception $exception ) {
+					Logger::get_logger()->notice( $exception->getMessage() );
 				}
 
 				return;
