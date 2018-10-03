@@ -19,7 +19,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 
 ?>
 <h2><?php esc_html_e( 'Features', 'wordpress-seo' ); ?></h2>
-<div style="max-width:600px">
+<div class="yoast-measure">
 	<?php
 	echo sprintf(
 		/* translators: %1$s expands to Yoast SEO */
@@ -54,7 +54,8 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 				'on'  => __( 'On', 'wordpress-seo' ),
 				'off' => __( 'Off', 'wordpress-seo' ),
 			),
-			'<strong>' . $feature->name . $feature_help->get_button_html() . '</strong>' . $feature_help->get_panel_html()
+			'<strong>' . $feature->name . '</strong>',
+			$feature_help->get_button_html() . $feature_help->get_panel_html()
 		);
 	}
 	?>
