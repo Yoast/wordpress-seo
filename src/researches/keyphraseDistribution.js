@@ -1,5 +1,6 @@
 import getSentences from "../stringProcessing/getSentences";
 import { findWordFormsInString } from "./findKeywordFormsInString";
+import { findTopicFormsInString } from "./findKeywordFormsInString";
 import { max } from "lodash-es";
 import { round } from "lodash-es";
 import { sum } from "lodash-es";
@@ -119,6 +120,7 @@ const maximizeSentenceScores = function( sentenceScores ) {
 
 
 /**
+ * Computes the per-window scores based on a step function.
  * Start with the first third of the text (based on the total number of sentences) and calculate an average score
  * over all sentences in this set. Move down by one sentence, calculate an average score again.
  * Continue until the end of the text is reached.
@@ -137,6 +139,31 @@ const step = function( maximizedSentenceScores, stepSize ) {
 	for ( let i = 0; i < numberOfSteps; i++ ) {
 		toAnalyze = maximizedSentenceScores.slice( i, stepSize + i );
 		result.push( sum( toAnalyze ) / stepSize );
+	}
+	return result;
+};
+
+/**
+ * Computes the punishment for not using all content words within the window. Windows are determined in the same way as
+ * in the step function
+ *
+ * @param {Array} sentences The sentences to analyze.
+ * @param {Object} topicForms The topicForms of the paper.
+ * @param {string} locale The locale of the paper.
+ * @param {number} stepSize The number of sentences that should be in every step to average over.
+ *
+ * @returns {Array} The scores per portion of text.
+ */
+const getPortionPunishment = function( sentences, topicForms, locale, stepSize ) {
+	const numberOfSteps = sentences.length - stepSize + 1;
+
+	let result = [];
+
+	for ( let i = 0; i < numberOfSteps; i++ ) {
+		const windowText = sentences.slice( i, stepSize + i ).join( " " );
+		const topicInWindow = findTopicFormsInString( topicForms, windowText, true, locale );
+
+		result.push( topicInWindow.percentWordMatches <= 50 ? 0.5 : 0 );
 	}
 	return result;
 };
@@ -206,11 +233,15 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const sentenceScores = getSentenceScores( sentences, topicFormsInOneArray, locale );
 
 	// Apply step function: to begin with take a third of the text or at least 3 sentences.
-	const textPortionScores = step( sentenceScores.maximizedSentenceScores, max( [ round( sentences.length / 10 ), 3 ] ) );
+	const stepSize = max( [ round( sentences.length / 10 ), 3 ] );
+	let textPortionScores = step( sentenceScores.maximizedSentenceScores, stepSize );
+
+	// Check if any windows do not have all topic words matched, assign a punishment if so.
+	const punishment = getPortionPunishment( sentences, topicForms, locale, stepSize );
 
 	return {
-		// Return Gini coefficient of per-portion scores.
-		keyphraseDistributionScore: gini( textPortionScores ),
+		// Return Gini coefficient of per-portion scores, increase it by eventual punishment for not using all topic words equally.
+		keyphraseDistributionScore: gini( textPortionScores ) + sum( punishment ) / punishment.length,
 
 		/*
 	     * Sentences that have a maximized score of 3 are used for marking because these do not contain any topic forms.

@@ -31,7 +31,7 @@ const paper = new Paper( "<div class=\"content content__first\">\n" +
 	titleWidth: 450,
 	locale: "en_EN",
 	url: "https://yoast.com/social-media-strategy-where-to-begin/",
-	synonyms: "social media SEO strategy",
+	synonyms: "social media SEO strategy, Facebook strategy",
 } );
 
 const expectedResults = {
