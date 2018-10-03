@@ -83,7 +83,11 @@ class Indexable_Meta extends Yoast_Model {
 
 		if ( $saved ) {
 			Logger::get_logger()->debug(
-				__( 'Indexable meta saved.', 'wordpress-seo' ),
+				sprintf(
+					__( 'Indexable meta saved for indexable id %1$s with meta key %2$s', 'wordpress-seo' ),
+					$this->indexable_id,
+					$this->meta_key
+				),
 				get_object_vars( $this )
 			);
 		}
