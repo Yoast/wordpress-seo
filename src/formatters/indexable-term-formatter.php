@@ -70,8 +70,11 @@ class Indexable_Term_Formatter {
 		}
 
 		// Not implemented yet.
-		$indexable->is_cornerstone     = 0;
-		$indexable->is_robots_nofollow = 0;
+		$indexable->is_cornerstone         = 0;
+		$indexable->is_robots_nofollow     = null;
+		$indexable->is_robots_noarchive    = null;
+		$indexable->is_robots_noimageindex = null;
+		$indexable->is_robots_nosnippet    = null;
 
 		return $indexable;
 	}

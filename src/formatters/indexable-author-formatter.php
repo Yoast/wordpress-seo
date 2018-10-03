@@ -42,10 +42,14 @@ class Indexable_Author_Formatter {
 	public function format( $indexable ) {
 		$meta_data = $this->get_meta_data();
 
-		$indexable->permalink         = $this->get_permalink();
-		$indexable->title             = $meta_data['wpseo_title'];
-		$indexable->description       = $meta_data['wpseo_metadesc'];
-		$indexable->is_robots_noindex = $this->get_noindex_value( $meta_data['wpseo_noindex_author'] );
+		$indexable->permalink              = $this->get_permalink();
+		$indexable->title                  = $meta_data['wpseo_title'];
+		$indexable->description            = $meta_data['wpseo_metadesc'];
+		$indexable->is_robots_noindex      = $this->get_noindex_value( $meta_data['wpseo_noindex_author'] );
+		$indexable->is_robots_nofollow     = null;
+		$indexable->is_robots_noarchive    = null;
+		$indexable->is_robots_noimageindex = null;
+		$indexable->is_robots_nosnippet    = null;
 
 		return $indexable;
 	}
