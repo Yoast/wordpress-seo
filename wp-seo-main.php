@@ -342,7 +342,10 @@ function wpseo_init() {
 	$wpseo_content_images = new WPSEO_Content_Images();
 	$wpseo_content_images->register_hooks();
 
-	require_once WPSEO_PATH . 'src/loaders/indexable.php';
+	// When namespaces are not available, stop further execution.
+	if ( version_compare( PHP_VERSION, '5.3.0', '>=' ) ) {
+		require_once WPSEO_PATH . 'src/loaders/indexable.php';
+	}
 }
 
 /**
