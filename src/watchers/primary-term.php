@@ -210,7 +210,7 @@ class Primary_Term implements Integration {
 	 * @return bool Whether thet method is a post request.
 	 */
 	protected function is_post_request() {
-		return $_SERVER['REQUEST_METHOD'] === 'post';
+		return strtolower( $_SERVER['REQUEST_METHOD'] ) === 'post';
 	}
 
 	/**
