@@ -63,10 +63,6 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 1.5%. This is great!",
 	},
-	keywordStopWords: {
-		score: 0,
-		resultText: "",
-	},
 	metaDescriptionKeyword: {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33k' target='_blank'>Key phrase in meta description</a>: Focus key phrase or synonym appear in the meta description. Well done!",

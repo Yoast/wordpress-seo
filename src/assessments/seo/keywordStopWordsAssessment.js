@@ -10,6 +10,8 @@ const availableLanguages = [ "en" ];
  * @param {Jed} i18n The locale object.
  *
  * @returns {Object} The resulting score object.
+ *
+ * @deprecated
  */
 var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
 	if ( stopWordCount > 0 ) {
