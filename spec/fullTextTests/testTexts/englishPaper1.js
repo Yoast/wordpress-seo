@@ -63,10 +63,6 @@ const expectedResults = {
 		score: 9,
 		resultText: "The exact-match <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 1.3%, which is great; the focus keyword was found 9 times.",
 	},
-	keywordStopWords: {
-		score: 0,
-		resultText: "",
-	},
 	metaDescriptionKeyword: {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33k' target='_blank'>Key phrase in meta description</a>: Focus key phrase or synonym appear in the meta description. Well done!",

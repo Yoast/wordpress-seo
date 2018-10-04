@@ -8,7 +8,6 @@ import Researcher from "../../src/researcher";
 import IntroductionKeywordAssessment from "../../src/assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../../src/assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from  "../../src/assessments/seo/KeywordDensityAssessment";
-import keywordStopWordsAssessment from "../../src/assessments/seo/keywordStopWordsAssessment";
 import MetaDescriptionKeywordAssessment from "../../src/assessments/seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "../../src/assessments/seo/metaDescriptionLengthAssessment";
 import SubheadingsKeywordAssessment from "../../src/assessments/seo/subheadingsKeywordAssessment";
@@ -39,7 +38,6 @@ import findKeywordInFirstParagraph from "../../src/researches/findKeywordInFirst
 import keyphraseLength from "../../src/researches/keyphraseLength";
 import keywordCount from "../../src/researches/keywordCount";
 import getKeywordDensity from "../../src/researches/getKeywordDensity.js";
-import stopWordsInKeyword from "../../src/researches/stopWordsInKeyword";
 import metaDescriptionKeyword from "../../src/researches/metaDescriptionKeyword.js";
 import metaDescriptionLength from "../../src/researches/metaDescriptionLength.js";
 import matchKeywordInSubheadings from "../../src/researches/matchKeywordInSubheadings.js";
@@ -113,16 +111,6 @@ testPapers.forEach( function( testPaper ) {
 			);
 			expect( result.keywordDensity.getScore() ).toBe( expectedResults.keywordDensity.score );
 			expect( result.keywordDensity.getText() ).toBe( expectedResults.keywordDensity.resultText );
-		} );
-
-		it( "returns a score and the associated feedback text for the keywordStopWords assessment", function() {
-			result.keywordStopWords = keywordStopWordsAssessment.getResult(
-				paper,
-				factory.buildMockResearcher( stopWordsInKeyword( paper ) ),
-				i18n
-			);
-			expect( result.keywordStopWords.getScore() ).toBe( expectedResults.keywordStopWords.score );
-			expect( result.keywordStopWords.getText() ).toBe( expectedResults.keywordStopWords.resultText );
 		} );
 
 		it( "returns a score and the associated feedback text for the metaDescriptionKeyword assessment", function() {
