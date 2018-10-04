@@ -1,4 +1,4 @@
-/* global window process wp */
+/* global window process wp wpseoPrimaryCategoryL10n */
 /* External dependencies */
 import React from "react";
 import { Provider } from "react-redux";
@@ -21,7 +21,6 @@ import MetaboxPortal from "./components/MetaboxPortal";
 import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPriority";
 import * as selectors from "./redux/selectors";
 import * as actions from "./redux/actions";
-import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
 import PrimaryTaxonomyFilter from "./components/PrimaryTaxonomyFilter";
 
@@ -44,7 +43,7 @@ class Edit {
 	 */
 	constructor( args ) {
 		this._localizedData = this.getLocalizedData();
-		this._args =          args;
+		this._args          = args;
 
 		this._init();
 	}
@@ -66,18 +65,35 @@ class Edit {
 		this._store = this._registerStoreInGutenberg();
 
 		this._registerCategorySelectorFilter();
-
 		this._registerPlugin();
 
 		this._data = this._initializeData();
 
-		this._store.dispatch( setSettings( {
+		this._store.dispatch( actions.setSettings( {
 			snippetEditor: {
 				baseUrl: this._args.snippetEditorBaseUrl,
 				date: this._args.snippetEditorDate,
 				recommendedReplacementVariables: this._args.recommendedReplaceVars,
 			},
 		} ) );
+
+		if ( window.wpseoPrimaryCategoryL10n ) {
+			this._store.dispatch( actions.updateData( {
+				primaryTaxonomySlug: this._getPrimaryCategorySlug(),
+			} ) );
+		}
+	}
+
+	/**
+	 * Gets the primary category slug.
+	 *
+	 * @return {string} The slug.
+	 * @private
+	 */
+	_getPrimaryCategorySlug() {
+		const categoryData = wpseoPrimaryCategoryL10n.taxonomies.category;
+
+		return Object.values( categoryData.terms ).find( term => term.id === categoryData.primary ).slug;
 	}
 
 	/**

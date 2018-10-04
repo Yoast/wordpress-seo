@@ -220,18 +220,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function localize_post_scraper_script() {
 		$post      = $this->get_metabox_post();
-		$permalink = '';
-
-		if ( is_object( $post ) ) {
-			$permalink = get_sample_permalink( $post->ID );
-			$permalink = $permalink[0];
-		}
+		$permalink = get_option( 'siteurl' ) . get_option( 'permalink_structure' );
 
 		$post_formatter = new WPSEO_Metabox_Formatter(
 			new WPSEO_Post_Metabox_Formatter( $post, array(), $permalink )
 		);
 
-		$values     = $post_formatter->get_values();
+		$values = $post_formatter->get_values();
 
 		/** This filter is documented in admin/filters/class-cornerstone-filter.php */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );

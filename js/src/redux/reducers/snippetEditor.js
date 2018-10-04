@@ -21,6 +21,7 @@ function getInitialState() {
 			title: "",
 			slug: "",
 			description: "",
+			primaryTaxonomySlug: "",
 		},
 		replacementVariables: getDefaultReplacementVariables(),
 		uniqueRefreshValue: "",

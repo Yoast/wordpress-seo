@@ -262,10 +262,15 @@ class WPSEO_Primary_Term_Admin {
 		$primary_term = $this->get_primary_term( $taxonomy->name );
 
 		if ( empty( $primary_term ) ) {
-			$primary_term = '';
+			$primary_term = 1;
 		}
 
-		$terms = get_terms( $taxonomy->name );
+		$terms = get_terms(
+			array(
+				'taxonomy' => $taxonomy->name,
+				'hide_empty' => false
+			)
+		);
 
 		return array(
 			'title'         => $taxonomy->labels->singular_name,
@@ -289,6 +294,7 @@ class WPSEO_Primary_Term_Admin {
 		return array(
 			'id'   => $term->term_id,
 			'name' => $term->name,
+			'slug' => $term->slug,
 		);
 	}
 

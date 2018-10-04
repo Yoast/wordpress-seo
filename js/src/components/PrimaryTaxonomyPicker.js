@@ -25,10 +25,12 @@ class PrimaryTaxonomyPicker extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.onChange = this.onChange.bind( this );
+		this.onChange                  = this.onChange.bind( this );
 		this.updateReplacementVariable = this.updateReplacementVariable.bind( this );
+		this.updatePrimaryCategory     = this.updatePrimaryCategory.bind( this );
 
 		const { fieldId, name } = props.taxonomy;
+
 		this.input = document.getElementById( fieldId );
 		props.setPrimaryTaxonomyId( name, parseInt( this.input.value, 10 ) );
 
@@ -86,6 +88,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 		const selectedTerm = selectedTerms.find( term => {
 			return term.id === primaryTaxonomyId;
 		} );
+
 		if ( ! selectedTerm ) {
 			/**
 			 * If the selected term is no longer available, set the primary term id to
@@ -122,10 +125,11 @@ class PrimaryTaxonomyPicker extends React.Component {
 				per_page: -1,
 				orderby: "count",
 				order: "desc",
-				_fields: [ "id", "name" ],
+				_fields: [ "id", "name", "slug" ],
 			},
 		} ).then( terms => {
 			const oldState = this.state;
+
 			this.setState( {
 				terms,
 				selectedTerms: this.getSelectedTerms( terms, this.props.selectedTermIds ),
@@ -179,6 +183,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 		const { name } = this.props.taxonomy;
 
 		this.updateReplacementVariable( termId );
+		this.updatePrimaryCategory( termId );
 
 		this.props.setPrimaryTaxonomyId( name, termId );
 
@@ -193,6 +198,37 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {void}
 	 */
 	updateReplacementVariable( termId ) {
+		const primaryTerm = this.getPrimaryTerm( termId );
+
+		this.props.updateReplacementVariable(
+			`primary_${ this.props.taxonomy.name }`,
+			primaryTerm ? primaryTerm.name : ""
+		);
+	}
+
+	/**
+	 * Updates the primary taxonomy.
+	 *
+	 * @param {number} termId The term's id.
+	 *
+	 * @returns {void}
+	 */
+	updatePrimaryCategory( termId ) {
+		const primaryTerm = this.getPrimaryTerm( termId );
+
+		this.props.updateSnippetEditorData( {
+			primaryTaxonomySlug: primaryTerm ? primaryTerm.slug : "",
+		} );
+	}
+
+	/**
+	 * Gets the primary term for the passed term ID.
+	 *
+	 * @param {number} termId The term ID.
+	 *
+	 * @return {Object|void} The term object.
+	 */
+	getPrimaryTerm( termId ) {
 		/**
 		 * We only use the primary category replacement variable, therefore only do this for the
 		 * category taxonomy.
@@ -200,11 +236,8 @@ class PrimaryTaxonomyPicker extends React.Component {
 		if ( this.props.taxonomy.name !== "category" ) {
 			return;
 		}
-		const primaryTerm = this.state.selectedTerms.find( term => term.id === termId );
-		this.props.updateReplacementVariable(
-			`primary_${ this.props.taxonomy.name }`,
-			primaryTerm ? primaryTerm.name : ""
-		);
+
+		return this.state.selectedTerms.find( term => term.id === termId );
 	}
 
 	/**
@@ -263,9 +296,8 @@ PrimaryTaxonomyPicker.propTypes = {
 
 export default compose( [
 	withSelect( ( select, props ) => {
-		const editorData = select( "core/editor" );
-		const yoastData = select( "yoast-seo/editor" );
-
+		const editorData   = select( "core/editor" );
+		const yoastData    = select( "yoast-seo/editor" );
 		const { taxonomy } = props;
 
 		const selectedTermIds = editorData.getEditedPostAttribute( taxonomy.restBase ) || [];
@@ -279,11 +311,13 @@ export default compose( [
 		const {
 			setPrimaryTaxonomyId,
 			updateReplacementVariable,
+			updateData: updateSnippetEditorData,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
 			setPrimaryTaxonomyId,
 			updateReplacementVariable,
+			updateSnippetEditorData,
 		};
 	} ),
 ] )( PrimaryTaxonomyPicker );

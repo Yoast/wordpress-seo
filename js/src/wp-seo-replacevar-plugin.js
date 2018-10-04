@@ -336,7 +336,8 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 				label: hierarchicalTermName,
 				checked: isChecked,
 			};
-			if( isChecked && checkHierarchicalTerm.indexOf( hierarchicalTermName ) === -1 ) {
+
+			if ( isChecked && checkHierarchicalTerm.indexOf( hierarchicalTermName ) === -1 ) {
 				// Only push the categoryName to the checkedCategories array if it's not already in there.
 				checkHierarchicalTerm.push( hierarchicalTermName );
 			}
