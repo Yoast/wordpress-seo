@@ -25,7 +25,8 @@ class UrlKeywordAssessment extends Assessment {
 				okay: 6,
 				good: 9,
 			},
-			url: "<a href='https://yoa.st/2pp' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/33o' target='_blank'>",
+			urlCallToAction: "<a href='https://yoa.st/33p' target='_blank'>",
 		};
 
 		this.identifier = "urlKeyword";
@@ -42,7 +43,7 @@ class UrlKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher, i18n ) {
-		this._result = researcher.getResearch( "keywordCountInUrl" );
+		this._keywordInURL = researcher.getResearch( "keywordCountInUrl" );
 
 		const assessmentResult = new AssessmentResult();
 
@@ -72,29 +73,61 @@ class UrlKeywordAssessment extends Assessment {
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
 	calculateResult( i18n ) {
-		if ( (this._numberOfWords === 1 || this._numberOfWords === 2 && this._matches.percentWordMatches !== 100)
-		|| this._numberOfWords > 2 && this._matches.percentWordMatches <= 50) {
+		if ( this._keywordInURL.keyphraseLength < 3 ) {
+			if ( this._keywordInURL.percentWordMatches === 100 ) {
+				return {
+					score: this._config.scores.good,
+					resultText: i18n.sprintf(
+						/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+						i18n.dgettext(
+							"js-text-analysis",
+							"%1$sKeyphrase in slug%2$s: Great work!"
+						),
+						this._config.urlTitle,
+						"</a>"
+					),
+				};
+			}
+
 			return {
 				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
-					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext(
 						"js-text-analysis",
-						"Not enough words from your keyphrase appear in the %1$sURL%2$s for this page. " +
-						"If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!"
+						"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!"
 					),
-					this._config.url,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
 		}
 
+		if ( this._keywordInURL.percentWordMatches > 50 ) {
+			return {
+				score: this._config.scores.good,
+				resultText: i18n.sprintf(
+					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sKeyphrase in slug%2$s: More than half of your keyphrase appears in the slug. That's great!"
+					),
+					this._config.urlTitle,
+					"</a>"
+				),
+			};
+		}
 		return {
-			score: this._config.scores.good,
+			score: this._config.scores.okay,
 			resultText: i18n.sprintf(
-				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis", "All or most of the words from your keyphrase appear in the %1$sURL%2$s for this page." ),
-				this._config.url,
+				/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+				i18n.dgettext(
+					"js-text-analysis",
+					"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!"
+				),
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>"
 			),
 		};

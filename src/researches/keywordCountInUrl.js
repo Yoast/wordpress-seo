@@ -1,9 +1,6 @@
 /** @module researches/countKeywordInUrl */
 
-import findWordFormsInString from "./findKeywordFormsInString.js";
-
-
-import { escapeRegExp } from "lodash-es";
+import { findTopicFormsInString } from "./findKeywordFormsInString.js";
 
 /**
  * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
@@ -14,17 +11,13 @@ import { escapeRegExp } from "lodash-es";
  * @returns {int} Number of times the keyword is found.
  */
 export default function( paper, researcher ) {
-	let { keyphraseForms } = researcher.getResearch( "morphology" ).replace( "-" && "'" && "&", "" );
-	keyphraseForms = escapeRegExp(keyphraseForms);
+	const topicForms = researcher.getResearch( "morphology" );
+	const slug = paper.getUrl().replace( "-", " " );
 
-	const slug = paper.getUrl().replace( "-", "" );
+	const keyphraseInSlug = findTopicFormsInString( topicForms, slug, false, paper.getLocale() );
 
-	const numberOfWords = keyphraseForms.length;
-
-	const matches = findWordFormsInString( keyphraseForms, slug, paper.getLocale() );
-
-	const result =
-
-
-	return ;
+	return {
+		keyphraseLength: topicForms.keyphraseForms.length,
+		percentWordMatches: keyphraseInSlug.percentWordMatches,
+	};
 }
