@@ -70,31 +70,22 @@ describe( "An assessment for the keywordDensity", function() {
 } );
 
 describe( "A test for marking the keyword", function() {
+	const keywordDensityAssessment = new KeywordDensityAssessment();
+
 	it( "returns markers", function() {
-		const paper = new Paper( "This is a very interesting paper with a keyword and another keyword.", { keyword: "keyword" }  );
+		const mockPaper = new Paper( "This is a very interesting paper with a keyword and another keyword.", { keyword: "keyword" }  );
+		keywordDensityAssessment.getResult( mockPaper, factory.buildMockResearcher( {
+			getKeywordDensity: 0.5,
+			keywordCount: {
+				count: 2,
+				markings: [ new Mark( { marked: "This is a very interesting paper with a <yoastmark class='yoast-text-mark'>keyword</yoastmark> and another <yoastmark class='yoast-text-mark'>keyword</yoastmark>.",
+					original: "This is a very interesting paper with a keyword and another keyword." } ) ],
+			},
+		}, true ),
+		i18n );
 		const expected = [
-			new Mark( {
-				original: "This is a very interesting paper with a keyword and another keyword.",
-				marked: "This is a very interesting paper with a <yoastmark class='yoast-text-mark'>keyword</yoastmark> and another <yoastmark class='yoast-text-mark'>keyword</yoastmark>.",
-			} ),
-		];
-		expect( new KeywordDensityAssessment().getMarks( paper ) ).toEqual( expected );
-	} );
-
-	it( "doesn't return markers for synonyms", function() {
-		const paper = new Paper( "This is a very interesting paper with a keyword and another keyword and a synonym.", { keyword: "keyword", synonyms: "synonym" }  );
-		const expected = [
-			new Mark( {
-				original: "This is a very interesting paper with a keyword and another keyword and a synonym.",
-				marked: "This is a very interesting paper with a <yoastmark class='yoast-text-mark'>keyword</yoastmark> and another <yoastmark class='yoast-text-mark'>keyword</yoastmark> and a synonym.",
-			} ),
-		];
-		expect( new KeywordDensityAssessment().getMarks( paper ) ).toEqual( expected );
-	} );
-
-	it( "returns no markers", function() {
-		const paper = new Paper( "This is a very interesting paper with a keyword and other keywords.", { keyword: "seaside" }  );
-		const expected = [];
-		expect( new KeywordDensityAssessment().getMarks( paper ) ).toEqual( expected );
+			new Mark( { marked: "This is a very interesting paper with a <yoastmark class='yoast-text-mark'>keyword</yoastmark> and another <yoastmark class='yoast-text-mark'>keyword</yoastmark>.",
+				original: "This is a very interesting paper with a keyword and another keyword." } ) ];
+		expect( keywordDensityAssessment.getMarks() ).toEqual( expected );
 	} );
 } );

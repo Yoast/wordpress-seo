@@ -5,7 +5,6 @@ import AssessmentResult from "../../values/AssessmentResult";
 import countWords from "../../stringProcessing/countWords";
 import inRange from "../../helpers/inRange";
 import formatNumber from "../../helpers/formatNumber";
-import topicCount from "../../researches/topicCount";
 
 const inRangeEndInclusive = inRange.inRangeEndInclusive;
 const inRangeStartInclusive = inRange.inRangeStartInclusive;
@@ -66,14 +65,14 @@ class KeywordDensityAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		const assessmentResult = new AssessmentResult();
 
-		this._keywordCount = researcher.getResearch( "keywordCount" ).count;
+		this._keywordCount = researcher.getResearch( "keywordCount" );
 
 		this._keywordDensity = researcher.getResearch( "getKeywordDensity" );
 
 		const calculatedScore = this.calculateResult( i18n );
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
-		assessmentResult.setHasMarks( this._keywordCount > 0 );
+		assessmentResult.setHasMarks( this._keywordCount.count > 0 );
 
 		return assessmentResult;
 	}
@@ -84,7 +83,7 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the keyword count is 0.
 	 */
 	hasNoMatches() {
-		return this._keywordCount === 0;
+		return this._keywordCount.count === 0;
 	}
 
 	/**
@@ -156,10 +155,10 @@ class KeywordDensityAssessment extends Assessment {
 						"js-text-analysis",
 						"The exact-match %3$skeyword density%4$s is %1$s," +
 						" which is too low; the focus keyword was found %2$d times.",
-						this._keywordCount
+						this._keywordCount.count
 					),
 					keywordDensityPercentage,
-					this._keywordCount,
+					this._keywordCount.count,
 					this._config.url,
 					"</a>"
 				),
@@ -181,10 +180,10 @@ class KeywordDensityAssessment extends Assessment {
 						" which is too low; the focus keyword was found %2$d time.",
 						"The exact-match %3$skeyword density%4$s is %1$s," +
 						" which is too low; the focus keyword was found %2$d times.",
-						this._keywordCount
+						this._keywordCount.count
 					),
 					keywordDensityPercentage,
-					this._keywordCount,
+					this._keywordCount.count,
 					this._config.url,
 					"</a>"
 				),
@@ -206,10 +205,10 @@ class KeywordDensityAssessment extends Assessment {
 						" which is great; the focus keyword was found %2$d time.",
 						"The exact-match %3$skeyword density%4$s is %1$s," +
 						" which is great; the focus keyword was found %2$d times.",
-						this._keywordCount
+						this._keywordCount.count
 					),
 					keywordDensityPercentage,
-					this._keywordCount,
+					this._keywordCount.count,
 					this._config.url,
 					"</a>"
 				),
@@ -232,10 +231,10 @@ class KeywordDensityAssessment extends Assessment {
 						" which is over the advised %3$s maximum; the focus keyword was found %2$d time.",
 						"The exact-match %4$skeyword density%5$s is %1$s," +
 						" which is over the advised %3$s maximum; the focus keyword was found %2$d times.",
-						this._keywordCount
+						this._keywordCount.count
 					),
 					keywordDensityPercentage,
-					this._keywordCount,
+					this._keywordCount.count,
 					max,
 					this._config.url,
 					"</a>"
@@ -259,10 +258,10 @@ class KeywordDensityAssessment extends Assessment {
 					" which is way over the advised %3$s maximum; the focus keyword was found %2$d time.",
 					"The exact-match %4$skeyword density%5$s is %1$s," +
 					" which is way over the advised %3$s maximum; the focus keyword was found %2$d times.",
-					this._keywordCount
+					this._keywordCount.count
 				),
 				keywordDensityPercentage,
-				this._keywordCount,
+				this._keywordCount.count,
 				max,
 				this._config.url,
 				"</a>"
@@ -274,12 +273,10 @@ class KeywordDensityAssessment extends Assessment {
 	/**
 	 * Marks keywords in the text for the keyword density assessment.
 	 *
-	 * @param {Object} paper The paper to use for the assessment.
-	 *
 	 * @returns {Array<Mark>} Marks that should be applied.
 	 */
-	getMarks( paper ) {
-		return topicCount( paper, true ).markings;
+	getMarks() {
+		return this._keywordCount.markings;
 	}
 
 
