@@ -87,3 +87,52 @@ describe( "A test for marking competing links", function() {
 		expect( result._marker ).toEqual( expected );
 	} );
 } );
+
+describe( "A test for marking multiple competing links", function() {
+	it( "returns markers for links to posts that rank for the same keyword", function() {
+		let paper = new Paper( "some text", { keyword: "some keyword" } );
+		const result = new TextCompetingLinksAssessment().getResult(
+			paper,
+			Factory.buildMockResearcher(
+				{
+					total: 0,
+					totalNaKeyword: 0,
+					keyword: {
+						totalKeyword: 3,
+						matchedAnchors: [
+							"<a href='http://example.com/keyword'>keys test wording phrased</a>",
+							"<a href='http://example.com/keyword'>articles which are interesting</a>",
+							"<a href='http://example.com/keyword'>excited papers</a>",
+						],
+					},
+					internalTotal: 0,
+					internalDofollow: 0,
+					internalNofollow: 0,
+					externalTotal: 0,
+					externalDofollow: 0,
+					externalNofollow: 0,
+					otherTotal: 0,
+					otherDofollow: 0,
+					otherNofollow: 0,
+				}
+			),
+			i18n
+		);
+
+		let expected = [
+			new Mark( {
+				original: "<a href='http://example.com/keyword'>keys test wording phrased</a>",
+				marked: "<yoastmark class='yoast-text-mark'><a href='http://example.com/keyword'>keys test wording phrased</a></yoastmark>",
+			} ),
+			new Mark( {
+				original: "<a href='http://example.com/keyword'>articles which are interesting</a>",
+				marked: "<yoastmark class='yoast-text-mark'><a href='http://example.com/keyword'>articles which are interesting</a></yoastmark>",
+			} ),
+			new Mark( {
+				original: "<a href='http://example.com/keyword'>excited papers</a>",
+				marked: "<yoastmark class='yoast-text-mark'><a href='http://example.com/keyword'>excited papers</a></yoastmark>",
+			} ),
+		];
+		expect( result._marker ).toEqual( expected );
+	} );
+} );
