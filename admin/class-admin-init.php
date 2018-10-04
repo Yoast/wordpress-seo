@@ -109,10 +109,11 @@ class WPSEO_Admin_Init {
 
 		$current_url   = ( is_ssl() ? 'https://' : 'http://' );
 		$current_url  .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
-		$customize_url = add_query_arg( array(
+		$query_args    = array(
 			'autofocus[control]' => 'blogdescription',
 			'url'                => urlencode( $current_url ),
-		), wp_customize_url() );
+		);
+		$customize_url = add_query_arg( $query_args, wp_customize_url() );
 
 		$info_message = sprintf(
 			/* translators: 1: link open tag; 2: link close tag. */
