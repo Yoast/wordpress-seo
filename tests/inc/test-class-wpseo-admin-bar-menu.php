@@ -227,6 +227,59 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the situation where everything is going well.
+	 *
+	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword()
+	 */
+	public function test_get_post_focus_keyword() {
+		$post = self::factory()->post->create_and_get();
+
+		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $post->ID );
+
+		$instance = new WPSEO_Admin_Bar_Menu_Double();
+
+		$this->assertEquals( 'focus keyword', $instance->get_post_focus_keyword( $post ) );
+	}
+
+	/**
+	 * Tests the situation with a non object given as argument.
+	 *
+	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword()
+	 */
+	public function test_get_post_focus_keyword_with_invalid_object() {
+		$instance = new WPSEO_Admin_Bar_Menu_Double();
+
+		$this->assertEquals( '', $instance->get_post_focus_keyword( null ) );
+	}
+
+
+	/**
+	 * Tests the situation where the given object doesn't have an id.
+	 *
+	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword()
+	 */
+	public function test_get_post_focus_keyword_with_valid_object_but_no_id_property() {
+		$post     = new stdClass();
+		$instance = new WPSEO_Admin_Bar_Menu_Double();
+
+		$this->assertEquals( '', $instance->get_post_focus_keyword( $post ) );
+	}
+
+	/**
+	 * Tests the situation where the page analysis is disabled by filter.
+	 *
+	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword()
+	 */
+	public function test_get_post_focus_keyword_with_page_analysis_filter_disabled() {
+		add_filter( 'wpseo_use_page_analysis', '__return_false' );
+
+		$post     = self::factory()->post->create_and_get();
+		$instance = new WPSEO_Admin_Bar_Menu_Double();
+
+		$this->assertEquals( '', $instance->get_post_focus_keyword( $post ) );
+	}
+
+	/**
 	 * Filters an option so that the sub option 'enable_admin_bar_menu' is true.
 	 *
 	 * @param array $result Option result.
