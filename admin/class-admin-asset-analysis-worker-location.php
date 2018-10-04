@@ -33,10 +33,11 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 		}
 
 		$this->asset_location = WPSEO_Admin_Asset_Manager::create_default_location();
-		$this->asset          = new WPSEO_Admin_Asset( array(
+		$asset_arguments      = array(
 			'name' => $name,
 			'src'  => 'wp-seo-' . $name . '-' . $flat_version,
-		) );
+		);
+		$this->asset          = new WPSEO_Admin_Asset( $asset_arguments );
 	}
 
 	/**
