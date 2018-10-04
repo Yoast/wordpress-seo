@@ -3,7 +3,7 @@ module.exports = {
 	target: {
 		src: [ "<%= files.js %>", "<%= files.jsDontLint %>" ],
 		options: {
-			maxWarnings: 41,
+			maxWarnings: 45,
 		},
 	},
 	tests: {

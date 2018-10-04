@@ -21,7 +21,7 @@ import TitleWidthAssessment from "../../src/assessments/seo/pageTitleWidthAssess
 import UrlKeywordAssessment from "../../src/assessments/seo/UrlKeywordAssessment";
 import UrlLengthAssessment from "../../src/assessments/seo/urlLengthAssessment";
 import urlStopWordsAssessment from "../../src/assessments/seo/urlStopWordsAssessment";
-import LargestKeywordDistanceAssessment from "../../src/assessments/seo/LargestKeywordDistanceAssessment";
+import KeyphraseDistributionAssessment from "../../src/assessments/seo/KeyphraseDistributionAssessment";
 
 // Import content assessments
 import FleschReadingAssessment from "../../src/assessments/readability/fleschReadingEaseAssessment";
@@ -50,7 +50,8 @@ import pageTitleWidth from "../../src/researches/pageTitleWidth.js";
 import keywordCountInUrl from "../../src/researches/keywordCountInUrl";
 import urlLength from "../../src/researches/urlIsTooLong.js";
 import stopWordsInUrl from "../../src/researches/stopWordsInUrl";
-import largestKeywordDistance from "../../src/researches/largestKeywordDistance";
+import { keyphraseDistributionResearcher } from "../../src/researches/keyphraseDistribution";
+const keyphraseDistribution = keyphraseDistributionResearcher;
 import calculateFleschReading from "../../src/researches/calculateFleschReading.js";
 import getSubheadingTextLengths from "../../src/researches/getSubheadingTextLengths.js";
 import getParagraphLength from "../../src/researches/getParagraphLength.js";
@@ -246,14 +247,14 @@ testPapers.forEach( function( testPaper ) {
 			expect( result.urlStopWords.getText() ).toBe( expectedResults.urlStopWords.resultText );
 		} );
 
-		it( "returns a score and the associated feedback text for the largestKeywordDistance assessment", function() {
-			result.largestKeywordDistance = new LargestKeywordDistanceAssessment().getResult(
+		it( "returns a score and the associated feedback text for the english keyphraseDistribution assessment", function() {
+			result.keyphraseDistribution = new KeyphraseDistributionAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( largestKeywordDistance( paper ) ),
+				factory.buildMockResearcher( keyphraseDistribution( paper, researcher ) ),
 				i18n
 			);
-			expect( result.largestKeywordDistance.getScore() ).toBe( expectedResults.largestKeywordDistance.score );
-			expect( result.largestKeywordDistance.getText() ).toBe( expectedResults.largestKeywordDistance.resultText );
+			expect( result.keyphraseDistribution.getScore() ).toBe( expectedResults.keyphraseDistribution.score );
+			expect( result.keyphraseDistribution.getText() ).toBe( expectedResults.keyphraseDistribution.resultText );
 		} );
 
 		// Readability assessments.

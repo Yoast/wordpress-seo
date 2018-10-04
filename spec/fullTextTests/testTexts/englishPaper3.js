@@ -31,7 +31,7 @@ const paper = new Paper( "<div class=\"content content__first\">\n" +
 	titleWidth: 450,
 	locale: "en_EN",
 	url: "https://yoast.com/social-media-strategy-where-to-begin/",
-	synonyms: "social media SEO strategy",
+	synonyms: "social media SEO strategy, Facebook strategy",
 } );
 
 const expectedResults = {
@@ -99,9 +99,9 @@ const expectedResults = {
 		score: 5,
 		resultText: "<a href='https://yoa.st/34p' target='_blank'>Slug stopwords</a>: The slug for this page contains stop words. <a href='https://yoa.st/34q' target='_blank'>Remove them</a>!",
 	},
-	largestKeywordDistance: {
-		score: 1,
-		resultText: "Large parts of your text do not contain the keyword or its synonyms. Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> them more evenly.",
+	keyphraseDistribution: {
+		score: 9,
+		resultText: "<a href='https://yoa.st/33q target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
 
 	fleschReadingEase: {

@@ -40,7 +40,8 @@ import relevantWords from "./researches/relevantWords";
 import readingTime from "./researches/readingTime";
 import getTopicDensity from "./researches/getTopicDensity";
 import topicCount from "./researches/topicCount";
-import largestKeywordDistance from "./researches/largestKeywordDistance";
+import { keyphraseDistributionResearcher } from "./researches/keyphraseDistribution";
+const keyphraseDistribution = keyphraseDistributionResearcher;
 import { research } from "./researches/buildKeywordForms";
 const morphology = research;
 
@@ -87,7 +88,7 @@ var Researcher = function( paper ) {
 		getTopicDensity: getTopicDensity,
 		topicCount: topicCount,
 		sentences,
-		largestKeywordDistance: largestKeywordDistance,
+		keyphraseDistribution: keyphraseDistribution,
 		morphology: morphology,
 	};
 

@@ -43,6 +43,7 @@ const paper = new Paper( "<p>My husband &#8211; <a href='https://yoast.com/about
 	"Search results and information would appear on the screen closest to you that Apple controls. " +
 	"I think voice will become the dominant search query, but I think screens will continue to be important in presenting search results.&#8217;</p>", {
 	keyword: "voice search",
+	synonyms: "listening and reading in search, voice query, voice results",
 	description: "Voice search is gaining popularity. But what will the future bring? Joost and Marieke discuss the pros and cons of voice and describe a possible future scenario.",
 	title: "Voice search: what will the future bring?",
 	titleWidth: 450,
@@ -72,8 +73,8 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: The meta description is over 156 characters. To ensure the entire description will be visible, <a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
-		score: 3,
-		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keywords or synonyms in your subheadings</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 50% of your subheadings reflect the topic of your copy. Good job!",
 	},
 	textCompetingLinks: {
 		score: 0,
@@ -115,9 +116,9 @@ const expectedResults = {
 		score: 5,
 		resultText: "<a href='https://yoa.st/34p' target='_blank'>Slug stopwords</a>: The slug for this page contains a stop word. <a href='https://yoa.st/34q' target='_blank'>Remove it</a>!",
 	},
-	largestKeywordDistance: {
-		score: 1,
-		resultText: "Large parts of your text do not contain the keyword. Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> the keyword more evenly.",
+	keyphraseDistribution: {
+		score: 6,
+		resultText: "<a href='https://yoa.st/33q target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u target='_blank'>Distribute them more evenly</a>.",
 	},
 	fleschReadingEase: {
 		score: 9,

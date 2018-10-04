@@ -14,7 +14,7 @@ import IntroductionKeywordAssessment from "./seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "./seo/KeywordDensityAssessment";
 import KeywordStopWordsAssessment from "./seo/keywordStopWordsAssessment";
-import LargestKeywordDistanceAssessment from "./seo/LargestKeywordDistanceAssessment";
+import KeyphraseDistributionAssessment from "./seo/KeyphraseDistributionAssessment";
 import MetaDescriptionKeywordAssessment from "./seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "./seo/metaDescriptionLengthAssessment";
 import OutboundLinksAssessment from "./seo/outboundLinksAssessment";
@@ -48,7 +48,7 @@ const seo = {
 	KeyphraseLengthAssessment,
 	KeywordDensityAssessment,
 	KeywordStopWordsAssessment,
-	LargestKeywordDistanceAssessment,
+	KeyphraseDistributionAssessment,
 	MetaDescriptionKeywordAssessment,
 	MetaDescriptionLengthAssessment,
 	OutboundLinksAssessment,
