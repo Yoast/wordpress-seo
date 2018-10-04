@@ -26,7 +26,7 @@ class WPSEO_Config_Field_Google_Search_Console_Intro extends WPSEO_Config_Field 
 				'wordpress-seo'
 			),
 			'Yoast SEO',
-			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1ex' ) ) . '">',
+			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1ex' ) ) . '" target="_blank">',
 			'</a>'
 		);
 
