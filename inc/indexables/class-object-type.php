@@ -32,14 +32,14 @@ abstract class WPSEO_Object_Type {
 	/**
 	 * WPSEO_Object_Type constructor.
 	 *
-	 * @param int 	 $id 		The ID of the object.
-	 * @param string $type		The type of object.
-	 * @param string $subtype	The subtype of the object.
-	 * @param string $permalink	The permalink of the object.
+	 * @param int    $id        The ID of the object.
+	 * @param string $type      The type of object.
+	 * @param string $subtype   The subtype of the object.
+	 * @param string $permalink The permalink of the object.
 	 */
 	public function __construct( $id, $type, $subtype, $permalink ) {
-		$this->id 	 	 = (int) $id;
-		$this->type 	 = $type;
+		$this->id        = (int) $id;
+		$this->type      = $type;
 		$this->sub_type  = $subtype;
 		$this->permalink = $permalink;
 	}

@@ -28,7 +28,7 @@ class WPSEO_Object_Type_Validator implements WPSEO_Endpoint_Validator {
 	/**
 	 * Validates whether the passed subtype is valid or not.
 	 *
-	 * @param string $type	  The type to validate.
+	 * @param string $type    The type to validate.
 	 * @param string $subtype The subtype to validate.
 	 *
 	 * @return void

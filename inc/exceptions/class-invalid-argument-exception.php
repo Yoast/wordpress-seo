@@ -31,7 +31,7 @@ class WPSEO_Invalid_Argument_Exception extends InvalidArgumentException {
 	 * Creates an invalid parameter exception.
 	 *
 	 * @param mixed  $parameter The parameter value of the field.
-	 * @param string $name	    The name of the field.
+	 * @param string $name      The name of the field.
 	 * @param string $expected  The expected type.
 	 *
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
@@ -52,7 +52,7 @@ class WPSEO_Invalid_Argument_Exception extends InvalidArgumentException {
 	 * Creates an invalid integer parameter exception.
 	 *
 	 * @param mixed  $parameter The parameter value of the field.
-	 * @param string $name	    The name of the field.
+	 * @param string $name      The name of the field.
 	 *
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
@@ -64,7 +64,7 @@ class WPSEO_Invalid_Argument_Exception extends InvalidArgumentException {
 	 * Creates an invalid string parameter exception.
 	 *
 	 * @param mixed  $parameter The parameter value of the field.
-	 * @param string $name	    The name of the field.
+	 * @param string $name      The name of the field.
 	 *
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
@@ -76,7 +76,7 @@ class WPSEO_Invalid_Argument_Exception extends InvalidArgumentException {
 	 * Creates an invalid boolean parameter exception.
 	 *
 	 * @param mixed  $parameter The parameter value of the field.
-	 * @param string $name	    The name of the field.
+	 * @param string $name      The name of the field.
 	 *
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
@@ -88,7 +88,7 @@ class WPSEO_Invalid_Argument_Exception extends InvalidArgumentException {
 	 * Creates an invalid callable parameter exception.
 	 *
 	 * @param mixed  $parameter The parameter value of the field.
-	 * @param string $name	    The name of the field.
+	 * @param string $name      The name of the field.
 	 *
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
@@ -117,7 +117,7 @@ class WPSEO_Invalid_Argument_Exception extends InvalidArgumentException {
 	 * Creates an invalid object subtype exception.
 	 *
 	 * @param string $subtype The invalid subtype.
-	 * @param string $type 	  The parent type of the subtype.
+	 * @param string $type    The parent type of the subtype.
 	 *
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
@@ -135,8 +135,8 @@ class WPSEO_Invalid_Argument_Exception extends InvalidArgumentException {
 	/**
 	 * Creates an unknown object exception.
 	 *
-	 * @param int 	 $id 	The ID that was searched for.
-	 * @param string $type 	The type of object that was being searched for.
+	 * @param int    $id   The ID that was searched for.
+	 * @param string $type The type of object that was being searched for.
 	 *
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */

@@ -159,33 +159,33 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_rename_indexable_data() {
 		$supplied_values = array(
-			'description'				  => '',
-			'breadcrumb_title'			  => '',
-			'og_title'					  => '',
-			'og_description'			  => '',
-			'og_image'					  => '',
-			'twitter_title'				  => '',
-			'twitter_description'		  => '',
-			'twitter_image'				  => '',
-			'is_robots_noindex'			  => '',
-			'primary_focus_keyword'		  => '',
+			'description'                 => '',
+			'breadcrumb_title'            => '',
+			'og_title'                    => '',
+			'og_description'              => '',
+			'og_image'                    => '',
+			'twitter_title'               => '',
+			'twitter_description'         => '',
+			'twitter_image'               => '',
+			'is_robots_noindex'           => '',
+			'primary_focus_keyword'       => '',
 			'primary_focus_keyword_score' => '',
-			'readability_score'			  => '',
+			'readability_score'           => '',
 		);
 
 		$expected = array(
-			'desc'					=> '',
-			'bctitle'				=> '',
-			'opengraph-title'		=> '',
+			'desc'                  => '',
+			'bctitle'               => '',
+			'opengraph-title'       => '',
 			'opengraph-description' => '',
-			'opengraph-image'		=> '',
-			'twitter-title'			=> '',
-			'twitter-description'	=> '',
-			'twitter-image'			=> '',
-			'noindex'				=> '',
-			'focuskw'				=> '',
-			'linkdex'				=> '',
-			'content_score'			=> '',
+			'opengraph-image'       => '',
+			'twitter-title'         => '',
+			'twitter-description'   => '',
+			'twitter-image'         => '',
+			'noindex'               => '',
+			'focuskw'               => '',
+			'linkdex'               => '',
+			'content_score'         => '',
 		);
 
 		$data = $this->provider->rename_indexable_data( $supplied_values );
@@ -207,21 +207,21 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 				->getMock();
 
 		$instance->expects( $this->once() )
-				 ->method( 'convert_noindex' )
-				 ->will( $this->returnArgument( 0 ) );
+				->method( 'convert_noindex' )
+				->will( $this->returnArgument( 0 ) );
 
 		$supplied_values = array(
-			'desc'				=> 'I am the test description',
-			'bctitle'			=> 'Some breadcrumb title',
-			'opengraph-title'	=> 'The OpenGraph title',
-			'is_robots_noindex'	=> 'index',
+			'desc'              => 'I am the test description',
+			'bctitle'           => 'Some breadcrumb title',
+			'opengraph-title'   => 'The OpenGraph title',
+			'is_robots_noindex' => 'index',
 		);
 
 		$expected = array(
-			'desc'				=> 'I am the test description',
-			'bctitle'			=> 'Some breadcrumb title',
-			'opengraph-title'	=> 'The OpenGraph title',
-			'is_robots_noindex'	=> 'index',
+			'desc'              => 'I am the test description',
+			'bctitle'           => 'Some breadcrumb title',
+			'opengraph-title'   => 'The OpenGraph title',
+			'is_robots_noindex' => 'index',
 		);
 
 		$data = $instance->convert_indexable_data( $supplied_values );
@@ -245,5 +245,4 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 			array( '0', 'default', 'With noindex set to string value of 0' ),
 		);
 	}
-
 }
