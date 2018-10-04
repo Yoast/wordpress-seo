@@ -19,7 +19,7 @@ class WPSEO_Image_Utils {
 	 */
 	public static function get_attachment_by_url( $url ) {
 		// Because get_attachment_by_url won't work on resized versions of images, we strip out the size part of an image URL.
-		$url = preg_replace( '/(.*)-\d+x\d+\.(jpg|png|gif)$/', '$1.$2', $url );
+		$url = preg_replace( '/(.*)(-\d+x\d+)?\.(jpg|png|gif)$/U', '$1.$3', $url );
 
 		if ( function_exists( 'wpcom_vip_attachment_url_to_postid' ) ) {
 			// @codeCoverageIgnoreStart -- we can't test this properly.
@@ -41,7 +41,7 @@ class WPSEO_Image_Utils {
 		$cache_key = sprintf( 'yoast_attachment_url_post_id_%s', md5( $url ) );
 
 		// Set the ID based on the hashed url in the cache.
-		$id = wp_cache_get( $cache_key );
+		$id = get_transient($cache_key);
 
 		if ( $id === 'not_found' ) {
 			return 0;
@@ -61,7 +61,7 @@ class WPSEO_Image_Utils {
 		}
 
 		// We have the Post ID, but it's not in the cache yet. We do that here and return.
-		wp_cache_set( $cache_key, $id, '', ( 24 * HOUR_IN_SECONDS + mt_rand( 0, ( 12 * HOUR_IN_SECONDS ) ) ) );
+		set_transient( $cache_key, $id,  24 * HOUR_IN_SECONDS );
 		return $id;
 	}
 
