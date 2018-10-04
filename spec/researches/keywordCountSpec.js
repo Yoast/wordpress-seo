@@ -44,9 +44,8 @@ describe( "Test for counting the keyword in a text", function() {
 		const mockPaper = new Paper( "a string of text with the key word in it, with more key words." );
 		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 2 );
 		expect( keywordCount( mockPaper, mockResearcherKeyWord ).markings ).toEqual( [
-			new Mark( { marked: "a string of text with the <yoastmark class='yoast-text-mark'>key</yoastmark> " +
-				"<yoastmark class='yoast-text-mark'>word</yoastmark> in it, with more " +
-				"<yoastmark class='yoast-text-mark'>key</yoastmark> <yoastmark class='yoast-text-mark'>words</yoastmark>.",
+			new Mark( { marked: "a string of text with the <yoastmark class='yoast-text-mark'>key word</yoastmark> in it, " +
+				"with more <yoastmark class='yoast-text-mark'>key words</yoastmark>.",
 			original: "a string of text with the key word in it, with more key words." } ) ]
 		);
 	} );
@@ -121,7 +120,7 @@ describe( "Test for counting the keyword in a text", function() {
 		const mockPaper = new Paper( "A string with KeY worD." );
 		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
 		expect( keywordCount( mockPaper, mockResearcherKeyWord ).markings ).toEqual( [
-			new Mark( { marked: "A string with <yoastmark class='yoast-text-mark'>KeY</yoastmark> <yoastmark class='yoast-text-mark'>worD</yoastmark>.",
+			new Mark( { marked: "A string with <yoastmark class='yoast-text-mark'>KeY worD</yoastmark>.",
 				original: "A string with KeY worD." } )	]
 		);
 	} );

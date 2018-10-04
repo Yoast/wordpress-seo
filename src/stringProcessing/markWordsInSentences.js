@@ -3,6 +3,14 @@ import arrayToRegex from "./createRegexFromArray";
 import addMark from "../markers/addMarkSingleWord";
 import Mark from "../values/Mark";
 
+const collectMarkingsInSentence = function( sentence, topicFoundInSentence ) {
+	const markup = sentence.replace( arrayToRegex( topicFoundInSentence ), function( x ) {
+		return addMark( x );
+	} );
+
+	return ( markup.replace( new RegExp( "</yoastmark> <yoastmark class='yoast-text-mark'>", "ig" ), " " ) );
+};
+
 /**
  * Adds marks to words in a sentence.
  *
@@ -35,9 +43,7 @@ export function markWordsInSentences( wordsToMark, sentences, locale ) {
 			} );
 			markings = markings.concat( new Mark( {
 				original: sentence,
-				marked: sentence.replace( arrayToRegex( topicFoundInSentence ), function( x ) {
-					return addMark( x );
-				} ),
+				marked: collectMarkingsInSentence( sentence, topicFoundInSentence ),
 			} ) );
 		}
 	} );
