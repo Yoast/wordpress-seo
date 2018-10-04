@@ -15,9 +15,9 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the conversion of the robots noindex value.
 	 *
-	 * @param string    $noindex_value	The value to test with.
-	 * @param bool|null $expected		The expected converted value.
-	 * @param string    $description	Description of the test.
+	 * @param string    $noindex_value The value to test with.
+	 * @param bool|null $expected      The expected converted value.
+	 * @param string    $description   Description of the test.
 	 *
 	 * @covers WPSEO_Term_Indexable::get_robots_noindex_value()
 	 *
@@ -75,7 +75,7 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 				)
 			);
 
-		$instance = WPSEO_Term_Indexable_Double::from_object( $term->term_id );
+		$instance     = WPSEO_Term_Indexable_Double::from_object( $term->term_id );
 		$new_instance = $instance->update(
 			array( 'is_robots_noindex' => true )
 		);

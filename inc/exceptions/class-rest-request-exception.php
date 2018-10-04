@@ -13,8 +13,8 @@ class WPSEO_REST_Request_Exception extends Exception {
 	/**
 	 * Creates a patch failure exception.
 	 *
-	 * @param string $object_type 	The name of the parameter.
-	 * @param string $object_id 	The ID of the parameter.
+	 * @param string $object_type The name of the parameter.
+	 * @param string $object_id   The ID of the parameter.
 	 *
 	 * @return WPSEO_REST_Request_Exception The exception.
 	 */

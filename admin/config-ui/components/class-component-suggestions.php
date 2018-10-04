@@ -40,7 +40,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-premium' ),
 				),
 				array(
-					'url' => WPSEO_Shortlinker::get( 'https://yoa.st/video-yoast-seo-premium' ),
+					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-yoast-seo-premium' ),
 					'title' => sprintf(
 						/* translators: %1$s expands to Yoast SEO Premium. */
 						__( '%1$s video', 'wordpress-seo' ),
@@ -68,7 +68,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/2up' ),
 			),
 			array(
-				'url' => WPSEO_Shortlinker::get( 'https://yoa.st/2v0' ),
+				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/2v0' ),
 				'title' => sprintf(
 					/* translators: %1$s expands to Basic SEO training. */
 					__( '%1$s video', 'wordpress-seo' ),
@@ -88,7 +88,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-plugin-course' ),
 			),
 			array(
-				'url' => WPSEO_Shortlinker::get( 'https://yoa.st/video-plugin-course' ),
+				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-plugin-course' ),
 				'title' => sprintf(
 					/* translators: %1$s expands to Yoast SEO plugin training. */
 					__( '%1$s video', 'wordpress-seo' ),
@@ -109,7 +109,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-localseo' ),
 				),
 				array(
-					'url' => WPSEO_Shortlinker::get( 'https://yoa.st/video-localseo' ),
+					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-localseo' ),
 					'title' => sprintf(
 						/* translators: %1$s expands to Local SEO. */
 						__( '%1$s video', 'wordpress-seo' ),
