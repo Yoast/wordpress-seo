@@ -551,6 +551,13 @@ class WPSEO_OpenGraph_Image {
 
 		$is_valid = in_array( $image_extension, $this->valid_image_extensions, true );
 
+		/**
+		 * Filter: 'wpseo_opengraph_is_valid_image_url' - Allows extra validation for an image url.
+		 *
+		 * @api bool - Current validation result.
+		 *
+		 * @param string $url The image url to validate
+		 */
 		return apply_filters( 'wpseo_opengraph_is_valid_image_url', $is_valid, $url );
 	}
 
