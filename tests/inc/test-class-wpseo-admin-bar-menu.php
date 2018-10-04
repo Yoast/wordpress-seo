@@ -252,7 +252,6 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( '', $instance->get_post_focus_keyword( null ) );
 	}
 
-
 	/**
 	 * Tests the situation where the given object doesn't have an id.
 	 *
