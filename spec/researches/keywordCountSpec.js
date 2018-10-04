@@ -15,9 +15,6 @@ const buildMorphologyMockResearcher = function( keyphraseForms ) {
 
 const mockResearcher = buildMorphologyMockResearcher( [ [ "keyword", "keywords" ] ] );
 const mockResearcherGermanDiacritics = buildMorphologyMockResearcher( [ [ "äöüß" ] ] );
-const mockResearcherMultipleKeywords = buildMorphologyMockResearcher(
-	[ [ "keyword", "keywords" ], [ "strawberry", "strawberries" ] ]
-);
 const mockResearcherMinus = buildMorphologyMockResearcher( [ [ "key-word", "key-words" ] ] );
 const mockResearcherUnderscore = buildMorphologyMockResearcher( [ [ "key_word", "key_words" ] ] );
 const mockResearcherKeyWord = buildMorphologyMockResearcher( [ [ "key", "keys" ], [ "word", "words" ] ] );
@@ -43,7 +40,7 @@ describe( "Test for counting the keyword in a text", function() {
 		expect( keywordCount( mockPaper, mockResearcher ).markings ).toEqual( [] );
 	} );
 
-	it( "counts a string of text with multiple occurrences of the keyword in it.", function() {
+	it( "counts multiple occurrences of a keyphrase consisting of multiple words.", function() {
 		const mockPaper = new Paper( "a string of text with the key word in it, with more key words." );
 		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 2 );
 		expect( keywordCount( mockPaper, mockResearcherKeyWord ).markings ).toEqual( [
@@ -54,7 +51,7 @@ describe( "Test for counting the keyword in a text", function() {
 		);
 	} );
 
-	it( "counts a string of text with german diacritics and eszett as the keyword", function() {
+	it( "counts a string of text with German diacritics and eszett as the keyword", function() {
 		const mockPaper = new Paper( "Waltz keepin auf mitz auf keepin äöüß weiner blitz deutsch spitzen." );
 		expect( keywordCount( mockPaper, mockResearcherGermanDiacritics ).count ).toBe( 1 );
 		expect( keywordCount( mockPaper, mockResearcherGermanDiacritics ).markings ).toEqual( [
@@ -69,15 +66,6 @@ describe( "Test for counting the keyword in a text", function() {
 		expect( keywordCount( mockPaper, mockResearcher ).markings ).toEqual( [
 			new Mark( { marked: "A string of text with a <yoastmark class='yoast-text-mark'>keyword</yoastmark> and multiple <yoastmark class='yoast-text-mark'>keywords</yoastmark> in it.",
 				original: "A string of text with a keyword and multiple keywords in it." } ) ]
-		);
-	} );
-
-	it( "counts a string with multiple keywords", function() {
-		const mockPaper = new Paper( "A string with strawberries and a keyword." );
-		expect( keywordCount( mockPaper, mockResearcherMultipleKeywords ).count ).toBe( 1 );
-		expect( keywordCount( mockPaper, mockResearcherMultipleKeywords ).markings ).toEqual( [
-			new Mark( { marked: "A string with <yoastmark class='yoast-text-mark'>strawberries</yoastmark> and a <yoastmark class='yoast-text-mark'>keyword</yoastmark>.",
-				original: "A string with strawberries and a keyword." } ) ]
 		);
 	} );
 

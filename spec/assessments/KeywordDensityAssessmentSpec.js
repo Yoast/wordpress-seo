@@ -15,7 +15,7 @@ describe( "An assessment for the keywordDensity", function() {
 			},
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( 4 );
-		expect( result.getText() ).toBe( "The exact-match <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 0%, which is too low; the focus keyword was found 0 times." );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 0%. This is too low; the focus keyword was found 0 times. <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
 
 		paper = new Paper( "string with the keyword", { keyword: "keyword" } );
 		result = new KeywordDensityAssessment().getResult( paper, factory.buildMockResearcher( {
@@ -25,7 +25,7 @@ describe( "An assessment for the keywordDensity", function() {
 			},
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( 4 );
-		expect( result.getText() ).toBe( "The exact-match <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 0.1%, which is too low; the focus keyword was found 1 time." );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 0.1%. This is too low; the focus keyword was found 1 time. <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
 
 		paper = new Paper( "string with the keyword", { keyword: "keyword" } );
 		result = new KeywordDensityAssessment().getResult( paper, factory.buildMockResearcher( {
@@ -35,7 +35,7 @@ describe( "An assessment for the keywordDensity", function() {
 			},
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( -50 );
-		expect( result.getText() ).toBe( "The exact-match <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 10%, which is way over the advised 2.5% maximum; the focus keyword was found 1 time." );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 10%. This is way over the advised 2.5% maximum; the focus keyword was found 1 time. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
 
 		paper = new Paper( "string with the keyword", { keyword: "keyword" } );
 		result = new KeywordDensityAssessment().getResult( paper, factory.buildMockResearcher( {
@@ -45,7 +45,7 @@ describe( "An assessment for the keywordDensity", function() {
 			},
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "The exact-match <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 2%, which is great; the focus keyword was found 1 time." );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 2%. This is great!" );
 
 		paper = new Paper( "string with the keyword  and keyword ", { keyword: "keyword" } );
 		result = new KeywordDensityAssessment().getResult( paper, factory.buildMockResearcher( {
@@ -55,7 +55,7 @@ describe( "An assessment for the keywordDensity", function() {
 			},
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( -10 );
-		expect( result.getText() ).toBe( "The exact-match <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 3%, which is over the advised 2.5% maximum; the focus keyword was found 2 times." );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 3%. This is over the advised 2.5% maximum; the focus keyword was found 2 times. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
 
 		paper = new Paper( "string with the keyword  and keyword ", { keyword: "keyword" } );
 		result = new KeywordDensityAssessment().getResult( paper, factory.buildMockResearcher( {
@@ -65,7 +65,7 @@ describe( "An assessment for the keywordDensity", function() {
 			},
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "The exact-match <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 0.5%, which is great; the focus keyword was found 2 times." );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 0.5%. This is great!" );
 	} );
 } );
 
