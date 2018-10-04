@@ -100,7 +100,7 @@ abstract class WPSEO_Indexable {
 	 *
 	 * @return WPSEO_Indexable A new instance with the updated data.
 	 */
-	public abstract function update( $data );
+	abstract public function update( $data );
 
 	/**
 	 * Filters out data that isn't considered updateable and returns a valid dataset.
