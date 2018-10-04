@@ -223,7 +223,7 @@ class WPSEO_Customizer {
 
 		$this->wp_customize->add_setting( $setting, $settings_args );
 
-		$control_obj = new WP_Customize_Control( $this->wp_customize, $id, $control_args );
-		$this->wp_customize->add_control( $control_obj );
+		$control = new WP_Customize_Control( $this->wp_customize, $id, $control_args );
+		$this->wp_customize->add_control( $control );
 	}
 }
