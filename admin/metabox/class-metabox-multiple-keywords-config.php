@@ -22,10 +22,10 @@ class WPSEO_Metabox_Multiple_Keywords_Config {
 				'open'           => '+ ' . __( 'Add additional keyphrase', 'wordpress-seo' ),
 				'modalAriaLabel' =>
 					/* translators: %s expands to 'Yoast SEO Premium'. */
-					sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
+					sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 				'heading'        =>
 					/* translators: %s expands to 'Yoast SEO Premium'. */
-					sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
+					sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 			),
 			'classes'        => array(
 				'openButton' => 'wpseo-multiple-keywords button-link',

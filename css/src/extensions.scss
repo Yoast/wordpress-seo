@@ -78,19 +78,27 @@
 				padding-left: 1em;
 				// Make space for the caret background image.
 				padding-right: 1.5em;
-				background: $color-upsell-button url(svg-icon-caret-right()) 97% 45% no-repeat;
+				background: $color-button-upsell url(svg-icon-caret-right()) 97% 45% no-repeat;
 
 				&:hover,
 				&:focus,
 				&:active {
 					color: $color-black;
-					background-color: $color-upsell-button-hover;
+					background-color: $color-button-upsell-hover;
 					text-decoration: none;
 				}
+
+				// Keep grey inset and add blue focus style.
+				&:focus {
+					box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30,140,190,.8);
+				}
+
 				&:active {
 					transform: translateY( 1px );
 					box-shadow: none;
+					filter: none;
 				}
+
 				// Only needed for IE 10+. Don't add spaces within brackets for this to work.
 				@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
 					::after {
