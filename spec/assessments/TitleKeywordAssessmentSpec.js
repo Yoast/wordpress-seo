@@ -17,7 +17,9 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 
 		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe(
-			"The focus keyword 'keyword' does not appear in the <a href='https://yoa.st/2pn' target='_blank'>SEO title</a>."
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Not all the words from your " +
+			"keyphrase \"keyword\"; appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>Try to " +
+			"write the exact match of your keyphrase in the SEO title</a>."
 		);
 	} );
 
@@ -33,8 +35,8 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe(
-			"The exact match of the focus keyphrase appears at the beginning of " +
-			"the <a href='https://yoa.st/2pn' target='_blank'>SEO title</a>, which is considered to improve rankings."
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the focus " +
+			"keyphrase appears at the beginning of the SEO title. Good job!"
 		);
 	} );
 
@@ -50,12 +52,13 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe(
-			"The exact match of the focus keyphrase appears in the <a href='https://yoa.st/2pn' target='_blank'>SEO title</a>, " +
-			"but not at the beginning; try and move it to the beginning."
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the focus " +
+			"keyphrase appears in the  SEO title, but not at the beginning. " +
+			"<a href='https://yoa.st/33h' target='_blank'>Try move it to the beginning</a>."
 		);
 	} );
 
-	it( "returns an assementresult with keyword found at start", function() {
+	it( "returns an assementresult with keyword not found at all", function() {
 		const paper = new Paper( "", {
 			keyword: "keyword",
 			title: "a non-empty title",
@@ -67,8 +70,8 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe(
-			"The <a href='https://yoa.st/2pn' target='_blank'>SEO title</a> contains " +
-			"all words from the focus keyphrase, but not its exact match."
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. " +
+			"<a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of your keyphrase in the SEO title</a>."
 		);
 	} );
 
