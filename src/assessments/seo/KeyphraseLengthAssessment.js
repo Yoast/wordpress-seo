@@ -35,8 +35,8 @@ class KeyphraseLengthAssessment extends Assessment {
 				okay: 6,
 				good: 9,
 			},
-			urlNoOrGoodKeyword: "<a href='https://yoa.st/2pdd' target='_blank'>",
-			urlKeyphraseTooLong: "<a href='https://yoa.st/2pd' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/33i' target='_blank'>",
+			urlCallToAction: "<a href='https://yoa.st/33j' target='_blank'>",
 		};
 
 		this.identifier = "keyphraseLength";
@@ -78,12 +78,14 @@ class KeyphraseLengthAssessment extends Assessment {
 			return {
 				score: this._config.scores.veryBad,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext(
 						"js-text-analysis",
-						"No %1$sfocus keyword%2$s was set for this page. If you do not set a focus keyword, no score can be calculated."
+						"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. " +
+						"%2$sSet a focus keyphrase in order to calculate your SEO score%3$s."
 					),
-					this._config.urlNoOrGoodKeyword,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -96,9 +98,9 @@ class KeyphraseLengthAssessment extends Assessment {
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"Your %1$skeyphrase%2$s has a nice length."
+						"%1$sKeyphrase length%2$s: Good job!"
 					),
-					this._config.urlNoOrGoodKeyword,
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
@@ -111,16 +113,17 @@ class KeyphraseLengthAssessment extends Assessment {
 					/* Translators:
 					%1$d expands to the number of words in the keyphrase,
 					%2$d expands to the recommended maximum of words in the keyphrase,
-					%3$s expands to a link on yoast.com,
-					%4$s expands to the anchor end tag. */
+					%3$s and %4$s expand to links on yoast.com,
+					%5$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"Your %3$skeyphrase%4$s is %1$d words long. That's more than the recommended maximum of %2$d words. " +
-						"You might want to make the keyphrase a bit shorter."
+						"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's more than the recommended maximum of %2$d words. " +
+							"%4$sMake it shorter%5$s!"
 					),
 					this._keyphraseLength,
 					this._config.parameters.recommendedMaximum,
-					this._config.urlKeyphraseTooLong,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -132,16 +135,17 @@ class KeyphraseLengthAssessment extends Assessment {
 				/* Translators:
 				%1$d expands to the number of words in the keyphrase,
 				%2$d expands to the recommended maximum of words in the keyphrase,
-				%3$s expands to a link on yoast.com,
-				%4$s expands to the anchor end tag. */
+				%3$s and %4$s expand to links on yoast.com,
+				%5$s expands to the anchor end tag. */
 				i18n.dgettext(
 					"js-text-analysis",
-					"Your %3$skeyphrase%4$s is %1$d words long. That's way more than the recommended maximum of %2$d " +
-					"words. Make the keyphrase shorter."
+					"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's way more than the recommended maximum of %2$d words. " +
+					"%4$sMake it shorter%5$s!"
 				),
 				this._keyphraseLength,
 				this._config.parameters.recommendedMaximum,
-				this._config.urlKeyphraseTooLong,
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>"
 			),
 		};

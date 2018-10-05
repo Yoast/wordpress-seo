@@ -11,8 +11,7 @@ describe( "A word count assessment", function() {
 		var assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 1 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( -20 );
-		expect( assessment.getText() ).toEqual( "The text contains 1 word. This is far below the <a href='https://yoa.st/2pk' target='_blank'>recommended minimum</a> of 300 words. " +
-			"Add more content that is relevant for the topic." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 1 word. This is far below the recommended minimum of 300 words. <a href='https://yoa.st/34o' target='_blank'>Add more content</a>." );
 	} );
 
 	it( "assesses a low word count", function() {
@@ -20,8 +19,7 @@ describe( "A word count assessment", function() {
 		var assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 5 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( -20 );
-		expect( assessment.getText() ).toEqual( "The text contains 5 words. This is far below the <a href='https://yoa.st/2pk' target='_blank'>recommended minimum</a> of 300 words. " +
-			"Add more content that is relevant for the topic." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 5 words. This is far below the recommended minimum of 300 words. <a href='https://yoa.st/34o' target='_blank'>Add more content</a>." );
 	} );
 
 	it( "assesses a medium word count", function() {
@@ -29,8 +27,7 @@ describe( "A word count assessment", function() {
 		var assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 150 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( -10 );
-		expect( assessment.getText() ).toEqual( "The text contains 150 words. This is far below the <a href='https://yoa.st/2pk' target='_blank'>recommended minimum</a> of 300 words. " +
-			"Add more content that is relevant for the topic." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 150 words. This is far below the recommended minimum of 300 words. <a href='https://yoa.st/34o' target='_blank'>Add more content</a>." );
 	} );
 
 	it( "assesses a slightly higher than medium word count", function() {
@@ -38,8 +35,7 @@ describe( "A word count assessment", function() {
 		var assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 225 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual( "The text contains 225 words. This is below the <a href='https://yoa.st/2pk' target='_blank'>recommended minimum</a> of 300 words. " +
-			"Add more content that is relevant for the topic." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 225 words. This is below the recommended minimum of 300 words. <a href='https://yoa.st/34o' target='_blank'>Add more content</a>." );
 	} );
 
 	it( "assesses an almost at the recommended amount, word count", function() {
@@ -47,8 +43,7 @@ describe( "A word count assessment", function() {
 		var assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 275 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The text contains 275 words. This is slightly below the <a href='https://yoa.st/2pk' target='_blank'>recommended minimum</a> of 300 words. " +
-			 "Add a bit more copy." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 275 words. This is slightly below the recommended minimum of 300 words. <a href='https://yoa.st/34o' target='_blank'>Add a bit more copy</a>." );
 	} );
 
 
@@ -57,6 +52,6 @@ describe( "A word count assessment", function() {
 		var assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 325 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "The text contains 325 words. This is more than or equal to the <a href='https://yoa.st/2pk' target='_blank'>recommended minimum</a> of 300 words." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 325 words. Good job!" );
 	} );
 } );

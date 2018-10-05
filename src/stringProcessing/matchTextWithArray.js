@@ -4,6 +4,7 @@ import stripSpaces from "../stringProcessing/stripSpaces.js";
 
 import removePunctuation from "../stringProcessing/removePunctuation.js";
 import matchTextWithWord from "../stringProcessing/matchTextWithWord";
+import { normalize as normalizeQuotes } from "../stringProcessing/quotes.js";
 import { uniq as unique } from "lodash-es";
 
 /**
@@ -18,6 +19,9 @@ import { uniq as unique } from "lodash-es";
 export default function( text, array, locale = "en_EN" ) {
 	let count = 0;
 	let matches = [];
+
+	array = array.map( normalizeQuotes );
+
 	unique( array ).forEach( function( wordToMatch ) {
 		const occurrence = matchTextWithWord( text, wordToMatch, locale );
 		count += occurrence.count;

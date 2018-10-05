@@ -21,6 +21,8 @@ class UrlLengthAssessment extends Assessment {
 			scores: {
 				tooLong: 6,
 			},
+			urlTitle: "<a href='https://yoa.st/35b' target='_blank'>",
+			urlCallToAction: "<a href='https://yoa.st/35c' target='_blank'>",
 		};
 
 		this.identifier = "urlLength";
@@ -82,7 +84,13 @@ class UrlLengthAssessment extends Assessment {
 	 */
 	translateScore( urlIsTooLong, i18n ) {
 		if ( urlIsTooLong ) {
-			return i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." );
+			return i18n.sprintf(
+				/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "%1$sSlug too long%3$s: the slug for this page is a bit long. %2$sShorten it%3$s!" ),
+				this._config.urlTitle,
+				this._config.urlCallToAction,
+				"</a>",
+			);
 		}
 
 		return "";
