@@ -685,7 +685,7 @@ export default class AnalysisWebWorker {
 					keyword: this._relatedKeywords[ key ].keyword,
 					synonyms: this._relatedKeywords[ key ].synonyms,
 				} );
-				// TODO: Use related keyword (cornerstone) assessor here?
+
 				this._relatedKeywordAssessor.assess( relatedPaper );
 
 				this._results.seo[ key ] = {
