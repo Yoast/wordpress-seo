@@ -220,7 +220,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the urlKeyword assessment", function() {
 			result.urlKeyword = new UrlKeywordAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( keywordCountInUrl( paper ) ),
+				factory.buildMockResearcher( keywordCountInUrl( paper, researcher ) ),
 				i18n
 			);
 			expect( result.urlKeyword.getScore() ).toBe( expectedResults.urlKeyword.score );
