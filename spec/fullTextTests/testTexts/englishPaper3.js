@@ -31,7 +31,7 @@ const paper = new Paper( "<div class=\"content content__first\">\n" +
 	titleWidth: 450,
 	locale: "en_EN",
 	url: "https://yoast.com/social-media-strategy-where-to-begin/",
-	synonyms: "social media SEO strategy",
+	synonyms: "social media SEO strategy, Facebook strategy",
 } );
 
 const expectedResults = {
@@ -45,11 +45,7 @@ const expectedResults = {
 	},
 	keywordDensity: {
 		score: 9,
-		resultText: "The exact-match <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 0.8%, which is great; the focus keyword was found 4 times.",
-	},
-	keywordStopWords: {
-		score: 0,
-		resultText: "",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 0.9%. This is great!",
 	},
 	metaDescriptionKeyword: {
 		score: 9,
@@ -93,7 +89,7 @@ const expectedResults = {
 	},
 	urlKeyword: {
 		score: 9,
-		resultText: "The focus keyword appears in the <a href='https://yoa.st/2pp' target='_blank'>URL</a> for this page.",
+		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase appears in the slug. That's great!",
 	},
 	urlLength: {
 		score: 6,
@@ -103,9 +99,9 @@ const expectedResults = {
 		score: 5,
 		resultText: "<a href='https://yoa.st/34p' target='_blank'>Slug stopwords</a>: The slug for this page contains stop words. <a href='https://yoa.st/34q' target='_blank'>Remove them</a>!",
 	},
-	largestKeywordDistance: {
-		score: 1,
-		resultText: "Large parts of your text do not contain the keyword or its synonyms. Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> them more evenly.",
+	keyphraseDistribution: {
+		score: 9,
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
 
 	fleschReadingEase: {

@@ -32,6 +32,7 @@ const paper = new Paper( "<div class=\"content\"><p></p>\n" +
 	"<p>Please think about the time frame you’re using when comparing dates. Sometimes it doesn’t make any sense to compare June 2018 to June 2017. Perhaps it makes more sense to compare June 2018 with May 2018. You know your website best, you know when you started optimizing for a certain keyword for instance. Think about what questions you want answered before diving into this bunch of&nbsp;Google Search Console data. Those questions will be the answer to what to look at when you open the Performance dashboard.</p>\n" +
 	"<p>At the beginning of this post, we noticed&nbsp;Google Search Console is showing notifications about things that occurred that can affect data:</p></div>", {
 	keyword: "Google Search Console data",
+	synonyms: "Google Click Through Rate, Google CTR",
 	description: "Google Search Console has a totally new interface! And new features: e.g. 16 months of data. Annelieke explains what you can do with it!",
 	title: "Annelieke's Analytics: 16 months of Google Search Console data",
 	titleWidth: 450,
@@ -49,12 +50,8 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!",
 	},
 	keywordDensity: {
-		score: 4,
-		resultText: "The exact-match <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 0.3%, which is too low; the focus keyword was found 3 times.",
-	},
-	keywordStopWords: {
-		score: 0,
-		resultText: "",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 0.7%. This is great!",
 	},
 	metaDescriptionKeyword: {
 		score: 6,
@@ -99,7 +96,7 @@ const expectedResults = {
 	},
 	urlKeyword: {
 		score: 9,
-		resultText: "The focus keyword appears in the <a href='https://yoa.st/2pp' target='_blank'>URL</a> for this page.",
+		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase appears in the slug. That's great!",
 	},
 	urlLength: {
 		score: 6,
@@ -109,9 +106,10 @@ const expectedResults = {
 		score: 5,
 		resultText: "<a href='https://yoa.st/34p' target='_blank'>Slug stopwords</a>: The slug for this page contains a stop word. <a href='https://yoa.st/34q' target='_blank'>Remove it</a>!",
 	},
-	largestKeywordDistance: {
-		score: 1,
-		resultText: "Large parts of your text do not contain the keyword. Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> the keyword more evenly.",
+	keyphraseDistribution: {
+		score: 6,
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. " +
+		"Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
 	fleschReadingEase: {
 		score: 9,
