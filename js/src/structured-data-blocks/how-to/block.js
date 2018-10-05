@@ -77,7 +77,7 @@ export default () => {
 				attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), name: [], text: [] } ];
 			}
 
-			return <HowTo { ...{ attributes, setAttributes, className } }/>;
+			return <HowTo { ...{ attributes, setAttributes, className } } />;
 		},
 
 		/**
@@ -91,7 +91,7 @@ export default () => {
 		 */
 		// eslint-disable-next-line react/display-name
 		save: function( { attributes } ) {
-			return <HowTo.Content { ...attributes }/>;
+			return <HowTo.Content { ...attributes } />;
 		},
 
 		deprecated: [

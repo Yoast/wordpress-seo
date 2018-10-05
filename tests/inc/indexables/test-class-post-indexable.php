@@ -58,7 +58,7 @@ class WPSEO_Post_Indexable_Test extends WPSEO_UnitTestCase {
 				)
 			);
 
-		$instance = WPSEO_Post_Indexable::from_object( $post->ID );
+		$instance     = WPSEO_Post_Indexable::from_object( $post->ID );
 		$new_instance = $instance->update(
 			array( 'is_robots_noindex' => true )
 		);

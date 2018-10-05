@@ -17,6 +17,8 @@ const TaxonomyPicker = ( props ) => {
 		onChange,
 	} = props;
 
+	// Disable reason: UI needs to be re-designed.
+	/* eslint-disable jsx-a11y/no-onchange */
 	return (
 		<select
 			className="components-select-control__input"
@@ -24,13 +26,15 @@ const TaxonomyPicker = ( props ) => {
 			value={ value }
 			onChange={ e => {
 				onChange( parseInt( e.target.value, 10 ) );
-			} } >
+			} }
+		>
 			{
 				terms.map( term => {
 					return (
 						<option
 							key={ term.id }
-							value={ term.id }>
+							value={ term.id }
+						>
 							{ term.name }
 						</option>
 					);
@@ -38,6 +42,7 @@ const TaxonomyPicker = ( props ) => {
 			}
 		</select>
 	);
+	/* eslint-enable jsx-a11y/no-onchange */
 };
 
 TaxonomyPicker.propTypes = {

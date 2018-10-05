@@ -14,18 +14,18 @@ class WPSEO_Indexable_Service_Term_Provider extends WPSEO_Indexable_Provider {
 	 * @var array List of fields that need to be renamed.
 	 */
 	protected $renameable_fields = array(
-		'description'				  => 'desc',
-		'breadcrumb_title'			  => 'bctitle',
-		'og_title'					  => 'opengraph-title',
-		'og_description'			  => 'opengraph-description',
-		'og_image'					  => 'opengraph-image',
-		'twitter_title'				  => 'twitter-title',
-		'twitter_description'		  => 'twitter-description',
-		'twitter_image'				  => 'twitter-image',
-		'is_robots_noindex'			  => 'noindex',
-		'primary_focus_keyword'		  => 'focuskw',
+		'description'                 => 'desc',
+		'breadcrumb_title'            => 'bctitle',
+		'og_title'                    => 'opengraph-title',
+		'og_description'              => 'opengraph-description',
+		'og_image'                    => 'opengraph-image',
+		'twitter_title'               => 'twitter-title',
+		'twitter_description'         => 'twitter-description',
+		'twitter_image'               => 'twitter-image',
+		'is_robots_noindex'           => 'noindex',
+		'primary_focus_keyword'       => 'focuskw',
 		'primary_focus_keyword_score' => 'linkdex',
-		'readability_score'			  => 'content_score',
+		'readability_score'           => 'content_score',
 	);
 
 	/**
@@ -59,7 +59,7 @@ class WPSEO_Indexable_Service_Term_Provider extends WPSEO_Indexable_Provider {
 	 * @return array The patched indexable.
 	 *
 	 * @throws WPSEO_Invalid_Indexable_Exception The indexable exception.
-	 * @throws WPSEO_REST_Request_Exception		 Exception that is thrown if patching the object has failed.
+	 * @throws WPSEO_REST_Request_Exception      Exception that is thrown if patching the object has failed.
 	 */
 	public function patch( $object_id, $requestdata ) {
 		$indexable = $this->get( $object_id, true );
@@ -86,7 +86,7 @@ class WPSEO_Indexable_Service_Term_Provider extends WPSEO_Indexable_Provider {
 	 * @return bool True if the indexable object was successfully stored.
 	 */
 	protected function store_indexable( WPSEO_Indexable $indexable ) {
-		$values 		 = $this->convert_indexable_data( $indexable->to_array() );
+		$values          = $this->convert_indexable_data( $indexable->to_array() );
 		$renamed_values  = $this->rename_indexable_data( $values );
 		$prefixed_values = $this->prefix_indexable_data( $renamed_values );
 
@@ -162,5 +162,4 @@ class WPSEO_Indexable_Service_Term_Provider extends WPSEO_Indexable_Provider {
 
 		return 'default';
 	}
-
 }

@@ -10,7 +10,7 @@ import RaisedButton from "material-ui/RaisedButton";
  * @constructor
  */
 const RaisedDefaultButton = ( props ) => {
-	let buttonProps = {
+	const buttonProps = {
 		primary: props.type === "primary",
 	};
 

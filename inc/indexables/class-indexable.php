@@ -66,8 +66,8 @@ abstract class WPSEO_Indexable {
 	/**
 	 * Determines whether the advanced robot metas value contains the passed value.
 	 *
-	 * @param int 	 $object_id	The ID of the object to check.
-	 * @param string $value 	The name of the advanced robots meta value to look for.
+	 * @param int    $object_id The ID of the object to check.
+	 * @param string $value     The name of the advanced robots meta value to look for.
 	 *
 	 * @return bool Whether or not the advanced robots meta values contains the passed string.
 	 */
@@ -100,7 +100,7 @@ abstract class WPSEO_Indexable {
 	 *
 	 * @return WPSEO_Indexable A new instance with the updated data.
 	 */
-	public abstract function update( $data );
+	abstract public function update( $data );
 
 	/**
 	 * Filters out data that isn't considered updateable and returns a valid dataset.

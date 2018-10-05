@@ -82,7 +82,7 @@
 		jQuery( ".yoast-dismissible" ).on( "click", ".yoast-notice-dismiss", function() {
 			var $parentDiv = jQuery( this ).parent();
 
-			// Deprecated, todo: remove when all notifiers have been implemented.
+			// Deprecated: remove when all notifiers have been implemented.
 			jQuery.post(
 				ajaxurl,
 				{
@@ -267,14 +267,14 @@
 	 * @returns {void}
 	 */
 	function setPremiumIndicatorColor() {
-		let $premiumIndicator = jQuery( ".wpseo-js-premium-indicator" );
-		let $svg = $premiumIndicator.find( "svg" );
+		const $premiumIndicator = jQuery( ".wpseo-js-premium-indicator" );
+		const $svg = $premiumIndicator.find( "svg" );
 
 		// Don't change the color to stand out when premium is actually enabled.
 		if ( $premiumIndicator.hasClass( "wpseo-premium-indicator--no" ) ) {
-			let $svgPath = $svg.find( "path" );
+			const $svgPath = $svg.find( "path" );
 
-			let backgroundColor = $premiumIndicator.css( "backgroundColor" );
+			const backgroundColor = $premiumIndicator.css( "backgroundColor" );
 
 			$svgPath.css( "fill", backgroundColor );
 		}

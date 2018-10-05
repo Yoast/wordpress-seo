@@ -12,7 +12,7 @@
 	 */
 	let wpseoNotificationCounter = 0;
 
-	let addedNotifications = [];
+	const addedNotifications = [];
 
 	/**
 	 * Adds the given notification to the DOM if it doesn't already exist.
@@ -48,7 +48,7 @@
 				if ( response !== "" ) {
 					wpseoNotificationCounter = 0;
 
-					let notifications = JSON.parse( response );
+					const notifications = JSON.parse( response );
 					notifications.map( addNotificationToDom );
 				}
 

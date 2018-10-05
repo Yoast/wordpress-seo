@@ -15,9 +15,9 @@ class WPSEO_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the conversion of the noindex value.
 	 *
-	 * @param string	$value		 The value to test with.
-	 * @param bool|null $expected	 The expected conversion.
-	 * @param string	$description Description of the test.
+	 * @param string    $value       The value to test with.
+	 * @param bool|null $expected    The expected conversion.
+	 * @param string    $description Description of the test.
 	 *
 	 * @dataProvider noindex_conversion_provider
 	 * @covers WPSEO_Indexable::get_robots_noindex_value()
@@ -38,7 +38,7 @@ class WPSEO_Indexable_Test extends WPSEO_UnitTestCase {
 			->getMockBuilder( 'WPSEO_Indexable_Double' )
 			->setConstructorArgs(
 				array(
-					array( 'field' => 'value' )
+					array( 'field' => 'value' ),
 				)
 			)
 			->setMethods( array( 'validate_data' ) )
@@ -60,24 +60,24 @@ class WPSEO_Indexable_Test extends WPSEO_UnitTestCase {
 			->setConstructorArgs(
 				array(
 					array(
-						'object_id' => '1',
+						'object_id'   => '1',
 						'description' => '',
-						'title' => '',
-					)
+						'title'       => '',
+					),
 				)
 			)
 			->setMethods( array( 'validate_data' ) )
 			->getMock();
 
 		$supplied_values = array(
-			'object_id'		=> '1',
-			'description'	=> '',
-			'title'			=> '',
+			'object_id'   => '1',
+			'description' => '',
+			'title'       => '',
 		);
 
 		$expected = array(
-			'description'	=> '',
-			'title'			=> '',
+			'description' => '',
+			'title'       => '',
 		);
 
 		$data = $instance->filter_updateable_data( $supplied_values );

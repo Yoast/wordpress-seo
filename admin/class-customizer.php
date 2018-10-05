@@ -48,14 +48,14 @@ class WPSEO_Customizer {
 	 * Add the breadcrumbs section to the customizer
 	 */
 	private function breadcrumbs_section() {
-		$this->wp_customize->add_section(
-			'wpseo_breadcrumbs_customizer_section', array(
-				/* translators: %s is the name of the plugin */
-				'title'           => sprintf( __( '%s Breadcrumbs', 'wordpress-seo' ), 'Yoast SEO' ),
-				'priority'        => 999,
-				'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
-			)
+		$section_args = array(
+			/* translators: %s is the name of the plugin */
+			'title'           => sprintf( __( '%s Breadcrumbs', 'wordpress-seo' ), 'Yoast SEO' ),
+			'priority'        => 999,
+			'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 		);
+
+		$this->wp_customize->add_section( 'wpseo_breadcrumbs_customizer_section', $section_args );
 	}
 
 	/**

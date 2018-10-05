@@ -15,7 +15,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
       Array [
         "Array with ",
         <a
-          href="#"
+          href="https://example.org"
         >
           links
         </a>,
@@ -27,7 +27,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
     Object {
       "aria-labelledby": "label-id",
       "className": "class name",
-      "href": "#",
+      "href": "https://example.org",
     }
   }
   upsellButtonLabel=""
@@ -44,7 +44,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
     >
       Array with 
       <a
-        href="#"
+        href="https://example.org"
         key="1"
       >
         links
@@ -88,12 +88,12 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
     <OutboundLink
       aria-labelledby="label-id"
       className="class name"
-      href="#"
+      href="https://example.org"
     >
       <a
         aria-labelledby="label-id"
         className="class name"
-        href="#"
+        href="https://example.org"
         rel="noopener noreferrer"
         target="_blank"
       >
