@@ -89,7 +89,7 @@ const expectedResults = {
 	},
 	urlKeyword: {
 		score: 9,
-		resultText: "The focus keyword appears in the <a href='https://yoa.st/2pp' target='_blank'>URL</a> for this page.",
+		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase appears in the slug. That's great!",
 	},
 	urlLength: {
 		score: 6,
@@ -101,7 +101,7 @@ const expectedResults = {
 	},
 	keyphraseDistribution: {
 		score: 9,
-		resultText: "<a href='https://yoa.st/33q target='_blank'>Keyphrase distribution</a>: Good job!",
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
 
 	fleschReadingEase: {

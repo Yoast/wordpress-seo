@@ -12,8 +12,8 @@ describe( "An assessment to check your keyphrase distribution", function() {
 		let assessment = keyphraseDistributionAssessment.getResult( mockPaper, Factory.buildMockResearcher( { keyphraseDistributionScore: -1 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 0 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q target='_blank'>Keyphrase distribution</a>: " +
-			"<a href='https://yoa.st/33u target='_blank'>Include your keyphrase or its synonyms in the text so that we can check keyphrase distribution</a>." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: " +
+			"<a href='https://yoa.st/33u' target='_blank'>Include your keyphrase or its synonyms in the text so that we can check keyphrase distribution</a>." );
 	} );
 
 	it( "returns a bad score when the Gini coefficient calculated from the step function is higher than the recommended good score", function() {
@@ -21,8 +21,8 @@ describe( "An assessment to check your keyphrase distribution", function() {
 		let assessment = keyphraseDistributionAssessment.getResult( mockPaper, Factory.buildMockResearcher( { keyphraseDistributionScore: 0.7 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q target='_blank'>Keyphrase distribution</a>: Very uneven. " +
-			"Large parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u target='_blank'>Distribute them more evenly</a>." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Very uneven. " +
+			"Large parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>." );
 	} );
 
 	it( "returns an okay score when the Gini coefficient calculated from the step function is between recommended acceptable and good score", function() {
@@ -30,8 +30,8 @@ describe( "An assessment to check your keyphrase distribution", function() {
 		let assessment = keyphraseDistributionAssessment.getResult( mockPaper, Factory.buildMockResearcher( { keyphraseDistributionScore: 0.5 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q target='_blank'>Keyphrase distribution</a>: Uneven. " +
-			"Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u target='_blank'>Distribute them more evenly</a>." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. " +
+			"Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>." );
 	} );
 
 	it( "returns a good score score when the Gini coefficient calculated from the step functionn is lower than the recommended good score", function() {
@@ -39,7 +39,7 @@ describe( "An assessment to check your keyphrase distribution", function() {
 		let assessment = keyphraseDistributionAssessment.getResult( mockPaper, Factory.buildMockResearcher( { keyphraseDistributionScore: 0.3 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q target='_blank'>Keyphrase distribution</a>: Good job!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!" );
 	} );
 } );
 

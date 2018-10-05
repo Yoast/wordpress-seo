@@ -41,8 +41,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 				bad: 1,
 				consideration: 0,
 			},
-			urlTitle: "<a href='https://yoa.st/33q target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/33u target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/33q' target='_blank'>",
+			urlCallToAction: "<a href='https://yoa.st/33u' target='_blank'>",
 		};
 
 		this.identifier = "keyphraseDistribution";
