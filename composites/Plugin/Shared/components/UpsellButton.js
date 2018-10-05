@@ -58,6 +58,7 @@ export function addButtonStyles( component ) {
 		&:active {
 			transform: translateY( 1px );
 			box-shadow: none;
+			filter: none;
 		}
 
 		// Only needed for IE 10+. Don't add spaces within brackets for this to work.
