@@ -74,6 +74,8 @@ exports[`the YoastButton executes callback 1`] = `
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
   box-shadow: none;
+  -webkit-filter: none;
+  filter: none;
 }
 
 .c3 {
@@ -192,6 +194,8 @@ exports[`the YoastButton executes callback 2`] = `
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
   box-shadow: none;
+  -webkit-filter: none;
+  filter: none;
 }
 
 .c3 {
@@ -310,6 +314,8 @@ exports[`the YoastButton matches the snapshot 1`] = `
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
   box-shadow: none;
+  -webkit-filter: none;
+  filter: none;
 }
 
 .c3 {
