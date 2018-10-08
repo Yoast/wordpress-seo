@@ -10,7 +10,6 @@ import TitleKeywordAssessment from "../assessments/seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import Assessor from "../assessor";
 import SEOAssessor from "../seoAssessor";
-import keywordStopWords from "../assessments/seo/keywordStopWordsAssessment";
 import MetaDescriptionLength from "../assessments/seo/metaDescriptionLengthAssessment";
 import SubheadingsKeyword from "../assessments/seo/subheadingsKeywordAssessment";
 import TextImages from "../assessments/seo/textImagesAssessment";
@@ -37,7 +36,6 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 		new IntroductionKeywordAssessment(),
 		new KeyphraseLengthAssessment(),
 		new KeywordDensityAssessment(),
-		keywordStopWords,
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLength( {
 			scores:	{

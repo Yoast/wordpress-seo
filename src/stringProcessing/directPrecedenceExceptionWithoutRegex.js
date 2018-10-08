@@ -1,5 +1,6 @@
 import cannotDirectlyPrecedePassiveParticiplePolishFactory from "../researches/polish/functionWords.js";
 const cannotDirectlyPrecedePassiveParticiplePolish = cannotDirectlyPrecedePassiveParticiplePolishFactory().cannotDirectlyPrecedePassiveParticiple;
+
 /**
  * Checks whether the participle is directly preceded by a word from the direct precedence exception list.
  * If this is the case, the sentence part is not passive.

@@ -16,7 +16,7 @@ import { merge } from "lodash-es";
 
 import Jed from "jed";
 import SEOAssessor from "./seoAssessor.js";
-import LargestKeywordDistanceAssessment from "./assessments/seo/LargestKeywordDistanceAssessment.js";
+import KeyphraseDistributionAssessment from "./assessments/seo/KeyphraseDistributionAssessment.js";
 import ContentAssessor from "./contentAssessor.js";
 import CornerstoneSEOAssessor from "./cornerstone/seoAssessor.js";
 import CornerstoneContentAssessor from "./cornerstone/contentAssessor.js";
@@ -28,7 +28,7 @@ import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
 import removeHtmlBlocks from "./stringProcessing/htmlParser.js";
 
-const largestKeywordDistance = new LargestKeywordDistanceAssessment();
+const keyphraseDistribution = new KeyphraseDistributionAssessment();
 
 var inputDebounceDelay = 800;
 
@@ -348,8 +348,8 @@ App.prototype.getSeoAssessor = function() {
 	const { useCornerStone, useKeywordDistribution } = this._assessorOptions;
 
 	const assessor = useCornerStone ? this.cornerStoneSeoAssessor : this.defaultSeoAssessor;
-	if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "largestKeywordDistance" ) ) ) {
-		assessor.addAssessment( "largestKeywordDistance", largestKeywordDistance );
+	if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "keyphraseDistribution" ) ) ) {
+		assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
 	}
 
 	return assessor;

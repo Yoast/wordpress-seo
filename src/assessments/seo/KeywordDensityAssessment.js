@@ -5,7 +5,6 @@ import AssessmentResult from "../../values/AssessmentResult";
 import countWords from "../../stringProcessing/countWords";
 import inRange from "../../helpers/inRange";
 import formatNumber from "../../helpers/formatNumber";
-import topicCount from "../../researches/topicCount";
 
 const inRangeEndInclusive = inRange.inRangeEndInclusive;
 const inRangeStartInclusive = inRange.inRangeStartInclusive;
@@ -45,7 +44,8 @@ class KeywordDensityAssessment extends Assessment {
 				correctDensity: 9,
 				underMinimum: 4,
 			},
-			url: "<a href='https://yoa.st/2pe' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/33v' target='_blank'>",
+			urlCallToAction: "<a href='https://yoa.st/33w' target='_blank'>",
 		};
 
 		this.identifier = "keywordDensity";
@@ -66,14 +66,14 @@ class KeywordDensityAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		const assessmentResult = new AssessmentResult();
 
-		this._keywordCount = researcher.getResearch( "keywordCount" ).count;
+		this._keywordCount = researcher.getResearch( "keywordCount" );
 
 		this._keywordDensity = researcher.getResearch( "getKeywordDensity" );
 
 		const calculatedScore = this.calculateResult( i18n );
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
-		assessmentResult.setHasMarks( this._keywordCount > 0 );
+		assessmentResult.setHasMarks( this._keywordCount.count > 0 );
 
 		return assessmentResult;
 	}
@@ -84,7 +84,7 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the keyword count is 0.
 	 */
 	hasNoMatches() {
-		return this._keywordCount === 0;
+		return this._keywordCount.count === 0;
 	}
 
 	/**
@@ -150,17 +150,17 @@ class KeywordDensityAssessment extends Assessment {
 					/* Translators:
 					%1$s expands to the keyword density percentage,
 					%2$d expands to the keyword count,
-					%3$s expands to a link to a Yoast.com article about keyword density,
-					%4$s expands to the anchor end tag. */
+					%3$s and %4$s expand to links to Yoast.com,
+					%5$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The exact-match %3$skeyword density%4$s is %1$s," +
-						" which is too low; the focus keyword was found %2$d times.",
-						this._keywordCount
+						"%3$sKeyphrase density%5$s: %1$s. " +
+						"This is too low; the focus keyword was found %2$d times. %4$sFocus on your keyphrase%5$s!",
 					),
 					keywordDensityPercentage,
-					this._keywordCount,
-					this._config.url,
+					this._keywordCount.count,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -173,19 +173,20 @@ class KeywordDensityAssessment extends Assessment {
 					/* Translators:
 					%1$s expands to the keyword density percentage,
 					%2$d expands to the keyword count,
-					%3$s expands to a link to a Yoast.com article about keyword density,
-					%4$s expands to the anchor end tag. */
+					%3$s and %4$s expand to links to Yoast.com,
+					%5$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The exact-match %3$skeyword density%4$s is %1$s," +
-						" which is too low; the focus keyword was found %2$d time.",
-						"The exact-match %3$skeyword density%4$s is %1$s," +
-						" which is too low; the focus keyword was found %2$d times.",
-						this._keywordCount
+						"%3$sKeyphrase density%5$s: %1$s. " +
+						"This is too low; the focus keyword was found %2$d time. %4$sFocus on your keyphrase%5$s!",
+						"%3$sKeyphrase density%5$s: %1$s. " +
+						"This is too low; the focus keyword was found %2$d times. %4$sFocus on your keyphrase%5$s!",
+						this._keywordCount.count
 					),
 					keywordDensityPercentage,
-					this._keywordCount,
-					this._config.url,
+					this._keywordCount.count,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -197,20 +198,15 @@ class KeywordDensityAssessment extends Assessment {
 				resultText: i18n.sprintf(
 					/* Translators:
 					%1$s expands to the keyword density percentage,
-					%2$d expands to the keyword count,
-					%3$s expands to a link to a Yoast.com article about keyword density,
-					%4$s expands to the anchor end tag. */
+					%2$s expands to a link to Yoast.com,
+					%3$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The exact-match %3$skeyword density%4$s is %1$s," +
-						" which is great; the focus keyword was found %2$d time.",
-						"The exact-match %3$skeyword density%4$s is %1$s," +
-						" which is great; the focus keyword was found %2$d times.",
-						this._keywordCount
+						"%2$sKeyphrase density%3$s: %1$s. " +
+						"This is great!",
 					),
 					keywordDensityPercentage,
-					this._keywordCount,
-					this._config.url,
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
@@ -224,20 +220,23 @@ class KeywordDensityAssessment extends Assessment {
 					%1$s expands to the keyword density percentage,
 					%2$d expands to the keyword count,
 					%3$s expands to the maximum keyword density percentage,
-					%4$s expands to a link to a Yoast.com article about keyword density,
-					%5$s expands to the anchor end tag. */
+					%4$s and %5$s expand to links to Yoast.com,
+					%6$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The exact-match %4$skeyword density%5$s is %1$s," +
-						" which is over the advised %3$s maximum; the focus keyword was found %2$d time.",
-						"The exact-match %4$skeyword density%5$s is %1$s," +
-						" which is over the advised %3$s maximum; the focus keyword was found %2$d times.",
-						this._keywordCount
+						"%4$sKeyphrase density%6$s: %1$s. " +
+						"This is over the advised %3$s maximum; the focus keyword was found %2$d time. " +
+						"%5$sDon't overoptimize%6$s!",
+						"%4$sKeyphrase density%6$s: %1$s. " +
+						"This is over the advised %3$s maximum; the focus keyword was found %2$d times. " +
+						"%5$sDon't overoptimize%6$s!",
+						this._keywordCount.count
 					),
 					keywordDensityPercentage,
-					this._keywordCount,
+					this._keywordCount.count,
 					max,
-					this._config.url,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -251,20 +250,23 @@ class KeywordDensityAssessment extends Assessment {
 				%1$s expands to the keyword density percentage,
 				%2$d expands to the keyword count,
 				%3$s expands to the maximum keyword density percentage,
-				%4$s expands to a link to a Yoast.com article about keyword density,
-				%5$s expands to the anchor end tag. */
+				%4$s and %5$s expand to links to Yoast.com,
+				%6$s expands to the anchor end tag. */
 				i18n.dngettext(
 					"js-text-analysis",
-					"The exact-match %4$skeyword density%5$s is %1$s," +
-					" which is way over the advised %3$s maximum; the focus keyword was found %2$d time.",
-					"The exact-match %4$skeyword density%5$s is %1$s," +
-					" which is way over the advised %3$s maximum; the focus keyword was found %2$d times.",
-					this._keywordCount
+					"%4$sKeyphrase density%6$s: %1$s. " +
+					"This is way over the advised %3$s maximum; the focus keyword was found %2$d time. " +
+					"%5$sDon't overoptimize%6$s!",
+					"%4$sKeyphrase density%6$s: %1$s. " +
+					"This is way over the advised %3$s maximum; the focus keyword was found %2$d times. " +
+					"%5$sDon't overoptimize%6$s!",
+					this._keywordCount.count
 				),
 				keywordDensityPercentage,
-				this._keywordCount,
+				this._keywordCount.count,
 				max,
-				this._config.url,
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>"
 			),
 		};
@@ -274,12 +276,10 @@ class KeywordDensityAssessment extends Assessment {
 	/**
 	 * Marks keywords in the text for the keyword density assessment.
 	 *
-	 * @param {Object} paper The paper to use for the assessment.
-	 *
 	 * @returns {Array<Mark>} Marks that should be applied.
 	 */
-	getMarks( paper ) {
-		return topicCount( paper, true ).markings;
+	getMarks() {
+		return this._keywordCount.markings;
 	}
 
 

@@ -1,17 +1,23 @@
 /** @module researches/countKeywordInUrl */
 
-import wordMatch from "../stringProcessing/matchTextWithWord.js";
-
-import { escapeRegExp } from "lodash-es";
+import { findTopicFormsInString } from "./findKeywordFormsInString.js";
 
 /**
  * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
  *
  * @param {Paper} paper the Paper object to use in this count.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ *
  * @returns {int} Number of times the keyword is found.
  */
-export default function( paper ) {
-	var keyword = paper.getKeyword().replace( "'", "" ).replace( /\s/ig, "-" );
-	keyword = escapeRegExp( keyword );
-	return wordMatch( paper.getUrl(), keyword, paper.getLocale() ).count;
+export default function( paper, researcher ) {
+	const topicForms = researcher.getResearch( "morphology" );
+	const slug = paper.getUrl().replace( "-", " " );
+
+	const keyphraseInSlug = findTopicFormsInString( topicForms, slug, false, paper.getLocale() );
+
+	return {
+		keyphraseLength: topicForms.keyphraseForms.length,
+		percentWordMatches: keyphraseInSlug.percentWordMatches,
+	};
 }
