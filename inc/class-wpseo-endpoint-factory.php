@@ -115,9 +115,9 @@ class WPSEO_Endpoint_Factory {
 	 */
 	public function register() {
 		$config = array(
-			'methods'				=> $this->method,
-			'callback'				=> $this->callback,
-			'permission_callback'	=> $this->permission_callback,
+			'methods'             => $this->method,
+			'callback'            => $this->callback,
+			'permission_callback' => $this->permission_callback,
 		);
 
 		if ( $this->has_arguments() ) {
@@ -135,7 +135,7 @@ class WPSEO_Endpoint_Factory {
 	 * @return string The validated method.
 	 *
 	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
-	 * @throws InvalidArgumentException The invalid argument exception.
+	 * @throws InvalidArgumentException         The invalid argument exception.
 	 */
 	protected function validate_method( $method ) {
 		if ( ! WPSEO_Validator::is_string( $method ) ) {
@@ -152,10 +152,10 @@ class WPSEO_Endpoint_Factory {
 	/**
 	 * Adds an argument to the endpoint.
 	 *
-	 * @param string $name		  The name of the argument.
+	 * @param string $name        The name of the argument.
 	 * @param string $description The description associated with the argument.
-	 * @param string $type		  The type of value that can be assigned to the argument.
-	 * @param bool 	 $required	  Whether or not it's a required argument. Defaults to true.
+	 * @param string $type        The type of value that can be assigned to the argument.
+	 * @param bool   $required    Whether or not it's a required argument. Defaults to true.
 	 *
 	 * @return void
 	 */
@@ -165,9 +165,9 @@ class WPSEO_Endpoint_Factory {
 		}
 
 		$this->args[ $name ] = array(
-			'description'	=> $description,
-			'type'			=> $type,
-			'required'		=> $required,
+			'description' => $description,
+			'type'        => $type,
+			'required'    => $required,
 		);
 	}
 }

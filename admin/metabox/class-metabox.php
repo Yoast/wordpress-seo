@@ -231,7 +231,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			new WPSEO_Post_Metabox_Formatter( $post, array(), $permalink )
 		);
 
-		$values     = $post_formatter->get_values();
+		$values = $post_formatter->get_values();
 
 		/** This filter is documented in admin/filters/class-cornerstone-filter.php */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );

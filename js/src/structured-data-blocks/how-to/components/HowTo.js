@@ -33,7 +33,6 @@ const SpacedTextControl = styled( TextControl )`
  * A How-to block component.
  */
 export default class HowTo extends Component {
-
 	/**
 	 * Constructs a HowTo editor component.
 	 *
@@ -124,7 +123,7 @@ export default class HowTo extends Component {
 	 * @returns {void}
 	 */
 	changeStep( newName, newText, previousName, previousText, index ) {
-		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
+		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
 		// If the index exceeds the number of steps, don't change anything.
 		if ( index >= steps.length ) {
@@ -152,7 +151,7 @@ export default class HowTo extends Component {
 			jsonText: stripHTML( renderToString( newText ) ),
 		};
 
-		let imageSrc = HowToStep.getImageSrc( newText );
+		const imageSrc = HowToStep.getImageSrc( newText );
 
 		if ( imageSrc ) {
 			steps[ index ].jsonImageSrc = imageSrc;
@@ -172,7 +171,7 @@ export default class HowTo extends Component {
 	 * @returns {void}
 	 */
 	insertStep( index, name = [], text = [], focus = true ) {
-		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
+		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
 		if ( isUndefined( index ) ) {
 			index = steps.length - 1;
@@ -209,8 +208,8 @@ export default class HowTo extends Component {
 	 * @returns {void}
 	 */
 	swapSteps( index1, index2 ) {
-		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
-		let step  = steps[ index1 ];
+		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
+		const step  = steps[ index1 ];
 
 		steps[ index1 ] = steps[ index2 ];
 		steps[ index2 ] = step;
@@ -225,7 +224,7 @@ export default class HowTo extends Component {
 
 		this.props.setAttributes( { steps } );
 
-		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
+		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
 		if ( focusIndex === `${ index1 }` ) {
 			this.setFocus( `${ index2 }:${ subElement }` );
 		}
@@ -243,7 +242,7 @@ export default class HowTo extends Component {
 	 * @returns {void}
 	 */
 	removeStep( index ) {
-		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
+		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
 		steps.splice( index, 1 );
 		this.props.setAttributes( { steps } );
@@ -301,7 +300,7 @@ export default class HowTo extends Component {
 			return null;
 		}
 
-		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
+		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
 
 		return this.props.attributes.steps.map( ( step, index ) => {
 			return (
@@ -365,8 +364,9 @@ export default class HowTo extends Component {
 	 * @returns {Component} The component representing a How-to block.
 	 */
 	static Content( props ) {
-		let {
-			steps,
+		let { steps } = props;
+
+		const {
 			hasDuration,
 			days,
 			hours,
@@ -381,7 +381,7 @@ export default class HowTo extends Component {
 
 		steps = steps
 			? steps.map( ( step ) => {
-				return(
+				return (
 					<HowToStep.Content
 						{ ...step }
 						key={ step.id }
@@ -611,7 +611,7 @@ export default class HowTo extends Component {
 	 * @returns {Component} The how-to block editor.
 	 */
 	render() {
-		let { attributes, setAttributes, className } = this.props;
+		const { attributes, setAttributes, className } = this.props;
 
 		const classNames     = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
 		const listClassNames = [ "schema-how-to-steps", attributes.additionalListCssClasses ].filter( ( item ) => item ).join( " " );

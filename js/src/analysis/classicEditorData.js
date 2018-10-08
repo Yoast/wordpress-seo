@@ -59,7 +59,7 @@ class ClassicEditorData {
 	 * @returns {string} The title or an empty string.
 	 */
 	getTitle() {
-		let titleElement = document.getElementById( "title" );
+		const titleElement = document.getElementById( "title" );
 		return titleElement && titleElement.value || "";
 	}
 
@@ -71,8 +71,8 @@ class ClassicEditorData {
 	 * @returns {string} The excerpt.
 	 */
 	getExcerpt( useFallBack = true ) {
-		let excerptElement = document.getElementById( "excerpt" );
-		let excerptValue   = excerptElement && excerptElement.value || "";
+		const excerptElement = document.getElementById( "excerpt" );
+		const excerptValue   = excerptElement && excerptElement.value || "";
 
 		if ( excerptValue !== "" || useFallBack === false ) {
 			return excerptValue;
@@ -89,7 +89,7 @@ class ClassicEditorData {
 	getSlug() {
 		let slug = "";
 
-		let newPostSlug = document.getElementById( "new-post-slug" );
+		const newPostSlug = document.getElementById( "new-post-slug" );
 
 		if ( newPostSlug ) {
 			slug = newPostSlug.value;
@@ -182,9 +182,9 @@ class ClassicEditorData {
 			return false;
 		}
 
-		for( let dataPoint in currentData ) {
+		for ( const dataPoint in currentData ) {
 			if ( currentData.hasOwnProperty( dataPoint ) ) {
-				if( ! ( dataPoint in newData ) || currentData[ dataPoint ] !== newData[ dataPoint ] ) {
+				if ( ! ( dataPoint in newData ) || currentData[ dataPoint ] !== newData[ dataPoint ] ) {
 					return false;
 				}
 			}
@@ -198,10 +198,10 @@ class ClassicEditorData {
 	 * @returns {void}
 	 */
 	refreshYoastSEO() {
-		let newData = this._store.getState().snippetEditor.data;
+		const newData = this._store.getState().snippetEditor.data;
 
 		// Set isDirty to true if the current data and Gutenberg data are unequal.
-		let isDirty = ! this.isShallowEqual( this._previousData, newData );
+		const isDirty = ! this.isShallowEqual( this._previousData, newData );
 
 		if ( isDirty ) {
 			this._previousData = newData;

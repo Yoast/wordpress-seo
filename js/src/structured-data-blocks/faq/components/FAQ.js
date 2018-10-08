@@ -18,7 +18,6 @@ const QuestionContentWithAppendedSpace = appendSpace( Question.Content );
  * A FAQ block component.
  */
 export default class FAQ extends Component {
-
 	/**
 	 * Constructs a FAQ editor component.
 	 *
@@ -64,7 +63,7 @@ export default class FAQ extends Component {
 	 * @returns {void}
 	 */
 	changeQuestion( newQuestion, newAnswer, previousQuestion, previousAnswer, index ) {
-		let questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
+		const questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
 
 		if ( index >= questions.length ) {
 			return;
@@ -82,7 +81,7 @@ export default class FAQ extends Component {
 			jsonAnswer: stripHTML( renderToString( newAnswer ) ),
 		};
 
-		let imageSrc = Question.getImageSrc( newAnswer );
+		const imageSrc = Question.getImageSrc( newAnswer );
 		if ( imageSrc ) {
 			questions[ index ].jsonImageSrc = imageSrc;
 		}
@@ -101,7 +100,7 @@ export default class FAQ extends Component {
 	 * @returns {void}
 	 */
 	insertQuestion( index, question = [], answer = [], focus = true ) {
-		let questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
+		const questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
 
 		if ( isUndefined( index ) ) {
 			index = questions.length - 1;
@@ -138,8 +137,8 @@ export default class FAQ extends Component {
 	 * @returns {void}
 	 */
 	swapQuestions( index1, index2 ) {
-		let questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
-		let question  = questions[ index1 ];
+		const questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
+		const question  = questions[ index1 ];
 
 		questions[ index1 ] = questions[ index2 ];
 		questions[ index2 ] = question;
@@ -153,7 +152,7 @@ export default class FAQ extends Component {
 
 		this.props.setAttributes( { questions } );
 
-		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
+		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
 		if ( focusIndex === `${ index1 }` ) {
 			this.setFocus( `${ index2 }:${ subElement }` );
 		} else if ( focusIndex === `${ index2 }` ) {
@@ -169,7 +168,7 @@ export default class FAQ extends Component {
 	 * @returns {void}
 	 */
 	removeQuestion( index ) {
-		let questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
+		const questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
 
 		questions.splice( index, 1 );
 		this.props.setAttributes( { questions } );
@@ -239,18 +238,18 @@ export default class FAQ extends Component {
 	 * @returns {array} List of questions.
 	 */
 	getQuestions() {
-		let { attributes } = this.props;
+		const { attributes } = this.props;
 
 		if ( ! attributes.questions ) {
 			return null;
 		}
 
-		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
+		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
 
-		return(
+		return (
 			attributes.questions.map(
 				( question, index ) => {
-					return(
+					return (
 						<Question
 							key={ question.id }
 							attributes={ question }
@@ -286,10 +285,10 @@ export default class FAQ extends Component {
 	 * @returns {Component} The component representing a FAQ block.
 	 */
 	static Content( attributes ) {
-		let { questions, className } = attributes;
+		const { questions, className } = attributes;
 
-		let questionList = questions ? questions.map( ( question ) =>
-			<QuestionContentWithAppendedSpace { ...question } />
+		const questionList = questions ? questions.map( ( question, index ) =>
+			<QuestionContentWithAppendedSpace key={ index } { ...question } />
 		) : null;
 
 		const classNames = [ "schema-faq", className ].filter( ( i ) => i ).join( " " );
@@ -307,7 +306,7 @@ export default class FAQ extends Component {
 	 * @returns {Component} The FAQ block editor.
 	 */
 	render() {
-		let { className } = this.props;
+		const { className } = this.props;
 
 		const classNames = [ "schema-faq", className ].filter( ( i ) => i ).join( " " );
 

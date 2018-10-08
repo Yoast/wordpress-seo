@@ -60,7 +60,7 @@ class UpsellBox extends React.Component {
 			<StyledList role="list">
 				{ benefits.map( ( benefit, index ) => {
 					return <li key={ index }>
-						<span aria-hidden="true"></span>
+						<span aria-hidden="true" />
 						{ interpolateComponents( {
 							mixedString: benefit.replace( "<strong>", "{{strong}}" ).replace( "</strong>", "{{/strong}}" ),
 							components: { strong: <strong /> },
@@ -79,9 +79,9 @@ class UpsellBox extends React.Component {
 	 * @returns {*} The HTML for the info paragraphs.
 	 */
 	createInfoParagraphs( paragraphs ) {
-		return(
+		return (
 			paragraphs.map( ( paragraph, index ) => {
-				return <p key={ index } >{ paragraph }</p>;
+				return <p key={ index }>{ paragraph }</p>;
 			} )
 		);
 	}

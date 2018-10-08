@@ -19,7 +19,7 @@ class WPSEO_Indexable_Service {
 	 */
 	public function get_indexable( WP_REST_Request $request ) {
 		$object_type = $request->get_param( 'object_type' );
-		$object_id 	 = $request->get_param( 'object_id' );
+		$object_id   = $request->get_param( 'object_id' );
 
 		try {
 			$provider  = $this->get_provider( $object_type );
@@ -41,10 +41,10 @@ class WPSEO_Indexable_Service {
 	 */
 	public function patch_indexable( WP_REST_Request $request ) {
 		$object_type = $request->get_param( 'object_type' );
-		$object_id 	 = $request->get_param( 'object_id' );
+		$object_id   = $request->get_param( 'object_id' );
 
 		try {
-			$provider = $this->get_provider( $object_type );
+			$provider       = $this->get_provider( $object_type );
 			$patched_result = $provider->patch( $object_id, $request->get_params() );
 
 			return new WP_REST_Response( $patched_result );

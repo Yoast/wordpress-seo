@@ -14,7 +14,6 @@ const RichTextContentWithAppendedSpace = appendSpace( RichText.Content );
  * A How-to step within a How-to block.
  */
 export default class HowToStep extends Component {
-
 	/**
 	 * Constructs a HowToStep editor component.
 	 *
@@ -62,15 +61,13 @@ export default class HowToStep extends Component {
 				icon="trash"
 				label={ __( "Delete step", "wordpress-seo" ) }
 				onClick={ removeStep }
-			>
-			</IconButton>
+			/>
 			<IconButton
 				className="schema-how-to-step-button editor-inserter__toggle"
 				icon="insert"
 				label={ __( "Insert step", "wordpress-seo" ) }
 				onClick={ insertStep }
-			>
-			</IconButton>
+			/>
 		</div>;
 	}
 
@@ -109,7 +106,7 @@ export default class HowToStep extends Component {
 		const { name, text } = this.props.step;
 
 		let newText = text.slice();
-		let image    = <img key={ media.id } alt={ media.alt } src={ media.url } />;
+		const image = <img key={ media.id } alt={ media.alt } src={ media.url } />;
 
 		if ( newText.push ) {
 			newText.push( image );
@@ -132,7 +129,7 @@ export default class HowToStep extends Component {
 			return false;
 		}
 
-		let image = contents.filter( ( node ) => node && node.type && node.type === "img" )[ 0 ];
+		const image = contents.filter( ( node ) => node && node.type && node.type === "img" )[ 0 ];
 
 		if ( ! image ) {
 			return false;
@@ -150,8 +147,8 @@ export default class HowToStep extends Component {
 	 * @returns {Component} The component to be rendered.
 	 */
 	static Content( step ) {
-		return(
-			<li className={ "schema-how-to-step" } key={ step.id } >
+		return (
+			<li className={ "schema-how-to-step" } key={ step.id }>
 				<RichTextContentWithAppendedSpace
 					tagName="strong"
 					className="schema-how-to-step-name"
@@ -174,7 +171,7 @@ export default class HowToStep extends Component {
 	 * @returns {Component} The how-to step editor.
 	 */
 	render() {
-		let {
+		const {
 			index,
 			step,
 			onChange,
@@ -185,10 +182,10 @@ export default class HowToStep extends Component {
 			isUnorderedList,
 		} = this.props;
 
-		let { id, name, text } = step;
+		const { id, name, text } = step;
 
 		return (
-			<li className="schema-how-to-step" key={ id } >
+			<li className="schema-how-to-step" key={ id }>
 				<span className="schema-how-to-step-number">
 					{ isUnorderedList
 						? "•"

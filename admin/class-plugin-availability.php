@@ -115,7 +115,8 @@ class WPSEO_Plugin_Availability {
 				'title'         => 'Yoast SEO AMP Glue',
 				'description'   => sprintf(
 					/* translators: %1$s expands to Yoast SEO */
-					__( 'Seamlessly integrate %1$s into your AMP pages!', 'wordpress-seo' ), 'Yoast SEO'
+					__( 'Seamlessly integrate %1$s into your AMP pages!', 'wordpress-seo' ),
+					'Yoast SEO'
 				),
 				'installed'     => false,
 				'slug'          => 'glue-for-yoast-seo-amp/yoastseo-amp.php',

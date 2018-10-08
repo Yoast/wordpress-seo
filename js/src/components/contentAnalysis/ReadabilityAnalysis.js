@@ -21,7 +21,7 @@ const AnalysisHeader = styled.span`
 `;
 
 let localizedData = {};
-if( window.wpseoPostScraperL10n ) {
+if ( window.wpseoPostScraperL10n ) {
 	localizedData = wpseoPostScraperL10n;
 } else if ( window.wpseoTermScraperL10n ) {
 	localizedData = wpseoTermScraperL10n;
@@ -51,7 +51,8 @@ class ReadabilityAnalysis extends React.Component {
 				<AnalysisHeader>
 					{ __( "Analysis results", "wordpress-seo" ) }
 				</AnalysisHeader>
-				<p>{ __( "This analysis checks your writing for grammar and writing style so your content " +
+				<p>
+					{ __( "This analysis checks your writing for grammar and writing style so your content " +
 						"is as clear as it can be.", "wordpress-seo" ) + " " }
 					<LearnMoreLink href={ wpseoAdminL10n[ "shortlinks.readability_analysis_info" ] } rel={ null }>
 						{ __( "Learn more about the readability analysis.", "wordpress-seo" ) }

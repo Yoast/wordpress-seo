@@ -86,7 +86,8 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 	public function update_incoming_link_count( array $post_ids, WPSEO_Link_Storage $storage ) {
 		global $wpdb;
 
-		$query = $wpdb->prepare( '
+		$query = $wpdb->prepare(
+			'
 			SELECT COUNT( id ) AS incoming, target_post_id AS post_id
 			FROM ' . $storage->get_table_name() . '
 			WHERE target_post_id IN(' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ')

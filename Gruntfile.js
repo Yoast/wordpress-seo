@@ -5,7 +5,6 @@ var loadGruntConfig = require( "load-grunt-config" );
 const { flattenVersionForFile } = require( "./webpack/paths" );
 
 module.exports = function( grunt ) {
-
 	timeGrunt( grunt );
 
 	const pkg = grunt.file.readJSON( "package.json" );
@@ -87,7 +86,7 @@ module.exports = function( grunt ) {
 				glotpress_download: "grunt-glotpress",
 				wpcss: "grunt-wp-css",
 				"update-version": "@yoast/grunt-plugin-tasks",
-				"set-version": "@yoast/grunt-plugin-tasks"
+				"set-version": "@yoast/grunt-plugin-tasks",
 			},
 			customTasksDir: "grunt/custom",
 		},

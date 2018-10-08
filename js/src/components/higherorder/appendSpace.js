@@ -9,9 +9,9 @@ import React, { Fragment } from "react";
 const appendSpace = function( WrappedComponent ) {
 	return class ComponentWithAppendedSpace extends React.Component {
 		render() {
-			return(
+			return (
 				<Fragment>
-					<WrappedComponent { ...this.props }/>
+					<WrappedComponent { ...this.props } />
 					{ " " }
 				</Fragment>
 			);

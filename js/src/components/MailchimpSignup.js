@@ -8,7 +8,6 @@ import { LoadingIndicator, sendRequest, localize } from "yoast-components";
  * @summary Mailchimp signup component.
  */
 class MailchimpSignup extends React.Component {
-
 	/**
 	 * @summary Constructs the Mailchimp signup component.
 	 *
@@ -37,7 +36,7 @@ class MailchimpSignup extends React.Component {
 	 * @returns {void}
 	 */
 	componentDidUpdate( prevProps, prevState ) {
-		let successfulSignup = this.state.successfulSignup !== prevState.successfulSignup;
+		const successfulSignup = this.state.successfulSignup !== prevState.successfulSignup;
 
 		if ( successfulSignup ) {
 			this.sendChangeEvent();
@@ -59,14 +58,14 @@ class MailchimpSignup extends React.Component {
 	 * @returns {void}
 	 */
 	signup() {
-		let email = this._emailInput.value;
-		let data = `EMAIL=${email}`;
+		const email = this._emailInput.value;
+		const data = `EMAIL=${email}`;
 
 		this.setState( {
 			isLoading: true,
 		} );
 
-		let result = sendRequest(
+		const result = sendRequest(
 			this.props.properties.mailchimpActionUrl,
 			{
 				data,
@@ -141,7 +140,7 @@ class MailchimpSignup extends React.Component {
 	 * @returns {void}
 	 */
 	sendChangeEvent() {
-		let evt = {
+		const evt = {
 			target: {
 				name: "mailchimpSignup",
 				value: {
@@ -164,7 +163,7 @@ class MailchimpSignup extends React.Component {
 		}
 
 		return (
-			<div className="yoast-wizard-overlay"><LoadingIndicator/></div>
+			<div className="yoast-wizard-overlay"><LoadingIndicator /></div>
 		);
 	}
 
@@ -191,48 +190,49 @@ class MailchimpSignup extends React.Component {
 
 		this.onChange = this.props.onChange;
 
-		let input = <input
+		const input = <input
 			id="mailchimpEmail"
 			className="yoast-wizard-text-input-field"
-			ref={this.setEmailInputRef}
+			ref={ this.setEmailInputRef }
 			type="text"
-			name={this.props.name}
-			defaultValue={this.props.properties.currentUserEmail}
+			name={ this.props.name }
+			defaultValue={ this.props.properties.currentUserEmail }
 		/>;
-		let button = <RaisedButton
-			primary={true}
-			label={this.props.translate( "Sign Up!" )}
-			onClick={this.signup.bind( this )}
-			icon={<IconMailOutline color="#ffffff" viewBox="0 0 28 28"/>}
+		const button = <RaisedButton
+			primary={ true }
+			label={ this.props.translate( "Sign Up!" ) }
+			onClick={ this.signup.bind( this ) }
+			icon={ <IconMailOutline color="#ffffff" viewBox="0 0 28 28" /> }
 		/>;
-		let message = this.getSignupMessage();
-		let loader = this.getLoadingIndicator();
+		const message = this.getSignupMessage();
+		const loader = this.getLoadingIndicator();
 
 		return (
 			<div className="yoast-wizard--columns yoast-wizard-newsletter">
 				<div>
-					<h2 className="yoast-wizard-newsletter--header">{this.props.properties.title}</h2>
-					<p>{this.props.properties.label}</p>
-					{this.props.properties.freeAccountNotice && <strong>{ this.props.properties.freeAccountNotice }</strong>}
+					<h2 className="yoast-wizard-newsletter--header">{ this.props.properties.title }</h2>
+					<p>{ this.props.properties.label }</p>
+					{ this.props.properties.freeAccountNotice && <strong>{ this.props.properties.freeAccountNotice }</strong> }
 					<div className="yoast-wizard--columns yoast-wizard--columns__even">
 						<div className="yoast-wizard-text-input">
 							<label
 								htmlFor="mailchimpEmail"
-								className="yoast-wizard-text-input-label">
-								{this.props.translate( "Email" )}
+								className="yoast-wizard-text-input-label"
+							>
+								{ this.props.translate( "Email" ) }
 							</label>
-							{input}
+							{ input }
 						</div>
 					</div>
 
-					{button}
-					{message}
-					{loader}
+					{ button }
+					{ message }
+					{ loader }
 
-					{this.props.properties.GDPRNotice && <div dangerouslySetInnerHTML={{ __html: this.props.properties.GDPRNotice }}></div>}
+					{ this.props.properties.GDPRNotice && <div dangerouslySetInnerHTML={ { __html: this.props.properties.GDPRNotice } } /> }
 				</div>
 				<div className="hide-on-tablet yoast-wizard-newsletter--decoration">
-					<img src={this.props.properties.decoration}/>
+					<img src={ this.props.properties.decoration } alt="" />
 				</div>
 			</div>
 		);
@@ -245,11 +245,11 @@ class MailchimpSignup extends React.Component {
 	 *                    component should be rendered.
 	 */
 	skipRendering() {
-		let stepState = this.props.stepState;
-		let isCurrentStepSuccess = (
+		const stepState = this.props.stepState;
+		const isCurrentStepSuccess = (
 			stepState.currentStep === "success"
 		);
-		let hasMailchimpSignup = (
+		const hasMailchimpSignup = (
 			stepState.fieldValues.newsletter.mailchimpSignup.hasSignup === true
 		);
 
@@ -265,10 +265,10 @@ class MailchimpSignup extends React.Component {
 	 */
 	getSignupMessage() {
 		if ( this.state.successfulSignup ) {
-			return <p className="yoast-wizard-mailchimp-message-success" aria-live="assertive">{this.state.message}</p>;
+			return <p className="yoast-wizard-mailchimp-message-success" aria-live="assertive">{ this.state.message }</p>;
 		}
 
-		return <p className="yoast-wizard-mailchimp-message-error" aria-live="assertive">{this.state.message}</p>;
+		return <p className="yoast-wizard-mailchimp-message-error" aria-live="assertive">{ this.state.message }</p>;
 	}
 }
 
