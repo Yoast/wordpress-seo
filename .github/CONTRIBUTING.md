@@ -54,6 +54,66 @@ We will review your pull request and merge when everything is in order. We will 
 #### 'Patch welcome' issues
 Some issues are labeled 'patch-welcome'. This means we see the value in the particular enhancement being suggested but have decided for now not to prioritize it. If you however decide to write a patch for it, we'll gladly include it after some code review.
 
+## Additional Notes
+
+### Issue and Pull Request Labels
+This section lists the labels we use to help us track and manage issues and pull requests.
+
+GitHub search makes it easy to use labels for finding groups of issues or pull requests you're interested in. To help you find issues and pull requests, each label is listed with search links for finding open items with that label. We encourage you to read about other search filters which will help you write more focused queries.
+
+The labels are loosely grouped by their purpose, but it's not required that every issue have a label from every group or that an issue can't have more than one label from the same group.
+
+Please open an issue if you have suggestions for new labels, and if you notice some labels are missing on some repositories, then please open an issue.
+
+##### Type of Issue and Issue State
+
+| Label name | Description |
+| --- | --- |
+| [`enhancement`][label-enhancement] | Feature requests. |
+| [`bug`][label-bug] | Confirmed bugs or reports that are very likely to be bugs. |
+| [`question`][label-question] | Questions more than bug reports or feature requests (e.g. how do I do X). |
+| [`feedback`][label-feedback] | General feedback more than bug reports or feature requests. |
+| [`help-wanted`][label-help-wanted] | Help from the community in resolving these issues is appreciated. |
+| [`beginner`][label-beginner] | Less complex issues which would be good first issues to work on for users who want to contribute to Dream Plus. |
+| [`more-information-needed`][label-more-information-needed] | More information needs to be collected about these problems or feature requests (e.g. steps to reproduce). |
+| [`needs-reproduction`][label-needs-reproduction] | Likely bugs, but haven't been reliably reproduced. |
+| [`duplicate`][label-duplicate] | Issues which are duplicates of other issues, i.e. they have been reported before. |
+| [`wontfix`][label-wontfix] | Issues which won't be worked on for now. |
+| [`invalid`][label-invalid] | Issues which aren't valid (e.g. user errors). |
+
+#### Pull Request Labels
+
+| Label name | Description
+| --- | --- |
+| [`work-in-progress`][label-work-in-progress] | Pull requests which are still being worked on, more changes will follow. |
+| [`needs-review`][label-needs-review] | Pull requests which need code review. |
+| [`under-review`][label-under-review] | Pull requests being reviewed. |
+| [`requires-changes`][label-requires-changes] | Pull requests which need to be updated based on review comments and then reviewed again. |
+| [`needs-testing`][label-needs-testing] | Pull requests which need manual testing. |
+
+[label-enhancement]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement
+[label-bug]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Aissue+label%3Abug
+[label-question]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Aissue+label%3Aquestion
+[label-feedback]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Aissue+label%3Afeedback
+[label-help-wanted]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Aissue+label%3Ahelp-wanted
+[label-beginner]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner
+[label-more-information-needed]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Aissue+label%3Amore-information-needed
+[label-needs-reproduction]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Aissue+label%3Aneeds-reproduction
+[label-documentation]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Aissue+label%3Adocumentation
+[label-blocked]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Aissue+label%3Ablocked
+[label-duplicate]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Aissue+label%3Aduplicate
+[label-wontfix]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Aissue+label%3Awontfix
+[label-invalid]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Aissue+label%3Ainvalid
+
+[beginner]:https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner+label%3Ahelp-wanted+sort%3Acomments-desc
+[help-wanted]:https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Aissue+label%3Ahelp-wanted+sort%3Acomments-desc+-label%3Abeginner
+
+[label-work-in-progress]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Apr+label%3Awork-in-progress
+[label-needs-review]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Apr+label%3Aneeds-review
+[label-under-review]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Apr+label%3Aunder-review
+[label-requires-changes]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Apr+label%3Arequires-changes
+[label-needs-testing]: https://github.com/UtkarshVerma/hugo-dream-plus/issues?q=is%3Aopen+is%3Apr+label%3Aneeds-testing
+
 #### Additional Resources
 * [Yoast SEO API](https://yoa.st/1y4)
 * [General GitHub Documentation](https://help.github.com/)
