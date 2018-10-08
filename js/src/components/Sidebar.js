@@ -11,6 +11,8 @@ import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import SnippetPreviewModal from "./SnippetPreviewModal";
 
+import { LocationProvider } from "../components/contexts/location";
+
 /**
  * Creates the Sidebar component.
  *
@@ -26,38 +28,40 @@ export default function Sidebar( { settings, store, theme } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
-				{ <SidebarItem renderPriority={ 5 }>
-					<ThemeProvider theme={ theme }>
-						<StoreProvider store={ store }>
-							<SnippetPreviewModal />
-						</StoreProvider>
-					</ThemeProvider>
-				</SidebarItem> }
-				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
-					<ThemeProvider theme={ theme }>
-						<StoreProvider store={ store }>
-							<ReadabilityAnalysis />
-						</StoreProvider>
-					</ThemeProvider>
-				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
-					<ThemeProvider theme={ theme }>
-						<StoreProvider store={ store }>
-							<SeoAnalysis
-								shouldUpsell={ settings.shouldUpsell }
-								location="sidebar"
-							/>
-						</StoreProvider>
-					</ThemeProvider>
-				</SidebarItem> }
-				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
-					<ThemeProvider theme={ theme }>
-						<StoreProvider store={ store }>
-							<CollapsibleCornerstone />
-						</StoreProvider>
-					</ThemeProvider>
-				</SidebarItem>
-				}
+				<LocationProvider value="sidebar">
+					{ <SidebarItem renderPriority={ 5 }>
+						<ThemeProvider theme={ theme }>
+							<StoreProvider id={ "yoast-snippet-editor-sidebar" } store={ store }>
+								<SnippetPreviewModal />
+							</StoreProvider>
+						</ThemeProvider>
+					</SidebarItem> }
+					{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+						<ThemeProvider theme={ theme }>
+							<StoreProvider store={ store }>
+								<ReadabilityAnalysis />
+							</StoreProvider>
+						</ThemeProvider>
+					</SidebarItem> }
+					{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+						<ThemeProvider theme={ theme }>
+							<StoreProvider store={ store }>
+								<SeoAnalysis
+									shouldUpsell={ settings.shouldUpsell }
+									location="sidebar"
+								/>
+							</StoreProvider>
+						</ThemeProvider>
+					</SidebarItem> }
+					{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+						<ThemeProvider theme={ theme }>
+							<StoreProvider store={ store }>
+								<CollapsibleCornerstone />
+							</StoreProvider>
+						</ThemeProvider>
+					</SidebarItem>
+					}
+				</LocationProvider>
 			</Fill>
 		</Fragment>
 	);

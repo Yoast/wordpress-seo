@@ -18,6 +18,7 @@ import Modal from "../modals/Modal";
 import MultipleKeywords from "../modals/MultipleKeywords";
 import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
 import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
+import { LocationConsumer } from "../contexts/location";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -56,6 +57,7 @@ const StyledIcon = styled( Icon )`
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends React.Component {
+
 	/**
 	 * Renders the keyword synonyms upsell modal.
 	 *
@@ -97,13 +99,13 @@ class SeoAnalysis extends React.Component {
 			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_synonyms_button" ];
 		}
 
-		return (
+		return(
 			<Modal { ...modalProps }>
 				<StyledContainer>
 					<StyledIcon icon={ YoastSeoIcon } />
 					<h2>{ __( "Would you like to add keyphrase synonyms?", "wordpress-seo" ) }</h2>
 
-					<KeywordSynonyms link={ link } buyLink={ buyLink } />
+					<KeywordSynonyms link={link} buyLink={buyLink} />
 				</StyledContainer>
 			</Modal>
 		);
@@ -150,7 +152,7 @@ class SeoAnalysis extends React.Component {
 			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_additional_button" ];
 		}
 
-		return (
+		return(
 			<Modal { ...modalProps }>
 				<StyledContainer>
 					<StyledIcon icon={ YoastSeoIcon } />
@@ -209,41 +211,47 @@ class SeoAnalysis extends React.Component {
 		}
 
 		return (
-			<React.Fragment>
-				<Collapsible
-					title={ __( "Focus keyphrase", "wordpress-seo" ) }
-					titleScreenReaderText={ score.screenReaderReadabilityText }
-					prefixIcon={ getIconForScore( score.className ) }
-					prefixIconCollapsed={ getIconForScore( score.className ) }
-					subTitle={ this.props.keyword }
-				>
-					<HelpText>
-						{ __( "A focus keyphrase is the phrase you'd like to be found for in search engines. " +
-							"Enter it below to see how you can improve your text for this term.", "wordpress-seo" ) + " " }
-						<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } rel={ null }>
-							{ __( "Learn more about the keyphrase analysis.", "wordpress-seo" ) }
-						</FocusKeywordLink>
-					</HelpText>
-					<KeywordInput
-						id="focus-keyword-input"
-						onChange={ this.props.onFocusKeywordChange }
-						keyword={ this.props.keyword }
-					/>
-					<Slot name="YoastSynonyms" />
-					{ this.props.shouldUpsell && this.renderSynonymsUpsell(	this.props.location	) }
-					{ this.props.shouldUpsell && this.renderMultipleKeywordsUpsell( this.props.location ) }
-					<AnalysisHeader>
-						{ __( "Analysis results", "wordpress-seo" ) }
-					</AnalysisHeader>
-					<Results
-						showLanguageNotice={ false }
-						results={ this.props.results }
-						marksButtonClassName="yoast-tooltip yoast-tooltip-s"
-						marksButtonStatus={ this.props.marksButtonStatus }
-					/>
-				</Collapsible>
-				{ this.props.shouldUpsell && this.renderKeywordUpsell( this.props.location ) }
-			</React.Fragment>
+			<LocationConsumer>
+				{ context => (
+					<React.Fragment>
+						<Collapsible
+							title={ __( "Focus keyphrase", "wordpress-seo" ) }
+							titleScreenReaderText={ score.screenReaderReadabilityText }
+							prefixIcon={ getIconForScore( score.className ) }
+							prefixIconCollapsed={ getIconForScore( score.className ) }
+							subTitle={ this.props.keyword }
+							id={ `yoast-seo-analysis-collapsible-${ context }` }
+						>
+							<HelpText>
+								{ __( "A focus keyphrase is the phrase you'd like to be found for in search engines. " +
+									"Enter it below to see how you can improve your text for this term.", "wordpress-seo" ) + " " }
+								<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } rel={ null }>
+									{ __( "Learn more about the keyphrase analysis.", "wordpress-seo" ) }
+								</FocusKeywordLink>
+							</HelpText>
+							<KeywordInput
+								id="focus-keyword-input"
+								onChange={ this.props.onFocusKeywordChange }
+								keyword={ this.props.keyword }
+							/>
+							<Slot name="YoastSynonyms" />
+							{ this.props.shouldUpsell && this.renderSynonymsUpsell(	this.props.location	) }
+							{ this.props.shouldUpsell && this.renderMultipleKeywordsUpsell( this.props.location ) }
+							<AnalysisHeader>
+								{ __( "Analysis results", "wordpress-seo" ) }
+							</AnalysisHeader>
+							<Results
+								showLanguageNotice={ false }
+								results={ this.props.results }
+								marksButtonClassName="yoast-tooltip yoast-tooltip-s"
+								marksButtonStatus={ this.props.marksButtonStatus }
+							/>
+						</Collapsible>
+						{ this.props.shouldUpsell && this.renderKeywordUpsell( this.props.location ) }
+					</React.Fragment>
+				) }
+			</LocationConsumer>
+
 		);
 	}
 }
@@ -270,7 +278,7 @@ SeoAnalysis.propTypes = {
 function mapStateToProps( state, ownProps ) {
 	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
 
-	const keyword = state.focusKeyword;
+	let keyword = state.focusKeyword;
 
 	let results = null;
 	let overallScore = null;
