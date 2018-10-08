@@ -1,5 +1,5 @@
 import Researcher from "../../src/researcher";
-import morphologyData from "../../src/morphology/morphologyData.json";
+import morphologyData from "../../premium-configuration/data/morphologyData.json";
 import altTagCountFunction from "../../src/researches/imageAltTags";
 import Paper from "../../src/values/Paper";
 

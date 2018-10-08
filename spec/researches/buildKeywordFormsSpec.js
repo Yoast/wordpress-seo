@@ -2,7 +2,7 @@ import Paper from "../../src/values/Paper";
 import Researcher from "../../src/researcher";
 
 import { filterFunctionWords, buildForms, collectForms } from "../../src/researches/buildKeywordForms.js";
-import morphologyData from "../../src/morphology/morphologyData.json";
+import morphologyData from "../../premium-configuration/data/morphologyData.json";
 
 describe( "A test for filtering out function words from an array of words for a given language", function() {
 	it( "returns the array of content words for absent locale", function() {
