@@ -96,10 +96,9 @@ class ReplacementVariableEditor extends React.Component {
 					onClick={ onFocus }
 					isActive={ isActive }
 					isHovered={ isHovered }
-					id={ fieldId }
 				>
 					<ReplacementVariableEditorStandalone
-						fieldId={ `${ fieldId }-field` }
+						fieldId={ fieldId }
 						placeholder={ placeholder }
 						content={ content }
 						onChange={ onChange }
