@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+import { UpsellButton } from "../composites/Plugin/Shared/components/UpsellButton";
 import { YoastButton } from "../composites/Plugin/Shared/components/YoastButton";
 import { YoastLinkButton } from "../composites/Plugin/Shared/components/YoastLinkButton";
 import { BaseButton, Button, IconButton, IconsButton } from "../composites/Plugin/Shared/components/Button";
@@ -86,7 +87,9 @@ export default class ButtonsList extends React.Component {
 					onClick={ this.updateIconButtonTogglePressed }
 				/> (IconButtonToggle: needs a tooltip to make its aria-label visible)
 				<Separator />
-				<YoastButton>YoastButton</YoastButton>
+				<YoastButton>YoastButton</YoastButton>{ ' ' }
+				<UpsellButton>upsell Button</UpsellButton>
+
 				<Separator />
 				<IconLabelledButton icon="question-circle">Need help?</IconLabelledButton>
 				<IconLabelledButton	icon="gear">Settings</IconLabelledButton>

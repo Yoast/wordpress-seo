@@ -32,6 +32,8 @@ $palette_red:                #dc3232; // Safe to use with $palette_white and $pa
 $palette_red_light:          #f9bdbd; // Safe to use with $palette_grey_dark.
 $palette_yellow:             #ffeb3b; // Safe to use with $palette_grey_text - $palette_black.
 $palette_yellow_score:       #f5c819; // Used for the OK SEO score icon.
+$palette_button_upsell:      #fec228; // Used for the Upsell Button.
+$palette_button_upsell_hover:#f2ae01; // Used for the Upsell Button.
 
 $color_bad:                  $palette_red;
 $color_ok:                   $palette_orange_light;
@@ -73,6 +75,8 @@ $color_button_hover:         $palette_white;
 $color_button_border_hover:  $palette_grey_medium_dark;
 $color_button_text_hover:    $palette_black;
 $color_button_border_active: $palette_black;
+$color_button_upsell:        $palette_button_upsell;
+$color_button_upsell_hover:  $palette_button_upsell_hover;
 
 $color_headings:             $palette_grey_dark;
 
