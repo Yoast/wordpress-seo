@@ -1,7 +1,7 @@
 import contentConfiguration from "../../src/config/content/combinedConfig";
 import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
-import morphologyData from "../../src/morphology/morphologyData.json";
+import morphologyData from "../../premium-configuration/data/morphologyData.json";
 import Researcher from "../../src/researcher";
 
 // Import SEO assessments

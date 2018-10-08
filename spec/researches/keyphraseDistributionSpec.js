@@ -5,7 +5,7 @@ import { step } from "../../src/researches/keyphraseDistribution.js";
 import { keyphraseDistributionResearcher } from "../../src/researches/keyphraseDistribution.js";
 import Paper from "../../src/values/Paper.js";
 import Researcher from "../../src/researcher";
-import morphologyData from "../../src/morphology/morphologyData.json";
+import morphologyData from "../../premium-configuration/data/morphologyData.json";
 
 describe( "Test for maximizing sentence scores", function() {
 	it( "returns the largest score per sentence over all topics", function() {

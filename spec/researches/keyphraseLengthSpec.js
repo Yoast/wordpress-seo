@@ -1,5 +1,5 @@
 import Researcher from "../../src/researcher";
-import morphologyData from "../../src/morphology/morphologyData.json";
+import morphologyData from "../../premium-configuration/data/morphologyData.json";
 import keyphraseLength from "../../src/researches/keyphraseLength.js";
 import Paper from "../../src/values/Paper.js";
 
