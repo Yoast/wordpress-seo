@@ -436,10 +436,10 @@ export default class AnalysisWebWorker {
 			update.readability = true;
 			update.seo = true;
 		}
-		if ( has( configuration, "useTaxonomy" ) ) {
-			update.seo = true;
-		}
-		if ( has( configuration, "useKeywordDistribution" ) ) {
+		if (
+			has( configuration, "useTaxonomy" ) ||
+			has( configuration, "useKeywordDistribution" )
+		) {
 			update.seo = true;
 		}
 
