@@ -3,6 +3,7 @@
 import { dispatch } from "@wordpress/data";
 
 /* Internal dependencies */
+import determineParentsForTerm from "./helpers/determineParentsForTerm";
 
 ( function( $ ) {
 	"use strict";
@@ -66,16 +67,27 @@ import { dispatch } from "@wordpress/data";
 		primaryTermInput.val( termId ).trigger( "change" );
 
 		const yoastEditor = dispatch( "yoast-seo/editor" );
-		if ( yoastEditor ) {
-			const termIdInt = parseInt( termId, 10 );
-			yoastEditor.setPrimaryTaxonomyId( taxonomyName, termIdInt );
-			// If the taxonomy is category update the replacement variable.
-			if ( taxonomyName === "category" ) {
-				yoastEditor.updateReplacementVariable(
-					"primary_category",
-					getCategoryTermName( termIdInt )
-				);
-			}
+
+		if ( ! yoastEditor ) {
+			return;
+		}
+
+		const termIdInt = parseInt( termId, 10 );
+		yoastEditor.setPrimaryTaxonomyId( taxonomyName, termIdInt );
+
+		const termData = Object.values( wpseoPrimaryCategoryL10n.taxonomies.category.terms );
+
+		yoastEditor.updateData( {
+			primaryTaxonomySlug: ( termData && termData.slug) ? termData.slug : "",
+			parents: determineParentsForTerm( termIdInt, Object.values( wpseoPrimaryCategoryL10n.taxonomies.category.terms ) )
+		} );
+
+		// If the taxonomy is category update the replacement variable.
+		if ( taxonomyName === "category" ) {
+			yoastEditor.updateReplacementVariable(
+				"primary_category",
+				getCategoryTermName( termIdInt )
+			);
 		}
 	}
 
@@ -199,14 +211,14 @@ import { dispatch } from "@wordpress/data";
 	/**
 	 * Returns the term list add handler for a certain taxonomy name.
 	 *
-	 * @param {string} taxonomyName The taxonomy name.
+	 * @param {Object} taxonomy The taxonomy.
 	 *
 	 * @returns {Function} The term list add handler.
 	 */
-	function termListAddHandler( taxonomyName ) {
+	function termListAddHandler( taxonomy ) {
 		return function() {
-			ensurePrimaryTerm( taxonomyName );
-			updatePrimaryTermSelectors( taxonomyName );
+			ensurePrimaryTerm( taxonomy.name );
+			updatePrimaryTermSelectors( taxonomy.name );
 		};
 	}
 
@@ -242,7 +254,7 @@ import { dispatch } from "@wordpress/data";
 			metaboxTaxonomy.on( "click", 'input[type="checkbox"]', termCheckboxHandler( taxonomy.name ) );
 
 			// When the AJAX Request is done, this event will be fired.
-			metaboxTaxonomy.on( "wpListAddEnd", "#" + taxonomy.name + "checklist", termListAddHandler( taxonomy.name ) );
+			metaboxTaxonomy.on( "wpListAddEnd", "#" + taxonomy.name + "checklist", termListAddHandler( taxonomy ) );
 
 			metaboxTaxonomy.on( "click", ".wpseo-make-primary-term", makePrimaryHandler( taxonomy.name ) );
 		} );

@@ -134,6 +134,7 @@ class WPSEO_Primary_Term_Admin {
 		$data = array(
 			'taxonomies' => $mapped_taxonomies,
 		);
+
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'primary-category', 'wpseoPrimaryCategoryL10n', $data );
 	}
 
@@ -252,7 +253,44 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Returns an array suitable for use in the javascript.
+	 * Gets a list of taxonomies based on the passed taxonomy and checks for ancestor taxonomies.
+	 *
+	 * @param $taxonomy The taxonomy to get the list for.
+	 *
+	 * @return array The list of taxonomies.
+	 */
+	protected function get_taxonomies( $taxonomy ) {
+		$terms = get_terms( $taxonomy, array( 'hide_empty' => false ) );
+
+		foreach ( $terms as $term ) {
+			$term->parents = $this->get_ancestors( $term->term_id );
+		}
+
+		return $terms;
+	}
+
+	/**
+	 * Gets the ancestors for the passed term.
+	 *
+	 * @param int $term_id The term ID to get the ancestors for.
+	 *
+	 * @return array The ancestor slugs.
+	 */
+	protected function get_ancestors( $term_id ) {
+		$ancestors = array_reverse( get_ancestors( $term_id, 'category' ), true );
+		$ancestor_slugs = array();
+
+		foreach ( $ancestors as $ancestor ) {
+			$parent = get_term( $ancestor );
+
+			$ancestor_slugs[ $parent->term_id ] = $parent->slug;
+		}
+
+		return $ancestor_slugs;
+	}
+
+	/**
+	 * Returns an array suitable for use in the JavaScript.
 	 *
 	 * @param stdClass $taxonomy The taxonomy to map.
 	 *
@@ -262,10 +300,10 @@ class WPSEO_Primary_Term_Admin {
 		$primary_term = $this->get_primary_term( $taxonomy->name );
 
 		if ( empty( $primary_term ) ) {
-			$primary_term = '';
+			$primary_term = 1;
 		}
 
-		$terms = get_terms( $taxonomy->name );
+		$terms = $this->get_taxonomies( $taxonomy->name );
 
 		return array(
 			'title'         => $taxonomy->labels->singular_name,
@@ -274,22 +312,31 @@ class WPSEO_Primary_Term_Admin {
 			'singularLabel' => $taxonomy->labels->singular_name,
 			'fieldId'       => $this->generate_field_id( $taxonomy->name ),
 			'restBase'      => ( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name,
-			'terms'         => array_map( array( $this, 'map_terms_for_js' ), $terms ),
+			'terms'         => $this->map_terms_for_js( $terms ),
 		);
 	}
 
 	/**
-	 * Returns an array suitable for use in the javascript.
+	 * Returns an array suitable for use in the JavaScript.
 	 *
-	 * @param stdClass $term The term to map.
+	 * @param array $terms The terms to map.
 	 *
 	 * @return array The mapped terms.
 	 */
-	private function map_terms_for_js( $term ) {
-		return array(
-			'id'   => $term->term_id,
-			'name' => $term->name,
-		);
+	private function map_terms_for_js( $terms ) {
+		$mapped = array();
+
+		foreach ( $terms as $term ) {
+			$mapped[] = array(
+				'id'   		=> $term->term_id,
+				'name' 		=> $term->name,
+				'slug' 		=> $term->slug,
+				'parent' 	=> $term->parent,
+				'parents' 	=> $term->parents,
+			);
+		}
+
+		return $mapped;
 	}
 
 	/**

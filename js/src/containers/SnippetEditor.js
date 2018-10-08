@@ -87,6 +87,8 @@ export const mapEditorDataToPreview = function( data, context ) {
 		baseUrlLength = context.shortenedBaseUrl.length;
 	}
 
+	const permalinkStructure = "[homeurl]/%category%/"
+
 	// Replace whitespaces in the url with dashes.
 	data.url = data.url.replace( /\s+/g, "-" );
 	if ( data.url[ data.url.length - 1 ] === "-" ) {

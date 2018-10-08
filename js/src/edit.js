@@ -1,4 +1,5 @@
-/* global window process wp */
+/* global window process wp wpseoPrimaryCategoryL10n */
+
 /* External dependencies */
 import React from "react";
 import { Provider } from "react-redux";
@@ -21,7 +22,6 @@ import MetaboxPortal from "./components/MetaboxPortal";
 import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPriority";
 import * as selectors from "./redux/selectors";
 import * as actions from "./redux/actions";
-import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
 import PrimaryTaxonomyFilter from "./components/PrimaryTaxonomyFilter";
 
@@ -34,6 +34,8 @@ const PinnedPluginIcon = styled( PluginIcon )`
 
 class Edit {
 	/**
+	 * Construct the Edit class.
+	 *
 	 * @param {Object}   args                                 Edit initialize arguments.
 	 * @param {Function} args.onRefreshRequest                The function to refresh the analysis.
 	 * @param {Object}   args.replaceVars                     The replaceVars object.
@@ -44,7 +46,7 @@ class Edit {
 	 */
 	constructor( args ) {
 		this._localizedData = this.getLocalizedData();
-		this._args =          args;
+		this._args          = args;
 
 		this._init();
 	}
@@ -62,22 +64,76 @@ class Edit {
 		);
 	}
 
+	/**
+	 * Initialize the store and filters.
+	 *
+	 * @returns {void}
+	 * @private
+	 */
 	_init() {
 		this._store = this._registerStoreInGutenberg();
 
 		this._registerCategorySelectorFilter();
-
 		this._registerPlugin();
 
 		this._data = this._initializeData();
 
-		this._store.dispatch( setSettings( {
+		this._store.dispatch( actions.setSettings( {
 			snippetEditor: {
 				baseUrl: this._args.snippetEditorBaseUrl,
 				date: this._args.snippetEditorDate,
 				recommendedReplacementVariables: this._args.recommendedReplaceVars,
 			},
 		} ) );
+
+		if ( window.wpseoPrimaryCategoryL10n ) {
+			this._store.dispatch( actions.updateData( {
+				parents: this._getPrimaryCategoryParents(),
+				primaryTaxonomySlug: this._getPrimaryCategorySlug(),
+			} ) );
+		}
+	}
+
+	/**
+	 * Gets the primary category data from the localized dataset.
+	 *
+	 * @returns {Object} The category data.
+	 * @private
+	 */
+	_getPrimaryCategory() {
+		return wpseoPrimaryCategoryL10n.taxonomies.category;
+	}
+
+	/**
+	 * Gets the primary category slug.
+	 *
+	 * @return {string} The slug.
+	 * @private
+	 */
+	_getPrimaryCategorySlug() {
+		const categoryData = this._getPrimaryCategory();
+
+		if ( ! categoryData ) {
+			return "";
+		}
+
+		return Object.values( categoryData.terms ).find( term => term.id === categoryData.primary ).slug;
+	}
+
+	/**
+	 * Gets the primary category's parents.
+	 *
+	 * @return {number} The parent. 0 if no parent is set.
+	 * @private
+	 */
+	_getPrimaryCategoryParents() {
+		const categoryData = this._getPrimaryCategory();
+
+		if ( ! categoryData ) {
+			return 0;
+		}
+
+		return Object.values( categoryData.terms ).find( term => term.id === categoryData.primary ).parents;
 	}
 
 	/**
@@ -190,6 +246,7 @@ class Edit {
 
 		const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store, args.classicEditorDataSettings );
 		classicEditorData.initialize( args.replaceVars );
+
 		return classicEditorData;
 	}
 

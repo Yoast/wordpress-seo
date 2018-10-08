@@ -78,9 +78,9 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	}
 
 	/**
-	 * Returns a base URL for use in the JS, takes permalink structure into account
+	 * Returns a base URL for use in the JavaScript. Also takes permalink structure into account.
 	 *
-	 * @return string
+	 * @return string The base URL.
 	 */
 	private function base_url_for_js() {
 		global $pagenow;
@@ -92,12 +92,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 			return $base_url;
 		}
 
-		// If %postname% is the last tag, just strip it and use that as a base.
-		if ( 1 === preg_match( '#%postname%/?$#', $this->permalink ) ) {
-			$base_url = preg_replace( '#%postname%/?$#', '', $this->permalink );
-		}
-
-		return $base_url;
+		return $this->permalink;
 	}
 
 	/**
