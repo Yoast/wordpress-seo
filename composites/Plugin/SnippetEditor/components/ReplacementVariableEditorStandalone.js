@@ -341,23 +341,23 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	/**
 	 * Sets the editor reference on this component instance.
 	 *
-	 * @param {Object} editor The editor React reference.
+	 * @param {Object} editorRef The editor React reference.
 	 *
 	 * @returns {void}
 	 */
-	setEditorRef( editor ) {
+	setEditorRef( editorRef ) {
 		try {
-			editor.editor.editorContainer.firstChild.id = this.props.fieldId;
+			editorRef.editor.editorContainer.firstChild.id = this.props.fieldId;
 		} catch ( error ) {
 			console.trace( error );
 		}
 
-		this.editor = editor;
+		this.editor = editorRef;
 	}
 
 	setEditorFieldId() {
 		const editorContainer = get( this.editor, "editor.editorContainer" );
-		const editorField = editorContainer.querySelector( "div[contenteditable]" );
+		const editorField     = editorContainer.querySelector( "div[contenteditable]" );
 
 		editorField.id = this.props.fieldId;
 	}
