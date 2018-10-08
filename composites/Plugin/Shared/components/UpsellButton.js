@@ -46,7 +46,7 @@ export function addButtonStyles( component ) {
 		box-sizing: border-box;
 		font: 400 16px/24px "Open Sans", sans-serif;
 		box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2);
-		filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+		filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 		transition: box-shadow 150ms ease-out;
 
 		&:hover,
