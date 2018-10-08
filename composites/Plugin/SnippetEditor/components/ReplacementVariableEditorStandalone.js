@@ -355,6 +355,11 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.editor = editorRef;
 	}
 
+	/**
+	 * Sets the id of the editable div, that represents the actual input of the DraftJS field.
+	 *
+	 * @returns {void}
+	 */
 	setEditorFieldId() {
 		const editorContainer = get( this.editor, "editor.editorContainer" );
 		const editorField     = editorContainer.querySelector( "div[contenteditable]" );
