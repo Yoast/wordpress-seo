@@ -122,7 +122,7 @@ describe( "Test for a step-function research", function() {
 		);
 
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.12222222222222222,
@@ -146,7 +146,7 @@ describe( "Test for a step-function research", function() {
 		);
 
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.12222222222222222,
@@ -165,7 +165,7 @@ describe( "Test for a step-function research", function() {
 		);
 
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.12222222222222222,
@@ -184,7 +184,7 @@ describe( "Test for a step-function research", function() {
 		);
 
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.12222222222222222,
@@ -209,7 +209,7 @@ describe( "Test for a step-function research", function() {
 		);
 
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.12222222222222222,
@@ -230,7 +230,7 @@ describe( "Test for a step-function research", function() {
 		);
 
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 0.13157894736842105,
