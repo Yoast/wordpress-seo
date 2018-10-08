@@ -5,6 +5,7 @@ const { removeMarks } = analysis.markers;
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import {
+	excerptFromContent,
 	fillReplacementVariables,
 	mapCustomFields,
 	mapCustomTaxonomies,
@@ -65,11 +66,19 @@ class ClassicEditorData {
 	/**
 	 * Gets the excerpt from the document.
 	 *
-	 * @returns {string} The excerpt or an empty string.
+	 * @param {boolean} useFallBack Whether the fallback for content should be used.
+	 *
+	 * @returns {string} The excerpt.
 	 */
-	getExcerpt() {
+	getExcerpt( useFallBack = true ) {
 		let excerptElement = document.getElementById( "excerpt" );
-		return excerptElement && excerptElement.value || "";
+		let excerptValue   = excerptElement && excerptElement.value || "";
+
+		if ( excerptValue !== "" || useFallBack === false ) {
+			return excerptValue;
+		}
+
+		return excerptFromContent( this.getContent() );
 	}
 
 	/**
@@ -150,8 +159,14 @@ class ClassicEditorData {
 	 * @returns {void}
 	 */
 	updateReplacementData( event, targetReplaceVar ) {
-		const replaceValue = event.target.value;
+		let replaceValue = event.target.value;
+
+		if ( targetReplaceVar === "excerpt" && replaceValue === "" ) {
+			replaceValue = this.getExcerpt();
+		}
+
 		this._data[ targetReplaceVar ] = replaceValue;
+
 		this._store.dispatch( updateReplacementVariable( targetReplaceVar, replaceValue ) );
 	}
 
@@ -218,12 +233,13 @@ class ClassicEditorData {
 	getInitialData( replaceVars ) {
 		replaceVars = mapCustomFields( replaceVars, this._store );
 		replaceVars = mapCustomTaxonomies( replaceVars, this._store );
+
 		return {
 			...replaceVars,
 			title: this.getTitle(),
 			excerpt: this.getExcerpt(),
 			// eslint-disable-next-line
-			excerpt_only: this.getExcerpt(),
+			excerpt_only: this.getExcerpt( false ),
 			slug: this.getSlug(),
 			content: this.getContent(),
 		};

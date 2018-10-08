@@ -4,6 +4,7 @@ import {
 	updateData,
 } from "../redux/actions/snippetEditor";
 import {
+	excerptFromContent,
 	fillReplacementVariables,
 	mapCustomFields,
 	mapCustomTaxonomies,
@@ -140,7 +141,8 @@ class Data {
 			content: this.getPostAttribute( "content" ),
 			title: this.getPostAttribute( "title" ),
 			slug: this.getSlug(),
-			excerpt: this.getPostAttribute( "excerpt" ),
+			excerpt: this.getExcerpt(),
+			excerpt_only: this.getExcerpt( false ),
 		};
 	}
 
@@ -159,12 +161,28 @@ class Data {
 		// Handle excerpt change
 		if ( this._data.excerpt !== newData.excerpt ) {
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
-			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt ) );
+			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt_only ) );
 		}
 		// Handle slug change
 		if ( this._data.slug !== newData.slug ) {
 			this._store.dispatch( updateData( { slug: newData.slug } ) );
 		}
+	}
+
+	/**
+	 * Gets the excerpt from the post.
+	 *
+	 * @param {boolean} useFallBack Whether the fallback for content should be used.
+	 *
+	 * @returns {string} The excerpt.
+	 */
+	getExcerpt( useFallBack = true ) {
+		let excerpt = this.getPostAttribute( "excerpt" );
+		if ( excerpt !== "" || useFallBack === false ) {
+			return excerpt;
+		}
+
+		return excerptFromContent( this.getPostAttribute( "content" ) );
 	}
 
 	/**

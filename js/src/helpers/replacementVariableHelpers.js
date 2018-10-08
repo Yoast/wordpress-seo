@@ -200,3 +200,18 @@ export function mapCustomFields( replaceVars, store ) {
 		...replaceVars,
 	}, "custom_fields" );
 }
+
+/**
+ * Extracts the excerpt from the given content.
+ *
+ * @param {string} content The content.
+ * @param {number} words   The amount of words to extract.
+ *
+ * @returns {string} The generated excerpt.
+ */
+export function excerptFromContent( content, words = 55 ) {
+	// Because WordPress is doing this also (See PHP: wp_trim_excerpt).
+	content = content.replace( "]]>", "]]&gt;" );
+
+	return content.split( " ", words ).join( " " );
+}
