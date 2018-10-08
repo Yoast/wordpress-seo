@@ -97,7 +97,7 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 			->expects( $this->once() )
 			->method( 'set_meta' );
 		$indexable
-			->expects( $this->exactly( 7 ) )
+			->expects( $this->exactly( 10 ) )
 			->method( '__set' );
 
 		$formatter->format( $indexable );
