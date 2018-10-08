@@ -55,7 +55,7 @@ module.exports = function( grunt ) {
 			command: function() {
 				const commands = [];
 
-				const branch = grunt.config.get( 'currentBranch' );
+				const branch = process.env.CI ? process.env.TRAVIS_BRANCH : grunt.config.get( 'currentBranch' );
 
 				commands.push( "cd premium-configuration" );
 				commands.push( "git checkout develop" );
