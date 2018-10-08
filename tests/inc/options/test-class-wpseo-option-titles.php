@@ -12,7 +12,7 @@ class WPSEO_Option_Titles_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests if the enrich_defaults() cache is properly invalidated
-     * when a new post type or taxonomy is registered.
+	 * when a new post type or taxonomy is registered.
 	 *
 	 * @covers WPSEO_Option_Titles::enrich_defaults()
 	 */
@@ -28,5 +28,4 @@ class WPSEO_Option_Titles_Test extends WPSEO_UnitTestCase {
 		unregister_taxonomy( 'custom-taxonomy' );
 		unregister_post_type( 'custom-post-type' );
 	}
-
 }

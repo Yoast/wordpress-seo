@@ -12,11 +12,11 @@ describe( "UpsellBox", () => {
 				] }
 				infoParagraphs={ [
 					"Text",
-					[ "Array with ", <a key="1" href="#">links</a>, " test" ],
+					[ "Array with ", <a key="1" href="https://example.org">links</a>, " test" ],
 				] }
 				upsellButtonText="A button"
 				upsellButton={ {
-					href: "#",
+					href: "https://example.org",
 					className: "class name",
 					"aria-labelledby": "label-id",
 				} }

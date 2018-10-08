@@ -11,7 +11,7 @@ class ConfigurationChoices extends React.Component {
 	 * @returns {JSX.Element} Rendered Choices Component.
 	 */
 	render() {
-		let choiceProps = {
+		const choiceProps = {
 			nextStep: this.props.nextStep,
 			previousStep: this.props.previousStep,
 		};

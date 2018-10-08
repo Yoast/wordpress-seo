@@ -62,7 +62,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 		// Check if a term has been added and retrieve new terms if so.
 		if ( prevProps.selectedTermIds.length < this.props.selectedTermIds.length ) {
 			const newId = diff( this.props.selectedTermIds, prevProps.selectedTermIds )[ 0 ];
-			if( ! this.termIsAvailable( newId ) ) {
+			if ( ! this.termIsAvailable( newId ) ) {
 				this.fetchTerms();
 				return;
 			}
@@ -126,6 +126,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 
 		collection.fetch( {
 			data: {
+				/* eslint-disable-next-line camelcase */
 				per_page: -1,
 				orderby: "count",
 				order: "desc",
@@ -271,7 +272,8 @@ class PrimaryTaxonomyPicker extends React.Component {
 			<div className="components-base-control__field">
 				<PrimaryTaxonomyPickerLabel
 					htmlFor={ fieldId }
-					className="components-base-control__label">
+					className="components-base-control__label"
+				>
 					{
 						sprintf(
 							/* Translators: %s expands to the taxonomy name */
@@ -284,7 +286,8 @@ class PrimaryTaxonomyPicker extends React.Component {
 					value={ primaryTaxonomyId }
 					onChange={ this.onChange }
 					id={ fieldId }
-					terms={ this.state.selectedTerms }/>
+					terms={ this.state.selectedTerms }
+				/>
 			</div>
 		);
 	}

@@ -145,10 +145,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
 		add_action( 'init', array( $this, 'end_of_init' ), 999 );
 
-		add_action( 'registered_post_type',                  array( $this, 'invalidate_enrich_defaults_cache' ) );
-		add_action( 'unregistered_post_type',                array( $this, 'invalidate_enrich_defaults_cache' ) );
-		add_action( 'registered_taxonomy',                   array( $this, 'invalidate_enrich_defaults_cache' ) );
-		add_action( 'unregistered_taxonomy',                 array( $this, 'invalidate_enrich_defaults_cache' ) );
+		add_action( 'registered_post_type', array( $this, 'invalidate_enrich_defaults_cache' ) );
+		add_action( 'unregistered_post_type', array( $this, 'invalidate_enrich_defaults_cache' ) );
+		add_action( 'registered_taxonomy', array( $this, 'invalidate_enrich_defaults_cache' ) );
+		add_action( 'unregistered_taxonomy', array( $this, 'invalidate_enrich_defaults_cache' ) );
 	}
 
 	/**

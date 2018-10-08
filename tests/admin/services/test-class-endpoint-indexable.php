@@ -103,7 +103,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 	public function test_get_indexable_for_valid_post_type_with_an_indexable_object() {
 		$provider = $this
 			->getMockBuilder( 'WPSEO_Indexable_Foo_Provider' )
-			->setMethods( array('get' ) )
+			->setMethods( array( 'get' ) )
 			->getMock();
 
 		$provider

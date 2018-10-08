@@ -10,10 +10,10 @@ import get from "lodash/get";
  * If Gutenberg is present we can just use their wp.element and wp.data. Otherwise
  * we use the imported objects.
  */
-let element = get( window, "wp.element", importedElement );
-let data = get( window, "wp.data", importedData );
-let components = get( window, "wp.components", importedComponents );
-let i18n = get( window, "wp.i18n", importedI18n );
+const element = get( window, "wp.element", importedElement );
+const data = get( window, "wp.data", importedData );
+const components = get( window, "wp.components", importedComponents );
+const i18n = get( window, "wp.i18n", importedI18n );
 
 // Create our own global.
 const yoast = window.yoast || {};

@@ -89,7 +89,7 @@ function processResult( mappedResult, mappedResults ) {
 export function getIconForScore( score ) {
 	let icon = { icon: "seo-score-none", color: colors.$color_grey_disabled };
 
-	switch( score ) {
+	switch ( score ) {
 		case "loading":
 			icon = { icon: "loading-spinner", color: colors.$color_green_medium_light };
 			break;
@@ -130,7 +130,7 @@ export default function mapResults( results ) {
 	}
 	for ( let i = 0; i < results.length; i++ ) {
 		const result = results[ i ];
-		if( ! result.text ) {
+		if ( ! result.text ) {
 			continue;
 		}
 		const mappedResult = mapResult( result );
