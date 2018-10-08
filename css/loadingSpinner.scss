@@ -11,20 +11,11 @@ $duration: 1.4s;
 }
 
 .path {
+	stroke: #64a60a;
 	stroke-dasharray: $offset;
 	stroke-dashoffset: 0;
 	transform-origin: center;
-	animation:
-		dash $duration ease-in-out infinite,
-		colors ( $duration * 4 ) ease-in-out infinite;
-}
-
-@keyframes colors {
-	0% { stroke: #64a60a; }
-	25% { stroke: #64a60a; }
-	50% { stroke: #64a60a; }
-	75% { stroke: #64a60a; }
-	100% { stroke: #64a60a; }
+	animation: dash $duration ease-in-out infinite;
 }
 
 @keyframes dash {
