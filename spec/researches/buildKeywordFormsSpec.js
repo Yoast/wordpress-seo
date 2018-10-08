@@ -211,7 +211,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 
 		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		const expectedResult = {
 			keyphraseForms: [ workForms ],
@@ -231,7 +231,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 
 		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		const expectedResult = {
 			keyphraseForms: [ [ "I am going for a walk" ] ],
@@ -251,7 +251,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 
 		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		const expectedResult = {
 			keyphraseForms: [ [ "I am going for a walk" ] ],
@@ -271,7 +271,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 
 		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		const expectedResult = {
 			keyphraseForms: [ [ "promener" ] ],
@@ -310,7 +310,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 
 		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		const expectedResult = {
 			keyphraseForms: [],
@@ -326,7 +326,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 
 		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		const expectedResult = {
 			keyphraseForms: [],
@@ -346,7 +346,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 
 		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		const expectedResult = {
 			keyphraseForms: [ [ "I am going for a walk" ] ],

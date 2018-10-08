@@ -171,7 +171,7 @@ function collectForms( keyphrase, synonyms, language = "en", morphologyData ) {
 function research( paper, researcher ) {
 	const language = getLanguage( paper.getLocale() );
 
-	const morphologyData = get( researcher.getProvidedData( "morphology" ), [ language ], false );
+	const morphologyData = get( researcher.getData( "morphology" ), [ language ], false );
 
 	return collectForms( paper.getKeyword(), paper.getSynonyms(), language, morphologyData );
 }
