@@ -32,6 +32,11 @@ class Data {
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
 
+	/**
+	 * Initializes this Gutenberg data instance.
+	 *
+	 * @param {Object} replaceVars The replacevars.
+	 */
 	initialize( replaceVars ) {
 		// Fill data object on page load.
 		this._data = this.getInitialData( replaceVars );
@@ -39,6 +44,13 @@ class Data {
 		this.subscribeToGutenberg();
 	}
 
+	/**
+	 * Retrieves the initial data.
+	 *
+	 * @param {Object} replaceVars The replacevars.
+	 *
+	 * @returns {Object} The initial data.
+	 */
 	getInitialData( replaceVars ) {
 		const gutenbergData = this.collectGutenbergData( this.getPostAttribute );
 
@@ -178,7 +190,7 @@ class Data {
 	 * @returns {string} The excerpt.
 	 */
 	getExcerpt( useFallBack = true ) {
-		let excerpt = this.getPostAttribute( "excerpt" );
+		const excerpt = this.getPostAttribute( "excerpt" );
 		if ( excerpt !== "" || useFallBack === false ) {
 			return excerpt;
 		}
