@@ -36,7 +36,13 @@ module.exports = function( grunt ) {
 				let commands = [];
 
 				if ( ! grunt.file.exists( "premium-configuration" ) ) {
-					commands.push( "git clone git@github.com:Yoast/YoastSEO.js-premium-configuration.git premium-configuration" );
+					let gitUrl = "git@github.com:Yoast/YoastSEO.js-premium-configuration.git";
+
+					if ( process.env.CI ) {
+						gitUrl = "https://github.com/Yoast/YoastSEO.js-premium-configuration.git";
+					}
+
+					commands.push( `git clone ${ gitUrl } premium-configuration` );
 				}
 
 				commands.push( "cd premium-configuration" );
