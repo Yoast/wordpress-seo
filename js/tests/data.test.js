@@ -88,6 +88,8 @@ describe( "collectGutenbergData", () => {
 			title: "title",
 			slug: "slug",
 			excerpt: "excerpt",
+			// eslint-disable-next-line
+			excerpt_only: "excerpt",
 		};
 
 		const actual = data.collectGutenbergData( retriever );

@@ -142,6 +142,7 @@ class Data {
 			title: this.getPostAttribute( "title" ),
 			slug: this.getSlug(),
 			excerpt: this.getExcerpt(),
+			// eslint-disable-next-line
 			excerpt_only: this.getExcerpt( false ),
 		};
 	}
