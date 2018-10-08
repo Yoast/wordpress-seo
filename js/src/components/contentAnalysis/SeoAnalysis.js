@@ -77,12 +77,12 @@ class SeoAnalysis extends React.Component {
 				},
 				modalAriaLabel: sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s now!", "wordpress-seo" ),
+					__( "Get %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				),
 				heading: sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s now!", "wordpress-seo" ),
+					__( "Get %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				),
 			},
@@ -130,12 +130,12 @@ class SeoAnalysis extends React.Component {
 				},
 				modalAriaLabel: sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s now!", "wordpress-seo" ),
+					__( "Get %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				),
 				heading: sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s now!", "wordpress-seo" ),
+					__( "Get %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				),
 			},
