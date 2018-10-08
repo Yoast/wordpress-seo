@@ -52,6 +52,8 @@ module.exports = function( grunt ) {
 				return commands.join( "&&" );
 			},
 		},
+		// This command tries to get the same branch for the premium configuration as for YoastSEO.js.
+		// This way changes to the configuration can be tested in conjunction with testing YoastSEO.js.
 		"checkout-premium-configuration": {
 			command: function() {
 				const commands = [];
