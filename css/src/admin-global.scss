@@ -218,14 +218,10 @@ th.column-wpseo-score-readability .yoast-tooltip {
 }
 
 .column-wpseo-links .yoast-tooltip-multiline::after {
-	/* Edge doesn't support width: max-content; */
-	width: 999px;
 	max-width: 160px;
 }
 
 .column-wpseo-linked .yoast-tooltip-multiline::after {
-	/* Edge doesn't support width: max-content; */
-	width: 999px;
 	max-width: 170px;
 }
 
