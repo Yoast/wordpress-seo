@@ -62,14 +62,14 @@ function buildDurationString( durations ) {
 	}
 	if ( elements.length === 2 ) {
 		return sprintf(
-			/* Translators: %s expands to a unit of time (e.g. 1 day) */
+			/* translators: %s expands to a unit of time (e.g. 1 day). */
 			__( "%s and %s", "wordpress-seo" ),
 			...elements,
 		);
 	}
 	if ( elements.length === 3 ) {
 		return sprintf(
-			/* Translators: %s expands to a unit of time (e.g. 1 day) */
+			/* translators: %s expands to a unit of time (e.g. 1 day). */
 			__( "%s, %s and %s", "wordpress-seo" ),
 			...elements,
 		);
@@ -87,16 +87,18 @@ function buildDurationString( durations ) {
  */
 const LegacyHowToStep = ( step ) => {
 	return (
-		<li className={ "schema-how-to-step" } key={ step.id } >
+		<li className={ "schema-how-to-step" } key={ step.id }>
 			<strong
 				className="schema-how-to-step-name"
-				key={ step.id + "-name" } >
+				key={ step.id + "-name" }
+			>
 				{ step.name }
 			</strong>
 			{ " " }
 			<p
 				className="schema-how-to-step-text"
-				key={ step.id + "-text" } >
+				key={ step.id + "-text" }
+			>
 				{ step.text }
 			</p>
 			{ " " }
@@ -113,8 +115,8 @@ const LegacyHowToStep = ( step ) => {
  * @returns {Component} The component representing a How-to block.
  */
 export default function LegacyHowTo( props ) {
-	let {
-		steps,
+	let { steps } = props.attributes;
+	const {
 		hasDuration,
 		days,
 		hours,
@@ -127,7 +129,7 @@ export default function LegacyHowTo( props ) {
 
 	steps = steps
 		? steps.map( ( step ) => {
-			return(
+			return (
 				<LegacyHowToStep
 					{ ...step }
 					key={ step.id }

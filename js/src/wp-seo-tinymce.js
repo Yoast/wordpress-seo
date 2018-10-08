@@ -215,8 +215,8 @@ var termsTmceId = "description";
 
 		addEventHandler( tmceId, [ "hide" ], disableMarkerButtons );
 
-		let enableEvents = [ "show" ];
-		let compatibilityHelper = new CompatibilityHelper();
+		const enableEvents = [ "show" ];
+		const compatibilityHelper = new CompatibilityHelper();
 		if ( ! compatibilityHelper.isPageBuilderActive() ) {
 			enableEvents.push( "init" );
 		}

@@ -11,7 +11,7 @@ const INITIAL_STATE = {};
  * @returns {string} The state.
  */
 function focusKeywordReducer( state = INITIAL_STATE, action ) {
-	switch( action.type ) {
+	switch ( action.type ) {
 		case SET_PRIMARY_TAXONOMY:
 			return {
 				...state,

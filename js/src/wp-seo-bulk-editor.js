@@ -4,7 +4,6 @@
 /* jshint -W097 */
 
 ( function() {
-	"use strict";
 	var bulkEditor = function( currentTable ) {
 		var newClass = currentTable.find( "[class^=wpseo-new]" ).first().attr( "class" );
 		var newId = "#" + newClass + "-";
@@ -179,13 +178,13 @@
 	jQuery( document ).ready( function() {
 		var parentTables = jQuery( 'table[class*="wpseo_bulk"]' );
 		parentTables.each(
-				function( number, parentTable ) {
-					var currentTable = jQuery( parentTable );
-					var bulkEdit = bulkEditor( currentTable );
+			function( number, parentTable ) {
+				var currentTable = jQuery( parentTable );
+				var bulkEdit = bulkEditor( currentTable );
 
-					bulkEdit.setEvents();
-				}
-			);
+				bulkEdit.setEvents();
+			}
+		);
 	}
 	);
 }() );

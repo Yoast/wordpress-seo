@@ -41,10 +41,11 @@ class Yoast_Network_Settings_API {
 	 */
 	public function register_setting( $option_group, $option_name, $args = array() ) {
 
-		$args = wp_parse_args( $args, array(
+		$defaults = array(
 			'group'             => $option_group,
 			'sanitize_callback' => null,
-		) );
+		);
+		$args     = wp_parse_args( $args, $defaults );
 
 		if ( ! isset( $this->whitelist_options[ $option_group ] ) ) {
 			$this->whitelist_options[ $option_group ] = array();

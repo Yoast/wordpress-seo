@@ -94,7 +94,7 @@ class WPSEO_Term_Indexable extends WPSEO_Indexable {
 	/**
 	 * Returns the needed term meta field.
 	 *
-	 * @param string 				 $field The requested field.
+	 * @param string                 $field The requested field.
 	 * @param WPSEO_Term_Object_Type $term  The term object.
 	 *
 	 * @return bool|mixed The value of the requested field.
