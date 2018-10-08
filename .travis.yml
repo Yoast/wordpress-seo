@@ -16,6 +16,8 @@ before_install:
 install:
 - yarn global add grunt-cli
 - yarn install
+before_script:
+- grunt get-premium-configuration
 script:
 - yarn lint
 - yarn test --coverage --runInBand
