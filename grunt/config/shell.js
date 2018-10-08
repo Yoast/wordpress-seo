@@ -24,12 +24,13 @@ module.exports = function( grunt ) {
 		"get-current-branch": {
 			command: "git branch | grep \\* | cut -d ' ' -f2",
 			options: {
-				callback: function ( err, stdout, stderr, cb ) {
-					grunt.config.set( 'currentBranch', stdout );
+				// eslint-disable-next-line handle-callback-err
+				callback: function( err, stdout, stderr, cb ) {
+					grunt.config.set( "currentBranch", stdout );
 
 					cb();
-				}
-			}
+				},
+			},
 		},
 		"clone-premium-configuration": {
 			command: function() {
@@ -49,13 +50,13 @@ module.exports = function( grunt ) {
 				commands.push( "git fetch" );
 
 				return commands.join( "&&" );
-			}
+			},
 		},
 		"checkout-premium-configuration": {
 			command: function() {
 				const commands = [];
 
-				const branch = process.env.CI ? process.env.TRAVIS_BRANCH : grunt.config.get( 'currentBranch' );
+				const branch = process.env.CI ? process.env.TRAVIS_BRANCH : grunt.config.get( "currentBranch" );
 
 				commands.push( "cd premium-configuration" );
 				commands.push( "git checkout develop" );
@@ -65,7 +66,7 @@ module.exports = function( grunt ) {
 			},
 			options: {
 				failOnError: false,
-			}
-		}
+			},
+		},
 	};
 };
