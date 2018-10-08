@@ -89,7 +89,7 @@ class TitleKeywordAssessment extends Assessment {
 		const allWordsFound = this._keywordMatches.allWordsFound;
 
 		if ( exactMatch === true ) {
-			if ( position === 0 )  {
+			if ( position === 0 ) {
 				return {
 					score: this._config.scores.good,
 					resultText: i18n.sprintf(
@@ -112,7 +112,7 @@ class TitleKeywordAssessment extends Assessment {
 					%3$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sKeyphrase in title%3$s: The exact match of the focus keyphrase appears in the  SEO title, but not " +
+						"%1$sKeyphrase in title%3$s: The exact match of the focus keyphrase appears in the SEO title, but not " +
 						"at the beginning. %2$sTry move it to the beginning%3$s."
 					),
 					this._config.urlTitle,
@@ -144,11 +144,11 @@ class TitleKeywordAssessment extends Assessment {
 			score: this._config.scores.bad,
 			resultText: i18n.sprintf(
 				/* Translators: %1$s and %2$s expand to a link on yoast.com,
-				%3$s expands to the anchor end tag, %4$s expands to the keyword of the article.  */
+				%3$s expands to the anchor end tag, %4$s expands to the keyword of the article. */
 				i18n.dgettext(
 					"js-text-analysis",
-					"%1$sKeyphrase in title%3$s: Not all the words from your keyphrase \"%4$s\"; appear in the SEO title. " +
-					"%2$sTry to write the exact match of your keyphrase in the SEO title%3$s."
+					"%1$sKeyphrase in title%3$s: Not all the words from your keyphrase \"%4$s\" appear in the SEO title. " +
+					"%2$sTry to use the exact match of your keyphrase in the SEO title%3$s."
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
