@@ -58,8 +58,16 @@ class WPSEO_Premium_Upsell_Admin_Block {
 
 		/* translators: %s expands to "Yoast SEO Premium". */
 		$dismiss_msg = sprintf( __( 'Dismiss %s upgrade motivation', 'wordpress-seo' ), 'Yoast SEO Premium' );
-		/* translators: %s expands to "Yoast SEO Premium". */
-		$upgrade_msg = sprintf( __( 'Find out why you should upgrade to %s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' );
+
+		/* translators: %s expands to Yoast SEO Premium */
+		$button_text = sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+
+		$upgrade_button = sprintf(
+			'<a id="wpseo-%1$s-popup-button" class="yoast-button-upsell" href="%2$s" target="_blank" rel="noreferrer noopener">%3$s</a>',
+			$this->identifier,
+			$url,
+			$button_text
+		);
 
 		echo '<div class="' . esc_attr( $class ) . '">';
 		printf(
@@ -70,10 +78,10 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		);
 
 		echo '<div>';
-		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' . esc_html__( 'Go premium!', 'wordpress-seo' ) . '</h2>';
+		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' . esc_html__( 'Upgrade to Yoast SEO Premium', 'wordpress-seo' ) . '</h2>';
 		echo '<ul class="' . esc_attr( $class . '--motivation' ) . '">' . $arguments_html . '</ul>';
 
-		echo '<p><a href="' . esc_url( $url ) . '" target="_blank">' . esc_html( $upgrade_msg ) . '</a><br />';
+		echo '<p><a href="' . esc_url( $url ) . '" target="_blank">' . $upgrade_button . '</a><br />';
 		echo '</div>';
 
 		echo '</div>';
