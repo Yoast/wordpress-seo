@@ -73,7 +73,7 @@ import determineParentsForTerm from "./helpers/determineParentsForTerm";
 		const termIdInt = parseInt( termId, 10 );
 		yoastEditor.setPrimaryTaxonomyId( taxonomyName, termIdInt );
 
-		const termData = Object.values( wpseoPrimaryCategoryL10n.taxonomies.category.terms );
+		const termData = Object.values( wpseoPrimaryCategoryL10n.taxonomies.category.terms ).find( term => term.id === termIdInt );
 
 		yoastEditor.updateData( {
 			primaryTaxonomySlug: ( termData && termData.slug) ? termData.slug : "",
