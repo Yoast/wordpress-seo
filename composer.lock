@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "88f6710714bad57fdf3d1bee01e20c3d",
+    "content-hash": "f103c16a906bbeaa71e780fbc9b199bf",
     "packages": [
         {
             "name": "composer/installers",
@@ -601,16 +601,16 @@
         },
         {
             "name": "humbug/php-scoper",
-            "version": "0.6.0",
+            "version": "0.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/humbug/php-scoper.git",
-                "reference": "64c4b2f33bb4db7f071eee637de5baeb1ad6eabb"
+                "reference": "561bcde3f65146f2fef771fcf3783b22d0c83bf4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/humbug/php-scoper/zipball/64c4b2f33bb4db7f071eee637de5baeb1ad6eabb",
-                "reference": "64c4b2f33bb4db7f071eee637de5baeb1ad6eabb",
+                "url": "https://api.github.com/repos/humbug/php-scoper/zipball/561bcde3f65146f2fef771fcf3783b22d0c83bf4",
+                "reference": "561bcde3f65146f2fef771fcf3783b22d0c83bf4",
                 "shasum": ""
             },
             "require": {
@@ -667,7 +667,7 @@
                 }
             ],
             "description": "Prefixes all PHP namespaces in a file or directory.",
-            "time": "2018-02-27T23:35:53+00:00"
+            "time": "2018-03-04T12:43:00+00:00"
         },
         {
             "name": "nikic/php-parser",
