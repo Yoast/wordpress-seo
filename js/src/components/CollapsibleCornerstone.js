@@ -34,7 +34,7 @@ export default function CollapsibleCornerstone( { isCornerstone, onChange } ) {
 						onToggle={ onChange }
 					/>
 				</Collapsible>
-			)}
+			) }
 		</LocationConsumer>
 	);
 }

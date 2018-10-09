@@ -57,7 +57,6 @@ const StyledIcon = styled( Icon )`
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends React.Component {
-
 	/**
 	 * Renders the keyword synonyms upsell modal.
 	 *
@@ -99,13 +98,13 @@ class SeoAnalysis extends React.Component {
 			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_synonyms_button" ];
 		}
 
-		return(
+		return (
 			<Modal { ...modalProps }>
 				<StyledContainer>
 					<StyledIcon icon={ YoastSeoIcon } />
 					<h2>{ __( "Would you like to add keyphrase synonyms?", "wordpress-seo" ) }</h2>
 
-					<KeywordSynonyms link={link} buyLink={buyLink} />
+					<KeywordSynonyms link={ link } buyLink={ buyLink } />
 				</StyledContainer>
 			</Modal>
 		);
@@ -152,7 +151,7 @@ class SeoAnalysis extends React.Component {
 			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_additional_button" ];
 		}
 
-		return(
+		return (
 			<Modal { ...modalProps }>
 				<StyledContainer>
 					<StyledIcon icon={ YoastSeoIcon } />
@@ -278,7 +277,7 @@ SeoAnalysis.propTypes = {
 function mapStateToProps( state, ownProps ) {
 	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
 
-	let keyword = state.focusKeyword;
+	const keyword = state.focusKeyword;
 
 	let results = null;
 	let overallScore = null;

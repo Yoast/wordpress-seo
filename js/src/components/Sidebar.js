@@ -10,7 +10,6 @@ import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import SnippetPreviewModal from "./SnippetPreviewModal";
-
 import { LocationProvider } from "../components/contexts/location";
 
 /**
