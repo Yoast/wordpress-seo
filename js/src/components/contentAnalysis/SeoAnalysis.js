@@ -56,7 +56,6 @@ const StyledIcon = styled( Icon )`
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends React.Component {
-
 	/**
 	 * Renders the keyword synonyms upsell modal.
 	 *
@@ -78,12 +77,12 @@ class SeoAnalysis extends React.Component {
 				},
 				modalAriaLabel: sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s now!", "wordpress-seo" ),
+					__( "Get %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				),
 				heading: sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s now!", "wordpress-seo" ),
+					__( "Get %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				),
 			},
@@ -98,13 +97,13 @@ class SeoAnalysis extends React.Component {
 			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_synonyms_button" ];
 		}
 
-		return(
+		return (
 			<Modal { ...modalProps }>
 				<StyledContainer>
 					<StyledIcon icon={ YoastSeoIcon } />
-					<h2>{ __( "Would you like to add keyword synonyms?", "wordpress-seo" ) }</h2>
+					<h2>{ __( "Would you like to add keyphrase synonyms?", "wordpress-seo" ) }</h2>
 
-					<KeywordSynonyms link={link} buyLink={buyLink} />
+					<KeywordSynonyms link={ link } buyLink={ buyLink } />
 				</StyledContainer>
 			</Modal>
 		);
@@ -125,18 +124,18 @@ class SeoAnalysis extends React.Component {
 				openButton: "wpseo-multiple-keywords button-link",
 			},
 			labels: {
-				open: "+ " + __( "Add additional keyword", "wordpress-seo" ),
+				open: "+ " + __( "Add additional keyphrase", "wordpress-seo" ),
 				a11yNotice: {
 					opensInNewTab: __( "(Opens in a new browser tab!)", "wordpress-seo" ),
 				},
 				modalAriaLabel: sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s now!", "wordpress-seo" ),
+					__( "Get %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				),
 				heading: sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s now!", "wordpress-seo" ),
+					__( "Get %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				),
 			},
@@ -151,11 +150,11 @@ class SeoAnalysis extends React.Component {
 			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_additional_button" ];
 		}
 
-		return(
+		return (
 			<Modal { ...modalProps }>
 				<StyledContainer>
 					<StyledIcon icon={ YoastSeoIcon } />
-					<h2>{ __( "Would you like to add another keyword?", "wordpress-seo" ) }</h2>
+					<h2>{ __( "Would you like to add another keyphrase?", "wordpress-seo" ) }</h2>
 					<MultipleKeywords
 						link={ link }
 						buyLink={ buyLink }
@@ -186,7 +185,7 @@ class SeoAnalysis extends React.Component {
 			<Collapsible
 				prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 				prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
-				title={ __( "Add additional keyword", "wordpress-seo" ) }
+				title={ __( "Add additional keyphrase", "wordpress-seo" ) }
 			>
 				<MultipleKeywords
 					link={ link }
@@ -206,23 +205,23 @@ class SeoAnalysis extends React.Component {
 
 		if ( score.className !== "loading" && this.props.keyword === "" ) {
 			score.className = "na";
-			score.screenReaderReadabilityText = __( "Enter a focus keyword to calculate the SEO score", "wordpress-seo" );
+			score.screenReaderReadabilityText = __( "Enter a focus keyphrase to calculate the SEO score", "wordpress-seo" );
 		}
 
 		return (
 			<React.Fragment>
 				<Collapsible
-					title={ __( "Focus keyword", "wordpress-seo" ) }
+					title={ __( "Focus keyphrase", "wordpress-seo" ) }
 					titleScreenReaderText={ score.screenReaderReadabilityText }
 					prefixIcon={ getIconForScore( score.className ) }
 					prefixIconCollapsed={ getIconForScore( score.className ) }
 					subTitle={ this.props.keyword }
 				>
 					<HelpText>
-						{ __( "A focus keyword is the term (or phrase) you'd like to be found with, in search engines. " +
+						{ __( "A focus keyphrase is the phrase you'd like to be found for in search engines. " +
 							"Enter it below to see how you can improve your text for this term.", "wordpress-seo" ) + " " }
 						<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } rel={ null }>
-							{ __( "Learn more about the Keyword Analysis.", "wordpress-seo" ) }
+							{ __( "Learn more about the keyphrase analysis.", "wordpress-seo" ) }
 						</FocusKeywordLink>
 					</HelpText>
 					<KeywordInput
@@ -234,7 +233,7 @@ class SeoAnalysis extends React.Component {
 					{ this.props.shouldUpsell && this.renderSynonymsUpsell(	this.props.location	) }
 					{ this.props.shouldUpsell && this.renderMultipleKeywordsUpsell( this.props.location ) }
 					<AnalysisHeader>
-						{ __( "Analysis results:", "wordpress-seo" ) }
+						{ __( "Analysis results", "wordpress-seo" ) }
 					</AnalysisHeader>
 					<Results
 						showLanguageNotice={ false }
@@ -271,7 +270,7 @@ SeoAnalysis.propTypes = {
 function mapStateToProps( state, ownProps ) {
 	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
 
-	let keyword = state.focusKeyword;
+	const keyword = state.focusKeyword;
 
 	let results = null;
 	let overallScore = null;

@@ -82,6 +82,13 @@ check:
   # Create a zip file
   - 'compress:artifact'
 
+'composer-artifact':
+  # Create our composer targeted artifact
+  - 'clean:composer-artifact'
+  - 'copy:composer-artifact'
+  - 'clean:composer-files'
+  - 'copy:composer-files'
+
 # Get the project ready for release
 release:
   - 'build:images'

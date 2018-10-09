@@ -4,7 +4,6 @@
 /* global _ */
 /* global JSON */
 /* global console */
-import "./helpers/babel-polyfill";
 
 const shortcodeNameMatcher = "[^<>&/\\[\\]\x00-\x20=]+?";
 const shortcodeAttributesMatcher = "( [^\\]]+?)?";
@@ -142,7 +141,7 @@ const shortcodeEndRegex = new RegExp( "\\[/" + shortcodeNameMatcher + "\\]", "g"
 			contentElement.addEventListener( "change", callback );
 		}
 
-		if( typeof tinyMCE !== "undefined" && typeof tinyMCE.on === "function" ) {
+		if ( typeof tinyMCE !== "undefined" && typeof tinyMCE.on === "function" ) {
 			tinyMCE.on( "addEditor", function( e ) {
 				e.editor.on( "change", callback );
 				e.editor.on( "keyup", callback );
@@ -296,9 +295,9 @@ const shortcodeEndRegex = new RegExp( "\\[/" + shortcodeNameMatcher + "\\]", "g"
 				_wpnonce: wpseoShortcodePluginL10n.wpseo_filter_shortcodes_nonce,
 				data: shortcodes,
 			},
-				function( shortcodeResults ) {
-					this.saveParsedShortcodes( shortcodeResults, callback );
-				}.bind( this )
+			function( shortcodeResults ) {
+				this.saveParsedShortcodes( shortcodeResults, callback );
+			}.bind( this )
 			);
 		} else {
 			return callback();

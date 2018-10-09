@@ -9,6 +9,7 @@
  * Class WPSEO_How_To_Block
  */
 class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
+
 	/**
 	 * Registers the how-to block as a server-side rendered block.
 	 *
@@ -35,7 +36,7 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	 * @return string The block preceded by its JSON-LD script.
 	 */
 	public function render( $attributes, $content ) {
-		if ( ! is_array( $attributes ) ) {
+		if ( ! is_array( $attributes ) || ! is_singular() ) {
 			return $content;
 		}
 
@@ -53,20 +54,22 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	 */
 	protected function get_json_ld( array $attributes ) {
 		$json_ld = array(
-			'@context' => 'http://schema.org',
+			'@context' => 'https://schema.org',
 			'@type'    => 'HowTo',
 		);
 
-		if ( ! empty( $attributes['jsonTitle'] ) ) {
-			$json_ld['name'] = $attributes['jsonTitle'];
+		$post_title = get_the_title();
+		if ( ! empty( $post_title ) ) {
+			$json_ld['name'] = $post_title;
 		}
 
 		if ( ! empty( $attributes['hasDuration'] ) && $attributes['hasDuration'] === true ) {
+			$days    = empty( $attributes['days'] ) ? 0 : $attributes['days'];
 			$hours   = empty( $attributes['hours'] ) ? 0 : $attributes['hours'];
 			$minutes = empty( $attributes['minutes'] ) ? 0 : $attributes['minutes'];
 
-			if ( $hours !== 0 || $minutes !== 0 ) {
-				$json_ld['totalTime'] = 'PT' . $hours . 'H' . $minutes . 'M';
+			if ( ( $days + $hours + $minutes ) > 0 ) {
+				$json_ld['totalTime'] = 'P' . $days . 'DT' . $hours . 'H' . $minutes . 'M';
 			}
 		}
 
@@ -76,9 +79,9 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 
 		if ( ! empty( $attributes['steps'] ) && is_array( $attributes['steps'] ) ) {
 			$json_ld['step'] = array();
-			$steps = array_filter( $attributes['steps'], 'is_array' );
-			foreach ( $steps as $index => $step ) {
-				$json_ld['step'][] = $this->get_section_json_ld( $step, $index );
+			$steps           = array_filter( $attributes['steps'], 'is_array' );
+			foreach ( $steps as $step ) {
+				$json_ld['step'][] = $this->get_section_json_ld( $step );
 			}
 		}
 
@@ -86,38 +89,16 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns the JSON-LD for a step's description in a how-to block.
-	 *
-	 * @param array $step  The attributes of a step(-section) in the how-to block.
-	 * @param int   $index The index of the section in the how-to block.
-	 *
-	 * @return array The JSON-LD representation of the step's description in a how-to block.
-	 */
-	protected function get_step_json_ld( array $step, $index ) {
-		$step_json_ld = array(
-			'@type'    => 'HowToStep',
-			'position' => $index + 1,
-		);
-
-		if ( ! empty( $step['jsonText'] ) ) {
-			$step_json_ld['text'] = $step['jsonText'];
-		}
-
-		return $step_json_ld;
-	}
-
-	/**
 	 * Returns the JSON-LD for a step-section in a how-to block.
 	 *
-	 * @param array $step  The attributes of a step-section in the how-to block.
-	 * @param int   $index The index of the section in the how-to block.
+	 * @param array $step The attributes of a step-section in the how-to block.
 	 *
 	 * @return array The JSON-LD representation of the step-section in a how-to block.
 	 */
-	protected function get_section_json_ld( array $step, $index ) {
+	protected function get_section_json_ld( array $step ) {
 		$section_json_ld = array(
 			'@type'           => 'HowToSection',
-			'itemListElement' => $this->get_step_json_ld( $step, $index ),
+			'itemListElement' => $this->get_step_json_ld( $step ),
 		);
 
 		if ( ! empty( $step['jsonName'] ) ) {
@@ -125,12 +106,31 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 		}
 
 		if ( ! empty( $step['jsonImageSrc'] ) ) {
-			$section_json_ld['associatedMedia'] = array(
+			$section_json_ld['image'] = array(
 				'@type'      => 'ImageObject',
 				'contentUrl' => $step['jsonImageSrc'],
 			);
 		}
 
 		return $section_json_ld;
+	}
+
+	/**
+	 * Returns the JSON-LD for a step's description in a how-to block.
+	 *
+	 * @param array $step The attributes of a step(-section) in the how-to block.
+	 *
+	 * @return array The JSON-LD representation of the step's description in a how-to block.
+	 */
+	protected function get_step_json_ld( array $step ) {
+		$step_json_ld = array(
+			'@type' => 'HowToStep',
+		);
+
+		if ( ! empty( $step['jsonText'] ) ) {
+			$step_json_ld['text'] = $step['jsonText'];
+		}
+
+		return $step_json_ld;
 	}
 }

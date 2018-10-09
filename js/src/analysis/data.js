@@ -74,9 +74,9 @@ class Data {
 			return false;
 		}
 
-		for( let dataPoint in currentData ) {
+		for ( const dataPoint in currentData ) {
 			if ( currentData.hasOwnProperty( dataPoint ) ) {
-				if( ! ( dataPoint in gutenbergData ) || currentData[ dataPoint ] !== gutenbergData[ dataPoint ] ) {
+				if ( ! ( dataPoint in gutenbergData ) || currentData[ dataPoint ] !== gutenbergData[ dataPoint ] ) {
 					return false;
 				}
 			}
@@ -173,10 +173,10 @@ class Data {
 	 * @returns {void}
 	 */
 	refreshYoastSEO() {
-		let gutenbergData = this.collectGutenbergData();
+		const gutenbergData = this.collectGutenbergData();
 
 		// Set isDirty to true if the current data and Gutenberg data are unequal.
-		let isDirty = ! this.isShallowEqual( this._data, gutenbergData );
+		const isDirty = ! this.isShallowEqual( this._data, gutenbergData );
 
 		if ( isDirty ) {
 			this.handleEditorChange( gutenbergData );

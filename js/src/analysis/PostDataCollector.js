@@ -15,7 +15,7 @@ import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
 import publishBox from "../ui/publishBox";
 
-let $ = jQuery;
+const $ = jQuery;
 
 /**
  * Show warning in console when the unsupported CkEditor is used
@@ -25,7 +25,7 @@ let $ = jQuery;
  *
  * @constructor
  */
-let PostDataCollector = function( args ) {
+const PostDataCollector = function( args ) {
 	if ( typeof CKEDITOR === "object" ) {
 		console.warn( "YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE." );
 	}
@@ -281,7 +281,7 @@ PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 				this.leavePostNameUntouched = false;
 				return;
 			}
-			if( document.getElementById( "post_name" ) !== null ) {
+			if ( document.getElementById( "post_name" ) !== null ) {
 				document.getElementById( "post_name" ).value = value;
 			}
 			if (
@@ -336,7 +336,7 @@ PostDataCollector.prototype.bindElementEvents = function( app ) {
  */
 PostDataCollector.prototype.changeElementEventBinder = function( app ) {
 	var elems = [ "#yoast-wpseo-primary-category", '.categorychecklist input[name="post_category[]"]' ];
-	for( var i = 0; i < elems.length; i++ ) {
+	for ( var i = 0; i < elems.length; i++ ) {
 		$( elems[ i ] ).on( "change", app.refresh.bind( app ) );
 	}
 };
@@ -358,7 +358,6 @@ PostDataCollector.prototype.inputElementEventBinder = function( app ) {
 	}
 
 	tmceHelper.tinyMceEventBinder( app, tmceId );
-
 };
 
 /**
@@ -381,11 +380,11 @@ PostDataCollector.prototype.saveScores = function( score, keyword ) {
 		indicator.className = "na";
 		indicator.screenReaderText = this.app.i18n.dgettext(
 			"js-text-analysis",
-			"Enter a focus keyword to calculate the SEO score"
+			"Enter a focus keyphrase to calculate the SEO score"
 		);
 		indicator.fullText = this.app.i18n.dgettext(
 			"js-text-analysis",
-			"Content optimization: Enter a focus keyword to calculate the SEO score"
+			"Content optimization: Enter a focus keyphrase to calculate the SEO score"
 		);
 	}
 

@@ -100,7 +100,7 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	 */
 	public function provider_get_drop_down_label() {
 		return array(
-			array( WPSEO_Rank::NO_FOCUS, 'SEO: No Focus Keyword' ),
+			array( WPSEO_Rank::NO_FOCUS, 'SEO: No Focus Keyphrase' ),
 			array( WPSEO_Rank::BAD, 'SEO: Needs improvement' ),
 			array( WPSEO_Rank::OK, 'SEO: OK' ),
 			array( WPSEO_Rank::GOOD, 'SEO: Good' ),

@@ -19,8 +19,6 @@ const reduce = require( "lodash/reduce" );
  * To minimize client side memory usage, we request plugins to preload as little data as possible. If you need to dynamically
  * fetch more data in the process of content creation, you can reload your data set and let YoastSEO.js know you've reloaded
  * by calling `reloaded`.
- *
- * @todo: add list of supported modifications and compare on registration of modification
  */
 export default class Pluggable {
 	/**

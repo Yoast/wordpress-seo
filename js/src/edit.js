@@ -7,7 +7,6 @@ import { Fragment } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import { combineReducers, registerStore } from "@wordpress/data";
 import get from "lodash/get";
-import values from "lodash/values";
 import pickBy from "lodash/pickBy";
 import noop from "lodash/noop";
 
@@ -24,7 +23,7 @@ import * as selectors from "./redux/selectors";
 import * as actions from "./redux/actions";
 import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
-import PrimaryTaxonomyPicker from "./components/PrimaryTaxonomyPicker";
+import PrimaryTaxonomyFilter from "./components/PrimaryTaxonomyFilter";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -95,47 +94,27 @@ class Edit {
 	}
 
 	_registerCategorySelectorFilter() {
-		if( ! isGutenbergDataAvailable() ) {
+		if ( ! isGutenbergDataAvailable() ) {
 			return;
 		}
 
 		const addFilter = get( window, "wp.hooks.addFilter", noop );
 
-		const taxonomies = get( window.wpseoPrimaryCategoryL10n, "taxonomies", {} );
-
-		const primaryTaxonomies = values( taxonomies ).map(
-			taxonomy => taxonomy.name
-		);
-
 		addFilter(
 			"editor.PostTaxonomyType",
 			PLUGIN_NAMESPACE,
 			OriginalComponent => {
-				/**
-				 * A component that renders the PrimaryTaxonomyPicker under Gutenberg's
-				 * taxonomy picker if the taxonomy has primary term enabled.
-				 *
-				 * @param {Object} props      The component's props.
-				 * @param {string} props.slug The taxonomy's slug.
-				 *
-				 * @returns {ReactElement} Rendered TaxonomySelectorFilter component.
-				 */
-				const TaxonomySelectorFilter = props => {
-					if ( ! primaryTaxonomies.includes( props.slug ) ) {
-						return <OriginalComponent { ...props } />;
+				return class Filter extends React.Component {
+					render() {
+						return (
+							<PrimaryTaxonomyFilter
+								OriginalComponent={ OriginalComponent }
+								{ ...this.props }
+							/>
+						);
 					}
-
-					const taxonomy = taxonomies[ props.slug ];
-
-					return (
-						<Fragment>
-							<OriginalComponent { ...props } />
-							<PrimaryTaxonomyPicker taxonomy={ taxonomy } />
-						</Fragment>
-					);
 				};
-				return TaxonomySelectorFilter;
-			}
+			},
 		);
 	}
 
@@ -146,7 +125,7 @@ class Edit {
 	 * @returns {void}
 	 **/
 	_registerPlugin() {
-		if ( ! isGutenbergDataAvailable() )  {
+		if ( ! isGutenbergDataAvailable() ) {
 			return;
 		}
 
@@ -162,7 +141,7 @@ class Edit {
 			<Fragment>
 				<PluginSidebarMoreMenuItem
 					target="seo-sidebar"
-					icon={ <PluginIcon/> }
+					icon={ <PluginIcon /> }
 				>
 					Yoast SEO
 				</PluginSidebarMoreMenuItem>
@@ -177,7 +156,7 @@ class Edit {
 					</Slot>
 				</PluginSidebar>
 
-				<Provider store={ store } >
+				<Provider store={ store }>
 					<Fragment>
 						<Sidebar store={ store } theme={ theme } />
 						<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
@@ -198,9 +177,9 @@ class Edit {
 	 * @returns {Object} The instantiated data class.
 	 */
 	_initializeData() {
-		const store =   this._store;
-		const args =    this._args;
-		const wpData =  get( window, "wp.data" );
+		const store  = this._store;
+		const args   = this._args;
+		const wpData = get( window, "wp.data" );
 
 		// Only use Gutenberg's data if Gutenberg is available.
 		if ( isGutenbergDataAvailable() ) {

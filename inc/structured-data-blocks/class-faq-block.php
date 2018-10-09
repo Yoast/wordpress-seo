@@ -9,6 +9,7 @@
  * Class WPSEO_FAQ_Block
  */
 class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
+
 	/**
 	 * Registers the how-to block as a server-side rendered block.
 	 *
@@ -27,15 +28,15 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	/**
 	 * Renders the block.
 	 *
-	 * Because we can't save script tags in Gutenberg without sufficient user permissions we render these server-side.
+	 * Because we can't save script tags in Gutenberg without sufficient user permissions, we render these server-side.
 	 *
 	 * @param array  $attributes The attributes of the block.
 	 * @param string $content    The HTML content of the block.
 	 *
-	 * @return string The block preceded by it's JSON LD script.
+	 * @return string The block preceded by its JSON-LD script.
 	 */
 	public function render( $attributes, $content ) {
-		if ( ! is_array( $attributes ) ) {
+		if ( ! is_array( $attributes ) || ! is_singular() ) {
 			return $content;
 		}
 
@@ -45,55 +46,45 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns the JSON LD for a how-to block in array form.
+	 * Returns the JSON-LD for a FAQ block in array form.
 	 *
-	 * @param array $attributes The attributes of the how-to block.
+	 * @param array $attributes The attributes of the FAQ block.
 	 *
-	 * @return array The JSON LD representation of the how-to block in array form.
+	 * @return array The JSON-LD representation of the FAQ block in array form.
 	 */
 	protected function get_json_ld( array $attributes ) {
 		$json_ld = array(
-			'@context' => 'http://schema.org',
-			'@graph'   => array( $this->get_faq_json_ld( $attributes ) ),
+			'@context' => 'https://schema.org',
+			'@type'    => 'FAQPage',
 		);
 
-		if ( ! is_array( $attributes['questions'] ) ) {
+		$post_title = get_the_title();
+		if ( ! empty( $post_title ) ) {
+			$json_ld['name'] = $post_title;
+		}
+
+		if ( ! array_key_exists( 'questions', $attributes ) || ! is_array( $attributes['questions'] ) ) {
 			return $json_ld;
 		}
 
+		$main_entity = array();
+
 		$questions = array_filter( $attributes['questions'], 'is_array' );
 		foreach ( $questions as $question ) {
-			$json_ld['@graph'][] = $this->get_question_json_ld( $question );
+			$main_entity[] = $this->get_question_json_ld( $question );
 		}
+
+		$json_ld['mainEntity'] = $main_entity;
 
 		return $json_ld;
 	}
 
 	/**
-	 * Returns the JSON LD for a FAQPage in a faq block in array form.
+	 * Returns the JSON-LD for a question in a FAQ block in array form.
 	 *
-	 * @param array $attributes The attributes of the faq block.
+	 * @param array $question The attributes of a question in the FAQ block.
 	 *
-	 * @return array The JSON LD representation of the FAQPage in a faq block in array form.
-	 */
-	protected function get_faq_json_ld( array $attributes ) {
-		$json_ld = array(
-			'@type' => 'FAQPage',
-		);
-
-		if ( ! empty( $attributes['jsonTitle'] ) ) {
-			$json_ld['name'] = $attributes['jsonTitle'];
-		}
-
-		return $json_ld;
-	}
-
-	/**
-	 * Returns the JSON LD for a question in a faq block in array form.
-	 *
-	 * @param array $question The attributes of a question in the faq block.
-	 *
-	 * @return array The JSON LD representation of the question in a faq block in array form.
+	 * @return array The JSON-LD representation of the question in a FAQ block in array form.
 	 */
 	protected function get_question_json_ld( array $question ) {
 		$json_ld = array(
@@ -105,14 +96,14 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 		}
 
 		if ( ! empty( $question['jsonAnswer'] ) ) {
-			$json_ld['answerCount'] = 1;
+			$json_ld['answerCount']    = 1;
 			$json_ld['acceptedAnswer'] = array(
 				'@type' => 'Answer',
 				'text'  => $question['jsonAnswer'],
 			);
 
 			if ( ! empty( $question['jsonImageSrc'] ) ) {
-				$json_ld['acceptedAnswer']['associatedMedia'] = array(
+				$json_ld['acceptedAnswer']['image'] = array(
 					'@type'      => 'ImageObject',
 					'contentUrl' => $question['jsonImageSrc'],
 				);

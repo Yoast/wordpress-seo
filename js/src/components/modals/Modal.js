@@ -18,7 +18,6 @@ const StyledButton = styled.button`
 `;
 
 class Modal extends React.Component {
-
 	constructor( props ) {
 		super( props );
 

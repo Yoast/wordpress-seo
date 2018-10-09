@@ -140,7 +140,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$score = self::get_value( 'linkdex', $post->ID );
 			if ( $score === '' ) {
 				$score_label = 'na';
-				$title       = __( 'No focus keyword set.', 'wordpress-seo' );
+				$title       = __( 'No focus keyphrase set.', 'wordpress-seo' );
 			}
 			else {
 				$score_label = WPSEO_Utils::translate_score( $score );
@@ -231,7 +231,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			new WPSEO_Post_Metabox_Formatter( $post, array(), $permalink )
 		);
 
-		return $post_formatter->get_values();
+		$values = $post_formatter->get_values();
+
+		/** This filter is documented in admin/filters/class-cornerstone-filter.php */
+		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
+		if ( $values['cornerstoneActive'] && ! in_array( $post->post_type, $post_types, true ) ) {
+			$values['cornerstoneActive'] = false;
+		}
+
+		return $values;
 	}
 
 	/**
@@ -250,7 +258,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Determines the scope based on the post type.
 	 * This can be used by the replacevar plugin to determine if a replacement needs to be executed.
 	 *
-	 * @return string String decribing the current scope.
+	 * @return string String describing the current scope.
 	 */
 	private function determine_scope() {
 		$post_type = get_post_type( $this->get_metabox_post() );
@@ -790,8 +798,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
 		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoAnalysisWorkerL10n', array(
-			'url'                     => $analysis_worker_location->get_url(),
-			'keywords_assessment_url' => $used_keywords_assessment_location->get_url(),
+			'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
+			'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 		) );
 
 		/**

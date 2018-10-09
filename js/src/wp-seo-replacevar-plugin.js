@@ -9,7 +9,6 @@ import {
 	updateReplacementVariable,
 	refreshSnippetEditor,
 } from "./redux/actions/snippetEditor";
-import "./helpers/babel-polyfill";
 
 import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
@@ -139,11 +138,11 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		if ( ! isGutenbergDataAvailable() ) {
 			return;
 		}
-		let fetchedParents = { 0: "" };
+		const fetchedParents = { 0: "" };
 		let currentParent  = null;
 		const wpData       = window.wp.data;
 		wpData.subscribe( () => {
-			let newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
+			const newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
 			if ( typeof newParent === "undefined" || currentParent === newParent ) {
 				return;
 			}
@@ -337,7 +336,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 				label: hierarchicalTermName,
 				checked: isChecked,
 			};
-			if( isChecked && checkHierarchicalTerm.indexOf( hierarchicalTermName ) === -1 ) {
+			if ( isChecked && checkHierarchicalTerm.indexOf( hierarchicalTermName ) === -1 ) {
 				// Only push the categoryName to the checkedCategories array if it's not already in there.
 				checkHierarchicalTerm.push( hierarchicalTermName );
 			}
@@ -556,7 +555,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 	 * @returns {string} The data with all its placeholders replaced by actual values.
 	 */
 	YoastReplaceVarPlugin.prototype.parentReplace = function( data ) {
-		let parent = jQuery( "#parent_id, #parent" ).eq( 0 );
+		const parent = jQuery( "#parent_id, #parent" ).eq( 0 );
 
 		if ( this.hasParentTitle( parent ) ) {
 			data = data.replace( /%%parent_title%%/, this.getParentTitleReplacement( parent ) );

@@ -115,7 +115,7 @@ const SnippetEditorWrapper = ( props ) => (
 		>
 			<SnippetEditor
 				{ ...props }
-				descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below." ) }
+				descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
 				mapEditorDataToPreview={ mapEditorDataToPreview }
 			/>
 		</SnippetPreviewSection>
@@ -131,7 +131,7 @@ const SnippetEditorWrapper = ( props ) => (
  * @returns {Object} Data for the `SnippetEditor` component.
  */
 export function mapStateToProps( state ) {
-	let replacementVariables = state.snippetEditor.replacementVariables;
+	const replacementVariables = state.snippetEditor.replacementVariables;
 
 	// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
 	replacementVariables.forEach( ( replaceVariable ) => {

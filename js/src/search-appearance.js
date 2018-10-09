@@ -8,7 +8,6 @@ import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 
 /* Internal dependencies */
-import "./helpers/babel-polyfill";
 import SettingsReplacementVariableEditors from "./components/SettingsReplacementVariableEditors";
 import snippetEditorReducer from "./redux/reducers/snippetEditor";
 import configureEnhancers from "./redux/utils/configureEnhancers";
@@ -53,7 +52,7 @@ function configureStore() {
 const editorElements = document.querySelectorAll( "[data-react-replacevar-editor]" );
 const singleFieldElements = document.querySelectorAll( "[data-react-replacevar-field]" );
 
-if( editorElements.length ) {
+if ( editorElements.length ) {
 	const element = document.createElement( "div" );
 	document.body.appendChild( element );
 

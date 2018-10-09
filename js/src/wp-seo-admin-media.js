@@ -4,13 +4,10 @@
 /* jshint -W003 */
 /* jshint unused:false */
 
-import "./helpers/babel-polyfill";
-
 // Taken and adapted from http://www.webmaster-source.com/2013/02/06/using-the-wordpress-3-5-media-uploader-in-your-plugin-or-theme/
 jQuery( document ).ready(
 	function( $ ) {
-		"use strict";
-		if( typeof wp.media === "undefined" ) {
+		if ( typeof wp.media === "undefined" ) {
 			return;
 		}
 

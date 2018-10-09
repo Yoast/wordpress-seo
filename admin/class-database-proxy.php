@@ -179,8 +179,8 @@ class WPSEO_Database_Proxy {
 	 * @return bool True when creation is successful.
 	 */
 	public function create_table( array $columns, array $indexes = array() ) {
-		$create_table = sprintf( '
-				CREATE TABLE IF NOT EXISTS %1$s ( %2$s ) %3$s',
+		$create_table = sprintf(
+			'CREATE TABLE IF NOT EXISTS %1$s ( %2$s ) %3$s',
 			$this->get_table_name(),
 			implode( ',', array_merge( $columns, $indexes ) ),
 			$this->database->get_charset_collate()

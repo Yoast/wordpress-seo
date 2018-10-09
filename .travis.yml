@@ -10,7 +10,7 @@ branches:
     - /^hotfix\/\d+\.\d+(\.\d+)?(-\S*)?$/
     - /^feature\/*/
     # Also build tags like 1.1.1 or 1.1 for deployment.
-    - /(\d+\.)?(\d+\.)?(\*|\d+)/
+    - /^\d+\.\d+(\.\d+)?(-\S*)?$/
 
 jobs:
   fast_finish: true
@@ -38,7 +38,9 @@ jobs:
     - php: nightly
       env: WP_VERSION=master
     - stage: 🚀 deployment
+      name: "Deploy to S3"
       if: branch = deploy # Only build when on the `deploy` branch, this functionality is not used yet and is taking a long time to complete.
+      env: SC_ATTR=wordpress-seo
       before_script: skip
       script: grunt artifact
       install:
@@ -57,22 +59,27 @@ jobs:
         on:
           repo: Yoast/wordpress-seo
           all_branches: true
-    - stage: github-distribution-deploy
-      if: tag IS present
-      before_install:
-      - openssl aes-256-cbc -K $encrypted_06a9c1b95cfa_key -iv $encrypted_06a9c1b95cfa_iv -in ./deploy_keys/travis_dist_id_rsa.enc -out ./deploy_keys/travis_dist_id_rsa -d
-      - chmod 600 ./deploy_keys/travis_dist_id_rsa
-      - eval $(ssh-agent -s)
-      - ssh-add ./deploy_keys/travis_dist_id_rsa
-      before_deploy:
-        - nvm install node
-        - curl -o- -L https://yarnpkg.com/install.sh | bash
-        - export PATH=$HOME/.yarn/bin:$PATH
+    - stage: 🚀 deployment
+      name: "Deploy to Yoast-dist"
+      install:
         - yarn global add grunt-cli
         - yarn install
+      before_script: skip
+      script:
         - grunt set-version -new-version=$TRAVIS_TAG
         - grunt update-version
         - grunt artifact
+        - grunt composer-artifact
+      if: tag IS present
+      before_install:
+        - nvm install node
+        - curl -o- -L https://yarnpkg.com/install.sh | bash
+        - export PATH=$HOME/.yarn/bin:$PATH
+        - openssl aes-256-cbc -K $encrypted_06a9c1b95cfa_key -iv $encrypted_06a9c1b95cfa_iv -in ./deploy_keys/travis_dist_id_rsa.enc -out ./deploy_keys/travis_dist_id_rsa -d
+        - chmod 600 ./deploy_keys/travis_dist_id_rsa
+        - eval $(ssh-agent -s)
+        - ssh-add ./deploy_keys/travis_dist_id_rsa
+
        # If the commit was tagged, create an artifact and push it to the distribution github
       deploy:
         skip_cleanup: true

@@ -26,15 +26,6 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Get all the options
-	 *
-	 * @deprecated 7.0
-	 */
-	protected function get_options() {
-		_deprecated_function( __METHOD__, 'WPSEO 7.0', 'WPSEO_Options::get' );
-	}
-
-	/**
 	 * @param int $max_entries Entries per sitemap.
 	 *
 	 * @return array
@@ -159,7 +150,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
 
 		/** This filter is documented in inc/sitemaps/class-taxonomy-sitemap-provider.php */
-		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy );
+		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, array( $taxonomy->name ) );
 		$terms      = get_terms( $taxonomy->name, array( 'hide_empty' => $hide_empty ) );
 		$terms      = array_splice( $terms, $offset, $steps );
 
@@ -260,5 +251,17 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return self::$image_parser;
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Get all the options
+	 *
+	 * @deprecated 7.0
+	 * @codeCoverageIgnore
+	 */
+	protected function get_options() {
+		_deprecated_function( __METHOD__, 'WPSEO 7.0', 'WPSEO_Options::get' );
 	}
 }

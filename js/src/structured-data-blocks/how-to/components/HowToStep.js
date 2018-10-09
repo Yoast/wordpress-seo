@@ -1,16 +1,19 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import appendSpace from "../../../components/higherorder/appendSpace";
 
 const { Component } = window.wp.element;
 const { IconButton } = window.wp.components;
 const { RichText, MediaUpload } = window.wp.editor;
 
+const RichTextWithAppendedSpace = appendSpace( RichText );
+const RichTextContentWithAppendedSpace = appendSpace( RichText.Content );
+
 /**
  * A How-to step within a How-to block.
  */
 export default class HowToStep extends Component {
-
 	/**
 	 * Constructs a HowToStep editor component.
 	 *
@@ -58,15 +61,13 @@ export default class HowToStep extends Component {
 				icon="trash"
 				label={ __( "Delete step", "wordpress-seo" ) }
 				onClick={ removeStep }
-			>
-			</IconButton>
+			/>
 			<IconButton
 				className="schema-how-to-step-button editor-inserter__toggle"
 				icon="insert"
 				label={ __( "Insert step", "wordpress-seo" ) }
 				onClick={ insertStep }
-			>
-			</IconButton>
+			/>
 		</div>;
 	}
 
@@ -77,22 +78,20 @@ export default class HowToStep extends Component {
 	 */
 	getMover() {
 		return <div className="schema-how-to-step-mover">
-			{ ! this.props.isFirst &&
 			<IconButton
 				className="editor-block-mover__control"
-				onClick={ this.props.onMoveUp }
+				onClick={ this.props.isFirst ? null : this.props.onMoveUp }
 				icon="arrow-up-alt2"
 				label={ __( "Move step up", "wordpress-seo" ) }
+				aria-disabled={ this.props.isFirst }
 			/>
-			}
-			{ ! this.props.isLast &&
 			<IconButton
 				className="editor-block-mover__control"
 				onClick={ this.props.isLast ? null : this.props.onMoveDown }
 				icon="arrow-down-alt2"
 				label={ __( "Move step down", "wordpress-seo" ) }
+				aria-disabled={ this.props.isLast }
 			/>
-			}
 		</div>;
 	}
 
@@ -107,7 +106,7 @@ export default class HowToStep extends Component {
 		const { name, text } = this.props.step;
 
 		let newText = text.slice();
-		let image    = <img key={ media.id } alt={ media.alt } src={ media.url } />;
+		const image = <img key={ media.id } alt={ media.alt } src={ media.url } />;
 
 		if ( newText.push ) {
 			newText.push( image );
@@ -130,7 +129,7 @@ export default class HowToStep extends Component {
 			return false;
 		}
 
-		let image = contents.filter( ( node ) => node && node.type && node.type === "img" )[ 0 ];
+		const image = contents.filter( ( node ) => node && node.type && node.type === "img" )[ 0 ];
 
 		if ( ! image ) {
 			return false;
@@ -148,15 +147,15 @@ export default class HowToStep extends Component {
 	 * @returns {Component} The component to be rendered.
 	 */
 	static Content( step ) {
-		return(
-			<li className={ "schema-how-to-step" } key={ step.id } >
-				<RichText.Content
+		return (
+			<li className={ "schema-how-to-step" } key={ step.id }>
+				<RichTextContentWithAppendedSpace
 					tagName="strong"
 					className="schema-how-to-step-name"
 					key={ step.id + "-name" }
 					value={ step.name }
 				/>
-				<RichText.Content
+				<RichTextContentWithAppendedSpace
 					tagName="p"
 					className="schema-how-to-step-text"
 					key={ step.id + "-text" }
@@ -172,7 +171,7 @@ export default class HowToStep extends Component {
 	 * @returns {Component} The how-to step editor.
 	 */
 	render() {
-		let {
+		const {
 			index,
 			step,
 			onChange,
@@ -183,20 +182,20 @@ export default class HowToStep extends Component {
 			isUnorderedList,
 		} = this.props;
 
-		let { id, name, text } = step;
+		const { id, name, text } = step;
 
 		return (
-			<li className="schema-how-to-step" key={ id } >
+			<li className="schema-how-to-step" key={ id }>
 				<span className="schema-how-to-step-number">
 					{ isUnorderedList
 						? "•"
 						: ( index + 1 ) + "."
 					}
 				</span>
-				<RichText
+				<RichTextWithAppendedSpace
 					className="schema-how-to-step-name"
-					tagName="strong"
-					onSetup={ ( ref ) => editorRef( "name", ref ) }
+					tagName="p"
+					unstableOnSetup={ ( ref ) => editorRef( "name", ref ) }
 					key={ `${ id }-name` }
 					value={ name }
 					onChange={ ( value ) => onChange( value, text, name, text ) }
@@ -204,11 +203,12 @@ export default class HowToStep extends Component {
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					setFocusedElement={ () => onFocus( "name" ) }
 					keepPlaceholderOnFocus={ true }
+					formattingControls={ [ "italic", "strikethrough", "link" ] }
 				/>
-				<RichText
+				<RichTextWithAppendedSpace
 					className="schema-how-to-step-text"
 					tagName="p"
-					onSetup={ ( ref ) => editorRef( "text", ref ) }
+					unstableOnSetup={ ( ref ) => editorRef( "text", ref ) }
 					key={ `${ id }-text` }
 					value={ text }
 					onChange={ ( value ) => onChange( name, value, name, text ) }
@@ -217,8 +217,12 @@ export default class HowToStep extends Component {
 					setFocusedElement={ () => onFocus( "text" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
-				{ isSelected && this.getMover() }
-				{ isSelected && this.getButtons() }
+				{ isSelected &&
+					<div className="schema-how-to-step-controls-container">
+						{ this.getMover() }
+						{ this.getButtons() }
+					</div>
+				}
 			</li>
 		);
 	}

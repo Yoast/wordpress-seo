@@ -44,7 +44,6 @@ import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
 } from "./helpers/classicEditor";
-import "./helpers/babel-polyfill";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -56,7 +55,6 @@ window.yoastHideMarkers = true;
 
 	var termSlugInput;
 
-	let store;
 	let edit;
 	const customAnalysisData = new CustomAnalysisData();
 
@@ -110,7 +108,7 @@ window.yoastHideMarkers = true;
 			slug: termSlugInput.val(),
 		};
 
-		store.dispatch( updateData( snippetEditorData ) );
+		YoastSEO.store.dispatch( updateData( snippetEditorData ) );
 	}
 
 	/**
@@ -182,10 +180,10 @@ window.yoastHideMarkers = true;
 	 * @returns {void}
 	 */
 	function disableYoastSEORenderers( app ) {
-		if( ! isUndefined( app.seoAssessorPresenter ) ) {
+		if ( ! isUndefined( app.seoAssessorPresenter ) ) {
 			app.seoAssessorPresenter.render = function() {};
 		}
-		if( ! isUndefined( app.contentAssessorPresenter ) ) {
+		if ( ! isUndefined( app.contentAssessorPresenter ) ) {
 			app.contentAssessorPresenter.render = function() {};
 			app.contentAssessorPresenter.renderIndividualRatings = function() {};
 		}
@@ -305,6 +303,10 @@ window.yoastHideMarkers = true;
 					YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.cornerStoneSeoAssessor, name, assessment, pluginName );
 			}
 		};
+		YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
+			YoastSEO.analysis.worker.initialize( assessorOptions );
+			YoastSEO.app.refresh();
+		};
 
 		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
 
@@ -346,7 +348,7 @@ window.yoastHideMarkers = true;
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );
-		let originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
+		const originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
 		app.initAssessorPresenters = function() {
 			originalInitAssessorPresenters();
 			disableYoastSEORenderers( app );
@@ -369,7 +371,7 @@ window.yoastHideMarkers = true;
 		// Subscribe to the store to save the snippet editor data.
 		store.subscribe( () => {
 			// Verify whether the focusKeyword changed. If so, trigger refresh:
-			let newFocusKeyword = store.getState().focusKeyword;
+			const newFocusKeyword = store.getState().focusKeyword;
 
 			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;

@@ -4,10 +4,8 @@
 /* jshint -W097 */
 /* jshint -W003 */
 import a11ySpeak from "a11y-speak";
-import "./helpers/babel-polyfill";
 
 ( function( $ ) {
-	"use strict";
 	var featuredImagePlugin;
 	var $featuredImageElement;
 	var $postImageDiv;

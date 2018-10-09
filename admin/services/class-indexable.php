@@ -19,33 +19,39 @@ class WPSEO_Indexable_Service {
 	 */
 	public function get_indexable( WP_REST_Request $request ) {
 		$object_type = $request->get_param( 'object_type' );
-		$provider    = $this->get_provider( strtolower( $object_type ) );
+		$object_id   = $request->get_param( 'object_id' );
 
-		if ( $provider === null ) {
-			return new WP_REST_Response(
-				sprintf(
-					/* translators: %1$s expands to the requested indexable type  */
-					__( 'Unknown type %1$s', 'wordpress-seo' ),
-					$object_type
-				),
-				400
-			);
+		try {
+			$provider  = $this->get_provider( $object_type );
+			$indexable = $provider->get( $object_id );
+
+			return new WP_REST_Response( $indexable );
 		}
-
-		$object_id = $request->get_param( 'object_id' );
-		if ( ! $provider->is_indexable( $object_id ) ) {
-			return new WP_REST_Response(
-				sprintf(
-					/* translators: %1$s expands to the requested indexable type. %2$s expands to the request id */
-					__( 'Object %1$s with id %2$s not found', 'wordpress-seo' ),
-					$object_type,
-					$object_id
-				),
-				404
-			);
+		catch ( Exception $exception ) {
+			return new WP_REST_Response( $exception->getMessage(), 500 );
 		}
+	}
 
-		return new WP_REST_Response( $provider->get( $object_id ) );
+	/**
+	 * Patches an indexable with the request parameters.
+	 *
+	 * @param WP_REST_Request $request The REST API request to process.
+	 *
+	 * @return WP_REST_Response The REST response.
+	 */
+	public function patch_indexable( WP_REST_Request $request ) {
+		$object_type = $request->get_param( 'object_type' );
+		$object_id   = $request->get_param( 'object_id' );
+
+		try {
+			$provider       = $this->get_provider( $object_type );
+			$patched_result = $provider->patch( $object_id, $request->get_params() );
+
+			return new WP_REST_Response( $patched_result );
+		}
+		catch ( Exception $exception ) {
+			return new WP_REST_Response( $exception->getMessage(), 500 );
+		}
 	}
 
 	/**
@@ -53,9 +59,13 @@ class WPSEO_Indexable_Service {
 	 *
 	 * @param string $object_type The object type to get the provider for.
 	 *
-	 * @return null|WPSEO_Indexable_Service_Provider Instance of the service provider.
+	 * @return WPSEO_Indexable_Service_Provider Instance of the service provider.
+	 *
+	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
 	 */
 	protected function get_provider( $object_type ) {
+		$object_type = strtolower( $object_type );
+
 		if ( $object_type === 'post' ) {
 			return new WPSEO_Indexable_Service_Post_Provider();
 		}
@@ -65,6 +75,24 @@ class WPSEO_Indexable_Service {
 
 		}
 
-		return null;
+		throw WPSEO_Invalid_Argument_Exception::invalid_callable_parameter( $object_type, 'provider' );
+	}
+
+	/**
+	 * Handles the situation when the object type is unknown.
+	 *
+	 * @param string $object_type The unknown object type.
+	 *
+	 * @return WP_REST_Response The response.
+	 */
+	protected function handle_unknown_object_type( $object_type ) {
+		return new WP_REST_Response(
+			sprintf(
+				/* translators: %1$s expands to the requested indexable type  */
+				__( 'Unknown type %1$s', 'wordpress-seo' ),
+				$object_type
+			),
+			400
+		);
 	}
 }
