@@ -17,7 +17,7 @@ use Yoast\YoastSEO\WordPress\Integration;
 /**
  * Watches Posts to save the primary term when set.
  */
-class Primary_Term implements Integration {
+class Primary_Term_Watcher implements Integration {
 
 	/**
 	 * Initializes the integration.
@@ -86,12 +86,7 @@ class Primary_Term implements Integration {
 
 			// Removes the indexable when found.
 			if ( empty( $term_id ) ) {
-				try {
-					$primary_term->delete();
-				}
-				catch ( \Exception $exception ) {
-					Logger::get_logger()->notice( $exception->getMessage() );
-				}
+				$this->delete_indexable( $primary_term );
 
 				return;
 			}
@@ -177,7 +172,7 @@ class Primary_Term implements Integration {
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
 	 *
-	 * @return Indexable
+	 * @return Indexable Instance of the indexable.
 	 *
 	 * @throws No_Indexable_Found Exception when no indexable could be found for the supplied post.
 	 */
@@ -189,6 +184,22 @@ class Primary_Term implements Integration {
 		}
 
 		return $indexable;
+	}
+
+	/**
+	 * Deletes the given indexable.
+	 *
+	 * @param Indexable $indexable The indexable to delete.
+	 *
+	 * @return void
+	 */
+	protected function delete_indexable( $indexable ) {
+		try {
+			$indexable->delete();
+		}
+		catch ( \Exception $exception ) {
+			Logger::get_logger()->notice( $exception->getMessage() );
+		}
 	}
 
 	/**

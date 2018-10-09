@@ -31,7 +31,7 @@ class Admin implements Integration {
 				new Watchers\Indexable_Post_Watcher(),
 				new Watchers\Indexable_Term_Watcher(),
 				new Watchers\Indexable_Author_Watcher(),
-				new Watchers\Primary_Term(),
+				new Watchers\Primary_Term_Watcher(),
 			)
 		);
 		$integration_group->register_hooks();
