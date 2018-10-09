@@ -247,7 +247,7 @@ class SeoAnalysis extends React.Component {
 								marksButtonStatus={ this.props.marksButtonStatus }
 							/>
 						</Collapsible>
-						{  this.renderKeywordUpsell( context ) }
+						{ this.props.shouldUpsell && this.renderKeywordUpsell( context ) }
 					</React.Fragment>
 				) }
 			</LocationConsumer>
