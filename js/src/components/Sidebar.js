@@ -30,7 +30,7 @@ export default function Sidebar( { settings, store, theme } ) {
 				<LocationProvider value="sidebar">
 					{ <SidebarItem renderPriority={ 5 }>
 						<ThemeProvider theme={ theme }>
-							<StoreProvider id={ "yoast-snippet-editor-sidebar" } store={ store }>
+							<StoreProvider store={ store }>
 								<SnippetPreviewModal />
 							</StoreProvider>
 						</ThemeProvider>

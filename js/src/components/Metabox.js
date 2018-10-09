@@ -6,7 +6,6 @@ import { Fragment } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 
-
 import SidebarItem from "./SidebarItem";
 import SnippetEditor from "../containers/SnippetEditor";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
