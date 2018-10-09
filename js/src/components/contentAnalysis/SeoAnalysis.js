@@ -234,8 +234,8 @@ class SeoAnalysis extends React.Component {
 								keyword={ this.props.keyword }
 							/>
 							<Slot name="YoastSynonyms" />
-							{ this.props.shouldUpsell && this.renderSynonymsUpsell(	this.props.location	) }
-							{ this.props.shouldUpsell && this.renderMultipleKeywordsUpsell( this.props.location ) }
+							{ this.props.shouldUpsell && this.renderSynonymsUpsell(	context	) }
+							{ this.props.shouldUpsell && this.renderMultipleKeywordsUpsell( context ) }
 							<AnalysisHeader>
 								{ __( "Analysis results", "wordpress-seo" ) }
 							</AnalysisHeader>
@@ -246,7 +246,7 @@ class SeoAnalysis extends React.Component {
 								marksButtonStatus={ this.props.marksButtonStatus }
 							/>
 						</Collapsible>
-						{ this.props.shouldUpsell && this.renderKeywordUpsell( this.props.location ) }
+						{  this.renderKeywordUpsell( context ) }
 					</React.Fragment>
 				) }
 			</LocationConsumer>
@@ -263,7 +263,6 @@ SeoAnalysis.propTypes = {
 	onFocusKeywordChange: PropTypes.func,
 	shouldUpsell:	PropTypes.bool,
 	overallScore: PropTypes.number,
-	location: PropTypes.string,
 };
 
 /**

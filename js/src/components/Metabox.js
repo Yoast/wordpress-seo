@@ -52,7 +52,6 @@ export default function Metabox( { settings, store, theme } ) {
 							<StoreProvider store={ store }>
 								<SeoAnalysis
 									shouldUpsell={ settings.shouldUpsell }
-									location="metabox"
 								/>
 							</StoreProvider>
 						</ThemeProvider>

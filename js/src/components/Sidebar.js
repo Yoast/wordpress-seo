@@ -47,7 +47,6 @@ export default function Sidebar( { settings, store, theme } ) {
 							<StoreProvider store={ store }>
 								<SeoAnalysis
 									shouldUpsell={ settings.shouldUpsell }
-									location="sidebar"
 								/>
 							</StoreProvider>
 						</ThemeProvider>
