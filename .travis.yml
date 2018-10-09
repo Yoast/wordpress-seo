@@ -115,13 +115,17 @@ before_install:
 
 install:
 - if [[ $TRAVIS_PHP_VERSION == "5.2" || $TRAVIS_PHP_VERSION == "5.3" ]]; then phpenv local 5.6.13; fi
-- if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then composer require phpunit/phpunit ^5.7 --ignore-platform-reqs; fi
+- |
+  if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
+    composer remove humbug/php-scoper
+    composer require phpunit/phpunit ^5.7
+  fi
 - |
   if [[ "$PHPCS" == "1" ]]; then
     composer install --no-interaction
     composer config-yoastcs
   else
-    composer install --no-dev --no-interaction --ignore-platform-reqs
+    composer install --no-dev --no-interaction
   fi
 - composer dump-autoload
 - if [[ $TRAVIS_PHP_VERSION == "5.2" || $TRAVIS_PHP_VERSION == "5.3" ]]; then phpenv local --unset; fi
