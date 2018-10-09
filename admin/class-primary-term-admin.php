@@ -277,7 +277,7 @@ class WPSEO_Primary_Term_Admin {
 	 * @return array The ancestor slugs.
 	 */
 	protected function get_ancestors( $term_id ) {
-		$ancestors = array_reverse( get_ancestors( $term_id, 'category' ), true );
+		$ancestors 		= array_reverse( get_ancestors( $term_id, 'category' ), true );
 		$ancestor_slugs = array();
 
 		foreach ( $ancestors as $ancestor ) {

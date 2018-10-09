@@ -25,11 +25,11 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 *
 	 * @param WP_Post|array $post      Post object.
 	 * @param array         $options   Title options to use.
-	 * @param string        $structure The permalink to follow.
+	 * @param string        $permalink The permalink to follow.
 	 */
-	public function __construct( $post, array $options, $structure ) {
+	public function __construct( $post, array $options, $permalink ) {
 		$this->post      = $post;
-		$this->permalink = $structure;
+		$this->permalink = $permalink;
 	}
 
 	/**
@@ -42,6 +42,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 			'search_url'          => $this->search_url(),
 			'post_edit_url'       => $this->edit_url(),
 			'base_url'            => $this->base_url_for_js(),
+			'permalink'           => $this->permalink,
 			'metaDescriptionDate' => '',
 		);
 
@@ -92,7 +93,12 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 			return $base_url;
 		}
 
-		return $this->permalink;
+		// If %postname% is the last tag, just strip it and use that as a base.
+		if ( 1 === preg_match( '#%postname%/?$#', $this->permalink ) ) {
+			$base_url = preg_replace( '#%postname%/?$#', '', $this->permalink );
+		}
+
+		return $base_url;
 	}
 
 	/**

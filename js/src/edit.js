@@ -40,6 +40,7 @@ class Edit {
 	 * @param {Function} args.onRefreshRequest                The function to refresh the analysis.
 	 * @param {Object}   args.replaceVars                     The replaceVars object.
 	 * @param {string}   args.snippetEditorBaseUrl            Base URL of the site the user is editing.
+	 * @param {string}   args.snippetEditorPermalink          Permalink of the post being edited. Can be empty.
 	 * @param {string}   args.snippetEditorDate               The date for the snippet editor.
 	 * @param {array}    args.recommendedReplacementVariables The recommended replacement variables for this context.
 	 * @param {Object}   args.classicEditorDataSettings       Settings for the ClassicEditorData object.
@@ -81,6 +82,7 @@ class Edit {
 		this._store.dispatch( actions.setSettings( {
 			snippetEditor: {
 				baseUrl: this._args.snippetEditorBaseUrl,
+				permalink: this._args.snippetEditorPermalink,
 				date: this._args.snippetEditorDate,
 				recommendedReplacementVariables: this._args.recommendedReplaceVars,
 			},

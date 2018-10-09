@@ -382,6 +382,7 @@ setWordPressSeoL10n();
 		const editArgs = {
 			onRefreshRequest: () => {},
 			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,
+			snippetEditorPermalink: wpseoPostScraperL10n.permalink,
 			snippetEditorDate: wpseoPostScraperL10n.metaDescriptionDate,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,

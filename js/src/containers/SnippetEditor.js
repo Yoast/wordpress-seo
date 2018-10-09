@@ -87,8 +87,6 @@ export const mapEditorDataToPreview = function( data, context ) {
 		baseUrlLength = context.shortenedBaseUrl.length;
 	}
 
-	const permalinkStructure = "[homeurl]/%category%/"
-
 	// Replace whitespaces in the url with dashes.
 	data.url = data.url.replace( /\s+/g, "-" );
 	if ( data.url[ data.url.length - 1 ] === "-" ) {
@@ -146,6 +144,7 @@ export function mapStateToProps( state ) {
 		...state.snippetEditor,
 		keyword: state.focusKeyword,
 		baseUrl: state.settings.snippetEditor.baseUrl,
+		permalink: state.settings.snippetEditor.permalink,
 		date: state.settings.snippetEditor.date,
 		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
 	};
