@@ -27,8 +27,8 @@ export default function Metabox( { settings, store, theme } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastMetabox">
-				<LocationProvider value="metabox">
-					<SidebarItem renderPriority={ 9 }>
+				<SidebarItem renderPriority={ 9 }>
+					<LocationProvider value="metabox">
 						<ThemeProvider theme={ theme }>
 							<StoreProvider store={ store }>
 								<Collapsible
@@ -39,15 +39,19 @@ export default function Metabox( { settings, store, theme } ) {
 								</Collapsible>
 							</StoreProvider>
 						</ThemeProvider>
-					</SidebarItem>
-					{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+					</LocationProvider>
+				</SidebarItem>
+				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+					<LocationProvider value="metabox">
 						<ThemeProvider theme={ theme }>
 							<StoreProvider store={ store }>
 								<ReadabilityAnalysis />
 							</StoreProvider>
 						</ThemeProvider>
-					</SidebarItem> }
-					{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+					</LocationProvider>
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+					<LocationProvider value="metabox">
 						<ThemeProvider theme={ theme }>
 							<StoreProvider store={ store }>
 								<SeoAnalysis
@@ -55,16 +59,18 @@ export default function Metabox( { settings, store, theme } ) {
 								/>
 							</StoreProvider>
 						</ThemeProvider>
-					</SidebarItem> }
-					{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+					</LocationProvider>
+				</SidebarItem> }
+				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+					<LocationProvider value="metabox">
 						<ThemeProvider theme={ theme }>
 							<StoreProvider store={ store }>
 								<CollapsibleCornerstone />
 							</StoreProvider>
 						</ThemeProvider>
-					</SidebarItem>
-					}
-				</LocationProvider>
+					</LocationProvider>
+				</SidebarItem>
+				}
 			</Fill>
 		</Fragment>
 	);

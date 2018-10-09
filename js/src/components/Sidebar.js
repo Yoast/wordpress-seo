@@ -27,22 +27,26 @@ export default function Sidebar( { settings, store, theme } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
-				<LocationProvider value="sidebar">
-					{ <SidebarItem renderPriority={ 5 }>
+				{ <SidebarItem renderPriority={ 5 }>
+					<LocationProvider value="sidebar">
 						<ThemeProvider theme={ theme }>
 							<StoreProvider store={ store }>
 								<SnippetPreviewModal />
 							</StoreProvider>
 						</ThemeProvider>
-					</SidebarItem> }
-					{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+					</LocationProvider>
+				</SidebarItem> }
+				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+					<LocationProvider value="sidebar">
 						<ThemeProvider theme={ theme }>
 							<StoreProvider store={ store }>
 								<ReadabilityAnalysis />
 							</StoreProvider>
 						</ThemeProvider>
-					</SidebarItem> }
-					{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+					</LocationProvider>
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+					<LocationProvider value="sidebar">
 						<ThemeProvider theme={ theme }>
 							<StoreProvider store={ store }>
 								<SeoAnalysis
@@ -50,16 +54,18 @@ export default function Sidebar( { settings, store, theme } ) {
 								/>
 							</StoreProvider>
 						</ThemeProvider>
-					</SidebarItem> }
-					{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+					</LocationProvider>
+				</SidebarItem> }
+				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+					<LocationProvider value="sidebar">
 						<ThemeProvider theme={ theme }>
 							<StoreProvider store={ store }>
 								<CollapsibleCornerstone />
 							</StoreProvider>
 						</ThemeProvider>
-					</SidebarItem>
-					}
-				</LocationProvider>
+					</LocationProvider>
+				</SidebarItem>
+				}
 			</Fill>
 		</Fragment>
 	);
