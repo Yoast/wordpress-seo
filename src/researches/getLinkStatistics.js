@@ -6,10 +6,11 @@ import getLinkType from "../stringProcessing/getLinkType.js";
 import checkNofollow from "../stringProcessing/checkNofollow.js";
 import urlHelper from "../stringProcessing/url.js";
 import parseSynonyms from "../stringProcessing/parseSynonyms";
-import Paper from "../values/Paper";
+import { buildForms } from "./buildKeywordForms";
+import getLanguage from "../helpers/getLanguage";
 
 import { flatten } from "lodash-es";
-import { findTopicFormsInString } from "./findKeywordFormsInString";
+import { findWordFormsInString } from "./findKeywordFormsInString";
 
 
 /**
@@ -73,17 +74,17 @@ const filterAnchorsContainingTopic = function( anchors, topicForms, locale ) {
  * @returns {Array} The array of all anchors that contain keyphrase or synonyms.
  */
 const filterAnchorsContainedInTopic = function( anchors, keyphraseAndSynonyms, locale, researcher ) {
+	const language = getLanguage( locale );
+	const morphologyData = researcher.getData( "morphology" )[ language ];
 	let anchorsContainedInTopic = [];
 
 	anchors.forEach( function( currentAnchor ) {
-		// Create a fake paper to be able to generate the forms of the content words from within the anchor.
-		const fakePaper = new Paper( "", { keyword: currentAnchor, locale: locale } );
-		researcher.setPaper( fakePaper );
-		const linkTextForms = researcher.getResearch( "morphology" );
+		// Generate the forms of the content words from within the anchor.
+		const linkTextForms = buildForms( currentAnchor, language, morphologyData );
 
 		for ( let j = 0; j < keyphraseAndSynonyms.length; j++ ) {
 			const topic = keyphraseAndSynonyms[ j ];
-			if ( findTopicFormsInString( linkTextForms, topic, false, locale ).percentWordMatches === 100 ) {
+			if ( findWordFormsInString( linkTextForms, topic, locale ).percentWordMatches === 100 ) {
 				anchorsContainedInTopic.push( true );
 				break;
 			}
