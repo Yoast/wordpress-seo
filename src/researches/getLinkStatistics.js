@@ -69,18 +69,16 @@ const filterAnchorsContainingTopic = function( anchors, topicForms, locale ) {
  * @param {Array} anchors An array with all anchors from the paper.
  * @param {Array} keyphraseAndSynonyms An array with keyphrase and its synonyms.
  * @param {string} locale The locale of the paper.
- * @param {Researcher} researcher The morphological researcher.
+ * @param {Object} morphologyData The morphology data (regexes and exception lists) available for the language.
  *
  * @returns {Array} The array of all anchors that contain keyphrase or synonyms.
  */
-const filterAnchorsContainedInTopic = function( anchors, keyphraseAndSynonyms, locale, researcher ) {
-	const language = getLanguage( locale );
-	const morphologyData = researcher.getData( "morphology" )[ language ];
+const filterAnchorsContainedInTopic = function( anchors, keyphraseAndSynonyms, locale, morphologyData ) {
 	let anchorsContainedInTopic = [];
 
 	anchors.forEach( function( currentAnchor ) {
 		// Generate the forms of the content words from within the anchor.
-		const linkTextForms = buildForms( currentAnchor, language, morphologyData );
+		const linkTextForms = buildForms( currentAnchor, getLanguage( locale ), morphologyData );
 
 		for ( let j = 0; j < keyphraseAndSynonyms.length; j++ ) {
 			const topic = keyphraseAndSynonyms[ j ];
@@ -137,8 +135,9 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
 	const synonyms = paper.getSynonyms();
 	const keyphraseAndSynonyms = flatten( [].concat( keyword, parseSynonyms( synonyms ) ) );
 
+	const morphologyData = researcher.getData( "morphology" )[ getLanguage( locale ) ] || false;
 
-	anchors = filterAnchorsContainedInTopic( anchors, keyphraseAndSynonyms, locale, researcher );
+	anchors = filterAnchorsContainedInTopic( anchors, keyphraseAndSynonyms, locale, morphologyData );
 	result.totalKeyword = anchors.length;
 	result.matchedAnchors = anchors;
 
