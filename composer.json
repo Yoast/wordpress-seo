@@ -40,7 +40,9 @@
 		"phpcompatibility/phpcompatibility-wp": "1.0.0",
 		"humbug/php-scoper": "^0.6.0",
 		"symfony/dependency-injection": "^3.4",
-		"symfony/filesystem": "^3.4"
+		"symfony/filesystem": "^3.4",
+		"symfony/config": "^3.4"
+
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
