@@ -111,7 +111,7 @@ $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 			</div>
 		</div>
 		<div class="yoast-sidebar_section">
-			<strong>Remove these ads?</strong>
+			<strong><?php esc_html_e( 'Remove these ads?', 'wordpress-seo' ); ?></strong>
 			<p>
 				<a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jy' ); ?>">
 					<?php
