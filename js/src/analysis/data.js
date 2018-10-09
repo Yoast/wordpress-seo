@@ -154,7 +154,7 @@ class Data {
 			title: this.getPostAttribute( "title" ),
 			slug: this.getSlug(),
 			excerpt: this.getExcerpt(),
-			// eslint-disable-next-line
+			// eslint-disable-next-line camelcase
 			excerpt_only: this.getExcerpt( false ),
 		};
 	}
