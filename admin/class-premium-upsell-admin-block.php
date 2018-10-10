@@ -78,7 +78,13 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		);
 
 		echo '<div>';
-		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' . esc_html__( 'Upgrade to Yoast SEO Premium', 'wordpress-seo' ) . '</h2>';
+		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' .
+			sprintf(
+				/* translators: %s expands to Yoast SEO Premium */
+				esc_html__( 'Upgrade to %s', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			) .
+		'</h2>';
 		echo '<ul class="' . esc_attr( $class . '--motivation' ) . '">' . $arguments_html . '</ul>';
 
 		echo '<p><a href="' . esc_url( $url ) . '" target="_blank">' . $upgrade_button . '</a><br />';
