@@ -205,13 +205,14 @@ export function mapCustomFields( replaceVars, store ) {
  * Extracts the excerpt from the given content.
  *
  * @param {string} content The content.
- * @param {number} words   The amount of words to extract.
+ * @param {number} limit   The amount of characters to extract.
  *
  * @returns {string} The generated excerpt.
  */
-export function excerptFromContent( content, words = 55 ) {
-	// Because WordPress is doing this also (See PHP: wp_trim_excerpt).
-	content = content.replace( "]]>", "]]&gt;" );
+export function excerptFromContent( content, limit = 156 ) {
+	// Retrieves the first 156 chars from the content.
+	content = content.substring( 0, limit );
 
-	return content.split( " ", words ).join( " " );
+	// Caps to the last space to have a full last word.
+	return content.substring( 0, content.lastIndexOf( " " ) );
 }
