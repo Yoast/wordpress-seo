@@ -19,7 +19,7 @@ class PageTitleWidthAssesment extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			minLength: 400,
 			maxLength: maximumLength,
 			scores: {
@@ -55,8 +55,8 @@ class PageTitleWidthAssesment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let pageTitleWidth = researcher.getResearch( "pageTitleWidth" );
-		let assessmentResult = new AssessmentResult();
+		const pageTitleWidth = researcher.getResearch( "pageTitleWidth" );
+		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( this.calculateScore( pageTitleWidth ) );
 		assessmentResult.setText( this.translateScore( pageTitleWidth, i18n ) );

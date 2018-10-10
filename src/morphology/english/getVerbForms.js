@@ -16,7 +16,7 @@ import { flatten } from "lodash-es";
  * @returns {Array} Array of word forms from the exception list.
  */
 const normalizePrefixed = function( word, verbPrefixes ) {
-	for ( let property in verbPrefixes ) {
+	for ( const property in verbPrefixes ) {
 		if ( verbPrefixes.hasOwnProperty( property ) ) {
 			verbPrefixes[ property ] = new RegExp( verbPrefixes[ property ], "i" );
 		}
@@ -253,7 +253,7 @@ const getVerbForms = function( word, verbsData ) {
 		infinitive = word;
 	}
 
-	// const guessedForm = getInfinitive( word ).guessedForm; //Meant to be used to check if the newly built forms are built correctly.
+	// Const guessedForm = getInfinitive( word ).guessedForm; //Meant to be used to check if the newly built forms are built correctly.
 	forms = forms.concat( word );
 
 	forms.push( infinitive );

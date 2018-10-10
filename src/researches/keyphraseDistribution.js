@@ -45,7 +45,7 @@ const getNeighbourhood = function( sentences, index ) {
  * @returns {Array} The scores per sentence.
  */
 const computeScoresPerSentenceLongTopic = function( topic, sentences, locale ) {
-	let sentenceScores = Array( sentences.length );
+	const sentenceScores = Array( sentences.length );
 
 	for ( let i = 0; i < sentences.length; i++ ) {
 		// First search in the current sentence
@@ -81,7 +81,7 @@ const computeScoresPerSentenceLongTopic = function( topic, sentences, locale ) {
  * @returns {Array} The scores per sentence.
  */
 const computeScoresPerSentenceShortTopic = function( topic, sentences, locale ) {
-	let sentenceScores = Array( sentences.length );
+	const sentenceScores = Array( sentences.length );
 
 	for ( let i = 0; i < sentences.length; i++ ) {
 		const currentSentence = sentences[ i ];
@@ -133,7 +133,7 @@ const maximizeSentenceScores = function( sentenceScores ) {
 const step = function( maximizedSentenceScores, stepSize ) {
 	const numberOfSteps = maximizedSentenceScores.length - stepSize + 1;
 
-	let result = [];
+	const result = [];
 	let toAnalyze = [];
 
 	for ( let i = 0; i < numberOfSteps; i++ ) {
@@ -157,7 +157,7 @@ const step = function( maximizedSentenceScores, stepSize ) {
 const getPortionPunishment = function( sentences, topicForms, locale, stepSize ) {
 	const numberOfSteps = sentences.length - stepSize + 1;
 
-	let result = [];
+	const result = [];
 
 	for ( let i = 0; i < numberOfSteps; i++ ) {
 		const windowText = sentences.slice( i, stepSize + i ).join( " " );
@@ -182,7 +182,7 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale ) {
 	// Compute per-sentence scores of topic-relatedness.
 	const topicNumber = topicFormsInOneArray.length;
 
-	let sentenceScores = Array( topicNumber );
+	const sentenceScores = Array( topicNumber );
 
 	for ( let i = 0; i < topicNumber; i++ ) {
 		const topic = topicFormsInOneArray[ i ];
@@ -234,7 +234,7 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 
 	// Apply step function: to begin with take a third of the text or at least 3 sentences.
 	const stepSize = max( [ round( sentences.length / 10 ), 3 ] );
-	let textPortionScores = step( sentenceScores.maximizedSentenceScores, stepSize );
+	const textPortionScores = step( sentenceScores.maximizedSentenceScores, stepSize );
 
 	// Check if any windows do not have all topic words matched, assign a punishment if so.
 	const punishment = getPortionPunishment( sentences, topicForms, locale, stepSize );

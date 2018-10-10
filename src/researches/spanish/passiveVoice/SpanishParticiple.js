@@ -27,9 +27,9 @@ require( "util" ).inherits( SpanishParticiple, Participle );
  * @returns {boolean} Returns true if no exception is found.
  */
 SpanishParticiple.prototype.isPassive = function() {
-	let sentencePart = this.getSentencePart();
-	let participleIndex = sentencePart.indexOf( this.getParticiple() );
-	let language = this.getLanguage();
+	const sentencePart = this.getSentencePart();
+	const participleIndex = sentencePart.indexOf( this.getParticiple() );
+	const language = this.getLanguage();
 
 	return ! this.directPrecedenceException( sentencePart, participleIndex, language ) &&
 		! this.precedenceException( sentencePart, participleIndex, language );

@@ -18,7 +18,7 @@ class TextLengthAssessment extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			recommendedMinimum: 300,
 			slightlyBelowMinimum: 250,
 			belowMinimum: 200,
@@ -49,8 +49,8 @@ class TextLengthAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let wordCount = researcher.getResearch( "wordCountInText" );
-		let assessmentResult = new AssessmentResult();
+		const wordCount = researcher.getResearch( "wordCountInText" );
+		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( this.calculateScore( wordCount ) );
 		assessmentResult.setText(

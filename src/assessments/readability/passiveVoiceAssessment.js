@@ -16,12 +16,12 @@ const availableLanguages = [ "en", "de", "fr", "es", "ru", "it", "nl", "pl" ];
  * @param {object} i18n The object used for translations.
  * @returns {{score: number, text}} resultobject with score and text.
  */
-let calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
+const calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	let score;
 	let percentage = 0;
-	let recommendedValue = 10;
-	let urlTitle = "<a href='https://yoa.st/34t' target='_blank'>";
-	let urlCallToAction = "<a href='https://yoa.st/34u' target='_blank'>";
+	const recommendedValue = 10;
+	const urlTitle = "<a href='https://yoa.st/34t' target='_blank'>";
+	const urlCallToAction = "<a href='https://yoa.st/34u' target='_blank'>";
 	let hasMarks;
 
 	// Prevent division by zero errors.
@@ -88,11 +88,11 @@ let calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
  * @param {object} researcher The researcher used for calling research.
  * @returns {object} All marked sentences.
  */
-let passiveVoiceMarker = function( paper, researcher ) {
+const passiveVoiceMarker = function( paper, researcher ) {
 	const passiveVoice = researcher.getResearch( "passiveVoice" );
 	return map( passiveVoice.passives, function( sentence ) {
 		sentence = stripTags( sentence );
-		let marked = marker( sentence );
+		const marked = marker( sentence );
 		return new Mark( {
 			original: sentence,
 			marked: marked,
@@ -107,7 +107,7 @@ let passiveVoiceMarker = function( paper, researcher ) {
  * @param {object} i18n The object used for translations.
  * @returns {object} the Assessmentresult
  */
-let passiveVoiceAssessment = function( paper, researcher, i18n ) {
+const passiveVoiceAssessment = function( paper, researcher, i18n ) {
 	const passiveVoice = researcher.getResearch( "passiveVoice" );
 
 	const passiveVoiceResult = calculatePassiveVoiceResult( passiveVoice, i18n );

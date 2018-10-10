@@ -28,7 +28,7 @@ export default function( sentencePartText, auxiliaries, language ) {
 	var foundParticiples = [];
 
 	forEach( words, function( word ) {
-		if( verbsBeginningWithGe( word ).length !== 0 ) {
+		if ( verbsBeginningWithGe( word ).length !== 0 ) {
 			foundParticiples.push(
 				new GermanParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "ge at beginning", language: language } )
 			);
@@ -59,7 +59,7 @@ export default function( sentencePartText, auxiliaries, language ) {
 				new GermanParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "iert at the end", language: language } )
 			);
 		}
-		if( includes( irregularParticiples, word ) ) {
+		if ( includes( irregularParticiples, word ) ) {
 			foundParticiples.push(
 				new GermanParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "irregular", language: language } )
 			);

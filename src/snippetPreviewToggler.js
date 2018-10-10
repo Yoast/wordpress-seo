@@ -157,7 +157,7 @@ SnippetPreviewToggler.prototype.setMobileMode = function() {
  * @returns {void}
  */
 SnippetPreviewToggler.prototype.setVisibility = function( previewWidth ) {
-	if( previewWidth < minimumDesktopWidth ) {
+	if ( previewWidth < minimumDesktopWidth ) {
 		this.setMobileMode();
 		// At this point the desktop view is scrollable: set a CSS class to show the Scroll Hint message.
 		domManipulation.addClass( this.viewElement, "snippet-editor__view--desktop-has-scroll" );

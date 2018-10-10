@@ -24,7 +24,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			parameters: {
 				// The maximum recommended value of the subheading text.
 				recommendedMaximumWordCount: 300,
@@ -65,7 +65,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 		this._tooLongTexts = this.getTooLongSubheadingTexts();
 		this._tooLongTextsNumber = this.getTooLongSubheadingTexts().length;
 
-		let assessmentResult = new AssessmentResult();
+		const assessmentResult = new AssessmentResult();
 		assessmentResult.setIdentifier( this.identifier );
 
 		this._hasSubheadings = this.hasSubheadings( paper );

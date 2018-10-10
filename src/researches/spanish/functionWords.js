@@ -1,61 +1,61 @@
 import transitionWordsFactory from "./transitionWords.js";
-let transitionWords = transitionWordsFactory().singleWords;
+const transitionWords = transitionWordsFactory().singleWords;
 
 /**
  * Returns an array with exceptions for the prominent words researcher
  * @returns {Array} The array filled with exceptions.
  */
 
-let articles = [ "el", "la", "los", "las", "un", "una", "unos", "unas" ];
+const articles = [ "el", "la", "los", "las", "un", "una", "unos", "unas" ];
 
 // "Uno" is already included in the articles.
-let cardinalNumerals = [ "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce", "trece",
+const cardinalNumerals = [ "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez", "once", "doce", "trece",
 	"catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve", "veinte", "cien", "centena", "mil", "millon",
 	"millones" ];
 
-let ordinalNumerals = [ "primera", "segunda", "tercera", "cuarto", "cuarta", "quinto", "quinta", "sexto", "sexta",
+const ordinalNumerals = [ "primera", "segunda", "tercera", "cuarto", "cuarta", "quinto", "quinta", "sexto", "sexta",
 	"septimo", "septima", "octavo", "octava", "noveno", "novena", "décimo", "décima", "vigésimo", "vigésima", "primeros",
 	"primeras", "segundos", "segundas", "terceros", "terceras", "cuartos", "cuartas", "quintos", "quintas", "sextos",
 	"sextas", "septimos", "septimas", "octavos", "octavas", "novenos", "novenas", "décimos", "décimas", "vigésimos",
 	"vigésimas" ];
 
-let personalPronounsNominative = [ "yo", "tú", "él", "ella", "ello", "nosotros", "nosotras", "vosotros", "vosotras",
+const personalPronounsNominative = [ "yo", "tú", "él", "ella", "ello", "nosotros", "nosotras", "vosotros", "vosotras",
 	"ustedes", "ellos", "ellas" ];
 
-let personalPronounsAccusative = [ "me", "te", "lo", "se", "nos", "os", "les" ];
+const personalPronounsAccusative = [ "me", "te", "lo", "se", "nos", "os", "les" ];
 
-let personalPronounsPrepositional = [ "mí", "ti", "ud", "uds", "usted", "sí" ];
+const personalPronounsPrepositional = [ "mí", "ti", "ud", "uds", "usted", "sí" ];
 
-let personalPronounsComitative = [ "conmigo", "contigo", "consigo" ];
+const personalPronounsComitative = [ "conmigo", "contigo", "consigo" ];
 
-let demonstrativePronouns = [ "este", "ese", "aquel", "esta", "esa", "aquella", "estos", "esos", "aquellos", "estas",
+const demonstrativePronouns = [ "este", "ese", "aquel", "esta", "esa", "aquella", "estos", "esos", "aquellos", "estas",
 	"esas", "aquellas", "esto", "eso", "aquello" ];
 
-let possessivePronouns = [ "mi", "mis", "mío", "míos", "mía", "mías", "nuestro", "nuestros", "nuestra", "nuestras", "tuyo", "tuyos", "tuya",
+const possessivePronouns = [ "mi", "mis", "mío", "míos", "mía", "mías", "nuestro", "nuestros", "nuestra", "nuestras", "tuyo", "tuyos", "tuya",
 	"tuyas", "tu", "tus", "vuestro", "vuestros", "vuestra", "vuestras", "suyo", "suyos", "suya", "suyas", "su", "sus" ];
 
-let quantifiers = [ "bastante", "bastantes", "mucho", "muchas", "mucha", "muchos", "demasiado", "demasiada", "demasiados", "demasiadas",
+const quantifiers = [ "bastante", "bastantes", "mucho", "muchas", "mucha", "muchos", "demasiado", "demasiada", "demasiados", "demasiadas",
 	"poco", "poca", "pocos", "pocas", "demás", "otros", "otras", "todo", "toda", "todos", "todas" ];
 
-let indefinitePronouns = [ "alguien", "algo", "algún", "alguno", "alguna", "algunos", "algunas", "nadie", "nada", "ningún",
+const indefinitePronouns = [ "alguien", "algo", "algún", "alguno", "alguna", "algunos", "algunas", "nadie", "nada", "ningún",
 	"ninguno", "ninguna", "ningunos", "ningunas", "tanto", "tantos", "tanta", "tantas" ];
 
-let interrogativeDeterminers = [ "cuyas", "cual" ];
+const interrogativeDeterminers = [ "cuyas", "cual" ];
 
-let interrogativePronouns = [ "cuyo" ];
+const interrogativePronouns = [ "cuyo" ];
 
 /*
 'Qué' is part of 'por qué' ('why'). The combination 'quien sea' ('whoever') is separated into two entries: 'quien' and 'sea'.
 'quira' is part of 'cuando quiera' ('whenever').
  */
-let interrogativeProAdverbs = [ "comoquiera", "cualesquiera", "cualquier", "cuanta", "cuantas", "cuanto", "cuantos", "cuál",
+const interrogativeProAdverbs = [ "comoquiera", "cualesquiera", "cualquier", "cuanta", "cuantas", "cuanto", "cuantos", "cuál",
 	"cuáles", "cuánta", "cuántas", "cuánto", "cuántos", "cómo", "dondequiera", "dónde", "quien", "quienes", "quienquiera",
 	"quién", "quiénes", "qué" ];
 
-let locativeAdverbs = [ "allí", "ahí", "allá", "aquí", "acá", "adónde", "delante", "detrás", "debajo",
+const locativeAdverbs = [ "allí", "ahí", "allá", "aquí", "acá", "adónde", "delante", "detrás", "debajo",
 	"adelante", "atrás", "adentro", "afuera" ];
 
-let otherAuxiliaries = [ "he", "has", "ha", "hay", "hemos", "habéis", "han", "hube", "hubiste", "hubo", "hubimos", "hubisteis",
+const otherAuxiliaries = [ "he", "has", "ha", "hay", "hemos", "habéis", "han", "hube", "hubiste", "hubo", "hubimos", "hubisteis",
 	"hubieron", "había", "habías", "habíamos", "habíais", "habían", "habría", "habrías", "habríais", "habrían", "habré", "habrás", "habrá",
 	"habremos", "habréis", "habrán", "haya", "hayas", "hayamos", "hayáis", "hayan", "hubiera", "hubieras", "hubiéramos", "hubierais",
 	"hubieran", "hubiese", "hubieses", "hubiésemos", "hubieseis", "hubiesen", "hubiere", "hubieres", "hubiéremos", "hubiereis", "hubieren",
@@ -157,56 +157,56 @@ let otherAuxiliaries = [ "he", "has", "ha", "hay", "hemos", "habéis", "han", "h
 	"necesitaras", "necesitáramos", "necesitarais", "necesitaran", "necesitase", "necesitases", "necesitásemos", "necesitaseis", "necesitasen",
 	"necesitare", "necesitares", "necesitáremos", "necesitareis", "necesitaren", "necesita", "necesitad", "necesitado" ];
 
-let otherAuxiliariesInfinitive = [ "haber", "deber", "empezar", "comenzar", "seguir", "tener", "andar", "quedar", "hallar", "venir", "abrir",
+const otherAuxiliariesInfinitive = [ "haber", "deber", "empezar", "comenzar", "seguir", "tener", "andar", "quedar", "hallar", "venir", "abrir",
 	"ir", "acabar", "llevar", "alcanzar", "decir", "continuar", "resultar", "poder", "querer", "saber", "soler", "necesitar" ];
 
 // Estar is not used to form passives in Spanish.
-let copulaEstar = [ "estoy", "estás", "está", "estamos", "estáis", "están", "estuve", "estuviste", "estuvo", "estuvimos", "estuvisteis",
+const copulaEstar = [ "estoy", "estás", "está", "estamos", "estáis", "están", "estuve", "estuviste", "estuvo", "estuvimos", "estuvisteis",
 	"estuvieron", "estuba", "estabas", "estábamos", "estabais", "estaban", "estraría", "estarías", "estaríamos", "estaríais", "estarían",
 	"estaré", "estarás", "estará", "estaremos", "estaréis", "estarán", "esté", "estés", "estemos", "estéis", "estén", "estuviera",
 	"estuviese", "estuvieras", "estuviéramos", "estuvierais", "estuvieran", "estuvieses", "estuviésemos", "estuvieseis", "estuviesen",
 	"estuviere", "estuvieres", "estuviéremos", "estuviereis", "estuvieren", "estad", "estado" ];
 
 // Ser is the copula used to form passives in Spanish.
-let copulaSer = [ "soy", "eres", "es", "somos", "sois", "son",
+const copulaSer = [ "soy", "eres", "es", "somos", "sois", "son",
 	"fui", "fuiste", "fuimos", "fuisteis", "fueron", "era", "eras", "éramos", "erais", "eran", "sería", "serías", "seríamos", "seríais",
 	"serían", "seré", "serás", "seremos", "seréis", "serán", "sea", "seas", "seamos", "seáis", "sean", "fueras", "fuéramos",
 	"fuerais", "fueran", "fuese", "fueses", "fuésemos", "fueseis", "fuesen", "fuere", "fueres", "fuéremos", "fuereis", "fueren", "sé",
 	"sed", "sido" ];
 
-let copulaEstarInfinitive = [ "estar" ];
+const copulaEstarInfinitive = [ "estar" ];
 
-let copulaSerInfinitive = [ "ser" ];
+const copulaSerInfinitive = [ "ser" ];
 
-let prepositions = [ "a", "ante", "abajo", "adonde", "al", "allende", "alrededor", "amén", "antes", "arriba", "aun",
+const prepositions = [ "a", "ante", "abajo", "adonde", "al", "allende", "alrededor", "amén", "antes", "arriba", "aun",
 	"bajo", "cabe", "cabo", "con", "contigo", "contra", "de", "dejante", "del", "dentro", "desde", "donde", "durante", "en",
 	"encima", "entre", "excepto", "fuera", "hacia", "hasta", "incluso", "mediante", "más", "opuesto", "par", "para", "próximo",
 	"salvo", "según", "sin", "so", "sobre", "tras", "versus", "vía" ];
 
-let prepositionalAdverbs = [ "cerca" ];
+const prepositionalAdverbs = [ "cerca" ];
 
-let coordinatingConjunctions = [ "o", "y", "entonces", "e", "u", "ni", "bien", "ora" ];
+const coordinatingConjunctions = [ "o", "y", "entonces", "e", "u", "ni", "bien", "ora" ];
 
 // 'Igual' is part of 'igual...que'.
-let correlativeConjunctions = [ "igual" ];
+const correlativeConjunctions = [ "igual" ];
 
-let subordinatingConjunctions = [ "apenas", "segun", "que" ];
+const subordinatingConjunctions = [ "apenas", "segun", "que" ];
 
 // These verbs are frequently used in interviews to indicate questions and answers.
 // 'Dijo' is already included in the otherAuxiliaries category.
-let interviewVerbs = [ "apunto", "apunta", "confieso", "confiesa", "confesaba", "revelado", "revelo", "revela", "revelaba", "declarado",
+const interviewVerbs = [ "apunto", "apunta", "confieso", "confiesa", "confesaba", "revelado", "revelo", "revela", "revelaba", "declarado",
 	"declaro", "declara", "declaba", "señalo", "señala", "señalaba", "declaraba", "comento",
 	"comenta" ];
 
 // These transition words were not included in the list for the transition word assessment for various reasons.
-let additionalTransitionWords = [ "básicamente", "esencialmente", "primeramente", "siempre", "nunca", "ahora",
+const additionalTransitionWords = [ "básicamente", "esencialmente", "primeramente", "siempre", "nunca", "ahora",
 	"quizá", "acaso", "inclusive", "probablemente", "verdaderamente", "seguramente", "jamás", "obviamente", "indiscutiblement",
 	"inmediatamente", "previamente" ];
 
-let intensifiers = [ "muy", "tan", "completamente", "suficiente", "tal", "tales" ];
+const intensifiers = [ "muy", "tan", "completamente", "suficiente", "tal", "tales" ];
 
 // These verbs convey little meaning.
-let delexicalizedVerbs = [ "hago", "haces", "hace", "hacemos", "hacéis", "hacen", "hice", "hiciste", "hizo", "hicimos", "hicisteis",
+const delexicalizedVerbs = [ "hago", "haces", "hace", "hacemos", "hacéis", "hacen", "hice", "hiciste", "hizo", "hicimos", "hicisteis",
 	"hicieron", "hacía", "hacías", "hacíamos", "hacíais", "hacían", "haría,", "harías", "haríamos", "haríais", "harían", "haré", "harás",
 	"hará", "haremos", "haréis", "harán", "haga", "hagas", "hagamos", "hagáis", "hagan", "hiciera", "hicieras", "hiciéramos", "hicierais",
 	"hicieran", "hiciese", "hicieses", "hiciésemos", "hicieseis", "hiciesen", "hiciere", "hicieres", "hiciéremos", "hiciereis", "hicieren",
@@ -216,11 +216,11 @@ let delexicalizedVerbs = [ "hago", "haces", "hace", "hacemos", "hacéis", "hacen
 	"parezcamos", "parezcáis", "parezcan", "pareciera", "parecieras", "pareciéramos", "parecierais", "parecieran", "pareciese", "parecieses",
 	"pareciésemos", "parecieseis", "pareciesen", "pareciere", "parecieres", "pareciéremos", "pareciereis", "parecieren", "pareced", "parecido" ];
 
-let delexicalizedVerbsInfinitive = [ "hacer", "parecer" ];
+const delexicalizedVerbsInfinitive = [ "hacer", "parecer" ];
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
-let generalAdjectivesAdverbs = [ "enfrente", "mejor", "peor", "menos", "claro", "bueno", "nuevo",
+const generalAdjectivesAdverbs = [ "enfrente", "mejor", "peor", "menos", "claro", "bueno", "nuevo",
 	"nueva", "nuevos", "nuevas", "viejo", "viejos", "vieja", "viejas", "anterior", "grande", "gran", "grandes", "mayores", "fácil",
 	"fáciles", "rápido", "rápida", "rápidos", "rápidas", "lejos", "lejas", "difícil", "difíciles", "propio", "propios", "propia", "propias",
 	"largo", "larga", "largos", "largas", "bajos", "baja", "bajas", "alto", "alta", "altos", "altas", "regular", "regulares", "normal",
@@ -232,7 +232,7 @@ let generalAdjectivesAdverbs = [ "enfrente", "mejor", "peor", "menos", "claro", 
 	"estima", "estimada", "estimado", "aproximada", "aproximadamente", "última", "últimas", "último", "últimos", "diferente", "diferentes",
 	"similar", "mal", "malo", "malos", "mala", "malas", "perfectamente", "excelente", "final", "general" ];
 
-let interjections = [ "ah", "eh", "ejem", "ele", "achís", "adiós", "agur", "ajá", "ajajá", "ala",
+const interjections = [ "ah", "eh", "ejem", "ele", "achís", "adiós", "agur", "ajá", "ajajá", "ala",
 	"alá", "albricias", "aleluya", "alerta", "alirón", "aló", "amalaya", "ar", "aro", "arrarray", "arre", "arsa", "atatay",
 	"aúpa", "ax", "ay", "ayayay", "bah", "banzai", "barajo", "bla", "bravo", "buf", "bum", "ca", "caguendiós", "canastos",
 	"caracho", "caracoles", "carajo", "caramba", "carape", "caray", "cáscaras", "cáspita", "cataplum", "ce", "chao", "chau", "che", "chis",
@@ -247,20 +247,20 @@ let interjections = [ "ah", "eh", "ejem", "ele", "achís", "adiós", "agur", "aj
 	"vítor", "viva", "za", "zambomba", "zapateta", "zape", "zas" ];
 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
-let recipeWords = [ "kg", "mg", "gr", "g", "km", "m", "l", "ml", "cl" ];
+const recipeWords = [ "kg", "mg", "gr", "g", "km", "m", "l", "ml", "cl" ];
 
-let timeWords = [ "minuto", "minutos", "hora", "horas", "día", "días", "semana", "semanas", "mes", "meses", "año", "años",
+const timeWords = [ "minuto", "minutos", "hora", "horas", "día", "días", "semana", "semanas", "mes", "meses", "año", "años",
 	"hoy", "mañana", "ayer" ];
 
 // 'People' should only be removed in combination with 'some', 'many' and 'few' (and is therefore not yet included in the list below).
-let vagueNouns = [ "cosa", "cosas", "manera", "maneras", "caso", "casos", "pieza", "piezas", "vez", "veces", "parte", "partes", "porcentaje",
+const vagueNouns = [ "cosa", "cosas", "manera", "maneras", "caso", "casos", "pieza", "piezas", "vez", "veces", "parte", "partes", "porcentaje",
 	"instancia", "aspecto", "aspectos", "punto", "puntos", "objeto", "objectos", "persona", "personas" ];
 
-let miscellaneous = [ "no", "euros" ];
+const miscellaneous = [ "no", "euros" ];
 
-let titlesPreceding = [ "sra", "sras", "srta", "sr", "sres", "dra", "dr", "profa", "prof" ];
+const titlesPreceding = [ "sra", "sras", "srta", "sr", "sres", "dra", "dr", "profa", "prof" ];
 
-let titlesFollowing = [ "jr", "sr" ];
+const titlesFollowing = [ "jr", "sr" ];
 
 /**
  * Returns the function words for Spanish.

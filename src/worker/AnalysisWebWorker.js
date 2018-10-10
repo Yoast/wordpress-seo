@@ -189,7 +189,7 @@ export default class AnalysisWebWorker {
 			console.log( "worker <- wrapper", type, id, payload );
 		}
 
-		switch( type ) {
+		switch ( type ) {
 			case "initialize":
 				this.initialize( id, payload );
 				this._scheduler.startPolling();
@@ -319,7 +319,7 @@ export default class AnalysisWebWorker {
 
 		let assessor;
 
-		if( useTaxonomy === true ) {
+		if ( useTaxonomy === true ) {
 			assessor = new TaxonomyAssessor( this._i18n );
 		} else {
 			assessor = useCornerstone === true
@@ -795,7 +795,7 @@ export default class AnalysisWebWorker {
 				success: true,
 				data: this._registeredMessageHandlers[ name ]( data ),
 			};
-		} catch( error ) {
+		} catch ( error ) {
 			return { error };
 		}
 	}

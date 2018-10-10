@@ -21,7 +21,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			recommendedMaximumLength: 120,
 			maximumLength: maximumMetaDescriptionLength,
 			scores: {
@@ -57,8 +57,8 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let descriptionLength = researcher.getResearch( "metaDescriptionLength" );
-		let assessmentResult = new AssessmentResult();
+		const descriptionLength = researcher.getResearch( "metaDescriptionLength" );
+		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( this.calculateScore( descriptionLength ) );
 		assessmentResult.setText( this.translateScore( descriptionLength, i18n ) );
