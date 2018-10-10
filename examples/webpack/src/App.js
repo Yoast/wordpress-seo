@@ -17,6 +17,7 @@ import { setResults } from "./redux/actions/results";
 import { setConfigurationAttribute } from "./redux/actions/configuration";
 import Inputs from "./components/Inputs";
 import { setStatus } from "./redux/actions/worker";
+import formatAnalyzeResult from "./utils/formatAnalyzeResult";
 
 class App extends React.Component {
 	/**
@@ -69,10 +70,7 @@ class App extends React.Component {
 			.then( ( { result } ) => {
 				setWorkerStatus( "idling" );
 
-				this.props.setResults( {
-					readability: result.readability.results,
-					seo: result.seo[ "" ].results,
-				} );
+				this.props.setResults( formatAnalyzeResult( result ) );
 			} );
 	}
 

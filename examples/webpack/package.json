@@ -56,7 +56,7 @@
     "webpack-manifest-plugin": "1.3.2",
     "whatwg-fetch": "2.0.3",
     "worker-loader": "2.0.0",
-    "yoast-components": "^4.10.1"
+    "yoast-components": "^4.13.0"
   },
   "scripts": {
     "start": "node scripts/start.js",

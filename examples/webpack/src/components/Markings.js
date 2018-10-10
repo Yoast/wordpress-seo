@@ -26,7 +26,7 @@ function Markings( { results, activeMarker, text } ) {
 
 export default connect( ( state ) => {
 	return {
-		results: [ ...state.results.seo, ...state.results.readability ],
+		results: [ ...state.results.seo[ "" ].results, ...state.results.readability.results ],
 		activeMarker: state.results.activeMarker,
 		text: state.paper.text,
 	};
