@@ -12,7 +12,6 @@ import Enzyme from "enzyme";
 import EnzymeAdapter from "enzyme-adapter-react-16";
 import cloneDeep from "lodash/cloneDeep";
 import ApiConfig from "../config/api-config";
-import injectTapEventPlugin from "react-tap-event-plugin";
 
 Enzyme.configure( { adapter: new EnzymeAdapter() } );
 
@@ -38,10 +37,6 @@ jest.mock( "../helpers/ajaxHelper", () => {
 describe( "a wizard component", () => {
 	let renderedWizard = undefined;
 	let config = undefined;
-
-	beforeAll( () => {
-		injectTapEventPlugin();
-	} );
 
 	beforeEach( () => {
 		config = cloneDeep( Config );

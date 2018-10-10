@@ -3082,7 +3082,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fbjs@^0.8.1, fbjs@^0.8.15, fbjs@^0.8.16, fbjs@^0.8.4, fbjs@^0.8.5, fbjs@^0.8.6, fbjs@^0.8.9:
+fbjs@^0.8.1, fbjs@^0.8.15, fbjs@^0.8.16, fbjs@^0.8.4, fbjs@^0.8.5, fbjs@^0.8.9:
   version "0.8.16"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.16.tgz#5e67432f550dc41b572bf55847b8aca64e5337db"
   dependencies:
@@ -4143,7 +4143,7 @@ interpolate-components@^1.1.0:
   dependencies:
     react "^0.14.3 || ^15.1.0 || ^16.0.0"
     react-addons-create-fragment "^0.14.3 || ^15.1.0"
-    react-dom "^0.14.3 || ^15.1.0 ||?^16.0.0"
+    react-dom "^0.14.3 || ^15.1.0 || ^16.0.0"
 
 interpret@^1.0.0, interpret@^1.0.4:
   version "1.1.0"
@@ -6710,7 +6710,16 @@ react-dock@^0.2.4:
     lodash.debounce "^3.1.1"
     prop-types "^15.5.8"
 
-"react-dom@^0.14.3 || ^15.1.0 ||?^16.0.0", react-dom@^16.2.0:
+"react-dom@^0.14.3 || ^15.1.0 || ^16.0.0":
+  version "16.5.2"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.5.2.tgz#b69ee47aa20bab5327b2b9d7c1fe2a30f2cfa9d7"
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    schedule "^0.5.0"
+
+react-dom@^16.2.0:
   version "16.3.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.3.2.tgz#cb90f107e09536d683d84ed5d4888e9640e0e4df"
   dependencies:
@@ -6803,12 +6812,6 @@ react-tabs@^2.2.1:
   dependencies:
     classnames "^2.2.0"
     prop-types "^15.5.0"
-
-react-tap-event-plugin@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/react-tap-event-plugin/-/react-tap-event-plugin-3.0.2.tgz#280371677b881c31376e0027a0b86d2c6de039ee"
-  dependencies:
-    fbjs "^0.8.6"
 
 react-test-renderer@^16.0.0-0, react-test-renderer@^16.2.0:
   version "16.3.2"
@@ -7394,6 +7397,12 @@ sassdash@^0.8.2:
 sax@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
+
+schedule@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/schedule/-/schedule-0.5.0.tgz#c128fffa0b402488b08b55ae74bb9df55cc29cc8"
+  dependencies:
+    object-assign "^4.1.1"
 
 schema-utils@^0.4.4, schema-utils@^0.4.5:
   version "0.4.5"

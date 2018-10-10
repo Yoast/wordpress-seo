@@ -1,8 +1,6 @@
 import React from "react";
 import { IntlProvider } from "react-intl";
 import styled, { ThemeProvider } from "styled-components";
-// Required to make Material UI work with touch screens.
-import injectTapEventPlugin from "react-tap-event-plugin";
 
 import ContentAnalysis from "./app/ContentAnalysisWrapper";
 import Wizard from "./app/WizardWrapper";
@@ -87,8 +85,6 @@ const LanguageDirectionContainer = styled.div`
 class App extends React.Component {
 	constructor() {
 		super();
-
-		injectTapEventPlugin();
 
 		this.state = {
 			activeComponent: "snippet-preview",
