@@ -701,12 +701,14 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function get_sample_notifications() {
 		return array(
-			new Yoast_Notification( 'notification', array(
-				'id' => 'some_id',
-			) ),
-			new Yoast_Notification( 'notification', array(
-				'id' => 'another_id',
-			) ),
+			new Yoast_Notification(
+				'notification',
+				array( 'id' => 'some_id' )
+			),
+			new Yoast_Notification(
+				'notification',
+				array( 'id' => 'another_id' )
+			),
 		);
 	}
 

@@ -128,9 +128,11 @@ class WPSEO_Taxonomy {
 
 			$asset_manager->enqueue_script( 'admin-media' );
 
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', array(
-				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
-			) );
+			wp_localize_script(
+				WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media',
+				'wpseoMediaL10n',
+				array( 'choose_image' => __( 'Use Image', 'wordpress-seo' ) )
+			);
 		}
 
 		if ( self::is_term_overview( $pagenow ) ) {

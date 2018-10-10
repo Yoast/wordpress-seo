@@ -72,7 +72,8 @@ class WPSEO_Link_Storage implements WPSEO_Installable {
 		global $wpdb;
 
 		$results = $this->database_proxy->get_results(
-			$wpdb->prepare( '
+			$wpdb->prepare(
+				'
 				SELECT url, post_id, target_post_id, type
 				FROM ' . $this->get_table_name() . '
 				WHERE post_id = %d',
