@@ -33,7 +33,7 @@
     "babel-register": "^6.16.3",
     "babelify": "^8.0.0",
     "console.table": "^0.10.0",
-    "eslint-config-yoast": "^3.0.0",
+    "eslint-config-yoast": "^3.1.0",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-yoast": "^1.0.1",
     "grunt": "^1.0.1",
