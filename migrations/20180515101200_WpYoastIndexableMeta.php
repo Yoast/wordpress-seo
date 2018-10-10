@@ -27,10 +27,17 @@ class WpYoastIndexableMeta extends Ruckusing_Migration_Base {
 		// Execute the SQL to create the table.
 		$indexable_meta_table->finish();
 
-		$this->add_index( $table_name, array(
-			'indexable_id',
-			'meta_key',
-		), array( 'name' => 'indexable_meta', 'unique' => true ) );
+		$this->add_index(
+			$table_name,
+			array(
+				'indexable_id',
+				'meta_key',
+			),
+			array(
+				'name'   => 'indexable_meta',
+				'unique' => true,
+			)
+		);
 
 		$this->add_timestamps( $table_name );
 	}
