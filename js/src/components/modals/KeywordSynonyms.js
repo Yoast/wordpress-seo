@@ -60,13 +60,13 @@ const KeywordSynonyms = ( props ) => {
 			upsellButtonText={
 				sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s now!", "wordpress-seo" ),
+					__( "Get %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				)
 			}
 			upsellButton={ {
 				href: props.buyLink,
-				className: "button button-primary",
+				className: "yoast-button-upsell",
 				rel: null,
 			} }
 			upsellButtonLabel={ __( "1 year free updates and upgrades included!", "wordpress-seo" ) }

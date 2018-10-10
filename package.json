@@ -133,7 +133,6 @@
     "react-dom": "^16.5.2",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
-    "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
@@ -142,6 +141,6 @@
     "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#develop"
   },
   "yoast": {
-    "pluginVersion": "8.4-RC1"
+    "pluginVersion": "8.4"
   }
 }
