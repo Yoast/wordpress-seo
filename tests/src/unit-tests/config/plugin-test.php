@@ -258,9 +258,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	public function test_add_frontend_integrations() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
-			->setMethods( array(
-				'add_integration'
-			) )
+			->setMethods( array( 'add_integration' ) )
 			->getMock();
 
 		$instance
@@ -279,9 +277,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	public function test_add_admin_integrations() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
-			->setMethods( array(
-				'add_integration'
-			) )
+			->setMethods( array( 'add_integration' ) )
 			->getMock();
 
 		$instance

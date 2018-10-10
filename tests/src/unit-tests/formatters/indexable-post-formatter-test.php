@@ -190,11 +190,7 @@ class Indexable_Post_Formatter_Test extends \PHPUnit_Framework_TestCase {
 		$formatter = $this
 			->getMockBuilder( '\Yoast\Tests\Doubles\Indexable_Post_Formatter_Double' )
 			->setConstructorArgs( array( 1 ) )
-			->setMethods(
-				array(
-					'get_seo_meta'
-				)
-			)
+			->setMethods( array( 'get_seo_meta' ) )
 			->getMock();
 
 		$seo_meta                      = new \stdClass();
@@ -222,11 +218,7 @@ class Indexable_Post_Formatter_Test extends \PHPUnit_Framework_TestCase {
 		$formatter = $this
 			->getMockBuilder( '\Yoast\Tests\Doubles\Indexable_Post_Formatter_Double' )
 			->setConstructorArgs( array( 1 ) )
-			->setMethods(
-				array(
-					'get_seo_meta'
-				)
-			)
+			->setMethods( array( 'get_seo_meta' ) )
 			->getMock();
 
 
