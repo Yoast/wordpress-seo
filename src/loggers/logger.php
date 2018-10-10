@@ -38,7 +38,7 @@ class Logger {
 			$logger = new NullLogger();
 
 			/**
-			 * Gives the possiblity to set override the logger interface
+			 * Gives the possibility to set override the logger interface.
 			 *
 			 * @api LoggerInterface $logger Instance of NullLogger.
 			 *
