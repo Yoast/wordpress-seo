@@ -187,7 +187,7 @@ class SeoAnalysis extends React.Component {
 				prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 				prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 				title={ __( "Add additional keyphrase", "wordpress-seo" ) }
-				id={ `yoast-additional-keyphrase-${ location }-collapsible` }
+				id={ `yoast-additional-keyphrase-collapsible-${ location }` }
 			>
 				<MultipleKeywords
 					link={ link }
