@@ -75,7 +75,7 @@ class OutboundLinksAssessment extends Assessment {
 			return this._config.scores.noLinks;
 		}
 
-		if ( linkStatistics.externalNofollow === linkStatistics.total ) {
+		if ( linkStatistics.externalNofollow === linkStatistics.externalTotal ) {
 			return this._config.scores.allNofollowed;
 		}
 
@@ -111,7 +111,7 @@ class OutboundLinksAssessment extends Assessment {
 			);
 		}
 
-		if ( linkStatistics.externalNofollow === linkStatistics.total ) {
+		if ( linkStatistics.externalNofollow === linkStatistics.externalTotal ) {
 			return i18n.sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%3$s: " +
@@ -123,7 +123,7 @@ class OutboundLinksAssessment extends Assessment {
 			);
 		}
 
-		if ( linkStatistics.externalDofollow === linkStatistics.total ) {
+		if ( linkStatistics.externalDofollow === linkStatistics.externalTotal ) {
 			return i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%2$s: " +
