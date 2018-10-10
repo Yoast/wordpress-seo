@@ -21,6 +21,7 @@ Here's a [guide on how to install Yoast SEO in your WordPress site](https://yoa.
 If you want to run the Git version for development though, you can set it up with [Composer](https://getcomposer.org/):
 
 ```bash
+cd {your-project}/wp-content/plugins
 composer create-project yoast/wordpress-seo:dev-trunk --prefer-source --keep-vcs
 ```
 
