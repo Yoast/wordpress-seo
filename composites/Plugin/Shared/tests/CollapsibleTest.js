@@ -14,7 +14,7 @@ describe( "Collapsible", () => {
 
 	it( "matches the snapshot by default", () => {
 		const component = renderer.create(
-			<Collapsible title="Lorem ipsum dolor sit amet" >
+			<Collapsible title="Lorem ipsum dolor sit amet">
 				{ content }
 			</Collapsible>
 		);
