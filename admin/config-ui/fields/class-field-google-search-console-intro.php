@@ -25,8 +25,7 @@ class WPSEO_Config_Field_Google_Search_Console_Intro extends WPSEO_Config_Field 
 				'</a>'
 			);
 
-		$disclaimer =
-			__( 'Note: we don\'t store your data in any way and don\'t have full access to your account. Your privacy is safe with us.', 'wordpress-seo' );
+		$disclaimer = __( 'Note: we don\'t store your data in any way and don\'t have full access to your account. Your privacy is safe with us.', 'wordpress-seo' );
 
 		$html = '<p>' . $html . '</p><small>' . esc_html( $disclaimer ) . '</small>';
 
