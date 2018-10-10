@@ -14,7 +14,8 @@ module.exports = function( grunt ) {
 			src: [ "<%= files.jsTests %>" ],
 			options: {
 				configFile: ".eslintrc-tests",
-				maxWarnings: 44,
+				maxWarnings: 103,
+				fix: fix,
 			},
 		},
 	};
