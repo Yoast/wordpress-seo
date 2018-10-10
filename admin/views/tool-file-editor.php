@@ -97,8 +97,11 @@ if ( isset( $msg ) && ! empty( $msg ) ) {
 	echo '<div id="message" class="notice notice-success"><p>', esc_html( $msg ), '</p></div>';
 }
 
-$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-editor', __( 'Bulk editor', 'wordpress-seo' ),
-	array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-file-editor' ) ) );
+$helpcenter_tab = new WPSEO_Option_Tab(
+	'bulk-editor',
+	__( 'Bulk editor', 'wordpress-seo' ),
+	array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-file-editor' ) )
+);
 
 $helpcenter = new WPSEO_Help_Center( 'bulk-editor', $helpcenter_tab, WPSEO_Utils::is_yoast_seo_premium() );
 $helpcenter->localize_data();

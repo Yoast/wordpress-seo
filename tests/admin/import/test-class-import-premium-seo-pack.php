@@ -354,18 +354,20 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 		remove_all_filters( 'query' );
 
 		global $wpdb;
-		$wpdb->query( "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}psp (
-			`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-			`blog_id` int(10) NOT NULL,
-			`post_id` bigint(20) NOT NULL DEFAULT '0',
-			`URL` varchar(255) NOT NULL,
-			`url_hash` varchar(32) NOT NULL,
-			`seo` text NOT NULL,
-			`date_time` datetime NOT NULL,
-			PRIMARY KEY (`id`),
-			UNIQUE KEY `url_hash` (`url_hash`) USING BTREE,
-			KEY `post_id` (`post_id`) USING BTREE,
-			KEY `blog_id_url_hash` (`blog_id`,`url_hash`) USING BTREE
-		) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8" );
+		$wpdb->query(
+			"CREATE TABLE IF NOT EXISTS {$wpdb->prefix}psp (
+				`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				`blog_id` int(10) NOT NULL,
+				`post_id` bigint(20) NOT NULL DEFAULT '0',
+				`URL` varchar(255) NOT NULL,
+				`url_hash` varchar(32) NOT NULL,
+				`seo` text NOT NULL,
+				`date_time` datetime NOT NULL,
+				PRIMARY KEY (`id`),
+				UNIQUE KEY `url_hash` (`url_hash`) USING BTREE,
+				KEY `post_id` (`post_id`) USING BTREE,
+				KEY `blog_id_url_hash` (`blog_id`,`url_hash`) USING BTREE
+			) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8"
+		);
 	}
 }

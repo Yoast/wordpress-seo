@@ -28,10 +28,10 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	public function tearDown() {
 		parent::tearDown();
 
-		remove_action( 'rest_api_init', array(
-			$this->configuration_service,
-			'initialize',
-		) );
+		remove_action(
+			'rest_api_init',
+			array( $this->configuration_service, 'initialize' )
+		);
 	}
 
 	/**
