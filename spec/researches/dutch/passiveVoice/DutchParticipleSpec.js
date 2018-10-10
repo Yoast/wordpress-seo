@@ -48,7 +48,7 @@ describe( "A test for checking the Dutch participle", function() {
 	} );
 
 	it( "ensures that the sentence part is not set to passive if the participle is empty.", function() {
-		let mockParticiple = new DutchParticiple( "gekookt", "Het werd door hem gekookt.", { auxiliaries: [ "werd" ], type: "regular", language: "nl" } );
+		const mockParticiple = new DutchParticiple( "gekookt", "Het werd door hem gekookt.", { auxiliaries: [ "werd" ], type: "regular", language: "nl" } );
 		mockParticiple._participle = null;
 		checkException.call( mockParticiple );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );

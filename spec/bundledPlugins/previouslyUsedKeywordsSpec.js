@@ -61,7 +61,7 @@ describe( "replaces keyword usage", function() {
 			postUrl: postUrl,
 		};
 
-		let plugin = new PreviouslyUsedKeywords( app, args, i18n );
+		const plugin = new PreviouslyUsedKeywords( app, args, i18n );
 		expect( plugin.usedKeywords ).not.toBeDefined();
 		plugin.updateKeywordUsage(  { keyword: [ 1 ], test: [ 2, 3, 4 ] } );
 		expect( plugin.usedKeywords.keyword ).toContain( 1 );

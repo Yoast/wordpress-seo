@@ -9,7 +9,7 @@ describe( "A test for getting the links from a text", function() {
 		expect( getLinks( mockPaper ) ).toEqual( [ "http://yoast.com", "https://yoast.com" ] );
 	} );
 	it( "returns an empty arry when there are no links", function() {
-		let mockPaper = new Paper( "This is a test text" );
+		const mockPaper = new Paper( "This is a test text" );
 		expect( getLinks( mockPaper ) ).toEqual( [  ] );
 	} );
 } );

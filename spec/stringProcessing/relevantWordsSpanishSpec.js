@@ -2,12 +2,12 @@ import WordCombination from "../../src/values/WordCombination";
 import relevantWords from "../../src/stringProcessing/relevantWords";
 import spanishFunctionWordsFactory from "../../src/researches/spanish/functionWords.js";
 
-let getRelevantWords = relevantWords.getRelevantWords;
-let spanishFunctionWords = spanishFunctionWordsFactory().all;
+const getRelevantWords = relevantWords.getRelevantWords;
+const spanishFunctionWords = spanishFunctionWordsFactory().all;
 
 describe( "gets Spanish word combinations", function() {
 	it( "returns word combinations", function() {
-		let input = "No pudimos ir a trabajar porque hubo una tormenta de nieve. No pudimos ir a trabajar porque hubo una " +
+		const input = "No pudimos ir a trabajar porque hubo una tormenta de nieve. No pudimos ir a trabajar porque hubo una " +
 			"tormenta de nieve. No pudimos ir a trabajar porque hubo una tormenta de nieve. No pudimos ir a trabajar porque " +
 			"hubo una tormenta de nieve. No pudimos ir a trabajar porque hubo una tormenta de nieve. No pudimos ir a trabajar " +
 			"porque hubo una tormenta de nieve. No pudimos ir a trabajar porque hubo una tormenta de nieve. No pudimos ir a " +
@@ -18,7 +18,7 @@ describe( "gets Spanish word combinations", function() {
 			"de nieve. No pudimos ir a trabajar porque hubo una tormenta de nieve. No pudimos ir a trabajar porque hubo una tormenta " +
 			"de nieve. No pudimos ir a trabajar porque hubo una tormenta de nieve. No pudimos ir a trabajar porque hubo una tormenta " +
 			"de nieve.";
-		let expected = [
+		const expected = [
 			new WordCombination( [ "tormenta", "de", "nieve" ], 19, spanishFunctionWords ),
 			new WordCombination( [ "ir", "a", "trabajar" ], 19, spanishFunctionWords ),
 			new WordCombination( [ "trabajar" ], 19, spanishFunctionWords ),
@@ -29,7 +29,7 @@ describe( "gets Spanish word combinations", function() {
 		// Make sure our words aren't filtered by density.
 		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
 
-		let words = getRelevantWords( input, "es_ES" );
+		const words = getRelevantWords( input, "es_ES" );
 
 		words.forEach( function( word ) {
 			delete( word._relevantWords );
