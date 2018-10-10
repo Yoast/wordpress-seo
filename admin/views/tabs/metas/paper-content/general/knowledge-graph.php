@@ -23,11 +23,12 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 	<h2 class="help-button-inline"><?php echo esc_html__( 'Knowledge Graph', 'wordpress-seo' ) . $knowledge_graph_help->get_button_html(); ?></h2>
 	<?php
 	echo $knowledge_graph_help->get_panel_html();
-	$yform->select( 'company_or_person', __( 'Company or person', 'wordpress-seo' ), array(
+	$yoast_free_kg_select_options = array(
 		''        => __( 'Choose whether you\'re a company or person', 'wordpress-seo' ),
 		'company' => __( 'Company', 'wordpress-seo' ),
 		'person'  => __( 'Person', 'wordpress-seo' ),
-	) );
+	);
+	$yform->select( 'company_or_person', __( 'Company or person', 'wordpress-seo' ), $yoast_free_kg_select_options );
 	?>
 	<div id="knowledge-graph-company">
 		<h3><?php esc_html_e( 'Company', 'wordpress-seo' ); ?></h3>

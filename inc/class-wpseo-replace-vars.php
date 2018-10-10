@@ -1302,6 +1302,14 @@ class WPSEO_Replace_Vars {
 	 * Set/translate the help texts for the WPSEO standard basic variables.
 	 */
 	private static function set_basic_help_texts() {
+		/* translators: %s: wp_title() function. */
+		$separator_description = __( 'The separator defined in your theme\'s %s tag.', 'wordpress-seo' );
+		$separator_description = sprintf(
+			$separator_description,
+			// '<code>wp_title()</code>'
+			'wp_title()'
+		);
+
 		$replacement_variables = array(
 			new WPSEO_Replacement_Variable( 'date', __( 'Date', 'wordpress-seo' ), __( 'Replaced with the date of the post/page', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'title', __( 'Title', 'wordpress-seo' ), __( 'Replaced with the title of the post/page', 'wordpress-seo' ) ),
@@ -1319,12 +1327,7 @@ class WPSEO_Replace_Vars {
 			new WPSEO_Replacement_Variable( 'term_description', __( 'Term description', 'wordpress-seo' ), __( 'Replaced with the term description', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'term_title', __( 'Term title', 'wordpress-seo' ), __( 'Replaced with the term name', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'searchphrase', __( 'Search phrase', 'wordpress-seo' ), __( 'Replaced with the current search phrase', 'wordpress-seo' ) ),
-			new WPSEO_Replacement_Variable( 'sep', __( 'Separator', 'wordpress-seo' ), sprintf(
-				/* translators: %s: wp_title() function. */
-				__( 'The separator defined in your theme\'s %s tag.', 'wordpress-seo' ),
-				// '<code>wp_title()</code>'
-				'wp_title()'
-			) ),
+			new WPSEO_Replacement_Variable( 'sep', __( 'Separator', 'wordpress-seo' ), $separator_description ),
 		);
 
 		foreach ( $replacement_variables as $replacement_variable ) {

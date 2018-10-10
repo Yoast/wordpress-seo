@@ -51,10 +51,11 @@ class WPSEO_Config_Field_Multiple_Authors extends WPSEO_Config_Field_Choice {
 
 		if ( ! isset( $value ) || is_null( $value ) ) {
 			// If there are more than one users with level > 1 default to multiple authors.
-			$users = get_users( array(
+			$user_criteria = array(
 				'fields' => 'IDs',
 				'who'    => 'authors',
-			) );
+			);
+			$users         = get_users( $user_criteria );
 
 			$value = count( $users ) > 1;
 		}
