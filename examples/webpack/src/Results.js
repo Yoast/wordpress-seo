@@ -12,7 +12,7 @@ class Results extends Component {
 	 * @returns {ReactElement} The results.
 	 */
 	render() {
-		let results = [ ...this.props.results ];
+		const results = [ ...this.props.results ];
 
 		results.sort( ( a, b ) => {
 			if ( a.score < b.score ) {
@@ -38,10 +38,10 @@ class Results extends Component {
 
 					return (
 						<li key={ result._identifier } style={ { marginTop: "1em" } }>
-							<span className={ className }/>
-							<span dangerouslySetInnerHTML={ { __html: result.text } }/>
+							<span className={ className } />
+							<span dangerouslySetInnerHTML={ { __html: result.text } } />
 
-							<div style={ { clear: "both" } }/>
+							<div style={ { clear: "both" } } />
 
 							{ hasMarks && <button type="button" onClick={ this.props.onMark.bind( null, result._identifier ) }>Mark</button> }
 						</li>

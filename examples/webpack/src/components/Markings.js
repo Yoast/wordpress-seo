@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
-import find from "lodash/find";
+import { find } from "lodash-es";
 
 function createMarkedText( text, markings ) {
 	markings.forEach( ( marking ) => {

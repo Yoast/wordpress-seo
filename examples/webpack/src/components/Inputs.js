@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { setPaperAttribute } from "../redux/actions/paper";
 
 function renderPaperAttribute( props, id, placeholder, label = null, Component = Input, defaultValue = "" ) {
-	const { setPaperAttribute, paper } = props;
+	const { setPaperAttribute: onChange, paper } = props;
 
 	return (
 		<Component
@@ -15,7 +15,7 @@ function renderPaperAttribute( props, id, placeholder, label = null, Component =
 			value={ paper[ id ] || defaultValue }
 			label={ label || id }
 			placeholder={ placeholder }
-			onChange={ value => setPaperAttribute( id, value ) }
+			onChange={ onChange }
 		/>
 	);
 }

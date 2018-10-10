@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
 // This is waiting for https://github.com/Yoast/yoast-components/pull/722:
-// import { AnalysisList } from "yoast-components";
+// Use: import { AnalysisList } from "yoast-components";
 
 // The alternative is a lot uglier:
 import AnalysisList from "../Results";
@@ -30,5 +30,5 @@ export default connect(
 		return {
 			onMark: ( marker ) => dispatch( setActiveMarker( marker ) ),
 		};
-	}
+	},
 )( Results );

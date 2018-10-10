@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import isFunction from "lodash/isFunction";
+import { isFunction, noop } from "lodash-es";
 import styled from "styled-components";
 
 import { H3 } from "./headings";
@@ -51,10 +51,10 @@ class TextArea extends React.PureComponent {
 	 * @returns {void}
 	 */
 	handleChange( event ) {
-		const { onChange } = this.props;
+		const { id, onChange } = this.props;
 
 		if ( isFunction( onChange ) ) {
-			onChange( event.target.value );
+			onChange( id, event.target.value );
 		}
 	}
 
@@ -96,6 +96,7 @@ TextArea.propTypes = {
 TextArea.defaultProps = {
 	label: "",
 	placeholder: "",
+	onChange: noop,
 };
 
 export default TextArea;

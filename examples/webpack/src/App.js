@@ -48,9 +48,7 @@ class App extends React.Component {
 	initialize() {
 		const { configuration, worker } = this.props;
 
-		worker.initialize( configuration )
-			.then( data => console.log( "initialization done!", data ) )
-			.then( this.analyze );
+		worker.initialize( configuration ).then( this.analyze );
 	}
 
 	/**
@@ -75,7 +73,7 @@ class App extends React.Component {
 					readability: result.readability.results,
 					seo: result.seo[ "" ].results,
 				} );
-		    } );
+			} );
 	}
 
 	/**
@@ -169,5 +167,5 @@ export default connect(
 			setConfigurationAttribute: ( ...args ) => dispatch( setConfigurationAttribute( ...args ) ),
 			setWorkerStatus: ( status ) => dispatch( setStatus( status ) ),
 		};
-	}
+	},
 )( App );

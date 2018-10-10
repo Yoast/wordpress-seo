@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import isFunction from "lodash/isFunction";
+import { isFunction } from "lodash-es";
 
 class Checkbox extends React.PureComponent {
 	/**
