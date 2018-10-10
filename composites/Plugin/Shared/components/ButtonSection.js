@@ -69,10 +69,12 @@ ButtonSection.propTypes = {
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
 	onClick: PropTypes.func.isRequired,
+	id: PropTypes.string,
 };
 
 ButtonSection.defaultProps = {
 	Heading: StyledHeading,
+	id: null,
 };
 
 export default ButtonSection;
