@@ -36,6 +36,7 @@ class Data {
 	 * Initializes this Gutenberg data instance.
 	 *
 	 * @param {Object} replaceVars The replacevars.
+	 * @returns {void}
 	 */
 	initialize( replaceVars ) {
 		// Fill data object on page load.
