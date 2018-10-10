@@ -177,6 +177,7 @@ CollapsibleStateless.propTypes = {
 
 CollapsibleStateless.defaultProps = {
 	Heading: StyledHeading,
+	id: null,
 };
 
 /**

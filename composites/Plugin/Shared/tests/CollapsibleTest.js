@@ -14,7 +14,22 @@ describe( "Collapsible", () => {
 
 	it( "matches the snapshot by default", () => {
 		const component = renderer.create(
-			<Collapsible title="Lorem ipsum dolor sit amet">
+			<Collapsible title="Lorem ipsum dolor sit amet" >
+				{ content }
+			</Collapsible>
+		);
+
+		const tree = component.toJSON();
+		expect( tree ).toMatchSnapshot();
+
+		// After toggling it should be the opposite.
+		component.getInstance().toggleCollapse();
+		expect( component.toJSON() ).toMatchSnapshot();
+	} );
+
+	it( "matches the snapshot by default when the collapsible has an ID", () => {
+		const component = renderer.create(
+			<Collapsible title="Lorem ipsum dolor sit amet" id={ "yoast-collapsible" }>
 				{ content }
 			</Collapsible>
 		);

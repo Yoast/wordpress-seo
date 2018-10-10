@@ -158,6 +158,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
     <button
       aria-expanded={false}
       className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      id={null}
       onClick={[Function]}
       type="button"
     >
@@ -347,6 +348,399 @@ exports[`Collapsible matches the snapshot by default 2`] = `
     <button
       aria-expanded={true}
       className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      id={null}
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="c9"
+      >
+        <span
+          className="c10"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
+      </span>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        size="9px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1671.09 1343.5L120.91 1343.5L896 1z"
+        />
+      </svg>
+    </button>
+  </h2>
+  <h4>
+    Vivamus rutrum velit ut nunc dignissim vulputate.
+  </h4>
+  <p>
+    In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+  </p>
+  <h4>
+    Ut id ex efficitur risus suscipit fermentum.
+  </h4>
+  <p>
+    Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+  </p>
+</div>
+`;
+
+exports[`Collapsible matches the snapshot by default when the collapsible has an ID 1`] = `
+.c8 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c3 {
+  font-size: 0.8rem;
+}
+
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c4 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
+.c0 {
+  background-color: #fff;
+}
+
+.c2 {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c2:active {
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.c2 svg:first-child {
+  margin-right: 8px;
+}
+
+.c2 svg:last-child {
+  margin-left: 8px;
+}
+
+.c1 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+}
+
+.c11 {
+  width: 9px;
+  height: 9px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c4::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<div
+  className="c0"
+>
+  <h2
+    className="c1"
+  >
+    <button
+      aria-expanded={false}
+      className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      id="yoast-collapsible"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="c9"
+      >
+        <span
+          className="c10"
+        >
+          Lorem ipsum dolor sit amet
+        </span>
+      </span>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        size="9px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M896 1791L120.91 448.5L1671.09 448.5z"
+        />
+      </svg>
+    </button>
+  </h2>
+</div>
+`;
+
+exports[`Collapsible matches the snapshot by default when the collapsible has an ID 2`] = `
+.c8 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c3 {
+  font-size: 0.8rem;
+}
+
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c4 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
+.c0 {
+  background-color: #fff;
+}
+
+.c2 {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.c2:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c2:active {
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.c2 svg:first-child {
+  margin-right: 8px;
+}
+
+.c2 svg:last-child {
+  margin-left: 8px;
+}
+
+.c1 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+}
+
+.c11 {
+  width: 9px;
+  height: 9px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c4::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<div
+  className="c0"
+>
+  <h2
+    className="c1"
+  >
+    <button
+      aria-expanded={true}
+      className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      id="yoast-collapsible"
       onClick={[Function]}
       type="button"
     >
@@ -548,6 +942,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
     <button
       aria-expanded={false}
       className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      id={null}
       onClick={[Function]}
       type="button"
     >
@@ -737,6 +1132,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
     <button
       aria-expanded={true}
       className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      id={null}
       onClick={[Function]}
       type="button"
     >
@@ -938,6 +1334,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
     <button
       aria-expanded={true}
       className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      id={null}
       onClick={[Function]}
       type="button"
     >
@@ -1139,6 +1536,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
     <button
       aria-expanded={false}
       className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      id={null}
       onClick={[Function]}
       type="button"
     >
@@ -1320,6 +1718,7 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
     <button
       aria-expanded={true}
       className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      id={null}
       onClick={[Function]}
       type="button"
     >
@@ -1499,6 +1898,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
     <button
       aria-expanded={true}
       className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      id={null}
       onClick={[Function]}
       type="button"
     >
@@ -1678,6 +2078,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
     <button
       aria-expanded={true}
       className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      id={null}
       onClick={[Function]}
       type="button"
     >
@@ -1865,6 +2266,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
     <button
       aria-expanded={true}
       className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      id={null}
       onClick={[Function]}
       type="button"
     >
