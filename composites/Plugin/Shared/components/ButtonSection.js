@@ -39,6 +39,7 @@ export const ButtonSection = ( props ) => {
 				prefixIcon={ props.prefixIcon }
 				suffixIcon={ props.suffixIcon }
 				hasSubTitle={ !! props.subTitle }
+				id={ props.id }
 			>
 				<SectionTitle
 					title={ props.title }
