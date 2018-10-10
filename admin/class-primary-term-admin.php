@@ -255,7 +255,7 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Gets a list of taxonomies based on the passed taxonomy and checks for ancestor taxonomies.
 	 *
-	 * @param $taxonomy The taxonomy to get the list for.
+	 * @param string $taxonomy The taxonomy to get the list for.
 	 *
 	 * @return array The list of taxonomies.
 	 */

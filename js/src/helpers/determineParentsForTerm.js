@@ -1,4 +1,16 @@
 /**
+ * Finds a term by it's ID in the collection of terms.
+ *
+ * @param {number} id    The ID to search for.
+ * @param {Array}  terms The terms to search through.
+ *
+ * @returns {Object} The term.
+ */
+function findTermByID( id, terms ) {
+	return terms.find( term => term.id === id );
+}
+
+/**
  * Determines the parent term slug(s) for the passed term ID.
  *
  * @param {number} termID  The term ID to determine the parents for.
@@ -8,20 +20,20 @@
  */
 export default function( termID, terms ) {
 	const parents = [];
-	const term = terms.find( term => term.id === termID );
+	const term = findTermByID( termID, terms );
 
 	if ( ! term ) {
 		return parents;
 	}
 
-	let currentAncestor = term.parent;
+	let currentParentID = term.parent;
 
-	while ( currentAncestor !== 0 ) {
-		const ancestor = terms.find( term => term.id === currentAncestor );
+	while ( currentParentID !== 0 ) {
+		const foundParent = findTermByID( currentParentID, terms );
 
-		parents.unshift( ancestor.slug );
+		parents.unshift( foundParent.slug );
 
-		currentAncestor = ancestor.parent;
+		currentParentID = foundParent.parent;
 	}
 
 	return parents;

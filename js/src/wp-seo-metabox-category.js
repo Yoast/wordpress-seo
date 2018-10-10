@@ -76,8 +76,8 @@ import determineParentsForTerm from "./helpers/determineParentsForTerm";
 		const termData = Object.values( wpseoPrimaryCategoryL10n.taxonomies.category.terms ).find( term => term.id === termIdInt );
 
 		yoastEditor.updateData( {
-			primaryTaxonomySlug: ( termData && termData.slug) ? termData.slug : "",
-			parents: determineParentsForTerm( termIdInt, Object.values( wpseoPrimaryCategoryL10n.taxonomies.category.terms ) )
+			primaryTaxonomySlug: ( termData && termData.slug ) ? termData.slug : "",
+			parents: determineParentsForTerm( termIdInt, Object.values( wpseoPrimaryCategoryL10n.taxonomies.category.terms ) ),
 		} );
 
 		// If the taxonomy is category update the replacement variable.

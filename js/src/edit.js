@@ -109,7 +109,7 @@ class Edit {
 	/**
 	 * Gets the primary category slug.
 	 *
-	 * @return {string} The slug.
+	 * @returns {string} The slug.
 	 * @private
 	 */
 	_getPrimaryCategorySlug() {
@@ -125,7 +125,7 @@ class Edit {
 	/**
 	 * Gets the primary category's parents.
 	 *
-	 * @return {number} The parent. 0 if no parent is set.
+	 * @returns {number} The parent. 0 if no parent is set.
 	 * @private
 	 */
 	_getPrimaryCategoryParents() {
