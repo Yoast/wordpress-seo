@@ -237,7 +237,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 *
 	 * @param {number} termId The term ID.
 	 *
-	 * @return {Object|void} The term object.
+	 * @returns {Object|void} The term object.
 	 */
 	getPrimaryTerm( termId ) {
 		/**
