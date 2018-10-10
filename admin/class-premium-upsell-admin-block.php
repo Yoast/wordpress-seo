@@ -66,7 +66,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			'<a id="wpseo-%1$s-popup-button" class="yoast-button-upsell" href="%2$s" target="_blank" rel="noreferrer noopener">%3$s</a>',
 			$this->identifier,
 			$url,
-			$button_text
+			esc_html( $button_text )
 		);
 
 		echo '<div class="' . esc_attr( $class ) . '">';
