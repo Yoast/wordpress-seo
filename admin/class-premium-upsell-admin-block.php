@@ -70,7 +70,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		);
 
 		echo '<div>';
-		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' . esc_html__( 'Go premium!', 'wordpress-seo' ) . '</h2>';
+		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' . esc_html__( 'Go Premium!', 'wordpress-seo' ) . '</h2>';
 		echo '<ul class="' . esc_attr( $class . '--motivation' ) . '">' . $arguments_html . '</ul>';
 
 		echo '<p><a href="' . esc_url( $url ) . '" target="_blank">' . esc_html( $upgrade_msg ) . '</a><br />';
