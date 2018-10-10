@@ -197,24 +197,22 @@ class WPSEO_Customizer {
 	/**
 	 * Adds the customizer setting and control.
 	 *
-	 * @param string $index         Array key index to use for the customizer setting.
-	 * @param array  $control_args  Customizer control object arguments.
-	 *                              Only those different from the default need to be passed.
-	 * @param string $id            Optional. Customizer control object ID.
-	 *                              Will default to 'wpseo-' . $index.
-	 * @param array  $settings_args Optional. Customizer setting arguments.
-	 *                              Only those different from the default need to be passed.
+	 * @param string $index           Array key index to use for the customizer setting.
+	 * @param array  $control_args    Customizer control object arguments.
+	 *                                Only those different from the default need to be passed.
+	 * @param string $id              Optional. Customizer control object ID.
+	 *                                Will default to 'wpseo-' . $index.
+	 * @param array  $custom_settings Optional. Customizer setting arguments.
+	 *                                Only those different from the default need to be passed.
 	 */
-	private function add_setting_and_control( $index, $control_args, $id = null, $settings_args = array() ) {
+	private function add_setting_and_control( $index, $control_args, $id = null, $custom_settings = array() ) {
 		$setting                  = sprintf( $this->setting_template, $index );
 		$control_args             = array_merge( $this->default_control_args, $control_args );
 		$control_args['settings'] = $setting;
 
-		if ( empty( $settings_args ) ) {
-			$settings_args = $this->default_setting_args;
-		}
-		else {
-			$settings_args = array_merge( $this->default_setting_args, $settings_args );
+		$settings_args = $this->default_setting_args;
+		if ( ! empty( $custom_settings ) ) {
+			$settings_args = array_merge( $settings_args, $custom_settings );
 		}
 
 		if ( ! isset( $id ) ) {
