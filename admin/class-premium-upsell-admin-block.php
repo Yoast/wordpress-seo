@@ -57,7 +57,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		$class = $this->get_html_class();
 
 		/* translators: %s expands to "Yoast SEO Premium". */
-		$dismiss_msg = sprintf( __( 'Dismiss %s upgrade motivation', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		$dismiss_msg = sprintf( __( 'Dismiss %s upgrade notice', 'wordpress-seo' ), 'Yoast SEO Premium' );
 
 		/* translators: %s expands to Yoast SEO Premium */
 		$button_text = sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
@@ -71,7 +71,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 
 		echo '<div class="' . esc_attr( $class ) . '">';
 		printf(
-			'<a href="%1$s" style="" class="alignright %2$s" aria-label="%3$s">X</a>',
+			'<a href="%1$s" style="" class="alignright button %2$s" aria-label="%3$s"><span class="dashicons dashicons-no-alt"></span></a>',
 			esc_url( add_query_arg( array( $this->get_query_variable_name() => 1 ) ) ),
 			esc_attr( $class . '--close' ),
 			esc_attr( $dismiss_msg )

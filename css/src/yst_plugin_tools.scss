@@ -567,13 +567,13 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	overflow: hidden;
 	margin-top: 2em;
 
-	&--close {
-		color: #333;
-		text-decoration: none;
-		font-weight: bold;
-		font-size: 16px;
-		border: 1px solid #ccc;
-		padding: 1px 4px;
+	.wp-core-ui &--close {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0;
+		width: 24px;
+		height: 24px;
 	}
 
 	&--header {
