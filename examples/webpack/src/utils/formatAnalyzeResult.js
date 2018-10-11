@@ -1,3 +1,4 @@
+import scoreToRating from "../../../../src/interpreters/scoreToRating";
 
 /**
  * Sorts analysis results alphabetically by their identifier.
@@ -22,6 +23,7 @@ export default function formatAnalyzeResults( analyzeResults ) {
 		analyzeResults.seo[ "" ].results.forEach( result => {
 			result.id = result._identifier;
 			result.hasMarks = result.marks.length > 0;
+			result.rating = scoreToRating( result.score );
 		} );
 
 		analyzeResults.seo[ "" ].results = sortResultsByIdentifier( analyzeResults.seo[ "" ].results );
@@ -31,6 +33,7 @@ export default function formatAnalyzeResults( analyzeResults ) {
 		analyzeResults.readability.results.forEach( result => {
 			result.id = result._identifier;
 			result.hasMarks = result.marks.length > 0;
+			result.rating = scoreToRating( result.score );
 		} );
 
 		analyzeResults.readability.results = sortResultsByIdentifier( analyzeResults.readability.results );
