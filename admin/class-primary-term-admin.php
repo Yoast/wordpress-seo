@@ -255,6 +255,8 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Gets all terms, including empty ones, for the passed taxonomy.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $taxonomy The taxonomy to get the terms for.
 	 *
 	 * @return array|int|WP_Error List of terms and their children. Will return WP_Error if the taxonomy doesn't exist.
@@ -282,6 +284,8 @@ class WPSEO_Primary_Term_Admin {
 
 	/**
 	 * Gets the category's ancestors based on the passed ID.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $id The ID to get the ancestors for.
 	 *
