@@ -2020,19 +2020,18 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-title"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c28"
-                      id="snippet-editor-field-title"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="20"
                         content="Test title"
+                        fieldId="snippet-editor-field-title"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -2043,6 +2042,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="20"
                           content="Test title"
+                          fieldId="snippet-editor-field-title"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -2296,19 +2296,18 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-description"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c32"
-                      id="snippet-editor-field-description"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="21"
                         content="Test description, %%replacement_variable%%"
+                        fieldId="snippet-editor-field-description"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -2320,6 +2319,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="21"
                           content="Test description, %%replacement_variable%%"
+                          fieldId="snippet-editor-field-description"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -3938,19 +3938,18 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-title"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c28"
-                      id="snippet-editor-field-title"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="20"
                         content="Test title"
+                        fieldId="snippet-editor-field-title"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -3961,6 +3960,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="20"
                           content="Test title"
+                          fieldId="snippet-editor-field-title"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -4214,19 +4214,18 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-description"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c32"
-                      id="snippet-editor-field-description"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="21"
                         content="Test description, %%replacement_variable%%"
+                        fieldId="snippet-editor-field-description"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -4238,6 +4237,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="21"
                           content="Test description, %%replacement_variable%%"
+                          fieldId="snippet-editor-field-description"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -5856,19 +5856,18 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-title"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c28"
-                      id="snippet-editor-field-title"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="20"
                         content="Test title"
+                        fieldId="snippet-editor-field-title"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -5879,6 +5878,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="20"
                           content="Test title"
+                          fieldId="snippet-editor-field-title"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -6132,19 +6132,18 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-description"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c32"
-                      id="snippet-editor-field-description"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="21"
                         content="Test description, %%replacement_variable%%"
+                        fieldId="snippet-editor-field-description"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -6156,6 +6155,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="21"
                           content="Test description, %%replacement_variable%%"
+                          fieldId="snippet-editor-field-description"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -7774,19 +7774,18 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-title"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c28"
-                      id="snippet-editor-field-title"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="8"
                         content="Test title"
+                        fieldId="snippet-editor-field-title"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -7797,6 +7796,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="8"
                           content="Test title"
+                          fieldId="snippet-editor-field-title"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -8050,19 +8050,18 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-description"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c32"
-                      id="snippet-editor-field-description"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="9"
                         content="Test description, %%replacement_variable%%"
+                        fieldId="snippet-editor-field-description"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -8074,6 +8073,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="9"
                           content="Test description, %%replacement_variable%%"
+                          fieldId="snippet-editor-field-description"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -10716,19 +10716,18 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-title"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c28"
-                      id="snippet-editor-field-title"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="29"
                         content="Test title"
+                        fieldId="snippet-editor-field-title"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -10739,6 +10738,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="29"
                           content="Test title"
+                          fieldId="snippet-editor-field-title"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -10992,19 +10992,18 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-description"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c32"
-                      id="snippet-editor-field-description"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="30"
                         content="Test description, %%replacement_variable%%"
+                        fieldId="snippet-editor-field-description"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -11016,6 +11015,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="30"
                           content="Test description, %%replacement_variable%%"
+                          fieldId="snippet-editor-field-description"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -12634,19 +12634,18 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-title"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c28"
-                      id="snippet-editor-field-title"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="26"
                         content="Test title"
+                        fieldId="snippet-editor-field-title"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -12657,6 +12656,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="26"
                           content="Test title"
+                          fieldId="snippet-editor-field-title"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -12910,19 +12910,18 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-description"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c32"
-                      id="snippet-editor-field-description"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="27"
                         content="Test description, %%replacement_variable%%"
+                        fieldId="snippet-editor-field-description"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -12934,6 +12933,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="27"
                           content="Test description, %%replacement_variable%%"
+                          fieldId="snippet-editor-field-description"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -15508,19 +15508,18 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-title"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c29"
-                      id="snippet-editor-field-title"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="14"
                         content="Test title"
+                        fieldId="snippet-editor-field-title"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -15531,6 +15530,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="14"
                           content="Test title"
+                          fieldId="snippet-editor-field-title"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -15784,19 +15784,18 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-description"
                     isActive={true}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c33"
-                      id="snippet-editor-field-description"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="15"
                         content="Test description, %%replacement_variable%%"
+                        fieldId="snippet-editor-field-description"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -15808,6 +15807,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="15"
                           content="Test description, %%replacement_variable%%"
+                          fieldId="snippet-editor-field-description"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -17446,19 +17446,18 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-title"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c29"
-                      id="snippet-editor-field-title"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="11"
                         content="Test title"
+                        fieldId="snippet-editor-field-title"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -17469,6 +17468,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="11"
                           content="Test title"
+                          fieldId="snippet-editor-field-title"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -17722,19 +17722,18 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-description"
                     isActive={false}
                     isHovered={true}
                     onClick={[Function]}
                   >
                     <div
                       className="c33"
-                      id="snippet-editor-field-description"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="12"
                         content="Test description, %%replacement_variable%%"
+                        fieldId="snippet-editor-field-description"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -17746,6 +17745,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="12"
                           content="Test description, %%replacement_variable%%"
+                          fieldId="snippet-editor-field-description"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -19364,19 +19364,18 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-title"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c28"
-                      id="snippet-editor-field-title"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="5"
                         content="Test title"
+                        fieldId="snippet-editor-field-title"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -19387,6 +19386,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="5"
                           content="Test title"
+                          fieldId="snippet-editor-field-title"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -19640,19 +19640,18 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-description"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c32"
-                      id="snippet-editor-field-description"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="6"
                         content="Test description, %%replacement_variable%%"
+                        fieldId="snippet-editor-field-description"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -19664,6 +19663,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="6"
                           content="Test description, %%replacement_variable%%"
+                          fieldId="snippet-editor-field-description"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -21315,19 +21315,18 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-title"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c28"
-                      id="snippet-editor-field-title"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="23"
                         content="Test title"
+                        fieldId="snippet-editor-field-title"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -21349,6 +21348,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="23"
                           content="Test title"
+                          fieldId="snippet-editor-field-title"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -21624,19 +21624,18 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-description"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c32"
-                      id="snippet-editor-field-description"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="24"
                         content="Test description, %%replacement_variable%%"
+                        fieldId="snippet-editor-field-description"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -21659,6 +21658,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="24"
                           content="Test description, %%replacement_variable%%"
+                          fieldId="snippet-editor-field-description"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -23845,19 +23845,18 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-title"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c28"
-                      id="snippet-editor-field-title"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="17"
                         content="Test title"
+                        fieldId="snippet-editor-field-title"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -23868,6 +23867,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="17"
                           content="Test title"
+                          fieldId="snippet-editor-field-title"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -24121,19 +24121,18 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     </Button>
                   </Shared__TriggerReplacementVariableSuggestionsButton>
                   <Shared__InputContainer
-                    id="snippet-editor-field-description"
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
                   >
                     <div
                       className="c32"
-                      id="snippet-editor-field-description"
                       onClick={[Function]}
                     >
                       <Wrapper
                         ariaLabelledBy="18"
                         content="Test description, %%replacement_variable%%"
+                        fieldId="snippet-editor-field-description"
                         innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -24145,6 +24144,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         <ReplacementVariableEditorStandalone
                           ariaLabelledBy="18"
                           content="Test description, %%replacement_variable%%"
+                          fieldId="snippet-editor-field-description"
                           innerRef={[Function]}
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -25454,7 +25454,6 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
       </button>
       <div
         className="c27"
-        id="snippet-editor-field-title"
         onClick={[Function]}
       >
         <div />
@@ -25524,7 +25523,6 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
       </button>
       <div
         className="c31"
-        id="snippet-editor-field-description"
         onClick={[Function]}
       >
         <div />
