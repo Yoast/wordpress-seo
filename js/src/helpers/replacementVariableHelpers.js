@@ -1,3 +1,5 @@
+/* global wp */
+
 /* External dependencies */
 import forEach from "lodash/forEach";
 import omit from "lodash/omit";
@@ -210,6 +212,8 @@ export function mapCustomFields( replaceVars, store ) {
  * @returns {string} The generated excerpt.
  */
 export function excerptFromContent( content, limit = 156 ) {
+	content = wp.sanitize.stripTags( content );
+
 	// Retrieves the first 156 chars from the content.
 	content = content.substring( 0, limit );
 
