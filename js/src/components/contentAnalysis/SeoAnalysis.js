@@ -196,6 +196,11 @@ class SeoAnalysis extends React.Component {
 		);
 	}
 
+	/**
+	 * Renders the AnalysisUpsell component.
+	 *
+	 * @returns {ReactElement} The AnalysisUpsell component.
+	 */
 	renderWordFormsUpsell() {
 		return <AnalysisUpsell
 			url={ this.props.location === "sidebar"
@@ -240,9 +245,11 @@ class SeoAnalysis extends React.Component {
 						keyword={ this.props.keyword }
 					/>
 					<Slot name="YoastSynonyms" />
-					{ this.props.shouldUpsell && this.renderSynonymsUpsell(	this.props.location	) }
-					{ this.props.shouldUpsell && this.renderMultipleKeywordsUpsell( this.props.location ) }
-					{ this.props.shouldUpsell && this.renderWordFormsUpsell() }
+					{ this.props.shouldUpsell && <React.Fragment>
+						{ this.renderSynonymsUpsell( this.props.location ) }
+						{ this.renderMultipleKeywordsUpsell( this.props.location ) }
+						{ this.renderWordFormsUpsell() }
+					</React.Fragment> }
 					<AnalysisHeader>
 						{ __( "Analysis results", "wordpress-seo" ) }
 					</AnalysisHeader>
@@ -265,7 +272,7 @@ SeoAnalysis.propTypes = {
 	hideMarksButtons: PropTypes.bool,
 	keyword: PropTypes.string,
 	onFocusKeywordChange: PropTypes.func,
-	shouldUpsell:	PropTypes.bool,
+	shouldUpsell: PropTypes.bool,
 	overallScore: PropTypes.number,
 	location: PropTypes.string,
 };

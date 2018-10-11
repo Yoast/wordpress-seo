@@ -18,7 +18,7 @@ const Container = styled.div`
 	border-left: 4px solid ${ colors.$color_pink_dark };
 	margin: 16px 0;
 	padding: 0 8px;
-	
+
 	> ${ TextContainer } {
 		margin-bottom: ${ props => props.alignment === "vertical" && "16px" };
 	}
@@ -49,7 +49,7 @@ const AnalysisUpsell = ( props ) => {
 				{ sprintf(
 					/* eslint-disable max-len */
 					/* translators: %s expands to Yoast SEO Premium */
-					__( "Did you know %s also analyses the different word forms of your keyphrase, like plurals, different word orders and past tenses?", "wordpress-seo" ),
+					__( "Did you know %s also analyzes the different word forms of your keyphrase, like plurals, different word orders and past tenses?", "wordpress-seo" ),
 					/* eslint-enable */
 					"Yoast SEO Premium"
 				) }
