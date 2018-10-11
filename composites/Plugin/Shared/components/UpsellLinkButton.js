@@ -19,17 +19,17 @@ export const UpsellLinkButton = styled.a`
 	border: none;
 	text-decoration: none;
 	font-size: inherit;
-	
+
 	&:hover,
 	&:focus,
 	&:active {
 		color: ${ colors.$color_black };
 		background: ${ colors.$color_button_upsell_hover };
 	}
-	
+
 	:active {
 		position: relative;
-  		top: 2px;
+		top: 2px;
 		background-color: ${ colors.$color_button_hover_upsell };
 		box-shadow: none;
 		filter: none;
