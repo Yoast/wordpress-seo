@@ -35,5 +35,3 @@ export const UpsellLinkButton = styled.a`
 		filter: none;
 	}
 `;
-
-
