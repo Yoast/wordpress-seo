@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import colors from "../../../../style-guide/colors.json";
 
+/**
+ * A link styled as an interactive upsell button.
+ */
 export const UpsellLinkButton = styled.a`
 	align-items: center;
 	justify-content: center;
