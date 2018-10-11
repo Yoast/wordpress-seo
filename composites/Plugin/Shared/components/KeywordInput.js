@@ -166,8 +166,6 @@ class KeywordInput extends React.Component {
 		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword } = this.props;
 		const showErrorMessage = this.checkKeywordInput( keyword );
 
-		const label = __( "Focus keyphrase:", "yoast-components" );
-
 		// The aria label should not be shown if there is a visible label.
 		const showAriaLabel = ! showLabel;
 
@@ -176,13 +174,13 @@ class KeywordInput extends React.Component {
 		return (
 			<KeywordInputContainer>
 				{ showLabel && <KeywordFieldLabel htmlFor={ id }>
-					{ label }
+					{ this.props.label }
 				</KeywordFieldLabel> }
 				<YoastInputButtonContainer
 					className={ showRemoveKeywordButton ? "has-remove-keyword-button" : null }
 				>
 					<KeywordField
-						aria-label={ showAriaLabel ? label : null }
+						aria-label={ showAriaLabel ? this.props.ariaLabel : null }
 						type="text"
 						id={ id }
 						className={ showErrorMessage ? "has-error" : null }
@@ -213,6 +211,8 @@ KeywordInput.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onRemoveKeyword: PropTypes.func,
 	onBlurKeyword: PropTypes.func,
+	label: PropTypes.node.isRequired,
+	ariaLabel: PropTypes.string.isRequired,
 };
 
 KeywordInput.defaultProps = {
