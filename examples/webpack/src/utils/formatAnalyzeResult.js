@@ -1,14 +1,25 @@
 import scoreToRating from "../../../../src/interpreters/scoreToRating";
 
 /**
- * Sorts analysis results alphabetically by their identifier.
+ * Sorts analysis results by score and then alphabetically by their identifier.
  *
  * @param {Array} assessmentResults The assessment results to be sorted.
  *
  * @returns {Array} The sorted results.
  */
-function sortResultsByIdentifier( assessmentResults ) {
-	return assessmentResults.sort( ( a, b ) => a._identifier.localeCompare( b._identifier ) );
+function sortResults( assessmentResults ) {
+	return assessmentResults.sort( ( a, b ) => {
+		// First compare the score.
+		if ( a.score < b.score ) {
+			return -1;
+		}
+		if ( a.score > b.score ) {
+			return 1;
+		}
+
+		// If there is no difference then compare the identifier.
+		return a._identifier.localeCompare( b._identifier );
+	} );
 }
 
 /**
@@ -26,7 +37,7 @@ export default function formatAnalyzeResults( analyzeResults ) {
 			result.rating = scoreToRating( result.score );
 		} );
 
-		analyzeResults.seo[ "" ].results = sortResultsByIdentifier( analyzeResults.seo[ "" ].results );
+		analyzeResults.seo[ "" ].results = sortResults( analyzeResults.seo[ "" ].results );
 	}
 
 	if ( analyzeResults.readability ) {
@@ -36,7 +47,7 @@ export default function formatAnalyzeResults( analyzeResults ) {
 			result.rating = scoreToRating( result.score );
 		} );
 
-		analyzeResults.readability.results = sortResultsByIdentifier( analyzeResults.readability.results );
+		analyzeResults.readability.results = sortResults( analyzeResults.readability.results );
 	}
 
 	return analyzeResults;
