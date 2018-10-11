@@ -32,9 +32,10 @@ export default function results( state = INITIAL_STATE, action ) {
 			};
 
 		case SET_ACTIVE_MARKER:
+			// Create a toggle effect so that the markings can be turned off.
 			return {
 				...state,
-				activeMarker: action.activeMarker,
+				activeMarker: state.activeMarker === action.activeMarker ? "" : action.activeMarker,
 			};
 
 		default:
