@@ -1,5 +1,5 @@
 /* globals wpseoAdminL10n */
-import React from "react";
+import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
@@ -26,7 +26,8 @@ const AnalysisHeader = styled.span`
 	display: block;
 `;
 
-const FocusKeywordLink = utils.makeOutboundLink();
+const FocusKeywordLink = utils.makeOutboundLink( styled.a`
+` );
 
 const StyledContainer = styled.div`
 	min-width: 600px;
@@ -195,6 +196,17 @@ class SeoAnalysis extends React.Component {
 		);
 	}
 
+	renderLabel( label ) {
+		return (
+			<Fragment>
+				{ label + " " }
+				[<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } rel={ null }>
+					{ "?" }
+				</FocusKeywordLink>]
+			</Fragment>
+		);
+	}
+
 	/**
 	 * Renders the SEO Analysis component.
 	 *
@@ -208,6 +220,8 @@ class SeoAnalysis extends React.Component {
 			score.screenReaderReadabilityText = __( "Enter a focus keyphrase to calculate the SEO score", "wordpress-seo" );
 		}
 
+		const label = __( "Focus keyphrase", "wordpress-seo" )
+
 		return (
 			<React.Fragment>
 				<Collapsible
@@ -217,17 +231,12 @@ class SeoAnalysis extends React.Component {
 					prefixIconCollapsed={ getIconForScore( score.className ) }
 					subTitle={ this.props.keyword }
 				>
-					<HelpText>
-						{ __( "A focus keyphrase is the phrase you'd like to be found for in search engines. " +
-							"Enter it below to see how you can improve your text for this term.", "wordpress-seo" ) + " " }
-						<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } rel={ null }>
-							{ __( "Learn more about the keyphrase analysis.", "wordpress-seo" ) }
-						</FocusKeywordLink>
-					</HelpText>
 					<KeywordInput
 						id="focus-keyword-input"
 						onChange={ this.props.onFocusKeywordChange }
 						keyword={ this.props.keyword }
+						label={ this.renderLabel( label ) }
+						ariaLabel={ label }
 					/>
 					<Slot name="YoastSynonyms" />
 					{ this.props.shouldUpsell && this.renderSynonymsUpsell(	this.props.location	) }
