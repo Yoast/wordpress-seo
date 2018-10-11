@@ -476,9 +476,14 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 /* Banners sidebar. */
 .yoast-sidebar {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: flex-start;
 
 	&__title {
-		width: 100%;
+		flex-grow: 1;
+		min-width: 100%;
 		margin: 5px 0;
 		padding: 10px 0;
 		color: #a4286a;
@@ -488,8 +493,9 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		border-bottom: 1px solid #a4286a;
 	}
 
-	&_section {
-		padding: 20px 0 20px 0;
+	&__section {
+		min-width: 261px;
+		padding: 20px 0;
 		border-bottom: 1px solid #ddd;
 
 		h2, a {
@@ -531,15 +537,13 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 			img {
 				width: 40px;
 				height: 40px;
+				margin: 0 10px 0 -50px;
 			}
 
 			p {
 				width: 200px;
-				margin: 0 0 0 10px;
-			}
-
-			.clear {
-				clear: both;
+				margin: 0;
+				padding-left: 50px;
 			}
 		}
 
@@ -716,26 +720,10 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 	/* Banners sidebar. */
 	.yoast-sidebar {
-
-		&__spot {
-			float: left;
-			width: 50%;
-			border: none;
-			text-align: center;
-
-			& > strong:first-child {
-				display: block;
-				max-width: 261px;
-				margin: 0 auto;
-				text-align: left;
-			}
-
-			ul, p {
-				max-width: 261px;
-				text-align: left;
-				margin: 1em auto;
-			}
-		}
+		&__section {
+			max-width: 50%;
+			margin: 0 1em;
+ 		}
 	}
 }
 
@@ -789,17 +777,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	/* Google Search Console: Reload crawl issues form. */
 	.wpseo-gsc-reload-crawl-issues-form {
 		margin-bottom: 0;
-	}
-
-	/* Banners sidebar. */
-	.yoast-sidebar {
-
-		&__spot {
-			float: none;
-			width: 261px;
-			margin: 0 auto;
-			border-bottom: 1px solid #ddd;
-		}
 	}
 }
 
