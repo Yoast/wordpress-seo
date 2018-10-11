@@ -276,7 +276,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 				>
 					{
 						sprintf(
-							/* Translators: %s expands to the taxonomy name */
+							/* translators: %s expands to the taxonomy name */
 							__( "Select the primary %s", "wordpress-seo" ),
 							taxonomy.singularLabel.toLowerCase()
 						)

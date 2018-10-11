@@ -208,14 +208,14 @@ import determineParentsForTerm from "./helpers/determineParentsForTerm";
 	/**
 	 * Returns the term list add handler for a certain taxonomy name.
 	 *
-	 * @param {Object} taxonomy The taxonomy.
+	 * @param {string} taxonomyName The taxonomy's name.
 	 *
 	 * @returns {Function} The term list add handler.
 	 */
-	function termListAddHandler( taxonomy ) {
+	function termListAddHandler( taxonomyName ) {
 		return function() {
-			ensurePrimaryTerm( taxonomy.name );
-			updatePrimaryTermSelectors( taxonomy.name );
+			ensurePrimaryTerm( taxonomyName );
+			updatePrimaryTermSelectors( taxonomyName );
 		};
 	}
 
@@ -251,7 +251,7 @@ import determineParentsForTerm from "./helpers/determineParentsForTerm";
 			metaboxTaxonomy.on( "click", 'input[type="checkbox"]', termCheckboxHandler( taxonomy.name ) );
 
 			// When the AJAX Request is done, this event will be fired.
-			metaboxTaxonomy.on( "wpListAddEnd", "#" + taxonomy.name + "checklist", termListAddHandler( taxonomy ) );
+			metaboxTaxonomy.on( "wpListAddEnd", "#" + taxonomy.name + "checklist", termListAddHandler( taxonomy.name ) );
 
 			metaboxTaxonomy.on( "click", ".wpseo-make-primary-term", makePrimaryHandler( taxonomy.name ) );
 		} );

@@ -34,7 +34,7 @@ const PinnedPluginIcon = styled( PluginIcon )`
 
 class Edit {
 	/**
-	 * Construct the Edit class.
+	 * Constructs the Edit class.
 	 *
 	 * @param {Object}   args                                 Edit initialize arguments.
 	 * @param {Function} args.onRefreshRequest                The function to refresh the analysis.
@@ -66,7 +66,7 @@ class Edit {
 	}
 
 	/**
-	 * Initialize the store and filters.
+	 * Initializes the store and filters.
 	 *
 	 * @returns {void}
 	 * @private
@@ -107,6 +107,18 @@ class Edit {
 	}
 
 	/**
+	 * Gets a term based on the registered primary ID.
+	 *
+	 * @param {Object} categoryData    The category data to search through.
+	 *
+	 * @returns {Object} The term object.
+	 * @private
+	 */
+	_getTermByPrimaryID( categoryData ) {
+		return categoryData.terms.find( term => term.id === categoryData.primary );
+	}
+
+	/**
 	 * Gets the primary category slug.
 	 *
 	 * @returns {string} The slug.
@@ -119,7 +131,7 @@ class Edit {
 			return "";
 		}
 
-		return Object.values( categoryData.terms ).find( term => term.id === categoryData.primary ).slug;
+		return this._getTermByPrimaryID( categoryData ).slug;
 	}
 
 	/**
@@ -135,7 +147,7 @@ class Edit {
 			return 0;
 		}
 
-		return Object.values( categoryData.terms ).find( term => term.id === categoryData.primary ).parents;
+		return this._getTermByPrimaryID( categoryData ).parents;
 	}
 
 	/**

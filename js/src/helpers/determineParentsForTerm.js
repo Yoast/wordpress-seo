@@ -13,8 +13,8 @@ function findTermByID( id, terms ) {
 /**
  * Determines the parent term slug(s) for the passed term ID.
  *
- * @param {number} termID  The term ID to determine the parents for.
- * @param {Array}  terms The currently available terms.
+ * @param {number} termID The term ID to determine the parents for.
+ * @param {Array}  terms  The currently available terms.
  *
  * @returns {Array} The parent term slugs.
  */

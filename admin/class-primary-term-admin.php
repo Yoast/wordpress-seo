@@ -220,7 +220,7 @@ class WPSEO_Primary_Term_Admin {
 	 *
 	 * @param int $post_id ID of the post.
 	 *
-	 * @return array
+	 * @return array The primary term taxonomies.
 	 */
 	protected function generate_primary_term_taxonomies( $post_id ) {
 		$post_type      = get_post_type( $post_id );
@@ -253,20 +253,42 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Gets a list of taxonomies based on the passed taxonomy and checks for ancestor taxonomies.
+	 * Gets all terms, including empty ones, for the passed taxonomy.
+	 *
+	 * @param string $taxonomy The taxonomy to get the terms for.
+	 *
+	 * @return array|int|WP_Error List of terms and their children. Will return WP_Error if the taxonomy doesn't exist.
+	 */
+	protected function get_all_terms( $taxonomy ) {
+		return get_terms( $taxonomy, array( 'hide_empty' => false ) );
+	}
+
+	/**
+	 * Gets a list of terms based on the passed taxonomy and checks for ancestor terms.
 	 *
 	 * @param string $taxonomy The taxonomy to get the list for.
 	 *
-	 * @return array The list of taxonomies.
+	 * @return array The list of terms.
 	 */
-	protected function get_taxonomies( $taxonomy ) {
-		$terms = get_terms( $taxonomy, array( 'hide_empty' => false ) );
+	protected function get_terms_for_taxonomy( $taxonomy ) {
+		$terms = $this->get_all_terms( $taxonomy );
 
 		foreach ( $terms as $term ) {
-			$term->parents = $this->get_ancestors( $term->term_id );
+			$term->parents = $this->get_ancestors_for_term( $term->term_id );
 		}
 
 		return $terms;
+	}
+
+	/**
+	 * Gets the category's ancestors based on the passed ID.
+	 *
+	 * @param int $id The ID to get the ancestors for.
+	 *
+	 * @return array The found ancestors.
+	 */
+	protected function get_category_ancestors( $id ) {
+		return get_ancestors( $id, 'category' );
 	}
 
 	/**
@@ -276,8 +298,8 @@ class WPSEO_Primary_Term_Admin {
 	 *
 	 * @return array The ancestor slugs.
 	 */
-	protected function get_ancestors( $term_id ) {
-		$ancestors 		= array_reverse( get_ancestors( $term_id, 'category' ), true );
+	protected function get_ancestors_for_term( $term_id ) {
+		$ancestors 		= array_reverse( $this->get_category_ancestors( $term_id ), true );
 		$ancestor_slugs = array();
 
 		foreach ( $ancestors as $ancestor ) {
@@ -303,7 +325,7 @@ class WPSEO_Primary_Term_Admin {
 			$primary_term = 1;
 		}
 
-		$terms = $this->get_taxonomies( $taxonomy->name );
+		$terms = $this->get_terms_for_taxonomy( $taxonomy->name );
 
 		return array(
 			'title'         => $taxonomy->labels->singular_name,
@@ -324,19 +346,24 @@ class WPSEO_Primary_Term_Admin {
 	 * @return array The mapped terms.
 	 */
 	private function map_terms_for_js( $terms ) {
-		$mapped = array();
+		return array_map( array( $this, 'map_term_for_js' ), $terms );
+	}
 
-		foreach ( $terms as $term ) {
-			$mapped[] = array(
-				'id'   		=> $term->term_id,
-				'name' 		=> $term->name,
-				'slug' 		=> $term->slug,
-				'parent' 	=> $term->parent,
-				'parents' 	=> $term->parents,
-			);
-		}
-
-		return $mapped;
+	/**
+	 * Maps a single term to be suitable in JavaScript.
+	 *
+	 * @param Object $term The term to map.
+	 *
+	 * @return array The mapped term.
+	 */
+	private function map_term_for_js( $term ) {
+		return array(
+			'id'   	  => $term->term_id,
+			'name' 	  => $term->name,
+			'slug' 	  => $term->slug,
+			'parent'  => $term->parent,
+			'parents' => $term->parents,
+		);
 	}
 
 	/**
