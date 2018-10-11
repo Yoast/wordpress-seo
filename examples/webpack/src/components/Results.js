@@ -9,14 +9,14 @@ function Results( { seo, readability, activeMarker, onMark } ) {
 	return <Fragment>
 		<H3>Readability</H3>
 		<AnalysisList
-			results={ seo }
+			results={ readability }
 			marksButtonActivatedResult={ activeMarker }
 			marksButtonClassName="yoast-text-mark"
 			onMarksButtonClick={ onMark }
 		/>
 		<H3>SEO</H3>
 		<AnalysisList
-			results={ readability }
+			results={ seo }
 			marksButtonActivatedResult={ activeMarker }
 			marksButtonClassName="yoast-text-mark"
 			onMarksButtonClick={ onMark }

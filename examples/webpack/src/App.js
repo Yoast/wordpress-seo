@@ -1,5 +1,6 @@
 // External dependencies.
 import React, { Fragment } from "react";
+import styled from "styled-components";
 
 // YoastSEO.js dependencies.
 import testPapers from "yoastspec/fullTextTests/testTexts";
@@ -18,6 +19,25 @@ import { setConfigurationAttribute } from "./redux/actions/configuration";
 import Inputs from "./components/Inputs";
 import { setStatus } from "./redux/actions/worker";
 import formatAnalyzeResult from "./utils/formatAnalyzeResult";
+
+const FlexContainer = styled.div`
+	@media (min-width: 768px) {
+		display: flex;
+		align-content: space-between;
+	}
+`;
+const LeftContentContainer = styled.div`
+	flex: 1;
+	@media (min-width: 768px) {
+		padding-right: 10px;
+	}
+`;
+const RightContentContainer = styled.div`
+	flex: 1;
+	@media (min-width: 768px) {
+		padding-left: 10px;
+	}
+`;
 
 class App extends React.Component {
 	/**
@@ -100,12 +120,22 @@ class App extends React.Component {
 			<Fragment>
 				<h1>YoastSEO.js development tool</h1>
 
-				<Collapsible title="Input">
-					<Inputs />
-				</Collapsible>
+				<FlexContainer>
+					<LeftContentContainer>
+						<Collapsible title="Input">
+							<Inputs />
+						</Collapsible>
+					</LeftContentContainer>
 
-				<Collapsible title="Results">
-					<Results />
+					<RightContentContainer>
+						<Collapsible title="Results">
+							<Results />
+						</Collapsible>
+					</RightContentContainer>
+				</FlexContainer>
+
+				<Collapsible title="Markings">
+					<Markings />
 				</Collapsible>
 
 				<Collapsible title="Worker status">
@@ -118,10 +148,6 @@ class App extends React.Component {
 						onAnalyze={ this.analyze }
 						onAnalyzeSpam={ this.analyzeSpam }
 					/>
-				</Collapsible>
-
-				<Collapsible title="Markings">
-					<Markings />
 				</Collapsible>
 
 				<ul>
