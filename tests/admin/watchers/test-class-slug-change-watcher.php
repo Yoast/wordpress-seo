@@ -76,10 +76,11 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_detect_post_trash_no_visible_post_status() {
 
 		// Make sure we're working with a draft.
-		wp_update_post( array(
+		$post_args = array(
 			'ID'          => self::$post_id,
 			'post_status' => 'draft',
-		) );
+		);
+		wp_update_post( $post_args );
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
@@ -142,10 +143,11 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_detect_post_delete_trashed_post() {
 		// Make sure we're working with a trashed post.
-		wp_update_post( array(
+		$post_args = array(
 			'ID'          => self::$post_id,
 			'post_status' => 'trash',
-		) );
+		);
+		wp_update_post( $post_args );
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
@@ -191,10 +193,11 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_detect_post_delete_when_not_visible() {
 
 		// Make sure we're working with a pending post.
-		wp_update_post( array(
+		$post_args = array(
 			'ID'          => self::$post_id,
 			'post_status' => 'pending',
-		) );
+		);
+		wp_update_post( $post_args );
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
