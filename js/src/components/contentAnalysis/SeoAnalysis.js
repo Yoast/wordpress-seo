@@ -124,7 +124,7 @@ class SeoAnalysis extends React.Component {
 				openButton: "wpseo-multiple-keywords button-link",
 			},
 			labels: {
-				open: "+ " + __( "Add additional keyphrase", "wordpress-seo" ),
+				open: "+ " + __( "Add related keyphrase", "wordpress-seo" ),
 				a11yNotice: {
 					opensInNewTab: __( "(Opens in a new browser tab!)", "wordpress-seo" ),
 				},
@@ -154,7 +154,7 @@ class SeoAnalysis extends React.Component {
 			<Modal { ...modalProps }>
 				<StyledContainer>
 					<StyledIcon icon={ YoastSeoIcon } />
-					<h2>{ __( "Would you like to add another keyphrase?", "wordpress-seo" ) }</h2>
+					<h2>{ __( "Would you like to add a related keyphrase?", "wordpress-seo" ) }</h2>
 					<MultipleKeywords
 						link={ link }
 						buyLink={ buyLink }
@@ -185,7 +185,7 @@ class SeoAnalysis extends React.Component {
 			<Collapsible
 				prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 				prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
-				title={ __( "Add additional keyphrase", "wordpress-seo" ) }
+				title={ __( "Add related keyphrase", "wordpress-seo" ) }
 			>
 				<MultipleKeywords
 					link={ link }
