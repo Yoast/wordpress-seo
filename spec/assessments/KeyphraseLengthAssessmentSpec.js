@@ -12,7 +12,7 @@ describe( "the keyphrase length assessment", function() {
 
 		expect( result.getScore() ).toEqual( -999 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"No keyphrase was set for this page. " +
+			"No focus keyphrase was set for this page. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
 	} );
 
