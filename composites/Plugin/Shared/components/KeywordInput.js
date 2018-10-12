@@ -102,6 +102,9 @@ export const YoastInputButtonContainer = styled.div`
 	}
 `;
 
+/**
+ * An input component for the keyphrase.
+ */
 class KeywordInput extends React.Component {
 	/**
 	 * Constructs a KeywordInput component.
@@ -161,11 +164,16 @@ class KeywordInput extends React.Component {
 		this.props.onChange( event.target.value );
 	}
 
+	/**
+	 * Renders the input's label.
+	 *
+	 * @returns {ReactElement} The input label.
+	 */
 	renderLabel() {
 		const {
 			id,
 			label,
-			postLabelElement
+			postLabelElement,
 		} = this.props;
 		return (
 			<KeywordFieldLabelContainer>
@@ -183,7 +191,7 @@ class KeywordInput extends React.Component {
 	 * @returns {ReactElement} The KeywordField react component including its label and eventual error message.
 	 */
 	render() {
-		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword, postLabelElement } = this.props;
+		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword } = this.props;
 		const showErrorMessage = this.checkKeywordInput( keyword );
 
 		// The aria label should not be shown if there is a visible label.
