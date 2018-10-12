@@ -26,14 +26,21 @@ const AnalysisHeader = styled.span`
 
 const FocusKeywordLink = utils.makeOutboundLink( styled.a`
 	display: inline-block;
-	vertical-align: middle;
+	position: relative;
+	outline: none;
 	text-decoration: none;
-	padding: 2px;
-	margin: -2px 0;
+	border-radius: 100%;
+	width: 24px;
+	height: 24px;
+	margin: -4px 0;
+	vertical-align: middle;
 
-	&:hover,
-	&:focus {
-		text-decoration: underline;
+	&::before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding: 2px;
+		content: "\f223";
 	}
 ` );
 
@@ -211,11 +218,14 @@ class SeoAnalysis extends React.Component {
 	 */
 	renderHelpLink() {
 		return (
-			<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } rel={ null }>
+			<FocusKeywordLink
+				href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }
+				rel={ null }
+				className="dashicons"
+			>
 				<span className="screen-reader-text">
 					{ __( "Help on choosing the perfect focus keyphrase", "wordpress-seo" ) }
 				</span>
-				<span aria-hidden="true">{ "[?]" }</span>
 			</FocusKeywordLink>
 		);
 	}
