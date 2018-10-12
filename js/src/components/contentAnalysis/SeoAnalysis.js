@@ -16,6 +16,7 @@ import Modal from "../modals/Modal";
 import MultipleKeywords from "../modals/MultipleKeywords";
 import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
 import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
+import AnalysisUpsell from "../AnalysisUpsell";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -140,7 +141,7 @@ class SeoAnalysis extends React.Component {
 				openButton: "wpseo-multiple-keywords button-link",
 			},
 			labels: {
-				open: "+ " + __( "Add additional keyphrase", "wordpress-seo" ),
+				open: "+ " + __( "Add related keyphrase", "wordpress-seo" ),
 				a11yNotice: {
 					opensInNewTab: __( "(Opens in a new browser tab!)", "wordpress-seo" ),
 				},
@@ -170,7 +171,7 @@ class SeoAnalysis extends React.Component {
 			<Modal { ...modalProps }>
 				<StyledContainer>
 					<StyledIcon icon={ YoastSeoIcon } />
-					<h2>{ __( "Would you like to add another keyphrase?", "wordpress-seo" ) }</h2>
+					<h2>{ __( "Would you like to add a related keyphrase?", "wordpress-seo" ) }</h2>
 					<MultipleKeywords
 						link={ link }
 						buyLink={ buyLink }
@@ -201,7 +202,7 @@ class SeoAnalysis extends React.Component {
 			<Collapsible
 				prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 				prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
-				title={ __( "Add additional keyphrase", "wordpress-seo" ) }
+				title={ __( "Add related keyphrase", "wordpress-seo" ) }
 			>
 				<MultipleKeywords
 					link={ link }
@@ -214,7 +215,7 @@ class SeoAnalysis extends React.Component {
 	/**
 	 * Renders a help link.
 	 *
-	 * @returns {ReactElement} The Label component.
+	 * @returns {ReactElement} The help link component.
 	 */
 	renderHelpLink() {
 		return (
@@ -228,6 +229,20 @@ class SeoAnalysis extends React.Component {
 				</span>
 			</FocusKeywordLink>
 		);
+	}
+
+	/**
+	 * Renders the AnalysisUpsell component.
+	 *
+	 * @returns {ReactElement} The AnalysisUpsell component.
+	 */
+	renderWordFormsUpsell() {
+		return <AnalysisUpsell
+			url={ this.props.location === "sidebar"
+				? "https://yoa.st/morphology-upsell-sidebar"
+				: "https://yoa.st/morphology-upsell-metabox" }
+			alignment={ this.props.location === "sidebar" ? "vertical" : "horizontal" }
+		/>;
 	}
 
 	/**
@@ -260,8 +275,11 @@ class SeoAnalysis extends React.Component {
 						labelSiblingElement={ this.renderHelpLink() }
 					/>
 					<Slot name="YoastSynonyms" />
-					{ this.props.shouldUpsell && this.renderSynonymsUpsell(	this.props.location	) }
-					{ this.props.shouldUpsell && this.renderMultipleKeywordsUpsell( this.props.location ) }
+					{ this.props.shouldUpsell && <React.Fragment>
+						{ this.renderSynonymsUpsell( this.props.location ) }
+						{ this.renderMultipleKeywordsUpsell( this.props.location ) }
+						{ this.renderWordFormsUpsell() }
+					</React.Fragment> }
 					<AnalysisHeader>
 						{ __( "Analysis results", "wordpress-seo" ) }
 					</AnalysisHeader>
@@ -284,7 +302,7 @@ SeoAnalysis.propTypes = {
 	hideMarksButtons: PropTypes.bool,
 	keyword: PropTypes.string,
 	onFocusKeywordChange: PropTypes.func,
-	shouldUpsell:	PropTypes.bool,
+	shouldUpsell: PropTypes.bool,
 	overallScore: PropTypes.number,
 	location: PropTypes.string,
 };
