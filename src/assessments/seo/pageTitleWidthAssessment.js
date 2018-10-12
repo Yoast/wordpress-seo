@@ -105,7 +105,7 @@ class PageTitleWidthAssesment extends Assessment {
 				i18n.dgettext(
 					"js-text-analysis",
 					"%1$sSEO title width%3$s: The SEO title is too short. " +
-					"%2$sUse the space to add keyword variations or create compelling call-to-action copy%3$s."
+					"%2$sUse the space to add keyphrase variations or create compelling call-to-action copy%3$s."
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,

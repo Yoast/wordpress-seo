@@ -40,7 +40,7 @@ describe( "the metadescription keyword assessment", function() {
 		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherThreeMatches, i18n );
 
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: The meta description contains the focus keyword 3 times, which is over the advised maximum of 2 times. <a href='https://yoa.st/33l' target='_blank'>Limit that</a>!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: The meta description contains the focus keyphrase 3 times, which is over the advised maximum of 2 times. <a href='https://yoa.st/33l' target='_blank'>Limit that</a>!" );
 	} );
 
 	it( "returns an okay result when the meta description contains the keyword one time, but not in the same sentence", function() {

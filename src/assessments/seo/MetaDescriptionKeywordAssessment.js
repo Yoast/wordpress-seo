@@ -99,7 +99,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 					 */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sKeyphrase in meta description%2$s: The meta description contains the focus keyword %3$s times, " +
+						"%1$sKeyphrase in meta description%2$s: The meta description contains the focus keyphrase %3$s times, " +
 						"which is over the advised maximum of 2 times. %4$sLimit that%5$s!",
 					),
 					this._config.urlTitle,
