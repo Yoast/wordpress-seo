@@ -81,8 +81,8 @@ class KeyphraseLengthAssessment extends Assessment {
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. " +
-						"%2$sSet a focus keyphrase in order to calculate your SEO score%3$s."
+						"%1$sKeyphrase length%3$s: No keyphrase was set for this page. " +
+						"%2$sSet a keyphrase in order to calculate your SEO score%3$s."
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,

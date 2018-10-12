@@ -8,7 +8,7 @@ import Mark from "../../values/Mark";
 import addMark from "../../markers/addMark";
 
 /**
- * Assessment to check whether you're linking to a different page with the focus keyword from this page.
+ * Assessment to check whether you're linking to a different page with the keyword from this page.
  */
 class TextCompetingLinksAssessment extends Assessment {
 	/**
@@ -93,7 +93,7 @@ class TextCompetingLinksAssessment extends Assessment {
 					/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sLink focus keyphrase%3$s: " +
+						"%1$sLink keyphrase%3$s: " +
 						"You're linking to another page with the words you want this page to rank for. " +
 						"%2$sDon't do that%3$s!"
 					),
