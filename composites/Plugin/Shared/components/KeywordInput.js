@@ -25,6 +25,10 @@ const KeywordInputContainer = styled.div`
 const KeywordFieldLabel = styled.label`
 	font-size: 1em;
 	font-weight: bold;
+	margin-right: 4px;
+`;
+
+const KeywordFieldLabelContainer = styled.span`
 	margin-bottom: 0.5em;
 `;
 
@@ -157,13 +161,29 @@ class KeywordInput extends React.Component {
 		this.props.onChange( event.target.value );
 	}
 
+	renderLabel() {
+		const {
+			id,
+			label,
+			postLabelElement
+		} = this.props;
+		return (
+			<KeywordFieldLabelContainer>
+				<KeywordFieldLabel htmlFor={ id }>
+					{ label }
+				</KeywordFieldLabel>
+				{ postLabelElement }
+			</KeywordFieldLabelContainer>
+		);
+	}
+
 	/**
 	 * Renders an input field, a label, and if the condition is met, an error message.
 	 *
 	 * @returns {ReactElement} The KeywordField react component including its label and eventual error message.
 	 */
 	render() {
-		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword } = this.props;
+		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword, postLabelElement } = this.props;
 		const showErrorMessage = this.checkKeywordInput( keyword );
 
 		// The aria label should not be shown if there is a visible label.
@@ -173,14 +193,12 @@ class KeywordInput extends React.Component {
 
 		return (
 			<KeywordInputContainer>
-				{ showLabel && <KeywordFieldLabel htmlFor={ id }>
-					{ this.props.label }
-				</KeywordFieldLabel> }
+				{ showLabel && this.renderLabel() }
 				<YoastInputButtonContainer
 					className={ showRemoveKeywordButton ? "has-remove-keyword-button" : null }
 				>
 					<KeywordField
-						aria-label={ showAriaLabel ? this.props.ariaLabel : null }
+						aria-label={ showAriaLabel ? this.props.label : null }
 						type="text"
 						id={ id }
 						className={ showErrorMessage ? "has-error" : null }
@@ -211,8 +229,8 @@ KeywordInput.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onRemoveKeyword: PropTypes.func,
 	onBlurKeyword: PropTypes.func,
-	label: PropTypes.node.isRequired,
-	ariaLabel: PropTypes.string.isRequired,
+	label: PropTypes.string.isRequired,
+	postLabelElement: PropTypes.node,
 };
 
 KeywordInput.defaultProps = {
@@ -221,6 +239,7 @@ KeywordInput.defaultProps = {
 	keyword: "",
 	onRemoveKeyword: noop,
 	onBlurKeyword: noop,
+	postLabelElement: null,
 };
 
 export default KeywordInput;
