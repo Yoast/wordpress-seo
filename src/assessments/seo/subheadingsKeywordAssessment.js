@@ -111,11 +111,12 @@ class SubHeadingsKeywordAssessment extends Assessment {
 					 */
 					i18n.dngettext(
 						"js-text-analysis",
-						"%1$sKeyphrase in subheading%2$s: %3$s of your subheadings reflect the topic of your copy. Good job!"
+						"%1$sKeyphrase in subheading%2$s: %3$s (out of %4$s) subheadings reflect the topic of your copy. Good job!"
 					),
 					this._config.urlTitle,
 					"</a>",
 					this._subHeadings.matches,
+					this._subHeadings.count,
 				),
 			};
 		}
@@ -129,7 +130,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 				 */
 				i18n.dngettext(
 					"js-text-analysis",
-					"%1$sKeyphrase in subheading%2$s: %3$sUse more keywords or synonyms in your subheadings%4$s!"
+					"%1$sKeyphrase in subheading%2$s: %3$sUse more keyphrases or synonyms in your subheadings%4$s!"
 				),
 				this._config.urlTitle,
 				"</a>",
