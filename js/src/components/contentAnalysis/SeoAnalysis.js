@@ -1,11 +1,11 @@
 /* globals wpseoAdminL10n */
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import { getRtlStyle, HelpText } from "yoast-components";
+import { getRtlStyle } from "yoast-components";
 import Collapsible from "../SidebarCollapsible";
 import { KeywordInput, colors } from "yoast-components";
 import Results from "./Results";
@@ -196,10 +196,16 @@ class SeoAnalysis extends React.Component {
 		);
 	}
 
-	renderLabel( label ) {
+	/**
+	 * Renders a label with a label text and a help link.
+	 *
+	 * @param {string} labelText The label text.
+	 * @returns {ReactElement} The Label component.
+	 */
+	renderLabel( labelText ) {
 		return (
 			<Fragment>
-				{ label + " " }
+				{ labelText + " " }
 				[<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } rel={ null }>
 					{ "?" }
 				</FocusKeywordLink>]
@@ -220,7 +226,7 @@ class SeoAnalysis extends React.Component {
 			score.screenReaderReadabilityText = __( "Enter a focus keyphrase to calculate the SEO score", "wordpress-seo" );
 		}
 
-		const label = __( "Focus keyphrase", "wordpress-seo" )
+		const label = __( "Focus keyphrase", "wordpress-seo" );
 
 		return (
 			<React.Fragment>
