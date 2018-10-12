@@ -190,16 +190,22 @@ class WPSEO_Sitemaps_Cache {
 	 * Invalidate sitemap cache for authors.
 	 *
 	 * @param int $user_id User ID.
+	 *
+	 * @return void
 	 */
 	public static function invalidate_author( $user_id ) {
 
 		$user = get_user_by( 'id', $user_id );
 
+		if ( $user === false ) {
+			return;
+		}
+
 		if ( 'user_register' === current_action() ) {
 			update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
 		}
 
-		if ( ! in_array( 'subscriber', $user->roles, true ) ) {
+		if ( ! empty( $user->roles ) && ! in_array( 'subscriber', $user->roles, true ) ) {
 			self::invalidate( 'author' );
 		}
 	}
