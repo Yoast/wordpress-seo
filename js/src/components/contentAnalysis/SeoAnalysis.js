@@ -197,16 +197,13 @@ class SeoAnalysis extends React.Component {
 	}
 
 	/**
-	 * Renders a label with a label text and a help link.
-	 *
-	 * @param {string} labelText The label text.
+	 * Renders a help link.
 	 *
 	 * @returns {ReactElement} The Label component.
 	 */
-	renderLabel( labelText ) {
+	renderHelpLink() {
 		return (
 			<Fragment>
-				{ labelText + " " }
 				[<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } rel={ null }>
 					{ "?" }
 				</FocusKeywordLink>]
@@ -227,8 +224,6 @@ class SeoAnalysis extends React.Component {
 			score.screenReaderReadabilityText = __( "Enter a focus keyphrase to calculate the SEO score", "wordpress-seo" );
 		}
 
-		const label = __( "Focus keyphrase", "wordpress-seo" );
-
 		return (
 			<React.Fragment>
 				<Collapsible
@@ -242,8 +237,8 @@ class SeoAnalysis extends React.Component {
 						id="focus-keyword-input"
 						onChange={ this.props.onFocusKeywordChange }
 						keyword={ this.props.keyword }
-						label={ this.renderLabel( label ) }
-						ariaLabel={ label }
+						label={ __( "Focus keyphrase", "wordpress-seo" ) }
+						postLabelElement={ this.renderHelpLink() }
 					/>
 					<Slot name="YoastSynonyms" />
 					{ this.props.shouldUpsell && this.renderSynonymsUpsell(	this.props.location	) }
