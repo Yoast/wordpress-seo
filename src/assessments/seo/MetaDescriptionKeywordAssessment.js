@@ -78,7 +78,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sKey phrase in meta description%2$s: Focus key phrase or synonym appear in the meta description. Well done!",
+						"%1$sKeyphrase in meta description%2$s: Focus keyphrase or synonym appear in the meta description. Well done!",
 					),
 					this._config.urlTitle,
 					"</a>"
@@ -94,12 +94,12 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 					/**
 					 * Translators:
 					 * %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
-					 * %3$s expands to the number of sentences containing the key phrase,
+					 * %3$s expands to the number of sentences containing the keyphrase,
 					 * %4$s expands to a link on yoast.com, %5$s expands to the anchor end tag.
 					 */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sKey phrase in meta description%2$s: The meta description contains the focus keyword %3$s times, " +
+						"%1$sKeyphrase in meta description%2$s: The meta description contains the focus keyword %3$s times, " +
 						"which is over the advised maximum of 2 times. %4$sLimit that%5$s!",
 					),
 					this._config.urlTitle,
@@ -123,7 +123,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 					 */
 					i18n.dngettext(
 						"js-text-analysis",
-						"%1$sKey phrase in meta description%2$s: All words of focus key phrase or synonym " +
+						"%1$sKeyphrase in meta description%2$s: All words of focus keyphrase or synonym " +
 						"appear in the meta description, but not within one sentence. " +
 						"%3$sTry to use them in one sentence%4$s."
 					),
@@ -136,7 +136,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 			};
 		}
 
-		// BAD if the key phrases is not contained in the meta description.
+		// BAD if the keyphrases is not contained in the meta description.
 		return {
 			score: this._config.scores.bad,
 			resultText: i18n.sprintf(
@@ -147,8 +147,8 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 				 */
 				i18n.dgettext(
 					"js-text-analysis",
-					"%1$sKey phrase in meta description%2$s: The meta description has been specified, " +
-					"but it does not contain the focus key phrase. %3$sFix that%4$s!"
+					"%1$sKeyphrase in meta description%2$s: The meta description has been specified, " +
+					"but it does not contain the focus keyphrase. %3$sFix that%4$s!"
 				),
 				this._config.urlTitle,
 				"</a>",
