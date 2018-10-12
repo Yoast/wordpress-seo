@@ -3,8 +3,6 @@ import { merge } from "lodash-es";
 import Assessment from "../../assessment";
 import AssessmentResult from "../../values/AssessmentResult";
 import countWords from "../../stringProcessing/countWords";
-import Mark from "../../values/Mark";
-import addMark from "../../markers/addMark";
 
 /**
  * Returns a score based on the largest percentage of text in
@@ -67,7 +65,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		assessmentResult.setHasMarks( calculatedResult.score > 0 && calculatedResult.score < 9 );
+		assessmentResult.setHasMarks( this._keyphraseDistribution.sentencesToHighlight.length > 0 );
 
 		return assessmentResult;
 	}
@@ -158,9 +156,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @returns {Array} All markers for the current text.
 	 */
 	getMarks() {
-		return this._keyphraseDistribution.sentencesToHighlight.map( function( sentence ) {
-			return new Mark( { original: sentence, marked: addMark( sentence ) } );
-		} );
+		return this._keyphraseDistribution.sentencesToHighlight;
 	}
 
 	/**
