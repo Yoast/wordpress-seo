@@ -5,14 +5,12 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import { getRtlStyle } from "yoast-components";
+import { getRtlStyle, KeywordInput, colors, utils } from "yoast-components";
 import Collapsible from "../SidebarCollapsible";
-import { KeywordInput, colors } from "yoast-components";
 import Results from "./Results";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
-import { utils } from "yoast-components";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
 import Modal from "../modals/Modal";
 import MultipleKeywords from "../modals/MultipleKeywords";
@@ -27,6 +25,16 @@ const AnalysisHeader = styled.span`
 `;
 
 const FocusKeywordLink = utils.makeOutboundLink( styled.a`
+	display: inline-block;
+	vertical-align: middle;
+	text-decoration: none;
+	padding: 2px;
+	margin: -2px 0;
+
+	&:hover,
+	&:focus {
+		text-decoration: underline;
+	}
 ` );
 
 const StyledContainer = styled.div`
@@ -203,11 +211,12 @@ class SeoAnalysis extends React.Component {
 	 */
 	renderHelpLink() {
 		return (
-			<Fragment>
-				[<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } rel={ null }>
-					{ "?" }
-				</FocusKeywordLink>]
-			</Fragment>
+			<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } rel={ null }>
+				<span className="screen-reader-text">
+					{ __( "Help on choosing the perfect focus keyphrase", "wordpress-seo" ) }
+				</span>
+				<span aria-hidden="true">{ "[?]" }</span>
+			</FocusKeywordLink>
 		);
 	}
 
@@ -225,7 +234,7 @@ class SeoAnalysis extends React.Component {
 		}
 
 		return (
-			<React.Fragment>
+			<Fragment>
 				<Collapsible
 					title={ __( "Focus keyphrase", "wordpress-seo" ) }
 					titleScreenReaderText={ score.screenReaderReadabilityText }
@@ -238,7 +247,7 @@ class SeoAnalysis extends React.Component {
 						onChange={ this.props.onFocusKeywordChange }
 						keyword={ this.props.keyword }
 						label={ __( "Focus keyphrase", "wordpress-seo" ) }
-						postLabelElement={ this.renderHelpLink() }
+						labelSiblingElement={ this.renderHelpLink() }
 					/>
 					<Slot name="YoastSynonyms" />
 					{ this.props.shouldUpsell && this.renderSynonymsUpsell(	this.props.location	) }
@@ -254,7 +263,7 @@ class SeoAnalysis extends React.Component {
 					/>
 				</Collapsible>
 				{ this.props.shouldUpsell && this.renderKeywordUpsell( this.props.location ) }
-			</React.Fragment>
+			</Fragment>
 		);
 	}
 }
