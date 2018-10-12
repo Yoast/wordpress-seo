@@ -16,6 +16,8 @@ import { default as LanguageNotice } from "./composites/Plugin/Shared/components
 import { YoastButton } from "./composites/Plugin/Shared/components/YoastButton";
 import { default as YoastModal } from "./composites/Plugin/Shared/components/YoastModal";
 import { default as SvgIcon } from "./composites/Plugin/Shared/components/SvgIcon";
+import { UpsellButton } from "./composites/Plugin/Shared/components/UpsellButton";
+import { UpsellLinkButton } from "./composites/Plugin/Shared/components/UpsellLinkButton";
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import { default as HelpCenter } from "./composites/Plugin/HelpCenter/HelpCenter.js";
 import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
@@ -46,6 +48,8 @@ export {
 	Loader,
 	CornerstoneToggle,
 	sendRequest,
+	UpsellButton,
+	UpsellLinkButton,
 };
 
 export { default as HelpText } from "./composites/Plugin/Shared/components/HelpText";

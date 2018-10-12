@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { UpsellButton } from "../composites/Plugin/Shared/components/UpsellButton";
+import { UpsellLinkButton } from "../composites/Plugin/Shared/components/UpsellLinkButton";
 import { YoastButton } from "../composites/Plugin/Shared/components/YoastButton";
 import { YoastLinkButton } from "../composites/Plugin/Shared/components/YoastLinkButton";
 import { BaseButton, Button, IconButton, IconsButton } from "../composites/Plugin/Shared/components/Button";
@@ -88,7 +89,8 @@ export default class ButtonsList extends React.Component {
 				/> (IconButtonToggle: needs a tooltip to make its aria-label visible)
 				<Separator />
 				<YoastButton>YoastButton</YoastButton>{ ' ' }
-				<UpsellButton>upsell Button</UpsellButton>
+				<UpsellButton>Upsell Button</UpsellButton>{ ' ' }
+				<UpsellLinkButton href="http://example.org">Upsell Link Button</UpsellLinkButton>
 
 				<Separator />
 				<IconLabelledButton icon="question-circle">Need help?</IconLabelledButton>
