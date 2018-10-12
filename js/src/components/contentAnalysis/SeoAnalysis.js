@@ -200,6 +200,7 @@ class SeoAnalysis extends React.Component {
 	 * Renders a label with a label text and a help link.
 	 *
 	 * @param {string} labelText The label text.
+	 *
 	 * @returns {ReactElement} The Label component.
 	 */
 	renderLabel( labelText ) {
