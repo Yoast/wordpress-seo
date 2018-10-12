@@ -25,7 +25,7 @@ const KeywordInputContainer = styled.div`
 const KeywordFieldLabel = styled.label`
 	font-size: 1em;
 	font-weight: bold;
-	margin-right: 4px;
+	${ getRtlStyle( "margin-right: 4px", "margin-left: 4px" ) };
 `;
 
 const KeywordFieldLabelContainer = styled.span`
@@ -173,14 +173,14 @@ class KeywordInput extends React.Component {
 		const {
 			id,
 			label,
-			postLabelElement,
+			labelSiblingElement,
 		} = this.props;
 		return (
 			<KeywordFieldLabelContainer>
 				<KeywordFieldLabel htmlFor={ id }>
 					{ label }
 				</KeywordFieldLabel>
-				{ postLabelElement }
+				{ labelSiblingElement }
 			</KeywordFieldLabelContainer>
 		);
 	}
@@ -238,7 +238,7 @@ KeywordInput.propTypes = {
 	onRemoveKeyword: PropTypes.func,
 	onBlurKeyword: PropTypes.func,
 	label: PropTypes.string.isRequired,
-	postLabelElement: PropTypes.node,
+	labelSiblingElement: PropTypes.node,
 };
 
 KeywordInput.defaultProps = {
@@ -247,7 +247,7 @@ KeywordInput.defaultProps = {
 	keyword: "",
 	onRemoveKeyword: noop,
 	onBlurKeyword: noop,
-	postLabelElement: null,
+	labelSiblingElement: null,
 };
 
 export default KeywordInput;
