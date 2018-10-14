@@ -35,9 +35,14 @@ class WPSEO_Link_Table_Accessible_Notifier {
 		return new Yoast_Notification(
 			sprintf(
 				/* translators: %1$s: Yoast SEO. %2$s: Version number of Yoast SEO. */
-				__( 'The <strong>Text link counter</strong> feature (introduced in %1$s %2$s) is currently disabled. For this feature to work %1$s needs to create a table in your database. We were unable to create this table automatically.', 'wordpress-seo' ),
+				__( 'The <strong>Text link counter</strong> feature (introduced in %1$s %2$s) is currently disabled.', 'wordpress-seo' ),
 				'Yoast SEO',
 				'5.0'
+			) . ' ' .
+			sprintf(
+				/* translators: %1$s: Yoast SEO. */
+				__( 'For this feature to work %1$s needs to create a table in your database. We were unable to create this table automatically.', 'wordpress-seo' ),
+				'Yoast SEO'
 			) . '<br>' .
 			sprintf(
 				/* translators: %1$s: link to knowledge base article about solving table issue. %2$s: is anchor closing. */

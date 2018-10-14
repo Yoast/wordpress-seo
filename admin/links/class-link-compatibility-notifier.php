@@ -34,10 +34,16 @@ class WPSEO_Link_Compatibility_Notifier {
 	protected function get_notification() {
 		return new Yoast_Notification(
 			sprintf(
-				/* translators: %1$s: Yoast SEO. %2$s: Version number of Yoast SEO. %3$s: PHP version %4$s: The current PHP version. */
-				__( 'The <strong>Text link counter</strong> feature (introduced in %1$s %2$s) is currently disabled. For this feature to work %1$s requires at least PHP version %3$s. We have detected PHP version %4$s on this website.', 'wordpress-seo' ),
+				/* translators: %1$s: Yoast SEO. %2$s: Version number of Yoast SEO. */
+				__( 'The <strong>Text link counter</strong> feature (introduced in %1$s %2$s) is currently disabled.', 'wordpress-seo' ),
 				'Yoast SEO',
 				'5.0',
+				'5.3'
+			) . ' ' .
+			sprintf(
+				/* translators: %1$s: Yoast SEO. %2$s: PHP version %3$s: The current PHP version. */
+				__( 'For this feature to work %1$s requires at least PHP version %2$s. We have detected PHP version %3$s on this website.', 'wordpress-seo' ),
+				'Yoast SEO',
 				'5.3',
 				phpversion()
 			) . '<br>' .
