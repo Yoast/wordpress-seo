@@ -45,5 +45,5 @@ if ( is_array( $wpseo_taxonomies ) && $wpseo_taxonomies !== array() ) {
 
 unset( $wpseo_taxonomies );
 
-printf( '<h2>%s</h2>', esc_html__( ' Category URLs', 'wordpress-seo' ) );
+printf( '<h2>%s</h2>', esc_html__( 'Category URLs', 'wordpress-seo' ) );
 require dirname( __FILE__ ) . '/taxonomies/category-url.php';
