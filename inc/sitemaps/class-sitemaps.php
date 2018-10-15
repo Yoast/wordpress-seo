@@ -419,7 +419,7 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Makes a request for the sitemap index so as to cache it before the arrival of the search engines.
+	 * Makes a request to the sitemap index so as to cache it before the arrival of the search engines.
 	 *
 	 * @return void
 	 */
