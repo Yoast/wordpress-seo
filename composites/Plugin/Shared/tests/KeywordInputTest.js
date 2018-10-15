@@ -15,6 +15,7 @@ describe( KeywordInput, () => {
 				onChange={ () => {} }
 				onRemoveKeyword={ () => {} }
 				label="test label"
+				ariaLabel="test"
 			/>
 		);
 
@@ -31,6 +32,7 @@ describe( KeywordInput, () => {
 				} }
 				onRemoveKeyword={ () => {} }
 				label="test label"
+				ariaLabel="test"
 			/>
 		);
 		wrapper.find( "input" ).simulate( "change", {
@@ -50,6 +52,7 @@ describe( KeywordInput, () => {
 				} }
 				onRemoveKeyword={ () => {} }
 				label="test label"
+				ariaLabel="test"
 			/>
 		);
 		wrapper.find( "input" ).simulate( "change", {
@@ -69,6 +72,7 @@ describe( KeywordInput, () => {
 				} }
 				onRemoveKeyword={ () => {} }
 				label="test label"
+				ariaLabel="test"
 			/>
 		);
 		wrapper.find( "input" ).simulate( "change", {

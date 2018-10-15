@@ -19,12 +19,16 @@ const greyColor = colors.$color_grey_text_light;
 const KeywordInputContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	margin: 1em 0;
+	margin: 0 0 1em;
 `;
 
 const KeywordFieldLabel = styled.label`
 	font-size: 1em;
 	font-weight: bold;
+	${ getRtlStyle( "margin-right: 4px", "margin-left: 4px" ) };
+`;
+
+const KeywordFieldLabelContainer = styled.span`
 	margin-bottom: 0.5em;
 `;
 
@@ -98,6 +102,9 @@ export const YoastInputButtonContainer = styled.div`
 	}
 `;
 
+/**
+ * An input component for the keyphrase.
+ */
 class KeywordInput extends React.Component {
 	/**
 	 * Constructs a KeywordInput component.
@@ -158,6 +165,27 @@ class KeywordInput extends React.Component {
 	}
 
 	/**
+	 * Renders the input's label.
+	 *
+	 * @returns {ReactElement} The input label.
+	 */
+	renderLabel() {
+		const {
+			id,
+			label,
+			labelSiblingElement,
+		} = this.props;
+		return (
+			<KeywordFieldLabelContainer>
+				<KeywordFieldLabel htmlFor={ id }>
+					{ label }
+				</KeywordFieldLabel>
+				{ labelSiblingElement }
+			</KeywordFieldLabelContainer>
+		);
+	}
+
+	/**
 	 * Renders an input field, a label, and if the condition is met, an error message.
 	 *
 	 * @returns {ReactElement} The KeywordField react component including its label and eventual error message.
@@ -166,8 +194,6 @@ class KeywordInput extends React.Component {
 		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword } = this.props;
 		const showErrorMessage = this.checkKeywordInput( keyword );
 
-		const label = __( "Focus keyphrase:", "yoast-components" );
-
 		// The aria label should not be shown if there is a visible label.
 		const showAriaLabel = ! showLabel;
 
@@ -175,14 +201,12 @@ class KeywordInput extends React.Component {
 
 		return (
 			<KeywordInputContainer>
-				{ showLabel && <KeywordFieldLabel htmlFor={ id }>
-					{ label }
-				</KeywordFieldLabel> }
+				{ showLabel && this.renderLabel() }
 				<YoastInputButtonContainer
 					className={ showRemoveKeywordButton ? "has-remove-keyword-button" : null }
 				>
 					<KeywordField
-						aria-label={ showAriaLabel ? label : null }
+						aria-label={ showAriaLabel ? this.props.label : null }
 						type="text"
 						id={ id }
 						className={ showErrorMessage ? "has-error" : null }
@@ -213,6 +237,8 @@ KeywordInput.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onRemoveKeyword: PropTypes.func,
 	onBlurKeyword: PropTypes.func,
+	label: PropTypes.string.isRequired,
+	labelSiblingElement: PropTypes.node,
 };
 
 KeywordInput.defaultProps = {
@@ -221,6 +247,7 @@ KeywordInput.defaultProps = {
 	keyword: "",
 	onRemoveKeyword: noop,
 	onBlurKeyword: noop,
+	labelSiblingElement: null,
 };
 
 export default KeywordInput;
