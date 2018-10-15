@@ -17,9 +17,50 @@ function sortResults( assessmentResults ) {
 			return 1;
 		}
 
-		// If there is no difference then compare the identifier.
-		return a._identifier.localeCompare( b._identifier );
+		// If there is no difference then compare the id.
+		return a.id.localeCompare( b.id );
 	} );
+}
+
+/**
+ * Maps a single results to a result that can be interpreted by the AnalysisList component.
+ *
+ * @param {object} result Result provided by the worker.
+ *
+ * @returns {Object} The mapped result.
+ */
+function mapResult( result ) {
+	result.id = result.getIdentifier();
+	result.rating = scoreToRating( result.score );
+	result.hasMarks = result.hasMarks();
+	result.marker = result.getMarker();
+
+	// Because of inconsistency between YoastSEO and yoast-components.
+	if ( result.rating === "ok" ) {
+		result.rating = "OK";
+	}
+
+	return result;
+}
+
+/**
+ * Maps results to a results that can be interpreted by the AnalysisList component.
+ *
+ * @param {object} results Results provided by the worker.
+ *
+ * @returns {Array} The mapped results.
+ */
+function mapResults( results ) {
+	const mappedResults = [];
+
+	for ( let i = 0; i < results.length; i++ ) {
+		if ( ! results[ i ].text ) {
+			continue;
+		}
+		mappedResults.push( mapResult( results[ i ] ) );
+	}
+
+	return sortResults( mappedResults );
 }
 
 /**
@@ -31,23 +72,11 @@ function sortResults( assessmentResults ) {
  */
 export default function formatAnalyzeResults( analyzeResults ) {
 	if ( analyzeResults.seo ) {
-		analyzeResults.seo[ "" ].results.forEach( result => {
-			result.id = result._identifier;
-			result.hasMarks = result.marks.length > 0;
-			result.rating = scoreToRating( result.score );
-		} );
-
-		analyzeResults.seo[ "" ].results = sortResults( analyzeResults.seo[ "" ].results );
+		analyzeResults.seo[ "" ].results = mapResults( analyzeResults.seo[ "" ].results );
 	}
 
 	if ( analyzeResults.readability ) {
-		analyzeResults.readability.results.forEach( result => {
-			result.id = result._identifier;
-			result.hasMarks = result.marks.length > 0;
-			result.rating = scoreToRating( result.score );
-		} );
-
-		analyzeResults.readability.results = sortResults( analyzeResults.readability.results );
+		analyzeResults.readability.results = mapResults( analyzeResults.readability.results );
 	}
 
 	return analyzeResults;
