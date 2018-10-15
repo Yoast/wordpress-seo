@@ -82,6 +82,7 @@ class KeywordDensityAssessment extends Assessment {
 		 * since multiple keyword forms can be matched.
 		 */
 		this._hasMorphologyData = researcher.getData( "morphology" ) !== false;
+		this._locale = paper.getLocale();
 
 		const calculatedScore = this.calculateResult( i18n );
 		assessmentResult.setScore( calculatedScore.score );
@@ -110,7 +111,7 @@ class KeywordDensityAssessment extends Assessment {
 	 *                    0 and the recommended minimum.
 	 */
 	hasTooFewMatches() {
-		if( this._hasMorphologyData ) {
+		if( this._hasMorphologyData && this._locale === "en_US" ) {
 			return inRangeStartInclusive(
 				this._keywordDensity,
 				0,
@@ -134,7 +135,7 @@ class KeywordDensityAssessment extends Assessment {
 	 *                    the recommended minimum and the recommended maximum.
 	 */
 	hasGoodNumberOfMatches() {
-		if( this._hasMorphologyData ) {
+		if( this._hasMorphologyData && this._locale === "en_US" ) {
 			return inRangeStartEndInclusive(
 				this._keywordDensity,
 				this._config.parameters.multipleWordForms.minimum,
@@ -160,7 +161,7 @@ class KeywordDensityAssessment extends Assessment {
 	 *                    value.
 	 */
 	hasTooManyMatches() {
-		if( this._hasMorphologyData ) {
+		if( this._hasMorphologyData && this._locale === "en_US" ) {
 			return inRangeEndInclusive(
 				this._keywordDensity,
 				this._config.parameters.multipleWordForms.maximum,
