@@ -427,7 +427,7 @@ class WPSEO_Sitemaps {
 		if ( ! $this->cache->is_enabled() ) {
 			return;
 		}
-		
+
 		wp_remote_get( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
 	}
 
