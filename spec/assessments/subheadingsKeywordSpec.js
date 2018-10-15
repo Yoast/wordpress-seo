@@ -6,7 +6,7 @@ const i18n = Factory.buildJed();
 let matchKeywordAssessment = new SubheadingsKeywordAssessment();
 
 describe( "An assessment for matching keywords in subheadings", function() {
-	it( "returns a bad score and appropriate feedback when none of the subheadings contain the keyword", function() {
+	it( "returns an okay score and appropriate feedback when none of the subheadings contain the keyphrase", function() {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
@@ -14,14 +14,13 @@ describe( "An assessment for matching keywords in subheadings", function() {
 			i18n
 		);
 
-		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>" +
-			"Use more keywords or synonyms in your subheadings</a>!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your subheadings</a>!"
 		);
 	} );
 
-	it( "returns a bad score and appropriate feedback when there are too few subheadings containing the keyword", function() {
+	it( "returns a good score and appropriate feedback when one subheading containing the keyphrase.", function() {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
@@ -29,14 +28,13 @@ describe( "An assessment for matching keywords in subheadings", function() {
 			i18n
 		);
 
-		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>" +
-			"Use more keywords or synonyms in your subheadings</a>!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: Your subheading reflects the topic of your copy. Good job!"
 		);
 	} );
 
-	it( "returns a good score and appropriate feedback when there is a sufficient number of subheadings containing the keyword", function() {
+	it( "returns a good score and appropriate feedback when more than one subheading contains the keyphrase.", function() {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
@@ -46,39 +44,7 @@ describe( "An assessment for matching keywords in subheadings", function() {
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: " +
-			"50% of your subheadings reflect the topic of your copy. Good job!" );
-	} );
-
-	it( "returns a good score and appropriate feedback when there is only one subheading and that subheading contains the keyword", function() {
-		const mockPaper = new Paper();
-		const assessment = matchKeywordAssessment.getResult(
-			mockPaper,
-			Factory.buildMockResearcher( { count: 1, matches: 1, percentReflectingTopic: 100 } ),
-			i18n
-		);
-
-		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: " +
-			"Your subheading reflects the topic of your copy. Good job!"
-		);
-	} );
-
-	it( "returns a bad score and appropriate feedback when there are too many subheadings containing the keyword", function() {
-		const mockPaper = new Paper();
-		const assessment = matchKeywordAssessment.getResult(
-			mockPaper,
-			Factory.buildMockResearcher( { count: 4, matches: 4, percentReflectingTopic: 100 } ),
-			i18n
-		);
-
-		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: " +
-			"More than 75% of your subheadings reflect the topic of your copy. That's too much. " +
-			"<a href='https://yoa.st/33n' target='_blank'>Don't over-optimize</a>!"
-		);
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 2 (out of 4) subheadings reflect the topic of your copy. Good job!" );
 	} );
 
 	it( "checks isApplicable for a paper without text", function() {

@@ -74,7 +74,7 @@ const expectedResults = {
 	},
 	subheadingsKeyword: {
 		score: 9,
-		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 50% of your subheadings reflect the topic of your copy. Good job!",
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 2 (out of 4) subheadings reflect the topic of your copy. Good job!",
 	},
 	textCompetingLinks: {
 		score: 0,
