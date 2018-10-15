@@ -45,7 +45,7 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 			},
 			getData: function() {
 				return hasMorphologyData;
-			}
+			},
 		};
 	}
 	return {
@@ -54,7 +54,7 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 		},
 		getData: function() {
 			return hasMorphologyData;
-		}
+		},
 	};
 };
 

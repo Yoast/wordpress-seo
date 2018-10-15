@@ -92,7 +92,7 @@ describe( "A test for marking the keyword", function() {
 
 describe( "An assessment for keywordDensity when morphology data is available.", function() {
 
-	it("gives a GOOD result when keyword density is 3.0%", function() {
+	it( "gives a GOOD result when keyword density is 3.0%", function() {
 		const paper = new Paper( "string with the keyword  and keyword ", { keyword: "keyword" } );
 		const result = new KeywordDensityAssessment().getResult( paper, factory.buildMockResearcher( {
 			getKeywordDensity: 3,
