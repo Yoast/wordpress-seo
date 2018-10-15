@@ -618,8 +618,10 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade90() {
+		// Invalidate all sitemap cache transients.
 		WPSEO_Sitemaps_Cache_Validator::invalidate_storage();
 
+		// Removes all schedules tasks for hitting the sitemap index.
 		wp_clear_scheduled_hook( 'wpseo_hit_sitemap_index' );
 	}
 
