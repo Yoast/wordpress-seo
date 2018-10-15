@@ -11,6 +11,34 @@
 class WPSEO_Shortlinker {
 
 	/**
+	 * Gets the URL-encoded query string.
+	 *
+	 * @return string The URL-encoded query string.
+	 */
+	public static function get_encoded_query() {
+		$shortlinker = new WPSEO_Shortlinker();
+
+		return build_query( $shortlinker->collect_additional_shortlink_data() );
+	}
+
+	/**
+	 * Collects the additional data necessary for the shortlink.
+	 *
+	 * @return array The shortlink data.
+	 */
+	protected function collect_additional_shortlink_data() {
+		return array(
+			'php_version'      => $this->get_php_version(),
+			'platform'         => 'wordpress',
+			'platform_version' => $GLOBALS['wp_version'],
+			'software'         => $this->get_software(),
+			'software_version' => WPSEO_VERSION,
+			'role'             => $this->get_filtered_user_role(),
+			'days_active'      => $this->get_days_active(),
+		);
+	}
+
+	/**
 	 * Builds a URL to use in the plugin as shortlink.
 	 *
 	 * @param string $url The URL to build upon.
@@ -18,18 +46,7 @@ class WPSEO_Shortlinker {
 	 * @return string The final URL.
 	 */
 	public function build_shortlink( $url ) {
-		return add_query_arg(
-			array(
-				'php_version'      => $this->get_php_version(),
-				'platform'         => 'wordpress',
-				'platform_version' => $GLOBALS['wp_version'],
-				'software'         => $this->get_software(),
-				'software_version' => WPSEO_VERSION,
-				'role'             => $this->get_filtered_user_role(),
-				'days_active'      => $this->get_days_active(),
-			),
-			$url
-		);
+		return add_query_arg( $this->collect_additional_shortlink_data(), $url );
 	}
 
 	/**
