@@ -618,6 +618,8 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade90() {
+		WPSEO_Sitemaps_Cache_Validator::invalidate_storage();
+
 		wp_clear_scheduled_hook( 'wpseo_hit_sitemap_index' );
 	}
 
