@@ -35,7 +35,7 @@ Yoast SEO does everything in its power to please both visitors and search engine
 * Content & SEO analysis: Invaluable tools to write SEO-friendly texts.
 * The snippet preview shows you how your post or page will look in the search results - even on mobile. Yoast SEO Premium even has social media previews!
 * **[Premium]** The Insights tool shows you what your text focuses on so you can keep your article in line with your keyphrases.
-* **[Premium]** Multiple focus keyphrases: Optimize your article for synonyms and related keyphrases.
+* **[Premium]** Synonyms & related keyphrases: Optimize your article for synonyms and related keyphrases.
 * **[Premium]** Automatic internal linking suggestions: write your article and get automatic suggested posts to link to.
 
 #### Keep your site in perfect shape
@@ -52,7 +52,7 @@ Yoast SEO does everything in its power to please both visitors and search engine
 
 The Yoast team does not always provide active support for the Yoast SEO plugin on the WordPress.org forums, as we prioritize our email support. One-on-one email support is available to people who [bought Yoast SEO Premium](https://yoa.st/1v8) only.
 
-Note that the [Yoast SEO Premium](https://yoa.st/1v8) also has several extra features too, including the option to have multiple focus keyphrases, internal linking suggestions, cornerstone content checks and a redirect manager, so it is well worth your investment!
+Note that the [Yoast SEO Premium](https://yoa.st/1v8) also has several extra features too, including the option to have synonyms and related keyphrases, internal linking suggestions, cornerstone content checks and a redirect manager, so it is well worth your investment!
 
 You should also check out the [Yoast Local SEO](https://yoa.st/1uu), [Yoast News SEO](https://yoa.st/1uv) and [Yoast Video SEO](https://yoa.st/1uw) extensions to Yoast SEO. They work with the free version of Yoast SEO already, and these premium extensions of course come with support too.
 
@@ -105,6 +105,43 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+
+= 9.0.0 =
+Release Date: October 23rd, 2018
+
+Bugfixes:
+
+* Fixes a bug when the keyword would not be found in the slug when containing punctuation, e.g. the keyphrase `apples & pears` in the slug `apples-pears`.
+* Fixes fatal error on Yoast settings pages that do not have a dedicated option class.
+* Fixes a bug where the buttons to change the How-to steps and FAQ questions order would be only partially visible in mobile view, by moving them at the bottom of the block. Also improves accessibility as the tab sequence is more logical.
+* Fixes a bug where a undefined index notice is given when an OG image url doesn't have a correct path. Props to [@Julian-B90](https://github.com/Julian-B90)
+
+Enhancements:
+
+* Introduces two new principles for keyword recognition:
+  * Makes keyphrase recognition flexible with regards to word order. This means that the keyphrase `SEO WordPress plugin` will be found in the sentence `This is the most popular SEO plugin for WordPress.` In order to use exact matches, the keyphrase can be enclosed in quotation marks.
+  * When matching keyphrases for the various assessments, the analysis only targets content words and ignores function words  (e.g., `the` or `and`). This functionality is available in English, German, Dutch, French, Spanish, Italian, Portuguese, Russian and Polish.
+* The analysis of the following assessments incorporates the new keyword recognition principles:
+  * Image alt attributes: checks whether there’s at least one image with an alt tag that contains words from the keyphrase. A full match isn’t required anymore.
+  * Keyphrase in introduction: checks words from the keyphrase or synonyms are matched within one sentence in the introduction or, if not, whether they are present in the first paragraph at all. A full match isn’t required anymore.
+  * Keyphrase in title: still checks whether an exact match of the keyphrase is found in the beginning of the title, but now also provides an okay score if only some words from the keyphrase are found in the title.
+  * Keyphrase length: has new boundaries to check whether the keyphrase is not too long.
+  * Keyphrase in meta description: checks whether all words from the keyphrase are matched within one sentence or, if not, whether they are present in the meta description at all.
+  * Keyphrase in subheading: instead of looking for a full match in one subheading, now checks whether 30-75% of all subheadings reflect the topic of the post. A subheading is considered to reflect the topic of the post if more than half of the words from the keyphrase are found in it.
+  * Keyphrase in slug: checks whether a sufficient number of words from the keyphrase is used in the slug. The number of words required depends on the length of the keyphrase.
+  * Keyphrase density: checks whether there are enough keyphrase matches; a match is defined as a sentence that contains all words from the keyphrase.
+  * Link focus keyphrase: applies the new principles of keyphrase recognition (see above) when checking whether you’re using your keyphrase to link to a different article.
+* Improves the feedback texts for all SEO and readability assessments.
+* Adds target="_blank" to the "How to connect to GSC" link to open a new tab when click. Props to [@zkan](https://github.com/zkan)
+* Improves the consistency of the SEO and readability results by showing them in a fixed order.
+* Changes all mentions of 'keyword' to 'keyphrase'. Read more about [the transition from 'keyword' to 'keyphrase'](https://yoa.st/keyword-to-keyphrase).
+* Optimizes and caches WPSEO_Option_Titles::enrich_defaults(). Props to [@soulseekah](https://github.com/soulseekah)
+* Introduces a Features tab in the network admin, which allows disabling all site-specific features for the entire network.
+
+Other:
+
+* Deprecates the WPSEO_Cornerstone class.
+* Deprecates the assessment that checks if stopwords are used within the keyphrase.
 
 = 8.4.0 =
 Release Date: October 9th, 2018

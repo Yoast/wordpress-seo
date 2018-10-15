@@ -1,23 +1,22 @@
 /* globals wpseoAdminL10n */
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import { getRtlStyle, HelpText } from "yoast-components";
+import { getRtlStyle, KeywordInput, colors, utils } from "yoast-components";
 import Collapsible from "../SidebarCollapsible";
-import { KeywordInput, colors } from "yoast-components";
 import Results from "./Results";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
-import { utils } from "yoast-components";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
 import Modal from "../modals/Modal";
 import MultipleKeywords from "../modals/MultipleKeywords";
 import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
 import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
+import AnalysisUpsell from "../AnalysisUpsell";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -26,7 +25,25 @@ const AnalysisHeader = styled.span`
 	display: block;
 `;
 
-const FocusKeywordLink = utils.makeOutboundLink();
+export const HelpLink = utils.makeOutboundLink( styled.a`
+	display: inline-block;
+	position: relative;
+	outline: none;
+	text-decoration: none;
+	border-radius: 100%;
+	width: 24px;
+	height: 24px;
+	margin: -4px 0;
+	vertical-align: middle;
+
+	&::before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding: 2px;
+		content: "\f223";
+	}
+` );
 
 const StyledContainer = styled.div`
 	min-width: 600px;
@@ -124,7 +141,7 @@ class SeoAnalysis extends React.Component {
 				openButton: "wpseo-multiple-keywords button-link",
 			},
 			labels: {
-				open: "+ " + __( "Add additional keyphrase", "wordpress-seo" ),
+				open: "+ " + __( "Add related keyphrase", "wordpress-seo" ),
 				a11yNotice: {
 					opensInNewTab: __( "(Opens in a new browser tab!)", "wordpress-seo" ),
 				},
@@ -154,7 +171,7 @@ class SeoAnalysis extends React.Component {
 			<Modal { ...modalProps }>
 				<StyledContainer>
 					<StyledIcon icon={ YoastSeoIcon } />
-					<h2>{ __( "Would you like to add another keyphrase?", "wordpress-seo" ) }</h2>
+					<h2>{ __( "Would you like to add a related keyphrase?", "wordpress-seo" ) }</h2>
 					<MultipleKeywords
 						link={ link }
 						buyLink={ buyLink }
@@ -185,7 +202,7 @@ class SeoAnalysis extends React.Component {
 			<Collapsible
 				prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 				prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
-				title={ __( "Add additional keyphrase", "wordpress-seo" ) }
+				title={ __( "Add related keyphrase", "wordpress-seo" ) }
 			>
 				<MultipleKeywords
 					link={ link }
@@ -193,6 +210,39 @@ class SeoAnalysis extends React.Component {
 				/>
 			</Collapsible>
 		);
+	}
+
+	/**
+	 * Renders a help link.
+	 *
+	 * @returns {ReactElement} The help link component.
+	 */
+	renderHelpLink() {
+		return (
+			<HelpLink
+				href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }
+				rel={ null }
+				className="dashicons"
+			>
+				<span className="screen-reader-text">
+					{ __( "Help on choosing the perfect focus keyphrase", "wordpress-seo" ) }
+				</span>
+			</HelpLink>
+		);
+	}
+
+	/**
+	 * Renders the AnalysisUpsell component.
+	 *
+	 * @returns {ReactElement} The AnalysisUpsell component.
+	 */
+	renderWordFormsUpsell() {
+		return <AnalysisUpsell
+			url={ this.props.location === "sidebar"
+				? "https://yoa.st/morphology-upsell-sidebar"
+				: "https://yoa.st/morphology-upsell-metabox" }
+			alignment={ this.props.location === "sidebar" ? "vertical" : "horizontal" }
+		/>;
 	}
 
 	/**
@@ -209,7 +259,7 @@ class SeoAnalysis extends React.Component {
 		}
 
 		return (
-			<React.Fragment>
+			<Fragment>
 				<Collapsible
 					title={ __( "Focus keyphrase", "wordpress-seo" ) }
 					titleScreenReaderText={ score.screenReaderReadabilityText }
@@ -217,21 +267,19 @@ class SeoAnalysis extends React.Component {
 					prefixIconCollapsed={ getIconForScore( score.className ) }
 					subTitle={ this.props.keyword }
 				>
-					<HelpText>
-						{ __( "A focus keyphrase is the phrase you'd like to be found for in search engines. " +
-							"Enter it below to see how you can improve your text for this term.", "wordpress-seo" ) + " " }
-						<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } rel={ null }>
-							{ __( "Learn more about the keyphrase analysis.", "wordpress-seo" ) }
-						</FocusKeywordLink>
-					</HelpText>
 					<KeywordInput
 						id="focus-keyword-input"
 						onChange={ this.props.onFocusKeywordChange }
 						keyword={ this.props.keyword }
+						label={ __( "Focus keyphrase", "wordpress-seo" ) }
+						labelSiblingElement={ this.renderHelpLink() }
 					/>
 					<Slot name="YoastSynonyms" />
-					{ this.props.shouldUpsell && this.renderSynonymsUpsell(	this.props.location	) }
-					{ this.props.shouldUpsell && this.renderMultipleKeywordsUpsell( this.props.location ) }
+					{ this.props.shouldUpsell && <React.Fragment>
+						{ this.renderSynonymsUpsell( this.props.location ) }
+						{ this.renderMultipleKeywordsUpsell( this.props.location ) }
+						{ this.renderWordFormsUpsell() }
+					</React.Fragment> }
 					<AnalysisHeader>
 						{ __( "Analysis results", "wordpress-seo" ) }
 					</AnalysisHeader>
@@ -243,7 +291,7 @@ class SeoAnalysis extends React.Component {
 					/>
 				</Collapsible>
 				{ this.props.shouldUpsell && this.renderKeywordUpsell( this.props.location ) }
-			</React.Fragment>
+			</Fragment>
 		);
 	}
 }
@@ -254,7 +302,7 @@ SeoAnalysis.propTypes = {
 	hideMarksButtons: PropTypes.bool,
 	keyword: PropTypes.string,
 	onFocusKeywordChange: PropTypes.func,
-	shouldUpsell:	PropTypes.bool,
+	shouldUpsell: PropTypes.bool,
 	overallScore: PropTypes.number,
 	location: PropTypes.string,
 };
