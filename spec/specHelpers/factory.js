@@ -31,17 +31,21 @@ FactoryProto.prototype.buildMockElement = function() {
 /**
  * Returns a mock researcher
  *
- * @param {object}  expectedValue The expected value or values.
- * @param {boolean} multiValue    True if multiple values are expected.
+ * @param {object}  expectedValue 		The expected value or values.
+ * @param {boolean} multiValue    		True if multiple values are expected.
+ * @param {boolean} hasMorphologyData	True if the researcher has access to morphology data.
  *
  * @returns {Researcher} Mock researcher.
  */
-FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false ) {
+FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false, hasMorphologyData = true ) {
 	if( multiValue && typeof expectedValue === "object" ) {
 		return {
 			getResearch: function( research ) {
 				return expectedValue[ research ];
 			},
+			getData: function() {
+				return hasMorphologyData;
+			}
 		};
 	}
 	return {
