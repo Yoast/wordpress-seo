@@ -9,6 +9,7 @@ const TextContainer = styled.p`
 	color: ${ colors.$color_upsell_text };
 	flex: 1;
 	margin: 0;
+	padding-right: 8px;
 `;
 
 const Container = styled.div`
@@ -29,8 +30,8 @@ const ButtonContainer = styled.div`
 	flex: 0;
 `;
 
-const Caret = styled.div`
-	padding-left: 3px;
+const Caret = styled( SvgIcon )`
+	margin: 0 0 0 4px;
 `;
 
 const OutboundLinkButton = utils.makeOutboundLink( UpsellLinkButton );
@@ -66,9 +67,7 @@ const AnalysisUpsell = ( props ) => {
 						__( "Go %s!", "wordpress-seo" ),
 						"Premium"
 					) }
-					<Caret>
-						<SvgIcon icon="arrow-right" size="8px" color={ colors.$color_black } />
-					</Caret>
+					<Caret icon="arrow-right" size="8px" color={ colors.$color_black } />
 				</OutboundLinkButton>
 			</ButtonContainer>
 		</Container>
