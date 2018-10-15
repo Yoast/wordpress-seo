@@ -492,19 +492,6 @@ class WPSEO_Meta {
 					$clean = WPSEO_Utils::sanitize_text_field( trim( $meta_value ) );
 				}
 
-				if ( $meta_key === self::$meta_prefix . 'focuskw' ) {
-					$clean = str_replace( array(
-						'&lt;',
-						'&gt;',
-						'&quot',
-						'&#96',
-						'<',
-						'>',
-						'"',
-						'`',
-					), '', $clean );
-				}
-
 				break;
 		}
 
