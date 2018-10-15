@@ -411,48 +411,6 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test getting the image from post content.
-	 *
-	 * @covers WPSEO_OpenGraph_Image::get_images()
-	 */
-	public function test_get_images_from_content() {
-
-		// Create our post.
-		$post_id = $this->create_post();
-
-		$attachment = $this->add_image_attachment_to_post( '/assets/yoast.png', $post_id );
-
-		// External images should be ignored.
-		$external_image = 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg';
-
-		// Images that are not attachments should be ignored.
-		$non_attachment_image = get_home_url() . '/wp-content/plugins/wordpress-seo/tests/assets/yoast.png';
-
-		// Update the post content.
-		$post_content = '<p>This is a post. It has an image:</p>
-		<img src="' . $external_image . '"/>
-		<img src="' . $non_attachment_image . '"/>
-		<img src="' . $attachment['image'] . '"/>
-		<p>It also has an image that is not attached to this post:</p>
-		<p>End of post</p>';
-		wp_update_post(
-			array(
-				'ID'           => $post_id,
-				'post_content' => $post_content,
-			)
-		);
-
-		// Run our test.
-		$this->go_to( get_permalink( $post_id ) );
-		$class_instance = $this->setup_class();
-
-		// We only expect our attachment image to appear in the results.
-		$expected = $this->sample_full_file_array( $attachment['image'], $attachment['id'] );
-
-		$this->assertEquals( $expected, $class_instance->get_images() );
-	}
-
-	/**
 	 * Test using an image that's already uploaded to another post as OG setting.
 	 */
 	public function test_uploaded_image_added_by_id() {
