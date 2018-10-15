@@ -161,7 +161,7 @@ class KeywordDensityAssessment extends Assessment {
 	 *                    value.
 	 */
 	hasTooManyMatches() {
-		if( this._hasMorphologyData && this._locale === "en_US" ) {
+		if( this.shouldUseMorphologyBoundaries() ) {
 			return inRangeEndInclusive(
 				this._keywordDensity,
 				this._config.parameters.multipleWordForms.maximum,
@@ -175,6 +175,10 @@ class KeywordDensityAssessment extends Assessment {
 		);
 	}
 
+	shouldUseMorphologyBoundaries() {
+		return this._hasMorphologyData && this._locale === "en_US"
+	}
+
 	/**
 	 * Returns the score for the keyword density.
 	 *
@@ -183,7 +187,10 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
 	calculateResult( i18n ) {
-		const max = `${ this._config.parameters.default.maximum}%`;
+		const max = this.shouldUseMorphologyBoundaries() ?
+			this._config.parameters.multipleWordForms.maximum :
+			this._config.parameters.default.maximum;
+		const maxText = `${ max }%`;
 		const roundedKeywordDensity = formatNumber( this._keywordDensity );
 		const keywordDensityPercentage = roundedKeywordDensity + "%";
 
@@ -278,7 +285,7 @@ class KeywordDensityAssessment extends Assessment {
 					),
 					keywordDensityPercentage,
 					this._keywordCount.count,
-					max,
+					maxText,
 					this._config.urlTitle,
 					this._config.urlCallToAction,
 					"</a>"
@@ -308,7 +315,7 @@ class KeywordDensityAssessment extends Assessment {
 				),
 				keywordDensityPercentage,
 				this._keywordCount.count,
-				max,
+				maxText,
 				this._config.urlTitle,
 				this._config.urlCallToAction,
 				"</a>"
