@@ -25,7 +25,7 @@ const AnalysisHeader = styled.span`
 	display: block;
 `;
 
-const FocusKeywordLink = utils.makeOutboundLink( styled.a`
+export const HelpLink = utils.makeOutboundLink( styled.a`
 	display: inline-block;
 	position: relative;
 	outline: none;
@@ -219,7 +219,7 @@ class SeoAnalysis extends React.Component {
 	 */
 	renderHelpLink() {
 		return (
-			<FocusKeywordLink
+			<HelpLink
 				href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }
 				rel={ null }
 				className="dashicons"
@@ -227,7 +227,7 @@ class SeoAnalysis extends React.Component {
 				<span className="screen-reader-text">
 					{ __( "Help on choosing the perfect focus keyphrase", "wordpress-seo" ) }
 				</span>
-			</FocusKeywordLink>
+			</HelpLink>
 		);
 	}
 
