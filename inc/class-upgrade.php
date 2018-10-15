@@ -120,6 +120,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_772();
 		}
 
+		if ( version_compare( $version, '9.0-RC0', '<' ) ) {
+			$this->upgrade90();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -606,6 +610,15 @@ class WPSEO_Upgrade {
 		if ( WPSEO_Utils::is_woocommerce_active() ) {
 			$this->migrate_woocommerce_archive_setting_to_shop_page();
 		}
+	}
+
+	/**
+	 * Performs the 9.0 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade90() {
+		wp_clear_scheduled_hook( 'wpseo_hit_sitemap_index' );
 	}
 
 	/**
