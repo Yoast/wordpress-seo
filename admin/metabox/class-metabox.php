@@ -608,8 +608,23 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				break;
 
 			case 'upload':
-				$content .= '<input id="' . $esc_form_key . '" type="text" size="36" class="' . $class . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"' . $aria_describedby . ' />';
-				$content .= '<input id="' . $esc_form_key . '_button" class="wpseo_image_upload_button button" type="button" value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '" />';
+				$content .= '<input' .
+					' id="' . $esc_form_key . '"' .
+					' type="text"' .
+					' size="36"' .
+					' class="' . $class . '"' .
+					' name="' . $esc_form_key . '"' .
+					' value="' . esc_attr( $meta_value ) . '"' . $aria_describedby .
+					' readonly="readonly"' .
+					' />';
+				$content .= '<input' .
+					' id="' . $esc_form_key . '_button"' .
+					' class="wpseo_image_upload_button button"' .
+					' data-target="' . $esc_form_key . '"' .
+					' data-target-id="' . $esc_form_key . '-id"' .
+					' type="button"' .
+					' value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '"' .
+					' />';
 				break;
 		}
 
