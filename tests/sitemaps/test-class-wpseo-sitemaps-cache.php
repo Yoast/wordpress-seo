@@ -102,7 +102,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$content   = get_transient( $cache_key );
 
 		// Assert.
-		$this->assertEmpty( $content );
+		$this->assertEquals( $test_content, $content );
 	}
 
 	/**
@@ -126,7 +126,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$result    = get_transient( $cache_key );
 
 		// Assert.
-		$this->assertEmpty( $result );
+		$this->assertEquals( $test_content, $result );
 	}
 
 	/**
@@ -151,7 +151,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$result          = get_transient( $index_cache_key );
 
 		// Assert.
-		$this->assertEmpty( $result );
+		$this->assertEquals( $test_index_content, $result );
 	}
 
 	/**
@@ -223,6 +223,6 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$result    = get_transient( $cache_key );
 
 		// Assert.
-		$this->assertEmpty( $result );
+		$this->assertEquals( $test_content, $result );
 	}
 }
