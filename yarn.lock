@@ -8858,10 +8858,15 @@ posix-character-classes@^0.1.0:
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
   integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
 
-postcss-value-parser@^3.2.3, postcss-value-parser@^3.3.0:
+postcss-value-parser@^3.2.3:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-3.3.0.tgz#87f38f9f18f774a4ab4c8a232f5c5ce8872a9d15"
   integrity sha1-h/OPnxj3dKSrTIojL1xc6IcqnRU=
+
+postcss-value-parser@^3.3.0:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-3.3.1.tgz#9ff822547e2893213cf1c30efa51ac5fd1ba8281"
+  integrity sha512-pISE66AbVkp4fDQ7VHBwRNXzAAKJjw4Vw7nWI/+Q3vuly7SNfgYXvm6i5IgFylHGK5sP/xHAbB7N49OS4gWNyQ==
 
 postcss@^5.0.0, postcss@^5.2.16:
   version "5.2.18"
@@ -11990,7 +11995,7 @@ yauzl@^2.2.1:
 
 "yoast-components@git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.0":
   version "4.13.0"
-  resolved "git+https://github.com/Yoast/yoast-components.git#b21e918fe71c87abeb5c3e889177c656ba069959"
+  resolved "git+https://github.com/Yoast/yoast-components.git#3f20d58a10db3cfcd0374ca0b6c898bf745490f2"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -12017,7 +12022,7 @@ yauzl@^2.2.1:
 
 "yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.0":
   version "1.40.0"
-  resolved "git+https://github.com/Yoast/YoastSEO.js.git#14701110894088025590bd19affb4a0f135f5545"
+  resolved "git+https://github.com/Yoast/YoastSEO.js.git#4cf48b5955150b06ebdcd0cd0fc82fc97ad96309"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
