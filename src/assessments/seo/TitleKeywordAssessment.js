@@ -113,7 +113,7 @@ class TitleKeywordAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sKeyphrase in title%3$s: The exact match of the focus keyphrase appears in the SEO title, but not " +
-						"at the beginning. %2$sTry move it to the beginning%3$s."
+						"at the beginning. %2$sTry to move it to the beginning%3$s."
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
