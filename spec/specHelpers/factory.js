@@ -37,7 +37,7 @@ FactoryProto.prototype.buildMockElement = function() {
  *
  * @returns {Researcher} Mock researcher.
  */
-FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false, hasMorphologyData = true ) {
+FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false, hasMorphologyData = false ) {
 	if( multiValue && typeof expectedValue === "object" ) {
 		return {
 			getResearch: function( research ) {
@@ -52,6 +52,9 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 		getResearch: function() {
 			return expectedValue;
 		},
+		getData: function() {
+			return hasMorphologyData;
+		}
 	};
 };
 
