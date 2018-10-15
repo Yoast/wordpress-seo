@@ -111,7 +111,7 @@ class KeywordDensityAssessment extends Assessment {
 	 *                    0 and the recommended minimum.
 	 */
 	hasTooFewMatches() {
-		if ( this._hasMorphologyData && this._locale === "en_US" ) {
+		if ( this.shouldUseMorphologyBoundaries() ) {
 			return inRangeStartInclusive(
 				this._keywordDensity,
 				0,
@@ -135,7 +135,7 @@ class KeywordDensityAssessment extends Assessment {
 	 *                    the recommended minimum and the recommended maximum.
 	 */
 	hasGoodNumberOfMatches() {
-		if ( this._hasMorphologyData && this._locale === "en_US" ) {
+		if ( this.shouldUseMorphologyBoundaries() ) {
 			return inRangeStartEndInclusive(
 				this._keywordDensity,
 				this._config.parameters.multipleWordForms.minimum,
@@ -177,6 +177,7 @@ class KeywordDensityAssessment extends Assessment {
 
 	/**
 	 * If this assessments should use the morphology score boundaries.
+	 *
 	 * @returns {boolean} if the assessment should use the morphology score boundaries.
 	 */
 	shouldUseMorphologyBoundaries() {
