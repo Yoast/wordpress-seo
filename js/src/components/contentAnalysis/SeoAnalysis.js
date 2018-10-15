@@ -1,18 +1,16 @@
 /* globals wpseoAdminL10n */
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import { getRtlStyle, HelpText } from "yoast-components";
+import { getRtlStyle, KeywordInput, colors, utils } from "yoast-components";
 import Collapsible from "../SidebarCollapsible";
-import { KeywordInput, colors } from "yoast-components";
 import Results from "./Results";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
-import { utils } from "yoast-components";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
 import Modal from "../modals/Modal";
 import MultipleKeywords from "../modals/MultipleKeywords";
@@ -27,7 +25,25 @@ const AnalysisHeader = styled.span`
 	display: block;
 `;
 
-const FocusKeywordLink = utils.makeOutboundLink();
+const FocusKeywordLink = utils.makeOutboundLink( styled.a`
+	display: inline-block;
+	position: relative;
+	outline: none;
+	text-decoration: none;
+	border-radius: 100%;
+	width: 24px;
+	height: 24px;
+	margin: -4px 0;
+	vertical-align: middle;
+
+	&::before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding: 2px;
+		content: "\f223";
+	}
+` );
 
 const StyledContainer = styled.div`
 	min-width: 600px;
@@ -197,6 +213,25 @@ class SeoAnalysis extends React.Component {
 	}
 
 	/**
+	 * Renders a help link.
+	 *
+	 * @returns {ReactElement} The help link component.
+	 */
+	renderHelpLink() {
+		return (
+			<FocusKeywordLink
+				href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }
+				rel={ null }
+				className="dashicons"
+			>
+				<span className="screen-reader-text">
+					{ __( "Help on choosing the perfect focus keyphrase", "wordpress-seo" ) }
+				</span>
+			</FocusKeywordLink>
+		);
+	}
+
+	/**
 	 * Renders the AnalysisUpsell component.
 	 *
 	 * @returns {ReactElement} The AnalysisUpsell component.
@@ -224,7 +259,7 @@ class SeoAnalysis extends React.Component {
 		}
 
 		return (
-			<React.Fragment>
+			<Fragment>
 				<Collapsible
 					title={ __( "Focus keyphrase", "wordpress-seo" ) }
 					titleScreenReaderText={ score.screenReaderReadabilityText }
@@ -232,17 +267,12 @@ class SeoAnalysis extends React.Component {
 					prefixIconCollapsed={ getIconForScore( score.className ) }
 					subTitle={ this.props.keyword }
 				>
-					<HelpText>
-						{ __( "A focus keyphrase is the phrase you'd like to be found for in search engines. " +
-							"Enter it below to see how you can improve your text for this term.", "wordpress-seo" ) + " " }
-						<FocusKeywordLink href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } rel={ null }>
-							{ __( "Learn more about the keyphrase analysis.", "wordpress-seo" ) }
-						</FocusKeywordLink>
-					</HelpText>
 					<KeywordInput
 						id="focus-keyword-input"
 						onChange={ this.props.onFocusKeywordChange }
 						keyword={ this.props.keyword }
+						label={ __( "Focus keyphrase", "wordpress-seo" ) }
+						labelSiblingElement={ this.renderHelpLink() }
 					/>
 					<Slot name="YoastSynonyms" />
 					{ this.props.shouldUpsell && <React.Fragment>
@@ -261,7 +291,7 @@ class SeoAnalysis extends React.Component {
 					/>
 				</Collapsible>
 				{ this.props.shouldUpsell && this.renderKeywordUpsell( this.props.location ) }
-			</React.Fragment>
+			</Fragment>
 		);
 	}
 }
