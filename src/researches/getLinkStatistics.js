@@ -73,7 +73,7 @@ const filterAnchorsContainingTopic = function( anchors, topicForms, locale ) {
  * @returns {Array} The array of all anchors that contain keyphrase or synonyms.
  */
 const filterAnchorsContainedInTopic = function( anchors, keyphraseAndSynonyms, locale, researcher ) {
-	let anchorsContainedInTopic = [];
+	const anchorsContainedInTopic = [];
 
 	anchors.forEach( function( currentAnchor ) {
 		// Create a fake paper to be able to generate the forms of the content words from within the anchor.
@@ -170,7 +170,7 @@ const countLinkTypes = function( paper, researcher ) {
 	const anchors = getAnchors( paper.getText() );
 	const permalink = paper.getPermalink();
 
-	let linkCount = {
+	const linkCount = {
 		total: anchors.length,
 		totalNaKeyword: 0,
 		keyword: {

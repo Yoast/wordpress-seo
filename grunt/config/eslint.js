@@ -1,16 +1,22 @@
 // See https://github.com/sindresorhus/grunt-eslint
-module.exports = {
-	target: {
-		src: [ "<%= files.js %>", "<%= files.jsDontLint %>" ],
-		options: {
-			maxWarnings: 45,
+module.exports = function( grunt ) {
+	const fix = grunt.option( "fix" ) || false;
+
+	return {
+		target: {
+			src: [ "<%= files.js %>", "<%= files.jsDontLint %>" ],
+			options: {
+				maxWarnings: 87,
+				fix: fix,
+			},
 		},
-	},
-	tests: {
-		src: [ "<%= files.jsTests %>" ],
-		options: {
-			configFile: ".eslintrc-tests",
-			maxWarnings: 44,
+		tests: {
+			src: [ "<%= files.jsTests %>" ],
+			options: {
+				configFile: ".eslintrc-tests",
+				maxWarnings: 103,
+				fix: fix,
+			},
 		},
-	},
+	};
 };

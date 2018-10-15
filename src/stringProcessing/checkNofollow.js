@@ -12,7 +12,7 @@ import htmlparser from "htmlparser2";
 export default function( anchorHTML ) {
 	let linkFollow = "Dofollow";
 
-	let parser = new htmlparser.Parser( {
+	const parser = new htmlparser.Parser( {
 		/**
 		 * Detects if there is a `nofollow` value in the `rel` attribute of a link.
 		 *

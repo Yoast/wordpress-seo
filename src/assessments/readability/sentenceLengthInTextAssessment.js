@@ -23,7 +23,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			recommendedWordCount: 20,
 			slightlyTooMany: 25,
 			farTooMany: 30,
@@ -42,11 +42,11 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {AssessmentResult} The Assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let sentences = researcher.getResearch( "countSentencesFromText" );
-		let percentage = this.calculatePercentage( sentences );
-		let score = this.calculateScore( percentage );
+		const sentences = researcher.getResearch( "countSentencesFromText" );
+		const percentage = this.calculatePercentage( sentences );
+		const score = this.calculateScore( percentage );
 
-		let assessmentResult = new AssessmentResult();
+		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( score );
 		assessmentResult.setText( this.translateScore( score, percentage, i18n ) );
@@ -75,11 +75,11 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {Array} Array with all the marked sentences.
 	 */
 	getMarks( paper, researcher ) {
-		let sentenceCount = researcher.getResearch( "countSentencesFromText" );
-		let sentenceObjects = this.getTooLongSentences( sentenceCount );
+		const sentenceCount = researcher.getResearch( "countSentencesFromText" );
+		const sentenceObjects = this.getTooLongSentences( sentenceCount );
 
 		return map( sentenceObjects, function( sentenceObject ) {
-			let sentence = stripTags( sentenceObject.sentence );
+			const sentence = stripTags( sentenceObject.sentence );
 			return new Mark( {
 				original: sentence,
 				marked: addMark( sentence ),
@@ -97,8 +97,8 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {string} A string.
 	 */
 	translateScore( score, percentage,  i18n ) {
-		let urlTitle = "<a href='https://yoa.st/34v' target='_blank'>";
-		let urlCallToAction = "<a href='https://yoa.st/34w' target='_blank'>";
+		const urlTitle = "<a href='https://yoa.st/34v' target='_blank'>";
+		const urlCallToAction = "<a href='https://yoa.st/34w' target='_blank'>";
 		if ( score >= 7 ) {
 			return i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
@@ -135,7 +135,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 		let percentage = 0;
 
 		if ( sentences.length !== 0 ) {
-			let tooLongTotal = this.countTooLongSentences( sentences );
+			const tooLongTotal = this.countTooLongSentences( sentences );
 
 			percentage = formatNumber( ( tooLongTotal / sentences.length ) * 100 );
 		}

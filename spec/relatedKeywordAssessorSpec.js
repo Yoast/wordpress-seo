@@ -3,12 +3,12 @@ import Paper from "../src/values/Paper";
 import factory from "./specHelpers/factory";
 import getResults from "./specHelpers/getListOfAssessmentResults";
 const i18n = factory.buildJed();
-let assessor = new Assessor( i18n );
+const assessor = new Assessor( i18n );
 
 describe( "running assessments in the assessor", function() {
 	it( "runs assessments without any specific requirements", function() {
 		assessor.assess( new Paper( "" ) );
-		let assessments = getResults( assessor.getValidResults() );
+		const assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
@@ -17,7 +17,7 @@ describe( "running assessments in the assessor", function() {
 
 	it( "runs assessments that only require a keyword", function() {
 		assessor.assess( new Paper( "", { keyword: "keyword" } ) );
-		let assessments = getResults( assessor.getValidResults() );
+		const assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
@@ -26,7 +26,7 @@ describe( "running assessments in the assessor", function() {
 
 	it( "additionally runs assessments that require a text and a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
-		let assessments = getResults( assessor.getValidResults() );
+		const assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
@@ -37,7 +37,7 @@ describe( "running assessments in the assessor", function() {
 
 	it( "additionally runs assessments that require a text, a keyword, and a meta description", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword", description: "description" } ) );
-		let assessments = getResults( assessor.getValidResults() );
+		const assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
@@ -56,7 +56,7 @@ describe( "running assessments in the assessor", function() {
 			"ne enim constituam. Et summo mentitum mea. Cu his nusquam civibus officiis, vix tota appellantur" +
 			"no, fuisset invenire molestiae pro ne. Ne case essent mei, ut quo ferri malorum albucius. Id nonumes" +
 			"inimicus vix. Ei duo prompta electram, iudico.", { keyword: "keyword" } ) );
-		let assessments = getResults( assessor.getValidResults() );
+		const assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",

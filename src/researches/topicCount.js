@@ -46,7 +46,7 @@ export default function( paper, onlyKeyword = false ) {
 	let markings = [];
 	let indexOfSentence = 0;
 	let indexRunningThroughSentence = 0;
-	let matchesIndices = [];
+	const matchesIndices = [];
 
 	sentences.forEach( function( sentence ) {
 		topicFoundInSentence = matchTextWithArray( sentence, topicWords, paper.getLocale() ).matches;

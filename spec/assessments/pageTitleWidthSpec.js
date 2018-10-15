@@ -3,7 +3,7 @@ import Paper from "../../src/values/Paper.js";
 import factory from "../specHelpers/factory.js";
 var i18n = factory.buildJed();
 
-let pageTitleLengthAssessment = new PageTitleLengthAssessment();
+const pageTitleLengthAssessment = new PageTitleLengthAssessment();
 
 describe( "the SEO title length assessment", function() {
 	it( "should assess a paper without a <a href='https://yoa.st/2po' target='_blank'>SEO title</a>", function() {

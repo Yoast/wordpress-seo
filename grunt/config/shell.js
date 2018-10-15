@@ -34,7 +34,7 @@ module.exports = function( grunt ) {
 		},
 		"clone-premium-configuration": {
 			command: function() {
-				let commands = [];
+				const commands = [];
 
 				if ( ! grunt.file.exists( "premium-configuration" ) ) {
 					let gitUrl = "git@github.com:Yoast/YoastSEO.js-premium-configuration.git";

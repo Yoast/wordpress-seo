@@ -1,10 +1,10 @@
 /** @module config/transitionWords */
 
-let singleWords = [	"abans", "així", "altrament", "anteriorment", "breument", "contràriament", "després", "doncs",
+const singleWords = [	"abans", "així", "altrament", "anteriorment", "breument", "contràriament", "després", "doncs",
 	"efectivament", "endemés", "finalment", "generalment", "igualment", "malgrat", "mentre", "parallelament", "però",
 	"perquè", "primerament", "resumidament", "resumint", "sinó", "sobretot", "també", "tanmateix" ];
 
-let multipleWords = [ "a banda d'això", "a continuació", "a fi de", "a fi que", "a força de", "a manera de resum", "a més",
+const multipleWords = [ "a banda d'això", "a continuació", "a fi de", "a fi que", "a força de", "a manera de resum", "a més",
 	"a tall d'exemple", "a tall de recapitulació", "a tall de resum", "al capdavall", "al contrari", "al mateix temps",
 	"amb relació a", "amb tot plegat", "ara bé", "atès que", "com a conseqüència", "com a exemple", "com a resultat",
 	"com a resum", "com que", "comptat i debatut", "considerant que", "convé destacar", "convé recalcar",

@@ -76,7 +76,7 @@ describe( "AnalysisWebWorker", () => {
 			worker = null;
 			try {
 				worker = new AnalysisWebWorker( scope );
-			} catch( error ) {
+			} catch ( error ) {
 				// eslint-ignore-line no-empty
 			}
 

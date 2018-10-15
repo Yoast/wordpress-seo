@@ -10,6 +10,6 @@ import determineSentencePartIsPassive from "./determineSentencePartIsPassive.js"
  * @returns {boolean} Returns true if passive, otherwise returns false.
  */
 export default function( sentencePart, auxiliaries, language ) {
-	let participles = getParticiples( sentencePart, auxiliaries, language );
+	const participles = getParticiples( sentencePart, auxiliaries, language );
 	return determineSentencePartIsPassive( participles );
 }

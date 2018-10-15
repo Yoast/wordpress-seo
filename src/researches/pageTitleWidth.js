@@ -4,7 +4,7 @@
  * @returns {number} The width of the title in pixels
  */
 export default function( paper ) {
-	if( paper.hasTitle() ) {
+	if ( paper.hasTitle() ) {
 		return paper.getTitleWidth();
 	}
 	return 0;
