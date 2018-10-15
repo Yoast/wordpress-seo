@@ -16,7 +16,7 @@ class WPSEO_Sitemaps_Cache {
 	protected static $cache_clear = array();
 
 	/** @var bool $is_enabled Mirror of enabled status for static calls. */
-	protected static $is_enabled = true;
+	protected static $is_enabled = false;
 
 	/** @var bool $clear_all Holds the flag to clear all cache. */
 	protected static $clear_all = false;
