@@ -20,7 +20,7 @@ FactoryProto.prototype.buildJed = function() {
  * @returns {object} Mock HTML element.
  */
 FactoryProto.prototype.buildMockElement = function() {
-	var mockElement;
+	let mockElement;
 
 	mockElement = [];
 	mockElement.nodeType = 1;
@@ -64,12 +64,12 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
  * @returns {string} The result.
  */
 FactoryProto.prototype.buildMockString = function( string, repetitions ) {
-	var resultString = "";
+	let resultString = "";
 
 	string = string || "Test ";
 	repetitions = repetitions || 1;
 
-	for ( var i = 0; i < repetitions; i++ ) {
+	for ( let i = 0; i < repetitions; i++ ) {
 		resultString += string;
 	}
 
