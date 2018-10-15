@@ -136,7 +136,7 @@ Enhancements:
 * Changes all mentions of 'keyword' to 'keyphrase'. Read more about [the transition from 'keyword' to 'keyphrase'](https://yoa.st/keyword-to-keyphrase).
 * Optimizes and caches WPSEO_Option_Titles::enrich_defaults(). Props to [@soulseekah](https://github.com/soulseekah)
 * Introduces a Features tab in the network admin, which allows disabling all site-specific features for the entire network.
-* Improves the tab sequence within the structured data blocks in Gutenberg and make it consistent between the FAQ and How-To block.
+* Improves the tab order within the structured data blocks in Gutenberg and make it consistent between the FAQ and How-To block.
 
 Other:
 
