@@ -145,8 +145,7 @@ const step = function( maximizedSentenceScores, stepSize ) {
 };
 
 /**
- * Computes the punishment for not using all content words within the window. Windows are determined in the same way as
- * in the step function
+ * Computes the punishment for having overall low scores in per-sentence matching of keyphrase and synonyms.
  *
  * @param {Array} sentenceScores The array of sentenceScores to calculate penalty based on.
  *
