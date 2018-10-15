@@ -82,7 +82,7 @@ class KeyphraseLengthAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. " +
-						"%2$sSet a focus keyphrase in order to calculate your SEO score%3$s."
+						"%2$sSet a keyphrase in order to calculate your SEO score%3$s."
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,

@@ -97,7 +97,7 @@ class TitleKeywordAssessment extends Assessment {
 						%2$s expands to the anchor end tag. */
 						i18n.dgettext(
 							"js-text-analysis",
-							"%1$sKeyphrase in title%2$s: The exact match of the focus keyphrase appears at the beginning " +
+							"%1$sKeyphrase in title%2$s: The exact match of the keyphrase appears at the beginning " +
 							"of the SEO title. Good job!",
 						),
 						this._config.urlTitle,
@@ -112,7 +112,7 @@ class TitleKeywordAssessment extends Assessment {
 					%3$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sKeyphrase in title%3$s: The exact match of the focus keyphrase appears in the SEO title, but not " +
+						"%1$sKeyphrase in title%3$s: The exact match of the keyphrase appears in the SEO title, but not " +
 						"at the beginning. %2$sTry to move it to the beginning%3$s."
 					),
 					this._config.urlTitle,

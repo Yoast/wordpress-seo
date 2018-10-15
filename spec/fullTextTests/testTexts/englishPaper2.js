@@ -55,7 +55,7 @@ const expectedResults = {
 	},
 	metaDescriptionKeyword: {
 		score: 6,
-		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: All words of focus keyphrase or synonym appear in the meta description, but not within one sentence. <a href='https://yoa.st/33l' target='_blank'>Try to use them in one sentence</a>.",
+		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: All words of keyphrase or synonym appear in the meta description, but not within one sentence. <a href='https://yoa.st/33l' target='_blank'>Try to use them in one sentence</a>.",
 	},
 	metaDescriptionLength: {
 		score: 9,
@@ -87,7 +87,7 @@ const expectedResults = {
 	},
 	titleKeyword: {
 		score: 6,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the focus keyphrase appears in the SEO title, but not at the beginning. <a href='https://yoa.st/33h' target='_blank'>Try to move it to the beginning</a>.",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the keyphrase appears in the SEO title, but not at the beginning. <a href='https://yoa.st/33h' target='_blank'>Try to move it to the beginning</a>.",
 	},
 	titleWidth: {
 		score: 9,

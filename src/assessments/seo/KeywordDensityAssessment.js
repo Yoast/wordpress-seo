@@ -155,7 +155,7 @@ class KeywordDensityAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%3$sKeyphrase density%5$s: %1$s. " +
-						"This is too low; the focus keyword was found %2$d times. %4$sFocus on your keyphrase%5$s!",
+						"This is too low; the keyphrase was found %2$d times. %4$sFocus on your keyphrase%5$s!",
 					),
 					keywordDensityPercentage,
 					this._keywordCount.count,
@@ -178,9 +178,9 @@ class KeywordDensityAssessment extends Assessment {
 					i18n.dngettext(
 						"js-text-analysis",
 						"%3$sKeyphrase density%5$s: %1$s. " +
-						"This is too low; the focus keyword was found %2$d time. %4$sFocus on your keyphrase%5$s!",
+						"This is too low; the keyphrase was found %2$d time. %4$sFocus on your keyphrase%5$s!",
 						"%3$sKeyphrase density%5$s: %1$s. " +
-						"This is too low; the focus keyword was found %2$d times. %4$sFocus on your keyphrase%5$s!",
+						"This is too low; the keyphrase was found %2$d times. %4$sFocus on your keyphrase%5$s!",
 						this._keywordCount.count
 					),
 					keywordDensityPercentage,
@@ -225,10 +225,10 @@ class KeywordDensityAssessment extends Assessment {
 					i18n.dngettext(
 						"js-text-analysis",
 						"%4$sKeyphrase density%6$s: %1$s. " +
-						"This is over the advised %3$s maximum; the focus keyword was found %2$d time. " +
+						"This is over the advised %3$s maximum; the keyphrase was found %2$d time. " +
 						"%5$sDon't overoptimize%6$s!",
 						"%4$sKeyphrase density%6$s: %1$s. " +
-						"This is over the advised %3$s maximum; the focus keyword was found %2$d times. " +
+						"This is over the advised %3$s maximum; the keyphrase was found %2$d times. " +
 						"%5$sDon't overoptimize%6$s!",
 						this._keywordCount.count
 					),
@@ -255,10 +255,10 @@ class KeywordDensityAssessment extends Assessment {
 				i18n.dngettext(
 					"js-text-analysis",
 					"%4$sKeyphrase density%6$s: %1$s. " +
-					"This is way over the advised %3$s maximum; the focus keyword was found %2$d time. " +
+					"This is way over the advised %3$s maximum; the keyphrase was found %2$d time. " +
 					"%5$sDon't overoptimize%6$s!",
 					"%4$sKeyphrase density%6$s: %1$s. " +
-					"This is way over the advised %3$s maximum; the focus keyword was found %2$d times. " +
+					"This is way over the advised %3$s maximum; the keyphrase was found %2$d times. " +
 					"%5$sDon't overoptimize%6$s!",
 					this._keywordCount.count
 				),
