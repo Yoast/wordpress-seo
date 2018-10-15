@@ -18,7 +18,7 @@ const RelatedKeywordTaxonomyAssessor = function( i18n ) {
 
 	this._assessments = [
 		new IntroductionKeywordAssessment(),
-		new KeyphraseLengthAssessment(),
+		new KeyphraseLengthAssessment( { isRelatedKeyphrase: true } ),
 		new KeywordDensityAssessment(),
 		new MetaDescriptionKeywordAssessment(),
 		// Text Images assessment here.
