@@ -9,6 +9,8 @@
  * Class WPSEO_OpenGraph_Image
  */
 class WPSEO_OpenGraph_Image {
+	const EXTERNAL_IMAGE_ID = '-1';
+
 	/**
 	 * Holds the images that have been put out as OG image.
 	 *
@@ -288,8 +290,31 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	private function set_image_post_meta( $post_id = 0 ) {
+		$image_id = WPSEO_Meta::get_value( 'opengraph-image-id', $post_id );
 		$image_url = WPSEO_Meta::get_value( 'opengraph-image', $post_id );
-		$this->add_image_by_url( $image_url );
+
+		var_dump( $image_id );
+
+		switch ( $image_id ) {
+			case self::EXTERNAL_IMAGE_ID:
+				// Add image by URL, but skip attachment_to_id call. We already know it is an external image.
+				$this->add_image( array( 'url' => $image_url ) );
+				break;
+
+			case '':
+				// Add image by URL, try to save the ID afterwards. So we can use the ID the next time.
+				$attachment_id = $this->add_image_by_url( $image_url );
+
+				if ( $attachment_id !== null ) {
+					WPSEO_Meta::set_value( 'opengraph-image-id', (string) $attachment_id, $post_id );
+				}
+				break;
+
+			default:
+				// Add the image by ID.
+				$this->add_image_by_id( $image_id );
+				break;
+		}
 	}
 
 	/**
@@ -366,21 +391,23 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @param string $url The given URL.
 	 *
-	 * @return void
+	 * @return null|number Returns the found attachment ID if it exists. Otherwise -1. If the URL is empty we return null.
 	 */
 	public function add_image_by_url( $url ) {
 		if ( empty( $url ) ) {
-			return;
+			return null;
 		}
 
 		$attachment_id = WPSEO_Image_Utils::get_attachment_by_url( $url );
 
 		if ( $attachment_id > 0 ) {
 			$this->add_image_by_id( $attachment_id );
-			return;
+			return $attachment_id;
 		}
 
 		$this->add_image( array( 'url' => $url ) );
+
+		return -1;
 	}
 
 	/**
