@@ -1,21 +1,30 @@
 import React from "react";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
+import styled from "styled-components";
 
 import { YoastInputContainer, YoastInputField, YoastInputLabel } from "./YoastInput";
-import HelpText from "../../Shared/components/HelpText";
+import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
-const SynonymsInput = ( { id, label, value, onChange, explanationText } ) => {
+const SynonymsFieldLabelContainer = styled.span`
+	margin-bottom: 0.5em;
+`;
+
+const StyledYoastInputLabel = styled( YoastInputLabel )`
+	display: inline-block;
+	margin-bottom: 0;
+	${ getRtlStyle( "margin-right: 4px", "margin-left: 4px" ) };
+`;
+
+const SynonymsInput = ( { id, label, labelSiblingElement, value, onChange } ) => {
 	return (
 		<YoastInputContainer>
-			<YoastInputLabel htmlFor={ id }>
-				{ label }
-			</YoastInputLabel>
-			{ explanationText && (
-				<HelpText>
-					{ explanationText }
-				</HelpText>
-			) }
+			<SynonymsFieldLabelContainer>
+				<StyledYoastInputLabel htmlFor={ id }>
+					{ label }
+				</StyledYoastInputLabel>
+				{ labelSiblingElement }
+			</SynonymsFieldLabelContainer>
 			<YoastInputField
 				type="text"
 				id={ id }
@@ -31,14 +40,14 @@ SynonymsInput.propTypes = {
 	label: PropTypes.string,
 	value: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
-	explanationText: PropTypes.node,
+	labelSiblingElement: PropTypes.node,
 };
 
 SynonymsInput.defaultProps = {
 	id: uniqueId( "synonyms-input-" ),
 	label: "",
 	value: "",
-	explanationText: null,
+	labelSiblingElement: null,
 };
 
 export default SynonymsInput;
