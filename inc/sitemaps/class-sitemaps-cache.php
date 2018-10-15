@@ -67,7 +67,7 @@ class WPSEO_Sitemaps_Cache {
 		 *
 		 * @param bool $unsigned Enable cache or not, defaults to true
 		 */
-		return apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
+		return apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', false );
 	}
 
 	/**
