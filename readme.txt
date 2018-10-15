@@ -111,10 +111,9 @@ Release Date: October 23rd, 2018
 
 Bugfixes:
 
-* Fixes a bug when the keyword would not be found in the slug when containing punctuation, e.g. the keyphrase `apples & pears` in the slug `apples-pears`.
-* Fixes fatal error on Yoast settings pages that do not have a dedicated option class.
-* Fixes a bug where the buttons to change the How-to steps and FAQ questions order would be only partially visible in mobile view, by moving them at the bottom of the block. Also improves accessibility as the tab sequence is more logical.
-* Fixes a bug where a undefined index notice is given when an OG image url doesn't have a correct path. Props to [@Julian-B90](https://github.com/Julian-B90)
+* Fixes a bug where the keyword would not be found in the slug when containing punctuation, for example the keyphrase `apples & pears` in the slug `apples-pears`.
+* Fixes a bug where the buttons to change the How-to steps and FAQ questions order would be only partially visible in mobile view.
+* Fixes a bug where an 'undefined index' notice would be given when an OG image url didn't have a correct path. Props to [@Julian-B90](https://github.com/Julian-B90)
 
 Enhancements:
 
@@ -137,6 +136,7 @@ Enhancements:
 * Changes all mentions of 'keyword' to 'keyphrase'. Read more about [the transition from 'keyword' to 'keyphrase'](https://yoa.st/keyword-to-keyphrase).
 * Optimizes and caches WPSEO_Option_Titles::enrich_defaults(). Props to [@soulseekah](https://github.com/soulseekah)
 * Introduces a Features tab in the network admin, which allows disabling all site-specific features for the entire network.
+* Improves the tab sequence within the structured data blocks in Gutenberg and make it consistent between the FAQ and How-To block.
 
 Other:
 
