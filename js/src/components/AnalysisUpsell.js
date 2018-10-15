@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
+import { getRtlStyle } from "yoast-components";
 
 import { colors, SvgIcon, UpsellLinkButton, utils } from "yoast-components";
 
@@ -16,7 +17,8 @@ const Container = styled.div`
 	font-size: 1em;
 	display: flex;
 	flex-direction: ${ props => props.alignment === "horizontal" ? "row" : "column" };
-	border-left: 4px solid ${ colors.$color_pink_dark };
+	border-left: ${ getRtlStyle( "4px solid #a4286a", "none" ) };
+	border-right: ${ getRtlStyle( "none", "4px solid #a4286a" ) };
 	margin: 16px 0;
 	padding: 0 0 0 8px;
 	max-width: 600px;
@@ -31,7 +33,8 @@ const ButtonContainer = styled.div`
 `;
 
 const Caret = styled( SvgIcon )`
-	margin: 0 0 0 4px;
+	margin: ${ getRtlStyle( "0 0 0 4px", "0 4px 0 0" ) };
+	transform: ${ getRtlStyle( "rotate(0deg)", "rotate(180deg)" ) };
 `;
 
 const OutboundLinkButton = utils.makeOutboundLink( UpsellLinkButton );
