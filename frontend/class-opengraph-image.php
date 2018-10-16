@@ -196,6 +196,15 @@ class WPSEO_OpenGraph_Image {
 		$this->images[ $image_url ] = $attachment;
 	}
 
+	/**
+	 * Adds an image by ID if possible and by URL if the ID isn't present.
+	 *
+	 * @param string   $image_id  The image ID as set in the database.
+	 * @param string   $image_url The saved URL for the image.
+	 * @param callable $save_id   Function to call to save the ID if it needs to be saved.
+	 *
+	 * @return void
+	 */
 	private function add_image_by_id_or_url( $image_id, $image_url, callable $save_id ) {
 		switch ( $image_id ) {
 			case self::EXTERNAL_IMAGE_ID:
@@ -219,6 +228,13 @@ class WPSEO_OpenGraph_Image {
 		}
 	}
 
+	/**
+	 * Saves the ID to the frontpage Open Graph image ID.
+	 *
+	 * @param string $attachment_id The ID to save.
+	 *
+	 * @return void
+	 */
 	private function save_frontpage_image_id( $attachment_id ) {
 		WPSEO_Options::set( 'og_frontpage_image_id', $attachment_id );
 	}
@@ -302,6 +318,13 @@ class WPSEO_OpenGraph_Image {
 		$this->set_featured_image( $post_id );
 	}
 
+	/**
+	 * Saves the default image ID for Open Graph images to the database.
+	 *
+	 * @param string $attachment_id The ID to save.
+	 *
+	 * @return void
+	 */
 	private function save_default_image_id( $attachment_id ) {
 		WPSEO_Options::set( 'og_default_image_id', $attachment_id );
 	}
@@ -325,6 +348,13 @@ class WPSEO_OpenGraph_Image {
 		$this->add_image_by_id_or_url( $default_image_id, $default_image_url, array( $this, 'save_default_image_id' ) );
 	}
 
+	/**
+	 * Saves the Open Graph image meta to the database for the current post.
+	 *
+	 * @param string $attachment_id The ID to save.
+	 *
+	 * @return
+	 */
 	private function save_opengraph_image_id_meta( $attachment_id ) {
 		$post_id = $this->get_queried_object_id();
 
