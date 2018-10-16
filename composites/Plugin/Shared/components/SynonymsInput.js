@@ -16,14 +16,14 @@ const StyledYoastInputLabel = styled( YoastInputLabel )`
 	${ getRtlStyle( "margin-right: 4px", "margin-left: 4px" ) };
 `;
 
-const SynonymsInput = ( { id, label, labelSiblingElement, value, onChange } ) => {
+const SynonymsInput = ( { id, label, helpLink, value, onChange } ) => {
 	return (
 		<YoastInputContainer>
 			<SynonymsFieldLabelContainer>
 				<StyledYoastInputLabel htmlFor={ id }>
 					{ label }
 				</StyledYoastInputLabel>
-				{ labelSiblingElement }
+				{ helpLink }
 			</SynonymsFieldLabelContainer>
 			<YoastInputField
 				type="text"
@@ -40,14 +40,14 @@ SynonymsInput.propTypes = {
 	label: PropTypes.string,
 	value: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
-	labelSiblingElement: PropTypes.node,
+	helpLink: PropTypes.node,
 };
 
 SynonymsInput.defaultProps = {
 	id: uniqueId( "synonyms-input-" ),
 	label: "",
 	value: "",
-	labelSiblingElement: null,
+	helpLink: null,
 };
 
 export default SynonymsInput;

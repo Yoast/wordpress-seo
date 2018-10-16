@@ -173,14 +173,14 @@ class KeywordInput extends React.Component {
 		const {
 			id,
 			label,
-			labelSiblingElement,
+			helpLink,
 		} = this.props;
 		return (
 			<KeywordFieldLabelContainer>
 				<KeywordFieldLabel htmlFor={ id }>
 					{ label }
 				</KeywordFieldLabel>
-				{ labelSiblingElement }
+				{ helpLink }
 			</KeywordFieldLabelContainer>
 		);
 	}
@@ -238,7 +238,7 @@ KeywordInput.propTypes = {
 	onRemoveKeyword: PropTypes.func,
 	onBlurKeyword: PropTypes.func,
 	label: PropTypes.string.isRequired,
-	labelSiblingElement: PropTypes.node,
+	helpLink: PropTypes.node,
 };
 
 KeywordInput.defaultProps = {
@@ -247,7 +247,7 @@ KeywordInput.defaultProps = {
 	keyword: "",
 	onRemoveKeyword: noop,
 	onBlurKeyword: noop,
-	labelSiblingElement: null,
+	helpLink: null,
 };
 
 export default KeywordInput;
