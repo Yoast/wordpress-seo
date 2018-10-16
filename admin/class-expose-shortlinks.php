@@ -55,6 +55,8 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 			$input[ $key ] = WPSEO_Shortlinker::get( $shortlink );
 		}
 
+		$input['default_query_args'] = WPSEO_Shortlinker::get_encoded_query();
+
 		return $input;
 	}
 }
