@@ -68,9 +68,9 @@ jQuery( document ).ready(
 				wpseoCustomUploader.open();
 			} );
 
-			const deleteButton = $uploadImageButton
+			$uploadImageButton
 				.siblings( ".wpseo_image_remove_button" )
-				.on( 'click', ( e ) => {
+				.on( "click", ( e ) => {
 					e.preventDefault();
 
 					$urlInput.val( "" );
