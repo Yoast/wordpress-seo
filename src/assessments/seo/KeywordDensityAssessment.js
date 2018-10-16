@@ -31,9 +31,16 @@ class KeywordDensityAssessment extends Assessment {
 
 		const defaultConfig = {
 			parameters: {
-				overMaximum: 3.5,
-				maximum: 2.5,
-				minimum: 0.5,
+				noWordForms: {
+					overMaximum: 3.5,
+					maximum: 2.5,
+					minimum: 0.5,
+				},
+				multipleWordForms: {
+					overMaximum: 3.5,
+					maximum: 3.0,
+					minimum: 0.5,
+				},
 			},
 			scores: {
 				wayOverMaximum: -50,
@@ -67,6 +74,13 @@ class KeywordDensityAssessment extends Assessment {
 
 		this._keywordDensity = researcher.getResearch( "getKeywordDensity" );
 
+		/*
+		 * Use other boundaries when taking morphology into account,
+		 * since multiple keyword forms can be matched.
+		 */
+		this._hasMorphologyData = researcher.getData( "morphology" ) !== false;
+		this._locale = paper.getLocale();
+
 		const calculatedScore = this.calculateResult( i18n );
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
@@ -87,28 +101,48 @@ class KeywordDensityAssessment extends Assessment {
 	/**
 	 * Checks whether there are too few keyword matches in the text.
 	 *
+	 * Changes the boundaries based on if we have access to morphology data.
+	 * (Since multiple keyword forms can be matched the boundaries should be relaxed a bit)
+	 *
 	 * @returns {boolean} Returns true if the rounded keyword density is between
 	 *                    0 and the recommended minimum.
 	 */
 	hasTooFewMatches() {
+		if ( this.shouldUseMorphologyBoundaries() ) {
+			return inRangeStartInclusive(
+				this._keywordDensity,
+				0,
+				this._config.parameters.multipleWordForms.minimum
+			);
+		}
 		return inRangeStartInclusive(
 			this._keywordDensity,
 			0,
-			this._config.parameters.minimum
+			this._config.parameters.noWordForms.minimum
 		);
 	}
 
 	/**
 	 * Checks whether there is a good number of keyword matches in the text.
 	 *
+	 * Changes the boundaries based on if we have access to morphology data.
+	 * (Since multiple keyword forms can be matched the boundaries should be relaxed a bit)
+	 *
 	 * @returns {boolean} Returns true if the rounded keyword density is between
 	 *                    the recommended minimum and the recommended maximum.
 	 */
 	hasGoodNumberOfMatches() {
+		if ( this.shouldUseMorphologyBoundaries() ) {
+			return inRangeStartEndInclusive(
+				this._keywordDensity,
+				this._config.parameters.multipleWordForms.minimum,
+				this._config.parameters.multipleWordForms.maximum
+			);
+		}
 		return inRangeStartEndInclusive(
 			this._keywordDensity,
-			this._config.parameters.minimum,
-			this._config.parameters.maximum
+			this._config.parameters.noWordForms.minimum,
+			this._config.parameters.noWordForms.maximum
 		);
 	}
 
@@ -116,16 +150,35 @@ class KeywordDensityAssessment extends Assessment {
 	 * Checks whether the number of keyword matches in the text is between the
 	 * recommended maximum and the specified overMaximum value.
 	 *
+	 * Changes the boundaries based on if we have access to morphology data.
+	 * (Since multiple keyword forms can be matched the boundaries should be relaxed a bit)
+	 *
 	 * @returns {boolean} Returns true if the rounded keyword density is between
 	 *                    the recommended maximum and the specified overMaximum
 	 *                    value.
 	 */
 	hasTooManyMatches() {
+		if ( this.shouldUseMorphologyBoundaries() ) {
+			return inRangeEndInclusive(
+				this._keywordDensity,
+				this._config.parameters.multipleWordForms.maximum,
+				this._config.parameters.multipleWordForms.overMaximum
+			);
+		}
 		return inRangeEndInclusive(
 			this._keywordDensity,
-			this._config.parameters.maximum,
-			this._config.parameters.overMaximum
+			this._config.parameters.noWordForms.maximum,
+			this._config.parameters.noWordForms.overMaximum
 		);
+	}
+
+	/**
+	 * If this assessments should use the morphology score boundaries.
+	 *
+	 * @returns {boolean} if the assessment should use the morphology score boundaries.
+	 */
+	shouldUseMorphologyBoundaries() {
+		return this._hasMorphologyData && this._locale === "en_US";
 	}
 
 	/**
@@ -136,7 +189,10 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
 	calculateResult( i18n ) {
-		const max = `${ this._config.parameters.maximum}%`;
+		const max = this.shouldUseMorphologyBoundaries()
+			? this._config.parameters.multipleWordForms.maximum
+			: this._config.parameters.noWordForms.maximum;
+		const maxText = `${ max }%`;
 		const roundedKeywordDensity = formatNumber( this._keywordDensity );
 		const keywordDensityPercentage = roundedKeywordDensity + "%";
 
@@ -231,7 +287,7 @@ class KeywordDensityAssessment extends Assessment {
 					),
 					keywordDensityPercentage,
 					this._keywordCount.count,
-					max,
+					maxText,
 					this._config.urlTitle,
 					this._config.urlCallToAction,
 					"</a>"
@@ -261,7 +317,7 @@ class KeywordDensityAssessment extends Assessment {
 				),
 				keywordDensityPercentage,
 				this._keywordCount.count,
-				max,
+				maxText,
 				this._config.urlTitle,
 				this._config.urlCallToAction,
 				"</a>"

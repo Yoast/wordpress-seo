@@ -38,6 +38,7 @@ class KeyphraseLengthAssessment extends Assessment {
 			},
 			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/33i" ),
 			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/33j" ),
+			isRelatedKeyphrase: false,
 		};
 
 		this.identifier = "keyphraseLength";
@@ -76,6 +77,22 @@ class KeyphraseLengthAssessment extends Assessment {
 	 */
 	calculateResult( i18n ) {
 		if ( this._keyphraseLength < this._config.parameters.recommendedMinimum ) {
+			if ( this._config.isRelatedKeyphrase ) {
+				return {
+					score: this._config.scores.veryBad,
+					resultText: i18n.sprintf(
+						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+						i18n.dgettext(
+							"js-text-analysis",
+							"%1$sKeyphrase length%3$s: " +
+							"%2$sSet a keyphrase in order to calculate your SEO score%3$s."
+						),
+						this._config.urlTitle,
+						this._config.urlCallToAction,
+						"</a>"
+					),
+				};
+			}
 			return {
 				score: this._config.scores.veryBad,
 				resultText: i18n.sprintf(
