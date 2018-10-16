@@ -17,8 +17,7 @@ const Container = styled.div`
 	font-size: 1em;
 	display: flex;
 	flex-direction: ${ props => props.alignment === "horizontal" ? "row" : "column" };
-	border-left: ${ getRtlStyle( "4px solid #a4286a", "none" ) };
-	border-right: ${ getRtlStyle( "none", "4px solid #a4286a" ) };
+	${ getRtlStyle( "border-left", "border-right" ) }: 4px solid ${ colors.$color_pink_dark };
 	margin: 16px 0;
 	padding: 0 0 0 8px;
 	max-width: 600px;
