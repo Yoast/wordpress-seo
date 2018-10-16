@@ -353,7 +353,7 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @param string $attachment_id The ID to save.
 	 *
-	 * @return
+	 * @return void
 	 */
 	private function save_opengraph_image_id_meta( $attachment_id ) {
 		$post_id = $this->get_queried_object_id();
