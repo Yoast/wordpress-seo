@@ -63,7 +63,7 @@ import InvalidTypeError from "../errors/invalidType";
 import Scheduler from "./scheduler";
 import Transporter from "./transporter";
 import RelatedKeywordTaxonomyAssessor from "../relatedKeywordTaxonomyAssessor";
-import { configureShortlinker, createShortlink } from "../shortlinker";
+import { configureShortlinker } from "../shortlinker";
 
 const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 
@@ -166,10 +166,8 @@ export default class AnalysisWebWorker {
 			registerMessageHandler: this.registerMessageHandler,
 			refreshAssessment: this.refreshAssessment,
 		};
-		this._scope.yoast = {
-			analysis: YoastSEO,
-			createShortlink,
-		};
+		this._scope.yoast = this._scope.yoast || {};
+		this._scope.yoast.analysis = YoastSEO;
 	}
 
 	/**

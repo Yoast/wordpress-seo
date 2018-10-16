@@ -1,17 +1,19 @@
 import Shortlinker from "./Shortlinker";
 
-let shortlinker = null;
+// Expose global variable.
+self.yoast = self.yoast || {};
+self.yoast.shortlinker = null;
 
 /**
  * Retrieves the Shortlinker instance.
  *
  * @returns {Shortlinker} The Shortlinker.
  */
-export function getShortlinker() {
-	if ( shortlinker === null ) {
-		shortlinker = new Shortlinker();
+function getShortlinker() {
+	if ( self.yoast.shortlinker === null ) {
+		self.yoast.shortlinker = new Shortlinker();
 	}
-	return shortlinker;
+	return self.yoast.shortlinker;
 }
 
 /**
@@ -36,4 +38,16 @@ export function configureShortlinker( config ) {
  */
 export function createShortlink( url, params = {} ) {
 	return ( getShortlinker() ).create( url, params );
+}
+
+/**
+ * Creates an anchor opening tag using the shortlink create.
+ *
+ * @param {string} url         The url.
+ * @param {Object} [params={}] Optional extra params for in the query string.
+ *
+ * @returns {string} The anchor opening tag.
+ */
+export function createShortlinkAnchorOpeningTag( url, params = {} ) {
+	return ( getShortlinker() ).createAnchorOpeningTag( url, params );
 }

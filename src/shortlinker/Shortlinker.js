@@ -48,11 +48,23 @@ export default class Shortlinker {
 	 * @returns {string} The shortlink with query string.
 	 */
 	create( url, params = {} ) {
-		const queryString = self.createQueryString( {
+		const queryString = Shortlinker.createQueryString( {
 			...this._config.params,
 			...params,
 		} );
 
-		return encodeURI( url ) + "?" + queryString;
+		return [ encodeURI( url ), queryString ].join( "?" );
+	}
+
+	/**
+	 * Creates an anchor opening tag using the shortlink create.
+	 *
+	 * @param {string} url         The base url.
+	 * @param {Object} [params={}] Optional params for in the query string.
+	 *
+	 * @returns {string} The shortlink with query string.
+	 */
+	createAnchorOpeningTag( url, params = {} ) {
+		return `<a href="${ this.create( url, params ) }" target="_blank">`;
 	}
 }
