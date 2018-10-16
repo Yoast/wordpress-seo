@@ -240,7 +240,7 @@ describe( "Match keywords in string", function() {
 		expect( result.allWordsFound ).toBe( true );
 	} );
 
-	it( "returns all-words-found match if keyphrase words were shuffled in the title for French", function() {
+	it( "returns all-words-found match if keyphrase words were shuffled in the title for Swedish", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "promenader i naturen",
 			title: "Jag gillar att ta promenader i naturen.",
@@ -252,6 +252,45 @@ describe( "Match keywords in string", function() {
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
 		expect( result.position ).toBe( 18 );
+	} );
+
+	it( "returns an exact match at the beginning", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "\"Walking in the nature\"",
+			title: "Walking in the nature is awesome.",
+		} );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatch ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns an exact match not at the beginning", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "\"Walking in the nature\"",
+			title: "My opinion: Walking in the nature is awesome.",
+		} );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatch ).toBe( true );
+		expect( result.position ).toBe( 12 );
+	} );
+
+	it( "returns an exact match not found", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "\"Walking in the nature\"",
+			title: "My opinion: Walking in nature is awesome.",
+		} );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatch ).toBe( false );
+		expect( result.allWordsFound ).toBe( false );
 	} );
 } );
 

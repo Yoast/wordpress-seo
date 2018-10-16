@@ -3,7 +3,7 @@
 import wordMatch from "../stringProcessing/matchTextWithWord.js";
 const findTopicFormsInString = require( "./findKeywordFormsInString.js" ).findTopicFormsInString;
 
-import { escapeRegExp } from "lodash-es";
+import { escapeRegExp, includes } from "lodash-es";
 
 /**
  * Counts the occurrences of the keyword in the page title. Returns the result that contains information on
@@ -17,11 +17,17 @@ import { escapeRegExp } from "lodash-es";
  * @returns {Object} result with the information on whether the keyphrase was matched in the title and how.
  */
 export default function( paper, researcher ) {
-	const keyword = escapeRegExp( paper.getKeyword() );
+	let keyword = escapeRegExp( paper.getKeyword() );
 	const title = paper.getTitle();
 	const locale = paper.getLocale();
 
 	const result = { exactMatch: false, allWordsFound: false, position: -1 };
+
+	// First check if morphology is suppressed. If so, strip the quotation marks from the keyphrase.
+	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
+	if ( includes( doubleQuotes, keyword[ 0 ] ) && includes( doubleQuotes, keyword[ keyword.length - 1 ] ) ) {
+		keyword = keyword.substring( 1, keyword.length - 1 );
+	}
 
 	// Check 1: Is the exact match of the keyphrase found in the title?
 	const keywordMatched = wordMatch( title, keyword, locale );
