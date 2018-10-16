@@ -275,7 +275,7 @@ class SeoAnalysis extends React.Component {
 						label={ __( "Focus keyphrase", "wordpress-seo" ) }
 						labelSiblingElement={ this.renderHelpLink() }
 					/>
-					<KeyphraseNotice text={ "Hey, this is a notice about your keyphrase!" } />
+					<KeyphraseNotice innerHtml={ this.props.keyphraseNotice } />
 					<Slot name="YoastSynonyms" />
 					{ this.props.shouldUpsell && <React.Fragment>
 						{ this.renderSynonymsUpsell( this.props.location ) }
@@ -324,15 +324,18 @@ function mapStateToProps( state, ownProps ) {
 
 	let results = null;
 	let overallScore = null;
+	let keyphraseNotice = null;
 	if ( state.analysis.seo[ keyword ] ) {
 		results = state.analysis.seo[ keyword ].results;
 		overallScore = state.analysis.seo[ keyword ].overallScore;
+		keyphraseNotice = state.analysis.seo[ keyword ].notice;
 	}
 	return {
 		results,
 		marksButtonStatus,
 		keyword,
 		overallScore,
+		keyphraseNotice,
 	};
 }
 

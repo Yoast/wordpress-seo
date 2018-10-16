@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "yoast-components";
 
-// TODO: Add background color to style guide?
 const Notice = styled.p`
-	background: #FFEEA3;
+	background: ${ colors.$color_notice_yellow };
 	color: ${ colors.$color_grey_dark };
 	padding: 4px 8px;
 `;
@@ -19,18 +18,19 @@ class KeyphraseNotice extends React.Component {
 	 * @returns {React.Component} the keyphrase notice component.
 	 */
 	render() {
-		return ( <Notice>
-			{ this.props.text }
-		</Notice> );
+		if ( this.props.innerHtml && this.props.innerHtml.length > 0 ) {
+			return <Notice dangerouslySetInnerHTML={ { __html: this.props.innerHtml } } />;
+		}
+		return null;
 	}
 }
 
 export default KeyphraseNotice;
 
 KeyphraseNotice.propTypes = {
-	text: PropTypes.string,
+	innerHtml: PropTypes.string,
 };
 
 KeyphraseNotice.defaultProps = {
-	text: "",
+	innerHtml: "",
 };
