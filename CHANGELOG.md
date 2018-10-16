@@ -23,7 +23,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
   * Keyphrase in meta description: checks whether all words from the keyphrase are matched within one sentence or, if not, whether they are present in the meta description at all.
   * Keyphrase in subheading: now checks whether at least one subheading reflects the topic of the post. A subheading is considered to reflect the topic of the post if more than half of the words from the keyphrase are found in it. A full match isn’t required anymore.
   * Keyphrase in slug: checks whether a sufficient number of words from the keyphrase is used in the slug. The number of words required depends on the length of the keyphrase.
-  * Keyphrase density: checks whether there are enough keyphrase matches; a match is defined as a sentence that contains all words from the keyphrase.
+  * Keyphrase density: checks whether there are enough keyphrase matches; a match is defined as a sentence that contains all words from the keyphrase. The upper boundary for a green score is higher when word form recognition is available, since in that case it's possible to have a higher density without sounding too repetitive.
   * Link focus keyphrase: the assessment that checks whether you’re using your keyphrase to link to a different article doesn't require a full match anymore.
   * Keyphrase distribution uses an improved algorithm that checks whether the keyphrase is evenly distributed throughout the text.
 * The following assessments will also count synonym matches as keyphrase matches:
@@ -33,6 +33,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
   * Keyphrase in subheading
   * Keyphrase distribution
 * Deprecates the assessment that checks if stopwords are used within the keyphrase.
+* The analysis for related keyphrases only shows assessments relevant for the specific keyphrase. It omits assessments that are non-keyphrase-related and assessments that should only be applied to the focus keyphrase.
   
 ### Fixed
 * Fixes a bug where the keyword would not be found in the slug when containing punctuation, for example the keyphrase `apples & pears` in the slug `apples-pears`.
