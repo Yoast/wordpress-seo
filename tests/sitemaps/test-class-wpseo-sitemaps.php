@@ -48,6 +48,9 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Sitemaps::redirect
 	 */
 	public function test_main_sitemap() {
+
+		add_filter( 'wpseo_enable_xml_sitemap_transient_caching', '__return_true' );
+
 		self::$class_instance->reset();
 
 		set_query_var( 'sitemap', '1' );
@@ -72,6 +75,8 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 			'</sitemapindex>',
 			'Served from transient cache',
 		) );
+
+		remove_filter( 'wpseo_enable_xml_sitemap_transient_caching', '__return_true' );
 	}
 
 	/**

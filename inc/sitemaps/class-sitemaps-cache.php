@@ -16,7 +16,7 @@ class WPSEO_Sitemaps_Cache {
 	protected static $cache_clear = array();
 
 	/** @var bool $is_enabled Mirror of enabled status for static calls. */
-	protected static $is_enabled = true;
+	protected static $is_enabled = false;
 
 	/** @var bool $clear_all Holds the flag to clear all cache. */
 	protected static $clear_all = false;
@@ -67,7 +67,7 @@ class WPSEO_Sitemaps_Cache {
 		 *
 		 * @param bool $unsigned Enable cache or not, defaults to true
 		 */
-		return apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
+		return apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', false );
 	}
 
 	/**
