@@ -89,3 +89,17 @@ describe( "A test for marking the keyword", function() {
 		expect( keywordDensityAssessment.getMarks() ).toEqual( expected );
 	} );
 } );
+
+describe( "An assessment for keywordDensity when morphology data is available.", function() {
+	it( "gives a GOOD result when keyword density is 3.0%", function() {
+		const paper = new Paper( "string with the keyword  and keyword ", { keyword: "keyword" } );
+		const result = new KeywordDensityAssessment().getResult( paper, factory.buildMockResearcher( {
+			getKeywordDensity: 3,
+			keywordCount: {
+				count: 2,
+			},
+		}, true, true ), i18n );
+		expect( result.getScore() ).toBe( 9 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 3%. This is great!" );
+	} );
+} );
