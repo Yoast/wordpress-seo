@@ -205,7 +205,7 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @return void
 	 */
-	private function add_image_by_id_or_url( $image_id, $image_url, callable $save_id ) {
+	private function add_image_by_id_or_url( $image_id, $image_url, $save_id ) {
 		switch ( $image_id ) {
 			case self::EXTERNAL_IMAGE_ID:
 				// Add image by URL, but skip attachment_to_id call. We already know this is an external image.
