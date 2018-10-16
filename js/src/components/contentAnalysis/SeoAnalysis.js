@@ -17,6 +17,7 @@ import MultipleKeywords from "../modals/MultipleKeywords";
 import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
 import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
 import AnalysisUpsell from "../AnalysisUpsell";
+import KeyphraseNotice from "../KeyphraseNotice";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -274,6 +275,7 @@ class SeoAnalysis extends React.Component {
 						label={ __( "Focus keyphrase", "wordpress-seo" ) }
 						labelSiblingElement={ this.renderHelpLink() }
 					/>
+					<KeyphraseNotice text={ "Hey, this is a notice about your keyphrase!" } />
 					<Slot name="YoastSynonyms" />
 					{ this.props.shouldUpsell && <React.Fragment>
 						{ this.renderSynonymsUpsell( this.props.location ) }
