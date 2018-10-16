@@ -621,7 +621,7 @@ class WPSEO_Upgrade {
 		global $wpdb;
 
 		// Invalidate all sitemap cache transients.
-		WPSEO_Sitemaps_Cache_Validator::invalidate_storage();
+		WPSEO_Sitemaps_Cache_Validator::cleanup_database();
 
 		// Removes all scheduled tasks for hitting the sitemap index.
 		wp_clear_scheduled_hook( 'wpseo_hit_sitemap_index' );
