@@ -1,11 +1,14 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import formatNumber from "../../helpers/formatNumber.js";
 import { map } from "lodash-es";
-import { inRangeStartInclusive as inRange } from "../../helpers/inRange.js";
+
+import formatNumber from "../../helpers/formatNumber";
+import getLanguageAvailability from "../../helpers/getLanguageAvailability";
+import { inRangeStartInclusive as inRange } from "../../helpers/inRange";
+import marker from "../../markers/addMark";
+import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
 import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
-import Mark from "../../values/Mark.js";
-import marker from "../../markers/addMark.js";
-import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
+
 let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca", "pl" ];
 
 /**
@@ -57,8 +60,8 @@ let calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	let percentage = calculateTransitionWordPercentage( transitionWordSentences );
 	let score = calculateScoreFromPercentage( percentage );
 	let hasMarks   = ( percentage > 0 );
-	let urlTitle = "<a href='https://yoa.st/34z' target='_blank'>";
-	let urlCallToAction = "<a href='https://yoa.st/35a' target='_blank'>";
+	const urlTitle = createShortlinkAnchorOpeningTag( "https://yoa.st/34z" );
+	const urlCallToAction = createShortlinkAnchorOpeningTag( "https://yoa.st/35a" );
 
 	if ( score < 7 && percentage === 0 ) {
 		return {

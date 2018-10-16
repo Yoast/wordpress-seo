@@ -1,7 +1,8 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import formatNumber from "../../helpers/formatNumber.js";
-import countTooLongSentences from "./../../assessmentHelpers/checkForTooLongSentences.js";
-import { inRangeEndInclusive as inRange } from "../../helpers/inRange.js";
+import formatNumber from "../../helpers/formatNumber";
+import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
+import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import AssessmentResult from "../../values/AssessmentResult";
+import countTooLongSentences from "./../../assessmentHelpers/checkForTooLongSentences";
 
 /**
  * Calculates sentence length score
@@ -14,7 +15,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	var percentage = 0;
 	var recommendedValue = 20;
 	var tooLongTotal = countTooLongSentences( sentences, recommendedValue ).length;
-	var sentenceLengthURL = "<a href='https://yoa.st/short-sentences' target='_blank'>";
+	const sentenceLengthURL = createShortlinkAnchorOpeningTag( "https://yoa.st/short-sentences" );
 
 	if ( sentences.length !== 0 ) {
 		percentage = formatNumber( ( tooLongTotal / sentences.length ) * 100 );

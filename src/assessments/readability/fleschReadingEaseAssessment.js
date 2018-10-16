@@ -1,9 +1,9 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
-import { inRange } from "lodash-es";
-import { merge } from "lodash-es";
+import { inRange, merge } from "lodash-es";
 
-import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
+import Assessment from "../../assessment";
+import getLanguageAvailability from "../../helpers/getLanguageAvailability";
+import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import AssessmentResult from "../../values/AssessmentResult";
 
 const availableLanguages = [ "en", "nl", "de", "it", "ru", "fr", "es" ];
 
@@ -18,8 +18,8 @@ class FleschReadingEaseAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			urlTitle: "<a href='https://yoa.st/34r' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/34s' target='_blank'>",
+			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/34r" ),
+			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/34s" ),
 		};
 
 		this.identifier = "fleschReadingEase";

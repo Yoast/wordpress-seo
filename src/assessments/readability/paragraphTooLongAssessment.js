@@ -1,12 +1,12 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import { stripBlockTagsAtStartEnd as stripHTMLTags } from "../../stringProcessing/stripHTMLTags";
-import isParagraphTooLong from "../../helpers/isValueTooLong";
-import Mark from "../../values/Mark.js";
-import marker from "../../markers/addMark.js";
-import { inRangeEndInclusive as inRange } from "../../helpers/inRange.js";
+import { filter, map } from "lodash-es";
 
-import { filter } from "lodash-es";
-import { map } from "lodash-es";
+import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
+import isParagraphTooLong from "../../helpers/isValueTooLong";
+import marker from "../../markers/addMark";
+import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { stripBlockTagsAtStartEnd as stripHTMLTags } from "../../stringProcessing/stripHTMLTags";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
 
 // 150 is the recommendedValue for the maximum paragraph length.
 const recommendedValue = 150;
@@ -31,8 +31,8 @@ const getTooLongParagraphs = function( paragraphsLength  ) {
  */
 let calculateParagraphLengthResult = function( paragraphsLength, tooLongParagraphs, i18n ) {
 	let score;
-	let urlTitle = "<a href='https://yoa.st/35d' target='_blank'>";
-	let urlCallToAction = "<a href='https://yoa.st/35e' target='_blank'>";
+	const urlTitle = createShortlinkAnchorOpeningTag( "https://yoa.st/35d" );
+	const urlCallToAction = createShortlinkAnchorOpeningTag( "https://yoa.st/35e" );
 
 	if ( paragraphsLength.length === 0 ) {
 		return {};

@@ -1,14 +1,11 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import removeSentenceTerminators from "../../stringProcessing/removeSentenceTerminators";
-import formatNumber from "../../helpers/formatNumber.js";
-import Mark from "../../values/Mark.js";
-import addMark from "../../markers/addMark.js";
+import { filter, flatMap, flatten, forEach, zip } from "lodash-es";
 
-import { filter } from "lodash-es";
-import { flatMap } from "lodash-es";
-import { zip } from "lodash-es";
-import { forEach } from "lodash-es";
-import { flatten } from "lodash-es";
+import formatNumber from "../../helpers/formatNumber";
+import addMark from "../../markers/addMark";
+import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import removeSentenceTerminators from "../../stringProcessing/removeSentenceTerminators";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
 
 // The maximum recommended value is 3 syllables. With more than 3 syllables a word is considered complex.
 var recommendedValue = 3;
@@ -44,7 +41,7 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 	percentage = formatNumber( percentage );
 	var hasMarks = ( percentage > 0 );
 	var recommendedMaximum = 5;
-	var wordComplexityURL = "<a href='https://yoa.st/difficult-words' target='_blank'>";
+	var wordComplexityURL = createShortlinkAnchorOpeningTag( "https://yoa.st/difficult-words" );
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps. each step is 0.6
 	// Up to 1.7 percent is for scoring a 9, higher percentages give lower scores.
 	var score = 9 - Math.max( Math.min( ( 0.6 ) * ( percentage - 1.7 ), 6 ), 0 );

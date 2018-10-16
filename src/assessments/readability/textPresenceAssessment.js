@@ -1,3 +1,4 @@
+import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
 import { stripFullTags as stripHTMLTags } from "../../stringProcessing/stripHTMLTags";
 import AssessmentResult from "../../values/AssessmentResult";
 
@@ -11,8 +12,8 @@ import AssessmentResult from "../../values/AssessmentResult";
  */
 function textPresenceAssessment( paper, researcher, i18n ) {
 	let text = stripHTMLTags( paper.getText() );
-	let urlTitle = "<a href='https://yoa.st/35h' target='_blank'>";
-	let urlCallToAction = "<a href='https://yoa.st/35i' target='_blank'>";
+	const urlTitle = createShortlinkAnchorOpeningTag( "https://yoa.st/35h" );
+	const urlCallToAction = createShortlinkAnchorOpeningTag( "https://yoa.st/35i" );
 
 	if ( text.length < 50 ) {
 		let result = new AssessmentResult();
