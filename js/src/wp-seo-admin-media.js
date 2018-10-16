@@ -61,10 +61,21 @@ jQuery( document ).ready(
 			}
 			);
 
-			$( element ).click( function( e ) {
+			const $uploadImageButton = $( element );
+
+			$uploadImageButton.click( function( e ) {
 				e.preventDefault();
 				wpseoCustomUploader.open();
 			} );
+
+			const deleteButton = $uploadImageButton
+				.siblings( ".wpseo_image_remove_button" )
+				.on( 'click', ( e ) => {
+					e.preventDefault();
+
+					$urlInput.val( "" );
+					$idInput.val( "" );
+				} );
 		} );
 	}
 );

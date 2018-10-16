@@ -618,12 +618,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					' readonly="readonly"' .
 					' />';
 				$content .= '<input' .
-					' id="' . $esc_form_key . '_button"' .
+					' id="' . esc_attr( $esc_form_key ) . '_button"' .
 					' class="wpseo_image_upload_button button"' .
-					' data-target="' . $esc_form_key . '"' .
-					' data-target-id="' . $esc_form_key . '-id"' .
+					' data-target="' . esc_attr( $esc_form_key ) . '"' .
+					' data-target-id="' . esc_attr( $esc_form_key ) . '-id"' .
 					' type="button"' .
 					' value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '"' .
+					' />';
+				$content .= '<input' .
+					' class="wpseo_image_remove_button button"' .
+					' type="button"' .
+					' value="' . esc_attr__( 'Remove Image', 'wordpress-seo' ) . '"' .
 					' />';
 				break;
 		}
