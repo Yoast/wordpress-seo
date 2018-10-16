@@ -109,14 +109,20 @@ class WPSEO_Taxonomy_Fields_Presenter {
 					' name="' . $field_name . '"' .
 					' value="' . esc_attr( $field_value ) . '"' . $aria_describedby . '' .
 					' readonly="readonly"' .
-					' />';
+					' /> ';
 				$field .= '<input' .
-					' id="' . $field_name . '_button"' .
+					' id="' . esc_attr( $field_name ) . '_button"' .
 					' class="wpseo_image_upload_button button"' .
-					' data-target="' . $field_name . '"' .
-					' data-target-id="hidden_' . $field_name . '-id"' .
+					' data-target="' . esc_attr( $field_name ) . '"' .
+					' data-target-id="hidden_' . esc_attr( $field_name ) . '-id"' .
 					' type="button"' .
 					' value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '"' .
+					' /> ';
+				$field .= '<input' .
+					' id="' . esc_attr( $field_name ) . '_button"' .
+					' class="wpseo_image_remove_button button"' .
+					' type="button"' .
+					' value="' . esc_attr__( 'Clear Image', 'wordpress-seo' ) . '"' .
 					' />';
 				break;
 			case 'select':

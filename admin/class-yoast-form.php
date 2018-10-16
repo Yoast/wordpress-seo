@@ -526,7 +526,7 @@ class Yoast_Form {
 				' name="', esc_attr( $this->option_name ), '[', $var_esc, ']"',
 				' value="', esc_attr( $val ), '"',
 				' readonly="readonly"',
-				' />';
+				' /> ';
 			echo '<input',
 				' id="wpseo_', $var_esc, '_button"',
 				' class="wpseo_image_upload_button button"',
@@ -534,11 +534,11 @@ class Yoast_Form {
 				' value="', esc_attr__( 'Upload Image', 'wordpress-seo' ), '"',
 				' data-target-id="', esc_attr( $id_field_id ), '"',
 				disabled( $this->is_control_disabled( $var ), true, false ),
-				' />';
+				' /> ';
 			echo '<input',
 				' class="wpseo_image_remove_button button"',
 				' type="button"',
-				' value="', esc_attr__( 'Remove Image', 'wordpress-seo' ), '"',
+				' value="', esc_attr__( 'Clear Image', 'wordpress-seo' ), '"',
 				disabled( $this->is_control_disabled( $var ), true, false ),
 				' />';
 			echo '<input',

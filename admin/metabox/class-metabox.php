@@ -624,11 +624,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					' data-target-id="' . esc_attr( $esc_form_key ) . '-id"' .
 					' type="button"' .
 					' value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '"' .
-					' />';
+					' /> ';
 				$content .= '<input' .
 					' class="wpseo_image_remove_button button"' .
 					' type="button"' .
-					' value="' . esc_attr__( 'Remove Image', 'wordpress-seo' ) . '"' .
+					' value="' . esc_attr__( 'Clear Image', 'wordpress-seo' ) . '"' .
 					' />';
 				break;
 		}
