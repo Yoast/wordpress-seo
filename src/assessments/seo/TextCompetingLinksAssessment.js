@@ -1,11 +1,10 @@
-import { map } from "lodash-es";
-import { merge } from "lodash-es";
-import { isUndefined } from "lodash-es";
+import { isUndefined, map, merge } from "lodash-es";
 
 import Assessment from "../../assessment";
+import addMark from "../../markers/addMark";
+import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";
-import addMark from "../../markers/addMark";
 
 /**
  * Assessment to check whether you're linking to a different page with the keyword from this page.
@@ -31,8 +30,8 @@ class TextCompetingLinksAssessment extends Assessment {
 			scores: {
 				bad: 2,
 			},
-			urlTitle: "<a href='https://yoa.st/34l' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/34m' target='_blank'>",
+			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/34l" ),
+			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/34m" ),
 		};
 
 		this.identifier = "textCompetingLinks";

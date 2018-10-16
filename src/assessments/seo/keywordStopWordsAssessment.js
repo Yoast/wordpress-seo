@@ -1,5 +1,6 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
+import getLanguageAvailability from "../../helpers/getLanguageAvailability";
+import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import AssessmentResult from "../../values/AssessmentResult";
 
 const availableLanguages = [ "en" ];
 
@@ -47,8 +48,8 @@ const keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
 	assessmentResult.setScore( stopWordsResult.score );
 	assessmentResult.setText( i18n.sprintf(
 		stopWordsResult.text,
-		"<a href='https://yoa.st/34b' target='_blank'>",
-		"<a href='https://yoa.st/34c' target='_blank'>",
+		createShortlinkAnchorOpeningTag( "https://yoa.st/34b" ),
+		createShortlinkAnchorOpeningTag( "https://yoa.st/34c" ),
 		"</a>",
 		stopWords.length
 	) );

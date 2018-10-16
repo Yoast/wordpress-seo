@@ -1,7 +1,8 @@
 import { merge } from "lodash-es";
 
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
+import Assessment from "../../assessment";
+import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Represents the assessment that will look if the images have alt-tags and checks if the keyword is present in one of them.
@@ -25,8 +26,8 @@ class TextImagesAssessment extends Assessment {
 				withAlt: 6,
 				noAlt: 6,
 			},
-			urlTitle: "<a href='https://yoa.st/33c' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/33d' target='_blank'>",
+			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/33c" ),
+			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/33d" ),
 		};
 
 		this.identifier = "textImages";

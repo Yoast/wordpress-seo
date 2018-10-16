@@ -1,14 +1,11 @@
 import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
-import AssessmentResult from "../../values/AssessmentResult";
-import countWords from "../../stringProcessing/countWords";
-import inRange from "../../helpers/inRange";
 import formatNumber from "../../helpers/formatNumber";
-
-const inRangeEndInclusive = inRange.inRangeEndInclusive;
-const inRangeStartInclusive = inRange.inRangeStartInclusive;
-const inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
+import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/inRange";
+import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import countWords from "../../stringProcessing/countWords";
+import AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Represents the assessment that will look if the keyword density is within the recommended range.
@@ -44,8 +41,8 @@ class KeywordDensityAssessment extends Assessment {
 				correctDensity: 9,
 				underMinimum: 4,
 			},
-			urlTitle: "<a href='https://yoa.st/33v' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/33w' target='_blank'>",
+			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/33v" ),
+			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/33w" ),
 		};
 
 		this.identifier = "keywordDensity";

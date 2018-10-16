@@ -1,8 +1,9 @@
 import { merge } from "lodash-es";
 
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
+import Assessment from "../../assessment";
 import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
+import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import AssessmentResult from "../../values/AssessmentResult";
 
 const maximumLength = 600;
 /**
@@ -28,8 +29,8 @@ class PageTitleWidthAssesment extends Assessment {
 				widthTooLong: 3,
 				widthCorrect: 9,
 			},
-			urlTitle: "<a href='https://yoa.st/34h' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/34i' target='_blank'>",
+			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/34h" ),
+			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/34i" ),
 		};
 
 		this.identifier = "titleWidth";

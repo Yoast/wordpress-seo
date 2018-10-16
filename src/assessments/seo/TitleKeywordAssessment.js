@@ -1,7 +1,7 @@
-import { merge } from "lodash-es";
-import { escape } from "lodash-es";
+import { escape, merge } from "lodash-es";
 
 import Assessment from "../../assessment";
+import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -32,8 +32,8 @@ class TitleKeywordAssessment extends Assessment {
 				okay: 6,
 				bad: 2,
 			},
-			urlTitle: "<a href='https://yoa.st/33g' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/33h' target='_blank'>",
+			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/33g" ),
+			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/33h" ),
 		};
 
 		this.identifier = "titleKeyword";

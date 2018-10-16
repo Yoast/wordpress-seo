@@ -1,9 +1,8 @@
 import { merge } from "lodash-es";
-
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
-
+import Assessment from "../../assessment";
 import Config from "../../config/config";
+import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import AssessmentResult from "../../values/AssessmentResult";
 
 const maximumMetaDescriptionLength = Config.maxMeta;
 
@@ -30,8 +29,8 @@ class MetaDescriptionLengthAssessment extends Assessment {
 				tooShort: 6,
 				correctLength: 9,
 			},
-			urlTitle: "<a href='https://yoa.st/34d' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/34e' target='_blank'>",
+			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/34d" ),
+			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/34e" ),
 		};
 
 		this.identifier = "metaDescriptionLength";

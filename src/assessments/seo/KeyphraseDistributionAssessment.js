@@ -1,10 +1,11 @@
 import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
-import AssessmentResult from "../../values/AssessmentResult";
-import countWords from "../../stringProcessing/countWords";
-import Mark from "../../values/Mark";
 import addMark from "../../markers/addMark";
+import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import countWords from "../../stringProcessing/countWords";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
 
 /**
  * Returns a score based on the largest percentage of text in
@@ -41,8 +42,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 				bad: 1,
 				consideration: 0,
 			},
-			urlTitle: "<a href='https://yoa.st/33q' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/33u' target='_blank'>",
+			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/33q" ),
+			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/33u" ),
 		};
 
 		this.identifier = "keyphraseDistribution";
