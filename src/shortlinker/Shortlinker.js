@@ -48,12 +48,17 @@ export default class Shortlinker {
 	 * @returns {string} The shortlink with query string.
 	 */
 	create( url, params = {} ) {
+		let link = encodeURI( url );
 		const queryString = Shortlinker.createQueryString( {
 			...this._config.params,
 			...params,
 		} );
 
-		return [ encodeURI( url ), queryString ].join( "?" );
+		if ( queryString !== "" ) {
+			link += "?" + queryString;
+		}
+
+		return link;
 	}
 
 	/**
@@ -65,6 +70,6 @@ export default class Shortlinker {
 	 * @returns {string} The shortlink with query string.
 	 */
 	createAnchorOpeningTag( url, params = {} ) {
-		return `<a href="${ this.create( url, params ) }" target="_blank">`;
+		return `<a href='${ this.create( url, params ) }' target='_blank'>`;
 	}
 }
