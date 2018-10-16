@@ -196,6 +196,33 @@ class WPSEO_OpenGraph_Image {
 		$this->images[ $image_url ] = $attachment;
 	}
 
+	private function add_image_by_id_or_url( $image_id, $image_url, callable $save_id ) {
+		switch ( $image_id ) {
+			case self::EXTERNAL_IMAGE_ID:
+				// Add image by URL, but skip attachment_to_id call. We already know this is an external image.
+				$this->add_image( array( 'url' => $image_url ) );
+				break;
+
+			case '':
+				// Add image by URL, try to save the ID afterwards. So we can use the ID the next time.
+				$attachment_id = $this->add_image_by_url( $image_url );
+
+				if ( $attachment_id !== null ) {
+					call_user_func( $save_id, $attachment_id );
+				}
+				break;
+
+			default:
+				// Add the image by ID. This is our ideal scenario.
+				$this->add_image_by_id( $image_id );
+				break;
+		}
+	}
+
+	private function save_frontpage_image_id( $attachment_id ) {
+		WPSEO_Options::set( 'og_frontpage_image_id', $attachment_id );
+	}
+
 	/**
 	 * If the frontpage image exists, call add_image.
 	 *
@@ -209,7 +236,11 @@ class WPSEO_OpenGraph_Image {
 			return;
 		}
 
-		$this->add_image_by_url( WPSEO_Options::get( 'og_frontpage_image', '' ) );
+
+		$frontpage_image_url = WPSEO_Options::get( 'og_frontpage_image' );
+		$frontpage_image_id = WPSEO_Options::get( 'og_frontpage_image_id' );
+
+		$this->add_image_by_id_or_url( $frontpage_image_id, $frontpage_image_url, array( $this, 'save_frontpage_image_id' ) );
 	}
 
 	/**
@@ -271,15 +302,33 @@ class WPSEO_OpenGraph_Image {
 		$this->set_featured_image( $post_id );
 	}
 
+	private function save_default_image_id( $attachment_id ) {
+		WPSEO_Options::set( 'og_default_image_id', $attachment_id );
+	}
+
 	/**
 	 * Get default image and call add_image.
 	 *
 	 * @return void
 	 */
 	private function maybe_set_default_image() {
-		if ( ! $this->has_images() && WPSEO_Options::get( 'og_default_image', '' ) !== '' ) {
-			$this->add_image_by_url( WPSEO_Options::get( 'og_default_image' ) );
+		if (
+			$this->has_images() ||
+			WPSEO_Options::get( 'og_default_image', '' ) === ''
+		) {
+			return;
 		}
+
+		$default_image_url = WPSEO_Options::get( 'og_default_image' );
+		$default_image_id = WPSEO_Options::get( 'og_default_image_id' );
+
+		$this->add_image_by_id_or_url( $default_image_id, $default_image_url, array( $this, 'save_default_image_id' ) );
+	}
+
+	private function save_opengraph_image_id_meta( $attachment_id ) {
+		$post_id = $this->get_queried_object_id();
+
+		WPSEO_Meta::set_value( 'opengraph-image-id', (string) $attachment_id, $post_id );
 	}
 
 	/**
@@ -293,28 +342,7 @@ class WPSEO_OpenGraph_Image {
 		$image_id = WPSEO_Meta::get_value( 'opengraph-image-id', $post_id );
 		$image_url = WPSEO_Meta::get_value( 'opengraph-image', $post_id );
 
-		var_dump( $image_id );
-
-		switch ( $image_id ) {
-			case self::EXTERNAL_IMAGE_ID:
-				// Add image by URL, but skip attachment_to_id call. We already know it is an external image.
-				$this->add_image( array( 'url' => $image_url ) );
-				break;
-
-			case '':
-				// Add image by URL, try to save the ID afterwards. So we can use the ID the next time.
-				$attachment_id = $this->add_image_by_url( $image_url );
-
-				if ( $attachment_id !== null ) {
-					WPSEO_Meta::set_value( 'opengraph-image-id', (string) $attachment_id, $post_id );
-				}
-				break;
-
-			default:
-				// Add the image by ID.
-				$this->add_image_by_id( $image_id );
-				break;
-		}
+		$this->add_image_by_id_or_url( $image_id, $image_url, array( $this, 'save_opengraph_image_id_meta' ) );
 	}
 
 	/**
