@@ -111,7 +111,7 @@ describe( "Checks if the assessment is applicable", function() {
 	} );
 
 
-	it( "is not applicable to papers with less than 10 sentences", function() {
+	it( "is not applicable to papers with less than 15 sentences", function() {
 		let mockPaper = new Paper( "Lorem ipsum dolor sit amet.", { keyword: "keyword" } );
 		let assessment = keyphraseDistributionAssessment.isApplicable( mockPaper );
 
