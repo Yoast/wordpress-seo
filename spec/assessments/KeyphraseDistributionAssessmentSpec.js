@@ -23,7 +23,7 @@ describe( "An assessment to check your keyphrase distribution", function() {
 			"<a href='https://yoa.st/33u' target='_blank'>Include your keyphrase or its synonyms in the text so that we can check keyphrase distribution</a>." );
 	} );
 
-	it( "returns a bad score when the % of sentences between topic occurrences is above 40%", function() {
+	it( "returns a bad score when the % of sentences between topic occurrences is above 50%", function() {
 		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword" } );
 		let assessment = keyphraseDistributionAssessment.getResult(
 			mockPaper,
