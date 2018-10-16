@@ -1,14 +1,6 @@
 // External dependencies.
 import Jed from "jed";
-
-import { forEach } from "lodash-es";
-import { has } from "lodash-es";
-import { merge } from "lodash-es";
-import { pickBy } from "lodash-es";
-import { includes } from "lodash-es";
-import { isUndefined } from "lodash-es";
-import { isString } from "lodash-es";
-import { isObject } from "lodash-es";
+import { forEach, has, merge, pickBy, includes, isNull, isUndefined, isString, isObject } from "lodash-es";
 
 // YoastSEO.js dependencies.
 import * as assessments from "../assessments";
@@ -64,6 +56,7 @@ import Scheduler from "./scheduler";
 import Transporter from "./transporter";
 import RelatedKeywordTaxonomyAssessor from "../relatedKeywordTaxonomyAssessor";
 import { configureShortlinker } from "../shortlinker";
+import includesAny from "../helpers/includesAny";
 
 const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 
@@ -406,6 +399,25 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
+	 * Checks which assessors should update giving a configuration.
+	 *
+	 * @param {Object}   configuration   The configuration to check.
+	 * @param {Assessor} contentAssessor The content assessor.
+	 * @param {Assessor} seoAssessor     The SEO assessor.
+	 *
+	 * @returns {Object} Containing seo and readability with true or false.
+	 */
+	static shouldAssessorsUpdate( configuration, contentAssessor = null, seoAssessor = null ) {
+		const readability = [ "contentAnalysisActive", "useCornerstone", "locale", "translations" ];
+		const seo = [ "keywordAnalysisActive", "useCornerstone", "useTaxonomy", "useKeywordDistribution", "locale", "translations", "researchData" ];
+
+		return {
+			readability: isNull( contentAssessor ) || includesAny( configuration, readability ),
+			seo: isNull( seoAssessor ) || includesAny( configuration, seo ),
+		};
+	}
+
+	/**
 	 * Configures the analysis worker.
 	 *
 	 * @param {number}  id                                     The request id.
@@ -423,46 +435,18 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	initialize( id, configuration ) {
-		const update = {
-			readability: this._contentAssessor === null,
-			seo: this._seoAssessor === null,
-		};
+		const update = AnalysisWebWorker.shouldAssessorsUpdate( configuration, this._contentAssessor, this._seoAssessor );
 
-		if ( has( configuration, "contentAnalysisActive" ) ) {
-			update.readability = true;
-		}
-		if ( has( configuration, "keywordAnalysisActive" ) ) {
-			update.seo = true;
-		}
-
-		if ( has( configuration, "useCornerstone" ) ) {
-			update.readability = true;
-			update.seo = true;
-		}
-		if (
-			has( configuration, "useTaxonomy" ) ||
-			has( configuration, "useKeywordDistribution" )
-		) {
-			update.seo = true;
-		}
-
-		if ( has( configuration, "locale" ) ) {
-			update.readability = true;
-			update.seo = true;
-		}
 		if ( has( configuration, "translations" ) ) {
 			this._i18n = AnalysisWebWorker.createI18n( configuration.translations );
-			// No need to actually save these in the configuration.
 			delete configuration.translations;
-			update.readability = true;
-			update.seo = true;
 		}
 
 		if ( has( configuration, "researchData" ) ) {
 			forEach( configuration.researchData, ( data, research ) => {
 				this._researcher.addResearchData( research, data );
 			} );
-			update.seo = true;
+			delete configuration.researchData;
 		}
 
 		if ( has( configuration, "shortlinker" ) ) {
