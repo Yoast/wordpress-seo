@@ -63,6 +63,7 @@ import InvalidTypeError from "../errors/invalidType";
 import Scheduler from "./scheduler";
 import Transporter from "./transporter";
 import RelatedKeywordTaxonomyAssessor from "../relatedKeywordTaxonomyAssessor";
+import { configureShortlinker, createShortlink } from "../shortlinker";
 
 const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 
@@ -165,7 +166,10 @@ export default class AnalysisWebWorker {
 			registerMessageHandler: this.registerMessageHandler,
 			refreshAssessment: this.refreshAssessment,
 		};
-		this._scope.yoast = { analysis: YoastSEO };
+		this._scope.yoast = {
+			analysis: YoastSEO,
+			createShortlink,
+		};
 	}
 
 	/**
@@ -416,6 +420,7 @@ export default class AnalysisWebWorker {
 	 * @param {string}  [configuration.locale]                 The locale used in the seo assessor.
 	 * @param {Object}  [configuration.translations]           The translation strings.
 	 * @param {Object}  [configuration.researchData]           Extra research data.
+	 * @param {Object}  [configuration.shortlinker]            Shortlinker configuration.
 	 *
 	 * @returns {void}
 	 */
@@ -460,6 +465,11 @@ export default class AnalysisWebWorker {
 				this._researcher.addResearchData( research, data );
 			} );
 			update.seo = true;
+		}
+
+		if ( has( configuration, "shortlinker" ) ) {
+			configureShortlinker( configuration.shortlinker );
+			delete configuration.shortlinker;
 		}
 
 		this._configuration = merge( this._configuration, configuration );
