@@ -272,7 +272,7 @@ class SeoAnalysis extends React.Component {
 						onChange={ this.props.onFocusKeywordChange }
 						keyword={ this.props.keyword }
 						label={ __( "Focus keyphrase", "wordpress-seo" ) }
-						labelSiblingElement={ this.renderHelpLink() }
+						helpLink={ this.renderHelpLink() }
 					/>
 					<Slot name="YoastSynonyms" />
 					{ this.props.shouldUpsell && <React.Fragment>
