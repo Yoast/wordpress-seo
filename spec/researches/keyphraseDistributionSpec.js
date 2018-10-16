@@ -1,8 +1,8 @@
 import { computeScoresPerSentenceShortTopic } from "../../src/researches/keyphraseDistribution.js";
 import { computeScoresPerSentenceLongTopic } from "../../src/researches/keyphraseDistribution.js";
 import { maximizeSentenceScores } from "../../src/researches/keyphraseDistribution.js";
-import { step } from "../../src/researches/keyphraseDistribution.js";
 import { keyphraseDistributionResearcher } from "../../src/researches/keyphraseDistribution.js";
+import { getDistraction } from "../../src/researches/keyphraseDistribution";
 import Paper from "../../src/values/Paper.js";
 import Mark from "../../src/values/Mark";
 import Researcher from "../../src/researcher";
@@ -33,6 +33,45 @@ describe( "Test for maximizing sentence scores", function() {
 		const expectedOutput = [ 5, 10, 1 ];
 
 		expect( maximizeSentenceScores( inputArray ) ).toEqual( expectedOutput );
+	} );
+} );
+
+describe( "Test for finding the longest distraction trains", function() {
+	it( "returns the largest distraction train in the middle of the text", function() {
+		const sentenceScores = [ 3, 3, 6, 9, 3, 3, 9, 6, 6, 9, 6, 3, 3, 3, 3, 3, 3, 3, 3, 6, 9, 6, 3 ];
+
+		expect( getDistraction( sentenceScores ) ).toEqual( 8 );
+	} );
+
+	it( "returns the largest distraction train in the middle of the text", function() {
+		const sentenceScores = [ 6, 3, 3, 6, 9, 3, 3, 9, 6, 6, 9, 6, 3, 3, 3, 3, 3, 3, 3, 3, 6, 9, 6, 3, 9 ];
+
+		expect( getDistraction( sentenceScores ) ).toEqual( 8 );
+	} );
+
+	it( "returns the largest distraction train in the end of the text", function() {
+		const sentenceScores = [ 6, 3, 3, 6, 9, 3, 3, 9, 6, 6, 9, 6, 3, 3, 3, 3, 3, 3, 3, 3 ];
+
+		expect( getDistraction( sentenceScores ) ).toEqual( 8 );
+	} );
+
+
+	it( "returns the largest distraction train in the beginning of the text", function() {
+		const sentenceScores = [ 3, 3, 3, 3, 3, 3, 3, 3, 6, 3, 3, 6, 9, 3, 3, 9, 6, 6, 9, 6, 3, 3, 3, 3 ];
+
+		expect( getDistraction( sentenceScores ) ).toEqual( 8 );
+	} );
+
+	it( "returns the largest distraction train in the text without topic", function() {
+		const sentenceScores = [ 3, 3, 3 ];
+
+		expect( getDistraction( sentenceScores ) ).toEqual( 3 );
+	} );
+
+	it( "returns the largest distraction train in the text with topic only", function() {
+		const sentenceScores = [ 6, 9, 9, 6 ];
+
+		expect( getDistraction( sentenceScores ) ).toEqual( 0 );
 	} );
 } );
 
@@ -85,34 +124,25 @@ const topicLongIT = [
 
 describe( "Test for computing the sentence score", function() {
 	it( "for a short topic", function() {
-		expect( computeScoresPerSentenceShortTopic( topicShort, sentences, "en_EN" ) ).toEqual( [ 3, 6, 9, 6, 3, 6, 3, 6 ] );
+		expect( computeScoresPerSentenceShortTopic( topicShort, sentences, "en_EN" ) ).toEqual( [ 3, 3, 9, 3, 3, 3, 3, 3 ] );
 	} );
 
 	it( "for a long topic", function() {
-		expect( computeScoresPerSentenceLongTopic( topicLong, sentences, "en_EN" ) ).toEqual( [ 6, 6, 9, 6, 6, 6, 3, 6 ] );
+		expect( computeScoresPerSentenceLongTopic( topicLong, sentences, "en_EN" ) ).toEqual( [ 3, 9, 9, 9, 3, 3, 3, 3 ]  );
 	} );
 
 	it( "for a short topic for a language that doesn't support morphology", function() {
-		expect( computeScoresPerSentenceShortTopic( topicShortIT, sentencesIT, "it_IT" ) ).toEqual( [ 3, 6, 9, 6, 3, 6, 3, 6 ] );
+		expect( computeScoresPerSentenceShortTopic( topicShortIT, sentencesIT, "it_IT" ) ).toEqual( [ 3, 3, 9, 3, 3, 3, 3, 3 ] );
 	} );
 
 	it( "for a long topic for a language that doesn't support morphology", function() {
-		expect( computeScoresPerSentenceLongTopic( topicLongIT, sentencesIT, "it_IT" ) ).toEqual( [ 6, 6, 9, 6, 6, 6, 3, 6 ] );
+		expect( computeScoresPerSentenceLongTopic( topicLongIT, sentencesIT, "it_IT" ) ).toEqual( [ 3, 9, 9, 9, 3, 3, 3, 3 ] );
 	} );
 } );
 
-const inputSentenceScores = [ 1, 5, 7, 2, 4, 9, 1, 1, 1, 4, 1, 9 ];
-describe( "Test for computing the step function", function() {
-	it( "Returns the scores for the hypothetical text with a 3-sentence window", function() {
-		expect( step( inputSentenceScores, 3 ) ).toEqual( [ 13 / 3, 14 / 3, 13 / 3, 15 / 3, 14 / 3, 11 / 3, 3 / 3, 6 / 3, 6 / 3, 14 / 3 ] );
-	} );
-	it( "Returns the scores for the hypothetical text with a 5-sentence window", function() {
-		expect( step( inputSentenceScores, 5 ) ).toEqual( [  19 / 5, 27 / 5, 23 / 5, 17 / 5, 16 / 5, 16 / 5, 8 / 5, 16 / 5 ] );
-	} );
-} );
 
-describe( "Test for a step-function research", function() {
-	it( "returns an average score over all sentences and all topic forms; returns markers for sentences that contain the topic", function() {
+describe( "Test for the research", function() {
+	it( "returns a score over all sentences and all topic forms; returns markers for sentences that contain the topic", function() {
 		const paper = new Paper(
 			sentences.join( " " ),
 			{
@@ -126,7 +156,7 @@ describe( "Test for a step-function research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 0.08865248226950355,
+			keyphraseDistributionScore: 25,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "How <yoastmark class='yoast-text-mark'>remarkable</yoastmark>!",
@@ -147,10 +177,6 @@ describe( "Test for a step-function research", function() {
 				new Mark( {
 					marked: "Here comes <yoastmark class='yoast-text-mark'>something</yoastmark> that has nothing to do with a keyword.",
 					original: "Here comes something that has nothing to do with a keyword.",
-				} ),
-				new Mark( {
-					marked: "Ha, a <yoastmark class='yoast-text-mark'>key</yoastmark>!",
-					original: "Ha, a key!",
 				} ),
 				new Mark( {
 					marked: "<yoastmark class='yoast-text-mark'>Words</yoastmark>, <yoastmark class='yoast-text-mark'>words</yoastmark>, <yoastmark class='yoast-text-mark'>words</yoastmark>, how boring!",
@@ -179,7 +205,7 @@ describe( "Test for a step-function research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 0.08865248226950355,
+			keyphraseDistributionScore: 25,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "How <yoastmark class='yoast-text-mark'>remarkable</yoastmark>!",
@@ -202,10 +228,6 @@ describe( "Test for a step-function research", function() {
 					original: "Here comes something that has nothing to do with a keyword.",
 				} ),
 				new Mark( {
-					marked: "Ha, a <yoastmark class='yoast-text-mark'>key</yoastmark>!",
-					original: "Ha, a key!",
-				} ),
-				new Mark( {
 					marked: "<yoastmark class='yoast-text-mark'>Words</yoastmark>, <yoastmark class='yoast-text-mark'>words</yoastmark>, <yoastmark class='yoast-text-mark'>words</yoastmark>, how boring!",
 					original: "Words, words, words, how boring!",
 				} ),
@@ -213,7 +235,7 @@ describe( "Test for a step-function research", function() {
 		} );
 	} );
 
-	it( "returns an average score (for a language without morphology support) over all sentences and all topic forms; returns markers for sentences that contain the topic", function() {
+	it( "returns a score (for a language without morphology support) over all sentences and all topic forms; returns markers for sentences that contain the topic", function() {
 		const paper = new Paper(
 			sentencesIT.join( " " ),
 			{
@@ -227,7 +249,7 @@ describe( "Test for a step-function research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 0.08865248226950355,
+			keyphraseDistributionScore: 25,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "Che cosa <yoastmark class='yoast-text-mark'>straordinaria</yoastmark>!",
@@ -248,10 +270,6 @@ describe( "Test for a step-function research", function() {
 				new Mark( {
 					marked: "È <yoastmark class='yoast-text-mark'>qualcosa</yoastmark> che non ha niente da fare con questo che cerchiamo.",
 					original: "È qualcosa che non ha niente da fare con questo che cerchiamo.",
-				} ),
-				new Mark( {
-					marked: "Ah, una <yoastmark class='yoast-text-mark'>chiave</yoastmark>!",
-					original: "Ah, una chiave!",
 				} ),
 				new Mark( {
 					marked: "Una <yoastmark class='yoast-text-mark'>parola</yoastmark> e ancora un'altra e poi un'altra ancora, che schifo!",
@@ -275,7 +293,7 @@ describe( "Test for a step-function research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 0.08865248226950355,
+			keyphraseDistributionScore: 25,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "Che cosa <yoastmark class='yoast-text-mark'>straordinaria</yoastmark>!",
@@ -296,10 +314,6 @@ describe( "Test for a step-function research", function() {
 				new Mark( {
 					marked: "È <yoastmark class='yoast-text-mark'>qualcosa</yoastmark> che non ha niente da fare con questo che cerchiamo.",
 					original: "È qualcosa che non ha niente da fare con questo che cerchiamo.",
-				} ),
-				new Mark( {
-					marked: "Ah, una <yoastmark class='yoast-text-mark'>chiave</yoastmark>!",
-					original: "Ah, una chiave!",
 				} ),
 				new Mark( {
 					marked: "Una <yoastmark class='yoast-text-mark'>parola</yoastmark> e ancora un'altra e poi un'altra ancora, che schifo!",
@@ -329,7 +343,7 @@ describe( "Test for a step-function research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 0.08865248226950355,
+			keyphraseDistributionScore: 25,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "Che cosa <yoastmark class='yoast-text-mark'>straordinaria</yoastmark>!",
@@ -350,10 +364,6 @@ describe( "Test for a step-function research", function() {
 				new Mark( {
 					marked: "È <yoastmark class='yoast-text-mark'>qualcosa</yoastmark> che non ha niente da fare con questo che cerchiamo.",
 					original: "È qualcosa che non ha niente da fare con questo che cerchiamo.",
-				} ),
-				new Mark( {
-					marked: "Ah, una <yoastmark class='yoast-text-mark'>chiave</yoastmark>!",
-					original: "Ah, una chiave!",
 				} ),
 				new Mark( {
 					marked: "Una <yoastmark class='yoast-text-mark'>parola</yoastmark> e ancora un'altra e poi un'altra ancora, che schifo!",
@@ -379,20 +389,8 @@ describe( "Test for a step-function research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 0.09166666666666667,
+			keyphraseDistributionScore: 37.5,
 			sentencesToHighlight: [
-				new Mark( {
-					marked: "Che cosa <yoastmark class='yoast-text-mark'>straordinaria</yoastmark>!",
-					original: "Che cosa straordinaria!",
-				} ),
-				new Mark( {
-					marked: "<yoastmark class='yoast-text-mark'>Straordinaria</yoastmark> è una <yoastmark class='yoast-text-mark'>parola</yoastmark> strana.",
-					original: "Straordinaria è una parola strana.",
-				} ),
-				new Mark( {
-					marked: "Ho trovato una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e una <yoastmark class='yoast-text-mark'>parola straordinaria</yoastmark>.",
-					original: "Ho trovato una chiave e una parola straordinaria.",
-				} ),
 				new Mark( {
 					marked: "E ancora una <yoastmark class='yoast-text-mark'>chiave</yoastmark> e <yoastmark class='yoast-text-mark'>qualcosa</yoastmark>.",
 					original: "E ancora una chiave e qualcosa.",
@@ -401,15 +399,28 @@ describe( "Test for a step-function research", function() {
 					marked: "È <yoastmark class='yoast-text-mark'>qualcosa</yoastmark> che non ha niente da fare con questo che cerchiamo.",
 					original: "È qualcosa che non ha niente da fare con questo che cerchiamo.",
 				} ),
-				new Mark( {
-					marked: "Ah, una <yoastmark class='yoast-text-mark'>chiave</yoastmark>!",
-					original: "Ah, una chiave!",
-				} ),
-				new Mark( {
-					marked: "Una <yoastmark class='yoast-text-mark'>parola</yoastmark> e ancora un'altra e poi un'altra ancora, che schifo!",
-					original: "Una parola e ancora un'altra e poi un'altra ancora, che schifo!",
-				} ),
 			],
+		} );
+	} );
+
+	it( "when no keyphrase or synonyms is used in the text at all", function() {
+		const paper = new Paper(
+			"This is a text without keyphrase1 or synonyms1",
+			{
+				// Fictitious locale that doesn't have function word support.
+				locale: "en_EN",
+				keyword: "keyphrase",
+				// The added function words are now analyzed as content words, so the score changes.
+				synonyms: "synonym",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 100,
+			sentencesToHighlight: [],
 		} );
 	} );
 } );

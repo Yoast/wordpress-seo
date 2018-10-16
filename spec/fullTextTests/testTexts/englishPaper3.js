@@ -26,12 +26,12 @@ const paper = new Paper( "<div class=\"content content__first\">\n" +
 	"</ul>\n" +
 	"</div>", {
 	keyword: "social media strategy",
+	synonyms: "social media SEO, Facebook strategy",
 	description: "Social media should be a part of your SEO strategy. In this post, Marieke explains the first steps towards developing your own social media strategy.",
 	title: "Social Media Strategy: Where to begin?",
 	titleWidth: 450,
 	locale: "en_EN",
 	url: "https://yoast.com/social-media-strategy-where-to-begin/",
-	synonyms: "social media SEO strategy, Facebook strategy",
 } );
 
 const expectedResults = {
@@ -100,10 +100,9 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34p' target='_blank'>Slug stopwords</a>: The slug for this page contains stop words. <a href='https://yoa.st/34q' target='_blank'>Remove them</a>!",
 	},
 	keyphraseDistribution: {
-		score: 9,
-		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
+		score: 1,
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
-
 	fleschReadingEase: {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 63.8 in the test, which is considered ok to read. Good job!",
