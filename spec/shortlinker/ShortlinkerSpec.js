@@ -69,6 +69,19 @@ describe( "Shortlinker", () => {
 		);
 	} );
 
+	test( "create a link with extra params", () => {
+		const shortlinker = new Shortlinker( {
+			params: {
+				platform: "PC",
+				version: "1.2.3",
+				"encode this": "this includes spaces",
+			},
+		} );
+		expect( shortlinker.create( "https://example.com", { extra: "params" } ) ).toEqual(
+			"https://example.com?platform=PC&version=1.2.3&encode%20this=this%20includes%20spaces&extra=params"
+		);
+	} );
+
 	test( "create a anchor opening tag with params", () => {
 		const shortlinker = new Shortlinker( {
 			params: {
@@ -79,6 +92,19 @@ describe( "Shortlinker", () => {
 		} );
 		expect( shortlinker.createAnchorOpeningTag( "https://example.com" ) ).toEqual(
 			"<a href='https://example.com?platform=PC&version=1.2.3&encode%20this=this%20includes%20spaces' target='_blank'>"
+		);
+	} );
+
+	test( "create a anchor opening tag with extra params", () => {
+		const shortlinker = new Shortlinker( {
+			params: {
+				platform: "PC",
+				version: "1.2.3",
+				"encode this": "this includes spaces",
+			},
+		} );
+		expect( shortlinker.createAnchorOpeningTag( "https://example.com", { extra: "params" } ) ).toEqual(
+			"<a href='https://example.com?platform=PC&version=1.2.3&encode%20this=this%20includes%20spaces&extra=params' target='_blank'>"
 		);
 	} );
 } );
