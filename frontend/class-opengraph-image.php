@@ -199,13 +199,13 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Adds an image by ID if possible and by URL if the ID isn't present.
 	 *
-	 * @param string   $image_id  The image ID as set in the database.
-	 * @param string   $image_url The saved URL for the image.
-	 * @param callable $save_id   Function to call to save the ID if it needs to be saved.
+	 * @param string   $image_id   The image ID as set in the database.
+	 * @param string   $image_url  The saved URL for the image.
+	 * @param callable $on_save_id Function to call to save the ID if it needs to be saved.
 	 *
 	 * @return void
 	 */
-	private function add_image_by_id_or_url( $image_id, $image_url, $save_id ) {
+	private function add_image_by_id_or_url( $image_id, $image_url, $on_save_id ) {
 		switch ( $image_id ) {
 			case self::EXTERNAL_IMAGE_ID:
 				// Add image by URL, but skip attachment_to_id call. We already know this is an external image.
@@ -217,7 +217,7 @@ class WPSEO_OpenGraph_Image {
 				$attachment_id = $this->add_image_by_url( $image_url );
 
 				if ( $attachment_id !== null ) {
-					call_user_func( $save_id, $attachment_id );
+					call_user_func( $on_save_id, $attachment_id );
 				}
 				break;
 
