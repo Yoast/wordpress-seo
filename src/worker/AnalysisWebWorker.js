@@ -401,19 +401,20 @@ export default class AnalysisWebWorker {
 	/**
 	 * Checks which assessors should update giving a configuration.
 	 *
-	 * @param {Object}   configuration   The configuration to check.
-	 * @param {Assessor} contentAssessor The content assessor.
-	 * @param {Assessor} seoAssessor     The SEO assessor.
+	 * @param {Object}   configuration          The configuration to check.
+	 * @param {Assessor} [contentAssessor=null] The content assessor.
+	 * @param {Assessor} [seoAssessor=null]     The SEO assessor.
 	 *
 	 * @returns {Object} Containing seo and readability with true or false.
 	 */
 	static shouldAssessorsUpdate( configuration, contentAssessor = null, seoAssessor = null ) {
 		const readability = [ "contentAnalysisActive", "useCornerstone", "locale", "translations" ];
 		const seo = [ "keywordAnalysisActive", "useCornerstone", "useTaxonomy", "useKeywordDistribution", "locale", "translations", "researchData" ];
+		const configurationKeys = Object.keys( configuration );
 
 		return {
-			readability: isNull( contentAssessor ) || includesAny( configuration, readability ),
-			seo: isNull( seoAssessor ) || includesAny( configuration, seo ),
+			readability: isNull( contentAssessor ) || includesAny( configurationKeys, readability ),
+			seo: isNull( seoAssessor ) || includesAny( configurationKeys, seo ),
 		};
 	}
 
