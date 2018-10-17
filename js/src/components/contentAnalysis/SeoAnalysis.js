@@ -17,6 +17,7 @@ import MultipleKeywords from "../modals/MultipleKeywords";
 import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
 import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
 import AnalysisUpsell from "../AnalysisUpsell";
+import KeyphraseNotice from "../KeyphraseNotice";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -274,6 +275,7 @@ class SeoAnalysis extends React.Component {
 						label={ __( "Focus keyphrase", "wordpress-seo" ) }
 						helpLink={ this.renderHelpLink() }
 					/>
+					<KeyphraseNotice innerHtml={ this.props.keyphraseNotice } />
 					<Slot name="YoastSynonyms" />
 					{ this.props.shouldUpsell && <React.Fragment>
 						{ this.renderSynonymsUpsell( this.props.location ) }
@@ -322,15 +324,18 @@ function mapStateToProps( state, ownProps ) {
 
 	let results = null;
 	let overallScore = null;
+	let keyphraseNotice = null;
 	if ( state.analysis.seo[ keyword ] ) {
 		results = state.analysis.seo[ keyword ].results;
 		overallScore = state.analysis.seo[ keyword ].overallScore;
+		keyphraseNotice = state.analysis.seo[ keyword ].notice;
 	}
 	return {
 		results,
 		marksButtonStatus,
 		keyword,
 		overallScore,
+		keyphraseNotice,
 	};
 }
 

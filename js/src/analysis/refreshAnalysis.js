@@ -3,6 +3,7 @@ import {
 	setOverallSeoScore,
 	setReadabilityResults,
 	setSeoResultsForKeyword,
+	setKeyphraseNotice,
 } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import { refreshSnippetEditor } from "../redux/actions/snippetEditor";
 
@@ -52,6 +53,7 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 
 				store.dispatch( setSeoResultsForKeyword( paper.getKeyword(), seoResults.results ) );
 				store.dispatch( setOverallSeoScore( seoResults.score, paper.getKeyword() ) );
+				store.dispatch( setKeyphraseNotice( paper.getKeyword(), seoResults.keyphraseNotice ) );
 				store.dispatch( refreshSnippetEditor() );
 
 				dataCollector.saveScores( seoResults.score, paper.getKeyword() );
