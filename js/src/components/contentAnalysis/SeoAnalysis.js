@@ -242,6 +242,7 @@ class SeoAnalysis extends React.Component {
 	 */
 	renderExactMatchHelpLink() {
 		return (
+			// Todo: change href to correct link.
 			<HelpLink
 				href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }
 				rel={ null }
@@ -269,7 +270,7 @@ class SeoAnalysis extends React.Component {
 	}
 
 	/**
-	 * Determines wether the exact match checkbox should be checked, depending on
+	 * Determines whether the exact match checkbox should be checked, depending on
 	 * whether the keyphrase is surrounded by double quotes.
 	 *
 	 * Note that the analysis can handle mismatched quotes; It doesn't
@@ -280,25 +281,7 @@ class SeoAnalysis extends React.Component {
 	 * @returns {boolean} True if the checkbox should be checked.
 	 */
 	isCheckboxChecked( keyphrase ) {
-		console.log(keyphrase.match(/^[“”〝〞〟‟„"].*[“”〝〞〟‟„"]$/g) !== null)
-		return keyphrase.match(/^[“”〝〞〟‟„"].*[“”〝〞〟‟„"]$/g) !== null;
-	}
-
-	handleCheckBoxChange( event ) {
-		// Verplaatsen naar mapDispatchToProps?
-
-
-		if ( typeof event !== "boolean" ) {
-			return;
-		}
-
-		if ( event === true ) {
-
-		}
-
-		if ( event === false ) {
-
-		}
+		return keyphrase.match( /^[“”〝〞〟‟„"].*[“”〝〞〟‟„"]$/g ) !== null;
 	}
 
 	/**
@@ -333,8 +316,8 @@ class SeoAnalysis extends React.Component {
 					<CheckboxContainer>
 						<Checkbox
 							id="yoast-exact-match-checkbox"
-							onChange={ event => this.handleCheckBoxChange( event ) }
-							label={ __( "Exact match", "wordpress-seo" ) }
+							onChange={ event => this.props.handleCheckboxChange( event, this.props.keyword ) }
+							label={ __( "Only exact matches", "wordpress-seo" ) }
 							checked={ this.isCheckboxChecked( this.props.keyword ) }
 							helpLink={ this.renderExactMatchHelpLink() }
 						/>
@@ -411,6 +394,48 @@ function mapDispatchToProps( dispatch ) {
 		onFocusKeywordChange: ( value ) => {
 			dispatch( setFocusKeyword( value ) );
 		},
+		handleCheckboxChange: ( event, keyphrase ) => {
+			if ( typeof event !== "boolean" ) {
+				return;
+			}
+
+			// Todo: Move to separate function.
+			if ( event === true ) {
+				// If there are already double quotes around the keyphrase, do nothing.
+				if ( keyphrase.match( /^[“”〝〞〟‟„"].*[“”〝〞〟‟„"]$/g ) !== null ) {
+					return;
+				}
+
+				// If the keyphrase already has a double quote at the beginning but not at the end, add the same one at the end.
+				// Todo: the same one is not always appropriate (e.g. 〝 vs 〞). Find correct one by looking it up using myRegexp.exec(myString) to find captured group?
+				if ( keyphrase.match( /(^[“”〝〞〟‟„"].*[^“”〝〞〟‟„"]$)/g ) !== null ) {
+					const newKeyphrase = keyphrase.replace( /(^([“”〝〞〟‟„"])(.*)[^“”〝〞〟‟„"])$/g, "$1$2" );
+					dispatch( setFocusKeyword( newKeyphrase ) );
+					return;
+				}
+
+				// If the keyphrase already has a double quote at the end but not at the beginning, add the same one at the beginning.
+				if ( keyphrase.match( /(^[^“”〝〞〟‟„"].*[“”〝〞〟‟„"]$)/g ) !== null ) {
+					const newKeyphrase = keyphrase.replace( /(^[^“”〝〞〟‟„"].*([“”〝〞〟‟„"])$)/g, "$2$1" );
+					dispatch( setFocusKeyword( newKeyphrase ) );
+					return;
+				}
+
+				// If there are no double quotes at neither the end nor the beginning, add them.
+				if ( keyphrase.match( /^[“”〝〞〟‟„"].*[“”〝〞〟‟„"]$/g ) === null ) {
+					const newKeyphrase = "\"" + keyphrase + "\"";
+					dispatch( setFocusKeyword( newKeyphrase ) );
+					return;
+				}
+			}
+
+			// Todo: Move to separate function.
+			if ( event === false ) {
+				// Todo: only strip characters if they are double quotes to be on the safe side?
+				const newKeyphrase = keyphrase.substring( 1, keyphrase.length - 1 );
+				dispatch( setFocusKeyword( newKeyphrase ) );
+			}
+		}
 	};
 }
 
