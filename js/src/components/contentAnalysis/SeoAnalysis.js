@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import { getRtlStyle, KeywordInput, colors, utils } from "yoast-components";
+import { getRtlStyle, KeywordInput, colors, utils, Checkbox } from "yoast-components";
 import Collapsible from "../SidebarCollapsible";
 import Results from "./Results";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
@@ -67,6 +67,10 @@ const StyledIcon = styled( Icon )`
 			height: 80px;
 		}
 	}
+`;
+
+const CheckboxContainer = styled.div`
+	margin-bottom: 8px;
 `;
 
 /**
@@ -213,11 +217,11 @@ class SeoAnalysis extends React.Component {
 	}
 
 	/**
-	 * Renders a help link.
+	 * Renders a help link for the keyword field.
 	 *
 	 * @returns {ReactElement} The help link component.
 	 */
-	renderHelpLink() {
+	renderKeywordHelpLink() {
 		return (
 			<HelpLink
 				href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }
@@ -226,6 +230,25 @@ class SeoAnalysis extends React.Component {
 			>
 				<span className="screen-reader-text">
 					{ __( "Help on choosing the perfect focus keyphrase", "wordpress-seo" ) }
+				</span>
+			</HelpLink>
+		);
+	}
+
+	/**
+	 * Renders a help link for the exact match checkbox.
+	 *
+	 * @returns {ReactElement} The help link component.
+	 */
+	renderExactMatchHelpLink() {
+		return (
+			<HelpLink
+				href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }
+				rel={ null }
+				className="dashicons"
+			>
+				<span className="screen-reader-text">
+					{ __( "Help on what exact matching means", "wordpress-seo" ) }
 				</span>
 			</HelpLink>
 		);
@@ -243,6 +266,39 @@ class SeoAnalysis extends React.Component {
 				: "https://yoa.st/morphology-upsell-metabox" }
 			alignment={ this.props.location === "sidebar" ? "vertical" : "horizontal" }
 		/>;
+	}
+
+	/**
+	 * Determines wether the exact match checkbox should be checked, depending on
+	 * whether the keyphrase is surrounded by double quotes.
+	 *
+	 * Note that the analysis can handle mismatched quotes; It doesn't
+	 * matter if the begin quote differs from the end quote.
+	 *
+	 * @param {string} keyphrase The keyword to check for double quotes.
+	 *
+	 * @returns {boolean} True if the checkbox should be checked.
+	 */
+	isCheckboxChecked( keyphrase ) {
+		console.log(keyphrase.match(/^[“”〝〞〟‟„"].*[“”〝〞〟‟„"]$/g) !== null)
+		return keyphrase.match(/^[“”〝〞〟‟„"].*[“”〝〞〟‟„"]$/g) !== null;
+	}
+
+	handleCheckBoxChange( event ) {
+		// Verplaatsen naar mapDispatchToProps?
+
+
+		if ( typeof event !== "boolean" ) {
+			return;
+		}
+
+		if ( event === true ) {
+
+		}
+
+		if ( event === false ) {
+
+		}
 	}
 
 	/**
@@ -272,8 +328,17 @@ class SeoAnalysis extends React.Component {
 						onChange={ this.props.onFocusKeywordChange }
 						keyword={ this.props.keyword }
 						label={ __( "Focus keyphrase", "wordpress-seo" ) }
-						helpLink={ this.renderHelpLink() }
+						helpLink={ this.renderKeywordHelpLink() }
 					/>
+					<CheckboxContainer>
+						<Checkbox
+							id="yoast-exact-match-checkbox"
+							onChange={ event => this.handleCheckBoxChange( event ) }
+							label={ __( "Exact match", "wordpress-seo" ) }
+							checked={ this.isCheckboxChecked( this.props.keyword ) }
+							helpLink={ this.renderExactMatchHelpLink() }
+						/>
+					</CheckboxContainer>
 					<Slot name="YoastSynonyms" />
 					{ this.props.shouldUpsell && <React.Fragment>
 						{ this.renderSynonymsUpsell( this.props.location ) }
