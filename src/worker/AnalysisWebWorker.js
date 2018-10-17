@@ -451,8 +451,8 @@ export default class AnalysisWebWorker {
 		}
 
 		if ( has( configuration, "queryStringAppender" ) ) {
-			configureQueryStringAppender( configuration.shortlinker );
-			delete configuration.shortlinker;
+			configureQueryStringAppender( configuration.queryStringAppender );
+			delete configuration.queryStringAppender;
 		}
 
 		this._configuration = merge( this._configuration, configuration );
