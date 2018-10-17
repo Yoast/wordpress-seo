@@ -38,5 +38,4 @@ describe( "An assessment for checking if the keyphrase contains of function word
 		const isApplicableResult = new FunctionWordsInKeyphraseAssessment().isApplicable( new Paper( "some text", { keyword: "something here" } ) );
 		expect( isApplicableResult ).toBe( true );
 	} );
-
 } );

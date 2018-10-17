@@ -1,4 +1,3 @@
-import { filterFunctionWords } from "./buildKeywordForms";
 import getWords from "../stringProcessing/getWords";
 import getLanguage from "../helpers/getLanguage";
 import getFunctionWordsFactory from "../helpers/getFunctionWords.js";
