@@ -179,6 +179,8 @@ class WPSEO_Sitemaps_Cache_Validator {
 		// Delete transients.
 		$query = sprintf( 'DELETE FROM %1$s WHERE %2$s', $wpdb->options, implode( ' OR ', $where ) );
 		$wpdb->query( $query );
+
+		wp_cache_delete( 'alloptions', 'options' );
 	}
 
 	/**

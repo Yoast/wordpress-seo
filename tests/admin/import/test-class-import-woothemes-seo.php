@@ -154,5 +154,4 @@ class WPSEO_Import_WooThemes_SEO_Test extends WPSEO_UnitTestCase {
 
 		return $post_id;
 	}
-
 }

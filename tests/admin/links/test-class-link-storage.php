@@ -39,15 +39,6 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the usage of a custom table prefix.
-	 */
-	public function test_table_prefix() {
-		$storage = new WPSEO_Link_Storage( 'custom_prefix_' );
-
-		$this->assertEquals( 'custom_prefix_yoast_seo_links', $storage->get_table_name() );
-	}
-
-	/**
 	 * Tests the creation of the table.
 	 *
 	 * @todo make this test having sense
@@ -84,6 +75,7 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 			)
 		);
 	}
+
 	/**
 	 * Tests the cleanup for a given post id.
 	 */
@@ -93,6 +85,4 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 1, $storage->cleanup( 2 ) );
 	}
-
-
 }

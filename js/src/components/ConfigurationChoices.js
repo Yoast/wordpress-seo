@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { localize } from "yoast-components/utils/i18n";
+import { localize } from "yoast-components";
 import ConfigurationChoice from "./ConfigurationChoice";
 
 class ConfigurationChoices extends React.Component {
@@ -11,7 +11,7 @@ class ConfigurationChoices extends React.Component {
 	 * @returns {JSX.Element} Rendered Choices Component.
 	 */
 	render() {
-		let choiceProps = {
+		const choiceProps = {
 			nextStep: this.props.nextStep,
 			previousStep: this.props.previousStep,
 		};

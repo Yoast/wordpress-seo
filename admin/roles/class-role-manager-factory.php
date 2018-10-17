@@ -9,6 +9,7 @@
  * Role Manager Factory.
  */
 class WPSEO_Role_Manager_Factory {
+
 	/**
 	 * Retrieves the Role manager to use.
 	 *

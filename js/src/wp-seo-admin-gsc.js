@@ -1,10 +1,11 @@
 /* global ajaxurl */
 /* global tb_click */
+
 jQuery( function() {
 	jQuery( ".subsubsub .yoast_help" ).on(
 		"click active",
 		function() {
-			let targetElementID = "#" + jQuery( this ).attr( "aria-controls" );
+			const targetElementID = "#" + jQuery( this ).attr( "aria-controls" );
 			jQuery( ".yoast-help-panel" ).not( targetElementID ).hide();
 		}
 	);
@@ -65,22 +66,22 @@ jQuery( function() {
 				"aria-labelledby": "TB_ajaxWindowTitle",
 				"aria-describedby": "TB_ajaxContent",
 			} )
-			.on( "keydown", function( event ) {
-				var id;
+				.on( "keydown", function( event ) {
+					var id;
 
-				// Constrain tabbing within the modal.
-				if ( 9 === event.which ) {
-					id = event.target.id;
+					// Constrain tabbing within the modal.
+					if ( 9 === event.which ) {
+						id = event.target.id;
 
-					if ( jQuery( event.target ).hasClass( "wpseo-redirect-close" ) && ! event.shiftKey ) {
-						$closeButtonTop.focus();
-						event.preventDefault();
-					} else if ( id === "TB_closeWindowButton" && event.shiftKey ) {
-						$closeButtonBottom.focus();
-						event.preventDefault();
+						if ( jQuery( event.target ).hasClass( "wpseo-redirect-close" ) && ! event.shiftKey ) {
+							$closeButtonTop.focus();
+							event.preventDefault();
+						} else if ( id === "TB_closeWindowButton" && event.shiftKey ) {
+							$closeButtonBottom.focus();
+							event.preventDefault();
+						}
 					}
-				}
-			} );
+				} );
 		}
 	);
 
@@ -104,7 +105,7 @@ jQuery( function() {
 function wpseoUpdateCategoryCount( category ) {
 	var countElement = jQuery( "#gsc_count_" + category + "" );
 	var newCount     = parseInt( countElement.text(), 10 ) - 1;
-	if( newCount < 0 ) {
+	if ( newCount < 0 ) {
 		newCount = 0;
 	}
 

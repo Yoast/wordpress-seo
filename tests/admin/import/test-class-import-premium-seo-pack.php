@@ -192,9 +192,9 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 		$result = $this->class_instance->run_cleanup();
 
 		global $wpdb;
-		$dbResult = $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}psp'" );
+		$db_result = $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}psp'" );
 
-		$this->assertNull( $dbResult );
+		$this->assertNull( $db_result );
 		$this->assertEquals( $this->status( 'cleanup', true ), $result );
 	}
 
@@ -216,17 +216,17 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 		$original_wpdb = $wpdb;
 
 		$wpdb = $this->getMockBuilder( 'wpdb' )
-					 ->setConstructorArgs( array( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ) )
-					 ->setMethods( array( 'query', 'get_var' ) )
-					 ->getMock();
+			->setConstructorArgs( array( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ) )
+			->setMethods( array( 'query', 'get_var' ) )
+			->getMock();
 		$wpdb->expects( $this->any() )
-			 ->method( 'query' )
-			 ->will( $this->returnValue( false ) );
+			->method( 'query' )
+			->will( $this->returnValue( false ) );
 
 		// For this to work the detect() function needs to run first and return the right table.
 		$wpdb->expects( $this->any() )
-			 ->method( 'get_var' )
-			 ->will( $this->returnValue( $wpdb->prefix . 'psp' ) );
+			->method( 'get_var' )
+			->will( $this->returnValue( $wpdb->prefix . 'psp' ) );
 
 		$result          = $class_instance->run_cleanup();
 		$expected_result = $this->status( 'cleanup', false );
@@ -259,7 +259,8 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 		$this->create_table();
 
 		$post_id = $this->factory()->post->create();
-		$blob    = $this->build_data_blob( array(
+		$blob    = $this->build_data_blob(
+			array(
 				'noindex'     => 0,
 				'nofollow'    => 1,
 				'title'       => 'Test title',
@@ -335,8 +336,7 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 					%s, 
 					%s, 
 					%s
-				);'
-				,
+				);',
 				get_current_blog_id(),
 				$post_id,
 				get_permalink( $post_id ),

@@ -1,4 +1,8 @@
-import scoreToRating from "yoastseo/js/interpreters/scoreToRating";
+import { helpers } from "yoastseo";
+import { colors } from "yoast-components";
+
+const { scoreToRating } = helpers;
+
 
 /**
  * Mapped result definition.
@@ -76,6 +80,34 @@ function processResult( mappedResult, mappedResults ) {
 }
 
 /**
+ * Retrieves the icons and colors for the icon for a certain result.
+ *
+ * @param {string} score The score for which to return the icon and color.
+ *
+ * @returns {Object} The icon and color for the score.
+ */
+export function getIconForScore( score ) {
+	let icon = { icon: "seo-score-none", color: colors.$color_grey_disabled };
+
+	switch ( score ) {
+		case "loading":
+			icon = { icon: "loading-spinner", color: colors.$color_green_medium_light };
+			break;
+		case "good":
+			icon = { icon: "seo-score-good", color: colors.$color_green_medium };
+			break;
+		case "ok":
+			icon = { icon: "seo-score-ok", color: colors.$color_ok };
+			break;
+		case "bad":
+			icon = { icon: "seo-score-bad", color: colors.$color_red };
+			break;
+	}
+
+	return icon;
+}
+
+/**
  * Maps results to object, to be used by the ContentAnalysis component.
  *
  * Takes in the YoastSEO.js results and maps them to the appropriate objects, so they can be used by the
@@ -98,7 +130,7 @@ export default function mapResults( results ) {
 	}
 	for ( let i = 0; i < results.length; i++ ) {
 		const result = results[ i ];
-		if( ! result.text ) {
+		if ( ! result.text ) {
 			continue;
 		}
 		const mappedResult = mapResult( result );

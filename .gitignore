@@ -54,7 +54,7 @@ temp/
 ############
 ## Composer
 ############
-vendor/
+/vendor/
 
 ############
 ## WPSEO
@@ -65,5 +65,17 @@ travis.sh
 test.sh
 /artifact/
 /artifact.zip
-/languages/wordpress-seo-temp.pot
-/languages/yoast-components.pot
+/artifact-composer/
+/coverage
+/gettext.pot
+/.wordpress-svn
+/webpack-stats.json
+
+############
+# Dist files
+############
+/languages/
+/js/dist/*
+!/js/dist/select2
+/css/dist/*
+!/css/dist/select2

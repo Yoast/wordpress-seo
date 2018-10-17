@@ -228,11 +228,7 @@ class Yoast_Plugin_Conflict {
 		$identifier = $this->get_notification_identifier( $plugin_file );
 
 		$notification_center = Yoast_Notification_Center::get();
-		$notification        = $notification_center->get_notification_by_id( 'wpseo-conflict-' . $identifier );
-
-		if ( $notification ) {
-			$notification_center->remove_notification( $notification );
-		}
+		$notification_center->remove_notification_by_id( 'wpseo-conflict-' . $identifier );
 	}
 
 	/**
@@ -259,7 +255,6 @@ class Yoast_Plugin_Conflict {
 			}
 		}
 	}
-
 
 	/**
 	 * Check if given plugin exists in array with all_active_plugins
@@ -308,7 +303,6 @@ class Yoast_Plugin_Conflict {
 				return $plugin_section;
 			}
 		}
-
 	}
 
 	/**

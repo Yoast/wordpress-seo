@@ -1,15 +1,13 @@
 /* global wp */
-
-import React from "react";
+import React, { createRef } from "react";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
-import { localize } from "yoast-components/utils/i18n";
+import { localize } from "yoast-components";
 
 /**
  * @summary Media upload component.
  */
 class MediaUpload extends React.Component {
-
 	constructor( props ) {
 		super( props );
 
@@ -23,7 +21,9 @@ class MediaUpload extends React.Component {
 		};
 
 		this.state.mediaUpload.on( "select", this.selectUpload.bind( this ) );
+		this.chooseButton = createRef();
 	}
+
 	/**
 	 * Sends the change event, because the component is updated.
 	 *
@@ -33,10 +33,15 @@ class MediaUpload extends React.Component {
 	 * @returns {void}
 	 */
 	componentDidUpdate( prevProps, prevState ) {
-		let currentUploadChange = this.state.currentUpload !== prevState.currentUpload;
+		const currentUploadChange = this.state.currentUpload !== prevState.currentUpload;
 
-		if( currentUploadChange ) {
+		if ( currentUploadChange ) {
 			this.sendChangeEvent();
+		}
+
+		// When the image gets removed, move focus back to the Choose Image button.
+		if ( currentUploadChange && this.state.currentUpload === "" ) {
+			this.chooseButton.current.refs.container.button.focus();
 		}
 	}
 
@@ -78,37 +83,65 @@ class MediaUpload extends React.Component {
 	}
 
 	/**
+	 * Renders a remove button when an image is set.
+	 *
+	 * @returns {ReactElement} The button element.
+	 */
+	renderRemoveButton() {
+		if ( ! this.state.currentUpload ) {
+			return null;
+		}
+
+		return (
+			<RaisedButton
+				label={ this.props.translate( "Remove the image" ) }
+				onClick={ this.removeUpload.bind( this ) }
+				className="yoast-wizard-image-upload-container-buttons__remove"
+				type="button"
+			/>
+		);
+	}
+
+	/**
+	 * Renders the image when available.
+	 *
+	 * @returns {ReactElement} The image element.
+	 */
+	renderImage() {
+		if ( ! this.state.currentUpload ) {
+			return null;
+		}
+
+		return (
+			<img
+				className="yoast-wizard-image-upload-container__image"
+				src={ this.state.currentUpload }
+				alt={ this.props.translate( "image preview" ) }
+			/>
+		);
+	}
+
+	/**
 	 * Renders the output.
 	 *
 	 * @returns {JSX.Element} The rendered HTML.
 	 */
 	render() {
-		let removeButton;
-		let image;
-		if( this.state.currentUpload !== "" ) {
-			removeButton = <RaisedButton
-				label={this.props.translate( "Remove the image" )}
-				onClick={ this.removeUpload.bind( this ) }
-				className="yoast-wizard-image-upload-container-buttons__remove"
-				type="button"/>;
-			image = <img className="yoast-wizard-image-upload-container__image"
-						ref="companyImage"
-						src={this.state.currentUpload}
-						alt={this.props.translate( "company logo image preview" )}/>;
-		}
-
 		return (
 			<div className="yoast-wizard-image-upload-container">
 				<p className="yoast-wizard-image-upload-container-description">
-					{this.props.properties.label}
+					{ this.props.properties.label }
 				</p>
-				{image}
+				{ this.renderImage() }
 				<div className="yoast-wizard-image-upload-container-buttons">
-					<RaisedButton label={this.props.translate( "Choose image" )}
+					<RaisedButton
+						label={ this.props.translate( "Choose image" ) }
 						onClick={ this.chooseUpload.bind( this ) }
 						type="button"
-						className="yoast-wizard-image-upload-container-buttons__choose"/>
-					{removeButton}
+						className="yoast-wizard-image-upload-container-buttons__choose"
+						ref={ this.chooseButton }
+					/>
+					{ this.renderRemoveButton() }
 				</div>
 			</div>
 		);
@@ -120,7 +153,7 @@ class MediaUpload extends React.Component {
 	 * @returns {void}
 	 */
 	sendChangeEvent() {
-		let changeEvent = {
+		const changeEvent = {
 			target: {
 				name: this.props.name,
 				value: this.state.currentUpload,
@@ -129,7 +162,6 @@ class MediaUpload extends React.Component {
 
 		this.props.onChange( changeEvent );
 	}
-
 }
 
 /**

@@ -43,9 +43,19 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'yoast_plugin_compatibility_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'yoast_plugin_suggestions_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'unsupported_php_notice' ), 15 );
 		add_action( 'admin_init', array( $this->asset_manager, 'register_assets' ) );
 		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ) );
+		add_action( 'admin_init', array( $this, 'handle_notifications' ), 15 );
+
+		$listeners   = array();
+		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
+
+		/** @var WPSEO_Listener $listener */
+		foreach ( $listeners as $listener ) {
+			$listener->listen();
+		}
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
@@ -53,6 +63,24 @@ class WPSEO_Admin_Init {
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
 		$this->load_plugin_suggestions();
+	}
+
+	/**
+	 * Handles the notifiers for the dashboard page.
+	 *
+	 * @return void
+	 */
+	public function handle_notifications() {
+		/**
+		 * @var WPSEO_Notification_Handler[] $handlers
+		 */
+		$handlers   = array();
+		$handlers[] = new WPSEO_Post_Type_Archive_Notification_Handler();
+
+		$notification_center = Yoast_Notification_Center::get();
+		foreach ( $handlers as $handler ) {
+			$handler->handle( $notification_center );
+		}
 	}
 
 	/**
@@ -81,9 +109,11 @@ class WPSEO_Admin_Init {
 
 		$current_url   = ( is_ssl() ? 'https://' : 'http://' );
 		$current_url  .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
-		$customize_url = add_query_arg( array(
-			'url' => urlencode( $current_url ),
-		), wp_customize_url() );
+		$query_args    = array(
+			'autofocus[control]' => 'blogdescription',
+			'url'                => urlencode( $current_url ),
+		);
+		$customize_url = add_query_arg( $query_args, wp_customize_url() );
 
 		$info_message = sprintf(
 			/* translators: 1: link open tag; 2: link close tag. */
@@ -183,7 +213,7 @@ class WPSEO_Admin_Init {
 
 		// We are checking against the WordPress internal translation.
 		// @codingStandardsIgnoreLine
-		$translated_blog_description = __( 'Just another WordPress site' );
+		$translated_blog_description = __( 'Just another WordPress site', 'default' );
 
 		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
 	}
@@ -411,6 +441,16 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Creates an unsupported PHP version notification in the notification center.
+	 *
+	 * @return void
+	 */
+	public function unsupported_php_notice() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id( 'wpseo-dismiss-unsupported-php' );
+	}
+
+	/**
 	 * Check if the user has dismissed the given notice (by $notice_name)
 	 *
 	 * @param string $notice_name The name of the notice that might be dismissed.
@@ -528,7 +568,8 @@ class WPSEO_Admin_Init {
 				'textdomain'  => 'wordpress-seo',
 				'plugin_name' => 'Yoast SEO',
 				'hook'        => 'wpseo_admin_promo_footer',
-			), false
+			),
+			false
 		);
 
 		$message = $i18n_module->get_promo_message();

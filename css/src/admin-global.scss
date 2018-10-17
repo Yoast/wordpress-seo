@@ -1,5 +1,8 @@
 @import "menu";
 @import "../../node_modules/yoastseo/css/tooltips";
+@import "yoastcom/0-settings/color";
+@import "icons";
+@import "yoastcom/0-settings/_type";
 
 /* General typography */
 .yoast-measure {
@@ -18,6 +21,7 @@
 	font-weight: 600;
 }
 
+.wpseo-help-center-sub-title,
 .wpseo-premium-popup-title {
 	// Using !important to override WP styles.
 	margin: 1em 0 !important;
@@ -446,4 +450,62 @@ td.column-wpseo-linked {
 
 .yoast-modal_is-open {
 	overflow: hidden;
+}
+
+.yoast-alert .yoast-seo-icon {
+	float: left;
+	margin: 20px 10px;
+}
+
+.yoast-alert .yoast-seo-icon-wrap {
+	margin: 0 0 0 85px;
+}
+
+.yoast-button-upsell {
+	font-size: 16px;
+	font-family: $font-stack-default;
+	color: $color-black;
+	border-radius: 4px;
+	box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2);
+	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+	min-height: 48px;
+	text-transform: initial;
+	padding-left: 1em;
+	// Make space for the caret background image.
+	padding-right: 1.5em;
+	background: $color-button-upsell url(svg-icon-caret-right()) 97% 45% no-repeat;
+	display: inline-block;
+	text-decoration: none;
+	line-height: 42px;
+
+	&:hover,
+	&:focus,
+	&:active {
+		color: $color-black;
+		background-color: $color-button-upsell-hover;
+	}
+
+	// Keep grey inset and add blue focus style.
+	&:focus {
+		box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+	}
+
+	&:active {
+		transform: translateY( 1px );
+		box-shadow: none;
+		filter: none;
+	}
+
+	// Only needed for IE 10+. Don't add spaces within brackets for this to work.
+	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+		::after {
+			display: inline-block;
+			content: "";
+			min-height: 32px;
+		}
+	}
+
+	&#wpseo-premium-button {
+		color: $color-black;
+	}
 }

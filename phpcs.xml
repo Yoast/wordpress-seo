@@ -9,6 +9,8 @@
     <exclude-pattern>node_modules/*</exclude-pattern>
     <exclude-pattern>deprecated/*</exclude-pattern>
     <exclude-pattern>languages/*</exclude-pattern>
+    <exclude-pattern>artifact/*</exclude-pattern>
+    <exclude-pattern>.wordpress-svn/*</exclude-pattern>
 
     <arg name="extensions" value="php"/>
     <arg value="sp"/>
@@ -16,6 +18,7 @@
     <rule ref="Yoast">
         <exclude name="WordPress.WP.PreparedSQL.NotPrepared"/><!-- TODO audit raw queries -->
         <exclude name="WordPress.Functions.DontExtract" /><!-- TODO audit usage & replace -->
+        <exclude name="Squiz.Commenting.FunctionCommentThrowTag.WrongNumber" /><!-- TODO Remove this once we're on 0.5. See https://github.com/squizlabs/PHP_CodeSniffer/issues/650 for more info. -->
     </rule>
 
 	<rule ref="WordPress.WP.I18n">
@@ -34,5 +37,45 @@
     <rule ref="WordPress.WP.I18n.UnorderedPlaceholders">
         <exclude-pattern>inc/class-wpseo-replace-vars.php</exclude-pattern>
     </rule>
+
+    <!-- TEMPORARY exclusion! Because we're not on 0.5 yet -->
+    <rule ref="WordPress.VIP.RestrictedFunctions">
+        <exclude-pattern>inc/class-wpseo-image-utils.php</exclude-pattern>
+    </rule>
+
+	<!--
+	#############################################################################
+	SNIFF FOR PHP CROSS-VERSION COMPATIBILITY
+	#############################################################################
+	-->
+	<config name="testVersion" value="5.2-"/>
+	<rule ref="PHPCompatibilityWP"/>
+
+	<!-- WP-CLI has a minimum PHP requirement of PHP 5.3. -->
+	<rule ref="PHPCompatibility.PHP.NewLanguageConstructs.t_ns_separatorFound">
+		<exclude-pattern>*/cli/class-cli-*\.php$</exclude-pattern>
+		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.PHP.NewKeywords.t_useFound">
+		<exclude-pattern>*/cli/class-cli-*\.php$</exclude-pattern>
+		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.PHP.NewMagicMethods.__invokeFound">
+		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
+	</rule>
+
+	<!-- These usages of PHP > 5.2 code are surrounded by the correct safeguards. -->
+	<rule ref="PHPCompatibility.PHP.NewFunctionParameters.parse_ini_file_scanner_modeFound">
+		<exclude-pattern>*/admin/import/class-import-settings\.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.PHP.NewConstants.ini_scanner_rawFound">
+		<exclude-pattern>*/admin/import/class-import-settings\.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.PHP.NewFunctionParameters.http_build_query_enc_typeFound">
+		<exclude-pattern>*/inc/sitemaps/class-sitemaps-renderer\.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.PHP.NewFunctionParameters.array_unique_sort_flagsFound">
+		<exclude-pattern>*/inc/sitemaps/class-sitemap-image-parser\.php$</exclude-pattern>
+	</rule>
 
 </ruleset>

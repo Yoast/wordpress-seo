@@ -9,6 +9,7 @@
  * Capability Manager Factory.
  */
 class WPSEO_Capability_Manager_Factory {
+
 	/**
 	 * Returns the Manager to use.
 	 *

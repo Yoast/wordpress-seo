@@ -48,7 +48,6 @@ class WPSEO_Configuration_Page {
 		exit;
 	}
 
-
 	/**
 	 *  Registers the page for the wizard.
 	 */
@@ -70,6 +69,10 @@ class WPSEO_Configuration_Page {
 	public function enqueue_assets() {
 		wp_enqueue_media();
 
+		if ( ! wp_script_is( 'wp-element', 'registered' ) && function_exists( 'gutenberg_register_scripts_and_styles' ) ) {
+			gutenberg_register_scripts_and_styles();
+		}
+
 		/*
 		 * Print the `forms.css` WP stylesheet before any Yoast style, this way
 		 * it's easier to override selectors with the same specificity later.
@@ -83,6 +86,9 @@ class WPSEO_Configuration_Page {
 		$config = $this->get_config();
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'configuration-wizard', 'yoastWizardConfig', $config );
+
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
+		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'configuration-wizard' );
 	}
 
 	/**
@@ -100,7 +106,7 @@ class WPSEO_Configuration_Page {
 		<html <?php language_attributes(); ?>>
 		<!--<![endif]-->
 		<head>
-			<meta name="viewport" content="width=device-width"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 			<title><?php
 				printf(
@@ -150,7 +156,6 @@ class WPSEO_Configuration_Page {
 		</body>
 		</html>
 		<?php
-
 	}
 
 	/**
@@ -183,21 +188,6 @@ class WPSEO_Configuration_Page {
 	 */
 	protected function is_config_page() {
 		return ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER );
-	}
-
-	/**
-	 * Returns the translations necessary for the configuration wizard.
-	 *
-	 * @deprecated 4.9
-	 *
-	 * @returns array The translations for the configuration wizard.
-	 */
-	public function get_translations() {
-		_deprecated_function( __METHOD__, 'WPSEO 4.9', 'WPSEO_' );
-
-		$translations = new WPSEO_Configuration_Translations( WPSEO_Utils::get_user_locale() );
-
-		return $translations->retrieve();
 	}
 
 	/**
@@ -261,4 +251,21 @@ class WPSEO_Configuration_Page {
 		WPSEO_Options::set( 'show_onboarding_notice', false );
 	}
 
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Returns the translations necessary for the configuration wizard.
+	 *
+	 * @deprecated 4.9
+	 * @codeCoverageIgnore
+	 *
+	 * @returns array The translations for the configuration wizard.
+	 */
+	public function get_translations() {
+		_deprecated_function( __METHOD__, 'WPSEO 4.9', 'WPSEO_' );
+
+		$translations = new WPSEO_Configuration_Translations( WPSEO_Utils::get_user_locale() );
+
+		return $translations->retrieve();
+	}
 }

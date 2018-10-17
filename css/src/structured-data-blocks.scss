@@ -1,0 +1,161 @@
+.schema-how-to-duration .schema-how-to-duration-input[type="number"] {
+	width: 40px;
+	margin: 0 2px;
+	padding: 6px 4px;
+	text-align: center;
+	-moz-appearance: textfield;
+
+	&::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+}
+
+.schema-how-to-duration-time-input {
+	white-space: nowrap;
+}
+
+.schema-how-to-buttons {
+	text-align: center;
+
+	button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		box-shadow: none;
+		color: #007cba;
+	}
+}
+
+button.schema-how-to-duration-button.components-icon-button {
+	position: relative;
+	top: 5px;
+	padding: 8px 0;
+
+	&:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		box-shadow: none;
+		color: #007cba;
+	}
+}
+
+input + button.schema-how-to-duration-button.components-icon-button {
+	padding: 8px;
+}
+
+.schema-how-to-description {
+	margin: 8px 0;
+}
+
+legend.schema-how-to-duration-legend {
+	float: left;
+	margin-top: 8px;
+	margin-right: 4px;
+}
+
+.schema-how-to-step {
+	position: relative;
+	padding: 8px 4px 8px 32px;
+	margin: 4px 0;
+	border: 1px lightgrey solid;
+	list-style-type: none;
+}
+
+.schema-how-to-step-mover {
+	display: inline-block;
+}
+
+.schema-how-to-step-button {
+	margin: 0;
+}
+
+.schema-how-to-step-number {
+	position: absolute;
+	left: 4px;
+	width: 24px;
+	text-align: right;
+}
+
+// TinyMCE fields and placeholders
+.schema-how-to-step-name,
+.schema-faq-question {
+	font-weight: 600;
+}
+
+.schema-how-to-description,
+.schema-how-to-step-name,
+.schema-how-to-step-text,
+.schema-faq-question,
+.schema-faq-answer {
+	line-height: inherit;
+}
+
+.schema-how-to-step-button-container {
+	display: inline-block;
+	text-align: right;
+
+	.schema-how-to-step-add-media {
+		float: left;
+	}
+
+	button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		box-shadow: none;
+		color: #007cba;
+	}
+}
+
+#schema-how-to-duration-days {
+	margin-right: 8px;
+}
+
+// FAQ styling
+.schema-faq-section {
+	position: relative;
+	padding: 8px 4px 8px 32px;
+	margin: 4px 0;
+	border: 1px lightgrey solid;
+	list-style-type: none;
+}
+
+.schema-faq-section-mover {
+	display: inline-block;
+}
+
+.schema-faq-section-button-container {
+	display: inline-block;
+	text-align: right;
+
+	.schema-faq-section-add-media {
+		float: left;
+	}
+
+	button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		box-shadow: none;
+		color: #007cba;
+	}
+}
+
+.schema-faq-buttons {
+	text-align: center;
+
+	button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		box-shadow: none;
+		color: #007cba;
+	}
+}
+
+.schema-how-to-step-mover,
+.schema-faq-section-mover {
+	.editor-block-mover__control {
+		display: inline-flex;
+		width: 36px;
+		height: 36px;
+	}
+}
+
+.schema-how-to-step-controls-container,
+.schema-faq-section-controls-container {
+	text-align: right;
+	margin-left: -28px; // compensate the 32px wrapper padding and keep a 4px space
+
+	.dashicons-arrow-up-alt2 {
+		position: relative;
+		top: -1px; // fix dashicon shape vertical centering
+	}
+}

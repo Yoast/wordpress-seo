@@ -12,7 +12,7 @@ import InfoIcon from "material-ui/svg-icons/action/info";
  */
 const RaisedURLButton = ( props ) => {
 	return (
-		<RaisedDefaultButton { ...props }/>
+		<RaisedDefaultButton { ...props } />
 	);
 };
 

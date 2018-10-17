@@ -1,15 +1,9 @@
 /* global ajaxurl */
 
 ( jQuery( function( $ ) {
-	let currentPage = $( location ).attr( "pathname" ).split( "/" ).pop();
-
-	// If current page is edit*.php, continue execution.
-	let isEditPage = ( currentPage === "edit.php" || currentPage !== "edit-tags.php" );
-	if ( ! isEditPage ) {
-		return;
-	}
-
-	let notificationTarget = jQuery( ".wrap" ).children().eq( 0 );
+	const currentScreen      = $( location ).attr( "pathname" ).split( "/" ).pop();
+	const slugField          = currentScreen === "edit-tags.php" ? "slug" : "post_name";
+	const notificationTarget = $( ".wrap" ).children().eq( 0 );
 
 	/**
 	 * Use notification counter so we can count how many times the function wpseoShowNotification is called.
@@ -18,7 +12,7 @@
 	 */
 	let wpseoNotificationCounter = 0;
 
-	let addedNotifications = [];
+	const addedNotifications = [];
 
 	/**
 	 * Adds the given notification to the DOM if it doesn't already exist.
@@ -44,7 +38,7 @@
 	 * @returns {void}
 	 */
 	function wpseoShowNotification() {
-		jQuery.post(
+		$.post(
 			ajaxurl,
 			{
 				action: "yoast_get_notifications",
@@ -54,7 +48,7 @@
 				if ( response !== "" ) {
 					wpseoNotificationCounter = 0;
 
-					let notifications = JSON.parse( response );
+					const notifications = JSON.parse( response );
 					notifications.map( addNotificationToDom );
 				}
 
@@ -91,15 +85,7 @@
 	 * @returns {string} The slug of the current post or term.
 	 */
 	function wpseoGetCurrentSlug( currentPost ) {
-		if ( currentPage === "edit.php" ) {
-			return jQuery( "#inline_" + currentPost ).find( ".post_name" ).html();
-		}
-
-		if ( currentPage === "edit-tags.php" ) {
-			return jQuery( "#inline_" + currentPost ).find( ".slug" ).html();
-		}
-
-		return "";
+		return $( "#inline_" + currentPost ).find( "." + slugField ).html();
 	}
 
 	/**
@@ -108,24 +94,34 @@
 	 * @returns {boolean} Whether or not the slug has changed.
 	 */
 	function wpseoSlugChanged() {
-		let editor = jQuery( "tr.inline-editor" );
-		let currentPost = wpseoGetItemId( editor );
-		let currentSlug = wpseoGetCurrentSlug( currentPost );
-		let newSlug = editor.find( "input[name=post_name]" ).val();
+		const editor      = $( "tr.inline-editor" );
+		const currentPost = wpseoGetItemId( editor );
+		const currentSlug = wpseoGetCurrentSlug( currentPost );
+		const newSlug     = editor.find( "input[name=" + slugField + "]" ).val();
 
 		return currentSlug !== newSlug;
 	}
 
-	jQuery( "#inline-edit input" ).on( "keydown", function( ev ) {
-		// 13 refers to the enter key.
-		if ( ev.which === 13 && wpseoSlugChanged() ) {
-			wpseoShowNotification();
-		}
-	} );
+	if ( [ "edit.php", "edit-tags.php" ].includes( currentScreen ) ) {
+		$( "#inline-edit input" ).on( "keydown", function( ev ) {
+			// 13 refers to the enter key.
+			if ( ev.which === 13 && wpseoSlugChanged() ) {
+				wpseoShowNotification();
+			}
+		} );
 
-	jQuery( ".button-primary" ).click( function( ev ) {
-		if ( jQuery( ev.target ).attr( "id" ) !== "save-order" && wpseoSlugChanged() ) {
-			wpseoShowNotification();
-		}
-	} );
+		$( ".button-primary" ).click( function( ev ) {
+			if ( $( ev.target ).attr( "id" ) !== "save-order" && wpseoSlugChanged() ) {
+				wpseoShowNotification();
+			}
+		} );
+	}
+
+	if ( currentScreen === "edit-tags.php" ) {
+		$( document ).on( "ajaxComplete", function( e, xhr, settings ) {
+			if ( settings.data.indexOf( "action=delete-tag" ) > -1 ) {
+				wpseoShowNotification();
+			}
+		} );
+	}
 }( jQuery ) )  );

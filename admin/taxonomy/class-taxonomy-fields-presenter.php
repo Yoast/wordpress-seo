@@ -58,10 +58,6 @@ class WPSEO_Taxonomy_Fields_Presenter {
 		$help_button_text = isset( $field_configuration['options']['help-button'] ) ? $field_configuration['options']['help-button'] : '';
 		$help             = new WPSEO_Admin_Help_Panel( $field_name, $help_button_text, $help_content );
 
-		if ( in_array( $field_configuration['type'], array( 'focuskeyword', 'pageanalysis', 'snippetpreview' ), true ) ) {
-			return $this->parse_section_row( $field, $field_configuration['type'], $help );
-		}
-
 		return $this->parse_row( $label, $help, $field );
 	}
 
@@ -92,25 +88,6 @@ class WPSEO_Taxonomy_Fields_Presenter {
 				$field .= '<div id="' . $field_name . '"></div>';
 				break;
 
-			case 'snippetpreview':
-				$field .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
-				break;
-			case 'pageanalysis':
-				if ( WPSEO_Options::get( 'content_analysis_active', true ) === false && WPSEO_Options::get( 'keyword_analysis_active', true ) === false ) {
-					break;
-				}
-
-				$field .= '<div id="pageanalysis"></div>';
-				break;
-			case 'focuskeyword':
-				$field .= '<div id="wpseofocuskeyword">';
-				$field .= '<section class="yoast-section" id="wpseo-focuskeyword-section">';
-				$field .= '<h3 class="yoast-section__heading yoast-section__heading-icon yoast-section__heading-icon-key">' . __( 'Focus keyword', 'wordpress-seo' ) . '</h3>';
-				$field .= '<label for="' . $field_name . '" class="screen-reader-text">' . __( 'Enter a focus keyword', 'wordpress-seo' ) . '</label>';
-				$field .= '<input type="text" id="' . $field_name . '" autocomplete="off" name="' . $field_name . '" value="' . esc_attr( $field_value ) . '" class="large-text' . $class . '"/><br />';
-				$field .= '</section>';
-				$field .= '</div>';
-				break;
 			case 'text':
 				$field .= '<input name="' . $field_name . '" id="' . $field_name . '" ' . $class . ' type="text" value="' . esc_attr( $field_value ) . '" size="40"' . $aria_describedby . '/>';
 				break;
@@ -212,20 +189,5 @@ class WPSEO_Taxonomy_Fields_Presenter {
 		}
 
 		return $field;
-	}
-
-	/**
-	 * Creates a sections specific row.
-	 *
-	 * @param string                 $content      The content to show.
-	 * @param string                 $esc_form_key Escaped form key name.
-	 * @param WPSEO_Admin_Help_Panel $help         The help button.
-	 *
-	 * @return string
-	 */
-	private function parse_section_row( $content, $esc_form_key, WPSEO_Admin_Help_Panel $help ) {
-		$html  = $content;
-		$html .= '<div class="wpseo_hidden" id="help-yoast-' . $esc_form_key . '">' . $help->get_button_html() . $help->get_panel_html() . '</div>';
-		return $html;
 	}
 }

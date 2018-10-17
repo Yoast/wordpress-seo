@@ -8,18 +8,7 @@
 /**
  * Network Admin Menu handler.
  */
-class WPSEO_Network_Admin_Menu implements WPSEO_WordPress_Integration {
-	/** @var WPSEO_Menu Menu */
-	protected $menu;
-
-	/**
-	 * WPSEO_Network_Admin_Menu constructor.
-	 *
-	 * @param WPSEO_Menu $menu Menu to use.
-	 */
-	public function __construct( WPSEO_Menu $menu ) {
-		$this->menu = $menu;
-	}
+class WPSEO_Network_Admin_Menu extends WPSEO_Base_Menu {
 
 	/**
 	 * Registers all hooks to WordPress.
@@ -37,40 +26,46 @@ class WPSEO_Network_Admin_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_settings_page() {
-		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+		if ( ! $this->check_manage_capability() ) {
 			return;
 		}
 
-		$page_callback = array( $this->menu, 'load_page' );
-
 		add_menu_page(
-			'Yoast SEO: ' . __( 'MultiSite Settings', 'wordpress-seo' ),
+			__( 'Network Settings', 'wordpress-seo' ) . ' - Yoast SEO',
 			__( 'SEO', 'wordpress-seo' ),
-			'delete_users',
-			$this->menu->get_page_identifier(),
+			$this->get_manage_capability(),
+			$this->get_page_identifier(),
 			array( $this, 'network_config_page' ),
 			WPSEO_Utils::get_icon_svg()
 		);
 
+		$submenu_pages = $this->get_submenu_pages();
+		$this->register_submenu_pages( $submenu_pages );
+	}
+
+	/**
+	 * Returns the list of registered submenu pages.
+	 *
+	 * @return array List of registered submenu pages.
+	 */
+	public function get_submenu_pages() {
+
+		// Submenu pages.
+		$submenu_pages = array(
+			$this->get_submenu_page(
+				__( 'General', 'wordpress-seo' ),
+				$this->get_page_identifier(),
+				array( $this, 'network_config_page' )
+			),
+		);
+
 		if ( WPSEO_Utils::allow_system_file_edit() === true ) {
-			add_submenu_page(
-				$this->menu->get_page_identifier(),
-				'Yoast SEO: ' . __( 'Edit Files', 'wordpress-seo' ),
-				__( 'Edit Files', 'wordpress-seo' ),
-				'delete_users', 'wpseo_files',
-				$page_callback
-			);
+			$submenu_pages[] = $this->get_submenu_page( __( 'Edit Files', 'wordpress-seo' ), 'wpseo_files' );
 		}
 
-		// Add Extension submenu page.
-		add_submenu_page(
-			$this->menu->get_page_identifier(),
-			'Yoast SEO: ' . __( 'Extensions', 'wordpress-seo' ),
-			__( 'Extensions', 'wordpress-seo' ),
-			'delete_users',
-			'wpseo_licenses',
-			$page_callback
-		);
+		$submenu_pages[] = $this->get_submenu_page( __( 'Extensions', 'wordpress-seo' ), 'wpseo_licenses' );
+
+		return $submenu_pages;
 	}
 
 	/**
@@ -80,5 +75,23 @@ class WPSEO_Network_Admin_Menu implements WPSEO_WordPress_Integration {
 	 */
 	public function network_config_page() {
 		require_once WPSEO_PATH . 'admin/pages/network.php';
+	}
+
+	/**
+	 * Checks whether the current user has capabilities to manage all options.
+	 *
+	 * @return bool True if capabilities are sufficient, false otherwise.
+	 */
+	protected function check_manage_capability() {
+		return current_user_can( $this->get_manage_capability() );
+	}
+
+	/**
+	 * Returns the capability that is required to manage all options.
+	 *
+	 * @return string Capability to check against.
+	 */
+	protected function get_manage_capability() {
+		return 'wpseo_manage_network_options';
 	}
 }

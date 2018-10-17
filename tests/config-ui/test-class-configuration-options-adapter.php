@@ -218,7 +218,6 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 
 		$this->adapter->add_lookup( $field_name, 'some_type', 'some_option' );
 		$this->assertEquals( null, $this->adapter->get( $class, 'value' ) );
-
 	}
 
 	/**

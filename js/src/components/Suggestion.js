@@ -10,11 +10,11 @@ class Suggestion extends React.Component {
 	 * @returns {JSX.Element} Rendered Component.
 	 */
 	render() {
-		let buttonProps = {};
+		const buttonProps = {};
 
 		if ( this.props.button.type === "primary" ) {
 			buttonProps.labelPosition = "before";
-			buttonProps.icon = <ArrowForwardIcon viewBox="0 0 28 28"/>;
+			buttonProps.icon = <ArrowForwardIcon viewBox="0 0 28 28" />;
 		}
 
 		return (
@@ -25,8 +25,11 @@ class Suggestion extends React.Component {
 					<RaisedURLNewWindowButton { ...this.props.button } { ...buttonProps } />
 				</div>
 				<div className="yoast-wizard--column__push_left yoast-wizard--video-frame">
-					<iframe width="400" height="225" src={ this.props.video } frameBorder="0"
-							allowFullScreen/>
+					<iframe
+						width="400" height="225" src={ this.props.video.url } frameBorder="0"
+						allowFullScreen={ true }
+						title={ this.props.video.title }
+					/>
 				</div>
 			</div>
 		);
@@ -35,9 +38,9 @@ class Suggestion extends React.Component {
 
 export default Suggestion;
 
-Suggestion.PropTypes = {
+Suggestion.propTypes = {
 	title: PropTypes.string.isRequired,
 	copy: PropTypes.string.isRequired,
-	video: PropTypes.string.isRequired,
-	button: PropTypes.array.isRequired,
+	video: PropTypes.object.isRequired,
+	button: PropTypes.object.isRequired,
 };

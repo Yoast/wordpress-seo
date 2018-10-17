@@ -1,10 +1,8 @@
-/* global wpseoAdminL10n, ajaxurl, wpseoSelect2Locale */
+/* global wpseoAdminGlobalL10n, ajaxurl, wpseoSelect2Locale */
 
 import a11ySpeak from "a11y-speak";
 
 ( function() {
-	"use strict";
-
 	/**
 	 * Detects the wrong use of variables in title and description templates
 	 *
@@ -24,48 +22,48 @@ import a11ySpeak from "a11y-speak";
 		var taxonomyPostVariables = [ "category", "category_description", "tag", "tag_description" ];
 		if ( e.hasClass( "posttype-template" ) ) {
 			wrongVariables = wrongVariables.concat( specialVariables, taxonomyVariables );
-		}
-		else if ( e.hasClass( "homepage-template" ) ) {
-			wrongVariables = wrongVariables.concat( authorVariables, dateVariables, postVariables, specialVariables, taxonomyVariables, taxonomyPostVariables );
-		}
-		else if ( e.hasClass( "taxonomy-template" ) ) {
+		} else if ( e.hasClass( "homepage-template" ) ) {
+			wrongVariables = wrongVariables.concat(
+				authorVariables, dateVariables, postVariables, specialVariables, taxonomyVariables, taxonomyPostVariables
+			);
+		} else if ( e.hasClass( "taxonomy-template" ) ) {
 			wrongVariables = wrongVariables.concat( authorVariables, dateVariables, postVariables, specialVariables );
-		}
-		else if ( e.hasClass( "author-template" ) ) {
+		} else if ( e.hasClass( "author-template" ) ) {
 			wrongVariables = wrongVariables.concat( postVariables, dateVariables, specialVariables, taxonomyVariables, taxonomyPostVariables );
-		}
-		else if ( e.hasClass( "date-template" ) ) {
+		} else if ( e.hasClass( "date-template" ) ) {
 			wrongVariables = wrongVariables.concat( authorVariables, postVariables, specialVariables, taxonomyVariables, taxonomyPostVariables );
-		}
-		else if ( e.hasClass( "search-template" ) ) {
-			wrongVariables = wrongVariables.concat( authorVariables, dateVariables, postVariables, taxonomyVariables, taxonomyPostVariables, [ "term404" ] );
-		}
-		else if ( e.hasClass( "error404-template" ) ) {
-			wrongVariables = wrongVariables.concat( authorVariables, dateVariables, postVariables, taxonomyVariables, taxonomyPostVariables, [ "searchphrase" ] );
+		} else if ( e.hasClass( "search-template" ) ) {
+			wrongVariables = wrongVariables.concat(
+				authorVariables, dateVariables, postVariables, taxonomyVariables, taxonomyPostVariables, [ "term404" ]
+			);
+		} else if ( e.hasClass( "error404-template" ) ) {
+			wrongVariables = wrongVariables.concat(
+				authorVariables, dateVariables, postVariables, taxonomyVariables, taxonomyPostVariables, [ "searchphrase" ]
+			);
 		}
 		jQuery.each( wrongVariables, function( index, variable ) {
 			errorId = e.attr( "id" ) + "-" + variable + "-warning";
+			// Disable reason: legacy code, will be removed at some point.
+			/* eslint-disable no-negated-condition */
 			if ( e.val().search( "%%" + variable + "%%" ) !== -1 ) {
 				e.addClass( "wpseo-variable-warning-element" );
-				var msg = wpseoAdminL10n.variable_warning.replace( "%s", "%%" + variable + "%%" );
+				var msg = wpseoAdminGlobalL10n.variable_warning.replace( "%s", "%%" + variable + "%%" );
 				if ( jQuery( "#" + errorId ).length ) {
 					jQuery( "#" + errorId ).html( msg );
-				}
-				else {
+				} else {
 					e.after( ' <div id="' + errorId + '" class="wpseo-variable-warning">' + msg + "</div>" );
 				}
 
-				a11ySpeak( wpseoAdminL10n.variable_warning.replace( "%s", variable ), "assertive" );
+				a11ySpeak( wpseoAdminGlobalL10n.variable_warning.replace( "%s", variable ), "assertive" );
 
 				warn = true;
-			}
-			else {
+			} else {
 				if ( jQuery( "#" + errorId ).length ) {
 					jQuery( "#" + errorId ).remove();
 				}
 			}
-		}
-		);
+			/* eslint-enable no-negated-condition */
+		} );
 		if ( warn === false ) {
 			e.removeClass( "wpseo-variable-warning-element" );
 		}
@@ -255,27 +253,36 @@ import a11ySpeak from "a11y-speak";
 			if ( "company" === companyOrPerson ) {
 				jQuery( "#knowledge-graph-company" ).show();
 				jQuery( "#knowledge-graph-person" ).hide();
-			}
-			else if ( "person" === companyOrPerson ) {
+			} else if ( "person" === companyOrPerson ) {
 				jQuery( "#knowledge-graph-company" ).hide();
 				jQuery( "#knowledge-graph-person" ).show();
-			}
-			else {
+			} else {
 				jQuery( "#knowledge-graph-company" ).hide();
 				jQuery( "#knowledge-graph-person" ).hide();
 			}
 		} ).change();
 
 		// Check correct variables usage in title and description templates.
-		jQuery( ".template" ).change( function() {
+		jQuery( ".template" ).on( "input", function() {
 			wpseoDetectWrongVariables( jQuery( this ) );
-		} ).change();
+		} );
 
 		// Prevent form submission when pressing Enter on the switch-toggles.
 		jQuery( ".switch-yoast-seo input" ).on( "keydown", function( event ) {
 			if ( "keydown" === event.type && 13 === event.which ) {
 				event.preventDefault();
 			}
+		} );
+
+		// Allow collapsing of the content types sections.
+		jQuery( "body" ).on( "click", "button.toggleable-container-trigger", ( event ) => {
+			const target = jQuery( event.currentTarget );
+			const toggleableContainer = target.parent().siblings( ".toggleable-container" );
+
+			toggleableContainer.toggleClass( "toggleable-container-hidden" );
+			target
+				.attr( "aria-expanded", ! toggleableContainer.hasClass( "toggleable-container-hidden" ) )
+				.find( "span" ).toggleClass( "dashicons-arrow-up-alt2 dashicons-arrow-down-alt2" );
 		} );
 
 		wpseoCopyHomeMeta();

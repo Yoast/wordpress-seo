@@ -1,6 +1,7 @@
-var _forEach = require( "lodash/forEach" );
+import analysis from "yoastseo";
+const { removeMarks } = analysis.markers;
 
-var removeMarks = require( "yoastseo/js/markers/removeMarks" );
+import _forEach from "lodash/forEach";
 
 var MARK_TAG = "yoastmark";
 

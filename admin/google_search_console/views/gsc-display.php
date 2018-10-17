@@ -140,7 +140,7 @@ switch ( $platform_tabs->current_tab() ) {
 	);
 
 	echo '</p>';
-?>
+	?>
 
 	<br class="clear" />
 <?php

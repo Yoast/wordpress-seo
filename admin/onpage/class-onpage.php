@@ -102,7 +102,11 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	 *
 	 * @return array Enriched list of schedules.
 	 */
-	public function add_weekly_schedule( array $schedules ) {
+	public function add_weekly_schedule( $schedules ) {
+		if ( ! is_array( $schedules ) ) {
+			$schedules = array();
+		}
+
 		$schedules['weekly'] = array(
 			'interval' => WEEK_IN_SECONDS,
 			'display'  => __( 'Once Weekly', 'wordpress-seo' ),
@@ -225,7 +229,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 		 * Let's start showing the notices to all admins by removing the hide-notice meta data for each admin resulting
 		 * in popping up the notice again.
 		 */
-		delete_metadata( 'user', 0, WPSEO_OnPage::USER_META_KEY, '', true );
+		delete_metadata( 'user', 0, self::USER_META_KEY, '', true );
 	}
 
 	/**

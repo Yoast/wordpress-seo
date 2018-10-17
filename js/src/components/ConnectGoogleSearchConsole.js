@@ -3,14 +3,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
-import { localize } from "yoast-components/utils/i18n";
-import LoadingIndicator from "yoast-components/composites/OnboardingWizard/LoadingIndicator";
+import { localize, LoadingIndicator } from "yoast-components";
 
 /**
  * Represents a Google search console interface.
  */
 class ConnectGoogleSearchConsole extends React.Component {
-
 	/**
 	 * Sets the default state.
 	 *
@@ -42,8 +40,8 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 * @returns {void}
 	 */
 	componentDidUpdate( prevProps, prevState ) {
-		let profileListIsChanged = prevState.profileList !== this.state.profileList;
-		let profileIsChanged = prevState.profile !== this.state.profile;
+		const profileListIsChanged = prevState.profileList !== this.state.profileList;
+		const profileIsChanged = prevState.profile !== this.state.profile;
 		if ( profileListIsChanged || profileIsChanged ) {
 			this.sendChangeEvent();
 		}
@@ -55,11 +53,11 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 * @returns {Window} Returns instance of the created window.
 	 */
 	openGoogleAuthDialog() {
-		let authUrl = yoastWizardConfig.gscAuthURL,
-			w = 600,
-			h = 500,
-			left = ( screen.width / 2 ) - ( w / 2 ),
-			top = ( screen.height / 2 ) - ( h / 2 );
+		const authUrl = yoastWizardConfig.gscAuthURL;
+		const w = 600;
+		const h = 500;
+		const left = ( screen.width / 2 ) - ( w / 2 );
+		const top = ( screen.height / 2 ) - ( h / 2 );
 
 		return window.open(
 			authUrl,
@@ -158,7 +156,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 	 * @returns {void}
 	 */
 	sendChangeEvent() {
-		let changeEvent = {
+		const changeEvent = {
 			target: {
 				name: this.name,
 				value: {
@@ -256,29 +254,32 @@ class ConnectGoogleSearchConsole extends React.Component {
 	getProfileSelectBox() {
 		if ( ! this.hasProfiles() ) {
 			return (
-				<p>{this.props.translate( "There were no profiles found" )}</p>
+				<p>{ this.props.translate( "There were no profiles found" ) }</p>
 			);
 		}
 
-		let profiles = this.state.profileList;
-		let profileKeys = Object.keys( profiles );
+		const profiles = this.state.profileList;
+		const profileKeys = Object.keys( profiles );
 
 		return (
 			<div className="yoast-wizard-input">
 				<label
 					className="yoast-wizard-text-input-label"
-					htmlFor="yoast-wizard-gsc-select-profile">
-					{this.props.translate( "Select profile" ) }
+					htmlFor="yoast-wizard-gsc-select-profile"
+				>
+					{ this.props.translate( "Select profile" ) }
 				</label>
-				<select className="yoast-wizard-input__select"
-						id="yoast-wizard-gsc-select-profile"
-						onChange={this.setProfile.bind( this )}
-						name={this.name} value={this.state.profile}>
-					<option value="">{this.props.translate( "Choose a profile" )}</option>
+				<select
+					className="yoast-wizard-input__select"
+					id="yoast-wizard-gsc-select-profile"
+					onBlur={ this.setProfile.bind( this ) }
+					name={ this.name } value={ this.state.profile }
+				>
+					<option value="">{ this.props.translate( "Choose a profile" ) }</option>
 					{ profileKeys.map(
 						( profileKey, index ) => {
 							return (
-								<option value={profileKey} key={index}>
+								<option value={ profileKey } key={ index }>
 									{ profiles[ profileKey ] }
 								</option>
 							);
@@ -299,10 +300,10 @@ class ConnectGoogleSearchConsole extends React.Component {
 		return (
 			<div>
 				<p>
-					{this.props.translate(
+					{ this.props.translate(
 						"Enter your Google Authorization Code " +
 						"and press the Authenticate button."
-					)}
+					) }
 				</p>
 
 				<input
@@ -310,12 +311,12 @@ class ConnectGoogleSearchConsole extends React.Component {
 					id="gsc_authorization_code"
 					name="gsc_authorization_code"
 					defaultValue=""
-					placeholder={this.props.translate( "Enter authorization code here..." )}
+					placeholder={ this.props.translate( "Enter authorization code here..." ) }
 					aria-labelledby="gsc-enter-code-label"
 				/>
 				<RaisedButton
-					label={this.props.translate( "Authenticate" )}
-					onClick={this.saveAuthCode.bind( this )}
+					label={ this.props.translate( "Authenticate" ) }
+					onClick={ this.saveAuthCode.bind( this ) }
 				/>
 			</div>
 		);
@@ -330,18 +331,19 @@ class ConnectGoogleSearchConsole extends React.Component {
 		this.onChange = this.props.onChange;
 		this.name = this.props.name;
 
-		let loader = this.getLoadingIndicator();
+		const loader = this.getLoadingIndicator();
 
 		if ( this.state.hasAccessToken ) {
-			let profileSelectBox = this.getProfileSelectBox();
+			const profileSelectBox = this.getProfileSelectBox();
 
 			return (
 				<div>
-					{profileSelectBox}
+					{ profileSelectBox }
 					<RaisedButton
-						label={this.props.translate( "Reauthenticate with Google" )}
-						onClick={this.clearAuthCode.bind( this )}/>
-					{loader}
+						label={ this.props.translate( "Reauthenticate with Google" ) }
+						onClick={ this.clearAuthCode.bind( this ) }
+					/>
+					{ loader }
 				</div>
 			);
 		}
@@ -349,19 +351,20 @@ class ConnectGoogleSearchConsole extends React.Component {
 		return (
 			<div>
 				<p>{
-					/* Translators: %s expands to Yoast SEO  */
+					/* translators: %s expands to Yoast SEO. */
 					this.props.translate(
 						"To allow %s to fetch your Google Search Console information, " +
 						"please enter your Google Authorization Code. " +
 						"Clicking the button below will open a new window."
-					).replace( "%s", "Yoast SEO" )}
+					).replace( "%s", "Yoast SEO" ) }
 				</p>
 				<RaisedButton
-					label={this.props.translate( "Get Google Authorization Code" )}
-					primary={true}
-					onClick={this.openGoogleAuthDialog.bind( this )}/>
-				{this.getGoogleAuthCodeInput()}
-				{loader}
+					label={ this.props.translate( "Get Google Authorization Code" ) }
+					primary={ true }
+					onClick={ this.openGoogleAuthDialog.bind( this ) }
+				/>
+				{ this.getGoogleAuthCodeInput() }
+				{ loader }
 			</div>
 		);
 	}
@@ -377,10 +380,9 @@ class ConnectGoogleSearchConsole extends React.Component {
 		}
 
 		return (
-			<div className="yoast-wizard-overlay"><LoadingIndicator/></div>
+			<div className="yoast-wizard-overlay"><LoadingIndicator /></div>
 		);
 	}
-
 }
 
 ConnectGoogleSearchConsole.propTypes = {

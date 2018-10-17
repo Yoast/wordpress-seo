@@ -45,9 +45,6 @@ class WPSEO_Taxonomy_Metabox {
 		$this->term                 = $term;
 		$this->taxonomy             = $taxonomy;
 		$this->taxonomy_tab_content = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
-
-		add_action( 'admin_footer', array( $this, 'template_generic_tab' ) );
-		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
 	}
 
 	/**
@@ -82,6 +79,7 @@ class WPSEO_Taxonomy_Metabox {
 			echo $this->get_buy_premium_link();
 		}
 
+		echo '<div class="wpseo-metabox-content">';
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
@@ -97,7 +95,9 @@ class WPSEO_Taxonomy_Metabox {
 		foreach ( $content_sections as $content_section ) {
 			$content_section->display_content();
 		}
+
 		echo '</div></div>';
+		echo '</div>';
 	}
 
 	/**
@@ -106,11 +106,12 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return WPSEO_Metabox_Section[]
 	 */
 	private function get_content_sections() {
-		$content_sections = array(
-			$this->get_content_meta_section(),
-			$this->get_social_meta_section(),
-			$this->get_settings_meta_section(),
-		);
+		$content_sections = array();
+
+		$content_sections[] = $this->get_content_meta_section();
+
+		$content_sections[] = $this->get_social_meta_section();
+		$content_sections[] = $this->get_settings_meta_section();
 
 		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 			$content_sections[] = $this->get_buy_premium_section();
@@ -128,19 +129,11 @@ class WPSEO_Taxonomy_Metabox {
 		$taxonomy_content_fields = new WPSEO_Taxonomy_Content_Fields( $this->term );
 		$content                 = $this->taxonomy_tab_content->html( $taxonomy_content_fields->get( $this->term ) );
 
-		$tab = new WPSEO_Metabox_Form_Tab(
-			'content',
-			$content,
-			'',
-			array(
-				'tab_class' => 'yoast-seo__remove-tab',
-			)
-		);
 
-		return new WPSEO_Metabox_Tab_Section(
+		return new WPSEO_Metabox_Section_React(
 			'content',
 			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
-			array( $tab ),
+			$content,
 			array(
 				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
 				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
@@ -286,15 +279,15 @@ class WPSEO_Taxonomy_Metabox {
 			sprintf( __( 'You\'re not getting the benefits of %1$s yet. If you had %1$s, you could use its awesome features:', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 			__( 'Redirect manager', 'wordpress-seo' ),
 			__( 'Create and manage redirects within your WordPress install.', 'wordpress-seo' ),
-			__( 'Multiple focus keywords', 'wordpress-seo' ),
-			__( 'Optimize a single post for up to 5 keywords.', 'wordpress-seo' ),
+			__( 'Synonyms & related keyphrases', 'wordpress-seo' ),
+			__( 'Optimize a single post for synonyms and related keyphrases.', 'wordpress-seo' ),
 			__( 'Social Previews', 'wordpress-seo' ),
 			__( 'Check what your Facebook or Twitter post will look like.', 'wordpress-seo' ),
 			__( 'Premium support', 'wordpress-seo' ),
 			__( 'Gain access to our 24/7 support team.', 'wordpress-seo' ),
 			WPSEO_Shortlinker::get( 'https://yoa.st/pe-buy-premium' ),
 			/* translators: %s expands to Yoast SEO Premium. */
-			sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
+			sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 			WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
 			__( 'More info', 'wordpress-seo' )
 		);
@@ -317,53 +310,5 @@ class WPSEO_Taxonomy_Metabox {
 				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
-	}
-
-	/**
-	 * Generic tab.
-	 */
-	public function template_generic_tab() {
-		// This template belongs to the post scraper so don't echo it if it isn't enqueued.
-		if ( ! wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper' ) ) {
-			return;
-		}
-
-		echo '<script type="text/html" id="tmpl-generic_tab">
-				<li class="<# if ( data.classes ) { #>{{data.classes}}<# } #><# if ( data.active ) { #> active<# } #>">
-					<a class="wpseo_tablink" href="#wpseo_generic" data-score="{{data.score}}">
-						<span class="wpseo-score-icon {{data.score}}"></span>
-						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
-						<span class="wpseo-tab-label">{{data.label}}</span>
-						<span class="screen-reader-text wpseo-generic-tab-textual-score">{{data.scoreText}}</span>
-					</a>
-					<# if ( data.hideable ) { #>
-						<button type="button" class="remove-tab" aria-label="{{data.removeLabel}}"><span>x</span></button>
-					<# } #>
-				</li>
-			</script>';
-	}
-
-	/**
-	 * Keyword tab for enabling analysis of multiple keywords.
-	 */
-	public function template_keyword_tab() {
-		// This template belongs to the term scraper so don't echo it if it isn't enqueued.
-		if ( ! wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper' ) ) {
-			return;
-		}
-
-		echo '<script type="text/html" id="tmpl-keyword_tab">
-				<li class="<# if ( data.classes ) { #>{{data.classes}}<# } #><# if ( data.active ) { #> active<# } #>">
-					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
-						<span class="wpseo-score-icon {{data.score}}"></span>
-						<span class="wpseo-tab-prefix">{{data.prefix}}</span>
-						<em class="wpseo-keyword">{{data.label}}</em>
-						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}</span>
-					</a>
-					<# if ( data.hideable ) { #>
-						<button type="button" class="remove-keyword" aria-label="{{data.removeLabel}}"><span>x</span></button>
-					<# } #>
-				</li>
-			</script>';
 	}
 }

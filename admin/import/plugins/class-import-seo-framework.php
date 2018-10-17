@@ -80,13 +80,13 @@ class WPSEO_Import_SEO_Framework extends WPSEO_Plugin_Importer {
 		$set1 = parent::cleanup();
 
 		$this->meta_key = '_social_image_%';
-		$set2 = parent::cleanup();
+		$set2           = parent::cleanup();
 
 		$this->meta_key = '_twitter_%';
-		$set3 = parent::cleanup();
+		$set3           = parent::cleanup();
 
 		$this->meta_key = '_open_graph_%';
-		$set4 = parent::cleanup();
+		$set4           = parent::cleanup();
 
 		return ( $set1 || $set2 || $set3 || $set4 );
 	}

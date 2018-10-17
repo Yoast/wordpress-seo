@@ -9,6 +9,7 @@
  * Test the backfilling of options after 7.0
  */
 class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Tests the expected values of the wpseo_rss option.
 	 */

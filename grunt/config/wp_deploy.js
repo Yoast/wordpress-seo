@@ -10,6 +10,7 @@ module.exports = {
 			deploy_tag: false,
 			// Equals about 10MB.
 			max_buffer: 10000 * 1024,
+			tmp_dir: "<%= paths.svnCheckoutDir %>",
 		},
 	},
 	master: {
@@ -21,6 +22,7 @@ module.exports = {
 			deploy_tag: true,
 			assets_dir: "svn-assets",
 			max_buffer: 10000 * 1024,
+			tmp_dir: "<%= paths.svnCheckoutDir %>",
 		},
 	},
 };

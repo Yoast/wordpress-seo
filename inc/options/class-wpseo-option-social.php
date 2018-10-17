@@ -70,7 +70,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		// 'product'             => '',
 	);
 
-
 	/**
 	 * Get the singleton instance of this class.
 	 *
@@ -190,7 +189,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 					break;
 
-				case 'fbadminapp' :
+				case 'fbadminapp':
 					if ( isset( $dirty[ $key ] ) && ! empty( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
@@ -200,7 +199,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 		return $clean;
 	}
-
 
 	/**
 	 * Clean a given option value.

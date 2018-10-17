@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UpsellBox renders the snippet editor inside of it 1`] = `
+<UpsellBox
+  benefits={
+    Array [
+      "<strong>Strong text</strong> and not so strong text",
+      "<strong>Strong text two</strong>",
+    ]
+  }
+  buttonLabel="Small text below button"
+  infoParagraphs={
+    Array [
+      "Text",
+      Array [
+        "Array with ",
+        <a
+          href="https://example.org"
+        >
+          links
+        </a>,
+        " test",
+      ],
+    ]
+  }
+  upsellButton={
+    Object {
+      "aria-labelledby": "label-id",
+      "className": "class name",
+      "href": "https://example.org",
+    }
+  }
+  upsellButtonLabel=""
+  upsellButtonText="A button"
+>
+  <div>
+    <p
+      key="0"
+    >
+      Text
+    </p>
+    <p
+      key="1"
+    >
+      Array with 
+      <a
+        href="https://example.org"
+        key="1"
+      >
+        links
+      </a>
+       test
+    </p>
+    <UpsellBox__StyledList
+      role="list"
+    >
+      <ul
+        className="UpsellBox__StyledList-fkmvyw eKxmfa"
+        role="list"
+      >
+        <li
+          key="0"
+        >
+          <span
+            aria-hidden="true"
+          />
+          <strong
+            key="interpolation-child-1/.0"
+          >
+            Strong text
+          </strong>
+           and not so strong text
+        </li>
+        <li
+          key="1"
+        >
+          <span
+            aria-hidden="true"
+          />
+          <strong
+            key="interpolation-child-1/.0"
+          >
+            Strong text two
+          </strong>
+        </li>
+      </ul>
+    </UpsellBox__StyledList>
+    <OutboundLink
+      aria-labelledby="label-id"
+      className="class name"
+      href="https://example.org"
+    >
+      <a
+        aria-labelledby="label-id"
+        className="class name"
+        href="https://example.org"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        A button
+        <A11yNotice>
+          <span
+            className="A11yNotice-cySKx gKxLLd"
+          >
+            (Opens in a new browser tab)
+          </span>
+        </A11yNotice>
+      </a>
+    </OutboundLink>
+    <UpsellBox__ButtonLabel>
+      <small
+        className="UpsellBox__ButtonLabel-kkHBve effcmu"
+      />
+    </UpsellBox__ButtonLabel>
+  </div>
+</UpsellBox>
+`;
