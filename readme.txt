@@ -121,15 +121,15 @@ Enhancements:
   * Makes keyphrase recognition flexible with regards to word order. This means that the keyphrase `SEO WordPress plugin` will be found in the sentence `This is the most popular SEO plugin for WordPress.` In order to use exact matches, the keyphrase can be enclosed in quotation marks.
   * When matching keyphrases for the various assessments, the analysis only targets content words and ignores function words (e.g., `the` or `and`). This functionality is available in English, German, Dutch, French, Spanish, Italian, Portuguese, Russian and Polish.
 * The analysis of the following assessments incorporates the new keyword recognition principles:
-  * Image alt attributes: checks whether there’s at least one image with an alt tag that contains words from the keyphrase. A full match isn’t required anymore.
-  * Keyphrase in introduction: checks words from the keyphrase are matched within one sentence in the introduction or, if not, whether they are present in the first paragraph at all. A full match isn’t required anymore.
-  * Keyphrase in title: still checks whether an exact match of the keyphrase is found in (the beginning of) the title, but now also provides an okay score if only some words from the keyphrase are found in the title.
+  * Image alt attributes: checks whether there’s at least one image with an alt tag that contains words from the keyphrase. An exact match isn’t required anymore.
+  * Keyphrase in introduction: checks whether words from the keyphrase are matched within one sentence in the introduction or, if not, whether they are present in the first paragraph at all. An exact match isn’t required anymore.
+  * Keyphrase in title: still checks whether an exact match of the keyphrase is found in (the beginning of) the title, but now also recommends improvement if all words from the keyphrase are found in the title.
   * Keyphrase length: has new boundaries to check whether the keyphrase is not too long. For languages that have support for function word stripping (see above), only content words are taken into account.
   * Keyphrase in meta description: checks whether all words from the keyphrase are matched within one sentence or, if not, whether they are present in the meta description at all.
-  * Keyphrase in subheading: now checks whether at least one subheading reflects the topic of the post. A subheading is considered to reflect the topic of the post if more than half of the words from the keyphrase are found in it. A full match isn’t required anymore.
+  * Keyphrase in subheading: now checks whether at least one subheading contains more than half of the words from the keyphrase. An exact match isn’t required anymore.
   * Keyphrase in slug: checks whether a sufficient number of words from the keyphrase is used in the slug. The number of words required depends on the length of the keyphrase.
   * Keyphrase density: checks whether there are enough keyphrase matches; a match is defined as a sentence that contains all words from the keyphrase.
-  * Link focus keyphrase: the assessment that checks whether you’re using your keyphrase to link to a different article doesn't require a full match anymore.
+  * Link focus keyphrase: the assessment that checks whether you’re using your keyphrase to link to a different article doesn't require an exact match anymore.
 * Improves the feedback texts for all SEO and readability assessments.
 * Improves the consistency of the SEO and readability results by showing them in a fixed order.
 * Adds target="_blank" to the "How to connect to GSC" link to open the link a new tab. Props to [@zkan](https://github.com/zkan)
