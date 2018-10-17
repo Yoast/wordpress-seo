@@ -47,7 +47,7 @@ export default function Metabox( { settings, store, theme } ) {
 						<StoreProvider store={ store }>
 							<SeoAnalysis
 								shouldUpsell={ settings.shouldUpsell }
-								shouldUpselllMorphology={ settings.isMorphologyActive }
+								shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 								location="metabox"
 							/>
 						</StoreProvider>

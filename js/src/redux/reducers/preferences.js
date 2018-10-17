@@ -13,7 +13,7 @@ function getDefaultState() {
 	return {
 		isContentAnalysisActive: isContentAnalysisActive(),
 		isKeywordAnalysisActive: isKeywordAnalysisActive(),
-		isMorphologyActive: isUndefined( window.wpseoPremiumMetaboxData ) && isWordFormRecognitionActive(),
+		isWordFormRecognitionActive: isUndefined( window.wpseoPremiumMetaboxData ) && isWordFormRecognitionActive(),
 		isCornerstoneActive: isCornerstoneActive() && isUndefined( window.wpseoTermScraperL10n ),
 		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ) && isUndefined( window.wpseoTermScraperL10n ),
 	};
