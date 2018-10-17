@@ -177,10 +177,10 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the conversion of the robots values.
 	 *
-	 * @param string    $robot_value 	The key to test with.
+	 * @param string    $robot_value    The key to test with.
 	 * @param string    $supplied_value The value to test with.
-	 * @param bool|null $expected		The expected conversion.
-	 * @param string    $description	Description of the test.
+	 * @param bool|null $expected       The expected conversion.
+	 * @param string    $description    Description of the test.
 	 *
 	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_indexable_data()
 	 *
@@ -195,18 +195,18 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the conversion of the advanced robots values.
 	 *
-	 * @param string    $robot_value 	The key to test with.
+	 * @param string    $robot_value    The key to test with.
 	 * @param string    $supplied_value The value to test with.
-	 * @param bool|null $expected		The expected conversion.
-	 * @param string    $description	Description of the test.
+	 * @param bool|null $expected       The expected conversion.
+	 * @param string    $description    Description of the test.
 	 *
 	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_advanced()
 	 *
 	 * @dataProvider advanced_indexable_data_conversion_provider
 	 */
 	public function test_convert_advanced( $robot_value, $supplied_value, $expected, $description ) {
-		$indexable 	= array( $robot_value => $supplied_value );
-		$data 		= $this->provider->convert_advanced( $indexable );
+		$indexable = array( $robot_value => $supplied_value );
+		$data      = $this->provider->convert_advanced( $indexable );
 
 		$this->assertEquals( $expected, $data, $description );
 	}
@@ -270,7 +270,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	public function indexable_data_conversion_provider() {
 		return array(
 			array( 'is_robots_nofollow', 'true', '1', 'With is_robots_nofollow value set to nofollow' ),
-			array( 'is_robots_nofollow', false,  '0', 'With is_robots_nofollow value set to follow' ),
+			array( 'is_robots_nofollow', false, '0', 'With is_robots_nofollow value set to follow' ),
 			array( 'is_robots_noindex', 'false', '2', 'With is_robots_noindex value set to index' ),
 			array( 'is_robots_noindex', 'true', '1', 'With is_robots_noindex value set to noindex' ),
 			array( 'is_robots_noindex', null, null, 'With is_robots_noindex value set to default' ),

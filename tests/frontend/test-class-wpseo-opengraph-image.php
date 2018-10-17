@@ -239,7 +239,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	public function test_set_attachment_page_image() {
 		$post_id         = $this->create_post();
 		$image           = '/assets/yoast.png';
-		$rand            = rand( 1000, 9999 );
+		$rand            = wp_rand( 1000, 9999 );
 		$basename        = str_replace( '.png', '-attachment-test-' . $rand . '.png', basename( $image ) );
 		$upload_dir      = wp_upload_dir();
 		$source_image    = dirname( __FILE__ ) . '/..' . $image;

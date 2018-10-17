@@ -33,14 +33,14 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				/* translators: %s resolves to Yoast SEO Premium */
 				sprintf( __( 'Outrank the competition with %s', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 				/* translators: %1$s resolves to Yoast SEO Premium */
-				sprintf( __( 'Do you want to outrank your competition? %1$s gives you awesome additional features that\'ll help you to set up your SEO strategy like a professional. Use the multiple focus keyphrases functionality, the redirect manager and our internal linking tool. %1$s will also give you access to premium support.', 'wordpress-seo' ), 'Yoast SEO Premium' ),
+				sprintf( __( 'Do you want to outrank your competition? %1$s gives you awesome additional features that\'ll help you to set up your SEO strategy like a professional. Add synonyms and related keywords, use our Premium SEO analysis, the redirect manager and our internal linking tool. %1$s will also give you access to premium support.', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 				array(
 					'label' => __( 'Upgrade to Premium', 'wordpress-seo' ),
 					'type'  => 'primary',
 					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-premium' ),
 				),
 				array(
-					'url' => WPSEO_Shortlinker::get( 'https://yoa.st/video-yoast-seo-premium' ),
+					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-yoast-seo-premium' ),
 					'title' => sprintf(
 						/* translators: %1$s expands to Yoast SEO Premium. */
 						__( '%1$s video', 'wordpress-seo' ),
@@ -68,7 +68,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/2up' ),
 			),
 			array(
-				'url' => WPSEO_Shortlinker::get( 'https://yoa.st/2v0' ),
+				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/2v0' ),
 				'title' => sprintf(
 					/* translators: %1$s expands to Basic SEO training. */
 					__( '%1$s video', 'wordpress-seo' ),
@@ -88,7 +88,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-plugin-course' ),
 			),
 			array(
-				'url' => WPSEO_Shortlinker::get( 'https://yoa.st/video-plugin-course' ),
+				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-plugin-course' ),
 				'title' => sprintf(
 					/* translators: %1$s expands to Yoast SEO plugin training. */
 					__( '%1$s video', 'wordpress-seo' ),
@@ -109,7 +109,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-localseo' ),
 				),
 				array(
-					'url' => WPSEO_Shortlinker::get( 'https://yoa.st/video-localseo' ),
+					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-localseo' ),
 					'title' => sprintf(
 						/* translators: %1$s expands to Local SEO. */
 						__( '%1$s video', 'wordpress-seo' ),

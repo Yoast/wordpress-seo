@@ -207,12 +207,13 @@ class Yoast_Form {
 	 * @param array  $attr HTML attributes set.
 	 */
 	public function label( $text, $attr ) {
-		$attr = wp_parse_args( $attr, array(
-				'class' => 'checkbox',
-				'close' => true,
-				'for'   => '',
-			)
+		$defaults = array(
+			'class' => 'checkbox',
+			'close' => true,
+			'for'   => '',
 		);
+		$attr     = wp_parse_args( $attr, $defaults );
+
 		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'>$text";
 		if ( $attr['close'] ) {
 			echo '</label>';
@@ -228,11 +229,11 @@ class Yoast_Form {
 	 * @param array  $attr HTML attributes set.
 	 */
 	public function legend( $text, $attr ) {
-		$attr = wp_parse_args( $attr, array(
-				'id'    => '',
-				'class' => '',
-			)
+		$defaults = array(
+			'id'    => '',
+			'class' => '',
 		);
+		$attr     = wp_parse_args( $attr, $defaults );
 
 		$id = ( '' === $attr['id'] ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
 		echo '<legend class="yoast-form-legend ' . esc_attr( $attr['class'] ) . '"' . $id . '>' . $text . '</legend>';
@@ -344,11 +345,13 @@ class Yoast_Form {
 				'class' => $attr,
 			);
 		}
-		$attr = wp_parse_args( $attr, array(
+
+		$defaults = array(
 			'placeholder' => '',
 			'class'       => '',
-		) );
-		$val  = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
+		);
+		$attr     = wp_parse_args( $attr, $defaults );
+		$val      = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 
 		$this->label(
 			$label . ':',
@@ -375,12 +378,14 @@ class Yoast_Form {
 				'class' => $attr,
 			);
 		}
-		$attr = wp_parse_args( $attr, array(
+
+		$defaults = array(
 			'cols'  => '',
 			'rows'  => '',
 			'class' => '',
-		) );
-		$val  = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
+		);
+		$attr     = wp_parse_args( $attr, $defaults );
+		$val      = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 
 		$this->label(
 			$label . ':',
@@ -534,10 +539,11 @@ class Yoast_Form {
 
 		if ( is_string( $legend ) && '' !== $legend ) {
 
-			$legend_attr = wp_parse_args( $legend_attr, array(
+			$defaults    = array(
 				'id'    => '',
 				'class' => 'radiogroup',
-			) );
+			);
+			$legend_attr = wp_parse_args( $legend_attr, $defaults );
 
 			$this->legend( $legend, $legend_attr );
 		}
@@ -689,12 +695,15 @@ class Yoast_Form {
 		return '<p class="disabled-note">' . esc_html__( 'This feature has been disabled by the network admin.', 'wordpress-seo' ) . '</p>';
 	}
 
+	/* ********************* DEPRECATED METHODS ********************* */
+
 	/**
 	 * Retrieve options based on whether we're on multisite or not.
 	 *
 	 * @since 1.2.4
 	 * @since 2.0   Moved to this class.
 	 * @deprecated 8.4
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The option's value.
 	 */
