@@ -298,14 +298,21 @@ class SeoAnalysis extends React.Component {
 
 SeoAnalysis.propTypes = {
 	results: PropTypes.array,
-	marksButtonStatus: PropTypes.string,
-	hideMarksButtons: PropTypes.bool,
+	marksButtonStatus: PropTypes.string.isRequired,
+	hideMarksButtons: PropTypes.bool.isRequired,
 	keyword: PropTypes.string,
-	onFocusKeywordChange: PropTypes.func,
+	onFocusKeywordChange: PropTypes.func.isRequired,
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
-	overallScore: PropTypes.number,
-	location: PropTypes.string,
+	overallScore: PropTypes.number.isRequired,
+	location: PropTypes.string.isRequired,
+};
+
+SeoAnalysis.defaultProps = {
+	results: [],
+	keyword: "",
+	shouldUpsell: false,
+	shouldUpsellWordFormRecognition: false,
 };
 
 /**

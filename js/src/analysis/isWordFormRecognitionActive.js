@@ -10,8 +10,6 @@ var isUndefined = require( "lodash/isUndefined" );
 function isWordFormRecognitionActive() {
 	var l10nObject = getL10nObject();
 
-	console.log(l10nObject.wordFormRecognitionActive)
-
 	return ! isUndefined( l10nObject ) && l10nObject.wordFormRecognitionActive === "1";
 }
 
