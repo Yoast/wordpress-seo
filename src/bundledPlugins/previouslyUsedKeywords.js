@@ -1,7 +1,7 @@
 import { isUndefined } from "lodash-es";
 
 import MissingArgument from "../errors/missingArgument";
-import { createAnchorOpeningTag } from "../queryStringAppender";
+import { createAnchorOpeningTag } from "../helpers/queryStringAppender";
 import AssessmentResult from "../values/AssessmentResult.js";
 
 /**

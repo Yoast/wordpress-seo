@@ -4,7 +4,7 @@ import Assessment from "../../assessment";
 import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
 import isTextTooLong from "../../helpers/isValueTooLong";
 import marker from "../../markers/addMark";
-import { createAnchorOpeningTag } from "../../queryStringAppender";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
 import { getSubheadings } from "../../stringProcessing/getSubheadings";
 import getWords from "../../stringProcessing/getWords";
 import AssessmentResult from "../../values/AssessmentResult";

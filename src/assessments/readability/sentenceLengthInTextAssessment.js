@@ -5,7 +5,7 @@ import countTooLongSentences from "../../assessmentHelpers/checkForTooLongSenten
 import formatNumber from "../../helpers/formatNumber";
 import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
 import addMark from "../../markers/addMark";
-import { createAnchorOpeningTag } from "../../queryStringAppender";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
 import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";

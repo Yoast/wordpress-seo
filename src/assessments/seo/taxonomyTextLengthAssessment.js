@@ -1,6 +1,6 @@
 import AssessmentResult from "../../values/AssessmentResult.js";
 import { inRange } from "lodash-es";
-import { createAnchorOpeningTag } from "../../queryStringAppender";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
 
 const recommendedMinimum = 150;
 /**

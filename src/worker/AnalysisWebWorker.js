@@ -55,7 +55,7 @@ import InvalidTypeError from "../errors/invalidType";
 import Scheduler from "./scheduler";
 import Transporter from "./transporter";
 import RelatedKeywordTaxonomyAssessor from "../relatedKeywordTaxonomyAssessor";
-import { configureQueryStringAppender } from "../queryStringAppender";
+import { configureQueryStringAppender } from "../helpers/queryStringAppender";
 import includesAny from "../helpers/includesAny";
 
 const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();

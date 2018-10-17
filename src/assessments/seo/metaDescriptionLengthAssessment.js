@@ -1,7 +1,7 @@
 import { merge } from "lodash-es";
 import Assessment from "../../assessment";
 import Config from "../../config/config";
-import { createAnchorOpeningTag } from "../../queryStringAppender";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 
 const maximumMetaDescriptionLength = Config.maxMeta;

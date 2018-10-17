@@ -2,7 +2,7 @@ import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
 import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
-import { createAnchorOpeningTag } from "../../queryStringAppender";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 
 const maximumLength = 600;

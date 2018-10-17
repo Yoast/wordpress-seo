@@ -3,7 +3,7 @@ import { merge } from "lodash-es";
 import { inRange } from "lodash-es";
 
 import Assessment from "../../assessment";
-import { createAnchorOpeningTag } from "../../queryStringAppender";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**

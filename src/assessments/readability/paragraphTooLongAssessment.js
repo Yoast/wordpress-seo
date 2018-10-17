@@ -3,7 +3,7 @@ import { filter, map } from "lodash-es";
 import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
 import isParagraphTooLong from "../../helpers/isValueTooLong";
 import marker from "../../markers/addMark";
-import { createAnchorOpeningTag } from "../../queryStringAppender";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
 import { stripBlockTagsAtStartEnd as stripHTMLTags } from "../../stringProcessing/stripHTMLTags";
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";

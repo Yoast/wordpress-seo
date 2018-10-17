@@ -1,4 +1,4 @@
-import QueryStringAppender from "../../src/queryStringAppender/QueryStringAppender";
+import QueryStringAppender from "../../../src/helpers/queryStringAppender/QueryStringAppender";
 
 describe( "QueryStringAppender", () => {
 	test( "create an instance without config to include empty params", () => {

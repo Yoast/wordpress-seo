@@ -1,5 +1,5 @@
 import getLanguageAvailability from "../../helpers/getLanguageAvailability";
-import { createAnchorOpeningTag } from "../../queryStringAppender";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 
 const availableLanguages = [ "en" ];

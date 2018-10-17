@@ -1,4 +1,4 @@
-import { configureQueryStringAppender, appendQueryString, createAnchorOpeningTag } from "../../src/queryStringAppender/singleton";
+import { configureQueryStringAppender, appendQueryString, createAnchorOpeningTag } from "../../../src/helpers/queryStringAppender/singleton";
 
 describe( "QueryStringAppender singleton", () => {
 	beforeEach( () => {

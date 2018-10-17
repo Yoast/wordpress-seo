@@ -2,7 +2,7 @@ import { isUndefined, map, merge } from "lodash-es";
 
 import Assessment from "../../assessment";
 import addMark from "../../markers/addMark";
-import { createAnchorOpeningTag } from "../../queryStringAppender";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";
 
