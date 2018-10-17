@@ -18,6 +18,11 @@ describe( "Test for checking if the keyphrase contains function words only", fun
 		expect( functionWordsInKeyphrase( mockPaper ) ).toBe( true );
 	} );
 
+	it( "returns false for unknown locale", function() {
+		let mockPaper = new Paper( "", { keyword: "something", locale: "xx_XX" } );
+		expect( functionWordsInKeyphrase( mockPaper ) ).toBe( false );
+	} );
+
 	it( "returns false if the keyphrase is embedded in quotes", function() {
 		let mockPaper = new Paper( "", { keyword: "\"something was there\"" } );
 		expect( functionWordsInKeyphrase( mockPaper ) ).toBe( false );
