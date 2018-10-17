@@ -5,7 +5,7 @@ import countTooLongSentences from "../../assessmentHelpers/checkForTooLongSenten
 import formatNumber from "../../helpers/formatNumber";
 import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
 import addMark from "../../markers/addMark";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";
@@ -97,8 +97,8 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {string} A string.
 	 */
 	translateScore( score, percentage,  i18n ) {
-		const urlTitle = createShortlinkAnchorOpeningTag( "https://yoa.st/34v" );
-		const urlCallToAction = createShortlinkAnchorOpeningTag( "https://yoa.st/34w" );
+		const urlTitle = createAnchorOpeningTag( "https://yoa.st/34v" );
+		const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/34w" );
 		if ( score >= 7 ) {
 			return i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */

@@ -2,7 +2,7 @@ import { filter, flatten, map, partition, sortBy } from "lodash-es";
 
 import getLanguageAvailability from "../../helpers/getLanguageAvailability";
 import marker from "../../markers/addMark";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";
@@ -39,8 +39,8 @@ let groupSentenceBeginnings = function( sentenceBeginnings ) {
  * @returns {{score: number, text: string, hasMarks: boolean}} result object with score and text.
  */
 let calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18n ) {
-	const urlTitle = createShortlinkAnchorOpeningTag( "https://yoa.st/35f" );
-	const urlCallToAction = createShortlinkAnchorOpeningTag( "https://yoa.st/35g" );
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/35f" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35g" );
 
 	if ( groupedSentenceBeginnings.total > 0 ) {
 		return {

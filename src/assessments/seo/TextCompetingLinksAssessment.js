@@ -2,7 +2,7 @@ import { isUndefined, map, merge } from "lodash-es";
 
 import Assessment from "../../assessment";
 import addMark from "../../markers/addMark";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";
 
@@ -30,8 +30,8 @@ class TextCompetingLinksAssessment extends Assessment {
 			scores: {
 				bad: 2,
 			},
-			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/34l" ),
-			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/34m" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34l" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34m" ),
 		};
 
 		this.identifier = "textCompetingLinks";

@@ -4,7 +4,7 @@ import formatNumber from "../../helpers/formatNumber";
 import getLanguageAvailability from "../../helpers/getLanguageAvailability";
 import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
 import marker from "../../markers/addMark";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";
@@ -21,8 +21,8 @@ let calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	let score;
 	let percentage = 0;
 	let recommendedValue = 10;
-	const urlTitle = createShortlinkAnchorOpeningTag( "https://yoa.st/34t" );
-	const urlCallToAction = createShortlinkAnchorOpeningTag( "https://yoa.st/34u" );
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/34t" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/34u" );
 	let hasMarks;
 
 	// Prevent division by zero errors.

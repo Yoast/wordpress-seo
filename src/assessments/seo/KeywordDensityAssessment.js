@@ -3,7 +3,7 @@ import { merge } from "lodash-es";
 import Assessment from "../../assessment";
 import formatNumber from "../../helpers/formatNumber";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/inRange";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import countWords from "../../stringProcessing/countWords";
 import AssessmentResult from "../../values/AssessmentResult";
 
@@ -48,8 +48,8 @@ class KeywordDensityAssessment extends Assessment {
 				correctDensity: 9,
 				underMinimum: 4,
 			},
-			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/33v" ),
-			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/33w" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33v" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33w" ),
 		};
 
 		this.identifier = "keywordDensity";

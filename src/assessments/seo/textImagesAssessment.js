@@ -1,7 +1,7 @@
 import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -26,8 +26,8 @@ class TextImagesAssessment extends Assessment {
 				withAlt: 6,
 				noAlt: 6,
 			},
-			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/33c" ),
-			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/33d" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33c" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33d" ),
 		};
 
 		this.identifier = "textImages";

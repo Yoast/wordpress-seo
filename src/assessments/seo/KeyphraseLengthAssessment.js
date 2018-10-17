@@ -3,7 +3,7 @@ import { merge } from "lodash-es";
 import { inRange } from "lodash-es";
 
 import Assessment from "../../assessment";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -36,8 +36,8 @@ class KeyphraseLengthAssessment extends Assessment {
 				okay: 6,
 				good: 9,
 			},
-			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/33i" ),
-			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/33j" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33i" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33j" ),
 			isRelatedKeyphrase: false,
 		};
 

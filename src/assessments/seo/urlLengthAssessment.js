@@ -1,7 +1,7 @@
 import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -22,8 +22,8 @@ class UrlLengthAssessment extends Assessment {
 			scores: {
 				tooLong: 6,
 			},
-			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/35b" ),
-			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/35c" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/35b" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/35c" ),
 		};
 
 		this.identifier = "urlLength";

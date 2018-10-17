@@ -4,7 +4,7 @@ import Assessment from "../../assessment";
 import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
 import isTextTooLong from "../../helpers/isValueTooLong";
 import marker from "../../markers/addMark";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import { getSubheadings } from "../../stringProcessing/getSubheadings";
 import getWords from "../../stringProcessing/getWords";
 import AssessmentResult from "../../values/AssessmentResult";
@@ -30,8 +30,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 				slightlyTooMany: 300,
 				farTooMany: 350,
 			},
-			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/34x" ),
-			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/34y" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34x" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34y" ),
 			scores: {
 				goodShortTextNoSubheadings: 9,
 				goodSubheadings: 9,

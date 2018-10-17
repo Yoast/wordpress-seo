@@ -1,6 +1,6 @@
 import AssessmentResult from "../../values/AssessmentResult";
 import getLanguageAvailability from "../../helpers/getLanguageAvailability";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 
 const availableLanguages = [ "en" ];
 
@@ -13,8 +13,8 @@ const availableLanguages = [ "en" ];
  * @returns {Object} The resulting score object.
  */
 const calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
-	const urlTitle = createShortlinkAnchorOpeningTag( "https://yoa.st/34p" );
-	const urlCallToAction = createShortlinkAnchorOpeningTag( "https://yoa.st/34q" );
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/34p" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/34q" );
 
 	if ( stopWordCount > 0 ) {
 		return {

@@ -1,6 +1,6 @@
 import formatNumber from "../../helpers/formatNumber";
 import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 import countTooLongSentences from "./../../assessmentHelpers/checkForTooLongSentences";
 
@@ -15,7 +15,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	var percentage = 0;
 	var recommendedValue = 20;
 	var tooLongTotal = countTooLongSentences( sentences, recommendedValue ).length;
-	const sentenceLengthURL = createShortlinkAnchorOpeningTag( "https://yoa.st/short-sentences" );
+	const sentenceLengthURL = createAnchorOpeningTag( "https://yoa.st/short-sentences" );
 
 	if ( sentences.length !== 0 ) {
 		percentage = formatNumber( ( tooLongTotal / sentences.length ) * 100 );

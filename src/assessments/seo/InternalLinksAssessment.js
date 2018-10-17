@@ -1,7 +1,7 @@
 import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -34,8 +34,8 @@ class InternalLinksAssessment extends Assessment {
 				noneInternalFollow: 7,
 				noInternal: 3,
 			},
-			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/33z" ),
-			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/34a" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33z" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34a" ),
 		};
 
 		this.identifier = "internalLinks";

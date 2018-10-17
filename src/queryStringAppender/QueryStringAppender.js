@@ -1,9 +1,9 @@
 /**
- * Shortlinker to handle appending parameters to a shortlink.
+ * QueryStringAppender to handle appending parameters to a link.
  */
-export default class Shortlinker {
+export default class QueryStringAppender {
 	/**
-	 * Initialize the Shortlinker class.
+	 * Initialize the QueryStringAppender class.
 	 *
 	 * @param {Object} [config={}] Optional configuration.
 	 */
@@ -15,7 +15,7 @@ export default class Shortlinker {
 	 * Saves the passed configuration.
 	 *
 	 * @param {Object} config             The configuration.
-	 * @param {Object} [config.params={}] The params to create the query string with.
+	 * @param {Object} [config.params={}] The default params to create the query string with.
 	 *
 	 * @returns {void}
 	 */
@@ -40,16 +40,16 @@ export default class Shortlinker {
 	}
 
 	/**
-	 * Creates a shortlink using the params from the config.
+	 * Creates a link by combining the params from the config and appending them to the url.
 	 *
 	 * @param {string} url         The base url.
-	 * @param {Object} [params={}] Optional params for in the query string.
+	 * @param {Object} [params={}] Optional params for in the url.
 	 *
-	 * @returns {string} The shortlink with query string.
+	 * @returns {string} The url with query string.
 	 */
-	create( url, params = {} ) {
+	append( url, params = {} ) {
 		let link = encodeURI( url );
-		const queryString = Shortlinker.createQueryString( {
+		const queryString = QueryStringAppender.createQueryString( {
 			...this._config.params,
 			...params,
 		} );
@@ -62,14 +62,14 @@ export default class Shortlinker {
 	}
 
 	/**
-	 * Creates an anchor opening tag using the shortlink create.
+	 * Creates an anchor opening tag; uses the append function to create the url.
 	 *
 	 * @param {string} url         The base url.
-	 * @param {Object} [params={}] Optional params for in the query string.
+	 * @param {Object} [params={}] Optional params for in the url.
 	 *
-	 * @returns {string} The shortlink with query string.
+	 * @returns {string} The anchor opening tag.
 	 */
 	createAnchorOpeningTag( url, params = {} ) {
-		return `<a href='${ this.create( url, params ) }' target='_blank'>`;
+		return `<a href='${ this.append( url, params ) }' target='_blank'>`;
 	}
 }

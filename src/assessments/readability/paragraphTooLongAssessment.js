@@ -3,7 +3,7 @@ import { filter, map } from "lodash-es";
 import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
 import isParagraphTooLong from "../../helpers/isValueTooLong";
 import marker from "../../markers/addMark";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import { stripBlockTagsAtStartEnd as stripHTMLTags } from "../../stringProcessing/stripHTMLTags";
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";
@@ -31,8 +31,8 @@ const getTooLongParagraphs = function( paragraphsLength  ) {
  */
 let calculateParagraphLengthResult = function( paragraphsLength, tooLongParagraphs, i18n ) {
 	let score;
-	const urlTitle = createShortlinkAnchorOpeningTag( "https://yoa.st/35d" );
-	const urlCallToAction = createShortlinkAnchorOpeningTag( "https://yoa.st/35e" );
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/35d" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35e" );
 
 	if ( paragraphsLength.length === 0 ) {
 		return {};

@@ -2,7 +2,7 @@ import { inRange, merge } from "lodash-es";
 
 import Assessment from "../../assessment";
 import getLanguageAvailability from "../../helpers/getLanguageAvailability";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 
 const availableLanguages = [ "en", "nl", "de", "it", "ru", "fr", "es" ];
@@ -18,8 +18,8 @@ class FleschReadingEaseAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/34r" ),
-			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/34s" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34r" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34s" ),
 		};
 
 		this.identifier = "fleschReadingEase";

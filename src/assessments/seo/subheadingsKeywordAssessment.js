@@ -1,7 +1,7 @@
 import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import { getSubheadings } from "../../stringProcessing/getSubheadings";
 import AssessmentResult from "../../values/AssessmentResult";
 
@@ -25,8 +25,8 @@ class SubHeadingsKeywordAssessment extends Assessment {
 				oneMatch: 9,
 				multipleMatches: 9,
 			},
-			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/33m" ),
-			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/33n" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33m" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33n" ),
 		};
 
 		this.identifier = "subheadingsKeyword";

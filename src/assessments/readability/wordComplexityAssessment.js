@@ -2,7 +2,7 @@ import { filter, flatMap, flatten, forEach, zip } from "lodash-es";
 
 import formatNumber from "../../helpers/formatNumber";
 import addMark from "../../markers/addMark";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import removeSentenceTerminators from "../../stringProcessing/removeSentenceTerminators";
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";
@@ -41,7 +41,7 @@ var calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 	percentage = formatNumber( percentage );
 	var hasMarks = ( percentage > 0 );
 	var recommendedMaximum = 5;
-	var wordComplexityURL = createShortlinkAnchorOpeningTag( "https://yoa.st/difficult-words" );
+	var wordComplexityURL = createAnchorOpeningTag( "https://yoa.st/difficult-words" );
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps. each step is 0.6
 	// Up to 1.7 percent is for scoring a 9, higher percentages give lower scores.
 	var score = 9 - Math.max( Math.min( ( 0.6 ) * ( percentage - 1.7 ), 6 ), 0 );

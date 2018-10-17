@@ -1,7 +1,7 @@
 import { inRange, merge } from "lodash-es";
 
 import Assessment from "../../assessment";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -31,8 +31,8 @@ class TextLengthAssessment extends Assessment {
 				farBelowMinimum: -10,
 				veryFarBelowMinimum: -20,
 			},
-			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/34n" ),
-			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/34o" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34n" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34o" ),
 		};
 
 		this.identifier = "textLength";

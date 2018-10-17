@@ -4,7 +4,7 @@ import formatNumber from "../../helpers/formatNumber";
 import getLanguageAvailability from "../../helpers/getLanguageAvailability";
 import { inRangeStartInclusive as inRange } from "../../helpers/inRange";
 import marker from "../../markers/addMark";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";
@@ -60,8 +60,8 @@ let calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
 	let percentage = calculateTransitionWordPercentage( transitionWordSentences );
 	let score = calculateScoreFromPercentage( percentage );
 	let hasMarks   = ( percentage > 0 );
-	const urlTitle = createShortlinkAnchorOpeningTag( "https://yoa.st/34z" );
-	const urlCallToAction = createShortlinkAnchorOpeningTag( "https://yoa.st/35a" );
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/34z" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35a" );
 
 	if ( score < 7 && percentage === 0 ) {
 		return {

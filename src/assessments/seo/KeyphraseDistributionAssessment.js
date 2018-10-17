@@ -2,7 +2,7 @@ import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
 import addMark from "../../markers/addMark";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import countWords from "../../stringProcessing/countWords";
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";
@@ -42,8 +42,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 				bad: 1,
 				consideration: 0,
 			},
-			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/33q" ),
-			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/33u" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33q" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33u" ),
 		};
 
 		this.identifier = "keyphraseDistribution";

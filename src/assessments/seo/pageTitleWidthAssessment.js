@@ -2,7 +2,7 @@ import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
 import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
-import { createShortlinkAnchorOpeningTag } from "../../shortlinker";
+import { createAnchorOpeningTag } from "../../queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 
 const maximumLength = 600;
@@ -29,8 +29,8 @@ class PageTitleWidthAssesment extends Assessment {
 				widthTooLong: 3,
 				widthCorrect: 9,
 			},
-			urlTitle: createShortlinkAnchorOpeningTag( "https://yoa.st/34h" ),
-			urlCallToAction: createShortlinkAnchorOpeningTag( "https://yoa.st/34i" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34h" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34i" ),
 		};
 
 		this.identifier = "titleWidth";
