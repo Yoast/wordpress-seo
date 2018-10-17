@@ -47,10 +47,8 @@ const AnalysisUpsell = ( props ) => {
 		<Container alignment={ alignment }>
 			<TextContainer>
 				{ sprintf(
-					/* eslint-disable max-len */
 					/* translators: %s expands to Yoast SEO Premium */
-					__( "Did you know %s also analyzes the different word forms of your keyphrase, like plurals, different word orders and past tenses?", "wordpress-seo" ),
-					/* eslint-enable */
+					__( "Did you know %s also analyzes the different word forms of your keyphrase, like plurals and past tenses?", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				) }
 			</TextContainer>
