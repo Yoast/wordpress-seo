@@ -35,7 +35,7 @@ export default class Shortlinker {
 	 */
 	static createQueryString( params ) {
 		return Object.keys( params )
-			.map( key => `${ encodeURIComponent( key ) }=${ params[ encodeURIComponent( key ) ] }` )
+			.map( key => `${ encodeURIComponent( key ) }=${ encodeURIComponent( params[ key ] ) }` )
 			.join( "&" );
 	}
 
