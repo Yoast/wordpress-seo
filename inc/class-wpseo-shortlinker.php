@@ -22,6 +22,17 @@ class WPSEO_Shortlinker {
 	}
 
 	/**
+	 * Gets the shortlink's query params.
+	 *
+	 * @return array The shortlink's query params.
+	 */
+	public static function get_query_params() {
+		$shortlinker = new WPSEO_Shortlinker();
+
+		return $shortlinker->collect_additional_shortlink_data();
+	}
+
+	/**
 	 * Collects the additional data necessary for the shortlink.
 	 *
 	 * @return array The shortlink data.
