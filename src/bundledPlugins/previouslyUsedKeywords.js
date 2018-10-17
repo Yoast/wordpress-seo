@@ -1,7 +1,9 @@
-import AssessmentResult from "../values/AssessmentResult.js";
 import { isUndefined } from "lodash-es";
 
 import MissingArgument from "../errors/missingArgument";
+import { createAnchorOpeningTag } from "../queryStringAppender";
+import AssessmentResult from "../values/AssessmentResult.js";
+
 /**
  * @param {object} app The app
  * @param {object} args An arguments object with usedKeywords, searchUrl, postUrl,
@@ -27,8 +29,8 @@ var PreviouslyUsedKeyword = function( app, args ) {
 	this.usedKeywords = args.usedKeywords;
 	this.searchUrl = args.searchUrl;
 	this.postUrl = args.postUrl;
-	this.urlTitle = "<a href='https://yoa.st/33x' target='_blank'>";
-	this.urlCallToAction = "<a href='https://yoa.st/33y' target='_blank'>";
+	this.urlTitle = createAnchorOpeningTag( "https://yoa.st/33x" );
+	this.urlCallToAction = createAnchorOpeningTag( "https://yoa.st/33y" );
 };
 
 /**
