@@ -113,7 +113,10 @@ Bugfixes:
 
 * Fixes a bug where the keyword would not be found in the slug when containing punctuation, for example the keyphrase `apples & pears` in the slug `apples-pears`.
 * Fixes a bug where the buttons to change the How-to steps and FAQ questions order would be only partially visible in mobile view.
-* Fixes a bug where an 'undefined index' notice would be given when an OG image url didn't have a correct path. Props to [@Julian-B90](https://github.com/Julian-B90)
+* Fixes a bug where an 'undefined index' notice would be given when an OpenGraph image URL didn't have a correct path. Props to [@Julian-B90](https://github.com/Julian-B90)
+* Fixes a bug where the home description can contain HTML, resulting in unexpected characters on the Facebook social settings page.
+* Fixes a bug where author sitemap caches would be attempted to be invalidated despite not all conditions being met.
+* Fixes a bug where a fatal error on Yoast settings pages was thrown because they did not have a dedicated option class.
 
 Enhancements:
 
@@ -137,6 +140,8 @@ Enhancements:
 * Optimizes and caches WPSEO_Option_Titles::enrich_defaults(). Props to [@soulseekah](https://github.com/soulseekah)
 * Introduces a Features tab in the network admin, which allows disabling all site-specific features for the entire network.
 * Improves the tab order within the structured data blocks in Gutenberg and make it consistent between the FAQ and How-To block.
+* Improves sitemap performance by disabling the caching by default.
+* Add `target="_blank"` to the "How to connect to GSC" link to open a new tab when clicked.
 
 Other:
 
