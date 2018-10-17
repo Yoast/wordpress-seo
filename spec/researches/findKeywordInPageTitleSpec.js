@@ -264,6 +264,7 @@ describe( "Match keywords in string", function() {
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -277,6 +278,7 @@ describe( "Match keywords in string", function() {
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.position ).toBe( 12 );
 	} );
 
@@ -290,6 +292,7 @@ describe( "Match keywords in string", function() {
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( false );
+		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.allWordsFound ).toBe( false );
 	} );
 } );

@@ -21,12 +21,13 @@ export default function( paper, researcher ) {
 	const title = paper.getTitle();
 	const locale = paper.getLocale();
 
-	const result = { exactMatch: false, allWordsFound: false, position: -1 };
+	const result = { exactMatch: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false  };
 
 	// First check if morphology is suppressed. If so, strip the quotation marks from the keyphrase.
 	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
 	if ( includes( doubleQuotes, keyword[ 0 ] ) && includes( doubleQuotes, keyword[ keyword.length - 1 ] ) ) {
 		keyword = keyword.substring( 1, keyword.length - 1 );
+		result.exactMatchKeyphrase = true;
 	}
 
 	// Check 1: Is the exact match of the keyphrase found in the title?
