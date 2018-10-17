@@ -1,11 +1,9 @@
 import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
-import addMark from "../../markers/addMark";
 import { createAnchorOpeningTag } from "../../queryStringAppender";
-import countWords from "../../stringProcessing/countWords";
+import getSentences from "../../stringProcessing/getSentences";
 import AssessmentResult from "../../values/AssessmentResult";
-import Mark from "../../values/Mark";
 
 /**
  * Returns a score based on the largest percentage of text in
@@ -33,8 +31,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 		const defaultConfig = {
 			parameters: {
-				goodDistributionScore: 0.4,
-				acceptableDistributionScore: 0.6,
+				goodDistributionScore: 30,
+				acceptableDistributionScore: 50,
 			},
 			scores: {
 				good: 9,
@@ -68,7 +66,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		assessmentResult.setHasMarks( calculatedResult.score > 0 && calculatedResult.score < 9 );
+		assessmentResult.setHasMarks( this._keyphraseDistribution.sentencesToHighlight.length > 0 );
 
 		return assessmentResult;
 	}
@@ -83,7 +81,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 	calculateResult( i18n ) {
 		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
 
-		if ( distributionScore < 0 ) {
+		if ( distributionScore === 100 ) {
 			return {
 				score: this._config.scores.consideration,
 				resultText: i18n.sprintf(
@@ -159,20 +157,18 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @returns {Array} All markers for the current text.
 	 */
 	getMarks() {
-		return this._keyphraseDistribution.sentencesToHighlight.map( function( sentence ) {
-			return new Mark( { original: sentence, marked: addMark( sentence ) } );
-		} );
+		return this._keyphraseDistribution.sentencesToHighlight;
 	}
 
 	/**
-	 * Checks whether the paper has a text with at least 200 words and a keyword.
+	 * Checks whether the paper has a text with at least 10 words and a keyword.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
-	 * @returns {boolean} True when there is a keyword and a text with 200 words or more.
+	 * @returns {boolean} True when there is a keyword and a text with 10 words or more.
 	 */
 	isApplicable( paper ) {
-		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 200;
+		return paper.hasText() && paper.hasKeyword() && getSentences( paper.getText() ).length >= 15;
 	}
 }
 

@@ -1,46 +1,21 @@
 import getSentences from "../stringProcessing/getSentences";
 import { findWordFormsInString } from "./findKeywordFormsInString";
-import { findTopicFormsInString } from "./findKeywordFormsInString";
-import { max } from "lodash-es";
-import { round } from "lodash-es";
-import { sum } from "lodash-es";
-import { isUndefined } from "lodash-es";
+import { max, uniq as unique } from "lodash-es";
 import { zipWith } from "lodash-es";
-import gini from "../helpers/gini";
+import { flattenDeep } from "lodash-es";
+import { indexOf } from "lodash-es";
+import { markWordsInSentences } from "../stringProcessing/markWordsInSentences";
+import getLanguage from "../helpers/getLanguage";
 
 /**
- * Gets neighbourhood for a sentence. For a sentence checks if there are sentences before and after it and returns a
- * string with the concatenated neighbourhood (previous sentence - current sentence - next sentence).
- *
- * @param {Array}  sentences An array of all sentences in the text.
- * @param {number} index     The index of the sentence to get neighbourhood for.
- *
- * @returns {string} The neighbourhood sentences.
- */
-const getNeighbourhood = function( sentences, index ) {
-	let neighbourhood = sentences[ index ];
-
-	if ( ! isUndefined( sentences[ index - 1 ] ) ) {
-		neighbourhood = sentences[ index - 1 ].concat( " ", neighbourhood );
-	}
-	if ( ! isUndefined( sentences[ index + 1 ] ) ) {
-		neighbourhood = neighbourhood.concat( " ", sentences[ index + 1 ] );
-	}
-
-	return neighbourhood;
-};
-
-/**
- * Checks whether at least 3 content words from the topic are found within one sentence and the rest within +-1 sentence
- * away from it. Assigns a score to every sentence following the following schema:
- * 9 if all content words from the topic are in the sentence, or at least 3 content words from the topic
- * are in the sentence and the rest are in the neighbour sentences,
- * 6 if only some content words from the topic are found in the sentence but not all,
- * 3 if no content words from the topic were found in the sentence.
+ * Checks whether at least half of the content words from the topic are found within the sentence.
+ * Assigns a score to every sentence following the following schema:
+ * 9 if at least half of the content words from the topic are in the sentence,
+ * 3 otherwise.
  *
  * @param {Array}  topic     The word forms of all content words in a keyphrase or a synonym.
  * @param {Array}  sentences An array of all sentences in the text.
- * @param {string}  locale    The locale of the paper to analyse.
+ * @param {string} locale    The locale of the paper to analyse.
  *
  * @returns {Array} The scores per sentence.
  */
@@ -48,54 +23,42 @@ const computeScoresPerSentenceLongTopic = function( topic, sentences, locale ) {
 	let sentenceScores = Array( sentences.length );
 
 	for ( let i = 0; i < sentences.length; i++ ) {
-		// First search in the current sentence
 		const foundInCurrentSentence = findWordFormsInString( topic, sentences[ i ], locale );
 
-		// Then search in the current sentence and on previous and one next sentences.
-		const neighbourhood = getNeighbourhood( sentences, i );
-		const foundInNeighbourhood = findWordFormsInString( topic, neighbourhood, locale );
-
-		if ( foundInCurrentSentence.countWordMatches >= 3 && foundInNeighbourhood.percentWordMatches === 100 ) {
+		if ( foundInCurrentSentence.percentWordMatches >= 50 ) {
 			sentenceScores[ i ] = 9;
-		} else if ( foundInCurrentSentence.percentWordMatches > 0 ) {
-			sentenceScores[ i ] = 6;
 		} else {
-			sentenceScores[ i ] = 0;
+			sentenceScores[ i ] = 3;
 		}
 	}
 
 	return sentenceScores;
 };
 
+
 /**
  * Checks whether all content words from the topic are found within one sentence.
  * Assigns a score to every sentence following the following schema:
  * 9 if all content words from the topic are in the sentence,
- * 6 if only some content words from the topic are found in the sentence but not all,
- * 3 if no content words from the topic were found in the sentence.
+ * 3 if not all content words from the topic were found in the sentence.
  *
  * @param {Array}  topic     The word forms of all content words in a keyphrase or a synonym.
  * @param {Array}  sentences An array of all sentences in the text.
- * @param {string}  locale    The locale of the paper to analyse.
+ * @param {string} locale    The locale of the paper to analyse.
  *
  * @returns {Array} The scores per sentence.
  */
 const computeScoresPerSentenceShortTopic = function( topic, sentences, locale ) {
 	let sentenceScores = Array( sentences.length );
-
 	for ( let i = 0; i < sentences.length; i++ ) {
 		const currentSentence = sentences[ i ];
-
 		const foundInCurrentSentence = findWordFormsInString( topic, currentSentence, locale );
-		if  ( foundInCurrentSentence.percentWordMatches === 100 ) {
+		if ( foundInCurrentSentence.percentWordMatches === 100 ) {
 			sentenceScores[ i ] = 9;
-		} else if ( foundInCurrentSentence.percentWordMatches > 0 ) {
-			sentenceScores[ i ] = 6;
 		} else {
-			sentenceScores[ i ] = 0;
+			sentenceScores[ i ] = 3;
 		}
 	}
-
 	return sentenceScores;
 };
 
@@ -120,60 +83,49 @@ const maximizeSentenceScores = function( sentenceScores ) {
 
 
 /**
- * Computes the per-window scores based on a step function.
- * Start with the first third of the text (based on the total number of sentences) and calculate an average score
- * over all sentences in this set. Move down by one sentence, calculate an average score again.
- * Continue until the end of the text is reached.
+ * Computes the maximally long piece of text that does not include the topic.
  *
- * @param {Array} maximizedSentenceScores The maximal scores for every sentence.
- * @param {number} stepSize The number of sentences that should be in every step to average over.
+ * @param {Array} sentenceScores The array of scores per sentence.
  *
- * @returns {Array} The scores per portion of text.
+ * @returns {number} The maximum number of sentences that do not include the topic.
  */
-const step = function( maximizedSentenceScores, stepSize ) {
-	const numberOfSteps = maximizedSentenceScores.length - stepSize + 1;
+const getDistraction = function( sentenceScores ) {
+	const numberOfSentences = sentenceScores.length;
+	let allTopicSentencesIndices = [];
 
-	let result = [];
-	let toAnalyze = [];
-
-	for ( let i = 0; i < numberOfSteps; i++ ) {
-		toAnalyze = maximizedSentenceScores.slice( i, stepSize + i );
-		result.push( sum( toAnalyze ) / stepSize );
+	for ( let i = 0; i < numberOfSentences; i++ ) {
+		if ( sentenceScores[ i ] > 3 ) {
+			allTopicSentencesIndices.push( i );
+		}
 	}
-	return result;
-};
 
-/**
- * Computes the punishment for not using all content words within the window. Windows are determined in the same way as
- * in the step function
- *
- * @param {Array} sentences The sentences to analyze.
- * @param {Object} topicForms The topicForms of the paper.
- * @param {string} locale The locale of the paper.
- * @param {number} stepSize The number of sentences that should be in every step to average over.
- *
- * @returns {Array} The scores per portion of text.
- */
-const getPortionPunishment = function( sentences, topicForms, locale, stepSize ) {
-	const numberOfSteps = sentences.length - stepSize + 1;
+	const numberOfTopicSentences = allTopicSentencesIndices.length;
 
-	let result = [];
-
-	for ( let i = 0; i < numberOfSteps; i++ ) {
-		const windowText = sentences.slice( i, stepSize + i ).join( " " );
-		const topicInWindow = findTopicFormsInString( topicForms, windowText, true, locale );
-
-		result.push( topicInWindow.percentWordMatches <= 50 ? 0.5 : 0 );
+	if ( numberOfTopicSentences === 0 ) {
+		return numberOfSentences;
 	}
-	return result;
-};
 
+	/**
+	 * Add fake topic sentences at the very beginning and at the very end
+	 * to account for cases when the text starts or ends with a train of distraction.
+	 */
+	allTopicSentencesIndices.unshift( -1 );
+	allTopicSentencesIndices.push( numberOfSentences );
+
+	const distances = [];
+
+	for ( let i = 1; i < numberOfTopicSentences + 2; i++ ) {
+		distances.push( allTopicSentencesIndices[ i ] - allTopicSentencesIndices[ i - 1 ] - 1 );
+	}
+
+	return max( distances );
+};
 
 /**
  * Computes the per-sentence scores depending on the length of the topic phrase and maximizes them over all topic phrases.
  *
  * @param {Array}  sentences              The sentences to get scores for.
- * @param {Array}  topicFormsInOneArray   The topic phrases forms to seach for in the sentences.
+ * @param {Array}  topicFormsInOneArray   The topic phrases forms to search for in the sentences.
  * @param {string} locale                 The locale to work in.
  *
  * @returns {Object} An array with maximized score per sentence and an array with all sentences that do not contain the topic.
@@ -184,12 +136,24 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale ) {
 
 	let sentenceScores = Array( topicNumber );
 
-	for ( let i = 0; i < topicNumber; i++ ) {
-		const topic = topicFormsInOneArray[ i ];
-		if ( topic.length < 4 ) {
+	// Determine whether the language has function words.
+	const language = getLanguage( locale );
+
+	// For languages with function words apply either full match or partial match depending on topic length
+	if ( indexOf( [ "en", "de", "nl", "fr", "es", "it", "pt", "ru", "pl" ], language  ) >= 0 ) {
+		for ( let i = 0; i < topicNumber; i++ ) {
+			const topic = topicFormsInOneArray[ i ];
+			if ( topic.length < 4 ) {
+				sentenceScores[ i ] = computeScoresPerSentenceShortTopic( topic, sentences, locale );
+			} else {
+				sentenceScores[ i ] = computeScoresPerSentenceLongTopic( topic, sentences, locale );
+			}
+		}
+	} else {
+		// For languages without function words apply the full match always
+		for ( let i = 0; i < topicNumber; i++ ) {
+			const topic = topicFormsInOneArray[ i ];
 			sentenceScores[ i ] = computeScoresPerSentenceShortTopic( topic, sentences, locale );
-		} else {
-			sentenceScores[ i ] = computeScoresPerSentenceLongTopic( topic, sentences, locale );
 		}
 	}
 
@@ -201,12 +165,12 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale ) {
 		return { sentence, score };
 	} );
 
-	// Filter sentences that contain no topic words.
-	const sentencesWithoutTopic = sentencesWithMaximizedScores.filter( sentenceObject => sentenceObject.score < 4 );
+	// Filter sentences that contain topic words for future highlights.
+	const sentencesWithTopic = sentencesWithMaximizedScores.filter( sentenceObject => sentenceObject.score > 3 );
 
 	return {
 		maximizedSentenceScores: maximizedSentenceScores,
-		sentencesWithoutTopic: sentencesWithoutTopic.map( sentenceObject => sentenceObject.sentence ),
+		sentencesWithTopic: sentencesWithTopic.map( sentenceObject => sentenceObject.sentence ),
 	};
 };
 
@@ -229,25 +193,16 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 		topicFormsInOneArray.push( synonym );
 	} );
 
-	// Get per-sentence scores and sentences that do not have topic.
+	const allTopicWords = unique( flattenDeep( topicFormsInOneArray ) ).sort( ( a, b ) => b.length - a.length );
+
+	// Get per-sentence scores and sentences that have topic.
 	const sentenceScores = getSentenceScores( sentences, topicFormsInOneArray, locale );
-
-	// Apply step function: to begin with take a third of the text or at least 3 sentences.
-	const stepSize = max( [ round( sentences.length / 10 ), 3 ] );
-	let textPortionScores = step( sentenceScores.maximizedSentenceScores, stepSize );
-
-	// Check if any windows do not have all topic words matched, assign a punishment if so.
-	const punishment = getPortionPunishment( sentences, topicForms, locale, stepSize );
+	const maximizedSentenceScores = sentenceScores.maximizedSentenceScores;
+	const maxLengthDistraction = getDistraction( maximizedSentenceScores );
 
 	return {
-		// Return Gini coefficient of per-portion scores, increase it by eventual punishment for not using all topic words equally.
-		keyphraseDistributionScore: gini( textPortionScores ) + sum( punishment ) / punishment.length,
-
-		/*
-	     * Sentences that have a maximized score of 3 are used for marking because these do not contain any topic forms.
-	     * Hence these sentences require action most urgently.
-	     */
-		sentencesToHighlight: sentenceScores.sentencesWithoutTopic,
+		sentencesToHighlight: markWordsInSentences( allTopicWords, sentenceScores.sentencesWithTopic, locale ),
+		keyphraseDistributionScore: maxLengthDistraction / sentences.length * 100,
 	};
 };
 
@@ -255,6 +210,6 @@ export {
 	computeScoresPerSentenceShortTopic,
 	computeScoresPerSentenceLongTopic,
 	maximizeSentenceScores,
-	step,
 	keyphraseDistributionResearcher,
+	getDistraction,
 };

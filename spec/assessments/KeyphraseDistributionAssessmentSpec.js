@@ -7,36 +7,64 @@ import Mark from "../../src/values/Mark.js";
 let keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();
 
 describe( "An assessment to check your keyphrase distribution", function() {
-	it( "returns a 'consideration' score when the Gini coefficient calculated from the step function is -1 (as a result of no keyword occurrences)", function() {
+	it( "returns a 'consideration' score when no keyword occurs", function() {
 		let mockPaper = new Paper( "a string", { keyword: "keyword" } );
-		let assessment = keyphraseDistributionAssessment.getResult( mockPaper, Factory.buildMockResearcher( { keyphraseDistributionScore: -1 } ), i18n );
+		let assessment = keyphraseDistributionAssessment.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( {
+				keyphraseDistributionScore: 100,
+				sentencesToHighlight: [],
+			} ),
+			i18n
+		);
 
 		expect( assessment.getScore() ).toEqual( 0 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: " +
 			"<a href='https://yoa.st/33u' target='_blank'>Include your keyphrase or its synonyms in the text so that we can check keyphrase distribution</a>." );
 	} );
 
-	it( "returns a bad score when the Gini coefficient calculated from the step function is higher than the recommended good score", function() {
+	it( "returns a bad score when the % of sentences between topic occurrences is above 50%", function() {
 		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword" } );
-		let assessment = keyphraseDistributionAssessment.getResult( mockPaper, Factory.buildMockResearcher( { keyphraseDistributionScore: 0.7 } ), i18n );
+		let assessment = keyphraseDistributionAssessment.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( {
+				keyphraseDistributionScore: 60,
+				sentencesToHighlight: [],
+			} ),
+			i18n
+		);
 
 		expect( assessment.getScore() ).toEqual( 1 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Very uneven. " +
 			"Large parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>." );
 	} );
 
-	it( "returns an okay score when the Gini coefficient calculated from the step function is between recommended acceptable and good score", function() {
+	it( "returns an okay score when the % of sentences between topic occurrences is between recommended acceptable and good score", function() {
 		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword" } );
-		let assessment = keyphraseDistributionAssessment.getResult( mockPaper, Factory.buildMockResearcher( { keyphraseDistributionScore: 0.5 } ), i18n );
+		let assessment = keyphraseDistributionAssessment.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( {
+				keyphraseDistributionScore: 40,
+				sentencesToHighlight: [],
+			} ),
+			i18n
+		);
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. " +
 			"Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>." );
 	} );
 
-	it( "returns a good score score when the Gini coefficient calculated from the step functionn is lower than the recommended good score", function() {
+	it( "returns a good score score when the %  of sentences between topic occurrences is lower than the recommended good score", function() {
 		let mockPaper = new Paper( "string with the keyword and the keyword", { keyword: "keyword" } );
-		let assessment = keyphraseDistributionAssessment.getResult( mockPaper, Factory.buildMockResearcher( { keyphraseDistributionScore: 0.3 } ), i18n );
+		let assessment = keyphraseDistributionAssessment.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( {
+				keyphraseDistributionScore: 25,
+				sentencesToHighlight: [],
+			} ),
+			i18n
+		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!" );
@@ -44,7 +72,7 @@ describe( "An assessment to check your keyphrase distribution", function() {
 } );
 
 describe( "Checks if the assessment is applicable", function() {
-	it( "is applicable to papers with more than 200 words when a keyword is set", function() {
+	it( "is applicable to papers with more than 10 sentences when a keyword is set", function() {
 		let mockPaper = new Paper( "Lorem ipsum dolor sit amet, vim illum aeque" +
 			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
 			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
@@ -63,7 +91,7 @@ describe( "Checks if the assessment is applicable", function() {
 		expect( assessment ).toBe( true );
 	} );
 
-	it( "is not applicable to papers with more than 200 words when no keyword is set", function() {
+	it( "is not applicable to papers with more than 10 sentences when no keyword is set", function() {
 		let mockPaper = new Paper( "Lorem ipsum dolor sit amet, vim illum aeque" +
 			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
 			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
@@ -83,7 +111,7 @@ describe( "Checks if the assessment is applicable", function() {
 	} );
 
 
-	it( "is not applicable to papers with less than 200 words", function() {
+	it( "is not applicable to papers with less than 15 sentences", function() {
 		let mockPaper = new Paper( "Lorem ipsum dolor sit amet.", { keyword: "keyword" } );
 		let assessment = keyphraseDistributionAssessment.isApplicable( mockPaper );
 
@@ -94,8 +122,24 @@ describe( "Checks if the assessment is applicable", function() {
 describe( "A test for marking keywords in the text", function() {
 	it( "returns markers for sentences specified by the researcher", function() {
 		let mockPaper = new Paper( "A sentence. A sentence containing keywords. Another sentence.", { keyword: "keyword" } );
-		keyphraseDistributionAssessment.getResult( mockPaper, Factory.buildMockResearcher(
-			{ keyphraseDistributionScore: 5, sentencesToHighlight: [ "A sentence.", "Another sentence." ] } ), i18n );
+		keyphraseDistributionAssessment.getResult(
+			mockPaper,
+			Factory.buildMockResearcher(
+				{
+					keyphraseDistributionScore: 5,
+					sentencesToHighlight: [
+						new Mark( {
+							original: "A sentence.",
+							marked: "<yoastmark class='yoast-text-mark'>A sentence.</yoastmark>",
+						} ),
+						new Mark( {
+							original: "Another sentence.",
+							marked: "<yoastmark class='yoast-text-mark'>Another sentence.</yoastmark>",
+						} ),
+					],
+				} ),
+			i18n
+		);
 		let expected = [
 			new Mark( {
 				original: "A sentence.",
