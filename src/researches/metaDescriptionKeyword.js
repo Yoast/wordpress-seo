@@ -1,4 +1,5 @@
 import matchWords from "../stringProcessing/matchTextWithArray";
+import getSentences from "../stringProcessing/getSentences";
 
 /**
  * Replaces found keyword forms in the given description.
@@ -20,6 +21,45 @@ const replaceFoundKeywordForms = function( description, matchedKeywordForms ) {
 };
 
 /**
+ * Counts the number of full keyphrase matches in the given sentence. Takes synonyms into account.
+ *
+ * A full keyphrase is when all keywords in the keyphrase match.
+ *
+ * @param {string} sentence the sentence that needs to be analyzed.
+ * @param {Object}topicForms the keyphrase (and its optional synonyms') word forms.
+ * @param {string} locale the current locale
+ * @returns {Number} the number of matched keyphrases in the sentence.
+ */
+const matchPerSentence = function( sentence, topicForms, locale ) {
+	// Focus keyphrase matches.
+	let matchesKeyphrase = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
+
+	// Replace matches so we do not match them for synonyms.
+	sentence = replaceFoundKeywordForms( sentence, matchesKeyphrase );
+
+	// Keyphrase synonyms matches.
+	let matchesSynonyms = [];
+	if ( topicForms.synonymsForms ) {
+		matchesSynonyms = topicForms.synonymsForms.map(
+			synonymForms => {
+				let matches = synonymForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
+				// Replace matches so we do not match them for other synonyms.
+				sentence = replaceFoundKeywordForms( sentence, matchesKeyphrase );
+				return matches;
+			}
+		);
+	}
+
+	// Count the number of matches that contain every word in the entire keyphrase.
+	const fullKeyphraseMatches = Math.min( ...matchesKeyphrase.map( match => match.count ) );
+	const fullSynonymsMatches = matchesSynonyms.map(
+		matchesSynonym => Math.min( ...matchesSynonym.map( match => match.count ) )
+	);
+
+	return [ fullKeyphraseMatches, ...fullSynonymsMatches ].reduce( ( sum, count ) => sum + count, 0 );
+};
+
+/**
  * Counts the number of full keyphrase matches in the description.
  * Returns -1 if no description is specified in the given paper.
  *
@@ -36,31 +76,12 @@ export default function( paper, researcher ) {
 
 	const topicForms = researcher.getResearch( "morphology" );
 
-	// Focus keyphrase matches.
-	let matchesKeyphrase = topicForms.keyphraseForms.map( keywordForms => matchWords( description, keywordForms, locale ) );
+	const sentences = getSentences( description );
 
-	// Replace matches so we do not match them for synonyms.
-	description = replaceFoundKeywordForms( description, matchesKeyphrase );
-
-	// Keyphrase synonyms matches.
-	let matchesSynonyms = [];
-	if ( topicForms.synonymsForms ) {
-		matchesSynonyms = topicForms.synonymsForms.map(
-			synonymForms => {
-				let matches = synonymForms.map( keywordForms => matchWords( description, keywordForms, locale ) );
-				// Replace matches so we do not match them for other synonyms.
-				description = replaceFoundKeywordForms( description, matchesKeyphrase );
-				return matches;
-			}
-		);
-	}
-
-	// Count the number of matches that contain every word in the entire keyphrase.
-	const fullKeyphraseMatches = Math.min( ...matchesKeyphrase.map( match => match.count ) );
-	const fullSynonymsMatches = matchesSynonyms.map(
-		matchesSynonym => Math.min( ...matchesSynonym.map( match => match.count ) )
+	const sentenceMatches = sentences.map(
+		sentence => matchPerSentence( sentence, topicForms, locale )
 	);
 
-	return [ fullKeyphraseMatches, ...fullSynonymsMatches ].reduce( ( sum, count ) => sum + count, 0 );
+	return sentenceMatches.reduce( ( sum, count ) => sum + count, 0 );
 }
 

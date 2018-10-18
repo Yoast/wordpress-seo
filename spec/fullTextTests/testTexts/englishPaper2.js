@@ -54,8 +54,8 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 0.7%. This is great!",
 	},
 	metaDescriptionKeyword: {
-		score: 9,
-		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: Keyphrase or synonym appear in the meta description. Well done!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: The meta description has been specified, but it does not contain the keyphrase. <a href='https://yoa.st/33l' target='_blank'>Fix that</a>!",
 	},
 	metaDescriptionLength: {
 		score: 9,
