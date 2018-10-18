@@ -130,7 +130,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		// Without the filter, this isn't considered a valid image URL.
 		$this->assertEmpty( $class_instance->get_images() );
 
-		// Enable the filter
+		// Enable the filter.
 		add_filter( 'wpseo_opengraph_is_valid_image_url', '__return_true', 10, 2 );
 
 		$class_instance->add_image( 'https://via.placeholder.com/350x150' );
