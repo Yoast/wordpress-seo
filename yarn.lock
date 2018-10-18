@@ -12031,7 +12031,7 @@ yauzl@^2.2.1:
 
 "yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.0":
   version "1.40.0"
-  resolved "git+https://github.com/Yoast/YoastSEO.js.git#e58fe023bb42bd9a59bdeb8bc67d52334e7f82a2"
+  resolved "git+https://github.com/Yoast/YoastSEO.js.git#361b06b7608793932fc8f61dd25529033dd0e3a8"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
