@@ -26,7 +26,7 @@ describe( "running assessments in the assessor", function() {
 
 	it( "runs assessments that only require a keyword that contains function words only", function() {
 		assessor.assess( new Paper( "", { keyword: "a" } ) );
-		let assessments = getResults( assessor.getValidResults() );
+		const assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
