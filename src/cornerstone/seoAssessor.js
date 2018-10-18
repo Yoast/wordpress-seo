@@ -90,7 +90,7 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 		new UrlKeywordAssessment(
 			{
 				scores: {
-					noKeywordInUrl: 3,
+					okay: 3,
 				},
 			}
 		),
