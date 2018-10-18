@@ -13,6 +13,8 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
   * When matching keyphrases for the various assessments, the analysis only targets content words and ignores function words (e.g., `the` or `and`). This functionality is available in English, German, Dutch, French, Spanish, Italian, Portuguese, Russian and Polish. 
 * Implements support for word form recognition for keyphrases in English (requires Premium configuration).
 * Improves the feedback texts for all SEO and readability assessments.
+* Adds functionality to append a query string to the assessment links through the analysis worker.
+* Adds an assessment that that checks whether your keyword consists only of function words.
 
 ### Changed
 * The analysis of the following assessments incorporates the new keyword recognition principles:
