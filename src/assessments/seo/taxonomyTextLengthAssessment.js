@@ -1,5 +1,6 @@
 import AssessmentResult from "../../values/AssessmentResult.js";
 import { inRange } from "lodash-es";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
 
 const recommendedMinimum = 150;
 /**
@@ -9,8 +10,8 @@ const recommendedMinimum = 150;
  * @returns {object} The resulting score object.
  */
 const calculateWordCountResult = function( wordCount, i18n ) {
-	const urlTitle = "<a href='https://yoa.st/34j' target='_blank'>";
-	const urlCallToAction = "<a href='https://yoa.st/34k' target='_blank'>";
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/34j" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/34k" );
 
 	if ( wordCount >= 150 ) {
 		return {

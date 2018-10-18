@@ -1,14 +1,14 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
-import countTooLongSentences from "../../assessmentHelpers/checkForTooLongSentences.js";
-import formatNumber from "../../helpers/formatNumber.js";
-import { inRangeEndInclusive as inRange } from "../../helpers/inRange.js";
-import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
-import Mark from "../../values/Mark.js";
-import addMark from "../../markers/addMark.js";
+import { map, merge } from "lodash-es";
 
-import { map } from "lodash-es";
-import { merge } from "lodash-es";
+import Assessment from "../../assessment";
+import countTooLongSentences from "../../assessmentHelpers/checkForTooLongSentences";
+import formatNumber from "../../helpers/formatNumber";
+import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
+import addMark from "../../markers/addMark";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
+import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
 
 /**
  * Represents the assessment that will calculate the length of sentences in the text.
@@ -97,8 +97,8 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {string} A string.
 	 */
 	translateScore( score, percentage,  i18n ) {
-		let urlTitle = "<a href='https://yoa.st/34v' target='_blank'>";
-		let urlCallToAction = "<a href='https://yoa.st/34w' target='_blank'>";
+		const urlTitle = createAnchorOpeningTag( "https://yoa.st/34v" );
+		const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/34w" );
 		if ( score >= 7 ) {
 			return i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */

@@ -1,13 +1,14 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import formatNumber from "../../helpers/formatNumber.js";
-import { inRangeEndInclusive as inRange } from "../../helpers/inRange.js";
-import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
-import Mark from "../../values/Mark.js";
-import marker from "../../markers/addMark.js";
-
 import { map } from "lodash-es";
 
-import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
+import formatNumber from "../../helpers/formatNumber";
+import getLanguageAvailability from "../../helpers/getLanguageAvailability";
+import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
+import marker from "../../markers/addMark";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
+import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
+
 const availableLanguages = [ "en", "de", "fr", "es", "ru", "it", "nl", "pl" ];
 
 /**
@@ -20,8 +21,8 @@ let calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	let score;
 	let percentage = 0;
 	let recommendedValue = 10;
-	let urlTitle = "<a href='https://yoa.st/34t' target='_blank'>";
-	let urlCallToAction = "<a href='https://yoa.st/34u' target='_blank'>";
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/34t" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/34u" );
 	let hasMarks;
 
 	// Prevent division by zero errors.

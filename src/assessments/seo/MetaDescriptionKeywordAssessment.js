@@ -1,6 +1,7 @@
 import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -30,8 +31,8 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 				ok: 6,
 				bad: 3,
 			},
-			urlTitle: "<a href='https://yoa.st/33k' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/33l' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33k" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33l" ),
 		};
 
 		this.identifier = "metaDescriptionKeyword";

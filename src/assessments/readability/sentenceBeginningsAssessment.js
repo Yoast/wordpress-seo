@@ -1,18 +1,14 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
+import { filter, flatten, map, partition, sortBy } from "lodash-es";
+
+import getLanguageAvailability from "../../helpers/getLanguageAvailability";
+import marker from "../../markers/addMark";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
 import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
-
-import { partition } from "lodash-es";
-import { sortBy } from "lodash-es";
-import { map } from "lodash-es";
-import { filter } from "lodash-es";
-import { flatten } from "lodash-es";
-
-import Mark from "../../values/Mark.js";
-import marker from "../../markers/addMark.js";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
 
 let maximumConsecutiveDuplicates = 2;
 
-import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
 let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "ru", "pl" ];
 
 /**
@@ -43,8 +39,8 @@ let groupSentenceBeginnings = function( sentenceBeginnings ) {
  * @returns {{score: number, text: string, hasMarks: boolean}} result object with score and text.
  */
 let calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18n ) {
-	let urlTitle = "<a href='https://yoa.st/35f' target='_blank'>";
-	let urlCallToAction = "<a href='https://yoa.st/35g' target='_blank'>";
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/35f" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35g" );
 
 	if ( groupedSentenceBeginnings.total > 0 ) {
 		return {
