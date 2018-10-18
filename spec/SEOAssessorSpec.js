@@ -53,7 +53,7 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments only require a keyword that contains function words only", function() {
+	it( "additionally runs assessments that only require a keyword that contains function words only", function() {
 		assessor.assess( new Paper( "", { keyword: "a" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
