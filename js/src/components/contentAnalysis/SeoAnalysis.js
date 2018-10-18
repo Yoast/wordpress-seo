@@ -298,21 +298,22 @@ class SeoAnalysis extends React.Component {
 
 SeoAnalysis.propTypes = {
 	results: PropTypes.array,
-	marksButtonStatus: PropTypes.string.isRequired,
-	hideMarksButtons: PropTypes.bool.isRequired,
+	marksButtonStatus: PropTypes.string,
 	keyword: PropTypes.string,
 	onFocusKeywordChange: PropTypes.func.isRequired,
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
-	overallScore: PropTypes.number.isRequired,
+	overallScore: PropTypes.number,
 	location: PropTypes.string.isRequired,
 };
 
 SeoAnalysis.defaultProps = {
 	results: [],
+	marksButtonStatus: null,
 	keyword: "",
 	shouldUpsell: false,
 	shouldUpsellWordFormRecognition: false,
+	overallScore: null,
 };
 
 /**
@@ -328,7 +329,7 @@ function mapStateToProps( state, ownProps ) {
 
 	const keyword = state.focusKeyword;
 
-	let results = null;
+	let results = [];
 	let overallScore = null;
 	if ( state.analysis.seo[ keyword ] ) {
 		results = state.analysis.seo[ keyword ].results;
