@@ -1,5 +1,12 @@
 import matchWords from "../stringProcessing/matchTextWithArray";
 
+/**
+ * Replaces found keyword forms in the given description.
+ *
+ * @param {string} description the description to remove the matched keyword forms from.
+ * @param {Object[]} matchedKeywordForms the matched keyword forms to remove from the description.
+ * @returns {string} the description with the keywords removed.
+ */
 const replaceFoundKeywordForms = function( description, matchedKeywordForms ) {
 	// Replace matches so we do not match them for synonyms.
 	matchedKeywordForms.forEach( keywordForm =>
