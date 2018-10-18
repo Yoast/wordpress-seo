@@ -120,7 +120,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the wpseo_opengraph_is_valid_image_url filter.
 	 *
-	 * @covers WPSEO_OpenGraph_Image:: is_valid_image_url
+	 * @covers WPSEO_OpenGraph_Image::is_valid_image_url
 	 */
 	public function test_is_valid_image_url_filter() {
 
