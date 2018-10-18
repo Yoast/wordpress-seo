@@ -9,7 +9,7 @@ describe( "Test for checking if the keyphrase contains function words only", fun
 	} );
 
 	it( "returns true if the keyphrase contains function words only", function() {
-		let mockPaper = new Paper( "", { keyword: "un deux", locale: "fr_FR" } );
+		const mockPaper = new Paper( "", { keyword: "un deux", locale: "fr_FR" } );
 		expect( functionWordsInKeyphrase( mockPaper ) ).toBe( true );
 	} );
 
