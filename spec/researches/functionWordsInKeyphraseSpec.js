@@ -29,7 +29,7 @@ describe( "Test for checking if the keyphrase contains function words only", fun
 	} );
 
 	it( "returns false if there are content words in the keyphrase", function() {
-		let mockPaper = new Paper( "", { keyword: "something was there and it was pretty" } );
+		const mockPaper = new Paper( "", { keyword: "something was there and it was pretty" } );
 		expect( functionWordsInKeyphrase( mockPaper ) ).toBe( false );
 	} );
 
