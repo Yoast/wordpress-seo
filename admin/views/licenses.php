@@ -197,11 +197,14 @@ $wpseo_extensions_header = sprintf( __( '%1$s Extensions', 'wordpress-seo' ), 'Y
 
 			<?php else : ?>
 
-				<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zz' ); ?>" class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-buy">
+				<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zz' ); ?>" class="yoast-button-upsell">
 					<?php
-					/* translators: $1$s expands to Yoast SEO Premium */
-					printf( __( 'Buy %1$s', 'wordpress-seo' ), $extension->get_title() );
-					?></a>
+						/* translators: $1$s expands to Yoast SEO Premium */
+						printf( __( 'Buy %1$s', 'wordpress-seo' ), $extension->get_title() );
+						echo '<span class="screen-reader-text">' . __( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>';
+						echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
+					?>
+				</a>
 
 				<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zy' ); ?>" class="yoast-link--more-info"><?php
 					printf(
@@ -252,9 +255,13 @@ $wpseo_extensions_header = sprintf( __( '%1$s Extensions', 'wordpress-seo' ), 'Y
 								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>" class="yoast-link--license"><?php esc_html_e( 'Activate your site on My Yoast', 'wordpress-seo' ); ?></a>
 							<?php endif; ?>
 						<?php else : ?>
-							<a target="_blank" class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-buy" href="<?php echo esc_url( $extension->get_buy_url() ); ?>">
-								<?php /* translators: %s expands to the product name */ ?>
-								<?php printf( __( 'Buy %s', 'wordpress-seo' ), $extension->get_buy_button() ); ?>
+							<a target="_blank" class="yoast-button-upsell" href="<?php echo esc_url( $extension->get_buy_url() ); ?>">
+								<?php
+									/* translators: %s expands to the product name */
+									printf( __( 'Buy %s', 'wordpress-seo' ), $extension->get_buy_button() );
+									echo '<span class="screen-reader-text">' . __( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>';
+									echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
+								?>
 							</a>
 
 							<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $extension->get_info_url() ); ?>"><?php
