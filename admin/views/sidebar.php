@@ -6,7 +6,7 @@
  */
 
 $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
-$new_tab_message = WPSEO_Admin_Utils::get_new_tab_message();
+$new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 
 ?>
 <div class="wpseo_content_cell" id="sidebar-container">
@@ -57,7 +57,12 @@ $new_tab_message = WPSEO_Admin_Utils::get_new_tab_message();
 				<p>
 					<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jv' ); ?>" target="_blank">
 						<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/yoast_seo_for_wp_2.svg' ); ?>" alt="">
-						<strong><?php esc_html_e( 'Yoast SEO for WordPress course', 'wordpress-seo' ); ?></strong>
+						<strong>
+							<?php
+								/* translators: %s expands to Yoast SEO */
+								printf( esc_html__( '%s for WordPress course', 'wordpress-seo' ), 'Yoast SEO' );
+							?>
+						</strong>
 						<?php echo $new_tab_message; ?>
 					</a><br>
 					<?php esc_html_e( 'Don’t waste time figuring out the best settings yourself.', 'wordpress-seo' ); ?>
