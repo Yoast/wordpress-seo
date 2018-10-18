@@ -24,7 +24,7 @@ describe( "Test for checking if the keyphrase contains function words only", fun
 	} );
 
 	it( "returns false if the keyphrase is embedded in quotes", function() {
-		let mockPaper = new Paper( "", { keyword: "\"something was there\"" } );
+		const mockPaper = new Paper( "", { keyword: "\"something was there\"" } );
 		expect( functionWordsInKeyphrase( mockPaper ) ).toBe( false );
 	} );
 
