@@ -303,7 +303,7 @@ SeoAnalysis.propTypes = {
 	onFocusKeywordChange: PropTypes.func.isRequired,
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
-	overallScore: PropTypes.number.isRequired,
+	overallScore: PropTypes.number,
 	location: PropTypes.string.isRequired,
 };
 
@@ -312,6 +312,7 @@ SeoAnalysis.defaultProps = {
 	keyword: "",
 	shouldUpsell: false,
 	shouldUpsellWordFormRecognition: false,
+	overallScore: null,
 };
 
 /**
@@ -328,10 +329,10 @@ function mapStateToProps( state, ownProps ) {
 	const keyword = state.focusKeyword;
 
 	let results = [];
-	let overallScore = 0;
+	let overallScore = null;
 	if ( state.analysis.seo[ keyword ] ) {
 		results = state.analysis.seo[ keyword ].results;
-		overallScore = state.analysis.seo[ keyword ].overallScore || 0;
+		overallScore = state.analysis.seo[ keyword ].overallScore;
 	}
 	return {
 		results,
