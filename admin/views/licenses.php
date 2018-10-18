@@ -211,7 +211,8 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 					echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 				?></a>
 
-				<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zy' ); ?>" class="yoast-link--more-info"><?php
+				<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zy' ); ?>" class="yoast-link--more-info">
+					<?php
 					printf(
 						/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 						__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
@@ -220,7 +221,8 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 						$extension->get_title()
 					);
 					echo $new_tab_message;
-				?></a>
+					?>
+				 </a>
 			<?php endif; ?>
 			<?php if ( ! $extensions->is_activated( 'wordpress-seo-premium' ) ) { ?>
 				<p><small class="yoast-money-back-guarantee"><?php esc_html_e( 'Comes with our 30-day no questions asked money back guarantee', 'wordpress-seo' ); ?></small></p>
@@ -275,7 +277,8 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 								echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 							?></a>
 
-							<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $extension->get_info_url() ); ?>"><?php
+							<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $extension->get_info_url() ); ?>">
+								<?php
 								printf(
 									/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 									__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
@@ -284,7 +287,8 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 									$extension->get_title()
 								);
 								echo $new_tab_message;
-							?></a>
+								?>
+							</a>
 						<?php endif; ?>
 					</div>
 				</section>
