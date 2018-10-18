@@ -1,8 +1,9 @@
-
-import AssessmentResult from "../../values/AssessmentResult";
-import Assessment from "../../assessment";
 import { merge } from "lodash-es";
+
+import Assessment from "../../assessment";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
 import { getSubheadings } from "../../stringProcessing/getSubheadings";
+import AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
@@ -24,8 +25,8 @@ class SubHeadingsKeywordAssessment extends Assessment {
 				oneMatch: 9,
 				multipleMatches: 9,
 			},
-			urlTitle: "<a href='https://yoa.st/33m' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/33n' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33m" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33n" ),
 		};
 
 		this.identifier = "subheadingsKeyword";

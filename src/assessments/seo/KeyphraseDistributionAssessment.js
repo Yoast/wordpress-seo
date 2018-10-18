@@ -1,8 +1,9 @@
 import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
-import AssessmentResult from "../../values/AssessmentResult";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
 import getSentences from "../../stringProcessing/getSentences";
+import AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Returns a score based on the largest percentage of text in
@@ -39,8 +40,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 				bad: 1,
 				consideration: 0,
 			},
-			urlTitle: "<a href='https://yoa.st/33q' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/33u' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33q" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33u" ),
 		};
 
 		this.identifier = "keyphraseDistribution";

@@ -1,8 +1,8 @@
-import { isEmpty } from "lodash-es";
-import { merge } from "lodash-es";
+import { isEmpty, merge } from "lodash-es";
 
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
+import Assessment from "../../assessment";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
+import AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Assessment for calculating the outbound links in the text.
@@ -25,8 +25,8 @@ class OutboundLinksAssessment extends Assessment {
 				moreNoFollowed: 8,
 				allFollowed: 9,
 			},
-			urlTitle: "<a href='https://yoa.st/34f' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/34g' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34f" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34g" ),
 		};
 
 		this.identifier = "externalLinks";
