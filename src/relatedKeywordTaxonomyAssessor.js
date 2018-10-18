@@ -5,6 +5,7 @@ import KeyphraseLengthAssessment from "./assessments/seo/KeyphraseLengthAssessme
 import KeywordDensityAssessment from "./assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./assessments/seo/MetaDescriptionKeywordAssessment";
 import Assessor from "./assessor";
+import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
 
 /**
  * Creates the Assessor used for taxonomy pages.
@@ -22,6 +23,7 @@ const RelatedKeywordTaxonomyAssessor = function( i18n ) {
 		new KeywordDensityAssessment(),
 		new MetaDescriptionKeywordAssessment(),
 		// Text Images assessment here.
+		new FunctionWordsInKeyphrase(),
 	];
 };
 

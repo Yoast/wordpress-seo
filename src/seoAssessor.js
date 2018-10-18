@@ -17,6 +17,7 @@ import OutboundLinks from "./assessments/seo/outboundLinksAssessment";
 import TitleWidth from "./assessments/seo/pageTitleWidthAssessment";
 import UrlLength from "./assessments/seo/urlLengthAssessment";
 import urlStopWords from "./assessments/seo/urlStopWordsAssessment";
+import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
 /**
  * Creates the Assessor
  *
@@ -47,6 +48,7 @@ const SEOAssessor = function( i18n, options ) {
 		new UrlKeywordAssessment(),
 		new UrlLength(),
 		urlStopWords,
+		new FunctionWordsInKeyphrase(),
 	];
 };
 

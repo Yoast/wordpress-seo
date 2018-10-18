@@ -7,6 +7,7 @@ import KeywordDensity from "./assessments/seo/KeywordDensityAssessment.js";
 import MetaDescriptionKeyword from "./assessments/seo/MetaDescriptionKeywordAssessment.js";
 import TextImages from "./assessments/seo/textImagesAssessment.js";
 import TextCompetingLinks from "./assessments/seo/TextCompetingLinksAssessment.js";
+import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
 
 /**
  * Creates the Assessor
@@ -27,6 +28,7 @@ const relatedKeywordAssessor = function( i18n, options ) {
 		new MetaDescriptionKeyword(),
 		new TextCompetingLinks(),
 		new TextImages(),
+		new FunctionWordsInKeyphrase(),
 	];
 };
 
