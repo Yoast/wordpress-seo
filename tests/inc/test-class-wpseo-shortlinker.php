@@ -63,20 +63,6 @@ class WPSEO_Shortlinker_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests getting the encoded query data.
-	 *
-	 * @covers WPSEO_Shortlinker::get_encoded_query
-	 * @covers WPSEO_Shortlinker::collect_additional_shortlink_data
-	 */
-	public function test_get_encoded_query() {
-		$encoded_query = WPSEO_Shortlinker::get_encoded_query();
-
-		$this->assertContains( 'php_version', $encoded_query );
-		$this->assertContains( 'platform_version', $encoded_query );
-		$this->assertContains( 'software', $encoded_query );
-	}
-
-	/**
 	 * Tests getting the query params.
 	 *
 	 * @covers WPSEO_Shortlinker::get_query_params

@@ -11,28 +11,6 @@
 class WPSEO_Shortlinker {
 
 	/**
-	 * Gets the URL-encoded query string.
-	 *
-	 * @return string The URL-encoded query string.
-	 */
-	public static function get_encoded_query() {
-		$shortlinker = new WPSEO_Shortlinker();
-
-		return build_query( $shortlinker->collect_additional_shortlink_data() );
-	}
-
-	/**
-	 * Gets the shortlink's query params.
-	 *
-	 * @return array The shortlink's query params.
-	 */
-	public static function get_query_params() {
-		$shortlinker = new WPSEO_Shortlinker();
-
-		return $shortlinker->collect_additional_shortlink_data();
-	}
-
-	/**
 	 * Collects the additional data necessary for the shortlink.
 	 *
 	 * @return array The shortlink data.
@@ -68,7 +46,7 @@ class WPSEO_Shortlinker {
 	 * @return string The final URL.
 	 */
 	public static function get( $url ) {
-		$shortlinker = new WPSEO_Shortlinker();
+		$shortlinker = new self();
 
 		return $shortlinker->build_shortlink( $url );
 	}
@@ -80,6 +58,17 @@ class WPSEO_Shortlinker {
 	 */
 	public static function show( $url ) {
 		echo esc_url( self::get( $url ) );
+	}
+
+	/**
+	 * Gets the shortlink's query params.
+	 *
+	 * @return array The shortlink's query params.
+	 */
+	public static function get_query_params() {
+		$shortlinker = new self();
+
+		return $shortlinker->collect_additional_shortlink_data();
 	}
 
 	/**
