@@ -1,6 +1,7 @@
 import { escape, merge } from "lodash-es";
 
 import Assessment from "../../assessment";
+import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -24,8 +25,8 @@ class FunctionWordsInKeyphraseAssessment extends Assessment {
 			scores: {
 				onlyFunctionWords: 0,
 			},
-			urlTitle: "<a href='https://yoa.st/33z' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/34a' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/functionwordskeyphrase-1" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/functionwordskeyphrase-2" ),
 		};
 
 		this.identifier = "functionWordsInKeyphrase";
