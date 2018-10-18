@@ -215,9 +215,15 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			. $first_sentence
 			. ' ' . __( 'Search engines and other websites can still send traffic to your deleted post.', 'wordpress-seo' )
 			. ' ' . __( 'You should create a redirect to ensure your visitors do not get a 404 error when they click on the no longer working URL.', 'wordpress-seo' )
-			. ' ' . __( 'With Yoast SEO Premium, you can easily create such redirects.', 'wordpress-seo' )
+			/* translators: %s expands to Yoast SEO Premium */
+			. ' ' . sprintf( __( 'With %s, you can easily create such redirects.', 'wordpress-seo' ), 'Yoast SEO Premium' )
 			. '</p>'
-			. '<p><a class="yoast-button-upsell" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">' . __( 'Get Yoast SEO Premium', 'wordpress-seo' ) . '</a></p>';
+			. '<p><a class="yoast-button-upsell" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">'
+			/* translators: %s expands to Yoast SEO Premium */
+			. sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' )
+			. '<span class="screen-reader-text">' . __( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
+			. '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>'
+			. '</a></p>';
 	}
 
 	/**

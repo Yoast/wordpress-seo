@@ -36,6 +36,8 @@ $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 				<?php
 				/* translators: %s is replaced by the plugin name */
 				printf( esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+				echo '<span class="screen-reader-text">' . __( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>';
+				echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 				?>
 			</a><br>
 		</div>
