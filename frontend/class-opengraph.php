@@ -91,15 +91,15 @@ class WPSEO_OpenGraph {
 	 * @return array $meta_tags
 	 */
 	public function facebook_filter( $meta_tags ) {
-		$meta_tags['http://ogp.me/ns#type']  = $this->type( false );
-		$meta_tags['http://ogp.me/ns#title'] = $this->og_title( false );
+		$meta_tags['https://ogp.me/ns#type']  = $this->type( false );
+		$meta_tags['https://ogp.me/ns#title'] = $this->og_title( false );
 
 		// Filter the locale too because the Facebook plugin locale code is not as good as ours.
-		$meta_tags['http://ogp.me/ns#locale'] = $this->locale( false );
+		$meta_tags['https://ogp.me/ns#locale'] = $this->locale( false );
 
 		$ogdesc = $this->description( false );
 		if ( ! empty( $ogdesc ) ) {
-			$meta_tags['http://ogp.me/ns#description'] = $ogdesc;
+			$meta_tags['https://ogp.me/ns#description'] = $ogdesc;
 		}
 
 		return $meta_tags;
@@ -116,7 +116,7 @@ class WPSEO_OpenGraph {
 	 */
 	public function add_opengraph_namespace( $input ) {
 		$namespaces = array(
-			'og: http://ogp.me/ns#',
+			'og: https://ogp.me/ns#',
 		);
 
 		/**
@@ -127,7 +127,7 @@ class WPSEO_OpenGraph {
 		 * @param array $namespaces Currently registered namespaces which are to be
 		 *                          added to the prefix attribute.
 		 *                          Namespaces are strings and have the following syntax:
-		 *                          ns: http://url.to.namespace/definition
+		 *                          ns: https://url.to.namespace/definition
 		 */
 		$namespaces       = apply_filters( 'wpseo_html_namespaces', $namespaces );
 		$namespace_string = implode( ' ', array_unique( $namespaces ) );
@@ -295,7 +295,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * Last update/compare with FB list done on 2015-03-16 by Rarst
 	 *
-	 * @see  http://www.facebook.com/translations/FacebookLocales.xml for the list of supported locales
+	 * @see  https://www.facebook.com/translations/FacebookLocales.xml for the list of supported locales
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 	 *
