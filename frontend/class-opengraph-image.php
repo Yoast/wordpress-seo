@@ -556,7 +556,7 @@ class WPSEO_OpenGraph_Image {
 		 *
 		 * @api bool - Current validation result.
 		 *
-		 * @param string $url The image url to validate
+		 * @param string $url The image url to validate.
 		 */
 		return apply_filters( 'wpseo_opengraph_is_valid_image_url', $is_valid, $url );
 	}
