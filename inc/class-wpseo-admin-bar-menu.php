@@ -467,11 +467,20 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Gets the focus keyword for a given post.
 	 *
-	 * @param WP_Post $post Post object to get its focus keyword.
+	 * @param WP_POST $post Post object to get its focus keyword.
 	 *
 	 * @return string Focus keyword, or empty string if none available.
 	 */
-	protected function get_post_focus_keyword( WP_Post $post ) {
+	protected function get_post_focus_keyword( $post ) {
+		if ( ! is_object( $post ) || ! property_exists( $post, 'ID' ) ) {
+			return '';
+		}
+
+		/**
+		 * Filter: 'wpseo_use_page_analysis' Determines if the analysis should be enabled.
+		 *
+		 * @api bool Determines if the analysis should be enabled.
+		 */
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
 			return '';
 		}
