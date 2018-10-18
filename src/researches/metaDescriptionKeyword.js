@@ -1,43 +1,59 @@
 import matchWords from "../stringProcessing/matchTextWithArray";
 
-/**
- * Counts the number of keyphrase matches,
- * where a match is defined as a set containing all keywords.
- *
- * (E.g. for keyphrase "key word match",
- * "key word match. key word. match. match." is counted as two matches: {"key","word","match"} x2 + one incomplete set {"match"}).
- */
-const keyphraseMatchCount = function( description, keyphraseForms, locale ) {
-	const keywordMatchCounts = keyphraseForms.map( keywordForms => matchWords( description, keywordForms, locale ).count );
-	return Math.min( ...keywordMatchCounts );
+const replaceFoundKeywordForms = function( description, matchedKeywordForms ) {
+	// Replace matches so we do not match them for synonyms.
+	matchedKeywordForms.forEach( keywordForm =>
+		keywordForm.matches.forEach(
+			match => {
+				description = description.replace( match, "" );
+			}
+		)
+	);
+	return description;
 };
 
 /**
- * Matches the keyword in the description if a description and keyword are available.
- * Returns null if no description is specified in the given paper.
+ * Counts the number of full keyphrase matches in the description.
+ * Returns -1 if no description is specified in the given paper.
  *
  * @param {Paper} paper The paper object containing the description.
  * @param {Researcher} researcher the researcher object to gather researchers from.
- * @returns { Object | null } The number of matches per keyword term, for the entire description and for each individual sentence.
+ * @returns {Number} The number of keyphrase matches for the entire description.
  */
 export default function( paper, researcher ) {
 	if ( paper.getDescription() === "" ) {
-		return null;
+		return -1;
 	}
-	const description = paper.getDescription();
+	let description = paper.getDescription();
 	const locale = paper.getLocale();
 
 	const topicForms = researcher.getResearch( "morphology" );
 
 	// Focus keyphrase matches.
-	let matchesKeyphrase = keyphraseMatchCount( description, topicForms.keyphraseForms, locale );
+	let matchesKeyphrase = topicForms.keyphraseForms.map( keywordForms => matchWords( description, keywordForms, locale ) );
+
+	// Replace matches so we do not match them for synonyms.
+	description = replaceFoundKeywordForms( description, matchesKeyphrase );
 
 	// Keyphrase synonyms matches.
-	let matchesSynonyms = topicForms.synonymsForms.map(
-		synonymForms => keyphraseMatchCount( description, synonymForms, locale )
+	let matchesSynonyms = [];
+	if ( topicForms.synonymsForms ) {
+		matchesSynonyms = topicForms.synonymsForms.map(
+			synonymForms => {
+				let matches = synonymForms.map( keywordForms => matchWords( description, keywordForms, locale ) );
+				// Replace matches so we do not match them for other synonyms.
+				description = replaceFoundKeywordForms( description, matchesKeyphrase );
+				return matches;
+			}
+		);
+	}
+
+	// Count the number of matches that contain every word in the entire keyphrase.
+	const fullKeyphraseMatches = Math.min( ...matchesKeyphrase.map( match => match.count ) );
+	const fullSynonymsMatches = matchesSynonyms.map(
+		matchesSynonym => Math.min( ...matchesSynonym.map( match => match.count ) )
 	);
 
-	// Total amount of matches (focus and synonyms).
-	return matchesKeyphrase + matchesSynonyms.reduce( (sum, count) => sum + count, 0 );
+	return [ fullKeyphraseMatches, ...fullSynonymsMatches ].reduce( ( sum, count ) => sum + count, 0 );
 }
 
