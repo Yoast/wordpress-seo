@@ -299,7 +299,6 @@ class SeoAnalysis extends React.Component {
 SeoAnalysis.propTypes = {
 	results: PropTypes.array,
 	marksButtonStatus: PropTypes.string.isRequired,
-	hideMarksButtons: PropTypes.bool.isRequired,
 	keyword: PropTypes.string,
 	onFocusKeywordChange: PropTypes.func.isRequired,
 	shouldUpsell: PropTypes.bool,
@@ -328,11 +327,11 @@ function mapStateToProps( state, ownProps ) {
 
 	const keyword = state.focusKeyword;
 
-	let results = null;
-	let overallScore = null;
+	let results = [];
+	let overallScore = 0;
 	if ( state.analysis.seo[ keyword ] ) {
 		results = state.analysis.seo[ keyword ].results;
-		overallScore = state.analysis.seo[ keyword ].overallScore;
+		overallScore = state.analysis.seo[ keyword ].overallScore || 0;
 	}
 	return {
 		results,
