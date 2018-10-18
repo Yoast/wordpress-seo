@@ -289,12 +289,6 @@ class WPSEO_OpenGraph_Image {
 		}
 
 		$this->set_user_defined_image( $post_id );
-
-		if ( $this->has_images() ) {
-			return;
-		}
-
-		$this->add_first_usable_content_image( get_post( $post_id ) );
 	}
 
 	/**
@@ -408,39 +402,6 @@ class WPSEO_OpenGraph_Image {
 		$post_id = $this->get_queried_object_id();
 		if ( wp_attachment_is_image( $post_id ) ) {
 			$this->add_image_by_id( $post_id );
-		}
-	}
-
-	/**
-	 * Adds the first usable attachment image from the post content.
-	 *
-	 * @param object $post The post object.
-	 *
-	 * @return void
-	 */
-	private function add_first_usable_content_image( $post ) {
-		$image_finder = new WPSEO_Content_Images();
-		$images       = $image_finder->get_images( $post->ID, $post );
-
-		if ( ! is_array( $images ) || $images === array() ) {
-			return;
-		}
-
-		foreach ( $images as $image_url ) {
-			$attachment_id = WPSEO_Image_Utils::get_attachment_by_url( $image_url );
-
-			// If image is hosted externally, skip it and continue to the next image.
-			if ( $attachment_id === 0 ) {
-				continue;
-			}
-
-			// If locally hosted image meets the requirements, add it as OG image.
-			$this->add_image_by_id( $attachment_id );
-
-			// If an image has been added, we're done.
-			if ( $this->has_images() ) {
-				return;
-			}
 		}
 	}
 
