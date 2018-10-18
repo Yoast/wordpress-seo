@@ -278,8 +278,8 @@ class SeoAnalysis extends React.Component {
 					{ this.props.shouldUpsell && <React.Fragment>
 						{ this.renderSynonymsUpsell( this.props.location ) }
 						{ this.renderMultipleKeywordsUpsell( this.props.location ) }
-						{ this.renderWordFormsUpsell() }
 					</React.Fragment> }
+					{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell() }
 					<AnalysisHeader>
 						{ __( "Analysis results", "wordpress-seo" ) }
 					</AnalysisHeader>
@@ -298,13 +298,21 @@ class SeoAnalysis extends React.Component {
 
 SeoAnalysis.propTypes = {
 	results: PropTypes.array,
-	marksButtonStatus: PropTypes.string,
-	hideMarksButtons: PropTypes.bool,
+	marksButtonStatus: PropTypes.string.isRequired,
+	hideMarksButtons: PropTypes.bool.isRequired,
 	keyword: PropTypes.string,
-	onFocusKeywordChange: PropTypes.func,
+	onFocusKeywordChange: PropTypes.func.isRequired,
 	shouldUpsell: PropTypes.bool,
-	overallScore: PropTypes.number,
-	location: PropTypes.string,
+	shouldUpsellWordFormRecognition: PropTypes.bool,
+	overallScore: PropTypes.number.isRequired,
+	location: PropTypes.string.isRequired,
+};
+
+SeoAnalysis.defaultProps = {
+	results: [],
+	keyword: "",
+	shouldUpsell: false,
+	shouldUpsellWordFormRecognition: false,
 };
 
 /**
