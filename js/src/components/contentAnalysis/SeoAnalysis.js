@@ -298,7 +298,7 @@ class SeoAnalysis extends React.Component {
 
 SeoAnalysis.propTypes = {
 	results: PropTypes.array,
-	marksButtonStatus: PropTypes.string.isRequired,
+	marksButtonStatus: PropTypes.string,
 	keyword: PropTypes.string,
 	onFocusKeywordChange: PropTypes.func.isRequired,
 	shouldUpsell: PropTypes.bool,
@@ -309,6 +309,7 @@ SeoAnalysis.propTypes = {
 
 SeoAnalysis.defaultProps = {
 	results: [],
+	marksButtonStatus: null,
 	keyword: "",
 	shouldUpsell: false,
 	shouldUpsellWordFormRecognition: false,
