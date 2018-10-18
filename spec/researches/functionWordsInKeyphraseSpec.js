@@ -39,7 +39,7 @@ describe( "Test for checking if the keyphrase contains function words only", fun
 	} );
 
 	it( "returns false if there are content words in the keyphrase", function() {
-		let mockPaper = new Paper( "", { keyword: "daar zat iets en het was mooi", locale: "nl_NL" } );
+		const mockPaper = new Paper( "", { keyword: "daar zat iets en het was mooi", locale: "nl_NL" } );
 		expect( functionWordsInKeyphrase( mockPaper ) ).toBe( false );
 	} );
 
