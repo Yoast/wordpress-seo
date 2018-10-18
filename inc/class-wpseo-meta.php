@@ -238,6 +238,7 @@ class WPSEO_Meta {
 		'title'       => 'text',
 		'description' => 'textarea',
 		'image'       => 'upload',
+		'image-id'    => 'hidden',
 	);
 
 	/**
