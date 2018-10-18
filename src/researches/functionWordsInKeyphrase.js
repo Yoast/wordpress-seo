@@ -1,8 +1,9 @@
+import { filter, get, includes, isEmpty } from "lodash-es";
 import getWords from "../stringProcessing/getWords";
 import getLanguage from "../helpers/getLanguage";
 import getFunctionWordsFactory from "../helpers/getFunctionWords.js";
+
 const getFunctionWords = getFunctionWordsFactory();
-import { filter, get, includes, isEmpty } from "lodash-es";
 /**
  * Checks if the keyphrase contains of function words only.
  *
