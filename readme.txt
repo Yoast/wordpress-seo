@@ -142,7 +142,7 @@ Enhancements:
 * Improves the tab order within the structured data blocks in Gutenberg and make it consistent between the FAQ and How-To block.
 * Improves sitemap performance by disabling the caching by default.
 * Adds `target="_blank"` to the "How to connect to GSC" link to open a new tab when clicked.
-* Adds an assessment that that checks whether your keyword consists only of function words.
+* Adds an assessment that checks whether your keyword consists only of function words.
 * Changes OpenGraph image handling to always use an image from the media library. This makes the performance of the OpenGraph image handling much better.
 * Improves performance by no longer using images from the content as a fallback for the OpenGraph and Twitter images.
 
