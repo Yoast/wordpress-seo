@@ -462,6 +462,8 @@ td.column-wpseo-linked {
 }
 
 .yoast-button-upsell {
+	display: inline-flex;
+	align-items: center;
 	font-size: 16px;
 	font-family: $font-stack-default;
 	color: $color-black;
@@ -469,14 +471,10 @@ td.column-wpseo-linked {
 	box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2);
 	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 	min-height: 48px;
-	text-transform: initial;
-	// Make space on the right for the caret background image. 9px at the top to vertically align the text with the caret.
-	padding: 9px 1.5em 9px 1em;
-	box-sizing: border-box;
-	background: $color-button-upsell url(svg-icon-caret-right()) 97% 45% no-repeat;
-	display: inline-block;
-	text-decoration: none;
 	line-height: 24px;
+	padding: 0 1em;
+	text-decoration: none;
+	background-color: $color-button-upsell;
 
 	&:hover,
 	&:focus,
@@ -507,5 +505,17 @@ td.column-wpseo-linked {
 
 	&#wpseo-premium-button {
 		color: $color-black;
+	}
+
+	&__caret {
+		width: 8px;
+		height: 16px;
+		// Negative margin to compensate the icon white space within its viewbox.
+		margin: 0 -2px 0 6px;
+		background: transparent url(svg-icon-caret-right()) center no-repeat;
+
+		.rtl & {
+			background-image: url(svg-icon-caret-left());
+		}
 	}
 }
