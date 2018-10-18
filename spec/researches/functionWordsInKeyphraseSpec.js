@@ -19,7 +19,7 @@ describe( "Test for checking if the keyphrase contains function words only", fun
 	} );
 
 	it( "returns false for unknown locale", function() {
-		let mockPaper = new Paper( "", { keyword: "something", locale: "xx_XX" } );
+		const mockPaper = new Paper( "", { keyword: "something", locale: "xx_XX" } );
 		expect( functionWordsInKeyphrase( mockPaper ) ).toBe( false );
 	} );
 
