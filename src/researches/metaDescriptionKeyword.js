@@ -1,5 +1,16 @@
-import getSentences from "../stringProcessing/getSentences";
-import { findTopicFormsInString } from "./findKeywordFormsInString";
+import matchWords from "../stringProcessing/matchTextWithArray";
+
+/**
+ * Counts the number of keyphrase matches,
+ * where a match is defined as a set containing all keywords.
+ *
+ * (E.g. for keyphrase "key word match",
+ * "key word match. key word. match. match." is counted as two matches: {"key","word","match"} x2 + one incomplete set {"match"}).
+ */
+const keyphraseMatchCount = function( description, keyphraseForms, locale ) {
+	const keywordMatchCounts = keyphraseForms.map( keywordForms => matchWords( description, keywordForms, locale ).count );
+	return Math.min( ...keywordMatchCounts );
+};
 
 /**
  * Matches the keyword in the description if a description and keyword are available.
@@ -18,18 +29,15 @@ export default function( paper, researcher ) {
 
 	const topicForms = researcher.getResearch( "morphology" );
 
-	const sentences = getSentences( description );
+	// Focus keyphrase matches.
+	let matchesKeyphrase = keyphraseMatchCount( description, topicForms.keyphraseForms, locale );
 
-	const matchResults = { };
-
-	// Percentage of keyword matches in entire description, including synonyms.
-	matchResults.fullDescription = findTopicFormsInString( topicForms, description, true, locale ).percentWordMatches;
-
-	// The same as for the entire description, but per sentence.
-	matchResults.perSentence = sentences.map( sentence =>
-		findTopicFormsInString( topicForms, sentence, true, locale ).percentWordMatches
+	// Keyphrase synonyms matches.
+	let matchesSynonyms = topicForms.synonymsForms.map(
+		synonymForms => keyphraseMatchCount( description, synonymForms, locale )
 	);
 
-	return matchResults;
+	// Total amount of matches (focus and synonyms).
+	return matchesKeyphrase + matchesSynonyms.reduce( (sum, count) => sum + count, 0 );
 }
 
