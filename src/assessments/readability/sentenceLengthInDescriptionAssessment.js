@@ -1,6 +1,6 @@
 import formatNumber from "../../helpers/formatNumber";
 import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
-import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import AssessmentResult from "../../values/AssessmentResult";
 import countTooLongSentences from "./../../assessmentHelpers/checkForTooLongSentences";
 

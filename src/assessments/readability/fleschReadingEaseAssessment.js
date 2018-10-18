@@ -2,7 +2,7 @@ import { inRange, merge } from "lodash-es";
 
 import Assessment from "../../assessment";
 import getLanguageAvailability from "../../helpers/getLanguageAvailability";
-import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import AssessmentResult from "../../values/AssessmentResult";
 
 const availableLanguages = [ "en", "nl", "de", "it", "ru", "fr", "es" ];

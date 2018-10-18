@@ -2,7 +2,7 @@ import { filter, flatMap, flatten, forEach, zip } from "lodash-es";
 
 import formatNumber from "../../helpers/formatNumber";
 import addMark from "../../markers/addMark";
-import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import removeSentenceTerminators from "../../stringProcessing/removeSentenceTerminators";
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";

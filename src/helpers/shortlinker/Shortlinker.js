@@ -1,9 +1,9 @@
 /**
- * QueryStringAppender to handle appending parameters to a link.
+ * Shortlinker to handle appending parameters to a link.
  */
-export default class QueryStringAppender {
+export default class Shortlinker {
 	/**
-	 * Initialize the QueryStringAppender class.
+	 * Initialize the Shortlinker class.
 	 *
 	 * @param {Object} [config={}] Optional configuration.
 	 */
@@ -49,7 +49,7 @@ export default class QueryStringAppender {
 	 */
 	append( url, params = {} ) {
 		let link = encodeURI( url );
-		const queryString = QueryStringAppender.createQueryString( {
+		const queryString = Shortlinker.createQueryString( {
 			...this._config.params,
 			...params,
 		} );

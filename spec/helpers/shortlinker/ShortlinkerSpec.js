@@ -1,42 +1,42 @@
-import QueryStringAppender from "../../../src/helpers/queryStringAppender/QueryStringAppender";
+import Shortlinker from "../../../src/helpers/shortlinker/Shortlinker";
 
-describe( "QueryStringAppender", () => {
+describe( "Shortlinker", () => {
 	test( "create an instance without config to include empty params", () => {
-		const queryStringAppender = new QueryStringAppender();
-		expect( queryStringAppender._config ).toEqual( { params: {} } );
+		const shortlinker = new Shortlinker();
+		expect( shortlinker._config ).toEqual( { params: {} } );
 	} );
 
 	test( "create an instance with config to save the params", () => {
-		const queryStringAppender = new QueryStringAppender( { params: { test: "true" } } );
-		expect( queryStringAppender._config ).toEqual( { params: { test: "true" } } );
+		const shortlinker = new Shortlinker( { params: { test: "true" } } );
+		expect( shortlinker._config ).toEqual( { params: { test: "true" } } );
 	} );
 
 	test( "configure: save the params", () => {
-		const queryStringAppender = new QueryStringAppender();
-		queryStringAppender.configure( { params: { test: "true" } } );
-		expect( queryStringAppender._config ).toEqual( { params: { test: "true" } } );
+		const shortlinker = new Shortlinker();
+		shortlinker.configure( { params: { test: "true" } } );
+		expect( shortlinker._config ).toEqual( { params: { test: "true" } } );
 	} );
 
 	test( "configure: overwrite params", () => {
-		const queryStringAppender = new QueryStringAppender( { params: { test: "false" } } );
-		queryStringAppender.configure( { params: { test: "true" } } );
-		expect( queryStringAppender._config ).toEqual( { params: { test: "true" } } );
+		const shortlinker = new Shortlinker( { params: { test: "false" } } );
+		shortlinker.configure( { params: { test: "true" } } );
+		expect( shortlinker._config ).toEqual( { params: { test: "true" } } );
 	} );
 
 	test( "createQueryString to return a string", () => {
-		expect( QueryStringAppender.createQueryString( {} ) ).toEqual( "" );
+		expect( Shortlinker.createQueryString( {} ) ).toEqual( "" );
 	} );
 
 	test( "createQueryString to return a query string with one param", () => {
-		expect( QueryStringAppender.createQueryString( { platform: "PC" } ) ).toEqual( "platform=PC" );
+		expect( Shortlinker.createQueryString( { platform: "PC" } ) ).toEqual( "platform=PC" );
 	} );
 
 	test( "createQueryString to return a query string with multiple params", () => {
-		expect( QueryStringAppender.createQueryString( { platform: "PC", version: "1.2.3" } ) ).toEqual( "platform=PC&version=1.2.3" );
+		expect( Shortlinker.createQueryString( { platform: "PC", version: "1.2.3" } ) ).toEqual( "platform=PC&version=1.2.3" );
 	} );
 
 	test( "createQueryString to encode the params", () => {
-		expect( QueryStringAppender.createQueryString( {
+		expect( Shortlinker.createQueryString( {
 			platform: "PC",
 			version: "1.2.3",
 			encode: "this includes spaces",
@@ -44,7 +44,7 @@ describe( "QueryStringAppender", () => {
 	} );
 
 	test( "createQueryString to encode the params - key too", () => {
-		expect( QueryStringAppender.createQueryString( {
+		expect( Shortlinker.createQueryString( {
 			platform: "PC",
 			version: "1.2.3",
 			"encode this": "this includes spaces",
@@ -52,58 +52,58 @@ describe( "QueryStringAppender", () => {
 	} );
 
 	test( "create a link without params", () => {
-		const queryStringAppender = new QueryStringAppender();
-		expect( queryStringAppender.append( "https://example.com" ) ).toEqual( "https://example.com" );
+		const shortlinker = new Shortlinker();
+		expect( shortlinker.append( "https://example.com" ) ).toEqual( "https://example.com" );
 	} );
 
 	test( "create a link with params", () => {
-		const queryStringAppender = new QueryStringAppender( {
+		const shortlinker = new Shortlinker( {
 			params: {
 				platform: "PC",
 				version: "1.2.3",
 				"encode this": "this includes spaces",
 			},
 		} );
-		expect( queryStringAppender.append( "https://example.com" ) ).toEqual(
+		expect( shortlinker.append( "https://example.com" ) ).toEqual(
 			"https://example.com?platform=PC&version=1.2.3&encode%20this=this%20includes%20spaces"
 		);
 	} );
 
 	test( "create a link with extra params", () => {
-		const queryStringAppender = new QueryStringAppender( {
+		const shortlinker = new Shortlinker( {
 			params: {
 				platform: "PC",
 				version: "1.2.3",
 				"encode this": "this includes spaces",
 			},
 		} );
-		expect( queryStringAppender.append( "https://example.com", { extra: "params" } ) ).toEqual(
+		expect( shortlinker.append( "https://example.com", { extra: "params" } ) ).toEqual(
 			"https://example.com?platform=PC&version=1.2.3&encode%20this=this%20includes%20spaces&extra=params"
 		);
 	} );
 
 	test( "create a anchor opening tag with params", () => {
-		const queryStringAppender = new QueryStringAppender( {
+		const shortlinker = new Shortlinker( {
 			params: {
 				platform: "PC",
 				version: "1.2.3",
 				"encode this": "this includes spaces",
 			},
 		} );
-		expect( queryStringAppender.createAnchorOpeningTag( "https://example.com" ) ).toEqual(
+		expect( shortlinker.createAnchorOpeningTag( "https://example.com" ) ).toEqual(
 			"<a href='https://example.com?platform=PC&version=1.2.3&encode%20this=this%20includes%20spaces' target='_blank'>"
 		);
 	} );
 
 	test( "create a anchor opening tag with extra params", () => {
-		const queryStringAppender = new QueryStringAppender( {
+		const shortlinker = new Shortlinker( {
 			params: {
 				platform: "PC",
 				version: "1.2.3",
 				"encode this": "this includes spaces",
 			},
 		} );
-		expect( queryStringAppender.createAnchorOpeningTag( "https://example.com", { extra: "params" } ) ).toEqual(
+		expect( shortlinker.createAnchorOpeningTag( "https://example.com", { extra: "params" } ) ).toEqual(
 			"<a href='https://example.com?platform=PC&version=1.2.3&encode%20this=this%20includes%20spaces&extra=params' target='_blank'>"
 		);
 	} );

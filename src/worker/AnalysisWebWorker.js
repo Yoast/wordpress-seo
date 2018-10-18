@@ -55,7 +55,7 @@ import InvalidTypeError from "../errors/invalidType";
 import Scheduler from "./scheduler";
 import Transporter from "./transporter";
 import RelatedKeywordTaxonomyAssessor from "../relatedKeywordTaxonomyAssessor";
-import { configureQueryStringAppender } from "../helpers/queryStringAppender";
+import { configureShortlinker } from "../helpers/shortlinker";
 import includesAny from "../helpers/includesAny";
 
 const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
@@ -431,7 +431,7 @@ export default class AnalysisWebWorker {
 	 * @param {string}  [configuration.locale]                 The locale used in the seo assessor.
 	 * @param {Object}  [configuration.translations]           The translation strings.
 	 * @param {Object}  [configuration.researchData]           Extra research data.
-	 * @param {Object}  [configuration.queryStringAppender]            QueryStringAppender configuration.
+	 * @param {Object}  [configuration.defaultQueryParams]     The default query params for the Shortlinker.
 	 *
 	 * @returns {void}
 	 */
@@ -450,9 +450,9 @@ export default class AnalysisWebWorker {
 			delete configuration.researchData;
 		}
 
-		if ( has( configuration, "queryStringAppender" ) ) {
-			configureQueryStringAppender( configuration.queryStringAppender );
-			delete configuration.queryStringAppender;
+		if ( has( configuration, "defaultQueryParams" ) ) {
+			configureShortlinker( configuration.defaultQueryParams );
+			delete configuration.defaultQueryParams;
 		}
 
 		this._configuration = merge( this._configuration, configuration );
