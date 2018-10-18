@@ -33,7 +33,7 @@ export function getAnalysisConfiguration( customConfiguration = {} ) {
 		locale: getContentLocale(),
 		contentAnalysisActive: isContentAnalysisActive(),
 		keywordAnalysisActive: isKeywordAnalysisActive(),
-		defaultQueryParams: { params: getDefaultQueryParams() },
+		defaultQueryParams: getDefaultQueryParams(),
 	};
 
 	configuration = merge( configuration, customConfiguration );
