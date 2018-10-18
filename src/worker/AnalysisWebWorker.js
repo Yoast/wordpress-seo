@@ -451,7 +451,7 @@ export default class AnalysisWebWorker {
 		}
 
 		if ( has( configuration, "defaultQueryParams" ) ) {
-			configureShortlinker( configuration.defaultQueryParams );
+			configureShortlinker( { params: configuration.defaultQueryParams } );
 			delete configuration.defaultQueryParams;
 		}
 
