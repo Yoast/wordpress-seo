@@ -28,7 +28,6 @@ describe( "An assessment for checking if the keyphrase contains function words o
 		expect( assessment.hasScore() ).toBe( false );
 	} );
 
-
 	it( "applies if no keyword is defined", function() {
 		const isApplicableResult = new FunctionWordsInKeyphraseAssessment().isApplicable( new Paper( "some text" ) );
 		expect( isApplicableResult ).toBe( false );
