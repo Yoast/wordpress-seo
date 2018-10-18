@@ -1,4 +1,4 @@
-import { createAnchorOpeningTag } from "../../helpers/queryStringAppender";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import { stripFullTags as stripHTMLTags } from "../../stringProcessing/stripHTMLTags";
 import AssessmentResult from "../../values/AssessmentResult";
 
