@@ -4,7 +4,7 @@ import Factory from "../specHelpers/factory";
 
 const i18n = Factory.buildJed();
 
-describe( "An assessment for checking if the keyphrase contains of function words only", function() {
+describe( "An assessment for checking if the keyphrase contains function words only", function() {
 	it( "returns a consideration feedback if there are only function words in the keyphrase", function() {
 		const assessment = new FunctionWordsInKeyphraseAssessment().getResult(
 			new Paper( "", { keyword: "someone was here" } ),
