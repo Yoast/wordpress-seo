@@ -4,7 +4,7 @@ import Paper from "../../src/values/Paper.js";
 
 describe( "Test for checking if the keyphrase contains function words only", function() {
 	it( "returns true if the keyphrase contains one function word only", function() {
-		let mockPaper = new Paper( "", { keyword: "a", locale: "en_EN" } );
+		const mockPaper = new Paper( "", { keyword: "a", locale: "en_EN" } );
 		expect( functionWordsInKeyphrase( mockPaper ) ).toBe( true );
 	} );
 
