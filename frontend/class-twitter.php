@@ -435,10 +435,6 @@ class WPSEO_Twitter {
 				$this->gallery_images_output();
 				return;
 			}
-
-			if ( $this->image_from_content_output( $post_id ) ) {
-				return;
-			}
 		}
 	}
 
@@ -592,37 +588,6 @@ class WPSEO_Twitter {
 				$this->image_output( $featured_img[0] );
 
 				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Retrieve the image from the content
-	 *
-	 * @param int $post_id The post id to extract the images from.
-	 *
-	 * @return bool
-	 */
-	private function image_from_content_output( $post_id ) {
-		/**
-		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
-		 *
-		 * @api string $post_content The Post content string
-		 *
-		 * @param object $post - The post object.
-		 */
-		$post    = get_post( $post_id );
-		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
-
-		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
-			foreach ( $matches[0] as $img ) {
-				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
-					$this->image_output( $match[2] );
-
-					return true;
-				}
 			}
 		}
 

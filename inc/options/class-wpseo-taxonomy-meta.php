@@ -55,6 +55,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		'wpseo_opengraph-title'       => '',
 		'wpseo_opengraph-description' => '',
 		'wpseo_opengraph-image'       => '',
+		'wpseo_opengraph-image-id'    => '',
 		'wpseo_twitter-title'         => '',
 		'wpseo_twitter-description'   => '',
 		'wpseo_twitter-image'         => '',
