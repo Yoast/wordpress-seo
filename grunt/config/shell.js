@@ -44,9 +44,14 @@ module.exports = function( grunt ) {
 
 		"makepot-yoast-components-configuration-wizard": {
 			fromFiles: [
-				"node_modules/yoast-components/**/*.js",
-				"!node_modules/yoast-components/node_modules/**/*.js",
-				"<%= paths.js %>components/*.js",
+				// On these 2 folders in yoast-components have the old i18n-calypso system.
+				"node_modules/yoast-components/composites/LinkSuggestions/**/*.js",
+				"node_modules/yoast-components/composites/OnboardingWizard/**/*.js",
+
+				// Only these 3 files have the old i18n-calypso system:
+				"<%= paths.js %>components/ConnectGoogleSearchConsole.js",
+				"<%= paths.js %>components/MailchimpSignup.js",
+				"<%= paths.js %>components/MediaUpload.js",
 			],
 			textdomain: "yoast-components",
 			command: function() {
