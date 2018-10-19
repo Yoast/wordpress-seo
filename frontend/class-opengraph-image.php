@@ -329,15 +329,20 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	private function maybe_set_default_image() {
-		if (
-			$this->has_images() ||
-			WPSEO_Options::get( 'og_default_image', '' ) === ''
-		) {
+		if ( $this->has_images() ) {
 			return;
 		}
 
-		$default_image_url = WPSEO_Options::get( 'og_default_image' );
-		$default_image_id = WPSEO_Options::get( 'og_default_image_id' );
+		if ( $this->content_contain_images() ) {
+			return;
+		}
+
+		$default_image_url = WPSEO_Options::get( 'og_default_image', '' );
+		$default_image_id  = WPSEO_Options::get( 'og_default_image_id', '' );
+
+		if ( $default_image_url === '' && $default_image_id === '' ) {
+			return;
+		}
 
 		$this->add_image_by_id_or_url( $default_image_id, $default_image_url, array( $this, 'save_default_image_id' ) );
 	}
