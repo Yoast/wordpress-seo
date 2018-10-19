@@ -26,7 +26,7 @@ const replaceFoundKeywordForms = function( description, matchedKeywordForms ) {
  * A full keyphrase is when all keywords in the keyphrase match.
  *
  * @param {string} sentence the sentence that needs to be analyzed.
- * @param {Object}topicForms the keyphrase (and its optional synonyms') word forms.
+ * @param {Object} topicForms the keyphrase (and its optional synonyms') word forms.
  * @param {string} locale the current locale
  * @returns {Number} the number of matched keyphrases in the sentence.
  */
