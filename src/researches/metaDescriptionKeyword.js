@@ -41,20 +41,17 @@ const matchPerSentence = function( sentence, topicForms, locale ) {
 	sentence = replaceFoundKeywordForms( sentence, matchesKeyphrase, fullKeyphraseMatches );
 
 	// Keyphrase synonyms matches.
-	let fullSynonymsMatches = [];
-	if ( topicForms.synonymsForms ) {
-		fullSynonymsMatches = topicForms.synonymsForms.map(
-			synonymForms => {
-				// Synonym keyphrase matches.
-				let matches = synonymForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
-				// Count the number of matches that contain every word in the entire synonym keyphrase.
-				const fullSynonymMatches = Math.min( ...matches.map( match => match.count ) );
-				// Replace all full matches so we do not match them for other synonyms.
-				sentence = replaceFoundKeywordForms( sentence, matchesKeyphrase, fullSynonymMatches );
-				return fullSynonymMatches;
-			}
-		);
-	}
+	let fullSynonymsMatches = topicForms.synonymsForms.map(
+		synonymForms => {
+			// Synonym keyphrase matches.
+			let matches = synonymForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
+			// Count the number of matches that contain every word in the entire synonym keyphrase.
+			const fullSynonymMatches = Math.min( ...matches.map( match => match.count ) );
+			// Replace all full matches so we do not match them for other synonyms.
+			sentence = replaceFoundKeywordForms( sentence, matchesKeyphrase, fullSynonymMatches );
+			return fullSynonymMatches;
+		}
+	);
 
 	return [ fullKeyphraseMatches, ...fullSynonymsMatches ].reduce( ( sum, count ) => sum + count, 0 );
 };
@@ -71,7 +68,7 @@ export default function( paper, researcher ) {
 	if ( paper.getDescription() === "" ) {
 		return -1;
 	}
-	let description = paper.getDescription();
+	const description = paper.getDescription();
 	const locale = paper.getLocale();
 
 	const topicForms = researcher.getResearch( "morphology" );
