@@ -8,6 +8,11 @@ const mockResearcherWordUmlaut = Factory.buildMockResearcher( { keyphraseForms: 
 // The morphological research escapes the forms that it adds to the list of forms, so we should mimic this behavior here.
 const mockResearcherWordDollarSign = Factory.buildMockResearcher( { keyphraseForms: [ [ "\\$keyword", "\\$keywords" ] ] } );
 
+const mockResearcherKeyWordPhrase = Factory.buildMockResearcher( {
+	keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ],
+	synonymsForms: [ [ [ "key", "keys" ], [ "phrase", "phrases" ] ] ],
+} );
+
 describe( "the metadescription keyword match research", function() {
 	it( "returns the number ( 1 ) of keywords found", function() {
 		var paper = new Paper( "", { keyword: "word", description: "a description with a word" } );
@@ -42,6 +47,24 @@ describe( "the metadescription keyword match research", function() {
 	it( "returns the number ( 1 ) of keywords found when the keyword begins with $", function() {
 		var paper = new Paper( "", { keyword: "$keyword", description: "a description with a $keyword" } );
 		var result = metaDescriptionKeyword( paper, mockResearcherWordDollarSign );
+		expect( result ).toEqual( 1 );
+	} );
+
+	it( "returns the number ( 1 ) of keywords found when the keyword", function() {
+		var paper = new Paper( "", { keyword: "key word", description: "a description with a key word and a key" } );
+		var result = metaDescriptionKeyword( paper, mockResearcherKeyWordPhrase );
+		expect( result ).toEqual( 1 );
+	} );
+
+	it( "returns the number ( 1 ) of keywords and synonyms found", function() {
+		var paper = new Paper( "", { keyword: "key word", synonyms: "key phrase", description: "a description with a key word and a phrase" } );
+		var result = metaDescriptionKeyword( paper, mockResearcherKeyWordPhrase );
+		expect( result ).toEqual( 1 );
+	} );
+
+	it( "returns the number ( 1 ) of keywords and synonyms found", function() {
+		var paper = new Paper( "", { keyword: "key word", synonyms: "key phrase", description: "a description with a key phrase" } );
+		var result = metaDescriptionKeyword( paper, mockResearcherKeyWordPhrase );
 		expect( result ).toEqual( 1 );
 	} );
 } );
