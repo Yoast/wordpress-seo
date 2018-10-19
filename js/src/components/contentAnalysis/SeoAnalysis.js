@@ -272,14 +272,14 @@ class SeoAnalysis extends React.Component {
 						onChange={ this.props.onFocusKeywordChange }
 						keyword={ this.props.keyword }
 						label={ __( "Focus keyphrase", "wordpress-seo" ) }
-						labelSiblingElement={ this.renderHelpLink() }
+						helpLink={ this.renderHelpLink() }
 					/>
 					<Slot name="YoastSynonyms" />
 					{ this.props.shouldUpsell && <React.Fragment>
 						{ this.renderSynonymsUpsell( this.props.location ) }
 						{ this.renderMultipleKeywordsUpsell( this.props.location ) }
-						{ this.renderWordFormsUpsell() }
 					</React.Fragment> }
+					{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell() }
 					<AnalysisHeader>
 						{ __( "Analysis results", "wordpress-seo" ) }
 					</AnalysisHeader>
@@ -299,12 +299,21 @@ class SeoAnalysis extends React.Component {
 SeoAnalysis.propTypes = {
 	results: PropTypes.array,
 	marksButtonStatus: PropTypes.string,
-	hideMarksButtons: PropTypes.bool,
 	keyword: PropTypes.string,
-	onFocusKeywordChange: PropTypes.func,
+	onFocusKeywordChange: PropTypes.func.isRequired,
 	shouldUpsell: PropTypes.bool,
+	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
-	location: PropTypes.string,
+	location: PropTypes.string.isRequired,
+};
+
+SeoAnalysis.defaultProps = {
+	results: [],
+	marksButtonStatus: null,
+	keyword: "",
+	shouldUpsell: false,
+	shouldUpsellWordFormRecognition: false,
+	overallScore: null,
 };
 
 /**
@@ -320,7 +329,7 @@ function mapStateToProps( state, ownProps ) {
 
 	const keyword = state.focusKeyword;
 
-	let results = null;
+	let results = [];
 	let overallScore = null;
 	if ( state.analysis.seo[ keyword ] ) {
 		results = state.analysis.seo[ keyword ].results;
