@@ -85,6 +85,8 @@ module.exports = function( grunt ) {
 				files = [ "./node_modules/yoastseo/src/**/*.js" ];
 				files = grunt.file.expand( files );
 
+				grunt.file.write( "languages/yoastseojsfiles.txt", files.join( "\n" ) );
+
 				return "xgettext" +
 					" --default-domain=js-text-analysis" +
 					" -o <%= files.pot.yoastseojs %>" +
@@ -92,7 +94,7 @@ module.exports = function( grunt ) {
 					" --from-code=UTF-8" +
 					" --add-comments=\"translators: \"" +
 					" --add-comments=\"Translators: \"" +
-					" " + files.join( " " );
+					" --files-from=languages/yoastseojsfiles.txt";
 			},
 		},
 
