@@ -14,7 +14,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Implements support for word form recognition for keyphrases in English (requires Premium configuration).
 * Improves the feedback texts for all SEO and readability assessments.
 * Adds functionality to append a query string to the assessment links through the analysis worker.
-* Adds an assessment that that checks whether your keyword consists only of function words.
+* Adds an assessment that checks whether your keyword consists only of function words.
 
 ### Changed
 * The analysis of the following assessments incorporates the new keyword recognition principles:
@@ -22,7 +22,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
   * Keyphrase in introduction: checks whether words from the keyphrase are matched within one sentence in the introduction or, if not, whether they are present in the first paragraph at all. An exact match isn’t required anymore.
   * Keyphrase in title: still checks whether an exact match of the keyphrase is found in (the beginning of) the title, but now also recommends improvement if all words from the keyphrase are found in the title.
   * Keyphrase length: has new boundaries to check whether the keyphrase is not too long. For languages that have support for function word stripping (see above), only content words are taken into account.
-  * Keyphrase in meta description: checks whether all words from the keyphrase are matched within one sentence or, if not, whether they are present in the meta description at all.
+  * Keyphrase in meta description: checks how often all words from the keyphrase are matched within the meta description.
   * Keyphrase in subheading: checks whether at least one subheading contains more than half of the words from the keyphrase. An exact match isn’t required anymore.
   * Keyphrase in slug: checks whether a sufficient number of words from the keyphrase is used in the slug. The number of words required depends on the length of the keyphrase.
   * Keyphrase density: checks whether there are enough keyphrase matches; a match is defined as a sentence that contains all words from the keyphrase. The upper boundary for a good score is higher when word form recognition is available, since in that case the analysis is able to pick up more matches.
