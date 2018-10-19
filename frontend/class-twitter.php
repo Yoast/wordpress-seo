@@ -435,6 +435,10 @@ class WPSEO_Twitter {
 				$this->gallery_images_output();
 				return;
 			}
+
+			if ( $this->image_from_content_output( $post_id ) ) {
+				return;
+			}
 		}
 	}
 
@@ -592,6 +596,31 @@ class WPSEO_Twitter {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Retrieve the image from the content.
+	 *
+	 * @param int $post_id The post id to extract the images from.
+	 *
+	 * @return bool True when images output succeeded.
+	 */
+	private function image_from_content_output( $post_id ) {
+		$image_finder = new WPSEO_Content_Images();
+		$images       = $image_finder->get_images( $post_id );
+
+		if ( ! is_array( $images ) || $images === array() ) {
+			return false;
+		}
+
+		$image_url = reset( $images );
+		if ( ! $image_url ) {
+			return false;
+		}
+
+		$this->image_output( $image_url );
+
+		return true;
 	}
 
 	/**
