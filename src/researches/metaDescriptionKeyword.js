@@ -6,12 +6,13 @@ import getSentences from "../stringProcessing/getSentences";
  *
  * @param {string} description the description to remove the matched keyword forms from.
  * @param {Object[]} matchedKeywordForms the matched keyword forms to remove from the description.
+ * @param {Number} maxToRemove the maximum amount of matches of each individual keyword to remove.
  * @returns {string} the description with the keywords removed.
  */
 const replaceFoundKeywordForms = function( description, matchedKeywordForms, maxToRemove ) {
 	// Replace matches so we do not match them for synonyms.
 	matchedKeywordForms.forEach( keywordForm =>
-		keywordForm.matches.slice(0, maxToRemove).forEach(
+		keywordForm.matches.slice( 0, maxToRemove ).forEach(
 			match => {
 				description = description.replace( match, "" );
 			}
