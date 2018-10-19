@@ -76,4 +76,12 @@ describe( "the metadescription keyword match research", function() {
 		const result = metaDescriptionKeyword( paper, researcher );
 		expect( result ).toEqual( 1 );
 	} );
+
+	it( "returns the number ( 3 ) of keywords and synonyms found", function() {
+		const paper = new Paper( "", { keyword: "key word", synonyms: "key phrase", description: "keys word. key wordly. keys phrases." } );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const result = metaDescriptionKeyword( paper, researcher );
+		expect( result ).toEqual( 3 );
+	} );
 } );
