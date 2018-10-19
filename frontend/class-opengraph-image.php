@@ -289,6 +289,12 @@ class WPSEO_OpenGraph_Image {
 		}
 
 		$this->set_user_defined_image( $post_id );
+
+		if ( $this->has_images() ) {
+			return;
+		}
+
+		$this->add_first_usable_content_image( get_post( $post_id ) );
 	}
 
 	/**
@@ -330,10 +336,6 @@ class WPSEO_OpenGraph_Image {
 	 */
 	private function maybe_set_default_image() {
 		if ( $this->has_images() ) {
-			return;
-		}
-
-		if ( $this->content_contain_images() ) {
 			return;
 		}
 
@@ -647,35 +649,27 @@ class WPSEO_OpenGraph_Image {
 		return get_queried_object_id();
 	}
 
+
 	/**
-	 * Checks if the post content contains any images.
+	 * Adds the first usable attachment image from the post content.
 	 *
-	 * @return bool Whether there is an image in then or not.
+	 * @param object $post The post object.
+	 *
+	 * @return void
 	 */
-	private function content_contain_images() {
-		$post = get_post();
+	private function add_first_usable_content_image( $post ) {
+		$image_finder = new WPSEO_Content_Images();
+		$images       = $image_finder->get_images( $post->ID, $post );
 
-		if ( ! $post ) {
-			return false;
+		if ( ! is_array( $images ) || $images === array() ) {
+			return;
 		}
 
-		/**
-		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis.
-		 *
-		 * @api string $post_content The Post content string
-		 *
-		 * @param object $post - The post object.
-		 */
-		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
-
-		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
-			foreach ( $matches[0] as $img ) {
-				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
-					return true;
-				}
-			}
+		$image_url = reset( $images );
+		if ( ! $image_url ) {
+			return;
 		}
 
-		return false;
+		$this->add_image( array( 'url' => $image_url ) );
 	}
 }
