@@ -641,4 +641,36 @@ class WPSEO_OpenGraph_Image {
 	protected function get_queried_object_id() {
 		return get_queried_object_id();
 	}
+
+	/**
+	 * Checks if the post content contains any images.
+	 *
+	 * @return bool Whether there is an image in then or not.
+	 */
+	private function content_contain_images() {
+		$post = get_post();
+
+		if ( ! $post ) {
+			return false;
+		}
+
+		/**
+		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis.
+		 *
+		 * @api string $post_content The Post content string
+		 *
+		 * @param object $post - The post object.
+		 */
+		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
+
+		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
+			foreach ( $matches[0] as $img ) {
+				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
 }
