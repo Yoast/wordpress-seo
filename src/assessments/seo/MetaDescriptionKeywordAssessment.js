@@ -49,7 +49,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		this._keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
+		this._keyphraseCounts = researcher.getResearch( "metaDescriptionKeyword" );
 		const assessmentResult = new AssessmentResult();
 		const calculatedResult = this.calculateResult( i18n );
 
@@ -67,12 +67,9 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 * @returns {Object} Result object with score and text.
 	 */
 	calculateResult( i18n ) {
-		const nrOfSentencesWithAllKeywords = this._keywordMatches.perSentence
-			.filter( percentageKeywordsMatched => percentageKeywordsMatched === 100 )
-			.length;
 
-		// GOOD result when one or two sentences contain every keyword term at least once.
-		if ( nrOfSentencesWithAllKeywords >= 1 && nrOfSentencesWithAllKeywords <= 2 ) {
+		// GOOD result when the meta description contains keyhrase or a synonym 1 or 2 times.
+		if ( this._keyphraseCounts === 1 || this._keyphraseCounts === 2 ) {
 			return {
 				score: this._config.scores.good,
 				resultText: i18n.sprintf(
@@ -88,7 +85,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 		}
 
 		// BAD if the description contains every keyword term more than twice.
-		if ( nrOfSentencesWithAllKeywords >= 3 ) {
+		if ( this._keyphraseCounts >= 3 ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: i18n.sprintf(
@@ -105,34 +102,9 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 					),
 					this._config.urlTitle,
 					"</a>",
-					nrOfSentencesWithAllKeywords,
+					this._keyphraseCounts,
 					this._config.urlCallToAction,
 					"</a>"
-				),
-			};
-		}
-
-		// OK result when the full description contains every keyword term at least once.
-		if ( this._keywordMatches.fullDescription === 100 ) {
-			return {
-				score: this._config.scores.ok,
-				resultText: i18n.sprintf(
-					/**
-					 * Translators:
-					 * %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
-					 * %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag.
-					 */
-					i18n.dngettext(
-						"js-text-analysis",
-						"%1$sKeyphrase in meta description%2$s: All words of keyphrase or synonym " +
-						"appear in the meta description, but not within one sentence. " +
-						"%3$sTry to use them in one sentence%4$s."
-					),
-					this._config.urlTitle,
-					"</a>",
-					this._config.urlCallToAction,
-					"</a>"
-
 				),
 			};
 		}

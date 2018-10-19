@@ -4,11 +4,10 @@ import Factory from "../specHelpers/factory";
 
 const i18n = Factory.buildJed();
 
-const mockResearcherNoMatches = Factory.buildMockResearcher( { fullDescription: 0, perSentence: [ 0 ] } );
-const mockResearcherOneMatch = Factory.buildMockResearcher( { fullDescription: 100, perSentence: [ 100, 0, 0 ] } );
-const mockResearcherTwoMatches = Factory.buildMockResearcher( { fullDescription: 100, perSentence: [ 100, 100, 50 ] } );
-const mockResearcherThreeMatches = Factory.buildMockResearcher( { fullDescription: 100, perSentence: [ 100, 100, 100 ] } );
-const mockResearcherMatchesDescription = Factory.buildMockResearcher( { fullDescription: 100, perSentence: [ 50, 50 ] } );
+const mockResearcherNoMatches = Factory.buildMockResearcher( 0 );
+const mockResearcherOneMatch = Factory.buildMockResearcher( 1 );
+const mockResearcherTwoMatches = Factory.buildMockResearcher( 2 );
+const mockResearcherThreeMatches = Factory.buildMockResearcher( 3 );
 
 describe( "the metadescription keyword assessment", function() {
 	it( "returns a bad result when the meta description doesn't contain the keyword", function() {
@@ -41,14 +40,6 @@ describe( "the metadescription keyword assessment", function() {
 
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: The meta description contains the keyphrase 3 times, which is over the advised maximum of 2 times. <a href='https://yoa.st/33l' target='_blank'>Limit that</a>!" );
-	} );
-
-	it( "returns an okay result when the meta description contains the keyword one time, but not in the same sentence", function() {
-		const mockPaper = new Paper();
-		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherMatchesDescription, i18n );
-
-		expect( assessment.getScore() ).toBe( 6 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: All words of keyphrase or synonym appear in the meta description, but not within one sentence. <a href='https://yoa.st/33l' target='_blank'>Try to use them in one sentence</a>." );
 	} );
 
 	it( "is not applicable when the paper doesn't have a keyword", function() {
