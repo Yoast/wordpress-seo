@@ -1,3 +1,5 @@
+const path = require( "path" );
+
 // See https://github.com/sindresorhus/grunt-shell
 module.exports = function( grunt ) {
 	return {
@@ -59,7 +61,7 @@ module.exports = function( grunt ) {
 
 				files = grunt.file.expand( files );
 
-				return "./node_modules/.bin/i18n-calypso" +
+				return path.normalize( "./node_modules/.bin/i18n-calypso" ) +
 					" -o <%= files.pot.yoastComponentsConfigurationWizard %>" +
 					" -f POT" +
 					" " + files.join( " " );
