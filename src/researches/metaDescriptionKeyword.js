@@ -8,10 +8,10 @@ import getSentences from "../stringProcessing/getSentences";
  * @param {Object[]} matchedKeywordForms the matched keyword forms to remove from the description.
  * @returns {string} the description with the keywords removed.
  */
-const replaceFoundKeywordForms = function( description, matchedKeywordForms ) {
+const replaceFoundKeywordForms = function( description, matchedKeywordForms, maxToRemove ) {
 	// Replace matches so we do not match them for synonyms.
 	matchedKeywordForms.forEach( keywordForm =>
-		keywordForm.matches.forEach(
+		keywordForm.matches.slice(0, maxToRemove).forEach(
 			match => {
 				description = description.replace( match, "" );
 			}
@@ -34,27 +34,27 @@ const matchPerSentence = function( sentence, topicForms, locale ) {
 	// Focus keyphrase matches.
 	let matchesKeyphrase = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
 
-	// Replace matches so we do not match them for synonyms.
-	sentence = replaceFoundKeywordForms( sentence, matchesKeyphrase );
+	// Count the number of matches that contain every word in the entire keyphrase.
+	const fullKeyphraseMatches = Math.min( ...matchesKeyphrase.map( match => match.count ) );
+
+	// Replace all full keyphrase matches so we do not match them for synonyms.
+	sentence = replaceFoundKeywordForms( sentence, matchesKeyphrase, fullKeyphraseMatches );
 
 	// Keyphrase synonyms matches.
-	let matchesSynonyms = [];
+	let fullSynonymsMatches = [];
 	if ( topicForms.synonymsForms ) {
-		matchesSynonyms = topicForms.synonymsForms.map(
+		fullSynonymsMatches = topicForms.synonymsForms.map(
 			synonymForms => {
+				// Synonym keyphrase matches.
 				let matches = synonymForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
-				// Replace matches so we do not match them for other synonyms.
-				sentence = replaceFoundKeywordForms( sentence, matchesKeyphrase );
-				return matches;
+				// Count the number of matches that contain every word in the entire synonym keyphrase.
+				const fullSynonymMatches = Math.min( ...matches.map( match => match.count ) );
+				// Replace all full matches so we do not match them for other synonyms.
+				sentence = replaceFoundKeywordForms( sentence, matchesKeyphrase, fullSynonymMatches );
+				return fullSynonymMatches;
 			}
 		);
 	}
-
-	// Count the number of matches that contain every word in the entire keyphrase.
-	const fullKeyphraseMatches = Math.min( ...matchesKeyphrase.map( match => match.count ) );
-	const fullSynonymsMatches = matchesSynonyms.map(
-		matchesSynonym => Math.min( ...matchesSynonym.map( match => match.count ) )
-	);
 
 	return [ fullKeyphraseMatches, ...fullSynonymsMatches ].reduce( ( sum, count ) => sum + count, 0 );
 };
