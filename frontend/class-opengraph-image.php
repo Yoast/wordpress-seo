@@ -523,7 +523,7 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @return void
 	 */
-	private function set_images() {
+	protected function set_images() {
 		/**
 		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the OpenGraph tags.
 		 *
@@ -649,11 +649,10 @@ class WPSEO_OpenGraph_Image {
 		return get_queried_object_id();
 	}
 
-
 	/**
 	 * Adds the first usable attachment image from the post content.
 	 *
-	 * @param object $post The post object.
+	 * @param WP_Post $post The post object.
 	 *
 	 * @return void
 	 */
