@@ -31,7 +31,7 @@ class WPSEO_Ryte_Service {
 	 */
 	public function get_statistics() {
 		// Switch to the user locale with fallback to the site locale.
-		switch_to_locale( WPSEO_Utils::get_user_locale() );
+		switch_to_locale( WPSEO_Language_Utils::get_user_locale() );
 
 		$result = false;
 
