@@ -65,9 +65,6 @@ const matchPerSentence = function( sentence, topicForms, locale ) {
  * @returns {Number} The number of keyphrase matches for the entire description.
  */
 export default function( paper, researcher ) {
-	if ( paper.getDescription() === "" ) {
-		return -1;
-	}
 	const description = paper.getDescription();
 	const locale = paper.getLocale();
 

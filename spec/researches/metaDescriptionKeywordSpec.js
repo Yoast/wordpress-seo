@@ -29,14 +29,6 @@ describe( "the metadescription keyword match research", function() {
 		expect( result ).toEqual( 0 );
 	} );
 
-	it( "returns -1 because there is no meta", function() {
-		const paper = new Paper( "", { keyword: "word", description: "" } );
-		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
-		const result = metaDescriptionKeyword( paper, researcher );
-		expect( result ).toBe( -1 );
-	} );
-
 	it( "returns the number ( 1 ) of keywords found", function() {
 		const paper = new Paper( "", { keyword: "keywörd", description: "a description with a keyword", locale: "en_US" } );
 		const researcher = new Researcher( paper );
