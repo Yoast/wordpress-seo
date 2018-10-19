@@ -20,7 +20,7 @@ function findTermByID( id, terms ) {
  */
 export default function( termID, terms ) {
 	const parents = [];
-	const term = findTermByID( termID, terms );
+	const term    = findTermByID( termID, terms );
 
 	if ( ! term ) {
 		return parents;

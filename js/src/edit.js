@@ -1,4 +1,4 @@
-/* global window process wp wpseoPrimaryCategoryL10n */
+/* global window wp wpseoPrimaryCategoryL10n */
 
 /* External dependencies */
 import React from "react";
@@ -109,7 +109,7 @@ class Edit {
 	/**
 	 * Gets a term based on the registered primary ID.
 	 *
-	 * @param {Object} categoryData    The category data to search through.
+	 * @param {Object} categoryData The category data to search through.
 	 *
 	 * @returns {Object} The term object.
 	 * @private
