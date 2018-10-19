@@ -8,7 +8,6 @@ import { colors, SvgIcon, UpsellLinkButton, utils } from "yoast-components";
 
 const TextContainer = styled.p`
 	color: ${ colors.$color_upsell_text };
-	flex: 1;
 	margin: 0;
 	padding-right: 8px;
 `;
@@ -25,10 +24,6 @@ const Container = styled.div`
 	> ${ TextContainer } {
 		margin-bottom: ${ props => props.alignment === "vertical" && "16px" };
 	}
-`;
-
-const ButtonContainer = styled.div`
-	flex: 0;
 `;
 
 const Caret = styled( SvgIcon )`
@@ -60,7 +55,7 @@ const AnalysisUpsell = ( props ) => {
 					"Yoast SEO Premium"
 				) }
 			</TextContainer>
-			<ButtonContainer>
+			<div>
 				<OutboundLinkButton href={ url }>
 					{ sprintf(
 						/* translators: %s expands to Premium */
@@ -69,7 +64,7 @@ const AnalysisUpsell = ( props ) => {
 					) }
 					<Caret icon="arrow-right" size="8px" color={ colors.$color_black } />
 				</OutboundLinkButton>
-			</ButtonContainer>
+			</div>
 		</Container>
 	);
 };

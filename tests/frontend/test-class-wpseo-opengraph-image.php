@@ -435,6 +435,45 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test getting the image from post content.
+	 *
+	 * @covers WPSEO_OpenGraph_Image::set_images()
+	 * @covers WPSEO_OpenGraph_Image::add_first_usable_content_image()
+	 */
+	public function test_get_images_from_content() {
+		$image_url    = 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg';
+		$post_content = '<p>This is a post. It has an image hosted on a cdn:</p>	
+		<img src="' . $image_url . '"/>	
+		<p>End of post</p>';
+
+		$post_id = self::factory()->post->create(
+			array(
+				'post_content' => $post_content,
+			)
+		);
+
+		$opengraph_image = $this
+			->getMockBuilder( 'WPSEO_Opengraph_Image_Double' )
+			->disableOriginalConstructor()
+			->setMethods( array( 'add_image' ) )
+			->getMock();
+
+		$opengraph_image
+			->expects( $this->once() )
+			->method( 'add_image' )
+			->with(
+				array(
+					'url' => $image_url,
+				)
+			);
+
+		// Run our test.
+		$this->go_to( get_permalink( $post_id ) );
+
+		$opengraph_image->set_images();
+	}
+
+	/**
 	 * Test using an image that's already uploaded to another post as OG setting.
 	 */
 	public function test_uploaded_image_added_by_id() {
