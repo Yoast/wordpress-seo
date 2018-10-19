@@ -98,4 +98,12 @@ describe( "the metadescription keyword match research", function() {
 		const result = metaDescriptionKeyword( paper, researcher );
 		expect( result ).toEqual( 2 );
 	} );
+
+	it( "returns the number ( 2 ) of keywords and synonyms found.", function() {
+		const paper = new Paper( "", { keyword: "cats and dogs", synonyms: "hounds and felines", description: "This is a meta description. It’s about dogs and cats and hounds and felines and more felines. A sdfkjhsdk hskdf sd. And hounds." } );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const result = metaDescriptionKeyword( paper, researcher );
+		expect( result ).toEqual( 2 );
+	} );
 } );
