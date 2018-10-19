@@ -470,13 +470,13 @@ td.column-wpseo-linked {
 	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 	min-height: 48px;
 	text-transform: initial;
-	padding-left: 1em;
-	// Make space for the caret background image.
-	padding-right: 1.5em;
+	// Make space on the right for the caret background image. 9px at the top to vertically align the text with the caret.
+	padding: 9px 1.5em 9px 1em;
+	box-sizing: border-box;
 	background: $color-button-upsell url(svg-icon-caret-right()) 97% 45% no-repeat;
 	display: inline-block;
 	text-decoration: none;
-	line-height: 42px;
+	line-height: 24px;
 
 	&:hover,
 	&:focus,
