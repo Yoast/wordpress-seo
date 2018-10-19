@@ -214,6 +214,11 @@ export function mapCustomFields( replaceVars, store ) {
 export function excerptFromContent( content, limit = 156 ) {
 	content = wp.sanitize.stripTags( content );
 
+	// When the content is shorter than 156 characters, use the entire content.
+	if ( content.length <= limit ) {
+		return content;
+	}
+
 	// Retrieves the first 156 chars from the content.
 	content = content.substring( 0, limit );
 
