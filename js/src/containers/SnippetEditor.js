@@ -103,12 +103,6 @@ export const mapEditorDataToPreview = function( data, context ) {
 
 const SnippetEditorWrapper = ( props ) => (
 	<React.Fragment>
-		<HelpText>
-			{ __( "This is a rendering of what this post might look like in Google's search results.", "wordpress-seo" ) + " " }
-			<ExplanationLink href={ wpseoAdminL10n[ "shortlinks.snippet_preview_info" ] } rel={ null }>
-				{ __( "Learn more about the Snippet Preview.", "wordpress-seo" ) }
-			</ExplanationLink>
-		</HelpText>
 		<SnippetPreviewSection
 			icon="eye"
 			hasPaperStyle={ props.hasPaperStyle }
