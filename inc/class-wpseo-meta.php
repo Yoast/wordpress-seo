@@ -361,6 +361,7 @@ class WPSEO_Meta {
 				elseif ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) ) {
 					$post_type = sanitize_text_field( $_GET['post_type'] );
 				}
+
 				if ( $post_type === '' ) {
 					return array();
 				}
