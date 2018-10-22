@@ -1,16 +1,13 @@
-/* globals wpseoAdminL10n */
 import React from "react";
 import { connect } from "react-redux";
 import {
 	SnippetEditor,
-	HelpText,
 } from "yoast-components";
 import identity from "lodash/identity";
 import get from "lodash/get";
 import { __ } from "@wordpress/i18n";
 import { dispatch as wpDataDispatch } from "@wordpress/data";
 import analysis from "yoastseo";
-import { utils } from "yoast-components";
 const { stripHTMLTags: stripFullTags } = analysis.string;
 
 import {
@@ -19,8 +16,6 @@ import {
 } from "../redux/actions/snippetEditor";
 import { updateAnalysisData } from "../redux/actions/analysisData";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
-
-const ExplanationLink = utils.makeOutboundLink();
 
 /**
  * Runs the legacy replaceVariables function on the data in the snippet preview.
