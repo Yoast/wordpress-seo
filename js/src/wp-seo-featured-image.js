@@ -4,6 +4,7 @@
 /* jshint -W097 */
 /* jshint -W003 */
 import a11ySpeak from "a11y-speak";
+import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
 ( function( $ ) {
 	var featuredImagePlugin;
@@ -159,6 +160,22 @@ import a11ySpeak from "a11y-speak";
 		$featuredImageElement = $( "#set-post-thumbnail > img" );
 		if ( "undefined" !== typeof $featuredImageElement.prop( "src" ) ) {
 			featuredImagePlugin.setFeaturedImage( $( "#set-post-thumbnail " ).html() );
+		}
+
+		let imageData;
+		if ( isGutenbergDataAvailable() ) {
+			wp.data.subscribe( () => {
+				const featuredImageId = wp.data.select( "core/editor" ).getEditedPostAttribute( "featured_media" );
+
+				// Only continue if data has changed.
+				if ( imageData !== wp.data.select( "core" ).getMedia( featuredImageId ) ) {
+					imageData = wp.data.select( "core" ).getMedia( featuredImageId );
+					if ( imageData !== undefined ) {
+						const featuredImageHTML = `<img src=` + imageData.source_url + ` alt=` + imageData.alt_text + ` >`;
+						featuredImagePlugin.setFeaturedImage( featuredImageHTML );
+					}
+				}
+			} );
 		}
 	} );
 }( jQuery ) );
