@@ -1,7 +1,9 @@
-import AssessmentResult from "../values/AssessmentResult.js";
 import { isUndefined } from "lodash-es";
 
 import MissingArgument from "../errors/missingArgument";
+import { createAnchorOpeningTag } from "../helpers/shortlinker";
+import AssessmentResult from "../values/AssessmentResult.js";
+
 /**
  * @param {object} app The app
  * @param {object} args An arguments object with usedKeywords, searchUrl, postUrl,
@@ -27,8 +29,8 @@ var PreviouslyUsedKeyword = function( app, args ) {
 	this.usedKeywords = args.usedKeywords;
 	this.searchUrl = args.searchUrl;
 	this.postUrl = args.postUrl;
-	this.urlTitle = "<a href='https://yoa.st/33x' target='_blank'>";
-	this.urlCallToAction = "<a href='https://yoa.st/33y' target='_blank'>";
+	this.urlTitle = createAnchorOpeningTag( "https://yoa.st/33x" );
+	this.urlCallToAction = createAnchorOpeningTag( "https://yoa.st/33y" );
 };
 
 /**
@@ -72,7 +74,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 				/* Translators:
 				%1$s expands to a link to an article on yoast.com,
 				%2$s expands to an anchor tag. */
-				i18n.dgettext( "js-text-analysis", "%1$sPreviously used keyphrase%2$s: You've not used this focus keyphrase before, very good." ),
+				i18n.dgettext( "js-text-analysis", "%1$sPreviously used keyphrase%2$s: You've not used this keyphrase before, very good." ),
 				this.urlTitle,
 				"</a>"
 			),
@@ -82,11 +84,11 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 	if ( count === 1 ) {
 		var url = "<a href='" + this.postUrl.replace( "{id}", id ) + "' target='_blank'>";
 		return {
-			/* Translators: %1$s and %2$s expand to an admin link where the focus keyword is already used. %3$s and %4$s
+			/* Translators: %1$s and %2$s expand to an admin link where the keyword is already used. %3$s and %4$s
 			expand to links on yoast.com, %4$s expands to the anchor end tag. */
 			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%3$sPreviously used keyphrase%5$s: " +
-				"You've used this focus keyphrase %1$sonce before%2$s. " +
-				"%4$sDo not use your focus keyphrase more than once%5$s." ),
+				"You've used this keyphrase %1$sonce before%2$s. " +
+				"%4$sDo not use your keyphrase more than once%5$s." ),
 			url,
 			"</a>",
 			this.urlTitle,
@@ -99,12 +101,12 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 	if ( count > 1 ) {
 		url = "<a href='" + this.searchUrl.replace( "{keyword}", encodeURIComponent( paper.getKeyword() ) ) + "' target='_blank'>";
 		return {
-			/* Translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number
-			of times this focus keyword has been used before, %4$s and %5$s expand to links to yoast.com, %6$s expands to
+			/* Translators: %1$s and $3$s expand to the admin search page for the keyword, %2$d expands to the number
+			of times this keyword has been used before, %4$s and %5$s expand to links to yoast.com, %6$s expands to
 			the anchor end tag */
 			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%4$sPreviously used keyphrase%6$s: " +
-				"You've used this focus keyphrase %1$s%2$d times before%3$s. " +
-				"%5$sDo not use your focus keyphrase more than once%6$s." ),
+				"You've used this keyphrase %1$s%2$d times before%3$s. " +
+				"%5$sDo not use your keyphrase more than once%6$s." ),
 			url,
 			count,
 			"</a>",

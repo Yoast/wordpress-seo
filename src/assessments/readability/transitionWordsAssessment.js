@@ -1,8 +1,10 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import formatNumber from "../../helpers/formatNumber.js";
 import { map } from "lodash-es";
-import { inRangeStartInclusive as inRange } from "../../helpers/inRange.js";
+
+import formatNumber from "../../helpers/formatNumber";
+import { inRangeStartInclusive as inRange } from "../../helpers/inRange";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
+import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark.js";
 import marker from "../../markers/addMark.js";
 import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
@@ -57,8 +59,8 @@ const calculateTransitionWordResult = function( transitionWordSentences, i18n ) 
 	const percentage = calculateTransitionWordPercentage( transitionWordSentences );
 	const score = calculateScoreFromPercentage( percentage );
 	const hasMarks   = ( percentage > 0 );
-	const urlTitle = "<a href='https://yoa.st/34z' target='_blank'>";
-	const urlCallToAction = "<a href='https://yoa.st/35a' target='_blank'>";
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/34z" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35a" );
 
 	if ( score < 7 && percentage === 0 ) {
 		return {

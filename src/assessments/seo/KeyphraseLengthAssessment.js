@@ -3,6 +3,7 @@ import { merge } from "lodash-es";
 import { inRange } from "lodash-es";
 
 import Assessment from "../../assessment";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -35,8 +36,9 @@ class KeyphraseLengthAssessment extends Assessment {
 				okay: 6,
 				good: 9,
 			},
-			urlTitle: "<a href='https://yoa.st/33i' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/33j' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33i" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33j" ),
+			isRelatedKeyphrase: false,
 		};
 
 		this.identifier = "keyphraseLength";
@@ -75,6 +77,22 @@ class KeyphraseLengthAssessment extends Assessment {
 	 */
 	calculateResult( i18n ) {
 		if ( this._keyphraseLength < this._config.parameters.recommendedMinimum ) {
+			if ( this._config.isRelatedKeyphrase ) {
+				return {
+					score: this._config.scores.veryBad,
+					resultText: i18n.sprintf(
+						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+						i18n.dgettext(
+							"js-text-analysis",
+							"%1$sKeyphrase length%3$s: " +
+							"%2$sSet a keyphrase in order to calculate your SEO score%3$s."
+						),
+						this._config.urlTitle,
+						this._config.urlCallToAction,
+						"</a>"
+					),
+				};
+			}
 			return {
 				score: this._config.scores.veryBad,
 				resultText: i18n.sprintf(
@@ -82,7 +100,7 @@ class KeyphraseLengthAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. " +
-						"%2$sSet a focus keyphrase in order to calculate your SEO score%3$s."
+						"%2$sSet a keyphrase in order to calculate your SEO score%3$s."
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,

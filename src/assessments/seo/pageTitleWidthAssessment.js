@@ -1,8 +1,9 @@
 import { merge } from "lodash-es";
 
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
+import Assessment from "../../assessment";
 import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import AssessmentResult from "../../values/AssessmentResult";
 
 const maximumLength = 600;
 /**
@@ -28,8 +29,8 @@ class PageTitleWidthAssesment extends Assessment {
 				widthTooLong: 3,
 				widthCorrect: 9,
 			},
-			urlTitle: "<a href='https://yoa.st/34h' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/34i' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34h" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34i" ),
 		};
 
 		this.identifier = "titleWidth";
@@ -105,7 +106,7 @@ class PageTitleWidthAssesment extends Assessment {
 				i18n.dgettext(
 					"js-text-analysis",
 					"%1$sSEO title width%3$s: The SEO title is too short. " +
-					"%2$sUse the space to add keyword variations or create compelling call-to-action copy%3$s."
+					"%2$sUse the space to add keyphrase variations or create compelling call-to-action copy%3$s."
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,

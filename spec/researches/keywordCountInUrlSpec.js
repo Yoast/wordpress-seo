@@ -156,4 +156,25 @@ describe( "test to check url for keyword", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 4, percentWordMatches: 50 } );
 	} );
+
+	it( "returns matches for keywords in double quotes", function() {
+		const paper = new Paper( "", { url: "url-with-key-word", keyword: "\"key word\"" } );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
+	} );
+
+	it( "returns matches for keywords in double quotes", function() {
+		const paper = new Paper( "", { url: "url-with-key-word-and-cats-and-dogs", keyword: "\"word and cats and dogs\"" } );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
+	} );
+
+	it( "returns matches for keywords in double quotes: ignores morphology", function() {
+		const paper = new Paper( "", { url: "url-with-key-word-and-cats-and-dogs", keyword: "\"words and cat and dog\"" } );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 0 } );
+	} );
 } );

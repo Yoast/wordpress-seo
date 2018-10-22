@@ -1,8 +1,8 @@
-import { isEmpty } from "lodash-es";
-import { merge } from "lodash-es";
+import { isEmpty, merge } from "lodash-es";
 
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
+import Assessment from "../../assessment";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Assessment for calculating the outbound links in the text.
@@ -25,8 +25,8 @@ class OutboundLinksAssessment extends Assessment {
 				moreNoFollowed: 8,
 				allFollowed: 9,
 			},
-			urlTitle: "<a href='https://yoa.st/34f' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/34g' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34f" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34g" ),
 		};
 
 		this.identifier = "externalLinks";
@@ -75,7 +75,7 @@ class OutboundLinksAssessment extends Assessment {
 			return this._config.scores.noLinks;
 		}
 
-		if ( linkStatistics.externalNofollow === linkStatistics.total ) {
+		if ( linkStatistics.externalNofollow === linkStatistics.externalTotal ) {
 			return this._config.scores.allNofollowed;
 		}
 
@@ -111,7 +111,7 @@ class OutboundLinksAssessment extends Assessment {
 			);
 		}
 
-		if ( linkStatistics.externalNofollow === linkStatistics.total ) {
+		if ( linkStatistics.externalNofollow === linkStatistics.externalTotal ) {
 			return i18n.sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%3$s: " +
@@ -123,7 +123,7 @@ class OutboundLinksAssessment extends Assessment {
 			);
 		}
 
-		if ( linkStatistics.externalDofollow === linkStatistics.total ) {
+		if ( linkStatistics.externalDofollow === linkStatistics.externalTotal ) {
 			return i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%2$s: " +

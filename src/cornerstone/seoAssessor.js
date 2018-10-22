@@ -18,6 +18,7 @@ import OutboundLinks from "../assessments/seo/outboundLinksAssessment";
 import TitleWidth from "../assessments/seo/pageTitleWidthAssessment";
 import UrlLength from "../assessments/seo/urlLengthAssessment";
 import urlStopWords from "../assessments/seo/urlStopWordsAssessment";
+import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
 
 /**
  * Creates the Assessor
@@ -89,7 +90,7 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 		new UrlKeywordAssessment(
 			{
 				scores: {
-					noKeywordInUrl: 3,
+					okay: 3,
 				},
 			}
 		),
@@ -99,6 +100,7 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 			},
 		} ),
 		urlStopWords,
+		new FunctionWordsInKeyphrase(),
 	];
 };
 

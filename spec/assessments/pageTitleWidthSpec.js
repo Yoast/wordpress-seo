@@ -18,7 +18,7 @@ describe( "the SEO title length assessment", function() {
 		var paper = new Paper( "", { title: "The Title" } );
 		var result = pageTitleLengthAssessment.getResult( paper, factory.buildMockResearcher( 9 ), i18n );
 		expect( result.getScore() ).toEqual( 6 );
-		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: The SEO title is too short. <a href='https://yoa.st/34i' target='_blank'>Use the space to add keyword variations or create compelling call-to-action copy</a>." );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: The SEO title is too short. <a href='https://yoa.st/34i' target='_blank'>Use the space to add keyphrase variations or create compelling call-to-action copy</a>." );
 	} );
 
 	it( "should assess a paper with a SEO title that's in range of the recommended value", function() {

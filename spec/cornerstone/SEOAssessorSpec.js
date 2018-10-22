@@ -53,6 +53,19 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
+	it( "additionally runs assessments that require a keyword with function words only", function() {
+		assessor.assess( new Paper( "", { keyword: "a" } ) );
+		const assessments = getResults( assessor.getValidResults() );
+
+		expect( assessments ).toEqual( [
+			"keyphraseLength",
+			"metaDescriptionLength",
+			"textLength",
+			"titleWidth",
+			"functionWordsInKeyphrase",
+		] );
+	} );
+
 	it( "additionally runs assessments that require a long enough text and a keyword and a synonym", function() {
 		const text = "a ".repeat( 200 );
 		assessor.assess( new Paper( text, { keyword: "keyword", synonyms: "synonym" } ) );
@@ -239,7 +252,7 @@ describe( "running assessments in the assessor", function() {
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.noKeywordInUrl ).toBe( 3 );
+			expect( assessment._config.scores.okay ).toBe( 3 );
 		} );
 
 		test( "UrlLengthAssessment", () => {

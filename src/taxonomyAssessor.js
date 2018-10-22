@@ -12,6 +12,7 @@ import taxonomyTextLengthAssessment from "./assessments/seo/taxonomyTextLengthAs
 import PageTitleWidthAssessment from "./assessments/seo/pageTitleWidthAssessment";
 import UrlLengthAssessment from "./assessments/seo/urlLengthAssessment";
 import urlStopWordsAssessment from "./assessments/seo/urlStopWordsAssessment";
+import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
 
 /**
  * Creates the Assessor used for taxonomy pages.
@@ -35,6 +36,7 @@ const TaxonomyAssessor = function( i18n ) {
 		new UrlKeywordAssessment(),
 		new UrlLengthAssessment(),
 		urlStopWordsAssessment,
+		new FunctionWordsInKeyphrase(),
 	];
 };
 

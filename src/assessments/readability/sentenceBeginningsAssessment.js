@@ -1,14 +1,10 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
+import { filter, flatten, map, partition, sortBy } from "lodash-es";
+
+import marker from "../../markers/addMark";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
-
-import { partition } from "lodash-es";
-import { sortBy } from "lodash-es";
-import { map } from "lodash-es";
-import { filter } from "lodash-es";
-import { flatten } from "lodash-es";
-
-import Mark from "../../values/Mark.js";
-import marker from "../../markers/addMark.js";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
 
 const maximumConsecutiveDuplicates = 2;
 
@@ -43,8 +39,8 @@ const groupSentenceBeginnings = function( sentenceBeginnings ) {
  * @returns {{score: number, text: string, hasMarks: boolean}} result object with score and text.
  */
 const calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18n ) {
-	const urlTitle = "<a href='https://yoa.st/35f' target='_blank'>";
-	const urlCallToAction = "<a href='https://yoa.st/35g' target='_blank'>";
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/35f" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35g" );
 
 	if ( groupedSentenceBeginnings.total > 0 ) {
 		return {

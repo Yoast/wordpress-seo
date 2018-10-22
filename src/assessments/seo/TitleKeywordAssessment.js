@@ -1,7 +1,7 @@
-import { merge } from "lodash-es";
-import { escape } from "lodash-es";
+import { escape, merge } from "lodash-es";
 
 import Assessment from "../../assessment";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -32,8 +32,8 @@ class TitleKeywordAssessment extends Assessment {
 				okay: 6,
 				bad: 2,
 			},
-			urlTitle: "<a href='https://yoa.st/33g' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/33h' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33g" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33h" ),
 		};
 
 		this.identifier = "titleKeyword";
@@ -87,6 +87,7 @@ class TitleKeywordAssessment extends Assessment {
 		const exactMatch = this._keywordMatches.exactMatch;
 		const position = this._keywordMatches.position;
 		const allWordsFound = this._keywordMatches.allWordsFound;
+		const exactMatchKeyphrase = this._keywordMatches.exactMatchKeyphrase;
 
 		if ( exactMatch === true ) {
 			if ( position === 0 ) {
@@ -97,7 +98,7 @@ class TitleKeywordAssessment extends Assessment {
 						%2$s expands to the anchor end tag. */
 						i18n.dgettext(
 							"js-text-analysis",
-							"%1$sKeyphrase in title%2$s: The exact match of the focus keyphrase appears at the beginning " +
+							"%1$sKeyphrase in title%2$s: The exact match of the keyphrase appears at the beginning " +
 							"of the SEO title. Good job!",
 						),
 						this._config.urlTitle,
@@ -112,8 +113,8 @@ class TitleKeywordAssessment extends Assessment {
 					%3$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sKeyphrase in title%3$s: The exact match of the focus keyphrase appears in the SEO title, but not " +
-						"at the beginning. %2$sTry move it to the beginning%3$s."
+						"%1$sKeyphrase in title%3$s: The exact match of the keyphrase appears in the SEO title, but not " +
+						"at the beginning. %2$sTry to move it to the beginning%3$s."
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -136,6 +137,25 @@ class TitleKeywordAssessment extends Assessment {
 					this._config.urlTitle,
 					this._config.urlCallToAction,
 					"</a>"
+				),
+			};
+		}
+
+		if( exactMatchKeyphrase ) {
+			return {
+				score: this._config.scores.bad,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s and %2$s expand to a link on yoast.com,
+					%3$s expands to the anchor end tag. */
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sKeyphrase in title%3$s: Does not contain the exact match. %2$sTry to write the exact match of " +
+						"your keyphrase in the SEO title%3$s."
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>",
+					keyword
 				),
 			};
 		}

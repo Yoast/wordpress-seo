@@ -12,7 +12,7 @@ import { findTopicFormsInString } from "./findKeywordFormsInString.js";
  */
 export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
-	const slug = paper.getUrl().replace( "-", " " );
+	const slug = paper.getUrl().replace( /\-/ig, " " );
 
 	const keyphraseInSlug = findTopicFormsInString( topicForms, slug, false, paper.getLocale() );
 
