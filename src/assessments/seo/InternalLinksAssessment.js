@@ -1,6 +1,7 @@
 import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -33,7 +34,8 @@ class InternalLinksAssessment extends Assessment {
 				noneInternalFollow: 7,
 				noInternal: 3,
 			},
-			url: "<a href='https://yoa.st/2pm' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33z" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34a" ),
 		};
 
 		this.identifier = "internalLinks";
@@ -83,9 +85,11 @@ class InternalLinksAssessment extends Assessment {
 			return {
 				score: this._config.scores.noInternal,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-					i18n.dgettext( "js-text-analysis", "No %1$sinternal links%2$s appear in this page, consider adding some as appropriate." ),
-					this._config.url,
+					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					i18n.dgettext( "js-text-analysis", "%1$sInternal links%3$s: " +
+						"No internal links appear in this page, %2$smake sure to add some%3$s!" ),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -95,11 +99,11 @@ class InternalLinksAssessment extends Assessment {
 			return {
 				score: this._config.scores.noneInternalFollow,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands the number of internal links, %2$s expands to a link on yoast.com,
-					%3$s expands to the anchor end tag */
-					i18n.dgettext( "js-text-analysis", "This page has %1$s %2$sinternal link(s)%3$s, all nofollowed." ),
-					this.linkStatistics.internalNofollow,
-					this._config.url,
+					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					i18n.dgettext( "js-text-analysis", "%1$sInternal links%3$s: " +
+						"The internal links in this page are all nofollowed. %2$sAdd some good internal links%3$s." ),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -109,11 +113,9 @@ class InternalLinksAssessment extends Assessment {
 			return {
 				score: this._config.scores.allInternalFollow,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands to the number of internal links, %2$s expands to a link on yoast.com,
-					%3$s expands to the anchor end tag */
-					i18n.dgettext( "js-text-analysis", "This page has %1$s %2$sinternal link(s)%3$s." ),
-					this.linkStatistics.internalTotal,
-					this._config.url,
+					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					i18n.dgettext( "js-text-analysis", "%1$sInternal links%2$s: You have enough internal links. Good job!" ),
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
@@ -121,16 +123,13 @@ class InternalLinksAssessment extends Assessment {
 		return {
 			score: this._config.scores.someInternalFollow,
 			resultText: i18n.sprintf(
-				/* Translators: %1$s expands to the number of nofollow links, %2$s expands to a link on yoast.com,
-				%3$s expands to the anchor end tag, %4$s to the number of internal links */
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				i18n.dgettext(
 					"js-text-analysis",
-					"This page has %1$s nofollowed %2$sinternal link(s)%3$s and %4$s normal internal link(s)."
+					"%1$sInternal links%2$s: There are both nofollowed and normal internal links on this page. Good job!"
 				),
-				this.linkStatistics.internalNofollow,
-				this._config.url,
+				this._config.urlTitle,
 				"</a>",
-				this.linkStatistics.internalDofollow
 			),
 		};
 	}

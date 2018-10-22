@@ -10,7 +10,6 @@ import TitleKeywordAssessment from "../assessments/seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import Assessor from "../assessor";
 import SEOAssessor from "../seoAssessor";
-import keywordStopWords from "../assessments/seo/keywordStopWordsAssessment";
 import MetaDescriptionLength from "../assessments/seo/metaDescriptionLengthAssessment";
 import SubheadingsKeyword from "../assessments/seo/subheadingsKeywordAssessment";
 import TextImages from "../assessments/seo/textImagesAssessment";
@@ -19,6 +18,7 @@ import OutboundLinks from "../assessments/seo/outboundLinksAssessment";
 import TitleWidth from "../assessments/seo/pageTitleWidthAssessment";
 import UrlLength from "../assessments/seo/urlLengthAssessment";
 import urlStopWords from "../assessments/seo/urlStopWordsAssessment";
+import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
 
 /**
  * Creates the Assessor
@@ -31,12 +31,12 @@ import urlStopWords from "../assessments/seo/urlStopWordsAssessment";
  */
 const CornerstoneSEOAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
+	this.type = "CornerstoneSEOAssessor";
 
 	this._assessments = [
 		new IntroductionKeywordAssessment(),
 		new KeyphraseLengthAssessment(),
 		new KeywordDensityAssessment(),
-		keywordStopWords,
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLength( {
 			scores:	{
@@ -66,7 +66,6 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 			recommendedMinimum: 900,
 			slightlyBelowMinimum: 400,
 			belowMinimum: 300,
-			farBelowMinimum: 0,
 
 			scores: {
 				belowMinimum: -20,
@@ -91,7 +90,7 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 		new UrlKeywordAssessment(
 			{
 				scores: {
-					noKeywordInUrl: 3,
+					okay: 3,
 				},
 			}
 		),
@@ -101,6 +100,7 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 			},
 		} ),
 		urlStopWords,
+		new FunctionWordsInKeyphrase(),
 	];
 };
 

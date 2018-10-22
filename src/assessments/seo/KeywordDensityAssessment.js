@@ -1,15 +1,11 @@
 import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
-import AssessmentResult from "../../values/AssessmentResult";
-import countWords from "../../stringProcessing/countWords";
-import inRange from "../../helpers/inRange";
 import formatNumber from "../../helpers/formatNumber";
-import topicCount from "../../researches/topicCount";
-
-const inRangeEndInclusive = inRange.inRangeEndInclusive;
-const inRangeStartInclusive = inRange.inRangeStartInclusive;
-const inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
+import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/inRange";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import countWords from "../../stringProcessing/countWords";
+import AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Represents the assessment that will look if the keyword density is within the recommended range.
@@ -35,9 +31,16 @@ class KeywordDensityAssessment extends Assessment {
 
 		const defaultConfig = {
 			parameters: {
-				overMaximum: 3.5,
-				maximum: 2.5,
-				minimum: 0.5,
+				noWordForms: {
+					overMaximum: 3.5,
+					maximum: 2.5,
+					minimum: 0.5,
+				},
+				multipleWordForms: {
+					overMaximum: 3.5,
+					maximum: 3.0,
+					minimum: 0.5,
+				},
 			},
 			scores: {
 				wayOverMaximum: -50,
@@ -45,7 +48,8 @@ class KeywordDensityAssessment extends Assessment {
 				correctDensity: 9,
 				underMinimum: 4,
 			},
-			url: "<a href='https://yoa.st/2pe' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33v" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33w" ),
 		};
 
 		this.identifier = "keywordDensity";
@@ -66,14 +70,21 @@ class KeywordDensityAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		const assessmentResult = new AssessmentResult();
 
-		this._keywordCount = researcher.getResearch( "keywordCount" ).count;
+		this._keywordCount = researcher.getResearch( "keywordCount" );
 
 		this._keywordDensity = researcher.getResearch( "getKeywordDensity" );
+
+		/*
+		 * Use other boundaries when taking morphology into account,
+		 * since multiple keyword forms can be matched.
+		 */
+		this._hasMorphologyData = researcher.getData( "morphology" ) !== false;
+		this._locale = paper.getLocale();
 
 		const calculatedScore = this.calculateResult( i18n );
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
-		assessmentResult.setHasMarks( this._keywordCount > 0 );
+		assessmentResult.setHasMarks( this._keywordCount.count > 0 );
 
 		return assessmentResult;
 	}
@@ -84,34 +95,54 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the keyword count is 0.
 	 */
 	hasNoMatches() {
-		return this._keywordCount === 0;
+		return this._keywordCount.count === 0;
 	}
 
 	/**
 	 * Checks whether there are too few keyword matches in the text.
 	 *
+	 * Changes the boundaries based on if we have access to morphology data.
+	 * (Since multiple keyword forms can be matched the boundaries should be relaxed a bit)
+	 *
 	 * @returns {boolean} Returns true if the rounded keyword density is between
 	 *                    0 and the recommended minimum.
 	 */
 	hasTooFewMatches() {
+		if ( this.shouldUseMorphologyBoundaries() ) {
+			return inRangeStartInclusive(
+				this._keywordDensity,
+				0,
+				this._config.parameters.multipleWordForms.minimum
+			);
+		}
 		return inRangeStartInclusive(
 			this._keywordDensity,
 			0,
-			this._config.parameters.minimum
+			this._config.parameters.noWordForms.minimum
 		);
 	}
 
 	/**
 	 * Checks whether there is a good number of keyword matches in the text.
 	 *
+	 * Changes the boundaries based on if we have access to morphology data.
+	 * (Since multiple keyword forms can be matched the boundaries should be relaxed a bit)
+	 *
 	 * @returns {boolean} Returns true if the rounded keyword density is between
 	 *                    the recommended minimum and the recommended maximum.
 	 */
 	hasGoodNumberOfMatches() {
+		if ( this.shouldUseMorphologyBoundaries() ) {
+			return inRangeStartEndInclusive(
+				this._keywordDensity,
+				this._config.parameters.multipleWordForms.minimum,
+				this._config.parameters.multipleWordForms.maximum
+			);
+		}
 		return inRangeStartEndInclusive(
 			this._keywordDensity,
-			this._config.parameters.minimum,
-			this._config.parameters.maximum
+			this._config.parameters.noWordForms.minimum,
+			this._config.parameters.noWordForms.maximum
 		);
 	}
 
@@ -119,16 +150,35 @@ class KeywordDensityAssessment extends Assessment {
 	 * Checks whether the number of keyword matches in the text is between the
 	 * recommended maximum and the specified overMaximum value.
 	 *
+	 * Changes the boundaries based on if we have access to morphology data.
+	 * (Since multiple keyword forms can be matched the boundaries should be relaxed a bit)
+	 *
 	 * @returns {boolean} Returns true if the rounded keyword density is between
 	 *                    the recommended maximum and the specified overMaximum
 	 *                    value.
 	 */
 	hasTooManyMatches() {
+		if ( this.shouldUseMorphologyBoundaries() ) {
+			return inRangeEndInclusive(
+				this._keywordDensity,
+				this._config.parameters.multipleWordForms.maximum,
+				this._config.parameters.multipleWordForms.overMaximum
+			);
+		}
 		return inRangeEndInclusive(
 			this._keywordDensity,
-			this._config.parameters.maximum,
-			this._config.parameters.overMaximum
+			this._config.parameters.noWordForms.maximum,
+			this._config.parameters.noWordForms.overMaximum
 		);
+	}
+
+	/**
+	 * If this assessments should use the morphology score boundaries.
+	 *
+	 * @returns {boolean} if the assessment should use the morphology score boundaries.
+	 */
+	shouldUseMorphologyBoundaries() {
+		return this._hasMorphologyData && this._locale === "en_US";
 	}
 
 	/**
@@ -139,7 +189,10 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
 	calculateResult( i18n ) {
-		const max = `${ this._config.parameters.maximum}%`;
+		const max = this.shouldUseMorphologyBoundaries()
+			? this._config.parameters.multipleWordForms.maximum
+			: this._config.parameters.noWordForms.maximum;
+		const maxText = `${ max }%`;
 		const roundedKeywordDensity = formatNumber( this._keywordDensity );
 		const keywordDensityPercentage = roundedKeywordDensity + "%";
 
@@ -150,17 +203,17 @@ class KeywordDensityAssessment extends Assessment {
 					/* Translators:
 					%1$s expands to the keyword density percentage,
 					%2$d expands to the keyword count,
-					%3$s expands to a link to a Yoast.com article about keyword density,
-					%4$s expands to the anchor end tag. */
+					%3$s and %4$s expand to links to Yoast.com,
+					%5$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The exact-match %3$skeyword density%4$s is %1$s," +
-						" which is too low; the focus keyword was found %2$d times.",
-						this._keywordCount
+						"%3$sKeyphrase density%5$s: %1$s. " +
+						"This is too low; the keyphrase was found %2$d times. %4$sFocus on your keyphrase%5$s!",
 					),
 					keywordDensityPercentage,
-					this._keywordCount,
-					this._config.url,
+					this._keywordCount.count,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -173,19 +226,20 @@ class KeywordDensityAssessment extends Assessment {
 					/* Translators:
 					%1$s expands to the keyword density percentage,
 					%2$d expands to the keyword count,
-					%3$s expands to a link to a Yoast.com article about keyword density,
-					%4$s expands to the anchor end tag. */
+					%3$s and %4$s expand to links to Yoast.com,
+					%5$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The exact-match %3$skeyword density%4$s is %1$s," +
-						" which is too low; the focus keyword was found %2$d time.",
-						"The exact-match %3$skeyword density%4$s is %1$s," +
-						" which is too low; the focus keyword was found %2$d times.",
-						this._keywordCount
+						"%3$sKeyphrase density%5$s: %1$s. " +
+						"This is too low; the keyphrase was found %2$d time. %4$sFocus on your keyphrase%5$s!",
+						"%3$sKeyphrase density%5$s: %1$s. " +
+						"This is too low; the keyphrase was found %2$d times. %4$sFocus on your keyphrase%5$s!",
+						this._keywordCount.count
 					),
 					keywordDensityPercentage,
-					this._keywordCount,
-					this._config.url,
+					this._keywordCount.count,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -197,20 +251,15 @@ class KeywordDensityAssessment extends Assessment {
 				resultText: i18n.sprintf(
 					/* Translators:
 					%1$s expands to the keyword density percentage,
-					%2$d expands to the keyword count,
-					%3$s expands to a link to a Yoast.com article about keyword density,
-					%4$s expands to the anchor end tag. */
+					%2$s expands to a link to Yoast.com,
+					%3$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The exact-match %3$skeyword density%4$s is %1$s," +
-						" which is great; the focus keyword was found %2$d time.",
-						"The exact-match %3$skeyword density%4$s is %1$s," +
-						" which is great; the focus keyword was found %2$d times.",
-						this._keywordCount
+						"%2$sKeyphrase density%3$s: %1$s. " +
+						"This is great!",
 					),
 					keywordDensityPercentage,
-					this._keywordCount,
-					this._config.url,
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
@@ -224,20 +273,23 @@ class KeywordDensityAssessment extends Assessment {
 					%1$s expands to the keyword density percentage,
 					%2$d expands to the keyword count,
 					%3$s expands to the maximum keyword density percentage,
-					%4$s expands to a link to a Yoast.com article about keyword density,
-					%5$s expands to the anchor end tag. */
+					%4$s and %5$s expand to links to Yoast.com,
+					%6$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The exact-match %4$skeyword density%5$s is %1$s," +
-						" which is over the advised %3$s maximum; the focus keyword was found %2$d time.",
-						"The exact-match %4$skeyword density%5$s is %1$s," +
-						" which is over the advised %3$s maximum; the focus keyword was found %2$d times.",
-						this._keywordCount
+						"%4$sKeyphrase density%6$s: %1$s. " +
+						"This is over the advised %3$s maximum; the keyphrase was found %2$d time. " +
+						"%5$sDon't overoptimize%6$s!",
+						"%4$sKeyphrase density%6$s: %1$s. " +
+						"This is over the advised %3$s maximum; the keyphrase was found %2$d times. " +
+						"%5$sDon't overoptimize%6$s!",
+						this._keywordCount.count
 					),
 					keywordDensityPercentage,
-					this._keywordCount,
-					max,
-					this._config.url,
+					this._keywordCount.count,
+					maxText,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -251,20 +303,23 @@ class KeywordDensityAssessment extends Assessment {
 				%1$s expands to the keyword density percentage,
 				%2$d expands to the keyword count,
 				%3$s expands to the maximum keyword density percentage,
-				%4$s expands to a link to a Yoast.com article about keyword density,
-				%5$s expands to the anchor end tag. */
+				%4$s and %5$s expand to links to Yoast.com,
+				%6$s expands to the anchor end tag. */
 				i18n.dngettext(
 					"js-text-analysis",
-					"The exact-match %4$skeyword density%5$s is %1$s," +
-					" which is way over the advised %3$s maximum; the focus keyword was found %2$d time.",
-					"The exact-match %4$skeyword density%5$s is %1$s," +
-					" which is way over the advised %3$s maximum; the focus keyword was found %2$d times.",
-					this._keywordCount
+					"%4$sKeyphrase density%6$s: %1$s. " +
+					"This is way over the advised %3$s maximum; the keyphrase was found %2$d time. " +
+					"%5$sDon't overoptimize%6$s!",
+					"%4$sKeyphrase density%6$s: %1$s. " +
+					"This is way over the advised %3$s maximum; the keyphrase was found %2$d times. " +
+					"%5$sDon't overoptimize%6$s!",
+					this._keywordCount.count
 				),
 				keywordDensityPercentage,
-				this._keywordCount,
-				max,
-				this._config.url,
+				this._keywordCount.count,
+				maxText,
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>"
 			),
 		};
@@ -274,12 +329,10 @@ class KeywordDensityAssessment extends Assessment {
 	/**
 	 * Marks keywords in the text for the keyword density assessment.
 	 *
-	 * @param {Object} paper The paper to use for the assessment.
-	 *
 	 * @returns {Array<Mark>} Marks that should be applied.
 	 */
-	getMarks( paper ) {
-		return topicCount( paper, true ).markings;
+	getMarks() {
+		return this._keywordCount.markings;
 	}
 
 

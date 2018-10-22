@@ -1,6 +1,6 @@
 import ContentAssessor from "../src/contentAssessor.js";
 import AssessmentResult from "../src/values/AssessmentResult.js";
-import Factory from "./helpers/factory.js";
+import Factory from "./specHelpers/factory.js";
 import Paper from "../src/values/Paper.js";
 
 import { forEach } from "lodash-es";

@@ -1,14 +1,14 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
-import countTooLongSentences from "../../assessmentHelpers/checkForTooLongSentences.js";
-import formatNumber from "../../helpers/formatNumber.js";
-import { inRangeEndInclusive as inRange } from "../../helpers/inRange.js";
-import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
-import Mark from "../../values/Mark.js";
-import addMark from "../../markers/addMark.js";
+import { map, merge } from "lodash-es";
 
-import { map } from "lodash-es";
-import { merge } from "lodash-es";
+import Assessment from "../../assessment";
+import countTooLongSentences from "../../assessmentHelpers/checkForTooLongSentences";
+import formatNumber from "../../helpers/formatNumber";
+import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
+import addMark from "../../markers/addMark";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
 
 /**
  * Represents the assessment that will calculate the length of sentences in the text.
@@ -97,24 +97,32 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {string} A string.
 	 */
 	translateScore( score, percentage,  i18n ) {
-		let sentenceLengthURL = "<a href='https://yoa.st/short-sentences' target='_blank'>";
+		const urlTitle = createAnchorOpeningTag( "https://yoa.st/34v" );
+		const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/34w" );
 		if ( score >= 7 ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis",
-				// Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
-				// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
-				// %5$s expands to the recommended maximum percentage.
-				"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less than or equal to the recommended maximum of %5$s."
-			), percentage + "%", sentenceLengthURL, this._config.recommendedWordCount, "</a>", this._config.slightlyTooMany + "%"
+			return i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis",
+					"%1$sSentence length%2$s: Great!" ),
+				urlTitle,
+				"</a>"
 			);
 		}
 
-		return i18n.sprintf( i18n.dgettext( "js-text-analysis",
-			// Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
-			// %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
-			// %5$s expands to the recommended maximum percentage.
-			"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more than the recommended maximum of %5$s. " +
-			"Try to shorten the sentences."
-		), percentage + "%", sentenceLengthURL, this._config.recommendedWordCount, "</a>", this._config.slightlyTooMany + "%" );
+		return i18n.sprintf(
+			/* Translators: %1$s and %6$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
+			%3$d expands to percentage of sentences, %4$s expands to the recommended maximum sentence length,
+			%5$s expands to the recommended maximum percentage. */
+			i18n.dgettext( "js-text-analysis",
+				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s words, which is more than the recommended maximum of %5$s." +
+			" %6$sTry to shorten the sentences%2$s." ),
+			urlTitle,
+			"</a>",
+			percentage + "%",
+			this._config.recommendedWordCount,
+			this._config.slightlyTooMany + "%",
+			urlCallToAction
+		);
 	}
 
 	/**

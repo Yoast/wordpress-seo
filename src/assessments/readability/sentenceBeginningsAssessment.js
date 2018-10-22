@@ -1,18 +1,14 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
+import { filter, flatten, map, partition, sortBy } from "lodash-es";
+
+import getLanguageAvailability from "../../helpers/getLanguageAvailability";
+import marker from "../../markers/addMark";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
-
-import { partition } from "lodash-es";
-import { sortBy } from "lodash-es";
-import { map } from "lodash-es";
-import { filter } from "lodash-es";
-import { flatten } from "lodash-es";
-
-import Mark from "../../values/Mark.js";
-import marker from "../../markers/addMark.js";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
 
 let maximumConsecutiveDuplicates = 2;
 
-import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
 let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "ru", "pl" ];
 
 /**
@@ -40,28 +36,46 @@ let groupSentenceBeginnings = function( sentenceBeginnings ) {
  * Calculates the score based on sentence beginnings.
  * @param {object} groupedSentenceBeginnings The object with grouped sentence beginnings.
  * @param {object} i18n The object used for translations.
- * @returns {{score: number, text: string, hasMarks: boolean}} resultobject with score and text.
+ * @returns {{score: number, text: string, hasMarks: boolean}} result object with score and text.
  */
 let calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18n ) {
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/35f" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35g" );
+
 	if ( groupedSentenceBeginnings.total > 0 ) {
 		return {
 			score: 3,
 			hasMarks: true,
 			text: i18n.sprintf(
+				/* Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
+				%3$d expands to the number of consecutive sentences starting with the same word,
+				%4$d expands to the number of instances where 3 or more consecutive sentences start with the same word. */
 				i18n.dngettext(
 					"js-text-analysis",
-
-					// Translators: %1$d expands to the number of instances where 3 or more consecutive sentences start with the same word.
-					// %2$d expands to the number of consecutive sentences starting with the same word.
-					"The text contains %2$d consecutive sentences starting with the same word. Try to mix things up!",
-					"The text contains %1$d instances where %2$d or more consecutive sentences start with the same word. " +
-					"Try to mix things up!",
+					"%1$sConsecutive sentences%2$s: The text contains %3$d consecutive sentences starting with the same word." +
+					" %5$sTry to mix things up%2$s!", "%1$sConsecutive sentences%2$s: The text contains %4$d instances where" +
+					" %3$d or more consecutive sentences start with the same word. %5$sTry to mix things up%2$s!",
 					groupedSentenceBeginnings.total
 				),
-				groupedSentenceBeginnings.total, groupedSentenceBeginnings.lowestCount ),
+				urlTitle,
+				"</a>",
+				groupedSentenceBeginnings.lowestCount,
+				groupedSentenceBeginnings.total,
+				urlCallToAction
+			),
 		};
 	}
-	return {};
+	return {
+		score: 9,
+		hasMarks: false,
+		text: i18n.sprintf(
+			/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+			i18n.dgettext( "js-text-analysis",
+				"%1$sConsecutive sentences%2$s: There is enough variety in your sentences. That's great!" ),
+			urlTitle,
+			"</a>"
+		),
+	};
 };
 
 /**

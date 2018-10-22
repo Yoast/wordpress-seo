@@ -1,6 +1,6 @@
 import textPresence from "../../src/assessments/readability/textPresenceAssessment.js";
 import Paper from "../../src/values/Paper.js";
-import Factory from "../helpers/factory.js";
+import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();
 
 describe( "Assesses presence of text", function() {
@@ -9,7 +9,8 @@ describe( "Assesses presence of text", function() {
 		var assessment = textPresence.getResult( mockPaper, Factory.buildMockResearcher( 0 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual( "You have far too little content, please add some content to enable a good analysis." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/35h' target='_blank'>Not enough content</a>:" +
+			" <a href='https://yoa.st/35i' target='_blank'>Please add some content to enable a good analysis</a>." );
 	} );
 
 	it( "returns a score of 0 and an empty feedback string for a text over 50 words", function() {

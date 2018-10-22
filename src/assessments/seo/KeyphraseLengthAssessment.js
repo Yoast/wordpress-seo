@@ -1,7 +1,9 @@
 import { isUndefined } from "lodash-es";
 import { merge } from "lodash-es";
+import { inRange } from "lodash-es";
 
 import Assessment from "../../assessment";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -25,14 +27,18 @@ class KeyphraseLengthAssessment extends Assessment {
 		const defaultConfig = {
 			parameters: {
 				recommendedMinimum: 1,
-				acceptableMaximum: 10,
+				recommendedMaximum: 4,
+				acceptableMaximum: 8,
 			},
 			scores: {
 				veryBad: -999,
-				consideration: 0,
+				bad: 3,
+				okay: 6,
+				good: 9,
 			},
-			urlNoOrGoodKeyword: "<a href='https://yoa.st/2pdd' target='_blank'>",
-			urlKeyphraseTooLong: "<a href='https://yoa.st/2pd' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33i" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33j" ),
+			isRelatedKeyphrase: false,
 		};
 
 		this.identifier = "keyphraseLength";
@@ -71,35 +77,96 @@ class KeyphraseLengthAssessment extends Assessment {
 	 */
 	calculateResult( i18n ) {
 		if ( this._keyphraseLength < this._config.parameters.recommendedMinimum ) {
+			if ( this._config.isRelatedKeyphrase ) {
+				return {
+					score: this._config.scores.veryBad,
+					resultText: i18n.sprintf(
+						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+						i18n.dgettext(
+							"js-text-analysis",
+							"%1$sKeyphrase length%3$s: " +
+							"%2$sSet a keyphrase in order to calculate your SEO score%3$s."
+						),
+						this._config.urlTitle,
+						this._config.urlCallToAction,
+						"</a>"
+					),
+				};
+			}
 			return {
 				score: this._config.scores.veryBad,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. " +
+						"%2$sSet a keyphrase in order to calculate your SEO score%3$s."
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+
+		if ( inRange( this._keyphraseLength, this._config.parameters.recommendedMinimum, this._config.parameters.recommendedMaximum + 1 ) ) {
+			return {
+				score: this._config.scores.good,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"No %1$sfocus keyword%2$s was set for this page. If you do not set a focus keyword, no score can be calculated."
+						"%1$sKeyphrase length%2$s: Good job!"
 					),
-					this._config.urlNoOrGoodKeyword,
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
 		}
 
-
-		if ( this._keyphraseLength > this._config.parameters.acceptableMaximum ) {
+		if ( inRange( this._keyphraseLength, this._config.parameters.recommendedMaximum + 1, this._config.parameters.acceptableMaximum + 1 ) ) {
 			return {
-				score: this._config.scores.consideration,
+				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					/* Translators:
+					%1$d expands to the number of words in the keyphrase,
+					%2$d expands to the recommended maximum of words in the keyphrase,
+					%3$s and %4$s expand to links on yoast.com,
+					%5$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The %1$skeyphrase%2$s is over 10 words, a keyphrase should be shorter."
+						"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's more than the recommended maximum of %2$d words. " +
+							"%4$sMake it shorter%5$s!"
 					),
-					this._config.urlKeyphraseTooLong,
+					this._keyphraseLength,
+					this._config.parameters.recommendedMaximum,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
 		}
+
+		return {
+			score: this._config.scores.bad,
+			resultText: i18n.sprintf(
+				/* Translators:
+				%1$d expands to the number of words in the keyphrase,
+				%2$d expands to the recommended maximum of words in the keyphrase,
+				%3$s and %4$s expand to links on yoast.com,
+				%5$s expands to the anchor end tag. */
+				i18n.dgettext(
+					"js-text-analysis",
+					"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's way more than the recommended maximum of %2$d words. " +
+					"%4$sMake it shorter%5$s!"
+				),
+				this._keyphraseLength,
+				this._config.parameters.recommendedMaximum,
+				this._config.urlTitle,
+				this._config.urlCallToAction,
+				"</a>"
+			),
+		};
 	}
 }
 

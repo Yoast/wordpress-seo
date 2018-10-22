@@ -1,13 +1,14 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import formatNumber from "../../helpers/formatNumber.js";
-import { inRangeEndInclusive as inRange } from "../../helpers/inRange.js";
-import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
-import Mark from "../../values/Mark.js";
-import marker from "../../markers/addMark.js";
-
 import { map } from "lodash-es";
 
-import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
+import formatNumber from "../../helpers/formatNumber";
+import getLanguageAvailability from "../../helpers/getLanguageAvailability";
+import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
+import marker from "../../markers/addMark";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
+
 const availableLanguages = [ "en", "de", "fr", "es", "ru", "it", "nl", "pl" ];
 
 /**
@@ -20,7 +21,8 @@ let calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	let score;
 	let percentage = 0;
 	let recommendedValue = 10;
-	let passiveVoiceURL = "<a href='https://yoa.st/passive-voice' target='_blank'>";
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/34t" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/34u" );
 	let hasMarks;
 
 	// Prevent division by zero errors.
@@ -50,17 +52,12 @@ let calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 			score: score,
 			hasMarks: hasMarks,
 			text: i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 				i18n.dgettext(
 					"js-text-analysis",
-
-					// Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
-					// %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-					"%1$s of the sentences contain %2$spassive voice%3$s, " +
-						"which is less than or equal to the recommended maximum of %4$s." ),
-				percentage + "%",
-				passiveVoiceURL,
-				"</a>",
-				recommendedValue + "%"
+					"%1$sPassive voice%2$s: You're using enough active voice. That's great!" ),
+				urlTitle,
+				"</a>"
 			),
 		};
 	}
@@ -68,18 +65,19 @@ let calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 		score: score,
 		hasMarks: hasMarks,
 		text: i18n.sprintf(
+			/* Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
+			%3$s expands to the percentage of sentences in passive voice, %4$s expands to the recommended value. */
 			i18n.dgettext(
 				"js-text-analysis",
+				"%1$sPassive voice%2$s: %3$s of the sentences contain passive voice, which is more than the recommended maximum of %4$s. " +
+				"%5$sTry to use their active counterparts%2$s."
 
-				// Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
-				// %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-				"%1$s of the sentences contain %2$spassive voice%3$s, " +
-				"which is more than the recommended maximum of %4$s. Try to use their active counterparts."
 			),
-			percentage + "%",
-			passiveVoiceURL,
+			urlTitle,
 			"</a>",
-			recommendedValue + "%"
+			percentage + "%",
+			recommendedValue + "%",
+			urlCallToAction
 		),
 	};
 };

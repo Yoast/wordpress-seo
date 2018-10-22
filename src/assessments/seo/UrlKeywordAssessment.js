@@ -1,6 +1,7 @@
 import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -22,10 +23,11 @@ class UrlKeywordAssessment extends Assessment {
 
 		const defaultConfig = {
 			scores: {
-				noKeywordInUrl: 6,
+				okay: 6,
 				good: 9,
 			},
-			url: "<a href='https://yoa.st/2pp' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33o" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33p" ),
 		};
 
 		this.identifier = "urlKeyword";
@@ -42,7 +44,7 @@ class UrlKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher, i18n ) {
-		this._totalKeywords = researcher.getResearch( "keywordCountInUrl" );
+		this._keywordInURL = researcher.getResearch( "keywordCountInUrl" );
 
 		const assessmentResult = new AssessmentResult();
 
@@ -72,28 +74,61 @@ class UrlKeywordAssessment extends Assessment {
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
 	calculateResult( i18n ) {
-		if ( this._totalKeywords === 0 ) {
+		if ( this._keywordInURL.keyphraseLength < 3 ) {
+			if ( this._keywordInURL.percentWordMatches === 100 ) {
+				return {
+					score: this._config.scores.good,
+					resultText: i18n.sprintf(
+						/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+						i18n.dgettext(
+							"js-text-analysis",
+							"%1$sKeyphrase in slug%2$s: Great work!"
+						),
+						this._config.urlTitle,
+						"</a>"
+					),
+				};
+			}
+
 			return {
-				score: this._config.scores.noKeywordInUrl,
+				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
-					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The focus keyword does not appear in the %1$sURL%2$s for this page. " +
-						"If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!"
+						"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!"
 					),
-					this._config.url,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
 		}
 
+		if ( this._keywordInURL.percentWordMatches > 50 ) {
+			return {
+				score: this._config.scores.good,
+				resultText: i18n.sprintf(
+					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sKeyphrase in slug%2$s: More than half of your keyphrase appears in the slug. That's great!"
+					),
+					this._config.urlTitle,
+					"</a>"
+				),
+			};
+		}
 		return {
-			score: this._config.scores.good,
+			score: this._config.scores.okay,
 			resultText: i18n.sprintf(
-				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis", "The focus keyword appears in the %1$sURL%2$s for this page." ),
-				this._config.url,
+				/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+				i18n.dgettext(
+					"js-text-analysis",
+					"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!"
+				),
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>"
 			),
 		};

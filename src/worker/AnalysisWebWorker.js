@@ -1,14 +1,6 @@
 // External dependencies.
 import Jed from "jed";
-
-import { forEach } from "lodash-es";
-import { has } from "lodash-es";
-import { merge } from "lodash-es";
-import { pickBy } from "lodash-es";
-import { includes } from "lodash-es";
-import { isUndefined } from "lodash-es";
-import { isString } from "lodash-es";
-import { isObject } from "lodash-es";
+import { forEach, has, merge, pickBy, includes, isNull, isUndefined, isString, isObject } from "lodash-es";
 
 // YoastSEO.js dependencies.
 import * as assessments from "../assessments";
@@ -29,6 +21,7 @@ import Researcher from "../researcher";
 import SnippetPreview from "../snippetPreview";
 import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
+import RelatedKeywordAssessor from "../relatedKeywordAssessor";
 
 const YoastSEO = {
 	Assessor,
@@ -39,6 +32,7 @@ const YoastSEO = {
 	Pluggable,
 	Researcher,
 	SnippetPreview,
+	RelatedKeywordAssessor,
 
 	Paper,
 	AssessmentResult,
@@ -54,13 +48,17 @@ const YoastSEO = {
 
 import CornerstoneContentAssessor from "../cornerstone/contentAssessor";
 import CornerstoneSEOAssessor from "../cornerstone/seoAssessor";
+import CornerstoneRelatedKeywordAssessor from "../cornerstone/relatedKeywordAssessor";
 import InvalidTypeError from "../errors/invalidType";
 
 // Internal dependencies.
 import Scheduler from "./scheduler";
 import Transporter from "./transporter";
+import RelatedKeywordTaxonomyAssessor from "../relatedKeywordTaxonomyAssessor";
+import { configureShortlinker } from "../helpers/shortlinker";
+import includesAny from "../helpers/includesAny";
 
-const largestKeywordDistanceAssessment = new assessments.seo.LargestKeywordDistanceAssessment();
+const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 
 /**
  * Analysis Web Worker.
@@ -95,8 +93,10 @@ export default class AnalysisWebWorker {
 
 		this._i18n = AnalysisWebWorker.createI18n();
 		this._researcher = new Researcher( this._paper );
+
 		this._contentAssessor = null;
 		this._seoAssessor = null;
+		this._relatedKeywordAssessor = null;
 
 		/*
 		 * The cached analyses results.
@@ -159,7 +159,8 @@ export default class AnalysisWebWorker {
 			registerMessageHandler: this.registerMessageHandler,
 			refreshAssessment: this.refreshAssessment,
 		};
-		this._scope.yoast = { analysis: YoastSEO };
+		this._scope.yoast = this._scope.yoast || {};
+		this._scope.yoast.analysis = YoastSEO;
 	}
 
 	/**
@@ -317,13 +318,51 @@ export default class AnalysisWebWorker {
 			assessor = new TaxonomyAssessor( this._i18n );
 		} else {
 			assessor = useCornerstone === true
-				? new CornerstoneSEOAssessor( this._i18n, { locale } )
-				: new SEOAssessor( this._i18n, { locale } );
+				? new CornerstoneSEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
+				: new SEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
 		}
 
 
-		if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "largestKeywordDistance" ) ) ) {
-			assessor.addAssessment( "largestKeywordDistance", largestKeywordDistanceAssessment );
+		if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "keyphraseDistribution" ) ) ) {
+			assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
+		}
+
+		this._registeredAssessments.forEach( ( { name, assessment } ) => {
+			if ( isUndefined( assessor.getAssessment( name ) ) ) {
+				assessor.addAssessment( name, assessment );
+			}
+		} );
+
+		return assessor;
+	}
+
+	/**
+	 * Initializes the appropriate SEO assessor for related keywords.
+	 *
+	 * @returns {null|SEOAssessor|CornerstoneSEOAssessor|TaxonomyAssessor} The chosen
+	 *                                                                     related keywords
+	 *                                                                     assessor.
+	 */
+	createRelatedKeywordsAssessor() {
+		const {
+			keywordAnalysisActive,
+			useCornerstone,
+			useTaxonomy,
+			locale,
+		} = this._configuration;
+
+		if ( keywordAnalysisActive === false ) {
+			return null;
+		}
+
+		let assessor;
+
+		if ( useTaxonomy === true ) {
+			assessor = new RelatedKeywordTaxonomyAssessor( this._i18n );
+		} else {
+			assessor = useCornerstone === true
+				? new CornerstoneRelatedKeywordAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
+				: new RelatedKeywordAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
 		}
 
 		this._registeredAssessments.forEach( ( { name, assessment } ) => {
@@ -360,6 +399,26 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
+	 * Checks which assessors should update giving a configuration.
+	 *
+	 * @param {Object}   configuration          The configuration to check.
+	 * @param {Assessor} [contentAssessor=null] The content assessor.
+	 * @param {Assessor} [seoAssessor=null]     The SEO assessor.
+	 *
+	 * @returns {Object} Containing seo and readability with true or false.
+	 */
+	static shouldAssessorsUpdate( configuration, contentAssessor = null, seoAssessor = null ) {
+		const readability = [ "contentAnalysisActive", "useCornerstone", "locale", "translations" ];
+		const seo = [ "keywordAnalysisActive", "useCornerstone", "useTaxonomy", "useKeywordDistribution", "locale", "translations", "researchData" ];
+		const configurationKeys = Object.keys( configuration );
+
+		return {
+			readability: isNull( contentAssessor ) || includesAny( configurationKeys, readability ),
+			seo: isNull( seoAssessor ) || includesAny( configurationKeys, seo ),
+		};
+	}
+
+	/**
 	 * Configures the analysis worker.
 	 *
 	 * @param {number}  id                                     The request id.
@@ -368,46 +427,32 @@ export default class AnalysisWebWorker {
 	 * @param {boolean} [configuration.keywordAnalysisActive]  Whether the keyword analysis is active.
 	 * @param {boolean} [configuration.useCornerstone]         Whether the paper is cornerstone or not.
 	 * @param {boolean} [configuration.useTaxonomy]            Whether the taxonomy assessor should be used.
-	 * @param {boolean} [configuration.useKeywordDistribution] Whether the largestKeywordDistance assessment should run.
+	 * @param {boolean} [configuration.useKeywordDistribution] Whether the keyphraseDistribution assessment should run.
 	 * @param {string}  [configuration.locale]                 The locale used in the seo assessor.
 	 * @param {Object}  [configuration.translations]           The translation strings.
+	 * @param {Object}  [configuration.researchData]           Extra research data.
+	 * @param {Object}  [configuration.defaultQueryParams]     The default query params for the Shortlinker.
 	 *
 	 * @returns {void}
 	 */
 	initialize( id, configuration ) {
-		const update = {
-			readability: this._contentAssessor === null,
-			seo: this._seoAssessor === null,
-		};
+		const update = AnalysisWebWorker.shouldAssessorsUpdate( configuration, this._contentAssessor, this._seoAssessor );
 
-		if ( has( configuration, "contentAnalysisActive" ) ) {
-			update.readability = true;
-		}
-		if ( has( configuration, "keywordAnalysisActive" ) ) {
-			update.seo = true;
-		}
-
-		if ( has( configuration, "useCornerstone" ) ) {
-			update.readability = true;
-			update.seo = true;
-		}
-		if ( has( configuration, "useTaxonomy" ) ) {
-			update.seo = true;
-		}
-		if ( has( configuration, "useKeywordDistribution" ) ) {
-			update.seo = true;
-		}
-
-		if ( has( configuration, "locale" ) ) {
-			update.readability = true;
-			update.seo = true;
-		}
 		if ( has( configuration, "translations" ) ) {
 			this._i18n = AnalysisWebWorker.createI18n( configuration.translations );
-			// No need to actually save these in the configuration.
 			delete configuration.translations;
-			update.readability = true;
-			update.seo = true;
+		}
+
+		if ( has( configuration, "researchData" ) ) {
+			forEach( configuration.researchData, ( data, research ) => {
+				this._researcher.addResearchData( research, data );
+			} );
+			delete configuration.researchData;
+		}
+
+		if ( has( configuration, "defaultQueryParams" ) ) {
+			configureShortlinker( { params: configuration.defaultQueryParams } );
+			delete configuration.defaultQueryParams;
 		}
 
 		this._configuration = merge( this._configuration, configuration );
@@ -417,6 +462,7 @@ export default class AnalysisWebWorker {
 		}
 		if ( update.seo ) {
 			this._seoAssessor = this.createSEOAssessor();
+			this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
 		}
 
 		// Reset the paper in order to not use the cached results on analyze.
@@ -637,11 +683,12 @@ export default class AnalysisWebWorker {
 					keyword: this._relatedKeywords[ key ].keyword,
 					synonyms: this._relatedKeywords[ key ].synonyms,
 				} );
-				this._seoAssessor.assess( relatedPaper );
+
+				this._relatedKeywordAssessor.assess( relatedPaper );
 
 				this._results.seo[ key ] = {
-					results: this._seoAssessor.results,
-					score: this._seoAssessor.calculateOverallScore(),
+					results: this._relatedKeywordAssessor.results,
+					score: this._relatedKeywordAssessor.calculateOverallScore(),
 				};
 			} );
 

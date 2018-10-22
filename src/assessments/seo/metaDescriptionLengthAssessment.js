@@ -1,9 +1,8 @@
 import { merge } from "lodash-es";
-
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
-
+import Assessment from "../../assessment";
 import Config from "../../config/config";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import AssessmentResult from "../../values/AssessmentResult";
 
 const maximumMetaDescriptionLength = Config.maxMeta;
 
@@ -30,6 +29,8 @@ class MetaDescriptionLengthAssessment extends Assessment {
 				tooShort: 6,
 				correctLength: 9,
 			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34d" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34e" ),
 		};
 
 		this.identifier = "metaDescriptionLength";
@@ -104,26 +105,26 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( descriptionLength, i18n ) {
-		const url = "<a href='https://yoa.st/2pg' target='_blank'>";
-
 		if ( descriptionLength === 0 ) {
 			return i18n.sprintf(
-				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis", "No %1$smeta description%2$s has been specified. " +
-				"Search engines will display copy from the page instead." ),
-				url,
+				/* Translators:  %1$s and %2$s expand to a links on yoast.com, %3$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "%1$sMeta description length%3$s:  No meta description has been specified. " +
+					"Search engines will display copy from the page instead. %2$sMake sure to write one%3$s!" ),
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>"
 			);
 		}
 
 		if ( descriptionLength <= this._config.recommendedMaximumLength ) {
 			return i18n.sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
-				%3$d expands to the number of characters in the meta description, %4$d expands to
+				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
+				%4$d expands to the number of characters in the meta description, %5$d expands to
 				the total available number of characters in the meta description */
-				i18n.dgettext( "js-text-analysis", "The %1$smeta description%2$s is under %3$d characters long. " +
-				"However, up to %4$d characters are available." ),
-				url,
+				i18n.dgettext( "js-text-analysis", "%1$sMeta description length%3$s: The meta description is too short (under %4$d characters). " +
+				"Up to %5$d characters are available. %2$sUse the space%3$s!" ),
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>",
 				this._config.recommendedMaximumLength,
 				this._config.maximumLength
@@ -132,11 +133,12 @@ class MetaDescriptionLengthAssessment extends Assessment {
 
 		if ( descriptionLength > this._config.maximumLength ) {
 			return i18n.sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
-				%3$d expands to	the total available number of characters in the meta description */
-				i18n.dgettext( "js-text-analysis", "The %1$smeta description%2$s is over %3$d characters. " +
-				"Reducing the length will ensure the entire description will be visible." ),
-				url,
+				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
+				%4$d expands to	the total available number of characters in the meta description */
+				i18n.dgettext( "js-text-analysis", "%1$sMeta description length%3$s: The meta description is over %4$d characters. " +
+				"To ensure the entire description will be visible, %2$syou should reduce the length%3$s!" ),
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>",
 				this._config.maximumLength
 			);
@@ -145,8 +147,8 @@ class MetaDescriptionLengthAssessment extends Assessment {
 		if ( descriptionLength >= this._config.recommendedMaximumLength && descriptionLength <= this._config.maximumLength ) {
 			return i18n.sprintf(
 				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis", "The %1$smeta description%2$s has a nice length." ),
-				url,
+				i18n.dgettext( "js-text-analysis", "%1$sMeta description length%2$s: Well done!" ),
+				this._config.urlTitle,
 				"</a>"
 			);
 		}

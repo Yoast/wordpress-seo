@@ -196,7 +196,7 @@ Paper.prototype.getPermalink = function() {
 	return this._attributes.permalink;
 };
 
-/**
+/*
  * Serializes the Paper instance to an object.
  *
  * @returns {Object} The serialized Paper.

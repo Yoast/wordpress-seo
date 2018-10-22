@@ -1,15 +1,14 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
-import isTextTooLong from "../../helpers/isValueTooLong";
-import { getSubheadings } from "../../stringProcessing/getSubheadings.js";
-import getWords from "../../stringProcessing/getWords.js";
-import { filter } from "lodash-es";
-import { map } from "lodash-es";
-import { merge } from "lodash-es";
+import { filter, map, merge } from "lodash-es";
 
-import Mark from "../../values/Mark.js";
-import marker from "../../markers/addMark.js";
-import { inRangeEndInclusive as inRange } from "../../helpers/inRange.js";
+import Assessment from "../../assessment";
+import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
+import isTextTooLong from "../../helpers/isValueTooLong";
+import marker from "../../markers/addMark";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import { getSubheadings } from "../../stringProcessing/getSubheadings";
+import getWords from "../../stringProcessing/getWords";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
 
 /**
  * Represents the assessment for calculating the text after each subheading.
@@ -31,7 +30,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 				slightlyTooMany: 300,
 				farTooMany: 350,
 			},
-			url: "<a href='https://yoa.st/headings' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34x" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34y" ),
 			scores: {
 				goodShortTextNoSubheadings: 9,
 				goodSubheadings: 9,
@@ -151,9 +151,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 							// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
 							i18n.dgettext(
 								"js-text-analysis",
-								"Great job with using %1$ssubheadings%2$s!"
+								"%1$sSubheading distribution%2$s: Great job!"
 							),
-							this._config.url,
+							this._config.urlTitle,
 							"</a>"
 						),
 					};
@@ -165,21 +165,22 @@ class SubheadingsDistributionTooLong extends Assessment {
 						score: this._config.scores.okSubheadings,
 						resultText: i18n.sprintf(
 							/*
-							 * Translators: %1$d expands to the number of subheadings, %2$d expands to the recommended number
-							 * of words following a subheading, %3$s expands to a link to https://yoa.st/headings,
-							 * %4$s expands to the link closing tag.
+							 * Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
+							 * not separated by subheadings, %4$d expands to the recommended number of words following a
+							 * subheading, %2$s expands to the link closing tag.
 							 */
 							i18n.dngettext(
 								"js-text-analysis",
-								"%1$d section of your text is longer than %2$d words and is not separated by any subheadings. " +
-								"Add %3$ssubheadings%4$s to improve readability.",
-								"%1$d sections of your text are longer than %2$d words and are not separated by any subheadings. " +
-								"Add %3$ssubheadings%4$s to improve readability.",
+								"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d words and" +
+								" is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+								"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d words " +
+								"and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 								this._tooLongTextsNumber ),
+							this._config.urlTitle,
+							"</a>",
 							this._tooLongTextsNumber,
 							this._config.parameters.recommendedMaximumWordCount,
-							this._config.url,
-							"</a>"
+							this._config.urlCallToAction,
 						),
 					};
 				}
@@ -188,22 +189,21 @@ class SubheadingsDistributionTooLong extends Assessment {
 				return {
 					score: this._config.scores.badSubheadings,
 					resultText: i18n.sprintf(
-						/*
-						 * Translators: %1$d expands to the number of subheadings, %2$d expands to the recommended number
-						 * of words following a subheading, %3$s expands to a link to https://yoa.st/headings,
-						 * %4$s expands to the link closing tag.
-						 */
+						/* Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
+						not separated by subheadings, %4$d expands to the recommended number of words following a
+						subheading, %2$s expands to the link closing tag. */
 						i18n.dngettext(
 							"js-text-analysis",
-							"%1$d section of your text is longer than %2$d words and is not separated by any subheadings. " +
-							"Add %3$ssubheadings%4$s to improve readability.",
-							"%1$d sections of your text are longer than %2$d words and are not separated by any subheadings. " +
-							"Add %3$ssubheadings%4$s to improve readability.",
+							"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d words and" +
+							" is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+							"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d words " +
+							"and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 							this._tooLongTextsNumber ),
+						this._config.urlTitle,
+						"</a>",
 						this._tooLongTextsNumber,
 						this._config.parameters.recommendedMaximumWordCount,
-						this._config.url,
-						"</a>"
+						this._config.urlCallToAction,
 					),
 				};
 			}
@@ -211,14 +211,15 @@ class SubheadingsDistributionTooLong extends Assessment {
 			return {
 				score: this._config.scores.badLongTextNoSubheadings,
 				resultText: i18n.sprintf(
-					// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+					/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"You are not using any subheadings, although your text is rather long. " +
-						"Try and add  some %1$ssubheadings%2$s."
+						"%1$sSubheading distribution%2$s: You are not using any subheadings, although your text is rather long." +
+						" %3$sTry and add some subheadings%2$s."
 					),
-					this._config.url,
-					"</a>"
+					this._config.urlTitle,
+					"</a>",
+					this._config.urlCallToAction
 				),
 			};
 		}
@@ -227,12 +228,12 @@ class SubheadingsDistributionTooLong extends Assessment {
 			return {
 				score: this._config.scores.goodSubheadings,
 				resultText: i18n.sprintf(
-					// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+					/* Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"Great job with using %1$ssubheadings%2$s!"
+						"%1$sSubheading distribution%2$s: Great job!"
 					),
-					this._config.url,
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
@@ -241,12 +242,13 @@ class SubheadingsDistributionTooLong extends Assessment {
 		return {
 			score: this._config.scores.goodShortTextNoSubheadings,
 			resultText: i18n.sprintf(
-				// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+				/* Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 				i18n.dgettext(
 					"js-text-analysis",
-					"You are not using any %1$ssubheadings%2$s, but your text is short enough and probably doesn't need them."
+					"%1$sSubheading distribution%2$s: You are not using any subheadings, but your text is short enough" +
+					" and probably doesn't need them."
 				),
-				this._config.url,
+				this._config.urlTitle,
 				"</a>"
 			),
 		};

@@ -1,11 +1,14 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import formatNumber from "../../helpers/formatNumber.js";
 import { map } from "lodash-es";
-import { inRangeStartInclusive as inRange } from "../../helpers/inRange.js";
+
+import formatNumber from "../../helpers/formatNumber";
+import getLanguageAvailability from "../../helpers/getLanguageAvailability";
+import { inRangeStartInclusive as inRange } from "../../helpers/inRange";
+import marker from "../../markers/addMark";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
-import Mark from "../../values/Mark.js";
-import marker from "../../markers/addMark.js";
-import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
+
 let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca", "pl" ];
 
 /**
@@ -24,6 +27,29 @@ let calculateTransitionWordPercentage = function( sentences ) {
 };
 
 /**
+ * Calculates the score for the assessment based on the percentage of sentences containing transition words.
+ *
+ * @param {number} percentage The percentage of sentences containing transition words.
+ * @returns {number} The score.
+ */
+const calculateScoreFromPercentage = function( percentage ) {
+	if ( percentage < 20 ) {
+		// Red indicator.
+		return 3;
+	}
+
+	if ( inRange( percentage, 20, 30 ) ) {
+		// Orange indicator.
+		return 6;
+	}
+
+	if ( percentage >= 30 ) {
+		// Green indicator.
+		return 9;
+	}
+};
+
+/**
  * Calculates transition word result
  * @param {object} transitionWordSentences The object containing the total number of sentences and the number of sentences containing
  * a transition word.
@@ -31,52 +57,54 @@ let calculateTransitionWordPercentage = function( sentences ) {
  * @returns {object} Object containing score and text.
  */
 let calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
-	let score;
 	let percentage = calculateTransitionWordPercentage( transitionWordSentences );
+	let score = calculateScoreFromPercentage( percentage );
 	let hasMarks   = ( percentage > 0 );
-	let transitionWordsURL = "<a href='https://yoa.st/transition-words' target='_blank'>";
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/34z" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35a" );
 
-	if ( percentage < 20 ) {
-		// Red indicator.
-		score = 3;
-	}
-
-	if ( inRange( percentage, 20, 30 ) ) {
-		// Orange indicator.
-		score = 6;
-	}
-
-	if ( percentage >= 30 ) {
-		// Green indicator.
-		score = 9;
-	}
-
-	if ( score < 7 ) {
-		let recommendedMinimum = 30;
+	if ( score < 7 && percentage === 0 ) {
 		return {
 			score: formatNumber( score ),
 			hasMarks: hasMarks,
 			text: i18n.sprintf(
+				/* Translators: %1$s and %3$s expand to a link to yoast.com, %2$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis",
+					"%1$sTransition words%2$s: None of the sentences contain transition words. %3$sUse some%2$s."
+				),
+				urlTitle,
+				"</a>",
+				urlCallToAction ),
+		};
+	}
 
-					// Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
-					// %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-					"%1$s of the sentences contain a %2$stransition word%3$s or phrase, " +
-					"which is less than the recommended minimum of %4$s."
-				), percentage + "%", transitionWordsURL, "</a>", recommendedMinimum + "%" ),
+	if ( score < 7 ) {
+		return {
+			score: formatNumber( score ),
+			hasMarks: hasMarks,
+			text: i18n.sprintf(
+				/* Translators: %1$s and %4$s expand to a link to yoast.com, %2$s expands to the anchor end tag,
+				%3$s expands to the percentage of sentences containing transition words */
+				i18n.dgettext( "js-text-analysis",
+					"%1$sTransition words%2$s: Only %3$s of the sentences contain transition words, which is not enough. %4$sUse more of them%2$s."
+				),
+				urlTitle,
+				"</a>",
+				percentage + "%",
+				urlCallToAction ),
 		};
 	}
 
 	return {
 		score: formatNumber( score ),
 		hasMarks: hasMarks,
-		text: i18n.sprintf( i18n.dgettext( "js-text-analysis",
-
-			// Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
-			// %3$s expands to the anchor end tag.
-			"%1$s of the sentences contain a %2$stransition word%3$s or phrase, " +
-			"which is great."
-		), percentage + "%", transitionWordsURL, "</a>" ),
+		text: i18n.sprintf(
+			/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+			i18n.dgettext( "js-text-analysis",
+				"%1$sTransition words%2$s: Well done!"
+			),
+			urlTitle,
+			"</a>" ),
 	};
 };
 

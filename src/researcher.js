@@ -40,7 +40,11 @@ import relevantWords from "./researches/relevantWords";
 import readingTime from "./researches/readingTime";
 import getTopicDensity from "./researches/getTopicDensity";
 import topicCount from "./researches/topicCount";
-import largestKeywordDistance from "./researches/largestKeywordDistance";
+import { keyphraseDistributionResearcher } from "./researches/keyphraseDistribution";
+const keyphraseDistribution = keyphraseDistributionResearcher;
+import { research } from "./researches/buildKeywordForms";
+const morphology = research;
+import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
 
 /**
  * This contains all possible, default researches.
@@ -85,8 +89,12 @@ var Researcher = function( paper ) {
 		getTopicDensity: getTopicDensity,
 		topicCount: topicCount,
 		sentences,
-		largestKeywordDistance: largestKeywordDistance,
+		keyphraseDistribution: keyphraseDistribution,
+		morphology: morphology,
+		functionWordsInKeyphrase: functionWordsInKeyphrase,
 	};
+
+	this._data = {};
 
 	this.customResearches = {};
 };
@@ -122,7 +130,7 @@ Researcher.prototype.addResearch = function( name, research ) {
 };
 
 /**
- * Check wheter or not the research is known by the Researcher.
+ * Check whether or not the research is known by the Researcher.
  * @param {string} name The name to reference the research by.
  * @returns {boolean} Whether or not the research is known by the Researcher
  */
@@ -144,6 +152,7 @@ Researcher.prototype.getAvailableResearches = function() {
 /**
  * Return the Research by name.
  * @param {string} name The name to reference the research by.
+ *
  * @returns {*} Returns the result of the research or false if research does not exist.
  * @throws {MissingArgument} Research name cannot be empty.
  */
@@ -157,6 +166,33 @@ Researcher.prototype.getResearch = function( name ) {
 	}
 
 	return this.getAvailableResearches()[ name ]( this.paper, this );
+};
+
+/**
+ * Add research data to the researcher by the research name.
+ *
+ * @param {string} research The identifier of the research.
+ * @param {Object} data     The data object.
+ *
+ * @returns {void}.
+ */
+Researcher.prototype.addResearchData = function( research, data ) {
+	this._data[ research ] = data;
+};
+
+/**
+ * Return the research data from a research data provider by research name.
+ *
+ * @param {string} research The identifier of the research.
+ *
+ * @returns {*} The data provided by the provider, false if the data do not exist
+ */
+Researcher.prototype.getData = function( research ) {
+	if ( this._data.hasOwnProperty( research ) ) {
+		return this._data[ research ];
+	}
+
+	return false;
 };
 
 export default Researcher;

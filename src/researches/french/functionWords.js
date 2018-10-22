@@ -265,6 +265,6 @@ export default function() {
 			prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive,
 			transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections,
 			generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords,
-			titlesPreceding, titlesFollowing ),
+			titlesPreceding, titlesFollowing, personalPronounsStressed ),
 	};
 }

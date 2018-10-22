@@ -1,31 +1,30 @@
 /** @module researches/imageAltTags */
 
 import imageInText from "../stringProcessing/imageInText";
-
 import imageAlttag from "../stringProcessing/getAlttagContent";
-import wordMatch from "../stringProcessing/matchTextWithWord";
+import { findTopicFormsInString } from "../researches/findKeywordFormsInString";
 
-import { escapeRegExp } from "lodash-es";
+import { isEmpty } from "lodash-es";
 
 /**
  * Matches the alt-tags in the images found in the text.
  * Returns an object with the totals and different alt-tags.
  *
  * @param {Array} imageMatches Array with all the matched images in the text
- * @param {string} keyword the keyword to check for.
+ * @param {Object} topicForms The object with the keyphrase and the synonyms forms from the paper.
  * @param {string} locale The locale used for transliteration.
  * @returns {object} altProperties Object with all alt-tags that were found.
  */
-var matchAltProperties = function( imageMatches, keyword, locale ) {
-	var altProperties = {
+const matchAltProperties = function( imageMatches, topicForms, locale ) {
+	let altProperties = {
 		noAlt: 0,
 		withAlt: 0,
 		withAltKeyword: 0,
 		withAltNonKeyword: 0,
 	};
 
-	for ( var i = 0; i < imageMatches.length; i++ ) {
-		var alttag = imageAlttag( imageMatches[ i ] );
+	for ( let i = 0; i < imageMatches.length; i++ ) {
+		const alttag = imageAlttag( imageMatches[ i ] );
 
 		// If no alt-tag is set
 		if ( alttag === "" ) {
@@ -34,18 +33,20 @@ var matchAltProperties = function( imageMatches, keyword, locale ) {
 		}
 
 		// If no keyword is set, but the alt-tag is
-		if ( keyword === "" && alttag !== "" ) {
+		if ( isEmpty( topicForms.keyphraseForms ) && alttag !== "" ) {
 			altProperties.withAlt++;
 			continue;
 		}
 
-		if ( wordMatch( alttag, keyword, locale ).count === 0 && alttag !== "" ) {
+		const keywordMatchedInAltTag = findTopicFormsInString( topicForms, alttag, true, locale );
+
+		if ( keywordMatchedInAltTag.countWordMatches === 0 && alttag !== "" ) {
 			// Match for keywords?
 			altProperties.withAltNonKeyword++;
 			continue;
 		}
 
-		if ( wordMatch( alttag, keyword, locale ).count > 0 ) {
+		if ( keywordMatchedInAltTag.countWordMatches > 0 ) {
 			altProperties.withAltKeyword++;
 			continue;
 		}
@@ -57,10 +58,13 @@ var matchAltProperties = function( imageMatches, keyword, locale ) {
 /**
  * Checks the text for images, checks the type of each image and alt attributes for containing keywords
  *
- * @param {Paper} paper The paper to check for images
+ * @param {Paper} paper The paper to check for images.
+ * @param {Researcher} researcher The researcher to use for analysis.
+ *
  * @returns {object} Object containing all types of found images
  */
-export default function( paper ) {
-	var keyword = escapeRegExp( paper.getKeyword().toLocaleLowerCase() );
-	return matchAltProperties( imageInText( paper.getText() ), keyword, paper.getLocale() );
+export default function( paper, researcher ) {
+	const topicForms = researcher.getResearch( "morphology" );
+
+	return matchAltProperties( imageInText( paper.getText() ), topicForms, paper.getLocale() );
 }

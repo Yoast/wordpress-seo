@@ -1,24 +1,89 @@
 /** @module analyses/findKeywordInFirstParagraph */
 
 import matchParagraphs from "../stringProcessing/matchParagraphs.js";
+import getSentences from "../stringProcessing/getSentences.js";
+import { findTopicFormsInString } from "./findKeywordFormsInString.js";
+import imageInText from "../stringProcessing/imageInText";
 
-import wordMatch from "../stringProcessing/matchTextWithWord.js";
-
-import { escapeRegExp } from "lodash-es";
 import { reject } from "lodash-es";
 import { isEmpty } from "lodash-es";
 
 /**
- * Counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
- * if there is no paragraph tag or 0 hits, it checks for 2 newlines, otherwise returns the keyword
- * count of the complete text.
+ * Checks if the paragraph consists only of images.
+ *
+ * @param {string} text The text string to analyze.
+ *
+ * @returns {boolean} True if the text consists only of images, false otherwise.
+ */
+function paragraphConsistsOfImagesOnly( text ) {
+	const images = imageInText( text );
+	if ( images.length < 1 ) {
+		return false;
+	}
+
+	images.forEach( function( image ) {
+		text = text.replace( image, "" );
+	} );
+
+	return text === "";
+}
+
+/**
+ * Checks if the introductory paragraph contains keyphrase or synonyms.
+ * First splits the first paragraph by sentences. Finds the first paragraph which contains sentences e.g., not an image).
+ * (1) Tries to find all (content) words from the keyphrase or a synonym phrase within one sentence.
+ * If found all words within one sentence, returns an object with foundInOneSentence = true and keyphraseOrSynonym = "keyphrase"
+ * or "synonym".
+ * If it did not find all words within one sentence, goes ahead with matching the keyphrase with the entire first paragraph.
+ * (2) Tries to find all (content) words from the keyphrase or a synonym phrase within the paragraph.
+ * If found all words within the paragraph, returns an object with foundInOneSentence = false, foundInParagraph = true,
+ * and keyphraseOrSynonym = "keyphrase" or "synonym".
+ * If found not all words within the paragraph of nothing at all, returns an object with foundInOneSentence = false,
+ * foundInParagraph = false, and keyphraseOrSynonym = "".
  *
  * @param {Paper} paper The text to check for paragraphs.
- * @returns {number} The number of occurrences of the keyword in the first paragraph.
+ * @param {Researcher} researcher The researcher to use for analysis.
+ *
+ * @returns {Object} Whether the keyphrase words were found in one sentence, whether the keyphrase words were found in
+ * the paragraph, whether a keyphrase or a synonym phrase was matched.
  */
-export default function( paper ) {
-	const paragraphs = matchParagraphs( paper.getText() );
-	const keyword = escapeRegExp( paper.getKeyword() );
-	const paragraph = reject( paragraphs, isEmpty )[ 0 ] || "";
-	return wordMatch( paragraph, keyword, paper.getLocale() ).count;
+export default function( paper, researcher ) {
+	const topicForms = researcher.getResearch( "morphology" );
+	const locale = paper.getLocale();
+
+	let paragraphs = matchParagraphs( paper.getText() );
+	paragraphs = reject( paragraphs, isEmpty );
+
+	paragraphs = reject( paragraphs, paragraphConsistsOfImagesOnly )[ 0 ] || "";
+
+	const result = {
+		foundInOneSentence: false,
+		foundInParagraph: false,
+		keyphraseOrSynonym: "",
+	};
+
+	const sentences = getSentences( paragraphs );
+	// Use both keyphrase and synonyms to match topic words in the first paragraph.
+	const useSynonyms = true;
+
+	if ( ! isEmpty( sentences ) ) {
+		sentences.forEach( function( sentence ) {
+			const resultSentence = findTopicFormsInString( topicForms, sentence, useSynonyms, locale );
+			if ( resultSentence.percentWordMatches === 100 ) {
+				result.foundInOneSentence = true;
+				result.foundInParagraph = true;
+				result.keyphraseOrSynonym = resultSentence.keyphraseOrSynonym;
+				return result;
+			}
+		} );
+
+		const resultParagraph = findTopicFormsInString( topicForms, paragraphs, useSynonyms, locale );
+		if ( resultParagraph.percentWordMatches === 100 ) {
+			result.foundInParagraph = true;
+			result.keyphraseOrSynonym = resultParagraph.keyphraseOrSynonym;
+			return result;
+		}
+	}
+
+	return result;
 }

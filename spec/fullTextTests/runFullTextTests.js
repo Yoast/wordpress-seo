@@ -1,12 +1,13 @@
 import contentConfiguration from "../../src/config/content/combinedConfig";
-import factory from "../helpers/factory.js";
+import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
+import morphologyData from "../../premium-configuration/data/morphologyData.json";
+import Researcher from "../../src/researcher";
 
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../src/assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../../src/assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from  "../../src/assessments/seo/KeywordDensityAssessment";
-import keywordStopWordsAssessment from "../../src/assessments/seo/keywordStopWordsAssessment";
 import MetaDescriptionKeywordAssessment from "../../src/assessments/seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "../../src/assessments/seo/metaDescriptionLengthAssessment";
 import SubheadingsKeywordAssessment from "../../src/assessments/seo/subheadingsKeywordAssessment";
@@ -20,11 +21,10 @@ import TitleWidthAssessment from "../../src/assessments/seo/pageTitleWidthAssess
 import UrlKeywordAssessment from "../../src/assessments/seo/UrlKeywordAssessment";
 import UrlLengthAssessment from "../../src/assessments/seo/urlLengthAssessment";
 import urlStopWordsAssessment from "../../src/assessments/seo/urlStopWordsAssessment";
-import LargestKeywordDistanceAssessment from "../../src/assessments/seo/LargestKeywordDistanceAssessment";
+import KeyphraseDistributionAssessment from "../../src/assessments/seo/KeyphraseDistributionAssessment";
 
 // Import content assessments
 import FleschReadingAssessment from "../../src/assessments/readability/fleschReadingEaseAssessment";
-
 import SubheadingDistributionTooLongAssessment from "../../src/assessments/readability/subheadingDistributionTooLongAssessment";
 import paragraphTooLongAssessment from "../../src/assessments/readability/paragraphTooLongAssessment";
 import SentenceLengthInTextAssessment from "../../src/assessments/readability/sentenceLengthInTextAssessment";
@@ -35,11 +35,9 @@ import sentenceBeginningsAssessment from "../../src/assessments/readability/sent
 
 // Import researches
 import findKeywordInFirstParagraph from "../../src/researches/findKeywordInFirstParagraph.js";
-
 import keyphraseLength from "../../src/researches/keyphraseLength";
 import keywordCount from "../../src/researches/keywordCount";
 import getKeywordDensity from "../../src/researches/getKeywordDensity.js";
-import stopWordsInKeyword from "../../src/researches/stopWordsInKeyword";
 import metaDescriptionKeyword from "../../src/researches/metaDescriptionKeyword.js";
 import metaDescriptionLength from "../../src/researches/metaDescriptionLength.js";
 import matchKeywordInSubheadings from "../../src/researches/matchKeywordInSubheadings.js";
@@ -52,7 +50,8 @@ import pageTitleWidth from "../../src/researches/pageTitleWidth.js";
 import keywordCountInUrl from "../../src/researches/keywordCountInUrl";
 import urlLength from "../../src/researches/urlIsTooLong.js";
 import stopWordsInUrl from "../../src/researches/stopWordsInUrl";
-import largestKeywordDistance from "../../src/researches/largestKeywordDistance";
+import { keyphraseDistributionResearcher } from "../../src/researches/keyphraseDistribution";
+const keyphraseDistribution = keyphraseDistributionResearcher;
 import calculateFleschReading from "../../src/researches/calculateFleschReading.js";
 import getSubheadingTextLengths from "../../src/researches/getSubheadingTextLengths.js";
 import getParagraphLength from "../../src/researches/getParagraphLength.js";
@@ -68,6 +67,9 @@ import testPapers from "./testTexts";
 testPapers.forEach( function( testPaper ) {
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
 		const locale = paper.getLocale();
 		const expectedResults = testPaper.expectedResults;
 		let result = {};
@@ -76,7 +78,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {
 			result.introductionKeyword = new IntroductionKeywordAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( findKeywordInFirstParagraph( paper ) ),
+				factory.buildMockResearcher( findKeywordInFirstParagraph( paper, researcher ) ),
 				i18n
 			);
 			expect( result.introductionKeyword.getScore() ).toBe( expectedResults.introductionKeyword.score );
@@ -86,7 +88,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the keyphraseLength assessment", function() {
 			result.keyphraseLength = new KeyphraseLengthAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( keyphraseLength( paper ) ),
+				factory.buildMockResearcher( keyphraseLength( paper, researcher ) ),
 				i18n
 			);
 			expect( result.keyphraseLength.getScore() ).toBe( expectedResults.keyphraseLength.score );
@@ -98,11 +100,8 @@ testPapers.forEach( function( testPaper ) {
 				paper,
 				factory.buildMockResearcher(
 					{
-						getKeywordDensity: getKeywordDensity(
-							paper,
-							factory.buildMockResearcher( keywordCount( paper ) )
-						),
-						keywordCount: keywordCount( paper ),
+						getKeywordDensity: getKeywordDensity( paper, researcher ),
+						keywordCount: keywordCount( paper, researcher ),
 					},
 					true
 				),
@@ -112,20 +111,10 @@ testPapers.forEach( function( testPaper ) {
 			expect( result.keywordDensity.getText() ).toBe( expectedResults.keywordDensity.resultText );
 		} );
 
-		it( "returns a score and the associated feedback text for the keywordStopWords assessment", function() {
-			result.keywordStopWords = keywordStopWordsAssessment.getResult(
-				paper,
-				factory.buildMockResearcher( stopWordsInKeyword( paper ) ),
-				i18n
-			);
-			expect( result.keywordStopWords.getScore() ).toBe( expectedResults.keywordStopWords.score );
-			expect( result.keywordStopWords.getText() ).toBe( expectedResults.keywordStopWords.resultText );
-		} );
-
 		it( "returns a score and the associated feedback text for the metaDescriptionKeyword assessment", function() {
 			result.metaDescriptionKeyword = new MetaDescriptionKeywordAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( metaDescriptionKeyword( paper ) ),
+				factory.buildMockResearcher( metaDescriptionKeyword( paper, researcher ) ),
 				i18n
 			);
 			expect( result.metaDescriptionKeyword.getScore() ).toBe( expectedResults.metaDescriptionKeyword.score );
@@ -145,7 +134,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the subheadingsKeyword assessment", function() {
 			result.subheadingsKeyword = new SubheadingsKeywordAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( matchKeywordInSubheadings( paper ) ),
+				factory.buildMockResearcher( matchKeywordInSubheadings( paper, researcher ) ),
 				i18n
 			);
 			expect( result.subheadingsKeyword.getScore() ).toBe( expectedResults.subheadingsKeyword.score );
@@ -155,7 +144,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the textCompetingLinks assessment", function() {
 			result.textCompetingLinks = new TextCompetingLinksAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( getLinkStatistics( paper ) ),
+				factory.buildMockResearcher( getLinkStatistics( paper, researcher ) ),
 				i18n
 			);
 			expect( result.textCompetingLinks.getScore() ).toBe( expectedResults.textCompetingLinks.score );
@@ -168,7 +157,7 @@ testPapers.forEach( function( testPaper ) {
 				factory.buildMockResearcher(
 					{
 						imageCount: imageCount( paper ),
-						altTagCount: altTagCount( paper ),
+						altTagCount: altTagCount( paper, researcher ),
 					},
 					true
 				),
@@ -191,7 +180,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the externalLinks assessment", function() {
 			result.externalLinks = new OutboundLinksAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( getLinkStatistics( paper ) ),
+				factory.buildMockResearcher( getLinkStatistics( paper, researcher ) ),
 				i18n
 			);
 			expect( result.externalLinks.getScore() ).toBe( expectedResults.externalLinks.score );
@@ -201,7 +190,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the internalLinks assessment", function() {
 			result.internalLinks = new InternalLinksAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( getLinkStatistics( paper ) ),
+				factory.buildMockResearcher( getLinkStatistics( paper, researcher ) ),
 				i18n
 			);
 			expect( result.internalLinks.getScore() ).toBe( expectedResults.internalLinks.score );
@@ -211,7 +200,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the titleKeyword assessment", function() {
 			result.titleKeyword = new TitleKeywordAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( findKeywordInPageTitle( paper ) ),
+				factory.buildMockResearcher( findKeywordInPageTitle( paper, researcher ) ),
 				i18n
 			);
 			expect( result.titleKeyword.getScore() ).toBe( expectedResults.titleKeyword.score );
@@ -231,7 +220,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the urlKeyword assessment", function() {
 			result.urlKeyword = new UrlKeywordAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( keywordCountInUrl( paper ) ),
+				factory.buildMockResearcher( keywordCountInUrl( paper, researcher ) ),
 				i18n
 			);
 			expect( result.urlKeyword.getScore() ).toBe( expectedResults.urlKeyword.score );
@@ -258,14 +247,14 @@ testPapers.forEach( function( testPaper ) {
 			expect( result.urlStopWords.getText() ).toBe( expectedResults.urlStopWords.resultText );
 		} );
 
-		it( "returns a score and the associated feedback text for the largestKeywordDistance assessment", function() {
-			result.largestKeywordDistance = new LargestKeywordDistanceAssessment().getResult(
+		it( "returns a score and the associated feedback text for the english keyphraseDistribution assessment", function() {
+			result.keyphraseDistribution = new KeyphraseDistributionAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( largestKeywordDistance( paper ) ),
+				factory.buildMockResearcher( keyphraseDistribution( paper, researcher ) ),
 				i18n
 			);
-			expect( result.largestKeywordDistance.getScore() ).toBe( expectedResults.largestKeywordDistance.score );
-			expect( result.largestKeywordDistance.getText() ).toBe( expectedResults.largestKeywordDistance.resultText );
+			expect( result.keyphraseDistribution.getScore() ).toBe( expectedResults.keyphraseDistribution.score );
+			expect( result.keyphraseDistribution.getText() ).toBe( expectedResults.keyphraseDistribution.resultText );
 		} );
 
 		// Readability assessments.

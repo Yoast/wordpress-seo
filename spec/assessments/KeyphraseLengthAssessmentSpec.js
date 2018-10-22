@@ -1,6 +1,6 @@
 import KeyphraseLengthAssessment from "../../src/assessments/seo/KeyphraseLengthAssessment";
 import Paper from "../../src/values/Paper.js";
-import factory from "../helpers/factory.js";
+import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
 
 describe( "the keyphrase length assessment", function() {
@@ -11,8 +11,20 @@ describe( "the keyphrase length assessment", function() {
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( -999 );
-		expect( result.getText() ).toEqual( "No <a href='https://yoa.st/2pdd' target='_blank'>focus keyword</a> was set for this page. " +
-		   "If you do not set a focus keyword, no score can be calculated." );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"No focus keyphrase was set for this page. " +
+			"<a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
+	} );
+
+	it( "should show a different feedback text when no keyphrase is set for a related keyphrase", function() {
+		const paper = new Paper();
+		const researcher = factory.buildMockResearcher( 0 );
+
+		const result = new KeyphraseLengthAssessment( { isRelatedKeyphrase: true } ).getResult( paper, researcher, i18n );
+
+		expect( result.getScore() ).toEqual( -999 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"<a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
 	} );
 
 	it( "should assess a paper with a keyphrase that's too long as bad", function() {
@@ -21,27 +33,31 @@ describe( "the keyphrase length assessment", function() {
 
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
-		expect( result.getScore() ).toEqual( 0 );
-		expect( result.getText() ).toEqual( "The <a href='https://yoa.st/2pd' target='_blank'>keyphrase</a> is over 10 words, a keyphrase should be shorter." );
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"The keyphrase is 11 words long. That's way more than the recommended maximum of 4 words. " +
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 
-	it( "should not assess a paper with a keyphrase that's the correct length", function() {
+	it( "should assess a paper with a keyphrase that's the correct length", function() {
 		const paper = new Paper( "", { keyword: "keyword" } );
-		const researcher = factory.buildMockResearcher( 10 );
+		const researcher = factory.buildMockResearcher( 3 );
 
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
-		expect( result.getScore() ).toEqual( 0 );
-		expect( result.getText() ).toEqual( "" );
+		expect( result.getScore() ).toEqual( 9 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!" );
 	} );
 
-	it( "should not assess a paper with a keyphrase that's the correct length", function() {
-		const paper = new Paper( "", { keyword: "keyword" } );
-		const researcher = factory.buildMockResearcher( 1 );
+	it( "should assess a paper with a keyphrase that's a little longer than the correct length", function() {
+		const paper = new Paper( "", { keyword: "keyword keyword keyword keyword keyword" } );
+		const researcher = factory.buildMockResearcher( 5 );
 
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
-		expect( result.getScore() ).toEqual( 0 );
-		expect( result.getText() ).toEqual( "" );
+		expect( result.getScore() ).toEqual( 6 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"The keyphrase is 5 words long. That's more than the recommended maximum of 4 words. " +
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 } );

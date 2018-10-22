@@ -1,6 +1,6 @@
 import ImageCountAssessment from "../../src/assessments/seo/textImagesAssessment";
 import Paper from "../../src/values/Paper.js";
-import Factory from "../helpers/factory.js";
+import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();
 
 let imageCountAssessment = new ImageCountAssessment();
@@ -12,7 +12,7 @@ describe( "An image count assessment", function() {
 		var assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 0 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual( "No <a href='https://yoa.st/2pj' target='_blank'>images</a> appear in this page, consider adding some as appropriate." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: No images appear on this page. <a href='https://yoa.st/33d' target='_blank'>Add some</a>!" );
 	} );
 
 	it( "assesses a single image, without a keyword and alt-tag set", function() {
@@ -26,7 +26,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page are missing alt attributes." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Images on this page do not have alt attributes with words from your keyphrase. <a href='https://yoa.st/33d' target='_blank'>Fix that</a>!" );
 	} );
 
 	it( "assesses a single image, without a keyword, but with an alt-tag set", function() {
@@ -40,7 +40,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page contain alt attributes." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Images on this page do not have alt attributes with words from your keyphrase. <a href='https://yoa.st/33d' target='_blank'>Fix that</a>!" );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set, but with a non-keyword alt-tag", function() {
@@ -56,7 +56,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page do not have alt attributes containing the focus keyword." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Images on this page do not have alt attributes with words from your keyphrase. <a href='https://yoa.st/33d' target='_blank'>Fix that</a>!" );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set to keyword", function() {
@@ -72,6 +72,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Some images on this page contain alt attributes with words from your keyphrase! Good job!" );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set to keyword for 1 of 2 images", function() {
@@ -87,6 +88,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Some images on this page contain alt attributes with words from your keyphrase! Good job!" );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set to keyword for 1 of 2 images", function() {
@@ -102,5 +104,6 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Some images on this page contain alt attributes with words from your keyphrase! Good job!" );
 	} );
 } );

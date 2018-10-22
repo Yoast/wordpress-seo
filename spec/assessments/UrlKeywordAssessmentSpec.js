@@ -1,31 +1,90 @@
 import UrlKeywordAssessment from "../../src/assessments/seo/UrlKeywordAssessment";
 import Paper from "../../src/values/Paper.js";
-import Factory from "../helpers/factory.js";
+import Factory from "../specHelpers/factory.js";
 const i18n = Factory.buildJed();
 
 const keywordInUrl = new UrlKeywordAssessment();
 
 describe( "A keyword in url count assessment", function() {
-	it( "assesses no keyword was found in the url", function() {
-		const mockPaper = new Paper( "sample", {
-			url: "sample-with-keyword",
-			keyword: "kéyword",
-		} );
-
-		const assessment = keywordInUrl.getResult( mockPaper, Factory.buildMockResearcher( 0 ), i18n );
-
-		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The focus keyword does not appear in the <a href='https://yoa.st/2pp' target='_blank'>URL</a> for this page. If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" );
+	const mockPaper = new Paper( "sample", {
+		url: "sample-with-keyword",
+		keyword: "kéyword",
 	} );
 
-	it( "assesses a keyword was found in the url", function() {
-		const mockPaper = new Paper( "sample", {
-			url: "sample-with-keyword",
-			keyword: "keyword",
-		} );
-		const assessment = keywordInUrl.getResult( mockPaper, Factory.buildMockResearcher( 1 ), i18n );
+	it( "assesses no keyword was found in the url: short keyphrase", function() {
+		const assessment = keywordInUrl.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( { keyphraseLength: 1, percentWordMatches: 0 } ),
+			i18n
+		);
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!" );
+	} );
+
+	it( "assesses a keyword was found in the url: short keyphrase", function() {
+		const assessment = keywordInUrl.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( { keyphraseLength: 1, percentWordMatches: 100 } ),
+			i18n
+		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "The focus keyword appears in the <a href='https://yoa.st/2pp' target='_blank'>URL</a> for this page." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!" );
+	} );
+
+	it( "assesses no keyword was found in the url: long keyphrase", function() {
+		const assessment = keywordInUrl.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( { keyphraseLength: 3, percentWordMatches: 0 } ),
+			i18n
+		);
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!" );
+	} );
+
+	it( "assesses a keyword was found in the url: long keyphrase", function() {
+		const assessment = keywordInUrl.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( { keyphraseLength: 3, percentWordMatches: 100 } ),
+			i18n
+		);
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase appears in the slug. That's great!" );
+	} );
+
+	it( "assesses part of the keyphrase was found in the url: long keyphrase", function() {
+		const assessment = keywordInUrl.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( { keyphraseLength: 3, percentWordMatches: 67 } ),
+			i18n
+		);
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase appears in the slug. That's great!" );
+	} );
+
+	it( "assesses a keyword was found in the url: in double quotes", function() {
+		const assessment = keywordInUrl.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( { keyphraseLength: 1, percentWordMatches: 100 } ),
+			i18n
+		);
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!" );
+	} );
+
+	it( "assesses part of the keyphrase was not found in the url: in double quotes", function() {
+		const assessment = keywordInUrl.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( { keyphraseLength: 1, percentWordMatches: 0 } ),
+			i18n
+		);
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!" );
 	} );
 } );
