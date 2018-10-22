@@ -12,13 +12,13 @@ const attributes = {
 		type: "boolean",
 	},
 	days: {
-		type: "number",
+		type: "string",
 	},
 	hours: {
-		type: "number",
+		type: "string",
 	},
 	minutes: {
-		type: "number",
+		type: "string",
 	},
 	description: {
 		type: "array",
