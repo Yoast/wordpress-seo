@@ -28,9 +28,7 @@ if ( window.wpseoPostScraperL10n ) {
 }
 
 const StyledHelpLink = styled( HelpLink )`
-	&::before {
-		padding: 0px 2px 2px 2px;
-	}
+	margin: -8px 0 -4px 4px;
 `;
 
 /**
