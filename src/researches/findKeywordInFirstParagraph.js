@@ -12,26 +12,32 @@ import { reject } from "lodash-es";
 import { isEmpty } from "lodash-es";
 
 /**
- * Checks if the paragraph consists only of images.
+ * Removes links from text.
  *
  * @param {string} text The text string to analyze.
  *
- * @returns {boolean} True if the text consists only of images, false otherwise.
+ * @returns {string} The text with links stripped away.
  */
-function paragraphConsistsOfImagesOnly( text ) {
-	// Remove links from the text
+function removeLinksFromText( text ) {
 	const anchors = getAnchorsFromText( text );
 	if ( anchors.length > 0 ) {
 		anchors.forEach( function( anchor ) {
 			text = text.replace( anchor, "" );
 		} );
-
-		if ( text === "" ) {
-			return true;
-		}
 	}
 
-	// Remove images from the text
+	return text;
+}
+
+
+/**
+ * Removes images from text.
+ *
+ * @param {string} text The text string to analyze.
+ *
+ * @returns {string} The text with images stripped away.
+ */
+function removeImagesFromText( text ) {
 	const images = imageInText( text );
 	const imageTags = matchStringWithRegex( text, "</img>" );
 
@@ -43,10 +49,30 @@ function paragraphConsistsOfImagesOnly( text ) {
 		imageTags.forEach( function( imageTag ) {
 			text = text.replace( imageTag, "" );
 		} );
+	}
 
-		if ( text === "" ) {
-			return true;
-		}
+	return text;
+}
+
+
+
+/**
+ * Checks if the paragraph has no text.
+ *
+ * @param {string} text The text string to analyze.
+ *
+ * @returns {boolean} True if the paragraph has no text, false otherwise.
+ */
+function paragraphHasNoText( text ) {
+	// Strip links and check if paragraph consists of links only
+	text = removeLinksFromText( text );
+	if ( text === "" ) {
+		return true;
+	}
+
+	text = removeImagesFromText( text );
+	if ( text === "" ) {
+		return true;
 	}
 
 	// Remove empty divisions from the text
@@ -87,7 +113,7 @@ export default function( paper, researcher ) {
 
 	let paragraphs = matchParagraphs( paper.getText() );
 	paragraphs = reject( paragraphs, isEmpty );
-	paragraphs = reject( paragraphs, paragraphConsistsOfImagesOnly )[ 0 ] || "";
+	paragraphs = reject( paragraphs, paragraphHasNoText )[ 0 ] || "";
 
 	const result = {
 		foundInOneSentence: false,

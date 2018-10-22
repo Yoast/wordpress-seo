@@ -524,7 +524,7 @@ describe( "tests for edge cases", function() {
 			}
 		);
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
@@ -541,7 +541,7 @@ describe( "tests for edge cases", function() {
 			}
 		);
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
@@ -557,7 +557,7 @@ describe( "tests for edge cases", function() {
 			}
 		);
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
@@ -573,7 +573,7 @@ describe( "tests for edge cases", function() {
 			}
 		);
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
@@ -589,7 +589,7 @@ describe( "tests for edge cases", function() {
 			}
 		);
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
