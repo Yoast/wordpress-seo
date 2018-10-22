@@ -84,7 +84,7 @@ describe( "Adding and getting researchData to/from a Researcher", function() {
 	const researcher = new Researcher( new Paper( "This is another paper!" ) );
 
 	it( "adds a research data provider", function() {
-		researcher.addResearchDataProvider( "newResearch", "some data" );
-		expect( researcher.getProvidedData( "newResearch" ) ).toEqual( "some data" );
+		researcher.addResearchData( "newResearch", "some data" );
+		expect( researcher.getData( "newResearch" ) ).toEqual( "some data" );
 	} );
 } );

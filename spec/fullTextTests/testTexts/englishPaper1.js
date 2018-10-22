@@ -43,6 +43,7 @@ const paper = new Paper( "<p>My husband &#8211; <a href='https://yoast.com/about
 	"Search results and information would appear on the screen closest to you that Apple controls. " +
 	"I think voice will become the dominant search query, but I think screens will continue to be important in presenting search results.&#8217;</p>", {
 	keyword: "voice search",
+	synonyms: "listening and reading in search, voice query, voice results",
 	description: "Voice search is gaining popularity. But what will the future bring? Joost and Marieke discuss the pros and cons of voice and describe a possible future scenario.",
 	title: "Voice search: what will the future bring?",
 	titleWidth: 450,
@@ -61,23 +62,19 @@ const expectedResults = {
 	},
 	keywordDensity: {
 		score: 9,
-		resultText: "The exact-match <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 1.3%, which is great; the focus keyword was found 9 times.",
-	},
-	keywordStopWords: {
-		score: 0,
-		resultText: "",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 1.5%. This is great!",
 	},
 	metaDescriptionKeyword: {
 		score: 9,
-		resultText: "<a href='https://yoa.st/33k' target='_blank'>Key phrase in meta description</a>: Focus key phrase or synonym appear in the meta description. Well done!",
+		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: Keyphrase or synonym appear in the meta description. Well done!",
 	},
 	metaDescriptionLength: {
 		score: 6,
 		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: The meta description is over 156 characters. To ensure the entire description will be visible, <a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
-		score: 6,
-		resultText: "You have not used the focus keyword in any <a href='https://yoa.st/2ph' target='_blank'>subheading</a> (such as an H2) in your copy.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 2 (out of 4) subheadings reflect the topic of your copy. Good job!",
 	},
 	textCompetingLinks: {
 		score: 0,
@@ -101,7 +98,7 @@ const expectedResults = {
 	},
 	titleKeyword: {
 		score: 9,
-		resultText: "The exact match of the focus keyphrase appears at the beginning of the <a href='https://yoa.st/2pn' target='_blank'>SEO title</a>, which is considered to improve rankings.",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the keyphrase appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
 		score: 9,
@@ -109,7 +106,7 @@ const expectedResults = {
 	},
 	urlKeyword: {
 		score: 9,
-		resultText: "The focus keyword appears in the <a href='https://yoa.st/2pp' target='_blank'>URL</a> for this page.",
+		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",
 	},
 	urlLength: {
 		score: 6,
@@ -119,9 +116,9 @@ const expectedResults = {
 		score: 5,
 		resultText: "<a href='https://yoa.st/34p' target='_blank'>Slug stopwords</a>: The slug for this page contains a stop word. <a href='https://yoa.st/34q' target='_blank'>Remove it</a>!",
 	},
-	largestKeywordDistance: {
-		score: 1,
-		resultText: "Large parts of your text do not contain the keyword. Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> the keyword more evenly.",
+	keyphraseDistribution: {
+		score: 9,
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
 	fleschReadingEase: {
 		score: 9,

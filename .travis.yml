@@ -13,9 +13,11 @@ cache:
 before_install:
 - curl -o- -L https://yarnpkg.com/install.sh | bash
 - export PATH=$HOME/.yarn/bin:$PATH
+- echo -e "machine github.com\n  login $CI_GITHUB_USER_TOKEN" > ~/.netrc
 install:
 - yarn global add grunt-cli
 - yarn install
+- grunt get-premium-configuration
 script:
 - yarn lint
 - yarn test --coverage --runInBand

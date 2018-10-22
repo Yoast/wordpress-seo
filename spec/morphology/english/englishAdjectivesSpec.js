@@ -2,7 +2,7 @@ import { getAdjectiveForms, getBase  } from "../../../src/morphology/english/get
 import { buildOneFormFromRegex, buildTwoFormsFromRegex } from "../../../src/morphology/morphoHelpers/buildFormRule";
 import createRulesFromMorphologyData from "../../../src/morphology/morphoHelpers/createRulesFromMorphologyData";
 
-import morphologyData from "../../../src/morphology/morphologyData.json";
+import morphologyData from "../../../premium-configuration/data/morphologyData.json";
 const adjectiveData = morphologyData.en.adjectives;
 const irregularAdjectivesToTest = adjectiveData.irregularAdjectives;
 const regexAdjective = adjectiveData.regexAdjective;

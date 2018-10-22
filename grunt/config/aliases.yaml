@@ -19,6 +19,10 @@ build:
 # Check health of the project
 check:
   - 'eslint'
+'get-premium-configuration':
+  - 'shell:get-current-branch'
+  - 'shell:clone-premium-configuration'
+  - 'shell:checkout-premium-configuration'
 # Default task
 default:
   - check

@@ -49,7 +49,7 @@ const languageVariables = {
  *
  * @returns {Array} A list with the matches.
  */
-let regularParticiples = function( word, language ) {
+const regularParticiples = function( word, language ) {
 	// In Spanish, Italian and Polish we don't match participles with a regular regex pattern.
 	if ( ( language === "es" ) || ( language === "it" ) || ( language === "pl" )  ) {
 		return [];
@@ -60,7 +60,7 @@ let regularParticiples = function( word, language ) {
 
 	Object.keys( languageVariables[ language ] ).forEach( function( regex ) {
 		const match = word.match( languageVariables[ language ][ regex ] );
-		if( match !== null ) {
+		if ( match !== null ) {
 			matches.push( match );
 		}
 	} );
@@ -79,11 +79,11 @@ let regularParticiples = function( word, language ) {
  *
  * @returns {Array} A list with matched irregular participles.
  */
-let matchFrenchParticipleWithSuffix = function( word, irregulars, suffixes ) {
-	let matches = [];
+const matchFrenchParticipleWithSuffix = function( word, irregulars, suffixes ) {
+	const matches = [];
 	forEach( irregulars, function( irregular ) {
 		const irregularParticiplesRegex = new RegExp( "^" + irregular + suffixes + "?$", "ig" );
-		let participleMatch = word.match( irregularParticiplesRegex );
+		const participleMatch = word.match( irregularParticiplesRegex );
 		if ( participleMatch ) {
 			matches.push( participleMatch[ 0 ] );
 		}
@@ -99,7 +99,7 @@ let matchFrenchParticipleWithSuffix = function( word, irregulars, suffixes ) {
  *
  * @returns {Array} A list with the matches.
  */
-let irregularParticiples = function( word, language ) {
+const irregularParticiples = function( word, language ) {
 	let matches = [];
 
 	switch ( language ) {
@@ -110,7 +110,7 @@ let irregularParticiples = function( word, language ) {
 
 			// Match irregular participles that don't require adding a suffix.
 			find( irregularsIrregularFrench, function( irregularParticiple ) {
-				if( irregularParticiple === word ) {
+				if ( irregularParticiple === word ) {
 					matches.push( irregularParticiple );
 				}
 			} );
@@ -141,7 +141,7 @@ let irregularParticiples = function( word, language ) {
 		case "en":
 		default:
 			find( irregularsEnglish, function( irregularParticiple ) {
-				if( irregularParticiple === word ) {
+				if ( irregularParticiple === word ) {
 					matches.push( irregularParticiple );
 				}
 			} );

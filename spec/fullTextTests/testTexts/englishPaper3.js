@@ -26,12 +26,12 @@ const paper = new Paper( "<div class=\"content content__first\">\n" +
 	"</ul>\n" +
 	"</div>", {
 	keyword: "social media strategy",
+	synonyms: "social media SEO, Facebook strategy",
 	description: "Social media should be a part of your SEO strategy. In this post, Marieke explains the first steps towards developing your own social media strategy.",
 	title: "Social Media Strategy: Where to begin?",
 	titleWidth: 450,
 	locale: "en_EN",
 	url: "https://yoast.com/social-media-strategy-where-to-begin/",
-	synonyms: "social media SEO strategy",
 } );
 
 const expectedResults = {
@@ -45,15 +45,11 @@ const expectedResults = {
 	},
 	keywordDensity: {
 		score: 9,
-		resultText: "The exact-match <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 0.8%, which is great; the focus keyword was found 4 times.",
-	},
-	keywordStopWords: {
-		score: 0,
-		resultText: "",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 0.9%. This is great!",
 	},
 	metaDescriptionKeyword: {
 		score: 9,
-		resultText: "<a href='https://yoa.st/33k' target='_blank'>Key phrase in meta description</a>: Focus key phrase or synonym appear in the meta description. Well done!",
+		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: Keyphrase or synonym appear in the meta description. Well done!",
 	},
 	metaDescriptionLength: {
 		score: 9,
@@ -61,7 +57,7 @@ const expectedResults = {
 	},
 	subheadingsKeyword: {
 		score: 9,
-		resultText: "The focus keyword appears in 1 (out of 4) <a href='https://yoa.st/2ph' target='_blank'>subheadings</a> in your copy.",
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 4 (out of 4) subheadings reflect the topic of your copy. Good job!",
 	},
 	textCompetingLinks: {
 		score: 0,
@@ -85,7 +81,7 @@ const expectedResults = {
 	},
 	titleKeyword: {
 		score: 9,
-		resultText: "The exact match of the focus keyphrase appears at the beginning of the <a href='https://yoa.st/2pn' target='_blank'>SEO title</a>, which is considered to improve rankings.",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the keyphrase appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
 		score: 9,
@@ -93,7 +89,7 @@ const expectedResults = {
 	},
 	urlKeyword: {
 		score: 9,
-		resultText: "The focus keyword appears in the <a href='https://yoa.st/2pp' target='_blank'>URL</a> for this page.",
+		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase appears in the slug. That's great!",
 	},
 	urlLength: {
 		score: 6,
@@ -103,11 +99,10 @@ const expectedResults = {
 		score: 5,
 		resultText: "<a href='https://yoa.st/34p' target='_blank'>Slug stopwords</a>: The slug for this page contains stop words. <a href='https://yoa.st/34q' target='_blank'>Remove them</a>!",
 	},
-	largestKeywordDistance: {
+	keyphraseDistribution: {
 		score: 1,
-		resultText: "Large parts of your text do not contain the keyword or its synonyms. Try to <a href='https://yoa.st/2w7' target='_blank'>distribute</a> them more evenly.",
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
-
 	fleschReadingEase: {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 63.8 in the test, which is considered ok to read. Good job!",

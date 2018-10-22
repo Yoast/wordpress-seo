@@ -1,5 +1,5 @@
 import Researcher from "../../src/researcher";
-import morphologyData from "../../src/morphology/morphologyData.json";
+import morphologyData from "../../premium-configuration/data/morphologyData.json";
 import altTagCountFunction from "../../src/researches/imageAltTags";
 import Paper from "../../src/values/Paper";
 
@@ -7,7 +7,7 @@ describe( "Counts images in an text", function() {
 	it( "returns an empty object with all alt-counts as zero", function() {
 		const paper = new Paper( "string", { keyword: "keyword", synonyms: "synonym, another synonym" } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -19,7 +19,7 @@ describe( "Counts images in an text", function() {
 	 it( "returns object with the withAltKeyword as 1 when the keyword is set and present", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", { keyword: "keyword", synonyms: "synonym, another synonym" } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -31,7 +31,7 @@ describe( "Counts images in an text", function() {
 	it( "returns object with the withAlt as 1 when there's an alt-tag, but no keyword is set", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", { keyword: "" } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -43,7 +43,7 @@ describe( "Counts images in an text", function() {
 	it( "returns object with the withAltNonKeyword as 1 when the keyword is set, but not present in the alt-tag", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", { keyword: "sample" } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -55,7 +55,7 @@ describe( "Counts images in an text", function() {
 	it( "returns object with the noAlt as 1 when the alt-tag is empty", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='' />", { keyword: "keyword" } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 1 );
@@ -67,7 +67,7 @@ describe( "Counts images in an text", function() {
 	it( "returns object with the noAlt as 1 when the alt-tag is missing", function() {
 		const paper = new Paper( "string <img src='http://plaatje' />", { keyword: "keyword" } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 1 );
@@ -79,7 +79,7 @@ describe( "Counts images in an text", function() {
 	it( "returns object with a combination of present and missing alt-tags", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' /> <img src='http://plaatje' alt='' />", { keyword: "keyword" } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 1 );
@@ -91,7 +91,7 @@ describe( "Counts images in an text", function() {
 	it( "returns object with the withAltKeyword as 1 when the keyword is set and present and has a $", function() {
 		const paper = new Paper( "string <img src='http://img' alt='$keyword' />", { keyword: "$keyword" } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -109,7 +109,7 @@ describe( "Counts images in an text", function() {
 			synonyms: "synonym, test, interesting paper",
 		} );
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 2 );
@@ -129,7 +129,7 @@ describe( "Counts images in an text", function() {
 			}
 		);
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 2 );
@@ -153,7 +153,7 @@ describe( "Counts images in an text", function() {
 			}
 		);
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 1 );
@@ -177,7 +177,7 @@ describe( "Counts images in an text", function() {
 			}
 		);
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -201,7 +201,7 @@ describe( "Counts images in an text", function() {
 			}
 		);
 		const researcher = new Researcher( paper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );

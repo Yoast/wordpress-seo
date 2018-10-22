@@ -76,7 +76,7 @@ describe( "AnalysisWebWorker", () => {
 			worker = null;
 			try {
 				worker = new AnalysisWebWorker( scope );
-			} catch( error ) {
+			} catch ( error ) {
 				// eslint-ignore-line no-empty
 			}
 
@@ -152,6 +152,57 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize" ) );
 				expect( console.log ).toHaveBeenCalledTimes( 2 );
 				/* eslint-enable no-console */
+			} );
+		} );
+
+		describe( "shouldAssessorsUpdate", () => {
+			const updateBoth = { readability: true, seo: true };
+			const updateNone = { readability: false, seo: false };
+			const updateReadability = { readability: true, seo: false };
+			const updateSEO = { readability: false, seo: true };
+
+			test( "update both when an empty configuration is passed", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( {} ) ).toEqual( updateBoth );
+			} );
+
+			test( "update both when an empty configuration is passed along with null assessors", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( {}, null, null ) ).toEqual( updateBoth );
+			} );
+
+			test( "update none when an empty configuration is passed along with non-null assessors", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( {}, false, false ) ).toEqual( updateNone );
+			} );
+
+			test( "update readability with contentAnalysisActive", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { contentAnalysisActive: true }, false, false ) ).toEqual( updateReadability );
+			} );
+
+			test( "update seo with keywordAnalysisActive", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { keywordAnalysisActive: true }, false, false ) ).toEqual( updateSEO );
+			} );
+
+			test( "update both with useCornerstone", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useCornerstone: true }, false, false ) ).toEqual( updateBoth );
+			} );
+
+			test( "update seo with useTaxonomy", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useTaxonomy: true }, false, false ) ).toEqual( updateSEO );
+			} );
+
+			test( "update seo with useKeywordDistribution", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useKeywordDistribution: true }, false, false ) ).toEqual( updateSEO );
+			} );
+
+			test( "update both with locale", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { locale: "en_US" }, false, false ) ).toEqual( updateBoth );
+			} );
+
+			test( "update both with translations", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { translations: {} }, false, false ) ).toEqual( updateBoth );
+			} );
+
+			test( "update seo with researchData", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { researchData: {} }, false, false ) ).toEqual( updateSEO );
 			} );
 		} );
 
@@ -248,7 +299,7 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "updates readability assessor", () => {
 				let timesCalled = 0;
-				worker.createContentAssessor = jest.fn();
+				worker.createContentAssessor = jest.fn().mockReturnValue( false );
 
 				// When initializing.
 				scope.onmessage( createMessage( "initialize", {} ) );
@@ -285,7 +336,7 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "updates seo assessor", () => {
 				let timesCalled = 0;
-				worker.createSEOAssessor = jest.fn();
+				worker.createSEOAssessor = jest.fn().mockReturnValue( false );
 
 				// When initializing.
 				scope.onmessage( createMessage( "initialize", {} ) );
@@ -917,25 +968,25 @@ describe( "AnalysisWebWorker", () => {
 			let assessor = worker.createSEOAssessor();
 			expect( assessor ).not.toBeNull();
 			expect( assessor.type ).toBe( "SEOAssessor" );
-			let assessment = assessor.getAssessment( "largestKeywordDistance" );
+			let assessment = assessor.getAssessment( "keyphraseDistribution" );
 			expect( assessment ).not.toBeDefined();
 
 			worker._configuration.useKeywordDistribution = true;
 			assessor = worker.createSEOAssessor();
 			expect( assessor ).not.toBeNull();
 			expect( assessor.type ).toBe( "SEOAssessor" );
-			assessment = assessor.getAssessment( "largestKeywordDistance" );
+			assessment = assessor.getAssessment( "keyphraseDistribution" );
 			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "largestKeywordDistance" );
+			expect( assessment.identifier ).toBe( "keyphraseDistribution" );
 
 			worker._configuration.useCornerstone = true;
 			worker._configuration.useKeywordDistribution = true;
 			assessor = worker.createSEOAssessor();
 			expect( assessor ).not.toBeNull();
 			expect( assessor.type ).toBe( "CornerstoneSEOAssessor" );
-			assessment = assessor.getAssessment( "largestKeywordDistance" );
+			assessment = assessor.getAssessment( "keyphraseDistribution" );
 			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "largestKeywordDistance" );
+			expect( assessment.identifier ).toBe( "keyphraseDistribution" );
 		} );
 
 		test( "adds registered assessments", () => {
@@ -1129,7 +1180,7 @@ describe( "AnalysisWebWorker", () => {
 
 		test( "returns true when the paper locale is different", () => {
 			const paper = new Paper( "This is the content.", { locale: "en_US" } );
-			worker._paper = new Paper( "This is the content.", { locale: "nl_NL"  } );
+			worker._paper = new Paper( "This is the content.", { locale: "nl_NL" } );
 			expect( worker.shouldReadabilityUpdate( paper ) ).toBe( true );
 		} );
 

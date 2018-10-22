@@ -12,7 +12,7 @@ const getPassiveVerbsRussian = getPassiveVerbsRussianFactory().all;
  * @param {Array} passiveVerbs The array containing passive verb-forms.
  * @returns {Array} The found passive verbs.
  */
-let matchPassiveVerbs = function( sentence, passiveVerbs ) {
+const matchPassiveVerbs = function( sentence, passiveVerbs ) {
 	return filter( getWords( sentence ), function( word ) {
 		return passiveVerbs.includes( word.toLocaleLowerCase() );
 	} );
@@ -25,7 +25,7 @@ let matchPassiveVerbs = function( sentence, passiveVerbs ) {
  * @param {string} language The language of the text.
  * @returns {Array} The list of encountered passive verbs.
  */
-let determineSentenceIsPassive = function( sentence, language ) {
+const determineSentenceIsPassive = function( sentence, language ) {
 	let passiveVerbs = [];
 
 	switch ( language ) {

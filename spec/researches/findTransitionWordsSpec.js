@@ -405,7 +405,7 @@ describe( "a test for finding transition words from a string", function() {
 	it( "works with the no-break space character", function() {
 		// Transition word: then.
 		mockPaper = new Paper( "and\u00a0then" );
-		let expected = {
+		const expected = {
 			totalSentences: 1,
 			sentenceResults: [ {
 				sentence: "and\u00a0then",
@@ -414,7 +414,7 @@ describe( "a test for finding transition words from a string", function() {
 			transitionWordSentences: 1,
 		};
 
-		let result = transitionWordsResearch( mockPaper );
+		const result = transitionWordsResearch( mockPaper );
 
 		expect( result ).toEqual( expected );
 	} );

@@ -40,9 +40,11 @@ import relevantWords from "./researches/relevantWords";
 import readingTime from "./researches/readingTime";
 import getTopicDensity from "./researches/getTopicDensity";
 import topicCount from "./researches/topicCount";
-import largestKeywordDistance from "./researches/largestKeywordDistance";
+import { keyphraseDistributionResearcher } from "./researches/keyphraseDistribution";
+const keyphraseDistribution = keyphraseDistributionResearcher;
 import { research } from "./researches/buildKeywordForms";
 const morphology = research;
+import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
 
 /**
  * This contains all possible, default researches.
@@ -87,11 +89,12 @@ var Researcher = function( paper ) {
 		getTopicDensity: getTopicDensity,
 		topicCount: topicCount,
 		sentences,
-		largestKeywordDistance: largestKeywordDistance,
+		keyphraseDistribution: keyphraseDistribution,
 		morphology: morphology,
+		functionWordsInKeyphrase: functionWordsInKeyphrase,
 	};
 
-	this._dataProviders = {};
+	this._data = {};
 
 	this.customResearches = {};
 };
@@ -166,15 +169,15 @@ Researcher.prototype.getResearch = function( name ) {
 };
 
 /**
- * Add research data provider to the researcher by the research name.
+ * Add research data to the researcher by the research name.
  *
  * @param {string} research The identifier of the research.
- * @param {function} provider The reference to the dataProvider.
+ * @param {Object} data     The data object.
  *
  * @returns {void}.
  */
-Researcher.prototype.addResearchDataProvider = function( research, provider ) {
-	this._dataProviders[ research ] = provider;
+Researcher.prototype.addResearchData = function( research, data ) {
+	this._data[ research ] = data;
 };
 
 /**
@@ -184,9 +187,9 @@ Researcher.prototype.addResearchDataProvider = function( research, provider ) {
  *
  * @returns {*} The data provided by the provider, false if the data do not exist
  */
-Researcher.prototype.getProvidedData = function( research ) {
-	if ( this._dataProviders.hasOwnProperty( research ) ) {
-		return this._dataProviders[ research ];
+Researcher.prototype.getData = function( research ) {
+	if ( this._data.hasOwnProperty( research ) ) {
+		return this._data[ research ];
 	}
 
 	return false;

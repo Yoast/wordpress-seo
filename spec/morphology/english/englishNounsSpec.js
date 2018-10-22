@@ -1,4 +1,4 @@
-import morphologyData from "../../../src/morphology/morphologyData.json";
+import morphologyData from "../../../premium-configuration/data/morphologyData.json";
 const nounData = morphologyData.en.nouns;
 const irregularNounsToTest = nounData.irregularNouns;
 const regexNoun = nounData.regexNoun;

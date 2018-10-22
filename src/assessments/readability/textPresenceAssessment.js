@@ -1,3 +1,4 @@
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import { stripFullTags as stripHTMLTags } from "../../stringProcessing/stripHTMLTags";
 import AssessmentResult from "../../values/AssessmentResult";
 
@@ -10,12 +11,12 @@ import AssessmentResult from "../../values/AssessmentResult";
  * @returns {AssessmentResult} The result of this assessment.
  */
 function textPresenceAssessment( paper, researcher, i18n ) {
-	let text = stripHTMLTags( paper.getText() );
-	let urlTitle = "<a href='https://yoa.st/35h' target='_blank'>";
-	let urlCallToAction = "<a href='https://yoa.st/35i' target='_blank'>";
+	const text = stripHTMLTags( paper.getText() );
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/35h" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35i" );
 
 	if ( text.length < 50 ) {
-		let result = new AssessmentResult();
+		const result = new AssessmentResult();
 
 		result.setText( i18n.sprintf(
 			/* Translators: %1$s and %3$s expand to links to articles on Yoast.com,

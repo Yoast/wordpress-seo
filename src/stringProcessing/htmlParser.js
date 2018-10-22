@@ -11,12 +11,12 @@ let textArray;
 let inScriptBlock = false;
 
 // The blocks we filter out of the text that needs to be parsed.
-let inlineTags = [ "script", "style", "code", "pre" ];
+const inlineTags = [ "script", "style", "code", "pre" ];
 
 /**
  * Parses the text.
  */
-let parser = new htmlparser.Parser( {
+const parser = new htmlparser.Parser( {
 	/**
 	 * Handles the opening tag. If the opening tag is included in the inlineTags array, set inScriptBlock to true.
 	 * If the opening tag is not included in the inlineTags array, push the tag to the textArray.
@@ -31,7 +31,7 @@ let parser = new htmlparser.Parser( {
 			return;
 		}
 
-		let nodeValueType = Object.keys( nodeValue );
+		const nodeValueType = Object.keys( nodeValue );
 		let nodeValueString = "";
 
 		nodeValueType.forEach( function( node ) {
@@ -62,7 +62,7 @@ let parser = new htmlparser.Parser( {
 	 * @returns {void}
 	 */
 	onclosetag: function( tagName ) {
-		if( includes( inlineTags, tagName ) ) {
+		if ( includes( inlineTags, tagName ) ) {
 			inScriptBlock = false;
 			return;
 		}

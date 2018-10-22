@@ -16,7 +16,7 @@ import { isEmpty } from "lodash-es";
  * @returns {object} altProperties Object with all alt-tags that were found.
  */
 const matchAltProperties = function( imageMatches, topicForms, locale ) {
-	let altProperties = {
+	const altProperties = {
 		noAlt: 0,
 		withAlt: 0,
 		withAltKeyword: 0,

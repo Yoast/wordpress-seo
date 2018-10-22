@@ -2,17 +2,17 @@ import SentenceLengthInTextAssessment from "../../src/assessments/readability/se
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 import Mark from "../../src/values/Mark.js";
-let i18n = Factory.buildJed();
+const i18n = Factory.buildJed();
 
-let sentenceLengthInTextAssessment = new SentenceLengthInTextAssessment();
+const sentenceLengthInTextAssessment = new SentenceLengthInTextAssessment();
 import contentConfiguration from "../../src/config/content/combinedConfig.js";
 
 describe( "An assessment for sentence length", function() {
 	let mockPaper, assessment;
 
 	it( "returns the score for all short sentences", function() {
-		let mockPaper = new Paper();
-		let assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+		const mockPaper = new Paper();
+		const assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
@@ -94,7 +94,7 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 100% long sentences in Russian", function() {
 		mockPaper = new Paper( "text", { locale: "ru_RU" } );
-		let sentenceLengthInTextAssessmentRussian = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+		const sentenceLengthInTextAssessmentRussian = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
 
 		assessment = sentenceLengthInTextAssessmentRussian.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 16 },
@@ -110,7 +110,7 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 100% long sentences in Italian", function() {
 		mockPaper = new Paper( "text", { locale: "it_IT" } );
-		let sentenceLengthInTextAssessmentItalian = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+		const sentenceLengthInTextAssessmentItalian = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
 
 		assessment = sentenceLengthInTextAssessmentItalian.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 26 },
@@ -125,8 +125,8 @@ describe( "An assessment for sentence length", function() {
 	} );
 
 	it( "returns the score for all short sentences in Italian", function() {
-		let mockPaper = new Paper( "text", { locale: "it_IT" } );
-		let sentenceLengthInTextAssessmentItalian = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+		const mockPaper = new Paper( "text", { locale: "it_IT" } );
+		const sentenceLengthInTextAssessmentItalian = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
 
 		assessment = sentenceLengthInTextAssessmentItalian.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 24 },
@@ -140,8 +140,8 @@ describe( "An assessment for sentence length", function() {
 	} );
 
 	it( "returns the score for all short sentences in Polish", function() {
-		let mockPaper = new Paper( "text", { locale: "pl_PL" } );
-		let sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+		const mockPaper = new Paper( "text", { locale: "pl_PL" } );
+		const sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
 
 		assessment = sentenceLengthInTextAssessmentPolish.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 19 },
@@ -156,7 +156,7 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 100% long sentences in Polish", function() {
 		mockPaper = new Paper( "text", { locale: "pl_PL" } );
-		let sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+		const sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
 
 		assessment = sentenceLengthInTextAssessmentPolish.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 21 },
@@ -172,7 +172,7 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 10% long sentences in Polish", function() {
 		mockPaper = new Paper( "text", { locale: "pl_PL" } );
-		let sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+		const sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
 
 		assessment = sentenceLengthInTextAssessmentPolish.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 30 },
@@ -195,7 +195,7 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 25% long sentences in Polish", function() {
 		mockPaper = new Paper( "text", { locale: "pl_PL" } );
-		let sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+		const sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
 
 		assessment = sentenceLengthInTextAssessmentPolish.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 30 },
@@ -214,7 +214,7 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns the score for 20% long sentences in Polish", function() {
 		mockPaper = new Paper( "text", { locale: "pl_PL" } );
-		let sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+		const sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
 
 		assessment = sentenceLengthInTextAssessmentPolish.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 30 },
@@ -257,18 +257,18 @@ describe( "An assessment for sentence length", function() {
 
 describe( "A test for marking too long sentences", function() {
 	it( "returns markers for too long sentences", function() {
-		let paper = new Paper( "This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?" );
-		let sentenceLengthInText = Factory.buildMockResearcher( [ { sentence: "This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?", sentenceLength: 21 } ] );
-		let expected = [
+		const paper = new Paper( "This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?" );
+		const sentenceLengthInText = Factory.buildMockResearcher( [ { sentence: "This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?", sentenceLength: 21 } ] );
+		const expected = [
 			new Mark( { original: "This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?", marked: "<yoastmark class='yoast-text-mark'>This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?</yoastmark>" } ),
 		];
 		expect( sentenceLengthInTextAssessment.getMarks( paper, sentenceLengthInText ) ).toEqual( expected );
 	} );
 
 	it( "returns no markers if no sentences are too long", function() {
-		let paper = new Paper( "This is a short sentence." );
-		let sentenceLengthInText = Factory.buildMockResearcher( [ { sentence: "This is a short sentence.", sentenceLength: 5 } ] );
-		let expected = [];
+		const paper = new Paper( "This is a short sentence." );
+		const sentenceLengthInText = Factory.buildMockResearcher( [ { sentence: "This is a short sentence.", sentenceLength: 5 } ] );
+		const expected = [];
 		expect( sentenceLengthInTextAssessment.getMarks( paper, sentenceLengthInText ) ).toEqual( expected );
 	} );
 } );

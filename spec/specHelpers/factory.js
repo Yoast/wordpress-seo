@@ -1,7 +1,7 @@
 // Make sure the Jed object is globally available
 import Jed from "jed";
 
-let FactoryProto = function() {};
+const FactoryProto = function() {};
 
 FactoryProto.prototype.buildJed = function() {
 	return new Jed( {
@@ -20,7 +20,7 @@ FactoryProto.prototype.buildJed = function() {
  * @returns {object} Mock HTML element.
  */
 FactoryProto.prototype.buildMockElement = function() {
-	var mockElement;
+	let mockElement;
 
 	mockElement = [];
 	mockElement.nodeType = 1;
@@ -31,22 +31,29 @@ FactoryProto.prototype.buildMockElement = function() {
 /**
  * Returns a mock researcher
  *
- * @param {object}  expectedValue The expected value or values.
- * @param {boolean} multiValue    True if multiple values are expected.
+ * @param {object}  expectedValue 		The expected value or values.
+ * @param {boolean} multiValue    		True if multiple values are expected.
+ * @param {boolean} hasMorphologyData	True if the researcher has access to morphology data.
  *
  * @returns {Researcher} Mock researcher.
  */
-FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false ) {
+FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false, hasMorphologyData = false ) {
 	if( multiValue && typeof expectedValue === "object" ) {
 		return {
 			getResearch: function( research ) {
 				return expectedValue[ research ];
+			},
+			getData: function() {
+				return hasMorphologyData;
 			},
 		};
 	}
 	return {
 		getResearch: function() {
 			return expectedValue;
+		},
+		getData: function() {
+			return hasMorphologyData;
 		},
 	};
 };
@@ -60,18 +67,18 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
  * @returns {string} The result.
  */
 FactoryProto.prototype.buildMockString = function( string, repetitions ) {
-	var resultString = "";
+	let resultString = "";
 
 	string = string || "Test ";
 	repetitions = repetitions || 1;
 
-	for ( var i = 0; i < repetitions; i++ ) {
+	for ( let i = 0; i < repetitions; i++ ) {
 		resultString += string;
 	}
 
 	return resultString;
 };
 
-let Factory = new FactoryProto();
+const Factory = new FactoryProto();
 
 export default Factory;

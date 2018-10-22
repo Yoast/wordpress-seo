@@ -1,12 +1,14 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import formatNumber from "../../helpers/formatNumber.js";
 import { map } from "lodash-es";
-import { inRangeStartInclusive as inRange } from "../../helpers/inRange.js";
+
+import formatNumber from "../../helpers/formatNumber";
+import { inRangeStartInclusive as inRange } from "../../helpers/inRange";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
+import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark.js";
 import marker from "../../markers/addMark.js";
 import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
-let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca", "pl" ];
+const availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca", "pl" ];
 
 /**
  * Calculates the actual percentage of transition words in the sentences.
@@ -15,7 +17,7 @@ let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca",
  * a transition word.
  * @returns {number} The percentage of sentences containing a transition word.
  */
-let calculateTransitionWordPercentage = function( sentences ) {
+const calculateTransitionWordPercentage = function( sentences ) {
 	if ( sentences.transitionWordSentences === 0 || sentences.totalSentences === 0 ) {
 		return 0;
 	}
@@ -53,12 +55,12 @@ const calculateScoreFromPercentage = function( percentage ) {
  * @param {object} i18n The object used for translations.
  * @returns {object} Object containing score and text.
  */
-let calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
-	let percentage = calculateTransitionWordPercentage( transitionWordSentences );
-	let score = calculateScoreFromPercentage( percentage );
-	let hasMarks   = ( percentage > 0 );
-	let urlTitle = "<a href='https://yoa.st/34z' target='_blank'>";
-	let urlCallToAction = "<a href='https://yoa.st/35a' target='_blank'>";
+const calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
+	const percentage = calculateTransitionWordPercentage( transitionWordSentences );
+	const score = calculateScoreFromPercentage( percentage );
+	const hasMarks   = ( percentage > 0 );
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/34z" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35a" );
 
 	if ( score < 7 && percentage === 0 ) {
 		return {
@@ -112,10 +114,10 @@ let calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
  * @param {object} i18n The object used for translations.
  * @returns {object} The Assessment result.
  */
-let transitionWordsAssessment = function( paper, researcher, i18n ) {
-	let transitionWordSentences = researcher.getResearch( "findTransitionWords" );
-	let transitionWordResult = calculateTransitionWordResult( transitionWordSentences, i18n );
-	let assessmentResult = new AssessmentResult();
+const transitionWordsAssessment = function( paper, researcher, i18n ) {
+	const transitionWordSentences = researcher.getResearch( "findTransitionWords" );
+	const transitionWordResult = calculateTransitionWordResult( transitionWordSentences, i18n );
+	const assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( transitionWordResult.score );
 	assessmentResult.setText( transitionWordResult.text );
@@ -130,8 +132,8 @@ let transitionWordsAssessment = function( paper, researcher, i18n ) {
  * @param {Researcher} researcher The researcher containing the necessary research.
  * @returns {Array<Mark>} A list of marks that should be applied.
  */
-let transitionWordsMarker = function( paper, researcher ) {
-	let transitionWordSentences = researcher.getResearch( "findTransitionWords" );
+const transitionWordsMarker = function( paper, researcher ) {
+	const transitionWordSentences = researcher.getResearch( "findTransitionWords" );
 
 	return map( transitionWordSentences.sentenceResults, function( sentenceResult ) {
 		let sentence = sentenceResult.sentence;
@@ -147,7 +149,7 @@ export default {
 	identifier: "textTransitionWords",
 	getResult: transitionWordsAssessment,
 	isApplicable: function( paper ) {
-		let isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
+		const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
 		return ( isLanguageAvailable && paper.hasText() );
 	},
 	getMarks: transitionWordsMarker,

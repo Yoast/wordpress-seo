@@ -16,7 +16,7 @@ import getLanguage from "./getLanguage.js";
  * @returns {Function} A function that will return the first word exceptions.
  */
 export default function( locale ) {
-	switch( getLanguage( locale ) ) {
+	switch ( getLanguage( locale ) ) {
 		case "de":
 			return firstWordExceptionsGerman;
 		case "fr":

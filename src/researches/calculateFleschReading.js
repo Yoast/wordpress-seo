@@ -15,7 +15,7 @@ import getLanguage from "../helpers/getLanguage.js";
  * @param {number} amount The amount.
  * @returns {number} The average from the total and the amount.
  */
-let getAverage = function( total, amount ) {
+const getAverage = function( total, amount ) {
 	return total / amount;
 };
 
@@ -28,28 +28,28 @@ let getAverage = function( total, amount ) {
 export default function( paper ) {
 	let score;
 	let text = paper.getText();
-	let locale = paper.getLocale();
-	let language = getLanguage( locale );
+	const locale = paper.getLocale();
+	const language = getLanguage( locale );
 	if ( text === "" ) {
 		return 0;
 	}
 
 	text = stripNumbers( text );
 
-	let numberOfSentences = countSentences( text );
+	const numberOfSentences = countSentences( text );
 
-	let numberOfWords = countWords( text );
+	const numberOfWords = countWords( text );
 
 	// Prevent division by zero errors.
 	if ( numberOfSentences === 0 || numberOfWords === 0 ) {
 		return 0;
 	}
 
-	let numberOfSyllables = countSyllables( text, locale );
-	let averageWordsPerSentence = getAverage( numberOfWords, numberOfSentences );
-	let syllablesPer100Words = numberOfSyllables * ( 100 / numberOfWords );
+	const numberOfSyllables = countSyllables( text, locale );
+	const averageWordsPerSentence = getAverage( numberOfWords, numberOfSentences );
+	const syllablesPer100Words = numberOfSyllables * ( 100 / numberOfWords );
 
-	switch( language ) {
+	switch ( language ) {
 		case "nl":
 			score = 206.84 - ( 0.77 * syllablesPer100Words ) - ( 0.93 * ( averageWordsPerSentence  ) );
 			break;

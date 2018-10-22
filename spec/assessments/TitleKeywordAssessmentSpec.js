@@ -12,12 +12,14 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		} );
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher( { exactMatch: false, allWordsFound: false, position: -1 } ),
+			Factory.buildMockResearcher( { exactMatch: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false } ),
 			i18n );
 
 		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe(
-			"The focus keyword 'keyword' does not appear in the <a href='https://yoa.st/2pn' target='_blank'>SEO title</a>."
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Not all the words from your " +
+			"keyphrase \"keyword\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>Try to " +
+			"use the exact match of your keyphrase in the SEO title</a>."
 		);
 	} );
 
@@ -28,13 +30,13 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		} );
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher( { exactMatch: true, allWordsFound: true, position: 0 } ),
+			Factory.buildMockResearcher( { exactMatch: true, allWordsFound: true, position: 0, exactMatchKeyphrase: false } ),
 			i18n );
 
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe(
-			"The exact match of the focus keyphrase appears at the beginning of " +
-			"the <a href='https://yoa.st/2pn' target='_blank'>SEO title</a>, which is considered to improve rankings."
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the " +
+			"keyphrase appears at the beginning of the SEO title. Good job!"
 		);
 	} );
 
@@ -45,32 +47,51 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		} );
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher( { exactMatch: true, allWordsFound: true, position: 41 } ),
+			Factory.buildMockResearcher( { exactMatch: true, allWordsFound: true, position: 41, exactMatchKeyphrase: false } ),
 			i18n );
 
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe(
-			"The exact match of the focus keyphrase appears in the <a href='https://yoa.st/2pn' target='_blank'>SEO title</a>, " +
-			"but not at the beginning; try and move it to the beginning."
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the " +
+			"keyphrase appears in the SEO title, but not at the beginning. " +
+			"<a href='https://yoa.st/33h' target='_blank'>Try to move it to the beginning</a>."
 		);
 	} );
 
-	it( "returns an assementresult with keyword found at start", function() {
+	it( "returns an assement result with keyword not found at all", function() {
 		const paper = new Paper( "", {
 			keyword: "keyword",
 			title: "a non-empty title",
 		} );
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher( { exactMatch: false, allWordsFound: true, position: -1 } ),
+			Factory.buildMockResearcher( { exactMatch: false, allWordsFound: true, position: -1, exactMatchKeyphrase: false  } ),
 			i18n );
 
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe(
-			"The <a href='https://yoa.st/2pn' target='_blank'>SEO title</a> contains " +
-			"all words from the focus keyphrase, but not its exact match."
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. " +
+			"<a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of your keyphrase in the SEO title</a>."
 		);
 	} );
+
+	it( "returns a bad result for an exact match keyphrase when the word order of the keyphrase is different in the title", function() {
+		const paper = new Paper( "", {
+			keyword: "\"cats and dogs\"",
+			title: "dogs and cats",
+		} );
+		const assessment = new TitleKeywordAssessment().getResult(
+			paper,
+			Factory.buildMockResearcher( { exactMatch: false, allWordsFound: false, position: 0, exactMatchKeyphrase: true } ),
+			i18n );
+
+		expect( assessment.getScore() ).toBe( 2 );
+		expect( assessment.getText() ).toBe(
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. " +
+			"<a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of your keyphrase in the SEO title</a>."
+		);
+	} );
+
 
 	it( "returns false isApplicable for a paper without title", function() {
 		const isApplicableResult = new TitleKeywordAssessment().isApplicable( new Paper( "", { keyword: "some keyword", title: "" } ) );

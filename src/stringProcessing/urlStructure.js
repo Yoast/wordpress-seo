@@ -19,14 +19,14 @@ let tokens;
  *
  * @type {RegExp}
  */
-let staticRegex = /^[^%]+$/;
+const staticRegex = /^[^%]+$/;
 
 /**
  * Matches variable parts of a URL, format is %%placeholder%%.
  *
  * @type {RegExp}
  */
-let variableRegex = /^%%[^%]+%%$/;
+const variableRegex = /^%%[^%]+%%$/;
 
 /**
  * Creates a tokenizer to tokenize HTML into blocks.
@@ -129,7 +129,7 @@ class UrlStructure {
 		urlTokenizer.end();
 
 		tokens = tokens.map( ( token ) => {
-			let urlPart = {
+			const urlPart = {
 				type: token.type,
 				value: token.src,
 			};

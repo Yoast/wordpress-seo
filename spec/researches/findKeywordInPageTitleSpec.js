@@ -1,5 +1,5 @@
 import Researcher from "../../src/researcher";
-import morphologyData from "../../src/morphology/morphologyData.json";
+import morphologyData from "../../premium-configuration/data/morphologyData.json";
 import pageTitleKeyword from "../../src/researches/findKeywordInPageTitle.js";
 import Paper from "../../src/values/Paper.js";
 let result;
@@ -12,7 +12,7 @@ describe( "Match keywords in string", function() {
 			locale: "en_EN",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
@@ -26,7 +26,7 @@ describe( "Match keywords in string", function() {
 			locale: "en_EN",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
@@ -40,7 +40,7 @@ describe( "Match keywords in string", function() {
 			locale: "en_EN",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
@@ -54,7 +54,7 @@ describe( "Match keywords in string", function() {
 			locale: "en_EN",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( false );
@@ -68,7 +68,7 @@ describe( "Match keywords in string", function() {
 			locale: "ru_RU",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
@@ -82,7 +82,7 @@ describe( "Match keywords in string", function() {
 			locale: "de_DE",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
@@ -96,7 +96,7 @@ describe( "Match keywords in string", function() {
 			locale: "en_EN",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( false );
@@ -109,7 +109,7 @@ describe( "Match keywords in string", function() {
 			title: "focus keyword",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
@@ -122,7 +122,7 @@ describe( "Match keywords in string", function() {
 			title: "A title with a $keyword",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
@@ -136,7 +136,7 @@ describe( "Match keywords in string", function() {
 			locale: "tr_TR",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
@@ -150,7 +150,7 @@ describe( "Match keywords in string", function() {
 			locale: "tr_TR",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
@@ -163,7 +163,7 @@ describe( "Match keywords in string", function() {
 			title: "äbc und abc",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
@@ -177,7 +177,7 @@ describe( "Match keywords in string", function() {
 			locale: "de_DE",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
@@ -191,7 +191,7 @@ describe( "Match keywords in string", function() {
 			locale: "de_DE",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
@@ -205,7 +205,7 @@ describe( "Match keywords in string", function() {
 			locale: "en_EN",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( false );
@@ -219,7 +219,7 @@ describe( "Match keywords in string", function() {
 			locale: "en_EN",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( false );
@@ -233,25 +233,67 @@ describe( "Match keywords in string", function() {
 			locale: "fr_FR",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( false );
 		expect( result.allWordsFound ).toBe( true );
 	} );
 
-	it( "returns all-words-found match if keyphrase words were shuffled in the title for French", function() {
+	it( "returns all-words-found match if keyphrase words were shuffled in the title for Swedish", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "promenader i naturen",
 			title: "Jag gillar att ta promenader i naturen.",
 			locale: "sw_SE",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchDataProvider( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
 		expect( result.position ).toBe( 18 );
+	} );
+
+	it( "returns an exact match at the beginning", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "\"Walking in the nature\"",
+			title: "Walking in the nature is awesome.",
+		} );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns an exact match not at the beginning", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "\"Walking in the nature\"",
+			title: "My opinion: Walking in the nature is awesome.",
+		} );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( true );
+		expect( result.position ).toBe( 12 );
+	} );
+
+	it( "returns an exact match not found", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "\"Walking in the nature\"",
+			title: "My opinion: Walking in nature is awesome.",
+		} );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatch ).toBe( false );
+		expect( result.exactMatchKeyphrase ).toBe( true );
+		expect( result.allWordsFound ).toBe( false );
 	} );
 } );
 

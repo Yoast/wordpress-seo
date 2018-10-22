@@ -39,7 +39,7 @@ export default function( sentencePart, participle, auxiliaries, language ) {
 	const matches = auxiliaryIndices.filter( auxiliaryIndex => auxiliaryIndex.index < participleIndex );
 
 	// If there are no auxiliaries before the participle, this exception is not applicable.
-	if( matches.length === 0 ) {
+	if ( matches.length === 0 ) {
 		return false;
 	}
 

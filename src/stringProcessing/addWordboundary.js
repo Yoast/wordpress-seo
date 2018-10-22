@@ -14,9 +14,9 @@ export default function( matchString, positiveLookAhead = false, extraWordBounda
 
 	wordBoundary = "[ \\u00a0 \\n\\r\\t\.,\(\)”“〝〞〟‟„\"+\\-;!¡?¿:\/»«‹›" + extraWordBoundary + "<>";
 	wordBoundaryStart = "(^|" + wordBoundary + "'‘’‛`])";
-	if( positiveLookAhead ) {
+	if ( positiveLookAhead ) {
 		wordBoundaryEnd = "($|((?=" + wordBoundary + "]))|((['‘’‛`])(" + wordBoundary + "])))";
-	} else{
+	} else {
 		wordBoundaryEnd = "($|(" + wordBoundary + "])|((['‘’‛`])(" + wordBoundary + "])))";
 	}
 

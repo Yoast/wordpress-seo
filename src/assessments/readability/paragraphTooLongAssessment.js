@@ -1,12 +1,12 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import { stripBlockTagsAtStartEnd as stripHTMLTags } from "../../stringProcessing/stripHTMLTags";
-import isParagraphTooLong from "../../helpers/isValueTooLong";
-import Mark from "../../values/Mark.js";
-import marker from "../../markers/addMark.js";
-import { inRangeEndInclusive as inRange } from "../../helpers/inRange.js";
+import { filter, map } from "lodash-es";
 
-import { filter } from "lodash-es";
-import { map } from "lodash-es";
+import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
+import isParagraphTooLong from "../../helpers/isValueTooLong";
+import marker from "../../markers/addMark";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import { stripBlockTagsAtStartEnd as stripHTMLTags } from "../../stringProcessing/stripHTMLTags";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
 
 // 150 is the recommendedValue for the maximum paragraph length.
 const recommendedValue = 150;
@@ -29,16 +29,16 @@ const getTooLongParagraphs = function( paragraphsLength  ) {
  * @param {object} i18n The i18n object used for translations.
  * @returns {{score: number, text: string }} the assessmentResult.
  */
-let calculateParagraphLengthResult = function( paragraphsLength, tooLongParagraphs, i18n ) {
+const calculateParagraphLengthResult = function( paragraphsLength, tooLongParagraphs, i18n ) {
 	let score;
-	let urlTitle = "<a href='https://yoa.st/35d' target='_blank'>";
-	let urlCallToAction = "<a href='https://yoa.st/35e' target='_blank'>";
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/35d" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35e" );
 
 	if ( paragraphsLength.length === 0 ) {
 		return {};
 	}
 
-	let longestParagraphLength = paragraphsLength[ 0 ].wordCount;
+	const longestParagraphLength = paragraphsLength[ 0 ].wordCount;
 
 	if ( longestParagraphLength <= 150 ) {
 		// Green indicator.

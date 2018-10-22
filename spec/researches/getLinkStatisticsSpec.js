@@ -1,3 +1,5 @@
+import Researcher from "../../src/researcher";
+import morphologyData from "../../premium-configuration/data/morphologyData.json";
 import linkCount from "../../src/researches/getLinkStatistics.js";
 import Paper from "../../src/values/Paper.js";
 var foundLinks;
@@ -11,7 +13,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 
 	it( "should detect internal links", function() {
 		var mockPaper = new Paper( "string <a href='http://yoast.com'>link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.internalTotal ).toBe( 1 );
 		expect( foundLinks.externalTotal ).toBe( 0 );
@@ -19,11 +23,14 @@ describe( "Tests a string for anchors and its attributes", function() {
 
 	it( "should detect external links", function() {
 		var mockPaper = new Paper( "string <a href='http://yoast.com'>link</a>, <a href='http://example.com'>link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 2 );
 		expect( foundLinks.internalTotal ).toBe( 1 );
 		expect( foundLinks.externalTotal ).toBe( 1 );
 		expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com'>link</a>" ] );
 	} );
 
 	it( "should detect no keyword in link text", function() {
@@ -34,7 +41,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 		};
 
 		var mockPaper = new Paper( "string <a href='http://yoast.com/some-other-page/'>link</a>", attributes );
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
 	} );
@@ -47,7 +56,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 		};
 
 		var mockPaper = new Paper( "string <a href='http://yoast.com/some-other-page/'>focuskeyword</a>", attributes );
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.internalTotal ).toBe( 1 );
 		expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
@@ -61,7 +72,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 		};
 
 		var mockPaper = new Paper( "string <a href='http://example.com/some-page/'>focuskeyword</a>", attributes );
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalTotal ).toBe( 1 );
 		expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
@@ -75,7 +88,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 		};
 
 		var mockPaper = new Paper( "string <a href='http://yoast.com/this-page/'>focuskeyword</a>", attributes );
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.internalTotal ).toBe( 1 );
 		expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
@@ -83,25 +98,33 @@ describe( "Tests a string for anchors and its attributes", function() {
 
 	it( "should detect nofollow as rel attribute", function() {
 		var mockPaper = new Paper( "string <a href='http://example.com' rel='nofollow'>link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		let researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 1 );
 		expect( foundLinks.externalDofollow ).toBe( 0 );
 
 		mockPaper = new Paper( "string <a href='http://example.com' rel='nofollow '>link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 1 );
 		expect( foundLinks.externalDofollow ).toBe( 0 );
 
 		mockPaper = new Paper( "string <a href='http://example.com' rel=' nofollow'>link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 1 );
 		expect( foundLinks.externalDofollow ).toBe( 0 );
 
 		mockPaper = new Paper( "string <a href='http://example.com' rel=' nofollow '>link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 1 );
 		expect( foundLinks.externalDofollow ).toBe( 0 );
@@ -109,7 +132,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 
 	it( "should detect nofollow with capitals", function() {
 		var mockPaper = new Paper( "string <A HREF='http://example.com' REL='NOFOLLOW'>link</A>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 1 );
 		expect( foundLinks.externalDofollow ).toBe( 0 );
@@ -117,13 +142,17 @@ describe( "Tests a string for anchors and its attributes", function() {
 
 	it( "should detect nofollow suffixed with some other argument in the rel tag", function() {
 		var mockPaper = new Paper( "string <a href='http://example.com' rel='nofollow noreferrer'>link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		let researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 1 );
 		expect( foundLinks.externalDofollow ).toBe( 0 );
 
 		mockPaper = new Paper( "string <a href='http://example.com' rel='nofollow noreferrer noopener'>link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 1 );
 		expect( foundLinks.externalDofollow ).toBe( 0 );
@@ -131,13 +160,17 @@ describe( "Tests a string for anchors and its attributes", function() {
 
 	it( "should detect nofollow prefixed with some other argument in the rel tag", function() {
 		var mockPaper = new Paper( "string <a href='http://example.com' rel=\"noreferrer nofollow\">link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		let researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 1 );
 		expect( foundLinks.externalDofollow ).toBe( 0 );
 
 		mockPaper = new Paper( "string <a href='http://example.com' rel=\"noopener noreferrer nofollow\">link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 1 );
 		expect( foundLinks.externalDofollow ).toBe( 0 );
@@ -145,7 +178,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 
 	it( "should detect nofollow prefixed and suffixed with some other argument in the rel tag", function() {
 		var mockPaper = new Paper( "string <a href='http://example.com' rel='external nofollow noreferrer'>link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 1 );
 		expect( foundLinks.externalDofollow ).toBe( 0 );
@@ -153,7 +188,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 
 	it( "should allow nofollow as single argument without quotes", function() {
 		var mockPaper = new Paper( "string <a href='http://example.com' rel=nofollow>link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 1 );
 		expect( foundLinks.externalDofollow ).toBe( 0 );
@@ -161,7 +198,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 
 	it( "should ignore single argument without quotes when starting with nofollow", function() {
 		var mockPaper = new Paper( "string <a href='http://example.com' rel=nofollowmoretext>link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 0 );
 		expect( foundLinks.externalDofollow ).toBe( 1 );
@@ -169,7 +208,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 
 	it( "should ignore tags ending in rel", function() {
 		var mockPaper = new Paper( "string <a href='http://example.com' horel=\"nofollow\">link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 0 );
 		expect( foundLinks.externalDofollow ).toBe( 1 );
@@ -177,7 +218,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 
 	it( "should ignore nofollow outside of rel tag", function() {
 		var mockPaper = new Paper( "string <a href='http://example.com' rel=\"\" nofollow>link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 0 );
 		expect( foundLinks.externalDofollow ).toBe( 1 );
@@ -185,7 +228,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 
 	it( "should ignore malformed rel tag", function() {
 		var mockPaper = new Paper( "string <a href='http://example.com' rel=\"nofollow'>link</a>", paperAttributes );
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 0 );
 	} );
@@ -197,8 +242,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 			permalink: "http://example.org",
 		};
 		var mockPaper = new Paper( "hello", attributes );
-
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 
 		expect( foundLinks ).toEqual( {
 			total: 0,
@@ -229,7 +275,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 							   "" +
 							   "" +
 							   "", attributes );
-		foundLinks = linkCount( mockPaper );
+		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks ).toEqual( {
 			total: 8,
 			totalNaKeyword: 0,
@@ -260,8 +306,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.org/keyword'>Keyword</a>", attributes );
-
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 
 		expect( foundLinks ).toEqual( {
 			total: 1,
@@ -290,8 +337,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.org/keyword'>Keyword</a>", attributes );
-
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 
 		expect( foundLinks ).toEqual( {
 			total: 1,
@@ -320,8 +368,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.org/keyword#top'>resume</a>", attributes );
-
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 
 		expect( foundLinks ).toEqual( {
 			total: 1,
@@ -350,8 +399,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword#top'>resume</a>", attributes );
-
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 
 		expect( foundLinks ).toEqual( {
 			total: 1,
@@ -380,8 +430,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword#top'>keyword</a>", attributes );
-
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 
 		expect( foundLinks ).toEqual( {
 			total: 1,
@@ -410,8 +461,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword#top'>keyword</a>", attributes );
-
-		foundLinks = linkCount( mockPaper );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
 
 		expect( foundLinks ).toEqual( {
 			total: 1,
@@ -430,5 +482,114 @@ describe( "Tests a string for anchors and its attributes", function() {
 			otherDofollow: 0,
 			otherNofollow: 0,
 		} );
+	} );
+
+	it( "should match different keyword forms in a url ", function() {
+		var attributes = {
+			keyword: "keyword",
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
+		};
+
+		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>keywords</a>", attributes );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toEqual( 1 );
+		expect( foundLinks.totalNaKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.totalKeyword ).toEqual( 1 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com/keyword'>keywords</a>" ] );
+	} );
+
+	it( "should match all words from keyphrase in the link text and vice versa ", function() {
+		var attributes = {
+			keyword: "key word and key phrase",
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
+		};
+
+		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>keys wording phrased</a>", attributes );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toEqual( 1 );
+		expect( foundLinks.totalNaKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.totalKeyword ).toEqual( 1 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com/keyword'>keys wording phrased</a>" ] );
+	} );
+
+	it( "should match all words from keyphrase in the link text and vice versa (including synonyms)", function() {
+		var attributes = {
+			keyword: "key word and key phrase",
+			synonyms: "interesting article, and another exciting paper",
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
+		};
+
+		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>keys wording phrased</a>" +
+			" as  well as the lovely <a href='http://example.com/keyword'>articles which are interesting</a>, " +
+			"and <a href='http://example.com/keyword'>excited papers</a>", attributes );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toEqual( 3 );
+		expect( foundLinks.totalNaKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.totalKeyword ).toEqual( 3 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [
+			"<a href='http://example.com/keyword'>keys wording phrased</a>",
+			"<a href='http://example.com/keyword'>articles which are interesting</a>",
+			"<a href='http://example.com/keyword'>excited papers</a>",
+		] );
+	} );
+
+	it( "should not match partial overlap", function() {
+		var attributes = {
+			keyword: "key word and key phrase",
+			synonyms: "interesting article, and another exciting paper",
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
+		};
+
+		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>keys wording </a>" +
+			" as  well as the lovely <a href='http://example.com/keyword'>articles which are </a>, " +
+			"and <a href='http://example.com/keyword'>excited papers</a>", attributes );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toEqual( 3 );
+		expect( foundLinks.totalNaKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.totalKeyword ).toEqual( 1 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [
+			"<a href='http://example.com/keyword'>excited papers</a>",
+		] );
+	} );
+
+	it( "for languages with function words but without morphology should filter the function words out", function() {
+		var attributes = {
+			keyword: "se promener dans la nature avantages",
+			synonyms: "cycler nature",
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
+			locale: "fr_FR",
+		};
+
+		var mockPaper = new Paper( "bonjour, c'est mon link pour  <a href='http://example.com/keyword'>promener avantages nature</a>" +
+			" et un merveilleux <a href='http://example.com/keyword'>dans nature cycler </a>, " +
+			" et aussi <a href='http://example.com/keyword'>qqch</a>", attributes );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toEqual( 3 );
+		expect( foundLinks.totalNaKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.totalKeyword ).toEqual( 2 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [
+			"<a href='http://example.com/keyword'>promener avantages nature</a>",
+			"<a href='http://example.com/keyword'>dans nature cycler </a>",
+		] );
 	} );
 } );

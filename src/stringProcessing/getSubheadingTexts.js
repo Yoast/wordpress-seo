@@ -16,7 +16,7 @@ export default function( text ) {
 	text = text.replace( /\|/ig, "" );
 	text = text.replace( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig, "|" );
 
-	let subheadingsTexts = text.split( "|" );
+	const subheadingsTexts = text.split( "|" );
 
 	if ( isEmpty( subheadingsTexts[ 0 ] ) ) {
 		subheadingsTexts.shift();

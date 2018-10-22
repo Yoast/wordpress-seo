@@ -5,7 +5,7 @@ import it from "./it";
 import ru from "./ru";
 import pl from "./pl";
 
-let configurations = {
+const configurations = {
 	it: it,
 	ru: ru,
 	pl: pl,
@@ -19,8 +19,8 @@ let configurations = {
  * @returns {Object} The configuration object.
  */
 export default function( locale ) {
-	let language = getLanguage( locale );
-	if( configurations.hasOwnProperty( language ) ) {
+	const language = getLanguage( locale );
+	if ( configurations.hasOwnProperty( language ) ) {
 		return defaultsDeep( configurations[ language ], defaultConfig );
 	}
 

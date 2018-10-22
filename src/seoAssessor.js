@@ -9,7 +9,6 @@ import InternalLinksAssessment from "./assessments/seo/InternalLinksAssessment";
 import TitleKeywordAssessment from "./assessments/seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
 import Assessor from "./assessor";
-import keywordStopWords from "./assessments/seo/keywordStopWordsAssessment";
 import MetaDescriptionLength from "./assessments/seo/metaDescriptionLengthAssessment";
 import SubheadingsKeyword from "./assessments/seo/subheadingsKeywordAssessment";
 import TextImages from "./assessments/seo/textImagesAssessment";
@@ -18,6 +17,7 @@ import OutboundLinks from "./assessments/seo/outboundLinksAssessment";
 import TitleWidth from "./assessments/seo/pageTitleWidthAssessment";
 import UrlLength from "./assessments/seo/urlLengthAssessment";
 import urlStopWords from "./assessments/seo/urlStopWordsAssessment";
+import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
 /**
  * Creates the Assessor
  *
@@ -35,7 +35,6 @@ const SEOAssessor = function( i18n, options ) {
 		new IntroductionKeywordAssessment(),
 		new KeyphraseLengthAssessment(),
 		new KeywordDensityAssessment(),
-		keywordStopWords,
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLength(),
 		new SubheadingsKeyword(),
@@ -49,6 +48,7 @@ const SEOAssessor = function( i18n, options ) {
 		new UrlKeywordAssessment(),
 		new UrlLength(),
 		urlStopWords,
+		new FunctionWordsInKeyphrase(),
 	];
 };
 

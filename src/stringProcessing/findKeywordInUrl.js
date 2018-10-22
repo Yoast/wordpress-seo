@@ -1,23 +1,24 @@
 /** @module stringProcessing/findKeywordInUrl */
 
-import matchTextWithTransliteration from "./matchTextWithTransliteration.js";
-
-import { escapeRegExp } from "lodash-es";
+import { findTopicFormsInString } from "../researches/findKeywordFormsInString.js";
 
 /**
  * Matches the keyword in the URL.
  *
  * @param {string} url The url to check for keyword
- * @param {string} keyword The keyword to check if it is in the URL
+ * @param {Object} topicForms The keyphrase and synonyms forms to look for
  * @param {string} locale The locale used for transliteration.
  * @returns {boolean} If a keyword is found, returns true
  */
-export default function( url, keyword, locale ) {
+export default function( url, topicForms, locale = "en_EN" ) {
 	var formatUrl = url.match( />(.*)/ig );
-	keyword = escapeRegExp( keyword );
 	if ( formatUrl !== null ) {
 		formatUrl = formatUrl[ 0 ].replace( /<.*?>\s?/ig, "" );
-		return matchTextWithTransliteration( formatUrl, keyword, locale ).length > 0;
+		formatUrl = formatUrl.slice( 1 ).toString();
+
+		const topicInLinkText = findTopicFormsInString( topicForms, formatUrl, true, locale );
+
+		return topicInLinkText.percentWordMatches === 100;
 	}
 
 	return false;
