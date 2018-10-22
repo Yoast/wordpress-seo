@@ -1,20 +1,18 @@
-import Participle from "../../../values/Participle.js";
-import checkException from "../../passiveVoice/periphrastic/checkException.js";
-import directPrecedenceException from "../../../stringProcessing/directPrecedenceException";
+import { forEach, includes, memoize } from "lodash-es";
+
+import directPrecedenceException from "../../../stringProcessing/directPrecedenceExceptionWithoutRegex";
+import getWords from "../../../stringProcessing/getWords";
 import precedenceException from "../../../stringProcessing/precedenceException";
+import Participle from "../../../values/Participle";
+import checkException from "../../passiveVoice/periphrastic/checkException";
+import exceptionsParticiplesFactory from "./exceptionsParticiples";
 
-import exceptionsParticiplesAdjectivesVerbsFactory from "./exceptionsParticiples.js";
-var exceptionsParticiplesAdjectivesVerbs = exceptionsParticiplesAdjectivesVerbsFactory().adjectivesVerbs;
-import exceptionsParticiplesNounsVowelFactory from "./exceptionsParticiples.js";
-var exceptionsParticiplesNounsVowel = exceptionsParticiplesNounsVowelFactory().nounsStartingWithVowel;
-import exceptionsParticiplesNounsConsonantFactory from "./exceptionsParticiples.js";
-var exceptionsParticiplesNounsConsonant = exceptionsParticiplesNounsConsonantFactory().nounsStartingWithConsonant;
-import exceptionsParticiplesOthersFactory from "./exceptionsParticiples.js";
-var exceptionsParticiplesOthers = exceptionsParticiplesOthersFactory().others;
-
-import { includes } from "lodash-es";
-import { forEach } from "lodash-es";
-import { memoize } from "lodash-es";
+const {
+	adjectivesVerbs: exceptionsParticiplesAdjectivesVerbs,
+	nounsStartingWithVowel: exceptionsParticiplesNounsVowel,
+	nounsStartingWithConsonant: exceptionsParticiplesNounsConsonant,
+	others: exceptionsParticiplesOthers,
+} = exceptionsParticiplesFactory();
 
 /**
  * Creates an Participle object for the French language.
@@ -50,20 +48,21 @@ var checkIrregular = function() {
  * @returns {boolean} Returns true if no exception is found.
  */
 FrenchParticiple.prototype.isPassive = function() {
-	let sentencePart = this.getSentencePart();
-	let participleIndex = sentencePart.indexOf( this.getParticiple() );
-	let language = this.getLanguage();
+	const sentencePart = this.getSentencePart();
+	const wordsInSentencePart = getWords( sentencePart );
+	const participleIndex = wordsInSentencePart.indexOf( this.getParticiple() );
+	const language = this.getLanguage();
 
 	// Only check precedence exceptions for irregular participles.
 	if ( checkIrregular.call( this ) ) {
-		return ! this.directPrecedenceException( sentencePart, participleIndex, language ) &&
+		return ! this.directPrecedenceException( wordsInSentencePart, participleIndex, language ) &&
 			! this.precedenceException( sentencePart, participleIndex, language );
 	}
 	// Check precedence exceptions and exception lists for regular participles.
 	return ! this.isOnAdjectivesVerbsExceptionList() &&
 		! this.isOnNounsExceptionList() &&
 		! this.isOnOthersExceptionList() &&
-		! this.directPrecedenceException( sentencePart, participleIndex, language ) &&
+		! this.directPrecedenceException( wordsInSentencePart, participleIndex, language ) &&
 		! this.precedenceException( sentencePart, participleIndex, language );
 };
 
@@ -73,7 +72,7 @@ FrenchParticiple.prototype.isPassive = function() {
  * @returns {Array} Returns an array with all adjective and verb participle exceptions.
  */
 var getExceptionsParticiplesAdjectivesVerbsRegexes = memoize( function() {
-	let exceptionsParticiplesAdjectivesVerbsRegexes = [];
+	const exceptionsParticiplesAdjectivesVerbsRegexes = [];
 	forEach( exceptionsParticiplesAdjectivesVerbs, function( exceptionParticiplesAdjectivesVerbs ) {
 		exceptionsParticiplesAdjectivesVerbsRegexes.push( new RegExp( "^" + exceptionParticiplesAdjectivesVerbs + "(e|s|es)?$", "ig" ) );
 	} );
@@ -86,7 +85,7 @@ var getExceptionsParticiplesAdjectivesVerbsRegexes = memoize( function() {
  * @returns {Array} Returns an array with all noun participle exceptions.
  */
 var getExceptionsParticiplesNounsRegexes = memoize( function() {
-	let exceptionsParticiplesNounsRegexes = [];
+	const exceptionsParticiplesNounsRegexes = [];
 
 	// Nouns starting with a vowel are checked with -s suffix and l' and d' prefixes.
 	forEach( exceptionsParticiplesNounsVowel, function( exceptionParticipleNounVowel ) {
@@ -117,7 +116,7 @@ var checkParticipleExceptionRegexes = function( participleExceptionRegexes ) {
 		}
 	} );
 
-	if( match.length > 0 ) {
+	if ( match.length > 0 ) {
 		return true;
 	}
 
