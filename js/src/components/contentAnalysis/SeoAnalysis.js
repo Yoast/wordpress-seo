@@ -36,6 +36,20 @@ export const HelpLink = utils.makeOutboundLink( styled.a`
 	margin: -4px 0;
 	vertical-align: middle;
 
+	color: ${ colors.$color_help_text };
+	
+	&:hover,
+	&:focus {
+		color: ${ colors.$color_snippet_focus };	
+	}
+	
+	// Overwrite the default blue active color for links.
+	&:active {
+		color: ${ colors.$color_help_text };	
+	}
+	
+	
+
 	&::before {
 		position: absolute;
 		top: 0;
