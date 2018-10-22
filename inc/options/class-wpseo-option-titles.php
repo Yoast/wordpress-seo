@@ -194,6 +194,50 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	}
 
 	/**
+	 * Get the available separator options.
+	 *
+	 * @return array
+	 */
+	public function get_separator_options_for_display() {
+		$separators = $this->get_separator_options();
+
+		$human_friendly_labels = array(
+			'sc-dash'   => __( 'Dash', 'wordpress-seo' ),
+			'sc-ndash'  => __( 'En dash', 'wordpress-seo' ),
+			'sc-mdash'  => __( 'Em dash', 'wordpress-seo' ),
+			'sc-colon'  => __( 'Colon', 'wordpress-seo' ),
+			'sc-middot' => __( 'Middle dot', 'wordpress-seo' ),
+			'sc-bull'   => __( 'Bullet', 'wordpress-seo' ),
+			'sc-star'   => __( 'Asterisk', 'wordpress-seo' ),
+			'sc-smstar' => __( 'Low asterisk', 'wordpress-seo' ),
+			'sc-pipe'   => __( 'Vertical bar', 'wordpress-seo' ),
+			'sc-tilde'  => __( 'Small tilde', 'wordpress-seo' ),
+			'sc-laquo'  => __( 'Left angle quotation mark', 'wordpress-seo' ),
+			'sc-raquo'  => __( 'Right angle quotation mark', 'wordpress-seo' ),
+			'sc-lt'     => __( 'Less than sign', 'wordpress-seo' ),
+			'sc-gt'     => __( 'Greater than sign', 'wordpress-seo' ),
+		);
+
+		/**
+		 * Allows altering the separator options friendly labels array.
+		 *
+		 * @api array $human_friendly_labels Array with the separator options friendly labels.
+		 */
+		$filtered_human_friendly_labels = apply_filters( 'wpseo_separator_options_friendly_labels', $human_friendly_labels );
+
+		foreach ( $separators as $key => $label ) {
+			$friendly_label = isset( $filtered_human_friendly_labels[ $key ] ) ? $filtered_human_friendly_labels[ $key ] : '';
+
+			$friendly_separators[ $key ] = array(
+				'label'          => $label,
+				'friendly_label' => $friendly_label,
+			);
+		}
+
+		return $friendly_separators;
+	}
+
+	/**
 	 * Translate strings used in the option defaults.
 	 *
 	 * @return void

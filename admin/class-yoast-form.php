@@ -208,13 +208,16 @@ class Yoast_Form {
 	 */
 	public function label( $text, $attr ) {
 		$defaults = array(
-			'class' => 'checkbox',
-			'close' => true,
-			'for'   => '',
+			'class'      => 'checkbox',
+			'close'      => true,
+			'for'        => '',
+			'aria_label' => '',
 		);
-		$attr     = wp_parse_args( $attr, $defaults );
 
-		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'>$text";
+		$attr       = wp_parse_args( $attr, $defaults );
+		$aria_label = ( $attr['aria_label'] !== '' ) ? ' aria-label="' . esc_attr( $attr['aria_label'] ) . '"' : '';
+
+		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>$text";
 		if ( $attr['close'] ) {
 			echo '</label>';
 		}
@@ -575,23 +578,33 @@ class Yoast_Form {
 
 		if ( is_string( $legend ) && '' !== $legend ) {
 
-			$defaults    = array(
+			$defaults = array(
 				'id'    => '',
 				'class' => 'radiogroup',
 			);
+
 			$legend_attr = wp_parse_args( $legend_attr, $defaults );
 
 			$this->legend( $legend, $legend_attr );
 		}
 
 		foreach ( $values as $key => $value ) {
+			$label      = $value;
+			$aria_label = '';
+
+			if ( is_array( $value ) ) {
+				$label = isset( $value['label'] ) ? $value['label'] : '';
+				$aria_label = isset( $value['friendly_label'] ) ? $value['friendly_label'] : '';
+			}
+
 			$key_esc = esc_attr( $key );
 			echo '<input type="radio" class="radio" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . disabled( $this->is_control_disabled( $var ), true, false ) . ' />';
 			$this->label(
-				$value,
+				$label,
 				array(
-					'for'   => $var_esc . '-' . $key_esc,
-					'class' => 'radio',
+					'for'        => $var_esc . '-' . $key_esc,
+					'class'      => 'radio',
+					'aria_label' => $aria_label,
 				)
 			);
 		}
