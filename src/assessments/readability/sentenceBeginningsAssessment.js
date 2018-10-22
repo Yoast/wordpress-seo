@@ -1,27 +1,23 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
+import { filter, flatten, map, partition, sortBy } from "lodash-es";
+
+import marker from "../../markers/addMark";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHTMLTags";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
 
-import { partition } from "lodash-es";
-import { sortBy } from "lodash-es";
-import { map } from "lodash-es";
-import { filter } from "lodash-es";
-import { flatten } from "lodash-es";
-
-import Mark from "../../values/Mark.js";
-import marker from "../../markers/addMark.js";
-
-let maximumConsecutiveDuplicates = 2;
+const maximumConsecutiveDuplicates = 2;
 
 import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
-let availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "ru", "pl" ];
+const availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "ru", "pl" ];
 
 /**
  * Counts and groups the number too often used sentence beginnings and determines the lowest count within that group.
  * @param {array} sentenceBeginnings The array containing the objects containing the beginning words and counts.
  * @returns {object} The object containing the total number of too often used beginnings and the lowest count within those.
  */
-let groupSentenceBeginnings = function( sentenceBeginnings ) {
-	let tooOften = partition( sentenceBeginnings, function( word ) {
+const groupSentenceBeginnings = function( sentenceBeginnings ) {
+	const tooOften = partition( sentenceBeginnings, function( word ) {
 		return word.count > maximumConsecutiveDuplicates;
 	} );
 
@@ -29,7 +25,7 @@ let groupSentenceBeginnings = function( sentenceBeginnings ) {
 		return { total: 0 };
 	}
 
-	let sortedCounts = sortBy( tooOften[ 0 ], function( word ) {
+	const sortedCounts = sortBy( tooOften[ 0 ], function( word ) {
 		return word.count;
 	} );
 
@@ -42,9 +38,9 @@ let groupSentenceBeginnings = function( sentenceBeginnings ) {
  * @param {object} i18n The object used for translations.
  * @returns {{score: number, text: string, hasMarks: boolean}} result object with score and text.
  */
-let calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18n ) {
-	let urlTitle = "<a href='https://yoa.st/35f' target='_blank'>";
-	let urlCallToAction = "<a href='https://yoa.st/35g' target='_blank'>";
+const calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18n ) {
+	const urlTitle = createAnchorOpeningTag( "https://yoa.st/35f" );
+	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35g" );
 
 	if ( groupedSentenceBeginnings.total > 0 ) {
 		return {
@@ -88,19 +84,19 @@ let calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18
  * @param {object} researcher The researcher used for calling research.
  * @returns {object} All marked sentences.
  */
-let sentenceBeginningMarker = function( paper, researcher ) {
+const sentenceBeginningMarker = function( paper, researcher ) {
 	let sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
 	sentenceBeginnings = filter( sentenceBeginnings, function( sentenceBeginning ) {
 		return sentenceBeginning.count > maximumConsecutiveDuplicates;
 	} );
 
-	let sentences = map( sentenceBeginnings, function( begin ) {
+	const sentences = map( sentenceBeginnings, function( begin ) {
 		return begin.sentences;
 	} );
 
 	return map( flatten( sentences ), function( sentence ) {
 		sentence = stripTags( sentence );
-		let marked = marker( sentence );
+		const marked = marker( sentence );
 		return new Mark( {
 			original: sentence,
 			marked: marked,
@@ -115,11 +111,11 @@ let sentenceBeginningMarker = function( paper, researcher ) {
  * @param {object} i18n The object used for translations.
  * @returns {object} The Assessment result
  */
-let sentenceBeginningsAssessment = function( paper, researcher, i18n ) {
-	let sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
-	let groupedSentenceBeginnings = groupSentenceBeginnings( sentenceBeginnings );
-	let sentenceBeginningsResult = calculateSentenceBeginningsResult( groupedSentenceBeginnings, i18n );
-	let assessmentResult = new AssessmentResult();
+const sentenceBeginningsAssessment = function( paper, researcher, i18n ) {
+	const sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
+	const groupedSentenceBeginnings = groupSentenceBeginnings( sentenceBeginnings );
+	const sentenceBeginningsResult = calculateSentenceBeginningsResult( groupedSentenceBeginnings, i18n );
+	const assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( sentenceBeginningsResult.score );
 	assessmentResult.setText( sentenceBeginningsResult.text );
@@ -131,7 +127,7 @@ export default {
 	identifier: "sentenceBeginnings",
 	getResult: sentenceBeginningsAssessment,
 	isApplicable: function( paper ) {
-		let isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
+		const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
 		return ( isLanguageAvailable && paper.hasText() );
 	},
 	getMarks: sentenceBeginningMarker,

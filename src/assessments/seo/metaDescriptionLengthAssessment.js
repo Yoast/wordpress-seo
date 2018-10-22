@@ -1,9 +1,8 @@
 import { merge } from "lodash-es";
-
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
-
+import Assessment from "../../assessment";
 import Config from "../../config/config";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import AssessmentResult from "../../values/AssessmentResult";
 
 const maximumMetaDescriptionLength = Config.maxMeta;
 
@@ -21,7 +20,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			recommendedMaximumLength: 120,
 			maximumLength: maximumMetaDescriptionLength,
 			scores: {
@@ -30,8 +29,8 @@ class MetaDescriptionLengthAssessment extends Assessment {
 				tooShort: 6,
 				correctLength: 9,
 			},
-			urlTitle: "<a href='https://yoa.st/34d' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/34e' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34d" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34e" ),
 		};
 
 		this.identifier = "metaDescriptionLength";
@@ -57,8 +56,8 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let descriptionLength = researcher.getResearch( "metaDescriptionLength" );
-		let assessmentResult = new AssessmentResult();
+		const descriptionLength = researcher.getResearch( "metaDescriptionLength" );
+		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( this.calculateScore( descriptionLength ) );
 		assessmentResult.setText( this.translateScore( descriptionLength, i18n ) );

@@ -2,12 +2,12 @@ import WordCombination from "../../src/values/WordCombination";
 import relevantWords from "../../src/stringProcessing/relevantWords";
 import portugueseFunctionWordsFactory from "../../src/researches/portuguese/functionWords.js";
 
-let getRelevantWords = relevantWords.getRelevantWords;
-let portugueseFunctionWords = portugueseFunctionWordsFactory().all;
+const getRelevantWords = relevantWords.getRelevantWords;
+const portugueseFunctionWords = portugueseFunctionWordsFactory().all;
 
 describe( "gets Portuguese word combinations", function() {
 	it( "returns word combinations", function() {
-		let input = "Os números oficiais sugerem que o crime está em baixa, mas as autoridades " +
+		const input = "Os números oficiais sugerem que o crime está em baixa, mas as autoridades " +
 			"dizem que muitas vítimas pararam de denunciar incidentes. " +
 			"Os números oficiais sugerem que o crime está em baixa, mas as autoridades " +
 			"dizem que muitas vítimas pararam de denunciar incidentes. " +
@@ -23,7 +23,7 @@ describe( "gets Portuguese word combinations", function() {
 			"dizem que muitas vítimas pararam de denunciar incidentes. " +
 			"Os números oficiais sugerem que o crime está em baixa, mas as autoridades " +
 			"dizem que muitas vítimas pararam de denunciar incidentes. ";
-		let expected = [
+		const expected = [
 			new WordCombination( [ "vítimas", "pararam", "de", "denunciar", "incidentes" ], 8, portugueseFunctionWords ),
 			new WordCombination( [ "pararam", "de", "denunciar", "incidentes" ], 8, portugueseFunctionWords ),
 			new WordCombination( [ "vítimas", "pararam", "de", "denunciar" ], 8, portugueseFunctionWords ),
@@ -47,7 +47,7 @@ describe( "gets Portuguese word combinations", function() {
 		// Make sure our words aren't filtered by density.
 		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
 
-		let words = getRelevantWords( input, "pt_PT" );
+		const words = getRelevantWords( input, "pt_PT" );
 
 		words.forEach( function( word ) {
 			delete( word._relevantWords );

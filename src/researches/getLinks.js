@@ -12,7 +12,7 @@ import url from "../stringProcessing/url.js";
  * @returns {Array} An array with the anchors
  */
 export default function( paper ) {
-	let anchors = getAnchors( paper.getText() );
+	const anchors = getAnchors( paper.getText() );
 
 	return map( anchors, url.getFromAnchorTag );
 }

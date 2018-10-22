@@ -23,7 +23,7 @@ describe( "A stop word in keyword assessment", function() {
 		var assessment = stopWordsInKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ "about" ] ), i18n );
 		expect( assessment.getScore() ).toEqual( 0 );
 		expect( assessment.hasScore() ).toEqual( true );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34b' target='_blank'>Stopwords</a>: The focus keyphrase contains stop words. This may or may not be wise depending on the circumstances. <a href='https://yoa.st/34c' target='_blank'>Learn more about stop words</a>." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34b' target='_blank'>Stopwords</a>: The keyphrase contains stop words. This may or may not be wise depending on the circumstances. <a href='https://yoa.st/34c' target='_blank'>Learn more about stop words</a>." );
 	} );
 
 	it( "assesses multiple stop words in the keyword", function() {
@@ -33,7 +33,7 @@ describe( "A stop word in keyword assessment", function() {
 
 		var assessment = stopWordsInKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ "about", "before" ] ), i18n );
 		expect( assessment.getScore() ).toEqual( 0 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34b' target='_blank'>Stopwords</a>: The focus keyphrase contains stop words. This may or may not be wise depending on the circumstances. <a href='https://yoa.st/34c' target='_blank'>Learn more about stop words</a>." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34b' target='_blank'>Stopwords</a>: The keyphrase contains stop words. This may or may not be wise depending on the circumstances. <a href='https://yoa.st/34c' target='_blank'>Learn more about stop words</a>." );
 	} );
 } );
 

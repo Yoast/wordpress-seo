@@ -1,8 +1,8 @@
-import { inRange } from "lodash-es";
-import { merge } from "lodash-es";
+import { inRange, merge } from "lodash-es";
 
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
+import Assessment from "../../assessment";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Assessment that will test if the text is long enough.
@@ -18,7 +18,7 @@ class TextLengthAssessment extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			recommendedMinimum: 300,
 			slightlyBelowMinimum: 250,
 			belowMinimum: 200,
@@ -31,8 +31,8 @@ class TextLengthAssessment extends Assessment {
 				farBelowMinimum: -10,
 				veryFarBelowMinimum: -20,
 			},
-			urlTitle: "<a href='https://yoa.st/34n' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/34o' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34n" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34o" ),
 		};
 
 		this.identifier = "textLength";
@@ -49,8 +49,8 @@ class TextLengthAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let wordCount = researcher.getResearch( "wordCountInText" );
-		let assessmentResult = new AssessmentResult();
+		const wordCount = researcher.getResearch( "wordCountInText" );
+		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( this.calculateScore( wordCount ) );
 		assessmentResult.setText(

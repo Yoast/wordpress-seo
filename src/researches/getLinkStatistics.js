@@ -6,10 +6,11 @@ import getLinkType from "../stringProcessing/getLinkType.js";
 import checkNofollow from "../stringProcessing/checkNofollow.js";
 import urlHelper from "../stringProcessing/url.js";
 import parseSynonyms from "../stringProcessing/parseSynonyms";
-import Paper from "../values/Paper";
+import { buildForms } from "./buildKeywordForms";
+import getLanguage from "../helpers/getLanguage";
 
 import { flatten } from "lodash-es";
-import { findTopicFormsInString } from "./findKeywordFormsInString";
+import { findWordFormsInString } from "./findKeywordFormsInString";
 
 
 /**
@@ -68,22 +69,20 @@ const filterAnchorsContainingTopic = function( anchors, topicForms, locale ) {
  * @param {Array} anchors An array with all anchors from the paper.
  * @param {Array} keyphraseAndSynonyms An array with keyphrase and its synonyms.
  * @param {string} locale The locale of the paper.
- * @param {Researcher} researcher The morphological researcher.
+ * @param {Object} morphologyData The morphology data (regexes and exception lists) available for the language.
  *
  * @returns {Array} The array of all anchors that contain keyphrase or synonyms.
  */
-const filterAnchorsContainedInTopic = function( anchors, keyphraseAndSynonyms, locale, researcher ) {
-	let anchorsContainedInTopic = [];
+const filterAnchorsContainedInTopic = function( anchors, keyphraseAndSynonyms, locale, morphologyData ) {
+	const anchorsContainedInTopic = [];
 
 	anchors.forEach( function( currentAnchor ) {
-		// Create a fake paper to be able to generate the forms of the content words from within the anchor.
-		const fakePaper = new Paper( "", { keyword: currentAnchor, locale: locale } );
-		researcher.setPaper( fakePaper );
-		const linkTextForms = researcher.getResearch( "morphology" );
+		// Generate the forms of the content words from within the anchor.
+		const linkTextForms = buildForms( currentAnchor, getLanguage( locale ), morphologyData );
 
 		for ( let j = 0; j < keyphraseAndSynonyms.length; j++ ) {
 			const topic = keyphraseAndSynonyms[ j ];
-			if ( findTopicFormsInString( linkTextForms, topic, false, locale ).percentWordMatches === 100 ) {
+			if ( findWordFormsInString( linkTextForms, topic, locale ).percentWordMatches === 100 ) {
 				anchorsContainedInTopic.push( true );
 				break;
 			}
@@ -136,8 +135,9 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
 	const synonyms = paper.getSynonyms();
 	const keyphraseAndSynonyms = flatten( [].concat( keyword, parseSynonyms( synonyms ) ) );
 
+	const morphologyData = researcher.getData( "morphology" )[ getLanguage( locale ) ] || false;
 
-	anchors = filterAnchorsContainedInTopic( anchors, keyphraseAndSynonyms, locale, researcher );
+	anchors = filterAnchorsContainedInTopic( anchors, keyphraseAndSynonyms, locale, morphologyData );
 	result.totalKeyword = anchors.length;
 	result.matchedAnchors = anchors;
 
@@ -170,7 +170,7 @@ const countLinkTypes = function( paper, researcher ) {
 	const anchors = getAnchors( paper.getText() );
 	const permalink = paper.getPermalink();
 
-	let linkCount = {
+	const linkCount = {
 		total: anchors.length,
 		totalNaKeyword: 0,
 		keyword: {

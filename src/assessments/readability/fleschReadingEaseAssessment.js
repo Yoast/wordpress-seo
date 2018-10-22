@@ -1,9 +1,9 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
-import { inRange } from "lodash-es";
-import { merge } from "lodash-es";
+import { inRange, merge } from "lodash-es";
 
-import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
+import Assessment from "../../assessment";
+import getLanguageAvailability from "../../helpers/getLanguageAvailability";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import AssessmentResult from "../../values/AssessmentResult";
 
 const availableLanguages = [ "en", "nl", "de", "it", "ru", "fr", "es" ];
 
@@ -18,8 +18,8 @@ class FleschReadingEaseAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			urlTitle: "<a href='https://yoa.st/34r' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/34s' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34r" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34s" ),
 		};
 
 		this.identifier = "fleschReadingEase";
@@ -38,7 +38,7 @@ class FleschReadingEaseAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		this.fleschReadingResult = researcher.getResearch( "calculateFleschReading" );
 		if ( this.isApplicable( paper ) ) {
-			let assessmentResult =  new AssessmentResult( i18n );
+			const assessmentResult =  new AssessmentResult( i18n );
 			const calculatedResult = this.calculateResult( i18n );
 			assessmentResult.setScore( calculatedResult.score );
 			assessmentResult.setText( calculatedResult.resultText );
@@ -71,7 +71,7 @@ class FleschReadingEaseAssessment extends Assessment {
 		%3$s expands to the numeric Flesch reading ease score,
 		%4$s to the easiness of reading,
 		%6$s expands to a call to action based on the score */
-		let text = i18n.dgettext(
+		const text = i18n.dgettext(
 			"js-text-analysis",
 			"%1$sFlesch Reading Ease%2$s: The copy scores %3$s in the test, which is considered %4$s to read. %5$s%6$s%7$s"
 		);

@@ -2,12 +2,12 @@ import WordCombination from "../../src/values/WordCombination";
 import relevantWords from "../../src/stringProcessing/relevantWords";
 import polishFunctionWordsFactory from "../../src/researches/polish/functionWords.js";
 
-let getRelevantWords = relevantWords.getRelevantWords;
-let polishFunctionWords = polishFunctionWordsFactory().all;
+const getRelevantWords = relevantWords.getRelevantWords;
+const polishFunctionWords = polishFunctionWordsFactory().all;
 
 describe( "gets Polish word combinations", function() {
 	it( "returns word combinations", function() {
-		let input = "W zasadzie każdy z nas wie, że gdy ktoś odczuwa ból w klatce piersiowej, to należy natychmiast" +
+		const input = "W zasadzie każdy z nas wie, że gdy ktoś odczuwa ból w klatce piersiowej, to należy natychmiast" +
 			" dzwonić po karetkę. W zasadzie każdy z nas wie, że gdy ktoś odczuwa ból w klatce piersiowej, to należy " +
 			"natychmiast dzwonić po karetkę. W zasadzie każdy z nas wie, że gdy ktoś odczuwa ból w klatce piersiowej, " +
 			"to należy natychmiast dzwonić po karetkę. W zasadzie każdy z nas wie, że gdy ktoś odczuwa ból w klatce " +
@@ -18,7 +18,7 @@ describe( "gets Polish word combinations", function() {
 			" wie, że gdy ktoś odczuwa ból w klatce piersiowej, to należy natychmiast dzwonić po karetkę.";
 
 
-		let expected = [
+		const expected = [
 			new WordCombination( [ "odczuwa", "ból", "w", "klatce", "piersiowej" ], 8, polishFunctionWords ),
 			new WordCombination( [ "natychmiast", "dzwonić", "po", "karetkę" ], 8, polishFunctionWords ),
 			new WordCombination( [ "ból", "w", "klatce", "piersiowej" ], 8, polishFunctionWords ),
@@ -42,7 +42,7 @@ describe( "gets Polish word combinations", function() {
 		// Make sure our words aren't filtered by density.
 		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
 
-		let words = getRelevantWords( input, "pl_PL" );
+		const words = getRelevantWords( input, "pl_PL" );
 
 		words.forEach( function( word ) {
 			delete( word._relevantWords );

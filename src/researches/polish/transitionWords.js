@@ -1,6 +1,6 @@
 /** @module config/transitionWords */
 
-let singleWords = [ "aby", "abym", "abyśmy", "abyś", "abyście", "acz", "aczkolwiek", "albowiem", "ale", "aliści",
+const singleWords = [ "aby", "abym", "abyśmy", "abyś", "abyście", "acz", "aczkolwiek", "albowiem", "ale", "aliści",
 	"bo", "bowiem", "bynajmniej", "choć", "chociaż", "chociażby", "czyli", "dlatego", "dodatkowo", "dopóki", "dotychczas",
 	"faktycznie", "gdy", "gdyż", "jakkolwiek", "iż", "jednak", "jednakże", "jeśli", "kiedy", "lecz", "mianowicie", "mimo",
 	"np", "najpierw", "następnie", "natomiast", "ni", "niemniej", "niż", "notabene", "oczywiście", "ogółem",
@@ -10,7 +10,7 @@ let singleWords = [ "aby", "abym", "abyśmy", "abyś", "abyście", "acz", "aczko
 	"wreszcie", "wskutek", "wstępnie", "wszakże", "wszelako", "zamiast", "zanim", "zarówno", "zaś", "zatem", "zresztą",
 	"zwłaszcza", "żeby", "żebym", "żebyś", "żebyście", "żebyśmy" ];
 
-let multipleWords = [ "a konkretnie", "a propos", "aby wrocić do rzeczy", "analogicznie do", "bacząc na to że",
+const multipleWords = [ "a konkretnie", "a propos", "aby wrocić do rzeczy", "analogicznie do", "bacząc na to że",
 	"bądź co bądź", "bez wątpienia", "bez względu", "biorąc pod uwagę", "choćby", "chodzi o to", "chyba że", "co do",
 	"co gorsza", "co prawda", "co się tyczy", "co ważniejsze", "co więcej", "dzięki czemu", "dzięki któremu", "dzięki której",
 	"dzięki którym", "dzięki temu", "faktem jest że", "inaczej mówiąc", "innymi słowy", "jak dotąd", "jak już mówiłam",

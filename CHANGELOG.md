@@ -5,6 +5,41 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.41.0 October 22nd, 2018
+
+### Added
+* Introduces two new principles for keyword recognition:
+  * Makes keyphrase recognition flexible with regards to word order. This means that the keyphrase `SEO WordPress plugin` will be found in the sentence `This is the most popular SEO plugin for WordPress.` In order to use exact matches, the keyphrase can be enclosed in quotation marks.
+  * When matching keyphrases for the various assessments, the analysis only targets content words and ignores function words (e.g., `the` or `and`). This functionality is available in English, German, Dutch, French, Spanish, Italian, Portuguese, Russian and Polish. 
+* Implements support for word form recognition for keyphrases in English (requires Premium configuration).
+* Improves the feedback texts for all SEO and readability assessments.
+* Adds functionality to append a query string to the assessment links through the analysis worker.
+* Adds an assessment that checks whether your keyword consists only of function words.
+
+### Changed
+* The analysis of the following assessments incorporates the new keyword recognition principles:
+  * Image alt attributes: checks whether there’s at least one image with an alt tag that contains words from the keyphrase. An exact match isn’t required anymore.
+  * Keyphrase in introduction: checks whether words from the keyphrase are matched within one sentence in the introduction or, if not, whether they are present in the first paragraph at all. An exact match isn’t required anymore.
+  * Keyphrase in title: still checks whether an exact match of the keyphrase is found in (the beginning of) the title, but now also recommends improvement if all words from the keyphrase are found in the title.
+  * Keyphrase length: has new boundaries to check whether the keyphrase is not too long. For languages that have support for function word stripping (see above), only content words are taken into account.
+  * Keyphrase in meta description: checks how often all words from the keyphrase are matched within the meta description.
+  * Keyphrase in subheading: checks whether at least one subheading contains more than half of the words from the keyphrase. An exact match isn’t required anymore.
+  * Keyphrase in slug: checks whether a sufficient number of words from the keyphrase is used in the slug. The number of words required depends on the length of the keyphrase.
+  * Keyphrase density: checks whether there are enough keyphrase matches; a match is defined as a sentence that contains all words from the keyphrase. The upper boundary for a good score is higher when word form recognition is available, since in that case the analysis is able to pick up more matches.
+  * Link focus keyphrase: the assessment that checks whether you’re using your keyphrase to link to a different article doesn't require an exact match anymore.
+  * Keyphrase distribution uses an improved algorithm that checks whether the keyphrase is evenly distributed throughout the text.
+* The following assessments will also count synonym matches as keyphrase matches:
+  * Image alt attributes
+  * Keyphrase in introduction
+  * Keyphrase in meta description
+  * Keyphrase in subheading
+  * Keyphrase distribution
+* Deprecates the assessment that checks if stopwords are used within the keyphrase.
+* The analysis for related keyphrases only shows assessments relevant for the specific keyphrase. It omits assessments that are non-keyphrase-related and assessments that should only be applied to the focus keyphrase.
+  
+### Fixed
+* Fixes a bug where the keyword would not be found in the slug when containing punctuation, for example the keyphrase `apples & pears` in the slug `apples-pears`.
+
 ## 1.40.0 September 24th, 2018
 
 ### Bugs:

@@ -22,15 +22,15 @@ import PolishParticiple from "../../polish/passiveVoice/PolishParticiple.js";
  * @returns {Array} The list with participle objects.
  */
 export default function( sentencePartText, auxiliaries, language ) {
-	let words = getWords( sentencePartText );
-	let foundParticiples = [];
+	const words = getWords( sentencePartText );
+	const foundParticiples = [];
 
 	forEach( words, function( word ) {
 		let type = "";
-		if( regularParticipleRegex( word, language ).length !== 0 ) {
+		if ( regularParticipleRegex( word, language ).length !== 0 ) {
 			type = "regular";
 		}
-		if( irregularParticipleRegex( word, language ).length !== 0 ) {
+		if ( irregularParticipleRegex( word, language ).length !== 0 ) {
 			type = "irregular";
 		}
 		if ( type !== "" ) {

@@ -72,7 +72,7 @@ testPapers.forEach( function( testPaper ) {
 
 		const locale = paper.getLocale();
 		const expectedResults = testPaper.expectedResults;
-		let result = {};
+		const result = {};
 
 		// SEO assessments.
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {
@@ -200,7 +200,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the titleKeyword assessment", function() {
 			result.titleKeyword = new TitleKeywordAssessment().getResult(
 				paper,
-				factory.buildMockResearcher( findKeywordInPageTitle( paper ) ),
+				factory.buildMockResearcher( findKeywordInPageTitle( paper, researcher ) ),
 				i18n
 			);
 			expect( result.titleKeyword.getScore() ).toBe( expectedResults.titleKeyword.score );

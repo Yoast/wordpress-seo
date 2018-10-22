@@ -3,7 +3,7 @@ import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();
 
-let imageCountAssessment = new ImageCountAssessment();
+const imageCountAssessment = new ImageCountAssessment();
 
 describe( "An image count assessment", function() {
 	it( "assesses no images", function() {

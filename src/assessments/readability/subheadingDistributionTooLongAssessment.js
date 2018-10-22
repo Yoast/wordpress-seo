@@ -1,15 +1,14 @@
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
-import isTextTooLong from "../../helpers/isValueTooLong";
-import { getSubheadings } from "../../stringProcessing/getSubheadings.js";
-import getWords from "../../stringProcessing/getWords.js";
-import { filter } from "lodash-es";
-import { map } from "lodash-es";
-import { merge } from "lodash-es";
+import { filter, map, merge } from "lodash-es";
 
-import Mark from "../../values/Mark.js";
-import marker from "../../markers/addMark.js";
-import { inRangeEndInclusive as inRange } from "../../helpers/inRange.js";
+import Assessment from "../../assessment";
+import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
+import isTextTooLong from "../../helpers/isValueTooLong";
+import marker from "../../markers/addMark";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import { getSubheadings } from "../../stringProcessing/getSubheadings";
+import getWords from "../../stringProcessing/getWords";
+import AssessmentResult from "../../values/AssessmentResult";
+import Mark from "../../values/Mark";
 
 /**
  * Represents the assessment for calculating the text after each subheading.
@@ -24,15 +23,15 @@ class SubheadingsDistributionTooLong extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			parameters: {
 				// The maximum recommended value of the subheading text.
 				recommendedMaximumWordCount: 300,
 				slightlyTooMany: 300,
 				farTooMany: 350,
 			},
-			urlTitle: "<a href='https://yoa.st/34x' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/34y' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34x" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34y" ),
 			scores: {
 				goodShortTextNoSubheadings: 9,
 				goodSubheadings: 9,
@@ -65,7 +64,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 		this._tooLongTexts = this.getTooLongSubheadingTexts();
 		this._tooLongTextsNumber = this.getTooLongSubheadingTexts().length;
 
-		let assessmentResult = new AssessmentResult();
+		const assessmentResult = new AssessmentResult();
 		assessmentResult.setIdentifier( this.identifier );
 
 		this._hasSubheadings = this.hasSubheadings( paper );

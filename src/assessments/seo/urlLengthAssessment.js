@@ -1,7 +1,8 @@
 import { merge } from "lodash-es";
 
-import AssessmentResult from "../../values/AssessmentResult.js";
-import Assessment from "../../assessment.js";
+import Assessment from "../../assessment";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Assessment that checks if the url is long enough.
@@ -21,8 +22,8 @@ class UrlLengthAssessment extends Assessment {
 			scores: {
 				tooLong: 6,
 			},
-			urlTitle: "<a href='https://yoa.st/35b' target='_blank'>",
-			urlCallToAction: "<a href='https://yoa.st/35c' target='_blank'>",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/35b" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/35c" ),
 		};
 
 		this.identifier = "urlLength";
@@ -39,8 +40,8 @@ class UrlLengthAssessment extends Assessment {
 	 * @returns {AssessmentResult} an AssessmentResult with the score and the formatted text.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let urlIsTooLong     = researcher.getResearch( "urlLength" );
-		let assessmentResult = new AssessmentResult();
+		const urlIsTooLong     = researcher.getResearch( "urlLength" );
+		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( this.calculateScore( urlIsTooLong ) );
 		assessmentResult.setText( this.translateScore( urlIsTooLong, i18n ) );

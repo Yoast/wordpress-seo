@@ -65,4 +65,26 @@ describe( "A keyword in url count assessment", function() {
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase appears in the slug. That's great!" );
 	} );
+
+	it( "assesses a keyword was found in the url: in double quotes", function() {
+		const assessment = keywordInUrl.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( { keyphraseLength: 1, percentWordMatches: 100 } ),
+			i18n
+		);
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!" );
+	} );
+
+	it( "assesses part of the keyphrase was not found in the url: in double quotes", function() {
+		const assessment = keywordInUrl.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( { keyphraseLength: 1, percentWordMatches: 0 } ),
+			i18n
+		);
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!" );
+	} );
 } );

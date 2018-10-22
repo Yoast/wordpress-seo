@@ -13,7 +13,18 @@ describe( "the keyphrase length assessment", function() {
 		expect( result.getScore() ).toEqual( -999 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"No focus keyphrase was set for this page. " +
-			"<a href='https://yoa.st/33j' target='_blank'>Set a focus keyphrase in order to calculate your SEO score</a>." );
+			"<a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
+	} );
+
+	it( "should show a different feedback text when no keyphrase is set for a related keyphrase", function() {
+		const paper = new Paper();
+		const researcher = factory.buildMockResearcher( 0 );
+
+		const result = new KeyphraseLengthAssessment( { isRelatedKeyphrase: true } ).getResult( paper, researcher, i18n );
+
+		expect( result.getScore() ).toEqual( -999 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"<a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
 	} );
 
 	it( "should assess a paper with a keyphrase that's too long as bad", function() {

@@ -66,7 +66,7 @@ const expectedResults = {
 	},
 	metaDescriptionKeyword: {
 		score: 9,
-		resultText: "<a href='https://yoa.st/33k' target='_blank'>Key phrase in meta description</a>: Focus key phrase or synonym appear in the meta description. Well done!",
+		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: Keyphrase or synonym appear in the meta description. Well done!",
 	},
 	metaDescriptionLength: {
 		score: 6,
@@ -74,7 +74,7 @@ const expectedResults = {
 	},
 	subheadingsKeyword: {
 		score: 9,
-		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 50% of your subheadings reflect the topic of your copy. Good job!",
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 2 (out of 4) subheadings reflect the topic of your copy. Good job!",
 	},
 	textCompetingLinks: {
 		score: 0,
@@ -98,7 +98,7 @@ const expectedResults = {
 	},
 	titleKeyword: {
 		score: 9,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the keyphrase appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
 		score: 9,
@@ -117,8 +117,8 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34p' target='_blank'>Slug stopwords</a>: The slug for this page contains a stop word. <a href='https://yoa.st/34q' target='_blank'>Remove it</a>!",
 	},
 	keyphraseDistribution: {
-		score: 6,
-		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
 	fleschReadingEase: {
 		score: 9,

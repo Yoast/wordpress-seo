@@ -1,10 +1,10 @@
 import regex from "./../../../../src/researches/german/passiveVoice/regex.js";
-let verbsBeginningWithGe = regex().verbsBeginningWithGe;
-let	verbsBeginningWithErVerEntBeZerHerUber = regex().verbsBeginningWithErVerEntBeZerHerUber;
-let verbsWithGeInMiddle = regex().verbsWithGeInMiddle;
-let verbsWithErVerEntBeZerHerUberInMiddle = regex().verbsWithErVerEntBeZerHerUberInMiddle;
-let verbsEndingWithIert = regex().verbsEndingWithIert;
-let exceptions = regex().exceptions;
+const verbsBeginningWithGe = regex().verbsBeginningWithGe;
+const	verbsBeginningWithErVerEntBeZerHerUber = regex().verbsBeginningWithErVerEntBeZerHerUber;
+const verbsWithGeInMiddle = regex().verbsWithGeInMiddle;
+const verbsWithErVerEntBeZerHerUberInMiddle = regex().verbsWithErVerEntBeZerHerUberInMiddle;
+const verbsEndingWithIert = regex().verbsEndingWithIert;
+const exceptions = regex().exceptions;
 
 describe( "Matches verbs with the verb regexes for German.", function() {
 	it( "returns the matched verb beginning with ge-", function() {
