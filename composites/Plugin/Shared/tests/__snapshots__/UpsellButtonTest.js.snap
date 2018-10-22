@@ -1,0 +1,361 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the YoastButton executes callback 1`] = `
+.c2 {
+  margin: 2px 4px 0 4px;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c1 {
+  color: #000;
+  background: #fec228;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c1::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c1 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  min-height: 48px;
+  margin: 0;
+  overflow: auto;
+  min-width: 152px;
+  padding: 0 16px;
+  padding: 8px 8px 8px 16px;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px/24px "Open Sans",sans-serif;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2);
+  -webkit-filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  -webkit-transition: box-shadow 150ms ease-out;
+  transition: box-shadow 150ms ease-out;
+}
+
+.c0:hover,
+.c0:focus,
+.c0:active {
+  background: #f2ae01;
+}
+
+.c0:active {
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
+  box-shadow: none;
+  -webkit-filter: none;
+  filter: none;
+}
+
+.c3 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c0::after {
+    display: inline-block;
+    content: "";
+    min-height: 32px;
+  }
+}
+
+<button
+  aria-expanded={undefined}
+  className="c0 c1"
+  onClick={[Function]}
+  type="button"
+>
+  <span>
+    ButtonValue
+    <svg
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-caret-right c2 c3"
+      fill="#000"
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 192 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M 0 384.662 V 127.338 c 0 -17.818 21.543 -26.741 34.142 -14.142 l 128.662 128.662 c 7.81 7.81 7.81 20.474 0 28.284 L 34.142 398.804 C 21.543 411.404 0 402.48 0 384.662 Z"
+      />
+    </svg>
+  </span>
+</button>
+`;
+
+exports[`the YoastButton executes callback 2`] = `
+.c2 {
+  margin: 2px 4px 0 4px;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c1 {
+  color: #000;
+  background: #fec228;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c1::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c1 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  min-height: 48px;
+  margin: 0;
+  overflow: auto;
+  min-width: 152px;
+  padding: 0 16px;
+  padding: 8px 8px 8px 16px;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px/24px "Open Sans",sans-serif;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2);
+  -webkit-filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  -webkit-transition: box-shadow 150ms ease-out;
+  transition: box-shadow 150ms ease-out;
+}
+
+.c0:hover,
+.c0:focus,
+.c0:active {
+  background: #f2ae01;
+}
+
+.c0:active {
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
+  box-shadow: none;
+  -webkit-filter: none;
+  filter: none;
+}
+
+.c3 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c0::after {
+    display: inline-block;
+    content: "";
+    min-height: 32px;
+  }
+}
+
+<button
+  aria-expanded={undefined}
+  className="c0 c1"
+  onClick={[Function]}
+  type="button"
+>
+  <span>
+    ButtonValue
+    <svg
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-caret-right c2 c3"
+      fill="#000"
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 192 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M 0 384.662 V 127.338 c 0 -17.818 21.543 -26.741 34.142 -14.142 l 128.662 128.662 c 7.81 7.81 7.81 20.474 0 28.284 L 34.142 398.804 C 21.543 411.404 0 402.48 0 384.662 Z"
+      />
+    </svg>
+  </span>
+</button>
+`;
+
+exports[`the YoastButton matches the snapshot 1`] = `
+.c2 {
+  margin: 2px 4px 0 4px;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.c1 {
+  color: #fff;
+  background: #c00;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c1::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c1 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  min-height: 48px;
+  margin: 0;
+  overflow: auto;
+  min-width: 152px;
+  padding: 0 16px;
+  padding: 8px 8px 8px 16px;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font: 400 16px/24px "Open Sans",sans-serif;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2);
+  -webkit-filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  -webkit-transition: box-shadow 150ms ease-out;
+  transition: box-shadow 150ms ease-out;
+}
+
+.c0:hover,
+.c0:focus,
+.c0:active {
+  background: #f2ae01;
+}
+
+.c0:active {
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
+  box-shadow: none;
+  -webkit-filter: none;
+  filter: none;
+}
+
+.c3 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c0::after {
+    display: inline-block;
+    content: "";
+    min-height: 32px;
+  }
+}
+
+<button
+  aria-expanded={undefined}
+  className="c0 c1"
+  onClick={undefined}
+  type="button"
+>
+  <span>
+    ButtonValue
+    <svg
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-caret-right c2 c3"
+      fill="#000"
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 192 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M 0 384.662 V 127.338 c 0 -17.818 21.543 -26.741 34.142 -14.142 l 128.662 128.662 c 7.81 7.81 7.81 20.474 0 28.284 L 34.142 398.804 C 21.543 411.404 0 402.48 0 384.662 Z"
+      />
+    </svg>
+  </span>
+</button>
+`;

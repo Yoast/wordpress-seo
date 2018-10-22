@@ -1,6 +1,6 @@
 {
   "name": "yoast-components",
-  "version": "4.13.0",
+  "version": "4.14.0",
   "description": "Yoast Generic Components",
   "homepage": "https://github.com/Yoast/",
   "main": "index.js",
@@ -53,12 +53,10 @@
     "@wordpress/i18n": "^1.1.0",
     "algoliasearch": "^3.22.3",
     "clipboard": "^1.5.15",
-    "debug": "^3.0.0",
     "draft-js": "^0.10.5",
     "draft-js-mention-plugin": "^3.0.4",
     "draft-js-plugins-editor": "^2.0.4",
     "draft-js-single-line-plugin": "^2.0.1",
-    "grunt-scss-to-json": "^1.0.1",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
     "lodash": "^4.17.4",
@@ -68,10 +66,9 @@
     "react-tabs": "^2.2.1",
     "react-transition-group": "^2.3.1",
     "redux": "^3.7.2",
-    "striptags": "^3.1.0",
     "styled-components": "^2.1.2",
     "whatwg-fetch": "^1.0.0",
-    "yoastseo": "^1.40"
+    "yoastseo": "^1.41.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
@@ -99,6 +96,7 @@
     "grunt-eslint": "^20.1.0",
     "grunt-postcss": "^0.8.0",
     "grunt-sass": "^2.0.0",
+    "grunt-scss-to-json": "^1.0.1",
     "jest": "^22.4.3",
     "jest-cli": "^22.4.3",
     "jest-mock": "^22.4.3",
