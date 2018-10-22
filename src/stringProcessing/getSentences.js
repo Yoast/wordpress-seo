@@ -22,6 +22,7 @@ var newLines = "\n\r|\n|\r";
 var fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
 var sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
 var sentenceRegex = new RegExp( "^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
+var greaterThanContentRegex = /^<[^><]*$/;
 var htmlStartRegex = /^<([^>\s/]+)[^>]*>$/mi;
 var htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 var newLineRegex = new RegExp( newLines );
@@ -44,6 +45,7 @@ function createTokenizer() {
 		tokens.push( token );
 	} );
 
+	sentenceTokenizer.addRule( greaterThanContentRegex, "greater-than-sign-content" );
 	sentenceTokenizer.addRule( htmlStartRegex, "html-start" );
 	sentenceTokenizer.addRule( htmlEndRegex, "html-end" );
 	sentenceTokenizer.addRule( blockStartRegex, "block-start" );
@@ -118,7 +120,11 @@ function tokenizeSentences( text ) {
 	createTokenizer();
 	sentenceTokenizer.onText( text );
 
-	sentenceTokenizer.end();
+	try {
+		sentenceTokenizer.end();
+	} catch ( e ) {
+		console.error( "Tokenizer end error:", e, e.tokenizer2 );
+	}
 
 	return tokens;
 }
@@ -225,6 +231,7 @@ function getSentencesFromTokens( tokens ) {
 				}
 				break;
 
+			case "greater-than-sign-content":
 			case "sentence":
 				currentSentence += token.src;
 				break;
