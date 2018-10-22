@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.41.0 October 23rd, 2018
+## 1.41.0 October 22nd, 2018
 
 ### Added
 * Introduces two new principles for keyword recognition:
