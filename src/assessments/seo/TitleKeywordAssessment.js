@@ -141,7 +141,7 @@ class TitleKeywordAssessment extends Assessment {
 			};
 		}
 
-		if( exactMatchKeyphrase ) {
+		if ( exactMatchKeyphrase ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: i18n.sprintf(

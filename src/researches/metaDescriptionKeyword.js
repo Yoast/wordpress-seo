@@ -33,7 +33,7 @@ const replaceFoundKeywordForms = function( description, matchedKeywordForms, max
  */
 const matchPerSentence = function( sentence, topicForms, locale ) {
 	// Focus keyphrase matches.
-	let matchesKeyphrase = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
+	const matchesKeyphrase = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
 
 	// Count the number of matches that contain every word in the entire keyphrase.
 	const fullKeyphraseMatches = Math.min( ...matchesKeyphrase.map( match => match.count ) );
@@ -42,10 +42,10 @@ const matchPerSentence = function( sentence, topicForms, locale ) {
 	sentence = replaceFoundKeywordForms( sentence, matchesKeyphrase, fullKeyphraseMatches );
 
 	// Keyphrase synonyms matches.
-	let fullSynonymsMatches = topicForms.synonymsForms.map(
+	const fullSynonymsMatches = topicForms.synonymsForms.map(
 		synonymForms => {
 			// Synonym keyphrase matches.
-			let matches = synonymForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
+			const matches = synonymForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
 			// Count the number of matches that contain every word in the entire synonym keyphrase.
 			const fullSynonymMatches = Math.min( ...matches.map( match => match.count ) );
 			// Replace all full matches so we do not match them for other synonyms.
