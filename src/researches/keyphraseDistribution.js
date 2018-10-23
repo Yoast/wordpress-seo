@@ -92,7 +92,7 @@ const maximizeSentenceScores = function( sentenceScores ) {
  */
 const getDistraction = function( sentenceScores ) {
 	const numberOfSentences = sentenceScores.length;
-	let allTopicSentencesIndices = [];
+	const allTopicSentencesIndices = [];
 
 	for ( let i = 0; i < numberOfSentences; i++ ) {
 		if ( sentenceScores[ i ] > 3 ) {
