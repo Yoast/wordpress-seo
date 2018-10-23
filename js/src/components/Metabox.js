@@ -30,7 +30,7 @@ export default function Metabox( { settings, store, theme } ) {
 					<ThemeProvider theme={ theme }>
 						<StoreProvider store={ store }>
 							<Collapsible title={ __( "Snippet Preview", "wordpress-seo" ) } initialIsOpen={ true }>
-								<SnippetEditor hasPaperStyle={ false }/>
+								<SnippetEditor hasPaperStyle={ false } />
 							</Collapsible>
 						</StoreProvider>
 					</ThemeProvider>
@@ -47,6 +47,7 @@ export default function Metabox( { settings, store, theme } ) {
 						<StoreProvider store={ store }>
 							<SeoAnalysis
 								shouldUpsell={ settings.shouldUpsell }
+								shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 								location="metabox"
 							/>
 						</StoreProvider>

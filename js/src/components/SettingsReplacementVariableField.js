@@ -59,7 +59,7 @@ class SettingsReplacementVariableField extends React.Component {
 					editorRef={ ref => {
 						this.inputRef = ref;
 					} }
-					/>
+				/>
 			</SnippetEditorWidthContainer>
 		);
 	}

@@ -111,7 +111,8 @@ class SettingsReplacementVariableEditors extends React.Component {
 					label={ reactReplacevarFieldLabel }
 					replacementVariables={ filteredReplacementVariables }
 					recommendedReplacementVariables={ this.props.recommendedReplacementVariables[ reactReplacevarPageTypeRecommended ] }
-					fieldId={ reactReplacevarFieldId } />,
+					fieldId={ reactReplacevarFieldId }
+				/>,
 				targetElement
 			);
 		} );

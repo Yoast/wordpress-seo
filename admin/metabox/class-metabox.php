@@ -140,7 +140,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$score = self::get_value( 'linkdex', $post->ID );
 			if ( $score === '' ) {
 				$score_label = 'na';
-				$title       = __( 'No focus keyword set.', 'wordpress-seo' );
+				$title       = __( 'No focus keyphrase set.', 'wordpress-seo' );
 			}
 			else {
 				$score_label = WPSEO_Utils::translate_score( $score );
@@ -231,7 +231,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			new WPSEO_Post_Metabox_Formatter( $post, array(), $permalink )
 		);
 
-		$values     = $post_formatter->get_values();
+		$values = $post_formatter->get_values();
 
 		/** This filter is documented in admin/filters/class-cornerstone-filter.php */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
@@ -608,8 +608,28 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				break;
 
 			case 'upload':
-				$content .= '<input id="' . $esc_form_key . '" type="text" size="36" class="' . $class . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"' . $aria_describedby . ' />';
-				$content .= '<input id="' . $esc_form_key . '_button" class="wpseo_image_upload_button button" type="button" value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '" />';
+				$content .= '<input' .
+					' id="' . $esc_form_key . '"' .
+					' type="text"' .
+					' size="36"' .
+					' class="' . $class . '"' .
+					' name="' . $esc_form_key . '"' .
+					' value="' . esc_attr( $meta_value ) . '"' . $aria_describedby .
+					' readonly="readonly"' .
+					' />';
+				$content .= '<input' .
+					' id="' . esc_attr( $esc_form_key ) . '_button"' .
+					' class="wpseo_image_upload_button button"' .
+					' data-target="' . esc_attr( $esc_form_key ) . '"' .
+					' data-target-id="' . esc_attr( $esc_form_key ) . '-id"' .
+					' type="button"' .
+					' value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '"' .
+					' /> ';
+				$content .= '<input' .
+					' class="wpseo_image_remove_button button"' .
+					' type="button"' .
+					' value="' . esc_attr__( 'Clear Image', 'wordpress-seo' ) . '"' .
+					' />';
 				break;
 		}
 

@@ -11,7 +11,7 @@ const INITIAL_STATE = "";
  * @returns {string} The state.
  */
 function focusKeywordReducer( state = INITIAL_STATE, action ) {
-	switch( action.type ) {
+	switch ( action.type ) {
 		case SET_FOCUS_KEYWORD:
 			return action.keyword;
 		default:

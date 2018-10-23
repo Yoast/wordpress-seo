@@ -378,9 +378,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$url     = 'http://example.com/example.jpg';
 		$post_id = $this->factory->post->create( array( 'post_content' => "Bla <img src='$url'/> bla" ) );
 		$this->go_to( get_permalink( $post_id ) );
-
 		$expected = $this->metatag( 'image', $url );
-
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
 	}
@@ -444,8 +442,8 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$expected = $this->metatag( 'card', 'summary_large_image' );
 
 		// Insert image into DB so we have something to test against.
-		$filename = 'image.jpg';
-		$id       = $this->factory->attachment->create_object( $filename, 0, array(
+		$filename  = 'image.jpg';
+		$id        = $this->factory->attachment->create_object( $filename, 0, array(
 			'post_mime_type' => 'image/jpeg',
 			'post_type'      => 'attachment',
 		) );

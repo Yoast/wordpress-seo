@@ -6,7 +6,6 @@
 import a11ySpeak from "a11y-speak";
 
 ( function( $ ) {
-	"use strict";
 	var featuredImagePlugin;
 	var $featuredImageElement;
 	var $postImageDiv;

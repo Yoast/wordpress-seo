@@ -144,6 +144,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		parent::__construct();
 		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
 		add_action( 'init', array( $this, 'end_of_init' ), 999 );
+
+		add_action( 'registered_post_type', array( $this, 'invalidate_enrich_defaults_cache' ) );
+		add_action( 'unregistered_post_type', array( $this, 'invalidate_enrich_defaults_cache' ) );
+		add_action( 'registered_taxonomy', array( $this, 'invalidate_enrich_defaults_cache' ) );
+		add_action( 'unregistered_taxonomy', array( $this, 'invalidate_enrich_defaults_cache' ) );
 	}
 
 	/**
@@ -214,101 +219,79 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @return  void
 	 */
 	public function enrich_defaults() {
+		$cache_key = 'yoast_titles_rich_defaults_' . $this->option_name;
+
+		$enriched_defaults = wp_cache_get( $cache_key );
+		if ( false !== $enriched_defaults ) {
+			$this->defaults += $enriched_defaults;
+			return;
+		}
+
+		$enriched_defaults = array();
+
 		/*
 		 * Retrieve all the relevant post type and taxonomy arrays.
 		 *
 		 * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
 		 * These are the defaults and can be prepared for any public post type.
 		 */
-		$post_type_names = get_post_types( array( 'public' => true ), 'names' );
+		$post_type_objects = get_post_types( array( 'public' => true ), 'objects' );
 
-		$post_type_objects_custom = get_post_types(
-			array(
-				'public'   => true,
-				'_builtin' => false,
-			),
-			'objects'
-		);
-
-		$taxonomy_names = get_taxonomies( array( 'public' => true ), 'names' );
-
-
-		if ( $post_type_names !== array() ) {
-			foreach ( $post_type_names as $pt ) {
-				$this->defaults[ 'title-' . $pt ]              = '%%title%% %%page%% %%sep%% %%sitename%%'; // Text field.
-				$this->defaults[ 'metadesc-' . $pt ]           = ''; // Text area.
-				$this->defaults[ 'noindex-' . $pt ]            = false;
-				$this->defaults[ 'showdate-' . $pt ]           = false;
-				$this->defaults[ 'display-metabox-pt-' . $pt ] = true;
-			}
-			unset( $pt );
-		}
-
-		if ( $post_type_objects_custom !== array() ) {
+		if ( $post_type_objects ) {
 			/* translators: %s expands to the name of a post type (plural). */
 			$archive = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' );
-			foreach ( $post_type_objects_custom as $pt ) {
-				if ( ! WPSEO_Post_Type::has_archive( $pt ) ) {
-					continue;
-				}
 
-				$this->defaults[ 'title-ptarchive-' . $pt->name ]    = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
-				$this->defaults[ 'metadesc-ptarchive-' . $pt->name ] = ''; // Text area.
-				$this->defaults[ 'bctitle-ptarchive-' . $pt->name ]  = ''; // Text field.
-				$this->defaults[ 'noindex-ptarchive-' . $pt->name ]  = false;
+			foreach ( $post_type_objects as $pt ) {
+				$enriched_defaults[ 'title-' . $pt->name ]                   = '%%title%% %%page%% %%sep%% %%sitename%%'; // Text field.
+				$enriched_defaults[ 'metadesc-' . $pt->name ]                = ''; // Text area.
+				$enriched_defaults[ 'noindex-' . $pt->name ]                 = false;
+				$enriched_defaults[ 'showdate-' . $pt->name ]                = false;
+				$enriched_defaults[ 'display-metabox-pt-' . $pt->name ]      = true;
+				$enriched_defaults[ 'post_types-' . $pt->name . '-maintax' ] = 0; // Select box.
+
+				if ( ! $pt->_builtin && WPSEO_Post_Type::has_archive( $pt ) ) {
+					$enriched_defaults[ 'title-ptarchive-' . $pt->name ]    = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
+					$enriched_defaults[ 'metadesc-ptarchive-' . $pt->name ] = ''; // Text area.
+					$enriched_defaults[ 'bctitle-ptarchive-' . $pt->name ]  = ''; // Text field.
+					$enriched_defaults[ 'noindex-ptarchive-' . $pt->name ]  = false;
+				}
 			}
-			unset( $pt );
 		}
 
-		if ( $taxonomy_names !== array() ) {
+		$taxonomy_objects = get_taxonomies( array( 'public' => true ), 'object' );
+
+		if ( $taxonomy_objects ) {
 			/* translators: %s expands to the variable used for term title. */
 			$archives = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
-			foreach ( $taxonomy_names as $tax ) {
-				$this->defaults[ 'title-tax-' . $tax ]           = $archives . ' %%page%% %%sep%% %%sitename%%'; // Text field.
-				$this->defaults[ 'metadesc-tax-' . $tax ]        = ''; // Text area.
-				$this->defaults[ 'display-metabox-tax-' . $tax ] = true;
 
-				if ( $tax !== 'post_format' ) {
-					$this->defaults[ 'noindex-tax-' . $tax ] = false;
-				}
-				else {
-					$this->defaults[ 'noindex-tax-' . $tax ] = true;
+			foreach ( $taxonomy_objects as $tax ) {
+				$enriched_defaults[ 'title-tax-' . $tax->name ]           = $archives . ' %%page%% %%sep%% %%sitename%%'; // Text field.
+				$enriched_defaults[ 'metadesc-tax-' . $tax->name ]        = ''; // Text area.
+				$enriched_defaults[ 'display-metabox-tax-' . $tax->name ] = true;
+
+				$enriched_defaults[ 'noindex-tax-' . $tax->name ] = ( $tax->name === 'post_format' );
+
+				if ( ! $tax->_builtin ) {
+					$enriched_defaults[ 'taxonomy-' . $tax->name . '-ptparent' ] = 0; // Select box;.
 				}
 			}
-			unset( $tax );
 		}
 
-		/*
-		 * Retrieve all the relevant post type and taxonomy arrays.
-		 *
-		 * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
-		 */
-		$post_type_names       = get_post_types( array( 'public' => true ), 'names' );
-		$taxonomy_names_custom = get_taxonomies(
-			array(
-				'public'   => true,
-				'_builtin' => false,
-			),
-			'names'
-		);
+		wp_cache_set( $cache_key, $enriched_defaults );
+		$this->defaults += $enriched_defaults;
+	}
 
-		if ( $post_type_names !== array() ) {
-			foreach ( $post_type_names as $pt ) {
-				$pto_taxonomies = get_object_taxonomies( $pt, 'names' );
-				if ( $pto_taxonomies !== array() ) {
-					$this->defaults[ 'post_types-' . $pt . '-maintax' ] = 0; // Select box.
-				}
-				unset( $pto_taxonomies );
-			}
-			unset( $pt );
-		}
-
-		if ( $taxonomy_names_custom !== array() ) {
-			foreach ( $taxonomy_names_custom as $tax ) {
-				$this->defaults[ 'taxonomy-' . $tax . '-ptparent' ] = 0; // Select box;.
-			}
-			unset( $tax );
-		}
+	/**
+	 * Invalidates enrich_defaults() cache.
+	 *
+	 * Called from actions:
+	 *     (un)registered_post_type
+	 *     (un)registered_taxonomy
+	 *
+	 * @return void
+	 */
+	public function invalidate_enrich_defaults_cache() {
+		wp_cache_delete( 'yoast_titles_rich_defaults_' . $this->option_name );
 	}
 
 	/**

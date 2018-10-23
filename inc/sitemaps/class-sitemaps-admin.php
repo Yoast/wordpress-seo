@@ -59,10 +59,6 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
-		if ( WP_CACHE ) {
-			wp_schedule_single_event( ( time() + 300 ), 'wpseo_hit_sitemap_index' );
-		}
-
 		/**
 		 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default)
 		 *
@@ -134,11 +130,13 @@ class WPSEO_Sitemaps_Admin {
 		WPSEO_Sitemaps::ping_search_engines();
 	}
 
-	// @codeCoverageIgnoreStart
+	/* ********************* DEPRECATED METHODS ********************* */
+
 	/**
 	 * Find sitemaps residing on disk as they will block our rewrite.
 	 *
 	 * @deprecated 7.0
+	 * @codeCoverageIgnore
 	 */
 	public function delete_sitemaps() {
 		_deprecated_function( 'WPSEO_Sitemaps_Admin::delete_sitemaps', '7.0' );
@@ -148,9 +146,9 @@ class WPSEO_Sitemaps_Admin {
 	 * Find sitemaps residing on disk as they will block our rewrite.
 	 *
 	 * @deprecated 7.0
+	 * @codeCoverageIgnore
 	 */
 	public function detect_blocking_filesystem_sitemaps() {
 		_deprecated_function( 'WPSEO_Sitemaps_Admin::delete_sitemaps', '7.0' );
 	}
-	// @codeCoverageIgnoreEnd
 } /* End of class */

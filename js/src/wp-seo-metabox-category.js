@@ -5,8 +5,6 @@ import { dispatch } from "@wordpress/data";
 /* Internal dependencies */
 
 ( function( $ ) {
-	"use strict";
-
 	var primaryTermUITemplate, primaryTermScreenReaderTemplate;
 	var taxonomies = wpseoPrimaryCategoryL10n.taxonomies;
 
@@ -142,8 +140,7 @@ import { dispatch } from "@wordpress/data";
 				label.append( primaryTermScreenReaderTemplate( {
 					taxonomy: taxonomies[ taxonomyName ],
 				} ) );
-			}
-			else {
+			} else {
 				listItem.addClass( "wpseo-non-primary-term" );
 			}
 		} );

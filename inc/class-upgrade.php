@@ -120,6 +120,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_772();
 		}
 
+		if ( version_compare( $version, '9.0-RC0', '<' ) ) {
+			$this->upgrade90();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -303,7 +307,7 @@ class WPSEO_Upgrade {
 		$wpdb->query(
 			$wpdb->prepare(
 				'UPDATE ' . $wpdb->postmeta . ' SET meta_key = %s WHERE meta_key = "yst_is_cornerstone"',
-				WPSEO_Cornerstone::META_NAME
+				WPSEO_Cornerstone_Filter::META_NAME
 			)
 		);
 	}
@@ -606,6 +610,23 @@ class WPSEO_Upgrade {
 		if ( WPSEO_Utils::is_woocommerce_active() ) {
 			$this->migrate_woocommerce_archive_setting_to_shop_page();
 		}
+	}
+
+	/**
+	 * Performs the 9.0 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade90() {
+		global $wpdb;
+
+		// Invalidate all sitemap cache transients.
+		WPSEO_Sitemaps_Cache_Validator::cleanup_database();
+
+		// Removes all scheduled tasks for hitting the sitemap index.
+		wp_clear_scheduled_hook( 'wpseo_hit_sitemap_index' );
+
+		$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "wpseo_sitemap_%"' );
 	}
 
 	/**

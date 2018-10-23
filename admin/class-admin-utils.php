@@ -67,10 +67,13 @@ class WPSEO_Admin_Utils {
 		);
 	}
 
+	/* ********************* DEPRECATED METHODS ********************* */
+
 	/**
 	 * Determines whether or not the user has an invalid version of PHP installed.
 	 *
 	 * @deprecated 8.1
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool Whether or not PHP 5.2 or lower is installed.
 	 */

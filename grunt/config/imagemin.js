@@ -17,7 +17,7 @@ module.exports = {
 				src: [ "*.*" ],
 				dest: "<%= paths.svnAssets %>",
 				isFile: true,
-			}
+			},
 		],
 	},
 };

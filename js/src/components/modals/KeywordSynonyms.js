@@ -29,7 +29,7 @@ const KeywordSynonyms = ( props ) => {
 	} );
 
 	const benefits = [
-		`<strong>${ __( "Rank for up to 5 focus keywords per page", "wordpress-seo" ) }</strong>`,
+		`<strong>${ __( "Rank better with synonyms & related keyphrases", "wordpress-seo" ) }</strong>`,
 		sprintf(
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
 			__( "%1$sNo more dead links%2$s: easy redirect manager", "wordpress-seo" ),
@@ -60,13 +60,13 @@ const KeywordSynonyms = ( props ) => {
 			upsellButtonText={
 				sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s now!", "wordpress-seo" ),
+					__( "Get %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				)
 			}
 			upsellButton={ {
 				href: props.buyLink,
-				className: "button button-primary",
+				className: "yoast-button-upsell",
 				rel: null,
 			} }
 			upsellButtonLabel={ __( "1 year free updates and upgrades included!", "wordpress-seo" ) }

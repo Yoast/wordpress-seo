@@ -181,14 +181,17 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'network-admin-script' );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'network-admin-script', 'wpseoNetworkAdminGlobalL10n', array(
-
+		$translations = array(
 			/* translators: %s: success message */
 			'success_prefix' => __( 'Success: %s', 'wordpress-seo' ),
-
 			/* translators: %s: error message */
 			'error_prefix'   => __( 'Error: %s', 'wordpress-seo' ),
-		) );
+		);
+		wp_localize_script(
+			WPSEO_Admin_Asset_Manager::PREFIX . 'network-admin-script',
+			'wpseoNetworkAdminGlobalL10n',
+			$translations
+		);
 	}
 
 	/**

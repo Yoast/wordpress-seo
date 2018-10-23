@@ -12,7 +12,9 @@
  */
 class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Indexable_Service_Term_Provider */
+	/**
+	 * @var WPSEO_Indexable_Service_Term_Provider_Double
+	 */
 	protected $provider;
 
 	/**
@@ -23,7 +25,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->provider = new WPSEO_Indexable_Service_Term_Provider();
+		$this->provider = new WPSEO_Indexable_Service_Term_Provider_Double();
 	}
 
 	/**
@@ -66,8 +68,6 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	 * Tests the getting of an indexable term.
 	 *
 	 * @covers WPSEO_Indexable_Service_Term_Provider::get()
-	 * @covers WPSEO_Indexable_Service_Term_Provider::get_meta_value()
-	 * @covers WPSEO_Indexable_Service_Term_Provider::get_robots_noindex_value()
 	 */
 	public function test_get() {
 		$term = $this
@@ -132,35 +132,101 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals( $expected, $this->provider->get( $term->term_id ) );
+		$this->assertInstanceOf( 'WPSEO_Term_Indexable', $this->provider->get( $term->term_id, true ) );
 	}
 
 	/**
-	 * Tests the translations of the robots noindex value.
+	 * Tests the conversion of the noindex value.
 	 *
-	 * @param string    $robot_value The value to test with.
-	 * @param bool|null $expected    The expected translation.
+	 * @param string    $nofollow    The value to test with.
+	 * @param bool|null $expected    The expected conversion.
 	 * @param string    $description Description of the test.
 	 *
-	 * @covers       WPSEO_Indexable_Service_Term_Provider::get_robots_noindex_value()
+	 * @covers WPSEO_Indexable_Service_Term_Provider::convert_noindex()
 	 *
-	 * @dataProvider robots_noindex_provider
+	 * @dataProvider noindex_conversion_provider
 	 */
-	public function test_translate_robots_noindex( $robot_value, $expected, $description ) {
-		$term = $this
-			->factory()
-			->term
-			->create_and_get(
-				array(
-					'name'     => 'robot',
-					'taxonomy' => 'category',
+	public function test_convert_noindex( $nofollow, $expected, $description ) {
+		$data = $this->provider->convert_noindex( $nofollow );
+
+		$this->assertEquals( $expected, $data, $description );
+	}
+
+	/**
+	 * Tests the renaming of indexable data.
+	 *
+	 * @covers WPSEO_Indexable_Service_Term_Provider::rename_indexable_data()
+	 */
+	public function test_rename_indexable_data() {
+		$supplied_values = array(
+			'description'                 => '',
+			'breadcrumb_title'            => '',
+			'og_title'                    => '',
+			'og_description'              => '',
+			'og_image'                    => '',
+			'twitter_title'               => '',
+			'twitter_description'         => '',
+			'twitter_image'               => '',
+			'is_robots_noindex'           => '',
+			'primary_focus_keyword'       => '',
+			'primary_focus_keyword_score' => '',
+			'readability_score'           => '',
+		);
+
+		$expected = array(
+			'desc'                  => '',
+			'bctitle'               => '',
+			'opengraph-title'       => '',
+			'opengraph-description' => '',
+			'opengraph-image'       => '',
+			'twitter-title'         => '',
+			'twitter-description'   => '',
+			'twitter-image'         => '',
+			'noindex'               => '',
+			'focuskw'               => '',
+			'linkdex'               => '',
+			'content_score'         => '',
+		);
+
+		$data = $this->provider->rename_indexable_data( $supplied_values );
+
+		$this->assertEquals( $expected, $data );
+	}
+
+	/**
+	 * Tests the conversion of the indexable data.
+	 *
+	 * @covers WPSEO_Indexable_Service_Term_Provider::convert_indexable_data()
+	 */
+	public function test_convert_indexable_data() {
+		$instance = $this
+				->getMockBuilder( 'WPSEO_Indexable_Service_Term_Provider_Double' )
+				->setMethods(
+					array( 'convert_noindex' )
 				)
-			);
+				->getMock();
 
-		WPSEO_Taxonomy_Meta::set_value( $term->term_id, $term->taxonomy, 'wpseo_noindex', $robot_value );
+		$instance->expects( $this->once() )
+				->method( 'convert_noindex' )
+				->will( $this->returnArgument( 0 ) );
 
-		$data = $this->provider->get( $term->term_id );
+		$supplied_values = array(
+			'desc'              => 'I am the test description',
+			'bctitle'           => 'Some breadcrumb title',
+			'opengraph-title'   => 'The OpenGraph title',
+			'is_robots_noindex' => 'index',
+		);
 
-		$this->assertEquals( $expected, $data['is_robots_noindex'], $description );
+		$expected = array(
+			'desc'              => 'I am the test description',
+			'bctitle'           => 'Some breadcrumb title',
+			'opengraph-title'   => 'The OpenGraph title',
+			'is_robots_noindex' => 'index',
+		);
+
+		$data = $instance->convert_indexable_data( $supplied_values );
+
+		$this->assertEquals( $expected, $data );
 	}
 
 	/**
@@ -168,11 +234,15 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function robots_noindex_provider() {
+	public function noindex_conversion_provider() {
 		return array(
-			array( 'noindex', true, 'With value set to noindex' ),
-			array( 'index', false, 'With value set to index' ),
-			array( 'default', null, 'With default value' ),
+			array( 'true', 'noindex', 'With noindex set to string value of true' ),
+			array( 'false', 'index', 'With noindex set to string value of false' ),
+			array( true, 'default', 'With noindex set to boolean value of true' ),
+			array( false, 'default', 'With noindex set to boolean value of false' ),
+			array( '2', 'default', 'With noindex set to string value of 2' ),
+			array( '1', 'default', 'With noindex set to string value of 1' ),
+			array( '0', 'default', 'With noindex set to string value of 0' ),
 		);
 	}
 }
