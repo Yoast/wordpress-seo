@@ -59,10 +59,6 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
-		if ( WP_CACHE ) {
-			wp_schedule_single_event( ( time() + 300 ), 'wpseo_hit_sitemap_index' );
-		}
-
 		/**
 		 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default)
 		 *
