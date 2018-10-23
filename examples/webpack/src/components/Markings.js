@@ -18,9 +18,11 @@ function Markings( { results, activeMarker, text } ) {
 	const activeResults = find( results, [ "_identifier", activeMarker ] );
 	const activeMarkings = activeResults.marks;
 
+	const markedText = createMarkedText( text, activeMarkings );
+
 	return <Fragment>
-		<div dangerouslySetInnerHTML={ createMarkedText( text, activeMarkings ) } />
-		<div>{ text }</div>
+		<div dangerouslySetInnerHTML={ markedText } />
+		<div>{ markedText.__html }</div>
 	</Fragment>;
 }
 
