@@ -106,6 +106,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 9.0.1 =
+Release Date: October 23rd, 2018
+
+Bugfixes:
+
+* Fixes error with using `$` in wp-seo-admin-media.js. Now we use `jQuery` instead.
+
 = 9.0.0 =
 Release Date: October 23rd, 2018
 
