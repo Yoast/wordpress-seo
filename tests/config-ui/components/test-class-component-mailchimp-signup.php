@@ -54,7 +54,7 @@ class WPSEO_Config_Component_Mailchimp_Signup_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Config_Component_Mailchimp_Signup::set_data()
 	 */
 	public function test_set_data() {
-		// Sets the current user id to make sure hasSignup will be saved.
+		// We explicitly sets the current user id, because set_data needs to have a current_user.
 		wp_set_current_user( 1 );
 
 		$mailchimp_signup = new WPSEO_Config_Component_Mailchimp_Signup();

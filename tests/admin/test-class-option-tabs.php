@@ -33,7 +33,7 @@ class WPSEO_Option_Tabs_Test extends WPSEO_UnitTestCase {
 
 		$after = $option_tabs->get_tabs();
 
-		$this->assertTrue( ! empty( $after ) );
+		$this->assertNotEmpty( $after );
 	}
 
 	/**
