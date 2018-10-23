@@ -172,13 +172,13 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		wp.data.subscribe( () => {
 			const featuredImageId = wp.data.select( "core/editor" ).getEditedPostAttribute( "featured_media" );
 
-			if ( featuredImageId === undefined || featuredImageId === null ) {
+			if ( typeof featuredImageId === "undefined" || featuredImageId === null ) {
 				return;
 			}
 
 			imageData = wp.data.select( "core" ).getMedia( featuredImageId );
 
-			if ( imageData === undefined ) {
+			if ( typeof imageData === "undefined" ) {
 				return;
 			}
 
