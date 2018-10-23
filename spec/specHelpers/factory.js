@@ -20,9 +20,7 @@ FactoryProto.prototype.buildJed = function() {
  * @returns {object} Mock HTML element.
  */
 FactoryProto.prototype.buildMockElement = function() {
-	let mockElement;
-
-	mockElement = [];
+	const mockElement = [];
 	mockElement.nodeType = 1;
 
 	return mockElement;
@@ -38,7 +36,7 @@ FactoryProto.prototype.buildMockElement = function() {
  * @returns {Researcher} Mock researcher.
  */
 FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false, hasMorphologyData = false ) {
-	if( multiValue && typeof expectedValue === "object" ) {
+	if ( multiValue && typeof expectedValue === "object" ) {
 		return {
 			getResearch: function( research ) {
 				return expectedValue[ research ];
