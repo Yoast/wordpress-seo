@@ -3,7 +3,7 @@ import analysis from "yoastseo";
 const { removeMarks } = analysis.markers;
 
 /* Internal dependencies */
-import {updateData, updateReplacementVariable} from "../redux/actions/snippetEditor";
+import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import {
 	excerptFromContent,
 	fillReplacementVariables,

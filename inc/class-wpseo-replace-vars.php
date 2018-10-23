@@ -341,7 +341,6 @@ class WPSEO_Replace_Vars {
 
 				$replacement = wp_html_excerpt( $content, 156 );
 
-
 				// Trim the auto-generated string to a word boundary.
 				$replacement = substr( $replacement, 0, strrpos( $replacement, ' ' ) );
 			}
