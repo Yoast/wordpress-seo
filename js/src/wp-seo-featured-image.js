@@ -162,18 +162,26 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 			featuredImagePlugin.setFeaturedImage( $( "#set-post-thumbnail " ).html() );
 		}
 
+		// Fallback for Gutenberg, as the featured image id does not exist there.
 		let imageData;
 		if ( isGutenbergDataAvailable() ) {
 			wp.data.subscribe( () => {
 				const featuredImageId = wp.data.select( "core/editor" ).getEditedPostAttribute( "featured_media" );
 
-				// Only continue if data has changed.
+				if ( featuredImageId === undefined ) {
+					return;
+				}
+
+				// Only continue if image data has changed.
 				if ( imageData !== wp.data.select( "core" ).getMedia( featuredImageId ) ) {
+
 					imageData = wp.data.select( "core" ).getMedia( featuredImageId );
-					if ( imageData !== undefined ) {
-						const featuredImageHTML = `<img src=` + imageData.source_url + ` alt=` + imageData.alt_text + ` >`;
-						featuredImagePlugin.setFeaturedImage( featuredImageHTML );
+					if ( imageData === undefined ) {
+						return;
 					}
+
+					const featuredImageHTML = `<img src="` + imageData.source_url + `" alt="` + imageData.alt_text + `" >`;
+					featuredImagePlugin.setFeaturedImage( featuredImageHTML );
 				}
 			} );
 		}
