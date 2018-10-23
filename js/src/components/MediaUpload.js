@@ -1,6 +1,5 @@
 /* global wp */
-
-import React from "react";
+import React, { createRef } from "react";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
 import { localize } from "yoast-components";
@@ -22,6 +21,7 @@ class MediaUpload extends React.Component {
 		};
 
 		this.state.mediaUpload.on( "select", this.selectUpload.bind( this ) );
+		this.chooseButton = createRef();
 	}
 
 	/**
@@ -37,6 +37,11 @@ class MediaUpload extends React.Component {
 
 		if ( currentUploadChange ) {
 			this.sendChangeEvent();
+		}
+
+		// When the image gets removed, move focus back to the Choose Image button.
+		if ( currentUploadChange && this.state.currentUpload === "" ) {
+			this.chooseButton.current.refs.container.button.focus();
 		}
 	}
 
@@ -134,6 +139,7 @@ class MediaUpload extends React.Component {
 						onClick={ this.chooseUpload.bind( this ) }
 						type="button"
 						className="yoast-wizard-image-upload-container-buttons__choose"
+						ref={ this.chooseButton }
 					/>
 					{ this.renderRemoveButton() }
 				</div>

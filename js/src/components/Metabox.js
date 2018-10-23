@@ -56,6 +56,7 @@ export default function Metabox( { settings, store, theme } ) {
 							<StoreProvider store={ store }>
 								<SeoAnalysis
 									shouldUpsell={ settings.shouldUpsell }
+									shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 								/>
 							</StoreProvider>
 						</ThemeProvider>

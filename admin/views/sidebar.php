@@ -24,7 +24,7 @@ $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 				?>
 			</h2>
 			<ul>
-				<li><strong><?php esc_html_e( 'Rank for up to 5 focus keyphrases per page', 'wordpress-seo' ); ?></strong></li>
+				<li><strong><?php esc_html_e( 'Rank better with synonyms & related keyphrases', 'wordpress-seo' ); ?></strong></li>
 				<li><strong><?php esc_html_e( 'Preview your page in Facebook and Twitter', 'wordpress-seo' ); ?></strong></li>
 				<li><strong><?php esc_html_e( 'Get real-time suggestions for internal links', 'wordpress-seo' ); ?></strong></li>
 				<li><strong><?php esc_html_e( 'No more dead links a.k.a. 404 pages', 'wordpress-seo' ); ?></strong></li>
@@ -111,7 +111,7 @@ $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 			</div>
 		</div>
 		<div class="yoast-sidebar_section">
-			<strong>Remove these ads?</strong>
+			<strong><?php esc_html_e( 'Remove these ads?', 'wordpress-seo' ); ?></strong>
 			<p>
 				<a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jy' ); ?>">
 					<?php
