@@ -259,3 +259,50 @@ function wpseo_get_capabilities() {
 	}
 	return WPSEO_Capability_Manager_Factory::get()->get_capabilities();
 }
+
+
+/**
+ * Callback function to pass to the oEmbed's response data that will enable
+ * support for using the image and title set by the WordPress SEO plugin's fields. This
+ * address the concern where some social channels/subscribed use oEmebed data over OpenGraph data
+ * if both are present.
+ * 
+ * @param {array}  $data   - The oEmbed data
+ * @param {object} $post   - The current Post object
+ * @param {number} $width  - The current post's width (more applicable for attachments)
+ * @param {number} $height - The current post's height (more applicable for attachments)
+ *
+ * @see https://developer.wordpress.org/reference/hooks/oembed_response_data/ for hook info
+ *
+ * @return {array} an oEmbed array of data with modified values where appropriate.
+ */
+function wpseo_hook_oembed( $data, $post, $width, $height){
+  // data to be returned
+  $filter_data = $data;
+
+  // Look for the Yoast meta values (image and title)...
+  $yoast_title = get_post_meta( $post->ID, WPSEO_Meta::$meta_prefix . 'opengraph-title', true);
+  $yoast_image = get_post_meta( $post->ID, WPSEO_Meta::$meta_prefix . 'opengraph-image', true);
+  
+  // If yoast has a title set, update oEmbed with Yoast's title.
+  if( !empty($yoast_title) ) $filter_data['title'] = $yoast_title;
+
+  // If the a Yoast Image was set, update the oEmbed data with the Yoast Image's info
+  if( !empty($yoast_image) ){
+    // get the image's ID from a URL
+    $image_id = attachment_url_to_postid( $yoast_image );
+
+    // get the image's info from it's ID
+    $image_info = wp_get_attachment_metadata( $image_id );
+
+    // Update the oEmbed data
+    $filter_data['thumbnail_url'] = $yoast_image;
+    if( !empty($image_info['height']) ) $filter_data['thumbnail_height'] = $image_info['height'];
+    if( !empty($image_info['width']) ) $filter_data['thumbnail_width'] = $image_info['width'];
+  }
+
+  return $filter_data;
+}
+
+// Hook inot the oEmbed's filter with the new custom function
+add_filter('oembed_response_data', 'wpseo_hook_oembed', 10, 4);
