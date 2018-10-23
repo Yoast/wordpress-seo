@@ -50,7 +50,6 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'is_robots_nosnippet', 'boolean', array( 'null' => true, 'default' => false ) );
 
 		$indexable_table->column( 'primary_focus_keyword', 'string', array( 'null' => true, 'limit' => 191 ) );
-		$indexable_table->column( 'primary_focus_keyword', 'string', array( 'null' => true, 'limit' => 191 ) );
 		$indexable_table->column( 'primary_focus_keyword_score', 'integer', array( 'null' => true, 'limit' => 3 ) );
 
 		$indexable_table->column( 'readability_score', 'integer', array( 'null' => true, 'limit' => 3 ) );
