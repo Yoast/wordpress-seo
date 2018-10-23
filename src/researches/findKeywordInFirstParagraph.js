@@ -55,7 +55,6 @@ function removeImagesFromText( text ) {
 }
 
 
-
 /**
  * Checks if the paragraph has no text.
  *
