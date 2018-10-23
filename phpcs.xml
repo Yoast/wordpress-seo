@@ -70,13 +70,13 @@
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
 	</rule>
-	<rule ref="PHPCompatibility.PHP.NewKeywords.t_useFound">
+	<rule ref="PHPCompatibility.Keywords.NewKeywords.t_useFound">
 		<exclude-pattern>*/cli/class-cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
 	</rule>
-	<rule ref="PHPCompatibility.PHP.NewMagicMethods.__invokeFound">
+	<rule ref="PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__invokeFound">
 		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
@@ -97,16 +97,16 @@
 	</rule>
 
 	<!-- These usages of PHP > 5.2 code are surrounded by the correct safeguards. -->
-	<rule ref="PHPCompatibility.PHP.NewFunctionParameters.parse_ini_file_scanner_modeFound">
+	<rule ref="PHPCompatibility.FunctionUse.NewFunctionParameters.parse_ini_file_scanner_modeFound">
 		<exclude-pattern>*/admin/import/class-import-settings\.php$</exclude-pattern>
 	</rule>
-	<rule ref="PHPCompatibility.PHP.NewConstants.ini_scanner_rawFound">
+	<rule ref="PHPCompatibility.Constants.NewConstants.ini_scanner_rawFound">
 		<exclude-pattern>*/admin/import/class-import-settings\.php$</exclude-pattern>
 	</rule>
-	<rule ref="PHPCompatibility.PHP.NewFunctionParameters.http_build_query_enc_typeFound">
+	<rule ref="PHPCompatibility.FunctionUse.NewFunctionParameters.http_build_query_enc_typeFound">
 		<exclude-pattern>*/inc/sitemaps/class-sitemaps-renderer\.php$</exclude-pattern>
 	</rule>
-	<rule ref="PHPCompatibility.PHP.NewFunctionParameters.array_unique_sort_flagsFound">
+	<rule ref="PHPCompatibility.FunctionUse.NewFunctionParameters.array_unique_sort_flagsFound">
 		<exclude-pattern>*/inc/sitemaps/class-sitemap-image-parser\.php$</exclude-pattern>
 	</rule>
 

@@ -118,6 +118,30 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the wpseo_opengraph_is_valid_image_url filter.
+	 *
+	 * @covers WPSEO_OpenGraph_Image::is_valid_image_url
+	 */
+	public function test_is_valid_image_url_filter() {
+
+		$class_instance = $this->setup_class();
+		$class_instance->add_image( 'https://via.placeholder.com/350x150' );
+
+		// Without the filter, this isn't considered a valid image URL.
+		$this->assertEmpty( $class_instance->get_images() );
+
+		// Enable the filter.
+		add_filter( 'wpseo_opengraph_is_valid_image_url', '__return_true', 10, 2 );
+
+		$class_instance->add_image( 'https://via.placeholder.com/350x150' );
+
+		// Verify the image was added.
+		$this->assertArrayHasKey( 'https://via.placeholder.com/350x150', $class_instance->get_images() );
+
+		remove_filter( 'wpseo_opengraph_is_valid_image_url', '__return_true' );
+	}
+
+	/**
 	 * Tests the situations where an image won't added.
 	 *
 	 * @dataProvider invalid_image_provider
@@ -413,116 +437,40 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test getting the image from post content.
 	 *
-	 * @covers WPSEO_OpenGraph_Image::get_images()
+	 * @covers WPSEO_OpenGraph_Image::set_images()
+	 * @covers WPSEO_OpenGraph_Image::add_first_usable_content_image()
 	 */
 	public function test_get_images_from_content() {
-
-		// Create our post.
-		$post_id = $this->create_post();
-
-		$attachment = $this->add_image_attachment_to_post( '/assets/yoast.png', $post_id );
-
-		// External images should be ignored.
-		$external_image = 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg';
-
-		// Images that are not attachments should be ignored.
-		$non_attachment_image = get_home_url() . '/wp-content/plugins/wordpress-seo/tests/assets/yoast.png';
-
-		// Update the post content.
-		$post_content = '<p>This is a post. It has an image:</p>
-		<img src="' . $external_image . '"/>
-		<img src="' . $non_attachment_image . '"/>
-		<img src="' . $attachment['image'] . '"/>
-		<p>It also has an image that is not attached to this post:</p>
+		$image_url    = 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg';
+		$post_content = '<p>This is a post. It has an image hosted on a cdn:</p>	
+		<img src="' . $image_url . '"/>	
 		<p>End of post</p>';
-		wp_update_post(
+
+		$post_id = self::factory()->post->create(
 			array(
-				'ID'           => $post_id,
 				'post_content' => $post_content,
 			)
 		);
 
-		// Run our test.
-		$this->go_to( get_permalink( $post_id ) );
-		$class_instance = $this->setup_class();
+		$opengraph_image = $this
+			->getMockBuilder( 'WPSEO_Opengraph_Image_Double' )
+			->disableOriginalConstructor()
+			->setMethods( array( 'add_image' ) )
+			->getMock();
 
-		// We only expect our attachment image to appear in the results.
-		$expected = $this->sample_full_file_array( $attachment['image'], $attachment['id'] );
-
-		$this->assertEquals( $expected, $class_instance->get_images() );
-	}
-
-	/**
-	 * Test getting the image from post content.
-	 *
-	 * @covers WPSEO_OpenGraph_Image::add_first_usable_content_image()
-	 */
-	public function test_get_images_from_content_cdn_first() {
-
-		// Create our post.
-		$post_id = $this->create_post();
-
-		$attachment = $this->add_image_attachment_to_post( '/assets/yoast.png', $post_id );
-		$image2_url = 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg';
-
-		// Update the post content.
-		$post_content = '<p>This is a post. It has an image hosted on a cdn:</p>
-		<img src="' . $image2_url . '"/>
-		<p>It also has an image that is attached to this post:</p>
-		<img src="' . $attachment['image'] . '"/>
-		<p>End of post</p>';
-
-		wp_update_post(
-			array(
-				'ID'           => $post_id,
-				'post_content' => $post_content,
-			)
-		);
+		$opengraph_image
+			->expects( $this->once() )
+			->method( 'add_image' )
+			->with(
+				array(
+					'url' => $image_url,
+				)
+			);
 
 		// Run our test.
 		$this->go_to( get_permalink( $post_id ) );
-		$class_instance = $this->setup_class();
 
-		// We only expect our attachment image to appear in the results, .
-		$expected = $this->sample_full_file_array( $attachment['image'], $attachment['id'] );
-
-		$this->assertEquals( $expected, $class_instance->get_images() );
-	}
-
-	/**
-	 * Test if only one image is returned when multiple are available.
-	 *
-	 * @covers WPSEO_OpenGraph_Image::add_first_usable_content_image()
-	 */
-	public function test_get_only_one_image_from_content() {
-
-		// Create our post.
-		$post_id = $this->create_post();
-
-		$attachment     = $this->add_image_attachment_to_post( '/assets/yoast.png', $post_id );
-		$attachment_two = $this->add_image_attachment_to_post( '/assets/yoast.png', $post_id, 'yoast-two.png' );
-
-		// Update the post content.
-		$post_content = '<p>This is a post. It has an image:</p>
-		<img src="' . $attachment['image'] . '"/>
-		<p>It also has a second image that is attached to this post:</p>
-		<img src="' . $attachment_two['image'] . '"/>
-		<p>End of post</p>';
-		wp_update_post(
-			array(
-				'ID'           => $post_id,
-				'post_content' => $post_content,
-			)
-		);
-
-		// Run our test.
-		$this->go_to( get_permalink( $post_id ) );
-		$class_instance = $this->setup_class();
-
-		// We only expect one image to appear in the results.
-		$expected = $this->sample_full_file_array( $attachment['image'], $attachment['id'] );
-
-		$this->assertEquals( $expected, $class_instance->get_images() );
+		$opengraph_image->set_images();
 	}
 
 	/**

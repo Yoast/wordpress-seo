@@ -3,7 +3,6 @@
 /* External dependencies */
 import get from "lodash/get";
 import analysis from "yoastseo";
-const { measureTextWidth } = analysis.helpers;
 const { removeMarks } = analysis.markers;
 
 /* Internal dependencies */
@@ -14,6 +13,7 @@ import getIndicatorForScore from "./getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
 import publishBox from "../ui/publishBox";
+import measureTextWidth from "../helpers/measureTextWidth";
 
 const $ = jQuery;
 
