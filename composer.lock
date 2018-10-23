@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a27999552c7d9d7cd373cf6255d905e",
+    "content-hash": "69161b52fcb6f0469cd34883ff89e038",
     "packages": [
         {
             "name": "composer/installers",
@@ -822,7 +822,7 @@
                     "homepage": "http://blog.astrumfutura.com"
                 },
                 {
-                    "name": "Théo FIDRY",
+                    "name": "Théo Fidry",
                     "email": "theo.fidry@gmail.com"
                 }
             ],
