@@ -732,11 +732,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 }
 
 .c32 .public-DraftEditorPlaceholder-root {
-  color: #646464;
+  color: #616161;
 }
 
 .c32 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
+  color: #616161;
 }
 
 .c32::before {
@@ -2650,11 +2650,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 }
 
 .c32 .public-DraftEditorPlaceholder-root {
-  color: #646464;
+  color: #616161;
 }
 
 .c32 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
+  color: #616161;
 }
 
 .c32::before {
@@ -4568,11 +4568,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 }
 
 .c32 .public-DraftEditorPlaceholder-root {
-  color: #646464;
+  color: #616161;
 }
 
 .c32 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
+  color: #616161;
 }
 
 .c32::before {
@@ -6486,11 +6486,11 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 }
 
 .c32 .public-DraftEditorPlaceholder-root {
-  color: #646464;
+  color: #616161;
 }
 
 .c32 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
+  color: #616161;
 }
 
 .c32::before {
@@ -9428,11 +9428,11 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 }
 
 .c32 .public-DraftEditorPlaceholder-root {
-  color: #646464;
+  color: #616161;
 }
 
 .c32 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
+  color: #616161;
 }
 
 .c32::before {
@@ -11346,11 +11346,11 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 }
 
 .c32 .public-DraftEditorPlaceholder-root {
-  color: #646464;
+  color: #616161;
 }
 
 .c32 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
+  color: #616161;
 }
 
 .c32::before {
@@ -14200,11 +14200,11 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 }
 
 .c33 .public-DraftEditorPlaceholder-root {
-  color: #646464;
+  color: #616161;
 }
 
 .c33 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
+  color: #616161;
 }
 
 .c33::before {
@@ -16138,11 +16138,11 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 }
 
 .c33 .public-DraftEditorPlaceholder-root {
-  color: #646464;
+  color: #616161;
 }
 
 .c33 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
+  color: #616161;
 }
 
 .c33::before {
@@ -18076,11 +18076,11 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 }
 
 .c32 .public-DraftEditorPlaceholder-root {
-  color: #646464;
+  color: #616161;
 }
 
 .c32 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
+  color: #616161;
 }
 
 .c32::before {
@@ -19994,11 +19994,11 @@ exports[`SnippetEditor passes replacement variables to the title and description
 }
 
 .c32 .public-DraftEditorPlaceholder-root {
-  color: #646464;
+  color: #616161;
 }
 
 .c32 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
+  color: #616161;
 }
 
 .c32::before {
@@ -22557,11 +22557,11 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 }
 
 .c32 .public-DraftEditorPlaceholder-root {
-  color: #646464;
+  color: #616161;
 }
 
 .c32 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
+  color: #616161;
 }
 
 .c32::before {
@@ -24917,11 +24917,11 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
 }
 
 .c31 .public-DraftEditorPlaceholder-root {
-  color: #646464;
+  color: #616161;
 }
 
 .c31 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
+  color: #616161;
 }
 
 .c31::before {

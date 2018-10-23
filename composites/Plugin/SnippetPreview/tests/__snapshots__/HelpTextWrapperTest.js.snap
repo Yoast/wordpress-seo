@@ -152,7 +152,7 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
     <svg
       aria-hidden={true}
       className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-      fill="#646464"
+      fill="#616161"
       focusable="false"
       role="img"
       size="16px"
