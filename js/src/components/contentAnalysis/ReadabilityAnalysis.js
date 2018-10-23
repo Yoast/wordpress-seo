@@ -67,7 +67,7 @@ class ReadabilityAnalysis extends React.Component {
 						</AnalysisHeader>
 						<Results
 							canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
-							showLanguageNotice={ true }
+							showLanguageNotice={ false }
 							changeLanguageLink={ localizedData.settings_link }
 							language={ localizedData.language }
 							results={ this.props.results }
