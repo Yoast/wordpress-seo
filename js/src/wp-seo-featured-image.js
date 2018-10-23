@@ -163,28 +163,31 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		}
 
 		// Fallback for Gutenberg, as the featured image id does not exist there.
-		let imageData;
-		if ( isGutenbergDataAvailable() ) {
-			wp.data.subscribe( () => {
-				const featuredImageId = wp.data.select( "core/editor" ).getEditedPostAttribute( "featured_media" );
-
-				if ( featuredImageId === undefined ) {
-					return;
-				}
-
-				// Only continue if image data has changed.
-				if ( imageData !== wp.data.select( "core" ).getMedia( featuredImageId ) ) {
-
-					imageData = wp.data.select( "core" ).getMedia( featuredImageId );
-					if ( imageData === undefined ) {
-						return;
-					}
-
-					const featuredImageHTML = `<img src="` + imageData.source_url + `" alt="` + imageData.alt_text + `" >`;
-					featuredImagePlugin.setFeaturedImage( featuredImageHTML );
-				}
-			} );
+		if ( ! isGutenbergDataAvailable() ) {
+			return;
 		}
+
+		let imageData;
+		let previousImageData;
+		wp.data.subscribe( () => {
+			const featuredImageId = wp.data.select( "core/editor" ).getEditedPostAttribute( "featured_media" );
+
+			if ( featuredImageId === undefined || featuredImageId === null ) {
+				return;
+			}
+
+			imageData = wp.data.select( "core" ).getMedia( featuredImageId );
+
+			if ( imageData === undefined ) {
+				return;
+			}
+
+			if ( imageData !== previousImageData ) {
+				previousImageData = imageData;
+				const featuredImageHTML = `<img src="${imageData.source_url}" alt="${imageData.alt_text}" >`;
+				featuredImagePlugin.setFeaturedImage( featuredImageHTML );
+			}
+		} );
 	} );
 }( jQuery ) );
 
