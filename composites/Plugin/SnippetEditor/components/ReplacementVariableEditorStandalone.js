@@ -7,6 +7,7 @@ import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
 import filter from "lodash/filter";
 import includes from "lodash/includes";
+import get from "lodash/get";
 import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
 import { __, _n, sprintf } from "@wordpress/i18n";
@@ -340,12 +341,30 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	/**
 	 * Sets the editor reference on this component instance.
 	 *
-	 * @param {Object} editor The editor React reference.
+	 * @param {Object} editorRef The editor React reference.
 	 *
 	 * @returns {void}
 	 */
-	setEditorRef( editor ) {
-		this.editor = editor;
+	setEditorRef( editorRef ) {
+		try {
+			editorRef.editor.editorContainer.firstChild.id = this.props.fieldId;
+		} catch ( error ) {
+			console.trace( error );
+		}
+
+		this.editor = editorRef;
+	}
+
+	/**
+	 * Sets the id of the editable div, that represents the actual input of the DraftJS field.
+	 *
+	 * @returns {void}
+	 */
+	setEditorFieldId() {
+		const editorContainer = get( this.editor, "editor.editorContainer" );
+		const editorField     = editorContainer.querySelector( "div[contenteditable]" );
+
+		editorField.id = this.props.fieldId;
 	}
 
 	/**
@@ -474,6 +493,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		window.addEventListener( "scroll", this.debouncedUpdateMentionSuggestions );
 		document.addEventListener( "copy", this.handleCopyCutEvent );
 		document.addEventListener( "cut", this.handleCopyCutEvent );
+		this.setEditorFieldId();
 	}
 
 	/**
@@ -501,6 +521,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		return (
 			<React.Fragment>
 				<Editor
+					id={ this.props.fieldId }
 					textDirectionality={ theme.isRtl ? "RTL" : "LTR" }
 					editorState={ editorState }
 					onChange={ this.onChange }
@@ -534,6 +555,7 @@ ReplacementVariableEditorStandalone.propTypes = {
 	onBlur: PropTypes.func,
 	theme: PropTypes.object,
 	placeholder: PropTypes.string,
+	fieldId: PropTypes.string,
 };
 
 ReplacementVariableEditorStandalone.defaultProps = {

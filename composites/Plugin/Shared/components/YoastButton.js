@@ -76,7 +76,7 @@ export function addButtonStyles( component ) {
  *
  * @returns {ReactElement} The button with inner span.
  */
-const YoastButtonBase = ( { className, onClick, type, children, isExpanded } ) => (
+export const YoastButtonBase = ( { className, onClick, type, children, isExpanded } ) => (
 	<button className={ className } onClick={ onClick } type={ type } aria-expanded={ isExpanded }>
 		<span>
 			{ children }

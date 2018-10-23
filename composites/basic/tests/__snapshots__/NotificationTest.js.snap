@@ -142,7 +142,7 @@ exports[`the Notification with props matches the snapshot 1`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-times c5 c6"
-        fill="#646464"
+        fill="#616161"
         focusable="false"
         role="img"
         size="24px"
