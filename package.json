@@ -114,11 +114,13 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
+    "@wordpress/api-fetch": "^2.1.0",
     "@wordpress/components": "^1.0.1",
     "@wordpress/data": "^1.0.1",
     "@wordpress/element": "^1.0.1",
     "@wordpress/i18n": "^1.2.2",
     "@wordpress/is-shallow-equal": "^1.0.2",
+    "@wordpress/url": "^2.1.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "draft-js": "^0.10.5",
@@ -144,6 +146,6 @@
     "yoastseo": "^1.41.0"
   },
   "yoast": {
-    "pluginVersion": "9.0"
+    "pluginVersion": "9.0.2"
   }
 }
