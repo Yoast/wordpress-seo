@@ -19,7 +19,7 @@ describe( "A test for checking the Italian participle", function() {
 			type: "irregular",
 			language: "it",
 		} );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 38, "it" ) ).toBe( true );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "it" ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
@@ -31,7 +31,7 @@ describe( "A test for checking the Italian participle", function() {
 		} );
 		mockParticiple._participle = null;
 		checkException.call( mockParticiple );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 8, "it" ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "it" ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 } );

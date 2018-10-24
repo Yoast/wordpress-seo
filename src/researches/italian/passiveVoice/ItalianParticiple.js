@@ -1,6 +1,6 @@
 import Participle from "../../../values/Participle.js";
 import checkException from "../../passiveVoice/periphrastic/checkException.js";
-import directPrecedenceException from "../../../stringProcessing/directPrecedenceException";
+import directPrecedenceException from "../../../stringProcessing/directPrecedenceExceptionWithoutRegex";
 import precedenceException from "../../../stringProcessing/precedenceException";
 
 
@@ -28,10 +28,11 @@ require( "util" ).inherits( ItalianParticiple, Participle );
  */
 ItalianParticiple.prototype.isPassive = function() {
 	let sentencePart = this.getSentencePart();
-	let participleIndex = sentencePart.indexOf( this.getParticiple() );
+	const participle = this.getParticiple();
+	let participleIndex = sentencePart.indexOf( participle );
 	let language = this.getLanguage();
 
-	return ! this.directPrecedenceException( sentencePart, participleIndex, language ) &&
+	return ! this.directPrecedenceException( sentencePart, participle, language ) &&
 		! this.precedenceException( sentencePart, participleIndex, language );
 };
 
