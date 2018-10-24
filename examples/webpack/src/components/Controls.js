@@ -15,7 +15,8 @@ function clearStorageAction() {
 	window.location.reload();
 }
 
-function Controls( { useKeywordDistribution, onInitialize, onAnalyze, onAnalyzeSpam, setConfigurationAttribute: setConfigAttribute } ) {
+function Controls( { useKeywordDistribution, onInitialize, onAnalyze,
+					   onAnalyzeSpam, setConfigurationAttribute: setConfigAttribute } ) {
 	return <Fragment>
 		<div className="button-container">
 			<AutomaticAnalysis />

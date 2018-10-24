@@ -113,7 +113,7 @@ class App extends React.Component {
 	/**
 	 * Renders the app.
 	 *
-	 * @returns {ReactElement} The app.
+	 * @returns {React.Element} The app.
 	 */
 	render() {
 		return (

@@ -1,5 +1,5 @@
 import Paper from "../../../../../src/values/Paper";
-import { isEqual, debounce, get } from "lodash-es";
+import { isEqual, debounce } from "lodash-es";
 
 import { setStatus } from "../actions/worker";
 import { setResults } from "../actions/results";
@@ -54,10 +54,8 @@ export default class StoreSubscriber {
 		const { configuration: prevConfiguration } = prevState;
 		const { configuration } = state;
 
-		if ( get( prevConfiguration, [ "useKeywordDistribution" ] ) !== get( configuration, "useKeywordDistribution" ) ) {
-			this._worker.initialize( {
-				useKeywordDistribution: configuration.useKeywordDistribution,
-			} ).then( () => this.analyzePaper( state.paper ) );
+		if ( ! isEqual( prevConfiguration, configuration ) ) {
+			this._worker.initialize( configuration ).then( () => this.analyzePaper( state.paper ) );
 		}
 	}
 
