@@ -17,7 +17,7 @@ const cannotBeBetweenPassiveAuxiliaryAndParticiple = {
  * If this is the case, the sentence part is not passive.
  *
  * @param {string} sentencePart The sentence part that contains the participle.
- * @param {number} participle   The participle.
+ * @param {string} participle   The participle.
  * @param {string} language     The language of the participle.
  *
  * @returns {boolean} Returns true if a word from the precedence exception list occurs anywhere in the
