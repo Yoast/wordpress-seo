@@ -28,11 +28,11 @@ const cannotDirectlyPrecedePassiveParticiples = {
  *                    the participle, otherwise returns false.
  */
 export default function( sentencePart, participle, language ) {
-	// Break the sentence part up into words.
-	const wordsInSentencePart = getWords( sentencePart );
+	// Break the sentence part up into words and convert to lower case.
+	const wordsInSentencePart = getWords( sentencePart ).map( word => word.toLowerCase() );
 
 	// Search the participle in the word list.
-	const participleIndex = wordsInSentencePart.indexOf( participle );
+	const participleIndex = wordsInSentencePart.indexOf( participle.toLowerCase() );
 
 	/*
 	 * There can be no exception in the following situations:
