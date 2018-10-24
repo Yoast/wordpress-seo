@@ -90,12 +90,7 @@ function getBlocks( text ) {
 
 	createTokenizer();
 	htmlBlockTokenizer.onText( text );
-
-	try {
-		htmlBlockTokenizer.end();
-	} catch ( e ) {
-		console.error( "Tokenizer end error:", e, e.tokenizer2 );
-	}
+	htmlBlockTokenizer.end();
 
 	forEach( tokens, function( token, i ) {
 		var nextToken = tokens[ i + 1 ];

@@ -126,12 +126,7 @@ class UrlStructure {
 		createTokenizer();
 
 		urlTokenizer.onText( url );
-
-		try {
-			urlTokenizer.end();
-		} catch ( e ) {
-			console.error( "Tokenizer end error:", e, e.tokenizer2 );
-		}
+		urlTokenizer.end();
 
 		tokens = tokens.map( ( token ) => {
 			let urlPart = {
