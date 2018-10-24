@@ -684,6 +684,8 @@ export default class AnalysisWebWorker {
 					synonyms: this._relatedKeywords[ key ].synonyms,
 				} );
 
+				console.log( this._relatedKeywords[ key ] );
+
 				this._relatedKeywordAssessor.assess( relatedPaper );
 
 				this._results.seo[ key ] = {

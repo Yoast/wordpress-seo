@@ -90,7 +90,7 @@ class App extends React.Component {
 			.then( ( { result } ) => {
 				setWorkerStatus( "idling" );
 
-				this.props.setResults( formatAnalyzeResult( result ) );
+				this.props.setResults( formatAnalyzeResult( result, "" ) );
 			} );
 	}
 
@@ -166,7 +166,7 @@ class App extends React.Component {
 
 					<li>Performance information</li>
 					<li>Re-order collapsibles</li>
-					<li>Add button to trigger a ton of analyses continiously. This can be used to check for performance & memory leaks.</li>
+					<li>Add button to trigger a ton of analyses continuously. This can be used to check for performance & memory leaks.</li>
 				</ul>
 
 				Design Todos:

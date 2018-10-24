@@ -36,6 +36,17 @@ function Inputs( props ) {
 	return <section>
 		{ renderPaperAttribute( props, "text", "Write a text", null, null, TextArea ) }
 		{ renderPaperAttribute( props, "keyword", "Choose a focus keyword", "Focus keyphrase" ) }
+		<ToggleContainer>
+			<Toggle
+				id="toggle-is-related-keyword"
+				labelText="Is a related keyphrase"
+				isEnabled={ props.isRelatedKeyphrase }
+				onSetToggleState={ value => {
+					props.setConfigurationAttribute( "isRelatedKeyphrase", value );
+				} }
+				onToggleDisabled={ noop }
+			/>
+		</ToggleContainer>
 		{ renderPaperAttribute( props, "synonyms", "Choose keyword synonyms" ) }
 		{ renderPaperAttribute( props, "title", "Write the SEO title", null, ( id, value ) => {
 			props.setPaperAttribute( id, value );
@@ -57,7 +68,7 @@ function Inputs( props ) {
 		</ToggleContainer>
 		<ToggleContainer>
 			<Toggle
-				id="toggle-use-cornerstone"
+				id="toggle-use-taxonomy"
 				labelText="Is taxonomy page"
 				isEnabled={ props.useTaxonomy }
 				onSetToggleState={ value => {
@@ -75,6 +86,7 @@ export default connect(
 			paper: state.paper,
 			useCornerstone: state.configuration.useCornerstone,
 			useTaxonomy: state.configuration.useTaxonomy,
+			isRelatedKeyphrase: state.configuration.isRelatedKeyphrase,
 		};
 	},
 	( dispatch ) => {
