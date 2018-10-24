@@ -59,6 +59,7 @@
     "url": "https://github.com/Yoast/js-text-analysis/issues"
   },
   "dependencies": {
+    "@wordpress/autop": "^2.0.2",
     "htmlparser2": "^3.9.2",
     "jed": "^1.1.0",
     "lodash-es": "^4.17.10",
