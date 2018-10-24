@@ -20,7 +20,7 @@ describe( "A test for checking the Spanish participle", function() {
 			language: "es",
 		} );
 		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "es" ) ).toBe( true );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 7, "es" ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "es" ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
@@ -32,7 +32,7 @@ describe( "A test for checking the Spanish participle", function() {
 			language: "es",
 		} );
 		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "es" ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 47, "es" ) ).toBe( true );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "es" ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
@@ -44,7 +44,7 @@ describe( "A test for checking the Spanish participle", function() {
 			language: "es",
 		} );
 		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "es" ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 53, "es" ) ).toBe( true );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "es" ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
