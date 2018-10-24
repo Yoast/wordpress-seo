@@ -64,7 +64,7 @@
 	<rule ref="PHPCompatibilityWP"/>
 
 	<!-- WP-CLI and src (indexables) have a minimum PHP requirement of PHP 5.3. -->
-	<rule ref="PHPCompatibility.PHP.NewLanguageConstructs.t_ns_separatorFound">
+	<rule ref="PHPCompatibility.LanguageConstructs.NewLanguageConstructs.t_ns_separatorFound">
 		<exclude-pattern>*/cli/class-cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
@@ -80,19 +80,19 @@
 		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
-	<rule ref="PHPCompatibility.PHP.LateStaticBinding.Found">
+	<rule ref="PHPCompatibility.Classes.NewLateStaticBinding.Found">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
-	<rule ref="PHPCompatibility.PHP.NewKeywords.t_namespaceFound">
+	<rule ref="PHPCompatibility.Keywords.NewKeywords.t_namespaceFound">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
-	<rule ref="PHPCompatibility.PHP.NewFunctions.get_called_classFound">
+	<rule ref="PHPCompatibility.FunctionUse.NewFunctions.get_called_classFound">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
-	<rule ref="PHPCompatibility.PHP.DynamicAccessToStatic.Found">
+	<rule ref="PHPCompatibility.Syntax.NewDynamicAccessToStatic.Found">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
-	<rule ref="PHPCompatibility.PHP.NewClosure.Found">
+	<rule ref="PHPCompatibility.FunctionDeclarations.NewClosure.Found">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
 
