@@ -1,7 +1,6 @@
 import { forEach, includes, memoize } from "lodash-es";
 
 import directPrecedenceException from "../../../stringProcessing/directPrecedenceExceptionWithoutRegex";
-import getWords from "../../../stringProcessing/getWords";
 import precedenceException from "../../../stringProcessing/precedenceException";
 import Participle from "../../../values/Participle";
 import checkException from "../../passiveVoice/periphrastic/checkException";

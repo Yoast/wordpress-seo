@@ -47,9 +47,9 @@ describe( "A test for checking the French participle", function() {
 	} );
 
 	it( "checks the properties of the French participle object with a noun exception ending in é and beginning with a contracted article", function() {
-		const mockParticiple = new FrenchParticiple(
-			"l'intégrité", "Est-ce que la création de cet outil contribuera à améliorer l’intégrité scientifique ?",
-			{ auxiliaries: [ "est-ce" ], type: "regular", language: "fr" },
+		const mockParticiple = new FrenchParticiple( "l'intégrité",
+			"Est-ce que la création de cet outil contribuera à améliorer l’intégrité scientifique ?",
+			{ auxiliaries: [ "est-ce" ], type: "regular", language: "fr" }
 		);
 		expect( mockParticiple.getParticiple() ).toBe( "l'intégrité" );
 		expect( mockParticiple.isOnAdjectivesVerbsExceptionList() ).toBe( false );
