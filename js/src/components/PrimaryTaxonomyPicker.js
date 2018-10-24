@@ -8,6 +8,8 @@ import {
 } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 import { sprintf, __ } from "@wordpress/i18n";
+import apiFetch from "@wordpress/api-fetch";
+import { addQueryArgs } from "@wordpress/url";
 import styled from "styled-components";
 import diff from "lodash/difference";
 
@@ -112,20 +114,24 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {void}
 	 */
 	fetchTerms() {
-		const TaxonomyCollection = wp.api.getCollectionByRoute( `/wp/v2/${ this.props.taxonomy.restBase }` );
-		if ( ! TaxonomyCollection ) {
+		const { taxonomy } = this.props;
+		if ( ! taxonomy ) {
 			return;
 		}
-		const collection = new TaxonomyCollection();
-		collection.fetch( {
-			data: {
-				/* eslint-disable-next-line camelcase */
-				per_page: -1,
-				orderby: "count",
-				order: "desc",
-				_fields: [ "id", "name" ],
-			},
-		} ).then( terms => {
+		this.fetchRequest = apiFetch( {
+			path: addQueryArgs(
+				`/wp/v2/${ taxonomy.restBase }`,
+				{
+					/* eslint-disable-next-line camelcase */
+					per_page: -1,
+					orderby: "name",
+					order: "asc",
+					_fields: "id,name",
+				}
+			),
+		} );
+
+		this.fetchRequest.then( terms => {
 			const oldState = this.state;
 			this.setState( {
 				terms,
