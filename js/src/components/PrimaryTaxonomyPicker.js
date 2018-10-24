@@ -124,8 +124,8 @@ class PrimaryTaxonomyPicker extends React.Component {
 				{
 					/* eslint-disable-next-line camelcase */
 					per_page: -1,
-					orderby: "name",
-					order: "asc",
+					orderby: "count",
+					order: "desc",
 					_fields: "id,name",
 				}
 			),
