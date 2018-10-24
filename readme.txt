@@ -111,7 +111,8 @@ Release Date: October 24th, 2018
 
 Bugfixes:
 
-* Fixes a bug where it was impossible to select a site in the Search Console integration step in the configuration wizard.
+* Fixes a bug where it was impossible to change the profile in the Search Console integration step in the configuration wizard.
+* Fixes a bug where the primary taxonomy picker was not shown in Gutenberg (v4.1).
 
 = 9.0.1 =
 Release Date: October 23rd, 2018
