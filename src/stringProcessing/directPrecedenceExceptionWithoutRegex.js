@@ -1,4 +1,4 @@
-import { get } from "lodash-es";
+import { get, includes } from "lodash-es";
 import functionWordsDutchFactory from "../researches/dutch/functionWords";
 import functionWordsEnglishFactory from "../researches/english/functionWords";
 import functionWordsFrenchFactory from "../researches/french/functionWords";
@@ -45,11 +45,5 @@ export default function( sentencePart, participle, language ) {
 	const directPrecedenceExceptions = get( cannotDirectlyPrecedePassiveParticiples, language, [] );
 
 	// Check if the word preceding the participle is in the exceptions list.
-	for ( let i = 0; i < directPrecedenceExceptions.length; i++ ) {
-		if ( directPrecedenceExceptions[ i ].includes( wordPrecedingParticiple ) ) {
-			return true;
-		}
-	}
-
-	return false;
+	return includes( directPrecedenceExceptions, wordPrecedingParticiple );
 }
