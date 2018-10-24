@@ -22,4 +22,15 @@ describe( "A test for checking the Italian participle", function() {
 		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "it" ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
+
+	it( "ensures that the sentence part is not set to passive if the participle is empty.", function() {
+		let mockParticiple = new ItalianParticiple( "scritto", "è stato scritto dal mio amico.", {
+			auxiliaries: [ "stato" ],
+			type: "irregular",
+			language: "it",
+		} );
+		mockParticiple._participle = null;
+		checkException.call( mockParticiple );
+		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
+	} );
 } );

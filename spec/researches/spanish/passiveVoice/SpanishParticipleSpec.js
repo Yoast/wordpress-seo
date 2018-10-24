@@ -47,4 +47,15 @@ describe( "A test for checking the Spanish participle", function() {
 		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 53, "es" ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
+
+	it( "ensures that the sentence part is not set to passive if the participle is empty.", function() {
+		let mockParticiple = new SpanishParticiple( "escrito", "fue escrito por mi amiga.", {
+			auxiliaries: [ "fue" ],
+			type: "regular",
+			language: "es",
+		} );
+		mockParticiple._participle = null;
+		checkException.call( mockParticiple );
+		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
+	} );
 } );
