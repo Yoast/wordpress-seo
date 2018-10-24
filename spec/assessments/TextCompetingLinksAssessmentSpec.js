@@ -1,5 +1,4 @@
 import TextCompetingLinksAssessment from "../../src/assessments/seo/TextCompetingLinksAssessment";
-import Mark from "../../src/values/Mark";
 import Paper from "../../src/values/Paper";
 import Factory from "../specHelpers/factory";
 
