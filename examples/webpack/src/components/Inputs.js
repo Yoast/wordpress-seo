@@ -55,6 +55,17 @@ function Inputs( props ) {
 				onToggleDisabled={ noop }
 			/>
 		</ToggleContainer>
+		<ToggleContainer>
+			<Toggle
+				id="toggle-use-cornerstone"
+				labelText="Is taxonomy page"
+				isEnabled={ props.useTaxonomy }
+				onSetToggleState={ value => {
+					props.setConfigurationAttribute( "useTaxonomy", value );
+				} }
+				onToggleDisabled={ noop }
+			/>
+		</ToggleContainer>
 	</section>;
 }
 
@@ -63,6 +74,7 @@ export default connect(
 		return {
 			paper: state.paper,
 			useCornerstone: state.configuration.useCornerstone,
+			useTaxonomy: state.configuration.useTaxonomy,
 		};
 	},
 	( dispatch ) => {
