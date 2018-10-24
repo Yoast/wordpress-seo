@@ -1,8 +1,6 @@
-import { getType } from "./../helpers/types.js";
-import { isSameType } from "./../helpers/types.js";
+import { defaults, forEach, isString } from "lodash-es";
 
-import { defaults } from "lodash-es";
-import { forEach } from "lodash-es";
+import { getType, isSameType } from "./../helpers/types";
 
 /**
  * Default attributes to be used by the Participle if they are left undefined.
@@ -59,6 +57,9 @@ var Participle = function( participle, sentencePart, attributes ) {
 Participle.prototype.setParticiple = function( participle ) {
 	if ( participle === "" ) {
 		throw Error( "The participle should not be empty." );
+	}
+	if ( ! isString( participle ) ) {
+		throw Error( "The participle should be a string." );
 	}
 	this._participle = participle;
 };
