@@ -110,6 +110,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: October 24th, 2018
 
 Bugfixes:
+
 * Fixes a bug where it was impossible to select a site in the Search Console integration step in the configuration wizard.
 
 = 9.0.1 =
