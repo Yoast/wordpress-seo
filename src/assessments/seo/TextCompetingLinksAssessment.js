@@ -60,8 +60,7 @@ class TextCompetingLinksAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		assessmentResult.setHasMarks( true );
-		assessmentResult.setMarker( this.getMarks() );
+		assessmentResult.setHasMarks( false );
 
 		return assessmentResult;
 	}
@@ -102,20 +101,6 @@ class TextCompetingLinksAssessment extends Assessment {
 				),
 			};
 		}
-	}
-
-	/**
-	 * Mark the anchors.
-	 *
-	 * @returns {Array} Array with all the marked anchors.
-	 */
-	getMarks() {
-		return map( this.linkCount.keyword.matchedAnchors, function( matchedAnchor ) {
-			return new Mark( {
-				original: matchedAnchor,
-				marked: addMark( matchedAnchor ),
-			} );
-		} );
 	}
 }
 
