@@ -1,7 +1,7 @@
 import { forEach, includes, memoize } from "lodash-es";
 
 import directPrecedenceException from "../../../stringProcessing/directPrecedenceExceptionWithoutRegex";
-import precedenceException from "../../../stringProcessing/precedenceException";
+import precedenceException from "../../../stringProcessing/precedenceExceptionWithoutRegex";
 import Participle from "../../../values/Participle";
 import checkException from "../../passiveVoice/periphrastic/checkException";
 import exceptionsParticiplesFactory from "./exceptionsParticiples";
@@ -49,20 +49,19 @@ var checkIrregular = function() {
 FrenchParticiple.prototype.isPassive = function() {
 	const sentencePart = this.getSentencePart();
 	const participle = this.getParticiple();
-	const participleIndex = sentencePart.indexOf( this.getParticiple() );
 	const language = this.getLanguage();
 
 	// Only check precedence exceptions for irregular participles.
 	if ( checkIrregular.call( this ) ) {
 		return ! this.directPrecedenceException( sentencePart, participle, language ) &&
-			! this.precedenceException( sentencePart, participleIndex, language );
+			! this.precedenceException( sentencePart, participle, language );
 	}
 	// Check precedence exceptions and exception lists for regular participles.
 	return ! this.isOnAdjectivesVerbsExceptionList() &&
 		! this.isOnNounsExceptionList() &&
 		! this.isOnOthersExceptionList() &&
 		! this.directPrecedenceException( sentencePart, participle, language ) &&
-		! this.precedenceException( sentencePart, participleIndex, language );
+		! this.precedenceException( sentencePart, participle, language );
 };
 
 /**
