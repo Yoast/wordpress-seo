@@ -34,8 +34,13 @@ export default function( sentencePart, participle, language ) {
 	// Search the participle in the word list.
 	const participleIndex = wordsInSentencePart.indexOf( participle );
 
-	// If there is no participle found in the word list, this can not be an exception either.
-	if ( participleIndex === -1 ) {
+	/*
+	 * There can be no exception in the following situations:
+	 *
+	 * -1 The participle is not found.
+	 *  0 There is no word before the participle.
+	 */
+	if ( participleIndex < 1 ) {
 		return false;
 	}
 
