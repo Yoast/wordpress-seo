@@ -34,7 +34,7 @@ function Inputs( props ) {
 			props.setPaperAttribute( "titleWidth", measureTextWidth( value ) );
 		} ) }
 		{ renderPaperAttribute( props, "description", "Write a meta description" ) }
-		{ renderPaperAttribute( props, "permalink", "Choose a slug", "Slug" ) }
+		{ renderPaperAttribute( props, "url", "Choose a slug", "Slug" ) }
 		{ renderPaperAttribute( props, "locale", "en_US" ) }
 	</section>;
 }
