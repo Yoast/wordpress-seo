@@ -217,7 +217,7 @@ class WPSEO_Admin {
 		}
 
 		// Add link to premium support landing page.
-		$support_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yb' ) ) . '">' . __( 'Get support', 'wordpress-seo' ) . '</a>';
+		$support_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/39r' ) ) . '">' . __( 'Get support', 'wordpress-seo' ) . '</a>';
 		array_unshift( $links, $support_link );
 
 		// Add link to premium landing page.
