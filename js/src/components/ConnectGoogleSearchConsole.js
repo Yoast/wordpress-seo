@@ -260,7 +260,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 
 		const profiles = this.state.profileList;
 		const profileKeys = Object.keys( profiles );
-
+		/* eslint-disable jsx-a11y/no-onchange */
 		return (
 			<div className="yoast-wizard-input">
 				<label
@@ -272,7 +272,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 				<select
 					className="yoast-wizard-input__select"
 					id="yoast-wizard-gsc-select-profile"
-					onBlur={ this.setProfile.bind( this ) }
+					onChange={ this.setProfile.bind( this ) }
 					name={ this.name } value={ this.state.profile }
 				>
 					<option value="">{ this.props.translate( "Choose a profile" ) }</option>
@@ -288,6 +288,7 @@ class ConnectGoogleSearchConsole extends React.Component {
 				</select>
 			</div>
 		);
+		/* eslint-enable jsx-a11y/no-onchange */
 	}
 
 	/**

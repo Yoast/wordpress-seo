@@ -46,26 +46,27 @@ class WPSEO_Metabox_Formatter {
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
 		return array(
-			'language'              => WPSEO_Language_Utils::get_site_language_name(),
-			'settings_link'         => $this->get_settings_link(),
-			'search_url'            => '',
-			'post_edit_url'         => '',
-			'base_url'              => '',
-			'contentTab'            => __( 'Readability', 'wordpress-seo' ),
-			'keywordTab'            => __( 'Keyphrase:', 'wordpress-seo' ),
-			'removeKeyword'         => __( 'Remove keyphrase', 'wordpress-seo' ),
-			'contentLocale'         => get_locale(),
-			'userLocale'            => WPSEO_Utils::get_user_locale(),
-			'translations'          => $this->get_translations(),
-			'keyword_usage'         => array(),
-			'title_template'        => '',
-			'metadesc_template'     => '',
-			'contentAnalysisActive' => $analysis_readability->is_enabled() ? 1 : 0,
-			'keywordAnalysisActive' => $analysis_seo->is_enabled() ? 1 : 0,
-			'cornerstoneActive'     => WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
-			'intl'                  => $this->get_content_analysis_component_translations(),
-			'isRtl'                 => is_rtl(),
-			'addKeywordUpsell'      => $this->get_add_keyword_upsell_translations(),
+			'language'                  => WPSEO_Language_Utils::get_site_language_name(),
+			'settings_link'             => $this->get_settings_link(),
+			'search_url'                => '',
+			'post_edit_url'             => '',
+			'base_url'                  => '',
+			'contentTab'                => __( 'Readability', 'wordpress-seo' ),
+			'keywordTab'                => __( 'Keyphrase:', 'wordpress-seo' ),
+			'removeKeyword'             => __( 'Remove keyphrase', 'wordpress-seo' ),
+			'contentLocale'             => get_locale(),
+			'userLocale'                => WPSEO_Utils::get_user_locale(),
+			'translations'              => $this->get_translations(),
+			'keyword_usage'             => array(),
+			'title_template'            => '',
+			'metadesc_template'         => '',
+			'contentAnalysisActive'     => $analysis_readability->is_enabled() ? 1 : 0,
+			'keywordAnalysisActive'     => $analysis_seo->is_enabled() ? 1 : 0,
+			'cornerstoneActive'         => WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
+			'intl'                      => $this->get_content_analysis_component_translations(),
+			'isRtl'                     => is_rtl(),
+			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
+			'wordFormRecognitionActive' => ( WPSEO_Utils::get_language( get_locale() ) === 'en' ),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
@@ -196,7 +197,7 @@ class WPSEO_Metabox_Formatter {
 			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ),
 			'buy'                      => sprintf(
 				/* translators: %s expands to 'Yoast SEO Premium'. */
-				__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
+				__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium'
 			),
 			'small'                    => __( '1 year free updates and upgrades included!', 'wordpress-seo' ),
 			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),

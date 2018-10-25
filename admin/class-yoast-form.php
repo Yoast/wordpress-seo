@@ -501,6 +501,11 @@ class Yoast_Form {
 			$val = $this->options[ $var ];
 		}
 
+		$id_value = '';
+		if ( isset( $this->options[ $var . '_id' ] ) ) {
+			$id_value = $this->options[ $var . '_id' ];
+		}
+
 		$var_esc = esc_attr( $var );
 
 		$this->label(
@@ -510,8 +515,39 @@ class Yoast_Form {
 				'class' => 'select',
 			)
 		);
-		echo '<input class="textinput" id="wpseo_', $var_esc, '" type="text" size="36" name="', esc_attr( $this->option_name ), '[', $var_esc, ']" value="', esc_attr( $val ), '" />';
-		echo '<input id="wpseo_', $var_esc, '_button" class="wpseo_image_upload_button button" type="button" value="', esc_attr__( 'Upload Image', 'wordpress-seo' ), '"', disabled( $this->is_control_disabled( $var ), true, false ), ' />';
+
+		$id_field_id = 'wpseo_' . $var_esc . '_id';
+
+		echo '<span>';
+			echo '<input',
+				' class="textinput"',
+				' id="wpseo_', $var_esc, '"',
+				' type="text" size="36"',
+				' name="', esc_attr( $this->option_name ), '[', $var_esc, ']"',
+				' value="', esc_attr( $val ), '"',
+				' readonly="readonly"',
+				' /> ';
+			echo '<input',
+				' id="wpseo_', $var_esc, '_button"',
+				' class="wpseo_image_upload_button button"',
+				' type="button"',
+				' value="', esc_attr__( 'Upload Image', 'wordpress-seo' ), '"',
+				' data-target-id="', esc_attr( $id_field_id ), '"',
+				disabled( $this->is_control_disabled( $var ), true, false ),
+				' /> ';
+			echo '<input',
+				' class="wpseo_image_remove_button button"',
+				' type="button"',
+				' value="', esc_attr__( 'Clear Image', 'wordpress-seo' ), '"',
+				disabled( $this->is_control_disabled( $var ), true, false ),
+				' />';
+			echo '<input',
+				' type="hidden"',
+				' id="', esc_attr( $id_field_id ), '"',
+				' name="', esc_attr( $this->option_name ), '[', $var_esc, '_id]"',
+				' value="', esc_attr( $id_value ), '"',
+				' />';
+		echo '</span>';
 		echo '<br class="clear"/>';
 	}
 
