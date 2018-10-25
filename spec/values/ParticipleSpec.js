@@ -57,6 +57,12 @@ describe( "A test for checking the Participle", function() {
 		} ).toThrowError( "The participle should not be empty." );
 	} );
 
+	it( "throws an error when the participle is not a string.", function() {
+		expect( function() {
+			new Participle( null, "Wir werden geschlossen haben.", { auxiliaries: [ "werden" ], type: [ "irregular" ] } );
+		} ).toThrowError( "The participle should be a string." );
+	} );
+
 	it( "throws an error when the sentence part is empty.", function() {
 		expect( function() {
 			new Participle( "geschlossen", "", { auxiliaries: [ "werden" ], type: [ "irregular" ] } );

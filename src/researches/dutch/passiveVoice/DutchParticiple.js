@@ -3,7 +3,7 @@ import { includes } from "lodash-es";
 import Participle from "../../../values/Participle.js";
 import checkException from "../../passiveVoice/periphrastic/checkException.js";
 import nonParticiples from "./nonParticiples";
-import directPrecedenceException from "../../../stringProcessing/directPrecedenceException";
+import directPrecedenceException from "../../../stringProcessing/directPrecedenceExceptionWithoutRegex";
 
 /**
  * Creates an Participle object for the Dutch language.
@@ -29,12 +29,12 @@ require( "util" ).inherits( DutchParticiple, Participle );
  */
 DutchParticiple.prototype.isPassive = function() {
 	const sentencePart = this.getSentencePart();
-	const participleIndex = sentencePart.indexOf( this.getParticiple() );
+	const participle = this.getParticiple();
 	const language = this.getLanguage();
 
 	return ! this.isOnNonParticiplesList() &&
 		! this.hasNonParticipleEnding() &&
-		! this.directPrecedenceException( sentencePart, participleIndex, language );
+		! this.directPrecedenceException( sentencePart, participle, language );
 };
 
 /**

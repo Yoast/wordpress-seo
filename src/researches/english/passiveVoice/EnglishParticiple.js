@@ -2,8 +2,8 @@ import Participle from "../../../values/Participle.js";
 import checkException from "../../passiveVoice/periphrastic/checkException.js";
 import nonVerbsEndingEdFactory from "./non-verb-ending-ed.js";
 const nonVerbsEndingEd = nonVerbsEndingEdFactory();
-import directPrecedenceException from "../../../stringProcessing/directPrecedenceException";
-import precedenceException from "../../../stringProcessing/precedenceException";
+import directPrecedenceException from "../../../stringProcessing/directPrecedenceExceptionWithoutRegex";
+import precedenceException from "../../../stringProcessing/precedenceExceptionWithoutRegex";
 
 import { includes } from "lodash-es";
 import { isEmpty } from "lodash-es";
@@ -35,13 +35,13 @@ require( "util" ).inherits( EnglishParticiple, Participle );
  */
 EnglishParticiple.prototype.isPassive = function() {
 	const sentencePart = this.getSentencePart();
-	const participleIndex = sentencePart.indexOf( this.getParticiple() );
+	const participle = this.getParticiple();
 	const language = this.getLanguage();
 
 	return 	! this.isNonVerbEndingEd() &&
 		! this.hasRidException() &&
-		! this.directPrecedenceException( sentencePart, participleIndex, language ) &&
-		! this.precedenceException( sentencePart, participleIndex, language );
+		! this.directPrecedenceException( sentencePart, participle, language ) &&
+		! this.precedenceException( sentencePart, participle, language );
 };
 
 /**
