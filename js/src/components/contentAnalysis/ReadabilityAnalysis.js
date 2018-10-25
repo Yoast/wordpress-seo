@@ -5,13 +5,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
-import { utils } from "yoast-components";
 import isNil from "lodash/isNil";
 
 import Results from "./Results";
 import Collapsible from "../SidebarCollapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
+import { HelpLink } from "./SeoAnalysis";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -27,8 +27,9 @@ if ( window.wpseoPostScraperL10n ) {
 	localizedData = wpseoTermScraperL10n;
 }
 
-const { makeOutboundLink } = utils;
-const LearnMoreLink = makeOutboundLink();
+const StyledHelpLink = styled( HelpLink )`
+	margin: -8px 0 -4px 4px;
+`;
 
 /**
  * Redux container for the readability analysis.
@@ -50,17 +51,20 @@ class ReadabilityAnalysis extends React.Component {
 			>
 				<AnalysisHeader>
 					{ __( "Analysis results", "wordpress-seo" ) }
+					<StyledHelpLink
+						href={ wpseoAdminL10n[ "shortlinks.readability_analysis_info" ] }
+						rel={ null }
+						className="dashicons"
+					>
+						<span className="screen-reader-text">
+							{ __( "Learn more about the readability analysis", "wordpress-seo" ) }
+						</span>
+					</StyledHelpLink>
 				</AnalysisHeader>
-				<p>
-					{ __( "This analysis checks your writing for grammar and writing style so your content " +
-						"is as clear as it can be.", "wordpress-seo" ) + " " }
-					<LearnMoreLink href={ wpseoAdminL10n[ "shortlinks.readability_analysis_info" ] } rel={ null }>
-						{ __( "Learn more about the readability analysis.", "wordpress-seo" ) }
-					</LearnMoreLink>
-				</p>
+
 				<Results
 					canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
-					showLanguageNotice={ true }
+					showLanguageNotice={ false }
 					changeLanguageLink={ localizedData.settings_link }
 					language={ localizedData.language }
 					results={ this.props.results }

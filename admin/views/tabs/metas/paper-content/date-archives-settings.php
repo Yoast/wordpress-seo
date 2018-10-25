@@ -26,7 +26,7 @@ $yform->toggle_switch(
 		esc_html__( 'Help on the date archives search results setting', 'wordpress-seo' ),
 		sprintf(
 		/* translators: 1: expands to <code>noindex</code>; 2: link open tag; 3: link close tag. */
-		esc_html__( 'Not showing the date archives in the search results technically means those will have a %1$s robots meta and will be excluded from XML sitemaps. %2$sMore info on the search results settings%3$s.', 'wordpress-seo' ),
+		esc_html__( 'Not showing the date archives in the search results technically means those will have a %1$s robots meta. %2$sMore info on the search results settings%3$s.', 'wordpress-seo' ),
 		'<code>noindex</code>',
 		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/show-x' ) ) . '" target="_blank" rel="noopener noreferrer">',
 			'</a>'

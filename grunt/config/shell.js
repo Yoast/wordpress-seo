@@ -1,3 +1,5 @@
+const path = require( "path" );
+
 // See https://github.com/sindresorhus/grunt-shell
 module.exports = function( grunt ) {
 	return {
@@ -44,9 +46,14 @@ module.exports = function( grunt ) {
 
 		"makepot-yoast-components-configuration-wizard": {
 			fromFiles: [
-				"node_modules/yoast-components/**/*.js",
-				"!node_modules/yoast-components/node_modules/**/*.js",
-				"<%= paths.js %>components/*.js",
+				// On these 2 folders in yoast-components have the old i18n-calypso system.
+				"node_modules/yoast-components/composites/LinkSuggestions/**/*.js",
+				"node_modules/yoast-components/composites/OnboardingWizard/**/*.js",
+
+				// Only these 3 files have the old i18n-calypso system:
+				"<%= paths.js %>components/ConnectGoogleSearchConsole.js",
+				"<%= paths.js %>components/MailchimpSignup.js",
+				"<%= paths.js %>components/MediaUpload.js",
 			],
 			textdomain: "yoast-components",
 			command: function() {
@@ -54,7 +61,7 @@ module.exports = function( grunt ) {
 
 				files = grunt.file.expand( files );
 
-				return "./node_modules/.bin/i18n-calypso" +
+				return path.normalize( "./node_modules/.bin/i18n-calypso" ) +
 					" -o <%= files.pot.yoastComponentsConfigurationWizard %>" +
 					" -f POT" +
 					" " + files.join( " " );
@@ -78,6 +85,8 @@ module.exports = function( grunt ) {
 				files = [ "./node_modules/yoastseo/src/**/*.js" ];
 				files = grunt.file.expand( files );
 
+				grunt.file.write( "languages/yoastseojsfiles.txt", files.join( "\n" ) );
+
 				return "xgettext" +
 					" --default-domain=js-text-analysis" +
 					" -o <%= files.pot.yoastseojs %>" +
@@ -85,7 +94,7 @@ module.exports = function( grunt ) {
 					" --from-code=UTF-8" +
 					" --add-comments=\"translators: \"" +
 					" --add-comments=\"Translators: \"" +
-					" " + files.join( " " );
+					" --files-from=languages/yoastseojsfiles.txt";
 			},
 		},
 

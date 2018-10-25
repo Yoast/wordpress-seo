@@ -378,9 +378,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$url     = 'http://example.com/example.jpg';
 		$post_id = $this->factory->post->create( array( 'post_content' => "Bla <img src='$url'/> bla" ) );
 		$this->go_to( get_permalink( $post_id ) );
-
 		$expected = $this->metatag( 'image', $url );
-
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
 	}
