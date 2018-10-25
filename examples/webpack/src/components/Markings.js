@@ -1,6 +1,16 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
-import { find } from "lodash-es";
+import { find, get } from "lodash-es";
+import styled from "styled-components";
+
+const ContainerTop = styled.div`
+	padding-bottom: 6px;
+	border-bottom: 1px solid #eee;
+`;
+
+const ContainerBottom = styled.div`
+	padding-top: 6px;
+`;
 
 function createMarkedText( text, markings ) {
 	markings.forEach( ( marking ) => {
@@ -16,13 +26,13 @@ function Markings( { results, activeMarker, text } ) {
 	}
 
 	const activeResults = find( results, [ "_identifier", activeMarker ] );
-	const activeMarkings = activeResults.marks;
+	const activeMarkings = get( activeResults, "marks", [] );
 
 	const markedText = createMarkedText( text, activeMarkings );
 
 	return <Fragment>
-		<div dangerouslySetInnerHTML={ markedText } />
-		<div>{ markedText.__html }</div>
+		<ContainerTop dangerouslySetInnerHTML={ markedText } />
+		<ContainerBottom>{ markedText.__html }</ContainerBottom>
 	</Fragment>;
 }
 

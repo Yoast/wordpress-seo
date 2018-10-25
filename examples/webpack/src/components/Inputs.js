@@ -48,12 +48,15 @@ function Inputs( props ) {
 			/>
 		</ToggleContainer>
 		{ renderPaperAttribute( props, "synonyms", "Choose keyword synonyms" ) }
-		{ renderPaperAttribute( props, "title", "Write the SEO title", null, ( id, value ) => {
+		{ renderPaperAttribute( props, "title", "Write the SEO title", "SEO title", ( id, value ) => {
 			props.setPaperAttribute( id, value );
 			props.setPaperAttribute( "titleWidth", measureTextWidth( value ) );
 		} ) }
-		{ renderPaperAttribute( props, "description", "Write a meta description" ) }
-		{ renderPaperAttribute( props, "permalink", "Choose a slug", "Slug" ) }
+		{ renderPaperAttribute( props, "description", "Write a meta description", "Meta description" ) }
+		{ renderPaperAttribute( props, "url", "Choose a slug", "Slug", ( id, value ) => {
+			props.setPaperAttribute( id, value );
+			props.setPaperAttribute( "permalink", `${window.location.origin}/${value}` );
+		} ) }
 		{ renderPaperAttribute( props, "locale", "en_US" ) }
 		<ToggleContainer>
 			<Toggle

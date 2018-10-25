@@ -31,7 +31,7 @@ function Controls( { useKeywordDistribution, onInitialize, onAnalyze,
 
 		<Toggle
 			id="toggle-use-keyword-distribution"
-			labelText="Use keyword distribution"
+			labelText="Use keyphrase distribution"
 			isEnabled={ useKeywordDistribution }
 			onSetToggleState={ value => {
 				setConfigAttribute( "useKeywordDistribution", value );
