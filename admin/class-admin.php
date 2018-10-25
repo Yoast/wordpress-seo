@@ -56,6 +56,7 @@ class WPSEO_Admin {
 		}
 
 		add_filter( 'plugin_action_links_' . WPSEO_BASENAME, array( $this, 'add_action_link' ), 10, 2 );
+		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_global_style' ) );
@@ -216,19 +217,28 @@ class WPSEO_Admin {
 			}
 		}
 
-		// Add link to premium support landing page.
-		$support_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/39r' ) ) . '">' . __( 'Get support', 'wordpress-seo' ) . '</a>';
-		array_unshift( $links, $support_link );
-
-		// Add link to premium landing page.
-		$premium_link = '<strong><a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/39q' ) ) . '">' . __( 'Go Premium', 'wordpress-seo' ) . '</a></strong>';
-		array_unshift( $links, $premium_link );
-
-		// Add link to docs.
-		$faq_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yc' ) ) . '">' . __( 'FAQ', 'wordpress-seo' ) . '</a>';
-		array_unshift( $links, $faq_link );
-
 		return $links;
+	}
+
+	/**
+	 * Show row meta on the plugin screen.
+	 *
+	 * @param   mixed $links Plugin Row Meta.
+	 * @param   mixed $file  Plugin Base file.
+	 * @return  array
+	 */
+	public static function plugin_row_meta( $links, $file ) {
+		if ( WPSEO_BASENAME === $file ) {
+			$row_meta = array(
+				'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yc' ) ) . '" target="_blank">' . __( 'FAQ', 'wordpress-seo' ) . '</a>',
+				'<a style="font-weight: bold;" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/39q' ) ) . '" target="_blank">' . __( 'Go Premium', 'wordpress-seo' ) . '</a>',
+				'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/39r' ) ) . '" target="_blank">' . __( 'Get support', 'wordpress-seo' ) . '</a>',
+			);
+
+			return array_merge( $links, $row_meta );
+		}
+
+		return (array) $links;
 	}
 
 	/**
