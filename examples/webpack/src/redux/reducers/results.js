@@ -2,8 +2,16 @@ import * as actions from "../actions/results";
 import { SET_ACTIVE_MARKER } from "../actions/results";
 
 const INITIAL_STATE = {
-	seo: [],
-	readability: [],
+	seo: {
+		"": {
+			results: [],
+			score: 0,
+		},
+	},
+	readability: {
+		results: [],
+		score: 0,
+	},
 	activeMarker: "",
 };
 
@@ -20,14 +28,14 @@ export default function results( state = INITIAL_STATE, action ) {
 		case actions.SET_RESULTS:
 			return {
 				...state,
-				seo: action.results.seo,
-				readability: action.results.readability,
+				...action.results,
 			};
 
 		case SET_ACTIVE_MARKER:
+			// Create a toggle effect so that the markings can be turned off.
 			return {
 				...state,
-				activeMarker: action.activeMarker,
+				activeMarker: state.activeMarker === action.activeMarker ? "" : action.activeMarker,
 			};
 
 		default:

@@ -3,6 +3,7 @@ import { isEqual, debounce, get } from "lodash-es";
 
 import { setStatus } from "../actions/worker";
 import { setResults } from "../actions/results";
+import formatAnalyzeResult from "../../utils/formatAnalyzeResult";
 
 export default class StoreSubscriber {
 	constructor( { store, worker } ) {
@@ -35,10 +36,7 @@ export default class StoreSubscriber {
 		this._worker.analyze( Paper.parse( paper ) )
 			.then( ( { result } ) => {
 				this.dispatch( setStatus( "idling" ) );
-				this.dispatch( setResults( {
-					readability: result.readability.results,
-					seo: result.seo[ "" ].results,
-				} ) );
+				this.dispatch( setResults( formatAnalyzeResult( result ) ) );
 			} );
 	}
 
