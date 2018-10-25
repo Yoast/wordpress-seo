@@ -221,13 +221,14 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Show row meta on the plugin screen.
+	 * Manages the links on the meta data row on the plugin list.
 	 *
-	 * @param   mixed $links Plugin Row Meta.
-	 * @param   mixed $file  Plugin Base file.
-	 * @return  array
+	 * @param   array  $links Plugin row meta.
+	 * @param   string $file  Plugin base file.
+	 *
+	 * @return  array Modified list of links.
 	 */
-	public static function plugin_row_meta( $links, $file ) {
+	public function plugin_row_meta( $links, $file ) {
 		if ( WPSEO_BASENAME === $file ) {
 			$row_meta = array(
 				'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yc' ) ) . '" target="_blank">' . __( 'FAQ', 'wordpress-seo' ) . '</a>',
