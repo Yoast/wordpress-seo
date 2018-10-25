@@ -1,6 +1,7 @@
 // External dependencies.
 import Jed from "jed";
 import { forEach, has, merge, pickBy, includes, isNull, isUndefined, isString, isObject } from "lodash-es";
+import { autop } from "@wordpress/autop";
 
 // YoastSEO.js dependencies.
 import * as assessments from "../assessments";
@@ -647,6 +648,8 @@ export default class AnalysisWebWorker {
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
 	analyze( id, { paper, relatedKeywords = {} } ) {
+		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
+		paper._text = autop( paper._text );
 		paper._text = string.removeHtmlBlocks( paper._text );
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
