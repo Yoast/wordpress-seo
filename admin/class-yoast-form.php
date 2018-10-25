@@ -298,8 +298,8 @@ class Yoast_Form {
 			$this->options[ $var ] = 'on';
 		}
 
-		$class           = 'switch-light switch-candy switch-yoast-seo';
-		$aria_labelledby = esc_attr( $var ) . '-label';
+		$class = 'switch-light switch-candy switch-yoast-seo';
+		$id    = esc_attr( $var ) . '-label';
 
 		if ( $reverse ) {
 			$class .= ' switch-yoast-seo-reverse';
@@ -317,10 +317,9 @@ class Yoast_Form {
 		$help_class = ! empty( $help ) ? ' switch-container__has-help' : '';
 
 		echo "<div class='switch-container$help_class'>",
-		"<span class='switch-light-visual-label'>{$label}</span>" . $help,
+		"<span class='switch-light-visual-label' id='{$id}'>{$label}</span>" . $help,
 		'<label class="', $class, '"><b class="switch-yoast-seo-jaws-a11y">&nbsp;</b>',
-		'<input type="checkbox" aria-labelledby="', $aria_labelledby, '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>',
-		"<b class='label-text screen-reader-text' id='{$aria_labelledby}'>{$label}</b>",
+		'<input type="checkbox" aria-labelledby="', $id, '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>',
 		'<span aria-hidden="true">
 			<span>', esc_html( $off_button ) ,'</span>
 			<span>', esc_html( $on_button ) ,'</span>
