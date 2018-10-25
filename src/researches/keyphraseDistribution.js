@@ -20,7 +20,7 @@ import getLanguage from "../helpers/getLanguage";
  * @returns {Array} The scores per sentence.
  */
 const computeScoresPerSentenceLongTopic = function( topic, sentences, locale ) {
-	let sentenceScores = Array( sentences.length );
+	const sentenceScores = Array( sentences.length );
 
 	for ( let i = 0; i < sentences.length; i++ ) {
 		const foundInCurrentSentence = findWordFormsInString( topic, sentences[ i ], locale );
@@ -49,7 +49,8 @@ const computeScoresPerSentenceLongTopic = function( topic, sentences, locale ) {
  * @returns {Array} The scores per sentence.
  */
 const computeScoresPerSentenceShortTopic = function( topic, sentences, locale ) {
-	let sentenceScores = Array( sentences.length );
+	const sentenceScores = Array( sentences.length );
+
 	for ( let i = 0; i < sentences.length; i++ ) {
 		const currentSentence = sentences[ i ];
 		const foundInCurrentSentence = findWordFormsInString( topic, currentSentence, locale );
@@ -91,7 +92,7 @@ const maximizeSentenceScores = function( sentenceScores ) {
  */
 const getDistraction = function( sentenceScores ) {
 	const numberOfSentences = sentenceScores.length;
-	let allTopicSentencesIndices = [];
+	const allTopicSentencesIndices = [];
 
 	for ( let i = 0; i < numberOfSentences; i++ ) {
 		if ( sentenceScores[ i ] > 3 ) {
@@ -134,7 +135,7 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale ) {
 	// Compute per-sentence scores of topic-relatedness.
 	const topicNumber = topicFormsInOneArray.length;
 
-	let sentenceScores = Array( topicNumber );
+	const sentenceScores = Array( topicNumber );
 
 	// Determine whether the language has function words.
 	const language = getLanguage( locale );

@@ -32,7 +32,7 @@ describe( "WordCombination", function() {
 
 	describe( "getLengthBonus", function() {
 		it( "is based on the length", function() {
-			let combination = new WordCombination( [ "word", "word2" ] );
+			const combination = new WordCombination( [ "word", "word2" ] );
 
 			expect( combination.getLengthBonus() ).toBe( WordCombination.lengthBonus[ "2" ] );
 		} );

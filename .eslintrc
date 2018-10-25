@@ -2,6 +2,10 @@ extends: yoast
 
 rules:
   complexity: [1, 6]
+  # Longer grace period for Yoast config.
+  no-shadow: [ 1, { "builtinGlobals": false, "hoist": "all", "allow": [] } ]
+  require-jsdoc: [ 1, {"require": {"MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true}} ]
+  no-useless-escape: 1
 
 parserOptions:
   ecmaVersion: 2018

@@ -1,43 +1,43 @@
 import matchWordInSentence from "../../src/stringProcessing/matchWordInSentence";
-let characterInBoundary = matchWordInSentence.characterInBoundary;
-let isWordInSentence = matchWordInSentence.isWordInSentence;
+const characterInBoundary = matchWordInSentence.characterInBoundary;
+const isWordInSentence = matchWordInSentence.isWordInSentence;
 
 describe( "returns whether the character is in the word boundary list", function() {
 	it( "returns true if the character is in the word boundary list", function() {
-		let input = ".";
-		let expected = true;
+		const input = ".";
+		const expected = true;
 		expect( characterInBoundary( input ) ).toEqual( expected );
 	} );
 	it( "returns false if the character is not in the word boundary list", function() {
-		let input = "a";
-		let expected = false;
+		const input = "a";
+		const expected = false;
 		expect( characterInBoundary( input ) ).toEqual( expected );
 	} );
 } );
 
 describe( "returns whether a word is in the sentence", function() {
 	it( "returns true if the word is in the middle of the sentence", function() {
-		let word = "is";
-		let sentence = "this is a sentence with a word";
-		let expected = true;
+		const word = "is";
+		const sentence = "this is a sentence with a word";
+		const expected = true;
 		expect( isWordInSentence( word, sentence ) ).toEqual( expected );
 	} );
 	it( "returns true if the word is at the beginning of the sentence", function() {
-		let word = "this";
-		let sentence = "this is a sentence with a word";
-		let expected = true;
+		const word = "this";
+		const sentence = "this is a sentence with a word";
+		const expected = true;
 		expect( isWordInSentence( word, sentence ) ).toEqual( expected );
 	} );
 	it( "returns true if the word is at the end of the sentence", function() {
-		let word = "word";
-		let sentence = "this is a sentence with a word";
-		let expected = true;
+		const word = "word";
+		const sentence = "this is a sentence with a word";
+		const expected = true;
 		expect( isWordInSentence( word, sentence ) ).toEqual( expected );
 	} );
 	it( "returns false if the word not the sentence", function() {
-		let word = "not";
-		let sentence = "this is a sentence with a word";
-		let expected = false;
+		const word = "not";
+		const sentence = "this is a sentence with a word";
+		const expected = false;
 		expect( isWordInSentence( word, sentence ) ).toEqual( expected );
 	} );
 } );

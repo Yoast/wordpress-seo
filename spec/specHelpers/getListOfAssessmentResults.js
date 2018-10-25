@@ -6,9 +6,9 @@
  * @returns {Array} The list of assessments for which there are results.
  */
 module.exports = function( results ) {
-	let assessments = [];
+	const assessments = [];
 
-	for ( let result of results ) {
+	for ( const result of results ) {
 		assessments.push( result._identifier );
 	}
 

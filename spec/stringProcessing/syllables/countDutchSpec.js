@@ -11,7 +11,7 @@ import { forEach } from "lodash-es";
  */
 function testCountSyllables( testCases, locale ) {
 	forEach( testCases, function( expected, input ) {
-		let actual = countSyllableFunction( input, locale );
+		const actual = countSyllableFunction( input, locale );
 
 		expect( actual ).toBe( expected );
 	} );

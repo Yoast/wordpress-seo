@@ -18,7 +18,7 @@ class OutboundLinksAssessment extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			scores: {
 				noLinks: 6,
 				allNofollowed: 7,
@@ -43,8 +43,8 @@ class OutboundLinksAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let linkStatistics = researcher.getResearch( "getLinkStatistics" );
-		let assessmentResult = new AssessmentResult();
+		const linkStatistics = researcher.getResearch( "getLinkStatistics" );
+		const assessmentResult = new AssessmentResult();
 		if ( ! isEmpty( linkStatistics ) ) {
 			assessmentResult.setScore( this.calculateScore( linkStatistics ) );
 			assessmentResult.setText( this.translateScore( linkStatistics, i18n ) );

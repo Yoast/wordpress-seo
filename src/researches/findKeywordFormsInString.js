@@ -14,9 +14,9 @@ import { isEmpty } from "lodash-es";
  */
 const findWordFormsInString = function( keywordForms, text, locale ) {
 	const wordNumber = keywordForms.length;
-	let foundWords = Array( wordNumber );
+	const foundWords = Array( wordNumber );
 
-	for( let i = 0; i < wordNumber; i++ ) {
+	for ( let i = 0; i < wordNumber; i++ ) {
 		const found = matchTextWithArray( text, keywordForms[ i ], locale ).count > 0;
 		foundWords[ i ] = found ? 1 : 0;
 	}
@@ -63,8 +63,8 @@ const findTopicFormsInString = function( topicForms, text, useSynonyms, locale )
 	}
 
 	// Collect results of matching of every synonym with the text.
-	let resultsSynonyms = [];
-	for( let i = 0; i < topicForms.synonymsForms.length; i++ ) {
+	const resultsSynonyms = [];
+	for ( let i = 0; i < topicForms.synonymsForms.length; i++ ) {
 		const synonym = topicForms.synonymsForms[ i ];
 		resultsSynonyms[ i ] = findWordFormsInString( synonym, text, locale );
 	}

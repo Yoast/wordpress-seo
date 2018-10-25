@@ -45,7 +45,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		this._subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
 
-		let assessmentResult = new AssessmentResult();
+		const assessmentResult = new AssessmentResult();
 
 		const calculatedResult = this.calculateResult( i18n );
 		assessmentResult.setScore( calculatedResult.score );

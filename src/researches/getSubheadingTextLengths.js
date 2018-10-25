@@ -9,9 +9,9 @@ import { forEach } from "lodash-es";
  */
 export default function( paper ) {
 	const text = paper.getText();
-	let matches = getSubheadingTexts( text );
+	const matches = getSubheadingTexts( text );
 
-	let subHeadingTexts = [];
+	const subHeadingTexts = [];
 	forEach( matches, function( subHeading ) {
 		subHeadingTexts.push( {
 			text: subHeading,

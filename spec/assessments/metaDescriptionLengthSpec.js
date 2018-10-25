@@ -3,7 +3,7 @@ import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();
 
-let descriptionLengthAssessment = new MetaDescriptionLengthAssessment();
+const descriptionLengthAssessment = new MetaDescriptionLengthAssessment();
 
 describe( "An descriptionLength assessment", function() {
 	it( "assesses an empty description", function() {

@@ -1,14 +1,14 @@
 import sentenceLengthInDescriptionAssessment from "../../src/assessments/readability/sentenceLengthInDescriptionAssessment";
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
-let i18n = Factory.buildJed();
+const i18n = Factory.buildJed();
 
 describe( "An assessment for sentence length", function() {
 	let mockPaper, assessment;
 
 	it( "returns the score for all short sentences", function() {
-		let mockPaper = new Paper();
-		let assessment = sentenceLengthInDescriptionAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+		const mockPaper = new Paper();
+		const assessment = sentenceLengthInDescriptionAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
