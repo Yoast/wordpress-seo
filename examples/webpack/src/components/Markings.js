@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
-import { find } from "lodash-es";
+import { find, get } from "lodash-es";
 
 function createMarkedText( text, markings ) {
 	markings.forEach( ( marking ) => {
@@ -16,7 +16,7 @@ function Markings( { results, activeMarker, text } ) {
 	}
 
 	const activeResults = find( results, [ "_identifier", activeMarker ] );
-	const activeMarkings = activeResults.marks;
+	const activeMarkings = get( activeResults, "marks", [] );
 
 	const markedText = createMarkedText( text, activeMarkings );
 
