@@ -12098,7 +12098,7 @@ yauzl@^2.2.1:
 
 "yoast-components@https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.1":
   version "4.14.0"
-  resolved "https://github.com/Yoast/yoast-components.git#da815308245661c5965e96bc8ff5f97faff7d5ec"
+  resolved "https://github.com/Yoast/yoast-components.git#bcf847b94e22cd424e7c132162ecda5c76d2c8ab"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -12119,11 +12119,11 @@ yauzl@^2.2.1:
     redux "^3.7.2"
     styled-components "^2.1.2"
     whatwg-fetch "^1.0.0"
-    yoastseo "^1.41.0"
+    yoastseo "https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.1"
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-yoastseo@^1.41.0, "yoastseo@https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.1":
+"yoastseo@https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.1":
   version "1.41.0"
   resolved "https://github.com/Yoast/YoastSEO.js.git#89ec714df29ec0651efaf5f2a519f867fbd4bd94"
   integrity sha512-3p9LYC6UUdjnG1cT/BXjAV8axRqC1+0wnL72LMskeNjkYJS8OentDUNfmrrOuWfs5MY9Ww5mEoRJWcwo6Jf9aA==
