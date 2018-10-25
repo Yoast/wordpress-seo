@@ -26,7 +26,7 @@ describe( "A test for checking the Italian participle", function() {
 
 	it( "checks the properties of the Italian participle object with a precedence exception", function() {
 		// Direct precedence exception word: il.
-		let mockParticiple = new ItalianParticiple( "mandato", "Dovresti andare a vedere se esiste il mandato.", {
+		const mockParticiple = new ItalianParticiple( "mandato", "Dovresti andare a vedere se esiste il mandato.", {
 			auxiliaries: [ "andare" ],
 			type: "irregular",
 			language: "it",
