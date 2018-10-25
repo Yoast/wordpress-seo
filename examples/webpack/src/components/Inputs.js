@@ -29,7 +29,7 @@ function Inputs( props ) {
 		{ renderPaperAttribute( props, "text", "Write a text", null, null, TextArea ) }
 		{ renderPaperAttribute( props, "keyword", "Choose a focus keyword", "Focus keyphrase" ) }
 		{ renderPaperAttribute( props, "synonyms", "Choose keyword synonyms" ) }
-		{ renderPaperAttribute( props, "title", "Write the SEO title", null, ( id, value ) => {
+		{ renderPaperAttribute( props, "title", "Write the SEO title", "SEO title", ( id, value ) => {
 			props.setPaperAttribute( id, value );
 			props.setPaperAttribute( "titleWidth", measureTextWidth( value ) );
 		} ) }
