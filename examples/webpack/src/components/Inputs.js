@@ -1,20 +1,15 @@
-import React from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 import { capitalize, noop } from "lodash-es";
-import styled from "styled-components";
-
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import Toggle from "yoast-components/composites/Plugin/Shared/components/Toggle";
 
-import Input from "./Input";
-import TextArea from "./TextArea";
+import { setConfigurationAttribute } from "../redux/actions/configuration";
 import { setPaperAttribute } from "../redux/actions/paper";
 import measureTextWidth from "../utils/measureTextWidth";
-import { setConfigurationAttribute } from "../redux/actions/configuration";
-
-const ToggleContainer = styled.div`
-	margin-top: 8px;
-`;
+import Container from "./Container";
+import Input from "./Input";
+import TextArea from "./TextArea";
 
 function renderPaperAttribute( props, id, placeholder, label = null, onChange = null, Component = Input, defaultValue = "" ) {
 	if ( onChange === null ) {
@@ -36,7 +31,7 @@ function Inputs( props ) {
 	return <section>
 		{ renderPaperAttribute( props, "text", "Write a text", null, null, TextArea ) }
 		{ renderPaperAttribute( props, "keyword", "Choose a focus keyword", "Focus keyphrase" ) }
-		<ToggleContainer>
+		<Container marginTop="8px">
 			<Toggle
 				id="toggle-is-related-keyword"
 				labelText="Is a related keyphrase"
@@ -46,7 +41,7 @@ function Inputs( props ) {
 				} }
 				onToggleDisabled={ noop }
 			/>
-		</ToggleContainer>
+		</Container>
 		{ renderPaperAttribute( props, "synonyms", "Choose keyword synonyms" ) }
 		{ renderPaperAttribute( props, "title", "Write the SEO title", "SEO title", ( id, value ) => {
 			props.setPaperAttribute( id, value );
@@ -58,7 +53,7 @@ function Inputs( props ) {
 			props.setPaperAttribute( "permalink", `${window.location.origin}/${value}` );
 		} ) }
 		{ renderPaperAttribute( props, "locale", "en_US" ) }
-		<ToggleContainer>
+		<Container>
 			<Toggle
 				id="toggle-use-cornerstone"
 				labelText="Is cornerstone article"
@@ -68,18 +63,7 @@ function Inputs( props ) {
 				} }
 				onToggleDisabled={ noop }
 			/>
-		</ToggleContainer>
-		<ToggleContainer>
-			<Toggle
-				id="toggle-use-taxonomy"
-				labelText="Is taxonomy page"
-				isEnabled={ props.useTaxonomy }
-				onSetToggleState={ value => {
-					props.setConfigurationAttribute( "useTaxonomy", value );
-				} }
-				onToggleDisabled={ noop }
-			/>
-		</ToggleContainer>
+		</Container>
 	</section>;
 }
 
@@ -88,7 +72,6 @@ export default connect(
 		return {
 			paper: state.paper,
 			useCornerstone: state.configuration.useCornerstone,
-			useTaxonomy: state.configuration.useTaxonomy,
 			isRelatedKeyphrase: state.configuration.isRelatedKeyphrase,
 		};
 	},
