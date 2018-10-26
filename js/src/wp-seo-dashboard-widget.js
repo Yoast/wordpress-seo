@@ -8,7 +8,6 @@ import { setYoastComponentsL10n } from "./helpers/i18n";
 const { getFeed } = utils;
 
 class DashboardWidget extends React.Component {
-
 	/**
 	 * Creates the components and initializes its state.
 	 */
@@ -44,7 +43,7 @@ class DashboardWidget extends React.Component {
 	 */
 	getStatistics() {
 		wpseoApi.get( "statistics", ( response ) => {
-			let statistics = {};
+			const statistics = {};
 
 			statistics.seoScores = response.seo_scores.map( ( score ) => ( {
 				value: parseInt( score.count, 10 ),
@@ -70,7 +69,7 @@ class DashboardWidget extends React.Component {
 				return;
 			}
 
-			let ryte = {
+			const ryte = {
 				scores: [ {
 					color: DashboardWidget.getColorFromScore( response.ryte.score ),
 					html: response.ryte.label,
@@ -101,6 +100,7 @@ class DashboardWidget extends React.Component {
 
 				this.setState( { feed } );
 			} )
+			/* eslint-disable-next-line no-console */
 			.catch( error => console.log( error ) );
 	}
 
@@ -114,9 +114,11 @@ class DashboardWidget extends React.Component {
 			return null;
 		}
 
-		return <SeoAssessment key="yoast-seo-posts-assessment"
+		return <SeoAssessment
+			key="yoast-seo-posts-assessment"
 			seoAssessmentText={ this.state.statistics.header }
-			seoAssessmentItems={ this.state.statistics.seoScores }/>;
+			seoAssessmentItems={ this.state.statistics.seoScores }
+		/>;
 	}
 
 	/**
@@ -132,7 +134,7 @@ class DashboardWidget extends React.Component {
 		return (
 			<div id="yoast-seo-ryte-assessment" key="yoast-seo-ryte-assessment">
 				<h3>{ wpseoDashboardWidgetL10n.ryte_header }</h3>
-				<ScoreAssessments items={ this.state.ryte.scores }/>
+				<ScoreAssessments items={ this.state.ryte.scores } />
 				<div>
 					{ this.state.ryte.canFetch &&
 						<a className="fetch-status button" href={ wpseoDashboardWidgetL10n.ryte_fetch_url }>
@@ -161,7 +163,8 @@ class DashboardWidget extends React.Component {
 			key="yoast-seo-blog-feed"
 			title={ wpseoDashboardWidgetL10n.feed_header }
 			feed={ this.state.feed }
-			footerHtml={ wpseoDashboardWidgetL10n.feed_footer } />;
+			footerHtml={ wpseoDashboardWidgetL10n.feed_footer }
+		/>;
 	}
 
 	/**
@@ -170,7 +173,7 @@ class DashboardWidget extends React.Component {
 	 * @returns {ReactElement} The component.
 	 */
 	render() {
-		let contents = [
+		const contents = [
 			this.getSeoAssessment(),
 			this.getRyteAssessment(),
 			this.getYoastFeed(),
@@ -186,8 +189,8 @@ class DashboardWidget extends React.Component {
 
 const element = document.getElementById( "yoast-seo-dashboard-widget" );
 
-if( element ) {
+if ( element ) {
 	setYoastComponentsL10n();
 
-	ReactDOM.render( <DashboardWidget/>, element );
+	ReactDOM.render( <DashboardWidget />, element );
 }

@@ -1,4 +1,3 @@
-/* global wp */
 /* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
@@ -8,6 +7,8 @@ import {
 } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 import { sprintf, __ } from "@wordpress/i18n";
+import apiFetch from "@wordpress/api-fetch";
+import { addQueryArgs } from "@wordpress/url";
 import styled from "styled-components";
 import diff from "lodash/difference";
 
@@ -59,7 +60,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 		// Check if a term has been added and retrieve new terms if so.
 		if ( prevProps.selectedTermIds.length < this.props.selectedTermIds.length ) {
 			const newId = diff( this.props.selectedTermIds, prevProps.selectedTermIds )[ 0 ];
-			if( ! this.termIsAvailable( newId ) ) {
+			if ( ! this.termIsAvailable( newId ) ) {
 				this.fetchTerms();
 				return;
 			}
@@ -112,19 +113,24 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {void}
 	 */
 	fetchTerms() {
-		const TaxonomyCollection = wp.api.getCollectionByRoute( `/wp/v2/${ this.props.taxonomy.restBase }` );
-		if ( ! TaxonomyCollection ) {
+		const { taxonomy } = this.props;
+		if ( ! taxonomy ) {
 			return;
 		}
-		const collection = new TaxonomyCollection();
-		collection.fetch( {
-			data: {
-				per_page: -1,
-				orderby: "count",
-				order: "desc",
-				_fields: [ "id", "name" ],
-			},
-		} ).then( terms => {
+		this.fetchRequest = apiFetch( {
+			path: addQueryArgs(
+				`/wp/v2/${ taxonomy.restBase }`,
+				{
+					/* eslint-disable-next-line camelcase */
+					per_page: -1,
+					orderby: "count",
+					order: "desc",
+					_fields: "id,name",
+				}
+			),
+		} );
+
+		this.fetchRequest.then( terms => {
 			const oldState = this.state;
 			this.setState( {
 				terms,
@@ -228,11 +234,12 @@ class PrimaryTaxonomyPicker extends React.Component {
 			<div className="components-base-control__field">
 				<PrimaryTaxonomyPickerLabel
 					htmlFor={ fieldId }
-					className="components-base-control__label">
+					className="components-base-control__label"
+				>
 					{
 						sprintf(
-							/* Translators: %s expands to the taxonomy name */
-							__( "Select the primary %s" ),
+							/* translators: %s expands to the taxonomy name. */
+							__( "Select the primary %s", "wordpress-seo" ),
 							taxonomy.singularLabel.toLowerCase()
 						)
 					}
@@ -241,7 +248,8 @@ class PrimaryTaxonomyPicker extends React.Component {
 					value={ primaryTaxonomyId }
 					onChange={ this.onChange }
 					id={ fieldId }
-					terms={ this.state.selectedTerms }/>
+					terms={ this.state.selectedTerms }
+				/>
 			</div>
 		);
 	}

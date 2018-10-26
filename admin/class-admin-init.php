@@ -48,6 +48,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ) );
 		add_action( 'admin_init', array( $this, 'handle_notifications' ), 15 );
+		add_action( 'admin_notices', array( $this, 'permalink_settings_notice' ) );
 
 		$listeners   = array();
 		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
@@ -109,10 +110,11 @@ class WPSEO_Admin_Init {
 
 		$current_url   = ( is_ssl() ? 'https://' : 'http://' );
 		$current_url  .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
-		$customize_url = add_query_arg( array(
+		$query_args    = array(
 			'autofocus[control]' => 'blogdescription',
 			'url'                => urlencode( $current_url ),
-		), wp_customize_url() );
+		);
+		$customize_url = add_query_arg( $query_args, wp_customize_url() );
 
 		$info_message = sprintf(
 			/* translators: 1: link open tag; 2: link close tag. */
@@ -567,7 +569,8 @@ class WPSEO_Admin_Init {
 				'textdomain'  => 'wordpress-seo',
 				'plugin_name' => 'Yoast SEO',
 				'hook'        => 'wpseo_admin_promo_footer',
-			), false
+			),
+			false
 		);
 
 		$message = $i18n_module->get_promo_message();
@@ -702,5 +705,22 @@ class WPSEO_Admin_Init {
 	 */
 	private function has_postname_in_permalink() {
 		return ( false !== strpos( get_option( 'permalink_structure' ), '%postname%' ) );
+	}
+
+	/**
+	 * Shows a notice on the permalink settings page.
+	 */
+	public function permalink_settings_notice() {
+		global $pagenow;
+
+		if ( $pagenow === 'options-permalink.php' ) {
+			$warning = esc_html__( 'WARNING:', 'wordpress-seo' );
+			/* translators: %1$s and %2$s expand to <i> items to emphasize the word in the middle. */
+			$message = esc_html__( 'Changing your permalinks settings can seriously impact your search engine visibility. It should almost %1$s never %2$s be done on a live website.', 'wordpress-seo' );
+			$link = esc_html__( 'Learn about why permalinks are important for SEO.', 'wordpress-seo' );
+			$url = WPSEO_Shortlinker::get( 'https://yoa.st/why-permalinks/' );
+
+			echo '<div class="notice notice-warning"><p><strong>' . $warning . '</strong><br>' . sprintf( $message, '<i>', '</i>' ) . '<br><a href="' . $url . '" target="_blank">' . $link . '</a></p></div>';
+		}
 	}
 }

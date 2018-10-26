@@ -217,11 +217,11 @@ class WPSEO_Admin {
 		}
 
 		// Add link to premium support landing page.
-		$premium_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yb' ) ) . '">' . __( 'Premium Support', 'wordpress-seo' ) . '</a>';
+		$premium_link = '<a style="font-weight: bold;" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yb' ) ) . '" target="_blank">' . __( 'Premium Support', 'wordpress-seo' ) . '</a>';
 		array_unshift( $links, $premium_link );
 
 		// Add link to docs.
-		$faq_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yc' ) ) . '">' . __( 'FAQ', 'wordpress-seo' ) . '</a>';
+		$faq_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yc' ) ) . '" target="_blank">' . __( 'FAQ', 'wordpress-seo' ) . '</a>';
 		array_unshift( $links, $faq_link );
 
 		return $links;
@@ -483,7 +483,8 @@ class WPSEO_Admin {
 
 		$screen = get_current_screen();
 
-		$screen->set_help_sidebar( '
+		$screen->set_help_sidebar(
+			'
 			<p><strong>' . __( 'For more information:', 'wordpress-seo' ) . '</strong></p>
 			<p><a target="_blank" href="https://yoast.com/wordpress-seo/#titles">' . __( 'Title optimization', 'wordpress-seo' ) . '</a></p>
 			<p><a target="_blank" href="https://yoast.com/google-page-title/">' . __( 'Why Google won\'t display the right page title', 'wordpress-seo' ) . '</a></p>'

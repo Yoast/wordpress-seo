@@ -1,14 +1,15 @@
 // External dependencies.
-import { AnalysisWorkerWrapper, createWorker } from "yoastseo";
 import get from "lodash/get";
 import isUndefined from "lodash/isUndefined";
 import merge from "lodash/merge";
+import { AnalysisWorkerWrapper, createWorker } from "yoastseo";
 
 // Internal dependencies.
 import getContentLocale from "./getContentLocale";
 import getTranslations from "./getTranslations";
 import isContentAnalysisActive from "./isContentAnalysisActive";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
+import getDefaultQueryParams from "./getDefaultQueryParams";
 
 /**
  * Instantiates an analysis worker (wrapper).
@@ -32,6 +33,7 @@ export function getAnalysisConfiguration( customConfiguration = {} ) {
 		locale: getContentLocale(),
 		contentAnalysisActive: isContentAnalysisActive(),
 		keywordAnalysisActive: isKeywordAnalysisActive(),
+		defaultQueryParams: getDefaultQueryParams(),
 	};
 
 	configuration = merge( configuration, customConfiguration );

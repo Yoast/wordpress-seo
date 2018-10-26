@@ -102,7 +102,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( self::$class_instance->get_installed_plugins_compatibility(), $expected );
 	}
 
-	public function test_WITHOUT_a_checker_object() {
+	public function test_without_a_checker_object() {
 		$class_instance = new WPSEO_Plugin_Compatibility( '3.3' );
 
 		// If we cannot determine if the plugin should be synced; it is always marked as compatible.

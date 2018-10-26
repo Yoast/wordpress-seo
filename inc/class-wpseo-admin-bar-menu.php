@@ -195,7 +195,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function add_keyword_research_submenu( WP_Admin_Bar $wp_admin_bar ) {
-		$adwords_url = 'https://adwords.google.com/keywordplanner';
+		$adwords_url = 'https://ads.google.com/home/tools/keyword-planner/';
 		$trends_url  = 'https://www.google.com/trends/explore';
 		$seobook_url = 'http://tools.seobook.com/keyword-tools/seobook/';
 
@@ -225,7 +225,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$wp_admin_bar->add_menu( array(
 			'parent' => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,
 			'id'     => 'wpseo-adwordsexternal',
-			'title'  => __( 'AdWords External', 'wordpress-seo' ),
+			'title'  => __( 'Google Ads', 'wordpress-seo' ),
 			'href'   => $adwords_url,
 			'meta'   => array( 'target' => '_blank' ),
 		) );
@@ -467,11 +467,20 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Gets the focus keyword for a given post.
 	 *
-	 * @param WP_Post $post Post object to get its focus keyword.
+	 * @param WP_POST $post Post object to get its focus keyword.
 	 *
 	 * @return string Focus keyword, or empty string if none available.
 	 */
-	protected function get_post_focus_keyword( WP_Post $post ) {
+	protected function get_post_focus_keyword( $post ) {
+		if ( ! is_object( $post ) || ! property_exists( $post, 'ID' ) ) {
+			return '';
+		}
+
+		/**
+		 * Filter: 'wpseo_use_page_analysis' Determines if the analysis should be enabled.
+		 *
+		 * @api bool Determines if the analysis should be enabled.
+		 */
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
 			return '';
 		}

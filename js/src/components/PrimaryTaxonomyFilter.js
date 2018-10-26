@@ -74,13 +74,13 @@ class PrimaryTaxonomyFilter extends React.Component {
 					<OriginalComponent { ...this.props } />
 					<ErrorContainer>
 						{ sprintf(
-							/* Translators: %s expands to Yoast SEO. */
+							/* translators: %s expands to Yoast SEO. */
 							__( "An error occurred loading the %s primary taxonomy picker.", "wordpress-seo" ),
 							"Yoast SEO"
 						) }
 					</ErrorContainer>
 					{
-						stack && <ClipboardButton isLarge text={ stack }>
+						stack && <ClipboardButton isLarge={ true } text={ stack }>
 							{ __( "Copy error", "wordpress-seo" ) }
 						</ClipboardButton>
 					}

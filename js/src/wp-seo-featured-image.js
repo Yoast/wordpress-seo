@@ -4,9 +4,9 @@
 /* jshint -W097 */
 /* jshint -W003 */
 import a11ySpeak from "a11y-speak";
+import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
 ( function( $ ) {
-	"use strict";
 	var featuredImagePlugin;
 	var $featuredImageElement;
 	var $postImageDiv;
@@ -161,6 +161,33 @@ import a11ySpeak from "a11y-speak";
 		if ( "undefined" !== typeof $featuredImageElement.prop( "src" ) ) {
 			featuredImagePlugin.setFeaturedImage( $( "#set-post-thumbnail " ).html() );
 		}
+
+		// Fallback for Gutenberg, as the featured image id does not exist there.
+		if ( ! isGutenbergDataAvailable() ) {
+			return;
+		}
+
+		let imageData;
+		let previousImageData;
+		wp.data.subscribe( () => {
+			const featuredImageId = wp.data.select( "core/editor" ).getEditedPostAttribute( "featured_media" );
+
+			if ( typeof featuredImageId === "undefined" || featuredImageId === null ) {
+				return;
+			}
+
+			imageData = wp.data.select( "core" ).getMedia( featuredImageId );
+
+			if ( typeof imageData === "undefined" ) {
+				return;
+			}
+
+			if ( imageData !== previousImageData ) {
+				previousImageData = imageData;
+				const featuredImageHTML = `<img src="${imageData.source_url}" alt="${imageData.alt_text}" >`;
+				featuredImagePlugin.setFeaturedImage( featuredImageHTML );
+			}
+		} );
 	} );
 }( jQuery ) );
 

@@ -95,7 +95,7 @@ class Edit {
 	}
 
 	_registerCategorySelectorFilter() {
-		if( ! isGutenbergDataAvailable() ) {
+		if ( ! isGutenbergDataAvailable() ) {
 			return;
 		}
 
@@ -142,7 +142,7 @@ class Edit {
 			<Fragment>
 				<PluginSidebarMoreMenuItem
 					target="seo-sidebar"
-					icon={ <PluginIcon/> }
+					icon={ <PluginIcon /> }
 				>
 					Yoast SEO
 				</PluginSidebarMoreMenuItem>
@@ -157,7 +157,7 @@ class Edit {
 					</Slot>
 				</PluginSidebar>
 
-				<Provider store={ store } >
+				<Provider store={ store }>
 					<Fragment>
 						<Sidebar store={ store } theme={ theme } />
 						<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />

@@ -14,19 +14,19 @@ class WPSEO_Indexable_Service_Post_Provider extends WPSEO_Indexable_Provider {
 	 * @var array List of fields that need to be renamed.
 	 */
 	protected $renameable_fields = array(
-		'description'				  => 'metadesc',
-		'breadcrumb_title'			  => 'bctitle',
-		'og_title'					  => 'opengraph-title',
-		'og_description'			  => 'opengraph-description',
-		'og_image'					  => 'opengraph-image',
-		'twitter_title'				  => 'twitter-title',
-		'twitter_description'		  => 'twitter-description',
-		'twitter_image'				  => 'twitter-image',
-		'is_robots_noindex'			  => 'meta-robots-noindex',
-		'is_robots_nofollow'		  => 'meta-robots-nofollow',
-		'primary_focus_keyword'		  => 'focuskw',
+		'description'                 => 'metadesc',
+		'breadcrumb_title'            => 'bctitle',
+		'og_title'                    => 'opengraph-title',
+		'og_description'              => 'opengraph-description',
+		'og_image'                    => 'opengraph-image',
+		'twitter_title'               => 'twitter-title',
+		'twitter_description'         => 'twitter-description',
+		'twitter_image'               => 'twitter-image',
+		'is_robots_noindex'           => 'meta-robots-noindex',
+		'is_robots_nofollow'          => 'meta-robots-nofollow',
+		'primary_focus_keyword'       => 'focuskw',
 		'primary_focus_keyword_score' => 'linkdex',
-		'readability_score'			  => 'content_score',
+		'readability_score'           => 'content_score',
 	);
 
 	/**
@@ -56,13 +56,13 @@ class WPSEO_Indexable_Service_Post_Provider extends WPSEO_Indexable_Provider {
 	/**
 	 * Handles the patching of values for an existing indexable.
 	 *
-	 * @param int 	$object_id 		The ID of the object.
-	 * @param array $requestdata 	The request data to store.
+	 * @param int   $object_id   The ID of the object.
+	 * @param array $requestdata The request data to store.
 	 *
 	 * @return array The patched indexable.
 	 *
 	 * @throws WPSEO_Invalid_Indexable_Exception The invalid argument exception.
-	 * @throws WPSEO_REST_Request_Exception		 Exception that is thrown if patching the object has failed.
+	 * @throws WPSEO_REST_Request_Exception      Exception that is thrown if patching the object has failed.
 	 */
 	public function patch( $object_id, $requestdata ) {
 		$indexable = $this->get( $object_id, true );
@@ -89,7 +89,7 @@ class WPSEO_Indexable_Service_Post_Provider extends WPSEO_Indexable_Provider {
 	 * @return bool True if saving was successful.
 	 */
 	protected function store_indexable( WPSEO_Indexable $indexable ) {
-		$values = $this->convert_indexable_data( $indexable->to_array() );
+		$values         = $this->convert_indexable_data( $indexable->to_array() );
 		$renamed_values = $this->rename_indexable_data( $values );
 
 		foreach ( $renamed_values as $key => $item ) {

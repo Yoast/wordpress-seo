@@ -31,4 +31,4 @@ _Where in the plugin will this link be?_
 - [ ] `settings`
 - [ ] `wordpress-dashboard`
 
-cc: @Yoast/marketing
+cc: @Yoast/research

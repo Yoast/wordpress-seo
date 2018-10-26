@@ -127,13 +127,12 @@ class WPSEO_Admin_Asset_Manager {
 	 */
 	public function special_styles() {
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
-
-		return array(
-			'inside-editor' => new WPSEO_Admin_Asset( array(
-				'name' => 'inside-editor',
-				'src'  => 'inside-editor-' . $flat_version,
-			) ),
+		$asset_args   = array(
+			'name' => 'inside-editor',
+			'src'  => 'inside-editor-' . $flat_version,
 		);
+
+		return array( 'inside-editor' => new WPSEO_Admin_Asset( $asset_args ) );
 	}
 
 	/**
@@ -484,6 +483,9 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'analysis',
 				'src'  => 'analysis-' . $flat_version,
+				'deps' => array(
+					self::PREFIX . 'react-dependencies',
+				),
 			),
 			array(
 				'name' => 'components',

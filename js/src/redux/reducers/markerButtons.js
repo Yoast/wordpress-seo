@@ -23,7 +23,7 @@ function setMarkerStatus( state, action ) {
  * @returns {Object} The state.
  */
 function markerStatusReducer( state = INITIAL_STATE, action ) {
-	switch( action.type ) {
+	switch ( action.type ) {
 		case SET_MARKER_STATUS:
 			return setMarkerStatus( state, action );
 		default:

@@ -20,7 +20,7 @@ class DiviHelper {
 	 */
 	static isTinyMCEHidden() {
 		const classicEditorContainer = document.getElementById( DIVI_EDITOR_WRAPPER_ID );
-		if( ! classicEditorContainer ) {
+		if ( ! classicEditorContainer ) {
 			return false;
 		}
 		return classicEditorContainer.classList.contains( DIVI_CLASSIC_EDITOR_HIDDEN_CLASS );
@@ -37,13 +37,13 @@ class DiviHelper {
 	 */
 	listen( callbacks ) {
 		this.classicEditorContainer = document.getElementById( DIVI_EDITOR_WRAPPER_ID );
-		if( ! this.classicEditorContainer ) {
+		if ( ! this.classicEditorContainer ) {
 			return;
 		}
 		const observer = new MutationObserver( mutationsList => {
 			forEach( mutationsList, mutation => {
-				if( mutation.type === "attributes" && mutation.attributeName === "class" ) {
-					if( mutation.target.classList.contains( "et_pb_hidden" ) ) {
+				if ( mutation.type === "attributes" && mutation.attributeName === "class" ) {
+					if ( mutation.target.classList.contains( "et_pb_hidden" ) ) {
 						callbacks.classicEditorHidden();
 					} else {
 						callbacks.classicEditorShown();
