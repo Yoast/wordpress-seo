@@ -456,7 +456,7 @@ export default class AnalysisWebWorker {
 		}
 
 		if ( has( configuration, "logLevel" ) ) {
-			logger.setLevel( configuration.logLevel );
+			logger.setLevel( configuration.logLevel, false );
 			delete configuration.logLevel;
 		}
 

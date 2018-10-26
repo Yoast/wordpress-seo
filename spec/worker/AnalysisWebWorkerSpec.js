@@ -1,4 +1,4 @@
-import { isArray, isObject, isNumber } from "lodash-es";
+import { forEach, isArray, isObject, isNumber } from "lodash-es";
 import { getLogger } from "loglevel";
 
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
@@ -258,6 +258,28 @@ describe( "AnalysisWebWorker", () => {
 
 				expect( worker._configuration.locale ).toBe( "nl_NL" );
 				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( 1 );
+			} );
+
+			test( "sets the log level", () => {
+				const logger = getLogger( "yoast-analysis-worker" );
+				const saveLogLevel = logger.getLevel();
+				const levels = {
+					TRACE: 0,
+					DEBUG: 1,
+					INFO: 2,
+					WARN: 3,
+					ERROR: 4,
+				};
+
+				// Disable actual logging in the tests.
+				console.log = jest.fn();
+
+				forEach( levels, ( expected, name ) => {
+					scope.onmessage( createMessage( "initialize", { logLevel: name } ) );
+					expect( logger.getLevel() ).toBe( expected );
+				} );
+
+				logger.setLevel( saveLogLevel, false );
 			} );
 
 			test( "creates the assessors", () => {
