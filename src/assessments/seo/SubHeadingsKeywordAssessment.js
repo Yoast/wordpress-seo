@@ -8,7 +8,7 @@ import AssessmentResult from "../../values/AssessmentResult";
 /**
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
  */
-class SubHeadingsKeywordAssessment extends Assessment {
+export default class SubHeadingsKeywordAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -141,5 +141,3 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		};
 	}
 }
-
-module.exports = SubHeadingsKeywordAssessment;

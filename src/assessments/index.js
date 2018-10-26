@@ -19,7 +19,7 @@ import MetaDescriptionKeywordAssessment from "./seo/MetaDescriptionKeywordAssess
 import MetaDescriptionLengthAssessment from "./seo/metaDescriptionLengthAssessment";
 import OutboundLinksAssessment from "./seo/outboundLinksAssessment";
 import PageTitleWidthAssessment from "./seo/pageTitleWidthAssessment";
-import SubheadingsKeywordAssessment from "./seo/subheadingsKeywordAssessment";
+import SubheadingsKeywordAssessment from "./seo/SubHeadingsKeywordAssessment";
 import TaxonomyTextLengthAssessment from "./seo/taxonomyTextLengthAssessment";
 import TextCompetingLinksAssessment from "./seo/TextCompetingLinksAssessment";
 import TextImagesAssessment from "./seo/textImagesAssessment";

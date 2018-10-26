@@ -10,7 +10,7 @@ import KeyphraseLengthAssessment from "../../src/assessments/seo/KeyphraseLength
 import KeywordDensityAssessment from  "../../src/assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "../../src/assessments/seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "../../src/assessments/seo/metaDescriptionLengthAssessment";
-import SubheadingsKeywordAssessment from "../../src/assessments/seo/subheadingsKeywordAssessment";
+import SubheadingsKeywordAssessment from "../../src/assessments/seo/SubHeadingsKeywordAssessment";
 import TextCompetingLinksAssessment from "../../src/assessments/seo/TextCompetingLinksAssessment";
 import TextImagesAssessment from "../../src/assessments/seo/textImagesAssessment";
 import TextLengthAssessment from "../../src/assessments/seo/textLengthAssessment";

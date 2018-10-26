@@ -11,7 +11,7 @@ import UrlKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import Assessor from "../assessor";
 import SEOAssessor from "../seoAssessor";
 import MetaDescriptionLength from "../assessments/seo/metaDescriptionLengthAssessment";
-import SubheadingsKeyword from "../assessments/seo/subheadingsKeywordAssessment";
+import SubheadingsKeyword from "../assessments/seo/SubHeadingsKeywordAssessment";
 import TextImages from "../assessments/seo/textImagesAssessment";
 import TextLength from "../assessments/seo/textLengthAssessment";
 import OutboundLinks from "../assessments/seo/outboundLinksAssessment";
