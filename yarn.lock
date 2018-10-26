@@ -11264,7 +11264,12 @@ typedarray@~0.0.5:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-ua-parser-js@^0.7.18, ua-parser-js@^0.7.9:
+ua-parser-js@^0.7.18:
+  version "0.7.19"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.19.tgz#94151be4c0a7fb1d001af7022fdaca4642659e4b"
+  integrity sha512-T3PVJ6uz8i0HzPxOF9SWzWAlfN/DavlpQqepn22xgve/5QecC+XMCAtmUNnY7C9StehaV6exjUCI801lOI7QlQ==
+
+ua-parser-js@^0.7.9:
   version "0.7.18"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.18.tgz#a7bfd92f56edfb117083b69e31d2aa8882d4b1ed"
   integrity sha512-LtzwHlVHwFGTptfNSgezHp7WUlwiqb0gA9AALRbKaERfxwJoiX0A73QbTToxteIAuIaFshhgIZfqK8s7clqgnA==
@@ -12126,7 +12131,6 @@ yauzl@^2.2.1:
 "yoastseo@https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.1":
   version "1.41.0"
   resolved "https://github.com/Yoast/YoastSEO.js.git#89ec714df29ec0651efaf5f2a519f867fbd4bd94"
-  integrity sha512-3p9LYC6UUdjnG1cT/BXjAV8axRqC1+0wnL72LMskeNjkYJS8OentDUNfmrrOuWfs5MY9Ww5mEoRJWcwo6Jf9aA==
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
