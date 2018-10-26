@@ -1,4 +1,5 @@
 import { isArray, isObject, isNumber } from "lodash-es";
+import { getLogger } from "loglevel";
 
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 import Assessment from "../../src/assessment";
@@ -135,23 +136,17 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "non-existing message type" ) );
 
 				expect( console.warn ).toHaveBeenCalledTimes( 1 );
-				expect( console.warn ).toHaveBeenCalledWith( "Unrecognized command", "non-existing message type" );
+				expect( console.warn ).toHaveBeenCalledWith( "AnalysisWebWorker unrecognized action:", "non-existing message type" );
 			} );
 
-			test( "logs in development", () => {
-				const saveNodeEnv = global.process.env.NODE_ENV;
-				global.process.env.NODE_ENV = "development";
-				/* eslint-disable no-console */
-				console.log = jest.fn();
-				scope.onmessage( createMessage( "initialize" ) );
-				expect( console.log ).toHaveBeenCalledTimes( 2 );
-				expect( console.log ).toHaveBeenCalledWith( "worker <- wrapper", "initialize", 0, {} );
-				expect( console.log ).toHaveBeenCalledWith( "worker -> wrapper", "initialize:done", 0, {} );
+			test( "calls logger debug", () => {
+				const logger = getLogger( "yoast-analysis-worker" );
+				const spy = spyOn( logger, "debug" );
 
-				global.process.env.NODE_ENV = saveNodeEnv;
 				scope.onmessage( createMessage( "initialize" ) );
-				expect( console.log ).toHaveBeenCalledTimes( 2 );
-				/* eslint-enable no-console */
+				expect( spy ).toHaveBeenCalledTimes( 2 );
+				expect( spy ).toHaveBeenCalledWith( "AnalysisWebWorker incoming:", "initialize", 0, {} );
+				expect( spy ).toHaveBeenCalledWith( "AnalysisWebWorker outgoing:", "initialize:done", 0, {} );
 			} );
 		} );
 
