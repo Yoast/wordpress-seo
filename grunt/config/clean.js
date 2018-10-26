@@ -20,15 +20,12 @@ module.exports = {
 
 		"<%= files.pot.yoastseojs %>",
 	],
-	"build-assets": [
-		"<%= paths.css %>/*.css",
+	"build-assets-js": [
 		"js/dist/*.js",
 		"!js/dist/jquery.tablesorter.min.js",
 	],
-	"before-rtlcss": [
-		"css/dist/*-rtl*",
-		"css/dist/toggle-switch/*.css",
-		"!css/dist/select2/*.min.css",
+	"build-assets-css": [
+		"<%= paths.css %>/*.css",
 	],
 	artifact: [
 		"<%= files.artifact %>",
