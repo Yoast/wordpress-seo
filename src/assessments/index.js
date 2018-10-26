@@ -22,7 +22,7 @@ import PageTitleWidthAssessment from "./seo/PageTitleWidthAssessment";
 import SubheadingsKeywordAssessment from "./seo/SubHeadingsKeywordAssessment";
 import TaxonomyTextLengthAssessment from "./seo/taxonomyTextLengthAssessment";
 import TextCompetingLinksAssessment from "./seo/TextCompetingLinksAssessment";
-import TextImagesAssessment from "./seo/textImagesAssessment";
+import TextImagesAssessment from "./seo/TextImagesAssessment";
 import TextLengthAssessment from "./seo/textLengthAssessment";
 import TitleKeywordAssessment from "./seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./seo/UrlKeywordAssessment";

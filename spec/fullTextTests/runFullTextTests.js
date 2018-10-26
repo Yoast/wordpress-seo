@@ -12,7 +12,7 @@ import MetaDescriptionKeywordAssessment from "../../src/assessments/seo/MetaDesc
 import MetaDescriptionLengthAssessment from "../../src/assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeywordAssessment from "../../src/assessments/seo/SubHeadingsKeywordAssessment";
 import TextCompetingLinksAssessment from "../../src/assessments/seo/TextCompetingLinksAssessment";
-import TextImagesAssessment from "../../src/assessments/seo/textImagesAssessment";
+import TextImagesAssessment from "../../src/assessments/seo/TextImagesAssessment";
 import TextLengthAssessment from "../../src/assessments/seo/textLengthAssessment";
 import OutboundLinksAssessment from "../../src/assessments/seo/OutboundLinksAssessment";
 import InternalLinksAssessment from "../../src/assessments/seo/InternalLinksAssessment";
