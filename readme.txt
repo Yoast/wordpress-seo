@@ -106,6 +106,31 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 9.1.0 =
+Release Date: November 6th, 2018
+
+## Enhancements:
+* Improves keyword recognition in the first paragraph on texts which start with images and captions.
+* Adds a warning notification to the permalink settings page, linking to a KN article. Props to [valtlfelipe](https://github.com/valtlfelipe)
+* Corrects spelling of the words "plug-in" and "set-up", resulting in less text needing translations. Props to [pedro-mendonca](https://github.com/pedro-mendonca)
+* Adds an additional string in the sidebar to the translatable strings. Props to [pedro-mendonca](https://github.com/pedro-mendonca)
+* Adds the filter `wpseo_opengraph_is_valid_image_url` that allows custom image url validation. Props to [petenelson](https://github.com/petenelson)
+* Updates the font size of the snippet title measure element to correctly mimic Google desktop snippet title. Props to [ol0lll](https://github.com/ol0lll)
+* Removes non-functioning eye-markers from the link keyphrase assessment.
+
+## Bugs:
+* Fixes a bug where a dependency wasn't loaded for the SEO -> Tools page.
+* Fixes a faulty reference to the old SEOAssessor class.
+* Fixes a bug where the featured image was not recognized in the SEO analysis when using Gutenberg.
+* Fixes an accessibility issue where focus would be lost when removing an uploaded image in the configuration wizard.
+* Fixes a bug where notices were being thrown when quick editing a post and no post type object could be found.
+* Fixes the copy of the date archives help text which contains faulty information. Props to [mkronenfeld](https://github.com/mkronenfeld)
+* Fixes a bug where a type error is thrown when the posts or terms focus keyword isn't of the type WP_Post as this can collide with third-party plugins.
+* Fixes a bug where the Chrome browser tab would crash on Windows when a French or Italian text contains sentences in passive voice. Props to [CarloCannas](https://github.com/CarloCannas)
+
+## Other
+* Changes the reference in the admin bar menu from "AdWords External" to "Google Ads".
+
 = 9.0.2 =
 Release Date: October 24th, 2018
 
@@ -165,19 +190,6 @@ Other:
 
 * Deprecates the WPSEO_Cornerstone class.
 * Deprecates the assessment that checks if stopwords are used within the keyphrase.
-
-= 8.4.0 =
-Release Date: October 9th, 2018
-
-Bugfixes:
-
-* Fixes a bug where the cornerstone content toggle was available for attachment pages.
-* Fixes a bug where the Search Console page displayed 'first detected' and 'last crawled' dates that were in the future.
-
-Enhancements:
-
-* Introduces the `wpseo_taxonomy_content_fields` filter to add additional fields to the taxonomy metabox.
-* Adds a margin below select fields so there's space between taxonomy settings for breadcrumbs. Props to [@emilyatmobtown](https://github.com/emilyatmobtown)
 
 = Earlier versions =
 
