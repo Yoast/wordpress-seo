@@ -9,7 +9,7 @@ import IntroductionKeywordAssessment from "../../src/assessments/seo/Introductio
 import KeyphraseLengthAssessment from "../../src/assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from  "../../src/assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "../../src/assessments/seo/MetaDescriptionKeywordAssessment";
-import MetaDescriptionLengthAssessment from "../../src/assessments/seo/metaDescriptionLengthAssessment";
+import MetaDescriptionLengthAssessment from "../../src/assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeywordAssessment from "../../src/assessments/seo/SubHeadingsKeywordAssessment";
 import TextCompetingLinksAssessment from "../../src/assessments/seo/TextCompetingLinksAssessment";
 import TextImagesAssessment from "../../src/assessments/seo/textImagesAssessment";

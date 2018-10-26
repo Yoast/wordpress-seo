@@ -9,7 +9,7 @@ import InternalLinksAssessment from "./assessments/seo/InternalLinksAssessment";
 import TitleKeywordAssessment from "./assessments/seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
 import Assessor from "./assessor";
-import MetaDescriptionLength from "./assessments/seo/metaDescriptionLengthAssessment";
+import MetaDescriptionLength from "./assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeyword from "./assessments/seo/SubHeadingsKeywordAssessment";
 import TextImages from "./assessments/seo/textImagesAssessment";
 import TextLength from "./assessments/seo/textLengthAssessment";
