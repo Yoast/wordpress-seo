@@ -12,7 +12,7 @@ import Assessor from "./assessor";
 import MetaDescriptionLength from "./assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeyword from "./assessments/seo/SubHeadingsKeywordAssessment";
 import TextImages from "./assessments/seo/TextImagesAssessment";
-import TextLength from "./assessments/seo/textLengthAssessment";
+import TextLength from "./assessments/seo/TextLengthAssessment";
 import OutboundLinks from "./assessments/seo/OutboundLinksAssessment";
 import TitleWidth from "./assessments/seo/PageTitleWidthAssessment";
 import UrlLength from "./assessments/seo/urlLengthAssessment";
