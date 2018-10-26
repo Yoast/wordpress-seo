@@ -266,7 +266,7 @@ function wpseo_get_capabilities() {
  * support for using the image and title set by the WordPress SEO plugin's fields. This
  * address the concern where some social channels/subscribed use oEmebed data over OpenGraph data
  * if both are present.
- * 
+ *
  * @param array  $data   - The oEmbed data.
  * @param object $post   - The current Post object.
  * @param number $width  - The current post's width (more applicable for attachments).
@@ -274,41 +274,41 @@ function wpseo_get_capabilities() {
  *
  * @see https://developer.wordpress.org/reference/hooks/oembed_response_data/ for hook info
  *
- * @return An array of oEmbed data with modified values where appropriate.
+ * @return array $filter_data - An array of oEmbed data with modified values where appropriate.
  */
 function wpseo_hook_oembed( $data, $post, $width, $height ) {
-  // Data to be returned.
-  $filter_data = $data;
+	// Data to be returned.
+	$filter_data = $data;
 
-  // Look for the Yoast meta values (image and title)...
-  $opengraph_title = WPSEO_Meta::get_value( 'opengraph-title', $post->ID );
-  $opengraph_image = WPSEO_Meta::get_value( 'opengraph-image', $post->ID );
-  
-  // If yoast has a title set, update oEmbed with Yoast's title.
-  if ( ! empty( $yoast_title ) ) {
-  	$filter_data['title'] = $opengraph_title;
-  }
+	// Look for the Yoast meta values (image and title)...
+	$opengraph_title = WPSEO_Meta::get_value( 'opengraph-title', $post->ID );
+	$opengraph_image = WPSEO_Meta::get_value( 'opengraph-image', $post->ID );
 
-  // If the a Yoast Image was set, update the oEmbed data with the Yoast Image's info.
-  if ( ! empty( $opengraph_image ) ){
-    // Get the image's ID from a URL.
-    $image_id = attachment_url_to_postid( $opengraph_image );
+	// If yoast has a title set, update oEmbed with Yoast's title.
+	if ( ! empty( $yoast_title ) ) {
+		$filter_data['title'] = $opengraph_title;
+	}
 
-    // Get the image's info from it's ID.
-    $image_info = wp_get_attachment_metadata( $image_id );
+	// If the a Yoast Image was set, update the oEmbed data with the Yoast Image's info.
+	if ( ! empty( $opengraph_image ) ){
+		// Get the image's ID from a URL.
+		$image_id = attachment_url_to_postid( $opengraph_image );
 
-    // Update the oEmbed data.
-    $filter_data['thumbnail_url'] = $opengraph_image;
-    if ( ! empty( $image_info['height'] ) ) {
-    	$filter_data['thumbnail_height'] = $image_info['height'];
-    }
-    if ( ! empty( $image_info['width'] ) ) {
-    	$filter_data['thumbnail_width'] = $image_info['width'];
-    }
-  }
+		// Get the image's info from it's ID.
+		$image_info = wp_get_attachment_metadata( $image_id );
 
-  return $filter_data;
+		// Update the oEmbed data.
+		$filter_data['thumbnail_url'] = $opengraph_image;
+		if ( ! empty( $image_info['height'] ) ) {
+			$filter_data['thumbnail_height'] = $image_info['height'];
+		}
+		if ( ! empty( $image_info['width'] ) ) {
+			$filter_data['thumbnail_width'] = $image_info['width'];
+		}
+	}
+
+	return $filter_data;
 }
 
 // Hook into the oEmbed's filter with the new custom function.
-add_filter('oembed_response_data', 'wpseo_hook_oembed', 10, 4 );
+add_filter( 'oembed_response_data', 'wpseo_hook_oembed', 10, 4 );
