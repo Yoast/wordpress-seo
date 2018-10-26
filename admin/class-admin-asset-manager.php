@@ -344,6 +344,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'shortcode-plugin',
 					'wp-util',
 					'wp-api',
+					'wp-sanitize',
 					self::PREFIX . 'wp-globals-backport',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'react-dependencies',
@@ -354,6 +355,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'term-scraper',
 				'src'  => 'wp-seo-term-scraper-' . $flat_version,
 				'deps' => array(
+					'wp-sanitize',
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'wp-globals-backport',
 					self::PREFIX . 'analysis',

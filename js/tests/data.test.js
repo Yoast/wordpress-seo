@@ -88,6 +88,8 @@ describe( "collectGutenbergData", () => {
 			title: "title",
 			slug: "slug",
 			excerpt: "excerpt",
+			// eslint-disable-next-line camelcase
+			excerpt_only: "excerpt",
 		};
 
 		const actual = data.collectGutenbergData( retriever );
