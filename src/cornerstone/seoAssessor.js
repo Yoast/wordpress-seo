@@ -15,7 +15,7 @@ import SubheadingsKeyword from "../assessments/seo/SubHeadingsKeywordAssessment"
 import TextImages from "../assessments/seo/textImagesAssessment";
 import TextLength from "../assessments/seo/textLengthAssessment";
 import OutboundLinks from "../assessments/seo/OutboundLinksAssessment";
-import TitleWidth from "../assessments/seo/pageTitleWidthAssessment";
+import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
 import UrlLength from "../assessments/seo/urlLengthAssessment";
 import urlStopWords from "../assessments/seo/urlStopWordsAssessment";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
