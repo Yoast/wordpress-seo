@@ -1,6 +1,3 @@
-// External dependencies.
-import { getLogger } from "loglevel";
-
 // Internal dependencies.
 import Request from "./request";
 import Transporter from "./transporter";
