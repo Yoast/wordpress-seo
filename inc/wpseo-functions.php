@@ -290,9 +290,9 @@ function wpseo_hook_oembed( $data, $post, $width, $height ) {
 	}
 
 	// If the a Yoast Image was set, update the oEmbed data with the Yoast Image's info.
-	if ( ! empty( $opengraph_image ) ){
+	if ( ! empty( $opengraph_image ) ) {
 		// Get the image's ID from a URL.
-		$image_id = attachment_url_to_postid( $opengraph_image );
+		$image_id = WPSEO_Image_Utils::get_attachment_by_url( $opengraph_image );
 
 		// Get the image's info from it's ID.
 		$image_info = wp_get_attachment_metadata( $image_id );
