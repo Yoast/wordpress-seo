@@ -820,7 +820,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoAnalysisWorkerL10n', array(
 			'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 			'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
-            'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
+			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 		) );
 
 		/**
