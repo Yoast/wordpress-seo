@@ -14,10 +14,10 @@ import { normalize as normalizeQuotes } from "../stringProcessing/quotes.js";
 import { unifyNonBreakingSpace as unifyWhitespace } from "../stringProcessing/unifyWhitespace.js";
 
 // All characters that indicate a sentence delimiter.
-var fullStop = ".";
+const fullStop = ".";
 // The \u2026 character is an ellipsis
-var sentenceDelimiters = "?!;\u2026";
-var newLines = "\n\r|\n|\r";
+const sentenceDelimiters = "?!;\u2026";
+const newLines = "\n\r|\n|\r";
 
 var fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
 var sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
@@ -26,12 +26,13 @@ var greaterThanContentRegex = /^<[^><]*$/;
 var htmlStartRegex = /^<([^>\s/]+)[^>]*>$/mi;
 var htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 var newLineRegex = new RegExp( newLines );
+const sentenceEndRegex = new RegExp( "([" + fullStop + sentenceDelimiters + "])$" );
 
-var blockStartRegex = /^\s*[[({]\s*$/;
-var blockEndRegex = /^\s*[\])}]\s*$/;
+const blockStartRegex = /^\s*[[({]\s*$/;
+const blockEndRegex = /^\s*[\])}]\s*$/;
 
-var tokens = [];
-var sentenceTokenizer;
+let tokens = [];
+let sentenceTokenizer;
 
 /**
  * Creates a tokenizer to create tokens from a sentence.
@@ -146,7 +147,7 @@ function removeDuplicateWhitespace( text ) {
  * @returns {string} The next two characters.
  */
 function getNextTwoCharacters( nextTokens ) {
-	var next = "";
+	let next = "";
 
 	if ( ! isUndefined( nextTokens[ 0 ] ) ) {
 		next += nextTokens[ 0 ].src;
@@ -190,6 +191,34 @@ function isSentenceStart( token ) {
 	) );
 }
 
+function greaterThanSignContentTokenizer( tokens ) {
+	let tokenizer = core( function( token ) {
+		tokens.push( token );
+	} );
+
+	tokenizer.addRule( htmlStartRegex, "html-start" );
+	tokenizer.addRule( htmlEndRegex, "html-end" );
+	tokenizer.addRule( blockStartRegex, "block-start" );
+	tokenizer.addRule( blockEndRegex, "block-end" );
+	tokenizer.addRule( fullStopRegex, "full-stop" );
+	tokenizer.addRule( sentenceDelimiterRegex, "sentence-delimiter" );
+	tokenizer.addRule( sentenceRegex, "sentence" );
+
+	return tokenizer;
+}
+
+function tokenize( tokenizer, tokens, text ) {
+	tokenizer.onText( text );
+
+	try {
+		tokenizer.end();
+	} catch ( e ) {
+		console.error( "Tokenizer end error:", e, e.tokenizer2 );
+	}
+
+	return tokens;
+}
+
 /**
  * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
  *
@@ -197,15 +226,15 @@ function isSentenceStart( token ) {
  * @returns {Array<string>} A list of sentences.
  */
 function getSentencesFromTokens( tokens ) {
-	var tokenSentences = [], currentSentence = "", nextSentenceStart;
+	let tokenSentences = [], currentSentence = "", nextSentenceStart;
 
-	var sliced;
+	let sliced;
 
 	// Drop the first and last HTML tag if both are present.
 	do {
 		sliced = false;
-		var firstToken = tokens[ 0 ];
-		var lastToken = tokens[ tokens.length - 1 ];
+		const firstToken = tokens[ 0 ];
+		const lastToken = tokens[ tokens.length - 1 ];
 
 		if ( firstToken.type === "html-start" && lastToken.type === "html-end" ) {
 			tokens = tokens.slice( 1, tokens.length - 1 );
@@ -215,10 +244,12 @@ function getSentencesFromTokens( tokens ) {
 	} while ( sliced && tokens.length > 1 );
 
 	forEach( tokens, function( token, i ) {
-		var hasNextSentence;
-		var nextToken = tokens[ i + 1 ];
-		var secondToNextToken = tokens[ i + 2 ];
-		var nextCharacters;
+		let hasNextSentence;
+		const nextToken = tokens[ i + 1 ];
+		const secondToNextToken = tokens[ i + 2 ];
+		let nextCharacters;
+
+		// console.log( token );
 
 		switch ( token.type ) {
 			case "html-start":
@@ -232,6 +263,42 @@ function getSentencesFromTokens( tokens ) {
 				break;
 
 			case "greater-than-sign-content":
+				let localTokens = [];
+
+				// Remove the '<' from the text, to make tokenization easier.
+				// We add it again later on.
+				let text = token.src.substring(1);
+
+				let localTokenizer = greaterThanSignContentTokenizer( localTokens );
+				localTokens = tokenize( localTokenizer, localTokens, text );
+				let localSentences = getSentencesFromTokens( localTokens );
+
+				console.log( localSentences );
+
+				const firstSentence = localSentences.shift();
+				const lastSentence = localSentences.pop();
+
+				// Check if the '<' was at the beginning of the sentence.
+				// E.g. 'Sentence.[ <Another sentence.]'.
+				// Treat the first sentence as a new sentence.
+				if( isValidSentenceBeginning( firstSentence[0] ) ) {
+					tokenSentences.push( " < " + firstSentence );
+					currentSentence = "";
+				} else {
+					currentSentence += " < " + firstSentence;
+				}
+
+
+				if( sentenceEndRegex.test( currentSentence ) ) {
+					tokenSentences.push( currentSentence );
+					currentSentence = lastSentence ? lastSentence : "";
+				}
+
+				localSentences.forEach( sent => {
+					tokenSentences.push( sent );
+				} );
+
+				break;
 			case "sentence":
 				currentSentence += token.src;
 				break;
@@ -307,12 +374,12 @@ function getSentencesFromTokens( tokens ) {
  * @returns {Array<string>} The list of sentences in the block.
  */
 function getSentencesFromBlock( block ) {
-	var tokens = tokenizeSentences( block );
+	const tokens = tokenizeSentences( block );
 
 	return tokens.length === 0 ? [] : getSentencesFromTokens( tokens );
 }
 
-var getSentencesFromBlockCached = memoize( getSentencesFromBlock );
+const getSentencesFromBlockCached = memoize( getSentencesFromBlock );
 
 /**
  * Returns sentences in a string.
@@ -322,7 +389,7 @@ var getSentencesFromBlockCached = memoize( getSentencesFromBlock );
  */
 export default function( text ) {
 	text = unifyWhitespace( text );
-	var sentences, blocks = getBlocks( text );
+	let sentences, blocks = getBlocks( text );
 
 	// Split each block on newlines.
 	blocks = flatMap( blocks, function( block ) {
