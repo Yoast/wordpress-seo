@@ -14,7 +14,7 @@ import SubheadingsKeywordAssessment from "../../src/assessments/seo/SubHeadingsK
 import TextCompetingLinksAssessment from "../../src/assessments/seo/TextCompetingLinksAssessment";
 import TextImagesAssessment from "../../src/assessments/seo/textImagesAssessment";
 import TextLengthAssessment from "../../src/assessments/seo/textLengthAssessment";
-import OutboundLinksAssessment from "../../src/assessments/seo/outboundLinksAssessment";
+import OutboundLinksAssessment from "../../src/assessments/seo/OutboundLinksAssessment";
 import InternalLinksAssessment from "../../src/assessments/seo/InternalLinksAssessment";
 import TitleKeywordAssessment from "../../src/assessments/seo/TitleKeywordAssessment";
 import TitleWidthAssessment from "../../src/assessments/seo/pageTitleWidthAssessment";

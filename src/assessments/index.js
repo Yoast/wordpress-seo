@@ -17,7 +17,7 @@ import KeywordStopWordsAssessment from "./seo/keywordStopWordsAssessment";
 import KeyphraseDistributionAssessment from "./seo/KeyphraseDistributionAssessment";
 import MetaDescriptionKeywordAssessment from "./seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "./seo/MetaDescriptionLengthAssessment";
-import OutboundLinksAssessment from "./seo/outboundLinksAssessment";
+import OutboundLinksAssessment from "./seo/OutboundLinksAssessment";
 import PageTitleWidthAssessment from "./seo/pageTitleWidthAssessment";
 import SubheadingsKeywordAssessment from "./seo/SubHeadingsKeywordAssessment";
 import TaxonomyTextLengthAssessment from "./seo/taxonomyTextLengthAssessment";
