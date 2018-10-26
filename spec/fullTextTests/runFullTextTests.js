@@ -19,7 +19,7 @@ import InternalLinksAssessment from "../../src/assessments/seo/InternalLinksAsse
 import TitleKeywordAssessment from "../../src/assessments/seo/TitleKeywordAssessment";
 import TitleWidthAssessment from "../../src/assessments/seo/PageTitleWidthAssessment";
 import UrlKeywordAssessment from "../../src/assessments/seo/UrlKeywordAssessment";
-import UrlLengthAssessment from "../../src/assessments/seo/urlLengthAssessment";
+import UrlLengthAssessment from "../../src/assessments/seo/UrlLengthAssessment";
 import urlStopWordsAssessment from "../../src/assessments/seo/urlStopWordsAssessment";
 import KeyphraseDistributionAssessment from "../../src/assessments/seo/KeyphraseDistributionAssessment";
 

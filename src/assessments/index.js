@@ -26,7 +26,7 @@ import TextImagesAssessment from "./seo/TextImagesAssessment";
 import TextLengthAssessment from "./seo/TextLengthAssessment";
 import TitleKeywordAssessment from "./seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./seo/UrlKeywordAssessment";
-import UrlLengthAssessment from "./seo/urlLengthAssessment";
+import UrlLengthAssessment from "./seo/UrlLengthAssessment";
 import UrlStopWordsAssessment from "./seo/urlStopWordsAssessment";
 
 const readability = {

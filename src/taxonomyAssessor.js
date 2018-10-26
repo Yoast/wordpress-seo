@@ -10,7 +10,7 @@ import Assessor from "./assessor";
 import MetaDescriptionLengthAssessment from "./assessments/seo/MetaDescriptionLengthAssessment";
 import taxonomyTextLengthAssessment from "./assessments/seo/taxonomyTextLengthAssessment";
 import PageTitleWidthAssessment from "./assessments/seo/PageTitleWidthAssessment";
-import UrlLengthAssessment from "./assessments/seo/urlLengthAssessment";
+import UrlLengthAssessment from "./assessments/seo/UrlLengthAssessment";
 import urlStopWordsAssessment from "./assessments/seo/urlStopWordsAssessment";
 import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
 
