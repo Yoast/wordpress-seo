@@ -272,6 +272,7 @@ describe( "AnalysisWebWorker", () => {
 				};
 
 				// Disable actual logging in the tests.
+				/* eslint-disable-next-line no-console */
 				console.log = jest.fn();
 
 				forEach( levels, ( expected, name ) => {
