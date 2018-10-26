@@ -6,10 +6,10 @@ import { AnalysisWorkerWrapper, createWorker } from "yoastseo";
 
 // Internal dependencies.
 import getContentLocale from "./getContentLocale";
+import getDefaultQueryParams from "./getDefaultQueryParams";
 import getTranslations from "./getTranslations";
 import isContentAnalysisActive from "./isContentAnalysisActive";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
-import getDefaultQueryParams from "./getDefaultQueryParams";
 
 /**
  * Instantiates an analysis worker (wrapper).
@@ -17,7 +17,7 @@ import getDefaultQueryParams from "./getDefaultQueryParams";
  * @returns {AnalysisWorkerWrapper} The analysis worker.
  */
 export function createAnalysisWorker() {
-	const url = get( global, [ "wpseoAnalysisWorkerL10n", "url" ], "wp-seo-analysis-worker.js" );
+	const url = get( window, [ "wpseoAnalysisWorkerL10n", "url" ], "wp-seo-analysis-worker.js" );
 	return new AnalysisWorkerWrapper( createWorker( url ) );
 }
 
@@ -34,6 +34,7 @@ export function getAnalysisConfiguration( customConfiguration = {} ) {
 		contentAnalysisActive: isContentAnalysisActive(),
 		keywordAnalysisActive: isKeywordAnalysisActive(),
 		defaultQueryParams: getDefaultQueryParams(),
+		logLevel: get( window, [ "wpseoAnalysisWorkerL10n", "log_level" ], "ERROR" ),
 	};
 
 	configuration = merge( configuration, customConfiguration );
