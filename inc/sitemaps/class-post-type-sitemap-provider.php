@@ -381,7 +381,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_first_links( $post_type ) {
 
-		$links = array();
+		$links       = array();
+		$archive_url = false;
 
 		if ( ! $this->get_page_on_front_id() && 'page' === $post_type ) {
 
@@ -392,32 +393,31 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				'chf' => 'daily',
 				'pri' => 1,
 			);
-
-			return $links;
 		}
 
-		$archive_url = $this->get_post_type_archive_link( $post_type );
-
-		/**
-		 * Filter the URL Yoast SEO uses in the XML sitemap for this post type archive.
-		 *
-		 * @param string $archive_url The URL of this archive
-		 * @param string $post_type   The post type this archive is for.
-		 */
-		$archive_url = apply_filters( 'wpseo_sitemap_post_type_archive_link', $archive_url, $post_type );
-
-		if ( false === $archive_url ) {
-			return $links;
+		if ( 'page' !== $post_type ) {
+			/**
+			 * Filter the URL Yoast SEO uses in the XML sitemap for this post type archive.
+			 *
+			 * @param string $archive_url The URL of this archive
+			 * @param string $post_type   The post type this archive is for.
+			 */
+			$archive_url = apply_filters( 'wpseo_sitemap_post_type_archive_link',
+				$this->get_post_type_archive_link( $post_type ),
+				$post_type
+			);
 		}
 
-		$links[] = array(
-			'loc' => $archive_url,
-			'mod' => WPSEO_Sitemaps::get_last_modified_gmt( $post_type ),
+		if ( false !== $archive_url ) {
+			$links[] = array(
+				'loc' => $archive_url,
+				'mod' => WPSEO_Sitemaps::get_last_modified_gmt( $post_type ),
 
-			// Deprecated, kept for backwards data compat. R.
-			'chf' => 'daily',
-			'pri' => 1,
-		);
+				// Deprecated, kept for backwards data compat. R.
+				'chf' => 'daily',
+				'pri' => 1,
+			);
+		}
 
 		return $links;
 	}
@@ -433,7 +433,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_post_type_archive_link( $post_type ) {
 
-		if ( 'page' === $post_type || WPSEO_Options::get( 'noindex-ptarchive-' . $post_type, false ) ) {
+		if ( WPSEO_Options::get( 'noindex-ptarchive-' . $post_type, false ) ) {
 			return false;
 		}
 
