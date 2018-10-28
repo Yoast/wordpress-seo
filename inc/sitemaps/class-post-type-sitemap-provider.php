@@ -450,7 +450,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 */
 		$post_id = (int) apply_filters(
 			'wpseo_sitemap_page_for_post_type_archive',
-			( 'post' === $post_type ) ? $this->get_page_for_posts_id() : -1,
+			( 'post' === $post_type ) ? $this->get_page_for_posts_id() : ( -1 ),
 			$post_type
 		);
 
