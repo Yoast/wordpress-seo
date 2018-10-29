@@ -111,10 +111,8 @@ const otherAuxiliaries = [
 	"n'allait", "n'allions", "n'alliez", "n'allaient", "n'iras", "n'ira", "n'irons", "n'irez", "n'iront", "qu'a",
 ];
 
-const otherAuxiliariesInfinitive = [
-	"avoir", "aller", "venir", "devoir", "pouvoir", "sembler", "paraître", "paraitre", "mettre", "finir",
-	"d'avoir", "d'aller", "n'avoir",
-];
+const otherAuxiliariesInfinitive = [ "avoir", "aller", "venir", "devoir", "pouvoir", "sembler", "paraître", "paraitre", "mettre", "finir",
+	"d'avoir", "d'aller", "n'avoir", "l'avoir" ];
 
 const copula = [
 	"suis", "es", "est", "est-ce", "n'est", "sommes", "êtes", "sont", "suis-je", "es-tu", "est-il", "est-elle", "est-on", "sommes-nous",
