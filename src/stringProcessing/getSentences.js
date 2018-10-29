@@ -191,11 +191,22 @@ function isSentenceStart( token ) {
 	) );
 }
 
+/**
+ * Special tokenizer to parse the 'sentence' as found using the
+ * 'greaterThanContentRegex' rule in the original tokenizer.
+ *
+ * Removes the 'greaterThanContentRegex' rule to avoid matching this rule
+ * recursively again.
+ *
+ * @param tokens
+ * @returns {{addRule, onText, end}}
+ */
 function greaterThanSignContentTokenizer( tokens ) {
 	let tokenizer = core( function( token ) {
 		tokens.push( token );
 	} );
 
+	tokenizer.addRule( greaterThanContentRegex, "greater-than-sign-content" );
 	tokenizer.addRule( htmlStartRegex, "html-start" );
 	tokenizer.addRule( htmlEndRegex, "html-end" );
 	tokenizer.addRule( blockStartRegex, "block-start" );
@@ -207,6 +218,14 @@ function greaterThanSignContentTokenizer( tokens ) {
 	return tokenizer;
 }
 
+/**
+ * Tokenizes the given text using the given tokenizer.
+ *
+ * @param {Object} tokenizer the tokenizer to use.
+ * @param {Array} tokens an empty array, this gets filled with tokens.
+ * @param text the text to tokenize.
+ * @returns {String[]} the tokens as retrieved from the text.
+ */
 function tokenize( tokenizer, tokens, text ) {
 	tokenizer.onText( text );
 
@@ -249,8 +268,6 @@ function getSentencesFromTokens( tokens ) {
 		const secondToNextToken = tokens[ i + 2 ];
 		let nextCharacters;
 
-		// console.log( token );
-
 		switch ( token.type ) {
 			case "html-start":
 			case "html-end":
@@ -265,38 +282,36 @@ function getSentencesFromTokens( tokens ) {
 			case "greater-than-sign-content":
 				let localTokens = [];
 
-				// Remove the '<' from the text, to make tokenization easier.
-				// We add it again later on.
+				/*
+					Remove the '<' from the text, to avoid matching this rule
+					recursively again and again.
+					We add it again later on.
+				*/
 				let text = token.src.substring(1);
 
 				let localTokenizer = greaterThanSignContentTokenizer( localTokens );
 				localTokens = tokenize( localTokenizer, localTokens, text );
 				let localSentences = getSentencesFromTokens( localTokens );
 
-				console.log( localSentences );
+				// Always append first sentence to current one.
+				currentSentence += " < "  + localSentences[0];
 
-				const firstSentence = localSentences.shift();
-				const lastSentence = localSentences.pop();
-
-				// Check if the '<' was at the beginning of the sentence.
-				// E.g. 'Sentence.[ <Another sentence.]'.
-				// Treat the first sentence as a new sentence.
-				if( isValidSentenceBeginning( firstSentence[0] ) ) {
-					tokenSentences.push( " < " + firstSentence );
-					currentSentence = "";
-				} else {
-					currentSentence += " < " + firstSentence;
-				}
-
-
-				if( sentenceEndRegex.test( currentSentence ) ) {
+				if( localSentences.length > 1 ) {
+					/*
+						There is a new sentence after the first,
+						add and reset the current sentence.
+					 */
 					tokenSentences.push( currentSentence );
-					currentSentence = lastSentence ? lastSentence : "";
-				}
+					currentSentence = "";
 
-				localSentences.forEach( sent => {
-					tokenSentences.push( sent );
-				} );
+					// Remove the first sentence (we do not need to add it again).
+					localSentences.shift();
+
+					// Add the remaining found sentences.
+					localSentences.forEach( sentence => {
+						tokenSentences.push( sentence );
+					} );
+				}
 
 				break;
 			case "sentence":
@@ -397,6 +412,9 @@ export default function( text ) {
 	} );
 
 	sentences = flatMap( blocks, getSentencesFromBlockCached );
+
+	const sentencesNoHtml = sentences.map( sentence => sentence.replace( /<.*?>/g, "" ) );
+	console.log( sentencesNoHtml );
 
 	return filter( sentences, negate( isEmpty ) );
 }
