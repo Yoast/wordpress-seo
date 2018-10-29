@@ -11,11 +11,11 @@
 class WPSEO_Post_Type_Sitemap_Provider_Double extends WPSEO_Post_Type_Sitemap_Provider {
 
 	/**
-	 * Reset "cashed" page ids.
+	 * Reset static variables.
 	 */
 	public function reset() {
-		WPSEO_Options::get_instance();
-		self::$page_on_front_id = null;
+		self::$home_url          = null;
+		self::$page_on_front_id  = null;
 		self::$page_for_posts_id = null;
 	}
 

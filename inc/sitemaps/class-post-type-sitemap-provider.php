@@ -384,7 +384,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$links       = array();
 		$archive_url = false;
 
-		if ( ! $this->get_page_on_front_id() && 'page' === $post_type ) {
+		if ( 'page' === $post_type && ! $this->get_page_on_front_id() ) {
 
 			$links[] = array(
 				'loc' => $this->get_home_url(),
@@ -402,13 +402,15 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			 * @param string $archive_url The URL of this archive
 			 * @param string $post_type   The post type this archive is for.
 			 */
-			$archive_url = apply_filters( 'wpseo_sitemap_post_type_archive_link',
+			$archive_url = apply_filters(
+				'wpseo_sitemap_post_type_archive_link',
 				$this->get_post_type_archive_link( $post_type ),
 				$post_type
 			);
 		}
 
 		if ( false !== $archive_url ) {
+
 			$links[] = array(
 				'loc' => $archive_url,
 				'mod' => WPSEO_Sitemaps::get_last_modified_gmt( $post_type ),
