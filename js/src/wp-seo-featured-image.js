@@ -116,6 +116,16 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		}
 	}
 
+	/**
+	 * Returns whether the featured image ID is a valid media ID.
+	 *
+	 * @param {*} featuredImageId The candidate featured image ID.
+	 * @returns {boolean} Whether the given ID is a valid ID.
+	 */
+	function isValidMediaId( featuredImageId ) {
+		return typeof featuredImageId === "number" && featuredImageId > 0;
+	}
+
 	$( document ).ready( function() {
 		var featuredImage = wp.media.featuredImage.frame();
 
@@ -172,7 +182,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		wp.data.subscribe( () => {
 			const featuredImageId = wp.data.select( "core/editor" ).getEditedPostAttribute( "featured_media" );
 
-			if ( typeof featuredImageId === "number" && featuredImageId > 0 ) {
+			if ( ! isValidMediaId( featuredImageId ) ) {
 				return;
 			}
 
