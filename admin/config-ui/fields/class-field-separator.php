@@ -25,7 +25,7 @@ class WPSEO_Config_Field_Separator extends WPSEO_Config_Field_Choice {
 	/**
 	 * Adds the title separator choices.
 	 */
-	public function add_choices() {
+	protected function add_choices() {
 		$choices = WPSEO_Option_Titles::get_instance()->get_separator_options_for_display();
 		foreach ( $choices as $key => $value ) {
 			$this->add_choice( $key, $value['label'], $value['friendly_label'] );

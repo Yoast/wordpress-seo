@@ -215,7 +215,10 @@ class Yoast_Form {
 		);
 
 		$attr       = wp_parse_args( $attr, $defaults );
-		$aria_label = ( $attr['aria_label'] !== '' ) ? ' aria-label="' . esc_attr( $attr['aria_label'] ) . '"' : '';
+		$aria_label = '';
+		if ( $attr['aria_label'] !== '' ) {
+			$aria_label = ' aria-label="' . esc_attr( $attr['aria_label'] ) . '"';
+		}
 
 		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>$text";
 		if ( $attr['close'] ) {
@@ -593,7 +596,7 @@ class Yoast_Form {
 			$aria_label = '';
 
 			if ( is_array( $value ) ) {
-				$label = isset( $value['label'] ) ? $value['label'] : '';
+				$label      = isset( $value['label'] ) ? $value['label'] : '';
 				$aria_label = isset( $value['friendly_label'] ) ? $value['friendly_label'] : '';
 			}
 

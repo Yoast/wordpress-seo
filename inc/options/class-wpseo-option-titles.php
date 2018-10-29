@@ -194,9 +194,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	}
 
 	/**
-	 * Get the available separator options.
+	 * Get the available separator human friendly labels.
 	 *
-	 * @return array
+	 * @return array $friendly_separators Array with the separator human friendly labels.
 	 */
 	public function get_separator_options_for_display() {
 		$separators = $this->get_separator_options();
@@ -224,6 +224,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		 * @api array $human_friendly_labels Array with the separator options friendly labels.
 		 */
 		$filtered_human_friendly_labels = apply_filters( 'wpseo_separator_options_friendly_labels', $human_friendly_labels );
+
+		$friendly_separators = array();
 
 		foreach ( $separators as $key => $label ) {
 			$friendly_label = isset( $filtered_human_friendly_labels[ $key ] ) ? $filtered_human_friendly_labels[ $key ] : '';
