@@ -65,7 +65,7 @@ class AnalysisWorkerWrapper {
 			console.log( "wrapper <- worker", type, id, payload );
 		}
 
-		switch( type ) {
+		switch ( type ) {
 			case "initialize:done":
 			case "loadScript:done":
 			case "customMessage:done":

@@ -23,9 +23,9 @@ const collectMarkingsInSentence = function( sentence, topicFoundInSentence ) {
 export function markWordsInSentences( wordsToMark, sentences, locale ) {
 	let topicFoundInSentence = [];
 	let markings = [];
-	let indexOfSentence = 0;
+	const indexOfSentence = 0;
 	let indexRunningThroughSentence = 0;
-	let matchesIndices = [];
+	const matchesIndices = [];
 
 	sentences.forEach( function( sentence ) {
 		topicFoundInSentence = matchWords( sentence, wordsToMark, locale ).matches;

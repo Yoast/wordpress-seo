@@ -1,10 +1,10 @@
 import indices from "../../src/stringProcessing/indices.js";
-let getIndices = indices.getIndicesByWord;
-let getIndicesOfList = indices.getIndicesByWordList;
-let getIndicesByWordListSorted = indices.getIndicesByWordListSorted;
-let filterIndices = indices.filterIndices;
-let sortIndices = indices.sortIndices;
-let getIndicesByWord = indices.getIndicesByWord;
+const getIndices = indices.getIndicesByWord;
+const getIndicesOfList = indices.getIndicesByWordList;
+const getIndicesByWordListSorted = indices.getIndicesByWordListSorted;
+const filterIndices = indices.filterIndices;
+const sortIndices = indices.sortIndices;
+const getIndicesByWord = indices.getIndicesByWord;
 
 describe( "A function to get indices from words in a string.", function() {
 	it( "returns a list with a single word and its index", function() {
@@ -56,7 +56,7 @@ describe( "A function to get indices from words in a word list in a string and m
 
 describe( "A function to filter out overlapping matches", function() {
 	it( "removes the overlapping match 'though'", function() {
-		let input = [
+		const input = [
 			{
 				match: "even though",
 				index: 10,
@@ -65,7 +65,7 @@ describe( "A function to filter out overlapping matches", function() {
 				index: 15,
 			},
 		];
-		let expectedOutput = [
+		const expectedOutput = [
 			{
 				match: "even though",
 				index: 10,
@@ -76,7 +76,7 @@ describe( "A function to filter out overlapping matches", function() {
 	} );
 
 	it( "removes the overlapping match 'though', doesn't remove the non overlapping 'though' ", function() {
-		let input = [
+		const input = [
 			{
 				match: "even though",
 				index: 10,
@@ -89,7 +89,7 @@ describe( "A function to filter out overlapping matches", function() {
 				index: 25,
 			},
 		];
-		let expectedOutput = [
+		const expectedOutput = [
 			{
 				match: "even though",
 				index: 10,
@@ -104,7 +104,7 @@ describe( "A function to filter out overlapping matches", function() {
 	} );
 
 	it( "removes the overlapping match 'though', doesn't remove the non overlapping 'though' ", function() {
-		let input = [
+		const input = [
 			{
 				match: "word1",
 				index: 10,
@@ -122,9 +122,9 @@ describe( "A function to filter out overlapping matches", function() {
 
 describe( "A function that returns all instances of the input word and their index when there is one match", function() {
 	it( "returns an array", function() {
-		let word = "is";
-		let text = "praise is";
-		let output = [
+		const word = "is";
+		const text = "praise is";
+		const output = [
 			{
 				match: "is",
 				index: 7,
@@ -136,9 +136,9 @@ describe( "A function that returns all instances of the input word and their ind
 
 describe( "A function that returns all instances of the input word and their index when there are multiple matches", function() {
 	it( "returns an array", function() {
-		let word = "is";
-		let text = "is praise is praise is";
-		let output = [
+		const word = "is";
+		const text = "is praise is praise is";
+		const output = [
 			{
 				match: "is",
 				index: 0,
@@ -158,16 +158,16 @@ describe( "A function that returns all instances of the input word and their ind
 
 describe( "A function that returns all instances of the input word and their index when there is no match", function() {
 	it( "returns an array", function() {
-		let word = "is";
-		let text = "praise";
-		let output = [];
+		const word = "is";
+		const text = "praise";
+		const output = [];
 		expect( getIndicesByWord( word, text ) ).toEqual( output );
 	} );
 } );
 
 describe( "A function that sorts an array based on the indices of the objects", function() {
 	it( "returns a sorted array", function() {
-		let input = [
+		const input = [
 			{
 				match: "word2",
 				index: 20,
@@ -179,7 +179,7 @@ describe( "A function that sorts an array based on the indices of the objects", 
 				index: 30,
 			},
 		];
-		let output = [
+		const output = [
 			{
 				match: "word1",
 				index: 10,

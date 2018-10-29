@@ -1,6 +1,7 @@
 // External dependencies.
 import Jed from "jed";
 import { forEach, has, merge, pickBy, includes, isNull, isUndefined, isString, isObject } from "lodash-es";
+import { autop } from "@wordpress/autop";
 
 // YoastSEO.js dependencies.
 import * as assessments from "../assessments";
@@ -184,7 +185,7 @@ export default class AnalysisWebWorker {
 			console.log( "worker <- wrapper", type, id, payload );
 		}
 
-		switch( type ) {
+		switch ( type ) {
 			case "initialize":
 				this.initialize( id, payload );
 				this._scheduler.startPolling();
@@ -314,7 +315,7 @@ export default class AnalysisWebWorker {
 
 		let assessor;
 
-		if( useTaxonomy === true ) {
+		if ( useTaxonomy === true ) {
 			assessor = new TaxonomyAssessor( this._i18n );
 		} else {
 			assessor = useCornerstone === true
@@ -647,6 +648,8 @@ export default class AnalysisWebWorker {
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
 	analyze( id, { paper, relatedKeywords = {} } ) {
+		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
+		paper._text = autop( paper._text );
 		paper._text = string.removeHtmlBlocks( paper._text );
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
@@ -788,7 +791,7 @@ export default class AnalysisWebWorker {
 				success: true,
 				data: this._registeredMessageHandlers[ name ]( data ),
 			};
-		} catch( error ) {
+		} catch ( error ) {
 			return { error };
 		}
 	}

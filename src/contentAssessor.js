@@ -31,10 +31,10 @@ import { sum } from "lodash-es";
  *
  * @constructor
  */
-let ContentAssessor = function( i18n, options = {} ) {
+const ContentAssessor = function( i18n, options = {} ) {
 	Assessor.call( this, i18n, options );
 	this.type = "ContentAssessor";
-	let locale = ( options.hasOwnProperty( "locale" ) ) ? options.locale : "en_US";
+	const locale = ( options.hasOwnProperty( "locale" ) ) ? options.locale : "en_US";
 
 	this._assessments = [
 
@@ -95,8 +95,8 @@ ContentAssessor.prototype.calculatePenaltyPointsPartialSupport = function( ratin
  * @returns {boolean} True if fully supported.
  */
 ContentAssessor.prototype._allAssessmentsSupported = function() {
-	let numberOfAssessments = 8;
-	let applicableAssessments = this.getApplicableAssessments();
+	const numberOfAssessments = 8;
+	const applicableAssessments = this.getApplicableAssessments();
 	return applicableAssessments.length === numberOfAssessments;
 };
 
@@ -106,10 +106,10 @@ ContentAssessor.prototype._allAssessmentsSupported = function() {
  * @returns {number} The total penalty points for the results.
  */
 ContentAssessor.prototype.calculatePenaltyPoints = function() {
-	let results = this.getValidResults();
+	const results = this.getValidResults();
 
-	let penaltyPoints = map( results, function( result ) {
-		let rating = scoreToRating( result.getScore() );
+	const penaltyPoints = map( results, function( result ) {
+		const rating = scoreToRating( result.getScore() );
 
 		if ( this._allAssessmentsSupported() ) {
 			return this.calculatePenaltyPointsFullSupport( rating );
@@ -167,14 +167,14 @@ ContentAssessor.prototype._ratePenaltyPoints = function( totalPenaltyPoints ) {
  * @returns {number} The overall score.
  */
 ContentAssessor.prototype.calculateOverallScore = function() {
-	let results = this.getValidResults();
+	const results = this.getValidResults();
 
 	// If you have no content, you have a red indicator.
 	if ( results.length === 0 ) {
 		return 30;
 	}
 
-	let totalPenaltyPoints = this.calculatePenaltyPoints();
+	const totalPenaltyPoints = this.calculatePenaltyPoints();
 
 	return this._ratePenaltyPoints( totalPenaltyPoints );
 };

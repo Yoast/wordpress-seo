@@ -18,7 +18,7 @@ var recommendedValue = 3;
  */
 var filterComplexity = function( words ) {
 	return filter( words, function( word ) {
-		return( word.complexity > recommendedValue );
+		return ( word.complexity > recommendedValue );
 	} );
 };
 

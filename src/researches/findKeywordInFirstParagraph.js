@@ -4,25 +4,84 @@ import matchParagraphs from "../stringProcessing/matchParagraphs.js";
 import getSentences from "../stringProcessing/getSentences.js";
 import { findTopicFormsInString } from "./findKeywordFormsInString.js";
 import imageInText from "../stringProcessing/imageInText";
+import findEmptyDivisions from "../stringProcessing/findEmptyDivisions";
+import getAnchorsFromText from "../stringProcessing/getAnchorsFromText";
+import matchStringWithRegex from "../stringProcessing/matchStringWithRegex";
 
 import { reject } from "lodash-es";
 import { isEmpty } from "lodash-es";
 
 /**
- * Checks if the paragraph consists only of images.
+ * Removes links from text.
  *
  * @param {string} text The text string to analyze.
  *
- * @returns {boolean} True if the text consists only of images, false otherwise.
+ * @returns {string} The text with links stripped away.
  */
-function paragraphConsistsOfImagesOnly( text ) {
+function removeLinksFromText( text ) {
+	const anchors = getAnchorsFromText( text );
+	if ( anchors.length > 0 ) {
+		anchors.forEach( function( anchor ) {
+			text = text.replace( anchor, "" );
+		} );
+	}
+
+	return text;
+}
+
+
+/**
+ * Removes images from text.
+ *
+ * @param {string} text The text string to analyze.
+ *
+ * @returns {string} The text with images stripped away.
+ */
+function removeImagesFromText( text ) {
 	const images = imageInText( text );
-	if ( images.length < 1 ) {
+	const imageTags = matchStringWithRegex( text, "</img>" );
+
+	if ( images.length > 0 ) {
+		images.forEach( function( image ) {
+			text = text.replace( image, "" );
+		} );
+
+		imageTags.forEach( function( imageTag ) {
+			text = text.replace( imageTag, "" );
+		} );
+	}
+
+	return text;
+}
+
+
+/**
+ * Checks if the paragraph has no text.
+ *
+ * @param {string} text The text string to analyze.
+ *
+ * @returns {boolean} True if the paragraph has no text, false otherwise.
+ */
+function paragraphHasNoText( text ) {
+	// Strip links and check if paragraph consists of links only
+	text = removeLinksFromText( text );
+	if ( text === "" ) {
+		return true;
+	}
+
+	text = removeImagesFromText( text );
+	if ( text === "" ) {
+		return true;
+	}
+
+	// Remove empty divisions from the text
+	const emptyDivisions = findEmptyDivisions( text );
+	if ( emptyDivisions.length < 1 ) {
 		return false;
 	}
 
-	images.forEach( function( image ) {
-		text = text.replace( image, "" );
+	emptyDivisions.forEach( function( emptyDivision ) {
+		text = text.replace( emptyDivision, "" );
 	} );
 
 	return text === "";
@@ -53,8 +112,7 @@ export default function( paper, researcher ) {
 
 	let paragraphs = matchParagraphs( paper.getText() );
 	paragraphs = reject( paragraphs, isEmpty );
-
-	paragraphs = reject( paragraphs, paragraphConsistsOfImagesOnly )[ 0 ] || "";
+	paragraphs = reject( paragraphs, paragraphHasNoText )[ 0 ] || "";
 
 	const result = {
 		foundInOneSentence: false,

@@ -491,7 +491,7 @@ App.prototype.constructI18n = function( translations ) {
  * @returns {void}
  */
 App.prototype.registerCustomDataCallback = function( callback ) {
-	if( ! this.callbacks.custom ) {
+	if ( ! this.callbacks.custom ) {
 		this.callbacks.custom = [];
 	}
 
@@ -735,11 +735,11 @@ App.prototype.runKeywordAnalysis = function() {
 		this.seoAssessor.assess( this.paper );
 		const overallSeoScore = this.seoAssessor.calculateOverallScore();
 
-		if( ! isUndefined( this.callbacks.updatedKeywordsResults ) ) {
+		if ( ! isUndefined( this.callbacks.updatedKeywordsResults ) ) {
 			this.callbacks.updatedKeywordsResults( this.seoAssessor.results, overallSeoScore );
 		}
 
-		if( ! isUndefined( this.callbacks.saveScores ) ) {
+		if ( ! isUndefined( this.callbacks.saveScores ) ) {
 			this.callbacks.saveScores( overallSeoScore, this.seoAssessorPresenter );
 		}
 	}
@@ -755,11 +755,11 @@ App.prototype.runContentAnalysis = function() {
 		this.contentAssessor.assess( this.paper );
 		const overallContentScore = this.contentAssessor.calculateOverallScore();
 
-		if( ! isUndefined( this.callbacks.updatedContentResults ) ) {
+		if ( ! isUndefined( this.callbacks.updatedContentResults ) ) {
 			this.callbacks.updatedContentResults( this.contentAssessor.results, overallContentScore );
 		}
 
-		if( ! isUndefined( this.callbacks.saveContentScore ) ) {
+		if ( ! isUndefined( this.callbacks.saveContentScore ) ) {
 			this.callbacks.saveContentScore( overallContentScore, this.contentAssessorPresenter );
 		}
 	}
@@ -936,10 +936,10 @@ App.prototype.disableMarkers = function() {
  * @returns {void}
  */
 App.prototype._renderAnalysisResults = function() {
-	if( this.config.contentAnalysisActive && ! isUndefined( this.contentAssessorPresenter ) ) {
+	if ( this.config.contentAnalysisActive && ! isUndefined( this.contentAssessorPresenter ) ) {
 		this.contentAssessorPresenter.renderIndividualRatings();
 	}
-	if( this.config.keywordAnalysisActive && ! isUndefined( this.seoAssessorPresenter ) ) {
+	if ( this.config.keywordAnalysisActive && ! isUndefined( this.seoAssessorPresenter ) ) {
 		this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
 		this.seoAssessorPresenter.render();
 	}

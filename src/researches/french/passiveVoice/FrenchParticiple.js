@@ -50,9 +50,9 @@ var checkIrregular = function() {
  * @returns {boolean} Returns true if no exception is found.
  */
 FrenchParticiple.prototype.isPassive = function() {
-	let sentencePart = this.getSentencePart();
-	let participleIndex = sentencePart.indexOf( this.getParticiple() );
-	let language = this.getLanguage();
+	const sentencePart = this.getSentencePart();
+	const participleIndex = sentencePart.indexOf( this.getParticiple() );
+	const language = this.getLanguage();
 
 	// Only check precedence exceptions for irregular participles.
 	if ( checkIrregular.call( this ) ) {
@@ -73,7 +73,7 @@ FrenchParticiple.prototype.isPassive = function() {
  * @returns {Array} Returns an array with all adjective and verb participle exceptions.
  */
 var getExceptionsParticiplesAdjectivesVerbsRegexes = memoize( function() {
-	let exceptionsParticiplesAdjectivesVerbsRegexes = [];
+	const exceptionsParticiplesAdjectivesVerbsRegexes = [];
 	forEach( exceptionsParticiplesAdjectivesVerbs, function( exceptionParticiplesAdjectivesVerbs ) {
 		exceptionsParticiplesAdjectivesVerbsRegexes.push( new RegExp( "^" + exceptionParticiplesAdjectivesVerbs + "(e|s|es)?$", "ig" ) );
 	} );
@@ -86,7 +86,7 @@ var getExceptionsParticiplesAdjectivesVerbsRegexes = memoize( function() {
  * @returns {Array} Returns an array with all noun participle exceptions.
  */
 var getExceptionsParticiplesNounsRegexes = memoize( function() {
-	let exceptionsParticiplesNounsRegexes = [];
+	const exceptionsParticiplesNounsRegexes = [];
 
 	// Nouns starting with a vowel are checked with -s suffix and l' and d' prefixes.
 	forEach( exceptionsParticiplesNounsVowel, function( exceptionParticipleNounVowel ) {
@@ -117,7 +117,7 @@ var checkParticipleExceptionRegexes = function( participleExceptionRegexes ) {
 		}
 	} );
 
-	if( match.length > 0 ) {
+	if ( match.length > 0 ) {
 		return true;
 	}
 

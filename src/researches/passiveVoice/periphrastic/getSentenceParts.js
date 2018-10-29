@@ -111,9 +111,9 @@ const languageVariables = {
  * @param {string} sentence The sentence to get the active verbs from.
  * @returns {Array} The array with valid matches.
  */
-let getVerbsEndingInIng = function( sentence ) {
+const getVerbsEndingInIng = function( sentence ) {
 	// Matches the sentences with words ending in ing.
-	let matches = sentence.match( verbEndingInIngRegex ) || [];
+	const matches = sentence.match( verbEndingInIngRegex ) || [];
 	// Filters out words ending in -ing that aren't verbs.
 	return filter( matches, function( match ) {
 		return ! includes( ingExclusionArray, stripSpaces( match ) );
@@ -127,10 +127,10 @@ let getVerbsEndingInIng = function( sentence ) {
  * @param {string} language The language for which to get the stop characters.
  * @returns {Array} The array with stop characters.
  */
-let getStopCharacters = function( sentence, language ) {
+const getStopCharacters = function( sentence, language ) {
 	const stopCharacterRegex = languageVariables[ language ].stopCharacterRegex;
 	let match;
-	let matches = [];
+	const matches = [];
 
 	stopCharacterRegex.lastIndex = 0;
 
@@ -154,8 +154,8 @@ let getStopCharacters = function( sentence, language ) {
  *
  * @returns {Array} The filtered list of auxiliary indices.
  */
-let auxiliaryPrecedenceExceptionFilter = function( text, auxiliaryMatches, language ) {
-	let directPrecedenceExceptionMatches = getWordIndices( text, languageVariables[ language ].directPrecedenceExceptionRegex );
+const auxiliaryPrecedenceExceptionFilter = function( text, auxiliaryMatches, language ) {
+	const directPrecedenceExceptionMatches = getWordIndices( text, languageVariables[ language ].directPrecedenceExceptionRegex );
 
 	forEach( auxiliaryMatches, function( auxiliaryMatch ) {
 		if ( includesIndex( directPrecedenceExceptionMatches, auxiliaryMatch.index ) ) {
@@ -176,9 +176,9 @@ let auxiliaryPrecedenceExceptionFilter = function( text, auxiliaryMatches, langu
  * @param {string} language The language for which to filter the auxiliaries.
  * @returns {Array} The filtered list of auxiliary indices.
  */
-let followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches, language ) {
-	let followingAuxiliaryExceptionRegex = languageVariables[ language ].followingAuxiliaryExceptionRegex;
-	let followingAuxiliaryExceptionMatches = getWordIndices( text, followingAuxiliaryExceptionRegex );
+const followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches, language ) {
+	const followingAuxiliaryExceptionRegex = languageVariables[ language ].followingAuxiliaryExceptionRegex;
+	const followingAuxiliaryExceptionMatches = getWordIndices( text, followingAuxiliaryExceptionRegex );
 
 	forEach( auxiliaryMatches, function( auxiliaryMatch ) {
 		if ( followsIndex( followingAuxiliaryExceptionMatches, auxiliaryMatch ) ) {
@@ -198,8 +198,8 @@ let followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches, langua
  * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
  * @returns {Array} The filtered list of auxiliary indices.
  */
-let elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches ) {
-	let elisionAuxiliaryExceptionMatches = getWordIndices( text, elisionAuxiliaryExceptionRegex );
+const elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches ) {
+	const elisionAuxiliaryExceptionMatches = getWordIndices( text, elisionAuxiliaryExceptionRegex );
 
 	forEach( auxiliaryMatches, function( auxiliaryMatch ) {
 		if ( includesIndex( elisionAuxiliaryExceptionMatches, auxiliaryMatch.index, false ) ) {
@@ -222,7 +222,7 @@ let elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches ) {
  * @param {string} language The language for which to match the sentence breakers.
  * @returns {Array} The array with valid indices to use for determining sentence parts.
  */
-let getSentenceBreakers = function( sentence, language ) {
+const getSentenceBreakers = function( sentence, language ) {
 	sentence = sentence.toLocaleLowerCase();
 	const stopwords = languageVariables[ language ].stopwords;
 	const auxiliaries = languageVariables[ language ].auxiliaries;
@@ -232,7 +232,7 @@ let getSentenceBreakers = function( sentence, language ) {
 	let indices;
 
 	// Concat all indices arrays, filter them and sort them.
-	switch( language ) {
+	switch ( language ) {
 		case "fr":
 			// Filters auxiliaries matched in the sentence based on a precedence exception filter.
 			auxiliaryIndices = auxiliaryPrecedenceExceptionFilter( sentence, auxiliaryIndices, "fr" );
@@ -267,18 +267,18 @@ let getSentenceBreakers = function( sentence, language ) {
  * @param {string} language The language for which to match the auxiliaries.
  * @returns {Array} All formatted matches from the sentence part.
  */
-let getAuxiliaryMatches = function( sentencePart, language ) {
+const getAuxiliaryMatches = function( sentencePart, language ) {
 	const auxiliaryRegex = languageVariables[ language ].auxiliaryRegex;
-	let auxiliaryMatches = sentencePart.match( auxiliaryRegex ) || [];
+	const auxiliaryMatches = sentencePart.match( auxiliaryRegex ) || [];
 
-	switch( language ) {
+	switch ( language ) {
 		case "fr":
 		case "es":
 		case "it":
 			// An array with the matched auxiliaries and their indices.
 			var auxiliaryMatchIndices = getIndicesOfList( auxiliaryMatches, sentencePart );
 
-			if( ( language ===  "fr" ) || ( language === "it" ) ) {
+			if ( ( language ===  "fr" ) || ( language === "it" ) ) {
 				// Filters auxiliaries matched in the sentence part based on a precedence exception filter.
 				auxiliaryMatchIndices = auxiliaryPrecedenceExceptionFilter( sentencePart, auxiliaryMatchIndices, language );
 			}
@@ -310,10 +310,10 @@ let getAuxiliaryMatches = function( sentencePart, language ) {
  * @param {string} language The language for which to get the sentence parts.
  * @returns {Array} The array with all parts of a sentence that have an auxiliary.
  */
-let getSentenceParts = function( sentence, language ) {
-	let sentenceParts = [];
+const getSentenceParts = function( sentence, language ) {
+	const sentenceParts = [];
 	const auxiliaryRegex = languageVariables[ language ].auxiliaryRegex;
-	let SentencePart = languageVariables[ language ].SentencePart;
+	const SentencePart = languageVariables[ language ].SentencePart;
 
 	sentence = normalizeSingleQuotes( sentence );
 
@@ -322,7 +322,7 @@ let getSentenceParts = function( sentence, language ) {
 		return sentenceParts;
 	}
 
-	let indices = getSentenceBreakers( sentence, language );
+	const indices = getSentenceBreakers( sentence, language );
 	// Get the words after the found auxiliary.
 	for ( let i = 0; i < indices.length; i++ ) {
 		let endIndex = sentence.length;
@@ -331,9 +331,9 @@ let getSentenceParts = function( sentence, language ) {
 		}
 
 		// Cut the sentence from the current index to the endIndex (start of next breaker, of end of sentence).
-		let sentencePart = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
+		const sentencePart = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
 
-		let auxiliaryMatches = getAuxiliaryMatches( sentencePart, language );
+		const auxiliaryMatches = getAuxiliaryMatches( sentencePart, language );
 		// If a sentence part doesn't have an auxiliary, we don't need it, so it can be filtered out.
 		if ( auxiliaryMatches.length !== 0 ) {
 			sentenceParts.push( new SentencePart( sentencePart, auxiliaryMatches ) );

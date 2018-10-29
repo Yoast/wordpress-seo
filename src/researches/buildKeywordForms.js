@@ -74,7 +74,7 @@ const buildForms = function( keyphrase, language, morphologyData ) {
 
 	const words = filterFunctionWords( getWords( keyphrase ), language );
 
-	let forms = [];
+	const forms = [];
 
 	const getForms = getFormsForLanguage[ language ];
 	/*
@@ -112,8 +112,8 @@ const buildForms = function( keyphrase, language, morphologyData ) {
 const collectKeyphraseAndSynonymsForms = function( keyphrase, synonyms, language = "en", morphologyData ) {
 	const synonymsSplit = parseSynonyms( synonyms );
 
-	let keyphraseForms = buildForms( keyphrase, language, morphologyData );
-	let synonymsForms = synonymsSplit.map( synonym => buildForms( synonym, language, morphologyData ) );
+	const keyphraseForms = buildForms( keyphrase, language, morphologyData );
+	const synonymsForms = synonymsSplit.map( synonym => buildForms( synonym, language, morphologyData ) );
 
 	return {
 		keyphraseForms: keyphraseForms,

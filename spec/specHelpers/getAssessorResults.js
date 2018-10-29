@@ -6,9 +6,9 @@
  * @returns {Array} An array with names of all assessments that appeared in the results.
  */
 export default function( results ) {
-	let assessments = [];
+	const assessments = [];
 
-	for ( let result of results ) {
+	for ( const result of results ) {
 		assessments.push( result._identifier );
 	}
 

@@ -2,17 +2,17 @@ import UrlStructure from "../../src/stringProcessing/urlStructure";
 
 describe( "UrlStructure", () => {
 	it( "accepts a url structure", () => {
-		let expected = "http://example.org/structure/";
-		let input = expected;
+		const expected = "http://example.org/structure/";
+		const input = expected;
 
-		let urlStructure = new UrlStructure( input );
+		const urlStructure = new UrlStructure( input );
 
 		expect( urlStructure.getStructure() ).toBe( expected );
 	} );
 
 	describe( "parseUrl", () => {
 		it( "parses a URL and builds a data structure from it", () => {
-			let expected = [
+			const expected = [
 				{
 					type: "static",
 					value: "http://example.org/",
@@ -32,18 +32,18 @@ describe( "UrlStructure", () => {
 					name: "another",
 				},
 			];
-			let input = "http://example.org/%%placeholder%%/staticstuff/%%another%%";
+			const input = "http://example.org/%%placeholder%%/staticstuff/%%another%%";
 
-			let urlStructure = UrlStructure.fromUrl( input );
+			const urlStructure = UrlStructure.fromUrl( input );
 
 			expect( urlStructure.getStructure() ).toEqual( expected );
 		} );
 
 		it( "parses an empty URL as an empty data structure", () => {
-			let expected = [];
-			let input = "";
+			const expected = [];
+			const input = "";
 
-			let urlStructure = UrlStructure.fromUrl( input );
+			const urlStructure = UrlStructure.fromUrl( input );
 
 			expect( urlStructure.getStructure() ).toEqual( expected );
 		} );
@@ -51,37 +51,37 @@ describe( "UrlStructure", () => {
 
 	describe( "buildUrl", () => {
 		it( "fills a URL structure with the data", () => {
-			let expected = "http://example.org/filled/";
-			let input = { placeholder: "filled" };
-			let urlStructure = UrlStructure.fromUrl( "http://example.org/%%placeholder%%/" );
+			const expected = "http://example.org/filled/";
+			const input = { placeholder: "filled" };
+			const urlStructure = UrlStructure.fromUrl( "http://example.org/%%placeholder%%/" );
 
-			let actual = urlStructure.buildUrl( input );
+			const actual = urlStructure.buildUrl( input );
 
 			expect( actual ).toBe( expected );
 		} );
 
 		it( "throws an error when data is missing", () => {
-			let input = {};
-			let urlStructure = UrlStructure.fromUrl( "http://example.org/%%placeholder%%/" );
+			const input = {};
+			const urlStructure = UrlStructure.fromUrl( "http://example.org/%%placeholder%%/" );
 
 			expect( urlStructure.buildUrl.bind( urlStructure, input ) ).toThrow();
 		} );
 
 		it( "builds an empty structure", () => {
-			let input = {};
-			let expected = "";
-			let urlStructure = UrlStructure.fromUrl( "" );
+			const input = {};
+			const expected = "";
+			const urlStructure = UrlStructure.fromUrl( "" );
 
 			expect( urlStructure.buildUrl( input ) ).toBe( expected );
 		} );
 
 		it( "ignores special characters", () => {
-			let specialCharacters = ",./;'[]\-=<>?:\"{}|_+!@#$%^&*()`~";
-			let expected = `http://example.org/${specialCharacters}/`;
-			let input = {
+			const specialCharacters = ",./;'[]\-=<>?:\"{}|_+!@#$%^&*()`~";
+			const expected = `http://example.org/${specialCharacters}/`;
+			const input = {
 				placeholder: specialCharacters,
 			};
-			let urlStructure = UrlStructure.fromUrl( "http://example.org/%%placeholder%%/" );
+			const urlStructure = UrlStructure.fromUrl( "http://example.org/%%placeholder%%/" );
 
 			expect( urlStructure.buildUrl( input ) ).toBe( expected );
 		} );

@@ -17,13 +17,13 @@ import { includes } from "lodash-es";
 import { intersection } from "lodash-es";
 import { isEmpty } from "lodash-es";
 
-let densityLowerLimit = 0;
-let densityUpperLimit = 0.03;
-let relevantWordLimit = 100;
-let wordCountLowerLimit = 200;
+const densityLowerLimit = 0;
+const densityUpperLimit = 0.03;
+const relevantWordLimit = 100;
+const wordCountLowerLimit = 200;
 
 // First four characters: en dash, em dash, hyphen-minus, and copyright sign.
-let specialCharacters = [ "–", "—", "-", "\u00a9", "#", "%", "/", "\\", "$", "€", "£", "*", "•", "|", "→", "←", "}", "{", "//", "||", "\u200b" ];
+const specialCharacters = [ "–", "—", "-", "\u00a9", "#", "%", "/", "\\", "$", "€", "£", "*", "•", "|", "→", "←", "}", "{", "//", "||", "\u200b" ];
 
 /**
  * Returns the word combinations for the given text based on the combination size.
@@ -34,7 +34,7 @@ let specialCharacters = [ "–", "—", "-", "\u00a9", "#", "%", "/", "\\", "$",
  * @returns {WordCombination[]} All word combinations for the given text.
  */
 function getWordCombinations( text, combinationSize, functionWords ) {
-	let sentences = getSentences( text );
+	const sentences = getSentences( text );
 
 	let words, combination;
 
@@ -62,10 +62,10 @@ function getWordCombinations( text, combinationSize, functionWords ) {
  * @returns {WordCombination[]} Word combinations with their respective occurrences.
  */
 function calculateOccurrences( wordCombinations ) {
-	let occurrences = {};
+	const occurrences = {};
 
 	forEach( wordCombinations, function( wordCombination ) {
-		let combination = wordCombination.getCombination();
+		const combination = wordCombination.getCombination();
 
 		if ( ! has( occurrences, combination ) ) {
 			occurrences[ combination ] = wordCombination;
@@ -100,7 +100,7 @@ function getRelevantCombinations( wordCombinations ) {
  */
 function sortCombinations( wordCombinations ) {
 	wordCombinations.sort( function( combinationA, combinationB ) {
-		let difference = combinationB.getRelevance() - combinationA.getRelevance();
+		const difference = combinationB.getRelevance() - combinationA.getRelevance();
 		// The combination with the highest relevance comes first.
 		if ( difference !== 0 ) {
 			return difference;
@@ -159,8 +159,8 @@ function filterFunctionWordsAtBeginning( wordCombinations, functionWords ) {
  */
 function filterFunctionWordsAtEnding( wordCombinations, functionWords ) {
 	return wordCombinations.filter( function( combination ) {
-		let words = combination.getWords();
-		let lastWordIndex = words.length - 1;
+		const words = combination.getWords();
+		const lastWordIndex = words.length - 1;
 		return ! includes( functionWords, words[ lastWordIndex ] );
 	} );
 }
@@ -204,7 +204,7 @@ function filterOnDensity( wordCombinations, wordCount, densityLowerLimit, densit
  */
 function filterEndingWith( wordCombinations, str, exceptions ) {
 	wordCombinations = wordCombinations.filter( function( combination ) {
-		let combinationstr = combination.getCombination();
+		const combinationstr = combination.getCombination();
 		for ( let i = 0; i < exceptions.length; i++ ) {
 			if ( combinationstr.endsWith( exceptions[ i ] ) ) {
 				return true;
@@ -244,7 +244,7 @@ function filterCombinations( combinations, functionWords, language ) {
 	combinations = filterFunctionWordsAnywhere( combinations, specialCharacters );
 	combinations = filterOneCharacterWordCombinations( combinations );
 	combinations = filterFunctionWords( combinations, functionWords );
-	if( language === "en" ) {
+	if ( language === "en" ) {
 		combinations = filterEndingWith( combinations, "'s", [] );
 	}
 	return combinations;
@@ -262,10 +262,10 @@ function getRelevantWords( text, locale ) {
 		language = "en";
 	}
 
-	let functionWords = functionWordLists[ language ];
+	const functionWords = functionWordLists[ language ];
 
-	let words = getWordCombinations( text, 1, functionWords.all );
-	let wordCount = words.length;
+	const words = getWordCombinations( text, 1, functionWords.all );
+	const wordCount = words.length;
 
 	let oneWordCombinations = getRelevantCombinations(
 		calculateOccurrences( words )
@@ -274,16 +274,16 @@ function getRelevantWords( text, locale ) {
 	sortCombinations( oneWordCombinations );
 	oneWordCombinations = take( oneWordCombinations, 100 );
 
-	let oneWordRelevanceMap = {};
+	const oneWordRelevanceMap = {};
 
 	forEach( oneWordCombinations, function( combination ) {
 		oneWordRelevanceMap[ combination.getCombination() ] = combination.getRelevance( functionWords );
 	} );
 
-	let twoWordCombinations = calculateOccurrences( getWordCombinations( text, 2, functionWords.all ) );
-	let threeWordCombinations = calculateOccurrences( getWordCombinations( text, 3, functionWords.all ) );
-	let fourWordCombinations = calculateOccurrences( getWordCombinations( text, 4, functionWords.all ) );
-	let fiveWordCombinations = calculateOccurrences( getWordCombinations( text, 5, functionWords.all ) );
+	const twoWordCombinations = calculateOccurrences( getWordCombinations( text, 2, functionWords.all ) );
+	const threeWordCombinations = calculateOccurrences( getWordCombinations( text, 3, functionWords.all ) );
+	const fourWordCombinations = calculateOccurrences( getWordCombinations( text, 4, functionWords.all ) );
+	const fiveWordCombinations = calculateOccurrences( getWordCombinations( text, 5, functionWords.all ) );
 
 	let combinations = oneWordCombinations.concat(
 		twoWordCombinations,

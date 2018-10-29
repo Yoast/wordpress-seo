@@ -515,9 +515,92 @@ describe( "tests for edge cases", function() {
 		} );
 	} );
 
+	it( "skips the first paragraph if there is nothing but an image there (in a div)", function() {
+		const paper = new Paper(
+			"<div style=\"text-align: center;\"><img src=\"https://www.test.com/test.jpg\" alt=\"an alt tag\"></div>" +
+			"<div>A sentence with a keyword</div>", {
+				keyword: "keyword",
+				synonyms: "",
+			}
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "skips the first paragraph if there is nothing but an image there (in a div), also with a href", function() {
+		const paper = new Paper(
+			"<div style=\"text-align: center;\"> <a href=\"https://test.test.com/test\"> <img src=\"https://www.test.com/test.jpg\" alt=\"an alt tag\"> </a> </div>" +
+			"<div>A sentence with a keyword</div>", {
+				keyword: "keyword",
+				synonyms: "",
+			}
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "does not find keyword in the link in the first paragraph", function() {
+		const paper = new Paper(
+			"<a href=\"https://test.keyword.com/test\"> keyword <img src=\"https://www.keyword.com/test.jpg\" alt=\"a keyword tag\"> keyword </a>", {
+				keyword: "keyword",
+				synonyms: "",
+			}
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+
+	it( "does not find keyword in the alt tag in the first paragraph if there is nothing but an image there (in a div)", function() {
+		const paper = new Paper(
+			"<div style=\"text-align: center;\"><img src=\"https://www.test.com/test.jpg\" alt=\"an alt tag keyword\"></div>", {
+				keyword: "keyword",
+				synonyms: "",
+			}
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+
+	it( "does not find keyword in the alt tag in the first paragraph if there is nothing but an image there (in a link in a div)", function() {
+		const paper = new Paper(
+			"<div style=\"text-align: center;\"><a href=\"https://test.keyword.com/test\"> keyword <img src=\"https://www.keyword.com/test.jpg\" alt=\"a keyword tag\"> keyword </a></div>", {
+				keyword: "keyword",
+				synonyms: "",
+			}
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+
+
 	it( "skips paragraphs until there is text", function() {
 		const paper = new Paper(
-			"<p><img class=\"alignnone size-medium wp-image-95\" src=\"test.png\" alt=\"image1\" width=\"300\" height=\"36\" /></p>" +
+			"<p><img class=\"alignnone size-medium wp-image-95\" src=\"test.png\" alt=\"image1\" width=\"300\" height=\"36\"></p>" +
 			"<p>A sentence with a keyword</p>", {
 				keyword: "keyword",
 				synonyms: "",

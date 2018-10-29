@@ -29,7 +29,7 @@ const getTooLongParagraphs = function( paragraphsLength  ) {
  * @param {object} i18n The i18n object used for translations.
  * @returns {{score: number, text: string }} the assessmentResult.
  */
-let calculateParagraphLengthResult = function( paragraphsLength, tooLongParagraphs, i18n ) {
+const calculateParagraphLengthResult = function( paragraphsLength, tooLongParagraphs, i18n ) {
 	let score;
 	const urlTitle = createAnchorOpeningTag( "https://yoa.st/35d" );
 	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35e" );
@@ -38,7 +38,7 @@ let calculateParagraphLengthResult = function( paragraphsLength, tooLongParagrap
 		return {};
 	}
 
-	let longestParagraphLength = paragraphsLength[ 0 ].wordCount;
+	const longestParagraphLength = paragraphsLength[ 0 ].wordCount;
 
 	if ( longestParagraphLength <= 150 ) {
 		// Green indicator.

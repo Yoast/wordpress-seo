@@ -1,19 +1,19 @@
 import transitionWordsFactory from "./transitionWords.js";
-let transitionWords = transitionWordsFactory().singleWords;
+const transitionWords = transitionWordsFactory().singleWords;
 
 /**
  * Returns an object with exceptions for the prominent words researcher.
  * @returns {Object} The object filled with exception arrays.
  */
 
-let articles = [ "il", "i", "la", "le", "lo", "gli", "un", "uno", "una" ];
+const articles = [ "il", "i", "la", "le", "lo", "gli", "un", "uno", "una" ];
 
-let cardinalNumerals = [ "due", "tre", "quattro", "cinque", "sette", "otto", "nove", "dieci", "undici", "dodici",
+const cardinalNumerals = [ "due", "tre", "quattro", "cinque", "sette", "otto", "nove", "dieci", "undici", "dodici",
 	"tredici", "quattordici", "quindici", "sedici", "diciassette", "diciotto", "diciannove", "venti", "cento", "mille", "mila",
 	"duemila", "tremila", "quattromila", "cinquemila", "seimila", "settemila", "ottomila", "novemila",
 	"diecimila", "milione", "milioni", "miliardo", "miliardi" ];
 
-let ordinalNumerals = [ "prima", "primi", "prime", "secondo", "seconda", "secondi", "seconde", "terzo", "terza",
+const ordinalNumerals = [ "prima", "primi", "prime", "secondo", "seconda", "secondi", "seconde", "terzo", "terza",
 	"terzi", "terze", "quarto", "quarta", "quarti", "quarte", "quinto", "quinta", "quinti", "quinte", "sesto", "sesta",
 	"sesti", "seste", "settimo", "settima", "settimi", "settime", "ottavo", "ottava", "ottavi", "ottave", "nono", "nona",
 	"noni", "none", "decimo", "decima", "decimi", "decime", "undicesimo", "undicesima", "undicesimi", "undicesime",
@@ -23,24 +23,24 @@ let ordinalNumerals = [ "prima", "primi", "prime", "secondo", "seconda", "second
 	"diciassettesima", "diciassettesimi", "diciassettesime", "diciannovesimo", "diciannovesima", "diciannovesimi",
 	"diciannovesime", "ventesimo", "ventesima", "ventesimi", "ventesime" ];
 
-let personalPronounsNominative = [ "io", "tu", "egli", "esso", "lui", "ella", "essa", "lei", "noi", "voi",
+const personalPronounsNominative = [ "io", "tu", "egli", "esso", "lui", "ella", "essa", "lei", "noi", "voi",
 	"essi", "esse", "loro" ];
 
 // 'La' and 'le' are already included in the list of articles.
-let personalPronounsAccusative = [ "mi", "ti", "si", "ci", "vi", "li", "me", "te", "se",
+const personalPronounsAccusative = [ "mi", "ti", "si", "ci", "vi", "li", "me", "te", "se",
 	"glie", "glielo", "gliela", "glieli", "gliele", "gliene", "ce", "ve" ];
 
-let personalPronounsPrepositional = [ "sé" ];
+const personalPronounsPrepositional = [ "sé" ];
 
-let demonstrativePronouns = [ "ciò", "codesto", "codesta", "codesti", "codeste", "colei", "colui", "coloro",
+const demonstrativePronouns = [ "ciò", "codesto", "codesta", "codesti", "codeste", "colei", "colui", "coloro",
 	"costei", "costui", "costoro", "medesimo", "medesima", "medesimi", "medesime", "questo", "questa",
 	"questi", "queste", "quello", "quella", "quelli", "quelle", "quel", "quei", "quegli" ];
 
-let possessivePronouns = [ "mio", "mia", "miei", "mie", "tuo", "tua", "tuoi", "tue", "suo", "sua", "suoi", "sue",
+const possessivePronouns = [ "mio", "mia", "miei", "mie", "tuo", "tua", "tuoi", "tue", "suo", "sua", "suoi", "sue",
 	"nostro", "nostra", "nostri", "nostre", "vostro", "vostra", "vostri", "vostre" ];
 
 // Already in the list of transition words: appena.
-let quantifiers = [ "affatto", "alcun", "alcuna", "alcune", "alcuni", "alcuno", "bastantemente",
+const quantifiers = [ "affatto", "alcun", "alcuna", "alcune", "alcuni", "alcuno", "bastantemente",
 	"grandemente", "massimamente", "meno", "minimamente", "molta", "molte", "molti", "moltissimo",
 	"molto", "nessun", "nessuna", "nessuno", "niente", "nulla", "ogni", "più", "po'", "poca", "poche", "pochi", "poco",
 	"pochissime", "pochissimi", "qualche", "qualsiasi", "qualunque", "quintali", "rara", "rarissima", "rarissimo", "raro",
@@ -49,34 +49,34 @@ let quantifiers = [ "affatto", "alcun", "alcuna", "alcune", "alcuni", "alcuno", 
 	"tutto" ];
 
 // Already in the quantifier list: alcuno, molto, nessuno, poco, taluno tanto, troppo, tutto, nulla, niente.
-let indefinitePronouns = [ "alcunché", "alcunchè", "altro", "altra", "altri", "altre", "certa", "certi", "certe",
+const indefinitePronouns = [ "alcunché", "alcunchè", "altro", "altra", "altri", "altre", "certa", "certi", "certe",
 	"checché", "checchè", "chicchessia", "chiunque", "ciascuno", "ciascuna", "ciascun", "diverso", "diversa", "diversi",
 	"diverse", "parecchio", "parecchia", "parecchi", "parecchie", "qualcosa", "qualcuno", "qualcuna", "vario", "varia",
 	"vari", "varie" ];
 
-let interrogativeDeterminers = [ "che", "cosa", "cui", "qual", "quale", "quali" ];
+const interrogativeDeterminers = [ "che", "cosa", "cui", "qual", "quale", "quali" ];
 
-let interrogativePronouns = [ "chi", "quanta", "quante", "quanti", "quanto" ];
+const interrogativePronouns = [ "chi", "quanta", "quante", "quanti", "quanto" ];
 
-let interrogativeAdverbs = [ "com'è", "com'era", "com'erano", "donde", "d'onde", "dove", "dov'è", "dov'era", "dov'erano",
+const interrogativeAdverbs = [ "com'è", "com'era", "com'erano", "donde", "d'onde", "dove", "dov'è", "dov'era", "dov'erano",
 	"dovunque" ];
 
 // 'Ci' and 'vi' are already part of the list of personal pronouns.
-let pronominalAdverbs = [ "ne" ];
+const pronominalAdverbs = [ "ne" ];
 
 // 'Via' not included because of primary meaning 'street'.
-let locativeAdverbs = [ "accanto", "altrove", "attorno", "dappertutto", "giù", "là", "laggiù", "lassù", "lì",  "ovunque",
+const locativeAdverbs = [ "accanto", "altrove", "attorno", "dappertutto", "giù", "là", "laggiù", "lassù", "lì",  "ovunque",
 	"qua", "quaggiù", "quassù", "qui" ];
 
 // 'Essere' is already part of the otherAuxiliaries list.
-let filteredPassiveAuxiliaries = [ "vengano", "vengo", "vengono", "veniamo", "veniate", "venimmo", "venisse", "venissero",
+const filteredPassiveAuxiliaries = [ "vengano", "vengo", "vengono", "veniamo", "veniate", "venimmo", "venisse", "venissero",
 	"venissi", "venissimo", "veniste", "venisti", "venite", "veniva", "venivamo", "venivano", "venivate", "venivi",
 	"venivo", "venne", "vennero", "venni", "verrà", "verrai", "verranno", "verrebbe", "verrebbero", "verrei", "verremmo",
 	"verremo", "verreste", "verresti", "verrete", "verrò", "viene", "vieni" ];
 
-let passiveAuxiliariesInfinitive = [ "venire", "venir" ];
+const passiveAuxiliariesInfinitive = [ "venire", "venir" ];
 
-let otherAuxiliaries = [ "abbi", "abbia", "abbiamo", "abbiano", "abbiate", "abbiente", "avemmo", "avendo", "avente",
+const otherAuxiliaries = [ "abbi", "abbia", "abbiamo", "abbiano", "abbiate", "abbiente", "avemmo", "avendo", "avente",
 	"avesse", "avessero", "avessi", "avessimo", "aveste", "avesti", "avete", "aveva", "avevamo", "avevano", "avevate",
 	"avevi", "avevo", "avrà", "avrai", "avranno", "avrebbe", "avrebbero", "avrei", "avremmo", "avremo", "avreste",
 	"avresti", "avrete", "avrò", "avuto", "ebbe", "ebbero", "ebbi", "ha", "hai", "hanno", "ho", "l'abbi", "l'abbia",
@@ -105,28 +105,28 @@ let otherAuxiliaries = [ "abbi", "abbia", "abbiamo", "abbiano", "abbiate", "abbi
 	"staremo", "starete", "starò", "stava", "stavamo", "stavano", "stavate", "stavi", "stavo", "stemmo", "stessero",
 	"stessimo", "steste", "stesti", "stette", "stettero", "stetti", "stia", "stiamo", "stiano", "stiate", "sto" ];
 
-let otherAuxiliariesInfinitive = [ "avere", "l'avere", "aver", "l'aver", "potere", "poter", "volere", "voler", "dovere",
+const otherAuxiliariesInfinitive = [ "avere", "l'avere", "aver", "l'aver", "potere", "poter", "volere", "voler", "dovere",
 	"dover", "sapere", "saper", "solere", "stare", "star" ];
 
-let copula = [ "è", "e'", "era", "erano", "eravamo", "eravate", "eri", "ero", "essendo", "essente", "fosse", "fossero",
+const copula = [ "è", "e'", "era", "erano", "eravamo", "eravate", "eri", "ero", "essendo", "essente", "fosse", "fossero",
 	"fossi", "fossimo", "foste", "fosti", "fu", "fui", "fummo", "furono", "sarà", "sarai", "saranno", "sarebbe", "sarebbero",
 	"sarei", "saremmo", "saremo", "sareste", "saresti", "sarete", "sarò", "sei", "sia", "siamo", "siano", "siate", "siete",
 	"sii", "sono", "stata", "state", "stati", "stato" ];
 
-let copulaInfinitive = [ "essere", "esser" ];
+const copulaInfinitive = [ "essere", "esser" ];
 
 /*
 'Verso' ('towards') not included because it can also mean 'verse'.
 Already in other lists: malgrado, nonostante.
  */
-let prepositions = [ "di", "del", "dello", "della", "dei", "degli", "delle", "a", "ad", "al", "allo", "alla", "ai", "agli",
+const prepositions = [ "di", "del", "dello", "della", "dei", "degli", "delle", "a", "ad", "al", "allo", "alla", "ai", "agli",
 	"alle", "da", "dal", "dallo", "dalla", "dai", "dagli", "dalle", "in", "nel", "nello", "nella", "nei", "negli", "nelle",
 	"con", "col", "collo", "colla", "coi", "cogli", "colle", "su", "sul", "sullo", "sulla", "sui", "sugli", "sulle",
 	"per", "pel", "pello", "pella", "pei", "pegli", "tra", "fra", "attraverso", "circa", "contro", "davanti", "dentro",
 	"dietro", "entro", "escluso", "fuori", "insieme", "intorno", "lontano", "lungo", "mediante", "oltre", "presso", "rasente",
 	"riguardo", "senza", "sopra", "sotto", "tramite", "vicino" ];
 
-let coordinatingConjunctions = [ "e", "ed", "o", "oppure" ];
+const coordinatingConjunctions = [ "e", "ed", "o", "oppure" ];
 
 /* '
 Tale' from 'tale ... quale'.
@@ -134,7 +134,7 @@ Tale' from 'tale ... quale'.
 Already in other lists: vuoi...vuoi, tanto...quanto, quanto...quanto, ora...ora, non solo...ma anche, sia...sia, o...o,
 più...meno, né...né, altrettanto...così, così...come.
  */
-let correlativeConjunctions = [ "tale", "l'uno", "l'altro", "tali", "dall'altra" ];
+const correlativeConjunctions = [ "tale", "l'uno", "l'altro", "tali", "dall'altra" ];
 
 /*
 Already in another list (transition words, interrogative adverbs, numerals, prepositions):
@@ -147,14 +147,14 @@ ogni volta [che], anche se, cosicché, invece, bensì, [al] punto [che].
 Excluded because of primary meaning: dal momento che, allo scopo di, a furia di ('fury', 'haste', 'rage'),
 a forza di ('force'), a condizione che ('condition').
 */
-let subordinatingConjunctions = [ "anziché", "anzichè", "fuorché", "fuorchè", "giacché", "giacchè", "laddove", "modo",
+const subordinatingConjunctions = [ "anziché", "anzichè", "fuorché", "fuorchè", "giacché", "giacchè", "laddove", "modo",
 	"ove", "qualora", "quantunque", "volta" ];
 
 /*
 These verbs are frequently used in interviews to indicate questions and answers.
 Not included: 'legge' ('reads', but also: 'law'), 'letto' ('(has) read', but also: bed), 'precisa' ('states', but also: 'precise').
  */
-let interviewVerbs = [ "dice", "dicono", "diceva", "dicevano", "disse", "dissero", "detto", "domanda", "domandano", "domandava",
+const interviewVerbs = [ "dice", "dicono", "diceva", "dicevano", "disse", "dissero", "detto", "domanda", "domandano", "domandava",
 	"domandavano", "domandò", "domandarono", "domandato", "afferma", "affermato", "aggiunge", "aggiunto", "ammette", "ammesso",
 	"annuncia", "annunciato", "assicura", "assicurato", "chiede", "chiesto", "commentato", "conclude", "concluso", "continua", "continuato",
 	"denuncia", "denunciato", "dichiara", "dichiarato", "esordisce", "esordito", "inizia", "iniziato", "precisato", "prosegue",
@@ -162,7 +162,7 @@ let interviewVerbs = [ "dice", "dicono", "diceva", "dicevano", "disse", "dissero
 	"rimarcato", "rivela", "rivelato", "scandisce", "scandito", "scrive", "scritto", "segnala", "segnalato", "sottolinea", "sottolineato",
 	"spiega", "spiegato" ];
 
-let interviewVerbsInfinitive = [ "affermare", "aggiungere", "ammettere", "annunciare", "assicurare", "chiedere",
+const interviewVerbsInfinitive = [ "affermare", "aggiungere", "ammettere", "annunciare", "assicurare", "chiedere",
 	"commentare", "concludere", "continuare", "denunciare", "dichiarare", "esordire", "iniziare", "precisare", "proseguire",
 	"raccontare", "recitare", "replicare", "rispondere", "rimarcare", "rivelare", "scandire", "scrivere", "segnalare",
 	"sottolineare", "spiegare" ];
@@ -172,23 +172,23 @@ let interviewVerbsInfinitive = [ "affermare", "aggiungere", "ammettere", "annunc
 These transition words were not included in the list for the transition word assessment for various reasons.
 'Appunto' ('just', 'exactly') not included for the second meaning of 'note'.
 */
-let additionalTransitionWords = [ "eventualmente", "forse", "mai", "probabilmente" ];
+const additionalTransitionWords = [ "eventualmente", "forse", "mai", "probabilmente" ];
 
-let intensifiers = [ "addirittura", "assolutamente", "ben", "estremamente", "mica", "nemmeno", "quasi" ];
+const intensifiers = [ "addirittura", "assolutamente", "ben", "estremamente", "mica", "nemmeno", "quasi" ];
 
 // These verbs convey little meaning.
-let delexicalizedVerbs = [ "fa", "fa'", "faccia", "facciamo", "facciano", "facciate", "faccio", "facemmo", "facendo", "facente", "facesse",
+const delexicalizedVerbs = [ "fa", "fa'", "faccia", "facciamo", "facciano", "facciate", "faccio", "facemmo", "facendo", "facente", "facesse",
 	"facessero", "facessi", "facessimo", "faceste", "facesti", "faceva", "facevamo", "facevano", "facevate", "facevi",
 	"facevo", "fai", "fanno", "farà", "farai", "faranno", "farebbe", "farebbero", "farei", "faremmo", "faremo",
 	"fareste", "faresti", "farete", "farò", "fate", "fatto", "fece", "fecero", "feci", "fo" ];
 
-let delexicalizedVerbsInfinitive = [ "fare" ];
+const delexicalizedVerbsInfinitive = [ "fare" ];
 
 /*
 These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
  Keyword combinations containing these adjectives/adverbs are fine.
  */
-let generalAdjectivesAdverbs = [ "anteriore",  "anteriori", "precedente", "precedenti", "facile", "facili", "facilissimo",
+const generalAdjectivesAdverbs = [ "anteriore",  "anteriori", "precedente", "precedenti", "facile", "facili", "facilissimo",
 	"facilissima", "facilissimi", "facilissime", "semplice", "semplici", "semplicissima", "semplicissimo",
 	"semplicissimi", "semplicissime", "semplicemente", "rapido", "rapida", "rapidi", "rapide", "veloce", "veloci", "differente",
 	"difficile", "difficili", "difficilissimo", "difficilissima", "difficilissimi", "difficilissime", "basso", "bassa", "bassi", "basse",
@@ -199,32 +199,32 @@ let generalAdjectivesAdverbs = [ "anteriore",  "anteriori", "precedente", "prece
 	"comunemente", "constantemente", "direttamente", "esattamente", "facilmente", "generalmente", "leggermente", "personalmente",
 	"recentemente", "sinceramente", "solamente", "avanti", "indietro" ];
 
-let generalAdjectivesAdverbsPreceding = [ "nuovo", "nuova", "nuovi", "nuove", "vecchio", "vecchia", "vecchi", "vecchie",
+const generalAdjectivesAdverbsPreceding = [ "nuovo", "nuova", "nuovi", "nuove", "vecchio", "vecchia", "vecchi", "vecchie",
 	"bello", "bella", "belli", "belle", "bellissimo", "bellissima", "bellissimi", "bellissime",
 	"buono", "buona", "buoni", "buone", "buonissimo", "buonissima", "buonissimi", "buonissime", "grande", "grandi",
 	"grandissimo", "grandissima", "grandissimi", "grandissime", "lunga", "lunghi", "lunghe", "piccolo", "piccola", "piccoli",
 	"piccole", "piccolissimo", "piccolissima", "piccolissimi", "piccolissime", "proprio", "propria", "propri", "proprie",
 	"solito", "solita", "soliti", "solite", "stesso", "stessa", "stessi", "stesse" ];
 
-let interjections = [ "accidenti", "acciderba", "ah", "aah", "ahi", "ahia", "ahimé", "bah", "beh", "boh", "ca", "caspita",
+const interjections = [ "accidenti", "acciderba", "ah", "aah", "ahi", "ahia", "ahimé", "bah", "beh", "boh", "ca", "caspita",
 	"chissà", "de'", "diamine", "ecco", "eh", "ehi", "eeh", "ehilà", "ehm", "gna", "ih", "magari", "macché", "macchè",
 	"mah", "mhm", "nca", "neh", "oibò", "oh", "ohe", "ohé", "ohilá", "ohibò", "ohimé", "okay", "ok", "olà", "poh",
 	"pota", "puah", "sorbole", "to'", "toh", "ts", "uff", "uffa", "uh", "uhi" ];
 
 // These words and abbreviations are frequently used in recipes in lists of ingredients.
-let recipeWords = [ "cc", "g", "hg", "hl", "kg", "l", "prs", "pz", "q.b.", "qb", "ta", "tz" ];
+const recipeWords = [ "cc", "g", "hg", "hl", "kg", "l", "prs", "pz", "q.b.", "qb", "ta", "tz" ];
 
-let timeWords = [ "minuto", "minuti", "ora", "ore", "giorno", "giorni", "giornata", "giornate",
+const timeWords = [ "minuto", "minuti", "ora", "ore", "giorno", "giorni", "giornata", "giornate",
 	"settimana", "settimane", "mese", "mesi", "anno", "anni", "oggi", "domani", "ieri", "stamattina", "stanotte",
 	"stasera", "tardi" ];
 
 // Already included in other lists.
-let vagueNouns = [ "aspetto", "aspetti", "caso", "casi", "cose", "idea", "idee", "istanza", "maniera", "oggetto", "oggetti", "parte",
+const vagueNouns = [ "aspetto", "aspetti", "caso", "casi", "cose", "idea", "idee", "istanza", "maniera", "oggetto", "oggetti", "parte",
 	"parti", "persona", "persone", "pezzo", "pezzi", "punto", "punti", "sorta", "sorte", "tema", "temi", "volte" ];
 
-let miscellaneous = [ "sì", "no", "non", "€", "euro", "euros", "ecc", "eccetera" ];
+const miscellaneous = [ "sì", "no", "non", "€", "euro", "euros", "ecc", "eccetera" ];
 
-let titlesPreceding = [ "sig.na", "sig.ra", "sig", "sigg", "dr", "dr.ssa", "dott", "dott.ssa", "prof", "prof.ssa", "gent", "gent.mo",
+const titlesPreceding = [ "sig.na", "sig.ra", "sig", "sigg", "dr", "dr.ssa", "dott", "dott.ssa", "prof", "prof.ssa", "gent", "gent.mo",
 	"gent.mi", "gent.ma", "gent.me", "egr", "egr.i", "egr.ia", "egr.ie", "preg.mo", "preg.mo", "preg.ma", "preg.me", "ill", "ill.mo",
 	"ill.mi", "ill.ma", "ill.me", "cav", "on", "spett" ];
 
