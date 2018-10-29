@@ -1,7 +1,7 @@
 import Participle from "../../../values/Participle.js";
 import checkException from "../../passiveVoice/periphrastic/checkException.js";
-import directPrecedenceException from "../../../stringProcessing/directPrecedenceException";
-import precedenceException from "../../../stringProcessing/precedenceException";
+import directPrecedenceException from "../../../stringProcessing/directPrecedenceExceptionWithoutRegex";
+import precedenceException from "../../../stringProcessing/precedenceExceptionWithoutRegex";
 
 
 /**
@@ -28,11 +28,11 @@ require( "util" ).inherits( SpanishParticiple, Participle );
  */
 SpanishParticiple.prototype.isPassive = function() {
 	let sentencePart = this.getSentencePart();
-	let participleIndex = sentencePart.indexOf( this.getParticiple() );
+	const participle = this.getParticiple();
 	let language = this.getLanguage();
 
-	return ! this.directPrecedenceException( sentencePart, participleIndex, language ) &&
-		! this.precedenceException( sentencePart, participleIndex, language );
+	return ! this.directPrecedenceException( sentencePart, participle, language ) &&
+		! this.precedenceException( sentencePart, participle, language );
 };
 
 SpanishParticiple.prototype.directPrecedenceException = directPrecedenceException;
