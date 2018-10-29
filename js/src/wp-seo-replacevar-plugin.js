@@ -21,6 +21,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		"primary_category",
 		"data_page_title",
 		"data_meta_desc",
+		"excerpt",
 	];
 
 	var placeholders = {};

@@ -1,3 +1,5 @@
+/* global wp */
+
 /* External dependencies */
 import forEach from "lodash/forEach";
 import omit from "lodash/omit";
@@ -199,4 +201,28 @@ export function mapCustomFields( replaceVars, store ) {
 	return omit( {
 		...replaceVars,
 	}, "custom_fields" );
+}
+
+/**
+ * Extracts the excerpt from the given content.
+ *
+ * @param {string} content The content.
+ * @param {number} limit   The amount of characters to extract.
+ *
+ * @returns {string} The generated excerpt.
+ */
+export function excerptFromContent( content, limit = 156 ) {
+	content = wp.sanitize.stripTags( content );
+	content = content.trim();
+
+	// When the content is shorter than 156 characters, use the entire content.
+	if ( content.length <= limit ) {
+		return content;
+	}
+
+	// Retrieves the first 156 chars from the content.
+	content = content.substring( 0, limit );
+
+	// Caps to the last space to have a full last word.
+	return content.substring( 0, content.lastIndexOf( " " ) );
 }
