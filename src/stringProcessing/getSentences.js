@@ -35,25 +35,26 @@ let tokens = [];
 let sentenceTokenizer;
 
 /**
- * Creates a tokenizer to create tokens from a sentence.
+ * Creates a tokenizer.
  *
- * @returns {void}
+ * @param {Array} tokens the empty array of tokens, to be filled by the tokenizer later on.
+ * @returns {{addRule, onText, end}} the tokenizer.
  */
-function createTokenizer() {
-	tokens = [];
-
-	sentenceTokenizer = core( function( token ) {
+function createTokenizer( tokens ) {
+	let tokenizer = core( function( token ) {
 		tokens.push( token );
 	} );
 
-	sentenceTokenizer.addRule( greaterThanContentRegex, "greater-than-sign-content" );
-	sentenceTokenizer.addRule( htmlStartRegex, "html-start" );
-	sentenceTokenizer.addRule( htmlEndRegex, "html-end" );
-	sentenceTokenizer.addRule( blockStartRegex, "block-start" );
-	sentenceTokenizer.addRule( blockEndRegex, "block-end" );
-	sentenceTokenizer.addRule( fullStopRegex, "full-stop" );
-	sentenceTokenizer.addRule( sentenceDelimiterRegex, "sentence-delimiter" );
-	sentenceTokenizer.addRule( sentenceRegex, "sentence" );
+	tokenizer.addRule( greaterThanContentRegex, "greater-than-sign-content" );
+	tokenizer.addRule( htmlStartRegex, "html-start" );
+	tokenizer.addRule( htmlEndRegex, "html-end" );
+	tokenizer.addRule( blockStartRegex, "block-start" );
+	tokenizer.addRule( blockEndRegex, "block-end" );
+	tokenizer.addRule( fullStopRegex, "full-stop" );
+	tokenizer.addRule( sentenceDelimiterRegex, "sentence-delimiter" );
+	tokenizer.addRule( sentenceRegex, "sentence" );
+
+	return tokenizer;
 }
 
 /**
@@ -118,7 +119,8 @@ function isPunctuation( character ) {
  * @returns {Array} An array of tokens.
  */
 function tokenizeSentences( text ) {
-	createTokenizer();
+	tokens = [];
+	sentenceTokenizer = createTokenizer( tokens );
 	sentenceTokenizer.onText( text );
 
 	try {
@@ -192,33 +194,6 @@ function isSentenceStart( token ) {
 }
 
 /**
- * Special tokenizer to parse the 'sentence' as found using the
- * 'greaterThanContentRegex' rule in the original tokenizer.
- *
- * Removes the 'greaterThanContentRegex' rule to avoid matching this rule
- * recursively again.
- *
- * @param tokens
- * @returns {{addRule, onText, end}}
- */
-function greaterThanSignContentTokenizer( tokens ) {
-	let tokenizer = core( function( token ) {
-		tokens.push( token );
-	} );
-
-	tokenizer.addRule( greaterThanContentRegex, "greater-than-sign-content" );
-	tokenizer.addRule( htmlStartRegex, "html-start" );
-	tokenizer.addRule( htmlEndRegex, "html-end" );
-	tokenizer.addRule( blockStartRegex, "block-start" );
-	tokenizer.addRule( blockEndRegex, "block-end" );
-	tokenizer.addRule( fullStopRegex, "full-stop" );
-	tokenizer.addRule( sentenceDelimiterRegex, "sentence-delimiter" );
-	tokenizer.addRule( sentenceRegex, "sentence" );
-
-	return tokenizer;
-}
-
-/**
  * Tokenizes the given text using the given tokenizer.
  *
  * @param {Object} tokenizer the tokenizer to use.
@@ -289,7 +264,7 @@ function getSentencesFromTokens( tokens ) {
 				*/
 				let text = token.src.substring(1);
 
-				let localTokenizer = greaterThanSignContentTokenizer( localTokens );
+				let localTokenizer = createTokenizer( localTokens );
 				localTokens = tokenize( localTokenizer, localTokens, text );
 				let localSentences = getSentencesFromTokens( localTokens );
 
@@ -389,7 +364,9 @@ function getSentencesFromTokens( tokens ) {
  * @returns {Array<string>} The list of sentences in the block.
  */
 function getSentencesFromBlock( block ) {
-	const tokens = tokenizeSentences( block );
+	tokens = [];
+	sentenceTokenizer = createTokenizer( tokens );
+	tokens = tokenize( sentenceTokenizer, tokens, block );
 
 	return tokens.length === 0 ? [] : getSentencesFromTokens( tokens );
 }
@@ -412,9 +389,6 @@ export default function( text ) {
 	} );
 
 	sentences = flatMap( blocks, getSentencesFromBlockCached );
-
-	const sentencesNoHtml = sentences.map( sentence => sentence.replace( /<.*?>/g, "" ) );
-	console.log( sentencesNoHtml );
 
 	return filter( sentences, negate( isEmpty ) );
 }
