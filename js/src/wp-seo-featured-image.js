@@ -119,7 +119,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 	/**
 	 * Checks whether the featuredImageId is invalid.
 	 *
-	 * @param {any} featuredImageId The possible invalid featuredImage Id.
+	 * @param {any} featuredImageId The possibly invalid featuredImage Id.
 	 *
 	 * @returns {boolean} True if the featured image id is valid.
 	 */
