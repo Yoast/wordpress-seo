@@ -187,10 +187,6 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 				return;
 			}
 
-			if ( typeof featuredImageId === "undefined" || featuredImageId === null ) {
-				return;
-			}
-
 			imageData = wp.data.select( "core" ).getMedia( featuredImageId );
 
 			if ( typeof imageData === "undefined" ) {
