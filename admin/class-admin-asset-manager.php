@@ -220,7 +220,10 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
-	 * Registers the globals backport asset with the correct dependencies.
+	 * Reregisters the globals backport asset with the correct dependencies.
+	 *
+	 * This function can be removed when WordPress 5.1 has been released, because from 5.0 wp-elements will be
+	 * registered earlier, which means we don't have to reregister things.
 	 *
 	 * @return void
 	 */
