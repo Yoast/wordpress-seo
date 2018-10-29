@@ -172,6 +172,12 @@ class WPSEO_Admin_Asset_Manager {
 		return new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );
 	}
 
+
+	/**
+	 * Gets the correct dependencies for the global backport.
+	 *
+	 * @return array The dependencies for the global backport.
+	 */
 	public function get_backport_dependencies() {
 		$backport_wp_dependencies = array( self::PREFIX . 'react-dependencies' );
 
@@ -206,15 +212,24 @@ class WPSEO_Admin_Asset_Manager {
 				$backport_wp_dependencies[] = self::PREFIX . 'lodash';
 			}
 		}
+
+		// Save the $backport_dependencies to use in register_wp_assets.
 		self::$backport_dependencies = $backport_wp_dependencies;
+
 		return $backport_wp_dependencies;
 	}
 
+	/**
+	 * Registers the globals backport asset with the correct dependencies.
+	 *
+	 * @return void
+	 */
 	public function register_wp_assets() {
 		$previous_deps = self::$backport_dependencies;
 
 		$current_deps = $this->get_backport_dependencies();
 
+		// This is true when Gutenberg is active, because in that case Gutenberg's scripts are not registered yet on 'admin_init', but they are on 'admin_enqueue_scripts'.
 		if ( $current_deps !== $previous_deps ) {
 			wp_deregister_script( self::PREFIX . 'wp-globals-backport' );
 
