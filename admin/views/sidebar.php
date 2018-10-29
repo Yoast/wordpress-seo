@@ -45,9 +45,10 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			<h2><?php esc_html_e( 'Improve your SEO skills', 'wordpress-seo' ); ?></h2>
 			<div class="wp-clearfix">
 				<p>
+					<strong><?php echo esc_html_x( 'Free:', 'course', 'wordpress-seo' ); ?></strong>
 					<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/2oi' ); ?>" target="_blank">
 						<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/SEO_for_beginners.svg' ); ?>" alt="">
-						<strong><?php esc_html_e( 'Free: SEO for Beginners course', 'wordpress-seo' ); ?></strong>
+						<strong><?php esc_html_e( 'SEO for Beginners course', 'wordpress-seo' ); ?></strong>
 						<?php echo $new_tab_message; ?>
 					</a><br>
 					<?php esc_html_e( 'Get quick wins to make your site rank higher in search engines.', 'wordpress-seo' ); ?>
