@@ -19,14 +19,13 @@ const fullStop = ".";
 const sentenceDelimiters = "?!;\u2026";
 const newLines = "\n\r|\n|\r";
 
-var fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
-var sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
-var sentenceRegex = new RegExp( "^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
-var greaterThanContentRegex = /^<[^><]*$/;
-var htmlStartRegex = /^<([^>\s/]+)[^>]*>$/mi;
-var htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
-var newLineRegex = new RegExp( newLines );
-const sentenceEndRegex = new RegExp( "([" + fullStop + sentenceDelimiters + "])$" );
+const fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
+const sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
+const sentenceRegex = new RegExp( "^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
+const greaterThanContentRegex = /^<[^><]*$/;
+const htmlStartRegex = /^<([^>\s/]+)[^>]*>$/mi;
+const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
+const newLineRegex = new RegExp( newLines );
 
 const blockStartRegex = /^\s*[[({]\s*$/;
 const blockEndRegex = /^\s*[\])}]\s*$/;
@@ -37,12 +36,12 @@ let sentenceTokenizer;
 /**
  * Creates a tokenizer.
  *
- * @param {Array} tokens the empty array of tokens, to be filled by the tokenizer later on.
+ * @param {Array} tokenArray the empty array of tokens, to be filled by the tokenizer later on.
  * @returns {{addRule, onText, end}} the tokenizer.
  */
-function createTokenizer( tokens ) {
-	let tokenizer = core( function( token ) {
-		tokens.push( token );
+function createTokenizer( tokenArray ) {
+	const tokenizer = core( function( token ) {
+		tokenArray.push( token );
 	} );
 
 	tokenizer.addRule( greaterThanContentRegex, "greater-than-sign-content" );
@@ -113,26 +112,6 @@ function isPunctuation( character ) {
 }
 
 /**
- * Tokenizes a sentence, assumes that the text has already been split into blocks.
- *
- * @param {string} text The text to tokenize.
- * @returns {Array} An array of tokens.
- */
-function tokenizeSentences( text ) {
-	tokens = [];
-	sentenceTokenizer = createTokenizer( tokens );
-	sentenceTokenizer.onText( text );
-
-	try {
-		sentenceTokenizer.end();
-	} catch ( e ) {
-		console.error( "Tokenizer end error:", e, e.tokenizer2 );
-	}
-
-	return tokens;
-}
-
-/**
  * Removes duplicate whitespace from a given text.
  *
  * @param {string} text The text with duplicate whitespace.
@@ -197,11 +176,11 @@ function isSentenceStart( token ) {
  * Tokenizes the given text using the given tokenizer.
  *
  * @param {Object} tokenizer the tokenizer to use.
- * @param {Array} tokens an empty array, this gets filled with tokens.
- * @param text the text to tokenize.
+ * @param {Array} tokenArray an empty array, this gets filled with tokens.
+ * @param {String} text the text to tokenize.
  * @returns {String[]} the tokens as retrieved from the text.
  */
-function tokenize( tokenizer, tokens, text ) {
+function tokenize( tokenizer, tokenArray, text ) {
 	tokenizer.onText( text );
 
 	try {
@@ -210,16 +189,16 @@ function tokenize( tokenizer, tokens, text ) {
 		console.error( "Tokenizer end error:", e, e.tokenizer2 );
 	}
 
-	return tokens;
+	return tokenArray;
 }
 
 /**
  * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
  *
- * @param {Array} tokens The tokens from the sentence tokenizer.
+ * @param {Array} tokenArray The tokens from the sentence tokenizer.
  * @returns {Array<string>} A list of sentences.
  */
-function getSentencesFromTokens( tokens ) {
+function getSentencesFromTokens( tokenArray ) {
 	let tokenSentences = [], currentSentence = "", nextSentenceStart;
 
 	let sliced;
@@ -227,21 +206,24 @@ function getSentencesFromTokens( tokens ) {
 	// Drop the first and last HTML tag if both are present.
 	do {
 		sliced = false;
-		const firstToken = tokens[ 0 ];
-		const lastToken = tokens[ tokens.length - 1 ];
+		const firstToken = tokenArray[ 0 ];
+		const lastToken = tokenArray[ tokenArray.length - 1 ];
 
 		if ( firstToken.type === "html-start" && lastToken.type === "html-end" ) {
-			tokens = tokens.slice( 1, tokens.length - 1 );
+			tokenArray = tokenArray.slice( 1, tokenArray.length - 1 );
 
 			sliced = true;
 		}
-	} while ( sliced && tokens.length > 1 );
+	} while ( sliced && tokenArray.length > 1 );
 
-	forEach( tokens, function( token, i ) {
+	forEach( tokenArray, function( token, i ) {
 		let hasNextSentence;
-		const nextToken = tokens[ i + 1 ];
-		const secondToNextToken = tokens[ i + 2 ];
+		const nextToken = tokenArray[ i + 1 ];
+		const secondToNextToken = tokenArray[ i + 2 ];
 		let nextCharacters;
+
+		let localText, localTokenizer, localSentences;
+		let localTokens = [];
 
 		switch ( token.type ) {
 			case "html-start":
@@ -255,23 +237,22 @@ function getSentencesFromTokens( tokens ) {
 				break;
 
 			case "greater-than-sign-content":
-				let localTokens = [];
 
 				/*
 					Remove the '<' from the text, to avoid matching this rule
 					recursively again and again.
 					We add it again later on.
 				*/
-				let text = token.src.substring(1);
+				localText = token.src.substring( 1 );
 
-				let localTokenizer = createTokenizer( localTokens );
-				localTokens = tokenize( localTokenizer, localTokens, text );
-				let localSentences = getSentencesFromTokens( localTokens );
+				localTokenizer = createTokenizer( localTokens );
+				localTokens = tokenize( localTokenizer, localTokens, localText );
+				localSentences = getSentencesFromTokens( localTokens );
 
 				// Always append first sentence to current one.
-				currentSentence += " < "  + localSentences[0];
+				currentSentence += " < "  + localSentences[ 0 ];
 
-				if( localSentences.length > 1 ) {
+				if ( localSentences.length > 1 ) {
 					/*
 						There is a new sentence after the first,
 						add and reset the current sentence.
@@ -381,14 +362,14 @@ const getSentencesFromBlockCached = memoize( getSentencesFromBlock );
  */
 export default function( text ) {
 	text = unifyWhitespace( text );
-	let sentences, blocks = getBlocks( text );
+	let blocks = getBlocks( text );
 
 	// Split each block on newlines.
 	blocks = flatMap( blocks, function( block ) {
 		return block.split( newLineRegex );
 	} );
 
-	sentences = flatMap( blocks, getSentencesFromBlockCached );
+	const sentences = flatMap( blocks, getSentencesFromBlockCached );
 
 	return filter( sentences, negate( isEmpty ) );
 }
