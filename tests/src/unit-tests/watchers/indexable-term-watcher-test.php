@@ -40,13 +40,16 @@ class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 
 		$indexable_mock = $this
 			->getMockBuilder( 'Yoast\YoastSEO\Yoast_Model' )
-			->setMethods( array( 'delete' ) )
+			->setMethods( array( 'delete', 'delete_meta' ) )
 			->getMock();
 
 		$indexable_mock
 			->expects( $this->once() )
 			->method( 'delete' );
 
+		$indexable_mock
+			->expects( $this->once() )
+			->method( 'delete_meta' );
 		$id = 1;
 
 		$instance
