@@ -101,7 +101,6 @@
 			@media only screen and (min-width: $page-width-small) {
 				width: auto;
 				margin-right: 1.36rem;
-				margin-bottom: 0;
 			}
 		}
 	}
@@ -119,8 +118,9 @@
 	}
 
 	&-promo-extension {
+		display: flex;
+		flex-direction: column;
 		max-width: 340px;
-		padding-bottom: 120px;
 		background-color: transparent;
 		border-color: $scheme-academy-secondary;
 		margin-left: $gutter;
@@ -139,13 +139,9 @@
 			}
 		}
 
-
 		.yoast {
 			&-button-container {
-				position: absolute;
-				bottom: 20px;
-				left: 20px;
-				right: 20px;
+				margin-top: auto;
 
 				div.yoast-button--extension {
 					cursor: default;
@@ -246,7 +242,7 @@
 
 		.yoast-promo-extension & {
 			display: block;
-			margin: 1em 0 0 0;
+			margin: 0;
 			background-position: left center;
 		}
 	}
