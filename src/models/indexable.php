@@ -182,6 +182,19 @@ class Indexable extends Yoast_Model {
 	}
 
 	/**
+	 * Removes the indexable meta.
+	 *
+	 * @return void
+	 */
+	public function delete_meta() {
+		$meta_data = $this->meta();
+		$meta_data = (array) $meta_data->find_many();
+		foreach ( $meta_data as $indexable_meta ) {
+			$indexable_meta->delete();
+		}
+	}
+
+	/**
 	 * Sets specific meta data for an indexable.
 	 *
 	 * @param string $meta_key    The key to set.

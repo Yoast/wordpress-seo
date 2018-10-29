@@ -36,6 +36,7 @@ class Indexable_Post_Watcher implements Integration {
 	public function delete_meta( $post_id ) {
 		try {
 			$indexable = $this->get_indexable( $post_id, false );
+			$indexable->delete_meta();
 			$indexable->delete();
 		} catch ( No_Indexable_Found $exception ) {
 			return;

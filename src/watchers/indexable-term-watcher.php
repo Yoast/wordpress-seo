@@ -39,6 +39,7 @@ class Indexable_Term_Watcher implements Integration {
 	public function delete_meta( $term_id, $taxonomy_term_id, $taxonomy ) {
 		try {
 			$indexable = $this->get_indexable( $term_id, $taxonomy, false );
+			$indexable->delete_meta();
 			$indexable->delete();
 		} catch ( No_Indexable_Found $exception ) {
 			return;

@@ -37,6 +37,7 @@ class Indexable_Author_Watcher implements Integration {
 	public function delete_meta( $user_id ) {
 		try {
 			$indexable = $this->get_indexable( $user_id, false );
+			$indexable->delete_meta();
 			$indexable->delete();
 		} catch ( No_Indexable_Found $exception ) {
 			return;
