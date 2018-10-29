@@ -95,7 +95,7 @@ let otherAuxiliaries = [ "a", "a-t-elle", "a-t-il", "a-t-on", "ai", "ai-je", "ai
 	"n'allait", "n'allions", "n'alliez", "n'allaient", "n'iras", "n'ira", "n'irons", "n'irez", "n'iront", "qu'a" ];
 
 let otherAuxiliariesInfinitive = [ "avoir", "aller", "venir", "devoir", "pouvoir", "sembler", "paraître", "paraitre", "mettre", "finir",
-	"d'avoir", "d'aller", "n'avoir" ];
+	"d'avoir", "d'aller", "n'avoir", "l'avoir" ];
 
 let copula = [ "suis", "es", "est", "est-ce", "n'est", "sommes", "êtes", "sont", "suis-je", "es-tu", "est-il", "est-elle", "est-on", "sommes-nous",
 	"êtes-vous", "sont-ils", "sont-elles", "étais", "était", "étions", "étiez", "étaient", "serai", "seras", "sera", "serons", "serez", "seront",
