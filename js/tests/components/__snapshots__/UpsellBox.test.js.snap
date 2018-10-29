@@ -30,6 +30,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
       "href": "https://example.org",
     }
   }
+  upsellButtonHasCaret={true}
   upsellButtonLabel=""
   upsellButtonText="A button"
 >
@@ -98,6 +99,10 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
         target="_blank"
       >
         A button
+        <span
+          aria-hidden="true"
+          className="yoast-button-upsell__caret"
+        />
         <A11yNotice>
           <span
             className="A11yNotice-cySKx gKxLLd"
