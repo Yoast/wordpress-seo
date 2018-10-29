@@ -513,8 +513,8 @@ td.column-wpseo-linked {
 		flex-shrink: 0;
 		width: 8px;
 		height: 16px;
-		// Top and right margins to compensate the icon white space within its viewbox.
-		margin: 1px -2px 0 6px;
+		// Negative margin to compensate the icon white space within its viewbox.
+		margin: 0 -2px 0 6px;
 		background: transparent url(svg-icon-caret-right()) center no-repeat;
 
 		.rtl & {
