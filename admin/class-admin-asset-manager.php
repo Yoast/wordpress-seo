@@ -225,8 +225,10 @@ class WPSEO_Admin_Asset_Manager {
 	 * @return void
 	 */
 	public function register_wp_assets() {
+		// The dependencies that are registered on 'admin_init'.
 		$previous_deps = self::$backport_dependencies;
 
+		// The dependencies that are present on 'admin_init'.
 		$current_deps = $this->get_backport_dependencies();
 
 		// This is true when Gutenberg is active, because in that case Gutenberg's scripts are not registered yet on 'admin_init', but they are on 'admin_enqueue_scripts'.
