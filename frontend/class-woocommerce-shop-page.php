@@ -17,7 +17,6 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	 */
 	public function register_hooks() {
 		add_filter( 'wpseo_frontend_page_type_simple_page_id', array( $this, 'get_page_id' ) );
-		add_filter( 'wpseo_sitemap_page_for_post_type_archive', array( $this, 'get_page_id_for_sitemap' ), 10, 2 );
 	}
 
 	/**
@@ -29,22 +28,6 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	 */
 	public function get_page_id( $page_id ) {
 		if ( ! $this->is_shop_page() ) {
-			return $page_id;
-		}
-
-		return $this->get_shop_page_id();
-	}
-
-	/**
-	 * Returns the ID of the WooCommerce shop page when product's archive is requested.
-	 *
-	 * @param int    $page_id   The page id.
-	 * @param string $post_type The post type of the archive.
-	 *
-	 * @return int The Page ID of the shop.
-	 */
-	public function get_page_id_for_sitemap( $page_id, $post_type ) {
-		if ( 'product' !== $post_type ) {
 			return $page_id;
 		}
 
