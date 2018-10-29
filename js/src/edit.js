@@ -1,7 +1,6 @@
 /* global window process wp */
 /* External dependencies */
 import React from "react";
-import { Provider } from "react-redux";
 import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
@@ -156,12 +155,10 @@ class Edit {
 					</Slot>
 				</PluginSidebar>
 
-				<Provider store={ store }>
-					<Fragment>
-						<Sidebar store={ store } theme={ theme } />
-						<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
-					</Fragment>
-				</Provider>
+				<Fragment>
+					<Sidebar store={ store } theme={ theme } />
+					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				</Fragment>
 			</Fragment>
 		);
 
