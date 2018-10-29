@@ -12045,10 +12045,10 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-yoast-components@^4.14.0:
-  version "4.14.0"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.14.0.tgz#84567842dd5c69ad5660770a7fd867a0e730cdc4"
-  integrity sha512-MzU9avN6fwoSR7/0XfrdV4MdH23Z4X7ZIn1cgFNIVBTY6d48W4SZDEUtXwaKE/VKOkVZOvRbOzD6PFhH+T2Ybw==
+yoast-components@^4.14.1:
+  version "4.14.1"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.14.1.tgz#5d602266145784f39ac2e3ba861af30799a0d209"
+  integrity sha512-E/Qd9/RkltGWOvsx82t3+gUAw3sqqL0gOM8c7OrVPgSBTG+XjYaLV3LSqAskVrfJKy5caIIZkHD0GNO9ndGYWA==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -12069,14 +12069,14 @@ yoast-components@^4.14.0:
     redux "^3.7.2"
     styled-components "^2.1.2"
     whatwg-fetch "^1.0.0"
-    yoastseo "^1.41.0"
+    yoastseo "^1.41.1"
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-yoastseo@^1.41.0:
-  version "1.41.0"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.41.0.tgz#ac8ab51e974f0e8acd5bb2a04a817d4f53b02178"
-  integrity sha512-3p9LYC6UUdjnG1cT/BXjAV8axRqC1+0wnL72LMskeNjkYJS8OentDUNfmrrOuWfs5MY9Ww5mEoRJWcwo6Jf9aA==
+yoastseo@^1.41.1:
+  version "1.41.1"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.41.1.tgz#19c827a4a991f8f2655e580773712bb25850b0f7"
+  integrity sha512-qP5Aq3Vjv0b0JVfx7eGcL/OLyPdScL9VSqOexf+Om1CfWA12OetULzkmNkC4m70E3MsexVhgch4h5qIdAQi7Og==
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
