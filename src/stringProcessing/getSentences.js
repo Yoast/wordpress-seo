@@ -30,30 +30,30 @@ const newLineRegex = new RegExp( newLines );
 const blockStartRegex = /^\s*[[({]\s*$/;
 const blockEndRegex = /^\s*[\])}]\s*$/;
 
-let tokens = [];
-let sentenceTokenizer;
-
 /**
  * Creates a tokenizer.
  *
- * @param {Array} tokenArray the empty array of tokens, to be filled by the tokenizer later on.
  * @returns {{addRule, onText, end}} the tokenizer.
  */
-function createTokenizer( tokenArray ) {
+function createTokenizer() {
+	const tokens = [];
 	const tokenizer = core( function( token ) {
-		tokenArray.push( token );
+		tokens.push( token );
 	} );
 
+	tokenizer.addRule( fullStopRegex, "full-stop" );
 	tokenizer.addRule( greaterThanContentRegex, "greater-than-sign-content" );
 	tokenizer.addRule( htmlStartRegex, "html-start" );
 	tokenizer.addRule( htmlEndRegex, "html-end" );
 	tokenizer.addRule( blockStartRegex, "block-start" );
 	tokenizer.addRule( blockEndRegex, "block-end" );
-	tokenizer.addRule( fullStopRegex, "full-stop" );
 	tokenizer.addRule( sentenceDelimiterRegex, "sentence-delimiter" );
 	tokenizer.addRule( sentenceRegex, "sentence" );
 
-	return tokenizer;
+	return {
+		tokenizer,
+		tokens,
+	};
 }
 
 /**
@@ -154,7 +154,8 @@ function isValidSentenceBeginning( sentenceBeginning ) {
 		isCapitalLetter( sentenceBeginning ) ||
 		isNumber( sentenceBeginning ) ||
 		isQuotation( sentenceBeginning ) ||
-		isPunctuation( sentenceBeginning )
+		isPunctuation( sentenceBeginning ) ||
+		sentenceBeginning === "<"
 	);
 }
 
@@ -176,11 +177,10 @@ function isSentenceStart( token ) {
  * Tokenizes the given text using the given tokenizer.
  *
  * @param {Object} tokenizer the tokenizer to use.
- * @param {Array} tokenArray an empty array, this gets filled with tokens.
  * @param {String} text the text to tokenize.
  * @returns {String[]} the tokens as retrieved from the text.
  */
-function tokenize( tokenizer, tokenArray, text ) {
+function tokenize( tokenizer, text ) {
 	tokenizer.onText( text );
 
 	try {
@@ -188,17 +188,17 @@ function tokenize( tokenizer, tokenArray, text ) {
 	} catch ( e ) {
 		console.error( "Tokenizer end error:", e, e.tokenizer2 );
 	}
-
-	return tokenArray;
 }
 
 /**
  * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
  *
  * @param {Array} tokenArray The tokens from the sentence tokenizer.
+ * @param {Boolean} [trimSentences=true] Whether to trim the sentences at the end or not.
+ *
  * @returns {Array<string>} A list of sentences.
  */
-function getSentencesFromTokens( tokenArray ) {
+function getSentencesFromTokens( tokenArray, trimSentences = true ) {
 	let tokenSentences = [], currentSentence = "", nextSentenceStart;
 
 	let sliced;
@@ -222,8 +222,7 @@ function getSentencesFromTokens( tokenArray ) {
 		const secondToNextToken = tokenArray[ i + 2 ];
 		let nextCharacters;
 
-		let localText, localTokenizer, localSentences;
-		let localTokens = [];
+		let localText, localSentences, tokenizerResult;
 
 		switch ( token.type ) {
 			case "html-start":
@@ -245,12 +244,17 @@ function getSentencesFromTokens( tokenArray ) {
 				*/
 				localText = token.src.substring( 1 );
 
-				localTokenizer = createTokenizer( localTokens );
-				localTokens = tokenize( localTokenizer, localTokens, localText );
-				localSentences = getSentencesFromTokens( localTokens );
+				tokenizerResult = createTokenizer();
+				tokenize( tokenizerResult.tokenizer, localText );
+				localSentences = getSentencesFromTokens( tokenizerResult.tokens, false );
 
-				// Always append first sentence to current one.
-				currentSentence += " < "  + localSentences[ 0 ];
+				localSentences[ 0 ] = "<" + localSentences[ 0 ];
+
+				if ( isValidSentenceBeginning( localSentences[ 0 ] ) ) {
+					tokenSentences.push( currentSentence );
+					currentSentence = "";
+				}
+				currentSentence += localSentences[ 0 ];
 
 				if ( localSentences.length > 1 ) {
 					/*
@@ -331,9 +335,11 @@ function getSentencesFromTokens( tokenArray ) {
 		tokenSentences.push( currentSentence );
 	}
 
-	tokenSentences = map( tokenSentences, function( sentence ) {
-		return sentence.trim();
-	} );
+	if ( trimSentences ) {
+		tokenSentences = map( tokenSentences, function( sentence ) {
+			return sentence.trim();
+		} );
+	}
 
 	return tokenSentences;
 }
@@ -345,9 +351,8 @@ function getSentencesFromTokens( tokenArray ) {
  * @returns {Array<string>} The list of sentences in the block.
  */
 function getSentencesFromBlock( block ) {
-	tokens = [];
-	sentenceTokenizer = createTokenizer( tokens );
-	tokens = tokenize( sentenceTokenizer, tokens, block );
+	const { tokenizer, tokens } = createTokenizer();
+	tokenize( tokenizer, block );
 
 	return tokens.length === 0 ? [] : getSentencesFromTokens( tokens );
 }
