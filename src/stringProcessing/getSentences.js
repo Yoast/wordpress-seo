@@ -22,7 +22,7 @@ const newLines = "\n\r|\n|\r";
 const fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
 const sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
 const sentenceRegex = new RegExp( "^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
-const greaterThanContentRegex = /^<[^><]*$/;
+const smallerThanContentRegex = /^<[^><]*$/;
 const htmlStartRegex = /^<([^>\s/]+)[^>]*>$/mi;
 const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 const newLineRegex = new RegExp( newLines );
@@ -33,7 +33,7 @@ const blockEndRegex = /^\s*[\])}]\s*$/;
 /**
  * Creates a tokenizer.
  *
- * @returns {{addRule, onText, end}} the tokenizer.
+ * @returns {Object} The tokenizer and the tokens.
  */
 function createTokenizer() {
 	const tokens = [];
@@ -42,7 +42,7 @@ function createTokenizer() {
 	} );
 
 	tokenizer.addRule( fullStopRegex, "full-stop" );
-	tokenizer.addRule( greaterThanContentRegex, "greater-than-sign-content" );
+	tokenizer.addRule( smallerThanContentRegex, "smaller-than-sign-content" );
 	tokenizer.addRule( htmlStartRegex, "html-start" );
 	tokenizer.addRule( htmlEndRegex, "html-end" );
 	tokenizer.addRule( blockStartRegex, "block-start" );
@@ -144,6 +144,20 @@ function getNextTwoCharacters( nextTokens ) {
 }
 
 /**
+ * Checks whether the given character is a smaller than sign.
+ *
+ * This function is used to make sure that tokenizing the content after
+ * the smaller than sign works as expected.
+ * E.g. 'A sentence. < Hello world!' = ['A sentence.', '< Hello world!'].
+ *
+ * @param {string} character the character to check.
+ * @returns {boolean} whether the character is a smaller than sign ('<') or not.
+ */
+function isSmallerThanSign( character ) {
+	return character === "<";
+}
+
+/**
  * Checks if the sentenceBeginning beginning is a valid beginning.
  *
  * @param {string} sentenceBeginning The beginning of the sentence to validate.
@@ -155,7 +169,7 @@ function isValidSentenceBeginning( sentenceBeginning ) {
 		isNumber( sentenceBeginning ) ||
 		isQuotation( sentenceBeginning ) ||
 		isPunctuation( sentenceBeginning ) ||
-		sentenceBeginning === "<"
+		isSmallerThanSign( sentenceBeginning )
 	);
 }
 
@@ -190,6 +204,45 @@ function tokenize( tokenizer, text ) {
 	}
 }
 
+function tokenizeSmallerThanContent( token, tokenSentences, currentSentence ) {
+	/*
+		Remove the '<' from the text, to avoid matching this rule
+		recursively again and again.
+		We add it again later on.
+	*/
+	const localText = token.src.substring( 1 );
+
+	const tokenizerResult = createTokenizer();
+	tokenize( tokenizerResult.tokenizer, localText );
+	let localSentences = getSentencesFromTokens( tokenizerResult.tokens, false );
+
+	localSentences[ 0 ] = "<" + localSentences[ 0 ];
+
+	if ( isValidSentenceBeginning( localSentences[ 0 ] ) ) {
+		tokenSentences.push( currentSentence );
+		currentSentence = "";
+	}
+	currentSentence += localSentences[ 0 ];
+
+	if ( localSentences.length > 1 ) {
+		/*
+			There is a new sentence after the first,
+			add and reset the current sentence.
+		 */
+		tokenSentences.push( currentSentence );
+		currentSentence = "";
+
+		// Remove the first sentence (we do not need to add it again).
+		localSentences.shift();
+
+		// Add the remaining found sentences.
+		localSentences.forEach( sentence => {
+			tokenSentences.push( sentence );
+		} );
+	}
+	return currentSentence;
+}
+
 /**
  * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
  *
@@ -209,7 +262,7 @@ function getSentencesFromTokens( tokenArray, trimSentences = true ) {
 		const firstToken = tokenArray[ 0 ];
 		const lastToken = tokenArray[ tokenArray.length - 1 ];
 
-		if ( firstToken.type === "html-start" && lastToken.type === "html-end" ) {
+		if ( firstToken && lastToken && firstToken.type === "html-start" && lastToken.type === "html-end" ) {
 			tokenArray = tokenArray.slice( 1, tokenArray.length - 1 );
 
 			sliced = true;
@@ -222,8 +275,6 @@ function getSentencesFromTokens( tokenArray, trimSentences = true ) {
 		const secondToNextToken = tokenArray[ i + 2 ];
 		let nextCharacters;
 
-		let localText, localSentences, tokenizerResult;
-
 		switch ( token.type ) {
 			case "html-start":
 			case "html-end":
@@ -235,49 +286,12 @@ function getSentencesFromTokens( tokenArray, trimSentences = true ) {
 				}
 				break;
 
-			case "greater-than-sign-content":
-
-				/*
-					Remove the '<' from the text, to avoid matching this rule
-					recursively again and again.
-					We add it again later on.
-				*/
-				localText = token.src.substring( 1 );
-
-				tokenizerResult = createTokenizer();
-				tokenize( tokenizerResult.tokenizer, localText );
-				localSentences = getSentencesFromTokens( tokenizerResult.tokens, false );
-
-				localSentences[ 0 ] = "<" + localSentences[ 0 ];
-
-				if ( isValidSentenceBeginning( localSentences[ 0 ] ) ) {
-					tokenSentences.push( currentSentence );
-					currentSentence = "";
-				}
-				currentSentence += localSentences[ 0 ];
-
-				if ( localSentences.length > 1 ) {
-					/*
-						There is a new sentence after the first,
-						add and reset the current sentence.
-					 */
-					tokenSentences.push( currentSentence );
-					currentSentence = "";
-
-					// Remove the first sentence (we do not need to add it again).
-					localSentences.shift();
-
-					// Add the remaining found sentences.
-					localSentences.forEach( sentence => {
-						tokenSentences.push( sentence );
-					} );
-				}
-
+			case "smaller-than-sign-content":
+				currentSentence = tokenizeSmallerThanContent( token, tokenSentences, currentSentence );
 				break;
 			case "sentence":
 				currentSentence += token.src;
 				break;
-
 			case "sentence-delimiter":
 				currentSentence += token.src;
 
