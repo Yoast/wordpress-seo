@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.14.1 October 29th, 2018
+### Other
+* Bumps YoastSEO.js to 1.41.1.
+
 ## 4.14.0 October 22nd, 2018
 ### Added
 * Adds an `UpsellButton` component.
