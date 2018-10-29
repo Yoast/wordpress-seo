@@ -172,7 +172,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		wp.data.subscribe( () => {
 			const featuredImageId = wp.data.select( "core/editor" ).getEditedPostAttribute( "featured_media" );
 
-			if ( typeof featuredImageId === "undefined" || featuredImageId === null ) {
+			if ( typeof featuredImageId === "number" && featuredImageId > 0 ) {
 				return;
 			}
 
