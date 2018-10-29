@@ -13,7 +13,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * @var object    Instance of this class
 	 */
-	public static $instance;
+	public static $instance ;
 
 	/**
 	 * @var string    Last used 'before' string
