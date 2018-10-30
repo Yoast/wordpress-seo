@@ -262,7 +262,6 @@ class WPSEO_Admin_Asset_Manager {
 	 * @return array The scripts that need to be registered.
 	 */
 	protected function scripts_to_be_registered() {
-
 		$select2_language = 'en';
 		$user_locale      = WPSEO_Utils::get_user_locale();
 		$language         = WPSEO_Utils::get_language( $user_locale );
