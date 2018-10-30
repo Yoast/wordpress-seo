@@ -1,6 +1,5 @@
 // External dependencies.
 import React, { Fragment } from "react";
-import styled from "styled-components";
 
 // YoastSEO.js dependencies.
 import testPapers from "yoastspec/fullTextTests/testTexts";
@@ -19,25 +18,7 @@ import { setConfigurationAttribute } from "./redux/actions/configuration";
 import Inputs from "./components/Inputs";
 import { setStatus } from "./redux/actions/worker";
 import formatAnalyzeResult from "./utils/formatAnalyzeResult";
-
-const FlexContainer = styled.div`
-	@media (min-width: 768px) {
-		display: flex;
-		align-content: space-between;
-	}
-`;
-const LeftContentContainer = styled.div`
-	flex: 1;
-	@media (min-width: 768px) {
-		padding-right: 10px;
-	}
-`;
-const RightContentContainer = styled.div`
-	flex: 1;
-	@media (min-width: 768px) {
-		padding-left: 10px;
-	}
-`;
+import { ColumnLeft, ColumnRight, Columns } from "./components/Columns";
 
 class App extends React.Component {
 	/**
@@ -120,19 +101,19 @@ class App extends React.Component {
 			<Fragment>
 				<h1>YoastSEO.js development tool</h1>
 
-				<FlexContainer>
-					<LeftContentContainer>
+				<Columns minWidth="768px">
+					<ColumnLeft>
 						<Collapsible title="Input">
 							<Inputs />
 						</Collapsible>
-					</LeftContentContainer>
+					</ColumnLeft>
 
-					<RightContentContainer>
+					<ColumnRight>
 						<Collapsible title="Results">
 							<Results />
 						</Collapsible>
-					</RightContentContainer>
-				</FlexContainer>
+					</ColumnRight>
+				</Columns>
 
 				<Collapsible title="Markings">
 					<Markings />
