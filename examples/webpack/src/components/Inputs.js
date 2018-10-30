@@ -56,7 +56,7 @@ function Inputs( props ) {
 		<Container>
 			<Toggle
 				id="toggle-use-cornerstone"
-				labelText="Is cornerstone article"
+				labelText="Is a cornerstone article"
 				isEnabled={ props.useCornerstone }
 				onSetToggleState={ value => {
 					props.setConfigurationAttribute( "useCornerstone", value );
