@@ -11,12 +11,39 @@
 class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 
 	/**
+	 * @var bool Holds the flag if shop page is set.
+	 */
+	protected $shop_page_exists = false;
+
+	/**
+	 * Class constructor
+	 */
+	public function __construct() {
+		if ( $this->is_woo_activated() ) {
+			$this->shop_page_exists = $this->get_shop_page_id() > 0;
+		}
+	}
+
+	/**
 	 * Registers the hooks
 	 *
 	 * @return void
 	 */
 	public function register_hooks() {
+		if ( ! $this->shop_page_exists ) {
+			return;
+		}
+
 		add_filter( 'wpseo_frontend_page_type_simple_page_id', array( $this, 'get_page_id' ) );
+	}
+
+	/**
+	 * Check whether woocommerce plugin is active.
+	 *
+	 * @return bool
+	 */
+	private function is_woo_activated() {
+		return class_exists( 'WooCommerce', false );
 	}
 
 	/**
@@ -40,11 +67,18 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	 * @return bool Whether the current page is the WooCommerce shop page.
 	 */
 	public function is_shop_page() {
-		if ( function_exists( 'is_shop' ) && function_exists( 'wc_get_page_id' ) ) {
-			return is_shop() && ! is_search();
+		static $is_shop_page;
+
+		if ( isset( $is_shop_page ) ) {
+			return $is_shop_page;
 		}
 
-		return false;
+		$is_shop_page = false;
+		if ( $this->shop_page_exists ) {
+			$is_shop_page = is_shop() && ! is_search();
+		}
+
+		return $is_shop_page;
 	}
 
 	/**
