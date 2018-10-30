@@ -102,13 +102,13 @@ class App extends React.Component {
 				<h1>YoastSEO.js development tool</h1>
 
 				<Columns minWidth="768px">
-					<ColumnLeft>
+					<ColumnLeft minWidth="768px">
 						<Collapsible title="Input">
 							<Inputs />
 						</Collapsible>
 					</ColumnLeft>
 
-					<ColumnRight>
+					<ColumnRight minWidth="768px">
 						<Collapsible title="Results">
 							<Results />
 						</Collapsible>

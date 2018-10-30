@@ -18,7 +18,6 @@ function clearStorageAction() {
 
 function Controls( {
 	useKeywordDistribution,
-	useTaxonomy,
 	onInitialize,
 	onAnalyze,
 	onAnalyzeSpam,
@@ -47,17 +46,6 @@ function Controls( {
 				onToggleDisabled={ noop }
 			/>
 		</Container>
-		<Container>
-			<Toggle
-				id="toggle-use-taxonomy"
-				labelText="Is a taxonomy page"
-				isEnabled={ useTaxonomy }
-				onSetToggleState={ value => {
-					setConfigAttribute( "useTaxonomy", value );
-				} }
-				onToggleDisabled={ noop }
-			/>
-		</Container>
 	</Fragment>;
 }
 
@@ -65,7 +53,6 @@ export default connect(
 	( state ) => {
 		return {
 			useKeywordDistribution: state.configuration.useKeywordDistribution,
-			useTaxonomy: state.configuration.useTaxonomy,
 		};
 	},
 	( dispatch ) => {

@@ -11,6 +11,7 @@ import Container from "./Container";
 import Input from "./Input";
 import TextArea from "./TextArea";
 import { ColumnLeft, ColumnRight, Columns } from "./Columns";
+import { H3 } from "./headings";
 
 function renderPaperAttribute( props, id, placeholder, label = null, onChange = null, Component = Input, defaultValue = "" ) {
 	if ( onChange === null ) {
@@ -47,7 +48,14 @@ function renderLeftColumn( props ) {
 			props.setPaperAttribute( id, value );
 			props.setPaperAttribute( "titleWidth", measureTextWidth( value ) );
 		} ) }
-		{ renderPaperAttribute( props, "description", "Write a meta description", "Meta description" ) }
+		<TextArea
+			id="description"
+			value={ props.paper.description }
+			label="Meta description"
+			placeholder="Write a meta description"
+			onChange={ props.setPaperAttribute }
+			minHeight="80px"
+		/>
 		{ renderPaperAttribute( props, "url", "Choose a slug", "Slug", ( id, value ) => {
 			props.setPaperAttribute( id, value );
 			props.setPaperAttribute( "permalink", `${window.location.origin}/${value}` );
@@ -58,13 +66,25 @@ function renderLeftColumn( props ) {
 
 function renderRightColumn( props ) {
 	return <section>
+		<H3>Feature toggles</H3>
 		<Container>
 			<Toggle
 				id="toggle-is-related-keyword"
-				labelText="Is a Cornerstone article"
+				labelText="Is a cornerstone article"
 				isEnabled={ props.useCornerstone }
 				onSetToggleState={ value => {
 					props.setConfigurationAttribute( "useCornerstone", value );
+				} }
+				onToggleDisabled={ noop }
+			/>
+		</Container>
+		<Container>
+			<Toggle
+				id="toggle-use-taxonomy"
+				labelText="Is a taxonomy page"
+				isEnabled={ props.useTaxonomy }
+				onSetToggleState={ value => {
+					props.setConfigurationAttribute( "useTaxonomy", value );
 				} }
 				onToggleDisabled={ noop }
 			/>
@@ -75,11 +95,11 @@ function renderRightColumn( props ) {
 function Inputs( props ) {
 	return <Fragment>
 		{ renderPaperAttribute( props, "text", "Write a text", null, null, TextArea ) }
-		<Columns minWidth="1000px">
-			<ColumnLeft>
+		<Columns minWidth="1400px">
+			<ColumnLeft minWidth="1400px">
 				{ renderLeftColumn( props ) }
 			</ColumnLeft>
-			<ColumnRight>
+			<ColumnRight minWidth="1400px">
 				{ renderRightColumn( props ) }
 			</ColumnRight>
 		</Columns>
@@ -92,6 +112,7 @@ export default connect(
 			paper: state.paper,
 			useCornerstone: state.configuration.useCornerstone,
 			isRelatedKeyphrase: state.configuration.isRelatedKeyphrase,
+			useTaxonomy: state.configuration.useTaxonomy,
 		};
 	},
 	( dispatch ) => {
