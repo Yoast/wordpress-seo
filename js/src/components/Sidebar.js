@@ -10,7 +10,7 @@ import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import SnippetPreviewModal from "./SnippetPreviewModal";
-import TopLevelProviders from "./SharedTopLevelProviders";
+import TopLevelProviders from "./TopLevelProviders";
 
 /**
  * Creates the Sidebar component.

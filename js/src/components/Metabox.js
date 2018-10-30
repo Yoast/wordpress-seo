@@ -12,7 +12,7 @@ import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 import Collapsible from "./SidebarCollapsible";
-import TopLevelProviders from "./SharedTopLevelProviders";
+import TopLevelProviders from "./TopLevelProviders";
 
 /**
  * Creates the Metabox component.

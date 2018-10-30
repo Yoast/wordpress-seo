@@ -16,7 +16,7 @@ import { LocationProvider } from "../components/contexts/location";
  *
  * @returns {ReactElement} The wrapped element.
  */
-const SharedTopLevelProviders = ( { store, theme, location, children } ) => {
+const TopLevelProviders = ( { store, theme, location, children } ) => {
 	return (
 		<LocationProvider value={ location }>
 			<ThemeProvider theme={ theme }>
@@ -28,11 +28,11 @@ const SharedTopLevelProviders = ( { store, theme, location, children } ) => {
 	);
 };
 
-SharedTopLevelProviders.propTypes = {
+TopLevelProviders.propTypes = {
 	store: PropTypes.object.isRequired,
 	theme: PropTypes.object.isRequired,
 	location: PropTypes.oneOf( [ "sidebar", "metabox" ] ).isRequired,
 	children: PropTypes.element.isRequired,
 };
 
-export default SharedTopLevelProviders;
+export default TopLevelProviders;
