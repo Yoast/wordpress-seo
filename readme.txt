@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.8
-Stable tag: 9.0.2
+Stable tag: 9.0.3
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -110,6 +110,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: November 6th, 2018
 
 ## Enhancements:
+
 * Improves keyword recognition in the first paragraph on texts which start with images and captions.
 * Adds a warning notification to the permalink settings page, linking to a KN article. Props to [valtlfelipe](https://github.com/valtlfelipe)
 * Corrects spelling of the words "plug-in" and "set-up", resulting in less text needing translations. Props to [pedro-mendonca](https://github.com/pedro-mendonca)
@@ -119,6 +120,7 @@ Release Date: November 6th, 2018
 * Removes non-functioning eye-markers from the link keyphrase assessment.
 
 ## Bugs:
+
 * Fixes a bug where a dependency wasn't loaded for the SEO -> Tools page.
 * Fixes a faulty reference to the old SEOAssessor class.
 * Fixes a bug where the featured image was not recognized in the SEO analysis when using Gutenberg.
@@ -128,8 +130,18 @@ Release Date: November 6th, 2018
 * Fixes a bug where a type error is thrown when the posts or terms focus keyword isn't of the type WP_Post as this can collide with third-party plugins.
 * Fixes a bug where the Chrome browser tab would crash on Windows when a French or Italian text contains sentences in passive voice. Props to [CarloCannas](https://github.com/CarloCannas)
 
-## Other
+## Other:
+
 * Changes the reference in the admin bar menu from "AdWords External" to "Google Ads".
+
+= 9.0.3 =
+Release Date: October 30th, 2018
+
+Bugfixes:
+
+* Fixes a bug where the metabox was broken when using the classic editor plugin.
+* Fixes a bug where the Chrome browser tab would crash on Windows when a French or Italian text contains sentences in passive voice, props [CarloCannas](https://github.com/CarloCannas).
+* Fixes a bug where the Yoast SEO analysis would error if used together with the DelightfulDownloads plugin.
 
 = 9.0.2 =
 Release Date: October 24th, 2018
