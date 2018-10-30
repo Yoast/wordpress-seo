@@ -1,17 +1,34 @@
-// Assumes one mark element per mark object.
-import isString from "lodash/isString";
-import isArray from "lodash/isArray";
-
+/* External dependencies */
+import isFunction from "lodash/isFunction";
+import { create } from "@wordpress/rich-text";
+import { select, dispatch } from "@wordpress/data";
 import { string } from "yoastseo";
+
 const { stripHTMLTags } = string;
 
+/**
+ * Returns whether or not annotations are available in Gutenberg.
+ *
+ * @returns {boolean} Whether or not annotations are available in Gutenberg.
+ */
+export function isAnnotationAvailable() {
+	return isFunction( select( "core/editor" ).getBlocks ) &&
+		isFunction( dispatch( "core/editor" ).addAnnotation );
+}
+
+/**
+ * Returns the offset of the <yoastmark> in the given mark.
+ *
+ * @param {Mark} mark The mark object to calculate offset for.
+ * @returns {{startOffset: number, endOffset: number}} The start and end for this mark.
+ */
 function getOffsets( mark ) {
 	const marked = mark.getMarked();
 
 	const startMark = "<yoastmark class='yoast-text-mark'>";
-	let endMark = "</yoastmark>";
+	const endMark = "</yoastmark>";
 
-	let startOffset = marked.indexOf( startMark );
+	const startOffset = marked.indexOf( startMark );
 	let endOffset = marked.indexOf( endMark );
 
 	endOffset = endOffset - startMark.length;
@@ -19,63 +36,34 @@ function getOffsets( mark ) {
 	return { startOffset, endOffset };
 }
 
-let calculateAnnotationsForContentPieces = function( content, mark, block ) {
-	// Keeps track of how many text nodes have become before the current content piece.
-	let textNodes = 0;
-
-	const annotations = [];
-
-	// Content is an array so we need to loop over it.
-	content.forEach( ( contentPiece ) => {
-		if ( ! contentPiece.indexOf ) {
-			return;
-		}
-
-		const found = contentPiece.indexOf( mark.getOriginal() );
-
-		if ( found !== -1 ) {
-			const offsets = getOffsets( mark );
-
-			const startOffset = found + offsets.startOffset;
-			const endOffset = found + offsets.endOffset;
-			const startXPath = `text()[${ textNodes + 1 }]`;
-			const endXPath = `text()[${ textNodes + 1 }]`;
-
-			const annotation = {
-				block: block.clientId,
-				startXPath,
-				endXPath,
-				startOffset,
-				endOffset,
-			};
-
-			annotations.push( annotation );
-		}
-
-		if ( isString( contentPiece ) ) {
-			textNodes += 1;
-		}
-	} );
-
-	return annotations;
-};
-
-
+/**
+ * Calculates an array of annotations for the given content inside a block.
+ *
+ * @param {string} content The content of the block.
+ * @param {Mark}   mark    The mark to apply to the content.
+ * @param {string} block   The block ID to apply the mark to.
+ * @returns {Array} The array of annotations to apply.
+ */
 function calculateAnnotationsForTextFormat( content, mark, block ) {
-	const { text, formats } = content;
+	// Create a rich text record, because those are easier to work with.
+	const record = create( { html: content } );
+	const { text } = record;
 
 	const annotations = [];
 
 	let original = stripHTMLTags( mark.getOriginal() );
 	let foundIndex = text.indexOf( original );
 
-	// Try again with a different HTML tag strip tactic.
+	/*
+	 * Try again with a different HTML tag strip tactic.
+	 *
+	 * The rich text format in Gutenberg has no HTML at all while our marks might have some HTML.
+	 * So we try to find a mark index based on the mark content with all tags stripped.
+	 */
 	if ( foundIndex === -1 ) {
-		original = mark.getOriginal().replace(/(<([^>]+)>)/ig, "");
+		original = mark.getOriginal().replace( /(<([^>]+)>)/ig, "" );
 		foundIndex = text.indexOf( original );
 	}
-
-	console.log( text, foundIndex );
 
 	if ( foundIndex !== -1 ) {
 		const offsets = getOffsets( mark );
@@ -102,29 +90,24 @@ function calculateAnnotationsForTextFormat( content, mark, block ) {
 		} );
 	}
 
-	console.log( annotations );
-
 	return annotations;
 }
 
 /**
- * Test
+ * Applies the given marks as annotations in the block editor.
  *
- * @param {*} paper Test.
- * @param {*} marks Test.
- *
+ * @param {Paper} paper The paper that the marks are calculated on.
+ * @param {Mark[]} marks The marks to annotate in the text.
  * @returns {void}
  */
-export function decorate( paper, marks ) {
-	const blocks = wp.data.select( "core/editor" ).getBlocks();
+export function applyAsAnnotations( paper, marks ) {
+	const blocks = select( "core/editor" ).getBlocks();
 	let annotations = [];
 
 	blocks.forEach( ( block ) => {
 		if ( block.name !== "core/paragraph" ) {
 			return;
 		}
-
-		console.log( block );
 
 		const { attributes } = block;
 		const { content } = attributes;
@@ -133,11 +116,7 @@ export function decorate( paper, marks ) {
 		marks.forEach( ( mark ) => {
 			let addAnnotations = [];
 
-			if ( isArray( content ) ) {
-				addAnnotations = calculateAnnotationsForContentPieces( content, mark, block );
-			} else {
-				addAnnotations = calculateAnnotationsForTextFormat( content, mark, block );
-			}
+			addAnnotations = calculateAnnotationsForTextFormat( content, mark, block );
 
 			annotations = annotations.concat( addAnnotations );
 		} );
