@@ -257,7 +257,7 @@ class SentenceTokenizer {
 			console.error( "Tokenizer end error:", e, e.tokenizer2 );
 		}
 	}
-	
+
 	/**
 	 * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
 	 *
