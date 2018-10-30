@@ -177,21 +177,13 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @return array $friendly_separators Array with the separator human friendly labels.
 	 */
 	public function get_separator_options_for_display() {
-		$separators = $this->get_separator_options();
-
-		$human_friendly_labels = wp_list_pluck( $this->get_separator_option_list(), 'label' );
-
-		/**
-		 * Allows altering the separator options friendly labels array.
-		 *
-		 * @api array $human_friendly_labels Array with the separator options friendly labels.
-		 */
-		$filtered_human_friendly_labels = apply_filters( 'wpseo_separator_options_friendly_labels', $human_friendly_labels );
+		$separators     = $this->get_separator_options();
+		$separator_list = $this->get_separator_option_list();
 
 		$friendly_separators = array();
 
 		foreach ( $separators as $key => $label ) {
-			$friendly_label = isset( $filtered_human_friendly_labels[ $key ] ) ? $filtered_human_friendly_labels[ $key ] : '';
+			$friendly_label = isset( $separator_list[ $key ]['label'] ) ? $separator_list[ $key ]['label'] : '';
 
 			$friendly_separators[ $key ] = array(
 				'label'          => $label,
@@ -811,7 +803,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @return array An array of the separator options.
 	 */
 	protected function get_separator_option_list() {
-		return array(
+		$separators = array(
 			'sc-dash'   => array(
 				'option' => '-',
 				'label'  => __( 'Dash', 'wordpress-seo' )
@@ -869,5 +861,18 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				'label'  => __( 'Greater than sign', 'wordpress-seo' )
 			),
 		);
+
+		/**
+		 * Allows altering the separator options array.
+		 *
+		 * @api array $separators  Array with the separator options.
+		 */
+		$separator_list = apply_filters( 'wpseo_separator_option_list', $separators );
+
+		if ( ! is_array( $separator_list ) ) {
+			return $separators;
+		}
+
+		return $separator_list;
 	}
 }
