@@ -172,13 +172,48 @@ class WPSEO_Admin_Asset_Manager {
 		return new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );
 	}
 
+	/**
+	 * Reregisters the globals backport asset with the correct dependencies.
+	 *
+	 * This function can be removed when WordPress 5.1 has been released, because from 5.0 wp-elements will be
+	 * registered earlier, which means we don't have to reregister things.
+	 *
+	 * @return void
+	 */
+	public function register_wp_assets() {
+		// The dependencies that are registered on 'admin_init'.
+		$previous_deps = self::$backport_dependencies;
+
+		// The dependencies that are present on 'admin_init'.
+		$current_deps = $this->get_backport_dependencies();
+
+		/*
+		 * This is false when Gutenberg is active, because in that case Gutenberg's scripts are not registered yet
+		 * on 'admin_init', but they are on 'admin_enqueue_scripts'.
+		 */
+		if ( $current_deps === $previous_deps ) {
+			return;
+		}
+
+		wp_deregister_script( self::PREFIX . 'wp-globals-backport' );
+
+		$flat_version = $this->flatten_version( WPSEO_VERSION );
+		$args = array(
+			'name' => 'wp-globals-backport',
+			'src'  => 'wp-seo-wp-globals-backport-' . $flat_version,
+			'deps' => $current_deps,
+		);
+
+		$script = new WPSEO_Admin_Asset( $args );
+		$this->register_script( $script );
+	}
 
 	/**
 	 * Gets the correct dependencies for the global backport.
 	 *
 	 * @return array The dependencies for the global backport.
 	 */
-	public function get_backport_dependencies() {
+	protected function get_backport_dependencies() {
 		$backport_wp_dependencies = array( self::PREFIX . 'react-dependencies' );
 
 		// If Gutenberg is present we can borrow their globals for our own.
@@ -220,42 +255,11 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
-	 * Reregisters the globals backport asset with the correct dependencies.
-	 *
-	 * This function can be removed when WordPress 5.1 has been released, because from 5.0 wp-elements will be
-	 * registered earlier, which means we don't have to reregister things.
-	 *
-	 * @return void
-	 */
-	public function register_wp_assets() {
-		// The dependencies that are registered on 'admin_init'.
-		$previous_deps = self::$backport_dependencies;
-
-		// The dependencies that are present on 'admin_init'.
-		$current_deps = $this->get_backport_dependencies();
-
-		// This is true when Gutenberg is active, because in that case Gutenberg's scripts are not registered yet on 'admin_init', but they are on 'admin_enqueue_scripts'.
-		if ( $current_deps !== $previous_deps ) {
-			wp_deregister_script( self::PREFIX . 'wp-globals-backport' );
-
-			$flat_version = $this->flatten_version( WPSEO_VERSION );
-			$args = array(
-				'name' => 'wp-globals-backport',
-				'src'  => 'wp-seo-wp-globals-backport-' . $flat_version,
-				'deps' => $current_deps,
-			);
-
-			$script = new WPSEO_Admin_Asset( $args );
-			$this->register_script( $script );
-		}
-	}
-
-	/**
 	 * Returns the scripts that need to be registered.
 	 *
 	 * @todo Data format is not self-documenting. Needs explanation inline. R.
 	 *
-	 * @return array scripts that need to be registered.
+	 * @return array The scripts that need to be registered.
 	 */
 	protected function scripts_to_be_registered() {
 
