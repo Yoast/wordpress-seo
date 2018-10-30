@@ -173,12 +173,19 @@ export default class SentenceTokenizer {
 		*/
 		const localText = token.src.substring( 1 );
 
+		// Tokenize the current smaller-than-content token without the first '<'.
 		const tokenizerResult = this.createTokenizer();
 		this.tokenize( tokenizerResult.tokenizer, localText );
 		const localSentences = this.getSentencesFromTokens( tokenizerResult.tokens, false );
 
+		// Prepend the '<' again to the first sentence.
 		localSentences[ 0 ] = "<" + localSentences[ 0 ];
 
+		/*
+		 * When the first sentence has a valid sentence beginning.
+		 * Add the currently build sentence to the sentences.
+		 * Start building the next sentence.
+		 */
 		if ( this.isValidSentenceBeginning( localSentences[ 0 ] ) ) {
 			tokenSentences.push( currentSentence );
 			currentSentence = "";
@@ -238,7 +245,6 @@ export default class SentenceTokenizer {
 	 *
 	 * @param {Object} tokenizer The tokenizer to use.
 	 * @param {string} text The text to tokenize.
-	 * @returns {string[]} The tokens as retrieved from the text.
 	 */
 	tokenize( tokenizer, text ) {
 		tokenizer.onText( text );
