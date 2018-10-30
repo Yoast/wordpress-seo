@@ -97,8 +97,8 @@ export default class SentenceTokenizer {
 	 * the smaller than sign works as expected.
 	 * E.g. 'A sentence. < Hello world!' = ['A sentence.', '< Hello world!'].
 	 *
-	 * @param {string} character the character to check.
-	 * @returns {boolean} whether the character is a smaller than sign ('<') or not.
+	 * @param {string} character The character to check.
+	 * @returns {boolean} Whether the character is a smaller than sign ('<') or not.
 	 */
 	isSmallerThanSign( character ) {
 		return character === "<";
@@ -160,10 +160,10 @@ export default class SentenceTokenizer {
 	 * Tokens that represent a '<', followed by content until it enters another '<' or '>'
 	 * gets another pass by the tokenizer.
 	 *
-	 * @param {Object} token a token of type 'smaller-than-sign-content'.
-	 * @param {String[]} tokenSentences the current array of found sentences. Sentences may get added by this method.
-	 * @param {String} currentSentence the current sentence. Sentence parts may get appended by this method.
-	 * @returns {{tokenSentences, currentSentence}} the found sentences and the current sentence, appended when necessary.
+	 * @param {Object} token A token of type 'smaller-than-sign-content'.
+	 * @param {string[]} tokenSentences The current array of found sentences. Sentences may get added by this method.
+	 * @param {string} currentSentence The current sentence. Sentence parts may get appended by this method.
+	 * @returns {{tokenSentences, currentSentence}} The found sentences and the current sentence, appended when necessary.
 	 */
 	tokenizeSmallerThanContent( token, tokenSentences, currentSentence ) {
 		/*
@@ -236,9 +236,9 @@ export default class SentenceTokenizer {
 	/**
 	 * Tokenizes the given text using the given tokenizer.
 	 *
-	 * @param {Object} tokenizer the tokenizer to use.
-	 * @param {String} text the text to tokenize.
-	 * @returns {String[]} the tokens as retrieved from the text.
+	 * @param {Object} tokenizer The tokenizer to use.
+	 * @param {string} text The text to tokenize.
+	 * @returns {string[]} The tokens as retrieved from the text.
 	 */
 	tokenize( tokenizer, text ) {
 		tokenizer.onText( text );
