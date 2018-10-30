@@ -5,6 +5,12 @@ import Paper from "../../src/values/Paper.js";
 import factory from "../specHelpers/factory";
 import Mark from "../../src/values/Mark";
 
+/**
+ * Adds morphological forms to the mock researcher.
+ *
+ * @param {Array} keyphraseForms The morphological forms to be added to the researcher.
+ * @returns {Researcher} The mock researcher with added morphological forms.
+ */
 const buildMorphologyMockResearcher = function( keyphraseForms ) {
 	return factory.buildMockResearcher( {
 		morphology: {
