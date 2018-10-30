@@ -115,7 +115,6 @@ Release Date: November 6th, 2018
 * Corrects spelling of the words "plug-in" and "set-up", resulting in less text needing translations. Props to [pedro-mendonca](https://github.com/pedro-mendonca)
 * Adds an additional string in the sidebar to the translatable strings. Props to [pedro-mendonca](https://github.com/pedro-mendonca)
 * Adds the filter `wpseo_opengraph_is_valid_image_url` that allows custom image url validation. Props to [petenelson](https://github.com/petenelson)
-* Updates the font size of the snippet title measure element to correctly mimic Google desktop snippet title. Props to [ol0lll](https://github.com/ol0lll)
 * Removes non-functioning eye-markers from the link keyphrase assessment.
 
 ## Bugs:
@@ -126,7 +125,6 @@ Release Date: November 6th, 2018
 * Fixes a bug where notices were being thrown when quick editing a post and no post type object could be found.
 * Fixes the copy of the date archives help text which contains faulty information. Props to [mkronenfeld](https://github.com/mkronenfeld)
 * Fixes a bug where a type error is thrown when the posts or terms focus keyword isn't of the type WP_Post as this can collide with third-party plugins.
-* Fixes a bug where the Chrome browser tab would crash on Windows when a French or Italian text contains sentences in passive voice. Props to [CarloCannas](https://github.com/CarloCannas)
 
 ## Other
 * Changes the reference in the admin bar menu from "AdWords External" to "Google Ads".
