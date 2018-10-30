@@ -50,7 +50,7 @@ function Controls( {
 		<Container>
 			<Toggle
 				id="toggle-use-taxonomy"
-				labelText="Is taxonomy page"
+				labelText="Is a taxonomy page"
 				isEnabled={ useTaxonomy }
 				onSetToggleState={ value => {
 					setConfigAttribute( "useTaxonomy", value );
