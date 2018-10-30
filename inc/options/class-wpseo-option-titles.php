@@ -112,26 +112,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	);
 
 	/**
-	 * @var array Array of the separator options. To get these options use WPSEO_Option_Titles::get_instance()->get_separator_options().
-	 */
-	private $separator_options = array(
-		'sc-dash'   => '-',
-		'sc-ndash'  => '&ndash;',
-		'sc-mdash'  => '&mdash;',
-		'sc-colon'  => ':',
-		'sc-middot' => '&middot;',
-		'sc-bull'   => '&bull;',
-		'sc-star'   => '*',
-		'sc-smstar' => '&#8902;',
-		'sc-pipe'   => '|',
-		'sc-tilde'  => '~',
-		'sc-laquo'  => '&laquo;',
-		'sc-raquo'  => '&raquo;',
-		'sc-lt'     => '&lt;',
-		'sc-gt'     => '&gt;',
-	);
-
-	/**
 	 * Add the actions and filters for the option.
 	 *
 	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
@@ -177,7 +157,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @return array
 	 */
 	public function get_separator_options() {
-		$separators = $this->separator_options;
+		$separators = wp_list_pluck( $this->get_separator_option_list(), 'option' );
 
 		/**
 		 * Allow altering the array with separator options.
@@ -201,22 +181,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	public function get_separator_options_for_display() {
 		$separators = $this->get_separator_options();
 
-		$human_friendly_labels = array(
-			'sc-dash'   => __( 'Dash', 'wordpress-seo' ),
-			'sc-ndash'  => __( 'En dash', 'wordpress-seo' ),
-			'sc-mdash'  => __( 'Em dash', 'wordpress-seo' ),
-			'sc-colon'  => __( 'Colon', 'wordpress-seo' ),
-			'sc-middot' => __( 'Middle dot', 'wordpress-seo' ),
-			'sc-bull'   => __( 'Bullet', 'wordpress-seo' ),
-			'sc-star'   => __( 'Asterisk', 'wordpress-seo' ),
-			'sc-smstar' => __( 'Low asterisk', 'wordpress-seo' ),
-			'sc-pipe'   => __( 'Vertical bar', 'wordpress-seo' ),
-			'sc-tilde'  => __( 'Small tilde', 'wordpress-seo' ),
-			'sc-laquo'  => __( 'Left angle quotation mark', 'wordpress-seo' ),
-			'sc-raquo'  => __( 'Right angle quotation mark', 'wordpress-seo' ),
-			'sc-lt'     => __( 'Less than sign', 'wordpress-seo' ),
-			'sc-gt'     => __( 'Greater than sign', 'wordpress-seo' ),
-		);
+		$human_friendly_labels = wp_list_pluck( $this->get_separator_option_list(), 'label' );
 
 		/**
 		 * Allows altering the separator options friendly labels array.
@@ -841,5 +806,71 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		}
 
 		return $clean;
+	}
+
+	/**
+	 * Retrieves a list of separator options.
+	 *
+	 * @return array An array of the separator options.
+	 */
+	protected function get_separator_option_list() {
+		return array(
+			'sc-dash'   => array(
+				'option' => '-',
+				'label'  => __( 'Dash', 'wordpress-seo' )
+			),
+			'sc-ndash'  => array(
+				'option' => '&ndash;',
+				'label'  => __( 'En dash', 'wordpress-seo' )
+			),
+			'sc-mdash'  => array(
+				'option' => '&mdash;',
+				'label'  => __( 'Em dash', 'wordpress-seo' )
+			),
+			'sc-colon'  => array(
+				'option' => ':',
+				'label'  => __( 'Colon', 'wordpress-seo' )
+			),
+			'sc-middot' => array(
+				'option' => '&middot;',
+				'label'  => __( 'Middle dot', 'wordpress-seo' )
+			),
+			'sc-bull'   => array(
+				'option' => '&bull;',
+				'label'  => __( 'Bullet', 'wordpress-seo' )
+			),
+			'sc-star'   => array(
+				'option' => '*',
+				'label'  => __( 'Asterisk', 'wordpress-seo' )
+			),
+			'sc-smstar' => array(
+				'option' => '&#8902;',
+				'label'  => __( 'Low asterisk', 'wordpress-seo' )
+			),
+			'sc-pipe'   => array(
+				'option' => '|',
+				'label'  => __( 'Vertical bar', 'wordpress-seo' )
+			),
+			'sc-tilde'  => array(
+				'option' => '~',
+				'label'  => __( 'Small tilde', 'wordpress-seo' )
+			),
+			'sc-laquo'  => array(
+				'option' => '&laquo;',
+				'label'  => __( 'Left angle quotation mark', 'wordpress-seo' )
+			),
+			'sc-raquo'  => array(
+				'option' => '&raquo;',
+				'label'  => __( 'Right angle quotation mark', 'wordpress-seo' )
+			),
+			'sc-lt'     => array(
+				'option' => '&lt;',
+				'label'  => __( 'Less than sign', 'wordpress-seo' )
+			),
+			'sc-gt'     => array(
+				'option' => '&gt;',
+				'label'  => __( 'Greater than sign', 'wordpress-seo' )
+			),
+		);
 	}
 }
