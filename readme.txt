@@ -106,6 +106,16 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 9.0.3 =
+Release Date: October 30th, 2018
+
+Bugfixes:
+
+* Fixes a bug where the metabox was broken when using the classic editor plugin.
+* Fixes a bug where the Chrome browser tab would crash on Windows when a French or Italian text contains sentences in passive voice, props [CarloCannas](https://github.com/CarloCannas).
+* Fixes a bug where the Yoast SEO analysis would error if used together with the DelightfulDownloads plugin.
+
+
 = 9.0.2 =
 Release Date: October 24th, 2018
 
