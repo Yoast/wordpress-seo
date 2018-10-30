@@ -9,6 +9,10 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Other
 * Changes `$palette_grey_text` from #646464 to #616161 to have a sufficient color contrast ratio on #dddddd backgrounds.
 
+## 4.14.1 October 29th, 2018
+### Other
+* Bumps YoastSEO.js to 1.41.1.
+
 ## 4.14.0 October 22nd, 2018
 ### Added
 * Adds an `UpsellButton` component.
