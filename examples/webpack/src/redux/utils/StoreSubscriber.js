@@ -73,7 +73,6 @@ export default class StoreSubscriber {
 		if ( ! isEqual( prevConfiguration, configuration ) ) {
 			this._worker.initialize( configuration ).then( () => {
 				if ( state.configuration.isRelatedKeyphrase ) {
-					console.log( "analyzing related keyphrase..." );
 					return this.analyzeRelatedKeyphrase( state.paper );
 				}
 				return this.analyzePaper( state.paper );
