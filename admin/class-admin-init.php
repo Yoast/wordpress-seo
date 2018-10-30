@@ -48,6 +48,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ) );
 		add_action( 'admin_init', array( $this, 'handle_notifications' ), 15 );
+		add_action( 'admin_enqueue_scripts', array( $this->asset_manager, 'register_wp_assets' ) );
 
 		$listeners   = array();
 		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
