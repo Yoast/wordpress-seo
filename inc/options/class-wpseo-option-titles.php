@@ -117,8 +117,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
 	 * is updated early on and if so, change the call to schedule these for a later action on add/update
 	 * instead of running them straight away.
-	 *
-	 * @return \WPSEO_Option_Titles
 	 */
 	protected function __construct() {
 		parent::__construct();
@@ -141,7 +139,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	/**
 	 * Get the singleton instance of this class.
 	 *
-	 * @return object
+	 * @return self
 	 */
 	public static function get_instance() {
 		if ( ! ( self::$instance instanceof self ) ) {
@@ -714,7 +712,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			}
 			unset( $rename, $taxonomy_names, $post_type_names, $defaults, $tax, $old_prefix, $new_prefix );
 		}
-
 
 		/*
 		 * Make sure the values of the variable option key options are cleaned as they
