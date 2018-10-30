@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.8
-Stable tag: 9.0.2
+Stable tag: 9.0.3
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -114,7 +114,6 @@ Bugfixes:
 * Fixes a bug where the metabox was broken when using the classic editor plugin.
 * Fixes a bug where the Chrome browser tab would crash on Windows when a French or Italian text contains sentences in passive voice, props [CarloCannas](https://github.com/CarloCannas).
 * Fixes a bug where the Yoast SEO analysis would error if used together with the DelightfulDownloads plugin.
-
 
 = 9.0.2 =
 Release Date: October 24th, 2018
