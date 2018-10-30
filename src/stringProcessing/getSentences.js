@@ -204,45 +204,6 @@ function tokenize( tokenizer, text ) {
 	}
 }
 
-function tokenizeSmallerThanContent( token, tokenSentences, currentSentence ) {
-	/*
-		Remove the '<' from the text, to avoid matching this rule
-		recursively again and again.
-		We add it again later on.
-	*/
-	const localText = token.src.substring( 1 );
-
-	const tokenizerResult = createTokenizer();
-	tokenize( tokenizerResult.tokenizer, localText );
-	let localSentences = getSentencesFromTokens( tokenizerResult.tokens, false );
-
-	localSentences[ 0 ] = "<" + localSentences[ 0 ];
-
-	if ( isValidSentenceBeginning( localSentences[ 0 ] ) ) {
-		tokenSentences.push( currentSentence );
-		currentSentence = "";
-	}
-	currentSentence += localSentences[ 0 ];
-
-	if ( localSentences.length > 1 ) {
-		/*
-			There is a new sentence after the first,
-			add and reset the current sentence.
-		 */
-		tokenSentences.push( currentSentence );
-		currentSentence = "";
-
-		// Remove the first sentence (we do not need to add it again).
-		localSentences.shift();
-
-		// Add the remaining found sentences.
-		localSentences.forEach( sentence => {
-			tokenSentences.push( sentence );
-		} );
-	}
-	return currentSentence;
-}
-
 /**
  * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
  *
@@ -356,6 +317,45 @@ function getSentencesFromTokens( tokenArray, trimSentences = true ) {
 	}
 
 	return tokenSentences;
+}
+
+function tokenizeSmallerThanContent( token, tokenSentences, currentSentence ) {
+	/*
+		Remove the '<' from the text, to avoid matching this rule
+		recursively again and again.
+		We add it again later on.
+	*/
+	const localText = token.src.substring( 1 );
+
+	const tokenizerResult = createTokenizer();
+	tokenize( tokenizerResult.tokenizer, localText );
+	const localSentences = getSentencesFromTokens( tokenizerResult.tokens, false );
+
+	localSentences[ 0 ] = "<" + localSentences[ 0 ];
+
+	if ( isValidSentenceBeginning( localSentences[ 0 ] ) ) {
+		tokenSentences.push( currentSentence );
+		currentSentence = "";
+	}
+	currentSentence += localSentences[ 0 ];
+
+	if ( localSentences.length > 1 ) {
+		/*
+			There is a new sentence after the first,
+			add and reset the current sentence.
+		 */
+		tokenSentences.push( currentSentence );
+		currentSentence = "";
+
+		// Remove the first sentence (we do not need to add it again).
+		localSentences.shift();
+
+		// Add the remaining found sentences.
+		localSentences.forEach( sentence => {
+			tokenSentences.push( sentence );
+		} );
+	}
+	return currentSentence;
 }
 
 /**
