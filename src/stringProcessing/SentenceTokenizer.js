@@ -245,6 +245,7 @@ export default class SentenceTokenizer {
 	 *
 	 * @param {Object} tokenizer The tokenizer to use.
 	 * @param {string} text The text to tokenize.
+	 * @returns {void}
 	 */
 	tokenize( tokenizer, text ) {
 		tokenizer.onText( text );
