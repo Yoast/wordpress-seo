@@ -11,18 +11,14 @@
 class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 
 	/**
-	 * @var bool Holds the flag if shop page is set.
+	 * @var int Holds the shop page id.
 	 */
-	protected $shop_page_exists = false;
+	protected static $shop_page_id;
 
 	/**
-	 * Class constructor
+	 * @var bool Is current page the shop page?
 	 */
-	public function __construct() {
-		if ( $this->is_woo_activated() ) {
-			$this->shop_page_exists = $this->get_shop_page_id() > 0;
-		}
-	}
+	protected static $is_shop_page;
 
 	/**
 	 * Registers the hooks
@@ -30,7 +26,7 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		if ( ! $this->shop_page_exists ) {
+		if ( ! $this->is_woo_activated() ) {
 			return;
 		}
 
@@ -67,18 +63,21 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	 * @return bool Whether the current page is the WooCommerce shop page.
 	 */
 	public function is_shop_page() {
-		static $is_shop_page;
+		global $wp_query;
 
-		if ( isset( $is_shop_page ) ) {
-			return $is_shop_page;
+		if ( isset( self::$is_shop_page ) ) {
+			return self::$is_shop_page;
 		}
 
-		$is_shop_page = false;
-		if ( $this->shop_page_exists ) {
-			$is_shop_page = is_shop() && ! is_search();
+		if ( ! isset( $wp_query ) ) {
+			return false;
 		}
 
-		return $is_shop_page;
+		if ( $this->get_shop_page_id() > 0 ) {
+			self::$is_shop_page = is_shop() && ! is_search();
+		}
+
+		return self::$is_shop_page;
 	}
 
 	/**
@@ -87,12 +86,10 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	 * @return int The ID of the set page.
 	 */
 	public function get_shop_page_id() {
-		static $shop_page_id;
-
-		if ( ! $shop_page_id ) {
-			$shop_page_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'shop' ) : ( -1 );
+		if ( ! isset( self::$shop_page_id ) ) {
+			self::$shop_page_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'shop' ) : ( -1 );
 		}
 
-		return $shop_page_id;
+		return self::$shop_page_id;
 	}
 }
