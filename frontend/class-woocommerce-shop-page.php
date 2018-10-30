@@ -73,7 +73,8 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 			return false;
 		}
 
-		if ( $this->get_shop_page_id() > 0 ) {
+		self::$is_shop_page = false;
+		if ( $this->is_woo_activated() && $this->get_shop_page_id() > 0 ) {
 			self::$is_shop_page = is_shop() && ! is_search();
 		}
 
