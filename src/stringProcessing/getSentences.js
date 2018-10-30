@@ -1,6 +1,5 @@
 import { map } from "lodash-es";
 import { isUndefined } from "lodash-es";
-import { forEach } from "lodash-es";
 import { isNaN } from "lodash-es";
 import { filter } from "lodash-es";
 import { flatMap } from "lodash-es";
@@ -31,331 +30,351 @@ const blockStartRegex = /^\s*[[({]\s*$/;
 const blockEndRegex = /^\s*[\])}]\s*$/;
 
 /**
- * Creates a tokenizer.
- *
- * @returns {Object} The tokenizer and the tokens.
+ * Class for tokenizing a (html) text into sentences.
  */
-function createTokenizer() {
-	const tokens = [];
-	const tokenizer = core( function( token ) {
-		tokens.push( token );
-	} );
-
-	tokenizer.addRule( fullStopRegex, "full-stop" );
-	tokenizer.addRule( smallerThanContentRegex, "smaller-than-sign-content" );
-	tokenizer.addRule( htmlStartRegex, "html-start" );
-	tokenizer.addRule( htmlEndRegex, "html-end" );
-	tokenizer.addRule( blockStartRegex, "block-start" );
-	tokenizer.addRule( blockEndRegex, "block-end" );
-	tokenizer.addRule( sentenceDelimiterRegex, "sentence-delimiter" );
-	tokenizer.addRule( sentenceRegex, "sentence" );
-
-	return {
-		tokenizer,
-		tokens,
-	};
-}
-
-/**
- * Returns whether or not a certain character is a capital letter.
- *
- * @param {string} character The character to check.
- * @returns {boolean} Whether or not the character is a capital letter.
- */
-function isCapitalLetter( character ) {
-	return character !== character.toLocaleLowerCase();
-}
-
-/**
- * Returns whether or not a certain character is a number.
- *
- * @param {string} character The character to check.
- * @returns {boolean} Whether or not the character is a capital letter.
- */
-function isNumber( character ) {
-	return ! isNaN( parseInt( character, 10 ) );
-}
-
-/**
- * Returns whether or not a given HTML tag is a break tag.
- *
- * @param {string} htmlTag The HTML tag to check.
- * @returns {boolean} Whether or not the given HTML tag is a break tag.
- */
-function isBreakTag( htmlTag ) {
-	return /<br/.test( htmlTag );
-}
-
-/**
- * Returns whether or not a given character is quotation mark.
- *
- * @param {string} character The character to check.
- * @returns {boolean} Whether or not the given character is a quotation mark.
- */
-function isQuotation( character ) {
-	character = normalizeQuotes( character );
-
-	return "'" === character ||
-		"\"" === character;
-}
-
-/**
- * Returns whether or not a given character is a punctuation mark that can be at the beginning
- * of a sentence, like ¿ and ¡ used in Spanish.
- *
- * @param {string} character The character to check.
- * @returns {boolean} Whether or not the given character is a punctuation mark.
- */
-function isPunctuation( character ) {
-	return "¿" === character ||
-		"¡" === character;
-}
-
-/**
- * Removes duplicate whitespace from a given text.
- *
- * @param {string} text The text with duplicate whitespace.
- * @returns {string} The text without duplicate whitespace.
- */
-function removeDuplicateWhitespace( text ) {
-	return text.replace( /\s+/, " " );
-}
-
-/**
- * Retrieves the next two characters from an array with the two next tokens.
- *
- * @param {Array} nextTokens The two next tokens. Might be undefined.
- * @returns {string} The next two characters.
- */
-function getNextTwoCharacters( nextTokens ) {
-	let next = "";
-
-	if ( ! isUndefined( nextTokens[ 0 ] ) ) {
-		next += nextTokens[ 0 ].src;
+class SentenceTokenizer {
+	/**
+	 * Returns whether or not a certain character is a number.
+	 *
+	 * @param {string} character The character to check.
+	 * @returns {boolean} Whether or not the character is a capital letter.
+	 */
+	isNumber( character ) {
+		return ! isNaN( parseInt( character, 10 ) );
 	}
 
-	if ( ! isUndefined( nextTokens[ 1 ] ) ) {
-		next += nextTokens[ 1 ].src;
+	/**
+	 * Returns whether or not a given HTML tag is a break tag.
+	 *
+	 * @param {string} htmlTag The HTML tag to check.
+	 * @returns {boolean} Whether or not the given HTML tag is a break tag.
+	 */
+	isBreakTag( htmlTag ) {
+		return /<br/.test( htmlTag );
 	}
 
-	next = removeDuplicateWhitespace( next );
+	/**
+	 * Returns whether or not a given character is quotation mark.
+	 *
+	 * @param {string} character The character to check.
+	 * @returns {boolean} Whether or not the given character is a quotation mark.
+	 */
+	isQuotation( character ) {
+		character = normalizeQuotes( character );
 
-	return next;
-}
-
-/**
- * Checks whether the given character is a smaller than sign.
- *
- * This function is used to make sure that tokenizing the content after
- * the smaller than sign works as expected.
- * E.g. 'A sentence. < Hello world!' = ['A sentence.', '< Hello world!'].
- *
- * @param {string} character the character to check.
- * @returns {boolean} whether the character is a smaller than sign ('<') or not.
- */
-function isSmallerThanSign( character ) {
-	return character === "<";
-}
-
-/**
- * Checks if the sentenceBeginning beginning is a valid beginning.
- *
- * @param {string} sentenceBeginning The beginning of the sentence to validate.
- * @returns {boolean} Returns true if it is a valid beginning, false if it is not.
- */
-function isValidSentenceBeginning( sentenceBeginning ) {
-	return (
-		isCapitalLetter( sentenceBeginning ) ||
-		isNumber( sentenceBeginning ) ||
-		isQuotation( sentenceBeginning ) ||
-		isPunctuation( sentenceBeginning ) ||
-		isSmallerThanSign( sentenceBeginning )
-	);
-}
-
-/**
- * Checks if the token is a valid sentence ending.
- *
- * @param {Object} token The token to validate.
- * @returns {boolean} Returns true if the token is valid ending, false if it is not.
- */
-function isSentenceStart( token ) {
-	return ( ! isUndefined( token ) && (
-		"html-start" === token.type ||
-		"html-end" === token.type ||
-		"block-start" === token.type
-	) );
-}
-
-/**
- * Tokenizes the given text using the given tokenizer.
- *
- * @param {Object} tokenizer the tokenizer to use.
- * @param {String} text the text to tokenize.
- * @returns {String[]} the tokens as retrieved from the text.
- */
-function tokenize( tokenizer, text ) {
-	tokenizer.onText( text );
-
-	try {
-		tokenizer.end();
-	} catch ( e ) {
-		console.error( "Tokenizer end error:", e, e.tokenizer2 );
+		return "'" === character ||
+			"\"" === character;
 	}
-}
 
-/**
- * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
- *
- * @param {Array} tokenArray The tokens from the sentence tokenizer.
- * @param {Boolean} [trimSentences=true] Whether to trim the sentences at the end or not.
- *
- * @returns {Array<string>} A list of sentences.
- */
-function getSentencesFromTokens( tokenArray, trimSentences = true ) {
-	let tokenSentences = [], currentSentence = "", nextSentenceStart;
+	/**
+	 * Returns whether or not a given character is a punctuation mark that can be at the beginning
+	 * of a sentence, like ¿ and ¡ used in Spanish.
+	 *
+	 * @param {string} character The character to check.
+	 * @returns {boolean} Whether or not the given character is a punctuation mark.
+	 */
+	isPunctuation( character ) {
+		return "¿" === character ||
+			"¡" === character;
+	}
 
-	let sliced;
+	/**
+	 * Removes duplicate whitespace from a given text.
+	 *
+	 * @param {string} text The text with duplicate whitespace.
+	 * @returns {string} The text without duplicate whitespace.
+	 */
+	removeDuplicateWhitespace( text ) {
+		return text.replace( /\s+/, " " );
+	}
 
-	// Drop the first and last HTML tag if both are present.
-	do {
-		sliced = false;
-		const firstToken = tokenArray[ 0 ];
-		const lastToken = tokenArray[ tokenArray.length - 1 ];
+	/**
+	 * Returns whether or not a certain character is a capital letter.
+	 *
+	 * @param {string} character The character to check.
+	 * @returns {boolean} Whether or not the character is a capital letter.
+	 */
+	isCapitalLetter( character ) {
+		return character !== character.toLocaleLowerCase();
+	}
 
-		if ( firstToken && lastToken && firstToken.type === "html-start" && lastToken.type === "html-end" ) {
-			tokenArray = tokenArray.slice( 1, tokenArray.length - 1 );
+	/**
+	 * Checks whether the given character is a smaller than sign.
+	 *
+	 * This function is used to make sure that tokenizing the content after
+	 * the smaller than sign works as expected.
+	 * E.g. 'A sentence. < Hello world!' = ['A sentence.', '< Hello world!'].
+	 *
+	 * @param {string} character the character to check.
+	 * @returns {boolean} whether the character is a smaller than sign ('<') or not.
+	 */
+	isSmallerThanSign( character ) {
+		return character === "<";
+	}
 
-			sliced = true;
+	/**
+	 * Retrieves the next two characters from an array with the two next tokens.
+	 *
+	 * @param {Array} nextTokens The two next tokens. Might be undefined.
+	 * @returns {string} The next two characters.
+	 */
+	getNextTwoCharacters( nextTokens ) {
+		let next = "";
+
+		if ( ! isUndefined( nextTokens[ 0 ] ) ) {
+			next += nextTokens[ 0 ].src;
 		}
-	} while ( sliced && tokenArray.length > 1 );
 
-	forEach( tokenArray, function( token, i ) {
-		let hasNextSentence;
-		const nextToken = tokenArray[ i + 1 ];
-		const secondToNextToken = tokenArray[ i + 2 ];
-		let nextCharacters;
-
-		switch ( token.type ) {
-			case "html-start":
-			case "html-end":
-				if ( isBreakTag( token.src ) ) {
-					tokenSentences.push( currentSentence );
-					currentSentence = "";
-				} else {
-					currentSentence += token.src;
-				}
-				break;
-
-			case "smaller-than-sign-content":
-				currentSentence = tokenizeSmallerThanContent( token, tokenSentences, currentSentence );
-				break;
-			case "sentence":
-				currentSentence += token.src;
-				break;
-			case "sentence-delimiter":
-				currentSentence += token.src;
-
-				if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type && "sentence-delimiter" !== nextToken.type ) {
-					tokenSentences.push( currentSentence );
-					currentSentence = "";
-				}
-				break;
-
-			case "full-stop":
-				currentSentence += token.src;
-
-				nextCharacters = getNextTwoCharacters( [ nextToken, secondToNextToken ] );
-
-				// For a new sentence we need to check the next two characters.
-				hasNextSentence = nextCharacters.length >= 2;
-				nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
-				// If the next character is a number, never split. For example: IPv4-numbers.
-				if ( hasNextSentence && isNumber( nextCharacters[ 0 ] ) ) {
-					break;
-				}
-				// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
-				if ( ( hasNextSentence && isValidSentenceBeginning( nextSentenceStart ) ) || isSentenceStart( nextToken ) ) {
-					tokenSentences.push( currentSentence );
-					currentSentence = "";
-				}
-				break;
-
-			case "block-start":
-				currentSentence += token.src;
-				break;
-
-			case "block-end":
-				currentSentence += token.src;
-
-				nextCharacters = getNextTwoCharacters( [ nextToken, secondToNextToken ] );
-
-				// For a new sentence we need to check the next two characters.
-				hasNextSentence = nextCharacters.length >= 2;
-				nextSentenceStart = hasNextSentence ? nextCharacters[ 0 ] : "";
-				// If the next character is a number, never split. For example: IPv4-numbers.
-				if ( hasNextSentence && isNumber( nextCharacters[ 0 ] ) ) {
-					break;
-				}
-
-				if ( ( hasNextSentence && isValidSentenceBeginning( nextSentenceStart ) ) || isSentenceStart( nextToken ) ) {
-					tokenSentences.push( currentSentence );
-					currentSentence = "";
-				}
-				break;
+		if ( ! isUndefined( nextTokens[ 1 ] ) ) {
+			next += nextTokens[ 1 ].src;
 		}
-	} );
 
-	if ( "" !== currentSentence ) {
-		tokenSentences.push( currentSentence );
+		next = this.removeDuplicateWhitespace( next );
+
+		return next;
 	}
 
-	if ( trimSentences ) {
-		tokenSentences = map( tokenSentences, function( sentence ) {
-			return sentence.trim();
-		} );
+	/**
+	 * Checks if the sentenceBeginning beginning is a valid beginning.
+	 *
+	 * @param {string} sentenceBeginning The beginning of the sentence to validate.
+	 * @returns {boolean} Returns true if it is a valid beginning, false if it is not.
+	 */
+	isValidSentenceBeginning( sentenceBeginning ) {
+		return (
+			this.isCapitalLetter( sentenceBeginning ) ||
+			this.isNumber( sentenceBeginning ) ||
+			this.isQuotation( sentenceBeginning ) ||
+			this.isPunctuation( sentenceBeginning ) ||
+			this.isSmallerThanSign( sentenceBeginning )
+		);
 	}
 
-	return tokenSentences;
-}
-
-function tokenizeSmallerThanContent( token, tokenSentences, currentSentence ) {
-	/*
-		Remove the '<' from the text, to avoid matching this rule
-		recursively again and again.
-		We add it again later on.
-	*/
-	const localText = token.src.substring( 1 );
-
-	const tokenizerResult = createTokenizer();
-	tokenize( tokenizerResult.tokenizer, localText );
-	const localSentences = getSentencesFromTokens( tokenizerResult.tokens, false );
-
-	localSentences[ 0 ] = "<" + localSentences[ 0 ];
-
-	if ( isValidSentenceBeginning( localSentences[ 0 ] ) ) {
-		tokenSentences.push( currentSentence );
-		currentSentence = "";
+	/**
+	 * Checks if the token is a valid sentence ending.
+	 *
+	 * @param {Object} token The token to validate.
+	 * @returns {boolean} Returns true if the token is valid ending, false if it is not.
+	 */
+	isSentenceStart( token ) {
+		return ( ! isUndefined( token ) && (
+			"html-start" === token.type ||
+			"html-end" === token.type ||
+			"block-start" === token.type
+		) );
 	}
-	currentSentence += localSentences[ 0 ];
 
-	if ( localSentences.length > 1 ) {
+	/**
+	 * Tokens that represent a '<', followed by content until it enters another '<' or '>'
+	 * gets another pass by the tokenizer.
+	 *
+	 * @param {Object} token a token of type 'smaller-than-sign-content'.
+	 * @param {String[]} tokenSentences the current array of found sentences. Sentences may get added by this method.
+	 * @param {String} currentSentence the current sentence. Sentence parts may get appended by this method.
+	 * @returns {{tokenSentences, currentSentence}} the found sentences and the current sentence, appended when necessary.
+	 */
+	tokenizeSmallerThanContent( token, tokenSentences, currentSentence ) {
 		/*
-			There is a new sentence after the first,
-			add and reset the current sentence.
-		 */
-		tokenSentences.push( currentSentence );
-		currentSentence = "";
+			Remove the '<' from the text, to avoid matching this rule
+			recursively again and again.
+			We add it again later on.
+		*/
+		const localText = token.src.substring( 1 );
 
-		// Remove the first sentence (we do not need to add it again).
-		localSentences.shift();
+		const tokenizerResult = this.createTokenizer();
+		this.tokenize( tokenizerResult.tokenizer, localText );
+		const localSentences = this.getSentencesFromTokens( tokenizerResult.tokens, false );
 
-		// Add the remaining found sentences.
-		localSentences.forEach( sentence => {
-			tokenSentences.push( sentence );
-		} );
+		localSentences[ 0 ] = "<" + localSentences[ 0 ];
+
+		if ( this.isValidSentenceBeginning( localSentences[ 0 ] ) ) {
+			tokenSentences.push( currentSentence );
+			currentSentence = "";
+		}
+		currentSentence += localSentences[ 0 ];
+
+		if ( localSentences.length > 1 ) {
+			/*
+				There is a new sentence after the first,
+				add and reset the current sentence.
+			 */
+			tokenSentences.push( currentSentence );
+			currentSentence = "";
+
+			// Remove the first sentence (we do not need to add it again).
+			localSentences.shift();
+
+			// Add the remaining found sentences.
+			localSentences.forEach( sentence => {
+				tokenSentences.push( sentence );
+			} );
+		}
+		return {
+			tokenSentences,
+			currentSentence,
+		};
 	}
-	return currentSentence;
+
+	/**
+	 * Creates a tokenizer.
+	 *
+	 * @returns {Object} The tokenizer and the tokens.
+	 */
+	createTokenizer() {
+		const tokens = [];
+		const tokenizer = core( function( token ) {
+			tokens.push( token );
+		} );
+
+		tokenizer.addRule( fullStopRegex, "full-stop" );
+		tokenizer.addRule( smallerThanContentRegex, "smaller-than-sign-content" );
+		tokenizer.addRule( htmlStartRegex, "html-start" );
+		tokenizer.addRule( htmlEndRegex, "html-end" );
+		tokenizer.addRule( blockStartRegex, "block-start" );
+		tokenizer.addRule( blockEndRegex, "block-end" );
+		tokenizer.addRule( sentenceDelimiterRegex, "sentence-delimiter" );
+		tokenizer.addRule( sentenceRegex, "sentence" );
+
+		return {
+			tokenizer,
+			tokens,
+		};
+	}
+
+	/**
+	 * Tokenizes the given text using the given tokenizer.
+	 *
+	 * @param {Object} tokenizer the tokenizer to use.
+	 * @param {String} text the text to tokenize.
+	 * @returns {String[]} the tokens as retrieved from the text.
+	 */
+	tokenize( tokenizer, text ) {
+		tokenizer.onText( text );
+
+		try {
+			tokenizer.end();
+		} catch ( e ) {
+			console.error( "Tokenizer end error:", e, e.tokenizer2 );
+		}
+	}
+	
+	/**
+	 * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
+	 *
+	 * @param {Array} tokenArray The tokens from the sentence tokenizer.
+	 * @param {Boolean} [trimSentences=true] Whether to trim the sentences at the end or not.
+	 *
+	 * @returns {Array<string>} A list of sentences.
+	 */
+	getSentencesFromTokens( tokenArray, trimSentences = true ) {
+		let tokenSentences = [], currentSentence = "", nextSentenceStart;
+
+		let sliced;
+
+		// Drop the first and last HTML tag if both are present.
+		do {
+			sliced = false;
+			const firstToken = tokenArray[ 0 ];
+			const lastToken = tokenArray[ tokenArray.length - 1 ];
+
+			if ( firstToken && lastToken && firstToken.type === "html-start" && lastToken.type === "html-end" ) {
+				tokenArray = tokenArray.slice( 1, tokenArray.length - 1 );
+
+				sliced = true;
+			}
+		} while ( sliced && tokenArray.length > 1 );
+
+		tokenArray.forEach( ( token, i ) => {
+			let hasNextSentence;
+			const nextToken = tokenArray[ i + 1 ];
+			const secondToNextToken = tokenArray[ i + 2 ];
+			let nextCharacters;
+			let tokenizeResults;
+
+			switch ( token.type ) {
+				case "html-start":
+				case "html-end":
+					if ( this.isBreakTag( token.src ) ) {
+						tokenSentences.push( currentSentence );
+						currentSentence = "";
+					} else {
+						currentSentence += token.src;
+					}
+					break;
+
+				case "smaller-than-sign-content":
+					tokenizeResults = this.tokenizeSmallerThanContent( token, tokenSentences, currentSentence );
+					tokenSentences = tokenizeResults.tokenSentences;
+					currentSentence = tokenizeResults.currentSentence;
+					break;
+				case "sentence":
+					currentSentence += token.src;
+					break;
+				case "sentence-delimiter":
+					currentSentence += token.src;
+
+					if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type && "sentence-delimiter" !== nextToken.type ) {
+						tokenSentences.push( currentSentence );
+						currentSentence = "";
+					}
+					break;
+
+				case "full-stop":
+					currentSentence += token.src;
+
+					nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] );
+
+					// For a new sentence we need to check the next two characters.
+					hasNextSentence = nextCharacters.length >= 2;
+					nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
+					// If the next character is a number, never split. For example: IPv4-numbers.
+					if ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
+						break;
+					}
+					// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
+					if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) ) || this.isSentenceStart( nextToken ) ) {
+						tokenSentences.push( currentSentence );
+						currentSentence = "";
+					}
+					break;
+
+				case "block-start":
+					currentSentence += token.src;
+					break;
+
+				case "block-end":
+					currentSentence += token.src;
+
+					nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] );
+
+					// For a new sentence we need to check the next two characters.
+					hasNextSentence = nextCharacters.length >= 2;
+					nextSentenceStart = hasNextSentence ? nextCharacters[ 0 ] : "";
+					// If the next character is a number, never split. For example: IPv4-numbers.
+					if ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
+						break;
+					}
+
+					if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) ) || this.isSentenceStart( nextToken ) ) {
+						tokenSentences.push( currentSentence );
+						currentSentence = "";
+					}
+					break;
+			}
+		} );
+
+		if ( "" !== currentSentence ) {
+			tokenSentences.push( currentSentence );
+		}
+
+		if ( trimSentences ) {
+			tokenSentences = map( tokenSentences, function( sentence ) {
+				return sentence.trim();
+			} );
+		}
+
+		return tokenSentences;
+	}
 }
 
 /**
@@ -365,10 +384,11 @@ function tokenizeSmallerThanContent( token, tokenSentences, currentSentence ) {
  * @returns {Array<string>} The list of sentences in the block.
  */
 function getSentencesFromBlock( block ) {
-	const { tokenizer, tokens } = createTokenizer();
-	tokenize( tokenizer, block );
+	const sentenceTokenizer = new SentenceTokenizer();
+	const { tokenizer, tokens } = sentenceTokenizer.createTokenizer();
+	sentenceTokenizer.tokenize( tokenizer, block );
 
-	return tokens.length === 0 ? [] : getSentencesFromTokens( tokens );
+	return tokens.length === 0 ? [] : sentenceTokenizer.getSentencesFromTokens( tokens );
 }
 
 const getSentencesFromBlockCached = memoize( getSentencesFromBlock );
