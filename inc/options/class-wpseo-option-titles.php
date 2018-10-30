@@ -806,59 +806,59 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		$separators = array(
 			'sc-dash'   => array(
 				'option' => '-',
-				'label'  => __( 'Dash', 'wordpress-seo' )
+				'label'  => __( 'Dash', 'wordpress-seo' ),
 			),
 			'sc-ndash'  => array(
 				'option' => '&ndash;',
-				'label'  => __( 'En dash', 'wordpress-seo' )
+				'label'  => __( 'En dash', 'wordpress-seo' ),
 			),
 			'sc-mdash'  => array(
 				'option' => '&mdash;',
-				'label'  => __( 'Em dash', 'wordpress-seo' )
+				'label'  => __( 'Em dash', 'wordpress-seo' ),
 			),
 			'sc-colon'  => array(
 				'option' => ':',
-				'label'  => __( 'Colon', 'wordpress-seo' )
+				'label'  => __( 'Colon', 'wordpress-seo' ),
 			),
 			'sc-middot' => array(
 				'option' => '&middot;',
-				'label'  => __( 'Middle dot', 'wordpress-seo' )
+				'label'  => __( 'Middle dot', 'wordpress-seo' ),
 			),
 			'sc-bull'   => array(
 				'option' => '&bull;',
-				'label'  => __( 'Bullet', 'wordpress-seo' )
+				'label'  => __( 'Bullet', 'wordpress-seo' ),
 			),
 			'sc-star'   => array(
 				'option' => '*',
-				'label'  => __( 'Asterisk', 'wordpress-seo' )
+				'label'  => __( 'Asterisk', 'wordpress-seo' ),
 			),
 			'sc-smstar' => array(
 				'option' => '&#8902;',
-				'label'  => __( 'Low asterisk', 'wordpress-seo' )
+				'label'  => __( 'Low asterisk', 'wordpress-seo' ),
 			),
 			'sc-pipe'   => array(
 				'option' => '|',
-				'label'  => __( 'Vertical bar', 'wordpress-seo' )
+				'label'  => __( 'Vertical bar', 'wordpress-seo' ),
 			),
 			'sc-tilde'  => array(
 				'option' => '~',
-				'label'  => __( 'Small tilde', 'wordpress-seo' )
+				'label'  => __( 'Small tilde', 'wordpress-seo' ),
 			),
 			'sc-laquo'  => array(
 				'option' => '&laquo;',
-				'label'  => __( 'Left angle quotation mark', 'wordpress-seo' )
+				'label'  => __( 'Left angle quotation mark', 'wordpress-seo' ),
 			),
 			'sc-raquo'  => array(
 				'option' => '&raquo;',
-				'label'  => __( 'Right angle quotation mark', 'wordpress-seo' )
+				'label'  => __( 'Right angle quotation mark', 'wordpress-seo' ),
 			),
 			'sc-lt'     => array(
 				'option' => '&lt;',
-				'label'  => __( 'Less than sign', 'wordpress-seo' )
+				'label'  => __( 'Less than sign', 'wordpress-seo' ),
 			),
 			'sc-gt'     => array(
 				'option' => '&gt;',
-				'label'  => __( 'Greater than sign', 'wordpress-seo' )
+				'label'  => __( 'Greater than sign', 'wordpress-seo' ),
 			),
 		);
 
