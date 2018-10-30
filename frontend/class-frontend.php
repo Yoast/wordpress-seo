@@ -864,7 +864,7 @@ class WPSEO_Frontend {
 			$canonical_override = $this->get_seo_meta_value( 'canonical' );
 
 			// Fix paginated pages canonical, but only if the page is truly paginated.
-			if ( get_query_var( 'page' ) > 1 ) {
+			if ( get_query_var( 'page' ) > 1 && ! empty( $obj->post_content ) ) {
 				$num_pages = ( substr_count( $obj->post_content, '<!--nextpage-->' ) + 1 );
 				if ( $num_pages && get_query_var( 'page' ) <= $num_pages ) {
 					if ( ! $GLOBALS['wp_rewrite']->using_permalinks() ) {
@@ -1036,7 +1036,7 @@ class WPSEO_Frontend {
 		$num_pages = 1;
 
 		$queried_object = get_queried_object();
-		if ( ! empty( $queried_object ) ) {
+		if ( ! empty( $queried_object ) && ! empty( $queried_object->post_content ) ) {
 			$num_pages = ( substr_count( $queried_object->post_content, '<!--nextpage-->' ) + 1 );
 		}
 
