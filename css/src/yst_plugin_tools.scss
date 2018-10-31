@@ -476,14 +476,9 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 /* Banners sidebar. */
 .yoast-sidebar {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-around;
-	align-items: flex-start;
 
 	&__title {
-		flex-grow: 1;
-		min-width: 100%;
+		width: 100%;
 		margin: 5px 0;
 		padding: 10px 0;
 		color: #a4286a;
@@ -494,7 +489,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	}
 
 	&__section {
-		min-width: 261px;
 		padding: 20px 0;
 		border-bottom: 1px solid #ddd;
 
@@ -716,14 +710,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	#sidebar-container {
 		width: auto;
 		padding: 0;
-	}
-
-	/* Banners sidebar. */
-	.yoast-sidebar {
-		&__section {
-			max-width: 50%;
-			margin: 0 1em;
- 		}
 	}
 }
 
