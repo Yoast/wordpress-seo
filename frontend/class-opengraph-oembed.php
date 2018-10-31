@@ -7,17 +7,13 @@
 
 /**
  * Class WPSEO_OpenGraph_OEmbed
- *
- * This class handles the transformation of oEmbed JSON/XML to utilize WPSEO's OpenGraph
- * settings.
- *
  */
 class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 	/**
 	 * Registers the hooks.
 	 */
 	public function register_hooks() {
-		add_filter( 'oembed_response_data', array( $this, 'wpseo_hook_oembed'), 10, 4 );
+		add_filter( 'oembed_response_data', array( $this, 'wpseo_hook_oembed' ), 10, 4 );
 	}
 
 	/**
