@@ -9,7 +9,7 @@ const maximumMetaDescriptionLength = Config.maxMeta;
 /**
  * Assessment for calculating the length of the meta description.
  */
-class MetaDescriptionLengthAssessment extends Assessment {
+export default class MetaDescriptionLengthAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -154,5 +154,3 @@ class MetaDescriptionLengthAssessment extends Assessment {
 		}
 	}
 }
-
-export default MetaDescriptionLengthAssessment;

@@ -19,7 +19,31 @@ describe( "A test for checking the Italian participle", function() {
 			type: "irregular",
 			language: "it",
 		} );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 38, "it" ) ).toBe( true );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "it" ) ).toBe( true );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "it" ) ).toBe( true );
+		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
+	} );
+
+	it( "checks the properties of the Italian participle object with a precedence exception", function() {
+		// Direct precedence exception word: il.
+		const mockParticiple = new ItalianParticiple( "mandato", "Dovresti andare a vedere se esiste il mandato.", {
+			auxiliaries: [ "andare" ],
+			type: "irregular",
+			language: "it",
+		} );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, mockParticiple._participle, "it" ) ).toBe( true );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "it" ) ).toBe( true );
+		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
+	} );
+
+	it( "checks the properties of the Italian participle object with a precedence exception", function() {
+		// Direct precedence exception word: il.
+		const mockParticiple = new ItalianParticiple( "mandato", "Dovresti andare a vedere se esiste il mandato.", {
+			auxiliaries: [ "andare" ],
+			type: "irregular",
+			language: "it",
+		} );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, mockParticiple._participle, "it" ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
@@ -31,7 +55,6 @@ describe( "A test for checking the Italian participle", function() {
 		} );
 		mockParticiple._participle = null;
 		checkException.call( mockParticiple );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 8, "it" ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 } );

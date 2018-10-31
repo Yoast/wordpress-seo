@@ -7,7 +7,7 @@ import AssessmentResult from "../../values/AssessmentResult";
 /**
  * Assessment that will test if the text is long enough.
  */
-class TextLengthAssessment extends Assessment {
+export default class TextLengthAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -199,5 +199,3 @@ class TextLengthAssessment extends Assessment {
 		return "";
 	}
 }
-
-export default TextLengthAssessment;

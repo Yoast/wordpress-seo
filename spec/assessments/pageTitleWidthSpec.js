@@ -1,4 +1,4 @@
-import PageTitleLengthAssessment from "../../src/assessments/seo/pageTitleWidthAssessment.js";
+import PageTitleLengthAssessment from "../../src/assessments/seo/PageTitleWidthAssessment.js";
 import Paper from "../../src/values/Paper.js";
 import factory from "../specHelpers/factory.js";
 var i18n = factory.buildJed();
