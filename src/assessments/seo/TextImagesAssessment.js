@@ -7,7 +7,7 @@ import AssessmentResult from "../../values/AssessmentResult";
 /**
  * Represents the assessment that will look if the images have alt-tags and checks if the keyword is present in one of them.
  */
-class TextImagesAssessment extends Assessment {
+export default class TextImagesAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -151,5 +151,3 @@ class TextImagesAssessment extends Assessment {
 		return null;
 	}
 }
-
-export default TextImagesAssessment;

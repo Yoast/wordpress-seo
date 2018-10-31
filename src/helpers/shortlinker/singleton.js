@@ -1,8 +1,16 @@
 import Shortlinker from "./Shortlinker";
 
-// Expose global variable.
-self.yoast = self.yoast || {};
-self.yoast.shortlinker = null;
+// Set global scope.
+let globalScope;
+
+if ( typeof window === "undefined" ) {
+	globalScope = self;
+} else {
+	globalScope = window;
+}
+
+globalScope.yoast = globalScope.yoast || {};
+globalScope.yoast.shortlinker = null;
 
 /**
  * Retrieves the Shortlinker instance.
@@ -10,10 +18,10 @@ self.yoast.shortlinker = null;
  * @returns {Shortlinker} The Shortlinker.
  */
 function getShortlinker() {
-	if ( self.yoast.shortlinker === null ) {
-		self.yoast.shortlinker = new Shortlinker();
+	if ( globalScope.yoast.shortlinker === null ) {
+		globalScope.yoast.shortlinker = new Shortlinker();
 	}
-	return self.yoast.shortlinker;
+	return globalScope.yoast.shortlinker;
 }
 
 /**

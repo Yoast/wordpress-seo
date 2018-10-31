@@ -7,7 +7,7 @@ import AssessmentResult from "../../values/AssessmentResult";
 /**
  * Assessment for calculating the outbound links in the text.
  */
-class OutboundLinksAssessment extends Assessment {
+export default class OutboundLinksAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -148,5 +148,3 @@ class OutboundLinksAssessment extends Assessment {
 		return "";
 	}
 }
-
-export default OutboundLinksAssessment;

@@ -16,17 +16,17 @@ import KeywordDensityAssessment from "./seo/KeywordDensityAssessment";
 import KeywordStopWordsAssessment from "./seo/keywordStopWordsAssessment";
 import KeyphraseDistributionAssessment from "./seo/KeyphraseDistributionAssessment";
 import MetaDescriptionKeywordAssessment from "./seo/MetaDescriptionKeywordAssessment";
-import MetaDescriptionLengthAssessment from "./seo/metaDescriptionLengthAssessment";
-import OutboundLinksAssessment from "./seo/outboundLinksAssessment";
-import PageTitleWidthAssessment from "./seo/pageTitleWidthAssessment";
-import SubheadingsKeywordAssessment from "./seo/subheadingsKeywordAssessment";
+import MetaDescriptionLengthAssessment from "./seo/MetaDescriptionLengthAssessment";
+import OutboundLinksAssessment from "./seo/OutboundLinksAssessment";
+import PageTitleWidthAssessment from "./seo/PageTitleWidthAssessment";
+import SubheadingsKeywordAssessment from "./seo/SubHeadingsKeywordAssessment";
 import TaxonomyTextLengthAssessment from "./seo/taxonomyTextLengthAssessment";
 import TextCompetingLinksAssessment from "./seo/TextCompetingLinksAssessment";
-import TextImagesAssessment from "./seo/textImagesAssessment";
-import TextLengthAssessment from "./seo/textLengthAssessment";
+import TextImagesAssessment from "./seo/TextImagesAssessment";
+import TextLengthAssessment from "./seo/TextLengthAssessment";
 import TitleKeywordAssessment from "./seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./seo/UrlKeywordAssessment";
-import UrlLengthAssessment from "./seo/urlLengthAssessment";
+import UrlLengthAssessment from "./seo/UrlLengthAssessment";
 import UrlStopWordsAssessment from "./seo/urlStopWordsAssessment";
 
 const readability = {
