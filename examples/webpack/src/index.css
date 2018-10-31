@@ -14,6 +14,11 @@ body {
 	padding: 0 24px;
 }
 
+h1 {
+	padding-left: 10px;
+	font-size: 1.5em;
+}
+
 *, *:after, *:before {
 	box-sizing: inherit;
 }
