@@ -32,6 +32,11 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 	 * @return array $filter_data - An array of oEmbed data with modified values where appropriate.
 	 */
 	public function wpseo_hook_oembed( $data, $post, $width, $height ) {
+		// If OpenGraph is disabled, just return the data.
+		if ( ! WPSEO_Options::get( 'opengraph' ) ) {
+		   return $data;
+		}
+
 		// Data to be returned.
 		$filter_data = $data;
 
