@@ -260,15 +260,13 @@ export default class SentenceTokenizer {
 	/**
 	 * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
 	 *
-	 * @param {Array} tokenArray The tokens from the sentence tokenizer.
-	 * @param {Boolean} [trimSentences=true] Whether to trim the sentences at the end or not.
+	 * @param {Object[]} tokenArray The tokens from the sentence tokenizer.
+	 * @param {boolean} [trimSentences=true] Whether to trim the sentences at the end or not.
 	 *
-	 * @returns {Array<string>} A list of sentences.
+	 * @returns {string[]} A list of sentences.
 	 */
 	getSentencesFromTokens( tokenArray, trimSentences = true ) {
-		let tokenSentences = [], currentSentence = "", nextSentenceStart;
-
-		let sliced;
+		let tokenSentences = [], currentSentence = "", nextSentenceStart, sliced;
 
 		// Drop the first and last HTML tag if both are present.
 		do {
@@ -284,11 +282,9 @@ export default class SentenceTokenizer {
 		} while ( sliced && tokenArray.length > 1 );
 
 		tokenArray.forEach( ( token, i ) => {
-			let hasNextSentence;
+			let hasNextSentence, nextCharacters, tokenizeResults;
 			const nextToken = tokenArray[ i + 1 ];
 			const secondToNextToken = tokenArray[ i + 2 ];
-			let nextCharacters;
-			let tokenizeResults;
 
 			switch ( token.type ) {
 				case "html-start":
