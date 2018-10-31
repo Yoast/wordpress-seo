@@ -9,17 +9,17 @@ import IntroductionKeywordAssessment from "../../src/assessments/seo/Introductio
 import KeyphraseLengthAssessment from "../../src/assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from  "../../src/assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "../../src/assessments/seo/MetaDescriptionKeywordAssessment";
-import MetaDescriptionLengthAssessment from "../../src/assessments/seo/metaDescriptionLengthAssessment";
-import SubheadingsKeywordAssessment from "../../src/assessments/seo/subheadingsKeywordAssessment";
+import MetaDescriptionLengthAssessment from "../../src/assessments/seo/MetaDescriptionLengthAssessment";
+import SubheadingsKeywordAssessment from "../../src/assessments/seo/SubHeadingsKeywordAssessment";
 import TextCompetingLinksAssessment from "../../src/assessments/seo/TextCompetingLinksAssessment";
-import TextImagesAssessment from "../../src/assessments/seo/textImagesAssessment";
-import TextLengthAssessment from "../../src/assessments/seo/textLengthAssessment";
-import OutboundLinksAssessment from "../../src/assessments/seo/outboundLinksAssessment";
+import TextImagesAssessment from "../../src/assessments/seo/TextImagesAssessment";
+import TextLengthAssessment from "../../src/assessments/seo/TextLengthAssessment";
+import OutboundLinksAssessment from "../../src/assessments/seo/OutboundLinksAssessment";
 import InternalLinksAssessment from "../../src/assessments/seo/InternalLinksAssessment";
 import TitleKeywordAssessment from "../../src/assessments/seo/TitleKeywordAssessment";
-import TitleWidthAssessment from "../../src/assessments/seo/pageTitleWidthAssessment";
+import TitleWidthAssessment from "../../src/assessments/seo/PageTitleWidthAssessment";
 import UrlKeywordAssessment from "../../src/assessments/seo/UrlKeywordAssessment";
-import UrlLengthAssessment from "../../src/assessments/seo/urlLengthAssessment";
+import UrlLengthAssessment from "../../src/assessments/seo/UrlLengthAssessment";
 import urlStopWordsAssessment from "../../src/assessments/seo/urlStopWordsAssessment";
 import KeyphraseDistributionAssessment from "../../src/assessments/seo/KeyphraseDistributionAssessment";
 

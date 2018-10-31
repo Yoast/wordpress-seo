@@ -5,7 +5,7 @@ import IntroductionKeyword from "../assessments/seo/IntroductionKeywordAssessmen
 import KeyphraseLength from "../assessments/seo/KeyphraseLengthAssessment.js";
 import KeywordDensity from "../assessments/seo/KeywordDensityAssessment.js";
 import MetaDescriptionKeyword from "../assessments/seo/MetaDescriptionKeywordAssessment.js";
-import TextImages from "../assessments/seo/textImagesAssessment.js";
+import TextImages from "../assessments/seo/TextImagesAssessment.js";
 import TextCompetingLinks from "../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
 

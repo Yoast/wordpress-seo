@@ -67,12 +67,13 @@ function mapResults( results ) {
  * Adapts the results to be used with our components.
  *
  * @param {Object} analyzeResults The original results object as received by the worker.
+ * @param {String} keyphraseId The id of the keyphrase to show (e.g. when analyzing relevant keyphrase).
  *
  * @returns {Object} The results as wanted by the components.
  */
-export default function formatAnalyzeResults( analyzeResults ) {
+export default function formatAnalyzeResults( analyzeResults, keyphraseId ) {
 	if ( analyzeResults.seo ) {
-		analyzeResults.seo[ "" ].results = mapResults( analyzeResults.seo[ "" ].results );
+		analyzeResults.seo[ "" ].results = mapResults( analyzeResults.seo[ keyphraseId ].results );
 	}
 
 	if ( analyzeResults.readability ) {
