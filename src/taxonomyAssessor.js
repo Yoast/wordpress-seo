@@ -13,6 +13,7 @@ import PageTitleWidthAssessment from "./assessments/seo/PageTitleWidthAssessment
 import UrlLengthAssessment from "./assessments/seo/UrlLengthAssessment";
 import urlStopWordsAssessment from "./assessments/seo/urlStopWordsAssessment";
 import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
+import SingleH1Assessment from "./assessments/seo/SingleH1Assessment";
 
 /**
  * Creates the Assessor used for taxonomy pages.
@@ -24,20 +25,36 @@ const TaxonomyAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
 	this.type = "TaxonomyAssessor";
 
-	this._assessments = [
-		new IntroductionKeywordAssessment(),
-		new KeyphraseLengthAssessment(),
-		new KeywordDensityAssessment(),
-		new MetaDescriptionKeywordAssessment(),
-		new MetaDescriptionLengthAssessment(),
-		taxonomyTextLengthAssessment,
-		new TitleKeywordAssessment(),
-		new PageTitleWidthAssessment(),
-		new UrlKeywordAssessment(),
-		new UrlLengthAssessment(),
-		urlStopWordsAssessment,
-		new FunctionWordsInKeyphrase(),
-	];
+	if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
+		this._assessments = [
+			new IntroductionKeywordAssessment(),
+			new KeyphraseLengthAssessment(),
+			new KeywordDensityAssessment(),
+			new MetaDescriptionKeywordAssessment(),
+			new MetaDescriptionLengthAssessment(),
+			taxonomyTextLengthAssessment,
+			new TitleKeywordAssessment(),
+			new PageTitleWidthAssessment(),
+			new UrlKeywordAssessment(),
+			new FunctionWordsInKeyphrase(),
+			new SingleH1Assessment(),
+		];
+	} else {
+		this._assessments = [
+			new IntroductionKeywordAssessment(),
+			new KeyphraseLengthAssessment(),
+			new KeywordDensityAssessment(),
+			new MetaDescriptionKeywordAssessment(),
+			new MetaDescriptionLengthAssessment(),
+			taxonomyTextLengthAssessment,
+			new TitleKeywordAssessment(),
+			new PageTitleWidthAssessment(),
+			new UrlKeywordAssessment(),
+			new UrlLengthAssessment(),
+			urlStopWordsAssessment,
+			new FunctionWordsInKeyphrase(),
+		];
+	}
 };
 
 inherits( TaxonomyAssessor, Assessor );
