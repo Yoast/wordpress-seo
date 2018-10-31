@@ -10,7 +10,7 @@ import keyphraseLengthFactor from "../../helpers/keyphraseLengthFactor.js";
 import countWords from "../../stringProcessing/countWords";
 
 /**
- * Represents the assessment that will look if the keyword density is within the recommended range.
+ * Represents the assessment that will look if the keyphrase density is within the recommended range.
  */
 class KeywordDensityAssessment extends Assessment {
 	/**
@@ -18,30 +18,30 @@ class KeywordDensityAssessment extends Assessment {
 	 *
 	 * @param {Object} [config] The configuration to use.
 	 * In the regular analysis, if word forms are not available
-	 * @param {number} [config.parametersRegular.noWordForms.overMaximum] The percentage of keyword instances in the text that
+	 * @param {number} [config.parametersRegular.noWordForms.overMaximum] The percentage of keyphrase instances in the text that
 	 * is way over the maximum.
-	 * @param {number} [config.parametersRegular.noWordForms.maximum] The maximum percentage of keyword instances in the text.
-	 * @param {number} [config.parametersRegular.noWordForms.minimum] The minimum percentage of keyword instances in the text.
+	 * @param {number} [config.parametersRegular.noWordForms.maximum] The maximum percentage of keyphrase instances in the text.
+	 * @param {number} [config.parametersRegular.noWordForms.minimum] The minimum percentage of keyphrase instances in the text.
 	 * In the regular analysis, if word forms are available
-	 * @param {number} [config.parametersRegular.multipleWordForms.overMaximum] The percentage of keyword instances in the text that
+	 * @param {number} [config.parametersRegular.multipleWordForms.overMaximum] The percentage of keyphrase instances in the text that
 	 * is way over the maximum.
-	 * @param {number} [config.parametersRegular.multipleWordForms.maximum] The maximum percentage of keyword instances in the text.
-	 * @param {number} [config.parametersRegular.multipleWordForms.minimum] The minimum percentage of keyword instances in the text.
+	 * @param {number} [config.parametersRegular.multipleWordForms.maximum] The maximum percentage of keyphrase instances in the text.
+	 * @param {number} [config.parametersRegular.multipleWordForms.minimum] The minimum percentage of keyphrase instances in the text.
 	 * In the recalibration analysis, if word forms are not available
-	 * @param {number} [config.parametersRecalibration.noWordForms.overMaximum] The percentage of keyword instances in the text that
+	 * @param {number} [config.parametersRecalibration.noWordForms.overMaximum] The percentage of keyphrase instances in the text that
 	 * is way over the maximum.
-	 * @param {number} [config.parametersRecalibration.noWordForms.maximum] The maximum percentage of keyword instances in the text.
-	 * @param {number} [config.parametersRecalibration.noWordForms.minimum] The minimum percentage of keyword instances in the text.
+	 * @param {number} [config.parametersRecalibration.noWordForms.maximum] The maximum percentage of keyphrase instances in the text.
+	 * @param {number} [config.parametersRecalibration.noWordForms.minimum] The minimum percentage of keyphrase instances in the text.
 	 * In the recalibration analysis, if word forms are available
-	 * @param {number} [config.parametersRecalibration.multipleWordForms.overMaximum] The percentage of keyword instances in the text
+	 * @param {number} [config.parametersRecalibration.multipleWordForms.overMaximum] The percentage of keyphrase instances in the text
 	 * that is way over the maximum.
-	 * @param {number} [config.parametersRecalibration.multipleWordForms.maximum] The maximum percentage of keyword instances in the text.
-	 * @param {number} [config.parametersRecalibration.multipleWordForms.minimum] The minimum percentage of keyword instances in the text.
+	 * @param {number} [config.parametersRecalibration.multipleWordForms.maximum] The maximum percentage of keyphrase instances in the text.
+	 * @param {number} [config.parametersRecalibration.multipleWordForms.minimum] The minimum percentage of keyphrase instances in the text.
 	 * In all analyses
-	 * @param {number} [config.scores.wayOverMaximum] The score to return if there are way too many instances of keyword in the text.
-	 * @param {number} [config.scores.overMaximum] The score to return if there are too many instances of keyword in the text.
-	 * @param {number} [config.scores.correctDensity] The score to return if there is a good number of keyword instances in the text.
-	 * @param {number} [config.scores.underMinimum] The score to return if there is not enough keyword instances in the text.
+	 * @param {number} [config.scores.wayOverMaximum] The score to return if there are way too many instances of keyphrase in the text.
+	 * @param {number} [config.scores.overMaximum] The score to return if there are too many instances of keyphrase in the text.
+	 * @param {number} [config.scores.correctDensity] The score to return if there is a good number of keyphrase instances in the text.
+	 * @param {number} [config.scores.underMinimum] The score to return if there is not enough keyphrase instances in the text.
 	 * @param {string} [config.url] The URL to the relevant KB article.
 	 *
 	 * @returns {void}
@@ -116,7 +116,7 @@ class KeywordDensityAssessment extends Assessment {
 	}
 
 	/**
-	 * Runs the keyword density module, based on this returns an assessment
+	 * Runs the keyphrase density module, based on this returns an assessment
 	 * result with score.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
@@ -139,12 +139,9 @@ class KeywordDensityAssessment extends Assessment {
 
 		this._keywordDensity = researcher.getResearch( "getKeywordDensity" );
 
-		if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
-			this._keywordDensity = this._keywordDensity * keyphraseLengthFactor( keyphraseLength );
-		}
-
 		let calculatedScore = {};
 		if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
+			this._keywordDensity = this._keywordDensity * keyphraseLengthFactor( keyphraseLength );
 			calculatedScore = this.calculateResultRecalibration( i18n );
 		} else {
 			calculatedScore = this.calculateResultRegular( i18n );
@@ -158,18 +155,18 @@ class KeywordDensityAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether there are no keyword matches in the text.
+	 * Checks whether there are no keyphrase matches in the text.
 	 *
-	 * @returns {boolean} Returns true if the keyword count is 0.
+	 * @returns {boolean} Returns true if the keyphrase count is 0.
 	 */
 	hasNoMatches() {
 		return this._keywordCount.count === 0;
 	}
 
 	/**
-	 * Checks whether there are too few keyword matches in the text.
+	 * Checks whether there are too few keyphrase matches in the text.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyword density is between
+	 * @returns {boolean} Returns true if the rounded keyphrase density is between
 	 *                    0 and the recommended minimum.
 	 */
 	hasTooFewMatches() {
@@ -181,9 +178,9 @@ class KeywordDensityAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether there is a good number of keyword matches in the text.
+	 * Checks whether there is a good number of keyphrase matches in the text.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyword density is between
+	 * @returns {boolean} Returns true if the rounded keyphrase density is between
 	 *                    the recommended minimum and the recommended maximum.
 	 */
 	hasGoodNumberOfMatches() {
@@ -195,10 +192,10 @@ class KeywordDensityAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the number of keyword matches in the text is between the
+	 * Checks whether the number of keyphrase matches in the text is between the
 	 * recommended maximum and the specified overMaximum value.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyword density is between
+	 * @returns {boolean} Returns true if the rounded keyphrase density is between
 	 *                    the recommended maximum and the specified overMaximum
 	 *                    value.
 	 */
@@ -211,7 +208,7 @@ class KeywordDensityAssessment extends Assessment {
 	}
 
 	/**
-	 * Returns the score for the keyword density (for Regular analysis).
+	 * Returns the score for the keyphrase density (for Regular analysis).
 	 *
 	 * @param {Jed} i18n The object used for translations.
 	 *
@@ -228,8 +225,8 @@ class KeywordDensityAssessment extends Assessment {
 				score: this._config.scores.underMinimum,
 				resultText: i18n.sprintf(
 					/* Translators:
-					%1$s expands to the keyword density percentage,
-					%2$d expands to the keyword count,
+					%1$s expands to the keyphrase density percentage,
+					%2$d expands to the keyphrase count,
 					%3$s and %4$s expand to links to Yoast.com,
 					%5$s expands to the anchor end tag. */
 					i18n.dgettext(
@@ -251,8 +248,8 @@ class KeywordDensityAssessment extends Assessment {
 				score: this._config.scores.underMinimum,
 				resultText: i18n.sprintf(
 					/* Translators:
-					%1$s expands to the keyword density percentage,
-					%2$d expands to the keyword count,
+					%1$s expands to the keyphrase density percentage,
+					%2$d expands to the keyphrase count,
 					%3$s and %4$s expand to links to Yoast.com,
 					%5$s expands to the anchor end tag. */
 					i18n.dngettext(
@@ -277,7 +274,7 @@ class KeywordDensityAssessment extends Assessment {
 				score: this._config.scores.correctDensity,
 				resultText: i18n.sprintf(
 					/* Translators:
-					%1$s expands to the keyword density percentage,
+					%1$s expands to the keyphrase density percentage,
 					%2$s expands to a link to Yoast.com,
 					%3$s expands to the anchor end tag. */
 					i18n.dngettext(
@@ -297,9 +294,9 @@ class KeywordDensityAssessment extends Assessment {
 				score: this._config.scores.overMaximum,
 				resultText: i18n.sprintf(
 					/* Translators:
-					%1$s expands to the keyword density percentage,
-					%2$d expands to the keyword count,
-					%3$s expands to the maximum keyword density percentage,
+					%1$s expands to the keyphrase density percentage,
+					%2$d expands to the keyphrase count,
+					%3$s expands to the maximum keyphrase density percentage,
 					%4$s and %5$s expand to links to Yoast.com,
 					%6$s expands to the anchor end tag. */
 					i18n.dngettext(
@@ -322,14 +319,14 @@ class KeywordDensityAssessment extends Assessment {
 			};
 		}
 
-		// Implicitly returns this if the rounded keyword density is higher than overMaximum.
+		// Implicitly returns this if the rounded keyphrase density is higher than overMaximum.
 		return {
 			score: this._config.scores.wayOverMaximum,
 			resultText: i18n.sprintf(
 				/* Translators:
-				%1$s expands to the keyword density percentage,
-				%2$d expands to the keyword count,
-				%3$s expands to the maximum keyword density percentage,
+				%1$s expands to the keyphrase density percentage,
+				%2$d expands to the keyphrase count,
+				%3$s expands to the maximum keyphrase density percentage,
 				%4$s and %5$s expand to links to Yoast.com,
 				%6$s expands to the anchor end tag. */
 				i18n.dngettext(
@@ -353,7 +350,7 @@ class KeywordDensityAssessment extends Assessment {
 	}
 
 	/**
-	 * Returns the score for the keyword density (for Recalibration).
+	 * Returns the score for the keyphrase density (for Recalibration).
 	 *
 	 * @param {Jed} i18n The object used for translations.
 	 *
@@ -370,8 +367,8 @@ class KeywordDensityAssessment extends Assessment {
 					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sKeyphrase density%2$s: The focus keyword was found 0 times. " +
-						"That's less than the recommended minimum of %3$d times for a text of this length." +
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found 0 times. " +
+						"That's less than the recommended minimum of %3$d times for a text of this length. " +
 						"%4$sFocus on your keyphrase%2$s!",
 					),
 					this._config.urlTitle,
@@ -393,9 +390,9 @@ class KeywordDensityAssessment extends Assessment {
 					%5$d expands to the number of times the keyphrase occurred in the text. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"%1$sKeyphrase density%2$s: The focus keyword was found %5$d time. That's less than the " +
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's less than the " +
 						"recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
-						"%1$sKeyphrase density%2$s: The focus keyword was found %5$d times. That's less than the " +
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's less than the " +
 						"recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
 						this._keywordCount.count
 					),
@@ -418,8 +415,8 @@ class KeywordDensityAssessment extends Assessment {
 					%3$d expands to the number of times the keyphrase occurred in the text. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"%1$sKeyphrase density%2$s: The focus keyword was found %3$d time. This is great!",
-						"%1$sKeyphrase density%2$s: The focus keyword was found %3$d times. This is great!",
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found %3$d time. This is great!",
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found %3$d times. This is great!",
 						this._keywordCount.count
 					),
 					this._config.urlTitle,
@@ -440,9 +437,9 @@ class KeywordDensityAssessment extends Assessment {
 					%5$d expands to the number of times the keyphrase occurred in the text. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"%1$sKeyphrase density%2$s: The focus keyword was found %5$d time. That's more than the " +
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's more than the " +
 						"recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-						"%1$sKeyphrase density%2$s: The focus keyword was found %5$d times. That's more than the " +
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's more than the " +
 						"recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 						this._keywordCount.count
 					),
@@ -455,7 +452,7 @@ class KeywordDensityAssessment extends Assessment {
 			};
 		}
 
-		// Implicitly returns this if the rounded keyword density is higher than overMaximum.
+		// Implicitly returns this if the rounded keyphrase density is higher than overMaximum.
 		return {
 			score: this._config.scores.wayOverMaximum,
 			resultText: i18n.sprintf(
@@ -466,9 +463,9 @@ class KeywordDensityAssessment extends Assessment {
 				%5$d expands to the number of times the keyphrase occurred in the text. */
 				i18n.dngettext(
 					"js-text-analysis",
-					"%1$sKeyphrase density%2$s: The focus keyword was found %5$d time. That's way more than the " +
+					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's way more than the " +
 					"recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-					"%1$sKeyphrase density%2$s: The focus keyword was found %5$d times. That's way more than the " +
+					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's way more than the " +
 					"recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 					this._keywordCount.count
 				),
