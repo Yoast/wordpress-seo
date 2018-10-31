@@ -429,8 +429,7 @@ class WPSEO_Frontend {
 			$title = $this->get_title_from_options( 'title-home-wpseo' );
 		}
 		elseif ( $this->woocommerce_shop_page->is_shop_page() ) {
-			$post  = get_post( $this->woocommerce_shop_page->get_shop_page_id() );
-			$title = $this->get_seo_title( $post );
+			$title = $this->get_woocommerce_title();
 
 			if ( ! is_string( $title ) || $title === '' ) {
 				$title = $this->get_post_type_archive_title( $separator, $separator_location );
@@ -1725,6 +1724,42 @@ class WPSEO_Frontend {
 		}
 
 		return $title;
+	}
+
+	/**
+	 * Retrieves the WooCommerce title.
+	 *
+	 * @return string The WooCommerce title.
+	 */
+	protected function get_woocommerce_title() {
+		$post  = get_post( $this->woocommerce_shop_page->get_shop_page_id() );
+		$title = $this->get_seo_title( $post );
+
+		if ( is_string( $title ) && $title !== '' ) {
+			return $title;
+		}
+
+		if ( $this->woocommerce_shop_page->get_shop_page_id() !== -1 && is_archive() ) {
+			$title = $this->get_template( 'title-' . $post->post_type );
+			$title = $this->replace_vars( $title, $post );
+
+			if ( is_string( $title ) && $title !== '' ) {
+				return $title;
+			}
+		}
+
+		return '';
+	}
+
+	/**
+	 * Retrieves an template from the options.
+	 *
+	 * @param string $template The template to retrieve.
+	 *
+	 * @return string The set template.
+	 */
+	protected function get_template( $template ) {
+		return WPSEO_Options::get( $template );
 	}
 
 	/**
