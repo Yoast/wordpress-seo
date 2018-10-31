@@ -13,7 +13,7 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 	 * Registers the hooks.
 	 */
 	public function register_hooks() {
-		// If OpenGraph is disabled, just return the data.
+		// Check to make sure opengraph is enabled before adding filter.
 		if ( WPSEO_Options::get( 'opengraph' ) ) {
 			add_filter( 'oembed_response_data', array( $this, 'wpseo_hook_oembed' ), 10, 4 );
 		}
