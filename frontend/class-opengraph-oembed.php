@@ -44,22 +44,25 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 			$filter_data['title'] = $opengraph_title;
 		}
 
-		// If the a Yoast Image was set, update the oEmbed data with the Yoast Image's info.
-		if ( ! empty( $opengraph_image ) ) {
-			// Get the image's ID from a URL.
-			$image_id = WPSEO_Image_Utils::get_attachment_by_url( $opengraph_image );
+		// If WPSEO Image was _not_ set, return the `$filter_data` as it currently is.
+		if ( empty( $opengraph_image ) ) {
+		  return $filter_data;
+		}
 
-			// Get the image's info from it's ID.
-			$image_info = wp_get_attachment_metadata( $image_id );
+		// Since the a WPSEO Image was set, update the oEmbed data with the Yoast Image's info.
+		// Get the image's ID from a URL.
+		$image_id = WPSEO_Image_Utils::get_attachment_by_url( $opengraph_image );
 
-			// Update the oEmbed data.
-			$filter_data['thumbnail_url'] = $opengraph_image;
-			if ( ! empty( $image_info['height'] ) ) {
-				$filter_data['thumbnail_height'] = $image_info['height'];
-			}
-			if ( ! empty( $image_info['width'] ) ) {
-				$filter_data['thumbnail_width'] = $image_info['width'];
-			}
+		// Get the image's info from it's ID.
+		$image_info = wp_get_attachment_metadata( $image_id );
+
+		// Update the oEmbed data.
+		$filter_data['thumbnail_url'] = $opengraph_image;
+		if ( ! empty( $image_info['height'] ) ) {
+			$filter_data['thumbnail_height'] = $image_info['height'];
+		}
+		if ( ! empty( $image_info['width'] ) ) {
+			$filter_data['thumbnail_width'] = $image_info['width'];
 		}
 
 		return $filter_data;
