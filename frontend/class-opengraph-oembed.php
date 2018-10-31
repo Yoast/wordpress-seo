@@ -13,7 +13,10 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 	 * Registers the hooks.
 	 */
 	public function register_hooks() {
-		add_filter( 'oembed_response_data', array( $this, 'wpseo_hook_oembed' ), 10, 4 );
+		// If OpenGraph is disabled, just return the data.
+		if ( WPSEO_Options::get( 'opengraph' ) ) {
+			add_filter( 'oembed_response_data', array( $this, 'wpseo_hook_oembed' ), 10, 4 );
+		}
 	}
 
 	/**
@@ -32,11 +35,6 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 	 * @return array $filter_data - An array of oEmbed data with modified values where appropriate.
 	 */
 	public function wpseo_hook_oembed( $data, $post, $width, $height ) {
-		// If OpenGraph is disabled, just return the data.
-		if ( ! WPSEO_Options::get( 'opengraph' ) ) {
-		   return $data;
-		}
-
 		// Data to be returned.
 		$filter_data = $data;
 
@@ -45,7 +43,7 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 		$opengraph_image = WPSEO_Meta::get_value( 'opengraph-image', $post->ID );
 
 		// If yoast has a title set, update oEmbed with Yoast's title.
-		if ( ! empty( $yoast_title ) ) {
+		if ( ! empty( $opengraph_title ) ) {
 			$filter_data['title'] = $opengraph_title;
 		}
 
