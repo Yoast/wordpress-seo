@@ -1014,6 +1014,10 @@ SVG;
 			return false;
 		}
 
+		if ( $post_type === 'attachment' && WPSEO_Options::get( 'disable-attachment' ) ) {
+			return false;
+		}
+
 		return WPSEO_Options::get( 'display-metabox-pt-' . $post_type );
 	}
 
