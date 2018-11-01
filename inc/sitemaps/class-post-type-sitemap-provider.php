@@ -440,7 +440,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		// Post archive should be excluded if it isn't front page or posts page.
-		if ( 'post' === $post_type && get_option( 'show_on_front' ) !== 'posts' && ! $this->get_page_for_posts_id() ) {
+		if ( $post_type === 'post' && get_option( 'show_on_front' ) !== 'posts' && ! $this->get_page_for_posts_id() ) {
 			return false;
 		}
 
