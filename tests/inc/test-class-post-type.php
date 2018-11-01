@@ -27,7 +27,6 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Type::get_accessible_post_types()
 	 */
 	public function test_get_accessible_post_types() {
-		WPSEO_Options::set( 'disable-attachment', false );
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
 		$this->assertContains( 'post', $post_types );
 		$this->assertContains( 'page', $post_types );
@@ -104,7 +103,6 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	 * Tests the situation where a post type will be filtered by using the 'wpseo_accessible_post_types filter'.
 	 */
 	public function test_get_accessible_post_types_with_a_filter_hook() {
-		WPSEO_Options::set( 'disable-attachment', false );
 		$this->assertContains( 'attachment', WPSEO_Post_Type::get_accessible_post_types() );
 
 		add_filter( 'wpseo_accessible_post_types', array( $this, 'filter_attachment' ) );
