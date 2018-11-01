@@ -450,7 +450,7 @@ class WPSEO_OpenGraph {
 			'sc_IT', // Sardinian.
 			'se_NO', // Northern Sami.
 			'si_LK', // Sinhala.
-			'su_ID', // Sundanese
+			'su_ID', // Sundanese.
 			'sk_SK', // Slovak.
 			'sl_SI', // Slovenian.
 			'sn_ZW', // Shona.
