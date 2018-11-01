@@ -1,11 +1,11 @@
 import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
-import TaxonomyAssessor from "../../src/taxonomyAssessor";
+import { getTextLengthAssessment } from "../../src/taxonomyAssessor";
 
 const i18n = Factory.buildJed();
 
 // Get the assessment used for the recalibration.
-const assessment = TaxonomyAssessor.prototype.getTextLengthAssessment( true );
+const assessment = getTextLengthAssessment( true );
 
 describe( "A taxonomy page text length assessment, with the recalibration logic applied.", function() {
 	it( "assesses a single word", function() {

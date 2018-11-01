@@ -17,6 +17,28 @@ import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphrase
 import { createAnchorOpeningTag } from "./helpers/shortlinker";
 
 /**
+ * Returns the text length assessment to use, based on whether recalibration has been
+ * activated or not.
+ *
+ * @param {boolean} useRecalibration If the recalibration assessment should be used or not.
+ * @returns {Object} The text length assessment to use.
+ */
+export const getTextLengthAssessment = function( useRecalibration ) {
+	// Export so it can be used in tests.
+	if ( useRecalibration ) {
+		return new TextLengthAssessment( {
+			recommendedMinimum: 250,
+			slightlyBelowMinimum: 200,
+			belowMinimum: 100,
+			veryFarBelowMinimum: 50,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34j" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34k" ),
+		} );
+	}
+	return taxonomyTextLengthAssessment;
+};
+
+/**
  * Creates the Assessor used for taxonomy pages.
  *
  * @param {object} i18n The i18n object used for translations.
@@ -27,7 +49,7 @@ const TaxonomyAssessor = function( i18n ) {
 	this.type = "TaxonomyAssessor";
 
 	// Get the text length boundaries (they are different for recalibration).
-	const textLengthAssessment = this.getTextLengthAssessment( process.env.YOAST_RECALIBRATION === "enabled" );
+	const textLengthAssessment = getTextLengthAssessment( process.env.YOAST_RECALIBRATION === "enabled" );
 
 	this._assessments = [
 		new IntroductionKeywordAssessment(),
@@ -43,27 +65,6 @@ const TaxonomyAssessor = function( i18n ) {
 		urlStopWordsAssessment,
 		new FunctionWordsInKeyphrase(),
 	];
-};
-
-/**
- * Returns the text length assessment to use, based on whether recalibration has been
- * activated or not.
- *
- * @param {boolean} useRecalibration If the recalibration assessment should be used or not.
- * @returns {Object} The text length assessment to use.
- */
-TaxonomyAssessor.prototype.getTextLengthAssessment = function( useRecalibration ) {
-	if ( useRecalibration ) {
-		return new TextLengthAssessment( {
-			recommendedMinimum: 250,
-			slightlyBelowMinimum: 200,
-			belowMinimum: 100,
-			veryFarBelowMinimum: 50,
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/34j" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34k" ),
-		} );
-	}
-	return taxonomyTextLengthAssessment;
 };
 
 inherits( TaxonomyAssessor, Assessor );
