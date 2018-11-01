@@ -15,7 +15,7 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 	public function register_hooks() {
 		// Check to make sure opengraph is enabled before adding filter.
 		if ( WPSEO_Options::get( 'opengraph' ) ) {
-			add_filter( 'oembed_response_data', array( $this, 'wpseo_hook_oembed' ), 10, 4 );
+			add_filter( 'oembed_response_data', array( $this, 'set_oembed_data' ), 10, 2 );
 		}
 	}
 
@@ -25,16 +25,14 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 	 * address the concern where some social channels/subscribed use oEmebed data over OpenGraph data
 	 * if both are present.
 	 *
-	 * @param array  $data   - The oEmbed data.
-	 * @param object $post   - The current Post object.
-	 * @param number $width  - The current post's width (more applicable for attachments).
-	 * @param number $height - The current post's height (more applicable for attachments).
+	 * @param array   $data The oEmbed data.
+	 * @param WP_Post $post The current Post object.
 	 *
 	 * @see https://developer.wordpress.org/reference/hooks/oembed_response_data/ for hook info
 	 *
 	 * @return array $filter_data - An array of oEmbed data with modified values where appropriate.
 	 */
-	public function wpseo_hook_oembed( $data, $post, $width, $height ) {
+	public function set_oembed_data( $data, $post ) {
 		// Data to be returned.
 		$filter_data = $data;
 
@@ -49,7 +47,7 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 
 		// If WPSEO Image was _not_ set, return the `$filter_data` as it currently is.
 		if ( empty( $opengraph_image ) ) {
-		  return $filter_data;
+			return $filter_data;
 		}
 
 		// Since the a WPSEO Image was set, update the oEmbed data with the Yoast Image's info.
