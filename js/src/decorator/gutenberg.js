@@ -6,6 +6,50 @@ import { string } from "yoastseo";
 
 const { stripHTMLTags } = string;
 
+const ANNOTATION_SOURCE = "yoast";
+
+let annotationQueue = [];
+
+/**
+ * Retrieves the next annotation from the annotation queue.
+ *
+ * @returns {Object} An annotation object that can be applied to Gutenberg.
+ */
+function getNextAnnotation() {
+	return annotationQueue.shift();
+}
+
+/**
+ * Applies the next time annotation in the queue.
+ *
+ * @returns {void}
+ */
+function applyAnnotationQueueItem() {
+	const nextAnnotation = getNextAnnotation();
+
+	if ( ! nextAnnotation ) {
+		return;
+	}
+
+	dispatch( "core/editor" ).addAnnotation( nextAnnotation );
+
+	// eslint-disable-next-line no-use-before-define
+	scheduleAnnotationQueueApplication();
+}
+
+/**
+ * Schedules the application of the next available annotation in the queue.
+ *
+ * @returns {void}
+ */
+function scheduleAnnotationQueueApplication() {
+	if ( isFunction( window.requestIdleCallback ) ) {
+		window.requestIdleCallback( applyAnnotationQueueItem, { timeout: 1000 } );
+	} else {
+		setTimeout( applyAnnotationQueueItem, 150 );
+	}
+}
+
 /**
  * Returns whether or not annotations are available in Gutenberg.
  *
@@ -101,6 +145,12 @@ function calculateAnnotationsForTextFormat( content, mark, block ) {
  * @returns {void}
  */
 export function applyAsAnnotations( paper, marks ) {
+	if ( marks.length === 0 ) {
+		annotationQueue = [];
+		dispatch( "core/editor" ).removeAnnotationsBySource( "yoast" );
+		return;
+	}
+
 	const blocks = select( "core/editor" ).getBlocks();
 	let annotations = [];
 
@@ -122,20 +172,15 @@ export function applyAsAnnotations( paper, marks ) {
 		} );
 	} );
 
-	if ( marks.length === 0 ) {
-		wp.data.dispatch( "core/editor" ).removeAnnotationsBySource( "yoast" );
-	} else {
-		setTimeout( function() {
-			annotations.forEach( ( annotation ) => {
-				wp.data.dispatch( "core/editor" ).addAnnotation( {
-					block: annotation.block,
-					source: "yoast",
-					startXPath: annotation.startXPath,
-					startOffset: annotation.startOffset,
-					endXPath: annotation.endXPath,
-					endOffset: annotation.endOffset,
-				} );
-			} );
-		}, 100 );
-	}
+	annotationQueue = annotations.map( ( annotation ) => ( {
+		blockClientId: annotation.block,
+		source: ANNOTATION_SOURCE,
+		range: {
+			startXPath: annotation.startXPath,
+			startOffset: annotation.startOffset,
+			endXPath: annotation.endXPath,
+			endOffset: annotation.endOffset,
+		},
+	} ) );
+	scheduleAnnotationQueueApplication();
 }
