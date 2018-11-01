@@ -14,7 +14,7 @@ describe( "running assessments in the assessor", function() {
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textLength",
+			"taxonomyTextLength",
 			"titleWidth",
 		] );
 	} );
@@ -27,7 +27,7 @@ describe( "running assessments in the assessor", function() {
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textLength",
+			"taxonomyTextLength",
 			"titleWidth",
 		] );
 	} );
@@ -41,7 +41,7 @@ describe( "running assessments in the assessor", function() {
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textLength",
+			"taxonomyTextLength",
 			"titleWidth",
 		] );
 	} );
@@ -54,7 +54,7 @@ describe( "running assessments in the assessor", function() {
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textLength",
+			"taxonomyTextLength",
 			"titleWidth",
 			"functionWordsInKeyphrase",
 		] );
@@ -69,7 +69,7 @@ describe( "running assessments in the assessor", function() {
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textLength",
+			"taxonomyTextLength",
 			"titleKeyword",
 			"titleWidth",
 		] );
@@ -83,7 +83,7 @@ describe( "running assessments in the assessor", function() {
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textLength",
+			"taxonomyTextLength",
 			"titleWidth",
 		] );
 	} );
@@ -97,7 +97,7 @@ describe( "running assessments in the assessor", function() {
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textLength",
+			"taxonomyTextLength",
 			"titleWidth",
 			"urlKeyword",
 		] );
@@ -113,7 +113,7 @@ describe( "running assessments in the assessor", function() {
 			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
-			"textLength",
+			"taxonomyTextLength",
 			"titleWidth",
 		] );
 	} );
@@ -128,7 +128,7 @@ describe( "running assessments in the assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionKeyword",
 			"metaDescriptionLength",
-			"textLength",
+			"taxonomyTextLength",
 			"titleWidth",
 		] );
 	} );
