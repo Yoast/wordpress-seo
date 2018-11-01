@@ -36,9 +36,9 @@ const alias = {
 	"react-dom": path.join( root, "node_modules/react-dom" ),
 };
 
-module.exports = function( env = { environment: "production", recalibration: "disabled" } ) {
+module.exports = function( env = { environment: "production" } ) {
 	const mode = env.environment;
-	const isRecalibration = env.recalibration === "enabled";
+	const isRecalibration = process.env.YOAST_RECALIBRATION === "enabled";
 
 	const plugins = [
 		new webpack.DefinePlugin( {
@@ -100,14 +100,13 @@ module.exports = function( env = { environment: "production", recalibration: "di
 		externals,
 	};
 
-	const config = isRecalibration ?
-		[
+	let config;
+	if ( isRecalibration ) {
+		config = [
 			{
 				...base,
 				entry: {
-					"wp-seo-wp-globals-backport": "./js/src/wp-seo-wp-globals-backport.js",
 					"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
-					"babel-polyfill": "./js/src/babel-polyfill.js",
 				},
 				plugins,
 			},
@@ -120,8 +119,9 @@ module.exports = function( env = { environment: "production", recalibration: "di
 				},
 				plugins,
 			},
-		] :
-		[
+		];
+	} else {
+		config = [
 			{
 				...base,
 				externals: {
@@ -163,6 +163,7 @@ module.exports = function( env = { environment: "production", recalibration: "di
 				plugins,
 			},
 		];
+	}
 
 	if ( mode === "development" ) {
 		config[ 0 ].devServer = {
