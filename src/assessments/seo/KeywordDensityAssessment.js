@@ -166,29 +166,29 @@ class KeywordDensityAssessment extends Assessment {
 	/**
 	 * Checks whether there are too few keyphrase matches in the text.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyphrase density is between
-	 *                    0 and the recommended minimum.
+	 * @returns {boolean} Returns true if the rounded keyword density is between 0 and the recommended minimum
+	 * or if there there is only 1 keyword match (regardless of the density).
 	 */
 	hasTooFewMatches() {
 		return inRangeStartInclusive(
 			this._keywordDensity,
 			0,
 			this._boundaries.minimum,
-		);
+		) || this._keywordCount.count === 1;
 	}
 
 	/**
 	 * Checks whether there is a good number of keyphrase matches in the text.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyphrase density is between
-	 *                    the recommended minimum and the recommended maximum.
+	 * @returns {boolean} Returns true if the rounded keyword density is between the recommended minimum
+	 * and the recommended maximum or if the keyword count is 2 and the recommended minimum is lower than 2.
 	 */
 	hasGoodNumberOfMatches() {
 		return inRangeStartEndInclusive(
 			this._keywordDensity,
 			this._boundaries.minimum,
 			this._boundaries.maximum
-		);
+		) || ( this._keywordCount.count === 2 && this._minRecommendedKeywordCount <= 2 );
 	}
 
 	/**
