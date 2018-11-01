@@ -8,7 +8,7 @@ import TitleKeywordAssessment from "./assessments/seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
 import Assessor from "./assessor";
 import MetaDescriptionLengthAssessment from "./assessments/seo/MetaDescriptionLengthAssessment";
-import taxonomyTextLengthAssessment from "./assessments/seo/taxonomyTextLengthAssessment";
+import TextLengthAssessment from "./assessments/seo/TextLengthAssessment";
 import PageTitleWidthAssessment from "./assessments/seo/PageTitleWidthAssessment";
 import UrlLengthAssessment from "./assessments/seo/UrlLengthAssessment";
 import urlStopWordsAssessment from "./assessments/seo/urlStopWordsAssessment";
@@ -30,7 +30,7 @@ const TaxonomyAssessor = function( i18n ) {
 		new KeywordDensityAssessment(),
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLengthAssessment(),
-		taxonomyTextLengthAssessment,
+		new TextLengthAssessment(),
 		new TitleKeywordAssessment(),
 		new PageTitleWidthAssessment(),
 		new UrlKeywordAssessment(),
