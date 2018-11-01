@@ -73,6 +73,8 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 		) );
 
 		$this->assertEquals( $expected, get_option( 'wpseo_permalinks' ) );
+
+		$this->set_options( array( 'disable-attachment' => false ) );
 	}
 
 	/**
