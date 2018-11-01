@@ -9,7 +9,7 @@ import Mark from "../../values/Mark";
 const maximumConsecutiveDuplicates = 2;
 
 import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
-const availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "ru", "pl" ];
+const availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "ru", "pl", "sv" ];
 
 /**
  * Counts and groups the number too often used sentence beginnings and determines the lowest count within that group.

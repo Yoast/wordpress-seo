@@ -208,6 +208,26 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
 	} );
 
+	it( "returns an object with sentence beginnings and counts for two sentences in Swedish starting with different words.", function() {
+		changePaper( { text: "Är du osäker, testa en kort fristående kurs hellre än ett program. Passar ämnet dig kan du hoppa på ett program och tillgodoräkna dig kursen.. ", locale: "sv_SE" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "är" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 1 );
+		expect( getSentenceBeginnings()[ 1 ].word ).toBe( "passar" );
+		expect( getSentenceBeginnings()[ 1 ].count ).toBe( 1 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in Swedish starting with the same word.", function() {
+		changePaper( { text: "Du är lång. Du är kort.", locale: "sv_SE" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "du" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 2 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for three sentences in Swedish all starting with one of the exception words.", function() {
+		changePaper( { text: "Detta barn är litet. Detta barn är stort. Detta barn är lyckligt.", locale: "sv_SE" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "detta barn" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
+	} );
+
 	it( "returns an object with English sentence beginnings in lists", function() {
 		changePaper( { text: "<ul><li>item 1</li><li>item 2</li><li>item 3</li><li>item 4</li></ul>" } );
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "item", { locale: "en_US" } );
