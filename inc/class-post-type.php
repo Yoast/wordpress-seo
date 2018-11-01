@@ -21,6 +21,10 @@ class WPSEO_Post_Type {
 		$post_types = get_post_types( array( 'public' => true ) );
 		$post_types = array_filter( $post_types, 'is_post_type_viewable' );
 
+		if ( WPSEO_Options::get( 'disable-attachment' ) ) {
+			$post_types = self::filter_attachment_post_type( $post_types );
+		}
+
 		/**
 		 * Filter: 'wpseo_accessible_post_types' - Allow changing the accessible post types.
 		 *
