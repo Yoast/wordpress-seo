@@ -195,9 +195,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function add_keyword_research_submenu( WP_Admin_Bar $wp_admin_bar ) {
-		$adwords_url = 'https://ads.google.com/home/tools/keyword-planner/';
-		$trends_url  = 'https://www.google.com/trends/explore';
-		$seobook_url = 'http://tools.seobook.com/keyword-tools/seobook/';
+		$adwords_url = 'https://yoa.st/keywordplanner';
+		$trends_url  = 'https://yoa.st/google-trends';
+		$seobook_url = 'https://yoa.st/seo-book';
 
 		$post = $this->get_singular_post();
 		if ( $post ) {
