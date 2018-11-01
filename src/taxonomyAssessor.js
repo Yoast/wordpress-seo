@@ -5,6 +5,7 @@ import KeyphraseLengthAssessment from "./assessments/seo/KeyphraseLengthAssessme
 import KeywordDensityAssessment from "./assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./assessments/seo/MetaDescriptionKeywordAssessment";
 import TitleKeywordAssessment from "./assessments/seo/TitleKeywordAssessment";
+import taxonomyTextLengthAssessment from "./assessments/seo/taxonomyTextLengthAssessment";
 import UrlKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
 import Assessor from "./assessor";
 import MetaDescriptionLengthAssessment from "./assessments/seo/MetaDescriptionLengthAssessment";
@@ -13,29 +14,7 @@ import PageTitleWidthAssessment from "./assessments/seo/PageTitleWidthAssessment
 import UrlLengthAssessment from "./assessments/seo/UrlLengthAssessment";
 import urlStopWordsAssessment from "./assessments/seo/urlStopWordsAssessment";
 import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
-
-/**
- * Returns the boundaries to use for the text length assessment.
- *
- * @param {boolean} useRecalibration If the recalibration boundaries should be used or not.
- * @returns {Object} The text length assessment boundaries to use.
- */
-const getTextLengthBoundaries = function( useRecalibration ) {
-	if ( useRecalibration ) {
-		return {
-			recommendedMinimum: 250,
-			slightlyBelowMinimum: 200,
-			belowMinimum: 100,
-			veryFarBelowMinimum: 50,
-		};
-	}
-	return {
-		recommendedMinimum: 150,
-		slightlyBelowMinimum: 125,
-		belowMinimum: 100,
-		veryFarBelowMinimum: 50,
-	};
-};
+import { createAnchorOpeningTag } from "./helpers/shortlinker";
 
 /**
  * Creates the Assessor used for taxonomy pages.
@@ -48,7 +27,7 @@ const TaxonomyAssessor = function( i18n ) {
 	this.type = "TaxonomyAssessor";
 
 	// Get the text length boundaries (they are different for recalibration).
-	const textLengthBoundaries = getTextLengthBoundaries( process.env.YOAST_RECALIBRATION === "enabled" );
+	const textLengthAssessment = this.getTextLengthAssessment( process.env.YOAST_RECALIBRATION === "enabled" );
 
 	this._assessments = [
 		new IntroductionKeywordAssessment(),
@@ -56,7 +35,7 @@ const TaxonomyAssessor = function( i18n ) {
 		new KeywordDensityAssessment(),
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLengthAssessment(),
-		new TextLengthAssessment( textLengthBoundaries ),
+		textLengthAssessment,
 		new TitleKeywordAssessment(),
 		new PageTitleWidthAssessment(),
 		new UrlKeywordAssessment(),
@@ -64,6 +43,27 @@ const TaxonomyAssessor = function( i18n ) {
 		urlStopWordsAssessment,
 		new FunctionWordsInKeyphrase(),
 	];
+};
+
+/**
+ * Returns the text length assessment to use, based on whether recalibration has been
+ * activated or not.
+ *
+ * @param {boolean} useRecalibration If the recalibration assessment should be used or not.
+ * @returns {Object} The text length assessment to use.
+ */
+TaxonomyAssessor.prototype.getTextLengthAssessment = function( useRecalibration ) {
+	if ( useRecalibration ) {
+		return new TextLengthAssessment( {
+			recommendedMinimum: 250,
+			slightlyBelowMinimum: 200,
+			belowMinimum: 100,
+			veryFarBelowMinimum: 50,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34j" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34k" ),
+		} );
+	}
+	return taxonomyTextLengthAssessment;
 };
 
 inherits( TaxonomyAssessor, Assessor );
