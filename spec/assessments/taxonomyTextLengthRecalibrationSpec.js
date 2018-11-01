@@ -12,7 +12,7 @@ describe( "A taxonomy page text length assessment, with the recalibration logic 
 		const mockPaper = new Paper( "sample" );
 		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 1 ), i18n );
 
-		expect( result.getScore() ).toEqual( - 20 );
+		expect( result.getScore() ).toEqual( -20 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text contains 1 word. " +
 			"This is far below the recommended minimum of 250 words. <a href='https://yoa.st/34k' target='_blank'>Add more content</a>." );
 	} );
@@ -21,7 +21,7 @@ describe( "A taxonomy page text length assessment, with the recalibration logic 
 		const mockPaper = new Paper( "sample" );
 		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 5 ), i18n );
 
-		expect( result.getScore() ).toEqual( - 20 );
+		expect( result.getScore() ).toEqual( -20 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text contains 5 words. " +
 			"This is far below the recommended minimum of 250 words. <a href='https://yoa.st/34k' target='_blank'>Add more content</a>." );
 	} );
@@ -30,7 +30,7 @@ describe( "A taxonomy page text length assessment, with the recalibration logic 
 		const mockPaper = new Paper( "sample" );
 		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 51 ), i18n );
 
-		expect( result.getScore() ).toEqual( - 10 );
+		expect( result.getScore() ).toEqual( -10 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text contains 51 words. " +
 			"This is far below the recommended minimum of 250 words. <a href='https://yoa.st/34k' target='_blank'>Add more content</a>." );
 	} );
