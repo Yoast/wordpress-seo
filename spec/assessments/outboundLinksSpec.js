@@ -1,4 +1,4 @@
-import OutboundLinksAssessment from "../../src/assessments/seo/outboundLinksAssessment.js";
+import OutboundLinksAssessment from "../../src/assessments/seo/OutboundLinksAssessment.js";
 import Paper from "../../src/values/Paper.js";
 import factory from "../specHelpers/factory.js";
 var i18n = factory.buildJed();

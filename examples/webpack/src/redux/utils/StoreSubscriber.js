@@ -1,8 +1,9 @@
 import Paper from "../../../../../src/values/Paper";
-import { isEqual, debounce, get } from "lodash-es";
+import { isEqual, debounce } from "lodash-es";
 
 import { setStatus } from "../actions/worker";
 import { setResults } from "../actions/results";
+import formatAnalyzeResult from "../../utils/formatAnalyzeResult";
 
 export default class StoreSubscriber {
 	constructor( { store, worker } ) {
@@ -35,10 +36,19 @@ export default class StoreSubscriber {
 		this._worker.analyze( Paper.parse( paper ) )
 			.then( ( { result } ) => {
 				this.dispatch( setStatus( "idling" ) );
-				this.dispatch( setResults( {
-					readability: result.readability.results,
-					seo: result.seo[ "" ].results,
-				} ) );
+				this.dispatch( setResults( formatAnalyzeResult( result, "" ) ) );
+			} );
+	}
+
+	analyzeRelatedKeyphrase( paper ) {
+		const relatedKeyphrase = {
+			keyword: paper.keyword,
+			synonyms: paper.synonyms,
+		};
+		this._worker.analyzeRelatedKeywords( Paper.parse( paper ), { relatedKeyphrase } )
+			.then( ( { result } ) => {
+				this.dispatch( setStatus( "idling" ) );
+				this.dispatch( setResults( formatAnalyzeResult( result, "relatedKeyphrase" ) ) );
 			} );
 	}
 
@@ -48,7 +58,11 @@ export default class StoreSubscriber {
 
 		if ( ! isEqual( paper, prevPaper ) ) {
 			this.dispatch( setStatus( "analyzing" ) );
-			this.analyzePaper( paper );
+			if ( state.configuration.isRelatedKeyphrase ) {
+				this.analyzeRelatedKeyphrase( paper );
+			} else {
+				this.analyzePaper( paper );
+			}
 		}
 	}
 
@@ -56,10 +70,13 @@ export default class StoreSubscriber {
 		const { configuration: prevConfiguration } = prevState;
 		const { configuration } = state;
 
-		if ( get( prevConfiguration, [ "useKeywordDistribution" ] ) !== get( configuration, "useKeywordDistribution" ) ) {
-			this._worker.initialize( {
-				useKeywordDistribution: configuration.useKeywordDistribution,
-			} ).then( () => this.analyzePaper( state.paper ) );
+		if ( ! isEqual( prevConfiguration, configuration ) ) {
+			this._worker.initialize( configuration ).then( () => {
+				if ( state.configuration.isRelatedKeyphrase ) {
+					return this.analyzeRelatedKeyphrase( state.paper );
+				}
+				return this.analyzePaper( state.paper );
+			} );
 		}
 	}
 
