@@ -16,7 +16,7 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	protected static $shop_page_id;
 
 	/**
-	 * @var bool Is current page the shop page?
+	 * @var bool True when current page is the shop page.
 	 */
 	protected static $is_shop_page;
 
@@ -36,7 +36,7 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	/**
 	 * Check whether woocommerce plugin is active.
 	 *
-	 * @return bool
+	 * @return bool True if woocommerce plugin is activated.
 	 */
 	private function is_woo_activated() {
 		return class_exists( 'WooCommerce', false );
@@ -65,17 +65,13 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	public function is_shop_page() {
 		global $wp_query;
 
-		if ( isset( self::$is_shop_page ) ) {
-			return self::$is_shop_page;
-		}
-
+		// Prevents too early "caching".
 		if ( ! isset( $wp_query ) ) {
 			return false;
 		}
 
-		self::$is_shop_page = false;
-		if ( $this->is_woo_activated() && $this->get_shop_page_id() > 0 ) {
-			self::$is_shop_page = is_shop() && ! is_search();
+		if ( ! isset( self::$is_shop_page ) ) {
+			self::$is_shop_page = $this->is_woo_activated() && is_shop() && ! is_search();
 		}
 
 		return self::$is_shop_page;
