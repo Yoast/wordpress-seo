@@ -15,6 +15,29 @@ import urlStopWordsAssessment from "./assessments/seo/urlStopWordsAssessment";
 import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
 
 /**
+ * Returns the boundaries to use for the text length assessment.
+ *
+ * @param {boolean} useRecalibration If the recalibration boundaries should be used or not.
+ * @returns {Object} The text length assessment boundaries to use.
+ */
+const getTextLengthBoundaries = function( useRecalibration ) {
+	if ( useRecalibration ) {
+		return {
+			recommendedMinimum: 250,
+			slightlyBelowMinimum: 200,
+			belowMinimum: 100,
+			veryFarBelowMinimum: 50,
+		}
+	}
+	return {
+		recommendedMinimum: 150,
+		slightlyBelowMinimum: 125,
+		belowMinimum: 100,
+		veryFarBelowMinimum: 50,
+	}
+};
+
+/**
  * Creates the Assessor used for taxonomy pages.
  *
  * @param {object} i18n The i18n object used for translations.
@@ -24,13 +47,16 @@ const TaxonomyAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
 	this.type = "TaxonomyAssessor";
 
+	// Get the text length boundaries (they are different for recalibration).
+	const textLengthBoundaries = getTextLengthBoundaries( process.env.YOAST_RECALIBRATION === "enabled" );
+
 	this._assessments = [
 		new IntroductionKeywordAssessment(),
 		new KeyphraseLengthAssessment(),
 		new KeywordDensityAssessment(),
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLengthAssessment(),
-		new TextLengthAssessment(),
+		new TextLengthAssessment( textLengthBoundaries ),
 		new TitleKeywordAssessment(),
 		new PageTitleWidthAssessment(),
 		new UrlKeywordAssessment(),
