@@ -41,6 +41,10 @@ class WPSEO_Admin {
 			add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
 		}
 
+		if ( WPSEO_Options::get( 'disable-attachment' ) === true ) {
+			add_filter( 'wpseo_accessible_post_types', array( 'WPSEO_Post_Type', 'filter_attachment_post_type' ) );
+		}
+
 		$this->admin_features = array(
 			// Google Search Console.
 			'google_search_console' => new WPSEO_GSC(),
