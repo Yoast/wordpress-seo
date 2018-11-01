@@ -1742,17 +1742,17 @@ class WPSEO_Frontend {
 		if ( $this->woocommerce_shop_page->get_shop_page_id() !== -1 && is_archive() ) {
 			$title = $this->get_template( 'title-' . $post->post_type );
 			$title = $this->replace_vars( $title, $post );
+		}
 
-			if ( is_string( $title ) && $title !== '' ) {
-				return $title;
-			}
+		if ( is_string( $title ) && $title !== '' ) {
+			return $title;
 		}
 
 		return '';
 	}
 
 	/**
-	 * Retrieves an template from the options.
+	 * Retrieves a template from the options.
 	 *
 	 * @param string $template The template to retrieve.
 	 *
