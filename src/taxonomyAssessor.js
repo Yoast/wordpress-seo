@@ -27,14 +27,14 @@ const getTextLengthBoundaries = function( useRecalibration ) {
 			slightlyBelowMinimum: 200,
 			belowMinimum: 100,
 			veryFarBelowMinimum: 50,
-		}
+		};
 	}
 	return {
 		recommendedMinimum: 150,
 		slightlyBelowMinimum: 125,
 		belowMinimum: 100,
 		veryFarBelowMinimum: 50,
-	}
+	};
 };
 
 /**
