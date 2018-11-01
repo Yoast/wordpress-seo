@@ -1744,11 +1744,7 @@ class WPSEO_Frontend {
 			$title = $this->replace_vars( $title, $post );
 		}
 
-		if ( is_string( $title ) && $title !== '' ) {
-			return $title;
-		}
-
-		return '';
+		return $title;
 	}
 
 	/**
