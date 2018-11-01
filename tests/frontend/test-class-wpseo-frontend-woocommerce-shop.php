@@ -24,7 +24,7 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 			->setMethods( array( 'is_shop_page', 'get_shop_page_id' ) )
 			->getMock();
 
-		$woocommerce_shop_page->expects( $this->any() )
+		$woocommerce_shop_page->expects( $this->once() )
 			->method( 'get_shop_page_id' )
 			->will( $this->returnValue( $post->ID ) );
 

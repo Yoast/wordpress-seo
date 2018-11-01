@@ -1732,14 +1732,15 @@ class WPSEO_Frontend {
 	 * @return string The WooCommerce title.
 	 */
 	protected function get_woocommerce_title() {
-		$post  = get_post( $this->woocommerce_shop_page->get_shop_page_id() );
-		$title = $this->get_seo_title( $post );
+		$shop_page_id = $this->woocommerce_shop_page->get_shop_page_id();
+		$post         = get_post( $shop_page_id );
+		$title        = $this->get_seo_title( $post );
 
 		if ( is_string( $title ) && $title !== '' ) {
 			return $title;
 		}
 
-		if ( $this->woocommerce_shop_page->get_shop_page_id() !== -1 && is_archive() ) {
+		if ( $shop_page_id !== -1 && is_archive() ) {
 			$title = $this->get_template( 'title-' . $post->post_type );
 			$title = $this->replace_vars( $title, $post );
 		}
