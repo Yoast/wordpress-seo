@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { isFunction } from "lodash-es";
+import { isFunction, noop } from "lodash-es";
 
 class Button extends React.PureComponent {
 	/**
@@ -54,6 +54,12 @@ Button.propTypes = {
 	id: PropTypes.string,
 	children: PropTypes.node,
 	onClick: PropTypes.func,
+};
+
+Button.defaultProps = {
+	id: null,
+	children: [],
+	onClick: noop,
 };
 
 export default Button;

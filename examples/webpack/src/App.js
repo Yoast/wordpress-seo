@@ -17,6 +17,8 @@ import { setResults } from "./redux/actions/results";
 import { setConfigurationAttribute } from "./redux/actions/configuration";
 import Inputs from "./components/Inputs";
 import { setStatus } from "./redux/actions/worker";
+import formatAnalyzeResult from "./utils/formatAnalyzeResult";
+import { ColumnLeft, ColumnRight, Columns } from "./components/Columns";
 
 class App extends React.Component {
 	/**
@@ -48,9 +50,7 @@ class App extends React.Component {
 	initialize() {
 		const { configuration, worker } = this.props;
 
-		worker.initialize( configuration )
-			.then( data => console.log( "initialization done!", data ) )
-			.then( this.analyze );
+		worker.initialize( configuration ).then( this.analyze );
 	}
 
 	/**
@@ -71,11 +71,8 @@ class App extends React.Component {
 			.then( ( { result } ) => {
 				setWorkerStatus( "idling" );
 
-				this.props.setResults( {
-					readability: result.readability.results,
-					seo: result.seo[ "" ].results,
-				} );
-		    } );
+				this.props.setResults( formatAnalyzeResult( result, "" ) );
+			} );
 	}
 
 	/**
@@ -97,19 +94,29 @@ class App extends React.Component {
 	/**
 	 * Renders the app.
 	 *
-	 * @returns {ReactElement} The app.
+	 * @returns {React.Element} The app.
 	 */
 	render() {
 		return (
 			<Fragment>
 				<h1>YoastSEO.js development tool</h1>
 
-				<Collapsible title="Input">
-					<Inputs />
-				</Collapsible>
+				<Columns minWidth="768px">
+					<ColumnLeft minWidth="768px">
+						<Collapsible title="Input">
+							<Inputs />
+						</Collapsible>
+					</ColumnLeft>
 
-				<Collapsible title="Results">
-					<Results />
+					<ColumnRight minWidth="768px">
+						<Collapsible title="Results">
+							<Results />
+						</Collapsible>
+					</ColumnRight>
+				</Columns>
+
+				<Collapsible title="Markings">
+					<Markings />
 				</Collapsible>
 
 				<Collapsible title="Worker status">
@@ -122,10 +129,6 @@ class App extends React.Component {
 						onAnalyze={ this.analyze }
 						onAnalyzeSpam={ this.analyzeSpam }
 					/>
-				</Collapsible>
-
-				<Collapsible title="Markings">
-					<Markings />
 				</Collapsible>
 
 				<ul>
@@ -144,7 +147,7 @@ class App extends React.Component {
 
 					<li>Performance information</li>
 					<li>Re-order collapsibles</li>
-					<li>Add button to trigger a ton of analyses continiously. This can be used to check for performance & memory leaks.</li>
+					<li>Add button to trigger a ton of analyses continuously. This can be used to check for performance & memory leaks.</li>
 				</ul>
 
 				Design Todos:
@@ -169,5 +172,5 @@ export default connect(
 			setConfigurationAttribute: ( ...args ) => dispatch( setConfigurationAttribute( ...args ) ),
 			setWorkerStatus: ( status ) => dispatch( setStatus( status ) ),
 		};
-	}
+	},
 )( App );

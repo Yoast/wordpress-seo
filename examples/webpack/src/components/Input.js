@@ -1,9 +1,9 @@
-import React from "react";
+import { isFunction, noop } from "lodash-es";
 import PropTypes from "prop-types";
-import { isFunction } from "lodash-es";
+import React from "react";
+import styled from "styled-components";
 
 import { H3 } from "./headings";
-import styled from "styled-components";
 
 const TextInput = styled.input`
 	flex: 0 1 100%;
@@ -50,7 +50,7 @@ class Input extends React.PureComponent {
 	 * @returns {void}
 	 */
 	handleChange( event ) {
-		const { type, onChange } = this.props;
+		const { id, type, onChange } = this.props;
 
 		if ( isFunction( onChange ) ) {
 			let name = "value";
@@ -60,7 +60,7 @@ class Input extends React.PureComponent {
 				name = "checked";
 			}
 
-			onChange( event.target[ name ] );
+			onChange( id, event.target[ name ] );
 		}
 	}
 
@@ -76,7 +76,7 @@ class Input extends React.PureComponent {
 			<React.Fragment>
 				<label htmlFor={ id }>
 					<H3>
-					{ label }
+						{ label }
 					</H3>
 				</label>
 				<TextInput
@@ -105,6 +105,7 @@ Input.defaultProps = {
 	type: "text",
 	label: "",
 	placeholder: "",
+	onChange: noop,
 };
 
 export default Input;

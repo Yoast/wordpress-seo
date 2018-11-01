@@ -5,6 +5,12 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.41.1 October 29th, 2018
+
+### Fixed
+* Fixes a bug where the Chrome browser tab would crash on Windows when a French or Italian text contains sentences in passive voice, props [CarloCannas](https://github.com/CarloCannas).
+* Fixes a bug where the Yoast SEO analysis would error if used together with the DelightfulDownloads plugin.
+
 ## 1.41.0 October 22nd, 2018
 
 ### Added
