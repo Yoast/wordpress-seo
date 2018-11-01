@@ -42,7 +42,7 @@ const otherPronouns = [ "varandra", "varsin", "varsitt", "envar", "varannan", "v
 
 const quantifiers = [ "andra", "åtskilliga", "bådadera", "både", "få", "fårre", "fåtalig", "fåtaliga", "flera", "flesta",
 	"föga", "ganska", "icke", "inte", "lite", "litet", "många", "mer", "mera", "mest", "mindre", "minst", "mycket", "nog",
-	"ollika", "tillräckligt", "vardera", "varje" ];
+	"ollika", "tillräckligt", "vardera", "varje", "viss", "visst", "vissa", "visse" ];
 
 const pronominalAdverbs = [ "bakåt", "bakifrån", "bortifrån", "däråt", "därav", "därhän", "däri", "därifrån", "därom",
 	"därpå", "därtill", "däruti", "därvid", "ditåt", "dithän", "dittills", "efteråt", "förrut", "framåt", "hädenefter",
@@ -64,10 +64,12 @@ const copula = [ "är", "var", "varit", "vore", "blivit", "blivande", "blir", "b
 const copulaInfinitive = [ "vara", "bli", "finnas", "befinna", "tyckas" ];
 
 const delexicalizedVerbs = [ "gående", "gällande", "gällde", "gäller", "gällt", "går", "gått", "gav", "ger", "gett", "gick",
-	"givande", "giver", "gjorde", "gjort", "gör", "görande", "kom", "kommande", "kommer", "kommit", "tagande", "tager",
-	"tagit", "tar", "tog" ];
+	"givande", "giver", "gjorde", "gjort", "gör", "görande", "kom", "kommande", "kommer", "kommit", "ligger", "ligges", "lå",
+	"ligget", "liggande",  "ställer", "ställde", "ställt", "ställ", "ställande", "ställd", "ställas", "ställs", "ställes", "ställdes",
+	"ställts", "tagande", "tager", "tagit", "tar", "tog", "utgör", "utgjorde", "utgjort", "utgörande", "utgjord", "utgöras",
+	"utgörs", "utgöres", "utgjordes", "utgjorts" ];
 
-const delexicalizedVerbsInfinitive = [ "gå", "gälla", "ge", "göra", "komma", "ta" ];
+const delexicalizedVerbsInfinitive = [ "gå", "gälla", "ge", "göra", "komma", "ligga", "ställa", "ta", "utgöra" ];
 
 const interviewVerbs = [ "angav", "anger", "angett", "angiver", "angivit", "berättade", "berättar", "berättat", "föreslagit",
 	"föreslår", "föreslått", "föreslog", "förklarade", "förklarar", "förklarat", "förstår", "förstått", "förstod",
@@ -86,20 +88,21 @@ const generalAdjectives = [ "äldre", "äldst", "äldsta", "äldste", "bäst", "
 	"minsta", "minste", "möjlig", "möjliga", "möjligare", "möjligast", "möjligaste", "möjlige", "möjligt", "nödvändig",
 	"nödvändiga", "nödvändigare", "nödvändigast", "nödvändigaste", "nödvändige", "nödvändigt", "normal", "normala",
 	"normalare", "normalast", "normalaste", "normale", "normalt", "ny", "nya", "nyare", "nyast", "nyaste", "nye", "nytt",
-	"samma", "sämre", "sämst", "sämsta", "sämste", "särskild", "särskilda", "särskilde", "särskilt", "sen", "sena",
-	"senare", "senast", "senaste", "sene", "sent", "små", "snabb", "snabba", "snabbare", "snabbast", "snabbaste", "snabbe",
-	"snabbt", "stor", "stora", "store", "större", "störst", "största", "störste", "stort", "svår", "svåra", "svårare",
+	"olikt", "olika", "olike", "samma", "sämre", "sämst", "sämsta", "sämste", "särskild", "särskilda", "särskilde", "särskilt",
+	"sen", "sena", "senare", "senast", "senaste", "sene", "sent", "små", "snabb", "snabba", "snabbare", "snabbast", "snabbaste",
+	"snabbe", "snabbt", "stor", "stora", "store", "större", "störst", "största", "störste", "stort", "svår", "svåra", "svårare",
 	"svårast", "svåraste", "svåre", "svårt", "tidig", "tidiga", "tidigare", "tidigast", "tidigaste", "tidige", "tidigt",
 	"trevlig", "trevliga", "trevligare", "trevligast", "trevligaste", "trevlige", "trevligt", "ung", "unga", "unge",
 	"ungt", "uppenbar", "uppenbara", "uppenbare", "uppenbart", "värre", "värst", "värsta", "värste", "verklig", "viktig",
 	"viktiga", "viktigare", "viktigast", "viktigaste", "viktige", "viktigt", "yngre", "yngst", "yngsta", "yngste" ];
 
 const generalAdverbs = [ "aldrig", "allmänt", "alltid", "delvis", "direkt", "huvudsakligen", "ibland", "långsamt",
-	"mestadels", "nästan", "ofta", "relativt", "sällan", "snabbt", "ständigt", "väl", "vanligt" ];
+	"mestadels", "nästan", "ofta", "relativt", "riktigt", "riktigare", "riktigast", "sällan", "snabbt", "ständigt", "väl", "vanligt" ];
 
-const vagueNouns = [ "bit", "bitar", "bitarna", "bitarnas", "bitars", "biten", "bitens", "bits", "del", "delar", "delarna",
-	"delarnas", "delars", "delen", "delens", "dels", "detalj", "detaljen", "detaljens", "detaljer", "detaljerna",
-	"detaljernas", "detaljers", "detaljs", "person", "personen", "personens", "personer", "personerna", "personernas",
+const vagueNouns = [ "antal", "antalet", "antals", "antalets", "antalen", "antalens", "bit", "bitar", "bitarna", "bitarnas",
+	"bitars", "biten", "bitens", "bits", "del", "delar", "delarna", "delarnas", "delars", "delen", "delens", "dels", "detalj",
+	"detaljen", "detaljens", "detaljer", "detaljerna", "detaljernas", "detaljers", "detaljs", "exempel", "exempels", "exemplet",
+	"exemplets", "exemplen", "exemplens",  "person", "personen", "personens", "personer", "personerna", "personernas",
 	"personers", "persons", "procent", "punkt", "punkten", "punktens", "punkter", "punkterna", "punkternas", "punkters",
 	"sak", "saken", "sakens", "saker", "sakerna", "sakernas", "sakers", "saks", "sätt", "sätten", "sättens", "sättet",
 	"sättets", "sätts", "skillnad", "skillnaden", "skillnadens", "skillnader", "skillnaderna", "skillnadernas",
@@ -107,10 +110,10 @@ const vagueNouns = [ "bit", "bitar", "bitarna", "bitarnas", "bitars", "biten", "
 	"tema", "teman", "temanas", "temans", "temas", "temat", "temats", "tid", "tiden", "tidens", "tider", "tiderna",
 	"tidernas", "tiders", "tids", "ting", "tingen", "tingens", "tinget", "tingets", "tings" ];
 
-const prepositions = [ "åt", "av", "bakom", "bland", "bortom", "bredvid", "efter", "emellan", "emot", "enligt", "för",
-	"före", "förutom", "framför", "från", "genom", "i", "igenom", "inom", "inuti", "längs", "med", "mellan", "mittemot",
+const prepositions = [ "åt", "av", "bakom", "bland", "bortom", "bredvid", "cirka", "efter", "emellan", "emot", "enligt", "för",
+	"före", "förutom", "framför", "från", "genom", "hos", "i", "igenom", "inom", "inuti", "längs", "med", "mellan", "mittemot",
 	"mot", "nära", "nästa", "nedan", "ner", "olik", "om", "omkring", "ovanför", "ovanpå", "över", "på", "runt", "sedan",
-	"som", "till", "tvärsöver", "under", "upp", "ur", "ut", "utan", "utanför", "utom", "via", "vid" ];
+	"som", "till", "tvärs", "tvärsöver", "under", "upp", "ur", "ut", "utan", "utanför", "utom", "via", "vid" ];
 
 const intensifiers = [ "absolut", "alldeles", "allra", "bra", "fullständigt", "fullt", "ganska", "helt", "illa", "jätte",
 	"rysligt", "så", "storligen", "totalt", "väldigt", "ytterst" ];
@@ -119,8 +122,8 @@ const coordinatingConjunctions = [ "eller", "och" ];
 
 const subordinatingConjunctions = [ "att" ];
 
-const timeWords = [ "årens", "året", "årets", "års", "årtal", "årtalen", "årtalens", "årtaconst", "årtaconsts", "årtals", "dag",
-	"dagar", "dagarna", "dagarnas", "dagars", "dagen", "dagens", "dags", "går", "månad", "månaden", "månadens", "månader",
+const timeWords = [ "år", "årens", "året", "årets", "års", "årtal", "årtalen", "årtalens", "årtaconst", "årtaconsts", "årtals", "dag",
+	"dagar", "dagarna", "dagarnas", "dagars", "dagen", "dagens", "dags", "går", "idag", "månad", "månaden", "månadens", "månader",
 	"månaderna", "månadernas", "månaders", "månads", "minut", "minuten", "minutens", "minuter", "minuterna", "minuternas",
 	"minuters", "minuts", "morgon", "sekund", "sekunden", "sekundens", "sekunder", "sekunderna", "sekundernas", "sekunders",
 	"sekunds", "timmar", "timmarna", "timmarnas", "timmars", "timme", "timmen", "timmens", "timmes", "vecka", "veckan",
@@ -133,7 +136,7 @@ const interjections = [ "å", "aj", "aja", "fy", "grattis", "hej", "hu", "jaså"
 
 const recipeWords = [ "c", "cl", "cm", "dl", "g", "kg", "km", "krm", "l", "m", "mg", "ml", "mm", "msk", "pkt", "st", "tsk" ];
 
-const miscellaneous = [ "förlåt", "ja", "jo", "m.m", "nej", "ok", "okej", "tack" ];
+const miscellaneous = [ "förlåt", "ja", "jo", "ju", "m.m", "nej", "ok", "okej", "tack" ];
 
 
 /**
