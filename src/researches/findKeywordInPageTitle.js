@@ -12,10 +12,6 @@ import getLanguage from "../helpers/getLanguage";
 
 const getFunctionWords = getFunctionWordsFactory();
 
-const findPositionExcludingFunctionWords = function( title, keyword, locale ) {
-
-};
-
 /**
  * Counts the occurrences of the keyword in the page title. Returns the result that contains information on
  * (1) whether the exact match of the keyphrase was used in the title,
