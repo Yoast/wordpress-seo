@@ -1,6 +1,5 @@
 import getWords from "../stringProcessing/getWords.js";
 import stripSpaces from "../stringProcessing/stripSpaces.js";
-import { stripFullTags as stripTags } from "../stringProcessing/stripHTMLTags.js";
 import getFirstWordExceptions from "../helpers/getFirstWordExceptions.js";
 
 import { isEmpty } from "lodash-es";
@@ -52,19 +51,6 @@ const compareFirstWords = function( sentenceBeginnings, sentences ) {
 };
 
 /**
- * Sanitizes the sentence.
- *
- * @param {string} sentence The sentence to sanitize.
- * @returns {string} The sanitized sentence.
- */
-function sanitizeSentence( sentence ) {
-	sentence = stripTags( sentence );
-	sentence = sentence.replace( /^[^A-Za-zА-Яа-я0-9]/, "" );
-
-	return sentence;
-}
-
-/**
  * Retrieves the first word from the sentence.
  *
  * @param {string} sentence The sentence to retrieve the first word from.
@@ -72,8 +58,6 @@ function sanitizeSentence( sentence ) {
  * @returns {string} The first word of the sentence.
  */
 function getSentenceBeginning( sentence, firstWordExceptions ) {
-	sentence = sanitizeSentence( sentence );
-
 	const words = getWords( stripSpaces( sentence ) );
 
 	if ( words.length === 0 ) {
