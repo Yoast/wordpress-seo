@@ -1,6 +1,7 @@
 /* External dependencies */
 import isFunction from "lodash/isFunction";
-import { create } from "@wordpress/rich-text";
+import isArray from "lodash/isArray";
+import { create, getFormatType } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
 import { string } from "yoastseo";
 
@@ -91,7 +92,7 @@ function getOffsets( mark ) {
 function calculateAnnotationsForTextFormat( content, mark, block ) {
 	// Create a rich text record, because those are easier to work with.
 	const record = create( { html: content } );
-	const { text } = record;
+	const { text, formats } = record;
 
 	const annotations = [];
 
@@ -111,9 +112,33 @@ function calculateAnnotationsForTextFormat( content, mark, block ) {
 
 	if ( foundIndex !== -1 ) {
 		const offsets = getOffsets( mark );
+		let xpath;
 
-		const startXPath = "text()[1]";
-		const endXPath = "text()[1]";
+		/*
+		 * Because the Gutenberg implementation only works with positions we can simply pass
+		 * the first element in the RichText in the XPaths and use the absolute positions as
+		 * the offsets.
+		 */
+		const firstFormat = formats[ 0 ];
+		if ( ! firstFormat || ( isArray( firstFormat ) && firstFormat.length === 0 ) ) {
+			xpath = "text()[1]";
+		} else {
+			const firstFormats = firstFormat.map( ( format ) => {
+				let tagName = format.type;
+				const formatType = getFormatType( tagName );
+
+				if ( formatType ) {
+					tagName = formatType.match.tagName;
+				}
+
+				return tagName + "[1]";
+			} );
+
+			xpath = firstFormats.join( "/" ) + "/text()[1]";
+		}
+
+		const startXPath = xpath;
+		const endXPath = xpath;
 		const startOffset = foundIndex + offsets.startOffset;
 		let endOffset = foundIndex + offsets.endOffset;
 
@@ -147,7 +172,7 @@ function calculateAnnotationsForTextFormat( content, mark, block ) {
 export function applyAsAnnotations( paper, marks ) {
 	if ( marks.length === 0 ) {
 		annotationQueue = [];
-		dispatch( "core/editor" ).removeAnnotationsBySource( "yoast" );
+		dispatch( "core/editor" ).removeAnnotationsBySource( ANNOTATION_SOURCE );
 		return;
 	}
 
