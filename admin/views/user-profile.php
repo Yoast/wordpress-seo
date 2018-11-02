@@ -18,6 +18,7 @@ $wpseo_no_index_author_label = sprintf(
 
 	<h2 id="wordpress-seo"><?php echo esc_html( $wpseo_up_settings_header ); ?></h2>
 
+	<?php if ( ! WPSEO_Options::get( 'disable-author' ) ) : ?>
 	<label for="wpseo_author_title"><?php esc_html_e( 'Title to use for Author page', 'wordpress-seo' ); ?></label>
 	<input class="yoast-settings__text regular-text" type="text" id="wpseo_author_title" name="wpseo_author_title"
 		value="<?php echo esc_attr( get_the_author_meta( 'wpseo_title', $user->ID ) ); ?>"/><br>
@@ -26,6 +27,7 @@ $wpseo_no_index_author_label = sprintf(
 	<textarea rows="5" cols="30" id="wpseo_author_metadesc"
 		class="yoast-settings__textarea yoast-settings__textarea--medium"
 		name="wpseo_author_metadesc"><?php echo esc_textarea( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea><br>
+	<?php endif; ?>
 
 	<input class="yoast-settings__checkbox double" type="checkbox" id="wpseo_noindex_author"
 		name="wpseo_noindex_author"
