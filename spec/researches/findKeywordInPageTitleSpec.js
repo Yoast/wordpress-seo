@@ -30,7 +30,7 @@ describe( "Match keywords in string", function() {
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
-		expect( result.position ).toBe( 16 );
+		expect( result.position ).toBe( 14 );
 	} );
 
 	it( "returns the exact match and its position", function() {
@@ -44,7 +44,7 @@ describe( "Match keywords in string", function() {
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
-		expect( result.position ).toBe( 17 );
+		expect( result.position ).toBe( 14 );
 	} );
 
 	it( "returns no match for empty keyword", function() {
@@ -72,7 +72,7 @@ describe( "Match keywords in string", function() {
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
-		expect( result.position ).toBe( 20 );
+		expect( result.position ).toBe( 18 );
 	} );
 
 	it( "returns the exact match and its position for German", function() {
@@ -126,7 +126,7 @@ describe( "Match keywords in string", function() {
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
-		expect( result.position ).toBe( 15 );
+		expect( result.position ).toBe( 13 );
 	} );
 
 	it( "returns the exact match and its position for Turkish", function() {
@@ -279,7 +279,7 @@ describe( "Match keywords in string", function() {
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
 		expect( result.exactMatchKeyphrase ).toBe( true );
-		expect( result.position ).toBe( 12 );
+		expect( result.position ).toBe( 9 );
 	} );
 
 	it( "returns an exact match not found", function() {
@@ -294,6 +294,21 @@ describe( "Match keywords in string", function() {
 		expect( result.exactMatch ).toBe( false );
 		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.allWordsFound ).toBe( false );
+	} );
+
+	it( "returns an exact match at place 0, even if the title starts with a function word.", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "\"walking in nature\"",
+			title: "The walking in nature",
+		} );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( true );
+		expect( result.allWordsFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
 	} );
 } );
 

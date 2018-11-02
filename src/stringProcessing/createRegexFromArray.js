@@ -9,9 +9,10 @@ import { map } from "lodash-es";
  *
  * @param {array} array The array with strings
  * @param {boolean} [disableWordBoundary] Boolean indicating whether or not to disable word boundaries
+ * @param {"all"|"start"|"end"} [matchType="all"] If the regex should match either the entire string, the start or the end.
  * @returns {RegExp} regex The regex created from the array.
  */
-export default function( array, disableWordBoundary ) {
+export default function( array, disableWordBoundary, matchType = "all" ) {
 	var regexString;
 	var _disableWordBoundary = disableWordBoundary || false;
 
@@ -23,6 +24,17 @@ export default function( array, disableWordBoundary ) {
 	} );
 
 	regexString = "(" + boundedArray.join( ")|(" ) + ")";
+
+	switch ( matchType ) {
+		case "start" :
+			regexString = "^(" + regexString + ")";
+			break;
+		case "end" :
+			regexString = "(" + regexString + ")$";
+			break;
+		default:
+			break;
+	}
 
 	return new RegExp( regexString, "ig" );
 }

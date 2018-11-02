@@ -3,7 +3,18 @@
 import wordMatch from "../stringProcessing/matchTextWithWord.js";
 const findTopicFormsInString = require( "./findKeywordFormsInString.js" ).findTopicFormsInString;
 
-import { escapeRegExp, includes } from "lodash-es";
+import getFunctionWordsFactory from "../helpers/getFunctionWords";
+
+import { escapeRegExp, get, includes, isUndefined } from "lodash-es";
+import createRegexFromArray from "../stringProcessing/createRegexFromArray";
+import stripSpaces from "../stringProcessing/stripSpaces";
+import getLanguage from "../helpers/getLanguage";
+
+const getFunctionWords = getFunctionWordsFactory();
+
+const findPositionExcludingFunctionWords = function( title, keyword, locale ) {
+
+};
 
 /**
  * Counts the occurrences of the keyword in the page title. Returns the result that contains information on
@@ -37,6 +48,20 @@ export default function( paper, researcher ) {
 		result.exactMatch = true;
 		result.allWordsFound = true;
 		result.position = keywordMatched.position;
+
+		const language = getLanguage( locale );
+
+		// Strip function words from the beginning of the title.
+		const functionWords = get( getFunctionWords, [ language ], [] );
+		if ( ! isUndefined( functionWords ) ) {
+			const functionWordsRegex = createRegexFromArray( functionWords.all, false, "start" );
+			const strippedTitle = escapeRegExp( stripSpaces( title.replace( functionWordsRegex, "" ) ) );
+
+			// If nothing has been stripped, return the old result, otherwise return the new one.
+			if ( strippedTitle.length !== title.length ) {
+				result.position = strippedTitle.toLocaleLowerCase().indexOf( keyword.toLocaleLowerCase() );
+			}
+		}
 
 		return result;
 	}
