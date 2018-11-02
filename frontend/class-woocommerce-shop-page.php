@@ -38,7 +38,7 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	 *
 	 * @return bool True if woocommerce plugin is active.
 	 */
-	private static function is_woocommerce_active() {
+	private function is_woocommerce_active() {
 		return WPSEO_Utils::is_woocommerce_active();
 	}
 
