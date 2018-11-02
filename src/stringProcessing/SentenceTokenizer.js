@@ -180,14 +180,7 @@ export default class SentenceTokenizer {
 		this.tokenize( tokenizerResult.tokenizer, localText );
 		const localSentences = this.getSentencesFromTokens( tokenizerResult.tokens, false );
 
-		// Nothing follows the <, so do not add 'undefined'.
-		if ( isUndefined( localSentences[ 0 ] ) ) {
-			// Prepend the '<' again to the first sentence.
-			localSentences[ 0 ] = "<";
-		} else {
-			// Prepend the '<' again to the first sentence.
-			localSentences[ 0 ] = "<" + localSentences[ 0 ];
-		}
+		localSentences[ 0 ] = isUndefined( localSentences[ 0 ] ) ? "<" : "<" + localSentences[ 0 ];
 
 		/*
 		 * When the first sentence has a valid sentence beginning.
