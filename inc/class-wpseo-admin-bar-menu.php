@@ -197,7 +197,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	protected function add_keyword_research_submenu( WP_Admin_Bar $wp_admin_bar ) {
 		$adwords_url = 'https://yoa.st/keywordplanner';
 		$trends_url  = 'https://yoa.st/google-trends';
-		$seobook_url = 'https://yoa.st/seo-book';
 
 		$post = $this->get_singular_post();
 		if ( $post ) {
@@ -205,7 +204,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 			if ( ! empty( $focus_keyword ) ) {
 				$trends_url  .= '#q=' . urlencode( $focus_keyword );
-				$seobook_url .= '?keyword=' . urlencode( $focus_keyword );
 			}
 		}
 
@@ -234,13 +232,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			'id'     => 'wpseo-googleinsights',
 			'title'  => __( 'Google Trends', 'wordpress-seo' ),
 			'href'   => $trends_url,
-			'meta'   => array( 'target' => '_blank' ),
-		) );
-		$wp_admin_bar->add_menu( array(
-			'parent' => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,
-			'id'     => 'wpseo-wordtracker',
-			'title'  => __( 'SEO Book', 'wordpress-seo' ),
-			'href'   => $seobook_url,
 			'meta'   => array( 'target' => '_blank' ),
 		) );
 	}
