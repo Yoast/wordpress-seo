@@ -16,7 +16,7 @@ describe( "Counts images in an text", function() {
 		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
 	} );
 
-	 it( "returns object with the withAltKeyword as 1 when the keyword is set and present", function() {
+	 it( "returns object with the withAltKeyword as 1 when the keyword is set and present (1-word keyword)", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", { keyword: "keyword", synonyms: "synonym, another synonym" } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
@@ -26,6 +26,30 @@ describe( "Counts images in an text", function() {
 		expect( stringToCheck.withAlt ).toBe( 0 );
 		expect( stringToCheck.withAltKeyword ).toBe( 1 );
 		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
+	} );
+
+	it( "returns object with the withAltKeyword as 1 when the keyword is set and present by 50% (2-word keyword)", function() {
+		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", { keyword: "keyword keyphrase", synonyms: "synonym, another synonym" } );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const stringToCheck = altTagCountFunction( paper, researcher );
+
+		expect( stringToCheck.noAlt ).toBe( 0 );
+		expect( stringToCheck.withAlt ).toBe( 0 );
+		expect( stringToCheck.withAltKeyword ).toBe( 1 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
+	} );
+
+	it( "returns object with the withAltKeyword as 0 when the keyword is set and present by 33% (3-word keyword)", function() {
+		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", { keyword: "keyword keyphrase synonym", synonyms: "synonym, another synonym" } );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const stringToCheck = altTagCountFunction( paper, researcher );
+
+		expect( stringToCheck.noAlt ).toBe( 0 );
+		expect( stringToCheck.withAlt ).toBe( 0 );
+		expect( stringToCheck.withAltKeyword ).toBe( 0 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 1 );
 	} );
 
 	it( "returns object with the withAlt as 1 when there's an alt-tag, but no keyword is set", function() {

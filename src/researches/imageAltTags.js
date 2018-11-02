@@ -40,7 +40,7 @@ const matchAltProperties = function( imageMatches, topicForms, locale ) {
 
 		const keywordMatchedInAltTag = findTopicFormsInString( topicForms, alttag, true, locale );
 
-		if ( keywordMatchedInAltTag.countWordMatches === 0 && alttag !== "" ) {
+		if ( keywordMatchedInAltTag.percentWordMatches < 50 && alttag !== "" ) {
 			// Match for keywords?
 			altProperties.withAltNonKeyword++;
 			continue;
