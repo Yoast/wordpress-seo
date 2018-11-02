@@ -331,6 +331,14 @@ describe( "Get sentences from text", function() {
 				input: "<",
 				expected: [ "<" ],
 			},
+			{
+				input: "Hey you! Obviously, 20.0 < 25.0 and 50.0 > 30.0. Do not tell anyone, it is a secret.",
+				expected: [ "Hey you!", "Obviously, 20.0 < 25.0 and 50.0 > 30.0.", "Do not tell anyone, it is a secret." ],
+			},
+			{
+				input: "Hey 40 < 50. However, 40 > 50.",
+				expected: [ "Hey 40 < 50.",  "However, 40 > 50." ],
+			},
 		];
 
 		testGetSentences( testCases );
