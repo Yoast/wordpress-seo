@@ -26,7 +26,7 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		if ( ! $this->is_woo_activated() ) {
+		if ( ! $this->is_woocommerce_active() ) {
 			return;
 		}
 
@@ -34,12 +34,12 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Check whether woocommerce plugin is active.
+	 * Determines whether or not WooCommerce is active.
 	 *
-	 * @return bool True if woocommerce plugin is activated.
+	 * @return bool True if woocommerce plugin is active.
 	 */
-	private function is_woo_activated() {
-		return class_exists( 'WooCommerce', false );
+	private static function is_woocommerce_active() {
+		return WPSEO_Utils::is_woocommerce_active();
 	}
 
 	/**
@@ -71,7 +71,7 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 		}
 
 		if ( ! isset( self::$is_shop_page ) ) {
-			self::$is_shop_page = $this->is_woo_activated() && is_shop() && ! is_search();
+			self::$is_shop_page = $this->is_woocommerce_active() && is_shop() && ! is_search();
 		}
 
 		return self::$is_shop_page;
