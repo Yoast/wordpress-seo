@@ -323,6 +323,14 @@ describe( "Get sentences from text", function() {
 				input: "This is a sentence <. This is another sentence.",
 				expected: [ "This is a sentence <.", "This is another sentence." ],
 			},
+			{
+				input: "This is a sentence. <",
+				expected: [ "This is a sentence.", "<" ],
+			},
+			{
+				input: "<",
+				expected: [ "<" ],
+			},
 		];
 
 		testGetSentences( testCases );
