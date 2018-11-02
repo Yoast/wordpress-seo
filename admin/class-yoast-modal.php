@@ -15,18 +15,9 @@ class Yoast_Modal {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_footer', array( $this, 'print_localized_config' ) );
 	}
-
-	/**
-	 * Enqueues the assets needed for the modal.
-	 */
-	public function enqueue_assets() {
-		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_script( 'yoast-modal' );
-	}
-
+	
 	/**
 	 * Prints the modals configuration.
 	 */
