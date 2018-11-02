@@ -11,12 +11,10 @@ body, html {
 body {
 	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
 	background-color: #f1f1f1;
-	padding: 0 24px;
 }
 
-h1 {
-	padding-left: 10px;
-	font-size: 1.5em;
+#root {
+	padding: 24px;
 }
 
 *, *:after, *:before {

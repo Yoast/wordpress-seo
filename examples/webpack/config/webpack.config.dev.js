@@ -88,8 +88,7 @@ module.exports = {
 			// https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
 			'react-native': 'react-native-web',
 
-			// Disabled for now because it doesn't work with yoast-components:
-			// 'yoastseo': paths.yoastSrc,
+			'yoastsrc': paths.yoastSrc,
 			'yoastspec': paths.yoastSpec,
 		},
 		plugins: [],

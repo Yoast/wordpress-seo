@@ -1,15 +1,16 @@
-/* External */
+// External dependencies.
 import { noop } from "lodash-es";
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
+import { IconButton } from "yoast-components/composites/Plugin/Shared/components/Button";
 import Toggle from "yoast-components/composites/Plugin/Shared/components/Toggle";
 
-/* Internal */
+// Internal dependencies.
 import { setConfigurationAttribute } from "../redux/actions/configuration";
 import { clearStorage } from "../redux/utils/localstorage";
 import AutomaticAnalysis from "./AutomaticAnalysis";
-import Button from "./Button";
-import Container from "./Container";
+import Container, { ButtonContainer } from "./Container";
+import { H3 } from "./headings";
 
 function clearStorageAction() {
 	clearStorage();
@@ -24,16 +25,20 @@ function Controls( {
 	setConfigurationAttribute: setConfigAttribute,
 } ) {
 	return <Fragment>
-		<div className="button-container">
+		<ButtonContainer>
+			<IconButton icon="gear" onClick={ onInitialize }>Initialize</IconButton>
+			<IconButton icon="search" onClick={ () => onAnalyze() }>Analyze</IconButton>
+			<IconButton icon="search" onClick={ onAnalyzeSpam }>Spam analyze</IconButton>
+			<IconButton icon="times" onClick={ clearStorageAction }>Clear inputs</IconButton>
+		</ButtonContainer>
+
+		<Container>
+			<H3>Configuration</H3>
+		</Container>
+
+		<Container>
 			<AutomaticAnalysis />
-
-			<Button onClick={ onInitialize }>Initialize</Button>
-			<Button onClick={ onAnalyze }>Analyze</Button>
-			<Button onClick={ clearStorageAction }>Clear</Button>
-			<Button onClick={ onAnalyzeSpam }>Analyze Spam</Button>
-		</div>
-
-		<h2>Configuration</h2>
+		</Container>
 
 		<Container>
 			<Toggle
