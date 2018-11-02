@@ -604,6 +604,10 @@ class WPSEO_OpenGraph {
 			}
 		}
 
+		if ( is_author() ) {
+			$ogdesc = $frontend->metadesc( false );
+		}
+
 		if ( is_category() || is_tag() || is_tax() ) {
 			$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-description' );
 			if ( $ogdesc === '' ) {
