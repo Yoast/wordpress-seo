@@ -21,6 +21,8 @@ const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 const blockStartRegex = /^\s*[[({]\s*$/;
 const blockEndRegex = /^\s*[\])}]\s*$/;
 
+const sentenceEndRegex = new RegExp( "[" + fullStop + sentenceDelimiters + "]$" );
+
 /**
  * Class for tokenizing a (html) text into sentences.
  */
@@ -178,7 +180,7 @@ export default class SentenceTokenizer {
 		this.tokenize( tokenizerResult.tokenizer, localText );
 		const localSentences = this.getSentencesFromTokens( tokenizerResult.tokens, false );
 
-		// Nothing follows the <, so we can return the '<'.
+		// Nothing follows the <, so do not add 'undefined'.
 		if ( isUndefined( localSentences[ 0 ] ) ) {
 			// Prepend the '<' again to the first sentence.
 			localSentences[ 0 ] = "<";
@@ -208,11 +210,22 @@ export default class SentenceTokenizer {
 
 			// Remove the first sentence (we do not need to add it again).
 			localSentences.shift();
+			// Last sentence gets special treatment.
+			const lastSentence = localSentences.pop();
 
 			// Add the remaining found sentences.
 			localSentences.forEach( sentence => {
 				tokenSentences.push( sentence );
 			} );
+
+			// Check if the last sentence has a valid sentence ending.
+			if ( lastSentence.match( sentenceEndRegex ) ) {
+				// If so, add it as a sentence.
+				tokenSentences.push( lastSentence );
+			} else {
+				// If not, start making a new one.
+				currentSentence = lastSentence;
+			}
 		}
 		return {
 			tokenSentences,
