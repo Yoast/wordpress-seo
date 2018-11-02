@@ -288,9 +288,11 @@ export default class TextImagesAssessment extends Assessment {
 					 * %5$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, only %1$d has an alt attribute with at least half of the words from your keyphrase. " +
+						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, only %1$d has an alt attribute with " +
+						"at least half of the words from your keyphrase. " +
 						"%4$sFix that%5$s!",
-						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, only %1$d have alt attributes with at least half of the words from your keyphrase. " +
+						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, only %1$d have alt attributes with " +
+						"at least half of the words from your keyphrase. " +
 						"%4$sFix that%5$s!",
 						this.altProperties.withAltKeyword,
 					),
@@ -311,7 +313,8 @@ export default class TextImagesAssessment extends Assessment {
 					 * %2$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sImage alt attributes%2$s: The image on this page contains an alt attribute with at least half of the words from the keyphrase. Good job!",
+						"%1$sImage alt attributes%2$s: The image on this page contains an alt attribute with at least half " +
+						"of the words from the keyphrase. Good job!",
 					),
 					this._config.urlTitle,
 					"</a>"
@@ -332,8 +335,10 @@ export default class TextImagesAssessment extends Assessment {
 					 * %4$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"%3$sImage alt attributes%4$s: Out of %2$d images on this page, %1$d has an alt attribute with at least half of the words from the keyphrase. Good job!",
-						"%3$sImage alt attributes%4$s: Out of %2$d images on this page, %1$d have alt attributes with at least half of the words from the keyphrase. Good job!",
+						"%3$sImage alt attributes%4$s: Out of %2$d images on this page, %1$d has an alt attribute with at " +
+						"least half of the words from the keyphrase. Good job!",
+						"%3$sImage alt attributes%4$s: Out of %2$d images on this page, %1$d have alt attributes with at " +
+						"least half of the words from the keyphrase. Good job!",
 						this.altProperties.withAltKeyword
 					),
 					this.altProperties.withAltKeyword,
@@ -353,7 +358,8 @@ export default class TextImagesAssessment extends Assessment {
 					 * %5$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, %1$d have alt attributes with at least half of the words from the keyphrase. " +
+						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, %1$d have alt attributes with at " +
+						"least half of the words from the keyphrase. " +
 						"That's a bit much. %4$sOnly include the focus keyphrase when it really fits the image%5$s.",
 					),
 					this.altProperties.withAltKeyword,

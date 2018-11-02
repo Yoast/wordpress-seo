@@ -20,7 +20,7 @@ describe( "An image count assessment for regular analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -37,7 +37,7 @@ describe( "An image count assessment for regular analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -54,7 +54,7 @@ describe( "An image count assessment for regular analysis", function() {
 				withAlt: 1,
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -71,7 +71,7 @@ describe( "An image count assessment for regular analysis", function() {
 				withAlt: 4,
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -90,7 +90,7 @@ describe( "An image count assessment for regular analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 0,
 				withAltNonKeyword: 1,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -109,7 +109,7 @@ describe( "An image count assessment for regular analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 0,
 				withAltNonKeyword: 4,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -128,7 +128,7 @@ describe( "An image count assessment for regular analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 1,
 				withAltNonKeyword: 0,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -147,7 +147,7 @@ describe( "An image count assessment for regular analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 1,
 				withAltNonKeyword: 1,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -166,7 +166,7 @@ describe( "An image count assessment for regular analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 1,
 				withAltNonKeyword: 1,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -189,7 +189,7 @@ describe( "An image count assessment for Recalibration analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -206,7 +206,7 @@ describe( "An image count assessment for Recalibration analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -223,7 +223,7 @@ describe( "An image count assessment for Recalibration analysis", function() {
 				withAlt: 1,
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -240,7 +240,7 @@ describe( "An image count assessment for Recalibration analysis", function() {
 				withAlt: 4,
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -259,7 +259,7 @@ describe( "An image count assessment for Recalibration analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 0,
 				withAltNonKeyword: 1,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -278,7 +278,7 @@ describe( "An image count assessment for Recalibration analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 0,
 				withAltNonKeyword: 4,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -297,7 +297,7 @@ describe( "An image count assessment for Recalibration analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 1,
 				withAltNonKeyword: 0,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -316,7 +316,7 @@ describe( "An image count assessment for Recalibration analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 1,
 				withAltNonKeyword: 1,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -335,7 +335,7 @@ describe( "An image count assessment for Recalibration analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 2,
 				withAltNonKeyword: 1,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -354,7 +354,7 @@ describe( "An image count assessment for Recalibration analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 6,
 				withAltNonKeyword: 0,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -373,7 +373,7 @@ describe( "An image count assessment for Recalibration analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 1,
 				withAltNonKeyword: 4,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -392,7 +392,7 @@ describe( "An image count assessment for Recalibration analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 2,
 				withAltNonKeyword: 1,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -411,7 +411,7 @@ describe( "An image count assessment for Recalibration analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 4,
 				withAltNonKeyword: 0,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -430,7 +430,7 @@ describe( "An image count assessment for Recalibration analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 5,
 				withAltNonKeyword: 0,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -449,7 +449,7 @@ describe( "An image count assessment for Recalibration analysis", function() {
 				withAlt: 0,
 				withAltKeyword: 1,
 				withAltNonKeyword: 3,
-			}
+			},
 		}, true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
