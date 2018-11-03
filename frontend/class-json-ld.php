@@ -153,7 +153,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		$this->data = apply_filters( 'wpseo_json_ld_output', $this->data, $context );
 
 		if ( is_array( $this->data ) && ! empty( $this->data ) ) {
-			echo "<script type='application/ld+json'>", ( version_compare( phpversion(), '5.4', '<' ) ? wp_json_encode( $this->data ) : wp_json_encode( $this->data, JSON_UNESCAPED_SLASHES ) ), '</script>', "\n";
+			echo "<script type='application/ld+json'>", str_replace('\\/', '/', wp_json_encode( $this->data )), '</script>', "\n";
 		}
 
 		// Empty the $data array so we don't output it twice.
