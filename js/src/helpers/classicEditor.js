@@ -7,7 +7,6 @@ const registeredComponents = [];
 let containerRef = null;
 
 class RegisteredComponentsContainer extends Component {
-
 	/**
 	 * Constructs a container for registered components.
 	 *
@@ -78,7 +77,7 @@ export function renderClassicEditorMetabox( store ) {
 					store={ store }
 					theme={ theme }
 				/>
-				<RegisteredComponentsContainer ref={containerRef}/>
+				<RegisteredComponentsContainer ref={ containerRef } />
 			</SlotFillProvider>
 		),
 		document.getElementById( "wpseo-metabox-root" )

@@ -34,7 +34,7 @@ class CompatibilityHelper {
 		if ( DiviHelper.isActive() ) {
 			this.diviActive = true;
 		}
-		if( VisualComposerHelper.isActive() ) {
+		if ( VisualComposerHelper.isActive() ) {
 			this.vcActive = true;
 		}
 	}

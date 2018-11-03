@@ -9,7 +9,6 @@ import { localize } from "yoast-components";
  * @summary Media upload component.
  */
 class MediaUpload extends React.Component {
-
 	constructor( props ) {
 		super( props );
 
@@ -34,9 +33,9 @@ class MediaUpload extends React.Component {
 	 * @returns {void}
 	 */
 	componentDidUpdate( prevProps, prevState ) {
-		let currentUploadChange = this.state.currentUpload !== prevState.currentUpload;
+		const currentUploadChange = this.state.currentUpload !== prevState.currentUpload;
 
-		if( currentUploadChange ) {
+		if ( currentUploadChange ) {
 			this.sendChangeEvent();
 		}
 	}
@@ -93,7 +92,8 @@ class MediaUpload extends React.Component {
 				label={ this.props.translate( "Remove the image" ) }
 				onClick={ this.removeUpload.bind( this ) }
 				className="yoast-wizard-image-upload-container-buttons__remove"
-				type="button" />
+				type="button"
+			/>
 		);
 	}
 
@@ -111,7 +111,8 @@ class MediaUpload extends React.Component {
 			<img
 				className="yoast-wizard-image-upload-container__image"
 				src={ this.state.currentUpload }
-				alt={ this.props.translate( "image preview" ) } />
+				alt={ this.props.translate( "image preview" ) }
+			/>
 		);
 	}
 
@@ -121,18 +122,19 @@ class MediaUpload extends React.Component {
 	 * @returns {JSX.Element} The rendered HTML.
 	 */
 	render() {
-
 		return (
 			<div className="yoast-wizard-image-upload-container">
 				<p className="yoast-wizard-image-upload-container-description">
-					{this.props.properties.label}
+					{ this.props.properties.label }
 				</p>
 				{ this.renderImage() }
 				<div className="yoast-wizard-image-upload-container-buttons">
-					<RaisedButton label={this.props.translate( "Choose image" )}
+					<RaisedButton
+						label={ this.props.translate( "Choose image" ) }
 						onClick={ this.chooseUpload.bind( this ) }
 						type="button"
-						className="yoast-wizard-image-upload-container-buttons__choose"/>
+						className="yoast-wizard-image-upload-container-buttons__choose"
+					/>
 					{ this.renderRemoveButton() }
 				</div>
 			</div>
@@ -145,7 +147,7 @@ class MediaUpload extends React.Component {
 	 * @returns {void}
 	 */
 	sendChangeEvent() {
-		let changeEvent = {
+		const changeEvent = {
 			target: {
 				name: this.props.name,
 				value: this.state.currentUpload,
@@ -154,7 +156,6 @@ class MediaUpload extends React.Component {
 
 		this.props.onChange( changeEvent );
 	}
-
 }
 
 /**

@@ -3,7 +3,7 @@ import React from "react";
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
-import FAQ from "./components/FAQ";
+import Faq from "./components/FAQ";
 
 const { registerBlockType } = window.wp.blocks;
 
@@ -43,10 +43,10 @@ export default () => {
 		edit: ( { attributes, setAttributes, className } ) => {
 			// Because setAttributes is quite slow right after a block has been added we fake having a single step.
 			if ( ! attributes.questions || attributes.questions.length === 0 ) {
-				attributes.questions = [ { id: FAQ.generateId( "faq-question" ), question: [], answer: [] } ];
+				attributes.questions = [ { id: Faq.generateId( "faq-question" ), question: [], answer: [] } ];
 			}
 
-			return <FAQ { ...{ attributes, setAttributes, className } }/>;
+			return <Faq { ...{ attributes, setAttributes, className } } />;
 		},
 
 		/**
@@ -60,7 +60,7 @@ export default () => {
 		 */
 		// eslint-disable-next-line react/display-name
 		save: function( { attributes } ) {
-			return <FAQ.Content { ...attributes } />;
+			return <Faq.Content { ...attributes } />;
 		},
 	} );
 };

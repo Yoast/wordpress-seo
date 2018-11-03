@@ -24,7 +24,7 @@ $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 				?>
 			</h2>
 			<ul>
-				<li><strong><?php esc_html_e( 'Rank for up to 5 focus keyphrases per page', 'wordpress-seo' ); ?></strong></li>
+				<li><strong><?php esc_html_e( 'Rank better with synonyms & related keyphrases', 'wordpress-seo' ); ?></strong></li>
 				<li><strong><?php esc_html_e( 'Preview your page in Facebook and Twitter', 'wordpress-seo' ); ?></strong></li>
 				<li><strong><?php esc_html_e( 'Get real-time suggestions for internal links', 'wordpress-seo' ); ?></strong></li>
 				<li><strong><?php esc_html_e( 'No more dead links a.k.a. 404 pages', 'wordpress-seo' ); ?></strong></li>
@@ -32,10 +32,10 @@ $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 				<li><strong><?php esc_html_e( 'No ads', 'wordpress-seo' ); ?></strong></li>
 			</ul>
 
-			<a id="wpseo-premium-button" class="button button-primary" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jj' ); ?>" target="_blank">
+			<a id="wpseo-premium-button" class="yoast-button-upsell" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jj' ); ?>" target="_blank">
 				<?php
 				/* translators: %s is replaced by the plugin name */
-				printf( esc_html__( 'Get %s now', 'wordpress-seo' ), 'Yoast SEO Premium' );
+				printf( esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 				?>
 			</a><br>
 		</div>

@@ -599,34 +599,28 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Retrieve the image from the content
+	 * Retrieve the image from the content.
 	 *
 	 * @param int $post_id The post id to extract the images from.
 	 *
-	 * @return bool
+	 * @return bool True when images output succeeded.
 	 */
 	private function image_from_content_output( $post_id ) {
-		/**
-		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
-		 *
-		 * @api string $post_content The Post content string
-		 *
-		 * @param object $post - The post object.
-		 */
-		$post    = get_post( $post_id );
-		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
+		$image_finder = new WPSEO_Content_Images();
+		$images       = $image_finder->get_images( $post_id );
 
-		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
-			foreach ( $matches[0] as $img ) {
-				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
-					$this->image_output( $match[2] );
-
-					return true;
-				}
-			}
+		if ( ! is_array( $images ) || $images === array() ) {
+			return false;
 		}
 
-		return false;
+		$image_url = reset( $images );
+		if ( ! $image_url ) {
+			return false;
+		}
+
+		$this->image_output( $image_url );
+
+		return true;
 	}
 
 	/**
