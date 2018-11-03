@@ -10,7 +10,7 @@ import { setConfigurationAttribute } from "../redux/actions/configuration";
 import { setPaperAttribute } from "../redux/actions/paper";
 import measureTextWidth from "../utils/measureTextWidth";
 import { ColumnLeft, ColumnRight, Columns } from "./Columns";
-import Container from "./Container";
+import { Container } from "./Container";
 import { H3 } from "./headings";
 import Input from "./Input";
 import TextArea from "./TextArea";

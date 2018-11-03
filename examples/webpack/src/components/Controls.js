@@ -9,8 +9,7 @@ import Toggle from "yoast-components/composites/Plugin/Shared/components/Toggle"
 import { setConfigurationAttribute } from "../redux/actions/configuration";
 import { clearStorage } from "../redux/utils/localstorage";
 import AutomaticAnalysis from "./AutomaticAnalysis";
-import Container, { ButtonContainer } from "./Container";
-import { H3 } from "./headings";
+import { Container, ButtonContainer, HeadingContainer } from "./Container";
 
 function clearStorageAction() {
 	clearStorage();
@@ -32,25 +31,23 @@ function Controls( {
 			<IconButton icon="times" onClick={ clearStorageAction }>Clear inputs</IconButton>
 		</ButtonContainer>
 
-		<Container>
-			<H3>Configuration</H3>
-		</Container>
+		<HeadingContainer heading="H3" title="Configuration">
+			<Container>
+				<AutomaticAnalysis />
+			</Container>
 
-		<Container>
-			<AutomaticAnalysis />
-		</Container>
-
-		<Container>
-			<Toggle
-				id="toggle-use-keyword-distribution"
-				labelText="Use keyphrase distribution"
-				isEnabled={ useKeywordDistribution }
-				onSetToggleState={ value => {
-					setConfigAttribute( "useKeywordDistribution", value );
-				} }
-				onToggleDisabled={ noop }
-			/>
-		</Container>
+			<Container>
+				<Toggle
+					id="toggle-use-keyword-distribution"
+					labelText="Use keyphrase distribution"
+					isEnabled={ useKeywordDistribution }
+					onSetToggleState={ value => {
+						setConfigAttribute( "useKeywordDistribution", value );
+					} }
+					onToggleDisabled={ noop }
+				/>
+			</Container>
+		</HeadingContainer>
 	</Fragment>;
 }
 

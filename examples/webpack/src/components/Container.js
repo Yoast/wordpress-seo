@@ -1,6 +1,10 @@
+import React from "react";
 import styled from "styled-components";
+import { get } from "lodash-es";
 
-export default styled.div`
+import * as headings from "./headings";
+
+export const Container = styled.div`
 	margin-top: ${ props => props.marginTop ? props.marginTop : "16px" };
 	margin-right: ${ props => props.marginRight ? props.marginRight : "0" };
 	margin-bottom: ${ props => props.marginBottom ? props.marginBottom : "0" };
@@ -25,3 +29,14 @@ export const ButtonContainer = styled.div`
 		}
 	}
 `;
+
+export const HeadingContainer = function( { headingMarginTop = "16px", heading = "H2", title = "", children = [] } ) {
+	const Heading = get( headings, heading, "H2" );
+
+	return <Container marginTop={ headingMarginTop }>
+		<Heading>{ title }</Heading>
+		<Container>
+			{ children }
+		</Container>
+	</Container>;
+};

@@ -5,7 +5,7 @@ import testPapers from "yoastspec/fullTextTests/testTexts";
 import Paper from "yoastsrc/values/Paper";
 
 // Internal dependencies.
-import Container from "./components/Container";
+import { Container } from "./components/Container";
 import Collapsible from "./components/Collapsible";
 import { ColumnLeft, ColumnRight, Columns } from "./components/Columns";
 import Controls from "./components/Controls";
