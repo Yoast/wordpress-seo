@@ -9,7 +9,8 @@ import Toggle from "yoast-components/composites/Plugin/Shared/components/Toggle"
 import { setConfigurationAttribute } from "../redux/actions/configuration";
 import { clearStorage } from "../redux/utils/localstorage";
 import AutomaticAnalysis from "./AutomaticAnalysis";
-import { Container, ButtonContainer, HeadingContainer } from "./Container";
+import { ButtonContainer, Container, HeadingContainer } from "./Container";
+import SelectTestPaper from "./SelectTestPaper";
 
 function clearStorageAction() {
 	clearStorage();
@@ -24,6 +25,10 @@ function Controls( {
 	setConfigurationAttribute: setConfigAttribute,
 } ) {
 	return <Fragment>
+		<Container marginTop="0">
+			<SelectTestPaper />
+		</Container>
+
 		<ButtonContainer>
 			<IconButton icon="gear" onClick={ onInitialize }>Initialize</IconButton>
 			<IconButton icon="search" onClick={ () => onAnalyze() }>Analyze</IconButton>

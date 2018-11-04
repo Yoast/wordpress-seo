@@ -20,4 +20,3 @@ export const Columns = styled.div`
 		align-content: space-between;
 	}
 `;
-

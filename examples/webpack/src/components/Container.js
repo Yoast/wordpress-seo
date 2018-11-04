@@ -15,8 +15,30 @@ export const ButtonContainer = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	align-content: space-between;
+	margin-top: ${ props => props.marginTop ? props.marginTop : "16px" };
 
 	button {
+		flex: 1;
+		
+		&:not(:first-of-type) {
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+		&:not(:last-of-type) {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+	}
+`;
+
+export const HorizontalContainer = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	align-content: space-between;
+	align-items: center;
+	margin-top: ${ props => props.marginTop ? props.marginTop : "16px" };
+
+	> * {
 		flex: 1;
 		
 		&:not(:first-of-type) {
