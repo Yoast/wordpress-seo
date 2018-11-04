@@ -79,7 +79,10 @@ function renderLeftColumn( props ) {
 		</Container>
 
 		<Container>
-			{ renderPaperAttribute( props, "locale", "en_US" ) }
+			{ renderPaperAttribute( props, "locale", "en_US", "Locale", ( id, value ) => {
+				props.setConfigurationAttribute( id, value );
+				props.setPaperAttribute( id, value );
+			} ) }
 		</Container>
 	</section>;
 }
