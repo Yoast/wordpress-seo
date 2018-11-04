@@ -18,7 +18,7 @@ const storageStates = [
 ];
 const preloadedState = {
 	configuration: {
-		useKeywordDistribution: false,
+		useKeywordDistribution: true,
 	},
 	paper: {
 		text: "",
@@ -27,8 +27,8 @@ const preloadedState = {
 		keyword: "",
 		synonyms: "",
 		locale: "",
-		url: "https://example.org/",
-		permalink: "example-post",
+		url: "",
+		permalink: "https://example.org/",
 	},
 };
 
