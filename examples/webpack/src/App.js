@@ -1,17 +1,18 @@
 // External dependencies.
+import { setLocaleData } from "@wordpress/i18n";
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import testPapers from "yoastspec/fullTextTests/testTexts";
 import Paper from "yoastsrc/values/Paper";
-import { setLocaleData } from "@wordpress/i18n";
 
 // Internal dependencies.
-import { Container } from "./components/Container";
 import Collapsible from "./components/Collapsible";
 import { ColumnLeft, ColumnRight, Columns } from "./components/Columns";
+import { Container } from "./components/Container";
 import Controls from "./components/Controls";
 import Inputs from "./components/Inputs";
 import Markings from "./components/Markings";
+import RelevantWords from "./components/RelevantWords";
 import Results from "./components/Results";
 import WorkerStatus from "./components/WorkerStatus";
 import { setResults } from "./redux/actions/results";
@@ -132,6 +133,12 @@ class App extends React.Component {
 						onAnalyze={ this.analyze }
 						onAnalyzeSpam={ this.analyzeSpam }
 					/>
+				</Collapsible>
+			</Container>
+
+			<Container>
+				<Collapsible title="Relevant words">
+					<RelevantWords />
 				</Collapsible>
 			</Container>
 
