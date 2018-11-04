@@ -3,6 +3,7 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import testPapers from "yoastspec/fullTextTests/testTexts";
 import Paper from "yoastsrc/values/Paper";
+import { setLocaleData } from "@wordpress/i18n";
 
 // Internal dependencies.
 import { Container } from "./components/Container";
@@ -13,7 +14,6 @@ import Inputs from "./components/Inputs";
 import Markings from "./components/Markings";
 import Results from "./components/Results";
 import WorkerStatus from "./components/WorkerStatus";
-import { setConfigurationAttribute } from "./redux/actions/configuration";
 import { setResults } from "./redux/actions/results";
 import { setStatus } from "./redux/actions/worker";
 import formatAnalyzeResult from "./utils/formatAnalyzeResult";
@@ -38,6 +38,9 @@ class App extends React.Component {
 		this.analyzeSpam = this.analyzeSpam.bind( this );
 
 		this.initialize();
+
+		// Prevent yoast-component i18n console error by initializing as an empty domain.
+		setLocaleData( { "": {} }, "yoast-components" );
 	}
 
 	/**
@@ -60,7 +63,7 @@ class App extends React.Component {
 	 * @returns {void}
 	 */
 	analyze( paper = this.props.paper ) {
-		const { setWorkerStatus, setResults: setAnalyzeResults, worker } = this.props;
+		const { setWorkerStatus, setAnalyzeResults, worker } = this.props;
 		const paperToAnalyze = Paper.parse( paper );
 
 		setWorkerStatus( "analyzing" );
@@ -168,9 +171,8 @@ export default connect(
 	},
 	( dispatch ) => {
 		return {
-			setResults: ( ...args ) => dispatch( setResults( ...args ) ),
-			setConfigurationAttribute: ( ...args ) => dispatch( setConfigurationAttribute( ...args ) ),
-			setWorkerStatus: ( status ) => dispatch( setStatus( status ) ),
+			setAnalyzeResults: results  => dispatch( setResults( results ) ),
+			setWorkerStatus: status => dispatch( setStatus( status ) ),
 		};
 	},
 )( App );

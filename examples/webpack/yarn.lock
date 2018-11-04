@@ -17,6 +17,13 @@
     core-js "^2.5.7"
     regenerator-runtime "^0.12.0"
 
+"@babel/runtime@^7.0.0":
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.1.2.tgz#81c89935f4647706fc54541145e6b4ecfef4b8e3"
+  integrity sha512-Y3SCjmhSupzFB6wcv1KmmFucH6gDVnI30WjOcicV10ju0cZjak3Jcs67YLIXBrmZYw1xCrVeJPbycFwrqNyxpg==
+  dependencies:
+    regenerator-runtime "^0.12.0"
+
 "@babel/types@^7.0.0":
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.1.3.tgz#3a767004567060c2f40fca49a304712c525ee37d"
@@ -94,6 +101,17 @@
   integrity sha512-ABa8cr3cfzS6YocxeBjrc1iHxt28S0EglX0heGKHUtyAQZEg5K+AtWCEJiqhthWpqnXkDEp9ZIqzXkRGhhHuYw==
   dependencies:
     "@babel/runtime-corejs2" "7.0.0-beta.56"
+    gettext-parser "^1.3.1"
+    jed "^1.1.1"
+    lodash "^4.17.10"
+    memize "^1.0.5"
+
+"@wordpress/i18n@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-3.0.1.tgz#0509340cf71496860daab89c0ea042362c910bcd"
+  integrity sha512-Ut6ihDjcZ7zpU44/WurZrFxrLcMl3Gq+hW8Hb6MTF6+X6Y2fd7QFu3lMvopYNwF8gxWtjvH5n3NIQ6B9DLt7Ng==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
     gettext-parser "^1.3.1"
     jed "^1.1.1"
     lodash "^4.17.10"
