@@ -138,25 +138,14 @@ class App extends React.Component {
 			<ul>
 				<li>Debugging information</li>
 				<li>Worker communication</li>
-				<li>Information about when it is refreshing</li>
-				<li>Buttons for standard texts in different languages</li>
+				<li>Buttons for standard texts in different languages (English only at the moment)</li>
 				<li>Language switcher</li>
-
-				<li>Input fields for everything</li>
-				<li>Total scores</li>
-				<li>Analysis results</li>
 
 				<li>All research data</li>
 				<li>Relevant words</li>
 
 				<li>Performance information</li>
-				<li>Re-order collapsibles</li>
 				<li>Add button to trigger a ton of analyses continuously. This can be used to check for performance & memory leaks.</li>
-			</ul>
-
-			Design Todos:
-			<ul>
-				<li>Overall score</li>
 			</ul>
 		</Fragment>;
 	}
