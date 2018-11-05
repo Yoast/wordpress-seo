@@ -17,7 +17,7 @@ class Yoast_Modal {
 	public function __construct() {
 		add_action( 'admin_footer', array( $this, 'print_localized_config' ) );
 	}
-	
+
 	/**
 	 * Prints the modals configuration.
 	 */
