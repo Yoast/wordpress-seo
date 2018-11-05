@@ -33,6 +33,10 @@ class WPSEO_Import_Settings_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_Settings::parse_options
 	 */
 	public function test_parse_options_empty() {
+		if ( version_compare( PHP_VERSION, '5.3', '<' ) ) {
+			$this->markTestSkipped( 'Not possible in PHP 5.2' );
+		}
+
 		$this->class_instance->parse_options( '' );
 
 		$this->assertEquals( false, $this->class_instance->status->status );
@@ -44,6 +48,10 @@ class WPSEO_Import_Settings_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_Settings::parse_options
 	 */
 	public function test_parse_options() {
+		if ( version_compare( PHP_VERSION, '5.3', '<' ) ) {
+			$this->markTestSkipped( 'Not possible in PHP 5.2' );
+		}
+
 		$this->assertEquals( true, WPSEO_Options::get( 'enable_admin_bar_menu' ) );
 
 		$settings = <<<EO_DATA
@@ -66,6 +74,10 @@ EO_DATA;
 	 * @covers WPSEO_Import_Settings::parse_options
 	 */
 	public function test_parse_options_invalid() {
+		if ( version_compare( PHP_VERSION, '5.3', '<' ) ) {
+			$this->markTestSkipped( 'Not possible in PHP 5.2' );
+		}
+
 		$settings = <<<EO_DATA
 Not a valid INI file format...
 EO_DATA;
