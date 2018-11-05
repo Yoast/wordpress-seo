@@ -31,6 +31,10 @@ class WPSEO_Import_Settings {
 	 */
 	public function __construct() {
 		$this->status  = new WPSEO_Import_Status( 'import', false );
+		// If we're not on > PHP 5.3, return, as we'll otherwise error out.
+		if ( ! defined( 'WPSEO_NAMESPACES' ) || ! WPSEO_NAMESPACES ) {
+			return $this->status;
+		}
 		$this->content = filter_input( INPUT_POST, 'settings_import' );
 		if ( empty( $this->content ) ) {
 			return $this->status;

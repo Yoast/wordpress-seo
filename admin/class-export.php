@@ -86,7 +86,7 @@ class WPSEO_Export {
 	private function export_header() {
 		$header = sprintf(
 			/* translators: %1$s expands to Yoast SEO, %2$s expands to Yoast.com */
-			esc_html__( 'This is a settings export file for the %1$s plugin by %2$s', 'wordpress-seo' ),
+			esc_html__( 'These are settings for the %1$s plugin by %2$s', 'wordpress-seo' ),
 			'Yoast SEO',
 			'Yoast.com'
 		);
