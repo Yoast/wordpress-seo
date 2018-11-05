@@ -1,14 +1,12 @@
-import { filter, map, merge } from "lodash-es";
+import { filter, merge } from "lodash-es";
 
 import Assessment from "../../assessment";
 import { inRangeEndInclusive as inRange } from "../../helpers/inRange";
 import isTextTooLong from "../../helpers/isValueTooLong";
-import marker from "../../markers/addMark";
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import { getSubheadings } from "../../stringProcessing/getSubheadings";
 import getWords from "../../stringProcessing/getWords";
 import AssessmentResult from "../../values/AssessmentResult";
-import Mark from "../../values/Mark";
 
 /**
  * Represents the assessment for calculating the text after each subheading.
