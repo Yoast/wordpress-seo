@@ -42,6 +42,8 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 	 *
 	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::from_post_id()
 	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::create_and_log_exception()
+	 *
+	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found For test purposes.
 	 */
 	public function test_from_post_id() {
 		try {
@@ -60,6 +62,8 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 	 *
 	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::from_term_id()
 	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::create_and_log_exception()
+	 *
+	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found For test purposes.
 	 */
 	public function test_from_term_id() {
 		try {
@@ -78,6 +82,8 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 	 *
 	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::from_primary_term()
 	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::create_and_log_exception()
+	 *
+	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found For test purposes.
 	 */
 	public function test_from_primary_term() {
 		try {
@@ -96,6 +102,8 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 	 *
 	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::from_author_id()
 	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::create_and_log_exception()
+	 *
+	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found For test purposes.
 	 */
 	public function test_from_author_id() {
 		try {
@@ -114,6 +122,8 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 	 *
 	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::from_meta_key()
 	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::create_and_log_exception()
+	 *
+	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found For test purposes.
 	 */
 	public function test_from_meta_key() {
 		try {
