@@ -5,7 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 4.15.0 TBD
+## 4.15.0 November 5th, 2018
+### Added
+* Adds a fieldId prop in the `ReplacementVariableEditorStandalone` component, that gets added as an id attribute to the DraftJS editor element with the contenteditable attribute.
+
 ### Other
 * Changes `$palette_grey_text` from #646464 to #616161 to have a sufficient color contrast ratio on #dddddd backgrounds.
 

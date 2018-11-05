@@ -346,12 +346,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	setEditorRef( editorRef ) {
-		try {
-			editorRef.editor.editorContainer.firstChild.id = this.props.fieldId;
-		} catch ( error ) {
-			console.trace( error );
-		}
-
 		this.editor = editorRef;
 	}
 
@@ -361,8 +355,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	setEditorFieldId() {
-		const editorContainer = get( this.editor, "editor.editorContainer" );
-		const editorField     = editorContainer.querySelector( "div[contenteditable]" );
+		const editorField = get( this.editor, "editor.editor" );
 
 		editorField.id = this.props.fieldId;
 	}
@@ -521,7 +514,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		return (
 			<React.Fragment>
 				<Editor
-					id={ this.props.fieldId }
 					textDirectionality={ theme.isRtl ? "RTL" : "LTR" }
 					editorState={ editorState }
 					onChange={ this.onChange }

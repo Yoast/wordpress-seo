@@ -10338,10 +10338,10 @@ yeoman-generator@^2.0.4:
     through2 "^2.0.0"
     yeoman-environment "^2.0.5"
 
-yoastseo@^1.41.0:
-  version "1.41.0"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.41.0.tgz#ac8ab51e974f0e8acd5bb2a04a817d4f53b02178"
-  integrity sha512-3p9LYC6UUdjnG1cT/BXjAV8axRqC1+0wnL72LMskeNjkYJS8OentDUNfmrrOuWfs5MY9Ww5mEoRJWcwo6Jf9aA==
+yoastseo@^1.42.0:
+  version "1.42.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.42.0.tgz#ca8f83778a184553d92e3a7bda5c671af257695a"
+  integrity sha512-ikZZ6zP3LrbXpKo6nEJcEc3zoc/YBO+IBWIpIHaBIj05uRGeyiT8+obNxnDY1p7httgHLYZur78B4b2kM53Xaw==
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
