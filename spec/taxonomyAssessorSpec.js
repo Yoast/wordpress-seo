@@ -171,7 +171,7 @@ describe( "running assessments in the assessor for recalibration analysis", func
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"taxonomyTextLength",
+			"textLength",
 			"titleWidth",
 		] );
 	} );
@@ -184,7 +184,7 @@ describe( "running assessments in the assessor for recalibration analysis", func
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"taxonomyTextLength",
+			"textLength",
 			"titleWidth",
 		] );
 	} );
@@ -197,7 +197,7 @@ describe( "running assessments in the assessor for recalibration analysis", func
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"taxonomyTextLength",
+			"textLength",
 			"titleWidth",
 			"singleH1",
 		] );
@@ -212,7 +212,7 @@ describe( "running assessments in the assessor for recalibration analysis", func
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"taxonomyTextLength",
+			"textLength",
 			"titleWidth",
 		] );
 	} );
@@ -225,7 +225,7 @@ describe( "running assessments in the assessor for recalibration analysis", func
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"taxonomyTextLength",
+			"textLength",
 			"titleWidth",
 			"functionWordsInKeyphrase",
 		] );
@@ -240,7 +240,7 @@ describe( "running assessments in the assessor for recalibration analysis", func
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"taxonomyTextLength",
+			"textLength",
 			"titleKeyword",
 			"titleWidth",
 		] );
@@ -254,7 +254,7 @@ describe( "running assessments in the assessor for recalibration analysis", func
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"taxonomyTextLength",
+			"textLength",
 			"titleWidth",
 		] );
 	} );
@@ -268,7 +268,7 @@ describe( "running assessments in the assessor for recalibration analysis", func
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"taxonomyTextLength",
+			"textLength",
 			"titleWidth",
 			"urlKeyword",
 		] );
@@ -284,7 +284,7 @@ describe( "running assessments in the assessor for recalibration analysis", func
 			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
-			"taxonomyTextLength",
+			"textLength",
 			"titleWidth",
 		] );
 	} );
@@ -299,7 +299,7 @@ describe( "running assessments in the assessor for recalibration analysis", func
 			"keyphraseLength",
 			"metaDescriptionKeyword",
 			"metaDescriptionLength",
-			"taxonomyTextLength",
+			"textLength",
 			"titleWidth",
 		] );
 	} );
