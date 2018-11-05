@@ -44,7 +44,7 @@ module.exports = function( env = { environment: "production" } ) {
 		new webpack.DefinePlugin( {
 			"process.env": {
 				NODE_ENV: JSON.stringify( mode ),
-				YOAST_RECALIBRATION: isRecalibration ? "enabled" : "disabled",
+				YOAST_RECALIBRATION: JSON.stringify( isRecalibration ? "enabled" : "disabled" ),
 			},
 		} ),
 		new UnminifiedWebpackPlugin(),
@@ -102,11 +102,13 @@ module.exports = function( env = { environment: "production" } ) {
 
 	let config;
 	/*
-	 * In the production build the only output should be files that use the analysis.
-	 * Which are the analysis worker and the analysis.
+	 * When using recalibration in the production build:
+	 *
+	 * The only output should be files that use the analysis:
+	 * - Analysis Worker
+	 * - Analysis
 	 */
 	if ( isRecalibration && mode === "production" ) {
-		console.log( "BUILDING RECALIBRATION ONLY" );
 		config = [
 			// Analysis web worker.
 			{
