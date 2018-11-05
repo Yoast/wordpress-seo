@@ -61,7 +61,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 			return b.wordCount - a.wordCount;
 		} );
 
-		this._tooLongTexts = this.getTooLongSubheadingTexts();
 		this._tooLongTextsNumber = this.getTooLongSubheadingTexts().length;
 
 		const assessmentResult = new AssessmentResult();
@@ -75,11 +74,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-
-		if ( calculatedResult.score > 2 && calculatedResult.score < 7 ) {
-			assessmentResult.setHasMarks( true );
-			assessmentResult.setMarker( this.getMarks() );
-		}
 
 		return assessmentResult;
 	}
@@ -105,20 +99,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 	hasSubheadings( paper ) {
 		const subheadings = getSubheadings( paper.getText() );
 		return subheadings.length > 0;
-	}
-
-	/**
-	 * Creates a marker for each text following a subheading that is too long.
-	 * @returns {Array} All markers for the current text.
-	 */
-	getMarks() {
-		return map( this._tooLongTexts, function( tooLongText ) {
-			const marked = marker( tooLongText.text );
-			return new Mark( {
-				original: tooLongText.text,
-				marked: marked,
-			} );
-		} );
 	}
 
 	/**
