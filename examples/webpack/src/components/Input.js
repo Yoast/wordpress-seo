@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { isFunction, noop } from "lodash-es";
+import PropTypes from "prop-types";
+import React from "react";
+import styled from "styled-components";
 
 import { H3 } from "./headings";
-import styled from "styled-components";
 
 const TextInput = styled.input`
 	flex: 0 1 100%;

@@ -21,7 +21,7 @@ const TextareaInput = styled.textarea`
 	cursor: text;
 	
 	width: 100%;
-	min-height: 300px;
+	min-height: ${ props => props.minHeight };
 `;
 
 class TextArea extends React.PureComponent {
@@ -61,10 +61,10 @@ class TextArea extends React.PureComponent {
 	/**
 	 * Renders the TextArea component.
 	 *
-	 * @returns {void}
+	 * @returns {React.Component} the React TextArea component and header.
 	 */
 	render() {
-		const { id, value, label, placeholder } = this.props;
+		const { id, value, label, placeholder, minHeight } = this.props;
 
 		return (
 			<React.Fragment>
@@ -79,6 +79,7 @@ class TextArea extends React.PureComponent {
 					value={ value }
 					placeholder={ placeholder }
 					onChange={ this.handleChange }
+					minHeight={ minHeight }
 				/>
 			</React.Fragment>
 		);
@@ -91,12 +92,14 @@ TextArea.propTypes = {
 	label: PropTypes.string,
 	placeholder: PropTypes.string,
 	onChange: PropTypes.func,
+	minHeight: PropTypes.string,
 };
 
 TextArea.defaultProps = {
 	label: "",
 	placeholder: "",
 	onChange: noop,
+	minHeight: "300px",
 };
 
 export default TextArea;

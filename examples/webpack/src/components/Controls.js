@@ -1,21 +1,28 @@
 /* External */
+import { noop } from "lodash-es";
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
+import Toggle from "yoast-components/composites/Plugin/Shared/components/Toggle";
 
 /* Internal */
-import Button from "./Button";
+import { setConfigurationAttribute } from "../redux/actions/configuration";
 import { clearStorage } from "../redux/utils/localstorage";
 import AutomaticAnalysis from "./AutomaticAnalysis";
-import { setConfigurationAttribute } from "../redux/actions/configuration";
-import Toggle from "yoast-components/composites/Plugin/Shared/components/Toggle";
-import { noop } from "lodash-es";
+import Button from "./Button";
+import Container from "./Container";
 
 function clearStorageAction() {
 	clearStorage();
 	window.location.reload();
 }
 
-function Controls( { useKeywordDistribution, onInitialize, onAnalyze, onAnalyzeSpam, setConfigurationAttribute: setConfigAttribute } ) {
+function Controls( {
+	useKeywordDistribution,
+	onInitialize,
+	onAnalyze,
+	onAnalyzeSpam,
+	setConfigurationAttribute: setConfigAttribute,
+} ) {
 	return <Fragment>
 		<div className="button-container">
 			<AutomaticAnalysis />
@@ -28,15 +35,17 @@ function Controls( { useKeywordDistribution, onInitialize, onAnalyze, onAnalyzeS
 
 		<h2>Configuration</h2>
 
-		<Toggle
-			id="toggle-use-keyword-distribution"
-			labelText="Use keyphrase distribution"
-			isEnabled={ useKeywordDistribution }
-			onSetToggleState={ value => {
-				setConfigAttribute( "useKeywordDistribution", value );
-			} }
-			onToggleDisabled={ noop }
-		/>
+		<Container>
+			<Toggle
+				id="toggle-use-keyword-distribution"
+				labelText="Use keyphrase distribution"
+				isEnabled={ useKeywordDistribution }
+				onSetToggleState={ value => {
+					setConfigAttribute( "useKeywordDistribution", value );
+				} }
+				onToggleDisabled={ noop }
+			/>
+		</Container>
 	</Fragment>;
 }
 

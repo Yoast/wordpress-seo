@@ -78,7 +78,7 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 908 words. Good job!",
 	},
 	externalLinks: {
-		score: 8,
+		score: 9,
 		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: Good job!",
 	},
 	internalLinks: {
