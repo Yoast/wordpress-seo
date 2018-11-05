@@ -12,8 +12,8 @@ export default function( paper ) {
 	const wordsPerMinute = 200;
 	const minutesPerImage = 0.2;
 
-	let numberOfWords = wordCountInText( paper );
-	let numberOfImages = imageCount( paper );
+	const numberOfWords = wordCountInText( paper );
+	const numberOfImages = imageCount( paper );
 
 	/*
 	 * This formula is based on the average number of words a person is expected to read per minute,

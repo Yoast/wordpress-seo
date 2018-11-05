@@ -3,7 +3,7 @@ import Paper from "../../src/values/Paper.js";
 import factory from "../specHelpers/factory.js";
 var i18n = factory.buildJed();
 
-let urlLengthAssessment = new UrlLengthAssessment();
+const urlLengthAssessment = new UrlLengthAssessment();
 
 describe( "An assessment for the urlLengthAssessment", function() {
 	it( "runs the url length assessment on the paper", function() {

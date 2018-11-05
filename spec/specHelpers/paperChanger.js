@@ -8,7 +8,7 @@ import Paper from "../../src/values/Paper";
  */
 export default function( researcher ) {
 	return ( { text, locale } ) => {
-		let paper = new Paper(
+		const paper = new Paper(
 			text,
 			{
 				locale,

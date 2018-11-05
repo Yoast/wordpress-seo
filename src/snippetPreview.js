@@ -1250,7 +1250,7 @@ SnippetPreview.prototype.createMeasurementElements = function() {
  * @returns {void}
  */
 SnippetPreview.prototype.measureTitle = function() {
-	if( this.element.rendered.title.offsetWidth !== 0 || this.element.rendered.title.textContent === "" ) {
+	if ( this.element.rendered.title.offsetWidth !== 0 || this.element.rendered.title.textContent === "" ) {
 		this.data.titleWidth = this.element.rendered.title.offsetWidth;
 	}
 };

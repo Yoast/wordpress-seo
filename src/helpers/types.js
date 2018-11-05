@@ -5,7 +5,7 @@
  * @returns {string} The parsed type name.
  */
 var getType = function( subject ) {
-	if( Array.isArray( subject ) ) {
+	if ( Array.isArray( subject ) ) {
 		return "array";
 	}
 	return typeof subject;

@@ -4,7 +4,7 @@
  * @param {Number} score The score to interpreter.
  * @returns {string} The rating, given based on the score.
  */
-let ScoreToRating = function( score ) {
+const ScoreToRating = function( score ) {
 	if ( score === -1 ) {
 		return "error";
 	}

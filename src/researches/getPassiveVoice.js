@@ -25,10 +25,10 @@ const periphrasticLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn", 
  * @returns {Object} The found passive sentences.
  */
 const getMorphologicalPassives = function( sentences, language ) {
-	let passiveSentences = [];
+	const passiveSentences = [];
 
 	forEach( sentences, function( sentence ) {
-		let strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
+		const strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
 
 		sentence.setPassive( isPassiveSentence( strippedSentence, language ) );
 
@@ -49,10 +49,10 @@ const getMorphologicalPassives = function( sentences, language ) {
  * @returns {Object} The found passive sentences.
  */
 const getPeriphrasticPassives = function( sentences, language ) {
-	let passiveSentences = [];
+	const passiveSentences = [];
 
 	forEach( sentences, function( sentence ) {
-		let strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
+		const strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
 
 		// The functionality based on sentencePart objects should be rewritten using array indices of stopwords and auxiliaries.
 		let sentenceParts = [];
@@ -84,14 +84,14 @@ const getPeriphrasticPassives = function( sentences, language ) {
  * @returns {Object} The total number of sentences in the text and the found passive sentences.
  */
 export default function( paper ) {
-	let text = paper.getText();
-	let locale = paper.getLocale();
-	let language = getLanguage( locale );
+	const text = paper.getText();
+	const locale = paper.getLocale();
+	const language = getLanguage( locale );
 	const sentences = getSentences( text )
 		.map( function( sentence ) {
 			return new Sentence( sentence );
 		} );
-	let totalNumberSentences = sentences.length;
+	const totalNumberSentences = sentences.length;
 
 	if ( morphologicalLanguages.includes( language ) ) {
 		return {

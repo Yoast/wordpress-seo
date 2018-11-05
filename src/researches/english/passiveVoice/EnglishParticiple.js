@@ -34,9 +34,9 @@ require( "util" ).inherits( EnglishParticiple, Participle );
  * @returns {boolean} Returns true if no exception is found.
  */
 EnglishParticiple.prototype.isPassive = function() {
-	let sentencePart = this.getSentencePart();
+	const sentencePart = this.getSentencePart();
 	const participle = this.getParticiple();
-	let language = this.getLanguage();
+	const language = this.getLanguage();
 
 	return 	! this.isNonVerbEndingEd() &&
 		! this.hasRidException() &&

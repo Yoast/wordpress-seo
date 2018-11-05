@@ -14,7 +14,7 @@ import { filter } from "lodash-es";
  * @param {string} nextSentenceBeginning The first word of the next sentence.
  * @returns {boolean} Returns true if sentence beginnings match.
  */
-let startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginning ) {
+const startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginning ) {
 	if ( ! isEmpty( currentSentenceBeginning ) && currentSentenceBeginning === nextSentenceBeginning ) {
 		return true;
 	}
@@ -29,14 +29,14 @@ let startsWithSameWord = function( currentSentenceBeginning, nextSentenceBeginni
  * @param {Array} sentences The array containing all sentences.
  * @returns {Array} The array containing the objects containing the first words and the corresponding counts.
  */
-let compareFirstWords = function( sentenceBeginnings, sentences ) {
-	let consecutiveFirstWords = [];
+const compareFirstWords = function( sentenceBeginnings, sentences ) {
+	const consecutiveFirstWords = [];
 	let foundSentences = [];
 	let sameBeginnings = 1;
 
 	forEach( sentenceBeginnings, function( beginning, i ) {
-		let currentSentenceBeginning = beginning;
-		let nextSentenceBeginning = sentenceBeginnings[ i + 1 ];
+		const currentSentenceBeginning = beginning;
+		const nextSentenceBeginning = sentenceBeginnings[ i + 1 ];
 		foundSentences.push( sentences[ i ] );
 
 		if ( startsWithSameWord( currentSentenceBeginning, nextSentenceBeginning ) ) {
@@ -74,7 +74,7 @@ function sanitizeSentence( sentence ) {
 function getSentenceBeginning( sentence, firstWordExceptions ) {
 	sentence = sanitizeSentence( sentence );
 
-	let words = getWords( stripSpaces( sentence ) );
+	const words = getWords( stripSpaces( sentence ) );
 
 	if ( words.length === 0 ) {
 		return "";
@@ -98,7 +98,7 @@ function getSentenceBeginning( sentence, firstWordExceptions ) {
  */
 export default function( paper, researcher ) {
 	let sentences = researcher.getResearch( "sentences" );
-	let firstWordExceptions = getFirstWordExceptions( paper.getLocale() )();
+	const firstWordExceptions = getFirstWordExceptions( paper.getLocale() )();
 
 	let sentenceBeginnings = sentences.map( function( sentence ) {
 		return getSentenceBeginning( sentence, firstWordExceptions );

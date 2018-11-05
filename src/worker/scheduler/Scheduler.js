@@ -85,7 +85,7 @@ class Scheduler {
 	 */
 	schedule( { id, execute, done, data, type } ) {
 		const task = new Task( id, execute, done, data, type );
-		switch( type ) {
+		switch ( type ) {
 			case "customMessage":
 			case "loadScript":
 				this._tasks.extensions.push( task );

@@ -27,10 +27,10 @@ import contentConfiguration from "./../config/content/combinedConfig.js";
  *
  * @constructor
  */
-let CornerStoneContentAssessor = function( i18n, options = {} ) {
+const CornerStoneContentAssessor = function( i18n, options = {} ) {
 	Assessor.call( this, i18n, options );
 	this.type = "CornerstoneContentAssessor";
-	let locale = ( options.hasOwnProperty( "locale" ) ) ? options.locale : "en_US";
+	const locale = ( options.hasOwnProperty( "locale" ) ) ? options.locale : "en_US";
 
 	this._assessments = [
 

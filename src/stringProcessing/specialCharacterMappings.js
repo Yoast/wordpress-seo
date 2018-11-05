@@ -37,7 +37,7 @@ function getIndicesOfCharacter( text, characterToFind ) {
 	const indices = [];
 
 	if ( text.indexOf( characterToFind ) > -1 ) {
-		for( let i = 0; i < text.length; i++ ) {
+		for ( let i = 0; i < text.length; i++ ) {
 			if ( text[ i ] === characterToFind ) {
 				indices.push( i );
 			}
@@ -97,11 +97,11 @@ function combinations( array ) {
 	function acc( xs, array ) {
 		const x = xs[ 0 ];
 
-		if( typeof x === "undefined" ) {
+		if ( typeof x === "undefined" ) {
 			return array;
 		}
 
-		for( let i = 0, l = array.length; i < l; ++i ) {
+		for ( let i = 0, l = array.length; i < l; ++i ) {
 			array.push( array[ i ].concat( x ) );
 		}
 		return acc( xs.slice( 1 ), array );

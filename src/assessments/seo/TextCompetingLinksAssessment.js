@@ -1,10 +1,8 @@
-import { isUndefined, map, merge } from "lodash-es";
+import { isUndefined, merge } from "lodash-es";
 
 import Assessment from "../../assessment";
-import addMark from "../../markers/addMark";
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import AssessmentResult from "../../values/AssessmentResult";
-import Mark from "../../values/Mark";
 
 /**
  * Assessment to check whether you're linking to a different page with the keyword from this page.
@@ -60,8 +58,7 @@ class TextCompetingLinksAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		assessmentResult.setHasMarks( true );
-		assessmentResult.setMarker( this.getMarks() );
+		assessmentResult.setHasMarks( false );
 
 		return assessmentResult;
 	}
@@ -102,20 +99,6 @@ class TextCompetingLinksAssessment extends Assessment {
 				),
 			};
 		}
-	}
-
-	/**
-	 * Mark the anchors.
-	 *
-	 * @returns {Array} Array with all the marked anchors.
-	 */
-	getMarks() {
-		return map( this.linkCount.keyword.matchedAnchors, function( matchedAnchor ) {
-			return new Mark( {
-				original: matchedAnchor,
-				marked: addMark( matchedAnchor ),
-			} );
-		} );
 	}
 }
 

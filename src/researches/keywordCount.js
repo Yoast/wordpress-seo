@@ -20,7 +20,7 @@ export default function( paper, researcher ) {
 
 	const sentences = getSentences( text );
 
-	let keywordsFound = {
+	const keywordsFound = {
 		count: 0,
 		matches: [],
 		sentencesWithKeywords: [],
@@ -33,12 +33,12 @@ export default function( paper, researcher ) {
 	 * (e.g. "The apple potato is an apple and a potato." has two occurrences of the key phrase "apple potato").
 	 */
 	sentences.forEach( sentence => {
-		let matches = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
-		let hasAllKeywords = matches.every( keywordForm => keywordForm.count > 0 );
+		const matches = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
+		const hasAllKeywords = matches.every( keywordForm => keywordForm.count > 0 );
 
-		if( hasAllKeywords ) {
-			let counts = matches.map( match => match.count );
-			let foundWords = flattenDeep( matches.map( match => match.matches ) );
+		if ( hasAllKeywords ) {
+			const counts = matches.map( match => match.count );
+			const foundWords = flattenDeep( matches.map( match => match.matches ) );
 			keywordsFound.count += Math.min( ...counts );
 			keywordsFound.matches.push( foundWords );
 			keywordsFound.sentencesWithKeywords.push( sentence );

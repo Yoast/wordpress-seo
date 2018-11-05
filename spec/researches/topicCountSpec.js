@@ -80,7 +80,7 @@ describe( "Test for counting the keyword and synonyms in a text", function() {
 	} );
 
 	it( "counts only keywords (and not synonyms) when the onlyKeyword option is set to true", function() {
-		let mockPaper = new Paper( "Site and website are essentially the same.", { keyword: "site", synonyms: "website" } );
+		const mockPaper = new Paper( "Site and website are essentially the same.", { keyword: "site", synonyms: "website" } );
 		expect( topicCount( mockPaper, true ).count ).toBe( 1 );
 	} );
 } );

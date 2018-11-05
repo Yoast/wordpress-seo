@@ -68,7 +68,7 @@ PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords ) {
 PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywords, paper, i18n ) {
 	var count = previouslyUsedKeywords.count;
 	var id = previouslyUsedKeywords.id;
-	if( count === 0 ) {
+	if ( count === 0 ) {
 		return {
 			text: i18n.sprintf(
 				/* Translators:
@@ -81,7 +81,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 			score: 9,
 		};
 	}
-	if( count === 1 ) {
+	if ( count === 1 ) {
 		var url = "<a href='" + this.postUrl.replace( "{id}", id ) + "' target='_blank'>";
 		return {
 			/* Translators: %1$s and %2$s expand to an admin link where the keyword is already used. %3$s and %4$s

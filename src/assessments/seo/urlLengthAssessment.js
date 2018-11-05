@@ -40,8 +40,8 @@ class UrlLengthAssessment extends Assessment {
 	 * @returns {AssessmentResult} an AssessmentResult with the score and the formatted text.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let urlIsTooLong     = researcher.getResearch( "urlLength" );
-		let assessmentResult = new AssessmentResult();
+		const urlIsTooLong     = researcher.getResearch( "urlLength" );
+		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( this.calculateScore( urlIsTooLong ) );
 		assessmentResult.setText( this.translateScore( urlIsTooLong, i18n ) );

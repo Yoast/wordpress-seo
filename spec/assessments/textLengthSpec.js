@@ -3,7 +3,7 @@ import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();
 
-let wordCountAssessment = new TextLengthAssessment();
+const wordCountAssessment = new TextLengthAssessment();
 
 describe( "A word count assessment", function() {
 	it( "assesses a single word", function() {
