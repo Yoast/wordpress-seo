@@ -299,7 +299,6 @@ describe( "Match keywords in string, regular analysis", function() {
 		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.allWordsFound ).toBe( false );
 	} );
-
 } );
 
 describe( "Match keywords in string, recalibrated analysis", function() {
