@@ -66,7 +66,7 @@
     core-js "^2.5.7"
     regenerator-runtime "^0.12.0"
 
-"@babel/runtime@^7.0.0":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2":
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.1.2.tgz#81c89935f4647706fc54541145e6b4ecfef4b8e3"
   integrity sha512-Y3SCjmhSupzFB6wcv1KmmFucH6gDVnI30WjOcicV10ju0cZjak3Jcs67YLIXBrmZYw1xCrVeJPbycFwrqNyxpg==
@@ -3462,9 +3462,11 @@ dom-helpers@^3.2.0:
   integrity sha1-MgPgf+0he9H0JLAZc1WC/Deyglo=
 
 dom-helpers@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-3.3.1.tgz#fc1a4e15ffdf60ddde03a480a9c0fece821dd4a6"
-  integrity sha512-2Sm+JaYn74OiTM2wHvxJOo3roiq/h25Yi69Fqk269cNUwIXsCvATB6CRSFC9Am/20G2b28hGv/+7NiWydIrPvg==
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-3.4.0.tgz#e9b369700f959f62ecde5a6babde4bccd9169af8"
+  integrity sha512-LnuPJ+dwqKDIyotW1VzmOZ5TONUN7CwkCR5hrgawTUbkBGYdeoNLZo6nNfGkCrjtE1nXXaj7iMMpDa8/d9WoIA==
+  dependencies:
+    "@babel/runtime" "^7.1.2"
 
 dom-scroll-into-view@^1.2.1:
   version "1.2.1"
@@ -10481,9 +10483,9 @@ spdx-expression-parse@^3.0.0:
     spdx-license-ids "^3.0.0"
 
 spdx-license-ids@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.1.tgz#e2a303236cac54b04031fa7a5a79c7e701df852f"
-  integrity sha512-TfOfPcYGBB5sDuPn3deByxPhmfegAhpDYKSOXZQN81Oyrrif8ZCodOLzK3AesELnCx03kikhyDwh0pfvvQvF8w==
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.2.tgz#a59efc09784c2a5bada13cfeaf5c75dd214044d2"
+  integrity sha512-qky9CVt0lVIECkEsYbNILVnPvycuEBkXoMFLRWsREkomQLevYhtRKC+R91a5TOAQ3bCMjikRwhyaRqj1VYatYg==
 
 spdy-transport@^2.0.18:
   version "2.1.0"
@@ -10532,9 +10534,9 @@ squeak@^1.0.0:
     lpad-align "^1.0.1"
 
 sshpk@^1.7.0:
-  version "1.15.1"
-  resolved "https://registry.yarnpkg.com/sshpk/-/sshpk-1.15.1.tgz#b79a089a732e346c6e0714830f36285cd38191a2"
-  integrity sha512-mSdgNUaidk+dRU5MhYtN9zebdzF2iG0cNPWy8HG+W8y+fT1JnSkh0fzzpjOa0L7P8i1Rscz38t0h4gPcKz43xA==
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/sshpk/-/sshpk-1.15.2.tgz#c946d6bd9b1a39d0e8635763f5242d6ed6dcb629"
+  integrity sha512-Ra/OXQtuh0/enyl4ETZAfTaeksa6BXks5ZcjpSUNrjBr0DvrJKX+1fsKDPpT9TBXgHAFsa4510aNVgI8g/+SzA==
   dependencies:
     asn1 "~0.2.3"
     assert-plus "^1.0.0"
@@ -12101,9 +12103,10 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-"yoast-components@https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.1":
-  version "4.14.0"
-  resolved "https://github.com/Yoast/yoast-components.git#bcf847b94e22cd424e7c132162ecda5c76d2c8ab"
+yoast-components@^4.15.0:
+  version "4.15.0"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.15.0.tgz#7a1d27237fed3649269ffcbdb48c4018ee5c7b15"
+  integrity sha512-B4ndkB9fihbstOqVOWfk6tVnH3Jck8KoMx2ASfiup4BUiO5Hp9PqOdYDaoDAtAzDECpHgid+kZErRT+qouG5mQ==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -12124,13 +12127,14 @@ yauzl@^2.2.1:
     redux "^3.7.2"
     styled-components "^2.1.2"
     whatwg-fetch "^1.0.0"
-    yoastseo "https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.1"
+    yoastseo "^1.42.0"
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-"yoastseo@https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.1":
-  version "1.41.0"
-  resolved "https://github.com/Yoast/YoastSEO.js.git#89ec714df29ec0651efaf5f2a519f867fbd4bd94"
+yoastseo@^1.42.0:
+  version "1.42.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.42.0.tgz#ca8f83778a184553d92e3a7bda5c671af257695a"
+  integrity sha512-ikZZ6zP3LrbXpKo6nEJcEc3zoc/YBO+IBWIpIHaBIj05uRGeyiT8+obNxnDY1p7httgHLYZur78B4b2kM53Xaw==
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
