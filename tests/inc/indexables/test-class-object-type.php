@@ -98,6 +98,6 @@ class WPSEO_Object_Type_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Object_Type::is_subtype
 	 */
 	public function test_is_not_subtype() {
-		$this->assertFalse( $this->class_instance->is_subtype( 'term')  );
+		$this->assertFalse( $this->class_instance->is_subtype( 'term' ) );
 	}
 }

@@ -14,6 +14,7 @@ use Composer\Installer\PackageEvent;
  * Sets up class aliases and defines required constants.
  */
 class Dependency_Management {
+
 	/**
 	 * Registers the autoloader to create class aliases when needed.
 	 *

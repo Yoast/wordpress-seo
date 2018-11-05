@@ -9,9 +9,6 @@ namespace Yoast\Tests\UnitTests\Config;
  */
 class Upgrade_Test extends \PHPUnit_Framework_TestCase {
 
-	/**
-	 *
-	 */
 	public function test_do_upgrade() {
 		$migration = $this
 			->getMockBuilder( '\Yoast\YoastSEO\Config\Database_Migration' )
@@ -20,7 +17,7 @@ class Upgrade_Test extends \PHPUnit_Framework_TestCase {
 			->getMock();
 
 		$migration->expects( $this->once() )
-				  ->method( 'run_migrations' );
+			->method( 'run_migrations' );
 
 		$instance = $this
 			->getMockBuilder( '\Yoast\YoastSEO\Config\Upgrade' )

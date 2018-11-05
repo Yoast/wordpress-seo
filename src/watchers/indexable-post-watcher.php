@@ -16,6 +16,7 @@ use Yoast\YoastSEO\Models\Indexable;
  * Fills the Indexable according to Post data.
  */
 class Indexable_Post_Watcher implements Integration {
+
 	/**
 	 * Registers all hooks to WordPress.
 	 *

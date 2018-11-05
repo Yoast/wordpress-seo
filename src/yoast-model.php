@@ -31,7 +31,8 @@ use YoastSEO_Vendor\ORM;
  * @method Array asArray()
  */
 class Yoast_Model {
-	/*
+
+	/**
 	 * Default ID column for all models. Can be overridden by adding
 	 * a public static _id_column property to your model classes.
 	 */
@@ -441,9 +442,9 @@ class Yoast_Model {
 
 		/*
 			"   SELECT {$associated_table_name}.*
-				  FROM {$associated_table_name} JOIN {$join_table_name}
+				FROM {$associated_table_name} JOIN {$join_table_name}
 					ON {$associated_table_name}.{$associated_table_id_column} = {$join_table_name}.{$key_to_associated_table}
-				 WHERE {$join_table_name}.{$key_to_base_table} = {$this->$base_table_id_column} ;"
+				WHERE {$join_table_name}.{$key_to_base_table} = {$this->$base_table_id_column} ;"
 		*/
 		return static::factory( $associated_class_name, $connection_name )
 			->select( "{$associated_table_name}.*" )

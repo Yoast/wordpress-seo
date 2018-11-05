@@ -10,7 +10,6 @@
  */
 class WPSEO_Config_Component_Mailchimp_Signup_Test extends WPSEO_UnitTestCase {
 
-
 	/**
 	 * Tests the get_identifier
 	 *
@@ -21,7 +20,6 @@ class WPSEO_Config_Component_Mailchimp_Signup_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 'MailchimpSignup', $mailchimp_signup->get_identifier() );
 	}
-
 
 	/**
 	 * Tests the get_field
@@ -34,7 +32,6 @@ class WPSEO_Config_Component_Mailchimp_Signup_Test extends WPSEO_UnitTestCase {
 		$this->assertInstanceOf( 'WPSEO_Config_Field', $mailchimp_signup->get_field() );
 	}
 
-
 	/**
 	 * Tests getting the data.
 	 *
@@ -45,7 +42,8 @@ class WPSEO_Config_Component_Mailchimp_Signup_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			array( 'hasSignup' => false ),
-			$mailchimp_signup->get_data() );
+			$mailchimp_signup->get_data()
+		);
 	}
 
 	/**

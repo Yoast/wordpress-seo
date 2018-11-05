@@ -14,6 +14,7 @@ use Yoast\YoastSEO\Config\Dependency_Management;
  * @package Yoast\Tests
  */
 class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
+
 	/**
 	 * Tests the initializing with the defining of constants fails.
 	 */
@@ -67,8 +68,8 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 			->getMock();
 
 		$instance->expects( $this->once() )
-				 ->method( 'get_migration_state' )
-				 ->will( $this->returnValue( Database_Migration::MIGRATION_STATE_ERROR ) );
+			->method( 'get_migration_state' )
+			->will( $this->returnValue( Database_Migration::MIGRATION_STATE_ERROR ) );
 
 		$this->assertFalse( $instance->is_usable() );
 	}
@@ -131,7 +132,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_framework_runner' )
-			->will( $this->throwException( new \Exception ) );
+			->will( $this->throwException( new \Exception() ) );
 
 		$instance
 			->expects( $this->once() )
@@ -160,7 +161,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_get_configuration() {
 		$instance = new Database_Migration_Double(
-			( object ) array( 'charset' => 'foo' ), new Dependency_Management()
+			(object) array( 'charset' => 'foo' ), new Dependency_Management()
 		);
 
 		$this->assertInternalType( 'array', $instance->get_configuration() );

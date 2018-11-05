@@ -718,8 +718,8 @@ class WPSEO_Admin_Init {
 			$warning = esc_html__( 'WARNING:', 'wordpress-seo' );
 			/* translators: %1$s and %2$s expand to <i> items to emphasize the word in the middle. */
 			$message = esc_html__( 'Changing your permalinks settings can seriously impact your search engine visibility. It should almost %1$s never %2$s be done on a live website.', 'wordpress-seo' );
-			$link = esc_html__( 'Learn about why permalinks are important for SEO.', 'wordpress-seo' );
-			$url = WPSEO_Shortlinker::get( 'https://yoa.st/why-permalinks/' );
+			$link    = esc_html__( 'Learn about why permalinks are important for SEO.', 'wordpress-seo' );
+			$url     = WPSEO_Shortlinker::get( 'https://yoa.st/why-permalinks/' );
 
 			echo '<div class="notice notice-warning"><p><strong>' . $warning . '</strong><br>' . sprintf( $message, '<i>', '</i>' ) . '<br><a href="' . $url . '" target="_blank">' . $link . '</a></p></div>';
 		}

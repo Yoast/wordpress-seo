@@ -12,6 +12,7 @@ use Yoast\YoastSEO\Yoast_Model;
  * Indexable migration.
  */
 class WpYoastIndexable extends Ruckusing_Migration_Base {
+
 	/**
 	 * Migration up.
 	 */
