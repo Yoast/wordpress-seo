@@ -87,7 +87,7 @@ class WPSEO_Export {
 	}
 
 	/**
-	 * Writes the header of the export file.
+	 * Writes the header of the export.
 	 */
 	private function export_header() {
 		$header = sprintf(

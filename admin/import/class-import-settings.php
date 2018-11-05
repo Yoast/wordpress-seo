@@ -47,7 +47,9 @@ class WPSEO_Import_Settings {
 	}
 
 	/**
-	 * Parse the option file
+	 * Parse the options.
+	 *
+	 * @return void
 	 */
 	private function parse_options() {
 		$options = parse_ini_string( $this->content, true, INI_SCANNER_RAW );
@@ -57,7 +59,7 @@ class WPSEO_Import_Settings {
 
 			return;
 		}
-		$this->status->set_msg( __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'No settings found in file.', 'wordpress-seo' ) );
+		$this->status->set_msg( __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'No settings found.', 'wordpress-seo' ) );
 	}
 
 	/**
@@ -78,7 +80,7 @@ class WPSEO_Import_Settings {
 	/**
 	 * Imports the options if found.
 	 *
-	 * @param array $options The options parsed from the ini file.
+	 * @param array $options The options parsed from the provided settings.
 	 */
 	private function import_options( $options ) {
 		if ( isset( $options['wpseo']['version'] ) && $options['wpseo']['version'] !== '' ) {
