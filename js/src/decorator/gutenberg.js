@@ -1,6 +1,7 @@
 /* External dependencies */
 import isFunction from "lodash/isFunction";
 import isArray from "lodash/isArray";
+import find from "lodash/find";
 import { create, getFormatType } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
 import { string } from "yoastseo";
@@ -10,6 +11,35 @@ const { stripHTMLTags } = string;
 const ANNOTATION_SOURCE = "yoast";
 
 let annotationQueue = [];
+
+const ANNOTATION_ATTRIBUTES = {
+	"core/quote": [
+		{
+			key: "value",
+			multilineTag: "p",
+		},
+		{
+			key: "citation",
+		},
+	],
+	"core/paragraph": [
+		{
+			key: "content",
+		},
+	],
+	"core/list": [
+		{
+			key: "values",
+			multilineTag: "li",
+			multilineWrapperTag: [ "ul", "ol" ],
+		},
+	],
+	"core/heading": [
+		{
+			key: "content",
+		},
+	],
+};
 
 /**
  * Retrieves the next annotation from the annotation queue.
@@ -84,14 +114,16 @@ function getOffsets( mark ) {
 /**
  * Calculates an array of annotations for the given content inside a block.
  *
- * @param {string} content The content of the block.
- * @param {Mark}   mark    The mark to apply to the content.
- * @param {string} block   The block ID to apply the mark to.
+ * @param {string} content             The content of the block.
+ * @param {Mark}   mark                The mark to apply to the content.
+ * @param {string} block               The block ID to apply the mark to.
+ * @param {string} multilineTag        The tag the block uses to signify multiple parts.
+ * @param {string} multilineWrapperTag The tag the block uses as a container.
  * @returns {Array} The array of annotations to apply.
  */
-function calculateAnnotationsForTextFormat( content, mark, block ) {
+function calculateAnnotationsForTextFormat( content, mark, block, multilineTag = false, multilineWrapperTag = false ) {
 	// Create a rich text record, because those are easier to work with.
-	const record = create( { html: content } );
+	const record = create( { html: content, multilineTag, multilineWrapperTag } );
 	const { text, formats } = record;
 
 	const annotations = [];
@@ -156,10 +188,21 @@ function calculateAnnotationsForTextFormat( content, mark, block ) {
 			endXPath,
 			startOffset,
 			endOffset,
+			hash: [ block.clientId, startXPath, startOffset, endXPath, endOffset ].join( "-" ),
 		} );
 	}
 
 	return annotations;
+}
+
+/**
+ * Returns an array of all the attributes of which we can annotate text for, for a specific block type name.
+ *
+ * @param {string} blockTypeName The name of the block type.
+ * @returns {string[]} The attributes that we can annotate.
+ */
+function getAnnotateAbleAttributes( blockTypeName ) {
+	return ANNOTATION_ATTRIBUTES[ blockTypeName ];
 }
 
 /**
@@ -177,34 +220,59 @@ export function applyAsAnnotations( paper, marks ) {
 	}
 
 	const blocks = select( "core/editor" ).getBlocks();
-	let annotations = [];
+	const annotations = [];
 
 	blocks.forEach( ( block ) => {
-		if ( block.name !== "core/paragraph" ) {
+		// We can only annotate certain block types.
+		if ( ! Object.keys( ANNOTATION_ATTRIBUTES ).includes( block.name ) ) {
 			return;
 		}
 
-		const { attributes } = block;
-		const { content } = attributes;
+		const annotateAbleAttributes = getAnnotateAbleAttributes( block.name );
 
-		// For each mark see if it applies to this block.
-		marks.forEach( ( mark ) => {
-			let addAnnotations = [];
+		annotateAbleAttributes.forEach( ( attribute ) => {
+			const attributeKey = attribute.key;
 
-			addAnnotations = calculateAnnotationsForTextFormat( content, mark, block );
+			const { attributes } = block;
+			const attributeValue = attributes[ attributeKey ];
 
-			annotations = annotations.concat( addAnnotations );
+			// For each mark see if it applies to this block.
+			marks.forEach( ( mark ) => {
+				let addAnnotations = [];
+
+				addAnnotations = calculateAnnotationsForTextFormat(
+					attributeValue,
+					mark,
+					block,
+					attribute.multilineTag,
+					attribute.multilineWrapperTag
+				);
+
+				addAnnotations.forEach( ( addAnnotation ) => {
+					let { hash } = addAnnotation;
+					hash = hash + "-" + attributeKey;
+
+					const foundHash = find( annotations, [ "hash", hash ] );
+
+					if ( ! foundHash ) {
+						annotations.push( {
+							...addAnnotation,
+							richTextIdentifier: attributeKey,
+							hash,
+						} );
+					}
+				} );
+			} );
 		} );
 	} );
 
 	annotationQueue = annotations.map( ( annotation ) => ( {
 		blockClientId: annotation.block,
 		source: ANNOTATION_SOURCE,
+		richTextIdentifier: annotation.richTextIdentifier,
 		range: {
-			startXPath: annotation.startXPath,
-			startOffset: annotation.startOffset,
-			endXPath: annotation.endXPath,
-			endOffset: annotation.endOffset,
+			start: annotation.startOffset,
+			end: annotation.endOffset,
 		},
 	} ) );
 	scheduleAnnotationQueueApplication();
