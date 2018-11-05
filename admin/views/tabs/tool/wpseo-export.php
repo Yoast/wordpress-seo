@@ -20,6 +20,7 @@ $submit_button_value = sprintf( __( 'Export your %1$s settings', 'wordpress-seo'
 
 if ( filter_input( INPUT_POST, 'do_export' ) ) {
 	$export = new WPSEO_Export();
+	$export->export();
 	return;
 }
 

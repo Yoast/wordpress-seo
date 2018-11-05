@@ -44,6 +44,7 @@ elseif ( filter_input( INPUT_POST, 'clean_external' ) ) {
 }
 elseif ( filter_input( INPUT_POST, 'settings_import' ) ) {
 	$import = new WPSEO_Import_Settings();
+	$import->import();
 }
 
 /**

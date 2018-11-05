@@ -29,9 +29,9 @@ class WPSEO_Export {
 	public $success;
 
 	/**
-	 * Class constructor
+	 * Handles the export request.
 	 */
-	public function __construct() {
+	public function export() {
 		check_admin_referer( self::NONCE_ACTION );
 		$this->export_settings();
 		$this->output();
