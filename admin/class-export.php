@@ -43,6 +43,7 @@ class WPSEO_Export {
 	public function output() {
 		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
 			esc_html_e( 'You do not have the required rights to export settings.', 'wordpress-seo' );
+			return;
 		}
 
 		echo '<p>';
