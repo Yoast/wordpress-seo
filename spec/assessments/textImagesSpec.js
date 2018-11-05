@@ -154,6 +154,25 @@ describe( "An image count assessment for regular analysis", function() {
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Some images on this page contain alt attributes with words from your keyphrase! Good job!" );
 	} );
 
+	it( "assesses 6 images, with a keyword and alt-tag set to keyword for all 6 images", function() {
+		var mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
+			keyword: "Sample",
+		} );
+
+		var assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 6,
+			altTagCount: {
+				noAlt: 0,
+				withAlt: 0,
+				withAltKeyword: 6,
+				withAltNonKeyword: 0,
+			},
+		}, true ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Some images on this page contain alt attributes with words from your keyphrase! Good job!" );
+	} );
+
 	it( "assesses 6 images, with a keyword and alt-tag set to keyword for 1 image, alt-tag set to non-keyword for 1 image and 4 images without alt tags", function() {
 		var mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='sample' />", {
 			keyword: "Sample",

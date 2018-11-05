@@ -233,4 +233,61 @@ describe( "Counts images in an text", function() {
 		expect( stringToCheck.withAltKeyword ).toBe( 1 );
 		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
 	} );
+
+	it( "Tests for multi-word keyphrases", function() {
+		const paper = new Paper(
+			"<img src='http://plaatje' alt='keyword and keyphrase' /> " +
+			"<img src='http://plaatje' alt='keyword' /> " +
+			"<img src='http://plaatje' alt='keyphrase' /> " +
+			"<img src='http://plaatje' alt='keyword and keyphrase and more' /> " +
+			"<img src='http://plaatje' alt='key' /> ",
+			{ keyword: "keyword keyphrase" }
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const stringToCheck = altTagCountFunction( paper, researcher );
+
+		expect( stringToCheck.noAlt ).toBe( 0 );
+		expect( stringToCheck.withAlt ).toBe( 0 );
+		expect( stringToCheck.withAltKeyword ).toBe( 4 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 1 );
+	} );
+
+	it( "Tests for multi-word keyphrases", function() {
+		const paper = new Paper(
+			"<img src='http://plaatje' alt='keyword and keyphrase' /> " +
+			"<img src='http://plaatje' alt='keyword' /> " +
+			"<img src='http://plaatje' alt='keyphrase' /> " +
+			"<img src='http://plaatje' alt='keyword and keyphrase and more' /> " +
+			"<img src='http://plaatje' alt='key' /> ",
+			{ keyword: "keyword keyphrase synonym" }
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const stringToCheck = altTagCountFunction( paper, researcher );
+
+		expect( stringToCheck.noAlt ).toBe( 0 );
+		expect( stringToCheck.withAlt ).toBe( 0 );
+		expect( stringToCheck.withAltKeyword ).toBe( 2 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 3 );
+	} );
+
+	it( "Tests for multi-word keyphrases with morphology", function() {
+		const paper = new Paper(
+			"<img src='http://plaatje' alt='keywords and keyphrases' /> " +
+			"<img src='http://plaatje' alt='keyword' /> " +
+			"<img src='http://plaatje' alt='keyphrase' /> " +
+			"<img src='http://plaatje' alt='keyword and keyphrases and more' /> " +
+			"<img src='http://plaatje' alt='key' /> ",
+			{ keyword: "keyword keyphrase synonym" }
+		);
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const stringToCheck = altTagCountFunction( paper, researcher );
+
+		expect( stringToCheck.noAlt ).toBe( 0 );
+		expect( stringToCheck.withAlt ).toBe( 0 );
+		expect( stringToCheck.withAltKeyword ).toBe( 2 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 3 );
+	} );
 } );

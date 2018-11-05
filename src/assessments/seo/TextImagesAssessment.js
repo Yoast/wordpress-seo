@@ -199,7 +199,7 @@ export default class TextImagesAssessment extends Assessment {
 	/**
 	 * Checks whether the only image has an alt-tag with the keyphrase (needed to return a nice feedback).
 	 *
-	 * @returns {boolean} Returns true if the number of alt tags with keywords is within the recommended range.
+	 * @returns {boolean} Returns true if the only image has an alt-tag with the keyphrase.
 	 */
 	hasOneImageWithKeyword() {
 		return ( this.imageCount === 1 && this.altProperties.withAltKeyword === 1 );
