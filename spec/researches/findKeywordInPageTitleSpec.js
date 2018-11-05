@@ -72,7 +72,7 @@ describe( "Match keywords in string", function() {
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatch ).toBe( true );
-		expect( result.position ).toBe( 18 );
+		expect( result.position ).toBe( 10 );
 	} );
 
 	it( "returns the exact match and its position for German", function() {
@@ -300,6 +300,21 @@ describe( "Match keywords in string", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "\"walking in nature\"",
 			title: "The walking in nature",
+		} );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( true );
+		expect( result.allWordsFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns an exact match at place 0, even if the title starts with multiple function words.", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "\"walking in nature\"",
+			title: "The first walking in nature",
 		} );
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );

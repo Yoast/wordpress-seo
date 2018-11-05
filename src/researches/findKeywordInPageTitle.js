@@ -6,11 +6,32 @@ const findTopicFormsInString = require( "./findKeywordFormsInString.js" ).findTo
 import getFunctionWordsFactory from "../helpers/getFunctionWords";
 
 import { escapeRegExp, get, includes, isUndefined } from "lodash-es";
-import createRegexFromArray from "../stringProcessing/createRegexFromArray";
-import stripSpaces from "../stringProcessing/stripSpaces";
 import getLanguage from "../helpers/getLanguage";
+import addWordboundary from "../stringProcessing/addWordboundary";
 
 const getFunctionWords = getFunctionWordsFactory();
+
+/**
+ * Strips all function words from the start of the given string.
+ * @param {string[]} functionWords The array of function words to strip from the start.
+ * @param {string} str The string from which to strip the function words.
+ * @returns {string} The given string with the function words stripped.
+ */
+const stripFunctionWordsFromStart = function( functionWords, str ) {
+	let strippedTitle = str.toLocaleLowerCase();
+	// Try to strip each function word from the start of the str.
+	functionWords.forEach( word => {
+		const regex = new RegExp( "^" + addWordboundary( word.toLocaleLowerCase() ) );
+		strippedTitle = strippedTitle.replace( regex, "" );
+	} );
+
+	// Nothing has been stripped, no function words found at the start.
+	if ( strippedTitle.length === str.length ) {
+		return strippedTitle;
+	}
+	// Recursively call function until all function words have been stripped from the start.
+	return stripFunctionWordsFromStart( functionWords, strippedTitle );
+};
 
 /**
  * Counts the occurrences of the keyword in the page title. Returns the result that contains information on
@@ -44,19 +65,17 @@ export default function( paper, researcher ) {
 		result.exactMatch = true;
 		result.allWordsFound = true;
 		result.position = keywordMatched.position;
-
 		const language = getLanguage( locale );
 
-		// Strip function words from the beginning of the title.
+		// If function words exist for this language...
 		const functionWords = get( getFunctionWords, [ language ], [] );
-		if ( ! isUndefined( functionWords ) ) {
-			const functionWordsRegex = createRegexFromArray( functionWords.all, false, "start" );
-			const strippedTitle = escapeRegExp( stripSpaces( title.replace( functionWordsRegex, "" ) ) );
-
-			// If nothing has been stripped, return the old result, otherwise return the new one.
-			if ( strippedTitle.length !== title.length ) {
-				result.position = strippedTitle.toLocaleLowerCase().indexOf( keyword.toLocaleLowerCase() );
-			}
+		if ( ! isUndefined( functionWords.all ) ) {
+			// Strip all function words from the beginning of the title.
+			const strippedTitle = stripFunctionWordsFromStart( functionWords.all, title );
+			// Match the keyphrase with the stripped title.
+			const strippedTitleMatch = wordMatch( strippedTitle, keyword, locale );
+			// Update the position (such that beginning is still 0).
+			result.position = strippedTitleMatch.position;
 		}
 
 		return result;
