@@ -34,7 +34,7 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) || ! WPSEO_NAMESPACES ) {
 	action="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#wpseo-import' ) ); ?>"
 	method="post"
 	accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
-	<?php wp_nonce_field( 'wpseo-import-settings', '_wpnonce', true, true ); ?>
+	<?php wp_nonce_field( WPSEO_Import_Settings::NONCE_ACTION ); ?>
 	<label class="screen-reader-text" for="settings-import"><?php esc_html_e( 'Paste your settings from another Yoast SEO installation.', 'wordpress-seo' ); ?></label>
 	<textarea id="settings-import" rows="10" cols="140" name="settings_import"></textarea><br/>
 	<input type="submit" class="button button-primary" value="<?php esc_attr_e( 'Import settings', 'wordpress-seo' ); ?>"/>

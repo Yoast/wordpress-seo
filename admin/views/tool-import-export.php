@@ -43,8 +43,6 @@ elseif ( filter_input( INPUT_POST, 'clean_external' ) ) {
 	}
 }
 elseif ( filter_input( INPUT_POST, 'settings_import' ) ) {
-	check_admin_referer( 'wpseo-import-settings' );
-
 	$import = new WPSEO_Import_Settings();
 }
 

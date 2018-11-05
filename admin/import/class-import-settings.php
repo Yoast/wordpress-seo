@@ -11,6 +11,8 @@
  * Class with functionality to import the Yoast SEO settings.
  */
 class WPSEO_Import_Settings {
+	const NONCE_ACTION = 'wpseo-import-settings';
+
 	/**
 	 * @var WPSEO_Import_Status
 	 */
@@ -30,7 +32,9 @@ class WPSEO_Import_Settings {
 	 * Class constructor
 	 */
 	public function __construct() {
-		$this->status  = new WPSEO_Import_Status( 'import', false );
+		check_admin_referer( self::NONCE_ACTION );
+
+		$this->status = new WPSEO_Import_Status( 'import', false );
 		// If we're not on > PHP 5.3, return, as we'll otherwise error out.
 		if ( ! defined( 'WPSEO_NAMESPACES' ) || ! WPSEO_NAMESPACES ) {
 			return $this->status;

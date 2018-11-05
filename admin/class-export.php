@@ -32,7 +32,7 @@ class WPSEO_Export {
 	 * Class constructor
 	 */
 	public function __construct() {
-		check_admin_referer( WPSEO_Export::NONCE_ACTION );
+		check_admin_referer( self::NONCE_ACTION );
 		$this->export_settings();
 		$this->output();
 	}
