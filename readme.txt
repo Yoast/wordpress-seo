@@ -127,7 +127,8 @@ Bugfixes:
 * Fixes the spelling of the words "plug-in" and "set-up". Props to [pedro-mendonca](https://github.com/pedro-mendonca)
 * Fixes a bug where a type error is thrown when the posts or terms focus keyword isn't of the type WP_Post as this can collide with third-party plugins.
 
-## Other
+Other:
+
 * Changes the reference in the admin bar menu from "AdWords External" to "Google Ads".
 * Removes non-functioning eye-markers for the link keyphrase assessment.
 
