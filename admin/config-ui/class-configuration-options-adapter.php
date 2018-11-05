@@ -14,8 +14,19 @@
  */
 class WPSEO_Configuration_Options_Adapter {
 
+	/**
+	 * @var string
+	 */
 	const OPTION_TYPE_WORDPRESS = 'wordpress';
+
+	/**
+	 * @var string
+	 */
 	const OPTION_TYPE_YOAST = 'yoast';
+
+	/**
+	 * @var string
+	 */
 	const OPTION_TYPE_CUSTOM = 'custom';
 
 	/**

@@ -10,7 +10,11 @@
  */
 class Yoast_Notification_Center {
 
-	/** Option name to store notifications on */
+	/**
+	 * Option name to store notifications on.
+	 *
+	 * @var string
+	 */
 	const STORAGE_KEY = 'yoast_notifications';
 
 	/**
