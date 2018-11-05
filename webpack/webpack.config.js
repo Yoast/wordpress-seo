@@ -101,8 +101,14 @@ module.exports = function( env = { environment: "production" } ) {
 	};
 
 	let config;
-	if ( isRecalibration ) {
+	/*
+	 * In the production build the only output should be files that use the analysis.
+	 * Which are the analysis worker and the analysis.
+	 */
+	if ( isRecalibration && mode === "production" ) {
+		console.log( "BUILDING RECALIBRATION ONLY" );
 		config = [
+			// Analysis web worker.
 			{
 				...base,
 				entry: {
@@ -110,12 +116,11 @@ module.exports = function( env = { environment: "production" } ) {
 				},
 				plugins,
 			},
-			// Config for files that should only use externals available in the web worker context.
+			// Analysis that is used as external (`window.yoastseo`).
 			{
 				...base,
-				externals: { yoastseo: "yoast.analysis" },
 				entry: {
-					"wp-seo-used-keywords-assessment": "./js/src/wp-seo-used-keywords-assessment.js",
+					analysis: "./js/src/analysis.js",
 				},
 				plugins,
 			},
