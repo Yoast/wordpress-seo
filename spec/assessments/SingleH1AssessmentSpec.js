@@ -61,20 +61,16 @@ describe( "A test for marking incorrect H1s in the body", function() {
 
 	it( "doesn't return markers for H1s in the first position of the body", function() {
 		const mockPaper = new Paper( "<h1>heading</h1><p>a paragraph</p>" );
-		const assessment = h1Assessment;
-		assessment.getResult( mockPaper, Factory.buildMockResearcher( [ { tag: "h1", content: "heading", position: 0 } ] ), i18n );
-		const expected = [];
+		const results = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [ { tag: "h1", content: "heading", position: 0 } ] ), i18n );
 
-		expect( assessment.getMarks() ).toEqual( expected );
+		expect( results._hasMarks ).toEqual( false );
 	} );
 
 	it( "doesn't return markers when there are no H1s in the body", function() {
 		const mockPaper = new Paper( "<p>a paragraph</p>" );
-		const assessment = h1Assessment;
-		assessment.getResult( mockPaper, Factory.buildMockResearcher( [] ), i18n );
-		const expected = [];
+		const results = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [] ), i18n );
 
-		expect( assessment.getMarks() ).toEqual( expected );
+		expect( results._hasMarks ).toEqual( false );
 	} );
 } );
 

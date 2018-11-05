@@ -1,5 +1,6 @@
-import map from "lodash/map";
-import merge from "lodash/merge";
+import { map } from "lodash-es";
+import { merge } from "lodash-es";
+import { isUndefined } from "lodash-es";
 
 import Assessment from "../../assessment.js";
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
@@ -39,7 +40,7 @@ class singleH1Assessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling the research.
-	 * @param {Object} i18n The object used for translations
+	 * @param {Jed} i18n The object used for translations
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -48,22 +49,13 @@ class singleH1Assessment extends Assessment {
 
 		const assessmentResult = new AssessmentResult();
 
-		// Returns the default assessment result if there are no H1s in the body.
-		if ( this._h1s.length === 0 ) {
-			return assessmentResult;
-		}
+		const calculatedResult = this.calculateResult( i18n );
 
-		/*
-		 * Removes the first H1 from the array if that H1 is in the first position of the body.
-		 * The very beginning of the body is the only position where an H1 is deemed acceptable.
-		 */
-		if ( this.firstH1AtBeginning() ) {
-			this._h1s.shift();
+		if ( ! isUndefined( calculatedResult ) ) {
+			assessmentResult.setScore( calculatedResult.score );
+			assessmentResult.setText( calculatedResult.resultText );
+			assessmentResult.setHasMarks( true );
 		}
-
-		assessmentResult.setScore( this.calculateScore() );
-		assessmentResult.setText( this.translateScore( i18n ) );
-		assessmentResult.setHasMarks( ( this.calculateScore() < 2 ) );
 
 		return assessmentResult;
 	}
@@ -78,35 +70,26 @@ class singleH1Assessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether there are superfluous (i.e., non-title) H1s in the text.
+	 * Returns the score and the feedback string for the single H1 assessment.
 	 *
-	 * @returns {boolean} Returns true if there are superfluous H1s in the text.
-	 */
-	bodyContainsSuperfluousH1s() {
-		return ( this._h1s.length >= 1 );
-	}
-
-	/**
-	 * Returns the score for the single H1 assessment.
+	 * @param {Jed} i18n The object used for translations.
 	 *
-	 * @returns {number} The calculated score.
+	 * @returns {Object|null} The calculated score and the feedback string.
 	 */
-	calculateScore() {
-		if ( this.bodyContainsSuperfluousH1s() ) {
-			return this._config.scores.textContainsSuperfluousH1;
+	calculateResult( i18n ) {
+		// Returns the default assessment result if there are no H1s in the body.
+		if ( this._h1s.length === 0 ) {
+			return;
 		}
-	}
 
-	/**
-	 * Translates the score of the single H1 assessment to a message the user can understand.
-	 *
-	 * @param {Object} i18n The object used for translations.
-	 *
-	 * @returns {string} The translated string.
-	 */
-	translateScore( i18n ) {
-		if ( this.bodyContainsSuperfluousH1s() ) {
-			return i18n.sprintf(
+		// Returns the default assessment result if there is one H1 and it's at the beginning of the body.
+		if ( this._h1s.length === 1 && this.firstH1AtBeginning() ) {
+			return;
+		}
+
+		return {
+			score: this._config.scores.textContainsSuperfluousH1,
+			resultText: i18n.sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				i18n.dgettext(
 					"js-text-analysis",
@@ -116,8 +99,8 @@ class singleH1Assessment extends Assessment {
 				this._config.urlTitle,
 				this._config.urlCallToAction,
 				"</a>"
-			);
-		}
+			),
+		};
 	}
 
 	/**
@@ -128,6 +111,14 @@ class singleH1Assessment extends Assessment {
 	 */
 	getMarks() {
 		const h1s = this._h1s;
+
+		/*
+		 * Removes the first H1 from the array if that H1 is in the first position of the body.
+		 * The very beginning of the body is the only position where an H1 is deemed acceptable.
+		 */
+		if ( this.firstH1AtBeginning() ) {
+			h1s.shift();
+		}
 
 		return map( h1s, function( h1 ) {
 			return new Mark( {
