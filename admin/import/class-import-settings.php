@@ -35,6 +35,9 @@ class WPSEO_Import_Settings {
 		if ( ! defined( 'WPSEO_NAMESPACES' ) || ! WPSEO_NAMESPACES ) {
 			return $this->status;
 		}
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+			return $this->status;
+		}
 		$this->content = filter_input( INPUT_POST, 'settings_import' );
 		if ( empty( $this->content ) ) {
 			return $this->status;

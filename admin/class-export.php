@@ -41,9 +41,14 @@ class WPSEO_Export {
 	 * Outputs the export.
 	 */
 	public function output() {
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+			esc_html_e( 'You do not have the required rights to export settings.', 'wordpress-seo' );
+		}
+
+		echo '<p>';
 		/* translators: %1$s expands to Import settings */
 		printf( esc_html__( 'Copy all these settings to another site\'s %1$s tab and click "%1$s" there.', 'wordpress-seo' ), __( 'Import settings', 'wordpress-seo' ) );
-		echo '<br/><br/>';
+		echo '</p>';
 		echo '<textarea id="wpseo-export" rows="20" cols="100">' . $this->export . '</textarea>';
 	}
 
