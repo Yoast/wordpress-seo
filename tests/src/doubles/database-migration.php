@@ -2,6 +2,9 @@
 
 namespace Yoast\Tests\Doubles;
 
+/**
+ * Test Helper Class.
+ */
 class Database_Migration extends \Yoast\YoastSEO\Config\Database_Migration {
 
 	/**
