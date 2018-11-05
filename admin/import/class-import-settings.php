@@ -56,6 +56,7 @@ class WPSEO_Import_Settings {
 	 * @return void
 	 */
 	private function parse_options() {
+		// phpcs:ignore PHPCompatibility.FunctionUse.NewFunctions.parse_ini_stringFound -- We won't get to this function if PHP < 5.3 due to the WPSEO_NAMESPACES check above.
 		$options = parse_ini_string( $this->content, true, INI_SCANNER_RAW );
 
 		if ( is_array( $options ) && $options !== array() ) {
