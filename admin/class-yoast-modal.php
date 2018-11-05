@@ -11,6 +11,7 @@ class Yoast_Modal {
 	/** @var array The modal configuration. */
 	private static $config = array();
 
+	/** @var bool Whether the modal scripts are enqueued. */
 	private static $enqueued = false;
 
 	/**
