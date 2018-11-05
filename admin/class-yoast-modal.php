@@ -11,6 +11,8 @@ class Yoast_Modal {
 	/** @var array The modal configuration. */
 	private static $config = array();
 
+	private static $enqueued = false;
+
 	/**
 	 * Class constructor.
 	 */
@@ -36,6 +38,18 @@ class Yoast_Modal {
 	}
 
 	/**
+	 * Enqueues the Yoast modal if it is not yet enqueued.
+	 */
+	public static function enqueue() {
+		if ( self::$enqueued ) {
+			return;
+		}
+
+		new self();
+		self::$enqueued = true;
+	}
+
+	/**
 	 * Adds a single modal configuration to the modals configuration.
 	 *
 	 * @param array $args The modal configuration arguments.
@@ -44,6 +58,7 @@ class Yoast_Modal {
 		$defaults       = self::get_defaults();
 		$single         = array_replace_recursive( $defaults, $args );
 		self::$config[] = $single;
+		self::enqueue();
 	}
 
 	/**

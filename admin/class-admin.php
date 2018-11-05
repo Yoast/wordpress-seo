@@ -88,8 +88,6 @@ class WPSEO_Admin {
 
 		$this->initialize_cornerstone_content();
 
-		new Yoast_Modal();
-
 		if ( WPSEO_Utils::is_plugin_network_active() ) {
 			$integrations[] = new Yoast_Network_Admin();
 		}
