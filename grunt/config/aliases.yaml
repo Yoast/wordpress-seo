@@ -108,10 +108,6 @@ release:
 'release:js':
   - 'copy:dependencies'
   - 'webpack:buildProd'
-'release:recalibration':
-  - 'clean:build-assets-js'
-  - 'copy:dependencies'
-  - 'webpack:recalibration'
 
 'deploy:trunk':
   - 'update-version-trunk'
@@ -123,9 +119,10 @@ release:
   - 'artifact'
   - 'wp_deploy:master'
 
+# Run the steps to deploy a new recalibration version.
 'deploy:recalibration':
-#  - 'update-recalibration'
-#  - 'release:recalibration'
+  - 'update-recalibration'
+  - 'webpack:recalibration'
   - 'publish-recalibration'
 
 # Default task
