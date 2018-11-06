@@ -18,12 +18,12 @@
   "scripts": {
     "test": "jest",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
-    "build-recalibration": "YOAST_RECALIBRATION=enabled yarn build",
+    "build-recalibration": "yarn build --env.recalibration=enabled",
     "webpack-analyze-bundle": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json js/dist",
     "i18n-yoast-components": "cross-env NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-wordpress-seo": "cross-env NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot | shusher",
     "start": "webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development",
-    "start-recalibration": "YOAST_RECALIBRATION=enabled yarn start"
+    "start-recalibration": "yarn start --env.recalibration=enabled"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",
@@ -82,6 +82,7 @@
     "grunt-contrib-cssmin": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^21.0.0",
+    "grunt-exec": "^3.0.0",
     "grunt-glotpress": "https://github.com/Yoast/grunt-glotpress.git#master",
     "grunt-phpcs": "^0.4.0",
     "grunt-phplint": "^0.1.0",
@@ -148,6 +149,7 @@
     "yoastseo": "^1.42.0"
   },
   "yoast": {
-    "pluginVersion": "9.1-RC4"
+    "pluginVersion": "9.1-RC4",
+    "recalibrationVersion": "1"
   }
 }

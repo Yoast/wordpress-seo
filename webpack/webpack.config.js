@@ -36,9 +36,9 @@ const alias = {
 	"react-dom": path.join( root, "node_modules/react-dom" ),
 };
 
-module.exports = function( env = { environment: "production" } ) {
+module.exports = function( env = { environment: "production", recalibration: "disabled" } ) {
 	const mode = env.environment;
-	const isRecalibration = process.env.YOAST_RECALIBRATION === "enabled";
+	const isRecalibration = env.recalibration === "enabled";
 
 	const plugins = [
 		new webpack.DefinePlugin( {

@@ -5170,6 +5170,11 @@ grunt-eslint@^21.0.0:
     chalk "^2.1.0"
     eslint "^5.0.0"
 
+grunt-exec@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/grunt-exec/-/grunt-exec-3.0.0.tgz#881f868d64098788fddaf22fa25d8572a9d64dc7"
+  integrity sha512-cgAlreXf3muSYS5LzW0Cc4xHK03BjFOYk0MqCQ/MZ3k1Xz2GU7D+IAJg4UKicxpO+XdONJdx/NJ6kpy2wI+uHg==
+
 "grunt-glotpress@https://github.com/Yoast/grunt-glotpress.git#master":
   version "0.2.2"
   resolved "https://github.com/Yoast/grunt-glotpress.git#6c0b12698cdc3e6e1b686bd74286c5595615e5b2"
