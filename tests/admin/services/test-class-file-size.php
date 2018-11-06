@@ -24,10 +24,10 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 			->setMethods( array( 'get_file_url' ) )
 			->getMock();
 
+		$this->expectException( WPSEO_File_Size_Exception::externally_hosted( 'external.file' )->getMessage() );
 		$instance
 			->expects( $this->once() )
-			->method( 'get_file_url' )
-			->willThrowException( WPSEO_File_Size_Exception::externally_hosted( 'external.file' ) );
+			->method( 'get_file_url' );
 
 		$response = $instance->get( $request );
 
@@ -51,10 +51,10 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 			->method( 'get_file_url' )
 			->willReturn( 'unknow.file' );
 
+		$this->expectException( WPSEO_File_Size_Exception::unknown_error( 'unknown.file' )->getMessage() );
 		$instance
 			->expects( $this->once() )
-			->method( 'get_file_size' )
-			->willThrowException( WPSEO_File_Size_Exception::unknown_error( 'unknown.file' ) );
+			->method( 'get_file_size' );
 
 		$response = $instance->get( new WP_REST_Request() );
 
