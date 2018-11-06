@@ -2,6 +2,7 @@ import { merge } from "lodash-es";
 
 import recommendedKeywordCount from "../../assessmentHelpers/recommendedKeywordCount.js";
 import Assessment from "../../assessment";
+import getLanguage from "../../helpers/getLanguage";
 import AssessmentResult from "../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/inRange";
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
@@ -127,8 +128,7 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher, i18n ) {
-		// Get the environment variable.
-		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false && paper.getLocale() === "en_EN";
+		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false && getLanguage( paper.getLocale() ) === "en";
 
 		this._keywordCount = researcher.getResearch( "keywordCount" );
 		const keyphraseLength = this._keywordCount.length;
@@ -140,6 +140,8 @@ class KeywordDensityAssessment extends Assessment {
 		this._keywordDensity = researcher.getResearch( "getKeywordDensity" );
 
 		let calculatedScore = {};
+
+		// Calculate score depending on the version (Recalibration or regular).
 		if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
 			this._keywordDensity = this._keywordDensity * keyphraseLengthFactor( keyphraseLength );
 			calculatedScore = this.calculateResultRecalibration( i18n );
