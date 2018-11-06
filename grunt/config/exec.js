@@ -10,8 +10,6 @@ module.exports = {
 		 * @returns {string} The command to execute.
 		 */
 		cmd: function( name, file ) {
-			console.log( "exec cmd", name, file );
-			return;
 			return [ "./scripts/deploy_to_myyoast.sh", name, file ].join( " " );
 		},
 	},

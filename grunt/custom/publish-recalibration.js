@@ -6,38 +6,59 @@
  * @returns {void}
  */
 module.exports = function( grunt ) {
-
 	grunt.registerTask(
 		"publish-recalibration",
-		"Deploys the recalibration files to MyYoast.",
+		"Deploys the recalibration files to My Yoast.",
 		function() {
-			// eslint-disable-next-line global-require
-			const packageJson = require( "../../package.json" );
+			// Read the versions from the package.json file.
+			const packageJson = grunt.file.readJSON( "./package.json" );
 			const recalibrationVersion = parseInt( packageJson.yoast.recalibrationVersion, 10 );
-			const pluginVersion = packageJson.yoast.pluginVersion;
+			const pluginVersion = { package: packageJson.yoast.pluginVersion };
 
 			// Plugin version should be in the form of `X.X.X` or `X.X` or `X`.
-			const pluginMatch = pluginVersion.match( /^\d+.\d+.\d+|^\d+\.\d+|^\d+/ );
+			const pluginMatch = pluginVersion.package.match( /^\d+.\d+.\d+|^\d+\.\d+|^\d+/ );
 			if ( pluginMatch.length < 1 ) {
-				console.error( "Plugin version is not valid. Should be in the form X.X.X or X.X or X where X is a digit." );
+				grunt.log.error( "Plugin version is not valid. Should be in the form X.X.X or X.X or X where X is a digit." );
 				return;
 			}
+			// Use the first match as plugin version.
+			pluginVersion.extended = pluginMatch[ 0 ];
 			// Ensure we always have X.X.X - fill with .0 if needed.
-			let wantedPluginVersion = pluginMatch[ 0 ];
-			while ( wantedPluginVersion.split( "." ).length < 3 ) {
-				wantedPluginVersion += ".0";
+			while ( pluginVersion.extended.split( "." ).length < 3 ) {
+				pluginVersion.extended += ".0";
 			}
+			// For the file the dots need to be stripped.
+			pluginVersion.dotless = pluginVersion.package.replace( ".", "" );
 
-			// Joins the versions to the publish version of recalibration.
-			const version = [ wantedPluginVersion, recalibrationVersion ].join( "." );
-			console.log( "version:", version );
+			// Join the versions for the publish version of recalibration.
+			const version = pluginVersion.extended + "." + recalibrationVersion;
+			grunt.verbose.write( "Recalibration version " );
+			grunt.verbose.ok( version );
+			grunt.verbose.writeln();
 
-			const filenames = [ "wp-seo-analysis-worker", "analysis" ];
-			filenames.forEach( function( filename ) {
-				const name = filename + "-" + version + ".min.js";
-				const file = "./js/src/" + filename + pluginVersion + ".min.js";
-				grunt.task.run( "exec:deployToMyYoast", name, file );
+			// Populate the tasks array with exec:deployToMyYoast commands.
+			const tasks = [];
+			const entries = [ "wp-seo-analysis-worker", "analysis" ];
+			entries.forEach( function( entry ) {
+				// Transform the entry to a MyYoast name & plugin file.
+				const name = entry + "-" + version + ".min.js";
+				const file = "./js/dist/" + entry + "-" + pluginVersion.dotless + ".min.js";
+
+				grunt.verbose.writeln( "Entry", entry );
+				grunt.verbose.writeln( "URL: ", name );
+				grunt.verbose.writeln( "File:", file );
+
+				// Sanity check before adding to the tasks.
+				if ( grunt.file.exists( file ) ) {
+					tasks.push( [ "exec:deployToMyYoast", name, file ].join( ":" ) );
+					grunt.verbose.ok();
+				} else {
+					grunt.verbose.error();
+				}
+				grunt.verbose.writeln();
 			} );
+
+			grunt.task.run( tasks );
 		}
 	);
 };
