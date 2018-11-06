@@ -37,6 +37,7 @@ import { refreshDelay } from "./analysis/constants";
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
+import { setMarkerStatus } from "./redux/actions/markerButtons";
 
 // Helper dependencies.
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
@@ -233,6 +234,8 @@ window.yoastHideMarkers = true;
 		insertTinyMCE();
 
 		termScraper = new TermDataCollector( { store } );
+
+		store.dispatch( setMarkerStatus( "hidden" ) );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
