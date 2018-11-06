@@ -8,6 +8,7 @@ import getFunctionWordsFactory from "../helpers/getFunctionWords";
 import { escapeRegExp, get, includes, isUndefined } from "lodash-es";
 import getLanguage from "../helpers/getLanguage";
 import addWordboundary from "../stringProcessing/addWordboundary";
+import getWords from "../stringProcessing/getWords";
 
 const getFunctionWords = getFunctionWordsFactory();
 
@@ -18,19 +19,24 @@ const getFunctionWords = getFunctionWordsFactory();
  * @returns {string} The given string with the function words stripped.
  */
 const stripFunctionWordsFromStart = function( functionWords, str ) {
+	str = str.toLocaleLowerCase();
 	let strippedTitle = str.toLocaleLowerCase();
-	// Try to strip each function word from the start of the str.
-	functionWords.forEach( word => {
-		const regex = new RegExp( "^" + addWordboundary( word.toLocaleLowerCase() ) );
-		strippedTitle = strippedTitle.replace( regex, "" );
-	} );
+	const titleWords = getWords( str );
 
-	// Nothing has been stripped, no function words found at the start.
-	if ( strippedTitle.length === str.length ) {
-		return strippedTitle;
+	// Strip all function words from the start of the title string.
+	for ( let i = 0; i < titleWords.length; i++ ) {
+		const word = titleWords[ i ];
+		// If this word is a function word, strip it from the title.
+		// Else, break since there are no words to strip from the beginning.
+		if ( functionWords.includes( word ) ) {
+			const regex = new RegExp( "^(" + addWordboundary( word ) + ")" );
+			strippedTitle = strippedTitle.replace( regex, "" );
+		} else {
+			break;
+		}
 	}
-	// Recursively call function until all function words have been stripped from the start.
-	return stripFunctionWordsFromStart( functionWords, strippedTitle );
+
+	return strippedTitle;
 };
 
 /**
