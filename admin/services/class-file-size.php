@@ -80,17 +80,28 @@ class WPSEO_File_Size_Service {
 	protected function get_file_size( $file_url ) {
 		$file_config = wp_upload_dir();
 		$file_url    = str_replace( $file_config['baseurl'], '', $file_url );
-		$file_size   = WPSEO_Image_Utils::get_file_size(
-			array(
-				'path' => $file_url,
-			)
-		);
+		$file_size   = $this->calculate_file_size( $file_url );
 
 		if ( ! $file_size ) {
 			throw WPSEO_File_Size_Exception::unknown_error( $file_url );
 		}
 
 		return $file_size;
+	}
+
+	/**
+	 * Calculates the file size using the Utils class.
+	 *
+	 * @param string $file_url The file to retrieve the size for.
+	 *
+	 * @return int|bool The file size or False if it could not be retrieved.
+	 */
+	protected function calculate_file_size( $file_url ) {
+		return WPSEO_Image_Utils::get_file_size(
+			array(
+				'path' => $file_url,
+			)
+		);
 	}
 
 }
