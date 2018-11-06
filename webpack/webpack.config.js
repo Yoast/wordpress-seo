@@ -37,8 +37,8 @@ const alias = {
 };
 
 module.exports = function( env = { environment: "production", recalibration: "disabled" } ) {
-	const mode = env.environment;
-	const isRecalibration = env.recalibration === "enabled";
+	const mode = env.environment || process.env.NODE_ENV || "production";
+	const isRecalibration = ( env.recalibration || process.env.YOAST_RECALIBRATION || "disabled" ) === "enabled";
 
 	const plugins = [
 		new webpack.DefinePlugin( {
