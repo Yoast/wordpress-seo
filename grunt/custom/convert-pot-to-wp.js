@@ -54,7 +54,8 @@ function convertTranslationToPHP( translation, textdomain ) {
 			// All extracted comments are split by newlines, add a tab to line them up nicely.
 			let extracted = comments.extracted
 				.split( NEWLINE )
-				.join( NEWLINE + TAB + "   " );
+				.join( NEWLINE + TAB + "   " )
+				.replace( "*/", "" );
 
 			php += TAB + `/* ${extracted} */${NEWLINE}`;
 		}

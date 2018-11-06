@@ -126,6 +126,7 @@ class WPSEO_Frontend {
 			new WPSEO_Frontend_Primary_Category(),
 			new WPSEO_JSON_LD(),
 			new WPSEO_Remove_Reply_To_Com(),
+			new WPSEO_OpenGraph_OEmbed(),
 			$this->woocommerce_shop_page,
 		);
 

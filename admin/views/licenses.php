@@ -138,6 +138,7 @@ if ( WPSEO_Utils::is_woocommerce_active() ) {
 
 /* translators: %1$s expands to Yoast SEO. */
 $wpseo_extensions_header = sprintf( __( '%1$s Extensions', 'wordpress-seo' ), 'Yoast SEO' );
+$new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
 
 ?>
 
@@ -188,29 +189,40 @@ $wpseo_extensions_header = sprintf( __( '%1$s Extensions', 'wordpress-seo' ), 'Y
 
 				<?php if ( $extensions->is_activated( 'wordpress-seo-premium' ) ) : ?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php esc_html_e( 'Activated', 'wordpress-seo' ); ?></div>
-					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>" class="yoast-link--license"><?php esc_html_e( 'Manage your subscription on My Yoast', 'wordpress-seo' ); ?></a>
+					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>" class="yoast-link--license"><?php
+						esc_html_e( 'Manage your subscription on My Yoast', 'wordpress-seo' );
+						echo $new_tab_message;
+					?></a>
 				<?php else : ?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-not-activated"><?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?></div>
-					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>" class="yoast-link--license"><?php esc_html_e( 'Activate your site on My Yoast', 'wordpress-seo' ); ?></a>
+					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>" class="yoast-link--license"><?php
+						esc_html_e( 'Activate your site on My Yoast', 'wordpress-seo' );
+						echo $new_tab_message;
+					?></a>
 				<?php endif; ?>
 				</a>
 
 			<?php else : ?>
 
-				<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zz' ); ?>" class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-buy">
-					<?php
+				<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zz' ); ?>" class="yoast-button-upsell"><?php
 					/* translators: $1$s expands to Yoast SEO Premium */
 					printf( __( 'Buy %1$s', 'wordpress-seo' ), $extension->get_title() );
-					?></a>
+					echo $new_tab_message;
+					echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
+				?></a>
 
-				<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zy' ); ?>" class="yoast-link--more-info"><?php
+				<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zy' ); ?>" class="yoast-link--more-info">
+					<?php
 					printf(
 						/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 						__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 						'<span class="screen-reader-text">',
 						'</span>',
-						$extension->get_title() );
-					?></a>
+						$extension->get_title()
+					);
+					echo $new_tab_message;
+					?>
+				 </a>
 			<?php endif; ?>
 			<?php if ( ! $extensions->is_activated( 'wordpress-seo-premium' ) ) { ?>
 				<p><small class="yoast-money-back-guarantee"><?php esc_html_e( 'Comes with our 30-day no questions asked money back guarantee', 'wordpress-seo' ); ?></small></p>
@@ -246,24 +258,35 @@ $wpseo_extensions_header = sprintf( __( '%1$s Extensions', 'wordpress-seo' ), 'Y
 
 							<?php if ( $extensions->is_activated( $id ) ) : ?>
 								<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php esc_html_e( 'Activated', 'wordpress-seo' ); ?></div>
-								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>" class="yoast-link--license"><?php esc_html_e( 'Manage your subscription on My Yoast', 'wordpress-seo' ); ?></a>
+								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>" class="yoast-link--license"><?php
+									esc_html_e( 'Manage your subscription on My Yoast', 'wordpress-seo' );
+									echo $new_tab_message;
+								?></a>
 							<?php else : ?>
 								<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-not-activated"><?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?></div>
-								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>" class="yoast-link--license"><?php esc_html_e( 'Activate your site on My Yoast', 'wordpress-seo' ); ?></a>
+								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>" class="yoast-link--license"><?php
+									esc_html_e( 'Activate your site on My Yoast', 'wordpress-seo' );
+									echo $new_tab_message;
+								?></a>
 							<?php endif; ?>
 						<?php else : ?>
-							<a target="_blank" class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-buy" href="<?php echo esc_url( $extension->get_buy_url() ); ?>">
-								<?php /* translators: %s expands to the product name */ ?>
-								<?php printf( __( 'Buy %s', 'wordpress-seo' ), $extension->get_buy_button() ); ?>
-							</a>
+							<a target="_blank" class="yoast-button-upsell" href="<?php echo esc_url( $extension->get_buy_url() ); ?>"><?php
+								/* translators: %s expands to the product name */
+								printf( __( 'Buy %s', 'wordpress-seo' ), $extension->get_buy_button() );
+								echo $new_tab_message;
+								echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
+							?></a>
 
-							<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $extension->get_info_url() ); ?>"><?php
+							<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $extension->get_info_url() ); ?>">
+								<?php
 								printf(
 									/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 									__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 									'<span class="screen-reader-text">',
 									'</span>',
-									$extension->get_title() );
+									$extension->get_title()
+								);
+								echo $new_tab_message;
 								?>
 							</a>
 						<?php endif; ?>

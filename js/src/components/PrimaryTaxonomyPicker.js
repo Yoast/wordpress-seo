@@ -8,6 +8,8 @@ import {
 } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 import { sprintf, __ } from "@wordpress/i18n";
+import apiFetch from "@wordpress/api-fetch";
+import { addQueryArgs } from "@wordpress/url";
 import styled from "styled-components";
 import diff from "lodash/difference";
 
@@ -116,23 +118,26 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {void}
 	 */
 	fetchTerms() {
-		const TaxonomyCollection = wp.api.getCollectionByRoute( `/wp/v2/${ this.props.taxonomy.restBase }` );
+		const { taxonomy } = this.props;
 
-		if ( ! TaxonomyCollection ) {
+		if ( ! taxonomy ) {
 			return;
 		}
 
-		const collection = new TaxonomyCollection();
+		this.fetchRequest = apiFetch( {
+			path: addQueryArgs(
+				`/wp/v2/${ taxonomy.restBase }`,
+				{
+					/* eslint-disable-next-line camelcase */
+					per_page: -1,
+					orderby: "count",
+					order: "desc",
+					_fields: "id,name",
+				}
+			),
+		} );
 
-		collection.fetch( {
-			data: {
-				/* eslint-disable-next-line camelcase */
-				per_page: -1,
-				orderby: "count",
-				order: "desc",
-				_fields: [ "id", "name", "slug", "parent" ],
-			},
-		} ).then( terms => {
+		this.fetchRequest.then( terms => {
 			const oldState = this.state;
 
 			this.setState( {
@@ -276,7 +281,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 				>
 					{
 						sprintf(
-							/* translators: %s expands to the taxonomy name */
+							/* translators: %s expands to the taxonomy name. */
 							__( "Select the primary %s", "wordpress-seo" ),
 							taxonomy.singularLabel.toLowerCase()
 						)

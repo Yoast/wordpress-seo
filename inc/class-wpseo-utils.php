@@ -1014,6 +1014,10 @@ SVG;
 			return false;
 		}
 
+		if ( $post_type === 'attachment' && WPSEO_Options::get( 'disable-attachment' ) ) {
+			return false;
+		}
+
 		return WPSEO_Options::get( 'display-metabox-pt-' . $post_type );
 	}
 
@@ -1102,6 +1106,24 @@ SVG;
 		}
 
 		return $wpseo_admin_l10n;
+	}
+
+	/**
+	 * Retrieves the analysis worker log level. Defaults to errors only.
+	 *
+	 * Uses bool YOAST_SEO_DEBUG as flag to enable logging. Off equals ERROR.
+	 * Uses string YOAST_SEO_DEBUG_ANALYSIS_WORKER as log level for the Analysis
+	 * Worker. Defaults to INFO.
+	 * Can be: TRACE, DEBUG, INFO, WARN or ERROR.
+	 *
+	 * @return string The log level to use.
+	 */
+	public static function get_analysis_worker_log_level() {
+		if ( defined( 'YOAST_SEO_DEBUG' ) && YOAST_SEO_DEBUG  ) {
+			return defined( 'YOAST_SEO_DEBUG_ANALYSIS_WORKER' ) ? YOAST_SEO_DEBUG_ANALYSIS_WORKER : 'INFO';
+		}
+
+		return 'ERROR';
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */

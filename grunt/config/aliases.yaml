@@ -10,10 +10,10 @@ build:
 'build:sass':
   - 'sass:build'
 'build:css':
+  - 'clean:build-assets-css'
   - 'build:sass'
   - 'postcss:build'
   - 'wpcss'
-  - 'clean:before-rtlcss'
   - 'rtlcss'
   - 'cssmin'
 # Optimise images from source to production
@@ -21,6 +21,7 @@ build:
   - 'imagemin'
 # Build JavaScript from assets to production
 'build:js':
+  - 'clean:build-assets-js'
   - 'copy:dependencies'
   - 'webpack:buildDev'
 
@@ -53,6 +54,10 @@ build:
   - 'i18n-clean-json'
   - 'clean:po-files'
 
+clean:build-assets:
+  - 'clean:build-assets-js'
+  - 'clean:build-assets-css'
+
 # Check health of the project
 check:
   - 'check:js'
@@ -72,6 +77,7 @@ check:
   - 'update-version:initializer'
 
 'artifact':
+  - 'shell:production-prefix-dependencies'
   - 'shell:production-composer-install'
   # Build like we normally would
   - 'release'
