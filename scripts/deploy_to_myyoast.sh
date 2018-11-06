@@ -24,6 +24,6 @@ FILE=$2
 
 curl -X POST \
   https://my.yoast.com/api/Downloads/file/$NAME \
-  -F "file=@./js/dist/${FILE};type=application/javascript" \
+  -F "file=@${FILE};type=application/javascript" \
   -F secret=$SECRET \
   -F version=$TRAVIS_TAG
