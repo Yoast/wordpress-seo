@@ -120,6 +120,7 @@ export const CollapsibleStateless = ( props ) => {
 			className={ props.className }
 		>
 			<props.Heading
+				id={ props.id }
 				aria-expanded={ props.isOpen }
 				onClick={ props.onToggle }
 				prefixIcon={ props.isOpen ? props.prefixIcon : props.prefixIconCollapsed }
@@ -171,10 +172,12 @@ CollapsibleStateless.propTypes = {
 	} ),
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
+	id: PropTypes.string,
 };
 
 CollapsibleStateless.defaultProps = {
 	Heading: StyledHeading,
+	id: null,
 };
 
 /**
