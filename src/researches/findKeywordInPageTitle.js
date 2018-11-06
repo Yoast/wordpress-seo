@@ -1,7 +1,7 @@
 /** @module analyses/findKeywordInPageTitle */
 
 import wordMatch from "../stringProcessing/matchTextWithWord.js";
-const findTopicFormsInString = require( "./findKeywordFormsInString.js" ).findTopicFormsInString;
+import { findTopicFormsInString } from "./findKeywordFormsInString.js";
 
 import getFunctionWordsFactory from "../helpers/getFunctionWords";
 
@@ -81,7 +81,7 @@ export default function( paper, researcher ) {
 				const strippedTitle = stripFunctionWordsFromStart( functionWords.all, title );
 				// Match the keyphrase with the stripped title.
 				const strippedTitleMatch = wordMatch( strippedTitle, keyword, locale );
-				// Update the position (such that beginning is still 0).
+				// Update the position (such that "the keyword" is still counted as position 0).
 				result.position = strippedTitleMatch.position;
 			}
 		}
