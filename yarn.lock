@@ -162,6 +162,13 @@
     "@wordpress/i18n" "^3.0.1"
     "@wordpress/url" "^2.1.0"
 
+"@wordpress/autop@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@wordpress/autop/-/autop-2.0.2.tgz#97d676ec9d85a9e3b2cfd4c3a596114728e6a18e"
+  integrity sha512-YoaLK8TJVvD6e0t5VbiwPvkuIyBim5WyDXgE6Kg6T9xLWDEu+Azp1ljk/e+D6rPJoC895eBQZjCWxrch5WFvLw==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+
 "@wordpress/babel-plugin-makepot@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@wordpress/babel-plugin-makepot/-/babel-plugin-makepot-1.0.0.tgz#6a5a72097a9f9e586aeec2140d020c190534c756"
@@ -7526,7 +7533,7 @@ logalot@^2.0.0:
     figures "^1.3.5"
     squeak "^1.0.0"
 
-loglevel@^1.4.1:
+loglevel@^1.4.1, loglevel@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.6.1.tgz#e0fc95133b6ef276cdc8887cdaf24aa6f156f8fa"
   integrity sha1-4PyVEztu8nbNyIh82vJKpvFW+Po=
@@ -12096,10 +12103,9 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-yoast-components@^4.15.0:
+"yoast-components@git+https://github.com/Yoast/yoast-components.git#develop":
   version "4.15.0"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.15.0.tgz#7a1d27237fed3649269ffcbdb48c4018ee5c7b15"
-  integrity sha512-B4ndkB9fihbstOqVOWfk6tVnH3Jck8KoMx2ASfiup4BUiO5Hp9PqOdYDaoDAtAzDECpHgid+kZErRT+qouG5mQ==
+  resolved "git+https://github.com/Yoast/yoast-components.git#e086935382bf66fadf19578f4be0a4d5674f3898"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -12132,6 +12138,18 @@ yoastseo@^1.42.0:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
     lodash-es "^4.17.10"
+    sassdash "0.9.0"
+    tokenizer2 "^2.0.1"
+
+"yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#develop":
+  version "1.42.0"
+  resolved "git+https://github.com/Yoast/YoastSEO.js.git#025a40ac05e8719ba487ef47f6d1f6821630269d"
+  dependencies:
+    "@wordpress/autop" "^2.0.2"
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    lodash-es "^4.17.10"
+    loglevel "^1.6.1"
     sassdash "0.9.0"
     tokenizer2 "^2.0.1"
 
