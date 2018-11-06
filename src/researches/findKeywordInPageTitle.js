@@ -26,8 +26,8 @@ const stripFunctionWordsFromStart = function( functionWords, str ) {
 	// Strip all function words from the start of the title string.
 	for ( let i = 0; i < titleWords.length; i++ ) {
 		const word = titleWords[ i ];
-		// If this word is a function word, strip it from the title.
-		// Else, break since there are no words to strip from the beginning.
+		/* If this word is a function word, strip it from the title.
+		   Else, break since there are no words to strip from the beginning.*/
 		if ( functionWords.includes( word ) ) {
 			const regex = new RegExp( "^(" + addWordboundary( word ) + ")" );
 			strippedTitle = strippedTitle.replace( regex, "" );
