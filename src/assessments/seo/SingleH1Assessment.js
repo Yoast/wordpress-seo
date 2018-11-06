@@ -94,7 +94,7 @@ class singleH1Assessment extends Assessment {
 				i18n.dgettext(
 					"js-text-analysis",
 					"%1$sSingle title%3$s: H1s should only be used as your main title. Find all H1s in your text " +
-					"that aren't your main title. %2$sUse a lower heading level%3$s!"
+					"that aren't your main title and %2$schange them to a lower heading level%3$s!"
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
