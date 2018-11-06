@@ -124,7 +124,7 @@ function getOffsets( mark ) {
 function calculateAnnotationsForTextFormat( content, mark, block, multilineTag = false, multilineWrapperTag = false ) {
 	// Create a rich text record, because those are easier to work with.
 	const record = create( { html: content, multilineTag, multilineWrapperTag } );
-	const { text, formats } = record;
+	const { text } = record;
 
 	const annotations = [];
 
@@ -144,33 +144,7 @@ function calculateAnnotationsForTextFormat( content, mark, block, multilineTag =
 
 	if ( foundIndex !== -1 ) {
 		const offsets = getOffsets( mark );
-		let xpath;
 
-		/*
-		 * Because the Gutenberg implementation only works with positions we can simply pass
-		 * the first element in the RichText in the XPaths and use the absolute positions as
-		 * the offsets.
-		 */
-		const firstFormat = formats[ 0 ];
-		if ( ! firstFormat || ( isArray( firstFormat ) && firstFormat.length === 0 ) ) {
-			xpath = "text()[1]";
-		} else {
-			const firstFormats = firstFormat.map( ( format ) => {
-				let tagName = format.type;
-				const formatType = getFormatType( tagName );
-
-				if ( formatType ) {
-					tagName = formatType.match.tagName;
-				}
-
-				return tagName + "[1]";
-			} );
-
-			xpath = firstFormats.join( "/" ) + "/text()[1]";
-		}
-
-		const startXPath = xpath;
-		const endXPath = xpath;
 		const startOffset = foundIndex + offsets.startOffset;
 		let endOffset = foundIndex + offsets.endOffset;
 
@@ -180,15 +154,12 @@ function calculateAnnotationsForTextFormat( content, mark, block, multilineTag =
 			endOffset = foundIndex + original.length;
 		}
 
-
 		// Simplest possible solution:
 		annotations.push( {
 			block: block.clientId,
-			startXPath,
-			endXPath,
 			startOffset,
 			endOffset,
-			hash: [ block.clientId, startXPath, startOffset, endXPath, endOffset ].join( "-" ),
+			hash: [ block.clientId, startOffset, endOffset ].join( "-" ),
 		} );
 	}
 
