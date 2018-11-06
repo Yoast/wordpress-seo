@@ -196,7 +196,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			add_meta_box( 'wpseo_meta', $product_title, array(
 				$this,
 				'meta_box',
-			), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
+			), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ), array(
+				'__block_editor_compatible_meta_box' => true,
+			) );
 		}
 	}
 
