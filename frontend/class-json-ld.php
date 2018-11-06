@@ -114,6 +114,10 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		$broken               = false;
 
 		foreach ( $breadcrumbs as $index => $breadcrumb ) {
+			if ( ! empty( $breadcrumb['hide_in_schema'] ) ) {
+				continue;
+			}
+
 			if ( ! array_key_exists( 'url', $breadcrumb ) || ! array_key_exists( 'text', $breadcrumb ) ) {
 				$broken = true;
 				break;
