@@ -14,6 +14,7 @@ import PageTitleWidthAssessment from "./assessments/seo/PageTitleWidthAssessment
 import UrlLengthAssessment from "./assessments/seo/UrlLengthAssessment";
 import urlStopWordsAssessment from "./assessments/seo/urlStopWordsAssessment";
 import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
+import SingleH1Assessment from "./assessments/seo/SingleH1Assessment";
 import { createAnchorOpeningTag } from "./helpers/shortlinker";
 
 /**
@@ -51,20 +52,36 @@ const TaxonomyAssessor = function( i18n ) {
 	// Get the text length boundaries (they are different for recalibration).
 	const textLengthAssessment = getTextLengthAssessment( process.env.YOAST_RECALIBRATION === "enabled" );
 
-	this._assessments = [
-		new IntroductionKeywordAssessment(),
-		new KeyphraseLengthAssessment(),
-		new KeywordDensityAssessment(),
-		new MetaDescriptionKeywordAssessment(),
-		new MetaDescriptionLengthAssessment(),
-		textLengthAssessment,
-		new TitleKeywordAssessment(),
-		new PageTitleWidthAssessment(),
-		new UrlKeywordAssessment(),
-		new UrlLengthAssessment(),
-		urlStopWordsAssessment,
-		new FunctionWordsInKeyphrase(),
-	];
+	if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
+		this._assessments = [
+			new IntroductionKeywordAssessment(),
+			new KeyphraseLengthAssessment(),
+			new KeywordDensityAssessment(),
+			new MetaDescriptionKeywordAssessment(),
+			new MetaDescriptionLengthAssessment(),
+			textLengthAssessment,
+			new TitleKeywordAssessment(),
+			new PageTitleWidthAssessment(),
+			new UrlKeywordAssessment(),
+			new FunctionWordsInKeyphrase(),
+			new SingleH1Assessment(),
+		];
+	} else {
+		this._assessments = [
+			new IntroductionKeywordAssessment(),
+			new KeyphraseLengthAssessment(),
+			new KeywordDensityAssessment(),
+			new MetaDescriptionKeywordAssessment(),
+			new MetaDescriptionLengthAssessment(),
+			textLengthAssessment,
+			new TitleKeywordAssessment(),
+			new PageTitleWidthAssessment(),
+			new UrlKeywordAssessment(),
+			new UrlLengthAssessment(),
+			urlStopWordsAssessment,
+			new FunctionWordsInKeyphrase(),
+		];
+	}
 };
 
 inherits( TaxonomyAssessor, Assessor );
