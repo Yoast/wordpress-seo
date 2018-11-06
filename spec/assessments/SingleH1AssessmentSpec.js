@@ -30,7 +30,7 @@ describe( "An assessment to check whether there is more than one H1 in the text"
 		const assessment = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [ { tag: "h1", content: "heading", position: 2 } ] ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
-		expect( assessment.getText() ).toEqual(  "<a href='https://yoa.st/3a6' target='_blank'>Single title</a>. H1s should only be used as your main title. Find all H1s in your text that aren't your main title. <a href='https://yoa.st/3a7' target='_blank'>Use a lower heading level</a>!" );
+		expect( assessment.getText() ).toEqual(  "<a href='https://yoa.st/3a6' target='_blank'>Single title</a>: H1s should only be used as your main title. Find all H1s in your text that aren't your main title. <a href='https://yoa.st/3a7' target='_blank'>Use a lower heading level</a>!" );
 	} );
 
 	it( "returns a bad score and appropriate feedback when there are multiple one superfluous (i.e., non-title) H1s in the body of the text", function() {
@@ -41,7 +41,7 @@ describe( "An assessment to check whether there is more than one H1 in the text"
 		] ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
-		expect( assessment.getText() ).toEqual(  "<a href='https://yoa.st/3a6' target='_blank'>Single title</a>. H1s should only be used as your main title. Find all H1s in your text that aren't your main title. <a href='https://yoa.st/3a7' target='_blank'>Use a lower heading level</a>!" );
+		expect( assessment.getText() ).toEqual(  "<a href='https://yoa.st/3a6' target='_blank'>Single title</a>: H1s should only be used as your main title. Find all H1s in your text that aren't your main title. <a href='https://yoa.st/3a7' target='_blank'>Use a lower heading level</a>!" );
 	} );
 } );
 

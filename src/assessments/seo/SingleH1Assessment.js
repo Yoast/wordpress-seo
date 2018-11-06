@@ -93,7 +93,7 @@ class singleH1Assessment extends Assessment {
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				i18n.dgettext(
 					"js-text-analysis",
-					"%1$sSingle title%3$s. H1s should only be used as your main title. Find all H1s in your text " +
+					"%1$sSingle title%3$s: H1s should only be used as your main title. Find all H1s in your text " +
 					"that aren't your main title. %2$sUse a lower heading level%3$s!"
 				),
 				this._config.urlTitle,
