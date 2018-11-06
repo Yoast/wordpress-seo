@@ -246,17 +246,19 @@ class WPSEO_Admin_Asset_Manager {
 
 		return array(
 			array(
-				'name' => 'react-dependencies',
+				'name' => 'commons',
 				// Load webpack-commons for bundle support.
 				'src'  => 'commons-' . $flat_version,
-				'deps' => array( 'wp-polyfill-ecmascript' ),
+				'deps' => array(
+					'wp-polyfill-ecmascript'
+				),
 			),
 			array(
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
 				'deps' => array(
-					self::PREFIX . 'react-dependencies',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -267,6 +269,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-element',
 					'wp-i18n',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -277,6 +280,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-element',
 					'wp-i18n',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -288,7 +292,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-progressbar',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -297,20 +301,23 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
 				'name' => 'network-admin-script',
 				'src'  => 'wp-seo-network-admin-' . $flat_version,
-				'deps' => array( 'jquery' ),
+				'deps' => array(
+					'jquery',
+					self::PREFIX . 'commons',
+				),
 			),
 			array(
 				'name' => 'bulk-editor',
 				'src'  => 'wp-seo-bulk-editor-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -318,7 +325,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-admin-global-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -326,13 +333,13 @@ class WPSEO_Admin_Asset_Manager {
 				'src'       => 'wp-seo-metabox-' . $flat_version,
 				'deps'      => array(
 					'jquery',
-					self::PREFIX . 'select2',
-					self::PREFIX . 'select2-translations',
-					self::PREFIX . 'react-dependencies',
 					'wp-element',
 					'wp-i18n',
 					'wp-data',
 					'wp-components',
+					self::PREFIX . 'select2',
+					self::PREFIX . 'select2-translations',
+					self::PREFIX . 'commons',
 				),
 				'in_footer' => false,
 			),
@@ -341,14 +348,14 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-featured-image-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
 				'name'      => 'admin-gsc',
 				'src'       => 'wp-seo-admin-gsc-' . $flat_version,
 				'deps'      => array(
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 				'in_footer' => false,
 			),
@@ -356,8 +363,6 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'post-scraper',
 				'src'  => 'wp-seo-post-scraper-' . $flat_version,
 				'deps' => array(
-					self::PREFIX . 'replacevar-plugin',
-					self::PREFIX . 'shortcode-plugin',
 					'wp-util',
 					'wp-api',
 					'wp-sanitize',
@@ -365,9 +370,11 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-i18n',
 					'wp-data',
 					'wp-api-fetch',
+					self::PREFIX . 'replacevar-plugin',
+					self::PREFIX . 'shortcode-plugin',
 					self::PREFIX . 'analysis',
-					self::PREFIX . 'react-dependencies',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -382,23 +389,24 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
 				'name' => 'replacevar-plugin',
 				'src'  => 'wp-seo-replacevar-plugin-' . $flat_version,
 				'deps' => array(
-					self::PREFIX . 'react-dependencies',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
 				'name' => 'shortcode-plugin',
 				'src'  => 'wp-seo-shortcode-plugin-' . $flat_version,
 				'deps' => array(
-					self::PREFIX . 'react-dependencies',
 					self::PREFIX . 'analysis',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -409,7 +417,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
 					self::PREFIX . 'analysis',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -422,7 +430,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-i18n',
 					'wp-components',
 					'wp-data',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -452,6 +460,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-element',
 					'wp-i18n',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -461,7 +470,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -469,7 +478,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-edit-page-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -477,7 +486,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'       => 'wp-seo-quick-edit-handler-' . $flat_version,
 				'deps'      => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 				'in_footer' => true,
 			),
@@ -487,7 +496,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'wp-api',
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -499,6 +508,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-element',
 					'wp-i18n',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -506,7 +516,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-filter-explanation-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -514,7 +524,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'analysis-' . $flat_version,
 				'deps' => array(
 					'lodash',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -523,12 +533,19 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'styled-components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
 				'name' => 'structured-data-blocks',
 				'src'  => 'wp-seo-structured-data-blocks-' . $flat_version,
-				'deps' => array( 'wp-blocks', 'wp-i18n', 'wp-element', self::PREFIX . 'styled-components' ),
+				'deps' => array(
+					'wp-blocks',
+					'wp-i18n',
+					'wp-element',
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'commons',
+				),
 			),
 			array(
 				'name' => 'styled-components',
