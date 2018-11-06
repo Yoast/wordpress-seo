@@ -27,7 +27,7 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'is_externally_hosted' )
-			->willReturn( 'true' );
+			->will( $this->returnValue( true ) );
 
 		$response = $instance->get( $request );
 
@@ -49,12 +49,12 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_file_url' )
-			->willReturn( 'unknown.file' );
+			->will( $this->returnValue( 'unknown.file' ) );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'calculate_file_size' )
-			->willReturn( false );
+			->will( $this->returnValue( false ) );
 
 		$response = $instance->get( new WP_REST_Request() );
 
@@ -76,12 +76,12 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_file_url' )
-			->willReturn( 'local.file' );
+			->will( $this->returnValue( 'local.file' ) );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'get_file_size' )
-			->willReturn( 2048 );
+			->will( $this->returnValue( 2048 ) );
 
 		$response = $instance->get( new WP_REST_Request() );
 
@@ -107,7 +107,7 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'is_externally_hosted' )
-			->willReturn( true );
+			->will( $this->returnValue( true ) );
 
 		$response = $instance->get( $request );
 
@@ -133,12 +133,12 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'is_externally_hosted' )
-			->willReturn( false );
+			->will( $this->returnValue( false ) );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'get_file_size' )
-			->willReturn( 2048 );
+			->will( $this->returnValue( 2048 ) );
 
 		$response = $instance->get( $request );
 
