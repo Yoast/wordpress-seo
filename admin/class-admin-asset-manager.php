@@ -537,6 +537,9 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'analysis',
 				'src'  => 'analysis-' . $flat_version,
+				'deps' => array(
+					self::PREFIX . 'react-dependencies',
+				),
 			),
 			array(
 				'name' => 'components',

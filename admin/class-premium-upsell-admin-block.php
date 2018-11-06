@@ -57,23 +57,37 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		$class = $this->get_html_class();
 
 		/* translators: %s expands to "Yoast SEO Premium". */
-		$dismiss_msg = sprintf( __( 'Dismiss %s upgrade motivation', 'wordpress-seo' ), 'Yoast SEO Premium' );
-		/* translators: %s expands to "Yoast SEO Premium". */
-		$upgrade_msg = sprintf( __( 'Find out why you should upgrade to %s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' );
+		$dismiss_msg = sprintf( __( 'Dismiss %s upgrade notice', 'wordpress-seo' ), 'Yoast SEO Premium' );
+
+		/* translators: %s expands to Yoast SEO Premium */
+		$button_text = sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+
+		$upgrade_button = sprintf(
+			'<a id="wpseo-%1$s-popup-button" class="yoast-button-upsell" href="%2$s" target="_blank" rel="noreferrer noopener">%3$s</a>',
+			$this->identifier,
+			$url,
+			esc_html( $button_text )
+		);
 
 		echo '<div class="' . esc_attr( $class ) . '">';
 		printf(
-			'<a href="%1$s" style="" class="alignright %2$s" aria-label="%3$s">X</a>',
+			'<a href="%1$s" style="" class="alignright button %2$s" aria-label="%3$s"><span class="dashicons dashicons-no-alt"></span></a>',
 			esc_url( add_query_arg( array( $this->get_query_variable_name() => 1 ) ) ),
 			esc_attr( $class . '--close' ),
 			esc_attr( $dismiss_msg )
 		);
 
 		echo '<div>';
-		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' . esc_html__( 'Go premium!', 'wordpress-seo' ) . '</h2>';
+		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' .
+			sprintf(
+				/* translators: %s expands to Yoast SEO Premium */
+				esc_html__( 'Upgrade to %s', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			) .
+		'</h2>';
 		echo '<ul class="' . esc_attr( $class . '--motivation' ) . '">' . $arguments_html . '</ul>';
 
-		echo '<p><a href="' . esc_url( $url ) . '" target="_blank">' . esc_html( $upgrade_msg ) . '</a><br />';
+		echo '<p><a href="' . esc_url( $url ) . '" target="_blank">' . $upgrade_button . '</a><br />';
 		echo '</div>';
 
 		echo '</div>';

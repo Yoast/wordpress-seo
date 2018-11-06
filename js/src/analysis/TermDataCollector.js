@@ -2,7 +2,6 @@
 
 /* External dependencies */
 import get from "lodash/get";
-import analysis from "yoastseo";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
@@ -11,8 +10,7 @@ import { termsTmceId as tmceId } from "../wp-seo-tinymce";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
-
-const { measureTextWidth } = analysis.helpers;
+import measureTextWidth from "../helpers/measureTextWidth";
 
 const $ = jQuery;
 

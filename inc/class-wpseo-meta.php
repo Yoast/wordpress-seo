@@ -363,6 +363,10 @@ class WPSEO_Meta {
 					$post_type = sanitize_text_field( $_GET['post_type'] );
 				}
 
+				if ( $post_type === '' ) {
+					return array();
+				}
+
 				/* Adjust the no-index text strings based on the post type. */
 				$post_type_object = get_post_type_object( $post_type );
 

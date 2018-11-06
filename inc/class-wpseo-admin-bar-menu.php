@@ -195,9 +195,8 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function add_keyword_research_submenu( WP_Admin_Bar $wp_admin_bar ) {
-		$adwords_url = 'https://adwords.google.com/keywordplanner';
-		$trends_url  = 'https://www.google.com/trends/explore';
-		$seobook_url = 'http://tools.seobook.com/keyword-tools/seobook/';
+		$adwords_url = 'https://yoa.st/keywordplanner';
+		$trends_url  = 'https://yoa.st/google-trends';
 
 		$post = $this->get_singular_post();
 		if ( $post ) {
@@ -205,7 +204,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 			if ( ! empty( $focus_keyword ) ) {
 				$trends_url  .= '#q=' . urlencode( $focus_keyword );
-				$seobook_url .= '?keyword=' . urlencode( $focus_keyword );
 			}
 		}
 
@@ -225,7 +223,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$wp_admin_bar->add_menu( array(
 			'parent' => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,
 			'id'     => 'wpseo-adwordsexternal',
-			'title'  => __( 'AdWords External', 'wordpress-seo' ),
+			'title'  => __( 'Google Ads', 'wordpress-seo' ),
 			'href'   => $adwords_url,
 			'meta'   => array( 'target' => '_blank' ),
 		) );
@@ -234,13 +232,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			'id'     => 'wpseo-googleinsights',
 			'title'  => __( 'Google Trends', 'wordpress-seo' ),
 			'href'   => $trends_url,
-			'meta'   => array( 'target' => '_blank' ),
-		) );
-		$wp_admin_bar->add_menu( array(
-			'parent' => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,
-			'id'     => 'wpseo-wordtracker',
-			'title'  => __( 'SEO Book', 'wordpress-seo' ),
-			'href'   => $seobook_url,
 			'meta'   => array( 'target' => '_blank' ),
 		) );
 	}
@@ -467,11 +458,20 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Gets the focus keyword for a given post.
 	 *
-	 * @param WP_Post $post Post object to get its focus keyword.
+	 * @param WP_POST $post Post object to get its focus keyword.
 	 *
 	 * @return string Focus keyword, or empty string if none available.
 	 */
-	protected function get_post_focus_keyword( WP_Post $post ) {
+	protected function get_post_focus_keyword( $post ) {
+		if ( ! is_object( $post ) || ! property_exists( $post, 'ID' ) ) {
+			return '';
+		}
+
+		/**
+		 * Filter: 'wpseo_use_page_analysis' Determines if the analysis should be enabled.
+		 *
+		 * @api bool Determines if the analysis should be enabled.
+		 */
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
 			return '';
 		}
