@@ -19,7 +19,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -33,7 +33,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 16 );
 	} );
 
@@ -47,7 +47,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 17 );
 	} );
 
@@ -61,7 +61,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( false );
+		expect( result.exactMatchFound ).toBe( false );
 		expect( result.allWordsFound ).toBe( false );
 	} );
 
@@ -75,7 +75,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 20 );
 	} );
 
@@ -89,7 +89,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -103,7 +103,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( false );
+		expect( result.exactMatchFound ).toBe( false );
 		expect( result.position ).toBe( -1 );
 	} );
 
@@ -116,7 +116,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -129,7 +129,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 15 );
 	} );
 
@@ -143,7 +143,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -157,7 +157,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -170,7 +170,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -184,7 +184,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -198,7 +198,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -212,7 +212,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( false );
+		expect( result.exactMatchFound ).toBe( false );
 		expect( result.allWordsFound ).toBe( true );
 	} );
 
@@ -226,7 +226,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( false );
+		expect( result.exactMatchFound ).toBe( false );
 		expect( result.allWordsFound ).toBe( true );
 	} );
 
@@ -240,7 +240,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( false );
+		expect( result.exactMatchFound ).toBe( false );
 		expect( result.allWordsFound ).toBe( true );
 	} );
 
@@ -254,7 +254,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 18 );
 	} );
 
@@ -267,7 +267,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
@@ -281,7 +281,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.position ).toBe( 12 );
 	} );
@@ -295,7 +295,7 @@ describe( "Match keywords in string, regular analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( false );
+		expect( result.exactMatchFound ).toBe( false );
 		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.allWordsFound ).toBe( false );
 	} );
@@ -316,7 +316,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -330,8 +330,8 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
-		expect( result.position ).toBe( 14 );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 16 );
 	} );
 
 	it( "returns the exact match and its position", function() {
@@ -344,8 +344,8 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
-		expect( result.position ).toBe( 14 );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 17 );
 	} );
 
 	it( "returns no match for empty keyword", function() {
@@ -358,7 +358,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( false );
+		expect( result.exactMatchFound ).toBe( false );
 		expect( result.allWordsFound ).toBe( false );
 	} );
 
@@ -372,8 +372,8 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
-		expect( result.position ).toBe( 10 );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 20 );
 	} );
 
 	it( "returns the exact match and its position for German", function() {
@@ -386,7 +386,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -400,7 +400,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( false );
+		expect( result.exactMatchFound ).toBe( false );
 		expect( result.position ).toBe( -1 );
 	} );
 
@@ -413,7 +413,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -426,8 +426,8 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
-		expect( result.position ).toBe( 13 );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 15 );
 	} );
 
 	it( "returns the exact match and its position for Turkish", function() {
@@ -440,7 +440,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -454,7 +454,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -467,7 +467,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -481,7 +481,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -495,7 +495,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
@@ -509,7 +509,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( false );
+		expect( result.exactMatchFound ).toBe( false );
 		expect( result.allWordsFound ).toBe( true );
 	} );
 
@@ -523,7 +523,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( false );
+		expect( result.exactMatchFound ).toBe( false );
 		expect( result.allWordsFound ).toBe( true );
 	} );
 
@@ -537,7 +537,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( false );
+		expect( result.exactMatchFound ).toBe( false );
 		expect( result.allWordsFound ).toBe( true );
 	} );
 
@@ -551,7 +551,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 18 );
 	} );
 
@@ -564,7 +564,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
@@ -578,9 +578,9 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.exactMatchKeyphrase ).toBe( true );
-		expect( result.position ).toBe( 9 );
+		expect( result.position ).toBe( 12 );
 	} );
 
 	it( "returns an exact match not found", function() {
@@ -592,7 +592,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( false );
+		expect( result.exactMatchFound ).toBe( false );
 		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.allWordsFound ).toBe( false );
 	} );
@@ -606,7 +606,7 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.allWordsFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
@@ -621,8 +621,23 @@ describe( "Match keywords in string, recalibrated analysis", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatch ).toBe( true );
+		expect( result.exactMatchFound ).toBe( true );
 		expect( result.exactMatchKeyphrase ).toBe( true );
+		expect( result.allWordsFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns an exact match at place 0, even if the title and the keyphrase start with (multiple) function words.", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "the very walking in nature",
+			title: "First thing, the very walking in nature",
+		} );
+		const researcher = new Researcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.exactMatchKeyphrase ).toBe( false );
 		expect( result.allWordsFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
