@@ -81,7 +81,10 @@ const adjustPosition = function( title, position, locale ) {
 	// Strip all function words from the beginning of the title.
 	const titleBeforeKeyword = title.substr( 0, position );
 	if ( stripFunctionWordsFromStart( functionWords.all, titleBeforeKeyword ) ) {
-		// Update the position (such that "the keyword" is still counted as position 0).
+		/*
+		 * Return position 0 if there are no words left in the title before the keyword after filtering
+		 * the function words (such that "keyword" in "the keyword" is still counted as position 0).
+ 		 */
 		return 0;
 	}
 
