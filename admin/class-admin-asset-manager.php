@@ -16,11 +16,6 @@ class WPSEO_Admin_Asset_Manager {
 	protected $asset_location;
 
 	/**
-	 * @var array The backport dependencies.
-	 */
-	protected static $backport_dependencies;
-
-	/**
 	 *  Prefix for naming the assets.
 	 */
 	const PREFIX = 'yoast-seo-';
@@ -173,7 +168,7 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
-	 * Reregisters the globals backport asset with the correct dependencies.
+	 * Registers the WordPress dependencies that exist in 5.0 in case they are not present.
 	 *
 	 * This function can be removed when WordPress 5.1 has been released, because from 5.0 wp-elements will be
 	 * registered earlier, which means we don't have to reregister things.
@@ -181,77 +176,51 @@ class WPSEO_Admin_Asset_Manager {
 	 * @return void
 	 */
 	public function register_wp_assets() {
-		// The dependencies that are registered on 'admin_init'.
-		$previous_deps = self::$backport_dependencies;
-
-		// The dependencies that are present on 'admin_init'.
-		$current_deps = $this->get_backport_dependencies();
-
-		/*
-		 * This is false when Gutenberg is active, because in that case Gutenberg's scripts are not registered yet
-		 * on 'admin_init', but they are on 'admin_enqueue_scripts'.
-		 */
-		if ( $current_deps === $previous_deps ) {
-			return;
-		}
-
-		wp_deregister_script( self::PREFIX . 'wp-globals-backport' );
-
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
-		$args = array(
-			'name' => 'wp-globals-backport',
-			'src'  => 'wp-seo-wp-globals-backport-' . $flat_version,
-			'deps' => $current_deps,
+
+		wp_register_script( 'lodash-base', plugins_url( 'js/vendor/lodash.min.js', WPSEO_FILE ), array(), false, true );
+		wp_register_script( 'lodash', plugins_url( 'js/vendor/lodash-noconflict.js', WPSEO_FILE ), array( 'lodash-base' ), false, true );
+		wp_register_script( 'wp-polyfill', plugins_url( 'js/dist/babel-polyfill-' . $flat_version . '.js', WPSEO_FILE ), array(), false, true );
+
+		wp_register_script(
+			'wp-element',
+			plugins_url( 'js/dist/wp-element-' . $flat_version . '.js', WPSEO_FILE ),
+			array( 'lodash', 'wp-polyfill' ),
+			false,
+			true
 		);
 
-		$script = new WPSEO_Admin_Asset( $args );
-		$this->register_script( $script );
-	}
+		wp_register_script(
+			'wp-api-fetch',
+			plugins_url( 'js/dist/wp-apiFetch-' . $flat_version . '.js', WPSEO_FILE ),
+			array( 'wp-i18n', 'wp-polyfill' ),
+			false,
+			true
+		);
 
-	/**
-	 * Gets the correct dependencies for the global backport.
-	 *
-	 * @return array The dependencies for the global backport.
-	 */
-	protected function get_backport_dependencies() {
-		$backport_wp_dependencies = array( self::PREFIX . 'react-dependencies' );
+		wp_register_script(
+			'wp-components',
+			plugins_url( 'js/dist/wp-components-' . $flat_version . '.js', WPSEO_FILE ),
+			array( 'lodash', 'wp-api-fetch', 'wp-i18n', 'wp-polyfill' ),
+			false,
+			true
+		);
 
-		// If Gutenberg is present we can borrow their globals for our own.
-		if ( $this->should_load_gutenberg_assets() ) {
-			$backport_wp_dependencies[] = 'wp-element';
-			$backport_wp_dependencies[] = 'wp-data';
-			$backport_wp_dependencies[] = 'wp-components';
+		wp_register_script(
+			'wp-data',
+			plugins_url( 'js/dist/wp-data-' . $flat_version . '.js', WPSEO_FILE ),
+			array( 'lodash', 'wp-element', 'wp-polyfill' ),
+			false,
+			true
+		);
 
-			/*
-			 * The version of TinyMCE that Gutenberg uses is incompatible with
-			 * the one core uses. So we need to make sure that the core version
-			 * is used in the classic editor.
-			 *
-			 * $_GET is used here because as far as I am aware you cannot use
-			 * filter_input to check for the existence of a query variable.
-			 */
-			if ( wp_script_is( 'tinymce-latest', 'registered' ) && isset( $_GET['classic-editor'] ) ) {
-				wp_deregister_script( 'tinymce-latest' );
-				wp_register_script( 'tinymce-latest', includes_url( 'js/tinymce/' ) . 'wp-tinymce.php', array( 'jquery' ), false, true );
-			}
-		}
-		else {
-			if ( wp_script_is( 'lodash', 'registered' ) ) {
-				$backport_wp_dependencies[] = 'lodash';
-			}
-			else {
-				if ( ! wp_script_is( self::PREFIX . 'lodash', 'registered' ) ) {
-					wp_register_script( self::PREFIX . 'lodash-base', plugins_url( 'js/vendor/lodash.min.js', WPSEO_FILE ), array(), false, true );
-					wp_register_script( self::PREFIX . 'lodash', plugins_url( 'js/vendor/lodash-noconflict.js', WPSEO_FILE ), array( self::PREFIX . 'lodash-base' ), false, true );
-				}
-				$backport_wp_dependencies[] = self::PREFIX . 'lodash';
-			}
-		}
-
-		// Save the $backport_dependencies to use in register_wp_assets.
-		self::$backport_dependencies = $backport_wp_dependencies;
-
-		return $backport_wp_dependencies;
+		wp_register_script(
+			'wp-i18n',
+			plugins_url( 'js/dist/wp-i18n-' . $flat_version . '.js', WPSEO_FILE ),
+			array( 'wp-polyfill' ),
+			false,
+			true
+		);
 	}
 
 	/**
@@ -275,41 +244,32 @@ class WPSEO_Admin_Asset_Manager {
 
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
 
-		$backport_wp_dependencies = $this->get_backport_dependencies();
-
-		// If Gutenberg's babel polyfill is not present, use our own.
-		$babel_polyfill = 'wp-polyfill-ecmascript';
-		if ( ! wp_script_is( 'wp-polyfill-ecmascript', 'registered' ) ) {
-			$babel_polyfill = self::PREFIX . 'babel-polyfill';
-		}
-
 		return array(
 			array(
-				'name' => 'react-dependencies',
+				'name' => 'commons',
 				// Load webpack-commons for bundle support.
 				'src'  => 'commons-' . $flat_version,
-				'deps' => array( $babel_polyfill ),
+				'deps' => array(
+					'wp-polyfill'
+				),
 			),
 			array(
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
 				'deps' => array(
-					self::PREFIX . 'react-dependencies',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
-			),
-			array(
-				'name' => 'wp-globals-backport',
-				'src'  => 'wp-seo-wp-globals-backport-' . $flat_version,
-				'deps' => $backport_wp_dependencies,
 			),
 			array(
 				'name' => 'yoast-modal',
 				'src'  => 'wp-seo-modal-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'wp-globals-backport',
+					'wp-element',
+					'wp-i18n',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -317,8 +277,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-help-center-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'wp-globals-backport',
+					'wp-element',
+					'wp-i18n',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -330,7 +292,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-progressbar',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -339,20 +301,23 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
 				'name' => 'network-admin-script',
 				'src'  => 'wp-seo-network-admin-' . $flat_version,
-				'deps' => array( 'jquery' ),
+				'deps' => array(
+					'jquery',
+					self::PREFIX . 'commons',
+				),
 			),
 			array(
 				'name' => 'bulk-editor',
 				'src'  => 'wp-seo-bulk-editor-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -360,7 +325,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-admin-global-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -368,9 +333,13 @@ class WPSEO_Admin_Asset_Manager {
 				'src'       => 'wp-seo-metabox-' . $flat_version,
 				'deps'      => array(
 					'jquery',
+					'wp-element',
+					'wp-i18n',
+					'wp-data',
+					'wp-components',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
-					self::PREFIX . 'wp-globals-backport',
+					self::PREFIX . 'commons',
 				),
 				'in_footer' => false,
 			),
@@ -379,14 +348,14 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-featured-image-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
 				'name'      => 'admin-gsc',
 				'src'       => 'wp-seo-admin-gsc-' . $flat_version,
 				'deps'      => array(
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 				'in_footer' => false,
 			),
@@ -394,15 +363,18 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'post-scraper',
 				'src'  => 'wp-seo-post-scraper-' . $flat_version,
 				'deps' => array(
-					self::PREFIX . 'replacevar-plugin',
-					self::PREFIX . 'shortcode-plugin',
 					'wp-util',
 					'wp-api',
 					'wp-sanitize',
-					self::PREFIX . 'wp-globals-backport',
+					'wp-element',
+					'wp-i18n',
+					'wp-data',
+					'wp-api-fetch',
+					self::PREFIX . 'replacevar-plugin',
+					self::PREFIX . 'shortcode-plugin',
 					self::PREFIX . 'analysis',
-					self::PREFIX . 'react-dependencies',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -410,27 +382,31 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-term-scraper-' . $flat_version,
 				'deps' => array(
 					'wp-sanitize',
+					'wp-element',
+					'wp-i18n',
+					'wp-data',
+					'wp-api-fetch',
 					self::PREFIX . 'replacevar-plugin',
-					self::PREFIX . 'wp-globals-backport',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
 				'name' => 'replacevar-plugin',
 				'src'  => 'wp-seo-replacevar-plugin-' . $flat_version,
 				'deps' => array(
-					self::PREFIX . 'react-dependencies',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
 				'name' => 'shortcode-plugin',
 				'src'  => 'wp-seo-shortcode-plugin-' . $flat_version,
 				'deps' => array(
-					self::PREFIX . 'react-dependencies',
 					self::PREFIX . 'analysis',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -441,7 +417,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
 					self::PREFIX . 'analysis',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -450,8 +426,11 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					'wp-util',
-					self::PREFIX . 'react-dependencies',
-					self::PREFIX . 'wp-globals-backport',
+					'wp-element',
+					'wp-i18n',
+					'wp-components',
+					'wp-data',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -478,8 +457,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'configuration-wizard-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'wp-globals-backport',
+					'wp-element',
+					'wp-i18n',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -489,7 +470,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -497,7 +478,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-edit-page-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -505,7 +486,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'       => 'wp-seo-quick-edit-handler-' . $flat_version,
 				'deps'      => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 				'in_footer' => true,
 			),
@@ -515,7 +496,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'wp-api',
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -524,8 +505,10 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					self::PREFIX . 'api',
 					'jquery',
-					self::PREFIX . 'wp-globals-backport',
+					'wp-element',
+					'wp-i18n',
 					self::PREFIX . 'components',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
@@ -533,29 +516,40 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-filter-explanation-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
 				'name' => 'analysis',
 				'src'  => 'analysis-' . $flat_version,
 				'deps' => array(
-					self::PREFIX . 'react-dependencies',
+					'lodash',
+					self::PREFIX . 'commons',
 				),
 			),
 			array(
 				'name' => 'components',
 				'src'  => 'components-' . $flat_version,
-				'deps' => array( self::PREFIX . 'analysis' ),
+				'deps' => array(
+					self::PREFIX . 'analysis',
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'commons',
+				),
 			),
 			array(
 				'name' => 'structured-data-blocks',
 				'src'  => 'wp-seo-structured-data-blocks-' . $flat_version,
-				'deps' => array( 'wp-blocks', 'wp-i18n', 'wp-element' ),
+				'deps' => array(
+					'wp-blocks',
+					'wp-i18n',
+					'wp-element',
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'commons',
+				),
 			),
 			array(
-				'name' => 'babel-polyfill',
-				'src'  => 'babel-polyfill-' . $flat_version,
+				'name' => 'styled-components',
+				'src'  => 'styled-components-' . $flat_version,
 			),
 		);
 	}
