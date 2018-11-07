@@ -5,6 +5,14 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.42.0 November 5th, 2018
+
+### Fixed
+* Improves keyword recognition in the first paragraph on texts which start with images and captions.
+
+### Other
+* Removes non-functioning eye-markers from the link keyphrase assessment.
+
 ## 1.41.1 October 29th, 2018
 
 ### Fixed

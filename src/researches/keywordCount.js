@@ -51,5 +51,6 @@ export default function( paper, researcher ) {
 		count: keywordsFound.count,
 		matches: matches,
 		markings: markWordsInSentences( matches, keywordsFound.sentencesWithKeywords, locale ),
+		length: topicForms.keyphraseForms.length,
 	};
 }
