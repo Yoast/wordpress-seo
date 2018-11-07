@@ -5,7 +5,7 @@ import * as importedI18n from "@wordpress/i18n";
 import * as importedApiFetch from "@wordpress/api-fetch";
 import * as styledComponents from "styled-components";
 
-import get from "lodash/get";
+import { get } from "lodash-es";
 
 /*
  * If Gutenberg is present we can just use their wp.element and wp.data. Otherwise

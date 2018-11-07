@@ -1,7 +1,7 @@
 /* global wp */
 
-import isUndefined from "lodash/isUndefined";
-import isFunction from "lodash/isFunction";
+import { isUndefined } from "lodash-es";
+import { isFunction } from "lodash-es";
 
 /**
  * Checks if the data API from Gutenberg is available.

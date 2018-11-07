@@ -1,5 +1,5 @@
-import cloneDeep from "lodash/cloneDeep";
-import merge from "lodash/merge";
+import { cloneDeep } from "lodash-es";
+import { merge } from "lodash-es";
 
 import measureTextWidth from "../helpers/measureTextWidth";
 import getContentLocale from "./getContentLocale";

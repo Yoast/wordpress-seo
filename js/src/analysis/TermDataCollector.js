@@ -1,7 +1,7 @@
 /* global jQuery, wpseoTermScraperL10n */
 
 /* External dependencies */
-import get from "lodash/get";
+import { get } from "lodash-es";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";

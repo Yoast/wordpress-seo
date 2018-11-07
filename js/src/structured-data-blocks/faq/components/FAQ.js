@@ -1,7 +1,7 @@
 /* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
-import isUndefined from "lodash/isUndefined";
+import { isUndefined } from "lodash-es";
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */

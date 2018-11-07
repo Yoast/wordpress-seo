@@ -2,8 +2,8 @@
 
 import CompatibilityHelper from "./compatibility/compatibilityHelper";
 
-var forEach = require( "lodash/forEach" );
-var isUndefined = require( "lodash/isUndefined" );
+import { forEach } from "lodash-es";
+import { isUndefined } from "lodash-es";
 var editorHasMarks = require( "./decorator/tinyMCE" ).editorHasMarks;
 var editorRemoveMarks = require( "./decorator/tinyMCE" ).editorRemoveMarks;
 import { setMarkerStatus } from "./redux/actions/markerButtons";

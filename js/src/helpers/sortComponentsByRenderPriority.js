@@ -1,4 +1,4 @@
-import flatten from "lodash/flatten";
+import { flatten } from "lodash-es";
 
 /**
  * Sorts components by a prop `renderPriority`.

@@ -1,7 +1,7 @@
 // External dependencies.
-import get from "lodash/get";
-import isUndefined from "lodash/isUndefined";
-import merge from "lodash/merge";
+import { get } from "lodash-es";
+import { isUndefined } from "lodash-es";
+import { merge } from "lodash-es";
 import { AnalysisWorkerWrapper, createWorker } from "yoastseo";
 
 // Internal dependencies.

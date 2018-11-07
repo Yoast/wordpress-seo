@@ -2,7 +2,7 @@
 import { applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
-import flowRight from "lodash/flowRight";
+import { flowRight } from "lodash-es";
 
 /**
  * Returns redux store enhancers.

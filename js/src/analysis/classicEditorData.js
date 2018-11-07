@@ -11,7 +11,7 @@ import {
 	mapCustomTaxonomies,
 } from "../helpers/replacementVariableHelpers";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
-import debounce from "lodash/debounce";
+import { debounce } from "lodash-es";
 
 /**
  * Represents the classic editor data.

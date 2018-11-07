@@ -1,11 +1,11 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import HowToStep from "./HowToStep";
-import isUndefined from "lodash/isUndefined";
+import { isUndefined } from "lodash-es";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
-import toString from "lodash/toString";
-import get from "lodash/get";
+import { toString } from "lodash-es";
+import { get } from "lodash-es";
 
 /* Internal dependencies */
 import { stripHTML } from "../../../helpers/stringHelpers";

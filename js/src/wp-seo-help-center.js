@@ -4,7 +4,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
-import get from "lodash/get";
+import { get } from "lodash-es";
 import { injectIntl, intlShape } from "react-intl";
 import IntlProvider from "./components/IntlProvider";
 import { setYoastComponentsL10n } from "./helpers/i18n";

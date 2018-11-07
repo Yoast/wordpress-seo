@@ -5,9 +5,9 @@ import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import { combineReducers, registerStore } from "@wordpress/data";
-import get from "lodash/get";
-import pickBy from "lodash/pickBy";
-import noop from "lodash/noop";
+import { get } from "lodash-es";
+import { pickBy } from "lodash-es";
+import { noop } from "lodash-es";
 
 /* Internal dependencies */
 import Data from "./analysis/data.js";

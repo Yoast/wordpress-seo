@@ -1,5 +1,5 @@
 // External dependencies.
-import get from "lodash/get";
+import { get } from "lodash-es";
 
 /**
  * Retrieves the default query params.

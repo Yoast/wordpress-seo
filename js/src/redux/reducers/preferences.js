@@ -1,4 +1,4 @@
-import isUndefined from "lodash/isUndefined";
+import { isUndefined } from "lodash-es";
 import isContentAnalysisActive from "../../analysis/isContentAnalysisActive";
 import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
 import isCornerstoneActive from "../../analysis/isCornerstoneContentActive";

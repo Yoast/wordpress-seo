@@ -10,7 +10,7 @@ import {
 	TaxonomyAssessor,
 } from "yoastseo";
 
-var isUndefined = require( "lodash/isUndefined" );
+import { isUndefined } from "lodash-es";
 
 ( function( $ ) {
 	var i18n = new Jed( {

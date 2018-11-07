@@ -1,7 +1,7 @@
-import has from "lodash/has";
-import forEach from "lodash/forEach";
-import isEmpty from "lodash/isEmpty";
-import isUndefined from "lodash/isUndefined";
+import { has } from "lodash-es";
+import { forEach } from "lodash-es";
+import { isEmpty } from "lodash-es";
+import { isUndefined } from "lodash-es";
 
 /**
  * Gets the snippet editor data from a data collector.

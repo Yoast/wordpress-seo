@@ -1,8 +1,8 @@
 /* global wpseoReplaceVarsL10n, require, wp */
-import forEach from "lodash/forEach";
-import filter from "lodash/filter";
-import trim from "lodash/trim";
-import isUndefined from "lodash/isUndefined";
+import { forEach } from "lodash-es";
+import { filter } from "lodash-es";
+import { trim } from "lodash-es";
+import { isUndefined } from "lodash-es";
 import ReplaceVar from "./values/replaceVar";
 import {
 	removeReplacementVariable,

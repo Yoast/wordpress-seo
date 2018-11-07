@@ -1,8 +1,8 @@
 /* global YoastSEO */
 
-import isUndefined  from "lodash/isUndefined";
+import { isUndefined } from "lodash-es";
 import { helpers } from "yoastseo";
-import isNil from "lodash/isNil";
+import { isNil } from "lodash-es";
 const { scoreToRating } = helpers;
 
 /**

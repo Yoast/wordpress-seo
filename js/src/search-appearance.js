@@ -3,7 +3,7 @@
 /* External dependencies */
 import ReactDOM from "react-dom";
 import React from "react";
-import forEach from "lodash/forEach";
+import { forEach } from "lodash-es";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 

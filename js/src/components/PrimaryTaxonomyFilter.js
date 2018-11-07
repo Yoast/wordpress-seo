@@ -3,8 +3,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Fragment } from "@wordpress/element";
-import get from "lodash/get";
-import values from "lodash/values";
+import { get } from "lodash-es";
+import { values } from "lodash-es";
 import { __, sprintf } from "@wordpress/i18n";
 import { ClipboardButton } from "@wordpress/components";
 import styled from "styled-components";

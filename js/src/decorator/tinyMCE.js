@@ -1,7 +1,7 @@
 import analysis from "yoastseo";
 const { removeMarks } = analysis.markers;
 
-import _forEach from "lodash/forEach";
+import { forEach as _forEach } from "lodash-es";
 
 var MARK_TAG = "yoastmark";
 

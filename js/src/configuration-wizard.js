@@ -14,7 +14,7 @@ import Suggestions from "./components/Suggestions";
 import FinalStep from "./components/FinalStep";
 
 import { setTranslations } from "yoast-components";
-import isUndefined from "lodash/isUndefined";
+import { isUndefined } from "lodash-es";
 
 import YoastIcon from "../../images/Yoast_SEO_Icon.svg";
 

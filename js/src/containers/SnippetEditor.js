@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import {
 	SnippetEditor,
 } from "yoast-components";
-import identity from "lodash/identity";
-import get from "lodash/get";
+import { identity } from "lodash-es";
+import { get } from "lodash-es";
 import { __ } from "@wordpress/i18n";
 import { dispatch as wpDataDispatch } from "@wordpress/data";
 import analysis from "yoastseo";

@@ -1,5 +1,5 @@
 // External dependencies.
-import get from "lodash/get";
+import { get } from "lodash-es";
 
 // Internal dependencies.
 import getL10nObject from "./getL10nObject";

@@ -1,5 +1,5 @@
 var getTranslations = require( "./getTranslations" );
-var isEmpty = require( "lodash/isEmpty" );
+import { isEmpty } from "lodash-es";
 var Jed = require( "jed" );
 
 /**
