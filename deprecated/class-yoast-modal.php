@@ -3,6 +3,9 @@
  * @package WPSEO\Admin
  */
 
+// Mark this file as deprecated.
+_deprecated_file( __FILE__, 'WPSEO 9.2' );
+
 /**
  * Class to implement a React modal.
  *
