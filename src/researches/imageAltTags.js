@@ -40,7 +40,13 @@ const matchAltProperties = function( imageMatches, topicForms, locale ) {
 
 		const keywordMatchedInAltTag = findTopicFormsInString( topicForms, alttag, true, locale );
 
-		if ( keywordMatchedInAltTag.percentWordMatches < 50 && alttag !== "" ) {
+		if ( keywordMatchedInAltTag.countWordMatches === 0 && alttag !== "" && ( ! ( process.env.YOAST_RECALIBRATION === "enabled" ) ) ) {
+			// Match for keywords?
+			altProperties.withAltNonKeyword++;
+			continue;
+		}
+
+		if ( keywordMatchedInAltTag.percentWordMatches < 50 && alttag !== "" && ( process.env.YOAST_RECALIBRATION === "enabled" ) ) {
 			// Match for keywords?
 			altProperties.withAltNonKeyword++;
 			continue;
