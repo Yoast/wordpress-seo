@@ -11,6 +11,7 @@ import Results from "./Results";
 import Collapsible from "../SidebarCollapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
+import { LocationConsumer } from "../contexts/location";
 import { HelpLink } from "./SeoAnalysis";
 
 const AnalysisHeader = styled.span`
@@ -43,35 +44,39 @@ class ReadabilityAnalysis extends React.Component {
 		}
 
 		return (
-			<Collapsible
-				title={ __( "Readability analysis", "wordpress-seo" ) }
-				titleScreenReaderText={ score.screenReaderReadabilityText }
-				prefixIcon={ getIconForScore( score.className ) }
-				prefixIconCollapsed={ getIconForScore( score.className ) }
-			>
-				<AnalysisHeader>
-					{ __( "Analysis results", "wordpress-seo" ) }
-					<StyledHelpLink
-						href={ wpseoAdminL10n[ "shortlinks.readability_analysis_info" ] }
-						rel={ null }
-						className="dashicons"
+			<LocationConsumer>
+				{ context => (
+					<Collapsible
+						title={ __( "Readability analysis", "wordpress-seo" ) }
+						titleScreenReaderText={ score.screenReaderReadabilityText }
+						prefixIcon={ getIconForScore( score.className ) }
+						prefixIconCollapsed={ getIconForScore( score.className ) }
+						id={ `yoast-readability-analysis-collapsible-${ context }` }
 					>
-						<span className="screen-reader-text">
-							{ __( "Learn more about the readability analysis", "wordpress-seo" ) }
-						</span>
-					</StyledHelpLink>
-				</AnalysisHeader>
-
-				<Results
-					canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
-					showLanguageNotice={ false }
-					changeLanguageLink={ localizedData.settings_link }
-					language={ localizedData.language }
-					results={ this.props.results }
-					marksButtonClassName="yoast-tooltip yoast-tooltip-s"
-					marksButtonStatus={ this.props.marksButtonStatus }
-				/>
-			</Collapsible>
+						<AnalysisHeader>
+							{ __( "Analysis results", "wordpress-seo" ) }
+							<StyledHelpLink
+								href={ wpseoAdminL10n[ "shortlinks.readability_analysis_info" ] }
+								rel={ null }
+								className="dashicons"
+							>
+								<span className="screen-reader-text">
+									{ __( "Learn more about the readability analysis", "wordpress-seo" ) }
+								</span>
+							</StyledHelpLink>
+						</AnalysisHeader>
+						<Results
+							canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
+							showLanguageNotice={ false }
+							changeLanguageLink={ localizedData.settings_link }
+							language={ localizedData.language }
+							results={ this.props.results }
+							marksButtonClassName="yoast-tooltip yoast-tooltip-s"
+							marksButtonStatus={ this.props.marksButtonStatus }
+						/>
+					</Collapsible>
+				) }
+			</LocationConsumer>
 		);
 	}
 }

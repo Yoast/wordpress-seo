@@ -3,7 +3,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 // Required to make Material UI work with touch screens.
-import injectTapEventPlugin from "react-tap-event-plugin";
 import { OnboardingWizard } from "yoast-components";
 import { MessageBox } from "yoast-components";
 
@@ -20,8 +19,6 @@ import isUndefined from "lodash/isUndefined";
 import YoastIcon from "../../images/Yoast_SEO_Icon.svg";
 
 import { setYoastComponentsL10n } from "./helpers/i18n";
-
-injectTapEventPlugin();
 
 class App extends React.Component {
 	/**

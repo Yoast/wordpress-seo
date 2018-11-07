@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '9.1-RC4' );
+define( 'WPSEO_VERSION', '9.1' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -60,7 +60,6 @@ function wpseo_auto_load( $class ) {
 		$classes = array(
 			'wp_list_table'   => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
 			'walker_category' => ABSPATH . 'wp-includes/category-template.php',
-			'pclzip'          => ABSPATH . 'wp-admin/includes/class-pclzip.php',
 		);
 	}
 
