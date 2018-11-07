@@ -180,12 +180,12 @@ class WPSEO_Admin_Asset_Manager {
 
 		wp_register_script( 'lodash-base', plugins_url( 'js/vendor/lodash.min.js', WPSEO_FILE ), array(), false, true );
 		wp_register_script( 'lodash', plugins_url( 'js/vendor/lodash-noconflict.js', WPSEO_FILE ), array( 'lodash-base' ), false, true );
-		wp_register_script( 'wp-polyfill-ecmascript', plugins_url( 'js/dist/babel-polyfill-' . $flat_version . '.js', WPSEO_FILE ), array(), false, true );
+		wp_register_script( 'wp-polyfill', plugins_url( 'js/dist/babel-polyfill-' . $flat_version . '.js', WPSEO_FILE ), array(), false, true );
 
 		wp_register_script(
 			'wp-element',
 			plugins_url( 'js/dist/wp-element-' . $flat_version . '.js', WPSEO_FILE ),
-			array( 'lodash', 'wp-polyfill-ecmascript' ),
+			array( 'lodash', 'wp-polyfill' ),
 			false,
 			true
 		);
@@ -193,7 +193,7 @@ class WPSEO_Admin_Asset_Manager {
 		wp_register_script(
 			'wp-api-fetch',
 			plugins_url( 'js/dist/wp-apiFetch-' . $flat_version . '.js', WPSEO_FILE ),
-			array( 'wp-i18n', 'wp-polyfill-ecmascript' ),
+			array( 'wp-i18n', 'wp-polyfill' ),
 			false,
 			true
 		);
@@ -201,7 +201,7 @@ class WPSEO_Admin_Asset_Manager {
 		wp_register_script(
 			'wp-components',
 			plugins_url( 'js/dist/wp-components-' . $flat_version . '.js', WPSEO_FILE ),
-			array( 'lodash', 'wp-api-fetch', 'wp-i18n', 'wp-polyfill-ecmascript' ),
+			array( 'lodash', 'wp-api-fetch', 'wp-i18n', 'wp-polyfill' ),
 			false,
 			true
 		);
@@ -209,7 +209,7 @@ class WPSEO_Admin_Asset_Manager {
 		wp_register_script(
 			'wp-data',
 			plugins_url( 'js/dist/wp-data-' . $flat_version . '.js', WPSEO_FILE ),
-			array( 'lodash', 'wp-element', 'wp-polyfill-ecmascript' ),
+			array( 'lodash', 'wp-element', 'wp-polyfill' ),
 			false,
 			true
 		);
@@ -217,7 +217,7 @@ class WPSEO_Admin_Asset_Manager {
 		wp_register_script(
 			'wp-i18n',
 			plugins_url( 'js/dist/wp-i18n-' . $flat_version . '.js', WPSEO_FILE ),
-			array( 'wp-polyfill-ecmascript' ),
+			array( 'wp-polyfill' ),
 			false,
 			true
 		);
@@ -250,7 +250,7 @@ class WPSEO_Admin_Asset_Manager {
 				// Load webpack-commons for bundle support.
 				'src'  => 'commons-' . $flat_version,
 				'deps' => array(
-					'wp-polyfill-ecmascript'
+					'wp-polyfill'
 				),
 			),
 			array(
