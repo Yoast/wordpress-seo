@@ -1,3 +1,7 @@
+const fs = require( "fs" );
+const path = require( "path" );
+const request = require( "request" );
+
 /**
  * A task which deploys the recalibration files to MyYoast.
  *
@@ -10,6 +14,29 @@ module.exports = function( grunt ) {
 		"publish-recalibration",
 		"Deploys the recalibration files to My Yoast.",
 		function() {
+			/**
+			 * Post a request.
+			 *
+			 * @see https://github.com/request/request
+			 *
+			 * @param {Object} options The request options.
+			 *
+			 * @returns {Promise} The promise of a request response.
+			 */
+			function postRequest( options ) {
+				return new Promise( ( resolve, reject ) => {
+					request.post( options, function( error, response ) {
+						if ( error || response.statusCode !== 200 ) {
+							reject( { error, response } );
+						}
+						resolve( { options, response } );
+					} );
+				} );
+			}
+
+			// Post requests are async. Therefore, this task is too.
+			const done = this.async();
+
 			// Read the versions from the package.json file.
 			const packageJson = grunt.file.readJSON( "./package.json" );
 			const recalibrationVersion = parseInt( packageJson.yoast.recalibrationVersion, 10 );
@@ -25,14 +52,18 @@ module.exports = function( grunt ) {
 				return;
 			}
 
+			// Read the recalibration secrets.
+			const secret = grunt.file.readYAML( "./.recalibration.yaml" );
+
 			// Use the first match as prefix.
 			const version = pluginMatch[ 0 ] + "." + recalibrationVersion;
+			grunt.verbose.writeln();
 			grunt.verbose.write( "Recalibration version " );
 			grunt.verbose.ok( version );
 			grunt.verbose.writeln();
 
-			// Populate the tasks array with exec:deployToMyYoast commands.
-			const tasks = [];
+			// Convert these entries to request data and collect the request promises.
+			const requests = [];
 			const entries = [
 				{
 					name: "analysis-worker",
@@ -42,24 +73,46 @@ module.exports = function( grunt ) {
 					file: "analysis",
 				},
 			];
-			entries.forEach( function( entry ) {
+			entries.forEach( ( entry ) => {
 				// Create the filename.
 				const filename = "./js/dist/" + entry.file + "-" + pluginVersion.dotless + ".min.js";
 
 				grunt.verbose.writeln( "Entry", entry.name );
 				grunt.verbose.writeln( "File:", filename );
 
-				// Sanity check before adding to the tasks.
+				// Sanity check the file.
 				if ( grunt.file.exists( filename ) ) {
-					tasks.push( [ "exec:deployToMyYoast", entry.name, filename, version ].join( ":" ) );
 					grunt.verbose.ok();
+
+					// Save the request promise.
+					requests.push(
+						postRequest( {
+							url: "https://my.yoast.com/api/Downloads/file/" + entry.name,
+							formData: {
+								file: fs.createReadStream( path.resolve( filename ) ),
+								"content-type": "application/javascript",
+								version: version,
+								secret: secret[ entry.name ],
+							},
+						} )
+					);
 				} else {
 					grunt.verbose.error();
 				}
 				grunt.verbose.writeln();
 			} );
 
-			grunt.task.run( tasks );
+			// Wait on the promises.
+			grunt.verbose.write( "Uploading..." );
+			Promise.all( requests )
+				.then( () => {
+					grunt.verbose.ok();
+					done();
+				} )
+				.catch( () => {
+					grunt.verbose.error();
+					done();
+				} );
 		}
 	);
 };

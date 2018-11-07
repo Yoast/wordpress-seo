@@ -5170,11 +5170,6 @@ grunt-eslint@^21.0.0:
     chalk "^2.1.0"
     eslint "^5.0.0"
 
-grunt-exec@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/grunt-exec/-/grunt-exec-3.0.0.tgz#881f868d64098788fddaf22fa25d8572a9d64dc7"
-  integrity sha512-cgAlreXf3muSYS5LzW0Cc4xHK03BjFOYk0MqCQ/MZ3k1Xz2GU7D+IAJg4UKicxpO+XdONJdx/NJ6kpy2wI+uHg==
-
 "grunt-glotpress@https://github.com/Yoast/grunt-glotpress.git#master":
   version "0.2.2"
   resolved "https://github.com/Yoast/grunt-glotpress.git#6c0b12698cdc3e6e1b686bd74286c5595615e5b2"
@@ -9855,7 +9850,7 @@ request@2, request@2.87.0, request@^2.79.0:
     tunnel-agent "^0.6.0"
     uuid "^3.1.0"
 
-request@^2.61.0, request@^2.87.0:
+request@^2.61.0, request@^2.87.0, request@^2.88.0:
   version "2.88.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   integrity sha512-NAqBSrijGLZdM0WZNsInLJpkJokL72XYjUpnB0iwsRgxh7dB6COrHnTBNwN0E+lHDAJzu7kLAkDeY08z2/A0hg==
