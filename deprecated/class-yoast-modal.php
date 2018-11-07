@@ -13,9 +13,6 @@ _deprecated_file( __FILE__, 'WPSEO 9.2' );
  */
 class Yoast_Modal {
 
-	/** @var array The modal configuration. */
-	private static $config = array();
-
 	/**
 	 * Class constructor.
 	 *
