@@ -106,6 +106,29 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 9.2.0 =
+Release Date: November 20th, 2018
+
+Enhancements:
+
+* Adds the latest og:locale options provided by Facebook. Props to [valtlfelipe](https://github.com/valtlfelipe)
+* Adds support for oEmbed utilization of Yoast custom fields (post meta) values. Specifically the image and the title. Props to [ben-caplan](https://github.com/ben-caplan)
+* Improves the accessibility of the "Bulk editor" and "Search console" tables.
+* Defines attachment as non-accessible when attachment urls are redirected to the attachment file itself. Props to [@stodorovic](https://github.com/stodorovic)
+* Hides SEO title and metadescription fields on the author edit page when the author archives are disabled.
+* Replaces Settings ZIP download (export) and upload (import) functionality with Settings fields.
+
+Bugfixes:
+
+* Fixes a bug where the excerpt replacement variable will output a piece of the post content when no excerpt is given.
+* Fixes a bug where the Dashboard Widget was not displayed in the correct language.
+* Fixes a bug where the wrong title is rendered for the WooCommerce product archive.
+* Fixes a bug where the Yoast metabox is visible even when the attachment urls are redirected to the attachment file itself.
+
+Other:
+
+* Deprecates the Yoast_Modal class.
+
 = 9.1.1 =
 Release Date: November 13th, 2018
 
