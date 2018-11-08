@@ -62,7 +62,7 @@ function applyAnnotationQueueItem() {
 		return;
 	}
 
-	dispatch( "core/editor" ).addAnnotation( nextAnnotation );
+	dispatch( "core/annotations" ).addAnnotation( nextAnnotation );
 
 	// eslint-disable-next-line no-use-before-define
 	scheduleAnnotationQueueApplication();
@@ -88,7 +88,7 @@ function scheduleAnnotationQueueApplication() {
  */
 export function isAnnotationAvailable() {
 	return isFunction( select( "core/editor" ).getBlocks ) &&
-		isFunction( dispatch( "core/editor" ).addAnnotation );
+		isFunction( dispatch( "core/annotations" ).addAnnotation );
 }
 
 /**
@@ -186,7 +186,7 @@ function getAnnotateAbleAttributes( blockTypeName ) {
 export function applyAsAnnotations( paper, marks ) {
 	if ( marks.length === 0 ) {
 		annotationQueue = [];
-		dispatch( "core/editor" ).removeAnnotationsBySource( ANNOTATION_SOURCE );
+		dispatch( "core/annotations" ).removeAnnotationsBySource( ANNOTATION_SOURCE );
 		return;
 	}
 
