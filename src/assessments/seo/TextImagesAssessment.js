@@ -197,15 +197,6 @@ export default class TextImagesAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the only image has an alt-tag with the keyphrase (needed to return a nice feedback).
-	 *
-	 * @returns {boolean} Returns true if the only image has an alt-tag with the keyphrase.
-	 */
-	hasOneImageWithKeyword() {
-		return ( this.imageCount === 1 && this.altProperties.withAltKeyword === 1 );
-	}
-
-	/**
 	 * Checks whether there is a sufficient number of alt tags with keywords. This check is applicable when there are
 	 * 5 or more images.
 	 *
@@ -269,7 +260,8 @@ export default class TextImagesAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sImage alt attributes%3$s: " +
-						"Images on this page do not have alt attributes with at least half of the words from your keyphrase. %2$sFix that%3$s!"
+						"Images on this page do not have alt attributes that reflect the topic of your text. " +
+						"%2$sAdd your keyphrase or synonyms to the alt tags of relevant images%3$s!"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -288,12 +280,12 @@ export default class TextImagesAssessment extends Assessment {
 					 * %5$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, only %1$d has an alt attribute with " +
-						"at least half of the words from your keyphrase. " +
-						"%4$sFix that%5$s!",
-						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, only %1$d have alt attributes with " +
-						"at least half of the words from your keyphrase. " +
-						"%4$sFix that%5$s!",
+						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, only %1$d has an alt attribute that " +
+						"reflects the topic of your text. " +
+						"%4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!",
+						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, only %1$d have alt attributes that " +
+						"reflect the topic of your text. " +
+						"%4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!",
 						this.altProperties.withAltKeyword,
 					),
 					this.altProperties.withAltKeyword,
@@ -305,7 +297,11 @@ export default class TextImagesAssessment extends Assessment {
 			};
 		}
 
-		if ( this.hasOneImageWithKeyword() ) {
+		/*
+		 * The hasGoodNumberOfMatches check needs to be made before the check for too many matches because of the special rule for
+		 * exactly 5 matches.
+		 */
+		if ( this.hasGoodNumberOfMatches() ) {
 			return {
 				score: this._config.scoresRecalibration.withAltGoodNumberOfKeywordMatches,
 				resultText: i18n.sprintf(
@@ -313,36 +309,8 @@ export default class TextImagesAssessment extends Assessment {
 					 * %2$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sImage alt attributes%2$s: The image on this page contains an alt attribute with at least half " +
-						"of the words from the keyphrase. Good job!",
+						"%1$sImage alt attributes%2$s: Good job!",
 					),
-					this._config.urlTitle,
-					"</a>"
-				),
-			};
-		}
-
-		/*
-		 * This check needs to be made before the check for too many matches because of the special rule for
-		 * exactly 5 matches.
-		 */
-		if ( this.hasGoodNumberOfMatches() ) {
-			return {
-				score: this._config.scoresRecalibration.withAltGoodNumberOfKeywordMatches,
-				resultText: i18n.sprintf(
-					/* Translators: %1$d expands to the number of images containing an alt attribute with the keyword,
-                     * %2$d expands to the total number of images, %3$s expands to a link on yoast.com,
-					 * %4$s expands to the anchor end tag. */
-					i18n.dngettext(
-						"js-text-analysis",
-						"%3$sImage alt attributes%4$s: Out of %2$d images on this page, %1$d has an alt attribute with at " +
-						"least half of the words from the keyphrase. Good job!",
-						"%3$sImage alt attributes%4$s: Out of %2$d images on this page, %1$d have alt attributes with at " +
-						"least half of the words from the keyphrase. Good job!",
-						this.altProperties.withAltKeyword
-					),
-					this.altProperties.withAltKeyword,
-					this.imageCount,
 					this._config.urlTitle,
 					"</a>"
 				),
@@ -358,9 +326,9 @@ export default class TextImagesAssessment extends Assessment {
 					 * %5$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, %1$d have alt attributes with at " +
-						"least half of the words from the keyphrase. " +
-						"That's a bit much. %4$sOnly include the focus keyphrase when it really fits the image%5$s.",
+						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, %1$d have alt attributes with " +
+						"words from your keyphrase or synonyms. " +
+						"That's a bit much. %4$sOnly include the keyphrase or its synonyms when it really fits the image%5$s.",
 					),
 					this.altProperties.withAltKeyword,
 					this.imageCount,
@@ -377,7 +345,8 @@ export default class TextImagesAssessment extends Assessment {
 			resultText: i18n.sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis", "%1$sImage alt attributes%3$s: " +
-					"Images on this page do not have alt attributes with words from your keyphrase. %2$sFix that%3$s!" ),
+					"Images on this page do not have alt attributes that reflect the topic of your text. " +
+					"%2$sAdd your keyphrase or synonyms to the alt tags of relevant images%3$s!" ),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
 				"</a>"
