@@ -59,4 +59,7 @@ module.exports = {
 	yoastSrc: resolveApp( '../../src' ),
 	yoastSpec: resolveApp( '../../spec' ),
 	yoastComponents: resolveApp( 'node_modules/yoast-components' ),
+	wpI18n: resolveApp( "node_modules/@wordpress/i18n" ),
+	react: resolveApp( "node_modules/react" ),
+	reactDom: resolveApp( "node_modules/react-dom" ),
 };
