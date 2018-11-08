@@ -19,6 +19,7 @@ const storageStates = [
 const preloadedState = {
 	configuration: {
 		useKeywordDistribution: true,
+		logLevel: "debug",
 	},
 	paper: {
 		text: "",
