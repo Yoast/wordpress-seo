@@ -106,6 +106,16 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 9.1.1 =
+Release Date: November 13th, 2018
+
+Enhancements:
+
+* Adds the `__block_editor_compatible_meta_box` flag to our metabox registrations to indicate they are compatible with WordPress 5.0.
+
+Compatibility:
+* Revise the enqueue order of the JavaScript assets to ensure compatibility with the classic editor plugin and WordPress 5.0.
+
 = 9.1.0 =
 Release Date: November 6th, 2018
 
