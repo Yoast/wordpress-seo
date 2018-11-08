@@ -114,6 +114,7 @@ Enhancements:
 * Adds the `__block_editor_compatible_meta_box` flag to our metabox registrations to indicate they are compatible with WordPress 5.0.
 
 Compatibility:
+
 * Revise the enqueue order of the JavaScript assets to ensure compatibility with the classic editor plugin and WordPress 5.0.
 
 = 9.1.0 =
