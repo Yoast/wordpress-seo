@@ -68,7 +68,7 @@
     "redux": "^3.7.2",
     "styled-components": "^2.1.2",
     "whatwg-fetch": "^1.0.0",
-    "yoastseo": "^1.42.0"
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
