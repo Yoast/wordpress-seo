@@ -1,6 +1,7 @@
 import getWords from "../stringProcessing/getWords.js";
 import stripSpaces from "../stringProcessing/stripSpaces.js";
 import getFirstWordExceptions from "../helpers/getFirstWordExceptions.js";
+import { stripFullTags as stripTags } from "../stringProcessing/stripHTMLTags.js";
 
 import { isEmpty } from "lodash-es";
 import { forEach } from "lodash-es";
@@ -58,7 +59,7 @@ const compareFirstWords = function( sentenceBeginnings, sentences ) {
  * @returns {string} The first word of the sentence.
  */
 function getSentenceBeginning( sentence, firstWordExceptions ) {
-	const words = getWords( stripSpaces( sentence ) );
+	const words = getWords( stripTags( stripSpaces( sentence ) ) );
 
 	if ( words.length === 0 ) {
 		return "";
