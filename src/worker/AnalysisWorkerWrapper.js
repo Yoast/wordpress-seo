@@ -54,16 +54,11 @@ class AnalysisWorkerWrapper {
 	handleMessage( { data: { type, id, payload } } ) {
 		const request = this._requests[ id ];
 		if ( ! request ) {
-			console.warn( "AnalysisWebWorker: unmatched response", payload );
+			console.warn( "AnalysisWebWorker unmatched response:", payload );
 			return;
 		}
 
 		payload = Transporter.parse( payload );
-
-		if ( process.env.NODE_ENV === "development" ) {
-			// eslint-disable-next-line no-console
-			console.log( "wrapper <- worker", type, id, payload );
-		}
 
 		switch ( type ) {
 			case "initialize:done":
@@ -79,7 +74,7 @@ class AnalysisWorkerWrapper {
 				request.reject( payload );
 				break;
 			default:
-				console.warn( "AnalysisWebWorker: unrecognized action", type );
+				console.warn( "AnalysisWebWorker unrecognized action:", type );
 		}
 	}
 
@@ -163,11 +158,6 @@ class AnalysisWorkerWrapper {
 	 */
 	send( type, id, payload = {} ) {
 		payload = Transporter.serialize( payload );
-
-		if ( process.env.NODE_ENV === "development" ) {
-			// eslint-disable-next-line no-console
-			console.log( "wrapper -> worker", type, id, payload );
-		}
 
 		this._worker.postMessage( {
 			type,
