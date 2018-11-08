@@ -20,9 +20,10 @@ export default class OutboundLinksAssessment extends Assessment {
 
 		const defaultConfig = {
 			scores: {
-				noLinks: 6,
+				noLinksRegular: 6,
+				noLinksRecalibration: 3,
 				allNofollowed: 7,
-				moreNoFollowed: 8,
+				someNoFollowed: 8,
 				allFollowed: 9,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/34f" ),
@@ -72,18 +73,22 @@ export default class OutboundLinksAssessment extends Assessment {
 	 */
 	calculateScore( linkStatistics ) {
 		if ( linkStatistics.externalTotal === 0 ) {
-			return this._config.scores.noLinks;
+			if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
+				return this._config.scores.noLinksRecalibration;
+			}
+
+			return this._config.scores.noLinksRegular;
 		}
 
 		if ( linkStatistics.externalNofollow === linkStatistics.externalTotal ) {
 			return this._config.scores.allNofollowed;
 		}
 
-		if ( linkStatistics.externalNofollow < linkStatistics.externalTotal ) {
-			return this._config.scores.moreNoFollowed;
+		if ( linkStatistics.externalDofollow < linkStatistics.externalTotal ) {
+			return this._config.scores.someNoFollowed;
 		}
 
-		if ( linkStatistics.externalDofollow === linkStatistics.total ) {
+		if ( linkStatistics.externalDofollow === linkStatistics.externalTotal ) {
 			return this._config.scores.allFollowed;
 		}
 
@@ -133,7 +138,7 @@ export default class OutboundLinksAssessment extends Assessment {
 			);
 		}
 
-		if ( linkStatistics.externalNofollow < linkStatistics.externalTotal ) {
+		if ( linkStatistics.externalDofollow < linkStatistics.externalTotal ) {
 			return i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%2$s: " +

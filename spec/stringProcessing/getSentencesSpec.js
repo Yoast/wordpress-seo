@@ -300,4 +300,47 @@ describe( "Get sentences from text", function() {
 
 		testGetSentences( testCases );
 	} );
+
+	it( "Correctly gets sentences with a '<' signs in the middle or at the start.", function() {
+		const testCases = [
+			{
+				input: "This is a sentence with a < and is still one sentence.",
+				expected: [ "This is a sentence with a < and is still one sentence." ],
+			},
+			{
+				input: "This is a sentence. < This sentence begins with a smaller than sign.",
+				expected: [ "This is a sentence.", "< This sentence begins with a smaller than sign." ],
+			},
+			{
+				input: "This is a < sentence < with three '<' signs. This is another sentence.",
+				expected: [ "This is a < sentence < with three '<' signs.", "This is another sentence." ],
+			},
+			{
+				input: "This is a 10 < 20 signs. This is another sentence.",
+				expected: [ "This is a 10 < 20 signs.", "This is another sentence." ],
+			},
+			{
+				input: "This is a sentence <. This is another sentence.",
+				expected: [ "This is a sentence <.", "This is another sentence." ],
+			},
+			{
+				input: "This is a sentence. <",
+				expected: [ "This is a sentence.", "<" ],
+			},
+			{
+				input: "<",
+				expected: [ "<" ],
+			},
+			{
+				input: "Hey you! Obviously, 20.0 < 25.0 and 50.0 > 30.0. Do not tell anyone, it is a secret.",
+				expected: [ "Hey you!", "Obviously, 20.0 < 25.0 and 50.0 > 30.0.", "Do not tell anyone, it is a secret." ],
+			},
+			{
+				input: "Hey 40 < 50. However, 40 > 50.",
+				expected: [ "Hey 40 < 50.",  "However, 40 > 50." ],
+			},
+		];
+
+		testGetSentences( testCases );
+	} );
 } );

@@ -12,7 +12,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		} );
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher( { exactMatch: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false } ),
+			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false } ),
 			i18n );
 
 		expect( assessment.getScore() ).toBe( 2 );
@@ -30,7 +30,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		} );
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher( { exactMatch: true, allWordsFound: true, position: 0, exactMatchKeyphrase: false } ),
+			Factory.buildMockResearcher( { exactMatchFound: true, allWordsFound: true, position: 0, exactMatchKeyphrase: false } ),
 			i18n );
 
 		expect( assessment.getScore() ).toBe( 9 );
@@ -47,7 +47,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		} );
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher( { exactMatch: true, allWordsFound: true, position: 41, exactMatchKeyphrase: false } ),
+			Factory.buildMockResearcher( { exactMatchFound: true, allWordsFound: true, position: 41, exactMatchKeyphrase: false } ),
 			i18n );
 
 		expect( assessment.getScore() ).toBe( 6 );
@@ -65,7 +65,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		} );
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher( { exactMatch: false, allWordsFound: true, position: -1, exactMatchKeyphrase: false  } ),
+			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: true, position: -1, exactMatchKeyphrase: false  } ),
 			i18n );
 
 		expect( assessment.getScore() ).toBe( 6 );
@@ -82,7 +82,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		} );
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher( { exactMatch: false, allWordsFound: false, position: 0, exactMatchKeyphrase: true } ),
+			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: false, position: 0, exactMatchKeyphrase: true } ),
 			i18n );
 
 		expect( assessment.getScore() ).toBe( 2 );

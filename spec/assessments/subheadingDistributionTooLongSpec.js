@@ -124,7 +124,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 	} );
 } );
 
-describe( "A test for marking too long text segments not separated by a subheading", function() {
+describe.skip( "A test for marking too long text segments not separated by a subheading", function() {
 	it( "returns markers for too long text segments", function() {
 		const paper = new Paper( longText + subheading + veryLongText );
 		const textFragment = Factory.buildMockResearcher( [ { text: "This is a too long fragment. It contains 330 words.", wordCount: 330 }, { text: "This is another too long fragment. It contains 360 words.", wordCount: 360 } ] );
