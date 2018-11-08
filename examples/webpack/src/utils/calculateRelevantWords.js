@@ -38,12 +38,7 @@ export default function calculateRelevantWords( text, locale = "en_US" ) {
 			relevantWordPercentage: formatNumber( word.getRelevantWordPercentage() ),
 		};
 
-		if ( word._length === 1 ) {
-			output.lengthBonus = "";
-		} else {
-			output.lengthBonus = WordCombination.lengthBonus[ word._length ];
-		}
-
+		output.lengthBonus = word._length === 1 ? "" : WordCombination.lengthBonus[ word._length ];
 		output.density = formatNumber( word.getDensity( words.length ) );
 
 		return output;
