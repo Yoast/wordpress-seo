@@ -80,8 +80,8 @@ function renderLeftColumn( props ) {
 
 		<Container>
 			{ renderPaperAttribute( props, "locale", "en_US", "Locale", ( id, value ) => {
-				props.setConfigurationAttribute( id, value );
 				props.setPaperAttribute( id, value );
+				props.setConfigurationAttribute( id, value );
 			} ) }
 		</Container>
 	</section>;
