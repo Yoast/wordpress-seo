@@ -647,19 +647,4 @@ class WPSEO_Admin_Asset_Manager {
 			),
 		);
 	}
-
-	/**
-	 * Checks if the Gutenberg assets must be loaded.
-	 *
-	 * @return bool True when the Gutenberg assets must be loaded.
-	 */
-	protected function should_load_gutenberg_assets() {
-
-		// When working in the classic editor shipped with Gutenberg, the assets shouldn't be loaded. Fixes IE11 bug.
-		if ( isset( $_GET['classic-editor'] ) ) {
-			return false;
-		}
-
-		return wp_script_is( 'wp-element', 'registered' );
-	}
 }
