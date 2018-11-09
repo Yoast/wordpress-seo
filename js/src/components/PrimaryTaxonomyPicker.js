@@ -14,7 +14,7 @@ import diff from "lodash/difference";
 
 /* Internal dependencies */
 import TaxonomyPicker from "./TaxonomyPicker";
-import { determineParentsForTerm, findTermByID, determineHierarchicalStructure } from "../helpers/termHelpers";
+import { determineParentsForTerm, findTermByID } from "../helpers/termHelpers";
 
 const PrimaryTaxonomyPickerLabel = styled.label`
 	padding-top: 16px;
