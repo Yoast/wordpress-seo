@@ -179,9 +179,9 @@
 	&--choice {
 		& > .yoast-wizard--rows {
 			height: 100%;
-			/* Target IE10+ */
+			// Only needed for IE 10+. Don't add spaces within brackets for this to work.
 			@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-				width:100%;
+				width: 100%;
 			}
 		}
 
@@ -238,9 +238,9 @@
 
 			& > div {
 				margin-left: 0;
-				/* Target IE10+ */
+				// Only needed for IE 10+. Don't add spaces within brackets for this to work.
 				@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-					width:95.5%;
+					width: 95.5%;
 				}
 			}
 
