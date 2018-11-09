@@ -5,7 +5,8 @@ namespace Yoast\Tests\IntegrationTests\Config;
 use Yoast\YoastSEO\Config\Upgrade;
 
 /**
- * Class Upgrade_Test
+ * Class Upgrade_Test.
+ *
  * @package Yoast\Tests\IntegrationTests\Config
  */
 class Upgrade_Test extends \PHPUnit_Framework_TestCase {

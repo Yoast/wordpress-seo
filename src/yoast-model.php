@@ -19,7 +19,6 @@ use YoastSEO_Vendor\ORM;
  * class Widget extends Model {
  * }
  *
- *
  * The methods documented below are magic methods that conform to PSR-1.
  * This documentation exposes these methods to doc generators and IDEs.
  *

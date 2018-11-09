@@ -5,7 +5,7 @@ namespace Yoast\Tests\UnitTests\Formatters;
 use Yoast\Tests\Doubles\Indexable_Term_Formatter_Double;
 
 /**
- * Class Indexable_Term_Test
+ * Class Indexable_Term_Test.
  *
  * @group indexables
  * @group formatters
@@ -30,6 +30,7 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Tests the formatting of the indexable data.
+	 *
 	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::format
 	 */
 	public function test_format() {

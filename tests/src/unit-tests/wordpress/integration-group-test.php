@@ -37,7 +37,7 @@ class Integration_Group_Test extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_construct() {
 		$classname = '\Yoast\YoastSEO\WordPress\Integration_Group';
-		// make sure only integrations are loaded.
+		// Make sure only integrations are loaded.
 		$instance = $this
 			->getMockBuilder( $classname )
 			->setMethods( array( 'ensure_integration' ) )

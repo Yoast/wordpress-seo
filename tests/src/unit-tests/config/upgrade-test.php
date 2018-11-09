@@ -3,7 +3,8 @@
 namespace Yoast\Tests\UnitTests\Config;
 
 /**
- * Class Upgrade_Test
+ * Class Upgrade_Test.
+ *
  * @package Yoast\Tests\UnitTests\Config
  */
 class Upgrade_Test extends \PHPUnit_Framework_TestCase {
