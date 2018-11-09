@@ -24,6 +24,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 		parent::register_hooks();
 
 		add_filter( 'wpseo_cornerstone_post_types', array( 'WPSEO_Post_Type', 'filter_attachment_post_type' ) );
+		add_filter( 'wpseo_cornerstone_post_types', array( 'WPSEO_Post_Type', 'has_metabox_enabled' ) );
 	}
 
 	/**
