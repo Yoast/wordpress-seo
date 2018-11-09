@@ -1,8 +1,8 @@
 /* External dependencies */
 import isFunction from "lodash/isFunction";
-import isArray from "lodash/isArray";
+import isUndefined from "lodash/isUndefined";
 import find from "lodash/find";
-import { create, getFormatType } from "@wordpress/rich-text";
+import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
 import { string } from "yoastseo";
 
@@ -62,7 +62,7 @@ function applyAnnotationQueueItem() {
 		return;
 	}
 
-	dispatch( "core/annotations" ).addAnnotation( nextAnnotation );
+	dispatch( "core/annotations" ).__experimentalAddAnnotation( nextAnnotation );
 
 	// eslint-disable-next-line no-use-before-define
 	scheduleAnnotationQueueApplication();
@@ -88,7 +88,8 @@ function scheduleAnnotationQueueApplication() {
  */
 export function isAnnotationAvailable() {
 	return isFunction( select( "core/editor" ).getBlocks ) &&
-		isFunction( dispatch( "core/annotations" ).addAnnotation );
+		! isUndefined( select( "core/annotations" ) ) &&
+		isFunction( dispatch( "core/annotations" ).__experimentalAddAnnotation );
 }
 
 /**
@@ -186,7 +187,7 @@ function getAnnotateAbleAttributes( blockTypeName ) {
 export function applyAsAnnotations( paper, marks ) {
 	if ( marks.length === 0 ) {
 		annotationQueue = [];
-		dispatch( "core/annotations" ).removeAnnotationsBySource( ANNOTATION_SOURCE );
+		dispatch( "core/annotations" ).__experimentalRemoveAnnotationsBySource( ANNOTATION_SOURCE );
 		return;
 	}
 
