@@ -1,7 +1,7 @@
 /* External dependencies */
 import isFunction from "lodash/isFunction";
 import isUndefined from "lodash/isUndefined";
-import find from "lodash/find";
+import flatMap from "lodash/flatMap";
 import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
 import { string } from "yoastseo";
@@ -113,21 +113,19 @@ function getOffsets( mark ) {
 }
 
 /**
- * Calculates an array of annotations for the given content inside a block.
+ * Calculates an annotation if the given mark is applicable tot he content of a block.
  *
  * @param {string} content             The content of the block.
  * @param {Mark}   mark                The mark to apply to the content.
  * @param {string} block               The block ID to apply the mark to.
  * @param {string} multilineTag        The tag the block uses to signify multiple parts.
  * @param {string} multilineWrapperTag The tag the block uses as a container.
- * @returns {Array} The array of annotations to apply.
+ * @returns {Object} The annotation to apply.
  */
 function calculateAnnotationsForTextFormat( content, mark, block, multilineTag = false, multilineWrapperTag = false ) {
 	// Create a rich text record, because those are easier to work with.
 	const record = create( { html: content, multilineTag, multilineWrapperTag } );
 	const { text } = record;
-
-	const annotations = [];
 
 	let original = stripHTMLTags( mark.getOriginal() );
 	let foundIndex = text.indexOf( original );
@@ -143,27 +141,28 @@ function calculateAnnotationsForTextFormat( content, mark, block, multilineTag =
 		foundIndex = text.indexOf( original );
 	}
 
-	if ( foundIndex !== -1 ) {
-		const offsets = getOffsets( mark );
-
-		const startOffset = foundIndex + offsets.startOffset;
-		let endOffset = foundIndex + offsets.endOffset;
-
-		// If the marks are at the beginning and the end we can use the length
-		// Which gives more consistent results given we strip HTML tags in there.
-		if ( offsets.startOffset === 0 && offsets.endOffset === mark.getOriginal().length ) {
-			endOffset = foundIndex + original.length;
-		}
-
-		// Simplest possible solution:
-		annotations.push( {
-			block: block.clientId,
-			startOffset,
-			endOffset,
-		} );
+	// If we haven't found anything at this point, we bail.
+	if ( foundIndex === -1 ) {
+		return null;
 	}
 
-	return annotations;
+	const offsets = getOffsets( mark );
+
+	const startOffset = foundIndex + offsets.startOffset;
+	let endOffset = foundIndex + offsets.endOffset;
+
+	// If the marks are at the beginning and the end we can use the length
+	// Which gives more consistent results given we strip HTML tags in there.
+	if ( offsets.startOffset === 0 && offsets.endOffset === mark.getOriginal().length ) {
+		endOffset = foundIndex + original.length;
+	}
+
+	// Simplest possible solution:
+	return {
+		block: block.clientId,
+		startOffset,
+		endOffset,
+	};
 }
 
 /**
@@ -173,7 +172,47 @@ function calculateAnnotationsForTextFormat( content, mark, block, multilineTag =
  * @returns {string[]} The attributes that we can annotate.
  */
 function getAnnotateAbleAttributes( blockTypeName ) {
+	if ( ! ANNOTATION_ATTRIBUTES.hasOwnProperty( blockTypeName ) ) {
+		return [];
+	}
+
 	return ANNOTATION_ATTRIBUTES[ blockTypeName ];
+}
+
+/**
+ * Returns annotations that should be applied to the given attribute.
+ *
+ * @param {Object} attribute The attribute to apply annotations on.
+ * @param {Object} block     The block information in the state.
+ * @param {Array}  marks     The marks to turn into annotations.
+ *
+ * @returns {Array} The annotations to apply.
+ */
+function getAnnotationsForBlockAttribute( attribute, block, marks ) {
+	const attributeKey = attribute.key;
+
+	const { attributes } = block;
+	const attributeValue = attributes[ attributeKey ];
+
+	// For each mark see if it applies to this block.
+	return flatMap( marks, ( ( mark ) => {
+		const annotation = calculateAnnotationsForTextFormat(
+			attributeValue,
+			mark,
+			block,
+			attribute.multilineTag,
+			attribute.multilineWrapperTag,
+		);
+
+		if ( ! annotation ) {
+			return [];
+		}
+
+		return {
+			...annotation,
+			richTextIdentifier: attributeKey,
+		};
+	} ) );
 }
 
 /**
@@ -191,43 +230,15 @@ export function applyAsAnnotations( paper, marks ) {
 	}
 
 	const blocks = select( "core/editor" ).getBlocks();
-	const annotations = [];
 
-	blocks.forEach( ( block ) => {
-		// We can only annotate certain block types.
-		if ( ! Object.keys( ANNOTATION_ATTRIBUTES ).includes( block.name ) ) {
-			return;
-		}
-
-		const annotateAbleAttributes = getAnnotateAbleAttributes( block.name );
-
-		annotateAbleAttributes.forEach( ( attribute ) => {
-			const attributeKey = attribute.key;
-
-			const { attributes } = block;
-			const attributeValue = attributes[ attributeKey ];
-
-			// For each mark see if it applies to this block.
-			marks.forEach( ( mark ) => {
-				let addAnnotations = [];
-
-				addAnnotations = calculateAnnotationsForTextFormat(
-					attributeValue,
-					mark,
-					block,
-					attribute.multilineTag,
-					attribute.multilineWrapperTag
-				);
-
-				addAnnotations.forEach( ( addAnnotation ) => {
-					annotations.push( {
-						...addAnnotation,
-						richTextIdentifier: attributeKey,
-					} );
-				} );
-			} );
-		} );
-	} );
+	// For every block...
+	const annotations = flatMap( blocks, ( ( block ) => {
+		// We go through every annotate able attribute.
+		return flatMap(
+			getAnnotateAbleAttributes( block.name ),
+			( ( attribute ) => getAnnotationsForBlockAttribute( attribute, block, marks ) )
+		);
+	} ) );
 
 	annotationQueue = annotations.map( ( annotation ) => ( {
 		blockClientId: annotation.block,
