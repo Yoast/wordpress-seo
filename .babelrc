@@ -11,7 +11,7 @@
     [
       "transform-react-jsx",
       {
-        "pragma": "yoast._wp.element.createElement"
+        "pragma": "wp.element.createElement"
       }
     ],
     "dynamic-import-webpack",

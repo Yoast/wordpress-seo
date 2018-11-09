@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
-Tested up to: 4.9.8
-Stable tag: 9.0.2
+Tested up to: 5.0
+Stable tag: 9.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -106,30 +106,72 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 9.2.0 =
+Release Date: November 20th, 2018
+
+Enhancements:
+
+* Adds the latest og:locale options provided by Facebook. Props to [valtlfelipe](https://github.com/valtlfelipe)
+* Adds support for oEmbed utilization of Yoast custom fields (post meta) values. Specifically the image and the title. Props to [ben-caplan](https://github.com/ben-caplan)
+* Improves the accessibility of the "Bulk editor" and "Search console" tables.
+* Defines attachment as non-accessible when attachment urls are redirected to the attachment file itself. Props to [stodorovic](https://github.com/stodorovic)
+* Hides SEO title and metadescription fields on the author edit page when the author archives are disabled.
+* Replaces Settings ZIP download (export) and upload (import) functionality with Settings fields.
+
+Bugfixes:
+
+* Fixes a bug where the excerpt replacement variable will output a piece of the post content when no excerpt is given.
+* Fixes a bug where the Dashboard Widget was not displayed in the correct language.
+* Fixes a bug where the wrong title is rendered for the WooCommerce product archive.
+* Fixes a bug where the Yoast metabox is visible even when the attachment urls are redirected to the attachment file itself.
+* Fixes a bug where assessments would fail if a "<" character is present in the content.
+* Fixes a bug where paragraphs were sometimes not correctly detected because paragraph tags were not automatically added in WordPress-like fashion.
+
+Compatibility:
+
+* Adds the `__block_editor_compatible_meta_box` flag to our metabox registrations to indicate they are compatible with WordPress 5.0.
+* Revise the enqueue order of the JavaScript assets to ensure compatibility with the classic editor plugin and WordPress 5.0.
+
+Other:
+
+* Deprecates the Yoast_Modal class.
+* Disables the non-functioning markers for the subheading distribution assessment.
+* Refactor SEO assessment filenames and exports. Props to [Kingdutch](https://github.com/Kingdutch)
+
 = 9.1.0 =
 Release Date: November 6th, 2018
 
-## Enhancements:
-* Improves keyword recognition in the first paragraph on texts which start with images and captions.
-* Adds a warning notification to the permalink settings page, linking to a KN article. Props to [valtlfelipe](https://github.com/valtlfelipe)
-* Corrects spelling of the words "plug-in" and "set-up", resulting in less text needing translations. Props to [pedro-mendonca](https://github.com/pedro-mendonca)
-* Adds an additional string in the sidebar to the translatable strings. Props to [pedro-mendonca](https://github.com/pedro-mendonca)
-* Adds the filter `wpseo_opengraph_is_valid_image_url` that allows custom image url validation. Props to [petenelson](https://github.com/petenelson)
-* Updates the font size of the snippet title measure element to correctly mimic Google desktop snippet title. Props to [ol0lll](https://github.com/ol0lll)
-* Removes non-functioning eye-markers from the link keyphrase assessment.
+Enhancements:
 
-## Bugs:
-* Fixes a bug where a dependency wasn't loaded for the SEO -> Tools page.
-* Fixes a faulty reference to the old SEOAssessor class.
+* Improves keyphrase recognition in the first paragraph on texts which start with images and captions.
+* Adds a warning notification to the permalink settings page, linking to a knowledge base article. Props to [valtlfelipe](https://github.com/valtlfelipe)
+* Adds the filter `wpseo_opengraph_is_valid_image_url` that allows custom image URL validation. Props to [petenelson](https://github.com/petenelson)
+* Updates the font size of the snippet title measure element to correctly mimic Google desktop snippet title. Props to [ol0lll](https://github.com/ol0lll)
+
+Bugfixes:
+
 * Fixes a bug where the featured image was not recognized in the SEO analysis when using Gutenberg.
 * Fixes an accessibility issue where focus would be lost when removing an uploaded image in the configuration wizard.
 * Fixes a bug where notices were being thrown when quick editing a post and no post type object could be found.
+* Fixes a bug where a dependency wasn't loaded for the SEO -> Tools page.
+* Fixes a faulty reference to the old SEOAssessor class.
 * Fixes the copy of the date archives help text which contains faulty information. Props to [mkronenfeld](https://github.com/mkronenfeld)
+* Fixes the spelling of the words "plug-in" and "set-up". Props to [pedro-mendonca](https://github.com/pedro-mendonca)
 * Fixes a bug where a type error is thrown when the posts or terms focus keyword isn't of the type WP_Post as this can collide with third-party plugins.
-* Fixes a bug where the Chrome browser tab would crash on Windows when a French or Italian text contains sentences in passive voice. Props to [CarloCannas](https://github.com/CarloCannas)
 
-## Other
+Other:
+
 * Changes the reference in the admin bar menu from "AdWords External" to "Google Ads".
+* Removes non-functioning eye-markers for the link keyphrase assessment.
+
+= 9.0.3 =
+Release Date: October 30th, 2018
+
+Bugfixes:
+
+* Fixes a bug where the metabox was broken when using the classic editor plugin.
+* Fixes a bug where the Chrome browser tab would crash on Windows when a French or Italian text contains sentences in passive voice, props [CarloCannas](https://github.com/CarloCannas).
+* Fixes a bug where the Yoast SEO analysis would error if used together with the DelightfulDownloads plugin.
 
 = 9.0.2 =
 Release Date: October 24th, 2018

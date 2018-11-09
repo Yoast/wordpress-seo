@@ -101,5 +101,9 @@ module.exports = function( grunt ) {
 		"production-composer-install": {
 			command: "composer install --prefer-dist --optimize-autoloader --no-dev",
 		},
+
+		"production-prefix-dependencies": {
+			command: "composer install",
+		},
 	};
 };
