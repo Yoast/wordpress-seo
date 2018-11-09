@@ -36,13 +36,15 @@ const alias = {
 	"react-dom": path.join( root, "node_modules/react-dom" ),
 };
 
-module.exports = function( env = { environment: "production" } ) {
-	const mode = env.environment;
+module.exports = function( env = { environment: "production", recalibration: "disabled" } ) {
+	const mode = env.environment || process.env.NODE_ENV || "production";
+	const isRecalibration = ( env.recalibration || process.env.YOAST_RECALIBRATION || "disabled" ) === "enabled";
 
 	const plugins = [
 		new webpack.DefinePlugin( {
 			"process.env": {
 				NODE_ENV: JSON.stringify( mode ),
+				YOAST_RECALIBRATION: JSON.stringify( isRecalibration ? "enabled" : "disabled" ),
 			},
 		} ),
 		new UnminifiedWebpackPlugin(),
@@ -98,48 +100,77 @@ module.exports = function( env = { environment: "production" } ) {
 		externals,
 	};
 
-	const config = [
-		{
-			...base,
-			externals: {
-				...externals,
+	let config;
+	/*
+	 * When using recalibration in the production build:
+	 *
+	 * The only output should be files that use the analysis:
+	 * - Analysis Worker
+	 * - Analysis
+	 */
+	if ( isRecalibration && mode === "production" ) {
+		config = [
+			// Analysis web worker.
+			{
+				...base,
+				entry: {
+					"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
+				},
+				plugins,
+			},
+			// Analysis that is used as external (`window.yoastseo`).
+			{
+				...base,
+				entry: {
+					analysis: "./js/src/analysis.js",
+				},
+				plugins,
+			},
+		];
+	} else {
+		config = [
+			{
+				...base,
+				externals: {
+					...externals,
 
-				"@wordpress/element": "window.yoast._wp.element",
-				"@wordpress/data": "window.yoast._wp.data",
-				"@wordpress/components": "window.yoast._wp.components",
-				"@wordpress/i18n": "window.yoast._wp.i18n",
-				"@wordpress/api-fetch": "window.yoast._wp.apiFetch",
+					"@wordpress/element": "window.yoast._wp.element",
+					"@wordpress/data": "window.yoast._wp.data",
+					"@wordpress/components": "window.yoast._wp.components",
+					"@wordpress/i18n": "window.yoast._wp.i18n",
+					"@wordpress/api-fetch": "window.yoast._wp.apiFetch",
 
-				"styled-components": "window.yoast.styledComponents",
+					"styled-components": "window.yoast.styledComponents",
+				},
+				plugins: [
+					...plugins,
+					new webpack.optimize.CommonsChunkPlugin( {
+						name: "vendor",
+						filename: "commons-" + pluginVersionSlug + ".min.js",
+					} ),
+				],
 			},
-			plugins: [
-				...plugins,
-				new webpack.optimize.CommonsChunkPlugin( {
-					name: "vendor",
-					filename: "commons-" + pluginVersionSlug + ".min.js",
-				} ),
-			],
-		},
-		// Config for files that should not use any externals at all.
-		{
-			...base,
-			entry: {
-				"wp-seo-wp-globals-backport": "./js/src/wp-seo-wp-globals-backport.js",
-				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
-				"babel-polyfill": "./js/src/babel-polyfill.js",
+			// Config for files that should not use any externals at all.
+			{
+				...base,
+				entry: {
+					"wp-seo-wp-globals-backport": "./js/src/wp-seo-wp-globals-backport.js",
+					"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
+					"babel-polyfill": "./js/src/babel-polyfill.js",
+				},
+				plugins,
 			},
-			plugins,
-		},
-		// Config for files that should only use externals available in the web worker context.
-		{
-			...base,
-			externals: { yoastseo: "yoast.analysis" },
-			entry: {
-				"wp-seo-used-keywords-assessment": "./js/src/wp-seo-used-keywords-assessment.js",
+			// Config for files that should only use externals available in the web worker context.
+			{
+				...base,
+				externals: { yoastseo: "yoast.analysis" },
+				entry: {
+					"wp-seo-used-keywords-assessment": "./js/src/wp-seo-used-keywords-assessment.js",
+				},
+				plugins,
 			},
-			plugins,
-		},
-	];
+		];
+	}
 
 	if ( mode === "development" ) {
 		config[ 0 ].devServer = {

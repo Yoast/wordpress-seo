@@ -18,10 +18,12 @@
   "scripts": {
     "test": "jest",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
+    "build-recalibration": "yarn build --env.recalibration=enabled",
     "webpack-analyze-bundle": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json js/dist",
     "i18n-yoast-components": "cross-env NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-wordpress-seo": "cross-env NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "start": "webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development"
+    "start": "webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development",
+    "start-recalibration": "yarn start --env.recalibration=enabled"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",
@@ -100,6 +102,7 @@
     "react": "^16.3.0",
     "react-dom": "16.3.0",
     "redux-logger": "^3.0.6",
+    "request": "^2.88.0",
     "sassdash": "^0.9.0",
     "shusher": "^0.1.1",
     "svg-react-loader": "^0.4.5",
@@ -146,6 +149,7 @@
     "yoastseo": "^1.42.0"
   },
   "yoast": {
-    "pluginVersion": "9.1-RC4"
+    "pluginVersion": "9.1-RC4",
+    "recalibrationVersion": "1"
   }
 }
