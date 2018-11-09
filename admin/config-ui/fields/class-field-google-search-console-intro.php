@@ -19,11 +19,10 @@ class WPSEO_Config_Field_Google_Search_Console_Intro extends WPSEO_Config_Field 
 		$html =
 			sprintf(
 				/* translators: %1$s is the plugin name. */
-				esc_html__( '%1$s integrates with Google Search Console, a must-have tool for site owners.', 'wordpress-seo' ),
+				__( '%1$s integrates with Google Search Console, a must-have tool for site owners.<br>It provides you with information about the health of your site.', 'wordpress-seo' ),
 				'Yoast SEO'
 			) . '<br>' .
-			__( 'It provides you with information about the health of your site.', 'wordpress-seo' ) . '<br>' .
-			__( 'Don\'t have a Google account or is your site not activated yet?', 'wordpress-seo' ) . '<br>' .
+			esc_html__( 'Don\'t have a Google account or is your site not activated yet?', 'wordpress-seo' ) . '<br>' .
 			sprintf(
 				/* translators: %1$s is a link start tag to a Yoast help page, %2$s is the link closing tag. */
 				esc_html__( 'Find out %1$show to connect Google Search Console to your site%2$s.', 'wordpress-seo' ),
