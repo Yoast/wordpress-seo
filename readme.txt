@@ -127,22 +127,16 @@ Bugfixes:
 * Fixes a bug where assessments would fail if a "<" character is present in the content.
 * Fixes a bug where paragraphs were sometimes not correctly detected because paragraph tags were not automatically added in WordPress-like fashion.
 
+Compatibility:
+
+* Adds the `__block_editor_compatible_meta_box` flag to our metabox registrations to indicate they are compatible with WordPress 5.0.
+* Revise the enqueue order of the JavaScript assets to ensure compatibility with the classic editor plugin and WordPress 5.0.
+
 Other:
 
 * Deprecates the Yoast_Modal class.
 * Disables the non-functioning markers for the subheading distribution assessment.
 * Refactor SEO assessment filenames and exports. Props to [Kingdutch](https://github.com/Kingdutch)
-
-= 9.1.1 =
-Release Date: November 13th, 2018
-
-Enhancements:
-
-* Adds the `__block_editor_compatible_meta_box` flag to our metabox registrations to indicate they are compatible with WordPress 5.0.
-
-Compatibility:
-
-* Revise the enqueue order of the JavaScript assets to ensure compatibility with the classic editor plugin and WordPress 5.0.
 
 = 9.1.0 =
 Release Date: November 6th, 2018
