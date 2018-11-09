@@ -160,7 +160,6 @@ function calculateAnnotationsForTextFormat( content, mark, block, multilineTag =
 			block: block.clientId,
 			startOffset,
 			endOffset,
-			hash: [ block.clientId, startOffset, endOffset ].join( "-" ),
 		} );
 	}
 
@@ -221,18 +220,10 @@ export function applyAsAnnotations( paper, marks ) {
 				);
 
 				addAnnotations.forEach( ( addAnnotation ) => {
-					let { hash } = addAnnotation;
-					hash = hash + "-" + attributeKey;
-
-					const foundHash = find( annotations, [ "hash", hash ] );
-
-					if ( ! foundHash ) {
-						annotations.push( {
-							...addAnnotation,
-							richTextIdentifier: attributeKey,
-							hash,
-						} );
-					}
+					annotations.push( {
+						...addAnnotation,
+						richTextIdentifier: attributeKey,
+					} );
 				} );
 			} );
 		} );
