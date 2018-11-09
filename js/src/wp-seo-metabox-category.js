@@ -3,7 +3,7 @@
 import { dispatch } from "@wordpress/data";
 
 /* Internal dependencies */
-import determineParentsForTerm from "./helpers/determineParentsForTerm";
+import { determineParentsForTerm } from "./helpers/termHelpers";
 
 ( function( $ ) {
 	var primaryTermUITemplate, primaryTermScreenReaderTemplate;
