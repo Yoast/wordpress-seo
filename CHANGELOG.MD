@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 4.16.0 November 20th, 2018
+## 4.16.0 November 19th, 2018
 ### Added
 * Adds an Id prop to the Collapsible and ButtonSection component.
 
