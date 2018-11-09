@@ -18,7 +18,7 @@ function findTermByID( id, terms ) {
  *
  * @returns {Array} The parent term slugs.
  */
-function determineParentsForTerm ( termID, terms ) {
+function determineParentsForTerm( termID, terms ) {
 	const parents = [];
 	const term    = findTermByID( termID, terms );
 
@@ -51,11 +51,11 @@ function determineHierarchicalStructure( termID, terms ) {
 	const currentTerm = findTermByID( termID, terms );
 	const parents = determineParentsForTerm( termID, terms );
 
-	return [ ...Object.values(parents), currentTerm.slug ];
+	return [ ...Object.values( parents ), currentTerm.slug ];
 }
 
 export {
 	findTermByID,
 	determineParentsForTerm,
 	determineHierarchicalStructure,
-}
+};
