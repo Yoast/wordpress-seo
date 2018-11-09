@@ -1,4 +1,3 @@
-/* global wp */
 /* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
@@ -15,7 +14,7 @@ import diff from "lodash/difference";
 
 /* Internal dependencies */
 import TaxonomyPicker from "./TaxonomyPicker";
-import determineParentsForTerm from "../helpers/determineParentsForTerm";
+import { determineParentsForTerm, findTermByID, determineHierarchicalStructure } from "../helpers/termHelpers";
 
 const PrimaryTaxonomyPickerLabel = styled.label`
 	padding-top: 16px;
@@ -88,9 +87,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 	handleSelectedTermsChange() {
 		const { selectedTerms } = this.state;
 		const { primaryTaxonomyId } = this.props;
-		const selectedTerm = selectedTerms.find( term => {
-			return term.id === primaryTaxonomyId;
-		} );
+		const selectedTerm = findTermByID( primaryTaxonomyId, selectedTerms );
 
 		if ( ! selectedTerm ) {
 			/**
@@ -109,7 +106,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {boolean} Whther the term is available.
 	 */
 	termIsAvailable( termId ) {
-		return !! this.state.terms.find( term => term.id === termId );
+		return !! findTermByID( termId, this.state.terms );
 	}
 
 	/**
@@ -132,7 +129,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 					per_page: -1,
 					orderby: "count",
 					order: "desc",
-					_fields: "id,name",
+					_fields: "id,name,parent,slug",
 				}
 			),
 		} );
@@ -253,7 +250,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 			return;
 		}
 
-		return this.state.selectedTerms.find( term => term.id === termId );
+		return findTermByID( termId, this.state.selectedTerms );
 	}
 
 	/**
