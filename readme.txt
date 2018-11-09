@@ -114,7 +114,7 @@ Enhancements:
 * Adds the latest og:locale options provided by Facebook. Props to [valtlfelipe](https://github.com/valtlfelipe)
 * Adds support for oEmbed utilization of Yoast custom fields (post meta) values. Specifically the image and the title. Props to [ben-caplan](https://github.com/ben-caplan)
 * Improves the accessibility of the "Bulk editor" and "Search console" tables.
-* Defines attachment as non-accessible when attachment urls are redirected to the attachment file itself. Props to [@stodorovic](https://github.com/stodorovic)
+* Defines attachment as non-accessible when attachment urls are redirected to the attachment file itself. Props to [stodorovic](https://github.com/stodorovic)
 * Hides SEO title and metadescription fields on the author edit page when the author archives are disabled.
 * Replaces Settings ZIP download (export) and upload (import) functionality with Settings fields.
 
@@ -127,22 +127,16 @@ Bugfixes:
 * Fixes a bug where assessments would fail if a "<" character is present in the content.
 * Fixes a bug where paragraphs were sometimes not correctly detected because paragraph tags were not automatically added in WordPress-like fashion.
 
+Compatibility:
+
+* Adds the `__block_editor_compatible_meta_box` flag to our metabox registrations to indicate they are compatible with WordPress 5.0.
+* Revise the enqueue order of the JavaScript assets to ensure compatibility with the classic editor plugin and WordPress 5.0.
+
 Other:
 
 * Deprecates the Yoast_Modal class.
 * Disables the non-functioning markers for the subheading distribution assessment.
 * Refactor SEO assessment filenames and exports. Props to [Kingdutch](https://github.com/Kingdutch)
-
-= 9.1.1 =
-Release Date: November 13th, 2018
-
-Enhancements:
-
-* Adds the `__block_editor_compatible_meta_box` flag to our metabox registrations to indicate they are compatible with WordPress 5.0.
-
-Compatibility:
-
-* Revise the enqueue order of the JavaScript assets to ensure compatibility with the classic editor plugin and WordPress 5.0.
 
 = 9.1.0 =
 Release Date: November 6th, 2018
