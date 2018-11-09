@@ -114,7 +114,7 @@ Enhancements:
 * Adds the latest og:locale options provided by Facebook. Props to [valtlfelipe](https://github.com/valtlfelipe)
 * Adds support for oEmbed utilization of Yoast custom fields (post meta) values. Specifically the image and the title. Props to [ben-caplan](https://github.com/ben-caplan)
 * Improves the accessibility of the "Bulk editor" and "Search console" tables.
-* Defines attachment as non-accessible when attachment urls are redirected to the attachment file itself. Props to [@stodorovic](https://github.com/stodorovic)
+* Defines attachment as non-accessible when attachment urls are redirected to the attachment file itself. Props to [stodorovic](https://github.com/stodorovic)
 * Hides SEO title and metadescription fields on the author edit page when the author archives are disabled.
 * Replaces Settings ZIP download (export) and upload (import) functionality with Settings fields.
 
