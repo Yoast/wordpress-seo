@@ -2,7 +2,7 @@
 
 import stripSomeTags from "../stringProcessing/stripNonTextTags.js";
 
-import { getSubheadingContents } from "../stringProcessing/getSubheadings.js";
+import { getSubheadingContents, getSubheadingContentsTopLevel } from "../stringProcessing/getSubheadings.js";
 import { findTopicFormsInString } from "./findKeywordFormsInString.js";
 
 /**
@@ -39,7 +39,14 @@ export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
 	const result = { count: 0, matches: 0, percentReflectingTopic: 0 };
-	const subheadings = getSubheadingContents( text );
+
+	let subheadings;
+
+	if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
+		subheadings = getSubheadingContentsTopLevel( text );
+	} else {
+		subheadings = getSubheadingContents( text );
+	}
 
 	const useSynonyms = true;
 
