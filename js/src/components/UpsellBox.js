@@ -60,7 +60,7 @@ class UpsellBox extends React.Component {
 			<StyledList role="list">
 				{ benefits.map( ( benefit, index ) => {
 					return <li key={ index }>
-						<span aria-hidden="true"></span>
+						<span aria-hidden="true" />
 						{ interpolateComponents( {
 							mixedString: benefit.replace( "<strong>", "{{strong}}" ).replace( "</strong>", "{{/strong}}" ),
 							components: { strong: <strong /> },
@@ -79,9 +79,9 @@ class UpsellBox extends React.Component {
 	 * @returns {*} The HTML for the info paragraphs.
 	 */
 	createInfoParagraphs( paragraphs ) {
-		return(
+		return (
 			paragraphs.map( ( paragraph, index ) => {
-				return <p key={ index } >{ paragraph }</p>;
+				return <p key={ index }>{ paragraph }</p>;
 			} )
 		);
 	}
@@ -100,6 +100,7 @@ class UpsellBox extends React.Component {
 					{ ...this.props.upsellButton }
 				>
 					{ this.props.upsellButtonText }
+					{ this.props.upsellButtonHasCaret && <span aria-hidden="true" className="yoast-button-upsell__caret" /> }
 				</UpsellButton>
 				<ButtonLabel id={ this.props.upsellButton[ "aria-describedby" ] }>
 					{ this.props.upsellButtonLabel }
@@ -115,6 +116,7 @@ UpsellBox.propTypes = {
 	upsellButton: PropTypes.object,
 	upsellButtonText: PropTypes.string.isRequired,
 	upsellButtonLabel: PropTypes.string,
+	upsellButtonHasCaret: PropTypes.bool,
 };
 
 UpsellBox.defaultProps = {
@@ -125,6 +127,7 @@ UpsellBox.defaultProps = {
 		className: "button button-primary",
 	},
 	upsellButtonLabel: "",
+	upsellButtonHasCaret: true,
 };
 
 export default UpsellBox;

@@ -30,6 +30,9 @@ class WPSEO_Ryte_Service {
 	 * @return WP_REST_Response The response object.
 	 */
 	public function get_statistics() {
+		// Switch to the user locale with fallback to the site locale.
+		switch_to_locale( WPSEO_Language_Utils::get_user_locale() );
+
 		$result = false;
 
 		if ( $this->option->is_enabled() ) {
@@ -88,7 +91,7 @@ class WPSEO_Ryte_Service {
 			return array(
 				'score'     => 'na',
 				'label'     => esc_html( sprintf(
-				/* translators: %1$s: expands to Yoast SEO, %2$s: expands to Ryte. */
+					/* translators: %1$s: expands to Yoast SEO, %2$s: expands to Ryte. */
 					__( '%1$s has not fetched your site\'s indexability status yet from %2$s', 'wordpress-seo' ),
 					'Yoast SEO',
 					'Ryte'

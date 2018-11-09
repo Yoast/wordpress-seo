@@ -196,7 +196,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			add_meta_box( 'wpseo_meta', $product_title, array(
 				$this,
 				'meta_box',
-			), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
+			), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ), array(
+				'__block_editor_compatible_meta_box' => true,
+			) );
 		}
 	}
 
@@ -231,7 +233,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			new WPSEO_Post_Metabox_Formatter( $post, array(), $permalink )
 		);
 
-		$values     = $post_formatter->get_values();
+		$values = $post_formatter->get_values();
 
 		/** This filter is documented in admin/filters/class-cornerstone-filter.php */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
@@ -608,8 +610,28 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				break;
 
 			case 'upload':
-				$content .= '<input id="' . $esc_form_key . '" type="text" size="36" class="' . $class . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"' . $aria_describedby . ' />';
-				$content .= '<input id="' . $esc_form_key . '_button" class="wpseo_image_upload_button button" type="button" value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '" />';
+				$content .= '<input' .
+					' id="' . $esc_form_key . '"' .
+					' type="text"' .
+					' size="36"' .
+					' class="' . $class . '"' .
+					' name="' . $esc_form_key . '"' .
+					' value="' . esc_attr( $meta_value ) . '"' . $aria_describedby .
+					' readonly="readonly"' .
+					' />';
+				$content .= '<input' .
+					' id="' . esc_attr( $esc_form_key ) . '_button"' .
+					' class="wpseo_image_upload_button button"' .
+					' data-target="' . esc_attr( $esc_form_key ) . '"' .
+					' data-target-id="' . esc_attr( $esc_form_key ) . '-id"' .
+					' type="button"' .
+					' value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '"' .
+					' /> ';
+				$content .= '<input' .
+					' class="wpseo_image_remove_button button"' .
+					' type="button"' .
+					' value="' . esc_attr__( 'Clear Image', 'wordpress-seo' ) . '"' .
+					' />';
 				break;
 		}
 
@@ -800,6 +822,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoAnalysisWorkerL10n', array(
 			'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 			'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
+			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 		) );
 
 		/**

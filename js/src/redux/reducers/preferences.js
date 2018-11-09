@@ -2,6 +2,7 @@ import isUndefined from "lodash/isUndefined";
 import isContentAnalysisActive from "../../analysis/isContentAnalysisActive";
 import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
 import isCornerstoneActive from "../../analysis/isCornerstoneContentActive";
+import isWordFormRecognitionActive from "../../analysis/isWordFormRecognitionActive";
 
 /**
  * Gets the default state.
@@ -12,6 +13,7 @@ function getDefaultState() {
 	return {
 		isContentAnalysisActive: isContentAnalysisActive(),
 		isKeywordAnalysisActive: isKeywordAnalysisActive(),
+		isWordFormRecognitionActive: isUndefined( window.wpseoPremiumMetaboxData ) && isWordFormRecognitionActive(),
 		isCornerstoneActive: isCornerstoneActive() && isUndefined( window.wpseoTermScraperL10n ),
 		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ) && isUndefined( window.wpseoTermScraperL10n ),
 	};

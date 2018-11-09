@@ -16,7 +16,7 @@ const RaisedURLNewWindowButton = ( props ) => {
 	delete buttonProps.url;
 
 	return (
-		<a href={ props.url } target="_blank"><RaisedDefaultButton { ...buttonProps }/></a>
+		<a href={ props.url } target="_blank"><RaisedDefaultButton { ...buttonProps } /></a>
 	);
 };
 
@@ -26,7 +26,7 @@ RaisedURLNewWindowButton.propTypes = {
 };
 
 RaisedURLNewWindowButton.defaultProps = {
-	icon: <InfoIcon viewBox="0 0 28 28"/>,
+	icon: <InfoIcon viewBox="0 0 28 28" />,
 };
 
 export default RaisedURLNewWindowButton;

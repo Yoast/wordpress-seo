@@ -5,6 +5,7 @@ const { removeMarks } = analysis.markers;
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import {
+	excerptFromContent,
 	fillReplacementVariables,
 	mapCustomFields,
 	mapCustomTaxonomies,
@@ -58,18 +59,26 @@ class ClassicEditorData {
 	 * @returns {string} The title or an empty string.
 	 */
 	getTitle() {
-		let titleElement = document.getElementById( "title" );
+		const titleElement = document.getElementById( "title" );
 		return titleElement && titleElement.value || "";
 	}
 
 	/**
 	 * Gets the excerpt from the document.
 	 *
-	 * @returns {string} The excerpt or an empty string.
+	 * @param {boolean} useFallBack Whether the fallback for content should be used.
+	 *
+	 * @returns {string} The excerpt.
 	 */
-	getExcerpt() {
-		let excerptElement = document.getElementById( "excerpt" );
-		return excerptElement && excerptElement.value || "";
+	getExcerpt( useFallBack = true ) {
+		const excerptElement = document.getElementById( "excerpt" );
+		const excerptValue   = excerptElement && excerptElement.value || "";
+
+		if ( excerptValue !== "" || useFallBack === false ) {
+			return excerptValue;
+		}
+
+		return excerptFromContent( this.getContent() );
 	}
 
 	/**
@@ -80,7 +89,7 @@ class ClassicEditorData {
 	getSlug() {
 		let slug = "";
 
-		let newPostSlug = document.getElementById( "new-post-slug" );
+		const newPostSlug = document.getElementById( "new-post-slug" );
 
 		if ( newPostSlug ) {
 			slug = newPostSlug.value;
@@ -150,8 +159,14 @@ class ClassicEditorData {
 	 * @returns {void}
 	 */
 	updateReplacementData( event, targetReplaceVar ) {
-		const replaceValue = event.target.value;
+		let replaceValue = event.target.value;
+
+		if ( targetReplaceVar === "excerpt" && replaceValue === "" ) {
+			replaceValue = this.getExcerpt();
+		}
+
 		this._data[ targetReplaceVar ] = replaceValue;
+
 		this._store.dispatch( updateReplacementVariable( targetReplaceVar, replaceValue ) );
 	}
 
@@ -167,9 +182,9 @@ class ClassicEditorData {
 			return false;
 		}
 
-		for( let dataPoint in currentData ) {
+		for ( const dataPoint in currentData ) {
 			if ( currentData.hasOwnProperty( dataPoint ) ) {
-				if( ! ( dataPoint in newData ) || currentData[ dataPoint ] !== newData[ dataPoint ] ) {
+				if ( ! ( dataPoint in newData ) || currentData[ dataPoint ] !== newData[ dataPoint ] ) {
 					return false;
 				}
 			}
@@ -183,16 +198,32 @@ class ClassicEditorData {
 	 * @returns {void}
 	 */
 	refreshYoastSEO() {
-		let newData = this._store.getState().snippetEditor.data;
+		const newData = this.getData();
 
-		// Set isDirty to true if the current data and Gutenberg data are unequal.
-		let isDirty = ! this.isShallowEqual( this._previousData, newData );
+		// Set isDirty to true if the current data and editor data are unequal.
+		const isDirty = ! this.isShallowEqual( this._previousData, newData );
 
 		if ( isDirty ) {
+			this.handleEditorChange( newData );
 			this._previousData = newData;
 			if ( window.YoastSEO && window.YoastSEO.app ) {
 				window.YoastSEO.app.refresh();
 			}
+		}
+	}
+
+	/**
+	 * Updates the redux store with the changed data.
+	 *
+	 * @param {Object} newData The changed data.
+	 *
+	 * @returns {void}
+	 */
+	handleEditorChange( newData ) {
+		// Handle excerpt change
+		if ( this._data.excerpt !== newData.excerpt ) {
+			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
+			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt_only ) );
 		}
 	}
 
@@ -218,12 +249,13 @@ class ClassicEditorData {
 	getInitialData( replaceVars ) {
 		replaceVars = mapCustomFields( replaceVars, this._store );
 		replaceVars = mapCustomTaxonomies( replaceVars, this._store );
+
 		return {
 			...replaceVars,
 			title: this.getTitle(),
 			excerpt: this.getExcerpt(),
 			// eslint-disable-next-line
-			excerpt_only: this.getExcerpt(),
+			excerpt_only: this.getExcerpt( false ),
 			slug: this.getSlug(),
 			content: this.getContent(),
 		};
@@ -235,9 +267,13 @@ class ClassicEditorData {
 	 * @returns {Object} The data.
 	 */
 	getData() {
-		this._data.content = this.getContent();
-
-		return this._data;
+		return {
+			...this._store.getState().snippetEditor.data,
+			content: this.getContent(),
+			excerpt: this.getExcerpt(),
+			// eslint-disable-next-line
+			excerpt_only: this.getExcerpt( false ),
+		};
 	}
 }
 module.exports = ClassicEditorData;

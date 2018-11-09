@@ -83,6 +83,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	);
 
 	/**
+	 * @var string Name for an option higher in the hierarchy to override setting access.
+	 */
+	protected $override_option_name = 'wpseo_ms';
+
+	/**
 	 * Add the actions and filters for the option.
 	 *
 	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
@@ -117,6 +122,64 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		}
 
 		return self::$instance;
+	}
+
+	/**
+	 * Add filters to make sure that the option is merged with its defaults before being returned.
+	 *
+	 * @return void
+	 */
+	public function add_option_filters() {
+		parent::add_option_filters();
+
+		list( $hookname, $callback, $priority ) = $this->get_verify_features_option_filter_hook();
+
+		if ( has_filter( $hookname, $callback ) === false ) {
+			add_filter( $hookname, $callback, $priority );
+		}
+	}
+
+	/**
+	 * Remove the option filters.
+	 * Called from the clean_up methods to make sure we retrieve the original old option.
+	 *
+	 * @return void
+	 */
+	public function remove_option_filters() {
+		parent::remove_option_filters();
+
+		list( $hookname, $callback, $priority ) = $this->get_verify_features_option_filter_hook();
+
+		remove_filter( $hookname, $callback, $priority );
+	}
+
+	/**
+	 * Add filters to make sure that the option default is returned if the option is not set.
+	 *
+	 * @return void
+	 */
+	public function add_default_filters() {
+		parent::add_default_filters();
+
+		list( $hookname, $callback, $priority ) = $this->get_verify_features_default_option_filter_hook();
+
+		if ( has_filter( $hookname, $callback ) === false ) {
+			add_filter( $hookname, $callback, $priority );
+		}
+	}
+
+	/**
+	 * Remove the default filters.
+	 * Called from the validate() method to prevent failure to add new options.
+	 *
+	 * @return void
+	 */
+	public function remove_default_filters() {
+		parent::remove_default_filters();
+
+		list( $hookname, $callback, $priority ) = $this->get_verify_features_default_option_filter_hook();
+
+		remove_filter( $hookname, $callback, $priority );
 	}
 
 	/**
@@ -204,6 +267,64 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		}
 
 		return $clean;
+	}
+
+	/**
+	 * Verifies that the feature variables are turned off if the network is configured so.
+	 *
+	 * @param mixed $options Value of the option to be returned. Typically an array.
+	 *
+	 * @return mixed Filtered $options value.
+	 */
+	public function verify_features_against_network( $options = array() ) {
+		if ( ! is_array( $options ) || empty( $options ) ) {
+			return $options;
+		}
+
+		// For the feature variables, set their values to off in case they are disabled.
+		$feature_vars = array(
+			'disableadvanced_meta'       => false,
+			'onpage_indexability'        => false,
+			'content_analysis_active'    => false,
+			'keyword_analysis_active'    => false,
+			'enable_admin_bar_menu'      => false,
+			'enable_cornerstone_content' => false,
+			'enable_xml_sitemap'         => false,
+			'enable_text_link_counter'   => false,
+		);
+
+		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.
+		$options = $this->prevent_disabled_options_update( $options, $feature_vars );
+
+		return $options;
+	}
+
+	/**
+	 * Gets the filter hook name and callback for adjusting the retrieved option value against the network-allowed features.
+	 *
+	 * @return array Array where the first item is the hook name, the second is the hook callback,
+	 *               and the third is the hook priority.
+	 */
+	protected function get_verify_features_option_filter_hook() {
+		return array(
+			"option_{$this->option_name}",
+			array( $this, 'verify_features_against_network' ),
+			11,
+		);
+	}
+
+	/**
+	 * Gets the filter hook name and callback for adjusting the default option value against the network-allowed features.
+	 *
+	 * @return array Array where the first item is the hook name, the second is the hook callback,
+	 *               and the third is the hook priority.
+	 */
+	protected function get_verify_features_default_option_filter_hook() {
+		return array(
+			"default_option_{$this->option_name}",
+			array( $this, 'verify_features_against_network' ),
+			11,
+		);
 	}
 
 	/**

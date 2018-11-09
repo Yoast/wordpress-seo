@@ -1,16 +1,13 @@
-/* globals wpseoAdminL10n */
 import React from "react";
 import { connect } from "react-redux";
 import {
 	SnippetEditor,
-	HelpText,
 } from "yoast-components";
 import identity from "lodash/identity";
 import get from "lodash/get";
 import { __ } from "@wordpress/i18n";
 import { dispatch as wpDataDispatch } from "@wordpress/data";
 import analysis from "yoastseo";
-import { utils } from "yoast-components";
 const { stripHTMLTags: stripFullTags } = analysis.string;
 
 import {
@@ -19,8 +16,6 @@ import {
 } from "../redux/actions/snippetEditor";
 import { updateAnalysisData } from "../redux/actions/analysisData";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
-
-const ExplanationLink = utils.makeOutboundLink();
 
 /**
  * Runs the legacy replaceVariables function on the data in the snippet preview.
@@ -103,19 +98,13 @@ export const mapEditorDataToPreview = function( data, context ) {
 
 const SnippetEditorWrapper = ( props ) => (
 	<React.Fragment>
-		<HelpText>
-			{ __( "This is a rendering of what this post might look like in Google's search results.", "wordpress-seo" ) + " " }
-			<ExplanationLink href={ wpseoAdminL10n[ "shortlinks.snippet_preview_info" ] } rel={ null }>
-				{ __( "Learn more about the Snippet Preview.", "wordpress-seo" ) }
-			</ExplanationLink>
-		</HelpText>
 		<SnippetPreviewSection
 			icon="eye"
 			hasPaperStyle={ props.hasPaperStyle }
 		>
 			<SnippetEditor
 				{ ...props }
-				descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below." ) }
+				descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" ) }
 				mapEditorDataToPreview={ mapEditorDataToPreview }
 			/>
 		</SnippetPreviewSection>
@@ -131,7 +120,7 @@ const SnippetEditorWrapper = ( props ) => (
  * @returns {Object} Data for the `SnippetEditor` component.
  */
 export function mapStateToProps( state ) {
-	let replacementVariables = state.snippetEditor.replacementVariables;
+	const replacementVariables = state.snippetEditor.replacementVariables;
 
 	// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
 	replacementVariables.forEach( ( replaceVariable ) => {

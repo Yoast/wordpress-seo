@@ -22,7 +22,7 @@ class WPSEO_Sitemap_Image_Parser {
 	/** @var array $attachments Cached set of attachments for multiple posts. */
 	protected $attachments = array();
 
-	/** @var string $charset Holds blog charset value for use in DOM parsing.  */
+	/** @var string $charset Holds blog charset value for use in DOM parsing. */
 	protected $charset = 'UTF-8';
 
 	/**
@@ -239,7 +239,7 @@ class WPSEO_Sitemap_Image_Parser {
 		}
 
 		if ( PHP_VERSION_ID >= 50209 ) {
-			// phpcs:ignore PHPCompatibility.PHP.NewFunctionParameters.array_unique_sort_flagsFound -- Wrapped in version check.
+			// phpcs:ignore PHPCompatibility.FunctionUse.NewFunctionParameters.array_unique_sort_flagsFound -- Wrapped in version check.
 			return array_unique( $attachments, SORT_REGULAR );
 		}
 

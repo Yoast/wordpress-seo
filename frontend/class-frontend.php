@@ -126,6 +126,7 @@ class WPSEO_Frontend {
 			new WPSEO_Frontend_Primary_Category(),
 			new WPSEO_JSON_LD(),
 			new WPSEO_Remove_Reply_To_Com(),
+			new WPSEO_OpenGraph_OEmbed(),
 			$this->woocommerce_shop_page,
 		);
 
@@ -192,45 +193,6 @@ class WPSEO_Frontend {
 	 */
 	public function fix_woo_title( $title ) {
 		return $this->title( $title );
-	}
-
-	/**
-	 * Determine whether this is the homepage and shows posts.
-	 *
-	 * @deprecated 7.7
-	 *
-	 * @return bool Whether or not the current page is the homepage that displays posts.
-	 */
-	public function is_home_posts_page() {
-		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_home_posts_page' );
-
-		return $this->frontend_page_type->is_home_posts_page();
-	}
-
-	/**
-	 * Determine whether the this is the static frontpage.
-	 *
-	 * @deprecated 7.7
-	 *
-	 * @return bool Whether or not the current page is a static frontpage.
-	 */
-	public function is_home_static_page() {
-		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_home_static_page' );
-
-		return $this->frontend_page_type->is_home_static_page();
-	}
-
-	/**
-	 * Determine whether this is the posts page, when it's not the frontpage.
-	 *
-	 * @deprecated 7.7
-	 *
-	 * @return bool Whether or not it's a non-frontpage, posts page.
-	 */
-	public function is_posts_page() {
-		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_posts_page' );
-
-		return $this->frontend_page_type->is_posts_page();
 	}
 
 	/**
@@ -468,8 +430,7 @@ class WPSEO_Frontend {
 			$title = $this->get_title_from_options( 'title-home-wpseo' );
 		}
 		elseif ( $this->woocommerce_shop_page->is_shop_page() ) {
-			$post  = get_post( $this->woocommerce_shop_page->get_shop_page_id() );
-			$title = $this->get_seo_title( $post );
+			$title = $this->get_woocommerce_title();
 
 			if ( ! is_string( $title ) || $title === '' ) {
 				$title = $this->get_post_type_archive_title( $separator, $separator_location );
@@ -1767,6 +1728,39 @@ class WPSEO_Frontend {
 	}
 
 	/**
+	 * Retrieves the WooCommerce title.
+	 *
+	 * @return string The WooCommerce title.
+	 */
+	protected function get_woocommerce_title() {
+		$shop_page_id = $this->woocommerce_shop_page->get_shop_page_id();
+		$post         = get_post( $shop_page_id );
+		$title        = $this->get_seo_title( $post );
+
+		if ( is_string( $title ) && $title !== '' ) {
+			return $title;
+		}
+
+		if ( $shop_page_id !== -1 && is_archive() ) {
+			$title = $this->get_template( 'title-' . $post->post_type );
+			$title = $this->replace_vars( $title, $post );
+		}
+
+		return $title;
+	}
+
+	/**
+	 * Retrieves a template from the options.
+	 *
+	 * @param string $template The template to retrieve.
+	 *
+	 * @return string The set template.
+	 */
+	protected function get_template( $template ) {
+		return WPSEO_Options::get( $template );
+	}
+
+	/**
 	 * Retrieves the queried post type.
 	 *
 	 * @return string The queried post type.
@@ -1823,12 +1817,13 @@ class WPSEO_Frontend {
 		return $desc;
 	}
 
-	/** Deprecated functions */
-	// @codeCoverageIgnoreStart
+	/* ********************* DEPRECATED METHODS ********************* */
+
 	/**
 	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
 	 *
 	 * @deprecated 4.4
+	 * @codeCoverageIgnore
 	 *
 	 * @param bool $echo Whether or not to echo the debug marker.
 	 *
@@ -1846,6 +1841,7 @@ class WPSEO_Frontend {
 	 * Outputs the meta keywords element.
 	 *
 	 * @deprecated 6.3
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -1859,6 +1855,7 @@ class WPSEO_Frontend {
 	 * Removes unneeded query variables from the URL.
 	 *
 	 * @deprecated 7.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -1873,6 +1870,7 @@ class WPSEO_Frontend {
 	 * Trailing slashes for everything except is_single().
 	 *
 	 * @deprecated 7.0
+	 * @codeCoverageIgnore
 	 */
 	public function add_trailingslash() {
 		// As this is a frontend method, we want to make sure it is not displayed for non-logged in users.
@@ -1885,6 +1883,7 @@ class WPSEO_Frontend {
 	 * Removes the ?replytocom variable from the link, replacing it with a #comment-<number> anchor.
 	 *
 	 * @deprecated 7.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $link The comment link as a string.
 	 *
@@ -1901,6 +1900,7 @@ class WPSEO_Frontend {
 	 * Redirects out the ?replytocom variables.
 	 *
 	 * @deprecated 7.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return boolean True when redirect has been done.
 	 */
@@ -1910,5 +1910,46 @@ class WPSEO_Frontend {
 		$remove_replytocom = new WPSEO_Remove_Reply_To_Com();
 		return $remove_replytocom->replytocom_redirect();
 	}
-	// @codeCoverageIgnoreEnd
+
+	/**
+	 * Determine whether this is the homepage and shows posts.
+	 *
+	 * @deprecated 7.7
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool Whether or not the current page is the homepage that displays posts.
+	 */
+	public function is_home_posts_page() {
+		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_home_posts_page' );
+
+		return $this->frontend_page_type->is_home_posts_page();
+	}
+
+	/**
+	 * Determine whether the this is the static frontpage.
+	 *
+	 * @deprecated 7.7
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool Whether or not the current page is a static frontpage.
+	 */
+	public function is_home_static_page() {
+		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_home_static_page' );
+
+		return $this->frontend_page_type->is_home_static_page();
+	}
+
+	/**
+	 * Determine whether this is the posts page, when it's not the frontpage.
+	 *
+	 * @deprecated 7.7
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool Whether or not it's a non-frontpage, posts page.
+	 */
+	public function is_posts_page() {
+		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_posts_page' );
+
+		return $this->frontend_page_type->is_posts_page();
+	}
 }

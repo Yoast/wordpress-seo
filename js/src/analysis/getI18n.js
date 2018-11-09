@@ -13,8 +13,9 @@ function getI18n() {
 
 	if ( isEmpty( translations ) ) {
 		i18n = new Jed( {
-			"domain": "js-text-analysis",
-			"locale_data": {
+			domain: "js-text-analysis",
+			/* eslint-disable-next-line camelcase */
+			locale_data: {
 				"js-text-analysis": {
 					"": {},
 				},

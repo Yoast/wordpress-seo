@@ -17,16 +17,16 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
-    "webpack-analyze-bundle": "NODE_ENV=production webpack --config ./webpack/webpack.config.js --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json js/dist",
-    "i18n-yoast-components": "NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot > /dev/null",
-    "i18n-wordpress-seo": "NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot > /dev/null",
-    "start": "./node_modules/.bin/webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development"
+    "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
+    "webpack-analyze-bundle": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json js/dist",
+    "i18n-yoast-components": "cross-env NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot | shusher",
+    "i18n-wordpress-seo": "cross-env NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot | shusher",
+    "start": "webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",
     "transformIgnorePatterns": [
-      "/node_modules/(?!yoast-components|yoastseo|lodash-es).+\\.js$"
+      "[/\\\\]node_modules[/\\\\](?!yoast-components|yoastseo|lodash-es).+\\.js$"
     ],
     "testPathIgnorePatterns": [
       "/js/tests/edit.test.js"
@@ -62,13 +62,15 @@
     "babel-preset-react": "^6.11.1",
     "babelify": "^7.3.0",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
-    "copy-webpack-plugin": "^4.5.2",
+    "copy-webpack-plugin": "^4.6.0",
+    "cross-env": "^5.2.0",
     "envify": "^3.4.1",
     "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-adapter-react-16": "^1.5.0",
     "enzyme-to-json": "^3.3.3",
-    "eslint-config-yoast": "^1.3.1",
-    "eslint-plugin-react": "^6.0.0",
+    "eslint-config-yoast": "^5.0.1",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-yoast": "^1.0.1",
     "grunt": "^1.0.2",
     "grunt-checktextdomain": "^1.0.1",
@@ -77,7 +79,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-eslint": "^19.0.0",
+    "grunt-eslint": "^21.0.0",
     "grunt-glotpress": "https://github.com/Yoast/grunt-glotpress.git#master",
     "grunt-phpcs": "^0.4.0",
     "grunt-phplint": "^0.1.0",
@@ -87,7 +89,7 @@
     "grunt-rtlcss": "^2.0.1",
     "grunt-sass": "^2.0.0",
     "grunt-shell": "^1.1.2",
-    "grunt-webpack": "^3.0.2",
+    "grunt-webpack": "^3.1.3",
     "grunt-wp-css": "^0.2.1",
     "grunt-wp-deploy": "^1.2.1",
     "grunt-wp-i18n": "^1.0.0",
@@ -95,10 +97,9 @@
     "jest": "^23.3.0",
     "load-grunt-config": "^0.19.2",
     "raf": "^3.4.0",
-    "react": "^16.3.0",
-    "react-dom": "16.3.0",
     "redux-logger": "^3.0.6",
     "sassdash": "^0.9.0",
+    "shusher": "^0.1.1",
     "svg-react-loader": "^0.4.5",
     "time-grunt": "^1.0.0",
     "webpack": "^4.20.2",
@@ -111,11 +112,13 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
+    "@wordpress/api-fetch": "^2.1.0",
     "@wordpress/components": "^1.0.1",
     "@wordpress/data": "^1.0.1",
     "@wordpress/element": "^1.0.1",
     "@wordpress/i18n": "^1.2.2",
     "@wordpress/is-shallow-equal": "^1.0.2",
+    "@wordpress/url": "^2.1.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "draft-js": "^0.10.5",
@@ -130,17 +133,18 @@
     "moment": "2.22.2",
     "moment-duration-format": "^2.2.2",
     "prop-types": "^15.5.10",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
-    "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "git+https://github.com/Yoast/yoast-components.git#develop",
-    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#develop"
+    "yoast-components": "git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.2",
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.2"
   },
   "yoast": {
-    "pluginVersion": "8.3"
+    "pluginVersion": "9.2-RC1"
   }
 }

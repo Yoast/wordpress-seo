@@ -344,6 +344,7 @@ class WPSEO_OpenGraph {
 			'az_AZ', // Azerbaijani.
 			'be_BY', // Belarusian.
 			'bg_BG', // Bulgarian.
+			'bp_IN', // Bhojpuri.
 			'bn_IN', // Bengali.
 			'br_FR', // Breton.
 			'bs_BA', // Bosnian.
@@ -358,17 +359,14 @@ class WPSEO_OpenGraph {
 			'de_DE', // German.
 			'el_GR', // Greek.
 			'en_GB', // English (UK).
-			'en_IN', // English (India).
 			'en_PI', // English (Pirate).
 			'en_UD', // English (Upside Down).
 			'en_US', // English (US).
+			'em_ZM',
 			'eo_EO', // Esperanto.
-			'es_CL', // Spanish (Chile).
-			'es_CO', // Spanish (Colombia).
 			'es_ES', // Spanish (Spain).
 			'es_LA', // Spanish.
 			'es_MX', // Spanish (Mexico).
-			'es_VE', // Spanish (Venezuela).
 			'et_EE', // Estonian.
 			'eu_ES', // Basque.
 			'fa_IR', // Persian.
@@ -389,11 +387,14 @@ class WPSEO_OpenGraph {
 			'hi_IN', // Hindi.
 			'hr_HR', // Croatian.
 			'hu_HU', // Hungarian.
+			'ht_HT', // Haitian Creole.
 			'hy_AM', // Armenian.
 			'id_ID', // Indonesian.
 			'ig_NG', // Igbo.
 			'is_IS', // Icelandic.
 			'it_IT', // Italian.
+			'ik_US',
+			'iu_CA',
 			'ja_JP', // Japanese.
 			'ja_KS', // Japanese (Kansai).
 			'jv_ID', // Javanese.
@@ -402,6 +403,7 @@ class WPSEO_OpenGraph {
 			'km_KH', // Khmer.
 			'kn_IN', // Kannada.
 			'ko_KR', // Korean.
+			'ks_IN', // Kashmiri.
 			'ku_TR', // Kurdish (Kurmanji).
 			'ky_KG', // Kyrgyz.
 			'la_VA', // Latin.
@@ -426,14 +428,20 @@ class WPSEO_OpenGraph {
 			'nl_BE', // Dutch (Belgie).
 			'nl_NL', // Dutch.
 			'nn_NO', // Norwegian (nynorsk).
+			'nr_ZA', // Southern Ndebele.
+			'ns_ZA', // Northern Sotho.
 			'ny_MW', // Chewa.
+			'om_ET', // Oromo.
 			'or_IN', // Oriya.
 			'pa_IN', // Punjabi.
 			'pl_PL', // Polish.
 			'ps_AF', // Pashto.
 			'pt_BR', // Portuguese (Brazil).
 			'pt_PT', // Portuguese (Portugal).
+			'qc_GT', // Quiché.
 			'qu_PE', // Quechua.
+			'qr_GR',
+			'qz_MM', // Burmese (Zawgyi).
 			'rm_CH', // Romansh.
 			'ro_RO', // Romanian.
 			'ru_RU', // Russian.
@@ -442,12 +450,15 @@ class WPSEO_OpenGraph {
 			'sc_IT', // Sardinian.
 			'se_NO', // Northern Sami.
 			'si_LK', // Sinhala.
+			'su_ID', // Sundanese.
 			'sk_SK', // Slovak.
 			'sl_SI', // Slovenian.
 			'sn_ZW', // Shona.
 			'so_SO', // Somali.
 			'sq_AL', // Albanian.
 			'sr_RS', // Serbian.
+			'ss_SZ', // Swazi.
+			'st_ZA', // Southern Sotho.
 			'sv_SE', // Swedish.
 			'sw_KE', // Swahili.
 			'sy_SY', // Syriac.
@@ -459,12 +470,15 @@ class WPSEO_OpenGraph {
 			'tk_TM', // Turkmen.
 			'tl_PH', // Filipino.
 			'tl_ST', // Klingon.
+			'tn_BW', // Tswana.
 			'tr_TR', // Turkish.
+			'ts_ZA', // Tsonga.
 			'tt_RU', // Tatar.
 			'tz_MA', // Tamazight.
 			'uk_UA', // Ukrainian.
 			'ur_PK', // Urdu.
 			'uz_UZ', // Uzbek.
+			've_ZA', // Venda.
 			'vi_VN', // Vietnamese.
 			'wo_SN', // Wolof.
 			'xh_ZA', // Xhosa.
@@ -588,6 +602,10 @@ class WPSEO_OpenGraph {
 			if ( ! is_string( $ogdesc ) || ( is_string( $ogdesc ) && $ogdesc === '' ) ) {
 				$ogdesc = str_replace( '[&hellip;]', '&hellip;', wp_strip_all_tags( get_the_excerpt() ) );
 			}
+		}
+
+		if ( is_author() ) {
+			$ogdesc = $frontend->metadesc( false );
 		}
 
 		if ( is_category() || is_tag() || is_tax() ) {
@@ -751,6 +769,8 @@ class WPSEO_OpenGraph {
 			$this->og_tag( 'fb:app_id', $app_id );
 		}
 	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
 	 * Outputs the site owner.

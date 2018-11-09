@@ -998,42 +998,6 @@ SVG;
 			&& version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
 	}
 
-	/********************** DEPRECATED METHODS **********************/
-
-	/**
-	 * Returns the language part of a given locale, defaults to english when the $locale is empty.
-	 *
-	 * @see        WPSEO_Language_Utils::get_language()
-	 *
-	 * @since      3.4
-	 *
-	 * @param string $locale The locale to get the language of.
-	 *
-	 * @returns string The language part of the locale.
-	 */
-	public static function get_language( $locale ) {
-		return WPSEO_Language_Utils::get_language( $locale );
-	}
-
-	/**
-	 * Returns the user locale for the language to be used in the admin.
-	 *
-	 * WordPress 4.7 introduced the ability for users to specify an Admin language
-	 * different from the language used on the front end. This checks if the feature
-	 * is available and returns the user's language, with a fallback to the site's language.
-	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
-	 * of WordPress get_user_locale() that already fallbacks to the site's locale.
-	 *
-	 * @see        WPSEO_Language_Utils::get_user_locale()
-	 *
-	 * @since      4.1
-	 *
-	 * @returns string The locale.
-	 */
-	public static function get_user_locale() {
-		return WPSEO_Language_Utils::get_user_locale();
-	}
-
 	/**
 	 * Determine whether or not the metabox should be displayed for a post type.
 	 *
@@ -1047,6 +1011,10 @@ SVG;
 		}
 
 		if ( ! isset( $post_type ) || ! WPSEO_Post_Type::is_post_type_accessible( $post_type ) ) {
+			return false;
+		}
+
+		if ( $post_type === 'attachment' && WPSEO_Options::get( 'disable-attachment' ) ) {
 			return false;
 		}
 
@@ -1138,5 +1106,59 @@ SVG;
 		}
 
 		return $wpseo_admin_l10n;
+	}
+
+	/**
+	 * Retrieves the analysis worker log level. Defaults to errors only.
+	 *
+	 * Uses bool YOAST_SEO_DEBUG as flag to enable logging. Off equals ERROR.
+	 * Uses string YOAST_SEO_DEBUG_ANALYSIS_WORKER as log level for the Analysis
+	 * Worker. Defaults to INFO.
+	 * Can be: TRACE, DEBUG, INFO, WARN or ERROR.
+	 *
+	 * @return string The log level to use.
+	 */
+	public static function get_analysis_worker_log_level() {
+		if ( defined( 'YOAST_SEO_DEBUG' ) && YOAST_SEO_DEBUG  ) {
+			return defined( 'YOAST_SEO_DEBUG_ANALYSIS_WORKER' ) ? YOAST_SEO_DEBUG_ANALYSIS_WORKER : 'INFO';
+		}
+
+		return 'ERROR';
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Returns the language part of a given locale, defaults to english when the $locale is empty.
+	 *
+	 * @see        WPSEO_Language_Utils::get_language()
+	 *
+	 * @since      3.4
+	 *
+	 * @param string $locale The locale to get the language of.
+	 *
+	 * @returns string The language part of the locale.
+	 */
+	public static function get_language( $locale ) {
+		return WPSEO_Language_Utils::get_language( $locale );
+	}
+
+	/**
+	 * Returns the user locale for the language to be used in the admin.
+	 *
+	 * WordPress 4.7 introduced the ability for users to specify an Admin language
+	 * different from the language used on the front end. This checks if the feature
+	 * is available and returns the user's language, with a fallback to the site's language.
+	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
+	 * of WordPress get_user_locale() that already fallbacks to the site's locale.
+	 *
+	 * @see        WPSEO_Language_Utils::get_user_locale()
+	 *
+	 * @since      4.1
+	 *
+	 * @returns string The locale.
+	 */
+	public static function get_user_locale() {
+		return WPSEO_Language_Utils::get_user_locale();
 	}
 }

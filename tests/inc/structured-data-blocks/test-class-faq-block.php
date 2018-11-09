@@ -9,6 +9,7 @@
  * Unit Test Class.
  */
 class WPSEO_FAQ_Block_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Tests the FAQ structured data object format that is output by get_json_ld.
 	 *
@@ -44,8 +45,8 @@ class WPSEO_FAQ_Block_Test extends WPSEO_UnitTestCase {
 						'text'  => 'All the things!',
 						'image' => array(
 							'@type'      => 'ImageObject',
-							'contentUrl' => 'https://www.images.com/image.jpg'
-						)
+							'contentUrl' => 'https://www.images.com/image.jpg',
+						),
 					),
 				),
 				array(
@@ -56,7 +57,7 @@ class WPSEO_FAQ_Block_Test extends WPSEO_UnitTestCase {
 						'@type' => 'Answer',
 						'text'  => 'All the things! (Again)',
 					),
-				)
+				),
 			),
 		);
 

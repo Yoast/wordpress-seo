@@ -1,7 +1,6 @@
 /* global window process wp */
 /* External dependencies */
 import React from "react";
-import { Provider } from "react-redux";
 import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
@@ -94,7 +93,7 @@ class Edit {
 	}
 
 	_registerCategorySelectorFilter() {
-		if( ! isGutenbergDataAvailable() ) {
+		if ( ! isGutenbergDataAvailable() ) {
 			return;
 		}
 
@@ -141,7 +140,7 @@ class Edit {
 			<Fragment>
 				<PluginSidebarMoreMenuItem
 					target="seo-sidebar"
-					icon={ <PluginIcon/> }
+					icon={ <PluginIcon /> }
 				>
 					Yoast SEO
 				</PluginSidebarMoreMenuItem>
@@ -156,12 +155,10 @@ class Edit {
 					</Slot>
 				</PluginSidebar>
 
-				<Provider store={ store } >
-					<Fragment>
-						<Sidebar store={ store } theme={ theme } />
-						<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
-					</Fragment>
-				</Provider>
+				<Fragment>
+					<Sidebar store={ store } theme={ theme } />
+					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				</Fragment>
 			</Fragment>
 		);
 
@@ -204,7 +201,7 @@ class Edit {
 	initializeUsedKeywords( app, ajaxAction ) {
 		const store         = this._store;
 		const localizedData = this._localizedData;
-		const scriptUrl     = get( global, [ "wpseoAnalysisWorkerL10n", "keywords_assessment_url" ], "wp-seo-used-keywords-assessment.js" );
+		const scriptUrl     = get( window, [ "wpseoAnalysisWorkerL10n", "keywords_assessment_url" ], "wp-seo-used-keywords-assessment.js" );
 
 		const usedKeywords = new UsedKeywords(
 			ajaxAction,

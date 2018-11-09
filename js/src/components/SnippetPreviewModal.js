@@ -28,6 +28,7 @@ class SnippetPreviewModal extends React.Component {
 		return (
 			<React.Fragment>
 				<ButtonSection
+					id={ "yoast-snippet-editor-sidebar" }
 					title={ __( "Snippet preview", "wordpress-seo" ) }
 					suffixIcon={ { size: "20px", icon: "pencil-square" } }
 					hasSeparator={ true }
@@ -36,9 +37,10 @@ class SnippetPreviewModal extends React.Component {
 				/>
 				{ this.state.isOpen && <Modal
 					title={ __( "Snippet preview", "wordpress-seo" ) }
-					onRequestClose={ this.closeModal }>
+					onRequestClose={ this.closeModal }
+				>
 					<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
-					<Button isDefault onClick={ this.closeModal }>
+					<Button isDefault={ true } onClick={ this.closeModal }>
 						{ __( "Close", "wordpress-seo" ) }
 					</Button>
 				</Modal>

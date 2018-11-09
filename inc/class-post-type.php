@@ -106,4 +106,15 @@ class WPSEO_Post_Type {
 	public static function has_archive( $post_type ) {
 		return ( ! empty( $post_type->has_archive ) );
 	}
+
+	/**
+	 * Checks if the Yoast Metabox has been enabled for the post type.
+	 *
+	 * @param string $post_type The post type name.
+	 *
+	 * @return bool True whether the metabox is enabled.
+	 */
+	public static function has_metabox_enabled( $post_type ) {
+		return WPSEO_Options::get( 'display-metabox-pt-' . $post_type, false );
+	}
 }

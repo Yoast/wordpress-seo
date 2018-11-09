@@ -91,6 +91,8 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 	 * Filters the home URL.
 	 *
 	 * @param string $home_url Original home URL.
+	 * @param string $path     Relative path.
+	 *
 	 * @return string Home URL to override, or value of $home_url.
 	 */
 	public function filter_home_url( $home_url, $path ) {
@@ -122,7 +124,7 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 				'REQUEST_URI' => '/sitemap.xml',
 			),
 			array(
-				'HTTP_HOST' => 'testsite.org',
+				'HTTP_HOST'   => 'testsite.org',
 				'REQUEST_URI' => '/sitemap.xml',
 			),
 			array(
@@ -130,7 +132,7 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 				'REQUEST_URI' => '/sitemap_index.xml',
 			),
 			array(
-				'HTTP_HOST' => 'other-testsite.org',
+				'HTTP_HOST'   => 'other-testsite.org',
 				'REQUEST_URI' => '/sitemap_index.xml',
 			),
 			array(
@@ -138,7 +140,7 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 				'REQUEST_URI' => '/sitemap.xml',
 			),
 			array(
-				'HTTP_HOST' => 'other-testsite.org',
+				'HTTP_HOST'   => 'other-testsite.org',
 				'REQUEST_URI' => '/sitemap.xml',
 			),
 		);
@@ -150,7 +152,7 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 			'https://other-testsite.org',
 		);
 
-		$wp_queries = array(
+		$wp_queries            = array(
 			new WP_Query(),
 			new WP_Query(),
 		);

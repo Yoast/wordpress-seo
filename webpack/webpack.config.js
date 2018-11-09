@@ -1,4 +1,5 @@
 const CaseSensitivePathsPlugin = require( "case-sensitive-paths-webpack-plugin" );
+const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 const path = require( "path" );
 const mapValues = require( "lodash/mapValues" );
 const isString = require( "lodash/isString" );
@@ -9,7 +10,7 @@ const pkg = require( "../package.json" );
 const pluginVersionSlug = paths.flattenVersionForFile( pkg.yoast.pluginVersion );
 
 const root = path.join( __dirname, "../" );
-const entry = mapValues( paths.entry, entry => {
+const mainEntry = mapValues( paths.entry, entry => {
 	if ( ! isString( entry ) ) {
 		return entry;
 	}
@@ -23,16 +24,10 @@ const externals = {
 
 	yoastseo: "window.yoast.analysis",
 	"yoast-components": "window.yoast.components",
-	react: "window.yoast.react",
-	"react-dom": "window.yoast.reactDom",
+	react: "React",
+	"react-dom": "ReactDOM",
 
 	lodash: "window.lodash",
-};
-
-const alias = {
-	// This prevents loading multiple versions of React:
-	react: path.join( root, "node_modules/react" ),
-	"react-dom": path.join( root, "node_modules/react-dom" ),
 };
 
 module.exports = function( env = { environment: "production" } ) {
@@ -47,7 +42,6 @@ module.exports = function( env = { environment: "production" } ) {
 	const base = {
 		mode: mode,
 		devtool: mode === "development" ? "cheap-module-eval-source-map" : false,
-		entry: entry,
 		context: root,
 		output: {
 			path: paths.jsDist,
@@ -56,14 +50,13 @@ module.exports = function( env = { environment: "production" } ) {
 		},
 		resolve: {
 			extensions: [ ".json", ".js", ".jsx" ],
-			alias,
 			symlinks: false,
 		},
 		module: {
 			rules: [
 				{
 					test: /.jsx?$/,
-					exclude: /node_modules\/(?!(yoast-components|gutenberg|yoastseo|@wordpress)\/).*/,
+					exclude: /node_modules[/\\](?!(yoast-components|gutenberg|yoastseo|@wordpress)[/\\]).*/,
 					use: [
 						{
 							loader: "babel-loader",
@@ -92,41 +85,85 @@ module.exports = function( env = { environment: "production" } ) {
 		externals,
 		optimization: {
 			runtimeChunk: {
-				name: "runtime",
-			}
-
-		}
+				name: "commons",
+			},
+		},
 	};
 
 	const config = [
 		{
 			...base,
+			entry: {
+				...mainEntry,
+				"styled-components": "./js/src/styled-components.js",
+				analysis: "./js/src/analysis.js",
+				components: "./js/src/components.js",
+			},
 			externals: {
 				...externals,
 
-				"@wordpress/element": "window.yoast._wp.element",
-				"@wordpress/data": "window.yoast._wp.data",
-				"@wordpress/components": "window.yoast._wp.components",
-				"@wordpress/i18n": "window.yoast._wp.i18n",
+				"@wordpress/element": "window.wp.element",
+				"@wordpress/data": "window.wp.data",
+				"@wordpress/components": "window.wp.components",
+				"@wordpress/i18n": "window.wp.i18n",
+				"@wordpress/api-fetch": "window.wp.apiFetch",
 
 				"styled-components": "window.yoast.styledComponents",
 			},
 			plugins: [
 				...plugins,
+				new CopyWebpackPlugin( [
+					{
+						from: "node_modules/react/umd/react.production.min.js",
+						// Relative to js/dist.
+						to: "../vendor/react.min.js",
+					},
+					{
+						from: "node_modules/react-dom/umd/react-dom.production.min.js",
+						// Relative to js/dist.
+						to: "../vendor/react-dom.min.js",
+					},
+				] ),
 			],
+		},
+		// Config for wp packages files that are shipped for BC with WP 4.9.
+		{
+			...base,
+			externals: {
+				...externals,
+
+				"@wordpress/element": "window.wp.element",
+				"@wordpress/data": "window.wp.data",
+				"@wordpress/components": "window.wp.components",
+				"@wordpress/i18n": "window.wp.i18n",
+				"@wordpress/api-fetch": "window.wp.apiFetch",
+			},
+			output: {
+				path: paths.jsDist,
+				filename: "wp-" + outputFilename,
+				jsonpFunction: "yoastWebpackJsonp",
+				library: [ "wp", "[name]" ],
+			},
+			entry: {
+				apiFetch: "./node_modules/@wordpress/api-fetch",
+				components: "./node_modules/@wordpress/components",
+				data: "./node_modules/@wordpress/data",
+				element: "./node_modules/@wordpress/element",
+				i18n: "./node_modules/@wordpress/i18n",
+			},
+			plugins,
 		},
 		// Config for files that should not use any externals at all.
 		{
 			...base,
 			entry: {
-				"wp-seo-wp-globals-backport": "./js/src/wp-seo-wp-globals-backport.js",
 				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
 				"babel-polyfill": "./js/src/babel-polyfill.js",
-				"react-dependencies": "./js/src/react-dependencies.js",
-				"analysis": "./js/src/analysis.js",
-				"components": "./js/src/components.js",
 			},
 			plugins,
+			optimization: {
+				runtimeChunk: false,
+			},
 		},
 		// Config for files that should only use externals available in the web worker context.
 		{
@@ -136,6 +173,9 @@ module.exports = function( env = { environment: "production" } ) {
 				"wp-seo-used-keywords-assessment": "./js/src/wp-seo-used-keywords-assessment.js",
 			},
 			plugins,
+			optimization: {
+				runtimeChunk: false,
+			},
 		},
 	];
 

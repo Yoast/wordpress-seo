@@ -14,23 +14,24 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 	 * @var array Array containing the keys and shortlinks.
 	 */
 	private $shortlinks = array(
-		'shortlinks.focus_keyword_info' 							=> 'https://yoa.st/focus-keyword',
-		'shortlinks.snippet_preview_info' 							=> 'https://yoa.st/snippet-preview',
-		'shortlinks.cornerstone_content_info' 						=> 'https://yoa.st/1i9',
-		'shortlinks.upsell.sidebar.focus_keyword_synonyms_link' 	=> 'https://yoa.st/textlink-synonyms-popup-sidebar',
-		'shortlinks.upsell.sidebar.focus_keyword_synonyms_button' 	=> 'https://yoa.st/keyword-synonyms-popup-sidebar',
-		'shortlinks.upsell.sidebar.focus_keyword_additional_link' 	=> 'https://yoa.st/textlink-keywords-popup-sidebar',
+		'shortlinks.focus_keyword_info'                             => 'https://yoa.st/focus-keyword',
+		'shortlinks.snippet_preview_info'                           => 'https://yoa.st/snippet-preview',
+		'shortlinks.cornerstone_content_info'                       => 'https://yoa.st/1i9',
+		'shortlinks.upsell.sidebar.focus_keyword_synonyms_link'     => 'https://yoa.st/textlink-synonyms-popup-sidebar',
+		'shortlinks.upsell.sidebar.focus_keyword_synonyms_button'   => 'https://yoa.st/keyword-synonyms-popup-sidebar',
+		'shortlinks.upsell.sidebar.focus_keyword_additional_link'   => 'https://yoa.st/textlink-keywords-popup-sidebar',
 		'shortlinks.upsell.sidebar.focus_keyword_additional_button' => 'https://yoa.st/add-keywords-popup-sidebar',
-		'shortlinks.upsell.sidebar.additional_link' 				=> 'https://yoa.st/textlink-keywords-sidebar',
-		'shortlinks.upsell.sidebar.additional_button' 				=> 'https://yoa.st/add-keywords-sidebar',
-		'shortlinks.upsell.metabox.go_premium' 						=> 'https://yoa.st/pe-premium-page',
-		'shortlinks.upsell.metabox.focus_keyword_synonyms_link' 	=> 'https://yoa.st/textlink-synonyms-popup-metabox',
-		'shortlinks.upsell.metabox.focus_keyword_synonyms_button' 	=> 'https://yoa.st/keyword-synonyms-popup',
-		'shortlinks.upsell.metabox.focus_keyword_additional_link' 	=> 'https://yoa.st/textlink-keywords-popup-metabox',
+		'shortlinks.upsell.sidebar.additional_link'                 => 'https://yoa.st/textlink-keywords-sidebar',
+		'shortlinks.upsell.sidebar.additional_button'               => 'https://yoa.st/add-keywords-sidebar',
+		'shortlinks.upsell.metabox.go_premium'                      => 'https://yoa.st/pe-premium-page',
+		'shortlinks.upsell.metabox.focus_keyword_synonyms_link'     => 'https://yoa.st/textlink-synonyms-popup-metabox',
+		'shortlinks.upsell.metabox.focus_keyword_synonyms_button'   => 'https://yoa.st/keyword-synonyms-popup',
+		'shortlinks.upsell.metabox.focus_keyword_additional_link'   => 'https://yoa.st/textlink-keywords-popup-metabox',
 		'shortlinks.upsell.metabox.focus_keyword_additional_button' => 'https://yoa.st/add-keywords-popup',
-		'shortlinks.upsell.metabox.additional_link' 				=> 'https://yoa.st/textlink-keywords-metabox',
-		'shortlinks.upsell.metabox.additional_button' 				=> 'https://yoa.st/add-keywords-metabox',
+		'shortlinks.upsell.metabox.additional_link'                 => 'https://yoa.st/textlink-keywords-metabox',
+		'shortlinks.upsell.metabox.additional_button'               => 'https://yoa.st/add-keywords-metabox',
 		'shortlinks.readability_analysis_info'                      => 'https://yoa.st/readability-analysis',
+		'shortlinks.activate_premium_info'                          => 'https://yoa.st/activate-subscription',
 	);
 
 	/**
@@ -53,6 +54,8 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		foreach ( $this->shortlinks as $key => $shortlink ) {
 			$input[ $key ] = WPSEO_Shortlinker::get( $shortlink );
 		}
+
+		$input['default_query_params'] = WPSEO_Shortlinker::get_query_params();
 
 		return $input;
 	}

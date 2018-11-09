@@ -8,51 +8,127 @@
 /**
  * Represents the indexable term service.
  */
-class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_Provider {
+class WPSEO_Indexable_Service_Term_Provider extends WPSEO_Indexable_Provider {
+
+	/**
+	 * @var array List of fields that need to be renamed.
+	 */
+	protected $renameable_fields = array(
+		'description'                 => 'desc',
+		'breadcrumb_title'            => 'bctitle',
+		'og_title'                    => 'opengraph-title',
+		'og_description'              => 'opengraph-description',
+		'og_image'                    => 'opengraph-image',
+		'twitter_title'               => 'twitter-title',
+		'twitter_description'         => 'twitter-description',
+		'twitter_image'               => 'twitter-image',
+		'is_robots_noindex'           => 'noindex',
+		'primary_focus_keyword'       => 'focuskw',
+		'primary_focus_keyword_score' => 'linkdex',
+		'readability_score'           => 'content_score',
+	);
 
 	/**
 	 * Returns an array with data for the target object.
 	 *
 	 * @param integer $object_id The target object id.
+	 * @param bool    $as_object Optional. Whether or not to return the indexable as an object. Defaults to false.
 	 *
-	 * @return array The retrieved data.
+	 * @return array|WPSEO_Term_Indexable The retrieved data. Defaults to an array format.
 	 */
-	public function get( $object_id ) {
-		$term = get_term( $object_id );
-
+	public function get( $object_id, $as_object = false ) {
 		if ( ! $this->is_indexable( $object_id ) ) {
 			return array();
 		}
 
-		return array(
-			'object_id'                   => (int) $object_id,
-			'object_type'                 => 'term',
-			'object_subtype'              => $term->taxonomy,
-			'permalink'                   => get_term_link( $term ),
-			'canonical'                   => $this->get_meta_value( 'canonical', $term ),
-			'title'                       => $this->get_meta_value( 'title', $term ),
-			'description'                 => $this->get_meta_value( 'desc', $term ),
-			'breadcrumb_title'            => $this->get_meta_value( 'bctitle', $term ),
-			'og_title'                    => $this->get_meta_value( 'opengraph-title', $term ),
-			'og_description'              => $this->get_meta_value( 'opengraph-description', $term ),
-			'og_image'                    => $this->get_meta_value( 'opengraph-image', $term ),
-			'twitter_title'               => $this->get_meta_value( 'twitter-title', $term ),
-			'twitter_description'         => $this->get_meta_value( 'twitter-description', $term ),
-			'twitter_image'               => $this->get_meta_value( 'twitter-image', $term ),
-			'is_robots_noindex'           => $this->get_robots_noindex_value( $this->get_meta_value( 'noindex', $term ) ),
-			'is_robots_nofollow'          => null,
-			'is_robots_noarchive'         => null,
-			'is_robots_noimageindex'      => null,
-			'is_robots_nosnippet'         => null,
-			'primary_focus_keyword'       => $this->get_meta_value( 'focuskw', $term ),
-			'primary_focus_keyword_score' => (int) $this->get_meta_value( 'linkdex', $term ),
-			'readability_score'           => (int) $this->get_meta_value( 'content_score', $term ),
-			'is_cornerstone'              => false,
-			'link_count'                  => null,
-			'incoming_link_count'         => null,
-			'created_at'                  => null,
-			'updated_at'                  => null,
-		);
+		$indexable = WPSEO_Term_Indexable::from_object( $object_id );
+
+		if ( $as_object === true ) {
+			return $indexable;
+		}
+
+		return $indexable->to_array();
+	}
+
+	/**
+	 * Handles the patching of values for an existing indexable.
+	 *
+	 * @param int   $object_id   The ID of the object.
+	 * @param array $requestdata The request data to store.
+	 *
+	 * @return array The patched indexable.
+	 *
+	 * @throws WPSEO_Invalid_Indexable_Exception The indexable exception.
+	 * @throws WPSEO_REST_Request_Exception      Exception that is thrown if patching the object has failed.
+	 */
+	public function patch( $object_id, $requestdata ) {
+		$indexable = $this->get( $object_id, true );
+
+		if ( $indexable === array() ) {
+			throw WPSEO_Invalid_Indexable_Exception::non_existing_indexable( $object_id );
+		}
+
+		$new_indexable    = $indexable->update( $requestdata );
+		$stored_indexable = $this->store_indexable( $new_indexable );
+
+		if ( $stored_indexable === true ) {
+			return $new_indexable->to_array();
+		}
+
+		throw WPSEO_REST_Request_Exception::patch( 'Term', $object_id );
+	}
+
+	/**
+	 * Stores the indexable object.
+	 *
+	 * @param WPSEO_Indexable $indexable The indexable object to store.
+	 *
+	 * @return bool True if the indexable object was successfully stored.
+	 */
+	protected function store_indexable( WPSEO_Indexable $indexable ) {
+		$values          = $this->convert_indexable_data( $indexable->to_array() );
+		$renamed_values  = $this->rename_indexable_data( $values );
+		$prefixed_values = $this->prefix_indexable_data( $renamed_values );
+
+		WPSEO_Taxonomy_Meta::set_values( $values['object_id'], $values['object_subtype'], $prefixed_values );
+
+		return true;
+	}
+
+	/**
+	 * Prefixes the indexable data to make it compatible with the database.
+	 *
+	 * @param array $indexable_data The indexable data to prefix.
+	 *
+	 * @return array The compatible indexable data.
+	 */
+	protected function prefix_indexable_data( $indexable_data ) {
+		$converted_data = array();
+
+		foreach ( $indexable_data as $key => $item ) {
+			if ( substr( strtolower( $key ), 0, 6 ) !== 'wpseo_' ) {
+				$key = 'wpseo_' . $key;
+			}
+
+			$converted_data[ $key ] = $item;
+		}
+
+		return $converted_data;
+	}
+
+	/**
+	 * Converts the indexable data to make it compatible with the database.
+	 *
+	 * @param array $indexable_data The indexable data to prepare.
+	 *
+	 * @return array The converted indexable data.
+	 */
+	protected function convert_indexable_data( $indexable_data ) {
+		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_noindex' ) ) {
+			$indexable_data['is_robots_noindex'] = $this->convert_noindex( $indexable_data['is_robots_noindex'] );
+		}
+
+		return $indexable_data;
 	}
 
 	/**
@@ -69,33 +145,21 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	}
 
 	/**
-	 * Translates the meta value to a boolean value.
+	 * Converts the noindex value to a database compatible one.
 	 *
-	 * @param string $value The value to translate.
+	 * @param bool $noindex The current noindex value.
 	 *
-	 * @return bool|null The translated value.
+	 * @return string|null The converted value.
 	 */
-	protected function get_robots_noindex_value( $value ) {
-		if ( $value === 'noindex' ) {
-			return true;
+	protected function convert_noindex( $noindex ) {
+		if ( $noindex === 'false' ) {
+			return 'index';
 		}
 
-		if ( $value === 'index' ) {
-			return false;
+		if ( $noindex === 'true' ) {
+			return 'noindex';
 		}
 
-		return null;
-	}
-
-	/**
-	 * Returns the needed term meta field.
-	 *
-	 * @param string $field The requested field.
-	 * @param mixed  $term  The term object.
-	 *
-	 * @return bool|mixed The value of the requested field.
-	 */
-	protected function get_meta_value( $field, $term ) {
-		return WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, $field );
+		return 'default';
 	}
 }

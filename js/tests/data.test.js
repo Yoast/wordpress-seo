@@ -1,13 +1,13 @@
 import Data from "../src/analysis/data.js";
 
-let wpData = {};
-let refresh =  () => {
+const wpData = {};
+const refresh = () => {
 	return true;
 };
-let store = {
+const store = {
 	dispatch: jest.fn(),
 };
-let data = new Data( wpData, refresh, store );
+const data = new Data( wpData, refresh, store );
 
 // Mocks the select function and .
 const mockSelect = jest.fn();
@@ -88,6 +88,8 @@ describe( "collectGutenbergData", () => {
 			title: "title",
 			slug: "slug",
 			excerpt: "excerpt",
+			// eslint-disable-next-line camelcase
+			excerpt_only: "excerpt",
 		};
 
 		const actual = data.collectGutenbergData( retriever );

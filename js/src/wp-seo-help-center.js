@@ -48,7 +48,8 @@ class ContactSupport extends React.Component {
 				} ) }
 				<YoastButton
 					className="contact-premium-support__button"
-					onClick={ this.execute.bind( this ) }>
+					onClick={ this.execute.bind( this ) }
+				>
 					{ this.props.buttonText }
 				</YoastButton>
 			</div>
@@ -143,7 +144,8 @@ class HelpCenter extends React.Component {
 				content: <VideoTutorial
 					src={ this.state.videoUrl }
 					title=""
-					paragraphs={ this.props.videoTutorialParagraphs } />,
+					paragraphs={ this.props.videoTutorialParagraphs }
+				/>,
 			} );
 		}
 
@@ -152,7 +154,8 @@ class HelpCenter extends React.Component {
 			id: "knowledge-base",
 			label: formatMessage( { id: "knowledgeBase" } ),
 			content: <AlgoliaSearcher
-				onQueryChange={ this.updateUsedQueries.bind( this ) } />,
+				onQueryChange={ this.updateUsedQueries.bind( this ) }
+			/>,
 		} );
 
 		// Additional tabs
@@ -181,7 +184,8 @@ class HelpCenter extends React.Component {
 					paragraphs={ this.props.contactFormParagraphs }
 					buttonText={ supportButton }
 					do={ this.props.onPremiumSupport }
-					with={ this.state.usedQueries } />;
+					with={ this.state.usedQueries }
+				/>;
 			}
 			additionalTabs.push( {
 				id: tab.identifier,
@@ -279,7 +283,8 @@ if ( window.wpseoHelpCenterData ) {
 
 	ReactDOM.render(
 		<IntlProvider
-			messages={ wpseoHelpCenterData.translations }>
+			messages={ wpseoHelpCenterData.translations }
+		>
 			<HelpCenterIntl
 				onHelpCenterToggle={ toggleSidebar }
 				onTabSelect={ handleTabSelect }

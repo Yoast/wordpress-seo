@@ -1,15 +1,16 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
-import { Provider as StoreProvider } from "react-redux";
-import { ThemeProvider } from "styled-components";
 import { Fragment } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
 
+/* Internal dependencies */
 import SidebarItem from "./SidebarItem";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import SnippetPreviewModal from "./SnippetPreviewModal";
+import TopLevelProviders from "./TopLevelProviders";
 
 /**
  * Creates the Sidebar component.
@@ -27,35 +28,43 @@ export default function Sidebar( { settings, store, theme } ) {
 		<Fragment>
 			<Fill name="YoastSidebar">
 				{ <SidebarItem renderPriority={ 5 }>
-					<ThemeProvider theme={ theme }>
-						<StoreProvider store={ store }>
-							<SnippetPreviewModal />
-						</StoreProvider>
-					</ThemeProvider>
+					<TopLevelProviders
+						store={ store }
+						theme={ theme }
+						location={ "sidebar" }
+					>
+						<SnippetPreviewModal />
+					</TopLevelProviders>
 				</SidebarItem> }
 				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
-					<ThemeProvider theme={ theme }>
-						<StoreProvider store={ store }>
-							<ReadabilityAnalysis />
-						</StoreProvider>
-					</ThemeProvider>
+					<TopLevelProviders
+						store={ store }
+						theme={ theme }
+						location={ "sidebar" }
+					>
+						<ReadabilityAnalysis />
+					</TopLevelProviders>
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
-					<ThemeProvider theme={ theme }>
-						<StoreProvider store={ store }>
-							<SeoAnalysis
-								shouldUpsell={ settings.shouldUpsell }
-								location="sidebar"
-							/>
-						</StoreProvider>
-					</ThemeProvider>
+					<TopLevelProviders
+						store={ store }
+						theme={ theme }
+						location={ "sidebar" }
+					>
+						<SeoAnalysis
+							shouldUpsell={ settings.shouldUpsell }
+							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+						/>
+					</TopLevelProviders>
 				</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
-					<ThemeProvider theme={ theme }>
-						<StoreProvider store={ store }>
-							<CollapsibleCornerstone />
-						</StoreProvider>
-					</ThemeProvider>
+					<TopLevelProviders
+						store={ store }
+						theme={ theme }
+						location={ "sidebar" }
+					>
+						<CollapsibleCornerstone />
+					</TopLevelProviders>
 				</SidebarItem>
 				}
 			</Fill>
@@ -64,7 +73,7 @@ export default function Sidebar( { settings, store, theme } ) {
 }
 
 Sidebar.propTypes = {
-	settings: PropTypes.object,
-	store: PropTypes.object,
-	theme: PropTypes.object,
+	settings: PropTypes.object.isRequired,
+	store: PropTypes.object.isRequired,
+	theme: PropTypes.object.isRequired,
 };

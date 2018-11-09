@@ -22,16 +22,23 @@
 		"source": "https://github.com/Yoast/wordpress-seo"
 	},
 	"require": {
+		"php": "^5.3.2||^7.0",
 		"composer/installers": "~1.0",
 		"yoast/license-manager": "1.6.0",
 		"yoast/i18n-module": "^3.0",
 		"yoast/api-libs": "^2.0",
-		"xrstf/composer-php52": "^1.0.20"
+		"xrstf/composer-php52": "^1.0.20",
+		"j4mie/idiorm": "^1.5",
+		"pimple/pimple": "^3.2",
+		"ruckusing/ruckusing-migrations": "^1.1",
+		"psr/log": "^1.0"
 	},
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",
 		"yoast/yoastcs": "~0.4.3",
-		"roave/security-advisories": "dev-master"
+		"roave/security-advisories": "dev-master",
+		"phpcompatibility/phpcompatibility-wp": "^2.0.0",
+		"humbug/php-scoper": "^0.6.0"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -41,7 +48,10 @@
 			"frontend/",
 			"inc/",
 			"deprecated/",
-			"cli/"
+			"cli/",
+			"deprecated/",
+			"vendor_prefixed/",
+			"src/"
 		]
 	},
 	"autoload-dev": {
@@ -51,7 +61,7 @@
 	},
 	"scripts": {
 		"config-yoastcs": [
-			"\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs",
+			"\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",
 			"\"vendor/bin/phpcs\" --config-set default_standard Yoast"
 		],
 		"check-cs": [
@@ -63,8 +73,21 @@
 		"fix-cs": [
 			"\"vendor/bin/phpcbf\""
 		],
+		"prefix-dependencies": [
+			"composer prefix-ruckusing",
+			"composer prefix-idiorm",
+			"touch ./vendor_prefixed/dependencies-prefixed.txt",
+			"composer du"
+		],
+		"prefix-ruckusing": [
+			"./vendor/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/ruckusing --config=config/php-scoper/ruckusing.inc.php --force --quiet"
+		],
+		"prefix-idiorm": [
+			"./vendor/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/j4mie/idiorm --config=config/php-scoper/idiorm.inc.php --force --quiet"
+		],
 		"post-install-cmd": [
-			"xrstf\\Composer52\\Generator::onPostInstallCmd"
+			"xrstf\\Composer52\\Generator::onPostInstallCmd",
+			"Yoast\\YoastSEO\\Config\\Dependency_Management::prefix_dependencies"
 		],
 		"post-update-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd"

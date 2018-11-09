@@ -4,6 +4,7 @@ import {
 	updateData,
 } from "../redux/actions/snippetEditor";
 import {
+	excerptFromContent,
 	fillReplacementVariables,
 	mapCustomFields,
 	mapCustomTaxonomies,
@@ -31,6 +32,12 @@ class Data {
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
 
+	/**
+	 * Initializes this Gutenberg data instance.
+	 *
+	 * @param {Object} replaceVars The replacevars.
+	 * @returns {void}
+	 */
 	initialize( replaceVars ) {
 		// Fill data object on page load.
 		this._data = this.getInitialData( replaceVars );
@@ -38,6 +45,13 @@ class Data {
 		this.subscribeToGutenberg();
 	}
 
+	/**
+	 * Retrieves the initial data.
+	 *
+	 * @param {Object} replaceVars The replacevars.
+	 *
+	 * @returns {Object} The initial data.
+	 */
 	getInitialData( replaceVars ) {
 		const gutenbergData = this.collectGutenbergData( this.getPostAttribute );
 
@@ -74,9 +88,9 @@ class Data {
 			return false;
 		}
 
-		for( let dataPoint in currentData ) {
+		for ( const dataPoint in currentData ) {
 			if ( currentData.hasOwnProperty( dataPoint ) ) {
-				if( ! ( dataPoint in gutenbergData ) || currentData[ dataPoint ] !== gutenbergData[ dataPoint ] ) {
+				if ( ! ( dataPoint in gutenbergData ) || currentData[ dataPoint ] !== gutenbergData[ dataPoint ] ) {
 					return false;
 				}
 			}
@@ -140,7 +154,9 @@ class Data {
 			content: this.getPostAttribute( "content" ),
 			title: this.getPostAttribute( "title" ),
 			slug: this.getSlug(),
-			excerpt: this.getPostAttribute( "excerpt" ),
+			excerpt: this.getExcerpt(),
+			// eslint-disable-next-line camelcase
+			excerpt_only: this.getExcerpt( false ),
 		};
 	}
 
@@ -159,7 +175,7 @@ class Data {
 		// Handle excerpt change
 		if ( this._data.excerpt !== newData.excerpt ) {
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
-			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt ) );
+			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt_only ) );
 		}
 		// Handle slug change
 		if ( this._data.slug !== newData.slug ) {
@@ -168,15 +184,31 @@ class Data {
 	}
 
 	/**
+	 * Gets the excerpt from the post.
+	 *
+	 * @param {boolean} useFallBack Whether the fallback for content should be used.
+	 *
+	 * @returns {string} The excerpt.
+	 */
+	getExcerpt( useFallBack = true ) {
+		const excerpt = this.getPostAttribute( "excerpt" );
+		if ( excerpt !== "" || useFallBack === false ) {
+			return excerpt;
+		}
+
+		return excerptFromContent( this.getPostAttribute( "content" ) );
+	}
+
+	/**
 	 * Refreshes YoastSEO's app when the Gutenberg data is dirty.
 	 *
 	 * @returns {void}
 	 */
 	refreshYoastSEO() {
-		let gutenbergData = this.collectGutenbergData();
+		const gutenbergData = this.collectGutenbergData();
 
 		// Set isDirty to true if the current data and Gutenberg data are unequal.
-		let isDirty = ! this.isShallowEqual( this._data, gutenbergData );
+		const isDirty = ! this.isShallowEqual( this._data, gutenbergData );
 
 		if ( isDirty ) {
 			this.handleEditorChange( gutenbergData );

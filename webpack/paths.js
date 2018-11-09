@@ -43,7 +43,7 @@ const entry = {
  * @returns {string} The flattened version.
  */
 function flattenVersionForFile( version ) {
-	let versionParts = version.split( "." );
+	const versionParts = version.split( "." );
 	if ( versionParts.length === 2 && /^\d+$/.test( versionParts[ 1 ] ) ) {
 		versionParts.push( 0 );
 	}

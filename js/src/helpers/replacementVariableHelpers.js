@@ -1,3 +1,5 @@
+/* global wp */
+
 /* External dependencies */
 import forEach from "lodash/forEach";
 import omit from "lodash/omit";
@@ -43,7 +45,7 @@ export function handlePrefixes( name ) {
 	}
 
 	// Strip "ct_", "cf_", or "pt_", and save it for the switch statement.
-	let prefix = name.slice( 0, 3 );
+	const prefix = name.slice( 0, 3 );
 	name = name.slice( 3 );
 
 	// Remove "desc_" and append " description".
@@ -52,7 +54,7 @@ export function handlePrefixes( name ) {
 	}
 
 	// Appends the prefix in full-word form at the end of the name.
-	switch( prefix ) {
+	switch ( prefix ) {
 		case "ct_":
 			name += " (custom taxonomy)";
 			break;
@@ -157,7 +159,7 @@ export function prepareCustomTaxonomyForDispatch( name ) {
  * @returns {Object}                 The restructured replacevars object without custom_taxonomies.
  */
 export function mapCustomTaxonomies( replaceVars, store ) {
-	if( ! replaceVars.custom_taxonomies ) {
+	if ( ! replaceVars.custom_taxonomies ) {
 		return replaceVars;
 	}
 
@@ -166,7 +168,7 @@ export function mapCustomTaxonomies( replaceVars, store ) {
 			name,
 			label,
 			descriptionName,
-			descriptionLabel
+			descriptionLabel,
 		} = prepareCustomTaxonomyForDispatch( key );
 
 		store.dispatch( updateReplacementVariable( name, value.name, label ) );
@@ -187,7 +189,7 @@ export function mapCustomTaxonomies( replaceVars, store ) {
  * @returns {Object}                 The restructured replacevars object without custom_fields.
  */
 export function mapCustomFields( replaceVars, store ) {
-	if( ! replaceVars.custom_fields ) {
+	if ( ! replaceVars.custom_fields ) {
 		return replaceVars;
 	}
 
@@ -199,4 +201,28 @@ export function mapCustomFields( replaceVars, store ) {
 	return omit( {
 		...replaceVars,
 	}, "custom_fields" );
+}
+
+/**
+ * Extracts the excerpt from the given content.
+ *
+ * @param {string} content The content.
+ * @param {number} limit   The amount of characters to extract.
+ *
+ * @returns {string} The generated excerpt.
+ */
+export function excerptFromContent( content, limit = 156 ) {
+	content = wp.sanitize.stripTags( content );
+	content = content.trim();
+
+	// When the content is shorter than 156 characters, use the entire content.
+	if ( content.length <= limit ) {
+		return content;
+	}
+
+	// Retrieves the first 156 chars from the content.
+	content = content.substring( 0, limit );
+
+	// Caps to the last space to have a full last word.
+	return content.substring( 0, content.lastIndexOf( " " ) );
 }

@@ -238,6 +238,7 @@ class WPSEO_Meta {
 		'title'       => 'text',
 		'description' => 'textarea',
 		'image'       => 'upload',
+		'image-id'    => 'hidden',
 	);
 
 	/**
@@ -360,6 +361,10 @@ class WPSEO_Meta {
 				}
 				elseif ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) ) {
 					$post_type = sanitize_text_field( $_GET['post_type'] );
+				}
+
+				if ( $post_type === '' ) {
+					return array();
 				}
 
 				/* Adjust the no-index text strings based on the post type. */
@@ -490,19 +495,6 @@ class WPSEO_Meta {
 			default:
 				if ( is_string( $meta_value ) ) {
 					$clean = WPSEO_Utils::sanitize_text_field( trim( $meta_value ) );
-				}
-
-				if ( $meta_key === self::$meta_prefix . 'focuskw' ) {
-					$clean = str_replace( array(
-						'&lt;',
-						'&gt;',
-						'&quot',
-						'&#96',
-						'<',
-						'>',
-						'"',
-						'`',
-					), '', $clean );
 				}
 
 				break;

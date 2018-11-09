@@ -1,6 +1,4 @@
 // https://github.com/sindresorhus/grunt-sass
-"use strict";
-
 module.exports = {
 	build: {
 		files: {
