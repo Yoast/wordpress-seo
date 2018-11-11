@@ -1,14 +1,14 @@
 // External dependencies.
+import { setLocaleData } from "@wordpress/i18n";
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import testPapers from "yoastspec/fullTextTests/testTexts";
 import Paper from "yoastsrc/values/Paper";
-import { setLocaleData } from "@wordpress/i18n";
 
 // Internal dependencies.
-import { Container } from "./components/Container";
 import Collapsible from "./components/Collapsible";
 import { ColumnLeft, ColumnRight, Columns } from "./components/Columns";
+import { Container } from "./components/Container";
 import Controls from "./components/Controls";
 import Inputs from "./components/Inputs";
 import Markings from "./components/Markings";
@@ -17,6 +17,7 @@ import WorkerStatus from "./components/WorkerStatus";
 import { setResults } from "./redux/actions/results";
 import { setStatus } from "./redux/actions/worker";
 import formatAnalyzeResult from "./utils/formatAnalyzeResult";
+import getMorphologyData from "./utils/getMorphologyData";
 
 class App extends React.Component {
 	/**
@@ -49,9 +50,15 @@ class App extends React.Component {
 	 * @returns {void}
 	 */
 	initialize() {
-		const { configuration, worker } = this.props;
+		const { configuration, worker, useMorphology } = this.props;
+		const config = {
+			...configuration,
+			researchData: {
+				morphology: useMorphology ? getMorphologyData() : {},
+			},
+		};
 
-		worker.initialize( configuration )
+		worker.initialize( config )
 			.then( () => this.analyze() );
 	}
 
@@ -63,17 +70,29 @@ class App extends React.Component {
 	 * @returns {void}
 	 */
 	analyze( paper = this.props.paper ) {
-		const { setWorkerStatus, setAnalyzeResults, worker } = this.props;
+		const { setWorkerStatus, setAnalyzeResults, worker, isRelatedKeyphrase } = this.props;
 		const paperToAnalyze = Paper.parse( paper );
 
 		setWorkerStatus( "analyzing" );
 
-		worker.analyze( paperToAnalyze )
-			.then( ( { result } ) => {
-				setWorkerStatus( "idling" );
-
-				setAnalyzeResults( formatAnalyzeResult( result, "" ) );
-			} );
+		if ( isRelatedKeyphrase ) {
+			worker.analyzeRelatedKeywords( Paper.parse( paper ), {
+				relatedKeyphrase: {
+					keyword: paperToAnalyze.getKeyword(),
+					synonyms: paperToAnalyze.getSynonyms(),
+				},
+			} )
+				.then( ( { result } ) => {
+					setWorkerStatus( "idling" );
+					setAnalyzeResults( formatAnalyzeResult( result, "relatedKeyphrase" ) );
+				} );
+		} else {
+			worker.analyze( paperToAnalyze )
+				.then( ( { result } ) => {
+					setWorkerStatus( "idling" );
+					setAnalyzeResults( formatAnalyzeResult( result, "" ) );
+				} );
+		}
 	}
 
 	/**
@@ -154,8 +173,10 @@ class App extends React.Component {
 export default connect(
 	( state ) => {
 		return {
-			useKeywordDistribution: state.configuration.useKeywordDistribution,
 			paper: state.paper,
+			useKeywordDistribution: state.configuration.useKeywordDistribution,
+			isRelatedKeyphrase: state.options.isRelatedKeyphrase,
+			useMorphology: state.options.useMorphology,
 		};
 	},
 	( dispatch ) => {

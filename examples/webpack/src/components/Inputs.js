@@ -1,5 +1,5 @@
 // External dependencies.
-import { capitalize, noop } from "lodash-es";
+import { capitalize, isEmpty, noop } from "lodash-es";
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -7,6 +7,7 @@ import Toggle from "yoast-components/composites/Plugin/Shared/components/Toggle"
 
 // Internal dependencies.
 import { setConfigurationAttribute } from "../redux/actions/configuration";
+import { setOption } from "../redux/actions/options";
 import { setPaperAttribute } from "../redux/actions/paper";
 import measureTextWidth from "../utils/measureTextWidth";
 import { ColumnLeft, ColumnRight, Columns } from "./Columns";
@@ -43,7 +44,7 @@ function renderLeftColumn( props ) {
 				labelText="Is a related keyphrase"
 				isEnabled={ props.isRelatedKeyphrase }
 				onSetToggleState={ value => {
-					props.setConfigurationAttribute( "isRelatedKeyphrase", value );
+					props.setOption( "isRelatedKeyphrase", value );
 				} }
 				onToggleDisabled={ noop }
 			/>
@@ -116,6 +117,18 @@ function renderRightColumn( props ) {
 				onToggleDisabled={ noop }
 			/>
 		</Container>
+
+		<Container>
+			<Toggle
+				id="toggle-use-morphology"
+				labelText="Use morphology"
+				isEnabled={ props.useMorphology }
+				onSetToggleState={ value => {
+					props.setOption( "useMorphology", value );
+				} }
+				onToggleDisabled={ noop }
+			/>
+		</Container>
 	</section>;
 }
 
@@ -138,14 +151,16 @@ export default connect(
 		return {
 			paper: state.paper,
 			useCornerstone: state.configuration.useCornerstone,
-			isRelatedKeyphrase: state.configuration.isRelatedKeyphrase,
 			useTaxonomy: state.configuration.useTaxonomy,
+			isRelatedKeyphrase: state.options.isRelatedKeyphrase,
+			useMorphology: state.options.useMorphology,
 		};
 	},
 	( dispatch ) => {
 		return bindActionCreators( {
-			setPaperAttribute,
 			setConfigurationAttribute,
+			setOption,
+			setPaperAttribute,
 		}, dispatch );
 	},
 )( Inputs );
