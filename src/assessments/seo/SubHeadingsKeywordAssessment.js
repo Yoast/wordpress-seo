@@ -237,7 +237,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					i18n.dngettext(
 						"js-text-analysis",
 						"%1$sKeyphrase in subheading%2$s: Your subheading reflects the topic of your copy. Good job!",
-						"%1$sKeyphrase in subheading%2$s: %3$d% of your subheadings reflect the topic of your copy. Good job!",
+						"%1$sKeyphrase in subheading%2$s: %3$s of your subheadings reflect the topic of your copy. Good job!",
 						this._subHeadings.matches,
 					),
 					this._config.urlTitle,
