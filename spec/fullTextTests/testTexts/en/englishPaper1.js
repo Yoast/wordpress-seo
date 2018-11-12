@@ -1,5 +1,5 @@
-import Paper from "../../../src/values/Paper.js";
-import loadText from "../../../src/helpers/loadFullTextPapers";
+import Paper from "../../../../src/values/Paper.js";
+import loadText from "../../../../src/helpers/loadFullTextPapers";
 
 const language = "en";
 const name = "englishPaper1";

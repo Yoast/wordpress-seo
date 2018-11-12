@@ -1,16 +1,16 @@
-import Paper from "../../../src/values/Paper.js";
-import loadText from "../../../src/helpers/loadFullTextPapers";
+import Paper from "../../../../src/values/Paper.js";
+import loadText from "../../../../src/helpers/loadFullTextPapers";
 
-const language = "sv";
-const name = "swedishPaper1";
+const language = "en";
+const name = "englishPaper2";
 
 const paper = new Paper( loadText( language, name ), {
-	keyword: "Ester Nordström",
-	synonyms: "Ester Blenda Nordström, Essan",
-	description: "",
+	keyword: "Google Search Console data",
+	synonyms: "Google Click Through Rate, Google CTR",
+	description: "Google Search Console has a totally new interface! And new features: e.g. 16 months of data. Annelieke explains what you can do with it!",
 	title: "Annelieke's Analytics: 16 months of Google Search Console data",
 	titleWidth: 450,
-	locale: "sv_SE",
+	locale: "en_EN",
 	url: "https://yoast.com/16-months-of-google-search-console-data/",
 } );
 
