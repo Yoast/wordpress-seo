@@ -106,15 +106,13 @@ function getOffsets( mark ) {
 	const endMark = "</yoastmark>";
 
 	const startOffset = marked.indexOf( startMark );
-	let endOffset = marked.indexOf( endMark );
-
-	endOffset = endOffset - startMark.length;
+	const endOffset = marked.indexOf( endMark ) - startMark.length;
 
 	return { startOffset, endOffset };
 }
 
 /**
- * Calculates an annotation if the given mark is applicable tot he content of a block.
+ * Calculates an annotation if the given mark is applicable to the content of a block.
  *
  * @param {string} content             The content of the block.
  * @param {Mark}   mark                The mark to apply to the content.
@@ -135,7 +133,9 @@ function calculateAnnotationsForTextFormat( content, mark, block, multilineTag =
 	 * Try again with a different HTML tag strip tactic.
 	 *
 	 * The rich text format in Gutenberg has no HTML at all while our marks might have some HTML.
-	 * So we try to find a mark index based on the mark content with all tags stripped.
+	 * So we try to find a mark index based on the mark content with all tags stripped. In the
+	 * above stripHTMLTags, HTML tags are replaced by a space. We try again by replacing HTML
+	 * tags by nothing.
 	 */
 	if ( foundIndex === -1 ) {
 		original = mark.getOriginal().replace( /(<([^>]+)>)/ig, "" );
@@ -149,16 +149,23 @@ function calculateAnnotationsForTextFormat( content, mark, block, multilineTag =
 
 	const offsets = getOffsets( mark );
 
+	/*
+	 * The offsets.startOffset and offsets.endOffset are offsets of the <yoastmark> relative to the
+	 * start of the Mark object. The foundIndex is the index form the start of the RichText until
+	 * the matched Mark, so to calculate the offset from the RichText to the <yoastmark> we need
+	 * to add those offsets.
+	 */
 	const startOffset = foundIndex + offsets.startOffset;
 	let endOffset = foundIndex + offsets.endOffset;
 
-	// If the marks are at the beginning and the end we can use the length
-	// Which gives more consistent results given we strip HTML tags in there.
+	/*
+	 * If the marks are at the beginning and the end we can use the length, which gives more
+	 * consistent results given we strip HTML tags.
+	 */
 	if ( offsets.startOffset === 0 && offsets.endOffset === mark.getOriginal().length ) {
 		endOffset = foundIndex + original.length;
 	}
 
-	// Simplest possible solution:
 	return {
 		block: block.clientId,
 		startOffset,
@@ -172,7 +179,7 @@ function calculateAnnotationsForTextFormat( content, mark, block, multilineTag =
  * @param {string} blockTypeName The name of the block type.
  * @returns {string[]} The attributes that we can annotate.
  */
-function getAnnotateAbleAttributes( blockTypeName ) {
+function getAnnotatableAttributes( blockTypeName ) {
 	if ( ! ANNOTATION_ATTRIBUTES.hasOwnProperty( blockTypeName ) ) {
 		return [];
 	}
@@ -183,7 +190,7 @@ function getAnnotateAbleAttributes( blockTypeName ) {
 /**
  * Returns annotations that should be applied to the given attribute.
  *
- * @param {Object} attribute The attribute to apply annotations on.
+ * @param {Object} attribute The attribute to apply annotations to.
  * @param {Object} block     The block information in the state.
  * @param {Array}  marks     The marks to turn into annotations.
  *
@@ -229,12 +236,13 @@ function removeAllAnnotations() {
 /**
  * Applies the given marks as annotations in the block editor.
  *
- * @param {Paper} paper The paper that the marks are calculated on.
+ * @param {Paper} paper The paper that the marks are calculated for.
  * @param {Mark[]} marks The marks to annotate in the text.
+ *
  * @returns {void}
  */
 export function applyAsAnnotations( paper, marks ) {
-	// Do this always to allow people to select a different eye marker.
+	// Do this always to allow people to select a different eye marker while another one is active.
 	removeAllAnnotations();
 
 	if ( marks.length === 0 ) {
@@ -245,9 +253,9 @@ export function applyAsAnnotations( paper, marks ) {
 
 	// For every block...
 	const annotations = flatMap( blocks, ( ( block ) => {
-		// We go through every annotate able attribute.
+		// We go through every annotatable attribute.
 		return flatMap(
-			getAnnotateAbleAttributes( block.name ),
+			getAnnotatableAttributes( block.name ),
 			( ( attribute ) => getAnnotationsForBlockAttribute( attribute, block, marks ) )
 		);
 	} ) );
