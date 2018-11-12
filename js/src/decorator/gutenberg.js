@@ -217,6 +217,16 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 }
 
 /**
+ * Removes all annotations from the editor.
+ *
+ * @returns {void}
+ */
+function removeAllAnnotations() {
+	annotationQueue = [];
+	dispatch( "core/annotations" ).__experimentalRemoveAnnotationsBySource( ANNOTATION_SOURCE );
+}
+
+/**
  * Applies the given marks as annotations in the block editor.
  *
  * @param {Paper} paper The paper that the marks are calculated on.
@@ -224,9 +234,10 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
  * @returns {void}
  */
 export function applyAsAnnotations( paper, marks ) {
+	// Do this always to allow people to select a different eye marker.
+	removeAllAnnotations();
+
 	if ( marks.length === 0 ) {
-		annotationQueue = [];
-		dispatch( "core/annotations" ).__experimentalRemoveAnnotationsBySource( ANNOTATION_SOURCE );
 		return;
 	}
 
