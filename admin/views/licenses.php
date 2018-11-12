@@ -81,33 +81,15 @@ if ( ! defined( 'WPSEO_LOCAL_WOOCOMMERCE_VERSION' ) ) {
 				'desc'      => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
 				'image'     => plugins_url( 'images/extensions-local.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
 				'benefits'  => array(
-					__( 'Get found by potential clients', 'wordpress-seo' ),
+					__( 'Get better search results in local search', 'wordpress-seo' ),
 					__( 'Easily insert Google Maps, a store locator, opening hours and more', 'wordpress-seo' ),
-					__( 'Improve the usability of your contact page', 'wordpress-seo' ),
+					/* translators: %1$s expands to WooCommerce  */
+					sprintf( __( 'Allow customers to pick up their %s order locally', 'wordpress-seo' ), 'WooCommerce' ),
 				),
 			)
 		)
 	);
 }
-
-$extensions->add(
-	'wpseo-local-woocommerce',
-	new WPSEO_Extension(
-		array(
-			'buyUrl'    => WPSEO_Shortlinker::get( 'https://yoa.st/272' ),
-			'infoUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/273' ),
-			'title'     => 'Local SEO for WooCommerce',
-			'desc'      => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
-			'image'     => plugins_url( 'images/extensions-local-for-woocommerce.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
-			'benefits'  => array(
-				esc_html__( 'Get better search results in local search', 'wordpress-seo' ),
-				esc_html__( 'Enhance your contact pages with Google Maps, opening hours and a store locator', 'wordpress-seo' ),
-				/* translators: %1$s expands to WooCommerce  */
-				sprintf( esc_html__( 'Allow customers to pick up their %s order locally', 'wordpress-seo' ), 'WooCommerce' ),
-			),
-		)
-	)
-);
 
 // Add Yoast WooCommerce SEO when WooCommerce is active.
 if ( WPSEO_Utils::is_woocommerce_active() ) {
