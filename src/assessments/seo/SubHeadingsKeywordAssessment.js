@@ -160,8 +160,10 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether there are too few subheadings with the keyword. This is the case if the number of subheadings
-	 * with the keyword is more than 0 but less than the specified recommended minimum.
+	 * Checks whether there are too few subheadings with the keyword.
+	 *
+	 * This is the case if the number of subheadings with the keyword is more than 0 but less than the specified
+	 * recommended minimum.
 	 *
 	 * @returns {boolean} Returns true if the keyword is included in too few subheadings.
 	 */
@@ -170,25 +172,33 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether there is a good number of subheadings with the keyword. This is the case if there
-	 * is only one subheading and that subheading includes the keyword or if the number of subheadings
-	 * with the keyword is within the specified recommended range.
+	 * Checks whether there is a good number of subheadings with the keyword.
+	 *
+	 * This is the case if there is only one subheading and that subheading includes the keyword or if the number of
+	 * subheadings with the keyword is within the specified recommended range.
 	 *
 	 * @returns {boolean} Returns true if the keyword is included in a sufficient number of subheadings.
 	 */
 	hasGoodNumberOfMatches() {
-		return ( this._subHeadings.count === 1 && this._subHeadings.matches === 1 ) ||
-			inRangeStartEndInclusive( this._subHeadings.matches, this._minNumberOfSubheadings, this._maxNumberOfSubheadings );
+		return (
+				this._subHeadings.count === 1 &&
+				this._subHeadings.matches === 1
+			) ||
+			inRangeStartEndInclusive(
+				this._subHeadings.matches,
+				this._minNumberOfSubheadings,
+				this._maxNumberOfSubheadings,
+			);
 	}
 
 	/**
 	 * Checks whether there are too many subheadings with the keyword.
-	 * The upper limit is only applicable if there is more than one subheading.
-	 * If there is only one subheading with the keyword this would otherwise
-	 * always lead to a 100% match rate.
 	 *
-	 * @returns {boolean} Returns true if there is more than one subheading and if
-	 * the keyword is included in less subheadings than the recommended maximum.
+	 * The upper limit is only applicable if there is more than one subheading. If there is only one subheading with
+	 * the keyword this would otherwise always lead to a 100% match rate.
+	 *
+	 * @returns {boolean} Returns true if there is more than one subheading and if the keyword is included in less
+	 *                    subheadings than the recommended maximum.
 	 */
 	hasTooManyMatches() {
 		return this._subHeadings.count > 1 && this._subHeadings.matches > this._maxNumberOfSubheadings;
