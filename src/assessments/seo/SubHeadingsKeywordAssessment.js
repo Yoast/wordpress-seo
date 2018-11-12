@@ -61,8 +61,8 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 		let calculatedResult;
 
 		if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
-			this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.parameters.lowerBoundary );
-			this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.parameters.upperBoundary );
+			this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.parametersRecalibration.lowerBoundary );
+			this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.parametersRecalibration.upperBoundary );
 			calculatedResult = this.calculateResultRecalibration( i18n );
 		} else {
 			calculatedResult = this.calculateResultRegular( i18n );
