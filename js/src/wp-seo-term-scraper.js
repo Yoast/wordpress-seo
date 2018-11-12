@@ -321,7 +321,7 @@ window.yoastHideMarkers = true;
 
 		// Init Plugins.
 		YoastSEO.wp = {};
-		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
+		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 
 		// For backwards compatibility.
 		YoastSEO.analyzerArgs = args;
