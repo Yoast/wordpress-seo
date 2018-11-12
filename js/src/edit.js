@@ -23,6 +23,8 @@ import * as actions from "./redux/actions";
 import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
 import PrimaryTaxonomyFilter from "./components/PrimaryTaxonomyFilter";
+import { setMarkerStatus } from "./redux/actions";
+import { isAnnotationAvailable } from "./decorator/gutenberg";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -220,6 +222,17 @@ class Edit {
 			lastData = state;
 			usedKeywords.setKeyword( state.focusKeyword );
 		} );
+	}
+
+	/**
+	 * Enables marker button if WordPress annotation is available.
+	 *
+	 * @returns {void}
+	 */
+	initializeAnnotations() {
+		if ( isAnnotationAvailable() ) {
+			this._store.dispatch( setMarkerStatus( "enabled" ) );
+		}
 	}
 
 	/**

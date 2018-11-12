@@ -109,6 +109,7 @@ module.exports = function( env = { environment: "production" } ) {
 				"@wordpress/components": "window.wp.components",
 				"@wordpress/i18n": "window.wp.i18n",
 				"@wordpress/api-fetch": "window.wp.apiFetch",
+				"@wordpress/rich-text": "window.wp.richText",
 
 				"styled-components": "window.yoast.styledComponents",
 			},
