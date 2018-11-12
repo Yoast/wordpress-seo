@@ -615,8 +615,8 @@ class WPSEO_Breadcrumbs {
 
 		$this->crumbs[] = array(
 			'text'           => sprintf(
-				/* translators: %1$s expands to the current page */
-				__( 'Page %1$s', 'wordpress-seo' ),
+				/* translators: %s expands to the current page number */
+				__( 'Page %s', 'wordpress-seo' ),
 				$current_page
 			),
 			'url'            => '',
