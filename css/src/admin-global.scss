@@ -221,14 +221,10 @@ th.column-wpseo-score-readability .yoast-tooltip {
 }
 
 .column-wpseo-links .yoast-tooltip-multiline::after {
-	/* Edge doesn't support width: max-content; */
-	width: 999px;
 	max-width: 160px;
 }
 
 .column-wpseo-linked .yoast-tooltip-multiline::after {
-	/* Edge doesn't support width: max-content; */
-	width: 999px;
 	max-width: 170px;
 }
 
@@ -462,21 +458,21 @@ td.column-wpseo-linked {
 }
 
 .yoast-button-upsell {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	min-height: 48px;
+	padding: 8px 1em;
 	font-size: 16px;
-	font-family: $font-stack-default;
+	line-height: 1.5;
+	font-family: Arial, sans-serif;
 	color: $color-black;
 	border-radius: 4px;
 	box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2);
 	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-	min-height: 48px;
-	text-transform: initial;
-	// Make space on the right for the caret background image. 9px at the top to vertically align the text with the caret.
-	padding: 9px 1.5em 9px 1em;
-	box-sizing: border-box;
-	background: $color-button-upsell url(svg-icon-caret-right()) 97% 45% no-repeat;
-	display: inline-block;
 	text-decoration: none;
-	line-height: 24px;
+	background-color: $color-button-upsell;
 
 	&:hover,
 	&:focus,
@@ -498,7 +494,7 @@ td.column-wpseo-linked {
 
 	// Only needed for IE 10+. Don't add spaces within brackets for this to work.
 	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-		::after {
+		&::after {
 			display: inline-block;
 			content: "";
 			min-height: 32px;
@@ -507,5 +503,18 @@ td.column-wpseo-linked {
 
 	&#wpseo-premium-button {
 		color: $color-black;
+	}
+
+	&__caret {
+		flex-shrink: 0;
+		width: 8px;
+		height: 16px;
+		// Negative margin to compensate the icon white space within its viewbox.
+		margin: 0 -2px 0 6px;
+		background: transparent url(svg-icon-caret-right()) center no-repeat;
+
+		.rtl & {
+			background-image: url(svg-icon-caret-left());
+		}
 	}
 }

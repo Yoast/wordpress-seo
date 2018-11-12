@@ -6,7 +6,7 @@ var Jed = require( "jed" );
 
 import {
 	Paper,
-	SEOAssessor,
+	ContentAssessor,
 	TaxonomyAssessor,
 } from "yoastseo";
 
@@ -48,7 +48,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	 * @returns {void}
 	 */
 	YoastRecalculateScore.prototype.setupAssessors = function() {
-		var postAssessor = new SEOAssessor( i18n );
+		var postAssessor = new ContentAssessor( i18n );
 		var taxonomyAssessor = new TaxonomyAssessor( i18n );
 
 		this.validAssessors = {

@@ -38,6 +38,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 				/* translators: %s is replaced by the plugin name */
 				printf( esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 				echo $new_tab_message;
+				echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 				?>
 			</a><br>
 		</div>
