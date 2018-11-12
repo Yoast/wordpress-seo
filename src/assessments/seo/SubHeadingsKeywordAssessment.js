@@ -181,14 +181,14 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 */
 	hasGoodNumberOfMatches() {
 		return (
-				this._subHeadings.count === 1 &&
-				this._subHeadings.matches === 1
-			) ||
-			inRangeStartEndInclusive(
-				this._subHeadings.matches,
-				this._minNumberOfSubheadings,
-				this._maxNumberOfSubheadings,
-			);
+			this._subHeadings.count === 1 &&
+			this._subHeadings.matches === 1
+		) ||
+		inRangeStartEndInclusive(
+			this._subHeadings.matches,
+			this._minNumberOfSubheadings,
+			this._maxNumberOfSubheadings,
+		);
 	}
 
 	/**
