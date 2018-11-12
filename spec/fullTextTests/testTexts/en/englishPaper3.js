@@ -53,12 +53,12 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 529 words. Good job!",
 	},
 	externalLinks: {
-		score: 9,
-		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: Good job!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: No outbound links appear in this page. <a href='https://yoa.st/34g' target='_blank'>Add some</a>!",
 	},
 	internalLinks: {
-		score: 3,
-		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: No internal links appear in this page, <a href='https://yoa.st/34a' target='_blank'>make sure to add some</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: You have enough internal links. Good job!",
 	},
 	titleKeyword: {
 		score: 9,
@@ -86,7 +86,7 @@ const expectedResults = {
 	},
 	fleschReadingEase: {
 		score: 9,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 63.8 in the test, which is considered ok to read. Good job!",
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 63.5 in the test, which is considered ok to read. Good job!",
 	},
 	subheadingsTooLong: {
 		score: 9,

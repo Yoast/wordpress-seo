@@ -49,7 +49,7 @@ const expectedResults = {
 	},
 	textLength: {
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 716 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 721 words. Good job!",
 	},
 	externalLinks: {
 		score: 9,
@@ -85,16 +85,15 @@ const expectedResults = {
 	},
 	fleschReadingEase: {
 		score: 9,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 78.7 in the test, which is considered fairly easy to read. Good job!",
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 79.5 in the test, which is considered fairly easy to read. Good job!",
 	},
 	subheadingsTooLong: {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: Great job!",
 	},
 	textParagraphTooLong: {
-		score: 3,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs contains more than the recommended maximum of 150 words." +
-		" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
 	},
 	textSentenceLength: {
 		score: 9,
@@ -102,7 +101,7 @@ const expectedResults = {
 	},
 	textTransitionWords: {
 		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 28.6% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 24.5% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		score: 9,

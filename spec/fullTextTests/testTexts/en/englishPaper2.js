@@ -44,20 +44,20 @@ const expectedResults = {
 		resultText: "",
 	},
 	textImages: {
-		score: 9,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Some images on this page contain alt attributes with words from your keyphrase! Good job!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Images on this page do not have alt attributes with words from your keyphrase. <a href='https://yoa.st/33d' target='_blank'>Fix that</a>!",
 	},
 	textLength: {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 908 words. Good job!",
 	},
 	externalLinks: {
-		score: 9,
-		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: Good job!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: No outbound links appear in this page. <a href='https://yoa.st/34g' target='_blank'>Add some</a>!",
 	},
 	internalLinks: {
-		score: 3,
-		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: No internal links appear in this page, <a href='https://yoa.st/34a' target='_blank'>make sure to add some</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: You have enough internal links. Good job!",
 	},
 	titleKeyword: {
 		score: 6,
