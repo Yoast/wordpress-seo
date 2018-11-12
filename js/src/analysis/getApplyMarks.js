@@ -25,7 +25,7 @@ function applyMarks( paper, marks ) {
 		decorator( paper, marks );
 	}
 
-	if ( isAnnotationAvailable ) {
+	if ( isAnnotationAvailable() ) {
 		applyAsAnnotations( paper, marks );
 	}
 }
