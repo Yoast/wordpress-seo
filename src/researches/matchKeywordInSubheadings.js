@@ -1,15 +1,12 @@
-/* @module analyses/matchKeywordInSubheadings */
-
-import stripSomeTags from "../stringProcessing/stripNonTextTags.js";
-
-import { getSubheadingContents, getSubheadingContentsTopLevel } from "../stringProcessing/getSubheadings.js";
-import { findTopicFormsInString } from "./findKeywordFormsInString.js";
+import { getSubheadingContents, getSubheadingContentsTopLevel } from "../stringProcessing/getSubheadings";
+import stripSomeTags from "../stringProcessing/stripNonTextTags";
+import { findTopicFormsInString } from "./findKeywordFormsInString";
 
 /**
  * Computes the amount of subheadings reflecting the topic.
  *
  * @param {Object}      topicForms      The main key phrase and its synonyms to check.
- * @param {String[]}    subheadings     The subheadings to check.
+ * @param {string[]}    subheadings     The subheadings to check.
  * @param {boolean}     useSynonyms     Whether to match synonyms or only main keyphrase.
  * @param {string}      locale          The current locale.
  *
@@ -50,7 +47,7 @@ export default function( paper, researcher ) {
 
 	const useSynonyms = true;
 
-	if ( 0 !== subheadings.length ) {
+	if ( subheadings.length !== 0 ) {
 		result.count = subheadings.length;
 		result.matches = numberOfSubheadingsReflectingTopic( topicForms, subheadings, useSynonyms, locale );
 		result.percentReflectingTopic = result.matches / result.count * 100;
@@ -58,4 +55,3 @@ export default function( paper, researcher ) {
 
 	return result;
 }
-
