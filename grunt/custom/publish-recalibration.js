@@ -87,7 +87,7 @@ module.exports = function( grunt ) {
 					// Save the request promise.
 					requests.push(
 						postRequest( {
-							url: "https://my.yoast.com/api/Downloads/file/" + entry.name,
+							url: "https://my.yoast.com/api/downloads/file/" + entry.name,
 							formData: {
 								file: fs.createReadStream( path.resolve( filename ) ),
 								"content-type": "application/javascript",
