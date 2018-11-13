@@ -11,7 +11,7 @@ const paper = new Paper( loadText( language, name ), {
 	title: "Ester Blenda Nordström",
 	titleWidth: 450,
 	locale: "sv_SE",
-	url: "https://sv.wikipedia.org/wiki/Ester_Blenda_Nordström",
+	url: "https://sv.wikipedia.org/wiki/Ester-Blenda-Nordström",
 } );
 
 const expectedResults = {
