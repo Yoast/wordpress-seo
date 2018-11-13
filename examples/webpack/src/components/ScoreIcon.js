@@ -30,7 +30,7 @@ export default function ScoreIcon( { score } ) {
 			break;
 		case "good":
 			icon = "seo-score-good";
-			color = colors.$color_good;
+			color = colors.$color_green_medium;
 			break;
 	}
 
