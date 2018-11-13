@@ -114,6 +114,7 @@
     "@babel/runtime": "7.0.0-beta.55",
     "@wordpress/api-fetch": "^2.1.0",
     "@wordpress/components": "^1.0.1",
+    "@wordpress/compose": "^2.1.2",
     "@wordpress/data": "^1.0.1",
     "@wordpress/element": "^1.0.1",
     "@wordpress/i18n": "^1.2.2",

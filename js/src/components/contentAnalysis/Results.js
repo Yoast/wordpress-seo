@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { LanguageNotice, ContentAnalysis } from "yoast-components";
 import { Fragment } from "@wordpress/element";
+import { compose } from "@wordpress/compose";
+import { withDispatch, withSelect } from "@wordpress/data";
 import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";
@@ -40,6 +42,8 @@ class Results extends React.Component {
 	 * @returns {void}
 	 */
 	handleMarkButtonClick( id, marker ) {
+		this.props.setActiveMarker( id );
+
 		if ( id ) {
 			marker();
 		} else {
@@ -101,6 +105,8 @@ Results.propTypes = {
 	canChangeLanguage: PropTypes.bool,
 	marksButtonClassName: PropTypes.string,
 	marksButtonStatus: PropTypes.string,
+	setActiveMartker: PropTypes.func.isRequired,
+	activeMarker: PropTypes.string.isRequired,
 };
 
 Results.defaultProps = {
@@ -110,4 +116,23 @@ Results.defaultProps = {
 	marksButtonStatus: "enabled",
 };
 
-export default Results;
+export default compose( [
+	withSelect( select => {
+		const {
+			getActiveMarker,
+		} = select( "yoast-seo/editor" );
+
+		return {
+			activeMarker: getActiveMarker(),
+		};
+	} ),
+	withDispatch( dispatch => {
+		const {
+			setActiveMarker,
+		} = dispatch( "yoast-seo/editor" );
+
+		return {
+			setActiveMarker,
+		};
+	} ),
+] )( Results );
