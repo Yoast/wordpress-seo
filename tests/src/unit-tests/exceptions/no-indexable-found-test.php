@@ -47,7 +47,7 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 		try {
 			throw No_Indexable_Found::from_post_id( 1 );
 		}
-		catch( No_Indexable_Found $e ) {
+		catch ( No_Indexable_Found $e ) {
 			$this->assertEquals(
 				'There is no indexable found for post id 1.',
 				$e->getMessage()
@@ -65,7 +65,7 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 		try {
 			throw No_Indexable_Found::from_term_id( 1, 'category' );
 		}
-		catch( No_Indexable_Found $e ) {
+		catch ( No_Indexable_Found $e ) {
 			$this->assertEquals(
 				'There is no indexable found for term id 1 and taxonomy category.',
 				$e->getMessage()
@@ -83,7 +83,7 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 		try {
 			throw No_Indexable_Found::from_primary_term( 1, 'category' );
 		}
-		catch( No_Indexable_Found $e ) {
+		catch ( No_Indexable_Found $e ) {
 			$this->assertEquals(
 				'There is no primary term found for post id 1 and taxonomy category.',
 				$e->getMessage()
@@ -101,13 +101,14 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 		try {
 			throw No_Indexable_Found::from_author_id( 1 );
 		}
-		catch( No_Indexable_Found $e ) {
+		catch ( No_Indexable_Found $e ) {
 			$this->assertEquals(
 				'There is no indexable found for author id 1.',
 				$e->getMessage()
 			);
 		}
 	}
+
 	/**
 	 * Tests the exception for a non existing indexable meta.
 	 *
@@ -118,7 +119,7 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 		try {
 			throw No_Indexable_Found::from_meta_key( 'name', 1 );
 		}
-		catch( No_Indexable_Found $e ) {
+		catch ( No_Indexable_Found $e ) {
 			$this->assertEquals(
 				'There is no meta found for indexable id 1 and meta key name.',
 				$e->getMessage()

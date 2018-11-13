@@ -73,8 +73,8 @@ class WPSEO_Metabox_Formatter {
 			 *
 			 * @param bool $showMarkers Should the markers being enabled. Default = true.
 			 */
-			'show_markers'          => apply_filters( 'wpseo_enable_assessment_markers', true ),
-			'publish_box'           => array(
+			'show_markers'              => apply_filters( 'wpseo_enable_assessment_markers', true ),
+			'publish_box'               => array(
 				'labels' => array(
 					'content' => array(
 						'na'   => sprintf(
@@ -130,8 +130,8 @@ class WPSEO_Metabox_Formatter {
 					),
 				),
 			),
-			'markdownEnabled'       => $this->is_markdown_enabled(),
-			'analysisHeadingTitle'  => __( 'Analysis', 'wordpress-seo' ),
+			'markdownEnabled'           => $this->is_markdown_enabled(),
+			'analysisHeadingTitle'      => __( 'Analysis', 'wordpress-seo' ),
 		);
 	}
 

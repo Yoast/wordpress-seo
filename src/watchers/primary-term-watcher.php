@@ -249,5 +249,4 @@ class Primary_Term_Watcher implements Integration {
 	protected function is_referer_valid( $taxonomy ) {
 		return check_admin_referer( 'save-primary-term', \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' );
 	}
-
 }

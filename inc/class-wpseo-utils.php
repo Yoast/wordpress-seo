@@ -1119,7 +1119,7 @@ SVG;
 	 * @return string The log level to use.
 	 */
 	public static function get_analysis_worker_log_level() {
-		if ( defined( 'YOAST_SEO_DEBUG' ) && YOAST_SEO_DEBUG  ) {
+		if ( defined( 'YOAST_SEO_DEBUG' ) && YOAST_SEO_DEBUG ) {
 			return defined( 'YOAST_SEO_DEBUG_ANALYSIS_WORKER' ) ? YOAST_SEO_DEBUG_ANALYSIS_WORKER : 'INFO';
 		}
 

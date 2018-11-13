@@ -34,9 +34,9 @@ class Primary_Term extends Yoast_Model {
 	public static function find_by_postid_and_taxonomy( $post_id, $taxonomy, $auto_create = true ) {
 		/** @var \Yoast\YoastSEO\Models\Primary_Term $indexable */
 		$indexable = Yoast_Model::of_type( 'Primary_Term' )
-		                        ->where( 'post_id', $post_id )
-		                        ->where( 'taxonomy', $taxonomy )
-		                        ->find_one();
+			->where( 'post_id', $post_id )
+			->where( 'taxonomy', $taxonomy )
+			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = Yoast_Model::of_type( 'Primary_Term' )->create();
@@ -62,5 +62,4 @@ class Primary_Term extends Yoast_Model {
 
 		return parent::save();
 	}
-
 }

@@ -3,6 +3,7 @@
 namespace Yoast\Tests\Doubles;
 
 class Plugin extends \Yoast\YoastSEO\Config\Plugin {
+
 	/**
 	 * Sets the value for the initialize success property
 	 *

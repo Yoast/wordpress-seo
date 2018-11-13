@@ -9,6 +9,7 @@
  * Unit Test Class.
  */
 class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * @var WPSEO_Admin_Asset_Manager
 	 */

@@ -254,7 +254,7 @@ class WPSEO_OpenGraph_Image {
 
 
 		$frontpage_image_url = WPSEO_Options::get( 'og_frontpage_image' );
-		$frontpage_image_id = WPSEO_Options::get( 'og_frontpage_image_id' );
+		$frontpage_image_id  = WPSEO_Options::get( 'og_frontpage_image_id' );
 
 		$this->add_image_by_id_or_url( $frontpage_image_id, $frontpage_image_url, array( $this, 'save_frontpage_image_id' ) );
 	}
@@ -370,7 +370,7 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	private function set_image_post_meta( $post_id = 0 ) {
-		$image_id = WPSEO_Meta::get_value( 'opengraph-image-id', $post_id );
+		$image_id  = WPSEO_Meta::get_value( 'opengraph-image-id', $post_id );
 		$image_url = WPSEO_Meta::get_value( 'opengraph-image', $post_id );
 
 		$this->add_image_by_id_or_url( $image_id, $image_url, array( $this, 'save_opengraph_image_id_meta' ) );
