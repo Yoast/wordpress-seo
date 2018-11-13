@@ -1000,16 +1000,6 @@ class WPSEO_Frontend {
 	 * @since 1.0.3
 	 */
 	public function adjacent_rel_links() {
-		// Don't do this for Genesis, as the way Genesis handles homepage functionality is different and causes issues sometimes.
-		/**
-		 * Filter 'wpseo_genesis_force_adjacent_rel_home' - Allows devs to allow echoing rel="next" / rel="prev" by Yoast SEO on Genesis installs.
-		 *
-		 * @api bool $unsigned Whether or not to rel=next / rel=prev .
-		 */
-		if ( is_home() && function_exists( 'genesis' ) && apply_filters( 'wpseo_genesis_force_adjacent_rel_home', false ) === false ) {
-			return;
-		}
-
 		/**
 		 * Filter: 'wpseo_disable_adjacent_rel_links' - Allows disabling of Yoast adjacent links if this is being handled by other code.
 		 *
