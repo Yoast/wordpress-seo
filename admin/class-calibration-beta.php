@@ -47,7 +47,7 @@ class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
 		foreach ( $values as $key => $value ) {
 			printf(
 				'<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s /><label for="%1$s">%5$s</label>',
-				esc_attr( $this->option_name . '-' . $key),
+				esc_attr( $this->option_name . '-' . $key ),
 				'wpseo[' . esc_attr( $this->option_name ) . ']',
 				esc_attr( $key ),
 				checked( $this->get_option_value(), esc_attr( $key ), false ),
@@ -79,8 +79,8 @@ class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
 	/**
 	 * Compares the logic between old and new option value and send the request.
 	 *
-	 * @param mixed  $old_value The old option value.
-	 * @param mixed  $new_value The new option value.
+	 * @param mixed $old_value The old option value.
+	 * @param mixed $new_value The new option value.
 	 *
 	 * @return void
 	 */
