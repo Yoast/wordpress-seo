@@ -630,6 +630,8 @@ class WPSEO_OpenGraph {
 		 */
 		$ogdesc = trim( apply_filters( 'wpseo_opengraph_desc', $ogdesc ) );
 
+		$ogdesc = wp_strip_all_tags( $ogdesc );
+
 		if ( is_string( $ogdesc ) && $ogdesc !== '' ) {
 			if ( $echo !== false ) {
 				$this->og_tag( 'og:description', $ogdesc );
