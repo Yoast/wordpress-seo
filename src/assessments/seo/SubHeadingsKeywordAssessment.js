@@ -119,7 +119,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					 */
 					i18n.dngettext(
 						"js-text-analysis",
-						"%1$sKeyphrase in subheading%2$s: Your subheading reflects the topic of your copy. Good job!"
+						"%1$sKeyphrase in subheading%2$s: Your subheading reflects the topic of your copy. Good job!",
 					),
 					this._config.urlTitle,
 					"</a>",
@@ -137,7 +137,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					 */
 					i18n.dngettext(
 						"js-text-analysis",
-						"%1$sKeyphrase in subheading%2$s: %3$s (out of %4$s) subheadings reflect the topic of your copy. Good job!"
+						"%1$sKeyphrase in subheading%2$s: %3$s (out of %4$s) subheadings reflect the topic of your copy. Good job!",
 					),
 					this._config.urlTitle,
 					"</a>",
@@ -155,7 +155,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 				 */
 				i18n.dngettext(
 					"js-text-analysis",
-					"%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your subheadings%3$s!"
+					"%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your subheadings%3$s!",
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
@@ -198,15 +198,14 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the keyphrase is included in a sufficient number of subheadings.
 	 */
 	hasGoodNumberOfMatches() {
-		return (
-				this._subHeadings.count === 1 &&
-				this._subHeadings.matches === 1
-			) ||
-			inRangeStartEndInclusive(
-				this._subHeadings.matches,
-				this._minNumberOfSubheadings,
-				this._maxNumberOfSubheadings,
-			);
+		const isOneOfOne = this._subHeadings.count === 1 && this._subHeadings.matches === 1;
+		const isInRange = inRangeStartEndInclusive(
+			this._subHeadings.matches,
+			this._minNumberOfSubheadings,
+			this._maxNumberOfSubheadings,
+		);
+
+		return isOneOfOne || isInRange;
 	}
 
 	/**
@@ -241,7 +240,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sKeyphrase in subheading%3$s: More than 75%% of your H2 and H3 subheadings reflect the topic of your copy. " +
-						"That's too much. %2$sDon't over-optimize%3$s!"
+						"That's too much. %2$sDon't over-optimize%3$s!",
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
