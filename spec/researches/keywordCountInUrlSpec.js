@@ -177,4 +177,11 @@ describe( "test to check url for keyword", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 0 } );
 	} );
+
+	it( "works with dash as word boundary un url", function() {
+		const paper = new Paper( "", { url: "cats_and_dogs", keyword: "cats and dogs" } );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
+	} );
 } );
