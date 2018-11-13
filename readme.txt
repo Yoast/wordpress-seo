@@ -111,6 +111,7 @@ Release Date: November 20th, 2018
 
 Enhancements:
 
+* Adds support for the 'eye' markers in Gutenberg using the experimental annotations API in Gutenberg. They will work for the paragraph, quote, heading and list blocks.
 * Adds the latest og:locale options provided by Facebook. Props to [valtlfelipe](https://github.com/valtlfelipe)
 * Adds support for oEmbed utilization of Yoast custom fields (post meta) values. Specifically the image and the title. Props to [ben-caplan](https://github.com/ben-caplan)
 * Improves the accessibility of the "Bulk editor" and "Search console" tables.

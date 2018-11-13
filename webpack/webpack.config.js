@@ -110,6 +110,7 @@ module.exports = function( env = { environment: "production" } ) {
 				"@wordpress/i18n": "window.wp.i18n",
 				"@wordpress/api-fetch": "window.wp.apiFetch",
 				"@wordpress/rich-text": "window.wp.richText",
+				"@wordpress/compose": "window.wp.compose",
 
 				"styled-components": "window.yoast.styledComponents",
 			},
@@ -132,6 +133,7 @@ module.exports = function( env = { environment: "production" } ) {
 				"@wordpress/components": "window.wp.components",
 				"@wordpress/i18n": "window.wp.i18n",
 				"@wordpress/api-fetch": "window.wp.apiFetch",
+				"@wordpress/compose": "window.wp.compose",
 			},
 			output: {
 				path: paths.jsDist,
@@ -145,6 +147,7 @@ module.exports = function( env = { environment: "production" } ) {
 				data: "./node_modules/@wordpress/data",
 				element: "./node_modules/@wordpress/element",
 				i18n: "./node_modules/@wordpress/i18n",
+				compose: "./node_modules/@wordpress/compose",
 			},
 			plugins,
 		},
