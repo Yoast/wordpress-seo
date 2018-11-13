@@ -162,6 +162,11 @@ describe( "An assessment for matching keywords in subheadings, for recalibration
 		expect( isApplicableResult ).toBe( false );
 	} );
 
+	it( "checks isApplicable for a paper without h2 or h3 subheadings", function() {
+		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( new Paper( "<p>some text</p><h4>heading</h4><p>some more text</p>", { keyword: "some keyword" } ) );
+		expect( isApplicableResult ).toBe( false );
+	} );
+
 	it( "checks isApplicable for a paper with text and keyword", function() {
 		const isApplicableResult = new SubheadingsKeywordAssessment().isApplicable( new Paper( "<p>some text</p><h2>heading</h2><p>some more text</p>", { keyword: "some keyword" } ) );
 		expect( isApplicableResult ).toBe( true );

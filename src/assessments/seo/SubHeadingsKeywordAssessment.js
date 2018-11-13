@@ -3,7 +3,7 @@ import { merge } from "lodash-es";
 import Assessment from "../../assessment";
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import { inRangeStartEndInclusive } from "../../helpers/inRange.js";
-import { getSubheadings, getSubheadingsLevels2and3 } from "../../stringProcessing/getSubheadings";
+import { getSubheadings, getSubheadingsTopLevel } from "../../stringProcessing/getSubheadings";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -84,7 +84,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	hasSubheadings( paper ) {
 		let subheadings;
 		if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
-			subheadings = getSubheadingsLevels2and3( paper.getText() );
+			subheadings = getSubheadingsTopLevel( paper.getText() );
 		} else {
 			subheadings = getSubheadings( paper.getText() );
 		}

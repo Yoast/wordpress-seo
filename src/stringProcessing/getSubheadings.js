@@ -26,7 +26,7 @@ function getSubheadings( text ) {
  * @returns {Array<string[]>} Matches of subheadings in the text, first key is everything including tags,
  *                            second is the heading level, third is the content of the subheading.
  */
-function getSubheadingsLevels2and3( text ) {
+function getSubheadingsTopLevel( text ) {
 	const subheadings = [];
 	const regex = /<h([2-3])(?:[^>]+)?>(.*?)<\/h\1>/ig;
 	let match;
@@ -59,7 +59,7 @@ function getSubheadingContents( text ) {
  * @returns {string[]} A list of all the subheadings with their content.
  */
 function getSubheadingContentsTopLevel( text ) {
-	const subheadings = getSubheadingsLevels2and3( text );
+	const subheadings = getSubheadingsTopLevel( text );
 
 	// Only return the entire string matched, not the rest of the outputs of the regex.exec function.
 	return subheadings.map( subheading => subheading[ 0 ] );
@@ -67,14 +67,14 @@ function getSubheadingContentsTopLevel( text ) {
 
 export {
 	getSubheadings,
-	getSubheadingsLevels2and3,
+	getSubheadingsTopLevel,
 	getSubheadingContents,
 	getSubheadingContentsTopLevel,
 };
 
 export default {
 	getSubheadings: getSubheadings,
-	getSubheadingsLevels2and3: getSubheadingsLevels2and3,
+	getSubheadingsTopLevel: getSubheadingsTopLevel,
 	getSubheadingContents: getSubheadingContents,
 	getSubheadingContentsTopLevel: getSubheadingContentsTopLevel,
 };
