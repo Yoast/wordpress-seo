@@ -17,36 +17,51 @@ class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
 	private $option_name = 'recalibration_beta';
 
 	/**
-	 * Retrieves the settings for the feature toggle.
+	 * Shows the feature toggle.
 	 *
-	 * @return Yoast_Feature_Toggle Instance of the Yoast Feature toggle.
+	 * @return void
 	 */
-	public static function get_feature_toggle() {
-		$pre_html = sprintf(
+	public function show_feature_toggle() {
+		$values = array(
+			'on'  => __( 'On', 'wordpress-seo' ),
+			'off' => __( 'Off', 'wordpress-seo' ),
+		);
+
+		echo '<div class="switch-container">';
+		echo '<fieldset id="', esc_attr( $this->option_name ), '" class="fieldset-switch-toggle">';
+		echo '<legend><strong>', __( 'Get an even better analysis', 'wordpress-seo' ), '</strong></legend>';
+		echo '<div class="clear">';
+		printf(
 			/* translators: 1: strong opening tag, 2: strong closing tag  */
-            __(
-            	'We have recalibrated our analysis. With the new analysis, we will get even closer to how Google sees your website. It would be %1$sawesome%2$s if you would like to %1$sbeta test this feature%2$s for us!',
-	            'wordpress-seo'
-            ),
+			__(
+				'We have recalibrated our analysis. With the new analysis, we will get even closer to how Google sees your website. It would be %1$sawesome%2$s if you would like to %1$sbeta test this feature%2$s for us!',
+				'wordpress-seo'
+			),
 			'<strong>',
 			'</strong>'
 		);
+		echo '</div>';
 
-		$post_html = __(
+		echo '<div class="switch-toggle switch-candy switch-yoast-seo">';
+
+		foreach ( $values as $key => $value ) {
+			printf(
+				'<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s /><label for="%1$s">%5$s</label>',
+				esc_attr( $this->option_name . '-' . $key),
+				'wpseo[' . esc_attr( $this->option_name ) . ']',
+				esc_attr( $key ),
+				checked( $this->get_option_value(), esc_attr( $key ), false ),
+				esc_html( $value )
+			);
+		}
+		echo '<a></a></div>';
+		echo '<div class="clear">';
+		_e(
 			'Simply switch the toggle to "on" and you\'ll be able to use the recalibrated analysis. At the same time, we\'ll add you to our specific mailing list. We\'ll only email you about your experiences with this recalibration!',
 			'wordpress-seo'
 		);
-
-		return new Yoast_Feature_Toggle(
-			array(
-				'name'      => __( 'Get an even better analysis', 'wordpress-seo' ),
-				'setting'   => 'recalibration_beta',
-				'label'     => __( 'We have recalibrated our analysis. With the new analysis, we will get even closer to how Google sees your website. It would be awesome if you would like to beta test this feature for us!', 'wordpress-seo' ),
-				'pre_html'  => '<p>' . $pre_html . '</p>',
-				'post_html' => '<p>' . $post_html .'</p>',
-				'order'     => 100,
-			)
-		);
+		echo '</div>';
+		echo '</fieldset><div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
 	}
 
 	/**
@@ -54,11 +69,10 @@ class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_action( 'update_option_wpseo', array( $this, 'update_option' ), 10, 2 );
-
 	}
 
 	/**
@@ -103,5 +117,18 @@ class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
 	 */
 	protected function send_request() {
 
+	}
+
+	/**
+	 * Retrieves the option value based on the current setting.
+	 *
+	 * @return string On when is enabled, off when not.
+	 */
+	protected function get_option_value() {
+		if ( self::is_enabled() === true ) {
+			return 'on';
+		}
+
+		return 'off';
 	}
 }
