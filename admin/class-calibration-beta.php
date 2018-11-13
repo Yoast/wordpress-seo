@@ -2,8 +2,8 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Admin\Bulk Editor
- * @since   1.5.0
+ * @package WPSEO\Admin
+ * @since   9.3.0
  */
 
 /**
