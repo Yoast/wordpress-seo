@@ -14,7 +14,7 @@ class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
 	/**
 	 * @var string Name of the options.
 	 */
-	private $option_name = 'recalibration_beta';
+	protected $option_name = 'recalibration_beta';
 
 	/**
 	 * Shows the feature toggle.
@@ -30,7 +30,7 @@ class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
 		echo '<div class="switch-container">';
 		echo '<fieldset id="', esc_attr( $this->option_name ), '" class="fieldset-switch-toggle">';
 		echo '<legend><strong>', __( 'Get an even better analysis', 'wordpress-seo' ), '</strong></legend>';
-		echo '<div class="clear">';
+		echo '<p class="clear">';
 		printf(
 			/* translators: 1: strong opening tag, 2: strong closing tag  */
 			__(
@@ -40,7 +40,7 @@ class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
 			'<strong>',
 			'</strong>'
 		);
-		echo '</div>';
+		echo '</p>';
 
 		echo '<div class="switch-toggle switch-candy switch-yoast-seo">';
 
@@ -55,12 +55,13 @@ class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
 			);
 		}
 		echo '<a></a></div>';
-		echo '<div class="clear">';
+
+		echo '<p class="clear"><br/>';
 		_e(
 			'Simply switch the toggle to "on" and you\'ll be able to use the recalibrated analysis. At the same time, we\'ll add you to our specific mailing list. We\'ll only email you about your experiences with this recalibration!',
 			'wordpress-seo'
 		);
-		echo '</div>';
+		echo '</p>';
 		echo '</fieldset><div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
 	}
 
@@ -95,7 +96,7 @@ class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
 		}
 
 		if ( $old_option_value !== $new_option_value && $new_option_value === true ) {
-			$this->send_request();
+			$this->subscribe_newsletter();
 		}
 	}
 
@@ -111,12 +112,27 @@ class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Sends the request
+	 * Subscribes to the newsletter.
 	 *
 	 * @codeCoverageIgnore
 	 */
-	protected function send_request() {
+	protected function subscribe_newsletter() {
+		if ( get_option( 'wpseo_recalibration_beta_newsletter_registration', true ) ) {
+			return;
+		}
 
+		$request = wp_remote_get(
+		'https://my',
+			array(
+				'emailadres' => get_option( 'admin_email' )
+			)
+		);
+
+		if ( is_wp_error( $request ) ) {
+			return;
+		}
+
+		update_option( 'wpseo_recalibration_beta_newsletter_registration', true );
 	}
 
 	/**
