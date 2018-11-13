@@ -367,10 +367,10 @@ class WPSEO_Breadcrumbs {
 			}
 		}
 		elseif ( is_post_type_archive() ) {
-			$shop_id = $this->woocommerce_shop_page->is_shop_page() ? $this->woocommerce_shop_page->get_shop_page_id() : ( -1 );
-
-			if ( $shop_id !== -1 ) {
-				$this->add_single_post_crumb( $shop_id );
+			if ( $this->woocommerce_shop_page->is_shop_page() &&
+				$this->woocommerce_shop_page->get_shop_page_id() !== -1
+			) {
+				$this->add_single_post_crumb( $this->woocommerce_shop_page->get_shop_page_id() );
 			}
 			else {
 				$post_type = $wp_query->get( 'post_type' );
