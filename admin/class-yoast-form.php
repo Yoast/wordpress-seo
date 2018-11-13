@@ -610,7 +610,7 @@ class Yoast_Form {
 	 * @param string $label  The visual label for the radio buttons group, used as the fieldset legend.
 	 * @param string $help   Inline Help that will be printed out before the visible toggles text.
 	 */
-	public function toggle_switch( $var, $values, $label, $help = '' ) {
+	public function toggle_switch( $var, $values, $label, $help = '', $feature = null ) {
 		if ( ! is_array( $values ) || $values === array() ) {
 			return;
 		}
@@ -630,11 +630,16 @@ class Yoast_Form {
 
 		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class ) );
 		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help;
+
+		if ( ! empty( $feature->pre_html ) ) {
+			echo '<div class="clear"></div>';
+			echo '<div>' . $feature->pre_html . '</div>';
+		}
+
 		echo $this->get_disabled_note( $var );
 		echo '<div class="switch-toggle switch-candy switch-yoast-seo">';
 
 		foreach ( $values as $key => $value ) {
-			$screen_reader_text      = '';
 			$screen_reader_text_html = '';
 
 			if ( is_array( $value ) ) {
@@ -649,7 +654,14 @@ class Yoast_Form {
 			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html,'</label>';
 		}
 
-		echo '<a></a></div></fieldset><div class="clear"></div></div>' . "\n\n";
+		echo '<a></a></div>';
+
+		if ( ! empty( $feature->post_html ) ) {
+			echo '<div class="clear"></div>';
+			echo '<div>' . $feature->post_html . '</div>';
+		}
+
+		echo '</fieldset><div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
 	}
 
 	/**

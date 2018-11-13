@@ -31,6 +31,12 @@ class Yoast_Feature_Toggle {
 	/** @var string Value to specify the feature toggle order. */
 	protected $order = 100;
 
+	/** @var string HTML to output before toggle */
+	protected $pre_html = '';
+
+	/** @var string HTML to output after toggle */
+	protected $post_html = '';
+
 	/**
 	 * Constructor.
 	 *

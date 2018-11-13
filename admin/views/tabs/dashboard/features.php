@@ -55,7 +55,8 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 				'off' => __( 'Off', 'wordpress-seo' ),
 			),
 			'<strong>' . $feature->name . '</strong>',
-			$feature_help->get_button_html() . $feature_help->get_panel_html()
+			$feature_help->get_button_html() . $feature_help->get_panel_html(),
+			$feature
 		);
 	}
 	?>

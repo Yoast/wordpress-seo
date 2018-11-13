@@ -38,6 +38,11 @@ final class WPSEO_Admin_Asset_SEO_Location implements WPSEO_Admin_Asset_Location
 			return '';
 		}
 
+		$scheme = wp_parse_url( $asset->get_src(), PHP_URL_SCHEME );
+		if ( in_array( $scheme, array( 'http', 'https' ), true ) ) {
+			return $asset->get_src();
+		}
+
 		if ( YOAST_ENVIRONMENT !== 'development' && ! $asset->get_suffix() ) {
 			$plugin_path = plugin_dir_path( $this->plugin_file );
 			if ( ! file_exists( $plugin_path . $path ) ) {

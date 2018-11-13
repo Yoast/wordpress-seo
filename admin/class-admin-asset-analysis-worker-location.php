@@ -32,10 +32,15 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 			$flat_version  = $asset_manager->flatten_version( WPSEO_VERSION );
 		}
 
+		$analysis_worker = 'wp-seo-' . $name . '-' . $flat_version;
+		if ( $name === 'analysis-worker' && WPSEO_Calibration_Beta::is_enabled() ) {
+			$analysis_worker = 'https://my.yoast.com/api/downloads/file/analysis-worker';
+		}
+
 		$this->asset_location = WPSEO_Admin_Asset_Manager::create_default_location();
 		$asset_arguments      = array(
 			'name' => $name,
-			'src'  => 'wp-seo-' . $name . '-' . $flat_version,
+			'src'  => $analysis_worker,
 		);
 		$this->asset          = new WPSEO_Admin_Asset( $asset_arguments );
 	}

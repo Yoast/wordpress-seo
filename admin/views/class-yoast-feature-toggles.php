@@ -131,6 +131,7 @@ class Yoast_Feature_Toggles {
 				),
 				'order'   => 90,
 			),
+			WPSEO_Calibration_Beta::get_feature_toggle(),
 		);
 
 		/**

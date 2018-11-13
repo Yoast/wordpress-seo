@@ -283,6 +283,11 @@ class WPSEO_Admin_Asset_Manager {
 			$babel_polyfill = self::PREFIX . 'babel-polyfill';
 		}
 
+		$analysis = 'analysis-' . $flat_version;
+		if ( WPSEO_Calibration_Beta::is_enabled() ) {
+			$analysis = 'https://my.yoast.com/api/downloads/file/analysis';
+		}
+
 		return array(
 			array(
 				'name' => 'react-dependencies',
@@ -538,7 +543,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'analysis',
-				'src'  => 'analysis-' . $flat_version,
+				'src'  => $analysis,
 				'deps' => array(
 					self::PREFIX . 'react-dependencies',
 				),
