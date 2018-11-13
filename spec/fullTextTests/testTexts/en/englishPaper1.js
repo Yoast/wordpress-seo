@@ -1,10 +1,10 @@
 import Paper from "../../../../src/values/Paper.js";
-import loadText from "../../../../src/helpers/loadFullTextPapers";
+import content from "./englishPaper1.html";
 
 const language = "en";
 const name = "englishPaper1";
 
-const paper = new Paper( loadText( language, name ), {
+const paper = new Paper( content, {
 	keyword: "voice search",
 	synonyms: "listening and reading in search, voice query, voice results",
 	description: "Voice search is gaining popularity. But what will the future bring? Joost and Marieke discuss the pros and cons of voice and describe a possible future scenario.",

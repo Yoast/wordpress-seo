@@ -1,11 +1,11 @@
 import Paper from "../../../../src/values/Paper";
-import loadText from "../../../../src/helpers/loadFullTextPapers";
+import content from "./englishPaper3.html";
 
 const language = "en";
 const name = "englishPaper3";
 
 
-const paper = new Paper( loadText( language, name ), {
+const paper = new Paper( content, {
 	keyword: "social media strategy",
 	synonyms: "social media SEO, Facebook strategy",
 	description: "Social media should be a part of your SEO strategy. In this post, Marieke explains the first steps towards developing your own social media strategy.",

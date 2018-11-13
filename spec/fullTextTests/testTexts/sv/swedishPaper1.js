@@ -1,10 +1,10 @@
 import Paper from "../../../../src/values/Paper.js";
-import loadText from "../../../../src/helpers/loadFullTextPapers";
+import content from "./swedishPaper1.html";
 
 const language = "sv";
 const name = "swedishPaper1";
 
-const paper = new Paper( loadText( language, name ), {
+const paper = new Paper( content, {
 	keyword: "Ester Nordström",
 	synonyms: "Ester Blenda Nordström, Essan",
 	description: "Det här är en artikel om författaren Ester Nordströms liv.",
@@ -98,10 +98,6 @@ const expectedResults = {
 	textTransitionWords: {
 		score: 6,
 		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 20% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
-	},
-	passiveVoice: {
-		score: 9,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
 	},
 	textPresence: {
 		score: 0,

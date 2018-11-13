@@ -81,7 +81,8 @@
       "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest"
     },
     "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!lodash-es/.*)"
+      "<rootDir>/node_modules/(?!lodash-es/.*)",
+      "<rootDir>/spec/fullTextTests/testText/*/*\\.html"
     ],
     "testRegex": "/spec/.*\\.(js)$",
     "testEnvironment": "jsdom",

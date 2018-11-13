@@ -14,6 +14,6 @@ export default [
 	englishPaper2,
 	englishPaper3,
 	swedishPaper1,
-	swedishPaper2
+	swedishPaper2,
 ];
 

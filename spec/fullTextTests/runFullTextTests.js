@@ -74,6 +74,21 @@ testPapers.forEach( function( testPaper ) {
 		const expectedResults = testPaper.expectedResults;
 		const result = {};
 
+		/*
+		 * Some assessments are not applicable in all languages. These are the default values for
+		 * whether or not to run specific assessments. They can be switched on and off by language.
+		 */
+		const assessmentsToRun = {
+			fleschReadingEase: true,
+			passiveVoice: true
+		};
+
+		// Don't run assessments that we don't support in Swedish.
+		if ( locale === "sv_SE" ) {
+			assessmentsToRun.fleschReadingEase = false;
+			assessmentsToRun.passiveVoice = false;
+		}
+
 		// SEO assessments.
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {
 			result.introductionKeyword = new IntroductionKeywordAssessment().getResult(
@@ -258,15 +273,17 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		// Readability assessments.
-		it( "returns a score and the associated feedback text for the fleschReadingEase assessment", function() {
-			result.fleschReadingEase = new FleschReadingAssessment( contentConfiguration( locale ).fleschReading ).getResult(
-				paper,
-				factory.buildMockResearcher( calculateFleschReading( paper ) ),
-				i18n
-			);
-			expect( result.fleschReadingEase.getScore() ).toBe( expectedResults.fleschReadingEase.score );
-			expect( result.fleschReadingEase.getText() ).toBe( expectedResults.fleschReadingEase.resultText );
-		} );
+		if ( assessmentsToRun.fleschReadingEase === true ) {
+			it( "returns a score and the associated feedback text for the fleschReadingEase assessment", function() {
+				result.fleschReadingEase = new FleschReadingAssessment( contentConfiguration( locale ).fleschReading ).getResult(
+					paper,
+					factory.buildMockResearcher( calculateFleschReading( paper ) ),
+					i18n
+				);
+				expect( result.fleschReadingEase.getScore() ).toBe( expectedResults.fleschReadingEase.score );
+				expect( result.fleschReadingEase.getText() ).toBe( expectedResults.fleschReadingEase.resultText );
+			} );
+		}
 
 		it( "returns a score and the associated feedback text for the subheadingsTooLong assessment", function() {
 			result.subheadingsTooLong = new SubheadingDistributionTooLongAssessment().getResult(
@@ -308,15 +325,17 @@ testPapers.forEach( function( testPaper ) {
 			expect( result.textTransitionWords.getText() ).toBe( expectedResults.textTransitionWords.resultText );
 		} );
 
-		it( "returns a score and the associated feedback text for the passiveVoice assessment", function() {
-			result.passiveVoice = passiveVoiceAssessment.getResult(
-				paper,
-				factory.buildMockResearcher( passiveVoice( paper ) ),
-				i18n
-			);
-			expect( result.passiveVoice.getScore() ).toBe( expectedResults.passiveVoice.score );
-			expect( result.passiveVoice.getText() ).toBe( expectedResults.passiveVoice.resultText );
-		} );
+		if ( assessmentsToRun.passiveVoice === true ) {
+			it("returns a score and the associated feedback text for the passiveVoice assessment", function () {
+				result.passiveVoice = passiveVoiceAssessment.getResult(
+					paper,
+					factory.buildMockResearcher(passiveVoice(paper)),
+					i18n
+				);
+				expect(result.passiveVoice.getScore()).toBe(expectedResults.passiveVoice.score);
+				expect(result.passiveVoice.getText()).toBe(expectedResults.passiveVoice.resultText);
+			});
+		}
 
 		it( "returns a score and the associated feedback text for the textPresence assessment", function() {
 			result.textPresence = textPresenceAssessment.getResult(

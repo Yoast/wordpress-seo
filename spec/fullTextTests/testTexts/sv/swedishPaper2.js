@@ -1,10 +1,10 @@
 import Paper from "../../../../src/values/Paper.js";
-import loadText from "../../../../src/helpers/loadFullTextPapers";
+import content from "./swedishPaper2.html";
 
 const language = "sv";
 const name = "swedishPaper2";
 
-const paper = new Paper( loadText( language, name ), {
+const paper = new Paper( content, {
 	keyword: "tiger",
 	synonyms: "panthera tigris",
 	description: "Tiger (Panthera tigris) är ett kattdjur som endast lever i Asien. Tigern är det största nu levande kattdjuret. Man delar upp de idag förekommande bestånden i sex underarter. Utöver detta känner man till tre utdöda underarter.",
@@ -36,8 +36,8 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: The meta description is over 156 characters. To ensure the entire description will be visible, <a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
-		score: 0,
-		resultText: "",
+		score: 6,
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your subheadings</a>!",
 	},
 	textCompetingLinks: {
 		score: 0,
@@ -98,10 +98,6 @@ const expectedResults = {
 	textTransitionWords: {
 		score: 3,
 		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 18.3% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
-	},
-	passiveVoice: {
-		score: 9,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
 	},
 	textPresence: {
 		score: 0,

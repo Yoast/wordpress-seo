@@ -1,10 +1,10 @@
 import Paper from "../../../../src/values/Paper.js";
-import loadText from "../../../../src/helpers/loadFullTextPapers";
+import content from "./englishPaper2.html";
 
 const language = "en";
 const name = "englishPaper2";
 
-const paper = new Paper( loadText( language, name ), {
+const paper = new Paper( content, {
 	keyword: "Google Search Console data",
 	synonyms: "Google Click Through Rate, Google CTR",
 	description: "Google Search Console has a totally new interface! And new features: e.g. 16 months of data. Annelieke explains what you can do with it!",

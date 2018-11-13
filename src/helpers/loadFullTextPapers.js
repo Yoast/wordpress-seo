@@ -1,6 +1,3 @@
-import fs from "fs";
-import path from "path";
-
 /**
  *
  * @param {string} language The language of the text
@@ -8,7 +5,5 @@ import path from "path";
  * @returns {*} The test text from an html fle
  */
 export default function( language, textName ) {
-	return fs.readFileSync(
-		path.join( "./spec/fullTextTests/testTexts", language, `${textName}.html` ),
-		{ encoding: "UTF8" } );
+	return require( `../../spec/fullTextTests/testTexts/${language}/${textName}.html` );
 }
