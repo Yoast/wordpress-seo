@@ -14,7 +14,7 @@ class MyYoast_API_Request {
 	private $args = array(
 		'method'    => 'GET',
 		'timeout'   => 10,
-		'sslverify' => false,
+		'sslverify' => true,
 		'headers'   => array(
 			'Accept-Encoding' => '*',
 			'X-Yoast-EDD'     => '1',

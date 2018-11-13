@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\License_Manager
+ */
 
 /**
  * Class WPSEO_License_Manager
@@ -9,7 +14,7 @@ abstract class WPSEO_License_Manager {
 	 */
 	const VERSION = 1;
 	/**
-	 * @var Yoast_License The license
+	 * @var WPSEO_Product Product
 	 */
 	protected $product;
 	/**
@@ -157,8 +162,7 @@ abstract class WPSEO_License_Manager {
 
 		$result = $this->call_license_api( 'activate' );
 
-		if ( $result ) {
-
+		if ( $result && ( ! isset ( $result->status ) || $result->status !== 'error' ) ) {
 			// show success notice if license is valid
 			if ( $result->license === 'valid' ) {
 				$success = true;
@@ -254,16 +258,13 @@ abstract class WPSEO_License_Manager {
 	}
 
 	/**
-	 * @param string $action activate|deactivate
+	 * Call the MyYoast License API.
+	 *
+	 * @param string $action Activate or deactivate the license
 	 *
 	 * @return mixed
 	 */
 	protected function call_license_api( $action ) {
-
-		// don't make a request if license key is empty
-		if ( $this->get_license_key() === '' ) {
-			return false;
-		}
 
 		// data to send in our API request
 		$api_params = array(
@@ -275,8 +276,7 @@ abstract class WPSEO_License_Manager {
 		);
 
 		// create api request url
-		$url = add_query_arg( $api_params, $this->product->get_api_url() );
-
+		$url     = add_query_arg( $api_params, $this->product->get_api_url() );
 		$request = new MyYoast_API_Request( $url );
 
 		if ( $request->is_valid() !== true ) {

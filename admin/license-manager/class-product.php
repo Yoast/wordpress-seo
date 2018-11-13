@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\License_Manager
+ */
 
 /**
  * Class WPSEO_Product

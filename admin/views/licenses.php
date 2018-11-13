@@ -72,7 +72,7 @@ $extensions->add(
 
 if ( ! defined( 'WPSEO_LOCAL_WOOCOMMERCE_VERSION' ) ) {
 	$extensions->add(
-		'wpseo-local',
+		'wordpress-seo-local',
 		new WPSEO_Extension(
 			array(
 				'buyUrl'    => WPSEO_Shortlinker::get( 'https://yoa.st/zt' ),

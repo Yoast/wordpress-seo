@@ -1,5 +1,13 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\License_Manager
+ */
 
+/**
+ * Class WPSEO_Plugin_Update_Manager
+ */
 class WPSEO_Plugin_Update_Manager extends WPSEO_Update_Manager {
 	/**
 	 * Constructor
@@ -16,9 +24,10 @@ class WPSEO_Plugin_Update_Manager extends WPSEO_Update_Manager {
 
 	/**
 	 * Setup hooks
+	 *
+	 * @return void
 	 */
 	private function setup_hooks() {
-
 		// check for updates
 		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'set_updates_available_data' ) );
 
@@ -29,12 +38,11 @@ class WPSEO_Plugin_Update_Manager extends WPSEO_Update_Manager {
 	/**
 	 * Check for updates and if so, add to "updates available" data
 	 *
-	 * @param object $data
+	 * @param object $data Available updates data
 	 *
-	 * @return object $data
+	 * @return object $data Available updates data
 	 */
 	public function set_updates_available_data( $data ) {
-
 		if ( empty( $data ) ) {
 			return $data;
 		}

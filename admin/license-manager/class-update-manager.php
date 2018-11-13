@@ -1,5 +1,13 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\License_Manager
+ */
 
+/**
+ * Class WPSEO_Update_Manager
+ */
 class WPSEO_Update_Manager {
 	/**
 	 * @var WPSEO_Product
