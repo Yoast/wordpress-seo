@@ -63,6 +63,13 @@ function wpseo_auto_load( $class ) {
 		);
 	}
 
+	if ( $class === 'Yoast_Plugin_License_Manager' && ! class_exists( $class ) ) {
+		class_alias( 'WPSEO_Plugin_License_Manager', $class );
+	}
+	if ( $class === 'Yoast_Product' && ! class_exists( $class ) ) {
+		class_alias( 'WPSEO_Product', $class );
+	}
+
 	$cn = strtolower( $class );
 
 	if ( ! class_exists( $class ) && isset( $classes[ $cn ] ) ) {
