@@ -1,8 +1,8 @@
-import { isUndefined } from "lodash-es";
-import { merge } from "lodash-es";
-import { inRange } from "lodash-es";
+import { isUndefined, merge, inRange } from "lodash-es";
 
 import Assessment from "../../assessment";
+import getFunctionWordsLanguages from "../../helpers/getFunctionWordsLanguages";
+import getLanguage from "../../helpers/getLanguage";
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import AssessmentResult from "../../values/AssessmentResult";
 
@@ -30,12 +30,17 @@ class KeyphraseLengthAssessment extends Assessment {
 				recommendedMaximum: 4,
 				acceptableMaximum: 8,
 			},
+			parametersNoFunctionWordSupport: {
+				recommendedMaximum: 6,
+				acceptableMaximum: 9,
+			},
 			scores: {
 				veryBad: -999,
 				bad: 3,
 				okay: 6,
 				good: 9,
 			},
+
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33i" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33j" ),
 			isRelatedKeyphrase: false,
@@ -57,6 +62,16 @@ class KeyphraseLengthAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		this._keyphraseLength = researcher.getResearch( "keyphraseLength" );
 		const assessmentResult = new AssessmentResult();
+		this._boundaries = this._config.parameters;
+
+		if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
+			const languagesWithFunctionWords = getFunctionWordsLanguages();
+
+			// Make the boundaries less strict if the language of the current paper doesn't have function word support.
+			if ( languagesWithFunctionWords.includes( getLanguage( paper.getLocale() ) ) === false ) {
+				this._boundaries = merge( {}, this._config.parameters, this._config.parametersNoFunctionWordSupport  );
+			}
+		}
 
 		const calculatedResult = this.calculateResult( i18n );
 
@@ -76,7 +91,7 @@ class KeyphraseLengthAssessment extends Assessment {
 	 * @returns {Object} Object with score and text.
 	 */
 	calculateResult( i18n ) {
-		if ( this._keyphraseLength < this._config.parameters.recommendedMinimum ) {
+		if ( this._keyphraseLength < this._boundaries.recommendedMinimum ) {
 			if ( this._config.isRelatedKeyphrase ) {
 				return {
 					score: this._config.scores.veryBad,
@@ -109,7 +124,7 @@ class KeyphraseLengthAssessment extends Assessment {
 			};
 		}
 
-		if ( inRange( this._keyphraseLength, this._config.parameters.recommendedMinimum, this._config.parameters.recommendedMaximum + 1 ) ) {
+		if ( inRange( this._keyphraseLength, this._boundaries.recommendedMinimum, this._boundaries.recommendedMaximum + 1 ) ) {
 			return {
 				score: this._config.scores.good,
 				resultText: i18n.sprintf(
@@ -124,7 +139,7 @@ class KeyphraseLengthAssessment extends Assessment {
 			};
 		}
 
-		if ( inRange( this._keyphraseLength, this._config.parameters.recommendedMaximum + 1, this._config.parameters.acceptableMaximum + 1 ) ) {
+		if ( inRange( this._keyphraseLength, this._boundaries.recommendedMaximum + 1, this._boundaries.acceptableMaximum + 1 ) ) {
 			return {
 				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
@@ -139,7 +154,7 @@ class KeyphraseLengthAssessment extends Assessment {
 							"%4$sMake it shorter%5$s!"
 					),
 					this._keyphraseLength,
-					this._config.parameters.recommendedMaximum,
+					this._boundaries.recommendedMaximum,
 					this._config.urlTitle,
 					this._config.urlCallToAction,
 					"</a>"
@@ -161,7 +176,7 @@ class KeyphraseLengthAssessment extends Assessment {
 					"%4$sMake it shorter%5$s!"
 				),
 				this._keyphraseLength,
-				this._config.parameters.recommendedMaximum,
+				this._boundaries.recommendedMaximum,
 				this._config.urlTitle,
 				this._config.urlCallToAction,
 				"</a>"
