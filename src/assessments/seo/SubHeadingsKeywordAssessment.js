@@ -3,7 +3,7 @@ import { merge } from "lodash-es";
 import Assessment from "../../assessment";
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import { inRangeStartEndInclusive } from "../../helpers/inRange.js";
-import { getSubheadings } from "../../stringProcessing/getSubheadings";
+import { getSubheadings, getSubheadingsLevels2and3 } from "../../stringProcessing/getSubheadings";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -82,7 +82,12 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {boolean} True when there is at least one subheading.
 	 */
 	hasSubheadings( paper ) {
-		const subheadings = getSubheadings( paper.getText() );
+		let subheadings;
+		if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
+			subheadings = getSubheadingsLevels2and3( paper.getText() );
+		} else {
+			subheadings = getSubheadings( paper.getText() );
+		}
 		return subheadings.length > 0;
 	}
 
@@ -160,48 +165,48 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether there are too few subheadings with the keyword.
+	 * Checks whether there are too few subheadings with the keyphrase.
 	 *
-	 * This is the case if the number of subheadings with the keyword is more than 0 but less than the specified
+	 * This is the case if the number of subheadings with the keyphrase is more than 0 but less than the specified
 	 * recommended minimum.
 	 *
-	 * @returns {boolean} Returns true if the keyword is included in too few subheadings.
+	 * @returns {boolean} Returns true if the keyphrase is included in too few subheadings.
 	 */
 	hasTooFewMatches() {
 		return this._subHeadings.matches > 0 && this._subHeadings.matches < this._minNumberOfSubheadings;
 	}
 
 	/**
-	 * Checks whether there is a good number of subheadings with the keyword.
-	 *
-	 * This is the case if there is only one subheading and that subheading includes the keyword or if the number of
-	 * subheadings with the keyword is within the specified recommended range.
-	 *
-	 * @returns {boolean} Returns true if the keyword is included in a sufficient number of subheadings.
-	 */
-	hasGoodNumberOfMatches() {
-		return (
-			this._subHeadings.count === 1 &&
-			this._subHeadings.matches === 1
-		) ||
-		inRangeStartEndInclusive(
-			this._subHeadings.matches,
-			this._minNumberOfSubheadings,
-			this._maxNumberOfSubheadings,
-		);
-	}
-
-	/**
-	 * Checks whether there are too many subheadings with the keyword.
+	 * Checks whether there are too many subheadings with the keyphrase.
 	 *
 	 * The upper limit is only applicable if there is more than one subheading. If there is only one subheading with
-	 * the keyword this would otherwise always lead to a 100% match rate.
+	 * the keyphrase this would otherwise always lead to a 100% match rate.
 	 *
-	 * @returns {boolean} Returns true if there is more than one subheading and if the keyword is included in less
+	 * @returns {boolean} Returns true if there is more than one subheading and if the keyphrase is included in less
 	 *                    subheadings than the recommended maximum.
 	 */
 	hasTooManyMatches() {
 		return this._subHeadings.count > 1 && this._subHeadings.matches > this._maxNumberOfSubheadings;
+	}
+
+	/**
+	 * Checks whether there is a good number of subheadings with the keyphrase.
+	 *
+	 * This is the case if there is only one subheading and that subheading includes the keyphrase or if the number of
+	 * subheadings with the keyphrase is within the specified recommended range.
+	 *
+	 * @returns {boolean} Returns true if the keyphrase is included in a sufficient number of subheadings.
+	 */
+	hasGoodNumberOfMatches() {
+		return (
+				this._subHeadings.count === 1 &&
+				this._subHeadings.matches === 1
+			) ||
+			inRangeStartEndInclusive(
+				this._subHeadings.matches,
+				this._minNumberOfSubheadings,
+				this._maxNumberOfSubheadings,
+			);
 	}
 
 	/**
@@ -228,6 +233,23 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 			};
 		}
 
+		if ( this.hasTooManyMatches() ) {
+			return {
+				score: this._config.scoresRecalibration.tooManyMatches,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sKeyphrase in subheading%3$s: More than 75%% of your H2 and H3 subheadings reflect the topic of your copy. " +
+						"That's too much. %2$sDon't over-optimize%3$s!"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>",
+				),
+			};
+		}
+
 		if ( this.hasGoodNumberOfMatches() ) {
 			return {
 				score: this._config.scoresRecalibration.goodNumberOfMatches,
@@ -243,23 +265,6 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					this._config.urlTitle,
 					"</a>",
 					this._subHeadings.matches,
-				),
-			};
-		}
-
-		if ( this.hasTooManyMatches() ) {
-			return {
-				score: this._config.scoresRecalibration.tooManyMatches,
-				resultText: i18n.sprintf(
-					/* Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sKeyphrase in subheading%3$s: More than 75%% of your H2 and H3 subheadings reflect the topic of your copy. " +
-						"That's too much. %2$sDon't over-optimize%3$s!"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>",
 				),
 			};
 		}
