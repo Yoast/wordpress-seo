@@ -76,7 +76,7 @@ class WPSEO_Update_Manager {
 
 		?>
 		<div class="notice notice-error yoast-notice-error">
-			<p><?php printf( __( '%s failed to check for updates because of the following error: <em>%s</em>', $this->product->get_text_domain() ), $this->product->get_item_name(), $this->error_message ); ?></p>
+			<p><?php printf( __( '%s failed to check for updates because of the following error: <em>%s</em>', 'wordpress-seo' ), $this->product->get_item_name(), $this->error_message ); ?></p>
 		</div>
 		<?php
 	}
@@ -154,7 +154,7 @@ class WPSEO_Update_Manager {
 			$this->license_manager->set_license_status( 'invalid' );
 
 			// show notice to let the user know we deactivated his/her license
-			$this->error_message = __( 'This site has not been activated properly on yoast.com and thus cannot check for future updates. Please activate your site with a valid license key.', $this->product->get_text_domain() );
+			$this->error_message = __( 'This site has not been activated properly on yoast.com and thus cannot check for future updates. Please activate your site with a valid license key.', 'wordpress-seo' );
 
 			/**
 			 * Filter: 'yoast-show-license-notice' - Show the license notice.
