@@ -12,23 +12,37 @@ import mapResults from "./mapResults";
  * Wrapper to provide functionality to the ContentAnalysis component.
  */
 class Results extends React.Component {
+	/**
+	 * The component's constructor.
+	 *
+	 * @param {Object} props The component's props.
+	 *
+	 * @constructor
+	 */
 	constructor( props ) {
 		super( props );
 
 		this.state = {
 			mappedResults: mapResults( this.props.results ),
 		};
+
+		this.handleMarkButtonClick = this.handleMarkButtonClick.bind( this );
 	}
 
-	componentWillReceiveProps( nextProps ) {
-		/*
-		 * Check if there are new results.
-		 * When the new results are null, we presume we are loading the analysis.
-		 * Only update the mappedResults when we have new and non-null results.
-		 */
-		if ( nextProps.results !== null && nextProps.results !== this.props.results ) {
+	/**
+	 * If there are new analysis results, map them to their corresponding collapsible
+	 * (error, problem, consideration, improvement, good).
+	 *
+	 * If the results are null, we assume the analysis is still being performed.
+	 *
+	 * @param {object} prevProps The previous props.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate( prevProps ) {
+		if ( this.props.results !== null && this.props.results !== prevProps.results ) {
 			this.setState( {
-				mappedResults: mapResults( nextProps.results ),
+				mappedResults: mapResults( this.props.results ),
 			} );
 		}
 	}
@@ -42,12 +56,13 @@ class Results extends React.Component {
 	 * @returns {void}
 	 */
 	handleMarkButtonClick( id, marker ) {
-		this.props.setActiveMarker( id );
-
-		if ( id ) {
-			marker();
-		} else {
+		// If marker button is clicked while active, disable markers.
+		if ( id === this.props.activeMarker ) {
+			this.props.setActiveMarker( null );
 			this.removeMarkers();
+		} else {
+			this.props.setActiveMarker( id );
+			marker();
 		}
 	}
 
@@ -88,7 +103,8 @@ class Results extends React.Component {
 					improvementsResults={ improvementsResults }
 					considerationsResults={ considerationsResults }
 					goodResults={ goodResults }
-					onMarkButtonClick={ this.handleMarkButtonClick.bind( this ) }
+					activeMarker={ this.props.activeMarker }
+					onMarkButtonClick={ this.handleMarkButtonClick }
 					marksButtonClassName={ this.props.marksButtonClassName }
 					marksButtonStatus={ this.props.marksButtonStatus }
 				/>
@@ -105,15 +121,17 @@ Results.propTypes = {
 	canChangeLanguage: PropTypes.bool,
 	marksButtonClassName: PropTypes.string,
 	marksButtonStatus: PropTypes.string,
-	setActiveMartker: PropTypes.func.isRequired,
+	setActiveMarker: PropTypes.func.isRequired,
 	activeMarker: PropTypes.string.isRequired,
 };
 
 Results.defaultProps = {
+	results: null,
 	language: "",
 	changeLanguageLink: "#",
 	canChangeLanguage: false,
 	marksButtonStatus: "enabled",
+	marksButtonClassName: "",
 };
 
 export default compose( [
