@@ -10,7 +10,7 @@
  */
 class WPSEO_Plugin_License_Manager extends WPSEO_License_Manager {
 	/**
-	 * Constructor
+	 * Class constructor.
 	 *
 	 * @param WPSEO_Product $product
 	 */
@@ -30,7 +30,7 @@ class WPSEO_Plugin_License_Manager extends WPSEO_License_Manager {
 	}
 
 	/**
-	 * Setup auto updater for plugins
+	 * Setup auto updater for plugins.
 	 *
 	 * @return void
 	 */
@@ -46,7 +46,7 @@ class WPSEO_Plugin_License_Manager extends WPSEO_License_Manager {
 	}
 
 	/**
-	 * Setup hooks
+	 * Setup hooks.
 	 *
 	 * @return void
 	 */

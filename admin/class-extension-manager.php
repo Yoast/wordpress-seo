@@ -134,7 +134,10 @@ class WPSEO_Extension_Manager {
 	 *
 	 * @return void
 	 */
-	protected function set_cached_extensions( $extensions, $duration = DAY_IN_SECONDS ) {
+	protected function set_cached_extensions( $extensions, $duration = 0 ) {
+		if ( $duration === 0 ) {
+			$duration = DAY_IN_SECONDS;
+		}
 		set_transient( self::TRANSIENT_CACHE_KEY, $extensions, $duration );
 	}
 }

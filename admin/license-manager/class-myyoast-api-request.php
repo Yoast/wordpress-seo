@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\License_Manager
+ */
 
 /**
  * Handles requests to the Yoast EDD API
@@ -29,15 +34,17 @@ class MyYoast_API_Request {
 	 */
 	private $response;
 	/**
+	 * The error message.
+	 *
 	 * @var string
 	 */
 	private $error_message = '';
 
 	/**
-	 * Constructor
+	 * Class constructor.
 	 *
-	 * @param string url
-	 * @param array $args
+	 * @param string $url  The URL to do a request to.
+	 * @param array  $args The arguments for the request.
 	 */
 	public function __construct( $url, array $args = array() ) {
 
@@ -52,7 +59,7 @@ class MyYoast_API_Request {
 	}
 
 	/**
-	 * Fires the request, automatically called from constructor
+	 * Fires the request, automatically called from constructor.
 	 *
 	 * @return boolean
 	 */
@@ -80,7 +87,9 @@ class MyYoast_API_Request {
 	}
 
 	/**
-	 * @param array $response
+	 * Validates that we got a proper API response.
+	 *
+	 * @param array $response The response array.
 	 *
 	 * @return boolean
 	 */
@@ -117,6 +126,8 @@ class MyYoast_API_Request {
 	}
 
 	/**
+	 * Retrieve the error message.
+	 *
 	 * @return string
 	 */
 	public function get_error_message() {
@@ -124,6 +135,8 @@ class MyYoast_API_Request {
 	}
 
 	/**
+	 * Retrieve the response.
+	 *
 	 * @return object
 	 */
 	public function get_response() {

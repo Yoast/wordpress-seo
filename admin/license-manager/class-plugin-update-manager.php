@@ -10,7 +10,7 @@
  */
 class WPSEO_Plugin_Update_Manager extends WPSEO_Update_Manager {
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @param WPSEO_Product $product     The Product.
 	 * @param string        $license_key The License entered.
@@ -23,7 +23,7 @@ class WPSEO_Plugin_Update_Manager extends WPSEO_Update_Manager {
 	}
 
 	/**
-	 * Setup hooks
+	 * Setup hooks.
 	 *
 	 * @return void
 	 */
@@ -36,7 +36,7 @@ class WPSEO_Plugin_Update_Manager extends WPSEO_Update_Manager {
 	}
 
 	/**
-	 * Check for updates and if so, add to "updates available" data
+	 * Check for updates and if so, add to "updates available" data.
 	 *
 	 * @param object $data Available updates data
 	 *
@@ -66,7 +66,7 @@ class WPSEO_Plugin_Update_Manager extends WPSEO_Update_Manager {
 	}
 
 	/**
-	 * Gets new plugin version details (view version x.x.x details)
+	 * Gets new plugin version details (view version x.x.x details).
 	 *
 	 * @uses api_request()
 	 *

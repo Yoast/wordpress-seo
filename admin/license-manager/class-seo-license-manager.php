@@ -113,12 +113,11 @@ abstract class WPSEO_License_Manager {
 			return;
 		}
 
-		// show notice if license is invalid
+		// Show notice if license is invalid.
 		if ( $this->show_license_notice() && ! $this->license_is_valid() ) {
+			$message = __( '<b>Warning!</b> Your %s license is inactive which means you\'re missing out on updates and support! <a href="%s">Activate your license</a> or <a href="%s" target="_blank">get a license here</a>.' );
 			if ( $this->get_license_key() === '' ) {
 				$message = __( '<b>Warning!</b> You didn\'t set your %s license key yet, which means you\'re missing out on updates and support! <a href="%s">Enter your license key</a> or <a href="%s" target="_blank">get a license here</a>.' );
-			} else {
-				$message = __( '<b>Warning!</b> Your %s license is inactive which means you\'re missing out on updates and support! <a href="%s">Activate your license</a> or <a href="%s" target="_blank">get a license here</a>.' );
 			}
 			?>
 			<div class="notice notice-error yoast-notice-error">
@@ -358,28 +357,31 @@ abstract class WPSEO_License_Manager {
 	 * @return array Array of license options
 	 */
 	protected function get_options() {
-
-		// create option name
-		$option_name = $this->prefix . 'license';
-
-		// get array of options from db
-		if ( $this->is_network_activated ) {
-			$options = get_site_option( $option_name, array() );
-		} else {
-			$options = get_option( $option_name, array() );
-		}
-
-		// setup array of defaults
+		// Set up our array of defaults.
 		$defaults = array(
 			'key'         => '',
 			'status'      => '',
 			'expiry_date' => '',
 		);
 
-		// merge options with defaults
-		$this->options = wp_parse_args( $options, $defaults );
+		// Merge our options with the defaults.
+		$this->options = wp_parse_args( $this->get_options_from_db(), $defaults );
 
 		return $this->options;
+	}
+
+	/**
+	 * Retrieves the options from the DB based on whether we're multisite or not.
+	 *
+	 * @return mixed
+	 */
+	private function get_options_from_db() {
+		$option_name = $this->prefix . 'license';
+
+		if ( $this->is_network_activated ) {
+			return get_site_option( $option_name, array() );
+		}
+		return get_option( $option_name, array() );
 	}
 
 	/**
@@ -394,9 +396,10 @@ abstract class WPSEO_License_Manager {
 		// update db
 		if ( $this->is_network_activated ) {
 			update_site_option( $option_name, $options );
-		} else {
-			update_option( $option_name, $options );
+			return;
 		}
+
+		update_option( $option_name, $options );
 	}
 
 	/**
@@ -427,45 +430,6 @@ abstract class WPSEO_License_Manager {
 
 		// save options
 		$this->set_options( $options );
-	}
-
-	public function show_license_form_heading() {
-		?>
-		<h3>
-			<?php printf( __( '%s: License Settings', $this->product->get_text_domain() ), $this->product->get_item_name() ); ?>
-			&nbsp; &nbsp;
-		</h3>
-		<?php
-	}
-
-	/**
-	 * Show a form where users can enter their license key
-	 *
-	 * @param boolean $embedded Boolean indicating whether this form is embedded in another form?
-	 */
-	public function show_license_form( $embedded = true ) {
-		$key_name    = $this->prefix . 'license_key';
-		$nonce_name  = $this->prefix . 'license_nonce';
-		$action_name = $this->prefix . 'license_action';
-
-		$api_host_available = $this->get_api_availability();
-
-		$visible_license_key = $this->get_license_key();
-
-		// obfuscate license key
-		$obfuscate = ( strlen( $this->get_license_key() ) > 5 && ( $this->license_is_valid() || ! $this->remote_license_activation_failed ) );
-
-		if ( $obfuscate ) {
-			$visible_license_key = str_repeat( '*', ( strlen( $this->get_license_key() ) - 4 ) ) . substr( $this->get_license_key(), - 4 );
-		}
-
-		// make license key readonly when license key is valid or license is defined with a constant
-		$readonly = ( $this->license_is_valid() || $this->license_constant_is_defined );
-
-		require dirname( __FILE__ ) . '/views/form.php';
-
-		// enqueue script in the footer
-		add_action( 'admin_footer', array( $this, 'output_script' ), 99 );
 	}
 
 	/**
@@ -618,21 +582,19 @@ abstract class WPSEO_License_Manager {
 	 */
 	protected function get_successful_activation_message( $result ) {
 		// Get expiry date.
+		$expiry_date = false;
 		if ( isset( $result->expires ) ) {
 			$this->set_license_expiry_date( $result->expires );
 			$expiry_date = strtotime( $result->expires );
-		} else {
-			$expiry_date = false;
 		}
 
 		// Always show that it was successful.
 		$message = sprintf( __( 'Your %s license has been activated. ', $this->product->get_text_domain() ), $this->product->get_item_name() );
 
 		// Show a custom notice it is an unlimited license.
+		$message .= sprintf( _n( 'You have used %d/%d activation. ', 'You have used %d/%d activations. ', $result->license_limit, $this->product->get_text_domain() ), $result->site_count, $result->license_limit );
 		if ( $result->license_limit == 0 ) {
 			$message .= __( 'You have an unlimited license. ', $this->product->get_text_domain() );
-		} else {
-			$message .= sprintf( _n( 'You have used %d/%d activation. ', 'You have used %d/%d activations. ', $result->license_limit, $this->product->get_text_domain() ), $result->site_count, $result->license_limit );
 		}
 
 		// add upgrade notice if user has less than 3 activations left

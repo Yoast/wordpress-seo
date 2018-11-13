@@ -78,6 +78,8 @@ class WPSEO_Product {
 	}
 
 	/**
+	 * Sets the API URL.
+	 *
 	 * @param string $api_url
 	 */
 	public function set_api_url( $api_url ) {
@@ -85,6 +87,8 @@ class WPSEO_Product {
 	}
 
 	/**
+	 * Retrieves the API URL.
+	 *
 	 * @return string
 	 */
 	public function get_api_url() {
@@ -92,6 +96,8 @@ class WPSEO_Product {
 	}
 
 	/**
+	 * Set the plugin author.
+	 *
 	 * @param string $author
 	 */
 	public function set_author( $author ) {
@@ -99,6 +105,8 @@ class WPSEO_Product {
 	}
 
 	/**
+	 * Retrieves the plugin author.
+	 *
 	 * @return string
 	 */
 	public function get_author() {
@@ -106,6 +114,8 @@ class WPSEO_Product {
 	}
 
 	/**
+	 * Sets the item's name.
+	 *
 	 * @param string $item_name
 	 */
 	public function set_item_name( $item_name ) {
@@ -113,6 +123,8 @@ class WPSEO_Product {
 	}
 
 	/**
+	 * Retrieves the item's name.
+	 *
 	 * @return string
 	 */
 	public function get_item_name() {
@@ -120,6 +132,8 @@ class WPSEO_Product {
 	}
 
 	/**
+	 * Sets the item's URL.
+	 *
 	 * @param string $item_url
 	 */
 	public function set_item_url( $item_url ) {
@@ -131,6 +145,8 @@ class WPSEO_Product {
 	}
 
 	/**
+	 * Gets the item's URL.
+	 *
 	 * @return string
 	 */
 	public function get_item_url() {
