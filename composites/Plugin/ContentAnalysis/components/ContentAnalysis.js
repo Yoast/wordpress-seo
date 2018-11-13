@@ -43,34 +43,6 @@ class ContentAnalysis extends React.Component {
 	 */
 	constructor( props ) {
 		super( props );
-
-		this.state = {
-			checked: "",
-		};
-	}
-
-	/**
-	 * Handles button clicks. Makes sure no more than one button can be active at the same time.
-	 *
-	 * @param {string} id The button id.
-	 * @param {function} marker Function to apply marker to the editor.
-	 *
-	 * @returns {void}
-	 */
-	handleClick( id, marker ) {
-		let checkedId = id;
-
-		// Uncheck if button is deactivated.
-		if ( id === this.state.checked ) {
-			checkedId = "";
-		}
-
-		// Set state and call onMarkButtonClick callback.
-		this.setState( {
-			checked: checkedId,
-		}, () => {
-			this.props.onMarkButtonClick( this.state.checked, marker );
-		} );
 	}
 
 	/**
@@ -95,10 +67,10 @@ class ContentAnalysis extends React.Component {
 			>
 				<AnalysisList
 					results={ results }
-					marksButtonActivatedResult={ this.state.checked }
+					marksButtonActivatedResult={ this.props.activeMarker }
 					marksButtonStatus={ this.props.marksButtonStatus }
 					marksButtonClassName={ this.props.marksButtonClassName }
-					onMarksButtonClick={ this.handleClick.bind( this ) }
+					onMarksButtonClick={ this.props.onMarkButtonClick }
 				/>
 			</StyledCollapsible>
 		);
@@ -157,6 +129,7 @@ export const contentAnalysisPropType = {
 	headingLevel: PropTypes.number,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
+	activeMarker: PropTypes.string,
 };
 
 ContentAnalysis.propTypes = {
@@ -172,6 +145,7 @@ ContentAnalysis.defaultProps = {
 	errorsResults: [],
 	headingLevel: 4,
 	marksButtonStatus: "enabled",
+	activeMarker: "",
 };
 
 export default ContentAnalysis;
