@@ -1,17 +1,19 @@
+// External dependencies.
 import { capitalize, noop } from "lodash-es";
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Toggle from "yoast-components/composites/Plugin/Shared/components/Toggle";
 
+// Internal dependencies.
 import { setConfigurationAttribute } from "../redux/actions/configuration";
 import { setPaperAttribute } from "../redux/actions/paper";
 import measureTextWidth from "../utils/measureTextWidth";
-import Container from "./Container";
+import { ColumnLeft, ColumnRight, Columns } from "./Columns";
+import { Container } from "./Container";
+import { H3 } from "./headings";
 import Input from "./Input";
 import TextArea from "./TextArea";
-import { ColumnLeft, ColumnRight, Columns } from "./Columns";
-import { H3 } from "./headings";
 
 function renderPaperAttribute( props, id, placeholder, label = null, onChange = null, Component = Input, defaultValue = "" ) {
 	if ( onChange === null ) {
@@ -31,7 +33,10 @@ function renderPaperAttribute( props, id, placeholder, label = null, onChange = 
 
 function renderLeftColumn( props ) {
 	return <section>
-		{ renderPaperAttribute( props, "keyword", "Choose a focus keyword", "Focus keyphrase" ) }
+		<Container>
+			{ renderPaperAttribute( props, "keyword", "Choose a focus keyword", "Focus keyphrase" ) }
+		</Container>
+
 		<Container marginTop="8px">
 			<Toggle
 				id="toggle-is-related-keyword"
@@ -43,30 +48,51 @@ function renderLeftColumn( props ) {
 				onToggleDisabled={ noop }
 			/>
 		</Container>
-		{ renderPaperAttribute( props, "synonyms", "Choose keyword synonyms" ) }
-		{ renderPaperAttribute( props, "title", "Write the SEO title", "SEO title", ( id, value ) => {
-			props.setPaperAttribute( id, value );
-			props.setPaperAttribute( "titleWidth", measureTextWidth( value ) );
-		} ) }
-		<TextArea
-			id="description"
-			value={ props.paper.description }
-			label="Meta description"
-			placeholder="Write a meta description"
-			onChange={ props.setPaperAttribute }
-			minHeight="80px"
-		/>
-		{ renderPaperAttribute( props, "url", "Choose a slug", "Slug", ( id, value ) => {
-			props.setPaperAttribute( id, value );
-			props.setPaperAttribute( "permalink", `${window.location.origin}/${value}` );
-		} ) }
-		{ renderPaperAttribute( props, "locale", "en_US" ) }
+
+		<Container>
+			{ renderPaperAttribute( props, "synonyms", "Choose keyword synonyms" ) }
+		</Container>
+
+		<Container>
+			{ renderPaperAttribute( props, "title", "Write the SEO title", "SEO title", ( id, value ) => {
+				props.setPaperAttribute( id, value );
+				props.setPaperAttribute( "titleWidth", measureTextWidth( value ) );
+			} ) }
+		</Container>
+
+		<Container>
+			<TextArea
+				id="description"
+				value={ props.paper.description }
+				label="Meta description"
+				placeholder="Write a meta description"
+				onChange={ props.setPaperAttribute }
+				minHeight="80px"
+			/>
+		</Container>
+
+		<Container>
+			{ renderPaperAttribute( props, "url", "Choose a slug", "Slug", ( id, value ) => {
+				props.setPaperAttribute( id, value );
+				props.setPaperAttribute( "permalink", `${window.location.origin}/${value}` );
+			} ) }
+		</Container>
+
+		<Container>
+			{ renderPaperAttribute( props, "locale", "en_US", "Locale", ( id, value ) => {
+				props.setPaperAttribute( id, value );
+				props.setConfigurationAttribute( id, value );
+			} ) }
+		</Container>
 	</section>;
 }
 
 function renderRightColumn( props ) {
 	return <section>
-		<H3>Feature toggles</H3>
+		<Container>
+			<H3>Feature toggles</H3>
+		</Container>
+
 		<Container>
 			<Toggle
 				id="toggle-is-related-keyword"
@@ -78,6 +104,7 @@ function renderRightColumn( props ) {
 				onToggleDisabled={ noop }
 			/>
 		</Container>
+
 		<Container>
 			<Toggle
 				id="toggle-use-taxonomy"
@@ -120,5 +147,5 @@ export default connect(
 			setPaperAttribute,
 			setConfigurationAttribute,
 		}, dispatch );
-	}
+	},
 )( Inputs );

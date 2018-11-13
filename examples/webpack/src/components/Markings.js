@@ -1,15 +1,14 @@
+// External dependencies.
+import { find, get } from "lodash-es";
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
-import { find, get } from "lodash-es";
 import styled from "styled-components";
 
-const ContainerTop = styled.div`
-	padding-bottom: 6px;
-	border-bottom: 1px solid #eee;
-`;
+// Internal dependencies.
+import Collapsible from "./Collapsible";
 
-const ContainerBottom = styled.div`
-	padding-top: 6px;
+const Container = styled.div`
+	margin-bottom: 16px;
 `;
 
 function createMarkedText( text, markings ) {
@@ -31,8 +30,8 @@ function Markings( { results, activeMarker, text } ) {
 	const markedText = createMarkedText( text, activeMarkings );
 
 	return <Fragment>
-		<ContainerTop dangerouslySetInnerHTML={ markedText } />
-		<ContainerBottom>{ markedText.__html }</ContainerBottom>
+		<Container dangerouslySetInnerHTML={ markedText } />
+		<Collapsible title="Raw markings" initialIsOpen={ false }>{ markedText.__html }</Collapsible>
 	</Fragment>;
 }
 

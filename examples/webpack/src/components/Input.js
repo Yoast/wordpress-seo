@@ -20,6 +20,7 @@ const TextInput = styled.input`
 	font-size: 14px;
 	cursor: text;
 	width: 100%;
+	margin-top: 8px;
 `;
 
 class Input extends React.PureComponent {
