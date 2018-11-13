@@ -141,6 +141,10 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 * @return bool Whether or not the filter is active.
 	 */
 	protected function is_filter_active() {
+		if ( ! WPSEO_Calibration_Beta::is_enabled() ) {
+			return false;
+		}
+
 		return ( $this->is_supported_post_type( $this->get_current_post_type() )
 			&& filter_input( INPUT_GET, self::FILTER_QUERY_ARG ) === $this->get_query_val() );
 	}
