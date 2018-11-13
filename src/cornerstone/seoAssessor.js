@@ -19,6 +19,7 @@ import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
 import UrlLength from "../assessments/seo/UrlLengthAssessment";
 import urlStopWords from "../assessments/seo/urlStopWordsAssessment";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
 
 /**
  * Creates the Assessor
@@ -33,75 +34,142 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
 	this.type = "CornerstoneSEOAssessor";
 
-	this._assessments = [
-		new IntroductionKeywordAssessment(),
-		new KeyphraseLengthAssessment(),
-		new KeywordDensityAssessment(),
-		new MetaDescriptionKeywordAssessment(),
-		new MetaDescriptionLength( {
-			scores:	{
-				tooLong: 3,
-				tooShort: 3,
-			},
-		} ),
-		new SubheadingsKeyword(
-			{
-				scores: {
-					noMatches: 3,
-					oneMatch: 6,
-					multipleMatches: 9,
+	if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
+		this._assessments = [
+			new IntroductionKeywordAssessment(),
+			new KeyphraseLengthAssessment(),
+			new KeywordDensityAssessment(),
+			new MetaDescriptionKeywordAssessment(),
+			new MetaDescriptionLength( {
+				scores:	{
+					tooLong: 3,
+					tooShort: 3,
 				},
-			}
-		),
-		new TextCompetingLinksAssessment(),
-		new TextImages( {
-			scores: {
-				noImages: 3,
-				withAltNonKeyword: 3,
-				withAlt: 3,
-				noAlt: 3,
-			},
-		} ),
-		new TextLength( {
-			recommendedMinimum: 900,
-			slightlyBelowMinimum: 400,
-			belowMinimum: 300,
+			} ),
+			new SubheadingsKeyword(
+				{
+					scores: {
+						noMatches: 3,
+						oneMatch: 6,
+						multipleMatches: 9,
+					},
+				}
+			),
+			new TextCompetingLinksAssessment(),
+			new TextImages( {
+				scores: {
+					noImages: 3,
+					withAltNonKeyword: 3,
+					withAlt: 3,
+					noAlt: 3,
+				},
+			} ),
+			new TextLength( {
+				recommendedMinimum: 900,
+				slightlyBelowMinimum: 400,
+				belowMinimum: 300,
 
-			scores: {
-				belowMinimum: -20,
-				farBelowMinimum: -20,
-			},
-		} ),
-		new OutboundLinks( {
-			scores: {
-				noLinks: 3,
-			},
-		} ),
-		new TitleKeywordAssessment(),
-		new InternalLinksAssessment(),
-		new TitleWidth(
-			{
 				scores: {
-					widthTooShort: 3,
-					widthTooLong: 3,
+					belowMinimum: -20,
+					farBelowMinimum: -20,
 				},
-			}
-		),
-		new UrlKeywordAssessment(
-			{
+			} ),
+			new OutboundLinks( {
 				scores: {
-					okay: 3,
+					noLinks: 3,
 				},
-			}
-		),
-		new UrlLength( {
-			scores: {
-				tooLong: 3,
-			},
-		} ),
-		urlStopWords,
-		new FunctionWordsInKeyphrase(),
-	];
+			} ),
+			new TitleKeywordAssessment(),
+			new InternalLinksAssessment(),
+			new TitleWidth(
+				{
+					scores: {
+						widthTooShort: 3,
+						widthTooLong: 3,
+					},
+				}
+			),
+			new UrlKeywordAssessment(
+				{
+					scores: {
+						okay: 3,
+					},
+				}
+			),
+			new FunctionWordsInKeyphrase(),
+			new SingleH1Assessment(),
+		];
+	} else {
+		this._assessments = [
+			new IntroductionKeywordAssessment(),
+			new KeyphraseLengthAssessment(),
+			new KeywordDensityAssessment(),
+			new MetaDescriptionKeywordAssessment(),
+			new MetaDescriptionLength( {
+				scores:	{
+					tooLong: 3,
+					tooShort: 3,
+				},
+			} ),
+			new SubheadingsKeyword(
+				{
+					scores: {
+						noMatches: 3,
+						oneMatch: 6,
+						multipleMatches: 9,
+					},
+				}
+			),
+			new TextCompetingLinksAssessment(),
+			new TextImages( {
+				scores: {
+					noImages: 3,
+					withAltNonKeyword: 3,
+					withAlt: 3,
+					noAlt: 3,
+				},
+			} ),
+			new TextLength( {
+				recommendedMinimum: 900,
+				slightlyBelowMinimum: 400,
+				belowMinimum: 300,
+
+				scores: {
+					belowMinimum: -20,
+					farBelowMinimum: -20,
+				},
+			} ),
+			new OutboundLinks( {
+				scores: {
+					noLinks: 3,
+				},
+			} ),
+			new TitleKeywordAssessment(),
+			new InternalLinksAssessment(),
+			new TitleWidth(
+				{
+					scores: {
+						widthTooShort: 3,
+						widthTooLong: 3,
+					},
+				}
+			),
+			new UrlKeywordAssessment(
+				{
+					scores: {
+						okay: 3,
+					},
+				}
+			),
+			new UrlLength( {
+				scores: {
+					tooLong: 3,
+				},
+			} ),
+			urlStopWords,
+			new FunctionWordsInKeyphrase(),
+		];
+	}
 };
 
 inherits( CornerstoneSEOAssessor, SEOAssessor );
