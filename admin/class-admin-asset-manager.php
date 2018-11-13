@@ -201,7 +201,7 @@ class WPSEO_Admin_Asset_Manager {
 		wp_register_script(
 			'wp-components',
 			plugins_url( 'js/dist/wp-components-' . $flat_version . '.min.js', WPSEO_FILE ),
-			array( 'lodash', 'wp-api-fetch', 'wp-i18n', 'wp-polyfill' ),
+			array( 'lodash', 'wp-api-fetch', 'wp-i18n', 'wp-polyfill', 'wp-compose' ),
 			false,
 			true
 		);
@@ -217,6 +217,14 @@ class WPSEO_Admin_Asset_Manager {
 		wp_register_script(
 			'wp-i18n',
 			plugins_url( 'js/dist/wp-i18n-' . $flat_version . '.min.js', WPSEO_FILE ),
+			array( 'wp-polyfill' ),
+			false,
+			true
+		);
+
+		wp_register_script(
+			'wp-compose',
+			plugins_url( 'js/dist/wp-compose-' . $flat_version . '.min.js', WPSEO_FILE ),
 			array( 'wp-polyfill' ),
 			false,
 			true
@@ -381,6 +389,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-data',
 					'wp-api-fetch',
 					'wp-annotations',
+					'wp-compose',
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
 					self::PREFIX . 'analysis',
@@ -397,6 +406,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-i18n',
 					'wp-data',
 					'wp-api-fetch',
+					'wp-compose',
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'components',
