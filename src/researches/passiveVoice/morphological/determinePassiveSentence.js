@@ -6,7 +6,7 @@ import getPassiveVerbsRussianFactory from "../../russian/passiveVoice/participle
 const getPassiveVerbsRussian = getPassiveVerbsRussianFactory().all;
 
 import getPassiveVerbsSwedishFactory from "../../swedish/passiveVoice/participles.js";
-const getPassiveVerbsSwedish = getPassiveVerbsRussianFactory().all;
+const getPassiveVerbsSwedish = getPassiveVerbsSwedishFactory().all;
 
 /**
  * Matches the sentence against passive verbs.
