@@ -121,17 +121,6 @@ class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		$request = wp_remote_get(
-		'https://my',
-			array(
-				'emailadres' => get_option( 'admin_email' )
-			)
-		);
-
-		if ( is_wp_error( $request ) ) {
-			return;
-		}
-
 		update_option( 'wpseo_recalibration_beta_newsletter_registration', true );
 	}
 
