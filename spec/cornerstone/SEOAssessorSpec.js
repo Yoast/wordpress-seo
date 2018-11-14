@@ -220,10 +220,10 @@ describe( "running assessments in the assessor for regular analysis", function()
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.noMatches ).toBe( 3 );
-			expect( assessment._config.scores.oneMatch ).toBe( 6 );
-			expect( assessment._config.scores.multipleMatches ).toBe( 9 );
+			expect( assessment._config.scoresRegular ).toBeDefined();
+			expect( assessment._config.scoresRegular.noMatches ).toBe( 3 );
+			expect( assessment._config.scoresRegular.oneMatch ).toBe( 6 );
+			expect( assessment._config.scoresRegular.multipleMatches ).toBe( 9 );
 		} );
 
 		test( "TextImagesAssessment", () => {
@@ -497,17 +497,6 @@ describe( "running assessments in the assessor for recalibration analysis", func
 			expect( assessment._config.scores ).toBeDefined();
 			expect( assessment._config.scores.tooLong ).toBe( 3 );
 			expect( assessment._config.scores.tooShort ).toBe( 3 );
-		} );
-
-		test( "SubHeadingsKeywordAssessment", () => {
-			const assessment = assessor.getAssessment( "subheadingsKeyword" );
-
-			expect( assessment ).toBeDefined();
-			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.noMatches ).toBe( 3 );
-			expect( assessment._config.scores.oneMatch ).toBe( 6 );
-			expect( assessment._config.scores.multipleMatches ).toBe( 9 );
 		} );
 
 		test( "TextImagesAssessment", () => {

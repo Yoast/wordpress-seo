@@ -46,16 +46,10 @@ export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
 	const result = { count: 0, matches: 0, percentReflectingTopic: 0 };
-
-	let subheadings;
-
-	if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
-		subheadings = getSubheadingContentsTopLevel( text );
-	} else {
-		subheadings = getSubheadingContents( text );
-	}
-
 	const useSynonyms = true;
+	const subheadings = process.env.YOAST_RECALIBRATION === "enabled"
+		? getSubheadingContentsTopLevel( text )
+		: getSubheadingContents( text );
 
 	if ( subheadings.length !== 0 ) {
 		result.count = subheadings.length;

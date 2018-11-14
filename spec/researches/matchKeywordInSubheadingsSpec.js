@@ -138,7 +138,6 @@ describe( "Matching keyphrase in subheadings with recalibration enabled", () => 
 
 		// Would be 3 if the h4 was counted too.
 		expect( result.count ).toBe( 2 );
-		expect( result.propertyIsEnumerable( 0 ) );
 	} );
 
 	it( "matching is stricter with languages that do not support function words", () => {
