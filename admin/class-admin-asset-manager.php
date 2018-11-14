@@ -209,7 +209,7 @@ class WPSEO_Admin_Asset_Manager {
 		wp_register_script(
 			'wp-data',
 			plugins_url( 'js/dist/wp-data-' . $flat_version . '.min.js', WPSEO_FILE ),
-			array( 'lodash', 'wp-element', 'wp-polyfill' ),
+			array( 'lodash', 'wp-element', 'wp-polyfill', 'wp-compose' ),
 			false,
 			true
 		);
