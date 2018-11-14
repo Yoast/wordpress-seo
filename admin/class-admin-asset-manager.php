@@ -201,7 +201,7 @@ class WPSEO_Admin_Asset_Manager {
 		wp_register_script(
 			'wp-components',
 			plugins_url( 'js/dist/wp-components-' . $flat_version . '.min.js', WPSEO_FILE ),
-			array( 'lodash', 'wp-api-fetch', 'wp-i18n', 'wp-polyfill' ),
+			array( 'lodash', 'wp-api-fetch', 'wp-i18n', 'wp-polyfill', 'wp-compose' ),
 			false,
 			true
 		);
@@ -220,6 +220,24 @@ class WPSEO_Admin_Asset_Manager {
 			array( 'wp-polyfill' ),
 			false,
 			true
+		);
+
+		wp_register_script(
+			'wp-compose',
+			plugins_url( 'js/dist/wp-compose-' . $flat_version . '.min.js', WPSEO_FILE ),
+			array( 'wp-polyfill' ),
+			false,
+			true
+		);
+
+		/*
+		 * wp-annotations only exists from Gutenberg 4.3 and onwards, so we register a no-op in earlier versions.
+		 * The no-op achieves that our scripts that depend on this are actually loaded. Because WordPress doesn't
+		 * load a script if any of the dependencies are missing.
+		 */
+		wp_register_script(
+			'wp-annotations',
+			null
 		);
 	}
 
@@ -370,6 +388,8 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-i18n',
 					'wp-data',
 					'wp-api-fetch',
+					'wp-annotations',
+					'wp-compose',
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
 					self::PREFIX . 'analysis',
@@ -386,6 +406,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-i18n',
 					'wp-data',
 					'wp-api-fetch',
+					'wp-compose',
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'components',
