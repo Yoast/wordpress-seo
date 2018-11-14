@@ -50,7 +50,7 @@ class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
 				esc_attr( $this->option_name . '-' . $key ),
 				'wpseo[' . esc_attr( $this->option_name ) . ']',
 				esc_attr( $key ),
-				checked( $this->get_option_value(), esc_attr( $key ), false ),
+				checked( $this->get_option_value( self::is_enabled() ), esc_attr( $key ), false ),
 				esc_html( $value )
 			);
 		}
@@ -127,10 +127,12 @@ class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
 	/**
 	 * Retrieves the option value based on the current setting.
 	 *
+	 * @param bool $is_enabled Is the option enabled.
+	 *
 	 * @return string On when is enabled, off when not.
 	 */
-	protected function get_option_value() {
-		if ( self::is_enabled() === true ) {
+	protected function get_option_value( $is_enabled ) {
+		if ( $is_enabled === true ) {
 			return 'on';
 		}
 
