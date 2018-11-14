@@ -8,7 +8,7 @@
 /**
  * Handles requests to the Yoast EDD API
  */
-class MyYoast_API_Request {
+final class MyYoast_API_Request {
 	/**
 	 * @var string Request URL
 	 */
@@ -89,7 +89,7 @@ class MyYoast_API_Request {
 	/**
 	 * Validates that we got a proper API response.
 	 *
-	 * @param array $response The response array.
+	 * @param array|WP_Error $response The response array.
 	 *
 	 * @return boolean
 	 */
