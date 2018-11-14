@@ -8,7 +8,7 @@
 /**
  * Abstract class representing a dismissible notification.
  */
-abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener {
+abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener, WPSEO_Notification_Handler {
 
 	/**
 	 * The identifier for the notification.
@@ -25,6 +25,13 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener {
 	abstract protected function dismiss();
 
 	/**
+	 * Retrieves instance of a notification.
+	 *
+	 * @return Yoast_Notification The notification.
+	 */
+	abstract protected function get_notification();
+
+	/**
 	 * Listens to an argument in the request URL and triggers an action.
 	 *
 	 * @return void
@@ -35,6 +42,33 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener {
 		}
 
 		$this->dismiss();
+	}
+
+	/**
+	 * Adds the notification if applicable, otherwise removes it.
+	 *
+	 * @param Yoast_Notification_Center $notification_center The notification center object.
+	 *
+	 * @return void
+	 */
+	public function handle( Yoast_Notification_Center $notification_center ) {
+		if ( ! $this->is_applicable() ) {
+			$notification_center->remove_notification_by_id( 'wpseo-' . $this->notification_identifier );
+
+			return;
+		}
+
+		$notification = $this->get_notification();
+		$notification_center->add_notification( $notification );
+	}
+
+	/**
+	 * Checks if a notice is applicable.
+	 *
+	 * @return bool Whether a notice should be shown or not.
+	 */
+	protected function is_applicable() {
+		return $this->is_notice_dismissed() === false;
 	}
 
 	/**
@@ -68,5 +102,17 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener {
 	 */
 	protected function set_dismissal_state() {
 		update_user_meta( get_current_user_id(), 'wpseo-remove-' . $this->notification_identifier, true );
+	}
+
+	/**
+	 * Redirects the user back to the dashboard.
+	 *
+	 * @return void
+	 *
+	 * @codeCoverageIgnore
+	 */
+	protected function redirect_to_dashboard() {
+		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
+		exit;
 	}
 }

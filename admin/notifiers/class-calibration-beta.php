@@ -8,7 +8,7 @@
 /**
  * Represents the logic for showing calibration beta notice.
  */
-class WPSEO_Calibration_Beta_Notification extends WPSEO_Dismissible_Notification implements WPSEO_Notification_Handler {
+class WPSEO_Calibration_Beta_Notification extends WPSEO_Dismissible_Notification {
 
 	/**
 	 * Sets the notification identifier.
@@ -27,36 +27,6 @@ class WPSEO_Calibration_Beta_Notification extends WPSEO_Dismissible_Notification
 	protected function dismiss() {
 		$this->set_dismissal_state();
 		$this->redirect_to_dashboard();
-	}
-
-	/**
-	 * Adds the notification if applicable, otherwise removes it.
-	 *
-	 * @param Yoast_Notification_Center $notification_center The notification center object.
-	 *
-	 * @return void
-	 */
-	public function handle( Yoast_Notification_Center $notification_center ) {
-		if ( $this->is_notice_dismissed() || WPSEO_Calibration_Beta::is_enabled() ) {
-			$notification_center->remove_notification_by_id( 'wpseo-' . $this->notification_identifier );
-
-			return;
-		}
-
-		$notification = $this->get_notification();
-		$notification_center->add_notification( $notification );
-	}
-
-	/**
-	 * Redirects the user back to the dashboard.
-	 *
-	 * @return void
-	 *
-	 * @codeCoverageIgnore
-	 */
-	protected function redirect_to_dashboard() {
-		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
-		exit;
 	}
 
 	/**
@@ -95,5 +65,14 @@ class WPSEO_Calibration_Beta_Notification extends WPSEO_Dismissible_Notification
 		);
 
 		return new Yoast_Notification( $message, $notification_options );
+	}
+
+	/**
+	 * Checks if the notice should be shown.
+	 *
+	 * @return bool True when applicable.
+	 */
+	protected function is_applicable() {
+		return ( parent::is_applicable() || ! WPSEO_Calibration_Beta::is_enabled() );
 	}
 }
