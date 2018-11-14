@@ -36,22 +36,22 @@ $extensions->add(
 
 $extensions->add(
     'wpseo-local',
-    new WPSEO_Extension(
-        array(
-            'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zt' ),
-            'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zs' ),
-            'title'         => 'Local SEO',
-            'display_title' => 'Stop losing customers to other local businesses',
-            'desc'          => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
-            'image'         => plugins_url( 'images/extensions-local.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
-            'benefits'      => array(
-                __( 'Get better search results in local search', 'wordpress-seo' ),
-                __( 'Easily insert Google Maps, a store locator, opening hours and more', 'wordpress-seo' ),
-                /* translators: %1$s expands to WooCommerce  */
-                sprintf( __( 'Allow customers to pick up their %s order locally', 'wordpress-seo' ), 'WooCommerce' ),
-            ),
-        )
-    )
+	new WPSEO_Extension(
+		array(
+			'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zt' ),
+			'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zs' ),
+			'title'         => 'Local SEO',
+			'display_title' => 'Stop losing customers to other local businesses',
+			'desc'          => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
+			'image'         => plugins_url( 'images/extensions-local.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
+			'benefits'      => array(
+				__( 'Get better search results in local search', 'wordpress-seo' ),
+				__( 'Easily insert Google Maps, a store locator, opening hours and more', 'wordpress-seo' ),
+				/* translators: %1$s expands to WooCommerce  */
+				sprintf( __( 'Allow customers to pick up their %s order locally', 'wordpress-seo' ), 'WooCommerce' ),
+			),
+		)
+	)
 );
 
 $extensions->add(
