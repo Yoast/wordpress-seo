@@ -223,6 +223,14 @@ class WPSEO_Admin_Asset_Manager {
 		);
 
 		wp_register_script(
+			'wp-rich-text',
+			plugins_url( 'js/dist/wp-rich-text-' . $flat_version . '.min.js', WPSEO_FILE ),
+			array( 'lodash', 'wp-polyfill', 'wp-data' ),
+			false,
+			true
+		);
+
+		wp_register_script(
 			'wp-compose',
 			plugins_url( 'js/dist/wp-compose-' . $flat_version . '.min.js', WPSEO_FILE ),
 			array( 'wp-polyfill' ),

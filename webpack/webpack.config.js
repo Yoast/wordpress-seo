@@ -133,6 +133,7 @@ module.exports = function( env = { environment: "production" } ) {
 				"@wordpress/components": "window.wp.components",
 				"@wordpress/i18n": "window.wp.i18n",
 				"@wordpress/api-fetch": "window.wp.apiFetch",
+				"@wordpress/rich-text": "window.wp.richText",
 				"@wordpress/compose": "window.wp.compose",
 			},
 			output: {
@@ -148,6 +149,7 @@ module.exports = function( env = { environment: "production" } ) {
 				element: "./node_modules/@wordpress/element",
 				i18n: "./node_modules/@wordpress/i18n",
 				compose: "./node_modules/@wordpress/compose",
+				richText: "./node_modules/@wordpress/rich-text",
 			},
 			plugins,
 		},
