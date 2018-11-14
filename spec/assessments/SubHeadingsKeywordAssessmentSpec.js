@@ -87,7 +87,7 @@ describe( "An assessment for matching keywords in subheadings, for recalibration
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your higher level subheadings</a>!"
 		);
 	} );
 
@@ -101,11 +101,11 @@ describe( "An assessment for matching keywords in subheadings, for recalibration
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your higher level subheadings</a>!"
 		);
 	} );
 
-	it( "returns a good score and appropriate feedback when one subheading containing the keyphrase: good number of matches -- 1 of 1.", function() {
+	it( "returns a good score and appropriate feedback when there is exactly one subheading and that subheading contains a match -- 1 of 1.", function() {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
@@ -115,11 +115,25 @@ describe( "An assessment for matching keywords in subheadings, for recalibration
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: Your subheading reflects the topic of your copy. Good job!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: Your higher level subheading reflects the topic of your copy. Good job!"
 		);
 	} );
 
-	it( "returns a good score and appropriate feedback when more than one subheading contains the keyphrase: good number of matches -- in range.", function() {
+	it( "returns a good score and appropriate feedback when there are multiple subheadings of which one contains a match: good number of matches (singular).", function() {
+		const mockPaper = new Paper();
+		const assessment = matchKeywordAssessment.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( { count: 2, matches: 1, percentReflectingTopic: 50 } ),
+			i18n
+		);
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual(
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 1 of your higher level subheadings reflects the topic of your copy. Good job!"
+		);
+	} );
+
+	it( "returns a good score and appropriate feedback when more than one subheading contains the keyphrase: good number of matches (plural).", function() {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
@@ -129,7 +143,7 @@ describe( "An assessment for matching keywords in subheadings, for recalibration
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 2 of your subheadings reflect the topic of your copy. Good job!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 2 of your higher level subheadings reflect the topic of your copy. Good job!"
 		);
 	} );
 
@@ -143,7 +157,7 @@ describe( "An assessment for matching keywords in subheadings, for recalibration
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: More than 75% of your H2 and H3 subheadings reflect the topic of your copy. That's too much. <a href='https://yoa.st/33n' target='_blank'>Don't over-optimize</a>!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: More than 75% of your higher level subheadings reflect the topic of your copy. That's too much. <a href='https://yoa.st/33n' target='_blank'>Don't over-optimize</a>!"
 		);
 	} );
 
