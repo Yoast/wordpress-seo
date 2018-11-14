@@ -1,6 +1,11 @@
+import getFunctionWordsLanguages from "../helpers/getFunctionWordsLanguages";
+import getLanguage from "../helpers/getLanguage";
 import { getSubheadingContents, getSubheadingContentsTopLevel } from "../stringProcessing/getSubheadings";
 import stripSomeTags from "../stringProcessing/stripNonTextTags";
 import { findTopicFormsInString } from "./findKeywordFormsInString";
+import { includes } from "lodash-es";
+
+const functionWordLanguages = getFunctionWordsLanguages();
 
 /**
  * Computes the amount of subheadings reflecting the topic.
@@ -13,11 +18,16 @@ import { findTopicFormsInString } from "./findKeywordFormsInString";
  * @returns {number} The amount of subheadings reflecting the topic.
  */
 const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, useSynonyms, locale ) {
-	return subheadings.filter(
-		subheading => {
-			return findTopicFormsInString( topicForms, subheading, useSynonyms, locale ).percentWordMatches > 50;
+	const isFunctionWordLanguage = includes( functionWordLanguages, getLanguage( locale ) );
+
+	return subheadings.filter( subheading => {
+		const matchedTopicForms = findTopicFormsInString( topicForms, subheading, useSynonyms, locale );
+
+		if ( process.env.YOAST_RECALIBRATION === "enabled" && ! isFunctionWordLanguage ) {
+			return matchedTopicForms.percentWordMatches === 100;
 		}
-	).length;
+		return matchedTopicForms.percentWordMatches > 50;
+	} ).length;
 };
 
 /**
