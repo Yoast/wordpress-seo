@@ -334,8 +334,9 @@ class WPSEO_Replace_Vars {
 			}
 			elseif ( $this->args->post_content !== '' ) {
 				$content = strip_shortcodes( $this->args->post_content );
+				$content = wp_strip_all_tags( $content );
 
-				if ( strlen( utf8_decode( $content ) ) < 156 ) {
+				if ( strlen( utf8_decode( $content ) ) <= 156 ) {
 					return $content;
 				}
 
