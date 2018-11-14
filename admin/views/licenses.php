@@ -35,7 +35,7 @@ $extensions->add(
 );
 
 $extensions->add(
-    'wpseo-local',
+	'wpseo-local',
 	new WPSEO_Extension(
 		array(
 			'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zt' ),
