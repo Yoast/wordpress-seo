@@ -40,7 +40,6 @@ class KeyphraseLengthAssessment extends Assessment {
 				okay: 6,
 				good: 9,
 			},
-
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33i" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33j" ),
 			isRelatedKeyphrase: false,
