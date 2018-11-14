@@ -166,7 +166,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	/**
 	 * Prepares the data for outputting.
 	 *
-	 * @param array $data
+	 * @param array $data The data to format.
 	 *
 	 * @return false|string The prepared string.
 	 */
