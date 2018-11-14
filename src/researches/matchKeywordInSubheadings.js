@@ -1,9 +1,9 @@
+import { includes } from "lodash-es";
 import getFunctionWordsLanguages from "../helpers/getFunctionWordsLanguages";
 import getLanguage from "../helpers/getLanguage";
 import { getSubheadingContents, getSubheadingContentsTopLevel } from "../stringProcessing/getSubheadings";
 import stripSomeTags from "../stringProcessing/stripNonTextTags";
 import { findTopicFormsInString } from "./findKeywordFormsInString";
-import { includes } from "lodash-es";
 
 const functionWordLanguages = getFunctionWordsLanguages();
 
