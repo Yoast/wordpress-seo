@@ -15,7 +15,7 @@ class WPSEO_Calibration_Beta_Notification extends WPSEO_Dismissible_Notification
 	 *
 	 * @return void
 	 */
-	public function __construct(  ) {
+	public function __construct() {
 		$this->notification_identifier = 'calibration-meta-notification';
 	}
 
