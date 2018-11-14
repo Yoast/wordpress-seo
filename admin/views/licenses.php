@@ -34,27 +34,25 @@ $extensions->add(
 	)
 );
 
-if ( ! defined( 'WPSEO_LOCAL_WOOCOMMERCE_VERSION' ) ) {
-	$extensions->add(
-		'wpseo-local',
-		new WPSEO_Extension(
-			array(
-				'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zt' ),
-				'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zs' ),
-				'title'         => 'Local SEO',
-				'display_title' => 'Stop losing customers to other local businesses',
-				'desc'          => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
-				'image'         => plugins_url( 'images/extensions-local.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
-				'benefits'      => array(
-					__( 'Get better search results in local search', 'wordpress-seo' ),
-					__( 'Easily insert Google Maps, a store locator, opening hours and more', 'wordpress-seo' ),
-					/* translators: %1$s expands to WooCommerce  */
-					sprintf( __( 'Allow customers to pick up their %s order locally', 'wordpress-seo' ), 'WooCommerce' ),
-				),
-			)
-		)
-	);
-}
+$extensions->add(
+    'wpseo-local',
+    new WPSEO_Extension(
+        array(
+            'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zt' ),
+            'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zs' ),
+            'title'         => 'Local SEO',
+            'display_title' => 'Stop losing customers to other local businesses',
+            'desc'          => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
+            'image'         => plugins_url( 'images/extensions-local.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
+            'benefits'      => array(
+                __( 'Get better search results in local search', 'wordpress-seo' ),
+                __( 'Easily insert Google Maps, a store locator, opening hours and more', 'wordpress-seo' ),
+                /* translators: %1$s expands to WooCommerce  */
+                sprintf( __( 'Allow customers to pick up their %s order locally', 'wordpress-seo' ), 'WooCommerce' ),
+            ),
+        )
+    )
+);
 
 $extensions->add(
 	'wpseo-video',
@@ -181,7 +179,8 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 				<?php else : ?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-not-activated"><?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?></div>
 					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>" class="yoast-link--license"><?php
-						esc_html_e( 'Activate your site on MyYoast', 'wordpress-seo' );
+						/* translators: %s expands to the extension title */
+						printf( esc_html( 'Activate %s for your site on MyYoast', 'wordpress-seo' ), $extension->get_title() );
 						echo $new_tab_message;
 					?></a>
 				<?php endif; ?>
@@ -251,7 +250,8 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 							<?php else : ?>
 								<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-not-activated"><?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?></div>
 								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>" class="yoast-link--license"><?php
-									esc_html_e( 'Activate your site on MyYoast', 'wordpress-seo' );
+									/* translators: %s expands to the extension title */
+									printf( esc_html( 'Activate %s for your site on MyYoast', 'wordpress-seo' ), $extension->get_title() );
 									echo $new_tab_message;
 								?></a>
 							<?php endif; ?>
