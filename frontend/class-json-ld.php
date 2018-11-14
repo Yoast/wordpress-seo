@@ -172,7 +172,8 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 */
 	public function format_data( $data ) {
 		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
-			return wp_json_encode( $data, JSON_UNESCAPED_SLASHES );
+			// @codingStandardsIgnoreLine
+			return wp_json_encode( $data, JSON_UNESCAPED_SLASHES ); // phpcs:ignore PHPCompatibility.Constants.NewConstants.json_unescaped_slashesFound -- Version check present.
 		}
 
 		return wp_json_encode( $data );
