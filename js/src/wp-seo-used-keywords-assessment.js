@@ -2,6 +2,9 @@
 import { bundledPlugins } from "yoastseo";
 const UsedKeywordsPlugin = bundledPlugins.usedKeywords;
 
+/**
+ * The assessment that assesses if the keyword has been used before somewhere else.
+ */
 class UsedKeywordsAssessment {
 	/**
 	 * Constructs the used keyword assessment for the analysis worker.
