@@ -13,6 +13,8 @@ class WPSEO_Calibration_Beta_Notification extends WPSEO_Dismissible_Notification
 	/**
 	 * Sets the notification identifier.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function __construct() {
@@ -20,13 +22,27 @@ class WPSEO_Calibration_Beta_Notification extends WPSEO_Dismissible_Notification
 	}
 
 	/**
-	 * Listens to an argument in the request URL and triggers an action.
+	 * Checks if the notice should be shown.
 	 *
-	 * @return void
+	 * @return bool True when applicable.
 	 */
-	protected function dismiss() {
-		$this->set_dismissal_state();
-		$this->redirect_to_dashboard();
+	protected function is_applicable() {
+		if ( $this->is_notice_dismissed() ) {
+			return false;
+		}
+
+		return ! $this->is_beta_enabled();
+	}
+
+	/**
+	 * Checks if the beta is enabled.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool Whether the beta is enabled or not.
+	 */
+	protected function is_beta_enabled() {
+		return ! WPSEO_Calibration_Beta::is_enabled();
 	}
 
 	/**
@@ -65,14 +81,5 @@ class WPSEO_Calibration_Beta_Notification extends WPSEO_Dismissible_Notification
 		);
 
 		return new Yoast_Notification( $message, $notification_options );
-	}
-
-	/**
-	 * Checks if the notice should be shown.
-	 *
-	 * @return bool True when applicable.
-	 */
-	protected function is_applicable() {
-		return ( parent::is_applicable() || ! WPSEO_Calibration_Beta::is_enabled() );
 	}
 }

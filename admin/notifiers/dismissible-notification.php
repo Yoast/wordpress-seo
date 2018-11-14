@@ -18,13 +18,6 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener, WPSEO_N
 	protected $notification_identifier = '';
 
 	/**
-	 * Dissmisses the notification.
-	 *
-	 * @return void
-	 */
-	abstract protected function dismiss();
-
-	/**
 	 * Retrieves instance of a notification.
 	 *
 	 * @return Yoast_Notification The notification.
@@ -60,6 +53,16 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener, WPSEO_N
 
 		$notification = $this->get_notification();
 		$notification_center->add_notification( $notification );
+	}
+
+	/**
+	 * Listens to an argument in the request URL and triggers an action.
+	 *
+	 * @return void
+	 */
+	protected function dismiss() {
+		$this->set_dismissal_state();
+		$this->redirect_to_dashboard();
 	}
 
 	/**

@@ -20,6 +20,8 @@ class WPSEO_Post_Type_Archive_Notification_Handler extends WPSEO_Dismissible_Not
 	/**
 	 * Sets the notification identifier.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function __construct() {
@@ -27,13 +29,20 @@ class WPSEO_Post_Type_Archive_Notification_Handler extends WPSEO_Dismissible_Not
 	}
 
 	/**
-	 * Listens to an argument in the request URL and triggers an action.
+	 * Checks if the notice should be shown.
 	 *
-	 * @return void
+	 * @return bool True when applicable.
 	 */
-	protected function dismiss() {
-		$this->set_dismissal_state();
-		$this->redirect_to_dashboard();
+	protected function is_applicable() {
+		if ( $this->is_notice_dismissed() ) {
+			return false;
+		}
+
+		if ( $this->is_new_install() ) {
+			return false;
+		}
+
+		return $this->get_post_types() !== array();
 	}
 
 	/**
@@ -82,23 +91,6 @@ class WPSEO_Post_Type_Archive_Notification_Handler extends WPSEO_Dismissible_Not
 	}
 
 	/**
-	 * Checks if the notice should be shown.
-	 *
-	 * @return bool True when applicable.
-	 */
-	protected function is_applicable() {
-		if ( $this->is_notice_dismissed() ) {
-			return false;
-		}
-
-		if ( $this->is_new_install() ) {
-			return false;
-		}
-
-		return $this->get_post_types() !== array();
-	}
-
-	/**
 	 * Checks if the first activation is done before the release of 7.9.
 	 *
 	 * @return bool True whether the install is 'new'.
@@ -141,7 +133,7 @@ class WPSEO_Post_Type_Archive_Notification_Handler extends WPSEO_Dismissible_Not
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function filter_woocommerce_product_type( $post_types ) {
+	protected function filter_woocommerce_product_type( $post_types ) {
 		if ( WPSEO_Utils::is_woocommerce_active() ) {
 			unset( $post_types['product'] );
 		}
