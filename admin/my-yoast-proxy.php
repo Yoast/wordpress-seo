@@ -2,6 +2,8 @@
 /**
  * WPSEO plugin file.
  *
+ * This file acts as a proxy. It will read external files and serves the like they are located locally.
+ *
  * @package WPSEO\Admin
  */
 
