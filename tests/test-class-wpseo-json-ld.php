@@ -40,10 +40,11 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 
 		$home_url   = WPSEO_Utils::home_url();
 		$search_url = $home_url . '?s={search_term_string}';
-		$json       = wp_json_encode( array(
+
+		$json       = self::$class_instance->format_data( array(
 			'@context'        => 'https://schema.org',
 			'@type'           => 'WebSite',
-			'@id'             => '#website',
+			'@id'             => $home_url . '#website',
 			'url'             => $home_url,
 			'name'            => get_bloginfo( 'name' ),
 			'potentialAction' => array(
@@ -52,7 +53,9 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 				'query-input' => 'required name=search_term_string',
 			),
 		) );
-		$expected   = '<script type=\'application/ld+json\'>' . $json . '</script>' . "\n";
+
+		$expected = '<script type=\'application/ld+json\'>' . $json . '</script>' . "\n";
+
 		$this->expectOutput( $expected, self::$class_instance->website() );
 	}
 
@@ -71,7 +74,8 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 		$this->go_to_home();
 
 		$home_url = WPSEO_Utils::home_url();
-		$json     = wp_json_encode( array(
+
+		$json = self::$class_instance->format_data( array(
 			'@context' => 'https://schema.org',
 			'@type'    => 'Person',
 			'url'      => $home_url,
@@ -79,8 +83,10 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 			'@id'      => '#person',
 			'name'     => $name,
 		) );
+
 		$expected = '<script type=\'application/ld+json\'>' . $json . '</script>' . "\n";
 		self::$class_instance->organization_or_person();
+
 		$this->expectOutput( $expected );
 	}
 
@@ -97,15 +103,18 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 		WPSEO_Options::set( 'person_name', $name );
 		WPSEO_Options::set( 'instagram_url', 'http://instagram.com:8080/{}yoast' );
 
-		$json     = wp_json_encode( array(
+		$json = self::$class_instance->format_data( array(
 			'@context' => 'https://schema.org',
 			'@type'    => 'Person',
 			'url'      => $home_url,
-			'sameAs'   => array( 'http://instagram.com:8080/yoast' ), // The {} will be stripped out by saving the option.
+			'sameAs'   => array( 'http://instagram.com:8080/yoast' ),
+			// The {} will be stripped out by saving the option.
 			'@id'      => '#person',
 			'name'     => $name,
 		) );
+
 		$expected = '<script type=\'application/ld+json\'>' . $json . '</script>' . "\n";
+
 		self::$class_instance->organization_or_person();
 		$this->expectOutput( $expected );
 	}
@@ -127,7 +136,8 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 		$this->go_to_home();
 
 		$home_url = WPSEO_Utils::home_url();
-		$json     = wp_json_encode( array(
+
+		$json = self::$class_instance->format_data( array(
 			'@context' => 'https://schema.org',
 			'@type'    => 'Organization',
 			'url'      => $home_url,
@@ -136,7 +146,9 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 			'name'     => $name,
 			'logo'     => '',
 		) );
+
 		$expected = '<script type=\'application/ld+json\'>' . $json . '</script>' . "\n";
+
 		$this->expectOutput( $expected, self::$class_instance->organization_or_person() );
 	}
 }
