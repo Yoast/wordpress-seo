@@ -122,7 +122,7 @@ Results.propTypes = {
 	marksButtonClassName: PropTypes.string,
 	marksButtonStatus: PropTypes.string,
 	setActiveMarker: PropTypes.func.isRequired,
-	activeMarker: PropTypes.string.isRequired,
+	activeMarker: PropTypes.string,
 };
 
 Results.defaultProps = {
@@ -132,6 +132,7 @@ Results.defaultProps = {
 	canChangeLanguage: false,
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
+	activeMarker: null,
 };
 
 export default compose( [
