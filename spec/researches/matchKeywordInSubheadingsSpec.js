@@ -118,7 +118,7 @@ describe( "a test for matching keywords in subheadings", function() {
 	} );
 } );
 
-describe( "Matching keyphrase in subeadings with recalibration enabled", () => {
+describe( "Matching keyphrase in subheadings with recalibration enabled", () => {
 	beforeEach( () => {
 		process.env.YOAST_RECALIBRATION = "enabled";
 	} );
@@ -138,6 +138,5 @@ describe( "Matching keyphrase in subeadings with recalibration enabled", () => {
 
 		// Would be 3 if the h4 was counted too.
 		expect( result.count ).toBe( 2 );
-		expect( result.propertyIsEnumerable( 0 ) );
 	} );
 } );
