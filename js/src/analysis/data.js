@@ -1,5 +1,8 @@
 import debounce from "lodash/debounce";
 import {
+	select
+} from "@wordpress/data";
+import {
 	updateReplacementVariable,
 	updateData,
 } from "../redux/actions/snippetEditor";
@@ -212,8 +215,39 @@ class Data {
 
 		if ( isDirty ) {
 			this.handleEditorChange( gutenbergData );
+			this.reapplyMarkers();
 			this._data = gutenbergData;
 			this._refresh();
+		}
+	}
+
+	/**
+	 * If a marker is active, find the associated assessment result and applies the marker on that result.
+	 *
+	 * @returns {void}
+	 */
+	reapplyMarkers() {
+		const {
+			getActiveMarker,
+			getResultById,
+		} = select( "yoast-seo/editor" );
+
+		const activeMarker = getActiveMarker();
+
+		if ( ! activeMarker ) {
+			return;
+		}
+
+		const markedResult = getResultById( activeMarker );
+
+		if ( ! markedResult ) {
+			return;
+		}
+
+		const marker = markedResult.getMarker();
+
+		if ( marker ) {
+			marker();
 		}
 	}
 
