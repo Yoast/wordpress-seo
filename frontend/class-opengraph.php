@@ -632,7 +632,7 @@ class WPSEO_OpenGraph {
 
 		if ( is_string( $ogdesc ) && $ogdesc !== '' ) {
 			if ( $echo !== false ) {
-				$this->og_tag( 'og:description', wp_strip_all_tags( stripslashes( $ogdesc ) ) );
+				$this->og_tag( 'og:description', $ogdesc );
 			}
 		}
 
