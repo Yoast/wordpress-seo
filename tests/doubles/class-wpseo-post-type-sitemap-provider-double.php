@@ -11,6 +11,15 @@
 class WPSEO_Post_Type_Sitemap_Provider_Double extends WPSEO_Post_Type_Sitemap_Provider {
 
 	/**
+	 * Reset static variables.
+	 */
+	public function reset() {
+		self::$home_url          = null;
+		self::$page_on_front_id  = null;
+		self::$page_for_posts_id = null;
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	public function get_url( $post ) {
