@@ -82,12 +82,10 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {boolean} True when there is at least one subheading.
 	 */
 	hasSubheadings( paper ) {
-		let subheadings;
-		if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
-			subheadings = getSubheadingsTopLevel( paper.getText() );
-		} else {
-			subheadings = getSubheadings( paper.getText() );
-		}
+		const subheadings = process.env.YOAST_RECALIBRATION === "enabled"
+			? getSubheadingsTopLevel( paper.getText() )
+			: getSubheadings( paper.getText() );
+
 		return subheadings.length > 0;
 	}
 
