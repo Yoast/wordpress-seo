@@ -1,7 +1,5 @@
 import debounce from "lodash/debounce";
-import {
-	select
-} from "@wordpress/data";
+import { select } from "@wordpress/data";
 import {
 	updateReplacementVariable,
 	updateData,
@@ -12,7 +10,6 @@ import {
 	mapCustomFields,
 	mapCustomTaxonomies,
 } from "../helpers/replacementVariableHelpers";
-
 
 /**
  * Represents the data.
