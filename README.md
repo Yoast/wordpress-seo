@@ -69,20 +69,23 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 ```
 
 ## Supported languages
-|                     | English | German | Dutch | French | Spanish  | Italian | Japanese | Portuguese | Russian | Catalan | Polish |
-|---------------------|---------|--------|-------|--------|---------|---------|----------|----------|----------|----------|----------
-| Transition words    | ✅      | ✅     | ✅    | ✅      | ✅       | ✅       |          | ✅        | ✅       | ✅        | ✅        |
-| Flesch reading ease  | ✅      | ✅     | ✅    | ✅      | ✅       | ✅       | ❌<sup>2</sup>        |          | ✅        |          | ❌<sup>3</sup>
-| Passive voice       | ✅      | ✅     | ✅     | ✅     | ✅       | ✅       | ❌<sup>2</sup>        |          | ✅       |          | ✅        |
-| Sentence beginnings | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       | ❌<sup>2</sup>        |          | ✅       |          | ✅        |
-| Sentence length<sup>1</sup>     | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       |          |          | ✅       |          | ✅        |
-| Function words (for Internal linking and insights)      | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       |          | ✅        | ✅       |          | ✅        |
+|                             | EN | DE | NL | FR | ES | IT | JA             | PT | RU | CA | PL             | SV             |
+|-----------------------------|----|----|----|----|----|----|----------------|----|----|----|----------------|----------------|
+| Transition words            | ✅ | ✅ | ✅ | ✅ | ✅  | ✅ |                | ✅ | ✅ | ✅ | ✅             | ✅             |
+| Flesch reading ease         | ✅ | ✅ | ✅ | ✅ | ✅  | ✅ | ❌<sup>3</sup> |    | ✅ |    | ❌<sup>4</sup> | ❌<sup>4</sup> |
+| Passive voice               | ✅ | ✅ | ✅ | ✅ | ✅  | ✅ | ❌<sup>3</sup> |    | ✅ |    | ✅             | ✅             |
+| Sentence beginnings         | ✅ | ✅ | ✅ | ✅ | ✅  | ✅ | ❌<sup>3</sup> |    | ✅ |    | ✅             | ✅             |
+| Sentence length<sup>1</sup> | ✅ | ✅ | ✅ | ✅ | ✅  | ✅ |                |    | ✅ |    | ✅             | ✅             |
+| Function words<sup>2</sup>  | ✅ | ✅ | ✅ | ✅ | ✅  | ✅ |                | ✅ | ✅ |    | ✅             | ✅             |
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
 
-<sup>2</sup> This means that this feature doesn't make sense for the specific language.
+<sup>2</sup> These are used for internal linking, insights and keyphrase-related analyses.
 
-<sup>3</sup> There is no existing Flesch reading ease formula for Polish
+<sup>3</sup> This means that this feature doesn't make sense for the specific language.
+
+<sup>4</sup> There is no existing Flesch reading ease formula for these languages.
+
 
 The following readability assessments are available for all languages: 
 - sentence length (with a default upper limit of 20 words, see<sup>1</sup> above )
