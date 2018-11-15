@@ -59,7 +59,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		);
 	}
 
-	$calibration_beta = new WPSEO_Calibration_Beta();
+	$calibration_beta = new WPSEO_Recalibration_Beta();
 	$calibration_beta->show_feature_toggle();
 	?>
 </div>

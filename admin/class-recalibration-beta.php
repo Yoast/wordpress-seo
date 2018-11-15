@@ -7,9 +7,9 @@
  */
 
 /**
- * Holds the logic for the calibration beta.
+ * Holds the logic for the recalibration beta.
  */
-class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
+class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 
 	/**
 	 * @var string Name of the options.
@@ -32,7 +32,7 @@ class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
 		echo '<legend><strong>', __( 'Get an even better analysis', 'wordpress-seo' ), '</strong></legend>';
 		echo '<p class="clear">';
 		printf(
-			/* translators: 1: strong opening tag, 2: strong closing tag  */
+			/* translators: 1: strong opening tag, 2: strong closing tag */
 			__(
 				'We have recalibrated our analysis. With the new analysis, we will get even closer to how Google sees your website. It would be %1$sawesome%2$s if you would like to %1$sbeta test this feature%2$s for us!',
 				'wordpress-seo'
