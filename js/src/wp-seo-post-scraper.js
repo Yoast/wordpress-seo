@@ -383,13 +383,13 @@ setWordPressSeoL10n();
 	 * @returns {void}
 	 */
 	function toggleMarkers( editorMode, store ) {
-		if ( editorMode === "text" ) {
-			store.dispatch( setMarkerStatus( "disabled" ) );
+		if ( editorMode === "visual" ) {
+			store.dispatch( setMarkerStatus( "enabled" ) );
 
 			return;
 		}
 
-		store.dispatch( setMarkerStatus( "enabled" ) );
+		store.dispatch( setMarkerStatus( "disabled" ) );
 	}
 
 	/**
