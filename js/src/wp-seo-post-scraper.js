@@ -579,10 +579,6 @@ setWordPressSeoL10n();
 			snippetEditorData.description = data.description;
 		} );
 
-		if ( ! isGutenbergDataAvailable() ) {
-			renderClassicEditorMetabox( editStore );
-		}
-
 		if ( isGutenbergDataAvailable() ) {
 			let editorMode = getEditorMode();
 
@@ -598,6 +594,10 @@ setWordPressSeoL10n();
 				editorMode = currentEditorMode;
 				toggleMarkers( editorMode, editStore );
 			} );
+		}
+
+		if ( ! isGutenbergDataAvailable() ) {
+			renderClassicEditorMetabox( editStore );
 		}
 
 		initializationDone();
