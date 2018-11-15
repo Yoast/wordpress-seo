@@ -176,6 +176,16 @@ class WPSEO_Admin_Asset_Manager {
 	 * @return void
 	 */
 	public function register_wp_assets() {
+
+		global $wp_scripts;
+
+		$script = $wp_scripts->query( 'react' );
+
+		// IE11 needs wp-polyfill to be registered before react.
+		if ( $script && ! in_array( 'wp-polyfill', $script->deps, true ) ) {
+			$script->deps[] = 'wp-polyfill';
+		}
+
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
 
 		wp_register_script( 'lodash-base', plugins_url( 'js/vendor/lodash.min.js', WPSEO_FILE ), array(), false, true );
