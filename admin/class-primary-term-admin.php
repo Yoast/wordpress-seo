@@ -259,10 +259,16 @@ class WPSEO_Primary_Term_Admin {
 	 *
 	 * @param string $taxonomy The taxonomy to get the terms for.
 	 *
-	 * @return array|int|WP_Error List of terms and their children. Will return WP_Error if the taxonomy doesn't exist.
+	 * @return array List of terms and their children.
 	 */
 	protected function get_all_terms( $taxonomy ) {
-		return get_terms( $taxonomy, array( 'hide_empty' => false ) );
+		$terms = get_terms( $taxonomy, array( 'hide_empty' => false ) );
+
+		if ( ! is_array( $terms ) ) {
+			return array();
+		}
+
+		return $terms;
 	}
 
 	/**
@@ -292,7 +298,14 @@ class WPSEO_Primary_Term_Admin {
 	 * @return array The found ancestors.
 	 */
 	protected function get_category_ancestors( $id ) {
-		return get_ancestors( $id, 'category' );
+		$ancestors = get_ancestors( $id, 'category' );
+
+		if ( ! is_array( $ancestors ) ) {
+			return array();
+		}
+
+		return $ancestors;
+
 	}
 
 	/**

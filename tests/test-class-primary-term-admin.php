@@ -199,4 +199,80 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 
 		$this->class_instance->save_primary_terms( 1 );
 	}
+
+	/**
+	 * Tests the result of the method when a taxonomy does exists.
+	 *
+	 * @covers WPSEO_Primary_Term_Admin::get_terms_for_taxonomy()
+	 */
+	public function test_get_terms_for_taxonomy() {
+		$term1 = self::factory()->term->create_and_get( array( 'taxonomy' => 'category' ) );
+		$term2 = self::factory()->term->create_and_get( array( 'taxonomy' => 'category' ) );
+		$term3 = self::factory()->term->create_and_get( array( 'taxonomy' => 'category' ) );
+
+		$primary_term_admin = $this
+			->getMockBuilder( 'WPSEO_Primary_Term_Admin_Double' )
+			->setMethods( array( 'get_all_terms', 'get_ancestors_for_term' ) )
+			->getMock();
+
+		$primary_term_admin
+			->expects( $this->any() )
+			->method( 'get_all_terms' )
+			->will( $this->returnValue( array( $term1, $term2 ) ) );
+
+		$primary_term_admin
+			->expects( $this->any() )
+			->method( 'get_ancestors_for_term' )
+			->will( $this->onConsecutiveCalls( array(), array( $term3 ) ) );
+
+		$term2->parents = $term3;
+
+		$this->assertEquals(
+			array( $term1, $term2 ),
+			$primary_term_admin->get_terms_for_taxonomy( 'category' )
+		);
+	}
+	/**
+	 * Tests the result of the method when the taxonomy doesn't exists.
+	 *
+	 * @covers WPSEO_Primary_Term_Admin::get_terms_for_taxonomy()
+	 */
+	public function test_get_terms_for_unexisting_taxonomy() {
+		$primary_term_admin = new WPSEO_Primary_Term_Admin_Double();
+
+		$this->assertEquals(
+			array(),
+			$primary_term_admin->get_terms_for_taxonomy( 'invalid_category' )
+		);
+	}
+
+	/**
+	 * Tests the retrieval of the ancestors for the given term.
+	 *
+	 * @covers WPSEO_Primary_Term_Admin::get_ancestors_for_term()
+	 */
+	public function test_get_ancestors_for_term() {
+		$term1 = self::factory()->term->create_and_get( array( 'taxonomy' => 'category' ) );
+		$term2 = self::factory()->term->create_and_get( array( 'taxonomy' => 'category' ) );
+		$term3 = self::factory()->term->create_and_get( array( 'taxonomy' => 'category' ) );
+
+		$primary_term_admin = $this
+			->getMockBuilder( 'WPSEO_Primary_Term_Admin_Double' )
+			->setMethods( array( 'get_category_ancestors' ) )
+			->getMock();
+
+		$primary_term_admin
+			->expects( $this->any() )
+			->method( 'get_category_ancestors' )
+			->will( $this->returnValue( array( $term2, $term3 ) ) );
+
+		$this->assertEquals(
+			array(
+				$term2->term_id => $term2->slug,
+				$term3->term_id => $term3->slug,
+			),
+			$primary_term_admin->get_ancestors_for_term( $term1->term_id )
+		);
+	}
+
 }
