@@ -139,4 +139,24 @@ describe( "Matching keyphrase in subheadings with recalibration enabled", () => 
 		// Would be 3 if the h4 was counted too.
 		expect( result.count ).toBe( 2 );
 	} );
+
+	it( "matching is stricter with languages that do not support function words", () => {
+		// There is no function word support for Afrikaans.
+		const paper = new Paper( "<h2>So ’n groot hond</h2>", {
+			keyword: "So ’n groot huis",
+			locale: "af",
+		} );
+		const researcher = Factory.buildMockResearcher( {
+			keyphraseForms: [ [ "So" ], [ "’n" ], [ "groot" ], [ "huis" ], [ "hond" ] ],
+			synonymsForms: [],
+		} );
+
+		// All the words should match and since hond !== huis the expected result is 0.
+		expect( matchKeywordInSubheadings( paper, researcher ).matches ).toBe( 0 );
+
+		// There is function word support for English.
+		paper._attributes.locale = "en_US";
+		// More than 50% should match. With 1 of the 4 words mismatching the expected result is 1.
+		expect( matchKeywordInSubheadings( paper, researcher ).matches ).toBe( 1 );
+	} );
 } );
