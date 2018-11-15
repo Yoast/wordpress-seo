@@ -8,7 +8,7 @@ import { map } from "lodash-es";
  * Creates a regex of combined strings from the input array.
  *
  * @param {array} array The array with strings
- * @param {boolean} [disableWordBoundary] Boolean indicating whether or not to disable word boundaries
+ * @param {boolean} [disableWordBoundary] Boolean indicating whether or not to disable word boundaries.
  * @returns {RegExp} regex The regex created from the array.
  */
 export default function( array, disableWordBoundary ) {
