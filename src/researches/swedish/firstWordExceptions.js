@@ -1,12 +1,13 @@
 /**
- *  Returns an array with exceptions for the sentence beginning researcher.
- *  @returns {Array} The array filled with exceptions.
- *  */
+ * Returns an array with exceptions for the sentence beginning researcher.
+ *
+ * @returns {string[]} The array filled with exceptions.
+ */
 export default function() {
 	return [
-		// Indefinite articles
+		// Indefinite articles:
 		"ett",
-		// Definite articles
+		// Definite articles:
 		"det", "den", "de",
 		// Numbers 1-10:
 		"en", "två", "tre", "fyra", "fem", "sex", "sju", "åtta", "nio", "tio",

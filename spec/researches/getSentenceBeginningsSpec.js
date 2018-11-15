@@ -239,7 +239,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	} );
 
 	it( "returns an object with sentence beginnings and counts for two sentences in Swedish starting with different words.", function() {
-		changePaper( { text: "Är du osäker, testa en kort fristående kurs hellre än ett program. Passar ämnet dig kan du hoppa på ett program och tillgodoräkna dig kursen.. ", locale: "sv_SE" } );
+		changePaper( { text: "Är du osäker, testa en kort fristående kurs hellre än ett program. Passar ämnet dig kan du hoppa på ett program och tillgodoräkna dig kursen.", locale: "sv_SE" } );
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "är" );
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 1 );
 		expect( getSentenceBeginnings()[ 1 ].word ).toBe( "passar" );
