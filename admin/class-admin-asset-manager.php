@@ -688,6 +688,6 @@ class WPSEO_Admin_Asset_Manager {
 			return $asset->get_src();
 		}
 
-		return $this->asset_location->get_url( $asset, $type);
+		return $this->asset_location->get_url( $asset, $type );
 	}
 }
