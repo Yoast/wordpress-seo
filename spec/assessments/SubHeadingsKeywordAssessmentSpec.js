@@ -87,7 +87,7 @@ describe( "An assessment for matching keywords in subheadings, for recalibration
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your higher level subheadings</a>!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your higher-level subheadings</a>!"
 		);
 	} );
 
@@ -101,7 +101,7 @@ describe( "An assessment for matching keywords in subheadings, for recalibration
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your higher level subheadings</a>!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your higher-level subheadings</a>!"
 		);
 	} );
 
@@ -115,7 +115,7 @@ describe( "An assessment for matching keywords in subheadings, for recalibration
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: Your higher level subheading reflects the topic of your copy. Good job!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: Your higher-level subheading reflects the topic of your copy. Good job!"
 		);
 	} );
 
@@ -129,7 +129,7 @@ describe( "An assessment for matching keywords in subheadings, for recalibration
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 1 of your higher level subheadings reflects the topic of your copy. Good job!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 1 of your higher-level subheadings reflects the topic of your copy. Good job!"
 		);
 	} );
 
@@ -143,7 +143,7 @@ describe( "An assessment for matching keywords in subheadings, for recalibration
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 2 of your higher level subheadings reflect the topic of your copy. Good job!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 2 of your higher-level subheadings reflect the topic of your copy. Good job!"
 		);
 	} );
 
@@ -157,7 +157,7 @@ describe( "An assessment for matching keywords in subheadings, for recalibration
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual(
-			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: More than 75% of your higher level subheadings reflect the topic of your copy. That's too much. <a href='https://yoa.st/33n' target='_blank'>Don't over-optimize</a>!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: More than 75% of your higher-level subheadings reflect the topic of your copy. That's too much. <a href='https://yoa.st/33n' target='_blank'>Don't over-optimize</a>!"
 		);
 	} );
 
