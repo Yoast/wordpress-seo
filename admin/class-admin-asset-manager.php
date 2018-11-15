@@ -284,7 +284,7 @@ class WPSEO_Admin_Asset_Manager {
 		}
 
 		$analysis = 'analysis-' . $flat_version;
-		if ( WPSEO_Calibration_Beta::is_enabled() ) {
+		if ( WPSEO_Recalibration_Beta::is_enabled() ) {
 			$analysis = 'https://my.yoast.com/api/downloads/file/analysis';
 		}
 

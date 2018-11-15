@@ -136,7 +136,7 @@ class WPSEO_Stale_Cornerstone_Content_Filter extends WPSEO_Abstract_Post_Filter 
 	 * @return bool True when the filter should be active.
 	 */
 	protected function is_filter_active() {
-		if ( ! WPSEO_Calibration_Beta::is_enabled() ) {
+		if ( ! WPSEO_Recalibration_Beta::is_enabled() ) {
 			return false;
 		}
 

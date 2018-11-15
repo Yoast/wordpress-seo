@@ -7,9 +7,9 @@
  */
 
 /**
- * Holds the logic for the calibration beta.
+ * Holds the logic for the recalibration beta.
  */
-class WPSEO_Calibration_Beta implements WPSEO_WordPress_Integration {
+class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 
 	/**
 	 * @var string Name of the options.

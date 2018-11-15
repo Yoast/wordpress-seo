@@ -33,7 +33,7 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 		}
 
 		$analysis_worker = 'wp-seo-' . $name . '-' . $flat_version;
-		if ( $name === 'analysis-worker' && WPSEO_Calibration_Beta::is_enabled() ) {
+		if ( $name === 'analysis-worker' && WPSEO_Recalibration_Beta::is_enabled() ) {
 			$analysis_worker = plugin_dir_url( WPSEO_FILE ) . 'admin/my-yoast-proxy.php?file=research-webworker';
 		}
 
