@@ -69,14 +69,20 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 ```
 
 ## Supported languages
-|                             | EN | DE | NL | FR | ES | IT | JA             | PT | RU | CA | PL             | SV             |
-|-----------------------------|----|----|----|----|----|----|----------------|----|----|----|----------------|----------------|
-| Transition words            | ✅ | ✅ | ✅ | ✅ | ✅  | ✅ |                | ✅ | ✅ | ✅ | ✅             | ✅             |
-| Flesch reading ease         | ✅ | ✅ | ✅ | ✅ | ✅  | ✅ | ❌<sup>3</sup> |    | ✅ |    | ❌<sup>4</sup> | ❌<sup>4</sup> |
-| Passive voice               | ✅ | ✅ | ✅ | ✅ | ✅  | ✅ | ❌<sup>3</sup> |    | ✅ |    | ✅             | ✅             |
-| Sentence beginnings         | ✅ | ✅ | ✅ | ✅ | ✅  | ✅ | ❌<sup>3</sup> |    | ✅ |    | ✅             | ✅             |
-| Sentence length<sup>1</sup> | ✅ | ✅ | ✅ | ✅ | ✅  | ✅ |                |    | ✅ |    | ✅             | ✅             |
-| Function words<sup>2</sup>  | ✅ | ✅ | ✅ | ✅ | ✅  | ✅ |                | ✅ | ✅ |    | ✅             | ✅             |
+| Language   	| Transition words 	| Flesch reading ease 	| Passive voice 	| Sentence beginnings 	| Sentence length<sup>1</sup> 	| Function words<sup>2</sup> 	|
+|------------	|------------------	|---------------------	|---------------	|---------------------	|-----------------------------	|----------------------------	|
+| English    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| German     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Dutch      	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| French     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Spanish    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Japanese   	|                  	| ❌<sup>3</sup>       	| ❌<sup>3</sup> 	| ❌<sup>3</sup>       	|                             	|                            	|
+| Portuguese 	| ✅                	|                     	|               	|                     	|                             	| ✅                          	|
+| Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Catalan    	| ✅                	|                     	|               	|                     	|                             	|                            	|
+| Polish     	| ✅                	| ❌<sup>4</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Swedish    	| ✅                	| ❌<sup>4</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
 
