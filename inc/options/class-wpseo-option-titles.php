@@ -160,7 +160,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		/**
 		 * Allow altering the array with separator options.
 		 *
-		 * @api  array  $separator_options  Array with the separator options.
+		 * @api array $separator_options Array with the separator options.
 		 */
 		$filtered_separators = apply_filters( 'wpseo_separator_options', $separators );
 
@@ -172,26 +172,26 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	}
 
 	/**
-	 * Get the available separator human friendly labels.
+	 * Get the available separator options human friendly labels.
 	 *
-	 * @return array $friendly_separators Array with the separator human friendly labels.
+	 * @return array $separator_options Array with the separator options human friendly labels.
 	 */
 	public function get_separator_options_for_display() {
 		$separators     = $this->get_separator_options();
 		$separator_list = $this->get_separator_option_list();
 
-		$friendly_separators = array();
+		$separator_options = array();
 
 		foreach ( $separators as $key => $label ) {
 			$friendly_label = isset( $separator_list[ $key ]['label'] ) ? $separator_list[ $key ]['label'] : '';
 
-			$friendly_separators[ $key ] = array(
+			$separator_options[ $key ] = array(
 				'label'          => $label,
 				'friendly_label' => $friendly_label,
 			);
 		}
 
-		return $friendly_separators;
+		return $separator_options;
 	}
 
 	/**
@@ -865,7 +865,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		/**
 		 * Allows altering the separator options array.
 		 *
-		 * @api array $separators  Array with the separator options.
+		 * @api array $separators Array with the separator options.
 		 */
 		$separator_list = apply_filters( 'wpseo_separator_option_list', $separators );
 

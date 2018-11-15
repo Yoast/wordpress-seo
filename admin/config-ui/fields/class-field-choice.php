@@ -26,7 +26,7 @@ class WPSEO_Config_Field_Choice extends WPSEO_Config_Field {
 	 *
 	 * @param string $value          Value op the option.
 	 * @param string $label          Label to display for the value.
-	 * @param string $friendly_label Optional. Human friendly label text to use.
+	 * @param string $friendly_label Optional. Explanatory label text to use.
 	 */
 	public function add_choice( $value, $label, $friendly_label = '' ) {
 		$choice = array(
