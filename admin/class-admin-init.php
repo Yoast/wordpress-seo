@@ -70,7 +70,7 @@ class WPSEO_Admin_Init {
 		 */
 		$handlers   = array();
 		$handlers[] = new WPSEO_Post_Type_Archive_Notification_Handler();
-		$handlers[] = new WPSEO_Calibration_Beta_Notification();
+		$handlers[] = new WPSEO_Recalibration_Beta_Notification();
 
 		$notification_center = Yoast_Notification_Center::get();
 		foreach ( $handlers as $handler ) {

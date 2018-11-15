@@ -6,9 +6,9 @@
  */
 
 /**
- * Represents the logic for showing calibration beta notice.
+ * Represents the logic for showing recalibration beta notice.
  */
-class WPSEO_Calibration_Beta_Notification extends WPSEO_Dismissible_Notification {
+class WPSEO_Recalibration_Beta_Notification extends WPSEO_Dismissible_Notification {
 
 	/**
 	 * Sets the notification identifier.
@@ -18,7 +18,7 @@ class WPSEO_Calibration_Beta_Notification extends WPSEO_Dismissible_Notification
 	 * @return void
 	 */
 	public function __construct() {
-		$this->notification_identifier = 'calibration-meta-notification';
+		$this->notification_identifier = 'recalibration-meta-notification';
 	}
 
 	/**
@@ -42,7 +42,7 @@ class WPSEO_Calibration_Beta_Notification extends WPSEO_Dismissible_Notification
 	 * @return bool Whether the beta is enabled or not.
 	 */
 	protected function is_beta_enabled() {
-		return WPSEO_Calibration_Beta::is_enabled();
+		return WPSEO_Recalibration_Beta::is_enabled();
 	}
 
 	/**

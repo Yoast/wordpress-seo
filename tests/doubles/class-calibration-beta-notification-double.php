@@ -8,7 +8,7 @@
 /**
  * Test Helper Class.
  */
-class WPSEO_Calibration_Beta_Notification_Double extends WPSEO_Calibration_Beta_Notification {
+class WPSEO_Recalibration_Beta_Notification_Double extends WPSEO_Recalibration_Beta_Notification {
 
 	/**
 	 * @inheritdoc
