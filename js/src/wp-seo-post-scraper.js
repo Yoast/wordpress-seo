@@ -9,6 +9,7 @@ import {
 	setSeoResultsForKeyword,
 } from "yoast-components";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
+import { select, subscribe } from "@wordpress/data";
 
 // Internal dependencies.
 import Edit from "./edit";
@@ -374,6 +375,33 @@ setWordPressSeoL10n();
 	}
 
 	/**
+	 * Toggles the markers status in the state, based on the editor mode.
+	 *
+	 * @param {string} editorMode The editor mode.
+	 * @param {Object} store      The store to update.
+	 *
+	 * @returns {void}
+	 */
+	function toggleMarkers( editorMode, store ) {
+		if ( editorMode === "text" ) {
+			store.dispatch( setMarkerStatus( "disabled" ) );
+
+			return;
+		}
+
+		store.dispatch( setMarkerStatus( "enabled" ) );
+	}
+
+	/**
+	 * Gets the current editor mode from the state.
+	 *
+	 * @returns {string} The current editor mode.
+	 */
+	function getEditorMode() {
+		return select( "core/edit-post" ).getEditorMode();
+	}
+
+	/**
 	 * Initializes analysis for the post edit screen.
 	 *
 	 * @returns {void}
@@ -549,6 +577,21 @@ setWordPressSeoL10n();
 			snippetEditorData.title = data.title;
 			snippetEditorData.slug = data.slug;
 			snippetEditorData.description = data.description;
+		} );
+
+		let editorMode = getEditorMode();
+
+		toggleMarkers( editorMode, editStore );
+
+		subscribe( () => {
+			const currentEditorMode = getEditorMode();
+
+			if ( currentEditorMode === editorMode ) {
+				return;
+			}
+
+			editorMode = currentEditorMode;
+			toggleMarkers( editorMode, editStore );
 		} );
 
 		if ( ! isGutenbergDataAvailable() ) {
