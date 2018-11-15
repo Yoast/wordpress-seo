@@ -33,6 +33,10 @@ describe( "a test for getting the correct first word exception array", function(
 		expect( firstWordExceptions( "pl_PL" )() ).toEqual( [ "jeden", "jedna", "jedno", "dwa", "dwie", "trzy", "cztery", "pięć", "sześć", "siedem", "osiem", "dziewięć", "dziesięć", "ta", "to", "ten", "te", "ci", "taki", "tacy", "taka", "taką", "takich", "takie", "takiego", "takiej", "takiemu", "takim", "takimi", "tamten", "tamta", "tamto", "tamci", "tamte", "tamtą", "tamtego", "tamtej", "tamtemu", "tamtych", "tamtym", "tamtymi", "tą", "tę", "tego", "tej", "temu", "tych", "tymi", "tym", "tak" ] );
 	} );
 
+	it( "returns the Swedish first word exception array in case of sv_SE locale", function() {
+		expect( firstWordExceptions( "sv_SE" )() ).toEqual( [ "ett", "det", "den", "de", "en", "två", "tre", "fyra", "fem", "sex", "sju", "åtta", "nio", "tio", "denne", "denna", "detta", "dessa" ] );
+	} );
+
 	it( "returns the English first word exception array in case of empty locale", function() {
 		expect( firstWordExceptions( "" )() ).toEqual( [ "the", "a", "an", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "this", "that", "these", "those" ] );
 	} );

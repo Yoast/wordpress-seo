@@ -85,6 +85,12 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
 	} );
 
+	it( "returns an object with sentence beginnings and counts for sentences in French that start with a character with a diacritic.", function() {
+		changePaper( { text: "À Paris, certaines prisons sont restées célèbres. À Paris, certaines prisons sont restées célèbres. À Paris, certaines prisons sont restées célèbres.", locale: "fr_FR" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "à" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
+	} );
+
 	it( "returns an object with sentence beginnings and counts for two sentences in German starting with different words.", function() {
 		changePaper( { text: "Ich bin wie du. Auf wiedersehen. ", locale: "de_DE" } );
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "ich" );
@@ -105,6 +111,12 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
 	} );
 
+	it( "returns an object with sentence beginnings and counts for sentences in German that start with a character with a diacritic.", function() {
+		changePaper( { text: "Österreich ist ein schönes Land. Österreich ist ein schönes Land. Österreich ist ein schönes Land.", locale: "de_DE" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "österreich" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
+	} );
+
 	it( "returns an object with sentence beginnings and counts for two sentences in Spanish starting with different words.", function() {
 		changePaper( { text: "Vamos a la playa. Muy buenos. ", locale: "es_ES" } );
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "vamos" );
@@ -122,6 +134,12 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for three sentences in Spanish all starting with one of the exception words.", function() {
 		changePaper( { text: "Aquellas pequeñas cosas. Aquellas pequeñas decisiones. Aquellas pequeñas ideas.", locale: "es_ES" } );
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "aquellas pequeñas" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for sentences in Spanish that start with a character with a diacritic.", function() {
+		changePaper( { text: "África es un gran continente. África es un gran continente. África es un gran continente.", locale: "es_ES" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "áfrica" );
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
 	} );
 
@@ -165,6 +183,12 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
 	} );
 
+	it( "returns an object with sentence beginnings and counts for two sentences in Italian that start with a character with a diacritic.", function() {
+		changePaper( { text: "È freddo. È freddo.", locale: "it_IT" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "è" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 2 );
+	} );
+
 	it( "returns an object with sentence beginnings and counts for two sentences in Russian starting with the same word.", function() {
 		changePaper( { text: "Здравствуй, мир! Здравствуй, человек!", locale: "ru_RU" } );
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "здравствуй" );
@@ -205,6 +229,32 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for three sentences in Polish all starting with one of the exception words.", function() {
 		changePaper( { text: "To dziecko jest ładne. To dziecko jest brzydkie. To dziecko jest małe.", locale: "pl_PL" } );
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "to dziecko" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for three sentences in Polish that start with a character with a diacritic.", function() {
+		changePaper( { text: "Żona mojego brata jest miła. Żona mojej siostry jest piękna. Żona moja jest najlepsza.", locale: "pl_PL" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "żona" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in Swedish starting with different words.", function() {
+		changePaper( { text: "Är du osäker, testa en kort fristående kurs hellre än ett program. Passar ämnet dig kan du hoppa på ett program och tillgodoräkna dig kursen.", locale: "sv_SE" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "är" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 1 );
+		expect( getSentenceBeginnings()[ 1 ].word ).toBe( "passar" );
+		expect( getSentenceBeginnings()[ 1 ].count ).toBe( 1 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in Swedish starting with the same word.", function() {
+		changePaper( { text: "Du är lång. Du är kort.", locale: "sv_SE" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "du" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 2 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for three sentences in Swedish all starting with one of the exception words.", function() {
+		changePaper( { text: "Detta barn är litet. Detta barn är stort. Detta barn är lyckligt.", locale: "sv_SE" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "detta barn" );
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
 	} );
 
@@ -255,5 +305,19 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns matching sentences if there is an 'empty' sentence", function() {
 		changePaper( { text: "\"A sentence with multiple terminators!\"). Test one. Test two. Test three." } );
 		expect( getSentenceBeginnings() ).toContainEqual( { word: "test", count: 3, sentences: [ "Test one.", "Test two.", "Test three." ] } );
+	} );
+
+	it( "returns an object with three Spanish sentences starting with the same word when those words are preceded by different special characters in each sentence.", function() {
+		changePaper( { text: "¡Hola! ¡Hola? (¡Hola!)" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "hola", { locale: "es_ES" } );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in English, when the sentences start with the same special character, but with different words.", function() {
+		changePaper( { text: "(First sentence). (Second sentence).", locale: "en_US" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "first" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 1 );
+		expect( getSentenceBeginnings()[ 1 ].word ).toBe( "second" );
+		expect( getSentenceBeginnings()[ 1 ].count ).toBe( 1 );
 	} );
 } );
