@@ -579,23 +579,25 @@ setWordPressSeoL10n();
 			snippetEditorData.description = data.description;
 		} );
 
-		let editorMode = getEditorMode();
-
-		toggleMarkers( editorMode, editStore );
-
-		subscribe( () => {
-			const currentEditorMode = getEditorMode();
-
-			if ( currentEditorMode === editorMode ) {
-				return;
-			}
-
-			editorMode = currentEditorMode;
-			toggleMarkers( editorMode, editStore );
-		} );
-
 		if ( ! isGutenbergDataAvailable() ) {
 			renderClassicEditorMetabox( editStore );
+		}
+
+		if ( isGutenbergDataAvailable() ) {
+			let editorMode = getEditorMode();
+
+			toggleMarkers( editorMode, editStore );
+
+			subscribe( () => {
+				const currentEditorMode = getEditorMode();
+
+				if ( currentEditorMode === editorMode ) {
+					return;
+				}
+
+				editorMode = currentEditorMode;
+				toggleMarkers( editorMode, editStore );
+			} );
 		}
 
 		initializationDone();
