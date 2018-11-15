@@ -182,7 +182,7 @@ class WPSEO_Admin_Asset_Manager {
 		$script = $wp_scripts->query( 'react' );
 
 		// IE11 needs wp-polyfill to be registered before react.
-		if( $script && ! in_array( 'wp-polyfill', $script->deps, true ) ) {
+		if ( $script && ! in_array( 'wp-polyfill', $script->deps, true ) ) {
 			$script->deps[] = 'wp-polyfill';
 		}
 
