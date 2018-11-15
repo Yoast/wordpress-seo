@@ -11,6 +11,11 @@
 * Platform version:
 * Yoast SEO version:
 <!-- You can check these boxes once you've created the issue. -->
+* Which operating system is affected (or systems): 
+- [ ] Windows
+- [ ] MacOS
+- [ ] Linux
+<!-- You can check these boxes once you've created the issue. -->
 * Which browser is affected (or browsers): 
 - [ ] IE11
 - [ ] Edge
