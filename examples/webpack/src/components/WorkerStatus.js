@@ -1,39 +1,40 @@
-import { connect } from "react-redux";
+// External dependencies.
 import React, { Fragment } from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 
-import { H3, H4 } from "./headings";
+// Internal dependencies.
+import { HeadingContainer } from "./Container";
+import { H4 } from "./headings";
 
 const StatusBox = styled.div`
-	width: 480px;
-	height: 120px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	background-color: #eaeaea;
 	border: solid 1px rgba(10, 10, 10, 0.25);
-	
-	padding: 52px 0;
-	
+	padding: 24px 0;
 	text-align: center;
 	font-size: 14px;
-	font-weight: bold;
-	font-style: normal;
-	font-stretch: normal;
-	line-height: normal;
 	letter-spacing: 0.6px;
 	color: #22282e;
 `;
 
 function WorkerStatus( { status } ) {
 	return <Fragment>
-		<H3>Status</H3>
-		<StatusBox>
-			{ status }
-		</StatusBox>
-		<H3>Worker communication</H3>
-		<H4>To worker</H4>
+		<HeadingContainer heading="H3" headingMarginTop="0" title="Status">
+			<StatusBox>
+				<strong>{ status }</strong>
+			</StatusBox>
+		</HeadingContainer>
 
-		<H4>From worker</H4>
+		<HeadingContainer heading="H3" title="Worker communication">
+			<H4>To worker</H4>
+			<H4>From worker</H4>
+		</HeadingContainer>
 
-		<H3>Performance</H3>
+		<HeadingContainer heading="H3" title="Performance" />
 	</Fragment>;
 }
 

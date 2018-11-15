@@ -1,9 +1,11 @@
-import Paper from "../../../../../src/values/Paper";
-import { isEqual, debounce } from "lodash-es";
+// External dependencies.
+import { debounce, isEqual } from "lodash-es";
+import Paper from "yoastsrc/values/Paper";
 
-import { setStatus } from "../actions/worker";
-import { setResults } from "../actions/results";
+// Internal dependencies.
 import formatAnalyzeResult from "../../utils/formatAnalyzeResult";
+import { setResults } from "../actions/results";
+import { setStatus } from "../actions/worker";
 
 export default class StoreSubscriber {
 	constructor( { store, worker } ) {

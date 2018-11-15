@@ -1,4 +1,4 @@
-import scoreToRating from "../../../../src/interpreters/scoreToRating";
+import scoreToRating from "yoastsrc/interpreters/scoreToRating";
 
 /**
  * Sorts analysis results by score and then alphabetically by their identifier.

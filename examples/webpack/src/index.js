@@ -1,13 +1,16 @@
-// Internal dependencies.
+// Base style.
 import "./index.css";
-import App from "./App";
 
-import configureStore from "./redux/utils/store";
-import { renderReactApp } from "./redux/utils/render";
-import StoreSubscriber from "./redux/utils/StoreSubscriber";
-import { createStorageMiddleware, getStorageData } from "./redux/utils/localstorage";
-import AnalysisWorkerWrapper from "../../../src/worker/AnalysisWorkerWrapper";
+// External dependencies.
+import AnalysisWorkerWrapper from "yoastsrc/worker/AnalysisWorkerWrapper";
+
+// Internal dependencies.
 import AnalysisWebWorker from "./analysis.worker";
+import App from "./App";
+import { createStorageMiddleware, getStorageData } from "./redux/utils/localstorage";
+import { renderReactApp } from "./redux/utils/render";
+import configureStore from "./redux/utils/store";
+import StoreSubscriber from "./redux/utils/StoreSubscriber";
 
 const storageStates = [
 	"configuration",
@@ -15,7 +18,8 @@ const storageStates = [
 ];
 const preloadedState = {
 	configuration: {
-		useKeywordDistribution: false,
+		useKeywordDistribution: true,
+		logLevel: "debug",
 	},
 	paper: {
 		text: "",
@@ -24,8 +28,8 @@ const preloadedState = {
 		keyword: "",
 		synonyms: "",
 		locale: "",
-		url: "https://example.org/",
-		permalink: "example-post",
+		url: "",
+		permalink: "https://example.org/",
 	},
 };
 
