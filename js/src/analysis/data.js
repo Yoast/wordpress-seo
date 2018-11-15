@@ -1,5 +1,4 @@
 import debounce from "lodash/debounce";
-import { select } from "@wordpress/data";
 import {
 	updateReplacementVariable,
 	updateData,
@@ -227,7 +226,7 @@ class Data {
 		const {
 			getActiveMarker,
 			getResultById,
-		} = select( "yoast-seo/editor" );
+		} = this._wpData.select( "yoast-seo/editor" );
 
 		const activeMarker = getActiveMarker();
 
