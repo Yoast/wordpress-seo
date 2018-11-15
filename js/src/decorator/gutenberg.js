@@ -10,6 +10,9 @@ const { stripHTMLTags } = string;
 
 const ANNOTATION_SOURCE = "yoast";
 
+export const START_MARK = "<yoastmark class='yoast-text-mark'>";
+export const END_MARK =   "</yoastmark>";
+
 let annotationQueue = [];
 
 const ANNOTATION_ATTRIBUTES = {
@@ -100,32 +103,29 @@ export function isAnnotationAvailable() {
  *
  * @returns {Array<{startOffset: number, endOffset: number}>} The start and end indices for this mark.
  */
-function getOffsets( mark ) {
+export function getOffsets( mark ) {
 	let marked = mark.getMarked();
 
-	const startMark = "<yoastmark class='yoast-text-mark'>";
-	const endMark = "</yoastmark>";
-
-	let startMarkIndex = marked.indexOf( startMark );
+	let startMarkIndex = marked.indexOf( START_MARK );
 	let endMarkIndex = null;
 
 	const offsets = [];
 
 	while ( startMarkIndex >= 0 ) {
-		marked = marked.replace( startMark, "" );
-		endMarkIndex = marked.indexOf( endMark );
+		marked = marked.replace( START_MARK, "" );
+		endMarkIndex = marked.indexOf( END_MARK );
 
-		if ( endMarkIndex < 0 ) {
-			return null;
+		if ( endMarkIndex < startMarkIndex ) {
+			return [];
 		}
-		marked = marked.replace( endMark, "" );
+		marked = marked.replace( END_MARK, "" );
 
 		offsets.push( {
 			startOffset: startMarkIndex,
 			endOffset: endMarkIndex,
 		} );
 
-		startMarkIndex = marked.indexOf( startMark );
+		startMarkIndex = marked.indexOf( START_MARK );
 		endMarkIndex = null;
 	}
 
@@ -141,7 +141,7 @@ function getOffsets( mark ) {
  *
  * @returns {Array} All indices of the found occurrences.
  */
-function getIndicesOf( text, value, caseSensitive = true ) {
+export function getIndicesOf( text, value, caseSensitive = true ) {
 	const indices = [];
 
 	if ( text.length  === 0 ) {
