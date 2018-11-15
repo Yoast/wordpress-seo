@@ -57,7 +57,7 @@ function RelevantWords( { data } ) {
 		data={ data }
 		columns={ columns }
 		defaultPageSize={ 100 }
-		minRows={ 0 }
+		minRows={ 3 }
 	/>;
 }
 
