@@ -8,13 +8,15 @@ import "react-table/react-table.css";
 // Internal dependencies.
 import calculateRelevantWords from "../utils/calculateRelevantWords";
 
-// Caching object.
-let previous = {
+
+// Cache the relevant words.
+let previousRelevantWords = {
 	text: "",
 	locale: "en_US",
-	relevantWords: [],
+	data: {},
 };
 
+// Determine which columns to display.
 const columns = [
 	{
 		Header: "Word",
@@ -43,27 +45,43 @@ const columns = [
 	},
 ];
 
-function RelevantWords( { text, locale } ) {
-	// Cache the relevant words 'to' the text & locale.
-	let relevantWords;
-	if ( isEqual( text, previous.text ) && isEqual( locale, previous.locale ) ) {
-		relevantWords = previous.relevantWords;
-	} else {
-		relevantWords = calculateRelevantWords( text, locale );
-		previous = { text, locale, relevantWords };
-	}
-
+/**
+ * Displays a table with the relevant words.
+ *
+ * @param {Object} data The relevant words.
+ *
+ * @returns {ReactComponent} The relevant words component.
+ */
+function RelevantWords( { data } ) {
 	return <ReactTable
-		data={ relevantWords }
+		data={ data }
 		columns={ columns }
-		showPagination={ false }
-		defaultPageSize={ relevantWords.length }
+		defaultPageSize={ 100 }
+		minRows={ 0 }
 	/>;
+}
+
+/**
+ * Retrieve the relevant words. Uses cached version when possible.
+ *
+ * @param {string} text   The text.
+ * @param {string} locale The locale.
+ *
+ * @returns {Object} The relevant words.
+ */
+function getRelevantWords( text, locale ) {
+	if ( ! isEqual( text, previousRelevantWords.text ) || ! isEqual( locale, previousRelevantWords.locale ) ) {
+		previousRelevantWords = {
+			text,
+			locale,
+			data: calculateRelevantWords( text, locale ),
+		};
+	}
+	return previousRelevantWords.data;
 }
 
 export default connect( ( state ) => {
 	return {
-		text: state.paper.text,
-		locale: state.paper.locale,
+		data: getRelevantWords( state.paper.text, state.paper.locale ),
 	};
 } )( RelevantWords );
