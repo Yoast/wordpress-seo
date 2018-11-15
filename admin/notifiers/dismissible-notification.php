@@ -86,7 +86,7 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener, WPSEO_N
 	}
 
 	/**
-	 * Retrevies the value where listener is listening for.
+	 * Retrieves the value where listener is listening for.
 	 *
 	 * @return string The listener value.
 	 *

@@ -42,7 +42,7 @@ class WPSEO_Calibration_Beta_Notification extends WPSEO_Dismissible_Notification
 	 * @return bool Whether the beta is enabled or not.
 	 */
 	protected function is_beta_enabled() {
-		return ! WPSEO_Calibration_Beta::is_enabled();
+		return WPSEO_Calibration_Beta::is_enabled();
 	}
 
 	/**
@@ -54,20 +54,20 @@ class WPSEO_Calibration_Beta_Notification extends WPSEO_Dismissible_Notification
 	 */
 	protected function get_notification() {
 		$message  = sprintf(
-
 			esc_html__(
-				/* translators: 1: link opening tag to the features page, 2: link clossing tag   */
-				'We\'d love you to try our new and improved Yoast SEO analysis! Use the toggle on the %1$sFeatures tab%2$s in your Yoast SEO settings.',
+				/* translators: 1: link opening tag to the features page, 2: link closing tag, 3: expands to Yoast SEO */
+				'We\'d love you to try our new and improved %3$s analysis! Use the toggle on the %1$sFeatures tab%2$s in your %3$s settings.',
 				'wordpress-seo'
 			),
 			'<a href="#top#features" onclick="jQuery(\'#features-tab\').click()">',
-			'</a>'
+			'</a>',
+			'Yoast SEO'
 		);
 
 		$message .= PHP_EOL . PHP_EOL;
 
 		$message .= sprintf(
-		/* translators: %1$s is the notification dismissal link start tag, %2$s is the link closing tag. */
+			/* translators: 1: notification dismissal link start tag, 2: link closing tag */
 			__( '%1$sPlease don\'t show me this notification anymore%2$s', 'wordpress-seo' ),
 			'<a class="button" href="' . admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=' . $this->notification_identifier ) . '">',
 			'</a>'
