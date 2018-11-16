@@ -418,4 +418,18 @@ describe( "a test for finding transition words from a string", function() {
 
 		expect( result ).toEqual( expected );
 	} );
+
+	it( "does not recognize 'eggs' as a transition word (don't ask).", function() {
+		// Non-transition word: eggs.
+		mockPaper = new Paper( "Let's bake some eggs." );
+		const expected = {
+			totalSentences: 1,
+			sentenceResults: [ ],
+			transitionWordSentences: 1,
+		};
+
+		const result = transitionWordsResearch( mockPaper );
+
+		expect( result ).toEqual( expected );
+	} );
 } );
