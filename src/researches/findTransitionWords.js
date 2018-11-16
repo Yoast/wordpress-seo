@@ -5,7 +5,6 @@ import getTransitionWords from "../helpers/getTransitionWords.js";
 import { isWordInSentence as matchWordInSentence } from "../stringProcessing/matchWordInSentence.js";
 
 import { forEach } from "lodash-es";
-import { filter } from "lodash-es";
 import { flattenDeep } from "lodash-es";
 import { escapeRegExp } from "lodash-es";
 
@@ -48,15 +47,9 @@ var matchTwoPartTransitionWords = function( sentence, twoPartTransitionWords ) {
  * @param {Array} transitionWords The array containing transition words.
  * @returns {Array} The found transitional words.
  */
-var matchTransitionWords = function( sentence, transitionWords ) {
+const matchTransitionWords = function( sentence, transitionWords ) {
 	sentence = normalizeSingleQuotes( sentence );
-
-	var matchedTransitionWords = filter( transitionWords, function( word ) {
-		// Escape regex since we use punctuation marks (like in abbreviations: e.g. "e.g.").
-		return matchWordInSentence( escapeRegExp( word ), sentence );
-	} );
-
-	return matchedTransitionWords;
+	return transitionWords.filter( word => matchWordInSentence( escapeRegExp( word ), sentence ) );
 };
 
 /**
