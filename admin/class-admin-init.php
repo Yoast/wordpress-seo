@@ -51,6 +51,13 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_notices', array( $this, 'permalink_settings_notice' ) );
 		add_action( 'admin_enqueue_scripts', array( $this->asset_manager, 'register_wp_assets' ) );
 
+		$listeners   = array();
+		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
+		/** @var WPSEO_Listener $listener */
+		foreach ( $listeners as $listener ) {
+			$listener->listen();
+		}
+
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
@@ -70,16 +77,10 @@ class WPSEO_Admin_Init {
 		 */
 		$handlers   = array();
 		$handlers[] = new WPSEO_Post_Type_Archive_Notification_Handler();
-		$handlers[] = new WPSEO_Recalibration_Beta_Notification();
 
 		$notification_center = Yoast_Notification_Center::get();
 		foreach ( $handlers as $handler ) {
 			$handler->handle( $notification_center );
-		}
-
-		/** @var WPSEO_Listener $listener */
-		foreach ( $handlers as $listener ) {
-			$listener->listen();
 		}
 	}
 
