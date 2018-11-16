@@ -14,6 +14,7 @@ use Yoast\YoastSEO\Watchers\Indexable_Term_Watcher;
  * @package Yoast\Tests\Watchers
  */
 class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
+
 	/**
 	 * Tests if the expected hooks are registered
 	 *
@@ -104,7 +105,7 @@ class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 			->getMock();
 
 		$formatter_mock
-			->expects($this->once() )
+			->expects( $this->once() )
 			->method( 'format' )
 			->with( $indexable_mock )
 			->will( $this->returnValue( $indexable_mock ) );

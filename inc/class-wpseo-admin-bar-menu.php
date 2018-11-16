@@ -203,7 +203,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			$focus_keyword = $this->get_post_focus_keyword( $post );
 
 			if ( ! empty( $focus_keyword ) ) {
-				$trends_url  .= '#q=' . urlencode( $focus_keyword );
+				$trends_url .= '#q=' . urlencode( $focus_keyword );
 			}
 		}
 

@@ -418,6 +418,8 @@ class WPSEO_Breadcrumbs {
 			);
 		}
 
+		$this->maybe_add_page_crumb();
+
 		/**
 		 * Filter: 'wpseo_breadcrumb_links' - Allow the developer to filter the Yoast SEO breadcrumb links, add to them, change order, etc.
 		 *
@@ -594,6 +596,32 @@ class WPSEO_Breadcrumbs {
 		$this->maybe_add_term_parent_crumbs( $term );
 
 		$this->add_term_crumb( $term );
+	}
+
+	/**
+	 * Adds a page crumb to the visible breadcrumbs.
+	 *
+	 * @return void
+	 */
+	private function maybe_add_page_crumb() {
+		if ( ! is_paged() ) {
+			return;
+		}
+
+		$current_page = get_query_var( 'paged', 1 );
+		if ( $current_page <= 1 ) {
+			return;
+		}
+
+		$this->crumbs[] = array(
+			'text'           => sprintf(
+				/* translators: %s expands to the current page number */
+				__( 'Page %s', 'wordpress-seo' ),
+				$current_page
+			),
+			'url'            => '',
+			'hide_in_schema' => true,
+		);
 	}
 
 	/**

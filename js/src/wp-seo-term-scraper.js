@@ -37,6 +37,7 @@ import { refreshDelay } from "./analysis/constants";
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
+import { setMarkerStatus } from "./redux/actions/markerButtons";
 
 // Helper dependencies.
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
@@ -234,6 +235,8 @@ window.yoastHideMarkers = true;
 
 		termScraper = new TermDataCollector( { store } );
 
+		store.dispatch( setMarkerStatus( "hidden" ) );
+
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [ termsTmceId, "yoast_wpseo_focuskw", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
@@ -321,7 +324,7 @@ window.yoastHideMarkers = true;
 
 		// Init Plugins.
 		YoastSEO.wp = {};
-		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
+		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 
 		// For backwards compatibility.
 		YoastSEO.analyzerArgs = args;

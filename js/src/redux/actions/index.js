@@ -4,3 +4,4 @@ export * from "./markerButtons";
 export * from "./primaryTaxonomies";
 export * from "./snippetEditor";
 export * from "./settings";
+export * from "./activeMarker";

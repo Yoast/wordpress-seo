@@ -12,6 +12,7 @@ use Yoast\YoastSEO\Config\Dependency_Management;
  * @package Yoast\Tests
  */
 class Dependency_Management_Test extends \PHPUnit_Framework_TestCase {
+
 	/**
 	 * Tests if the alias is created with ideal conditions
 	 *

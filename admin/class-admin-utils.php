@@ -67,6 +67,18 @@ class WPSEO_Admin_Utils {
 		);
 	}
 
+	/**
+	 * Gets a visually hidden accessible message for links that open in a new browser tab.
+	 *
+	 * @return string The visually hidden accessible message.
+	 */
+	public static function get_new_tab_message() {
+		return sprintf(
+			'<span class="screen-reader-text">%s</span>',
+			esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' )
+		);
+	}
+
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**

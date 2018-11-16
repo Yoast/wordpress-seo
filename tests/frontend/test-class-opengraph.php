@@ -698,7 +698,7 @@ EXPECTED;
 	 */
 	public function test_taxonomy_description_with_replacevars() {
 		$expected_title = 'Test title';
-		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category', 'name' => $expected_title ) );
+		$term_id        = $this->factory->term->create( array( 'taxonomy' => 'category', 'name' => $expected_title ) );
 
 		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'opengraph-description', '%%term_title%%' );
 

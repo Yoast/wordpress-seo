@@ -5,7 +5,7 @@ namespace Yoast\Tests\UnitTests\Formatters;
 use Yoast\Tests\Doubles\Indexable_Term_Formatter_Double;
 
 /**
- * Class Indexable_Term_Test
+ * Class Indexable_Term_Test.
  *
  * @group indexables
  * @group formatters
@@ -25,11 +25,12 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance =  new Indexable_Term_Formatter_Double( 1, 'category' );
+		$this->instance = new Indexable_Term_Formatter_Double( 1, 'category' );
 	}
 
 	/**
 	 * Tests the formatting of the indexable data.
+	 *
 	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::format
 	 */
 	public function test_format() {
@@ -61,7 +62,7 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 						'wpseo_linkdex'         => 'linkdex',
 						'wpseo_noindex'         => 'noindex',
 						'wpseo_title'           => 'title',
-						'wpseo_opengraph-title' => 'opengraph title'
+						'wpseo_opengraph-title' => 'opengraph title',
 					)
 				)
 			);
@@ -152,5 +153,4 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	public function test_get_indexable_meta_lookup() {
 		$this->assertInternalType( 'array', $this->instance->get_indexable_meta_lookup() );
 	}
-
 }

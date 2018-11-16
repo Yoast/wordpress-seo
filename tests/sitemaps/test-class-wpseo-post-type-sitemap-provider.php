@@ -49,13 +49,56 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_sitemap_links
 	 */
 	public function test_get_sitemap_links() {
+		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
 
-		$sitemap_links = self::$class_instance->get_sitemap_links( 'post', 1, 1 );
+		$current_show_on_front  = get_option( 'show_on_front' );
+		$current_page_on_front  = (int) get_option( 'page_on_front' );
+		$current_page_for_posts = (int) get_option( 'page_for_posts' );
+
+		$front_page = $this->factory()->post->create_and_get( array( 'post_type' => 'page' ) );
+		$posts_page = $this->factory()->post->create_and_get( array( 'post_type' => 'page' ) );
+		$post_id    = $this->factory()->post->create_and_get( array( 'post_type' => 'post' ) );
+
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $front_page->ID );
+		update_option( 'page_for_posts', 0 );
+		$sitemap_provider->reset();
+
+		$sitemap_links = $sitemap_provider->get_sitemap_links( 'page', 1, 1 );
+		$this->assertContains( get_permalink( $front_page->ID ), $sitemap_links[0] );
+
+		$sitemap_links = $sitemap_provider->get_sitemap_links( 'post', 1, 1 );
+		$this->assertContains( get_permalink( $post_id ), $sitemap_links[0] );
+
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $front_page->ID );
+		update_option( 'page_for_posts', $posts_page->ID );
+		$sitemap_provider->reset();
+
+		$sitemap_links = $sitemap_provider->get_sitemap_links( 'page', 1, 1 );
+		$this->assertContains( WPSEO_Utils::home_url(), $sitemap_links[0] );
+		$this->assertContains( get_permalink( $front_page->ID ), $sitemap_links[0] );
+
+		$sitemap_links = $sitemap_provider->get_sitemap_links( 'post', 2, 1 );
+		$this->assertContains( get_post_type_archive_link( 'post' ), $sitemap_links[0] );
+		$this->assertContains( get_permalink( $posts_page->ID ), $sitemap_links[0] );
+		$this->assertContains( get_permalink( $post_id ), $sitemap_links[1] );
+
+		update_option( 'show_on_front', 'posts' );
+		update_option( 'page_on_front', 0 );
+		update_option( 'page_for_posts', 0 );
+		$sitemap_provider->reset();
+
+		$sitemap_links = $sitemap_provider->get_sitemap_links( 'page', 1, 1 );
 		$this->assertContains( WPSEO_Utils::home_url(), $sitemap_links[0] );
 
-		$post_id       = $this->factory->post->create();
-		$sitemap_links = self::$class_instance->get_sitemap_links( 'post', 1, 1 );
+		$sitemap_links = $sitemap_provider->get_sitemap_links( 'post', 2, 1 );
+		$this->assertContains( get_post_type_archive_link( 'post' ), $sitemap_links[0] );
 		$this->assertContains( get_permalink( $post_id ), $sitemap_links[1] );
+
+		update_option( 'show_on_front', $current_show_on_front );
+		update_option( 'page_for_posts', $current_page_for_posts );
+		update_option( 'page_on_front', $current_page_on_front );
 	}
 
 	/**

@@ -409,6 +409,8 @@ setWordPressSeoL10n();
 		const appArgs = getAppArgs( editStore );
 		app = new App( appArgs );
 
+		edit.initializeAnnotations();
+
 		// Expose globals.
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;

@@ -2,7 +2,6 @@
 
 /* External dependencies */
 import React from "react";
-import { Provider } from "react-redux";
 import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
@@ -24,6 +23,8 @@ import * as selectors from "./redux/selectors";
 import * as actions from "./redux/actions";
 import UsedKeywords from "./analysis/usedKeywords";
 import PrimaryTaxonomyFilter from "./components/PrimaryTaxonomyFilter";
+import { setMarkerStatus } from "./redux/actions";
+import { isAnnotationAvailable } from "./decorator/gutenberg";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -226,12 +227,10 @@ class Edit {
 					</Slot>
 				</PluginSidebar>
 
-				<Provider store={ store }>
-					<Fragment>
-						<Sidebar store={ store } theme={ theme } />
-						<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
-					</Fragment>
-				</Provider>
+				<Fragment>
+					<Sidebar store={ store } theme={ theme } />
+					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				</Fragment>
 			</Fragment>
 		);
 
@@ -294,6 +293,17 @@ class Edit {
 			lastData = state;
 			usedKeywords.setKeyword( state.focusKeyword );
 		} );
+	}
+
+	/**
+	 * Enables marker button if WordPress annotation is available.
+	 *
+	 * @returns {void}
+	 */
+	initializeAnnotations() {
+		if ( isAnnotationAvailable() ) {
+			this._store.dispatch( setMarkerStatus( "enabled" ) );
+		}
 	}
 
 	/**

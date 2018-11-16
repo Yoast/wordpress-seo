@@ -10,6 +10,7 @@ use Yoast\YoastSEO\Config\Frontend;
  * @package Yoast\Tests\Config
  */
 class Frontend_Test extends \PHPUnit_Framework_TestCase {
+
 	/**
 	 * Tests if the class is based upon the Integration interface
 	 */
