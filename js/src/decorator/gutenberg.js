@@ -232,7 +232,7 @@ function calculateAnnotationsForTextFormat( content, mark, block, multilineTag =
 			 * endOffset =   ( sentenceIndex ) 13 + ( yoastmarkOffset.endOffset ) 14  = 27
 			 *
 			 * "A cool text. A cool keyword."
-			 *                      ^20   ^27
+			 *      ( startOffset ) ^20   ^27 ( endOffset )
 			 */
 			const startOffset = sentenceIndex + yoastmarkOffset.startOffset;
 			let endOffset = sentenceIndex + yoastmarkOffset.endOffset;
