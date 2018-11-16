@@ -4,9 +4,6 @@ import isUndefined from "lodash/isUndefined";
 import flatMap from "lodash/flatMap";
 import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
-import { string } from "yoastseo";
-
-const { stripHTMLTags } = string;
 
 const ANNOTATION_SOURCE = "yoast";
 
@@ -99,13 +96,11 @@ export function isAnnotationAvailable() {
 /**
  * Returns the offsets of the <yoastmark> occurrences in the given mark.
  *
- * @param   {Mark} mark The mark object to calculate offset for.
+ * @param {string} marked The mark object to calculate offset for.
  *
  * @returns {Array<{startOffset: number, endOffset: number}>} The start and end indices for this mark.
  */
-export function getOffsets( mark ) {
-	let marked = mark.getMarked();
-
+export function getOffsets( marked ) {
 	let startMarkIndex = marked.indexOf( START_MARK );
 	let endMarkIndex = null;
 
@@ -180,7 +175,11 @@ function calculateAnnotationsForTextFormat( content, mark, block, multilineTag =
 	const record = create( { html: content, multilineTag, multilineWrapperTag } );
 	const { text } = record;
 
-	let original = stripHTMLTags( mark.getOriginal() );
+	// Remove all tags.
+	const original = mark.getOriginal().replace( /(<([^>]+)>)/ig, "" );
+	// Remove all tags except <yoastmark> tags.
+	const marked = mark.getMarked().replace( /(<(?!\/?yoastmark)[^>]+>)/ig, "" );
+
 	/*
 	 * A sentence can occur multiple times in a text, therefore we calculate all indices where
 	 * the sentence occurs. We then calculate the marker offets for a single sentence and offset
@@ -192,30 +191,10 @@ function calculateAnnotationsForTextFormat( content, mark, block, multilineTag =
 		return [];
 	}
 
-	let firstSentenceIndex = sentenceIndices[ 0 ];
-
-	/*
-	 * Try again with a different HTML tag strip tactic.
-	 *
-	 * The rich text format in Gutenberg has no HTML at all while our marks might have some HTML.
-	 * So we try to find a mark index based on the mark content with all tags stripped. In the
-	 * above stripHTMLTags, HTML tags are replaced by a space. We try again by replacing HTML
-	 * tags by nothing.
-	 */
-	if ( firstSentenceIndex === -1 ) {
-		original = mark.getOriginal().replace( /(<([^>]+)>)/ig, "" );
-		firstSentenceIndex = text.indexOf( original );
-	}
-
-	// If we haven't found anything at this point, we bail.
-	if ( firstSentenceIndex === -1 ) {
-		return null;
-	}
-
 	/*
 	 * Calculate the mark offsets within the sentence the current mark targets.
 	 */
-	const offsets = getOffsets( mark );
+	const offsets = getOffsets( marked );
 
 	const blockOffsets = [];
 
