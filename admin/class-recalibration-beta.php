@@ -112,12 +112,21 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Checks if the user has a newsletter subscription.
+	 *
+	 * @return bool True whether the user has a subscription.
+	 */
+	public static function has_newsletter_subscription() {
+		return (bool) get_option( 'wpseo_recalibration_beta_newsletter_registration', false );
+	}
+
+	/**
 	 * Subscribes to the newsletter.
 	 *
 	 * @codeCoverageIgnore
 	 */
 	protected function subscribe_newsletter() {
-		if ( get_option( 'wpseo_recalibration_beta_newsletter_registration', true ) ) {
+		if ( self::has_newsletter_subscription() ) {
 			return;
 		}
 

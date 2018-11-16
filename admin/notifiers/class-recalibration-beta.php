@@ -8,41 +8,57 @@
 /**
  * Represents the logic for showing recalibration beta notice.
  */
-class WPSEO_Recalibration_Beta_Notification extends WPSEO_Dismissible_Notification {
+class WPSEO_Recalibration_Beta_Notification implements WPSEO_WordPress_Integration {
 
 	/**
-	 * Sets the notification identifier.
+	 * The name of the notifier.
+	 *
+	 * @var string
+	 */
+	protected $notification_identifier = 'recalibration-meta-notification';
+
+	/**
+	 * Registers all hooks to WordPress
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
-	public function __construct() {
-		$this->notification_identifier = 'recalibration-meta-notification';
+	public function register_hooks() {
+		add_action( 'admin_init', array( $this, 'handle_notice' ), 15 );
 	}
 
 	/**
-	 * Checks if the notice should be shown.
+	 * Shows the notification when applicable.
 	 *
-	 * @return bool True when applicable.
+	 * @return void.
 	 */
-	protected function is_applicable() {
-		if ( $this->is_notice_dismissed() ) {
-			return false;
+	public function handle_notice() {
+		if ( $this->is_applicable( WPSEO_Recalibration_Beta::is_enabled(), WPSEO_Recalibration_Beta::has_mailinglist_subscription() ) ) {
+			$this->get_notification_center()->add_notification(
+				$this->get_notification()
+			);
+
+			return;
 		}
 
-		return ! $this->is_beta_enabled();
+		$this->get_notification_center()->remove_notification_by_id( 'wpseo-' . $this->notification_identifier );
 	}
 
 	/**
 	 * Checks if the beta is enabled.
 	 *
-	 * @codeCoverageIgnore
+	 * @param bool $is_beta_enabled  Checks if the beta has been enabled.
+	 * @param bool $was_ever_enabled Checks if the beta was ever enabled.
 	 *
 	 * @return bool Whether the beta is enabled or not.
 	 */
-	protected function is_beta_enabled() {
-		return WPSEO_Recalibration_Beta::is_enabled();
+	protected function is_applicable( $is_beta_enabled, $was_ever_enabled ) {
+		if ( $was_ever_enabled ) {
+			return false;
+		}
+
+		return ! $is_beta_enabled;
 	}
 
 	/**
@@ -64,15 +80,6 @@ class WPSEO_Recalibration_Beta_Notification extends WPSEO_Dismissible_Notificati
 			'Yoast SEO'
 		);
 
-		$message .= PHP_EOL . PHP_EOL;
-
-		$message .= sprintf(
-			/* translators: 1: notification dismissal link start tag, 2: link closing tag */
-			__( '%1$sPlease don\'t show me this notification anymore%2$s', 'wordpress-seo' ),
-			'<a class="button" href="' . admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=' . $this->notification_identifier ) . '">',
-			'</a>'
-		);
-
 		$notification_options = array(
 			'type'         => Yoast_Notification::WARNING,
 			'id'           => 'wpseo-' . $this->notification_identifier,
@@ -81,5 +88,16 @@ class WPSEO_Recalibration_Beta_Notification extends WPSEO_Dismissible_Notificati
 		);
 
 		return new Yoast_Notification( $message, $notification_options );
+	}
+
+	/**
+	 * Retrieves an instance of the notification center.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return Yoast_Notification_Center Instance of the notification center.
+	 */
+	protected function get_notification_center() {
+		return Yoast_Notification_Center::get();
 	}
 }
