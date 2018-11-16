@@ -12,14 +12,22 @@ import { renderReactApp } from "./redux/utils/render";
 import configureStore from "./redux/utils/store";
 import StoreSubscriber from "./redux/utils/StoreSubscriber";
 
+
 const storageStates = [
 	"configuration",
+	"options",
 	"paper",
 ];
 const preloadedState = {
 	configuration: {
+		useCornerstone: false,
+		useTaxonomy: false,
 		useKeywordDistribution: true,
 		logLevel: "debug",
+	},
+	options: {
+		isRelatedKeyphrase: false,
+		useMorphology: true,
 	},
 	paper: {
 		text: "",

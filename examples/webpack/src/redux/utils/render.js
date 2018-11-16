@@ -22,7 +22,7 @@ export function wrapInTopLevelComponents( Component, { store, ...props } = {} ) 
 /**
  * Render a react app to a target element.
  *
- * @param {string}       targetElement Target element.
+ * @param {HTMLElement}  targetElement Target element.
  * @param {ReactElement} component     The component to render.
  * @param {Object}       props         The component props.
  *

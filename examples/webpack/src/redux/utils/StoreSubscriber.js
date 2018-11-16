@@ -4,6 +4,7 @@ import Paper from "yoastsrc/values/Paper";
 
 // Internal dependencies.
 import formatAnalyzeResult from "../../utils/formatAnalyzeResult";
+import getMorphologyData from "../../utils/getMorphologyData";
 import { setResults } from "../actions/results";
 import { setStatus } from "../actions/worker";
 
@@ -60,7 +61,7 @@ export default class StoreSubscriber {
 
 		if ( ! isEqual( paper, prevPaper ) ) {
 			this.dispatch( setStatus( "analyzing" ) );
-			if ( state.configuration.isRelatedKeyphrase ) {
+			if ( state.options.isRelatedKeyphrase ) {
 				this.analyzeRelatedKeyphrase( paper );
 			} else {
 				this.analyzePaper( paper );
@@ -69,12 +70,18 @@ export default class StoreSubscriber {
 	}
 
 	triggerInitialize( prevState, state ) {
-		const { configuration: prevConfiguration } = prevState;
-		const { configuration } = state;
+		const { configuration: prevConfiguration, options: prevOptions } = prevState;
+		const { configuration, options } = state;
 
-		if ( ! isEqual( prevConfiguration, configuration ) ) {
-			this._worker.initialize( configuration ).then( () => {
-				if ( state.configuration.isRelatedKeyphrase ) {
+		if ( ! isEqual( prevConfiguration, configuration ) || ! isEqual( prevOptions, options ) ) {
+			const config = {
+				...configuration,
+				researchData: {
+					morphology: state.options.useMorphology ? getMorphologyData() : {},
+				},
+			};
+			this._worker.initialize( config ).then( () => {
+				if ( state.options.isRelatedKeyphrase ) {
 					return this.analyzeRelatedKeyphrase( state.paper );
 				}
 				return this.analyzePaper( state.paper );
