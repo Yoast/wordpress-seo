@@ -45,14 +45,14 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener, WPSEO_N
 	 * @return void
 	 */
 	public function handle( Yoast_Notification_Center $notification_center ) {
-		if ( ! $this->is_applicable() ) {
-			$notification_center->remove_notification_by_id( 'wpseo-' . $this->notification_identifier );
+		if ( $this->is_applicable() ) {
+			$notification = $this->get_notification();
+			$notification_center->add_notification( $notification );
 
 			return;
 		}
 
-		$notification = $this->get_notification();
-		$notification_center->add_notification( $notification );
+		$notification_center->remove_notification_by_id( 'wpseo-' . $this->notification_identifier );
 	}
 
 	/**

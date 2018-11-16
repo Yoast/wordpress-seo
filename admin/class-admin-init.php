@@ -53,6 +53,7 @@ class WPSEO_Admin_Init {
 
 		$listeners   = array();
 		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
+
 		/** @var WPSEO_Listener $listener */
 		foreach ( $listeners as $listener ) {
 			$listener->listen();
