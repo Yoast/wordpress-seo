@@ -91,19 +91,52 @@ describe( "getIndicesOf", () => {
 } );
 
 describe( "calculateAnnotationsForTextFormat", () => {
+	it( "correctly calculates multiple offsets for a single sentence in a text", () => {
+		const text = "A long text. A marked text.";
+
+		const mark = mockMark(
+			"A marked text.",
+			`A marked ${ START_MARK }text${ END_MARK }.`,
+		);
+
+		/*
+		 * "A long text. A marked text."
+		 *                 ^ 15       ^ 26
+		 */
+		const expected = [
+			{
+				startOffset: 22,
+				endOffset: 26,
+			},
+		];
+
+		const actual = calculateAnnotationsForTextFormat(
+			text,
+			mark
+		);
+
+		expect( actual ).toEqual( expected );
+	} );
+
 	it( "correctly calculates offsets in a text with HTML tags", () => {
+		const text = "A long text. A marked text.";
+
 		const mark = mockMark(
 			"A marked text.",
 			`A ${ START_MARK }<b>marked text</b>${ END_MARK }.`,
 		);
 
+		/*
+		 * "A long text. A marked text."
+		 *                 ^ 15       ^ 26
+		 */
 		const expected = [ {
 			startOffset: 15,
 			endOffset: 26,
 		} ];
 
 		const actual = calculateAnnotationsForTextFormat(
-			"A long text. A marked text.",
+			text,
 			mark
 		);
 
