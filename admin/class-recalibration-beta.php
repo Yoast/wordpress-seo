@@ -16,6 +16,9 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	 */
 	protected $option_name = 'recalibration_beta';
 
+	/**
+	 * @var string The read more URL.
+	 */
 	protected $read_more_url = 'https://yoa.st/recalibration-beta-explanation';
 
 	/**
