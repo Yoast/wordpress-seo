@@ -127,6 +127,8 @@ Bugfixes:
 * Fixes a bug where the Yoast metabox is visible even when the attachment urls are redirected to the attachment file itself.
 * Fixes a bug where assessments would fail if a "<" character is present in the content.
 * Fixes a bug where paragraphs were sometimes not correctly detected because paragraph tags were not automatically added in WordPress-like fashion.
+* Fixes a bug where multiple marker buttons could be active at the same time.
+* Fixes a bug where escaped HTML is shown in the OpenGraph description.
 
 Compatibility:
 
