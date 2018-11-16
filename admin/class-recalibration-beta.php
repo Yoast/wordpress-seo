@@ -112,12 +112,16 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Checks if the user has a newsletter subscription.
+	 * Checks if the user has a mailinglist subscription.
+	 *
+	 * The mailinglist subscription value will set to true when the beta is set
+	 * to enabled. This value stays true, so it's a good indicator that the user
+	 * tried the beta.
 	 *
 	 * @return bool True whether the user has a subscription.
 	 */
-	public static function has_newsletter_subscription() {
-		return (bool) get_option( 'wpseo_recalibration_beta_newsletter_registration', false );
+	public static function has_mailinglist_subscription() {
+		return (bool) get_option( 'wpseo_recalibration_beta_mailinglist_subscription', false );
 	}
 
 	/**
@@ -126,11 +130,11 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	 * @codeCoverageIgnore
 	 */
 	protected function subscribe_newsletter() {
-		if ( self::has_newsletter_subscription() ) {
+		if ( self::has_mailinglist_subscription() ) {
 			return;
 		}
 
-		update_option( 'wpseo_recalibration_beta_newsletter_registration', true );
+		update_option( 'wpseo_recalibration_beta_mailinglist_subscription', true );
 	}
 
 	/**
