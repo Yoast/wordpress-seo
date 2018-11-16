@@ -43,6 +43,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_text_link_counter'        => true,
 		'show_onboarding_notice'          => false,
 		'first_activated_on'              => false,
+		'recalibration_beta'              => false,
 	);
 
 	/**

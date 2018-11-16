@@ -71,7 +71,7 @@ class WPSEO_Admin_Asset_Manager {
 	public function register_script( WPSEO_Admin_Asset $script ) {
 		wp_register_script(
 			$this->prefix . $script->get_name(),
-			$this->asset_location->get_url( $script, WPSEO_Admin_Asset::TYPE_JS ),
+			$this->get_url( $script, WPSEO_Admin_Asset::TYPE_JS ),
 			$script->get_deps(),
 			$script->get_version(),
 			$script->is_in_footer()
@@ -86,7 +86,7 @@ class WPSEO_Admin_Asset_Manager {
 	public function register_style( WPSEO_Admin_Asset $style ) {
 		wp_register_style(
 			$this->prefix . $style->get_name(),
-			$this->asset_location->get_url( $style, WPSEO_Admin_Asset::TYPE_CSS ),
+			$this->get_url( $style, WPSEO_Admin_Asset::TYPE_CSS ),
 			$style->get_deps(),
 			$style->get_version(),
 			$style->get_media()
@@ -281,6 +281,11 @@ class WPSEO_Admin_Asset_Manager {
 		$babel_polyfill = 'wp-polyfill-ecmascript';
 		if ( ! wp_script_is( 'wp-polyfill-ecmascript', 'registered' ) ) {
 			$babel_polyfill = self::PREFIX . 'babel-polyfill';
+		}
+
+		$analysis = 'analysis-' . $flat_version;
+		if ( WPSEO_Recalibration_Beta::is_enabled() ) {
+			$analysis = 'https://my.yoast.com/api/downloads/file/analysis';
 		}
 
 		return array(
@@ -538,7 +543,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'analysis',
-				'src'  => 'analysis-' . $flat_version,
+				'src'  => $analysis,
 				'deps' => array(
 					self::PREFIX . 'react-dependencies',
 				),
@@ -667,5 +672,22 @@ class WPSEO_Admin_Asset_Manager {
 		}
 
 		return wp_script_is( 'wp-element', 'registered' );
+	}
+
+	/**
+	 * Determines the URL of the asset.
+	 *
+	 * @param WPSEO_Admin_Asset $asset The asset to determine the URL for.
+	 * @param string            $type  The type of asset. Usually JS or CSS.
+	 *
+	 * @return string The URL of the asset.
+	 */
+	protected function get_url( WPSEO_Admin_Asset $asset, $type ) {
+		$scheme = wp_parse_url( $asset->get_src(), PHP_URL_SCHEME );
+		if ( in_array( $scheme, array( 'http', 'https' ), true ) ) {
+			return $asset->get_src();
+		}
+
+		return $this->asset_location->get_url( $asset, $type );
 	}
 }

@@ -43,6 +43,19 @@ class WPSEO_Stale_Cornerstone_Content_Filter extends WPSEO_Abstract_Post_Filter 
 	}
 
 	/**
+	 * Adds the filter links when necessary.
+	 *
+	 * @return void
+	 */
+	public function add_filter_links() {
+		if ( ! WPSEO_Recalibration_Beta::is_enabled() ) {
+			return;
+		}
+
+		parent::add_filter_links();
+	}
+
+	/**
 	 * Returns the label for this filter.
 	 *
 	 * @return string The label for this filter.
@@ -89,7 +102,7 @@ class WPSEO_Stale_Cornerstone_Content_Filter extends WPSEO_Abstract_Post_Filter 
 				',
 				$this->get_current_post_type(),
 				$this->date_threshold(),
-				WPSEO_Meta::$meta_prefix . WPSEO_Cornerstone::META_NAME
+				WPSEO_Meta::$meta_prefix . 'is_cornerstone'
 			)
 		);
 	}
