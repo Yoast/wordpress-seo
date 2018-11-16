@@ -100,12 +100,17 @@ export function isAnnotationAvailable() {
  *
  * @returns {Array<{startOffset: number, endOffset: number}>} The start and end indices for this mark.
  */
-export function getOffsets( marked ) {
+export function getYoastmarkOffsets( marked ) {
 	let startMarkIndex = marked.indexOf( START_MARK );
 	let endMarkIndex = null;
 
 	const offsets = [];
 
+	/**
+	 * Step by step search for a yoastmark-tag and it's corresponding en tag. Each time a tag is found
+	 * it is removed from the string because the function should return the indexes based on the string
+	 * without the tags.
+	 */
 	while ( startMarkIndex >= 0 ) {
 		marked = marked.replace( START_MARK, "" );
 		endMarkIndex = marked.indexOf( END_MARK );
@@ -131,29 +136,29 @@ export function getOffsets( marked ) {
  * Finds all indices for a given string in a text.
  *
  * @param {string}  text          Text to search through.
- * @param {string}  value         Text to search for.
- * @param {boolean} caseSensitive Should the search be case sensitive.
+ * @param {string}  stringToFind  Text to search for.
+ * @param {boolean} caseSensitive True if the search is case sensitive.
  *
  * @returns {Array} All indices of the found occurrences.
  */
-export function getIndicesOf( text, value, caseSensitive = true ) {
+export function getIndicesOf( text, stringToFind, caseSensitive = true ) {
 	const indices = [];
 
 	if ( text.length  === 0 ) {
 		return indices;
 	}
 
-	let startIndex = 0;
+	let textIndex = 0;
 	let index;
 
 	if ( ! caseSensitive ) {
-		value = value.toLowerCase();
+		stringToFind = stringToFind.toLowerCase();
 		text = text.toLowerCase();
 	}
 
-	while ( ( index = text.indexOf( value, startIndex ) ) > -1 ) {
+	while ( ( index = text.indexOf( stringToFind, textIndex ) ) > -1 ) {
 		indices.push( index );
-		startIndex = index + value.length;
+		textIndex = index + stringToFind.length;
 	}
 
 	return indices;
@@ -175,26 +180,39 @@ function calculateAnnotationsForTextFormat( content, mark, block, multilineTag =
 	const record = create( { html: content, multilineTag, multilineWrapperTag } );
 	const { text } = record;
 
-	// Remove all tags.
-	const original = mark.getOriginal().replace( /(<([^>]+)>)/ig, "" );
-	// Remove all tags except <yoastmark> tags.
-	const marked = mark.getMarked().replace( /(<(?!\/?yoastmark)[^>]+>)/ig, "" );
+	/*
+	 * Remove all tags from the original sentence.
+	 *
+     * A cool <b>keyword</b>. => A cool keyword.
+	 */
+	const originalSentence = mark.getOriginal().replace( /(<([^>]+)>)/ig, "" );
+
+	/*
+	 * Remove all tags except yoastmark tags from the marked sentence.
+	 *
+     * A cool <b><yoastmark>keyword</yoastmark></b>. => A cool <yoastmark>keyword</yoastmark>
+	 */
+	const markedSentence = mark.getMarked().replace( /(<(?!\/?yoastmark)[^>]+>)/ig, "" );
 
 	/*
 	 * A sentence can occur multiple times in a text, therefore we calculate all indices where
-	 * the sentence occurs. We then calculate the marker offets for a single sentence and offset
+	 * the sentence occurs. We then calculate the marker offsets for a single sentence and offset
 	 * them with each sentence index.
+	 *
+	 * ( "A cool text. A cool keyword.", "A cool keyword." ) => [ 13 ]
 	 */
-	const sentenceIndices = getIndicesOf( text, original );
+	const sentenceIndices = getIndicesOf( text, originalSentence );
 
 	if ( sentenceIndices.length === 0 ) {
 		return [];
 	}
 
 	/*
-	 * Calculate the mark offsets within the sentence the current mark targets.
+	 * Calculate the mark offsets within the sentence that the current mark targets.
+	 *
+	 * "A cool <yoastmark>keyword</yoastmark>." => [ { startOffset: 7, endOffset: 14 } ]
 	 */
-	const offsets = getOffsets( marked );
+	const yoastmarkOffsets = getYoastmarkOffsets( markedSentence );
 
 	const blockOffsets = [];
 
@@ -202,23 +220,29 @@ function calculateAnnotationsForTextFormat( content, mark, block, multilineTag =
 	 * The offsets array holds all start- and endtag offsets for a single sentence. We now need
 	 * to apply all sentence offsets to each offset to properly map them to the blocks content.
 	 */
-	offsets.forEach( ( startEndOffset ) => {
+	yoastmarkOffsets.forEach( ( yoastmarkOffset ) => {
 		sentenceIndices.forEach( sentenceIndex => {
 			/*
-			 * The offsets.startOffset and offsets.endOffset are offsets of the <yoastmark> relative to the
-			 * start of the Mark object. The foundIndex is the index form the start of the RichText until
-			 * the matched Mark, so to calculate the offset from the RichText to the <yoastmark> we need
-			 * to add those offsets.
+			 * The yoastmarkOffset.startOffset and yoastmarkOffset.endOffset are offsets of the <yoastmark>
+			 * relative to the start of the Mark object. The sentenceIndex is the index form the start of the
+			 * RichText until the matched Mark, so to calculate the offset from the RichText to the <yoastmark>
+			 * we need to add those offsets.
+			 *
+			 * startOffset = ( sentenceIndex ) 13 + ( yoastmarkOffset.startOffset ) 7 = 20
+			 * endOffset =   ( sentenceIndex ) 13 + ( yoastmarkOffset.endOffset ) 14  = 27
+			 *
+			 * "A cool text. A cool keyword."
+			 *                      ^20   ^27
 			 */
-			const startOffset = sentenceIndex + startEndOffset.startOffset;
-			let endOffset = sentenceIndex + startEndOffset.endOffset;
+			const startOffset = sentenceIndex + yoastmarkOffset.startOffset;
+			let endOffset = sentenceIndex + yoastmarkOffset.endOffset;
 
 			/*
 			 * If the marks are at the beginning and the end we can use the length, which gives more
 			 * consistent results given we strip HTML tags.
 			 */
-			if ( startEndOffset.startOffset === 0 && startEndOffset.endOffset === mark.getOriginal().length ) {
-				endOffset = sentenceIndex + original.length;
+			if ( yoastmarkOffset.startOffset === 0 && yoastmarkOffset.endOffset === mark.getOriginal().length ) {
+				endOffset = sentenceIndex + originalSentence.length;
 			}
 
 			blockOffsets.push( {

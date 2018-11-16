@@ -1,7 +1,7 @@
 import {
 	START_MARK,
 	END_MARK,
-	getOffsets,
+	getYoastmarkOffsets,
 	getIndicesOf,
 } from "../../src/decorator/gutenberg";
 
@@ -36,7 +36,7 @@ describe( "getOffsets", () => {
 			},
 		];
 
-		expect( getOffsets( mark ) ).toEqual( expected );
+		expect( getYoastmarkOffsets( mark ) ).toEqual( expected );
 	} );
 
 	it( "successfully finds offsets for a single mark at the end of the text", () => {
@@ -52,7 +52,7 @@ describe( "getOffsets", () => {
 			},
 		];
 
-		expect( getOffsets( mark ) ).toEqual( expected );
+		expect( getYoastmarkOffsets( mark ) ).toEqual( expected );
 	} );
 
 	it( "successfully finds multiple offsets for multiple marks", () => {
@@ -72,7 +72,7 @@ describe( "getOffsets", () => {
 			},
 		];
 
-		expect( getOffsets( mark ) ).toEqual( expected );
+		expect( getYoastmarkOffsets( mark ) ).toEqual( expected );
 	} );
 
 	it( "returns an empty array if the start and end tags are in a incorrect order", () => {
@@ -83,7 +83,7 @@ describe( "getOffsets", () => {
 
 		const expected = [];
 
-		expect( getOffsets( mark ) ).toEqual( expected );
+		expect( getYoastmarkOffsets( mark ) ).toEqual( expected );
 	} );
 } );
 
