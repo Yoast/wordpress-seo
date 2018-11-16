@@ -7,6 +7,7 @@ import { isWordInSentence as matchWordInSentence } from "../stringProcessing/mat
 import { forEach } from "lodash-es";
 import { filter } from "lodash-es";
 import { flattenDeep } from "lodash-es";
+import { escapeRegExp } from "lodash-es";
 
 let regexFromDoubleArray = null;
 let regexFromDoubleArrayCacheKey = "";
@@ -51,7 +52,8 @@ var matchTransitionWords = function( sentence, transitionWords ) {
 	sentence = normalizeSingleQuotes( sentence );
 
 	var matchedTransitionWords = filter( transitionWords, function( word ) {
-		return matchWordInSentence( word, sentence );
+		// Escape regex since we use punctuation marks (like in abbreviations: e.g. "e.g.").
+		return matchWordInSentence( escapeRegExp( word ), sentence );
 	} );
 
 	return matchedTransitionWords;

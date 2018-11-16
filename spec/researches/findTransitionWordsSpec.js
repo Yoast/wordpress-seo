@@ -68,9 +68,11 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 2 );
 	} );
 
-	it( "returns 2 when a two-part transition word is found in two sentences, and an additional transition word is found in one of them. (English)", function() {
+	it( "returns 2 when a two-part transition word is found in two sentences, " +
+		"and an additional transition word is found in one of them. (English)", function() {
 		// Transition words: either...or, if ...then, as soon as.
-		mockPaper = new Paper( "I will either tell you a story about a boy, or read you a novel. If you want, then I will start as soon as you're ready.", { locale: "en_US" } );
+		mockPaper = new Paper( "I will either tell you a story about a boy, or read you a novel. " +
+			"If you want, then I will start as soon as you're ready.", { locale: "en_US" } );
 		result = transitionWordsResearch( mockPaper );
 		expect( result.totalSentences ).toBe( 2 );
 		expect( result.transitionWordSentences ).toBe( 2 );
@@ -414,7 +416,7 @@ describe( "a test for finding transition words from a string", function() {
 			transitionWordSentences: 1,
 		};
 
-		const result = transitionWordsResearch( mockPaper );
+		result = transitionWordsResearch( mockPaper );
 
 		expect( result ).toEqual( expected );
 	} );
@@ -425,10 +427,10 @@ describe( "a test for finding transition words from a string", function() {
 		const expected = {
 			totalSentences: 1,
 			sentenceResults: [ ],
-			transitionWordSentences: 1,
+			transitionWordSentences: 0,
 		};
 
-		const result = transitionWordsResearch( mockPaper );
+		result = transitionWordsResearch( mockPaper );
 
 		expect( result ).toEqual( expected );
 	} );
