@@ -42,7 +42,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 				'We have %1$srecalibrated our analysis%2$s. With the new analysis, we will get even closer to how Google sees your website. It would be %3$sawesome%4$s if you would like to %3$sbeta test this feature%4$s for us!',
 				'wordpress-seo'
 			),
-			'<a href="' . esc_url( WPSEO_Shortlinker::get( $this->read_more_url ) . '" target="_blank">',
+			'<a href="' . esc_url( WPSEO_Shortlinker::get( $this->read_more_url ) ) . '" target="_blank">',
 			'</a>',
 			'<strong>',
 			'</strong>'
