@@ -24,10 +24,7 @@ function mockMark( original, marked ) {
 
 describe( "getOffsets", () => {
 	it( "successfully finds offsets for a single mark at the start of the text", () => {
-		const mark = mockMark(
-			"A marked text.",
-			`${ START_MARK }A marked${ END_MARK } text.`
-		);
+		const markedText = `${ START_MARK }A marked${ END_MARK } text.`;
 
 		const expected = [
 			{
@@ -36,14 +33,11 @@ describe( "getOffsets", () => {
 			},
 		];
 
-		expect( getYoastmarkOffsets( mark ) ).toEqual( expected );
+		expect( getYoastmarkOffsets( markedText ) ).toEqual( expected );
 	} );
 
 	it( "successfully finds offsets for a single mark at the end of the text", () => {
-		const mark = mockMark(
-			"A marked text.",
-			`A ${ START_MARK }marked text.${ END_MARK }`
-		);
+		const markedText = `A ${ START_MARK }marked text.${ END_MARK }`;
 
 		const expected = [
 			{
@@ -52,14 +46,11 @@ describe( "getOffsets", () => {
 			},
 		];
 
-		expect( getYoastmarkOffsets( mark ) ).toEqual( expected );
+		expect( getYoastmarkOffsets( markedText ) ).toEqual( expected );
 	} );
 
 	it( "successfully finds multiple offsets for multiple marks", () => {
-		const mark = mockMark(
-			"A marked text.",
-			`${ START_MARK }A${ END_MARK } marked ${ START_MARK }text.${ END_MARK }`
-		);
+		const markedText = `${ START_MARK }A${ END_MARK } marked ${ START_MARK }text.${ END_MARK }`;
 
 		const expected = [
 			{
@@ -72,18 +63,15 @@ describe( "getOffsets", () => {
 			},
 		];
 
-		expect( getYoastmarkOffsets( mark ) ).toEqual( expected );
+		expect( getYoastmarkOffsets( markedText ) ).toEqual( expected );
 	} );
 
 	it( "returns an empty array if the start and end tags are in a incorrect order", () => {
-		const mark = mockMark(
-			"A marked text.",
-			`${ START_MARK }A${ END_MARK } marked ${ END_MARK }text.${ START_MARK }`
-		);
+		const markedText = `${ START_MARK }A${ END_MARK } marked ${ END_MARK }text.${ START_MARK }`;
 
 		const expected = [];
 
-		expect( getYoastmarkOffsets( mark ) ).toEqual( expected );
+		expect( getYoastmarkOffsets( markedText ) ).toEqual( expected );
 	} );
 } );
 
