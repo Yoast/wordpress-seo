@@ -48,6 +48,7 @@ const matchTwoPartTransitionWords = function( sentence, twoPartTransitionWords )
  */
 const matchTransitionWords = function( sentence, transitionWords ) {
 	sentence = normalizeSingleQuotes( sentence );
+	// Escape regex in transition words, since we use regex characters like in abbreviations ("e.g.").
 	return transitionWords.filter( word => matchWordInSentence( escapeRegExp( word ), sentence ) );
 };
 
