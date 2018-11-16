@@ -72,11 +72,12 @@ class WPSEO_Recalibration_Beta_Notification implements WPSEO_WordPress_Integrati
 		$message  = sprintf(
 			esc_html__(
 				/* translators: 1: link opening tag to the features page, 2: link closing tag, 3: expands to Yoast SEO */
-				'We\'d love you to try our new and improved %3$s analysis! Use the toggle on the %1$sFeatures tab%2$s in your %3$s settings.',
+				'We\'d love you to try our new and improved %4$s analysis! Use the toggle on the %1$sFeatures tab%2$s in your Yoast SEO settings. %3$sRead more about the new analysis%2$s.',
 				'wordpress-seo'
 			),
 			'<a href="#top#features" onclick="jQuery(\'#features-tab\').click()">',
 			'</a>',
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/recalibration-beta-notice' ) . '" target="_blank">',
 			'Yoast SEO'
 		);
 
