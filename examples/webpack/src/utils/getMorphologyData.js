@@ -1,5 +1,9 @@
 let morphologyData = null;
 
+/**
+ * Loads morphology data from disk, if available.
+ * @returns {Object} The morphology data, or an empty object if not available.
+ */
 function loadLocalMorphologyData() {
 	let data = {};
 	try {
@@ -12,7 +16,10 @@ function loadLocalMorphologyData() {
 	return data;
 }
 
-
+/**
+ * Get morphology data. To be used in the analysis to recognize different word forms.
+ * @returns {Object} The morphology data.
+ */
 export default function getMorphologyData() {
 	if ( morphologyData === null ) {
 		morphologyData = loadLocalMorphologyData();
