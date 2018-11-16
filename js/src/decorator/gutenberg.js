@@ -167,19 +167,12 @@ export function getIndicesOf( text, stringToFind, caseSensitive = true ) {
 /**
  * Calculates an annotation if the given mark is applicable to the content of a block.
  *
- * @param {string} content             The content of the block.
- * @param {Mark}   mark                The mark to apply to the content.
- * @param {string} block               The block ID to apply the mark to.
- * @param {string} multilineTag        The tag the block uses to signify multiple parts.
- * @param {string} multilineWrapperTag The tag the block uses as a container.
+ * @param {string} text The content of the block.
+ * @param {Mark}   mark The mark to apply to the content.
  *
  * @returns {Array} The annotations to apply.
  */
-function calculateAnnotationsForTextFormat( content, mark, block, multilineTag = false, multilineWrapperTag = false ) {
-	// Create a rich text record, because those are easier to work with.
-	const record = create( { html: content, multilineTag, multilineWrapperTag } );
-	const { text } = record;
-
+export function calculateAnnotationsForTextFormat( text, mark ) {
 	/*
 	 * Remove all tags from the original sentence.
 	 *
@@ -246,7 +239,6 @@ function calculateAnnotationsForTextFormat( content, mark, block, multilineTag =
 			}
 
 			blockOffsets.push( {
-				block: block.clientId,
 				startOffset,
 				endOffset,
 			} );
@@ -285,14 +277,19 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 	const { attributes } = block;
 	const attributeValue = attributes[ attributeKey ];
 
+	// Create a rich text record, because those are easier to work with.
+	const record = create( {
+		html: attributeValue,
+		multilineTag: attribute.multilineTag,
+		multilineWrapperTag: attribute.multilineWrapperTag,
+	} );
+	const text = record.text;
+
 	// For each mark see if it applies to this block.
 	return flatMap( marks, ( ( mark ) => {
 		const annotations = calculateAnnotationsForTextFormat(
-			attributeValue,
+			text,
 			mark,
-			block,
-			attribute.multilineTag,
-			attribute.multilineWrapperTag,
 		);
 
 		if ( ! annotations ) {
@@ -302,6 +299,7 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 		return annotations.map( annotation => {
 			return {
 				...annotation,
+				block: block.clientId,
 				richTextIdentifier: attributeKey,
 			};
 		} );

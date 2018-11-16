@@ -3,6 +3,7 @@ import {
 	END_MARK,
 	getYoastmarkOffsets,
 	getIndicesOf,
+	calculateAnnotationsForTextFormat,
 } from "../../src/decorator/gutenberg";
 
 jest.setMock( "@wordpress/rich-text", null );
@@ -86,5 +87,26 @@ describe( "getIndicesOf", () => {
 		const expected = [ 0, 3 ];
 
 		expect( getIndicesOf( "la LA", "LA", false ) ).toEqual( expected );
+	} );
+} );
+
+describe( "calculateAnnotationsForTextFormat", () => {
+	it( "correctly calculates offsets in a text with HTML tags", () => {
+		const mark = mockMark(
+			"A marked text.",
+			`A ${ START_MARK }<b>marked text</b>${ END_MARK }.`,
+		);
+
+		const expected = [ {
+			startOffset: 15,
+			endOffset: 26,
+		} ];
+
+		const actual = calculateAnnotationsForTextFormat(
+			"A long text. A marked text.",
+			mark
+		);
+
+		expect( actual ).toEqual( expected );
 	} );
 } );
