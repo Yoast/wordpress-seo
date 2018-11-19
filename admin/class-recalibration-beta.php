@@ -38,7 +38,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 		echo '<p class="clear">';
 		printf(
 			/* translators: 1: link opening tag, 2: link closing tag, 3: strong opening tag, 4: strong closing tag */
-			__(
+			esc_html__(
 				'We have %1$srecalibrated our analysis%2$s. With the new analysis, we will get even closer to how Google sees your website. It would be %3$sawesome%4$s if you would like to %3$sbeta test this feature%4$s for us!',
 				'wordpress-seo'
 			),
@@ -64,7 +64,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 		echo '<a></a></div>';
 
 		echo '<p class="clear"><br/>';
-		_e(
+		esc_html_e(
 			'Simply switch the toggle to "on" and you\'ll be able to use the recalibrated analysis. At the same time, we\'ll add you to our specific mailing list. We\'ll only email you about your experiences with this recalibration!',
 			'wordpress-seo'
 		);
