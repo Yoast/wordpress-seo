@@ -143,7 +143,7 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.2",
+    "yoast-components": "^4.16.0",
     "yoastseo": "^1.43.0"
   },
   "yoast": {
