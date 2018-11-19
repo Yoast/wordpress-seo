@@ -93,18 +93,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Helper to verify if the current user has already seen the about page for the current version
-	 *
-	 * @return bool
-	 */
-	private function seen_about() {
-		$seen_about_version = substr( get_user_meta( get_current_user_id(), 'wpseo_seen_about_version', true ), 0, 3 );
-		$last_minor_version = substr( WPSEO_VERSION, 0, 3 );
-
-		return version_compare( $seen_about_version, $last_minor_version, '>=' );
-	}
-
-	/**
 	 * Notify about the default tagline if the user hasn't changed it
 	 */
 	public function tagline_notice() {
@@ -624,7 +612,7 @@ class WPSEO_Admin_Init {
 		global $wp_filter;
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			return false;
+			return;
 		}
 
 		// WordPress hooks that have been deprecated since a Yoast SEO version.
@@ -686,17 +674,6 @@ class WPSEO_Admin_Init {
 				$deprecation_info['alternative']
 			);
 		}
-	}
-
-	/**
-	 * Check if there is a dismiss notice action.
-	 *
-	 * @param string $notice_name The name of the notice to dismiss.
-	 *
-	 * @return bool
-	 */
-	private function dismiss_notice( $notice_name ) {
-		return filter_input( INPUT_GET, $notice_name ) === '1' && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), $notice_name );
 	}
 
 	/**

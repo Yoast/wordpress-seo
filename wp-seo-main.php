@@ -360,20 +360,20 @@ function wpseo_init_rest_api() {
 	$configuration_service = new WPSEO_Configuration_Service();
 	$configuration_service->initialize();
 
-	$link_reindex_endpoint = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
-	$link_reindex_endpoint->register();
-
 	$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
-	$ryte_endpoint         = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
-	$ryte_endpoint->register();
+	$statistics_service    = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
 
-	$indexable_service  = new WPSEO_Indexable_Service();
-	$indexable_endpoint = new WPSEO_Endpoint_Indexable( $indexable_service );
-	$indexable_endpoint->register();
+	$endpoints   = array();
+	$endpoints[] = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
+	$endpoints[] = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
+	$endpoints[] = new WPSEO_Endpoint_Indexable( new WPSEO_Indexable_Service() );
+	$endpoints[] = new WPSEO_Endpoint_File_Size( new WPSEO_File_Size_Service() );
+	$endpoints[] = new WPSEO_Endpoint_Statistics( $statistics_service );
 
-	$statistics_service  = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
-	$statistics_endpoint = new WPSEO_Endpoint_Statistics( $statistics_service );
-	$statistics_endpoint->register();
+	/** @var WPSEO_Endpoint[] $endpoints */
+	foreach ( $endpoints as $endpoint ) {
+		$endpoint->register();
+	}
 }
 
 /**
