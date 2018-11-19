@@ -67,6 +67,10 @@ describe( "getOffsets", () => {
 		expect( getYoastmarkOffsets( markedText ) ).toEqual( expected );
 	} );
 
+	/**
+	 * If we receive an unexpected string we don't do anything to avoid code complexity. We
+	 * expect YoastSEO.js to provide us with proper marked sentences after all.
+	 */
 	it( "returns an empty array if the start and end tags are in a incorrect order", () => {
 		const markedText = `${ START_MARK }A${ END_MARK } marked ${ END_MARK }text.${ START_MARK }`;
 
@@ -101,7 +105,7 @@ describe( "calculateAnnotationsForTextFormat", () => {
 
 		/*
 		 * "A long text. A marked text."
-		 *                 ^ 15       ^ 26
+		 *                     22 ^   ^ 26
 		 */
 		const expected = [
 			{
@@ -133,6 +137,31 @@ describe( "calculateAnnotationsForTextFormat", () => {
 		const expected = [ {
 			startOffset: 15,
 			endOffset: 26,
+		} ];
+
+		const actual = calculateAnnotationsForTextFormat(
+			text,
+			mark
+		);
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "correctly calculates offsets in a text with invalid HTML markup", () => {
+		const text = "A long text. A marked text.";
+
+		const mark = mockMark(
+			"A marked text.",
+			`A ${ START_MARK }<b>marked${ END_MARK } text</b>.`,
+		);
+
+		/*
+		 * "A long text. A marked text."
+		 *                 ^ 15  ^ 21
+		 */
+		const expected = [ {
+			startOffset: 15,
+			endOffset: 21,
 		} ];
 
 		const actual = calculateAnnotationsForTextFormat(
