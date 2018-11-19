@@ -928,6 +928,27 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "runResearch", payload ) );
 			} );
 
+			test( "returns an error on research failed, with a custom error.", done => {
+				const name = "firstParagraph";
+				const payload = { name };
+
+				worker._researcher = {
+					getResearch: () => {
+						throw { error: "This is a custom error." };
+					},
+				};
+
+				worker.runResearchDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( isObject( result ) ).toBe( true );
+					expect( result ).toHaveProperty( "error" );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize", { logLevel: "DEBUG" } ) );
+				scope.onmessage( createMessage( "runResearch", payload ) );
+			} );
+
 			test( "run research done calls send", () => {
 				worker.send = jest.fn();
 				worker.runResearchDone( 0, { result: true } );
