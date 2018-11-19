@@ -34,7 +34,8 @@ class WPSEO_Recalibration_Beta_Notification implements WPSEO_WordPress_Integrati
 	 * @return void.
 	 */
 	public function handle_notice() {
-		if ( $this->is_applicable( WPSEO_Recalibration_Beta::is_enabled(), WPSEO_Recalibration_Beta::has_mailinglist_subscription() ) ) {
+		$recalibration_beta = new WPSEO_Recalibration_Beta();
+		if ( $this->is_applicable( WPSEO_Recalibration_Beta::is_enabled(), $recalibration_beta->has_mailinglist_subscription() ) ) {
 			$this->get_notification_center()->add_notification(
 				$this->get_notification()
 			);

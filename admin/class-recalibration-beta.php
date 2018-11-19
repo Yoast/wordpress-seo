@@ -24,6 +24,8 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	/**
 	 * Shows the feature toggle.
 	 *
+	 * @codeCoverageIgnore Reason: most output is html.
+	 *
 	 * @return void
 	 */
 	public function show_feature_toggle() {
@@ -75,7 +77,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	/**
 	 * Registers the hook to catch option change.
 	 *
-	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore Reason: because it calls a WordPress function.
 	 *
 	 * @return void
 	 */
@@ -102,7 +104,11 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 			$new_option_value = $new_value[ $this->option_name ];
 		}
 
-		if ( $old_option_value !== $new_option_value && $new_option_value === true ) {
+		if ( $old_option_value === $new_option_value ) {
+			return;
+		}
+
+		if ( $new_option_value === true ) {
 			$this->subscribe_newsletter();
 		}
 	}
@@ -110,7 +116,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	/**
 	 * Checks if the recalibration beta has been enabled.
 	 *
-	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore Reason: It calls a dependency.
 	 *
 	 * @return bool True whether the beta has been enabled.
 	 */
@@ -121,27 +127,16 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	/**
 	 * Checks if the user has a mailinglist subscription.
 	 *
+	 * @codeCoverageIgnore Reason: because it calls a WordPress function.
+	 *
 	 * The mailinglist subscription value will set to true when the beta is set
 	 * to enabled. This value stays true, so it's a good indicator that the user
 	 * tried the beta.
 	 *
 	 * @return bool True whether the user has a subscription.
 	 */
-	public static function has_mailinglist_subscription() {
+	public function has_mailinglist_subscription() {
 		return (bool) get_option( 'wpseo_recalibration_beta_mailinglist_subscription', false );
-	}
-
-	/**
-	 * Subscribes to the newsletter.
-	 *
-	 * @codeCoverageIgnore
-	 */
-	protected function subscribe_newsletter() {
-		if ( self::has_mailinglist_subscription() ) {
-			return;
-		}
-
-		update_option( 'wpseo_recalibration_beta_mailinglist_subscription', true );
 	}
 
 	/**
@@ -157,5 +152,69 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 		}
 
 		return 'off';
+	}
+
+	/**
+	 * Subscribes to the newsletter.
+	 *
+	 * @return void
+	 */
+	protected function subscribe_newsletter() {
+		if ( $this->has_mailinglist_subscription() ) {
+			return;
+		}
+
+		try {
+			$this->do_request(
+				'https://my.yoast.com/api/customers/newsletter/recalibration/subscribe',
+				array(
+					'email'     => get_option( 'admin_email' ),
+					'firstName' => get_option( 'blogname' ),
+					'lastName'  => '',
+				)
+			);
+
+			 $this->set_mailinglist_subscription();
+		}
+		catch ( Requests_Exception_HTTP $e ) {
+			// Intentionally left blank. @todo We should offer this to a logger.
+			return;
+		}
+	}
+
+	/**
+	 * Performs a request to the given url.
+	 *
+	 * @codeCoverageIgnore Reason: because it contains WordPress functions.
+	 *
+	 * @param string $url  The request url.
+	 * @param array  $body The request body.
+	 *
+	 * @return void
+	 *
+	 * @throws Requests_Exception_HTTP When request has failed.
+	 */
+	protected function do_request( $url, $body ) {
+		$response = wp_remote_post(
+			$url,
+			array(
+				'body' => $body,
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			throw new Requests_Exception_HTTP( $response->get_error_message() );
+		}
+	}
+
+	/**
+	 * Sets the mailing list subscription value to true.
+	 *
+	 * @codeCoverageIgnore Reason: because it calls a WordPress function.
+	 *
+	 * @return void
+	 */
+	protected function set_mailinglist_subscription() {
+		update_option( 'wpseo_recalibration_beta_mailinglist_subscription', true );
 	}
 }
