@@ -13,6 +13,7 @@ import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import { LocationConsumer } from "../contexts/location";
 import { HelpLink } from "./SeoAnalysis";
+import RecalibrationBetaNotification from "./RecalibrationBetaNotification";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -38,6 +39,7 @@ const StyledHelpLink = styled( HelpLink )`
 class ReadabilityAnalysis extends React.Component {
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
+		const beta = localizedData.recalibrationBetaActive;
 
 		if ( isNil( this.props.overallScore ) ) {
 			score.className = "loading";
@@ -47,12 +49,13 @@ class ReadabilityAnalysis extends React.Component {
 			<LocationConsumer>
 				{ context => (
 					<Collapsible
-						title={ __( "Readability analysis", "wordpress-seo" ) }
+						title={ beta ? __( "Readability analysis", "wordpress-seo" ) + " (beta)"  : __( "Readability analysis", "wordpress-seo" ) }
 						titleScreenReaderText={ score.screenReaderReadabilityText }
 						prefixIcon={ getIconForScore( score.className ) }
 						prefixIconCollapsed={ getIconForScore( score.className ) }
 						id={ `yoast-readability-analysis-collapsible-${ context }` }
 					>
+						{ beta ? <RecalibrationBetaNotification /> : null }
 						<AnalysisHeader>
 							{ __( "Analysis results", "wordpress-seo" ) }
 							<StyledHelpLink
