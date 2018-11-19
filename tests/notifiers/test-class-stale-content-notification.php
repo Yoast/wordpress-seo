@@ -33,12 +33,12 @@ class WPSEO_Stale_Content_Notification_Test extends WPSEO_UnitTestCase {
 
 		$handler = $this
 			->getMockBuilder( 'WPSEO_Stale_Content_Notification' )
-			->setMethods( array( 'is_applicable', 'get_notification_center', 'get_notification' ) )
+			->setMethods( array( 'show_notice', 'get_notification_center', 'get_notification' ) )
 			->getMock();
 
 		$handler
 			->expects( $this->once() )
-			->method( 'is_applicable' )
+			->method( 'show_notice' )
 			->will( $this->returnValue( true ) );
 
 		$handler
@@ -72,12 +72,12 @@ class WPSEO_Stale_Content_Notification_Test extends WPSEO_UnitTestCase {
 
 		$handler = $this
 			->getMockBuilder( 'WPSEO_Stale_Content_Notification' )
-			->setMethods( array( 'is_applicable', 'get_notification_center' ) )
+			->setMethods( array( 'show_notice', 'get_notification_center' ) )
 			->getMock();
 
 		$handler
 			->expects( $this->once() )
-			->method( 'is_applicable' )
+			->method( 'show_notice' )
 			->will( $this->returnValue( false ) );
 
 		$handler
@@ -89,17 +89,17 @@ class WPSEO_Stale_Content_Notification_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests is_applicable in some different situations
+	 * Tests show_notice in some different situations
 	 *
-	 * @covers WPSEO_Stale_Content_Notification::is_applicable()
+	 * @covers WPSEO_Stale_Content_Notification::show_notice()
 	 */
-	public function test_is_applicable() {
+	public function test_show_notice() {
 		$notifier = new WPSEO_Stale_Content_Notification_Double();
 
-		$this->assertTrue( $notifier->is_applicable( true, true ) );
-		$this->assertFalse( $notifier->is_applicable( true, false ) );
-		$this->assertFalse( $notifier->is_applicable( false, true ) );
-		$this->assertFalse( $notifier->is_applicable( false, false ) );
+		$this->assertTrue( $notifier->show_notice( true, true ) );
+		$this->assertFalse( $notifier->show_notice( true, false ) );
+		$this->assertFalse( $notifier->show_notice( false, true ) );
+		$this->assertFalse( $notifier->show_notice( false, false ) );
 	}
 
 	/**

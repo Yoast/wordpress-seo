@@ -13,8 +13,8 @@ class WPSEO_Stale_Content_Notification_Double extends WPSEO_Stale_Content_Notifi
 	/**
 	 * @inheritdoc
 	 */
-	public function is_applicable( $is_beta_enabled, $is_cornerstone_content_enabled ) {
-		return parent::is_applicable( $is_beta_enabled, $is_cornerstone_content_enabled );
+	public function show_notice( $is_beta_enabled, $is_cornerstone_content_enabled ) {
+		return parent::show_notice( $is_beta_enabled, $is_cornerstone_content_enabled );
 	}
 
 	/**

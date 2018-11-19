@@ -34,7 +34,7 @@ class WPSEO_Stale_Content_Notification implements WPSEO_WordPress_Integration {
 	 * @return void.
 	 */
 	public function handle_notice() {
-		if ( $this->is_applicable( WPSEO_Recalibration_Beta::is_enabled(), WPSEO_Options::get( 'enable_cornerstone_content' ) ) ) {
+		if ( $this->show_notice( WPSEO_Recalibration_Beta::is_enabled(), WPSEO_Options::get( 'enable_cornerstone_content' ) ) ) {
 			$this->get_notification_center()->add_notification(
 				$this->get_notification()
 			);
@@ -121,7 +121,7 @@ class WPSEO_Stale_Content_Notification implements WPSEO_WordPress_Integration {
 	 *
 	 * @return bool True whether a notice should be shown.
 	 */
-	protected function is_applicable( $is_beta_enabled, $is_cornerstone_content_enabled ) {
+	protected function show_notice( $is_beta_enabled, $is_cornerstone_content_enabled ) {
 		return $is_cornerstone_content_enabled && $is_beta_enabled;
 	}
 
