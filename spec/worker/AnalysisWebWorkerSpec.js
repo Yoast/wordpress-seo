@@ -909,8 +909,13 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "returns an error on research failed", done => {
 				const name = "firstParagraph";
-				// Set paper to null to trigger an error in the researcher.
-				const payload = { name, paper: null };
+				const payload = { name };
+
+				worker._researcher = {
+					getResearch: () => {
+						throw new Error( "Research failed" );
+					},
+				};
 
 				worker.runResearchDone = ( id, result ) => {
 					expect( id ).toBe( 0 );
@@ -919,7 +924,7 @@ describe( "AnalysisWebWorker", () => {
 					done();
 				};
 
-				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "initialize", { logLevel: "DEBUG" } ) );
 				scope.onmessage( createMessage( "runResearch", payload ) );
 			} );
 

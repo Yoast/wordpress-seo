@@ -71,6 +71,7 @@ class AnalysisWorkerWrapper {
 				break;
 			case "loadScript:failed":
 			case "customMessage:failed":
+			case "runResearch:failed":
 				request.reject( payload );
 				break;
 			default:
