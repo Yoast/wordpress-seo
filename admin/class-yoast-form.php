@@ -630,11 +630,11 @@ class Yoast_Form {
 
 		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class ) );
 		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help;
+
 		echo $this->get_disabled_note( $var );
 		echo '<div class="switch-toggle switch-candy switch-yoast-seo">';
 
 		foreach ( $values as $key => $value ) {
-			$screen_reader_text      = '';
 			$screen_reader_text_html = '';
 
 			if ( is_array( $value ) ) {
@@ -649,7 +649,7 @@ class Yoast_Form {
 			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html,'</label>';
 		}
 
-		echo '<a></a></div></fieldset><div class="clear"></div></div>' . "\n\n";
+		echo '<a></a></div></fieldset><div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
 	}
 
 	/**
