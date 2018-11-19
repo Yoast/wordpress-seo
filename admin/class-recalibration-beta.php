@@ -17,6 +17,11 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	protected $option_name = 'recalibration_beta';
 
 	/**
+	 * @var string The read more URL.
+	 */
+	protected $read_more_url = 'https://yoa.st/recalibration-beta-explanation';
+
+	/**
 	 * Shows the feature toggle.
 	 *
 	 * @return void
@@ -32,11 +37,13 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 		echo '<legend><strong>', __( 'Get an even better analysis', 'wordpress-seo' ), '</strong></legend>';
 		echo '<p class="clear">';
 		printf(
-			/* translators: 1: strong opening tag, 2: strong closing tag */
-			__(
-				'We have recalibrated our analysis. With the new analysis, we will get even closer to how Google sees your website. It would be %1$sawesome%2$s if you would like to %1$sbeta test this feature%2$s for us!',
+			/* translators: 1: link opening tag, 2: link closing tag, 3: strong opening tag, 4: strong closing tag */
+			esc_html__(
+				'We have %1$srecalibrated our analysis%2$s. With the new analysis, we will get even closer to how Google sees your website. It would be %3$sawesome%4$s if you would like to %3$sbeta test this feature%4$s for us!',
 				'wordpress-seo'
 			),
+			'<a href="' . esc_url( WPSEO_Shortlinker::get( $this->read_more_url ) ) . '" target="_blank">',
+			'</a>',
 			'<strong>',
 			'</strong>'
 		);
@@ -57,7 +64,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 		echo '<a></a></div>';
 
 		echo '<p class="clear"><br/>';
-		_e(
+		esc_html_e(
 			'Simply switch the toggle to "on" and you\'ll be able to use the recalibrated analysis. At the same time, we\'ll add you to our specific mailing list. We\'ll only email you about your experiences with this recalibration!',
 			'wordpress-seo'
 		);
