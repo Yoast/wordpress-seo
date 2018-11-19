@@ -107,7 +107,7 @@ export function getYoastmarkOffsets( marked ) {
 	const offsets = [];
 
 	/**
-	 * Step by step search for a yoastmark-tag and it's corresponding en tag. Each time a tag is found
+	 * Step by step search for a yoastmark-tag and its corresponding en tag. Each time a tag is found
 	 * it is removed from the string because the function should return the indexes based on the string
 	 * without the tags.
 	 */
@@ -148,7 +148,7 @@ export function getIndicesOf( text, stringToFind, caseSensitive = true ) {
 		return indices;
 	}
 
-	let textIndex = 0;
+	let searchStartIndex = 0;
 	let index;
 
 	if ( ! caseSensitive ) {
@@ -156,9 +156,9 @@ export function getIndicesOf( text, stringToFind, caseSensitive = true ) {
 		text = text.toLowerCase();
 	}
 
-	while ( ( index = text.indexOf( stringToFind, textIndex ) ) > -1 ) {
+	while ( ( index = text.indexOf( stringToFind, searchStartIndex ) ) > -1 ) {
 		indices.push( index );
-		textIndex = index + stringToFind.length;
+		searchStartIndex = index + stringToFind.length;
 	}
 
 	return indices;
