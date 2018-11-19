@@ -90,7 +90,6 @@ function getBlocks( text ) {
 
 	createTokenizer();
 	htmlBlockTokenizer.onText( text );
-
 	htmlBlockTokenizer.end();
 
 	forEach( tokens, function( token, i ) {

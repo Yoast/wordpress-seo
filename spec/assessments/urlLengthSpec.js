@@ -1,4 +1,4 @@
-import UrlLengthAssessment from "../../src/assessments/seo/urlLengthAssessment.js";
+import UrlLengthAssessment from "../../src/assessments/seo/UrlLengthAssessment.js";
 import Paper from "../../src/values/Paper.js";
 import factory from "../specHelpers/factory.js";
 var i18n = factory.buildJed();

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import isFunction from "lodash/isFunction";
+import { isFunction, noop } from "lodash-es";
 import styled from "styled-components";
 
 import { H3 } from "./headings";
@@ -21,7 +21,7 @@ const TextareaInput = styled.textarea`
 	cursor: text;
 	
 	width: 100%;
-	min-height: 300px;
+	min-height: ${ props => props.minHeight };
 `;
 
 class TextArea extends React.PureComponent {
@@ -51,20 +51,20 @@ class TextArea extends React.PureComponent {
 	 * @returns {void}
 	 */
 	handleChange( event ) {
-		const { onChange } = this.props;
+		const { id, onChange } = this.props;
 
 		if ( isFunction( onChange ) ) {
-			onChange( event.target.value );
+			onChange( id, event.target.value );
 		}
 	}
 
 	/**
 	 * Renders the TextArea component.
 	 *
-	 * @returns {void}
+	 * @returns {React.Component} the React TextArea component and header.
 	 */
 	render() {
-		const { id, value, label, placeholder } = this.props;
+		const { id, value, label, placeholder, minHeight } = this.props;
 
 		return (
 			<React.Fragment>
@@ -79,6 +79,7 @@ class TextArea extends React.PureComponent {
 					value={ value }
 					placeholder={ placeholder }
 					onChange={ this.handleChange }
+					minHeight={ minHeight }
 				/>
 			</React.Fragment>
 		);
@@ -91,11 +92,14 @@ TextArea.propTypes = {
 	label: PropTypes.string,
 	placeholder: PropTypes.string,
 	onChange: PropTypes.func,
+	minHeight: PropTypes.string,
 };
 
 TextArea.defaultProps = {
 	label: "",
 	placeholder: "",
+	onChange: noop,
+	minHeight: "300px",
 };
 
 export default TextArea;

@@ -11,7 +11,7 @@ const INITIAL_STATE = {};
  * @returns {Object} The state.
  */
 export default function paper( state = INITIAL_STATE, action ) {
-	switch( action.type ) {
+	switch ( action.type ) {
 		case actions.SET_PAPER:
 			return action.paper;
 

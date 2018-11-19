@@ -1,6 +1,8 @@
 // External dependencies.
 import Jed from "jed";
 import { forEach, has, merge, pickBy, includes, isNull, isUndefined, isString, isObject } from "lodash-es";
+import { getLogger } from "loglevel";
+import { autop } from "@wordpress/autop";
 
 // YoastSEO.js dependencies.
 import * as assessments from "../assessments";
@@ -59,6 +61,9 @@ import { configureShortlinker } from "../helpers/shortlinker";
 import includesAny from "../helpers/includesAny";
 
 const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
+
+const logger = getLogger( "yoast-analysis-worker" );
+logger.setDefaultLevel( "error" );
 
 /**
  * Analysis Web Worker.
@@ -179,10 +184,7 @@ export default class AnalysisWebWorker {
 	handleMessage( { data: { type, id, payload } } ) {
 		payload = Transporter.parse( payload );
 
-		if ( process.env.NODE_ENV === "development" ) {
-			// eslint-disable-next-line no-console
-			console.log( "worker <- wrapper", type, id, payload );
-		}
+		logger.debug( "AnalysisWebWorker incoming:", type, id, payload );
 
 		switch ( type ) {
 			case "initialize":
@@ -240,7 +242,7 @@ export default class AnalysisWebWorker {
 				break;
 			}
 			default:
-				console.warn( "Unrecognized command", type );
+				console.warn( "AnalysisWebWorker unrecognized action:", type );
 		}
 	}
 
@@ -384,12 +386,9 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	send( type, id, payload = {} ) {
-		payload = Transporter.serialize( payload );
+		logger.debug( "AnalysisWebWorker outgoing:", type, id, payload );
 
-		if ( process.env.NODE_ENV === "development" ) {
-			// eslint-disable-next-line no-console
-			console.log( "worker -> wrapper", type, id, payload );
-		}
+		payload = Transporter.serialize( payload );
 
 		this._scope.postMessage( {
 			type,
@@ -432,6 +431,7 @@ export default class AnalysisWebWorker {
 	 * @param {Object}  [configuration.translations]           The translation strings.
 	 * @param {Object}  [configuration.researchData]           Extra research data.
 	 * @param {Object}  [configuration.defaultQueryParams]     The default query params for the Shortlinker.
+	 * @param {string}  [configuration.logLevel]               Log level, see: https://github.com/pimterry/loglevel#documentation
 	 *
 	 * @returns {void}
 	 */
@@ -453,6 +453,11 @@ export default class AnalysisWebWorker {
 		if ( has( configuration, "defaultQueryParams" ) ) {
 			configureShortlinker( { params: configuration.defaultQueryParams } );
 			delete configuration.defaultQueryParams;
+		}
+
+		if ( has( configuration, "logLevel" ) ) {
+			logger.setLevel( configuration.logLevel, false );
+			delete configuration.logLevel;
 		}
 
 		this._configuration = merge( this._configuration, configuration );
@@ -647,6 +652,8 @@ export default class AnalysisWebWorker {
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
 	analyze( id, { paper, relatedKeywords = {} } ) {
+		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
+		paper._text = autop( paper._text );
 		paper._text = string.removeHtmlBlocks( paper._text );
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );

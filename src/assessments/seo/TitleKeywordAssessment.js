@@ -84,12 +84,12 @@ class TitleKeywordAssessment extends Assessment {
 	 * @returns {Object} Object with score and text.
 	 */
 	calculateResult( i18n, keyword ) {
-		const exactMatch = this._keywordMatches.exactMatch;
+		const exactMatchFound = this._keywordMatches.exactMatchFound;
 		const position = this._keywordMatches.position;
 		const allWordsFound = this._keywordMatches.allWordsFound;
 		const exactMatchKeyphrase = this._keywordMatches.exactMatchKeyphrase;
 
-		if ( exactMatch === true ) {
+		if ( exactMatchFound === true ) {
 			if ( position === 0 ) {
 				return {
 					score: this._config.scores.good,

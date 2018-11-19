@@ -9,15 +9,16 @@ import InternalLinksAssessment from "./assessments/seo/InternalLinksAssessment";
 import TitleKeywordAssessment from "./assessments/seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
 import Assessor from "./assessor";
-import MetaDescriptionLength from "./assessments/seo/metaDescriptionLengthAssessment";
-import SubheadingsKeyword from "./assessments/seo/subheadingsKeywordAssessment";
-import TextImages from "./assessments/seo/textImagesAssessment";
-import TextLength from "./assessments/seo/textLengthAssessment";
-import OutboundLinks from "./assessments/seo/outboundLinksAssessment";
-import TitleWidth from "./assessments/seo/pageTitleWidthAssessment";
-import UrlLength from "./assessments/seo/urlLengthAssessment";
+import MetaDescriptionLength from "./assessments/seo/MetaDescriptionLengthAssessment";
+import SubheadingsKeyword from "./assessments/seo/SubHeadingsKeywordAssessment";
+import TextImages from "./assessments/seo/TextImagesAssessment";
+import TextLength from "./assessments/seo/TextLengthAssessment";
+import OutboundLinks from "./assessments/seo/OutboundLinksAssessment";
+import TitleWidth from "./assessments/seo/PageTitleWidthAssessment";
+import UrlLength from "./assessments/seo/UrlLengthAssessment";
 import urlStopWords from "./assessments/seo/urlStopWordsAssessment";
 import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
+import SingleH1Assessment from "./assessments/seo/SingleH1Assessment";
 /**
  * Creates the Assessor
  *
@@ -31,25 +32,46 @@ const SEOAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
 	this.type = "SEOAssessor";
 
-	this._assessments = [
-		new IntroductionKeywordAssessment(),
-		new KeyphraseLengthAssessment(),
-		new KeywordDensityAssessment(),
-		new MetaDescriptionKeywordAssessment(),
-		new MetaDescriptionLength(),
-		new SubheadingsKeyword(),
-		new TextCompetingLinksAssessment(),
-		new TextImages(),
-		new TextLength(),
-		new OutboundLinks(),
-		new TitleKeywordAssessment(),
-		new InternalLinksAssessment(),
-		new TitleWidth(),
-		new UrlKeywordAssessment(),
-		new UrlLength(),
-		urlStopWords,
-		new FunctionWordsInKeyphrase(),
-	];
+	if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
+		this._assessments = [
+			new IntroductionKeywordAssessment(),
+			new KeyphraseLengthAssessment(),
+			new KeywordDensityAssessment(),
+			new MetaDescriptionKeywordAssessment(),
+			new MetaDescriptionLength(),
+			new SubheadingsKeyword(),
+			new TextCompetingLinksAssessment(),
+			new TextImages(),
+			new TextLength(),
+			new OutboundLinks(),
+			new TitleKeywordAssessment(),
+			new InternalLinksAssessment(),
+			new TitleWidth(),
+			new UrlKeywordAssessment(),
+			new FunctionWordsInKeyphrase(),
+			new SingleH1Assessment(),
+		];
+	} else {
+		this._assessments = [
+			new IntroductionKeywordAssessment(),
+			new KeyphraseLengthAssessment(),
+			new KeywordDensityAssessment(),
+			new MetaDescriptionKeywordAssessment(),
+			new MetaDescriptionLength(),
+			new SubheadingsKeyword(),
+			new TextCompetingLinksAssessment(),
+			new TextImages(),
+			new TextLength(),
+			new OutboundLinks(),
+			new TitleKeywordAssessment(),
+			new InternalLinksAssessment(),
+			new TitleWidth(),
+			new UrlKeywordAssessment(),
+			new UrlLength(),
+			urlStopWords,
+			new FunctionWordsInKeyphrase(),
+		];
+	}
 };
 
 inherits( SEOAssessor, Assessor );
