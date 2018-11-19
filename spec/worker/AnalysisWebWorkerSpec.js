@@ -907,6 +907,22 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "runResearch", payload ) );
 			} );
 
+			test( "returns an error on research failed", done => {
+				const name = "firstParagraph";
+				// Set paper to null to trigger an error in the researcher.
+				const payload = { name, paper: null };
+
+				worker.runResearchDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( isObject( result ) ).toBe( true );
+					expect( result ).toHaveProperty( "error" );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "runResearch", payload ) );
+			} );
+
 			test( "run research done calls send", () => {
 				worker.send = jest.fn();
 				worker.runResearchDone( 0, { result: true } );

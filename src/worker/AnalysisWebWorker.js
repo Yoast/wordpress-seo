@@ -824,15 +824,18 @@ export default class AnalysisWebWorker {
 	 * @param {Paper} [paper] The paper to run the research on if it shouldn't
 	 *                        be run on the latest paper.
 	 *
-	 * @returns {Promise} The promise of the research.
+	 * @returns {Object} The result of the research.
 	 */
 	runResearch( id, { name, paper = null } ) {
 		// When a specific paper is passed we create a temporary new researcher.
 		const researcher = paper === null
 			? this._researcher
 			: new Researcher( paper );
-
-		return researcher.getResearch( name );
+		try {
+			return researcher.getResearch( name );
+		} catch ( error ) {
+			return { error };
+		}
 	}
 
 	/**
@@ -844,6 +847,10 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	runResearchDone( id, result ) {
+		if ( result.error ) {
+			this.send( "runResearch:failed", id, result );
+			return;
+		}
 		this.send( "runResearch:done", id, result );
 	}
 }
