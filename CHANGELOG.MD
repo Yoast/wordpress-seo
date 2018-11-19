@@ -9,6 +9,9 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Added
 * Adds an Id prop to the Collapsible and ButtonSection component.
 
+### Removed
+* Removes logic that remembers what marker button is active from the `ContentAnalysis` components.
+
 ## 4.15.0 November 5th, 2018
 ### Added
 * Adds a fieldId prop in the `ReplacementVariableEditorStandalone` component, that gets added as an id attribute to the DraftJS editor element with the contenteditable attribute.
