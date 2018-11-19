@@ -6,7 +6,7 @@
  */
 
 /**
- * Represents the logic for showing recalibration beta notice.
+ * Represents the logic for showing the recalibration beta notice.
  */
 class WPSEO_Stale_Content_Notification implements WPSEO_WordPress_Integration {
 
