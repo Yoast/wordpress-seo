@@ -177,7 +177,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 			 $this->set_mailinglist_subscription();
 		}
 		catch ( Requests_Exception_HTTP $e ) {
-			// Intentionally left blank.
+			// Intentionally left blank. @todo We should offer this to a logger.
 			return;
 		}
 	}
@@ -192,7 +192,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 *
-	 * @throws \Requests_Exception_HTTP
+	 * @throws Requests_Exception_HTTP When request has failed.
 	 */
 	protected function do_request( $url, $body ) {
 		$response = wp_remote_post(
@@ -203,13 +203,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 		);
 
 		if ( is_wp_error( $response ) ) {
-			throw new Requests_Exception_HTTP(
-				sprintf(
-					/* translators: %s expands to the error message */
-					__( 'Newsletter subscription has been failed. Because of reason: %s', 'wordpress-seo' ).
-					$response->get_error_message()
-				)
-			);
+			throw new Requests_Exception_HTTP( $response->get_error_message() );
 		}
 	}
 
