@@ -119,7 +119,7 @@ class WPSEO_Stale_Content_Notification implements WPSEO_WordPress_Integration {
 	 * @param bool $is_beta_enabled                Checks if the beta has been enabled.
 	 * @param bool $is_cornerstone_content_enabled Is the cornerstone content enabled.
 	 *
-	 * @return bool True whether a notice should be shown.
+	 * @return bool True when a notice should be shown.
 	 */
 	protected function show_notice( $is_beta_enabled, $is_cornerstone_content_enabled ) {
 		return $is_cornerstone_content_enabled && $is_beta_enabled;
