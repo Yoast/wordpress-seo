@@ -57,6 +57,7 @@ class WPSEO_Stale_Content_Notification implements WPSEO_WordPress_Integration {
 		$message .= ' ';
 		$message .= sprintf(
 			esc_html__(
+				/* translators: 1: Opening link tag to an article about stale content, 2: closing tag */
 				'Read more about %1$swhy you should always keep your cornerstone content up-to-date%2$s.',
 				'wordpress-seo'
 			),
@@ -85,6 +86,7 @@ class WPSEO_Stale_Content_Notification implements WPSEO_WordPress_Integration {
 		if ( array_key_exists( 'post', $post_types ) ) {
 			return sprintf(
 				esc_html__(
+					/* translators: 1: Opening link tag to the post overview, 2: closing tag */
 					'In this beta, we introduce a stale cornerstone content filter. You can find it %1$son the post overview%2$s. This functionality is also available for other content types.',
 					'wordpress-seo'
 				),
@@ -96,6 +98,7 @@ class WPSEO_Stale_Content_Notification implements WPSEO_WordPress_Integration {
 		if ( array_key_exists( 'page', $post_types ) ) {
 			return sprintf(
 				esc_html__(
+					/* translators: 1: Opening link tag to the page overview, 2: closing tag */
 					'In this beta, we introduce a stale cornerstone content filter. You can find it %1$son the page overview%2$s. This functionality is also available for other content types.',
 					'wordpress-seo'
 				),
@@ -111,15 +114,15 @@ class WPSEO_Stale_Content_Notification implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Checks if the beta is enabled.
+	 * Determines if the notice should be shown.
 	 *
-	 * @param bool $is_beta_enabled             Checks if the beta has been enabled.
-	 * @param bool $cornerstone_content_enabled Is the cornerstone content enabled.
+	 * @param bool $is_beta_enabled                Checks if the beta has been enabled.
+	 * @param bool $is_cornerstone_content_enabled Is the cornerstone content enabled.
 	 *
-	 * @return bool Whether the beta is enabled or not.
+	 * @return bool True whether a notice should be shown.
 	 */
-	protected function is_applicable( $is_beta_enabled, $cornerstone_content_enabled ) {
-		return $cornerstone_content_enabled && $is_beta_enabled;
+	protected function is_applicable( $is_beta_enabled, $is_cornerstone_content_enabled ) {
+		return $is_cornerstone_content_enabled && $is_beta_enabled;
 	}
 
 	/**
