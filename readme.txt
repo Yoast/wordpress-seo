@@ -114,21 +114,21 @@ Enhancements:
 * Adds support for the 'eye' markers in Gutenberg using the experimental annotations API in Gutenberg. They will work for the paragraph, quote, heading and list blocks.
 * Adds the latest og:locale options provided by Facebook. Props to [valtlfelipe](https://github.com/valtlfelipe)
 * Adds support for oEmbed utilization of Yoast custom fields (post meta) values. Specifically the image and the title. Props to [ben-caplan](https://github.com/ben-caplan)
-* Improves the accessibility of the "Bulk editor" and "Search console" tables.
 * Defines attachment as non-accessible when attachment urls are redirected to the attachment file itself. Props to [stodorovic](https://github.com/stodorovic)
+* Improves the accessibility of the "Bulk editor" and "Search console" tables.
 * Hides SEO title and metadescription fields on the author edit page when the author archives are disabled.
 * Replaces Settings ZIP download (export) and upload (import) functionality with Settings fields.
 
 Bugfixes:
 
+* Fixes a bug where assessments would fail if a "<" character is present in the content.
 * Fixes a bug where the excerpt replacement variable will output a piece of the post content when no excerpt is given.
-* Fixes a bug where the Dashboard Widget was not displayed in the correct language.
 * Fixes a bug where the wrong title is rendered for the WooCommerce product archive.
 * Fixes a bug where the Yoast metabox is visible even when the attachment urls are redirected to the attachment file itself.
-* Fixes a bug where assessments would fail if a "<" character is present in the content.
-* Fixes a bug where paragraphs were sometimes not correctly detected because paragraph tags were not automatically added in WordPress-like fashion.
-* Fixes a bug where multiple marker buttons could be active at the same time.
-* Fixes a bug where escaped HTML is shown in the OpenGraph description.
+* Fixes a bug where the Dashboard Widget was not displayed in the correct language.
+* Fixes a bug in combination with Gutenberg where paragraphs were sometimes not correctly detected because paragraph tags were not automatically added in WordPress-like fashion.
+* Fixes a bug in combination with Gutenberg where multiple marker buttons could be active at the same time.
+* Fixes a bug in combination with Gutenberg where escaped HTML is shown in the OpenGraph description.
 
 Compatibility:
 
@@ -141,9 +141,9 @@ Security:
 
 Other:
 
-* Deprecates the Yoast_Modal class.
 * Disables the non-functioning markers for the subheading distribution assessment.
 * Refactor SEO assessment filenames and exports. Props to [Kingdutch](https://github.com/Kingdutch)
+* Deprecates the `Yoast_Modal` class.
 
 = 9.1.0 =
 Release Date: November 6th, 2018
