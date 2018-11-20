@@ -6,9 +6,9 @@
  */
 
 /**
- * Class WPSEO_JSON_LD
+ * Class WPSEO_Handle_404
  *
- * Outputs schema code specific for Google's JSON LD stuff.
+ * Handles intercepting requests.
  *
  * @since 1.8
  */
