@@ -12,7 +12,7 @@ import Collapsible from "../SidebarCollapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import { LocationConsumer } from "../contexts/location";
-import { HelpLink } from "./SeoAnalysis";
+import HelpLink from "./HelpLink";
 import RecalibrationBetaNotification from "./RecalibrationBetaNotification";
 
 const AnalysisHeader = styled.span`

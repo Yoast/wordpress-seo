@@ -20,8 +20,9 @@ import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
 import { LocationConsumer } from "../contexts/location";
 import AnalysisUpsell from "../AnalysisUpsell";
 import RecalibrationBetaNotification from "./RecalibrationBetaNotification";
+import HelpLink from "./HelpLink";
 
-// We need localizedData here to see if the recalibration beta is toggled.
+// We need localizedData temporarily here to know if the recalibration beta is toggled.
 let localizedData = {};
 if ( window.wpseoPostScraperL10n ) {
 	localizedData = wpseoPostScraperL10n;
@@ -35,38 +36,6 @@ const AnalysisHeader = styled.span`
 	margin: 1.5em 0 1em;
 	display: block;
 `;
-
-export const HelpLink = utils.makeOutboundLink( styled.a`
-	display: inline-block;
-	position: relative;
-	outline: none;
-	text-decoration: none;
-	border-radius: 100%;
-	width: 24px;
-	height: 24px;
-	margin: -4px 0;
-	vertical-align: middle;
-
-	color: ${ colors.$color_help_text };
-	
-	&:hover,
-	&:focus {
-		color: ${ colors.$color_snippet_focus };	
-	}
-	
-	// Overwrite the default blue active color for links.
-	&:active {
-		color: ${ colors.$color_help_text };	
-	}
-
-	&::before {
-		position: absolute;
-		top: 0;
-		left: 0;
-		padding: 2px;
-		content: "\f223";
-	}
-` );
 
 const StyledContainer = styled.div`
 	min-width: 600px;
