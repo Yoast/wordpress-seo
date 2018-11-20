@@ -67,48 +67,6 @@
 				margin-left: 0;
 			}
 
-			&-buy {
-				font-size: 16px;
-				color: $color-black;
-				border-radius: 4px;
-				box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2);
-				filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-				min-height: 48px;
-				text-transform: initial;
-				padding-left: 1em;
-				// Make space for the caret background image.
-				padding-right: 1.5em;
-				background: $color-button-upsell url(svg-icon-caret-right()) 97% 45% no-repeat;
-
-				&:hover,
-				&:focus,
-				&:active {
-					color: $color-black;
-					background-color: $color-button-upsell-hover;
-					text-decoration: none;
-				}
-
-				// Keep grey inset and add blue focus style.
-				&:focus {
-					box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
-				}
-
-				&:active {
-					transform: translateY( 1px );
-					box-shadow: none;
-					filter: none;
-				}
-
-				// Only needed for IE 10+. Don't add spaces within brackets for this to work.
-				@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-					::after {
-						display: inline-block;
-						content: "";
-						min-height: 32px;
-					}
-				}
-			}
-
 			&-installed, &-activated, &-not-activated {
 				&:hover {
 					text-decoration: none;
@@ -134,7 +92,16 @@
 					background-color: $color_green_medium;
 				}
 			}
+		}
 
+		&-upsell {
+			width: 100%;
+			margin-bottom: 1em;
+
+			@media only screen and (min-width: $page-width-small) {
+				width: auto;
+				margin-right: 1.36rem;
+			}
 		}
 	}
 
@@ -148,14 +115,16 @@
 			margin-left: $gutter;
 			margin-bottom: $gutter;
 		}
-		.yoast-button.yoast-button--extension-buy {
-			font-size: 16px;
-		}
 	}
 
 	&-promo-extension {
+		// This is already a flex item of the container yoast-promo-extensions.
+		// First we style it as flex item to include fixes for IE11.
+		flex: 0 1 340px;
 		max-width: 340px;
-		padding-bottom: 120px;
+		// Then we style it as flex container to layout its content in a vertical flexbox.
+		display: flex;
+		flex-direction: column;
 		background-color: transparent;
 		border-color: $scheme-academy-secondary;
 		margin-left: $gutter;
@@ -174,13 +143,10 @@
 			}
 		}
 
-
 		.yoast {
 			&-button-container {
-				position: absolute;
-				bottom: 20px;
-				left: 20px;
-				right: 20px;
+				// Push the button container to the bottom leveraging flexbox auto margins.
+				margin-top: auto;
 
 				div.yoast-button--extension {
 					cursor: default;
@@ -213,7 +179,10 @@
 					width: 48%;
 				}
 			}
+		}
 
+		.yoast-button-upsell {
+			width: 100%;
 		}
 
 		h3 {
@@ -270,7 +239,7 @@
 		padding-left: calc( 1em + 5px );
 		background-size: 1em;
 		background-repeat: no-repeat;
-		background-position: left 0.2em;
+		background-position: left center;
 
 		&:after {
 			content: " \00BB";
@@ -278,8 +247,8 @@
 
 		.yoast-promo-extension & {
 			display: block;
-			margin: 1em 0 0 0;
-			background-position: left 0.4em;
+			margin: 0;
+			background-position: left center;
 		}
 	}
 

@@ -6,11 +6,13 @@
 
     <exclude-pattern>tests/*</exclude-pattern>
     <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>vendor_prefixed/*</exclude-pattern>
     <exclude-pattern>node_modules/*</exclude-pattern>
     <exclude-pattern>deprecated/*</exclude-pattern>
     <exclude-pattern>languages/*</exclude-pattern>
     <exclude-pattern>artifact/*</exclude-pattern>
     <exclude-pattern>.wordpress-svn/*</exclude-pattern>
+    <exclude-pattern>config/php-scoper/*</exclude-pattern>
 
     <arg name="extensions" value="php"/>
     <arg value="sp"/>
@@ -21,11 +23,21 @@
         <exclude name="Squiz.Commenting.FunctionCommentThrowTag.WrongNumber" /><!-- TODO Remove this once we're on 0.5. See https://github.com/squizlabs/PHP_CodeSniffer/issues/650 for more info. -->
     </rule>
 
-	<rule ref="WordPress.WP.I18n">
-		<properties>
-			<property name="text_domain" value="wordpress-seo" />
-		</properties>
-	</rule>
+    <!-- Exclude migrations folder from filename checks, as we do not have control over this format -->
+    <rule ref="WordPress.Files.FileName.UnderscoresNotAllowed">
+        <exclude-pattern>migrations/*</exclude-pattern>
+    </rule>
+
+    <rule ref="Generic.Files.LowercasedFilename.NotFound">
+        <exclude-pattern>migrations/*</exclude-pattern>
+    </rule>
+    <!-- /Exclude migrations folder -->
+
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" value="wordpress-seo"/>
+        </properties>
+    </rule>
 
     <rule ref="WordPress.NamingConventions.ValidVariableName">
         <properties>
@@ -51,17 +63,37 @@
 	<config name="testVersion" value="5.2-"/>
 	<rule ref="PHPCompatibilityWP"/>
 
-	<!-- WP-CLI has a minimum PHP requirement of PHP 5.3. -->
+	<!-- WP-CLI and src (indexables) have a minimum PHP requirement of PHP 5.3. -->
 	<rule ref="PHPCompatibility.LanguageConstructs.NewLanguageConstructs.t_ns_separatorFound">
 		<exclude-pattern>*/cli/class-cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
 	</rule>
 	<rule ref="PHPCompatibility.Keywords.NewKeywords.t_useFound">
 		<exclude-pattern>*/cli/class-cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
 	</rule>
 	<rule ref="PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__invokeFound">
 		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.Classes.NewLateStaticBinding.Found">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.Keywords.NewKeywords.t_namespaceFound">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.FunctionUse.NewFunctions.get_called_classFound">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.Syntax.NewDynamicAccessToStatic.Found">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.FunctionDeclarations.NewClosure.Found">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
 
 	<!-- These usages of PHP > 5.2 code are surrounded by the correct safeguards. -->

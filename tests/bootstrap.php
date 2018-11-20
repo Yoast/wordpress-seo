@@ -20,6 +20,11 @@ else {
 	define( 'WP_PLUGIN_DIR', dirname( dirname( dirname( __FILE__ ) ) ) );
 }
 
+if ( ! defined( 'YOAST_SEO_INDEXABLES' ) ) {
+	define( 'YOAST_SEO_INDEXABLES', true );
+}
+
+
 $GLOBALS['wp_tests_options'] = array(
 	'active_plugins' => array( 'wordpress-seo/wp-seo.php' ),
 );

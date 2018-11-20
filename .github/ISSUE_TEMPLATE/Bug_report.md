@@ -29,11 +29,14 @@ about: Create a report to help us improve
 ### Technical info
 * WordPress version:
 * Yoast SEO version:
-<!-- You can check these boxes once you've created the issue. -->
+
+<!-- You can check these boxes once you've created the issue.
+- If you are using Gutenberg or the Classic Editor plugin, please make sure you have updated to the latest version.
+ -->
 * If relevant, which editor is affected (or editors): 
 - [ ] Classic Editor
-- [ ] Gutenberg
-- [ ] Classic Editor plugin
+- [ ] Gutenberg - yes, I have updated to the latest version
+- [ ] Classic Editor plugin -  yes, I have updated to the latest version
 
 <!-- You can check these boxes once you've created the issue. -->
 * Which browser is affected (or browsers): 

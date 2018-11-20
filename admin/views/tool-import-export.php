@@ -42,10 +42,9 @@ elseif ( filter_input( INPUT_POST, 'clean_external' ) ) {
 		$import = new WPSEO_Import_Plugin( new $class(), 'cleanup' );
 	}
 }
-elseif ( isset( $_FILES['settings_import_file'] ) ) {
-	check_admin_referer( 'wpseo-import-file' );
-
+elseif ( filter_input( INPUT_POST, 'settings_import' ) ) {
 	$import = new WPSEO_Import_Settings();
+	$import->import();
 }
 
 /**

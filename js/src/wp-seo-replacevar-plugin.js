@@ -21,6 +21,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		"primary_category",
 		"data_page_title",
 		"data_meta_desc",
+		"excerpt",
 	];
 
 	var placeholders = {};
@@ -219,8 +220,29 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 			// This order currently needs to be maintained until we can figure out a nicer way to replace this.
 			data = this.parentReplace( data );
 			data = this.replaceCustomTaxonomy( data );
+			data = this.replaceByStore( data );
 			data = this.replacePlaceholders( data );
 		}
+
+		return data;
+	};
+
+	/**
+	 * Runs the different replacements on the data-string.
+	 *
+	 * @param {string} data The data that needs its placeholders replaced.
+	 * @returns {string} The data with all its placeholders replaced by actual values.
+	 */
+	YoastReplaceVarPlugin.prototype.replaceByStore = function( data ) {
+		const replacementVariables = this._store.getState().snippetEditor.replacementVariables;
+
+		forEach( replacementVariables, ( replacementVariable ) => {
+			if ( replacementVariable.value === "" ) {
+				return;
+			}
+
+			data = data.replace( "%%"  + replacementVariable.name + "%%", replacementVariable.value );
+		} );
 
 		return data;
 	};

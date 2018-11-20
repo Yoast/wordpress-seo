@@ -108,9 +108,7 @@ class WPSEO_Configuration_Service {
 	 */
 	protected function populate_configuration() {
 		// Switch to the user locale with fallback to the site locale.
-		if ( function_exists( 'switch_to_locale' ) ) {
-			switch_to_locale( WPSEO_Utils::get_user_locale() );
-		}
+		switch_to_locale( WPSEO_Language_Utils::get_user_locale() );
 
 		// Make sure we have our translations available.
 		wpseo_load_textdomain();

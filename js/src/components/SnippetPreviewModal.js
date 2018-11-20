@@ -28,6 +28,7 @@ class SnippetPreviewModal extends React.Component {
 		return (
 			<React.Fragment>
 				<ButtonSection
+					id={ "yoast-snippet-editor-sidebar" }
 					title={ __( "Snippet preview", "wordpress-seo" ) }
 					suffixIcon={ { size: "20px", icon: "pencil-square" } }
 					hasSeparator={ true }

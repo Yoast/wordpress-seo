@@ -8,6 +8,7 @@ import analysisDataReducer from "./analysisData";
 import preferences from "./preferences";
 import settings from "./settings";
 import primaryTaxonomies from "./primaryTaxonomies";
+import activeMarker from "./activeMarker";
 
 export default {
 	analysis,
@@ -19,4 +20,5 @@ export default {
 	preferences,
 	settings,
 	primaryTaxonomies,
+	activeMarker,
 };

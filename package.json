@@ -66,7 +66,7 @@
     "cross-env": "^5.2.0",
     "envify": "^3.4.1",
     "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-adapter-react-16": "^1.5.0",
     "enzyme-to-json": "^3.3.3",
     "eslint-config-yoast": "^5.0.1",
     "eslint-plugin-jsx-a11y": "^6.1.1",
@@ -97,8 +97,6 @@
     "jest": "^23.3.0",
     "load-grunt-config": "^0.19.2",
     "raf": "^3.4.0",
-    "react": "^16.3.0",
-    "react-dom": "16.3.0",
     "redux-logger": "^3.0.6",
     "sassdash": "^0.9.0",
     "shusher": "^0.1.1",
@@ -114,13 +112,15 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
-    "@wordpress/api-fetch": "^2.1.0",
-    "@wordpress/components": "^1.0.1",
-    "@wordpress/data": "^1.0.1",
-    "@wordpress/element": "^1.0.1",
-    "@wordpress/i18n": "^1.2.2",
-    "@wordpress/is-shallow-equal": "^1.0.2",
-    "@wordpress/url": "^2.1.0",
+    "@wordpress/api-fetch": "^2.2.3",
+    "@wordpress/components": "^6.0.1",
+    "@wordpress/compose": "^2.1.2",
+    "@wordpress/data": "^3.1.2",
+    "@wordpress/element": "^2.1.7",
+    "@wordpress/i18n": "^3.0.1",
+    "@wordpress/is-shallow-equal": "^1.1.4",
+    "@wordpress/rich-text": "^2.0.4",
+    "@wordpress/url": "^2.3.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "draft-js": "^0.10.5",
@@ -135,17 +135,18 @@
     "moment": "2.22.2",
     "moment-duration-format": "^2.2.2",
     "prop-types": "^15.5.10",
+    "react": "16.4.1",
+    "react-dom": "16.4.1",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
-    "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "^4.15.0",
-    "yoastseo": "^1.42.0"
+    "yoast-components": "^4.16.0",
+    "yoastseo": "^1.43.0"
   },
   "yoast": {
-    "pluginVersion": "9.1"
+    "pluginVersion": "9.2"
   }
 }

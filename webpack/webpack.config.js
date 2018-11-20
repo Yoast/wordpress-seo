@@ -104,11 +104,13 @@ module.exports = function( env = { environment: "production" } ) {
 			externals: {
 				...externals,
 
-				"@wordpress/element": "window.yoast._wp.element",
-				"@wordpress/data": "window.yoast._wp.data",
-				"@wordpress/components": "window.yoast._wp.components",
-				"@wordpress/i18n": "window.yoast._wp.i18n",
-				"@wordpress/api-fetch": "window.yoast._wp.apiFetch",
+				"@wordpress/element": "window.wp.element",
+				"@wordpress/data": "window.wp.data",
+				"@wordpress/components": "window.wp.components",
+				"@wordpress/i18n": "window.wp.i18n",
+				"@wordpress/api-fetch": "window.wp.apiFetch",
+				"@wordpress/rich-text": "window.wp.richText",
+				"@wordpress/compose": "window.wp.compose",
 
 				"styled-components": "window.yoast.styledComponents",
 			},
@@ -120,11 +122,42 @@ module.exports = function( env = { environment: "production" } ) {
 				} ),
 			],
 		},
+		// Config for wp packages files that are shipped for BC with WP 4.9.
+		{
+			...base,
+			externals: {
+				...externals,
+
+				"@wordpress/element": "window.wp.element",
+				"@wordpress/data": "window.wp.data",
+				"@wordpress/components": "window.wp.components",
+				"@wordpress/i18n": "window.wp.i18n",
+				"@wordpress/api-fetch": "window.wp.apiFetch",
+				"@wordpress/rich-text": "window.wp.richText",
+				"@wordpress/compose": "window.wp.compose",
+			},
+			output: {
+				path: paths.jsDist,
+				filename: "wp-" + outputFilename,
+				jsonpFunction: "yoastWebpackJsonp",
+				library: [ "wp", "[name]" ],
+			},
+			entry: {
+				apiFetch: "./node_modules/@wordpress/api-fetch",
+				components: "./node_modules/@wordpress/components",
+				data: "./node_modules/@wordpress/data",
+				element: "./node_modules/@wordpress/element",
+				i18n: "./node_modules/@wordpress/i18n",
+				compose: "./node_modules/@wordpress/compose",
+				richText: "./node_modules/@wordpress/rich-text",
+			},
+			plugins,
+		},
 		// Config for files that should not use any externals at all.
 		{
 			...base,
 			entry: {
-				"wp-seo-wp-globals-backport": "./js/src/wp-seo-wp-globals-backport.js",
+				"styled-components": "./js/src/styled-components.js",
 				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
 				"babel-polyfill": "./js/src/babel-polyfill.js",
 			},

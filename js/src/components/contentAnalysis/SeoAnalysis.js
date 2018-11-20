@@ -16,6 +16,7 @@ import Modal from "../modals/Modal";
 import MultipleKeywords from "../modals/MultipleKeywords";
 import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
 import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
+import { LocationConsumer } from "../contexts/location";
 import AnalysisUpsell from "../AnalysisUpsell";
 
 const AnalysisHeader = styled.span`
@@ -47,8 +48,6 @@ export const HelpLink = utils.makeOutboundLink( styled.a`
 	&:active {
 		color: ${ colors.$color_help_text };	
 	}
-	
-	
 
 	&::before {
 		position: absolute;
@@ -217,6 +216,7 @@ class SeoAnalysis extends React.Component {
 				prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 				prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 				title={ __( "Add related keyphrase", "wordpress-seo" ) }
+				id={ `yoast-additional-keyphrase-collapsible-${ location }` }
 			>
 				<MultipleKeywords
 					link={ link }
@@ -248,14 +248,16 @@ class SeoAnalysis extends React.Component {
 	/**
 	 * Renders the AnalysisUpsell component.
 	 *
+	 * @param {string} location The location of the upsell component. Used to determine the shortlink in the component.
+	 *
 	 * @returns {ReactElement} The AnalysisUpsell component.
 	 */
-	renderWordFormsUpsell() {
+	renderWordFormsUpsell( location ) {
 		return <AnalysisUpsell
-			url={ this.props.location === "sidebar"
+			url={ location === "sidebar"
 				? "https://yoa.st/morphology-upsell-sidebar"
 				: "https://yoa.st/morphology-upsell-metabox" }
-			alignment={ this.props.location === "sidebar" ? "vertical" : "horizontal" }
+			alignment={ location === "sidebar" ? "vertical" : "horizontal" }
 		/>;
 	}
 
@@ -273,39 +275,44 @@ class SeoAnalysis extends React.Component {
 		}
 
 		return (
-			<Fragment>
-				<Collapsible
-					title={ __( "Focus keyphrase", "wordpress-seo" ) }
-					titleScreenReaderText={ score.screenReaderReadabilityText }
-					prefixIcon={ getIconForScore( score.className ) }
-					prefixIconCollapsed={ getIconForScore( score.className ) }
-					subTitle={ this.props.keyword }
-				>
-					<KeywordInput
-						id="focus-keyword-input"
-						onChange={ this.props.onFocusKeywordChange }
-						keyword={ this.props.keyword }
-						label={ __( "Focus keyphrase", "wordpress-seo" ) }
-						helpLink={ this.renderHelpLink() }
-					/>
-					<Slot name="YoastSynonyms" />
-					{ this.props.shouldUpsell && <React.Fragment>
-						{ this.renderSynonymsUpsell( this.props.location ) }
-						{ this.renderMultipleKeywordsUpsell( this.props.location ) }
-					</React.Fragment> }
-					{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell() }
-					<AnalysisHeader>
-						{ __( "Analysis results", "wordpress-seo" ) }
-					</AnalysisHeader>
-					<Results
-						showLanguageNotice={ false }
-						results={ this.props.results }
-						marksButtonClassName="yoast-tooltip yoast-tooltip-s"
-						marksButtonStatus={ this.props.marksButtonStatus }
-					/>
-				</Collapsible>
-				{ this.props.shouldUpsell && this.renderKeywordUpsell( this.props.location ) }
-			</Fragment>
+			<LocationConsumer>
+				{ context => (
+					<Fragment>
+						<Collapsible
+							title={ __( "Focus keyphrase", "wordpress-seo" ) }
+							titleScreenReaderText={ score.screenReaderReadabilityText }
+							prefixIcon={ getIconForScore( score.className ) }
+							prefixIconCollapsed={ getIconForScore( score.className ) }
+							subTitle={ this.props.keyword }
+							id={ `yoast-seo-analysis-collapsible-${ context }` }
+						>
+							<KeywordInput
+								id="focus-keyword-input"
+								onChange={ this.props.onFocusKeywordChange }
+								keyword={ this.props.keyword }
+								label={ __( "Focus keyphrase", "wordpress-seo" ) }
+								helpLink={ this.renderHelpLink() }
+							/>
+							<Slot name="YoastSynonyms" />
+							{ this.props.shouldUpsell && <Fragment>
+								{ this.renderSynonymsUpsell( context ) }
+								{ this.renderMultipleKeywordsUpsell( context ) }
+							</Fragment> }
+							{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell( context ) }
+							<AnalysisHeader>
+								{ __( "Analysis results", "wordpress-seo" ) }
+							</AnalysisHeader>
+							<Results
+								showLanguageNotice={ false }
+								results={ this.props.results }
+								marksButtonClassName="yoast-tooltip yoast-tooltip-s"
+								marksButtonStatus={ this.props.marksButtonStatus }
+							/>
+						</Collapsible>
+						{ this.props.shouldUpsell && this.renderKeywordUpsell( context ) }
+					</Fragment>
+				) }
+			</LocationConsumer>
 		);
 	}
 }
@@ -318,7 +325,6 @@ SeoAnalysis.propTypes = {
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
-	location: PropTypes.string.isRequired,
 };
 
 SeoAnalysis.defaultProps = {

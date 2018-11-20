@@ -333,7 +333,15 @@ class WPSEO_Replace_Vars {
 				$replacement = wp_strip_all_tags( $this->args->post_excerpt );
 			}
 			elseif ( $this->args->post_content !== '' ) {
-				$replacement = wp_html_excerpt( strip_shortcodes( $this->args->post_content ), 156 );
+				$content = strip_shortcodes( $this->args->post_content );
+				$content = wp_strip_all_tags( $content );
+
+				if ( strlen( utf8_decode( $content ) ) <= 156 ) {
+					return $content;
+				}
+
+				$replacement = wp_html_excerpt( $content, 156 );
+
 				// Trim the auto-generated string to a word boundary.
 				$replacement = substr( $replacement, 0, strrpos( $replacement, ' ' ) );
 			}
