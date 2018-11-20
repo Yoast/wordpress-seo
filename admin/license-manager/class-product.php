@@ -65,7 +65,6 @@ class WPSEO_Product {
 	 * @param int    $product_id       The ID of the product in the backend system.
 	 */
 	public function __construct( $api_url, $item_name, $slug, $version, $item_url = '', $license_page_url = '#', $text_domain = 'yoast', $author = 'Yoast', $file = '', $product_id = 0 ) {
-		$this->set_api_url( $api_url );
 		$this->set_item_name( $item_name );
 		$this->set_slug( $slug );
 		$this->set_version( $version );
@@ -75,24 +74,6 @@ class WPSEO_Product {
 		$this->set_file( $file );
 		$this->set_product_id( $product_id );
 		$this->set_license_page_url( $license_page_url );
-	}
-
-	/**
-	 * Sets the API URL.
-	 *
-	 * @param string $api_url
-	 */
-	public function set_api_url( $api_url ) {
-		$this->api_url = $api_url;
-	}
-
-	/**
-	 * Retrieves the API URL.
-	 *
-	 * @return string
-	 */
-	public function get_api_url() {
-		return $this->api_url;
 	}
 
 	/**

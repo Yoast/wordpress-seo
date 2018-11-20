@@ -14,7 +14,7 @@ class WPSEO_Update_Manager {
 	 */
 	protected $product;
 	/**
-	 * @var WPSEO_License_Manager
+	 * @var WPSEO_Plugin_License_Manager
 	 */
 	protected $license_manager;
 	/**
@@ -38,7 +38,7 @@ class WPSEO_Update_Manager {
 	 * Constructor
 	 *
 	 * @param WPSEO_Product         $product         The product.
-	 * @param WPSEO_License_Manager $license_manager The License Manager.
+	 * @param WPSEO_Plugin_License_Manager $license_manager The License Manager.
 	 */
 	public function __construct( WPSEO_Product $product, $license_manager ) {
 		$this->product         = $product;
@@ -107,7 +107,7 @@ class WPSEO_Update_Manager {
 		// setup api parameters
 		$api_params = array(
 			'edd_action'   => 'get_version',
-			'license'      => $this->license_manager->get_license_key(),
+			'license'      => 'yoast-dummy-license',
 			'item_name'    => $this->product->get_item_name(),
 			'wp_version'   => $wp_version,
 			'php_version'  => phpversion(),
@@ -127,10 +127,10 @@ class WPSEO_Update_Manager {
 		// setup request parameters
 		$request_params = array(
 			'method' => 'POST',
-			'body'   => $api_params,
+			'body'   => wp_json_encode( $api_params ),
 		);
 
-		$request = new MyYoast_API_Request( $this->product->get_api_url(), $request_params );
+		$request = new MyYoast_API_Request( $request_params );
 
 		if ( $request->is_valid() !== true ) {
 

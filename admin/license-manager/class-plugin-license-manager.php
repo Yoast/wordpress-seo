@@ -192,16 +192,17 @@ final class WPSEO_Plugin_License_Manager {
 
 		// data to send in our API request
 		$api_params = array(
-			'edd_action' => $action . '_license',
-			'license'    => 'yoast-dummy-license',
-			'item_name'  => urlencode( trim( $this->product->get_item_name() ) ),
-			'url'        => $this->get_url(),
-			// grab the URL straight from the option to prevent filters from breaking it.
+			'body' => wp_json_encode( array(
+				'edd_action' => $action . '_license',
+				'license'    => 'yoast-dummy-license',
+				'item_name'  => urlencode( trim( $this->product->get_item_name() ) ),
+				'url'        => $this->get_url(),
+				// grab the URL straight from the option to prevent filters from breaking it.
+			) ),
 		);
 
 		// create api request url
-		$url     = add_query_arg( $api_params, $this->product->get_api_url() );
-		$request = new MyYoast_API_Request( $url );
+		$request = new MyYoast_API_Request( $api_params );
 
 		if ( $request->is_valid() !== true ) {
 			$this->set_notice( sprintf( __( 'Request error: "%s" (%scommon license notices%s)', 'wordpress-seo' ), $request->get_error_message(), '<a href="http://kb.yoast.com/article/13-license-activation-notices">', '</a>' ), false );
@@ -500,5 +501,16 @@ final class WPSEO_Plugin_License_Manager {
 		}
 
 		return $message;
+	}
+
+	/** DEPRECATED */
+
+	/**
+	 * Allows settings the license constant.
+	 *
+	 * @deprecated 9.4.0
+	 */
+	public function set_license_constant_name() {
+		_deprecated_function( __METHOD__, '9.4.0' );
 	}
 }

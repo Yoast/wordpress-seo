@@ -12,17 +12,18 @@ final class MyYoast_API_Request {
 	/**
 	 * @var string Request URL
 	 */
-	private $url = '';
+	private $url = 'https://my.yoast.com/edd-sl-api';
 	/**
 	 * @var array Request parameters
 	 */
 	private $args = array(
-		'method'    => 'GET',
+		'method'    => 'POST',
 		'timeout'   => 10,
 		'sslverify' => true,
 		'headers'   => array(
 			'Accept-Encoding' => '*',
 			'X-Yoast-EDD'     => '1',
+			'Content-Type'    => 'application/json',
 		),
 	);
 	/**
@@ -43,18 +44,11 @@ final class MyYoast_API_Request {
 	/**
 	 * Class constructor.
 	 *
-	 * @param string $url  The URL to do a request to.
 	 * @param array  $args The arguments for the request.
 	 */
-	public function __construct( $url, array $args = array() ) {
-
-		// set api url
-		$this->url = $url;
-
-		// set request args (merge with defaults)
+	public function __construct( array $args = array() ) {
+		// Set request args and merge with defaults.
 		$this->args = wp_parse_args( $args, $this->args );
-
-		// fire the request
 		$this->success = $this->fire();
 	}
 
@@ -64,22 +58,16 @@ final class MyYoast_API_Request {
 	 * @return boolean
 	 */
 	private function fire() {
-
-		// fire request to shop
 		$response = wp_remote_request( $this->url, $this->args );
 
-		// validate raw response
 		if ( $this->validate_raw_response( $response ) === false ) {
 			return false;
 		}
 
-		// decode the response
+		// JSON decode the response.
 		$this->response = json_decode( wp_remote_retrieve_body( $response ) );
-
-		// response should be an object
 		if ( ! is_object( $this->response ) ) {
 			$this->error_message = 'No JSON object was returned.';
-
 			return false;
 		}
 
