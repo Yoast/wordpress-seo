@@ -434,4 +434,24 @@ describe( "a test for finding transition words from a string", function() {
 
 		expect( result ).toEqual( expected );
 	} );
+
+	it( "does recognize transition words with full stops, like 'e.g.'.", function() {
+		// Non-transition word: eggs.
+		mockPaper = new Paper( "E.g. potatoes. I.e. apples." );
+		const expected = {
+			sentenceResults: [ {
+				sentence: "E.g. potatoes.",
+				transitionWords: [ "e.g." ],
+			}, {
+				sentence: "I.e. apples.",
+				transitionWords: [ "i.e." ],
+			} ],
+			totalSentences: 2,
+			transitionWordSentences: 2,
+		};
+
+		result = transitionWordsResearch( mockPaper );
+
+		expect( result ).toEqual( expected );
+	} );
 } );
