@@ -367,13 +367,14 @@ class WPSEO_Breadcrumbs {
 			}
 		}
 		elseif ( is_post_type_archive() ) {
-			$post_type = $wp_query->get( 'post_type' );
-
-			if ( WPSEO_Utils::is_woocommerce_active() && is_shop() ) {
-				$id = wc_get_page_id( 'shop' );
-				$this->add_single_post_crumb( $id );
+			if ( $this->woocommerce_shop_page->is_shop_page() &&
+				$this->woocommerce_shop_page->get_shop_page_id() !== -1
+			) {
+				$this->add_single_post_crumb( $this->woocommerce_shop_page->get_shop_page_id() );
 			}
 			else {
+				$post_type = $wp_query->get( 'post_type' );
+
 				if ( $post_type && is_string( $post_type ) ) {
 					$this->add_ptarchive_crumb( $post_type );
 				}
