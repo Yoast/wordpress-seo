@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import { getRtlStyle, KeywordInput, colors, utils } from "yoast-components";
+import { getRtlStyle, KeywordInput, colors } from "yoast-components";
 import Collapsible from "../SidebarCollapsible";
 import Results from "./Results";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
@@ -247,7 +247,14 @@ class SeoAnalysis extends React.Component {
 	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
-		const beta = localizedData.recalibrationBetaActive;
+		const isRecalibrationBetaActive = localizedData.recalibrationBetaActive;
+
+		let analysisTitle = __( "Focus keyphrase", "wordpress-seo" );
+
+		// Adjust the title when the beta is active.
+		if ( isRecalibrationBetaActive ) {
+			analysisTitle =  __( "Focus keyphrase (beta)", "wordpress-seo" );
+		}
 
 		if ( score.className !== "loading" && this.props.keyword === "" ) {
 			score.className = "na";
@@ -259,14 +266,14 @@ class SeoAnalysis extends React.Component {
 				{ context => (
 					<Fragment>
 						<Collapsible
-							title={ beta ? __( "Focus keyphrase", "wordpress-seo" ) + " (beta)" : __( "Focus keyphrase", "wordpress-seo" ) }
+							title={ analysisTitle }
 							titleScreenReaderText={ score.screenReaderReadabilityText }
 							prefixIcon={ getIconForScore( score.className ) }
 							prefixIconCollapsed={ getIconForScore( score.className ) }
 							subTitle={ this.props.keyword }
 							id={ `yoast-seo-analysis-collapsible-${ context }` }
 						>
-							{ beta ? <RecalibrationBetaNotification /> : null }
+							{ isRecalibrationBetaActive ? <RecalibrationBetaNotification /> : null }
 							<KeywordInput
 								id="focus-keyword-input"
 								onChange={ this.props.onFocusKeywordChange }

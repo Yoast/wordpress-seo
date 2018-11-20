@@ -39,7 +39,14 @@ const StyledHelpLink = styled( HelpLink )`
 class ReadabilityAnalysis extends React.Component {
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
-		const beta = localizedData.recalibrationBetaActive;
+		const isRecalibrationBetaActive = localizedData.recalibrationBetaActive;
+
+		let analysisTitle = __( "Readability analysis", "wordpress-seo" );
+
+		// Adjust the title when the beta is active.
+		if ( isRecalibrationBetaActive ) {
+			analysisTitle =  __( "Readability analysis (beta)", "wordpress-seo" );
+		}
 
 		if ( isNil( this.props.overallScore ) ) {
 			score.className = "loading";
@@ -49,13 +56,13 @@ class ReadabilityAnalysis extends React.Component {
 			<LocationConsumer>
 				{ context => (
 					<Collapsible
-						title={ beta ? __( "Readability analysis", "wordpress-seo" ) + " (beta)"  : __( "Readability analysis", "wordpress-seo" ) }
+						title={ analysisTitle }
 						titleScreenReaderText={ score.screenReaderReadabilityText }
 						prefixIcon={ getIconForScore( score.className ) }
 						prefixIconCollapsed={ getIconForScore( score.className ) }
 						id={ `yoast-readability-analysis-collapsible-${ context }` }
 					>
-						{ beta ? <RecalibrationBetaNotification /> : null }
+						{ isRecalibrationBetaActive ? <RecalibrationBetaNotification /> : null }
 						<AnalysisHeader>
 							{ __( "Analysis results", "wordpress-seo" ) }
 							<StyledHelpLink

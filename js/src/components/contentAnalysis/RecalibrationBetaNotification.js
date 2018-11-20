@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 import { colors } from "yoast-components";
 import HelpLink from "./HelpLink";
 
-const RecalibrationBetaNotificationText = styled.a`
+const RecalibrationBetaNotificationLink = styled.a`
 	font-size: 1em;
 	font-weight: normal;
 	text-decoration: underline;
@@ -15,9 +15,10 @@ const RecalibrationBetaNotificationText = styled.a`
 	color: ${ colors.$palette_blue_medium };
 `;
 
-const StyledRecalibrationLink = styled( HelpLink )`
-	margin: -8px 6px -4px 4px;
+const RecalibrationBetaNotificationIcon = styled( HelpLink )`
+	margin: -8px 4px -4px 4px;
 	color: ${ colors.$palette_blue_medium };
+	&:hover { color: #00a0d2 };
 `;
 
 /**
@@ -27,20 +28,21 @@ const StyledRecalibrationLink = styled( HelpLink )`
  */
 const RecalibrationBetaNotification = () => {
 	return (
-		<RecalibrationBetaNotificationText
+		<RecalibrationBetaNotificationLink
 			href={ wpseoAdminL10n[ "shortlinks.recalibration_beta_metabox" ] }
+			target={ "_blank" }
+			rel={ "noopener noreferrer" }
 		>
-			<StyledRecalibrationLink
+			<RecalibrationBetaNotificationIcon
 				href={ wpseoAdminL10n[ "shortlinks.recalibration_beta_metabox" ] }
-				rel={ null }
 				className="dashicons"
 			>
 				<span className="screen-reader-text">
 					{ __( "Learn more about the Recalibration beta", "wordpress-seo" ) }
 				</span>
-			</StyledRecalibrationLink>
+			</RecalibrationBetaNotificationIcon>
 			{ __( "Recalibration beta is active", "wordpress-seo" ) }
-		</RecalibrationBetaNotificationText>
+		</RecalibrationBetaNotificationLink>
 	);
 };
 
