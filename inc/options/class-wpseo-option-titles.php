@@ -155,7 +155,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @return array
 	 */
 	public function get_separator_options() {
-		$separators = wp_list_pluck( $this->get_separator_option_list(), 'option' );
+		$separators = wp_list_pluck( self::get_separator_option_list(), 'option' );
 
 		/**
 		 * Allow altering the array with separator options.
@@ -178,7 +178,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 */
 	public function get_separator_options_for_display() {
 		$separators     = $this->get_separator_options();
-		$separator_list = $this->get_separator_option_list();
+		$separator_list = self::get_separator_option_list();
 
 		$separator_options = array();
 
@@ -802,7 +802,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 *
 	 * @return array An array of the separator options.
 	 */
-	protected function get_separator_option_list() {
+	protected static function get_separator_option_list() {
 		$separators = array(
 			'sc-dash'   => array(
 				'option' => '-',
