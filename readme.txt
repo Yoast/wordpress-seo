@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 5.0
-Stable tag: 9.1
+Stable tag: 9.2
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -114,21 +114,21 @@ Enhancements:
 * Adds support for the 'eye' markers in Gutenberg using the experimental annotations API in Gutenberg. They will work for the paragraph, quote, heading and list blocks.
 * Adds the latest og:locale options provided by Facebook. Props to [valtlfelipe](https://github.com/valtlfelipe)
 * Adds support for oEmbed utilization of Yoast custom fields (post meta) values. Specifically the image and the title. Props to [ben-caplan](https://github.com/ben-caplan)
-* Improves the accessibility of the "Bulk editor" and "Search console" tables.
 * Defines attachment as non-accessible when attachment urls are redirected to the attachment file itself. Props to [stodorovic](https://github.com/stodorovic)
+* Improves the accessibility of the "Bulk editor" and "Search console" tables.
 * Hides SEO title and metadescription fields on the author edit page when the author archives are disabled.
 * Replaces Settings ZIP download (export) and upload (import) functionality with Settings fields.
 
 Bugfixes:
 
+* Fixes a bug where assessments would fail if a "<" character is present in the content.
 * Fixes a bug where the excerpt replacement variable will output a piece of the post content when no excerpt is given.
-* Fixes a bug where the Dashboard Widget was not displayed in the correct language.
 * Fixes a bug where the wrong title is rendered for the WooCommerce product archive.
 * Fixes a bug where the Yoast metabox is visible even when the attachment urls are redirected to the attachment file itself.
-* Fixes a bug where assessments would fail if a "<" character is present in the content.
-* Fixes a bug where paragraphs were sometimes not correctly detected because paragraph tags were not automatically added in WordPress-like fashion.
-* Fixes a bug where multiple marker buttons could be active at the same time.
-* Fixes a bug where escaped HTML is shown in the OpenGraph description.
+* Fixes a bug where the Dashboard Widget was not displayed in the correct language.
+* Fixes a bug in combination with Gutenberg where paragraphs were sometimes not correctly detected because paragraph tags were not automatically added in WordPress-like fashion.
+* Fixes a bug in combination with Gutenberg where multiple marker buttons could be active at the same time.
+* Fixes a bug in combination with Gutenberg where escaped HTML is shown in the OpenGraph description.
 
 Compatibility:
 
@@ -141,9 +141,9 @@ Security:
 
 Other:
 
-* Deprecates the Yoast_Modal class.
 * Disables the non-functioning markers for the subheading distribution assessment.
 * Refactor SEO assessment filenames and exports. Props to [Kingdutch](https://github.com/Kingdutch)
+* Deprecates the `Yoast_Modal` class.
 
 = 9.1.0 =
 Release Date: November 6th, 2018
@@ -170,75 +170,6 @@ Other:
 
 * Changes the reference in the admin bar menu from "AdWords External" to "Google Ads".
 * Removes non-functioning eye-markers for the link keyphrase assessment.
-
-= 9.0.3 =
-Release Date: October 30th, 2018
-
-Bugfixes:
-
-* Fixes a bug where the metabox was broken when using the classic editor plugin.
-* Fixes a bug where the Chrome browser tab would crash on Windows when a French or Italian text contains sentences in passive voice, props [CarloCannas](https://github.com/CarloCannas).
-* Fixes a bug where the Yoast SEO analysis would error if used together with the DelightfulDownloads plugin.
-
-= 9.0.2 =
-Release Date: October 24th, 2018
-
-Bugfixes:
-
-* Fixes a bug where it was impossible to change the profile in the Search Console integration step in the configuration wizard.
-* Fixes a bug where the primary taxonomy picker was not shown in Gutenberg (v4.1).
-
-= 9.0.1 =
-Release Date: October 23rd, 2018
-
-Bugfixes:
-
-* Fixes error with using `$` in wp-seo-admin-media.js. Now we use `jQuery` instead.
-
-= 9.0.0 =
-Release Date: October 23rd, 2018
-
-Bugfixes:
-
-* Fixes a bug where the keyword would not be found in the slug when containing punctuation, for example the keyphrase `apples & pears` in the slug `apples-pears`.
-* Fixes a bug where the buttons to change the How-to steps and FAQ questions order would be only partially visible in mobile view.
-* Fixes a bug where an 'undefined index' notice would be given when an OpenGraph image URL didn't have a correct path. Props to [@Julian-B90](https://github.com/Julian-B90)
-* Fixes a bug where the home description can contain HTML, resulting in unexpected characters on the Facebook social settings page.
-* Fixes a bug where author sitemap caches would be attempted to be invalidated despite not all conditions being met.
-* Fixes a bug where a fatal error on Yoast settings pages was thrown because they did not have a dedicated option class.
-
-Enhancements:
-
-* Introduces two new principles for keyword recognition:
-  * Makes keyphrase recognition flexible with regards to word order. This means that the keyphrase `SEO WordPress plugin` will be found in the sentence `This is the most popular SEO plugin for WordPress.` In order to use exact matches, the keyphrase can be enclosed in quotation marks.
-  * When matching keyphrases for the various assessments, the analysis only targets content words and ignores function words (e.g., `the` or `and`). This functionality is available in English, German, Dutch, French, Spanish, Italian, Portuguese, Russian and Polish.
-* The analysis of the following assessments incorporates the new keyword recognition principles:
-  * Image alt attributes: checks whether there’s at least one image with an alt tag that contains words from the keyphrase. An exact match isn’t required anymore.
-  * Keyphrase in introduction: checks whether words from the keyphrase are matched within one sentence in the introduction or, if not, whether they are present in the first paragraph at all. An exact match isn’t required anymore.
-  * Keyphrase in title: still checks whether an exact match of the keyphrase is found in (the beginning of) the title, but now also recommends improvement if all words from the keyphrase are found in the title.
-  * Keyphrase length: has new boundaries to check whether the keyphrase is not too long. For languages that have support for function word stripping (see above), only content words are taken into account.
-  * Keyphrase in meta description: checks how often all words from the keyphrase are matched within the meta description.
-  * Keyphrase in subheading: now checks whether at least one subheading contains more than half of the words from the keyphrase. An exact match isn’t required anymore.
-  * Keyphrase in slug: checks whether a sufficient number of words from the keyphrase is used in the slug. The number of words required depends on the length of the keyphrase.
-  * Keyphrase density: checks whether there are enough keyphrase matches; a match is defined as a sentence that contains all words from the keyphrase.
-  * Link focus keyphrase: the assessment that checks whether you’re using your keyphrase to link to a different article doesn't require an exact match anymore.
-* Improves the feedback texts for all SEO and readability assessments.
-* Improves the consistency of the SEO and readability results by showing them in a fixed order.
-* Adds target="_blank" to the "How to connect to GSC" link to open the link a new tab. Props to [@zkan](https://github.com/zkan)
-* Changes all mentions of 'keyword' to 'keyphrase'. Read more about [the transition from 'keyword' to 'keyphrase'](https://yoa.st/keyword-to-keyphrase).
-* Optimizes and caches WPSEO_Option_Titles::enrich_defaults(). Props to [@soulseekah](https://github.com/soulseekah)
-* Introduces a Features tab in the network admin, which allows disabling all site-specific features for the entire network.
-* Improves the tab order within the structured data blocks in Gutenberg and make it consistent between the FAQ and How-To block.
-* Improves sitemap performance by disabling the caching by default.
-* Adds `target="_blank"` to the "How to connect to GSC" link to open a new tab when clicked.
-* Adds an assessment that checks whether your keyword consists only of function words.
-* Changes OpenGraph image handling to always use an image from the media library. This makes the performance of the OpenGraph image handling much better.
-* Improves performance by no longer using images from the content as a fallback for the OpenGraph and Twitter images.
-
-Other:
-
-* Deprecates the WPSEO_Cornerstone class.
-* Deprecates the assessment that checks if stopwords are used within the keyphrase.
 
 = Earlier versions =
 
