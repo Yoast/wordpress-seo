@@ -48,7 +48,8 @@ const paper = new Paper( "<p>My husband &#8211; <a href='https://yoast.com/about
 	title: "Voice search: what will the future bring?",
 	titleWidth: 450,
 	locale: "en_EN",
-	url: "https://yoast.com/future-of-voice-search/",
+	permalink: "https://yoast.com/future-of-voice-search/",
+	url: "future-of-voice-search",
 } );
 
 const expectedResults = {
@@ -89,12 +90,12 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 716 words. Good job!",
 	},
 	externalLinks: {
-		score: 9,
-		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: Good job!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: No outbound links appear in this page. <a href='https://yoa.st/34g' target='_blank'>Add some</a>!",
 	},
 	internalLinks: {
-		score: 3,
-		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: No internal links appear in this page, <a href='https://yoa.st/34a' target='_blank'>make sure to add some</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: You have enough internal links. Good job!",
 	},
 	titleKeyword: {
 		score: 9,
@@ -109,8 +110,8 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",
 	},
 	urlLength: {
-		score: 6,
-		resultText: "<a href='https://yoa.st/35b' target='_blank'>Slug too long</a>: the slug for this page is a bit long. <a href='https://yoa.st/35c' target='_blank'>Shorten it</a>!",
+		score: 0,
+		resultText: "",
 	},
 	urlStopWords: {
 		score: 5,
