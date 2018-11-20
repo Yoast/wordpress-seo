@@ -106,6 +106,28 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 9.3.0 =
+Release Date: December 11th, 2018
+
+Enhancements:
+* Changes the output of schema preventing unnecessary escaping of forward slashes, only available on sites running PHP 5.4 or higher.
+* Changes the website schema `@id` attribute to include the home URL to be a unique identifier.
+* Adds the page number to the breadcrumbs when an archived page is entered.
+* Removes a redundant Edge-specific CSS fix for the tooltips in the post overview. Props [mkronenfeld](https://github.com/mkronenfeld).
+
+Bugs:
+* Fixes a bug where the 'Select primary category' label in the primary taxonomy picker would overlap the 'Add new category' button.
+* Fixes a bug where the cornerstone filter was still visible with the metabox disabled.
+* Fixes a bug where non-functional markers are shown for taxonomy pages.
+* Fixes a bug where the `og:description` tag would remain empty after setting the author description.
+* Fixes a bug where texts in the configuration wizard would overlap each other and break out of the columns in Internet Explorer 11. Props [DrGrimshaw](https://github.com/DrGrimshaw).
+
+Other:
+* Adds a toggle feature for subscribing to the recalibration beta.
+* Shows a notice about the analyses, when the recalibration beta is enabled.
+* Shows a notice about stale content, when the recalibration beta is enabled.
+* Shows a notice when recalibration beta has not been enabled yet.
+
 = 9.2.0 =
 Release Date: November 20th, 2018
 
@@ -116,7 +138,7 @@ Enhancements:
 * Adds support for oEmbed utilization of Yoast custom fields (post meta) values. Specifically the image and the title. Props to [ben-caplan](https://github.com/ben-caplan)
 * Defines attachment as non-accessible when attachment urls are redirected to the attachment file itself. Props to [stodorovic](https://github.com/stodorovic)
 * Improves the accessibility of the "Bulk editor" and "Search console" tables.
-* Hides SEO title and metadescription fields on the author edit page when the author archives are disabled.
+* Hides SEO title and meta description fields on the author edit page when the author archives are disabled.
 * Replaces Settings ZIP download (export) and upload (import) functionality with Settings fields.
 
 Bugfixes:
@@ -144,32 +166,6 @@ Other:
 * Disables the non-functioning markers for the subheading distribution assessment.
 * Refactor SEO assessment filenames and exports. Props to [Kingdutch](https://github.com/Kingdutch)
 * Deprecates the `Yoast_Modal` class.
-
-= 9.1.0 =
-Release Date: November 6th, 2018
-
-Enhancements:
-
-* Improves keyphrase recognition in the first paragraph on texts which start with images and captions.
-* Adds a warning notification to the permalink settings page, linking to a knowledge base article. Props to [valtlfelipe](https://github.com/valtlfelipe)
-* Adds the filter `wpseo_opengraph_is_valid_image_url` that allows custom image URL validation. Props to [petenelson](https://github.com/petenelson)
-* Updates the font size of the snippet title measure element to correctly mimic Google desktop snippet title. Props to [ol0lll](https://github.com/ol0lll)
-
-Bugfixes:
-
-* Fixes a bug where the featured image was not recognized in the SEO analysis when using Gutenberg.
-* Fixes an accessibility issue where focus would be lost when removing an uploaded image in the configuration wizard.
-* Fixes a bug where notices were being thrown when quick editing a post and no post type object could be found.
-* Fixes a bug where a dependency wasn't loaded for the SEO -> Tools page.
-* Fixes a faulty reference to the old SEOAssessor class.
-* Fixes the copy of the date archives help text which contains faulty information. Props to [mkronenfeld](https://github.com/mkronenfeld)
-* Fixes the spelling of the words "plug-in" and "set-up". Props to [pedro-mendonca](https://github.com/pedro-mendonca)
-* Fixes a bug where a type error is thrown when the posts or terms focus keyword isn't of the type WP_Post as this can collide with third-party plugins.
-
-Other:
-
-* Changes the reference in the admin bar menu from "AdWords External" to "Google Ads".
-* Removes non-functioning eye-markers for the link keyphrase assessment.
 
 = Earlier versions =
 
