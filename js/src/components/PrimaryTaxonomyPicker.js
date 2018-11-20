@@ -232,7 +232,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 
 		return (
 			<PrimaryTaxonomyPickerField className="components-base-control__field">
-				<PrimaryTaxonomyPickerLabel
+				<label
 					htmlFor={ fieldId }
 					className="components-base-control__label"
 				>
@@ -243,7 +243,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 							taxonomy.singularLabel.toLowerCase()
 						)
 					}
-				</PrimaryTaxonomyPickerLabel>
+				</label>
 				<TaxonomyPicker
 					value={ primaryTaxonomyId }
 					onChange={ this.onChange }
