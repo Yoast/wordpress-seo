@@ -34,9 +34,10 @@ $yform->toggle_switch(
 
 	if ( WPSEO_Options::get( 'is-media-purge-relevant' ) && WPSEO_Options::get( $noindex_option_name ) === false ) {
 		$description =
+			esc_html__( 'By enabling this option, attachment URLs become visible to both your visitors and Google. To add value to your website, they should contain useful information, or they might have a negative impact on your ranking.', 'wordpress-seo' ) . ' ' .
 			sprintf(
 				/* translators: %1$s expands to the link to the article, %2$s closes the link to the article */
-				__( 'By enabling this option, attachment URLs become visible to both your visitors and Google.<br>To add value to your website, they should contain useful information, or they might have a negative impact on your ranking.<br>Please carefully consider this and %1$sread this post%2$s if you want more information about the impact of showing media in search results.', 'wordpress-seo' ),
+				esc_html__( 'Please carefully consider the implications and %1$sread this post%2$s if you want more information about the impact of showing media in search results.', 'wordpress-seo' ),
 				'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/2r8' ) ) . '" rel="noopener noreferrer" target="_blank">',
 				'</a>'
 			);
