@@ -9,7 +9,7 @@ import addWordBoundary from "./addWordboundary.js";
  * @param {string} character The character to look for.
  * @returns {boolean} Whether or not the character is present in the list of word boundaries.
  */
-var characterInBoundary = function( character ) {
+const characterInBoundary = function( character ) {
 	return includes( wordBoundaries, character );
 };
 
@@ -20,14 +20,14 @@ var characterInBoundary = function( character ) {
  * @param {string} sentence The sentence to look through.
  * @returns {boolean} Whether or not the word is present in the sentence.
  */
-var isWordInSentence = function( word, sentence ) {
+const isWordInSentence = function( word, sentence ) {
 	// To ensure proper matching, make everything lowercase.
 	word = word.toLocaleLowerCase();
 	sentence = sentence.toLocaleLowerCase();
 
 	// Escape regex in word, since we use regex characters like in abbreviations ("e.g.").
-	var wordWithBoundaries = addWordBoundary( escapeRegExp( word ) );
-	var occurrenceStart = sentence.search( new RegExp( wordWithBoundaries, "ig" ) );
+	const wordWithBoundaries = addWordBoundary( escapeRegExp( word ) );
+	let occurrenceStart = sentence.search( new RegExp( wordWithBoundaries, "ig" ) );
 	// Return false if no match has been found.
 	if ( occurrenceStart === -1 ) {
 		return false;
@@ -41,11 +41,11 @@ var isWordInSentence = function( word, sentence ) {
 	if ( occurrenceStart > 0 ) {
 		occurrenceStart += 1;
 	}
-	var occurrenceEnd = occurrenceStart + word.length;
+	const occurrenceEnd = occurrenceStart + word.length;
 
 	// Check if the previous and next character are word boundaries to determine if a complete word was detected
-	var previousCharacter = characterInBoundary( sentence[ occurrenceStart - 1 ] ) || occurrenceStart === 0;
-	var nextCharacter = characterInBoundary( sentence[ occurrenceEnd ] ) || occurrenceEnd === sentence.length;
+	const previousCharacter = characterInBoundary( sentence[ occurrenceStart - 1 ] ) || occurrenceStart === 0;
+	const nextCharacter = characterInBoundary( sentence[ occurrenceEnd ] ) || occurrenceEnd === sentence.length;
 
 	return ( ( previousCharacter ) && ( nextCharacter ) );
 };
@@ -56,6 +56,6 @@ export {
 };
 
 export default {
-	characterInBoundary: characterInBoundary,
-	isWordInSentence: isWordInSentence,
+	characterInBoundary,
+	isWordInSentence,
 };
