@@ -80,7 +80,7 @@ testPapers.forEach( function( testPaper ) {
 		 */
 		const assessmentsToRun = {
 			fleschReadingEase: true,
-			passiveVoice: true
+			passiveVoice: true,
 		};
 
 		// Don't run assessments that we don't support in Swedish.
@@ -326,15 +326,15 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		if ( assessmentsToRun.passiveVoice === true ) {
-			it("returns a score and the associated feedback text for the passiveVoice assessment", function () {
+			it( "returns a score and the associated feedback text for the passiveVoice assessment", function() {
 				result.passiveVoice = passiveVoiceAssessment.getResult(
 					paper,
-					factory.buildMockResearcher(passiveVoice(paper)),
+					factory.buildMockResearcher( passiveVoice( paper ) ),
 					i18n
 				);
-				expect(result.passiveVoice.getScore()).toBe(expectedResults.passiveVoice.score);
-				expect(result.passiveVoice.getText()).toBe(expectedResults.passiveVoice.resultText);
-			});
+				expect( result.passiveVoice.getScore() ).toBe( expectedResults.passiveVoice.score );
+				expect( result.passiveVoice.getText() ).toBe( expectedResults.passiveVoice.resultText );
+			} );
 		}
 
 		it( "returns a score and the associated feedback text for the textPresence assessment", function() {
