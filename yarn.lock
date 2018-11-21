@@ -10345,10 +10345,9 @@ yeoman-generator@^2.0.4:
     through2 "^2.0.0"
     yeoman-environment "^2.0.5"
 
-yoastseo@^1.43.0:
+"yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.3":
   version "1.43.0"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.43.0.tgz#c57ac5e8524fe410ce5100cf704fe736ba577ecc"
-  integrity sha512-wSoSsN0T/Im1l+f8nvKFM8ZiRu+1Ns0N0KR61Zb9f8Lt3P4w6nSmWNqF5r4ZGJZGVjVnGkja/fFmKoHh4UJZ4w==
+  resolved "git+https://github.com/Yoast/YoastSEO.js.git#04657b482fa45a19ea290baf224aeb809ae6a8a4"
   dependencies:
     "@wordpress/autop" "^2.0.2"
     htmlparser2 "^3.9.2"
@@ -10357,30 +10356,3 @@ yoastseo@^1.43.0:
     loglevel "^1.6.1"
     sassdash "0.9.0"
     tokenizer2 "^2.0.1"
-
-"yoastseo@git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.3":
-  version "4.16.0"
-  resolved "git+https://github.com/Yoast/yoast-components.git#899f93f5180d7e19323d96c33ce61e7d2dabbd98"
-  dependencies:
-    "@wordpress/a11y" "^1.0.7"
-    "@wordpress/i18n" "^1.1.0"
-    algoliasearch "^3.22.3"
-    clipboard "^1.5.15"
-    draft-js "^0.10.5"
-    draft-js-mention-plugin "^3.0.4"
-    draft-js-plugins-editor "^2.0.4"
-    draft-js-single-line-plugin "^2.0.1"
-    interpolate-components "^1.1.0"
-    jed "^1.1.1"
-    lodash "^4.17.4"
-    prop-types "^15.6.0"
-    react-modal "^3.1.10"
-    react-redux "^5.0.6"
-    react-tabs "^2.2.1"
-    react-transition-group "^2.3.1"
-    redux "^3.7.2"
-    styled-components "^2.1.2"
-    whatwg-fetch "^1.0.0"
-    yoastseo "^1.43.0"
-  optionalDependencies:
-    grunt-scss-to-json "^1.0.1"
