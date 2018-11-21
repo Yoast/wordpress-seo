@@ -3,6 +3,7 @@
 import englishPaper1 from "./en/englishPaper1";
 import englishPaper2 from "./en/englishPaper2";
 import englishPaper3 from "./en/englishPaper3";
+import englishPaper4 from "./en/englishPaper4";
 
 // Swedish papers
 
@@ -13,6 +14,7 @@ export default [
 	englishPaper1,
 	englishPaper2,
 	englishPaper3,
+	englishPaper4,
 	swedishPaper1,
 	swedishPaper2,
 ];

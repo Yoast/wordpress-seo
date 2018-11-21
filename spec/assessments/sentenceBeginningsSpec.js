@@ -127,6 +127,16 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 		expect( assessment ).toBe( true );
 	} );
 
+	it( "is not applicable for a Swedish paper without text.", function() {
+		var assessment = sentenceBeginningsAssessment.isApplicable( new Paper( "", { locale: "sv_SE" } ) );
+		expect( assessment ).toBe( false );
+	} );
+
+	it( "is applicable for a Swedish paper with text.", function() {
+		var assessment = sentenceBeginningsAssessment.isApplicable( new Paper( "hej", { locale: "sv_SE" } ) );
+		expect( assessment ).toBe( true );
+	} );
+
 	it( "is not applicable for a paper with text and a non-existing locale.", function() {
 		var assessment = sentenceBeginningsAssessment.isApplicable( new Paper( "hello", { locale: "xx_YY" } ) );
 		expect( assessment ).toBe( false );

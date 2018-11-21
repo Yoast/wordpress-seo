@@ -1,6 +1,8 @@
 import Paper from "../../../../src/values/Paper";
 import content from "./englishPaper3.html";
 
+const name = "englishPaper3";
+
 const paper = new Paper( content, {
 	keyword: "social media strategy",
 	synonyms: "social media SEO, Facebook strategy",
@@ -8,7 +10,8 @@ const paper = new Paper( content, {
 	title: "Social Media Strategy: Where to begin?",
 	titleWidth: 450,
 	locale: "en_EN",
-	url: "https://yoast.com/social-media-strategy-where-to-begin/",
+	permalink: "https://yoast.com/social-media-strategy-where-to-begin/",
+	url: "social-media-strategy-where-to-begin",
 } );
 
 const expectedResults = {
@@ -69,8 +72,8 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase appears in the slug. That's great!",
 	},
 	urlLength: {
-		score: 6,
-		resultText: "<a href='https://yoa.st/35b' target='_blank'>Slug too long</a>: the slug for this page is a bit long. <a href='https://yoa.st/35c' target='_blank'>Shorten it</a>!",
+		score: 0,
+		resultText: "",
 	},
 	urlStopWords: {
 		score: 5,

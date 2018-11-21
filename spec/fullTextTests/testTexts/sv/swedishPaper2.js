@@ -1,6 +1,8 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./swedishPaper2.html";
 
+const name = "swedishPaper2";
+
 const paper = new Paper( content, {
 	keyword: "tiger",
 	synonyms: "panthera tigris",
@@ -8,7 +10,8 @@ const paper = new Paper( content, {
 	title: "Tiger (panthera tigris)",
 	titleWidth: 450,
 	locale: "sv_SE",
-	url: "https://sv.wikipedia.org/wiki/Tiger",
+	permalink: "https://sv.wikipedia.org/wiki/Tiger",
+	url: "Tiger",
 } );
 
 const expectedResults = {
@@ -95,6 +98,10 @@ const expectedResults = {
 	textTransitionWords: {
 		score: 3,
 		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 18.3% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+	},
+	passiveVoice: {
+		score: 6,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 10.8% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		score: 0,

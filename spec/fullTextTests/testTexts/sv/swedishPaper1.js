@@ -1,6 +1,8 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./swedishPaper1.html";
 
+const name = "swedishPaper1";
+
 const paper = new Paper( content, {
 	keyword: "Ester Nordström",
 	synonyms: "Ester Blenda Nordström, Essan",
@@ -8,7 +10,8 @@ const paper = new Paper( content, {
 	title: "Ester Blenda Nordström",
 	titleWidth: 450,
 	locale: "sv_SE",
-	url: "https://sv.wikipedia.org/wiki/Ester-Blenda-Nordström",
+	permalink: "https://sv.wikipedia.org/wiki/Ester-Blenda-Nordström",
+	url: "Ester-Blenda-Nordström",
 } );
 
 const expectedResults = {
@@ -69,8 +72,8 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",
 	},
 	urlLength: {
-		score: 6,
-		resultText: "<a href='https://yoa.st/35b' target='_blank'>Slug too long</a>: the slug for this page is a bit long. <a href='https://yoa.st/35c' target='_blank'>Shorten it</a>!",
+		score: 0,
+		resultText: "",
 	},
 	urlStopWords: {
 		score: 0,
@@ -95,6 +98,10 @@ const expectedResults = {
 	textTransitionWords: {
 		score: 6,
 		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 20% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+	},
+	passiveVoice: {
+		score: 6,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 10.8% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		score: 0,

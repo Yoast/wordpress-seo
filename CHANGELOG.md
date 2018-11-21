@@ -5,6 +5,19 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+### 1.43.0 November 19th, 2018
+### Fixed
+* Fixes assessments failing when using a `<` sign in the content.
+* Fixes a bug where paragraphs were sometimes not correctly detected because paragraph tags were not automatically added in WordPress-like fashion.
+
+### Added
+* Adds toggles to use the different assessors in the webpack example (e.g., for all the different combinations for cornerstone and taxonomy pages and related keyphrase).
+* Introduce logger in the AnalysisWebWorker to replace the development console log.
+
+### Changed
+* Refactor SEO assessment file names and exports. Props [Kingdutch](https://github.com/Kingdutch).
+* Disables the non-functioning markers for the subheading distribution assessment.
+
 ## 1.42.0 November 5th, 2018
 
 ### Fixed

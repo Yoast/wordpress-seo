@@ -1,26 +1,33 @@
-/* @module analyses/matchKeywordInSubheadings */
+import { includes } from "lodash-es";
+import getFunctionWordsLanguages from "../helpers/getFunctionWordsLanguages";
+import getLanguage from "../helpers/getLanguage";
+import { getSubheadingContents, getSubheadingContentsTopLevel } from "../stringProcessing/getSubheadings";
+import stripSomeTags from "../stringProcessing/stripNonTextTags";
+import { findTopicFormsInString } from "./findKeywordFormsInString";
 
-import stripSomeTags from "../stringProcessing/stripNonTextTags.js";
-
-import { getSubheadingContents } from "../stringProcessing/getSubheadings.js";
-import { findTopicFormsInString } from "./findKeywordFormsInString.js";
+const functionWordLanguages = getFunctionWordsLanguages();
 
 /**
  * Computes the amount of subheadings reflecting the topic.
  *
  * @param {Object}      topicForms      The main key phrase and its synonyms to check.
- * @param {String[]}    subheadings     The subheadings to check.
+ * @param {string[]}    subheadings     The subheadings to check.
  * @param {boolean}     useSynonyms     Whether to match synonyms or only main keyphrase.
  * @param {string}      locale          The current locale.
  *
  * @returns {number} The amount of subheadings reflecting the topic.
  */
 const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, useSynonyms, locale ) {
-	return subheadings.filter(
-		subheading => {
-			return findTopicFormsInString( topicForms, subheading, useSynonyms, locale ).percentWordMatches > 50;
+	const isFunctionWordLanguage = includes( functionWordLanguages, getLanguage( locale ) );
+
+	return subheadings.filter( subheading => {
+		const matchedTopicForms = findTopicFormsInString( topicForms, subheading, useSynonyms, locale );
+
+		if ( process.env.YOAST_RECALIBRATION === "enabled" && ! isFunctionWordLanguage ) {
+			return matchedTopicForms.percentWordMatches === 100;
 		}
-	).length;
+		return matchedTopicForms.percentWordMatches > 50;
+	} ).length;
 };
 
 /**
@@ -39,11 +46,12 @@ export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
 	const result = { count: 0, matches: 0, percentReflectingTopic: 0 };
-	const subheadings = getSubheadingContents( text );
-
 	const useSynonyms = true;
+	const subheadings = process.env.YOAST_RECALIBRATION === "enabled"
+		? getSubheadingContentsTopLevel( text )
+		: getSubheadingContents( text );
 
-	if ( 0 !== subheadings.length ) {
+	if ( subheadings.length !== 0 ) {
 		result.count = subheadings.length;
 		result.matches = numberOfSubheadingsReflectingTopic( topicForms, subheadings, useSynonyms, locale );
 		result.percentReflectingTopic = result.matches / result.count * 100;
@@ -51,4 +59,3 @@ export default function( paper, researcher ) {
 
 	return result;
 }
-
