@@ -221,7 +221,7 @@ class ClassicEditorData {
 	 */
 	handleEditorChange( newData ) {
 		// Handle excerpt change
-		if ( this._data.excerpt !== newData.excerpt ) {
+		if ( this._previousData.excerpt !== newData.excerpt ) {
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
 			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt_only ) );
 		}
