@@ -154,6 +154,8 @@ export default class AnalysisWebWorker {
 
 		// Wrap try/catch around actions.
 		this.analyze = wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the analysis." );
+		this.analyzeRelatedKeywords =
+			wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the analysis related keywords." );
 	}
 
 	/**
@@ -207,7 +209,7 @@ export default class AnalysisWebWorker {
 			case "analyzeRelatedKeywords":
 				this._scheduler.schedule( {
 					id,
-					execute: this.analyze,
+					execute: this.analyzeRelatedKeywords,
 					done: this.analyzeRelatedKeywordsDone,
 					data: payload,
 					type: type,
@@ -785,6 +787,10 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	analyzeRelatedKeywordsDone( id, result ) {
+		if ( result.error ) {
+			this.send( "analyzeRelatedKeywords:failed", id, result );
+			return;
+		}
 		this.send( "analyzeRelatedKeywords:done", id, result );
 	}
 
