@@ -78,7 +78,8 @@
       "js"
     ],
     "transform": {
-      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest"
+      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.html$": "<rootDir>/spec/specHelpers/rawLoader"
     },
     "transformIgnorePatterns": [
       "<rootDir>/node_modules/(?!lodash-es/.*)",
