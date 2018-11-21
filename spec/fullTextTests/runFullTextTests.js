@@ -62,7 +62,7 @@ import getSentenceBeginnings from "../../src/researches/getSentenceBeginnings.js
 import sentences from "../../src/researches/sentences";
 
 // Import test papers
-import testPapers from "./testTexts/index";
+import testPapers from "./testTexts";
 
 testPapers.forEach( function( testPaper ) {
 	describe( "Full-text test for paper " + testPaper.name, function() {

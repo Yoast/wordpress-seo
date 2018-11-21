@@ -5,7 +5,7 @@ import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 import Assessment from "../../src/assessment";
 import Paper from "../../src/values/Paper";
 import AssessmentResult from "../../src/values/AssessmentResult";
-import testTexts from "../fullTextTests/testTexts/index";
+import testTexts from "../fullTextTests/testTexts";
 
 /**
  * Creates a mocked scope.
