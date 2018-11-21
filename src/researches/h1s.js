@@ -1,4 +1,3 @@
-// We use an external library, which can be found here: https://github.com/fb55/htmlparser2.
 import { getBlocks } from "../helpers/html";
 
 const h1Regex = /<h1.*?>(.*?)<\/h1>/;
