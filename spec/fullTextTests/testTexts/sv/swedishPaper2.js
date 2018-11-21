@@ -1,9 +1,6 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./swedishPaper2.html";
 
-const language = "sv";
-const name = "swedishPaper2";
-
 const paper = new Paper( content, {
 	keyword: "tiger",
 	synonyms: "panthera tigris",

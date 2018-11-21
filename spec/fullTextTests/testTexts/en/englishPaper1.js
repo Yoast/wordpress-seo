@@ -1,9 +1,6 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./englishPaper1.html";
 
-const language = "en";
-const name = "englishPaper1";
-
 const paper = new Paper( content, {
 	keyword: "voice search",
 	synonyms: "listening and reading in search, voice query, voice results",

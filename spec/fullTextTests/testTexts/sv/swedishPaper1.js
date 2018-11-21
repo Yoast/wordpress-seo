@@ -1,9 +1,6 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./swedishPaper1.html";
 
-const language = "sv";
-const name = "swedishPaper1";
-
 const paper = new Paper( content, {
 	keyword: "Ester Nordström",
 	synonyms: "Ester Blenda Nordström, Essan",

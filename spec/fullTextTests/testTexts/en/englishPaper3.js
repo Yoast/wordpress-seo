@@ -1,10 +1,6 @@
 import Paper from "../../../../src/values/Paper";
 import content from "./englishPaper3.html";
 
-const language = "en";
-const name = "englishPaper3";
-
-
 const paper = new Paper( content, {
 	keyword: "social media strategy",
 	synonyms: "social media SEO, Facebook strategy",

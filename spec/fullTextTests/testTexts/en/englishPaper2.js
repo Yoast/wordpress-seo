@@ -1,9 +1,6 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./englishPaper2.html";
 
-const language = "en";
-const name = "englishPaper2";
-
 const paper = new Paper( content, {
 	keyword: "Google Search Console data",
 	synonyms: "Google Click Through Rate, Google CTR",
