@@ -155,7 +155,7 @@ export default class AnalysisWebWorker {
 		// Wrap try/catch around actions.
 		this.analyze = wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the analysis." );
 		this.analyzeRelatedKeywords =
-			wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the analysis related keywords." );
+			wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the related keywords analysis." );
 	}
 
 	/**
