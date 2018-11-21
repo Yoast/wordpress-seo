@@ -1,22 +1,18 @@
-import { Collapsible as CollapsibleComponent } from "yoast-components";
-import PaperUI from "yoast-components/composites/basic/Paper";
 import React from "react";
 import styled from "styled-components";
+import { Collapsible as CollapsibleComponent } from "yoast-components";
+import PaperUI from "yoast-components/composites/basic/Paper";
 
 const Inner = styled.div`
-	padding: 0 24px 24px;
-`;
-
-const PaddedCollapsible = styled( CollapsibleComponent )`
-	margin: 16px 0; 
+	padding: 16px;
 `;
 
 export default function Collapsible( { children, ...props } ) {
 	return <PaperUI>
-		<PaddedCollapsible { ...props } initialIsOpen={ true }>
+		<CollapsibleComponent initialIsOpen={ true } { ...props }>
 			<Inner>
 				{ children }
 			</Inner>
-		</PaddedCollapsible>
+		</CollapsibleComponent>
 	</PaperUI>;
 }

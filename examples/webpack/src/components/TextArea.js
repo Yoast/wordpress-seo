@@ -19,9 +19,9 @@ const TextareaInput = styled.textarea`
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	font-size: 14px;
 	cursor: text;
-	
 	width: 100%;
 	min-height: ${ props => props.minHeight };
+	margin-top: 8px;
 `;
 
 class TextArea extends React.PureComponent {

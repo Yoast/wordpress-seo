@@ -37,7 +37,8 @@ const paper = new Paper( "<div class=\"content\"><p></p>\n" +
 	title: "Annelieke's Analytics: 16 months of Google Search Console data",
 	titleWidth: 450,
 	locale: "en_EN",
-	url: "https://yoast.com/16-months-of-google-search-console-data/",
+	permalink: "https://yoast.com/16-months-of-google-search-console-data/",
+	url: "16-months-of-google-search-console-data",
 } );
 
 const expectedResults = {
@@ -78,12 +79,12 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 908 words. Good job!",
 	},
 	externalLinks: {
-		score: 9,
-		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: Good job!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: No outbound links appear in this page. <a href='https://yoa.st/34g' target='_blank'>Add some</a>!",
 	},
 	internalLinks: {
-		score: 3,
-		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: No internal links appear in this page, <a href='https://yoa.st/34a' target='_blank'>make sure to add some</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: You have enough internal links. Good job!",
 	},
 	titleKeyword: {
 		score: 6,
@@ -98,8 +99,8 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase appears in the slug. That's great!",
 	},
 	urlLength: {
-		score: 6,
-		resultText: "<a href='https://yoa.st/35b' target='_blank'>Slug too long</a>: the slug for this page is a bit long. <a href='https://yoa.st/35c' target='_blank'>Shorten it</a>!",
+		score: 0,
+		resultText: "",
 	},
 	urlStopWords: {
 		score: 5,

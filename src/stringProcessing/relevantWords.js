@@ -277,7 +277,7 @@ function getRelevantWords( text, locale ) {
 	const oneWordRelevanceMap = {};
 
 	forEach( oneWordCombinations, function( combination ) {
-		oneWordRelevanceMap[ combination.getCombination() ] = combination.getRelevance( functionWords );
+		oneWordRelevanceMap[ combination.getCombination() ] = combination.getRelevance();
 	} );
 
 	const twoWordCombinations = calculateOccurrences( getWordCombinations( text, 2, functionWords.all ) );

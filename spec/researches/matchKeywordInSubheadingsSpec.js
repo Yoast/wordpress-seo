@@ -1,5 +1,5 @@
-import subheadingFunction from "../../src/researches/matchKeywordInSubheadings.js";
-import Paper from "../../src/values/Paper.js";
+import matchKeywordInSubheadings from "../../src/researches/matchKeywordInSubheadings";
+import Paper from "../../src/values/Paper";
 import Factory from "../specHelpers/factory";
 
 describe( "a test for matching subheadings", function() {
@@ -8,11 +8,11 @@ describe( "a test for matching subheadings", function() {
 		const mockResearcher = Factory.buildMockResearcher( {
 			keyphraseForms: [ [ "keyword" ] ], synonymsForms: [ ],
 		} );
-		let result = subheadingFunction( mockPaper, mockResearcher );
+		let result = matchKeywordInSubheadings( mockPaper, mockResearcher );
 		expect( result.count ).toBe( 1 );
 
 		mockPaper = new Paper( "<h2>Lorem ipsum</h2><h2>Lorem ipsum</h2><h2>Lorem ipsum</h2> keyword sit amet, consectetur adipiscing elit", { keyword: "keyword" } );
-		result = subheadingFunction( mockPaper, mockResearcher );
+		result = matchKeywordInSubheadings( mockPaper, mockResearcher );
 		expect( result.count ).toBe( 3 );
 	} );
 } );
@@ -23,7 +23,7 @@ describe( "A test for matching keywords in subheadings", function() {
 		const mockResearcher = Factory.buildMockResearcher( {
 			keyphraseForms: [ [ "\\$keyword" ] ], synonymsForms: [ ],
 		} );
-		const result = subheadingFunction( mockPaper, mockResearcher );
+		const result = matchKeywordInSubheadings( mockPaper, mockResearcher );
 		expect( result.count ).toBe( 1 );
 		expect( result.matches ).toBe( 1 );
 		expect( result.percentReflectingTopic ).toBe( 100 );
@@ -36,7 +36,7 @@ describe( "a test for matching keywords in subheadings", function() {
 		let mockResearcher = Factory.buildMockResearcher( {
 			keyphraseForms: [ [ "keyword" ] ], synonymsForms: [ ],
 		} );
-		let result = subheadingFunction( mockPaper, mockResearcher );
+		let result = matchKeywordInSubheadings( mockPaper, mockResearcher );
 		expect( result.count ).toBe( 1 );
 		expect( result.matches ).toBe( 0 );
 		expect( result.percentReflectingTopic ).toBe( 0 );
@@ -45,7 +45,7 @@ describe( "a test for matching keywords in subheadings", function() {
 		mockResearcher = Factory.buildMockResearcher( {
 			keyphraseForms: [ [ ] ], synonymsForms: [ ],
 		} );
-		result = subheadingFunction( mockPaper, mockResearcher );
+		result = matchKeywordInSubheadings( mockPaper, mockResearcher );
 		expect( result.count ).toBe( 0 );
 		expect( result.matches ).toBe( 0 );
 		expect( result.percentReflectingTopic ).toBe( 0 );
@@ -54,7 +54,7 @@ describe( "a test for matching keywords in subheadings", function() {
 		mockResearcher = Factory.buildMockResearcher( {
 			keyphraseForms: [ [ "kapaklı" ] ], synonymsForms: [ ],
 		} );
-		result = subheadingFunction( mockPaper, mockResearcher );
+		result = matchKeywordInSubheadings( mockPaper, mockResearcher );
 		expect( result.matches ).toBe( 1 );
 		expect( result.percentReflectingTopic ).toBe( 100 );
 
@@ -62,7 +62,7 @@ describe( "a test for matching keywords in subheadings", function() {
 		mockResearcher = Factory.buildMockResearcher( {
 			keyphraseForms: [ [ "key-word", "key-words" ] ], synonymsForms: [ ],
 		} );
-		result = subheadingFunction( mockPaper, mockResearcher );
+		result = matchKeywordInSubheadings( mockPaper, mockResearcher );
 		expect( result.matches ).toBe( 1 );
 		expect( result.percentReflectingTopic ).toBe( 100 );
 
@@ -70,7 +70,7 @@ describe( "a test for matching keywords in subheadings", function() {
 		mockResearcher = Factory.buildMockResearcher( {
 			keyphraseForms: [ [ "key_word", "key_words" ] ], synonymsForms: [ ],
 		} );
-		result = subheadingFunction( mockPaper, mockResearcher );
+		result = matchKeywordInSubheadings( mockPaper, mockResearcher );
 		expect( result.matches ).toBe( 1 );
 		expect( result.percentReflectingTopic ).toBe( 100 );
 
@@ -78,7 +78,7 @@ describe( "a test for matching keywords in subheadings", function() {
 		mockResearcher = Factory.buildMockResearcher( {
 			keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ], synonymsForms: [ ],
 		} );
-		result = subheadingFunction( mockPaper, mockResearcher );
+		result = matchKeywordInSubheadings( mockPaper, mockResearcher );
 		expect( result.matches ).toBe( 1 );
 		expect( result.percentReflectingTopic ).toBe( 100 );
 
@@ -86,7 +86,7 @@ describe( "a test for matching keywords in subheadings", function() {
 		mockResearcher = Factory.buildMockResearcher( {
 			keyphraseForms: [ [ "key", "keys" ], [ "word", "words" ] ], synonymsForms: [ ],
 		} );
-		result = subheadingFunction( mockPaper, mockResearcher );
+		result = matchKeywordInSubheadings( mockPaper, mockResearcher );
 		expect( result.matches ).toBe( 0 );
 		expect( result.percentReflectingTopic ).toBe( 0 );
 	} );
@@ -99,7 +99,7 @@ describe( "a test for matching keywords in subheadings", function() {
 			keyphraseForms: [ [ "abraham", "abrahams" ], [ "banner", "banners" ], [ "cat", "cats" ] ], synonymsForms: [ ],
 		} );
 		// First heading has 2/3 key words, so should match (2/3 > 1/2), second heading should not (1/2 == 1/2)
-		const result = subheadingFunction( mockPaper, mockResearcher );
+		const result = matchKeywordInSubheadings( mockPaper, mockResearcher );
 		expect( result.matches ).toBe( 1 );
 		expect( result.percentReflectingTopic ).toBe( 50 );
 	} );
@@ -112,8 +112,51 @@ describe( "a test for matching keywords in subheadings", function() {
 			keyphraseForms: [ [ "abraham", "abrahams" ], [ "Darth", "Darths" ] ], synonymsForms: [ [ [ "cat", "cats" ] ], [ [ "banner", "banners" ] ] ],
 		} );
 		// First heading matches key phrase "cats" 100% in first heading, so is counted as one.
-		const result = subheadingFunction( mockPaper, mockResearcher );
+		const result = matchKeywordInSubheadings( mockPaper, mockResearcher );
 		expect( result.matches ).toBe( 1 );
 		expect( result.percentReflectingTopic ).toBe( 50 );
+	} );
+} );
+
+describe( "Matching keyphrase in subheadings with recalibration enabled", () => {
+	beforeEach( () => {
+		process.env.YOAST_RECALIBRATION = "enabled";
+	} );
+
+	it( "matches only h2 and h3 subheadings", () => {
+		const paper = new Paper(
+			"<h2>Start of post</h2><p>First alinea, not much text for some reason.</p>" +
+			"<h3>Delve deeper!</h3><p>More text here.</p>" +
+			"<h4>Even more?</h4><p>Yes, even more.</p>",
+			{},
+		);
+		const researcher = Factory.buildMockResearcher( {
+			keyphraseForms: [],
+			synonymsForms: [],
+		} );
+		const result = matchKeywordInSubheadings( paper, researcher );
+
+		// Would be 3 if the h4 was counted too.
+		expect( result.count ).toBe( 2 );
+	} );
+
+	it( "matching is stricter with languages that do not support function words", () => {
+		// There is no function word support for Afrikaans.
+		const paper = new Paper( "<h2>So ’n groot hond</h2>", {
+			keyword: "So ’n groot huis",
+			locale: "af",
+		} );
+		const researcher = Factory.buildMockResearcher( {
+			keyphraseForms: [ [ "So" ], [ "’n" ], [ "groot" ], [ "huis" ], [ "hond" ] ],
+			synonymsForms: [],
+		} );
+
+		// All the words should match and since hond !== huis the expected result is 0.
+		expect( matchKeywordInSubheadings( paper, researcher ).matches ).toBe( 0 );
+
+		// There is function word support for English.
+		paper._attributes.locale = "en_US";
+		// More than 50% should match. With 1 of the 4 words mismatching the expected result is 1.
+		expect( matchKeywordInSubheadings( paper, researcher ).matches ).toBe( 1 );
 	} );
 } );
