@@ -7,11 +7,4 @@ module.exports = {
 		},
 		src: "package.json",
 	},
-	recalibration: {
-		options: {
-			base: "yoast",
-			target: "recalibrationVersion",
-		},
-		src: "package.json",
-	},
 };
