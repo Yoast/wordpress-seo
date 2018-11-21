@@ -106,6 +106,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 9.2.1 =
+Release Date: November 21th, 2018
+
+Bugfixes:
+
+* Fixes a bug where the title and meta description field's cursor would jump to the start when typing.
+
 = 9.2.0 =
 Release Date: November 20th, 2018
 
