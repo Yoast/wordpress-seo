@@ -199,25 +199,6 @@ class Data {
 	}
 
 	/**
-	 * Refreshes YoastSEO's app when the Gutenberg data is dirty.
-	 *
-	 * @returns {void}
-	 */
-	refreshYoastSEO() {
-		const gutenbergData = this.collectGutenbergData();
-
-		// Set isDirty to true if the current data and Gutenberg data are unequal.
-		const isDirty = ! this.isShallowEqual( this._data, gutenbergData );
-
-		if ( isDirty ) {
-			this.handleEditorChange( gutenbergData );
-			this.reapplyMarkers();
-			this._data = gutenbergData;
-			this._refresh();
-		}
-	}
-
-	/**
 	 * If a marker is active, find the associated assessment result and applies the marker on that result.
 	 *
 	 * @returns {void}
@@ -244,6 +225,25 @@ class Data {
 
 		if ( marker ) {
 			marker();
+		}
+	}
+
+	/**
+	 * Refreshes YoastSEO's app when the Gutenberg data is dirty.
+	 *
+	 * @returns {void}
+	 */
+	refreshYoastSEO() {
+		const gutenbergData = this.collectGutenbergData();
+
+		// Set isDirty to true if the current data and Gutenberg data are unequal.
+		const isDirty = ! this.isShallowEqual( this._data, gutenbergData );
+
+		if ( isDirty ) {
+			this.handleEditorChange( gutenbergData );
+			this.reapplyMarkers();
+			this._data = gutenbergData;
+			this._refresh();
 		}
 	}
 
