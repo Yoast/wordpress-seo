@@ -21,7 +21,7 @@ describe( "Gets all H1s in the text", function() {
 		] );
 	} );
 
-	it( "should return two h1s next to eachother", function() {
+	it( "should return two h1s next to each other", function() {
 		const mockPaper = new Paper( "<h1>first h1</h1><h1>second h1</h1><h2>not an h1</h2>" );
 
 		expect( h1s( mockPaper ) ).toEqual( [
