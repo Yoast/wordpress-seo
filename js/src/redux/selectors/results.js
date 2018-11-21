@@ -30,7 +30,7 @@ export function getResultsForKeyword( state, keyword ) {
  *
  * @param {object} state The state.
  *
- * @returns {object} The readability results and score for the focus keyword.
+ * @returns {object} The results and score for the readability analysis.
  */
 export function getReadabilityResults( state ) {
 	return get( state, [ "analysis", "readability" ] );
@@ -41,7 +41,7 @@ export function getReadabilityResults( state ) {
  *
  * @param {object} state The state.
  *
- * @returns {object} The SEO results and score for the focus keyword.
+ * @returns {object} The SEO results and overall score for the focus keyword.
  */
 export function getResultsForFocusKeyword( state ) {
 	return getResultsForKeyword( state, state.focusKeyword );
