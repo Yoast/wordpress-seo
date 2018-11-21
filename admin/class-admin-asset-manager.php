@@ -176,6 +176,16 @@ class WPSEO_Admin_Asset_Manager {
 	 * @return void
 	 */
 	public function register_wp_assets() {
+
+		global $wp_scripts;
+
+		$script = $wp_scripts->query( 'react' );
+
+		// IE11 needs wp-polyfill to be registered before react.
+		if ( $script && ! in_array( 'wp-polyfill', $script->deps, true ) ) {
+			$script->deps[] = 'wp-polyfill';
+		}
+
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
 
 		wp_register_script( 'lodash-base', plugins_url( 'js/vendor/lodash.min.js', WPSEO_FILE ), array(), false, true );
@@ -209,7 +219,7 @@ class WPSEO_Admin_Asset_Manager {
 		wp_register_script(
 			'wp-data',
 			plugins_url( 'js/dist/wp-data-' . $flat_version . '.min.js', WPSEO_FILE ),
-			array( 'lodash', 'wp-element', 'wp-polyfill' ),
+			array( 'lodash', 'wp-element', 'wp-polyfill', 'wp-compose' ),
 			false,
 			true
 		);
@@ -218,6 +228,14 @@ class WPSEO_Admin_Asset_Manager {
 			'wp-i18n',
 			plugins_url( 'js/dist/wp-i18n-' . $flat_version . '.min.js', WPSEO_FILE ),
 			array( 'wp-polyfill' ),
+			false,
+			true
+		);
+
+		wp_register_script(
+			'wp-rich-text',
+			plugins_url( 'js/dist/wp-rich-text-' . $flat_version . '.min.js', WPSEO_FILE ),
+			array( 'lodash', 'wp-polyfill', 'wp-data' ),
 			false,
 			true
 		);
