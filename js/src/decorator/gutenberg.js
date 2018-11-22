@@ -3,7 +3,7 @@ import isFunction from "lodash/isFunction";
 import isUndefined from "lodash/isUndefined";
 import flatMap from "lodash/flatMap";
 import { create } from "@wordpress/rich-text";
-import { select, dispatch } from "@wordpress/data";
+import { select, dispatch, subscribe } from "@wordpress/data";
 
 const ANNOTATION_SOURCE = "yoast";
 
@@ -316,6 +316,14 @@ function removeAllAnnotations() {
 	dispatch( "core/annotations" ).__experimentalRemoveAnnotationsBySource( ANNOTATION_SOURCE );
 }
 
+/**
+ * Formats annotations to objects the Gutenberg annotations API works with, and adds
+ * them to the queue to be scheduled for adding them to the editor.
+ *
+ * @param {array} annotations Annotations to be mapped to the queue.
+ *
+ * @returns {void}
+ */
 function fillAnnotationQueue( annotations ) {
 	annotationQueue = annotations.map( ( annotation ) => ( {
 		blockClientId: annotation.block,
@@ -379,7 +387,7 @@ function removeAllAnnotationsOnBlock( blockClientId ) {
 }
 
 /**
- * Apply.
+ * Reapply annotations in the currently selected block.
  *
  * @returns {void}
  */
