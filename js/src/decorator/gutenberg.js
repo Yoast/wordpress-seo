@@ -3,7 +3,7 @@ import isFunction from "lodash/isFunction";
 import isUndefined from "lodash/isUndefined";
 import flatMap from "lodash/flatMap";
 import { create } from "@wordpress/rich-text";
-import { select, dispatch, subscribe } from "@wordpress/data";
+import { select, dispatch } from "@wordpress/data";
 
 const ANNOTATION_SOURCE = "yoast";
 
