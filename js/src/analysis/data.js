@@ -242,9 +242,9 @@ class Data {
 	}
 
 	/**
-	 * Checks whether new analysis results are available in the store..
+	 * Checks whether new analysis results are available in the store.
 	 *
-	 * @returns {bool} Whether new analysis results are available.
+	 * @returns {boolean} Whether new analysis results are available.
 	 */
 	areNewAnalysisResultsAvailable() {
 		const yoastSeoEditorSelectors = this._wpData.select( "yoast-seo/editor" );
@@ -264,7 +264,7 @@ class Data {
 	}
 
 	/**
-	 * Function that is called when new analysis results are available.
+	 * Reapplies the markers when new analysis results are available.
 	 *
 	 * @returns {void}
 	 */

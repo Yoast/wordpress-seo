@@ -30,7 +30,7 @@ export function getResultsForKeyword( state, keyword ) {
  *
  * @param {object} state The state.
  *
- * @returns {object} The results and score for the readability analysis.
+ * @returns {object} The results and overall score for the readability analysis.
  */
 export function getReadabilityResults( state ) {
 	return get( state, [ "analysis", "readability" ] );
