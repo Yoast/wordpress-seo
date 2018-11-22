@@ -148,13 +148,13 @@ export default class SnippetEditorExample extends Component {
 			slug: this.state.slug,
 		};
 
-		let titleLengthProgress = {
+		const titleLengthProgress = {
 			max: 600,
 			actual: this.state.currentTitleLength,
 			score: this.state.currentTitleLength > 300 ? 9 : 6,
 		};
 
-		let descriptionLengthProgress = {
+		const descriptionLengthProgress = {
 			max: this.maximumMetaDescriptionLength,
 			actual: this.state.currentDescriptionLength,
 			score: this.state.currentDescriptionLength > 120 ? 9 : 3,

@@ -45,13 +45,13 @@ export function getGlobalJed() {
  * @returns {string} The translated string.
  */
 export function translate( singleForm, pluralForm = "", number = 0 ) {
-	let jed = getGlobalJed();
+	const localJed = getGlobalJed();
 
 	if ( pluralForm === "" ) {
-		return jed.gettext( singleForm );
+		return localJed.gettext( singleForm );
 	}
 
-	return jed.ngettext( singleForm, pluralForm, number );
+	return localJed.ngettext( singleForm, pluralForm, number );
 }
 
 /**
@@ -62,7 +62,7 @@ export function translate( singleForm, pluralForm = "", number = 0 ) {
  */
 export function localize( ComposedComponent ) {
 	const componentName = ComposedComponent.displayName || ComposedComponent.name || "";
-	let i18nProps = {
+	const i18nProps = {
 		translate: translate,
 	};
 	class LocalizedComponent extends React.Component {
@@ -72,7 +72,7 @@ export function localize( ComposedComponent ) {
 		}
 		render() {
 			const props = assign( {}, this.props, i18nProps );
-			return <ComposedComponent {...props}/>;
+			return <ComposedComponent { ...props } />;
 		}
 	}
 	return LocalizedComponent;

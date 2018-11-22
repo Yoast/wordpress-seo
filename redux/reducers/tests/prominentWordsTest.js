@@ -35,13 +35,14 @@ describe( "prominentWordsReducer with the SET_PROMINENT_WORDS action", () => {
 		};
 		const expected = [ "prominent word 1", "prominent word 2", "prominent word 3", "prominent word 4", "prominent word 5" ];
 
+		// eslint-disable-next-line no-undefined
 		const actual = prominentWordsReducer( undefined, action );
 
 		expect( actual ).toEqual( expected );
 	} );
 } );
 
-describe ( "prominentWordsReducer with a non-existing action ", () => {
+describe( "prominentWordsReducer with a non-existing action ", () => {
 	it( "doesn't change the state when a non-existing action is passed to the reducer", () => {
 		const state = [ "prominent word 1", "prominent word 2" ];
 		const action = {

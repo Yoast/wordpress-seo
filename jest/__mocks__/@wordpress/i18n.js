@@ -20,6 +20,7 @@ function _n( single, plural, number ) {
 }
 
 function _nx( single, plural, number ) {
+	// eslint-disable-next-line no-restricted-syntax
 	return _n( single, plural, number );
 }
 

@@ -2,7 +2,7 @@ import React from "react";
 
 import KeywordSuggestions from "../composites/KeywordSuggestions/KeywordSuggestions";
 
-let RelevantWord = function( word ) {
+const RelevantWord = function( word ) {
 	this._word = word;
 };
 

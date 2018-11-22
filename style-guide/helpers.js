@@ -14,15 +14,15 @@ function parseToRgb( hexColor ) {
 	const shortHexRegex = /^#[a-fA-F0-9]{3}$/;
 
 	if ( hexColor.match( hexRegex ) ) {
-		return parseInt( `${ hexColor[1] }${ hexColor[2] }`, 16 ) + ", " +
-			parseInt( `${ hexColor[3] }${ hexColor[4] }`, 16 ) + ", " +
-			parseInt( `${ hexColor[5] }${ hexColor[6] }`, 16 )
+		return parseInt( `${ hexColor[ 1 ] }${ hexColor[ 2 ] }`, 16 ) + ", " +
+			parseInt( `${ hexColor[ 3 ] }${ hexColor[ 4 ] }`, 16 ) + ", " +
+			parseInt( `${ hexColor[ 5 ] }${ hexColor[ 6 ] }`, 16 );
 	}
 
 	if ( hexColor.match( shortHexRegex ) ) {
-		return parseInt( `${ hexColor[1] }${ hexColor[1] }`, 16 ) + ", " +
-			parseInt( `${ hexColor[2] }${ hexColor[2] }`, 16 ) + ", " +
-			parseInt(` ${ hexColor[3] }${ hexColor[3] }`, 16 )
+		return parseInt( `${ hexColor[ 1 ] }${ hexColor[ 1 ] }`, 16 ) + ", " +
+			parseInt( `${ hexColor[ 2 ] }${ hexColor[ 2 ] }`, 16 ) + ", " +
+			parseInt( ` ${ hexColor[ 3 ] }${ hexColor[ 3 ] }`, 16 );
 	}
 
 	throw new Error( "Couldn't parse the color string. Please provide the color as a string in hex notation." );
@@ -37,5 +37,5 @@ function parseToRgb( hexColor ) {
  * @returns {string} The CSS color formatted as a RGBA value.
  */
 export function rgba( hexColor, alpha ) {
-	return "rgba( " + parseToRgb( hexColor) + ", " + alpha + " )";
+	return "rgba( " + parseToRgb( hexColor ) + ", " + alpha + " )";
 }

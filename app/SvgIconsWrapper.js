@@ -44,7 +44,7 @@ const SingleSvgContainer = styled.span`
 export default function SvgIconsWrapper() {
 	const getIcons = () => {
 		return transform( icons, ( result, value, key ) => {
-			let color = key === "seo-score-ok" ? colors.$color_ok : colors.$color_black;
+			const color = key === "seo-score-ok" ? colors.$color_ok : colors.$color_black;
 			return result.push(
 				<SingleSvgContainer key={ key }>
 					<SvgIcon icon={ key } size="40px" color={ color } />
