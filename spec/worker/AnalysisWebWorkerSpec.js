@@ -520,6 +520,64 @@ describe( "AnalysisWebWorker", () => {
 				expect( worker.send ).toHaveBeenCalledTimes( 1 );
 				expect( worker.send ).toHaveBeenCalledWith( "analyze:done", 0, { result: true } );
 			} );
+
+			test( "handles analyze error", done => {
+				const paper = new Paper( "This is the content." );
+
+				// Mock the first function call in analyze to throw an error.
+				worker.shouldReadabilityUpdate = () => {
+					throw new Error( "Simulated error!" );
+				};
+
+				worker.analyzeDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( isObject( result ) ).toBe( true );
+					expect( result.error ).toBeDefined();
+					expect( result.error ).toBe( "An error occurred while running the analysis.\n\tError: Simulated error!" );
+					done();
+				};
+
+				// Silent to prevent console logging in the tests.
+				scope.onmessage( createMessage( "initialize", { logLevel: "silent" } ) );
+				scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
+			} );
+
+			test( "handles analyze error, with stack trace", done => {
+				const paper = new Paper( "This is the content." );
+
+				// Mock the console to see if it is used and to not output anything for real.
+				// eslint-disable-next-line no-console
+				console.log = jest.fn();
+				// eslint-disable-next-line no-console
+				console.error = jest.fn();
+
+				// Mock the first function call in analyze to throw an error.
+				worker.shouldReadabilityUpdate = () => {
+					throw new Error( "Simulated error!" );
+				};
+
+				worker.analyzeDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( isObject( result ) ).toBe( true );
+					expect( result.error ).toBeDefined();
+					expect( result.error ).toBe( "An error occurred while running the analysis.\n\tError: Simulated error!" );
+					// eslint-disable-next-line no-console
+					expect( console.log ).toHaveBeenCalled();
+					// eslint-disable-next-line no-console
+					expect( console.error ).toHaveBeenCalled();
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize", { logLevel: "trace" } ) );
+				scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
+			} );
+
+			test( "analyze done calls send on failure", () => {
+				worker.send = jest.fn();
+				worker.analyzeDone( 0, { error: "failed" } );
+				expect( worker.send ).toHaveBeenCalledTimes( 1 );
+				expect( worker.send ).toHaveBeenCalledWith( "analyze:failed", 0, { error: "failed" } );
+			} );
 		} );
 
 		describe( "analyzeRelatedKeywords", () => {

@@ -13,5 +13,5 @@ rules:
   no-redeclare: 0
   # Longer grace period for Yoast config.
   no-shadow: [ 1, { "builtinGlobals": false, "hoist": "all", "allow": [] } ]
-  require-jsdoc: [ 1, {"require": {"MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true}} ]
+  require-jsdoc: [ 1, {"require": {"MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": false, "FunctionExpression": true}} ]
   no-useless-escape: 1
