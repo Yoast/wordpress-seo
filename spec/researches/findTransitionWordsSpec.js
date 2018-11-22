@@ -68,9 +68,11 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 2 );
 	} );
 
-	it( "returns 2 when a two-part transition word is found in two sentences, and an additional transition word is found in one of them. (English)", function() {
+	it( "returns 2 when a two-part transition word is found in two sentences, " +
+		"and an additional transition word is found in one of them. (English)", function() {
 		// Transition words: either...or, if ...then, as soon as.
-		mockPaper = new Paper( "I will either tell you a story about a boy, or read you a novel. If you want, then I will start as soon as you're ready.", { locale: "en_US" } );
+		mockPaper = new Paper( "I will either tell you a story about a boy, or read you a novel. " +
+			"If you want, then I will start as soon as you're ready.", { locale: "en_US" } );
 		result = transitionWordsResearch( mockPaper );
 		expect( result.totalSentences ).toBe( 2 );
 		expect( result.transitionWordSentences ).toBe( 2 );
@@ -414,7 +416,41 @@ describe( "a test for finding transition words from a string", function() {
 			transitionWordSentences: 1,
 		};
 
-		const result = transitionWordsResearch( mockPaper );
+		result = transitionWordsResearch( mockPaper );
+
+		expect( result ).toEqual( expected );
+	} );
+
+	it( "does not recognize 'eggs' as a transition word (don't ask).", function() {
+		// Non-transition word: eggs.
+		mockPaper = new Paper( "Let's bake some eggs." );
+		const expected = {
+			totalSentences: 1,
+			sentenceResults: [ ],
+			transitionWordSentences: 0,
+		};
+
+		result = transitionWordsResearch( mockPaper );
+
+		expect( result ).toEqual( expected );
+	} );
+
+	it( "does recognize transition words with full stops, like 'e.g.'.", function() {
+		// Non-transition word: eggs.
+		mockPaper = new Paper( "E.g. potatoes. I.e. apples." );
+		const expected = {
+			sentenceResults: [ {
+				sentence: "E.g. potatoes.",
+				transitionWords: [ "e.g." ],
+			}, {
+				sentence: "I.e. apples.",
+				transitionWords: [ "i.e." ],
+			} ],
+			totalSentences: 2,
+			transitionWordSentences: 2,
+		};
+
+		result = transitionWordsResearch( mockPaper );
 
 		expect( result ).toEqual( expected );
 	} );
