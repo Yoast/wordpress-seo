@@ -41,6 +41,16 @@ const ANNOTATION_ATTRIBUTES = {
 	],
 };
 
+const ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES = {
+	singleH1: {
+		"core/heading": [
+			{
+				key: "content",
+			},
+		],
+	},
+};
+
 /**
  * Retrieves the next annotation from the annotation queue.
  *
@@ -255,11 +265,15 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
  * @returns {string[]} The attributes that we can annotate.
  */
 function getAnnotatableAttributes( blockTypeName ) {
-	if ( ! ANNOTATION_ATTRIBUTES.hasOwnProperty( blockTypeName ) ) {
+	const activeMarker = select( "yoast-seo/editor" ).getActiveMarker();
+
+	const assessmentAttributes = ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES[ activeMarker ] || ANNOTATION_ATTRIBUTES;
+
+	if ( ! assessmentAttributes.hasOwnProperty( blockTypeName ) ) {
 		return [];
 	}
 
-	return ANNOTATION_ATTRIBUTES[ blockTypeName ];
+	return assessmentAttributes[ blockTypeName ];
 }
 
 /**
