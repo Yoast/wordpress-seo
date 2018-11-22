@@ -703,7 +703,7 @@ describe( "AnalysisWebWorker", () => {
 					expect( id ).toBe( 0 );
 					expect( isObject( payload ) ).toBe( true );
 					expect( payload.error ).toBeDefined();
-					expect( payload.error ).toBe( "An error occurred while running the analysis.\n\tError: Simulated error!" );
+					expect( payload.error ).toBe( "An error occurred while running the related keywords analysis.\n\tError: Simulated error!" );
 					done();
 				};
 
