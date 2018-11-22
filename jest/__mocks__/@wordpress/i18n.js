@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
 
-import { sprintf, getI18n, setLocaleData } from "@wordpress/i18n";
+import { sprintf, setLocaleData } from "@wordpress/i18n";
 
 function __( string ) {
 	return string;
@@ -31,5 +31,4 @@ export {
 	_nx,
 	setLocaleData,
 	sprintf,
-	getI18n,
 };

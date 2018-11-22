@@ -27,6 +27,21 @@ describe( "Collapsible", () => {
 		expect( component.toJSON() ).toMatchSnapshot();
 	} );
 
+	it( "matches the snapshot by default when the collapsible has an ID", () => {
+		const component = renderer.create(
+			<Collapsible title="Lorem ipsum dolor sit amet" id={ "yoast-collapsible" }>
+				{ content }
+			</Collapsible>
+		);
+
+		const tree = component.toJSON();
+		expect( tree ).toMatchSnapshot();
+
+		// After toggling it should be the opposite.
+		component.getInstance().toggleCollapse();
+		expect( component.toJSON() ).toMatchSnapshot();
+	} );
+
 	it( "matches the snapshot when it is open", () => {
 		const component = renderer.create(
 			<Collapsible title="Lorem ipsum dolor sit amet" initialIsOpen={ true }>

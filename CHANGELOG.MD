@@ -5,6 +5,38 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.16.0 November 19th, 2018
+### Added
+* Adds an Id prop to the Collapsible and ButtonSection component.
+
+### Removed
+* Removes logic that remembers what marker button is active from the `ContentAnalysis` components.
+
+## 4.15.0 November 5th, 2018
+### Added
+* Adds a fieldId prop in the `ReplacementVariableEditorStandalone` component, that gets added as an id attribute to the DraftJS editor element with the contenteditable attribute.
+
+### Other
+* Changes `$palette_grey_text` from #646464 to #616161 to have a sufficient color contrast ratio on #dddddd backgrounds.
+
+## 4.14.1 October 29th, 2018
+### Other
+* Bumps YoastSEO.js to 1.41.1.
+
+## 4.14.0 October 22nd, 2018
+### Added
+* Adds an `UpsellButton` component.
+* Adds an `UpsellLinkButton` component.
+* Adds `label` and `ariaLabel` props to the `KeywordInput` component.
+* Adds an id to the `ReplacementVariableEditorStandalone` component.
+
+### Other
+* Replaces the help text in the `SynonymsInput` by a help link icon.
+
+## 4.13.0 October 8th, 2018
+### Other
+* Compatibility with Yoast SEO 8.4.
+
 ## 4.12.1 September 24th, 2018
 ### Other
 * Compatibility with Yoast SEO 8.3.

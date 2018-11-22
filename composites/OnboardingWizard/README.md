@@ -5,7 +5,6 @@ The onboarding wizard is a generic library that can be used to dynamically gener
 
 - [Installing](#installing)
 	- [Prerequisities](#prerequisities)
-		- [React tap event plugin](#react-tap-event-plugin)
 	- [Loading the wizard onto your page.](#loading-the-wizard-onto-your-page)
 - [Configuring the wizard](#configuring-the-wizard)
 	- [General configuration](#general-configuration)
@@ -32,24 +31,12 @@ The wizard depends on a few other modules/libraries. Before you start the follow
 - NPM
 - Sass
 
-#### React tap event plugin
-Some components use [react-tap-event-plugin](https://github.com/zilverline/react-tap-event-plugin) to listen for touch events because onClick is not fast enough. This dependency is temporary and will eventually go away. Until then, be sure to inject this plugin at the start of your app.
-
-```JS
-import injectTapEventPlugin from 'react-tap-event-plugin';
-
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
-```
-
 ### Loading the wizard onto your page.
 This chapter explains how you can render the wizard onto a webpage.
 
 The following modules have to be installed and added to your package.json:
 - `react`
 - `material-ui`
-- `react-tap-event-plugin`
 - `Yoast/yoast-components`
 
 Add the following line into a scss file that you load on the page.
@@ -64,11 +51,6 @@ Render the wizard into a `div` element on your page.
 import React from "react";
 import ReactDOM from "react-dom";
 import { OnboardingWizard } from "yoast-components";
-
-// Required to make the wizard work with touch screens.
-import injectTapEventPlugin from "react-tap-event-plugin";
-
-injectTapEventPlugin();
 
 class App extends React.Component {
 	render() {

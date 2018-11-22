@@ -39,6 +39,7 @@ export const ButtonSection = ( props ) => {
 				prefixIcon={ props.prefixIcon }
 				suffixIcon={ props.suffixIcon }
 				hasSubTitle={ !! props.subTitle }
+				id={ props.id }
 			>
 				<SectionTitle
 					title={ props.title }
@@ -68,10 +69,12 @@ ButtonSection.propTypes = {
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
 	onClick: PropTypes.func.isRequired,
+	id: PropTypes.string,
 };
 
 ButtonSection.defaultProps = {
 	Heading: StyledHeading,
+	id: null,
 };
 
 export default ButtonSection;
