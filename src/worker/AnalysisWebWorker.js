@@ -153,9 +153,13 @@ export default class AnalysisWebWorker {
 		this.handleMessage = this.handleMessage.bind( this );
 
 		// Wrap try/catch around actions.
-		this.analyze = wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the analysis." );
 		this.analyzeRelatedKeywords =
 			wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the related keywords analysis." );
+		/*
+		 * Overwrite this.analyze after we use it in this.analyzeRelatedKeywords so that this.analyzeRelatedKeywords
+		 * doesn't use the overwritten version. Therefore, this order shouldn't be changed.
+		 */
+		this.analyze = wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the analysis." );
 	}
 
 	/**
