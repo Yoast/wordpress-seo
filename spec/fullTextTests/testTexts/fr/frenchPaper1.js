@@ -1,31 +1,31 @@
 import Paper from "../../../../src/values/Paper.js";
-import content from "./swedishPaper1.html";
+import content from "./frenchPaper1.html";
 
-const name = "swedishPaper1";
+const name = "frenchPaper1";
 
 const paper = new Paper( content, {
-	// keyword: "Ester Nordström",
-	synonyms: "Ester Blenda Nordström, Essan",
-	description: "Det här är en artikel om författaren Ester Nordströms liv.",
-	title: "Ester Blenda Nordström",
+	keyword: "galaxies des étoiles",
+	synonyms: "un assemblage d'étoiles",
+	description: "Une galaxie est un assemblage d'étoiles, de gaz, de poussières et peut-être essentiellement de matière noire, contenant parfois un trou noir supermassif en son centre.",
+	title: "Galaxies",
 	titleWidth: 450,
-	locale: "sv_SE",
-	permalink: "https://sv.wikipedia.org/wiki/Ester-Blenda-Nordström",
-	url: "Ester-Blenda-Nordström",
+	locale: "fr_FR",
+	permalink: "https://fr.wikipedia.org/wiki/Galaxie",
+	url: "Galaxie",
 } );
 
 const expectedResults = {
 	introductionKeyword: {
-		score: 9,
-		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Your keyphrase or its synonyms do not appear in the first paragraph. <a href='https://yoa.st/33f' target='_blank'>Make sure the topic is clear immediately</a>.",
 	},
 	keyphraseLength: {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!",
 	},
 	keywordDensity: {
-		score: 9,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 0.9%. This is great!",
+		score: 4,
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 0%. This is too low; the keyphrase was found 0 times. <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
 	},
 	metaDescriptionKeyword: {
 		score: 3,
@@ -33,11 +33,11 @@ const expectedResults = {
 	},
 	metaDescriptionLength: {
 		score: 6,
-		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: The meta description is too short (under 120 characters). Up to 156 characters are available. <a href='https://yoa.st/34e' target='_blank'>Use the space</a>!",
+		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: The meta description is over 156 characters. To ensure the entire description will be visible, <a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
 		score: 6,
-		resultText: "",
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your subheadings</a>!",
 	},
 	textCompetingLinks: {
 		score: 0,
