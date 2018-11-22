@@ -1,5 +1,3 @@
-import { compact } from "lodash-es";
-
 /**
  * Wraps the given action in a try-catch that logs the error message.
  *
@@ -14,7 +12,7 @@ export default function wrapTryCatchAroundAction( logger, action, errorMessagePr
 		try {
 			return action( ...args );
 		} catch ( error ) {
-			let errorMessage = [ errorMessagePrefix ];
+			let errorMessage = errorMessagePrefix ? [ errorMessagePrefix ] : [];
 
 			if ( error.name && error.message ) {
 				if ( error.stack ) {
@@ -24,7 +22,7 @@ export default function wrapTryCatchAroundAction( logger, action, errorMessagePr
 				errorMessage.push( `${error.name}: ${error.message}` );
 			}
 
-			errorMessage = compact( errorMessage ).join( "\n\t" );
+			errorMessage = errorMessage.join( "\n\t" );
 			logger.error( errorMessage );
 			return { error: errorMessage };
 		}
