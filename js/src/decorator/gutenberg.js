@@ -356,7 +356,6 @@ export function applyAsAnnotations( paper, marks ) {
 
 	// For every block...
 	const annotations = flatMap( blocks, ( ( block ) => {
-
 		// We go through every annotatable attribute.
 		return flatMap(
 			getAnnotatableAttributes( block.name ),
@@ -393,7 +392,7 @@ function removeAllAnnotationsFromBlock( blockClientId ) {
  */
 export function reapplyAnnotationsForSelectedBlock() {
 	const block = select( "core/editor" ).getSelectedBlock();
-	const activeMarker  = select( "yoast-seo/editor" ).getActiveMarker()
+	const activeMarker  = select( "yoast-seo/editor" ).getActiveMarker();
 
 	if ( ! block || ! activeMarker ) {
 		return;
