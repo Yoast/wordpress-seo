@@ -156,11 +156,11 @@ class WPSEO_GSC_Category_Filters {
 			)
 		);
 
-		$class = 'gsc_category';
+		$class        = 'gsc_category';
 		$aria_current = '';
 
 		if ( $this->category === $category ) {
-			$class .= ' current';
+			$class       .= ' current';
 			$aria_current = ' aria-current="page"';
 		}
 

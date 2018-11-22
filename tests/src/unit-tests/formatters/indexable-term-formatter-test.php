@@ -25,7 +25,7 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance =  new Indexable_Term_Formatter_Double( 1, 'category' );
+		$this->instance = new Indexable_Term_Formatter_Double( 1, 'category' );
 	}
 
 	/**
@@ -62,7 +62,7 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 						'wpseo_linkdex'         => 'linkdex',
 						'wpseo_noindex'         => 'noindex',
 						'wpseo_title'           => 'title',
-						'wpseo_opengraph-title' => 'opengraph title'
+						'wpseo_opengraph-title' => 'opengraph title',
 					)
 				)
 			);
@@ -153,5 +153,4 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	public function test_get_indexable_meta_lookup() {
 		$this->assertInternalType( 'array', $this->instance->get_indexable_meta_lookup() );
 	}
-
 }

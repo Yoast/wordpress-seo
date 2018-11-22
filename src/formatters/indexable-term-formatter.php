@@ -6,6 +6,7 @@
  */
 
 namespace Yoast\YoastSEO\Formatters;
+
 use Yoast\YoastSEO\Models\Indexable;
 
 /**

@@ -103,6 +103,7 @@ class Indexable_Author_Formatter {
 
 		return $value;
 	}
+
 	/**
 	 * Retrieves the permalink of a user.
 	 *

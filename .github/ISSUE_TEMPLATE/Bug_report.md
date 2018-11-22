@@ -27,25 +27,27 @@ about: Create a report to help us improve
 3.
 
 ### Technical info
-* WordPress version:
-* Yoast SEO version:
 
 <!-- You can check these boxes once you've created the issue.
 - If you are using Gutenberg or the Classic Editor plugin, please make sure you have updated to the latest version.
  -->
 * If relevant, which editor is affected (or editors): 
 - [ ] Classic Editor
-- [ ] Gutenberg - yes, I have updated to the latest version
-- [ ] Classic Editor plugin -  yes, I have updated to the latest version
+- [ ] Gutenberg
+- [ ] Classic Editor plugin
 
 <!-- You can check these boxes once you've created the issue. -->
 * Which browser is affected (or browsers): 
-- [ ] IE11
-- [ ] Edge
 - [ ] Chrome
 - [ ] Firefox
 - [ ] Safari
+- [ ] Other <!-- please specify -->
 
-* Relevant plugins in case of a bug:
+#### Used versions
+* WordPress version: 
+* Yoast SEO version: 
+* <!-- If relevant -->Gutenberg plugin version: 
+* <!-- If relevant -->Classic Editor plugin version: 
+* Relevant plugins in case of a bug: 
 <!-- Please make sure you can reproduce this bug with a default theme such as Twenty Seventeen. Sometimes issues may occur due to theme conflicts. -->
-* Tested with theme:
+* Tested with theme: 

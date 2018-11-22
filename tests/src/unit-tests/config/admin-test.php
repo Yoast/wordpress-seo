@@ -10,6 +10,7 @@ use Yoast\YoastSEO\Config\Admin;
  * @package Yoast\Tests\Config
  */
 class Admin_Test extends \PHPUnit_Framework_TestCase {
+
 	/**
 	 * Tests if the class is based upon the Integration interface
 	 */

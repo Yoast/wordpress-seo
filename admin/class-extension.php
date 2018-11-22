@@ -32,6 +32,15 @@ class WPSEO_Extension {
 	}
 
 	/**
+	 * Returns the product title to display.
+	 *
+	 * @return string The title to display on the license page.
+	 */
+	public function get_display_title() {
+		return empty( $this->config['display_title'] ) ? $this->get_title() : $this->config['display_title'];
+	}
+
+	/**
 	 * Returns URL to the page where the product can be bought.
 	 *
 	 * @return string The buy url.

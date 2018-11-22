@@ -298,8 +298,7 @@ class Yoast_Form {
 			$this->options[ $var ] = 'on';
 		}
 
-		$class           = 'switch-light switch-candy switch-yoast-seo';
-		$aria_labelledby = esc_attr( $var ) . '-label';
+		$class = 'switch-light switch-candy switch-yoast-seo';
 
 		if ( $reverse ) {
 			$class .= ' switch-yoast-seo-reverse';
@@ -316,11 +315,10 @@ class Yoast_Form {
 
 		$help_class = ! empty( $help ) ? ' switch-container__has-help' : '';
 
-		echo "<div class='switch-container$help_class'>",
-		"<span class='switch-light-visual-label'>{$label}</span>" . $help,
+		echo '<div class="switch-container', $help_class, '">',
+		'<span class="switch-light-visual-label" id="', esc_attr( $var . '-label' ), '">', esc_html( $label ), '</span>' . $help,
 		'<label class="', $class, '"><b class="switch-yoast-seo-jaws-a11y">&nbsp;</b>',
-		'<input type="checkbox" aria-labelledby="', $aria_labelledby, '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>',
-		"<b class='label-text screen-reader-text' id='{$aria_labelledby}'>{$label}</b>",
+		'<input type="checkbox" aria-labelledby="', esc_attr( $var . '-label' ), '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>',
 		'<span aria-hidden="true">
 			<span>', esc_html( $off_button ) ,'</span>
 			<span>', esc_html( $on_button ) ,'</span>
@@ -630,11 +628,11 @@ class Yoast_Form {
 
 		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class ) );
 		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help;
+
 		echo $this->get_disabled_note( $var );
 		echo '<div class="switch-toggle switch-candy switch-yoast-seo">';
 
 		foreach ( $values as $key => $value ) {
-			$screen_reader_text      = '';
 			$screen_reader_text_html = '';
 
 			if ( is_array( $value ) ) {
@@ -649,7 +647,7 @@ class Yoast_Form {
 			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html,'</label>';
 		}
 
-		echo '<a></a></div></fieldset><div class="clear"></div></div>' . "\n\n";
+		echo '<a></a></div></fieldset><div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
 	}
 
 	/**

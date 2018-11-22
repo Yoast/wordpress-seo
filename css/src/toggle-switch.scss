@@ -127,13 +127,15 @@
 	}
 
 	.switch-toggle input + label {
-		position: relative;
-		z-index: 2;
-		display: block;
 		float: left;
 		padding: 0 0.5em;
 		margin: 0;
 		text-align: center;
+	}
+
+	.switch-toggle input:checked + label {
+		position: relative;
+		z-index: 2;
 	}
 
 	.switch-toggle a {
@@ -367,6 +369,24 @@
 		text-shadow: none;
 	}
 
+	// Makes the checkboxes switch toggle clickable by using a pseudo element
+	// for the checked checkbox label and by making it full width.
+	.switch-candy.switch-yoast-seo input + label::after {
+		content: "";
+		display: block;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 3;
+	}
+
+	// Remove the pseudo element for the non-checked checkboxes.
+	.switch-candy.switch-yoast-seo input:checked + label::after {
+		content: none;
+	}
+
 	.switch-light.switch-yoast-seo-reverse input:checked ~ span a {
 		left: 0;
 	}
@@ -408,7 +428,6 @@
 		vertical-align: top;
 	}
 
-	.switch-container .label-text,
 	.switch-light-visual-label {
 		display: block;
 		margin: 8px 0;
@@ -426,6 +445,6 @@
 	}
 
 	.switch-container + p {
-		margin: -8px 0 16px 0;
+		margin: 0 0 16px 0;
 	}
 }

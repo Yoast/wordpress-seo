@@ -31,7 +31,7 @@ class ClassicEditorData {
 	constructor( refresh, store, settings = { tinyMceId: "" } ) {
 		this._refresh = refresh;
 		this._store = store;
-		this._data = {};
+		this._initialData = {};
 		// This will be used for the comparison whether the title, description and slug are dirty.
 		this._previousData = {};
 		this._settings = settings;
@@ -40,15 +40,15 @@ class ClassicEditorData {
 	}
 
 	/**
-	 * Initializes the class by filling this._data and subscribing to relevant elements.
+	 * Initializes the class by filling this._initialData and subscribing to relevant elements.
 	 *
 	 * @param {Object} replaceVars The replacement variables passed in the wp-seo-post-scraper args.
 	 *
 	 * @returns {void}
 	 */
 	initialize( replaceVars ) {
-		this._data = this.getInitialData( replaceVars );
-		fillReplacementVariables( this._data, this._store );
+		this._initialData = this.getInitialData( replaceVars );
+		fillReplacementVariables( this._initialData, this._store );
 		this.subscribeToElements();
 		this.subscribeToStore();
 	}
@@ -165,7 +165,7 @@ class ClassicEditorData {
 			replaceValue = this.getExcerpt();
 		}
 
-		this._data[ targetReplaceVar ] = replaceValue;
+		this._initialData[ targetReplaceVar ] = replaceValue;
 
 		this._store.dispatch( updateReplacementVariable( targetReplaceVar, replaceValue ) );
 	}
@@ -221,7 +221,7 @@ class ClassicEditorData {
 	 */
 	handleEditorChange( newData ) {
 		// Handle excerpt change
-		if ( this._data.excerpt !== newData.excerpt ) {
+		if ( this._previousData.excerpt !== newData.excerpt ) {
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
 			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt_only ) );
 		}

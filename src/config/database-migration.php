@@ -222,7 +222,7 @@ class Database_Migration {
 	protected function get_defines( $table_name ) {
 		if ( $this->dependency_management->prefixed_available() ) {
 			return array(
-				YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE'               => WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing',
+				YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE' => WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing',
 				YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_TS_SCHEMA_TBL_NAME' => $table_name,
 			);
 		}

@@ -12,6 +12,7 @@ use Yoast\YoastSEO\Config\Database_Migration;
  * @package Yoast\Tests
  */
 class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
+
 	/**
 	 * Tests if the migrations are usable.
 	 */
@@ -47,5 +48,4 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 		 */
 		$this->assertFalse( $instance->is_usable() );
 	}
-
 }

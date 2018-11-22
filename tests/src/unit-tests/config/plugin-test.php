@@ -15,6 +15,7 @@ use Yoast\YoastSEO\WordPress\Integration_Group;
  * @package Yoast\Tests\Config
  */
 class Plugin_Test extends \PHPUnit_Framework_TestCase {
+
 	/**
 	 * Tests if the class is based upon the Integration interface
 	 */
@@ -226,7 +227,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 
 		$instance->register_hooks();
 
-		$this->assertEquals( $action_count + 1, did_action( 'wpseo_load_integrations' ) );
+		$this->assertEquals( ( $action_count + 1 ), did_action( 'wpseo_load_integrations' ) );
 	}
 
 	/**
