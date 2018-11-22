@@ -139,6 +139,15 @@ module.exports = {
 							name: 'static/media/[name].[hash:8].[ext]',
 						},
 					},
+					{
+						test: /\.(html)$/,
+						use: {
+							loader: "html-loader",
+							options: {
+								attrs: false,
+							},
+						},
+					},
 					// "worker" loader registers worker scripts as Web Workers.
 					{
 						test: /\.worker\.js$/,
