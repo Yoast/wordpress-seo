@@ -316,6 +316,18 @@ function removeAllAnnotations() {
 	dispatch( "core/annotations" ).__experimentalRemoveAnnotationsBySource( ANNOTATION_SOURCE );
 }
 
+function fillAnnotationQueue( annotations ) {
+	annotationQueue = annotations.map( ( annotation ) => ( {
+		blockClientId: annotation.block,
+		source: ANNOTATION_SOURCE,
+		richTextIdentifier: annotation.richTextIdentifier,
+		range: {
+			start: annotation.startOffset,
+			end: annotation.endOffset,
+		},
+	} ) );
+}
+
 /**
  * Applies the given marks as annotations in the block editor.
  *
@@ -337,20 +349,58 @@ export function applyAsAnnotations( paper, marks ) {
 	// For every block...
 	const annotations = flatMap( blocks, ( ( block ) => {
 		// We go through every annotatable attribute.
+
 		return flatMap(
 			getAnnotatableAttributes( block.name ),
 			( ( attribute ) => getAnnotationsForBlockAttribute( attribute, block, marks ) )
 		);
 	} ) );
 
-	annotationQueue = annotations.map( ( annotation ) => ( {
-		blockClientId: annotation.block,
-		source: ANNOTATION_SOURCE,
-		richTextIdentifier: annotation.richTextIdentifier,
-		range: {
-			start: annotation.startOffset,
-			end: annotation.endOffset,
-		},
-	} ) );
+	fillAnnotationQueue( annotations );
+
+	scheduleAnnotationQueueApplication();
+}
+
+/**
+ * Remove all annotations on a block.
+ *
+ * @param {string} blockClientId The block client id.
+ *
+ * @returns {void}
+ */
+function removeAllAnnotationsOnBlock( blockClientId ) {
+	const annotationsInBlock = select( "core/annotations" )
+		.__experimentalGetAnnotations()
+		.filter( annotation => annotation.blockClientId === blockClientId && annotation.source === ANNOTATION_SOURCE );
+
+	annotationsInBlock.forEach( annotation => {
+		dispatch( "core/annotations" ).__experimentalRemoveAnnotation( annotation.id );
+	} );
+}
+
+/**
+ * Apply.
+ *
+ * @returns {void}
+ */
+export function reapplyAnnotationsForSelectedBlock() {
+	const block = select( "core/editor" ).getSelectedBlock();
+	const activeMarker  = select( "yoast-seo/editor" ).getActiveMarker()
+
+	if ( ! block || ! activeMarker ) {
+		return;
+	}
+
+	removeAllAnnotationsOnBlock( block.clientId );
+
+	const marksForActiveMarker = select( "yoast-seo/editor" ).getResultById( activeMarker ).marks;
+
+	const annotations = flatMap(
+		getAnnotatableAttributes( block.name ),
+		attribute => getAnnotationsForBlockAttribute( attribute, block, marksForActiveMarker )
+	);
+
+	fillAnnotationQueue( annotations );
+
 	scheduleAnnotationQueueApplication();
 }

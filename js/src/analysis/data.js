@@ -1,4 +1,5 @@
 import debounce from "lodash/debounce";
+
 import {
 	updateReplacementVariable,
 	updateData,
@@ -9,6 +10,9 @@ import {
 	mapCustomFields,
 	mapCustomTaxonomies,
 } from "../helpers/replacementVariableHelpers";
+import {
+	reapplyAnnotationsForSelectedBlock,
+} from "../decorator/gutenberg";
 
 /**
  * Represents the data.
@@ -42,6 +46,7 @@ class Data {
 		this._data = this.getInitialData( replaceVars );
 		fillReplacementVariables( this._data, this._store );
 		this.subscribeToGutenberg();
+		this.subscribeToYoastSEO();
 	}
 
 	/**
@@ -80,6 +85,7 @@ class Data {
 	 *
 	 * @param {Object} currentData The current data.
 	 * @param {Object} gutenbergData The data from Gutenberg.
+	 *
 	 * @returns {boolean} Whether the current data and the gutenbergData is the same.
 	 */
 	isShallowEqual( currentData, gutenbergData ) {
@@ -206,7 +212,6 @@ class Data {
 	reapplyMarkers() {
 		const {
 			getActiveMarker,
-			getResultById,
 		} = this._wpData.select( "yoast-seo/editor" );
 
 		const activeMarker = getActiveMarker();
@@ -215,17 +220,7 @@ class Data {
 			return;
 		}
 
-		const markedResult = getResultById( activeMarker );
-
-		if ( ! markedResult ) {
-			return;
-		}
-
-		const marker = markedResult.getMarker();
-
-		if ( marker ) {
-			marker();
-		}
+		reapplyAnnotationsForSelectedBlock();
 	}
 
 	/**
@@ -241,10 +236,40 @@ class Data {
 
 		if ( isDirty ) {
 			this.handleEditorChange( gutenbergData );
-			this.reapplyMarkers();
 			this._data = gutenbergData;
 			this._refresh();
 		}
+	}
+
+	/**
+	 * Checks whether new analysis results are available in the store..
+	 *
+	 * @returns {bool} Whether new analysis results are available.
+	 */
+	areNewAnalysisResultsAvailable() {
+		const yoastSeoEditorSelectors = this._wpData.select( "yoast-seo/editor" );
+		const readabilityResults = yoastSeoEditorSelectors.getReadabilityResults();
+		const seoResults         = yoastSeoEditorSelectors.getResultsForFocusKeyword();
+
+		if (
+			this._previousReadabilityResults !== readabilityResults ||
+			this._previousSeoResults !== seoResults
+		) {
+			this._previousReadabilityResults = readabilityResults;
+			this._previousSeoResults = seoResults;
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Function that is called when new analysis results are available.
+	 *
+	 * @returns {void}
+	 */
+	onNewAnalysisResultsAvailable() {
+		this.reapplyMarkers();
 	}
 
 	/**
@@ -257,6 +282,22 @@ class Data {
 		this._wpData.subscribe(
 			this.subscriber
 		);
+	}
+
+	/**
+	 * Listens to the analysis data.
+	 *
+	 * If the analysisData has changed this.onNewAnalysisResultsAvailable() is called.
+	 *
+	 * @returns {void}
+	 */
+	subscribeToYoastSEO() {
+		this.yoastSubscriber = () => {
+			if ( this.areNewAnalysisResultsAvailable() ) {
+				this.onNewAnalysisResultsAvailable();
+			}
+		};
+		this._wpData.subscribe( this.yoastSubscriber );
 	}
 
 	/**
