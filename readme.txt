@@ -109,7 +109,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 9.2.2 =
 Release Date: November 27th, 2018
 
-Compatibility:
+Enhancement:
 
 * Reapplies the markers in Gutenberg when the content changes to make sure they stay up-to-date.
 
