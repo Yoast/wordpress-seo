@@ -106,6 +106,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 9.2.2 =
+Release Date: November 27th, 2018
+
+Compatibility:
+
+* Reapplies the markers in Gutenberg when the content changes to make sure they stay up-to-date.
+
 = 9.2.1 =
 Release Date: November 21th, 2018
 
