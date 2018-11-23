@@ -172,9 +172,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	}
 
 	/**
-	 * Get the available separator options human friendly labels.
+	 * Get the available separator options aria-labels.
 	 *
-	 * @return array $separator_options Array with the separator options human friendly labels.
+	 * @return array $separator_options Array with the separator options aria-labels.
 	 */
 	public function get_separator_options_for_display() {
 		$separators     = $this->get_separator_options();
@@ -183,11 +183,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		$separator_options = array();
 
 		foreach ( $separators as $key => $label ) {
-			$friendly_label = isset( $separator_list[ $key ]['label'] ) ? $separator_list[ $key ]['label'] : '';
+			$aria_label = isset( $separator_list[ $key ]['label'] ) ? $separator_list[ $key ]['label'] : '';
 
 			$separator_options[ $key ] = array(
-				'label'          => $label,
-				'friendly_label' => $friendly_label,
+				'label'      => $label,
+				'aria_label' => $aria_label,
 			);
 		}
 
