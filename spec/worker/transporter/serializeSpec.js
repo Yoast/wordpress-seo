@@ -1,5 +1,11 @@
 import AssessmentResult from "../../../src/values/AssessmentResult";
+import Mark from "../../../src/values/Mark";
+import Paper from "../../../src/values/Paper";
+import WordCombination from "../../../src/values/WordCombination";
 import serialize from "../../../src/worker/transporter/serialize";
+import englishFunctionWordsFactory from "../../../src/researches/english/functionWords.js";
+
+const functionWords = englishFunctionWordsFactory().all;
 
 describe( "serialize", () => {
 	it( "serializes strings", () => {
@@ -66,14 +72,52 @@ describe( "serialize", () => {
 	} );
 
 	it( "serializes Papers", () => {
-		const thing = new Paper( "" )
+		const thing = new Paper( "This is a sample text.", {
+			description: "This a meta description.",
+			keyword: "some keywords",
+			locale: "en_US",
+			permalink: "https://example.com/page-0",
+			title: "A text about a keyword.",
+		} );
 
 		expect( serialize( thing ) ).toEqual( {
-			_parseClass: "AssessmentResult",
-			identifier: "",
-			marks: [],
-			score: 666,
-			text: "Good job!",
+			_parseClass: "Paper",
+			text: "This is a sample text.",
+			description: "This a meta description.",
+			keyword: "some keywords",
+			locale: "en_US",
+			permalink: "https://example.com/page-0",
+			title: "A text about a keyword.",
+			synonyms: "",
+			titleWidth: 0,
+			url: "",
+		} );
+	} );
+
+	it( "serializes Marks", () => {
+		const thing = new Mark( {
+			original: "<h1>A heading</h1>",
+			marked: "<yoastmark class='yoast-text-mark'><h1>A heading</h1></yoastmark>",
+		} );
+
+		expect( serialize( thing ) ).toEqual( {
+			_parseClass: "Mark",
+			original: "<h1>A heading</h1>",
+			marked: "<yoastmark class='yoast-text-mark'><h1>A heading</h1></yoastmark>",
+		} );
+	} );
+
+	it( "serializes WordCombinations", () => {
+		const thing = new WordCombination( [ "syllable", "combinations" ], 2, functionWords );
+		const words = {	syllable: 4, combinations: 4 };
+		thing.setRelevantWords( words );
+
+		expect( serialize( thing ) ).toEqual( {
+			_parseClass: "WordCombination",
+			functionWords: functionWords,
+			occurrences: 2,
+			words: [ "syllable", "combinations" ],
+			relevantWords: words,
 		} );
 	} );
 } );
