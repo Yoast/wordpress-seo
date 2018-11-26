@@ -52,7 +52,7 @@ class WPSEO_Handle_404 implements WPSEO_WordPress_Integration {
 		global $wp_query;
 
 		// Don't 404 if the query contains posts or if it matched an object.
-		if ( $wp_query->posts || get_queried_object() ) {
+		if ( $wp_query->posts || get_queried_object() || is_home() ) {
 			return $handled;
 		}
 
