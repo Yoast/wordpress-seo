@@ -318,46 +318,46 @@ PostDataCollector.prototype.saveSnippetData = function( data ) {
 /**
  * Calls the event binders.
  *
- * @param {app} app The app object.
+ * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.bindElementEvents = function( app ) {
-	this.inputElementEventBinder( app );
-	this.changeElementEventBinder( app );
+PostDataCollector.prototype.bindElementEvents = function( refreshAnalysis ) {
+	this.inputElementEventBinder( refreshAnalysis );
+	this.changeElementEventBinder( refreshAnalysis );
 };
 
 /**
  * Binds the reanalyze timer on change of dom element.
  *
- * @param {app} app The app object.
+ * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.changeElementEventBinder = function( app ) {
+PostDataCollector.prototype.changeElementEventBinder = function( refreshAnalysis ) {
 	var elems = [ "#yoast-wpseo-primary-category", '.categorychecklist input[name="post_category[]"]' ];
 	for ( var i = 0; i < elems.length; i++ ) {
-		$( elems[ i ] ).on( "change", app.refresh.bind( app ) );
+		$( elems[ i ] ).on( "change", refreshAnalysis );
 	}
 };
 
 /**
  * Binds the renewData function on the change of input elements.
  *
- * @param {app} app The app object.
+ * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.inputElementEventBinder = function( app ) {
+PostDataCollector.prototype.inputElementEventBinder = function( refreshAnalysis ) {
 	var elems = [ "excerpt", "content", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var elem = document.getElementById( elems[ i ] );
 		if ( elem !== null ) {
-			document.getElementById( elems[ i ] ).addEventListener( "input", app.refresh.bind( app ) );
+			document.getElementById( elems[ i ] ).addEventListener( "input", refreshAnalysis );
 		}
 	}
 
-	tmceHelper.tinyMceEventBinder( app, tmceId );
+	tmceHelper.tinyMceEventBinder( refreshAnalysis, tmceId );
 };
 
 /**
