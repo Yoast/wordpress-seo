@@ -4,11 +4,12 @@ import { merge } from "lodash-es";
 // Internal dependencies.
 import Task from "./Task";
 
+
 const DEFAULT_CONFIGURATION = {
 	pollTime: 50,
 };
 
-class Scheduler {
+export default class Scheduler {
 	/**
 	 * Initializes a Scheduler.
 	 *
@@ -57,7 +58,7 @@ class Scheduler {
 	tick() {
 		this.executeNextTask()
 			.then( () => {
-				setTimeout( this.tick, this._configuration.pollTime );
+				this._pollHandle = setTimeout( this.tick, this._configuration.pollTime );
 			} );
 	}
 
@@ -69,6 +70,7 @@ class Scheduler {
 	stopPolling() {
 		clearTimeout( this._pollHandle );
 		this._pollHandle = null;
+		this._started = false;
 	}
 
 	/**
@@ -148,5 +150,3 @@ class Scheduler {
 			} );
 	}
 }
-
-export default Scheduler;
