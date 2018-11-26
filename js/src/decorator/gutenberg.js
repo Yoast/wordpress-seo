@@ -357,7 +357,6 @@ export function applyAsAnnotations( paper, marks ) {
 
 	// For every block...
 	const annotations = flatMap( blocks, ( ( block ) => {
-
 		// We go through every annotatable attribute.
 		return flatMap(
 			getAnnotatableAttributes( block.name ),
