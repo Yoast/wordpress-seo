@@ -13,6 +13,7 @@ import swedishPaper2 from "./sv/swedishPaper2";
 // French papers
 
 import frenchPaper1 from "./fr/frenchPaper1";
+import frenchPaper2 from "./fr/frenchPaper2";
 
 export default [
 	englishPaper1,
@@ -22,5 +23,6 @@ export default [
 	swedishPaper1,
 	swedishPaper2,
 	frenchPaper1,
+	frenchPaper2,
 ];
 
