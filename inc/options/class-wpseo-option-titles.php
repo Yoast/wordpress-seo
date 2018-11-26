@@ -112,33 +112,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	);
 
 	/**
-	 * @var array Array of the separator options. To get these options use WPSEO_Option_Titles::get_instance()->get_separator_options().
-	 */
-	private $separator_options = array(
-		'sc-dash'   => '-',
-		'sc-ndash'  => '&ndash;',
-		'sc-mdash'  => '&mdash;',
-		'sc-colon'  => ':',
-		'sc-middot' => '&middot;',
-		'sc-bull'   => '&bull;',
-		'sc-star'   => '*',
-		'sc-smstar' => '&#8902;',
-		'sc-pipe'   => '|',
-		'sc-tilde'  => '~',
-		'sc-laquo'  => '&laquo;',
-		'sc-raquo'  => '&raquo;',
-		'sc-lt'     => '&lt;',
-		'sc-gt'     => '&gt;',
-	);
-
-	/**
 	 * Add the actions and filters for the option.
 	 *
 	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
 	 * is updated early on and if so, change the call to schedule these for a later action on add/update
 	 * instead of running them straight away.
-	 *
-	 * @return \WPSEO_Option_Titles
 	 */
 	protected function __construct() {
 		parent::__construct();
@@ -161,7 +139,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	/**
 	 * Get the singleton instance of this class.
 	 *
-	 * @return object
+	 * @return self
 	 */
 	public static function get_instance() {
 		if ( ! ( self::$instance instanceof self ) ) {
@@ -177,12 +155,12 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @return array
 	 */
 	public function get_separator_options() {
-		$separators = $this->separator_options;
+		$separators = wp_list_pluck( self::get_separator_option_list(), 'option' );
 
 		/**
 		 * Allow altering the array with separator options.
 		 *
-		 * @api  array  $separator_options  Array with the separator options.
+		 * @api array $separator_options Array with the separator options.
 		 */
 		$filtered_separators = apply_filters( 'wpseo_separator_options', $separators );
 
@@ -191,6 +169,29 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		}
 
 		return $separators;
+	}
+
+	/**
+	 * Get the available separator options aria-labels.
+	 *
+	 * @return array $separator_options Array with the separator options aria-labels.
+	 */
+	public function get_separator_options_for_display() {
+		$separators     = $this->get_separator_options();
+		$separator_list = self::get_separator_option_list();
+
+		$separator_options = array();
+
+		foreach ( $separators as $key => $label ) {
+			$aria_label = isset( $separator_list[ $key ]['label'] ) ? $separator_list[ $key ]['label'] : '';
+
+			$separator_options[ $key ] = array(
+				'label'      => $label,
+				'aria_label' => $aria_label,
+			);
+		}
+
+		return $separator_options;
 	}
 
 	/**
@@ -704,7 +705,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			unset( $rename, $taxonomy_names, $post_type_names, $defaults, $tax, $old_prefix, $new_prefix );
 		}
 
-
 		/*
 		 * Make sure the values of the variable option key options are cleaned as they
 		 * may be retained and would not be cleaned/validated then.
@@ -795,5 +795,84 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		}
 
 		return $clean;
+	}
+
+	/**
+	 * Retrieves a list of separator options.
+	 *
+	 * @return array An array of the separator options.
+	 */
+	protected static function get_separator_option_list() {
+		$separators = array(
+			'sc-dash'   => array(
+				'option' => '-',
+				'label'  => __( 'Dash', 'wordpress-seo' ),
+			),
+			'sc-ndash'  => array(
+				'option' => '&ndash;',
+				'label'  => __( 'En dash', 'wordpress-seo' ),
+			),
+			'sc-mdash'  => array(
+				'option' => '&mdash;',
+				'label'  => __( 'Em dash', 'wordpress-seo' ),
+			),
+			'sc-colon'  => array(
+				'option' => ':',
+				'label'  => __( 'Colon', 'wordpress-seo' ),
+			),
+			'sc-middot' => array(
+				'option' => '&middot;',
+				'label'  => __( 'Middle dot', 'wordpress-seo' ),
+			),
+			'sc-bull'   => array(
+				'option' => '&bull;',
+				'label'  => __( 'Bullet', 'wordpress-seo' ),
+			),
+			'sc-star'   => array(
+				'option' => '*',
+				'label'  => __( 'Asterisk', 'wordpress-seo' ),
+			),
+			'sc-smstar' => array(
+				'option' => '&#8902;',
+				'label'  => __( 'Low asterisk', 'wordpress-seo' ),
+			),
+			'sc-pipe'   => array(
+				'option' => '|',
+				'label'  => __( 'Vertical bar', 'wordpress-seo' ),
+			),
+			'sc-tilde'  => array(
+				'option' => '~',
+				'label'  => __( 'Small tilde', 'wordpress-seo' ),
+			),
+			'sc-laquo'  => array(
+				'option' => '&laquo;',
+				'label'  => __( 'Left angle quotation mark', 'wordpress-seo' ),
+			),
+			'sc-raquo'  => array(
+				'option' => '&raquo;',
+				'label'  => __( 'Right angle quotation mark', 'wordpress-seo' ),
+			),
+			'sc-lt'     => array(
+				'option' => '&lt;',
+				'label'  => __( 'Less than sign', 'wordpress-seo' ),
+			),
+			'sc-gt'     => array(
+				'option' => '&gt;',
+				'label'  => __( 'Greater than sign', 'wordpress-seo' ),
+			),
+		);
+
+		/**
+		 * Allows altering the separator options array.
+		 *
+		 * @api array $separators Array with the separator options.
+		 */
+		$separator_list = apply_filters( 'wpseo_separator_option_list', $separators );
+
+		if ( ! is_array( $separator_list ) ) {
+			return $separators;
+		}
+
+		return $separator_list;
 	}
 }
