@@ -68,8 +68,6 @@ testPapers.forEach( function( testPaper ) {
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
 
-		console.log(paper);
-
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 

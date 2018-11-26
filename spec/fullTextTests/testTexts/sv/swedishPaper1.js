@@ -4,7 +4,7 @@ import content from "./swedishPaper1.html";
 const name = "swedishPaper1";
 
 const paper = new Paper( content, {
-	// keyword: "Ester Nordström",
+	keyword: "Ester Nordström",
 	synonyms: "Ester Blenda Nordström, Essan",
 	description: "Det här är en artikel om författaren Ester Nordströms liv.",
 	title: "Ester Blenda Nordström",
