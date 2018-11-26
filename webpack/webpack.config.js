@@ -68,6 +68,7 @@ module.exports = function( env = { environment: "production", recalibration: "di
 						{
 							loader: "babel-loader",
 							options: {
+								cacheDirectory: mode === "development",
 								env: {
 									development: {
 										plugins: [
