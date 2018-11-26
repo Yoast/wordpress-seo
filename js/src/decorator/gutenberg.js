@@ -41,6 +41,19 @@ const ANNOTATION_ATTRIBUTES = {
 	],
 };
 
+const ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES = {
+	singleH1: {
+		"core/heading": [
+			{
+				key: "content",
+				filter: ( blockAttributes ) => {
+					return blockAttributes.level === 1;
+				},
+			},
+		],
+	},
+};
+
 /**
  * Retrieves the next annotation from the annotation queue.
  *
@@ -255,11 +268,15 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
  * @returns {string[]} The attributes that we can annotate.
  */
 function getAnnotatableAttributes( blockTypeName ) {
-	if ( ! ANNOTATION_ATTRIBUTES.hasOwnProperty( blockTypeName ) ) {
+	const activeMarker = select( "yoast-seo/editor" ).getActiveMarker();
+
+	const assessmentAttributes = ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES[ activeMarker ] || ANNOTATION_ATTRIBUTES;
+
+	if ( ! assessmentAttributes.hasOwnProperty( blockTypeName ) ) {
 		return [];
 	}
 
-	return ANNOTATION_ATTRIBUTES[ blockTypeName ];
+	return assessmentAttributes[ blockTypeName ];
 }
 
 /**
@@ -274,8 +291,12 @@ function getAnnotatableAttributes( blockTypeName ) {
 function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 	const attributeKey = attribute.key;
 
-	const { attributes } = block;
-	const attributeValue = attributes[ attributeKey ];
+	const { attributes: blockAttributes } = block;
+	const attributeValue = blockAttributes[ attributeKey ];
+
+	if ( attribute.filter && ! attribute.filter( blockAttributes ) ) {
+		return [];
+	}
 
 	// Create a rich text record, because those are easier to work with.
 	const record = create( {
