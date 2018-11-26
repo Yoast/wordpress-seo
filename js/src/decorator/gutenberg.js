@@ -46,6 +46,9 @@ const ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES = {
 		"core/heading": [
 			{
 				key: "content",
+				filter: ( blockAttributes ) => {
+					return blockAttributes.level === 1;
+				},
 			},
 		],
 	},
@@ -288,8 +291,12 @@ function getAnnotatableAttributes( blockTypeName ) {
 function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 	const attributeKey = attribute.key;
 
-	const { attributes } = block;
-	const attributeValue = attributes[ attributeKey ];
+	const { attributes: blockAttributes } = block;
+	const attributeValue = blockAttributes[ attributeKey ];
+
+	if ( attribute.filter && ! attribute.filter( blockAttributes ) ) {
+		return [];
+	}
 
 	// Create a rich text record, because those are easier to work with.
 	const record = create( {
@@ -350,6 +357,7 @@ export function applyAsAnnotations( paper, marks ) {
 
 	// For every block...
 	const annotations = flatMap( blocks, ( ( block ) => {
+
 		// We go through every annotatable attribute.
 		return flatMap(
 			getAnnotatableAttributes( block.name ),
