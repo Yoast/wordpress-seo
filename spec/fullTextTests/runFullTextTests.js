@@ -89,8 +89,8 @@ testPapers.forEach( function( testPaper ) {
 		const titleKeywordAssessment = new TitleKeywordAssessment();
 		const titleWidthAssessment = new TitleWidthAssessment();
 		const urlKeywordAssessment = new UrlKeywordAssessment();
-		const urlLengthAssessment	= new UrlLengthAssessment();
-		const keyphraseDistributionAssessment	= new KeyphraseDistributionAssessment();
+		const urlLengthAssessment = new UrlLengthAssessment();
+		const keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();
 		const fleschReadingAssessment = new FleschReadingAssessment( contentConfiguration( locale ).fleschReading );
 		const subheadingDistributionTooLongAssessment = new SubheadingDistributionTooLongAssessment();
 		const sentenceLengthInTextAssessment = new SentenceLengthInTextAssessment();
