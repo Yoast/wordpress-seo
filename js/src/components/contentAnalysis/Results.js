@@ -107,6 +107,7 @@ class Results extends React.Component {
 					onMarkButtonClick={ this.handleMarkButtonClick }
 					marksButtonClassName={ this.props.marksButtonClassName }
 					marksButtonStatus={ this.props.marksButtonStatus }
+					headingLevel={ 3 }
 				/>
 			</Fragment>
 		);
