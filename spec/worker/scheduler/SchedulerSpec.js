@@ -72,7 +72,6 @@ describe( "Worker Scheduler", () => {
 
 				done();
 			}, scheduler._configuration.pollTime + 10 );
-
 		} );
 	} );
 
@@ -84,7 +83,7 @@ describe( "Worker Scheduler", () => {
 		test( "schedule enqueues a task", () => {
 			expect( scheduler._tasks.analyze.length ).toBe( 0 );
 
-			scheduler.schedule( { id: 0, execute: () => {}, done: () => {}, data: { test: true }, type: "analyze", } );
+			scheduler.schedule( { id: 0, execute: () => {}, done: () => {}, data: { test: true }, type: "analyze" } );
 
 			expect( scheduler._tasks.analyze.length ).toBe( 1 );
 			expect( scheduler._tasks.analyze[ 0 ].id ).toBe( 0 );
@@ -109,7 +108,7 @@ describe( "Worker Scheduler", () => {
 			const id = 9;
 			const data = { some: "value" };
 			const execute = jest.fn();
-			scheduler.schedule( { id, execute, done: () => {}, data, type: "analyze", } );
+			scheduler.schedule( { id, execute, done: () => {}, data, type: "analyze" } );
 			scheduler.executeNextTask().then( () => {
 				expect( execute ).toBeCalledTimes( 1 );
 				expect( execute ).toBeCalledWith( id, data );
@@ -121,7 +120,7 @@ describe( "Worker Scheduler", () => {
 			const id = 42;
 			const execute = () => "result";
 			const done = jest.fn();
-			scheduler.schedule( { id, execute, done, data: {}, type: "analyze", } );
+			scheduler.schedule( { id, execute, done, data: {}, type: "analyze" } );
 			scheduler.executeNextTask().then( result => {
 				expect( done ).toBeCalledTimes( 1 );
 				expect( done ).toBeCalledWith( id, "result" );
@@ -130,4 +129,4 @@ describe( "Worker Scheduler", () => {
 			} );
 		} );
 	} );
-});
+} );
