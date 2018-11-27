@@ -14,9 +14,11 @@ export default function wrapTryCatchAroundAction( logger, action, errorMessagePr
 		try {
 			return action( ...args );
 		} catch ( error ) {
-			// Try to format the string with the payload parameters.
+			// Try to format the string with payload parameters, if there are any.
 			const payload = args[ 1 ];
-			errorMessagePrefix = formatString( errorMessagePrefix, payload );
+			if ( payload ) {
+				errorMessagePrefix = formatString( errorMessagePrefix, payload );
+			}
 
 			let errorMessage = errorMessagePrefix ? [ errorMessagePrefix ] : [];
 
