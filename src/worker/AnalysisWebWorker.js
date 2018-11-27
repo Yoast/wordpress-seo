@@ -851,20 +851,8 @@ export default class AnalysisWebWorker {
 		const researcher = paper === null
 			? this._researcher
 			: new Researcher( paper );
-		try {
-			return researcher.getResearch( name );
-		} catch ( error ) {
-			let errorMessage = `An error occurred after running the '${name}' research.`;
-			if ( error.name && error.message ) {
-				if ( error.stack ) {
-					logger.debug( error.stack );
-				}
-				// Standard JavaScript error (e.g. when calling `throw new Error( message )`).
-				errorMessage += `\n\t${error.name}: ${error.message}`;
-			}
-			logger.error( errorMessage );
-			return { error: errorMessage };
-		}
+
+		return researcher.getResearch( name );
 	}
 
 	/**
