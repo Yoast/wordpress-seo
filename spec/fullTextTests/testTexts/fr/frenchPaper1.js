@@ -91,9 +91,7 @@ const expectedResults = {
 		resultText: "",
 	},
 	urlStopWords: {
-		isApplicable: true,
-		score: 0,
-		resultText: "",
+		isApplicable: false,
 	},
 	keyphraseDistribution: {
 		isApplicable: true,
