@@ -1,3 +1,5 @@
+import formatString from "../helpers/formatString";
+
 /**
  * Wraps the given action in a try-catch that logs the error message.
  *
@@ -12,6 +14,10 @@ export default function wrapTryCatchAroundAction( logger, action, errorMessagePr
 		try {
 			return action( ...args );
 		} catch ( error ) {
+			// Try to format the string with the payload parameters.
+			const payload = args[ 1 ];
+			errorMessagePrefix = formatString( errorMessagePrefix, payload );
+
 			let errorMessage = errorMessagePrefix ? [ errorMessagePrefix ] : [];
 
 			if ( error.name && error.message ) {

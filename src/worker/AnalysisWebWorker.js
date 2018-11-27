@@ -160,6 +160,8 @@ export default class AnalysisWebWorker {
 		 * doesn't use the overwritten version. Therefore, this order shouldn't be changed.
 		 */
 		this.analyze = wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the analysis." );
+		this.runResearch = wrapTryCatchAroundAction( logger, this.runResearch,
+			"An error occurred after running the '%name%' research." );
 	}
 
 	/**
