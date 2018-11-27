@@ -68,9 +68,11 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 2 );
 	} );
 
-	it( "returns 2 when a two-part transition word is found in two sentences, and an additional transition word is found in one of them. (English)", function() {
+	it( "returns 2 when a two-part transition word is found in two sentences, " +
+		"and an additional transition word is found in one of them. (English)", function() {
 		// Transition words: either...or, if ...then, as soon as.
-		mockPaper = new Paper( "I will either tell you a story about a boy, or read you a novel. If you want, then I will start as soon as you're ready.", { locale: "en_US" } );
+		mockPaper = new Paper( "I will either tell you a story about a boy, or read you a novel. " +
+			"If you want, then I will start as soon as you're ready.", { locale: "en_US" } );
 		result = transitionWordsResearch( mockPaper );
 		expect( result.totalSentences ).toBe( 2 );
 		expect( result.transitionWordSentences ).toBe( 2 );
@@ -369,6 +371,27 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
 
+	it( "returns 1 when a transition word is found in a sentence (Swedish)", function() {
+		// Transition word: Å ena sidan
+		mockPaper = new Paper( "Å ena sidan gillar jag tårta.", { locale: "sv_SE" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+	it( "returns 1 when a two-part transition word is found in a sentence (Swedish)", function() {
+		// Transition word: antingen...eller
+		mockPaper = new Paper( "Jag vill ha antingen tårta eller glass", { locale: "sv_SE" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+	it( "returns 0 when no transition words are present in a sentence (Swedish)", function() {
+		mockPaper = new Paper( "Föräldrarna behöver inte betala..", { locale: "sv_SE" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 0 );
+	} );
+
 	it( "defaults to English in case of a bogus locale", function() {
 		// Transition word: because.
 		mockPaper = new Paper( "Because of a bogus locale.", { locale: "xx_YY" } );
@@ -414,7 +437,41 @@ describe( "a test for finding transition words from a string", function() {
 			transitionWordSentences: 1,
 		};
 
-		const result = transitionWordsResearch( mockPaper );
+		result = transitionWordsResearch( mockPaper );
+
+		expect( result ).toEqual( expected );
+	} );
+
+	it( "does not recognize 'eggs' as a transition word (don't ask).", function() {
+		// Non-transition word: eggs.
+		mockPaper = new Paper( "Let's bake some eggs." );
+		const expected = {
+			totalSentences: 1,
+			sentenceResults: [ ],
+			transitionWordSentences: 0,
+		};
+
+		result = transitionWordsResearch( mockPaper );
+
+		expect( result ).toEqual( expected );
+	} );
+
+	it( "does recognize transition words with full stops, like 'e.g.'.", function() {
+		// Non-transition word: eggs.
+		mockPaper = new Paper( "E.g. potatoes. I.e. apples." );
+		const expected = {
+			sentenceResults: [ {
+				sentence: "E.g. potatoes.",
+				transitionWords: [ "e.g." ],
+			}, {
+				sentence: "I.e. apples.",
+				transitionWords: [ "i.e." ],
+			} ],
+			totalSentences: 2,
+			transitionWordSentences: 2,
+		};
+
+		result = transitionWordsResearch( mockPaper );
 
 		expect( result ).toEqual( expected );
 	} );

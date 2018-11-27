@@ -8,7 +8,7 @@ import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark.js";
 import marker from "../../markers/addMark.js";
 import getLanguageAvailability from "../../helpers/getLanguageAvailability.js";
-const availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca", "pl" ];
+const availableLanguages = [ "en", "de", "es", "fr", "nl", "it", "pt", "ru", "ca", "pl", "sv" ];
 
 /**
  * Calculates the actual percentage of transition words in the sentences.
