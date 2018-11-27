@@ -1040,6 +1040,13 @@ describe( "AnalysisWebWorker", () => {
 				expect( worker.send ).toHaveBeenCalledTimes( 1 );
 				expect( worker.send ).toHaveBeenCalledWith( "runResearch:done", 0, { result: true } );
 			} );
+
+			test( "run research done calls send with error", () => {
+				worker.send = jest.fn();
+				worker.runResearchDone( 0, { error: "This is an error." } );
+				expect( worker.send ).toHaveBeenCalledTimes( 1 );
+				expect( worker.send ).toHaveBeenCalledWith( "runResearch:failed", 0, { error: "This is an error." } );
+			} );
 		} );
 	} );
 
