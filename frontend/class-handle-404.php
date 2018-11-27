@@ -48,7 +48,7 @@ class WPSEO_Handle_404 implements WPSEO_WordPress_Integration {
 	 *
 	 * @return bool True if it's 404.
 	 */
-	private function is_feed_404( $handled ) {
+	protected function is_feed_404( $handled ) {
 		global $wp_query;
 
 		// Don't 404 if the query contains post(s) or an object.
@@ -75,14 +75,14 @@ class WPSEO_Handle_404 implements WPSEO_WordPress_Integration {
 	 *
 	 * @return bool Whether or not the request is the main feed.
 	 */
-	private function is_main_feed() {
+	protected function is_main_feed() {
 		global $wp, $wp_query;
 
 		if ( $wp_query->is_archive() || $wp_query->is_singular() || $wp_query->is_search() ) {
 			return false;
 		}
 
-		if ( array_diff( array_keys( $wp->query_vars ), array( 'feed' ) ) && ! $wp_query->is_comment_feed() ) {
+		if ( array_keys( $wp->query_vars ) !== array( 'feed' ) && ! $wp_query->is_comment_feed() ) {
 			return false;
 		}
 
