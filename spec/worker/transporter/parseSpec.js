@@ -2,6 +2,9 @@ import englishFunctionWordsFactory from "../../../src/researches/english/functio
 import AssessmentResult from "../../../src/values/AssessmentResult";
 import Mark from "../../../src/values/Mark";
 import Paper from "../../../src/values/Paper";
+import Participle from "../../../src/values/Participle";
+import Sentence from "../../../src/values/Sentence";
+import SentencePart from "../../../src/values/SentencePart";
 import WordCombination from "../../../src/values/WordCombination";
 import parse from "../../../src/worker/transporter/parse";
 
@@ -23,6 +26,11 @@ describe( "parse", () => {
 			x: null,
 		};
 		expect( parse( thing ) ).toEqual( thing );
+	} );
+
+	it( "parses arrays", () => {
+		const serialized = [ "a", 1, "bcdefg", null ];
+		expect( parse( serialized ) ).toEqual( serialized );
 	} );
 
 	it( "parses serialized WordCombinations", () => {
@@ -59,7 +67,7 @@ describe( "parse", () => {
 		expect( parse( serialized ) ).toEqual( expected );
 	} );
 
-	it( "parses Papers", () => {
+	it( "parses serialized Papers", () => {
 		const serialized = {
 			_parseClass: "Paper",
 			text: "This is a sample text.",
@@ -84,7 +92,7 @@ describe( "parse", () => {
 		expect( parse( serialized ) ).toEqual( expected );
 	} );
 
-	it( "parses AssessmentResults", () => {
+	it( "parses serialized AssessmentResults", () => {
 		const serialized = {
 			_parseClass: "AssessmentResult",
 			identifier: "",
@@ -96,6 +104,53 @@ describe( "parse", () => {
 		const expected = new AssessmentResult();
 		expected.setScore( 666 );
 		expected.setText( "Good job!" );
+
+		expect( parse( serialized ) ).toEqual( expected );
+	} );
+
+	it( "parses serialized Participles", () => {
+		const serialized = {
+			_parseClass: "Participle",
+			attributes: {
+				auxiliaries: [ "wird", "worden" ],
+				language: "de",
+				type: "irregular",
+			},
+			determinesSentencePartIsPassive: false,
+			participle: "geschlossen",
+			sentencePart: "Es wird geschlossen worden sein.",
+		};
+
+		const expected = new Participle( "geschlossen", "Es wird geschlossen worden sein.",
+			{ auxiliaries: [ "wird", "worden" ], type: "irregular", language: "de" } );
+
+		expect( parse( serialized ) ).toEqual( expected );
+	} );
+
+	it( "parses serialized Sentences", () => {
+		const serialized = {
+			_parseClass: "Sentence",
+			isPassive: false,
+			locale: "en_US",
+			sentenceText: "This is a sample text.",
+		};
+
+		const expected = new Sentence( "This is a sample text.", "en_US" );
+
+		expect( parse( serialized ) ).toEqual( expected );
+	} );
+
+	it( "parses serialized SentenceParts", () => {
+		const serialized = {
+			_parseClass: "SentencePart",
+			auxiliaries: [ "wird" ],
+			isPassive: true,
+			locale: "de",
+			sentencePartText: "wird geschlossen",
+		};
+
+		const expected = new SentencePart( "wird geschlossen", [ "wird" ], "de" );
+		expected.setPassive( true );
 
 		expect( parse( serialized ) ).toEqual( expected );
 	} );
