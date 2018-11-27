@@ -23,24 +23,11 @@ const collectMarkingsInSentence = function( sentence, topicFoundInSentence ) {
 export function markWordsInSentences( wordsToMark, sentences, locale ) {
 	let topicFoundInSentence = [];
 	let markings = [];
-	const indexOfSentence = 0;
-	let indexRunningThroughSentence = 0;
-	const matchesIndices = [];
 
 	sentences.forEach( function( sentence ) {
 		topicFoundInSentence = matchWords( sentence, wordsToMark, locale ).matches;
 
 		if ( topicFoundInSentence.length > 0 ) {
-			topicFoundInSentence.forEach( function( occurrence ) {
-				const indexOfOccurrenceInSentence = sentence.indexOf( occurrence, indexRunningThroughSentence );
-				matchesIndices.push(
-					{
-						index: indexOfOccurrenceInSentence + indexOfSentence,
-						match: occurrence,
-					}
-				);
-				indexRunningThroughSentence += indexOfOccurrenceInSentence + occurrence.length;
-			} );
 			markings = markings.concat( new Mark( {
 				original: sentence,
 				marked: collectMarkingsInSentence( sentence, topicFoundInSentence ),
