@@ -4,7 +4,7 @@ import wrapTryCatchAroundAction from "../../src/worker/wrapTryCatchAroundAction"
 
 let logger;
 
-describe( "wrapTryAroundAction", () => {
+describe( "wrapTryAroundAction", function() {
 	beforeEach( () => {
 		logger = getLogger( "yoast-test" );
 		// Mute the actual error logs.
@@ -122,5 +122,5 @@ describe( "wrapTryAroundAction", () => {
 
 		expect( isObject( result ) ).toBe( true );
 		expect( result.error ).toBe( "Error while running someResearch.\n\tError: Testing error!" );
-	} )
+	} );
 } );
