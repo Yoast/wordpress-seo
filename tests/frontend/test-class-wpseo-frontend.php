@@ -456,7 +456,7 @@ Page 3/3
 		$this->assertEquals( $expected, self::$class_instance->embed_rssfooter( $input ) );
 
 		// Go to feed.
-		$this->go_to( get_bloginfo( 'rss2_url' ) );
+		$this->go_to( get_feed_link() );
 
 		// Test if input was changed.
 		$expected = self::$class_instance->embed_rss( $input, 'full' );
@@ -478,7 +478,7 @@ Page 3/3
 		$this->assertEquals( $expected, self::$class_instance->embed_rssfooter_excerpt( $input ) );
 
 		// Go to feed.
-		$this->go_to( get_bloginfo( 'rss2_url' ) );
+		$this->go_to( get_feed_link() );
 
 		// Test if input was changed.
 		$expected = self::$class_instance->embed_rss( $input, 'excerpt' );
@@ -489,8 +489,6 @@ Page 3/3
 	 * @covers WPSEO_Frontend::embed_rss
 	 */
 	public function test_embed_rss() {
-		$wp_query_orig = $GLOBALS['wp_query'];
-
 		$input = 'Some other content';
 
 		// Go to home (non-feed).
@@ -501,8 +499,7 @@ Page 3/3
 		$this->assertEquals( $expected, self::$class_instance->embed_rss( $input ) );
 
 		// Go to feed.
-		$this->go_to( get_bloginfo( 'rss2_url' ) );
-		$GLOBALS['wp_query']->is_feed = true;
+		$this->go_to( get_feed_link() );
 
 		// Test if input was changed.
 		$expected_string = 'Some RSS before text';
@@ -511,8 +508,6 @@ Page 3/3
 
 		$expected = wpautop( $expected_string ) . $input;
 		$this->assertEquals( $expected, self::$class_instance->embed_rss( $input, 'full' ) );
-
-		$GLOBALS['wp_query'] = $wp_query_orig;
 	}
 
 	/**
