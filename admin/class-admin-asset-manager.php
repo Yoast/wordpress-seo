@@ -600,6 +600,14 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-element',
 				),
 			),
+			array(
+				'name' => 'courses-overview',
+				'src'  => 'wp-seo-courses-overview-' . $flat_version,
+				'deps' => array(
+					'wp-element',
+					self::PREFIX . 'styled-components',
+				),
+			),
 		);
 	}
 

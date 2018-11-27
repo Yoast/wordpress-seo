@@ -13,3 +13,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 echo "<h1> Yoast SEO Courses Overview </h1>";
+
+echo "<div id='yoast-courses-overview'></div>";
+
