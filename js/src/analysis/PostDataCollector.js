@@ -3,19 +3,21 @@
 /* External dependencies */
 import get from "lodash/get";
 import analysis from "yoastseo";
-const { removeMarks } = analysis.markers;
 
 /* Internal dependencies */
-import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
-import tmceHelper from "../wp-seo-tinymce";
-import { tmceId } from "../wp-seo-tinymce";
-import getIndicatorForScore from "./getIndicatorForScore";
-import { update as updateTrafficLight } from "../ui/trafficLight";
+import measureTextWidth from "../helpers/measureTextWidth";
 import { update as updateAdminBar } from "../ui/adminBar";
 import publishBox from "../ui/publishBox";
-import measureTextWidth from "../helpers/measureTextWidth";
+import { update as updateTrafficLight } from "../ui/trafficLight";
+import tmceHelper, { tmceId } from "../wp-seo-tinymce";
+import getI18n from "./getI18n";
+import getIndicatorForScore from "./getIndicatorForScore";
+import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
+
 
 const $ = jQuery;
+const { removeMarks } = analysis.markers;
+const i18n = getI18n();
 
 /**
  * Show warning in console when the unsupported CkEditor is used
@@ -378,11 +380,11 @@ PostDataCollector.prototype.saveScores = function( score, keyword ) {
 
 	if ( "" === keyword ) {
 		indicator.className = "na";
-		indicator.screenReaderText = this.app.i18n.dgettext(
+		indicator.screenReaderText = i18n.dgettext(
 			"js-text-analysis",
 			"Enter a focus keyphrase to calculate the SEO score"
 		);
-		indicator.fullText = this.app.i18n.dgettext(
+		indicator.fullText = i18n.dgettext(
 			"js-text-analysis",
 			"Content optimization: Enter a focus keyphrase to calculate the SEO score"
 		);
