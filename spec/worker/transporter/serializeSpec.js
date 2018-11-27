@@ -169,5 +169,4 @@ describe( "serialize", () => {
 
 		expect( serialize( thing ) ).toEqual( expected );
 	} );
-
 } );
