@@ -41,6 +41,19 @@ const ANNOTATION_ATTRIBUTES = {
 	],
 };
 
+const ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES = {
+	singleH1: {
+		"core/heading": [
+			{
+				key: "content",
+				filter: ( blockAttributes ) => {
+					return blockAttributes.level === 1;
+				},
+			},
+		],
+	},
+};
+
 /**
  * Retrieves the next annotation from the annotation queue.
  *
@@ -255,11 +268,15 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
  * @returns {string[]} The attributes that we can annotate.
  */
 function getAnnotatableAttributes( blockTypeName ) {
-	if ( ! ANNOTATION_ATTRIBUTES.hasOwnProperty( blockTypeName ) ) {
+	const activeMarker = select( "yoast-seo/editor" ).getActiveMarker();
+
+	const assessmentAttributes = ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES[ activeMarker ] || ANNOTATION_ATTRIBUTES;
+
+	if ( ! assessmentAttributes.hasOwnProperty( blockTypeName ) ) {
 		return [];
 	}
 
-	return ANNOTATION_ATTRIBUTES[ blockTypeName ];
+	return assessmentAttributes[ blockTypeName ];
 }
 
 /**
@@ -274,8 +291,12 @@ function getAnnotatableAttributes( blockTypeName ) {
 function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 	const attributeKey = attribute.key;
 
-	const { attributes } = block;
-	const attributeValue = attributes[ attributeKey ];
+	const { attributes: blockAttributes } = block;
+	const attributeValue = blockAttributes[ attributeKey ];
+
+	if ( attribute.filter && ! attribute.filter( blockAttributes ) ) {
+		return [];
+	}
 
 	// Create a rich text record, because those are easier to work with.
 	const record = create( {
@@ -317,6 +338,26 @@ function removeAllAnnotations() {
 }
 
 /**
+ * Formats annotations to objects the Gutenberg annotations API works with, and adds
+ * them to the queue to be scheduled for adding them to the editor.
+ *
+ * @param {array} annotations Annotations to be mapped to the queue.
+ *
+ * @returns {void}
+ */
+function fillAnnotationQueue( annotations ) {
+	annotationQueue = annotations.map( ( annotation ) => ( {
+		blockClientId: annotation.block,
+		source: ANNOTATION_SOURCE,
+		richTextIdentifier: annotation.richTextIdentifier,
+		range: {
+			start: annotation.startOffset,
+			end: annotation.endOffset,
+		},
+	} ) );
+}
+
+/**
  * Applies the given marks as annotations in the block editor.
  *
  * @param {Paper} paper The paper that the marks are calculated for.
@@ -343,14 +384,51 @@ export function applyAsAnnotations( paper, marks ) {
 		);
 	} ) );
 
-	annotationQueue = annotations.map( ( annotation ) => ( {
-		blockClientId: annotation.block,
-		source: ANNOTATION_SOURCE,
-		richTextIdentifier: annotation.richTextIdentifier,
-		range: {
-			start: annotation.startOffset,
-			end: annotation.endOffset,
-		},
-	} ) );
+	fillAnnotationQueue( annotations );
+
+	scheduleAnnotationQueueApplication();
+}
+
+/**
+ * Remove all annotations on a block.
+ *
+ * @param {string} blockClientId The block client id.
+ *
+ * @returns {void}
+ */
+function removeAllAnnotationsFromBlock( blockClientId ) {
+	const annotationsInBlock = select( "core/annotations" )
+		.__experimentalGetAnnotations()
+		.filter( annotation => annotation.blockClientId === blockClientId && annotation.source === ANNOTATION_SOURCE );
+
+	annotationsInBlock.forEach( annotation => {
+		dispatch( "core/annotations" ).__experimentalRemoveAnnotation( annotation.id );
+	} );
+}
+
+/**
+ * Reapply annotations in the currently selected block.
+ *
+ * @returns {void}
+ */
+export function reapplyAnnotationsForSelectedBlock() {
+	const block = select( "core/editor" ).getSelectedBlock();
+	const activeMarker  = select( "yoast-seo/editor" ).getActiveMarker();
+
+	if ( ! block || ! activeMarker ) {
+		return;
+	}
+
+	removeAllAnnotationsFromBlock( block.clientId );
+
+	const marksForActiveMarker = select( "yoast-seo/editor" ).getResultById( activeMarker ).marks;
+
+	const annotations = flatMap(
+		getAnnotatableAttributes( block.name ),
+		attribute => getAnnotationsForBlockAttribute( attribute, block, marksForActiveMarker )
+	);
+
+	fillAnnotationQueue( annotations );
+
 	scheduleAnnotationQueueApplication();
 }

@@ -111,6 +111,7 @@ Release Date: December 11th, 2018
 
 Enhancements:
 
+* Reapplies the markers in Gutenberg when the content changes to make sure they stay up-to-date.
 * Changes the output of schema preventing unnecessary escaping of forward slashes, only available on sites running PHP 5.4 or higher.
 * Changes the website schema `@id` attribute to include the home URL to be a unique identifier.
 * Adds the page number to the breadcrumbs when an archived page is entered.
