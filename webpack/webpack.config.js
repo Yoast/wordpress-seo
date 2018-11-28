@@ -183,7 +183,10 @@ module.exports = function( env = { environment: "production", recalibration: "di
 					path: paths.jsDist,
 					filename: "wp-" + outputFilename,
 					jsonpFunction: "yoastWebpackJsonp",
-					library: [ "wp", "[name]" ],
+					library: {
+						root: [ "wp", "[name]" ],
+					},
+					libraryTarget: "this",
 				},
 				entry: {
 					apiFetch: "./node_modules/@wordpress/api-fetch",
