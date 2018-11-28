@@ -1,6 +1,3 @@
-const URL = window.URL || window.webkitURL;
-const BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
-
 /**
  * Creates a WebWorker using the given url.
  *
@@ -9,6 +6,9 @@ const BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.Moz
  * @returns {Worker} The worker.
  */
 function createWorker( url ) {
+	const URL = window.URL || window.webkitURL;
+	const BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
+
 	let worker = null;
 	try {
 		worker = new Worker( url );
