@@ -1,24 +1,26 @@
 import { analysis } from "yoast-components";
 
+import activeMarker from "./activeMarker";
+import analysisDataReducer from "./analysisData";
 import isCornerstone from "./cornerstoneContent";
 import focusKeyword from "./focusKeyword";
 import marksButtonStatus from "./markerButtons";
-import snippetEditor from "./snippetEditor";
-import analysisDataReducer from "./analysisData";
 import preferences from "./preferences";
-import settings from "./settings";
 import primaryTaxonomies from "./primaryTaxonomies";
-import activeMarker from "./activeMarker";
+import settings from "./settings";
+import snippetEditor from "./snippetEditor";
+import warning from "./warning";
 
 export default {
 	analysis,
+	activeMarker,
+	analysisData: analysisDataReducer,
 	isCornerstone,
 	focusKeyword,
 	marksButtonStatus,
-	snippetEditor,
-	analysisData: analysisDataReducer,
 	preferences,
-	settings,
 	primaryTaxonomies,
-	activeMarker,
+	settings,
+	snippetEditor,
+	warning,
 };
