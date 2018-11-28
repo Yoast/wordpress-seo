@@ -45,7 +45,7 @@ import { AnalysisWorkerWrapper, createWorker, Paper } from "yoastseo";
 
 // `url` needs to be the full URL to the script for the browser to know where to load the worker script from.
 // This should be the script created by the previous code-snippet.
-const url = "https://my-site-url.com/"
+const url = "https://my-site-url.com/path-to-webworker-script.js"
 
 const worker = new AnalysisWorkerWrapper( createWorker( url ) );
 
