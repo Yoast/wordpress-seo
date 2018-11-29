@@ -280,11 +280,6 @@ class WPSEO_Admin_Asset_Manager {
 
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
 
-		$analysis = 'analysis-' . $flat_version;
-		if ( WPSEO_Recalibration_Beta::is_enabled() ) {
-			$analysis = 'https://my.yoast.com/api/downloads/file/analysis';
-		}
-
 		return array(
 			array(
 				'name' => 'commons',
@@ -565,7 +560,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'analysis',
-				'src'  => $analysis,
+				'src'  => 'analysis' . $flat_version,
 				'deps' => array(
 					'lodash',
 					self::PREFIX . 'commons',
