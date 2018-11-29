@@ -76,6 +76,9 @@ class AnalysisWorkerWrapper {
 			default:
 				console.warn( "AnalysisWebWorker unrecognized action:", type );
 		}
+
+		// Remove the handled request from our queue.
+		delete this._requests[ id ];
 	}
 
 	/**
@@ -103,7 +106,12 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	handleError( event ) {
-		console.error( "AnalysisWebWorker error:", event );
+		const lastRequest = this._requests[ this._autoIncrementedRequestId ];
+		if ( ! lastRequest ) {
+			console.error( "AnalysisWebWorker error:", event );
+			return;
+		}
+		lastRequest.reject( event );
 	}
 
 	/**
