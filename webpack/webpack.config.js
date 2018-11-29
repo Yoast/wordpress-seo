@@ -169,21 +169,29 @@ module.exports = function( env = { environment: "production", recalibration: "di
 			{
 				...base,
 				externals: {
-					...externals,
+					tinymce: "tinymce",
 
-					"@wordpress/element": "window.wp.element",
-					"@wordpress/data": "window.wp.data",
-					"@wordpress/components": "window.wp.components",
-					"@wordpress/i18n": "window.wp.i18n",
-					"@wordpress/api-fetch": "window.wp.apiFetch",
-					"@wordpress/rich-text": "window.wp.richText",
-					"@wordpress/compose": "window.wp.compose",
+					react: "React",
+					"react-dom": "ReactDOM",
+
+					lodash: "lodash",
+
+					"@wordpress/element": [ "wp", "element" ],
+					"@wordpress/data": [ "wp", "data" ],
+					"@wordpress/components": [ "wp",  "components" ],
+					"@wordpress/i18n": [ "wp", "i18n" ],
+					"@wordpress/api-fetch": [ "wp", "apiFetch" ],
+					"@wordpress/rich-text": [ "wp", "richText" ],
+					"@wordpress/compose": [ "wp", "compose" ],
 				},
 				output: {
 					path: paths.jsDist,
 					filename: "wp-" + outputFilename,
 					jsonpFunction: "yoastWebpackJsonp",
-					library: [ "wp", "[name]" ],
+					library: {
+						root: [ "wp", "[name]" ],
+					},
+					libraryTarget: "this",
 				},
 				entry: {
 					apiFetch: "./node_modules/@wordpress/api-fetch",
@@ -195,6 +203,9 @@ module.exports = function( env = { environment: "production", recalibration: "di
 					richText: "./node_modules/@wordpress/rich-text",
 				},
 				plugins,
+				optimization: {
+					runtimeChunk: false,
+				},
 			},
 			// Config for files that should not use any externals at all.
 			{
