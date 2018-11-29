@@ -679,7 +679,7 @@ class WPSEO_Frontend {
 		$robots['follow'] = 'follow';
 		$robots['other']  = array();
 
-		if ( ( is_object( $post ) && is_singular() ) || $this->woocommerce_shop_page->is_shop_page() ) {
+		if ( is_object( $post ) && $this->frontend_page_type->is_simple_page() ) {
 			$private = 'private' === $post->post_status;
 			$noindex = ! WPSEO_Post_Type::is_post_type_indexable( $post->post_type );
 
@@ -687,7 +687,7 @@ class WPSEO_Frontend {
 				$robots['index'] = 'noindex';
 			}
 
-			$robots = $this->robots_for_single_post( $robots );
+			$robots = $this->robots_for_single_post( $robots, $this->frontend_page_type->get_simple_page_id() );
 		}
 		else {
 			if ( is_search() || is_404() ) {
