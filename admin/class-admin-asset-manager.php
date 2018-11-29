@@ -560,7 +560,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'analysis',
-				'src'  => 'analysis' . $flat_version,
+				'src'  => 'analysis-' . $flat_version,
 				'deps' => array(
 					'lodash',
 					self::PREFIX . 'commons',
