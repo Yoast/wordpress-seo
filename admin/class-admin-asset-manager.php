@@ -245,7 +245,7 @@ class WPSEO_Admin_Asset_Manager {
 		wp_register_script(
 			'wp-compose',
 			plugins_url( 'js/dist/wp-compose-' . $flat_version . '.min.js', WPSEO_FILE ),
-			array( 'wp-polyfill' ),
+			array( 'lodash', 'wp-polyfill' ),
 			false,
 			true
 		);
