@@ -14,6 +14,10 @@ const WarningBox = styled.div`
 	color: ${ colors.$color_black };
 `;
 
+const MessageContainer = styled.div`
+	margin-left: 2px;
+`;
+
 /**
  * A warning to show in the meta box.
  * (Consists of a warning icon and a text on a yellow background)
@@ -23,15 +27,14 @@ const WarningBox = styled.div`
 class YoastWarning extends React.Component {
 	render() {
 		const { message } = this.props;
-
 		if ( isEmpty( message ) ) {
 			return null;
 		}
 		return <WarningBox>
 			<SvgIcon icon="exclamation-triangle" size="16px" />
-			<div>
+			<MessageContainer>
 				{ message }
-			</div>
+			</MessageContainer>
 		</WarningBox>;
 	}
 }
