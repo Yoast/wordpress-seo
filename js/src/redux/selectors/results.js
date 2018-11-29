@@ -56,9 +56,19 @@ export function getResultsForFocusKeyword( state ) {
  * @returns {Object|null} The assessment result.
  */
 export function getResultById( state, id ) {
+	let resultsForFocusKeyphrase = getResultsForFocusKeyword( state ).results;
+	if ( typeof resultsForFocusKeyphrase === "undefined" ) {
+		resultsForFocusKeyphrase = {};
+	}
+
+	let resultsForReadability = getReadabilityResults( state ).results;
+	if ( typeof resultsForReadability === "undefined" ) {
+		resultsForReadability = {};
+	}
+
 	const allResults = [
-		...getResultsForFocusKeyword( state ).results,
-		...getReadabilityResults( state ).results,
+		...resultsForFocusKeyphrase,
+		...resultsForReadability,
 	];
 
 	return allResults.find( result => result._identifier === id );
