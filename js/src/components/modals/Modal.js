@@ -5,23 +5,6 @@ import { __ } from "@wordpress/i18n";
 
 import { YoastModal, SvgIcon } from "yoast-components";
 
-const defaultProps = {
-	appElement: "#wpwrap",
-	openButtonIcon: "",
-	labels: {
-		open: __( "Open", "wordpress-seo" ),
-		modalAriaLabel: "",
-		heading: "",
-		closeIconButton: __( "Close", "wordpress-seo" ),
-		closeButton: "",
-	},
-	classes: {
-		openButton: "",
-		closeIconButton: "",
-		closeButton: "",
-	},
-};
-
 const StyledButton = styled.button`
 	// Increase specificity to override WP rules.
 	&& {
@@ -58,7 +41,7 @@ class Modal extends React.Component {
 		this.openModal  = this.openModal.bind( this );
 		this.closeModal = this.closeModal.bind( this );
 
-		this.appElement = document.querySelector( this.props.appElement || defaultProps.appElement );
+		this.appElement = document.querySelector( this.props.appElement );
 	}
 
 	/**
@@ -89,18 +72,25 @@ class Modal extends React.Component {
 	 * @returns {ReactElement} The rendered react element.
 	 */
 	render() {
-		const openButtonIcon = this.props.openButtonIcon || defaultProps.openButtonIcon;
-		const modalLabels = Object.assign( {}, defaultProps.labels, this.props.labels );
-		const modalClasses = Object.assign( {}, defaultProps.classes, this.props.classes );
+		const defaultLabels = {
+			labels: {
+				open: __( "Open", "wordpress-seo" ),
+				heading: "",
+				closeIconButton: __( "Close", "wordpress-seo" ),
+				closeButton: "",
+			},
+		};
+
+		const modalLabels = Object.assign( {}, defaultLabels.labels, this.props.labels );
 
 		return (
 			<React.Fragment>
 				<StyledButton
 					type="button"
 					onClick={ this.openModal }
-					className={ `${ modalClasses.openButton } yoast-modal__button-open` }
+					className={ `${ this.props.classes.openButton } yoast-modal__button-open` }
 				>
-					{ openButtonIcon && <SvgIcon icon={ openButtonIcon } size="13px" /> }
+					{ this.props.openButtonIcon && <SvgIcon icon={ this.props.openButtonIcon } size="13px" /> }
 					{ modalLabels.open }
 				</StyledButton>
 				<YoastModal
@@ -111,9 +101,9 @@ class Modal extends React.Component {
 					appElement={ this.appElement }
 					heading={ modalLabels.heading }
 					closeIconButton={ modalLabels.closeIconButton }
-					closeIconButtonClassName={ modalClasses.closeIconButton }
+					closeIconButtonClassName={ this.props.classes.closeIconButton }
 					closeButton={ modalLabels.closeButton }
-					closeButtonClassName={ modalClasses.closeButton }
+					closeButtonClassName={ this.props.classes.closeButton }
 				>
 					{ this.props.children }
 				</YoastModal>
@@ -131,7 +121,7 @@ Modal.propTypes = {
 		heading: PropTypes.string,
 		closeIconButton: PropTypes.string,
 		closeButton: PropTypes.string,
-	} ),
+	} ).isRequired,
 	classes: PropTypes.shape( {
 		openButton: PropTypes.string,
 		closeIconButton: PropTypes.string,
@@ -143,7 +133,13 @@ Modal.propTypes = {
 
 Modal.defaultProps = {
 	className: "",
-	...defaultProps,
+	appElement: "#wpwrap",
+	openButtonIcon: "",
+	classes: {
+		openButton: "",
+		closeIconButton: "",
+		closeButton: "",
+	},
 };
 
 export default Modal;
