@@ -1,14 +1,14 @@
 const webpack = require( "webpack" );
 const CaseSensitivePathsPlugin = require( "case-sensitive-paths-webpack-plugin" );
-const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
+const CopyWebpackPlugin = require( "copy-webpack-plugin" );
 const path = require( "path" );
 const mapValues = require( "lodash/mapValues" );
 const isString = require( "lodash/isString" );
 
 const paths = require( "./paths" );
-const pkg = require( "../package.json" );
-
-const pluginVersionSlug = paths.flattenVersionForFile( pkg.yoast.pluginVersion );
+const externals = require( "./externals" );
+const utils = require( "./utils" );
+const backportsConfig = require( "./backports.webpack.config" );
 
 const root = path.join( __dirname, "../" );
 const mainEntry = mapValues( paths.entry, entry => {
@@ -19,23 +19,10 @@ const mainEntry = mapValues( paths.entry, entry => {
 	return "./" + path.join( "js/src/", entry );
 } );
 
-const externals = {
-	// This is necessary for Gutenberg to work.
-	tinymce: "window.tinymce",
-
-	yoastseo: "window.yoast.analysis",
-	"yoast-components": "window.yoast.components",
-	react: "React",
-	"react-dom": "ReactDOM",
-
-	lodash: "window.lodash",
-};
-
 module.exports = function( env = { environment: "production", recalibration: "disabled" } ) {
-	const mode = env.environment || process.env.NODE_ENV || "production";
+	const mode = env.environment;
 	const isRecalibration = ( env.recalibration || process.env.YOAST_RECALIBRATION || "disabled" ) === "enabled";
-	const outputFilenamePostfix = mode === "development" ? ".js" : ".min.js";
-	const outputFilename = "[name]-" + pluginVersionSlug + outputFilenamePostfix;
+	const outputFilename = utils.getOutputFilename( mode );
 
 	const plugins = [
 		new webpack.DefinePlugin( {
@@ -166,36 +153,7 @@ module.exports = function( env = { environment: "production", recalibration: "di
 				],
 			},
 			// Config for wp packages files that are shipped for BC with WP 4.9.
-			{
-				...base,
-				externals: {
-					...externals,
-
-					"@wordpress/element": "window.wp.element",
-					"@wordpress/data": "window.wp.data",
-					"@wordpress/components": "window.wp.components",
-					"@wordpress/i18n": "window.wp.i18n",
-					"@wordpress/api-fetch": "window.wp.apiFetch",
-					"@wordpress/rich-text": "window.wp.richText",
-					"@wordpress/compose": "window.wp.compose",
-				},
-				output: {
-					path: paths.jsDist,
-					filename: "wp-" + outputFilename,
-					jsonpFunction: "yoastWebpackJsonp",
-					library: [ "wp", "[name]" ],
-				},
-				entry: {
-					apiFetch: "./node_modules/@wordpress/api-fetch",
-					components: "./node_modules/@wordpress/components",
-					data: "./node_modules/@wordpress/data",
-					element: "./node_modules/@wordpress/element",
-					i18n: "./node_modules/@wordpress/i18n",
-					compose: "./node_modules/@wordpress/compose",
-					richText: "./node_modules/@wordpress/rich-text",
-				},
-				plugins,
-			},
+			backportsConfig( env ),
 			// Config for files that should not use any externals at all.
 			{
 				...base,
