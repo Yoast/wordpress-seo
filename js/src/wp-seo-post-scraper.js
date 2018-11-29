@@ -36,6 +36,7 @@ import snippetEditorHelpers from "./analysis/snippetEditor";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
 import getApplyMarks from "./analysis/getApplyMarks";
 import { refreshDelay } from "./analysis/constants";
+import handleWorkerError from "./analysis/handleWorkerError";
 
 // Redux dependencies.
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
@@ -468,7 +469,7 @@ setWordPressSeoL10n();
 			}
 		};
 		YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
-			YoastSEO.analysis.worker.initialize( assessorOptions );
+			YoastSEO.analysis.worker.initialize( assessorOptions ).catch( handleWorkerError );
 			YoastSEO.app.refresh();
 		};
 
@@ -497,7 +498,7 @@ setWordPressSeoL10n();
 			.then( () => {
 				jQuery( window ).trigger( "YoastSEO:ready" );
 			} )
-			.catch( error => console.warn( error ) );
+			.catch( handleWorkerError );
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
