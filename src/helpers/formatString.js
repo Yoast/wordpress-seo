@@ -12,10 +12,15 @@ import { escapeRegExp } from "lodash-es";
  * @returns {string} the formatted string.
  */
 export default function( string, formatMap ) {
-	Object.keys( formatMap ).forEach( key => {
-		const replaceRegex = new RegExp( `%${ escapeRegExp( key ) }%`, "g" );
-		string = string.replace( replaceRegex, formatMap[ key ] );
-	} );
+	const parameterRegex = /%(.*?)%/g;
+	let match;
+	let formattedString = string;
 
-	return string;
+	while ( ( match = parameterRegex.exec( string ) ) !== null ) {
+		const key = match[ 1 ];
+		const replaceRegex = new RegExp( `%${ escapeRegExp( key ) }%`, "g" );
+		formattedString = formattedString.replace( replaceRegex, formatMap[ key ] );
+	}
+
+	return formattedString;
 }
