@@ -4,11 +4,13 @@ import YoastWarning from "../components/YoastWarning";
 
 test( "YoastWarning matches the snapshot", () => {
 	const component = renderer.create(
-		<YoastWarning message={ [
-			"This is a warning message",
-			<a key={ 1 } href="https://yoast.com" target="_blank">Go to Yoast.com</a>,
-			<p key={ 2 }>React will render this</p>,
-		] } />
+		<YoastWarning
+			message={ [
+				"This is a warning message",
+				<a key={ 1 } href="https://yoast.com" target="_blank">Go to Yoast.com</a>,
+				<p key={ 2 }>React will render this</p>,
+			] }
+		/>
 	);
 
 	const tree = component.toJSON();
