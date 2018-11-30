@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import colors from "yoast-components/style-guide/colors";
+import colors from "../../style-guide/colors.json";
 
 const BannerContents = styled.span`
 	position: absolute;

@@ -2,8 +2,8 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
-
-import { colors, utils } from "yoast-components";
+import colors from "../../style-guide/colors.json";
+import { makeOutboundLink } from "../../utils/makeOutboundLink";
 
 const CardLinkButton = styled.a`
 	align-items: center;
@@ -44,8 +44,8 @@ const CardInfoLink = styled.a`
 	font-weight: bold;
 `
 
-const OutboundLinkButton = utils.makeOutboundLink( CardLinkButton );
-const OutboundInfoLink = utils.makeOutboundLink( CardInfoLink );
+const OutboundLinkButton = makeOutboundLink( CardLinkButton );
+const OutboundInfoLink = makeOutboundLink( CardInfoLink );
 
 const ActionBlock = styled.div`
 	text-align: center;
