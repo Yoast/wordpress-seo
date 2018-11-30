@@ -12,7 +12,7 @@ const CardLinkButton = styled.a`
 	cursor: pointer;
 	color: ${ colors.$color_black };
 	white-space: nowrap;
-	display: inline-flex;
+	display: block;
 	border-radius: 4px;
 	background-color: ${ colors.$color_button_upsell };
 	padding: 12px 16px;
@@ -21,7 +21,6 @@ const CardLinkButton = styled.a`
 	text-decoration: none;
 	font-weight: bold;
 	font-size: inherit;
-	width: 85%;
 	margin-top: 24px;
 
 	&:hover,
@@ -43,8 +42,6 @@ const CardLinkButton = styled.a`
 const CardInfoLink = styled.a`
 	padding: 12px 16px;
 	font-weight: bold;
-	font-size: 0.9rem;
-    line-height: 1.5;
 `
 
 const OutboundLinkButton = utils.makeOutboundLink( CardLinkButton );
