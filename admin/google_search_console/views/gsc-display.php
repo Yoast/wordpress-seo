@@ -61,7 +61,7 @@ switch ( $platform_tabs->current_tab() ) {
 			echo "</form>\n";
 		}
 		else {
-			$reset_button = '<a class="button" href="' . esc_url( add_query_arg( 'gsc_reset', 1 ) ) . '">' . esc_html__( 'Reauthenticate with Google ', 'wordpress-seo' ) . '</a>';
+			$reset_button = '<a class="button" href="' . esc_url( add_query_arg( 'gsc_reset', 1 ) ) . '">' . esc_html__( 'Reauthenticate with Google', 'wordpress-seo' ) . '</a>';
 			echo '<h3>', esc_html__( 'Current profile', 'wordpress-seo' ), '</h3>';
 			$profile = WPSEO_GSC_Settings::get_profile();
 			if ( $profile !== '' ) {

@@ -20,7 +20,7 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 	 * @return WPSEO_WooCommerce_Shop_page
 	 */
 	protected function get_woocommerce_shop_page_mock( $post ) {
-		$woocommerce_shop_page = $this->getMockBuilder( 'WPSEO_WooCommerce_Shop_Page' )
+		$woocommerce_shop_page = $this->getMockBuilder( 'WPSEO_WooCommerce_Shop_Page_Double' )
 			->setMethods( array( 'is_shop_page', 'get_shop_page_id' ) )
 			->getMock();
 
