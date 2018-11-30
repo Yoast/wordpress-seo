@@ -15,7 +15,7 @@ describe( "handleWorkerError for the Recalibrated version", () => {
 			},
 		};
 
-		handleWorkerError( "error message" );
+		handleWorkerError();
 
 		expect( YoastSEO.store.dispatch ).toHaveBeenCalledTimes( 1 );
 		expect( YoastSEO.store.dispatch ).toHaveBeenCalledWith( {
@@ -42,7 +42,7 @@ describe( "handleWorkerError for the non-Recalibrated version", () => {
 			},
 		};
 
-		handleWorkerError( "error message" );
+		handleWorkerError();
 
 		expect( YoastSEO.store.dispatch ).toHaveBeenCalledTimes( 1 );
 		expect( YoastSEO.store.dispatch ).toHaveBeenCalledWith( {

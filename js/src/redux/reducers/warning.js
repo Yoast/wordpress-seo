@@ -14,7 +14,7 @@ const INITIAL_STATE = {
  * @returns {Object} The state.
  */
 export default function warningReducer( state = INITIAL_STATE, action ) {
-	switch( action.type ) {
+	switch ( action.type ) {
 		case SET_WARNING_MESSAGE:
 			return {
 				...state,
