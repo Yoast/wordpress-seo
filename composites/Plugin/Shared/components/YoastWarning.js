@@ -43,4 +43,8 @@ YoastWarning.propTypes = {
 	message: PropTypes.array,
 };
 
+YoastWarning.defeaultProps = {
+	message: [],
+};
+
 export default YoastWarning;
