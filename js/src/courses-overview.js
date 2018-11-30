@@ -68,7 +68,7 @@ const getHeaderData = ( course ) => {
 		title: course.title,
 		link: course.courseUrl,
 	};
-}
+};
 
 render(
 	<OuterContainer>
