@@ -111,7 +111,15 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_output' ) );
 
-		$this->assertEquals( array( 5, 600, 23, 0, 0, 3 ), $sitemap_provider->get_excluded_posts() );
+		$expected = array(
+			0 => 5,
+			1 => 600,
+			2 => 23,
+			3 => 0,
+			5 => 3,
+		);
+
+		$this->assertEquals( $expected, $sitemap_provider->get_excluded_posts( 'post' ) );
 
 		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_output' ) );
 	}
@@ -126,7 +134,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_invalid_output' ) );
 
-		$this->assertEquals( array(), $sitemap_provider->get_excluded_posts( '1,2,3,4' ) );
+		$this->assertEquals( array(), $sitemap_provider->get_excluded_posts( 'post' ) );
 
 		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_invalid_output' ) );
 	}
@@ -157,7 +165,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 * @return string An invalid value.
 	 */
 	public function filter_with_invalid_output( $excluded_post_ids ) {
-		return '';
+		return '1,2,3,4';
 	}
 
 	/**

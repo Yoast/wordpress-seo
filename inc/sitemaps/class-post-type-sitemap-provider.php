@@ -220,11 +220,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
-		$posts_to_exclude = $this->get_excluded_posts();
-
-		if ( $post_type === 'page' && $this->get_page_on_front_id() ) {
-			$posts_to_exclude[] = $this->get_page_on_front_id();
-		}
+		$posts_to_exclude = $this->get_excluded_posts( $type );
 
 		while ( $total > $offset ) {
 
@@ -312,24 +308,34 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Retrieves a list with the excluded post ids.
 	 *
+	 * @param string $post_type Post type.
+	 *
 	 * @return array Array with post ids to exclude.
 	 */
-	protected function get_excluded_posts() {
+	protected function get_excluded_posts( $post_type ) {
+		$excluded_posts_ids = array();
+
+		if ( $post_type === 'page' && $this->get_page_for_posts_id() ) {
+			$excluded_posts_ids[] = $this->get_page_for_posts_id();
+		}
+
 		/**
 		 * Filter: 'wpseo_exclude_from_sitemap_by_post_ids' - Allow extending and modifying the posts to exclude.
 		 *
 		 * @api array $posts_to_exclude The posts to exclude.
 		 */
-		$excluded_posts_ids = apply_filters(
-			'wpseo_exclude_from_sitemap_by_post_ids',
-			$this->get_page_for_posts_id() ? array( $this->get_page_for_posts_id() ) : array()
-		);
-
-		if ( ! is_array( $excluded_posts_ids ) || $excluded_posts_ids === array() ) {
-			return array();
+		$excluded_posts_ids = apply_filters( 'wpseo_exclude_from_sitemap_by_post_ids', $excluded_posts_ids );
+		if ( ! is_array( $excluded_posts_ids ) ) {
+			$excluded_posts_ids = array();
 		}
 
-		return array_map( 'intval', $excluded_posts_ids );
+		$excluded_posts_ids = array_map( 'intval', $excluded_posts_ids );
+
+		if ( $post_type === 'page' && $this->get_page_on_front_id() ) {
+			$excluded_posts_ids[] = $this->get_page_on_front_id();
+		}
+
+		return array_unique( $excluded_posts_ids );
 	}
 
 	/**
@@ -386,11 +392,16 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		if ( $post_type === 'page' ) {
 
-			$front_page = array( 'loc' => $this->get_home_url() );
+			if ( $this->get_page_on_front_id() ) {
+				$front_page = $this->get_url(
+					get_post( $this->get_page_on_front_id() )
+				);
+			}
 
-			$post = $this->get_page_on_front_id() ? get_post( $this->get_page_on_front_id() ) : null;
-			if ( $post ) {
-				$front_page = $this->get_url( $post );
+			if ( empty( $front_page ) ) {
+				$front_page = array(
+					'loc' => $this->get_home_url(),
+				);
 			}
 
 			// Deprecated, kept for backwards data compat. R.
