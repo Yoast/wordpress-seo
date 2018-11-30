@@ -27,7 +27,11 @@ export default function handleWorkerError() {
 			},
 		} );
 	} else {
-		message.push( "Sorry! Something went wrong while loading the analysis! If the problem persists please inform us about this error."  );
+		message.push(
+			__(
+				"Sorry! Something went wrong while loading the analysis! If the problem persists please inform us about this error."
+			)
+		);
 	}
 	window.YoastSEO.store.dispatch( setWarningMessage( message ) );
 }
