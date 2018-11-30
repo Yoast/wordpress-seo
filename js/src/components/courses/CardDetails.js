@@ -68,7 +68,7 @@ const Details = styled.div`
 	flex-grow: 1;
 `;
 
-class CourseDetails extends React.Component {
+class CardDetails extends React.Component {
 	/**
 	 * Sets the CourseCard object.
 	 *
@@ -107,9 +107,9 @@ class CourseDetails extends React.Component {
 	}
 }
 
-export default CourseDetails;
+export default CardDetails;
 
-CourseDetails.propTypes = {
+CardDetails.propTypes = {
 	title: PropTypes.string,
 	image: PropTypes.string,
 	description: PropTypes.string,
