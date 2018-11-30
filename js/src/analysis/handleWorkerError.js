@@ -33,18 +33,28 @@ export default function handleWorkerError() {
 			),
 			components: {
 				bold: <b />,
-				link: <a href="/wp-admin/admin.php?page=wpseo_dashboard#top#features" target="_blank" />,
+				link: <a href="/wp-admin/admin.php?page=wpseo_dashboard#top#features" target="_blank" rel="noopener noreferrer" />,
 			},
 		} );
 		/* eslint-enable jsx-a11y/anchor-has-content */
 	} else {
-		message.push(
-			__(
-				"Sorry! Something went wrong while loading the analysis! If the problem persists please inform us about " +
-				"this error. Thanks!",
+		// Disable reason: the anchor has content, as the component uses interpolateComponents.
+		/* eslint-disable jsx-a11y/anchor-has-content */
+		message = interpolateComponents( {
+			/* Translators:
+			 * {{link}} resolves to the link to SEO/Features,
+			 * {{/link}} resolves to the link closing tag.
+			 */
+			mixedString: __(
+				"Sorry! Something went wrong while loading the analysis! If the problem persists please " +
+				"{{link}}inform us about this error{{/link}}. Thanks!",
 				"wordpress-seo"
-			)
-		);
+			),
+			components: {
+				link: <a href="https://github.com/Yoast/wordpress-seo/issues/new/choose" target="_blank" rel="noopener noreferrer" />,
+			},
+		} );
+		/* eslint-enable jsx-a11y/anchor-has-content */
 	}
 	window.YoastSEO.store.dispatch( setWarningMessage( message ) );
 }

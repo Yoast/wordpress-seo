@@ -12,7 +12,7 @@ describe( "cornerstone reducers", () => {
 			const action = setWarningMessage( [ "test message" ] );
 			const expected = {
 				key: "value",
-				message: [ "test message" ]
+				message: [ "test message" ],
 			};
 			const actual = warning( state, action );
 
