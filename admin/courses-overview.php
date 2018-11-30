@@ -11,7 +11,7 @@
 class WPSEO_Courses_Overview implements WPSEO_WordPress_Integration {
 
 	/**
-	 * Registers all hooks to WordPress
+	 * Registers all hooks to WordPress.
 	 *
 	 * @return void
 	 */
@@ -19,12 +19,17 @@ class WPSEO_Courses_Overview implements WPSEO_WordPress_Integration {
 		global $pagenow;
 		$current_page = filter_input( INPUT_GET, 'page' );
 
-		if ( $pagenow === "admin.php" && $current_page === "wpseo_courses" ) {
+		if ( $pagenow === 'admin.php' && $current_page === 'wpseo_courses' ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		}
 	}
 
+	/**
+	 * Enqueue the relevant script.
+	 *
+	 * @return void
+	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script(WPSEO_Admin_Asset_Manager::PREFIX . 'courses-overview' );
+		wp_enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'courses-overview' );
 	}
 }
