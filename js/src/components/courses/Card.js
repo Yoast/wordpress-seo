@@ -87,3 +87,24 @@ export default Card;
 export const FullHeightCard = styled( Card )`
 	height: 100%;
 `;
+
+Card.propTypes = {
+	className: PropTypes.string,
+	id: PropTypes.string,
+	header: PropTypes.shape( {
+		title: PropTypes.string,
+		image: PropTypes.string.isRequired,
+		link: PropTypes.string,
+	} ),
+	banner: PropTypes.shape( {
+		text: PropTypes.string.isRequired,
+		textColor: PropTypes.string,
+		backgroundColor: PropTypes.string,
+	} ),
+	children: PropTypes.any,
+};
+
+Card.defaultProps = {
+	id: null,
+};
+

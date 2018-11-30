@@ -24,7 +24,6 @@ const CardLinkButton = styled.a`
 	width: 85%;
 	margin-top: 24px;
 
-
 	&:hover,
 	&:focus,
 	&:active {
@@ -41,7 +40,7 @@ const CardLinkButton = styled.a`
 	}
 `;
 
-const MoreInfoLink = styled.a`
+const CardInfoLink = styled.a`
 	padding: 12px 16px;
 	font-weight: bold;
 	font-size: 0.9rem;
@@ -49,7 +48,7 @@ const MoreInfoLink = styled.a`
 `
 
 const OutboundLinkButton = utils.makeOutboundLink( CardLinkButton );
-const OutboundMoreInfoLink = utils.makeOutboundLink( MoreInfoLink );
+const OutboundInfoLink = utils.makeOutboundLink( CardInfoLink );
 
 const ActionBlock = styled.div`
 	text-align: center;
@@ -95,12 +94,12 @@ class CourseDetails extends React.Component {
 					<p>{ this.props.description }</p>
 				</Details>
 				<ActionBlock>
-					<OutboundMoreInfoLink href={ this.props.courseUrl }>
+					<OutboundInfoLink href={ this.props.courseUrl }>
 						{
 							__( "Read more about this course", "wordpress-seo" )
 						}
-					</OutboundMoreInfoLink>
-					<OutboundLinkButton href={ this.props.courseUrl }>
+					</OutboundInfoLink>
+					<OutboundLinkButton href={ this.props.shopUrl }>
 						{
 							__( "Get the full course", "wordpress-seo" )
 						}
@@ -112,3 +111,11 @@ class CourseDetails extends React.Component {
 }
 
 export default CourseDetails;
+
+CourseDetails.propTypes = {
+	title: PropTypes.string,
+	image: PropTypes.string,
+	description: PropTypes.string,
+	courseUrl: PropTypes.string,
+	shopUrl: PropTypes.string,
+};
