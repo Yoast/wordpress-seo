@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import colors from "../../style-guide/colors.json";
 import { makeOutboundLink } from "../../utils/makeOutboundLink";
-import Banner from "./CardBanner";
 
 const CardLinkButton = styled.a`
 	align-items: center;
