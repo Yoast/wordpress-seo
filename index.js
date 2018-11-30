@@ -29,7 +29,7 @@ import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/K
 // Composites/basic imports.
 import { default as Loader } from "./composites/basic/Loader";
 
-//Composites/CoursesOverview imports
+// Composites/CoursesOverview imports
 import { default as Card } from "./composites/CoursesOverview/Card";
 import { FullHeightCard } from "./composites/CoursesOverview/Card";
 import { default as CardBanner } from "./composites/CoursesOverview/CardBanner";

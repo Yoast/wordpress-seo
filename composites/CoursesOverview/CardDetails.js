@@ -42,7 +42,7 @@ const CardLinkButton = styled.a`
 const CardInfoLink = styled.a`
 	padding: 12px 16px;
 	font-weight: bold;
-`
+`;
 
 const OutboundLinkButton = makeOutboundLink( CardLinkButton );
 const OutboundInfoLink = makeOutboundLink( CardInfoLink );
