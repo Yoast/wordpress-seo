@@ -9,7 +9,7 @@ import preferences from "./preferences";
 import settings from "./settings";
 import primaryTaxonomies from "./primaryTaxonomies";
 import activeMarker from "./activeMarker";
-import markerPause from "./markerPause";
+import markerPause from "./markerPauseStatus";
 
 export default {
 	analysis,

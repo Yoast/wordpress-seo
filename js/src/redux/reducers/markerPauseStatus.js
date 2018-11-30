@@ -1,4 +1,4 @@
-import { SET_MARKER_PAUSE } from "../actions/markerPause";
+import { SET_MARKER_PAUSE_STATUS } from "../actions/markerPauseStatus";
 
 const INITIAL_STATE = false;
 
@@ -22,13 +22,13 @@ function setMarkerPauseStatus( state, action ) {
  *
  * @returns {Object} The state.
  */
-function markerPauseReducer( state = INITIAL_STATE, action ) {
+function markerPauseStatusReducer(state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
-		case SET_MARKER_PAUSE:
+		case SET_MARKER_PAUSE_STATUS:
 			return setMarkerPauseStatus( state, action );
 		default:
 			return state;
 	}
 }
 
-export default markerPauseReducer;
+export default markerPauseStatusReducer;

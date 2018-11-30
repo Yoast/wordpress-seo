@@ -21,7 +21,7 @@ import { LocationConsumer } from "../contexts/location";
 import AnalysisUpsell from "../AnalysisUpsell";
 import RecalibrationBetaNotification from "./RecalibrationBetaNotification";
 import HelpLink from "./HelpLink";
-import { setMarkerPause } from "../../redux/actions/markerPause";
+import { setMarkerPauseStatus } from "../../redux/actions/markerPauseStatus";
 
 // We need localizedData temporarily here to know if the recalibration beta is toggled.
 let localizedData = {};
@@ -364,10 +364,10 @@ function mapDispatchToProps( dispatch ) {
 	return {
 		onFocusKeywordChange: ( value ) => {
 			dispatch( setFocusKeyword( value ) );
-			dispatch( setMarkerPause( true ) );
+			dispatch( setMarkerPauseStatus( true ) );
 		},
 		onBlurKeyword: () => {
-			dispatch( setMarkerPause( false ) );
+			dispatch( setMarkerPauseStatus( false ) );
 		},
 	};
 }

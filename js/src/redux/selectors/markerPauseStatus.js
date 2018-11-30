@@ -5,6 +5,6 @@
  *
  * @returns {boolean} Marker pause state.
  */
-export function getMarkerPauseState( state ) {
-	return state.markerPause;
+export function getMarkerPauseStatus( state ) {
+	return state.markerPauseStatus;
 }
