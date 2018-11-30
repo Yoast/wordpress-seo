@@ -122,7 +122,7 @@ CardDetails.propTypes = {
 	shopUrl: PropTypes.string,
 };
 
-Banner.defaultProps = {
+CardDetails.defaultProps = {
 	title: null,
 	description: null,
 	courseUrl: null,
