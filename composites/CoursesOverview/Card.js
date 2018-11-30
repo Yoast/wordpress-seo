@@ -27,7 +27,11 @@ const Content = styled.div`
 	flex-grow: 1;
 `;
 
-
+/**
+ * @summary Card component.
+ *
+ * @returns {Component} Rendered Card component.
+ */
 class Card extends React.Component {
 	/**
 	 * Returns the header image, either with a link to the course if it is present,
@@ -105,6 +109,10 @@ Card.propTypes = {
 };
 
 Card.defaultProps = {
+	className: null,
 	id: null,
+	header: null,
+	banner: null,
+	children: null,
 };
 

@@ -53,4 +53,5 @@ Banner.propTypes = {
 Banner.defaultProps = {
 	backgroundColor: colors.$color_pink_dark,
 	textColor: colors.$color_white,
+	children: null,
 };

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import colors from "../../style-guide/colors.json";
 import { makeOutboundLink } from "../../utils/makeOutboundLink";
+import Banner from "./CardBanner";
 
 const CardLinkButton = styled.a`
 	align-items: center;
@@ -68,6 +69,11 @@ const Details = styled.div`
 	flex-grow: 1;
 `;
 
+/**
+ * @summary CardDetails component.
+ *
+ * @returns {Component} The rendered CardDetails component.
+ */
 class CardDetails extends React.Component {
 	/**
 	 * Sets the CourseCard object.
@@ -111,8 +117,14 @@ export default CardDetails;
 
 CardDetails.propTypes = {
 	title: PropTypes.string,
-	image: PropTypes.string,
 	description: PropTypes.string,
 	courseUrl: PropTypes.string,
 	shopUrl: PropTypes.string,
+};
+
+Banner.defaultProps = {
+	title: null,
+	description: null,
+	courseUrl: null,
+	shopUrl: null,
 };
