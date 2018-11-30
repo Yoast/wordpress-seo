@@ -22,9 +22,17 @@ class Results extends React.Component {
 	constructor( props ) {
 		super( props );
 
+		const results = this.props.results;
+
 		this.state = {
-			mappedResults: mapResults( this.props.results ),
+			mappedResults: {},
 		};
+
+		if ( results !== null ) {
+			this.state = {
+				mappedResults: mapResults( this.props.results ),
+			};
+		}
 
 		this.handleMarkButtonClick = this.handleMarkButtonClick.bind( this );
 	}
