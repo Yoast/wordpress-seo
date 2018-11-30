@@ -193,14 +193,6 @@ class WPSEO_Admin_Asset_Manager {
 		wp_register_script( 'wp-polyfill', plugins_url( 'js/dist/babel-polyfill-' . $flat_version . '.min.js', WPSEO_FILE ), array(), false, true );
 
 		wp_register_script(
-			'wp-sanitize',
-			'/wp-includes/js/wp-sanitize.min.js',
-			array( 'lodash' ),
-			false,
-			true
-		);
-
-		wp_register_script(
 			'wp-element',
 			plugins_url( 'js/dist/wp-element-' . $flat_version . '.min.js', WPSEO_FILE ),
 			array( 'lodash', 'wp-polyfill' ),
