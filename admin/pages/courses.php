@@ -12,7 +12,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-echo "<h1> Yoast SEO Courses Overview </h1>";
+$yform = Yoast_Form::get_instance();
+$yform->admin_header( false );
 
 echo "<div id='yoast-courses-overview'></div>";
 
