@@ -106,7 +106,14 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	handleError( event ) {
-		const lastRequest = this._requests[ this._autoIncrementedRequestId ];
+		/*
+		 * Try to get the last request. This might not perfectly match the request error.
+		 * However, that is not as bad as not being able to reject it like this.
+		 *
+		 * This is the current length - 1 and not _autoIncrementedRequestId
+		 * because that might be a request that is handled already.
+		 */
+		const lastRequest = this._requests[ this._requests.length - 1 ];
 		if ( ! lastRequest ) {
 			console.error( "AnalysisWebWorker error:", event );
 			return;
