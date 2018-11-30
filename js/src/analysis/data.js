@@ -212,11 +212,13 @@ class Data {
 	reapplyMarkers() {
 		const {
 			getActiveMarker,
+			getMarkerPauseState,
 		} = this._wpData.select( "yoast-seo/editor" );
 
 		const activeMarker = getActiveMarker();
+		const isMarkerPaused = getMarkerPauseState();
 
-		if ( ! activeMarker ) {
+		if ( ! activeMarker || isMarkerPaused ) {
 			return;
 		}
 

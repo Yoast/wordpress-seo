@@ -21,6 +21,7 @@ import { LocationConsumer } from "../contexts/location";
 import AnalysisUpsell from "../AnalysisUpsell";
 import RecalibrationBetaNotification from "./RecalibrationBetaNotification";
 import HelpLink from "./HelpLink";
+import { setMarkerPause } from "../../redux/actions/markerPause";
 
 // We need localizedData temporarily here to know if the recalibration beta is toggled.
 let localizedData = {};
@@ -280,6 +281,7 @@ class SeoAnalysis extends React.Component {
 								keyword={ this.props.keyword }
 								label={ __( "Focus keyphrase", "wordpress-seo" ) }
 								helpLink={ this.renderHelpLink() }
+								onBlurKeyword={ this.props.onBlurKeyword }
 							/>
 							<Slot name="YoastSynonyms" />
 							{ this.props.shouldUpsell && <Fragment>
@@ -362,6 +364,10 @@ function mapDispatchToProps( dispatch ) {
 	return {
 		onFocusKeywordChange: ( value ) => {
 			dispatch( setFocusKeyword( value ) );
+			dispatch( setMarkerPause( true ) );
+		},
+		onBlurKeyword: () => {
+			dispatch( setMarkerPause( false ) );
 		},
 	};
 }

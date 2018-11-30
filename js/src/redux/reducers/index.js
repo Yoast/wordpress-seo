@@ -9,6 +9,7 @@ import preferences from "./preferences";
 import settings from "./settings";
 import primaryTaxonomies from "./primaryTaxonomies";
 import activeMarker from "./activeMarker";
+import markerPause from "./markerPause";
 
 export default {
 	analysis,
@@ -21,4 +22,5 @@ export default {
 	settings,
 	primaryTaxonomies,
 	activeMarker,
+	markerPause,
 };
