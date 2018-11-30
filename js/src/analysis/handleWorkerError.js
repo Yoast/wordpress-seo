@@ -15,6 +15,8 @@ export default function handleWorkerError() {
 
 	let message = [];
 	if ( isRecalibrationBetaActive ) {
+		// Disable reason: the anchor has content, as the component uses interpolateComponents.
+		/* eslint-disable jsx-a11y/anchor-has-content */
 		message = interpolateComponents( {
 			/* Translators:
 			 * {{link}} resolves to the link to SEO/Features,
@@ -34,6 +36,7 @@ export default function handleWorkerError() {
 				link: <a href="/wp-admin/admin.php?page=wpseo_dashboard#top#features" target="_blank" />,
 			},
 		} );
+		/* eslint-enable jsx-a11y/anchor-has-content */
 	} else {
 		message.push(
 			__(
