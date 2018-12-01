@@ -5,13 +5,13 @@ export const SET_MARKER_PAUSE_STATUS = `${ PREFIX }SET_MARKER_PAUSE_STATUS`;
 /**
  * Updates the marker pause status boolean.
  *
- * @param {boolean} isMarkingPaused True if the marking is paused.
+ * @param {boolean} isMarkerPaused True if the marking is paused.
  *
  * @returns {Object} An action for redux.
  */
-export function setMarkerPauseStatus( isMarkingPaused ) {
+export function setMarkerPauseStatus( isMarkerPaused ) {
 	return {
 		type: SET_MARKER_PAUSE_STATUS,
-		isMarkingPaused: isMarkingPaused,
+		isMarkerPaused: isMarkerPaused,
 	};
 }
