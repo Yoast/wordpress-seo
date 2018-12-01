@@ -22,7 +22,7 @@ function setMarkerPauseStatus( state, action ) {
  *
  * @returns {Object} The state.
  */
-function markerPauseStatusReducer(state = INITIAL_STATE, action ) {
+function markerPauseStatusReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
 		case SET_MARKER_PAUSE_STATUS:
 			return setMarkerPauseStatus( state, action );
