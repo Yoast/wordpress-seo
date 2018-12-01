@@ -11,7 +11,7 @@ const INITIAL_STATE = false;
  * @returns {Object} The SEO results per keyword.
  */
 function setMarkerPauseStatus( state, action ) {
-	return action.isMarkingPaused;
+	return action.isMarkerPaused;
 }
 
 /**
