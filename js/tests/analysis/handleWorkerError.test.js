@@ -1,44 +1,52 @@
 import React from "react";
 import handleWorkerError from "../../src/analysis/handleWorkerError";
 
-describe( "handleWorkerError for the Recalibrated version", () => {
-	beforeEach( () => {
+
+describe( "handleWorkerError", () => {
+	test( "dispatches a recalibration-specific warning", done => {
 		window.wpseoPostScraperL10n = {
 			recalibrationBetaActive: "1",
 		};
-	} );
-
-	test( "dispatches a recalibration-specific warning", () => {
 		window.YoastSEO = {
 			store: {
-				dispatch: jest.fn(),
+				dispatch: ( arg ) => {
+					expect( arg ).toBeDefined();
+					expect( arg.type ).toBe( "SET_WARNING_MESSAGE" );
+					expect( arg.message ).toBeDefined();
+					expect( arg.message.length ).toBe( 5 );
+
+					expect( arg.message[ 0 ] ).toEqual(
+						"We're sorry! Unfortunately, the recalibrated analysis beta doesn't work as intended with your current setup ",
+					);
+
+					expect( arg.message[ 1 ].type ).toEqual( "b" );
+					expect( arg.message[ 1 ].props.children ).toEqual( "yet" );
+
+					expect( arg.message[ 2 ] ).toEqual(
+						". Please ",
+					);
+
+					expect( arg.message[ 3 ].type ).toEqual( "a" );
+					expect( arg.message[ 3 ].props.href ).toEqual( "/wp-admin/admin.php?page=wpseo_dashboard#top#features" );
+					expect( arg.message[ 3 ].props.children ).toEqual( "deactivate the recalibration beta in your features" );
+					expect( arg.message[ 3 ].props.rel ).toEqual( "noopener noreferrer" );
+
+					expect( arg.message[ 4 ] ).toEqual(
+						" and please try again later. We value your input!",
+					);
+
+					done();
+				},
 			},
 		};
 
 		handleWorkerError();
-
-		expect( window.YoastSEO.store.dispatch ).toHaveBeenCalledTimes( 1 );
-		expect( window.YoastSEO.store.dispatch ).toHaveBeenCalledWith( {
-			type: "SET_WARNING_MESSAGE",
-			message: [
-				"We're sorry! Unfortunately, the recalibrated analysis beta doesn't work as intended with your " +
-				"current setup ", <b key="1">yet</b>,
-				". Please ",
-				<a href="/wp-admin/admin.php?page=wpseo_dashboard#top#features" target="_blank" rel="noopener noreferrer" key="1">deactivate the
-					recalibration beta in your features</a>,
-				" and please try again later. We value your input!" ],
-		} );
 	} );
-} );
 
-describe( "handleWorkerError for the non-Recalibrated version", () => {
-	beforeEach( () => {
+	test( "does not do anything when the recalibrated analysis beta is inactive", () => {
 		window.wpseoPostScraperL10n = {
 			recalibrationBetaActive: "",
 		};
-	} );
-
-	test( "dispatches a non-recalibration specific warning", () => {
 		window.YoastSEO = {
 			store: {
 				dispatch: jest.fn(),
@@ -47,15 +55,7 @@ describe( "handleWorkerError for the non-Recalibrated version", () => {
 
 		handleWorkerError();
 
-		expect( window.YoastSEO.store.dispatch ).toHaveBeenCalledTimes( 1 );
-		expect( window.YoastSEO.store.dispatch ).toHaveBeenCalledWith( {
-			type: "SET_WARNING_MESSAGE",
-			message: [
-				"Sorry! Something went wrong while loading the analysis! If the problem persists please ",
-				<a href="https://github.com/Yoast/wordpress-seo/issues/new/choose" target="_blank"rel="noopener noreferrer" key="1">inform us
-					about this error</a>,
-				". Thanks!",
-			],
-		} );
+		expect( window.YoastSEO.store.dispatch ).toHaveBeenCalledTimes( 0 );
 	} );
 } );
+
