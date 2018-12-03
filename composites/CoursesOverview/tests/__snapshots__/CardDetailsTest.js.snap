@@ -1,0 +1,270 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The CardDetails component matches the snapshot when given specific props 1`] = `
+Array [
+  .c1 {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 15px;
+  color: #a4286a;
+  font-weight: 300;
+  font-size: 1.5em;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c0 {
+  margin-bottom: 24px;
+  border-bottom: 1px #ddd solid;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+<div
+    className="c0"
+  >
+    <a
+      className="c1"
+      href="https://yoast.com/academy/keyword-research-training/"
+    >
+      Keyword Research
+    </a>
+    <p>
+      Do you know the essential first step of good SEO? It’s keyword research. In this training, 
+you’ll learn how to research and select the keywords that will guide searchers to your pages.
+    </p>
+  </div>,
+  .c2 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  cursor: pointer;
+  color: #000;
+  white-space: nowrap;
+  display: block;
+  border-radius: 4px;
+  background-color: #fec228;
+  padding: 12px 16px;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2);
+  border: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: inherit;
+  margin-top: 24px;
+}
+
+.c3:hover,
+.c3:focus,
+.c3:active {
+  color: #000;
+  background: #f2ae01;
+}
+
+.c3:active {
+  position: relative;
+  top: 2px;
+  box-shadow: none;
+  -webkit-filter: none;
+  filter: none;
+}
+
+.c1 {
+  padding: 12px 16px;
+  font-weight: bold;
+}
+
+.c0 {
+  text-align: center;
+}
+
+<div
+    className="c0"
+  >
+    <a
+      className="c1"
+      href="https://yoast.com/academy/keyword-research-training/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Read more about this course
+      <span
+        className="c2"
+      >
+        (Opens in a new browser tab)
+      </span>
+    </a>
+    <a
+      className="c3"
+      href="https://yoast.com/cart/?add-to-cart=1311259"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Get the full course
+      <span
+        className="c2"
+      >
+        (Opens in a new browser tab)
+      </span>
+    </a>
+  </div>,
+]
+`;
+
+exports[`The empty CardDetails component matches the snapshot 1`] = `
+Array [
+  .c1 {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 15px;
+  color: #a4286a;
+  font-weight: 300;
+  font-size: 1.5em;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c0 {
+  margin-bottom: 24px;
+  border-bottom: 1px #ddd solid;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+<div
+    className="c0"
+  >
+    <a
+      className="c1"
+      href={null}
+    />
+    <p />
+  </div>,
+  .c2 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c3 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  cursor: pointer;
+  color: #000;
+  white-space: nowrap;
+  display: block;
+  border-radius: 4px;
+  background-color: #fec228;
+  padding: 12px 16px;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2);
+  border: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: inherit;
+  margin-top: 24px;
+}
+
+.c3:hover,
+.c3:focus,
+.c3:active {
+  color: #000;
+  background: #f2ae01;
+}
+
+.c3:active {
+  position: relative;
+  top: 2px;
+  box-shadow: none;
+  -webkit-filter: none;
+  filter: none;
+}
+
+.c1 {
+  padding: 12px 16px;
+  font-weight: bold;
+}
+
+.c0 {
+  text-align: center;
+}
+
+<div
+    className="c0"
+  >
+    <a
+      className="c1"
+      href={null}
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Read more about this course
+      <span
+        className="c2"
+      >
+        (Opens in a new browser tab)
+      </span>
+    </a>
+    <a
+      className="c3"
+      href={null}
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Get the full course
+      <span
+        className="c2"
+      >
+        (Opens in a new browser tab)
+      </span>
+    </a>
+  </div>,
+]
+`;
