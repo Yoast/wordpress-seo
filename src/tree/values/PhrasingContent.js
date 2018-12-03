@@ -26,7 +26,7 @@ class PhrasingContent {
 	getAttributeString( attributes ) {
 		if ( attributes ) {
 			return Object.keys( attributes ).reduce( ( string, key ) => {
-				return string + ` ${key}='${attributes[ key ]}'`;
+				return string + ` ${key}="${attributes[ key ]}"`;
 			}, "" );
 		}
 		return "";

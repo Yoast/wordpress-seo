@@ -24,7 +24,7 @@ describe( "Text tree node", () => {
 		const textElement = new Text( text, phrasingElements );
 
 		expect( textElement.toHtml() ).toEqual(
-			"<strong>This</strong> is some text with a <a href='https://example.com'>link</a>."
+			"<strong>This</strong> is some text with a <a href=\"https://example.com\">link</a>."
 		);
 	} );
 } );
