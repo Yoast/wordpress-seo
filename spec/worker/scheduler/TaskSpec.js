@@ -24,7 +24,7 @@ describe( "Worker Scheduler Task", () => {
 			const error = new Error( "Task.done should be a function." );
 
 			expect( () => new Task( id, execute, "done" ) ).toThrow( error );
-			expect( () => new Task( id, execute, () => {} ) ).not.toThrow( error );
+			expect( () => new Task( id, execute, done ) ).not.toThrow( error );
 		} );
 
 		test( "task data has to be an object", () => {
