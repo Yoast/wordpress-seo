@@ -1,4 +1,3 @@
-import React from "react";
 import handleWorkerError from "../../src/analysis/handleWorkerError";
 
 
