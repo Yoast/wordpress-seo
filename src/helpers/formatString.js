@@ -8,18 +8,25 @@ import { escapeRegExp } from "lodash-es";
  *
  * @param {string} string the string to be formatted.
  * @param {Object} formatMap the mapping in the form of parameter - value pairs.
+ * @param {string} [delimiter="%%"] the string used to delimit parameters in the to be formatted string.
  *
  * @returns {string} the formatted string.
  */
-export default function( string, formatMap ) {
-	const parameterRegex = /%(.*?)%/g;
+export default function( string, formatMap, delimiter = "%%" ) {
+	delimiter = escapeRegExp( delimiter );
+	const parameterRegex = new RegExp( `${delimiter}(.+?)${delimiter}`, "g" );
 	let match;
 	let formattedString = string;
 
+	// Try to match and replace each occurrence of "%%something%%" in the string.
 	while ( ( match = parameterRegex.exec( string ) ) !== null ) {
 		const key = match[ 1 ];
-		const replaceRegex = new RegExp( `%${ escapeRegExp( key ) }%`, "g" );
-		formattedString = formattedString.replace( replaceRegex, formatMap[ key ] );
+		// Create regex from parameter (e.g. "%%key%%")
+		const replaceRegex = new RegExp( `${delimiter}${ escapeRegExp( key ) }${delimiter}`, "g" );
+		// Replace occurrence (if parameter exists in the format map).
+		if ( key in formatMap ) {
+			formattedString = formattedString.replace( replaceRegex, formatMap[ key ] );
+		}
 	}
 
 	return formattedString;

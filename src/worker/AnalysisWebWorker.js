@@ -161,7 +161,7 @@ export default class AnalysisWebWorker {
 		 */
 		this.analyze = wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the analysis." );
 		this.runResearch = wrapTryCatchAroundAction( logger, this.runResearch,
-			"An error occurred after running the '%name%' research." );
+			"An error occurred after running the '%%name%%' research." );
 	}
 
 	/**

@@ -2,7 +2,7 @@ import formatString from "../../src/helpers/formatString";
 
 describe( "formatString", () => {
 	it( "formats a string with string parameters", () => {
-		const string = "Hello %name%!";
+		const string = "Hello %%name%%!";
 		const map = {
 			name: "World",
 		};
@@ -10,7 +10,7 @@ describe( "formatString", () => {
 	} );
 
 	it( "formats a string with multiple string parameters with the same name", () => {
-		const string = "Hello %name%! The %name% is awesome, just like you!";
+		const string = "Hello %%name%%! The %%name%% is awesome, just like you!";
 		const map = {
 			name: "World",
 		};
@@ -18,7 +18,7 @@ describe( "formatString", () => {
 	} );
 
 	it( "formats a string with multiple string parameters", () => {
-		const string = "%greeting% %name%!";
+		const string = "%%greeting%% %%name%%!";
 		const map = {
 			name: "World",
 			greeting: "Hey",
@@ -27,7 +27,7 @@ describe( "formatString", () => {
 	} );
 
 	it( "formats a string with a number parameter", () => {
-		const string = "%greeting% %name%!";
+		const string = "%%greeting%% %%name%%!";
 		const map = {
 			name: "World",
 			greeting: 5,
@@ -36,21 +36,20 @@ describe( "formatString", () => {
 	} );
 
 	it( "escapes regular expressions in parameter names", () => {
-		const string = "%[a-z]% %.*?%";
+		const string = "%%[a-z]%% %%.*?%%";
 		const map = {
 			"[a-z]": "World",
 			".*?": 123,
 		};
 		expect( formatString( string, map ) ).toEqual( "World 123" );
 	} );
-} );
 
 	it( "ignores matches without format", () => {
-		const string = "%ignore% %this%";
+		const string = "%%ignore%% %%this%%";
 		const map = {
 			ignore: "ignore the following:",
 		};
-		expect( formatString( string, map ) ).toEqual( "ignore the following: %this%" );
+		expect( formatString( string, map ) ).toEqual( "ignore the following: %%this%%" );
 	} );
 
 	it( "handles a normal string", () => {
@@ -70,9 +69,26 @@ describe( "formatString", () => {
 	} );
 
 	it( "handles multiple percent-signs in a row", () => {
-		const string = "Can you handle %%% that?";
+		const string = "Can you handle %%%%% that?";
 		const map = {
 			"%": "percent",
 		};
-		expect( formatString( string, map ) ).toEqual( "Can you handle %percent% that?" );
+		expect( formatString( string, map ) ).toEqual( "Can you handle percent that?" );
 	} );
+
+	it( "handles other types of delimiters", () => {
+		let string = "--Can you-- handle this--?--";
+		let map = {
+			"Can you": "I can",
+			"?": "!",
+		};
+		expect( formatString( string, map, "--" ) ).toEqual( "I can handle this!" );
+
+		string = "$$Can you$$ handle this$$?$$";
+		map = {
+			"Can you": "I can",
+			"?": "!",
+		};
+		expect( formatString( string, map, "$$" ) ).toEqual( "I can handle this!" );
+	} );
+} );
