@@ -1,6 +1,5 @@
 const CaseSensitivePathsPlugin = require( "case-sensitive-paths-webpack-plugin" );
 
-const externals = require( "./externals" );
 const paths     = require( "./paths" );
 const utils     = require( "./utils" );
 const baseConfig = require( "./baseConfig" );
@@ -16,21 +15,27 @@ module.exports = function( env = { environment: "production", recalibration: "di
 			symlinks: false,
 		},
 		externals: {
-			...externals,
+			tinymce: "tinymce",
+			react: "React",
+			"react-dom": "ReactDOM",
+			lodash: "lodash",
 
-			"@wordpress/element": "window.wp.element",
-			"@wordpress/data": "window.wp.data",
-			"@wordpress/components": "window.wp.components",
-			"@wordpress/i18n": "window.wp.i18n",
-			"@wordpress/api-fetch": "window.wp.apiFetch",
-			"@wordpress/rich-text": "window.wp.richText",
-			"@wordpress/compose": "window.wp.compose",
+			"@wordpress/element": [ "wp", "element" ],
+			"@wordpress/data": [ "wp", "data" ],
+			"@wordpress/components": [ "wp",  "components" ],
+			"@wordpress/i18n": [ "wp", "i18n" ],
+			"@wordpress/api-fetch": [ "wp", "apiFetch" ],
+			"@wordpress/rich-text": [ "wp", "richText" ],
+			"@wordpress/compose": [ "wp", "compose" ],
 		},
 		output: {
 			path: paths.jsDist,
 			filename: "wp-" + outputFilename,
 			jsonpFunction: "yoastWebpackJsonp",
-			library: [ "wp", "[name]" ],
+			library: {
+				root: [ "wp", "[name]" ],
+			},
+			libraryTarget: "this",
 		},
 		entry: {
 			apiFetch: "./node_modules/@wordpress/api-fetch",
