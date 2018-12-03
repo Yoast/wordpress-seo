@@ -10768,10 +10768,17 @@ string-width@^1.0.1, string-width@^1.0.2:
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^4.0.0"
 
-string_decoder@^1.0.0, string_decoder@^1.1.1, string_decoder@~1.1.1:
+string_decoder@^1.0.0, string_decoder@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.1.1.tgz#9cf1611ba62685d7030ae9e4ba34149c3af03fc8"
   integrity sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==
+  dependencies:
+    safe-buffer "~5.1.0"
+
+string_decoder@^1.1.1:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.2.0.tgz#fe86e738b19544afe70469243b2a1ee9240eae8d"
+  integrity sha512-6YqyX6ZWEYguAxgZzHGL7SsCeGx3V2TtOTqZz1xSTSWnqsbWwbptafNyvf/ACquZUXV3DANr5BDIwNYe1mN42w==
   dependencies:
     safe-buffer "~5.1.0"
 
@@ -12253,7 +12260,7 @@ yauzl@^2.2.1:
 
 "yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.3":
   version "1.43.0"
-  resolved "git+https://github.com/Yoast/YoastSEO.js.git#583b77b340c08be11289c2b2dec0c7df7b9dd00d"
+  resolved "git+https://github.com/Yoast/YoastSEO.js.git#bb8e507b0e9690cb7bf499f7acd1fd6a4b74e99a"
   dependencies:
     "@wordpress/autop" "^2.0.2"
     htmlparser2 "^3.9.2"
