@@ -90,7 +90,7 @@ describe( "Worker Scheduler", () => {
 			expect( scheduler._tasks.analyze[ 0 ].data ).toEqual( { test: true } );
 		} );
 
-		test( "getNextTask to prioritize by type", () => {
+		test( "getNextTask prioritizes tasks by type", () => {
 			// Add a task in every type.
 			scheduler.schedule( { id: 0, execute: () => {}, done: () => {}, data: {}, type: "something" } );
 			scheduler.schedule( { id: 1, execute: () => {}, done: () => {}, data: {}, type: "analyzeRelatedKeywords" } );
