@@ -114,7 +114,7 @@ describe( "wrapTryAroundAction", function() {
 		const action = () => {
 			throw new Error( "Testing error!" );
 		};
-		const wrapper = wrapTryCatchAroundAction( logger, action, "Error while running %name%." );
+		const wrapper = wrapTryCatchAroundAction( logger, action, "Error while running %%name%%." );
 		const id = 123;
 		const result = wrapper( id, {
 			name: "someResearch",
