@@ -9,6 +9,18 @@ const DEFAULT_CONFIGURATION = {
 	pollTime: 50,
 };
 
+/**
+ * The scheduler is used in the analysis web worker to schedule tasks.
+ *
+ * Tasks have priorities based on their type.
+ * When a task is executed, the task id and data are its arguments.
+ * When a task is done, the task id and the execute result are its arguments.
+ *
+ * Start polling runs tick.
+ * 1. Tick tries to run the next task.
+ * 2. After the task is run, a timeout is set (configuration.pollTime).
+ * 3. On the timeout execution, tick is called again (back to step 1).
+ */
 export default class Scheduler {
 	/**
 	 * Initializes a Scheduler.
