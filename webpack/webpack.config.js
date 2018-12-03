@@ -7,10 +7,11 @@ const isString = require( "lodash/isString" );
 
 const paths = require( "./paths" );
 const externals = require( "./externals" );
-const utils = require( "./utils" );
-const backportsConfig = require( "./backports.webpack.config" );
 
-const root = path.join( __dirname, "../" );
+const noExternalsConfig = require( "./no-externals.webpack.config" );
+const backportsConfig = require( "./backports.webpack.config" );
+const baseConfig = require( "./baseConfig" );
+
 const mainEntry = mapValues( paths.entry, entry => {
 	if ( ! isString( entry ) ) {
 		return entry;
@@ -22,7 +23,6 @@ const mainEntry = mapValues( paths.entry, entry => {
 module.exports = function( env = { environment: "production", recalibration: "disabled" } ) {
 	const mode = env.environment;
 	const isRecalibration = ( env.recalibration || process.env.YOAST_RECALIBRATION || "disabled" ) === "enabled";
-	const outputFilename = utils.getOutputFilename( mode );
 
 	const plugins = [
 		new webpack.DefinePlugin( {
@@ -33,57 +33,7 @@ module.exports = function( env = { environment: "production", recalibration: "di
 		new CaseSensitivePathsPlugin(),
 	];
 
-	const base = {
-		mode: mode,
-		devtool: mode === "development" ? "cheap-module-eval-source-map" : false,
-		context: root,
-		output: {
-			path: paths.jsDist,
-			filename: outputFilename,
-			jsonpFunction: "yoastWebpackJsonp",
-		},
-		resolve: {
-			extensions: [ ".json", ".js", ".jsx" ],
-			symlinks: false,
-		},
-		module: {
-			rules: [
-				{
-					test: /.jsx?$/,
-					exclude: /node_modules[/\\](?!(yoast-components|gutenberg|yoastseo|@wordpress)[/\\]).*/,
-					use: [
-						{
-							loader: "babel-loader",
-							options: {
-								cacheDirectory: true,
-								env: {
-									development: {
-										plugins: [
-											"babel-plugin-styled-components",
-										],
-									},
-								},
-							},
-						},
-					],
-				},
-				{
-					test: /.svg$/,
-					use: [
-						{
-							loader: "svg-react-loader",
-						},
-					],
-				},
-			],
-		},
-		externals,
-		optimization: {
-			runtimeChunk: {
-				name: "commons",
-			},
-		},
-	};
+	const base = baseConfig( mode );
 
 	let config;
 
@@ -155,17 +105,7 @@ module.exports = function( env = { environment: "production", recalibration: "di
 			// Config for wp packages files that are shipped for BC with WP 4.9.
 			backportsConfig( env ),
 			// Config for files that should not use any externals at all.
-			{
-				...base,
-				entry: {
-					"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
-					"babel-polyfill": "./js/src/babel-polyfill.js",
-				},
-				plugins,
-				optimization: {
-					runtimeChunk: false,
-				},
-			},
+			noExternalsConfig( env ),
 			// Config for files that should only use externals available in the web worker context.
 			{
 				...base,

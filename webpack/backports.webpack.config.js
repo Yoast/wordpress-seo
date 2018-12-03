@@ -1,15 +1,18 @@
-import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
+const CaseSensitivePathsPlugin = require( "case-sensitive-paths-webpack-plugin" );
 
 const externals = require( "./externals" );
 const paths     = require( "./paths" );
 const utils     = require( "./utils" );
+const baseConfig = require( "./baseConfig" );
 
 module.exports = function( env = { environment: "production", recalibration: "disabled" } ) {
 	const outputFilename = utils.getOutputFilename( env.environment );
 
 	return {
+		...baseConfig( env.environment ),
+		mode: env.environment,
 		resolve: {
-			extensions: [".json", ".js", ".jsx"],
+			extensions: [ ".json", ".js", ".jsx" ],
 			symlinks: false,
 		},
 		externals: {
@@ -27,7 +30,7 @@ module.exports = function( env = { environment: "production", recalibration: "di
 			path: paths.jsDist,
 			filename: "wp-" + outputFilename,
 			jsonpFunction: "yoastWebpackJsonp",
-			library: ["wp", "[name]"],
+			library: [ "wp", "[name]" ],
 		},
 		entry: {
 			apiFetch: "./node_modules/@wordpress/api-fetch",
@@ -41,5 +44,8 @@ module.exports = function( env = { environment: "production", recalibration: "di
 		plugins: [
 			new CaseSensitivePathsPlugin(),
 		],
+		optimization: {
+			runtimeChunk: false,
+		},
 	};
 };

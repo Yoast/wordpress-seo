@@ -448,7 +448,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			return null;
 		}
 
-		if ( ! isset( $post ) || ! is_object( $post ) ) {
+		if ( ! isset( $post ) || ! is_object( $post ) || ! $post instanceof WP_Post ) {
 			return null;
 		}
 
