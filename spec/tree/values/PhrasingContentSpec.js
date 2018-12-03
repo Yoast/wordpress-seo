@@ -17,7 +17,7 @@ describe( "PhrasingContent", () => {
 			} );
 
 			expect( phrasingElement.toHtml( "some link" ) ).toEqual(
-				"<a href='https://example.com'>some link</a>"
+				"<a href=\"https://example.com\">some link</a>"
 			);
 		} );
 
