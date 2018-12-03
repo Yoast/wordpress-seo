@@ -196,4 +196,15 @@ describe( "A test for marking the keyword", function() {
 				original: "This is a very interesting paper with a keyword and another keyword." } ) ];
 		expect( keywordDensityAssessment.getMarks() ).toEqual( expected );
 	} );
+
+	it( "returns markers for a keyphrase containing numbers", function() {
+		const keywordDensityAssessment = new KeywordDensityAssessment();
+		const paper = new Paper( "This is the release of YoastSEO 9.3.", { keyword: "YoastSEO 9.3" }  );
+		const researcher = new Researcher( paper );
+		keywordDensityAssessment.getResult( paper, researcher, i18n );
+		const expected = [
+			new Mark( { marked: "This is the release of <yoastmark class='yoast-text-mark'>YoastSEO 9.3</yoastmark>.",
+				original: "This is the release of YoastSEO 9.3." } ) ];
+		expect( keywordDensityAssessment.getMarks() ).toEqual( expected );
+	} );
 } );
