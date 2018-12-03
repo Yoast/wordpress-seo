@@ -20,7 +20,7 @@ const StyledSvgIcon = styled( SvgIcon )`
 `;
 
 const MessageContainer = styled.div`
-	margin: ${ getRtlStyle( "0 8px 0 0", "0 0 0 8px" ) };
+	margin: ${ getRtlStyle( "0 0 0 8px", "0 8px 0 0" ) };
 `;
 
 /**
