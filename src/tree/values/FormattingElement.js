@@ -1,9 +1,9 @@
 /**
- * Represents phrasing content (e.g. <strong>, <a>, <em>) within an HTML-text.
+ * Represents phrasing content (e.g. <strong>, <a>, <em>), except text, within an HTML-text.
  */
-class PhrasingContent {
+class FormattingElement {
 	/**
-	 * Represents phrasing content (e.g. <strong>, <a>, <em>) within an HTML-text.
+	 * Represents phrasing content (e.g. <strong>, <a>, <em>), except text, within an HTML-text.
 	 *
 	 * @param {string} tag the HTML-tag of this element (e.g. "strong", "a", etc.)
 	 * @param {number} start the start position of the tag within the text.
@@ -43,4 +43,4 @@ class PhrasingContent {
 	}
 }
 
-export default PhrasingContent;
+export default FormattingElement;

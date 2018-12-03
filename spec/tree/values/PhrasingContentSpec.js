@@ -1,30 +1,30 @@
-import PhrasingContent from "../../../src/tree/values/PhrasingContent";
+import FormattingElement from "../../../src/tree/values/FormattingElement";
 
 describe( "PhrasingContent", () => {
 	it( "can make a new PhrasingContent object", () => {
-		const phrasingElement = new PhrasingContent( "strong", 5, 30, { id: "some-id" } );
+		const formattingElement = new FormattingElement( "strong", 5, 30, { id: "some-id" } );
 
-		expect( phrasingElement.tag ).toEqual( "strong" );
-		expect( phrasingElement.start ).toEqual( 5 );
-		expect( phrasingElement.end ).toEqual( 30 );
-		expect( phrasingElement.attributes ).toEqual( { id: "some-id" } );
+		expect( formattingElement.tag ).toEqual( "strong" );
+		expect( formattingElement.start ).toEqual( 5 );
+		expect( formattingElement.end ).toEqual( 30 );
+		expect( formattingElement.attributes ).toEqual( { id: "some-id" } );
 	} );
 
 	describe( "to HTML-string", () => {
 		it( "can generate an HTML-string", () => {
-			const phrasingElement = new PhrasingContent( "a", 25, 29, {
+			const formattingElement = new FormattingElement( "a", 25, 29, {
 				href: "https://example.com",
 			} );
 
-			expect( phrasingElement.toHtml( "some link" ) ).toEqual(
+			expect( formattingElement.toHtml( "some link" ) ).toEqual(
 				"<a href=\"https://example.com\">some link</a>"
 			);
 		} );
 
 		it( "can generate an HTML-string with no attributes", () => {
-			const phrasingElement = new PhrasingContent( "strong", 25, 29 );
+			const formattingElement = new FormattingElement( "strong", 25, 29 );
 
-			expect( phrasingElement.toHtml( "some link" ) ).toEqual(
+			expect( formattingElement.toHtml( "some link" ) ).toEqual(
 				"<strong>some link</strong>"
 			);
 		} );
