@@ -4,6 +4,7 @@ import React from "react";
 import styled from "styled-components";
 
 import colors from "../../../../style-guide/colors.json";
+import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 import SvgIcon from "./SvgIcon";
 
 
@@ -15,7 +16,7 @@ const WarningBox = styled.div`
 `;
 
 const MessageContainer = styled.div`
-	margin-left: 2px;
+	margin: ${ getRtlStyle( "0 8px 0 0", "0 0 0 8px" ) };
 `;
 
 /**
@@ -25,6 +26,11 @@ const MessageContainer = styled.div`
  * @param {Array} message The warning message to display.
  */
 class YoastWarning extends React.Component {
+	/**
+	 * Renders the YoastWarning component.
+	 *
+	 * @returns {React.Element|null} The rendered YoastWarning.
+	 */
 	render() {
 		const { message } = this.props;
 		if ( isEmpty( message ) ) {
@@ -43,7 +49,7 @@ YoastWarning.propTypes = {
 	message: PropTypes.array,
 };
 
-YoastWarning.defeaultProps = {
+YoastWarning.defaultProps = {
 	message: [],
 };
 
