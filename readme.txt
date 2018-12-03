@@ -143,7 +143,6 @@ Other:
   * The assessment checking the length or your URL.
   * The assessment checking whether your URL contains stopwords.
 * Shows a notice about the analyses, when the recalibration beta is enabled.
-* Shows a notice about stale content, when the recalibration beta is enabled.
 * Shows a notice when recalibration beta has not been enabled yet.
 
 = 9.2.1 =
