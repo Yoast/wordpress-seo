@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import styled from "styled-components";
+import noop from "lodash/noop";
 
 import { YoastInputContainer, YoastInputField, YoastInputLabel } from "./YoastInput";
 import { getRtlStyle } from "../../../../utils/helpers/styled-components";
@@ -16,7 +17,7 @@ const StyledYoastInputLabel = styled( YoastInputLabel )`
 	${ getRtlStyle( "margin-right: 4px", "margin-left: 4px" ) };
 `;
 
-const SynonymsInput = ( { id, label, helpLink, value, onChange } ) => {
+const SynonymsInput = ( { id, label, helpLink, value, onChange, onBlurSynonym } ) => {
 	return (
 		<YoastInputContainer>
 			<SynonymsFieldLabelContainer>
@@ -29,6 +30,7 @@ const SynonymsInput = ( { id, label, helpLink, value, onChange } ) => {
 				type="text"
 				id={ id }
 				onChange={ onChange }
+				onBlur={ onBlurSynonym }
 				value={ value }
 			/>
 		</YoastInputContainer>
@@ -40,6 +42,7 @@ SynonymsInput.propTypes = {
 	label: PropTypes.string,
 	value: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
+	onBlurSynonym: PropTypes.func,
 	helpLink: PropTypes.node,
 };
 
@@ -47,6 +50,7 @@ SynonymsInput.defaultProps = {
 	id: uniqueId( "synonyms-input-" ),
 	label: "",
 	value: "",
+	onBlurSynonym: noop,
 	helpLink: null,
 };
 
