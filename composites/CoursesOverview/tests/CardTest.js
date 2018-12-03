@@ -58,4 +58,3 @@ test( "The FullHeightCard is rendered including the CardBanner and CardDetails c
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
-

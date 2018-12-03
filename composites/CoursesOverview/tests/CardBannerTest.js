@@ -16,7 +16,7 @@ test( "The CardBanner with specific props matches the snapshot", () => {
 		backgroundColor: "purple",
 		textColor: "yellow",
 		text: "Free Trial Available.",
-	}
+	};
 	const component = renderer.create(
 		<CardBanner { ...banner }>
 			{ banner.text }
