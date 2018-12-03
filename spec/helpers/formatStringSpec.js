@@ -44,3 +44,35 @@ describe( "formatString", () => {
 		expect( formatString( string, map ) ).toEqual( "World 123" );
 	} );
 } );
+
+	it( "ignores matches without format", () => {
+		const string = "%ignore% %this%";
+		const map = {
+			ignore: "ignore the following:",
+		};
+		expect( formatString( string, map ) ).toEqual( "ignore the following: %this%" );
+	} );
+
+	it( "handles a normal string", () => {
+		const string = "This is a normal string.";
+		const map = {
+			normal: "unused",
+		};
+		expect( formatString( string, map ) ).toEqual( "This is a normal string." );
+	} );
+
+	it( "handles a normal string with percent-signs in it", () => {
+		const string = "Is this 1% of all the %-ages?";
+		const map = {
+			"%": "percent",
+		};
+		expect( formatString( string, map ) ).toEqual( "Is this 1% of all the %-ages?" );
+	} );
+
+	it( "handles multiple percent-signs in a row", () => {
+		const string = "Can you handle %%% that?";
+		const map = {
+			"%": "percent",
+		};
+		expect( formatString( string, map ) ).toEqual( "Can you handle %percent% that?" );
+	} );
