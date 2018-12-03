@@ -153,6 +153,12 @@ export default class AnalysisWebWorker {
 		this.handleMessage = this.handleMessage.bind( this );
 
 		// Wrap try/catch around actions.
+		this.analyzeRelatedKeywords =
+			wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the related keywords analysis." );
+		/*
+		 * Overwrite this.analyze after we use it in this.analyzeRelatedKeywords so that this.analyzeRelatedKeywords
+		 * doesn't use the overwritten version. Therefore, this order shouldn't be changed.
+		 */
 		this.analyze = wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the analysis." );
 	}
 
@@ -207,7 +213,7 @@ export default class AnalysisWebWorker {
 			case "analyzeRelatedKeywords":
 				this._scheduler.schedule( {
 					id,
-					execute: this.analyze,
+					execute: this.analyzeRelatedKeywords,
 					done: this.analyzeRelatedKeywordsDone,
 					data: payload,
 					type: type,
@@ -785,6 +791,10 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	analyzeRelatedKeywordsDone( id, result ) {
+		if ( result.error ) {
+			this.send( "analyzeRelatedKeywords:failed", id, result );
+			return;
+		}
 		this.send( "analyzeRelatedKeywords:done", id, result );
 	}
 

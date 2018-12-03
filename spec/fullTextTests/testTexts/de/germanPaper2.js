@@ -1,17 +1,17 @@
 import Paper from "../../../../src/values/Paper.js";
-import content from "./englishPaper1.html";
+import content from "./germanPaper2.html";
 
-const name = "englishPaper1";
+const name = "germanPaper2";
 
 const paper = new Paper( content, {
-	keyword: "voice search",
-	synonyms: "listening and reading in search, voice query, voice results",
-	description: "Voice search is gaining popularity. But what will the future bring? Joost and Marieke discuss the pros and cons of voice and describe a possible future scenario.",
-	title: "Voice search: what will the future bring?",
+	keyword: "phonologie",
+	synonyms: "fonologie",
+	description: "Während die Phonetik die eher konkreten Eigenschaften der Sprachlaute untersucht – ihre akustische Beschaffenheit, Artikulation und Wahrnehmung –, betrachtet die Phonologie die Laute in abstrakterer Weise: Sie beschäftigt sich mit der Funktion der Laute für das Sprachsystem der einzelnen Sprachen und stellt somit einen Teilbereich der Grammatik dar.",
+	title: "Phonologie/fonologie",
 	titleWidth: 450,
-	locale: "en_EN",
-	permalink: "https://yoast.com/future-of-voice-search/",
-	url: "future-of-voice-search",
+	locale: "de_DE",
+	permalink: "https://de.wikipedia.org/wiki/Phonologie",
+	url: "Phonologie",
 } );
 
 const expectedResults = {
@@ -28,7 +28,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 1.5%. This is great!",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 1.1%. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -42,8 +42,8 @@ const expectedResults = {
 	},
 	subheadingsKeyword: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 2 (out of 4) subheadings reflect the topic of your copy. Good job!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your subheadings</a>!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,
@@ -58,7 +58,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 721 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 799 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -91,9 +91,7 @@ const expectedResults = {
 		resultText: "",
 	},
 	urlStopWords: {
-		isApplicable: true,
-		score: 5,
-		resultText: "<a href='https://yoa.st/34p' target='_blank'>Slug stopwords</a>: The slug for this page contains a stop word. <a href='https://yoa.st/34q' target='_blank'>Remove it</a>!",
+		isApplicable: false,
 	},
 	keyphraseDistribution: {
 		isApplicable: true,
@@ -102,8 +100,8 @@ const expectedResults = {
 	},
 	fleschReadingEase: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 79.5 in the test, which is considered fairly easy to read. Good job!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 47.5 in the test, which is considered difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve readability</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -112,8 +110,8 @@ const expectedResults = {
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs contains more than the recommended maximum of 150 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
@@ -123,14 +121,15 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 24.5% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 28% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 11% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
 	},
 	textPresence: {
+		isApplicable: true,
 		score: 0,
 		resultText: "",
 	},
@@ -152,3 +151,4 @@ export default {
 	paper: paper,
 	expectedResults: expectedResults,
 };
+
