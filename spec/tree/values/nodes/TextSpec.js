@@ -1,4 +1,4 @@
-import Text from "../../../../src/tree/values/nodes/Text";
+import TextContainer from "../../../../src/tree/values/nodes/TextContainer";
 import PhrasingContent from "../../../../src/tree/values/PhrasingContent";
 
 describe( "Text tree node", () => {
@@ -7,10 +7,10 @@ describe( "Text tree node", () => {
 			new PhrasingContent( "a", 25, 29 ),
 		];
 		const text = "This is some text with a link.";
-		const textElement = new Text( text, phrasingElements );
+		const textContainer = new TextContainer( text, phrasingElements );
 
-		expect( textElement.phrasingElements ).toEqual( textElement.phrasingElements );
-		expect( textElement.text ).toEqual( text );
+		expect( textContainer.phrasingElements ).toEqual( textContainer.phrasingElements );
+		expect( textContainer.text ).toEqual( text );
 	} );
 
 	it( "can generate an HTML-string from the text and accompanying phrasing content.", () => {
@@ -21,9 +21,9 @@ describe( "Text tree node", () => {
 			new PhrasingContent( "strong", 0, 4 ),
 		];
 		const text = "This is some text with a link.";
-		const textElement = new Text( text, phrasingElements );
+		const textContainer = new TextContainer( text, phrasingElements );
 
-		expect( textElement.toHtml() ).toEqual(
+		expect( textContainer.toHtml() ).toEqual(
 			"<strong>This</strong> is some text with a <a href=\"https://example.com\">link</a>."
 		);
 	} );

@@ -1,9 +1,9 @@
 /**
- * Represents a text within an HTML-document that can be read by a reader.
+ * Represents a text (with optional phrasing content) within an HTML-document that can be read by a reader.
  */
-class Text {
+class TextContainer {
 	/**
-	 * A piece of text within an HTML-document that can be read by a reader.
+	 * A piece of text (with optional phrasing content) within an HTML-document that can be read by a reader.
 	 *
 	 * @param {string} text the text, without any formatting.
 	 * @param {PhrasingContent[]} phrasingElements the inline HTML-elements (e.g. <strong>, <a>) within the text.
@@ -29,4 +29,4 @@ class Text {
 	}
 }
 
-export default Text;
+export default TextContainer;
