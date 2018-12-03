@@ -13,11 +13,15 @@ exports[`YoastWarning matches the snapshot 1`] = `
   color: #000;
 }
 
-.c2 {
-  margin-left: 2px;
+.c1 {
+  margin-top: 2px;
 }
 
-.c1 {
+.c3 {
+  margin: 0 8px 0 0;
+}
+
+.c2 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -30,7 +34,7 @@ exports[`YoastWarning matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-exclamation-triangle c1"
+    className="yoast-svg-icon yoast-svg-icon-exclamation-triangle c1 c2"
     fill="currentColor"
     focusable="false"
     role="img"
@@ -43,7 +47,7 @@ exports[`YoastWarning matches the snapshot 1`] = `
     />
   </svg>
   <div
-    className="c2"
+    className="c3"
   >
     This is a warning message
     <a

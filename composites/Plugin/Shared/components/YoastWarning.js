@@ -15,6 +15,10 @@ const WarningBox = styled.div`
 	color: ${ colors.$color_black };
 `;
 
+const StyledSvgIcon = styled( SvgIcon )`
+	margin-top: 2px;
+`;
+
 const MessageContainer = styled.div`
 	margin: ${ getRtlStyle( "0 8px 0 0", "0 0 0 8px" ) };
 `;
@@ -37,7 +41,7 @@ class YoastWarning extends React.Component {
 			return null;
 		}
 		return <WarningBox>
-			<SvgIcon icon="exclamation-triangle" size="16px" />
+			<StyledSvgIcon icon="exclamation-triangle" size="16px" />
 			<MessageContainer>
 				{ message }
 			</MessageContainer>
