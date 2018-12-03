@@ -35,7 +35,7 @@ export default class ComponentsExample extends React.Component {
 							target="_blank"
 						>cornerstone content</a>,
 						", for example.",
-						<p>This spans to multiple lines.</p>,
+						<p key="2">This spans to multiple lines.</p>,
 					] }
 				/>
 			</Container>
