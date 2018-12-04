@@ -12,7 +12,7 @@ describe( "handleWorkerError", () => {
 					expect( arg ).toBeDefined();
 					expect( arg.type ).toBe( "SET_WARNING_MESSAGE" );
 					expect( arg.message ).toBeDefined();
-					expect( arg.message.length ).toBe( 5 );
+					expect( arg.message.length ).toBe( 3 );
 
 					expect( arg.message[ 0 ] ).toEqual(
 						"We're sorry! Unfortunately, the recalibrated analysis beta doesn't work as intended with your current setup ",
@@ -22,16 +22,8 @@ describe( "handleWorkerError", () => {
 					expect( arg.message[ 1 ].props.children ).toEqual( "yet" );
 
 					expect( arg.message[ 2 ] ).toEqual(
-						". Please ",
-					);
-
-					expect( arg.message[ 3 ].type ).toEqual( "a" );
-					expect( arg.message[ 3 ].props.href ).toEqual( "/wp-admin/admin.php?page=wpseo_dashboard#top#features" );
-					expect( arg.message[ 3 ].props.children ).toEqual( "deactivate the recalibration beta in your features" );
-					expect( arg.message[ 3 ].props.rel ).toEqual( "noopener noreferrer" );
-
-					expect( arg.message[ 4 ] ).toEqual(
-						" and please try again later. We value your input!",
+						". Please deactivate the recalibration beta under \"SEO - General - Features\" and please try again later. " +
+						"We value your input! If you can't access the feature page, please contact your administrator. ",
 					);
 
 					done();
