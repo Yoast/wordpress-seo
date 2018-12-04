@@ -11,7 +11,7 @@ class FormattingElement {
 	 * @param {Object} [attributes=null] 	The attributes (as key-value pairs, e.g. "href='...'" => { href: '...' } ).
 	 * @param {boolean} [selfClosing=false]	If this (HTML) element is self-closing (like for `img` elements).
 	 */
-	constructor( tag, start, end, attributes, selfClosing = false ) {
+	constructor( tag, start, end, attributes = null, selfClosing = false ) {
 		this.tag = tag;
 		this.attributes = attributes;
 		this.start = start;
