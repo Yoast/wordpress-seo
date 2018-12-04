@@ -126,23 +126,6 @@ Bugfixes:
 * Fixes a bug where texts in the configuration wizard would overlap each other and break out of the columns in Internet Explorer 11. Props [DrGrimshaw](https://github.com/DrGrimshaw).
 * Fixes a bug where keyphrases weren't recognized in the URL when the words in the URL were separated by underscore characters instead of hyphens.
 * Fixes a bug that caused numbers to be stripped when marking a keyphrase containing a number, e.g. 'Yoast SEO 9.3'.
-
-Other:
-
-* Adds a toggle feature for subscribing to the recalibration beta under SEO->General->Features.
-* When the recalibration feature flag is switched on, the following assessments have a changed behavior:
-  * Keyphrase density: changes scoring schema to account for the length of the keyphrase and changes feedback strings so that we give feedback about the number of occurrences rather than a percentage.
-  * Outbound links assessment: changes the scoring schema so that red bullet instead of an orange bullet is shown when you have no outbound links.
-  * Image alt attributes: if there are at least 5 images, checks whether the alt tags contain the keyphrase or synoynyms in 30-70% of all images. If there are less than 5 images, 1 image with the keyphrase or synonym in the alt tag is still scored as good.
-  * Keyphrase in title: function words preceding the exact match keyphrase are ignored when determining the position of the keyphrase in the title.
-* Keyphrase length: makes the scoring scheme less strict for languages that don't have function word support, so that for these languages keyphrases with 1-6 words are scored as green, 7-9 as orange, and more than 9 as red.
-  * Keyphrase in subheading: only takes H2 and H3 level subheadings into account and changes the scoring schema so that 30%-75% of these subheadings need to include the keyphrase or its synonyms. In languages without function word support, a match is only counted if all the words from the keyphrase/synonym appear in the subheading.
-  * Text length: on taxonomy pages, the recommended minimum text length is increased from 150 to 250 words.
-* When the recalibration feature flag is switched on, the following assments are not used anymore:
-  * The assessment checking the length or your URL.
-  * The assessment checking whether your URL contains stopwords.
-* Shows a notice about the analyses, when the recalibration beta is enabled.
-* Shows a notice when recalibration beta has not been enabled yet.
 * Fixes a bug where the first tab of the metabox would be empty when using WordPress 4.8.x.
 
 = 9.2.1 =
