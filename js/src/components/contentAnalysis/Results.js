@@ -30,7 +30,7 @@ class Results extends React.Component {
 
 		if ( results !== null ) {
 			this.state = {
-				mappedResults: mapResults( this.props.results ),
+				mappedResults: mapResults( results ),
 			};
 		}
 

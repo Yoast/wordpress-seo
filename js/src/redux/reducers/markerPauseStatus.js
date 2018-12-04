@@ -8,7 +8,7 @@ const INITIAL_STATE = false;
  * @param {Object} state The state.
  * @param {Object} action The action.
  *
- * @returns {Object} The SEO results per keyword.
+ * @returns {Bool} Whether the marker is paused or not.
  */
 function setMarkerPauseStatus( state, action ) {
 	return action.isMarkerPaused;
@@ -18,7 +18,7 @@ function setMarkerPauseStatus( state, action ) {
  * A reducer for the active keyword.
  *
  * @param {Object} state The current state of the object.
- * @param {Object} action The received action .
+ * @param {Object} action The received action.
  *
  * @returns {Object} The state.
  */
