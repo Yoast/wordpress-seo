@@ -6,11 +6,11 @@ import { escapeRegExp } from "lodash-es";
  * E.g. `"Hello %par_1% and %par_2%"` plus the map `{ par_1: "world", par_2: "you!" }`
  * gives: `"Hello world and you!"`.
  *
- * @param {string} string the string to be formatted.
- * @param {Object} formatMap the mapping in the form of parameter - value pairs.
- * @param {string} [delimiter="%%"] the string used to delimit parameters in the to be formatted string.
+ * @param {string} string           The string to be formatted.
+ * @param {Object} formatMap        The mapping in the form of parameter - value pairs.
+ * @param {string} [delimiter="%%"] The string used to delimit parameters in the to be formatted string.
  *
- * @returns {string} the formatted string.
+ * @returns {string} The formatted string.
  */
 export default function( string, formatMap, delimiter = "%%" ) {
 	delimiter = escapeRegExp( delimiter );
