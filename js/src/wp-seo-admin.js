@@ -185,18 +185,40 @@ import a11ySpeak from "a11y-speak";
 		jQuery( "#" + activeTabId + "-tab" ).addClass( "nav-tab-active" ).click();
 	}
 
+	/**
+	 * Toggles the "Show archives for authors without posts" toggle to false
+	 * and disables the toggle.
+	 *
+	 * @returns {void}
+	 */
+	function disableAuthorsWithoutPostsToggle() {
+		const noPostsOn  = jQuery( "#noindex-author-noposts-wpseo-on" );
+		const noPostsOff = jQuery( "#noindex-author-noposts-wpseo-off" );
+
+		noPostsOn.prop( "checked", true );
+
+		noPostsOff.prop( "disabled", true );
+		noPostsOn.prop( "disabled", true );
+	}
+
+	/**
+	 * Enables the "Show archives for authors without posts" toggle.
+	 *
+	 * @returns {void}
+	 */
+	function enableAuthorsWithoutPostsToggle() {
+		const noPostsOn  = jQuery( "#noindex-author-noposts-wpseo-on" );
+		const noPostsOff = jQuery( "#noindex-author-noposts-wpseo-off" );
+
+		noPostsOff.prop( "disabled", false );
+		noPostsOn.prop( "disabled", false );
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
 	// eslint-disable-next-line
 	window.wpseoSetTabHash = wpseoSetTabHash;
-
-	function setArchivesForAuthorsWithoutPostsToggleDisabledAttribute() {
-		const noPostsOn  = jQuery( "#noindex-author-noposts-wpseo-on" );
-		const noPostsOff = jQuery( "#noindex-author-noposts-wpseo-off" );
-		noPostsOff.prop( "disabled", false );
-		noPostsOn.prop( "disabled", false );
-	}
 
 	jQuery( document ).ready( function() {
 		/**
@@ -212,27 +234,24 @@ import a11ySpeak from "a11y-speak";
 			}
 		} ).change();
 
+		const authorArchivesDisabled = jQuery( "#noindex-author-wpseo-off" );
+		const authorArchivesEnabled  = jQuery( "#noindex-author-wpseo-on" );
+
+		if ( ! authorArchivesDisabled.is( ":checked" ) ) {
+			disableAuthorsWithoutPostsToggle();
+		}
+
 		// Disable Author archives without posts when Show author archives is toggled off.
-		jQuery( "#noindex-author-wpseo-on" ).change( () => {
+		authorArchivesEnabled.change( () => {
 			if ( ! jQuery( this ).is( ":checked" ) ) {
-				const noPostsOn  = jQuery( "#noindex-author-noposts-wpseo-on" );
-				const noPostsOff = jQuery( "#noindex-author-noposts-wpseo-off" );
-
-				noPostsOn.prop( "checked", true );
-
-				noPostsOff.prop( "disabled", true );
-				noPostsOn.prop( "disabled", true );
+				disableAuthorsWithoutPostsToggle();
 			}
 		} );
 
 		// Enable Author archives without posts when Show author archives is toggled on.
-		jQuery( "#noindex-author-wpseo-off" ).change( () => {
+		authorArchivesDisabled.change( () => {
 			if ( ! jQuery( this ).is( ":checked" ) ) {
-				const noPostsOn  = jQuery( "#noindex-author-noposts-wpseo-on" );
-				const noPostsOff = jQuery( "#noindex-author-noposts-wpseo-off" );
-
-				noPostsOff.prop( "disabled", false );
-				noPostsOn.prop( "disabled", false );
+				enableAuthorsWithoutPostsToggle();
 			}
 		} );
 
