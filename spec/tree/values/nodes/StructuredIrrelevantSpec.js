@@ -2,7 +2,7 @@ import StructuredIrrelevant from "../../../../src/tree/values/nodes/StructuredIr
 
 describe( "StructuredIrrelevant", () => {
 	it( "can make a StructuredIrrelevant node", () => {
-		const nodeContents = "<script> console.log('hey!'); </script>";
+		const nodeContents = "<script> console.log(\"hey!\"); </script>";
 		const structuredIrrelevantNode = new StructuredIrrelevant( nodeContents );
 		expect( structuredIrrelevantNode.content ).toEqual( nodeContents );
 	} );
