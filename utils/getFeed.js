@@ -72,6 +72,8 @@ function getFeedItem( parsed, snapshot, nsResolver ) {
 	item.description = getXPathText( "child::description", parsed, snapshot );
 	item.creator     = getXPathText( "child::dc:creator", parsed, snapshot, nsResolver );
 	item.date        = getXPathText( "child::pubDate", parsed, snapshot );
+	item.image       = getXPathText( "child::content:image", parsed, snapshot, nsResolver );
+	item.shopUrl     = getXPathText( "child::content:shop_url", parsed, snapshot, nsResolver );
 
 	return item;
 }
