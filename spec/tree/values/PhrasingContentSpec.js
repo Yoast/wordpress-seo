@@ -18,6 +18,13 @@ describe( "FormattingElement", () => {
 		expect( () => new FormattingElement( "strong", 21, 5 ) ).toThrow();
 	} );
 
+	describe( "get attribute string", () => {
+		it( "returns an empty string when having no attributes", () => {
+			const formattingElement = new FormattingElement( "strong", 5, 30 );
+			expect( formattingElement._getAttributeString() ).toEqual( "" );
+		} );
+	} );
+
 	describe( "to HTML-string", () => {
 		it( "can generate an HTML-string", () => {
 			const formattingElement = new FormattingElement( "a", 25, 29, {
