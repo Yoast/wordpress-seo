@@ -17,7 +17,7 @@ const StyledYoastInputLabel = styled( YoastInputLabel )`
 	${ getRtlStyle( "margin-right: 4px", "margin-left: 4px" ) };
 `;
 
-const SynonymsInput = ( { id, label, helpLink, value, onChange, onBlurSynonym, onFocusSynonym } ) => {
+const SynonymsInput = ( { id, label, helpLink, value, onChange, onBlur, onFocus } ) => {
 	return (
 		<YoastInputContainer>
 			<SynonymsFieldLabelContainer>
@@ -30,8 +30,8 @@ const SynonymsInput = ( { id, label, helpLink, value, onChange, onBlurSynonym, o
 				type="text"
 				id={ id }
 				onChange={ onChange }
-				onBlur={ onBlurSynonym }
-				onFocus={ onFocusSynonym }
+				onBlur={ onBlur }
+				onFocus={ onFocus }
 				value={ value }
 			/>
 		</YoastInputContainer>
@@ -43,8 +43,8 @@ SynonymsInput.propTypes = {
 	label: PropTypes.string,
 	value: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
-	onBlurSynonym: PropTypes.func,
-	onFocusSynonym: PropTypes.func,
+	onBlur: PropTypes.func,
+	onFocus: PropTypes.func,
 	helpLink: PropTypes.node,
 };
 
@@ -52,8 +52,8 @@ SynonymsInput.defaultProps = {
 	id: uniqueId( "synonyms-input-" ),
 	label: "",
 	value: "",
-	onBlurSynonym: noop,
-	onFocusSynonym: noop,
+	onBlur: noop,
+	onFocus: noop,
 	helpLink: null,
 };
 
