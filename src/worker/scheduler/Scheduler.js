@@ -4,11 +4,24 @@ import { merge } from "lodash-es";
 // Internal dependencies.
 import Task from "./Task";
 
+
 const DEFAULT_CONFIGURATION = {
 	pollTime: 50,
 };
 
-class Scheduler {
+/**
+ * The scheduler is used in the analysis web worker to schedule tasks.
+ *
+ * Tasks have priorities based on their type.
+ * When a task is executed, the task id and data are its arguments.
+ * When a task is done, the task id and the execute result are its arguments.
+ *
+ * Start polling runs tick.
+ * 1. Tick tries to run the next task.
+ * 2. After the task is run, a timeout is set (configuration.pollTime).
+ * 3. On the timeout execution, tick is called again (back to step 1).
+ */
+export default class Scheduler {
 	/**
 	 * Initializes a Scheduler.
 	 *
@@ -57,7 +70,7 @@ class Scheduler {
 	tick() {
 		this.executeNextTask()
 			.then( () => {
-				setTimeout( this.tick, this._configuration.pollTime );
+				this._pollHandle = setTimeout( this.tick, this._configuration.pollTime );
 			} );
 	}
 
@@ -69,6 +82,7 @@ class Scheduler {
 	stopPolling() {
 		clearTimeout( this._pollHandle );
 		this._pollHandle = null;
+		this._started = false;
 	}
 
 	/**
@@ -148,5 +162,3 @@ class Scheduler {
 			} );
 	}
 }
-
-export default Scheduler;
