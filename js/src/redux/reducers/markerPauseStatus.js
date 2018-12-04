@@ -8,7 +8,7 @@ const INITIAL_STATE = false;
  * @param {Object} state The state.
  * @param {Object} action The action.
  *
- * @returns {Bool} Whether the marker is paused or not.
+ * @returns {boolean} Whether the marker is paused or not.
  */
 function setMarkerPauseStatus( state, action ) {
 	return action.isMarkerPaused;
