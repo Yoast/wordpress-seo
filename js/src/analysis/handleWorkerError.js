@@ -6,7 +6,6 @@ import getL10nObject from "./getL10nObject";
 
 /**
  * Dispatches a warning message if analysis fails.
- * Provides a specific message when it happens within Recalibration beta or within default analysis.
  *
  * @returns {void}.
  */
