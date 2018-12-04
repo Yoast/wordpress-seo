@@ -126,6 +126,7 @@ Bugfixes:
 * Fixes a bug where texts in the configuration wizard would overlap each other and break out of the columns in Internet Explorer 11. Props [DrGrimshaw](https://github.com/DrGrimshaw).
 * Fixes a bug where keyphrases weren't recognized in the URL when the words in the URL were separated by underscore characters instead of hyphens.
 * Fixes a bug that caused numbers to be stripped when marking a keyphrase containing a number, e.g. 'Yoast SEO 9.3'.
+* Fixes a bug where the first tab of the metabox would be empty when using WordPress 4.8.x.
 
 = 9.2.1 =
 Release Date: November 21th, 2018
