@@ -29,9 +29,6 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function show_feature_toggle() {
-		// Temporary disable the toggle.
-		return;
-
 		$values = array(
 			'on'  => __( 'On', 'wordpress-seo' ),
 			'off' => __( 'Off', 'wordpress-seo' ),
@@ -85,9 +82,6 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		// Temporary disable the toggle.
-		return;
-
 		add_action( 'update_option_wpseo', array( $this, 'update_option' ), 10, 2 );
 
 		$notification = new WPSEO_Recalibration_Beta_Notification();
@@ -169,9 +163,6 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function subscribe_newsletter() {
-		// Temporary disable the toggle.
-		return;
-
 		if ( $this->has_mailinglist_subscription() ) {
 			return;
 		}
