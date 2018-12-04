@@ -15,7 +15,7 @@ describe( "buildStructuredUrl", () => {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "replaces markers that are present in the urlStructure multiple times", () => {
+	it( "replaces variables that are present in the urlStructure multiple times", () => {
 		const expected = "https://www.example.com/transportation/flying/transportation/flying/";
 
 		const actual = buildStructuredUrl(

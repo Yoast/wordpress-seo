@@ -2,11 +2,11 @@
 import { isArray } from "lodash";
 
 /**
- * Builds a URL based on a string that has parts marked with % characters, like so:
+ * Builds a URL based on a string that has variables surrounded by % characters, like so:
  *
  * https://www.example.com/%category%/%postname%/
  *
- * The marked parts should correspond to a key in the urlParts object. The marked part is then
+ * The variables should correspond to a key in the urlParts object. The variable is then
  * replaced by the url part's content.
  *
  * urlParts: { category: [ "transportation", "flying" ], postname: "the-cost-of-flying" }
@@ -32,9 +32,9 @@ export default function buildStructuredUrl( urlStructure, urlParts = {} ) {
 
 		const replacement = isArray( part ) ? part.join( "/" ) : part;
 
-		const marker = `%${ partId }%`;
+		const variable = `%${ partId }%`;
 
-		url = url.replace( new RegExp( marker, "g" ), replacement );
+		url = url.replace( new RegExp( variable, "g" ), replacement );
 	} );
 
 	return url;
