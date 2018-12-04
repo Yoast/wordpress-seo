@@ -5,8 +5,8 @@ class TextContainer {
 	/**
 	 * A piece of text (with optional phrasing content) within an HTML-document that can be read by a reader.
 	 *
-	 * @param {string} text the text, without any formatting.
-	 * @param {FormattingElement[]} formatting the inline HTML-elements (e.g. <strong>, <a>) within the text.
+	 * @param {string} text                    The plain text, without any formatting.
+	 * @param {FormattingElement[]} formatting The inline HTML-elements (e.g. <strong>, <a>) within the text.
 	 */
 	constructor( text, formatting ) {
 		this.text = text;
@@ -16,7 +16,7 @@ class TextContainer {
 	/**
 	 * Returns the stringified HTML-content of this text, including formatting and other phrasing content.
 	 *
-	 * @returns {string} the stringified HTML-content of this text.
+	 * @returns {string} The stringified HTML-content of this text.
 	 */
 	toHtml() {
 		return this.formatting.reduce( ( text, element ) => {
