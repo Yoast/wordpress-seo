@@ -5,7 +5,7 @@ import { setWarningMessage } from "../redux/actions/warning";
 import getL10nObject from "./getL10nObject";
 
 /**
- * Dispatches a warning message if analysis fails.
+ * Dispatches a warning message if the recalibration analysis fails.
  *
  * @returns {void}.
  */
