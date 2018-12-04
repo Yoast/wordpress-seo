@@ -1,17 +1,18 @@
 /* External dependencies */
-import React from "react";
-import PropTypes from "prop-types";
-import { Fragment } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
+import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import PropTypes from "prop-types";
+import React from "react";
 
 /* Internal dependencies */
-import SidebarItem from "./SidebarItem";
-import SnippetEditor from "../containers/SnippetEditor";
-import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
-import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
+import SnippetEditor from "../containers/SnippetEditor";
+import Warning from "../containers/Warning";
+import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
+import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import Collapsible from "./SidebarCollapsible";
+import SidebarItem from "./SidebarItem";
 import TopLevelProviders from "./TopLevelProviders";
 
 /**
@@ -27,6 +28,15 @@ export default function Metabox( { settings, store, theme } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastMetabox">
+				<SidebarItem renderPriority={ 1 }>
+					<TopLevelProviders
+						store={ store }
+						theme={ theme }
+						location={ "metabox" }
+					>
+						<Warning />
+					</TopLevelProviders>
+				</SidebarItem>
 				<SidebarItem renderPriority={ 9 }>
 					<TopLevelProviders
 						store={ store }

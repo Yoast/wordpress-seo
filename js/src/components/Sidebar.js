@@ -1,14 +1,15 @@
 /* External dependencies */
-import React from "react";
-import PropTypes from "prop-types";
-import { Fragment } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
+import { Fragment } from "@wordpress/element";
+import PropTypes from "prop-types";
+import React from "react";
 
 /* Internal dependencies */
-import SidebarItem from "./SidebarItem";
-import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
+import Warning from "../containers/Warning";
+import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
+import SidebarItem from "./SidebarItem";
 import SnippetPreviewModal from "./SnippetPreviewModal";
 import TopLevelProviders from "./TopLevelProviders";
 
@@ -27,6 +28,15 @@ export default function Sidebar( { settings, store, theme } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
+				<SidebarItem renderPriority={ 1 }>
+					<TopLevelProviders
+						store={ store }
+						theme={ theme }
+						location={ "sidebar" }
+					>
+						<Warning />
+					</TopLevelProviders>
+				</SidebarItem>
 				{ <SidebarItem renderPriority={ 5 }>
 					<TopLevelProviders
 						store={ store }
