@@ -444,7 +444,7 @@ setWordPressSeoL10n();
 		window.YoastSEO.app = app;
 		window.YoastSEO.store = editStore;
 		window.YoastSEO.analysis = {};
-		window.YoastSEO.analysis.worker = createAnalysisWorker( YoastSEO.store.dispatch );
+		window.YoastSEO.analysis.worker = createAnalysisWorker();
 		window.YoastSEO.analysis.collectData = () => collectAnalysisData( edit, YoastSEO.store, customAnalysisData, YoastSEO.app.pluggable );
 		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks( YoastSEO.store )( paper, marks );
 
