@@ -73,6 +73,7 @@ export { default as SeoAssessment } from "./composites/Plugin/DashboardWidget/co
 export { default as VideoTutorial } from "./composites/HelpCenter/views/VideoTutorial";
 export { default as KeywordInput } from "./composites/Plugin/Shared/components/KeywordInput";
 export { default as Icon } from "./composites/Plugin/Shared/components/Icon";
+export { default as YoastWarning } from "./composites/Plugin/Shared/components/YoastWarning";
 export { default as YoastSeoIcon } from "./composites/basic/YoastSeoIcon";
 export { insightsReducer } from "./redux/reducers/insights";
 export { setProminentWords } from "./redux/actions/insights";
