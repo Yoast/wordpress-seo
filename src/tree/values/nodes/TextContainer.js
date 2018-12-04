@@ -1,5 +1,27 @@
 /**
  * Represents a text (with optional phrasing content) within an HTML-document that can be read by a reader.
+ *
+ * Example:
+ * ```
+ * This text is <strong id="elem-id">very strong</strong>.
+ * ```
+ * should be transformed to:
+ * ```
+ * TextContainer {
+ *     text: "This text is very strong.
+ *     formatting: [
+ *         FormattingElement {
+ *             tag: "strong",
+ *             start: 13,
+ *             end: 24,
+ *             attributes: {
+ *                 id: "elem-id"
+ *             }
+ *             selfClosing: false,
+ *         }
+ *     ]
+ * }
+ * ```
  */
 class TextContainer {
 	/**
