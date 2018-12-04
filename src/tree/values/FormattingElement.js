@@ -20,16 +20,14 @@ class FormattingElement {
 	}
 
 	/**
-	 * Stringifies the given HTML-attributes to a string of " key=value" pairs.
-	 *
-	 * @param {Object} attributes The attributes to serialize.
+	 * Stringifies this elements HTML-attributes to a string of " key=value" pairs.
 	 *
 	 * @returns {string} The stringified attributes.
 	 */
-	getAttributeString( attributes ) {
-		if ( attributes ) {
-			return Object.keys( attributes ).reduce( ( string, key ) => {
-				return string + ` ${key}="${attributes[ key ]}"`;
+	_getAttributeString() {
+		if ( this.attributes ) {
+			return Object.keys( this.attributes ).reduce( ( string, key ) => {
+				return string + ` ${key}="${this.attributes[ key ]}"`;
 			}, "" );
 		}
 		return "";
@@ -44,9 +42,9 @@ class FormattingElement {
 	 */
 	toHtml( content = "" ) {
 		if ( this.selfClosing ) {
-			return `<${this.tag}${this.getAttributeString( this.attributes )}/>`;
+			return `<${this.tag}${this._getAttributeString()}/>`;
 		}
-		return `<${this.tag}${this.getAttributeString( this.attributes )}>${content}</${this.tag}>`;
+		return `<${this.tag}${this._getAttributeString()}>${content}</${this.tag}>`;
 	}
 }
 
