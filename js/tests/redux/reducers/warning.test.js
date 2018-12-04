@@ -5,7 +5,7 @@ import warning from "../../../src/redux/reducers/warning";
 
 describe( "warning reducer", () => {
 	describe( "warningReducer on receiving the SET_WARNING_MESSAGE action", () => {
-		it( "should set isCornerstoneContent's current value to true if it was false", () => {
+		it( "should set the message in the warning state", () => {
 			const state = {
 				key: "value",
 			};
