@@ -191,6 +191,13 @@ import a11ySpeak from "a11y-speak";
 	// eslint-disable-next-line
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
+	function setArchivesForAuthorsWithoutPostsToggleDisabledAttribute() {
+		const noPostsOn  = jQuery( "#noindex-author-noposts-wpseo-on" );
+		const noPostsOff = jQuery( "#noindex-author-noposts-wpseo-off" );
+		noPostsOff.prop( "disabled", false );
+		noPostsOn.prop( "disabled", false );
+	}
+
 	jQuery( document ).ready( function() {
 		/**
 		 * When the hash changes, get the base url from the action and then add the current hash.
@@ -204,6 +211,30 @@ import a11ySpeak from "a11y-speak";
 				jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
 			}
 		} ).change();
+
+		// Disable Author archives without posts when Show author archives is toggled off.
+		jQuery( "#noindex-author-wpseo-on" ).change( () => {
+			if ( ! jQuery( this ).is( ":checked" ) ) {
+				const noPostsOn  = jQuery( "#noindex-author-noposts-wpseo-on" );
+				const noPostsOff = jQuery( "#noindex-author-noposts-wpseo-off" );
+
+				noPostsOn.prop( "checked", true );
+
+				noPostsOff.prop( "disabled", true );
+				noPostsOn.prop( "disabled", true );
+			}
+		} );
+
+		// Enable Author archives without posts when Show author archives is toggled on.
+		jQuery( "#noindex-author-wpseo-off" ).change( () => {
+			if ( ! jQuery( this ).is( ":checked" ) ) {
+				const noPostsOn  = jQuery( "#noindex-author-noposts-wpseo-on" );
+				const noPostsOff = jQuery( "#noindex-author-noposts-wpseo-off" );
+
+				noPostsOff.prop( "disabled", false );
+				noPostsOn.prop( "disabled", false );
+			}
+		} );
 
 		// Toggle the Date archives section.
 		jQuery( "#disable-date input[type='radio']" ).change( function() {
