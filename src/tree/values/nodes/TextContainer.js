@@ -19,7 +19,11 @@ class TextContainer {
 	 * @returns {string} The stringified HTML-content of this text.
 	 */
 	toHtml() {
-		return this.formatting.reduce( ( text, element ) => {
+		// Sort formatting elements so we start adding tags from the end of the text.
+		const sortedFormatting = this.formatting.slice();
+		sortedFormatting.sort( ( a, b ) => Math.abs( a.start - b.start ) );
+
+		return sortedFormatting.reduce( ( text, element ) => {
 			const end = text.slice( element.end );
 			const start = text.slice( 0, element.start );
 			const content = text.slice( element.start, element.end );
