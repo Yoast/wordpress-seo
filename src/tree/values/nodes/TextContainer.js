@@ -33,6 +33,23 @@ class TextContainer {
 	constructor( text, formatting ) {
 		this.text = text;
 		this.formatting = formatting;
+		this._validate();
+	}
+
+	/**
+	 * Checks if this is a valid TextContainer. If it is not, throws an error.
+	 *
+	 * @private
+	 * @returns {void}
+	 */
+	_validate() {
+		// Check if a formatting element's end pos is larger than the length of the text.
+		const elem = this.formatting.find( format => format.end > this.text.length );
+		if ( elem ) {
+			throw new TypeError(
+				`The end position of the '${elem.tag}' formatting element should be smaller than the length of the text.`
+			);
+		}
 	}
 
 	/**

@@ -17,11 +17,27 @@ class FormattingElement {
 		this.start = start;
 		this.end = end;
 		this.selfClosing = selfClosing;
+		this._validate();
+	}
+
+	/**
+	 * Checks if this is a valid FormattingElement. If it is not, throws an error.
+	 *
+	 * @private
+	 * @returns {void}
+	 */
+	_validate() {
+		if ( this.end < this.start ) {
+			throw new TypeError( "End position should be larger than start position." );
+		} else if ( this.start < 0 ) {
+			throw new TypeError( "Start position should be larger than zero." );
+		}
 	}
 
 	/**
 	 * Stringifies this elements HTML-attributes to a string of " key=value" pairs.
 	 *
+	 * @private
 	 * @returns {string} The stringified attributes.
 	 */
 	_getAttributeString() {
