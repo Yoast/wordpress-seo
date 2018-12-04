@@ -9,12 +9,14 @@ class FormattingElement {
 	 * @param {number} start        		The start position of the tag within the text.
 	 * @param {number} end               	The end position of the tag within the text.
 	 * @param {Object} [attributes=null] 	The attributes (as key-value pairs, e.g. "href='...'" => { href: '...' } ).
+	 * @param {boolean} [selfClosing=false]	If this (HTML) element is self-closing (like for `img` elements).
 	 */
-	constructor( tag, start, end, attributes ) {
+	constructor( tag, start, end, attributes, selfClosing = false ) {
 		this.tag = tag;
 		this.attributes = attributes;
 		this.start = start;
 		this.end = end;
+		this.selfClosing = selfClosing;
 	}
 
 	/**
@@ -36,11 +38,14 @@ class FormattingElement {
 	/**
 	 * Stringifies this phrasing content to an HTML-string.
 	 *
-	 * @param {string} content The content to insert between the content tags.
+	 * @param {string} [content=""] The optional content to insert between the content tags.
 	 *
 	 * @returns {string} The HTML-string.
 	 */
-	toHtml( content ) {
+	toHtml( content = "" ) {
+		if ( this.selfClosing ) {
+			return `<${this.tag}${this.getAttributeString( this.attributes )}/>`;
+		}
 		return `<${this.tag}${this.getAttributeString( this.attributes )}>${content}</${this.tag}>`;
 	}
 }
