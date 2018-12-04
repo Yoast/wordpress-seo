@@ -5,11 +5,10 @@ class FormattingElement {
 	/**
 	 * Represents phrasing content (e.g. <strong>, <a>, <em>), except text, within an HTML-text.
 	 *
-	 * @param {string} tag          The HTML-tag of this element (e.g. "strong", "a", etc.)
-href: '...' } ).
-	 * @param {number} start        The start position of the tag within the text.
-	 * @param {number} end               The end position of the tag within the text.
-	 * @param {Object} [attributes=null] The attributes (as key-value pairs, e.g. "href='...'" => { href: '...' } ).
+	 * @param {string} tag          		The HTML-tag of this element (e.g. "strong", "a", etc.).
+	 * @param {number} start        		The start position of the tag within the text.
+	 * @param {number} end               	The end position of the tag within the text.
+	 * @param {Object} [attributes=null] 	The attributes (as key-value pairs, e.g. "href='...'" => { href: '...' } ).
 	 */
 	constructor( tag, start, end, attributes ) {
 		this.tag = tag;
