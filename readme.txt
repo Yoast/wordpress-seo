@@ -116,7 +116,6 @@ Enhancements:
 * Changes the website schema `@id` attribute to include the home URL to be a unique identifier.
 * Adds the page number to the breadcrumbs when an archived page is entered.
 * Removes a redundant Edge-specific CSS fix for the tooltips in the post overview. Props [mkronenfeld](https://github.com/mkronenfeld).
-* When the recalibration feature flag is switched on, the single title assessment is added. This assessment makes sure that you don't use superfluous H1s in your text.
 
 Bugfixes:
 
@@ -144,6 +143,7 @@ Other:
   * The assessment checking whether your URL contains stopwords.
 * Shows a notice about the analyses, when the recalibration beta is enabled.
 * Shows a notice when recalibration beta has not been enabled yet.
+* Fixes a bug where the first tab of the metabox would be empty when using WordPress 4.8.x.
 
 = 9.2.1 =
 Release Date: November 21th, 2018
