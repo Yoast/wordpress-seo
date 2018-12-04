@@ -10,6 +10,8 @@ class StructuredIrrelevant {
 	 * Examples from HTML include content within `<script>` and `<style>` elements.
 	 *
 	 * @param {string} content 	The raw content of this node.
+	 *
+	 * @returns {void}
 	 */
 	constructor( content ) {
 		this.content = content;
