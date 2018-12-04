@@ -6,7 +6,7 @@
  */
 class StructuredText {
 	/**
-	 * Represents represents a piece of structure that is present in the original text, but is not relevant for the further
+	 * Represents a piece of structure that is present in the original text, but is not relevant for the further
 	 * analysis of the text.
 	 *
 	 * Talking about HTML, this would encompass thing like <div>, <section>, <aside>, <fieldset> and other HTML block elements.
