@@ -1,7 +1,7 @@
 import FormattingElement from "../../../src/tree/values/FormattingElement";
 
-describe( "PhrasingContent", () => {
-	it( "can make a new PhrasingContent object", () => {
+describe( "FormattingElement", () => {
+	it( "can make a new FormattingElement object", () => {
 		const formattingElement = new FormattingElement( "strong", 5, 30, { id: "some-id" } );
 
 		expect( formattingElement.tag ).toEqual( "strong" );
