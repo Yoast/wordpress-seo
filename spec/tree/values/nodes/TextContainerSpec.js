@@ -1,12 +1,12 @@
 import TextContainer from "../../../../src/tree/values/nodes/TextContainer";
 import FormattingElement from "../../../../src/tree/values/FormattingElement";
 
-describe( "Text tree node", () => {
+describe( "TextContainer", () => {
 	beforeEach( () => {
 		console.warn = jest.fn();
 	} );
 
-	it( "can make a new Text tree node", () => {
+	it( "can make a new TextContainer", () => {
 		const formatting = [
 			new FormattingElement( "a", 25, 29 ),
 		];
