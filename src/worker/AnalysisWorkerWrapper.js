@@ -78,6 +78,9 @@ class AnalysisWorkerWrapper {
 			default:
 				console.warn( "AnalysisWebWorker unrecognized action:", type );
 		}
+
+		// Remove the handled request from our queue.
+		delete this._requests[ id ];
 	}
 
 	/**
@@ -105,7 +108,21 @@ class AnalysisWorkerWrapper {
 	 * @returns {void}
 	 */
 	handleError( event ) {
-		console.error( "AnalysisWebWorker error:", event );
+		/*
+		 * Try to get the last request. This might not perfectly match the request error.
+		 * However, that is not as bad as not being able to reject it like this.
+		 *
+		 * This is not the _autoIncrementedRequestId because that might be a
+		 * request that is handled already. Instead the last object key is used.
+		 */
+		const requestKeys = Object.keys( this._requests );
+		const lastRequestId = requestKeys[ requestKeys.length - 1 ];
+		const lastRequest = this._requests[ lastRequestId ];
+		if ( ! lastRequest ) {
+			console.error( "AnalysisWebWorker error:", event );
+			return;
+		}
+		lastRequest.reject( event );
 	}
 
 	/**
