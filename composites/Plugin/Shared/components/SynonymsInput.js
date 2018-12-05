@@ -16,37 +16,48 @@ const StyledYoastInputLabel = styled( YoastInputLabel )`
 	${ getRtlStyle( "margin-right: 4px", "margin-left: 4px" ) };
 `;
 
-const SynonymsInput = ( { id, label, helpLink, value, onChange } ) => {
+/**
+ * Renders the input for synonyms.
+ *
+ * All props that are not specific to this element are passed to the input element.
+ *
+ * @param {object} props The component props.
+ *
+ * @returns {ReactElement} The rendered synonyms input element.
+ */
+const SynonymsInput = ( props ) => {
+	const {
+		label,
+		helpLink,
+		...inputProps
+	} = props;
+
 	return (
 		<YoastInputContainer>
 			<SynonymsFieldLabelContainer>
-				<StyledYoastInputLabel htmlFor={ id }>
+				<StyledYoastInputLabel htmlFor={ inputProps.id }>
 					{ label }
 				</StyledYoastInputLabel>
 				{ helpLink }
 			</SynonymsFieldLabelContainer>
 			<YoastInputField
-				type="text"
-				id={ id }
-				onChange={ onChange }
-				value={ value }
+				{ ...inputProps }
 			/>
 		</YoastInputContainer>
 	);
 };
 
 SynonymsInput.propTypes = {
+	type: PropTypes.string,
 	id: PropTypes.string,
 	label: PropTypes.string,
-	value: PropTypes.string,
-	onChange: PropTypes.func.isRequired,
 	helpLink: PropTypes.node,
 };
 
 SynonymsInput.defaultProps = {
+	type: "text",
 	id: uniqueId( "synonyms-input-" ),
 	label: "",
-	value: "",
 	helpLink: null,
 };
 
