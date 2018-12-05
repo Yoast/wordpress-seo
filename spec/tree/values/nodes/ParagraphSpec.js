@@ -2,7 +2,7 @@ import TextContainer from "../../../../src/tree/values/nodes/TextContainer";
 import FormattingElement from "../../../../src/tree/values/FormattingElement";
 import Paragraph from "../../../../src/tree/values/nodes/Paragraph";
 
-describe( "Text tree node", () => {
+describe( "Paragraph tree node", () => {
 	it( "can make a new Paragraph tree node with paragraph opening tags", () => {
 		const phrasingElements = [
 			new FormattingElement( "a", 25, 29 ),
@@ -20,7 +20,7 @@ describe( "Text tree node", () => {
 		expect( paragraphElement.end ).toEqual( "" );
 	} );
 
-	it( "can make a new Text tree node", () => {
+	it( "can make a new Paragraph tree node", () => {
 		const phrasingElements = [
 			new FormattingElement( "a", 25, 29 ),
 		];
