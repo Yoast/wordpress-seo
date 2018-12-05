@@ -7,6 +7,7 @@ import focusKeyword from "./focusKeyword";
 import marksButtonStatus from "./markerButtons";
 import preferences from "./preferences";
 import primaryTaxonomies from "./primaryTaxonomies";
+import isMarkerPaused from "./markerPauseStatus";
 import settings from "./settings";
 import snippetEditor from "./snippetEditor";
 import warning from "./warning";
@@ -20,6 +21,7 @@ export default {
 	marksButtonStatus,
 	preferences,
 	primaryTaxonomies,
+	isMarkerPaused,
 	settings,
 	snippetEditor,
 	warning,
