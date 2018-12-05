@@ -35,7 +35,7 @@ class FormattingElement {
 	}
 
 	/**
-	 * Stringifies this elements HTML-attributes to a string of " key=value" pairs.
+	 * Stringifies this element's HTML-attributes to a string of " key=value" pairs.
 	 *
 	 * @private
 	 * @returns {string} The stringified attributes.
