@@ -311,7 +311,7 @@ window.yoastHideMarkers = true;
 			YoastSEO.app.refresh();
 		};
 
-		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
+		edit.initializeUsedKeywords( YoastSEO.app.refresh, "get_term_keyword_usage" );
 
 		store.subscribe( handleStoreChange.bind( null, store, app ) );
 

@@ -472,7 +472,7 @@ setWordPressSeoL10n();
 			YoastSEO.app.refresh();
 		};
 
-		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
+		edit.initializeUsedKeywords( YoastSEO.app.refresh, "get_focus_keyword_usage" );
 
 		postDataCollector.app = app;
 
