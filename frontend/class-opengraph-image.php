@@ -141,7 +141,17 @@ class WPSEO_OpenGraph_Image {
 	 * @return array The images.
 	 */
 	public function get_images() {
-		return $this->images;
+		/**
+		 * Filter: 'wpseo_opengraph_images' - Allow changing the images for OpenGraph.
+		 *
+		 * @api array $images The images for OpenGraph.
+		 */
+		$images = apply_filters( 'wpseo_opengraph_images', $this->images );
+		if ( ! is_array( $images ) ) {
+			return $this->images;
+		}
+
+		return $images;
 	}
 
 	/**
@@ -150,7 +160,9 @@ class WPSEO_OpenGraph_Image {
 	 * @return bool True if we have images, false if we don't.
 	 */
 	public function has_images() {
-		return ! empty( $this->images );
+		$images = $this->get_images();
+
+		return ! empty( $images );
 	}
 
 	/**
