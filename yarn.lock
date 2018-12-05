@@ -12653,7 +12653,7 @@ yauzl@^2.2.1:
 
 "yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.3":
   version "1.43.0"
-  resolved "git+https://github.com/Yoast/YoastSEO.js.git#aee05d8611a31f6b7336d4d18d06402f4d7a1f0b"
+  resolved "git+https://github.com/Yoast/YoastSEO.js.git#f815645a7f81af63740c193c34149672c992f226"
   dependencies:
     "@wordpress/autop" "^2.0.2"
     htmlparser2 "^3.9.2"
