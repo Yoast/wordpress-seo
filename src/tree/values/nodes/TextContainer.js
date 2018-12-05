@@ -8,7 +8,7 @@
  * should be transformed to:
  * ```
  * TextContainer {
- *     text: "This text is very strong.
+ *     text: "This text is very strong".
  *     formatting: [
  *         FormattingElement {
  *             tag: "strong",
