@@ -17,23 +17,21 @@ class FormattingElement {
 		this.start = start;
 		this.end = end;
 		this.selfClosing = selfClosing;
-		this._validate();
-	}
 
-	/**
-	 * Checks if this is a valid FormattingElement. If it is not, throws an error.
-	 *
-	 * @private
-	 *
-	 * @throws {RangeError}	When the end position is larger than the start position, or the start position is smaller than zero.
-	 *
-	 * @returns {void}
-	 */
-	_validate() {
+		// Swap end and start positions when end is smaller.
 		if ( this.end < this.start ) {
-			throw new RangeError( "End position should be larger than start position." );
-		} else if ( this.start < 0 ) {
-			throw new RangeError( "Start position should be larger than zero." );
+			const endTemp = this.end;
+			this.end = this.start;
+			this.start = endTemp;
+
+			console.warn( `End position smaller than start of '${tag}' element. They have been swapped.` );
+		}
+
+		// Set start position to zero when smaller than zero.
+		if ( this.start < 0 ) {
+			this.start =  0;
+
+			console.warn( `Start position of '${tag}' element smaller than zero. It has been set to zero.` );
 		}
 	}
 

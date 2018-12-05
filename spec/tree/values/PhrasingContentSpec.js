@@ -1,6 +1,9 @@
 import FormattingElement from "../../../src/tree/values/FormattingElement";
 
 describe( "FormattingElement", () => {
+	beforeEach( () => {
+		console.warn = jest.fn();
+	} );
 	it( "can make a new FormattingElement object", () => {
 		const formattingElement = new FormattingElement( "strong", 5, 30, { id: "some-id" } );
 
@@ -10,18 +13,27 @@ describe( "FormattingElement", () => {
 		expect( formattingElement.attributes ).toEqual( { id: "some-id" } );
 	} );
 
-	it( "throws an error when start position is smaller than zero", () => {
-		expect( () => new FormattingElement( "strong", -4, 20 ) ).toThrow();
+	it( "sets start position to zero when it is smaller, also gives a warning", () => {
+		const formattingElement = new FormattingElement( "strong", -4, 20 );
+
+		expect( formattingElement.start ).toEqual( 0 );
+		expect( console.warn ).toBeCalled();
 	} );
 
-	it( "throws an error when end position is smaller than start position", () => {
-		expect( () => new FormattingElement( "strong", 21, 5 ) ).toThrow();
+	it( "swaps start and end when end is smaller than start, also gives a warning", () => {
+		const start = 20;
+		const end = 4;
+		const formattingElement = new FormattingElement( "strong", start, end );
+
+		expect( formattingElement.start ).toEqual( end );
+		expect( formattingElement.end ).toEqual( start );
+		expect( console.warn ).toBeCalled();
 	} );
 
 	describe( "get attribute string", () => {
 		it( "returns an empty string when having no attributes", () => {
 			const formattingElement = new FormattingElement( "strong", 5, 30 );
-			expect( formattingElement._getAttributeString() ).toEqual( "" );
+			expect( formattingElement._getAttributeHtmlString() ).toEqual( "" );
 		} );
 	} );
 

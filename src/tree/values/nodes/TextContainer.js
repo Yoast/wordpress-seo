@@ -33,25 +33,26 @@ class TextContainer {
 	constructor( text, formatting ) {
 		this.text = text;
 		this.formatting = formatting;
-		this._validate();
+
+		this._constrainFormatElementPositionsToEnd( "start" );
+		this._constrainFormatElementPositionsToEnd( "end" );
 	}
 
 	/**
-	 * Checks if this is a valid TextContainer. If it is not, throws an error.
+	 * Constrains the given position (start or end) of this container's formatting elements to the length
+	 * of the text if it exceeds it.
 	 *
-	 * @private
-	 *
-	 * @throws {RangeError}	When one of the formatting element's end positions are larger than this TextContainer's text.
-	 *
+	 * @param {"start"|"end"} position	Which position we need to constrain.
 	 * @returns {void}
+	 * @private
 	 */
-	_validate() {
-		// Check if a formatting element's end pos is larger than the length of the text.
-		const elem = this.formatting.find( format => format.end > this.text.length );
+	_constrainFormatElementPositionsToEnd( position ) {
+		// Check if a formatting element's pos is larger than the length of the text.
+		const elem = this.formatting.find( format => format[ position ] > this.text.length );
 		if ( elem ) {
-			throw new RangeError(
-				`The end position of the '${elem.tag}' formatting element should be smaller than the length of the text.`
-			);
+			// If so, change its pos to the end of the text and give a warning.
+			elem[ position ] = this.text.length;
+			console.warn( `'${elem.tag}' element's ${position} position larger than text. It has been set to the end of the text instead.` );
 		}
 	}
 

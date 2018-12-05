@@ -2,6 +2,10 @@ import TextContainer from "../../../../src/tree/values/nodes/TextContainer";
 import FormattingElement from "../../../../src/tree/values/FormattingElement";
 
 describe( "Text tree node", () => {
+	beforeEach( () => {
+		console.warn = jest.fn();
+	} );
+
 	it( "can make a new Text tree node", () => {
 		const formatting = [
 			new FormattingElement( "a", 25, 29 ),
@@ -13,14 +17,18 @@ describe( "Text tree node", () => {
 		expect( textContainer.text ).toEqual( text );
 	} );
 
-	it( "throws an error when constructing a TextContainer with formatting elements with invalid end positions", () => {
+	it( "fixes the end and start positions to the length of the text, when it is too large (should also give a warning)", () => {
 		const formatting = [
 			new FormattingElement( "strong", 25, 29 ),
 			new FormattingElement( "strong", 0, 5 ),
 		];
 		// Text smaller than end position of formatting element.
 		const text = "Some text.";
-		expect( () => new TextContainer( text, formatting ) ).toThrow();
+		const textContainer = new TextContainer( text, formatting );
+
+		expect( textContainer.formatting[ 0 ].end ).toEqual( text.length );
+		expect( textContainer.formatting[ 0 ].start ).toEqual( text.length );
+		expect( console.warn ).toBeCalled();
 	} );
 
 	describe( "can generate an HTML-string from the text and accompanying formatting", () => {
