@@ -53,7 +53,7 @@ class TextContainer {
 	}
 
 	/**
-	 * Returns the stringified HTML-content of this text, including formatting and other phrasing content.
+	 * Returns the stringified HTML-content of this text, including formatting.
 	 *
 	 * @returns {string} The stringified HTML-content of this text.
 	 */
