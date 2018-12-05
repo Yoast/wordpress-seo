@@ -480,7 +480,7 @@ setWordPressSeoL10n();
 		const shortcodePlugin = new YoastShortcodePlugin( app );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
-			const markdownPlugin = new YoastMarkdownPlugin( app );
+			const markdownPlugin = new YoastMarkdownPlugin( YoastSEO.app.registerPlugin, YoastSEO.app.registerModification );
 			markdownPlugin.register();
 		}
 
