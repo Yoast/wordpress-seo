@@ -37,6 +37,6 @@ export default [
 	frenchPaper2,
 	frenchPaper3,
 	spanishPaper1,
-	spanishPaper2
+	spanishPaper2,
 ];
 
