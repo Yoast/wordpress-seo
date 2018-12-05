@@ -12624,9 +12624,9 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-"yoast-components@git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.3":
+"yoast-components@git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.4":
   version "4.16.0"
-  resolved "git+https://github.com/Yoast/yoast-components.git#9f2dd8c2f5c02ccabfed871243696a10591481d8"
+  resolved "git+https://github.com/Yoast/yoast-components.git#8f45846506b4f2a40fbcbb2872aa6c79f67fd181"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -12654,6 +12654,18 @@ yauzl@^2.2.1:
 "yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.3":
   version "1.43.0"
   resolved "git+https://github.com/Yoast/YoastSEO.js.git#aee05d8611a31f6b7336d4d18d06402f4d7a1f0b"
+  dependencies:
+    "@wordpress/autop" "^2.0.2"
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    lodash-es "^4.17.10"
+    loglevel "^1.6.1"
+    sassdash "0.9.0"
+    tokenizer2 "^2.0.1"
+
+"yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.4":
+  version "1.43.0"
+  resolved "git+https://github.com/Yoast/YoastSEO.js.git#356ae887c0e63761c4f6f3ca2eea6a30a5cf9599"
   dependencies:
     "@wordpress/autop" "^2.0.2"
     htmlparser2 "^3.9.2"
