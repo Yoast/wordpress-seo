@@ -1,9 +1,9 @@
 /**
- * Represents phrasing content (e.g. <strong>, <a>, <em>), except text, within an HTML-text.
+ * Represents formatting elements (e.g. <strong>, <a>, <em>), except text, within an HTML-text.
  */
 class FormattingElement {
 	/**
-	 * Represents phrasing content (e.g. <strong>, <a>, <em>), except text, within an HTML-text.
+	 * Represents a formatting element (e.g. <strong>, <a>, <em>), except text, within an HTML-text.
 	 *
 	 * @param {string} tag          		The HTML-tag of this element (e.g. "strong", "a", etc.).
 	 * @param {number} start        		The start position of the tag within the text.
@@ -50,7 +50,7 @@ class FormattingElement {
 	}
 
 	/**
-	 * Stringifies this phrasing content to an HTML-string.
+	 * Stringifies this formatting element to an HTML-string.
 	 *
 	 * @param {string} [content=""] The optional content to insert between the content tags.
 	 *

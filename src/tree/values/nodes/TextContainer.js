@@ -1,5 +1,5 @@
 /**
- * Represents a text (with optional phrasing content) within an HTML-document that can be read by a reader.
+ * Represents a text (with optional formatting element(s)) within an HTML-document that can be read by a reader.
  *
  * Example:
  * ```
@@ -25,7 +25,7 @@
  */
 class TextContainer {
 	/**
-	 * A piece of text (with optional phrasing content) within an HTML-document that can be read by a reader.
+	 * A piece of text (with optional formatting element(s)) within an HTML-document that can be read by a reader.
 	 *
 	 * @param {string} text                    The plain text, without any formatting.
 	 * @param {FormattingElement[]} formatting The inline HTML-elements (e.g. <strong>, <a>) within the text.
