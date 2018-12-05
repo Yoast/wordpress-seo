@@ -1,7 +1,7 @@
 /**
- * Represents a text (with optional formatting element(s)) within an HTML-document that can be read by a reader.
+ * Represents a text (with optional formatting element(s)) within a document that can be read by a reader.
  *
- * Example:
+ * Example (in the case of HTML):
  * ```
  * This text is <strong id="elem-id">very strong</strong>.
  * ```
@@ -25,10 +25,10 @@
  */
 class TextContainer {
 	/**
-	 * A piece of text (with optional formatting element(s)) within an HTML-document that can be read by a reader.
+	 * A piece of text (with optional formatting element(s)) within a text that can be read by a reader.
 	 *
 	 * @param {string} text                    The plain text, without any formatting.
-	 * @param {FormattingElement[]} formatting The inline HTML-elements (e.g. <strong>, <a>) within the text.
+	 * @param {FormattingElement[]} formatting The inline formatting elements (e.g. <strong>, ,"_" (MarkDown)) within the text.
 	 */
 	constructor( text, formatting ) {
 		this.text = text;
@@ -40,6 +40,9 @@ class TextContainer {
 	 * Checks if this is a valid TextContainer. If it is not, throws an error.
 	 *
 	 * @private
+	 *
+	 * @throws {RangeError}	When one of the formatting element's end positions are larger than this TextContainer's text.
+	 *
 	 * @returns {void}
 	 */
 	_validate() {
@@ -53,9 +56,9 @@ class TextContainer {
 	}
 
 	/**
-	 * Returns the stringified HTML-content of this text, including formatting.
+	 * Returns the content of this text in stringified HTML-format, including formatting.
 	 *
-	 * @returns {string} The stringified HTML-content of this text.
+	 * @returns {string}	The stringified HTML-content of this text.
 	 */
 	toHtml() {
 		// Sort formatting elements so we start adding tags from the end of the text.
