@@ -13,8 +13,8 @@ import buildDurationString from "../utils/buildDurationString";
 import appendSpace from "../../../components/higherorder/appendSpace";
 
 const { RichText, InspectorControls } = window.wp.editor;
-const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;
-const { Component, renderToString } = window.wp.element;
+const { Button, IconButton, Dashicon, PanelBody, TextControl, ToggleControl } = window.wp.components;
+const { Component, renderToString, createRef } = window.wp.element;
 
 const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 
@@ -54,6 +54,10 @@ export default class HowTo extends Component {
 		this.getListTypeHelp = this.getListTypeHelp.bind( this );
 		this.toggleListType  = this.toggleListType.bind( this );
 		this.setDurationText = this.setDurationText.bind( this );
+		this.openDuration    = this.openDuration.bind( this );
+		this.closeDuration   = this.closeDuration.bind( this );
+		this.daysInput       = createRef();
+		this.addTimeButton   = createRef();
 
 		const defaultDurationText = this.getDefaultDurationText();
 		this.setDefaultDurationText( defaultDurationText );
@@ -481,14 +485,15 @@ export default class HowTo extends Component {
 
 		if ( ! attributes.hasDuration ) {
 			return (
-				<IconButton
-					focus={ true }
-					icon="insert"
-					onClick={ () => setAttributes( { hasDuration: true } ) }
-					className="schema-how-to-duration-button editor-inserter__toggle"
+				// Use a `Button` because at the moment `IconButton` doesn't support refs.
+				<Button
+					onClick={ this.openDuration }
+					className="components-icon-button schema-how-to-duration-button editor-inserter__toggle"
+					ref={ this.addTimeButton }
 				>
+					<Dashicon icon="insert" />
 					{ __( "Add total time", "wordpress-seo" ) }
-				</IconButton>
+				</Button>
 			);
 		}
 
@@ -512,12 +517,12 @@ export default class HowTo extends Component {
 							className="schema-how-to-duration-input"
 							type="number"
 							value={ attributes.days }
-							onFocus={ () => this.setFocus( "days" ) }
 							onChange={ ( event ) => {
 								const newValue = this.formatDuration( event.target.value );
 								setAttributes( { days: toString( newValue ) } );
 							} }
 							placeholder="DD"
+							ref={ this.daysInput }
 						/>
 						<label
 							htmlFor="schema-how-to-duration-hours"
@@ -530,7 +535,6 @@ export default class HowTo extends Component {
 							className="schema-how-to-duration-input"
 							type="number"
 							value={ attributes.hours }
-							onFocus={ () => this.setFocus( "hours" ) }
 							placeholder="HH"
 							onChange={ ( event ) => {
 								const newValue = this.formatDuration( event.target.value, 23 );
@@ -549,7 +553,6 @@ export default class HowTo extends Component {
 							className="schema-how-to-duration-input"
 							type="number"
 							value={ attributes.minutes }
-							onFocus={ () => this.setFocus( "minutes" ) }
 							onChange={ ( event ) => {
 								const newValue = this.formatDuration( event.target.value, 59 );
 								setAttributes( { minutes: toString( newValue ) } );
@@ -560,12 +563,32 @@ export default class HowTo extends Component {
 							className="schema-how-to-duration-delete-button editor-inserter__toggle"
 							icon="trash"
 							label={ __( "Delete total time", "wordpress-seo" ) }
-							onClick={ () => setAttributes( { hasDuration: false } ) }
+							onClick={ this.closeDuration }
 						/>
 					</span>
 				</span>
 			</fieldset>
 		);
+	}
+
+	/**
+	 * Activates the Duration component and manages focus.
+	 *
+	 * @returns {void}
+	 */
+	openDuration() {
+		this.props.setAttributes( { hasDuration: true } );
+		setTimeout( () => this.daysInput.current.focus() );
+	}
+
+	/**
+	 * Deactivates the Duration component and manages focus.
+	 *
+	 * @returns {void}
+	 */
+	closeDuration() {
+		this.props.setAttributes( { hasDuration: false } );
+		setTimeout( () => this.addTimeButton.current.focus() );
 	}
 
 	/**
@@ -620,7 +643,6 @@ export default class HowTo extends Component {
 
 		return (
 			<div className={ classNames }>
-				{ this.getDuration() }
 				<RichText
 					tagName="p"
 					className="schema-how-to-description"
@@ -634,6 +656,7 @@ export default class HowTo extends Component {
 					placeholder={ __( "Enter a description", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
+				{ this.getDuration() }
 				<ul className={ listClassNames }>
 					{ this.getSteps() }
 				</ul>
