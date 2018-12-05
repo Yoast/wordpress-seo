@@ -32,6 +32,7 @@ import TermDataCollector from "./analysis/TermDataCollector";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
 import getApplyMarks from "./analysis/getApplyMarks";
 import { refreshDelay } from "./analysis/constants";
+import handleWorkerError from "./analysis/handleWorkerError";
 
 // Redux dependencies.
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
@@ -307,7 +308,7 @@ window.yoastHideMarkers = true;
 			}
 		};
 		YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
-			YoastSEO.analysis.worker.initialize( assessorOptions );
+			YoastSEO.analysis.worker.initialize( assessorOptions ).catch( handleWorkerError );
 			YoastSEO.app.refresh();
 		};
 
@@ -347,7 +348,7 @@ window.yoastHideMarkers = true;
 			.then( () => {
 				jQuery( window ).trigger( "YoastSEO:ready" );
 			} )
-			.catch( error => console.warn( error ) );
+			.catch( handleWorkerError );
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );

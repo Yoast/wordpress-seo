@@ -282,11 +282,6 @@ class WPSEO_Admin_Asset_Manager {
 
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
 
-		$analysis = 'analysis-' . $flat_version;
-		if ( WPSEO_Recalibration_Beta::is_enabled() ) {
-			$analysis = 'https://my.yoast.com/api/downloads/file/analysis';
-		}
-
 		return array(
 			array(
 				'name' => 'commons',
@@ -408,7 +403,6 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'wp-util',
 					'wp-api',
-					'wp-sanitize',
 					'wp-element',
 					'wp-i18n',
 					'wp-data',
@@ -426,7 +420,6 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'term-scraper',
 				'src'  => 'wp-seo-term-scraper-' . $flat_version,
 				'deps' => array(
-					'wp-sanitize',
 					'wp-element',
 					'wp-i18n',
 					'wp-data',
@@ -567,7 +560,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'analysis',
-				'src'  => $analysis,
+				'src'  => 'analysis-' . $flat_version,
 				'deps' => array(
 					'lodash',
 					self::PREFIX . 'commons',
