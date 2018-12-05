@@ -329,20 +329,20 @@ setWordPressSeoL10n();
 	let currentAnalysisData;
 
 	/**
-	 * Rerun the analysis when the title or metadescription in the snippet changes.
+	 * Rerun the analysis when the title or meta description in the snippet changes.
 	 *
-	 * @param {Object} store The store.
-	 * @param {Object} app The YoastSEO app.
+	 * @param {Object} store             The store.
+	 * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
 	 *
 	 * @returns {void}
 	 */
-	function handleStoreChange( store, app ) {
+	function handleStoreChange( store, refreshAnalysis ) {
 		const previousAnalysisData = currentAnalysisData || "";
 		currentAnalysisData = store.getState().analysisData.snippet;
 
 		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
 		if ( isDirty ) {
-			app.refresh();
+			refreshAnalysis();
 		}
 	}
 
@@ -474,9 +474,7 @@ setWordPressSeoL10n();
 
 		edit.initializeUsedKeywords( YoastSEO.app.refresh, "get_focus_keyword_usage" );
 
-		postDataCollector.app = app;
-
-		editStore.subscribe( handleStoreChange.bind( null, editStore, app ) );
+		editStore.subscribe( handleStoreChange.bind( null, editStore, YoastSEO.app.refresh ) );
 
 		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, editStore );
 		const shortcodePlugin = new YoastShortcodePlugin( app );
