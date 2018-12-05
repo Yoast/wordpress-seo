@@ -10,14 +10,14 @@ describe( "Text tree node", () => {
 		const text = "This is some text with a link.";
 		const textElement = new TextContainer( text, phrasingElements );
 
-		const openingTag = "<p>";
-		const closingTag = "</p>";
+		const start = "/n/n";
+		const end = "";
 
-		const paragraphElement = new Paragraph( textElement, openingTag, closingTag );
+		const paragraphElement = new Paragraph( textElement, start, end );
 
 		expect( paragraphElement.textContainer ).toEqual( textElement );
-		expect( paragraphElement.startHtml ).toEqual( "<p>" );
-		expect( paragraphElement.endHtml ).toEqual( "</p>" );
+		expect( paragraphElement.start ).toEqual( "/n/n" );
+		expect( paragraphElement.end ).toEqual( "" );
 	} );
 
 	it( "can make a new Text tree node", () => {
@@ -30,7 +30,7 @@ describe( "Text tree node", () => {
 		const paragraphElement = new Paragraph( textElement );
 
 		expect( paragraphElement.textContainer ).toEqual( textElement );
-		expect( paragraphElement.startHtml ).toEqual( "<p>" );
-		expect( paragraphElement.endHtml ).toEqual( "</p>" );
+		expect( paragraphElement.start ).toEqual( "<p>" );
+		expect( paragraphElement.end ).toEqual( "</p>" );
 	} );
 } );
