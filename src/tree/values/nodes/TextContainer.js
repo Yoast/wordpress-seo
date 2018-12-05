@@ -46,7 +46,7 @@ class TextContainer {
 		// Check if a formatting element's end pos is larger than the length of the text.
 		const elem = this.formatting.find( format => format.end > this.text.length );
 		if ( elem ) {
-			throw new TypeError(
+			throw new RangeError(
 				`The end position of the '${elem.tag}' formatting element should be smaller than the length of the text.`
 			);
 		}

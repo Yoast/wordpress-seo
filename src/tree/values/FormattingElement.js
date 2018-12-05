@@ -28,9 +28,9 @@ class FormattingElement {
 	 */
 	_validate() {
 		if ( this.end < this.start ) {
-			throw new TypeError( "End position should be larger than start position." );
+			throw new RangeError( "End position should be larger than start position." );
 		} else if ( this.start < 0 ) {
-			throw new TypeError( "Start position should be larger than zero." );
+			throw new RangeError( "Start position should be larger than zero." );
 		}
 	}
 
