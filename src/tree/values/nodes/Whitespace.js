@@ -5,10 +5,12 @@ class Whitespace {
 	/**
 	 * Represents a piece of whitespace that cannot be represented by any other structured element.
 	 *
+	 * @param {string} content The type of the whitespace (e.g., any combination of tabs, spaces, line-feeds).
+	 *
 	 * @returns {void}
 	 */
-	constructor() {
-		this.content = " ";
+	constructor( content ) {
+		this.content = content;
 	}
 }
 
