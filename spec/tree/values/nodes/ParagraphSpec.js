@@ -20,7 +20,7 @@ describe( "Paragraph tree node", () => {
 		expect( paragraphElement.endHtml ).toEqual( "</p>" );
 	} );
 
-	it( "can make a new Text tree node", () => {
+	it( "can make a new Paragraph tree node", () => {
 		const phrasingElements = [
 			new FormattingElement( "a", 25, 29 ),
 		];
