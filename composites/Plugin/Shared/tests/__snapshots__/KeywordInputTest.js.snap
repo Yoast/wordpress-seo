@@ -134,6 +134,7 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
       id="test-id"
       onBlur={[Function]}
       onChange={[Function]}
+      onFocus={[Function]}
       type="text"
       value=""
     />
