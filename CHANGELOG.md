@@ -11,7 +11,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Fixes a bug that caused numbers to be stripped when marking a keyphrase containing a number, e.g. `Yoast SEO 9.3`.
   
 ### Added
-* Added relevant words from the browserified example to the dev tool.
+* Adds relevant words from the browserified example to the dev tool.
 * Adds the option to use local morphology data in the dev tool.
 
 ### Changed
