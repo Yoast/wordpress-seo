@@ -44,14 +44,6 @@ describe( "FormattingElement", () => {
 			);
 		} );
 
-		it( "can generate an HTML-string with no attributes", () => {
-			const formattingElement = new FormattingElement( "strong", 25, 29 );
-
-			expect( formattingElement.toHtml( "some link" ) ).toEqual(
-				"<strong>some link</strong>"
-			);
-		} );
-
 		it( "can generate an HTML-string of a self-closing HTML-element", () => {
 			const attributes = {
 				src: "https://example.com/image.png",
