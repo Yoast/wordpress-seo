@@ -7,7 +7,6 @@ import focusKeyword from "./focusKeyword";
 import marksButtonStatus from "./markerButtons";
 import preferences from "./preferences";
 import primaryTaxonomies from "./primaryTaxonomies";
-import activeMarker from "./activeMarker";
 import isMarkerPaused from "./markerPauseStatus";
 import settings from "./settings";
 import snippetEditor from "./snippetEditor";
@@ -22,7 +21,6 @@ export default {
 	marksButtonStatus,
 	preferences,
 	primaryTaxonomies,
-	activeMarker,
 	isMarkerPaused,
 	settings,
 	snippetEditor,
