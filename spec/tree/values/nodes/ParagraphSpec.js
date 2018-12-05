@@ -4,11 +4,11 @@ import Paragraph from "../../../../src/tree/values/nodes/Paragraph";
 
 describe( "Paragraph tree node", () => {
 	it( "can make a new Paragraph tree node with paragraph opening tags", () => {
-		const phrasingElements = [
+		const formattingElements = [
 			new FormattingElement( "a", 25, 29 ),
 		];
 		const text = "This is some text with a link.";
-		const textElement = new TextContainer( text, phrasingElements );
+		const textElement = new TextContainer( text, formattingElements );
 
 		const start = "/n/n";
 		const end = "";
@@ -21,11 +21,11 @@ describe( "Paragraph tree node", () => {
 	} );
 
 	it( "can make a new Paragraph tree node", () => {
-		const phrasingElements = [
+		const formattingElements = [
 			new FormattingElement( "a", 25, 29 ),
 		];
 		const text = "This is some text with a link.";
-		const textElement = new TextContainer( text, phrasingElements );
+		const textElement = new TextContainer( text, formattingElements );
 
 		const paragraphElement = new Paragraph( textElement );
 
