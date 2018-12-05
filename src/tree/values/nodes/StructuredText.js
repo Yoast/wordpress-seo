@@ -11,7 +11,7 @@ class StructuredText {
 	 *
 	 * Talking about HTML, this would encompass thing like <div>, <section>, <aside>, <fieldset> and other HTML block elements.
 	 *
-	 * @param {Array<Paragraph|List|Heading|>} children	The sub-elements of the structured text.
+	 * @param {Array<Paragraph|List|Heading>} children	The sub-elements of the structured text.
 	 * @param {string}                   startHtml  The opening tag of the structured text.
 	 * @param {string}                   endHtml    The closing tag of the structured text.
 	 *
