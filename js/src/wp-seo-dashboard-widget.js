@@ -64,6 +64,10 @@ class DashboardWidget extends React.Component {
 	 * @returns {void}
 	 */
 	getRyte() {
+		if ( wpseoDashboardWidgetL10n.ryteEnabled !== "1" ) {
+			return;
+		}
+
 		wpseoApi.get( "ryte", ( response ) => {
 			if ( ! response.ryte ) {
 				return;
