@@ -21,6 +21,7 @@ import frenchPaper3 from "./fr/frenchPaper3";
 // Spanish papers
 import spanishPaper1 from "./es/spanishPaper1";
 import spanishPaper2 from "./es/spanishPaper2";
+import spanishPaper3 from "./es/spanishPaper3";
 
 
 export default [
@@ -38,5 +39,6 @@ export default [
 	frenchPaper3,
 	spanishPaper1,
 	spanishPaper2,
+	spanishPaper3,
 ];
 
