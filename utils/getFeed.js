@@ -27,6 +27,14 @@
  * @returns {string|undefined} The string result of the xpath query.
  */
 function getXPathText( xpath, document, context = null, nsResolver = null ) {
+
+	let tagname = xpath.replace( 'child::','' );
+	let elementExists = document.getElementsByTagName( tagname );
+
+	if (typeof elementExists[0] === "undefined") {
+		return;
+	}
+
 	const result = document.evaluate( xpath, ( context || document ), nsResolver, XPathResult.STRING_TYPE, null );
 
 	if ( result.stringValue ) {
@@ -70,7 +78,7 @@ function getFeedItem( parsed, snapshot, nsResolver ) {
 	item.link        = getXPathText( "child::link", parsed, snapshot );
 	item.content     = getXPathText( "child::content:encoded", parsed, snapshot, nsResolver );
 	item.description = getXPathText( "child::description", parsed, snapshot );
-	item.creator   = getXPathText( "child::dc:creator", parsed, snapshot, nsResolver );
+	item.creator     = getXPathText( "child::dc:creator", parsed, snapshot, nsResolver );
 	item.date        = getXPathText( "child::pubDate", parsed, snapshot );
 	item.image       = getXPathText( "child::content:image", parsed, snapshot, nsResolver );
 	item.shopUrl     = getXPathText( "child::content:shop_url", parsed, snapshot, nsResolver );
