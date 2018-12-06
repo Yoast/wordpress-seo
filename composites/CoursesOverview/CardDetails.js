@@ -21,7 +21,8 @@ const CardLinkButton = styled.a`
 	text-decoration: none;
 	font-weight: bold;
 	font-size: inherit;
-	margin-top: 24px;
+	margin-top: 0px;
+	margin-bottom: 8px;
 
 	&:hover,
 	&:focus,
@@ -40,6 +41,7 @@ const CardLinkButton = styled.a`
 `;
 
 const CardInfoLink = styled.a`
+	margin-top: 18px;
 	padding: 12px 16px;
 	font-weight: bold;
 `;
@@ -63,7 +65,8 @@ const Header = styled.a`
 `;
 
 const Details = styled.div`
-	margin-bottom:24px;
+	margin-top: 4px;
+	margin-bottom: 12px;
 	border-bottom: 1px ${ colors.$color_grey } solid;
 	flex-grow: 1;
 `;
@@ -93,19 +96,21 @@ class CardDetails extends React.Component {
 			<Fragment>
 				<Details>
 					<Header href={ this.props.courseUrl }>{ this.props.title }</Header>
-					<p>{ this.props.description }</p>
+					<p></p>
+					<div dangerouslySetInnerHTML={{ __html: this.props.description  }}></div>
 				</Details>
 				<ActionBlock>
-					<OutboundInfoLink href={ this.props.courseUrl }>
-						{
-							__( "Read more about this course", "wordpress-seo" )
-						}
-					</OutboundInfoLink>
 					<OutboundLinkButton href={ this.props.shopUrl }>
 						{
 							__( "Get the full course", "wordpress-seo" )
 						}
 					</OutboundLinkButton>
+					<OutboundInfoLink href={ this.props.courseUrl }>
+						{
+							__( "Read more about this course", "wordpress-seo" )
+						}
+					</OutboundInfoLink>
+
 				</ActionBlock>
 			</Fragment>
 		);
