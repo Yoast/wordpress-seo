@@ -11,13 +11,12 @@
  *     text: "This text is very strong".
  *     formatting: [
  *         FormattingElement {
- *             tag: "strong",
+ *             type: "strong",
  *             start: 13,
  *             end: 24,
  *             attributes: {
  *                 id: "elem-id"
  *             }
- *             selfClosing: false,
  *         }
  *     ]
  * }
@@ -28,7 +27,7 @@ class TextContainer {
 	 * A piece of text (with optional formatting element(s)) within a text that can be read by a reader.
 	 *
 	 * @param {string} text                    The plain text, without any formatting.
-	 * @param {FormattingElement[]} formatting The inline formatting elements (e.g. <strong>, ,"_" (MarkDown)) within the text.
+	 * @param {FormattingElement[]} formatting The inline formatting elements (e.g. bold text, links, images ) within the text.
 	 */
 	constructor( text, formatting ) {
 		this.text = text;
