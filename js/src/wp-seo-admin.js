@@ -186,32 +186,23 @@ import a11ySpeak from "a11y-speak";
 	}
 
 	/**
-	 * Toggles the "Show archives for authors without posts" toggle to false
-	 * and disables the toggle.
+	 * Hides or shows the Author without posts toggle.
+	 *
+	 * @param {bool} visible Whether or not the authors without posts toggle should be visible.
 	 *
 	 * @returns {void}
 	 */
-	function disableAuthorsWithoutPostsToggle() {
-		const noPostsOn  = jQuery( "#noindex-author-noposts-wpseo-on" );
-		const noPostsOff = jQuery( "#noindex-author-noposts-wpseo-off" );
+	function setAuthorsWithoutPostsToggleVisibilty( visible ) {
+		/**
+		 * Get the container surrounding the toggle.
+		 */
+		const toggleContainer = jQuery( "#noindex-author-noposts-wpseo-container" );
 
-		noPostsOn.prop( "checked", true );
-
-		noPostsOff.prop( "disabled", true );
-		noPostsOn.prop( "disabled", true );
-	}
-
-	/**
-	 * Enables the "Show archives for authors without posts" toggle.
-	 *
-	 * @returns {void}
-	 */
-	function enableAuthorsWithoutPostsToggle() {
-		const noPostsOn  = jQuery( "#noindex-author-noposts-wpseo-on" );
-		const noPostsOff = jQuery( "#noindex-author-noposts-wpseo-off" );
-
-		noPostsOff.prop( "disabled", false );
-		noPostsOn.prop( "disabled", false );
+		if ( visible ) {
+			toggleContainer.show();
+		} else {
+			toggleContainer.hide();
+		}
 	}
 
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
@@ -238,20 +229,20 @@ import a11ySpeak from "a11y-speak";
 		const authorArchivesEnabled  = jQuery( "#noindex-author-wpseo-on" );
 
 		if ( ! authorArchivesDisabled.is( ":checked" ) ) {
-			disableAuthorsWithoutPostsToggle();
+			setAuthorsWithoutPostsToggleVisibilty( false );
 		}
 
 		// Disable Author archives without posts when Show author archives is toggled off.
 		authorArchivesEnabled.change( () => {
 			if ( ! jQuery( this ).is( ":checked" ) ) {
-				disableAuthorsWithoutPostsToggle();
+				setAuthorsWithoutPostsToggleVisibilty( false );
 			}
 		} );
 
 		// Enable Author archives without posts when Show author archives is toggled on.
 		authorArchivesDisabled.change( () => {
 			if ( ! jQuery( this ).is( ":checked" ) ) {
-				enableAuthorsWithoutPostsToggle();
+				setAuthorsWithoutPostsToggleVisibilty( true );
 			}
 		} );
 
