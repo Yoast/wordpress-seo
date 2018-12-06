@@ -643,6 +643,7 @@ export default class HowTo extends Component {
 
 		return (
 			<div className={ classNames }>
+				{ this.getDuration() }
 				<RichText
 					tagName="p"
 					className="schema-how-to-description"
@@ -656,7 +657,6 @@ export default class HowTo extends Component {
 					placeholder={ __( "Enter a description", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
-				{ this.getDuration() }
 				<ul className={ listClassNames }>
 					{ this.getSteps() }
 				</ul>
