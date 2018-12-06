@@ -21,7 +21,6 @@ $yform->toggle_switch(
 ?>
 
 <div id='author-archives-titles-metas-content' class='archives-titles-metas-content'>
-
 <?php
 $author_archives_help = new WPSEO_Admin_Help_Panel(
 	'noindex-author-wpseo',
@@ -66,7 +65,6 @@ $yform->index_switch(
 );
 
 ?>
-
 </div>
 
 <?php
