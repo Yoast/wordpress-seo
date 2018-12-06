@@ -34,36 +34,6 @@ class FormattingElement {
 			console.warn( `Start position of '${tag}' element smaller than zero. It has been set to zero.` );
 		}
 	}
-
-	/**
-	 * Stringifies this element's attributes to a string of " key=value" pairs.
-	 *
-	 * @private
-	 *
-	 * @returns {string} The stringified attributes.
-	 */
-	_getAttributeHtmlString() {
-		if ( this.attributes ) {
-			return Object.keys( this.attributes ).reduce( ( string, key ) => {
-				return string + ` ${key}="${this.attributes[ key ]}"`;
-			}, "" );
-		}
-		return "";
-	}
-
-	/**
-	 * Stringifies this formatting element to an HTML-string.
-	 *
-	 * @param {string} [content=""]		The optional content to insert between the content tags.
-	 *
-	 * @returns {string}	The HTML-string.
-	 */
-	toHtml( content = "" ) {
-		if ( this.selfClosing ) {
-			return `<${this.tag}${this._getAttributeHtmlString()}/>`;
-		}
-		return `<${this.tag}${this._getAttributeHtmlString()}>${content}</${this.tag}>`;
-	}
 }
 
 export default FormattingElement;

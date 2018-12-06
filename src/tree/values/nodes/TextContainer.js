@@ -55,25 +55,6 @@ class TextContainer {
 			console.warn( `'${elem.tag}' element's ${position} position larger than text. It has been set to the end of the text instead.` );
 		}
 	}
-
-	/**
-	 * Returns the content of this text in stringified HTML-format, including formatting.
-	 *
-	 * @returns {string}	The stringified HTML-content of this text.
-	 */
-	toHtml() {
-		// Sort formatting elements so we start adding tags from the end of the text.
-		const sortedFormatting = this.formatting.slice();
-		sortedFormatting.sort( ( a, b ) => Math.abs( a.start - b.start ) );
-
-		return sortedFormatting.reduce( ( text, element ) => {
-			const end = text.slice( element.end );
-			const start = text.slice( 0, element.start );
-			const content = text.slice( element.start, element.end );
-
-			return start + element.toHtml( content ) + end;
-		}, this.text );
-	}
 }
 
 export default TextContainer;
