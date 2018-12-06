@@ -59,7 +59,7 @@ const Header = styled.a`
 	margin-bottom: 15px;
 
 	color: ${ colors.$color_pink_dark };
-	font-weight: 300;
+	font-weight: 400;
 	font-size: 1.5em;
 	text-decoration: none;
 `;
@@ -69,6 +69,20 @@ const Details = styled.div`
 	margin-bottom: 12px;
 	border-bottom: 1px ${ colors.$color_grey } solid;
 	flex-grow: 1;
+`;
+
+const CourseFeatureList = styled.div`
+	li{
+		&:before {
+			content: " x ";
+			background-repeat: no-repeat;
+
+			background-size: contain;
+			width: 1em;
+			height: 100%;
+			background-position: left 0.4em;
+		}
+	}
 `;
 
 /**
@@ -97,7 +111,10 @@ class CardDetails extends React.Component {
 				<Details>
 					<Header href={ this.props.courseUrl }>{ this.props.title }</Header>
 					<p></p>
-					<div dangerouslySetInnerHTML={{ __html: this.props.description  }}></div>
+					<CourseFeatureList
+						dangerouslySetInnerHTML={{ __html: this.props.description } }
+					>
+					</CourseFeatureList>
 				</Details>
 				<ActionBlock>
 					<OutboundLinkButton href={ this.props.shopUrl }>
