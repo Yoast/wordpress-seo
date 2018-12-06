@@ -18,19 +18,27 @@ class FormattingElement {
 
 		// Swap end and start positions when end is smaller.
 		if ( this.end < this.start ) {
-			const endTemp = this.end;
-			this.end = this.start;
-			this.start = endTemp;
-
+			this._swapStartAndEnd();
 			console.warn( `End position smaller than start of '${type}' element. They have been swapped.` );
 		}
 
 		// Set start position to zero when smaller than zero.
 		if ( this.start < 0 ) {
 			this.start =  0;
-
 			console.warn( `Start position of '${type}' element smaller than zero. It has been set to zero.` );
 		}
+	}
+
+	/**
+	 * Swaps the end and start positions around.
+	 *
+	 * @returns {void}
+	 * @private
+	 */
+	_swapStartAndEnd() {
+		const endTemp = this.end;
+		this.end = this.start;
+		this.start = endTemp;
 	}
 }
 
