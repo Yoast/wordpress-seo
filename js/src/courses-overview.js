@@ -65,20 +65,21 @@ class CoursesOverview extends React.Component {
 			title: course.title,
 			link: course.link,
 		};
-	};
+	}
 
 	render() {
 		const courses = this.state.courses;
+
 		if ( courses === null ) {
 			return null;
 		}
 		return (
 			<OuterContainer>
-				{ courses.map( ( course, i ) =>
-					<CourseListItem key={ i }>
+				{ courses.map( course =>
+					<CourseListItem key={ course.id }>
 						<FullHeightCard
 							className={ "CourseCard" }
-							id={ i }
+							id={ course.id }
 							header={ this.getHeaderData( course ) }
 							banner={ course.banner }
 						>

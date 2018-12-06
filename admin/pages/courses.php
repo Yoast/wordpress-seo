@@ -16,4 +16,3 @@ $yform = Yoast_Form::get_instance();
 $yform->admin_header( false );
 
 echo "<div id='yoast-courses-overview'></div>";
-

@@ -109,9 +109,9 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
-	 * Registers all the styles it recieves.
+	 * Registers all the styles it receives.
 	 *
-	 * @param array $styles Styles that need to be registerd.
+	 * @param array $styles Styles that need to be registered.
 	 */
 	public function register_styles( $styles ) {
 		foreach ( $styles as $style ) {
