@@ -5,7 +5,19 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-### 1.43.0 November 19th, 2018
+## 1.44.0
+### Fixed
+* Fixes a bug where keyphrases weren't recognized in the URL when the words in the URL were separated by underscore characters instead of hyphens.
+* Fixes a bug that caused numbers to be stripped when marking a keyphrase containing a number, e.g. `Yoast SEO 9.3`.
+  
+### Added
+* Adds relevant words from the browserified example to the dev tool.
+* Adds the option to use local morphology data in the dev tool.
+
+### Changed
+* Improves error handling in the analysis web worker by rejecting the last request instead of just throwing an error.
+
+## 1.43.0 November 19th, 2018
 ### Fixed
 * Fixes assessments failing when using a `<` sign in the content.
 * Fixes a bug where paragraphs were sometimes not correctly detected because paragraph tags were not automatically added in WordPress-like fashion.
