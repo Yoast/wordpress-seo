@@ -4,7 +4,7 @@ import wrapTryCatchAroundAction from "../../src/worker/wrapTryCatchAroundAction"
 
 let logger;
 
-describe( "wrapTryAroundAction", () => {
+describe( "wrapTryAroundAction", function() {
 	beforeEach( () => {
 		logger = getLogger( "yoast-test" );
 		// Mute the actual error logs.
@@ -108,5 +108,19 @@ describe( "wrapTryAroundAction", () => {
 		expect( console.debug ).toHaveBeenCalledTimes( 1 );
 		// eslint-disable-next-line no-console
 		expect( console.error ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	test( "Formats error message prefix based on payload.", () => {
+		const action = () => {
+			throw new Error( "Testing error!" );
+		};
+		const wrapper = wrapTryCatchAroundAction( logger, action, "Error while running %%name%%." );
+		const id = 123;
+		const result = wrapper( id, {
+			name: "someResearch",
+		} );
+
+		expect( isObject( result ) ).toBe( true );
+		expect( result.error ).toBe( "Error while running someResearch.\n\tError: Testing error!" );
 	} );
 } );
