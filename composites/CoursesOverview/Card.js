@@ -10,18 +10,17 @@ const Container = styled.div`
 	flex-direction: column;
 	background-color: ${ colors.$color_white };
 	width: 100%;
-	list-style-type: none;
 	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 `;
 
 const HeaderImage = styled.img`
 	width: 100%;
+	vertical-align: bottom;
 `;
 
 const Content = styled.div`
 	margin: 0;
-	padding: 18px;
-	padding-top: 8px;
+	padding: 16px;
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
@@ -29,8 +28,6 @@ const Content = styled.div`
 
 /**
  * @summary Card component.
- *
- * @returns {Component} Rendered Card component.
  */
 class Card extends React.Component {
 	/**
@@ -109,8 +106,8 @@ Card.propTypes = {
 };
 
 Card.defaultProps = {
-	className: null,
-	id: null,
+	className: "",
+	id: "",
 	header: null,
 	banner: null,
 	children: null,

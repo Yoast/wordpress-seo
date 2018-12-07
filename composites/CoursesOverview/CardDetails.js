@@ -6,9 +6,6 @@ import colors from "../../style-guide/colors.json";
 import { makeOutboundLink } from "../../utils/makeOutboundLink";
 
 const CardLinkButton = styled.a`
-	align-items: center;
-	justify-content: center;
-	vertical-align: middle;
 	cursor: pointer;
 	color: ${ colors.$color_black };
 	white-space: nowrap;
@@ -21,7 +18,7 @@ const CardLinkButton = styled.a`
 	text-decoration: none;
 	font-weight: bold;
 	font-size: inherit;
-	margin-top: 0px;
+	margin-top: 0;
 	margin-bottom: 8px;
 
 	&:hover,
@@ -41,8 +38,6 @@ const CardLinkButton = styled.a`
 `;
 
 const CardInfoLink = styled.a`
-	margin-top: 18px;
-	padding: 12px 16px;
 	font-weight: bold;
 `;
 
@@ -53,42 +48,43 @@ const ActionBlock = styled.div`
 	text-align: center;
 `;
 
-const Header = styled.a`
-	padding: 0;
-	margin: 0;
-	margin-bottom: 15px;
+const CourseFeatureList = styled.div`
+	li {
+		position: relative;
+		margin-left: 16px;
 
-	color: ${ colors.$color_pink_dark };
+		&:before {
+			content: "✓";
+			color: ${ colors.$color_green };
+			position: absolute;
+			font-weight: bold;
+			display: inline-block;
+			left: -16px;
+		}
+	}
+`;
+
+const Header = styled.h2`
+	margin: 0 0 8px 0;
+	display: block;
 	font-weight: 400;
 	font-size: 1.5em;
+	line-height: 1.2;
+`;
+
+const HeaderLink = styled.a`
 	text-decoration: none;
+	color: ${ colors.$color_pink_dark };
 `;
 
 const Details = styled.div`
-	margin-top: 4px;
 	margin-bottom: 12px;
 	border-bottom: 1px ${ colors.$color_grey } solid;
 	flex-grow: 1;
 `;
 
-const CourseFeatureList = styled.div`
-	li{
-		&:before {
-			content: " x ";
-			background-repeat: no-repeat;
-
-			background-size: contain;
-			width: 1em;
-			height: 100%;
-			background-position: left 0.4em;
-		}
-	}
-`;
-
 /**
  * @summary CardDetails component.
- *
- * @returns {Component} The rendered CardDetails component.
  */
 class CardDetails extends React.Component {
 	/**
@@ -109,12 +105,12 @@ class CardDetails extends React.Component {
 		return (
 			<Fragment>
 				<Details>
-					<Header href={ this.props.courseUrl }>{ this.props.title }</Header>
-					<p></p>
+					<Header>
+						<HeaderLink href={ this.props.courseUrl }>{ this.props.title }</HeaderLink>
+					</Header>
 					<CourseFeatureList
-						dangerouslySetInnerHTML={{ __html: this.props.description } }
-					>
-					</CourseFeatureList>
+						dangerouslySetInnerHTML={ { __html: this.props.description } }
+					/>
 				</Details>
 				<ActionBlock>
 					<OutboundLinkButton href={ this.props.shopUrl }>
@@ -144,8 +140,8 @@ CardDetails.propTypes = {
 };
 
 CardDetails.defaultProps = {
-	title: null,
-	description: null,
-	courseUrl: null,
-	shopUrl: null,
+	title: "",
+	description: "",
+	courseUrl: "",
+	shopUrl: "",
 };

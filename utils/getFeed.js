@@ -27,11 +27,10 @@
  * @returns {string|undefined} The string result of the xpath query.
  */
 function getXPathText( xpath, document, context = null, nsResolver = null ) {
+	const tagname = xpath.replace( "child::", "" );
+	const elementExists = document.getElementsByTagName( tagname );
 
-	let tagname = xpath.replace( 'child::','' );
-	let elementExists = document.getElementsByTagName( tagname );
-
-	if (typeof elementExists[0] === "undefined") {
+	if ( typeof elementExists[ 0 ] === "undefined" ) {
 		return;
 	}
 
@@ -72,7 +71,7 @@ function getFeedMeta( parsed ) {
  * @returns {FeedItem} The FeedItem representing the provided snapshot.
  */
 function getFeedItem( parsed, snapshot, nsResolver ) {
-	const item     = {};
+	const item = {};
 
 	item.title       = getXPathText( "child::title", parsed, snapshot );
 	item.link        = getXPathText( "child::link", parsed, snapshot );
