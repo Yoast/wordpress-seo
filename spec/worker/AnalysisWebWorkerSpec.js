@@ -992,11 +992,60 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "runResearch", payload ) );
 			} );
 
+			test( "returns an error on research failed", done => {
+				const name = "firstParagraph";
+				const payload = { name };
+
+				worker._researcher = {
+					getResearch: () => {
+						throw new Error( "Research failed" );
+					},
+				};
+
+				worker.runResearchDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( isObject( result ) ).toBe( true );
+					expect( result ).toHaveProperty( "error" );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize", { logLevel: "DEBUG" } ) );
+				scope.onmessage( createMessage( "runResearch", payload ) );
+			} );
+
+			test( "returns an error on research failed, with a custom error.", done => {
+				const name = "firstParagraph";
+				const payload = { name };
+
+				worker._researcher = {
+					getResearch: () => {
+						throw { error: "This is a custom error." };
+					},
+				};
+
+				worker.runResearchDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( isObject( result ) ).toBe( true );
+					expect( result ).toHaveProperty( "error" );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize", { logLevel: "DEBUG" } ) );
+				scope.onmessage( createMessage( "runResearch", payload ) );
+			} );
+
 			test( "run research done calls send", () => {
 				worker.send = jest.fn();
 				worker.runResearchDone( 0, { result: true } );
 				expect( worker.send ).toHaveBeenCalledTimes( 1 );
 				expect( worker.send ).toHaveBeenCalledWith( "runResearch:done", 0, { result: true } );
+			} );
+
+			test( "run research done calls send with error", () => {
+				worker.send = jest.fn();
+				worker.runResearchDone( 0, { error: "This is an error." } );
+				expect( worker.send ).toHaveBeenCalledTimes( 1 );
+				expect( worker.send ).toHaveBeenCalledWith( "runResearch:failed", 0, { error: "This is an error." } );
 			} );
 		} );
 	} );
