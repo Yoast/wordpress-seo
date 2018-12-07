@@ -23,9 +23,8 @@ class FormattingElement {
 		}
 
 		// Set start position to zero when smaller than zero.
-		if ( this.startIndex < 0  ||  this.endIndex < 0 ) {
+		if ( this.startIndex < 0 ) {
 			this.startIndex =  0;
-			this.endIndex = 0;
 			console.warn( `Start position of '${type}' element smaller than zero. It has been set to zero.` );
 		}
 	}
