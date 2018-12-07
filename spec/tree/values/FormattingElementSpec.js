@@ -30,13 +30,13 @@ describe( "FormattingElement", () => {
 		expect( console.warn ).toBeCalled();
 	} );
 
-	it( "swaps start and end when end is smaller and constrains start to zero, also gives warnings", () => {
-		const start = 20;
+	it( "swaps start and end when end is smaller and constrains both to zero, also gives warnings", () => {
+		const start = -6;
 		const end = -8;
 		const formattingElement = new FormattingElement( "strong", start, end );
 
 		expect( formattingElement.startIndex ).toEqual( 0 );
-		expect( formattingElement.endIndex ).toEqual( start );
+		expect( formattingElement.endIndex ).toEqual( 0 );
 		expect( console.warn ).toBeCalled();
 	} );
 } );

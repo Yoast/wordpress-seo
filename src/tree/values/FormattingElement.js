@@ -27,6 +27,12 @@ class FormattingElement {
 			this.startIndex =  0;
 			console.warn( `Start position of '${type}' element smaller than zero. It has been set to zero.` );
 		}
+
+		// Set end position to zero when smaller than zero.
+		if ( this.endIndex < 0 ) {
+			this.endIndex =  0;
+			console.warn( `End position of '${type}' element smaller than zero. It has been set to zero.` );
+		}
 	}
 
 	/**
