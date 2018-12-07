@@ -66,6 +66,9 @@ export default class HowTo extends Component {
 		this.onFocusMinutesField = this.onFocusMinutesField.bind( this );
 		this.onFocusHoursField   = this.onFocusHoursField.bind( this );
 		this.onChangeDescription = this.onChangeDescription.bind( this );
+		this.onChangeDays        = this.onChangeDays.bind( this );
+		this.onChangeHours       = this.onChangeHours.bind( this );
+		this.onChangeMinutes     = this.onChangeMinutes.bind( this );
 
 		const defaultDurationText = this.getDefaultDurationText();
 		this.setDefaultDurationText( defaultDurationText );
