@@ -1,9 +1,9 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import HowToStep from "./HowToStep";
-import isUndefined from "lodash/isUndefined";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
+import { speak } from "@wordpress/a11y";
 import toString from "lodash/toString";
 import get from "lodash/get";
 
@@ -165,19 +165,19 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Inserts an empty step into a how-to block at the given index.
+	 * Inserts an empty Step into a how-to block at the given index.
 	 *
-	 * @param {number} [index]      The index of the step after which a new step should be added.
-	 * @param {string} [name]       The name of the new step.
-	 * @param {string} [text]       The text of the new step.
-	 * @param {bool}   [focus=true] Whether or not to focus the new step.
+	 * @param {number}       [index]      Optional. The index of the Step after which a new Step should be added.
+	 * @param {array|string} [name]       Optional. The title of the new Step. Default: empty.
+	 * @param {array|string} [text]       Optional. The description of the new Step. Default: empty.
+	 * @param {bool}         [focus=true] Optional. Whether or not to focus the new Step. Default: true.
 	 *
 	 * @returns {void}
 	 */
-	insertStep( index, name = [], text = [], focus = true ) {
+	insertStep( index = null, name = [], text = [], focus = true ) {
 		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
-		if ( isUndefined( index ) ) {
+		if ( index === null ) {
 			index = steps.length - 1;
 		}
 
@@ -200,7 +200,11 @@ export default class HowTo extends Component {
 
 		if ( focus ) {
 			setTimeout( this.setFocus.bind( this, `${ index + 1 }:name` ) );
+			// When moving focus to a newly created step, return and don't use the speak() messaage.
+			return;
 		}
+
+		speak( __( "New step added", "wordpress-seo" ) );
 	}
 
 	/**
@@ -424,15 +428,15 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * A button to add a step to the front of the list.
+	 * Retrieves a button to add a step at the end of the How-to list.
 	 *
-	 * @returns {Component} a button to add a step
+	 * @returns {Component} The button to add a step.
 	 */
 	getAddStepButton() {
 		return (
 			<IconButton
 				icon="insert"
-				onClick={ () => this.insertStep() }
+				onClick={ () => this.insertStep( null, [], [], false ) }
 				className="editor-inserter__toggle schema-how-to-add-step"
 			>
 				{ __( "Add step", "wordpress-seo" ) }

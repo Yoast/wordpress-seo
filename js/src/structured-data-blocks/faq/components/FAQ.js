@@ -1,8 +1,8 @@
 /* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
-import isUndefined from "lodash/isUndefined";
 import { __ } from "@wordpress/i18n";
+import { speak } from "@wordpress/a11y";
 
 /* Internal dependencies */
 import Question from "./Question";
@@ -92,17 +92,17 @@ export default class FAQ extends Component {
 	/**
 	 * Inserts an empty Question into a FAQ block at the given index.
 	 *
-	 * @param {number}       [index]      The index of the Question after which a new Question should be added.
-	 * @param {array|string} [question]   The question of the new Question.
-	 * @param {array|string} [answer]     The answer of the new Question.
-	 * @param {bool}         [focus=true] Whether or not to focus the new Question.
+	 * @param {number}       [index]      Optional. The index of the Question after which a new Question should be added.
+	 * @param {array|string} [question]   Optional. The question of the new Question. Default: empty.
+	 * @param {array|string} [answer]     Optional. The answer of the new Question. Default: empty.
+	 * @param {bool}         [focus=true] Optional. Whether or not to focus the new Question. Default: true.
 	 *
 	 * @returns {void}
 	 */
-	insertQuestion( index, question = [], answer = [], focus = true ) {
+	insertQuestion( index = null, question = [], answer = [], focus = true ) {
 		const questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
 
-		if ( isUndefined( index ) ) {
+		if ( index === null ) {
 			index = questions.length - 1;
 		}
 
@@ -125,7 +125,11 @@ export default class FAQ extends Component {
 
 		if ( focus ) {
 			setTimeout( this.setFocus.bind( this, `${ index + 1 }:question` ) );
+			// When moving focus to a newly created question, return and don't use the speak() messaage.
+			return;
 		}
+
+		speak( __( "New question added", "wordpress-seo" ) );
 	}
 
 	/**
@@ -216,15 +220,15 @@ export default class FAQ extends Component {
 	}
 
 	/**
-	 * Retrieves a button to add a step to the front of the list.
+	 * Retrieves a button to add a question at the end of the FAQ list.
 	 *
-	 * @returns {Component} The button for adding add a step.
+	 * @returns {Component} The button to add a question.
 	 */
 	getAddQuestionButton() {
 		return (
 			<IconButton
 				icon="insert"
-				onClick={ () => this.insertQuestion() }
+				onClick={ () => this.insertQuestion( null, [], [], false ) }
 				className="editor-inserter__toggle schema-faq-add-question"
 			>
 				{ __( "Add question", "wordpress-seo" ) }
