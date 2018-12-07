@@ -2,19 +2,36 @@
 
 exports[`The CardDetails component matches the snapshot when given specific props 1`] = `
 Array [
-  .c1 {
-  padding: 0;
-  margin: 0;
-  margin-bottom: 15px;
-  color: #a4286a;
-  font-weight: 300;
+  .c3 li {
+  position: relative;
+  margin-left: 16px;
+}
+
+.c3 li:before {
+  content: "✓";
+  color: #77b227;
+  position: absolute;
+  font-weight: bold;
+  display: inline-block;
+  left: -16px;
+}
+
+.c1 {
+  margin: 0 0 8px 0;
+  display: block;
+  font-weight: 400;
   font-size: 1.5em;
+  line-height: 1.2;
+}
+
+.c2 {
   -webkit-text-decoration: none;
   text-decoration: none;
+  color: #a4286a;
 }
 
 .c0 {
-  margin-bottom: 24px;
+  margin-bottom: 12px;
   border-bottom: 1px #ddd solid;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -25,16 +42,25 @@ Array [
 <div
     className="c0"
   >
-    <a
+    <h2
       className="c1"
-      href="https://yoast.com/academy/keyword-research-training/"
     >
-      Keyword Research
-    </a>
-    <p>
-      Do you know the essential first step of good SEO? It’s keyword research. In this training, 
-you’ll learn how to research and select the keywords that will guide searchers to your pages.
-    </p>
+      <a
+        className="c2"
+        href="https://yoast.com/academy/keyword-research-training/"
+      >
+        Keyword Research
+      </a>
+    </h2>
+    <div
+      className="c3"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "Do you know the essential first step of good SEO? It’s keyword research. In this training, 
+you’ll learn how to research and select the keywords that will guide searchers to your pages.",
+        }
+      }
+    />
   </div>,
   .c2 {
   border: 0;
@@ -54,16 +80,7 @@ you’ll learn how to research and select the keywords that will guide searchers
   transform: translateY(1em);
 }
 
-.c3 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
+.c1 {
   cursor: pointer;
   color: #000;
   white-space: nowrap;
@@ -77,17 +94,18 @@ you’ll learn how to research and select the keywords that will guide searchers
   text-decoration: none;
   font-weight: bold;
   font-size: inherit;
-  margin-top: 24px;
+  margin-top: 0;
+  margin-bottom: 8px;
 }
 
-.c3:hover,
-.c3:focus,
-.c3:active {
+.c1:hover,
+.c1:focus,
+.c1:active {
   color: #000;
   background: #f2ae01;
 }
 
-.c3:active {
+.c1:active {
   position: relative;
   top: 2px;
   box-shadow: none;
@@ -95,8 +113,7 @@ you’ll learn how to research and select the keywords that will guide searchers
   filter: none;
 }
 
-.c1 {
-  padding: 12px 16px;
+.c3 {
   font-weight: bold;
 }
 
@@ -109,11 +126,11 @@ you’ll learn how to research and select the keywords that will guide searchers
   >
     <a
       className="c1"
-      href="https://yoast.com/academy/keyword-research-training/"
+      href="https://yoast.com/cart/?add-to-cart=1311259"
       rel="noopener noreferrer"
       target="_blank"
     >
-      Read more about this course
+      Get the full course
       <span
         className="c2"
       >
@@ -122,11 +139,11 @@ you’ll learn how to research and select the keywords that will guide searchers
     </a>
     <a
       className="c3"
-      href="https://yoast.com/cart/?add-to-cart=1311259"
+      href="https://yoast.com/academy/keyword-research-training/"
       rel="noopener noreferrer"
       target="_blank"
     >
-      Get the full course
+      Read more about this course
       <span
         className="c2"
       >
@@ -139,19 +156,36 @@ you’ll learn how to research and select the keywords that will guide searchers
 
 exports[`The empty CardDetails component matches the snapshot 1`] = `
 Array [
-  .c1 {
-  padding: 0;
-  margin: 0;
-  margin-bottom: 15px;
-  color: #a4286a;
-  font-weight: 300;
+  .c3 li {
+  position: relative;
+  margin-left: 16px;
+}
+
+.c3 li:before {
+  content: "✓";
+  color: #77b227;
+  position: absolute;
+  font-weight: bold;
+  display: inline-block;
+  left: -16px;
+}
+
+.c1 {
+  margin: 0 0 8px 0;
+  display: block;
+  font-weight: 400;
   font-size: 1.5em;
+  line-height: 1.2;
+}
+
+.c2 {
   -webkit-text-decoration: none;
   text-decoration: none;
+  color: #a4286a;
 }
 
 .c0 {
-  margin-bottom: 24px;
+  margin-bottom: 12px;
   border-bottom: 1px #ddd solid;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -162,11 +196,24 @@ Array [
 <div
     className="c0"
   >
-    <a
+    <h2
       className="c1"
-      href={null}
+    >
+      <a
+        className="c2"
+        href=""
+      >
+        
+      </a>
+    </h2>
+    <div
+      className="c3"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "",
+        }
+      }
     />
-    <p />
   </div>,
   .c2 {
   border: 0;
@@ -186,16 +233,7 @@ Array [
   transform: translateY(1em);
 }
 
-.c3 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
+.c1 {
   cursor: pointer;
   color: #000;
   white-space: nowrap;
@@ -209,17 +247,18 @@ Array [
   text-decoration: none;
   font-weight: bold;
   font-size: inherit;
-  margin-top: 24px;
+  margin-top: 0;
+  margin-bottom: 8px;
 }
 
-.c3:hover,
-.c3:focus,
-.c3:active {
+.c1:hover,
+.c1:focus,
+.c1:active {
   color: #000;
   background: #f2ae01;
 }
 
-.c3:active {
+.c1:active {
   position: relative;
   top: 2px;
   box-shadow: none;
@@ -227,8 +266,7 @@ Array [
   filter: none;
 }
 
-.c1 {
-  padding: 12px 16px;
+.c3 {
   font-weight: bold;
 }
 
@@ -241,11 +279,11 @@ Array [
   >
     <a
       className="c1"
-      href={null}
+      href=""
       rel="noopener noreferrer"
       target="_blank"
     >
-      Read more about this course
+      Get the full course
       <span
         className="c2"
       >
@@ -254,11 +292,11 @@ Array [
     </a>
     <a
       className="c3"
-      href={null}
+      href=""
       rel="noopener noreferrer"
       target="_blank"
     >
-      Get the full course
+      Read more about this course
       <span
         className="c2"
       >

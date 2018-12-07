@@ -12,14 +12,12 @@ exports[`The FullHeightCard is rendered including some props 1`] = `
   flex-direction: column;
   background-color: #fff;
   width: 100%;
-  list-style-type: none;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
 .c2 {
   margin: 0;
-  padding: 18px;
-  padding-top: 8px;
+  padding: 16px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -79,18 +77,17 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   flex-direction: column;
   background-color: #fff;
   width: 100%;
-  list-style-type: none;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
 .c2 {
   width: 100%;
+  vertical-align: bottom;
 }
 
 .c5 {
   margin: 0;
-  padding: 18px;
-  padding-top: 8px;
+  padding: 16px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -108,7 +105,7 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   height: 100%;
 }
 
-.c10 {
+.c12 {
   border: 0;
   -webkit-clip: rect(1px,1px,1px,1px);
   clip: rect(1px,1px,1px,1px);
@@ -127,15 +124,6 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
 }
 
 .c11 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
   cursor: pointer;
   color: #000;
   white-space: nowrap;
@@ -149,7 +137,8 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   text-decoration: none;
   font-weight: bold;
   font-size: inherit;
-  margin-top: 24px;
+  margin-top: 0;
+  margin-bottom: 8px;
 }
 
 .c11:hover,
@@ -167,28 +156,44 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   filter: none;
 }
 
-.c9 {
-  padding: 12px 16px;
+.c13 {
   font-weight: bold;
 }
 
-.c8 {
+.c10 {
   text-align: center;
 }
 
+.c9 li {
+  position: relative;
+  margin-left: 16px;
+}
+
+.c9 li:before {
+  content: "✓";
+  color: #77b227;
+  position: absolute;
+  font-weight: bold;
+  display: inline-block;
+  left: -16px;
+}
+
 .c7 {
-  padding: 0;
-  margin: 0;
-  margin-bottom: 15px;
-  color: #a4286a;
-  font-weight: 300;
+  margin: 0 0 8px 0;
+  display: block;
+  font-weight: 400;
   font-size: 1.5em;
+  line-height: 1.2;
+}
+
+.c8 {
   -webkit-text-decoration: none;
   text-decoration: none;
+  color: #a4286a;
 }
 
 .c6 {
-  margin-bottom: 24px;
+  margin-bottom: 12px;
   border-bottom: 1px #ddd solid;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -223,33 +228,29 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
     <div
       className="c6"
     >
-      <a
+      <h2
         className="c7"
-        href="https://yoast.com/academy/keyword-research-training/"
       >
-        Keyword Research
-      </a>
-      <p>
-        Do you know the essential first step of good SEO? It’s keyword research. In this training, 
-you’ll learn how to research and select the keywords that will guide searchers to your pages.
-      </p>
+        <a
+          className="c8"
+          href="https://yoast.com/academy/keyword-research-training/"
+        >
+          Keyword Research
+        </a>
+      </h2>
+      <div
+        className="c9"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "Do you know the essential first step of good SEO? It’s keyword research. In this training, 
+you’ll learn how to research and select the keywords that will guide searchers to your pages.",
+          }
+        }
+      />
     </div>
     <div
-      className="c8"
+      className="c10"
     >
-      <a
-        className="c9"
-        href="https://yoast.com/academy/keyword-research-training/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Read more about this course
-        <span
-          className="c10"
-        >
-          (Opens in a new browser tab)
-        </span>
-      </a>
       <a
         className="c11"
         href="https://yoast.com/cart/?add-to-cart=1311259"
@@ -258,7 +259,20 @@ you’ll learn how to research and select the keywords that will guide searchers
       >
         Get the full course
         <span
-          className="c10"
+          className="c12"
+        >
+          (Opens in a new browser tab)
+        </span>
+      </a>
+      <a
+        className="c13"
+        href="https://yoast.com/academy/keyword-research-training/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Read more about this course
+        <span
+          className="c12"
         >
           (Opens in a new browser tab)
         </span>
@@ -280,14 +294,12 @@ exports[`The empty Card component matches the snapshot 1`] = `
   flex-direction: column;
   background-color: #fff;
   width: 100%;
-  list-style-type: none;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
 .c1 {
   margin: 0;
-  padding: 18px;
-  padding-top: 8px;
+  padding: 16px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -303,7 +315,7 @@ exports[`The empty Card component matches the snapshot 1`] = `
 
 <div
   className="c0"
-  id={null}
+  id=""
 >
   <div
     className="c1"
