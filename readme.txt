@@ -106,6 +106,27 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 9.4.0 =
+Release Date: January 8th, 2019
+
+Enhancements:
+* Adds readability analysis for Swedish.
+* Improve accessibility of the Title Separator setting.
+* Improve accessibility of the analysis results.
+
+Bugfixes:
+* Fixes a bug where pagination elements were not shown in the Genesis theme.
+* Fixes a bug where special characters from certain word lists weren't correctly escaped when matched with a regex. This resulted in `eggs` being incorrectly matched as the transition word `e.g.`, for example.
+* Fixes a bug where the search appearance setting for a custom posttype named `profile` will have the wrong styling.
+
+Other:
+* Uses method `is_simple_page` instead of `is_singular` in method robots. Props to: [stodorovic](https://github.com/stodorovic)
+* Adds method `is_woocommerce_active` and check is woocommerce activate before registering hooks. Props to [stodorovic](https://github.com/stodorovic)
+* Adds static variables to "cache" results of functions [`is_shop`](https://docs.woocommerce.com/wc-apidocs/function-is_shop.html) and [`wc_get_page_id`](https://docs.woocommerce.com/wc-apidocs/function-wc_get_page_id.html).  Props to [stodorovic](https://github.com/stodorovic)
+* Verifies that variable `post` is an instance of `WP_Post` in `WPSEO_Admin_Bar_Menu ::get_singular_post()`. Props to [@yingles](https://github.com/yingles).
+* Improves strings to be more easily translated. Props to [pedro-mendonca](https://github.com/pedro-mendonca)
+* The browser console now shows more descriptive error messages when something went wrong during analyses in the web worker.
+
 = 9.3.0 =
 Release Date: December 11th, 2018
 
