@@ -2,18 +2,19 @@ import React from "react";
 import { IntlProvider } from "react-intl";
 import styled, { ThemeProvider } from "styled-components";
 
-import ContentAnalysis from "./app/ContentAnalysisWrapper";
-import Wizard from "./app/WizardWrapper";
-import DashboardWidget from "./app/DashboardWidgetWrapper";
-import Loader from "./composites/basic/Loader";
-import HelpCenterWrapper from "./app/HelpCenterWrapper";
-import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
-import KeywordSuggestionsWrapper from "./app/KeywordSuggestionWrapper";
-import SnippetEditor from "./app/SnippetEditorExample";
-import UIControlsWrapper from "./app/UIControlsWrapper";
-import KeywordExample from "./app/KeywordExample";
 import ButtonsWrapper from "./app/ButtonsWrapper";
+import ComponentsExample from "./app/ComponentsExample";
+import ContentAnalysis from "./app/ContentAnalysisWrapper";
+import DashboardWidget from "./app/DashboardWidgetWrapper";
+import HelpCenterWrapper from "./app/HelpCenterWrapper";
+import KeywordExample from "./app/KeywordExample";
+import KeywordSuggestionsWrapper from "./app/KeywordSuggestionWrapper";
+import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
+import SnippetEditor from "./app/SnippetEditorExample";
 import SvgIconsWrapper from "./app/SvgIconsWrapper";
+import UIControlsWrapper from "./app/UIControlsWrapper";
+import Wizard from "./app/WizardWrapper";
+import Loader from "./composites/basic/Loader";
 
 const components = [
 	{
@@ -75,6 +76,11 @@ const components = [
 		id: "svg-icons",
 		name: "SVG Icons",
 		component: <SvgIconsWrapper />,
+	},
+	{
+		id: "components-example",
+		name: "Components",
+		component: <ComponentsExample />,
 	},
 ];
 
