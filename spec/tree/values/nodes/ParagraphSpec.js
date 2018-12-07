@@ -55,7 +55,7 @@ describe( "Paragraph tree node", () => {
 			const paragraphElement = new Paragraph( textElement, startIndex, endIndex );
 
 			const mappedParagraph = paragraphElement.map( node => {
-				if ( node.type === "paragraph" ) {
+				if ( node instanceof Paragraph ) {
 					node.textContainer.text = node.textContainer.text + "!!!!";
 				}
 				return node;
