@@ -20,7 +20,7 @@ class StructuredNode extends Node {
 	 * @returns {void}
 	 */
 	constructor( startIndex, endIndex, children, tag  ) {
-		super( startIndex, endIndex, "structuredNode" );
+		super( "structuredNode", startIndex, endIndex );
 		this.children = children;
 		this.tag = tag;
 	}
