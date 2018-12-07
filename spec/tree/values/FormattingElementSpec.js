@@ -8,15 +8,15 @@ describe( "FormattingElement", () => {
 		const formattingElement = new FormattingElement( "strong", 5, 30, { id: "some-id" } );
 
 		expect( formattingElement.type ).toEqual( "strong" );
-		expect( formattingElement.start ).toEqual( 5 );
-		expect( formattingElement.end ).toEqual( 30 );
+		expect( formattingElement.startIndex ).toEqual( 5 );
+		expect( formattingElement.endIndex ).toEqual( 30 );
 		expect( formattingElement.attributes ).toEqual( { id: "some-id" } );
 	} );
 
 	it( "sets start position to zero when it is smaller, also gives a warning", () => {
 		const formattingElement = new FormattingElement( "strong", -4, 20 );
 
-		expect( formattingElement.start ).toEqual( 0 );
+		expect( formattingElement.startIndex ).toEqual( 0 );
 		expect( console.warn ).toBeCalled();
 	} );
 
@@ -25,8 +25,8 @@ describe( "FormattingElement", () => {
 		const end = 4;
 		const formattingElement = new FormattingElement( "strong", start, end );
 
-		expect( formattingElement.start ).toEqual( end );
-		expect( formattingElement.end ).toEqual( start );
+		expect( formattingElement. startIndex ).toEqual( end );
+		expect( formattingElement.endIndex ).toEqual( start );
 		expect( console.warn ).toBeCalled();
 	} );
 
@@ -35,8 +35,8 @@ describe( "FormattingElement", () => {
 		const end = -8;
 		const formattingElement = new FormattingElement( "strong", start, end );
 
-		expect( formattingElement.start ).toEqual( 0 );
-		expect( formattingElement.end ).toEqual( start );
+		expect( formattingElement.startIndex ).toEqual( 0 );
+		expect( formattingElement.endIndex ).toEqual( start );
 		expect( console.warn ).toBeCalled();
 	} );
 } );

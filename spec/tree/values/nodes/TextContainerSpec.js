@@ -26,8 +26,8 @@ describe( "TextContainer", () => {
 		const text = "Some text.";
 		const textContainer = new TextContainer( text, formatting );
 
-		expect( textContainer.formatting[ 0 ].end ).toEqual( text.length );
-		expect( textContainer.formatting[ 0 ].start ).toEqual( text.length );
+		expect( textContainer.formatting[ 0 ].endIndex ).toEqual( text.length );
+		expect( textContainer.formatting[ 0 ].startIndex ).toEqual( text.length );
 		expect( console.warn ).toBeCalled();
 	} );
 } );

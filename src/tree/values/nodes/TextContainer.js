@@ -12,8 +12,8 @@
  *     formatting: [
  *         FormattingElement {
  *             type: "strong",
- *             start: 13,
- *             end: 24,
+ *             startIndex: 13,
+ *             endIndex: 24,
  *             attributes: {
  *                 id: "elem-id"
  *             }
@@ -33,15 +33,15 @@ class TextContainer {
 		this.text = text;
 		this.formatting = formatting;
 
-		this._constrainFormatElementPositionsToEnd( "start" );
-		this._constrainFormatElementPositionsToEnd( "end" );
+		this._constrainFormatElementPositionsToEnd( "startIndex" );
+		this._constrainFormatElementPositionsToEnd( "endIndex" );
 	}
 
 	/**
-	 * Constrains the given position (start or end) of this container's formatting elements to the length
+	 * Constrains the given position (startIndex or endIndex) of this container's formatting elements to the length
 	 * of the text if it exceeds it.
 	 *
-	 * @param {"start"|"end"} position	Which position we need to constrain.
+	 * @param {"startIndex"|"endIndex"} position	Which position we need to constrain.
 	 * @returns {void}
 	 * @private
 	 */
