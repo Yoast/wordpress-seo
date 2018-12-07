@@ -1,3 +1,5 @@
+import { filter } from "lodash-es";
+import ListItem from "./ListItem";
 import Node from "./Node";
 /**
  * Represents an item within a list.
@@ -15,6 +17,25 @@ class List extends Node {
 	constructor( startIndex, endIndex, children ) {
 		super( "list", startIndex, endIndex );
 		this.children = children;
+
+		this._checkChildren();
+	}
+
+	/**
+	 * Constrains the children of the List to ListItems. Throws a warning if any child of the List is not a ListItem.
+	 *
+	 * @returns {void}
+	 * @private
+	 */
+	_checkChildren() {
+		// Check if any child is not an instance of ListItem.
+		const naughtyChildren = filter( this.children, function( child ) {
+			return ! ( child instanceof ListItem );
+		} );
+
+		if ( naughtyChildren.length > 0 ) {
+			console.warn( "Not all items of the List are of type ListItem!" );
+		}
 	}
 }
 export default List;
