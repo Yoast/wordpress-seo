@@ -65,9 +65,9 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			'<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 
 		$upgrade_button = sprintf(
-			'<a id="wpseo-%1$s-popup-button" class="yoast-button-upsell" href="%2$s" target="_blank" rel="noreferrer noopener">%3$s</a>',
+			'<a id="wpseo-%1$s-popup-button" class="yoast-button-upsell" href="%2$s" target="_blank">%3$s</a>',
 			$this->identifier,
-			$url,
+			esc_url( $url ),
 			$button_text
 		);
 
@@ -89,7 +89,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		'</h2>';
 		echo '<ul class="' . esc_attr( $class . '--motivation' ) . '">' . $arguments_html . '</ul>';
 
-		echo '<p><a href="' . esc_url( $url ) . '" target="_blank">' . $upgrade_button . '</a><br />';
+		echo '<p>' . $upgrade_button . '</p>';
 		echo '</div>';
 
 		echo '</div>';
