@@ -2,7 +2,7 @@
  * Abstract class representing a node in the structured tree.
  * @abstract
  */
-class Node { // eslint-disable-line no-unused-vars
+class Node {
 	/**
 	 * Makes a new Node.
 	 *
