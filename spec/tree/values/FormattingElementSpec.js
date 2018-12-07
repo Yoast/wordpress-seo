@@ -25,7 +25,7 @@ describe( "FormattingElement", () => {
 		const end = 4;
 		const formattingElement = new FormattingElement( "strong", start, end );
 
-		expect( formattingElement. startIndex ).toEqual( end );
+		expect( formattingElement.startIndex ).toEqual( end );
 		expect( formattingElement.endIndex ).toEqual( start );
 		expect( console.warn ).toBeCalled();
 	} );
