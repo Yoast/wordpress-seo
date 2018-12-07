@@ -1,4 +1,3 @@
-import { render } from "@wordpress/element";
 import styled from "styled-components";
 import { CardDetails, FullHeightCard, utils } from "yoast-components";
 import React from "react";
@@ -20,6 +19,9 @@ const CourseListItem = styled.li`
 	width: 100%;
 `;
 
+/**
+ * @summary CoursesOverview component.
+ */
 class CoursesOverview extends React.Component {
 	/**
 	 * Creates the components and initializes its state.
@@ -67,6 +69,11 @@ class CoursesOverview extends React.Component {
 		};
 	}
 
+	/**
+	 * Render the component.
+	 *
+	 * @returns {ReactElement} The OuterContainer component which contains all the courses cards.
+	 */
 	render() {
 		const courses = this.state.courses;
 
