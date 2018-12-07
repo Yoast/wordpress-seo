@@ -26,13 +26,13 @@ if ( get_option( 'show_on_front' ) === 'page' && get_option( 'page_for_posts' ) 
 	$yform->show_hide_switch( 'breadcrumbs-display-blog-page', __( 'Show Blog page', 'wordpress-seo' ) );
 }
 
-$yoast_free_breadcrumb_bold_texts = array(
+$yoast_seo_breadcrumb_bold_texts = array(
 	'on'  => __( 'Bold', 'wordpress-seo' ),
 	'off' => __( 'Regular', 'wordpress-seo' ),
 );
 $yform->toggle_switch(
 	'breadcrumbs-boldlast',
-	$yoast_free_breadcrumb_bold_texts,
+	$yoast_seo_breadcrumb_bold_texts,
 	__( 'Bold the last page', 'wordpress-seo' )
 );
 

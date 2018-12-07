@@ -15,12 +15,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 $wpseo_bulk_titles_table      = new WPSEO_Bulk_Title_Editor_List_Table();
 $wpseo_bulk_description_table = new WPSEO_Bulk_Description_List_Table();
 
-$yoast_free_screen_reader_content = array(
+$yoast_seo_screen_reader_content = array(
 	'heading_views'      => __( 'Filter posts list', 'wordpress-seo' ),
 	'heading_pagination' => __( 'Posts list navigation', 'wordpress-seo' ),
 	'heading_list'       => __( 'Posts list', 'wordpress-seo' ),
 );
-get_current_screen()->set_screen_reader_content( $yoast_free_screen_reader_content );
+get_current_screen()->set_screen_reader_content( $yoast_seo_screen_reader_content );
 
 // If type is empty, fill it with value of first tab (title).
 $_GET['type'] = ( ! empty( $_GET['type'] ) ) ? $_GET['type'] : 'title';
