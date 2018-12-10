@@ -257,7 +257,13 @@ export default class Question extends Component {
 	 * @returns {void}
 	 */
 	onSelectImage( media ) {
-		const { question, answer } = this.props.attributes;
+		const {
+			attributes: {
+				answer,
+				question,
+			},
+			index,
+		} = this.props;
 
 		let newAnswer = answer.slice();
 		const image   = <img key={ media.id } alt={ media.alt } src={ media.url } />;
@@ -268,7 +274,7 @@ export default class Question extends Component {
 			newAnswer = [ newAnswer, image ];
 		}
 
-		this.props.onChange( question, newAnswer, question, answer );
+		this.props.onChange( question, newAnswer, question, answer, index );
 	}
 
 	/**
