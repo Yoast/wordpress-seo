@@ -1,6 +1,4 @@
 /**
- * Represents a text (with optional phrasing content) within an HTML-document that can be read by a reader.
- *
  * Represents a text (with optional formatting element(s)) within a document that can be read by a reader.
  *
  * Example (in the case of HTML):
