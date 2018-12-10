@@ -1,45 +1,50 @@
 /**
- * Represents phrasing content (e.g. <strong>, <a>, <em>), except text, within an HTML-text.
+ * Represents formatting elements (e.g. link, image, bold text) within a document.
  */
 class FormattingElement {
 	/**
-	 * Represents phrasing content (e.g. <strong>, <a>, <em>), except text, within an HTML-text.
+	 * Represents a formatting element (e.g. link, image, bold text) within a document.
 	 *
-	 * @param {string} tag the HTML-tag of this element (e.g. "strong", "a", etc.)
-	 * @param {number} start the start position of the tag within the text.
-	 * @param {number} end the end position of the tag within the text.
-	 * @param {Object} [attributes] the attributes (as key-value pairs, e.g. "href='...'" => { href: '...' } ).
+	 * @param {string} type          		The type of this element ("link", "image", "bold", etc.).
+	 * @param {number} startIndex        		The start position of this element within the text.
+	 * @param {number} endIndex               	The end position of the element within the text.
+	 * @param {Object} [attributes=null] 	The attributes (as key-value pairs, e.g. "href='...'" => { href: '...' } ).
 	 */
-	constructor( tag, start, end, attributes ) {
-		this.tag = tag;
+	constructor( type, startIndex, endIndex, attributes = null ) {
+		this.type = type;
 		this.attributes = attributes;
-		this.start = start;
-		this.end = end;
-	}
+		this.startIndex = startIndex;
+		this.endIndex = endIndex;
 
-	/**
-	 * Stringifies the given HTML-attributes to a string of " key=value" pairs.
-	 *
-	 * @param {Object} attributes the attributes to serialize.
-	 * @returns {string} the stringified attributes.
-	 */
-	getAttributeString( attributes ) {
-		if ( attributes ) {
-			return Object.keys( attributes ).reduce( ( string, key ) => {
-				return string + ` ${key}="${attributes[ key ]}"`;
-			}, "" );
+		// Swap end and start positions when end is smaller.
+		if ( this.endIndex < this.startIndex ) {
+			this._swapStartAndEnd();
+			console.warn( `End position smaller than start of '${type}' element. They have been swapped.` );
 		}
-		return "";
+
+		// Set start position to zero when smaller than zero.
+		if ( this.startIndex < 0 ) {
+			this.startIndex =  0;
+			console.warn( `Start position of '${type}' element smaller than zero. It has been set to zero.` );
+		}
+
+		// Set end position to zero when smaller than zero.
+		if ( this.endIndex < 0 ) {
+			this.endIndex =  0;
+			console.warn( `End position of '${type}' element smaller than zero. It has been set to zero.` );
+		}
 	}
 
 	/**
-	 * Stringifies this phrasing content to an HTML-string.
+	 * Swaps the end and start positions around.
 	 *
-	 * @param {string} content the content to insert between the content tags.
-	 * @returns {string} the HTML-string.
+	 * @returns {void}
+	 * @private
 	 */
-	toHtml( content ) {
-		return `<${this.tag}${this.getAttributeString( this.attributes )}>${content}</${this.tag}>`;
+	_swapStartAndEnd() {
+		const endTemp = this.endIndex;
+		this.endIndex = this.startIndex;
+		this.startIndex = endTemp;
 	}
 }
 

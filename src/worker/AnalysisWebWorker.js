@@ -160,6 +160,8 @@ export default class AnalysisWebWorker {
 		 * doesn't use the overwritten version. Therefore, this order shouldn't be changed.
 		 */
 		this.analyze = wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the analysis." );
+		this.runResearch = wrapTryCatchAroundAction( logger, this.runResearch,
+			"An error occurred after running the '%%name%%' research." );
 	}
 
 	/**
@@ -842,7 +844,7 @@ export default class AnalysisWebWorker {
 	 * @param {Paper} [paper] The paper to run the research on if it shouldn't
 	 *                        be run on the latest paper.
 	 *
-	 * @returns {Promise} The promise of the research.
+	 * @returns {Object} The result of the research.
 	 */
 	runResearch( id, { name, paper = null } ) {
 		// When a specific paper is passed we create a temporary new researcher.
@@ -862,6 +864,10 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	runResearchDone( id, result ) {
+		if ( result.error ) {
+			this.send( "runResearch:failed", id, result );
+			return;
+		}
 		this.send( "runResearch:done", id, result );
 	}
 }

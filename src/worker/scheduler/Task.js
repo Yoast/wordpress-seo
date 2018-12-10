@@ -1,15 +1,15 @@
-// External dependencies.
-import { isFunction } from "lodash-es";
-import { isNumber } from "lodash-es";
-import { isObject } from "lodash-es";
+import { isFunction, isNumber, isObject } from "lodash-es";
 
-class Task {
+/**
+ * Represents a scheduler task.
+ */
+export default class Task {
 	/**
 	 * Initializes a task.
 	 *
 	 * @param {number}   id      The task identifier.
-	 * @param {function} execute Executes the job with the data.
-	 * @param {function} done    Callback for the scheduler.
+	 * @param {Function} execute Executes the job with the data.
+	 * @param {Function} done    Callback for the scheduler.
 	 * @param {Object}   [data]  Optional data for when executing the task.
 	 * @param {string}   type    The type of the task (analyze, analyzeRelatedKeywords, loadScript or customMessage)
 	 */
@@ -33,5 +33,3 @@ class Task {
 		this.type = type;
 	}
 }
-
-export default Task;
