@@ -5,6 +5,18 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.45.0
+### Fixed
+* Fixes a bug where special characters from certain word lists weren't correctly escaped when matched with a regex. This resulted in `eggs` being incorrectly matched as the transition word `e.g.`, for example.
+
+### Added
+* The browser console now shows more descriptive error messages when something went wrong during analyses in the web worker.
+* Adds readability analysis for Swedish.
+* Adds prominent words for Swedish.
+
+### Changed
+* Improved README Usage to detail the Web Worker API.
+
 ## 1.44.0
 ### Fixed
 * Fixes a bug where keyphrases weren't recognized in the URL when the words in the URL were separated by underscore characters instead of hyphens.
