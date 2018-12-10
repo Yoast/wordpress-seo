@@ -31,7 +31,7 @@ class List extends Node {
 	 */
 	_checkChildren() {
 		// Check if any child is not an instance of ListItem.
-		const naughtyChildren = filter( this.children, function( child ) {
+		const naughtyChildren = this.children.filter( function( child ) {
 			return ! ( child instanceof ListItem );
 		} );
 
