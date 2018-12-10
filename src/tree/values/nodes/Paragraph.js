@@ -19,33 +19,40 @@ class Paragraph extends Node {
 	}
 
 	/**
-	 * Maps the given function to this Paragraph.
+	 * Makes a clone of this Node.
 	 *
-	 * @param {mapCallback} callback	The function that should be mapped to this Paragraph.
-	 * @returns {Node} A clone of this Paragraph after the given function has been applied to it.
+	 * @returns {Node} The clone of this Node.
 	 */
-	map( callback ) {
-		const clone = new Paragraph(
+	clone() {
+		return new Paragraph(
 			this.textContainer,
 			this.startIndex,
 			this.endIndex,
 			this.tag
 		);
-		return callback( clone );
+	}
+
+	/**
+	 * Maps the given function to this Paragraph.
+	 *
+	 * @param {mapCallback} mappingFunction	The function that should be mapped to this Paragraph.
+	 * @returns {Node} A clone of this Paragraph after the given function has been applied to it.
+	 */
+	map( mappingFunction ) {
+		const clone = this.clone();
+		return mappingFunction( clone );
 	}
 
 	/**
 	 * Filters all the elements out of the tree for which the given predicate function returns `false`
 	 * and returns them as an array of Nodes.
 	 *
-	 * @param {filterCallback} predicate		The predicate to check each Node against.
+	 * @param {filterCallback} filterFunction		The predicate to check each Node against.
 	 * @returns {Node[]} An array with this Paragraph, if the predicate returns true for this Paragraph, an empty array if not.
 	 */
-	filter( predicate ) {
-		if ( predicate( this ) ) {
-			return [ this ];
-		}
-		return [ ];
+	filter( filterFunction ) {
+		const clone = this.clone();
+		return filterFunction( clone ) ? [ clone ] : [];
 	}
 }
 
