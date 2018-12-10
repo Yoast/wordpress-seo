@@ -53,5 +53,24 @@ describe( "StructuredNode", () => {
 			expect( nodeAfterFiltering[ 0 ].tag ).toEqual( "div" );
 			expect( nodeAfterFiltering[ 1 ].tag ).toEqual( "nav" );
 		} );
+
+		it( "can apply a filter function to a tree with no children.", () => {
+			structuredNode.children = null;
+			const nodeAfterFiltering = structuredNode.filter( node => {
+				return node.startIndex === 16;
+			} );
+
+			expect( nodeAfterFiltering.length ).toEqual( 0 );
+		} );
+
+		it( "can apply a map function to a tree with no children.", () => {
+			structuredNode.children = null;
+			const nodeAfterMapping = structuredNode.map( node => {
+				node.startIndex = 4;
+				return node;
+			} );
+
+			expect( nodeAfterMapping.startIndex ).toEqual( 4 );
+		} );
 	} );
 } );

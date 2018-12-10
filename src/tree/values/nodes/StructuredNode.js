@@ -55,9 +55,11 @@ class StructuredNode extends Node {
 		// Apply mapping function to clone.
 		clone = mappingFunction( clone );
 		// Apply mapping function to each child.
-		clone.children = clone.children.map(
-			node => node.map( mappingFunction )
-		);
+		if ( clone.children && clone.children.length > 0 ) {
+			clone.children = clone.children.map(
+				node => node.map( mappingFunction )
+			);
+		}
 
 		return clone;
 	}
@@ -79,9 +81,12 @@ class StructuredNode extends Node {
 		// Apply filter function to this Node.
 		const filtered = filterFunction( clone ) ? [ clone ] : [];
 		// Apply filter function to each child and concatenate the results.
-		return this.children.reduce( ( filterArray, child ) => {
-			return filterArray.concat( child.filter( filterFunction ) );
-		}, filtered );
+		if ( clone.children && clone.children.length > 0 ) {
+			return this.children.reduce( ( filterArray, child ) => {
+				return filterArray.concat( child.filter( filterFunction ) );
+			}, filtered );
+		}
+		return filtered;
 	}
 }
 export default StructuredNode;
