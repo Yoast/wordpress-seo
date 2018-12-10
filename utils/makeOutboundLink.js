@@ -15,7 +15,7 @@ import { A11yNotice } from "../composites/Plugin/Shared/components/A11yNotice";
  */
 export const makeOutboundLink = ( Component = "a" ) => {
 	/**
-	 * @summary OutboundLink component.
+	 * OutboundLink component.
 	 */
 	class OutboundLink extends React.Component {
 		/**

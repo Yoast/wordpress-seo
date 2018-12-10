@@ -27,7 +27,7 @@ const Content = styled.div`
 `;
 
 /**
- * @summary Card component.
+ * Card component.
  */
 class Card extends React.Component {
 	/**

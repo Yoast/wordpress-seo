@@ -84,7 +84,7 @@ const Details = styled.div`
 `;
 
 /**
- * @summary CardDetails component.
+ * CardDetails component.
  */
 class CardDetails extends React.Component {
 	/**

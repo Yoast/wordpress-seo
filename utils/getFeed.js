@@ -10,16 +10,6 @@ import { parseFeedItem as parsePostFeedItem } from "./getPostFeed";
  */
 
 /**
- * @typedef  {Object} FeedItem
- * @property {string} title       The title of the item.
- * @property {string} content     The content of the item, will be HTML encoded.
- * @property {string} description A summary of the content, will be HTML encoded.
- * @property {string} link        A link to the item.
- * @property {string} creator     The creator of the item.
- * @property {string} date        The publication date of the item.
- */
-
-/**
  * Returns the string contents of the given xpath query on the provided document.
  *
  * @param {string}          xpath      The xpath query to run.
@@ -81,9 +71,10 @@ function getXPathSnapshots( xpath, document, context = null, nsResolver = null )
 /**
  * Returns the feed items from a parsed Feed.
  *
- * @param {Document}        parsed     A parsed XML document.
- * @param {XPathNSResolver} nsResolver A namespace resolver for the parsed document.
- * @param {number}          maxItems   The maximum amount of items to return, 0 for all items.
+ * @param {Document}        parsed        A parsed XML document.
+ * @param {XPathNSResolver} nsResolver    A namespace resolver for the parsed document.
+ * @param {number}          maxItems      The maximum amount of items to return, 0 for all items.
+ * @param {function}        parseFeedItem The specific function to use to parse the feed items.
  *
  * @returns {FeedItem[]} An array of FeedItem objects.
  */
@@ -109,6 +100,7 @@ function getFeedItems( parsed, nsResolver, maxItems, parseFeedItem ) {
  *
  * @param {string} raw      The raw XML of the feed.
  * @param {number} maxItems The maximum amount of items to parse, 0 for all items.
+ * @param {function}        parseFeedItem The specific function to use to parse the feed items.
  *
  * @returns {Promise.<Feed>} A promise which resolves with the parsed Feed.
  */
