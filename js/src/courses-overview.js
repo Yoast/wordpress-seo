@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { CardDetails, FullHeightCard, utils } from "yoast-components";
 import React from "react";
 import ReactDOM from "react-dom";
-const { getFeed } = utils;
+const { getCourseFeed } = utils;
 
 const OuterContainer = styled.ul`
 	display: grid;
@@ -43,7 +43,7 @@ class CoursesOverview extends React.Component {
 	 */
 	getFeed() {
 		// Developer note: this link should -not- be converted to a shortlink.
-		getFeed( "https://yoast.com/?feed=courses" )
+		getCourseFeed( "https://yoast.com/?feed=courses" )
 			.then( ( feed ) => {
 				feed.items = feed.items.map( ( item ) => {
 					return item;
@@ -80,6 +80,7 @@ class CoursesOverview extends React.Component {
 		if ( courses === null ) {
 			return null;
 		}
+
 		return (
 			<OuterContainer>
 				{ courses.map( course =>
@@ -88,7 +89,7 @@ class CoursesOverview extends React.Component {
 							className={ "CourseCard" }
 							id={ course.id }
 							header={ this.getHeaderData( course ) }
-							banner={ course.banner }
+							banner={ course.bannertext ? { text: course.bannertext } : null }
 						>
 							<CardDetails
 								title={ course.title }
