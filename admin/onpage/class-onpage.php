@@ -71,7 +71,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	 * @return bool True if this functionality can be used.
 	 */
 	public static function is_active() {
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) {
+		if ( wp_doing_ajax() ) {
 			return false;
 		}
 
