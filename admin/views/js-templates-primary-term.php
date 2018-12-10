@@ -14,14 +14,17 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 <script type="text/html" id="tmpl-primary-term-ui">
 	<?php
+	/* translators: accessibility text. %1$s expands to the term title, %2$s to the taxonomy title. */
+	$yoast_free_js_button_label = __( 'Make %1$s primary %2$s', 'wordpress-seo' );
+	$yoast_free_js_button_label = sprintf(
+		$yoast_free_js_button_label,
+		'{{data.term}}',
+		'{{data.taxonomy.title}}'
+	);
+
 	printf(
 		'<button type="button" class="wpseo-make-primary-term" aria-label="%1$s">%2$s</button>',
-		esc_attr( sprintf(
-			/* translators: accessibility text. %1$s expands to the term title, %2$s to the taxonomy title. */
-			__( 'Make %1$s primary %2$s', 'wordpress-seo' ),
-			'{{data.term}}',
-			'{{data.taxonomy.title}}'
-		) ),
+		esc_attr( $yoast_free_js_button_label ),
 		esc_html__( 'Make primary', 'wordpress-seo' )
 	);
 	?>

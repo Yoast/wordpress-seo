@@ -15,11 +15,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 $wpseo_bulk_titles_table      = new WPSEO_Bulk_Title_Editor_List_Table();
 $wpseo_bulk_description_table = new WPSEO_Bulk_Description_List_Table();
 
-get_current_screen()->set_screen_reader_content( array(
+$yoast_free_screen_reader_content = array(
 	'heading_views'      => __( 'Filter posts list', 'wordpress-seo' ),
 	'heading_pagination' => __( 'Posts list navigation', 'wordpress-seo' ),
 	'heading_list'       => __( 'Posts list', 'wordpress-seo' ),
-) );
+);
+get_current_screen()->set_screen_reader_content( $yoast_free_screen_reader_content );
 
 // If type is empty, fill it with value of first tab (title).
 $_GET['type'] = ( ! empty( $_GET['type'] ) ) ? $_GET['type'] : 'title';
@@ -34,11 +35,20 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
  */
 function wpseo_render_help_center() {
 	$tabs = new WPSEO_Option_Tabs( '', '' );
-	$tabs->add_tab( new WPSEO_Option_Tab( 'title', __( 'Bulk editor', 'wordpress-seo' ),
-		array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-bulk-editor' ) ) ) );
 
-	$tabs->add_tab( new WPSEO_Option_Tab( 'description', __( 'Bulk editor', 'wordpress-seo' ),
-		array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-bulk-editor' ) ) ) );
+	$bulk_editor_tab_title = new WPSEO_Option_Tab(
+		'title',
+		__( 'Bulk editor', 'wordpress-seo' ),
+		array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-bulk-editor' ) )
+	);
+	$tabs->add_tab( $bulk_editor_tab_title );
+
+	$bulk_editor_tab_description = new WPSEO_Option_Tab(
+		'description',
+		__( 'Bulk editor', 'wordpress-seo' ),
+		array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-bulk-editor' ) )
+	);
+	$tabs->add_tab( $bulk_editor_tab_description );
 
 	$helpcenter = new WPSEO_Help_Center( '', $tabs, WPSEO_Utils::is_yoast_seo_premium() );
 	$helpcenter->localize_data();

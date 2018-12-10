@@ -160,30 +160,33 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			$alert_popup = $this->get_notification_alert_popup();
 		}
 
-		$wp_admin_bar->add_menu( array(
+		$admin_bar_menu_args = array(
 			'id'    => self::MENU_IDENTIFIER,
 			'title' => $title . $score . $counter . $alert_popup,
 			'href'  => $settings_url,
 			'meta'  => array( 'tabindex' => ! empty( $settings_url ) ? false : '0' ),
-		) );
+		);
+		$wp_admin_bar->add_menu( $admin_bar_menu_args );
 
 		if ( ! empty( $counter ) ) {
-			$wp_admin_bar->add_menu( array(
+			$admin_bar_menu_args = array(
 				'parent' => self::MENU_IDENTIFIER,
 				'id'     => 'wpseo-notifications',
 				'title'  => __( 'Notifications', 'wordpress-seo' ) . $counter,
 				'href'   => $settings_url,
 				'meta'   => array( 'tabindex' => ! empty( $settings_url ) ? false : '0' ),
-			) );
+			);
+			$wp_admin_bar->add_menu( $admin_bar_menu_args );
 		}
 
 		if ( ! is_network_admin() && $can_manage_options ) {
-			$wp_admin_bar->add_menu( array(
+			$admin_bar_menu_args = array(
 				'parent' => self::MENU_IDENTIFIER,
 				'id'     => 'wpseo-configuration-wizard',
 				'title'  => __( 'Configuration Wizard', 'wordpress-seo' ),
 				'href'   => admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ),
-			) );
+			);
+			$wp_admin_bar->add_menu( $admin_bar_menu_args );
 		}
 	}
 

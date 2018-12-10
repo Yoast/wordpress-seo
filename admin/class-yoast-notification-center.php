@@ -76,10 +76,11 @@ class Yoast_Notification_Center {
 		if ( false === ( $notification instanceof Yoast_Notification ) ) {
 
 			// Permit legacy.
-			$notification = new Yoast_Notification( '', array(
+			$options      = array(
 				'id'            => $notification_id,
 				'dismissal_key' => $notification_id,
-			) );
+			);
+			$notification = new Yoast_Notification( '', $options );
 		}
 
 		if ( self::maybe_dismiss_notification( $notification ) ) {
