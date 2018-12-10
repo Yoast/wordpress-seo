@@ -26,6 +26,20 @@ class StructuredNode extends Node {
 	}
 
 	/**
+	 * Clones this StructuredNode.
+	 *
+	 * @returns {Node} The cloned Node.
+	 */
+	clone() {
+		return new StructuredNode(
+			this.startIndex,
+			this.endIndex,
+			this.children,
+			this.tag
+		);
+	}
+
+	/**
 	 * Maps the given function to each Node in this tree.
 	 *
 	 * @param {mapCallback} mappingFunction 	The function that should be mapped to each Node in the tree.
@@ -36,15 +50,11 @@ class StructuredNode extends Node {
 	 */
 	map( mappingFunction ) {
 		// Clone this node to avoid changing the original.
-		let clone = new StructuredNode(
-			this.startIndex,
-			this.endIndex,
-			this.children,
-			this.tag
-		);
+		let clone = this.clone();
 
-		// Apply mapping function to clone and each child.
+		// Apply mapping function to clone.
 		clone = mappingFunction( clone );
+		// Apply mapping function to each child.
 		clone.children = clone.children.map(
 			node => node.map( mappingFunction )
 		);
@@ -63,9 +73,11 @@ class StructuredNode extends Node {
 	 * @abstract
 	 */
 	filter( filterFunction ) {
-		// Apply filter function to this Node.
-		const filtered = filterFunction( this ) ? [ this ] : [];
+		// Clone this Node.
+		const clone = this.clone();
 
+		// Apply filter function to this Node.
+		const filtered = filterFunction( clone ) ? [ clone ] : [];
 		// Apply filter function to each child and concatenate the results.
 		return this.children.reduce( ( filterArray, child ) => {
 			return filterArray.concat( child.filter( filterFunction ) );
