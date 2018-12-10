@@ -270,8 +270,8 @@ class WPSEO_Admin_Asset_Manager {
 	 */
 	protected function scripts_to_be_registered() {
 		$select2_language = 'en';
-		$user_locale      = WPSEO_Utils::get_user_locale();
-		$language         = WPSEO_Utils::get_language( $user_locale );
+		$user_locale      = WPSEO_Language_Utils::get_user_locale();
+		$language         = WPSEO_Language_Utils::get_language( $user_locale );
 
 		if ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$user_locale}.js" ) ) {
 			$select2_language = $user_locale; // Chinese and some others use full locale.
