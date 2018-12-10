@@ -2,6 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import isShallowEqual from "@wordpress/is-shallow-equal/objects";
 
 const { Component } = window.wp.element;
 const { IconButton } = window.wp.components;
@@ -17,6 +18,182 @@ const RichTextWithAppendedSpace = appendSpace( RichText.Content );
  */
 export default class Question extends Component {
 	/**
+	 * Constructs a Question editor component.
+	 *
+	 * @param {Object} props This component's props.
+	 *
+	 * @returns {void}
+	 */
+	constructor( props ) {
+		super( props );
+
+		this.onSelectImage    = this.onSelectImage.bind( this );
+		this.onFocusAnswer    = this.onFocusAnswer.bind( this );
+		this.onFocusQuestion  = this.onFocusQuestion.bind( this );
+		this.onChangeAnswer   = this.onChangeAnswer.bind( this );
+		this.onChangeQuestion = this.onChangeQuestion.bind( this );
+		this.onInsertQuestion = this.onInsertQuestion.bind( this );
+		this.onRemoveQuestion = this.onRemoveQuestion.bind( this );
+		this.onMoveDown       = this.onMoveDown.bind( this );
+		this.onMoveUp         = this.onMoveUp.bind( this );
+	}
+
+	/**
+	 * Renders the media upload button.
+	 *
+	 * @param {Object}   props      The received props.
+	 * @param {function} props.open Opens the media upload dialog.
+	 *
+	 * @returns {ReactElement} The media upload button.
+	 */
+	getMediaUploadButton( props ) {
+		return (
+			<IconButton
+				className="schema-faq-section-button editor-inserter__toggle faq-section-add-media"
+				icon="insert"
+				onClick={ props.open }
+			>
+				{ __( "Add image", "wordpress-seo" ) }
+			</IconButton>
+		);
+	}
+
+	/**
+	 * Pass the question editor reference down to the parent component.
+	 *
+	 * @param {object} ref Reference to the question editor.
+	 *
+	 * @returns {void}
+	 */
+	setQuestionRef( ref ) {
+		this.props.editorRef( "question", ref, this.props.index );
+	}
+
+	/**
+	 * Pass the answer editor reference down to the parent component.
+	 *
+	 * @param {object} ref Reference to the question editor.
+	 *
+	 * @returns {void}
+	 */
+	setAnswerRef( ref ) {
+		this.props.editorRef( "answer", ref, this.props.index );
+	}
+
+	/**
+	 * Handle the focus event on the question editor.
+	 *
+	 * @returns {void}
+	 */
+	onFocusQuestion() {
+		this.props.onFocus( "question", this.props.index );
+	}
+
+	/**
+	 * Handle the focus event on the answer editor.
+	 *
+	 * @returns {void}
+	 */
+	onFocusAnswer() {
+		this.props.onFocus( "answer", this.props.index );
+	}
+
+	/**
+	 * Handles the on change event on the question editor.
+	 *
+	 * @param {string} value The new question.
+	 *
+	 * @returns {void}
+	 */
+	onChangeQuestion( value ) {
+		const {
+			index,
+			onChange,
+			attributes: {
+				answer,
+				question,
+			},
+		} = this.props;
+
+		onChange(
+			value,
+			answer,
+			question,
+			answer,
+			index,
+		);
+	}
+
+	/**
+	 * Handles the on change event on the answer editor.
+	 *
+	 * @param {string} value The new answer.
+	 *
+	 * @returns {void}
+	 */
+	onChangeAnswer( value ) {
+		const {
+			index,
+			onChange,
+			attributes: {
+				answer,
+				question,
+			},
+		} = this.props;
+
+		onChange(
+			question,
+			value,
+			question,
+			answer,
+			index,
+		);
+	}
+
+	/**
+	 * Handles the insert question button action.
+	 *
+	 * @returns {void}
+	 */
+	onInsertQuestion() {
+		this.props.insertQuestion( this.props.index );
+	}
+
+	/**
+	 * Handles the remove question button action.
+	 *
+	 * @returns {void}
+	 */
+	onRemoveQuestion() {
+		this.props.removeQuestion( this.props.index );
+	}
+
+	/**
+	 * Handle the move up button action.
+	 *
+	 * @returns {void}
+	 */
+	onMoveUp() {
+		if ( this.props.isFirst ) {
+			return;
+		}
+
+		this.props.onMoveUp( this.props.index );
+	}
+	/**
+	 * Handle the move down button action.
+	 *
+	 * @returns {void}
+	 */
+	onMoveDown() {
+		if ( this.props.isLast ) {
+			return;
+		}
+
+		this.props.onMoveDown( this.props.index );
+	}
+
+	/**
 	 * The insert and remove question buttons.
 	 *
 	 * @returns {Component} The buttons.
@@ -24,36 +201,26 @@ export default class Question extends Component {
 	getButtons() {
 		const {
 			attributes,
-			removeQuestion,
-			insertQuestion,
 		} = this.props;
 
 		return <div className="schema-faq-section-button-container">
 			<MediaUpload
-				onSelect={ ( media ) => this.onSelectImage( media ) }
+				onSelect={ this.onSelectImage }
 				type="image"
 				value={ attributes.id }
-				render={ ( { open } ) => (
-					<IconButton
-						className="schema-faq-section-button editor-inserter__toggle faq-section-add-media"
-						icon="insert"
-						onClick={ open }
-					>
-						{ __( "Add image", "wordpress-seo" ) }
-					</IconButton>
-				) }
+				render={ this.getMediaUploadButton }
 			/>
 			<IconButton
 				className="schema-faq-section-button editor-inserter__toggle"
 				icon="trash"
 				label={ __( "Delete question", "wordpress-seo" ) }
-				onClick={ removeQuestion }
+				onClick={ this.onRemoveQuestion }
 			/>
 			<IconButton
 				className="schema-faq-section-button editor-inserter__toggle"
 				icon="insert"
 				label={ __( "Insert question", "wordpress-seo" ) }
-				onClick={ insertQuestion }
+				onClick={ this.onInsertQuestion }
 			/>
 		</div>;
 	}
@@ -67,14 +234,14 @@ export default class Question extends Component {
 		return <div className="schema-faq-section-mover">
 			<IconButton
 				className="editor-block-mover__control"
-				onClick={ this.props.isFirst ? null : this.props.onMoveUp }
+				onClick={ this.onMoveUp }
 				icon="arrow-up-alt2"
 				label={ __( "Move question up", "wordpress-seo" ) }
 				aria-disabled={ this.props.isFirst }
 			/>
 			<IconButton
 				className="editor-block-mover__control"
-				onClick={ this.props.isLast ? null : this.props.onMoveDown }
+				onClick={ this.onMoveDown }
 				icon="arrow-down-alt2"
 				label={ __( "Move question down", "wordpress-seo" ) }
 				aria-disabled={ this.props.isLast }
@@ -153,6 +320,20 @@ export default class Question extends Component {
 	}
 
 	/**
+	 * Perform a shallow equal to prevent every step from being rerendered.
+	 *
+	 * @param {object} nextProps The next props the component will receive.
+	 *
+	 * @returns {boolean} Whether or not the component should perform an update.
+	 */
+	shouldComponentUpdate( nextProps ) {
+		if ( ! isShallowEqual( nextProps, this.props ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Renders this component.
 	 *
 	 * @returns {Component} The how-to step editor.
@@ -161,25 +342,26 @@ export default class Question extends Component {
 		const {
 			subElement,
 			attributes,
-			onChange,
-			onFocus,
 			isSelected,
-			editorRef,
 		} = this.props;
 
-		const { id, question, answer } = attributes;
+		const {
+			id,
+			question,
+			answer,
+		} = attributes;
 
 		return (
 			<div className="schema-faq-section" key={ id }>
 				<RichText
 					className="schema-faq-question"
 					tagName="p"
-					unstableOnSetup={ ( ref ) => editorRef( "question", ref ) }
+					unstableOnSetup={ this.setQuestionRef }
 					key={ id + "-question" }
 					value={ question }
-					onChange={ ( value ) => onChange( value, answer, question, answer ) }
+					onChange={ this.onChangeQuestion }
 					isSelected={ isSelected && subElement === "question" }
-					setFocusedElement={ () => onFocus( "question" ) }
+					setFocusedElement={ this.onFocusQuestion }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 					formattingControls={ [ "italic", "strikethrough", "link" ] }
@@ -187,12 +369,12 @@ export default class Question extends Component {
 				<RichText
 					className="schema-faq-answer"
 					tagName="p"
-					unstableOnSetup={  ( ref ) => editorRef( "answer", ref )  }
+					unstableOnSetup={ this.setAnswerRef }
 					key={ id + "-answer" }
 					value={ answer }
-					onChange={ ( value ) => onChange( question, value, question, answer ) }
+					onChange={ this.onChangeAnswer }
 					isSelected={ isSelected && subElement === "answer" }
-					setFocusedElement={ () => onFocus( "answer" ) }
+					setFocusedElement={ this.onFocusAnswer }
 					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
@@ -208,6 +390,7 @@ export default class Question extends Component {
 }
 
 Question.propTypes = {
+	index: PropTypes.number.isRequired,
 	attributes: PropTypes.object.isRequired,
 	onChange: PropTypes.func.isRequired,
 	insertQuestion: PropTypes.func.isRequired,
@@ -216,9 +399,8 @@ Question.propTypes = {
 	editorRef: PropTypes.func.isRequired,
 	onMoveUp: PropTypes.func.isRequired,
 	onMoveDown: PropTypes.func.isRequired,
-	subElement: PropTypes.string,
-	focus: PropTypes.string,
-	isSelected: PropTypes.bool,
-	isFirst: PropTypes.bool,
-	isLast: PropTypes.bool,
+	subElement: PropTypes.string.isRequired,
+	isSelected: PropTypes.bool.isRequired,
+	isFirst: PropTypes.bool.isRequired,
+	isLast: PropTypes.bool.isRequired,
 };
