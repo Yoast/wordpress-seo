@@ -45,7 +45,7 @@ class WPSEO_Configuration_Service {
 		$this->set_components( new WPSEO_Configuration_Components() );
 		$this->set_endpoint( new WPSEO_Configuration_Endpoint() );
 		$this->set_structure( new WPSEO_Configuration_Structure() );
-		$this->set_translations( new WPSEO_Configuration_Translations( WPSEO_Utils::get_user_locale() ) );
+		$this->set_translations( new WPSEO_Configuration_Translations( WPSEO_Language_Utils::get_user_locale() ) );
 	}
 
 	/**
