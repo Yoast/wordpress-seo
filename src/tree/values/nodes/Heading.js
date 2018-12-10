@@ -1,3 +1,4 @@
+import Node from "./Node";
 /**
  * A header in a document.
  */
