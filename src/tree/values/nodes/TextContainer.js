@@ -26,10 +26,10 @@
  */
 class TextContainer {
 	/**
-	 * A piece of text (with optional phrasing content) within an HTML-document that can be read by a reader.
+	 * A piece of text (with optional formatting element(s)) within a text that can be read by a reader.
 	 *
-	 * @param {string} text the text, without any formatting.
-	 * @param {FormattingElement[]} formatting the inline HTML-elements (e.g. <strong>, <a>) within the text.
+	 * @param {string} text                    The plain text, without any formatting.
+	 * @param {FormattingElement[]} formatting The inline formatting elements (e.g. bold text, links, images ) within the text.
 	 */
 	constructor( text, formatting ) {
 		this.text = text;
