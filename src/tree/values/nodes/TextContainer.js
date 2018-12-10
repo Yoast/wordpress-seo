@@ -1,12 +1,6 @@
 /**
  * Represents a text (with optional phrasing content) within an HTML-document that can be read by a reader.
- */
-class TextContainer {
-/**
- * A piece of text (with optional phrasing content) within an HTML-document that can be read by a reader.
  *
- * @param {string} text the text, without any formatting.
- * @param {FormattingElement[]} formatting the inline HTML-elements (e.g. <strong>, <a>) within the text.
  * Represents a text (with optional formatting element(s)) within a document that can be read by a reader.
  *
  * Example (in the case of HTML):
@@ -30,6 +24,13 @@ class TextContainer {
  * }
  * ```
  */
+class TextContainer {
+	/**
+	 * A piece of text (with optional phrasing content) within an HTML-document that can be read by a reader.
+	 *
+	 * @param {string} text the text, without any formatting.
+	 * @param {FormattingElement[]} formatting the inline HTML-elements (e.g. <strong>, <a>) within the text.
+	 */
 	constructor( text, formatting ) {
 		this.text = text;
 		this.formatting = formatting;
