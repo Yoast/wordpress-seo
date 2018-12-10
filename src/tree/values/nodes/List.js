@@ -23,7 +23,7 @@ class List extends Node {
 	}
 
 	/**
-	 * Constrains the children of the List to ListItems. Throws a warning if any child of the List is not a ListItem.
+	 * Throws a warning if any child of the List is not a ListItem.
 	 *
 	 * @returns {void}
 	 * @private
