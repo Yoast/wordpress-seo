@@ -10,12 +10,14 @@ class List extends Node {
 	 *
 	 * @param {number}            startIndex  The index of the beginning of the list item.
 	 * @param {number}            endIndex    The index of the end of the list item.
+	 * @param {boolean}           ordered     Whether the list is ordered or not.
 	 * @param {Array<ListItem>}   children    The sub-elements of the list item.
 	 *
 	 * @returns {void}
 	 */
-	constructor( startIndex, endIndex, children ) {
+	constructor( startIndex, endIndex, ordered, children ) {
 		super( "list", startIndex, endIndex );
+		this.ordered = ordered;
 		this.children = children;
 
 		this._checkChildren();
