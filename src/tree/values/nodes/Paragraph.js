@@ -31,29 +31,6 @@ class Paragraph extends Node {
 			this.tag
 		);
 	}
-
-	/**
-	 * Maps the given function to this Paragraph.
-	 *
-	 * @param {mapCallback} mappingFunction	The function that should be mapped to this Paragraph.
-	 * @returns {Node} A clone of this Paragraph after the given function has been applied to it.
-	 */
-	map( mappingFunction ) {
-		const clone = this.clone();
-		return mappingFunction( clone );
-	}
-
-	/**
-	 * Filters all the elements out of the tree for which the given predicate function returns `false`
-	 * and returns them as an array of Nodes.
-	 *
-	 * @param {filterCallback} filterFunction		The predicate to check each Node against.
-	 * @returns {Node[]} An array with this Paragraph, if the predicate returns true for this Paragraph, an empty array if not.
-	 */
-	filter( filterFunction ) {
-		const clone = this.clone();
-		return filterFunction( clone ) ? [ clone ] : [];
-	}
 }
 
 export default Paragraph;
