@@ -832,10 +832,19 @@ class WPSEO_Replace_Vars {
 	private function retrieve_focuskw() {
 		$replacement = null;
 
+		// Retrieve focuskw from a Post.
 		if ( ! empty( $this->args->ID ) ) {
 			$focus_kw = WPSEO_Meta::get_value( 'focuskw', $this->args->ID );
 			if ( $focus_kw !== '' ) {
-				$replacement = $focus_kw;
+				return $focus_kw;
+			}
+		}
+
+		// Retrieve focuskw from a Term.
+		if ( ! empty( $this->args->term_id ) ) {
+			$focus_kw = WPSEO_Taxonomy_Meta::get_term_meta( $this->args->term_id, $this->args->taxonomy, 'focuskw' );
+			if ( $focus_kw !== '' ) {
+				return $focus_kw;
 			}
 		}
 
