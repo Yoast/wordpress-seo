@@ -28,6 +28,12 @@ import spanishPaper1 from "./es/spanishPaper1";
 import spanishPaper2 from "./es/spanishPaper2";
 import spanishPaper3 from "./es/spanishPaper3";
 
+// Polish papers
+import polishPaper1 from "./pl/polishPaper1";
+import polishPaper2 from "./pl/polishPaper2";
+import polishPaper3 from "./pl/polishPaper3";
+
+
 export default [
 	englishPaper1,
 	englishPaper2,
@@ -47,5 +53,8 @@ export default [
 	spanishPaper1,
 	spanishPaper2,
 	spanishPaper3,
+	polishPaper1,
+	polishPaper2,
+	polishPaper3,
 ];
 
