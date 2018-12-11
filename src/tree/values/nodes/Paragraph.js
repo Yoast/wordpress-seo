@@ -17,20 +17,6 @@ class Paragraph extends Node {
 		this.textContainer = textContainer;
 		this.tag = tag;
 	}
-
-	/**
-	 * Makes a clone of this Node.
-	 *
-	 * @returns {Node} The clone of this Node.
-	 */
-	clone() {
-		return new Paragraph(
-			this.textContainer,
-			this.startIndex,
-			this.endIndex,
-			this.tag
-		);
-	}
 }
 
 export default Paragraph;
