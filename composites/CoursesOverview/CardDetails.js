@@ -64,19 +64,6 @@ const CourseFeatureList = styled.div`
 	}
 `;
 
-const Header = styled.h2`
-	margin: 0 0 8px 0;
-	display: block;
-	font-weight: 400;
-	font-size: 1.5em;
-	line-height: 1.2;
-`;
-
-const HeaderLink = styled.a`
-	text-decoration: none;
-	color: ${ colors.$color_pink_dark };
-`;
-
 const Details = styled.div`
 	margin-bottom: 12px;
 	border-bottom: 1px ${ colors.$color_grey } solid;
@@ -105,9 +92,6 @@ class CardDetails extends React.Component {
 		return (
 			<Fragment>
 				<Details>
-					<Header>
-						<HeaderLink href={ this.props.courseUrl }>{ this.props.title }</HeaderLink>
-					</Header>
 					<CourseFeatureList
 						dangerouslySetInnerHTML={ { __html: this.props.description } }
 					/>
@@ -133,14 +117,12 @@ class CardDetails extends React.Component {
 export default CardDetails;
 
 CardDetails.propTypes = {
-	title: PropTypes.string,
 	description: PropTypes.string,
 	courseUrl: PropTypes.string,
 	shopUrl: PropTypes.string,
 };
 
 CardDetails.defaultProps = {
-	title: "",
 	description: "",
 	courseUrl: "",
 	shopUrl: "",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import colors from "../../style-guide/colors.json";
@@ -20,10 +20,23 @@ const HeaderImage = styled.img`
 
 const Content = styled.div`
 	margin: 0;
-	padding: 16px;
+	padding: 12px 16px;
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
+`;
+
+const HeaderTitle = styled.h2`
+	margin: 16px 8px 0px 16px;
+	display: block;
+	font-weight: 400;
+	font-size: 1.5em;
+	line-height: 1.2;
+	color: ${ colors.$color_pink_dark };
+`;
+
+const HeaderLink = styled.a`
+	text-decoration: none;
 `;
 
 /**
@@ -35,18 +48,24 @@ class Card extends React.Component {
 	 * or not if it is not.
 	 * @returns {React.Component} the header image
 	 */
-	getHeaderImage() {
+	getHeader() {
 		if ( ! this.props.header ) {
 			return null;
 		}
 		if ( this.props.header.link ) {
 			return (
-				<a href={ this.props.header.link }>
+				<HeaderLink href={ this.props.header.link }>
 					<HeaderImage src={ this.props.header.image } alt={ this.props.header.title || "" } />
-				</a>
+					<HeaderTitle> { this.props.header.title } </HeaderTitle>
+				</HeaderLink>
 			);
 		}
-		return <HeaderImage src={ this.props.header.image } alt={ this.props.header.title || "" } />;
+		return (
+			<Fragment>
+				<HeaderImage src={ this.props.header.image } alt={ this.props.header.title || "" } />;
+				<HeaderTitle> { this.props.header.title } </HeaderTitle>
+			</Fragment>
+		);
 	}
 
 	/**
@@ -73,7 +92,7 @@ class Card extends React.Component {
 	render() {
 		return (
 			<Container className={ this.props.className } id={ this.props.id }>
-				{ this.getHeaderImage() }
+				{ this.getHeader() }
 				{ this.getBanner() }
 				<Content>
 					{ this.props.children }
