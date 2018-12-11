@@ -4,7 +4,7 @@ import Paragraph from "../../../../src/tree/values/nodes/Paragraph";
 
 describe( "Paragraph tree node", () => {
 	describe( "constructor", () => {
-		it( "can make a new Paragraph tree node with paragraph opening tags", () => {
+		it( "can make a new Paragraph tree node with a paragraph tag", () => {
 			const formattingElements = [
 				new FormattingElement( "a", 25, 29 ),
 			];
