@@ -209,7 +209,7 @@ export default class HowToStep extends Component {
 				className="schema-how-to-step-button editor-inserter__toggle"
 				icon="insert"
 				label={ __( "Insert step", "wordpress-seo" ) }
-				onClick={ this.onRemoveStep }
+				onClick={ this.onInsertStep }
 			/>
 		</div>;
 	}
@@ -246,7 +246,13 @@ export default class HowToStep extends Component {
 	 * @returns {void}
 	 */
 	onSelectImage( media ) {
-		const { name, text } = this.props.step;
+		const {
+			index,
+			step: {
+				name,
+				text,
+			},
+		} = this.props;
 
 		let newText = text.slice();
 		const image = <img key={ media.id } alt={ media.alt } src={ media.url } />;
@@ -257,7 +263,7 @@ export default class HowToStep extends Component {
 			newText = [ newText, image ];
 		}
 
-		this.props.onChange( name, newText, name, text );
+		this.props.onChange( name, newText, name, text, index );
 	}
 
 	/**

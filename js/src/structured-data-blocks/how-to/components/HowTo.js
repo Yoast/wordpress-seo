@@ -45,30 +45,31 @@ export default class HowTo extends Component {
 
 		this.state = { focus: "" };
 
-		this.changeStep          = this.changeStep.bind( this );
-		this.insertStep          = this.insertStep.bind( this );
-		this.removeStep          = this.removeStep.bind( this );
-		this.swapSteps           = this.swapSteps.bind( this );
-		this.setFocus            = this.setFocus.bind( this );
-		this.addCSSClasses       = this.addCSSClasses.bind( this );
-		this.getListTypeHelp     = this.getListTypeHelp.bind( this );
-		this.toggleListType      = this.toggleListType.bind( this );
-		this.setDurationText     = this.setDurationText.bind( this );
-		this.setFocusToStep      = this.setFocusToStep.bind( this );
-		this.setStepRef          = this.setStepRef.bind( this );
-		this.moveStepUp          = this.moveStepUp.bind( this );
-		this.moveStepDown        = this.moveStepDown.bind( this );
-		this.focusDescription    = this.focusDescription.bind( this );
-		this.setDescriptionRef   = this.setDescriptionRef.bind( this );
-		this.addDuration         = this.addDuration.bind( this );
-		this.removeDuration      = this.removeDuration.bind( this );
-		this.onFocusDaysField    = this.onFocusDaysField.bind( this );
-		this.onFocusMinutesField = this.onFocusMinutesField.bind( this );
-		this.onFocusHoursField   = this.onFocusHoursField.bind( this );
-		this.onChangeDescription = this.onChangeDescription.bind( this );
-		this.onChangeDays        = this.onChangeDays.bind( this );
-		this.onChangeHours       = this.onChangeHours.bind( this );
-		this.onChangeMinutes     = this.onChangeMinutes.bind( this );
+		this.changeStep           = this.changeStep.bind( this );
+		this.insertStep           = this.insertStep.bind( this );
+		this.removeStep           = this.removeStep.bind( this );
+		this.swapSteps            = this.swapSteps.bind( this );
+		this.setFocus             = this.setFocus.bind( this );
+		this.addCSSClasses        = this.addCSSClasses.bind( this );
+		this.getListTypeHelp      = this.getListTypeHelp.bind( this );
+		this.toggleListType       = this.toggleListType.bind( this );
+		this.setDurationText      = this.setDurationText.bind( this );
+		this.setFocusToStep       = this.setFocusToStep.bind( this );
+		this.setStepRef           = this.setStepRef.bind( this );
+		this.moveStepUp           = this.moveStepUp.bind( this );
+		this.moveStepDown         = this.moveStepDown.bind( this );
+		this.focusDescription     = this.focusDescription.bind( this );
+		this.setDescriptionRef    = this.setDescriptionRef.bind( this );
+		this.addDuration          = this.addDuration.bind( this );
+		this.removeDuration       = this.removeDuration.bind( this );
+		this.onFocusDaysField     = this.onFocusDaysField.bind( this );
+		this.onFocusMinutesField  = this.onFocusMinutesField.bind( this );
+		this.onFocusHoursField    = this.onFocusHoursField.bind( this );
+		this.onChangeDescription  = this.onChangeDescription.bind( this );
+		this.onChangeDays         = this.onChangeDays.bind( this );
+		this.onChangeHours        = this.onChangeHours.bind( this );
+		this.onChangeMinutes      = this.onChangeMinutes.bind( this );
+		this.onAddStepButtonClick = this.onAddStepButtonClick.bind( this );
 
 		const defaultDurationText = this.getDefaultDurationText();
 		this.setDefaultDurationText( defaultDurationText );
@@ -113,6 +114,17 @@ export default class HowTo extends Component {
 	 */
 	setDefaultDurationText( text ) {
 		this.props.setAttributes( { defaultDurationText: text } );
+	}
+
+	/**
+	 * Handles the Add Step Button click event.
+	 *
+	 * Necessary because insertStep needs to be called without arguments, to assure the step is added properly.
+	 *
+	 * @returns {void}
+	 */
+	onAddStepButtonClick() {
+		this.insertStep();
 	}
 
 	/**
@@ -493,7 +505,7 @@ export default class HowTo extends Component {
 		return (
 			<IconButton
 				icon="insert"
-				onClick={ this.insertStep }
+				onClick={ this.onAddStepButtonClick }
 				className="editor-inserter__toggle"
 			>
 				{ __( "Add step", "wordpress-seo" ) }
@@ -565,7 +577,7 @@ export default class HowTo extends Component {
 	 */
 	onChangeDescription( value ) {
 		this.props.setAttributes( {
-			value,
+			description: value,
 			jsonDescription: stripHTML( renderToString( value ) ),
 		} );
 	}
