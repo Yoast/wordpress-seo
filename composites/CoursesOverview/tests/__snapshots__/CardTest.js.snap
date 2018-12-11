@@ -17,7 +17,7 @@ exports[`The FullHeightCard is rendered including some props 1`] = `
 
 .c2 {
   margin: 0;
-  padding: 16px;
+  padding: 12px 16px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -46,7 +46,7 @@ exports[`The FullHeightCard is rendered including some props 1`] = `
 `;
 
 exports[`The FullHeightCard is rendered including the CardBanner and CardDetails components 1`] = `
-.c3 {
+.c5 {
   position: absolute;
   top: 8px;
   left: -8px;
@@ -58,7 +58,7 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
-.c4 {
+.c6 {
   position: absolute;
   top: 40px;
   left: -8px;
@@ -80,14 +80,14 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
-.c2 {
+.c3 {
   width: 100%;
   vertical-align: bottom;
 }
 
-.c5 {
+.c7 {
   margin: 0;
-  padding: 16px;
+  padding: 12px 16px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -99,6 +99,20 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
+}
+
+.c4 {
+  margin: 16px 8px 0px 16px;
+  display: block;
+  font-weight: 400;
+  font-size: 1.5em;
+  line-height: 1.2;
+  color: #a4286a;
+}
+
+.c2 {
+  -webkit-text-decoration: none;
+  text-decoration: none;
 }
 
 .c0 {
@@ -178,21 +192,7 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   left: -16px;
 }
 
-.c7 {
-  margin: 0 0 8px 0;
-  display: block;
-  font-weight: 400;
-  font-size: 1.5em;
-  line-height: 1.2;
-}
-
 .c8 {
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: #a4286a;
-}
-
-.c6 {
   margin-bottom: 12px;
   border-bottom: 1px #ddd solid;
   -webkit-box-flex: 1;
@@ -206,38 +206,36 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   id="Test02"
 >
   <a
+    className="c2"
     href="https://yoast.com/academy/keyword-research-training/"
   >
     <img
       alt="Keyword Research"
-      className="c2"
+      className="c3"
       src="../wp-content/plugins/wordpress-seo/images/sample_course_card_header.png"
     />
+    <h2
+      className="c4"
+    >
+       
+      Keyword Research
+       
+    </h2>
   </a>
   <span
-    className="c3"
+    className="c5"
   >
     Free trial available
   </span>
   <span
-    className="c4"
+    className="c6"
   />
   <div
-    className="c5"
+    className="c7"
   >
     <div
-      className="c6"
+      className="c8"
     >
-      <h2
-        className="c7"
-      >
-        <a
-          className="c8"
-          href="https://yoast.com/academy/keyword-research-training/"
-        >
-          Keyword Research
-        </a>
-      </h2>
       <div
         className="c9"
         dangerouslySetInnerHTML={
@@ -299,7 +297,7 @@ exports[`The empty Card component matches the snapshot 1`] = `
 
 .c1 {
   margin: 0;
-  padding: 16px;
+  padding: 12px 16px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

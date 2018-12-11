@@ -2,32 +2,18 @@
 
 exports[`The CardDetails component matches the snapshot when given specific props 1`] = `
 Array [
-  .c3 li {
+  .c1 li {
   position: relative;
   margin-left: 16px;
 }
 
-.c3 li:before {
+.c1 li:before {
   content: "✓";
   color: #77b227;
   position: absolute;
   font-weight: bold;
   display: inline-block;
   left: -16px;
-}
-
-.c1 {
-  margin: 0 0 8px 0;
-  display: block;
-  font-weight: 400;
-  font-size: 1.5em;
-  line-height: 1.2;
-}
-
-.c2 {
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: #a4286a;
 }
 
 .c0 {
@@ -42,18 +28,8 @@ Array [
 <div
     className="c0"
   >
-    <h2
-      className="c1"
-    >
-      <a
-        className="c2"
-        href="https://yoast.com/academy/keyword-research-training/"
-      >
-        Keyword Research
-      </a>
-    </h2>
     <div
-      className="c3"
+      className="c1"
       dangerouslySetInnerHTML={
         Object {
           "__html": "Do you know the essential first step of good SEO? It’s keyword research. In this training, 
@@ -156,32 +132,18 @@ you’ll learn how to research and select the keywords that will guide searchers
 
 exports[`The empty CardDetails component matches the snapshot 1`] = `
 Array [
-  .c3 li {
+  .c1 li {
   position: relative;
   margin-left: 16px;
 }
 
-.c3 li:before {
+.c1 li:before {
   content: "✓";
   color: #77b227;
   position: absolute;
   font-weight: bold;
   display: inline-block;
   left: -16px;
-}
-
-.c1 {
-  margin: 0 0 8px 0;
-  display: block;
-  font-weight: 400;
-  font-size: 1.5em;
-  line-height: 1.2;
-}
-
-.c2 {
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: #a4286a;
 }
 
 .c0 {
@@ -196,18 +158,8 @@ Array [
 <div
     className="c0"
   >
-    <h2
-      className="c1"
-    >
-      <a
-        className="c2"
-        href=""
-      >
-        
-      </a>
-    </h2>
     <div
-      className="c3"
+      className="c1"
       dangerouslySetInnerHTML={
         Object {
           "__html": "",
