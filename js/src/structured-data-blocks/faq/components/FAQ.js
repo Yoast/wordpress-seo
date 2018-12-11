@@ -30,14 +30,15 @@ export default class FAQ extends Component {
 
 		this.state = { focus: "" };
 
-		this.changeQuestion   = this.changeQuestion.bind( this );
-		this.insertQuestion   = this.insertQuestion.bind( this );
-		this.removeQuestion   = this.removeQuestion.bind( this );
-		this.swapQuestions    = this.swapQuestions.bind( this );
-		this.setQuestionRef   = this.setQuestionRef.bind( this );
-		this.moveQuestionDown = this.moveQuestionDown.bind( this );
-		this.moveQuestionUp   = this.moveQuestionUp.bind( this );
-		this.setFocus         = this.setFocus.bind( this );
+		this.changeQuestion           = this.changeQuestion.bind( this );
+		this.insertQuestion           = this.insertQuestion.bind( this );
+		this.removeQuestion           = this.removeQuestion.bind( this );
+		this.swapQuestions            = this.swapQuestions.bind( this );
+		this.setQuestionRef           = this.setQuestionRef.bind( this );
+		this.moveQuestionDown         = this.moveQuestionDown.bind( this );
+		this.moveQuestionUp           = this.moveQuestionUp.bind( this );
+		this.setFocus                 = this.setFocus.bind( this );
+		this.onAddQuestionButtonClick = this.onAddQuestionButtonClick.bind( this );
 
 		this.editorRefs = {};
 	}
@@ -51,6 +52,18 @@ export default class FAQ extends Component {
 	 */
 	static generateId( prefix ) {
 		return `${ prefix }-${ new Date().getTime() }`;
+	}
+
+	/**
+	 * Handles the add question button action.
+	 *
+	 * This function is necessary because insertQuestion should be called without any arguments to make sure the
+	 * question is added in the right position.
+	 *
+	 * @returns {void}
+	 */
+	onAddQuestionButtonClick() {
+		this.insertQuestion();
 	}
 
 	/**
@@ -264,7 +277,7 @@ export default class FAQ extends Component {
 		return (
 			<IconButton
 				icon="insert"
-				onClick={ this.insertQuestion }
+				onClick={ this.onAddQuestionButtonClick }
 				className="editor-inserter__toggle"
 			>
 				{ __( "Add question", "wordpress-seo" ) }
