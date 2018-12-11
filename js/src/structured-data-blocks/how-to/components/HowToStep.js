@@ -295,11 +295,7 @@ export default class HowToStep extends Component {
 	 * @returns {boolean} Whether or not the component should perform an update.
 	 */
 	shouldComponentUpdate( nextProps ) {
-		if ( ! isShallowEqual( nextProps, this.props ) ) {
-			return true;
-		}
-
-		return false;
+		return ! isShallowEqual( nextProps, this.props );
 	}
 
 	/**
