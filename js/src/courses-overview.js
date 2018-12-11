@@ -92,7 +92,6 @@ class CoursesOverview extends React.Component {
 							banner={ course.bannertext ? { text: course.bannertext } : null }
 						>
 							<CardDetails
-								title={ course.title }
 								description={ course.content }
 								courseUrl={ course.link }
 								shopUrl={ course.shopUrl }
