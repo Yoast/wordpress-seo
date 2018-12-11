@@ -14,12 +14,12 @@ class StructuredNode extends Node {
 	 *
 	 * @param {number}        startIndex  The index of the beginning of the structured node.
 	 * @param {number}        endIndex    The index of the end of the structured node.
-	 * @param {Array<Node>}   children    The sub-elements of the structured node.
 	 * @param {string}        tag         The tag used in the node.
+	 * @param {Array<Node>}   children    The sub-elements of the structured node.
 	 *
 	 * @returns {void}
 	 */
-	constructor( startIndex, endIndex, children = [], tag  ) {
+	constructor( startIndex, endIndex, tag, children = [] ) {
 		super( "structuredNode", startIndex, endIndex );
 		this.children = children;
 		this.tag = tag;
