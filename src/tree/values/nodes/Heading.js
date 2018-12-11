@@ -16,19 +16,5 @@ class Heading extends Node {
 		this.level = level;
 		this.textContainer = textContainer;
 	}
-
-	/**
-	 * Makes a clone of this Node.
-	 *
-	 * @returns {Node} The clone of this Node.
-	 */
-	clone() {
-		return new Heading(
-			this.startIndex,
-			this.endIndex,
-			this.level,
-			this.textContainer,
-		);
-	}
 }
 export default Heading;
