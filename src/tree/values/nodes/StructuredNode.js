@@ -14,7 +14,7 @@ class StructuredNode extends Node {
 	 *
 	 * @param {number}        startIndex  The index of the beginning of the structured node.
 	 * @param {number}        endIndex    The index of the end of the structured node.
-	 * @param {Array<Node>}   children    The sub-elements of the structured node.
+	 * @param {Node[]}        children    The sub-elements of the structured node.
 	 * @param {string}        tag         The tag used in the node.
 	 *
 	 * @returns {void}
