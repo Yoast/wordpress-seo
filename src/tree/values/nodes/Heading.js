@@ -30,26 +30,5 @@ class Heading extends Node {
 			this.textContainer,
 		);
 	}
-
-	/**
-	 * Maps the given function to this Heading.
-	 *
-	 * @param {mapCallback} mappingFunction	The function that should be mapped to this Heading.
-	 * @returns {Node} A clone of this Heading after the given function has been applied to it.
-	 */
-	map( mappingFunction ) {
-		return mappingFunction( this.clone() );
-	}
-
-	/**
-	 * Filters all the elements out of the tree for which the given predicate function returns `false`
-	 * and returns them as an array of Nodes.
-	 *
-	 * @param {filterCallback} filterFunction		The predicate to check each Node against.
-	 * @returns {Node[]} An array with this Paragraph, if the predicate returns true for this Paragraph, an empty array if not.
-	 */
-	filter( filterFunction ) {
-		return filterFunction( this ) ? [ this.clone() ] : [];
-	}
 }
 export default Heading;
