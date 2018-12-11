@@ -7,15 +7,11 @@ class Node {
 	 * Makes a new Node.
 	 *
 	 * @param {string} type		The type of Node (should be unique for each child class of Node).
-	 * @param {number} startIndex	The index in the original text-string where this Node begins.
-	 * @param {number} endIndex	The index in the original text-string where this Node ends.
 	 *
 	 * @abstract
 	 */
-	constructor( type, startIndex, endIndex ) {
+	constructor( type ) {
 		this.type = type;
-		this.startIndex = startIndex;
-		this.endIndex = endIndex;
 	}
 
 	/**

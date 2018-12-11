@@ -7,36 +7,27 @@ class List extends Node {
 	/**
 	 * Represents an item within a list.
 	 *
-	 * @param {number}            startIndex  The index of the beginning of the list item.
-	 * @param {number}            endIndex    The index of the end of the list item.
 	 * @param {boolean}           ordered     Whether the list is ordered or not.
-	 * @param {Array<ListItem>}   children    The sub-elements of the list item.
 	 *
 	 * @returns {void}
 	 */
-	constructor( startIndex, endIndex, ordered, children ) {
-		super( "list", startIndex, endIndex );
+	constructor( ordered ) {
+		super( "list" );
 		this.ordered = ordered;
-		this.children = children;
-
-		this._checkChildren();
+		this.children = [];
 	}
 
 	/**
-	 * Throws a warning if any child of the List is not a ListItem.
+	 * Appends the child to this List's children.
 	 *
+	 * @param {ListItem} child 	The child to add.
 	 * @returns {void}
-	 * @private
 	 */
-	_checkChildren() {
-		// Check if any child is not an instance of ListItem.
-		const naughtyChildren = this.children.filter( function( child ) {
-			return ! ( child instanceof ListItem );
-		} );
-
-		if ( naughtyChildren.length > 0 ) {
-			console.warn( "Not all items of the List are of type ListItem!" );
+	appendChild( child ) {
+		if ( ! ( child instanceof ListItem ) ) {
+			console.warn( "Added child is not a ListItem!" );
 		}
+		this.children.push( child );
 	}
 }
 export default List;

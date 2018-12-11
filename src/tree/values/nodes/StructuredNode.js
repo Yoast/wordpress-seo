@@ -12,17 +12,14 @@ class StructuredNode extends Node {
 	 *
 	 * Talking about HTML, this would encompass thing like <div>, <section>, <aside>, <fieldset> and other HTML block elements.
 	 *
-	 * @param {number}        startIndex  The index of the beginning of the structured node.
-	 * @param {number}        endIndex    The index of the end of the structured node.
 	 * @param {string}        tag         The tag used in the node.
-	 * @param {Node[]}        children    The sub-elements of the structured node.
 	 *
 	 * @returns {void}
 	 */
-	constructor( startIndex, endIndex, tag, children = [] ) {
-		super( "structuredNode", startIndex, endIndex );
-		this.children = children;
+	constructor( tag ) {
+		super( "structuredNode" );
 		this.tag = tag;
+		this.children = [];
 	}
 }
 export default StructuredNode;

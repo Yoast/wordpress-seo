@@ -1,6 +1,6 @@
 import { parseFragment } from "parse5";
 
-import TreeBuilder from "./TreeBuilder";
+import TreeAdapter from "./TreeAdapter";
 
 /**
  * Parses the given html-string to a tree, to be used in further analysis.
@@ -9,6 +9,6 @@ import TreeBuilder from "./TreeBuilder";
  * @returns {Node} The tree.
  */
 export default function( html ) {
-	const treeBuilder = new TreeBuilder();
-	return parseFragment( html, { treeAdapter: treeBuilder } );
+	const treeAdapter = new TreeAdapter();
+	return parseFragment( html, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
 }

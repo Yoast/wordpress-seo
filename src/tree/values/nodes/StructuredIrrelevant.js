@@ -1,20 +1,22 @@
+import Node from "./Node";
 /**
  * Represents a piece of structured data that is not relevant for further analysis.
  *
  * Examples from HTML include content within `<script>` and `<style>` elements.
  */
-class StructuredIrrelevant {
+class StructuredIrrelevant extends Node {
 	/**
 	 * Represents a piece of structured data that is not relevant for further analysis.
 	 *
 	 * Examples from HTML include content within `<script>` and `<style>` elements.
 	 *
-	 * @param {string} content 	The raw content of this node.
+	 * @param {string} type 	The element type.
 	 *
 	 * @returns {void}
 	 */
-	constructor( content ) {
-		this.content = content;
+	constructor( type ) {
+		super( "structuredIrrelevant" );
+		this.type = type;
 	}
 }
 
