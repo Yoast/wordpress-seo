@@ -23,7 +23,6 @@
  * ```
  */
 class TextContainer {
-
 	constructor() {
 		this.text = "";
 	}

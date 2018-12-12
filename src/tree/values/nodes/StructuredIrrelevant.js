@@ -15,7 +15,6 @@ class StructuredIrrelevant extends Node {
 	 * @returns {void}
 	 */
 	constructor( type ) {
-		console.log("creating a StructuredIrrelevant")
 		super( "structuredIrrelevant" );
 		this.type = type;
 	}

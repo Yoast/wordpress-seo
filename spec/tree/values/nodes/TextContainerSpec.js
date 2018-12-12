@@ -30,4 +30,16 @@ describe( "TextContainer", () => {
 		expect( textContainer.formatting[ 0 ].startIndex ).toEqual( text.length );
 		expect( console.warn ).toBeCalled();
 	} );
+
+	it( "appends text to the text container", () => {
+		const text = "Some text.";
+		const moreText = " And more text.";
+		const textContainer = new TextContainer();
+
+		textContainer.appendText( text );
+		expect( textContainer.text ).toEqual( text );
+		textContainer.appendText( moreText );
+		expect( textContainer.text ).toEqual( text + moreText );
+		expect( textContainer.text ).toEqual( "Some text. And more text." );
+	} );
 } );
