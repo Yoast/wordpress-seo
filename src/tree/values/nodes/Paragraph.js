@@ -14,6 +14,26 @@ class Paragraph extends Node {
 		this.tag = tag;
 		this.textContainer = new TextContainer();
 	}
+
+	/**
+	 * Retrieves the paragraph text (from the TextContainer).
+	 *
+	 * @returns {string} The text of the paragraph.
+	 */
+	get text() {
+		return this.textContainer.text;
+	}
+
+	/**
+	 * Sets the paragraph text (via the TextContainer).
+	 *
+	 * @param {string} text The text to assign as the paragraph text.
+	 *
+	 * @returns {void}
+	 */
+	set text( text ) {
+		this.textContainer.text = text;
+	}
 }
 
 export default Paragraph;
