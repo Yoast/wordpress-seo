@@ -73,7 +73,7 @@ class TreeAdapter {
 			const prevChild = parentNode.children[ parentNode.children.length - 1 ];
 
 			// If the previous child is a paragraph...
-			if ( prevChild && prevChild.type === "paragraph" ) {
+			if ( prevChild && prevChild instanceof Paragraph ) {
 				// Append text to the paragraph.
 				prevChild.textContainer.appendText( text );
 			} else {
