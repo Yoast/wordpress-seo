@@ -23,6 +23,7 @@ export default class ComponentsExample extends React.Component {
 	 * @returns {ReactElement} The rendered list of the Component examples.
 	 */
 	render() {
+		/* eslint-disable react/jsx-no-target-blank */
 		return (
 			<Container>
 				<h2>Yoast warning</h2>
@@ -40,5 +41,6 @@ export default class ComponentsExample extends React.Component {
 				/>
 			</Container>
 		);
+		/* eslint-enable react/jsx-no-target-blank */
 	}
 }
