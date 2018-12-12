@@ -34,8 +34,11 @@ const externals = {
 module.exports = function( env = { environment: "production", recalibration: "disabled" } ) {
 	const mode = env.environment || process.env.NODE_ENV || "production";
 	const isRecalibration = ( env.recalibration || process.env.YOAST_RECALIBRATION || "disabled" ) === "enabled";
-	const outputFilenamePostfix = mode === "development" ? ".js" : ".min.js";
-	const outputFilename = "[name]-" + pluginVersionSlug + outputFilenamePostfix;
+
+	const outputFilenameMinified = "[name]-" + pluginVersionSlug + ".min.js";
+	const outputFilenameUnminified = "[name]-" + pluginVersionSlug + ".js";
+
+	const outputFilename = mode === "development" ? outputFilenameUnminified : outputFilenameMinified;
 
 	const plugins = [
 		new webpack.DefinePlugin( {
@@ -186,7 +189,7 @@ module.exports = function( env = { environment: "production", recalibration: "di
 				},
 				output: {
 					path: paths.jsDist,
-					filename: "wp-" + outputFilename,
+					filename: "wp-" + outputFilenameMinified,
 					jsonpFunction: "yoastWebpackJsonp",
 					library: {
 						root: [ "wp", "[name]" ],
@@ -210,6 +213,11 @@ module.exports = function( env = { environment: "production", recalibration: "di
 			// Config for files that should not use any externals at all.
 			{
 				...base,
+				output: {
+					path: paths.jsDist,
+					filename: outputFilenameMinified,
+					jsonpFunction: "yoastWebpackJsonp",
+				},
 				entry: {
 					"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
 					"babel-polyfill": "./js/src/babel-polyfill.js",
