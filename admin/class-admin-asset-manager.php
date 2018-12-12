@@ -188,6 +188,8 @@ class WPSEO_Admin_Asset_Manager {
 
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
 
+		wp_register_script( 'react', plugins_url( 'js/vendor/react.min.js', WPSEO_FILE ), array(), false, true );
+		wp_register_script( 'react-dom', plugins_url( 'js/vendor/react-dom.min.js', WPSEO_FILE ), array( 'react' ), false, true );
 		wp_register_script( 'lodash-base', plugins_url( 'js/vendor/lodash.min.js', WPSEO_FILE ), array(), false, true );
 		wp_register_script( 'lodash', plugins_url( 'js/vendor/lodash-noconflict.js', WPSEO_FILE ), array( 'lodash-base' ), false, true );
 		wp_register_script( 'wp-polyfill', plugins_url( 'js/dist/babel-polyfill-' . $flat_version . '.min.js', WPSEO_FILE ), array(), false, true );
@@ -195,7 +197,7 @@ class WPSEO_Admin_Asset_Manager {
 		wp_register_script(
 			'wp-element',
 			plugins_url( 'js/dist/wp-element-' . $flat_version . '.min.js', WPSEO_FILE ),
-			array( 'lodash', 'wp-polyfill' ),
+			array( 'lodash', 'wp-polyfill', 'react', 'react-dom' ),
 			false,
 			true
 		);
@@ -243,7 +245,7 @@ class WPSEO_Admin_Asset_Manager {
 		wp_register_script(
 			'wp-compose',
 			plugins_url( 'js/dist/wp-compose-' . $flat_version . '.min.js', WPSEO_FILE ),
-			array( 'wp-polyfill' ),
+			array( 'lodash', 'wp-polyfill' ),
 			false,
 			true
 		);
@@ -587,6 +589,9 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'styled-components',
 				'src'  => 'styled-components-' . $flat_version,
+				'deps' => array(
+					'wp-element',
+				),
 			),
 		);
 	}
