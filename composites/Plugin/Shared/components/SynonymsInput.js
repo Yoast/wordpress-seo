@@ -42,6 +42,7 @@ const SynonymsInput = ( props ) => {
 			</SynonymsFieldLabelContainer>
 			<YoastInputField
 				{ ...inputProps }
+				autoComplete="off"
 			/>
 		</YoastInputContainer>
 	);
