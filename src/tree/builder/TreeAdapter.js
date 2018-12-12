@@ -22,32 +22,30 @@ class TreeAdapter {
 
 	createElement( tagName, namespaceURI, attrs ) {
 		let node;
-		/*
-		  Check if this element is irrelevant for analysis
-		  and should not be expanded.
-		 */
+
 		if ( irrelevantHtmlElements.includes( tagName ) ) {
+			/*
+		     Check if this element is irrelevant for analysis
+		     and should not be expanded.
+		    */
 			node = new StructuredIrrelevant( tagName );
-		}
-		// Heading.
-		if ( headings.includes( tagName ) ) {
+		} else if ( headings.includes( tagName ) ) {
+			// Heading.
 			const headingLevel = tagName[ 1 ];
 			node = new Heading( parseInt( headingLevel, 10 ) );
-		}
-		// Paragraph.
-		if ( tagName === "p" ) {
-			return new Paragraph( "p" );
-		}
-		// List (ordered/unordered).
-		if ( tagName === "ul" || tagName === "ol" ) {
+		} else if ( tagName === "p" ) {
+			// Paragraph.
+			node = new Paragraph( "p" );
+		} else if ( tagName === "ul" || tagName === "ol" ) {
+			// List (ordered/unordered).
 			node = new List( tagName === "ol" );
-		}
-		// List item.
-		if ( tagName === "li" ) {
+		} else if ( tagName === "li" ) {
+			// List item.
 			node = new ListItem();
+		} else {
+			// Everything else.
+			node = new StructuredNode( tagName );
 		}
-		// Everything else.
-		node = new StructuredNode( tagName );
 
 		/*
 		  Set parent node (used for 'detach' method below,
