@@ -17,7 +17,7 @@ class StructuredNode extends Node {
 	 * @returns {void}
 	 */
 	constructor( tag ) {
-		super( "structuredNode" );
+		super( "StructuredNode" );
 		this.tag = tag;
 		this.children = [];
 	}

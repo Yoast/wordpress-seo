@@ -9,7 +9,7 @@ class ListItem extends Node {
 	 * @returns {void}
 	 */
 	constructor() {
-		super( "listItem" );
+		super( "ListItem" );
 		this.children = [];
 	}
 }

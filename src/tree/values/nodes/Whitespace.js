@@ -13,7 +13,7 @@ class Whitespace extends Node {
 	 * @returns {void}
 	 */
 	constructor( startIndex, endIndex, content ) {
-		super( "whitespace", startIndex, endIndex );
+		super( "Whitespace", startIndex, endIndex );
 		this.content = content;
 	}
 }

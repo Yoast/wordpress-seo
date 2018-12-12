@@ -12,7 +12,7 @@ class List extends Node {
 	 * @returns {void}
 	 */
 	constructor( ordered ) {
-		super( "list" );
+		super( "List" );
 		this.ordered = ordered;
 		this.children = [];
 	}

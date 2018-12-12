@@ -9,7 +9,7 @@ class Heading extends Node {
 	 * @param {number} level				The header level (e.g. 1 for main heading, 2 for subheading lvl 2, etc.)
 	 */
 	constructor( level ) {
-		super( "heading" );
+		super( "Heading" );
 		this.level = level;
 	}
 }
