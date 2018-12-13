@@ -212,6 +212,20 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_register_scripts() {
 
+		$asset_args = array(
+			0 => array(
+				'name' => 'testfile',
+				'src'  => 'testfile',
+			),
+			1 => array(
+				'name'      => 'testfile2',
+				'src'       => 'testfile2',
+				'deps'      => array( 'dep1' ),
+				'version'   => 'version1',
+				'in_footer' => false,
+			),
+		);
+
 		$class_instance =
 			$this
 				->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
@@ -222,38 +236,17 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 			->expects( $this->at( 0 ) )
 			->method( 'register_script' )
 			->with(
-				$this->equalTo( new WPSEO_Admin_Asset( array(
-					'name' => 'testfile',
-					'src'  => 'testfile',
-				)))
+				$this->equalTo( new WPSEO_Admin_Asset( $asset_args[0] ) )
 			);
 
 		$class_instance
 			->expects( $this->at( 1 ) )
 			->method( 'register_script' )
 			->with(
-				$this->equalTo( new WPSEO_Admin_Asset( array(
-					'name'      => 'testfile2',
-					'src'       => 'testfile2',
-					'deps'      => array( 'dep1' ),
-					'version'   => 'version1',
-					'in_footer' => false,
-				)))
+				$this->equalTo( new WPSEO_Admin_Asset( $asset_args[1] ) )
 			);
 
-		$class_instance->register_scripts( array(
-			array(
-				'name' => 'testfile',
-				'src'  => 'testfile',
-			),
-			array(
-				'name'      => 'testfile2',
-				'src'       => 'testfile2',
-				'deps'      => array( 'dep1' ),
-				'version'   => 'version1',
-				'in_footer' => false,
-			),
-		) );
+		$class_instance->register_scripts( $asset_args );
 	}
 
 	/**
@@ -262,6 +255,20 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_styles
 	 */
 	public function test_register_styles() {
+
+		$asset_args = array(
+			0 => array(
+				'name' => 'testfile',
+				'src'  => 'testfile',
+			),
+			1 => array(
+				'name'    => 'testfile2',
+				'src'     => 'testfile2',
+				'deps'    => array( 'dep1' ),
+				'version' => 'version1',
+				'media'   => 'screen',
+			),
+		);
 
 		$class_instance =
 			$this
@@ -273,38 +280,17 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 			->expects( $this->at( 0 ) )
 			->method( 'register_style' )
 			->with(
-				$this->equalTo( new WPSEO_Admin_Asset( array(
-					'name'      => 'testfile',
-					'src'       => 'testfile',
-				)))
+				$this->equalTo( new WPSEO_Admin_Asset( $asset_args[0] ) )
 			);
 
 		$class_instance
 			->expects( $this->at( 1 ) )
 			->method( 'register_style' )
 			->with(
-				$this->equalTo( new WPSEO_Admin_Asset( array(
-					'name'      => 'testfile2',
-					'src'       => 'testfile2',
-					'deps'      => array( 'dep1' ),
-					'version'   => 'version1',
-					'media'     => 'screen',
-				)))
+				$this->equalTo( new WPSEO_Admin_Asset( $asset_args[1] ) )
 			);
 
-		$class_instance->register_styles( array(
-			array(
-				'name' => 'testfile',
-				'src'  => 'testfile',
-			),
-			array(
-				'name'    => 'testfile2',
-				'src'     => 'testfile2',
-				'deps'    => array( 'dep1' ),
-				'version' => 'version1',
-				'media'   => 'screen',
-			),
-		) );
+		$class_instance->register_styles( $asset_args );
 	}
 
 	/**
