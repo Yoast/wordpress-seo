@@ -45,7 +45,7 @@ export function renderRatingToColor( rating ) {
  *
  * @param {AssessmentResult[]} results                    The results from YoastSEO.js
  * @param {string}             marksButtonActivatedResult The currently activated result.
- * @param {string}             marksButtonStatus          The overal status of the mark buttons.
+ * @param {string}             marksButtonStatus          The overall status of the mark buttons.
  * @param {string}             marksButtonClassName       A class name to set on the mark buttons.
  * @param {Function}           onMarksButtonClick         Function that is called when the user
  *                                                        clicks one of the mark buttons.
@@ -56,7 +56,7 @@ export default function AnalysisList( { results, marksButtonActivatedResult, mar
 	return <AnalysisListBase role="list">
 		{ results.map( ( result ) => {
 			const color = renderRatingToColor( result.rating );
-			const isMarkButtonPressed = result.id === marksButtonActivatedResult;
+			const isMarkButtonPressed = result.markerId === marksButtonActivatedResult;
 
 			let ariaLabel = "";
 			if ( marksButtonStatus === "disabled" ) {
