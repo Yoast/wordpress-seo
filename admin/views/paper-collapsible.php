@@ -19,14 +19,13 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 ?>
-<div class="paper tab-block" <?php if ( $paper_id ) { echo 'id="' . esc_attr( 'wpseo-' . $paper_id ) . '""'; } ?>>
+<div class="paper tab-block" <?php if ( $paper_id ) { echo 'id="' . esc_attr( 'wpseo-' . $paper_id ) . '"'; } ?>>
 
 	<?php
 	if ( ! empty( $title ) ) {
 		if ( ! empty( $collapsible ) ) {
 			printf(
-				'<h2 class="help-button-inline" id="%1$s"><button type="button" class="toggleable-container-trigger" aria-expanded="%4$s">%2$s <span class="toggleable-container-icon dashicons %3$s" aria-hidden="true"></span></button></h2>',
-				esc_attr( $title ),
+				'<h2 class="help-button-inline"><button type="button" class="toggleable-container-trigger" aria-expanded="%3$s">%1$s <span class="toggleable-container-icon dashicons %2$s" aria-hidden="true"></span></button></h2>',
 				esc_html( $title ) . $title_after . $help_text->get_button_html(),
 				$collapsible_config['toggle_icon'],
 				$collapsible_config['expanded']
