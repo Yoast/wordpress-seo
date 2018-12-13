@@ -1,9 +1,10 @@
 import StructuredIrrelevant from "../../../../src/tree/values/nodes/StructuredIrrelevant";
 
 describe( "StructuredIrrelevant", () => {
-	it( "can make a StructuredIrrelevant node", () => {
-		const nodeContents = "<script> console.log(\"hey!\"); </script>";
-		const structuredIrrelevantNode = new StructuredIrrelevant( nodeContents );
-		expect( structuredIrrelevantNode.content ).toEqual( nodeContents );
+	it( "constructor", () => {
+		const structuredIrrelevant = new StructuredIrrelevant( "script" );
+		expect( structuredIrrelevant.type ).toEqual( "StructuredIrrelevant" );
+		expect( structuredIrrelevant.tag ).toEqual( "script" );
+		expect( structuredIrrelevant instanceof StructuredIrrelevant ).toEqual( true );
 	} );
 } );

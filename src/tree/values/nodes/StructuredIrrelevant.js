@@ -10,13 +10,13 @@ class StructuredIrrelevant extends Node {
 	 *
 	 * Examples from HTML include content within `<script>` and `<style>` elements.
 	 *
-	 * @param {string} type 	The element type.
+	 * @param {string} tag 	The element tag.
 	 *
 	 * @returns {void}
 	 */
-	constructor( type ) {
+	constructor( tag ) {
 		super( "StructuredIrrelevant" );
-		this.type = type;
+		this.tag = tag;
 	}
 }
 
