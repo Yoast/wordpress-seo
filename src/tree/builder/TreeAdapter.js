@@ -12,15 +12,24 @@ const headings = [ "h1", "h2", "h3", "h4", "h5", "h6" ];
 /**
  * Class used to build a Structured Tree, to be used in further analysis.
  *
- * Implements the `TreeAdapter` of the `parse5` library.
+ * Implements the `TreeAdapter` interface of the `parse5` library.
  * @see https://github.com/inikulin/parse5/blob/master/packages/parse5/docs/tree-adapter/interface.md
  */
 class TreeAdapter {
+	/**
+	 * Makes a new Tree Adapter.
+	 */
 	constructor() {
 		this.currentParentNode = null;
 	}
 
-	createElement( tagName, namespaceURI, attrs ) {
+	/**
+	 * Creates a new node for in the tree.
+	 *
+	 * @param {string} tagName		The tag name of the html-element as parsed by the parse5 library.
+	 * @returns {Node} The new node.
+	 */
+	createElement( tagName ) {
 		let node;
 
 		if ( irrelevantHtmlElements.includes( tagName ) ) {
@@ -49,7 +58,7 @@ class TreeAdapter {
 
 		/*
 		  Set parent node (used for 'detach' method below,
-		  which parse5 uses to construct the tree.
+		  which parse5 uses in constructing the tree.
 		  (Perhaps we have a better option).
 		 */
 		node.parent = this.currentParentNode;
@@ -58,6 +67,16 @@ class TreeAdapter {
 		return node;
 	}
 
+	/**
+	 * Inserts the given text into the parent node, if the parent node may
+	 * only accept phrasing content (like a heading or a paragraph).
+	 * If not, a new paragraph is created (if none has been created yet)
+	 * and the text is added to the new paragraph instead.
+	 *
+	 * @param {Node} parentNode	The parent node to add the text to.
+	 * @param {string} text		The text to add.
+	 * @returns {void}
+	 */
 	insertText( parentNode, text ) {
 		if ( parentNode instanceof Heading || parentNode instanceof Paragraph ) {
 			/*
@@ -91,6 +110,12 @@ class TreeAdapter {
 	//
 	// }
 
+	/**
+	 * Creates a new document fragment node.
+	 * This node is used as the root for a parsed html fragment.
+	 *
+	 * @returns {StructuredNode} The node to use as the root of a parsed html document fragment.
+	 */
 	createDocumentFragment() {
 		return new StructuredNode( "root" );
 	}
@@ -103,6 +128,14 @@ class TreeAdapter {
 	//
 	// }
 
+	/**
+	 * Appends a node to a parent as a child node.
+	 *
+	 * @param {Node} parentNode	The parent node to append the child to.
+	 * @param {Node} newNode		The node to append as a child to the parent.
+	 *
+	 * @returns {void}
+	 */
 	appendChild( parentNode, newNode ) {
 		parentNode.children.push( newNode );
 	}
@@ -131,6 +164,13 @@ class TreeAdapter {
 	//
 	// }
 
+	/**
+	 * Detaches the given node from its parent.
+	 *
+	 * @param {Node} node	The node to detach.
+	 *
+	 * @returns {void}
+	 */
 	detachNode( node ) {
 		if ( node.parent ) {
 			// Get node's index in the children of its parent.
@@ -150,10 +190,26 @@ class TreeAdapter {
 	//
 	// // Tree traversing
 
+	/**
+	 * Gets the first child of the given node.
+	 *
+	 * @see https://en.wikipedia.org/wiki/Rumpelstiltskin
+	 *
+	 * @param {Node} node	The node from which to get the first child.
+	 *
+	 * @returns {Node} The first child of the given node.
+	 */
 	getFirstChild( node ) {
 		return node.children[ 0 ];
 	}
 
+	/**
+	 * Gets the children of the given node.
+	 *
+	 * @param {Node} node	The node from which to get the children.
+	 *
+	 * @returns {Node[]} The children of the given node.
+	 */
 	getChildNodes( node ) {
 		return node.children;
 	}
@@ -165,14 +221,21 @@ class TreeAdapter {
 	getAttrList( element ) {
 		return null;
 	}
-	//
-	// //Node data
 
-	getTagName( element ) {
-		return element.type;
+	// Node data
+
+	/**
+	 * Returns the type of the given node (e.g. "Paragraph", "StructuredNode", "Heading" ).
+	 *
+	 * @param {Node} node	The node from which to get the type.
+	 *
+	 * @returns {string} The node type.
+	 */
+	getTagName( node ) {
+		return node.type;
 	}
 
-	getNamespaceURI( element ) {
+	getNamespaceURI() {
 		return "";
 	}
 	//
@@ -214,12 +277,26 @@ class TreeAdapter {
 	//
 	// }
 	//
-	// // Source code location
+	// Source code location
 
+	/**
+	 * Sets the node's source code location (as parsed by parse5).
+	 *
+	 * @param {Node} node			The node for which to set the source code location.
+	 * @param {Location} location	The location of this node in the source code.
+	 *
+	 * @returns {void}
+	 */
 	setNodeSourceCodeLocation( node, location ) {
 		node.location = location;
 	}
 
+	/**
+	 * Returns the given node's source code location (as parsed by parse5).
+	 *
+	 * @param {Node} node	The node from which to get the location.
+	 * @returns {Location} The node's source code location.
+	 */
 	getNodeSourceCodeLocation( node ) {
 		return node.location;
 	}
