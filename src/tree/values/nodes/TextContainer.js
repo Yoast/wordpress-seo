@@ -23,10 +23,21 @@
  * ```
  */
 class TextContainer {
+	/**
+	 * Represents a text (with optional formatting element(s)) within a document that can be read by a reader.
+	 */
 	constructor() {
 		this.text = "";
+		this.formatting = [];
 	}
 
+	/**
+	 * Adds a text string to the text attribute within the TextContainer.
+	 *
+	 * @param {string} text The text to be added to the TextContainer.
+	 *
+	 * @returns {void}
+	 */
 	appendText( text ) {
 		this.text += text;
 	}
