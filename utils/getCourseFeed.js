@@ -2,13 +2,13 @@ import getFeed, { getXPathText } from "./getFeed";
 
 /**
  * @typedef  {Object} CourseFeedItem
- * @property {string} id          The id of the course.
- * @property {string} title       The title of the course.
- * @property {string} link        A link to the page of the course on yoast.com.
- * @property {string} content     Short information on the course, will be HTML encoded.
- * @property {string} image       A link the the header image for the course.
- * @property {string} shopUrl     A link, placing the course in the user's cart on yoast.com.
- * @property {string} banner      ( Optional ) Text for the banner over the card.
+ * @property {string} id      The id of the course.
+ * @property {string} title   The title of the course.
+ * @property {string} link    A link to the page of the course on yoast.com.
+ * @property {string} content Short information on the course, will be HTML encoded.
+ * @property {string} image   A link the the header image for the course.
+ * @property {string} shopUrl A link, placing the course in the user's cart on yoast.com.
+ * @property {string} banner  ( Optional ) Text for the banner over the card.
  */
 
 /**
@@ -37,7 +37,7 @@ function parseCourseFeedItem( parsed, snapshot, nsResolver ) {
 /**
  * Grabs the RSS feed from the requested URL and parses the items required for the course overview.
  *
- * @param {string}   url           The URL the feed is located at.
+ * @param {string}   url           The feed location.
  * @param {int}      maxItems      The amount of items you wish returned, 0 for all items.
  *
  * @returns {Promise.<Feed>} The retrieved feed.

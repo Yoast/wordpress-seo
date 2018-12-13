@@ -44,14 +44,15 @@ const HeaderLink = styled.a`
  */
 class Card extends React.Component {
 	/**
-	 * Returns the header image, either with a link to the course if it is present,
-	 * or not if it is not.
-	 * @returns {React.Component} the header image
+	 * Returns the header image and title, with a link to the course if it is present.
+	 *
+	 * @returns {React.Component} The header image.
 	 */
 	getHeader() {
 		if ( ! this.props.header ) {
 			return null;
 		}
+
 		if ( this.props.header.link ) {
 			return (
 				<HeaderLink href={ this.props.header.link }>
@@ -60,6 +61,7 @@ class Card extends React.Component {
 				</HeaderLink>
 			);
 		}
+
 		return (
 			<Fragment>
 				<HeaderImage src={ this.props.header.image } alt={ this.props.header.title || "" } />;
@@ -71,12 +73,13 @@ class Card extends React.Component {
 	/**
 	 * Gets the banner if a banner text is provided.
 	 *
-	 * @returns {React.Component} the banner or null.
+	 * @returns {React.Component} The banner or null.
 	 */
 	getBanner() {
 		if ( ! this.props.banner ) {
 			return null;
 		}
+
 		return (
 			<Banner { ...this.props.banner }>
 				{ this.props.banner.text }

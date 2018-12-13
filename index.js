@@ -30,8 +30,7 @@ import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/K
 import { default as Loader } from "./composites/basic/Loader";
 
 // Composites/CoursesOverview imports
-import { default as Card } from "./composites/CoursesOverview/Card";
-import { FullHeightCard } from "./composites/CoursesOverview/Card";
+import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
 import { default as CardBanner } from "./composites/CoursesOverview/CardBanner";
 import { default as CardDetails } from "./composites/CoursesOverview/CardDetails";
 

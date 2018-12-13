@@ -99,15 +99,14 @@ class CardDetails extends React.Component {
 				<ActionBlock>
 					<OutboundLinkButton href={ this.props.shopUrl }>
 						{
-							__( "Get the full course", "wordpress-seo" )
+							__( "Get the full course", "yoast-components" )
 						}
 					</OutboundLinkButton>
 					<OutboundInfoLink href={ this.props.courseUrl }>
 						{
-							__( "Read more about this course", "wordpress-seo" )
+							__( "Read more about this course", "yoast-components" )
 						}
 					</OutboundInfoLink>
-
 				</ActionBlock>
 			</Fragment>
 		);
