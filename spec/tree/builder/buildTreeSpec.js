@@ -180,4 +180,28 @@ describe( "build tree", () => {
 		console.log( printTree( tree ).join( "\n" ) );
 		// expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
+
+	it( "can parse an HTML text into a StructuredNode with a few siblings", () => {
+		const input = "<section><h1>First heading</h1><p>This sentence. Another sentence.</p></section>";
+
+		const tree = buildTree( input );
+
+		const heading = new Heading( 1 );
+		heading.startIndex = 9;
+		heading.endIndex = 31;
+		heading.text = "First heading";
+
+		const paragraph = new Paragraph( "" );
+		paragraph.startIndex = 31;
+		paragraph.endIndex = 70;
+		paragraph.text = "This sentence. Another sentence.";
+
+		const expected = new StructuredNode( "section" );
+		expected.startIndex = 0;
+		expected.endIndex = 62;
+		expected.children = [ heading, paragraph ];
+
+		console.log( printTree( tree ).join( "\n" ) );
+		// expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+	} );
 } );
