@@ -1,10 +1,14 @@
+// Disable reason: The function is being used only for development purposes, therefore does not require optimisation.
+/* eslint-disable complexity */
+
 /**
- * Builds a textual representation of the given tree.
- * Can be used for printing the contents of the tree to the console.
+ * Creates an array of elements of the structured tree and their attributes to be used for printing of the tree using
+ * console.log.
  *
- * @param {Node} tree		The tree to print.
- * @param {string} indent	The indentation to use for printing.
- * @returns {string[]} A textual representation of the tree, each line is one element of the array.
+ * @param {Object} tree      The tree to print out.
+ * @param {string} [indent]  An indentation parameter to be used for recursive indentation.
+ *
+ * @returns {string[]} The text of the heading.
  */
 export default function printTree( tree, indent = "" ) {
 	let print = [ `${indent}type: ${tree.type}` ];
@@ -31,3 +35,4 @@ export default function printTree( tree, indent = "" ) {
 	}
 	return print;
 }
+/* eslint-enable complexity */
