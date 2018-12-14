@@ -46,6 +46,13 @@ class NewTreeAdapter {
 		return new StructuredNode( "root" );
 	}
 
+	createCommentNode( text ) {
+		const node = new StructuredIrrelevant( "comment" );
+		node.parent = null;
+		node.content = text;
+		return node;
+	}
+
 	// Tree manipulation.
 
 	appendChild( parent, child ) {

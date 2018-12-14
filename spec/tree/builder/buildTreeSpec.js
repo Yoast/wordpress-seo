@@ -73,6 +73,30 @@ describe( "build tree", () => {
 		// expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
+	it( "can parse an HTML comment into Structured Irrelevant node", () => {
+		const input = "<section><!-- An unimportant comment. --></section>";
+
+		const tree = buildTree( input );
+
+		const heading = new Heading( 1 );
+		heading.startIndex = 9;
+		heading.endIndex = 31;
+		heading.text = "First heading";
+
+		const paragraph = new Paragraph( "" );
+		paragraph.startIndex = 31;
+		paragraph.endIndex = 70;
+		paragraph.text = "This sentence. Another sentence.";
+
+		const expected = new StructuredNode( "section" );
+		expected.startIndex = 0;
+		expected.endIndex = 62;
+		expected.children = [ heading, paragraph ];
+
+		console.log( printTree( tree ).join( "\n" ) );
+		// expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+	} );
+
 	it( "can parse HTML into a List with ListItems, which are simple paragraphs", () => {
 		const input = "<ul><li>Coffee</li><li>Tea</li></ul>";
 
