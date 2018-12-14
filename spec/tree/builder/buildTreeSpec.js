@@ -23,7 +23,7 @@ describe( "build tree", () => {
 	} );
 
 	it( "can parse an HTML into a Paragraph", () => {
-		const input = "<p>This <strong>sentence</strong> needs to be read to have value as a sentence.</p>";
+		const input = "<p>This <strong id='some-id'>sentence</strong> needs to be <emph>read</emph> to have value as a sentence.</p>";
 
 		const tree = buildTree( input );
 

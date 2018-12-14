@@ -2,13 +2,28 @@
 /* eslint-disable complexity */
 
 /**
+ * Prints formatting element.
+ *
+ * @param {FormattingElement} 	element 	Formatting element to print.
+ * @param {string} 			indent	The indentation to use.
+ *
+ * @returns {string[]}	 The textual representation of the formatting element.
+ */
+const printFormatting = function( element, indent ) {
+	const print = [];
+	print.push( [ `${indent}type: ${element.type}` ] );
+	print.push( [ `${indent}attributes: ${element.attributes}` ] );
+	return print;
+};
+
+/**
  * Creates an array of elements of the structured tree and their attributes to be used for printing of the tree using
  * console.log.
  *
  * @param {Object} tree      The tree to print out.
  * @param {string} [indent]  An indentation parameter to be used for recursive indentation.
  *
- * @returns {string[]} The text of the heading.
+ * @returns {string[]} The textual representation of the tree.
  */
 export default function printTree( tree, indent = "" ) {
 	let print = [ `${indent}type: ${tree.type}` ];
@@ -24,9 +39,15 @@ export default function printTree( tree, indent = "" ) {
 		case "Heading":
 			print.push( `${indent}level: ${tree.level}` );
 			print.push( `${indent}text: "${tree.textContainer.text}"` );
+			tree.textContainer.formatting.forEach( formatting => {
+				print = print.concat( printFormatting( formatting, indent + "  " ) );
+			} );
 			break;
 		case "Paragraph":
 			print.push( `${indent}text: "${tree.textContainer.text}"` );
+			tree.textContainer.formatting.forEach( formatting => {
+				print = print.concat( printFormatting( formatting, indent + "  " ) );
+			} );
 			break;
 		case "StructuredIrrelevant":
 		case "Whitespace":
