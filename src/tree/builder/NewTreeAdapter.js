@@ -1,16 +1,29 @@
+import Heading from "../values/nodes/Heading";
+import StructuredNode from "../values/nodes/StructuredNode";
 
+const irrelevantHtmlElements = [ "script", "style", "pre" ];
+const headings = [ "h1", "h2", "h3", "h4", "h5", "h6" ];
 
 class NewTreeAdapter {
 	// Creation of nodes and other tree elements.
 
 	createElement( tag, namespace, attributes ) {
-		return {
-			tag,
-			namespace,
-			attributes,
-			parent: null,
-			children: [],
-		};
+		let node;
+
+		if ( headings.includes( tag ) ) {
+			// Heading.
+			node = new Heading( parseInt( tag[ 1 ], 10 ) );
+		} else {
+			// Structured node.
+			node = new StructuredNode( tag );
+		}
+
+		node.namespace = namespace;
+		node.attributes = attributes;
+		node.parent = null;
+		node.children = [];
+
+		return node;
 	}
 
 	createTextNode( text ) {
@@ -59,7 +72,13 @@ class NewTreeAdapter {
 	// Node getters and setters.
 
 	getTagName( node ) {
-		return node.tag;
+		/*
+		  Structured Node's can be identified by tag,
+		  elements with their own class (Header, Paragraph)
+		  can be identified by their 'type' parameter.
+		  (Structured Node's type is always 'structuredNode').
+		 */
+		return node.tag || node.type;
 	}
 
 	getNamespaceURI( node ) {
