@@ -1,24 +1,24 @@
 // External dependencies.
+import { setLocaleData } from "@wordpress/i18n";
 import React, { Fragment } from "react";
-
-// YoastSEO.js dependencies.
+import { connect } from "react-redux";
 import testPapers from "yoastspec/fullTextTests/testTexts";
-import Paper from "../../../src/values/Paper";
+import Paper from "yoastsrc/values/Paper";
 
 // Internal dependencies.
-import Results from "./components/Results";
 import Collapsible from "./components/Collapsible";
-
-import WorkerStatus from "./components/WorkerStatus";
+import { ColumnLeft, ColumnRight, Columns } from "./components/Columns";
+import { Container } from "./components/Container";
 import Controls from "./components/Controls";
-import Markings from "./components/Markings";
-import { connect } from "react-redux";
-import { setResults } from "./redux/actions/results";
-import { setConfigurationAttribute } from "./redux/actions/configuration";
 import Inputs from "./components/Inputs";
+import Markings from "./components/Markings";
+import RelevantWords from "./components/RelevantWords";
+import Results from "./components/Results";
+import WorkerStatus from "./components/WorkerStatus";
+import { setResults } from "./redux/actions/results";
 import { setStatus } from "./redux/actions/worker";
 import formatAnalyzeResult from "./utils/formatAnalyzeResult";
-import { ColumnLeft, ColumnRight, Columns } from "./components/Columns";
+import getMorphologyData from "./utils/getMorphologyData";
 
 class App extends React.Component {
 	/**
@@ -40,6 +40,9 @@ class App extends React.Component {
 		this.analyzeSpam = this.analyzeSpam.bind( this );
 
 		this.initialize();
+
+		// Prevent yoast-component i18n console error by initializing as an empty domain.
+		setLocaleData( { "": {} }, "yoast-components" );
 	}
 
 	/**
@@ -48,31 +51,49 @@ class App extends React.Component {
 	 * @returns {void}
 	 */
 	initialize() {
-		const { configuration, worker } = this.props;
+		const { configuration, worker, useMorphology } = this.props;
+		const config = {
+			...configuration,
+			researchData: {
+				morphology: useMorphology ? getMorphologyData() : {},
+			},
+		};
 
-		worker.initialize( configuration ).then( this.analyze );
+		worker.initialize( config )
+			.then( () => this.analyze() );
 	}
 
 	/**
 	 * Requests the analyses results from the worker.
 	 *
-	 * @param {paper} paper The paper to analyze.
+	 * @param {Object} paper The paper to analyze.
 	 *
 	 * @returns {void}
 	 */
 	analyze( paper = this.props.paper ) {
-		const { setWorkerStatus, worker } = this.props;
-
-		paper = Paper.parse( paper );
+		const { setWorkerStatus, setAnalyzeResults, worker, isRelatedKeyphrase } = this.props;
+		const paperToAnalyze = Paper.parse( paper );
 
 		setWorkerStatus( "analyzing" );
 
-		worker.analyze( paper )
-			.then( ( { result } ) => {
-				setWorkerStatus( "idling" );
-
-				this.props.setResults( formatAnalyzeResult( result, "" ) );
-			} );
+		if ( isRelatedKeyphrase ) {
+			worker.analyzeRelatedKeywords( Paper.parse( paper ), {
+				relatedKeyphrase: {
+					keyword: paperToAnalyze.getKeyword(),
+					synonyms: paperToAnalyze.getSynonyms(),
+				},
+			} )
+				.then( ( { result } ) => {
+					setWorkerStatus( "idling" );
+					setAnalyzeResults( formatAnalyzeResult( result, "relatedKeyphrase" ) );
+				} );
+		} else {
+			worker.analyze( paperToAnalyze )
+				.then( ( { result } ) => {
+					setWorkerStatus( "idling" );
+					setAnalyzeResults( formatAnalyzeResult( result, "" ) );
+				} );
+		}
 	}
 
 	/**
@@ -82,7 +103,7 @@ class App extends React.Component {
 	 */
 	analyzeSpam() {
 		for ( let i = 0; i < 10; i++ ) {
-			testPapers.forEach( ( { paper: paper } ) => {
+			testPapers.forEach( ( { paper } ) => {
 				this.analyze( {
 					text: paper._text,
 					...paper._attributes,
@@ -97,32 +118,34 @@ class App extends React.Component {
 	 * @returns {React.Element} The app.
 	 */
 	render() {
-		return (
-			<Fragment>
-				<h1>YoastSEO.js development tool</h1>
+		return <Fragment>
+			<Columns minWidth="768px">
+				<ColumnLeft minWidth="768px">
+					<Collapsible title="Input">
+						<Inputs />
+					</Collapsible>
+				</ColumnLeft>
 
-				<Columns minWidth="768px">
-					<ColumnLeft minWidth="768px">
-						<Collapsible title="Input">
-							<Inputs />
-						</Collapsible>
-					</ColumnLeft>
+				<ColumnRight minWidth="768px">
+					<Collapsible title="Results">
+						<Results />
+					</Collapsible>
+				</ColumnRight>
+			</Columns>
 
-					<ColumnRight minWidth="768px">
-						<Collapsible title="Results">
-							<Results />
-						</Collapsible>
-					</ColumnRight>
-				</Columns>
-
+			<Container>
 				<Collapsible title="Markings">
 					<Markings />
 				</Collapsible>
+			</Container>
 
+			<Container>
 				<Collapsible title="Worker status">
 					<WorkerStatus />
 				</Collapsible>
+			</Container>
 
+			<Container>
 				<Collapsible title="Controls">
 					<Controls
 						onInitialize={ this.initialize }
@@ -130,47 +153,43 @@ class App extends React.Component {
 						onAnalyzeSpam={ this.analyzeSpam }
 					/>
 				</Collapsible>
+			</Container>
 
-				<ul>
-					<li>Debugging information</li>
-					<li>Worker communication</li>
-					<li>Information about when it is refreshing</li>
-					<li>Buttons for standard texts in different languages</li>
-					<li>Language switcher</li>
+			<Container>
+				<Collapsible title="Relevant words">
+					<RelevantWords />
+				</Collapsible>
+			</Container>
 
-					<li>Input fields for everything</li>
-					<li>Total scores</li>
-					<li>Analysis results</li>
+			<ul>
+				<li>Debugging information</li>
+				<li>Worker communication</li>
+				<li>Buttons for standard texts in different languages (English only at the moment)</li>
+				<li>Language switcher</li>
 
-					<li>All research data</li>
-					<li>Relevant words</li>
+				<li>All research data</li>
+				<li>Relevant words</li>
 
-					<li>Performance information</li>
-					<li>Re-order collapsibles</li>
-					<li>Add button to trigger a ton of analyses continuously. This can be used to check for performance & memory leaks.</li>
-				</ul>
-
-				Design Todos:
-				<ul>
-					<li>Overall score</li>
-				</ul>
-			</Fragment>
-		);
+				<li>Performance information</li>
+				<li>Add button to trigger a ton of analyses continuously. This can be used to check for performance & memory leaks.</li>
+			</ul>
+		</Fragment>;
 	}
 }
 
 export default connect(
 	( state ) => {
 		return {
-			useKeywordDistribution: state.configuration.useKeywordDistribution,
 			paper: state.paper,
+			useKeywordDistribution: state.configuration.useKeywordDistribution,
+			isRelatedKeyphrase: state.options.isRelatedKeyphrase,
+			useMorphology: state.options.useMorphology,
 		};
 	},
 	( dispatch ) => {
 		return {
-			setResults: ( ...args ) => dispatch( setResults( ...args ) ),
-			setConfigurationAttribute: ( ...args ) => dispatch( setConfigurationAttribute( ...args ) ),
-			setWorkerStatus: ( status ) => dispatch( setStatus( status ) ),
+			setAnalyzeResults: results  => dispatch( setResults( results ) ),
+			setWorkerStatus: status => dispatch( setStatus( status ) ),
 		};
 	},
 )( App );

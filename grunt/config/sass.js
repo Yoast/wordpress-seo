@@ -15,7 +15,6 @@ module.exports = {
 	example: {
 		files: {
 			"examples/browserified/style.css": "examples/browserified/style.scss",
-			"examples/relevant-words-example/style.css": "examples/relevant-words-example/style.scss",
 		},
 	},
 };

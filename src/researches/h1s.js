@@ -1,6 +1,20 @@
-// We use an external library, which can be found here: https://github.com/fb55/htmlparser2.
-import htmlparser from "htmlparser2";
-import isEmpty from "lodash/isEmpty";
+import { getBlocks } from "../helpers/html";
+import { reject } from "lodash-es";
+
+const h1Regex = /<h1.*?>(.*?)<\/h1>/;
+
+/**
+ * Gets a block from a text and checks if it is totally empty or if it is an empty paragraph.
+ *
+ * @param {string} block A HTML block extracted from the paper.
+ *
+ * @returns {boolean} Whether the block is empty or not.
+ */
+const emptyBlock = function( block ) {
+	block = block.trim();
+	return block === "<p></p>" || block === "";
+};
+
 
 /**
  * Gets all H1s in a text, including their content and their position with regards to other HTML blocks.
@@ -11,70 +25,21 @@ import isEmpty from "lodash/isEmpty";
  */
 export default function( paper ) {
 	const text = paper.getText();
-	const allHTMLBlocks = [];
-	let isH1 = false;
-	let htmlBlock = {};
+
+	let blocks = getBlocks( text );
+	blocks = reject( blocks, emptyBlock );
+
 	const h1s = [];
-
-	/*
-	 * Gets the tag names for all HTML blocks. In case an HTML block is an H1, also the content is included.
-	 * The content is required for marking.
-	 */
-	const parser = new htmlparser.Parser( {
-		/**
-		 * Processes the opening h1 tags.
-		 *
-		 * @param {string} tagName The name of the tag.
-		 *
-		 * @returns {void}
-		 */
-		onopentag: function( tagName ) {
-			htmlBlock.tag = tagName;
-			if ( tagName === "h1" ) {
-				isH1 = true;
-			}
-		},
-		/**
-		 * Saves content of the H1 tags.
-		 *
-		 * @param {string} text The input text.
-		 *
-		 * @returns {void}
-		 */
-		ontext: function( text ) {
-			if ( isH1 === true ) {
-				htmlBlock.content = text;
-			}
-			if ( ! isEmpty( htmlBlock ) ) {
-				allHTMLBlocks.push( htmlBlock );
-			}
-			htmlBlock = {};
-		},
-		/**
-		 * Processes the closing h1 tags.
-		 *
-		 * @param {string} tagName The name of the tag.
-		 *
-		 * @returns {void}
-		 */
-		onclosetag: function( tagName ) {
-			if ( tagName === "h1" ) {
-				isH1 = false;
-			}
-		},
-	}, { decodeEntities: true } );
-
-	parser.write( text );
-
-	// Pushes all H1s into an array and adds their position with regards to the other HTML blocks in the body.
-	for ( let i = 0; i < allHTMLBlocks.length; i++ ) {
-		if ( allHTMLBlocks[ i ].tag !== "h1" ) {
-			continue;
+	blocks.forEach( ( block, index ) => {
+		const match = h1Regex.exec( block );
+		if ( match ) {
+			h1s.push( {
+				tag: "h1",
+				content: match[ 1 ],
+				position: index,
+			} );
 		}
-
-		allHTMLBlocks[ i ].position = i;
-		h1s.push( allHTMLBlocks[ i ] );
-	}
+	} );
 
 	return h1s;
 }

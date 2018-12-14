@@ -46,15 +46,7 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 					tooShort: 3,
 				},
 			} ),
-			new SubheadingsKeyword(
-				{
-					scores: {
-						noMatches: 3,
-						oneMatch: 6,
-						multipleMatches: 9,
-					},
-				}
-			),
+			new SubheadingsKeyword(),
 			new TextCompetingLinksAssessment(),
 			new TextImages( {
 				scores: {
@@ -113,7 +105,7 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 			} ),
 			new SubheadingsKeyword(
 				{
-					scores: {
+					scoresRegular: {
 						noMatches: 3,
 						oneMatch: 6,
 						multipleMatches: 9,

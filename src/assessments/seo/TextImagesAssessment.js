@@ -1,6 +1,7 @@
 import { merge } from "lodash-es";
 
 import Assessment from "../../assessment";
+import { inRangeStartEndInclusive } from "../../helpers/inRange.js";
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import AssessmentResult from "../../values/AssessmentResult";
 
@@ -19,9 +20,22 @@ export default class TextImagesAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			scores: {
+			parametersRecalibration: {
+				lowerBoundary: 0.3,
+				upperBoundary: 0.75,
+			},
+			scoresRegular: {
 				noImages: 3,
 				withAltKeyword: 9,
+				withAltNonKeyword: 6,
+				withAlt: 6,
+				noAlt: 6,
+			},
+			scoresRecalibration: {
+				noImages: 3,
+				withAltGoodNumberOfKeywordMatches: 9,
+				withAltTooFewKeywordMatches: 6,
+				withAltTooManyKeywordMatches: 6,
 				withAltNonKeyword: 6,
 				withAlt: 6,
 				noAlt: 6,
@@ -44,12 +58,20 @@ export default class TextImagesAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher, i18n ) {
+		this.imageCount = researcher.getResearch( "imageCount" );
+		this.altProperties = researcher.getResearch( "altTagCount" );
+
+		let calculatedScore;
+		if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
+			this._minNumberOfKeywordMatches = Math.ceil( this.imageCount * this._config.parametersRecalibration.lowerBoundary );
+			this._maxNumberOfKeywordMatches = Math.floor( this.imageCount * this._config.parametersRecalibration.upperBoundary );
+
+			calculatedScore = this.calculateResultRecalibration( i18n );
+		} else {
+			calculatedScore = this.calculateResultRegular( i18n );
+		}
+
 		const assessmentResult = new AssessmentResult();
-		const imageCount = researcher.getResearch( "imageCount" );
-		const altProperties = researcher.getResearch( "altTagCount" );
-
-		const calculatedScore = this.calculateResult( imageCount, altProperties, i18n );
-
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
 
@@ -70,16 +92,14 @@ export default class TextImagesAssessment extends Assessment {
 	/**
 	 * Calculate the score and the feedback string based on the current image count and current image alt-tag count.
 	 *
-	 * @param {number} imageCount The amount of images to be checked against.
-	 * @param {Object} altProperties An object containing the various alt-tags.
 	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {Object} The calculated score and the feedback string.
 	 */
-	calculateResult( imageCount, altProperties, i18n ) {
-		if ( imageCount === 0 ) {
+	calculateResultRegular( i18n ) {
+		if ( this.imageCount === 0 ) {
 			return {
-				score: this._config.scores.noImages,
+				score: this._config.scoresRegular.noImages,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext( "js-text-analysis", "%1$sImage alt attributes%3$s: No images appear on this page. %2$sAdd some%3$s!" ),
@@ -91,9 +111,9 @@ export default class TextImagesAssessment extends Assessment {
 		}
 
 		// Has alt-tag and keywords
-		if ( altProperties.withAltKeyword > 0 ) {
+		if ( this.altProperties.withAltKeyword > 0 ) {
 			return {
-				score: this._config.scores.withAltKeyword,
+				score: this._config.scoresRegular.withAltKeyword,
 				resultText: i18n.sprintf(
 					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 					i18n.dgettext( "js-text-analysis", "%1$sImage alt attributes%2$s: " +
@@ -105,9 +125,9 @@ export default class TextImagesAssessment extends Assessment {
 		}
 
 		// Has alt-tag, but no keywords and it's not okay
-		if ( altProperties.withAltNonKeyword > 0 ) {
+		if ( this.altProperties.withAltNonKeyword > 0 ) {
 			return {
-				score: this._config.scores.withAltNonKeyword,
+				score: this._config.scoresRegular.withAltNonKeyword,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext( "js-text-analysis", "%1$sImage alt attributes%3$s: " +
@@ -120,9 +140,9 @@ export default class TextImagesAssessment extends Assessment {
 		}
 
 		// Has alt-tag, but no keyword is set
-		if ( altProperties.withAlt > 0 ) {
+		if ( this.altProperties.withAlt > 0 ) {
 			return {
-				score: this._config.scores.withAlt,
+				score: this._config.scoresRegular.withAlt,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext( "js-text-analysis", "%1$sImage alt attributes%3$s: " +
@@ -135,9 +155,9 @@ export default class TextImagesAssessment extends Assessment {
 		}
 
 		// Has no alt-tag
-		if ( altProperties.noAlt > 0 ) {
+		if ( this.altProperties.noAlt > 0 ) {
 			return {
-				score: this._config.scores.noAlt,
+				score: this._config.scoresRegular.noAlt,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext( "js-text-analysis", "%1$sImage alt attributes%3$s: " +
@@ -149,5 +169,188 @@ export default class TextImagesAssessment extends Assessment {
 			};
 		}
 		return null;
+	}
+
+	/**
+	 * Checks whether there are too few alt tags with keywords. This check is applicable when there are
+	 * 5 or more images.
+	 *
+	 * @returns {boolean} Returns true if there are at least 5 images and the number of alt tags
+	 * with keywords is under the specified recommended minimum.
+	 */
+	hasTooFewMatches() {
+		return this.imageCount > 4 && this.altProperties.withAltKeyword > 0 &&
+			this.altProperties.withAltKeyword < this._minNumberOfKeywordMatches;
+	}
+
+	/**
+	 * Checks whether there is a sufficient number of alt tags with keywords. There are different recommended
+	 * ranges for less than 5 keywords, exactly 5 keywords, and more than 5 keywords.
+	 *
+	 * @returns {boolean} Returns true if the number of alt tags with keywords is within the recommended range.
+	 */
+	hasGoodNumberOfMatches() {
+		return ( ( this.imageCount < 5 && this.altProperties.withAltKeyword > 0 ) ||
+			( this.imageCount === 5 && inRangeStartEndInclusive( this.altProperties.withAltKeyword, 2, 4 ) ) ||
+			( this.imageCount > 4 &&
+				inRangeStartEndInclusive( this.altProperties.withAltKeyword, this._minNumberOfKeywordMatches, this._maxNumberOfKeywordMatches ) ) );
+	}
+
+	/**
+	 * Checks whether there is a sufficient number of alt tags with keywords. This check is applicable when there are
+	 * 5 or more images.
+	 *
+	 * @returns {boolean} Returns true if there are at least 5 images and the number of alt tags with keywords
+	 * is within the recommended range.
+	 */
+	hasTooManyMatches() {
+		return this.imageCount > 4 && this.altProperties.withAltKeyword > this._maxNumberOfKeywordMatches;
+	}
+
+
+	/**
+	 * Calculate the result based on the current image count and current image alt-tag count.
+	 *
+	 * @param {Object} i18n The object used for translations.
+	 *
+	 * @returns {Object} The calculated result.
+	 */
+	calculateResultRecalibration( i18n ) {
+		// No images.
+		if ( this.imageCount === 0 ) {
+			return {
+				score: this._config.scoresRecalibration.noImages,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sImage alt attributes%3$s: No images appear on this page. %2$sAdd some%3$s!"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+
+		// Has alt-tags, but no keyword is set.
+		if ( this.altProperties.withAlt > 0 ) {
+			return {
+				score: this._config.scoresRecalibration.withAlt,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sImage alt attributes%3$s: " +
+						"Images on this page have alt attributes, but you have not set your keyphrase. %2$sFix that%3$s!"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+
+		// Has alt-tags, but no keywords while a keyword is set.
+		if ( this.altProperties.withAltNonKeyword > 0 && this.altProperties.withAltKeyword === 0 ) {
+			return {
+				score: this._config.scoresRecalibration.withAltNonKeyword,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sImage alt attributes%3$s: " +
+						"Images on this page do not have alt attributes that reflect the topic of your text. " +
+						"%2$sAdd your keyphrase or synonyms to the alt tags of relevant images%3$s!"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+
+		// Image count ≥5, has alt-tags with too few keywords.
+		if ( this.hasTooFewMatches() ) {
+			return {
+				score: this._config.scoresRecalibration.withAltTooFewKeywordMatches,
+				resultText: i18n.sprintf(
+					/* Translators: %1$d expands to the number of images containing an alt attribute with the keyword,
+					 * %2$d expands to the total number of images, %3$s and %4$s expand to links on yoast.com,
+					 * %5$s expands to the anchor end tag. */
+					i18n.dngettext(
+						"js-text-analysis",
+						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, only %1$d has an alt attribute that " +
+						"reflects the topic of your text. " +
+						"%4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!",
+						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, only %1$d have alt attributes that " +
+						"reflect the topic of your text. " +
+						"%4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!",
+						this.altProperties.withAltKeyword,
+					),
+					this.altProperties.withAltKeyword,
+					this.imageCount,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+
+		/*
+		 * The hasGoodNumberOfMatches check needs to be made before the check for too many matches because of the special rule for
+		 * exactly 5 matches.
+		 */
+		if ( this.hasGoodNumberOfMatches() ) {
+			return {
+				score: this._config.scoresRecalibration.withAltGoodNumberOfKeywordMatches,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to a link on yoast.com,
+					 * %2$s expands to the anchor end tag. */
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sImage alt attributes%2$s: Good job!",
+					),
+					this._config.urlTitle,
+					"</a>"
+				),
+			};
+		}
+
+		if ( this.hasTooManyMatches() ) {
+			return {
+				score: this._config.scoresRecalibration.withAltTooManyKeywordMatches,
+				resultText: i18n.sprintf(
+					/* Translators: %1$d expands to the number of images containing an alt attribute with the keyword,
+                     * %2$d expands to the total number of images, %3$s and %4$s expand to a link on yoast.com,
+					 * %5$s expands to the anchor end tag. */
+					i18n.dgettext(
+						"js-text-analysis",
+						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, %1$d have alt attributes with " +
+						"words from your keyphrase or synonyms. " +
+						"That's a bit much. %4$sOnly include the keyphrase or its synonyms when it really fits the image%5$s.",
+					),
+					this.altProperties.withAltKeyword,
+					this.imageCount,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
+					"</a>"
+				),
+			};
+		}
+
+		// Images, but no alt tags.
+		return {
+			score: this._config.scoresRecalibration.noAlt,
+			resultText: i18n.sprintf(
+				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "%1$sImage alt attributes%3$s: " +
+					"Images on this page do not have alt attributes that reflect the topic of your text. " +
+					"%2$sAdd your keyphrase or synonyms to the alt tags of relevant images%3$s!" ),
+				this._config.urlTitle,
+				this._config.urlCallToAction,
+				"</a>"
+			),
+		};
 	}
 }

@@ -7,6 +7,20 @@ import { findTopicFormsInString } from "../researches/findKeywordFormsInString";
 import { isEmpty } from "lodash-es";
 
 /**
+ * Checks if a match was found based on different criteria in recalibration and in regular analysis.
+ *
+ * @param {Object} matchResult The object with the count and percent of words from the keyphrase that were matched.
+ *
+ * @returns {boolean} Whether a match was found or not.
+ */
+const matchFound = function( matchResult ) {
+	if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
+		return matchResult.percentWordMatches >= 50;
+	}
+	return matchResult.countWordMatches > 0;
+};
+
+/**
  * Matches the alt-tags in the images found in the text.
  * Returns an object with the totals and different alt-tags.
  *
@@ -33,23 +47,19 @@ const matchAltProperties = function( imageMatches, topicForms, locale ) {
 		}
 
 		// If no keyword is set, but the alt-tag is
-		if ( isEmpty( topicForms.keyphraseForms ) && alttag !== "" ) {
+		if ( isEmpty( topicForms.keyphraseForms ) ) {
 			altProperties.withAlt++;
 			continue;
 		}
 
+		// If the keyword is matched in the alt tag
 		const keywordMatchedInAltTag = findTopicFormsInString( topicForms, alttag, true, locale );
-
-		if ( keywordMatchedInAltTag.countWordMatches === 0 && alttag !== "" ) {
-			// Match for keywords?
-			altProperties.withAltNonKeyword++;
-			continue;
-		}
-
-		if ( keywordMatchedInAltTag.countWordMatches > 0 ) {
+		if ( matchFound( keywordMatchedInAltTag ) ) {
 			altProperties.withAltKeyword++;
 			continue;
 		}
+
+		altProperties.withAltNonKeyword++;
 	}
 
 	return altProperties;

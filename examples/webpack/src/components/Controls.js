@@ -1,15 +1,16 @@
-/* External */
+// External dependencies.
 import { noop } from "lodash-es";
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
+import { IconButton } from "yoast-components/composites/Plugin/Shared/components/Button";
 import Toggle from "yoast-components/composites/Plugin/Shared/components/Toggle";
 
-/* Internal */
+// Internal dependencies.
 import { setConfigurationAttribute } from "../redux/actions/configuration";
 import { clearStorage } from "../redux/utils/localstorage";
 import AutomaticAnalysis from "./AutomaticAnalysis";
-import Button from "./Button";
-import Container from "./Container";
+import { ButtonContainer, Container, HeadingContainer } from "./Container";
+import SelectTestPaper from "./SelectTestPaper";
 
 function clearStorageAction() {
 	clearStorage();
@@ -24,28 +25,34 @@ function Controls( {
 	setConfigurationAttribute: setConfigAttribute,
 } ) {
 	return <Fragment>
-		<div className="button-container">
-			<AutomaticAnalysis />
-
-			<Button onClick={ onInitialize }>Initialize</Button>
-			<Button onClick={ onAnalyze }>Analyze</Button>
-			<Button onClick={ clearStorageAction }>Clear</Button>
-			<Button onClick={ onAnalyzeSpam }>Analyze Spam</Button>
-		</div>
-
-		<h2>Configuration</h2>
-
-		<Container>
-			<Toggle
-				id="toggle-use-keyword-distribution"
-				labelText="Use keyphrase distribution"
-				isEnabled={ useKeywordDistribution }
-				onSetToggleState={ value => {
-					setConfigAttribute( "useKeywordDistribution", value );
-				} }
-				onToggleDisabled={ noop }
-			/>
+		<Container marginTop="0">
+			<SelectTestPaper />
 		</Container>
+
+		<ButtonContainer>
+			<IconButton icon="gear" onClick={ onInitialize }>Initialize</IconButton>
+			<IconButton icon="search" onClick={ () => onAnalyze() }>Analyze</IconButton>
+			<IconButton icon="search" onClick={ onAnalyzeSpam }>Spam analyze</IconButton>
+			<IconButton icon="times" onClick={ clearStorageAction }>Clear inputs</IconButton>
+		</ButtonContainer>
+
+		<HeadingContainer heading="H3" title="Configuration">
+			<Container>
+				<AutomaticAnalysis />
+			</Container>
+
+			<Container>
+				<Toggle
+					id="toggle-use-keyword-distribution"
+					labelText="Use keyphrase distribution"
+					isEnabled={ useKeywordDistribution }
+					onSetToggleState={ value => {
+						setConfigAttribute( "useKeywordDistribution", value );
+					} }
+					onToggleDisabled={ noop }
+				/>
+			</Container>
+		</HeadingContainer>
 	</Fragment>;
 }
 

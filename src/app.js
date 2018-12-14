@@ -880,15 +880,15 @@ App.prototype.pluginReloaded = function( pluginName ) {
 };
 
 /**
- * Delegates to `YoastSEO.app.pluggable.registerModification`
+ * Delegates to `YoastSEO.app.pluggable.registerModification`.
  *
- * @param {string}      modification 		The name of the filter
- * @param {function}    callable 		 	The callable function
- * @param {string}      pluginName 		    The plugin that is registering the modification.
- * @param {number}      priority 		 	(optional) Used to specify the order in which the callables associated with a particular filter are
-                                            called.
- * 									        Lower numbers correspond with earlier execution.
- * @returns 			{boolean}           Whether or not the modification was successfully registered.
+ * @param {string}   modification   The name of the filter
+ * @param {function} callable       The callable function
+ * @param {string}   pluginName     The plugin that is registering the modification.
+ * @param {number}   [priority]     Used to specify the order in which the callables associated with a particular filter are called.
+ *                                  Lower numbers correspond with earlier execution.
+ *
+ * @returns {boolean} Whether or not the modification was successfully registered.
  */
 App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
 	return this.pluggable._registerModification( modification, callable, pluginName, priority );
