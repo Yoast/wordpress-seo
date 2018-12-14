@@ -1,6 +1,7 @@
 import Heading from "../values/nodes/Heading";
 import Paragraph from "../values/nodes/Paragraph";
 import StructuredNode from "../values/nodes/StructuredNode";
+import TextContainer from "../values/nodes/TextContainer";
 
 const irrelevantHtmlElements = [ "script", "style", "pre" ];
 const headings = [ "h1", "h2", "h3", "h4", "h5", "h6" ];
@@ -59,28 +60,34 @@ class NewTreeAdapter {
 	}
 
 	insertText( node, text ) {
-		if ( node.children.length ) {
-			const prevNode = node.children[ node.children.length - 1 ];
-
-			if ( prevNode.tag === "#text" ) {
-				prevNode.value += text;
-				return;
+		if ( node instanceof Heading || node instanceof Paragraph ) {
+			// Add text to node's textContainer, make one if it does not exist yet.
+			if ( ! node.textContainer ) {
+				node.textContainer = new TextContainer();
+			}
+			node.textContainer.appendText( text );
+		} else {
+			// Get the previous sibling of this node.
+			const prevChild = node.parent.children[ node.parent.children.length - 1 ];
+			// If the previous child is a paragraph...
+			if ( prevChild && prevChild instanceof Paragraph ) {
+				// Append text to the paragraph.
+				prevChild.textContainer.appendText( text );
+			} else {
+				// Else: make a new paragraph.
+				const paragraph = new Paragraph();
+				// This can be refactored...
+				paragraph.textContainer = new TextContainer();
+				paragraph.textContainer.appendText( text );
+				node.children.push( paragraph );
 			}
 		}
-
-		this.appendChild( node, this.createTextNode( text ) );
 	}
 
 	// Node getters and setters.
 
 	getTagName( node ) {
-		/*
-		  Structured Node's can be identified by tag,
-		  elements with their own class (Header, Paragraph)
-		  can be identified by their 'type' parameter.
-		  (Structured Node's type is always 'structuredNode').
-		 */
-		return node.tag || node.type;
+		return node.tag;
 	}
 
 	getNamespaceURI( node ) {
@@ -102,10 +109,16 @@ class NewTreeAdapter {
 	// Node source location.
 
 	setNodeSourceCodeLocation( node, location ) {
+		if ( ! node ) {
+			return;
+		}
 		node.location = location;
 	}
 
 	getNodeSourceCodeLocation( node ) {
+		if ( ! node ) {
+			return;
+		}
 		return node.location;
 	}
 }
