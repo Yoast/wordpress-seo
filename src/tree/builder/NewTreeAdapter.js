@@ -87,8 +87,13 @@ class NewTreeAdapter {
 		return node.tag;
 	}
 
-	getNamespaceURI( node ) {
-		return node.namespace;
+	getNamespaceURI() {
+		/*
+		  Assume we are only parsing HTML elements using this parser
+		  (not elements from SVG, MATHML or other XML schemas).
+		  Relatively safe assumption, since they are not relevant for textual analysis.
+		 */
+		return "http://www.w3.org/1999/xhtml";
 	}
 
 	getParentNode( node ) {
