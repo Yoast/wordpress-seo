@@ -17,13 +17,6 @@ const headings = [ "h1", "h2", "h3", "h4", "h5", "h6" ];
  */
 class TreeAdapter {
 	/**
-	 * Makes a new Tree Adapter.
-	 */
-	constructor() {
-		this.currentParentNode = null;
-	}
-
-	/**
 	 * Creates a new node for in the tree.
 	 *
 	 * @param {string} tagName		The tag name of the html-element as parsed by the parse5 library.
@@ -55,14 +48,6 @@ class TreeAdapter {
 			// Everything else.
 			node = new StructuredNode( tagName );
 		}
-
-		/*
-		  Set parent node (used for 'detach' method below,
-		  which parse5 uses in constructing the tree.
-		  (Perhaps we have a better option).
-		 */
-		node.parent = this.currentParentNode;
-		this.currentParentNode = node;
 
 		return node;
 	}
@@ -138,6 +123,7 @@ class TreeAdapter {
 	 */
 	appendChild( parentNode, newNode ) {
 		parentNode.children.push( newNode );
+		newNode.parent = parentNode;
 	}
 	//
 	// insertBefore( parentNode, newNode, referenceNode ) {
@@ -177,6 +163,7 @@ class TreeAdapter {
 			const index = node.parent.children.indexOf( node );
 			// Remove child from its parents :'(.
 			node.parent.children.splice( index, 1 );
+			node.parent = null;
 		}
 	}
 	//
@@ -215,7 +202,7 @@ class TreeAdapter {
 	}
 
 	getParentNode( node ) {
-		return null;
+		return node.parent;
 	}
 
 	getAttrList( element ) {
@@ -288,6 +275,9 @@ class TreeAdapter {
 	 * @returns {void}
 	 */
 	setNodeSourceCodeLocation( node, location ) {
+		if ( ! node ) {
+			return;
+		}
 		node.location = location;
 	}
 
@@ -298,7 +288,7 @@ class TreeAdapter {
 	 * @returns {Location} The node's source code location.
 	 */
 	getNodeSourceCodeLocation( node ) {
-		return node.location;
+		return node ? node.location : null;
 	}
 }
 export default TreeAdapter;
