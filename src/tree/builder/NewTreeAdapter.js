@@ -1,5 +1,8 @@
 import Heading from "../values/nodes/Heading";
+import List from "../values/nodes/List";
+import ListItem from "../values/nodes/ListItem";
 import Paragraph from "../values/nodes/Paragraph";
+import StructuredIrrelevant from "../values/nodes/StructuredIrrelevant";
 import StructuredNode from "../values/nodes/StructuredNode";
 import TextContainer from "../values/nodes/TextContainer";
 
@@ -12,14 +15,23 @@ class NewTreeAdapter {
 	createElement( tag, namespace ) {
 		let node;
 
-		if ( headings.includes( tag ) ) {
+		if ( irrelevantHtmlElements.includes( tag ) ) {
+			// Irrelevant for analysis (e.g. `script`, `style`).
+			node = new StructuredIrrelevant( tag );
+		} else if ( headings.includes( tag ) ) {
 			// Heading.
 			node = new Heading( parseInt( tag[ 1 ], 10 ) );
 		} else if ( tag === "p" ) {
 			// Paragraph.
 			node = new Paragraph( tag );
+		} else if ( tag === "ol" || tag === "ul" ) {
+			// List.
+			node = new List( tag === "ol" );
+		} else if ( tag === "li" ) {
+			// List item.
+			node = new ListItem();
 		} else {
-			// Structured node.
+			// All other elements (`div`, `section`).
 			node = new StructuredNode( tag );
 		}
 
