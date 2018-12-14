@@ -53,9 +53,6 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	public function __construct( $platform, $category, array $items ) {
 		parent::__construct();
 
-		// Adding the thickbox.
-		add_thickbox();
-
 		// Set search string.
 		$search_string = filter_input( INPUT_GET, 's' );
 
