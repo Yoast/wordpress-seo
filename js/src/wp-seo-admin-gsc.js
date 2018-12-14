@@ -26,6 +26,10 @@ jQuery( function() {
 		}
 	);
 
+	const element = document.getElementById( "yoast-google-search-console-modal" );
+	if ( element ) {
+		ReactDOM.render( <RedirectUpsell buyLink={ wpseoGSCL10n.buyLink } link={ wpseoGSCL10n.link } />, element );
+	}
 } );
 
 
