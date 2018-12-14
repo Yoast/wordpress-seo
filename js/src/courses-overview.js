@@ -70,6 +70,21 @@ class CoursesOverview extends React.Component {
 	}
 
 	/**
+	 * Converts the relevant data from a course for the ctaButton to an object.
+	 *
+	 * @param {string} course to create a ctaButton for.
+	 *
+	 * @returns {Object} the data object for the ctaButton.
+	 */
+	getButtonData( course ) {
+		return {
+			ctaButtonCopy: course.ctaButtonCopy,
+			ctaButtonType: course.ctaButtonType,
+			ctaButtonUrl: course.ctaButtonUrl,
+		};
+	}
+
+	/**
 	 * Render the component.
 	 *
 	 * @returns {ReactElement} The OuterContainer component which contains all the courses cards.
@@ -89,12 +104,13 @@ class CoursesOverview extends React.Component {
 							className={ "CourseCard" }
 							id={ course.id }
 							header={ this.getHeaderData( course ) }
-							banner={ course.bannertext ? { text: course.bannertext } : null }
+							banner={ course.isFree === "true" ? { text: "Free" } : null }
 						>
 							<CardDetails
 								description={ course.content }
 								courseUrl={ course.link }
-								shopUrl={ course.shopUrl }
+								readMoreLinkText={ course.readMoreLinkText }
+								ctaButton={ this.getButtonData( course ) }
 							/>
 						</FullHeightCard>
 					</CourseListItem>
