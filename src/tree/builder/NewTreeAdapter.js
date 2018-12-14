@@ -61,10 +61,7 @@ class NewTreeAdapter {
 
 	insertText( node, text ) {
 		if ( node instanceof Heading || node instanceof Paragraph ) {
-			// Add text to node's textContainer, make one if it does not exist yet.
-			if ( ! node.textContainer ) {
-				node.textContainer = new TextContainer();
-			}
+			// Add text to the heading or paragraph.
 			node.textContainer.appendText( text );
 		} else {
 			// Get the previous sibling of this node.
@@ -74,10 +71,8 @@ class NewTreeAdapter {
 				// Append text to the paragraph.
 				prevChild.textContainer.appendText( text );
 			} else {
-				// Else: make a new paragraph.
+				// Else: wrap the text in a (implicit) paragraph and add it to the tree.
 				const paragraph = new Paragraph();
-				// This can be refactored...
-				paragraph.textContainer = new TextContainer();
 				paragraph.textContainer.appendText( text );
 				node.children.push( paragraph );
 			}
