@@ -1,5 +1,8 @@
-/* global ajaxurl */
-/* global tb_click */
+/* global ajaxurl, wpseoAdminL10n */
+import React from "react";
+import ReactDOM from "react-dom";
+
+import RedirectUpsell from "./components/modals/RedirectUpsell";
 
 jQuery( function() {
 	jQuery( ".subsubsub .yoast_help" ).on(
@@ -12,7 +15,7 @@ jQuery( function() {
 
 	jQuery( "#gsc_auth_code" ).click(
 		function() {
-			var authUrl = jQuery( "#gsc_auth_url" ).val(),
+			const authUrl = jQuery( "#gsc_auth_url" ).val(),
 				w = 600,
 				h = 500,
 				left = ( screen.width / 2 ) - ( w / 2 ),
@@ -45,8 +48,8 @@ jQuery( function() {
  * @returns {void}
  */
 function wpseoUpdateCategoryCount( category ) {
-	var countElement = jQuery( "#gsc_count_" + category + "" );
-	var newCount     = parseInt( countElement.text(), 10 ) - 1;
+	const countElement = jQuery( "#gsc_count_" + category + "" );
+	let newCount       = parseInt( countElement.text(), 10 ) - 1;
 	if ( newCount < 0 ) {
 		newCount = 0;
 	}
