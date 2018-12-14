@@ -1,4 +1,5 @@
 import Heading from "../values/nodes/Heading";
+import Paragraph from "../values/nodes/Paragraph";
 import StructuredNode from "../values/nodes/StructuredNode";
 
 const irrelevantHtmlElements = [ "script", "style", "pre" ];
@@ -13,11 +14,15 @@ class NewTreeAdapter {
 		if ( headings.includes( tag ) ) {
 			// Heading.
 			node = new Heading( parseInt( tag[ 1 ], 10 ) );
+		} else if ( tag === "p" ) {
+			// Paragraph.
+			node = new Paragraph( tag );
 		} else {
 			// Structured node.
 			node = new StructuredNode( tag );
 		}
 
+		node.tag = tag;
 		node.namespace = namespace;
 		node.attributes = attributes;
 		node.parent = null;
@@ -35,10 +40,7 @@ class NewTreeAdapter {
 	}
 
 	createDocumentFragment() {
-		return {
-			tag: "#document-fragment",
-			children: [],
-		};
+		return new StructuredNode( "root" );
 	}
 
 	// Tree manipulation.
@@ -58,7 +60,7 @@ class NewTreeAdapter {
 
 	insertText( node, text ) {
 		if ( node.children.length ) {
-			const prevNode = node.parent.children[ node.parent.children.length - 1 ];
+			const prevNode = node.children[ node.children.length - 1 ];
 
 			if ( prevNode.tag === "#text" ) {
 				prevNode.value += text;

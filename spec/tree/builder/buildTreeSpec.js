@@ -201,6 +201,7 @@ describe( "build tree", () => {
 		expected.endIndex = 62;
 		expected.children = [ heading, paragraph ];
 
+		console.log( tree.children[ 0 ].children[ 0 ] );
 		console.log( printTree( tree ).join( "\n" ) );
 		// expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
