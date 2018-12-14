@@ -1,5 +1,6 @@
 import { parseFragment } from "parse5";
 
+import NewTreeAdapter from "./NewTreeAdapter";
 import TreeAdapter from "./TreeAdapter";
 
 /**
@@ -9,6 +10,6 @@ import TreeAdapter from "./TreeAdapter";
  * @returns {Node} The tree.
  */
 export default function( html ) {
-	const treeAdapter = new TreeAdapter();
+	const treeAdapter = new NewTreeAdapter();
 	return parseFragment( html, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
 }
