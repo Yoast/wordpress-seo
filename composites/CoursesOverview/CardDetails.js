@@ -1,11 +1,43 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { __ } from "@wordpress/i18n";
 import colors from "../../style-guide/colors.json";
 import { makeOutboundLink } from "../../utils/makeOutboundLink";
 
-const CardLinkButton = styled.a`
+const CardRegularButton = styled.a`
+	cursor: pointer;
+	color: ${ colors.$color_black };
+	white-space: nowrap;
+	display: block;
+	border-radius: 4px;
+	background-color: ${ colors.$color_grey_cta };
+	padding: 12px 16px;
+	box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2);
+	border: none;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: inherit;
+	margin-top: 0;
+	margin-bottom: 8px;
+
+	&:hover,
+	&:focus,
+	&:active {
+		color: ${ colors.$color_black };
+		background-color: ${ colors.$color_grey_hover };
+		text-decoration: none;
+	}
+
+	:active {
+		position: relative;
+		top: 2px
+		background-color: ${ colors.$color_grey_hover };
+		box-shadow: none;
+		filter: none;
+	}
+`;
+
+const CardUpsellButton = styled.a`
 	cursor: pointer;
 	color: ${ colors.$color_black };
 	white-space: nowrap;
@@ -37,11 +69,11 @@ const CardLinkButton = styled.a`
 	}
 `;
 
+
 const CardInfoLink = styled.a`
 	font-weight: bold;
 `;
 
-const OutboundLinkButton = makeOutboundLink( CardLinkButton );
 const OutboundInfoLink = makeOutboundLink( CardInfoLink );
 
 const ActionBlock = styled.div`
@@ -89,6 +121,9 @@ class CardDetails extends React.Component {
 	 * @returns {ReactElement} The rendered component.
 	 */
 	render() {
+		const buttonType =  this.props.ctaButton.ctaButtonType === "regular" ? CardRegularButton : CardUpsellButton;
+		const OutboundLinkButton = makeOutboundLink( buttonType );
+
 		return (
 			<Fragment>
 				<Details>
@@ -97,15 +132,11 @@ class CardDetails extends React.Component {
 					/>
 				</Details>
 				<ActionBlock>
-					<OutboundLinkButton href={ this.props.shopUrl }>
-						{
-							__( "Get the full course", "yoast-components" )
-						}
+					<OutboundLinkButton href={ this.props.ctaButton.ctaButtonUrl }>
+						{ this.props.ctaButton.ctaButtonCopy }
 					</OutboundLinkButton>
 					<OutboundInfoLink href={ this.props.courseUrl }>
-						{
-							__( "Read more about this course", "yoast-components" )
-						}
+						{ this.props.readMoreLinkText }
 					</OutboundInfoLink>
 				</ActionBlock>
 			</Fragment>
@@ -118,11 +149,13 @@ export default CardDetails;
 CardDetails.propTypes = {
 	description: PropTypes.string,
 	courseUrl: PropTypes.string,
-	shopUrl: PropTypes.string,
+	ctaButton: PropTypes.object,
+	readMoreLinkText: PropTypes.string,
 };
 
 CardDetails.defaultProps = {
 	description: "",
 	courseUrl: "",
-	shopUrl: "",
+	ctaButton: {},
+	readMoreLinkText: "",
 };

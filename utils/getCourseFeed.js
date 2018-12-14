@@ -23,13 +23,16 @@ import getFeed, { getXPathText } from "./getFeed";
 function parseCourseFeedItem( parsed, snapshot, nsResolver ) {
 	const item = {};
 
-	item.id          = getXPathText( "child::content:slug", parsed, snapshot, nsResolver );
-	item.title       = getXPathText( "child::title", parsed, snapshot );
-	item.link        = getXPathText( "child::link", parsed, snapshot );
-	item.content     = getXPathText( "child::content:encoded", parsed, snapshot, nsResolver );
-	item.image       = getXPathText( "child::content:image", parsed, snapshot, nsResolver );
-	item.shopUrl     = getXPathText( "child::content:shop_url", parsed, snapshot, nsResolver );
-	item.bannertext  = getXPathText( "child::content:banner_text", parsed, snapshot );
+	item.id                  = getXPathText( "child::content:slug", parsed, snapshot, nsResolver );
+	item.title               = getXPathText( "child::title", parsed, snapshot );
+	item.link                = getXPathText( "child::link", parsed, snapshot );
+	item.content             = getXPathText( "child::content:encoded", parsed, snapshot, nsResolver );
+	item.image               = getXPathText( "child::content:image", parsed, snapshot, nsResolver );
+	item.ctaButtonCopy       = getXPathText( "child::content:cta_button_copy", parsed, snapshot, nsResolver );
+	item.ctaButtonType       = getXPathText( "child::content:cta_button_type", parsed, snapshot, nsResolver );
+	item.ctaButtonUrl        = getXPathText( "child::content:cta_button_url", parsed, snapshot, nsResolver );
+	item.readMoreLinkText    = getXPathText( "child::content:read_more_link_text", parsed, snapshot, nsResolver );
+	item.isFree              = getXPathText( "child::content:is_free", parsed, snapshot, nsResolver );
 
 	return item;
 }
