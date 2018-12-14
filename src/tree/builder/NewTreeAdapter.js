@@ -68,7 +68,11 @@ class NewTreeAdapter {
 				const paragraph = new Paragraph();
 				paragraph.textContainer.formatting.push( child );
 				parent.children.push( child );
-			} else if ( parent instanceof Heading || parent instanceof Paragraph ) {
+			} else {
+				// Hoist formatting element up the tree until it encounters a Heading or Paragraph.
+				while ( ! ( parent instanceof Paragraph || parent instanceof Heading ) ) {
+					parent = parent.parent;
+				}
 				// Add it as formatting to the parent.
 				parent.textContainer.formatting.push( child );
 			}
@@ -91,7 +95,11 @@ class NewTreeAdapter {
 			node.textContainer.appendText( text );
 		} else if ( node instanceof FormattingElement ) {
 			// Formatting element.
-			const parent = node.parent;
+			// Hoist element up the tree until it encounters a paragraph or heading.
+			let parent = node.parent;
+			while ( ! ( parent instanceof Paragraph || parent instanceof Heading ) ) {
+				parent = parent.parent;
+			}
 			// Append text to parent's text container.
 			parent.textContainer.appendText( text );
 		} else {
