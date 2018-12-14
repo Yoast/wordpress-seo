@@ -145,6 +145,8 @@ class WPSEO_GSC {
 		$asset_manager->enqueue_script( 'admin-gsc' );
 		$asset_manager->enqueue_style( 'metabox-css' );
 
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-gsc', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+
 		$screen_options = array(
 			'label'   => __( 'Crawl errors per page', 'wordpress-seo' ),
 			'default' => 50,
