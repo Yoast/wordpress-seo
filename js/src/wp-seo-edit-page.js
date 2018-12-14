@@ -4,13 +4,7 @@
 		var parentLink = $( this ).closest( "th" ).find( "a" );
 
 		parentLink
-			.addClass( "yoast-tooltip yoast-tooltip-n yoast-tooltip-multiline" )
-			.attr( "aria-label", $( this ).data( "label" ) );
-	} );
-
-	// Clean up the columns titles HTML for the Screen Options checkboxes labels.
-	$( ".yoast-column-header-has-tooltip, .yoast-tooltip", "#screen-meta" ).each( function() {
-		var text = $( this ).text();
-		$( this ).replaceWith( text );
+			.addClass( "yoast-tooltip yoast-tooltip-alt yoast-tooltip-n yoast-tooltip-multiline" )
+			.attr( "data-label", $( this ).data( "tooltip-text" ) );
 	} );
 }( jQuery ) );

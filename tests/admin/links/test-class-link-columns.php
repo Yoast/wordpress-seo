@@ -85,8 +85,8 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 	public function test_add_post_columns() {
 		$link_columns = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
 		$expected     = array(
-			'wpseo-links'  => '<span class="yoast-linked-to yoast-column-header-has-tooltip" data-label="Number of internal links in this post. See &quot;Yoast Columns&quot; text in the help tab for more info."><span class="screen-reader-text"># links in post</span></span>',
-			'wpseo-linked' => '<span class="yoast-linked-from yoast-column-header-has-tooltip" data-label="Number of internal links linking to this post. See &quot;Yoast Columns&quot; text in the help tab for more info."><span class="screen-reader-text"># internal links to</span></span>',
+			'wpseo-links'  => '<span class="yoast-linked-to yoast-column-header-has-tooltip" data-tooltip-text="Number of internal links in this post. See &quot;Yoast Columns&quot; text in the help tab for more info."><span class="screen-reader-text">Internal links</span></span>',
+			'wpseo-linked' => '<span class="yoast-linked-from yoast-column-header-has-tooltip" data-tooltip-text="Number of internal links linking to this post. See &quot;Yoast Columns&quot; text in the help tab for more info."><span class="screen-reader-text">Received internal links</span></span>',
 		);
 
 		$this->assertEquals(
