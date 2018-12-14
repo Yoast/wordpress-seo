@@ -107,6 +107,12 @@ class RedirectUpsell extends React.Component {
 			return null;
 		}
 
+		const heading = sprintf(
+			/* translators: %s expands to 'Yoast SEO Premium'. */
+			__( "Get %s", "wordpress-seo" ),
+			"Yoast SEO Premium"
+		);
+
 		const title = sprintf(
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
 			__( "Creating redirects is a %s feature", "wordpress-seo" ),
@@ -142,6 +148,7 @@ class RedirectUpsell extends React.Component {
 				onClose={ this.closeModal }
 				modalAriaLabel={ modalAriaLabel }
 				appElement={ document.querySelector( "#wpwrap" ) }
+				heading={ heading }
 			>
 				<StyledContainer>
 					<StyledIcon icon={ YoastSeoIcon } />
