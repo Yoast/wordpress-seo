@@ -9,7 +9,7 @@ const headings = [ "h1", "h2", "h3", "h4", "h5", "h6" ];
 class NewTreeAdapter {
 	// Creation of nodes and other tree elements.
 
-	createElement( tag, namespace, attributes ) {
+	createElement( tag, namespace ) {
 		let node;
 
 		if ( headings.includes( tag ) ) {
@@ -25,9 +25,7 @@ class NewTreeAdapter {
 
 		node.tag = tag;
 		node.namespace = namespace;
-		node.attributes = attributes;
 		node.parent = null;
-		node.children = [];
 
 		return node;
 	}
@@ -94,11 +92,15 @@ class NewTreeAdapter {
 	}
 
 	getChildNodes( node ) {
-		return node.children;
+		/*
+		  Some node types do not have children (like Paragraph and Heading),
+		  but parse5 always expects a node to have children.
+		 */
+		return node.children || [];
 	}
 
 	getFirstChild( node ) {
-		return node.children[ 0 ];
+		return node.children[ 0 ] || null;
 	}
 
 	// Node source location.
