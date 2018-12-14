@@ -1,23 +1,27 @@
+import FormattingElement from "../values/FormattingElement";
 import Heading from "../values/nodes/Heading";
 import List from "../values/nodes/List";
 import ListItem from "../values/nodes/ListItem";
 import Paragraph from "../values/nodes/Paragraph";
 import StructuredIrrelevant from "../values/nodes/StructuredIrrelevant";
 import StructuredNode from "../values/nodes/StructuredNode";
-import TextContainer from "../values/nodes/TextContainer";
 
+const formattingElements = [ "strong", "emph" ];
 const irrelevantHtmlElements = [ "script", "style", "pre" ];
 const headings = [ "h1", "h2", "h3", "h4", "h5", "h6" ];
 
 class NewTreeAdapter {
 	// Creation of nodes and other tree elements.
 
-	createElement( tag, namespace ) {
+	createElement( tag, namespace, attributes ) {
 		let node;
 
 		if ( irrelevantHtmlElements.includes( tag ) ) {
 			// Irrelevant for analysis (e.g. `script`, `style`).
 			node = new StructuredIrrelevant( tag );
+		} else if ( formattingElements.includes( tag ) ) {
+			// Formatting element.
+			node = new FormattingElement( tag, attributes );
 		} else if ( headings.includes( tag ) ) {
 			// Heading.
 			node = new Heading( parseInt( tag[ 1 ], 10 ) );
@@ -56,8 +60,21 @@ class NewTreeAdapter {
 	// Tree manipulation.
 
 	appendChild( parent, child ) {
-		parent.children.push( child );
 		child.parent = parent;
+		if ( child instanceof FormattingElement ) {
+			// Formatting element.
+			if ( parent instanceof StructuredNode ) {
+				// Wrap it in a paragraph, add it as formatting.
+				const paragraph = new Paragraph();
+				paragraph.textContainer.formatting.push( child );
+				parent.children.push( child );
+			} else if ( parent instanceof Heading || parent instanceof Paragraph ) {
+				// Add it as formatting to the parent.
+				parent.textContainer.formatting.push( child );
+			}
+			return;
+		}
+		parent.children.push( child );
 	}
 
 	detachNode( node ) {
@@ -72,9 +89,14 @@ class NewTreeAdapter {
 		if ( node instanceof Heading || node instanceof Paragraph ) {
 			// Add text to the heading or paragraph.
 			node.textContainer.appendText( text );
+		} else if ( node instanceof FormattingElement ) {
+			// Formatting element.
+			const parent = node.parent;
+			// Append text to parent's text container.
+			parent.textContainer.appendText( text );
 		} else {
 			// Get the previous sibling of this node.
-			const prevChild = node.parent.children[ node.parent.children.length - 1 ];
+			const prevChild = node.children[ node.children.length - 1 ];
 			// If the previous child is a paragraph...
 			if ( prevChild && prevChild instanceof Paragraph ) {
 				// Append text to the paragraph.
