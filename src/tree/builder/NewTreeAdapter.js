@@ -30,14 +30,6 @@ class NewTreeAdapter {
 		return node;
 	}
 
-	createTextNode( text ) {
-		return {
-			tag: "#text",
-			value: text,
-			parent: null,
-		};
-	}
-
 	createDocumentFragment() {
 		return new StructuredNode( "root" );
 	}
