@@ -12268,6 +12268,19 @@ yauzl@^2.2.1:
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
+yoastseo@^1.44.0:
+  version "1.44.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.44.0.tgz#4d1b66a96c4d3812b6a2ae403fed7e8cc31fc2ef"
+  integrity sha512-37woRKLULGW0LYtJvXounj1dNTUmURmWYZU2e5OhaQxzk9bZFPwSYwsLIdWm2dE0Svs/2ycTcqnq+jkKnmpKVw==
+  dependencies:
+    "@wordpress/autop" "^2.0.2"
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    lodash-es "^4.17.10"
+    loglevel "^1.6.1"
+    sassdash "0.9.0"
+    tokenizer2 "^2.0.1"
+
 "yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.3":
   version "1.43.0"
   resolved "git+https://github.com/Yoast/YoastSEO.js.git#f815645a7f81af63740c193c34149672c992f226"
