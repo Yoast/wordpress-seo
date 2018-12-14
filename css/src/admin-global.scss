@@ -322,6 +322,15 @@ td.column-wpseo-linked {
 		line-height: 1.5;
 		box-sizing: border-box;
 	}
+
+	// Show score text on mobile.
+	.screen-reader-text.wpseo-score-text {
+		position: static;
+		clip-path: none;
+		width: auto;
+		height: auto;
+		margin: 0;
+	}
 }
 
 /* Help Center */
