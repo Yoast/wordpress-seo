@@ -102,11 +102,10 @@ you’ll learn how to research and select the keywords that will guide searchers
   >
     <a
       className="c1"
-      href="https://yoast.com/cart/?add-to-cart=1311259"
+      href={undefined}
       rel="noopener noreferrer"
       target="_blank"
     >
-      Get the full course
       <span
         className="c2"
       >
@@ -119,7 +118,7 @@ you’ll learn how to research and select the keywords that will guide searchers
       rel="noopener noreferrer"
       target="_blank"
     >
-      Read more about this course
+      
       <span
         className="c2"
       >
@@ -231,11 +230,10 @@ Array [
   >
     <a
       className="c1"
-      href=""
+      href={undefined}
       rel="noopener noreferrer"
       target="_blank"
     >
-      Get the full course
       <span
         className="c2"
       >
@@ -248,7 +246,7 @@ Array [
       rel="noopener noreferrer"
       target="_blank"
     >
-      Read more about this course
+      
       <span
         className="c2"
       >
