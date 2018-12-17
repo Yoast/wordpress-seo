@@ -94,7 +94,7 @@ testPapers.forEach( function( testPaper ) {
 		const keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();
 		const fleschReadingAssessment = new FleschReadingAssessment( contentConfiguration( locale ).fleschReading );
 		const subheadingDistributionTooLongAssessment = new SubheadingDistributionTooLongAssessment();
-		const sentenceLengthInTextAssessment = new SentenceLengthInTextAssessment();
+		const sentenceLengthInTextAssessment = new SentenceLengthInTextAssessment( contentConfiguration( locale ).sentenceLength );
 
 		// SEO assessments.
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {
