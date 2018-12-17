@@ -31,6 +31,7 @@ import spanishPaper3 from "./es/spanishPaper3";
 // Russian papers
 import russianPaper1 from "./ru/russianPaper1";
 import russianPaper2 from "./ru/russianPaper2";
+import russianPaper3 from "./ru/russianPaper3";
 
 export default [
 	englishPaper1,
@@ -53,5 +54,6 @@ export default [
 	spanishPaper3,
 	russianPaper1,
 	russianPaper2,
+	russianPaper3,
 ];
 
