@@ -507,6 +507,8 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	if ( defined( 'WP_CLI' ) && WP_CLI ) {
 		add_action( 'plugins_loaded', 'wpseo_cli_init', 20 );
 	}
+
+	add_filter( 'phpcompat_whitelist', 'yoast_wpseo_phpcompat_whitelist' );
 }
 
 // Activation and deactivation hook.
@@ -623,4 +625,19 @@ function yoast_wpseo_self_deactivate() {
 			unset( $_GET['activate'] );
 		}
 	}
+}
+
+/**
+ * Excludes vendor directories from php-compatibility-checker.
+ *
+ * @since 9.4
+ *
+ * @param array $ignored Array of ignored directories/files.
+ *
+ * @return array Array of ignored directories/files.
+ */
+function yoast_wpseo_phpcompat_whitelist( $ignored ) {
+	$ignored[] = '*/wordpress-seo/vendor*';
+
+	return $ignored;
 }
