@@ -17,7 +17,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ### Changed
 * Improved README Usage to detail the Web Worker API.
 
-## 1.44.0
+## 1.44.0 December 14th, 2018
 ### Fixed
 * Fixes a bug where keyphrases weren't recognized in the URL when the words in the URL were separated by underscore characters instead of hyphens.
 * Fixes a bug that caused numbers to be stripped when marking a keyphrase containing a number, e.g. `Yoast SEO 9.3`.
