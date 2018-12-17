@@ -232,6 +232,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
+			/**
+			 * Filter: 'wpseo_sitemap_entries' - Allow modifying the posts to include.
+			 *
+			 * @param array $posts Array of posts.
+			 */
+			$posts = apply_filters( 'wpseo_sitemap_entries', $posts );
+
 			foreach ( $posts as $post ) {
 
 				if ( in_array( $post->ID, $posts_to_exclude, true ) ) {

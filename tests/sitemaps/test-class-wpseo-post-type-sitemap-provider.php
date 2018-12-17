@@ -102,6 +102,24 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the included posts with the usage of the filter.
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_sitemap_links()
+	 */
+	public function test_get_sitemap_links_with_set_filter() {
+		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
+
+		add_filter( 'wpseo_sitemap_entries', array( $this, 'filter_posts_with_output' ) );
+
+		$this->factory->post->create();
+
+		// Expect the created post to be duplicated in the sitemap list.
+		$this->assertCount( 2, self::$class_instance->get_sitemap_links( 'post', 100, 0 ) );
+
+		remove_filter( 'wpseo_sitemap_entries', array( $this, 'filter_posts_with_output' ) );
+	}
+
+	/**
 	 * Tests the excluded posts with the usage of the filter.
 	 *
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts()
@@ -137,6 +155,17 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( array(), $sitemap_provider->get_excluded_posts( 'post' ) );
 
 		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_invalid_output' ) );
+	}
+
+	/**
+	 * Filter method for test.
+	 *
+	 * @param array $posts The included post objects.
+	 *
+	 * @return array Duplicated array of posts.
+	 */
+	public function filter_posts_with_output( $posts ) {
+		return array_merge($posts, $posts);
 	}
 
 	/**
