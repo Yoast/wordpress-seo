@@ -41,7 +41,7 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 		$home_url   = WPSEO_Utils::home_url();
 		$search_url = $home_url . '?s={search_term_string}';
 
-		$json       = self::$class_instance->format_data( array(
+		$json = self::$class_instance->format_data( array(
 			'@context'        => 'https://schema.org',
 			'@type'           => 'WebSite',
 			'@id'             => $home_url . '#website',

@@ -288,7 +288,7 @@ class WPSEO_Admin_Asset_Manager {
 				// Load webpack-commons for bundle support.
 				'src'  => 'commons-' . $flat_version,
 				'deps' => array(
-					'wp-polyfill'
+					'wp-polyfill',
 				),
 			),
 			array(
