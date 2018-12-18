@@ -65,7 +65,7 @@ describe( "build tree", () => {
 		heading.endIndex = 81;
 		heading.text = "This heading needs to be read to have value as a heading.";
 
-		const expected = new StructuredNode();
+		const expected = new StructuredNode( "root" );
 		expected.startIndex = 0;
 		expected.endIndex = 81;
 		expected.children = [ heading ];

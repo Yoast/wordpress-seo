@@ -27,6 +27,8 @@ const printFormatting = function( element, indent ) {
  */
 export default function printTree( tree, indent = "" ) {
 	let print = [ `${indent}type: ${tree.type}` ];
+	print.push( `${indent}startIndex: ${tree.startIndex}` );
+	print.push( `${indent}endIndex: ${tree.endIndex}` );
 	switch ( tree.type ) {
 		case "StructuredNode":
 		case "List":
