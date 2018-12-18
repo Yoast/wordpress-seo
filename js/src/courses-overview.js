@@ -1,3 +1,5 @@
+/* global wpseoCoursesOverviewL10n */
+
 import styled from "styled-components";
 import { CardDetails, FullHeightCard, utils } from "yoast-components";
 import React from "react";
@@ -34,7 +36,7 @@ class CoursesOverview extends React.Component {
 			courses: null,
 		};
 
-		this.getFeed( wpseoCoursesOverviewL10n["version"] );
+		this.getFeed( wpseoCoursesOverviewL10n.version );
 	}
 
 	/**
