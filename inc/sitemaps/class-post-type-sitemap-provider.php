@@ -118,7 +118,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return array
 	 */
 	public function get_index_links( $max_entries ) {
-
 		global $wpdb;
 
 		// Consider using WPSEO_Post_Type::get_accessible_post_types() to filter out any `no-index` post-types.
@@ -296,7 +295,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return bool
 	 */
 	public function is_valid_post_type( $post_type ) {
-		if ( ! WPSEO_Post_Type::is_post_type_indexable( $post_type ) ) {
+		if ( ! WPSEO_Post_Type::is_post_type_accessible( $post_type ) || ! WPSEO_Post_Type::is_post_type_indexable( $post_type ) ) {
 			return false;
 		}
 

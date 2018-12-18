@@ -4,9 +4,9 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
-Requires at least: 4.8
-Tested up to: 5.0
-Stable tag: 9.2.1
+Requires at least: 4.9
+Tested up to: 5.0.1
+Stable tag: 9.3
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -128,7 +128,7 @@ Other:
 * The browser console now shows more descriptive error messages when something went wrong during analyses in the web worker.
 
 = 9.3.0 =
-Release Date: December 11th, 2018
+Release Date: December 18th, 2018
 
 Enhancements:
 
@@ -148,6 +148,11 @@ Bugfixes:
 * Fixes a bug where keyphrases weren't recognized in the URL when the words in the URL were separated by underscore characters instead of hyphens.
 * Fixes a bug that caused numbers to be stripped when marking a keyphrase containing a number, e.g. 'Yoast SEO 9.3'.
 * Fixes a bug where the first tab of the metabox would be empty when using WordPress 4.8.x.
+* Fixes a bug where private post types would have a sitemap with their 'private' entries.
+
+Other:
+
+* Implemented performance optimizations in FAQ and How To blocks.
 
 = 9.2.1 =
 Release Date: November 21th, 2018
