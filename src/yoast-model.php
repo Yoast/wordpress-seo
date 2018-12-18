@@ -315,7 +315,7 @@ class Yoast_Model {
 	 * @return ORMWrapper
 	 * @throws \Exception When ID of urrent model has a null value.
 	 */
-	protected function _has_one_or_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
+	protected function has_one_or_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
 		$base_table_name  = static::get_table_name_for_class( \get_class( $this ) );
 		$foreign_key_name = static::build_foreign_key_name( $foreign_key_name, $base_table_name );
 
@@ -348,7 +348,7 @@ class Yoast_Model {
 	 * @throws \Exception  When ID of urrent model has a null value.
 	 */
 	protected function has_one( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
-		return $this->_has_one_or_many( $associated_class_name, $foreign_key_name, $foreign_key_name_in_current_models_table, $connection_name );
+		return $this->has_one_or_many( $associated_class_name, $foreign_key_name, $foreign_key_name_in_current_models_table, $connection_name );
 	}
 
 	/**
@@ -366,7 +366,7 @@ class Yoast_Model {
 	protected function has_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
 		$this->set_table_name( $associated_class_name );
 
-		return $this->_has_one_or_many( $associated_class_name, $foreign_key_name, $foreign_key_name_in_current_models_table, $connection_name );
+		return $this->has_one_or_many( $associated_class_name, $foreign_key_name, $foreign_key_name_in_current_models_table, $connection_name );
 	}
 
 	/**
