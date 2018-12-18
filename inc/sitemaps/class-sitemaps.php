@@ -324,16 +324,10 @@ class WPSEO_Sitemaps {
 			}
 
 			$links = $provider->get_sitemap_links( $type, $entries_per_page, $this->current_page );
-
-			if ( empty( $links ) ) {
-				$this->bad_sitemap = true;
-
+			if ( ! empty( $links ) ) {
+				$this->sitemap = $this->renderer->get_sitemap( $links, $type, $this->current_page );
 				return;
 			}
-
-			$this->sitemap = $this->renderer->get_sitemap( $links, $type, $this->current_page );
-
-			return;
 		}
 
 		if ( has_action( 'wpseo_do_sitemap_' . $type ) ) {
