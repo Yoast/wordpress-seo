@@ -258,13 +258,8 @@ function wpseo_save_all( $what ) {
 		wpseo_ajax_json_echo_die( $results );
 	}
 
-	// @todo the WPSEO Utils class can't filter arrays in POST yet.
-	$new_values      = wp_unslash( $_POST['items'] );
-	$original_values = wp_unslash( $_POST['existing_items'] );
-
-	if ( ! is_array( $new_values ) ) {
-		wpseo_ajax_json_echo_die( $results );
-	}
+	$new_values      = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), wp_unslash( (array) $_POST['items'] ) );
+	$original_values = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), wp_unslash( (array) $_POST['existing_items'] ) );
 
 	foreach ( $new_values as $post_id => $new_value ) {
 		$original_value = $original_values[ $post_id ];
