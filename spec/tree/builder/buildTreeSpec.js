@@ -1,5 +1,4 @@
 import buildTree from "../../../src/tree/builder/buildTree";
-import printTree from "../../../src/tree/utils/printTree";
 import StructuredIrrelevant from "../../../src/tree/values/nodes/StructuredIrrelevant";
 
 import StructuredNode from "../../../src/tree/values/nodes/StructuredNode";
@@ -11,10 +10,6 @@ import List from "../../../src/tree/values/nodes/List";
 import ListItem from "../../../src/tree/values/nodes/ListItem";
 
 describe( "build tree", () => {
-	beforeEach( () => {
-		console.warn = jest.fn();
-	} );
-
 	it( "can build a tree from html", () => {
 		const html = "<section>This? is a section.</section>";
 

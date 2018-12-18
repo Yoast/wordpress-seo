@@ -1,8 +1,7 @@
+/* External dependencies */
 import { parseFragment } from "parse5";
-import StructuredIrrelevant from "../values/nodes/StructuredIrrelevant";
-import StructuredNode from "../values/nodes/StructuredNode";
 
-import NewTreeAdapter from "./NewTreeAdapter";
+/* Internal dependencies */
 import TreeAdapter from "./TreeAdapter";
 
 /**
@@ -71,7 +70,7 @@ const cleanUpAfterParsing = function( tree ) {
  * @returns {Node} The tree.
  */
 export default function( html ) {
-	const treeAdapter = new NewTreeAdapter();
+	const treeAdapter = new TreeAdapter();
 	let tree = parseFragment( html, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
 	tree = cleanUpAfterParsing( tree );
 	return tree;
