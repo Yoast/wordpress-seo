@@ -221,7 +221,7 @@ class Primary_Term_Watcher implements Integration {
 	 * @return bool Whether thet method is a post request.
 	 */
 	protected function is_post_request() {
-		return isset( $_SERVER['REQUEST_METHOD'] ) && strtolower( $_SERVER['REQUEST_METHOD'] ) === 'post'; // Input var okay.
+		return isset( $_SERVER['REQUEST_METHOD'] ) && strtolower( $_SERVER['REQUEST_METHOD'] ) === 'post';
 	}
 
 	/**
