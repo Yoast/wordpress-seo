@@ -113,7 +113,7 @@ class CoursesOverview extends React.Component {
 								description={ course.content }
 								courseUrl={ course.link }
 								readMoreLinkText={ course.readMoreLinkText }
-								ctaButton={ this.getButtonData( course ) }
+								ctaButtonData={ this.getButtonData( course ) }
 							/>
 						</FullHeightCard>
 					</CourseListItem>
