@@ -24,37 +24,25 @@ class TreeAdapter {
 	/**
 	 * Creates a new element to be put in the tree.
 	 *
-	 * @param {string} tag				The HTML tag.
-	 * @param {string} namespace		The XML namespace (e.g. "http://www.w3.org/1999/xhtml" for HTML).
-	 * @param {Attribute[]} attributes	The attributes of this element.
+	 * @param {string} tag									The HTML tag.
+	 * @param {string} namespace							The XML namespace (e.g. "http://www.w3.org/1999/xhtml" for HTML).
+	 * @param {{ name: string, value: string }[]} attributes	The attributes of this element.
 	 *
 	 * @returns {Node|FormattingElement} The new element.
 	 */
 	createElement( tag, namespace, attributes ) {
 		let node;
 
-		if ( irrelevantHtmlElements.includes( tag ) ) {
-			// Irrelevant for analysis (e.g. `script`, `style`).
-			node = new StructuredIrrelevant( tag );
-		} else if ( formattingElements.includes( tag ) ) {
+		if ( formattingElements.includes( tag ) ) {
 			// Formatting element.
 			const parsedAttributes = this._parseAttributes( attributes );
 			node = new FormattingElement( tag, parsedAttributes );
-		} else if ( headings.includes( tag ) ) {
-			// Heading.
-			node = new Heading( parseInt( tag[ 1 ], 10 ) );
-		} else if ( tag === "p" ) {
-			// Paragraph.
-			node = new Paragraph( tag );
-		} else if ( tag === "ol" || tag === "ul" ) {
-			// List.
-			node = new List( tag === "ol" );
-		} else if ( tag === "li" ) {
-			// List item.
-			node = new ListItem();
+		} else if ( irrelevantHtmlElements.includes( tag ) ) {
+			// Irrelevant for analysis (e.g. `script`, `style`).
+			node = new StructuredIrrelevant( tag );
 		} else {
-			// All other elements (`div`, `section`).
-			node = new StructuredNode( tag );
+			// Paragraphs, Headers, Lists, ListItems and other nodes.
+			node = this._parseNode( tag );
 		}
 
 		node.tagName = tag;
@@ -62,6 +50,33 @@ class TreeAdapter {
 		node.parent = null;
 
 		return node;
+	}
+
+	/**
+	 * Makes a new node to add to the tree, based on the given HTML-tag.
+	 *
+	 * @param {string} tag		The HTML-tag of the element to add.
+	 *
+	 * @returns {Node} The node to add to the tree.
+	 *
+	 * @private
+	 */
+	_parseNode( tag ) {
+		if ( headings.includes( tag ) ) {
+			// Heading.
+			return new Heading( parseInt( tag[ 1 ], 10 ) );
+		} else if ( tag === "p" ) {
+			// Paragraph.
+			return new Paragraph( tag );
+		} else if ( tag === "ol" || tag === "ul" ) {
+			// List.
+			return new List( tag === "ol" );
+		} else if ( tag === "li" ) {
+			// List item.
+			return new ListItem();
+		}
+		// All other elements (`div`, `section`).
+		return new StructuredNode( tag );
 	}
 
 	/**

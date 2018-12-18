@@ -1,5 +1,4 @@
 import Heading from "../../../../src/tree/values/nodes/Heading";
-import Paragraph from "../../../../src/tree/values/nodes/Paragraph";
 import TextContainer from "../../../../src/tree/values/nodes/TextContainer";
 
 describe( "Heading", () => {

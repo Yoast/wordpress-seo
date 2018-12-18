@@ -1,5 +1,4 @@
 import TextContainer from "../../../../src/tree/values/nodes/TextContainer";
-import FormattingElement from "../../../../src/tree/values/FormattingElement";
 
 describe( "TextContainer", () => {
 	describe( "constructor", () => {
