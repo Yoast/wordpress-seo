@@ -30,7 +30,6 @@ const cleanUpNodeAfterParsing = function( node ) {
 	// Delete temporary parameters used for parsing.
 	delete node.location;
 	delete node.namespace;
-	delete node.parent;
 	delete node.tagName;
 
 	return node;

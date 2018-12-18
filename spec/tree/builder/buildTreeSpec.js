@@ -1,4 +1,5 @@
 import buildTree from "../../../src/tree/builder/buildTree";
+import treeToStringifiedJSON from "../../../src/tree/utils/treeToStringifiedJSON";
 import StructuredIrrelevant from "../../../src/tree/values/nodes/StructuredIrrelevant";
 
 import StructuredNode from "../../../src/tree/values/nodes/StructuredNode";
@@ -30,7 +31,7 @@ describe( "build tree", () => {
 
 		const tree = buildTree( html );
 
-		expect( JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+		expect( treeToStringifiedJSON( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
 	it( "can parse an HTML into a Paragraph", () => {
@@ -112,7 +113,7 @@ describe( "build tree", () => {
 		expected.endIndex = 51;
 		expected.children = [ section ];
 
-		expect( JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+		expect( treeToStringifiedJSON( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
 	it( "can parse HTML into a List with ListItems, which are simple paragraphs", () => {
@@ -150,7 +151,7 @@ describe( "build tree", () => {
 		expected.endIndex = 36;
 		expected.children = [ list ];
 
-		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+		expect(  treeToStringifiedJSON( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
 	it( "can parse HTML into a List with ListItems, which are simple paragraphs or structured nodes", () => {
@@ -193,7 +194,7 @@ describe( "build tree", () => {
 		expected.endIndex = 55;
 		expected.children = [ list ];
 
-		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+		expect(  treeToStringifiedJSON( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
 
@@ -222,7 +223,7 @@ describe( "build tree", () => {
 		expected.endIndex = 62;
 		expected.children = [ section ];
 
-		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+		expect(  treeToStringifiedJSON( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
 	it( "can parse an HTML text into a StructuredNode with a few siblings", () => {
@@ -250,6 +251,6 @@ describe( "build tree", () => {
 		expected.endIndex = 80;
 		expected.children = [ section ];
 
-		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+		expect(  treeToStringifiedJSON( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 } );
