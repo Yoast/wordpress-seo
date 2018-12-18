@@ -28,7 +28,7 @@ test( "The FullHeightCard is rendered including the CardBanner and CardDetails c
 		description: "Do you know the essential first step of good SEO? It’s keyword research. In this training, \n" +
 		             "you’ll learn how to research and select the keywords that will guide searchers to your pages.",
 		courseUrl: "https://yoast.com/academy/keyword-research-training/",
-		ctaButton: {
+		ctaButtonData: {
 			ctaButtonType: "regular",
 			ctaButtonCopy: "Start your free trail",
 			ctaButtonUrl: "https://yoast.com/cart/?add-to-cart=1311259",
@@ -54,7 +54,7 @@ test( "The FullHeightCard is rendered including the CardBanner and CardDetails c
 				title={ course.title }
 				description={ course.description }
 				courseUrl={ course.courseUrl }
-				ctaButton={ course.ctaButton }
+				ctaButtonData={ course.ctaButtonData }
 				readMoreLinkText={ course.readMoreLinkText }
 			/>
 		</FullHeightCard>
