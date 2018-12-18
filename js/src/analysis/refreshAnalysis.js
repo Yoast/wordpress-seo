@@ -5,6 +5,7 @@ import {
 	setSeoResultsForKeyword,
 } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import { refreshSnippetEditor } from "../redux/actions/snippetEditor";
+import handleWorkerError from "./handleWorkerError";
 
 let isInitialized = false;
 
@@ -72,7 +73,7 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 				dataCollector.saveContentScore( readability.score );
 			}
 		} )
-		.catch( error => console.warn( error ) );
+		.catch( handleWorkerError );
 }
 
 /**

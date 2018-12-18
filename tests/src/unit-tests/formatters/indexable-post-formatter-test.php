@@ -96,7 +96,6 @@ class Indexable_Post_Formatter_Test extends \PHPUnit_Framework_TestCase {
 		$formatter->format( $indexable );
 	}
 
-
 	/**
 	 * Tests retreiving a meta value
 	 *
@@ -198,7 +197,7 @@ class Indexable_Post_Formatter_Test extends \PHPUnit_Framework_TestCase {
 			)
 			->getMock();
 
-		$seo_meta = new \stdClass();
+		$seo_meta                      = new \stdClass();
 		$seo_meta->internal_link_count = 404;
 		$seo_meta->incoming_link_count = 1337;
 
@@ -210,8 +209,8 @@ class Indexable_Post_Formatter_Test extends \PHPUnit_Framework_TestCase {
 		$indexable = new \stdClass();
 		$indexable = $formatter->set_link_count( $indexable );
 
-		$this->assertAttributeEquals( 404, 'link_count', $indexable  );
-		$this->assertAttributeEquals( 1337, 'incoming_link_count', $indexable  );
+		$this->assertAttributeEquals( 404, 'link_count', $indexable );
+		$this->assertAttributeEquals( 1337, 'incoming_link_count', $indexable );
 	}
 
 	/**

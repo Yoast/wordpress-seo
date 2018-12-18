@@ -36,8 +36,8 @@ class Indexable_Author_Formatter_Test extends \PHPUnit_Framework_TestCase {
 			->method( 'get_author_meta' )
 			->will(
 				$this->onConsecutiveCalls(
-					'title' ,
-				    'description' ,
+					'title',
+					'description',
 					'on'
 				)
 			);
@@ -62,5 +62,4 @@ class Indexable_Author_Formatter_Test extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse( $instance->get_noindex_value( true ) );
 		$this->assertFalse( $instance->get_noindex_value( false ) );
 	}
-
 }

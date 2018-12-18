@@ -15,6 +15,7 @@ use Yoast\YoastSEO\Watchers\Indexable_Post_Watcher;
  * @package Yoast\Tests\Watchers
  */
 class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
+
 	public function setUp() {
 		parent::setUp();
 
@@ -112,7 +113,7 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 			->getMock();
 
 		$formatter_mock
-			->expects($this->once() )
+			->expects( $this->once() )
 			->method( 'format' )
 			->with( $indexable_mock )
 			->will( $this->returnValue( $indexable_mock ) );
@@ -172,7 +173,6 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 
 		$instance->save_meta( 1 );
 	}
-
 
 	/**
 	 * Tests the save meta functionality

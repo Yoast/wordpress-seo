@@ -204,7 +204,7 @@ class Indexable extends Yoast_Model {
 	 * @return void
 	 */
 	public function set_meta( $meta_key, $meta_value, $auto_create = true ) {
-		$meta = $this->get_meta( $meta_key, $auto_create );
+		$meta             = $this->get_meta( $meta_key, $auto_create );
 		$meta->meta_value = $meta_value;
 	}
 

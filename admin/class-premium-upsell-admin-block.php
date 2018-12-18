@@ -60,7 +60,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		$dismiss_msg = sprintf( __( 'Dismiss %s upgrade notice', 'wordpress-seo' ), 'Yoast SEO Premium' );
 
 		/* translators: %s expands to Yoast SEO Premium */
-		$button_text = esc_html( sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' ) );
+		$button_text  = esc_html( sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' ) );
 		$button_text .= '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
 			'<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 

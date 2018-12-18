@@ -37,7 +37,7 @@ class Integration_Group_Test extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_construct() {
 		$classname = '\Yoast\YoastSEO\WordPress\Integration_Group';
-		// make sure only integrations are loaded.
+		// Make sure only integrations are loaded.
 		$instance = $this
 			->getMockBuilder( $classname )
 			->setMethods( array( 'ensure_integration' ) )
@@ -50,8 +50,8 @@ class Integration_Group_Test extends \PHPUnit_Framework_TestCase {
 			->with( $this->equalTo( array( 'a', 'b' ) ) );
 
 		// Trigger the constructor to test the implicit method call.
-		$reflectedClass = new \ReflectionClass( $classname );
-		$constructor    = $reflectedClass->getConstructor();
+		$reflected_class = new \ReflectionClass( $classname );
+		$constructor     = $reflected_class->getConstructor();
 		$constructor->invoke( $instance, array( 'a', 'b' ) );
 	}
 
@@ -75,8 +75,8 @@ class Integration_Group_Test extends \PHPUnit_Framework_TestCase {
 		$no_integration = new \stdClass();
 
 		// Trigger the constructor to test the implicit method call.
-		$reflectedClass = new \ReflectionClass( $classname );
-		$constructor    = $reflectedClass->getConstructor();
+		$reflected_class = new \ReflectionClass( $classname );
+		$constructor     = $reflected_class->getConstructor();
 		$constructor->invoke( $instance, array( $integration, $no_integration ) );
 
 		$this->assertAttributeEquals( array( $integration ), 'integrations', $instance );

@@ -71,6 +71,7 @@ test.sh
 /gettext.pot
 /.wordpress-svn
 /webpack-stats.json
+.recalibration.yaml
 
 ############
 # Dist files

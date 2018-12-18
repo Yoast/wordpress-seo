@@ -9,6 +9,7 @@
  * Class WPSEO_OpenGraph_OEmbed
  */
 class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
+
 	/**
 	 * Registers the hooks.
 	 */

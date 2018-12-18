@@ -32,11 +32,13 @@ import TermDataCollector from "./analysis/TermDataCollector";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
 import getApplyMarks from "./analysis/getApplyMarks";
 import { refreshDelay } from "./analysis/constants";
+import handleWorkerError from "./analysis/handleWorkerError";
 
 // Redux dependencies.
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
+import { setMarkerStatus } from "./redux/actions/markerButtons";
 
 // Helper dependencies.
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
@@ -234,6 +236,8 @@ window.yoastHideMarkers = true;
 
 		termScraper = new TermDataCollector( { store } );
 
+		store.dispatch( setMarkerStatus( "hidden" ) );
+
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [ termsTmceId, "yoast_wpseo_focuskw", "yoast_wpseo_metadesc", "excerpt", "editable-post-name", "editable-post-name-full" ],
@@ -304,7 +308,7 @@ window.yoastHideMarkers = true;
 			}
 		};
 		YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
-			YoastSEO.analysis.worker.initialize( assessorOptions );
+			YoastSEO.analysis.worker.initialize( assessorOptions ).catch( handleWorkerError );
 			YoastSEO.app.refresh();
 		};
 
@@ -344,7 +348,7 @@ window.yoastHideMarkers = true;
 			.then( () => {
 				jQuery( window ).trigger( "YoastSEO:ready" );
 			} )
-			.catch( error => console.warn( error ) );
+			.catch( handleWorkerError );
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );

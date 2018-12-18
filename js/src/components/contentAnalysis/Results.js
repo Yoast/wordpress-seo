@@ -22,9 +22,17 @@ class Results extends React.Component {
 	constructor( props ) {
 		super( props );
 
+		const results = this.props.results;
+
 		this.state = {
-			mappedResults: mapResults( this.props.results ),
+			mappedResults: {},
 		};
+
+		if ( results !== null ) {
+			this.state = {
+				mappedResults: mapResults( results ),
+			};
+		}
 
 		this.handleMarkButtonClick = this.handleMarkButtonClick.bind( this );
 	}
@@ -59,6 +67,7 @@ class Results extends React.Component {
 		// If marker button is clicked while active, disable markers.
 		if ( id === this.props.activeMarker ) {
 			this.props.setActiveMarker( null );
+			this.props.setMarkerPauseStatus( false );
 			this.removeMarkers();
 		} else {
 			this.props.setActiveMarker( id );
@@ -122,6 +131,7 @@ Results.propTypes = {
 	marksButtonClassName: PropTypes.string,
 	marksButtonStatus: PropTypes.string,
 	setActiveMarker: PropTypes.func.isRequired,
+	setMarkerPauseStatus: PropTypes.func.isRequired,
 	activeMarker: PropTypes.string,
 };
 
@@ -148,10 +158,12 @@ export default compose( [
 	withDispatch( dispatch => {
 		const {
 			setActiveMarker,
+			setMarkerPauseStatus,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
 			setActiveMarker,
+			setMarkerPauseStatus,
 		};
 	} ),
 ] )( Results );

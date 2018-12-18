@@ -54,5 +54,4 @@ class Indexable_Post_Formatter_Double extends Indexable_Post_Formatter {
 	public function set_link_count( $indexable ) {
 		return parent::set_link_count( $indexable );
 	}
-
 }

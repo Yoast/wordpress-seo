@@ -91,6 +91,8 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 	 * Filters the home URL.
 	 *
 	 * @param string $home_url Original home URL.
+	 * @param string $path     Relative path.
+	 *
 	 * @return string Home URL to override, or value of $home_url.
 	 */
 	public function filter_home_url( $home_url, $path ) {
