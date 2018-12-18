@@ -40,7 +40,7 @@ class NewTreeAdapter {
 			node = new StructuredNode( tag );
 		}
 
-		node.tag = tag;
+		node.tagName = tag;
 		node.namespace = namespace;
 		node.parent = null;
 
@@ -139,7 +139,7 @@ class NewTreeAdapter {
 	// Node getters and setters.
 
 	getTagName( node ) {
-		return node.tag;
+		return node.tagName;
 	}
 
 	getNamespaceURI( node ) {

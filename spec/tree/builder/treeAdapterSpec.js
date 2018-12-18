@@ -11,8 +11,7 @@ describe( "TreeAdapter", () => {
 	describe( "TreeAdapter constructor", () => {
 		it( "can make a TreeAdapter", () => {
 			const adapter = new TreeAdapter();
-
-			expect( adapter.currentParentNode ).toBe( null );
+			expect( adapter ).toEqual( new TreeAdapter() );
 		} );
 	} );
 

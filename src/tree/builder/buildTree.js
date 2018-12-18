@@ -1,4 +1,6 @@
 import { parseFragment } from "parse5";
+import StructuredIrrelevant from "../values/nodes/StructuredIrrelevant";
+import StructuredNode from "../values/nodes/StructuredNode";
 
 import NewTreeAdapter from "./NewTreeAdapter";
 import TreeAdapter from "./TreeAdapter";
@@ -30,6 +32,7 @@ const cleanUpNodeAfterParsing = function( node ) {
 	delete node.location;
 	delete node.namespace;
 	delete node.parent;
+	delete node.tagName;
 
 	return node;
 };

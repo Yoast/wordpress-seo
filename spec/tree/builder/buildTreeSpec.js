@@ -18,9 +18,24 @@ describe( "build tree", () => {
 	it( "can build a tree from html", () => {
 		const html = "<section>This? is a section.</section>";
 
+		const paragraph = new Paragraph();
+		paragraph.startIndex = 9;
+		paragraph.endIndex = 28;
+		paragraph.text = "This? is a section.";
+
+		const section = new StructuredNode( "section" );
+		section.startIndex = 0;
+		section.endIndex = 38;
+		section.children = [ paragraph ];
+
+		const expected = new StructuredNode( "root" );
+		expected.startIndex = 0;
+		expected.endIndex = 38;
+		expected.children = [ section ];
+
 		const tree = buildTree( html );
 
-		console.log( printTree( tree ).join( "\n" ) );
+		expect( JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
 	it( "can parse an HTML into a Paragraph", () => {
@@ -29,13 +44,11 @@ describe( "build tree", () => {
 
 		const tree = buildTree( input );
 
-		console.log( input.slice( 65, 99 ) );
-
-		const strong1 = new FormattingElement( "strong", {} );
+		const strong1 = new FormattingElement( "strong", { id: "some-id" } );
 		strong1.startIndex = 8;
 		strong1.endIndex = 46;
 
-		const strong2 = new FormattingElement( "strong", {} );
+		const strong2 = new FormattingElement( "strong", { "class": "weak" } );
 		strong2.startIndex = 65;
 		strong2.endIndex = 99;
 
@@ -45,7 +58,7 @@ describe( "build tree", () => {
 
 		const textContainer = new TextContainer();
 		textContainer.text = "This sentence needs to be read to have value as a sentence.";
-		textContainer.formatting = [ strong1, strong2, emph ];
+		textContainer.formatting = [ strong1, emph, strong2 ];
 
 		const paragraph = new Paragraph( "p" );
 		paragraph.startIndex = 0;
@@ -67,13 +80,12 @@ describe( "build tree", () => {
 
 		const heading = new Heading( 1 );
 		heading.startIndex = 0;
-		heading.endIndex = 61;
-		heading.tag = "h1";
+		heading.endIndex = 66;
 		heading.text = "This heading needs to be read to have value as a heading.";
 
 		const expected = new StructuredNode( "root" );
 		expected.startIndex = 0;
-		expected.endIndex = 61;
+		expected.endIndex = 66;
 		expected.children = [ heading ];
 
 		// Delete parent, to avoid circular JSON.
@@ -82,7 +94,6 @@ describe( "build tree", () => {
 			return node;
 		} );
 
-		console.log( printTree( tree ).join( "\n" ) );
 		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
@@ -106,9 +117,6 @@ describe( "build tree", () => {
 		expected.endIndex = 51;
 		expected.children = [ section ];
 
-		console.log( input.slice( comment.startIndex, comment.endIndex ) );
-
-		console.log( printTree( tree ).join( "\n" ) );
 		expect( JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
@@ -119,35 +127,34 @@ describe( "build tree", () => {
 
 		const paragraph1 = new Paragraph( "" );
 		paragraph1.startIndex = 8;
-		paragraph1.endIndex = 13;
+		paragraph1.endIndex = 14;
 		paragraph1.text = "Coffee";
 
 		const listItem1 = new ListItem();
 		listItem1.startIndex = 4;
-		listItem1.endIndex = 18;
+		listItem1.endIndex = 19;
 		listItem1.children = [ paragraph1 ];
 
 		const paragraph2 = new Paragraph( "" );
-		paragraph2.startIndex = 22;
-		paragraph2.endIndex = 25;
+		paragraph2.startIndex = 23;
+		paragraph2.endIndex = 26;
 		paragraph2.text = "Tea";
 
 		const listItem2 = new ListItem();
 		listItem2.startIndex = 19;
-		listItem2.endIndex = 30;
+		listItem2.endIndex = 31;
 		listItem2.children = [ paragraph2 ];
 
 		const list = new List( false );
 		list.startIndex = 0;
-		list.endIndex = 35;
+		list.endIndex = 36;
 		list.children = [ listItem1, listItem2 ];
 
-		const expected = new StructuredNode();
+		const expected = new StructuredNode( "root" );
 		expected.startIndex = 0;
-		expected.endIndex = 35;
+		expected.endIndex = 36;
 		expected.children = [ list ];
 
-		console.log( printTree( tree ).join( "\n" ) );
 		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
@@ -158,22 +165,22 @@ describe( "build tree", () => {
 
 		const paragraph1 = new Paragraph( "" );
 		paragraph1.startIndex = 8;
-		paragraph1.endIndex = 13;
+		paragraph1.endIndex = 14;
 		paragraph1.text = "Coffee";
 
 		const listItem1 = new ListItem();
 		listItem1.startIndex = 4;
-		listItem1.endIndex = 18;
+		listItem1.endIndex = 19;
 		listItem1.children = [ paragraph1 ];
 
 		const paragraph2 = new Paragraph( "" );
-		paragraph2.startIndex = 22;
-		paragraph2.endIndex = 25;
+		paragraph2.startIndex = 32;
+		paragraph2.endIndex = 35;
 		paragraph2.text = "Tea";
 
 		const structuredNode = new StructuredNode( "section" );
-		structuredNode.startIndex = 22;
-		structuredNode.endIndex = 44;
+		structuredNode.startIndex = 23;
+		structuredNode.endIndex = 45;
 		structuredNode.children = [ paragraph2 ];
 
 		const listItem2 = new ListItem();
@@ -183,15 +190,14 @@ describe( "build tree", () => {
 
 		const list = new List( false );
 		list.startIndex = 0;
-		list.endIndex = 50;
+		list.endIndex = 55;
 		list.children = [ listItem1, listItem2 ];
 
-		const expected = new StructuredNode();
+		const expected = new StructuredNode( "root" );
 		expected.startIndex = 0;
 		expected.endIndex = 55;
 		expected.children = [ list ];
 
-		console.log( printTree( tree ).join( "\n" ) );
 		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
@@ -211,12 +217,16 @@ describe( "build tree", () => {
 		structuredNode.endIndex = 52;
 		structuredNode.children = [ paragraph ];
 
-		const expected = new StructuredNode( "section" );
+		const section = new StructuredNode( "section" );
+		section.startIndex = 0;
+		section.endIndex = 62;
+		section.children = [ structuredNode ];
+
+		const expected = new StructuredNode( "root" );
 		expected.startIndex = 0;
 		expected.endIndex = 62;
-		expected.children = [ structuredNode ];
+		expected.children = [ section ];
 
-		console.log( printTree( tree ).join( "\n" ) );
 		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
@@ -230,17 +240,21 @@ describe( "build tree", () => {
 		heading.endIndex = 31;
 		heading.text = "First heading";
 
-		const paragraph = new Paragraph( "" );
+		const paragraph = new Paragraph( "p" );
 		paragraph.startIndex = 31;
 		paragraph.endIndex = 70;
 		paragraph.text = "This sentence. Another sentence.";
 
-		const expected = new StructuredNode( "section" );
-		expected.startIndex = 0;
-		expected.endIndex = 62;
-		expected.children = [ heading, paragraph ];
+		const section = new StructuredNode( "section" );
+		section.startIndex = 0;
+		section.endIndex = 80;
+		section.children = [ heading, paragraph ];
 
-		console.log( printTree( tree ).join( "\n" ) );
+		const expected = new StructuredNode( "root" );
+		expected.startIndex = 0;
+		expected.endIndex = 80;
+		expected.children = [ section ];
+
 		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 } );
