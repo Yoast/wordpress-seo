@@ -96,20 +96,8 @@ class WPSEO_Admin_Init {
 	 * Notify about the default tagline if the user hasn't changed it
 	 */
 	public function tagline_notice() {
-
-		$current_url = ( is_ssl() ? 'https://' : 'http://' );
-
-		if ( isset( $_SERVER['SERVER_NAME'] ) ) {
-			$current_url .= sanitize_text_field( wp_unslash( $_SERVER['SERVER_NAME'] ) );
-		}
-
-		if ( isset( $_SERVER['REQUEST_URI'] ) ) {
-			$current_url .= sanitize_file_name( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-		}
-
 		$query_args    = array(
 			'autofocus[control]' => 'blogdescription',
-			'url'                => rawurlencode( $current_url ),
 		);
 		$customize_url = add_query_arg( $query_args, wp_customize_url() );
 
