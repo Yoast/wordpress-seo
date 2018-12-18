@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { CardDetails, FullHeightCard, utils } from "yoast-components";
 import React from "react";
 import ReactDOM from "react-dom";
+import { __ } from "@wordpress/i18n";
 const { getCourseFeed } = utils;
 
 const OuterContainer = styled.ul`
@@ -59,9 +60,9 @@ class CoursesOverview extends React.Component {
 	/**
 	 * Converts the relevant data in a course to a header object.
 	 *
-	 * @param {Object} course to create a header for.
+	 * @param {Object} course The course to create a header for.
 	 *
-	 * @returns {Object} the header object.
+	 * @returns {Object} The header object.
 	 */
 	getHeaderData( course ) {
 		return {
@@ -74,9 +75,9 @@ class CoursesOverview extends React.Component {
 	/**
 	 * Converts the relevant data from a course for the ctaButton to an object.
 	 *
-	 * @param {string} course to create a ctaButton for.
+	 * @param {string} course The course to create a ctaButton for.
 	 *
-	 * @returns {Object} the data object for the ctaButton.
+	 * @returns {Object} The data object for the ctaButton.
 	 */
 	getButtonData( course ) {
 		return {
@@ -106,7 +107,7 @@ class CoursesOverview extends React.Component {
 							className={ "CourseCard" }
 							id={ course.id }
 							header={ this.getHeaderData( course ) }
-							banner={ course.isFree === "true" ? { text: "Free" } : null }
+							banner={ course.isFree === "true" ? { text: __( "Free", "wordpress-seo" ) } : null }
 						>
 							<CardDetails
 								description={ course.content }
