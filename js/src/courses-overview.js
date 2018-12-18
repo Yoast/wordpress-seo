@@ -57,7 +57,7 @@ class CoursesOverview extends React.Component {
 	/**
 	 * Converts the relevant data in a course to a header object.
 	 *
-	 * @param {string} course to create a header for.
+	 * @param {Object} course to create a header for.
 	 *
 	 * @returns {Object} the header object.
 	 */
