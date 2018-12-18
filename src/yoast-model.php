@@ -167,11 +167,11 @@ class Yoast_Model {
 	 * returned.
 	 *
 	 * If not, the class name will be converted using
-	 * the _class_name_to_table_name method method.
+	 * the class_name_to_table_name() method.
 	 *
 	 * If Model::$short_table_names == true or public static
 	 * property $_table_use_short_name == true then $class_name passed
-	 * to _class_name_to_table_name is stripped of namespace information.
+	 * to class_name_to_table_name() is stripped of namespace information.
 	 *
 	 * @param  string $class_name The class name to get the table name for.
 	 *
@@ -186,7 +186,7 @@ class Yoast_Model {
 		}
 
 		if ( $specified_table_name === null ) {
-			return static::_class_name_to_table_name( $class_name );
+			return static::class_name_to_table_name( $class_name );
 		}
 
 		return $specified_table_name;
@@ -226,7 +226,7 @@ class Yoast_Model {
 	 *
 	 * @return string The table name.
 	 */
-	protected static function _class_name_to_table_name( $class_name ) {
+	protected static function class_name_to_table_name( $class_name ) {
 		$find         = array(
 			'/\\\\/',
 			'/(?<=[a-z])([A-Z])/',
