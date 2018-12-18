@@ -11,5 +11,20 @@ import TreeAdapter from "./TreeAdapter";
  */
 export default function( html ) {
 	const treeAdapter = new NewTreeAdapter();
-	return parseFragment( html, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+	const tree = parseFragment( html, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+	// Delete temporary parameters that were needed for parsing, set endIndex of root node.
+	let endIndexRootNode = 0;
+	tree.map( node => {
+		delete node.location;
+		delete node.namespace;
+		delete node.parent;
+
+		endIndexRootNode = Math.max( node.endIndex, endIndexRootNode );
+
+		return node;
+	} );
+	// Set root node's end index to end of text.
+	tree.endIndex = endIndexRootNode;
+
+	return tree;
 }

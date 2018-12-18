@@ -62,7 +62,7 @@ class NewTreeAdapter {
 	appendChild( parent, child ) {
 		/*
 		 	Set start and end index of child element,
-		 	since end tag position can be known atm.
+		 	since end tag will have been parsed.
 		 */
 		this._setStartEndIndex( child, child.location );
 
@@ -169,7 +169,6 @@ class NewTreeAdapter {
 
 	_setStartEndIndex( child, location ) {
 		if ( location && location.endTag ) {
-			console.log( location );
 			child.startIndex = location.startOffset;
 			child.endIndex = location.endTag.startOffset;
 		}

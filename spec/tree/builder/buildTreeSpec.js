@@ -62,16 +62,23 @@ describe( "build tree", () => {
 
 		const heading = new Heading( 1 );
 		heading.startIndex = 0;
-		heading.endIndex = 81;
+		heading.endIndex = 61;
+		heading.tag = "h1";
 		heading.text = "This heading needs to be read to have value as a heading.";
 
 		const expected = new StructuredNode( "root" );
 		expected.startIndex = 0;
-		expected.endIndex = 81;
+		expected.endIndex = 61;
 		expected.children = [ heading ];
 
+		// Delete parent, to avoid circular JSON.
+		tree.map( node => {
+			delete node.parent;
+			return node;
+		} );
+
 		console.log( printTree( tree ).join( "\n" ) );
-		// expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
 	it( "can parse an HTML comment into Structured Irrelevant node", () => {
