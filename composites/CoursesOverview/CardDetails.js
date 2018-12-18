@@ -69,7 +69,6 @@ const CardUpsellButton = styled.a`
 	}
 `;
 
-
 const CardInfoLink = styled.a`
 	font-weight: bold;
 `;

@@ -28,10 +28,14 @@ test( "The FullHeightCard is rendered including the CardBanner and CardDetails c
 		description: "Do you know the essential first step of good SEO? It’s keyword research. In this training, \n" +
 		             "you’ll learn how to research and select the keywords that will guide searchers to your pages.",
 		courseUrl: "https://yoast.com/academy/keyword-research-training/",
-		shopUrl: "https://yoast.com/cart/?add-to-cart=1311259",
-		banner: {
-			text: "Free trial available",
+		ctaButton: {
+			ctaButtonType: "regular",
+			ctaButtonCopy: "Start your free trail",
+			ctaButtonUrl: "https://yoast.com/cart/?add-to-cart=1311259",
 		},
+		readMoreLinkText: "Read more about this training »",
+		banner: { text: "Free" },
+
 	};
 	const header = {
 		image: course.image,
@@ -50,7 +54,8 @@ test( "The FullHeightCard is rendered including the CardBanner and CardDetails c
 				title={ course.title }
 				description={ course.description }
 				courseUrl={ course.courseUrl }
-				shopUrl={ course.shopUrl }
+				ctaButton={ course.ctaButton }
+				readMoreLinkText={ course.readMoreLinkText }
 			/>
 		</FullHeightCard>
 	);
