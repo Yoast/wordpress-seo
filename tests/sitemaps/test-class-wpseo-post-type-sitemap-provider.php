@@ -40,11 +40,45 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$index_links = self::$class_instance->get_index_links( 1 );
 		$this->assertNotEmpty( $index_links );
 		$this->assertContains( 'http://example.org/post-sitemap.xml', $index_links[0] );
+		$this->assertContains( 'http://example.org/page-sitemap.xml', $index_links[1] );
 
 		$this->factory->post->create();
 		$index_links = self::$class_instance->get_index_links( 1 );
 		$this->assertContains( 'http://example.org/post-sitemap1.xml', $index_links[0] );
 		$this->assertContains( 'http://example.org/post-sitemap2.xml', $index_links[1] );
+	}
+
+	/**
+	 * Makes sure the filtered out entries do not cause a sitemap index link to return a 404.
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_index_links
+	 */
+	public function test_get_index_links_empty_bucket() {
+
+		$this->factory->post->create();
+		$this->excluded_posts = array( $this->factory->post->create() ); // remove this post.
+		$this->factory->post->create();
+
+		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'exclude_post' ) );
+		add_filter( 'wpseo_sitemap_entries_per_page', function() {
+			return 1;
+		} );
+
+		// Fetch the global sitemap.
+		set_query_var( 'sitemap', 'post' );
+		set_query_var( 'sitemap_n', '2' );
+
+		// Load the sitemap.
+		$sitemaps = new WPSEO_Sitemaps_Double();
+		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
+
+		// Expect an empty list to be output.
+		$this->expectOutputContains(
+			'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\r\n" . '</urlset>'
+		);
+
+		// Remove the filter.
+		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'exclude_post' ) );
 	}
 
 	/**
@@ -287,5 +321,9 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 		// Expect the attachment not to be added to the list.
 		$this->assertCount( 0, self::$class_instance->get_sitemap_links( 'attachment', 100, 0 ) );
+	}
+
+	public function exclude_post( $post_ids ) {
+		return $this->excluded_posts;
 	}
 }
