@@ -386,9 +386,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'opengraph-image', '/test.png' );
 
 		$url = add_query_arg(
-			array(
-				'cat' => $term_id,
-			), '/'
+			array( 'cat' => $term_id ),
+			'/'
 		);
 		$this->go_to( $url );
 

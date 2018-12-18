@@ -137,7 +137,8 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_get_charset() {
 		$instance = new Database_Migration_Double(
-			(object) array( 'charset' => 'foo' ), new Dependency_Management()
+			(object) array( 'charset' => 'foo' ),
+			new Dependency_Management()
 		);
 
 		$this->assertEquals( 'foo', $instance->get_charset() );
@@ -150,7 +151,8 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_get_configuration() {
 		$instance = new Database_Migration_Double(
-			(object) array( 'charset' => 'foo' ), new Dependency_Management()
+			(object) array( 'charset' => 'foo' ),
+			new Dependency_Management()
 		);
 
 		$this->assertInternalType( 'array', $instance->get_configuration() );

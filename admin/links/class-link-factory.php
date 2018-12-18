@@ -42,10 +42,10 @@ class WPSEO_Link_Factory {
 	 */
 	public function build( array $extracted_links ) {
 		$extracted_links = array_map( array( $this, 'build_link' ), $extracted_links );
-		$filtered_links  = array_filter( $extracted_links, array(
-			$this->filter,
-			'internal_link_with_fragment_filter',
-		) );
+		$filtered_links  = array_filter(
+			$extracted_links,
+			array( $this->filter, 'internal_link_with_fragment_filter' )
+		);
 
 		return $filtered_links;
 	}
