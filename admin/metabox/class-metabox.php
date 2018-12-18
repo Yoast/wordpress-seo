@@ -411,9 +411,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'advanced',
 			$content,
 			__( 'Advanced', 'wordpress-seo' ),
-			array(
-				'single' => true,
-			)
+			array( 'single' => true )
 		);
 
 		return new WPSEO_Metabox_Tab_Section(

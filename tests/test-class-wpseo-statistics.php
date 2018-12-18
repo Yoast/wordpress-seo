@@ -138,9 +138,7 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Statistics::get_post_count
 	 */
 	public function test_only_published_posts() {
-		$posts = $this->factory->post->create_many( 4, array(
-			'post_status' => 'draft',
-		) );
+		$posts = $this->factory->post->create_many( 4, array( 'post_status' => 'draft' ) );
 
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 0 ); // No-focus.
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 1 ); // Bad.
