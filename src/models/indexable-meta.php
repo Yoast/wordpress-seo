@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Models
  */
 
-namespace Yoast\YoastSEO\Models;
+namespace Yoast\WP\Free\Models;
 
-use Yoast\YoastSEO\Loggers\Logger;
-use Yoast\YoastSEO\Yoast_Model;
+use Yoast\WP\Free\Loggers\Logger;
+use Yoast\WP\Free\Yoast_Model;
 
 /**
  * Table definition for the Indexable Meta table.

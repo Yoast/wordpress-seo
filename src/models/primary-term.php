@@ -5,9 +5,9 @@
  * @package Yoast\YoastSEO\Models
  */
 
-namespace Yoast\YoastSEO\Models;
+namespace Yoast\WP\Free\Models;
 
-use Yoast\YoastSEO\Yoast_Model;
+use Yoast\WP\Free\Yoast_Model;
 
 /**
  * Primary Term model definition.

@@ -2,7 +2,7 @@
 
 namespace Yoast\Tests\Doubles;
 
-use Yoast\YoastSEO\Formatters\Indexable_Post_Formatter;
+use Yoast\WP\Free\Formatters\Indexable_Post_Formatter;
 
 class Indexable_Post_Formatter_Double extends Indexable_Post_Formatter {
 

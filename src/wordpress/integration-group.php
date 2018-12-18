@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\WordPress;
  */
 
-namespace Yoast\YoastSEO\WordPress;
+namespace Yoast\WP\Free\WordPress;
 
 /**
  * Manage integrations and registers hooks at the required moment.

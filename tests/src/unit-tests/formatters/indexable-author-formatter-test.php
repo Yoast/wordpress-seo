@@ -15,13 +15,13 @@ use Yoast\Tests\Doubles\Indexable_Author_Formatter_Double;
 class Indexable_Author_Formatter_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Author_Formatter::format
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Author_Formatter::get_meta_data
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Author_Formatter::get_noindex_value
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Author_Formatter::format
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Author_Formatter::get_meta_data
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Author_Formatter::get_noindex_value
 	 */
 	public function test_format() {
 		$formatter = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Formatters\Indexable_Author_Formatter' )
+			->getMockBuilder( '\Yoast\WP\Free\Formatters\Indexable_Author_Formatter' )
 			->setConstructorArgs( array( 1 ) )
 			->setMethods( array( 'get_permalink', 'get_author_meta' ) )
 			->getMock();

@@ -2,7 +2,7 @@
 
 namespace Yoast\Tests\Doubles;
 
-class Database_Migration extends \Yoast\YoastSEO\Config\Database_Migration {
+class Database_Migration extends \Yoast\WP\Free\Config\Database_Migration {
 
 	/**
 	 * @inheritDoc

@@ -2,7 +2,7 @@
 
 namespace Yoast\Tests\UnitTests\WordPress;
 
-use Yoast\YoastSEO\WordPress\Integration_Group;
+use Yoast\WP\Free\WordPress\Integration_Group;
 
 /**
  * Class Database_Migration_Test
@@ -16,13 +16,13 @@ class Integration_Group_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the addition of an integration.
 	 *
-	 * @covers \Yoast\YoastSEO\WordPress\Integration_Group::add_integration()
+	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::add_integration()
 	 */
 	public function test_add_integrations() {
-		$instance = new \Yoast\YoastSEO\WordPress\Integration_Group();
+		$instance = new \Yoast\WP\Free\WordPress\Integration_Group();
 
 		$integration = $this
-			->getMockBuilder( '\Yoast\YoastSEO\WordPress\Integration' )
+			->getMockBuilder( '\Yoast\WP\Free\WordPress\Integration' )
 			->getMock();
 
 		$instance->add_integration( $integration );
@@ -33,10 +33,10 @@ class Integration_Group_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests ensure integration is called on constructor
 	 *
-	 * @covers \Yoast\YoastSEO\WordPress\Integration_Group::__construct()
+	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::__construct()
 	 */
 	public function test_construct() {
-		$classname = '\Yoast\YoastSEO\WordPress\Integration_Group';
+		$classname = '\Yoast\WP\Free\WordPress\Integration_Group';
 		// Make sure only integrations are loaded.
 		$instance = $this
 			->getMockBuilder( $classname )
@@ -58,14 +58,14 @@ class Integration_Group_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests to make sure only Integration instances are used in the Integration Group
 	 *
-	 * @covers \Yoast\YoastSEO\WordPress\Integration_Group::ensure_integration()
+	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::ensure_integration()
 	 */
 	public function test_ensure_integration() {
 		$integration = $this
-			->getMockBuilder( '\Yoast\YoastSEO\WordPress\Integration' )
+			->getMockBuilder( '\Yoast\WP\Free\WordPress\Integration' )
 			->getMock();
 
-		$classname = '\Yoast\YoastSEO\WordPress\Integration_Group';
+		$classname = '\Yoast\WP\Free\WordPress\Integration_Group';
 
 		$instance = $this
 			->getMockBuilder( $classname )
@@ -85,11 +85,11 @@ class Integration_Group_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests that register hooks is called on the integration
 	 *
-	 * @covers \Yoast\YoastSEO\WordPress\Integration_Group::register_hooks()
+	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::register_hooks()
 	 */
 	public function test_register_hooks() {
 		$integration = $this
-			->getMockBuilder( '\Yoast\YoastSEO\WordPress\Integration' )
+			->getMockBuilder( '\Yoast\WP\Free\WordPress\Integration' )
 			->setMethods( array( 'register_hooks' ) )
 			->getMock();
 

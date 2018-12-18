@@ -2,9 +2,9 @@
 
 namespace Yoast\Tests\UnitTests\Exceptions;
 
-use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
-use Yoast\YoastSEO\Loggers\Logger;
-use Yoast\YoastSEO\Watchers\Indexable_Post_Watcher;
+use Yoast\WP\Free\Exceptions\No_Indexable_Found;
+use Yoast\WP\Free\Loggers\Logger;
+use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
 
 /**
  * Class Indexable_Author_Test
@@ -40,8 +40,8 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the exception for a non existing post.
 	 *
-	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::from_post_id()
-	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::create_and_log_exception()
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::from_post_id()
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::create_and_log_exception()
 	 */
 	public function test_from_post_id() {
 		try {
@@ -58,8 +58,8 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the exception for a non existing term.
 	 *
-	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::from_term_id()
-	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::create_and_log_exception()
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::from_term_id()
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::create_and_log_exception()
 	 */
 	public function test_from_term_id() {
 		try {
@@ -76,8 +76,8 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the exception for a non existing term.
 	 *
-	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::from_primary_term()
-	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::create_and_log_exception()
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::from_primary_term()
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::create_and_log_exception()
 	 */
 	public function test_from_primary_term() {
 		try {
@@ -94,8 +94,8 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the exception for a non existing post.
 	 *
-	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::from_author_id()
-	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::create_and_log_exception()
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::from_author_id()
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::create_and_log_exception()
 	 */
 	public function test_from_author_id() {
 		try {
@@ -112,8 +112,8 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the exception for a non existing indexable meta.
 	 *
-	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::from_meta_key()
-	 * @covers \Yoast\YoastSEO\Exceptions\No_Indexable_Found::create_and_log_exception()
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::from_meta_key()
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::create_and_log_exception()
 	 */
 	public function test_from_meta_key() {
 		try {

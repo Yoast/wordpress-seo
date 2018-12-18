@@ -5,11 +5,11 @@
  * @package Yoast\YoastSEO\Config
  */
 
-namespace Yoast\YoastSEO\Config;
+namespace Yoast\WP\Free\Config;
 
-use Yoast\YoastSEO\WordPress\Integration;
-use Yoast\YoastSEO\WordPress\Integration_Group;
-use Yoast\YoastSEO\Yoast_Model;
+use Yoast\WP\Free\WordPress\Integration;
+use Yoast\WP\Free\WordPress\Integration_Group;
+use Yoast\WP\Free\Yoast_Model;
 use YoastSEO_Vendor\ORM;
 
 /**
