@@ -1,5 +1,6 @@
 import buildTree from "../../../src/tree/builder/buildTree";
 import printTree from "../../../src/tree/utils/printTree";
+import StructuredIrrelevant from "../../../src/tree/values/nodes/StructuredIrrelevant";
 
 import StructuredNode from "../../../src/tree/values/nodes/StructuredNode";
 import Paragraph from "../../../src/tree/values/nodes/Paragraph";
@@ -28,31 +29,35 @@ describe( "build tree", () => {
 
 		const tree = buildTree( input );
 
-		const formatting = new FormattingElement(
-			"strong",
-			// "This ".length
-			5,
-			// "This sentence".length
-			13,
-			{},
-		);
+		console.log( input.slice( 65, 99 ) );
+
+		const strong1 = new FormattingElement( "strong", {} );
+		strong1.startIndex = 8;
+		strong1.endIndex = 46;
+
+		const strong2 = new FormattingElement( "strong", {} );
+		strong2.startIndex = 65;
+		strong2.endIndex = 99;
+
+		const emph = new FormattingElement( "emph", {} );
+		emph.startIndex = 59;
+		emph.endIndex = 106;
 
 		const textContainer = new TextContainer();
 		textContainer.text = "This sentence needs to be read to have value as a sentence.";
-		textContainer.formatting = formatting;
+		textContainer.formatting = [ strong1, strong2, emph ];
 
 		const paragraph = new Paragraph( "p" );
 		paragraph.startIndex = 0;
-		paragraph.endIndex = 81;
+		paragraph.endIndex = 139;
 		paragraph.textContainer = textContainer;
 
-		const expected = new StructuredNode();
+		const expected = new StructuredNode( "root" );
 		expected.startIndex = 0;
-		expected.endIndex = 81;
+		expected.endIndex = 139;
 		expected.children = [ paragraph ];
 
-		console.log( printTree( tree ).join( "\n" ) );
-		// expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
 	it( "can parse an HTML into a Heading", () => {
@@ -86,23 +91,25 @@ describe( "build tree", () => {
 
 		const tree = buildTree( input );
 
-		const heading = new Heading( 1 );
-		heading.startIndex = 9;
-		heading.endIndex = 31;
-		heading.text = "First heading";
+		const comment = new StructuredIrrelevant( "comment" );
+		comment.startIndex = 9;
+		comment.endIndex = 41;
+		comment.content = " An unimportant comment. ";
 
-		const paragraph = new Paragraph( "" );
-		paragraph.startIndex = 31;
-		paragraph.endIndex = 70;
-		paragraph.text = "This sentence. Another sentence.";
+		const section = new StructuredNode( "section" );
+		section.startIndex = 0;
+		section.endIndex = 51;
+		section.children = [ comment ];
 
-		const expected = new StructuredNode( "section" );
+		const expected = new StructuredNode( "root" );
 		expected.startIndex = 0;
-		expected.endIndex = 62;
-		expected.children = [ heading, paragraph ];
+		expected.endIndex = 51;
+		expected.children = [ section ];
+
+		console.log( input.slice( comment.startIndex, comment.endIndex ) );
 
 		console.log( printTree( tree ).join( "\n" ) );
-		// expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+		expect( JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
 	it( "can parse HTML into a List with ListItems, which are simple paragraphs", () => {
@@ -141,7 +148,7 @@ describe( "build tree", () => {
 		expected.children = [ list ];
 
 		console.log( printTree( tree ).join( "\n" ) );
-		// expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
 	it( "can parse HTML into a List with ListItems, which are simple paragraphs or structured nodes", () => {
@@ -185,7 +192,7 @@ describe( "build tree", () => {
 		expected.children = [ list ];
 
 		console.log( printTree( tree ).join( "\n" ) );
-		// expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
 
@@ -210,7 +217,7 @@ describe( "build tree", () => {
 		expected.children = [ structuredNode ];
 
 		console.log( printTree( tree ).join( "\n" ) );
-		// expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
 	it( "can parse an HTML text into a StructuredNode with a few siblings", () => {
@@ -234,6 +241,6 @@ describe( "build tree", () => {
 		expected.children = [ heading, paragraph ];
 
 		console.log( printTree( tree ).join( "\n" ) );
-		// expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 } );

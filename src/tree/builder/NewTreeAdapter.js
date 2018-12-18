@@ -60,12 +60,6 @@ class NewTreeAdapter {
 	// Tree manipulation.
 
 	appendChild( parent, child ) {
-		/*
-		 	Set start and end index of child element,
-		 	since end tag will have been parsed.
-		 */
-		this._setStartEndIndex( child, child.location );
-
 		child.parent = parent;
 		if ( child instanceof FormattingElement ) {
 			// Formatting element.
@@ -165,13 +159,6 @@ class NewTreeAdapter {
 			return;
 		}
 		return node.location;
-	}
-
-	_setStartEndIndex( child, location ) {
-		if ( location && location.endTag ) {
-			child.startIndex = location.startOffset;
-			child.endIndex = location.endTag.startOffset;
-		}
 	}
 }
 
