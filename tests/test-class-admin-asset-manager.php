@@ -77,13 +77,14 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
 	 */
 	public function test_register_script() {
-		$this->asset_manager->register_script( new WPSEO_Admin_Asset( array(
+		$asset_args = array(
 			'name'      => 'handle',
 			'src'       => 'src',
 			'deps'      => array( 'deps' ),
 			'version'   => 'version',
 			'in_footer' => 'in_footer',
-		) ) );
+		);
+		$this->asset_manager->register_script( new WPSEO_Admin_Asset( $asset_args ) );
 
 		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
 		// Use the WordPress internals to assert instead.
@@ -106,13 +107,14 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
 	 */
 	public function test_register_script_with_prefix() {
-		$prefix = 'yoast-custom-prefix';
-
+		$prefix        = 'yoast-custom-prefix';
 		$asset_manager = new WPSEO_Admin_Asset_Manager( null, $prefix );
-		$asset_manager->register_script( new WPSEO_Admin_Asset( array(
+
+		$asset_args = array(
 			'name'      => 'handle',
 			'src'       => 'src',
-		) ) );
+		);
+		$asset_manager->register_script( new WPSEO_Admin_Asset( $asset_args ) );
 
 		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
 		// Use the WordPress internals to assert instead.
@@ -125,11 +127,12 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
 	 */
 	public function test_register_script_suffix() {
-		$this->asset_manager->register_script( new WPSEO_Admin_Asset( array(
+		$asset_args = array(
 			'name'   => 'handle2', // Handles have to be unique, isolation YaY ¯\_(ツ)_/¯.
 			'src'    => 'src',
 			'suffix' => '.suffix',
-		) ) );
+		);
+		$this->asset_manager->register_script( new WPSEO_Admin_Asset( $asset_args ) );
 
 		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
 		// Use the WordPress internals to assert instead.
@@ -144,13 +147,14 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_style
 	 */
 	public function test_register_style() {
-		$this->asset_manager->register_style( new WPSEO_Admin_Asset( array(
+		$asset_args = array(
 			'name'    => 'handle',
 			'src'     => 'src',
 			'deps'    => array( 'deps' ),
 			'version' => 'version',
 			'media'   => 'print',
-		) ) );
+		);
+		$this->asset_manager->register_style( new WPSEO_Admin_Asset( $asset_args ) );
 
 		// We really want to mock wp_enqueue_style here but we can't because of PHP 5.2
 		// Use the WordPress internals to assert instead.
@@ -173,13 +177,14 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_style
 	 */
 	public function test_register_style_with_prefix() {
-		$prefix = 'yoast-custom-prefix';
-
+		$prefix        = 'yoast-custom-prefix';
 		$asset_manager = new WPSEO_Admin_Asset_Manager( null, $prefix );
-		$asset_manager->register_style( new WPSEO_Admin_Asset( array(
+
+		$asset_args = array(
 			'name'      => 'handle',
 			'src'       => 'src',
-		) ) );
+		);
+		$asset_manager->register_style( new WPSEO_Admin_Asset( $asset_args ) );
 
 		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
 		// Use the WordPress internals to assert instead.
@@ -192,11 +197,12 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
 	 */
 	public function test_register_style_suffix() {
-		$this->asset_manager->register_style( new WPSEO_Admin_Asset( array(
+		$asset_args = array(
 			'name'   => 'handle2', // Handles have to be unique, isolation YaY ¯\_(ツ)_/¯.
 			'src'    => 'src',
 			'suffix' => '.suffix',
-		) ) );
+		);
+		$this->asset_manager->register_style( new WPSEO_Admin_Asset( $asset_args ) );
 
 		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
 		// Use the WordPress internals to assert instead.
