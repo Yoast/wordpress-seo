@@ -17,11 +17,12 @@ const cleanUpNodeAfterParsing = function( node ) {
 	if ( node.location ) {
 		// (Need to do this here since end tag info is only completely available after parsing).
 		node.startIndex = node.location.startOffset;
-		// Check if node is a comment, if so, it does not have an end tag.
-		if ( node.tag === "comment" ) {
-			node.endIndex = node.location.endOffset;
-		} else {
+
+		if ( node.endTag ) {
 			node.endIndex = node.location.endTag.endOffset;
+		} else {
+			// Some elements do not have an end tag, like comments or images.
+			node.endIndex = node.location.endOffset;
 		}
 	}
 
