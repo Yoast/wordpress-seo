@@ -1,4 +1,6 @@
 import TreeAdapter from "../../../src/tree/builder/TreeAdapter";
+import treeToStringifiedJSON from "../../../src/tree/utils/treeToStringifiedJSON";
+import FormattingElement from "../../../src/tree/values/FormattingElement";
 import StructuredIrrelevant from "../../../src/tree/values/nodes/StructuredIrrelevant";
 import Heading from "../../../src/tree/values/nodes/Heading";
 import Paragraph from "../../../src/tree/values/nodes/Paragraph";
@@ -196,6 +198,50 @@ describe( "TreeAdapter", () => {
 
 			expect( structuredNode.children[ 3 ] instanceof Paragraph ).toBe( true );
 			expect( structuredNode.children[ 3 ].textContainer.text ).toEqual( "Add some text." );
+		} );
+	} );
+
+	describe( "TreeAdapter appendChild", () => {
+		it( "appends a node to a node", () => {
+			const paragraph = new Paragraph( "p" );
+
+			const section = new StructuredNode( "section" );
+
+			const adapter = new TreeAdapter();
+			adapter.appendChild( section, paragraph );
+
+			expect( section.children ).toHaveLength( 1 );
+		} );
+
+		it( "wraps a FormattingElement in a Paragraph before adding it to a StructuredNode", () => {
+			const structuredNode = new StructuredNode( "section" );
+			const formattingElement = new FormattingElement( "strong" );
+
+			const adapter = new TreeAdapter();
+			adapter.appendChild( structuredNode, formattingElement );
+
+			expect( structuredNode.children[ 0 ] ).toBeInstanceOf( Paragraph );
+		} );
+
+		it( "hoists the formatting element up the tree until it encounters a Paragraph or Heading.", () => {
+			const paragraph = new Paragraph( "section" );
+
+			const formattingElement = new FormattingElement( "strong" );
+			const nestedFormatting = new FormattingElement( "emph" );
+
+			nestedFormatting.parent = formattingElement;
+			formattingElement.parent = paragraph;
+
+			paragraph.textContainer.formatting.push( formattingElement );
+
+			const adapter = new TreeAdapter();
+			adapter.appendChild( formattingElement, nestedFormatting );
+
+			console.log( paragraph.textContainer );
+
+			expect( paragraph.textContainer.formatting ).toHaveLength( 2 );
+			expect( paragraph.textContainer.formatting[ 0 ].type ).toEqual( "strong" );
+			expect( paragraph.textContainer.formatting[ 1 ].type ).toEqual( "emph" );
 		} );
 	} );
 } );
