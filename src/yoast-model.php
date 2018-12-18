@@ -150,7 +150,7 @@ class Yoast_Model {
 	 *
 	 * @return string The value of the property.
 	 */
-	protected static function _get_static_property( $class_name, $property, $default = null ) {
+	protected static function get_static_property( $class_name, $property, $default = null ) {
 		if ( ! \class_exists( $class_name ) || ! \property_exists( $class_name, $property ) ) {
 			return $default;
 		}
@@ -178,7 +178,7 @@ class Yoast_Model {
 	 * @return string The table name.
 	 */
 	protected static function _get_table_name( $class_name ) {
-		$specified_table_name = static::_get_static_property( $class_name, '_table' );
+		$specified_table_name = static::get_static_property( $class_name, '_table' );
 		$use_short_class_name = static::_use_short_table_name( $class_name );
 		if ( $use_short_class_name ) {
 			$exploded_class_name = \explode( '\\', $class_name );
@@ -202,7 +202,7 @@ class Yoast_Model {
 	 * @return bool True when short table name should be used.
 	 */
 	protected static function _use_short_table_name( $class_name ) {
-		$class_property = static::_get_static_property( $class_name, '_table_use_short_name' );
+		$class_property = static::get_static_property( $class_name, '_table_use_short_name' );
 
 		if ( $class_property === null ) {
 			return static::$short_table_names;
@@ -252,7 +252,7 @@ class Yoast_Model {
 	 * @return string|null The ID column name.
 	 */
 	protected static function _get_id_column_name( $class_name ) {
-		return static::_get_static_property( $class_name, '_id_column', static::DEFAULT_ID_COLUMN );
+		return static::get_static_property( $class_name, '_id_column', static::DEFAULT_ID_COLUMN );
 	}
 
 	/**
@@ -292,7 +292,7 @@ class Yoast_Model {
 		$class_name = static::$auto_prefix_models . $class_name;
 		$table_name = static::_get_table_name( $class_name );
 		if ( $connection_name === null ) {
-			$connection_name = static::_get_static_property( $class_name, '_connection_name', ORMWrapper::DEFAULT_CONNECTION );
+			$connection_name = static::get_static_property( $class_name, '_connection_name', ORMWrapper::DEFAULT_CONNECTION );
 		}
 		$wrapper = ORMWrapper::for_table( $table_name, $connection_name );
 		$wrapper->set_class_name( $class_name );
