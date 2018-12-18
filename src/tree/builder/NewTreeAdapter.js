@@ -21,7 +21,8 @@ class NewTreeAdapter {
 			node = new StructuredIrrelevant( tag );
 		} else if ( formattingElements.includes( tag ) ) {
 			// Formatting element.
-			node = new FormattingElement( tag, attributes );
+			const parsedAttributes = this._parseAttributes( attributes );
+			node = new FormattingElement( tag, parsedAttributes );
 		} else if ( headings.includes( tag ) ) {
 			// Heading.
 			node = new Heading( parseInt( tag[ 1 ], 10 ) );
@@ -44,6 +45,22 @@ class NewTreeAdapter {
 		node.parent = null;
 
 		return node;
+	}
+
+	/**
+	 * Parses the HTML element attributes from parse5's format to a plain JS object.
+	 *
+	 * @param {{ name: string, value: string }[]} parse5attributes		The attributes as parsed by parse5.
+	 *
+	 * @returns {Object} The parsed attributes.
+	 *
+	 * @private
+	 */
+	_parseAttributes( parse5attributes ) {
+		return parse5attributes.reduce( ( attributes, attribute ) => {
+			attributes[ attribute.name ] = attribute.value;
+			return attributes;
+		}, {} );
 	}
 
 	createDocumentFragment() {
