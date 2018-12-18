@@ -4,8 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
-Requires at least: 4.8
-Tested up to: 5.0
+Requires at least: 4.9
+Tested up to: 5.0.1
 Stable tag: 9.2.1
 Requires PHP: 5.2.4
 
@@ -107,7 +107,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Changelog ==
 
 = 9.3.0 =
-Release Date: December 11th, 2018
+Release Date: December 18th, 2018
 
 Enhancements:
 
