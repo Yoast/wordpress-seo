@@ -167,30 +167,59 @@ class TreeAdapter {
 	 */
 	insertText( node, text ) {
 		if ( node instanceof Heading || node instanceof Paragraph ) {
-			// Add text to the heading or paragraph.
 			node.textContainer.appendText( text );
 		} else if ( node instanceof FormattingElement ) {
-			// Formatting element.
-			// Hoist element up the tree until it encounters a paragraph or heading.
-			let parent = node.parent;
-			while ( ! ( parent instanceof Paragraph || parent instanceof Heading ) ) {
-				parent = parent.parent;
-			}
-			// Append text to parent's text container.
-			parent.textContainer.appendText( text );
+			this._addFormattingElementText( node, text );
 		} else {
-			// Get the previous sibling of this node.
-			const prevChild = node.children[ node.children.length - 1 ];
-			// If the previous child is a paragraph...
-			if ( prevChild && prevChild instanceof Paragraph ) {
-				// Append text to the paragraph.
-				prevChild.textContainer.appendText( text );
-			} else {
-				// Else: wrap the text in a (implicit) paragraph and add it to the tree.
-				const paragraph = new Paragraph();
-				paragraph.textContainer.appendText( text );
-				node.children.push( paragraph );
-			}
+			this._addStructuredNodeText( node, text );
+		}
+	}
+
+	/**
+	 * Appends the given text to the formatting element's most recent ancestor
+	 * who is either a paragraph or a heading.
+	 *
+	 * @param {FormattingElement} formattingElement	The formatting element.
+	 * @param {string} text 						The text to add.
+	 *
+	 * @returns {void}
+	 *
+	 * @private
+	 */
+	_addFormattingElementText( formattingElement, text ) {
+		// Hoist element up the tree until it encounters a paragraph or heading.
+		let parent = formattingElement.parent;
+		while ( ! ( parent instanceof Paragraph || parent instanceof Heading ) ) {
+			parent = parent.parent;
+		}
+		// Append text to parent's text container.
+		parent.textContainer.appendText( text );
+	}
+
+	/**
+	 * Appends the given text to either:
+	 *  1. The node's most recent child, if it is a paragraph or a heading.
+	 *  2. A new paragraph, if not.
+	 *
+	 * @param {StructuredNode} node		The node.
+	 * @param {string} text			The text to append.
+	 *
+	 * @returns {void}
+	 *
+	 * @private
+	 */
+	_addStructuredNodeText( node, text ) {
+		// Get the previous sibling of this node.
+		const prevChild = node.children[ node.children.length - 1 ];
+		// If the previous child is a paragraph...
+		if ( prevChild && prevChild instanceof Paragraph ) {
+			// Append text to the paragraph.
+			prevChild.textContainer.appendText( text );
+		} else {
+			// Else: wrap the text in an implicit paragraph and add it as a new child.
+			const paragraph = new Paragraph();
+			paragraph.textContainer.appendText( text );
+			node.children.push( paragraph );
 		}
 	}
 
