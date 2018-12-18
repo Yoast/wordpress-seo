@@ -66,7 +66,7 @@ describe( "build tree", () => {
 		expected.endIndex = 139;
 		expected.children = [ paragraph ];
 
-		expect(  JSON.stringify( tree ) ).toEqual( JSON.stringify( expected ) );
+		expect(  treeToStringifiedJSON( tree ) ).toEqual( JSON.stringify( expected ) );
 	} );
 
 	it( "can parse an HTML into a Heading", () => {

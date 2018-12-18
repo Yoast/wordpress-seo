@@ -1,3 +1,4 @@
+/* Internal dependencies */
 import FormattingElement from "../values/FormattingElement";
 import Heading from "../values/nodes/Heading";
 import List from "../values/nodes/List";
@@ -10,9 +11,25 @@ const formattingElements = [ "strong", "emph" ];
 const irrelevantHtmlElements = [ "script", "style", "pre" ];
 const headings = [ "h1", "h2", "h3", "h4", "h5", "h6" ];
 
+/**
+ * An adapter to parse the HTML source code to a structured tree representation, to be used in further analysis,
+ * in combination with the `parse5` library.
+ *
+ * Implements the `parse5` library's `TreeAdapter` interface
+ * @see https://github.com/inikulin/parse5/blob/master/packages/parse5/docs/tree-adapter/interface.md
+ */
 class TreeAdapter {
-	// Creation of nodes and other tree elements.
+	/* Creation of nodes and other tree elements. */
 
+	/**
+	 * Creates a new element to be put in the tree.
+	 *
+	 * @param {string} tag				The HTML tag.
+	 * @param {string} namespace		The XML namespace (e.g. "http://www.w3.org/1999/xhtml" for HTML).
+	 * @param {Attribute[]} attributes	The attributes of this element.
+	 *
+	 * @returns {Node|FormattingElement} The new element.
+	 */
 	createElement( tag, namespace, attributes ) {
 		let node;
 
@@ -49,6 +66,7 @@ class TreeAdapter {
 
 	/**
 	 * Parses the HTML element attributes from parse5's format to a plain JS object.
+	 * E.g. `{ name: "id", value: "an-id" }` becomes ` { id: "an-id" }`.
 	 *
 	 * @param {{ name: string, value: string }[]} parse5attributes		The attributes as parsed by parse5.
 	 *
@@ -63,10 +81,22 @@ class TreeAdapter {
 		}, {} );
 	}
 
+	/**
+	 * Creates a new empty document fragment (e.g. a part of an HTML document).
+	 *
+	 * @returns {StructuredNode} A new empty document fragment.
+	 */
 	createDocumentFragment() {
 		return new StructuredNode( "root" );
 	}
 
+	/**
+	 * Creates a new node representing an HTML-comment.
+	 *
+	 * @param {string} text	The comment text.
+	 *
+	 * @returns {StructuredIrrelevant} The node representing the comment.
+	 */
 	createCommentNode( text ) {
 		const node = new StructuredIrrelevant( "comment" );
 		node.parent = null;
@@ -76,6 +106,14 @@ class TreeAdapter {
 
 	// Tree manipulation.
 
+	/**
+	 * Appends a child node to a parent node.
+	 *
+	 * @param {Node} parent	The parent node.
+	 * @param {Node} child		The child to add to the parent node.
+	 *
+	 * @returns {void}
+	 */
 	appendChild( parent, child ) {
 		child.parent = parent;
 		if ( child instanceof FormattingElement ) {
@@ -99,6 +137,13 @@ class TreeAdapter {
 		parent.children.push( child );
 	}
 
+	/**
+	 * Detaches a node from its parent.
+	 *
+	 * @param {Node} node	The node to detach from its parent.
+	 *
+	 * @returns {void}
+	 */
 	detachNode( node ) {
 		if ( node.parent ) {
 			const index = node.parent.children.indexOf( node );
@@ -107,6 +152,19 @@ class TreeAdapter {
 		}
 	}
 
+	/**
+	 * Appends text to a node in the tree.
+	 *
+	 * To which node it is appended depends on a few factors:
+	 *  1. If its parent is a paragraph or header: append the text to its text container.
+	 *  2. If its parent is a structured node: wrap text in a paragraph, add paragraph to parent.
+	 *  3. If its parent is a formatting element: append text to the most recent ancestor who is a paragraph or heading.
+	 *
+	 * @param {Node} node		The node to (try to) append the text to.
+	 * @param {string} text	The text to append to the node.
+	 *
+	 * @returns {void}
+	 */
 	insertText( node, text ) {
 		if ( node instanceof Heading || node instanceof Paragraph ) {
 			// Add text to the heading or paragraph.
@@ -138,18 +196,57 @@ class TreeAdapter {
 
 	// Node getters and setters.
 
+	/**
+	 * Returns this node's tag name.
+	 * (e.g. "h1", "p", "comment", "h3", "div")
+	 *
+	 * This is used by `parse5` to be able to differentiate between different
+	 * behavior of HTML elements.
+	 *
+	 * @param {Node} node The node to get the tag name from.
+	 *
+	 * @returns {string} The node's tag name.
+	 */
 	getTagName( node ) {
 		return node.tagName;
 	}
 
+	/**
+	 * Returns this node's namespace URI.
+	 * (e.g. "http://www.w3.org/1999/xhtml" for HTML)
+	 *
+	 * This is used by `parse5` to differentiate between parsing
+	 * HTML, SVG and other XML schema types.
+	 *
+	 * @param {Node} node The node to get the namespace URI from.
+	 *
+	 * @returns {string} The namespace URI of this node.
+	 */
 	getNamespaceURI( node ) {
 		return node.namespace;
 	}
 
+	/**
+	 * Returns this node's parent node.
+	 *
+	 * @param {Node} node	The node from which to retrieve the parent.
+	 *
+	 * @returns {Node} The parent of this node.
+	 */
 	getParentNode( node ) {
 		return node.parent;
 	}
 
+	/**
+	 * Returns the children of the given node.
+	 *
+	 * If the node does not have any children and cannot get any (e.g. Heading, FormattingElement)
+	 * this function returns an empty list.
+	 *
+	 * @param {Node} node	The node to get the children from.
+	 *
+	 * @returns {Node[]} The children of the given node.
+	 */
 	getChildNodes( node ) {
 		/*
 		  Some node types do not have children (like Paragraph and Heading),
@@ -158,12 +255,35 @@ class TreeAdapter {
 		return node.children || [];
 	}
 
+	/**
+	 * Gets a parent's first child.
+	 *
+	 * @see https://en.wikipedia.org/wiki/Rumpelstiltskin
+	 *
+	 * @param {Node} node	The node to get its first child from.
+	 *
+	 * @returns {Node[]|null} The node's first child or null, if this node cannot get any children.
+	 */
 	getFirstChild( node ) {
 		return node.children[ 0 ] || null;
 	}
 
 	// Node source location.
 
+	/**
+	 * Sets the node's location as found in the source code.
+	 *
+	 * More often than not this is not the entire info
+	 * and misses the location of the end tag...
+	 *
+	 * We still need to add it, since `parse5` appends the end tag position
+	 * to this object somewhere during parsing.
+	 *
+	 * @param {Node} node	The node to set its location.
+	 * @param {Location} location the node's location in the source code.
+	 *
+	 * @returns {void}
+	 */
 	setNodeSourceCodeLocation( node, location ) {
 		if ( ! node ) {
 			return;
@@ -171,6 +291,12 @@ class TreeAdapter {
 		node.location = location;
 	}
 
+	/**
+	 * Gets the node's source code location.
+	 *
+	 * @param {Node} node	The node to get its source code location from.
+	 * @returns {Location|void} The node's source code location.
+	 */
 	getNodeSourceCodeLocation( node ) {
 		if ( ! node ) {
 			return;
