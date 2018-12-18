@@ -251,7 +251,7 @@ class Yoast_Model {
 	 *
 	 * @return string|null The ID column name.
 	 */
-	protected static function _get_id_column_name( $class_name ) {
+	protected static function get_id_column_name( $class_name ) {
 		return static::get_static_property( $class_name, '_id_column', static::DEFAULT_ID_COLUMN );
 	}
 
@@ -296,7 +296,7 @@ class Yoast_Model {
 		}
 		$wrapper = ORMWrapper::for_table( $table_name, $connection_name );
 		$wrapper->set_class_name( $class_name );
-		$wrapper->use_id_column( static::_get_id_column_name( $class_name ) );
+		$wrapper->use_id_column( static::get_id_column_name( $class_name ) );
 
 		return $wrapper;
 	}
@@ -442,8 +442,8 @@ class Yoast_Model {
 		$join_table_name       = static::get_table_name_for_class( static::$auto_prefix_models . $join_class_name );
 
 		// Get ID column names.
-		$base_table_id_column       = ( $key_in_base_table === null ) ? static::_get_id_column_name( $base_class_name ) : $key_in_base_table;
-		$associated_table_id_column = ( $key_in_associated_table === null ) ? static::_get_id_column_name( static::$auto_prefix_models . $associated_class_name ) : $key_in_associated_table;
+		$base_table_id_column       = ( $key_in_base_table === null ) ? static::get_id_column_name( $base_class_name ) : $key_in_base_table;
+		$associated_table_id_column = ( $key_in_associated_table === null ) ? static::get_id_column_name( static::$auto_prefix_models . $associated_class_name ) : $key_in_associated_table;
 
 		// Get the column names for each side of the join table.
 		$key_to_base_table       = static::_build_foreign_key_name( $key_to_base_table, $base_table_name );
