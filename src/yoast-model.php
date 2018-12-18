@@ -266,7 +266,7 @@ class Yoast_Model {
 	 *
 	 * @return string The built foreign key name.
 	 */
-	protected static function _build_foreign_key_name( $specified_foreign_key_name, $table_name ) {
+	protected static function build_foreign_key_name( $specified_foreign_key_name, $table_name ) {
 		if ( $specified_foreign_key_name !== null ) {
 			return $specified_foreign_key_name;
 		}
@@ -317,7 +317,7 @@ class Yoast_Model {
 	 */
 	protected function _has_one_or_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
 		$base_table_name  = static::get_table_name_for_class( \get_class( $this ) );
-		$foreign_key_name = static::_build_foreign_key_name( $foreign_key_name, $base_table_name );
+		$foreign_key_name = static::build_foreign_key_name( $foreign_key_name, $base_table_name );
 
 		/*
 		 * Value of foreign_table.{$foreign_key_name} we're looking for. Where foreign_table is the actual
@@ -384,7 +384,7 @@ class Yoast_Model {
 		$this->set_table_name( $associated_class_name );
 
 		$associated_table_name = static::get_table_name_for_class( static::$auto_prefix_models . $associated_class_name );
-		$foreign_key_name      = static::_build_foreign_key_name( $foreign_key_name, $associated_table_name );
+		$foreign_key_name      = static::build_foreign_key_name( $foreign_key_name, $associated_table_name );
 		$associated_object_id  = $this->{$foreign_key_name};
 		$desired_record        = null;
 		if ( $foreign_key_name_in_associated_models_table === null ) {
@@ -446,8 +446,8 @@ class Yoast_Model {
 		$associated_table_id_column = ( $key_in_associated_table === null ) ? static::get_id_column_name( static::$auto_prefix_models . $associated_class_name ) : $key_in_associated_table;
 
 		// Get the column names for each side of the join table.
-		$key_to_base_table       = static::_build_foreign_key_name( $key_to_base_table, $base_table_name );
-		$key_to_associated_table = static::_build_foreign_key_name( $key_to_associated_table, $associated_table_name );
+		$key_to_base_table       = static::build_foreign_key_name( $key_to_base_table, $base_table_name );
+		$key_to_associated_table = static::build_foreign_key_name( $key_to_associated_table, $associated_table_name );
 
 		/*
 			"   SELECT {$associated_table_name}.*
