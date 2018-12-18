@@ -179,7 +179,7 @@ class Yoast_Model {
 	 */
 	protected static function get_table_name_for_class( $class_name ) {
 		$specified_table_name = static::get_static_property( $class_name, '_table' );
-		$use_short_class_name = static::_use_short_table_name( $class_name );
+		$use_short_class_name = static::use_short_table_name( $class_name );
 		if ( $use_short_class_name ) {
 			$exploded_class_name = \explode( '\\', $class_name );
 			$class_name          = \end( $exploded_class_name );
@@ -201,7 +201,7 @@ class Yoast_Model {
 	 *
 	 * @return bool True when short table name should be used.
 	 */
-	protected static function _use_short_table_name( $class_name ) {
+	protected static function use_short_table_name( $class_name ) {
 		$class_property = static::get_static_property( $class_name, '_table_use_short_name' );
 
 		if ( $class_property === null ) {
