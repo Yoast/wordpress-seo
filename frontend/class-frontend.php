@@ -1103,6 +1103,15 @@ class WPSEO_Frontend {
 		}
 
 		/**
+		 * Filter: 'wpseo_adjacent_rel_url' - Allow changing the URL for rel output by Yoast SEO.
+		 *
+		 * @api string $url The URL that's going to be output for $rel.
+		 *
+		 * @param string $rel Link relationship, prev or next.
+		 */
+		$url = apply_filters( 'wpseo_adjacent_rel_url', $url, $rel );
+
+		/**
 		 * Filter: 'wpseo_' . $rel . '_rel_link' - Allow changing link rel output by Yoast SEO.
 		 *
 		 * @api string $unsigned The full `<link` element.
