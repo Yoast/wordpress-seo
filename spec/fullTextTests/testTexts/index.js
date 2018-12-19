@@ -33,6 +33,10 @@ import polishPaper1 from "./pl/polishPaper1";
 import polishPaper2 from "./pl/polishPaper2";
 import polishPaper3 from "./pl/polishPaper3";
 
+// Russian papers
+import russianPaper1 from "./ru/russianPaper1";
+import russianPaper2 from "./ru/russianPaper2";
+import russianPaper3 from "./ru/russianPaper3";
 
 export default [
 	englishPaper1,
@@ -56,5 +60,8 @@ export default [
 	polishPaper1,
 	polishPaper2,
 	polishPaper3,
+	russianPaper1,
+	russianPaper2,
+	russianPaper3,
 ];
 
