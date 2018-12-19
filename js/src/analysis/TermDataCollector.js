@@ -251,19 +251,19 @@ TermDataCollector.prototype.bindElementEvents = function( app ) {
 /**
  * Binds the renewData function on the change of inputelements.
  *
- * @param {app} app The app object.
+ * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
  *
  * @returns {void}
  */
-TermDataCollector.prototype.inputElementEventBinder = function( app ) {
+TermDataCollector.prototype.inputElementEventBinder = function( refreshAnalysis ) {
 	var elems = [ "name", tmceId, "slug", "wpseo_focuskw" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var elem = document.getElementById( elems[ i ] );
 		if ( elem !== null ) {
-			document.getElementById( elems[ i ] ).addEventListener( "input", app.refresh.bind( app ) );
+			document.getElementById( elems[ i ] ).addEventListener( "input", refreshAnalysis );
 		}
 	}
-	tmceHelper.tinyMceEventBinder( app, tmceId );
+	tmceHelper.tinyMceEventBinder( refreshAnalysis, tmceId );
 };
 
 /**
