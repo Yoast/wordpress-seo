@@ -15,7 +15,11 @@ class WPSEO_Endpoint_Statistics implements WPSEO_Endpoint {
 
 	const CAPABILITY_RETRIEVE = 'read';
 
-	/** @var WPSEO_Statistics_Service Service to use */
+	/**
+	 * Service to use.
+	 *
+	 * @var WPSEO_Statistics_Service
+	 */
 	protected $service;
 
 	/**

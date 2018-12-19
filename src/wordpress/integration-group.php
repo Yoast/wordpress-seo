@@ -11,7 +11,11 @@ namespace Yoast\YoastSEO\WordPress;
  * Manage integrations and registers hooks at the required moment.
  */
 class Integration_Group implements Integration {
-	/** @var Integration[] List of integrations. */
+	/**
+	 * List of integrations.
+	 *
+	 * @var Integration[]
+	 */
 	protected $integrations = array();
 
 	/**

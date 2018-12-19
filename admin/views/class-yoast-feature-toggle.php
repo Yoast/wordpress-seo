@@ -10,25 +10,53 @@
  */
 class Yoast_Feature_Toggle {
 
-	/** @var string Feature toggle identifier. */
+	/**
+	 * Feature toggle identifier.
+	 *
+	 * @var string
+	 */
 	protected $name = '';
 
-	/** @var string Name of the setting the feature toggle is associated with. */
+	/**
+	 * Name of the setting the feature toggle is associated with.
+	 *
+	 * @var string
+	 */
 	protected $setting = '';
 
-	/** @var string Feature toggle label. */
+	/**
+	 * Feature toggle label.
+	 *
+	 * @var string
+	 */
 	protected $label = '';
 
-	/** @var string URL to learn more about the feature. */
+	/**
+	 * URL to learn more about the feature.
+	 *
+	 * @var string
+	 */
 	protected $read_more_url = '';
 
-	/** @var string Label for the learn more link. */
+	/**
+	 * Label for the learn more link.
+	 *
+	 * @var string
+	 */
 	protected $read_more_label = '';
 
-	/** @var string Additional help content for the feature. */
+	/**
+	 * Additional help content for the feature.
+	 *
+	 * @var string
+	 */
 	protected $extra = '';
 
-	/** @var string Value to specify the feature toggle order. */
+	/**
+	 * Value to specify the feature toggle order.
+	 *
+	 * @var string
+	 */
 	protected $order = 100;
 
 	/**

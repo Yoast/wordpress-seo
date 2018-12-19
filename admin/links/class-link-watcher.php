@@ -10,7 +10,9 @@
  */
 class WPSEO_Link_Watcher {
 
-	/** @var WPSEO_Link_Content_Processor */
+	/**
+	 * @var WPSEO_Link_Content_Processor
+	 */
 	protected $content_processor;
 
 	/**

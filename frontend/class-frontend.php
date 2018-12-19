@@ -11,11 +11,15 @@
  */
 class WPSEO_Frontend {
 	/**
-	 * @var    object    Instance of this class.
+	 * Instance of this class.
+	 *
+	 * @var object
 	 */
 	public static $instance;
 	/**
-	 * @var boolean Boolean indicating whether output buffering has been started.
+	 * Toggle indicating whether output buffering has been started.
+	 *
+	 * @var boolean
 	 */
 	private $ob_started = false;
 	/**
@@ -48,10 +52,14 @@ class WPSEO_Frontend {
 	 * @var string
 	 */
 	private $title = null;
-	/** @var WPSEO_Frontend_Page_Type */
+	/**
+	 * @var WPSEO_Frontend_Page_Type
+	 */
 	protected $frontend_page_type;
 
-	/** @var WPSEO_WooCommerce_Shop_Page */
+	/**
+	 * @var WPSEO_WooCommerce_Shop_Page
+	 */
 	protected $woocommerce_shop_page;
 
 	/**
