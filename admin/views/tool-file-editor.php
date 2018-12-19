@@ -183,7 +183,7 @@ else {
 		echo '</form>';
 	}
 }
-if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) ) {
+if ( ! WPSEO_Utils::is_nginx() ) {
 
 	echo '<h2>';
 	printf(
