@@ -23,10 +23,19 @@ $yoast_free_screen_reader_content = array(
 get_current_screen()->set_screen_reader_content( $yoast_free_screen_reader_content );
 
 // If type is empty, fill it with value of first tab (title).
-$_GET['type'] = ( ! empty( $_GET['type'] ) ) ? $_GET['type'] : 'title';
+if ( ! isset( $_GET['type'] ) ) {
+	$_GET['type'] = 'title';
+}
 
-if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
-	wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), stripslashes( $_SERVER['REQUEST_URI'] ) ) );
+if ( ! empty( $_REQUEST['_wp_http_referer'] ) && isset( $_SERVER['REQUEST_URI'] ) ) {
+	$request_uri = sanitize_file_name( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+
+	wp_redirect(
+		remove_query_arg(
+			array( '_wp_http_referer', '_wpnonce' ),
+			$request_uri
+		)
+	);
 	exit;
 }
 
