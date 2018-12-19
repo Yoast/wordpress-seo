@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The CardBanner with specific props matches the snapshot 1`] = `
+Array [
+  .c0 {
+  position: absolute;
+  top: 8px;
+  left: -8px;
+  font-weight: 500;
+  color: yellow;
+  line-height: 16px;
+  background-color: purple;
+  padding: 8px 16px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+}
+
+<span
+    className="c0"
+  >
+    Free Trial Available.
+  </span>,
+  .c0 {
+  position: absolute;
+  top: 40px;
+  left: -8px;
+  border-top: 8px solid #6c2548;
+  border-left: 8px solid transparent;
+}
+
+<span
+    className="c0"
+  />,
+]
+`;
+
+exports[`The empty CardBanner matches the snapshot 1`] = `
+Array [
+  .c0 {
+  position: absolute;
+  top: 8px;
+  left: -8px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 16px;
+  background-color: #a4286a;
+  padding: 8px 16px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+}
+
+<span
+    className="c0"
+  />,
+  .c0 {
+  position: absolute;
+  top: 40px;
+  left: -8px;
+  border-top: 8px solid #6c2548;
+  border-left: 8px solid transparent;
+}
+
+<span
+    className="c0"
+  />,
+]
+`;

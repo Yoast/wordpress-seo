@@ -29,6 +29,11 @@ import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/K
 // Composites/basic imports.
 import { default as Loader } from "./composites/basic/Loader";
 
+// Composites/CoursesOverview imports
+import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
+import { default as CardBanner } from "./composites/CoursesOverview/CardBanner";
+import { default as CardDetails } from "./composites/CoursesOverview/CardDetails";
+
 export {
 	OnboardingWizard,
 	AlgoliaSearcher,
@@ -50,6 +55,10 @@ export {
 	sendRequest,
 	UpsellButton,
 	UpsellLinkButton,
+	Card,
+	FullHeightCard,
+	CardBanner,
+	CardDetails,
 };
 
 export { default as HelpText } from "./composites/Plugin/Shared/components/HelpText";

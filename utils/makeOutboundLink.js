@@ -14,7 +14,15 @@ import { A11yNotice } from "../composites/Plugin/Shared/components/A11yNotice";
  * @returns {ReactElement} The OutboundLink component.
  */
 export const makeOutboundLink = ( Component = "a" ) => {
+	/**
+	 * OutboundLink component.
+	 */
 	class OutboundLink extends React.Component {
+		/**
+		 * Renders the component.
+		 *
+		 * @returns {ReactElement} The rendered component.
+		 */
 		render() {
 			const newProps = Object.assign(
 				{
@@ -41,6 +49,10 @@ export const makeOutboundLink = ( Component = "a" ) => {
 		children: PropTypes.oneOfType( [
 			PropTypes.node,
 		] ),
+	};
+
+	OutboundLink.defaultProps = {
+		children: null,
 	};
 
 	return OutboundLink;
