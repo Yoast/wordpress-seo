@@ -76,7 +76,8 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 	check_admin_referer( 'wpseo-htaccess' );
 
 	if ( isset( $_POST['htaccessnew'] ) && file_exists( $ht_access_file ) ) {
-		$ht_access_new = sanitize_textarea_field( wp_unslash( $_POST['htaccessnew'] ) );
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated -- Writing to .htaccess file and escaping for HTML will break functionality
+		$ht_access_new = wp_unslash( $_POST['htaccessnew'] );
 		if ( is_writable( $ht_access_file ) ) {
 			$f = fopen( $ht_access_file, 'w+' );
 			fwrite( $f, $ht_access_new );
