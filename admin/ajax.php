@@ -254,12 +254,12 @@ function wpseo_save_all( $what ) {
 	check_ajax_referer( 'wpseo-bulk-editor' );
 
 	$results = array();
-	if ( ! isset( $_POST['items'], $_POST['existing_items'] ) ) {
+	if ( ! isset( $_POST['items'], $_POST['existingItems'] ) ) {
 		wpseo_ajax_json_echo_die( $results );
 	}
 
 	$new_values      = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), wp_unslash( (array) $_POST['items'] ) );
-	$original_values = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), wp_unslash( (array) $_POST['existing_items'] ) );
+	$original_values = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), wp_unslash( (array) $_POST['existingItems'] ) );
 
 	foreach ( $new_values as $post_id => $new_value ) {
 		$original_value = $original_values[ $post_id ];
