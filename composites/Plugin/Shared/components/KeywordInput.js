@@ -214,6 +214,7 @@ class KeywordInput extends React.Component {
 						onFocus={ onFocusKeyword }
 						onBlur={ onBlurKeyword }
 						value={ keyword }
+						autoComplete="off"
 					/>
 					{ showRemoveKeywordButton && (
 						<BorderlessButton onClick={ onRemoveKeyword }>

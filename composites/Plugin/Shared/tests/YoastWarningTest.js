@@ -4,6 +4,7 @@ import YoastWarning from "../components/YoastWarning";
 import { ThemeProvider } from "styled-components";
 
 test( "YoastWarning matches the snapshot", () => {
+	/* eslint-disable react/jsx-no-target-blank */
 	const component = renderer.create(
 		<YoastWarning
 			message={ [
@@ -13,6 +14,7 @@ test( "YoastWarning matches the snapshot", () => {
 			] }
 		/>
 	);
+	/* eslint-enable react/jsx-no-target-blank */
 
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
@@ -29,6 +31,7 @@ test( "YoastWarning does not render without a message", () => {
 } );
 
 test( "YoastWarning with a right to left language matches the snapshot", () => {
+	/* eslint-disable react/jsx-no-target-blank */
 	const component = renderer.create(
 		<ThemeProvider theme={ { isRtl: true } }>
 			<YoastWarning
@@ -40,6 +43,7 @@ test( "YoastWarning with a right to left language matches the snapshot", () => {
 			/>
 		</ThemeProvider>
 	);
+	/* eslint-enable react/jsx-no-target-blank */
 
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
