@@ -1,5 +1,4 @@
 import TreeAdapter from "../../../src/tree/builder/TreeAdapter";
-import treeToStringifiedJSON from "../../../src/tree/utils/treeToStringifiedJSON";
 import FormattingElement from "../../../src/tree/values/FormattingElement";
 import StructuredIrrelevant from "../../../src/tree/values/nodes/StructuredIrrelevant";
 import Heading from "../../../src/tree/values/nodes/Heading";
@@ -224,7 +223,7 @@ describe( "TreeAdapter", () => {
 		} );
 
 		it( "hoists the formatting element up the tree until it encounters a Paragraph or Heading.", () => {
-			const paragraph = new Paragraph( "section" );
+			const paragraph = new Paragraph( "paragraph" );
 
 			const formattingElement = new FormattingElement( "strong" );
 			const nestedFormatting = new FormattingElement( "emph" );
@@ -236,8 +235,6 @@ describe( "TreeAdapter", () => {
 
 			const adapter = new TreeAdapter();
 			adapter.appendChild( formattingElement, nestedFormatting );
-
-			console.log( paragraph.textContainer );
 
 			expect( paragraph.textContainer.formatting ).toHaveLength( 2 );
 			expect( paragraph.textContainer.formatting[ 0 ].type ).toEqual( "strong" );
