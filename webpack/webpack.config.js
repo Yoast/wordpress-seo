@@ -215,7 +215,7 @@ module.exports = function( env = { environment: "production", recalibration: "di
 				...base,
 				output: {
 					path: paths.jsDist,
-					filename: outputFilenameMinified,
+					filename: outputFilename,
 					jsonpFunction: "yoastWebpackJsonp",
 				},
 				entry: {
