@@ -133,7 +133,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$this->populate_editable_post_types();
 	}
-	
+
 	/**
 	 * Verifies nonce if additional parameters have been sent.
 	 *
