@@ -96,12 +96,8 @@ class WPSEO_Admin_Init {
 	 * Notify about the default tagline if the user hasn't changed it
 	 */
 	public function tagline_notice() {
-
-		$current_url   = ( is_ssl() ? 'https://' : 'http://' );
-		$current_url  .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 		$query_args    = array(
 			'autofocus[control]' => 'blogdescription',
-			'url'                => urlencode( $current_url ),
 		);
 		$customize_url = add_query_arg( $query_args, wp_customize_url() );
 
