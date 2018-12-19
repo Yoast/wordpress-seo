@@ -130,6 +130,11 @@ class TreeAdapter {
 	 * @returns {void}
 	 */
 	appendChild( parent, child ) {
+		// Do not do anything with irrelevant content.
+		if ( parent instanceof StructuredIrrelevant ) {
+			return;
+		}
+
 		child.parent = parent;
 		if ( child instanceof FormattingElement ) {
 			// Formatting element.
@@ -181,6 +186,11 @@ class TreeAdapter {
 	 * @returns {void}
 	 */
 	insertText( node, text ) {
+		// Do not add text to irrelevant nodes. We are going to add it later from the source text.
+		if ( node instanceof StructuredIrrelevant ) {
+			return;
+		}
+
 		if ( node instanceof Heading || node instanceof Paragraph ) {
 			node.textContainer.appendText( text );
 		} else if ( node instanceof FormattingElement ) {

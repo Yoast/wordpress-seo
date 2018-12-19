@@ -17,6 +17,7 @@ class StructuredIrrelevant extends Node {
 	constructor( tag ) {
 		super( "StructuredIrrelevant" );
 		this.tag = tag;
+		this.content = "";
 	}
 }
 

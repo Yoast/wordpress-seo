@@ -101,7 +101,7 @@ describe( "build tree", () => {
 		const comment = new StructuredIrrelevant( "comment" );
 		comment.startIndex = 9;
 		comment.endIndex = 41;
-		comment.content = " An unimportant comment. ";
+		comment.content = "<!-- An unimportant comment. -->";
 
 		const section = new StructuredNode( "section" );
 		section.startIndex = 0;
@@ -249,6 +249,38 @@ describe( "build tree", () => {
 		const expected = new StructuredNode( "root" );
 		expected.startIndex = 0;
 		expected.endIndex = 80;
+		expected.children = [ section ];
+
+		expect(  treeToStringifiedJSON( tree ) ).toEqual( JSON.stringify( expected ) );
+	} );
+
+	it( "can parse an irrelevant HTML-element and its contents into a StructuredIrrelevant node.", () => {
+		const input = "<section>" +
+			"<h1>First heading</h1>" +
+			// Pre elements and contents should not be parsed.
+			"<pre>This sentence. <div><p>Another <strong>sentence</strong>.</p></div></pre>" +
+			"</section>";
+
+		const tree = buildTree( input );
+
+		const heading = new Heading( 1 );
+		heading.startIndex = 9;
+		heading.endIndex = 31;
+		heading.text = "First heading";
+
+		const irrelevant = new StructuredIrrelevant( "pre" );
+		irrelevant.startIndex = 31;
+		irrelevant.endIndex = 109;
+		irrelevant.content = "<pre>This sentence. <div><p>Another <strong>sentence</strong>.</p></div></pre>";
+
+		const section = new StructuredNode( "section" );
+		section.startIndex = 0;
+		section.endIndex = 119;
+		section.children = [ heading, irrelevant ];
+
+		const expected = new StructuredNode( "root" );
+		expected.startIndex = 0;
+		expected.endIndex = 119;
 		expected.children = [ section ];
 
 		expect(  treeToStringifiedJSON( tree ) ).toEqual( JSON.stringify( expected ) );
