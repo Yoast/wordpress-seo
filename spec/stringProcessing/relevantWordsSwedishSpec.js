@@ -5,7 +5,7 @@ import swedishFunctionWordsFactory from "../../src/researches/swedish/functionWo
 const getRelevantWords = relevantWords.getRelevantWords;
 const swedishFunctionWords = swedishFunctionWordsFactory().all;
 
-describe( "gets Swedish word combinations", function() {
+describe.skip( "gets Swedish word combinations", function() {
 	it( "returns word combinations", function() {
 		const input = "Det vanligaste sättet för katten att kommunicera med människor är att jama. Det vanligaste sättet" +
 			" för katten att kommunicera med människor är att jama. Det vanligaste sättet för katten att kommunicera med " +

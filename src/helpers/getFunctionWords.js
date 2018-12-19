@@ -22,8 +22,6 @@ import russianFunctionWordsFactory from "../researches/russian/functionWords.js"
 const russianFunctionWords = russianFunctionWordsFactory();
 import polishFunctionWordsFactory from "../researches/polish/functionWords.js";
 const polishFunctionWords = polishFunctionWordsFactory();
-import swedishFunctionWordsFactory from "../researches/swedish/functionWords.js";
-const swedishFunctionWords = swedishFunctionWordsFactory();
 
 /**
  * Returns the function words for all languages.
@@ -41,6 +39,5 @@ export default function() {
 		pt: portugueseFunctionWords,
 		ru: russianFunctionWords,
 		pl: polishFunctionWords,
-		sv: swedishFunctionWords,
 	};
 }
