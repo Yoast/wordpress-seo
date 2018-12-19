@@ -110,6 +110,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: January 8th, 2019
 
 Content analysis recalibration:
+
 * Adds a toggle feature for subscribing to the recalibration beta under SEO -> General -> Features.
 * When the recalibration feature is enabled:
   * The single title assessment is added. This assessment makes sure that you don't use superfluous H1s in your text.
@@ -126,15 +127,18 @@ Content analysis recalibration:
     * Text length: on taxonomy pages, the recommended minimum text length is increased from 150 to 250 words.
 
 Enhancements:
+
 * Improve accessibility of the Title Separator setting.
 * Improve accessibility of the analysis results.
 
 Bugfixes:
+
 * Fixes a bug where pagination elements were not shown in the Genesis theme.
 * Fixes a bug where special characters from certain word lists weren't correctly escaped when matched with a regex. This resulted in `eggs` being incorrectly matched as the transition word `e.g.`, for example.
 * Fixes a bug where the search appearance setting for a custom posttype named `profile` will have the wrong styling.
 
 Other:
+
 * Uses method `is_simple_page` instead of `is_singular` in method robots. Props to: [stodorovic](https://github.com/stodorovic)
 * Adds method `is_woocommerce_active` and check is woocommerce activate before registering hooks. Props to [stodorovic](https://github.com/stodorovic)
 * Adds static variables to "cache" results of functions [`is_shop`](https://docs.woocommerce.com/wc-apidocs/function-is_shop.html) and [`wc_get_page_id`](https://docs.woocommerce.com/wc-apidocs/function-wc_get_page_id.html).  Props to [stodorovic](https://github.com/stodorovic)
