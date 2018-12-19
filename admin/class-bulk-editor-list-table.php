@@ -102,11 +102,11 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected $pagination = array();
 
 	/**
-	 * The fields from the input get.
+	 * Holds the sanitized data from the user input.
 	 *
 	 * @var array
 	 */
-	protected $input_get = array();
+	protected $input_fields = array();
 
 	/**
 	 * Class constructor
@@ -114,18 +114,18 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	public function __construct() {
 		parent::__construct( $this->settings );
 
-		$this->input_get = $this->sanitize_input_fields();
-		if ( ! empty( $this->input_get ) ) {
+		$this->input_fields = $this->sanitize_input_fields();
+		if ( ! empty( $this->input_fields ) ) {
 			$this->verify_nonce();
 		}
 
 		$this->request_url    = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-		$this->current_page   = ( ! empty( $this->input_get['paged'] ) ) ? $this->input_get['paged'] : 1;
-		$this->current_filter = ( ! empty( $this->input_get['post_type_filter'] ) ) ? $this->input_get['post_type_filter'] : 1;
-		$this->current_status = ( ! empty( $this->input_get['post_status'] ) ) ? $this->input_get['post_status'] : 1;
+		$this->current_page   = ( ! empty( $this->input_fields['paged'] ) ) ? $this->input_fields['paged'] : 1;
+		$this->current_filter = ( ! empty( $this->input_fields['post_type_filter'] ) ) ? $this->input_fields['post_type_filter'] : 1;
+		$this->current_status = ( ! empty( $this->input_fields['post_status'] ) ) ? $this->input_fields['post_status'] : 1;
 		$this->current_order  = array(
-			'order'   => ( ! empty( $this->input_get['order'] ) ) ? $this->input_get['order'] : 'asc',
-			'orderby' => ( ! empty( $this->input_get['orderby'] ) ) ? $this->input_get['orderby'] : 'post_title',
+			'order'   => ( ! empty( $this->input_fields['order'] ) ) ? $this->input_fields['order'] : 'asc',
+			'orderby' => ( ! empty( $this->input_fields['orderby'] ) ) ? $this->input_fields['orderby'] : 'post_title',
 		);
 
 		$this->nonce    = wp_create_nonce( 'bulk-editor-table' );
@@ -133,7 +133,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$this->populate_editable_post_types();
 	}
-	
+
 	/**
 	 * Verifies nonce if additional parameters have been sent.
 	 *
@@ -144,7 +144,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Checks if additional parameters have been sent to determine if nonce should be checked or not.
+	 * Sanitizes the parameters that have been sent.
 	 *
 	 * @return array The sanitized fields.
 	 */
@@ -462,7 +462,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$current_order  = $this->current_order;
 
 		// If current type doesn't compare with objects page_type, than we have to unset some vars in the requested url (which will be use for internal table urls).
-		if ( isset( $this->input_get['type'] ) && $this->input_get['type'] !== $this->page_type ) {
+		if ( isset( $this->input_fields['type'] ) && $this->input_fields['type'] !== $this->page_type ) {
 			$request_url = remove_query_arg( 'paged', $request_url ); // Page will be set with value 1 below.
 			$request_url = remove_query_arg( 'post_type_filter', $request_url );
 			$request_url = remove_query_arg( 'post_status', $request_url );
@@ -703,8 +703,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
 		$states['trash'] = 'trash';
 
-		if ( ! empty( $this->input_get['post_status'] ) ) {
-			$requested_state = $this->input_get['post_status'];
+		if ( ! empty( $this->input_fields['post_status'] ) ) {
+			$requested_state = $this->input_fields['post_status'];
 			if ( in_array( $requested_state, $states, true ) ) {
 				$states = array( $requested_state );
 			}
