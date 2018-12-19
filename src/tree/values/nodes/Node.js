@@ -49,23 +49,39 @@ class Node {
 	 * Filters all the elements out of the tree for which the given predicate function returns `false`
 	 * and returns them as an array of Nodes.
 	 *
-	 * @param {filterCallback} callback 	The predicate to check each Node against.
+	 * @param {predicate} predicate 	The predicate to check each Node against.
 	 *
 	 * @returns {Node[]} An array of all the Nodes in the tree for which the given predicate function returns `true`.
 	 */
-	filter( callback ) { // eslint-disable-line no-unused-vars
+	filter( predicate ) { // eslint-disable-line no-unused-vars
 		console.warn( "Developer warning: " +
 			"Filter is an abstract method that should be implemented by a child class." );
 	}
 
 	/**
-	 * Callback function for the Node's filter-function.
+	 * Finds the most recent ancestor (parent of parent of ... ) of this node that returns true
+	 * on the given predicate.
 	 *
-	 * @callback filterCallback
+	 * @param {predicate} predicate		The predicate to check the ancestors on.
+	 *
+	 * @returns {Node|null} The most recent ancestor that returns true on the given predicate.
+	 */
+	findAncestor( predicate ) {
+		let parent = null;
+		do {
+			parent = this.parent;
+		} while ( ! predicate( this.parent ) && parent !== null );
+		return parent;
+	}
+
+	/**
+	 * Predicate function.
+	 *
+	 * @callback predicate
 	 *
 	 * @param {Node} currentValue 	The current Node being processed.
 	 *
-	 * @returns {boolean} If the current Node should be contained in the array after filtering.
+	 * @returns {boolean} If the predicate returns true or false.
 	 *
 	 * @private
 	 */
