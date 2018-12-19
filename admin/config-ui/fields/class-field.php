@@ -9,6 +9,7 @@
  * Class WPSEO_Config_Field
  */
 class WPSEO_Config_Field {
+
 	/**
 	 * Field name.
 	 *

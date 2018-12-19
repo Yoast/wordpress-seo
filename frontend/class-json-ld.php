@@ -19,6 +19,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @var array
 	 */
 	private $profiles = array();
+
 	/**
 	 * Holds the data to put out.
 	 *

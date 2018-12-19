@@ -54,7 +54,6 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->register_assets();
 
-
 		// Call enqueue function.
 		self::$class_instance->enqueue();
 

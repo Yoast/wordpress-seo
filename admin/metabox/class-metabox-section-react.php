@@ -9,6 +9,7 @@
  * Generates and displays the React root element for a metabox section.
  */
 class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
+
 	/**
 	 * Name of the section, used as an identifier in the HTML.
 	 *
