@@ -133,25 +133,14 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$this->populate_editable_post_types();
 	}
-
+	
 	/**
 	 * Verifies nonce if additional parameters have been sent.
 	 *
 	 * Shows an error notification if the nonce check fails.
 	 */
 	private function verify_nonce() {
-		if ( wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'bulk-editor-table' ) ) {
-			return;
-		}
-
-		Yoast_Notification_Center::get()->add_notification(
-			new Yoast_Notification(
-				__( 'You are not allowed to access this page.', 'wordpress-seo' ),
-				array( 'type' => Yoast_Notification::ERROR )
-			)
-		);
-		Yoast_Notification_Center::get()->display_notifications();
-		die;
+		check_admin_referer( 'bulk-editor-table', filter_input( INPUT_GET, 'nonce' ) );
 	}
 
 	/**
