@@ -97,6 +97,7 @@ class Indexable extends Yoast_Model {
 
 		Logger::get_logger()->debug(
 			sprintf(
+				/* translators: 1: object ID; 2: object type. */
 				__( 'Indexable created for object %1$s with type %2$s', 'wordpress-seo' ),
 				$object_id,
 				$object_type
@@ -142,6 +143,7 @@ class Indexable extends Yoast_Model {
 		if ( $saved ) {
 			Logger::get_logger()->debug(
 				sprintf(
+					/* translators: 1: object ID; 2: object type. */
 					__( 'Indexable saved for object %1$s with type %2$s', 'wordpress-seo' ),
 					$this->object_id,
 					$this->object_type
@@ -168,6 +170,7 @@ class Indexable extends Yoast_Model {
 		if ( $deleted ) {
 			Logger::get_logger()->debug(
 				sprintf(
+					/* translators: 1: object ID; 2: object type. */
 					__( 'Indexable deleted for object %1$s with type %2$s', 'wordpress-seo' ),
 					$this->object_id,
 					$this->object_type

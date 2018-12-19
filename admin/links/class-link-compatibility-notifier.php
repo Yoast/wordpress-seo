@@ -34,16 +34,23 @@ class WPSEO_Link_Compatibility_Notifier {
 	protected function get_notification() {
 		return new Yoast_Notification(
 			sprintf(
-				/* translators: %1$s: Yoast SEO. %2$s: Version number of Yoast SEO. %3$s: PHP version %4$s: The current PHP versione. %5$s link to knowledge base article about solving PHP issue. %6$s: is anchor closing. */
-				__(
-					'The <strong>Text link counter</strong> feature (introduced in %1$s %2$s) is currently disabled. For this feature to work %1$s requires at least PHP version %3$s. We have detected PHP version %4$s on this website.
-					Please read the following %5$sknowledge base article%6$s to find out how to resolve this problem.',
-					'wordpress-seo'
-				),
+				/* translators: %1$s: Yoast SEO. %2$s: Version number of Yoast SEO. */
+				esc_html__( 'The %3$sText link counter%4$s feature (introduced in %1$s %2$s) is currently disabled.', 'wordpress-seo' ),
 				'Yoast SEO',
 				'5.0',
+				'<strong>',
+				'</strong>'
+			) . ' ' .
+			sprintf(
+				/* translators: %1$s: Yoast SEO. %2$s: PHP version %3$s: The current PHP version. */
+				esc_html__( 'For this feature to work %1$s requires at least PHP version %2$s. We have detected PHP version %3$s on this website.', 'wordpress-seo' ),
+				'Yoast SEO',
 				'5.3',
-				phpversion(),
+				phpversion()
+			) . '<br>' .
+			sprintf(
+				/* translators: %1$s: link to knowledge base article about solving PHP issue. %2$s: is anchor closing. */
+				esc_html__( 'Please read the following %1$sknowledge base article%2$s to find out how to resolve this problem.', 'wordpress-seo' ),
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/16f' ) . '" target="_blank">',
 				'</a>'
 			),

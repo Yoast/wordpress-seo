@@ -19,7 +19,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 ?>
-<div class="paper tab-block" id="<?php echo esc_attr( $paper_id ); ?>">
+<div class="paper tab-block" <?php if ( $paper_id ) { echo 'id="' . esc_attr( 'wpseo-' . $paper_id ) . '""'; } ?>>
 
 	<?php
 	if ( ! empty( $title ) ) {

@@ -4,9 +4,9 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
-Requires at least: 4.8
-Tested up to: 5.0
-Stable tag: 9.2.1
+Requires at least: 4.9
+Tested up to: 5.0.1
+Stable tag: 9.3
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -106,8 +106,29 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 9.4.0 =
+Release Date: January 8th, 2019
+
+Enhancements:
+* Adds readability analysis for Swedish.
+* Improve accessibility of the Title Separator setting.
+* Improve accessibility of the analysis results.
+
+Bugfixes:
+* Fixes a bug where pagination elements were not shown in the Genesis theme.
+* Fixes a bug where special characters from certain word lists weren't correctly escaped when matched with a regex. This resulted in `eggs` being incorrectly matched as the transition word `e.g.`, for example.
+* Fixes a bug where the search appearance setting for a custom posttype named `profile` will have the wrong styling.
+
+Other:
+* Uses method `is_simple_page` instead of `is_singular` in method robots. Props to: [stodorovic](https://github.com/stodorovic)
+* Adds method `is_woocommerce_active` and check is woocommerce activate before registering hooks. Props to [stodorovic](https://github.com/stodorovic)
+* Adds static variables to "cache" results of functions [`is_shop`](https://docs.woocommerce.com/wc-apidocs/function-is_shop.html) and [`wc_get_page_id`](https://docs.woocommerce.com/wc-apidocs/function-wc_get_page_id.html).  Props to [stodorovic](https://github.com/stodorovic)
+* Verifies that variable `post` is an instance of `WP_Post` in `WPSEO_Admin_Bar_Menu ::get_singular_post()`. Props to [@yingles](https://github.com/yingles).
+* Improves strings to be more easily translated. Props to [pedro-mendonca](https://github.com/pedro-mendonca)
+* The browser console now shows more descriptive error messages when something went wrong during analyses in the web worker.
+
 = 9.3.0 =
-Release Date: December 11th, 2018
+Release Date: December 18th, 2018
 
 Enhancements:
 
@@ -116,7 +137,6 @@ Enhancements:
 * Changes the website schema `@id` attribute to include the home URL to be a unique identifier.
 * Adds the page number to the breadcrumbs when an archived page is entered.
 * Removes a redundant Edge-specific CSS fix for the tooltips in the post overview. Props [mkronenfeld](https://github.com/mkronenfeld).
-* When the recalibration feature flag is switched on, the single title assessment is added. This assessment makes sure that you don't use superfluous H1s in your text.
 
 Bugfixes:
 
@@ -127,24 +147,28 @@ Bugfixes:
 * Fixes a bug where texts in the configuration wizard would overlap each other and break out of the columns in Internet Explorer 11. Props [DrGrimshaw](https://github.com/DrGrimshaw).
 * Fixes a bug where keyphrases weren't recognized in the URL when the words in the URL were separated by underscore characters instead of hyphens.
 * Fixes a bug that caused numbers to be stripped when marking a keyphrase containing a number, e.g. 'Yoast SEO 9.3'.
+* Fixes a bug where the first tab of the metabox would be empty when using WordPress 4.8.x.
+* Fixes a bug where private post types would have a sitemap with their 'private' entries.
 
 Other:
 
-* Adds a toggle feature for subscribing to the recalibration beta under SEO->General->Features.
-* When the recalibration feature flag is switched on, the following assessments have a changed behavior:
-  * Keyphrase density: changes scoring schema to account for the length of the keyphrase and changes feedback strings so that we give feedback about the number of occurrences rather than a percentage.
-  * Outbound links assessment: changes the scoring schema so that red bullet instead of an orange bullet is shown when you have no outbound links.
-  * Image alt attributes: if there are at least 5 images, checks whether the alt tags contain the keyphrase or synoynyms in 30-70% of all images. If there are less than 5 images, 1 image with the keyphrase or synonym in the alt tag is still scored as good.
-  * Keyphrase in title: function words preceding the exact match keyphrase are ignored when determining the position of the keyphrase in the title.
-* Keyphrase length: makes the scoring scheme less strict for languages that don't have function word support, so that for these languages keyphrases with 1-6 words are scored as green, 7-9 as orange, and more than 9 as red.
-  * Keyphrase in subheading: only takes H2 and H3 level subheadings into account and changes the scoring schema so that 30%-75% of these subheadings need to include the keyphrase or its synonyms. In languages without function word support, a match is only counted if all the words from the keyphrase/synonym appear in the subheading.
-  * Text length: on taxonomy pages, the recommended minimum text length is increased from 150 to 250 words.
-* When the recalibration feature flag is switched on, the following assments are not used anymore:
-  * The assessment checking the length or your URL.
-  * The assessment checking whether your URL contains stopwords.
-* Shows a notice about the analyses, when the recalibration beta is enabled.
-* Shows a notice about stale content, when the recalibration beta is enabled.
-* Shows a notice when recalibration beta has not been enabled yet.
+* Implemented performance optimizations in FAQ and How To blocks.
+
+Content analysis recalibration:
+* Adds a toggle feature for subscribing to the recalibration beta under SEO -> General -> Features.
+* When the recalibration feature is enabled:
+  * The single title assessment is added. This assessment makes sure that you don't use superfluous H1s in your text.
+  * The following assments are not used anymore:
+    * The assessment checking the length or your URL.
+    * The assessment checking whether your URL contains stopwords.
+  * Assessments changes:
+    * Keyphrase density: changes scoring schema to account for the length of the keyphrase and changes feedback strings so that we give feedback about the number of occurrences rather than a percentage.
+    * Outbound links assessment: changes the scoring schema so that red bullet instead of an orange bullet is shown when you have no outbound links.
+    * Image alt attributes: if there are at least 5 images, checks whether the alt tags contain the keyphrase or synoynyms in 30-70% of all images. If there are less than 5 images, 1 image with the keyphrase or synonym in the alt tag is still scored as good.
+    * Keyphrase in title: function words preceding the exact match keyphrase are ignored when determining the position of the keyphrase in the title.
+    * Keyphrase length: makes the scoring scheme less strict for languages that don't have function word support, so that for these languages keyphrases with 1-6 words are scored as green, 7-9 as orange, and more than 9 as red.
+    * Keyphrase in subheading: only takes H2 and H3 level subheadings into account and changes the scoring schema so that 30%-75% of these subheadings need to include the keyphrase or its synonyms. In languages without function word support, a match is only counted if all the words from the keyphrase/synonym appear in the subheading.
+    * Text length: on taxonomy pages, the recommended minimum text length is increased from 150 to 250 words.
 
 = 9.2.1 =
 Release Date: November 21th, 2018

@@ -1,6 +1,6 @@
 const webpack = require( "webpack" );
-const UnminifiedWebpackPlugin = require( "unminified-webpack-plugin" );
 const CaseSensitivePathsPlugin = require( "case-sensitive-paths-webpack-plugin" );
+const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 const path = require( "path" );
 const mapValues = require( "lodash/mapValues" );
 const isString = require( "lodash/isString" );
@@ -9,10 +9,9 @@ const paths = require( "./paths" );
 const pkg = require( "../package.json" );
 
 const pluginVersionSlug = paths.flattenVersionForFile( pkg.yoast.pluginVersion );
-const outputFilename = "[name]-" + pluginVersionSlug + ".min.js";
 
 const root = path.join( __dirname, "../" );
-const entry = mapValues( paths.entry, entry => {
+const mainEntry = mapValues( paths.entry, entry => {
 	if ( ! isString( entry ) ) {
 		return entry;
 	}
@@ -26,36 +25,30 @@ const externals = {
 
 	yoastseo: "window.yoast.analysis",
 	"yoast-components": "window.yoast.components",
+	react: "React",
+	"react-dom": "ReactDOM",
 
 	lodash: "window.lodash",
-};
-
-const alias = {
-	// This prevents loading multiple versions of React:
-	react: path.join( root, "node_modules/react" ),
-	"react-dom": path.join( root, "node_modules/react-dom" ),
 };
 
 module.exports = function( env = { environment: "production", recalibration: "disabled" } ) {
 	const mode = env.environment || process.env.NODE_ENV || "production";
 	const isRecalibration = ( env.recalibration || process.env.YOAST_RECALIBRATION || "disabled" ) === "enabled";
+	const outputFilenamePostfix = mode === "development" ? ".js" : ".min.js";
+	const outputFilename = "[name]-" + pluginVersionSlug + outputFilenamePostfix;
 
 	const plugins = [
 		new webpack.DefinePlugin( {
 			"process.env": {
-				NODE_ENV: JSON.stringify( mode ),
 				YOAST_RECALIBRATION: JSON.stringify( isRecalibration ? "enabled" : "disabled" ),
 			},
 		} ),
-		new UnminifiedWebpackPlugin(),
-		new webpack.optimize.UglifyJsPlugin(),
-		new webpack.optimize.AggressiveMergingPlugin(),
 		new CaseSensitivePathsPlugin(),
 	];
 
 	const base = {
+		mode: mode,
 		devtool: mode === "development" ? "cheap-module-eval-source-map" : false,
-		entry: entry,
 		context: root,
 		output: {
 			path: paths.jsDist,
@@ -64,7 +57,6 @@ module.exports = function( env = { environment: "production", recalibration: "di
 		},
 		resolve: {
 			extensions: [ ".json", ".js", ".jsx" ],
-			alias,
 			symlinks: false,
 		},
 		module: {
@@ -76,6 +68,7 @@ module.exports = function( env = { environment: "production", recalibration: "di
 						{
 							loader: "babel-loader",
 							options: {
+								cacheDirectory: true,
 								env: {
 									development: {
 										plugins: [
@@ -98,9 +91,15 @@ module.exports = function( env = { environment: "production", recalibration: "di
 			],
 		},
 		externals,
+		optimization: {
+			runtimeChunk: {
+				name: "commons",
+			},
+		},
 	};
 
 	let config;
+
 	/*
 	 * When using recalibration in the production build:
 	 *
@@ -131,6 +130,12 @@ module.exports = function( env = { environment: "production", recalibration: "di
 		config = [
 			{
 				...base,
+				entry: {
+					...mainEntry,
+					"styled-components": "./js/src/styled-components.js",
+					analysis: "./js/src/analysis.js",
+					components: "./js/src/components.js",
+				},
 				externals: {
 					...externals,
 
@@ -146,31 +151,47 @@ module.exports = function( env = { environment: "production", recalibration: "di
 				},
 				plugins: [
 					...plugins,
-					new webpack.optimize.CommonsChunkPlugin( {
-						name: "vendor",
-						filename: "commons-" + pluginVersionSlug + ".min.js",
-					} ),
+					new CopyWebpackPlugin( [
+						{
+							from: "node_modules/react/umd/react.production.min.js",
+							// Relative to js/dist.
+							to: "../vendor/react.min.js",
+						},
+						{
+							from: "node_modules/react-dom/umd/react-dom.production.min.js",
+							// Relative to js/dist.
+							to: "../vendor/react-dom.min.js",
+						},
+					] ),
 				],
 			},
 			// Config for wp packages files that are shipped for BC with WP 4.9.
 			{
 				...base,
 				externals: {
-					...externals,
+					tinymce: "tinymce",
 
-					"@wordpress/element": "window.wp.element",
-					"@wordpress/data": "window.wp.data",
-					"@wordpress/components": "window.wp.components",
-					"@wordpress/i18n": "window.wp.i18n",
-					"@wordpress/api-fetch": "window.wp.apiFetch",
-					"@wordpress/rich-text": "window.wp.richText",
-					"@wordpress/compose": "window.wp.compose",
+					react: "React",
+					"react-dom": "ReactDOM",
+
+					lodash: "lodash",
+
+					"@wordpress/element": [ "wp", "element" ],
+					"@wordpress/data": [ "wp", "data" ],
+					"@wordpress/components": [ "wp",  "components" ],
+					"@wordpress/i18n": [ "wp", "i18n" ],
+					"@wordpress/api-fetch": [ "wp", "apiFetch" ],
+					"@wordpress/rich-text": [ "wp", "richText" ],
+					"@wordpress/compose": [ "wp", "compose" ],
 				},
 				output: {
 					path: paths.jsDist,
 					filename: "wp-" + outputFilename,
 					jsonpFunction: "yoastWebpackJsonp",
-					library: [ "wp", "[name]" ],
+					library: {
+						root: [ "wp", "[name]" ],
+					},
+					libraryTarget: "this",
 				},
 				entry: {
 					apiFetch: "./node_modules/@wordpress/api-fetch",
@@ -182,16 +203,21 @@ module.exports = function( env = { environment: "production", recalibration: "di
 					richText: "./node_modules/@wordpress/rich-text",
 				},
 				plugins,
+				optimization: {
+					runtimeChunk: false,
+				},
 			},
 			// Config for files that should not use any externals at all.
 			{
 				...base,
 				entry: {
-					"styled-components": "./js/src/styled-components.js",
 					"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
 					"babel-polyfill": "./js/src/babel-polyfill.js",
 				},
 				plugins,
+				optimization: {
+					runtimeChunk: false,
+				},
 			},
 			// Config for files that should only use externals available in the web worker context.
 			{
@@ -201,6 +227,9 @@ module.exports = function( env = { environment: "production", recalibration: "di
 					"wp-seo-used-keywords-assessment": "./js/src/wp-seo-used-keywords-assessment.js",
 				},
 				plugins,
+				optimization: {
+					runtimeChunk: false,
+				},
 			},
 		];
 	}
