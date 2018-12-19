@@ -1,4 +1,6 @@
 /* Internal dependencies */
+
+// Tree elements.
 import FormattingElement from "../values/FormattingElement";
 import Heading from "../values/nodes/Heading";
 import List from "../values/nodes/List";
@@ -7,9 +9,8 @@ import Paragraph from "../values/nodes/Paragraph";
 import StructuredIrrelevant from "../values/nodes/StructuredIrrelevant";
 import StructuredNode from "../values/nodes/StructuredNode";
 
-const formattingElements = [ "strong", "emph" ];
-const irrelevantHtmlElements = [ "script", "style", "pre" ];
-const headings = [ "h1", "h2", "h3", "h4", "h5", "h6" ];
+// HTML classes.
+import { formattingElements, headings, irrelevantHtmlElements } from "./htmlClasses";
 
 /**
  * An adapter to parse the HTML source code to a structured tree representation, to be used in further analysis,
