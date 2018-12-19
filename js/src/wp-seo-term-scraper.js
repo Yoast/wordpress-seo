@@ -332,7 +332,7 @@ window.yoastHideMarkers = true;
 		YoastSEO._registerReactComponent = registerReactComponent;
 
 		initTermSlugWatcher();
-		termScraper.bindElementEvents( app );
+		termScraper.bindElementEvents( YoastSEO.app.refresh );
 
 		if ( isKeywordAnalysisActive() ) {
 			initializeKeywordAnalysis( termScraper );

@@ -240,12 +240,12 @@ TermDataCollector.prototype.saveSnippetData = function( data ) {
 /**
  * Binds TermDataCollector events to elements.
  *
- * @param {app} app The app object.
+ * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
  *
  * @returns {void}
  */
-TermDataCollector.prototype.bindElementEvents = function( app ) {
-	this.inputElementEventBinder( app );
+TermDataCollector.prototype.bindElementEvents = function( refreshAnalysis ) {
+	this.inputElementEventBinder( refreshAnalysis );
 };
 
 /**
