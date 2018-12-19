@@ -60,9 +60,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$this->factory->post->create();
 
 		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'exclude_post' ) );
-		add_filter( 'wpseo_sitemap_entries_per_page', function() {
-			return 1;
-		} );
+		add_filter( 'wpseo_sitemap_entries_per_page', array( $this, 'return_one' ) );
 
 		// Fetch the global sitemap.
 		set_query_var( 'sitemap', 'post' );
@@ -323,7 +321,23 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$this->assertCount( 0, self::$class_instance->get_sitemap_links( 'attachment', 100, 0 ) );
 	}
 
+	/**
+	 * Filter to exclude desired posts from the sitemap.
+	 *
+	 * @param array $post_ids List of post ids.
+	 *
+	 * @return array
+	 */
 	public function exclude_post( $post_ids ) {
 		return $this->excluded_posts;
+	}
+
+	/**
+	 * Sets the number of entries in the sitemap to one.
+	 *
+	 * @return int
+	 */
+	public function return_one() {
+		return 1;
 	}
 }
