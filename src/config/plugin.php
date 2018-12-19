@@ -189,7 +189,7 @@ class Plugin implements Integration {
 		/**
 		 * Action: 'wpseo_load_integrations' - Hook to register additional Yoast SEO Integrations.
 		 *
-		 * @api \Yoast\YoastSEO\Config\Plugin The Plugin object to register integrations on.
+		 * @api \Yoast\WP\Free\Config\Plugin The Plugin object to register integrations on.
 		 */
 		do_action( 'wpseo_load_integrations', $this );
 	}
