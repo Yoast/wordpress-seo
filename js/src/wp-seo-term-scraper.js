@@ -193,20 +193,20 @@ window.yoastHideMarkers = true;
 	let currentAnalysisData;
 
 	/**
-	 * Rerun the analysis when the title or metadescription in the snippet changes.
+	 * Rerun the analysis when the title or meta description in the snippet changes.
 	 *
-	 * @param {Object} store The store.
-	 * @param {Object} app The YoastSEO app.
+	 * @param {Object}   store            The store.
+	 * @param {Function} _refreshAnalysis Function that triggers a refresh of the analysis.
 	 *
 	 * @returns {void}
 	 */
-	function handleStoreChange( store, app ) {
+	function handleStoreChange( store, _refreshAnalysis ) {
 		const previousAnalysisData = currentAnalysisData || "";
 		currentAnalysisData = store.getState().analysisData.snippet;
 
 		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
 		if ( isDirty ) {
-			app.refresh();
+			_refreshAnalysis();
 		}
 	}
 
@@ -313,7 +313,7 @@ window.yoastHideMarkers = true;
 
 		edit.initializeUsedKeywords( YoastSEO.app.refresh, "get_term_keyword_usage" );
 
-		store.subscribe( handleStoreChange.bind( null, store, app ) );
+		store.subscribe( handleStoreChange.bind( null, store, YoastSEO.app.refresh ) );
 
 		if ( isKeywordAnalysisActive() ) {
 			app.seoAssessor = new TaxonomyAssessor( app.i18n );

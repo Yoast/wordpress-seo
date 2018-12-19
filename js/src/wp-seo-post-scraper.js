@@ -331,18 +331,18 @@ setWordPressSeoL10n();
 	/**
 	 * Rerun the analysis when the title or meta description in the snippet changes.
 	 *
-	 * @param {Object} store             The store.
-	 * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
+	 * @param {Object}   store            The store.
+	 * @param {Function} _refreshAnalysis Function that triggers a refresh of the analysis.
 	 *
 	 * @returns {void}
 	 */
-	function handleStoreChange( store, refreshAnalysis ) {
+	function handleStoreChange( store, _refreshAnalysis ) {
 		const previousAnalysisData = currentAnalysisData || "";
 		currentAnalysisData = store.getState().analysisData.snippet;
 
 		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
 		if ( isDirty ) {
-			refreshAnalysis();
+			_refreshAnalysis();
 		}
 	}
 
