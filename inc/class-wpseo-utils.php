@@ -89,7 +89,7 @@ class WPSEO_Utils {
 	 */
 	public static function is_apache() {
 		if ( ! isset( $_SERVER['SERVER_SOFTWARE'] ) ) {
-			return '';
+			return false;
 		}
 
 		$software = sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) );
@@ -108,7 +108,7 @@ class WPSEO_Utils {
 	 */
 	public static function is_nginx() {
 		if ( ! isset( $_SERVER['SERVER_SOFTWARE'] ) ) {
-			return '';
+			return false;
 		}
 
 		$software = sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) );
