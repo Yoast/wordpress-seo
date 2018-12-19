@@ -48,8 +48,8 @@ if ( isset( $_POST['submitrobots'] ) ) {
 
 	check_admin_referer( 'wpseo-robotstxt' );
 
-	if ( file_exists( $robots_file ) ) {
-		$robotsnew = stripslashes( $_POST['robotsnew'] );
+	if ( isset( $_POST['robotsnew'] ) && file_exists( $robots_file ) ) {
+		$robotsnew = sanitize_textarea_field( wp_unslash( $_POST['robotsnew'] ) );
 		if ( is_writable( $robots_file ) ) {
 			$f = fopen( $robots_file, 'w+' );
 			fwrite( $f, $robotsnew );
@@ -75,9 +75,9 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 
 	check_admin_referer( 'wpseo-htaccess' );
 
-	if ( file_exists( $ht_access_file ) ) {
-		$ht_access_new = stripslashes( $_POST['htaccessnew'] );
-		if ( is_writeable( $ht_access_file ) ) {
+	if ( isset( $_POST['htaccessnew'] ) && file_exists( $ht_access_file ) ) {
+		$ht_access_new = sanitize_textarea_field( wp_unslash( $_POST['htaccessnew'] ) );
+		if ( is_writable( $ht_access_file ) ) {
 			$f = fopen( $ht_access_file, 'w+' );
 			fwrite( $f, $ht_access_new );
 			fclose( $f );
