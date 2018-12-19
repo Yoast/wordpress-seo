@@ -140,7 +140,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * Shows an error notification if the nonce check fails.
 	 */
 	private function verify_nonce() {
-		check_admin_referer( 'bulk-editor-table', filter_input( INPUT_GET, 'nonce' ) );
+		check_admin_referer( 'bulk-editor-table', 'nonce' );
 	}
 
 	/**
