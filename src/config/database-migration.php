@@ -5,11 +5,11 @@
  * @package Yoast\YoastSEO\Config
  */
 
-namespace Yoast\YoastSEO\Config;
+namespace Yoast\WP\Free\Config;
 
-use Yoast\YoastSEO\Loggers\Logger;
-use Yoast\YoastSEO\Loggers\Migration_Logger;
-use Yoast\YoastSEO\Yoast_Model;
+use Yoast\WP\Free\Loggers\Logger;
+use Yoast\WP\Free\Loggers\Migration_Logger;
+use Yoast\WP\Free\Yoast_Model;
 use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
 
 /**

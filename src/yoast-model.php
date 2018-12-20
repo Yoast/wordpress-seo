@@ -5,9 +5,9 @@
  * @package Yoast\YoastSEO
  */
 
-namespace Yoast\YoastSEO;
+namespace Yoast\WP\Free;
 
-use Yoast\YoastSEO\Exceptions\Missing_Method;
+use Yoast\WP\Free\Exceptions\Missing_Method;
 use YoastSEO_Vendor\ORM;
 
 /**

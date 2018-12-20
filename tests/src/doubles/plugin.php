@@ -5,7 +5,7 @@ namespace Yoast\Tests\Doubles;
 /**
  * Test Helper Class.
  */
-class Plugin extends \Yoast\YoastSEO\Config\Plugin {
+class Plugin extends \Yoast\WP\Free\Config\Plugin {
 
 	/**
 	 * Sets the value for the initialize success property
@@ -30,7 +30,7 @@ class Plugin extends \Yoast\YoastSEO\Config\Plugin {
 	/**
 	 * Retrieves the configured database migration instance.
 	 *
-	 * @return \Yoast\YoastSEO\Config\Database_Migration
+	 * @return \Yoast\WP\Free\Config\Database_Migration
 	 */
 	public function get_database_migration() {
 		return $this->database_migration;
@@ -39,7 +39,7 @@ class Plugin extends \Yoast\YoastSEO\Config\Plugin {
 	/**
 	 * Retrieves the configured dependency management instance.
 	 *
-	 * @return \Yoast\YoastSEO\Config\Dependency_Management
+	 * @return \Yoast\WP\Free\Config\Dependency_Management
 	 */
 	public function get_dependency_management() {
 		return $this->dependency_management;

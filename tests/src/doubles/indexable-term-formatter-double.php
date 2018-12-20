@@ -2,7 +2,7 @@
 
 namespace Yoast\Tests\Doubles;
 
-use Yoast\YoastSEO\Formatters\Indexable_Term_Formatter;
+use Yoast\WP\Free\Formatters\Indexable_Term_Formatter;
 
 /**
  * Test Helper Class.
