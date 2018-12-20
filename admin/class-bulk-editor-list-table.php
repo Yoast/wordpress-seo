@@ -110,30 +110,21 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
 	 * Class constructor
+	 *
+	 * @param array $args The arguments.
 	 */
 	public function __construct( $args = array() ) {
 		parent::__construct( $this->settings );
 
-		if ( ! isset( $args['nonce'] ) ) {
-			throw new InvalidArgumentException(
-				sprintf(
-					/* translators: %1$s expands to the nonce field  */
-					__( '%1$s is a required field', 'wordpress-seo' ),
-					'nonce'
-				)
-			);
-		}
+		$args = wp_parse_args(
+			$args,
+			array(
+				'nonce'        => '',
+				'input_fields' => array(),
+			)
+		);
 
-		if ( ! isset( $args['input_fields'] ) ) {
-			throw new InvalidArgumentException(
-				sprintf(
-				/* translators: %1$s expands to the input_fields field  */
-					__( '%1$s is a required field', 'wordpress-seo' ),
-					'input_fields'
-				)
-			);
-		}
-
+		$this->input_fields   = $args['input_fields'];
 		$this->request_url    = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 		$this->current_page   = ( ! empty( $this->input_fields['paged'] ) ) ? $this->input_fields['paged'] : 1;
 		$this->current_filter = ( ! empty( $this->input_fields['post_type_filter'] ) ) ? $this->input_fields['post_type_filter'] : 1;
