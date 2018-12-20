@@ -34,7 +34,7 @@ class TreeAdapter {
 
 		if ( formattingElements.includes( tag ) ) {
 			// Formatting element.
-			const parsedAttributes = this._parseAttributes( attributes );
+			const parsedAttributes = TreeAdapter._parseAttributes( attributes );
 			node = new FormattingElement( tag, parsedAttributes );
 		} else if ( irrelevantHtmlElements.includes( tag ) ) {
 			// Irrelevant for analysis (e.g. `script`, `style`).
@@ -88,11 +88,14 @@ class TreeAdapter {
 	 *
 	 * @private
 	 */
-	_parseAttributes( parse5attributes ) {
-		return parse5attributes.reduce( ( attributes, attribute ) => {
-			attributes[ attribute.name ] = attribute.value;
-			return attributes;
-		}, {} );
+	static _parseAttributes( parse5attributes ) {
+		if ( parse5attributes ) {
+			return parse5attributes.reduce( ( attributes, attribute ) => {
+				attributes[ attribute.name ] = attribute.value;
+				return attributes;
+			}, {} );
+		}
+		return {};
 	}
 
 	/**
@@ -134,29 +137,44 @@ class TreeAdapter {
 			return;
 		}
 
-		child.parent = parent;
 		if ( child instanceof FormattingElement ) {
-			// Formatting element.
-			if ( parent instanceof StructuredNode ) {
-				// Wrap it in a paragraph, add it as formatting.
-				TreeAdapter._addOrphanedFormattingElement( child, parent );
-			} else {
-				/*
-				 Formatting elements can be nested,
-				 we want to add it to the most recent ancestor which is either a heading or paragraph.
-				 */
-				parent = findAncestor( child, node => node instanceof Heading || node instanceof Paragraph );
-				if ( parent instanceof Paragraph || parent instanceof Heading ) {
-					parent.textContainer.formatting.push( child );
-				} else {
-					// Wrap formatting element in paragraph, add it to the tree.
-					TreeAdapter._addOrphanedFormattingElement( child, parent );
-				}
-			}
+			this._appendFormattingElement( parent, child );
 			return;
 		}
 		// Just add nodes to parent's children if not formatting.
+		child.parent = parent;
 		parent.children.push( child );
+	}
+
+	/**
+	 * Appends the formatting element to the tree.
+	 *
+	 * @param parent
+	 * @param formattingElement
+	 * @private
+	 */
+	_appendFormattingElement( parent, formattingElement ) {
+		formattingElement.parent = parent;
+		if ( parent instanceof StructuredNode ) {
+			// Wrap it in a paragraph, add it as formatting.
+			TreeAdapter._addOrphanedFormattingElement( formattingElement, parent );
+		} else {
+			/*
+			 Formatting elements can be nested, we want to add it to
+			 the most recent ancestor which is either a heading or paragraph.
+			 */
+			const ancestor = findAncestor( formattingElement,
+				node => node instanceof Heading || node instanceof Paragraph
+			);
+			if ( ancestor instanceof Paragraph || ancestor instanceof Heading ) {
+				// Add formatting element as formatting to the found paragraph or heading ancestor.
+				formattingElement.parent = parent;
+				ancestor.textContainer.formatting.push( formattingElement );
+			} else {
+				// Wrap formatting element in paragraph, add it to the tree.
+				TreeAdapter._addOrphanedFormattingElement( formattingElement, parent );
+			}
+		}
 	}
 
 	/**
