@@ -82,7 +82,7 @@ class WPSEO_Admin_Asset {
 	/**
 	 * @param array $args The arguments for this asset.
 	 *
-	 * @throws InvalidArgumentException Throws when no name or src has been provided.
+	 * @throws \InvalidArgumentException Throws when no name or src has been provided.
 	 */
 	public function __construct( array $args ) {
 		if ( ! isset( $args['name'] ) ) {
