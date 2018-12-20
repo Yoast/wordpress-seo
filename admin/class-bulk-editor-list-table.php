@@ -111,12 +111,27 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Class constructor
 	 */
-	public function __construct() {
+	public function __construct( $args = array() ) {
 		parent::__construct( $this->settings );
 
-		$this->input_fields = $this->sanitize_input_fields();
-		if ( ! empty( $this->input_fields ) ) {
-			$this->verify_nonce();
+		if ( ! isset( $args['nonce'] ) ) {
+			throw new InvalidArgumentException(
+				sprintf(
+					/* translators: %1$s expands to the nonce field  */
+					__( '%1$s is a required field', 'wordpress-seo' ),
+					'nonce'
+				)
+			);
+		}
+
+		if ( ! isset( $args['input_fields'] ) ) {
+			throw new InvalidArgumentException(
+				sprintf(
+				/* translators: %1$s expands to the input_fields field  */
+					__( '%1$s is a required field', 'wordpress-seo' ),
+					'input_fields'
+				)
+			);
 		}
 
 		$this->request_url    = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
@@ -128,44 +143,10 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			'orderby' => ( ! empty( $this->input_fields['orderby'] ) ) ? $this->input_fields['orderby'] : 'post_title',
 		);
 
-		$this->nonce    = wp_create_nonce( 'bulk-editor-table' );
+		$this->nonce    = $args['nonce'];
 		$this->page_url = "&nonce={$this->nonce}&type={$this->page_type}#top#{$this->page_type}";
 
 		$this->populate_editable_post_types();
-	}
-
-	/**
-	 * Verifies nonce if additional parameters have been sent.
-	 *
-	 * Shows an error notification if the nonce check fails.
-	 */
-	private function verify_nonce() {
-		check_admin_referer( 'bulk-editor-table', 'nonce' );
-	}
-
-	/**
-	 * Sanitizes the parameters that have been sent.
-	 *
-	 * @return array The sanitized fields.
-	 */
-	protected function sanitize_input_fields() {
-		$possible_params = array(
-			'type',
-			'paged',
-			'post_type_filter',
-			'post_status',
-			'order',
-			'orderby',
-		);
-
-		$input_get = array();
-		foreach ( $possible_params as $param_name ) {
-			if ( isset( $_GET[ $param_name ] ) ) {
-				$input_get[ $param_name ] = sanitize_text_field( wp_unslash( $_GET[ $param_name ] ) );
-			}
-		}
-
-		return $input_get;
 	}
 
 	/**
