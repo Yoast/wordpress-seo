@@ -59,22 +59,6 @@ class Node {
 	}
 
 	/**
-	 * Finds the most recent ancestor (parent of parent of ... ) of this node that returns true
-	 * on the given predicate.
-	 *
-	 * @param {predicate} predicate		The predicate to check the ancestors on.
-	 *
-	 * @returns {Node|null} The most recent ancestor that returns true on the given predicate.
-	 */
-	findAncestor( predicate ) {
-		let parent = null;
-		do {
-			parent = this.parent;
-		} while ( ! predicate( this.parent ) && parent !== null );
-		return parent;
-	}
-
-	/**
 	 * Predicate function.
 	 *
 	 * @callback predicate
