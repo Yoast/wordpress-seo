@@ -318,7 +318,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$help_center->localize_data();
 		$help_center->mount();
 
-		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
+		if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
 			echo $this->get_buy_premium_link();
 		}
 
@@ -902,7 +902,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$shortcode_tags = array();
 
 		foreach ( $GLOBALS['shortcode_tags'] as $tag => $description ) {
-			array_push( $shortcode_tags, $tag );
+			$shortcode_tags[] = $tag;
 		}
 
 		return $shortcode_tags;
