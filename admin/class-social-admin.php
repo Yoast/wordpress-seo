@@ -197,7 +197,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * @return  array
 	 */
 	public function save_meta_boxes( $field_defs ) {
-		if ( ! $this->verify_nonce() ) {
+		if ( ! isset( $_POST['yoast_free_metabox_social_nonce'] ) || ! wp_verify_nonce( $_POST['yoast_free_metabox_social_nonce'], 'yoast_free_metabox_social' ) ) {
 			return $field_defs;
 		}
 
@@ -212,15 +212,15 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * @param WP_Post $post Post instance.
 	 */
 	public function og_data_compare( $post ) {
-		if ( ! $this->verify_nonce() ) {
-			return;
-		}
-
 		if ( empty( $_POST ) ) {
 			return;
 		}
 
 		if ( empty( $post->ID ) || $post->post_status !== 'publish' ) {
+			return;
+		}
+
+		if ( ! isset( $_POST['yoast_free_metabox_social_nonce'] ) || ! wp_verify_nonce( $_POST['yoast_free_metabox_social_nonce'], 'yoast_free_metabox_social' ) ) {
 			return;
 		}
 
@@ -252,18 +252,5 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				'https://graph.facebook.com/?id=' . get_permalink( $post->ID ) . '&scrape=true&method=post'
 			);
 		}
-	}
-
-	/**
-	 * Verifies the nonce.
-	 *
-	 * @return bool True if nonce is valid.
-	 */
-	protected function verify_nonce() {
-		if ( ! isset( $_POST['yoast_free_metabox_social_nonce'] ) ) {
-			return false;
-		}
-
-		return wp_verify_nonce( $_POST['yoast_free_metabox_social_nonce'], 'yoast_free_metabox_social' );
 	}
 } /* End of class */
