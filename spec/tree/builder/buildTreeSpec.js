@@ -306,6 +306,6 @@ describe( "build tree", () => {
 	} );
 
 	it( "can parse a big html text", () => {
-		const tree = buildTree( htmlFile );
+		buildTree( htmlFile );
 	} );
 } );
