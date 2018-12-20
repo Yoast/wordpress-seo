@@ -369,6 +369,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * Tests terminating an AJAX request.
 	 *
 	 * @covers Yoast_Network_Admin::terminate_request()
+	 *
+	 * @throws \WPDieException For test purposes.
 	 */
 	public function test_terminate_request_ajax() {
 		$admin = new Yoast_Network_Admin();
