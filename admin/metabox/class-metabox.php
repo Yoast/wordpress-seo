@@ -343,17 +343,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Determines whether the React section should be rendered.
-	 *
-	 * @param string $section_name The name of the section.
-	 *
-	 * @return bool Whether the React section should be rendered.
-	 */
-	private function should_load_react_section( $section_name ) {
-		return $section_name === 'content';
-	}
-
-	/**
 	 * Returns the relevant metabox sections for the current view.
 	 *
 	 * @return WPSEO_Metabox_Section[]
@@ -479,26 +468,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return $content;
-	}
-
-	/**
-	 * Retrieves the hidden fields for the metabox tab.
-	 *
-	 * @param string $tab_name Tab for which to retrieve the field definitions.
-	 *
-	 * @return string
-	 */
-	private function get_hidden_tab_fields( $tab_name ) {
-		$hidden_fields = '';
-		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
-			if ( $meta_field['type'] !== 'hidden' ) {
-				continue;
-			}
-
-			$hidden_fields .= $this->do_meta_box( $meta_field, $key );
-		}
-
-		return $hidden_fields;
 	}
 
 	/**
