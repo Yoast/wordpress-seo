@@ -1138,10 +1138,10 @@ SVG;
 	 *
 	 * @param string $locale The locale to get the language of.
 	 *
-	 * @returns string The language part of the locale.
+	 * @return string The language part of the locale.
 	 */
 	public static function get_language( $locale ) {
-		_deprecated_function( __METHOD__, 'WPSEO 9.4', 'WPSEO_Language_Utils::get_language' );
+		_deprecated_function( __METHOD__, 'WPSEO 9.5', 'WPSEO_Language_Utils::get_language' );
 		return WPSEO_Language_Utils::get_language( $locale );
 	}
 
@@ -1158,10 +1158,10 @@ SVG;
 	 *
 	 * @since      9.5
 	 *
-	 * @returns string The locale.
+	 * @return string The locale.
 	 */
 	public static function get_user_locale() {
-		_deprecated_function( __METHOD__, 'WPSEO 9.4', 'WPSEO_Language_Utils::get_user_locale' );
+		_deprecated_function( __METHOD__, 'WPSEO 9.5', 'WPSEO_Language_Utils::get_user_locale' );
 
 		return WPSEO_Language_Utils::get_user_locale();
 	}
