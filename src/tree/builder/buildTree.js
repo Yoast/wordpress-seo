@@ -93,6 +93,7 @@ const cleanUpAfterParsing = function( tree, html ) {
 export default function( html ) {
 	const treeAdapter = new TreeAdapter();
 	let tree = parseFragment( html, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+	// Cleanup takes < 2ms, even after parsing a big HTML file. (measured using `console.time`).
 	tree = cleanUpAfterParsing( tree, html );
 	return tree;
 }

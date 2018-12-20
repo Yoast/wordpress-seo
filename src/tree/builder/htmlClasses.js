@@ -2,7 +2,7 @@
  * All HTML element tags that we treat as formatting.
  * @type {string[]}
  */
-const formattingElements = [ "strong", "emph" ];
+const formattingElements = [ "strong", "emph", "a" ];
 
 /**
  * All tags of the HTML element types that are irrelevant for our analysis.
