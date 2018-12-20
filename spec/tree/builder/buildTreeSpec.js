@@ -309,4 +309,8 @@ describe( "build tree", () => {
 	it( "can parse a big html text", () => {
 		buildTree( htmlFile );
 	} );
+
+	it( "can parse another big html text", () => {
+		buildTree( htmlFile2 );
+	} );
 } );
