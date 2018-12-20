@@ -2,6 +2,9 @@
 
 namespace Yoast\Tests\Doubles;
 
+/**
+ * Test Helper Class.
+ */
 class Plugin extends \Yoast\YoastSEO\Config\Plugin {
 
 	/**
