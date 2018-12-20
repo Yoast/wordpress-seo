@@ -145,6 +145,8 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			$tab_content .= $this->do_meta_box( $meta_field_defs[ $field_name ], $field_name );
 		}
 
+		$tab_content .= wp_nonce_field( 'yoast_free_metabox_social', 'yoast_free_metabox_social_nonce' );
+
 		return $tab_content;
 	}
 
@@ -195,17 +197,24 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * @return  array
 	 */
 	public function save_meta_boxes( $field_defs ) {
-		return array_merge( $field_defs, $this->get_meta_field_defs( 'social' ) );
+		if ( ! $this->verify_nonce() ) {
+			return;
+		}
+
+		return array_merge( $field_defs, self::get_meta_field_defs( 'social' ) );
 	}
 
 	/**
 	 * This method will compare opengraph fields with the posted values.
 	 *
-	 * When fields are changed, the facebook cache will be purge.
+	 * When fields are changed, the facebook cache will be purged.
 	 *
 	 * @param WP_Post $post Post instance.
 	 */
 	public function og_data_compare( $post ) {
+		if ( ! $this->verify_nonce() ) {
+			return;
+		}
 
 		// Check if post data is available, if post_id is set and if original post_status is publish.
 		// @codingStandardsIgnoreStart
@@ -240,5 +249,14 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				);
 			}
 		}
+	}
+
+	/**
+	 * Verifies the nonce.
+	 *
+	 * @return bool True if nonce is valid.
+	 */
+	protected function verify_nonce() {
+		return isset( $_POST['yoast_free_metabox_social_nonce'] ) && wp_verify_nonce( $_POST['yoast_free_metabox_social'] );
 	}
 } /* End of class */
