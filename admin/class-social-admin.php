@@ -224,7 +224,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			return;
 		}
 
-		if ( ! isset( $_POST['original_post_status'] ) || sanitize_text_field( wp_unslash( $_POST['original_post_status'] ) ) !== 'publish' ) {
+		if ( ! isset( $_POST['original_post_status'] ) || $_POST['original_post_status'] !== 'publish' ) {
 			return;
 		}
 
