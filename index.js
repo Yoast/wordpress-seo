@@ -10,6 +10,7 @@ import * as config from "./src/config";
 import App from "./src/app";
 import Assessor from "./src/assessor";
 import ContentAssessor from "./src/contentAssessor";
+import SeoAssessor from './src/seoAssessor';
 import TaxonomyAssessor from "./src/taxonomyAssessor";
 import Pluggable from "./src/pluggable";
 import Researcher from "./src/researcher";
@@ -21,6 +22,7 @@ export {
 	App,
 	Assessor,
 	ContentAssessor,
+	SeoAssessor,
 	TaxonomyAssessor,
 	Pluggable,
 	Researcher,
