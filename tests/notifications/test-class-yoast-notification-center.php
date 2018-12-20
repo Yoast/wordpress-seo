@@ -10,7 +10,11 @@
  */
 class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
-	/** @var int User ID */
+	/**
+	 * User ID.
+	 *
+	 * @var int
+	 */
 	private $user_id;
 
 	/**
