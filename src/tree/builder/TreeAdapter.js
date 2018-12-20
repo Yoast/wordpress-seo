@@ -143,6 +143,8 @@ class TreeAdapter {
 				// Wrap it in a paragraph, add it as formatting.
 				const paragraph = new Paragraph();
 				paragraph.textContainer.formatting.push( child );
+				paragraph.parent = parent;
+				child.parent = paragraph;
 				parent.children.push( paragraph );
 			} else {
 				// Hoist formatting element up the tree until it encounters a Heading or Paragraph.
@@ -245,6 +247,7 @@ class TreeAdapter {
 			// Else: wrap the text in an implicit paragraph and add it as a new child.
 			const paragraph = new Paragraph();
 			paragraph.textContainer.appendText( text );
+			paragraph.parent = node;
 			node.children.push( paragraph );
 		}
 	}
