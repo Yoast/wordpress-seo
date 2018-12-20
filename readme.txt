@@ -130,6 +130,7 @@ Enhancements:
 
 * Improve accessibility of the Title Separator setting.
 * Improve accessibility of the analysis results.
+* Adds a URL filter for adjacent-rel links: wpseo_adjacent_rel_url.
 
 Bugfixes:
 
