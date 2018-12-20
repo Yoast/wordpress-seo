@@ -18,7 +18,11 @@ class WPSEO_Configuration_Options_Adapter {
 	const OPTION_TYPE_YOAST = 'yoast';
 	const OPTION_TYPE_CUSTOM = 'custom';
 
-	/** @var array List of registered lookups */
+	/**
+	 * List of registered lookups.
+	 *
+	 * @var array
+	 */
 	protected $lookup = array();
 
 	/**

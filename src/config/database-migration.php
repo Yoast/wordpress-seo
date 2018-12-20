@@ -21,10 +21,14 @@ class Database_Migration {
 
 	const MIGRATION_ERROR_TRANSIENT_KEY = 'yoast_migration_problem';
 
-	/** @var \wpdb WPDB instance */
+	/**
+	 * @var \wpdb WPDB instance
+	 */
 	protected $wpdb;
 
-	/** @var Dependency_Management */
+	/**
+	 * @var Dependency_Management
+	 */
 	protected $dependency_management;
 
 	/**

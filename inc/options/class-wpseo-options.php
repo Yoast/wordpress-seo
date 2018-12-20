@@ -12,8 +12,9 @@
  */
 class WPSEO_Options {
 	/**
-	 * @var  array  Options this class uses.
-	 *              Array format:  (string) option_name  => (string) name of concrete class for the option
+	 * Options this class uses.
+	 *
+	 * @var array Array format: (string) option_name  => (string) name of concrete class for the option.
 	 * @static
 	 */
 	public static $options = array(
@@ -24,15 +25,23 @@ class WPSEO_Options {
 		'wpseo_taxonomy_meta' => 'WPSEO_Taxonomy_Meta',
 	);
 	/**
-	 * @var  array   Array of instantiated option objects.
+	 * Array of instantiated option objects.
+	 *
+	 * @var array
 	 */
 	protected static $option_instances = array();
 	/**
-	 * @var  object  Instance of this class.
+	 * Instance of this class.
+	 *
+	 * @var object
 	 */
 	protected static $instance;
 
-	/** @var WPSEO_Options_Backfill Backfill instance. */
+	/**
+	 * Backfill instance.
+	 *
+	 * @var WPSEO_Options_Backfill
+	 */
 	protected static $backfill;
 
 	/**

@@ -17,7 +17,11 @@ class WPSEO_Configuration_Endpoint {
 	const CAPABILITY_RETRIEVE = 'wpseo_manage_options';
 	const CAPABILITY_STORE = 'wpseo_manage_options';
 
-	/** @var WPSEO_Configuration_Service Service to use */
+	/**
+	 * Service to use.
+	 *
+	 * @var WPSEO_Configuration_Service
+	 */
 	protected $service;
 
 	/**

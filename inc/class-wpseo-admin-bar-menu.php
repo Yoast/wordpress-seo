@@ -25,7 +25,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/** The identifier used for the Network Settings submenu. */
 	const NETWORK_SETTINGS_SUBMENU_IDENTIFIER = 'wpseo-network-settings';
 
-	/** @var WPSEO_Admin_Asset_Manager Asset manager instance. */
+	/**
+	 * Asset manager instance.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
 	protected $asset_manager;
 
 	/**
