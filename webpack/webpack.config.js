@@ -215,12 +215,27 @@ module.exports = function( env = { environment: "production", recalibration: "di
 				...base,
 				output: {
 					path: paths.jsDist,
+					filename: outputFilenameMinified,
+					jsonpFunction: "yoastWebpackJsonp",
+				},
+				entry: {
+					"babel-polyfill": "./js/src/babel-polyfill.js",
+				},
+				plugins,
+				optimization: {
+					runtimeChunk: false,
+				},
+			},
+			// Config for the analysis web worker.
+			{
+				...base,
+				output: {
+					path: paths.jsDist,
 					filename: outputFilename,
 					jsonpFunction: "yoastWebpackJsonp",
 				},
 				entry: {
 					"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
-					"babel-polyfill": "./js/src/babel-polyfill.js",
 				},
 				plugins,
 				optimization: {
