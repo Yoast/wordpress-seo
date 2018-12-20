@@ -149,8 +149,11 @@ class TreeAdapter {
 	/**
 	 * Appends the formatting element to the tree.
 	 *
-	 * @param parent
-	 * @param formattingElement
+	 * @param {Node} parent                          The (current) parent of the formatting element.
+	 * @param {FormattingElement} formattingElement  The formatting element to add to the tree.
+	 *
+	 * @returns {void}
+	 *
 	 * @private
 	 */
 	_appendFormattingElement( parent, formattingElement ) {
