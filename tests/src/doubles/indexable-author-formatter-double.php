@@ -4,6 +4,9 @@ namespace Yoast\Tests\Doubles;
 
 use Yoast\WP\Free\Formatters\Indexable_Author_Formatter;
 
+/**
+ * Test Helper Class.
+ */
 class Indexable_Author_Formatter_Double extends Indexable_Author_Formatter {
 
 	/**

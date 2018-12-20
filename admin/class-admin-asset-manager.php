@@ -109,9 +109,9 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
-	 * Registers all the styles it recieves.
+	 * Registers all the styles it receives.
 	 *
-	 * @param array $styles Styles that need to be registerd.
+	 * @param array $styles Styles that need to be registered.
 	 */
 	public function register_styles( $styles ) {
 		foreach ( $styles as $style ) {
@@ -591,6 +591,16 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'styled-components-' . $flat_version,
 				'deps' => array(
 					'wp-element',
+				),
+			),
+			array(
+				'name' => 'courses-overview',
+				'src'  => 'wp-seo-courses-overview-' . $flat_version,
+				'deps' => array(
+					'wp-element',
+					'wp-i18n',
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'components',
 				),
 			),
 		);

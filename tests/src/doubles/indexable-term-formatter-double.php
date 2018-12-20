@@ -4,6 +4,9 @@ namespace Yoast\Tests\Doubles;
 
 use Yoast\WP\Free\Formatters\Indexable_Term_Formatter;
 
+/**
+ * Test Helper Class.
+ */
 class Indexable_Term_Formatter_Double extends Indexable_Term_Formatter {
 
 	/**
