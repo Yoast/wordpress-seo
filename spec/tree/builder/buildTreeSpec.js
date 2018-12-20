@@ -1,16 +1,17 @@
 import buildTree from "../../../src/tree/builder/buildTree";
 import treeToStringifiedJSON from "../../../src/tree/utils/treeToStringifiedJSON";
-
-import StructuredIrrelevant from "../../../src/tree/values/nodes/StructuredIrrelevant";
-import StructuredNode from "../../../src/tree/values/nodes/StructuredNode";
-import Paragraph from "../../../src/tree/values/nodes/Paragraph";
 import FormattingElement from "../../../src/tree/values/FormattingElement";
-import TextContainer from "../../../src/tree/values/nodes/TextContainer";
 import Heading from "../../../src/tree/values/nodes/Heading";
 import List from "../../../src/tree/values/nodes/List";
 import ListItem from "../../../src/tree/values/nodes/ListItem";
+import Paragraph from "../../../src/tree/values/nodes/Paragraph";
+
+import StructuredIrrelevant from "../../../src/tree/values/nodes/StructuredIrrelevant";
+import StructuredNode from "../../../src/tree/values/nodes/StructuredNode";
+import TextContainer from "../../../src/tree/values/nodes/TextContainer";
 
 import htmlFile from "../../fullTextTests/testTexts/en/englishPaper1.html";
+import htmlFile2 from "../../fullTextTests/testTexts/de/germanPaper2.html";
 
 describe( "build tree", () => {
 	it( "can build a tree from html", () => {
@@ -38,7 +39,7 @@ describe( "build tree", () => {
 
 	it( "can parse an HTML into a Paragraph", () => {
 		const input = "<p>This <strong id='some-id'>sentence</strong> needs to be " +
-			"<emph><strong class='weak'>read</strong></emph> to have value as a sentence.</p>";
+			"<em><strong class='weak'>read</strong></em> to have value as a sentence.</p>";
 
 		const tree = buildTree( input );
 
@@ -47,25 +48,25 @@ describe( "build tree", () => {
 		strong1.endIndex = 46;
 
 		const strong2 = new FormattingElement( "strong", { "class": "weak" } );
-		strong2.startIndex = 65;
-		strong2.endIndex = 99;
+		strong2.startIndex = 63;
+		strong2.endIndex = 97;
 
-		const emph = new FormattingElement( "emph", {} );
-		emph.startIndex = 59;
-		emph.endIndex = 106;
+		const em = new FormattingElement( "em", {} );
+		em.startIndex = 59;
+		em.endIndex = 102;
 
 		const textContainer = new TextContainer();
 		textContainer.text = "This sentence needs to be read to have value as a sentence.";
-		textContainer.formatting = [ strong1, emph, strong2 ];
+		textContainer.formatting = [ strong1, em, strong2 ];
 
 		const paragraph = new Paragraph( "p" );
 		paragraph.startIndex = 0;
-		paragraph.endIndex = 139;
+		paragraph.endIndex = 135;
 		paragraph.textContainer = textContainer;
 
 		const expected = new StructuredNode( "root" );
 		expected.startIndex = 0;
-		expected.endIndex = 139;
+		expected.endIndex = 135;
 		expected.children = [ paragraph ];
 
 		expect(  treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
