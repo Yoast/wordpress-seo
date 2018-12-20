@@ -109,17 +109,36 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 9.4.0 =
 Release Date: January 8th, 2019
 
+Content analysis recalibration:
+
+* Adds a toggle feature for subscribing to the recalibration beta under SEO -> General -> Features.
+* When the recalibration feature is enabled:
+  * The single title assessment is added. This assessment makes sure that you don't use superfluous H1s in your text.
+  * The following assessments are not used anymore:
+    * The assessment checking the length or your URL.
+    * The assessment checking whether your URL contains stopwords.
+  * Assessments changes:
+    * Keyphrase density: changes scoring schema to account for the length of the keyphrase and changes feedback strings so that we give feedback about the number of occurrences rather than a percentage.
+    * Outbound links assessment: changes the scoring schema so that red bullet instead of an orange bullet is shown when you have no outbound links.
+    * Image alt attributes: if there are at least 5 images, checks whether the alt tags contain the keyphrase or synoynyms in 30-70% of all images. If there are less than 5 images, 1 image with the keyphrase or synonym in the alt tag is still scored as good.
+    * Keyphrase in title: function words preceding the exact match keyphrase are ignored when determining the position of the keyphrase in the title.
+    * Keyphrase length: makes the scoring scheme less strict for languages that don't have function word support, so that for these languages keyphrases with 1-6 words are scored as green, 7-9 as orange, and more than 9 as red.
+    * Keyphrase in subheading: only takes H2 and H3 level subheadings into account and changes the scoring schema so that 30%-75% of these subheadings need to include the keyphrase or its synonyms. In languages without function word support, a match is only counted if all the words from the keyphrase/synonym appear in the subheading.
+    * Text length: on taxonomy pages, the recommended minimum text length is increased from 150 to 250 words.
+
 Enhancements:
-* Adds readability analysis for Swedish.
+
 * Improve accessibility of the Title Separator setting.
 * Improve accessibility of the analysis results.
 
 Bugfixes:
+
 * Fixes a bug where pagination elements were not shown in the Genesis theme.
 * Fixes a bug where special characters from certain word lists weren't correctly escaped when matched with a regex. This resulted in `eggs` being incorrectly matched as the transition word `e.g.`, for example.
 * Fixes a bug where the search appearance setting for a custom posttype named `profile` will have the wrong styling.
 
 Other:
+
 * Uses method `is_simple_page` instead of `is_singular` in method robots. Props to: [stodorovic](https://github.com/stodorovic)
 * Adds method `is_woocommerce_active` and check is woocommerce activate before registering hooks. Props to [stodorovic](https://github.com/stodorovic)
 * Adds static variables to "cache" results of functions [`is_shop`](https://docs.woocommerce.com/wc-apidocs/function-is_shop.html) and [`wc_get_page_id`](https://docs.woocommerce.com/wc-apidocs/function-wc_get_page_id.html).  Props to [stodorovic](https://github.com/stodorovic)
@@ -153,68 +172,6 @@ Bugfixes:
 Other:
 
 * Implemented performance optimizations in FAQ and How To blocks.
-
-Content analysis recalibration:
-* Adds a toggle feature for subscribing to the recalibration beta under SEO -> General -> Features.
-* When the recalibration feature is enabled:
-  * The single title assessment is added. This assessment makes sure that you don't use superfluous H1s in your text.
-  * The following assments are not used anymore:
-    * The assessment checking the length or your URL.
-    * The assessment checking whether your URL contains stopwords.
-  * Assessments changes:
-    * Keyphrase density: changes scoring schema to account for the length of the keyphrase and changes feedback strings so that we give feedback about the number of occurrences rather than a percentage.
-    * Outbound links assessment: changes the scoring schema so that red bullet instead of an orange bullet is shown when you have no outbound links.
-    * Image alt attributes: if there are at least 5 images, checks whether the alt tags contain the keyphrase or synoynyms in 30-70% of all images. If there are less than 5 images, 1 image with the keyphrase or synonym in the alt tag is still scored as good.
-    * Keyphrase in title: function words preceding the exact match keyphrase are ignored when determining the position of the keyphrase in the title.
-    * Keyphrase length: makes the scoring scheme less strict for languages that don't have function word support, so that for these languages keyphrases with 1-6 words are scored as green, 7-9 as orange, and more than 9 as red.
-    * Keyphrase in subheading: only takes H2 and H3 level subheadings into account and changes the scoring schema so that 30%-75% of these subheadings need to include the keyphrase or its synonyms. In languages without function word support, a match is only counted if all the words from the keyphrase/synonym appear in the subheading.
-    * Text length: on taxonomy pages, the recommended minimum text length is increased from 150 to 250 words.
-
-= 9.2.1 =
-Release Date: November 21th, 2018
-
-Bugfixes:
-
-* Fixes a bug where the title and meta description field's cursor would jump to the start when typing.
-
-= 9.2.0 =
-Release Date: November 20th, 2018
-
-Enhancements:
-
-* Adds support for the 'eye' markers in Gutenberg using the experimental annotations API in Gutenberg. They will work for the paragraph, quote, heading and list blocks.
-* Adds the latest og:locale options provided by Facebook. Props to [valtlfelipe](https://github.com/valtlfelipe)
-* Adds support for oEmbed utilization of Yoast custom fields (post meta) values. Specifically the image and the title. Props to [ben-caplan](https://github.com/ben-caplan)
-* Defines attachment as non-accessible when attachment urls are redirected to the attachment file itself. Props to [stodorovic](https://github.com/stodorovic)
-* Improves the accessibility of the "Bulk editor" and "Search console" tables.
-* Hides SEO title and meta description fields on the author edit page when the author archives are disabled.
-* Replaces Settings ZIP download (export) and upload (import) functionality with Settings fields.
-
-Bugfixes:
-
-* Fixes a bug where assessments would fail if a "<" character is present in the content.
-* Fixes a bug where the excerpt replacement variable will output a piece of the post content when no excerpt is given.
-* Fixes a bug where the wrong title is rendered for the WooCommerce product archive.
-* Fixes a bug where the Yoast metabox is visible even when the attachment urls are redirected to the attachment file itself.
-* Fixes a bug where the Dashboard Widget was not displayed in the correct language.
-* Fixes a bug in combination with Gutenberg where paragraphs were sometimes not correctly detected because paragraph tags were not automatically added in WordPress-like fashion.
-* Fixes a bug in combination with Gutenberg where multiple marker buttons could be active at the same time.
-* Fixes a bug in combination with Gutenberg where escaped HTML is shown in the OpenGraph description.
-
-Compatibility:
-
-* Adds the `__block_editor_compatible_meta_box` flag to our metabox registrations to indicate they are compatible with WordPress 5.0.
-* Revise the enqueue order of the JavaScript assets to ensure compatibility with the classic editor plugin and WordPress 5.0.
-
-Security:
-
-* Fixes a possible command execution by users with SEO Manager roles. Props to [Dimopoulos Elias](https://twitter.com/gweeperx)
-
-Other:
-
-* Disables the non-functioning markers for the subheading distribution assessment.
-* Refactor SEO assessment filenames and exports. Props to [Kingdutch](https://github.com/Kingdutch)
-* Deprecates the `Yoast_Modal` class.
 
 = Earlier versions =
 
