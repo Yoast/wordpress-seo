@@ -288,6 +288,7 @@ class WPSEO_Admin_Asset_Manager {
 		 * The no-op achieves that our scripts that depend on this are actually loaded. Because WordPress doesn't
 		 * load a script if any of the dependencies are missing.
 		 */
+		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters -- The no-op does not require these settings.
 		wp_register_script(
 			'wp-annotations',
 			null
