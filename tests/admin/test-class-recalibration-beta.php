@@ -77,7 +77,7 @@ class WPSEO_Recalibration_Beta_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Recalibration_Beta::subscribe_newsletter()
 	 */
-	public function _test_subscribe_newsletter_when_already_subscribed() {
+	public function test_subscribe_newsletter_when_already_subscribed() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Recalibration_Beta_Double' )
 			->setMethods( array( 'has_mailinglist_subscription' ) )
@@ -96,7 +96,7 @@ class WPSEO_Recalibration_Beta_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Recalibration_Beta::subscribe_newsletter()
 	 */
-	public function _test_subscribe_newsletter() {
+	public function test_subscribe_newsletter() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Recalibration_Beta_Double' )
 			->setMethods( array( 'has_mailinglist_subscription', 'do_request', 'set_mailinglist_subscription' ) )
