@@ -40,7 +40,8 @@ class WPSEO_Admin_Asset {
 	 */
 	const VERSION = 'version';
 
-	// Style specific.
+	/* Style specific. */
+
 	/**
 	 * @var string
 	 */
@@ -51,7 +52,7 @@ class WPSEO_Admin_Asset {
 	 */
 	const RTL = 'rtl';
 
-	// Script specific.
+	/* Script specific. */
 
 	/**
 	 * @var string
