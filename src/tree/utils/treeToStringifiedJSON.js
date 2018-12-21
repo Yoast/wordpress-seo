@@ -18,9 +18,9 @@ const removeParent = function( key, value ) {
  * Transforms the given tree to a stringified JSON representation.
  *
  * @param {Node} tree	                      The tree to stringify.
- * @param {number|string} [indentation = 0] The space with which to indent each successive level in the JSON tree.
+ * @param {number|string} [indentation = 2] The space with which to indent each successive level in the JSON tree.
  * @returns {string} The stringified representation.
  */
-export default function( tree, indentation = 0 ) {
+export default function( tree, indentation = 2 ) {
 	return JSON.stringify( tree, removeParent, indentation );
 }
