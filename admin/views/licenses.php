@@ -24,12 +24,13 @@ $extensions->add(
 	'wordpress-seo-premium',
 	new WPSEO_Extension(
 		array(
-			'url'       => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
-			'title'     => 'Yoast SEO Premium',
+			'buyUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/zz' ),
+			'infoUrl'  => WPSEO_Shortlinker::get( 'https://yoa.st/zy' ),
+			'title'    => 'Yoast SEO Premium',
 			/* translators: %1$s expands to Yoast SEO */
-			'desc'      => sprintf( __( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ), 'Yoast SEO' ),
-			'image'     => plugins_url( 'images/extensions-premium-ribbon.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
-			'benefits'  => array(),
+			'desc'     => sprintf( __( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ), 'Yoast SEO' ),
+			'image'    => plugins_url( 'images/extensions-premium-ribbon.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
+			'benefits' => array(),
 		)
 	)
 );
@@ -188,14 +189,14 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 
 			<?php else : ?>
 
-				<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zz' ); ?>" class="yoast-button-upsell"><?php
+				<a target="_blank" href="<?php echo esc_url( $extension->get_buy_url() ); ?>" class="yoast-button-upsell"><?php
 					/* translators: $1$s expands to Yoast SEO Premium */
 					printf( __( 'Buy %1$s', 'wordpress-seo' ), $extension->get_title() );
 					echo $new_tab_message;
 					echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 				?></a>
 
-				<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/zy' ); ?>" class="yoast-link--more-info">
+				<a target="_blank" href="<?php echo esc_url( $extension->get_info_url() ); ?>" class="yoast-link--more-info">
 					<?php
 					printf(
 						/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
