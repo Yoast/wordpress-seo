@@ -49,7 +49,10 @@ class WPSEO_Remove_Reply_To_Com implements WPSEO_WordPress_Integration {
 		if ( isset( $_GET['replytocom'] ) && is_singular() ) {
 			$url          = get_permalink( $GLOBALS['post']->ID );
 			$hash         = sanitize_text_field( wp_unslash( $_GET['replytocom'] ) );
-			$query_string = remove_query_arg( 'replytocom', sanitize_text_field( wp_unslash( $_SERVER['QUERY_STRING'] ) ) );
+			$query_string = '';
+			if ( isset( $_SERVER['QUERY_STRING'] ) ) {
+				$query_string = remove_query_arg( 'replytocom', sanitize_text_field( wp_unslash( $_SERVER['QUERY_STRING'] ) ) );
+			}
 			if ( ! empty( $query_string ) ) {
 				$url .= '?' . $query_string;
 			}
