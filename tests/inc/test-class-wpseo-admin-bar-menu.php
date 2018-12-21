@@ -10,10 +10,18 @@
  */
 class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 
-	/** @var int WP SEO manager user ID. */
+	/**
+	 * WP SEO manager user ID.
+	 *
+	 * @var int
+	 */
 	protected static $wpseo_manager;
 
-	/** @var int Network administrator user ID. */
+	/**
+	 * Network administrator user ID.
+	 *
+	 * @var int
+	 */
 	protected static $network_administrator;
 
 	/**
