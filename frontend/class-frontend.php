@@ -1587,42 +1587,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Function used in testing whether the title should be force rewritten or not.
-	 *
-	 * @param string $title Title string.
-	 *
-	 * @return string
-	 */
-	public function title_test_helper( $title ) {
-		WPSEO_Options::set( 'title_test', ( WPSEO_Options::get( 'title_test' ) + 1 ) );
-
-		// Prevent this setting from being on forever when something breaks, as it breaks caching.
-		if ( WPSEO_Options::get( 'title_test' ) > 5 ) {
-			WPSEO_Options::set( 'title_test', 0 );
-
-			remove_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
-
-			return $title;
-		}
-
-		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
-			define( 'DONOTCACHEPAGE', true );
-		}
-		if ( ! defined( 'DONOTCACHCEOBJECT' ) ) {
-			define( 'DONOTCACHCEOBJECT', true );
-		}
-		if ( ! defined( 'DONOTMINIFY' ) ) {
-			define( 'DONOTMINIFY', true );
-		}
-
-		if ( $_SERVER['HTTP_USER_AGENT'] === "WordPress/{$GLOBALS['wp_version']}; " . get_bloginfo( 'url' ) . ' - Yoast' ) {
-			return 'This is a Yoast Test Title';
-		}
-
-		return $title;
-	}
-
-	/**
 	 * Get the product name in the head section.
 	 *
 	 * @return string
@@ -1958,5 +1922,21 @@ class WPSEO_Frontend {
 		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_posts_page' );
 
 		return $this->frontend_page_type->is_posts_page();
+	}
+
+	/**
+	 * Function used in testing whether the title should be force rewritten or not.
+	 *
+	 * @deprecated 9.6
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $title Title string.
+	 *
+	 * @return string
+	 */
+	public function title_test_helper( $title ) {
+		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
+
+		return $title;
 	}
 }

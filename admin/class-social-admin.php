@@ -238,7 +238,12 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 		foreach ( $fields_to_compare as $field_to_compare ) {
 			$old_value = self::get_value( $field_to_compare, $post->ID );
-			$new_value = self::get_post_value( self::$form_prefix . $field_to_compare );
+
+			$new_value = '';
+			$post_key  = self::$form_prefix . $field_to_compare;
+			if ( isset( $_POST[ $post_key ] ) ) {
+				$new_value = sanitize_text_field( wp_unslash( $_POST[ $post_key ] ) );
+			}
 
 			if ( $old_value !== $new_value ) {
 				$reset_facebook_cache = true;
