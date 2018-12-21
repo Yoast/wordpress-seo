@@ -5,6 +5,14 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.46.0
+### Added
+* Adds readability analysis for Swedish.
+* Adds prominent words for Swedish.
+* Improves keyword recognition in Swedish by filtering function words.
+* Improves the transition word assessment for German.
+* Improves the error logging when there is an error in an SEO or readability assessment.
+
 ## 1.45.0
 ### Fixed
 * Fixes a bug where special characters from certain word lists weren't correctly escaped when matched with a regex. This resulted in `eggs` being incorrectly matched as the transition word `e.g.`, for example.
