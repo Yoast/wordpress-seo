@@ -507,6 +507,8 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	if ( defined( 'WP_CLI' ) && WP_CLI ) {
 		add_action( 'plugins_loaded', 'wpseo_cli_init', 20 );
 	}
+
+	add_filter( 'phpcompat_whitelist', 'yoast_free_phpcompat_whitelist' );
 }
 
 // Activation and deactivation hook.
@@ -623,4 +625,27 @@ function yoast_wpseo_self_deactivate() {
 			unset( $_GET['activate'] );
 		}
 	}
+}
+
+/**
+ * Excludes specific files from php-compatibility-checker.
+ *
+ * @since 9.4
+ *
+ * @param array $ignored Array of ignored directories/files.
+ *
+ * @return array Array of ignored directories/files.
+ */
+function yoast_free_phpcompat_whitelist( $ignored ) {
+	$path = '*/' . basename( WPSEO_PATH ) . '/';
+
+	// To prevent: (warning) File has mixed line endings; this may cause incorrect results
+	$ignored[] = $path . 'vendor/ruckusing/lib/Ruckusing/FrameworkRunner.php';
+	$ignored[] = $path . 'vendor_prefixed/ruckusing/lib/Ruckusing/FrameworkRunner.php';
+
+	// To prevent: (error) Extension 'sqlite' is removed since PHP 5.4
+	$ignored[] = $path . 'vendor/ruckusing/lib/Ruckusing/Adapter/Sqlite3/Base.php';
+	$ignored[] = $path . 'vendor_prefixed/ruckusing/lib/Ruckusing/Adapter/Sqlite3/Base.php';
+
+	return $ignored;
 }
