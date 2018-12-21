@@ -84,7 +84,7 @@ switch ( $platform_tabs->current_tab() ) {
 				$profiles = $this->service->get_sites();
 				if ( ! empty( $profiles ) ) {
 					$show_save = true;
-					echo Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo' ), $profiles );
+					Yoast_Form::get_instance()->select( 'profile', esc_html__( 'Profile', 'wordpress-seo' ), $profiles );
 				}
 				else {
 					$show_save = false;
