@@ -639,11 +639,11 @@ function yoast_wpseo_self_deactivate() {
 function yoast_free_phpcompat_whitelist( $ignored ) {
 	$path = '*/' . basename( WPSEO_PATH ) . '/';
 
-	// To prevent: (warning) File has mixed line endings; this may cause incorrect results
+	// To prevent: (warning) File has mixed line endings; this may cause incorrect results.
 	$ignored[] = $path . 'vendor/ruckusing/lib/Ruckusing/FrameworkRunner.php';
 	$ignored[] = $path . 'vendor_prefixed/ruckusing/lib/Ruckusing/FrameworkRunner.php';
 
-	// To prevent: (error) Extension 'sqlite' is removed since PHP 5.4
+	// To prevent: (error) Extension 'sqlite' is removed since PHP 5.4.
 	$ignored[] = $path . 'vendor/ruckusing/lib/Ruckusing/Adapter/Sqlite3/Base.php';
 	$ignored[] = $path . 'vendor_prefixed/ruckusing/lib/Ruckusing/Adapter/Sqlite3/Base.php';
 
