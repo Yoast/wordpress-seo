@@ -294,7 +294,7 @@ class WPSEO_Admin_Asset_Manager {
 			'wp-annotations',
 			null
 		);
-		// phpcs:enable
+		// phpcs:enable -- End of disable.
 	}
 
 	/**
