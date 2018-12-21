@@ -1928,6 +1928,7 @@ class WPSEO_Frontend {
 	 * Function used in testing whether the title should be force rewritten or not.
 	 *
 	 * @deprecated 9.6
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $title Title string.
 	 *
