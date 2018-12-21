@@ -1037,6 +1037,7 @@ class WPSEO_Meta {
 	 * @static
 	 *
 	 * @deprecated 9.6
+	 * @codeCoverageIgnore
 	 *
 	 * @param  string $key Key of the value to get from $_POST.
 	 *
