@@ -255,7 +255,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 		check_admin_referer( $action, $query_arg );
 
 		if ( ! $has_access ) {
-			wp_die( __( 'You are not allowed to perform this action.', 'wordpress-seo' ) );
+			wp_die( esc_html__( 'You are not allowed to perform this action.', 'wordpress-seo' ) );
 		}
 	}
 
