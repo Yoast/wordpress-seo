@@ -146,6 +146,7 @@ Other:
 * Verifies that variable `post` is an instance of `WP_Post` in `WPSEO_Admin_Bar_Menu ::get_singular_post()`. Props to [@yingles](https://github.com/yingles).
 * Improves strings to be more easily translated. Props to [pedro-mendonca](https://github.com/pedro-mendonca)
 * The browser console now shows more descriptive error messages when something went wrong during analyses in the web worker.
+* Avoids irrelevant warning and error in the WPEngine PHP Compatibility plugin.
 
 = 9.3.0 =
 Release Date: December 18th, 2018
