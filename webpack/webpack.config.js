@@ -118,6 +118,9 @@ module.exports = function( env = { environment: "production", recalibration: "di
 				entry: {
 					"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
 				},
+				optimization: {
+					runtimeChunk: false,
+				},
 				plugins,
 			},
 			// Analysis that is used as external (`window.yoastseo`).
