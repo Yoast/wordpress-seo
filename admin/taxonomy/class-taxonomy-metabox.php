@@ -288,7 +288,7 @@ class WPSEO_Taxonomy_Metabox {
 			WPSEO_Shortlinker::get( 'https://yoa.st/pe-buy-premium' ),
 			/* translators: %s expands to Yoast SEO Premium. */
 			sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' ),
-			WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
+			WPSEO_Shortlinker::get( 'https://yoa.st/3g5' ),
 			__( 'More info', 'wordpress-seo' )
 		);
 
