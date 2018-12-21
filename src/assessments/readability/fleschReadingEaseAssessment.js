@@ -7,6 +7,9 @@ import AssessmentResult from "../../values/AssessmentResult";
 
 const availableLanguages = [ "en", "nl", "de", "it", "ru", "fr", "es" ];
 
+/**
+ * Assessment to check how readable the text is, based on the famous Flesch reading ease test.
+ */
 class FleschReadingEaseAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
@@ -65,76 +68,78 @@ class FleschReadingEaseAssessment extends Assessment {
 			this.fleschReadingResult = 100;
 		}
 
-		/* Translators: %1$s and %5$s expand to a link on yoast.com,
-		%2$s to the anchor end tag,
-		%7$s expands to the anchor end tag and a full stop,
-		%3$s expands to the numeric Flesch reading ease score,
-		%4$s to the easiness of reading,
-		%6$s expands to a call to action based on the score */
-		const text = i18n.dgettext(
-			"js-text-analysis",
-			"%1$sFlesch Reading Ease%2$s: The copy scores %3$s in the test, which is considered %4$s to read. %5$s%6$s%7$s"
-		);
-		const noteGoodJob = i18n.dgettext( "js-text-analysis", "Good job!" );
+		let score = 0;
+		let feedback = "";
+		let note = i18n.dgettext( "js-text-analysis", "Good job!" );
 
 		if ( this.fleschReadingResult > this._config.borders.veryEasy ) {
-			const feedback = i18n.dgettext( "js-text-analysis", "very easy" );
-			return {
-				score: this._config.scores.veryEasy,
-				resultText: i18n.sprintf( text, this._config.urlTitle, "</a>", this.fleschReadingResult, feedback, "", noteGoodJob, "" ),
-			};
+			score = this._config.scores.veryEasy;
+			feedback = i18n.dgettext( "js-text-analysis", "very easy" );
+		} else if ( inRange( this.fleschReadingResult, this._config.borders.easy, this._config.borders.veryEasy ) ) {
+			score = this._config.scores.easy;
+			feedback = i18n.dgettext( "js-text-analysis", "easy" );
+		} else if ( inRange( this.fleschReadingResult, this._config.borders.fairlyEasy, this._config.borders.easy ) ) {
+			score = this._config.scores.fairlyEasy;
+			feedback = i18n.dgettext( "js-text-analysis", "fairly easy" );
+		} else if ( inRange( this.fleschReadingResult, this._config.borders.okay, this._config.borders.fairlyEasy ) ) {
+			score = this._config.scores.okay;
+			feedback = i18n.dgettext( "js-text-analysis", "ok" );
+		} else if ( inRange( this.fleschReadingResult, this._config.borders.fairlyDifficult, this._config.borders.okay ) ) {
+			score = this._config.scores.fairlyDifficult;
+			feedback = i18n.dgettext( "js-text-analysis", "fairly difficult" );
+			note = i18n.dgettext( "js-text-analysis", "Try to make shorter sentences to improve readability" );
+		} else if ( inRange( this.fleschReadingResult, this._config.borders.difficult, this._config.borders.fairlyDifficult ) ) {
+			score = this._config.scores.difficult;
+			feedback = i18n.dgettext( "js-text-analysis", "difficult" );
+			note = i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability" );
+		} else {
+			score = this._config.scores.veryDifficult;
+			feedback = i18n.dgettext( "js-text-analysis", "very difficult" );
+			note = i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability" );
 		}
 
-		if ( inRange( this.fleschReadingResult, this._config.borders.easy, this._config.borders.veryEasy ) ) {
-			const feedback = i18n.dgettext( "js-text-analysis", "easy" );
+		if ( score >=  this._config.scores.okay ) {
 			return {
-				score: this._config.scores.easy,
-				resultText: i18n.sprintf( text, this._config.urlTitle, "</a>", this.fleschReadingResult, feedback, "", noteGoodJob, "" ),
+				score: score,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to a link on yoast.com,
+						%2$s to the anchor end tag,
+						%3$s expands to the numeric Flesch reading ease score,
+						%4$s to the easiness of reading,
+						%5$s expands to a call to action based on the score */
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sFlesch Reading Ease%2$s: The copy scores %3$s in the test, which is considered %4$s to read. %5$s"
+					),
+					this._config.urlTitle,
+					"</a>",
+					this.fleschReadingResult,
+					feedback,
+					note,
+				),
 			};
 		}
-
-		if ( inRange( this.fleschReadingResult, this._config.borders.fairlyEasy, this._config.borders.easy ) ) {
-			const feedback = i18n.dgettext( "js-text-analysis", "fairly easy" );
-			return {
-				score: this._config.scores.fairlyEasy,
-				resultText: i18n.sprintf( text, this._config.urlTitle, "</a>", this.fleschReadingResult, feedback, "", noteGoodJob, "" ),
-			};
-		}
-
-		if ( inRange( this.fleschReadingResult, this._config.borders.okay, this._config.borders.fairlyEasy ) ) {
-			const feedback = i18n.dgettext( "js-text-analysis", "ok" );
-			return {
-				score: this._config.scores.okay,
-				resultText: i18n.sprintf( text, this._config.urlTitle, "</a>", this.fleschReadingResult, feedback, "", noteGoodJob, "" ),
-			};
-		}
-
-		if ( inRange( this.fleschReadingResult, this._config.borders.fairlyDifficult, this._config.borders.okay ) ) {
-			const feedback = i18n.dgettext( "js-text-analysis", "fairly difficult" );
-			const note = i18n.dgettext( "js-text-analysis", "Try to make shorter sentences to improve readability" );
-			return {
-				score: this._config.scores.fairlyDifficult,
-				resultText: i18n.sprintf( text, this._config.urlTitle, "</a>", this.fleschReadingResult, feedback,
-					this._config.urlCallToAction, note, "</a>."  ),
-			};
-		}
-
-		if ( inRange( this.fleschReadingResult, this._config.borders.difficult, this._config.borders.fairlyDifficult ) ) {
-			const feedback = i18n.dgettext( "js-text-analysis", "difficult" );
-			const note = i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability" );
-			return {
-				score: this._config.scores.difficult,
-				resultText: i18n.sprintf( text, this._config.urlTitle, "</a>", this.fleschReadingResult, feedback,
-					this._config.urlCallToAction, note, "</a>." ),
-			};
-		}
-
-		const feedback = i18n.dgettext( "js-text-analysis", "very difficult" );
-		const note = i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability" );
 		return {
-			score: this._config.scores.veryDifficult,
-			resultText: i18n.sprintf( text, this._config.urlTitle, "</a>", this.fleschReadingResult, feedback,
-				this._config.urlCallToAction, note, "</a>." ),
+			score: score,
+			resultText: i18n.sprintf(
+				/* Translators: %1$s and %5$s expand to a link on yoast.com,
+					%2$s to the anchor end tag,
+					%7$s expands to the anchor end tag and a full stop,
+					%3$s expands to the numeric Flesch reading ease score,
+					%4$s to the easiness of reading,
+					%6$s expands to a call to action based on the score */
+				i18n.dgettext(
+					"js-text-analysis",
+					"%1$sFlesch Reading Ease%2$s: The copy scores %3$s in the test, which is considered %4$s to read. %5$s%6$s%7$s"
+				),
+				this._config.urlTitle,
+				"</a>",
+				this.fleschReadingResult,
+				feedback,
+				this._config.urlCallToAction,
+				note,
+				"</a>.",
+			),
 		};
 	}
 
