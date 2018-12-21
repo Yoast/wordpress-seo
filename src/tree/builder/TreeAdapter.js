@@ -276,8 +276,8 @@ class TreeAdapter {
 	_addStructuredNodeText( node, text ) {
 		// Get the previous sibling of this node.
 		const prevChild = node.children[ node.children.length - 1 ];
-		// If the previous child is a paragraph...
-		if ( prevChild && prevChild instanceof Paragraph ) {
+		// If the previous child is an implicit paragraph...
+		if ( prevChild && prevChild instanceof Paragraph && ! prevChild.isExplicit() ) {
 			// Append text to the paragraph.
 			prevChild.textContainer.appendText( text );
 		} else {

@@ -16,6 +16,15 @@ class Paragraph extends Node {
 	}
 
 	/**
+	 * If this paragraph is an explicit paragraph (with an explicit tag).
+	 *
+	 * @returns {boolean} If this paragraph is explicit.
+	 */
+	isExplicit() {
+		return this.tag && this.tag.length > 0;
+	}
+
+	/**
 	 * Retrieves the paragraph text (from the TextContainer).
 	 *
 	 * @returns {string} The text of the paragraph.

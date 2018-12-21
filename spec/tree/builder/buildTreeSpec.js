@@ -306,6 +306,29 @@ describe( "build tree", () => {
 		expect( treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
 	} );
 
+	it( "adds a new paragraph to the tree when the new paragraph is implicit, and the one before is explicit.", () => {
+		const input = "<p>This is a paragraph.</p>This is another paragraph.";
+
+		const paragraph1 = new Paragraph( "p" );
+		paragraph1.startIndex = 0;
+		paragraph1.endIndex = 27;
+		paragraph1.text = "This is a paragraph.";
+
+		const paragraph2 = new Paragraph();
+		paragraph2.startIndex = 27;
+		paragraph2.endIndex = 53;
+		paragraph2.text = "This is another paragraph.";
+
+		const expected = new StructuredNode( "root" );
+		expected.startIndex = 0;
+		expected.endIndex = 53;
+		expected.children = [ paragraph1, paragraph2 ];
+
+		const tree = buildTree( input );
+
+		expect( treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+	} );
+
 	it( "can parse a big html text", () => {
 		buildTree( htmlFile );
 	} );
