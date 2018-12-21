@@ -9,7 +9,7 @@ import { stripIncompleteTags as stripTags } from "../../stringProcessing/stripHT
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";
 
-const availableLanguages = [ "en", "de", "fr", "es", "ru", "it", "nl", "pl" ];
+const availableLanguages = [ "en", "de", "fr", "es", "ru", "it", "nl", "pl", "sv" ];
 
 /**
  * Calculates the result based on the number of sentences and passives.

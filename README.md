@@ -101,6 +101,7 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 | Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Catalan    	| ✅                	|                     	|               	|                     	|                             	|                            	|
 | Polish     	| ✅                	| ❌<sup>4</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Swedish    	| ✅                	| ❌<sup>4</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
 
