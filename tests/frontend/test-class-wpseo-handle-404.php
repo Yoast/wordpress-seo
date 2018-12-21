@@ -11,11 +11,6 @@
 class WPSEO_Handle_404_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var Expose_WPSEO_Handle_404
-	 */
-	private static $class_instance;
-
-	/**
 	 * Sets the handle 404 object.
 	 *
 	 * @return void;
@@ -26,69 +21,34 @@ class WPSEO_Handle_404_Test extends WPSEO_UnitTestCase {
 		// Reset permalink structure.
 		$this->set_permalink_structure( '/%postname%/' );
 		create_initial_taxonomies();
-
-		// Creates instance of WPSEO_Handle_404 class.
-		self::$class_instance = new Expose_WPSEO_Handle_404();
 	}
 
 	/**
 	 * Tests main feeds.
-	 *
-	 * @covers WPSEO_Handle_404::is_main_feed()
 	 */
 	public function test_main_feeds() {
 		// Go to default feed.
 		$this->go_to( get_feed_link() );
 
-		$this->assertTrue( self::$class_instance->is_main_feed() );
+		$this->assertQueryTrue( 'is_feed' );
 
 		// Go to comment feed.
 		$this->go_to( get_feed_link( 'comments_rss2' ) );
 
-		$this->assertTrue( self::$class_instance->is_main_feed() );
-
-		// Go to home page.
-		$this->go_to_home();
-
-		$this->assertFalse( self::$class_instance->is_main_feed() );
+		$this->assertQueryTrue( 'is_comment_feed', 'is_feed' );
 	}
 
 	/**
 	 * Tests post comments feed.
-	 *
-	 * @covers WPSEO_Handle_404::is_main_feed()
-	 * @covers WPSEO_Handle_404::is_feed_404()
 	 */
-	public function test_post_feeds() {
+	public function test_post_feed() {
 		$post      = $this->factory->post->create_and_get();
 		$feed_link = get_post_comments_feed_link( $post->ID );
 
 		// Go to post comments feed.
 		$this->go_to( $feed_link );
 
-		$this->assertFalse( self::$class_instance->is_main_feed() );
-		$this->assertFalse( self::$class_instance->is_feed_404( false ) );
-
-		// Delete post.
-		wp_delete_post( $post->ID );
-
-		// Go to (deleted) post comments feed.
-		$this->go_to( $feed_link );
-
-		$this->assertTrue( self::$class_instance->is_feed_404( false ) );
-	}
-
-	/**
-	 * Tests wp conditionals on post comments feed.
-	 */
-	public function test_wp_conditionals_on_post_feed() {
-		$post      = $this->factory->post->create_and_get();
-		$feed_link = get_post_comments_feed_link( $post->ID );
-
-		// Go to post comments feed.
-		$this->go_to( $feed_link );
-
-		// Verify the query object is a feed.
+		// Verify the query object is the feed.
 		$this->assertQueryTrue( 'is_comment_feed', 'is_feed', 'is_singular', 'is_single' );
 
 		// Delete post.
@@ -97,15 +57,12 @@ class WPSEO_Handle_404_Test extends WPSEO_UnitTestCase {
 		// Go to (deleted) post comments feed.
 		$this->go_to( $feed_link );
 
-		$this->assertFalse( is_feed() );
+		// It should be 404.
 		$this->assertQueryTrue( 'is_404' );
 	}
 
 	/**
 	 * Tests category feed.
-	 *
-	 * @covers WPSEO_Handle_404::is_main_feed()
-	 * @covers WPSEO_Handle_404::is_feed_404()
 	 */
 	public function test_category_feed() {
 		$this->run_test_on_term_feed( 'category' );
@@ -113,9 +70,6 @@ class WPSEO_Handle_404_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests tag feed.
-	 *
-	 * @covers WPSEO_Handle_404::is_main_feed()
-	 * @covers WPSEO_Handle_404::is_feed_404()
 	 */
 	public function test_tag_feed() {
 		$this->run_test_on_term_feed( 'post_tag' );
@@ -123,41 +77,26 @@ class WPSEO_Handle_404_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests search feed.
-	 *
-	 * @covers WPSEO_Handle_404::is_main_feed()
-	 * @covers WPSEO_Handle_404::is_feed_404()
 	 */
 	public function test_search_feed() {
+		// Go to search feed.
 		$this->go_to( get_search_feed_link( 'Lorem' ) );
 
-		$this->assertFalse( self::$class_instance->is_main_feed() );
-		$this->assertFalse( self::$class_instance->is_feed_404( false ) );
-	}
+		$this->assertQueryTrue( 'is_feed', 'is_search' );
 
-	/**
-	 * Tests search (query string) feed.
-	 *
-	 * @covers WPSEO_Handle_404::is_main_feed()
-	 * @covers WPSEO_Handle_404::is_feed_404()
-	 */
-	public function test_search_query_string_feed() {
+		// Go to search (query string) feed.
 		$this->go_to( '/?s=Lorem&feed=rss2' );
 
-		$this->assertFalse( self::$class_instance->is_main_feed() );
-		$this->assertFalse( self::$class_instance->is_feed_404( false ) );
+		$this->assertQueryTrue( 'is_feed', 'is_search' );
 	}
 
 	/**
 	 * Tests feed with query string.
-	 *
-	 * @covers WPSEO_Handle_404::is_main_feed()
-	 * @covers WPSEO_Handle_404::is_feed_404()
 	 */
 	public function test_query_string_feed() {
 		$this->go_to( '/?feed=rss2' );
 
-		$this->assertTrue( self::$class_instance->is_main_feed() );
-		$this->assertFalse( self::$class_instance->is_feed_404( false ) );
+		$this->assertQueryTrue( 'is_feed' );
 	}
 
 	/**
@@ -170,20 +109,29 @@ class WPSEO_Handle_404_Test extends WPSEO_UnitTestCase {
 			array( 'taxonomy' => $taxonomy )
 		);
 
-		// Go to term feed.
+		$is_taxonomy = 'is_tax';
+		if ( $taxonomy === 'category' ) {
+			$is_taxonomy = 'is_category';
+		}
+		elseif ( $taxonomy === 'post_tag' ) {
+			$is_taxonomy = 'is_tag';
+		}
+
 		$feed_link = get_term_feed_link( $term->term_id, $term->taxonomy );
+
+		// Go to term feed.
 		$this->go_to( $feed_link );
 
-		$this->assertFalse( self::$class_instance->is_main_feed() );
-		$this->assertFalse( self::$class_instance->is_feed_404( false ) );
+		// Verify the query object is the feed.
+		$this->assertQueryTrue( 'is_feed', 'is_archive', $is_taxonomy );
 
 		// Delete term.
 		wp_delete_term( $term->term_id, $term->taxonomy );
-		clean_term_cache( $term->term_id, $term->taxonomy, false );
 
 		// Go to term feed again.
 		$this->go_to( $feed_link );
 
-		$this->assertTrue( self::$class_instance->is_feed_404( false ) );
+		// It should be 404.
+		$this->assertQueryTrue( 'is_404' );
 	}
 }
