@@ -287,12 +287,14 @@ class WPSEO_Admin_Asset_Manager {
 		 * wp-annotations only exists from Gutenberg 4.3 and onwards, so we register a no-op in earlier versions.
 		 * The no-op achieves that our scripts that depend on this are actually loaded. Because WordPress doesn't
 		 * load a script if any of the dependencies are missing.
+		 *
+		 * @phpcs:disable WordPress.WP.EnqueuedResourceParameters -- The no-op does not require these settings.
 		 */
-		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters -- The no-op does not require these settings.
 		wp_register_script(
 			'wp-annotations',
 			null
 		);
+		// phpcs:enable
 	}
 
 	/**
