@@ -235,8 +235,8 @@ class SeoAnalysis extends React.Component {
 	renderWordFormsUpsell( location ) {
 		return <AnalysisUpsell
 			url={ location === "sidebar"
-				? "https://yoa.st/morphology-upsell-sidebar"
-				: "https://yoa.st/morphology-upsell-metabox" }
+				? wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_sidebar" ]
+				: wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_metabox" ] }
 			alignment={ location === "sidebar" ? "vertical" : "horizontal" }
 		/>;
 	}
