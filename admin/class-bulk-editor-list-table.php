@@ -44,7 +44,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 *
 	 * @var string
 	 */
-	private $request_url;
+	private $request_url = '';
 
 	/**
 	 * The current page (depending on $_GET['paged']) if current tab is for current page_type, else it will be 1
@@ -124,8 +124,11 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			)
 		);
 
-		$this->input_fields   = $args['input_fields'];
-		$this->request_url    = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+		$this->input_fields = $args['input_fields'];
+		if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+			$this->request_url = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+		}
+
 		$this->current_page   = ( ! empty( $this->input_fields['paged'] ) ) ? $this->input_fields['paged'] : 1;
 		$this->current_filter = ( ! empty( $this->input_fields['post_type_filter'] ) ) ? $this->input_fields['post_type_filter'] : 1;
 		$this->current_status = ( ! empty( $this->input_fields['post_status'] ) ) ? $this->input_fields['post_status'] : 1;
