@@ -67,7 +67,7 @@ jobs:
           all_branches: true
     - stage: 🚀 deployment
       name: "Deploy to Yoast-dist"
-      php: 7.2
+      php: 7.3
       install:
         - yarn global add grunt-cli
         - yarn install
