@@ -39,6 +39,10 @@ var defaults = {
 	},
 	baseURL: "http://example.com/",
 	callbacks: {
+		/**
+		 * Empty function.
+		 * @returns {void}.
+		 */
 		saveSnippetData: function() {},
 	},
 	addTrailingSlash: true,
