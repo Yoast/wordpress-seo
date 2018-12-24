@@ -11,6 +11,7 @@ branches:
     - /^feature\/*/
     # Also build tags like 1.1.1 or 1.1 for deployment.
     - /^\d+\.\d+(\.\d+)?(-\S*)?$/
+    - /skip-tests-on-tag-tagged2/
 
 stages:
   # Don't run the test steps on tag builds, this makes tag deployments a ton faster.
@@ -91,7 +92,7 @@ jobs:
       deploy:
         skip_cleanup: true
         provider: script
-        script: bash scripts/deploy_to_dist.sh $TRAVIS_TAG wordpress-seo
+        script: echo "success!"
         on:
           tags: true
           repo: $TRAVIS_REPO_SLUG
