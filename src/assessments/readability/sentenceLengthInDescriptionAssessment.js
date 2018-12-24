@@ -80,10 +80,19 @@ var sentenceLengthInDescriptionAssessment = function( paper, researcher, i18n ) 
 	return assessmentResult;
 };
 
+/**
+ * Checks if the paper has a metadescription, which is a prerequisite for the assessment to be applicable to the paper.
+ *
+ * @param {Object} paper The paper to check.
+ *
+ * @returns {boolean} Returns true if the language is available and the paper is not empty.
+ */
+const isApplicable = function( paper ) {
+	return paper.hasDescription();
+};
+
 export default {
 	identifier: "metaDescriptionSentenceLength",
 	getResult: sentenceLengthInDescriptionAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasDescription();
-	},
+	isApplicable: isApplicable,
 };
