@@ -90,8 +90,6 @@ class WPSEO_Admin {
 
 		$this->set_upsell_notice();
 
-		$this->check_php_version();
-
 		$this->initialize_cornerstone_content();
 
 		if ( WPSEO_Utils::is_plugin_network_active() ) {
@@ -530,7 +528,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Initializes Whip to show a notice for outdated PHP versions.
+	 * Initializes WHIP to show a notice for outdated PHP versions.
 	 *
 	 * @deprecated 8.1
 	 * @codeCoverageIgnore
