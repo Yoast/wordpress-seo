@@ -86,7 +86,7 @@
       "<rootDir>/spec/fullTextTests/testText/*/*\\.html"
     ],
     "testRegex": "/spec/.*\\.(js)$",
-    "testEnvironment": "jsdom",
+    "testEnvironment": "node",
     "moduleDirectories": [
       "node_modules"
     ],
