@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import colors from "../../style-guide/colors.json";
 import Banner from "./CardBanner";
+import { makeOutboundLink } from "../../utils/makeOutboundLink";
 
 const Container = styled.div`
 	position: relative;
@@ -37,7 +38,15 @@ const HeaderTitle = styled.h2`
 
 const HeaderLink = styled.a`
 	text-decoration: none;
+	
+	&:hover {
+		text-decoration: underline; 
+		color: ${ colors.$color_pink_dark };
+
+	}
 `;
+
+const OutboundHeaderLink = makeOutboundLink( HeaderLink );
 
 /**
  * Card component.
@@ -55,10 +64,10 @@ class Card extends React.Component {
 
 		if ( this.props.header.link ) {
 			return (
-				<HeaderLink href={ this.props.header.link }>
+				<OutboundHeaderLink href={ this.props.header.link }>
 					<HeaderImage src={ this.props.header.image } alt={ this.props.header.title || "" } />
 					<HeaderTitle> { this.props.header.title } </HeaderTitle>
-				</HeaderLink>
+				</OutboundHeaderLink>
 			);
 		}
 
