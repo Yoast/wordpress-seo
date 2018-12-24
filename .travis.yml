@@ -12,6 +12,12 @@ branches:
     # Also build tags like 1.1.1 or 1.1 for deployment.
     - /^\d+\.\d+(\.\d+)?(-\S*)?$/
 
+stages:
+  # Don't run the test steps on tag builds, this makes tag deployments a ton faster.
+  - name: test
+    if: NOT tag is present
+  - 🚀 deployment
+
 jobs:
   fast_finish: true
   include:
