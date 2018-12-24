@@ -21,8 +21,6 @@ describe( "an assessor object", function() {
 		} );
 	} );
 
-	var assessor = new Assessor( i18n );
-
 	var result5 = new AssessmentResult();
 	result5.setScore( 5 );
 	var result4 = new AssessmentResult();
@@ -37,6 +35,7 @@ describe( "an assessor object", function() {
 
 	describe( "returning the overallscore", function() {
 		it( "returns the overallscore", function() {
+			var assessor = new Assessor( i18n );
 			assessor.getValidResults = function() {
 				return [ result5, result4, result8 ];
 			};
@@ -45,6 +44,11 @@ describe( "an assessor object", function() {
 	} );
 
 	var mockAssessment = {
+		/**
+		 * A mock assessment which always returns true.
+		 *
+		 * @returns {boolean} True.
+		 */
 		callback: function() {
 			return true;
 		},
@@ -52,6 +56,7 @@ describe( "an assessor object", function() {
 
 	describe( "adding an assessment", function() {
 		it( "adds an assessment", function() {
+			var assessor = new Assessor( i18n );
 			assessor.addAssessment( "testname", mockAssessment );
 
 			var result = assessor.getAssessment( "testname" );
@@ -62,6 +67,7 @@ describe( "an assessor object", function() {
 
 	describe( "removing an assessment", function() {
 		it( "removes an assessment", function() {
+			var assessor = new Assessor( i18n );
 			assessor.removeAssessment( "testname" );
 
 			var result = assessor.getAssessment( "testname" );
@@ -73,12 +79,38 @@ describe( "an assessor object", function() {
 	describe( "assess", function() {
 		it( "should add the marker to the assessment result", function() {
 			var paper = new Paper();
-			var assessor = new Assessor( i18n, { marker: function() {} } );
-			var assessment = { getResult: function() {
-				return validResult;
-			}, isApplicable: function() {
-				return true;
-			}, getMarks: function() {} };
+			var assessor = new Assessor( i18n, {
+				/**
+				 * A mock marker function.
+				 *
+				 * @returns {void}.
+				 */
+				marker: function() {},
+			} );
+			var assessment = {
+				/**
+				 * A mock getResult function.
+				 *
+				 * @returns {Object} A result with a score, a feedback text and marks.
+				 */
+				getResult: function() {
+					return validResult;
+				},
+				/**
+				 * A mock isApplicable function.
+				 *
+				 * @returns {boolean} True.
+				 */
+				isApplicable: function() {
+					return true;
+				},
+				/**
+				 * A mock getMarks function.
+				 *
+				 * @returns {void}.
+				 */
+				getMarks: function() {},
+			};
 
 			assessor.addAssessment( "test1", assessment );
 
@@ -97,14 +129,28 @@ describe( "an assessor object", function() {
 		} );
 
 		it( "should return true when we have a global marker and a getMarks function", function() {
-			var assessment = { getMarks: function() {} };
+			var assessment = {
+				/**
+				 * A mock getMarks function.
+				 *
+				 * @returns {void}.
+				 */
+				getMarks: function() {},
+			};
 			assessor._options.marker = function() {};
 
 			expect( assessor.hasMarker( assessment ) ).toBe( true );
 		} );
 
 		it( "should return false when we don't have a global marker", function() {
-			var assessment = { getMarks: function() {} };
+			var assessment = {
+				/**
+				 * A mock getMarks function.
+				 *
+				 * @returns {void}.
+				 */
+				getMarks: function() {},
+			};
 
 			expect( assessor.hasMarker( assessment ) ).toBe( false );
 		} );
@@ -132,7 +178,17 @@ describe( "an assessor object", function() {
 
 		it( "should compose the global marker and the getMarks function", function() {
 			var functions = {
+				/**
+				 * A mock getMarks function.
+				 *
+				 * @returns {void}.
+				 */
 				getMarks: function() {},
+				/**
+				 * A mock globalMarker function.
+				 *
+				 * @returns {void}.
+				 */
 				globalMarker: function() {},
 			};
 			spyOn( functions, "getMarks" );
