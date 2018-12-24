@@ -110,6 +110,7 @@ Release Date: January 22nd, 2019
 
 Enhancements:
 
+* Completes the readabilty analysis for Swedish by adding the transition words, sentence beginnings and passive voice assessments. 
 * Improves the transition word assessment for German.
 * Improves the error logging when there is an error in an SEO or readability assessment.
 
@@ -130,14 +131,11 @@ Other:
 = 9.4.0 =
 Release Date: January 8th, 2019
 
-Content analysis recalibration:
+Content analysis recalibration (beta):
 
 * Adds a toggle feature for subscribing to the recalibration beta under SEO -> General -> Features.
 * When the recalibration feature is enabled:
   * The single title assessment is added. This assessment makes sure that you don't use superfluous H1s in your text.
-  * The following assessments are not used anymore:
-    * The assessment checking the length or your URL.
-    * The assessment checking whether your URL contains stopwords.
   * Assessments changes:
     * Keyphrase density: changes scoring schema to account for the length of the keyphrase and changes feedback strings so that we give feedback about the number of occurrences rather than a percentage.
     * Outbound links assessment: changes the scoring schema so that red bullet instead of an orange bullet is shown when you have no outbound links.
@@ -146,18 +144,21 @@ Content analysis recalibration:
     * Keyphrase length: makes the scoring scheme less strict for languages that don't have function word support, so that for these languages keyphrases with 1-6 words are scored as green, 7-9 as orange, and more than 9 as red.
     * Keyphrase in subheading: only takes H2 and H3 level subheadings into account and changes the scoring schema so that 30%-75% of these subheadings need to include the keyphrase or its synonyms. In languages without function word support, a match is only counted if all the words from the keyphrase/synonym appear in the subheading.
     * Text length: on taxonomy pages, the recommended minimum text length is increased from 150 to 250 words.
+  * Assessment removals:
+    * The assessment checking the length or your URL.
+    * The assessment checking whether your URL contains stopwords.
 
 Enhancements:
 
-* Improve accessibility of the Title Separator setting.
 * Improve accessibility of the analysis results.
-* Adds a URL filter for adjacent-rel links: wpseo_adjacent_rel_url.
+* Improve accessibility of the Title Separator setting.
+* Adds a new filter for adjacent-rel links: `wpseo_adjacent_rel_url`.
 
 Bugfixes:
 
-* Fixes a bug where pagination elements were not shown in the Genesis theme.
 * Fixes a bug where special characters from certain word lists weren't correctly escaped when matched with a regex. This resulted in `eggs` being incorrectly matched as the transition word `e.g.`, for example.
-* Fixes a bug where the search appearance setting for a custom posttype named `profile` will have the wrong styling.
+* Fixes a bug where the search appearance setting for a custom content type named `profile` would have a broken layout.
+* Fixes a bug where pagination elements were not shown in the Genesis theme.
 
 Other:
 
@@ -167,7 +168,8 @@ Other:
 * Verifies that variable `post` is an instance of `WP_Post` in `WPSEO_Admin_Bar_Menu ::get_singular_post()`. Props to [@yingles](https://github.com/yingles).
 * Improves strings to be more easily translated. Props to [pedro-mendonca](https://github.com/pedro-mendonca)
 * The browser console now shows more descriptive error messages when something went wrong during analyses in the web worker.
+* Avoids irrelevant warning and error in the WPEngine PHP Compatibility plugin.
 
 = Earlier versions =
 
-For the changelog of earlier versions, please refer to https://yoa.st/yoast-seo-changelog
+For the changelog of earlier versions, please refer to [the Yoast SEO changelog on yoast.com](https://yoa.st/yoast-seo-changelog)

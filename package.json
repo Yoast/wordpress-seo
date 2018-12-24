@@ -150,7 +150,7 @@
     "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.5"
   },
   "yoast": {
-    "pluginVersion": "9.5-beta1",
-    "recalibrationVersion": "12"
+    "pluginVersion": "9.5-beta2",
+    "recalibrationVersion": "13"
   }
 }
