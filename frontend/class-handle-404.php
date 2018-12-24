@@ -56,8 +56,8 @@ class WPSEO_Handle_404 implements WPSEO_WordPress_Integration {
 			return $handled;
 		}
 
-		// Don't 404 if it's main feed or search feed.
-		if ( $this->is_main_feed() || $wp_query->is_search() ) {
+		// Don't 404 if it isn't archive or singular.
+		if ( ! $wp_query->is_archive() && ! $wp_query->is_singular() ) {
 			return $handled;
 		}
 
