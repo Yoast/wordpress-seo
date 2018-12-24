@@ -46,7 +46,7 @@ exports[`The FullHeightCard is rendered including some props 1`] = `
 `;
 
 exports[`The FullHeightCard is rendered including the CardBanner and CardDetails components 1`] = `
-.c5 {
+.c6 {
   position: absolute;
   top: 8px;
   left: -8px;
@@ -58,12 +58,30 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
-.c6 {
+.c7 {
   position: absolute;
   top: 40px;
   left: -8px;
   border-top: 8px solid #6c2548;
   border-left: 8px solid transparent;
+}
+
+.c5 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
 }
 
 .c1 {
@@ -85,7 +103,7 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   vertical-align: bottom;
 }
 
-.c7 {
+.c8 {
   margin: 0;
   padding: 12px 16px;
   display: -webkit-box;
@@ -115,29 +133,17 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   text-decoration: none;
 }
 
+.c2:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  color: #a4286a;
+}
+
 .c0 {
   height: 100%;
 }
 
 .c12 {
-  border: 0;
-  -webkit-clip: rect(1px,1px,1px,1px);
-  clip: rect(1px,1px,1px,1px);
-  -webkit-clip-path: inset(50%);
-  clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute !important;
-  width: 1px;
-  word-wrap: normal !important;
-  -webkit-transform: translateY(1em);
-  -ms-transform: translateY(1em);
-  transform: translateY(1em);
-}
-
-.c11 {
   cursor: pointer;
   color: #000;
   white-space: nowrap;
@@ -155,16 +161,16 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   margin-bottom: 8px;
 }
 
-.c11:hover,
-.c11:focus,
-.c11:active {
+.c12:hover,
+.c12:focus,
+.c12:active {
   color: #000;
   background-color: #cecece;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.c11:active {
+.c12:active {
   position: relative;
   top: 2px background-color:#cecece;
   box-shadow: none;
@@ -176,16 +182,16 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   font-weight: bold;
 }
 
-.c10 {
+.c11 {
   text-align: center;
 }
 
-.c9 li {
+.c10 li {
   position: relative;
   margin-left: 16px;
 }
 
-.c9 li:before {
+.c10 li:before {
   content: "✓";
   color: #77b227;
   position: absolute;
@@ -194,7 +200,7 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   left: -16px;
 }
 
-.c8 {
+.c9 {
   margin-bottom: 12px;
   border-bottom: 1px #ddd solid;
   -webkit-box-flex: 1;
@@ -210,6 +216,8 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   <a
     className="c2"
     href="https://yoast.com/academy/keyword-research-training/"
+    rel="noopener noreferrer"
+    target="_blank"
   >
     <img
       alt="Keyword Research"
@@ -223,23 +231,28 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
       Keyword Research
        
     </h2>
+    <span
+      className="c5"
+    >
+      (Opens in a new browser tab)
+    </span>
   </a>
   <span
-    className="c5"
+    className="c6"
   >
     Free
   </span>
   <span
-    className="c6"
+    className="c7"
   />
   <div
-    className="c7"
+    className="c8"
   >
     <div
-      className="c8"
+      className="c9"
     >
       <div
-        className="c9"
+        className="c10"
         dangerouslySetInnerHTML={
           Object {
             "__html": "Do you know the essential first step of good SEO? It’s keyword research. In this training, 
@@ -249,17 +262,17 @@ you’ll learn how to research and select the keywords that will guide searchers
       />
     </div>
     <div
-      className="c10"
+      className="c11"
     >
       <a
-        className="c11"
+        className="c12"
         href="https://yoast.com/cart/?add-to-cart=1311259"
         rel="noopener noreferrer"
         target="_blank"
       >
         Start your free trail
         <span
-          className="c12"
+          className="c5"
         >
           (Opens in a new browser tab)
         </span>
@@ -272,7 +285,7 @@ you’ll learn how to research and select the keywords that will guide searchers
       >
         Read more about this training »
         <span
-          className="c12"
+          className="c5"
         >
           (Opens in a new browser tab)
         </span>
