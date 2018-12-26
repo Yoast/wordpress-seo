@@ -118,11 +118,15 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 				case 'og_default_image_id':
 				case 'og_frontpage_image_id':
-					$clean[ $key ] = intval( $dirty[ $key ] );
+					$clean[ $key ] = 0;
+					if ( isset( $dirty[ $key ] ) ) {
+						$clean[ $key ] = intval( $dirty[ $key ] );
 
-					if ( $dirty[ $key ] === '' ) {
-						$clean[ $key ] = $dirty[ $key ];
+						if ( $dirty[ $key ] === '' ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
 					}
+
 					break;
 
 
