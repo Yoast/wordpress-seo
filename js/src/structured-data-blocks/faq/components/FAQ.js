@@ -63,7 +63,7 @@ export default class FAQ extends Component {
 	 * @returns {void}
 	 */
 	onAddQuestionButtonClick() {
-		this.insertQuestion( null, [], [], false ) }
+		this.insertQuestion( null, [], [], false );
 	}
 
 	/**
