@@ -12,7 +12,9 @@
  */
 class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Indexable_Service_Post_Provider_Double */
+	/**
+	 * @var WPSEO_Indexable_Service_Post_Provider_Double
+	 */
 	protected $provider;
 
 	/**

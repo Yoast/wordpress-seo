@@ -356,12 +356,13 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::image()
 	 */
 	public function test_post_thumbnail_image() {
-		$post_id       = $this->factory->post->create();
-		$filename      = 'post-thumbnail.jpg';
-		$attachment_id = $this->factory->attachment->create_object( $filename, 0, array(
+		$post_id         = $this->factory->post->create();
+		$filename        = 'post-thumbnail.jpg';
+		$attachment_args = array(
 			'post_mime_type' => 'image/jpeg',
 			'post_type'      => 'attachment',
-		) );
+		);
+		$attachment_id   = $this->factory->attachment->create_object( $filename, 0, $attachment_args );
 		update_post_meta( $post_id, '_thumbnail_id', $attachment_id );
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -442,12 +443,13 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$expected = $this->metatag( 'card', 'summary_large_image' );
 
 		// Insert image into DB so we have something to test against.
-		$filename  = 'image.jpg';
-		$id        = $this->factory->attachment->create_object( $filename, 0, array(
+		$filename        = 'image.jpg';
+		$attachment_args = array(
 			'post_mime_type' => 'image/jpeg',
 			'post_type'      => 'attachment',
-		) );
-		$expected .= $this->metatag( 'image', 'http://' . WP_TESTS_DOMAIN . "/wp-content/uploads/$filename" );
+		);
+		$id              = $this->factory->attachment->create_object( $filename, 0, $attachment_args );
+		$expected       .= $this->metatag( 'image', 'http://' . WP_TESTS_DOMAIN . "/wp-content/uploads/$filename" );
 
 		// Create and go to post.
 		$content = '[gallery ids="' . $id . '"]';
@@ -474,11 +476,12 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	public function test_twitter_title_with_variables() {
 		$expected_title = 'Test title';
 		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		wp_update_post( array(
+		$post_id   = $this->factory->post->create();
+		$post_args = array(
 			'ID'         => $post_id,
 			'post_title' => $expected_title,
-		) );
+		);
+		wp_update_post( $post_args );
 		WPSEO_Meta::set_value( 'twitter-title', '%%title%%', $post_id );
 
 		$this->go_to( get_permalink( $post_id ) );
@@ -496,12 +499,12 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$expected_title = 'Post title';
 
 		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		wp_update_post( array(
-				'ID'         => $post_id,
-				'post_title' => $expected_title,
-			)
+		$post_id   = $this->factory->post->create();
+		$post_args = array(
+			'ID'         => $post_id,
+			'post_title' => $expected_title,
 		);
+		wp_update_post( $post_args );
 
 		// Test wpseo meta.
 		WPSEO_Meta::set_value( 'twitter-description', '%%title%%', $post_id );

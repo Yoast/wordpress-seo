@@ -193,12 +193,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$tab_registered = true;
 			}
 
-			add_meta_box( 'wpseo_meta', $product_title, array(
-				$this,
-				'meta_box',
-			), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ), array(
-				'__block_editor_compatible_meta_box' => true,
-			) );
+			add_meta_box(
+				'wpseo_meta',
+				$product_title,
+				array( $this, 'meta_box' ),
+				$post_type,
+				'normal',
+				apply_filters( 'wpseo_metabox_prio', 'high' ),
+				array( '__block_editor_compatible_meta_box' => true )
+			);
 		}
 	}
 
@@ -305,14 +308,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
 
-		$helpcenter_tab = new WPSEO_Option_Tab( 'metabox', __( 'Meta box', 'wordpress-seo' ),
-			array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-screencast' ) ) );
+		$helpcenter_tab = new WPSEO_Option_Tab(
+			'metabox',
+			__( 'Meta box', 'wordpress-seo' ),
+			array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-screencast' ) )
+		);
 
 		$help_center = new WPSEO_Help_Center( '', $helpcenter_tab, WPSEO_Utils::is_yoast_seo_premium() );
 		$help_center->localize_data();
 		$help_center->mount();
 
-		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
+		if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
 			echo $this->get_buy_premium_link();
 		}
 
@@ -334,17 +340,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		echo '</div>';
-	}
-
-	/**
-	 * Determines whether the React section should be rendered.
-	 *
-	 * @param string $section_name The name of the section.
-	 *
-	 * @return bool Whether the React section should be rendered.
-	 */
-	private function should_load_react_section( $section_name ) {
-		return $section_name === 'content';
 	}
 
 	/**
@@ -379,6 +374,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_content_meta_section() {
+		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
+
 		$content = $this->get_tab_content( 'general' );
 
 		/**
@@ -411,9 +408,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'advanced',
 			$content,
 			__( 'Advanced', 'wordpress-seo' ),
-			array(
-				'single' => true,
-			)
+			array( 'single' => true )
 		);
 
 		return new WPSEO_Metabox_Tab_Section(
@@ -433,9 +428,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	private function get_buy_premium_link() {
-		return sprintf( '<div class="%1$s"><a target="_blank" rel="noopener noreferrer" href="%2$s"><span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>%3$s</a></div>',
+		return sprintf(
+			'<div class="%1$s"><a target="_blank" rel="noopener noreferrer" href="%2$s"><span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>%3$s</a></div>',
 			'wpseo-metabox-buy-premium',
-			esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ) ),
+			esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3g6' ) ),
 			__( 'Go Premium', 'wordpress-seo' )
 		);
 	}
@@ -472,26 +468,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return $content;
-	}
-
-	/**
-	 * Retrieves the hidden fields for the metabox tab.
-	 *
-	 * @param string $tab_name Tab for which to retrieve the field definitions.
-	 *
-	 * @return string
-	 */
-	private function get_hidden_tab_fields( $tab_name ) {
-		$hidden_fields = '';
-		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
-			if ( $meta_field['type'] !== 'hidden' ) {
-				continue;
-			}
-
-			$hidden_fields .= $this->do_meta_box( $meta_field, $key );
-		}
-
-		return $hidden_fields;
 	}
 
 	/**
@@ -697,6 +673,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return false;
 		}
 
+		if ( ! isset( $_POST['yoast_free_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['yoast_free_metabox_nonce'], 'yoast_free_metabox' ) ) {
+			return false;
+		}
+
 		if ( wp_is_post_revision( $post_id ) ) {
 			$post_id = wp_is_post_revision( $post_id );
 		}
@@ -705,11 +685,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 * Determine we're not accidentally updating a different post.
 		 * We can't use filter_input here as the ID isn't available at this point, other than in the $_POST data.
 		 */
-		// @codingStandardsIgnoreStart
 		if ( ! isset( $_POST['ID'] ) || $post_id !== (int) $_POST['ID'] ) {
 			return false;
 		}
-		// @codingStandardsIgnoreEnd
 
 		clean_post_cache( $post_id );
 		$post = get_post( $post_id );
@@ -732,16 +710,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				continue;
 			}
 
-			$data = null;
+			$data       = null;
+			$field_name = self::$form_prefix . $key;
+
 			if ( 'checkbox' === $meta_box['type'] ) {
-				// @codingStandardsIgnoreLine
-				$data = isset( $_POST[ self::$form_prefix . $key ] ) ? 'on' : 'off';
+				$data = isset( $_POST[ $field_name ] ) ? 'on' : 'off';
 			}
 			else {
-				// @codingStandardsIgnoreLine
-				if ( isset( $_POST[ self::$form_prefix . $key ] ) ) {
-					// @codingStandardsIgnoreLine
-					$data = $_POST[ self::$form_prefix . $key ];
+				if ( isset( $_POST[ $field_name ] ) ) {
+					$data = WPSEO_Utils::sanitize_text_field( wp_unslash( $_POST[ $field_name ] ) );
 				}
 			}
 			if ( isset( $data ) ) {
@@ -819,11 +796,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
 		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoAnalysisWorkerL10n', array(
+
+		$localization_data = array(
 			'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 			'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
-		) );
+		);
+		wp_localize_script(
+			WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper',
+			'wpseoAnalysisWorkerL10n',
+			$localization_data
+		);
 
 		/**
 		 * Remove the emoji script as it is incompatible with both React and any
@@ -835,7 +818,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ) );
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 			$asset_manager->enqueue_style( 'featured-image' );
@@ -888,7 +871,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$shortcode_tags = array();
 
 		foreach ( $GLOBALS['shortcode_tags'] as $tag => $description ) {
-			array_push( $shortcode_tags, $tag );
+			$shortcode_tags[] = $tag;
 		}
 
 		return $shortcode_tags;

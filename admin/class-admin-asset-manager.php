@@ -109,9 +109,9 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
-	 * Registers all the styles it recieves.
+	 * Registers all the styles it receives.
 	 *
-	 * @param array $styles Styles that need to be registerd.
+	 * @param array $styles Styles that need to be registered.
 	 */
 	public function register_styles( $styles ) {
 		foreach ( $styles as $style ) {
@@ -270,8 +270,8 @@ class WPSEO_Admin_Asset_Manager {
 	 */
 	protected function scripts_to_be_registered() {
 		$select2_language = 'en';
-		$user_locale      = WPSEO_Utils::get_user_locale();
-		$language         = WPSEO_Utils::get_language( $user_locale );
+		$user_locale      = WPSEO_Language_Utils::get_user_locale();
+		$language         = WPSEO_Language_Utils::get_language( $user_locale );
 
 		if ( file_exists( WPSEO_PATH . "js/dist/select2/i18n/{$user_locale}.js" ) ) {
 			$select2_language = $user_locale; // Chinese and some others use full locale.
@@ -282,18 +282,13 @@ class WPSEO_Admin_Asset_Manager {
 
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
 
-		$analysis = 'analysis-' . $flat_version;
-		if ( WPSEO_Recalibration_Beta::is_enabled() ) {
-			$analysis = 'https://my.yoast.com/api/downloads/file/analysis';
-		}
-
 		return array(
 			array(
 				'name' => 'commons',
 				// Load webpack-commons for bundle support.
 				'src'  => 'commons-' . $flat_version,
 				'deps' => array(
-					'wp-polyfill'
+					'wp-polyfill',
 				),
 			),
 			array(
@@ -408,7 +403,6 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'wp-util',
 					'wp-api',
-					'wp-sanitize',
 					'wp-element',
 					'wp-i18n',
 					'wp-data',
@@ -426,7 +420,6 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'term-scraper',
 				'src'  => 'wp-seo-term-scraper-' . $flat_version,
 				'deps' => array(
-					'wp-sanitize',
 					'wp-element',
 					'wp-i18n',
 					'wp-data',
@@ -567,7 +560,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'analysis',
-				'src'  => $analysis,
+				'src'  => 'analysis-' . $flat_version,
 				'deps' => array(
 					'lodash',
 					self::PREFIX . 'commons',
@@ -598,6 +591,16 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'styled-components-' . $flat_version,
 				'deps' => array(
 					'wp-element',
+				),
+			),
+			array(
+				'name' => 'courses-overview',
+				'src'  => 'wp-seo-courses-overview-' . $flat_version,
+				'deps' => array(
+					'wp-element',
+					'wp-i18n',
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'components',
 				),
 			),
 		);

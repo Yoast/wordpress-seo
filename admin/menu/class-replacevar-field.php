@@ -61,12 +61,13 @@ class WPSEO_Replacevar_Field {
 	public function render() {
 		$this->yform->hidden( $this->field_id, $this->field_id );
 
-		printf( '<div
-			data-react-replacevar-field
-			data-react-replacevar-field-id="%1$s"
-			data-react-replacevar-field-label="%2$s"
-			data-react-replacevar-page-type-recommended="%3$s"
-			data-react-replacevar-page-type-specific="%4$s"></div>',
+		printf(
+			'<div
+				data-react-replacevar-field
+				data-react-replacevar-field-id="%1$s"
+				data-react-replacevar-field-label="%2$s"
+				data-react-replacevar-page-type-recommended="%3$s"
+				data-react-replacevar-page-type-specific="%4$s"></div>',
 			esc_attr( $this->field_id ),
 			esc_attr( $this->label ),
 			esc_attr( $this->page_type_recommended ),

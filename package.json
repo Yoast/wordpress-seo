@@ -22,7 +22,7 @@
     "webpack-analyze-bundle": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json js/dist",
     "i18n-yoast-components": "cross-env NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-wordpress-seo": "cross-env NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "start": "grunt webpack:buildProd && grunt webpack:buildDev && webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development",
+    "start": "grunt build:css && grunt webpack:buildDev && webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development",
     "start-recalibration": "yarn start --env.recalibration=enabled"
   },
   "jest": {
@@ -138,19 +138,19 @@
     "moment": "2.22.2",
     "moment-duration-format": "^2.2.2",
     "prop-types": "^15.5.10",
-    "react": "16.4.1",
-    "react-dom": "16.4.1",
+    "react": "16.6.3",
+    "react-dom": "16.6.3",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.3",
-    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.3"
+    "yoast-components": "git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.5",
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.5"
   },
   "yoast": {
-    "pluginVersion": "9.3-beta2",
-    "recalibrationVersion": "11"
+    "pluginVersion": "9.5-beta2",
+    "recalibrationVersion": "13"
   }
 }

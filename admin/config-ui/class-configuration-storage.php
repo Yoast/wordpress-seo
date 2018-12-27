@@ -10,10 +10,14 @@
  */
 class WPSEO_Configuration_Storage {
 
-	/** @var WPSEO_Configuration_Options_Adapter */
+	/**
+	 * @var \WPSEO_Configuration_Options_Adapter
+	 */
 	protected $adapter;
 
-	/** @var array WPSEO_Config_Field */
+	/**
+	 * @var \WPSEO_Config_Field[]
+	 */
 	protected $fields = array();
 
 	/**

@@ -413,15 +413,21 @@ function removeAllAnnotationsFromBlock( blockClientId ) {
  */
 export function reapplyAnnotationsForSelectedBlock() {
 	const block = select( "core/editor" ).getSelectedBlock();
-	const activeMarker  = select( "yoast-seo/editor" ).getActiveMarker();
+	const activeMarkerId  = select( "yoast-seo/editor" ).getActiveMarker();
 
-	if ( ! block || ! activeMarker ) {
+	if ( ! block || ! activeMarkerId ) {
 		return;
 	}
 
 	removeAllAnnotationsFromBlock( block.clientId );
 
-	const marksForActiveMarker = select( "yoast-seo/editor" ).getResultById( activeMarker ).marks;
+	const activeMarker = select( "yoast-seo/editor" ).getResultById( activeMarkerId );
+
+	if ( typeof activeMarker === "undefined" ) {
+		return;
+	}
+
+	const marksForActiveMarker = activeMarker.marks;
 
 	const annotations = flatMap(
 		getAnnotatableAttributes( block.name ),

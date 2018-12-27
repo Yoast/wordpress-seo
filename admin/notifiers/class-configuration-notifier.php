@@ -12,7 +12,9 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	const META_NAME = 'wpseo-dismiss-configuration-notice';
 	const META_VALUE = 'yes';
 
-	/** @var bool */
+	/**
+	 * @var bool
+	 */
 	protected $show_notification;
 
 	/**

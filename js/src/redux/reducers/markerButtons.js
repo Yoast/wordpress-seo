@@ -8,7 +8,7 @@ const INITIAL_STATE = null;
  * @param {Object} state The state.
  * @param {Object} action The action.
  *
- * @returns {Object} The SEO results per keyword.
+ * @returns {Object} The marks button status.
  */
 function setMarkerStatus( state, action ) {
 	return action.marksButtonStatus;

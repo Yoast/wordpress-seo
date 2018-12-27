@@ -21,6 +21,7 @@ import { LocationConsumer } from "../contexts/location";
 import AnalysisUpsell from "../AnalysisUpsell";
 import RecalibrationBetaNotification from "./RecalibrationBetaNotification";
 import HelpLink from "./HelpLink";
+import { setMarkerPauseStatus } from "../../redux/actions/markerPauseStatus";
 
 // We need localizedData temporarily here to know if the recalibration beta is toggled.
 let localizedData = {};
@@ -234,8 +235,8 @@ class SeoAnalysis extends React.Component {
 	renderWordFormsUpsell( location ) {
 		return <AnalysisUpsell
 			url={ location === "sidebar"
-				? "https://yoa.st/morphology-upsell-sidebar"
-				: "https://yoa.st/morphology-upsell-metabox" }
+				? wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_sidebar" ]
+				: wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_metabox" ] }
 			alignment={ location === "sidebar" ? "vertical" : "horizontal" }
 		/>;
 	}
@@ -280,6 +281,8 @@ class SeoAnalysis extends React.Component {
 								keyword={ this.props.keyword }
 								label={ __( "Focus keyphrase", "wordpress-seo" ) }
 								helpLink={ this.renderHelpLink() }
+								onBlurKeyword={ this.props.onBlurKeyword }
+								onFocusKeyword={ this.props.onFocusKeyword }
 							/>
 							<Slot name="YoastSynonyms" />
 							{ this.props.shouldUpsell && <Fragment>
@@ -360,8 +363,14 @@ function mapStateToProps( state, ownProps ) {
  */
 function mapDispatchToProps( dispatch ) {
 	return {
+		onFocusKeyword: () => {
+			dispatch( setMarkerPauseStatus( true ) );
+		},
 		onFocusKeywordChange: ( value ) => {
 			dispatch( setFocusKeyword( value ) );
+		},
+		onBlurKeyword: () => {
+			dispatch( setMarkerPauseStatus( false ) );
 		},
 	};
 }

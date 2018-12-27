@@ -31,11 +31,11 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the formatting of the indexable data.
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::format
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Term_Formatter::format
 	 */
 	public function test_format() {
 		$formatter = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Formatters\Indexable_Term_Formatter' )
+			->getMockBuilder( '\Yoast\WP\Free\Formatters\Indexable_Term_Formatter' )
 			->setConstructorArgs( array( 1, 'category' ) )
 			->setMethods(
 				array(
@@ -90,7 +90,7 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 			);
 
 		$indexable = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Models\Indexable' )
+			->getMockBuilder( '\Yoast\WP\Free\Models\Indexable' )
 			->setMethods( array( 'set_meta', '__set' ) )
 			->getMock();
 
@@ -107,7 +107,7 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the noindex expected outcome.
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::get_noindex_value()
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Term_Formatter::get_noindex_value()
 	 */
 	public function test_get_noindex_value() {
 		$this->assertTrue( $this->instance->get_noindex_value( 'noindex' ) );
@@ -121,7 +121,7 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests retrieval of keyword scrore with keyword being set.
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::get_keyword_score()
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Term_Formatter::get_keyword_score()
 	 */
 	public function test_get_keyword_score() {
 		$this->assertEquals( 100, $this->instance->get_keyword_score( 'keyword', 100 ) );
@@ -130,7 +130,7 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests retrieval of keyword scrore with no keyword being set.
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::get_keyword_score()
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Term_Formatter::get_keyword_score()
 	 */
 	public function test_get_keyword_score_with_no_keyword() {
 		$this->assertNull( $this->instance->get_keyword_score( '', 100 ) );
@@ -139,7 +139,7 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the meta lookup returns the expected type of data
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::get_indexable_lookup()
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Term_Formatter::get_indexable_lookup()
 	 */
 	public function test_get_indexable_lookup() {
 		$this->assertInternalType( 'array', $this->instance->get_indexable_lookup() );
@@ -148,7 +148,7 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the meta lookup returns the expected type of data
 	 *
-	 * @covers \Yoast\YoastSEO\Formatters\Indexable_Term_Formatter::get_indexable_meta_lookup()
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Term_Formatter::get_indexable_meta_lookup()
 	 */
 	public function test_get_indexable_meta_lookup() {
 		$this->assertInternalType( 'array', $this->instance->get_indexable_meta_lookup() );

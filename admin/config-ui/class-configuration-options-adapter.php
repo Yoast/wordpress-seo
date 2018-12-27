@@ -18,7 +18,11 @@ class WPSEO_Configuration_Options_Adapter {
 	const OPTION_TYPE_YOAST = 'yoast';
 	const OPTION_TYPE_CUSTOM = 'custom';
 
-	/** @var array List of registered lookups */
+	/**
+	 * List of registered lookups.
+	 *
+	 * @var array
+	 */
 	protected $lookup = array();
 
 	/**
@@ -72,10 +76,11 @@ class WPSEO_Configuration_Options_Adapter {
 			throw new InvalidArgumentException( 'Custom option must be callable.' );
 		}
 
-		$this->add_lookup( $class_name, self::OPTION_TYPE_CUSTOM, array(
-			$callback_get,
-			$callback_set,
-		) );
+		$this->add_lookup(
+			$class_name,
+			self::OPTION_TYPE_CUSTOM,
+			array( $callback_get, $callback_set )
+		);
 	}
 
 	/**

@@ -185,6 +185,26 @@ import a11ySpeak from "a11y-speak";
 		jQuery( "#" + activeTabId + "-tab" ).addClass( "nav-tab-active" ).click();
 	}
 
+	/**
+	 * Hides or shows the Author without posts toggle.
+	 *
+	 * @param {bool} visible Whether or not the authors without posts toggle should be visible.
+	 *
+	 * @returns {void}
+	 */
+	function setAuthorsWithoutPostsToggleVisibilty( visible ) {
+		/**
+		 * Get the container surrounding the toggle.
+		 */
+		const toggleContainer = jQuery( "#noindex-author-noposts-wpseo-container" );
+
+		if ( visible ) {
+			toggleContainer.show();
+		} else {
+			toggleContainer.hide();
+		}
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
@@ -204,6 +224,27 @@ import a11ySpeak from "a11y-speak";
 				jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
 			}
 		} ).change();
+
+		const authorArchivesDisabled = jQuery( "#noindex-author-wpseo-off" );
+		const authorArchivesEnabled  = jQuery( "#noindex-author-wpseo-on" );
+
+		if ( ! authorArchivesDisabled.is( ":checked" ) ) {
+			setAuthorsWithoutPostsToggleVisibilty( false );
+		}
+
+		// Disable Author archives without posts when Show author archives is toggled off.
+		authorArchivesEnabled.change( () => {
+			if ( ! jQuery( this ).is( ":checked" ) ) {
+				setAuthorsWithoutPostsToggleVisibilty( false );
+			}
+		} );
+
+		// Enable Author archives without posts when Show author archives is toggled on.
+		authorArchivesDisabled.change( () => {
+			if ( ! jQuery( this ).is( ":checked" ) ) {
+				setAuthorsWithoutPostsToggleVisibilty( true );
+			}
+		} );
 
 		// Toggle the Date archives section.
 		jQuery( "#disable-date input[type='radio']" ).change( function() {

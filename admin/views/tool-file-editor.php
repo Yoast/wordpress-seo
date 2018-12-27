@@ -48,8 +48,8 @@ if ( isset( $_POST['submitrobots'] ) ) {
 
 	check_admin_referer( 'wpseo-robotstxt' );
 
-	if ( file_exists( $robots_file ) ) {
-		$robotsnew = stripslashes( $_POST['robotsnew'] );
+	if ( isset( $_POST['robotsnew'] ) && file_exists( $robots_file ) ) {
+		$robotsnew = sanitize_textarea_field( wp_unslash( $_POST['robotsnew'] ) );
 		if ( is_writable( $robots_file ) ) {
 			$f = fopen( $robots_file, 'w+' );
 			fwrite( $f, $robotsnew );
@@ -75,9 +75,10 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 
 	check_admin_referer( 'wpseo-htaccess' );
 
-	if ( file_exists( $ht_access_file ) ) {
-		$ht_access_new = stripslashes( $_POST['htaccessnew'] );
-		if ( is_writeable( $ht_access_file ) ) {
+	if ( isset( $_POST['htaccessnew'] ) && file_exists( $ht_access_file ) ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Writing to .htaccess file and escaping for HTML will break functionality.
+		$ht_access_new = wp_unslash( $_POST['htaccessnew'] );
+		if ( is_writable( $ht_access_file ) ) {
 			$f = fopen( $ht_access_file, 'w+' );
 			fwrite( $f, $ht_access_new );
 			fclose( $f );
@@ -97,8 +98,11 @@ if ( isset( $msg ) && ! empty( $msg ) ) {
 	echo '<div id="message" class="notice notice-success"><p>', esc_html( $msg ), '</p></div>';
 }
 
-$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-editor', __( 'Bulk editor', 'wordpress-seo' ),
-	array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-file-editor' ) ) );
+$helpcenter_tab = new WPSEO_Option_Tab(
+	'bulk-editor',
+	__( 'Bulk editor', 'wordpress-seo' ),
+	array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-file-editor' ) )
+);
 
 $helpcenter = new WPSEO_Help_Center( 'bulk-editor', $helpcenter_tab, WPSEO_Utils::is_yoast_seo_premium() );
 $helpcenter->localize_data();
@@ -180,7 +184,7 @@ else {
 		echo '</form>';
 	}
 }
-if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) ) {
+if ( ! WPSEO_Utils::is_nginx() ) {
 
 	echo '<h2>';
 	printf(

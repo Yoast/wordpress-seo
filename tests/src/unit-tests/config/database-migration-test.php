@@ -4,7 +4,7 @@ namespace Yoast\Tests\UnitTests\Config;
 
 use Yoast\Tests\Doubles\Database_Migration;
 use Yoast\Tests\Doubles\Database_Migration as Database_Migration_Double;
-use Yoast\YoastSEO\Config\Dependency_Management;
+use Yoast\WP\Free\Config\Dependency_Management;
 
 /**
  * Class Database_Migration_Test
@@ -21,10 +21,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	public function test_initialize_with_set_defines_failing() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array(
-				null,
-				new Dependency_Management(),
-			) )
+			->setConstructorArgs( array( null, new Dependency_Management() ) )
 			->setMethods( array( 'set_defines' ) )
 			->getMock();
 
@@ -43,9 +40,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
 			->disableOriginalConstructor()
-			->setMethods( array(
-				'get_migration_state',
-			) )
+			->setMethods( array( 'get_migration_state' ) )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -62,9 +57,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
 			->disableOriginalConstructor()
-			->setMethods( array(
-				'get_migration_state',
-			) )
+			->setMethods( array( 'get_migration_state' ) )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -80,14 +73,13 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	public function test_migration_success() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array(
-				null,
-				new Dependency_Management(),
-			) )
-			->setMethods( array(
-				'set_defines',
-				'get_framework_runner',
-			) )
+			->setConstructorArgs( array( null, new Dependency_Management() ) )
+			->setMethods(
+				array(
+					'set_defines',
+					'get_framework_runner',
+				)
+			)
 			->getMock();
 
 		$instance
@@ -106,15 +98,12 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the initializing with an exception being thrown.
 	 *
-	 * @covers \Yoast\YoastSEO\Config\Database_Migration::run_migrations()
+	 * @covers \Yoast\WP\Free\Config\Database_Migration::run_migrations()
 	 */
 	public function test_initialize_with_exception_thrown() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array(
-				null,
-				new Dependency_Management(),
-			) )
+			->setConstructorArgs( array( null, new Dependency_Management() ) )
 			->setMethods(
 				array(
 					'set_defines',
@@ -144,11 +133,12 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the retrieval of the charset.
 	 *
-	 * @covers \Yoast\YoastSEO\Config\Database_Migration::get_charset()
+	 * @covers \Yoast\WP\Free\Config\Database_Migration::get_charset()
 	 */
 	public function test_get_charset() {
 		$instance = new Database_Migration_Double(
-			(object) array( 'charset' => 'foo' ), new Dependency_Management()
+			(object) array( 'charset' => 'foo' ),
+			new Dependency_Management()
 		);
 
 		$this->assertEquals( 'foo', $instance->get_charset() );
@@ -157,26 +147,24 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the retrieval of the migration configuration.
 	 *
-	 * @covers \Yoast\YoastSEO\Config\Database_Migration::get_configuration()
+	 * @covers \Yoast\WP\Free\Config\Database_Migration::get_configuration()
 	 */
 	public function test_get_configuration() {
 		$instance = new Database_Migration_Double(
-			(object) array( 'charset' => 'foo' ), new Dependency_Management()
+			(object) array( 'charset' => 'foo' ),
+			new Dependency_Management()
 		);
 
 		$this->assertInternalType( 'array', $instance->get_configuration() );
 	}
 
 	/**
-	 * @covers \Yoast\YoastSEO\Config\Database_Migration::set_defines()
+	 * @covers \Yoast\WP\Free\Config\Database_Migration::set_defines()
 	 */
 	public function test_set_define_success() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array(
-				null,
-				new Dependency_Management(),
-			) )
+			->setConstructorArgs( array( null, new Dependency_Management() ) )
 			->setMethods(
 				array( 'set_define', 'get_defines' )
 			)
@@ -197,15 +185,12 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers \Yoast\YoastSEO\Config\Database_Migration::set_defines()
+	 * @covers \Yoast\WP\Free\Config\Database_Migration::set_defines()
 	 */
 	public function test_set_define_failed() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array(
-				null,
-				new Dependency_Management(),
-			) )
+			->setConstructorArgs( array( null, new Dependency_Management() ) )
 			->setMethods(
 				array( 'set_define', 'get_defines' )
 			)
@@ -228,11 +213,11 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the defines are configured correctly when we are using prefixed dependencies.
 	 *
-	 * @covers \Yoast\YoastSEO\Config\Database_Migration::get_defines()
+	 * @covers \Yoast\WP\Free\Config\Database_Migration::get_defines()
 	 */
 	public function test_get_defines() {
 		$dependency_management = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Config\Dependency_Management' )
+			->getMockBuilder( '\Yoast\WP\Free\Config\Dependency_Management' )
 			->setMethods( array( 'prefixed_available' ) )
 			->getMock();
 
@@ -254,11 +239,11 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the defines are configured correctly when we are not using prefixed dependencies.
 	 *
-	 * @covers \Yoast\YoastSEO\Config\Database_Migration::get_defines()
+	 * @covers \Yoast\WP\Free\Config\Database_Migration::get_defines()
 	 */
 	public function test_get_defines_not_prefixed() {
 		$dependency_management = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Config\Dependency_Management' )
+			->getMockBuilder( '\Yoast\WP\Free\Config\Dependency_Management' )
 			->setMethods( array( 'prefixed_available' ) )
 			->getMock();
 

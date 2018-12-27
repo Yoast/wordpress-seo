@@ -15,7 +15,11 @@ class WPSEO_Endpoint_Ryte implements WPSEO_Endpoint {
 
 	const CAPABILITY_RETRIEVE = 'manage_options';
 
-	/** @var WPSEO_Ryte_Service Service to use */
+	/**
+	 * Service to use.
+	 *
+	 * @var WPSEO_Ryte_Service
+	 */
 	protected $service;
 
 	/**

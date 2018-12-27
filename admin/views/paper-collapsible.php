@@ -18,8 +18,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
+
 ?>
-<div class="paper tab-block" id="<?php echo esc_attr( $paper_id ); ?>">
+<div class="paper tab-block"<?php echo ( $paper_id ) ? ' id="' . esc_attr( 'wpseo-' . $paper_id ) . '"' : ''; ?>>
 
 	<?php
 	if ( ! empty( $title ) ) {

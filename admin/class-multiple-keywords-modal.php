@@ -50,7 +50,7 @@ class WPSEO_Multiple_Keywords_Modal {
 		$translations = $this->get_translations();
 
 		return array(
-			'locale' => WPSEO_Utils::get_user_locale(),
+			'locale' => WPSEO_Language_Utils::get_user_locale(),
 			'intl'   => $translations,
 		);
 	}

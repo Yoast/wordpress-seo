@@ -10,10 +10,16 @@
  */
 class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 
-	/** @var string Temporary home URL storage. */
+	/**
+	 * Temporary home URL storage.
+	 *
+	 * @var string
+	 */
 	private $home_url = '';
 
-	/** @var WPSEO_Sitemaps_Router */
+	/**
+	 * @var WPSEO_Sitemaps_Router
+	 */
 	private static $class_instance;
 
 	/**
