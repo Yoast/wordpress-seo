@@ -1,6 +1,5 @@
 /* External dependencies */
 import PropTypes from "prop-types";
-import HowToStep from "./HowToStep";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import { speak } from "@wordpress/a11y";
@@ -8,6 +7,7 @@ import toString from "lodash/toString";
 import get from "lodash/get";
 
 /* Internal dependencies */
+import HowToStep from "./HowToStep";
 import { stripHTML } from "../../../helpers/stringHelpers";
 import buildDurationString from "../utils/buildDurationString";
 import appendSpace from "../../../components/higherorder/appendSpace";
