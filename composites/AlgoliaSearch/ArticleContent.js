@@ -17,6 +17,9 @@ const ArticleContentFullWidth = styled( IFrame )`
  * @constructor
  */
 
+/**
+ * The ArticleContent component.
+ */
 class ArticleContent extends React.Component {
 	/**
 	 * Constructs the article content.

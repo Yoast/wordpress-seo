@@ -46,6 +46,9 @@ const recommendedReplacementVariables = [
 	replacementVariables[ 1 ].name,
 ];
 
+/**
+ *  The SnippetEditorExample class.
+ */
 export default class SnippetEditorExample extends Component {
 	/**
 	 * Constructs a snippet preview example
@@ -81,6 +84,14 @@ export default class SnippetEditorExample extends Component {
 			keyword: "merci",
 			date: "Jan 8, 2018",
 			locale: "fr",
+
+			/**
+			 * Logs the click event and its type.
+			 *
+			 * @param {object} type The click type.
+			 *
+			 * @returns {void}
+			 */
 			onClick( type ) {
 				// eslint-disable-next-line no-console
 				console.log( "clicked:", type );

@@ -2,10 +2,22 @@ import React from "react";
 
 import KeywordSuggestions from "../composites/KeywordSuggestions/KeywordSuggestions";
 
+/**
+ * Sets the relevant word.
+ *
+ * @param {string} word The relevant word to set.
+ *
+ * @returns {void}
+ */
 const RelevantWord = function( word ) {
 	this._word = word;
 };
 
+/**
+ * Returns the current set relevant word.
+ *
+ * @returns {string} word The set relevant word.
+ */
 RelevantWord.prototype.getCombination = function() {
 	return this._word;
 };

@@ -1,6 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+/**
+ * Returns a Loader SVG.
+ *
+ * @param {string} className Classname to add to the loader.
+ *
+ * @returns {React.Element} An SVG component.
+ */
 const Loader = ( { className } ) => {
 	if ( className !== "" ) {
 		className += " ";
@@ -67,6 +74,10 @@ const Loader = ( { className } ) => {
 
 Loader.propTypes = {
 	className: PropTypes.string,
+};
+
+Loader.defaultProps = {
+	className: "",
 };
 
 export default Loader;

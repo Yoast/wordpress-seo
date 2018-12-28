@@ -16,7 +16,9 @@ const ErrorContainer = styled.p`
 	background: ${ colors.$color_white };
 `;
 
-
+/**
+ * The ErrorBoundary class, renders custom error messages.
+ */
 export default class ErrorBoundary extends React.Component {
 	/**
 	 * Constructs the component.
