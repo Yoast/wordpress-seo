@@ -759,7 +759,7 @@ export default class HowTo extends Component {
 				/>
 				<ToggleControl
 					label={ __( "Unordered list", "wordpress-seo" ) }
-					checked={ unorderedList }
+					checked={ unorderedList || false }
 					onChange={ this.toggleListType }
 					help={ this.getListTypeHelp }
 				/>
