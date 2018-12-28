@@ -54,6 +54,9 @@ const ToggleVisualLabel = styled.span`
 	font-style: italic;
 `;
 
+/**
+ * The Toggle object.
+ */
 class Toggle extends React.Component {
 	/**
 	 * Sets the toggle object.

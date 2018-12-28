@@ -114,6 +114,13 @@ UpsellButtonBase.defaultProps = {
 	textColor: colors.$color_black,
 };
 
+/**
+ * Returns the UpsellButton.
+ *
+ * @param {object} props The component's props.
+ *
+ * @returns {ReactElement} The UpsellButtonBase component.
+ */
 export const UpsellButton = ( props ) => {
 	const { children: text } = props;
 

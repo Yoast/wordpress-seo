@@ -69,6 +69,13 @@ const WordpressFeedFooter = styled.div`
 	}
 `;
 
+/**
+ * The WordpressFeedListItem component.
+ *
+ * @param {object} props The component's props.
+ *
+ * @returns {ReactElement} The WordpressFeedListItemContainer component.
+ */
 const WordpressFeedListItem = ( props ) => {
 	return (
 		<WordpressFeedListItemContainer
