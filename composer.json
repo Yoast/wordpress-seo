@@ -67,10 +67,10 @@
 	},
 	"scripts": {
 		"test": [
-			"phpunit -c phpunit.xml.dist"
+			"@php ./vendor/phpunit/phpunit/phpunit"
 		],
 		"integration-test": [
-			"phpunit -c phpunit-integration.xml.dist"
+			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
 		],
 		"config-yoastcs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",
@@ -85,9 +85,6 @@
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs ./premium/cli/ --runtime-set testVersion 5.3- --runtime-set ignore_warnings_on_exit 1",
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs ./tests/load/wp-seo-premium.php ./tests/premium/ --runtime-set testVersion 5.6- --runtime-set ignore_warnings_on_exit 1",
 			"@after-premium-cs"
-		],
-		"check-cs-errors": [
-			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --error-severity=1 --warning-severity=6"
 		],
 		"check-staged-cs": [
 			"Yoast\\WP\\Free\\Composer\\Actions::check_staged_cs"
