@@ -230,7 +230,7 @@ script:
 - |
   if [[ "$PHPUNIT" == "1" ]]; then
     travis_fold start "PHP.tests" && travis_time_start
-    $PHPUNIT_BIN -c phpunit.xml
+    $PHPUNIT_BIN
     travis_time_finish && travis_fold end "PHP.tests"
   fi;
 # Coverage environment variable is only set on the PHP 7 build, so we can safely
@@ -238,7 +238,7 @@ script:
 - |
   if [[ "$COVERAGE" == "1" ]]; then
     travis_fold start "PHP.coverage" && travis_time_start
-    $PHPUNIT_BIN -c phpunit.xml --coverage-clover build/logs/clover.xml
+    $PHPUNIT_BIN --coverage-clover build/logs/clover.xml
     travis_time_finish && travis_fold end "PHP.coverage"
   fi
 # Validate the composer.json file.
