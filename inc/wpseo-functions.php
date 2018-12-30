@@ -136,7 +136,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'.
  * @param  string $help_text        Help text to be added to the help tab for this variable.
  *
- * @return bool  Whether the replacement function was succesfully registered.
+ * @return bool Whether the replacement function was succesfully registered.
  */
 function wpseo_register_var_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
 	return WPSEO_Replace_Vars::register_replacement( $var, $replace_function, $type, $help_text );

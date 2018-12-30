@@ -91,7 +91,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	/**
 	 * Add filters to make sure that the option default is returned if the option is not set
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function add_default_filters() {
 		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
@@ -104,7 +104,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 * Remove the default filters.
 	 * Called from the validate() method to prevent failure to add new options
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function remove_default_filters() {
 		remove_filter( 'default_site_option_' . $this->option_name, array( $this, 'get_defaults' ) );
@@ -113,7 +113,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	/**
 	 * Add filters to make sure that the option is merged with its defaults before being returned
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function add_option_filters() {
 		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
@@ -126,7 +126,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 * Remove the option filters.
 	 * Called from the clean_up methods to make sure we retrieve the original old option
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function remove_option_filters() {
 		remove_filter( 'site_option_' . $this->option_name, array( $this, 'get_option' ) );
@@ -141,7 +141,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 * @param  array $clean Clean value for the option, normally the defaults.
 	 * @param  array $old   Old value of the option.
 	 *
-	 * @return  array      Validated clean value for the option to be saved to the database
+	 * @return array Validated clean value for the option to be saved to the database.
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
 
@@ -219,7 +219,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
 	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
-	 * @return  array            Cleaned option
+	 * @return array Cleaned option.
 	 */
 
 	/*
