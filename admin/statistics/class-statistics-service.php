@@ -109,7 +109,7 @@ class WPSEO_Statistics_Service {
 	 * Set the statistics transient cache for a specific user
 	 *
 	 * @param array $transient The current stored transient with the cached data.
-	 * @param int   $user The user's ID to assign the retrieved values to.
+	 * @param int   $user      The user's ID to assign the retrieved values to.
 	 *
 	 * @return array The statistics transient for the user.
 	 */

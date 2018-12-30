@@ -437,8 +437,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @todo [JRF] Check if $class is added appropriately everywhere.
 	 *
-	 * @param   array  $meta_field_def Contains the vars based on which output is generated.
-	 * @param   string $key            Internal key (without prefix).
+	 * @param array  $meta_field_def Contains the vars based on which output is generated.
+	 * @param string $key            Internal key (without prefix).
 	 *
 	 * @return  string
 	 */
