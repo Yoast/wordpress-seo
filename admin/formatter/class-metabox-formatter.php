@@ -11,7 +11,9 @@
 class WPSEO_Metabox_Formatter {
 
 	/**
-	 * @var WPSEO_Metabox_Formatter_Interface Object that provides formatted values.
+	 * Object that provides formatted values.
+	 *
+	 * @var WPSEO_Metabox_Formatter_Interface
 	 */
 	private $formatter;
 

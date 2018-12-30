@@ -13,7 +13,9 @@
 class Yoast_Form {
 
 	/**
-	 * @var object    Instance of this class
+	 * Instance of this class
+	 *
+	 * @var object
 	 * @since 2.0
 	 */
 	public static $instance;
