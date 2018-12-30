@@ -3,11 +3,9 @@
  * WPSEO plugin file.
  *
  * @package WPSEO\Admin\Views
- */
-
-/**
- * @var Yoast_Form                    $yform
- * @var WPSEO_Import_Plugins_Detector $import_check
+ *
+ * @uses Yoast_Form                    $yform        Form object.
+ * @uses WPSEO_Import_Plugins_Detector $import_check
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {

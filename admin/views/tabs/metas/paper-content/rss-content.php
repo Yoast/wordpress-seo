@@ -4,7 +4,7 @@
  *
  * @package WPSEO\Admin\Views\Rss
  *
- * @var Yoast_Form $yform
+ * @uses Yoast_Form $yform Form object.
  */
 
 $textarea_atts = array(

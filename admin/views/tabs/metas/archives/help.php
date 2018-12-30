@@ -4,7 +4,7 @@
  *
  * @package WPSEO\Admin\Views\Archive
  *
- * @var Yoast_Form $yform
+ * @uses Yoast_Form $yform Form object.
  */
 
 $archives_help_content = array(
