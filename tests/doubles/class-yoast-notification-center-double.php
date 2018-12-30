@@ -6,7 +6,7 @@
  */
 
 /**
- * Class Test_Yoast_Notification_Center
+ * Class Test_Yoast_Notification_Center.
  */
 class Yoast_Notification_Center_Double extends Yoast_Notification_Center {
 

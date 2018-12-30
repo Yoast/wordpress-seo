@@ -322,7 +322,7 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @param array $data Test data to add, merged with default data.
 	 *
-	 * @return array Complete array
+	 * @return array Complete array.
 	 */
 	private function build_data_blob( $data = array() ) {
 		return array_merge(

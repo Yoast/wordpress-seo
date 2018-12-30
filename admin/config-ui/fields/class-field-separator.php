@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Separator
+ * Class WPSEO_Config_Field_Separator.
  */
 class WPSEO_Config_Field_Separator extends WPSEO_Config_Field_Choice {
 
@@ -33,7 +33,7 @@ class WPSEO_Config_Field_Separator extends WPSEO_Config_Field_Choice {
 	}
 
 	/**
-	 * Set adapter
+	 * Set adapter.
 	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */

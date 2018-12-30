@@ -269,7 +269,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 			WPSEO_Meta::validate_meta_robots_adv( array( 'none', 'something-invalid', 'noarchive' ) )
 		);
 
-		// - should take precedence.
+		// The '-' option should take precedence.
 		$this->assertEquals(
 			'-',
 			WPSEO_Meta::validate_meta_robots_adv( '-, something-invalid, noarchive' )

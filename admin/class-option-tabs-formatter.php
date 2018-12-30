@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Option_Tabs_Formatter
+ * Class WPSEO_Option_Tabs_Formatter.
  */
 class WPSEO_Option_Tabs_Formatter {
 

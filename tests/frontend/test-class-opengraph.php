@@ -6,7 +6,7 @@
  */
 
 /**
- * OpenGraph tests
+ * OpenGraph tests.
  *
  * @group OpenGraph
  */
@@ -829,7 +829,7 @@ EXPECTED;
 	}
 
 	/**
-	 * Tests the rendering of article:section for a post with two categories wherefor the first
+	 * Tests the rendering of article:section for a post with two categories where the first
 	 * set category will be removed via a filter.
 	 *
 	 * @covers WPSEO_OpenGraph::category()
@@ -857,7 +857,7 @@ EXPECTED;
 	/**
 	 * Creates a post with a pair of categories attached.
 	 *
-	 * @return int The created post id.
+	 * @return int The created post ID.
 	 */
 	protected function create_post_with_categories() {
 		$post_id = self::factory()->post->create();

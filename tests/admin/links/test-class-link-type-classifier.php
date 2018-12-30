@@ -57,7 +57,7 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Checks the execution of contains_protocol
+	 * Checks the execution of contains_protocol.
 	 */
 	public function test_contains_protocol() {
 		/** @var WPSEO_Link_Type_Classifier $classifier */
@@ -77,7 +77,7 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Checks the execution of is_external_link
+	 * Checks the execution of is_external_link.
 	 */
 	public function test_is_external_link() {
 		/** @var WPSEO_Link_Type_Classifier $classifier */

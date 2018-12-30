@@ -6,7 +6,7 @@
  */
 
 /**
- * Sitemap Cache Data object, manages sitemap data stored in cache
+ * Sitemap Cache Data object, manages sitemap data stored in cache.
  */
 class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Serializable {
 
@@ -96,7 +96,7 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	/**
 	 * Get the status of the sitemap.
 	 *
-	 * @return string Status of the sitemap, 'ok'/'error'/'unknown'
+	 * @return string Status of the sitemap, 'ok'/'error'/'unknown'.
 	 */
 	public function get_status() {
 
@@ -104,7 +104,7 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	}
 
 	/**
-	 * String representation of object
+	 * String representation of object.
 	 *
 	 * @link  http://php.net/manual/en/serializable.serialize.php
 	 * @return string the string representation of the object or null
@@ -121,7 +121,7 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	}
 
 	/**
-	 * Constructs the object
+	 * Constructs the object.
 	 *
 	 * @link  http://php.net/manual/en/serializable.unserialize.php
 	 *

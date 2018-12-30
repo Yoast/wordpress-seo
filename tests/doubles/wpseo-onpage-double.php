@@ -24,7 +24,7 @@ class WPSEO_OnPage_Double extends WPSEO_OnPage {
 	}
 
 	/**
-	 * Overwrite the method because is has a dependency.
+	 * Overwrite the method because it has a dependency.
 	 *
 	 * @return void
 	 */

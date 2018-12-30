@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Sitemap_Image_Parser_Test
+ * Class WPSEO_Sitemap_Image_Parser_Test.
  */
 class WPSEO_Sitemap_Image_Parser_Test extends WPSEO_UnitTestCase {
 
@@ -18,7 +18,7 @@ class WPSEO_Sitemap_Image_Parser_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	/**
-	 * Set up our double class
+	 * Set up our double class.
 	 */
 	public function setUp() {
 		parent::setUp();

@@ -187,7 +187,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Creates an instance of Yoast_Notification
+	 * Creates an instance of Yoast_Notification.
 	 *
 	 * @param string $product_name The product to create the notification for.
 	 *

@@ -15,7 +15,7 @@ use Yoast\WP\Free\Models\Indexable;
 class Indexable_Term_Formatter {
 
 	/**
-	 * The current term id.
+	 * The current term ID.
 	 *
 	 * @var int
 	 */

@@ -122,7 +122,7 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Make sure the nonce is up to date
+	 * Make sure the nonce is up to date.
 	 */
 	public function refresh_nonce() {
 		if ( $this->options['id'] ) {
@@ -131,7 +131,7 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Get the type of the notification
+	 * Get the type of the notification.
 	 *
 	 * @return string
 	 */
@@ -140,7 +140,7 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Priority of the notification
+	 * Priority of the notification.
 	 *
 	 * Relative to the type.
 	 *
@@ -151,7 +151,7 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Get the User Meta key to check for dismissal of notification
+	 * Get the User Meta key to check for dismissal of notification.
 	 *
 	 * @return string User Meta Option key that registers dismissal.
 	 */
@@ -164,7 +164,7 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Is this Notification persistent
+	 * Is this Notification persistent.
 	 *
 	 * @return bool True if persistent, False if fire and forget.
 	 */
@@ -175,9 +175,9 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Check if the notification is relevant for the current user
+	 * Check if the notification is relevant for the current user.
 	 *
-	 * @return bool True if a user needs to see this Notification, False if not.
+	 * @return bool True if a user needs to see this notification, false if not.
 	 */
 	public function display_for_current_user() {
 		// If the notification is for the current page only, always show.
@@ -190,7 +190,7 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Does the current user match required capabilities
+	 * Does the current user match required capabilities.
 	 *
 	 * @return bool
 	 */
@@ -205,10 +205,10 @@ class Yoast_Notification {
 		 *
 		 * @since 3.2
 		 *
-		 * @param array              $capabilities The capabilities that must be present for this Notification.
+		 * @param array              $capabilities The capabilities that must be present for this notification.
 		 * @param Yoast_Notification $notification The notification object.
 		 *
-		 * @return array of capabilities or empty for no restrictions.
+		 * @return Array of capabilities or empty for no restrictions.
 		 */
 		$capabilities = apply_filters( 'wpseo_notification_capabilities', $this->options['capabilities'], $this );
 
@@ -249,7 +249,7 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Array filter function to find matched capabilities
+	 * Array filter function to find matched capabilities.
 	 *
 	 * @param string $capability Capability to test.
 	 *
@@ -260,7 +260,7 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Return the object properties as an array
+	 * Return the object properties as an array.
 	 *
 	 * @return array
 	 */
@@ -272,7 +272,7 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Adds string (view) behaviour to the Notification
+	 * Adds string (view) behaviour to the notification.
 	 *
 	 * @return string
 	 */
@@ -341,7 +341,7 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Get the JSON if provided
+	 * Get the JSON if provided.
 	 *
 	 * @return false|string
 	 */
@@ -354,7 +354,7 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Make sure we only have values that we can work with
+	 * Make sure we only have values that we can work with.
 	 *
 	 * @param array $options Options to normalize.
 	 *
@@ -375,7 +375,7 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Format HTML element attributes
+	 * Format HTML element attributes.
 	 *
 	 * @param string $value Attribute value.
 	 * @param string $key   Attribute name.

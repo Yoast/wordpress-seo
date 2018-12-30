@@ -11,7 +11,7 @@
 class WPSEO_Primary_Term_Double extends WPSEO_Primary_Term {
 
 	/**
-	 * Overwrite the get_terms method, because it uses a dependency
+	 * Overwrite the get_terms method, because it uses a dependency.
 	 *
 	 * @return array
 	 */

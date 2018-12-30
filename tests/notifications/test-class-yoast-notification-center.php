@@ -6,7 +6,7 @@
  */
 
 /**
- * Class Test_Yoast_Notification_Center
+ * Class Test_Yoast_Notification_Center.
  */
 class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
@@ -28,7 +28,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	);
 
 	/**
-	 * Create user with proper caps
+	 * Create user with proper caps.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -42,7 +42,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Remove notifications on tearDown
+	 * Remove notifications on tearDown.
 	 */
 	public function tearDown() {
 		parent::tearDown();
@@ -61,7 +61,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Add notification
+	 * Add notification.
 	 */
 	public function test_add_notification() {
 		$notification = new Yoast_Notification( 'notification' );
@@ -73,7 +73,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Add wrong notification
+	 * Add wrong notification.
 	 */
 	public function test_add_notification_twice() {
 		$notification = new Yoast_Notification( 'notification' );
@@ -88,7 +88,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Add persistent notification twice
+	 * Add persistent notification twice.
 	 *
 	 * Only one should be in the list.
 	 */
@@ -105,7 +105,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test dismissed notification
+	 * Test dismissed notification.
 	 */
 	public function test_is_notification_dismissed() {
 		$notification_dismissal_key = 'notification_dismissal';
@@ -118,7 +118,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Clearing dismissal after it was set
+	 * Clearing dismissal after it was set.
 	 */
 	public function test_clear_dismissal() {
 		$notification = new Yoast_Notification( 'notification', array( 'id' => 'some_id' ) );
@@ -135,7 +135,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Clearing dismissal after it was set as string
+	 * Clearing dismissal after it was set as string.
 	 */
 	public function test_clear_dismissal_as_string() {
 		$notification = new Yoast_Notification( 'notification', array( 'id' => 'some_id' ) );
@@ -152,7 +152,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Clear dismissal with empty key
+	 * Clear dismissal with empty key.
 	 */
 	public function test_clear_dismissal_empty_key() {
 		$subject = $this->get_notification_center();
@@ -160,7 +160,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Saving notifications to storage
+	 * Saving notifications to storage.
 	 */
 	public function test_update_storage() {
 
@@ -186,7 +186,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Not saving non-persistent notifications to storage
+	 * Not saving non-persistent notifications to storage.
 	 */
 	public function test_update_storage_non_persistent() {
 		$notification = new Yoast_Notification( 'b' );
@@ -231,7 +231,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Sort one notification
+	 * Sort one notification.
 	 */
 	public function test_get_sorted_notifications() {
 		$notification = new Yoast_Notification( 'c' );
@@ -246,7 +246,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * No notification to sort, still an array
+	 * No notification to sort, still an array.
 	 */
 	public function test_get_sorted_notifications_empty() {
 		$subject = $this->get_notification_center();
@@ -258,7 +258,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Sort by type
+	 * Sort by type.
 	 */
 	public function test_get_sorted_notifications_by_type() {
 		$message_1 = '1';
@@ -280,7 +280,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Sort by priority
+	 * Sort by priority.
 	 */
 	public function test_get_sorted_notifications_by_priority() {
 		$message_1 = '1';
@@ -308,7 +308,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Display notification
+	 * Display notification.
 	 *
 	 * @covers Yoast_Notification_Center::display_notifications
 	 */
@@ -340,7 +340,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Display notification not for current user
+	 * Display notification not for current user.
 	 *
 	 * @covers Yoast_Notification_Center::add_notification
 	 * @covers Yoast_Notification_Center::display_notifications
@@ -373,7 +373,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test dismissed notification displaying
+	 * Test dismissed notification displaying.
 	 *
 	 * @covers Yoast_Notification_Center::add_notification
 	 * @covers Yoast_Notification_Center::display_notifications
@@ -402,7 +402,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * When a notification already exists the list with an outdated nonce it should be updated
+	 * When a notification already exists the list with an outdated nonce it should be updated.
 	 *
 	 * @covers Yoast_Notification_Center::add_notification
 	 */
@@ -434,7 +434,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the persistent notification is seen as new
+	 * Test if the persistent notification is seen as new.
 	 */
 	public function test_notification_is_new() {
 		$id = 'my_id';
@@ -451,7 +451,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test how many resolved notifications we have
+	 * Test how many resolved notifications we have.
 	 *
 	 * @covers Yoast_Notification_Center::get_resolved_notification_count
 	 */
@@ -476,7 +476,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test notification count
+	 * Test notification count.
 	 *
 	 * @covers Yoast_Notification_Center::get_notification_count
 	 */
@@ -677,7 +677,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests removal of a notification when there isn't any with given id.
+	 * Tests removal of a notification when there isn't any with given ID.
 	 *
 	 * @covers Yoast_Notification_Center::remove_notification_by_id()
 	 */
@@ -696,7 +696,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests removal of a notification
+	 * Tests removal of a notification.
 	 *
 	 * @covers Yoast_Notification_Center::remove_notification_by_id()
 	 */
@@ -730,7 +730,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers Yoast_Notification_Center::has_stored_notifications
 	 *
-	 * @param mixed  $stored_notifications The return value of get_stored_notifications
+	 * @param mixed  $stored_notifications The return value of get_stored_notifications.
 	 * @param bool   $expected             The expected value: true or false.
 	 * @param string $message              Message to show when test fails.
 	 */

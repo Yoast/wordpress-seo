@@ -47,7 +47,7 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 /* ***************************** CLASS AUTOLOADING *************************** */
 
 /**
- * Auto load our class files
+ * Auto load our class files.
  *
  * @param string $class Class name.
  *
@@ -91,14 +91,14 @@ if ( function_exists( 'spl_autoload_register' ) ) {
 /* ********************* DEFINES DEPENDING ON AUTOLOADED CODE ********************* */
 
 /**
- * Defaults to production, for safety
+ * Defaults to production, for safety.
  */
 if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {
 	define( 'YOAST_ENVIRONMENT', 'production' );
 }
 
 /**
- * Only use minified assets when we are in a production environment
+ * Only use minified assets when we are in a production environment.
  */
 if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
 	define( 'WPSEO_CSSJS_SUFFIX', ( 'development' !== YOAST_ENVIRONMENT ) ? '.min' : '' );
@@ -116,7 +116,7 @@ function wpseo_activate( $networkwide = false ) {
 		_wpseo_activate();
 	}
 	else {
-		/* Multi-site network activation - activate the plugin for all blogs */
+		/* Multi-site network activation - activate the plugin for all blogs. */
 		wpseo_network_activate_deactivate( true );
 	}
 }
@@ -131,13 +131,13 @@ function wpseo_deactivate( $networkwide = false ) {
 		_wpseo_deactivate();
 	}
 	else {
-		/* Multi-site network activation - de-activate the plugin for all blogs */
+		/* Multi-site network activation - de-activate the plugin for all blogs. */
 		wpseo_network_activate_deactivate( false );
 	}
 }
 
 /**
- * Run network-wide (de-)activation of the plugin
+ * Run network-wide (de-)activation of the plugin.
  *
  * @param bool $activate True for plugin activation, false for de-activation.
  */
@@ -270,7 +270,7 @@ function wpseo_on_activate_blog( $blog_id ) {
 /* ***************************** PLUGIN LOADING *************************** */
 
 /**
- * Load translations
+ * Load translations.
  */
 function wpseo_load_textdomain() {
 	$wpseo_path = str_replace( '\\', '/', WPSEO_PATH );
@@ -288,7 +288,7 @@ add_action( 'plugins_loaded', 'wpseo_load_textdomain' );
 
 
 /**
- * On plugins_loaded: load the minimum amount of essential files for this plugin
+ * On plugins_loaded: load the minimum amount of essential files for this plugin.
  */
 function wpseo_init() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
@@ -400,7 +400,7 @@ function wpseo_frontend_init() {
 }
 
 /**
- * Instantiate the different social classes on the frontend
+ * Instantiate the different social classes on the frontend.
  */
 function wpseo_frontend_head_init() {
 	if ( WPSEO_Options::get( 'twitter' ) === true ) {
@@ -562,7 +562,7 @@ function load_yoast_notifications() {
 
 
 /**
- * Throw an error if the PHP SPL extension is disabled (prevent white screens) and self-deactivate plugin
+ * Throw an error if the PHP SPL extension is disabled (prevent white screens) and self-deactivate plugin.
  *
  * @since 1.5.4
  *
@@ -577,7 +577,7 @@ function yoast_wpseo_missing_spl() {
 }
 
 /**
- * Returns the notice in case of missing spl extension
+ * Returns the notice in case of missing spl extension.
  */
 function yoast_wpseo_missing_spl_notice() {
 	$message = esc_html__( 'The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
@@ -585,7 +585,7 @@ function yoast_wpseo_missing_spl_notice() {
 }
 
 /**
- * Throw an error if the Composer autoload is missing and self-deactivate plugin
+ * Throw an error if the Composer autoload is missing and self-deactivate plugin.
  *
  * @return void
  */
@@ -598,7 +598,7 @@ function yoast_wpseo_missing_autoload() {
 }
 
 /**
- * Returns the notice in case of missing Composer autoload
+ * Returns the notice in case of missing Composer autoload.
  */
 function yoast_wpseo_missing_autoload_notice() {
 	/* translators: %1$s expands to Yoast SEO, %2$s / %3$s: links to the installation manual in the Readme for the Yoast SEO code repository on GitHub */
@@ -608,7 +608,7 @@ function yoast_wpseo_missing_autoload_notice() {
 }
 
 /**
- * Throw an error if the filter extension is disabled (prevent white screens) and self-deactivate plugin
+ * Throw an error if the filter extension is disabled (prevent white screens) and self-deactivate plugin.
  *
  * @since 2.0
  *
@@ -623,7 +623,7 @@ function yoast_wpseo_missing_filter() {
 }
 
 /**
- * Returns the notice in case of missing filter extension
+ * Returns the notice in case of missing filter extension.
  */
 function yoast_wpseo_missing_filter_notice() {
 	$message = esc_html__( 'The filter extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
@@ -640,7 +640,7 @@ function yoast_wpseo_activation_failed_notice( $message ) {
 }
 
 /**
- * The method will deactivate the plugin, but only once, done by the static $is_deactivated
+ * The method will deactivate the plugin, but only once, done by the static $is_deactivated.
  */
 function yoast_wpseo_self_deactivate() {
 	static $is_deactivated;

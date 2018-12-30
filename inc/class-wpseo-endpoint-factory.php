@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Endpoint_Factory
+ * Class WPSEO_Endpoint_Factory.
  */
 class WPSEO_Endpoint_Factory {
 

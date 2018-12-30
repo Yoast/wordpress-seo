@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Choice_Post_Type
+ * Class WPSEO_Config_Field_Choice_Post_Type.
  */
 class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 
@@ -36,7 +36,7 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 	}
 
 	/**
-	 * Set adapter
+	 * Set adapter.
 	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */
@@ -71,7 +71,7 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 	}
 
 	/**
-	 * Set new data
+	 * Set new data.
 	 *
 	 * @param string $visible Visible (true) or hidden (false).
 	 *

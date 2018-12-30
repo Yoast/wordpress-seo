@@ -235,7 +235,7 @@ class WPSEO_Link_Columns {
 	}
 
 	/**
-	 * Displays the column content for the given column
+	 * Displays the column content for the given column.
 	 *
 	 * @param string $column_name Column to display the content for.
 	 * @param int    $post_id     Post to display the column content for.

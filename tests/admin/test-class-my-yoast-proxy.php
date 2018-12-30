@@ -278,7 +278,7 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Returns a successful WP_HTTP_Request_Response as an array.
 	 *
-	 * Use this in combination with WordPress's `pre_http_request` filter.
+	 * Use this in combination with WordPress' `pre_http_request` filter.
 	 *
 	 * @return array
 	 */
@@ -295,7 +295,7 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Returns a failed WP_HTTP_Request_Response as an array.
 	 *
-	 * Use this in combination with WordPress's `pre_http_request` filter.
+	 * Use this in combination with WordPress' `pre_http_request` filter.
 	 *
 	 * @return array
 	 */

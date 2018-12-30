@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Post_Type_Visibility
+ * Class WPSEO_Config_Field_Post_Type_Visibility.
  */
 class WPSEO_Config_Field_Post_Type_Visibility extends WPSEO_Config_Field {
 

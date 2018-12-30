@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Sitemaps_Router_Test
+ * Class WPSEO_Sitemaps_Router_Test.
  */
 class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class Test_WPSEO_Sitemap_Provider_Overlap
+ * Class Test_WPSEO_Sitemap_Provider_Overlap.
  *
  * @group sitemaps
  */

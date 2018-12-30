@@ -48,7 +48,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests retrieval of the site information that will return the api request value.
+	 * Tests retrieval of the site information that will return the API request value.
 	 *
 	 * @covers WPSEO_Addon_Manager::get_site_information
 	 */
@@ -207,7 +207,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests retrieval of an unexisting subscription.
+	 * Tests retrieval of an non-existent subscription.
 	 *
 	 * @covers WPSEO_Addon_Manager::get_subscription
 	 */
@@ -424,7 +424,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @param array  $addons   The 'installed' addons.
 	 * @param array  $data     Data being send to the method.
-	 * @param mixed  $expected The expecte value.
+	 * @param mixed  $expected The expected value.
 	 * @param string $message  Message to show when test fails.
 	 */
 	public function test_check_for_updates( $addons, $data, $expected, $message ) {
@@ -509,7 +509,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests get_installed_plugins with no yoast addons installed.
+	 * Tests get_installed_plugins with no Yoast addons installed.
 	 *
 	 * @covers WPSEO_Addon_Manager::get_installed_addons
 	 */
@@ -539,7 +539,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests get_installed_plugins with one yoast addon installed.
+	 * Tests get_installed_plugins with one Yoast addon installed.
 	 *
 	 * @covers WPSEO_Addon_Manager::get_installed_addons
 	 */
@@ -573,7 +573,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests get_installed_plugins with no yoast addons installed.
+	 * Tests get_installed_plugins with no Yoast addons installed.
 	 *
 	 * @covers WPSEO_Addon_Manager::get_active_addons
 	 */
@@ -730,7 +730,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 				'action'   => 'plugin_information',
 				'args'     => array( 'slug' => 'unkown_slug' ),
 				'expected' => false,
-				'message'  => 'Tests with a non yoast addon slug given as argument.',
+				'message'  => 'Tests with a non Yoast addon slug given as argument.',
 			),
 			array(
 				'action'   => 'plugin_information',
@@ -748,7 +748,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 						'changelog' => 'changelog',
 					),
 				),
-				'message'  => 'Tests with a yoast addon slug given as argument.',
+				'message'  => 'Tests with a Yoast addon slug given as argument.',
 			),
 		);
 	}
