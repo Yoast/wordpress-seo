@@ -199,10 +199,9 @@ class WPSEO_Sitemaps_Cache_Validator {
 	 * Get the current cache validator
 	 *
 	 * Without the type the global validator is returned.
-	 *  This can invalidate -all- keys in cache at once
+	 * This can invalidate -all- keys in cache at once.
 	 *
-	 * With the type parameter the validator for that specific
-	 *  type can be invalidated
+	 * With the type parameter the validator for that specific type can be invalidated.
 	 *
 	 * @since 3.2
 	 *
