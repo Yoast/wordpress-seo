@@ -144,7 +144,7 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	/**
 	 * Tries to load the given url.
 	 *
-	 * @see https://php.net/manual/en/function.readfile.php
+	 * @link https://php.net/manual/en/function.readfile.php
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -185,7 +185,7 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @see https://php.net/manual/en/filesystem.configuration.php#ini.allow-url-fopen
+	 * @link https://php.net/manual/en/filesystem.configuration.php#ini.allow-url-fopen
 	 *
 	 * @return bool True when the PHP configuration allows for url loading via readfile.
 	 */
