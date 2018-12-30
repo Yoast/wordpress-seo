@@ -34,7 +34,7 @@ class Yoast_Model {
 
 	/**
 	 * Default ID column for all models. Can be overridden by adding
-	 * a public static _id_column property to your model classes.
+	 * a public static $id_column property to your model classes.
 	 *
 	 * @var string
 	 */
@@ -258,7 +258,7 @@ class Yoast_Model {
 	 * @return string|null The ID column name.
 	 */
 	protected static function get_id_column_name( $class_name ) {
-		return static::get_static_property( $class_name, '_id_column', static::DEFAULT_ID_COLUMN );
+		return static::get_static_property( $class_name, 'id_column', static::DEFAULT_ID_COLUMN );
 	}
 
 	/**
