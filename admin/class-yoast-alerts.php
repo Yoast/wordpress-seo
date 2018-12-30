@@ -10,6 +10,9 @@
  */
 class Yoast_Alerts {
 
+	/**
+	 * @var string
+	 */
 	const ADMIN_PAGE = 'wpseo_dashboard';
 
 	/**
