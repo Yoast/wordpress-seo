@@ -53,8 +53,8 @@ class Plugin implements Integration {
 	 */
 	public function __construct( Dependency_Management $dependency_management = null, Database_Migration $database_migration = null ) {
 		// @codingStandardsIgnoreStart
-		$this->dependency_management = $dependency_management ?: new Dependency_Management();
-		$this->database_migration    = $database_migration ?: new Database_Migration( $GLOBALS['wpdb'], $this->dependency_management );
+		$this->dependency_management = isset( $dependency_management ) ?: new Dependency_Management();
+		$this->database_migration    = isset( $database_migration ) ?: new Database_Migration( $GLOBALS['wpdb'], $this->dependency_management );
 		// @codingStandardsIgnoreEnd
 	}
 
