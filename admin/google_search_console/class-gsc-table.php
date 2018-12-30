@@ -32,6 +32,8 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	private $current_view;
 
 	/**
+	 * Number of entries to show per page.
+	 *
 	 * @var integer
 	 */
 	private $per_page = 50;
