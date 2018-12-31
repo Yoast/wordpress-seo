@@ -36,10 +36,10 @@ const HeaderTitle = styled.h2`
 
 const HeaderLink = styled.a`
 	text-decoration: none;
-	color: ${ colors.$color_pink_dark };
 
 	&:hover {
 		text-decoration: underline;
+		color: ${ colors.$color_pink_dark };
 	}
 `;
 

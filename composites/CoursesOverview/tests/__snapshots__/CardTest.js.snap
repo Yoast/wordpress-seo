@@ -128,12 +128,12 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
 .c2 {
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: #a4286a;
 }
 
 .c2:hover {
   -webkit-text-decoration: underline;
   text-decoration: underline;
+  color: #a4286a;
 }
 
 .c0 {
