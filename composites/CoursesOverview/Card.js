@@ -38,9 +38,9 @@ const HeaderTitle = styled.h2`
 
 const HeaderLink = styled.a`
 	text-decoration: none;
-	
+
 	&:hover {
-		text-decoration: underline; 
+		text-decoration: underline;
 		color: ${ colors.$color_pink_dark };
 
 	}
@@ -65,16 +65,16 @@ class Card extends React.Component {
 		if ( this.props.header.link ) {
 			return (
 				<OutboundHeaderLink href={ this.props.header.link }>
-					<HeaderImage src={ this.props.header.image } alt={ this.props.header.title || "" } />
-					<HeaderTitle> { this.props.header.title } </HeaderTitle>
+					<HeaderImage src={ this.props.header.image } alt="" />
+					<HeaderTitle>{ this.props.header.title }</HeaderTitle>
 				</OutboundHeaderLink>
 			);
 		}
 
 		return (
 			<Fragment>
-				<HeaderImage src={ this.props.header.image } alt={ this.props.header.title || "" } />;
-				<HeaderTitle> { this.props.header.title } </HeaderTitle>
+				<HeaderImage src={ this.props.header.image } alt="" />;
+				<HeaderTitle>{ this.props.header.title }</HeaderTitle>
 			</Fragment>
 		);
 	}
@@ -143,4 +143,3 @@ Card.defaultProps = {
 	banner: null,
 	children: null,
 };
-

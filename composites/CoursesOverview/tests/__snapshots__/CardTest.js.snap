@@ -220,16 +220,14 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
     target="_blank"
   >
     <img
-      alt="Keyword Research"
+      alt=""
       className="c3"
       src="../wp-content/plugins/wordpress-seo/images/sample_course_card_header.png"
     />
     <h2
       className="c4"
     >
-       
       Keyword Research
-       
     </h2>
     <span
       className="c5"
