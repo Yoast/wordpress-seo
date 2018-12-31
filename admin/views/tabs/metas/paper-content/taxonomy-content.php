@@ -7,6 +7,7 @@
  * @uses Yoast_Form                               $yform                        Form object.
  * @uses WP_Taxonomy                              $wpseo_taxonomy
  * @uses Yoast_View_Utils                         $view_utils
+ * @uses string                                   $title
  * @uses WPSEO_Admin_Recommended_Replace_Vars     $recommended_replace_vars
  * @uses WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
