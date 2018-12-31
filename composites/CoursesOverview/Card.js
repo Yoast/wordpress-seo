@@ -20,7 +20,6 @@ const HeaderImage = styled.img`
 `;
 
 const Content = styled.div`
-	margin: 0;
 	padding: 12px 16px;
 	display: flex;
 	flex-direction: column;
@@ -28,8 +27,7 @@ const Content = styled.div`
 `;
 
 const HeaderTitle = styled.h2`
-	margin: 16px 8px 0px 16px;
-	display: block;
+	margin: 16px 16px 0 16px;
 	font-weight: 400;
 	font-size: 1.5em;
 	line-height: 1.2;
@@ -38,11 +36,10 @@ const HeaderTitle = styled.h2`
 
 const HeaderLink = styled.a`
 	text-decoration: none;
+	color: ${ colors.$color_pink_dark };
 
 	&:hover {
 		text-decoration: underline;
-		color: ${ colors.$color_pink_dark };
-
 	}
 `;
 

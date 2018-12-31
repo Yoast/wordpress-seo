@@ -10,8 +10,20 @@ import getCourseFeed from "../utils/getCourseFeed";
 const Container = styled.div`
 	max-width: 1024px;
 	margin: 0 auto;
-	padding: 24px 24px 50em;
+	padding: 24px;
 	box-sizing: border-box;
+`;
+
+// Use this only for testing purposes in the standalone examples.
+const WordPressStylesEmulator = styled.div`
+	/* Emulate WordPress font metrics. */
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-size: 13px;
+	line-height: 1.4em;
+	/* Emulate WordPress list styles. */
+	li {
+		margin-bottom: 6px;
+	}
 `;
 
 const CoursesList = styled.ul`
@@ -124,25 +136,27 @@ export default class ComponentsExample extends React.Component {
 				/>
 
 				<h2>Courses overview cards</h2>
-				{ courses && <CoursesList>
-					{ courses.map( course =>
-						<CourseListItem key={ course.id }>
-							<FullHeightCard
-								className={ "CourseCard" }
-								id={ course.id }
-								header={ this.getHeaderData( course ) }
-								banner={ course.isFree === "true" ? { text: __( "Free", "yoast-components" ) } : null }
-							>
-								<CardDetails
-									description={ course.content }
-									courseUrl={ course.link }
-									readMoreLinkText={ course.readMoreLinkText }
-									ctaButtonData={ this.getButtonData( course ) }
-								/>
-							</FullHeightCard>
-						</CourseListItem>
-					) }
-				</CoursesList> }
+				<WordPressStylesEmulator>
+					{ courses && <CoursesList>
+						{ courses.map( course =>
+							<CourseListItem key={ course.id }>
+								<FullHeightCard
+									className={ "CourseCard" }
+									id={ course.id }
+									header={ this.getHeaderData( course ) }
+									banner={ course.isFree === "true" ? { text: __( "Free", "yoast-components" ) } : null }
+								>
+									<CardDetails
+										description={ course.content }
+										courseUrl={ course.link }
+										readMoreLinkText={ course.readMoreLinkText }
+										ctaButtonData={ this.getButtonData( course ) }
+									/>
+								</FullHeightCard>
+							</CourseListItem>
+						) }
+					</CoursesList> }
+				</WordPressStylesEmulator>
 			</Container>
 		);
 		/* eslint-enable react/jsx-no-target-blank */

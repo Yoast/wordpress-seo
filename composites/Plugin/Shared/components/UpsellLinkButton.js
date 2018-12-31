@@ -8,7 +8,6 @@ export const UpsellLinkButton = styled.a`
 	align-items: center;
 	justify-content: center;
 	vertical-align: middle;
-	cursor: pointer;
 	color: ${ colors.$color_black };
 	white-space: nowrap;
 	display: inline-flex;
@@ -27,10 +26,9 @@ export const UpsellLinkButton = styled.a`
 		background: ${ colors.$color_button_upsell_hover };
 	}
 
-	:active {
-		position: relative;
-		top: 2px;
+	&:active {
 		background-color: ${ colors.$color_button_hover_upsell };
+		transform: translateY( 1px );
 		box-shadow: none;
 		filter: none;
 	}

@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import colors from "../../style-guide/colors.json";
 import { makeOutboundLink } from "../../utils/makeOutboundLink";
+import { getRtlStyle } from "../../utils/helpers/styled-components";
 
 const CardRegularButton = styled.a`
-	cursor: pointer;
 	color: ${ colors.$color_black };
 	white-space: nowrap;
 	display: block;
@@ -17,7 +17,6 @@ const CardRegularButton = styled.a`
 	text-decoration: none;
 	font-weight: bold;
 	font-size: inherit;
-	margin-top: 0;
 	margin-bottom: 8px;
 
 	&:hover,
@@ -25,13 +24,11 @@ const CardRegularButton = styled.a`
 	&:active {
 		color: ${ colors.$color_black };
 		background-color: ${ colors.$color_grey_hover };
-		text-decoration: none;
 	}
 
-	:active {
-		position: relative;
-		top: 2px
+	&:active {
 		background-color: ${ colors.$color_grey_hover };
+		transform: translateY( 1px );
 		box-shadow: none;
 		filter: none;
 	}
@@ -60,10 +57,9 @@ const CardUpsellButton = styled.a`
 		background: ${ colors.$color_button_upsell_hover };
 	}
 
-	:active {
-		position: relative;
-		top: 2px;
+	&:active {
 		background-color: ${ colors.$color_button_hover_upsell };
+		transform: translateY( 1px );
 		box-shadow: none;
 		filter: none;
 	}
@@ -80,9 +76,15 @@ const ActionBlock = styled.div`
 `;
 
 const CourseFeatureList = styled.div`
+	ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+
 	li {
 		position: relative;
-		margin-left: 16px;
+		${ getRtlStyle( "margin-left", "margin-right" ) }: 16px;
 
 		&:before {
 			content: "✓";
@@ -90,7 +92,7 @@ const CourseFeatureList = styled.div`
 			position: absolute;
 			font-weight: bold;
 			display: inline-block;
-			left: -16px;
+			${ getRtlStyle( "left", "right" ) }: -16px;
 		}
 	}
 `;
