@@ -109,7 +109,7 @@ you’ll learn how to research and select the keywords that will guide searchers
     <a
       className="c1"
       href="https://yoast.com/cart/?add-to-cart=1311259"
-      rel="noopener noreferrer"
+      rel={null}
       target="_blank"
     >
       Start your free trail
@@ -122,7 +122,7 @@ you’ll learn how to research and select the keywords that will guide searchers
     <a
       className="c3"
       href="https://yoast.com/academy/keyword-research-training/"
-      rel="noopener noreferrer"
+      rel={null}
       target="_blank"
     >
       Read more about this training »
@@ -245,7 +245,7 @@ Array [
     <a
       className="c1"
       href={undefined}
-      rel="noopener noreferrer"
+      rel={null}
       target="_blank"
     >
       <span
@@ -257,7 +257,7 @@ Array [
     <a
       className="c3"
       href=""
-      rel="noopener noreferrer"
+      rel={null}
       target="_blank"
     >
       

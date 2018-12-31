@@ -122,7 +122,7 @@ class CardDetails extends React.Component {
 	 * @returns {ReactElement} The rendered component.
 	 */
 	render() {
-		const buttonType =  this.props.ctaButtonData.ctaButtonType === "regular" ? CardRegularButton : CardUpsellButton;
+		const buttonType = this.props.ctaButtonData.ctaButtonType === "regular" ? CardRegularButton : CardUpsellButton;
 		const OutboundLinkButton = makeOutboundLink( buttonType );
 
 		return (
@@ -133,10 +133,10 @@ class CardDetails extends React.Component {
 					/>
 				</Details>
 				<ActionBlock>
-					<OutboundLinkButton href={ this.props.ctaButtonData.ctaButtonUrl }>
+					<OutboundLinkButton href={ this.props.ctaButtonData.ctaButtonUrl } rel={ null }>
 						{ this.props.ctaButtonData.ctaButtonCopy }
 					</OutboundLinkButton>
-					<OutboundInfoLink href={ this.props.courseUrl }>
+					<OutboundInfoLink href={ this.props.courseUrl } rel={ null }>
 						{ this.props.readMoreLinkText }
 					</OutboundInfoLink>
 				</ActionBlock>

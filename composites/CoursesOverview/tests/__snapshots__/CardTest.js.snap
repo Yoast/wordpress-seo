@@ -217,7 +217,7 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   <a
     className="c2"
     href="https://yoast.com/academy/keyword-research-training/"
-    rel="noopener noreferrer"
+    rel={null}
     target="_blank"
   >
     <img
@@ -266,7 +266,7 @@ you’ll learn how to research and select the keywords that will guide searchers
       <a
         className="c12"
         href="https://yoast.com/cart/?add-to-cart=1311259"
-        rel="noopener noreferrer"
+        rel={null}
         target="_blank"
       >
         Start your free trail
@@ -279,7 +279,7 @@ you’ll learn how to research and select the keywords that will guide searchers
       <a
         className="c13"
         href="https://yoast.com/academy/keyword-research-training/"
-        rel="noopener noreferrer"
+        rel={null}
         target="_blank"
       >
         Read more about this training »
