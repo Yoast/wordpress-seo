@@ -192,14 +192,15 @@ class WPSEO_Admin_Asset_Manager {
 			'react',
 			plugins_url( 'js/vendor/react.min.js', WPSEO_FILE ),
 			array(),
-			WPSEO_VERSION,
+			'v16.6.1',
 			true
 		);
 
-		wp_register_script( 'react-dom',
+		wp_register_script(
+			'react-dom',
 			plugins_url( 'js/vendor/react-dom.min.js', WPSEO_FILE ),
 			array( 'react' ),
-			WPSEO_VERSION,
+			'v16.6.1',
 			true
 		);
 
@@ -207,7 +208,7 @@ class WPSEO_Admin_Asset_Manager {
 			'lodash-base',
 			plugins_url( 'js/vendor/lodash.min.js', WPSEO_FILE ),
 			array(),
-			WPSEO_VERSION,
+			'4.17.5',
 			true
 		);
 
