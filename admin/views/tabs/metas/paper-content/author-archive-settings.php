@@ -4,9 +4,7 @@
  *
  * @package WPSEO\Admin\Views\Archive
  *
- * @uses Yoast_Form                               $yform                        Form object.
- * @uses WPSEO_Admin_Recommended_Replace_Vars     $recommended_replace_vars
- * @uses WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
+ * @uses Yoast_Form $yform Form object.
  */
 
 $yform->toggle_switch(
