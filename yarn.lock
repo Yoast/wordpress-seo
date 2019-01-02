@@ -12601,7 +12601,7 @@ yauzl@^2.2.1:
 
 "yoast-components@git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.5":
   version "4.17.0"
-  resolved "git+https://github.com/Yoast/yoast-components.git#1266daad4c1903ab7e9393da1784f934ec75a4a4"
+  resolved "git+https://github.com/Yoast/yoast-components.git#cebe9b44db0932e0769606307fc9fb6aff835b80"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
