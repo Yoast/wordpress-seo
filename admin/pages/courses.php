@@ -12,7 +12,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$yform = Yoast_Form::get_instance();
-$yform->admin_header( false );
+?>
+<div class="wrap yoast">
+<h1 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h1>
+<?php
 
 echo "<div id='yoast-courses-overview'></div>";
+
+?>
+</div>
