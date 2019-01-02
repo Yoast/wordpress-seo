@@ -1,3 +1,5 @@
+import wgxpath from "wicked-good-xpath";
+
 /* Internal dependencies */
 import { parseFeedItem as parsePostFeedItem } from "./getPostFeed";
 
@@ -107,6 +109,10 @@ function getFeedItems( parsed, nsResolver, maxItems, parseFeedItem ) {
 export function parseFeed( raw, maxItems = 0, parseFeedItem ) {
 	return new Promise( function( resolve, reject ) {
 		try {
+			// Use Wicked Good XPath for browsers that don't support XPath evaluation.
+			if ( "evaluate" in document === false ) {
+				wgxpath.install();
+			}
 			const parser     = new DOMParser();
 			const parsed     = parser.parseFromString( raw, "application/xml" );
 			const nsResolver = parsed.createNSResolver( parsed.documentElement );
