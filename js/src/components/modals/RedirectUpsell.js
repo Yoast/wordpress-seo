@@ -120,21 +120,16 @@ class RedirectUpsell extends React.Component {
 		);
 
 		const intro = sprintf(
-			/* Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
-			__( "To be able to create a redirect and fix this issue, you need %1$s.", "wordpress-seo" ),
+			/* Translators: %1$s: expands to 'Yoast SEO Premium'. */
+			__( "To be able to create a redirect and fix this issue, you need %1$s. ", "wordpress-seo" ),
 			"Yoast SEO Premium"
 		);
 
 		const callToAction =  sprintf(
-			/* Translators: %1$s: links to Yoast SEO Premium plugin page. */
+			/* Translators: %1$s: yoast.com. */
 			__( "You can buy the plugin, including one year of support and updates, on %1$s.", "wordpress-seo" ),
-			"{{link}}yoast.com{{/link}}"
+			"yoast.com"
 		);
-
-		const interPolated = interpolateComponents( {
-			mixedString: callToAction,
-			components: { link: <PremiumLandingPageLink href={ this.props.link } /> },
-		} );
 
 		const modalAriaLabel = sprintf(
 			/* translators: %s expands to 'Yoast SEO Premium'. */
@@ -154,7 +149,7 @@ class RedirectUpsell extends React.Component {
 					<StyledIcon icon={ YoastSeoIcon } />
 					<h2>{ title }</h2>
 					<UpsellBox
-						infoParagraphs={ [ intro, interPolated ] }
+						infoParagraphs={ [ intro, callToAction ] }
 
 						upsellButtonText={
 							sprintf(
@@ -177,7 +172,6 @@ class RedirectUpsell extends React.Component {
 }
 
 RedirectUpsell.propTypes = {
-	link: PropTypes.string.isRequired,
 	buyLink: PropTypes.string.isRequired,
 };
 

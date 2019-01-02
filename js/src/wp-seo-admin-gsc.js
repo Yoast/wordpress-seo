@@ -33,8 +33,6 @@ jQuery( function() {
 	if ( element ) {
 		ReactDOM.render( <RedirectUpsell
 			buyLink={ wpseoAdminL10n[ "shortlinks.upsell.gsc.create_redirect_button" ] }
-			link={ wpseoAdminL10n[ "shortlinks.upsell.gsc.create_redirect_link" ] }
-
 		/>, element );
 	}
 } );
