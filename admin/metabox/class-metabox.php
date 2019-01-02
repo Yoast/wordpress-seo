@@ -720,7 +720,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				if ( isset( $_POST[ $field_name ] ) ) {
 					$data = wp_unslash( $_POST[ $field_name ] );
 
-					// For multi-select
+					// For multi-select.
 					if ( is_array( $data ) ) {
 						$data = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), $data );
 					}
