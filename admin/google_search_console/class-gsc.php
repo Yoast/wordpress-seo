@@ -251,7 +251,7 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	protected function catch_authentication_post() {
+	private function catch_authentication_post() {
 		$gsc_values = filter_input( INPUT_POST, 'gsc', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 
 		// Catch the authorization code POST.
