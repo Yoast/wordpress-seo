@@ -84,7 +84,7 @@ switch ( $platform_tabs->current_tab() ) {
 				$profiles = $this->service->get_sites();
 				if ( ! empty( $profiles ) ) {
 					$show_save = true;
-					Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo' ), $profiles );
+					Yoast_Form::get_instance()->select( 'profile', esc_html__( 'Profile', 'wordpress-seo' ), $profiles );
 				}
 				else {
 					$show_save = false;
@@ -95,7 +95,7 @@ switch ( $platform_tabs->current_tab() ) {
 				echo '<p>';
 
 				if ( $show_save ) {
-					echo '<input type="submit" name="submit" id="submit" class="button button-primary wpseo-gsc-save-profile" value="' . esc_attr__( 'Save Profile', 'wordpress-seo' ) . '" /> ' . __( 'or', 'wordpress-seo' ) , ' ';
+					echo '<input type="submit" name="submit" id="submit" class="button button-primary wpseo-gsc-save-profile" value="' . esc_attr__( 'Save Profile', 'wordpress-seo' ) . '" /> ' . esc_html__( 'or', 'wordpress-seo' ) . ' ';
 				}
 				echo $reset_button;
 				echo '</p>';

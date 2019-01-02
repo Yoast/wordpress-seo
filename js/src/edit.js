@@ -195,12 +195,12 @@ class Edit {
 	/**
 	 * Initialize used keyword analysis.
 	 *
-	 * @param {App}    app        YoastSEO.js app.
-	 * @param {string} ajaxAction The ajax action to use when retrieving the used keywords data.
+	 * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
+	 * @param {string}   ajaxAction      The ajax action to use when retrieving the used keywords data.
 	 *
 	 * @returns {void}
 	 */
-	initializeUsedKeywords( app, ajaxAction ) {
+	initializeUsedKeywords( refreshAnalysis, ajaxAction ) {
 		const store         = this._store;
 		const localizedData = this._localizedData;
 		const scriptUrl     = get( window, [ "wpseoAnalysisWorkerL10n", "keywords_assessment_url" ], "wp-seo-used-keywords-assessment.js" );
@@ -208,7 +208,7 @@ class Edit {
 		const usedKeywords = new UsedKeywords(
 			ajaxAction,
 			localizedData,
-			app,
+			refreshAnalysis,
 			scriptUrl
 		);
 		usedKeywords.init();

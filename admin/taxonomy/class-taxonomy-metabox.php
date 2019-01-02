@@ -66,8 +66,11 @@ class WPSEO_Taxonomy_Metabox {
 
 		echo '<div class="inside">';
 
-		$helpcenter_tab = new WPSEO_Option_Tab( 'tax-metabox', __( 'Meta box', 'wordpress-seo' ),
-			array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-taxonomy-screencast' ) ) );
+		$helpcenter_tab = new WPSEO_Option_Tab(
+			'tax-metabox',
+			__( 'Meta box', 'wordpress-seo' ),
+			array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-taxonomy-screencast' ) )
+		);
 
 		$helpcenter = new WPSEO_Help_Center( 'tax-metabox', $helpcenter_tab, WPSEO_Utils::is_yoast_seo_premium() );
 		$helpcenter->localize_data();
@@ -240,7 +243,8 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return string
 	 */
 	private function get_buy_premium_link() {
-		return sprintf( "<div class='%s'><a href='#wpseo-meta-section-premium' class='wpseo-meta-section-link'><span class='dashicons dashicons-star-filled wpseo-buy-premium'></span>%s</a></div>",
+		return sprintf(
+			"<div class='%s'><a href='#wpseo-meta-section-premium' class='wpseo-meta-section-link'><span class='dashicons dashicons-star-filled wpseo-buy-premium'></span>%s</a></div>",
 			'wpseo-metabox-buy-premium',
 			__( 'Go Premium', 'wordpress-seo' )
 		);
@@ -252,29 +256,30 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_buy_premium_section() {
-		$content = sprintf( "<div class='wpseo-premium-description'>
-			%s
-			<ul class='wpseo-premium-advantages-list'>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-				<li>
-					<strong>%s</strong> - %s
-				</li>
-			</ul>
-
-			<a target='_blank' id='wpseo-buy-premium-popup-button' class='button button-buy-premium wpseo-metabox-go-to' href='%s'>
+		$content = sprintf(
+			"<div class='wpseo-premium-description'>
 				%s
-			</a>
-
-			<p><a target='_blank' class='wpseo-metabox-go-to' href='%s'>%s</a></p>
-		</div>",
+				<ul class='wpseo-premium-advantages-list'>
+					<li>
+						<strong>%s</strong> - %s
+					</li>
+					<li>
+						<strong>%s</strong> - %s
+					</li>
+					<li>
+						<strong>%s</strong> - %s
+					</li>
+					<li>
+						<strong>%s</strong> - %s
+					</li>
+				</ul>
+	
+				<a target='_blank' id='wpseo-buy-premium-popup-button' class='button button-buy-premium wpseo-metabox-go-to' href='%s'>
+					%s
+				</a>
+	
+				<p><a target='_blank' class='wpseo-metabox-go-to' href='%s'>%s</a></p>
+			</div>",
 			/* translators: %1$s expands to Yoast SEO Premium. */
 			sprintf( __( 'You\'re not getting the benefits of %1$s yet. If you had %1$s, you could use its awesome features:', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 			__( 'Redirect manager', 'wordpress-seo' ),
@@ -288,7 +293,7 @@ class WPSEO_Taxonomy_Metabox {
 			WPSEO_Shortlinker::get( 'https://yoa.st/pe-buy-premium' ),
 			/* translators: %s expands to Yoast SEO Premium. */
 			sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' ),
-			WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
+			WPSEO_Shortlinker::get( 'https://yoa.st/3g5' ),
 			__( 'More info', 'wordpress-seo' )
 		);
 

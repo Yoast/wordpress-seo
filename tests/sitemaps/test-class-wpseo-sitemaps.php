@@ -36,10 +36,11 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
 
-		$this->expectOutputContains( array(
+		$expected_contains = array(
 			'<?xml',
 			'<urlset ',
-		) );
+		);
+		$this->expectOutputContains( $expected_contains );
 	}
 
 	/**
@@ -59,22 +60,24 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 		// Go to the XML sitemap twice, see if transient cache is set.
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
-		$this->expectOutputContains( array(
+		$expected_contains = array(
 			'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
 			'<sitemap>',
 			'<lastmod>',
 			'</sitemapindex>',
-		) );
+		);
+		$this->expectOutputContains( $expected_contains );
 
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
 
-		$this->expectOutputContains( array(
+		$expected_contains = array(
 			'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
 			'<sitemap>',
 			'<lastmod>',
 			'</sitemapindex>',
 			'Served from transient cache',
-		) );
+		);
+		$this->expectOutputContains( $expected_contains );
 
 		remove_filter( 'wpseo_enable_xml_sitemap_transient_caching', '__return_true' );
 	}
@@ -89,28 +92,21 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 		$older_date  = '2015-01-01 12:00:00';
 		$newest_date = '2016-01-01 12:00:00';
 
-		register_post_type(
-			'yoast',
-			array(
-				'public'      => true,
-				'has_archive' => true,
-			)
+		$post_type_args = array(
+			'public'      => true,
+			'has_archive' => true,
 		);
+		register_post_type( 'yoast', $post_type_args );
 
-		$this->factory->post->create(
-			array(
-				'post_status' => 'publish',
-				'post_type'   => 'yoast',
-				'post_date'   => $newest_date,
-			)
+		$post_args = array(
+			'post_status' => 'publish',
+			'post_type'   => 'yoast',
+			'post_date'   => $newest_date,
 		);
-		$this->factory->post->create(
-			array(
-				'post_status' => 'publish',
-				'post_type'   => 'yoast',
-				'post_date'   => $older_date,
-			)
-		);
+		$this->factory->post->create( $post_args );
+
+		$post_args['post_date'] = $older_date;
+		$this->factory->post->create( $post_args );
 
 		$this->assertEquals( $newest_date, WPSEO_Sitemaps::get_last_modified_gmt( array( 'yoast' ) ) );
 	}

@@ -574,10 +574,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		static $original = null;
 
 		// Double-run this function to ensure renaming of the taxonomy options will work.
-		if ( ! isset( $original ) && has_action( 'wpseo_double_clean_titles', array(
-				$this,
-				'clean',
-			) ) === false
+		if ( ! isset( $original )
+			&& has_action( 'wpseo_double_clean_titles', array( $this, 'clean' ) ) === false
 		) {
 			add_action( 'wpseo_double_clean_titles', array( $this, 'clean' ) );
 			$original = $option_value;

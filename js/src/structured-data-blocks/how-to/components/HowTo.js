@@ -45,15 +45,31 @@ export default class HowTo extends Component {
 
 		this.state = { focus: "" };
 
-		this.changeStep      = this.changeStep.bind( this );
-		this.insertStep      = this.insertStep.bind( this );
-		this.removeStep      = this.removeStep.bind( this );
-		this.swapSteps       = this.swapSteps.bind( this );
-		this.setFocus        = this.setFocus.bind( this );
-		this.addCSSClasses   = this.addCSSClasses.bind( this );
-		this.getListTypeHelp = this.getListTypeHelp.bind( this );
-		this.toggleListType  = this.toggleListType.bind( this );
-		this.setDurationText = this.setDurationText.bind( this );
+		this.changeStep           = this.changeStep.bind( this );
+		this.insertStep           = this.insertStep.bind( this );
+		this.removeStep           = this.removeStep.bind( this );
+		this.swapSteps            = this.swapSteps.bind( this );
+		this.setFocus             = this.setFocus.bind( this );
+		this.addCSSClasses        = this.addCSSClasses.bind( this );
+		this.getListTypeHelp      = this.getListTypeHelp.bind( this );
+		this.toggleListType       = this.toggleListType.bind( this );
+		this.setDurationText      = this.setDurationText.bind( this );
+		this.setFocusToStep       = this.setFocusToStep.bind( this );
+		this.setStepRef           = this.setStepRef.bind( this );
+		this.moveStepUp           = this.moveStepUp.bind( this );
+		this.moveStepDown         = this.moveStepDown.bind( this );
+		this.focusDescription     = this.focusDescription.bind( this );
+		this.setDescriptionRef    = this.setDescriptionRef.bind( this );
+		this.addDuration          = this.addDuration.bind( this );
+		this.removeDuration       = this.removeDuration.bind( this );
+		this.onFocusDaysField     = this.onFocusDaysField.bind( this );
+		this.onFocusMinutesField  = this.onFocusMinutesField.bind( this );
+		this.onFocusHoursField    = this.onFocusHoursField.bind( this );
+		this.onChangeDescription  = this.onChangeDescription.bind( this );
+		this.onChangeDays         = this.onChangeDays.bind( this );
+		this.onChangeHours        = this.onChangeHours.bind( this );
+		this.onChangeMinutes      = this.onChangeMinutes.bind( this );
+		this.onAddStepButtonClick = this.onAddStepButtonClick.bind( this );
 
 		const defaultDurationText = this.getDefaultDurationText();
 		this.setDefaultDurationText( defaultDurationText );
@@ -98,6 +114,17 @@ export default class HowTo extends Component {
 	 */
 	setDefaultDurationText( text ) {
 		this.props.setAttributes( { defaultDurationText: text } );
+	}
+
+	/**
+	 * Handles the Add Step Button click event.
+	 *
+	 * Necessary because insertStep needs to be called without arguments, to assure the step is added properly.
+	 *
+	 * @returns {void}
+	 */
+	onAddStepButtonClick() {
+		this.insertStep();
 	}
 
 	/**
@@ -291,6 +318,53 @@ export default class HowTo extends Component {
 	}
 
 	/**
+	 * Sets the focus to an element within teh specified step.
+	 *
+	 * @param {number} stepIndex      Index of the step to focus.
+	 * @param {string} elementToFocus Name of the element to focus.
+	 *
+	 * @returns {void}
+	 */
+	setFocusToStep( stepIndex, elementToFocus ) {
+		this.setFocus( `${ stepIndex }:${ elementToFocus }` );
+	}
+
+	/**
+	 * Move the step at the specified index one step up.
+	 *
+	 * @param {number} stepIndex Index of the step that should be moved.
+	 *
+	 * @returns {void}
+	 */
+	moveStepUp( stepIndex ) {
+		this.swapSteps( stepIndex, stepIndex - 1 );
+	}
+
+	/**
+	 * Move the step at the specified index one step down.
+	 *
+	 * @param {number} stepIndex Index of the step that should be moved.
+	 *
+	 * @returns {void}
+	 */
+	moveStepDown( stepIndex ) {
+		this.swapSteps( stepIndex, stepIndex + 1 );
+	}
+
+	/**
+	 * Set a reference to the specified step
+	 *
+	 * @param {number} stepIndex Index of the step that should be moved.
+	 * @param {string} part      The part to set a reference too.
+	 * @param {object} ref       The reference object.
+	 *
+	 * @returns {void}
+	 */
+	setStepRef( stepIndex, part, ref ) {
+		this.editorRefs[ `${ stepIndex }:${ part }` ] = ref;
+	}
+
+	/**
 	 * Returns an array of How-to step components to be rendered on screen.
 	 *
 	 * @returns {Component[]} The step components.
@@ -308,19 +382,14 @@ export default class HowTo extends Component {
 					key={ step.id }
 					step={ step }
 					index={ index }
-					editorRef={ ( part, ref ) => {
-						this.editorRefs[ `${ index }:${ part }` ] = ref;
-					} }
-					onChange={
-						( newName, newText, previousName, previousText ) =>
-							this.changeStep( newName, newText, previousName, previousText, index )
-					}
-					insertStep={ () => this.insertStep( index ) }
-					removeStep={ () => this.removeStep( index ) }
-					onFocus={ ( elementToFocus ) => this.setFocus( `${ index }:${ elementToFocus }` ) }
+					editorRef={ this.setStepRef }
+					onChange={ this.changeStep }
+					insertStep={ this.insertStep }
+					removeStep={ this.removeStep }
+					onFocus={ this.setFocusToStep }
 					subElement={ subElement }
-					onMoveUp={ () => this.swapSteps( index, index - 1 ) }
-					onMoveDown={ () => this.swapSteps( index, index + 1 ) }
+					onMoveUp={ this.moveStepUp }
+					onMoveDown={ this.moveStepDown }
 					isFirst={ index === 0 }
 					isLast={ index === this.props.attributes.steps.length - 1 }
 					isSelected={ focusIndex === `${ index }` }
@@ -356,6 +425,26 @@ export default class HowTo extends Component {
 	}
 
 	/**
+	 * Renders the how to steps.
+	 *
+	 * @param {array} steps The steps data.
+	 *
+	 * @returns {array} The HowToStep elements.
+	 */
+	static getStepsContent( steps ) {
+		if ( ! steps ) {
+			return null;
+		}
+
+		return steps.map( step => (
+			<HowToStep.Content
+				{ ...step }
+				key={ step.id }
+			/>
+		) );
+	}
+
+	/**
 	 * Returns the component to be used to render
 	 * the How-to block on Wordpress (e.g. not in the editor).
 	 *
@@ -364,9 +453,8 @@ export default class HowTo extends Component {
 	 * @returns {Component} The component representing a How-to block.
 	 */
 	static Content( props ) {
-		let { steps } = props;
-
 		const {
+			steps,
 			hasDuration,
 			days,
 			hours,
@@ -378,17 +466,6 @@ export default class HowTo extends Component {
 			durationText,
 			defaultDurationText,
 		} = props;
-
-		steps = steps
-			? steps.map( ( step ) => {
-				return (
-					<HowToStep.Content
-						{ ...step }
-						key={ step.id }
-					/>
-				);
-			} )
-			: null;
 
 		const classNames       = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
 		const listClassNames   = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
@@ -412,8 +489,8 @@ export default class HowTo extends Component {
 					value={ description }
 				/>
 				{ unorderedList
-					? <ul className={ listClassNames }>{ steps }</ul>
-					: <ol className={ listClassNames }>{ steps }</ol>
+					? <ul className={ listClassNames }>{ HowTo.getStepsContent( steps ) }</ul>
+					: <ol className={ listClassNames }>{ HowTo.getStepsContent( steps ) }</ol>
 				}
 			</div>
 		);
@@ -428,7 +505,7 @@ export default class HowTo extends Component {
 		return (
 			<IconButton
 				icon="insert"
-				onClick={ () => this.insertStep() }
+				onClick={ this.onAddStepButtonClick }
 				className="editor-inserter__toggle"
 			>
 				{ __( "Add step", "wordpress-seo" ) }
@@ -472,19 +549,134 @@ export default class HowTo extends Component {
 	}
 
 	/**
+	 * Set focus to the description field.
+	 *
+	 * @returns {void}
+	 */
+	focusDescription() {
+		this.setFocus( "description" );
+	}
+
+	/**
+	 * Set focus to the description field.
+	 *
+	 * @param {object} ref The reference object.
+	 *
+	 * @returns {void}
+	 */
+	setDescriptionRef( ref ) {
+		this.editorRefs.description = ref;
+	}
+
+	/**
+	 * Handles the on change event for the how to description field.
+	 *
+	 * @param {string} value The new description.
+	 *
+	 * @returns {void}
+	 */
+	onChangeDescription( value ) {
+		this.props.setAttributes( {
+			description: value,
+			jsonDescription: stripHTML( renderToString( value ) ),
+		} );
+	}
+
+	/**
+	 * Enable the duration fields.
+	 *
+	 * @returns {void}
+	 */
+	addDuration() {
+		this.props.setAttributes( { hasDuration: true } );
+	}
+
+	/**
+	 * Disable the duration fields.
+	 *
+	 * @returns {void}
+	 */
+	removeDuration() {
+		this.props.setAttributes( { hasDuration: false } );
+	}
+
+	/**
+	 * Focus the days input.
+	 *
+	 * @returns {void}
+	 */
+	onFocusDaysField() {
+		this.setFocus( "days" );
+	}
+
+	/**
+	 * Focus the days input.
+	 *
+	 * @returns {void}
+	 */
+	onFocusHoursField() {
+		this.setFocus( "hours" );
+	}
+
+	/**
+	 * Focus the days input.
+	 *
+	 * @returns {void}
+	 */
+	onFocusMinutesField() {
+		this.setFocus( "minutes" );
+	}
+
+	/**
+	 * Handles the days input on change event.
+	 *
+	 * @param {SyntheticInputEvent} event The input event.
+	 *
+	 * @returns {void}
+	 */
+	onChangeDays( event ) {
+		const newValue = this.formatDuration( event.target.value );
+		this.props.setAttributes( { days: toString( newValue ) } );
+	}
+
+	/**
+	 * Handles the hours input on change event.
+	 *
+	 * @param {SyntheticInputEvent} event The input event.
+	 *
+	 * @returns {void}
+	 */
+	onChangeHours( event ) {
+		const newValue = this.formatDuration( event.target.value, 23 );
+		this.props.setAttributes( { hours: toString( newValue ) } );
+	}
+
+	/**
+	 * Handles the minutes input on change event.
+	 *
+	 * @param {SyntheticInputEvent} event The input event.
+	 *
+	 * @returns {void}
+	 */
+	onChangeMinutes( event ) {
+		const newValue = this.formatDuration( event.target.value, 59 );
+		this.props.setAttributes( { minutes: toString( newValue ) } );
+	}
+
+	/**
 	 * Returns a component to manage this how-to block's duration.
 	 *
 	 * @returns {Component} The duration editor component.
 	 */
 	getDuration() {
-		const { attributes, setAttributes } = this.props;
+		const { attributes } = this.props;
 
 		if ( ! attributes.hasDuration ) {
 			return (
 				<IconButton
 					focus={ true }
 					icon="insert"
-					onClick={ () => setAttributes( { hasDuration: true } ) }
+					onClick={ this.addDuration }
 					className="schema-how-to-duration-button editor-inserter__toggle"
 				>
 					{ __( "Add total time", "wordpress-seo" ) }
@@ -511,11 +703,8 @@ export default class HowTo extends Component {
 						className="schema-how-to-duration-input"
 						type="number"
 						value={ attributes.days }
-						onFocus={ () => this.setFocus( "days" ) }
-						onChange={ ( event ) => {
-							const newValue = this.formatDuration( event.target.value );
-							setAttributes( { days: toString( newValue ) } );
-						} }
+						onFocus={ this.onFocusDaysField }
+						onChange={ this.onChangeDays }
 						placeholder="DD"
 					/>
 					<label
@@ -529,12 +718,9 @@ export default class HowTo extends Component {
 						className="schema-how-to-duration-input"
 						type="number"
 						value={ attributes.hours }
-						onFocus={ () => this.setFocus( "hours" ) }
+						onFocus={ this.onFocusHoursField }
+						onChange={ this.onChangeHours }
 						placeholder="HH"
-						onChange={ ( event ) => {
-							const newValue = this.formatDuration( event.target.value, 23 );
-							setAttributes( { hours: toString( newValue ) } );
-						} }
 					/>
 					<span aria-hidden="true">:</span>
 					<label
@@ -548,18 +734,15 @@ export default class HowTo extends Component {
 						className="schema-how-to-duration-input"
 						type="number"
 						value={ attributes.minutes }
-						onFocus={ () => this.setFocus( "minutes" ) }
-						onChange={ ( event ) => {
-							const newValue = this.formatDuration( event.target.value, 59 );
-							setAttributes( { minutes: toString( newValue ) } );
-						} }
+						onFocus={ this.onFocusMinutesField }
+						onChange={ this.onChangeMinutes }
 						placeholder="MM"
 					/>
 					<IconButton
 						className="schema-how-to-duration-button editor-inserter__toggle"
 						icon="trash"
 						label={ __( "Delete total time", "wordpress-seo" ) }
-						onClick={ () => setAttributes( { hasDuration: false } ) }
+						onClick={ this.removeDuration }
 					/>
 				</span>
 			</fieldset>
@@ -611,7 +794,7 @@ export default class HowTo extends Component {
 	 * @returns {Component} The how-to block editor.
 	 */
 	render() {
-		const { attributes, setAttributes, className } = this.props;
+		const { attributes, className } = this.props;
 
 		const classNames     = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
 		const listClassNames = [ "schema-how-to-steps", attributes.additionalListCssClasses ].filter( ( item ) => item ).join( " " );
@@ -624,11 +807,9 @@ export default class HowTo extends Component {
 					className="schema-how-to-description"
 					value={ attributes.description }
 					isSelected={ this.state.focus === "description" }
-					setFocusedElement={ () => this.setFocus( "description" ) }
-					onChange={ ( description ) => setAttributes( { description, jsonDescription: stripHTML( renderToString( description ) ) } ) }
-					unstableOnSetup={ ( ref ) => {
-						this.editorRefs.description = ref;
-					} }
+					setFocusedElement={ this.focusDescription }
+					onChange={ this.onChangeDescription }
+					unstableOnSetup={ this.setDescriptionRef }
 					placeholder={ __( "Enter a description", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
@@ -646,4 +827,8 @@ HowTo.propTypes = {
 	attributes: PropTypes.object.isRequired,
 	setAttributes: PropTypes.func.isRequired,
 	className: PropTypes.string,
+};
+
+HowTo.defaultProps = {
+	className: "",
 };

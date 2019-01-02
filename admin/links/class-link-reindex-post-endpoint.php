@@ -15,7 +15,9 @@ class WPSEO_Link_Reindex_Post_Endpoint {
 
 	const CAPABILITY_RETRIEVE = 'edit_posts';
 
-	/** @var WPSEO_Link_Reindex_Post_Service */
+	/**
+	 * @var WPSEO_Link_Reindex_Post_Service
+	 */
 	protected $service;
 
 	/**

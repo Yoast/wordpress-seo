@@ -45,7 +45,6 @@ class WPSEO_Admin_Pages {
 		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
 	}
 
-
 	/**
 	 * Loads the required styles for the config page.
 	 */

@@ -169,7 +169,7 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	 * @param string $option Option key.
 	 * @param string $value  Value to return.
 	 *
-	 * @return mixed The screen option value. False when not errors_on_page.
+	 * @return mixed The screen option value. False when not errors_per_page.
 	 */
 	public function set_screen_option( $status, $option, $value ) {
 		if ( 'errors_per_page' === $option ) {
@@ -251,7 +251,7 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	protected function catch_authentication_post() {
+	private function catch_authentication_post() {
 		$gsc_values = filter_input( INPUT_POST, 'gsc', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 
 		// Catch the authorization code POST.
@@ -267,7 +267,7 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Adds notification to the yoast notification center
+	 * Adds notification to the yoast notification center.
 	 *
 	 * @param string $message Message string.
 	 * @param string $type    Message type.
@@ -333,7 +333,7 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Checks if there has been a set Google Search Console profile.
+	 * Checks if a Google Search Console profile has been set.
 	 *
 	 * @codeCoverageIgnore
 	 *

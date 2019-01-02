@@ -19,7 +19,7 @@ class WPSEO_File_Size_Service {
 	 */
 	public function get( WP_REST_Request $request ) {
 		try {
-			$file_url  = $this->get_file_url( $request );
+			$file_url = $this->get_file_url( $request );
 
 			return new WP_REST_Response(
 				array(
@@ -103,5 +103,4 @@ class WPSEO_File_Size_Service {
 			)
 		);
 	}
-
 }

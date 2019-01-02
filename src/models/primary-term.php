@@ -5,9 +5,9 @@
  * @package Yoast\YoastSEO\Models
  */
 
-namespace Yoast\YoastSEO\Models;
+namespace Yoast\WP\Free\Models;
 
-use Yoast\YoastSEO\Yoast_Model;
+use Yoast\WP\Free\Yoast_Model;
 
 /**
  * Primary Term model definition.
@@ -32,7 +32,7 @@ class Primary_Term extends Yoast_Model {
 	 * @return bool|Indexable Instance of indexable.
 	 */
 	public static function find_by_postid_and_taxonomy( $post_id, $taxonomy, $auto_create = true ) {
-		/** @var \Yoast\YoastSEO\Models\Primary_Term $indexable */
+		/** @var \Yoast\WP\Free\Models\Primary_Term $indexable */
 		$indexable = Yoast_Model::of_type( 'Primary_Term' )
 			->where( 'post_id', $post_id )
 			->where( 'taxonomy', $taxonomy )

@@ -10,16 +10,32 @@
  */
 class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 
-	/** @var int Post ID. */
+	/**
+	 * Post ID.
+	 *
+	 * @var int
+	 */
 	private static $post_id;
 
-	/** @var int Nav menu item ID. */
+	/**
+	 * Nav menu item ID.
+	 *
+	 * @var int
+	 */
 	private static $nav_menu_item_id;
 
-	/** @var int Category ID (public taxonomy). */
+	/**
+	 * Category ID (public taxonomy).
+	 *
+	 * @var int
+	 */
 	private static $category_id;
 
-	/** @var int Nav menu ID (non-public taxonomy). */
+	/**
+	 * Nav menu ID (non-public taxonomy).
+	 *
+	 * @var int
+	 */
 	private static $nav_menu_id;
 
 	/**
@@ -76,10 +92,11 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_detect_post_trash_no_visible_post_status() {
 
 		// Make sure we're working with a draft.
-		wp_update_post( array(
+		$post_args = array(
 			'ID'          => self::$post_id,
 			'post_status' => 'draft',
-		) );
+		);
+		wp_update_post( $post_args );
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
@@ -142,10 +159,11 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_detect_post_delete_trashed_post() {
 		// Make sure we're working with a trashed post.
-		wp_update_post( array(
+		$post_args = array(
 			'ID'          => self::$post_id,
 			'post_status' => 'trash',
-		) );
+		);
+		wp_update_post( $post_args );
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
@@ -191,10 +209,11 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_detect_post_delete_when_not_visible() {
 
 		// Make sure we're working with a pending post.
-		wp_update_post( array(
+		$post_args = array(
 			'ID'          => self::$post_id,
 			'post_status' => 'pending',
-		) );
+		);
+		wp_update_post( $post_args );
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )

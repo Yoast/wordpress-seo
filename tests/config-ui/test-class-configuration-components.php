@@ -102,12 +102,7 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	public function test_set_storage_on_field() {
 		$component = $this
 			->getMockBuilder( 'WPSEO_Config_Component' )
-			->setMethods( array(
-				'get_field',
-				'get_identifier',
-				'set_data',
-				'get_data',
-			) )
+			->setMethods( array( 'get_field', 'get_identifier', 'set_data', 'get_data' ) )
 			->getMock();
 
 		$field = $this

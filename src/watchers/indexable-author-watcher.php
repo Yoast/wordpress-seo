@@ -5,12 +5,12 @@
  * @package Yoast\YoastSEO\Watchers
  */
 
-namespace Yoast\YoastSEO\Watchers;
+namespace Yoast\WP\Free\Watchers;
 
-use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
-use Yoast\YoastSEO\Formatters\Indexable_Author_Formatter;
-use Yoast\YoastSEO\WordPress\Integration;
-use Yoast\YoastSEO\Models\Indexable;
+use Yoast\WP\Free\Exceptions\No_Indexable_Found;
+use Yoast\WP\Free\Formatters\Indexable_Author_Formatter;
+use Yoast\WP\Free\WordPress\Integration;
+use Yoast\WP\Free\Models\Indexable;
 
 /**
  * Watches an Author to save the meta information when updated.
