@@ -286,15 +286,4 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		// Expect the attachment not to be added to the list.
 		$this->assertCount( 0, self::$class_instance->get_sitemap_links( 'attachment', 100, 0 ) );
 	}
-
-	/**
-	 * Filter to exclude desired posts from the sitemap.
-	 *
-	 * @param array $post_ids List of post ids.
-	 *
-	 * @return array
-	 */
-	public function exclude_post( $post_ids ) {
-		return $this->excluded_posts;
-	}
 }
