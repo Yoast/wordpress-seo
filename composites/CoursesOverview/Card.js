@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import colors from "../../style-guide/colors.json";
 import Banner from "./CardBanner";
+import { makeOutboundLink } from "../../utils/makeOutboundLink";
 
 const Container = styled.div`
 	position: relative;
@@ -19,25 +20,38 @@ const HeaderImage = styled.img`
 `;
 
 const Content = styled.div`
-	margin: 0;
 	padding: 12px 16px;
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
 `;
 
+const HeaderLink = styled.a`
+	text-decoration: none;
+	color: ${ colors.$color_pink_dark };
+
+	&:hover,
+	&:focus,
+	&:active {
+		text-decoration: underline;
+		color: ${ colors.$color_pink_dark };
+	}
+
+	&:focus,
+	&:active {
+		box-shadow: none;
+	}
+`;
+
 const HeaderTitle = styled.h2`
-	margin: 16px 8px 0px 16px;
-	display: block;
+	margin: 16px 16px 0 16px;
 	font-weight: 400;
 	font-size: 1.5em;
 	line-height: 1.2;
-	color: ${ colors.$color_pink_dark };
+	color: currentColor;
 `;
 
-const HeaderLink = styled.a`
-	text-decoration: none;
-`;
+const OutboundHeaderLink = makeOutboundLink( HeaderLink );
 
 /**
  * Card component.
@@ -55,17 +69,17 @@ class Card extends React.Component {
 
 		if ( this.props.header.link ) {
 			return (
-				<HeaderLink href={ this.props.header.link }>
-					<HeaderImage src={ this.props.header.image } alt={ this.props.header.title || "" } />
-					<HeaderTitle> { this.props.header.title } </HeaderTitle>
-				</HeaderLink>
+				<OutboundHeaderLink href={ this.props.header.link } rel={ null }>
+					<HeaderImage src={ this.props.header.image } alt="" />
+					<HeaderTitle>{ this.props.header.title }</HeaderTitle>
+				</OutboundHeaderLink>
 			);
 		}
 
 		return (
 			<Fragment>
-				<HeaderImage src={ this.props.header.image } alt={ this.props.header.title || "" } />;
-				<HeaderTitle> { this.props.header.title } </HeaderTitle>
+				<HeaderImage src={ this.props.header.image } alt="" />;
+				<HeaderTitle>{ this.props.header.title }</HeaderTitle>
 			</Fragment>
 		);
 	}
@@ -134,4 +148,3 @@ Card.defaultProps = {
 	banner: null,
 	children: null,
 };
-
