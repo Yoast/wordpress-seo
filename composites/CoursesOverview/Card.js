@@ -26,21 +26,28 @@ const Content = styled.div`
 	flex-grow: 1;
 `;
 
+const HeaderLink = styled.a`
+	text-decoration: none;
+	color: ${ colors.$color_pink_dark };
+
+	&:hover,
+	&:focus,
+	&:active {
+		text-decoration: underline;
+		color: ${ colors.$color_pink_dark };
+	}
+
+	&:active {
+		box-shadow: none;
+	}
+`;
+
 const HeaderTitle = styled.h2`
 	margin: 16px 16px 0 16px;
 	font-weight: 400;
 	font-size: 1.5em;
 	line-height: 1.2;
-	color: ${ colors.$color_pink_dark };
-`;
-
-const HeaderLink = styled.a`
-	text-decoration: none;
-
-	&:hover {
-		text-decoration: underline;
-		color: ${ colors.$color_pink_dark };
-	}
+	color: currentColor;
 `;
 
 const OutboundHeaderLink = makeOutboundLink( HeaderLink );

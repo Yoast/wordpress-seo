@@ -117,23 +117,30 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   flex-grow: 1;
 }
 
+.c2 {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: #a4286a;
+}
+
+.c2:hover,
+.c2:focus,
+.c2:active {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  color: #a4286a;
+}
+
+.c2:active {
+  box-shadow: none;
+}
+
 .c4 {
   margin: 16px 16px 0 16px;
   font-weight: 400;
   font-size: 1.5em;
   line-height: 1.2;
-  color: #a4286a;
-}
-
-.c2 {
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.c2:hover {
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
-  color: #a4286a;
+  color: currentColor;
 }
 
 .c0 {
