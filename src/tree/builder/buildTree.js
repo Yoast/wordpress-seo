@@ -1,6 +1,9 @@
 /* External dependencies */
 import { parseFragment } from "parse5";
+import Heading from "../values/nodes/Heading";
+import Paragraph from "../values/nodes/Paragraph";
 import StructuredIrrelevant from "../values/nodes/StructuredIrrelevant";
+import { irrelevantHtmlElements } from "./htmlClasses";
 
 /* Internal dependencies */
 import TreeAdapter from "./TreeAdapter";
@@ -14,38 +17,90 @@ import TreeAdapter from "./TreeAdapter";
  * @returns {void}
  */
 const setStartEndIndex = function( element ) {
-	element.startIndex = element.location.startOffset;
-
-	if ( element.endTag ) {
-		element.endIndex = element.location.endTag.endOffset;
-	} else {
-		// Some elements do not have an end tag, like comments or images.
-		element.endIndex = element.location.endOffset;
+	if ( element.location ) {
+		element.startIndex = element.location.startOffset;
+		element.endIndex = element.endTag ? element.location.endTag.endOffset : element.location.endOffset;
 	}
 };
 
 /**
- * Cleans up a node after parsing of the HTML source code.
+ * Deletes parameters from the element that are used during parsing,
+ * but are not needed for analysis.
  *
- * These steps are setting the start and end index of each node and
- * deleting attributes needed for parsing, but not needed for further analysis.
+ * These are the parameters 'location', 'namespace' and 'tagName'.
  *
- * @param {Node|FormattingElement} element	The node or formatting element to clean up.
- * @returns {Node} The cleaned up node.
+ * @param {Object} element The element to delete parameters of.
+ *
+ * @returns {void}
  */
-const cleanUpElementAfterParsing = function( element ) {
-	// Set start and end index from location.
-	if ( element.location ) {
-		// (Need to do this here since end tag info is only completely available after parsing).
-		setStartEndIndex( element );
-	}
-
-	// Delete temporary parameters used for parsing.
+const deleteParseParameters = function( element ) {
 	delete element.location;
 	delete element.namespace;
 	delete element.tagName;
+};
 
-	return element;
+/**
+ * Gets the content of an element (the part _between_ the opening and closing tag) from the HTML source code.
+ *
+ * @param {StructuredIrrelevant|FormattingElement} element  The element to parse the contents of
+ * @param {string} html                                     The source code to parse the contents from
+ *
+ * @returns {string} The element's contents.
+ */
+const getElementContent = function( element, html ) {
+	const location = element.location;
+	if ( location ) {
+		const start = location.startTag ? location.startTag.endOffset : location.startOffset;
+		const end = location.endTag ? location.endTag.startOffset : location.endOffset;
+		return html.slice( start, end );
+	}
+	return "";
+};
+
+/**
+ * Sets the start and end position of the formatting elements in the given TextContainer,
+ * as found within the text container's text.
+ *
+ * @param {TextContainer} textContainer  The TextContainer
+ * @param {string} html                  The original html source code
+ *
+ * @returns {void}
+ */
+const setStartEndText = function( textContainer, html ) {
+	let startIndex = 0;
+	let prevEndOffset = 0;
+	let end = 0;
+
+	textContainer.formatting.forEach( element => {
+		if ( ! ( element.location.endOffset < prevEndOffset ) ) {
+			/*
+			  Not a nested element, update start index to make sure we do not find
+			  the same text again when two elements have the same content.
+			 */
+			startIndex = end;
+		}
+		let elementText = getElementContent( element, html );
+		/*
+		  Remove html tags in case there are one or more elements nested inside this one.
+		  E.g. "<strong>This <em>is</em></strong>" content is "This <em>is</em>", but need to find "This is" in text.
+		 */
+		irrelevantHtmlElements.forEach( tag => {
+			// Need to remove contents of nested irrelevant elements as well as tags. (Quick and dirty, but should work 99% of the time)
+			const regex = new RegExp( `<${tag}.*>.*</${tag}>`, "g" );
+			elementText = elementText.replace( regex, "" );
+		} );
+		elementText = elementText.replace( /<[^>]*>/g, "" );
+
+		// Search for element's content in container's text.
+		const start = textContainer.text.indexOf( elementText, startIndex );
+		end = start + elementText.length;
+
+		// Set start and end position (to -1 if not found).
+		element.startText = start;
+		element.endText =  start === -1 ? -1 : end;
+
+		prevEndOffset = element.location.endOffset;
+	} );
 };
 
 /**
@@ -62,18 +117,24 @@ const cleanUpElementAfterParsing = function( element ) {
 const cleanUpAfterParsing = function( tree, html ) {
 	let endIndexRootNode = 0;
 	tree.map( node => {
-		// Clean up node.
-		node = cleanUpElementAfterParsing( node );
-
-		// Clean up formatting elements.
-		if ( node.textContainer ) {
-			node.textContainer.formatting = node.textContainer.formatting.map( cleanUpElementAfterParsing );
-		}
-
 		// Set content of irrelevant node, based on original source code.
 		if ( node instanceof StructuredIrrelevant ) {
-			node.content = html.slice( node.startIndex, node.endIndex );
+			node.content = getElementContent( node, html );
 		}
+
+		// Clean up formatting elements.
+		if ( node instanceof Paragraph || node instanceof Heading ) {
+			setStartEndText( node.textContainer, html );
+			node.textContainer.formatting = node.textContainer.formatting.map( element => {
+				setStartEndIndex( element );
+				deleteParseParameters( element );
+
+				return element;
+			} );
+		}
+
+		setStartEndIndex( node );
+		deleteParseParameters( node );
 
 		endIndexRootNode = Math.max( node.endIndex, endIndexRootNode );
 

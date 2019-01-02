@@ -32,13 +32,13 @@ class TreeAdapter {
 	createElement( tag, namespace, attributes ) {
 		let node;
 
-		if ( formattingElements.includes( tag ) ) {
+		if ( irrelevantHtmlElements.includes( tag ) ) {
+			// Irrelevant for analysis (e.g. `script`, `style`).
+			node = new StructuredIrrelevant( tag );
+		} else if ( formattingElements.includes( tag ) ) {
 			// Formatting element.
 			const parsedAttributes = TreeAdapter._parseAttributes( attributes );
 			node = new FormattingElement( tag, parsedAttributes );
-		} else if ( irrelevantHtmlElements.includes( tag ) ) {
-			// Irrelevant for analysis (e.g. `script`, `style`).
-			node = new StructuredIrrelevant( tag );
 		} else {
 			// Paragraphs, Headers, Lists, ListItems and other nodes.
 			node = this._parseNode( tag );
@@ -137,13 +137,36 @@ class TreeAdapter {
 			return;
 		}
 
+		if ( child instanceof StructuredIrrelevant &&
+			( TreeAdapter._isLeafNode( child ) || parent instanceof FormattingElement ) ) {
+			// Add StructuredIrrelevant element as formatting to the parent node.
+			const element = new FormattingElement( child.tagName, {} );
+			element.location = child.location;
+			this._appendFormattingElement( parent, element );
+			return;
+		}
+
 		if ( child instanceof FormattingElement ) {
 			this._appendFormattingElement( parent, child );
 			return;
 		}
+
 		// Just add nodes to parent's children if not formatting.
 		child.parent = parent;
 		parent.children.push( child );
+	}
+
+	/**
+	 * If the given element is a leaf node.
+	 *
+	 * @param {Node|FormattingElement} element The element to check.
+	 *
+	 * @returns {boolean} If the given element is a leaf node.
+	 *
+	 * @private
+	 */
+	static _isLeafNode( element ) {
+		return element instanceof Paragraph || element instanceof Heading;
 	}
 
 	/**
@@ -169,7 +192,7 @@ class TreeAdapter {
 			const ancestor = findAncestor( formattingElement,
 				node => node instanceof Heading || node instanceof Paragraph
 			);
-			if ( ancestor instanceof Paragraph || ancestor instanceof Heading ) {
+			if ( TreeAdapter._isLeafNode( ancestor ) ) {
 				// Add formatting element as formatting to the found paragraph or heading ancestor.
 				formattingElement.parent = parent;
 				ancestor.textContainer.formatting.push( formattingElement );
@@ -234,7 +257,7 @@ class TreeAdapter {
 			return;
 		}
 
-		if ( node instanceof Heading || node instanceof Paragraph ) {
+		if ( TreeAdapter._isLeafNode( node ) ) {
 			node.textContainer.appendText( text );
 		} else if ( node instanceof FormattingElement ) {
 			this._addFormattingElementText( node, text );
@@ -256,7 +279,7 @@ class TreeAdapter {
 	 */
 	_addFormattingElementText( formattingElement, text ) {
 		// Find a paragraph or header ancestor.
-		const parent = findAncestor( formattingElement, node => node instanceof Heading || node instanceof Paragraph );
+		const parent = findAncestor( formattingElement, TreeAdapter._isLeafNode );
 		// Append text to parent's text container.
 		parent.textContainer.appendText( text );
 	}

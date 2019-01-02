@@ -11,6 +11,10 @@ class FormattingElement {
 	constructor( type, attributes = null ) {
 		this.type = type;
 		this.attributes = attributes;
+		this.startIndex = null;
+		this.endIndex = null;
+		this.startText = null;
+		this.endText = null;
 	}
 }
 

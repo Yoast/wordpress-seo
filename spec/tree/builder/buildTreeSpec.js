@@ -46,14 +46,20 @@ describe( "build tree", () => {
 		const strong1 = new FormattingElement( "strong", { id: "some-id" } );
 		strong1.startIndex = 8;
 		strong1.endIndex = 46;
+		strong1.startText = 5;
+		strong1.endText = 13;
 
 		const strong2 = new FormattingElement( "strong", { "class": "weak" } );
 		strong2.startIndex = 63;
 		strong2.endIndex = 97;
+		strong2.startText = 26;
+		strong2.endText = 30;
 
 		const em = new FormattingElement( "em", {} );
 		em.startIndex = 59;
 		em.endIndex = 102;
+		em.startText = 26;
+		em.endText = 30;
 
 		const textContainer = new TextContainer();
 		textContainer.text = "This sentence needs to be read to have value as a sentence.";
@@ -268,7 +274,7 @@ describe( "build tree", () => {
 		const irrelevant = new StructuredIrrelevant( "pre" );
 		irrelevant.startIndex = 31;
 		irrelevant.endIndex = 109;
-		irrelevant.content = "<pre>This sentence. <div><p>Another <strong>sentence</strong>.</p></div></pre>";
+		irrelevant.content = "This sentence. <div><p>Another <strong>sentence</strong>.</p></div>";
 
 		const section = new StructuredNode( "section" );
 		section.startIndex = 0;
@@ -326,6 +332,86 @@ describe( "build tree", () => {
 
 		const tree = buildTree( input );
 
+		expect( treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+	} );
+
+	it.skip( "discards irrelevant node's contents within paragraphs and headings, but adds them as formatting", () => {
+		const input = "<pre>Some text.</pre>" +
+			"<p>This is <em>some script<script>console.log('something');</script></em> that should <strong>not</strong> be parsed.</p>";
+
+		const pre = new StructuredIrrelevant( "pre" );
+		pre.startIndex = 0;
+		pre.endIndex = 21;
+		pre.content = "Some text.";
+
+		const em = new FormattingElement( "em", {} );
+		em.startIndex = 32;
+		em.endIndex = 94;
+		em.startText = 8;
+		em.endText = 19;
+
+		const script = new FormattingElement( "script", {} );
+		script.startIndex = 47;
+		script.endIndex = 89;
+		// Is -1.
+		script.startText = 19;
+		// Is -1.
+		script.endText = 19;
+
+		const strong = new FormattingElement( "strong", {} );
+		strong.startIndex = 107;
+		strong.endIndex = 127;
+		strong.startText = 32;
+		strong.endText = 35;
+
+		const textContainer = new TextContainer();
+		textContainer.text = "This is some script that should not be parsed.";
+		textContainer.formatting = [ em, script, strong ];
+
+		const paragraph = new Paragraph( "p" );
+		paragraph.startIndex = 21;
+		paragraph.endIndex = 142;
+		paragraph.textContainer = textContainer;
+
+		const expected = new StructuredNode( "root" );
+		expected.startIndex = 0;
+		expected.endIndex = 142;
+		expected.children = [ pre, paragraph ];
+
+		const tree = buildTree( input );
+		expect( treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+	} );
+
+	it( "parses formatting with the same content correctly", () => {
+		const input = "<p><strong>hello world!</strong> <a href='nope'>hello world!</a></p>";
+
+		const strong = new FormattingElement( "strong", {} );
+		strong.startIndex = 3;
+		strong.endIndex = 32;
+		strong.startText = 0;
+		strong.endText = 12;
+
+		const anchor = new FormattingElement( "a", { href: "nope" } );
+		anchor.startIndex = 33;
+		anchor.endIndex = 64;
+		anchor.startText = 13;
+		anchor.endText = 25;
+
+		const textContainer = new TextContainer();
+		textContainer.text = "hello world! hello world!";
+		textContainer.formatting = [ strong, anchor	];
+
+		const paragraph = new Paragraph( "p" );
+		paragraph.startIndex = 0;
+		paragraph.endIndex = 68;
+		paragraph.textContainer = textContainer;
+
+		const expected = new StructuredNode( "root" );
+		expected.startIndex = 0;
+		expected.endIndex = 68;
+		expected.children = [ paragraph ];
+
+		const tree = buildTree( input );
 		expect( treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
 	} );
 
