@@ -37,6 +37,7 @@ const HeaderLink = styled.a`
 		color: ${ colors.$color_pink_dark };
 	}
 
+	&:focus,
 	&:active {
 		box-shadow: none;
 	}
