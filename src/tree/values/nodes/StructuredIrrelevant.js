@@ -16,7 +16,15 @@ class StructuredIrrelevant extends Node {
 	 */
 	constructor( tag ) {
 		super( "StructuredIrrelevant" );
+		/**
+		 * Type of node (e.g. "script", "code" etc.).
+		 * @type {string}
+		 */
 		this.tag = tag;
+		/**
+		 * Node's content (without opening and closing tags).
+		 * @type {string}
+		 */
 		this.content = "";
 	}
 }

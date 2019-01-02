@@ -11,8 +11,20 @@ class Node {
 	 * @abstract
 	 */
 	constructor( type ) {
+		/**
+		 * Type of node (unique for each child class of Node).
+		 * @type {string}
+		 */
 		this.type = type;
+		/**
+		 * Start of this element (including tags) within the source text.
+		 * @type {?number}
+		 */
 		this.startIndex = 0;
+		/**
+		 * End of this element (including tags) within the source text.
+		 * @type {?number}
+		 */
 		this.endIndex = 0;
 	}
 

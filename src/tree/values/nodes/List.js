@@ -13,7 +13,15 @@ class List extends Node {
 	 */
 	constructor( ordered ) {
 		super( "List" );
+		/**
+		 * If this list is ordered.
+		 * @type {boolean}
+		 */
 		this.ordered = ordered;
+		/**
+		 * This node's children (should only be list items).
+		 * @type {ListItem[]}
+		 */
 		this.children = [];
 	}
 

@@ -11,7 +11,15 @@ class Paragraph extends Node {
 	 */
 	constructor( tag = "" ) {
 		super( "Paragraph" );
+		/**
+		 * Tag used to open or close this paragraph.
+		 * @type {string}
+		 */
 		this.tag = tag;
+		/**
+		 * A container for keeping this paragraph's text and the text's formatting.
+		 * @type {TextContainer}
+		 */
 		this.textContainer = new TextContainer();
 	}
 

@@ -18,7 +18,15 @@ class StructuredNode extends Node {
 	 */
 	constructor( tag ) {
 		super( "StructuredNode" );
+		/**
+		 * Type of structured node (e.g. "div", "section" etc.).
+		 * @type {string}
+		 */
 		this.tag = tag;
+		/**
+		 * This node's child nodes.
+		 * @type {Node[]}
+		 */
 		this.children = [];
 	}
 }

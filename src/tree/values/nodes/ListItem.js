@@ -10,6 +10,10 @@ class ListItem extends Node {
 	 */
 	constructor() {
 		super( "ListItem" );
+		/**
+		 * This ListItem's child nodes.
+		 * @type {Node[]}
+		 */
 		this.children = [];
 	}
 }

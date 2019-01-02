@@ -11,7 +11,15 @@ class Heading extends Node {
 	 */
 	constructor( level ) {
 		super( "Heading" );
+		/**
+		 * Heading's level (e.g. 1 for "h1", 2 for "h2", ... ).
+		 * @type {number}
+		 */
 		this.level = level;
+		/**
+		 * A container for keeping this heading's
+		 * @type {TextContainer}
+		 */
 		this.textContainer = new TextContainer();
 	}
 

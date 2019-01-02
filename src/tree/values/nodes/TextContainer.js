@@ -27,12 +27,20 @@ class TextContainer {
 	 * Represents a text (with optional formatting element(s)) within a document that can be read by a reader.
 	 */
 	constructor() {
+		/**
+		 * Clean, analyzable text, without formatting.
+		 * @type {string}
+		 */
 		this.text = "";
+		/**
+		 * This text's formatting (e.g. bold text, links, etc.).
+		 * @type {FormattingElement[]}
+		 */
 		this.formatting = [];
 	}
 
 	/**
-	 * Adds a text string to the text attribute within the TextContainer.
+	 * Adds a text string to this container's text.
 	 *
 	 * @param {string} text The text to be added to the TextContainer.
 	 *
