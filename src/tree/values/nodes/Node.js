@@ -6,7 +6,7 @@ class Node {
 	/**
 	 * Makes a new Node.
 	 *
-	 * @param {string} type		The type of Node (should be unique for each child class of Node).
+	 * @param {string} type The type of Node (should be unique for each child class of Node).
 	 *
 	 * @abstract
 	 */
@@ -31,7 +31,7 @@ class Node {
 	/**
 	 * Maps the given function to each Node in this tree.
 	 *
-	 * @param {mapFunction} mapFunction 	The function that should be mapped to each Node in the tree.
+	 * @param {mapFunction} mapFunction The function that should be mapped to each Node in the tree.
 	 *
 	 * @returns {Node} A new tree, after the given function has been mapped on each Node.
 	 */
@@ -50,7 +50,7 @@ class Node {
 	 *
 	 * @callback mapFunction
 	 *
-	 * @param {Node} currentValue 	The current Node being processed.
+	 * @param {Node} currentValue The current Node being processed.
 	 *
 	 * @returns {Node} The current Node after being processed by this function.
 	 *
@@ -61,7 +61,7 @@ class Node {
 	 * Filters all the elements out of the tree for which the given predicate function returns `false`
 	 * and returns them as an array of Nodes.
 	 *
-	 * @param {predicate} predicate 	The predicate to check each Node against.
+	 * @param {predicate} predicate The predicate to check each Node against.
 	 *
 	 * @returns {Node[]} An array of all the Nodes in the tree for which the given predicate function returns `true`.
 	 */
@@ -75,7 +75,7 @@ class Node {
 	 *
 	 * @callback predicate
 	 *
-	 * @param {Node} currentValue 	The current Node being processed.
+	 * @param {Node} currentValue The current Node being processed.
 	 *
 	 * @returns {boolean} If the predicate returns true or false.
 	 *

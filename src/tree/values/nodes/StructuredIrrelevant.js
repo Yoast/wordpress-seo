@@ -10,7 +10,7 @@ class StructuredIrrelevant extends Node {
 	 *
 	 * Examples from HTML include content within `<script>` and `<style>` elements.
 	 *
-	 * @param {string} tag 	The element tag.
+	 * @param {string} tag The element tag.
 	 *
 	 * @returns {void}
 	 */

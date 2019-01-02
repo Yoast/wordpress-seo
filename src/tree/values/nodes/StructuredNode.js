@@ -12,7 +12,7 @@ class StructuredNode extends Node {
 	 *
 	 * Talking about HTML, this would encompass thing like <div>, <section>, <aside>, <fieldset> and other HTML block elements.
 	 *
-	 * @param {string}        tag         The tag used in the node.
+	 * @param {string} tag The tag used in the node.
 	 *
 	 * @returns {void}
 	 */

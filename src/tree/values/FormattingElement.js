@@ -5,8 +5,8 @@ class FormattingElement {
 	/**
 	 * Represents a formatting element (e.g. link, image, bold text) within a document.
 	 *
-	 * @param {string} type          		The type of this element ("link", "image", "bold", etc.).
-	 * @param {Object} [attributes=null] 	The attributes (as key-value pairs, e.g. `{ href: '...' }` ).
+	 * @param {string} type              The type of this element ("link", "image", "bold", etc.).
+	 * @param {Object} [attributes=null] The attributes (as key-value pairs, e.g. `{ href: '...' }` ).
 	 */
 	constructor( type, attributes = null ) {
 		/**

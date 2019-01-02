@@ -12,7 +12,7 @@ import TreeAdapter from "./TreeAdapter";
  * Sets the start and end index of the given node or formatting element,
  * based on its source code location as parsed by `parse5`.
  *
- * @param {Node|FormattingElement} element	The element to set the start and end index of.
+ * @param {Node|FormattingElement} element  The element to set the start and end index of.
  *
  * @returns {void}
  */
@@ -29,7 +29,7 @@ const setStartEndIndex = function( element ) {
  *
  * These are the parameters 'location', 'namespace' and 'tagName'.
  *
- * @param {Object} element The element to delete parameters of.
+ * @param {Object} element  The element to delete parameters of.
  *
  * @returns {void}
  */

@@ -5,7 +5,7 @@
  * ```
  * This text is <strong id="elem-id">very strong</strong>.
  * ```
- * should be transformed to:
+ * is transformed to:
  * ```
  * TextContainer {
  *     text: "This text is very strong".
@@ -14,6 +14,8 @@
  *             type: "strong",
  *             startIndex: 13,
  *             endIndex: 24,
+ *             startText: 13,
+ *             endText: 24,
  *             attributes: {
  *                 id: "elem-id"
  *             }

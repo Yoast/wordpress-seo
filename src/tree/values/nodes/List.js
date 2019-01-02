@@ -7,7 +7,7 @@ class List extends Node {
 	/**
 	 * Represents an item within a list.
 	 *
-	 * @param {boolean}           ordered     Whether the list is ordered or not.
+	 * @param {boolean} ordered Whether the list is ordered or not.
 	 *
 	 * @returns {void}
 	 */
@@ -28,7 +28,7 @@ class List extends Node {
 	/**
 	 * Appends the child to this List's children.
 	 *
-	 * @param {ListItem} child 	The child to add.
+	 * @param {ListItem} child The child to add.
 	 * @returns {void}
 	 */
 	appendChild( child ) {
