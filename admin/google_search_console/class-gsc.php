@@ -267,7 +267,7 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Adds notification to the yoast notification center
+	 * Adds notification to the yoast notification center.
 	 *
 	 * @param string $message Message string.
 	 * @param string $type    Message type.
