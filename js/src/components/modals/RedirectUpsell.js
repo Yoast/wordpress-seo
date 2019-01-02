@@ -1,40 +1,11 @@
 import React from "react";
-import styled from "styled-components";
-import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
-import { getRtlStyle, utils, YoastModal } from "yoast-components";
+import { YoastModal } from "yoast-components";
 import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
-import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
 
 import UpsellBox from "../UpsellBox";
-
-const { makeOutboundLink } = utils;
-const PremiumLandingPageLink = makeOutboundLink();
-
-const StyledContainer = styled.div`
-	min-width: 600px;
-
-	@media screen and ( max-width: 680px ) {
-		min-width: 0;
-		width: 86vw;
-	}
-`;
-
-const StyledIcon = styled( Icon )`
-	float: ${ getRtlStyle( "right", "left" ) };
-	margin: ${ getRtlStyle( "0 0 16px 16px", "0 16px 16px 0" ) };
-
-	&& {
-		width: 150px;
-		height: 150px;
-
-		@media screen and ( max-width: 680px ) {
-			width: 80px;
-			height: 80px;
-		}
-	}
-`;
+import { ModalContainer, ModalIcon } from "./Container";
 
 /**
  * Returns the UpsellBox component.
@@ -53,12 +24,19 @@ class RedirectUpsell extends React.Component {
 		super( props );
 
 		this.state = {
-			modalIsOpen: false,
+			isModalOpen: false,
 		};
 
 		this.openModal  = this.openModal.bind( this );
 		this.closeModal = this.closeModal.bind( this );
+	}
 
+	/**
+	 * When the compononent did mount.
+	 *
+	 * @returns {void}
+	 */
+	componentDidMount() {
 		jQuery( ".wpseo-open-gsc-redirect-modal" ).click(
 			/**
 			 * Onclick event.
@@ -82,7 +60,7 @@ class RedirectUpsell extends React.Component {
 	 */
 	openModal() {
 		this.setState( {
-			modalIsOpen: true,
+			isModalOpen: true,
 		} );
 	}
 
@@ -93,7 +71,7 @@ class RedirectUpsell extends React.Component {
 	 */
 	closeModal() {
 		this.setState( {
-			modalIsOpen: false,
+			isModalOpen: false,
 		} );
 	}
 
@@ -103,11 +81,11 @@ class RedirectUpsell extends React.Component {
 	 * @returns {ReactElement} The rendered element.
 	 */
 	render() {
-		if ( this.state.modalIsOpen === false ) {
+		if ( this.state.isModalOpen === false ) {
 			return null;
 		}
 
-		const heading = sprintf(
+		const upsellText = sprintf(
 			/* translators: %s expands to 'Yoast SEO Premium'. */
 			__( "Get %s", "wordpress-seo" ),
 			"Yoast SEO Premium"
@@ -131,33 +109,21 @@ class RedirectUpsell extends React.Component {
 			"yoast.com"
 		);
 
-		const modalAriaLabel = sprintf(
-			/* translators: %s expands to 'Yoast SEO Premium'. */
-			__( "Get %s", "wordpress-seo" ),
-			"Yoast SEO Premium"
-		);
-
 		return (
 			<YoastModal
-				isOpen={ this.state.modalIsOpen }
+				isOpen={ this.state.isModalOpen }
 				onClose={ this.closeModal }
-				modalAriaLabel={ modalAriaLabel }
+				modalAriaLabel={ upsellText }
 				appElement={ document.querySelector( "#wpwrap" ) }
-				heading={ heading }
+				heading={ upsellText }
 			>
-				<StyledContainer>
-					<StyledIcon icon={ YoastSeoIcon } />
+				<ModalContainer>
+					<ModalIcon icon={ YoastSeoIcon } />
 					<h2>{ title }</h2>
 					<UpsellBox
 						infoParagraphs={ [ intro, callToAction ] }
 
-						upsellButtonText={
-							sprintf(
-								/* translators: %s expands to 'Yoast SEO Premium'. */
-								__( "Get %s", "wordpress-seo" ),
-								"Yoast SEO Premium"
-							)
-						}
+						upsellButtonText={ upsellText }
 						upsellButton={ {
 							href: this.props.buyLink,
 							className: "yoast-button-upsell",
@@ -165,7 +131,7 @@ class RedirectUpsell extends React.Component {
 						} }
 						upsellButtonLabel={ __( "1 year free updates and upgrades included!", "wordpress-seo" ) }
 					/>
-				</StyledContainer>
+				</ModalContainer>
 			</YoastModal>
 		);
 	}

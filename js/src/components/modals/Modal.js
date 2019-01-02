@@ -33,13 +33,13 @@ class Modal extends React.Component {
 
 	openModal() {
 		this.setState( {
-			modalIsOpen: true,
+			isModalOpen: true,
 		} );
 	}
 
 	closeModal() {
 		this.setState( {
-			modalIsOpen: false,
+			isModalOpen: false,
 		} );
 	}
 
@@ -60,7 +60,7 @@ class Modal extends React.Component {
 					{ this.props.labels.open }
 				</StyledButton>
 				<YoastModal
-					isOpen={ this.state.modalIsOpen }
+					isOpen={ this.state.isModalOpen }
 					onClose={ this.closeModal }
 					modalAriaLabel={ this.props.labels.modalAriaLabel }
 					appElement={ this.appElement }
