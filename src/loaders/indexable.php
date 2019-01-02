@@ -14,9 +14,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 $has_feature_flag = defined( 'YOAST_SEO_INDEXABLES' ) && YOAST_SEO_INDEXABLES === true;
 
 // @codingStandardsIgnoreLine PHPCompatibility.PHP.NewLanguageConstructs.t_ns_separatorFound -- This is a > 5.3 feature.
-if ( $has_feature_flag && class_exists( '\Yoast\YoastSEO\Config\Plugin' ) ) {
+if ( $has_feature_flag && class_exists( '\Yoast\WP\Free\Config\Plugin' ) ) {
 	// @codingStandardsIgnoreLine PHPCompatibility.PHP.NewLanguageConstructs.t_ns_separatorFound -- This is a > 5.3 feature.
-	$bootstrap = new \Yoast\YoastSEO\Config\Plugin();
+	$bootstrap = new \Yoast\WP\Free\Config\Plugin();
 	$bootstrap->initialize();
 	$bootstrap->register_hooks();
 }

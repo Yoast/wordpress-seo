@@ -21,6 +21,8 @@ nbproject/
 node_modules/
 bower_components/
 premium/node_modules/
+phpcs.xml
+.phpcs.xml
 
 ############
 ## OSes

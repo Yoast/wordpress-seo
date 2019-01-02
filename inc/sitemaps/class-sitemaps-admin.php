@@ -10,7 +10,9 @@
  */
 class WPSEO_Sitemaps_Admin {
 	/**
-	 * @var array Post_types that are being imported.
+	 * Post_types that are being imported.
+	 *
+	 * @var array
 	 */
 	private $importing_post_types = array();
 

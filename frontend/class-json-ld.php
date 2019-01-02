@@ -14,11 +14,15 @@
  */
 class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	/**
-	 * @var array Holds the social profiles for the entity
+	 * Holds the social profiles for the entity.
+	 *
+	 * @var array
 	 */
 	private $profiles = array();
 	/**
-	 * @var array Holds the data to put out
+	 * Holds the data to put out.
+	 *
+	 * @var array
 	 */
 	private $data = array();
 

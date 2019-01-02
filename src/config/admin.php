@@ -5,11 +5,11 @@
  * @package Yoast\YoastSEO\Config
  */
 
-namespace Yoast\YoastSEO\Config;
+namespace Yoast\WP\Free\Config;
 
-use Yoast\YoastSEO\WordPress\Integration;
-use Yoast\YoastSEO\WordPress\Integration_Group;
-use Yoast\YoastSEO\Watchers;
+use Yoast\WP\Free\WordPress\Integration;
+use Yoast\WP\Free\WordPress\Integration_Group;
+use Yoast\WP\Free\Watchers;
 
 /**
  * Load Admin integrations.

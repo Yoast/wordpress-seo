@@ -10,7 +10,9 @@
  */
 class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Primary_Term_Admin */
+	/**
+	 * @var WPSEO_Primary_Term_Admin
+	 */
 	protected $class_instance;
 
 	/**

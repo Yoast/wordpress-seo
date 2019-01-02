@@ -10,10 +10,18 @@
  */
 class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
-	/** @var array Test capability filters get set */
+	/**
+	 * Test capability filters get set.
+	 *
+	 * @var array
+	 */
 	private $verify_capability_filter_args = array();
 
-	/** @var array Test filter capability match */
+	/**
+	 * Test filter capability match.
+	 *
+	 * @var array
+	 */
 	private $verify_capability_match_filter_args = array();
 
 	/**

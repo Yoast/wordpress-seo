@@ -190,10 +190,11 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 		new WPSEO_Sitemaps_Cache();
 		// Hook will be added on default priority.
-		$this->assertEquals( 10, has_action( 'update_option', array(
-			'WPSEO_Sitemaps_Cache',
-			'clear_on_option_update',
-		) ) );
+		$has_action = has_action(
+			'update_option',
+			array( 'WPSEO_Sitemaps_Cache', 'clear_on_option_update' )
+		);
+		$this->assertEquals( 10, $has_action );
 	}
 
 	/**
