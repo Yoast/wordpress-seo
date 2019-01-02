@@ -35,10 +35,16 @@ class Yoast_Model {
 	/**
 	 * Default ID column for all models. Can be overridden by adding
 	 * a public static _id_column property to your model classes.
+	 *
+	 * @var string
 	 */
 	const DEFAULT_ID_COLUMN = 'id';
 
-	// Default foreign key suffix used by relationship methods.
+	/**
+	 * Default foreign key suffix used by relationship methods.
+	 *
+	 * @var string
+	 */
 	const DEFAULT_FOREIGN_KEY_SUFFIX = '_id';
 
 	/**
