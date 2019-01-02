@@ -131,6 +131,7 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   color: #a4286a;
 }
 
+.c2:focus,
 .c2:active {
   box-shadow: none;
 }
