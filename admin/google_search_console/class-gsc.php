@@ -169,7 +169,7 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	 * @param string $option Option key.
 	 * @param string $value  Value to return.
 	 *
-	 * @return mixed The screen option value. False when not errors_on_page.
+	 * @return mixed The screen option value. False when not errors_per_page.
 	 */
 	public function set_screen_option( $status, $option, $value ) {
 		if ( 'errors_per_page' === $option ) {
