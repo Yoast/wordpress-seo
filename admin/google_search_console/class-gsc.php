@@ -333,7 +333,7 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Checks if there has been a set Google Search Console profile.
+	 * Checks if a Google Search Console profile has been set.
 	 *
 	 * @codeCoverageIgnore
 	 *
