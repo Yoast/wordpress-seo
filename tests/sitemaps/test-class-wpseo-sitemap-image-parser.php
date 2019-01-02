@@ -7,6 +7,8 @@
 
 /**
  * Class WPSEO_Sitemap_Image_Parser_Test
+ *
+ * @group sitemaps
  */
 class WPSEO_Sitemap_Image_Parser_Test extends WPSEO_UnitTestCase {
 

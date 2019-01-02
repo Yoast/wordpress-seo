@@ -348,16 +348,14 @@ class WPSEO_Sitemaps {
 				continue;
 			}
 
-			$links = $provider->get_sitemap_links( $type, $entries_per_page, $this->current_page );
-
-			if ( empty( $links ) ) {
+			try {
+				$links = $provider->get_sitemap_links( $type, $entries_per_page, $this->current_page );
+			} catch ( OutOfBoundsException $exception ) {
 				$this->bad_sitemap = true;
-
 				return;
 			}
 
 			$this->sitemap = $this->renderer->get_sitemap( $links, $type, $this->current_page );
-
 			return;
 		}
 

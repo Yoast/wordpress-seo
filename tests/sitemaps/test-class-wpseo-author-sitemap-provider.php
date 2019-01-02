@@ -7,6 +7,8 @@
 
 /**
  * Class Test_WPSEO_Author_Sitemap_Provider
+ *
+ * @group sitemaps
  */
 class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 
@@ -104,5 +106,60 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 
 		// User should not be in the XML sitemap.
 		$this->assertEmpty( $sitemap_links );
+	}
+
+	/**
+	 * Makes sure the filtered out entries do not cause a sitemap index link to return a 404.
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_index_links
+	 */
+	public function test_get_index_links_empty_sitemap() {
+		WPSEO_Options::set( 'noindex-author-noposts-wpseo', false );
+		WPSEO_Options::set( 'disable-author', false );
+
+		// Fetch the global sitemap.
+		set_query_var( 'sitemap', 'author' );
+
+		// Set the page to the second one, which should not contain an entry, and should not exist.
+		set_query_var( 'sitemap_n', '2' );
+
+		// Load the sitemap.
+		$sitemaps = new WPSEO_Sitemaps_Double();
+		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
+
+		// Expect an empty page (404) to be returned.
+		$this->expectOutput( '' );
+	}
+
+	/**
+	 * Makes sure there is no sitemap when the author archives have been disabled.
+	 *
+	 * @covers WPSEO_Author_Sitemap_Provider::get_index_links
+	 */
+	public function test_get_index_links_disabled_archive() {
+		WPSEO_Options::set( 'disable-author', true );
+
+		// Fetch the global sitemap.
+		set_query_var( 'sitemap', 'author' );
+
+		// Set the page to the second one, which should not contain an entry, and should not exist.
+		set_query_var( 'sitemap_n', '1' );
+
+		// Load the sitemap.
+		$sitemaps = new WPSEO_Sitemaps_Double();
+		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
+
+		// Expect an empty page (404) to be returned.
+		$this->expectOutput( '' );
+	}
+
+	/**
+	 * Makes sure the filtered out entries do not cause a sitemap index link to return a 404.
+	 *
+	 * @covers WPSEO_Author_Sitemap_Provider::get_index_links
+	 */
+	public function test_get_index_links_sitemap() {
+		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
+		$this->assertEquals( array(), $sitemap_links );
 	}
 }

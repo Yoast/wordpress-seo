@@ -7,6 +7,8 @@
 
 /**
  * Class WPSEO_Sitemaps_Test
+ *
+ * @group sitemaps
  */
 class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 
