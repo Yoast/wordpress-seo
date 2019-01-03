@@ -393,6 +393,10 @@ class WPSEO_Admin_Asset_Manager {
 				'name'      => 'admin-gsc',
 				'src'       => 'wp-seo-admin-gsc-' . $flat_version,
 				'deps'      => array(
+					'wp-element',
+					'wp-i18n',
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
 				),
 				'in_footer' => false,

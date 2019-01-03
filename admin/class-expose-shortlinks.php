@@ -30,6 +30,7 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.upsell.metabox.focus_keyword_additional_button' => 'https://yoa.st/add-keywords-popup',
 		'shortlinks.upsell.metabox.additional_link'                 => 'https://yoa.st/textlink-keywords-metabox',
 		'shortlinks.upsell.metabox.additional_button'               => 'https://yoa.st/add-keywords-metabox',
+		'shortlinks.upsell.gsc.create_redirect_button'              => 'https://yoa.st/redirects',
 		'shortlinks.readability_analysis_info'                      => 'https://yoa.st/readability-analysis',
 		'shortlinks.activate_premium_info'                          => 'https://yoa.st/activate-subscription',
 		'shortlinks.recalibration_beta_metabox'                     => 'https://yoa.st/recalibration-beta-metabox',

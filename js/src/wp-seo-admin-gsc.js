@@ -1,5 +1,8 @@
-/* global ajaxurl */
-/* global tb_click */
+/* global ajaxurl, wpseoAdminL10n */
+import React from "react";
+import ReactDOM from "react-dom";
+
+import RedirectUpsell from "./components/modals/RedirectUpsell";
 
 jQuery( function() {
 	jQuery( ".subsubsub .yoast_help" ).on(
@@ -10,13 +13,9 @@ jQuery( function() {
 		}
 	);
 
-
-	// Store the control that opened the modal dialog for later use.
-	var $gscModalFocusedBefore;
-
 	jQuery( "#gsc_auth_code" ).click(
 		function() {
-			var authUrl = jQuery( "#gsc_auth_url" ).val(),
+			const authUrl = jQuery( "#gsc_auth_url" ).val(),
 				w = 600,
 				h = 500,
 				left = ( screen.width / 2 ) - ( w / 2 ),
@@ -30,68 +29,12 @@ jQuery( function() {
 		}
 	);
 
-	// Accessibility improvements for the Create Redirect modal dialog.
-	jQuery( ".wpseo-open-gsc-redirect-modal" ).click(
-		function( event ) {
-			var $modal;
-			var $modalTitle;
-			var $closeButtonTop;
-			var $closeButtonBottom;
-
-			// Get the link text to be used as the modal title.
-			var title = jQuery( this ).text();
-
-			// Prevent default action.
-			event.preventDefault();
-			// Prevent triggering Thickbox original click.
-			event.stopPropagation();
-			// Get the control that opened the modal dialog.
-			$gscModalFocusedBefore = jQuery( this );
-			// Call Thickbox now and bind `this`. The Thickbox UI is now available.
-			// eslint-disable-next-line
-			tb_click.call( this );
-
-			// Get the Thickbox modal elements.
-			$modal = jQuery( "#TB_window" );
-			$modalTitle = jQuery( "#TB_ajaxWindowTitle" );
-			$closeButtonTop = jQuery( "#TB_closeWindowButton" );
-			$closeButtonBottom = jQuery( ".wpseo-redirect-close", $modal );
-
-			// Set the modal title.
-			$modalTitle.text( title );
-
-			// Set ARIA role and ARIA attributes.
-			$modal.attr( {
-				role: "dialog",
-				"aria-labelledby": "TB_ajaxWindowTitle",
-				"aria-describedby": "TB_ajaxContent",
-			} )
-				.on( "keydown", function( event ) {
-					var id;
-
-					// Constrain tabbing within the modal.
-					if ( 9 === event.which ) {
-						id = event.target.id;
-
-						if ( jQuery( event.target ).hasClass( "wpseo-redirect-close" ) && ! event.shiftKey ) {
-							$closeButtonTop.focus();
-							event.preventDefault();
-						} else if ( id === "TB_closeWindowButton" && event.shiftKey ) {
-							$closeButtonBottom.focus();
-							event.preventDefault();
-						}
-					}
-				} );
-		}
-	);
-
-	jQuery( document.body ).on( "click", ".wpseo-redirect-close", function() {
-		// Close the Thickbox modal when clicking on the bottom button.
-		jQuery( this ).closest( "#TB_window" ).find( "#TB_closeWindowButton" ).trigger( "click" );
-	} ).on( "thickbox:removed", function() {
-		// Move focus back to the element that opened the modal.
-		$gscModalFocusedBefore.focus();
-	} );
+	const element = document.getElementById( "yoast-google-search-console-modal" );
+	if ( element ) {
+		ReactDOM.render( <RedirectUpsell
+			buyLink={ wpseoAdminL10n[ "shortlinks.upsell.gsc.create_redirect_button" ] }
+		/>, element );
+	}
 } );
 
 
@@ -103,8 +46,8 @@ jQuery( function() {
  * @returns {void}
  */
 function wpseoUpdateCategoryCount( category ) {
-	var countElement = jQuery( "#gsc_count_" + category + "" );
-	var newCount     = parseInt( countElement.text(), 10 ) - 1;
+	const countElement = jQuery( "#gsc_count_" + category + "" );
+	let newCount       = parseInt( countElement.text(), 10 ) - 1;
 	if ( newCount < 0 ) {
 		newCount = 0;
 	}
