@@ -5,7 +5,11 @@
  * @package WPSEO\Tests\Doubles
  */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Import_Settings_Double extends WPSEO_Import_Settings {
+
 	/**
 	 * Parse the options.
 	 *

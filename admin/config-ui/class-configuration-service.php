@@ -10,22 +10,34 @@
  */
 class WPSEO_Configuration_Service {
 
-	/** @var WPSEO_Configuration_Structure */
+	/**
+	 * @var WPSEO_Configuration_Structure
+	 */
 	protected $structure;
 
-	/** @var WPSEO_Configuration_Components */
+	/**
+	 * @var WPSEO_Configuration_Components
+	 */
 	protected $components;
 
-	/** @var WPSEO_Configuration_Storage */
+	/**
+	 * @var WPSEO_Configuration_Storage
+	 */
 	protected $storage;
 
-	/** @var WPSEO_Configuration_Endpoint */
+	/**
+	 * @var WPSEO_Configuration_Endpoint
+	 */
 	protected $endpoint;
 
-	/** @var WPSEO_Configuration_Options_Adapter */
+	/**
+	 * @var WPSEO_Configuration_Options_Adapter
+	 */
 	protected $adapter;
 
-	/** @var WPSEO_Configuration_Translations */
+	/**
+	 * @var WPSEO_Configuration_Translations
+	 */
 	protected $translations;
 
 	/**

@@ -13,20 +13,28 @@ class WPSEO_Remote_Request {
 	const METHOD_POST = 'post';
 	const METHOD_GET  = 'get';
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	protected $endpoint = '';
 
-	/** @var array */
+	/**
+	 * @var array
+	 */
 	protected $args = array(
 		'blocking'  => false,
 		'sslverify' => false,
 		'timeout'   => 2,
 	);
 
-	/** @var WP_Error|null */
+	/**
+	 * @var WP_Error|null
+	 */
 	protected $response_error;
 
-	/** @var mixed */
+	/**
+	 * @var mixed
+	 */
 	protected $response_body;
 
 	/**

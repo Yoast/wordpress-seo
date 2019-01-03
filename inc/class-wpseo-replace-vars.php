@@ -1096,10 +1096,8 @@ class WPSEO_Replace_Vars {
 	private static function register_help_text( $type, WPSEO_Replacement_Variable $replacement_variable ) {
 		$identifier = $replacement_variable->get_variable();
 
-		if ( ( is_string( $type ) && in_array( $type, array(
-					'basic',
-					'advanced',
-				), true ) ) && ( $identifier !== '' && ! isset( self::$help_texts[ $type ][ $identifier ] ) )
+		if ( ( is_string( $type ) && in_array( $type, array( 'basic', 'advanced' ), true ) )
+			&& ( $identifier !== '' && ! isset( self::$help_texts[ $type ][ $identifier ] ) )
 		) {
 			self::$help_texts[ $type ][ $identifier ] = $replacement_variable;
 		}

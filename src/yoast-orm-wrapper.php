@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO
  */
 
-namespace Yoast\YoastSEO;
+namespace Yoast\WP\Free;
 
 use YoastSEO_Vendor\ORM;
 
@@ -96,7 +96,7 @@ class ORMWrapper extends ORM {
 	 *
 	 * @return bool|Yoast_Model Instance of the model class.
 	 */
-	protected function _create_model_instance( $orm ) {
+	protected function create_model_instance( $orm ) {
 		if ( $orm === \false ) {
 			return \false;
 		}
@@ -117,7 +117,7 @@ class ORMWrapper extends ORM {
 	 * @return Yoast_Model Instance of the model.
 	 */
 	public function find_one( $id = null ) {
-		return $this->_create_model_instance( parent::find_one( $id ) );
+		return $this->create_model_instance( parent::find_one( $id ) );
 	}
 
 	/**
@@ -129,7 +129,7 @@ class ORMWrapper extends ORM {
 	public function find_many() {
 		$results = parent::find_many();
 		foreach ( $results as $key => $result ) {
-			$results[ $key ] = $this->_create_model_instance( $result );
+			$results[ $key ] = $this->create_model_instance( $result );
 		}
 
 		return $results;
@@ -144,6 +144,6 @@ class ORMWrapper extends ORM {
 	 * @return ORMWrapper|bool Instance of the ORM.
 	 */
 	public function create( $data = null ) {
-		return $this->_create_model_instance( parent::create( $data ) );
+		return $this->create_model_instance( parent::create( $data ) );
 	}
 }

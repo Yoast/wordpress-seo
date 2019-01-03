@@ -48,7 +48,16 @@ class WPSEO_Export {
 
 		echo '<p>';
 		/* translators: %1$s expands to Import settings */
-		printf( esc_html__( 'Copy all these settings to another site\'s %1$s tab and click "%1$s" there.', 'wordpress-seo' ), __( 'Import settings', 'wordpress-seo' ) );
+		printf(
+			esc_html__(
+				'Copy all these settings to another site\'s %1$s tab and click "%1$s" there.',
+				'wordpress-seo'
+			),
+			esc_html__(
+				'Import settings',
+				'wordpress-seo'
+			)
+		);
 		echo '</p>';
 		echo '<textarea id="wpseo-export" rows="20" cols="100">' . $this->export . '</textarea>';
 	}

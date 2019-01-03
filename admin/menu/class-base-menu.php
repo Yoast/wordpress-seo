@@ -10,7 +10,11 @@
  */
 abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 
-	/** @var WPSEO_Menu Menu */
+	/**
+	 * A menu.
+	 *
+	 * @var WPSEO_Menu
+	 */
 	protected $menu;
 
 	/**

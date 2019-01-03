@@ -10,13 +10,19 @@
  */
 class WPSEO_Tracking {
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	protected $option_name = 'wpseo_tracking_last_request';
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $threshold = 0;
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	protected $endpoint = '';
 
 	/**

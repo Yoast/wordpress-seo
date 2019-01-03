@@ -6,7 +6,7 @@ module.exports = {
 	plugin: {
 		options: {
 			bin: "vendor/bin/phpcs",
-			standard: "phpcs.xml",
+			standard: "phpcs.xml.dist",
 			extensions: "php",
 		},
 		dir: [

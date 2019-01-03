@@ -217,6 +217,20 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Generates and display row actions links for the list table.
+	 *
+	 * We override the parent class method to avoid doubled buttons to be printed out.
+	 *
+	 * @param object $item        The item being acted upon.
+	 * @param string $column_name Current column name.
+	 * @param string $primary     Primary column name.
+	 * @return string Empty string.
+	 */
+	protected function handle_row_actions( $item, $column_name, $primary ) {
+		return '';
+	}
+
+	/**
 	 * Running the setup of the columns
 	 */
 	private function setup_columns() {
