@@ -27,7 +27,7 @@ class WPSEO_Extension_Manager {
 	 *
 	 * @var array
 	 */
-	static protected $active_extensions;
+	protected static $active_extensions;
 
 	/**
 	 * Adds an extension to the manager.
