@@ -29,6 +29,7 @@ use YoastSEO_Vendor\ORM;
  * @method Array|\IdiormResultSet findMany()
  */
 class ORMWrapper extends ORM {
+
 	/**
 	 * The wrapped find_one and find_many classes will return an instance or
 	 * instances of this class.

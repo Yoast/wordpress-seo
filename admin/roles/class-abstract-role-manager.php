@@ -9,6 +9,7 @@
  * Abstract Role Manager template.
  */
 abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
+
 	/**
 	 * Registered roles.
 	 *

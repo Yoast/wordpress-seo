@@ -17,6 +17,7 @@ use Yoast\WP\Free\Yoast_Model;
  * @property int $incoming_link_count
  */
 class SEO_Meta extends Yoast_Model {
+
 	/**
 	 * Overwrites the default ID column name.
 	 *

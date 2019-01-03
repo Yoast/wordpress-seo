@@ -10,48 +10,56 @@
  * default WordPress output.
  */
 class WPSEO_Frontend {
+
 	/**
 	 * Instance of this class.
 	 *
 	 * @var object
 	 */
 	public static $instance;
+
 	/**
 	 * Toggle indicating whether output buffering has been started.
 	 *
 	 * @var boolean
 	 */
 	private $ob_started = false;
+
 	/**
 	 * Holds the canonical URL for the current page.
 	 *
 	 * @var string
 	 */
 	private $canonical = null;
+
 	/**
 	 * Holds the canonical URL for the current page that cannot be overriden by a manual canonical input.
 	 *
 	 * @var string
 	 */
 	private $canonical_no_override = null;
+
 	/**
 	 * Holds the canonical URL for the current page without pagination.
 	 *
 	 * @var string
 	 */
 	private $canonical_unpaged = null;
+
 	/**
 	 * Holds the pages meta description.
 	 *
 	 * @var string
 	 */
 	private $metadesc = null;
+
 	/**
 	 * Holds the generated title for the page.
 	 *
 	 * @var string
 	 */
 	private $title = null;
+
 	/**
 	 * @var WPSEO_Frontend_Page_Type
 	 */
