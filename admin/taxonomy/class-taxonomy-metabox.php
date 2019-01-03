@@ -244,9 +244,9 @@ class WPSEO_Taxonomy_Metabox {
 	 */
 	private function get_buy_premium_link() {
 		return sprintf(
-			"<div class='%s'><a href='#wpseo-meta-section-premium' class='wpseo-meta-section-link'><span class='dashicons dashicons-star-filled wpseo-buy-premium'></span>%s</a></div>",
+			'<div class="%1$s"><a target="_blank" rel="noopener noreferrer" href="%2$s"><span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>%3$s</a></div>',
 			'wpseo-metabox-buy-premium',
-			__( 'Go Premium', 'wordpress-seo' )
+			esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3hh' ) ),
 		);
 	}
 
@@ -314,6 +314,7 @@ class WPSEO_Taxonomy_Metabox {
 				'link_aria_label' => 'Yoast SEO Premium',
 				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
+			esc_html__( 'Go Premium', 'wordpress-seo' )
 		);
 	}
 }
