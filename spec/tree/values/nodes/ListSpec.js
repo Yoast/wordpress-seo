@@ -4,7 +4,7 @@ import Paragraph from "../../../../src/tree/values/nodes/Paragraph";
 
 describe( "List", () => {
 	describe( "constructor", () => {
-		it( "can make a List node", () => {
+		it( "creates a List node", () => {
 			const list = new List( true );
 
 			expect( list.type ).toEqual( "List" );

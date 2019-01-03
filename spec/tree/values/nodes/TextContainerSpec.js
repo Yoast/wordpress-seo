@@ -2,7 +2,7 @@ import TextContainer from "../../../../src/tree/values/nodes/TextContainer";
 
 describe( "TextContainer", () => {
 	describe( "constructor", () => {
-		it( "can make a new TextContainer", () => {
+		it( "creates a new TextContainer", () => {
 			const textContainer = new TextContainer();
 
 			expect( textContainer instanceof TextContainer ).toEqual( true );

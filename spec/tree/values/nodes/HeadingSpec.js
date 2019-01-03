@@ -3,7 +3,7 @@ import TextContainer from "../../../../src/tree/values/nodes/TextContainer";
 
 describe( "Heading", () => {
 	describe( "constructor", () => {
-		it( "can make a heading", () => {
+		it( "creates a heading", () => {
 			const heading = new Heading( 1 );
 
 			expect( heading.startIndex ).toBe( 0 );
@@ -15,7 +15,7 @@ describe( "Heading", () => {
 	} );
 
 	describe( "get and set text", () => {
-		test( "can set text to a Heading tree node and get text from it", () => {
+		it( "sets text to a Heading tree node and get text from it", () => {
 			const heading = new Heading( 3 );
 
 			// Use a setter to add text to the Heading

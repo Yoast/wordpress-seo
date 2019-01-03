@@ -2,7 +2,7 @@ import Paragraph from "../../../../src/tree/values/nodes/Paragraph";
 
 describe( "Paragraph tree node", () => {
 	describe( "constructor", () => {
-		test( "can make a new Paragraph tree node", () => {
+		it( "creates a new Paragraph tree node", () => {
 			const paragraph = new Paragraph( "p" );
 
 			expect( paragraph.type ).toEqual( "Paragraph" );
@@ -13,7 +13,7 @@ describe( "Paragraph tree node", () => {
 		} );
 	} );
 	describe( "get and set text", () => {
-		test( "can set text to a Paragraph tree node and get text from it", () => {
+		it( "sets text to a Paragraph tree node and get text from it", () => {
 			const paragraph = new Paragraph( "p" );
 
 			// Use a setter to add text to the Paragraph

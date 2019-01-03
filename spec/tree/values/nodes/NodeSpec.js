@@ -8,12 +8,14 @@ describe( "Node", () => {
 		console.warn = jest.fn();
 	} );
 
-	it( "can make a new Node", () => {
-		const node = new Node( "someNode" );
+	describe( "constructor", () => {
+		it( "creates a new Node", () => {
+			const node = new Node( "someNode" );
 
-		expect( node.type ).toEqual( "someNode" );
-		expect( node.startIndex ).toEqual( 0 );
-		expect( node.endIndex ).toEqual( 0 );
+			expect( node.type ).toEqual( "someNode" );
+			expect( node.startIndex ).toEqual( 0 );
+			expect( node.endIndex ).toEqual( 0 );
+		} );
 	} );
 
 	describe( "map function", () => {
