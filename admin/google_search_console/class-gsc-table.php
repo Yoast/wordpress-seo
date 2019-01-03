@@ -22,11 +22,6 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	private $search_string;
 
 	/**
-	 * @var array
-	 */
-	protected $_column_headers;
-
-	/**
 	 * The category that is displayed
 	 *
 	 * @var mixed|string
