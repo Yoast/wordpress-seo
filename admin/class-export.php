@@ -47,8 +47,8 @@ class WPSEO_Export {
 		}
 
 		echo '<p>';
-		/* translators: %1$s expands to Import settings */
 		printf(
+			/* translators: %1$s expands to Import settings */
 			esc_html__(
 				'Copy all these settings to another site\'s %1$s tab and click "%1$s" there.',
 				'wordpress-seo'
