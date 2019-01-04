@@ -1,6 +1,8 @@
 /**
  * Abstract class representing a node in the structured tree.
  * @abstract
+ *
+ * @memberOf module:tree/structure
  */
 class Node {
 	/**

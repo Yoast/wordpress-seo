@@ -1,7 +1,9 @@
 import Node from "./Node";
-import TextContainer from "./TextContainer";
+import TextContainer from "../TextContainer";
 /**
  * A header in a document.
+ *
+ * @memberOf module:tree/structure
  */
 class Heading extends Node {
 	/**

@@ -1,11 +1,13 @@
 import ListItem from "./ListItem";
 import Node from "./Node";
 /**
- * Represents an item within a list.
+ * Represents a list of items.
+ *
+ * @memberOf module:tree/structure
  */
 class List extends Node {
 	/**
-	 * Represents an item within a list.
+	 * Represents a list of items.
 	 *
 	 * @param {boolean} ordered Whether the list is ordered or not.
 	 *

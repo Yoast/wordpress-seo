@@ -1,13 +1,6 @@
 import buildTree from "../../../src/tree/builder/buildTree";
-import FormattingElement from "../../../src/tree/structure/FormattingElement";
-import Heading from "../../../src/tree/structure/nodes/Heading";
-import List from "../../../src/tree/structure/nodes/List";
-import ListItem from "../../../src/tree/structure/nodes/ListItem";
-import Paragraph from "../../../src/tree/structure/nodes/Paragraph";
-
-import StructuredIrrelevant from "../../../src/tree/structure/nodes/StructuredIrrelevant";
-import StructuredNode from "../../../src/tree/structure/nodes/StructuredNode";
-import TextContainer from "../../../src/tree/structure/nodes/TextContainer";
+import { Paragraph, StructuredNode, FormattingElement,
+	List, ListItem, StructuredIrrelevant, Heading, TextContainer } from "../../../src/tree/structure";
 
 import htmlFile from "../../fullTextTests/testTexts/en/englishPaper1.html";
 import htmlFile2 from "../../fullTextTests/testTexts/de/germanPaper2.html";

@@ -1,4 +1,4 @@
-import TextContainer from "../../../../src/tree/structure/nodes/TextContainer";
+import TextContainer from "../../../src/tree/structure/TextContainer";
 
 describe( "TextContainer", () => {
 	describe( "constructor", () => {

@@ -6,7 +6,7 @@ import Paragraph from "../../../src/tree/structure/nodes/Paragraph";
 import List from "../../../src/tree/structure/nodes/List";
 import ListItem from "../../../src/tree/structure/nodes/ListItem";
 import StructuredNode from "../../../src/tree/structure/nodes/StructuredNode";
-import TextContainer from "../../../src/tree/structure/nodes/TextContainer";
+import TextContainer from "../../../src/tree/structure/TextContainer";
 
 describe( "TreeAdapter", () => {
 	describe( "TreeAdapter constructor", () => {

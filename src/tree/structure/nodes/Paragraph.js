@@ -1,7 +1,9 @@
 import Node from "./Node";
-import TextContainer from "./TextContainer";
+import TextContainer from "../TextContainer";
 /**
  * Represents a paragraph with text within a document.
+ *
+ * @memberOf module:tree/structure
  */
 class Paragraph extends Node {
 	/**
