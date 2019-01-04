@@ -125,6 +125,7 @@ class WPSEO_Metabox  {
 	 */
 	public function add_meta_box() {
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
+		$post_types = array_filter( $post_types, array( $this, 'display_metabox' ) );
 
 		if ( ! is_array( $post_types ) || $post_types === array() ) {
 			return;
@@ -133,10 +134,6 @@ class WPSEO_Metabox  {
 		$tab_registered = false;
 
 		foreach ( $post_types as $post_type ) {
-			if ( $this->display_metabox( $post_type ) === false ) {
-				continue;
-			}
-
 			$product_title = 'Yoast SEO';
 
 			if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
