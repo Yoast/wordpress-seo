@@ -131,7 +131,7 @@ class WPSEO_Metabox  {
 			return;
 		}
 
-		$tab_registered = false;
+
 		$product_title = $this->get_product_title();
 
 		if ( get_current_screen() !== null ) {
@@ -139,15 +139,9 @@ class WPSEO_Metabox  {
 			add_filter( "postbox_classes_{$screen_id}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
 		}
 
+		$this->register_helpcenter_tab();
+
 		foreach ( $post_types as $post_type ) {
-			if ( ! $tab_registered ) {
-				// Add template variables tab to the Help Center.
-				$tab = new WPSEO_Help_Center_Template_Variables_Tab();
-				$tab->register_hooks();
-
-				$tab_registered = true;
-			}
-
 			add_meta_box(
 				'wpseo_meta',
 				$product_title,
@@ -995,6 +989,25 @@ class WPSEO_Metabox  {
 		}
 
 		return $product_title;
+	}
+
+	/**
+	 * Adds the template variables tab to the helpcenter.
+	 *
+	 * @return void
+	 */
+	protected function register_helpcenter_tab() {
+		static $tab_registered;
+
+		if ( $tab_registered ) {
+			return;
+		}
+
+		// Add template variables tab to the Help Center.
+		$tab = new WPSEO_Help_Center_Template_Variables_Tab();
+		$tab->register_hooks();
+
+		$tab_registered = true;
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
