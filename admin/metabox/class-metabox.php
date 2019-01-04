@@ -132,14 +132,9 @@ class WPSEO_Metabox  {
 		}
 
 		$tab_registered = false;
+		$product_title = $this->get_product_title();
 
 		foreach ( $post_types as $post_type ) {
-			$product_title = 'Yoast SEO';
-
-			if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
-				$product_title .= ' Premium';
-			}
-
 			if ( get_current_screen() !== null ) {
 				$screen_id = get_current_screen()->id;
 				add_filter( "postbox_classes_{$screen_id}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
@@ -985,6 +980,21 @@ class WPSEO_Metabox  {
 	public static function is_post_edit( $page ) {
 		return 'post.php' === $page
 			|| 'post-new.php' === $page;
+	}
+
+	/**
+	 * Retrieves the product title.
+	 *
+	 * @return string The product title.
+	 */
+	protected function get_product_title() {
+		$product_title = 'Yoast SEO';
+
+		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+			$product_title .= ' Premium';
+		}
+
+		return $product_title;
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
