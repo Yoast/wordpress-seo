@@ -68,28 +68,6 @@ class WPSEO_Handle_404 implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Determine whether this is the main feed.
-	 *
-	 * @global WP       $wp
-	 * @global WP_Query $wp_query
-	 *
-	 * @return bool Whether or not the request is the main feed.
-	 */
-	protected function is_main_feed() {
-		global $wp, $wp_query;
-
-		if ( $wp_query->is_archive() || $wp_query->is_singular() || $wp_query->is_search() ) {
-			return false;
-		}
-
-		if ( array_keys( $wp->query_vars ) !== array( 'feed' ) && ! $wp_query->is_comment_feed() ) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Sets the 404 status code.
 	 *
 	 * @global WP_Query $wp_query
@@ -101,7 +79,7 @@ class WPSEO_Handle_404 implements WPSEO_WordPress_Integration {
 
 		// Overwrite Content-Type header.
 		if ( ! headers_sent() ) {
-			header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ), true );
+			header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
 		}
 
 		$wp_query->set_404();
