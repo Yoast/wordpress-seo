@@ -44,6 +44,15 @@ class WPSEO_Courses_Overview implements WPSEO_WordPress_Integration {
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'courses-overview' );
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'courses-overview', 'wpseoCoursesOverviewL10n', array( 'version' => $this->get_version(), 'isRtl' => is_rtl() ) );
+
+		$localizations = array(
+			'version' => $this->get_version(),
+			'isRtl'   => is_rtl(),
+		);
+		wp_localize_script(
+			WPSEO_Admin_Asset_Manager::PREFIX . 'courses-overview',
+			'wpseoCoursesOverviewL10n',
+			$localizations
+		);
 	}
 }
