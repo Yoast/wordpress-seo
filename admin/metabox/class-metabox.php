@@ -41,8 +41,6 @@ class WPSEO_Metabox  {
 		add_action( 'wp_insert_post', array( $this, 'save_postdata' ) );
 		add_action( 'edit_attachment', array( $this, 'save_postdata' ) );
 		add_action( 'add_attachment', array( $this, 'save_postdata' ) );
-		add_action( 'post_submitbox_start', array( $this, 'publish_box' ) );
-		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 
 		// Check if one of the social settings is checked in the options, if so, initialize the social_admin object.
@@ -117,48 +115,6 @@ class WPSEO_Metabox  {
 	 */
 	public function display_metabox( $identifier = null, $type = 'post_type' ) {
 		return WPSEO_Utils::is_metabox_active( $identifier, $type );
-	}
-
-	/**
-	 * Sets up all the functionality related to the prominence of the page analysis functionality.
-	 */
-	public function setup_page_analysis() {
-		if ( apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
-			add_action( 'post_submitbox_start', array( $this, 'publish_box' ) );
-		}
-	}
-
-	/**
-	 * Outputs the page analysis score in the Publish Box.
-	 */
-	public function publish_box() {
-		if ( $this->display_metabox() === false ) {
-			return;
-		}
-
-		$post = $this->get_metabox_post();
-
-		if ( self::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
-			$score_label = 'noindex';
-			$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
-			$score_title = $title;
-		}
-		else {
-			$score = self::get_value( 'linkdex', $post->ID );
-			if ( $score === '' ) {
-				$score_label = 'na';
-				$title       = __( 'No focus keyphrase set.', 'wordpress-seo' );
-			}
-			else {
-				$score_label = WPSEO_Utils::translate_score( $score );
-			}
-
-			$score_title = WPSEO_Utils::translate_score( $score, false );
-
-			if ( ! isset( $title ) ) {
-				$title = $score_title;
-			}
-		}
 	}
 
 	/**
@@ -1032,5 +988,31 @@ class WPSEO_Metabox  {
 	public static function is_post_edit( $page ) {
 		return 'post.php' === $page
 			|| 'post-new.php' === $page;
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Outputs the page analysis score in the Publish Box.
+	 *
+	 * @deprecated 9.6
+	 *
+	 * @return void
+	 */
+	public function publish_box() {
+		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
+	}
+
+
+
+	/**
+	 * Sets up all the functionality related to the prominence of the page analysis functionality.
+	 *
+	 * @deprecated 9.6
+	 *
+	 * @return void
+	 */
+	public function setup_page_analysis() {
+		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
 	}
 }
