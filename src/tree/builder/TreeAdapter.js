@@ -1,4 +1,3 @@
-import { findAncestor } from "../utils/traverseTree";
 // Tree elements.
 import FormattingElement from "../structure/FormattingElement";
 import Heading from "../structure/nodes/Heading";
@@ -157,19 +156,6 @@ class TreeAdapter {
 	}
 
 	/**
-	 * If the given element is a leaf node.
-	 *
-	 * @param {Node|FormattingElement} element The element to check.
-	 *
-	 * @returns {boolean} If the given element is a leaf node.
-	 *
-	 * @private
-	 */
-	static _isLeafNode( element ) {
-		return element instanceof Paragraph || element instanceof Heading;
-	}
-
-	/**
 	 * Appends the formatting element to the tree.
 	 *
 	 * @param {Node} parent                          The (current) parent of the formatting element.
@@ -189,9 +175,7 @@ class TreeAdapter {
 			 Formatting elements can be nested, we want to add it to
 			 the most recent ancestor which is either a heading or paragraph.
 			 */
-			const ancestor = findAncestor( formattingElement,
-				node => node instanceof Heading || node instanceof Paragraph
-			);
+			const ancestor = TreeAdapter._findAncestor( formattingElement, TreeAdapter._isLeafNode );
 			if ( TreeAdapter._isLeafNode( ancestor ) ) {
 				// Add formatting element as formatting to the found paragraph or heading ancestor.
 				formattingElement.parent = parent;
@@ -279,7 +263,7 @@ class TreeAdapter {
 	 */
 	_addFormattingElementText( formattingElement, text ) {
 		// Find a paragraph or header ancestor.
-		const parent = findAncestor( formattingElement, TreeAdapter._isLeafNode );
+		const parent = TreeAdapter._findAncestor( formattingElement, TreeAdapter._isLeafNode );
 		// Append text to parent's text container.
 		parent.textContainer.appendText( text );
 	}
@@ -420,6 +404,40 @@ class TreeAdapter {
 			return;
 		}
 		return node.location;
+	}
+
+	// Private utility methods.
+
+	/**
+	 * Finds the most recent ancestor (parent of parent of ... ) of this node that returns true
+	 * on the given predicate.
+	 *
+	 * @param {Node|FormattingElement} element  The node to find the ancestor of.
+	 * @param {predicate} predicate	             The predicate to check the ancestors on.
+	 *
+	 * @returns {Node|null} The most recent ancestor that returns true on the given predicate.
+	 *
+	 * @private
+	 */
+	static _findAncestor( element, predicate ) {
+		let parent = element.parent;
+		while ( ! predicate( parent ) && parent.parent !== null ) {
+			parent = parent.parent;
+		}
+		return parent;
+	}
+
+	/**
+	 * If the given element is a leaf node.
+	 *
+	 * @param {Node|FormattingElement} element The element to check.
+	 *
+	 * @returns {boolean} If the given element is a leaf node.
+	 *
+	 * @private
+	 */
+	static _isLeafNode( element ) {
+		return element instanceof Paragraph || element instanceof Heading;
 	}
 }
 
