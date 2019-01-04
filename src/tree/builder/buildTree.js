@@ -72,20 +72,25 @@ const setStartEndText = function( textContainer, html ) {
 	let end = 0;
 
 	textContainer.formatting.forEach( element => {
-		if ( ! ( element.location.endOffset < prevEndOffset ) ) {
-			/*
-			  Not a nested element, update start index to make sure we do not find
-			  the same text again when two elements have the same content.
-			 */
+		// Update the start index so we do not find the same content again.
+		if ( element.location.endOffset < prevEndOffset ) {
+			// Nested element. Need to keep inside of the parent element.
+			startIndex += 1;
+		} else {
+			// Not nested, we can skip to after the element.
 			startIndex = end;
 		}
 		let elementText = getElementContent( element, html );
 		/*
 		  Remove html tags in case there are one or more elements nested inside this one.
-		  E.g. "<strong>This <em>is</em></strong>" content is "This <em>is</em>", but need to find "This is" in text.
+		  E.g. "<strong>This <em>is</em></strong>" content is "This <em>is</em>",
+		  but need to find "This is" in cleaned text.
 		 */
 		irrelevantHtmlElements.forEach( tag => {
-			// Need to remove contents of nested irrelevant elements as well as tags. (Quick and dirty, but should work 99% of the time)
+			/*
+			  Need to remove contents of nested irrelevant elements as well as tags.
+			  (Quick and dirty, but should work 99% of the time)
+			 */
 			const regex = new RegExp( `<${tag}.*>.*</${tag}>`, "g" );
 			elementText = elementText.replace( regex, "" );
 		} );

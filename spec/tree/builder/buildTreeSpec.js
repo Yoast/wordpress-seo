@@ -383,32 +383,38 @@ describe( "build tree", () => {
 	} );
 
 	it( "parses formatting with the same content correctly", () => {
-		const input = "<p><strong>hello world!</strong> <a href='nope'>hello world!</a></p>";
+		const input = "<p><strong>hello world! <em>hello world!</em></strong> <a href='nope'>hello world!</a></p>";
 
 		const strong = new FormattingElement( "strong", {} );
 		strong.startIndex = 3;
-		strong.endIndex = 32;
+		strong.endIndex = 54;
 		strong.startText = 0;
-		strong.endText = 12;
+		strong.endText = 25;
+
+		const emphasis = new FormattingElement( "em", {} );
+		emphasis.startIndex = 24;
+		emphasis.endIndex = 45;
+		emphasis.startText = 13;
+		emphasis.endText = 25;
 
 		const anchor = new FormattingElement( "a", { href: "nope" } );
-		anchor.startIndex = 33;
-		anchor.endIndex = 64;
-		anchor.startText = 13;
-		anchor.endText = 25;
+		anchor.startIndex = 55;
+		anchor.endIndex = 86;
+		anchor.startText = 26;
+		anchor.endText = 38;
 
 		const textContainer = new TextContainer();
-		textContainer.text = "hello world! hello world!";
-		textContainer.formatting = [ strong, anchor	];
+		textContainer.text = "hello world! hello world! hello world!";
+		textContainer.formatting = [ strong, emphasis, anchor	];
 
 		const paragraph = new Paragraph( "p" );
 		paragraph.startIndex = 0;
-		paragraph.endIndex = 68;
+		paragraph.endIndex = 90;
 		paragraph.textContainer = textContainer;
 
 		const expected = new StructuredNode( "root" );
 		expected.startIndex = 0;
-		expected.endIndex = 68;
+		expected.endIndex = 90;
 		expected.children = [ paragraph ];
 
 		const tree = buildTree( input );
