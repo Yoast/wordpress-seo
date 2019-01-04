@@ -134,12 +134,12 @@ class WPSEO_Metabox  {
 		$tab_registered = false;
 		$product_title = $this->get_product_title();
 
-		foreach ( $post_types as $post_type ) {
-			if ( get_current_screen() !== null ) {
-				$screen_id = get_current_screen()->id;
-				add_filter( "postbox_classes_{$screen_id}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
-			}
+		if ( get_current_screen() !== null ) {
+			$screen_id = get_current_screen()->id;
+			add_filter( "postbox_classes_{$screen_id}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
+		}
 
+		foreach ( $post_types as $post_type ) {
 			if ( ! $tab_registered ) {
 				// Add template variables tab to the Help Center.
 				$tab = new WPSEO_Help_Center_Template_Variables_Tab();
