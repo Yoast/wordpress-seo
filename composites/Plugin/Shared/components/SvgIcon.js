@@ -6,6 +6,14 @@ import isArray from "lodash/isArray";
 const DEFAULT_VIEWBOX = "0 0 1792 1792";
 /* eslint-disable max-len, quote-props */
 export const icons = {
+	"chevron-down": { viewbox: "0 0 24 24", width: "24px", path: [
+		<g key="1"><path fill="none" d="M0,0h24v24H0V0z" /></g>,
+		<g key="2"><path d="M7.41,8.59L12,13.17l4.59-4.58L18,10l-6,6l-6-6L7.41,8.59z" /></g>,
+	] },
+	"chevron-up": { viewbox: "0 0 24 24", width: "24px", path: [
+		<g key="1"><path fill="none" d="M0,0h24v24H0V0z" /></g>,
+		<g key="2"><path d="M12,8l-6,6l1.41,1.41L12,10.83l4.59,4.58L18,14L12,8z" /></g>,
+	] },
 	"angle-down": { viewbox: DEFAULT_VIEWBOX, path: "M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z" },
 	"angle-left": { viewbox: DEFAULT_VIEWBOX, path: "M1203 544q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z" },
 	"angle-right": { viewbox: DEFAULT_VIEWBOX, path: "M1171 960q0 13-10 23l-466 466q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l393-393-393-393q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l466 466q10 10 10 23z" },
