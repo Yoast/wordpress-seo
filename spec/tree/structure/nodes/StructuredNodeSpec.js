@@ -1,4 +1,4 @@
-import StructuredNode from "../../../../src/tree/values/nodes/StructuredNode";
+import StructuredNode from "../../../../src/tree/structure/nodes/StructuredNode";
 
 describe( "StructuredNode", () => {
 	describe( "constructor", () => {

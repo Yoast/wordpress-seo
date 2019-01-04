@@ -1,6 +1,6 @@
-import List from "../../../../src/tree/values/nodes/List";
-import ListItem from "../../../../src/tree/values/nodes/ListItem";
-import Paragraph from "../../../../src/tree/values/nodes/Paragraph";
+import List from "../../../../src/tree/structure/nodes/List";
+import ListItem from "../../../../src/tree/structure/nodes/ListItem";
+import Paragraph from "../../../../src/tree/structure/nodes/Paragraph";
 
 describe( "List", () => {
 	describe( "constructor", () => {

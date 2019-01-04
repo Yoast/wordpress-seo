@@ -1,8 +1,8 @@
 /* External dependencies */
 import { parseFragment } from "parse5";
-import Heading from "../values/nodes/Heading";
-import Paragraph from "../values/nodes/Paragraph";
-import StructuredIrrelevant from "../values/nodes/StructuredIrrelevant";
+import Heading from "../structure/nodes/Heading";
+import Paragraph from "../structure/nodes/Paragraph";
+import StructuredIrrelevant from "../structure/nodes/StructuredIrrelevant";
 import { irrelevantHtmlElements } from "./htmlClasses";
 
 /* Internal dependencies */

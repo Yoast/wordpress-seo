@@ -1,12 +1,12 @@
 import { findAncestor } from "../utils/traverseTree";
 // Tree elements.
-import FormattingElement from "../values/FormattingElement";
-import Heading from "../values/nodes/Heading";
-import List from "../values/nodes/List";
-import ListItem from "../values/nodes/ListItem";
-import Paragraph from "../values/nodes/Paragraph";
-import StructuredIrrelevant from "../values/nodes/StructuredIrrelevant";
-import StructuredNode from "../values/nodes/StructuredNode";
+import FormattingElement from "../structure/FormattingElement";
+import Heading from "../structure/nodes/Heading";
+import List from "../structure/nodes/List";
+import ListItem from "../structure/nodes/ListItem";
+import Paragraph from "../structure/nodes/Paragraph";
+import StructuredIrrelevant from "../structure/nodes/StructuredIrrelevant";
+import StructuredNode from "../structure/nodes/StructuredNode";
 // HTML classes.
 import { formattingElements, headings, irrelevantHtmlElements } from "./htmlClasses";
 

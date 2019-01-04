@@ -1,5 +1,5 @@
-import Heading from "../../../../src/tree/values/nodes/Heading";
-import TextContainer from "../../../../src/tree/values/nodes/TextContainer";
+import Heading from "../../../../src/tree/structure/nodes/Heading";
+import TextContainer from "../../../../src/tree/structure/nodes/TextContainer";
 
 describe( "Heading", () => {
 	describe( "constructor", () => {

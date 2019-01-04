@@ -1,12 +1,12 @@
 import TreeAdapter from "../../../src/tree/builder/TreeAdapter";
-import FormattingElement from "../../../src/tree/values/FormattingElement";
-import StructuredIrrelevant from "../../../src/tree/values/nodes/StructuredIrrelevant";
-import Heading from "../../../src/tree/values/nodes/Heading";
-import Paragraph from "../../../src/tree/values/nodes/Paragraph";
-import List from "../../../src/tree/values/nodes/List";
-import ListItem from "../../../src/tree/values/nodes/ListItem";
-import StructuredNode from "../../../src/tree/values/nodes/StructuredNode";
-import TextContainer from "../../../src/tree/values/nodes/TextContainer";
+import FormattingElement from "../../../src/tree/structure/FormattingElement";
+import StructuredIrrelevant from "../../../src/tree/structure/nodes/StructuredIrrelevant";
+import Heading from "../../../src/tree/structure/nodes/Heading";
+import Paragraph from "../../../src/tree/structure/nodes/Paragraph";
+import List from "../../../src/tree/structure/nodes/List";
+import ListItem from "../../../src/tree/structure/nodes/ListItem";
+import StructuredNode from "../../../src/tree/structure/nodes/StructuredNode";
+import TextContainer from "../../../src/tree/structure/nodes/TextContainer";
 
 describe( "TreeAdapter", () => {
 	describe( "TreeAdapter constructor", () => {

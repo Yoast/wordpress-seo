@@ -1,7 +1,7 @@
-import Heading from "../../../../src/tree/values/nodes/Heading";
-import Node from "../../../../src/tree/values/nodes/Node";
-import Paragraph from "../../../../src/tree/values/nodes/Paragraph";
-import StructuredNode from "../../../../src/tree/values/nodes/StructuredNode";
+import Heading from "../../../../src/tree/structure/nodes/Heading";
+import Node from "../../../../src/tree/structure/nodes/Node";
+import Paragraph from "../../../../src/tree/structure/nodes/Paragraph";
+import StructuredNode from "../../../../src/tree/structure/nodes/StructuredNode";
 
 describe( "Node", () => {
 	beforeEach( () => {

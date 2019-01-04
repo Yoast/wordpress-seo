@@ -1,4 +1,4 @@
-import ListItem from "../../../../src/tree/values/nodes/ListItem";
+import ListItem from "../../../../src/tree/structure/nodes/ListItem";
 
 describe( "ListItem", () => {
 	describe( "constructor", () => {

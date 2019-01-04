@@ -1,4 +1,4 @@
-import FormattingElement from "../../../src/tree/values/FormattingElement";
+import FormattingElement from "../../../src/tree/structure/FormattingElement";
 
 describe( "FormattingElement", () => {
 	describe( "constructor", () => {

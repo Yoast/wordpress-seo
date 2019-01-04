@@ -1,4 +1,4 @@
-import StructuredIrrelevant from "../../../../src/tree/values/nodes/StructuredIrrelevant";
+import StructuredIrrelevant from "../../../../src/tree/structure/nodes/StructuredIrrelevant";
 
 describe( "StructuredIrrelevant", () => {
 	describe( "constructor", () => {
