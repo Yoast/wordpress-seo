@@ -131,17 +131,13 @@ class WPSEO_Metabox  {
 			return;
 		}
 
-
 		$product_title = $this->get_product_title();
-
-		if ( get_current_screen() !== null ) {
-			$screen_id = get_current_screen()->id;
-			add_filter( "postbox_classes_{$screen_id}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
-		}
 
 		$this->register_helpcenter_tab();
 
 		foreach ( $post_types as $post_type ) {
+			add_filter( "postbox_classes_{$post_type}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
+
 			add_meta_box(
 				'wpseo_meta',
 				$product_title,
@@ -1022,8 +1018,6 @@ class WPSEO_Metabox  {
 	public function publish_box() {
 		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
 	}
-
-
 
 	/**
 	 * Sets up all the functionality related to the prominence of the page analysis functionality.
