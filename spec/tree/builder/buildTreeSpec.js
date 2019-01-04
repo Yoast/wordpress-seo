@@ -1,5 +1,4 @@
 import buildTree from "../../../src/tree/builder/buildTree";
-import treeToStringifiedJSON from "../../../src/tree/utils/treeToStringifiedJSON";
 import FormattingElement from "../../../src/tree/structure/FormattingElement";
 import Heading from "../../../src/tree/structure/nodes/Heading";
 import List from "../../../src/tree/structure/nodes/List";
@@ -34,7 +33,7 @@ describe( "build tree", () => {
 
 		const tree = buildTree( html );
 
-		expect( treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse an HTML into a Paragraph", () => {
@@ -75,7 +74,7 @@ describe( "build tree", () => {
 		expected.endIndex = 135;
 		expected.children = [ paragraph ];
 
-		expect(  treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+		expect(  tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse an HTML into a Heading", () => {
@@ -93,7 +92,7 @@ describe( "build tree", () => {
 		expected.endIndex = 66;
 		expected.children = [ heading ];
 
-		expect(  treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+		expect(  tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse an HTML comment into Structured Irrelevant node", () => {
@@ -116,7 +115,7 @@ describe( "build tree", () => {
 		expected.endIndex = 51;
 		expected.children = [ section ];
 
-		expect( treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse HTML into a List with ListItems, which are simple paragraphs", () => {
@@ -154,7 +153,7 @@ describe( "build tree", () => {
 		expected.endIndex = 36;
 		expected.children = [ list ];
 
-		expect(  treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+		expect(  tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse HTML into a List with ListItems, which are simple paragraphs or structured nodes", () => {
@@ -197,7 +196,7 @@ describe( "build tree", () => {
 		expected.endIndex = 55;
 		expected.children = [ list ];
 
-		expect(  treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+		expect(  tree.toString() ).toEqual( expected.toString() );
 	} );
 
 
@@ -226,7 +225,7 @@ describe( "build tree", () => {
 		expected.endIndex = 62;
 		expected.children = [ section ];
 
-		expect(  treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+		expect(  tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse an HTML text into a StructuredNode with a few siblings", () => {
@@ -254,7 +253,7 @@ describe( "build tree", () => {
 		expected.endIndex = 80;
 		expected.children = [ section ];
 
-		expect(  treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+		expect(  tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse an irrelevant HTML-element and its contents into a StructuredIrrelevant node.", () => {
@@ -286,7 +285,7 @@ describe( "build tree", () => {
 		expected.endIndex = 119;
 		expected.children = [ section ];
 
-		expect(  treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+		expect(  tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse an HTML-text with text upfront", () => {
@@ -309,7 +308,7 @@ describe( "build tree", () => {
 
 		const tree = buildTree( input );
 
-		expect( treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "adds a new paragraph to the tree when the new paragraph is implicit, and the one before is explicit.", () => {
@@ -332,7 +331,7 @@ describe( "build tree", () => {
 
 		const tree = buildTree( input );
 
-		expect( treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it.skip( "discards irrelevant node's contents within paragraphs and headings, but adds them as formatting", () => {
@@ -379,7 +378,7 @@ describe( "build tree", () => {
 		expected.children = [ pre, paragraph ];
 
 		const tree = buildTree( input );
-		expect( treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "parses formatting with the same content correctly", () => {
@@ -418,7 +417,7 @@ describe( "build tree", () => {
 		expected.children = [ paragraph ];
 
 		const tree = buildTree( input );
-		expect( treeToStringifiedJSON( tree ) ).toEqual( treeToStringifiedJSON( expected ) );
+		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse a big html text", () => {

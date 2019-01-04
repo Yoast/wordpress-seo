@@ -81,6 +81,36 @@ class Node {
 	 *
 	 * @private
 	 */
+
+	/**
+	 * Custom replacer function for replacing 'parent' with nothing.
+	 * This is done to remove cycles from the tree.
+	 *
+	 * @param {string} key		The key.
+	 * @param {Object} value	The value.
+	 *
+	 * @returns {Object} The (optionally replaced) value.
+	 *
+	 * @private
+	 */
+	static _removeParent( key, value ) {
+		if ( key === "parent" ) {
+			return;
+		}
+		return value;
+	}
+
+	/**
+	 * Transforms this tree to a string representation.
+	 * For use in e.g. logging to the console or to a text file.
+	 *
+	 * @param {number|string} [indentation = 2] The space with which to indent each successive level in the JSON tree.
+	 *
+	 * @returns {string} This tree, transformed to a string.
+	 */
+	toString( indentation = 2 ) {
+		return JSON.stringify( this, Node._removeParent, indentation );
+	}
 }
 
 export default Node;
