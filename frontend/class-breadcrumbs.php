@@ -1020,11 +1020,16 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the Yoast SEO breadcrumbs wrapper element.
+	 * Retrieves HTML ID attribute.
 	 *
-	 * @api string $unsigned ID to add to the wrapper element.
+	 * @return string
 	 */
 	private function get_output_id() {
+		/**
+		 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the Yoast SEO breadcrumbs wrapper element.
+		 *
+		 * @api string $unsigned ID to add to the wrapper element.
+		 */
 		$id = apply_filters( 'wpseo_breadcrumb_output_id', '' );
 		if ( is_string( $id ) && '' !== $id ) {
 			$id = ' id="' . esc_attr( $id ) . '"';
@@ -1034,11 +1039,16 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the Yoast SEO breadcrumbs wrapper element.
+	 * Retrieves HTML Class attribute.
 	 *
-	 * @api string $unsigned Class to add to the wrapper element.
+	 * @return string
 	 */
 	private function get_output_class() {
+		/**
+		 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the Yoast SEO breadcrumbs wrapper element.
+		 *
+		 * @api string $unsigned Class to add to the wrapper element.
+		 */
 		$class = apply_filters( 'wpseo_breadcrumb_output_class', '' );
 		if ( is_string( $class ) && '' !== $class ) {
 			$class = ' class="' . esc_attr( $class ) . '"';
