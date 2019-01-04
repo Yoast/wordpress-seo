@@ -66,18 +66,15 @@
 	<!-- WP-CLI and src (indexables) have a minimum PHP requirement of PHP 5.3. -->
 	<rule ref="PHPCompatibility.LanguageConstructs.NewLanguageConstructs.t_ns_separatorFound">
 		<exclude-pattern>*/cli/class-cli-*\.php$</exclude-pattern>
-		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
 	</rule>
 	<rule ref="PHPCompatibility.Keywords.NewKeywords.t_useFound">
 		<exclude-pattern>*/cli/class-cli-*\.php$</exclude-pattern>
-		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
 	</rule>
 	<rule ref="PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__invokeFound">
-		<exclude-pattern>*/premium/cli/cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
 	<rule ref="PHPCompatibility.Classes.NewLateStaticBinding.Found">
