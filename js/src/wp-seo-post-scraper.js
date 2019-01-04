@@ -501,7 +501,13 @@ setWordPressSeoL10n();
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
 
-		postDataCollector.bindElementEvents( app );
+		postDataCollector.bindElementEvents( debounce( () => refreshAnalysis(
+			YoastSEO.analysis.worker,
+			YoastSEO.analysis.collectData,
+			YoastSEO.analysis.applyMarks,
+			YoastSEO.store,
+			postDataCollector,
+		), refreshDelay ) );
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );
