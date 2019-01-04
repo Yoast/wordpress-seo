@@ -55,16 +55,16 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		foreach ( $social_networks as $network => $label ) {
 			if ( true === WPSEO_Options::get( $network, false ) ) {
 				/* translators: %s expands to the name of a social network. */
-				self::$meta_fields['social'][ $network . '-title' ]['title']       = sprintf( __( '%s Title', 'wordpress-seo' ), $label );
-				self::$meta_fields['social'][ $network . '-title' ]['description'] = sprintf( $title_text, $label );
+				WPSEO_Meta::$meta_fields['social'][ $network . '-title' ]['title']       = sprintf( __( '%s Title', 'wordpress-seo' ), $label );
+				WPSEO_Meta::$meta_fields['social'][ $network . '-title' ]['description'] = sprintf( $title_text, $label );
 
 				/* translators: %s expands to the name of a social network. */
-				self::$meta_fields['social'][ $network . '-description' ]['title']       = sprintf( __( '%s Description', 'wordpress-seo' ), $label );
-				self::$meta_fields['social'][ $network . '-description' ]['description'] = sprintf( $description_text, $label );
+				WPSEO_Meta::$meta_fields['social'][ $network . '-description' ]['title']       = sprintf( __( '%s Description', 'wordpress-seo' ), $label );
+				WPSEO_Meta::$meta_fields['social'][ $network . '-description' ]['description'] = sprintf( $description_text, $label );
 
 				/* translators: %s expands to the name of a social network. */
-				self::$meta_fields['social'][ $network . '-image' ]['title']       = sprintf( __( '%s Image', 'wordpress-seo' ), $label );
-				self::$meta_fields['social'][ $network . '-image' ]['description'] = sprintf( $image_text, $label ) . ' ' . sprintf( $image_size_text, $label, $recommended_image_sizes[ $network ] );
+				WPSEO_Meta::$meta_fields['social'][ $network . '-image' ]['title']       = sprintf( __( '%s Image', 'wordpress-seo' ), $label );
+				WPSEO_Meta::$meta_fields['social'][ $network . '-image' ]['description'] = sprintf( $image_text, $label ) . ' ' . sprintf( $image_size_text, $label, $recommended_image_sizes[ $network ] );
 			}
 		}
 	}
@@ -76,7 +76,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 */
 	public function get_meta_section() {
 		$tabs               = array();
-		$social_meta_fields = $this->get_meta_field_defs( 'social' );
+		$social_meta_fields = WPSEO_Meta::get_meta_field_defs( 'social' );
 		$single             = true;
 
 		$opengraph = WPSEO_Options::get( 'opengraph' );
@@ -201,7 +201,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			return $field_defs;
 		}
 
-		return array_merge( $field_defs, self::get_meta_field_defs( 'social' ) );
+		return array_merge( $field_defs, WPSEO_Meta::get_meta_field_defs( 'social' ) );
 	}
 
 	/**
@@ -237,10 +237,10 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		$reset_facebook_cache = false;
 
 		foreach ( $fields_to_compare as $field_to_compare ) {
-			$old_value = self::get_value( $field_to_compare, $post->ID );
+			$old_value = WPSEO_Meta::get_value( $field_to_compare, $post->ID );
 
 			$new_value = '';
-			$post_key  = self::$form_prefix . $field_to_compare;
+			$post_key  = WPSEO_Meta::$form_prefix . $field_to_compare;
 			if ( isset( $_POST[ $post_key ] ) ) {
 				$new_value = sanitize_text_field( wp_unslash( $_POST[ $post_key ] ) );
 			}
@@ -250,7 +250,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				break;
 			}
 		}
-		unset( $field_to_compare, $old_value, $new_value );
+		unset( $old_value, $new_value );
 
 		if ( $reset_facebook_cache ) {
 			wp_remote_get(
