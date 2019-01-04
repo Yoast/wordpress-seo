@@ -52,7 +52,7 @@ export default class DashboardWidget extends React.Component {
 			feed: null,
 		};
 
-		this.getFeed( "free" );
+		this.getFeed();
 	}
 
 	/**
@@ -64,13 +64,10 @@ export default class DashboardWidget extends React.Component {
 		// Developer note: this link should -not- be converted to a shortlink.
 		getPostFeed( "https://yoast.com/feed/widget/", 3 )
 			.then( ( feed ) => {
-				feed.title = "Feed title";
-				feed.link  = "https://www.yoast.com";
-
 				feed.items = feed.items.map( ( item ) => {
+					// The implementation on wordpress-seo makes use of jQuery for escaping.
 					item.description = item.description;
 					item.description = item.description.replace( `The post ${ item.title } appeared first on Yoast.`, "" ).trim();
-					item.content = item.content;
 
 					return item;
 				} );
@@ -98,7 +95,7 @@ export default class DashboardWidget extends React.Component {
 					/>
 					{ feed && <DashboardWidgetWordpressFeed
 						feed={ feed }
-						footerHtml="View our blog on yoast.com!"
+						footerLinkText="View our blog on yoast.com!"
 					/> }
 				</DashboardContainer>
 			</DashboardWidgetContainer>

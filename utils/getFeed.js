@@ -22,13 +22,6 @@ import { parseFeedItem as parsePostFeedItem } from "./getPostFeed";
  * @returns {string|undefined} The string result of the xpath query.
  */
 export function getXPathText( xpath, document, context = null, nsResolver = null ) {
-	const tagname = xpath.replace( "child::", "" );
-	const elementExists = document.getElementsByTagName( tagname );
-
-	if ( typeof elementExists[ 0 ] === "undefined" ) {
-		return;
-	}
-
 	const result = document.evaluate( xpath, ( context || document ), nsResolver, XPathResult.STRING_TYPE, null );
 
 	if ( result.stringValue ) {
