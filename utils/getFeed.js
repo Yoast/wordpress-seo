@@ -22,14 +22,19 @@ import { parseFeedItem as parsePostFeedItem } from "./getPostFeed";
  * @returns {string|undefined} The string result of the xpath query.
  */
 export function getXPathText( xpath, document, context = null, nsResolver = null ) {
+	const elementCount = document.evaluate( "count(" + xpath + ")", ( context || document ), nsResolver, XPathResult.ANY_TYPE, null ).numberValue;
+
+	if ( elementCount === 0 ) {
+		return;
+	}
+
 	const result = document.evaluate( xpath, ( context || document ), nsResolver, XPathResult.STRING_TYPE, null );
 
 	if ( result.stringValue ) {
 		return result.stringValue;
 	}
 
-	// eslint-disable-next-line no-undefined
-	return undefined;
+	return null;
 }
 
 /**
