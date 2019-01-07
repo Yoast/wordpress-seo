@@ -60,12 +60,5 @@ describe( "Node", () => {
 			expect( tree.children[ 1 ].children[ 0 ].text ).toEqual( "[REDACTED]" );
 		} );
 	} );
-
-	it( "throws a warning when calling the abstract filter function", () => {
-		const node = new Node( "node" );
-		node.filter( () => {} );
-
-		expect( console.warn ).toBeCalled();
-	} );
 } );
 
