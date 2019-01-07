@@ -1,24 +1,24 @@
 import Paper from "../../../../src/values/Paper.js";
-import content from "./italianPaper3.html";
+import content from "./polishPaper2.html";
 
-const name = "italianPaper3";
+const name = "polishPaper2";
 
 const paper = new Paper( content, {
-	keyword: "L'istruzione femminile",
-	synonyms: "Istruzione per alle bambine, alle ragazze e alle donne",
-	description: "L'istruzione pubblica sia la scuola privata (dall'istruzione primaria, all'istruzione secondaria, all'istruzione superiore e all'educazione sanitaria in particolare) rivolte espressamente alle bambine, alle ragazze e alle donne.",
-	title: "Istruzione femminile",
+	keyword: "Historia Szczecina",
+	synonyms: "Historia miasta Szczecin",
+	description: "W 967 roku Mieszko I przyłączył Pomorze wraz ze Szczecinem do Polski. Czytaj dalej, żeby dowiedzieć się, co się działo później!",
+	title: "Historia Szczecina",
 	titleWidth: 450,
-	locale: "it_IT",
-	permalink: "https://it.wikipedia.org/wiki/Istruzione-femminile",
-	url: "Istruzione-femminile",
+	locale: "pl_PL",
+	permalink: "https://pl.wikipedia.org/wiki/Szczecin",
+	url: "Szczecin",
 } );
 
 const expectedResults = {
 	introductionKeyword: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Your keyphrase or its synonyms do not appear in the first paragraph. <a href='https://yoa.st/33f' target='_blank'>Make sure the topic is clear immediately</a>.",
 	},
 	keyphraseLength: {
 		isApplicable: true,
@@ -28,17 +28,17 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 4,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 0.3%. This is too low; the keyphrase was found 2 times. <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 0%. This is too low; the keyphrase was found 0 times. <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: Keyphrase or synonym appear in the meta description. Well done!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: The meta description has been specified, but it does not contain the keyphrase. <a href='https://yoa.st/33l' target='_blank'>Fix that</a>!",
 	},
 	metaDescriptionLength: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: The meta description is over 156 characters. To ensure the entire description will be visible, <a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: Well done!",
 	},
 	subheadingsKeyword: {
 		isApplicable: false,
@@ -56,7 +56,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 709 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 1189 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -70,8 +70,8 @@ const expectedResults = {
 	},
 	titleKeyword: {
 		isApplicable: true,
-		score: 2,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Not all the words from your keyphrase \"L&#39;istruzione femminile\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>Try to use the exact match of your keyphrase in the SEO title</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the keyphrase appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
 		isApplicable: true,
@@ -93,13 +93,11 @@ const expectedResults = {
 	},
 	keyphraseDistribution: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
+		score: 0,
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: <a href='https://yoa.st/33u' target='_blank'>Include your keyphrase or its synonyms in the text so that we can check keyphrase distribution</a>.",
 	},
 	fleschReadingEase: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 61.1 in the test, which is considered ok to read. Good job!",
+		isApplicable: false,
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -113,13 +111,13 @@ const expectedResults = {
 	},
 	textSentenceLength: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 28.2% of the sentences contain more than 25 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!",
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 13.4% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
@@ -133,8 +131,8 @@ const expectedResults = {
 	},
 	sentenceBeginnings: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: The text contains 3 instances where 3 or more consecutive sentences start with the same word. <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!",
 	},
 };
 
