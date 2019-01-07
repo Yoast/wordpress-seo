@@ -2,7 +2,13 @@
 
 exports[`The CardDetails component matches the snapshot when given specific props 1`] = `
 Array [
-  .c1 li {
+  .c1 ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.c1 li {
   position: relative;
   margin-left: 16px;
 }
@@ -57,7 +63,6 @@ you’ll learn how to research and select the keywords that will guide searchers
 }
 
 .c1 {
-  cursor: pointer;
   color: #000;
   white-space: nowrap;
   display: block;
@@ -70,7 +75,6 @@ you’ll learn how to research and select the keywords that will guide searchers
   text-decoration: none;
   font-weight: bold;
   font-size: inherit;
-  margin-top: 0;
   margin-bottom: 8px;
 }
 
@@ -79,13 +83,13 @@ you’ll learn how to research and select the keywords that will guide searchers
 .c1:active {
   color: #000;
   background-color: #cecece;
-  -webkit-text-decoration: none;
-  text-decoration: none;
 }
 
 .c1:active {
-  position: relative;
-  top: 2px background-color:#cecece;
+  background-color: #cecece;
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
   box-shadow: none;
   -webkit-filter: none;
   filter: none;
@@ -105,7 +109,7 @@ you’ll learn how to research and select the keywords that will guide searchers
     <a
       className="c1"
       href="https://yoast.com/cart/?add-to-cart=1311259"
-      rel="noopener noreferrer"
+      rel={null}
       target="_blank"
     >
       Start your free trail
@@ -118,7 +122,7 @@ you’ll learn how to research and select the keywords that will guide searchers
     <a
       className="c3"
       href="https://yoast.com/academy/keyword-research-training/"
-      rel="noopener noreferrer"
+      rel={null}
       target="_blank"
     >
       Read more about this training »
@@ -134,7 +138,13 @@ you’ll learn how to research and select the keywords that will guide searchers
 
 exports[`The empty CardDetails component matches the snapshot 1`] = `
 Array [
-  .c1 li {
+  .c1 ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.c1 li {
   position: relative;
   margin-left: 16px;
 }
@@ -213,8 +223,9 @@ Array [
 }
 
 .c1:active {
-  position: relative;
-  top: 2px;
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
   box-shadow: none;
   -webkit-filter: none;
   filter: none;
@@ -234,7 +245,7 @@ Array [
     <a
       className="c1"
       href={undefined}
-      rel="noopener noreferrer"
+      rel={null}
       target="_blank"
     >
       <span
@@ -246,7 +257,7 @@ Array [
     <a
       className="c3"
       href=""
-      rel="noopener noreferrer"
+      rel={null}
       target="_blank"
     >
       
