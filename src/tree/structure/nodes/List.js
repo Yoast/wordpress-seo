@@ -3,6 +3,8 @@ import Node from "./Node";
 /**
  * Represents a list of items.
  *
+ * @extends module:tree/structure.Node
+ *
  * @memberOf module:tree/structure
  */
 class List extends Node {

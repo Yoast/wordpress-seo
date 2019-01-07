@@ -4,6 +4,8 @@ import Node from "./Node";
  *
  * Examples from HTML include content within `<script>` and `<style>` elements.
  *
+ * @extends module:tree/structure.Node
+ *
  * @memberOf module:tree/structure
  */
 class StructuredIrrelevant extends Node {

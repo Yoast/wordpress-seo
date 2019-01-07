@@ -12,9 +12,11 @@ import TreeAdapter from "./TreeAdapter";
  * Sets the start and end index of the given node or formatting element,
  * based on its source code location as parsed by `parse5`.
  *
- * @param {Node|FormattingElement} element  The element to set the start and end index of.
+ * @param {module:tree/structure.Node|FormattingElement} element  The element to set the start and end index of.
  *
  * @returns {void}
+ *
+ * @private
  */
 const setStartEndIndex = function( element ) {
 	if ( element.location ) {
@@ -32,6 +34,8 @@ const setStartEndIndex = function( element ) {
  * @param {Object} element  The element to delete parameters of.
  *
  * @returns {void}
+ *
+ * @private
  */
 const deleteParseParameters = function( element ) {
 	delete element.location;
@@ -46,6 +50,8 @@ const deleteParseParameters = function( element ) {
  * @param {string} html                                     The source code to parse the contents from
  *
  * @returns {string} The element's contents.
+ *
+ * @private
  */
 const getElementContent = function( element, html ) {
 	const location = element.location;
@@ -64,6 +70,8 @@ const getElementContent = function( element, html ) {
  * @param {string} html The html string from which to remove the html tags from.
  *
  * @returns {string} The string with the html tags removed.
+ *
+ * @private
  */
 const removeHtmlTags = function( html ) {
 	return html.replace( /<[^>]*>/g, "" );
@@ -75,6 +83,8 @@ const removeHtmlTags = function( html ) {
  * @param {string} html The html string to remove the irrelevant html elements from.
  *
  * @returns {string} The html string with the irrelevant html elements removed.
+ *
+ * @private
  */
 const removeIrrelevantHtml = function( html ) {
 	irrelevantHtmlElements.forEach( tag => {
@@ -92,6 +102,8 @@ const removeIrrelevantHtml = function( html ) {
  * @param {string} html                  The original html source code
  *
  * @returns {void}
+ *
+ * @private
  */
 const setStartEndText = function( node, html ) {
 	if ( ! node.textContainer.formatting || node.textContainer.formatting.length === 0 ) {
@@ -166,10 +178,12 @@ const setStartEndText = function( node, html ) {
  * These steps are setting the start and end index of each node and
  * deleting attributes needed for parsing, but not needed for further analysis.
  *
- * @param {Node} tree		The tree structure to be cleaned.
+ * @param {module:tree/structure.Node} tree		The tree structure to be cleaned.
  * @param {string} html	The original HTML source code.
  *
- * @returns {Node} The cleaned u tree.
+ * @returns {module:tree/structure#Node} The cleaned up tree.
+ *
+ * @private
  */
 const cleanUpAfterParsing = function( tree, html ) {
 	let endIndexRootNode = 0;
@@ -206,12 +220,16 @@ const cleanUpAfterParsing = function( tree, html ) {
  * Parses the given html-string to a tree, to be used in further analysis.
  *
  * @param {string} html	The html-string that should be parsed.
- * @returns {Node} The tree.
+ * @returns {module:tree/structure.Node} The build tree.
+ *
+ * @memberOf module:tree/builder
  */
-export default function( html ) {
+const buildTree = function( html ) {
 	const treeAdapter = new TreeAdapter();
 	let tree = parseFragment( html, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
 	// Cleanup takes < 2ms, even after parsing a big HTML file. (measured using `console.time`).
 	tree = cleanUpAfterParsing( tree, html );
 	return tree;
-}
+};
+
+export default buildTree;

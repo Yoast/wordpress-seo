@@ -1,4 +1,4 @@
-import buildTree from "../../../src/tree/builder/buildTree";
+import buildTree from "../../../src/tree/builder";
 import { Paragraph, StructuredNode, FormattingElement,
 	List, ListItem, StructuredIrrelevant, Heading, TextContainer } from "../../../src/tree/structure";
 

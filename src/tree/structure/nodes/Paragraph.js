@@ -3,6 +3,8 @@ import TextContainer from "../TextContainer";
 /**
  * Represents a paragraph with text within a document.
  *
+ * @extends module:tree/structure.Node
+ *
  * @memberOf module:tree/structure
  */
 class Paragraph extends Node {

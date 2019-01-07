@@ -3,6 +3,8 @@ import TextContainer from "../TextContainer";
 /**
  * A header in a document.
  *
+ * @extends module:tree/structure.Node
+ *
  * @memberOf module:tree/structure
  */
 class Heading extends Node {
@@ -20,7 +22,7 @@ class Heading extends Node {
 		this.level = level;
 		/**
 		 * A container for keeping this heading's
-		 * @type {TextContainer}
+		 * @type {module:tree/structure.TextContainer}
 		 */
 		this.textContainer = new TextContainer();
 	}

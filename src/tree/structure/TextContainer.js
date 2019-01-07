@@ -38,7 +38,7 @@ class TextContainer {
 		this.text = "";
 		/**
 		 * This text's formatting (e.g. bold text, links, etc.).
-		 * @type {FormattingElement[]}
+		 * @type {module:tree/structure.FormattingElement[]}
 		 */
 		this.formatting = [];
 	}

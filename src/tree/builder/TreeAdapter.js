@@ -15,6 +15,8 @@ import { formattingElements, headings, irrelevantHtmlElements } from "./htmlClas
  *
  * Implements the `parse5` library's `TreeAdapter` interface
  * @see https://github.com/inikulin/parse5/blob/master/packages/parse5/docs/tree-adapter/interface.md
+ *
+ * @memberOf module:tree/builder
  */
 class TreeAdapter {
 	// Creation of nodes and other tree elements.
@@ -24,9 +26,9 @@ class TreeAdapter {
 	 *
 	 * @param {string} tag									The HTML tag.
 	 * @param {string} namespace							The XML namespace (e.g. "http://www.w3.org/1999/xhtml" for HTML).
-	 * @param {{ name: string, value: string }[]} attributes	The attributes of this element.
+	 * @param {Array<{ name: string, value: string }>} attributes	The attributes of this element.
 	 *
-	 * @returns {Node|FormattingElement} The new element.
+	 * @returns {module:tree/structure.Node|module:tree/structure.FormattingElement} The new element.
 	 */
 	createElement( tag, namespace, attributes ) {
 		let node;
@@ -55,7 +57,7 @@ class TreeAdapter {
 	 *
 	 * @param {string} tag		The HTML-tag of the element to add.
 	 *
-	 * @returns {Node} The node to add to the tree.
+	 * @returns {module:tree/structure.Node} The node to add to the tree.
 	 *
 	 * @private
 	 */
@@ -81,7 +83,7 @@ class TreeAdapter {
 	 * Parses the HTML element attributes from parse5's format to a plain JS object.
 	 * E.g. `{ name: "id", value: "an-id" }` becomes ` { id: "an-id" }`.
 	 *
-	 * @param {{ name: string, value: string }[]} parse5attributes		The attributes as parsed by parse5.
+	 * @param {Array<{ name: string, value: string }>} parse5attributes		The attributes as parsed by parse5.
 	 *
 	 * @returns {Object} The parsed attributes.
 	 *
