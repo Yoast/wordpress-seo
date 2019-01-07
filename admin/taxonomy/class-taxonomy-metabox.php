@@ -235,9 +235,10 @@ class WPSEO_Taxonomy_Metabox {
 	 */
 	private function get_buy_premium_link() {
 		return sprintf(
-			'<div class="wpseo-metabox-buy-premium"><a target="_blank" href="%1$s"><span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>%2$s</a></div>',
+			'<div class="wpseo-metabox-buy-premium"><a target="_blank" href="%1$s"><span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>%2$s%3$s</a></div>',
 			esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3hh' ) ),
-			esc_html__( 'Go Premium', 'wordpress-seo' )
+			esc_html__( 'Go Premium', 'wordpress-seo' ),
+			WPSEO_Admin_Utils::get_new_tab_message()
 		);
 	}
 }
