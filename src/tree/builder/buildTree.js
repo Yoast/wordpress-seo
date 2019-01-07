@@ -12,7 +12,7 @@ import TreeAdapter from "./TreeAdapter";
  * Sets the start and end index of the given node or formatting element,
  * based on its source code location as parsed by `parse5`.
  *
- * @param {module:tree/structure.Node|FormattingElement} element  The element to set the start and end index of.
+ * @param {module:tree/structure.Node|module:tree/structure.FormattingElement} element  The element to set the start and end index of.
  *
  * @returns {void}
  *
@@ -46,8 +46,8 @@ const deleteParseParameters = function( element ) {
 /**
  * Gets the content of an element (the part _between_ the opening and closing tag) from the HTML source code.
  *
- * @param {StructuredIrrelevant|FormattingElement} element  The element to parse the contents of
- * @param {string} html                                     The source code to parse the contents from
+ * @param {module:tree/structure.StructuredIrrelevant|module:tree/structure.FormattingElement} element  The element to parse the contents of
+ * @param {string} html                                                                                 The source code to parse the contents from
  *
  * @returns {string} The element's contents.
  *
@@ -98,8 +98,8 @@ const removeIrrelevantHtml = function( html ) {
  * Sets the start and end position of the formatting elements in the given TextContainer,
  * as found within the text container's text.
  *
- * @param {Heading|Paragraph} node  The TextContainer
- * @param {string} html                  The original html source code
+ * @param {module:tree/structure.Heading|module:tree/structure.Paragraph} node  The TextContainer
+ * @param {string} html                                                         The original html source code
  *
  * @returns {void}
  *
@@ -121,16 +121,16 @@ const setStartEndText = function( node, html ) {
 	node.textContainer.formatting.forEach( element => {
 		/*
 		  Gather all the elements that can be closed
-		  (i.o.w. when we are not nested inside the element).
+		  (i.o.w. when the current element is not nested inside the element to be closed).
 		 */
 		const elementsToClose = elementsToBeClosed.filter( el => el.position <= element.location.startOffset );
-		elementsToClose.forEach( el => {
+		elementsToClose.forEach( elementToClose => {
 			/*
 			  Add the end tag length of the to be closed element to the total offset,
 			  and remove the element from the stack.
 			 */
-			totalOffset += el.length;
-			const index = elementsToBeClosed.indexOf( el );
+			totalOffset += elementToClose.length;
+			const index = elementsToBeClosed.indexOf( elementToClose );
 			elementsToBeClosed.splice( index, 1 );
 		} );
 
@@ -179,9 +179,9 @@ const setStartEndText = function( node, html ) {
  * deleting attributes needed for parsing, but not needed for further analysis.
  *
  * @param {module:tree/structure.Node} tree		The tree structure to be cleaned.
- * @param {string} html	The original HTML source code.
+ * @param {string} html	                      The original HTML source code.
  *
- * @returns {module:tree/structure#Node} The cleaned up tree.
+ * @returns {module:tree/structure.Node} The cleaned up tree.
  *
  * @private
  */
