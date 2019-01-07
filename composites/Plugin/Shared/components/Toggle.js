@@ -100,7 +100,7 @@ class Toggle extends React.Component {
 	}
 
 	/**
-	 * Prevente the page from scrolling when using the Space bar key.
+	 * Prevents the page from scrolling when using the Space bar key.
 	 *
 	 * @param {Object} event React SyntheticEvent.
 	 *

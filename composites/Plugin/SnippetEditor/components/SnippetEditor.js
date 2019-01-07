@@ -99,6 +99,9 @@ function getDescriptionProgress( description, date ) {
 	};
 }
 
+/**
+ * The snippet editor component.
+ */
 class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.

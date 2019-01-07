@@ -6,12 +6,26 @@ import colors from "../../../../style-guide/colors";
 import { Button } from "../../Shared/components/Button";
 import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
+/**
+ * Returns an SVG for the background image.
+ *
+ * @param {string} color The desired color for the SVG.
+ *
+ * @returns {string} The SVG image.
+ */
 export const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURIComponent(
 	'<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">' +
 	'<path fill="' + color + '" d="M1152 896q0 26-19 45l-448 448q-19 19-45 19t-45-19-19-45v-896q0-26 19-45t45-19 45 19l448 448q19 19 19 45z" />' +
 	"</svg>"
 );
 
+/**
+ * Returns an SVG for the background image.
+ *
+ * @param {string} color The desired color for the SVG.
+ *
+ * @returns {string} The SVG image.
+ */
 export const angleLeft = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURIComponent(
 	'<svg width="1792" height="1792" viewBox="0 0 192 512" xmlns="http://www.w3.org/2000/svg">' +
 	'<path fill="' + color + '" d="M192 127.338v257.324c0 17.818-21.543 26.741-34.142 14.142L29.196 ' +
@@ -80,6 +94,13 @@ function getBackgroundImage( props ) {
 	return rtlStyle( props );
 }
 
+/**
+ * Takes a component and extends it with caret styles.
+ *
+ * @param {Component} Component The component to be extended.
+ *
+ * @returns {Component} Component with added style.
+ */
 export const withCaretStyles = Component => {
 	return Component.extend`
 		&::before {

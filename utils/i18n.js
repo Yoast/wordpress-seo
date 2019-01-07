@@ -65,11 +65,26 @@ export function localize( ComposedComponent ) {
 	const i18nProps = {
 		translate: translate,
 	};
+
+	/**
+	 * The LocalizedComponent Class.
+	 */
 	class LocalizedComponent extends React.Component {
+		/**
+		 *  Constructs the LocalizedComponent.
+		 *
+		 *  @param {Object} props The props for this localized component.
+		 */
 		constructor( props ) {
 			super( props );
 			this.displayName = "Localized" + componentName;
 		}
+
+		/**
+		 * Renders the component.
+		 *
+		 * @returns {ReactElement} The ComposedComponent.
+		 */
 		render() {
 			const props = assign( {}, this.props, i18nProps );
 			return <ComposedComponent { ...props } />;

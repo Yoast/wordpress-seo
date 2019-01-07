@@ -17,6 +17,13 @@ const StyledMention = styled.span`
 	}
 `;
 
+/**
+ * Returns a StyledMention component.
+ *
+ * @param {object} props The component's props.
+ *
+ * @returns {ReactElement} The StyledMention component.
+ */
 export const Mention = ( { children, className } ) => {
 	return <StyledMention
 		className={ className }
