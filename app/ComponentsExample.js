@@ -77,7 +77,7 @@ export default class ComponentsExample extends React.Component {
 				this.setState( { courses: feed.items } );
 			} )
 			/* eslint-disable-next-line no-console */
-			.catch( error => console.log( error ) );
+			.catch( error => console.error( error ) );
 	}
 
 	/**

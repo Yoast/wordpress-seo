@@ -75,7 +75,7 @@ export default class DashboardWidget extends React.Component {
 				this.setState( { feed } );
 			} )
 			/* eslint-disable-next-line no-console */
-			.catch( error => console.log( error ) );
+			.catch( error => console.error( error ) );
 	}
 
 	/**
