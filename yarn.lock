@@ -10345,10 +10345,10 @@ yeoman-generator@^2.0.4:
     through2 "^2.0.0"
     yeoman-environment "^2.0.5"
 
-yoastseo@^1.44.0:
-  version "1.44.0"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.44.0.tgz#4d1b66a96c4d3812b6a2ae403fed7e8cc31fc2ef"
-  integrity sha512-37woRKLULGW0LYtJvXounj1dNTUmURmWYZU2e5OhaQxzk9bZFPwSYwsLIdWm2dE0Svs/2ycTcqnq+jkKnmpKVw==
+yoastseo@^1.45.0:
+  version "1.45.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.45.0.tgz#3e12df84475294bbf2e7a586049b9ff2bb811384"
+  integrity sha512-S/F1xltODr6Wbv2A9HGehYQHfXZTJue4/eW+cbrxz3wOJxxVCgFl6NnYv2cR20ZlhZpJKegvmbo8aR65r3Jfwg==
   dependencies:
     "@wordpress/autop" "^2.0.2"
     htmlparser2 "^3.9.2"

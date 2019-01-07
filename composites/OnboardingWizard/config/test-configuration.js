@@ -1,93 +1,93 @@
-import MailchimpSignup from '../components/custom_components/MailchimpSignup';
+import MailchimpSignup from "../components/custom_components/MailchimpSignup";
 import PublishingEntity from "../components/custom_components/PublishingEntity";
 import PostTypeVisibility from "../components/custom_components/PostTypeVisibility";
 import ConnectGoogleSearchConsole from "../components/custom_components/ConnectGoogleSearchConsole";
 
-let configuration = {
-	"endpoint": "http://127.0.0.1:8882/onboarding?wp_nonce=nonce",
-	"customComponents": {
+const configuration = {
+	endpoint: "http://127.0.0.1:8882/onboarding?wp_nonce=nonce",
+	customComponents: {
 		MailchimpSignup, PublishingEntity, PostTypeVisibility, ConnectGoogleSearchConsole,
 	},
-	"fields": {
-		"upsellConfigurationService": {
-			"componentName": "HTML",
-			"properties": {
-				"html": "You can now have Yoast configure Yoast SEO for you.",
+	fields: {
+		upsellConfigurationService: {
+			componentName: "HTML",
+			properties: {
+				html: "You can now have Yoast configure Yoast SEO for you.",
 			},
 		},
-		"mailchimpSignup": {
-			"componentName": "MailchimpSignup",
-			"properties": {
-				"label": "If you would like us to keep you up-to-date regarding Yoast SEO and other plugins by Yoast, subscribe to our newsletter:",
+		mailchimpSignup: {
+			componentName: "MailchimpSignup",
+			properties: {
+				label: "If you would like us to keep you up-to-date regarding Yoast SEO and other plugins by Yoast, subscribe to our newsletter:",
 			},
-			"data": "",
+			data: "",
 		},
-		"environment": {
-			"componentName": "Choice",
-			"properties": {
-				"label": "Please specify the environment {site_url} is running in.",
-				"choices": {
-					"production": {
-						"label": "Production - live site.",
+		environment: {
+			componentName: "Choice",
+			properties: {
+				label: "Please specify the environment {site_url} is running in.",
+				choices: {
+					production: {
+						label: "Production - live site.",
 					},
 				},
 			},
-			"data": "",
+			data: "",
 			"default": "production",
 		},
-		"siteType": {
-			"componentName": "Choice",
-			"properties": {
-				"label": "What type of site is {site_url}?",
-				"choices": {
-					"blog": {
-						"label": "Blog",
+		siteType: {
+			componentName: "Choice",
+			properties: {
+				label: "What type of site is {site_url}?",
+				choices: {
+					blog: {
+						label: "Blog",
 					},
-					"shop": {
-						"label": "Shop",
+					shop: {
+						label: "Shop",
 					},
-					"news": {
-						"label": "News site",
+					news: {
+						label: "News site",
 					},
-					"smallBusiness": {
-						"label": "Small business site",
+					smallBusiness: {
+						label: "Small business site",
 					},
-					"corporateOther": {
-						"label": "Other corporate site",
+					corporateOther: {
+						label: "Other corporate site",
 					},
-					"personalOther": {
-						"label": "Other personal site",
+					personalOther: {
+						label: "Other personal site",
 					},
 				},
 			},
-			"data": "",
+			data: "",
 		},
-		"publishingEntity": {
-			"componentName": "PublishingEntity",
-			"data": {
-				"publishingEntityType": "{publishing_entity_type}",
+		publishingEntity: {
+			componentName: "PublishingEntity",
+			data: {
+				publishingEntityType: "{publishing_entity_type}",
 			},
-			"defaults": {
-				"publishingEntityType": "",
+			defaults: {
+				publishingEntityType: "",
 			},
 		},
 	},
-	"steps": {
-		"intro": {
-			"title": "Intro",
-			"fields": [ "upsellConfigurationService", "mailchimpSignup" ],
+	steps: {
+		intro: {
+			title: "Intro",
+			fields: [ "upsellConfigurationService", "mailchimpSignup" ],
 		},
-		"environment": {
-			"title": "Environment",
-			"fields": [ "environment" ],
+		environment: {
+			title: "Environment",
+			fields: [ "environment" ],
 		},
-		"siteType": {
-			"title": "Site type",
-			"fields": [ "siteType" ],
+		siteType: {
+			title: "Site type",
+			fields: [ "siteType" ],
 		},
-		"publishingEntity": {
-			"title": "Company or person",
-			"fields": [ "publishingEntity" ],
+		publishingEntity: {
+			title: "Company or person",
+			fields: [ "publishingEntity" ],
 		},
 	},
 };

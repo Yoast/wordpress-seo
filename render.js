@@ -9,7 +9,7 @@ import AppWrapper from "./app/AppWrapper";
 function render( RootElement ) {
 	ReactDOM.render(
 		<AppWrapper>
-			<RootElement/>
+			<RootElement />
 		</AppWrapper>,
 		document.getElementById( "container" )
 	);

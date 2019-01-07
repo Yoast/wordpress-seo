@@ -4,9 +4,9 @@
  * @type {{url: string, headers: {X-WP-Nonce: string}}}
  */
 
-let host = window.location.host.split( ":" )[ 0 ];
+const host = window.location.host.split( ":" )[ 0 ];
 
-let apiConfig = {
+const apiConfig = {
 	url: "http://" + host + ":8882/onboarding",
 	headers: {
 		// The nonce is for WordPress only.

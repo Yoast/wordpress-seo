@@ -1,6 +1,5 @@
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import getMuiTheme from "material-ui/styles/getMuiTheme";
-import colors from '../../../style-guide/colors.json';
+import colors from "../../../style-guide/colors.json";
 
 /**
  * Custom colors palette.
@@ -11,7 +10,7 @@ const muiTheme = getMuiTheme( {
 	},
 	stepper: {
 		iconColor: colors.$color_green_medium,
-	}
+	},
 } );
 
 export default muiTheme;

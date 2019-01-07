@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.18.0 January 7th, 2019
+### Other
+* Bumps YoastSEO.js version to 1.45.0.
+
 ## 4.17.0 December 17th, 2018
 ### Added
 * Adds onBlur and onFocus prop to SynonymsInput component.

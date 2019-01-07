@@ -17,7 +17,7 @@ jest.mock( "../linkSuggestions", () => {
 	};
 } );
 
-describe ( "rootReducer with a SET_PROMINENT_WORDS action ", () => {
+describe( "rootReducer with a SET_PROMINENT_WORDS action ", () => {
 	it( "returns the correct reducers", () => {
 		const state = {};
 		const action = {

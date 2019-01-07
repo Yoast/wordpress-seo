@@ -9,9 +9,8 @@ function cloneDeep( object ) {
 }
 
 const WizardWrapper = () => {
-	let config = cloneDeep( Config );
+	const config = cloneDeep( Config );
 
-	// @todo: Add customComponents manually, because cloneDeep is clearing the value of it. Should be solved.
 	config.customComponents = Config.customComponents;
 	config.endpoint = apiConfig;
 

@@ -103,7 +103,8 @@ export default function SidebarCollapsibleWrapper() {
 						prefixIconCollapsed={ { icon: "seo-score-good", color: colors.$color_green_medium } }
 					>
 						<StyledContent>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+								eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 						</StyledContent>
 					</StyledCollapsible>
 					<StyledCollapsible
@@ -114,7 +115,8 @@ export default function SidebarCollapsibleWrapper() {
 						prefixIconCollapsed={ { icon: "seo-score-good", color: colors.$color_green_medium } }
 					>
 						<StyledContent>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+								eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 						</StyledContent>
 					</StyledCollapsible>
 					<StyledCollapsible
@@ -123,7 +125,10 @@ export default function SidebarCollapsibleWrapper() {
 						suffixIconCollapsed={ { icon: "question-circle", color: colors.$color_purple } }
 					>
 						<StyledContent>
-							<p>Maybe some help text here with a link <a target="_blank" rel="noopener noreferrer" href="https://yoast.com">Go to Yoast</a></p>
+							<p>
+								Maybe some help text here with a link
+								 <a target="_blank" rel="noopener noreferrer" href="https://yoast.com">Go to Yoast</a>
+							</p>
 						</StyledContent>
 					</StyledCollapsible>
 					<StyledCollapsible
@@ -134,7 +139,8 @@ export default function SidebarCollapsibleWrapper() {
 						suffixIconCollapsed={ { icon: "plus-circle", color: colors.$color_red, size: "30px" } }
 					>
 						<StyledContent>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+								sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 						</StyledContent>
 					</StyledCollapsible>
 					<StyledCollapsible
@@ -145,7 +151,8 @@ export default function SidebarCollapsibleWrapper() {
 						suffixIconCollapsed={ { icon: "plus-circle", color: colors.$color_red, size: "30px" } }
 					>
 						<StyledContent>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+								sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 						</StyledContent>
 					</StyledCollapsible>
 				</WidgetContainer>
@@ -153,15 +160,30 @@ export default function SidebarCollapsibleWrapper() {
 			<br />
 			<StyledCollapsible
 				title="Good!"
-				subTitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+				subTitle="Lorem ipsum dolor sit amet,
+				 consectetur adipisicing elit,
+				  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+				   Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+				    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+				     Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 				titleScreenReaderText="Good SEO score"
 				prefixIcon={ { icon: "seo-score-good", color: colors.$color_green_medium } }
 				prefixIconCollapsed={ { icon: "seo-score-good", color: colors.$color_green_medium } }
 			>
 				<StyledContent>
-					<p>One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.
-					The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked.
-					“What’s happened to me?” he thought. It wasn’t a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls. A collection of textile samples lay spread out on the table — Samsa was a travelling salesman — and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer.</p>
+					<p>One morning, when Gregor Samsa woke from troubled dreams,
+						he found himself transformed in his bed into a horrible vermin.
+						He lay on his armour-like back, and if he lifted his head a little he could see his brown belly,
+						slightly domed and divided by arches into stiff sections.
+					The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs,
+						pitifully thin compared with the size of the rest of him, waved about helplessly as he looked.
+					“What’s happened to me?” he thought. It wasn’t a dream. His room, a proper human room although a little too small,
+						lay peacefully between its four familiar walls.
+						A collection of textile samples lay spread out on the table
+						— Samsa was a travelling salesman —
+						and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice,
+						gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright,
+						raising a heavy fur muff that covered the whole of her lower arm towards the viewer.</p>
 				</StyledContent>
 			</StyledCollapsible>
 			<StyledCollapsible
@@ -172,7 +194,14 @@ export default function SidebarCollapsibleWrapper() {
 				prefixIconCollapsed={ { icon: "seo-score-ok", color: colors.$color_yellow_score } }
 			>
 				<StyledContent>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+						sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+						Ut enim ad minim veniam,
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+						Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+						Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</p>
 				</StyledContent>
 			</StyledCollapsible>
 			<StyledCollapsible
@@ -183,7 +212,14 @@ export default function SidebarCollapsibleWrapper() {
 				prefixIconCollapsed={ { icon: "seo-score-bad", color: colors.$color_red } }
 			>
 				<StyledContent>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+						sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+						Ut enim ad minim veniam,
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+						Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+						Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</p>
 				</StyledContent>
 			</StyledCollapsible>
 			<StyledCollapsible
@@ -193,7 +229,14 @@ export default function SidebarCollapsibleWrapper() {
 				prefixIconCollapsed={ { icon: "seo-score-none", color: colors.$color_grey_disabled } }
 			>
 				<StyledContent>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+						sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+						Ut enim ad minim veniam,
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+						Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+						Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</p>
 				</StyledContent>
 			</StyledCollapsible>
 		</FullWidthContaniner>
