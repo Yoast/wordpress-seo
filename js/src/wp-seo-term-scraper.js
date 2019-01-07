@@ -339,7 +339,7 @@ window.yoastHideMarkers = true;
 			YoastSEO.analysis.applyMarks,
 			YoastSEO.store,
 			termScraper,
-		), refreshDelay )  );
+		), refreshDelay ) );
 
 		if ( isKeywordAnalysisActive() ) {
 			initializeKeywordAnalysis( termScraper );
