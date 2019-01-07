@@ -8,7 +8,7 @@
 /**
  * This class generates the metabox on the edit post / page as well as contains all page analysis functionality.
  */
-class WPSEO_Metabox  {
+class WPSEO_Metabox {
 
 	/**
 	 * @var WPSEO_Social_Admin
@@ -503,7 +503,7 @@ class WPSEO_Metabox  {
 					$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" name="' . $esc_form_key . '[]" id="' . $esc_form_key . '" class="yoast' . $class . '"' . $aria_describedby . '>';
 					foreach ( $meta_field_def['options'] as $val => $option ) {
 						$selected = '';
-						if ( in_array( $val, $selected_arr ) ) {
+						if ( in_array( $val, $selected_arr, true ) ) {
 							$selected = ' selected="selected"';
 						}
 						$content .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
