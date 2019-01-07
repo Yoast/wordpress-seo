@@ -1,6 +1,11 @@
 // Make sure the Jed object is globally available
 import Jed from "jed";
 
+/**
+ * A mock factory function.
+ *
+ * @returns {void}.
+ */
 const FactoryProto = function() {};
 
 FactoryProto.prototype.buildJed = function() {
@@ -38,18 +43,42 @@ FactoryProto.prototype.buildMockElement = function() {
 FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false, hasMorphologyData = false ) {
 	if ( multiValue && typeof expectedValue === "object" ) {
 		return {
+			/**
+			 * Return research results by its name for multi-value mock researchers.
+			 *
+			 * @param {string} research The name of the research.
+			 *
+			 * @returns {Object} The results of the research.
+			 */
 			getResearch: function( research ) {
 				return expectedValue[ research ];
 			},
+
+			/**
+			 * Return research data if available.
+			 *
+			 * @returns {boolean} True if the researcher has access to morphology data.
+			 */
 			getData: function() {
 				return hasMorphologyData;
 			},
 		};
 	}
 	return {
+		/**
+		 * Return research results.
+		 *
+		 * @returns {Object} The results of the research.
+		 */
 		getResearch: function() {
 			return expectedValue;
 		},
+
+		/**
+		 * Return research data if available.
+		 *
+		 * @returns {boolean} True if the researcher has access to morphology data.
+		 */
 		getData: function() {
 			return hasMorphologyData;
 		},
