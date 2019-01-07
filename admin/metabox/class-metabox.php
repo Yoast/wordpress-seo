@@ -718,10 +718,25 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 			else {
 				if ( isset( $_POST[ $field_name ] ) ) {
-					$data = WPSEO_Utils::sanitize_text_field( wp_unslash( $_POST[ $field_name ] ) );
+					$data = wp_unslash( $_POST[ $field_name ] );
+
+					// For multi-select.
+					if ( is_array( $data ) ) {
+						$data = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), $data );
+					}
+
+					if ( is_string( $data ) ) {
+						$data = WPSEO_Utils::sanitize_text_field( $data );
+					}
+				}
+
+				// Reset options when no entry is present with multiselect - only applies to `meta-robots-adv` currently.
+				if ( ! isset( $_POST[ $field_name ] ) && ( $meta_box['type'] === 'multiselect' ) ) {
+					$data = array();
 				}
 			}
-			if ( isset( $data ) ) {
+
+			if ( $data !== null ) {
 				self::set_value( $key, $data, $post_id );
 			}
 		}

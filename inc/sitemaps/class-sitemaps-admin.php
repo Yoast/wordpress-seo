@@ -9,6 +9,7 @@
  * Class that handles the Admin side of XML sitemaps
  */
 class WPSEO_Sitemaps_Admin {
+
 	/**
 	 * Post_types that are being imported.
 	 *

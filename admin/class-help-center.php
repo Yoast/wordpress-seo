@@ -9,6 +9,7 @@
  * Class WPSEO_Help_Center
  */
 class WPSEO_Help_Center {
+
 	/**
 	 * The tabs in the help center.
 	 *
