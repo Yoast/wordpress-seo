@@ -199,6 +199,7 @@ class TreeAdapter {
 	 */
 	static _addOrphanedFormattingElement( formattingElement, parent ) {
 		const paragraph = new Paragraph();
+		paragraph.location = formattingElement.location;
 
 		paragraph.textContainer.formatting.push( formattingElement );
 

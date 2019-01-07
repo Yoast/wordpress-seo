@@ -67,7 +67,7 @@ describe( "build tree", () => {
 		expected.endIndex = 135;
 		expected.children = [ paragraph ];
 
-		expect(  tree.toString() ).toEqual( expected.toString() );
+		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse an HTML into a Heading", () => {
@@ -327,7 +327,7 @@ describe( "build tree", () => {
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
-	it.skip( "discards irrelevant node's contents within paragraphs and headings, but adds them as formatting", () => {
+	it( "discards irrelevant node's contents within paragraphs and headings, but adds them as formatting", () => {
 		const input = "<pre>Some text.</pre>" +
 			"<p>This is <em>some script<script>console.log('something');</script></em> that should <strong>not</strong> be parsed.</p>";
 
@@ -407,6 +407,45 @@ describe( "build tree", () => {
 		const expected = new StructuredNode( "root" );
 		expected.startIndex = 0;
 		expected.endIndex = 90;
+		expected.children = [ paragraph ];
+
+		const tree = buildTree( input );
+		expect( tree.toString() ).toEqual( expected.toString() );
+	} );
+
+	it( "parses html with self-closing elements correctly", () => {
+		const input = "<p>Let there<br> be an <a href='/image.png'><img src='/image.png' alt='image'/></a></p>";
+
+		const br = new FormattingElement( "br", {} );
+		br.startIndex = 12;
+		br.endIndex = 16;
+		br.startText = 9;
+		br.endText = 9;
+
+		const anchor = new FormattingElement( "a", { href: "/image.png" } );
+		anchor.startIndex = 23;
+		anchor.endIndex = 83;
+		anchor.startText = 16;
+		anchor.endText = 16;
+
+		const image = new FormattingElement( "img", { src: "/image.png", alt: "image" } );
+		image.startIndex = 44;
+		image.endIndex = 79;
+		image.startText = 16;
+		image.endText = 16;
+
+		const textContainer = new TextContainer();
+		textContainer.text = "Let there be an ";
+		textContainer.formatting = [ br, anchor, image ];
+
+		const paragraph = new Paragraph( "p" );
+		paragraph.startIndex = 0;
+		paragraph.endIndex = 87;
+		paragraph.textContainer = textContainer;
+
+		const expected = new StructuredNode( "root" );
+		expected.startIndex = 0;
+		expected.endIndex = 87;
 		expected.children = [ paragraph ];
 
 		const tree = buildTree( input );

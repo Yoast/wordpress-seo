@@ -58,53 +58,105 @@ const getElementContent = function( element, html ) {
 };
 
 /**
+ * Removes html tags from the given html string.
+ * **Note**: Only the tags are removed, _not_ the element's contents.
+ *
+ * @param {string} html The html string from which to remove the html tags from.
+ *
+ * @returns {string} The string with the html tags removed.
+ */
+const removeHtmlTags = function( html ) {
+	return html.replace( /<[^>]*>/g, "" );
+};
+
+/**
+ * Removes html elements deemed irrelevant for analysis from the given html string.
+ *
+ * @param {string} html The html string to remove the irrelevant html elements from.
+ *
+ * @returns {string} The html string with the irrelevant html elements removed.
+ */
+const removeIrrelevantHtml = function( html ) {
+	irrelevantHtmlElements.forEach( tag => {
+		const regex = new RegExp( `<${tag}.*>.*</${tag}>`, "g" );
+		html = html.replace( regex, "" );
+	} );
+	return html;
+};
+
+/**
  * Sets the start and end position of the formatting elements in the given TextContainer,
  * as found within the text container's text.
  *
- * @param {TextContainer} textContainer  The TextContainer
+ * @param {Heading|Paragraph} node  The TextContainer
  * @param {string} html                  The original html source code
  *
  * @returns {void}
  */
-const setStartEndText = function( textContainer, html ) {
-	let startIndex = 0;
-	let prevEndOffset = 0;
-	let end = 0;
+const setStartEndText = function( node, html ) {
+	if ( ! node.textContainer.formatting || node.textContainer.formatting.length === 0 ) {
+		return;
+	}
 
-	textContainer.formatting.forEach( element => {
-		// Update the start index so we do not find the same content again.
-		if ( element.location.endOffset < prevEndOffset ) {
-			// Nested element. Need to keep inside of the parent element.
-			startIndex += 1;
-		} else {
-			// Not nested, we can skip to after the element.
-			startIndex = end;
-		}
-		let elementText = getElementContent( element, html );
+	const elementsToBeClosed = [];
+	/*
+	  Keeps track of the current total size of the start and end tags
+	  and the irrelevant content that should not be counted towards
+	  the start and end position in the text.
+	 */
+	let totalOffset = node.location.startTag.endOffset;
+
+	node.textContainer.formatting.forEach( element => {
 		/*
-		  Remove html tags in case there are one or more elements nested inside this one.
-		  E.g. "<strong>This <em>is</em></strong>" content is "This <em>is</em>",
-		  but need to find "This is" in cleaned text.
+		  Gather all the elements that can be closed
+		  (i.o.w. when we are not nested inside the element).
 		 */
-		irrelevantHtmlElements.forEach( tag => {
+		const elementsToClose = elementsToBeClosed.filter( el => el.position <= element.location.startOffset );
+		elementsToClose.forEach( el => {
 			/*
-			  Need to remove contents of nested irrelevant elements as well as tags.
-			  (Quick and dirty, but should work 99% of the time)
+			  Add the end tag length of the to be closed element to the total offset,
+			  and remove the element from the stack.
 			 */
-			const regex = new RegExp( `<${tag}.*>.*</${tag}>`, "g" );
-			elementText = elementText.replace( regex, "" );
+			totalOffset += el.length;
+			const index = elementsToBeClosed.indexOf( el );
+			elementsToBeClosed.splice( index, 1 );
 		} );
-		elementText = elementText.replace( /<[^>]*>/g, "" );
 
-		// Search for element's content in container's text.
-		const start = textContainer.text.indexOf( elementText, startIndex );
-		end = start + elementText.length;
+		const startTag = element.location.startTag;
+		const endTag = element.location.endTag;
+		// "<strong>".length
+		const startTagLength = startTag.endOffset - startTag.startOffset;
 
-		// Set start and end position (to -1 if not found).
-		element.startText = start;
-		element.endText =  start === -1 ? -1 : end;
+		const rawContent = getElementContent( element, html );
+		const content = removeHtmlTags( removeIrrelevantHtml( rawContent ) );
 
-		prevEndOffset = element.location.endOffset;
+		totalOffset += startTagLength;
+
+		// Not all elements have end tags (e.g. void elements like images and self-closing elements).
+		if ( endTag ) {
+			// "</strong>".length
+			const endTagLength = endTag.endOffset - endTag.startOffset;
+			elementsToBeClosed.push( {
+				type: element.type,
+				position: endTag.endOffset,
+				length: endTagLength,
+			} );
+		}
+
+		// Set start and end position of element in textContainer's text.
+		element.startText = startTag.endOffset - totalOffset;
+		element.endText = element.startText + content.length;
+
+		/*
+		  If this element is an irrelevant element
+		  its contents are not in the text,
+		  so the total offset should be updated.
+		 */
+		if ( irrelevantHtmlElements.includes( element.type ) ) {
+			// Has 0 length in text, so end = start.
+			element.endText = element.startText;
+			totalOffset += rawContent.length;
+		}
 	} );
 };
 
@@ -129,7 +181,7 @@ const cleanUpAfterParsing = function( tree, html ) {
 
 		// Clean up formatting elements.
 		if ( node instanceof Paragraph || node instanceof Heading ) {
-			setStartEndText( node.textContainer, html );
+			setStartEndText( node, html );
 			node.textContainer.formatting = node.textContainer.formatting.map( element => {
 				setStartEndIndex( element );
 				deleteParseParameters( element );
