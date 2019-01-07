@@ -13,9 +13,10 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Improves the transition word assessment for German.
 * Improves the error logging when there is an error in an SEO or readability assessment.
 
-## 1.45.0
+## 1.45.0 January 7th, 2019
 ### Fixed
 * Fixes a bug where special characters from certain word lists weren't correctly escaped when matched with a regex. This resulted in `eggs` being incorrectly matched as the transition word `e.g.`, for example.
+* Fixes a crash when loading the createWorker module because the window was accessed in the global scope immediately.
 
 ### Added
 * When the recalibration feature flag is switched on:
