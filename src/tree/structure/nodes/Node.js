@@ -33,9 +33,9 @@ class Node {
 	/**
 	 * Maps the given function to each Node in this tree.
 	 *
-	 * @param {mapFunction} mapFunction The function that should be mapped to each Node in the tree.
+	 * @param {module:tree/structure.Node.mapFunction} mapFunction The function that should be mapped to each Node in the tree.
 	 *
-	 * @returns {Node} A new tree, after the given function has been mapped on each Node.
+	 * @returns {module:tree/structure.Node} A new tree, after the given function has been mapped on each Node.
 	 */
 	map( mapFunction ) {
 		// Map function over contents of this node.
@@ -50,38 +50,11 @@ class Node {
 	/**
 	 * Callback function for the Node's map-function.
 	 *
-	 * @callback mapFunction
+	 * @callback module:tree/structure.Node.mapFunction
 	 *
-	 * @param {Node} currentValue The current Node being processed.
+	 * @param {module:tree/structure.Node} currentValue The current Node being processed.
 	 *
-	 * @returns {Node} The current Node after being processed by this function.
-	 *
-	 * @private
-	 */
-
-	/**
-	 * Filters all the elements out of the tree for which the given predicate function returns `false`
-	 * and returns them as an array of Nodes.
-	 *
-	 * @param {predicate} predicate The predicate to check each Node against.
-	 *
-	 * @returns {Node[]} An array of all the Nodes in the tree for which the given predicate function returns `true`.
-	 */
-	filter( predicate ) { // eslint-disable-line no-unused-vars
-		console.warn( "Developer warning: " +
-			"Filter is an abstract method that should be implemented by a child class." );
-	}
-
-	/**
-	 * Predicate function.
-	 *
-	 * @callback predicate
-	 *
-	 * @param {Node} currentValue The current Node being processed.
-	 *
-	 * @returns {boolean} If the predicate returns true or false.
-	 *
-	 * @private
+	 * @returns {module:tree/structure.Node} The current Node after being processed by this function.
 	 */
 
 	/**

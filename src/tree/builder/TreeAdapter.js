@@ -17,6 +17,8 @@ import { formattingElements, headings, irrelevantHtmlElements } from "./htmlClas
  * @see https://github.com/inikulin/parse5/blob/master/packages/parse5/docs/tree-adapter/interface.md
  *
  * @memberOf module:tree/builder
+ *
+ * @private
  */
 class TreeAdapter {
 	// Creation of nodes and other tree elements.

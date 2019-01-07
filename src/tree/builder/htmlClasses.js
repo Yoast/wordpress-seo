@@ -1,6 +1,9 @@
 /**
  * All HTML element tags that we treat as formatting.
  * @type {string[]}
+ * @const
+ *
+ * @memberOf module:tree/builder
  */
 const formattingElements = [ "a", "abbr", "audio", "b", "bdo", "br", "button", "canvas", "cite", "code", "command",
 	"data", "datalist", "dfn", "del", "em", "embed", "i", "iframe", "img", "input", "kbd", "keygen", "label", "mark",
@@ -10,12 +13,18 @@ const formattingElements = [ "a", "abbr", "audio", "b", "bdo", "br", "button", "
 /**
  * All tags of the HTML element types that are irrelevant for our analysis.
  * @type {string[]}
+ * @const
+ *
+ * @memberOf module:tree/builder
  */
 const irrelevantHtmlElements = [ "script", "style", "pre" ];
 
 /**
  * All HTML heading element tags, from `h1` to `h6`.
  * @type {string[]}
+ * @const
+ *
+ * @memberOf module:tree/builder
  */
 const headings = [ "h1", "h2", "h3", "h4", "h5", "h6" ];
 
