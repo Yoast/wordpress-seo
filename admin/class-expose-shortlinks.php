@@ -89,7 +89,7 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 	/**
 	 * Checks if the current page is a term edit page.
 	 *
-	 * @return string True when page is term edit.
+	 * @return bool True when page is term edit.
 	 */
 	private function is_term_edit() {
 		global $pagenow;
