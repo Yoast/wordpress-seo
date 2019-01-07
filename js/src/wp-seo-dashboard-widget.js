@@ -97,7 +97,6 @@ class DashboardWidget extends React.Component {
 				feed.items = feed.items.map( ( item ) => {
 					item.description = jQuery( `<div>${ item.description }</div>` ).text();
 					item.description = item.description.replace( `The post ${ item.title } appeared first on Yoast.`, "" ).trim();
-					item.content = jQuery( `<div>${ item.content }</div>` ).text();
 
 					return item;
 				} );
@@ -167,7 +166,7 @@ class DashboardWidget extends React.Component {
 			key="yoast-seo-blog-feed"
 			title={ wpseoDashboardWidgetL10n.feed_header }
 			feed={ this.state.feed }
-			footerHtml={ wpseoDashboardWidgetL10n.feed_footer }
+			footerLinkText={ wpseoDashboardWidgetL10n.feed_footer }
 		/>;
 	}
 
