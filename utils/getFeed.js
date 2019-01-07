@@ -22,6 +22,10 @@ import { parseFeedItem as parsePostFeedItem } from "./getPostFeed";
  * @returns {string|undefined} The string result of the xpath query.
  */
 export function getXPathText( xpath, document, context = null, nsResolver = null ) {
+	/*
+	 * Check for the existence of the element referenced by the passed xpath
+	 * and return early if no occurrences are found.
+	 */
 	const elementCount = document.evaluate( "count(" + xpath + ")", ( context || document ), nsResolver, XPathResult.ANY_TYPE, null ).numberValue;
 
 	if ( elementCount === 0 ) {
