@@ -1,8 +1,8 @@
 // External dependencies.
-import Jed from "jed";
-import { forEach, has, merge, pickBy, includes, isNull, isUndefined, isString, isObject } from "lodash-es";
-import { getLogger } from "loglevel";
 import { autop } from "@wordpress/autop";
+import Jed from "jed";
+import { forEach, has, includes, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash-es";
+import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.
 import * as assessments from "../assessments";
@@ -48,17 +48,18 @@ const YoastSEO = {
 	config,
 };
 
-import CornerstoneContentAssessor from "../cornerstone/contentAssessor";
-import CornerstoneSEOAssessor from "../cornerstone/seoAssessor";
-import CornerstoneRelatedKeywordAssessor from "../cornerstone/relatedKeywordAssessor";
-import InvalidTypeError from "../errors/invalidType";
-
 // Internal dependencies.
+import CornerstoneContentAssessor from "../cornerstone/contentAssessor";
+import CornerstoneRelatedKeywordAssessor from "../cornerstone/relatedKeywordAssessor";
+import CornerstoneSEOAssessor from "../cornerstone/seoAssessor";
+import InvalidTypeError from "../errors/invalidType";
+import includesAny from "../helpers/includesAny";
+import { configureShortlinker } from "../helpers/shortlinker";
+import RelatedKeywordTaxonomyAssessor from "../relatedKeywordTaxonomyAssessor";
 import Scheduler from "./scheduler";
 import Transporter from "./transporter";
-import RelatedKeywordTaxonomyAssessor from "../relatedKeywordTaxonomyAssessor";
-import { configureShortlinker } from "../helpers/shortlinker";
-import includesAny from "../helpers/includesAny";
+import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
+
 
 const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 
@@ -150,6 +151,15 @@ export default class AnalysisWebWorker {
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
+
+		// Wrap try/catch around actions.
+		this.analyzeRelatedKeywords =
+			wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the related keywords analysis." );
+		/*
+		 * Overwrite this.analyze after we use it in this.analyzeRelatedKeywords so that this.analyzeRelatedKeywords
+		 * doesn't use the overwritten version. Therefore, this order shouldn't be changed.
+		 */
+		this.analyze = wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the analysis." );
 	}
 
 	/**
@@ -203,7 +213,7 @@ export default class AnalysisWebWorker {
 			case "analyzeRelatedKeywords":
 				this._scheduler.schedule( {
 					id,
-					execute: this.analyze,
+					execute: this.analyzeRelatedKeywords,
 					done: this.analyzeRelatedKeywordsDone,
 					data: payload,
 					type: type,
@@ -765,6 +775,10 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	analyzeDone( id, result ) {
+		if ( result.error ) {
+			this.send( "analyze:failed", id, result );
+			return;
+		}
 		this.send( "analyze:done", id, result );
 	}
 
@@ -777,6 +791,10 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	analyzeRelatedKeywordsDone( id, result ) {
+		if ( result.error ) {
+			this.send( "analyzeRelatedKeywords:failed", id, result );
+			return;
+		}
 		this.send( "analyzeRelatedKeywords:done", id, result );
 	}
 

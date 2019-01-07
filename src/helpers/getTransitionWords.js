@@ -36,8 +36,10 @@ import twoPartTransitionWordsCatalan from "../researches/catalan/twoPartTransiti
 
 import transitionWordsPolishFactory from "../researches/polish/transitionWords.js";
 const transitionWordsPolish = transitionWordsPolishFactory().allWords;
-
 import twoPartTransitionWordsPolish from "../researches/polish/twoPartTransitionWords.js";
+import transitionWordsSwedishFactory from "../researches/swedish/transitionWords.js";
+const transitionWordsSwedish = transitionWordsSwedishFactory().allWords;
+import twoPartTransitionWordsSwedish from "../researches/swedish/twoPartTransitionWords.js";
 import getLanguage from "./getLanguage.js";
 
 /**
@@ -93,6 +95,11 @@ export default function( locale ) {
 			return {
 				transitionWords: transitionWordsPolish,
 				twoPartTransitionWords: twoPartTransitionWordsPolish,
+			};
+		case "sv":
+			return {
+				transitionWords: transitionWordsSwedish,
+				twoPartTransitionWords: twoPartTransitionWordsSwedish,
 			};
 		default:
 		case "en":

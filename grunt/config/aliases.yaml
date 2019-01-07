@@ -23,6 +23,7 @@ check:
   - 'shell:get-current-branch'
   - 'shell:clone-premium-configuration'
   - 'shell:checkout-premium-configuration'
+  - 'shell:pull-premium-configuration'
 # Default task
 default:
   - check

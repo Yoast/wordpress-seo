@@ -5,6 +5,9 @@ import getWords from "../../../stringProcessing/getWords.js";
 import getPassiveVerbsRussianFactory from "../../russian/passiveVoice/participlesShortenedList.js";
 const getPassiveVerbsRussian = getPassiveVerbsRussianFactory().all;
 
+import getPassiveVerbsSwedishFactory from "../../swedish/passiveVoice/participles.js";
+const getPassiveVerbsSwedish = getPassiveVerbsSwedishFactory().all;
+
 /**
  * Matches the sentence against passive verbs.
  *
@@ -31,6 +34,9 @@ const determineSentenceIsPassive = function( sentence, language ) {
 	switch ( language ) {
 		case "ru":
 			passiveVerbs = getPassiveVerbsRussian;
+			break;
+		case "sv":
+			passiveVerbs = getPassiveVerbsSwedish;
 			break;
 	}
 	return matchPassiveVerbs( sentence, passiveVerbs ).length !== 0;

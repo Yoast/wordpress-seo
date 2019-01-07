@@ -10,7 +10,6 @@ import { defaults } from "lodash-es";
  */
 function Mark( properties ) {
 	defaults( properties, { original: "", marked: "" } );
-
 	this._properties = properties;
 }
 
@@ -64,6 +63,7 @@ Mark.prototype.serialize = function() {
  * @returns {Mark} The parsed Mark.
  */
 Mark.parse = function( serialized ) {
+	delete serialized._parseClass;
 	return new Mark( serialized );
 };
 

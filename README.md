@@ -19,70 +19,97 @@ You can install YoastSEO.js using npm:
 npm install yoastseo
 ```
 
-## Usage
+Or using yarn:
 
-If you want the complete experience with UI and everything you can use the `App`. You need to have a few HTML elements to make this work: A snippet preview container, a focusKeyword input element and a content input field.
-
-```js
-var SnippetPreview = require( "yoastseo" ).SnippetPreview;
-var App = require( "yoastseo" ).App;
-
-window.onload = function() {
-	var focusKeywordField = document.getElementById( "focusKeyword" );
-	var contentField = document.getElementById( "content" );
-
-	var snippetPreview = new SnippetPreview({
-		targetElement: document.getElementById( "snippet" )
-	});
-
-	var app = new App({
-		snippetPreview: snippetPreview,
-		targets: {
-			output: "output"
-		},
-		callbacks: {
-			getData: function() {
-				return {
-					keyword: focusKeywordField.value,
-					text: contentField.value
-				};
-			}
-		}
-	});
-
-	app.refresh();
-
-	focusKeywordField.addEventListener( 'change', app.refresh.bind( app ) );
-	contentField.addEventListener( 'change', app.refresh.bind( app ) );
-};
+```bash
+yarn add yoastseo
 ```
 
-You can also invoke internal components directly to be able to work with the raw data. To get metrics about the text you can use the `Researcher`:
+## Usage
+
+You can either use YoastSEO.js using the web worker API or use the internal components directly.
+
+Because a web worker must be a separate script in the browser you first need to create a script for inside the web worker:
 
 ```js
-var Researcher = require( "yoastseo" ).Researcher;
-var Paper = require( "yoastseo" ).Paper;
+import { AnalysisWebWorker } from "yoastseo";
 
-var researcher = new Researcher( new Paper( "Text that has been written" ) );
+const worker = new AnalysisWebWorker( self );
+worker.register();
+``` 
+
+Then in a different script you have the following code:
+
+```js
+import { AnalysisWorkerWrapper, createWorker, Paper } from "yoastseo";
+
+// `url` needs to be the full URL to the script for the browser to know where to load the worker script from.
+// This should be the script created by the previous code-snippet.
+const url = "https://my-site-url.com/path-to-webworker-script.js"
+
+const worker = new AnalysisWorkerWrapper( createWorker( url ) );
+
+worker.initialize( {
+    locale: "en_US",
+    contentAnalysisActive: true,
+    keywordAnalysisActive: true,
+    logLevel: "ERROR",
+} ).then( () => {
+    // The worker has been configured, we can now analyze a Paper.
+    const paper = new Paper( "Text to analyze", {
+        keyword: "analyze",
+    } );
+    
+    return worker.analyze( paper );
+} ).then( ( results ) => {
+    console.log( 'Analysis results:' );
+    console.log( results );
+} ).catch( ( error ) => {
+    console.error( 'An error occured while analyzing the text:' );
+    console.error( error );
+} );
+```
+
+### Usage of internal components
+
+If you want to have a more barebones API, or are in an environment without access to Web Worker you can use the internal objects:
+
+```js
+import { Researcher, Paper } from "yoastseo";
+
+const paper = new Paper( "Text to analyze", {
+    keyword: "analyze",
+} );
+const researcher = new Researcher( paper );
 
 console.log( researcher.getResearch( "wordCountInText" ) );
 ```
 
+**Note: This is currently a synchronous API, but will become an asynchronous API in the future.**
+
 ## Supported languages
-|                     | English | German | Dutch | French | Spanish  | Italian | Japanese | Portuguese | Russian | Catalan | Polish |
-|---------------------|---------|--------|-------|--------|---------|---------|----------|----------|----------|----------|----------
-| Transition words    | ✅      | ✅     | ✅    | ✅      | ✅       | ✅       |          | ✅        | ✅       | ✅        | ✅        |
-| Flesch reading ease  | ✅      | ✅     | ✅    | ✅      | ✅       | ✅       | ❌<sup>2</sup>        |          | ✅        |          | ❌<sup>3</sup>
-| Passive voice       | ✅      | ✅     | ✅     | ✅     | ✅       | ✅       | ❌<sup>2</sup>        |          | ✅       |          | ✅        |
-| Sentence beginnings | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       | ❌<sup>2</sup>        |          | ✅       |          | ✅        |
-| Sentence length<sup>1</sup>     | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       |          |          | ✅       |          | ✅        |
-| Function words (for Internal linking and insights)      | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       |          | ✅        | ✅       |          | ✅        |
+| Language   	| Transition words 	| Flesch reading ease 	| Passive voice 	| Sentence beginnings 	| Sentence length<sup>1</sup> 	| Function words<sup>2</sup> 	|
+|------------	|------------------	|---------------------	|---------------	|---------------------	|-----------------------------	|----------------------------	|
+| English    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| German     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Dutch      	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| French     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Spanish    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Japanese   	|                  	| ❌<sup>3</sup>       	| ❌<sup>3</sup> 	| ❌<sup>3</sup>       	|                             	|                            	|
+| Portuguese 	| ✅                	|                     	|               	|                     	|                             	| ✅                          	|
+| Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Catalan    	| ✅                	|                     	|               	|                     	|                             	|                            	|
+| Polish     	| ✅                	| ❌<sup>4</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
 
-<sup>2</sup> This means that this feature doesn't make sense for the specific language.
+<sup>2</sup> These are used for internal linking, insights and keyphrase-related analyses.
 
-<sup>3</sup> There is no existing Flesch reading ease formula for Polish
+<sup>3</sup> This means that this feature doesn't make sense for the specific language.
+
+<sup>4</sup> There is no existing Flesch reading ease formula for these languages.
+
 
 The following readability assessments are available for all languages: 
 - sentence length (with a default upper limit of 20 words, see<sup>1</sup> above )

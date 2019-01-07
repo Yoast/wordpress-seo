@@ -69,8 +69,10 @@ class AnalysisWorkerWrapper {
 			case "analyze:done":
 				request.resolve( payload );
 				break;
+			case "analyze:failed":
 			case "loadScript:failed":
 			case "customMessage:failed":
+			case "analyzeRelatedKeywords:failed":
 				request.reject( payload );
 				break;
 			default:

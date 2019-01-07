@@ -5,6 +5,30 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.45.0 January 7th, 2019
+### Fixed
+* Fixes a bug where special characters from certain word lists weren't correctly escaped when matched with a regex. This resulted in `eggs` being incorrectly matched as the transition word `e.g.`, for example.
+* Fixes a crash when loading the createWorker module because the window was accessed in the global scope immediately.
+
+### Added
+* When the recalibration feature flag is switched on:
+  * The single title assessment is added. This assessment makes sure that you don't use superfluous H1s in your text.
+  * The following assessments are not used anymore:
+    * The assessment checking the length or your URL.
+    * The assessment checking whether your URL contains stopwords.
+  * Assessments changes:
+    * Keyphrase density: changes scoring schema to account for the length of the keyphrase and changes feedback strings so that we give feedback about the number of occurrences rather than a percentage.
+    * Outbound links assessment: changes the scoring schema so that red bullet instead of an orange bullet is shown when you have no outbound links.
+    * Image alt attributes: if there are at least 5 images, checks whether the alt tags contain the keyphrase or synoynyms in 30-70% of all images. If there are less than 5 images, 1 image with the keyphrase or synonym in the alt tag is still scored as good.
+    * Keyphrase in title: function words preceding the exact match keyphrase are ignored when determining the position of the keyphrase in the title.
+    * Keyphrase length: makes the scoring scheme less strict for languages that don't have function word support, so that for these languages keyphrases with 1-6 words are scored as green, 7-9 as orange, and more than 9 as red.
+    * Keyphrase in subheading: only takes H2 and H3 level subheadings into account and changes the scoring schema so that 30%-75% of these subheadings need to include the keyphrase or its synonyms. In languages without function word support, a match is only counted if all the words from the keyphrase/synonym appear in the subheading.
+    * Text length: on taxonomy pages, the recommended minimum text length is increased from 150 to 250 words.
+* The browser console now shows more descriptive error messages when something went wrong during analyses in the web worker.
+
+### Changed
+* Improved README Usage to detail the Web Worker API.
+
 ## 1.44.0 December 14th, 2018
 ### Fixed
 * Fixes a bug where keyphrases weren't recognized in the URL when the words in the URL were separated by underscore characters instead of hyphens.
