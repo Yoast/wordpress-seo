@@ -12627,8 +12627,8 @@ yauzl@^2.2.1:
     grunt-scss-to-json "^1.0.1"
 
 "yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.5":
-  version "1.44.0"
-  resolved "git+https://github.com/Yoast/YoastSEO.js.git#ff3f567e96c89ba6f7ce3ff63d7826503b86ca22"
+  version "1.45.0"
+  resolved "git+https://github.com/Yoast/YoastSEO.js.git#767af2646d46cab03915cdd95893599f6eab6eb1"
   dependencies:
     "@wordpress/autop" "^2.0.2"
     htmlparser2 "^3.9.2"
