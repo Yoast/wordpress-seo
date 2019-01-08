@@ -44,7 +44,7 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 	if ( multiValue && typeof expectedValue === "object" ) {
 		return {
 			/**
-			 * Return research results by its name for multi-value mock researchers.
+			 * Return research results by research name for multi-value mock researchers.
 			 *
 			 * @param {string} research The name of the research.
 			 *
