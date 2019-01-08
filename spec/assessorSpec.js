@@ -187,7 +187,7 @@ describe( "an assessor object", function() {
 				/**
 				 * A mock globalMarker function.
 				 *
-				 * @returns {void}.
+				 * @returns {void}
 				 */
 				globalMarker: function() {},
 			};
