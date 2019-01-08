@@ -12,6 +12,7 @@ const isGutenbergDataAvailable = () => {
 	return (
 		! isUndefined( window.wp ) &&
 		! isUndefined( wp.data ) &&
+		! isUndefined( wp.data.select( "core/edit-post" ) ) &&
 		! isUndefined( wp.data.select( "core/editor" ) ) &&
 		isFunction( wp.data.select( "core/editor" ).getEditedPostAttribute )
 	);
