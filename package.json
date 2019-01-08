@@ -150,7 +150,7 @@
     "yoastseo": "^1.45.0"
   },
   "yoast": {
-    "pluginVersion": "9.4-RC5",
+    "pluginVersion": "9.4",
     "recalibrationVersion": "13"
   }
 }
