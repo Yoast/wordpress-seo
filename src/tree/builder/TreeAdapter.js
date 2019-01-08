@@ -135,26 +135,35 @@ class TreeAdapter {
 	 * @returns {void}
 	 */
 	appendChild( parent, child ) {
-		// Do not do anything with irrelevant content.
+		/*
+		  Do not do anything with irrelevant content.
+		  (We get the raw string contents later on from the source code).
+		 */
 		if ( parent instanceof StructuredIrrelevant ) {
 			return;
 		}
 
+		/*
+		  Ignored content can also be contained within headings, paragraphs
+		  and other formatting elements, so we need to transform the Ignored
+		  to a FormattingElement and add it to the respective heading or paragraph.
+		 */
 		if ( child instanceof StructuredIrrelevant &&
 			( TreeAdapter._isLeafNode( child ) || parent instanceof FormattingElement ) ) {
-			// Add StructuredIrrelevant element as formatting to the parent node.
+			// Add StructuredIrrelevant element as formatting to the first header or paragraph ancestor.
 			const element = new FormattingElement( child.tagName, {} );
 			element.location = child.location;
 			TreeAdapter._appendFormattingElement( parent, element );
 			return;
 		}
 
+		// Add formatting element to its first ancestor that is either a heading or paragraph.
 		if ( child instanceof FormattingElement ) {
 			TreeAdapter._appendFormattingElement( parent, child );
 			return;
 		}
 
-		// Just add nodes to parent's children if not formatting.
+		// Just add nodes to parent's children in any other case.
 		child.parent = parent;
 		parent.children.push( child );
 	}
