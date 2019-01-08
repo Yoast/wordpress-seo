@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.47.0
+### Fixed
+* Fixes accidental removal of the SEO Assessor export from the index. Props [Kingdutch](https://github.com/Kingdutch).
+
 ## 1.46.0
 ### Added
 * Adds readability analysis for Swedish.
