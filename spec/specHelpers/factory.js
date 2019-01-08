@@ -4,7 +4,7 @@ import Jed from "jed";
 /**
  * A mock factory function.
  *
- * @returns {void}.
+ * @returns {void}
  */
 const FactoryProto = function() {};
 
