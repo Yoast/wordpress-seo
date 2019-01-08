@@ -181,7 +181,7 @@ describe( "an assessor object", function() {
 				/**
 				 * A mock getMarks function.
 				 *
-				 * @returns {void}.
+				 * @returns {void}
 				 */
 				getMarks: function() {},
 				/**
