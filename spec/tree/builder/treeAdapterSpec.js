@@ -83,6 +83,25 @@ describe( "TreeAdapter", () => {
 
 			expect( expectedStructuredNode instanceof StructuredNode ).toBe( true );
 		} );
+
+		it( "can create a formatting element without attributes", () => {
+			const adapter = new TreeAdapter();
+
+			const expected = adapter.createElement( "strong", "html", [] );
+
+			expect( expected ).toBeInstanceOf( FormattingElement );
+			expect( expected.attributes ).toEqual( null );
+		} );
+
+		it( "can create a formatting element with attributes", () => {
+			const adapter = new TreeAdapter();
+
+			const attributes = [ { name: "href", value: "https://www.yoast.com/" } ];
+			const expected = adapter.createElement( "a", "html", attributes );
+
+			expect( expected ).toBeInstanceOf( FormattingElement );
+			expect( expected.attributes ).toEqual( { href: "https://www.yoast.com/" } );
+		} );
 	} );
 
 	describe( "TreeAdapter insertText", () => {
@@ -239,6 +258,15 @@ describe( "TreeAdapter", () => {
 			expect( paragraph.textContainer.formatting ).toHaveLength( 2 );
 			expect( paragraph.textContainer.formatting[ 0 ].type ).toEqual( "strong" );
 			expect( paragraph.textContainer.formatting[ 1 ].type ).toEqual( "emph" );
+		} );
+	} );
+
+	describe( "TreeAdapter detachNode", () => {
+		it( "does not detach a node from its parent when it does not have one", () => {
+			const adapter = new TreeAdapter();
+			const node = new StructuredNode( "root" );
+
+			adapter.detachNode( node );
 		} );
 	} );
 } );
