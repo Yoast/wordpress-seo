@@ -11,6 +11,18 @@
 class WPSEO_Config_Field_Upsell_Configuration_Service extends WPSEO_Config_Field {
 
 	/**
+	 * HTML tags allowed in the upsell text.
+	 *
+	 * @var array
+	 */
+	private $allowed_html = array(
+		'a' => array(
+			'href'   => array(),
+			'target' => array( '_blank' ),
+		),
+	);
+
+	/**
 	 * WPSEO_Config_Field_Upsell_Configuration_Service constructor.
 	 */
 	public function __construct() {
@@ -32,13 +44,7 @@ class WPSEO_Config_Field_Upsell_Configuration_Service extends WPSEO_Config_Field
 		);
 
 		$html  = '<p>' . esc_html( $intro_text ) . '</p>';
-		$html .= '<p><em>' . wp_kses( $upsell_text, array(
-				'a' => array(
-					'target' => array( '_blank' ),
-					'href'   => array(),
-				),
-			) ) . '</em></p>';
-
+		$html .= '<p><em>' . wp_kses( $upsell_text, $this->allowed_html ) . '</em></p>';
 
 		$this->set_property( 'html', $html );
 	}

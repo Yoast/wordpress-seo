@@ -86,21 +86,14 @@ class WPSEO_Link_Notifier {
 	 */
 	protected function get_notification() {
 		return new Yoast_Notification(
+			esc_html__( 'To make sure all the links in your texts are counted, we need to analyze all your texts.', 'wordpress-seo' ) . ' ' .
+			esc_html__( 'All you have to do is press the following button and we\'ll go through all your texts for you.', 'wordpress-seo' ) . '<br><br>' .
+			'<button type="button" id="noticeRunLinkIndex" class="button">' . esc_html__( 'Count links', 'wordpress-seo' ) . '</button><br><br>' .
 			sprintf(
-				/* translators: 1: link to yoast.com post about internal linking suggestion. 2: is anchor closing. 3: button to the recalculation option. 4: closing button */
-				__(
-					'To make sure all the links in your texts are counted, we need to analyze all your texts.
-					All you have to do is press the following button and we\'ll go through all your texts for you.
-
-					%3$sCount links%4$s
-
-					The Text link counter feature provides insights in how many links are found in your text and how many links are referring to your text. This is very helpful when you are improving your %1$sinternal linking%2$s.',
-					'wordpress-seo'
-				),
+				/* translators: 1: link to yoast.com post about internal linking suggestion. 2: is anchor closing. */
+				esc_html__( 'The Text link counter feature provides insights in how many links are found in your text and how many links are referring to your text. This is very helpful when you are improving your %1$sinternal linking%2$s.', 'wordpress-seo' ),
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/15m' ) . '" target="_blank">',
-				'</a>',
-				'<button type="button" id="noticeRunLinkIndex" class="button">',
-				'</button>'
+				'</a>'
 			),
 			array(
 				'type'         => Yoast_Notification::WARNING,
