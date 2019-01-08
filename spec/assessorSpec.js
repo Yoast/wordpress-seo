@@ -83,7 +83,7 @@ describe( "an assessor object", function() {
 				/**
 				 * A mock marker function.
 				 *
-				 * @returns {void}.
+				 * @returns {void}
 				 */
 				marker: function() {},
 			} );
