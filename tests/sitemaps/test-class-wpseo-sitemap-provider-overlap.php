@@ -55,9 +55,11 @@ class Test_WPSEO_Sitemap_Provider_Overlap extends WPSEO_UnitTestCase {
 		// Load the sitemap.
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
 
+		$url = home_url( 'author-sitemap.xml' );
+
 		// Expect the author-sitemap to be present in the index.
 		$this->expectOutputContains(
-			'<loc>http://example.org/author-sitemap.xml</loc>'
+			'<loc>' . $url . '</loc>'
 		);
 
 		unregister_taxonomy( 'author' );
