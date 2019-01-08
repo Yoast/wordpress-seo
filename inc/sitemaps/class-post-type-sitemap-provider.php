@@ -66,9 +66,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 *
 	 * @return void
 	 */
-	protected function set_post_type_has_front($post_type) {
-		$post_type_has_front = get_post_type_object($post_type)->rewrite["with_front"];
-		$this->post_type_has_front = ( $post_type_has_front === false ? false : true );
+	protected function set_post_type_has_front( $post_type ) {
+		$post_type_has_front = get_post_type_object( $post_type )->rewrite['with_front'];
+		$this->post_type_has_front = ( $post_type_has_front === false ) ? false : true;
 	}
 
 	/**
@@ -273,7 +273,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$posts = $this->get_posts( $post_type, $steps, $offset );
 
-			$this->set_post_type_has_front($post_type);
+			$this->set_post_type_has_front( $post_type );
 
 			$offset += $steps;
 
