@@ -47,7 +47,7 @@ describe( "build tree", () => {
 		strong2.startText = 26;
 		strong2.endText = 30;
 
-		const em = new FormattingElement( "em", {} );
+		const em = new FormattingElement( "em" );
 		em.startIndex = 59;
 		em.endIndex = 102;
 		em.startText = 26;
@@ -336,13 +336,13 @@ describe( "build tree", () => {
 		pre.endIndex = 21;
 		pre.content = "Some text.";
 
-		const em = new FormattingElement( "em", {} );
+		const em = new FormattingElement( "em" );
 		em.startIndex = 32;
 		em.endIndex = 94;
 		em.startText = 8;
 		em.endText = 19;
 
-		const script = new FormattingElement( "script", {} );
+		const script = new FormattingElement( "script" );
 		script.startIndex = 47;
 		script.endIndex = 89;
 		// Is -1.
@@ -350,7 +350,7 @@ describe( "build tree", () => {
 		// Is -1.
 		script.endText = 19;
 
-		const strong = new FormattingElement( "strong", {} );
+		const strong = new FormattingElement( "strong" );
 		strong.startIndex = 107;
 		strong.endIndex = 127;
 		strong.startText = 32;
@@ -377,13 +377,13 @@ describe( "build tree", () => {
 	it( "parses formatting with the same content correctly", () => {
 		const input = "<p><strong>hello world! <em>hello world!</em></strong> <a href='nope'>hello world!</a></p>";
 
-		const strong = new FormattingElement( "strong", {} );
+		const strong = new FormattingElement( "strong" );
 		strong.startIndex = 3;
 		strong.endIndex = 54;
 		strong.startText = 0;
 		strong.endText = 25;
 
-		const emphasis = new FormattingElement( "em", {} );
+		const emphasis = new FormattingElement( "em" );
 		emphasis.startIndex = 24;
 		emphasis.endIndex = 45;
 		emphasis.startText = 13;
@@ -416,7 +416,7 @@ describe( "build tree", () => {
 	it( "parses html with self-closing elements correctly", () => {
 		const input = "<p>Let there<br> be an <a href='/image.png'><img src='/image.png' alt='image'/></a></p>";
 
-		const br = new FormattingElement( "br", {} );
+		const br = new FormattingElement( "br" );
 		br.startIndex = 12;
 		br.endIndex = 16;
 		br.startText = 9;

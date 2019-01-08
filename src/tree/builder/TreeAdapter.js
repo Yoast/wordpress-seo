@@ -92,13 +92,13 @@ class TreeAdapter {
 	 * @private
 	 */
 	static _parseAttributes( parse5attributes ) {
-		if ( parse5attributes ) {
+		if ( parse5attributes && parse5attributes.length > 0 ) {
 			return parse5attributes.reduce( ( attributes, attribute ) => {
 				attributes[ attribute.name ] = attribute.value;
 				return attributes;
 			}, {} );
 		}
-		return {};
+		return null;
 	}
 
 	/**
@@ -151,7 +151,7 @@ class TreeAdapter {
 		if ( child instanceof StructuredIrrelevant &&
 			( TreeAdapter._isLeafNode( child ) || parent instanceof FormattingElement ) ) {
 			// Add StructuredIrrelevant element as formatting to the first header or paragraph ancestor.
-			const element = new FormattingElement( child.tagName, {} );
+			const element = new FormattingElement( child.tagName );
 			element.location = child.location;
 			TreeAdapter._appendFormattingElement( parent, element );
 			return;
