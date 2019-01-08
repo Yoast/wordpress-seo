@@ -124,7 +124,7 @@ const sentenceBeginningsAssessment = function( paper, researcher, i18n ) {
 };
 
 /**
- * Checks if sentence beginings analysis is available for the language of the paper.
+ * Checks if the sentence beginnings assessment is applicable to the paper.
  *
  * @param {Object} paper The paper to check.
  *
