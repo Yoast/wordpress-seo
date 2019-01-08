@@ -146,7 +146,7 @@ const transitionWordsMarker = function( paper, researcher ) {
 };
 
 /**
- * Checks if the paper has a metadescription, which is a prerequisite for the assessment to be applicable to the paper.
+ * Checks if the transition words assessment is applicable to the paper.
  *
  * @param {Object} paper The paper to check.
  *
