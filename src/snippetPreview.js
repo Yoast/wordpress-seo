@@ -41,7 +41,7 @@ var defaults = {
 	callbacks: {
 		/**
 		 * Empty function.
-		 * @returns {void}.
+		 * @returns {void}
 		 */
 		saveSnippetData: function() {},
 	},
