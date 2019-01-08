@@ -124,7 +124,7 @@ const passiveVoiceAssessment = function( paper, researcher, i18n ) {
 /**
  * Checks if passive voice analysis is available for the language of the paper.
  *
- * @param {Object} paper The paper to have the check.
+ * @param {Object} paper The paper to check.
  *
  * @returns {boolean} Returns true if the language is available and the paper is not empty.
  */
