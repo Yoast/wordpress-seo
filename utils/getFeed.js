@@ -1,3 +1,5 @@
+import wgxpath from "wicked-good-xpath";
+
 /* Internal dependencies */
 import { parseFeedItem as parsePostFeedItem } from "./getPostFeed";
 
@@ -20,10 +22,13 @@ import { parseFeedItem as parsePostFeedItem } from "./getPostFeed";
  * @returns {string|undefined} The string result of the xpath query.
  */
 export function getXPathText( xpath, document, context = null, nsResolver = null ) {
-	const tagname = xpath.replace( "child::", "" );
-	const elementExists = document.getElementsByTagName( tagname );
+	/*
+	 * Check for the existence of the element referenced by the passed xpath
+	 * and return early if no occurrences are found.
+	 */
+	const elementCount = document.evaluate( "count(" + xpath + ")", ( context || document ), nsResolver, XPathResult.ANY_TYPE, null ).numberValue;
 
-	if ( typeof elementExists[ 0 ] === "undefined" ) {
+	if ( elementCount === 0 ) {
 		return;
 	}
 
@@ -33,8 +38,7 @@ export function getXPathText( xpath, document, context = null, nsResolver = null
 		return result.stringValue;
 	}
 
-	// eslint-disable-next-line no-undefined
-	return undefined;
+	return null;
 }
 
 /**
@@ -107,6 +111,10 @@ function getFeedItems( parsed, nsResolver, maxItems, parseFeedItem ) {
 export function parseFeed( raw, maxItems = 0, parseFeedItem ) {
 	return new Promise( function( resolve, reject ) {
 		try {
+			// Use Wicked Good XPath for browsers that don't support XPath evaluation.
+			if ( "evaluate" in document === false ) {
+				wgxpath.install();
+			}
 			const parser     = new DOMParser();
 			const parsed     = parser.parseFromString( raw, "application/xml" );
 			const nsResolver = parsed.createNSResolver( parsed.documentElement );

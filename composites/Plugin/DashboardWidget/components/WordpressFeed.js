@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
 
 /**
  * @typedef  {Object}     Feed
@@ -23,9 +24,9 @@ import styled from "styled-components";
 const WordpressFeedContainer = styled.div`
 	box-sizing: border-box;
 
-	p, a {
-		font-size: 14px;
+	p {
 		margin: 0;
+		font-size: 14px;
 	}
 `;
 
@@ -40,27 +41,14 @@ const WordpressFeedList = styled.ul`
 	padding: 0;
 `;
 
-const WordpressFeedLink = styled.a`
+const WordpressFeedLink = makeOutboundLink( styled.a`
 	display: inline-block;
-	padding-bottom: 4px;
-`;
-
-const A11yNotice = styled.span`
-	border: 0;
-	clip: rect(1px, 1px, 1px, 1px);
-	clip-path: inset(50%);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute !important;
-	width: 1px;
-	word-wrap: normal !important;
-`;
+	margin-bottom: 4px;
+	font-size: 14px;
+` );
 
 const WordpressFeedListItemContainer = styled.li`
 	margin: 8px 0;
-	overflow: hidden;
 `;
 
 const WordpressFeedFooter = styled.div`
@@ -77,13 +65,9 @@ const WordpressFeedListItem = ( props ) => {
 			<WordpressFeedLink
 				className={ `${ props.className }-link` }
 				href={ props.link }
-				target="_blank"
-				rel="noopener noreferrer"
+				rel={ null }
 			>
 				{ props.title }
-				<A11yNotice>
-					( Opens in a new browser tab )
-				</A11yNotice>
 			</WordpressFeedLink>
 			<p className={ `${ props.className }-description` }>
 				{ props.description }
@@ -102,11 +86,11 @@ WordpressFeedListItem.propTypes = {
 /**
  * Displays a parsed wordpress feed.
  *
- * @param {Object} props            The component props.
- * @param {Feed} props.feed         The feed object.
- * @param {string} props.title      The title. Defaults to feed title.
- * @param {string} props.footerHtml The footer HTML contents.
- * @param {string} props.feedLink   The footer link. Defaults to feed link.
+ * @param {Object} props                The component props.
+ * @param {Feed}   props.feed           The feed object.
+ * @param {string} props.title          The title. Defaults to feed title.
+ * @param {string} props.footerLinkText The footer link text.
+ * @param {string} props.feedLink       The footer link. Defaults to feed link.
  *
  * @returns {ReactElement} The WordpressFeed component.
  */
@@ -134,17 +118,17 @@ const WordpressFeed = ( props ) => {
 					/>
 				) ) }
 			</WordpressFeedList>
-			{ props.footerHtml &&
+			{ props.footerLinkText &&
 				<WordpressFeedFooter
 					className={ `${ props.className }__footer` }
 				>
 					<WordpressFeedLink
 						className={ `${ props.className }__footer-link` }
 						href={ props.feedLink ? props.feedLink : props.feed.link }
-						target="_blank"
-						rel="noopener noreferrer"
-						dangerouslySetInnerHTML={ { __html: props.footerHtml } }
-					/>
+						rel={ null }
+					>
+						{ props.footerLinkText }
+					</WordpressFeedLink>
 				</WordpressFeedFooter>
 			}
 		</WordpressFeedContainer>
@@ -155,7 +139,7 @@ WordpressFeed.propTypes = {
 	className: PropTypes.string,
 	feed: PropTypes.object.isRequired,
 	title: PropTypes.string,
-	footerHtml: PropTypes.string,
+	footerLinkText: PropTypes.string,
 	feedLink: PropTypes.string,
 };
 
