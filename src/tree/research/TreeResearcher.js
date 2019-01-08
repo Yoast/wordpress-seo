@@ -3,12 +3,12 @@ import MissingArgument from "../../errors/missingArgument";
 
 /**
  * This contains all possible, default researches
- * and logic to apply these researches to a text,
- * represented as a tree.
+ * and logic to apply these researches to a formatted text,
+ * represented as a tree structure.
  */
 class TreeResearcher {
 	/**
-	 * Makes a new TreeAdapter.
+	 * Makes a new TreeResearcher.
 	 *
 	 * @param {module:tree/structure.Node?} rootNode The root node of the tree to analyze.
 	 */
@@ -84,6 +84,10 @@ class TreeResearcher {
 		let researchResult = Promise.resolve();
 
 		if ( research.isLeafNode( node ) ) {
+			/*
+			  Compute research results for this node, or use the cached results when available.
+			  Always compute it when we need to bust the cache.
+			 */
 			if ( ! node.hasResearchResult( name ) || bustCache ) {
 				node.setResearchResult( name, await research.calculateFor( node ) );
 			}
@@ -91,11 +95,14 @@ class TreeResearcher {
 		} else {
 			const children = node.children;
 
-			const resultsForChildren = await Promise.all( children.map( ( child ) => {
-				return this.getResearchForNode( name, child );
-			} ) );
+			// Heading and paragraph nodes do not have children.
+			if ( children ) {
+				const resultsForChildren = await Promise.all( children.map( ( child ) => {
+					return this.getResearchForNode( name, child );
+				} ) );
 
-			researchResult = research.mergeResults( resultsForChildren );
+				researchResult = research.mergeResults( resultsForChildren );
+			}
 		}
 
 		return researchResult;
