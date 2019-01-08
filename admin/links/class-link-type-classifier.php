@@ -91,7 +91,7 @@ class WPSEO_Link_Type_Classifier {
 
 		// When there is a path.
 		if ( isset( $url_parts['path'] ) ) {
-            return false;
+			return ( strpos( $url_parts['path'], $this->base_path ) === false );
 		}
 
 		return true;
