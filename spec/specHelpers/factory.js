@@ -4,7 +4,7 @@ import Jed from "jed";
 /**
  * A mock factory function.
  *
- * @returns {void}.
+ * @returns {void}
  */
 const FactoryProto = function() {};
 
@@ -44,7 +44,7 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 	if ( multiValue && typeof expectedValue === "object" ) {
 		return {
 			/**
-			 * Return research results by its name for multi-value mock researchers.
+			 * Return research results by research name for multi-value mock researchers.
 			 *
 			 * @param {string} research The name of the research.
 			 *
@@ -55,7 +55,7 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 			},
 
 			/**
-			 * Return research data if available.
+			 * Check whether morphology data is available.
 			 *
 			 * @returns {boolean} True if the researcher has access to morphology data.
 			 */
@@ -75,7 +75,7 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 		},
 
 		/**
-		 * Return research data if available.
+		 * Check whether morphology data is available.
 		 *
 		 * @returns {boolean} True if the researcher has access to morphology data.
 		 */
