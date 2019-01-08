@@ -55,7 +55,7 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 			},
 
 			/**
-			 * Return research data if available.
+			 * Check whether morphology data is available.
 			 *
 			 * @returns {boolean} True if the researcher has access to morphology data.
 			 */
