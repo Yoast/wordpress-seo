@@ -46,10 +46,38 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	protected static $page_for_posts_id;
 
 	/**
+	 * The with_front rewrite setting.
+	 *
+	 * @var boolean
+	 */
+	private $post_type_has_front = true;
+
+	/**
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
 		add_filter( 'save_post', array( $this, 'save_post' ) );
+	}
+
+	/**
+	 * Sets the post type has front boolean.
+	 *
+	 * @param string $post_type_has_front the post type.
+	 *
+	 * @return void
+	 */
+	protected function set_post_type_has_front($post_type) {
+		$post_type_has_front = get_post_type_object($post_type)->rewrite["with_front"];
+		$this->post_type_has_front = $post_type_has_front === false ? false : true;
+	}
+
+	/**
+	 * Get if the post type has with_front rewrite setting set to true.
+	 *
+	 * @return boolean with_front rewrite setting.
+	 */
+	protected function get_post_type_has_front() {
+		return $this->post_type_has_front;
 	}
 
 	/**
@@ -244,6 +272,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		while ( $total > $offset ) {
 
 			$posts = $this->get_posts( $post_type, $steps, $offset );
+
+			$this->set_post_type_has_front($post_type);
 
 			$offset += $steps;
 
@@ -626,7 +656,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 *
 		 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
 		 */
-		if ( $this->get_classifier()->classify( $url['loc'] ) === WPSEO_Link::TYPE_EXTERNAL ) {
+		$post_type_has_front = $this->get_post_type_has_front();
+
+		if ( $this->get_classifier()->classify( $url['loc'] ) === WPSEO_Link::TYPE_EXTERNAL && $post_type_has_front ) {
 			return false;
 		}
 
