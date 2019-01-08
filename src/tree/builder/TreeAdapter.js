@@ -44,7 +44,7 @@ class TreeAdapter {
 			node = new FormattingElement( tag, parsedAttributes );
 		} else {
 			// Paragraphs, Headers, Lists, ListItems and other nodes.
-			node = this._parseNode( tag );
+			node = TreeAdapter._parseNode( tag );
 		}
 
 		node.tagName = tag;
@@ -63,7 +63,7 @@ class TreeAdapter {
 	 *
 	 * @private
 	 */
-	_parseNode( tag ) {
+	static _parseNode( tag ) {
 		if ( headings.includes( tag ) ) {
 			// Heading.
 			return new Heading( parseInt( tag[ 1 ], 10 ) );
@@ -145,12 +145,12 @@ class TreeAdapter {
 			// Add StructuredIrrelevant element as formatting to the parent node.
 			const element = new FormattingElement( child.tagName, {} );
 			element.location = child.location;
-			this._appendFormattingElement( parent, element );
+			TreeAdapter._appendFormattingElement( parent, element );
 			return;
 		}
 
 		if ( child instanceof FormattingElement ) {
-			this._appendFormattingElement( parent, child );
+			TreeAdapter._appendFormattingElement( parent, child );
 			return;
 		}
 
@@ -169,7 +169,7 @@ class TreeAdapter {
 	 *
 	 * @private
 	 */
-	_appendFormattingElement( parent, formattingElement ) {
+	static _appendFormattingElement( parent, formattingElement ) {
 		formattingElement.parent = parent;
 		if ( parent instanceof StructuredNode ) {
 			// Wrap it in a paragraph, add it as formatting.
@@ -249,9 +249,9 @@ class TreeAdapter {
 		if ( TreeAdapter._isLeafNode( node ) ) {
 			node.textContainer.appendText( text );
 		} else if ( node instanceof FormattingElement ) {
-			this._addFormattingElementText( node, text );
+			TreeAdapter._addFormattingElementText( node, text );
 		} else {
-			this._addStructuredNodeText( node, text );
+			TreeAdapter._addStructuredNodeText( node, text );
 		}
 	}
 
@@ -266,7 +266,7 @@ class TreeAdapter {
 	 *
 	 * @private
 	 */
-	_addFormattingElementText( formattingElement, text ) {
+	static _addFormattingElementText( formattingElement, text ) {
 		// Find a paragraph or header ancestor.
 		const parent = TreeAdapter._findAncestor( formattingElement, TreeAdapter._isLeafNode );
 		// Append text to parent's text container.
@@ -285,7 +285,7 @@ class TreeAdapter {
 	 *
 	 * @private
 	 */
-	_addStructuredNodeText( node, text ) {
+	static _addStructuredNodeText( node, text ) {
 		// Get the previous sibling of this node.
 		const prevChild = node.children[ node.children.length - 1 ];
 		// If the previous child is an implicit paragraph...
