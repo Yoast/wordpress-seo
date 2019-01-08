@@ -13,7 +13,7 @@ import { formattingElements, headings, irrelevantHtmlElements } from "./htmlClas
  * An adapter to parse the HTML source code to a structured tree representation, to be used in further analysis,
  * in combination with the `parse5` library.
  *
- * Implements the `parse5` library's `TreeAdapter` interface
+ * Implements the `parse5` library's `TreeAdapter` interface.
  * @see https://github.com/inikulin/parse5/blob/master/packages/parse5/docs/tree-adapter/interface.md
  *
  * @memberOf module:tree/builder
@@ -26,9 +26,9 @@ class TreeAdapter {
 	/**
 	 * Creates a new element to be put in the tree.
 	 *
-	 * @param {string} tag									The HTML tag.
-	 * @param {string} namespace							The XML namespace (e.g. "http://www.w3.org/1999/xhtml" for HTML).
-	 * @param {Array<{ name: string, value: string }>} attributes	The attributes of this element.
+	 * @param {string} tag                                        The HTML tag.
+	 * @param {string} namespace                                  The XML namespace (e.g. "http://www.w3.org/1999/xhtml" for HTML).
+	 * @param {Array<{ name: string, value: string }>} attributes The attributes of this element.
 	 *
 	 * @returns {module:tree/structure.Node|module:tree/structure.FormattingElement} The new element.
 	 */
@@ -57,7 +57,7 @@ class TreeAdapter {
 	/**
 	 * Makes a new node to add to the tree, based on the given HTML-tag.
 	 *
-	 * @param {string} tag		The HTML-tag of the element to add.
+	 * @param {string} tag The HTML-tag of the element to add.
 	 *
 	 * @returns {module:tree/structure.Node} The node to add to the tree.
 	 *
@@ -85,7 +85,7 @@ class TreeAdapter {
 	 * Parses the HTML element attributes from parse5's format to a plain JS object.
 	 * E.g. `{ name: "id", value: "an-id" }` becomes ` { id: "an-id" }`.
 	 *
-	 * @param {Array<{ name: string, value: string }>} parse5attributes		The attributes as parsed by parse5.
+	 * @param {Array<{ name: string, value: string }>} parse5attributes The attributes as parsed by parse5.
 	 *
 	 * @returns {Object} The parsed attributes.
 	 *
@@ -113,7 +113,7 @@ class TreeAdapter {
 	/**
 	 * Creates a new node representing an HTML-comment.
 	 *
-	 * @param {string} text	The comment text.
+	 * @param {string} text The comment text.
 	 *
 	 * @returns {StructuredIrrelevant} The node representing the comment.
 	 */
@@ -129,8 +129,8 @@ class TreeAdapter {
 	/**
 	 * Appends a child node to a parent node.
 	 *
-	 * @param {Node} parent	The parent node.
-	 * @param {Node} child		The child to add to the parent node.
+	 * @param {Node} parent The parent node.
+	 * @param {Node} child  The child to add to the parent node.
 	 *
 	 * @returns {void}
 	 */
@@ -215,7 +215,7 @@ class TreeAdapter {
 	/**
 	 * Detaches a node from its parent.
 	 *
-	 * @param {Node} node	The node to detach from its parent.
+	 * @param {Node} node The node to detach from its parent.
 	 *
 	 * @returns {void}
 	 */
@@ -235,8 +235,8 @@ class TreeAdapter {
 	 *  2. If its parent is a structured node: wrap text in a paragraph, add paragraph to parent.
 	 *  3. If its parent is a formatting element: append text to the most recent ancestor who is a paragraph or heading.
 	 *
-	 * @param {Node} node		The node to (try to) append the text to.
-	 * @param {string} text	The text to append to the node.
+	 * @param {Node} node   The node to (try to) append the text to.
+	 * @param {string} text The text to append to the node.
 	 *
 	 * @returns {void}
 	 */
@@ -259,8 +259,8 @@ class TreeAdapter {
 	 * Appends the given text to the formatting element's most recent ancestor
 	 * who is either a paragraph or a heading.
 	 *
-	 * @param {FormattingElement} formattingElement	The formatting element.
-	 * @param {string} text 						The text to add.
+	 * @param {FormattingElement} formattingElement The formatting element.
+	 * @param {string} text                         The text to add.
 	 *
 	 * @returns {void}
 	 *
@@ -278,8 +278,8 @@ class TreeAdapter {
 	 *  1. The node's most recent child, if it is a paragraph or a heading.
 	 *  2. A new paragraph, if not.
 	 *
-	 * @param {StructuredNode} node		The node.
-	 * @param {string} text			The text to append.
+	 * @param {StructuredNode} node The node.
+	 * @param {string} text         The text to append.
 	 *
 	 * @returns {void}
 	 *
@@ -336,7 +336,7 @@ class TreeAdapter {
 	/**
 	 * Returns this node's parent node.
 	 *
-	 * @param {Node} node	The node from which to retrieve the parent.
+	 * @param {Node} node The node from which to retrieve the parent.
 	 *
 	 * @returns {Node} The parent of this node.
 	 */
@@ -350,7 +350,7 @@ class TreeAdapter {
 	 * If the node does not have any children and cannot get any (e.g. Heading, FormattingElement)
 	 * this function returns an empty list.
 	 *
-	 * @param {Node} node	The node to get the children from.
+	 * @param {Node} node The node to get the children from.
 	 *
 	 * @returns {Node[]} The children of the given node.
 	 */
@@ -367,7 +367,7 @@ class TreeAdapter {
 	 *
 	 * @see https://en.wikipedia.org/wiki/Rumpelstiltskin
 	 *
-	 * @param {Node} node	The node to get its first child from.
+	 * @param {Node} node The node to get its first child from.
 	 *
 	 * @returns {Node[]|null} The node's first child or null, if this node cannot get any children.
 	 */
@@ -386,8 +386,8 @@ class TreeAdapter {
 	 * We still need to add it, since `parse5` appends the end tag position
 	 * to this object somewhere during parsing.
 	 *
-	 * @param {Node} node	The node to set its location.
-	 * @param {Location} location the node's location in the source code.
+	 * @param {Node} node         The node to set its location.
+	 * @param {Location} location The node's location in the source code.
 	 *
 	 * @returns {void}
 	 */
@@ -401,7 +401,8 @@ class TreeAdapter {
 	/**
 	 * Gets the node's source code location.
 	 *
-	 * @param {Node} node	The node to get its source code location from.
+	 * @param {Node} node The node to get its source code location from.
+	 *
 	 * @returns {Location|void} The node's source code location.
 	 */
 	getNodeSourceCodeLocation( node ) {
@@ -418,7 +419,7 @@ class TreeAdapter {
 	 * on the given predicate.
 	 *
 	 * @param {Node|FormattingElement} element  The node to find the ancestor of.
-	 * @param {predicate} predicate	             The predicate to check the ancestors on.
+	 * @param {predicate} predicate             The predicate to check the ancestors on.
 	 *
 	 * @returns {Node|null} The most recent ancestor that returns true on the given predicate.
 	 *

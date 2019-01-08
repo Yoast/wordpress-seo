@@ -61,8 +61,8 @@ class Node {
 	 * Custom replacer function for replacing 'parent' with nothing.
 	 * This is done to remove cycles from the tree.
 	 *
-	 * @param {string} key		The key.
-	 * @param {Object} value	The value.
+	 * @param {string} key   The key.
+	 * @param {Object} value The value.
 	 *
 	 * @returns {Object} The (optionally replaced) value.
 	 *

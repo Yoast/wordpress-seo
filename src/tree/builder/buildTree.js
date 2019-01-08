@@ -178,8 +178,8 @@ const setStartEndText = function( node, html ) {
  * These steps are setting the start and end index of each node and
  * deleting attributes needed for parsing, but not needed for further analysis.
  *
- * @param {module:tree/structure.Node} tree		The tree structure to be cleaned.
- * @param {string} html	                      The original HTML source code.
+ * @param {module:tree/structure.Node} tree The tree structure to be cleaned.
+ * @param {string} html                     The original HTML source code.
  *
  * @returns {module:tree/structure.Node} The cleaned up tree.
  *
@@ -219,7 +219,8 @@ const cleanUpAfterParsing = function( tree, html ) {
 /**
  * Parses the given html-string to a tree, to be used in further analysis.
  *
- * @param {string} html	The html-string that should be parsed.
+ * @param {string} html The html-string that should be parsed.
+ *
  * @returns {module:tree/structure.Node} The build tree.
  *
  * @memberOf module:tree/builder
