@@ -18,14 +18,17 @@ $wpseo_archives = array(
 	array(
 		'title'     => esc_html__( 'Author archives settings', 'wordpress-seo' ),
 		'view_file' => 'paper-content/author-archive-settings.php',
+		'paper_id'  => 'settings-author-archives',
 	),
 	array(
 		'title'     => esc_html__( 'Date archives settings', 'wordpress-seo' ),
 		'view_file' => 'paper-content/date-archives-settings.php',
+		'paper_id'  => 'settings-date-archives',
 	),
 	array(
 		'title'     => esc_html__( 'Special Pages', 'wordpress-seo' ),
 		'view_file' => 'paper-content/special-pages.php',
+		'paper_id'  => 'settings-special-pages',
 	),
 );
 
@@ -39,6 +42,7 @@ foreach ( $wpseo_archives as $wpseo_archive_index => $wpseo_archive ) {
 		array(
 			'collapsible'                  => true,
 			'expanded'                     => ( $wpseo_archive_index === 0 ),
+			'paper_id'                     => $wpseo_archive['paper_id'],
 			'recommended_replace_vars'     => $recommended_replace_vars,
 			'editor_specific_replace_vars' => $editor_specific_replace_vars,
 		)
