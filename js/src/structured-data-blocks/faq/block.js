@@ -29,6 +29,9 @@ export default () => {
 			additionalListCssClasses: {
 				type: "string",
 			},
+			header: {
+				type: "string",
+			},
 		},
 
 		/**

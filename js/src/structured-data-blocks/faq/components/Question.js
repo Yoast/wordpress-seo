@@ -310,7 +310,7 @@ export default class Question extends Component {
 		return (
 			<div className={ "schema-faq-section" } key={ question.id }>
 				<RichTextWithAppendedSpace
-					tagName="strong"
+					tagName={ question.header }
 					className="schema-faq-question"
 					key={ question.id + "-question" }
 					value={ question.question }

@@ -1,3 +1,5 @@
+/* global wp */
+
 /* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
@@ -334,10 +336,10 @@ export default class FAQ extends Component {
 	 * @returns {Component} The component representing a FAQ block.
 	 */
 	static Content( attributes ) {
-		const { questions, className } = attributes;
+		const { questions, className, header } = attributes;
 
 		const questionList = questions ? questions.map( ( question, index ) =>
-			<QuestionContentWithAppendedSpace key={ index } { ...question } />
+			<QuestionContentWithAppendedSpace key={ index } header={ header } { ...question } />
 		) : null;
 
 		const classNames = [ "schema-faq", className ].filter( ( i ) => i ).join( " " );
@@ -350,11 +352,22 @@ export default class FAQ extends Component {
 	}
 
 	/**
+	 * Sets the header level for the questions in the FAQ block.
+	 *
+	 * @returns {void}
+	 */
+	setHeader(){
+		const blocks = wp.data.select( "core/editor" ).getBlocks();
+		this.props.setAttributes( { header: "h4" } );
+	}
+
+	/**
 	 * Renders this component.
 	 *
 	 * @returns {Component} The FAQ block editor.
 	 */
 	render() {
+		this.setHeader();
 		const { className } = this.props;
 
 		const classNames = [ "schema-faq", className ].filter( ( i ) => i ).join( " " );
