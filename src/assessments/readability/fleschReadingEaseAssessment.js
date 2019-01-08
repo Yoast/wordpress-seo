@@ -8,7 +8,7 @@ import AssessmentResult from "../../values/AssessmentResult";
 const availableLanguages = [ "en", "nl", "de", "it", "ru", "fr", "es" ];
 
 /**
- * Assessment to check how readable the text is, based on the famous Flesch reading ease test.
+ * Assessment to check how readable the text is, based on the Flesch reading ease test.
  */
 class FleschReadingEaseAssessment extends Assessment {
 	/**
