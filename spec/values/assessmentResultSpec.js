@@ -64,7 +64,7 @@ describe( "AssessmentResult", function() {
 			/**
 			 * A mock marker function.
 			 *
-			 * @returns {void}.
+			 * @returns {void}
 			 */
 			var marker = function() {};
 
