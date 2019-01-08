@@ -62,13 +62,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Sets the post type has front boolean.
 	 *
-	 * @param string $post_type_has_front the post type.
+	 * @param string $post_type the post type.
 	 *
 	 * @return void
 	 */
 	protected function set_post_type_has_front($post_type) {
 		$post_type_has_front = get_post_type_object($post_type)->rewrite["with_front"];
-		$this->post_type_has_front = $post_type_has_front === false ? false : true;
+		$this->post_type_has_front = ( $post_type_has_front === false ? false : true );
 	}
 
 	/**
