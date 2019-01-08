@@ -112,13 +112,13 @@ Enhancements:
 
 * Completes the readabilty analysis for Swedish by adding the transition words, sentence beginnings and passive voice assessments. 
 * Improves the transition word assessment for German.
-* Improves the error logging when there is an error in an SEO or readability assessment.
 
 Bugfixes:
 
 * Fixes a bug where the Ryte endpoint would be called when the Ryte feature has been disabled.
 * Fixes a bug where the 'Show archives for authors without posts in search results?' toggle would be shown when the 'Show author archives in search results?' toggle was disabled in the search appearance settings.
 * Fixes a bug where the front page would be shown in the page sitemap. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where errors would be thrown in the classic editor when Gutenberg assets were enqueued without Gutenberg being active.
 
 Deprecated:
 
