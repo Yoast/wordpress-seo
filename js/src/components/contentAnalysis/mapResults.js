@@ -13,6 +13,7 @@ const { scoreToRating } = helpers;
  * @property {string} id
  * @property {func} marker
  * @property {number} score
+ * @property {string} markerId
  */
 
 /**
