@@ -72,7 +72,7 @@ class FleschReadingEaseAssessment extends Assessment {
 		let feedback = "";
 		let note = i18n.dgettext( "js-text-analysis", "Good job!" );
 
-		if ( this.fleschReadingResult > this._config.borders.veryEasy ) {
+		if ( this.fleschReadingResult >= this._config.borders.veryEasy ) {
 			score = this._config.scores.veryEasy;
 			feedback = i18n.dgettext( "js-text-analysis", "very easy" );
 		} else if ( inRange( this.fleschReadingResult, this._config.borders.easy, this._config.borders.veryEasy ) ) {
