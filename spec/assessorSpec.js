@@ -83,7 +83,7 @@ describe( "an assessor object", function() {
 				/**
 				 * A mock marker function.
 				 *
-				 * @returns {void}.
+				 * @returns {void}
 				 */
 				marker: function() {},
 			} );
@@ -107,7 +107,7 @@ describe( "an assessor object", function() {
 				/**
 				 * A mock getMarks function.
 				 *
-				 * @returns {void}.
+				 * @returns {void}
 				 */
 				getMarks: function() {},
 			};
@@ -133,7 +133,7 @@ describe( "an assessor object", function() {
 				/**
 				 * A mock getMarks function.
 				 *
-				 * @returns {void}.
+				 * @returns {void}
 				 */
 				getMarks: function() {},
 			};
@@ -147,7 +147,7 @@ describe( "an assessor object", function() {
 				/**
 				 * A mock getMarks function.
 				 *
-				 * @returns {void}.
+				 * @returns {void}
 				 */
 				getMarks: function() {},
 			};
@@ -181,13 +181,13 @@ describe( "an assessor object", function() {
 				/**
 				 * A mock getMarks function.
 				 *
-				 * @returns {void}.
+				 * @returns {void}
 				 */
 				getMarks: function() {},
 				/**
 				 * A mock globalMarker function.
 				 *
-				 * @returns {void}.
+				 * @returns {void}
 				 */
 				globalMarker: function() {},
 			};

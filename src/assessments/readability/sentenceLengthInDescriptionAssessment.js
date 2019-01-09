@@ -85,7 +85,7 @@ var sentenceLengthInDescriptionAssessment = function( paper, researcher, i18n ) 
  *
  * @param {Object} paper The paper to check.
  *
- * @returns {boolean} Returns true if the language is available and the paper is not empty.
+ * @returns {boolean} Returns true if the paper has a meta description.
  */
 const isApplicable = function( paper ) {
 	return paper.hasDescription();

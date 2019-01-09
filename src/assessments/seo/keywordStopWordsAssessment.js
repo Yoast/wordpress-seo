@@ -58,7 +58,7 @@ const keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
 };
 
 /**
- * Checks if there is a list of stopwords for the language of the paper.
+ * Checks if the keyword stopwords assessment is applicable to the paper.
  *
  * @param {Object} paper The paper to check.
  *

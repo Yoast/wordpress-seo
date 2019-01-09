@@ -8,7 +8,7 @@ import AssessmentResult from "../../values/AssessmentResult";
 const availableLanguages = [ "en", "nl", "de", "it", "ru", "fr", "es" ];
 
 /**
- * Assessment to check how readable the text is, based on the famous Flesch reading ease test.
+ * Assessment to check how readable the text is, based on the Flesch reading ease test.
  */
 class FleschReadingEaseAssessment extends Assessment {
 	/**
@@ -98,7 +98,8 @@ class FleschReadingEaseAssessment extends Assessment {
 			note = i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability" );
 		}
 
-		if ( score >=  this._config.scores.okay ) {
+		// If the score is good, add a "Good job" message without a link to the Call-to-action article.
+		if ( score >= this._config.scores.okay ) {
 			return {
 				score: score,
 				resultText: i18n.sprintf(
@@ -119,6 +120,7 @@ class FleschReadingEaseAssessment extends Assessment {
 				),
 			};
 		}
+		// If the score is not good, add a Call-to-action message with a link to the Call-to-action article.
 		return {
 			score: score,
 			resultText: i18n.sprintf(
