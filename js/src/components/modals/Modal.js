@@ -73,15 +73,13 @@ class Modal extends React.Component {
 	 */
 	render() {
 		const defaultLabels = {
-			labels: {
-				open: __( "Open", "wordpress-seo" ),
-				heading: "",
-				closeIconButton: __( "Close", "wordpress-seo" ),
-				closeButton: "",
-			},
+			open: __( "Open", "wordpress-seo" ),
+			heading: "",
+			closeIconButton: __( "Close", "wordpress-seo" ),
+			closeButton: "",
 		};
 
-		const modalLabels = Object.assign( {}, defaultLabels.labels, this.props.labels );
+		const modalLabels = Object.assign( {}, defaultLabels, this.props.labels );
 
 		return (
 			<React.Fragment>
@@ -135,11 +133,7 @@ Modal.defaultProps = {
 	className: "",
 	appElement: "#wpwrap",
 	openButtonIcon: "",
-	classes: {
-		openButton: "",
-		closeIconButton: "",
-		closeButton: "",
-	},
+	classes: {},
 };
 
 export default Modal;
