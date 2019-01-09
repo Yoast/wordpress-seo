@@ -127,22 +127,24 @@ export default class ComponentsExample extends React.Component {
 
 		/* eslint-disable react/jsx-no-target-blank */
 		return (
-			<Container>
-				<h2>Yoast warning</h2>
-				<YoastWarning
-					message={ [
-						"This is a warning message that also accepts arrays, so you can pass links such as ",
-						<a
-							key="1"
-							href="https://yoa.st/metabox-help-cornerstone"
-							target="_blank"
-						>cornerstone content</a>,
-						", for example.",
-						<p key="2">This spans to multiple lines.</p>,
-					] }
-				/>
-
+			<React.Fragment>
+				<Container>
+					<h2>Yoast warning</h2>
+					<YoastWarning
+						message={ [
+							"This is a warning message that also accepts arrays, so you can pass links such as ",
+							<a
+								key="1"
+								href="https://yoa.st/metabox-help-cornerstone"
+								target="_blank"
+							>cornerstone content</a>,
+							", for example.",
+							<p key="2">This spans to multiple lines.</p>,
+						] }
+					/>
+				</Container>
 				<h2>Courses overview cards</h2>
+				<p>Full width example to test the cards wrapping.</p>
 				<WordPressStylesEmulator>
 					{ courses && <CoursesList>
 						{ courses.map( course =>
@@ -164,7 +166,7 @@ export default class ComponentsExample extends React.Component {
 						) }
 					</CoursesList> }
 				</WordPressStylesEmulator>
-			</Container>
+			</React.Fragment>
 		);
 		/* eslint-enable react/jsx-no-target-blank */
 	}
