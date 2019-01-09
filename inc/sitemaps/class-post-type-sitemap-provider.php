@@ -129,8 +129,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$home_url = $this->get_home_url();
 			$post_type_has_front = $this->get_post_type_has_front();
 
-			// remove path from home_url if post type with_front rewrite option is set to false
-			if (!$post_type_has_front) {
+			// Remove path from home_url if post type with_front rewrite option is set to false.
+			if ( ! $post_type_has_front ) {
 				$url_path = wp_parse_url( $home_url, PHP_URL_PATH );
 				$home_url = str_replace( $url_path, '/', $home_url );
 			}
