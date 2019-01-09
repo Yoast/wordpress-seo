@@ -17,12 +17,12 @@ export function getSeoResults( state ) {
  * @param {Object} state The state.
  * @param {string} keyword The keyword to get the results for.
  *
- * @returns {Array} The SEO results for the keyword.
+ * @returns {object} The results and overall score for the SEO analysis.
  */
 export function getResultsForKeyword( state, keyword ) {
 	const seoResults = getSeoResults( state );
 
-	return get( seoResults, keyword, [] );
+	return get( seoResults, keyword, {} );
 }
 
 /**
@@ -33,7 +33,7 @@ export function getResultsForKeyword( state, keyword ) {
  * @returns {object} The results and overall score for the readability analysis.
  */
 export function getReadabilityResults( state ) {
-	return get( state, [ "analysis", "readability" ] );
+	return get( state, [ "analysis", "readability" ], {} );
 }
 
 /**
@@ -56,9 +56,12 @@ export function getResultsForFocusKeyword( state ) {
  * @returns {Object|null} The assessment result.
  */
 export function getResultById( state, id ) {
+	const focusKeywordResults = getResultsForFocusKeyword( state ).results || [];
+	const readabilityResults = getReadabilityResults( state ).results || [];
+
 	const allResults = [
-		...getResultsForFocusKeyword( state ).results,
-		...getReadabilityResults( state ).results,
+		...focusKeywordResults,
+		...readabilityResults,
 	];
 
 	return allResults.find( result => result._identifier === id );
@@ -74,4 +77,3 @@ export function getResultById( state, id ) {
 export function getMarkButtonStatus( state ) {
 	return state.marksButtonStatus;
 }
-

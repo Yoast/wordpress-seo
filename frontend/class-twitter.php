@@ -13,21 +13,29 @@
 class WPSEO_Twitter {
 
 	/**
-	 * @var    object    Instance of this class
+	 * Instance of this class.
+	 *
+	 * @var object
 	 */
 	public static $instance;
 
 	/**
-	 * @var array Images
+	 * Images.
+	 *
+	 * @var array
 	 */
 	private $images = array();
 
 	/**
-	 * @var array Images
+	 * Images.
+	 *
+	 * @var array
 	 */
 	public $shown_images = array();
 
-	/** @var WPSEO_Frontend_Page_Type */
+	/**
+	 * @var WPSEO_Frontend_Page_Type
+	 */
 	protected $frontend_page_type;
 
 	/**
@@ -36,6 +44,20 @@ class WPSEO_Twitter {
 	 * @var string
 	 */
 	private $type;
+
+	/**
+	 * Card types currently allowed by Twitter.
+	 *
+	 * @link https://dev.twitter.com/cards/types
+	 *
+	 * @var array
+	 */
+	private $valid_types = array(
+		'summary',
+		'summary_large_image',
+		'app',
+		'player',
+	);
 
 	/**
 	 * Class constructor
@@ -126,13 +148,7 @@ class WPSEO_Twitter {
 	 * @link https://dev.twitter.com/cards/types
 	 */
 	private function sanitize_card_type() {
-		if ( ! in_array( $this->type, array(
-			'summary',
-			'summary_large_image',
-			'app',
-			'player',
-		), true )
-		) {
+		if ( ! in_array( $this->type, $this->valid_types, true ) ) {
 			$this->type = 'summary';
 		}
 	}

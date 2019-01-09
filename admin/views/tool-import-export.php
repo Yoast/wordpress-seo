@@ -117,8 +117,11 @@ foreach ( $tabs as $identifier => $tab ) {
 	if ( ! empty( $tab['screencast_video_url'] ) ) {
 		$tab_video_url = $tab['screencast_video_url'];
 
-		$helpcenter_tab = new WPSEO_Option_Tab( $identifier, $tab['label'],
-			array( 'video_url' => $tab['screencast_video_url'] ) );
+		$helpcenter_tab = new WPSEO_Option_Tab(
+			$identifier,
+			$tab['label'],
+			array( 'video_url' => $tab['screencast_video_url'] )
+		);
 	}
 
 	$helpcenter_tabs->add_tab( $helpcenter_tab );

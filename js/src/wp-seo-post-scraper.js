@@ -36,6 +36,7 @@ import snippetEditorHelpers from "./analysis/snippetEditor";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
 import getApplyMarks from "./analysis/getApplyMarks";
 import { refreshDelay } from "./analysis/constants";
+import handleWorkerError from "./analysis/handleWorkerError";
 
 // Redux dependencies.
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
@@ -329,20 +330,20 @@ setWordPressSeoL10n();
 	let currentAnalysisData;
 
 	/**
-	 * Rerun the analysis when the title or metadescription in the snippet changes.
+	 * Rerun the analysis when the title or meta description in the snippet changes.
 	 *
-	 * @param {Object} store The store.
-	 * @param {Object} app The YoastSEO app.
+	 * @param {Object}   store            The store.
+	 * @param {Function} _refreshAnalysis Function that triggers a refresh of the analysis.
 	 *
 	 * @returns {void}
 	 */
-	function handleStoreChange( store, app ) {
+	function handleStoreChange( store, _refreshAnalysis ) {
 		const previousAnalysisData = currentAnalysisData || "";
 		currentAnalysisData = store.getState().analysisData.snippet;
 
 		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
 		if ( isDirty ) {
-			app.refresh();
+			_refreshAnalysis();
 		}
 	}
 
@@ -468,21 +469,19 @@ setWordPressSeoL10n();
 			}
 		};
 		YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
-			YoastSEO.analysis.worker.initialize( assessorOptions );
+			YoastSEO.analysis.worker.initialize( assessorOptions ).catch( handleWorkerError );
 			YoastSEO.app.refresh();
 		};
 
-		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
+		edit.initializeUsedKeywords( YoastSEO.app.refresh, "get_focus_keyword_usage" );
 
-		postDataCollector.app = app;
-
-		editStore.subscribe( handleStoreChange.bind( null, editStore, app ) );
+		editStore.subscribe( handleStoreChange.bind( null, editStore, YoastSEO.app.refresh ) );
 
 		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, editStore );
 		const shortcodePlugin = new YoastShortcodePlugin( app );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
-			const markdownPlugin = new YoastMarkdownPlugin( app );
+			const markdownPlugin = new YoastMarkdownPlugin( YoastSEO.app.registerPlugin, YoastSEO.app.registerModification );
 			markdownPlugin.register();
 		}
 
@@ -497,12 +496,18 @@ setWordPressSeoL10n();
 			.then( () => {
 				jQuery( window ).trigger( "YoastSEO:ready" );
 			} )
-			.catch( error => console.warn( error ) );
+			.catch( handleWorkerError );
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
 
-		postDataCollector.bindElementEvents( app );
+		postDataCollector.bindElementEvents( debounce( () => refreshAnalysis(
+			YoastSEO.analysis.worker,
+			YoastSEO.analysis.collectData,
+			YoastSEO.analysis.applyMarks,
+			YoastSEO.store,
+			postDataCollector,
+		), refreshDelay ) );
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );

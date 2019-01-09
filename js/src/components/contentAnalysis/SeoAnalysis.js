@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import { getRtlStyle, KeywordInput, colors } from "yoast-components";
+import { KeywordInput, colors } from "yoast-components";
 import Collapsible from "../SidebarCollapsible";
 import Results from "./Results";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
@@ -16,11 +16,12 @@ import KeywordSynonyms from "../modals/KeywordSynonyms";
 import Modal from "../modals/Modal";
 import MultipleKeywords from "../modals/MultipleKeywords";
 import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
-import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
 import { LocationConsumer } from "../contexts/location";
 import AnalysisUpsell from "../AnalysisUpsell";
 import RecalibrationBetaNotification from "./RecalibrationBetaNotification";
 import HelpLink from "./HelpLink";
+import { setMarkerPauseStatus } from "../../redux/actions/markerPauseStatus";
+import { ModalContainer, ModalIcon } from "../modals/Container";
 
 // We need localizedData temporarily here to know if the recalibration beta is toggled.
 let localizedData = {};
@@ -35,30 +36,6 @@ const AnalysisHeader = styled.span`
 	font-weight: bold;
 	margin: 1.5em 0 1em;
 	display: block;
-`;
-
-const StyledContainer = styled.div`
-	min-width: 600px;
-
-	@media screen and ( max-width: 680px ) {
-		min-width: 0;
-		width: 86vw;
-	}
-`;
-
-const StyledIcon = styled( Icon )`
-	float: ${ getRtlStyle( "right", "left" ) };
-	margin: ${ getRtlStyle( "0 0 16px 16px", "0 16px 16px 0" ) };
-
-	&& {
-		width: 150px;
-		height: 150px;
-
-		@media screen and ( max-width: 680px ) {
-			width: 80px;
-			height: 80px;
-		}
-	}
 `;
 
 /**
@@ -103,12 +80,12 @@ class SeoAnalysis extends React.Component {
 
 		return (
 			<Modal { ...modalProps }>
-				<StyledContainer>
-					<StyledIcon icon={ YoastSeoIcon } />
+				<ModalContainer>
+					<ModalIcon icon={ YoastSeoIcon } />
 					<h2>{ __( "Would you like to add keyphrase synonyms?", "wordpress-seo" ) }</h2>
 
 					<KeywordSynonyms link={ link } buyLink={ buyLink } />
-				</StyledContainer>
+				</ModalContainer>
 			</Modal>
 		);
 	}
@@ -151,14 +128,14 @@ class SeoAnalysis extends React.Component {
 
 		return (
 			<Modal { ...modalProps }>
-				<StyledContainer>
-					<StyledIcon icon={ YoastSeoIcon } />
+				<ModalContainer>
+					<ModalIcon icon={ YoastSeoIcon } />
 					<h2>{ __( "Would you like to add a related keyphrase?", "wordpress-seo" ) }</h2>
 					<MultipleKeywords
 						link={ link }
 						buyLink={ buyLink }
 					/>
-				</StyledContainer>
+				</ModalContainer>
 			</Modal>
 		);
 	}
@@ -224,8 +201,8 @@ class SeoAnalysis extends React.Component {
 	renderWordFormsUpsell( location ) {
 		return <AnalysisUpsell
 			url={ location === "sidebar"
-				? "https://yoa.st/morphology-upsell-sidebar"
-				: "https://yoa.st/morphology-upsell-metabox" }
+				? wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_sidebar" ]
+				: wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_metabox" ] }
 			alignment={ location === "sidebar" ? "vertical" : "horizontal" }
 		/>;
 	}
@@ -270,6 +247,8 @@ class SeoAnalysis extends React.Component {
 								keyword={ this.props.keyword }
 								label={ __( "Focus keyphrase", "wordpress-seo" ) }
 								helpLink={ this.renderHelpLink() }
+								onBlurKeyword={ this.props.onBlurKeyword }
+								onFocusKeyword={ this.props.onFocusKeyword }
 							/>
 							<Slot name="YoastSynonyms" />
 							{ this.props.shouldUpsell && <Fragment>
@@ -350,8 +329,14 @@ function mapStateToProps( state, ownProps ) {
  */
 function mapDispatchToProps( dispatch ) {
 	return {
+		onFocusKeyword: () => {
+			dispatch( setMarkerPauseStatus( true ) );
+		},
 		onFocusKeywordChange: ( value ) => {
 			dispatch( setFocusKeyword( value ) );
+		},
+		onBlurKeyword: () => {
+			dispatch( setMarkerPauseStatus( false ) );
 		},
 	};
 }

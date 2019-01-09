@@ -10,7 +10,11 @@
  */
 class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
-	/** @var WPSEO_Sitemap_Image_Parser $image_parser Holds image parser instance. */
+	/**
+	 * Holds image parser instance.
+	 *
+	 * @var WPSEO_Sitemap_Image_Parser
+	 */
 	protected static $image_parser;
 
 	/**
@@ -52,12 +56,13 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$all_taxonomies = array();
 
-		foreach ( $taxonomy_names as $taxonomy_name ) {
+		$term_args = array(
+			'hide_empty' => $hide_empty,
+			'fields'     => 'ids',
+		);
 
-			$taxonomy_terms = get_terms( $taxonomy_name, array(
-				'hide_empty' => $hide_empty,
-				'fields'     => 'ids',
-			) );
+		foreach ( $taxonomy_names as $taxonomy_name ) {
+			$taxonomy_terms = get_terms( $taxonomy_name, $term_args );
 
 			if ( count( $taxonomy_terms ) > 0 ) {
 				$all_taxonomies[ $taxonomy_name ] = $taxonomy_terms;

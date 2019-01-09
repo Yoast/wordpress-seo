@@ -45,7 +45,6 @@ class WPSEO_Admin_Pages {
 		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
 	}
 
-
 	/**
 	 * Loads the required styles for the config page.
 	 */
@@ -86,7 +85,7 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ) );
 
 		if ( in_array( $page, array( 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_titles' ), true ) ) {
 			wp_enqueue_media();

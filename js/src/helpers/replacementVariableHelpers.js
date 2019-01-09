@@ -1,5 +1,3 @@
-/* global wp */
-
 /* External dependencies */
 import forEach from "lodash/forEach";
 import omit from "lodash/omit";
@@ -7,7 +5,7 @@ import omit from "lodash/omit";
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import { firstToUpperCase } from "./stringHelpers";
-
+import { stripTags } from "./stripTags";
 
 export const nonReplaceVars = [ "slug", "content" ];
 
@@ -212,7 +210,7 @@ export function mapCustomFields( replaceVars, store ) {
  * @returns {string} The generated excerpt.
  */
 export function excerptFromContent( content, limit = 156 ) {
-	content = wp.sanitize.stripTags( content );
+	content = stripTags( content );
 	content = content.trim();
 
 	// When the content is shorter than 156 characters, use the entire content.

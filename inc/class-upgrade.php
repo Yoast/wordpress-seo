@@ -329,7 +329,8 @@ class WPSEO_Upgrade {
 		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
 
 		$usermetas = $wpdb->get_results(
-			$wpdb->prepare( '
+			$wpdb->prepare(
+				'
 				SELECT user_id, meta_value
 				FROM ' . $wpdb->usermeta . '
 				WHERE meta_key = %s AND meta_value LIKE %s

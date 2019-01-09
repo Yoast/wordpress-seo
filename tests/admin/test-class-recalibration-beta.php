@@ -1,13 +1,13 @@
 <?php
 /**
-* WPSEO plugin test file.
-*
-* @package WPSEO\Tests\Admin
-*/
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Admin
+ */
 
 /**
-* Unit test class.
-*/
+ * Unit test class.
+ */
 class WPSEO_Recalibration_Beta_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -117,6 +117,7 @@ class WPSEO_Recalibration_Beta_Test extends WPSEO_UnitTestCase {
 
 		$instance->subscribe_newsletter();
 	}
+
 	/**
 	 * Tests retrieval of the option value with any given value.
 	 *

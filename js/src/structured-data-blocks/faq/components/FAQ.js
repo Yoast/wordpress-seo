@@ -30,12 +30,15 @@ export default class FAQ extends Component {
 
 		this.state = { focus: "" };
 
-		this.changeQuestion = this.changeQuestion.bind( this );
-		this.insertQuestion = this.insertQuestion.bind( this );
-		this.removeQuestion = this.removeQuestion.bind( this );
-		this.swapQuestions = this.swapQuestions.bind( this );
-
-		this.setFocus = this.setFocus.bind( this );
+		this.changeQuestion           = this.changeQuestion.bind( this );
+		this.insertQuestion           = this.insertQuestion.bind( this );
+		this.removeQuestion           = this.removeQuestion.bind( this );
+		this.swapQuestions            = this.swapQuestions.bind( this );
+		this.setQuestionRef           = this.setQuestionRef.bind( this );
+		this.moveQuestionDown         = this.moveQuestionDown.bind( this );
+		this.moveQuestionUp           = this.moveQuestionUp.bind( this );
+		this.setFocus                 = this.setFocus.bind( this );
+		this.onAddQuestionButtonClick = this.onAddQuestionButtonClick.bind( this );
 
 		this.editorRefs = {};
 	}
@@ -49,6 +52,31 @@ export default class FAQ extends Component {
 	 */
 	static generateId( prefix ) {
 		return `${ prefix }-${ new Date().getTime() }`;
+	}
+
+	/**
+	 * Handles the add question button action.
+	 *
+	 * This function is necessary because insertQuestion should be called without any arguments to make sure the
+	 * question is added in the right position.
+	 *
+	 * @returns {void}
+	 */
+	onAddQuestionButtonClick() {
+		this.insertQuestion();
+	}
+
+	/**
+	 * Set ref to a specific question editor.
+	 *
+	 * @param {string} part  Name of the editor to set the ref of.
+	 * @param {object} ref   Ref to the element.
+	 * @param {number} index Index of the Question.
+	 *
+	 * @returns {void}
+	 */
+	setQuestionRef( part, ref, index ) {
+		this.editorRefs[ `${ index }:${ part }` ] = ref;
 	}
 
 	/**
@@ -154,10 +182,32 @@ export default class FAQ extends Component {
 
 		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
 		if ( focusIndex === `${ index1 }` ) {
-			this.setFocus( `${ index2 }:${ subElement }` );
+			this.setFocus( subElement, index2 );
 		} else if ( focusIndex === `${ index2 }` ) {
-			this.setFocus( `${ index1 }:${ subElement }` );
+			this.setFocus( subElement, index1 );
 		}
+	}
+
+	/**
+	 * Swap the question with the one above it.
+	 *
+	 * @param {number} index Index of the question to move.
+	 *
+	 * @returns {void}
+	 */
+	moveQuestionUp( index ) {
+		this.swapQuestions( index, index - 1 );
+	}
+
+	/**
+	 * Swap the question with the one below it.
+	 *
+	 * @param {number} index Index of the question to move.
+	 *
+	 * @returns {void}
+	 */
+	moveQuestionDown( index ) {
+		this.swapQuestions( index, index + 1 );
 	}
 
 	/**
@@ -199,11 +249,14 @@ export default class FAQ extends Component {
 	/**
 	 * Sets the focus to a specific QA pair in the FAQ block.
 	 *
-	 * @param {number|string} elementToFocus The element to focus, either the index of the Question that should be in focus or name of the input.
+	 * @param {number|string} part  The name of the element to focus.
+	 * @param {number}        index The index of the question to focus.
 	 *
 	 * @returns {void}
 	 */
-	setFocus( elementToFocus ) {
+	setFocus( part, index ) {
+		const elementToFocus = `${ index }:${ part }`;
+
 		if ( elementToFocus === this.state.focus ) {
 			return;
 		}
@@ -224,7 +277,7 @@ export default class FAQ extends Component {
 		return (
 			<IconButton
 				icon="insert"
-				onClick={ () => this.insertQuestion() }
+				onClick={ this.onAddQuestionButtonClick }
 				className="editor-inserter__toggle"
 			>
 				{ __( "Add question", "wordpress-seo" ) }
@@ -251,22 +304,18 @@ export default class FAQ extends Component {
 				( question, index ) => {
 					return (
 						<Question
+							index={ index }
 							key={ question.id }
 							attributes={ question }
-							insertQuestion={ () => this.insertQuestion( index ) }
-							removeQuestion={ () => this.removeQuestion( index ) }
-							editorRef={ ( part, ref ) => {
-								this.editorRefs[ `${ index }:${ part }` ] = ref;
-							} }
-							onChange={
-								( question, answer, prevQuestion, prevAnswer ) =>
-									this.changeQuestion( question, answer, prevQuestion, prevAnswer, index )
-							}
-							onFocus={ ( part ) => this.setFocus( `${ index }:${ part }` ) }
+							insertQuestion={ this.insertQuestion }
+							removeQuestion={ this.removeQuestion }
+							editorRef={ this.setQuestionRef }
+							onChange={ this.changeQuestion }
+							onFocus={ this.setFocus }
 							isSelected={ focusIndex === `${ index }` }
 							subElement={ subElement }
-							onMoveUp={ () => this.swapQuestions( index, index - 1 ) }
-							onMoveDown={ () => this.swapQuestions( index, index + 1 ) }
+							onMoveUp={ this.moveQuestionUp }
+							onMoveDown={ this.moveQuestionDown }
 							isFirst={ index === 0 }
 							isLast={ index === attributes.questions.length - 1 }
 						/>
@@ -325,4 +374,8 @@ FAQ.propTypes = {
 	attributes: PropTypes.object.isRequired,
 	setAttributes: PropTypes.func.isRequired,
 	className: PropTypes.string,
+};
+
+FAQ.defaultProps = {
+	className: "",
 };

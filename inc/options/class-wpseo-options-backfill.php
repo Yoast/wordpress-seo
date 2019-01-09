@@ -11,7 +11,12 @@
  * @since 7.0.2
  */
 class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
-	/** @var bool Are the filters hooked or not. */
+
+	/**
+	 * Are the filters hooked or not.
+	 *
+	 * @var bool
+	 */
 	protected $hooked = false;
 
 	/**

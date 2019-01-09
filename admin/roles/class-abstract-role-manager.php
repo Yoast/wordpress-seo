@@ -9,7 +9,12 @@
  * Abstract Role Manager template.
  */
 abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
-	/** @var array Registered roles. */
+
+	/**
+	 * Registered roles.
+	 *
+	 * @var array
+	 */
 	protected $roles = array();
 
 	/**

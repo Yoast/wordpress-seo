@@ -168,19 +168,6 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( WPSEO_Utils::is_yoast_seo_free_page( $current_page ) );
 	}
 
-	public function test_get_language() {
-		$this->assertEquals( 'en', WPSEO_Utils::get_language( '' ) );
-		$this->assertEquals( 'en', WPSEO_Utils::get_language( 'a' ) );
-		$this->assertEquals( 'nl', WPSEO_Utils::get_language( 'nl_NL' ) );
-		$this->assertEquals( 'nl', WPSEO_Utils::get_language( 'nl_XX' ) );
-		$this->assertEquals( 'nl', WPSEO_Utils::get_language( 'nl' ) );
-		$this->assertEquals( 'haw', WPSEO_Utils::get_language( 'haw_US' ) );
-		$this->assertEquals( 'rhg', WPSEO_Utils::get_language( 'rhg' ) );
-		$this->assertEquals( 'en', WPSEO_Utils::get_language( 'xxxx' ) );
-		$this->assertEquals( 'en', WPSEO_Utils::get_language( 'xxxx_XX' ) );
-		$this->assertEquals( 'en', WPSEO_Utils::get_language( '_XX' ) );
-	}
-
 	/**
 	 * Tests whether the plugin is network-active or not.
 	 *

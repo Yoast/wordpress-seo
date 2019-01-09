@@ -84,7 +84,7 @@ switch ( $platform_tabs->current_tab() ) {
 				$profiles = $this->service->get_sites();
 				if ( ! empty( $profiles ) ) {
 					$show_save = true;
-					echo Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo' ), $profiles );
+					Yoast_Form::get_instance()->select( 'profile', esc_html__( 'Profile', 'wordpress-seo' ), $profiles );
 				}
 				else {
 					$show_save = false;
@@ -95,7 +95,7 @@ switch ( $platform_tabs->current_tab() ) {
 				echo '<p>';
 
 				if ( $show_save ) {
-					echo '<input type="submit" name="submit" id="submit" class="button button-primary wpseo-gsc-save-profile" value="' . esc_attr__( 'Save Profile', 'wordpress-seo' ) . '" /> ' . __( 'or', 'wordpress-seo' ) , ' ';
+					echo '<input type="submit" name="submit" id="submit" class="button button-primary wpseo-gsc-save-profile" value="' . esc_attr__( 'Save Profile', 'wordpress-seo' ) . '" /> ' . esc_html__( 'or', 'wordpress-seo' ) . ' ';
 				}
 				echo $reset_button;
 				echo '</p>';
@@ -107,12 +107,13 @@ switch ( $platform_tabs->current_tab() ) {
 	default:
 		$form_action_url = add_query_arg( 'page', esc_attr( filter_input( INPUT_GET, 'page' ) ) );
 
-		get_current_screen()->set_screen_reader_content( array(
+		$screen_reader_content = array(
 			// There are no views links in this screen, so no need for the views heading.
 			'heading_views'      => null,
 			'heading_pagination' => __( 'Crawl issues list navigation', 'wordpress-seo' ),
 			'heading_list'       => __( 'Crawl issues list', 'wordpress-seo' ),
-		) );
+		);
+		get_current_screen()->set_screen_reader_content( $screen_reader_content );
 
 		// Open <form>.
 		echo "<form id='wpseo-crawl-issues-table-form' action='" . esc_url( $form_action_url ) . "' method='post'>\n";
@@ -124,6 +125,10 @@ switch ( $platform_tabs->current_tab() ) {
 
 		// Close <form>.
 		echo "</form>\n";
+
+		if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
+			echo '<div id="yoast-google-search-console-modal"></div>';
+		}
 
 		break;
 }

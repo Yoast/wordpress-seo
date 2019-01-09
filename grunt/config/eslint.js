@@ -3,7 +3,7 @@ module.exports = {
 	plugin: {
 		src: [ "<%= files.js %>" ],
 		options: {
-			maxWarnings: 238,
+			maxWarnings: 176,
 		},
 	},
 	tests: {

@@ -10,7 +10,9 @@
  */
 class WPSEO_Link_Column_Count {
 
-	/** @var array */
+	/**
+	 * @var array
+	 */
 	protected $count = array();
 
 	/**
@@ -56,7 +58,8 @@ class WPSEO_Link_Column_Count {
 		$storage = new WPSEO_Meta_Storage();
 
 		$results = $wpdb->get_results(
-			$wpdb->prepare( '
+			$wpdb->prepare(
+				'
 				SELECT internal_link_count, incoming_link_count, object_id
 				FROM ' . $storage->get_table_name() . '
 				WHERE object_id IN (' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ')',

@@ -142,12 +142,12 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
-		$users = $this->get_users( array(
+		$user_criteria = array(
 			'offset' => ( $current_page - 1 ) * $max_entries,
 			'number' => $max_entries,
-		) );
-
-		$users = $this->exclude_users( $users );
+		);
+		$users         = $this->get_users( $user_criteria );
+		$users         = $this->exclude_users( $users );
 
 		if ( empty( $users ) ) {
 			$users = array();
@@ -196,7 +196,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function update_user_meta() {
 
-		$users = get_users( array(
+		$user_criteria = array(
 			'who'        => 'authors',
 			'meta_query' => array(
 				array(
@@ -204,7 +204,8 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 					'compare' => 'NOT EXISTS',
 				),
 			),
-		) );
+		);
+		$users         = get_users( $user_criteria );
 
 		$time = time();
 

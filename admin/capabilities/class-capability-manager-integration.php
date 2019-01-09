@@ -13,7 +13,11 @@
  */
 class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integration {
 
-	/** @var WPSEO_Capability_Manager Capability manager to use. */
+	/**
+	 * Capability manager to use.
+	 *
+	 * @var WPSEO_Capability_Manager
+	 */
 	public $manager;
 
 	/**
@@ -62,15 +66,15 @@ class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integratio
 		if ( ! function_exists( 'members_register_cap_group' ) ) {
 			return;
 		}
+
 		// Register the yoast group.
-		members_register_cap_group( 'wordpress-seo',
-			array(
-				'label'      => esc_html__( 'Yoast SEO', 'wordpress-seo' ),
-				'caps'       => $this->get_capabilities(),
-				'icon'       => 'dashicons-admin-plugins',
-				'diff_added' => true,
-			)
+		$args = array(
+			'label'      => esc_html__( 'Yoast SEO', 'wordpress-seo' ),
+			'caps'       => $this->get_capabilities(),
+			'icon'       => 'dashicons-admin-plugins',
+			'diff_added' => true,
 		);
+		members_register_cap_group( 'wordpress-seo', $args );
 	}
 
 	/**

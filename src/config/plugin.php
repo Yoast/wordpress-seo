@@ -5,17 +5,18 @@
  * @package Yoast\YoastSEO\Config
  */
 
-namespace Yoast\YoastSEO\Config;
+namespace Yoast\WP\Free\Config;
 
-use Yoast\YoastSEO\WordPress\Integration;
-use Yoast\YoastSEO\WordPress\Integration_Group;
-use Yoast\YoastSEO\Yoast_Model;
+use Yoast\WP\Free\WordPress\Integration;
+use Yoast\WP\Free\WordPress\Integration_Group;
+use Yoast\WP\Free\Yoast_Model;
 use YoastSEO_Vendor\ORM;
 
 /**
  * Bootstraps the plugin.
  */
 class Plugin implements Integration {
+
 	/**
 	 * List of integrations.
 	 *
@@ -166,7 +167,7 @@ class Plugin implements Integration {
 		ORM::configure( 'username', DB_USER );
 		ORM::configure( 'password', DB_PASSWORD );
 
-		Yoast_Model::$auto_prefix_models = '\\Yoast\\YoastSEO\\Models\\';
+		Yoast_Model::$auto_prefix_models = '\\Yoast\\WP\\Free\\Models\\';
 	}
 
 	/**
@@ -189,7 +190,7 @@ class Plugin implements Integration {
 		/**
 		 * Action: 'wpseo_load_integrations' - Hook to register additional Yoast SEO Integrations.
 		 *
-		 * @api \Yoast\YoastSEO\Config\Plugin The Plugin object to register integrations on.
+		 * @api \Yoast\WP\Free\Config\Plugin The Plugin object to register integrations on.
 		 */
 		do_action( 'wpseo_load_integrations', $this );
 	}
