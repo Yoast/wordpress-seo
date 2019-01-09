@@ -6,6 +6,7 @@ import YoastWarning from "../composites/Plugin/Shared/components/YoastWarning";
 import { FullHeightCard } from "../composites/CoursesOverview/Card";
 import CardDetails from "../composites/CoursesOverview/CardDetails";
 import getCourseFeed from "../utils/getCourseFeed";
+import { getRtlStyle } from "../utils/helpers/styled-components";
 
 const Container = styled.div`
 	max-width: 1024px;
@@ -20,6 +21,10 @@ const WordPressStylesEmulator = styled.div`
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 13px;
 	line-height: 1.4em;
+	/* Emulate WordPress outline reset. */
+	a, div {
+		outline: 0;
+	}
 	/* Emulate WordPress list styles. */
 	li {
 		margin-bottom: 6px;
@@ -27,18 +32,20 @@ const WordPressStylesEmulator = styled.div`
 `;
 
 const CoursesList = styled.ul`
-	display: grid;
-	grid-template-columns: repeat(auto-fill, 288px);
-	grid-column-gap: 16px;
-	grid-row-gap: 16px;
-	align-items: flex-start;
+	display: flex;
+	flex-wrap: wrap;
+	list-style-type: none;
 	padding: 0;
+	/* Max 5 cards per row. */
+	max-width: 1520px;
 `;
 
 const CourseListItem = styled.li`
-	list-style-type: none;
-	height: 100%;
-	width: 100%;
+	/* Higher specificity to override WordPress margins. */
+	&& {
+		flex: 0 0 288px;
+		margin: ${ getRtlStyle( "0 16px 16px 0", "0 0 16px 16px" ) };
+	}
 `;
 
 /**
