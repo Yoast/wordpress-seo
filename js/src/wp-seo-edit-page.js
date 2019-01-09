@@ -5,6 +5,7 @@
 
 		parentLink
 			.addClass( "yoast-tooltip yoast-tooltip-alt yoast-tooltip-n yoast-tooltip-multiline" )
-			.attr( "data-label", $( this ).data( "tooltip-text" ) );
+			.attr( "data-label", $( this ).data( "tooltip-text" ) )
+			.attr( "aria-label", $( this ).text() );
 	} );
 }( jQuery ) );
