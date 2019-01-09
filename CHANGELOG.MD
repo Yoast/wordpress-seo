@@ -5,6 +5,21 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.18.1 January 7th, 2019
+### Other
+* Change eslint config to make sure tag build passes.
+
+## 4.18.0 January 7th, 2019
+### Other
+* Bumps YoastSEO.js version to 1.45.0.
+
+## 4.17.0 December 17th, 2018
+### Added
+* Adds onBlur and onFocus prop to SynonymsInput component.
+* Adds buildStructuredUrl function.
+* Adds an exclamation triangle to the SvgIcon component.
+* Adds a YoastWarning component that consists of an exclamation triangle followed by a message on a yellow background.
+
 ## 4.16.0 November 19th, 2018
 ### Added
 * Adds an Id prop to the Collapsible and ButtonSection component.

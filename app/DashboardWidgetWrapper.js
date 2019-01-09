@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import getPostFeed from "../utils/getPostFeed";
+
 import {
 	DashboardWidgetSeoAssessment,
 	DashboardWidgetWordpressFeed,
@@ -18,58 +20,85 @@ export const DashboardContainer = styled.div`
 `;
 
 /**
- * Returns the ContentAnalysis component.
+ * Returns the DashboardWidget component.
  *
- * @returns {ReactElement} The ContentAnalysis component.
+ * @returns {ReactElement} The DashboardWidget component.
  */
-export default function DashboardWidget() {
-	const seoAssessmentItems = [
-		{
-			value: 33,
-			color: "#F00",
-			html: "Posts with a <b>bad</b> score",
-		},
-		{
-			value: 20,
-			color: "#FF0",
-			html: "Posts with a <b>decent</b> score",
-		},
-		{
-			value: 47,
-			color: "#0F0",
-			html: "Posts with a <b>good</b> score",
-		},
-	];
+export default class DashboardWidget extends React.Component {
+	/**
+	 * Creates the components and initializes its state.
+	 */
+	constructor() {
+		super();
 
-	const feed = {
-		link: "https://www.yoast.com",
-		title: "Feed title",
-		items: [
-			{
-				title: "Wordpress SEO",
-				link: "https://www.yoast.com/1",
-				description: "Some arbitrary description any blog post could have",
-			},
-			{
-				title: "Wordpress SEO",
-				link: "https://www.yoast.com/2",
-				description: "Some arbitrary description any blog post could have",
-			},
-		],
-	};
+		this.state = {
+			seoAssessmentItems: [
+				{
+					value: 33,
+					color: "#F00",
+					html: "Posts with a <b>bad</b> score",
+				},
+				{
+					value: 20,
+					color: "#FF0",
+					html: "Posts with a <b>decent</b> score",
+				},
+				{
+					value: 47,
+					color: "#0F0",
+					html: "Posts with a <b>good</b> score",
+				},
+			],
+			feed: null,
+		};
 
-	return (
-		<DashboardWidgetContainer>
-			<DashboardContainer>
-				<DashboardWidgetSeoAssessment
-					seoAssessmentText="Your SEO score is decent overall, but can be improved! Get to work!"
-					seoAssessmentItems={ seoAssessmentItems }
-				/>
-				<DashboardWidgetWordpressFeed
-					feed={ feed }
-					footerHtml="View our blog on yoast.com!"
-				/>
-			</DashboardContainer>
-		</DashboardWidgetContainer>
-	);
+		this.getFeed();
+	}
+
+	/**
+	 * Fetches data from the yoast.com feed, parses it and sets it to the state.
+	 *
+	 * @returns {void}
+	 */
+	getFeed() {
+		// Developer note: this link should -not- be converted to a shortlink.
+		getPostFeed( "https://yoast.com/feed/widget/", 3 )
+			.then( ( feed ) => {
+				feed.items = feed.items.map( ( item ) => {
+					// The implementation on wordpress-seo makes use of jQuery for escaping.
+					item.description = item.description;
+					item.description = item.description.replace( `The post ${ item.title } appeared first on Yoast.`, "" ).trim();
+
+					return item;
+				} );
+
+				this.setState( { feed } );
+			} )
+			/* eslint-disable-next-line no-console */
+			.catch( error => console.error( error ) );
+	}
+
+	/**
+	 * Renders all the Dashboard widget example.
+	 *
+	 * @returns {ReactElement} The rendered Dashboard widget example.
+	 */
+	render() {
+		const feed = this.state.feed;
+
+		return (
+			<DashboardWidgetContainer>
+				<DashboardContainer>
+					<DashboardWidgetSeoAssessment
+						seoAssessmentText="Your SEO score is decent overall, but can be improved! Get to work!"
+						seoAssessmentItems={ this.state.seoAssessmentItems }
+					/>
+					{ feed && <DashboardWidgetWordpressFeed
+						feed={ feed }
+						footerLinkText="View our blog on yoast.com!"
+					/> }
+				</DashboardContainer>
+			</DashboardWidgetContainer>
+		);
+	}
 }
