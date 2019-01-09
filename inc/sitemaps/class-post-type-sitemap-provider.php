@@ -67,8 +67,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return void
 	 */
 	protected function set_post_type_has_front( $post_type ) {
-		$post_type_has_front = get_post_type_object( $post_type )->rewrite['with_front'];
-		$this->post_type_has_front = ( $post_type_has_front === false ) ? false : true;
+		$post_type_object = get_post_type_object( $post_type );
+		$this->post_type_has_front = ( isset( $post_type_object->rewrite['with_front'] ) ) ? $post_type_object->rewrite['with_front'] : true;
 	}
 
 	/**
@@ -126,7 +126,16 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_classifier() {
 		if ( ! isset( self::$classifier ) ) {
-			self::$classifier = new WPSEO_Link_Type_Classifier( $this->get_home_url() );
+			$home_url = $this->get_home_url();
+			$post_type_has_front = $this->get_post_type_has_front();
+
+			// remove path from home_url if post type with_front rewrite option is set to false
+			if (!$post_type_has_front) {
+				$url_path = wp_parse_url( $home_url, PHP_URL_PATH );
+				$home_url = str_replace( $url_path, '/', $home_url );
+			}
+
+			self::$classifier = new WPSEO_Link_Type_Classifier( $home_url );
 		}
 
 		return self::$classifier;
@@ -656,9 +665,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 *
 		 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
 		 */
-		$post_type_has_front = $this->get_post_type_has_front();
-
-		if ( $this->get_classifier()->classify( $url['loc'] ) === WPSEO_Link::TYPE_EXTERNAL && $post_type_has_front ) {
+		if ( $this->get_classifier()->classify( $url['loc'] ) === WPSEO_Link::TYPE_EXTERNAL ) {
 			return false;
 		}
 
