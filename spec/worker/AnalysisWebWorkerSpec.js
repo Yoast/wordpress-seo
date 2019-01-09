@@ -71,6 +71,13 @@ let worker = null;
  * - Initialize needs to get called first most of the time.
  */
 describe( "AnalysisWebWorker", () => {
+	afterEach( () => {
+		// Make sure we don't keep polling after the tests are done.
+		if ( worker ) {
+			worker._scheduler.stopPolling();
+		}
+	} );
+
 	describe( "constructor", () => {
 		test( "initializes without errors", () => {
 			scope = createScope();
