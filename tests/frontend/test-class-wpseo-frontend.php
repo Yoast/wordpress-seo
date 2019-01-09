@@ -456,7 +456,7 @@ Page 3/3
 		$this->assertEquals( $expected, self::$class_instance->embed_rssfooter( $input ) );
 
 		// Go to feed.
-		$this->go_to( get_bloginfo( 'rss2_url' ) );
+		$this->go_to( get_feed_link() );
 
 		// Test if input was changed.
 		$expected = self::$class_instance->embed_rss( $input, 'full' );
@@ -478,7 +478,7 @@ Page 3/3
 		$this->assertEquals( $expected, self::$class_instance->embed_rssfooter_excerpt( $input ) );
 
 		// Go to feed.
-		$this->go_to( get_bloginfo( 'rss2_url' ) );
+		$this->go_to( get_feed_link() );
 
 		// Test if input was changed.
 		$expected = self::$class_instance->embed_rss( $input, 'excerpt' );
@@ -499,7 +499,7 @@ Page 3/3
 		$this->assertEquals( $expected, self::$class_instance->embed_rss( $input ) );
 
 		// Go to feed.
-		$this->go_to( get_bloginfo( 'rss2_url' ) );
+		$this->go_to( get_feed_link() );
 
 		// Test if input was changed.
 		$expected_string = 'Some RSS before text';

@@ -10,11 +10,32 @@
  */
 class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 
-	/** @var int WP SEO manager user ID. */
+	/**
+	 * WP SEO manager user ID.
+	 *
+	 * @var int
+	 */
 	protected static $wpseo_manager;
 
-	/** @var int Network administrator user ID. */
+	/**
+	 * Network administrator user ID.
+	 *
+	 * @var int
+	 */
 	protected static $network_administrator;
+
+	/**
+	 * Methods to mock for a standard Mock WPSEO_Admin_Bar_menu object.
+	 *
+	 * @var array
+	 */
+	private $mock_wpseo_admin_bar_menu_methods = array(
+		'add_root_menu',
+		'add_keyword_research_submenu',
+		'add_analysis_submenu',
+		'add_settings_submenu',
+		'add_network_settings_submenu',
+	);
 
 	/**
 	 * Sets up user instances to use in tests.
@@ -55,13 +76,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 		$admin_bar_menu = $this
 			->getMockBuilder( 'WPSEO_Admin_Bar_Menu' )
 			->setConstructorArgs( array( $this->get_asset_manager() ) )
-			->setMethods( array(
-				'add_root_menu',
-				'add_keyword_research_submenu',
-				'add_analysis_submenu',
-				'add_settings_submenu',
-				'add_network_settings_submenu',
-			) )
+			->setMethods( $this->mock_wpseo_admin_bar_menu_methods )
 			->getMock();
 
 		$admin_bar_menu
@@ -100,13 +115,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 		$admin_bar_menu = $this
 			->getMockBuilder( 'WPSEO_Admin_Bar_Menu' )
 			->setConstructorArgs( array( $this->get_asset_manager() ) )
-			->setMethods( array(
-				'add_root_menu',
-				'add_keyword_research_submenu',
-				'add_analysis_submenu',
-				'add_settings_submenu',
-				'add_network_settings_submenu',
-			) )
+			->setMethods( $this->mock_wpseo_admin_bar_menu_methods )
 			->getMock();
 
 		$admin_bar_menu

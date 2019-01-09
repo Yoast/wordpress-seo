@@ -25,7 +25,7 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) || ! WPSEO_NAMESPACES ) {
 	printf(
 		/* translators: 1: Import settings button string from below. */
 		esc_html__( 'Import settings by pasting the settings you copied from another site here and clicking "%s".', 'wordpress-seo' ),
-		__( 'Import settings', 'wordpress-seo' )
+		esc_html__( 'Import settings', 'wordpress-seo' )
 	);
 	?>
 </p>

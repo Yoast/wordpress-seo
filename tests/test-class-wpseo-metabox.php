@@ -49,11 +49,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		global $pagenow;
 		$pagenow = 'post-new.php';
 
-		// Prefix used in WPSEO-admin-asset-manager.
-
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->register_assets();
-
 
 		// Call enqueue function.
 		self::$class_instance->enqueue();

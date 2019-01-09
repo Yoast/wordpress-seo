@@ -61,7 +61,7 @@ class WPSEO_Sitemaps_Router {
 		}
 
 		header( 'X-Redirect-By: Yoast SEO' );
-		wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
+		wp_redirect( home_url( '/sitemap_index.xml' ), 301, 'Yoast SEO' );
 		exit;
 	}
 
@@ -80,13 +80,20 @@ class WPSEO_Sitemaps_Router {
 			$protocol = 'https://';
 		}
 
-		$domain = sanitize_text_field( $_SERVER['SERVER_NAME'] );
-		$path   = sanitize_text_field( $_SERVER['REQUEST_URI'] );
+		$domain = '';
+		if ( isset( $_SERVER['SERVER_NAME'] ) ) {
+			$domain = sanitize_text_field( wp_unslash( $_SERVER['SERVER_NAME'] ) );
+		}
+
+		$path = '';
+		if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+			$path = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+		}
 
 		// Due to different environment configurations, we need to check both SERVER_NAME and HTTP_HOST.
 		$check_urls = array( $protocol . $domain . $path );
 		if ( ! empty( $_SERVER['HTTP_HOST'] ) ) {
-			$check_urls[] = $protocol . sanitize_text_field( $_SERVER['HTTP_HOST'] ) . $path;
+			$check_urls[] = $protocol . sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) . $path;
 		}
 
 		return $wp_query->is_404 && in_array( home_url( '/sitemap.xml' ), $check_urls, true );

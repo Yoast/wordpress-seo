@@ -10,13 +10,25 @@
  */
 class WPSEO_Endpoint_File_Size implements WPSEO_Endpoint {
 
+	/**
+	 * @var string
+	 */
 	const REST_NAMESPACE = 'yoast/v1';
+
+	/**
+	 * @var string
+	 */
 	const ENDPOINT_SINGULAR = 'file_size';
 
+	/**
+	 * @var string
+	 */
 	const CAPABILITY_RETRIEVE = 'manage_options';
 
 	/**
-	 * @var WPSEO_File_Size_Service The service provider.
+	 * The service provider.
+	 *
+	 * @var WPSEO_File_Size_Service
 	 */
 	private $service;
 
@@ -35,7 +47,7 @@ class WPSEO_Endpoint_File_Size implements WPSEO_Endpoint {
 	 * @return void
 	 */
 	public function register() {
-		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_SINGULAR, array(
+		$route_args = array(
 			'methods'             => 'GET',
 			'args'                => array(
 				'url' => array(
@@ -52,7 +64,8 @@ class WPSEO_Endpoint_File_Size implements WPSEO_Endpoint {
 				$this,
 				'can_retrieve_data',
 			),
-		) );
+		);
+		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_SINGULAR, $route_args );
 	}
 
 	/**

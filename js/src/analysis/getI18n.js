@@ -1,15 +1,15 @@
-var getTranslations = require( "./getTranslations" );
-var isEmpty = require( "lodash/isEmpty" );
-var Jed = require( "jed" );
+import Jed from "jed";
+import isEmpty from "lodash/isEmpty";
+import getTranslations from "./getTranslations";
 
 /**
  * Returns a Jed object usable in YoastSEO.js
  *
  * @returns {Jed} A usable i18n translations object.
  */
-function getI18n() {
-	var translations = getTranslations();
-	var i18n = new Jed( translations );
+export default function getI18n() {
+	const translations = getTranslations();
+	let i18n = new Jed( translations );
 
 	if ( isEmpty( translations ) ) {
 		i18n = new Jed( {
@@ -25,5 +25,3 @@ function getI18n() {
 
 	return i18n;
 }
-
-module.exports = getI18n;

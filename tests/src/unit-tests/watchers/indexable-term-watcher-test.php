@@ -2,8 +2,8 @@
 
 namespace Yoast\Tests\UnitTests\Watchers;
 
-use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
-use Yoast\YoastSEO\Watchers\Indexable_Term_Watcher;
+use Yoast\WP\Free\Exceptions\No_Indexable_Found;
+use Yoast\WP\Free\Watchers\Indexable_Term_Watcher;
 
 /**
  * Class Indexable_Term_Test
@@ -18,7 +18,7 @@ class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the expected hooks are registered
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term_Watcher::register_hooks()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::register_hooks()
 	 */
 	public function test_register_hooks() {
 		$instance = new Indexable_Term_Watcher();
@@ -31,16 +31,16 @@ class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the indexable is being deleted
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term_Watcher::delete_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_meta()
 	 */
 	public function test_delete_meta() {
 		$instance = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Term_Watcher' )
+			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Term_Watcher' )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 
 		$indexable_mock = $this
-			->getMockBuilder( 'Yoast\YoastSEO\Yoast_Model' )
+			->getMockBuilder( 'Yoast\WP\Free\Yoast_Model' )
 			->setMethods( array( 'delete', 'delete_meta' ) )
 			->getMock();
 
@@ -65,11 +65,11 @@ class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the indexable is being deleted
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term_Watcher::delete_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_meta()
 	 */
 	public function test_delete_meta_exception() {
 		$instance = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Term_Watcher' )
+			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Term_Watcher' )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 
@@ -84,7 +84,7 @@ class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the save meta
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::save_meta()
 	 */
 	public function test_save_meta() {
 		$taxonomy_id = 1;
@@ -99,7 +99,7 @@ class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 			->method( 'save' );
 
 		$formatter_mock = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Formatters\Indexable_Author_Formatter' )
+			->getMockBuilder( '\Yoast\WP\Free\Formatters\Indexable_Author_Formatter' )
 			->setConstructorArgs( array( $taxonomy_id ) )
 			->setMethods( array( 'format' ) )
 			->getMock();
@@ -111,7 +111,7 @@ class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( $indexable_mock ) );
 
 		$instance = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Term_Watcher' )
+			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Term_Watcher' )
 			->setMethods(
 				array(
 					'get_indexable',
@@ -139,11 +139,11 @@ class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the save meta functionality
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::save_meta()
 	 */
 	public function test_save_meta_exception() {
 		$instance = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Term_Watcher' )
+			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Term_Watcher' )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 

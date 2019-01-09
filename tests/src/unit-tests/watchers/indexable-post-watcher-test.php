@@ -2,9 +2,9 @@
 
 namespace Yoast\Tests\UnitTests\Watchers;
 
-use Yoast\YoastSEO\Config\Database_Migration;
-use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
-use Yoast\YoastSEO\Watchers\Indexable_Post_Watcher;
+use Yoast\WP\Free\Config\Database_Migration;
+use Yoast\WP\Free\Exceptions\No_Indexable_Found;
+use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
 
 /**
  * Class Indexable_Post_Test
@@ -25,7 +25,7 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the expected hooks are registered
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post_Watcher::register_hooks()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::register_hooks()
 	 */
 	public function test_register_hooks() {
 		$instance = new Indexable_Post_Watcher();
@@ -38,16 +38,16 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the indexable is being deleted
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post_Watcher::delete_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_meta()
 	 */
 	public function test_delete_meta() {
 		$instance = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Post_Watcher' )
+			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 
 		$indexable_mock = $this
-			->getMockBuilder( 'Yoast\YoastSEO\Yoast_Model' )
+			->getMockBuilder( 'Yoast\WP\Free\Yoast_Model' )
 			->setMethods( array( 'delete', 'delete_meta' ) )
 			->getMock();
 
@@ -73,11 +73,11 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the indexable is being deleted
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post_Watcher::delete_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_meta()
 	 */
 	public function test_delete_meta_exception() {
 		$instance = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Post_Watcher' )
+			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 
@@ -92,7 +92,7 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the save meta functionality
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta()
 	 */
 	public function test_save_meta() {
 		$indexable_mock = $this
@@ -107,7 +107,7 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 		$post_id = 1;
 
 		$formatter_mock = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Formatters\Indexable_Post_Formatter' )
+			->getMockBuilder( '\Yoast\WP\Free\Formatters\Indexable_Post_Formatter' )
 			->setConstructorArgs( array( $post_id ) )
 			->setMethods( array( 'format' ) )
 			->getMock();
@@ -119,7 +119,7 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( $indexable_mock ) );
 
 		$instance = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Post_Watcher' )
+			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
 			->setMethods(
 				array(
 					'is_post_indexable',
@@ -154,11 +154,11 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the early return for non-indexable post
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta()
 	 */
 	public function test_save_meta_is_post_not_indexable() {
 		$instance = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Post_Watcher' )
+			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
 			->setMethods( array( 'is_post_indexable', 'get_indexable' ) )
 			->getMock();
 
@@ -177,11 +177,11 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests the save meta functionality
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta()
 	 */
 	public function test_save_meta_exception() {
 		$instance = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Watchers\Indexable_Post_Watcher' )
+			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 

@@ -10,12 +10,26 @@
  */
 class WPSEO_Endpoint_Statistics implements WPSEO_Endpoint {
 
+	/**
+	 * @var string
+	 */
 	const REST_NAMESPACE = 'yoast/v1';
+
+	/**
+	 * @var string
+	 */
 	const ENDPOINT_RETRIEVE = 'statistics';
 
+	/**
+	 * @var string
+	 */
 	const CAPABILITY_RETRIEVE = 'read';
 
-	/** @var WPSEO_Statistics_Service Service to use */
+	/**
+	 * Service to use.
+	 *
+	 * @var WPSEO_Statistics_Service
+	 */
 	protected $service;
 
 	/**
