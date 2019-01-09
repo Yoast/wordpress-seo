@@ -33,6 +33,8 @@ export default class TextLengthAssessment extends Assessment {
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/34n" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34o" ),
+
+			cornerstoneContent: false,
 		};
 
 		this.identifier = "textLength";
@@ -91,6 +93,20 @@ export default class TextLengthAssessment extends Assessment {
 	}
 
 	/**
+	 * Checks if the feedback should include "slightly".
+	 *
+	 * @param {number} score The amount of words to be checked against.
+	 *
+	 * @returns {boolean} Whether the feedback should include "slightly".
+	 */
+	useSlightly( score ) {
+		if ( score === this._config.scores.slightlyBelowMinimum ) {
+			return ! this._config.cornerstoneContent;
+		}
+	}
+
+
+	/**
 	 * Translates the score to a message the user can understand.
 	 *
 	 * @param {number} score The amount of words to be checked against.
@@ -112,60 +128,6 @@ export default class TextLengthAssessment extends Assessment {
 				wordCount,
 				this._config.urlTitle,
 				"</a>",
-			);
-		}
-
-		if ( score === this._config.scores.slightlyBelowMinimum ) {
-			return  i18n.sprintf(
-				i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: %1$d expands to the number of words in the text,
-					%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
-					"%2$sText length%4$s: The text contains %1$d word.",
-					"%2$sText length%4$s: The text contains %1$d words.",
-					wordCount
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding sentence is "Text length: The text contains x words.",
-					%3$s expands to a link on yoast.com,
-					%4$s expands to the anchor end tag,
-					%5$d expands to the recommended minimum of words. */
-					"This is slightly below the recommended minimum of %5$d word. %3$sAdd a bit more copy%4$s.",
-					"This is slightly below the recommended minimum of %5$d words. %3$sAdd a bit more copy%4$s.",
-					this._config.recommendedMinimum
-				),
-				wordCount,
-				this._config.urlTitle,
-				this._config.urlCallToAction,
-				"</a>",
-				this._config.recommendedMinimum
-			);
-		}
-
-		if ( score === this._config.scores.belowMinimum ) {
-			return i18n.sprintf(
-				i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: %1$d expands to the number of words in the text,
-					%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
-					"%2$sText length%4$s: The text contains %1$d word.",
-					"%2$sText length%4$s: The text contains %1$d words.",
-					wordCount
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding sentence is "Text length: The text contains x words.",
-					%3$s expands to a link on yoast.com,
-					%4$s expands to the anchor end tag,
-					%5$d expands to the recommended minimum of words. */
-					"This is below the recommended minimum of %5$d word. %3$sAdd more content%4$s.",
-					"This is below the recommended minimum of %5$d words. %3$sAdd more content%4$s.",
-					this._config.recommendedMinimum
-				),
-				wordCount,
-				this._config.urlTitle,
-				this._config.urlCallToAction,
-				"</a>",
-				this._config.recommendedMinimum
 			);
 		}
 
@@ -196,6 +158,56 @@ export default class TextLengthAssessment extends Assessment {
 			);
 		}
 
-		return "";
+		if ( this.useSlightly( score ) ) {
+			return i18n.sprintf(
+				i18n.dngettext(
+					"js-text-analysis",
+					/* Translators: %1$d expands to the number of words in the text,
+					%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					"%2$sText length%4$s: The text contains %1$d word.",
+					"%2$sText length%4$s: The text contains %1$d words.",
+					wordCount
+				) + " " + i18n.dngettext(
+					"js-text-analysis",
+					/* Translators: The preceding sentence is "Text length: The text contains x words.",
+					%3$s expands to a link on yoast.com,
+					%4$s expands to the anchor end tag,
+					%5$d expands to the recommended minimum of words. */
+					"This is slightly below the recommended minimum of %5$d word. %3$sAdd a bit more copy%4$s.",
+					"This is slightly below the recommended minimum of %5$d words. %3$sAdd a bit more copy%4$s.",
+					this._config.recommendedMinimum
+				),
+				wordCount,
+				this._config.urlTitle,
+				this._config.urlCallToAction,
+				"</a>",
+				this._config.recommendedMinimum
+			);
+		}
+
+		return i18n.sprintf(
+			i18n.dngettext(
+				"js-text-analysis",
+				/* Translators: %1$d expands to the number of words in the text,
+				%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+				"%2$sText length%4$s: The text contains %1$d word.",
+				"%2$sText length%4$s: The text contains %1$d words.",
+				wordCount
+			) + " " + i18n.dngettext(
+				"js-text-analysis",
+				/* Translators: The preceding sentence is "Text length: The text contains x words.",
+				%3$s expands to a link on yoast.com,
+				%4$s expands to the anchor end tag,
+				%5$d expands to the recommended minimum of words. */
+				"This is below the recommended minimum of %5$d word. %3$sAdd more content%4$s.",
+				"This is below the recommended minimum of %5$d words. %3$sAdd more content%4$s.",
+				this._config.recommendedMinimum
+			),
+			wordCount,
+			this._config.urlTitle,
+			this._config.urlCallToAction,
+			"</a>",
+			this._config.recommendedMinimum
+		);
 	}
 }
