@@ -95,7 +95,7 @@ export default class TextLengthAssessment extends Assessment {
 	/**
 	 * Checks if the feedback should include "slightly".
 	 *
-	 * @param {number} score The amount of words to be checked against.
+	 * @param {number} score The score the text received for the assessment.
 	 *
 	 * @returns {boolean} Whether the feedback should include "slightly".
 	 */
