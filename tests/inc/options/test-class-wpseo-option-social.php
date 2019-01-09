@@ -40,7 +40,7 @@ class WPSEO_Option_Social_Test extends WPSEO_UnitTestCase {
 		return array(
 			array(
 				'expected' => array( 'og_default_image_id' => 'value' ),
-				'dirty'    => array(  ),
+				'dirty'    => array(),
 				'clean'    => array( 'og_default_image_id' => 'value' ),
 				'old'      => array(),
 			),
