@@ -61,6 +61,11 @@ describe( "AssessmentResult", function() {
 
 		it( "returns the previously set marker", function() {
 			var result = new AssessmentResult();
+			/**
+			 * A mock marker function.
+			 *
+			 * @returns {void}
+			 */
 			var marker = function() {};
 
 			result.setMarker( marker );

@@ -3,6 +3,16 @@ import arrayToRegex from "./createRegexFromArray";
 import addMark from "../markers/addMarkSingleWord";
 import Mark from "../values/Mark";
 
+/**
+ * Adds marks to a sentence and merges marks if those are only separated by a space
+ * (e.g., if highlighting words "ballet" and "shoes" in a sentence "I have a lot of ballet shoes and other paraphernalia."
+ * the marks will be put around "ballet shoes" together, not "`ballet` `shoes`".)
+ *
+ * @param {string}    sentence               The sentence to mark words in.
+ * @param {[string]}  topicFoundInSentence   The words to mark in the sentence.
+ *
+ * @returns {string} The sentence with marks.
+ */
 const collectMarkingsInSentence = function( sentence, topicFoundInSentence ) {
 	const markup = sentence.replace( arrayToRegex( topicFoundInSentence ), function( x ) {
 		return addMark( x );
@@ -12,7 +22,7 @@ const collectMarkingsInSentence = function( sentence, topicFoundInSentence ) {
 };
 
 /**
- * Adds marks to words in a sentence.
+ * Adds marks to an array of sentences.
  *
  * @param {[string]}    wordsToMark The words to mark.
  * @param {[string]}    sentences   The sentences in which to mark these words.

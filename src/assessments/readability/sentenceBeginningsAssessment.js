@@ -123,13 +123,22 @@ const sentenceBeginningsAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
+/**
+ * Checks if the sentence beginnings assessment is applicable to the paper.
+ *
+ * @param {Object} paper The paper to check.
+ *
+ * @returns {boolean} Returns true if the language is available and the paper is not empty.
+ */
+const isApplicable = function( paper ) {
+	const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
+	return ( isLanguageAvailable && paper.hasText() );
+};
+
 export default {
 	identifier: "sentenceBeginnings",
 	getResult: sentenceBeginningsAssessment,
-	isApplicable: function( paper ) {
-		const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
-		return ( isLanguageAvailable && paper.hasText() );
-	},
+	isApplicable: isApplicable,
 	getMarks: sentenceBeginningMarker,
 };
 

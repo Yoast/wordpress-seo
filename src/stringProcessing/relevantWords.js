@@ -183,13 +183,13 @@ function filterFunctionWordsAtBeginningAndEnding( wordCombinations, functionWord
  *
  * @param {WordCombination[]} wordCombinations The word combinations to filter.
  * @param {number} wordCount The number of words in the total text.
- * @param {number} densityLowerLimit The lower limit of keyword density.
- * @param {number} densityUpperLimit The upper limit of keyword density.
+ * @param {number} lowerLimit The lower limit of keyword density.
+ * @param {number} upperLimit The upper limit of keyword density.
  * @returns {WordCombination[]} Filtered word combinations.
  */
-function filterOnDensity( wordCombinations, wordCount, densityLowerLimit, densityUpperLimit ) {
+function filterOnDensity( wordCombinations, wordCount, lowerLimit, upperLimit ) {
 	return wordCombinations.filter( function( combination ) {
-		return ( combination.getDensity( wordCount ) >= densityLowerLimit && combination.getDensity( wordCount ) < densityUpperLimit
+		return ( combination.getDensity( wordCount ) >= lowerLimit && combination.getDensity( wordCount ) < upperLimit
 		);
 	} );
 }
