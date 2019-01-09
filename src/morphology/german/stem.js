@@ -24,12 +24,6 @@ export default function stem( word ) {
 	word = word.replace( /([aeiouyäöü])y([aeiouyäöü])/g, '$1Y$2' );
 
 	/*
-	and then do the following mapping,
-	(a) replace ß with ss,
-	*/
-	word = word.replace( /ß/g, 'ss' );
-
-	/*
 	R1 and R2 are first set up in the standard way (see the note on R1 and R2), but then R1 is adjusted so that the region before it contains at least 3 letters.
 	R1 is the region after the first non-vowel following a vowel, or is the null region at the end of the word if there is no such non-vowel.
 	R2 is the region after the first non-vowel following a vowel in R1, or is the null region at the end of the word if there is no such non-vowel.
