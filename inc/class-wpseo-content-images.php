@@ -123,11 +123,12 @@ class WPSEO_Content_Images {
 	/**
 	 * Registers the hooks.
 	 *
-	 * @deprecated 9.5
+	 * @deprecated 9.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function register_hooks() {
-		_deprecated_function( __METHOD__, 'WPSEO 9.5' );
+		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
 	}
 }
