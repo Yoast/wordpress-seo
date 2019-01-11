@@ -409,7 +409,7 @@ class TreeAdapter {
 	 * and misses the location of the end tag...
 	 *
 	 * We still need to add it, since `parse5` appends the end tag position
-	 * to this object somewhere during parsing.
+	 * to this object somewhere during parsing (after `createElement` and before `appendChild`).
 	 *
 	 * @param {Node} node         The node to set its location.
 	 * @param {Location} location The node's location in the source code.
