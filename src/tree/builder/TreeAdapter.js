@@ -187,7 +187,7 @@ class TreeAdapter {
 		formattingElement.parent = parent;
 		if ( parent instanceof StructuredNode ) {
 			// Wrap it in a paragraph, add it as formatting.
-			TreeAdapter._addOrphanedFormattingElement( formattingElement, parent );
+			TreeAdapter._addOrphanedFormattingElement( parent, formattingElement );
 		} else {
 			/*
 			 Formatting elements can be nested, we want to add it to
@@ -200,7 +200,7 @@ class TreeAdapter {
 				ancestor.textContainer.formatting.push( formattingElement );
 			} else {
 				// Wrap formatting element in paragraph, add it to the tree.
-				TreeAdapter._addOrphanedFormattingElement( formattingElement, parent );
+				TreeAdapter._addOrphanedFormattingElement( parent, formattingElement );
 			}
 		}
 	}
@@ -208,14 +208,14 @@ class TreeAdapter {
 	/**
 	 * Wraps a formatting element in a paragraph and adds the resulting paragraph to the given parent.
 	 *
-	 * @param {FormattingElement} formattingElement  The formatting element to wrap in a paragraph and add to the tree.
 	 * @param {Node} parent                          The parent element to add the new paragraph to.
+	 * @param {FormattingElement} formattingElement  The formatting element to wrap in a paragraph and add to the tree.
 	 *
 	 * @returns {void}
 	 *
 	 * @private
 	 */
-	static _addOrphanedFormattingElement( formattingElement, parent ) {
+	static _addOrphanedFormattingElement( parent, formattingElement ) {
 		const paragraph = new Paragraph();
 		paragraph.location = formattingElement.location;
 
