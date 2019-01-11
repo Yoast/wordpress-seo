@@ -21,7 +21,7 @@ class Heading extends Node {
 		 */
 		this.level = level;
 		/**
-		 * A container for keeping this heading's
+		 * A container for keeping this heading's text.
 		 * @type {module:tree/structure.TextContainer}
 		 */
 		this.textContainer = new TextContainer();

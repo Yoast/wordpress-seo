@@ -6,7 +6,7 @@ import htmlFile from "../../fullTextTests/testTexts/en/englishPaper1.html";
 import htmlFile2 from "../../fullTextTests/testTexts/de/germanPaper2.html";
 
 describe( "build tree", () => {
-	it( "can build a tree from html", () => {
+	it( "can build a tree from HTML source code", () => {
 		const html = "<section>This? is a section.</section>";
 
 		const paragraph = new Paragraph();
@@ -29,7 +29,7 @@ describe( "build tree", () => {
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
-	it( "can parse an HTML into a Paragraph", () => {
+	it( "can parse HTML into a Paragraph", () => {
 		const input = "<p>This <strong id='some-id'>sentence</strong> needs to be " +
 			"<em><strong class='weak'>read</strong></em> to have value as a sentence.</p>";
 
@@ -70,7 +70,7 @@ describe( "build tree", () => {
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
-	it( "can parse an HTML into a Heading", () => {
+	it( "can parse HTML into a Heading", () => {
 		const input = "<h1>This heading needs to be read to have value as a heading.</h1>";
 
 		const tree = buildTree( input );
@@ -88,7 +88,7 @@ describe( "build tree", () => {
 		expect(  tree.toString() ).toEqual( expected.toString() );
 	} );
 
-	it( "can parse an HTML comment into Structured Irrelevant node", () => {
+	it( "can parse an HTML comment into StructuredIrrelevant node", () => {
 		const input = "<section><!-- An unimportant comment. --></section>";
 
 		const tree = buildTree( input );
@@ -249,7 +249,7 @@ describe( "build tree", () => {
 		expect(  tree.toString() ).toEqual( expected.toString() );
 	} );
 
-	it( "can parse an irrelevant HTML-element and its contents into a StructuredIrrelevant node.", () => {
+	it( "can parse an irrelevant HTML element and its contents into a StructuredIrrelevant node.", () => {
 		const input = "<section>" +
 			"<h1>First heading</h1>" +
 			// Pre elements and contents should not be parsed.
@@ -281,7 +281,7 @@ describe( "build tree", () => {
 		expect(  tree.toString() ).toEqual( expected.toString() );
 	} );
 
-	it( "can parse an HTML-text with text upfront", () => {
+	it( "can parse an HTML text with text in front", () => {
 		const input = "This is some text.<p>This is a paragraph.</p>";
 
 		const paragraph1 = new Paragraph( "" );
@@ -413,7 +413,7 @@ describe( "build tree", () => {
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
-	it( "parses html with self-closing elements correctly", () => {
+	it( "parses HTML with self-closing elements correctly", () => {
 		const input = "<p>Let there<br> be an <a href='/image.png'><img src='/image.png' alt='image'/></a></p>";
 
 		const br = new FormattingElement( "br" );
@@ -452,11 +452,11 @@ describe( "build tree", () => {
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
-	it( "can parse a big html text", () => {
+	it( "can parse a big HTML text", () => {
 		buildTree( htmlFile );
 	} );
 
-	it( "can parse another big html text", () => {
+	it( "can parse another big HTML text", () => {
 		buildTree( htmlFile2 );
 	} );
 } );

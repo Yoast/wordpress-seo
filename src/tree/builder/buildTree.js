@@ -98,7 +98,7 @@ const removeIrrelevantHtml = function( html ) {
  * Sets the start and end position of the formatting elements in the given TextContainer,
  * as found within the text container's text.
  *
- * @param {module:tree/structure.Heading|module:tree/structure.Paragraph} node  The TextContainer
+ * @param {module:tree/structure.Heading|module:tree/structure.Paragraph} node  The node containing a TextContainer
  * @param {string} html                                                         The original html source code
  *
  * @returns {void}
@@ -121,7 +121,7 @@ const setStartEndText = function( node, html ) {
 	node.textContainer.formatting.forEach( element => {
 		/*
 		  Gather all the elements that can be closed
-		  (i.o.w. when the current element is not nested inside the element to be closed).
+		  (in other words when the current element is not nested inside the element to be closed).
 		 */
 		const elementsToClose = elementsToBeClosed.filter( el => el.position <= element.location.startOffset );
 		elementsToClose.forEach( elementToClose => {
@@ -136,7 +136,7 @@ const setStartEndText = function( node, html ) {
 
 		const startTag = element.location.startTag;
 		const endTag = element.location.endTag;
-		// "<strong>".length
+		// For example: "<strong>".length
 		const startTagLength = startTag.endOffset - startTag.startOffset;
 
 		const rawContent = getElementContent( element, html );
@@ -146,7 +146,7 @@ const setStartEndText = function( node, html ) {
 
 		// Not all elements have end tags (e.g. void elements like images and self-closing elements).
 		if ( endTag ) {
-			// "</strong>".length
+			// For example: "</strong>".length
 			const endTagLength = endTag.endOffset - endTag.startOffset;
 			elementsToBeClosed.push( {
 				type: element.type,
