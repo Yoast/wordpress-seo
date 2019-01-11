@@ -446,13 +446,17 @@ class TreeAdapter {
 	 * @param {Node|FormattingElement} element  The node to find the ancestor of.
 	 * @param {function} predicate              The predicate to check the ancestors on.
 	 *
-	 * @returns {Node|null} The most recent ancestor that returns true on the given predicate.
+	 * @returns {Node|null} The most recent ancestor that returns true on the given predicate, or `null` if no appropriate ancestor is found.
 	 *
 	 * @private
 	 */
 	static _findAncestor( element, predicate ) {
 		let parent = element.parent;
-		while ( ! predicate( parent ) && parent.parent !== null ) {
+		/*
+		  Go up the tree until we either find the element we want,
+		  or until we are at the root of the tree (an element with no parent).
+		 */
+		while ( ! predicate( parent ) && parent !== null ) {
 			parent = parent.parent;
 		}
 		return parent;
