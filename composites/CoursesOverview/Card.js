@@ -29,6 +29,8 @@ const Content = styled.div`
 const HeaderLink = styled.a`
 	text-decoration: none;
 	color: ${ colors.$color_pink_dark };
+	/* IE11 bug header image height see https://github.com/philipwalton/flexbugs#flexbug-5 */
+	overflow: hidden;
 
 	&:hover,
 	&:focus,

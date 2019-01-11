@@ -121,6 +121,7 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   -webkit-text-decoration: none;
   text-decoration: none;
   color: #a4286a;
+  overflow: hidden;
 }
 
 .c2:hover,

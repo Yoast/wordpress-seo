@@ -7,6 +7,8 @@ import AlgoliaSearcher from "../composites/AlgoliaSearch/AlgoliaSearcher";
 import colors from "../style-guide/colors.json";
 
 export const HelpCenterContainer = styled.div`
+	max-width: 1280px;
+	margin: 1em auto 0;
 	background-color: ${ colors.$color_grey_light };
 `;
 

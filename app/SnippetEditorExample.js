@@ -1,19 +1,13 @@
 // External dependencies.
 import React, { Component } from "react";
-import styled from "styled-components";
 import debounce from "lodash/debounce";
 
+import ExamplesContainer from "./ExamplesContainer";
 import { assessments } from "yoastseo";
 const { MetaDescriptionLengthAssessment } = assessments.seo;
 
 // Internal dependencies.
 import SnippetEditor from "../composites/Plugin/SnippetEditor/components/SnippetEditor";
-
-const Container = styled.div`
-	background-color: white;
-	margin: 5em auto 0;
-	padding: 0 0 10px;
-`;
 
 const replacementVariables = [
 	{
@@ -160,7 +154,7 @@ export default class SnippetEditorExample extends Component {
 			score: this.state.currentDescriptionLength > 120 ? 9 : 3,
 		};
 
-		return <Container>
+		return <ExamplesContainer>
 			<SnippetEditor
 				{ ...this.state }
 				data={ data }
@@ -171,6 +165,6 @@ export default class SnippetEditorExample extends Component {
 				titleLengthProgress={ titleLengthProgress }
 				descriptionLengthProgress={ descriptionLengthProgress }
 			/>
-		</Container>;
+		</ExamplesContainer>;
 	}
 }
