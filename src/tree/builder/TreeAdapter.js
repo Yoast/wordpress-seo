@@ -389,7 +389,10 @@ class TreeAdapter {
 	 * @returns {Node[]|null} The node's first child or null, if this node cannot get any children.
 	 */
 	getFirstChild( node ) {
-		return node.children[ 0 ] || null;
+		if ( node.children && node.children.length > 0 ) {
+			return node.children[ 0 ];
+		}
+		return null;
 	}
 
 	// Node source location.
