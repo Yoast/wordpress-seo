@@ -189,7 +189,7 @@ class TreeAdapter {
 			 the most recent ancestor which is either a heading or paragraph.
 			 */
 			const ancestor = TreeAdapter._findAncestor( formattingElement, TreeAdapter._isLeafNode );
-			if ( TreeAdapter._isLeafNode( ancestor ) ) {
+			if ( ancestor && TreeAdapter._isLeafNode( ancestor ) ) {
 				// Add formatting element as formatting to the found paragraph or heading ancestor.
 				formattingElement.parent = parent;
 				ancestor.textContainer.formatting.push( formattingElement );
@@ -279,7 +279,9 @@ class TreeAdapter {
 		// Find a paragraph or header ancestor.
 		const parent = TreeAdapter._findAncestor( formattingElement, TreeAdapter._isLeafNode );
 		// Append text to parent's text container.
-		parent.textContainer.appendText( text );
+		if ( parent ) {
+			parent.textContainer.appendText( text );
+		}
 	}
 
 	/**
@@ -428,7 +430,7 @@ class TreeAdapter {
 	 * on the given predicate.
 	 *
 	 * @param {Node|FormattingElement} element  The node to find the ancestor of.
-	 * @param {predicate} predicate             The predicate to check the ancestors on.
+	 * @param {function} predicate              The predicate to check the ancestors on.
 	 *
 	 * @returns {Node|null} The most recent ancestor that returns true on the given predicate.
 	 *
