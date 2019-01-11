@@ -194,7 +194,7 @@ class TreeAdapter {
 			 the most recent ancestor which is either a heading or paragraph.
 			 */
 			const ancestor = TreeAdapter._findAncestor( formattingElement, TreeAdapter._isLeafNode );
-			if ( ancestor && TreeAdapter._isLeafNode( ancestor ) ) {
+			if ( ancestor ) {
 				// Add formatting element as formatting to the found paragraph or heading ancestor.
 				formattingElement.parent = parent;
 				ancestor.textContainer.formatting.push( formattingElement );
