@@ -304,7 +304,7 @@ class TreeAdapter {
 		  instead of creating a new one in the explicit case.
 
 		  E.g. implicit case: "This is a " + "paragraph" => "This is a paragraph"
-		  Explicit case: "<p>This is<p>" + "not a paragraph" => "<p>This is<p><p>not a paragraph</p>"
+		  Explicit case: "<p>This is not a <p>" + "paragraph" => "<p>This is not a <p>paragraph"
 		 */
 		if ( prevChild && prevChild instanceof Paragraph && ! prevChild.isExplicit() ) {
 			// Append text to the paragraph.
