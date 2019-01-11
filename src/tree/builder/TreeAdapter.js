@@ -299,7 +299,13 @@ class TreeAdapter {
 	static _addStructuredNodeText( node, text ) {
 		// Get the previous sibling of this node.
 		const prevChild = node.children[ node.children.length - 1 ];
-		// If the previous child is an implicit paragraph...
+		/*
+		  If the previous child is an implicit paragraph, append the text to it,
+		  instead of creating a new one in the explicit case.
+
+		  E.g. implicit case: "This is a " + "paragraph" => "This is a paragraph"
+		  Explicit case: "<p>This is<p>" + "not a paragraph" => "<p>This is<p><p>not a paragraph</p>"
+		 */
 		if ( prevChild && prevChild instanceof Paragraph && ! prevChild.isExplicit() ) {
 			// Append text to the paragraph.
 			prevChild.textContainer.appendText( text );
