@@ -1,4 +1,4 @@
-import { Node, StructuredNode, Paragraph,
+import { Node, LeafNode, StructuredNode, Paragraph,
 	Heading, List, ListItem, StructuredIrrelevant, Whitespace } from "./nodes";
 
 import TextContainer from "./TextContainer";
@@ -11,6 +11,7 @@ import FormattingElement from "./FormattingElement";
  */
 export {
 	Node,
+	LeafNode,
 	StructuredNode,
 	Paragraph,
 	Heading,

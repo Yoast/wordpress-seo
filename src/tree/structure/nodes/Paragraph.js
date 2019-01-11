@@ -1,13 +1,13 @@
-import Node from "./Node";
-import TextContainer from "../TextContainer";
+import LeafNode from "./LeafNode";
+
 /**
  * Represents a paragraph with text within a document.
  *
- * @extends module:tree/structure.Node
+ * @extends module:tree/structure.LeafNode
  *
  * @memberOf module:tree/structure
  */
-class Paragraph extends Node {
+class Paragraph extends LeafNode {
 	/**
 	 * A paragraph within a document.
 	 *
@@ -20,11 +20,6 @@ class Paragraph extends Node {
 		 * @type {string}
 		 */
 		this.tag = tag;
-		/**
-		 * A container for keeping this paragraph's text and the text's formatting.
-		 * @type {TextContainer}
-		 */
-		this.textContainer = new TextContainer();
 	}
 
 	/**
@@ -34,26 +29,6 @@ class Paragraph extends Node {
 	 */
 	isExplicit() {
 		return this.tag && this.tag.length > 0;
-	}
-
-	/**
-	 * Retrieves the paragraph text (from the TextContainer).
-	 *
-	 * @returns {string} The text of the paragraph.
-	 */
-	get text() {
-		return this.textContainer.text;
-	}
-
-	/**
-	 * Sets the paragraph text (via the TextContainer).
-	 *
-	 * @param {string} text The text to assign as the paragraph text.
-	 *
-	 * @returns {void}
-	 */
-	set text( text ) {
-		this.textContainer.text = text;
 	}
 }
 

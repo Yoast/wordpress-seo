@@ -1,5 +1,6 @@
 /* External dependencies */
 import { parseFragment } from "parse5";
+import { LeafNode } from "../structure";
 import Heading from "../structure/nodes/Heading";
 import Paragraph from "../structure/nodes/Paragraph";
 import StructuredIrrelevant from "../structure/nodes/StructuredIrrelevant";
@@ -194,7 +195,7 @@ const cleanUpAfterParsing = function( tree, html ) {
 		}
 
 		// Clean up formatting elements.
-		if ( node instanceof Paragraph || node instanceof Heading ) {
+		if ( node instanceof LeafNode ) {
 			setStartEndText( node, html );
 			node.textContainer.formatting = node.textContainer.formatting.map( element => {
 				setStartEndIndex( element );

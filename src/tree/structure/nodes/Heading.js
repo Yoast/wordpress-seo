@@ -1,13 +1,13 @@
-import Node from "./Node";
-import TextContainer from "../TextContainer";
+import LeafNode from "./LeafNode";
+
 /**
  * A header in a document.
  *
- * @extends module:tree/structure.Node
+ * @extends module:tree/structure.LeafNode
  *
  * @memberOf module:tree/structure
  */
-class Heading extends Node {
+class Heading extends LeafNode {
 	/**
 	 * Makes a new header object.
 	 *
@@ -20,31 +20,6 @@ class Heading extends Node {
 		 * @type {number}
 		 */
 		this.level = level;
-		/**
-		 * A container for keeping this heading's text.
-		 * @type {module:tree/structure.TextContainer}
-		 */
-		this.textContainer = new TextContainer();
-	}
-
-	/**
-	 * Retrieves the heading text (from the TextContainer).
-	 *
-	 * @returns {string} The text of the heading.
-	 */
-	get text() {
-		return this.textContainer.text;
-	}
-
-	/**
-	 * Sets the heading text (via the TextContainer).
-	 *
-	 * @param {string} text The text to assign as the heading text.
-	 *
-	 * @returns {void}
-	 */
-	set text( text ) {
-		this.textContainer.text = text;
 	}
 }
 export default Heading;

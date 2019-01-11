@@ -1,6 +1,7 @@
 // Tree elements.
 import FormattingElement from "../structure/FormattingElement";
 import Heading from "../structure/nodes/Heading";
+import LeafNode from "../structure/nodes/LeafNode";
 import List from "../structure/nodes/List";
 import ListItem from "../structure/nodes/ListItem";
 import Paragraph from "../structure/nodes/Paragraph";
@@ -154,7 +155,7 @@ class TreeAdapter {
 		  to a FormattingElement and add it to the respective heading or paragraph.
 		 */
 		if ( child instanceof StructuredIrrelevant &&
-			( TreeAdapter._isLeafNode( child ) || parent instanceof FormattingElement ) ) {
+			( child instanceof LeafNode || parent instanceof FormattingElement ) ) {
 			// Add StructuredIrrelevant element as formatting to the first header or paragraph ancestor.
 			const element = new FormattingElement( child.tagName );
 			element.location = child.location;
@@ -193,7 +194,7 @@ class TreeAdapter {
 			 Formatting elements can be nested, we want to add it to
 			 the most recent ancestor which is either a heading or paragraph.
 			 */
-			const ancestor = TreeAdapter._findAncestor( formattingElement, TreeAdapter._isLeafNode );
+			const ancestor = TreeAdapter._findAncestorLeafNode( formattingElement );
 			if ( ancestor ) {
 				// Add formatting element as formatting to the found paragraph or heading ancestor.
 				formattingElement.parent = parent;
@@ -260,7 +261,8 @@ class TreeAdapter {
 			return;
 		}
 
-		if ( TreeAdapter._isLeafNode( node ) ) {
+		if ( node instanceof LeafNode ) {
+			// Node may only contain formatting elements.
 			node.textContainer.appendText( text );
 		} else if ( node instanceof FormattingElement ) {
 			TreeAdapter._addFormattingElementText( node, text );
@@ -282,7 +284,7 @@ class TreeAdapter {
 	 */
 	static _addFormattingElementText( formattingElement, text ) {
 		// Find a paragraph or header ancestor.
-		const ancestor = TreeAdapter._findAncestor( formattingElement, TreeAdapter._isLeafNode );
+		const ancestor = TreeAdapter._findAncestorLeafNode( formattingElement );
 		// Append text to ancestor's text container.
 		if ( ancestor ) {
 			ancestor.textContainer.appendText( text );
@@ -440,39 +442,27 @@ class TreeAdapter {
 	// Private utility methods.
 
 	/**
-	 * Finds the most recent ancestor (parent of parent of ... ) of this node that returns true
-	 * on the given predicate.
+	 * Finds the most recent leaf node ancestor (parent of parent of ... ) of the given element.
+	 * (A leaf node is a node that may only contain text and formatting elements, like a heading or a paragraph).
+	 *
+	 * @see module:tree/structure.LeafNode.
 	 *
 	 * @param {Node|FormattingElement} element  The node to find the ancestor of.
-	 * @param {function} predicate              The predicate to check the ancestors on.
 	 *
 	 * @returns {Node|null} The most recent ancestor that returns true on the given predicate, or `null` if no appropriate ancestor is found.
 	 *
 	 * @private
 	 */
-	static _findAncestor( element, predicate ) {
+	static _findAncestorLeafNode( element ) {
 		let parent = element.parent;
 		/*
 		  Go up the tree until we either find the element we want,
 		  or until we are at the root of the tree (an element with no parent).
 		 */
-		while ( ! predicate( parent ) && parent !== null ) {
+		while ( ! ( parent instanceof LeafNode ) && parent !== null ) {
 			parent = parent.parent;
 		}
 		return parent;
-	}
-
-	/**
-	 * If the given element is a leaf node.
-	 *
-	 * @param {Node|FormattingElement} element The element to check.
-	 *
-	 * @returns {boolean} If the given element is a leaf node.
-	 *
-	 * @private
-	 */
-	static _isLeafNode( element ) {
-		return element instanceof Paragraph || element instanceof Heading;
 	}
 }
 
