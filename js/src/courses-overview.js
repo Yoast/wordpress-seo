@@ -1,25 +1,27 @@
 /* global wpseoCoursesOverviewL10n */
 
-import styled from "styled-components";
-import { CardDetails, FullHeightCard, utils } from "yoast-components";
+import styled, { ThemeProvider } from "styled-components";
+import { CardDetails, FullHeightCard, utils, getRtlStyle } from "yoast-components";
 import React from "react";
 import ReactDOM from "react-dom";
 import { __ } from "@wordpress/i18n";
 const { getCourseFeed } = utils;
 
-const OuterContainer = styled.ul`
-	display: grid;
-	grid-template-columns: repeat(auto-fill, 288px);
-	grid-column-gap: 16px;
-	grid-row-gap: 16px;
-	align-items: flex-start;
+const CoursesList = styled.ul`
+	display: flex;
+	flex-wrap: wrap;
+	list-style-type: none;
 	padding: 0;
+	/* Max 5 cards per row. */
+	max-width: 1520px;
 `;
 
 const CourseListItem = styled.li`
-	list-style-type: none;
-	height: 100%;
-	width: 100%;
+	/* Higher specificity to override WordPress margins. */
+	&& {
+		flex: 0 0 288px;
+		margin: ${ getRtlStyle( "0 16px 16px 0", "0 0 16px 16px" ) };
+	}
 `;
 
 /**
@@ -42,7 +44,7 @@ class CoursesOverview extends React.Component {
 	/**
 	 * Fetches data from the yoast.com feed, parses it and sets it to the state.
 	 *
-	 * @param {String} version Active Yoast SEO version.
+	 * @param {String} version The active Yoast SEO version.
 	 *
 	 * @returns {void}
 	 */
@@ -92,7 +94,7 @@ class CoursesOverview extends React.Component {
 	/**
 	 * Render the component.
 	 *
-	 * @returns {ReactElement} The OuterContainer component which contains all the courses cards.
+	 * @returns {ReactElement} The CoursesList component which contains all the courses cards.
 	 */
 	render() {
 		const courses = this.state.courses;
@@ -102,7 +104,7 @@ class CoursesOverview extends React.Component {
 		}
 
 		return (
-			<OuterContainer>
+			<CoursesList>
 				{ courses.map( course =>
 					<CourseListItem key={ course.id }>
 						<FullHeightCard
@@ -120,7 +122,7 @@ class CoursesOverview extends React.Component {
 						</FullHeightCard>
 					</CourseListItem>
 				) }
-			</OuterContainer>
+			</CoursesList>
 		);
 	}
 }
@@ -128,5 +130,14 @@ class CoursesOverview extends React.Component {
 const element = document.getElementById( "yoast-courses-overview" );
 
 if ( element ) {
-	ReactDOM.render( <CoursesOverview />, element );
+	const theme = {
+		isRtl: wpseoCoursesOverviewL10n.isRtl,
+	};
+
+	ReactDOM.render(
+		<ThemeProvider theme={ theme }>
+			<CoursesOverview />
+		</ThemeProvider>,
+		element
+	);
 }
