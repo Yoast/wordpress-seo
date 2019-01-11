@@ -5,6 +5,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import isUndefined from "lodash/isUndefined";
 import { __ } from "@wordpress/i18n";
+import forEach from "lodash/forEach";
 
 /* Internal dependencies */
 import Question from "./Question";
@@ -352,13 +353,37 @@ export default class FAQ extends Component {
 	}
 
 	/**
+	 * Gets the correct header level for the questions in the FAQ block.
+	 *
+	 * @returns {string} The header tag.
+	 */
+	getHeader() {
+		const blocks = wp.data.select( "core/editor" ).getBlocks();
+		let header = "h2";
+
+		for ( let i = 0; i < blocks.length; i++ ) {
+			// Update header when preceding header is found.
+			if ( blocks[ i ].attributes.level ) {
+				header = "h" + ( blocks[ i ].attributes.level + 1 );
+			}
+			// Exit when faq-block is found.
+			if ( blocks[ i ].name === "yoast/faq-block" ) {
+				break;
+			}
+		}
+		return header;
+	}
+
+	/**
 	 * Sets the header level for the questions in the FAQ block.
 	 *
 	 * @returns {void}
 	 */
-	setHeader(){
-		const blocks = wp.data.select( "core/editor" ).getBlocks();
-		this.props.setAttributes( { header: "h4" } );
+	setHeader() {
+		const newHeader = this.getHeader();
+		if ( this.props.attributes.header !== newHeader ) {
+			this.props.setAttributes( { header: newHeader } );
+		}
 	}
 
 	/**
@@ -368,6 +393,7 @@ export default class FAQ extends Component {
 	 */
 	render() {
 		this.setHeader();
+
 		const { className } = this.props;
 
 		const classNames = [ "schema-faq", className ].filter( ( i ) => i ).join( " " );
