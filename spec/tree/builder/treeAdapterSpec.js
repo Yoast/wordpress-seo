@@ -262,6 +262,17 @@ describe( "TreeAdapter", () => {
 	} );
 
 	describe( "TreeAdapter detachNode", () => {
+		it( "detaches a node from its parent when it has one", () => {
+			const adapter = new TreeAdapter();
+			const root = new StructuredNode( "root" );
+			const div = new StructuredNode( "div" );
+			div.parent = root;
+
+			adapter.detachNode( div );
+			expect( div.parent ).toEqual( null );
+			expect( root.children ).not.toContain( div );
+		} );
+
 		it( "does not detach a node from its parent when it does not have one", () => {
 			const adapter = new TreeAdapter();
 			const node = new StructuredNode( "root" );
