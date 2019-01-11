@@ -431,7 +431,7 @@ class WPSEO_Breadcrumbs {
 		}
 		elseif ( is_search() ) {
 			$this->add_predefined_crumb(
-				WPSEO_Options::get( 'breadcrumbs-searchprefix' ) . ' "' . esc_html( get_search_query() ) . '"',
+				WPSEO_Options::get( 'breadcrumbs-searchprefix' ) . ' “' . esc_html( get_search_query() ) . '”',
 				null,
 				true
 			);
