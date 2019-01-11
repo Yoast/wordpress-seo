@@ -47,6 +47,11 @@ class TreeAdapter {
 			node = TreeAdapter._parseNode( tag );
 		}
 
+		/*
+		  We need to add the tag name for `parse5`
+		  to track the still open HTML elements correctly.
+		  (E.g. when it encounters a closing tag, it know which element needs to be closed).
+		 */
 		node.tagName = tag;
 		node.namespace = namespace;
 		node.parent = null;
