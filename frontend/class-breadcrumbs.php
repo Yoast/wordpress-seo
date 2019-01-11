@@ -532,8 +532,8 @@ class WPSEO_Breadcrumbs {
 			return;
 		}
 
-		// When the current page isn't a singular post.
-		if ( is_home() || is_search() || ( ! is_singular( 'post' ) ) ) {
+		// When the current page is the home page, searchpage or isn't a singular post.
+		if ( is_home() || is_search() || ! is_singular( 'post' ) ) {
 			return;
 		}
 
