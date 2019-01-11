@@ -282,10 +282,10 @@ class TreeAdapter {
 	 */
 	static _addFormattingElementText( formattingElement, text ) {
 		// Find a paragraph or header ancestor.
-		const parent = TreeAdapter._findAncestor( formattingElement, TreeAdapter._isLeafNode );
-		// Append text to parent's text container.
-		if ( parent ) {
-			parent.textContainer.appendText( text );
+		const ancestor = TreeAdapter._findAncestor( formattingElement, TreeAdapter._isLeafNode );
+		// Append text to ancestor's text container.
+		if ( ancestor ) {
+			ancestor.textContainer.appendText( text );
 		}
 	}
 
