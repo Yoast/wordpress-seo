@@ -152,11 +152,11 @@ class TreeAdapter {
 		/*
 		  Structured (irrelevant) nodes can also be contained within headings, paragraphs
 		  and formatting elements, even though it is not entirely valid HTML,
-		  so we need to transform the structured node
-		  to a FormattingElement and add it to the respective heading or paragraph.
+		  so we need to transform it to a FormattingElement and add it
+		  to the appropriate heading or paragraph ancestor.
 		 */
-		if ( ( child instanceof Ignored || child instanceof StructuredNode ) &&
-			( child instanceof LeafNode || parent instanceof FormattingElement ) ) {
+		if ( TreeAdapter._isStructuredElement( child ) &&
+			( parent instanceof FormattingElement || parent instanceof LeafNode ) ) {
 			// Add structured (irrelevant) node as formatting to the first header or paragraph ancestor.
 			const element = new FormattingElement( child.tagName );
 			element.location = child.location;
@@ -496,6 +496,19 @@ class TreeAdapter {
 			parent = parent.parent;
 		}
 		return parent;
+	}
+
+	/**
+	 * Checks whether the given element is either a structured or ignored node.
+	 *
+	 * @param {Node} element The element to check.
+	 *
+	 * @returns {boolean} `true` if the element is indeed a structured element.
+	 *
+	 * @private
+	 */
+	static _isStructuredElement( element ) {
+		return element instanceof StructuredNode || element instanceof Ignored;
 	}
 }
 

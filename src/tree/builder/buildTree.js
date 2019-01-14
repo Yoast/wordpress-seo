@@ -1,8 +1,6 @@
 /* External dependencies */
 import { parseFragment } from "parse5";
 import { LeafNode } from "../structure";
-import Heading from "../structure/nodes/Heading";
-import Paragraph from "../structure/nodes/Paragraph";
 import Ignored from "../structure/nodes/Ignored";
 import { irrelevantHtmlElements } from "./htmlClasses";
 
