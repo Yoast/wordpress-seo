@@ -75,12 +75,12 @@ const closeElements = function( currentElement, openElements, currentOffset ) {
 /**
  * Appends the given element to the list of opened elements (if it is not a self closing one or a void element like `img`).
  *
- * @param {module:tree/structure.Node} element        The element to append to the list.
+ * @param {module:tree/structure.FormattingElement} element        The element to append to the list.
  * @param {Object[]} openElements                     The current list of opened elements.
  *
  * @returns {void}
  */
-const appendToOpenedElements = function( element, openElements ) {
+const appendToOpenElements = function( element, openElements ) {
 	const endTag = element.location.endTag;
 	// Not all elements have end tags (e.g. void elements like images and self-closing elements).
 	if ( endTag ) {
@@ -127,7 +127,7 @@ const calculateTextIndices = function( node, html ) {
 
 		currentOffset += startTagLength;
 
-		appendToOpenedElements( element, openElements );
+		appendToOpenElements( element, openElements );
 
 		const rawContent = getElementContent( element, html );
 		const content = removeHtmlTags( removeIrrelevantHtml( rawContent ) );
