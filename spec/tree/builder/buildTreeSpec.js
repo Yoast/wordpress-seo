@@ -5,6 +5,8 @@ import { Paragraph, StructuredNode, FormattingElement,
 import htmlFile from "../../fullTextTests/testTexts/en/englishPaper1.html";
 import htmlFile2 from "../../fullTextTests/testTexts/de/germanPaper2.html";
 
+import fullTexts  from "../../fullTextTests/testTexts";
+
 describe( "build tree", () => {
 	it( "can build a tree from HTML source code", () => {
 		const html = "<section>This? is a section.</section>";
@@ -458,5 +460,11 @@ describe( "build tree", () => {
 
 	it( "can parse another big HTML text", () => {
 		buildTree( htmlFile2 );
+	} );
+
+	it( "can parse big HTML texts", () => {
+		fullTexts.forEach( text => {
+			buildTree( text.paper.getText() );
+		} );
 	} );
 } );
