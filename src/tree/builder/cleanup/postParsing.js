@@ -1,5 +1,5 @@
-import { LeafNode } from "../structure";
-import Ignored from "../structure/nodes/Ignored";
+import { LeafNode } from "../../structure";
+import Ignored from "../../structure/nodes/Ignored";
 import calculateTextIndices from "./calculateTextIndices";
 import getElementContent from "./getElementContent";
 
@@ -44,6 +44,8 @@ const deleteParseParameters = function( element ) {
  * @param {string} html                     The original html source code from which the node has been parsed.
  *
  * @returns {module:tree/structure.Node} The cleaned up node.
+ *
+ * @private
  */
 const cleanUpNode = function( node, html ) {
 	// Set content of ignored node, based on original source code.
@@ -74,6 +76,8 @@ const cleanUpNode = function( node, html ) {
  * @param {module:tree/structure.Node} tree The tree of which to set the root node's end index.
  *
  * @returns {void}
+ *
+ * @private
  */
 const setEndIndexRootNode = function( tree ) {
 	let endIndexRootNode = 0;

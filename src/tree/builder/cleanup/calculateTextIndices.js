@@ -1,5 +1,5 @@
 import getElementContent from "./getElementContent";
-import { ignoredHtmlElements } from "./htmlConstants";
+import { ignoredHtmlElements } from "../htmlConstants";
 
 /**
  * Removes html tags from the given html string.
@@ -52,6 +52,8 @@ const removeIrrelevantHtml = function( html ) {
  * @param {number} currentOffset                                   The current offset when parsing the formatting elements
  *
  * @returns {number} The updated current offset
+ *
+ * @private
  */
 const closeElements = function( currentElement, openElements, currentOffset ) {
 	/*
@@ -79,6 +81,8 @@ const closeElements = function( currentElement, openElements, currentOffset ) {
  * @param {Object[]} openElements                     The current list of opened elements.
  *
  * @returns {void}
+ *
+ * @private
  */
 const appendToOpenElements = function( element, openElements ) {
 	const endTag = element.location.endTag;
