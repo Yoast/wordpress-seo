@@ -58,6 +58,20 @@ class Node {
 	 */
 
 	/**
+	 * Executes the given function on each node in this tree.
+	 *
+	 * @param{function} fun The function to apply to each node in the tree.
+	 *
+	 * @returns {void}
+	 */
+	forEach( fun ) {
+		fun( this );
+		if ( this.children && this.children.length > 0 ) {
+			this.children.forEach( fun );
+		}
+	}
+
+	/**
 	 * Custom replacer function for replacing 'parent' with nothing.
 	 * This is done to remove cycles from the tree.
 	 *
