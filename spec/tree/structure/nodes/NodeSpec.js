@@ -13,8 +13,8 @@ describe( "Node", () => {
 			const node = new Node( "someNode" );
 
 			expect( node.type ).toEqual( "someNode" );
-			expect( node.startIndex ).toEqual( 0 );
-			expect( node.endIndex ).toEqual( 0 );
+			expect( node.sourceStartIndex ).toEqual( 0 );
+			expect( node.sourceEndIndex ).toEqual( 0 );
 		} );
 	} );
 
@@ -22,31 +22,31 @@ describe( "Node", () => {
 		it( "maps over a tree with one node.", () => {
 			const tree = new Node( "node" );
 			tree.map( node => {
-				node.endIndex = 20;
+				node.sourceEndIndex = 20;
 				return node;
 			} );
-			expect( tree.endIndex ).toEqual( 20 );
+			expect( tree.sourceEndIndex ).toEqual( 20 );
 		} );
 
 		it( "maps over a tree with multiple nodes.", () => {
 			const paragraph = new Paragraph( "p" );
-			paragraph.startIndex = 13;
-			paragraph.endIndex = 20;
+			paragraph.sourceStartIndex = 13;
+			paragraph.sourceEndIndex = 20;
 			paragraph.text = "Hello world!!!";
 
 			const heading = new Heading( 1 );
-			heading.startIndex = 3;
-			heading.endIndex = 12;
+			heading.sourceStartIndex = 3;
+			heading.sourceEndIndex = 12;
 			heading.text = "A Message to the Globe";
 
 			const div = new StructuredNode( "div" );
-			div.startIndex = 13;
-			div.endIndex = 20;
+			div.sourceStartIndex = 13;
+			div.sourceEndIndex = 20;
 			div.children = [ paragraph ];
 
 			const tree = new StructuredNode( "root" );
-			tree.startIndex = 0;
-			tree.endIndex = 20;
+			tree.sourceStartIndex = 0;
+			tree.sourceEndIndex = 20;
 			tree.children = [ heading, div ];
 
 			tree.map( node => {

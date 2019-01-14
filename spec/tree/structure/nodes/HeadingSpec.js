@@ -6,8 +6,8 @@ describe( "Heading", () => {
 		it( "creates a heading", () => {
 			const heading = new Heading( 1 );
 
-			expect( heading.startIndex ).toBe( 0 );
-			expect( heading.endIndex ).toBe( 0 );
+			expect( heading.sourceStartIndex ).toBe( 0 );
+			expect( heading.sourceEndIndex ).toBe( 0 );
 			expect( heading.level ).toBe( 1 );
 			expect( heading.type ).toBe( "Heading" );
 			expect( heading.textContainer instanceof TextContainer ).toBe( true );

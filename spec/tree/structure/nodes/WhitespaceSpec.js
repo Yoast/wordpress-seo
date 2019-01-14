@@ -6,8 +6,8 @@ describe( "Whitespace", () => {
 			const whitespaceElement = new Whitespace();
 
 			expect( whitespaceElement.type ).toEqual( "Whitespace" );
-			expect( whitespaceElement.startIndex ).toEqual( 0 );
-			expect( whitespaceElement.endIndex ).toEqual( 0 );
+			expect( whitespaceElement.sourceStartIndex ).toEqual( 0 );
+			expect( whitespaceElement.sourceEndIndex ).toEqual( 0 );
 			expect( whitespaceElement.content ).toEqual( "" );
 		} );
 	} );

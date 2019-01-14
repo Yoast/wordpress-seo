@@ -8,8 +8,8 @@ describe( "List", () => {
 			const list = new List( true );
 
 			expect( list.type ).toEqual( "List" );
-			expect( list.startIndex ).toEqual( 0 );
-			expect( list.endIndex ).toEqual( 0 );
+			expect( list.sourceStartIndex ).toEqual( 0 );
+			expect( list.sourceEndIndex ).toEqual( 0 );
 			expect( list.ordered ).toEqual( true );
 			expect( list.children ).toEqual( [] );
 		} );

@@ -5,8 +5,8 @@ describe( "ListItem", () => {
 		it( "creates a ListItem node", () => {
 			const listItemNode = new ListItem();
 			expect( listItemNode.type ).toEqual( "ListItem" );
-			expect( listItemNode.startIndex ).toEqual( 0 );
-			expect( listItemNode.endIndex ).toEqual( 0 );
+			expect( listItemNode.sourceStartIndex ).toEqual( 0 );
+			expect( listItemNode.sourceEndIndex ).toEqual( 0 );
 			expect( listItemNode.children ).toEqual( [] );
 		} );
 	} );

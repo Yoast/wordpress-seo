@@ -25,22 +25,22 @@ class FormattingElement {
 		 * Start of this element (including tags) within the source text.
 		 * @type {?number}
 		 */
-		this.startIndex = null;
+		this.sourceStartIndex = null;
 		/**
 		 * End of this element (including tags) within the source text.
 		 * @type {?number}
 		 */
-		this.endIndex = null;
+		this.sourceEndIndex = null;
 		/**
 		 * Start of this element's content within the parent textContainer's text.
 		 * @type {?number}
 		 */
-		this.startText = null;
+		this.textStartIndex = null;
 		/**
 		 * End of this element's content within the parent textContainer's text.
 		 * @type {?number}
 		 */
-		this.endText = null;
+		this.textEndIndex = null;
 	}
 }
 

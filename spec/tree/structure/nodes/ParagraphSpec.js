@@ -6,8 +6,8 @@ describe( "Paragraph tree node", () => {
 			const paragraph = new Paragraph( "p" );
 
 			expect( paragraph.type ).toEqual( "Paragraph" );
-			expect( paragraph.startIndex ).toBe( 0 );
-			expect( paragraph.endIndex ).toBe( 0 );
+			expect( paragraph.sourceStartIndex ).toBe( 0 );
+			expect( paragraph.sourceEndIndex ).toBe( 0 );
 			expect( paragraph.textContainer ).not.toEqual( null );
 			expect( paragraph.textContainer.text ).toEqual( "" );
 		} );

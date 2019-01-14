@@ -14,8 +14,8 @@ import { ignoredHtmlElements } from "./htmlConstants";
  */
 const setStartEndIndex = function( element ) {
 	if ( element.location ) {
-		element.startIndex = element.location.startOffset;
-		element.endIndex = element.endTag ? element.location.endTag.endOffset : element.location.endOffset;
+		element.sourceStartIndex = element.location.startOffset;
+		element.sourceEndIndex = element.endTag ? element.location.endTag.endOffset : element.location.endOffset;
 	}
 };
 
@@ -149,8 +149,8 @@ const setStartEndText = function( node, html ) {
 		}
 
 		// Set start and end position of element in textContainer's text.
-		element.startText = startTag.endOffset - totalOffset;
-		element.endText = element.startText + content.length;
+		element.textStartIndex = startTag.endOffset - totalOffset;
+		element.textEndIndex = element.textStartIndex + content.length;
 
 		/*
 		  If this element is an ignored element
@@ -159,7 +159,7 @@ const setStartEndText = function( node, html ) {
 		 */
 		if ( ignoredHtmlElements.includes( element.type ) ) {
 			// Has 0 length in text, so end = start.
-			element.endText = element.startText;
+			element.textEndIndex = element.textStartIndex;
 			totalOffset += rawContent.length;
 		}
 	} );
@@ -206,9 +206,9 @@ const cleanUpNode = function( node, html ) {
 const setEndIndexRootNode = function( tree ) {
 	let endIndexRootNode = 0;
 	tree.forEach( node => {
-		endIndexRootNode = Math.max( node.endIndex, endIndexRootNode );
+		endIndexRootNode = Math.max( node.sourceEndIndex, endIndexRootNode );
 	} );
-	tree.endIndex = endIndexRootNode;
+	tree.sourceEndIndex = endIndexRootNode;
 };
 
 /**

@@ -5,8 +5,8 @@ describe( "StructuredNode", () => {
 		it( "creates a new StructuredNode", () => {
 			const structuredTextNode = new StructuredNode( "div" );
 			expect( structuredTextNode.type ).toEqual( "StructuredNode" );
-			expect( structuredTextNode.startIndex ).toEqual( 0 );
-			expect( structuredTextNode.endIndex ).toEqual( 0 );
+			expect( structuredTextNode.sourceStartIndex ).toEqual( 0 );
+			expect( structuredTextNode.sourceEndIndex ).toEqual( 0 );
 			expect( structuredTextNode.children ).toEqual( [] );
 			expect( structuredTextNode.tag ).toEqual( "div" );
 		} );

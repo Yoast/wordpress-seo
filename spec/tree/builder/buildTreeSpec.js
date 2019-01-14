@@ -12,18 +12,18 @@ describe( "build tree", () => {
 		const html = "<section>This? is a section.</section>";
 
 		const paragraph = new Paragraph();
-		paragraph.startIndex = 9;
-		paragraph.endIndex = 28;
+		paragraph.sourceStartIndex = 9;
+		paragraph.sourceEndIndex = 28;
 		paragraph.text = "This? is a section.";
 
 		const section = new StructuredNode( "section" );
-		section.startIndex = 0;
-		section.endIndex = 38;
+		section.sourceStartIndex = 0;
+		section.sourceEndIndex = 38;
 		section.children = [ paragraph ];
 
 		const expected = new StructuredNode( "root" );
-		expected.startIndex = 0;
-		expected.endIndex = 38;
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 38;
 		expected.children = [ section ];
 
 		const tree = buildTree( html );
@@ -38,35 +38,35 @@ describe( "build tree", () => {
 		const tree = buildTree( input );
 
 		const strong1 = new FormattingElement( "strong", { id: "some-id" } );
-		strong1.startIndex = 8;
-		strong1.endIndex = 46;
-		strong1.startText = 5;
-		strong1.endText = 13;
+		strong1.sourceStartIndex = 8;
+		strong1.sourceEndIndex = 46;
+		strong1.textStartIndex = 5;
+		strong1.textEndIndex = 13;
 
 		const strong2 = new FormattingElement( "strong", { "class": "weak" } );
-		strong2.startIndex = 63;
-		strong2.endIndex = 97;
-		strong2.startText = 26;
-		strong2.endText = 30;
+		strong2.sourceStartIndex = 63;
+		strong2.sourceEndIndex = 97;
+		strong2.textStartIndex = 26;
+		strong2.textEndIndex = 30;
 
 		const em = new FormattingElement( "em" );
-		em.startIndex = 59;
-		em.endIndex = 102;
-		em.startText = 26;
-		em.endText = 30;
+		em.sourceStartIndex = 59;
+		em.sourceEndIndex = 102;
+		em.textStartIndex = 26;
+		em.textEndIndex = 30;
 
 		const textContainer = new TextContainer();
 		textContainer.text = "This sentence needs to be read to have value as a sentence.";
 		textContainer.formatting = [ strong1, em, strong2 ];
 
 		const paragraph = new Paragraph( "p" );
-		paragraph.startIndex = 0;
-		paragraph.endIndex = 135;
+		paragraph.sourceStartIndex = 0;
+		paragraph.sourceEndIndex = 135;
 		paragraph.textContainer = textContainer;
 
 		const expected = new StructuredNode( "root" );
-		expected.startIndex = 0;
-		expected.endIndex = 135;
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 135;
 		expected.children = [ paragraph ];
 
 		expect( tree.toString() ).toEqual( expected.toString() );
@@ -78,13 +78,13 @@ describe( "build tree", () => {
 		const tree = buildTree( input );
 
 		const heading = new Heading( 1 );
-		heading.startIndex = 0;
-		heading.endIndex = 66;
+		heading.sourceStartIndex = 0;
+		heading.sourceEndIndex = 66;
 		heading.text = "This heading needs to be read to have value as a heading.";
 
 		const expected = new StructuredNode( "root" );
-		expected.startIndex = 0;
-		expected.endIndex = 66;
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 66;
 		expected.children = [ heading ];
 
 		expect(  tree.toString() ).toEqual( expected.toString() );
@@ -96,18 +96,18 @@ describe( "build tree", () => {
 		const tree = buildTree( input );
 
 		const comment = new Ignored( "comment" );
-		comment.startIndex = 9;
-		comment.endIndex = 41;
+		comment.sourceStartIndex = 9;
+		comment.sourceEndIndex = 41;
 		comment.content = "<!-- An unimportant comment. -->";
 
 		const section = new StructuredNode( "section" );
-		section.startIndex = 0;
-		section.endIndex = 51;
+		section.sourceStartIndex = 0;
+		section.sourceEndIndex = 51;
 		section.children = [ comment ];
 
 		const expected = new StructuredNode( "root" );
-		expected.startIndex = 0;
-		expected.endIndex = 51;
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 51;
 		expected.children = [ section ];
 
 		expect( tree.toString() ).toEqual( expected.toString() );
@@ -119,33 +119,33 @@ describe( "build tree", () => {
 		const tree = buildTree( input );
 
 		const paragraph1 = new Paragraph( "" );
-		paragraph1.startIndex = 8;
-		paragraph1.endIndex = 14;
+		paragraph1.sourceStartIndex = 8;
+		paragraph1.sourceEndIndex = 14;
 		paragraph1.text = "Coffee";
 
 		const listItem1 = new ListItem();
-		listItem1.startIndex = 4;
-		listItem1.endIndex = 19;
+		listItem1.sourceStartIndex = 4;
+		listItem1.sourceEndIndex = 19;
 		listItem1.children = [ paragraph1 ];
 
 		const paragraph2 = new Paragraph( "" );
-		paragraph2.startIndex = 23;
-		paragraph2.endIndex = 26;
+		paragraph2.sourceStartIndex = 23;
+		paragraph2.sourceEndIndex = 26;
 		paragraph2.text = "Tea";
 
 		const listItem2 = new ListItem();
-		listItem2.startIndex = 19;
-		listItem2.endIndex = 31;
+		listItem2.sourceStartIndex = 19;
+		listItem2.sourceEndIndex = 31;
 		listItem2.children = [ paragraph2 ];
 
 		const list = new List( false );
-		list.startIndex = 0;
-		list.endIndex = 36;
+		list.sourceStartIndex = 0;
+		list.sourceEndIndex = 36;
 		list.children = [ listItem1, listItem2 ];
 
 		const expected = new StructuredNode( "root" );
-		expected.startIndex = 0;
-		expected.endIndex = 36;
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 36;
 		expected.children = [ list ];
 
 		expect(  tree.toString() ).toEqual( expected.toString() );
@@ -157,38 +157,38 @@ describe( "build tree", () => {
 		const tree = buildTree( input );
 
 		const paragraph1 = new Paragraph( "" );
-		paragraph1.startIndex = 8;
-		paragraph1.endIndex = 14;
+		paragraph1.sourceStartIndex = 8;
+		paragraph1.sourceEndIndex = 14;
 		paragraph1.text = "Coffee";
 
 		const listItem1 = new ListItem();
-		listItem1.startIndex = 4;
-		listItem1.endIndex = 19;
+		listItem1.sourceStartIndex = 4;
+		listItem1.sourceEndIndex = 19;
 		listItem1.children = [ paragraph1 ];
 
 		const paragraph2 = new Paragraph( "" );
-		paragraph2.startIndex = 32;
-		paragraph2.endIndex = 35;
+		paragraph2.sourceStartIndex = 32;
+		paragraph2.sourceEndIndex = 35;
 		paragraph2.text = "Tea";
 
 		const structuredNode = new StructuredNode( "section" );
-		structuredNode.startIndex = 23;
-		structuredNode.endIndex = 45;
+		structuredNode.sourceStartIndex = 23;
+		structuredNode.sourceEndIndex = 45;
 		structuredNode.children = [ paragraph2 ];
 
 		const listItem2 = new ListItem();
-		listItem2.startIndex = 19;
-		listItem2.endIndex = 50;
+		listItem2.sourceStartIndex = 19;
+		listItem2.sourceEndIndex = 50;
 		listItem2.children = [ structuredNode ];
 
 		const list = new List( false );
-		list.startIndex = 0;
-		list.endIndex = 55;
+		list.sourceStartIndex = 0;
+		list.sourceEndIndex = 55;
 		list.children = [ listItem1, listItem2 ];
 
 		const expected = new StructuredNode( "root" );
-		expected.startIndex = 0;
-		expected.endIndex = 55;
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 55;
 		expected.children = [ list ];
 
 		expect(  tree.toString() ).toEqual( expected.toString() );
@@ -201,23 +201,23 @@ describe( "build tree", () => {
 		const tree = buildTree( input );
 
 		const paragraph = new Paragraph( "" );
-		paragraph.startIndex = 14;
-		paragraph.endIndex = 46;
+		paragraph.sourceStartIndex = 14;
+		paragraph.sourceEndIndex = 46;
 		paragraph.text = "This sentence. Another sentence.";
 
 		const structuredNode = new StructuredNode( "div" );
-		structuredNode.startIndex = 9;
-		structuredNode.endIndex = 52;
+		structuredNode.sourceStartIndex = 9;
+		structuredNode.sourceEndIndex = 52;
 		structuredNode.children = [ paragraph ];
 
 		const section = new StructuredNode( "section" );
-		section.startIndex = 0;
-		section.endIndex = 62;
+		section.sourceStartIndex = 0;
+		section.sourceEndIndex = 62;
 		section.children = [ structuredNode ];
 
 		const expected = new StructuredNode( "root" );
-		expected.startIndex = 0;
-		expected.endIndex = 62;
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 62;
 		expected.children = [ section ];
 
 		expect(  tree.toString() ).toEqual( expected.toString() );
@@ -229,23 +229,23 @@ describe( "build tree", () => {
 		const tree = buildTree( input );
 
 		const heading = new Heading( 1 );
-		heading.startIndex = 9;
-		heading.endIndex = 31;
+		heading.sourceStartIndex = 9;
+		heading.sourceEndIndex = 31;
 		heading.text = "First heading";
 
 		const paragraph = new Paragraph( "p" );
-		paragraph.startIndex = 31;
-		paragraph.endIndex = 70;
+		paragraph.sourceStartIndex = 31;
+		paragraph.sourceEndIndex = 70;
 		paragraph.text = "This sentence. Another sentence.";
 
 		const section = new StructuredNode( "section" );
-		section.startIndex = 0;
-		section.endIndex = 80;
+		section.sourceStartIndex = 0;
+		section.sourceEndIndex = 80;
 		section.children = [ heading, paragraph ];
 
 		const expected = new StructuredNode( "root" );
-		expected.startIndex = 0;
-		expected.endIndex = 80;
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 80;
 		expected.children = [ section ];
 
 		expect(  tree.toString() ).toEqual( expected.toString() );
@@ -261,23 +261,23 @@ describe( "build tree", () => {
 		const tree = buildTree( input );
 
 		const heading = new Heading( 1 );
-		heading.startIndex = 9;
-		heading.endIndex = 31;
+		heading.sourceStartIndex = 9;
+		heading.sourceEndIndex = 31;
 		heading.text = "First heading";
 
 		const irrelevant = new Ignored( "pre" );
-		irrelevant.startIndex = 31;
-		irrelevant.endIndex = 109;
+		irrelevant.sourceStartIndex = 31;
+		irrelevant.sourceEndIndex = 109;
 		irrelevant.content = "This sentence. <div><p>Another <strong>sentence</strong>.</p></div>";
 
 		const section = new StructuredNode( "section" );
-		section.startIndex = 0;
-		section.endIndex = 119;
+		section.sourceStartIndex = 0;
+		section.sourceEndIndex = 119;
 		section.children = [ heading, irrelevant ];
 
 		const expected = new StructuredNode( "root" );
-		expected.startIndex = 0;
-		expected.endIndex = 119;
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 119;
 		expected.children = [ section ];
 
 		expect(  tree.toString() ).toEqual( expected.toString() );
@@ -287,18 +287,18 @@ describe( "build tree", () => {
 		const input = "This is some text.<p>This is a paragraph.</p>";
 
 		const paragraph1 = new Paragraph( "" );
-		paragraph1.startIndex = 0;
-		paragraph1.endIndex = 18;
+		paragraph1.sourceStartIndex = 0;
+		paragraph1.sourceEndIndex = 18;
 		paragraph1.text = "This is some text.";
 
 		const paragraph2 = new Paragraph( "p" );
-		paragraph2.startIndex = 18;
-		paragraph2.endIndex = 45;
+		paragraph2.sourceStartIndex = 18;
+		paragraph2.sourceEndIndex = 45;
 		paragraph2.text = "This is a paragraph.";
 
 		const expected = new StructuredNode( "root" );
-		expected.startIndex = 0;
-		expected.endIndex = 45;
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 45;
 		expected.children = [ paragraph1, paragraph2 ];
 
 		const tree = buildTree( input );
@@ -310,18 +310,18 @@ describe( "build tree", () => {
 		const input = "<p>This is a paragraph.</p>This is another paragraph.";
 
 		const paragraph1 = new Paragraph( "p" );
-		paragraph1.startIndex = 0;
-		paragraph1.endIndex = 27;
+		paragraph1.sourceStartIndex = 0;
+		paragraph1.sourceEndIndex = 27;
 		paragraph1.text = "This is a paragraph.";
 
 		const paragraph2 = new Paragraph();
-		paragraph2.startIndex = 27;
-		paragraph2.endIndex = 53;
+		paragraph2.sourceStartIndex = 27;
+		paragraph2.sourceEndIndex = 53;
 		paragraph2.text = "This is another paragraph.";
 
 		const expected = new StructuredNode( "root" );
-		expected.startIndex = 0;
-		expected.endIndex = 53;
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 53;
 		expected.children = [ paragraph1, paragraph2 ];
 
 		const tree = buildTree( input );
@@ -334,42 +334,42 @@ describe( "build tree", () => {
 			"<p>This is <em>some script<script>console.log('something');</script></em> that should <strong>not</strong> be parsed.</p>";
 
 		const pre = new Ignored( "pre" );
-		pre.startIndex = 0;
-		pre.endIndex = 21;
+		pre.sourceStartIndex = 0;
+		pre.sourceEndIndex = 21;
 		pre.content = "Some text.";
 
 		const em = new FormattingElement( "em" );
-		em.startIndex = 32;
-		em.endIndex = 94;
-		em.startText = 8;
-		em.endText = 19;
+		em.sourceStartIndex = 32;
+		em.sourceEndIndex = 94;
+		em.textStartIndex = 8;
+		em.textEndIndex = 19;
 
 		const script = new FormattingElement( "script" );
-		script.startIndex = 47;
-		script.endIndex = 89;
+		script.sourceStartIndex = 47;
+		script.sourceEndIndex = 89;
 		// Is -1.
-		script.startText = 19;
+		script.textStartIndex = 19;
 		// Is -1.
-		script.endText = 19;
+		script.textEndIndex = 19;
 
 		const strong = new FormattingElement( "strong" );
-		strong.startIndex = 107;
-		strong.endIndex = 127;
-		strong.startText = 32;
-		strong.endText = 35;
+		strong.sourceStartIndex = 107;
+		strong.sourceEndIndex = 127;
+		strong.textStartIndex = 32;
+		strong.textEndIndex = 35;
 
 		const textContainer = new TextContainer();
 		textContainer.text = "This is some script that should not be parsed.";
 		textContainer.formatting = [ em, script, strong ];
 
 		const paragraph = new Paragraph( "p" );
-		paragraph.startIndex = 21;
-		paragraph.endIndex = 142;
+		paragraph.sourceStartIndex = 21;
+		paragraph.sourceEndIndex = 142;
 		paragraph.textContainer = textContainer;
 
 		const expected = new StructuredNode( "root" );
-		expected.startIndex = 0;
-		expected.endIndex = 142;
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 142;
 		expected.children = [ pre, paragraph ];
 
 		const tree = buildTree( input );
@@ -380,35 +380,35 @@ describe( "build tree", () => {
 		const input = "<p><strong>hello world! <em>hello world!</em></strong> <a href='nope'>hello world!</a></p>";
 
 		const strong = new FormattingElement( "strong" );
-		strong.startIndex = 3;
-		strong.endIndex = 54;
-		strong.startText = 0;
-		strong.endText = 25;
+		strong.sourceStartIndex = 3;
+		strong.sourceEndIndex = 54;
+		strong.textStartIndex = 0;
+		strong.textEndIndex = 25;
 
 		const emphasis = new FormattingElement( "em" );
-		emphasis.startIndex = 24;
-		emphasis.endIndex = 45;
-		emphasis.startText = 13;
-		emphasis.endText = 25;
+		emphasis.sourceStartIndex = 24;
+		emphasis.sourceEndIndex = 45;
+		emphasis.textStartIndex = 13;
+		emphasis.textEndIndex = 25;
 
 		const anchor = new FormattingElement( "a", { href: "nope" } );
-		anchor.startIndex = 55;
-		anchor.endIndex = 86;
-		anchor.startText = 26;
-		anchor.endText = 38;
+		anchor.sourceStartIndex = 55;
+		anchor.sourceEndIndex = 86;
+		anchor.textStartIndex = 26;
+		anchor.textEndIndex = 38;
 
 		const textContainer = new TextContainer();
 		textContainer.text = "hello world! hello world! hello world!";
 		textContainer.formatting = [ strong, emphasis, anchor	];
 
 		const paragraph = new Paragraph( "p" );
-		paragraph.startIndex = 0;
-		paragraph.endIndex = 90;
+		paragraph.sourceStartIndex = 0;
+		paragraph.sourceEndIndex = 90;
 		paragraph.textContainer = textContainer;
 
 		const expected = new StructuredNode( "root" );
-		expected.startIndex = 0;
-		expected.endIndex = 90;
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 90;
 		expected.children = [ paragraph ];
 
 		const tree = buildTree( input );
@@ -419,35 +419,35 @@ describe( "build tree", () => {
 		const input = "<p>Let there<br> be an <a href='/image.png'><img src='/image.png' alt='image'/></a></p>";
 
 		const br = new FormattingElement( "br" );
-		br.startIndex = 12;
-		br.endIndex = 16;
-		br.startText = 9;
-		br.endText = 9;
+		br.sourceStartIndex = 12;
+		br.sourceEndIndex = 16;
+		br.textStartIndex = 9;
+		br.textEndIndex = 9;
 
 		const anchor = new FormattingElement( "a", { href: "/image.png" } );
-		anchor.startIndex = 23;
-		anchor.endIndex = 83;
-		anchor.startText = 16;
-		anchor.endText = 16;
+		anchor.sourceStartIndex = 23;
+		anchor.sourceEndIndex = 83;
+		anchor.textStartIndex = 16;
+		anchor.textEndIndex = 16;
 
 		const image = new FormattingElement( "img", { src: "/image.png", alt: "image" } );
-		image.startIndex = 44;
-		image.endIndex = 79;
-		image.startText = 16;
-		image.endText = 16;
+		image.sourceStartIndex = 44;
+		image.sourceEndIndex = 79;
+		image.textStartIndex = 16;
+		image.textEndIndex = 16;
 
 		const textContainer = new TextContainer();
 		textContainer.text = "Let there be an ";
 		textContainer.formatting = [ br, anchor, image ];
 
 		const paragraph = new Paragraph( "p" );
-		paragraph.startIndex = 0;
-		paragraph.endIndex = 87;
+		paragraph.sourceStartIndex = 0;
+		paragraph.sourceEndIndex = 87;
 		paragraph.textContainer = textContainer;
 
 		const expected = new StructuredNode( "root" );
-		expected.startIndex = 0;
-		expected.endIndex = 87;
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 87;
 		expected.children = [ paragraph ];
 
 		const tree = buildTree( input );

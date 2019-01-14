@@ -22,12 +22,12 @@ class Node {
 		 * Start of this element (including tags) within the source text.
 		 * @type {?number}
 		 */
-		this.startIndex = 0;
+		this.sourceStartIndex = 0;
 		/**
 		 * End of this element (including tags) within the source text.
 		 * @type {?number}
 		 */
-		this.endIndex = 0;
+		this.sourceEndIndex = 0;
 	}
 
 	/**
