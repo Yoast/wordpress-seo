@@ -775,15 +775,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$is_editor = self::is_post_overview( $pagenow ) || self::is_post_edit( $pagenow );
 
-		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
-		if ( ( $is_editor === false && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->display_metabox() === false ) {
-			return;
-		}
-
 		if ( self::is_post_overview( $pagenow ) ) {
 			$asset_manager->enqueue_style( 'edit-page' );
 			$asset_manager->enqueue_script( 'edit-page-script' );
 
+			return;
+		}
+
+		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
+		if ( ( $is_editor === false && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->display_metabox() === false ) {
 			return;
 		}
 
