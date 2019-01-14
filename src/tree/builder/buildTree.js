@@ -118,7 +118,7 @@ const setStartEndText = function( node, html ) {
 	  and the irrelevant content that should not be counted towards
 	  the start and end position in the text.
 	 */
-	let totalOffset = node.location.startTag.endOffset;
+	let totalOffset = node.location.startTag ? node.location.startTag.endOffset : node.location.startOffset;
 
 	node.textContainer.formatting.forEach( element => {
 		/*
