@@ -42,6 +42,7 @@ const deleteParseParameters = function( element ) {
 	delete element.location;
 	delete element.namespace;
 	delete element.tagName;
+	delete element.documentMode;
 };
 
 /**

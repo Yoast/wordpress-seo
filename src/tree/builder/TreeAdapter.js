@@ -359,6 +359,38 @@ class TreeAdapter {
 	}
 
 	/**
+	 * Gets the mode of the given element (e.g. "quirks", "no-quirks" or "limited-quirks").
+	 *
+	 * This is needed by the `parse5` library to be able to parse certain texts.
+	 *
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode
+	 *
+	 * @param {module:tree/structure.Node} element The element to set the mode of.
+	 *
+	 * @returns {void}
+	 */
+	getDocumentMode( element ) {
+		return element.documentMode;
+	}
+
+	/**
+	 * Sets the mode of the given element (e.g. "quirks", "no-quirks" or "limited-quirks").
+	 *
+	 * This is needed by the `parse5` library to be able to parse certain texts.
+	 *
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode
+	 *
+	 * @param {module:tree/structure.Node} element         The element to set the mode of.
+	 * @param {"no-quirks"|"quirks"|"limited-quirks"} mode The mode to set.
+	 *
+	 * @returns {void}
+	 */
+	setDocumentMode( element, mode ) {
+		element.documentMode = mode;
+	}
+
+
+	/**
 	 * Returns this node's parent node.
 	 *
 	 * @param {Node} node The node from which to retrieve the parent.
