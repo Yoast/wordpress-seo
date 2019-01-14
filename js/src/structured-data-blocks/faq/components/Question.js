@@ -361,7 +361,7 @@ export default class Question extends Component {
 			<div className="schema-faq-section" key={ id }>
 				<RichText
 					className="schema-faq-question"
-					tagName="p"
+					tagName={ this.props.questionHeader }
 					unstableOnSetup={ this.setQuestionRef }
 					key={ id + "-question" }
 					value={ question }
@@ -409,4 +409,9 @@ Question.propTypes = {
 	isSelected: PropTypes.bool.isRequired,
 	isFirst: PropTypes.bool.isRequired,
 	isLast: PropTypes.bool.isRequired,
+	questionHeader: PropTypes.string,
+};
+
+Question.defaultProps = {
+	questionHeader: "h2",
 };

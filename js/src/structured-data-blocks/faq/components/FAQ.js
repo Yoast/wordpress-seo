@@ -1,19 +1,19 @@
-/* global wp */
-
 /* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 import isUndefined from "lodash/isUndefined";
+import get from "lodash/get";
+import clamp from "lodash/clamp";
 import { __ } from "@wordpress/i18n";
-import forEach from "lodash/forEach";
+import { subscribe, select } from "@wordpress/data";
+import { IconButton } from "@wordpress/components";
+import { Component, renderToString } from "@wordpress/element";
+
 
 /* Internal dependencies */
 import Question from "./Question";
 import { stripHTML } from "../../../helpers/stringHelpers";
 import appendSpace from "../../../components/higherorder/appendSpace";
-
-const { IconButton } = window.wp.components;
-const { Component, renderToString } = window.wp.element;
 
 const QuestionContentWithAppendedSpace = appendSpace( Question.Content );
 
@@ -31,7 +31,7 @@ export default class FAQ extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.state = { focus: "" };
+		this.state = { focus: "", headingBlockClientId: "" };
 
 		this.changeQuestion           = this.changeQuestion.bind( this );
 		this.insertQuestion           = this.insertQuestion.bind( this );
@@ -44,6 +44,8 @@ export default class FAQ extends Component {
 		this.onAddQuestionButtonClick = this.onAddQuestionButtonClick.bind( this );
 
 		this.editorRefs = {};
+
+		this.subscribeToBlocks();
 	}
 
 	/**
@@ -321,6 +323,7 @@ export default class FAQ extends Component {
 							onMoveDown={ this.moveQuestionDown }
 							isFirst={ index === 0 }
 							isLast={ index === attributes.questions.length - 1 }
+							questionHeader={ attributes.header }
 						/>
 					);
 				}
@@ -358,20 +361,52 @@ export default class FAQ extends Component {
 	 * @returns {string} The header tag.
 	 */
 	getHeader() {
-		const blocks = wp.data.select( "core/editor" ).getBlocks();
+		const blocks = select( "core/editor" ).getBlocks();
+		let currentblock = {};
 		let header = "h2";
 
-		for ( let i = 0; i < blocks.length; i++ ) {
-			// Update header when preceding header is found.
-			if ( blocks[ i ].attributes.level ) {
-				header = "h" + ( blocks[ i ].attributes.level + 1 );
+		// Use the order data as this is updated live in the store, the order in blocks is only updated on refresh.
+		const order = select( "core/editor" ).getBlockOrder();
+		for ( let i = 0; i < order.length; i++ ) {
+			currentblock = blocks.find( block => block.clientId === order[ i ] );
+
+			// Update header when preceding header is found, but limit it to a value between 2 and 6.
+			if ( currentblock.attributes.level ) {
+				header = "h" + ( clamp( currentblock.attributes.level + 1, 2, 6 ) );
+				this.setState( { headingBlockClientId: currentblock.clientId } );
 			}
+
 			// Exit when faq-block is found.
-			if ( blocks[ i ].name === "yoast/faq-block" ) {
+			if ( currentblock.name === "yoast/faq-block" ) {
 				break;
 			}
 		}
 		return header;
+	}
+
+	/**
+	 * Subscribes to the store, listens for changes relevant for header changes.
+	 *
+	 * @returns {void}
+	 */
+	subscribeToBlocks() {
+		subscribe( () => {
+			// Check if the order of blocks has changed.
+			const blockOrder = select( "core/editor" ).getBlockOrder();
+			if ( this._previousBlockOrder !== blockOrder ) {
+				this._previousBlockOrder = blockOrder;
+				this.setHeader();
+			}
+
+			// Check if the the current last header block has changed.
+			const lastHeadingBlock = select( "core/editor" ).getBlock( this.state.headingBlockClientId );
+			const previousHeadingBlockLevel = get( this._previousLastHeadingBlock, "attributes.level" );
+
+			if ( lastHeadingBlock && previousHeadingBlockLevel !== lastHeadingBlock.attributes.level ) {
+				this._previousLastHeadingBlock = lastHeadingBlock;
+				this.setHeader();
+			}
+		} );
 	}
 
 	/**
@@ -392,8 +427,6 @@ export default class FAQ extends Component {
 	 * @returns {Component} The FAQ block editor.
 	 */
 	render() {
-		this.setHeader();
-
 		const { className } = this.props;
 
 		const classNames = [ "schema-faq", className ].filter( ( i ) => i ).join( " " );
