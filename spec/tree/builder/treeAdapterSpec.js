@@ -1,6 +1,6 @@
 import TreeAdapter from "../../../src/tree/builder/TreeAdapter";
 import FormattingElement from "../../../src/tree/structure/FormattingElement";
-import StructuredIrrelevant from "../../../src/tree/structure/nodes/StructuredIrrelevant";
+import Ignored from "../../../src/tree/structure/nodes/Ignored";
 import Heading from "../../../src/tree/structure/nodes/Heading";
 import Paragraph from "../../../src/tree/structure/nodes/Paragraph";
 import List from "../../../src/tree/structure/nodes/List";
@@ -22,7 +22,7 @@ describe( "TreeAdapter", () => {
 
 			const expectedStructuredIrrelevant = adapter.createElement( "script" );
 
-			expect( expectedStructuredIrrelevant instanceof StructuredIrrelevant ).toBe( true );
+			expect( expectedStructuredIrrelevant instanceof Ignored ).toBe( true );
 		} );
 
 		it( "can create a heading node", () => {

@@ -4,7 +4,7 @@ import List from "./List";
 import ListItem from "./ListItem";
 import Paragraph from "./Paragraph";
 import Heading from "./Heading";
-import StructuredIrrelevant from "./StructuredIrrelevant";
+import Ignored from "./Ignored";
 import StructuredNode from "./StructuredNode";
 import Whitespace from "./Whitespace";
 
@@ -16,6 +16,6 @@ export {
 	Heading,
 	List,
 	ListItem,
-	StructuredIrrelevant,
+	Ignored,
 	Whitespace,
 };

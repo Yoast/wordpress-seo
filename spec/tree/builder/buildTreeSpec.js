@@ -1,6 +1,6 @@
 import buildTree from "../../../src/tree/builder";
 import { Paragraph, StructuredNode, FormattingElement,
-	List, ListItem, StructuredIrrelevant, Heading, TextContainer } from "../../../src/tree/structure";
+	List, ListItem, Ignored, Heading, TextContainer } from "../../../src/tree/structure";
 
 import htmlFile from "../../fullTextTests/testTexts/en/englishPaper1.html";
 import htmlFile2 from "../../fullTextTests/testTexts/de/germanPaper2.html";
@@ -95,7 +95,7 @@ describe( "build tree", () => {
 
 		const tree = buildTree( input );
 
-		const comment = new StructuredIrrelevant( "comment" );
+		const comment = new Ignored( "comment" );
 		comment.startIndex = 9;
 		comment.endIndex = 41;
 		comment.content = "<!-- An unimportant comment. -->";
@@ -265,7 +265,7 @@ describe( "build tree", () => {
 		heading.endIndex = 31;
 		heading.text = "First heading";
 
-		const irrelevant = new StructuredIrrelevant( "pre" );
+		const irrelevant = new Ignored( "pre" );
 		irrelevant.startIndex = 31;
 		irrelevant.endIndex = 109;
 		irrelevant.content = "This sentence. <div><p>Another <strong>sentence</strong>.</p></div>";
@@ -333,7 +333,7 @@ describe( "build tree", () => {
 		const input = "<pre>Some text.</pre>" +
 			"<p>This is <em>some script<script>console.log('something');</script></em> that should <strong>not</strong> be parsed.</p>";
 
-		const pre = new StructuredIrrelevant( "pre" );
+		const pre = new Ignored( "pre" );
 		pre.startIndex = 0;
 		pre.endIndex = 21;
 		pre.content = "Some text.";

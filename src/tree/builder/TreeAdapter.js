@@ -5,7 +5,7 @@ import LeafNode from "../structure/nodes/LeafNode";
 import List from "../structure/nodes/List";
 import ListItem from "../structure/nodes/ListItem";
 import Paragraph from "../structure/nodes/Paragraph";
-import StructuredIrrelevant from "../structure/nodes/StructuredIrrelevant";
+import Ignored from "../structure/nodes/Ignored";
 import StructuredNode from "../structure/nodes/StructuredNode";
 // HTML classes.
 import { formattingElements, headings, irrelevantHtmlElements } from "./htmlClasses";
@@ -38,7 +38,7 @@ class TreeAdapter {
 
 		if ( irrelevantHtmlElements.includes( tag ) ) {
 			// Irrelevant for analysis (e.g. `script`, `style`).
-			node = new StructuredIrrelevant( tag );
+			node = new Ignored( tag );
 		} else if ( formattingElements.includes( tag ) ) {
 			// Formatting element.
 			const parsedAttributes = TreeAdapter._parseAttributes( attributes );
@@ -121,10 +121,10 @@ class TreeAdapter {
 	 *
 	 * @param {string} text The comment text.
 	 *
-	 * @returns {StructuredIrrelevant} The node representing the comment.
+	 * @returns {Ignored} The node representing the comment.
 	 */
 	createCommentNode( text ) {
-		const node = new StructuredIrrelevant( "comment" );
+		const node = new Ignored( "comment" );
 		node.parent = null;
 		node.content = text;
 		return node;
@@ -145,7 +145,7 @@ class TreeAdapter {
 		  Do not do anything with irrelevant content.
 		  (We get the raw string contents later on from the source code).
 		 */
-		if ( parent instanceof StructuredIrrelevant ) {
+		if ( parent instanceof Ignored ) {
 			return;
 		}
 
@@ -155,7 +155,7 @@ class TreeAdapter {
 		  so we need to transform the structured node
 		  to a FormattingElement and add it to the respective heading or paragraph.
 		 */
-		if ( ( child instanceof StructuredIrrelevant || child instanceof StructuredNode ) &&
+		if ( ( child instanceof Ignored || child instanceof StructuredNode ) &&
 			( child instanceof LeafNode || parent instanceof FormattingElement ) ) {
 			// Add structured (irrelevant) node as formatting to the first header or paragraph ancestor.
 			const element = new FormattingElement( child.tagName );
@@ -258,7 +258,7 @@ class TreeAdapter {
 	 */
 	insertText( node, text ) {
 		// Do not add text to irrelevant nodes. We are going to add it later from the source text.
-		if ( node instanceof StructuredIrrelevant ) {
+		if ( node instanceof Ignored ) {
 			return;
 		}
 

@@ -1,12 +1,12 @@
-import StructuredIrrelevant from "../../../../src/tree/structure/nodes/StructuredIrrelevant";
+import Ignored from "../../../../src/tree/structure/nodes/Ignored";
 
 describe( "StructuredIrrelevant", () => {
 	describe( "constructor", () => {
 		it( "creates a new StructuredIrrelevant node", () => {
-			const structuredIrrelevant = new StructuredIrrelevant( "script" );
+			const structuredIrrelevant = new Ignored( "script" );
 			expect( structuredIrrelevant.type ).toEqual( "StructuredIrrelevant" );
 			expect( structuredIrrelevant.tag ).toEqual( "script" );
-			expect( structuredIrrelevant instanceof StructuredIrrelevant ).toEqual( true );
+			expect( structuredIrrelevant instanceof Ignored ).toEqual( true );
 		} );
 	} );
 } );

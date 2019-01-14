@@ -3,7 +3,7 @@ import { parseFragment } from "parse5";
 import { LeafNode } from "../structure";
 import Heading from "../structure/nodes/Heading";
 import Paragraph from "../structure/nodes/Paragraph";
-import StructuredIrrelevant from "../structure/nodes/StructuredIrrelevant";
+import Ignored from "../structure/nodes/Ignored";
 import { irrelevantHtmlElements } from "./htmlClasses";
 
 /* Internal dependencies */
@@ -48,7 +48,7 @@ const deleteParseParameters = function( element ) {
 /**
  * Gets the content of an element (the part _between_ the opening and closing tag) from the HTML source code.
  *
- * @param {module:tree/structure.StructuredIrrelevant|module:tree/structure.FormattingElement} element  The element to parse the contents of
+ * @param {module:tree/structure.Ignored|module:tree/structure.FormattingElement} element  The element to parse the contents of
  * @param {string} html                                                                                 The source code to parse the contents from
  *
  * @returns {string} The element's contents.
@@ -191,7 +191,7 @@ const cleanUpAfterParsing = function( tree, html ) {
 	let endIndexRootNode = 0;
 	tree.map( node => {
 		// Set content of irrelevant node, based on original source code.
-		if ( node instanceof StructuredIrrelevant ) {
+		if ( node instanceof Ignored ) {
 			node.content = getElementContent( node, html );
 		}
 
