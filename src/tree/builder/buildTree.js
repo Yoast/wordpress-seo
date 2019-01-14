@@ -229,8 +229,12 @@ const cleanUpAfterParsing = function( tree, html ) {
  */
 const buildTree = function( html ) {
 	const treeAdapter = new TreeAdapter();
+	/*
+	  Parsing of a HTML article takes on average 19ms
+	  (based on the fullTexts in the specs (n=24), measured using `console.time`).
+	 */
 	let tree = parseFragment( html, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
-	// Cleanup takes < 2ms, even after parsing a big HTML file. (measured using `console.time`).
+	// Cleanup takes < 2ms.
 	tree = cleanUpAfterParsing( tree, html );
 	return tree;
 };
