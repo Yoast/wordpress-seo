@@ -174,8 +174,8 @@ class WPSEO_Link_Columns {
 
 		$columns[ 'wpseo-' . self::COLUMN_LINKS ] = sprintf(
 			'<span class="yoast-linked-to yoast-column-header-has-tooltip" data-tooltip-text="%1$s"><span class="screen-reader-text">%2$s</span></span>',
-			esc_attr__( 'Number of internal links in this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ),
-			esc_html__( 'Internal links', 'wordpress-seo' )
+			esc_attr__( 'Number of outgoing internal links in this post. See "Yoast Columns" text in the help tab for more info.', 'wordpress-seo' ),
+			esc_html__( 'Outgoing internal links', 'wordpress-seo' )
 		);
 
 		if ( ! WPSEO_Link_Query::has_unprocessed_posts( $this->public_post_types ) ) {
