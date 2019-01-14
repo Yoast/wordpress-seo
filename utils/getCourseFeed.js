@@ -33,6 +33,7 @@ function parseCourseFeedItem( parsed, snapshot, nsResolver ) {
 	item.ctaButtonUrl        = getXPathText( "child::content:cta_button_url", parsed, snapshot, nsResolver );
 	item.readMoreLinkText    = getXPathText( "child::content:read_more_link_text", parsed, snapshot, nsResolver );
 	item.isFree              = getXPathText( "child::content:is_free", parsed, snapshot, nsResolver );
+	item.isBundle            = getXPathText( "child::content:is_bundle", parsed, snapshot, nsResolver );
 
 	return item;
 }
