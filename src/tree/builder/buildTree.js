@@ -2,7 +2,7 @@
 import { parseFragment } from "parse5";
 import { LeafNode } from "../structure";
 import Ignored from "../structure/nodes/Ignored";
-import { irrelevantHtmlElements } from "./htmlClasses";
+import { ignoredHtmlElements } from "./htmlConstants";
 
 /* Internal dependencies */
 import TreeAdapter from "./TreeAdapter";
@@ -78,16 +78,16 @@ const removeHtmlTags = function( html ) {
 };
 
 /**
- * Removes html elements deemed irrelevant for analysis from the given html string.
+ * Removes html elements deemed ignored in the analysis from the given html string.
  *
- * @param {string} html The html string to remove the irrelevant html elements from.
+ * @param {string} html The html string to remove the ignored html elements from.
  *
- * @returns {string} The html string with the irrelevant html elements removed.
+ * @returns {string} The html string with the ignored html elements removed.
  *
  * @private
  */
 const removeIrrelevantHtml = function( html ) {
-	irrelevantHtmlElements.forEach( tag => {
+	ignoredHtmlElements.forEach( tag => {
 		const regex = new RegExp( `<${tag}.*>.*</${tag}>`, "g" );
 		html = html.replace( regex, "" );
 	} );
@@ -113,7 +113,7 @@ const setStartEndText = function( node, html ) {
 	const elementsToBeClosed = [];
 	/*
 	  Keeps track of the current total size of the start and end tags
-	  and the irrelevant content that should not be counted towards
+	  and the ignored content that should not be counted towards
 	  the start and end position in the text.
 	 */
 	let totalOffset = node.location.startTag ? node.location.startTag.endOffset : node.location.startOffset;
@@ -160,11 +160,11 @@ const setStartEndText = function( node, html ) {
 		element.endText = element.startText + content.length;
 
 		/*
-		  If this element is an irrelevant element
+		  If this element is an ignored element
 		  its contents are not in the text,
 		  so the total offset should be updated.
 		 */
-		if ( irrelevantHtmlElements.includes( element.type ) ) {
+		if ( ignoredHtmlElements.includes( element.type ) ) {
 			// Has 0 length in text, so end = start.
 			element.endText = element.startText;
 			totalOffset += rawContent.length;
@@ -188,7 +188,7 @@ const setStartEndText = function( node, html ) {
 const cleanUpAfterParsing = function( tree, html ) {
 	let endIndexRootNode = 0;
 	tree.map( node => {
-		// Set content of irrelevant node, based on original source code.
+		// Set content of ignored node, based on original source code.
 		if ( node instanceof Ignored ) {
 			node.content = getElementContent( node, html );
 		}

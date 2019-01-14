@@ -13,13 +13,13 @@ const formattingElements = [ "a", "abbr", "audio", "b", "bdo", "br", "button", "
 	"span", "strong", "sub", "sup", "svg", "textarea", "time", "var", "video", "wbr" ];
 
 /**
- * All tags of the HTML element types that are irrelevant for our analysis.
+ * All tags of the HTML element types that are ignored in our analysis.
  * @type {string[]}
  * @const
  *
  * @memberOf module:tree/builder
  */
-const irrelevantHtmlElements = [ "script", "style", "pre" ];
+const ignoredHtmlElements = [ "script", "style", "pre" ];
 
 /**
  * All HTML heading element tags, from `h1` to `h6`.
@@ -32,6 +32,6 @@ const headings = [ "h1", "h2", "h3", "h4", "h5", "h6" ];
 
 export {
 	formattingElements,
-	irrelevantHtmlElements,
+	ignoredHtmlElements,
 	headings,
 };

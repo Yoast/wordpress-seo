@@ -8,7 +8,7 @@ import Paragraph from "../structure/nodes/Paragraph";
 import Ignored from "../structure/nodes/Ignored";
 import StructuredNode from "../structure/nodes/StructuredNode";
 // HTML classes.
-import { formattingElements, headings, irrelevantHtmlElements } from "./htmlClasses";
+import { formattingElements, headings, ignoredHtmlElements } from "./htmlConstants";
 
 /**
  * An adapter to parse the HTML source code to a structured tree representation, to be used in further analysis,
@@ -36,8 +36,8 @@ class TreeAdapter {
 	createElement( tag, namespace, attributes ) {
 		let node;
 
-		if ( irrelevantHtmlElements.includes( tag ) ) {
-			// Irrelevant for analysis (e.g. `script`, `style`).
+		if ( ignoredHtmlElements.includes( tag ) ) {
+			// Ignored for analysis (e.g. `script`, `style`).
 			node = new Ignored( tag );
 		} else if ( formattingElements.includes( tag ) ) {
 			// Formatting element.
@@ -142,7 +142,7 @@ class TreeAdapter {
 	 */
 	appendChild( parent, child ) {
 		/*
-		  Do not do anything with irrelevant content.
+		  Do not do anything with ignored content.
 		  (We get the raw string contents later on from the source code).
 		 */
 		if ( parent instanceof Ignored ) {
@@ -150,14 +150,14 @@ class TreeAdapter {
 		}
 
 		/*
-		  Structured (irrelevant) nodes can also be contained within headings, paragraphs
+		  Structured (ignored) nodes can also be contained within headings, paragraphs
 		  and formatting elements, even though it is not entirely valid HTML,
 		  so we need to transform it to a FormattingElement and add it
 		  to the appropriate heading or paragraph ancestor.
 		 */
 		if ( TreeAdapter._isStructuredElement( child ) &&
 			( parent instanceof FormattingElement || parent instanceof LeafNode ) ) {
-			// Add structured (irrelevant) node as formatting to the first header or paragraph ancestor.
+			// Add structured (ignored) node as formatting to the first header or paragraph ancestor.
 			const element = new FormattingElement( child.tagName );
 			element.location = child.location;
 			TreeAdapter._appendFormattingElement( parent, element );
@@ -257,7 +257,7 @@ class TreeAdapter {
 	 * @returns {void}
 	 */
 	insertText( node, text ) {
-		// Do not add text to irrelevant nodes. We are going to add it later from the source text.
+		// Do not add text to ignored nodes. We are going to add it later from the source text.
 		if ( node instanceof Ignored ) {
 			return;
 		}
