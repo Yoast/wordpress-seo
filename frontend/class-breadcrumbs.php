@@ -543,13 +543,26 @@ class WPSEO_Breadcrumbs {
 
 	/**
 	 * Add Blog crumb to the crumbs property for single posts where Home != blogpage.
+	 *
+	 * @return void
 	 */
 	private function maybe_add_blog_crumb() {
-		if ( ( 'page' === $this->show_on_front && 'post' === get_post_type() ) && ( ! is_home() && ! is_search() ) ) {
-			if ( $this->page_for_posts && WPSEO_Options::get( 'breadcrumbs-display-blog-page' ) === true ) {
-				$this->add_blog_crumb();
-			}
+		// When the show blog page is not enabled.
+		if ( WPSEO_Options::get( 'breadcrumbs-display-blog-page' ) !== true ) {
+			return;
 		}
+
+		// When there is no page configured as blog page.
+		if ( 'page' !== $this->show_on_front || ! $this->page_for_posts ) {
+			return;
+		}
+
+		// When the current page is the home page, searchpage or isn't a singular post.
+		if ( is_home() || is_search() || ! is_singular( 'post' ) ) {
+			return;
+		}
+
+		$this->add_blog_crumb();
 	}
 
 	/**
