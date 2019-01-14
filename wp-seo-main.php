@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '9.5-beta2' );
+define( 'WPSEO_VERSION', '9.6-beta1' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -338,9 +338,6 @@ function wpseo_init() {
 	// Loading Ryte integration.
 	$wpseo_onpage = new WPSEO_OnPage();
 	$wpseo_onpage->register_hooks();
-
-	$wpseo_content_images = new WPSEO_Content_Images();
-	$wpseo_content_images->register_hooks();
 
 	// When namespaces are not available, stop further execution.
 	if ( version_compare( PHP_VERSION, '5.3.0', '>=' ) ) {

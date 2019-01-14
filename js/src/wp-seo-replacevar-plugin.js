@@ -158,19 +158,21 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 				this.declareReloaded();
 				return;
 			}
-			const page = new wp.api.models.Page( { id: newParent } );
-			page.fetch().then(
-				response => {
-					this._currentParentPageTitle = response.title.rendered;
-					fetchedParents[ newParent ]  = this._currentParentPageTitle;
-					this.declareReloaded();
-				}
-			).fail(
-				() => {
-					this._currentParentPageTitle = "";
-					this.declareReloaded();
-				}
-			);
+			wp.api.loadPromise.done( function() {
+				const page = new wp.api.models.Page( { id: newParent } );
+				page.fetch().then(
+					response => {
+						this._currentParentPageTitle = response.title.rendered;
+						fetchedParents[ newParent ]  = this._currentParentPageTitle;
+						this.declareReloaded();
+					}
+				).fail(
+					() => {
+						this._currentParentPageTitle = "";
+						this.declareReloaded();
+					}
+				);
+			} );
 		} );
 	};
 

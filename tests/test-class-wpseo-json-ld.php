@@ -111,8 +111,9 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 			'@id'      => '#person',
 			'name'     => $name,
 		);
-		$json       = self::$class_instance->format_data( $data_array );
-		$expected   = '<script type=\'application/ld+json\'>' . $json . '</script>' . "\n";
+
+		$json     = self::$class_instance->format_data( $data_array );
+		$expected = '<script type=\'application/ld+json\'>' . $json . '</script>' . "\n";
 
 		self::$class_instance->organization_or_person();
 		$this->expectOutput( $expected );

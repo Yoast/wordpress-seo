@@ -10,48 +10,56 @@
  * default WordPress output.
  */
 class WPSEO_Frontend {
+
 	/**
 	 * Instance of this class.
 	 *
 	 * @var object
 	 */
 	public static $instance;
+
 	/**
 	 * Toggle indicating whether output buffering has been started.
 	 *
 	 * @var boolean
 	 */
 	private $ob_started = false;
+
 	/**
 	 * Holds the canonical URL for the current page.
 	 *
 	 * @var string
 	 */
 	private $canonical = null;
+
 	/**
 	 * Holds the canonical URL for the current page that cannot be overriden by a manual canonical input.
 	 *
 	 * @var string
 	 */
 	private $canonical_no_override = null;
+
 	/**
 	 * Holds the canonical URL for the current page without pagination.
 	 *
 	 * @var string
 	 */
 	private $canonical_unpaged = null;
+
 	/**
 	 * Holds the pages meta description.
 	 *
 	 * @var string
 	 */
 	private $metadesc = null;
+
 	/**
 	 * Holds the generated title for the page.
 	 *
 	 * @var string
 	 */
 	private $title = null;
+
 	/**
 	 * @var WPSEO_Frontend_Page_Type
 	 */
@@ -133,6 +141,7 @@ class WPSEO_Frontend {
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
 			new WPSEO_JSON_LD(),
+			new WPSEO_Handle_404(),
 			new WPSEO_Remove_Reply_To_Com(),
 			new WPSEO_OpenGraph_OEmbed(),
 			$this->woocommerce_shop_page,
@@ -1324,7 +1333,7 @@ class WPSEO_Frontend {
 			$redir = $this->get_seo_meta_value( 'redirect', $post->ID );
 			if ( $redir !== '' ) {
 				header( 'X-Redirect-By: Yoast SEO' );
-				wp_redirect( $redir, 301 );
+				wp_redirect( $redir, 301, 'Yoast SEO' );
 				exit;
 			}
 		}
@@ -1432,7 +1441,7 @@ class WPSEO_Frontend {
 	 */
 	public function do_attachment_redirect( $attachment_url ) {
 		header( 'X-Redirect-By: Yoast SEO' );
-		wp_redirect( $attachment_url, 301 );
+		wp_redirect( $attachment_url, 301, 'Yoast SEO' );
 		exit;
 	}
 
@@ -1639,7 +1648,7 @@ class WPSEO_Frontend {
 	 */
 	public function redirect( $location, $status = 302 ) {
 		header( 'X-Redirect-By: Yoast SEO' );
-		wp_safe_redirect( $location, $status );
+		wp_safe_redirect( $location, $status, 'Yoast SEO' );
 		exit;
 	}
 

@@ -9,6 +9,7 @@
  * Helper class to provide needed shared code to implementations.
  */
 abstract class WPSEO_UnitTestCase_Frontend extends WPSEO_UnitTestCase {
+
 	/**
 	 * @var WPSEO_Frontend_Double
 	 */

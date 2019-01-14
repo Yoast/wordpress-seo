@@ -11,6 +11,7 @@
  * Class with functionality to import & clean SEOPressor post metadata.
  */
 class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
+
 	/**
 	 * The plugin name.
 	 *

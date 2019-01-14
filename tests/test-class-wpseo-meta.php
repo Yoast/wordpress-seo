@@ -36,7 +36,6 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'test_get_value_value', WPSEO_Meta::get_value( 'test_get_value_key' ) );
 
 		// @todo Test for defaults.
-
 		// @todo Test if non-existing keys return an empty string.
 	}
 

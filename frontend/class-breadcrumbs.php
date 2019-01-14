@@ -31,7 +31,6 @@ class WPSEO_Breadcrumbs {
 	 */
 	public static $after = '';
 
-
 	/**
 	 * Blog's show on front setting, 'page' or 'posts'.
 	 *

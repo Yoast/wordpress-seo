@@ -9,6 +9,7 @@
  * Class WPSEO_Config_Component_Connect_Google_Search_Console_Mock
  */
 class WPSEO_Config_Component_Connect_Google_Search_Console_Mock extends WPSEO_Config_Component_Connect_Google_Search_Console {
+
 	/**
 	 * @var string
 	 */

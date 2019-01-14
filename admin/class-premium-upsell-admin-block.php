@@ -9,6 +9,7 @@
  * Class WPSEO_Premium_Upsell_Admin_Block
  */
 class WPSEO_Premium_Upsell_Admin_Block {
+
 	/**
 	 * Hook to display the block on.
 	 *

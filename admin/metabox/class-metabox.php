@@ -429,10 +429,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	private function get_buy_premium_link() {
 		return sprintf(
-			'<div class="%1$s"><a target="_blank" rel="noopener noreferrer" href="%2$s"><span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>%3$s</a></div>',
-			'wpseo-metabox-buy-premium',
+			'<div class="wpseo-metabox-buy-premium"><a target="_blank" href="%1$s"><span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>%2$s%3$s</a></div>',
 			esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3g6' ) ),
-			__( 'Go Premium', 'wordpress-seo' )
+			esc_html__( 'Go Premium', 'wordpress-seo' ),
+			WPSEO_Admin_Utils::get_new_tab_message()
 		);
 	}
 
@@ -718,10 +718,25 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 			else {
 				if ( isset( $_POST[ $field_name ] ) ) {
-					$data = WPSEO_Utils::sanitize_text_field( wp_unslash( $_POST[ $field_name ] ) );
+					$data = wp_unslash( $_POST[ $field_name ] );
+
+					// For multi-select.
+					if ( is_array( $data ) ) {
+						$data = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), $data );
+					}
+
+					if ( is_string( $data ) ) {
+						$data = WPSEO_Utils::sanitize_text_field( $data );
+					}
+				}
+
+				// Reset options when no entry is present with multiselect - only applies to `meta-robots-adv` currently.
+				if ( ! isset( $_POST[ $field_name ] ) && ( $meta_box['type'] === 'multiselect' ) ) {
+					$data = array();
 				}
 			}
-			if ( isset( $data ) ) {
+
+			if ( $data !== null ) {
 				self::set_value( $key, $data, $post_id );
 			}
 		}
