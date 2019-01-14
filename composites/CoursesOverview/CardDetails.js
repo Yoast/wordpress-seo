@@ -136,6 +136,14 @@ class CardDetails extends React.Component {
 		);
 	}
 
+	/**
+	 * Returns the correct Action Block based on whether an item is a bundle or a single course.
+	 *
+	 * @param {string} buttonType The type of the button. Either regular or sale.
+	 * @param {boolean} isBundle True when the it's a bundle.
+	 *
+	 * @returns {ReactElement} The ActionBlock component.
+	 */
 	getActionBlock( buttonType, isBundle ) {
 		const OutboundLinkButton = makeOutboundLink( buttonType );
 
