@@ -97,7 +97,6 @@ export default class FAQ extends Component {
 	 */
 	changeQuestion( newQuestion, newAnswer, previousQuestion, previousAnswer, index ) {
 		const questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
-
 		if ( index >= questions.length ) {
 			return;
 		}
@@ -128,7 +127,7 @@ export default class FAQ extends Component {
 	 * @param {number}       [index]      The index of the Question after which a new Question should be added.
 	 * @param {array|string} [question]   The question of the new Question.
 	 * @param {array|string} [answer]     The answer of the new Question.
-	 * @param {bool}         [focus=true] Whether or not to focus the new Question.
+	 * @param {boolean}      [focus=true] Whether or not to focus the new Question.
 	 *
 	 * @returns {void}
 	 */
@@ -142,7 +141,7 @@ export default class FAQ extends Component {
 		let lastIndex = questions.length - 1;
 		while ( lastIndex > index ) {
 			this.editorRefs[ `${ lastIndex + 1 }:question` ] = this.editorRefs[ `${ lastIndex }:question` ];
-			this.editorRefs[ `${ lastIndex + 1}:answer` ]    = this.editorRefs[ `${ lastIndex }:answer` ];
+			this.editorRefs[ `${ lastIndex + 1 }:answer` ]   = this.editorRefs[ `${ lastIndex }:answer` ];
 			lastIndex--;
 		}
 
