@@ -51,16 +51,11 @@ class SeoAnalysis extends React.Component {
 	 */
 	renderSynonymsUpsell( location ) {
 		const modalProps = {
-			appElement: "#wpwrap",
-			openButtonIcon: "",
 			classes: {
 				openButton: "wpseo-keyword-synonyms button-link",
 			},
 			labels: {
 				open: "+ " + __( "Add synonyms", "wordpress-seo" ),
-				a11yNotice: {
-					opensInNewTab: __( "(Opens in a new browser tab!)", "wordpress-seo" ),
-				},
 				modalAriaLabel: sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
 					__( "Get %s", "wordpress-seo" ),
@@ -104,16 +99,11 @@ class SeoAnalysis extends React.Component {
 	 */
 	renderMultipleKeywordsUpsell( location ) {
 		const modalProps = {
-			appElement: "#wpwrap",
-			openButtonIcon: "",
 			classes: {
 				openButton: "wpseo-multiple-keywords button-link",
 			},
 			labels: {
 				open: "+ " + __( "Add related keyphrase", "wordpress-seo" ),
-				a11yNotice: {
-					opensInNewTab: __( "(Opens in a new browser tab!)", "wordpress-seo" ),
-				},
 				modalAriaLabel: sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
 					__( "Get %s", "wordpress-seo" ),
