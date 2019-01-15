@@ -68,12 +68,10 @@
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs"
 		],
 		"premium-check-cs": [
-			"composer require --dev yoast/yoastcs:~1.2.1 --update-with-dependencies --no-suggest --no-interaction",
+			"@before-premium-cs",
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --ignore=*/premium/cli/ --runtime-set ignore_warnings_on_exit 1",
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs ./premium/cli/ --runtime-set testVersion 5.3- --runtime-set ignore_warnings_on_exit 1",
-			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction",
-			"git checkout composer.lock",
-			"composer config-yoastcs"
+			"@after-premium-cs"
 		],
 		"check-cs-errors": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --error-severity=1 --warning-severity=6"
@@ -82,8 +80,14 @@
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcbf"
 		],
 		"premium-fix-cs": [
-			"composer require --dev yoast/yoastcs:~1.2.1 --update-with-dependencies --no-suggest --no-interaction",
+			"@before-premium-cs",
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf || true",
+			"@after-premium-cs"
+		],
+		"before-premium-cs": [
+			"composer require --dev yoast/yoastcs:~1.2.1 --update-with-dependencies --no-suggest --no-interaction"
+		],
+		"after-premium-cs": [
 			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction",
 			"git checkout composer.lock",
 			"composer config-yoastcs"
