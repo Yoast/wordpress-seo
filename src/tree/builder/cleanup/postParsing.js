@@ -12,7 +12,7 @@ import calculateTextIndices from "./calculateTextIndices";
  *
  * @private
  */
-const calculateSourceStartEndIndex = function( element ) {
+const calculateSourceIndices = function( element ) {
 	if ( element.location ) {
 		element.sourceStartIndex = element.location.startOffset;
 		element.sourceEndIndex = element.endTag ? element.location.endTag.endOffset : element.location.endOffset;
@@ -74,16 +74,18 @@ const cleanUpNode = function( node, html ) {
 
 	// Clean up formatting elements in headings and paragraphs.
 	if ( node instanceof LeafNode ) {
+		// Start and end position in leaf node's (header's or paragraph's) text without formatting.
 		calculateTextIndices( node );
 		node.textContainer.formatting = node.textContainer.formatting.map( element => {
-			calculateSourceStartEndIndex( element );
+			// Start and end position in text **with** formatting.
+			calculateSourceIndices( element );
 			deleteParseParameters( element );
 
 			return element;
 		} );
 	}
 
-	calculateSourceStartEndIndex( node );
+	calculateSourceIndices( node );
 	deleteParseParameters( node );
 
 	return node;
