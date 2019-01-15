@@ -7,6 +7,7 @@ const nounsToStem = [
 	[ "Städten", "Städt" ],
 	[ "Hauptstädten", "Hauptstädt" ],
 	[ "Krankenhäuser", "Krankenhäus" ],
+	// [ "größte", "größ" ],
 ];
 
 describe( "Test for stemming German words", () => {
