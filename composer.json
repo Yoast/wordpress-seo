@@ -83,7 +83,7 @@
 		],
 		"premium-fix-cs": [
 			"composer require --dev yoast/yoastcs:~1.2.1 --update-with-dependencies --no-suggest --no-interaction",
-			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf",
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf || true",
 			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction",
 			"git checkout composer.lock",
 			"composer config-yoastcs"
