@@ -1,6 +1,7 @@
 import { pullAll } from "lodash-es";
 
 import { ignoredHtmlElements } from "../htmlConstants";
+import getElementContent from "./getElementContent";
 
 /**
  * Gathers all elements that can be closed given the position of the current element in the source code.
@@ -62,23 +63,25 @@ const closeElements = function( elementsToClose, currentOffset ) {
 };
 
 /**
- * Adds the content length of the given element (the part between the tags) to the current offset.
+ * Adds the content length of the given element (the part between the tags) to the current offset
+ * and adds the content to the element as a parameter.
  *
  * @param {module:tree/structure.FormattingElement} element The element of which to add the content length.
+ * @param {string} html                                     The original html source code.
  * @param {number} currentOffset                            The current offset to which to add the length to.
  *
  * @returns {number} The updated current offset
  */
-const addIgnoredContentToOffset = function( element, currentOffset ) {
+const addIgnoredContentToOffset = function( element, html, currentOffset ) {
 	// Has 0 length in text, so end = start.
 	element.textEndIndex = element.textStartIndex;
 
-	// Update current offset.
-	const location = element.location;
-	const start = location.startTag ? location.startTag.endOffset : location.startOffset;
-	const end = location.endTag ? location.endTag.startOffset : location.endOffset;
+	// Set content.
+	const content = getElementContent( element, html );
+	element.content = content;
 
-	currentOffset += end - start;
+	// Update current offset.
+	currentOffset += content.length;
 
 	return currentOffset;
 };
@@ -87,21 +90,21 @@ const addIgnoredContentToOffset = function( element, currentOffset ) {
  * Sets the start and end position of the formatting elements in the given node's text.
  *
  * @param {module:tree/structure.LeafNode} node The node containing a TextContainer
+ * @param {string} html                         The source code
  *
  * @returns {void}
  *
  * @private
  */
-const calculateTextIndices = function( node ) {
+const calculateTextIndices = function( node, html ) {
 	if ( ! node.textContainer.formatting || node.textContainer.formatting.length === 0 ) {
 		return;
 	}
 
 	const openElements = [];
 	/*
-	  Keeps track of the current total size of the start and end tags
-	  and the ignored content that should not be counted towards
-	  the start and end position of the elements in the text.
+	  Keeps track of the current total size of the start and end tags (and the ignored content)
+	  These should not be counted towards the start and end position of the elements in the text.
 	 */
 	let currentOffset = node.location.startTag ? node.location.startTag.endOffset : node.location.startOffset;
 
@@ -141,7 +144,7 @@ const calculateTextIndices = function( node ) {
 		  so the current offset should be updated.
 		 */
 		if ( ignoredHtmlElements.includes( element.type ) ) {
-			currentOffset = addIgnoredContentToOffset( element, currentOffset );
+			currentOffset = addIgnoredContentToOffset( element, html, currentOffset );
 		}
 	} );
 	// Close all remaining elements.

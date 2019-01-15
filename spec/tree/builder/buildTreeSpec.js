@@ -347,10 +347,9 @@ describe( "build tree", () => {
 		const script = new FormattingElement( "script" );
 		script.sourceStartIndex = 47;
 		script.sourceEndIndex = 89;
-		// Is -1.
 		script.textStartIndex = 19;
-		// Is -1.
 		script.textEndIndex = 19;
+		script.content = "console.log('something');";
 
 		const strong = new FormattingElement( "strong" );
 		strong.sourceStartIndex = 107;

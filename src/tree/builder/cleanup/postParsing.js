@@ -1,6 +1,7 @@
 import { LeafNode } from "../../structure";
 import Ignored from "../../structure/nodes/Ignored";
 import calculateTextIndices from "./calculateTextIndices";
+import getElementContent from "./getElementContent";
 
 /**
  * Calculates the start and end index of the given node or formatting element,
@@ -37,26 +38,6 @@ const deleteParseParameters = function( element ) {
 };
 
 /**
- * Gets the content of an element (the part _between_ the opening and closing tag) from the HTML source code.
- *
- * @param {module:tree/structure.Node|module:tree/structure.FormattingElement} element The element to parse the contents of
- * @param {string} html                                                                The source code to parse the contents from
- *
- * @returns {string} The element's contents.
- *
- * @private
- */
-const getElementContent = function( element, html ) {
-	const location = element.location;
-	if ( location ) {
-		const start = location.startTag ? location.startTag.endOffset : location.startOffset;
-		const end = location.endTag ? location.endTag.startOffset : location.endOffset;
-		return html.slice( start, end );
-	}
-	return "";
-};
-
-/**
  * Cleans up a node in the tree.
  *
  * @param {module:tree/structure.Node} node The node that needs to be cleaned.
@@ -75,7 +56,7 @@ const cleanUpNode = function( node, html ) {
 	// Clean up formatting elements in headings and paragraphs.
 	if ( node instanceof LeafNode ) {
 		// Start and end position in leaf node's (header's or paragraph's) text without formatting.
-		calculateTextIndices( node );
+		calculateTextIndices( node, html );
 		node.textContainer.formatting = node.textContainer.formatting.map( element => {
 			// Start and end position in text **with** formatting.
 			calculateSourceIndices( element );
