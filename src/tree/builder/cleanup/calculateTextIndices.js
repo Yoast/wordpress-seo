@@ -51,10 +51,8 @@ const closeElements = function( elementsToClose, currentOffset ) {
 		// Set the end position as seen in the text.
 		elementToClose.textEndIndex = endTag.startOffset - currentOffset;
 		/*
-		  Add the end tag length of the to be closed element to the total offset,
-		  and remove the element from the stack.
+		  Add the end tag length of the to be closed element to the total offset.
 		 */
-		// For example: "</strong>".length
 		const endTagLength = endTag.endOffset - endTag.startOffset;
 		currentOffset += endTagLength;
 	} );
@@ -72,7 +70,7 @@ const closeElements = function( elementsToClose, currentOffset ) {
  *
  * @returns {number} The updated current offset
  */
-const addIgnoredContentToOffset = function( element, html, currentOffset ) {
+const handleIgnoredContent = function( element, html, currentOffset ) {
 	// Has 0 length in text, so end = start.
 	element.textEndIndex = element.textStartIndex;
 
@@ -139,12 +137,12 @@ const calculateTextIndices = function( node, html ) {
 		}
 
 		/*
-		  If this element is an ignored element
-		  its contents are not in the text,
-		  so the current offset should be updated.
+		  If this element is an ignored element its contents are not in the text,
+		  so its content should be added to the respective formatting element instead,
+		  and the current offset should be updated.
 		 */
 		if ( ignoredHtmlElements.includes( element.type ) ) {
-			currentOffset = addIgnoredContentToOffset( element, html, currentOffset );
+			currentOffset = handleIgnoredContent( element, html, currentOffset );
 		}
 	} );
 	// Close all remaining elements.
