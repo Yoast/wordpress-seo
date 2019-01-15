@@ -1,41 +1,18 @@
+import { pull } from "lodash-es";
+
 import getElementContent from "./getElementContent";
 import { ignoredHtmlElements } from "../htmlConstants";
 
-/**
- * Removes html tags from the given html string.
- * **Note**: Only the tags are removed, _not_ the element's contents.
- *
- * @param {string} html The html string from which to remove the html tags from.
- *
- * @returns {string} The string with the html tags removed.
- *
- * @private
- */
-const removeHtmlTags = function( html ) {
-	return html.replace( /<[^>]*>/g, "" );
-};
+const gatherElementsToBeClosed = function( currentElement, openElements ) {
 
-/**
- * Removes html elements deemed ignored in the analysis from the given html string.
- *
- * @param {string} html The html string to remove the ignored html elements from.
- *
- * @returns {string} The html string with the ignored html elements removed.
- *
- * @private
- */
-const removeIrrelevantHtml = function( html ) {
-	ignoredHtmlElements.forEach( tag => {
-		const regex = new RegExp( `<${tag}.*>.*</${tag}>`, "g" );
-		html = html.replace( regex, "" );
-	} );
-	return html;
 };
 
 /**
  * Closes the elements that can be closed given the position of the current element within the source code.
  *
- * The closed elements' end tag lengths are counted towards the current offset, to make sure that the computed position
+ * This does two things:
+ *  1. The closed element's text end index is calculated based on the current offset.
+ *  2. The closed element's end tag lengths are counted towards the current offset, to make sure that the computed position
  * of the formatting elements are still correct.
  *
  * Elements that can be closed are all elements that are opened before this element, but in which this element is
@@ -60,41 +37,30 @@ const closeElements = function( currentElement, openElements, currentOffset ) {
 	  Gather all the elements that can be closed
 	  (in other words when the current element is not nested inside the element to be closed).
 	 */
-	const elementsToClose = openElements.filter( el => el.endTagPosition <= currentElement.location.startOffset );
+	const elementsToClose = openElements.filter( el => {
+		const endTag = el.location.endTag;
+		return endTag.endOffset <= currentElement.location.startOffset;
+	} );
+
+	// Sort, so we close all elements in the right order.
+	elementsToClose.sort( ( a, b ) => a.location.endTag.endOffset - b.location.endTag.endOffset );
+
 	elementsToClose.forEach( elementToClose => {
+		const endTag = elementToClose.location.endTag;
+		// For example: "</strong>".length
+		const endTagLength = endTag.endOffset - endTag.startOffset;
+
+		elementToClose.textEndIndex = endTag.startOffset - currentOffset;
 		/*
 		  Add the end tag length of the to be closed element to the total offset,
 		  and remove the element from the stack.
 		 */
-		currentOffset += elementToClose.endTagLength;
+		currentOffset += endTagLength;
 		const index = openElements.indexOf( elementToClose );
 		openElements.splice( index, 1 );
 	} );
 
 	return currentOffset;
-};
-
-/**
- * Appends the given element to the list of opened elements (if it is not a self closing one or a void element like `img`).
- *
- * @param {module:tree/structure.FormattingElement} element        The element to append to the list.
- * @param {Object[]} openElements                     The current list of opened elements.
- *
- * @returns {void}
- *
- * @private
- */
-const appendToOpenElements = function( element, openElements ) {
-	const endTag = element.location.endTag;
-	// Not all elements have end tags (e.g. void elements like images and self-closing elements).
-	if ( endTag ) {
-		// For example: "</strong>".length
-		const endTagLength = endTag.endOffset - endTag.startOffset;
-		openElements.push( {
-			endTagPosition: endTag.endOffset,
-			endTagLength: endTagLength,
-		} );
-	}
 };
 
 /**
@@ -125,20 +91,27 @@ const calculateTextIndices = function( node, html ) {
 		currentOffset = closeElements( element, openElements, currentOffset );
 
 		const startTag = element.location.startTag;
+		const endTag = element.location.endTag;
 
 		// For example: "<strong>".length
 		const startTagLength = startTag.endOffset - startTag.startOffset;
 
 		currentOffset += startTagLength;
 
-		appendToOpenElements( element, openElements );
-
-		const rawContent = getElementContent( element, html );
-		const content = removeHtmlTags( removeIrrelevantHtml( rawContent ) );
-
-		// Set start and end position of element in textContainer's text.
+		// Set start position of element in heading's / paragraph's text.
 		element.textStartIndex = startTag.endOffset - currentOffset;
-		element.textEndIndex = element.textStartIndex + content.length;
+
+		if ( endTag ) {
+			// Keep track of the elements that needs to be closed.
+			openElements.push( element );
+		} else {
+			/*
+			  Some elements have no end tags,
+			  e.g. void elements like <img/> or self-closing elements.
+			  We can close them immediately (with length of 0).
+			 */
+			element.textEndIndex = element.textStartIndex;
+		}
 
 		/*
 		  If this element is an ignored element
@@ -148,8 +121,22 @@ const calculateTextIndices = function( node, html ) {
 		if ( ignoredHtmlElements.includes( element.type ) ) {
 			// Has 0 length in text, so end = start.
 			element.textEndIndex = element.textStartIndex;
+			const rawContent = getElementContent( element, html );
 			currentOffset += rawContent.length;
 		}
+	} );
+
+	// Sort, so we close all elements in the right order.
+	openElements.sort( ( a, b ) => a.location.endTag.endOffset - b.location.endTag.endOffset );
+
+	openElements.forEach( element => {
+		const endTag = element.location.endTag;
+		// For example: "</strong>".length
+		const endTagLength = endTag.endOffset - endTag.startOffset;
+
+		element.textEndIndex = endTag.startOffset - currentOffset;
+
+		currentOffset += endTagLength;
 	} );
 };
 
