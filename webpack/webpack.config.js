@@ -38,7 +38,7 @@ module.exports = function( env = { environment: "production", recalibration: "di
 		"local.wordpress.test",
 		"build.wordpress-develop.test",
 		"src.wordpress-develop.test",
-	].concat( ( process.env.ALLOWED_HOSTS || [] ).split( " " ) );
+	].concat( ( process.env.ALLOWED_HOSTS || "" ).split( " " ) );
 
 	const outputFilenameMinified = "[name]-" + pluginVersionSlug + ".min.js";
 	const outputFilenameUnminified = "[name]-" + pluginVersionSlug + ".js";
