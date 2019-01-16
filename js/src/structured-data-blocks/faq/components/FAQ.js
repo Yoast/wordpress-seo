@@ -152,7 +152,7 @@ export default class FAQ extends Component {
 
 		if ( focus ) {
 			setTimeout( this.setFocus.bind( this, `${ index + 1 }:question` ) );
-			// When moving focus to a newly created question, return and don't use the speak() messaage.
+			// When moving focus to a newly created question, return and don't use the speak() message.
 			return;
 		}
 
