@@ -34,6 +34,7 @@ const externals = {
 module.exports = function( env = { environment: "production", recalibration: "disabled" } ) {
 	const mode = env.environment || process.env.NODE_ENV || "production";
 	const isRecalibration = ( env.recalibration || process.env.YOAST_RECALIBRATION || "disabled" ) === "enabled";
+	const allowedHosts = [ "local.wordpress.test" ].concat( ( process.env.ALLOWED_HOSTS || [] ).split( " " ) );
 
 	const outputFilenameMinified = "[name]-" + pluginVersionSlug + ".min.js";
 	const outputFilenameUnminified = "[name]-" + pluginVersionSlug + ".js";
@@ -263,6 +264,7 @@ module.exports = function( env = { environment: "production", recalibration: "di
 	if ( mode === "development" ) {
 		config[ 0 ].devServer = {
 			publicPath: "/",
+			allowedHosts,
 		};
 	}
 
