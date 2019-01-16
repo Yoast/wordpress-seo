@@ -188,8 +188,22 @@ class TreeAdapter {
 	static _appendFormattingElement( parent, formattingElement ) {
 		formattingElement.parent = parent;
 		if ( parent instanceof StructuredNode ) {
-			// Wrap it in a paragraph, add it as formatting.
-			TreeAdapter._addOrphanedFormattingElement( parent, formattingElement );
+			/*
+			  If the previous child is an implicit paragraph ("[p]"),
+			  we should add the formatting element to it, instead of making a new paragraph.
+
+			  E.g. in the case of `<div>[p]Hello [/p]<em>World!</em></div>`,
+			  "<em>World!</em>" should be added to "[p]Hello [p]".
+			 */
+			const prevChild = parent.children[ parent.children.length - 1 ];
+			if ( prevChild && prevChild instanceof Paragraph && ! prevChild.isExplicit() ) {
+				// Add it to the implicit paragraph.
+				prevChild.textContainer.formatting.push( formattingElement );
+				formattingElement.parent = prevChild;
+			} else {
+				// Wrap it in a new implicit paragraph, add it as formatting.
+				TreeAdapter._addOrphanedFormattingElement( parent, formattingElement );
+			}
 		} else {
 			/*
 			 Formatting elements can be nested, we want to add it to

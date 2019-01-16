@@ -453,6 +453,36 @@ describe( "build tree", () => {
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
+	it( "makes an implicit paragraph within a structured element and can add formatting elements to it", () => {
+		const input = "<div>This is a <strong>sentence</strong></div>";
+
+		const strong = new FormattingElement( "strong" );
+		strong.sourceStartIndex = 15;
+		strong.sourceEndIndex = 40;
+		strong.textStartIndex = 10;
+		strong.textEndIndex = 18;
+
+		const paragraph = new Paragraph();
+		paragraph.sourceStartIndex = 5;
+		paragraph.sourceEndIndex = 15;
+		paragraph.text = "This is a sentence";
+		paragraph.textContainer.formatting = [ strong ];
+
+		const div = new StructuredNode( "div" );
+		div.sourceStartIndex = 0;
+		div.sourceEndIndex = 46;
+		div.children = [ paragraph ];
+
+		const expected = new StructuredNode( "root" );
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 46;
+		expected.children = [ div ];
+
+		const tree = buildTree( input );
+
+		expect( tree.toString() ).toEqual( expected.toString() );
+	} );
+
 	it( "can parse a big HTML text", () => {
 		buildTree( htmlFile );
 	} );
