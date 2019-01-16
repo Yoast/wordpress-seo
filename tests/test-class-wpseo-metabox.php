@@ -108,8 +108,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$meta_fields = apply_filters( 'wpseo_save_metaboxes', array() );
 		$meta_fields = array_merge(
 			$meta_fields,
-			self::$class_instance->get_meta_field_defs( 'general', $post->post_type ),
-			self::$class_instance->get_meta_field_defs( 'advanced' )
+			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
+			WPSEO_Meta::get_meta_field_defs( 'advanced' )
 		);
 
 		// Set $_POST data to be saved.
@@ -117,10 +117,10 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 			// Set text fields.
 			if ( $field['type'] === 'text' ) {
-				$_POST[ WPSEO_Metabox::$form_prefix . $key ] = 'text';
+				$_POST[ WPSEO_Meta::$form_prefix . $key ] = 'text';
 			}
 			elseif ( $field['type'] === 'checkbox' ) {
-				$_POST[ WPSEO_Metabox::$form_prefix . $key ] = 'on';
+				$_POST[ WPSEO_Meta::$form_prefix . $key ] = 'on';
 			}
 		}
 
@@ -131,11 +131,11 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$custom = get_post_custom( $post->ID );
 		foreach ( $meta_fields as $key => $field ) {
 
-			if ( ! isset( $custom[ WPSEO_Metabox::$meta_prefix . $key ][0] ) ) {
+			if ( ! isset( $custom[ WPSEO_Meta::$meta_prefix . $key ][0] ) ) {
 				continue;
 			}
 
-			$value = $custom[ WPSEO_Metabox::$meta_prefix . $key ][0];
+			$value = $custom[ WPSEO_Meta::$meta_prefix . $key ][0];
 
 			// Set text fields.
 			if ( $field['type'] === 'text' ) {
