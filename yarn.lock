@@ -12625,9 +12625,9 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-"yoast-components@git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.6":
+"yoast-components@git+https://github.com/Yoast/yoast-components.git#develop":
   version "4.18.1"
-  resolved "git+https://github.com/Yoast/yoast-components.git#d0bf5f534c6fc3524350ccb272d6025c99d871d6"
+  resolved "git+https://github.com/Yoast/yoast-components.git#bbc74da25a81bde52c475a063c44eee2e7b0463e"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
