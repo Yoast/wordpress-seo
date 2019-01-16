@@ -399,6 +399,9 @@ HowToStep.propTypes = {
 	isSelected: PropTypes.bool.isRequired,
 	isFirst: PropTypes.bool.isRequired,
 	isLast: PropTypes.bool.isRequired,
-	isUnorderedList: PropTypes.bool.isRequired,
+	isUnorderedList: PropTypes.bool,
 };
 
+HowToStep.defaultProps = {
+	isUnorderedList: false,
+};
