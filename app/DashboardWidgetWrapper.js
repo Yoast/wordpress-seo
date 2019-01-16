@@ -1,17 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
+import ExamplesContainer from "./ExamplesContainer";
 import getPostFeed from "../utils/getPostFeed";
 
 import {
 	DashboardWidgetSeoAssessment,
 	DashboardWidgetWordpressFeed,
 } from "../composites/Plugin/DashboardWidget";
-
-export const DashboardWidgetContainer = styled.div`
-   min-height: 700px;
-   background-color: white;
-`;
 
 export const DashboardContainer = styled.div`
 	padding: 8px;
@@ -87,7 +83,7 @@ export default class DashboardWidget extends React.Component {
 		const feed = this.state.feed;
 
 		return (
-			<DashboardWidgetContainer>
+			<ExamplesContainer>
 				<DashboardContainer>
 					<DashboardWidgetSeoAssessment
 						seoAssessmentText="Your SEO score is decent overall, but can be improved! Get to work!"
@@ -98,7 +94,7 @@ export default class DashboardWidget extends React.Component {
 						footerLinkText="View our blog on yoast.com!"
 					/> }
 				</DashboardContainer>
-			</DashboardWidgetContainer>
+			</ExamplesContainer>
 		);
 	}
 }
