@@ -325,7 +325,7 @@ td.column-wpseo-linked {
 
 	// Show score text on mobile.
 	.screen-reader-text.wpseo-score-text {
-		position: static;
+		position: static !important;
 		clip-path: none;
 		width: auto;
 		height: auto;
