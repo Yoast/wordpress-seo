@@ -104,7 +104,6 @@ describe( "Node", () => {
 		} );
 
 		it( "does not recursively call the forEach function when a node has no children", () => {
-
 			const tree = new StructuredNode( "root" );
 			tree.sourceStartIndex = 0;
 			tree.sourceEndIndex = 20;
