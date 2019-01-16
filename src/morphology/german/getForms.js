@@ -1,10 +1,10 @@
-import { flatten, flattenDeep, uniq as unique } from "lodash-es";
+import { flattenDeep, uniq as unique } from "lodash-es";
 import { getNounForms } from "./getNounForms";
 import stem from "./stem";
 
-const checkNounsWithUmlautChange = function( morphologyDataNouns, stemmedWordToCheck ) {
-	for ( const stemDataSet in morphologyDataNouns.stemsWithUmlaut ) {
-		const currentStemDataSet = morphologyDataNouns.stemsWithUmlaut[ stemDataSet ];
+const checkStemsFromExceptionList = function( exceptionCategory, stemmedWordToCheck ) {
+	for ( const stemDataSet in exceptionCategory ) {
+		const currentStemDataSet = exceptionCategory[ stemDataSet ];
 
 		const stemPairToCheck = currentStemDataSet[ 0 ];
 
@@ -32,26 +32,30 @@ const checkNounsWithUmlautChange = function( morphologyDataNouns, stemmedWordToC
 		}
 	}
 
-	console.log( "no exception found" );
-
 	return [];
 };
 
-const checkExceptions = function( morphologyDataNouns, stemToCheck ) {
-	const exceptionForms = [];
-
-	exceptionForms.push( checkNounsWithUmlautChange( morphologyDataNouns, stemToCheck ) );
-
-	return flatten( exceptionForms );
+const checkExceptions = function( morphologyDataNounExceptions, stemmedWordToCheck ) {
+	for ( const category in morphologyDataNounExceptions ) {
+		const exceptions = checkStemsFromExceptionList( morphologyDataNounExceptions[ category ], stemmedWordToCheck );
+		if ( exceptions.length > 0 ) {
+			return exceptions;
+		}
+	}
+	return [];
 };
 
 export function getForms( word, morphologyData ) {
 	const stemmedWord = stem( word );
 	const forms = new Array( word );
+	const exceptions = checkExceptions( morphologyData.nouns.exceptionStemsWithFullForms, stemmedWord );
 
 	// Check exceptions.
-	if ( checkExceptions( morphologyData.nouns, stemmedWord ).length > 0 ) {
-		forms.push( checkExceptions( morphologyData.nouns, stemmedWord ) );
+	if ( exceptions.length > 0 ) {
+		forms.push( exceptions );
+
+		console.log( "forms", flattenDeep( forms ) );
+
 		return unique( flattenDeep( forms ) );
 	}
 	// If the stem wasn't found on any exception list, add all regular suffixes.

@@ -1,13 +1,12 @@
 import stem from "../../../src/morphology/german/stem";
 
 const nounsToStem = [
-	[ "Studenten", "Student" ],
-	[ "Häuser", "Häus" ],
-	[ "Stadt", "Stadt" ],
-	[ "Städten", "Städt" ],
-	[ "Hauptstädten", "Hauptstädt" ],
-	[ "Krankenhäuser", "Krankenhäus" ],
-	// [ "größte", "größ" ],
+	[ "studenten", "student" ],
+	[ "häuser", "häus" ],
+	[ "stadt", "stadt" ],
+	[ "städten", "städt" ],
+	[ "hauptstädten", "hauptstädt" ],
+	[ "krankenhäuser", "krankenhäus" ],
 ];
 
 describe( "Test for stemming German words", () => {
