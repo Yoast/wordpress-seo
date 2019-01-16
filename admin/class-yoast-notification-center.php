@@ -60,6 +60,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Internal flag for whether the persistent store of this user's notifications
 	 * was empty when we loaded from it.
+	 *
 	 * @var bool
 	 */
 	private $notifications_storage_empty = false;
