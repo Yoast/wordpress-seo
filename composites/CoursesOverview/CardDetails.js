@@ -123,7 +123,6 @@ class CardDetails extends React.Component {
 	 */
 	render() {
 		const buttonType = this.props.ctaButtonData.ctaButtonType === "regular" ? CardRegularButton : CardUpsellButton;
-		const OutboundLinkButton = makeOutboundLink( buttonType );
 
 		return (
 			<Fragment>
@@ -132,16 +131,38 @@ class CardDetails extends React.Component {
 						dangerouslySetInnerHTML={ { __html: this.props.description } }
 					/>
 				</Details>
-				<ActionBlock>
-					<OutboundLinkButton href={ this.props.ctaButtonData.ctaButtonUrl } rel={ null }>
-						{ this.props.ctaButtonData.ctaButtonCopy }
-					</OutboundLinkButton>
-					<OutboundInfoLink href={ this.props.courseUrl } rel={ null }>
-						{ this.props.readMoreLinkText }
-					</OutboundInfoLink>
-				</ActionBlock>
+				{ this.getActionBlock( buttonType, this.props.isBundle ) }
 			</Fragment>
 		);
+	}
+
+	/**
+	 * Returns the correct Action Block based on whether an item is a bundle or a single course.
+	 *
+	 * @param {string} buttonType The type of the button. Either regular or sale.
+	 * @param {boolean} isBundle True when the it's a bundle.
+	 *
+	 * @returns {ReactElement} The ActionBlock component.
+	 */
+	getActionBlock( buttonType, isBundle ) {
+		const OutboundLinkButton = makeOutboundLink( buttonType );
+
+		// Bundles don't have an OutboundInfoLink and use a different property from the feed for the OutboundLinkButton.
+		if ( isBundle === "true" ) {
+			return <ActionBlock>
+				<OutboundLinkButton href={ this.props.courseUrl } rel={ null }>
+					{ this.props.ctaButtonData.ctaButtonCopy }
+				</OutboundLinkButton>
+			</ActionBlock>;
+		}
+		return <ActionBlock>
+			<OutboundLinkButton href={ this.props.ctaButtonData.ctaButtonUrl } rel={ null }>
+				{ this.props.ctaButtonData.ctaButtonCopy }
+			</OutboundLinkButton>
+			<OutboundInfoLink href={ this.props.courseUrl } rel={ null }>
+				{ this.props.readMoreLinkText }
+			</OutboundInfoLink>
+		</ActionBlock>;
 	}
 }
 
@@ -152,6 +173,7 @@ CardDetails.propTypes = {
 	courseUrl: PropTypes.string,
 	ctaButtonData: PropTypes.object,
 	readMoreLinkText: PropTypes.string,
+	isBundle: PropTypes.bool,
 };
 
 CardDetails.defaultProps = {
@@ -159,4 +181,5 @@ CardDetails.defaultProps = {
 	courseUrl: "",
 	ctaButtonData: {},
 	readMoreLinkText: "",
+	isBundle: false,
 };

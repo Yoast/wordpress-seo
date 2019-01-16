@@ -1,14 +1,15 @@
 import React from "react";
 
+import ExamplesContainer from "./ExamplesContainer";
 import ContentAnalysis from "../composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import LanguageNoticeWrapper from "./LanguageNoticeWrapper.js";
 
 /**
- * Returns the HelpCenterWrapper component.
+ * Returns the ContentAnalysisWrapper component.
  *
- * @returns {ReactElement} The HelpCenterWrapper component.
+ * @returns {ReactElement} The ContentAnalysisWrapper component.
  */
-export default function HelpCenterWrapper() {
+export default function ContentAnalysisWrapper() {
 	const problemsResults = [
 		{
 			text: "Your text is bad, and you should feel bad.",
@@ -63,7 +64,7 @@ export default function HelpCenterWrapper() {
 	];
 
 	return (
-		<div>
+		<ExamplesContainer>
 			<LanguageNoticeWrapper
 				changeLanguageLink="#"
 				language="English"
@@ -82,6 +83,6 @@ export default function HelpCenterWrapper() {
 				} }
 				marksButtonStatus={ "enabled" }
 			/>
-		</div>
+		</ExamplesContainer>
 	);
 }
