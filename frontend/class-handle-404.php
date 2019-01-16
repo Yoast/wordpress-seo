@@ -65,6 +65,7 @@ class WPSEO_Handle_404 implements WPSEO_WordPress_Integration {
 		$this->set_404();
 
 		add_filter( 'old_slug_redirect_url', '__return_false' );
+		add_filter( 'redirect_canonical', '__return_false' );
 
 		return true;
 	}
