@@ -478,7 +478,7 @@ setWordPressSeoL10n();
 		editStore.subscribe( handleStoreChange.bind( null, editStore, YoastSEO.app.refresh ) );
 
 		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, editStore );
-		const shortcodePlugin = new YoastShortcodePlugin( app );
+		const shortcodePlugin = new YoastShortcodePlugin( YoastSEO.app.registerPlugin, YoastSEO.app.registerModification, YoastSEO.app.pluginReady, YoastSEO.app.pluginReloaded );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
 			const markdownPlugin = new YoastMarkdownPlugin( YoastSEO.app.registerPlugin, YoastSEO.app.registerModification );
