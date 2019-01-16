@@ -104,7 +104,7 @@ const calculateTextIndices = function( node, html ) {
 	  Keeps track of the current total size of the start and end tags (and the ignored content)
 	  These should not be counted towards the start and end position of the elements in the text.
 	 */
-	let currentOffset = node.location.startTag ? node.location.startTag.endOffset : node.location.startOffset;
+	let currentOffset = node.location.startTag.endOffset;
 
 	node.textContainer.formatting.forEach( element => {
 		// Close elements that can be closed.

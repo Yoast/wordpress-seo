@@ -16,7 +16,7 @@ import getElementContent from "./getElementContent";
 const calculateSourceIndices = function( element ) {
 	if ( element.location ) {
 		element.sourceStartIndex = element.location.startOffset;
-		element.sourceEndIndex = element.endTag ? element.location.endTag.endOffset : element.location.endOffset;
+		element.sourceEndIndex = element.location.endOffset;
 	}
 };
 

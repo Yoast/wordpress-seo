@@ -59,6 +59,65 @@ describe( "Node", () => {
 			expect( tree.children[ 0 ].text ).toEqual( "[REDACTED]" );
 			expect( tree.children[ 1 ].children[ 0 ].text ).toEqual( "[REDACTED]" );
 		} );
+
+		it( "recursively calls itself", () => {
+			const heading = new Heading( 1 );
+			heading.sourceStartIndex = 3;
+			heading.sourceEndIndex = 12;
+			heading.text = "A Message to the Globe";
+
+			const tree = new StructuredNode( "root" );
+			tree.sourceStartIndex = 0;
+			tree.sourceEndIndex = 20;
+			tree.children = [ heading ];
+
+			const mockFunction = jest.fn();
+
+			tree.map( node => {
+				mockFunction( node );
+				return node;
+			} );
+
+			expect( mockFunction.mock.calls ).toEqual( [ [ tree ], [ heading ] ] );
+		} );
+	} );
+
+	describe( "forEach function", () => {
+		it( "recursively calls the forEach function on each node of the tree", () => {
+			const heading = new Heading( 1 );
+			heading.sourceStartIndex = 3;
+			heading.sourceEndIndex = 12;
+			heading.text = "A Message to the Globe";
+
+			const tree = new StructuredNode( "root" );
+			tree.sourceStartIndex = 0;
+			tree.sourceEndIndex = 20;
+			tree.children = [ heading ];
+
+			const mockFunction = jest.fn();
+
+			tree.forEach( node => {
+				mockFunction( node );
+			} );
+
+			expect( mockFunction.mock.calls ).toEqual( [ [ tree ], [ heading ] ] );
+		} );
+
+		it( "does not recursively call the forEach function when a node has no children", () => {
+
+			const tree = new StructuredNode( "root" );
+			tree.sourceStartIndex = 0;
+			tree.sourceEndIndex = 20;
+			tree.children = [ ];
+
+			const mockFunction = jest.fn();
+
+			tree.forEach( node => {
+				mockFunction( node );
+			} );
+
+			expect( mockFunction.mock.calls ).toEqual( [ [ tree ] ] );
+		} );
 	} );
 } );
 
