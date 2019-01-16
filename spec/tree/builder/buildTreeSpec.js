@@ -5,7 +5,7 @@ import { Paragraph, StructuredNode, FormattingElement,
 import htmlFile from "../../fullTextTests/testTexts/en/englishPaper1.html";
 import htmlFile2 from "../../fullTextTests/testTexts/de/germanPaper2.html";
 
-import fullTexts  from "../../fullTextTests/testTexts";
+import fullTexts from "../../fullTextTests/testTexts";
 
 describe( "build tree", () => {
 	it( "can build a tree from HTML source code", () => {
@@ -87,7 +87,7 @@ describe( "build tree", () => {
 		expected.sourceEndIndex = 66;
 		expected.children = [ heading ];
 
-		expect(  tree.toString() ).toEqual( expected.toString() );
+		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse an HTML comment into StructuredIrrelevant node", () => {
@@ -148,7 +148,7 @@ describe( "build tree", () => {
 		expected.sourceEndIndex = 36;
 		expected.children = [ list ];
 
-		expect(  tree.toString() ).toEqual( expected.toString() );
+		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse HTML into a List with ListItems, which are simple paragraphs or structured nodes", () => {
@@ -191,7 +191,7 @@ describe( "build tree", () => {
 		expected.sourceEndIndex = 55;
 		expected.children = [ list ];
 
-		expect(  tree.toString() ).toEqual( expected.toString() );
+		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
 
@@ -220,7 +220,7 @@ describe( "build tree", () => {
 		expected.sourceEndIndex = 62;
 		expected.children = [ section ];
 
-		expect(  tree.toString() ).toEqual( expected.toString() );
+		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse an HTML text into a StructuredNode with a few siblings", () => {
@@ -248,7 +248,7 @@ describe( "build tree", () => {
 		expected.sourceEndIndex = 80;
 		expected.children = [ section ];
 
-		expect(  tree.toString() ).toEqual( expected.toString() );
+		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse an irrelevant HTML element and its contents into a StructuredIrrelevant node.", () => {
@@ -280,7 +280,7 @@ describe( "build tree", () => {
 		expected.sourceEndIndex = 119;
 		expected.children = [ section ];
 
-		expect(  tree.toString() ).toEqual( expected.toString() );
+		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse an HTML text with text in front", () => {
