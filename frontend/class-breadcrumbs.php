@@ -11,74 +11,99 @@
 class WPSEO_Breadcrumbs {
 
 	/**
-	 * @var object    Instance of this class
+	 * Instance of this class.
+	 *
+	 * @var object
 	 */
 	public static $instance;
 
 	/**
-	 * @var string    Last used 'before' string
+	 * Last used 'before' string.
+	 *
+	 * @var string
 	 */
 	public static $before = '';
 
 	/**
-	 * @var string    Last used 'after' string
+	 * Last used 'after' string.
+	 *
+	 * @var string
 	 */
 	public static $after = '';
 
-
 	/**
-	 * @var string    Blog's show on front setting, 'page' or 'posts'
+	 * Blog's show on front setting, 'page' or 'posts'.
+	 *
+	 * @var string
 	 */
 	private $show_on_front;
 
 	/**
-	 * @var mixed    Blog's page for posts setting, page id or false
+	 * Blog's page for posts setting, page id or false.
+	 *
+	 * @var mixed
 	 */
 	private $page_for_posts;
 
 	/**
-	 * @var mixed    Current post object
+	 * Current post object.
+	 *
+	 * @var mixed
 	 */
 	private $post;
 
 	/**
-	 * @var string    HTML wrapper element for a single breadcrumb element
+	 * HTML wrapper element for a single breadcrumb element.
+	 *
+	 * @var string
 	 */
 	private $element = 'span';
 
 	/**
-	 * @var string    Yoast SEO breadcrumb separator
+	 * Yoast SEO breadcrumb separator.
+	 *
+	 * @var string
 	 */
 	private $separator = '';
 
 	/**
-	 * @var string    HTML wrapper element for the Yoast SEO breadcrumbs output
+	 * HTML wrapper element for the Yoast SEO breadcrumbs output.
+	 *
+	 * @var string
 	 */
 	private $wrapper = 'span';
 
 	/**
-	 * @var array    Array of crumbs
+	 * Array of crumbs.
 	 *
 	 * Each element of the crumbs array can either have one of these keys:
 	 *    "id"         for post types;
 	 *    "ptarchive"  for a post type archive;
 	 *    "term"       for a taxonomy term.
 	 * OR it consists of a predefined set of 'text', 'url' and 'allow_html'.
+	 *
+	 * @var array
 	 */
 	private $crumbs = array();
 
 	/**
-	 * @var array    Count of the elements in the $crumbs property
+	 * Count of the elements in the $crumbs property.
+	 *
+	 * @var array
 	 */
 	private $crumb_count = 0;
 
 	/**
-	 * @var array    Array of individual (linked) html strings created from crumbs
+	 * Array of individual (linked) html strings created from crumbs.
+	 *
+	 * @var array
 	 */
 	private $links = array();
 
 	/**
-	 * @var string    Breadcrumb html string
+	 * Breadcrumb html string.
+	 *
+	 * @var string
 	 */
 	private $output;
 
@@ -518,13 +543,26 @@ class WPSEO_Breadcrumbs {
 
 	/**
 	 * Add Blog crumb to the crumbs property for single posts where Home != blogpage.
+	 *
+	 * @return void
 	 */
 	private function maybe_add_blog_crumb() {
-		if ( ( 'page' === $this->show_on_front && 'post' === get_post_type() ) && ( ! is_home() && ! is_search() ) ) {
-			if ( $this->page_for_posts && WPSEO_Options::get( 'breadcrumbs-display-blog-page' ) === true ) {
-				$this->add_blog_crumb();
-			}
+		// When the show blog page is not enabled.
+		if ( WPSEO_Options::get( 'breadcrumbs-display-blog-page' ) !== true ) {
+			return;
 		}
+
+		// When there is no page configured as blog page.
+		if ( 'page' !== $this->show_on_front || ! $this->page_for_posts ) {
+			return;
+		}
+
+		// When the current page is the home page, searchpage or isn't a singular post.
+		if ( is_home() || is_search() || ! is_singular( 'post' ) ) {
+			return;
+		}
+
+		$this->add_blog_crumb();
 	}
 
 	/**

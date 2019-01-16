@@ -9,6 +9,7 @@
  * Class WPSEO_Help_Center
  */
 class WPSEO_Help_Center {
+
 	/**
 	 * The tabs in the help center.
 	 *
@@ -205,13 +206,17 @@ class WPSEO_Help_Center {
 		$popup_content .= '<li>' . sprintf(
 			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
-				__( '%1$sNo more dead links%2$s: easy redirect manager', 'wordpress-seo' ), '', ''
+			__( '%1$sNo more dead links%2$s: easy redirect manager', 'wordpress-seo' ),
+			'',
+			''
 		) . '</li>';
 		$popup_content .= '<li>' . __( 'Superfast internal links suggestions', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '<li>' . sprintf(
 			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
-				__( '%1$sSocial media preview%2$s: Facebook &amp; Twitter', 'wordpress-seo' ), '', ''
+			__( '%1$sSocial media preview%2$s: Facebook &amp; Twitter', 'wordpress-seo' ),
+			'',
+			''
 		) . '</li>';
 		$popup_content .= '<li>' . __( '24/7 support', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '<li>' . __( 'No ads!', 'wordpress-seo' ) . '</li>';

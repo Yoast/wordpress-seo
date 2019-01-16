@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 
 import { SeoAssessment, ScoreAssessments, utils, WordpressFeed, colors } from "yoast-components";
 import { setYoastComponentsL10n } from "./helpers/i18n";
-const { getFeed } = utils;
+const { getPostFeed } = utils;
 
 class DashboardWidget extends React.Component {
 	/**
@@ -92,12 +92,11 @@ class DashboardWidget extends React.Component {
 	 */
 	getFeed() {
 		// Developer note: this link should -not- be converted to a shortlink.
-		getFeed( "https://yoast.com/feed/widget/", 2 )
+		getPostFeed( "https://yoast.com/feed/widget/", 2 )
 			.then( ( feed ) => {
 				feed.items = feed.items.map( ( item ) => {
 					item.description = jQuery( `<div>${ item.description }</div>` ).text();
 					item.description = item.description.replace( `The post ${ item.title } appeared first on Yoast.`, "" ).trim();
-					item.content = jQuery( `<div>${ item.content }</div>` ).text();
 
 					return item;
 				} );
@@ -167,7 +166,7 @@ class DashboardWidget extends React.Component {
 			key="yoast-seo-blog-feed"
 			title={ wpseoDashboardWidgetL10n.feed_header }
 			feed={ this.state.feed }
-			footerHtml={ wpseoDashboardWidgetL10n.feed_footer }
+			footerLinkText={ wpseoDashboardWidgetL10n.feed_footer }
 		/>;
 	}
 

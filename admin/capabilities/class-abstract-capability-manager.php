@@ -9,7 +9,12 @@
  * Abstract Capability Manager shared code.
  */
 abstract class WPSEO_Abstract_Capability_Manager implements WPSEO_Capability_Manager {
-	/** @var array Registered capabilities */
+
+	/**
+	 * Registered capabilities.
+	 *
+	 * @var array
+	 */
 	protected $capabilities = array();
 
 	/**

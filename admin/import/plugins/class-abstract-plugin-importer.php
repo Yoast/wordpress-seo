@@ -11,6 +11,7 @@
  * Class with functionality to import meta data from other plugins.
  */
 abstract class WPSEO_Plugin_Importer {
+
 	/**
 	 * Holds the import status object.
 	 *

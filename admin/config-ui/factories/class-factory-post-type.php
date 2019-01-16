@@ -10,7 +10,11 @@
  */
 class WPSEO_Config_Factory_Post_Type {
 
-	/** @var WPSEO_Config_Field_Choice_Post_Type[] List of fields */
+	/**
+	 * List of fields.
+	 *
+	 * @var WPSEO_Config_Field_Choice_Post_Type[]
+	 */
 	protected static $fields = array();
 
 	/**

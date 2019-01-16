@@ -302,10 +302,11 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 
 		$field = new WPSEO_Config_Field( 'field', 'component' );
 
-		$this->adapter->add_custom_lookup( $field->get_identifier(), '__return_true', array(
-			$catcher,
-			'set',
-		) );
+		$this->adapter->add_custom_lookup(
+			$field->get_identifier(),
+			'__return_true',
+			array( $catcher, 'set' )
+		);
 
 		$this->assertTrue( $this->adapter->set( $field, 'value' ) );
 	}

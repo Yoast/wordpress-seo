@@ -5,13 +5,18 @@
  * @package Yoast\YoastSEO\WordPress;
  */
 
-namespace Yoast\YoastSEO\WordPress;
+namespace Yoast\WP\Free\WordPress;
 
 /**
  * Manage integrations and registers hooks at the required moment.
  */
 class Integration_Group implements Integration {
-	/** @var Integration[] List of integrations. */
+
+	/**
+	 * List of integrations.
+	 *
+	 * @var Integration[]
+	 */
 	protected $integrations = array();
 
 	/**
@@ -42,12 +47,11 @@ class Integration_Group implements Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		array_map(
-			function( Integration $integration ) {
-				$integration->register_hooks();
-			},
-			$this->integrations
-		);
+		$register_hooks = function( Integration $integration ) {
+			$integration->register_hooks();
+		};
+
+		array_map( $register_hooks, $this->integrations );
 	}
 
 	/**
@@ -58,8 +62,10 @@ class Integration_Group implements Integration {
 	 * @return array List of Integrations.
 	 */
 	protected function ensure_integration( array $integrations ) {
-		return array_filter( $integrations, function( $integration ) {
+		$is_integration = function( $integration ) {
 			return $integration instanceof Integration;
-		} );
+		};
+
+		return array_filter( $integrations, $is_integration );
 	}
 }

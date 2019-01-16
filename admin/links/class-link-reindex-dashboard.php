@@ -9,10 +9,19 @@
  * Handles the reindexing of links interface in the Dashboard.
  */
 class WPSEO_Link_Reindex_Dashboard {
-	/** @var array Public post types to scan for unprocessed items */
+
+	/**
+	 * Public post types to scan for unprocessed items.
+	 *
+	 * @var array
+	 */
 	protected $public_post_types = array();
 
-	/** @var int Number of unprocessed items */
+	/**
+	 * Number of unprocessed items.
+	 *
+	 * @var int
+	 */
 	protected $unprocessed = 0;
 
 	/**
@@ -82,7 +91,8 @@ class WPSEO_Link_Reindex_Dashboard {
 		$blocks = array();
 
 		if ( ! $this->has_unprocessed() ) {
-			$inner_text = sprintf( '<p>%s</p>',
+			$inner_text = sprintf(
+				'<p>%s</p>',
 				esc_html__( 'All your texts are already counted, there is no need to count them again.', 'wordpress-seo' )
 			);
 		}
@@ -99,7 +109,8 @@ class WPSEO_Link_Reindex_Dashboard {
 			$inner_text .= sprintf( '<p>%s</p>', $progress );
 		}
 
-		$blocks[] = sprintf( '<div><p>%s</p>%s</div>',
+		$blocks[] = sprintf(
+			'<div><p>%s</p>%s</div>',
 			esc_html__( 'Counting links in your texts', 'wordpress-seo' ),
 			$inner_text
 		);

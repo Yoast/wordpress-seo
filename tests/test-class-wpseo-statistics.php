@@ -16,6 +16,15 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	protected $instance;
 
 	/**
+	 * Default arguments to use to create a post for the tests in this class.
+	 *
+	 * @var array
+	 */
+	private $default_post_args = array(
+		'post_status' => 'publish',
+	);
+
+	/**
 	 * Set up the class which will be tested.
 	 */
 	public function setUp() {
@@ -43,9 +52,7 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Statistics::get_post_count
 	 */
 	public function test_filled_statistics_no_focus() {
-		$posts = $this->factory->post->create_many( 2, array(
-			'post_status' => 'publish',
-		) );
+		$posts = $this->factory->post->create_many( 2, $this->default_post_args );
 
 		add_post_meta( $posts[1], '_yoast_wpseo_focuskw', 'focus keyword' );
 
@@ -58,9 +65,7 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Statistics::get_post_count
 	 */
 	public function test_filled_statistics_bad() {
-		$posts = $this->factory->post->create_many( 4, array(
-			'post_status' => 'publish',
-		) );
+		$posts = $this->factory->post->create_many( 4, $this->default_post_args );
 
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 0 ); // Not bad.
 		add_post_meta( $posts[1], '_yoast_wpseo_linkdex', 1 ); // Bad.
@@ -76,9 +81,7 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Statistics::get_post_count
 	 */
 	public function test_filled_statistics_ok() {
-		$posts = $this->factory->post->create_many( 4, array(
-			'post_status' => 'publish',
-		) );
+		$posts = $this->factory->post->create_many( 4, $this->default_post_args );
 
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 40 ); // Not OK.
 		add_post_meta( $posts[1], '_yoast_wpseo_linkdex', 41 ); // OK.
@@ -94,9 +97,7 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Statistics::get_post_count
 	 */
 	public function test_filled_statistics_good() {
-		$posts = $this->factory->post->create_many( 4, array(
-			'post_status' => 'publish',
-		) );
+		$posts = $this->factory->post->create_many( 4, $this->default_post_args );
 
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 70 ); // Not good.
 		add_post_meta( $posts[1], '_yoast_wpseo_linkdex', 71 ); // Good.
@@ -112,9 +113,7 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Statistics::get_post_count
 	 */
 	public function test_all_statistics_published_posts() {
-		$posts = $this->factory->post->create_many( 4, array(
-			'post_status' => 'publish',
-		) );
+		$posts = $this->factory->post->create_many( 4, $this->default_post_args );
 
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 0 ); // No-focus.
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 1 ); // Bad.
@@ -139,9 +138,7 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Statistics::get_post_count
 	 */
 	public function test_only_published_posts() {
-		$posts = $this->factory->post->create_many( 4, array(
-			'post_status' => 'draft',
-		) );
+		$posts = $this->factory->post->create_many( 4, array( 'post_status' => 'draft' ) );
 
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 0 ); // No-focus.
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 1 ); // Bad.
@@ -160,9 +157,7 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Statistics::get_post_count
 	 */
 	public function test_no_index_statistics() {
-		$posts = $this->factory->post->create_many( 7, array(
-			'post_status' => 'publish',
-		) );
+		$posts = $this->factory->post->create_many( 7, $this->default_post_args );
 
 		foreach ( $posts as $post_id ) {
 			add_post_meta( $post_id, '_yoast_wpseo_meta-robots-noindex', '1' );

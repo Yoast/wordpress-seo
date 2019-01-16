@@ -10,10 +10,16 @@
  */
 class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_Framework_TestCase {
 
-	/** @var WPSEO_Config_Component_Connect_Google_Search_Console_Mock */
+	/**
+	 * @var WPSEO_Config_Component_Connect_Google_Search_Console_Mock
+	 */
 	protected $component;
 
-	/** @var array List of stub calls */
+	/**
+	 * List of stub calls.
+	 *
+	 * @var array
+	 */
 	protected $stub_calls = array();
 
 	/**
