@@ -116,6 +116,7 @@ class CoursesOverview extends React.Component {
 							<CardDetails
 								description={ course.content }
 								courseUrl={ course.link }
+								isBundle={ course.isBundle }
 								readMoreLinkText={ course.readMoreLinkText }
 								ctaButtonData={ this.getButtonData( course ) }
 							/>
