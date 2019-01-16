@@ -245,7 +245,7 @@ describe( "TreeAdapter", () => {
 			const paragraph = new Paragraph( "paragraph" );
 
 			const formattingElement = new FormattingElement( "strong" );
-			const nestedFormatting = new FormattingElement( "emph" );
+			const nestedFormatting = new FormattingElement( "em" );
 
 			nestedFormatting.parent = formattingElement;
 			formattingElement.parent = paragraph;
@@ -257,7 +257,7 @@ describe( "TreeAdapter", () => {
 
 			expect( paragraph.textContainer.formatting ).toHaveLength( 2 );
 			expect( paragraph.textContainer.formatting[ 0 ].type ).toEqual( "strong" );
-			expect( paragraph.textContainer.formatting[ 1 ].type ).toEqual( "emph" );
+			expect( paragraph.textContainer.formatting[ 1 ].type ).toEqual( "em" );
 		} );
 	} );
 
