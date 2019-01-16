@@ -64,6 +64,8 @@ class WPSEO_Handle_404 implements WPSEO_WordPress_Integration {
 		$wp_query->is_feed = false;
 		$this->set_404();
 
+		add_filter( 'old_slug_redirect_url', '__return_false' );
+
 		return true;
 	}
 
