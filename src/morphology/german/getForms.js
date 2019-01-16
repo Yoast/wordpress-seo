@@ -53,9 +53,6 @@ export function getForms( word, morphologyData ) {
 	// Check exceptions.
 	if ( exceptions.length > 0 ) {
 		forms.push( exceptions );
-
-		console.log( "forms", flattenDeep( forms ) );
-
 		return unique( flattenDeep( forms ) );
 	}
 	// If the stem wasn't found on any exception list, add all regular suffixes.
