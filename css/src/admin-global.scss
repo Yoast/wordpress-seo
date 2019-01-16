@@ -270,14 +270,6 @@ td.column-wpseo-linked {
 	word-wrap: normal;
 }
 
-/* Make the checkboxes lable in the Screen Options visible. */
-#screen-meta .yoast-column-header-has-tooltip .screen-reader-text {
-	position: static;
-	width: auto;
-	height: auto;
-	visibility: visible;
-}
-
 @media screen and ( max-width: 782px ) {
 	.yoast-settings {
 		padding-left: 0;
