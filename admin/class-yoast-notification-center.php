@@ -58,6 +58,13 @@ class Yoast_Notification_Center {
 	private $notifications_retrieved = false;
 
 	/**
+	 * Internal flag for whether the persistent store of this user's notifications
+	 * was empty when we loaded from it.
+	 * @var bool
+	 */
+	private $notifications_storage_empty = false;
+
+	/**
 	 * Construct
 	 */
 	private function __construct() {
@@ -530,9 +537,11 @@ class Yoast_Notification_Center {
 		 */
 		$notifications = apply_filters( 'yoast_notifications_before_storage', $notifications );
 
-		// No notifications to store, clear storage.
+		// No notifications to store, clear storage if it was previously present.
 		if ( empty( $notifications ) ) {
-			$this->remove_storage();
+			if ( ! $notifications_storage_empty ) {
+				$this->remove_storage();
+			}
 
 			return;
 		}
@@ -598,6 +607,7 @@ class Yoast_Notification_Center {
 
 		// Check if notifications are stored.
 		if ( empty( $stored_notifications ) ) {
+			$notifications_storage_empty = true;
 			return;
 		}
 
