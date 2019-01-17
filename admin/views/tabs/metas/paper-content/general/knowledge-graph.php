@@ -4,7 +4,7 @@
  *
  * @package WPSEO\Admin\Views\General
  *
- * @var Yoast_Form $yform
+ * @uses Yoast_Form $yform Form object.
  */
 
 $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
