@@ -4,7 +4,7 @@
  *
  * @package WPSEO\Admin
  *
- * @uses string $attributes Additional attributes for the select
+ * @uses string $attributes Additional attributes for the select.
  * @uses string $name       Value for the select name attribute.
  * @uses string $id         ID attribute for the select.
  * @uses array  $options    Array with the options to show.
