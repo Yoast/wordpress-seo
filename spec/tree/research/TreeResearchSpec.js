@@ -22,7 +22,20 @@ describe( "TreeResearcher", () => {
 	} );
 
 	describe( "getResearches", () => {
+		it( "returns the stored researches", () => {
+			const treeResearcher = new TreeResearcher();
+			treeResearcher.addResearch( "number of unicorns", new Research() );
+			treeResearcher.addResearch( "amount of rainbows", new Research() );
+			expect( treeResearcher.getResearches() ).toEqual( {
+				"number of unicorns": new Research(),
+				"amount of rainbows": new Research(),
+			} );
+		} );
 
+		it( "returns an empty object when no researches are stored", () => {
+			const treeResearcher = new TreeResearcher();
+			expect( treeResearcher.getResearches() ).toEqual( { } );
+		} );
 	} );
 
 	describe( "hasResearch", () => {
