@@ -167,6 +167,10 @@ module.exports = function( webpackEnv ) {
 						.replace( /\\/g, "/" )
 				: isEnvDevelopment &&
           ( info => path.resolve( info.absoluteResourcePath ).replace( /\\/g, "/" ) ),
+
+			// The webpack boilerplate doesn't work inside a Web Worker.
+			// Because we have web worker, we need to change the global object.
+			globalObject: "this",
 		},
 		optimization: {
 			minimize: isEnvProduction,
