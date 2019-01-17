@@ -1,5 +1,5 @@
 import Research from "../../../../src/tree/research/researches/Research";
-import Node from "../../../../src/tree/values/nodes/Node";
+import { Node } from "../../../../src/tree/structure";
 
 describe( "Research", () => {
 	beforeEach( () => {
