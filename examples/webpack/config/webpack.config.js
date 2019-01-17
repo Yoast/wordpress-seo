@@ -328,6 +328,15 @@ module.exports = function( webpackEnv ) {
 							},
 						},
 						{
+							test: /\.(html)$/,
+							use: {
+								loader: "html-loader",
+								options: {
+									attrs: false,
+								},
+							},
+						},
+						{
 							test: /\.worker\.js$/,
 							use: {
 								loader: "worker-loader",
