@@ -54,7 +54,7 @@ const mountWithArgs = ( changedArgs ) => {
 };
 
 /**
- * Returns a shallow render of the snippet editor component with changed arguments.
+ * Shallow render of the snippet editor component with changed arguments.
  *
  * @param {Object} changedArgs The changed arguments.
  *

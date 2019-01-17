@@ -16,7 +16,7 @@ function cloneDeep( object ) {
 }
 
 /**
- * You're a wizard, Harry.
+ * The wizard component.
  *
  * @returns {React.component} A wizard.
  */
