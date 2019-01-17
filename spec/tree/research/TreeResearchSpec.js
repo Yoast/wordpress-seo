@@ -21,6 +21,10 @@ describe( "TreeResearcher", () => {
 		} );
 	} );
 
+	describe( "getResearches", () => {
+
+	} );
+
 	describe( "hasResearch", () => {
 		it( "returns true when the TreeResearcher has a research with a given name", () => {
 			const treeResearcher = new TreeResearcher();
@@ -59,6 +63,14 @@ describe( "TreeResearcher", () => {
 	} );
 
 	describe( "getResearchForNode", () => {
+
+	} );
+
+	describe( "addResearchData", () => {
+
+	} );
+
+	describe( "getData", () => {
 
 	} );
 } );
