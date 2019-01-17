@@ -9,7 +9,7 @@ describe( "Research", () => {
 	describe( "isLeafNode", () => {
 		it( "warns when it has not been implemented", () => {
 			const research = new Research();
-			const node = new Node( "div", 0, 5 );
+			const node = new Node( "div" );
 
 			research.isLeafNode( node );
 
@@ -20,7 +20,7 @@ describe( "Research", () => {
 	describe( "calculateFor", () => {
 		it( "warns when it has not been implemented", () => {
 			const research = new Research();
-			const node = new Node( "div", 0, 5 );
+			const node = new Node( "div" );
 
 			research.calculateFor( node );
 
@@ -31,7 +31,7 @@ describe( "Research", () => {
 	describe( "mergeResults", () => {
 		it( "warns when it has not been implemented", () => {
 			const research = new Research();
-			const node = new Node( "div", 0, 5 );
+			const node = new Node( "div" );
 
 			research.mergeChildrenResults( node );
 
