@@ -59,6 +59,8 @@ abstract class WPSEO_Option {
 
 	/**
 	 * Prefix for override option keys that allow or disallow the option key of the same name.
+	 *
+	 * @var string
 	 */
 	const ALLOW_KEY_PREFIX = 'allow_';
 
