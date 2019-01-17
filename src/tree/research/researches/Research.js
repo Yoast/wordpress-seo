@@ -22,7 +22,7 @@ class Research {
 	 *
 	 * @param {module:tree/structure.Node} node The node to calculate the research for.
 	 *
-	 * @returns {*} The result of the research.
+	 * @returns {Promise<*>} The result of the research.
 	 *
 	 * @abstract
 	 */
@@ -36,8 +36,10 @@ class Research {
 	 * @param {Array<*>} results The results of this research to merge.
 	 *
 	 * @returns {*} The merged results.
+	 *
+	 * @abstract
 	 */
-	mergeResults( results ) { // eslint-disable-line no-unused-vars
+	mergeChildrenResults( results ) { // eslint-disable-line no-unused-vars
 		console.warn( "mergeChildrenResults should be implemented by a child class of Researcher." );
 	}
 }

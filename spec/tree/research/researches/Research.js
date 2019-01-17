@@ -33,7 +33,7 @@ describe( "Research", () => {
 			const research = new Research();
 			const node = new Node( "div", 0, 5 );
 
-			research.mergeResults( node );
+			research.mergeChildrenResults( node );
 
 			expect( console.warn ).toHaveBeenCalledTimes( 1 );
 		} );

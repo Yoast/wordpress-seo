@@ -1,5 +1,4 @@
-import { isEmpty, isUndefined } from "lodash-es";
-import MissingArgument from "../../errors/missingArgument";
+import { get, has } from "lodash-es";
 
 /**
  * This contains all possible, default researches
@@ -9,25 +8,10 @@ import MissingArgument from "../../errors/missingArgument";
 class TreeResearcher {
 	/**
 	 * Makes a new TreeResearcher.
-	 *
-	 * @param {module:tree/structure.Node?} rootNode The root node of the tree to analyze.
 	 */
-	constructor( rootNode ) {
-		this.tree = rootNode || null;
-		this.defaultResearches = {};
-		this.customResearches = {};
-		this.researches = this.defaultResearches;
-	}
-
-	/**
-	 * Sets the tree for the researcher.
-	 *
-	 * @param {module:tree/structure.Node} rootNode The root node to add as a tree.
-	 *
-	 * @returns {void}
-	 */
-	setTree( rootNode ) {
-		this.tree = rootNode;
+	constructor() {
+		this._researches = {};
+		this._data = {};
 	}
 
 	/**
@@ -42,36 +26,48 @@ class TreeResearcher {
 	 * @returns {void}
 	 */
 	addResearch( name, research ) {
-		this.customResearches[ name ] = research;
-		this.researches[ name ] = research;
+		this._researches[ name ] = research;
 	}
 
 	/**
-	 * If a research is know under this name.
+	 * Returns all available researches.
+	 *
+	 * @returns {Object} An object containing all available researches.
+	 */
+	getResearches() {
+		return this._researches;
+	}
+
+	/**
+	 * Returns whether a research is known under this name.
 	 *
 	 * @param {string} name The name to get the research from.
+	 *
 	 * @returns {boolean} If a research is known under this name.
 	 */
 	hasResearch( name ) {
-		return name in this.researches;
+		return has( this._researches, name );
 	}
 
 	/**
 	 * Gets the research with the given name.
 	 * If a research is not known under this name, false is returned instead.
 	 *
+	 * @throws {Error} When a research is not known under the given name.
+	 *
 	 * @param {string} name The name of the research to get.
-	 * @returns {Research|boolean} The returned research (or false if the research was not found).
+	 *
+	 * @returns {Research} The research stored under the given name.
 	 */
-	getResearchInstance( name ) {
-		if ( isUndefined( name ) || isEmpty( name ) ) {
-			throw new MissingArgument( "Research name cannot be empty" );
+	getResearch( name ) {
+		if ( this.hasResearch( name ) ) {
+			return this._researches[ name ];
 		}
-		return this.hasResearch( name ) ? this.researches[ name ] : false;
+		throw new Error( `'${name}' research does not exist.` );
 	}
 
 	/**
-	 * Computes the research with the given name to the node and its descendants.
+	 * Applies the research with the given name to the node and its descendants.
 	 *
 	 * @param {string} name                     The name of the research to apply to the node.
 	 * @param {module:tree/structure.Node} node The node to compute the research of.
@@ -79,8 +75,8 @@ class TreeResearcher {
 	 *
 	 * @returns {Promise<*>} A promising research result.
 	 */
-	async getResearchForNode( name, node, bustCache = false ) {
-		const research = this.getResearchInstance( name );
+	async doResearch( name, node, bustCache = false ) {
+		const research = this.getResearch( name );
 		let researchResult = Promise.resolve();
 
 		if ( research.isLeafNode( node ) ) {
@@ -98,14 +94,37 @@ class TreeResearcher {
 			// Heading and paragraph nodes do not have children.
 			if ( children ) {
 				const resultsForChildren = await Promise.all( children.map( ( child ) => {
-					return this.getResearchForNode( name, child );
+					return this.doResearch( name, child );
 				} ) );
 
-				researchResult = research.mergeResults( resultsForChildren );
+				researchResult = research.mergeChildrenResults( resultsForChildren );
 			}
 		}
 
 		return researchResult;
+	}
+
+	/**
+	 * Add research data to the researcher by the research name.
+	 *
+	 * @param {string} researchName The identifier of the research.
+	 * @param {Object} data         The data object.
+	 *
+	 * @returns {void}.
+	 */
+	addResearchData( researchName, data ) {
+		this._data[ researchName ] = data;
+	}
+
+	/**
+	 * Return the research data from a research data provider by research name.
+	 *
+	 * @param {string} researchName The identifier of the research.
+	 *
+	 * @returns {Object|boolean} The data provided by the provider, false if the data do not exist
+	 */
+	getData( researchName ) {
+		return get( this._data, researchName, false );
 	}
 }
 
