@@ -80,7 +80,13 @@ describe( "TreeResearcher", () => {
 	} );
 
 	describe( "addResearchData", () => {
-
+		it( "sets research data", () => {
+			const treeResearcher = new TreeResearcher();
+			const data = { array: [ 1, 2, 3, 4, 5 ] }
+			treeResearcher.addResearchData( "number of gnomes", data );
+			expect( treeResearcher._data ).toHaveProperty( "number of gnomes" );
+			expect( treeResearcher._data[ "number of gnomes" ] ).toEqual( data );
+		} );
 	} );
 
 	describe( "getData", () => {
