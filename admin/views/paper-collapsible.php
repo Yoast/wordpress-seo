@@ -7,7 +7,7 @@
  * @uses string                 $paper_id           The id of the paper.
  * @uses bool                   $collapsible        Whether the collapsible should be rendered.
  * @uses array                  $collapsible_config Configuration for the collapsible.
- * @uses string                 $title              The title
+ * @uses string                 $title              The title.
  * @uses string                 $title_after        Additional content to render after the title.
  * @uses string                 $view_file          Path to the view file.
  * @uses WPSEO_Admin_Help_Panel $help_text          The help text.
