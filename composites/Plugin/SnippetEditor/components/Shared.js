@@ -7,7 +7,7 @@ import { Button } from "../../Shared/components/Button";
 import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 /**
- * Returns an SVG for the background image.
+ * Returns an angleRight SVG.
  *
  * @param {string} color The desired color for the SVG.
  *
@@ -20,7 +20,7 @@ export const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + enco
 );
 
 /**
- * Returns an SVG for the background image.
+ * Returns an angleLeft SVG.
  *
  * @param {string} color The desired color for the SVG.
  *

@@ -97,7 +97,7 @@ describe( "CollapsibleStateless", () => {
 	it( "matches the snapshot when it is opened and closed", () => {
 		let isOpen = true;
 		/**
-		 * Updates the modal open or closed state.
+		 * Reverts the modal open state.
 		 *
 		 * @returns {void}
 		 */

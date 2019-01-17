@@ -19,7 +19,7 @@ jest.mock( "../helpers/ajaxHelper", () => {
 	/**
 	 * An ajaxHelper for testing purposes.
 	 *
-	 * @returns {promise} A promise test.
+	 * @returns {promise} A test promise.
 	 */
 	const ajaxHelper = () => {
 		return new Promise( ( resolve ) => {

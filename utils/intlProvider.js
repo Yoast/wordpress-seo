@@ -3,9 +3,9 @@ import renderer from "react-test-renderer";
 import { IntlProvider } from "react-intl";
 
 /**
- * Creates an IntlProvider.
+ * Creates a component wrapped in an IntlProvider.
  *
- * @param {string} children      The inner text of the component.
+ * @param {string} children      The component(s) to wrap with the intlProvider.
  * @param {object} props         The component's props.
  * @param {object} renderOptions The renderOptions.
  *

@@ -22,7 +22,7 @@ StackedProgressBarProgress.propTypes = {
 };
 
 /**
- * Returns the StackedProgressBar.
+ * The StackedProgressBar component.
  *
  * @param {object} props The component's props.
  *

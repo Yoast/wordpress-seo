@@ -81,7 +81,7 @@ export function localize( ComposedComponent ) {
 		}
 
 		/**
-		 * Renders the component.
+		 * Renders the LocalizedComponent.
 		 *
 		 * @returns {ReactElement} The ComposedComponent.
 		 */

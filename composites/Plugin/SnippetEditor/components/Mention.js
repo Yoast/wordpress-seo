@@ -18,7 +18,7 @@ const StyledMention = styled.span`
 `;
 
 /**
- * Returns a StyledMention component.
+ * The StyledMention component.
  *
  * @param {object} props The component's props.
  *

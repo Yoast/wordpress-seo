@@ -115,7 +115,7 @@ UpsellButtonBase.defaultProps = {
 };
 
 /**
- * Returns the UpsellButton.
+ * The UpsellButton component.
  *
  * @param {object} props The component's props.
  *

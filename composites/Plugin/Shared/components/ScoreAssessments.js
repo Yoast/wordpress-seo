@@ -38,7 +38,7 @@ const ScoreAssessmentScore = styled( ScoreAssessmentPart )`
 `;
 
 /**
- * Returns the ScoreAssessmentItem component, with a bullet, text and score.
+ * The ScoreAssessmentItem component, with a bullet, text and score.
  *
  * @param {object} props The component's props.
  *

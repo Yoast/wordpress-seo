@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
  *
  * @param {string} className Classname to add to the loader.
  *
- * @returns {React.Element} An SVG component.
+ * @returns {React.Element} The Loader component.
  */
 const Loader = ( { className } ) => {
 	if ( className !== "" ) {

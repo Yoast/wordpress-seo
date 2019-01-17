@@ -14,7 +14,7 @@ const RelevantWord = function( word ) {
 };
 
 /**
- * Returns the current set relevant word.
+ * Returns the currently set relevant word.
  *
  * @returns {string} word The set relevant word.
  */

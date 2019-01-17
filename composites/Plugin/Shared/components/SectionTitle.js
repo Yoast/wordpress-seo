@@ -29,7 +29,7 @@ export const StyledSubTitle = styled.span`
 `;
 
 /**
- * Returns the StyledTitleContainer component, consisting of a StyledTitle and a StyledSubTitle.
+ * The StyledTitleContainer component, consisting of a StyledTitle and a StyledSubTitle.
  *
  * @param {object} props The component's props.
  *

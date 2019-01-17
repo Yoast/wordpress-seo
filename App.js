@@ -203,7 +203,7 @@ class App extends React.Component {
 	}
 
 	/**
-	 * Determines whether or not the component updated and sets the current language direction accordingly.
+	 * Sets the language direction based on what direction is in the current state after the component did update.
 	 *
 	 * @param {Object} prevProps The old props.
 	 * @param {Object} prevState The old state.

@@ -9,7 +9,7 @@ import AppWrapper from "./app/AppWrapper";
 /**
  * Renders the given RootElement within an AppWrapper component.
  *
- * @param {ReactElement} RootElement to be wrapped.
+ * @param {ReactElement} RootElement The RootElement to be wrapped.
  *
  * @returns {void}
  */
