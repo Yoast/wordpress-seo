@@ -31,14 +31,22 @@ const externals = {
 	lodash: "window.lodash",
 };
 
+const defaultAllowedHosts = [
+	"local.wordpress.test",
+	"build.wordpress-develop.test",
+	"src.wordpress-develop.test",
+];
+
 module.exports = function( env = { environment: "production", recalibration: "disabled" } ) {
 	const mode = env.environment || process.env.NODE_ENV || "production";
 	const isRecalibration = ( env.recalibration || process.env.YOAST_RECALIBRATION || "disabled" ) === "enabled";
-	const allowedHosts = [
-		"local.wordpress.test",
-		"build.wordpress-develop.test",
-		"src.wordpress-develop.test",
-	].concat( ( process.env.ALLOWED_HOSTS || "" ).split( " " ) );
+
+	// Allowed hosts is space separated string. Example usage: ALLOWED_HOSTS="first.allowed.host second.allowed.host"
+	let allowedHosts = ( process.env.ALLOWED_HOSTS || "" ).split( " " );
+	// The above will result in an array with an empty string if the environment variable is not set, which is undesired.
+	allowedHosts = allowedHosts.filter( el => el );
+	// Prepend the default allowed hosts.
+	allowedHosts = defaultAllowedHosts.concat( allowedHosts );
 
 	const outputFilenameMinified = "[name]-" + pluginVersionSlug + ".min.js";
 	const outputFilenameUnminified = "[name]-" + pluginVersionSlug + ".js";
