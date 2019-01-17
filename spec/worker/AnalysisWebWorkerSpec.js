@@ -946,7 +946,7 @@ describe( "AnalysisWebWorker", () => {
 				expect( worker._scheduler.schedule ).toHaveBeenCalledTimes( 1 );
 				expect( worker._scheduler.schedule ).toHaveBeenCalledWith( {
 					id: 0,
-					execute: worker.doResearch,
+					execute: worker.runResearch,
 					done: worker.runResearchDone,
 					data: payload,
 				} );
