@@ -346,7 +346,11 @@ module.exports = function( webpackEnv ) {
 						// The preset includes JSX, Flow, TypeScript, and some ESnext features.
 						{
 							test: /\.(js|mjs|jsx|ts|tsx)$/,
-							include: paths.appSrc,
+							include: [
+								paths.appSrc,
+								paths.yoastSrc,
+								paths.yoastComponents,
+							],
 							loader: require.resolve( "babel-loader" ),
 							options: {
 								customize: require.resolve(
@@ -366,6 +370,15 @@ module.exports = function( webpackEnv ) {
 										},
 									],
 								],
+
+								/*
+								 * Somehow this webpack config doesn't listen to the .babelrc in
+								 * yoast-components. So instead just specify this ourselves.
+								 */
+								presets: [
+									"@babel/react",
+								],
+
 								// This is a feature of `babel-loader` for webpack (not Babel itself).
 								// It enables caching results in ./node_modules/.cache/babel-loader/
 								// Directory for faster rebuilds.
