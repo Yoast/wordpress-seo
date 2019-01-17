@@ -57,11 +57,20 @@ const keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
+/**
+ * Checks if the keyword stopwords assessment is applicable to the paper.
+ *
+ * @param {Object} paper The paper to check.
+ *
+ * @returns {boolean} Returns true if the language is available and the paper has a keyword.
+ */
+const isApplicable = function( paper ) {
+	const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
+	return paper.hasKeyword() && isLanguageAvailable;
+};
+
 export default {
 	identifier: "keywordStopWords",
 	getResult: keywordHasStopWordsAssessment,
-	isApplicable: function( paper ) {
-		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
-		return paper.hasKeyword() && isLanguageAvailable;
-	},
+	isApplicable: isApplicable,
 };

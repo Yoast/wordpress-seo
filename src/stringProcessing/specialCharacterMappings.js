@@ -81,11 +81,11 @@ function arraysOverlap( firstArray, secondArray ) {
  * Generates all possible combinations of the elements of an array (treated as unique).
  * https://gist.github.com/jpillora/4435759
  *
- * @param {Array} array The array with elements that should be combined.
+ * @param {Array} collection The array with elements that should be combined.
  *
  * @returns {Array} result An array of all possible combinations of elements of the original array.
  */
-function combinations( array ) {
+function combinations( collection ) {
 	/**
 	 * A recursive function that iterates through all elements of an array to produce its combinations.
 	 *
@@ -106,7 +106,7 @@ function combinations( array ) {
 		}
 		return acc( xs.slice( 1 ), array );
 	}
-	return acc( array, [ [ ] ] ).slice( 1 ).concat( [ [] ] );
+	return acc( collection, [ [ ] ] ).slice( 1 ).concat( [ [] ] );
 }
 
 

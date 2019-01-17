@@ -59,10 +59,20 @@ const urlHasStopWordsAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
+/**
+ * Checks if there is a list of stopwords for the language of the paper.
+ *
+ * @param {Object} paper The paper to check.
+ *
+ * @returns {boolean} Returns true if the language is available.
+ */
+const isApplicable = function( paper ) {
+	return getLanguageAvailability( paper.getLocale(), availableLanguages );
+};
+
+
 export default {
 	identifier: "urlStopWords",
-	isApplicable: function( paper ) {
-		return getLanguageAvailability( paper.getLocale(), availableLanguages );
-	},
+	isApplicable: isApplicable,
 	getResult: urlHasStopWordsAssessment,
 };

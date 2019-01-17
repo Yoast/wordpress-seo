@@ -145,11 +145,20 @@ var paragraphLengthAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
+/**
+ * Checks if the paragraphTooLong assessment is applicable to the paper.
+ *
+ * @param {Paper} paper The paper to check.
+ *
+ * @returns {boolean} Returns true if the assessment is applicable to the paper.
+ */
+var isApplicable = function( paper ) {
+	return paper.hasText();
+};
+
 export default {
 	identifier: "textParagraphTooLong",
 	getResult: paragraphLengthAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasText();
-	},
+	isApplicable: isApplicable,
 	getMarks: paragraphLengthMarker,
 };

@@ -1,7 +1,7 @@
-import indices from "../../../stringProcessing/indices";
-const getIndicesOfList = indices.getIndicesByWordList;
-const filterIndices = indices.filterIndices;
-const sortIndices = indices.sortIndices;
+import indicesProcessing from "../../../stringProcessing/indices";
+const getIndicesOfList = indicesProcessing.getIndicesByWordList;
+const filterIndices = indicesProcessing.filterIndices;
+const sortIndices = indicesProcessing.sortIndices;
 import stripSpaces from "../../../stringProcessing/stripSpaces.js";
 import { normalizeSingle as normalizeSingleQuotes } from "../../../stringProcessing/quotes.js";
 import arrayToRegex from "../../../stringProcessing/createRegexFromArray.js";

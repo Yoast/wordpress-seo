@@ -173,11 +173,20 @@ var wordComplexityAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
+/**
+ * Checks whether the paper has text.
+ *
+ * @param {Paper} paper The paper to use for the assessment.
+ *
+ * @returns {boolean} True when there is text.
+ */
+var isApplicable = function( paper ) {
+	return paper.hasText();
+};
+
 export default {
 	identifier: "wordComplexity",
 	getResult: wordComplexityAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasText();
-	},
+	isApplicable: isApplicable,
 	getMarks: wordComplexityMarker,
 };

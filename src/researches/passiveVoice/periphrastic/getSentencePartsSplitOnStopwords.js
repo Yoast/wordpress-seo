@@ -77,9 +77,9 @@ function splitOnWords( sentence, stopwords ) {
 
 	// Split the sentence on each found stopword and push this part in an array.
 	forEach( stopwords, function( stopword ) {
-		const splitSentence = sentence.split( stopword );
-		if ( ! isEmpty( splitSentence[ 0 ] ) ) {
-			splitSentences.push( splitSentence[ 0 ] );
+		const sentenceSplit = sentence.split( stopword );
+		if ( ! isEmpty( sentenceSplit[ 0 ] ) ) {
+			splitSentences.push( sentenceSplit[ 0 ] );
 		}
 		const startIndex = sentence.indexOf( stopword );
 		const endIndex = sentence.length;

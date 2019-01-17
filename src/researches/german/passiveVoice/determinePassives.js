@@ -1,9 +1,10 @@
 import arrayToRegex from "../../../stringProcessing/createRegexFromArray.js";
-var auxiliaries = require( "./auxiliaries.js" )().allAuxiliaries;
+import auxiliariesGermanFactory from "../../german/passiveVoice/auxiliaries.js";
+const germanAuxiliaries = auxiliariesGermanFactory().allAuxiliaries;
 import getParticiples from "./getParticiples.js";
 import determineSentencePartIsPassive from "../../passiveVoice/periphrastic/determineSentencePartIsPassive.js";
 
-var auxiliaryRegex = arrayToRegex( auxiliaries );
+var auxiliaryRegex = arrayToRegex( germanAuxiliaries );
 
 /**
  * Determines whether a sentence part is passive.
