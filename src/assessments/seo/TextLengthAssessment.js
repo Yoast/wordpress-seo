@@ -62,11 +62,11 @@ export default class TextLengthAssessment extends Assessment {
 	}
 
 	/**
-	 * Calculates the score based on the current word count and the appropriate feedback string.
+	 * Returns the score and the appropriate feedback string based on the current word count.
 	 *
 	 * @param {number} wordCount The amount of words to be checked against.
 	 * @param {Jed} i18n The locale object.
-
+	 *
 	 * @returns {Object} The score and the feedback string.
 	 */
 	calculateResult( wordCount, i18n ) {
