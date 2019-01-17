@@ -35,11 +35,20 @@ const checkStemsFromExceptionList = function( exceptionCategory, stemmedWordToCh
 	return [];
 };
 
+/**
+ * Checks whether a stemmed word is on a given exception list.
+ *
+ * @param {Object} morphologyDataNounExceptions An object with various exception categories.
+ * @param {string}  stemmedWordToCheck          The stem to check.
+ * @returns {Array<string>} The created word forms.
+ */
 const checkExceptions = function( morphologyDataNounExceptions, stemmedWordToCheck ) {
 	for ( const category in morphologyDataNounExceptions ) {
-		const exceptions = checkStemsFromExceptionList( morphologyDataNounExceptions[ category ], stemmedWordToCheck );
-		if ( exceptions.length > 0 ) {
-			return exceptions;
+		if ( morphologyDataNounExceptions.hasOwnProperty( category ) ) {
+			const exceptions = checkStemsFromExceptionList( morphologyDataNounExceptions[ category ], stemmedWordToCheck );
+			if ( exceptions.length > 0 ) {
+				return exceptions;
+			}
 		}
 	}
 	return [];
