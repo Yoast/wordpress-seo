@@ -138,6 +138,35 @@ describe( "TreeResearcher", () => {
 				} );
 			} );
 		} );
+
+		it( "does not try to compute results when a node has no children", done => {
+			const treeResearcher = new TreeResearcher();
+			/*
+			  Test research splitting text on whitespace
+			  and counting the nr. of resulting tokens.
+			*/
+			const research = new TestResearch();
+
+			// A text with 8 tokens.
+			const input = "<section>" +
+				"<h1>This is a header</h1>" +
+				"<p>This is a paragraph</p>" +
+				"<section></section>" +
+				"</section>";
+			const tree = buildTree( input );
+
+			// 'section' element.
+			tree.children[ 0 ].children[ 2 ].children = null;
+
+			treeResearcher.addResearch( "test", research );
+
+			const promisingResult = treeResearcher.doResearch( "test", tree );
+
+			promisingResult.then( result => {
+				expect( result ).toEqual( 8 );
+				done();
+			} );
+		} );
 	} );
 
 	describe( "addResearchData", () => {
