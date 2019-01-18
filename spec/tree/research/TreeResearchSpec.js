@@ -75,7 +75,7 @@ describe( "TreeResearcher", () => {
 		} );
 	} );
 
-	describe( "getResearchForNode", () => {
+	describe( "doResearch", () => {
 
 	} );
 
