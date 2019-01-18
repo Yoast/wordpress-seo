@@ -103,6 +103,42 @@ describe( "TreeResearcher", () => {
 				done();
 			} );
 		} );
+
+		it( "uses the cached results when available", done => {
+			const treeResearcher = new TreeResearcher();
+			/*
+			  Test research splitting text on whitespace
+			  and counting the nr. of resulting tokens.
+			*/
+			const research = new TestResearch();
+
+			// A text with 12 tokens.
+			const input = "<section>" +
+				"<h1>This is a header</h1>" +
+				"<p>This is a paragraph</p>" +
+				"<section>This is a section</section>" +
+				"</section>";
+			const tree = buildTree( input );
+
+			treeResearcher.addResearch( "test", research );
+
+			const promisingResult = treeResearcher.doResearch( "test", tree );
+
+			promisingResult.then( result => {
+				// Mock calculateFor function, to know that we are not computing the research a second time.
+				research.calculateFor = jest.fn();
+				// Run research again, this time we should be getting the cached results.
+				const resultUsingCache = treeResearcher.doResearch( "test", tree );
+
+				resultUsingCache.then( resultFromCache => {
+					// Results should obviously stay the same.
+					expect( resultFromCache ).toEqual( result );
+					// Check if we do not do the research a second time.
+					expect( research.calculateFor ).not.toHaveBeenCalled();
+					done();
+				} );
+			} );
+		} );
 	} );
 
 	describe( "addResearchData", () => {
