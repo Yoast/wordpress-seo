@@ -1,5 +1,7 @@
+import buildTree from "../../../src/tree/builder";
 import { TreeResearcher } from "../../../src/tree/research";
 import Research from "../../../src/tree/research/researches/Research";
+import TestResearch from "../../specHelpers/tree/TestResearch";
 
 describe( "TreeResearcher", () => {
 	describe( "constructor", () => {
@@ -76,7 +78,31 @@ describe( "TreeResearcher", () => {
 	} );
 
 	describe( "doResearch", () => {
+		it( "does a simple token count test research", done => {
+			const treeResearcher = new TreeResearcher();
+			/*
+			  Test research splitting text on whitespace
+			  and counting the nr. of resulting tokens.
+			*/
+			const research = new TestResearch();
 
+			// A text with 12 tokens.
+			const input = "<section>" +
+				"<h1>This is a header</h1>" +
+				"<p>This is a paragraph</p>" +
+				"<section>This is a section</section>" +
+				"</section>";
+			const tree = buildTree( input );
+
+			treeResearcher.addResearch( "test", research );
+
+			const promisingResult = treeResearcher.doResearch( "test", tree );
+
+			promisingResult.then( result => {
+				expect( result ).toEqual( 12 );
+				done();
+			} );
+		} );
 	} );
 
 	describe( "addResearchData", () => {
