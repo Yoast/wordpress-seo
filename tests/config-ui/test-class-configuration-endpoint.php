@@ -89,6 +89,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 
 		global $wp_rest_server;
 		$wp_rest_server = new WPSEO_WP_REST_Server_Mock();
+		do_action( 'rest_api_init', $wp_rest_server );
 
 		$this->endpoint->register();
 
