@@ -1,6 +1,5 @@
 import buildTree from "../../../src/tree/builder";
 import { TreeResearcher } from "../../../src/tree/research";
-import Research from "../../../src/tree/research/researches/Research";
 import TestResearch from "../../specHelpers/tree/TestResearch";
 
 describe( "TreeResearcher", () => {
@@ -15,7 +14,7 @@ describe( "TreeResearcher", () => {
 		it( "adds a research", () => {
 			const treeResearcher = new TreeResearcher();
 			expect( treeResearcher._researches ).toEqual( {} );
-			const research = new Research();
+			const research = new TestResearch();
 			treeResearcher.addResearch( "number of unicorns", research );
 			expect( treeResearcher._researches ).toEqual( {
 				"number of unicorns": research,
@@ -26,11 +25,11 @@ describe( "TreeResearcher", () => {
 	describe( "getResearches", () => {
 		it( "returns the stored researches", () => {
 			const treeResearcher = new TreeResearcher();
-			treeResearcher.addResearch( "number of unicorns", new Research() );
-			treeResearcher.addResearch( "amount of rainbows", new Research() );
+			treeResearcher.addResearch( "number of unicorns", new TestResearch() );
+			treeResearcher.addResearch( "amount of rainbows", new TestResearch() );
 			expect( treeResearcher.getResearches() ).toEqual( {
-				"number of unicorns": new Research(),
-				"amount of rainbows": new Research(),
+				"number of unicorns": new TestResearch(),
+				"amount of rainbows": new TestResearch(),
 			} );
 		} );
 
@@ -44,7 +43,7 @@ describe( "TreeResearcher", () => {
 		it( "returns true when the TreeResearcher has a research with a given name", () => {
 			const treeResearcher = new TreeResearcher();
 			expect( treeResearcher._researches ).toEqual( {} );
-			const research = new Research();
+			const research = new TestResearch();
 			treeResearcher.addResearch( "number of unicorns", research );
 			expect( treeResearcher.hasResearch( "number of unicorns" ) ).toEqual( true );
 		} );
@@ -59,14 +58,14 @@ describe( "TreeResearcher", () => {
 	describe( "getResearchInstance", () => {
 		it( "returns an instance of the given research when it exists", () => {
 			const treeResearcher = new TreeResearcher();
-			const research = new Research();
+			const research = new TestResearch();
 			treeResearcher.addResearch( "number of unicorns", research );
 			expect( treeResearcher.getResearch( "number of unicorns" ) ).toEqual( research );
 		} );
 
 		it( "throws an error if the given research does not exist", () => {
 			const treeResearcher = new TreeResearcher();
-			const research = new Research();
+			const research = new TestResearch();
 			treeResearcher.addResearch( "number of unicorns", research );
 			expect( () => treeResearcher.getResearch( "number of dragons" ) ).toThrow();
 		} );
