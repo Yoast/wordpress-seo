@@ -8,10 +8,10 @@
 /** @noinspection PhpUnusedLocalVariableInspection */
 $alerts_data = Yoast_Alerts::get_template_variables();
 
-$subscription_notifier = new WPSEO_Subscription_Notifier();
-
-$configuration_notifier = new WPSEO_Configuration_Notifier();
-$configuration_notifier->listen();
+$notifications = array(
+	new WPSEO_Subscription_Notifier(),
+	new WPSEO_Configuration_Notifier(),
+);
 
 $wpseo_contributors_phrase = sprintf(
 	/* translators: %1$s expands to Yoast SEO */
@@ -24,8 +24,9 @@ $wpseo_contributors_phrase = sprintf(
 <div class="tab-block">
 	<div class="yoast-alerts">
 
-		<?php echo $subscription_notifier->notify(); ?>
-		<?php echo $configuration_notifier->notify(); ?>
+		<?php foreach ( $notifications as $notification ) {
+			echo $notification->notify();
+		} ?>
 
 		<div class="yoast-container yoast-container__alert">
 			<?php require WPSEO_PATH . 'admin/views/partial-alerts-errors.php'; ?>

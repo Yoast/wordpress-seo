@@ -8,7 +8,7 @@
 /**
  * Represents the logic for showing the notification.
  */
-class WPSEO_Configuration_Notifier implements WPSEO_Listener {
+class WPSEO_Configuration_Notifier implements WPSEO_Banner_Notification {
 	const META_NAME = 'wpseo-dismiss-configuration-notice';
 	const META_VALUE = 'yes';
 
@@ -20,6 +20,8 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 */
 	public function __construct() {
 		$this->show_notification = WPSEO_Options::get( 'show_onboarding_notice', false );
+
+		$this->listen();
 	}
 
 	/**
