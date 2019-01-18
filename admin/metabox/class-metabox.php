@@ -8,7 +8,7 @@
 /**
  * This class generates the metabox on the edit post / page as well as contains all page analysis functionality.
  */
-class WPSEO_Metabox {
+class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * @var WPSEO_Social_Admin
