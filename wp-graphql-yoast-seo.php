@@ -2,7 +2,7 @@
 /**
  * Plugin Name:     WPGraphql Yoast Seo
  * Plugin URI:      https://github.com/ashhitch/wp-graphql-yoast-seo
- * Description:     A WPGraphQL Extension that adds support for YOast SEO
+ * Description:     A WPGraphQL Extension that adds support for Yoast SEO
  * Author:          Ash Hitchcock
  * Author URI:      https://www.ashleyhitchcock.com
  * Text Domain:     wp-graphql-yoast-seo
@@ -23,6 +23,9 @@ add_action( 'graphql_register_types', function() {
     'fields' => [
       'title' => [ 'type' => 'String' ],
       'desc'   => [ 'type' => 'String' ],
+      'focuskw'   => [ 'type' => 'String' ],
+      'ogtitle'   => [ 'type' => 'String' ],
+      'ogdesc'   => [ 'type' => 'String' ],
     ],
   ] );
     
@@ -35,18 +38,22 @@ add_action( 'graphql_register_types', function() {
 					'type' => 'SEO',
 					'description' => __( 'The Yoast SEO data of the '.$post_type_object->graphql_single_name, 'wp-graphql' ),
 					'resolve' => function( $post ) {
-
+						// Base array
 						$seo = array();
+
+						// Get data
 						$title = get_post_meta( $post->ID, '_yoast_wpseo_title', true );
 						$desc = get_post_meta( $post->ID, '_yoast_wpseo_metadesc', true );
-
-						if(! empty($title)) {
-								$seo["title"] = $title;
-						}
-
-						if(! empty($desc)) {
-								$seo["desc"] = $desc;
-						}
+						$focuskw = get_post_meta( $post->ID, '_yoast_wpseo_focuskw-description', true );
+						$ogTitle = get_post_meta( $post->ID, '_yoast_wpseo_opengraph-title', true );
+						$ogDesc = get_post_meta( $post->ID, '_yoast_wpseo_opengraph-description', true );
+			
+						// Build Array
+						$seo["title"] = ! empty( $title ) ? $title : null;
+						$seo["desc"] = ! empty( $desc ) ? $desc : null;
+						$seo["focuskw"] = ! empty( $focuskw ) ? $focuskw : null;
+						$seo["ogdesc"] = ! empty( $ogDesc ) ? $ogDesc : null;
+						
 
 						return ! empty( $seo ) ? $seo : null;
 					}
