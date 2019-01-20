@@ -18,28 +18,41 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_action( 'graphql_register_types', function() {
 
 	$post_types = \WPGraphQL::$allowed_post_types;
+
+	register_graphql_object_type( 'SEO', [
+    'fields' => [
+      'title' => [ 'type' => 'String' ],
+      'desc'   => [ 'type' => 'String' ],
+    ],
+  ] );
     
 	if ( ! empty( $post_types ) && is_array( $post_types ) ) {
 		foreach ( $post_types as $post_type ) {
 			 $post_type_object = get_post_type_object( $post_type );
 
-			register_graphql_field( $post_type_object->graphql_single_name, 'seotitle', [
-					'type' => 'String',
-					'description' => __( 'The Yoast SEO Title of the '.$post_type_object->graphql_single_name, 'wp-graphql' ),
+			 
+			register_graphql_field( $post_type_object->graphql_single_name, 'seo', [
+					'type' => 'SEO',
+					'description' => __( 'The Yoast SEO data of the '.$post_type_object->graphql_single_name, 'wp-graphql' ),
 					'resolve' => function( $post ) {
-						$title = get_post_meta( $post->ID, '_yoast_wpseo_title', true );
-						return ! empty( $title ) ? $title : null;
-					}
-			 ]);
 
-			 register_graphql_field( $post_type_object->graphql_single_name, 'seometadesc', [
-					'type' => 'String',
-					'description' => __( 'The Yoast SEO Description of the '.$post_type_object->graphql_single_name, 'wp-graphql' ),
-					'resolve' => function( $post ) {
+						$seo = array();
+						$title = get_post_meta( $post->ID, '_yoast_wpseo_title', true );
 						$desc = get_post_meta( $post->ID, '_yoast_wpseo_metadesc', true );
-						return ! empty( $desc ) ? $desc : null;
+
+						if(! empty($title)) {
+								$seo["title"] = $title;
+						}
+
+						if(! empty($desc)) {
+								$seo["desc"] = $desc;
+						}
+
+						return ! empty( $seo ) ? $seo : null;
 					}
 			 ]);
+			 
+
 
 		} 
 	}
