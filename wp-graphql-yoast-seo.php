@@ -22,17 +22,23 @@ add_action( 'graphql_register_types', function() {
 	register_graphql_object_type( 'SEO', [
     'fields' => [
       'title' => [ 'type' => 'String' ],
-      'desc'   => [ 'type' => 'String' ],
+      'metaDesc'   => [ 'type' => 'String' ],
       'focuskw'   => [ 'type' => 'String' ],
-      'ogtitle'   => [ 'type' => 'String' ],
-      'ogdesc'   => [ 'type' => 'String' ],
+      'metaKeywords'   => [ 'type' => 'String' ],
+      'metaRobotsNoindex'   => [ 'type' => 'String' ],
+      'metaRobotsNofollow'   => [ 'type' => 'String' ],
+      'opengraphTitle'   => [ 'type' => 'String' ],
+      'opengraphDescription'   => [ 'type' => 'String' ],
+      'opengraphImage'   => [ 'type' => 'String' ],
+      'twitterTitle'   => [ 'type' => 'String' ],
+      'twitterDescription'   => [ 'type' => 'String' ],
+      'twitterImage'   => [ 'type' => 'String' ],
     ],
   ] );
     
 	if ( ! empty( $post_types ) && is_array( $post_types ) ) {
 		foreach ( $post_types as $post_type ) {
 			 $post_type_object = get_post_type_object( $post_type );
-
 			 
 			register_graphql_field( $post_type_object->graphql_single_name, 'seo', [
 					'type' => 'SEO',
@@ -41,19 +47,21 @@ add_action( 'graphql_register_types', function() {
 						// Base array
 						$seo = array();
 
-						// Get data
-						$title = get_post_meta( $post->ID, '_yoast_wpseo_title', true );
-						$desc = get_post_meta( $post->ID, '_yoast_wpseo_metadesc', true );
-						$focuskw = get_post_meta( $post->ID, '_yoast_wpseo_focuskw-description', true );
-						$ogTitle = get_post_meta( $post->ID, '_yoast_wpseo_opengraph-title', true );
-						$ogDesc = get_post_meta( $post->ID, '_yoast_wpseo_opengraph-description', true );
-			
-						// Build Array
-						$seo["title"] = ! empty( $title ) ? $title : null;
-						$seo["desc"] = ! empty( $desc ) ? $desc : null;
-						$seo["focuskw"] = ! empty( $focuskw ) ? $focuskw : null;
-						$seo["ogdesc"] = ! empty( $ogDesc ) ? $ogDesc : null;
-						
+						// Get data					
+						$seo = array(
+							'title' => get_post_meta($post->ID, '_yoast_wpseo_title', true),
+							'metaDesc' => get_post_meta($post->ID, '_yoast_wpseo_metadesc', true),
+							'focuskw' => get_post_meta($post->ID,'_yoast_wpseo_focuskw', true),
+							'metaKeywords' => get_post_meta($post->ID, '_yoast_wpseo_metakeywords', true),
+							'metaRobotsNoindex' => get_post_meta($post->ID, '_yoast_wpseo_meta-robots-noindex', true),
+							'metaRobotsNofollow' => get_post_meta($post->ID, '_yoast_wpseo_meta-robots-nofollow', true),
+							'opengraphTitle' => get_post_meta($post->ID, '_yoast_wpseo_opengraph-title', true),
+							'opengraphDescription' => get_post_meta($post->ID, '_yoast_wpseo_opengraph-description', true),
+							'opengraphImage' => get_post_meta($post->ID, '_yoast_wpseo_opengraph-image', true),
+							'twitterTitle' => get_post_meta($post->ID, '_yoast_wpseo_twitter-title', true),
+							'twitterDescription' => get_post_meta($post->ID, '_yoast_wpseo_twitter-description', true),
+							'twitterImage' => get_post_meta($post->ID, '_yoast_wpseo_twitter-image', true)
+					);
 
 						return ! empty( $seo ) ? $seo : null;
 					}
