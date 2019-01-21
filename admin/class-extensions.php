@@ -53,6 +53,20 @@ class WPSEO_Extensions {
 		return array_keys( $this->extensions );
 	}
 
+	public function get_first_expiry_date() {
+		$installed_addons = array_filter( array_keys( $this->extensions ), array( $this, 'is_installed' ) );
+
+		$expiry_dates = array();
+
+		foreach ( $installed_addons as $addon ) {
+			$option = get_option( $this->get_option_name( $addon ) );
+
+			$expiry_dates[] = $option[ 'expiry_date' ];
+		}
+
+		return max( $expiry_dates );
+	}
+
 	/**
 	 * Checks if the extension is valid.
 	 *

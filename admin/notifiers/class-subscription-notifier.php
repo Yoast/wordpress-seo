@@ -3,10 +3,14 @@
 
 class WPSEO_Subscription_Notifier implements WPSEO_Banner_Notification {
 
+	private $next_expiry_date;
+
 	/**
 	 * WPSEO_Subscription_Notifier constructor.
 	 */
 	public function __construct() {
+		$extensions_list = new WPSEO_Extensions();
+		$this->next_expiry_date = $extensions_list->get_first_expiry_date();
 	}
 
 	public function notify() {
@@ -15,12 +19,5 @@ class WPSEO_Subscription_Notifier implements WPSEO_Banner_Notification {
 		$image_url = esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/subscription-notification.svg' );
 
 		return WPSEO_Notification::display( $title, '', $image_url );
-	}
-
-	/**
-	 * Registers all hooks to WordPress
-	 */
-	public function register_hooks() {
-		// TODO: Implement register_hooks() method.
 	}
 }
