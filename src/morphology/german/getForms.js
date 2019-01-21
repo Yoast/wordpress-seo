@@ -1,16 +1,22 @@
 import { flattenDeep, uniq as unique } from "lodash-es";
-import { getNounForms } from "./getNounForms";
 import stem from "./stem";
 
+/**
+ * Checks whether a stemmed word is on a given exception list.
+ *
+ * @param {string} exceptionCategory    The exception category to check.
+ * @param {string} stemmedWordToCheck   The stem to check.
+ *
+ * @returns {Array<string>} The created word forms.
+ */
 const checkStemsFromExceptionList = function( exceptionCategory, stemmedWordToCheck ) {
-	for ( const stemDataSet in exceptionCategory ) {
-		const currentStemDataSet = exceptionCategory[ stemDataSet ];
+	for ( let i = 0; i < exceptionCategory.length; i++ ) {
+		const currentStemDataSet = exceptionCategory[ i ];
 
 		const stemPairToCheck = currentStemDataSet[ 0 ];
 
-		for ( const stemToCheck in stemPairToCheck ) {
-			const stemAtEndOfWord = new RegExp( stemPairToCheck[ stemToCheck ] + "$" );
-
+		for ( let j = 0; j < stemPairToCheck.length; j++ ) {
+			const stemAtEndOfWord = new RegExp( stemPairToCheck[ j ] + "$" );
 			// Check if the stemmed word ends in one of the stems of the exception list.
 			if ( stemAtEndOfWord.test( stemmedWordToCheck ) ) {
 				const precedingLexicalMaterial = stemmedWordToCheck.replace( stemAtEndOfWord, "" );
@@ -36,10 +42,11 @@ const checkStemsFromExceptionList = function( exceptionCategory, stemmedWordToCh
 };
 
 /**
- * Checks whether a stemmed word is on a given exception list.
+ * Checks whether a stemmed word is on any of the exception lists.
  *
- * @param {Object} morphologyDataNounExceptions An object with various exception categories.
- * @param {string}  stemmedWordToCheck          The stem to check.
+ * @param {Object}  morphologyDataNounExceptions    An object with various exception categories.
+ * @param {string}  stemmedWordToCheck              The stem to check.
+ *
  * @returns {Array<string>} The created word forms.
  */
 const checkExceptions = function( morphologyDataNounExceptions, stemmedWordToCheck ) {
@@ -54,6 +61,14 @@ const checkExceptions = function( morphologyDataNounExceptions, stemmedWordToChe
 	return [];
 };
 
+/**
+ * Creates morphological forms for a given German word.
+ *
+ * @param {string} word             The word to create the forms for.
+ * @param {Object} morphologyData   The German morphology data (false if unavailable).
+ *
+ * @returns {Array<string>} Array of the created
+ */
 export function getForms( word, morphologyData ) {
 	const stemmedWord = stem( word );
 	const forms = new Array( word );
@@ -65,6 +80,6 @@ export function getForms( word, morphologyData ) {
 		return unique( flattenDeep( forms ) );
 	}
 	// If the stem wasn't found on any exception list, add all regular suffixes.
-	forms.push( getNounForms( stemmedWord, morphologyData.nouns ) );
+	forms.push(  morphologyData.nouns.regularSuffixes.map( suffix => stemmedWord.concat( suffix ) )  );
 	return flattenDeep( forms );
 }
