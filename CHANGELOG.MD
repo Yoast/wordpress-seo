@@ -5,6 +5,16 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.19.0 January 21st, 2019
+### Added
+* Adds a card component.
+
+### Removed
+* Removes autocomplete functionality from the Keyphrase and Synonyms input fields.
+
+### Other
+* Bumps YoastSEO.js version to 1.46.0.
+
 ## 4.18.1 January 7th, 2019
 ### Other
 * Change eslint config to make sure tag build passes.
