@@ -9,7 +9,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ### Fixed
 * Fixes accidental removal of the SEO Assessor export from the index. Props [Kingdutch](https://github.com/Kingdutch).
 
-## 1.46.0
+## 1.46.0 January 21st, 2019
 ### Added
 * Adds readability analysis for Swedish.
 * Adds prominent words for Swedish.
