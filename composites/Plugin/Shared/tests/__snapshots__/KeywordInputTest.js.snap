@@ -130,6 +130,7 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
   >
     <input
       aria-label={null}
+      autoComplete="off"
       className="c4 c5 c6"
       id="test-id"
       onBlur={[Function]}

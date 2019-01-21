@@ -10074,6 +10074,11 @@ which@~1.2.1:
   dependencies:
     isexe "^2.0.0"
 
+wicked-good-xpath@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/wicked-good-xpath/-/wicked-good-xpath-1.3.0.tgz#81b0e95e8650e49c94b22298fff8686b5553cf6c"
+  integrity sha1-gbDpXoZQ5JyUsiKY//hoa1VTz2w=
+
 wide-align@^1.1.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/wide-align/-/wide-align-1.1.2.tgz#571e0f1b0604636ebc0dfc21b0339bbe31341710"
@@ -10345,10 +10350,10 @@ yeoman-generator@^2.0.4:
     through2 "^2.0.0"
     yeoman-environment "^2.0.5"
 
-yoastseo@^1.45.0:
-  version "1.45.0"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.45.0.tgz#3e12df84475294bbf2e7a586049b9ff2bb811384"
-  integrity sha512-S/F1xltODr6Wbv2A9HGehYQHfXZTJue4/eW+cbrxz3wOJxxVCgFl6NnYv2cR20ZlhZpJKegvmbo8aR65r3Jfwg==
+yoastseo@^1.46.0:
+  version "1.46.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.46.0.tgz#59f23945dc79a0c18124a7be8965f7089b2a3639"
+  integrity sha512-/hp/LQ/BPZtf8o/KFu9HxunnyIa/XpRoETdgCZCQ46mo1OKnGAOz+jiD8D3d+pn/7Wrxdfwz+egV5rhCcEvP3w==
   dependencies:
     "@wordpress/autop" "^2.0.2"
     htmlparser2 "^3.9.2"
