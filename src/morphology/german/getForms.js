@@ -50,12 +50,10 @@ const checkStemsFromExceptionList = function( exceptionCategory, stemmedWordToCh
  * @returns {Array<string>} The created word forms.
  */
 const checkExceptions = function( morphologyDataNounExceptions, stemmedWordToCheck ) {
-	for ( const category in morphologyDataNounExceptions ) {
-		if ( morphologyDataNounExceptions.hasOwnProperty( category ) ) {
-			const exceptions = checkStemsFromExceptionList( morphologyDataNounExceptions[ category ], stemmedWordToCheck );
-			if ( exceptions.length > 0 ) {
-				return exceptions;
-			}
+	for ( const key of Object.keys( morphologyDataNounExceptions ) ) {
+		const exceptions = checkStemsFromExceptionList( morphologyDataNounExceptions[ key ], stemmedWordToCheck );
+		if ( exceptions.length > 0 ) {
+			return exceptions;
 		}
 	}
 	return [];
