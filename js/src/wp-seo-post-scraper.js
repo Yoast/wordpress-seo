@@ -478,12 +478,12 @@ setWordPressSeoL10n();
 		editStore.subscribe( handleStoreChange.bind( null, editStore, YoastSEO.app.refresh ) );
 
 		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, editStore );
-		const shortcodePlugin = new YoastShortcodePlugin(
-			YoastSEO.app.registerPlugin,
-			YoastSEO.app.registerModification,
-			YoastSEO.app.pluginReady,
-			YoastSEO.app.pluginReloaded
-		);
+		const shortcodePlugin = new YoastShortcodePlugin( {
+			registerPlugin: YoastSEO.app.registerPlugin,
+			registerModification: YoastSEO.app.registerModification,
+			pluginReady: YoastSEO.app.pluginReady,
+			pluginReloaded: YoastSEO.app.pluginReloaded,
+		} );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
 			const markdownPlugin = new YoastMarkdownPlugin( YoastSEO.app.registerPlugin, YoastSEO.app.registerModification );
