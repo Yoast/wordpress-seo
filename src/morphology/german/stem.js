@@ -39,15 +39,15 @@ const findSuffixStep1 = function( word ) {
 	if ( c1Index !== -1 ) {
 		c1Index++;
 	}
-	let index1 = 10000;
 	let optionUsed1 = "";
-	if ( a1Index !== -1 && a1Index < index1 ) {
+	let index1 = 10000;
+	if ( a1Index !== -1 ) {
 		optionUsed1 = "a";
 		index1 = a1Index;
-	} else if ( b1Index !== -1 && b1Index < index1 ) {
+	} else if ( b1Index !== -1 ) {
 		optionUsed1 = "b";
 		index1 = b1Index;
-	} else if ( c1Index !== -1 && c1Index < index1 ) {
+	} else if ( c1Index !== -1 ) {
 		optionUsed1 = "c";
 		index1 = c1Index;
 	}
@@ -69,16 +69,12 @@ const findSuffixStep2 = function( word ) {
 	let b2Index = word.search( /(.{3}[bdfghklmnt]st)$/g );
 	// Exclude the st-ending and the preceding 3 letters.
 	if ( b2Index !== -1 ) {
-		console.log( "hi1" );
 		b2Index += 4;
 	}
-
 	let index2 = 10000;
-	if ( a2Index !== -1 && a2Index < index2 ) {
-		console.log( "hi2" );
+	if ( a2Index !== -1 ) {
 		index2 = a2Index;
-	} else if ( b2Index !== -1 && b2Index < index2 ) {
-		console.log( "hi3" );
+	} else if ( b2Index !== -1  ) {
 		index2 = b2Index;
 	}
 
