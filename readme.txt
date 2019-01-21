@@ -105,23 +105,25 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+
 = 9.6.0 =
 Release Date: February 5th, 2019
+
+## Enhancements:
+
+* Removes schema (JSON+LD) output from 404 pages.
+* Improves the Google Search Console table accessibility by removing a duplicate button.
+* Improves the code to better comply to the coding standards.
 
 ## Bugfixes:
 
 * Fixes a bug where an empty feed would be available for non-existing pages. Props [stodorovic](https://github.com/stodorovic).
-
-## Enhancements:
-
-* Prevents `vendor_prefix/j4mie/idiorm/demo.php` from being released.
-* Removes all JSON output from 404 pages.
-* Improves the Google Search Console table accessibility by removing a duplicate button.
+* Prevents `vendor_prefix/j4mie/idiorm/demo.php` from being included in the release.
 
 ## Other:
 
-* Improves the redirect upsell when user clicks on create redirect in the search console overview.
 * Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
+* Improves the redirect upsell when user clicks on create redirect in the search console overview.
 
 = 9.5.0 =
 Release Date: January 22nd, 2019
@@ -137,6 +139,7 @@ Bugfixes:
 * Fixes a bug where the 'Show archives for authors without posts in search results?' toggle would be shown when the 'Show author archives in search results?' toggle was disabled in the search appearance settings.
 * Fixes a bug where the front page would be shown in the page sitemap. Props to [stodorovic](https://github.com/stodorovic).
 * Fixes a bug where errors would be thrown in the classic editor when Gutenberg assets were enqueued without Gutenberg being active.
+* Fixes a bug where the editor would not be loaded when clicking the ‘edit’ button for a child page in the page overview. Props [mondrey](https://github.com/mondrey).
 
 Deprecated:
 

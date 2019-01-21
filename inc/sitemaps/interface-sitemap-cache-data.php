@@ -10,13 +10,25 @@
  */
 interface WPSEO_Sitemap_Cache_Data_Interface {
 
-	/** Status for normal, usable sitemap. */
+	/**
+	 * Status for normal, usable sitemap.
+	 *
+	 * @var string
+	 */
 	const OK = 'ok';
 
-	/** Status for unusable sitemap. */
+	/**
+	 * Status for unusable sitemap.
+	 *
+	 * @var string
+	 */
 	const ERROR = 'error';
 
-	/** Status for unusable sitemap because it cannot be identified. */
+	/**
+	 * Status for unusable sitemap because it cannot be identified.
+	 *
+	 * @var string
+	 */
 	const UNKNOWN = 'unknown';
 
 	/**

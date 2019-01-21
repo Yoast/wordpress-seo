@@ -8,7 +8,7 @@
 /**
  * This class generates the metabox on the edit post / page as well as contains all page analysis functionality.
  */
-class WPSEO_Metabox {
+class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * @var WPSEO_Social_Admin
@@ -1012,6 +1012,7 @@ class WPSEO_Metabox {
 	 * Outputs the page analysis score in the Publish Box.
 	 *
 	 * @deprecated 9.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -1023,6 +1024,7 @@ class WPSEO_Metabox {
 	 * Sets up all the functionality related to the prominence of the page analysis functionality.
 	 *
 	 * @deprecated 9.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */

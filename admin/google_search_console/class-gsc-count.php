@@ -11,12 +11,16 @@
 class WPSEO_GSC_Count {
 
 	/**
-	 * @var string The name of the option containing the last checked timestamp.
+	 * The name of the option containing the last checked timestamp.
+	 *
+	 * @var string
 	 */
 	const OPTION_CI_LAST_FETCH = 'wpseo_gsc_last_fetch';
 
 	/**
-	 * @var string The option name where the issues counts are saved.
+	 * The option name where the issues counts are saved.
+	 *
+	 * @var string
 	 */
 	const OPTION_CI_COUNTS = 'wpseo_gsc_issues_counts';
 

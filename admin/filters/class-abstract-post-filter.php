@@ -10,6 +10,9 @@
  */
 abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration {
 
+	/**
+	 * @var string
+	 */
 	const FILTER_QUERY_ARG = 'yoast_filter';
 
 	/**

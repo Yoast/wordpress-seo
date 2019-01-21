@@ -10,6 +10,9 @@
  */
 class WPSEO_Config_Component_Mailchimp_Signup implements WPSEO_Config_Component {
 
+	/**
+	 * @var string
+	 */
 	const META_NAME = 'wpseo-has-mailchimp-signup';
 
 	/**

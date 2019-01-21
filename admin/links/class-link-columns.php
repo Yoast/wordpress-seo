@@ -11,12 +11,16 @@
 class WPSEO_Link_Columns {
 
 	/**
-	 * @var string Partial column name.
+	 * Partial column name.
+	 *
+	 * @var string
 	 */
 	const COLUMN_LINKED = 'linked';
 
 	/**
-	 * @var string Partial column name.
+	 * Partial column name.
+	 *
+	 * @var string
 	 */
 	const COLUMN_LINKS = 'links';
 
