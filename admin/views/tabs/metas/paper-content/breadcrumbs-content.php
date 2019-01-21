@@ -36,6 +36,24 @@ $yform->toggle_switch(
 	__( 'Bold the last page', 'wordpress-seo' )
 );
 
+$breadcrumbsnav_help = new WPSEO_Admin_Help_Panel(
+	'breadcrumbs-nav-wrapper',
+	esc_html__( 'Help on the breadcrumbs as navigation setting', 'wordpress-seo' ),
+	sprintf(
+		/* translators: %s expands to <code><nav></code> */
+		esc_html__( 'Wrap the breadcrumbs in a %s element for better semantics and accessibility.', 'wordpress-seo' ),
+		'<code>&lt;nav&gt;</code>'
+	)
+);
+
+$yform->light_switch(
+	'breadcrumbs-nav-wrapper',
+	__( 'Use breadcrumbs as navigation', 'wordpress-seo' ),
+	array(),
+	true,
+	$breadcrumbsnav_help->get_button_html() . $breadcrumbsnav_help->get_panel_html()
+);
+
 echo '<br/><br/>';
 
 /*

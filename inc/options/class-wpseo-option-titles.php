@@ -58,6 +58,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'breadcrumbs-prefix'            => '', // Text field.
 		'breadcrumbs-searchprefix'      => '', // Text field.
 		'breadcrumbs-sep'               => '&raquo;', // Text field.
+		'breadcrumbs-nav-wrapper'       => false,
 
 		'website_name'                  => '',
 		'person_name'                   => '',
@@ -515,6 +516,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'breadcrumbs-display-blog-page'
 				 *  'breadcrumbs-boldlast'
 				 *  'breadcrumbs-enable'
+				 *  'breadcrumbs-nav-wrapper'
 				 *  'stripcategorybase'
 				 *  'is-media-purge-relevant'
 				 */

@@ -146,7 +146,14 @@ class WPSEO_Breadcrumbs {
 		self::$after  = $after;
 
 		$instance = self::get_instance();
-		$output   = $before . $instance->output . $after;
+
+		// Override the before and after strings when breadcrumbs are set to be within a `<nav>` element.
+		if ( WPSEO_Options::get( 'breadcrumbs-nav-wrapper' ) === true ) {
+			$before = '<nav aria-label="' . __( 'Breadcrumbs', 'wordpress-seo' ) . '"' . self::get_output_id() . self::get_output_class() . '>';
+			$after  = '</nav>';
+		}
+
+		$output = $before . $instance->output . $after;
 
 		if ( $display === true ) {
 			echo $output;
@@ -629,7 +636,7 @@ class WPSEO_Breadcrumbs {
 	private function add_crumbs_for_taxonomy() {
 		$term = $GLOBALS['wp_query']->get_queried_object();
 
-		// @todo adjust function name!!
+		// @todo adjust function name.
 		$this->maybe_add_preferred_term_parent_crumb( $term );
 
 		$this->maybe_add_term_parent_crumbs( $term );
@@ -958,7 +965,7 @@ class WPSEO_Breadcrumbs {
 					$inner_elm = 'strong';
 				}
 
-				$link_output .= '<' . $inner_elm . ' class="breadcrumb_last">' . $link['text'] . '</' . $inner_elm . '>';
+				$link_output .= '<' . $inner_elm . ' class="breadcrumb_last" aria-current="page">' . $link['text'] . '</' . $inner_elm . '>';
 				// This is the last element, now close all previous elements.
 				while ( $i > 0 ) {
 					$link_output .= '</' . $this->element . '>';
@@ -998,11 +1005,16 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Wrap a complete breadcrumb string in a Breadcrumb RDFA wrapper.
+	 * Wrap a complete breadcrumb string in a wrapper.
 	 */
 	private function wrap_breadcrumb() {
 		if ( is_string( $this->output ) && $this->output !== '' ) {
-			$output = '<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . '>' . $this->output . '</' . $this->wrapper . '>';
+			$output = '<' . $this->wrapper . self::get_output_id() . self::get_output_class() . '>' . $this->output . '</' . $this->wrapper . '>';
+
+			// Don't print out the wrapper when breadcrumbs are within a `<nav>` element.
+			if ( WPSEO_Options::get( 'breadcrumbs-nav-wrapper' ) === true ) {
+				$output = $this->output;
+			}
 
 			/**
 			 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the Yoast SEO breadcrumbs class.
@@ -1012,7 +1024,7 @@ class WPSEO_Breadcrumbs {
 			$output = apply_filters( 'wpseo_breadcrumb_output', $output );
 
 			if ( WPSEO_Options::get( 'breadcrumbs-prefix' ) !== '' ) {
-				$output = "\t" . WPSEO_Options::get( 'breadcrumbs-prefix' ) . "\n" . $output;
+				$output = "\t" . '<span class="breadcrumbs-prefix">' . WPSEO_Options::get( 'breadcrumbs-prefix' ) . "</span>\n" . $output;
 			}
 
 			$this->output = $output;
@@ -1024,7 +1036,7 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @return string
 	 */
-	private function get_output_id() {
+	private static function get_output_id() {
 		/**
 		 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the Yoast SEO breadcrumbs wrapper element.
 		 *
@@ -1043,7 +1055,7 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @return string
 	 */
-	private function get_output_class() {
+	private static function get_output_class() {
 		/**
 		 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the Yoast SEO breadcrumbs wrapper element.
 		 *
