@@ -2,14 +2,16 @@ import { flattenDeep, uniq as unique } from "lodash-es";
 import stem from "./stem";
 
 /**
- * Checks whether a stemmed word is on a given exception list.
+ * Checks whether a stemmed word is on a given exception list for which we have full forms.
  *
- * @param {string} exceptionCategory    The exception category to check.
+ * @param {array} exceptionCategory     The exception category to check.
  * @param {string} stemmedWordToCheck   The stem to check.
  *
  * @returns {Array<string>} The created word forms.
  */
 const checkStemsFromExceptionList = function( exceptionCategory, stemmedWordToCheck ) {
+	console.log( "exceptionCategory exception lists", exceptionCategory );
+
 	for ( let i = 0; i < exceptionCategory.length; i++ ) {
 		const currentStemDataSet = exceptionCategory[ i ];
 
@@ -42,21 +44,60 @@ const checkStemsFromExceptionList = function( exceptionCategory, stemmedWordToCh
 };
 
 /**
+ * Checks whether a stemmed word has an ending for which we can predict possible suffix forms.
+ *
+ * @param {array} exceptionCategory     The exception category to check.
+ * @param {string} stemmedWordToCheck   The stem to check.
+ *
+ * @returns {Array<string>} The created word forms.
+ */
+const checkStemsWithPredictableSuffixes = function( exceptionCategory, stemmedWordToCheck ) {
+	const exceptionStems = exceptionCategory[ 0 ].map( exceptionStem => new RegExp( exceptionStem + "$" ) );
+	const suffixes = exceptionCategory[ 1 ];
+
+	for ( let i = 0; i < exceptionStems.length; i++ ) {
+		const currentStem = exceptionStems[ i ];
+
+		if ( currentStem.test( stemmedWordToCheck ) ) {
+			return suffixes.map( suffix => stemmedWordToCheck.concat( suffix ) );
+		}
+	}
+
+	return [];
+};
+
+/**
  * Checks whether a stemmed word is on any of the exception lists.
  *
- * @param {Object}  morphologyDataNounExceptions    An object with various exception categories.
+ * @param {Object}  morphologyDataNouns             An object with the German morphology data for nouns.
  * @param {string}  stemmedWordToCheck              The stem to check.
  *
  * @returns {Array<string>} The created word forms.
  */
-const checkExceptions = function( morphologyDataNounExceptions, stemmedWordToCheck ) {
-	for ( const key of Object.keys( morphologyDataNounExceptions ) ) {
-		const exceptions = checkStemsFromExceptionList( morphologyDataNounExceptions[ key ], stemmedWordToCheck );
+const checkExceptions = function( morphologyDataNouns, stemmedWordToCheck ) {
+	let exceptions = [];
+
+	// Check exceptions with full forms.
+	const exceptionStemsWithFullForms = morphologyDataNouns.exceptionStemsWithFullForms;
+
+	for ( const key of Object.keys( exceptionStemsWithFullForms ) ) {
+		exceptions = checkStemsFromExceptionList( exceptionStemsWithFullForms[ key ], stemmedWordToCheck );
 		if ( exceptions.length > 0 ) {
 			return exceptions;
 		}
 	}
-	return [];
+
+	// Check exceptions with predictable suffixes.
+	const exceptionsStemsPredictableSuffixes = morphologyDataNouns.exceptionsStemsPredictableSuffixes;
+
+	for ( const key of Object.keys( exceptionsStemsPredictableSuffixes ) ) {
+		exceptions = checkStemsWithPredictableSuffixes( exceptionsStemsPredictableSuffixes[ key ], stemmedWordToCheck );
+		if ( exceptions.length > 0 ) {
+			return exceptions;
+		}
+	}
+
+	return exceptions;
 };
 
 /**
@@ -70,7 +111,7 @@ const checkExceptions = function( morphologyDataNounExceptions, stemmedWordToChe
 export function getForms( word, morphologyData ) {
 	const stemmedWord = stem( word );
 	const forms = new Array( word );
-	const exceptions = checkExceptions( morphologyData.nouns.exceptionStemsWithFullForms, stemmedWord );
+	const exceptions = checkExceptions( morphologyData.nouns, stemmedWord );
 
 	// Check exceptions.
 	if ( exceptions.length > 0 ) {

@@ -70,4 +70,12 @@ describe( "Test for creating forms from German nouns", () => {
 			"autofokussen",
 		] );
 	} );
+
+	it( "creates noun forms for a stem classes for which we can predict the suffixes they take", () => {
+		expect( getForms( "pommad", morphologyDataDE ) ).toEqual( [
+			"pommad",
+			"pommade",
+			"pommaden",
+		] );
+	} );
 } );
