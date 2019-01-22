@@ -10,8 +10,6 @@ import stem from "./stem";
  * @returns {Array<string>} The created word forms.
  */
 const checkStemsFromExceptionList = function( exceptionCategory, stemmedWordToCheck ) {
-	console.log( "exceptionCategory exception lists", exceptionCategory );
-
 	for ( let i = 0; i < exceptionCategory.length; i++ ) {
 		const currentStemDataSet = exceptionCategory[ i ];
 
@@ -52,7 +50,18 @@ const checkStemsFromExceptionList = function( exceptionCategory, stemmedWordToCh
  * @returns {Array<string>} The created word forms.
  */
 const checkStemsWithPredictableSuffixes = function( exceptionCategory, stemmedWordToCheck ) {
-	const exceptionStems = exceptionCategory[ 0 ].map( exceptionStem => new RegExp( exceptionStem + "$" ) );
+	// There are some exceptions to this rule. If the current stem falls into this category, the rule doesn't apply.
+	const exceptionsToTheException = exceptionCategory[ 2 ].map( exceptionToException => new RegExp( exceptionToException ) );
+	for ( let i = 0; i < exceptionsToTheException.length; i++ ) {
+		const currentStem = exceptionsToTheException[ i ];
+
+		if ( currentStem.test( stemmedWordToCheck ) ) {
+			return [];
+		}
+	}
+
+
+	const exceptionStems = exceptionCategory[ 0 ].map( exceptionStem => new RegExp( exceptionStem ) );
 	const suffixes = exceptionCategory[ 1 ];
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
@@ -101,6 +110,48 @@ const checkExceptions = function( morphologyDataNouns, stemmedWordToCheck ) {
 };
 
 /**
+ * Adds or removes suffixes from the list of regulars depending on the ending of the stem checked.
+ *
+ * @param {Array<string>}   regularSuffixes     All regular suffixes for German
+ * @param {Object}          morphologyDataNouns An object with the German morphology data for nouns.
+ * @param {string}          stemmedWordToCheck  The stem to check.
+ *
+ * @returns {Array<string>} The modified list of regular suffixes.
+ */
+const modifyListOfRegularSuffixes = function( regularSuffixes, morphologyDataNouns, stemmedWordToCheck ) {
+	const additions = morphologyDataNouns.regularSuffixAdditions;
+	const deletions = morphologyDataNouns.regularSuffixDeletions;
+
+	for ( const key of Object.keys( additions ) ) {
+		const endingsToCheck = additions[ key ][ 0 ];
+		const suffixesToAdd = additions[ key ][ 1 ];
+		const endingsToCheckRegexes = endingsToCheck.map( ending => new RegExp( ending ) );
+
+		for ( let i = 0; i < endingsToCheckRegexes.length; i++ ) {
+			if ( endingsToCheckRegexes[ i ].test( stemmedWordToCheck ) ) {
+				regularSuffixes.push( suffixesToAdd );
+			}
+		}
+	}
+
+	regularSuffixes = flattenDeep( regularSuffixes );
+
+	for ( const key of Object.keys( deletions ) ) {
+		const endingsToCheck = deletions[ key ][ 0 ];
+		const suffixesToDelete = deletions[ key ][ 1 ];
+		const endingsToCheckRegexes = endingsToCheck.map( ending => new RegExp( ending ) );
+
+		for ( let i = 0; i < endingsToCheckRegexes.length; i++ ) {
+			if ( endingsToCheckRegexes[ i ].test( stemmedWordToCheck ) ) {
+				regularSuffixes = regularSuffixes.filter( ending => ! suffixesToDelete.includes( ending ) );
+			}
+		}
+	}
+
+	return flattenDeep( regularSuffixes );
+};
+
+/**
  * Creates morphological forms for a given German word.
  *
  * @param {string} word             The word to create the forms for.
@@ -110,7 +161,7 @@ const checkExceptions = function( morphologyDataNouns, stemmedWordToCheck ) {
  */
 export function getForms( word, morphologyData ) {
 	const stemmedWord = stem( word );
-	const forms = new Array( word );
+	let forms = new Array( word );
 	const exceptions = checkExceptions( morphologyData.nouns, stemmedWord );
 
 	// Check exceptions.
@@ -118,7 +169,16 @@ export function getForms( word, morphologyData ) {
 		forms.push( exceptions );
 		return unique( flattenDeep( forms ) );
 	}
-	// If the stem wasn't found on any exception list, add all regular suffixes.
-	forms.push(  morphologyData.nouns.regularSuffixes.map( suffix => stemmedWord.concat( suffix ) )  );
-	return flattenDeep( forms );
+
+	let regularSuffixes = morphologyData.nouns.regularSuffixes.slice();
+	// Depending on the specific ending of the stem, we can add/remove some suffixes from the list of regulars.
+	regularSuffixes = modifyListOfRegularSuffixes( regularSuffixes, morphologyData.nouns, stemmedWord );
+
+
+	// If the stem wasn't found on any exception list, add regular suffixes.
+	forms.push(  regularSuffixes.map( suffix => stemmedWord.concat( suffix ) )  );
+	forms = flattenDeep( forms );
+
+
+	return forms;
 }

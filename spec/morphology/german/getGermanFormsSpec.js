@@ -71,11 +71,62 @@ describe( "Test for creating forms from German nouns", () => {
 		] );
 	} );
 
-	it( "creates noun forms for a stem classes for which we can predict the suffixes they take", () => {
-		expect( getForms( "pommad", morphologyDataDE ) ).toEqual( [
-			"pommad",
-			"pommade",
-			"pommaden",
+	it( "creates noun forms for a noun that only gets an -en suffix", () => {
+		expect( getForms( "warnung", morphologyDataDE ) ).toEqual( [
+			"warnung",
+			"warnungen",
+		] );
+	} );
+
+	it( "makes sure that an exception to the -en suffix rule skips that rule", () => {
+		expect( getForms( "hochsprung", morphologyDataDE ) ).toEqual( [
+			"hochsprung",
+			"hochsprunge",
+			"hochsprungen",
+			"hochsprungens",
+			"hochsprunger",
+			"hochsprungern",
+			"hochsprungers",
+			"hochsprunges",
+			"hochsprungs",
+		] );
+	} );
+
+	it( "creates noun forms for a noun doesn't get an -s suffix (but all other regular suffixes)", () => {
+		expect( getForms( "maß", morphologyDataDE ) ).toEqual( [
+			"maß",
+			"maße",
+			"maßen",
+			"maßens",
+			"maßer",
+			"maßern",
+			"maßers",
+			"maßes",
+		] );
+	} );
+
+	it( "creates noun forms for a noun gets -n and -ns suffixes in addition to all other regular suffixes", () => {
+		expect( getForms( "winkel", morphologyDataDE ) ).toEqual( [
+			"winkel",
+			"winkele",
+			"winkelen",
+			"winkelens",
+			"winkeler",
+			"winkelern",
+			"winkelers",
+			"winkeles",
+			"winkels",
+			"winkeln",
+			"winkelns",
+		] );
+	} );
+
+	it( "removes -e endings and adds -n/-ns for a stem ending in -e", () => {
+		expect( getForms( "tee", morphologyDataDE ) ).toEqual( [
+			"tee",
+			"tees",
+			"teen",
+			"teens",
 		] );
 	} );
 } );
