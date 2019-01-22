@@ -1,7 +1,7 @@
 <?php
 
 
-class WPSEO_Subscription_Notifier implements WPSEO_Banner_Notification {
+class WPSEO_Subscription_Notifier implements WPSEO_Notifier {
 
 	private $next_expiry_date;
 

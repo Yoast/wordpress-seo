@@ -8,9 +8,17 @@
 /** @noinspection PhpUnusedLocalVariableInspection */
 $alerts_data = Yoast_Alerts::get_template_variables();
 
+$configuration_notifier = new WPSEO_Configuration_Notifier();
+$configuration_notifier->listen();
+
+/**
+ * The notifiers.
+ *
+ * @var WPSEO_Notifier[] $notifications
+ */
 $notifications = array(
 	new WPSEO_Subscription_Notifier(),
-	new WPSEO_Configuration_Notifier(),
+	$configuration_notifier,
 );
 
 $wpseo_contributors_phrase = sprintf(
