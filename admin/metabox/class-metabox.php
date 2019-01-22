@@ -97,7 +97,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		WPSEO_Meta::$meta_fields['advanced']['canonical']['description'] = sprintf(
 			/* translators: 1: link open tag; 2: link close tag. */
-			__( 'The canonical URL that this page should point to, leave empty to default to permalink. %1$sCross domain canonical%2$s supported too.', 'wordpress-seo' ),
+			__( 'The canonical URL that this page should point to. Leave empty to default to permalink. %1$sCross domain canonical%2$s supported too.', 'wordpress-seo' ),
 			'<a href="https://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html" target="_blank" rel="noopener">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
