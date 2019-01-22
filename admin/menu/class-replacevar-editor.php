@@ -72,7 +72,8 @@ class WPSEO_Replacevar_Editor {
 		$this->yform->hidden( $this->arguments['title'], $this->arguments['title'] );
 		$this->yform->hidden( $this->arguments['description'], $this->arguments['description'] );
 
-		printf( '<div
+		printf(
+			'<div
 				data-react-replacevar-editor
 				data-react-replacevar-title-field-id="%1$s"
 				data-react-replacevar-metadesc-field-id="%2$s"

@@ -14,6 +14,16 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	private $user_id;
 
 	/**
+	 * Default notification arguments to set up a fake Yoast_Notification.
+	 *
+	 * @var array
+	 */
+	private $fake_notification_defaults = array(
+		'id'            => 'some_id',
+		'dismissal_key' => 'notification_dismissal',
+	);
+
+	/**
 	 * Create user with proper caps
 	 */
 	public function setUp() {
@@ -460,10 +470,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$site2 = self::factory()->blog->create();
 
-		$notification  = new Yoast_Notification( 'notification', array(
-			'id'            => 'some_id',
-			'dismissal_key' => 'notification_dismissal',
-		) );
+		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// Dismiss notification for the current site.
@@ -490,10 +497,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$site2 = self::factory()->blog->create();
 
-		$notification  = new Yoast_Notification( 'notification', array(
-			'id'            => 'some_id',
-			'dismissal_key' => 'notification_dismissal',
-		) );
+		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// Dismiss notification for both sites.
@@ -526,10 +530,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$site2 = self::factory()->blog->create();
 
-		$notification  = new Yoast_Notification( 'notification', array(
-			'id'            => 'some_id',
-			'dismissal_key' => 'notification_dismissal',
-		) );
+		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// Dismiss notification for the current site.
@@ -552,10 +553,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_is_notification_dismissed_falls_back_to_user_meta() {
 
-		$notification  = new Yoast_Notification( 'notification', array(
-			'id'            => 'some_id',
-			'dismissal_key' => 'notification_dismissal',
-		) );
+		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// Dismiss notification in the old incorrect way.
@@ -577,10 +575,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_restore_notification_clears_user_meta() {
 
-		$notification  = new Yoast_Notification( 'notification', array(
-			'id'            => 'some_id',
-			'dismissal_key' => 'notification_dismissal',
-		) );
+		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// Set notification dismissed in both user option and old user meta way.
@@ -701,12 +696,14 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function get_sample_notifications() {
 		return array(
-			new Yoast_Notification( 'notification', array(
-				'id' => 'some_id',
-			) ),
-			new Yoast_Notification( 'notification', array(
-				'id' => 'another_id',
-			) ),
+			new Yoast_Notification(
+				'notification',
+				array( 'id' => 'some_id' )
+			),
+			new Yoast_Notification(
+				'notification',
+				array( 'id' => 'another_id' )
+			),
 		);
 	}
 

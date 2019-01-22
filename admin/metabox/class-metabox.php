@@ -193,12 +193,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$tab_registered = true;
 			}
 
-			add_meta_box( 'wpseo_meta', $product_title, array(
-				$this,
-				'meta_box',
-			), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ), array(
-				'__block_editor_compatible_meta_box' => true,
-			) );
+			add_meta_box(
+				'wpseo_meta',
+				$product_title,
+				array( $this, 'meta_box' ),
+				$post_type,
+				'normal',
+				apply_filters( 'wpseo_metabox_prio', 'high' ),
+				array( '__block_editor_compatible_meta_box' => true )
+			);
 		}
 	}
 
@@ -305,8 +308,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
 
-		$helpcenter_tab = new WPSEO_Option_Tab( 'metabox', __( 'Meta box', 'wordpress-seo' ),
-			array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-screencast' ) ) );
+		$helpcenter_tab = new WPSEO_Option_Tab(
+			'metabox',
+			__( 'Meta box', 'wordpress-seo' ),
+			array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-screencast' ) )
+		);
 
 		$help_center = new WPSEO_Help_Center( '', $helpcenter_tab, WPSEO_Utils::is_yoast_seo_premium() );
 		$help_center->localize_data();
@@ -411,9 +417,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'advanced',
 			$content,
 			__( 'Advanced', 'wordpress-seo' ),
-			array(
-				'single' => true,
-			)
+			array( 'single' => true )
 		);
 
 		return new WPSEO_Metabox_Tab_Section(
@@ -433,7 +437,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	private function get_buy_premium_link() {
-		return sprintf( '<div class="%1$s"><a target="_blank" rel="noopener noreferrer" href="%2$s"><span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>%3$s</a></div>',
+		return sprintf(
+			'<div class="%1$s"><a target="_blank" rel="noopener noreferrer" href="%2$s"><span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>%3$s</a></div>',
 			'wpseo-metabox-buy-premium',
 			esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3g6' ) ),
 			__( 'Go Premium', 'wordpress-seo' )
@@ -819,11 +824,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
 		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoAnalysisWorkerL10n', array(
+
+		$localization_data = array(
 			'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 			'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
-		) );
+		);
+		wp_localize_script(
+			WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper',
+			'wpseoAnalysisWorkerL10n',
+			$localization_data
+		);
 
 		/**
 		 * Remove the emoji script as it is incompatible with both React and any
@@ -835,7 +846,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ) );
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 			$asset_manager->enqueue_style( 'featured-image' );

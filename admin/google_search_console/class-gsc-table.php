@@ -239,11 +239,13 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 * @param int $posts_per_page Number of items per page.
 	 */
 	private function set_pagination( $total_items, $posts_per_page ) {
-		$this->set_pagination_args( array(
+		$pagination_args = array(
 			'total_items' => $total_items,
 			'total_pages' => ceil( ( $total_items / $posts_per_page ) ),
 			'per_page'    => $posts_per_page,
-		) );
+		);
+
+		$this->set_pagination_args( $pagination_args );
 	}
 
 	/**

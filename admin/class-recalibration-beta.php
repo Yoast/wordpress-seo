@@ -177,7 +177,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 				)
 			);
 
-			 $this->set_mailinglist_subscription();
+			$this->set_mailinglist_subscription();
 		}
 		catch ( Requests_Exception_HTTP $e ) {
 			// Intentionally left blank. @todo We should offer this to a logger.

@@ -24,14 +24,13 @@ class WPSEO_Config_Field_Success_Message extends WPSEO_Config_Field {
 
 		$this->set_property( 'title', __( 'You\'ve done it!', 'wordpress-seo' ) );
 		$this->set_property( 'message', $success_message );
-		$this->set_property( 'video', array(
-				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-screencast' ),
-				'title' => sprintf(
-					/* translators: %1$s expands to Yoast SEO. */
-					__( '%1$s video tutorial', 'wordpress-seo' ),
-					'Yoast SEO'
-				),
-			)
+
+		/* translators: %1$s expands to Yoast SEO. */
+		$video_title = __( '%1$s video tutorial', 'wordpress-seo' );
+		$video_args  = array(
+			'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-screencast' ),
+			'title' => sprintf( $video_title, 'Yoast SEO' ),
 		);
+		$this->set_property( 'video', $video_args );
 	}
 }

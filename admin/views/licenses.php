@@ -207,7 +207,7 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 					);
 					echo $new_tab_message;
 					?>
-				 </a>
+				</a>
 			<?php endif; ?>
 			<?php if ( ! $extensions->is_activated( 'wordpress-seo-premium' ) ) { ?>
 				<p><small class="yoast-money-back-guarantee"><?php esc_html_e( 'Comes with our 30-day no questions asked money back guarantee', 'wordpress-seo' ); ?></small></p>

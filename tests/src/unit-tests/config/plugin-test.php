@@ -169,15 +169,16 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\YoastSEO\Config\Plugin::trigger_integration_hook()
 	 */
 	public function test_register_hooks() {
+		$methods = array(
+			'is_admin',
+			'is_frontend',
+			'add_admin_integrations',
+			'add_frontend_integrations',
+			'get_integration_group',
+		);
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
-			->setMethods( array(
-				'is_admin',
-				'is_frontend',
-				'add_admin_integrations',
-				'add_frontend_integrations',
-				'get_integration_group'
-			) )
+			->setMethods( $methods )
 			->getMock();
 
 		$instance
@@ -258,9 +259,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	public function test_add_frontend_integrations() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
-			->setMethods( array(
-				'add_integration'
-			) )
+			->setMethods( array( 'add_integration' ) )
 			->getMock();
 
 		$instance
@@ -279,9 +278,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	public function test_add_admin_integrations() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
-			->setMethods( array(
-				'add_integration'
-			) )
+			->setMethods( array( 'add_integration' ) )
 			->getMock();
 
 		$instance

@@ -55,7 +55,7 @@ class WPSEO_Metabox_Formatter {
 			'keywordTab'                => __( 'Keyphrase:', 'wordpress-seo' ),
 			'removeKeyword'             => __( 'Remove keyphrase', 'wordpress-seo' ),
 			'contentLocale'             => get_locale(),
-			'userLocale'                => WPSEO_Utils::get_user_locale(),
+			'userLocale'                => WPSEO_Language_Utils::get_user_locale(),
 			'translations'              => $this->get_translations(),
 			'keyword_usage'             => array(),
 			'title_template'            => '',
@@ -66,7 +66,7 @@ class WPSEO_Metabox_Formatter {
 			'intl'                      => $this->get_content_analysis_component_translations(),
 			'isRtl'                     => is_rtl(),
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
-			'wordFormRecognitionActive' => ( WPSEO_Utils::get_language( get_locale() ) === 'en' ),
+			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
 			'recalibrationBetaActive'   => WPSEO_Recalibration_Beta::is_enabled(),
 
 			/**
@@ -158,7 +158,7 @@ class WPSEO_Metabox_Formatter {
 	private function get_content_analysis_component_translations() {
 		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
 		return array(
-			'locale'                                         => WPSEO_Utils::get_user_locale(),
+			'locale'                                         => WPSEO_Language_Utils::get_user_locale(),
 			'content-analysis.language-notice-link'          => __( 'Change language', 'wordpress-seo' ),
 			'content-analysis.errors'                        => __( 'Errors', 'wordpress-seo' ),
 			'content-analysis.problems'                      => __( 'Problems', 'wordpress-seo' ),
@@ -193,12 +193,14 @@ class WPSEO_Metabox_Formatter {
 			'link'                     => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
 			'other'                    => sprintf(
 				/* translators: %s expands to 'Yoast SEO Premium'. */
-				__( 'Other benefits of %s for you:', 'wordpress-seo' ), 'Yoast SEO Premium'
+				__( 'Other benefits of %s for you:', 'wordpress-seo' ),
+				'Yoast SEO Premium'
 			),
 			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ),
 			'buy'                      => sprintf(
 				/* translators: %s expands to 'Yoast SEO Premium'. */
-				__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium'
+				__( 'Get %s', 'wordpress-seo' ),
+				'Yoast SEO Premium'
 			),
 			'small'                    => __( '1 year free updates and upgrades included!', 'wordpress-seo' ),
 			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
@@ -211,7 +213,7 @@ class WPSEO_Metabox_Formatter {
 	 * @return array
 	 */
 	private function get_translations() {
-		$locale = WPSEO_Utils::get_user_locale();
+		$locale = WPSEO_Language_Utils::get_user_locale();
 
 		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . $locale . '.json';
 		if ( file_exists( $file ) ) {

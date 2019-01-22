@@ -21,10 +21,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	public function test_initialize_with_set_defines_failing() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array(
-				null,
-				new Dependency_Management(),
-			) )
+			->setConstructorArgs( array( null, new Dependency_Management() ) )
 			->setMethods( array( 'set_defines' ) )
 			->getMock();
 
@@ -43,9 +40,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
 			->disableOriginalConstructor()
-			->setMethods( array(
-				'get_migration_state',
-			) )
+			->setMethods( array( 'get_migration_state' ) )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -62,9 +57,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
 			->disableOriginalConstructor()
-			->setMethods( array(
-				'get_migration_state',
-			) )
+			->setMethods( array( 'get_migration_state' ) )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -80,14 +73,13 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	public function test_migration_success() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array(
-				null,
-				new Dependency_Management(),
-			) )
-			->setMethods( array(
-				'set_defines',
-				'get_framework_runner',
-			) )
+			->setConstructorArgs( array( null, new Dependency_Management() ) )
+			->setMethods(
+				array(
+					'set_defines',
+					'get_framework_runner',
+				)
+			)
 			->getMock();
 
 		$instance
@@ -111,10 +103,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	public function test_initialize_with_exception_thrown() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array(
-				null,
-				new Dependency_Management(),
-			) )
+			->setConstructorArgs( array( null, new Dependency_Management() ) )
 			->setMethods(
 				array(
 					'set_defines',
@@ -148,7 +137,8 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_get_charset() {
 		$instance = new Database_Migration_Double(
-			(object) array( 'charset' => 'foo' ), new Dependency_Management()
+			(object) array( 'charset' => 'foo' ),
+			new Dependency_Management()
 		);
 
 		$this->assertEquals( 'foo', $instance->get_charset() );
@@ -161,7 +151,8 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_get_configuration() {
 		$instance = new Database_Migration_Double(
-			(object) array( 'charset' => 'foo' ), new Dependency_Management()
+			(object) array( 'charset' => 'foo' ),
+			new Dependency_Management()
 		);
 
 		$this->assertInternalType( 'array', $instance->get_configuration() );
@@ -173,10 +164,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	public function test_set_define_success() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array(
-				null,
-				new Dependency_Management(),
-			) )
+			->setConstructorArgs( array( null, new Dependency_Management() ) )
 			->setMethods(
 				array( 'set_define', 'get_defines' )
 			)
@@ -202,10 +190,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	public function test_set_define_failed() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array(
-				null,
-				new Dependency_Management(),
-			) )
+			->setConstructorArgs( array( null, new Dependency_Management() ) )
 			->setMethods(
 				array( 'set_define', 'get_defines' )
 			)

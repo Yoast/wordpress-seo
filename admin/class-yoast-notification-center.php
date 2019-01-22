@@ -76,10 +76,11 @@ class Yoast_Notification_Center {
 		if ( false === ( $notification instanceof Yoast_Notification ) ) {
 
 			// Permit legacy.
-			$notification = new Yoast_Notification( '', array(
+			$options      = array(
 				'id'            => $notification_id,
 				'dismissal_key' => $notification_id,
-			) );
+			);
+			$notification = new Yoast_Notification( '', $options );
 		}
 
 		if ( self::maybe_dismiss_notification( $notification ) ) {
@@ -546,7 +547,8 @@ class Yoast_Notification_Center {
 	private static function get_user_input( $key ) {
 
 		$filter_input_type = INPUT_GET;
-		if ( 'POST' === strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+
+		if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === strtoupper( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) ) {
 			$filter_input_type = INPUT_POST;
 		}
 
@@ -554,9 +556,9 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Retrieve the notifications from storage
+	 * Retrieve the notifications from storage.
 	 *
-	 * @return array Yoast_Notification[] Notifications
+	 * @return array|void Yoast_Notification[] Notifications.
 	 */
 	private function retrieve_notifications_from_storage() {
 

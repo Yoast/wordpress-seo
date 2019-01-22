@@ -29,6 +29,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	public function setUp() {
 		parent::setUp();
 		$this->set_permalink_structure( '' );
+		create_initial_taxonomies();
 	}
 
 	/**
@@ -275,6 +276,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_adjacent_rel_links_canonical_split_up_post_pretty_permalinks() {
 		$this->set_permalink_structure( '/%postname%/' );
+		create_initial_taxonomies();
 
 		$post_id = $this->factory->post->create(
 			array(

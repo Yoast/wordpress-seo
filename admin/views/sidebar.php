@@ -125,7 +125,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			</div>
 		</div>
 		<div class="yoast-sidebar__section">
-			<strong><?php esc_html_e( 'Remove these ads?', 'wordpress-seo' ) ?></strong>
+			<strong><?php esc_html_e( 'Remove these ads?', 'wordpress-seo' ); ?></strong>
 			<p>
 				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jy' ); ?>" target="_blank">
 					<?php

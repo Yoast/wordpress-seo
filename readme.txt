@@ -105,6 +105,29 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+= 9.5.0 =
+Release Date: January 22nd, 2019
+
+Enhancements:
+
+* Completes the readabilty analysis for Swedish by adding the transition words, sentence beginnings and passive voice assessments.
+* Improves the transition word assessment for German.
+
+Bugfixes:
+
+* Fixes a bug where the Ryte endpoint would be called when the Ryte feature has been disabled.
+* Fixes a bug where the 'Show archives for authors without posts in search results?' toggle would be shown when the 'Show author archives in search results?' toggle was disabled in the search appearance settings.
+* Fixes a bug where the front page would be shown in the page sitemap. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where errors would be thrown in the classic editor when Gutenberg assets were enqueued without Gutenberg being active.
+* Fixes a bug where the editor would not be loaded when clicking the ‘edit’ button for a child page in the page overview. Props [mondrey](https://github.com/mondrey).
+
+Deprecated:
+
+* Deprecates the methods WPSEO_Utils::get_user_locale() and WPSEO_Utils::get_language().
+
+Other:
+
+* Adds a Courses Page showing an overview of the available online courses offered by Yoast Academy.
 
 = 9.4.0 =
 Release Date: January 8th, 2019
@@ -147,33 +170,6 @@ Other:
 * Improves strings to be more easily translated. Props to [pedro-mendonca](https://github.com/pedro-mendonca)
 * The browser console now shows more descriptive error messages when something went wrong during analyses in the web worker.
 * Avoids irrelevant warning and error in the WPEngine PHP Compatibility plugin.
-
-= 9.3.0 =
-Release Date: December 18th, 2018
-
-Enhancements:
-
-* Reapplies the markers in Gutenberg when the content changes to make sure they stay up-to-date.
-* Changes the output of schema preventing unnecessary escaping of forward slashes, only available on sites running PHP 5.4 or higher.
-* Changes the website schema `@id` attribute to include the home URL to be a unique identifier.
-* Adds the page number to the breadcrumbs when an archived page is entered.
-* Removes a redundant Edge-specific CSS fix for the tooltips in the post overview. Props [mkronenfeld](https://github.com/mkronenfeld).
-
-Bugfixes:
-
-* Fixes a bug where the 'Select primary category' label in the primary taxonomy picker would overlap the 'Add new category' button.
-* Fixes a bug where the cornerstone filter was still visible with the metabox disabled.
-* Fixes a bug where non-functional markers are shown for taxonomy pages.
-* Fixes a bug where the `og:description` tag would remain empty after setting the author description.
-* Fixes a bug where texts in the configuration wizard would overlap each other and break out of the columns in Internet Explorer 11. Props [DrGrimshaw](https://github.com/DrGrimshaw).
-* Fixes a bug where keyphrases weren't recognized in the URL when the words in the URL were separated by underscore characters instead of hyphens.
-* Fixes a bug that caused numbers to be stripped when marking a keyphrase containing a number, e.g. 'Yoast SEO 9.3'.
-* Fixes a bug where the first tab of the metabox would be empty when using WordPress 4.8.x.
-* Fixes a bug where private post types would have a sitemap with their 'private' entries.
-
-Other:
-
-* Implemented performance optimizations in FAQ and How To blocks.
 
 = Earlier versions =
 

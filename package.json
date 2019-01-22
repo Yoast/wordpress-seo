@@ -22,7 +22,7 @@
     "webpack-analyze-bundle": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json js/dist",
     "i18n-yoast-components": "cross-env NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-wordpress-seo": "cross-env NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "start": "grunt webpack:buildProd && grunt webpack:buildDev && webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development",
+    "start": "grunt build:css && grunt webpack:buildDev && webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development",
     "start-recalibration": "yarn start --env.recalibration=enabled"
   },
   "jest": {
@@ -146,11 +146,11 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "^4.18.1",
-    "yoastseo": "^1.45.0"
+    "yoast-components": "^4.19.0",
+    "yoastseo": "^1.46.0"
   },
   "yoast": {
-    "pluginVersion": "9.4",
+    "pluginVersion": "9.5",
     "recalibrationVersion": "13"
   }
 }
