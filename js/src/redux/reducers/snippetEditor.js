@@ -6,6 +6,7 @@ import {
 	UPDATE_REPLACEMENT_VARIABLE,
 	REMOVE_REPLACEMENT_VARIABLE,
 	REFRESH,
+	UPDATE_KEYWORD_FORMS,
 } from "../actions/snippetEditor";
 import { pushNewReplaceVar } from "../../helpers/replacementVariableHelpers";
 
@@ -22,6 +23,7 @@ function getInitialState() {
 			slug: "",
 			description: "",
 		},
+		keywordForms: [],
 		replacementVariables: getDefaultReplacementVariables(),
 		uniqueRefreshValue: "",
 	};
@@ -89,6 +91,13 @@ function snippetEditorReducer( state = getInitialState(), action ) {
 			return {
 				...state,
 				uniqueRefreshValue: action.time,
+			};
+		}
+
+		case UPDATE_KEYWORD_FORMS: {
+			return {
+				...state,
+				keywordForms: action.keywordForms,
 			};
 		}
 	}

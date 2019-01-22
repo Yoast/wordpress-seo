@@ -5,6 +5,7 @@ export const UPDATE_DATA = "SNIPPET_EDITOR_UPDATE_DATA";
 export const UPDATE_REPLACEMENT_VARIABLE = "SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE";
 export const REMOVE_REPLACEMENT_VARIABLE = "SNIPPET_EDITOR_REMOVE_REPLACEMENT_VARIABLE";
 export const REFRESH = "SNIPPET_EDITOR_REFRESH";
+export const UPDATE_KEYWORD_FORMS = "SNIPPET_EDITOR_UPDATE_KEYWORD_FORMS";
 
 /**
  * Switches mode of the snippet editor.
@@ -55,6 +56,20 @@ export function updateReplacementVariable( name, value, label = "" ) {
 		name,
 		value: unescapedValue,
 		label,
+	};
+}
+
+/**
+ * Updates the keyword forms of the snippet editor.
+ *
+ * @param {Array} keywordForms  The snippet editor keyword forms.
+ *
+ * @returns {Object} An action for redux.
+ */
+export function updateKeywordForms( keywordForms ) {
+	return {
+		type: UPDATE_KEYWORD_FORMS,
+		keywordForms,
 	};
 }
 

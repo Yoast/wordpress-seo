@@ -14,6 +14,7 @@ import debounce from "lodash/debounce";
 import Edit from "./edit";
 import { termsTmceId } from "./wp-seo-tinymce";
 import Pluggable from "./Pluggable";
+import { requestKeywordForms } from "./analysis/keywordForms";
 
 // UI dependencies.
 import { update as updateTrafficLight } from "./ui/trafficLight";
@@ -385,6 +386,8 @@ window.yoastHideMarkers = true;
 
 			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
+
+				requestKeywordForms( focusKeyword );
 
 				document.getElementById( "hidden_wpseo_focuskw" ).value = focusKeyword;
 				refreshAfterFocusKeywordChange();
