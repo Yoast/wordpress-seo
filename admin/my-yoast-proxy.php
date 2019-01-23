@@ -7,10 +7,20 @@
  * @package WPSEO\Admin
  */
 
+$plugin_version = filter_input( INPUT_GET, 'plugin_version', FILTER_SANITIZE_NUMBER_INT );
+
+$suffix = filter_input( INPUT_GET, 'suffix', FILTER_SANITIZE_STRING );
+if ( $suffix !== '.min' ) {
+	$suffix = '';
+}
+
 switch ( filter_input( INPUT_GET, 'file', FILTER_SANITIZE_STRING ) ) {
 	case 'research-webworker':
-		$my_yoast_url = 'https://my.yoast.com/api/downloads/file/analysis-worker';
-		$my_yoast_url_content_type = 'text/javascript; charset=UTF-8';
+		$request_content_type = 'text/javascript; charset=UTF-8';
+		$my_yoast_url = 'https://my.yoast.com/api/downloads/file/analysis-worker?plugin_version=' . $plugin_version;
+
+		// Fallback local file.
+		$local_file = dirname( dirname( __FILE__ ) ) . '/js/dist/wp-seo-analysis-worker-recalibration-' . $plugin_version . $suffix . '.js';
 		break;
 }
 
@@ -19,34 +29,10 @@ if ( empty( $my_yoast_url ) ) {
 	exit;
 }
 
-if ( ini_get('allow_url_fopen' ) ) {
-	header( 'Content-Type: ' . $my_yoast_url_content_type );
-	header( 'Cache-Control: max-age=86400' );
-	readfile( $my_yoast_url );
-	exit;
-}
+$target = ini_get('allow_url_fopen' ) ? $my_yoast_url : $local_file;
 
-// Try to load WordPress, to be able to use `wp_remote_get`.
-if ( ! is_file( $_SERVER['DOCUMENT_ROOT'] . '/wp-load.php' ) ) {
-	header( 'HTTP/1.0 500 Server configuration not compatible' );
-	exit;
-}
-
-require $_SERVER['DOCUMENT_ROOT'] . '/wp-load.php';
-
-$content = wp_remote_get( $my_yoast_url );
-if ( $content instanceof WP_Error ) {
-	header( 'HTTP/1.0 500 Unable to retrieve file from MyYoast' );
-	exit;
-}
-
-$status_code = $content['http_response']->get_status();
-if ( $status_code === 200 ) {
-	header( 'Content-Type: ' . $my_yoast_url_content_type );
-	header( 'Cache-Control: max-age=86400' );
-	echo $content['body'];
-}
-
-header( 'HTTP/1.0 500 Recieved unexpected response from MyYoast' );
+header( 'Content-Type: ' . $request_content_type );
+header( 'Cache-Control: max-age=86400' );
+readfile( $target );
 
 exit;
