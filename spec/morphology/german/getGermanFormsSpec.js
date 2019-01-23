@@ -152,6 +152,45 @@ describe( "Test for creating forms from German nouns", () => {
 		] );
 	} );
 
+	it( "creates forms for a singular word on the stemsLoanwordsX exception list", () => {
+		expect( getForms( "sphinx", morphologyDataDE ) ).toEqual( [
+			"sphinx",
+			"sphinxe",
+			"sphinxen",
+			"sphingen",
+		] );
+	} );
+
+	it( "creates forms for a plural word on the stemsLoanwordsX exception list", () => {
+		expect( getForms( "sphingen", morphologyDataDE ) ).toEqual( [
+			"sphingen",
+			"sphinx",
+			"sphinxe",
+			"sphinxen",
+		] );
+	} );
+
+	it( "creates forms for a singular word on the stemsIenPlurals exception list", () => {
+		expect( getForms( "mineral", morphologyDataDE ) ).toEqual( [
+			"mineral",
+			"minerals",
+			"minerale",
+			"mineralen",
+			"mineralien",
+		] );
+	} );
+
+	it( "creates forms for a singular word on the stemsIenPlurals exception list", () => {
+		expect( getForms( "mineralien", morphologyDataDE ) ).toEqual( [
+			"mineralien",
+			"mineral",
+			"minerals",
+			"minerale",
+			"mineralen",
+		] );
+	} );
+
+
 	it( "creates forms for a singular word on the stemsMiscellaneous exception list", () => {
 		expect( getForms( "kibbuz", morphologyDataDE ) ).toEqual( [
 			"kibbuz",
