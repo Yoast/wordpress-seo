@@ -128,6 +128,17 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Checks if the recalibration beta should use the local file.
+	 *
+	 * If false, the my-yoast-proxy should be used.
+	 *
+	 * @return bool Whether the local file should be used.
+	 */
+	public static function use_local_file() {
+		return defined( 'YOAST_SEO_RECALIBRATION_USE_LOCAL_FILE' );
+	}
+
+	/**
 	 * Checks if the user has a mailinglist subscription.
 	 *
 	 * @codeCoverageIgnore Reason: because it calls a WordPress function.
