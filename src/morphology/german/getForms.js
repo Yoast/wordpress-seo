@@ -60,7 +60,6 @@ const checkStemsWithPredictableSuffixes = function( exceptionCategory, stemmedWo
 		}
 	}
 
-
 	const exceptionStems = exceptionCategory[ 0 ].map( exceptionStem => new RegExp( exceptionStem ) );
 	const suffixes = exceptionCategory[ 1 ];
 
@@ -212,7 +211,7 @@ const addFormsWithRemovedLetters = function( morphologyDataNouns, stemmedWordToC
  */
 export function getForms( word, morphologyData ) {
 	const stemmedWord = stem( word );
-	let forms = new Array( word );
+	const forms = new Array( word );
 	const exceptions = checkExceptions( morphologyData.nouns, stemmedWord );
 
 	// Check exceptions.
@@ -231,7 +230,5 @@ export function getForms( word, morphologyData ) {
 	// In some cases, we need make changes to the stem that aren't simply concatenations
 	forms.push( addFormsWithRemovedLetters( morphologyData.nouns, stemmedWord ) );
 
-	forms = flattenDeep( forms );
-
-	return forms;
+	return unique( flattenDeep( forms ) );
 }
