@@ -78,8 +78,8 @@ const checkStemsWithPredictableSuffixes = function( exceptionCategory, stemmedWo
 /**
  * Checks whether a stemmed word is on any of the exception lists.
  *
- * @param {Object}  morphologyDataNouns             An object with the German morphology data for nouns.
- * @param {string}  stemmedWordToCheck              The stem to check.
+ * @param {Object}  morphologyDataNouns The German morphology data for nouns.
+ * @param {string}  stemmedWordToCheck  The stem to check.
  *
  * @returns {Array<string>} The created word forms.
  */
@@ -110,21 +110,18 @@ const checkExceptions = function( morphologyDataNouns, stemmedWordToCheck ) {
 };
 
 /**
- * Adds or removes suffixes from the list of regulars depending on the ending of the stem checked.
+ * Adds suffixes from the list of regular suffixes.
  *
- * @param {Array<string>}   regularSuffixes     All regular suffixes for German
- * @param {Object}          morphologyDataNouns An object with the German morphology data for nouns.
- * @param {string}          stemmedWordToCheck  The stem to check.
+ * @param {Object}          morphologyDataSuffixAdditions   The German data for suffix additions.
+ * @param {Array<string>}   regularSuffixes                 All regular suffixes for German.
+ * @param {string}          stemmedWordToCheck              The stem to check.
  *
  * @returns {Array<string>} The modified list of regular suffixes.
  */
-const modifyListOfRegularSuffixes = function( regularSuffixes, morphologyDataNouns, stemmedWordToCheck ) {
-	const additions = morphologyDataNouns.regularSuffixAdditions;
-	const deletions = morphologyDataNouns.regularSuffixDeletions;
-
-	for ( const key of Object.keys( additions ) ) {
-		const endingsToCheck = additions[ key ][ 0 ];
-		const suffixesToAdd = additions[ key ][ 1 ];
+const addSuffixesToRegulars = function( morphologyDataSuffixAdditions, regularSuffixes, stemmedWordToCheck ) {
+	for ( const key of Object.keys( morphologyDataSuffixAdditions ) ) {
+		const endingsToCheck = morphologyDataSuffixAdditions[ key ][ 0 ];
+		const suffixesToAdd = morphologyDataSuffixAdditions[ key ][ 1 ];
 		const endingsToCheckRegexes = endingsToCheck.map( ending => new RegExp( ending ) );
 
 		for ( let i = 0; i < endingsToCheckRegexes.length; i++ ) {
@@ -134,11 +131,22 @@ const modifyListOfRegularSuffixes = function( regularSuffixes, morphologyDataNou
 		}
 	}
 
-	regularSuffixes = flattenDeep( regularSuffixes );
+	return flattenDeep( regularSuffixes );
+};
 
-	for ( const key of Object.keys( deletions ) ) {
-		const endingsToCheck = deletions[ key ][ 0 ];
-		const suffixesToDelete = deletions[ key ][ 1 ];
+/**
+ * Deletes suffixes from the list of regular suffixes.
+ *
+ * @param {Object}          morphologyDataSuffixDeletions   The German data for suffix deletions.
+ * @param {Array<string>}   regularSuffixes                 All regular suffixes for German.
+ * @param {string}          stemmedWordToCheck              The stem to check.
+ *
+ * @returns {Array<string>} The modified list of regular suffixes.
+ */
+const removeSuffixesFromRegulars = function( morphologyDataSuffixDeletions, regularSuffixes, stemmedWordToCheck ) {
+	for ( const key of Object.keys( morphologyDataSuffixDeletions ) ) {
+		const endingsToCheck = morphologyDataSuffixDeletions[ key ][ 0 ];
+		const suffixesToDelete = morphologyDataSuffixDeletions[ key ][ 1 ];
 		const endingsToCheckRegexes = endingsToCheck.map( ending => new RegExp( ending ) );
 
 		for ( let i = 0; i < endingsToCheckRegexes.length; i++ ) {
@@ -148,7 +156,26 @@ const modifyListOfRegularSuffixes = function( regularSuffixes, morphologyDataNou
 		}
 	}
 
-	return flattenDeep( regularSuffixes );
+	return regularSuffixes;
+};
+
+/**
+ * Adds or removes suffixes from the list of regulars depending on the ending of the stem checked.
+ *
+ * @param {Object}          morphologyDataNouns The German morphology data for nouns.
+ * @param {Array<string>}   regularSuffixes     All regular suffixes for German.
+ * @param {string}          stemmedWordToCheck  The stem to check.
+ *
+ * @returns {Array<string>} The modified list of regular suffixes.
+ */
+const modifyListOfRegularSuffixes = function( morphologyDataNouns, regularSuffixes, stemmedWordToCheck ) {
+	const additions = morphologyDataNouns.regularSuffixAdditions;
+	const deletions = morphologyDataNouns.regularSuffixDeletions;
+
+	regularSuffixes = addSuffixesToRegulars( additions, regularSuffixes, stemmedWordToCheck );
+	regularSuffixes = removeSuffixesFromRegulars( deletions, regularSuffixes, stemmedWordToCheck );
+
+	return regularSuffixes;
 };
 
 /**
@@ -172,13 +199,11 @@ export function getForms( word, morphologyData ) {
 
 	let regularSuffixes = morphologyData.nouns.regularSuffixes.slice();
 	// Depending on the specific ending of the stem, we can add/remove some suffixes from the list of regulars.
-	regularSuffixes = modifyListOfRegularSuffixes( regularSuffixes, morphologyData.nouns, stemmedWord );
-
+	regularSuffixes = modifyListOfRegularSuffixes( morphologyData.nouns, regularSuffixes, stemmedWord );
 
 	// If the stem wasn't found on any exception list, add regular suffixes.
 	forms.push(  regularSuffixes.map( suffix => stemmedWord.concat( suffix ) )  );
 	forms = flattenDeep( forms );
-
 
 	return forms;
 }
