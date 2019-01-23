@@ -373,7 +373,10 @@ window.yoastHideMarkers = true;
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
 
-		let focusKeyword;
+		let focusKeyword = store.getState().focusKeyword;
+		requestKeywordForms( focusKeyword );
+
+		console.log("scrapper has forms", store.getState().keyphraseForms)
 
 		const refreshAfterFocusKeywordChange = debounce( () => {
 			app.refresh();
@@ -388,6 +391,8 @@ window.yoastHideMarkers = true;
 				focusKeyword = newFocusKeyword;
 
 				requestKeywordForms( focusKeyword );
+
+				console.log("scrapper has forms", store.getState().keyphraseForms)
 
 				document.getElementById( "hidden_wpseo_focuskw" ).value = focusKeyword;
 				refreshAfterFocusKeywordChange();

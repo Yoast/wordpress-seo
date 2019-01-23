@@ -535,6 +535,7 @@ setWordPressSeoL10n();
 
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = editStore.getState().focusKeyword;
+		requestKeywordForms( focusKeyword );
 		const refreshAfterFocusKeywordChange = debounce( () => {
 			app.refresh();
 		}, 50 );
