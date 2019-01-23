@@ -179,6 +179,30 @@ const modifyListOfRegularSuffixes = function( morphologyDataNouns, regularSuffix
 };
 
 /**
+ * Add forms based on changes other than simple suffix concatenations.
+ *
+ * @param {Object}  morphologyDataNouns The German morphology data for nouns.
+ * @param {string}  stemmedWordToCheck  The stem to check.
+ *
+ * @returns {Array<string>} The modified forms.
+ */
+const addFormsWithRemovedLetters = function( morphologyDataNouns, stemmedWordToCheck ) {
+	const forms = [];
+	const stemChanges = morphologyDataNouns.changeStem;
+
+	for ( const key of Object.keys( stemChanges ) ) {
+		const changeCategory = stemChanges[ key ];
+		const endingToCheck = new RegExp( changeCategory[ 0 ] );
+
+		if ( endingToCheck.test( stemmedWordToCheck ) ) {
+			forms.push( stemmedWordToCheck.replace( endingToCheck, changeCategory[ 1 ] ) );
+		}
+	}
+
+	return forms;
+};
+
+/**
  * Creates morphological forms for a given German word.
  *
  * @param {string} word             The word to create the forms for.
@@ -202,7 +226,11 @@ export function getForms( word, morphologyData ) {
 	regularSuffixes = modifyListOfRegularSuffixes( morphologyData.nouns, regularSuffixes, stemmedWord );
 
 	// If the stem wasn't found on any exception list, add regular suffixes.
-	forms.push(  regularSuffixes.map( suffix => stemmedWord.concat( suffix ) )  );
+	forms.push( regularSuffixes.map( suffix => stemmedWord.concat( suffix ) ) );
+
+	// In some cases, we need make changes to the stem that aren't simply concatenations
+	forms.push( addFormsWithRemovedLetters( morphologyData.nouns, stemmedWord ) );
+
 	forms = flattenDeep( forms );
 
 	return forms;

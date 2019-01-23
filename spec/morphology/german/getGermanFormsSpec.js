@@ -129,4 +129,19 @@ describe( "Test for creating forms from German nouns", () => {
 			"teens",
 		] );
 	} );
+
+	it( "adds a form with -n removed for stems ending in -inn", () => {
+		expect( getForms( "ärztinn", morphologyDataDE ) ).toEqual( [
+			"ärztinn",
+			"ärztinne",
+			"ärztinnen",
+			"ärztinnens",
+			"ärztinner",
+			"ärztinnern",
+			"ärztinners",
+			"ärztinnes",
+			"ärztinns",
+			"ärztin",
+		] );
+	} );
 } );

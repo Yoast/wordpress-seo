@@ -44,12 +44,18 @@ const findSuffixStep1 = function( word ) {
 	if ( a1Index !== -1 ) {
 		optionUsed1 = "a";
 		index1 = a1Index;
+
+		return { index1, optionUsed1 };
 	} else if ( b1Index !== -1 ) {
 		optionUsed1 = "b";
 		index1 = b1Index;
+
+		return { index1, optionUsed1 };
 	} else if ( c1Index !== -1 ) {
 		optionUsed1 = "c";
 		index1 = c1Index;
+
+		return { index1, optionUsed1 };
 	}
 
 	return { index1, optionUsed1 };
