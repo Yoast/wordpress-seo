@@ -33,6 +33,10 @@ $target = ini_get('allow_url_fopen' ) ? $my_yoast_url : $local_file;
 
 header( 'Content-Type: ' . $request_content_type );
 header( 'Cache-Control: max-age=86400' );
-readfile( $target );
+
+if ( readfile( $target ) === false ) {
+	header_remove();
+	header( 'HTTP/1.0 500 External server error' );
+};
 
 exit;
