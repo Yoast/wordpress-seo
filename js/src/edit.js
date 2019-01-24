@@ -124,7 +124,7 @@ class Edit {
 	 * and creates that sidebar's content.
 	 *
 	 * @returns {void}
-	 **/
+	 */
 	_registerPlugin() {
 		if ( ! isGutenbergDataAvailable() ) {
 			return;
@@ -133,6 +133,7 @@ class Edit {
 		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 		const { registerPlugin } = wp.plugins;
 		const store = this._store;
+		const pluginTitle = this._localizedData.isPremium ? "Yoast SEO Premium" : "Yoast SEO";
 
 		const theme = {
 			isRtl: this._localizedData.isRtl,
@@ -144,11 +145,11 @@ class Edit {
 					target="seo-sidebar"
 					icon={ <PluginIcon /> }
 				>
-					Yoast SEO
+					{ pluginTitle }
 				</PluginSidebarMoreMenuItem>
 				<PluginSidebar
 					name="seo-sidebar"
-					title="Yoast SEO"
+					title={ pluginTitle }
 				>
 					<Slot name="YoastSidebar">
 						{ ( fills ) => {
