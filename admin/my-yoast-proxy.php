@@ -7,7 +7,9 @@
  * @package WPSEO\Admin
  */
 
-$plugin_version = filter_input( INPUT_GET, 'plugin_version', FILTER_SANITIZE_NUMBER_INT );
+$plugin_version = filter_input( INPUT_GET, 'plugin_version', FILTER_SANITIZE_STRING );
+// Replace slashes to secure against requiring a file from another path.
+$plugin_version = str_replace( array( '/', '\\' ), '_', $plugin_version );
 
 $suffix = filter_input( INPUT_GET, 'suffix', FILTER_SANITIZE_STRING );
 if ( $suffix !== '.min' ) {
