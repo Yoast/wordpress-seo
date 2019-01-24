@@ -4,7 +4,7 @@
  *
  * @package WPSEO\Admin\Views\General
  *
- * @var Yoast_Form $yform
+ * @uses Yoast_Form $yform Form object.
  */
 
 $title_separator_help = new WPSEO_Admin_Help_Panel(

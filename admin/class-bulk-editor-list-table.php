@@ -44,7 +44,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 *
 	 * @var string
 	 */
-	private $request_url;
+	private $request_url = '';
 
 	/**
 	 * The current page (depending on $_GET['paged']) if current tab is for current page_type, else it will be 1
@@ -110,16 +110,25 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
 	 * Class constructor
+	 *
+	 * @param array $args The arguments.
 	 */
-	public function __construct() {
+	public function __construct( $args = array() ) {
 		parent::__construct( $this->settings );
 
-		$this->input_fields = $this->sanitize_input_fields();
-		if ( ! empty( $this->input_fields ) ) {
-			$this->verify_nonce();
+		$args = wp_parse_args(
+			$args,
+			array(
+				'nonce'        => '',
+				'input_fields' => array(),
+			)
+		);
+
+		$this->input_fields = $args['input_fields'];
+		if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+			$this->request_url = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 		}
 
-		$this->request_url    = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 		$this->current_page   = ( ! empty( $this->input_fields['paged'] ) ) ? $this->input_fields['paged'] : 1;
 		$this->current_filter = ( ! empty( $this->input_fields['post_type_filter'] ) ) ? $this->input_fields['post_type_filter'] : 1;
 		$this->current_status = ( ! empty( $this->input_fields['post_status'] ) ) ? $this->input_fields['post_status'] : 1;
@@ -128,44 +137,10 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			'orderby' => ( ! empty( $this->input_fields['orderby'] ) ) ? $this->input_fields['orderby'] : 'post_title',
 		);
 
-		$this->nonce    = wp_create_nonce( 'bulk-editor-table' );
+		$this->nonce    = $args['nonce'];
 		$this->page_url = "&nonce={$this->nonce}&type={$this->page_type}#top#{$this->page_type}";
 
 		$this->populate_editable_post_types();
-	}
-
-	/**
-	 * Verifies nonce if additional parameters have been sent.
-	 *
-	 * Shows an error notification if the nonce check fails.
-	 */
-	private function verify_nonce() {
-		check_admin_referer( 'bulk-editor-table', 'nonce' );
-	}
-
-	/**
-	 * Sanitizes the parameters that have been sent.
-	 *
-	 * @return array The sanitized fields.
-	 */
-	protected function sanitize_input_fields() {
-		$possible_params = array(
-			'type',
-			'paged',
-			'post_type_filter',
-			'post_status',
-			'order',
-			'orderby',
-		);
-
-		$input_get = array();
-		foreach ( $possible_params as $param_name ) {
-			if ( isset( $_GET[ $param_name ] ) ) {
-				$input_get[ $param_name ] = sanitize_text_field( wp_unslash( $_GET[ $param_name ] ) );
-			}
-		}
-
-		return $input_get;
 	}
 
 	/**

@@ -169,7 +169,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\WP\Free\Config\Plugin::trigger_integration_hook()
 	 */
 	public function test_register_hooks() {
-		$methods = array(
+		$methods  = array(
 			'is_admin',
 			'is_frontend',
 			'add_admin_integrations',

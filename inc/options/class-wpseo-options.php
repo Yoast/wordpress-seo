@@ -11,6 +11,7 @@
  * Instantiates all the options and offers a number of utility methods to work with the options.
  */
 class WPSEO_Options {
+
 	/**
 	 * Options this class uses.
 	 *
@@ -24,12 +25,14 @@ class WPSEO_Options {
 		'wpseo_ms'            => 'WPSEO_Option_MS',
 		'wpseo_taxonomy_meta' => 'WPSEO_Taxonomy_Meta',
 	);
+
 	/**
 	 * Array of instantiated option objects.
 	 *
 	 * @var array
 	 */
 	protected static $option_instances = array();
+
 	/**
 	 * Instance of this class.
 	 *

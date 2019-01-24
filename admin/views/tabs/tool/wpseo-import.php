@@ -5,10 +5,6 @@
  * @package WPSEO\Admin\Views
  */
 
-/**
- * @var Yoast_Form $yform
- */
-
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -25,7 +21,7 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) || ! WPSEO_NAMESPACES ) {
 	printf(
 		/* translators: 1: Import settings button string from below. */
 		esc_html__( 'Import settings by pasting the settings you copied from another site here and clicking "%s".', 'wordpress-seo' ),
-		__( 'Import settings', 'wordpress-seo' )
+		esc_html__( 'Import settings', 'wordpress-seo' )
 	);
 	?>
 </p>

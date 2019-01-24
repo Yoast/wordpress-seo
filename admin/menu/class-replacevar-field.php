@@ -9,6 +9,7 @@
  * Renders a single replacement variable field.
  */
 class WPSEO_Replacevar_Field {
+
 	/**
 	 * @var Yoast_Form Yoast Forms instance.
 	 */

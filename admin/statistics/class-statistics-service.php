@@ -10,6 +10,9 @@
  */
 class WPSEO_Statistics_Service {
 
+	/**
+	 * @var string
+	 */
 	const CACHE_TRANSIENT_KEY = 'wpseo-statistics-totals';
 
 	/**

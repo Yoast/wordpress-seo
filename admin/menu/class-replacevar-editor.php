@@ -9,6 +9,7 @@
  * Renders a replacement variable editor.
  */
 class WPSEO_Replacevar_Editor {
+
 	/**
 	 * Yoast Forms instance.
 	 *

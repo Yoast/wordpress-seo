@@ -108,7 +108,7 @@
     "webpack": "^4.20.2",
     "webpack-bundle-analyzer": "^3.0.2",
     "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.9"
+    "webpack-dev-server": "^3.1.14"
   },
   "optionalDependencies": {
     "grunt-contrib-imagemin": "^2.0.1"
@@ -146,11 +146,11 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.5",
-    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.5"
+    "yoast-components": "git+https://github.com/Yoast/yoast-components.git#develop",
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.6"
   },
   "yoast": {
-    "pluginVersion": "9.5-beta1",
-    "recalibrationVersion": "12"
+    "pluginVersion": "9.6-beta4",
+    "recalibrationVersion": "13"
   }
 }

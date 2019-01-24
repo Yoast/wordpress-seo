@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '9.5-beta1' );
+define( 'WPSEO_VERSION', '9.6-beta4' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -339,9 +339,6 @@ function wpseo_init() {
 	$wpseo_onpage = new WPSEO_OnPage();
 	$wpseo_onpage->register_hooks();
 
-	$wpseo_content_images = new WPSEO_Content_Images();
-	$wpseo_content_images->register_hooks();
-
 	// When namespaces are not available, stop further execution.
 	if ( version_compare( PHP_VERSION, '5.3.0', '>=' ) ) {
 		require_once WPSEO_PATH . 'src/loaders/indexable.php';
@@ -520,6 +517,8 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	if ( defined( 'WP_CLI' ) && WP_CLI ) {
 		add_action( 'plugins_loaded', 'wpseo_cli_init', 20 );
 	}
+
+	add_filter( 'phpcompat_whitelist', 'yoast_free_phpcompat_whitelist' );
 }
 
 // Activation and deactivation hook.
@@ -636,4 +635,27 @@ function yoast_wpseo_self_deactivate() {
 			unset( $_GET['activate'] );
 		}
 	}
+}
+
+/**
+ * Excludes specific files from php-compatibility-checker.
+ *
+ * @since 9.4
+ *
+ * @param array $ignored Array of ignored directories/files.
+ *
+ * @return array Array of ignored directories/files.
+ */
+function yoast_free_phpcompat_whitelist( $ignored ) {
+	$path = '*/' . basename( WPSEO_PATH ) . '/';
+
+	// To prevent: (warning) File has mixed line endings; this may cause incorrect results.
+	$ignored[] = $path . 'vendor/ruckusing/lib/Ruckusing/FrameworkRunner.php';
+	$ignored[] = $path . 'vendor_prefixed/ruckusing/lib/Ruckusing/FrameworkRunner.php';
+
+	// To prevent: (error) Extension 'sqlite' is removed since PHP 5.4. Ignoring because we are not using the sqlite functionality.
+	$ignored[] = $path . 'vendor/ruckusing/lib/Ruckusing/Adapter/Sqlite3/Base.php';
+	$ignored[] = $path . 'vendor_prefixed/ruckusing/lib/Ruckusing/Adapter/Sqlite3/Base.php';
+
+	return $ignored;
 }

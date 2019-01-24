@@ -10,6 +10,9 @@
  */
 class Yoast_Alerts {
 
+	/**
+	 * @var string
+	 */
 	const ADMIN_PAGE = 'wpseo_dashboard';
 
 	/**
@@ -25,12 +28,14 @@ class Yoast_Alerts {
 	 * @var array
 	 */
 	private static $errors = array();
+
 	/**
 	 * Active errors.
 	 *
 	 * @var array
 	 */
 	private static $active_errors = array();
+
 	/**
 	 * Dismissed errors.
 	 *
@@ -44,12 +49,14 @@ class Yoast_Alerts {
 	 * @var array
 	 */
 	private static $warnings = array();
+
 	/**
 	 * Active warnings.
 	 *
 	 * @var array
 	 */
 	private static $active_warnings = array();
+
 	/**
 	 * Dismissed warnings.
 	 *

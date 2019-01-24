@@ -12,11 +12,15 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 
 	/**
 	 * Action identifier for updating plugin network options.
+	 *
+	 * @var string
 	 */
 	const UPDATE_OPTIONS_ACTION = 'yoast_handle_network_options';
 
 	/**
 	 * Action identifier for restoring a site.
+	 *
+	 * @var string
 	 */
 	const RESTORE_SITE_ACTION = 'yoast_restore_site';
 
@@ -255,7 +259,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 		check_admin_referer( $action, $query_arg );
 
 		if ( ! $has_access ) {
-			wp_die( __( 'You are not allowed to perform this action.', 'wordpress-seo' ) );
+			wp_die( esc_html__( 'You are not allowed to perform this action.', 'wordpress-seo' ) );
 		}
 	}
 
