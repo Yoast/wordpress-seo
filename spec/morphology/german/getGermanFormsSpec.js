@@ -1,6 +1,5 @@
 import { getForms } from "../../../src/morphology/german/getForms";
-import morphologyData from "../../../premium-configuration/data/morphologyData.json";
-const morphologyDataDE = morphologyData.de;
+import { de as morphologyDataDE } from "../../../premium-configuration/data/morphologyData.json";
 
 describe( "Test for creating forms from German nouns", () => {
 	it( "creates forms with regular suffixes for nouns that aren't included on any exception list", () => {
