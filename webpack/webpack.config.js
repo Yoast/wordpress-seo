@@ -1,6 +1,6 @@
 const webpack = require( "webpack" );
 const CaseSensitivePathsPlugin = require( "case-sensitive-paths-webpack-plugin" );
-const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
+const CopyWebpackPlugin = require( "copy-webpack-plugin" );
 const path = require( "path" );
 const mapValues = require( "lodash/mapValues" );
 const isString = require( "lodash/isString" );
@@ -32,17 +32,18 @@ const externals = {
 };
 
 /**
- * Helper function to get the Webpack Define plugin with an optional recalibration flag.
+ * Helper function for setting the user environment (in this Node process only) using a Webpack plugin.
  *
- * @param {boolean} isRecalibration Whether or not the recalibration is enabled.
+ * @see https://webpack.js.org/plugins/define-plugin/
+ * @see https://nodejs.org/api/all.html#process_process_env
+ *
+ * @param {Object} variableDefinitions The user environment variables to set and their values.
  *
  * @returns {webpack.DefinePlugin|DefinePlugin} The define plugin.
  */
-function getDefinePlugin( isRecalibration = false ) {
+function environmentVariablePlugin( variableDefinitions ) {
 	return new webpack.DefinePlugin( {
-		"process.env": {
-			YOAST_RECALIBRATION: JSON.stringify( isRecalibration ? "enabled" : "disabled" ),
-		},
+		"process.env": variableDefinitions,
 	} );
 }
 
@@ -134,7 +135,7 @@ module.exports = function( env = { environment: "production" } ) {
 			},
 			plugins: [
 				...plugins,
-				getDefinePlugin( false ),
+				environmentVariablePlugin( { YOAST_RECALIBRATION: '"disabled"' } ),
 				new CopyWebpackPlugin( [
 					{
 						from: "node_modules/react/umd/react.production.min.js",
@@ -220,7 +221,7 @@ module.exports = function( env = { environment: "production" } ) {
 			},
 			plugins: [
 				...plugins,
-				getDefinePlugin( false ),
+				environmentVariablePlugin( { YOAST_RECALIBRATION: '"disabled"' } ),
 			],
 			optimization: {
 				runtimeChunk: false,
@@ -239,7 +240,7 @@ module.exports = function( env = { environment: "production" } ) {
 			},
 			plugins: [
 				...plugins,
-				getDefinePlugin( true ),
+				environmentVariablePlugin( { YOAST_RECALIBRATION: '"enabled"' } ),
 			],
 			optimization: {
 				runtimeChunk: false,
