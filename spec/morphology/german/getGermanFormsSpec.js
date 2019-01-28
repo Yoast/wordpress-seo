@@ -1,7 +1,7 @@
 import { getForms } from "../../../src/morphology/german/getForms";
 import { de as morphologyDataDE } from "../../../premium-configuration/data/morphologyData.json";
 
-describe( "Test for creating forms from German nouns", () => {
+describe( "Test for creating forms for German nouns", () => {
 	it( "creates forms with regular suffixes for nouns that aren't included on any exception list", () => {
 		expect( getForms( "studenten", morphologyDataDE ) ).toEqual( [
 			"studenten",
@@ -12,6 +12,7 @@ describe( "Test for creating forms from German nouns", () => {
 			"studenters",
 			"studentes",
 			"students",
+			"student",
 		] );
 	} );
 
@@ -50,7 +51,7 @@ describe( "Test for creating forms from German nouns", () => {
 	it( "creates forms for a plural word on the stemsSReduplication exception list", () => {
 		/*
 		 * For this noun, also the stemsWithUmlaut word "kuss" matches, hence there are more forms than
-		 * for the singular noun.
+		 * for the singular version above.
 		 */
 		expect( getForms( "fokusse", morphologyDataDE ) ).toEqual( [
 			"fokusse",
@@ -126,7 +127,7 @@ describe( "Test for creating forms from German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a singular word on the stemsLoanwordsA exception list", () => {
+	it( "creates forms for a plural word on the stemsLoanwordsA exception list", () => {
 		expect( getForms( "dogmata", morphologyDataDE ) ).toEqual( [
 			"dogmata",
 			"dogma",
@@ -179,7 +180,7 @@ describe( "Test for creating forms from German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a singular word on the stemsIenPlurals exception list", () => {
+	it( "creates forms for a plural word on the stemsIenPlurals exception list", () => {
 		expect( getForms( "mineralien", morphologyDataDE ) ).toEqual( [
 			"mineralien",
 			"mineral",
@@ -224,11 +225,17 @@ describe( "Test for creating forms from German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a noun that only gets an -en suffix", () => {
+	it( "creates forms for a singular noun that only gets an -en suffix", () => {
 		expect( getForms( "warnung", morphologyDataDE ) ).toEqual( [
 			"warnung",
-			// Only adds -en, skips all other suffixes.
 			"warnungen",
+		] );
+	} );
+
+	it( "creates forms for a plural noun that only gets an -en suffix", () => {
+		expect( getForms( "warnungen", morphologyDataDE ) ).toEqual( [
+			"warnungen",
+			"warnung",
 		] );
 	} );
 
@@ -288,7 +295,7 @@ describe( "Test for creating forms from German nouns", () => {
 			"ärztiners",
 			"ärztines",
 			"ärztins",
-			// Added suffix.
+			// Additional suffixe to regulars.
 			"ärztinnen",
 		] );
 	} );
@@ -303,7 +310,7 @@ describe( "Test for creating forms from German nouns", () => {
 		] );
 	} );
 
-	it( "adds a form with -n removed for nouns with a stem ending in -inn", () => {
+	it( "adds a form where -n is removed for nouns with a stem ending in -inn", () => {
 		expect( getForms( "ärztinnen", morphologyDataDE ) ).toEqual( [
 			"ärztinnen",
 			"ärztinne",
@@ -313,6 +320,7 @@ describe( "Test for creating forms from German nouns", () => {
 			"ärztinners",
 			"ärztinnes",
 			"ärztinns",
+			"ärztinn",
 			// Added suffix.
 			"ärztin",
 		] );

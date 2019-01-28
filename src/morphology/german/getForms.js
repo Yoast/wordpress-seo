@@ -101,6 +101,8 @@ const checkExceptions = function( morphologyDataNouns, stemmedWordToCheck ) {
 	for ( const key of Object.keys( exceptionsStemsPredictableSuffixes ) ) {
 		exceptions = checkStemsWithPredictableSuffixes( exceptionsStemsPredictableSuffixes[ key ], stemmedWordToCheck );
 		if ( exceptions.length > 0 ) {
+			// For this class of words, the stemmed word is the singular form and therefore needs to be added.
+			exceptions.push( stemmedWordToCheck );
 			return exceptions;
 		}
 	}
@@ -226,8 +228,13 @@ export function getForms( word, morphologyData ) {
 
 	// If the stem wasn't found on any exception list, add regular suffixes.
 	forms.push( regularSuffixes.map( suffix => stemmedWord.concat( suffix ) ) );
+	// Also add the stemmed word, since it might be a valid word form on its own.
+	forms.push( stemmedWord );
 
-	// In some cases, we need make changes to the stem that aren't simply concatenations
+	/*
+	 * In some cases, we need make changes to the stem that aren't simply concatenations (e.g. remove n from the stem
+	 * Ärztinn to obtain Ärztin.
+	 */
 	forms.push( addFormsWithRemovedLetters( morphologyData.nouns, stemmedWord ) );
 
 	return unique( flattenDeep( forms ) );
