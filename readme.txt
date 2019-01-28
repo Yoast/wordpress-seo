@@ -110,7 +110,7 @@ Release Date: January 22nd, 2019
 
 Enhancements:
 
-* Completes the readabilty analysis for Swedish by adding the transition words, sentence beginnings and passive voice assessments.
+* Completes the readability analysis for Swedish by adding the transition words, sentence beginnings and passive voice assessments.
 * Improves the transition word assessment for German.
 
 Bugfixes:
