@@ -31,13 +31,19 @@ if ( empty( $my_yoast_url ) ) {
 	exit;
 }
 
-$target = ini_get('allow_url_fopen' ) ? $my_yoast_url : $local_file;
+$target = ini_get( 'allow_url_fopen' ) ? $my_yoast_url : $local_file;
 
 header( 'Content-Type: ' . $request_content_type );
 header( 'Cache-Control: max-age=86400' );
 
 if ( readfile( $target ) === false ) {
-	header_remove();
+	/*
+	 * Due to the minimum PHP of 5.2 the header_remove() function can not be used here.
+	 * Overwrite the headers instead.
+	 */
+	header( 'Content-Type: text/plain' );
+	header( 'Cache-Control: max-age=0' );
+
 	header( 'HTTP/1.0 500 External server error' );
 };
 
