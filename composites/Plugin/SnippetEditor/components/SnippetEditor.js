@@ -513,6 +513,7 @@ class SnippetEditor extends React.Component {
 			date,
 			locale,
 			keyword,
+			keywordForms,
 			showCloseButton,
 		} = this.props;
 
@@ -535,6 +536,7 @@ class SnippetEditor extends React.Component {
 				<div>
 					<SnippetPreview
 						keyword={ keyword }
+						keywordForms={ keywordForms }
 						mode={ mode }
 						date={ date }
 						activeField={ this.mapFieldToPreview( activeField ) }
@@ -583,6 +585,7 @@ SnippetEditor.propTypes = {
 	descriptionLengthProgress: lengthProgressShape,
 	mapEditorDataToPreview: PropTypes.func,
 	keyword: PropTypes.string,
+	keywordForms: PropTypes.array,
 	locale: PropTypes.string,
 	hasPaperStyle: PropTypes.bool,
 	showCloseButton: PropTypes.bool,
@@ -591,6 +594,7 @@ SnippetEditor.propTypes = {
 SnippetEditor.defaultProps = {
 	mode: DEFAULT_MODE,
 	date: "",
+	keywordForms: [],
 	replacementVariables: [],
 	recommendedReplacementVariables: [],
 	titleLengthProgress: {

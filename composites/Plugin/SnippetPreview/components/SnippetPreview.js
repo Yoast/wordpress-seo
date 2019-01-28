@@ -3,10 +3,12 @@ import React, { PureComponent } from "react";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 import transliterate from "yoastseo/src/stringProcessing/transliterate";
-import createWordRegex from "yoastseo/src/stringProcessing/createWordRegex";
+import createRegexFromArray from "yoastseo/src/stringProcessing/createRegexFromArray";
 import replaceSpecialCharactersAndDiacritics from "yoastseo/src/stringProcessing/replaceDiacritics";
 import PropTypes from "prop-types";
+import flatten from "lodash/flatten";
 import truncate from "lodash/truncate";
+import uniq from "lodash/uniq";
 import { parse } from "url";
 import { __ } from "@wordpress/i18n";
 
@@ -197,41 +199,52 @@ const Amp = styled.div`
  * Highlights a keyword with strong React elements.
  *
  * @param {string} locale ISO 639 (2/3 characters) locale.
- * @param {string} keyword The keyword.
+ * @param {string[]} keywordForms The array of keyword forms.
  * @param {string} text The text in which to highlight a keyword.
  * @param {string} cleanText Optional. The text in which to highlight a keyword
  *                           without special characters and diacritics.
  *
  * @returns {ReactElement} React elements to be rendered.
  */
-function highlightKeyword( locale, keyword, text, cleanText ) {
-	if ( ! keyword ) {
+function highlightKeyword( locale, keywordForms, text, cleanText ) {
+	if ( keywordForms.length === 0 ) {
 		return text;
 	}
 
-	/*
-	 * When a text has been cleaned up from special characters and diacritics
-	 * we need to match against a cleaned up keyword as well.
-	 */
+	keywordForms = uniq( flatten( keywordForms ) );
+
+
+	// Clean the text from special characters and diacritics.
 	const textToUse = cleanText ? cleanText : text;
-	const keywordToUse = cleanText ? replaceSpecialCharactersAndDiacritics( keyword ) : keyword;
 
-	// Match keyword case-insensitively.
-	const keywordMatcher = createWordRegex( keywordToUse, "", false );
+	// Initiate an array of transliterated forms.
+	const keywordFormsCleaned = [];
+	const keywordFormsTransliterated = [];
 
-	text = textToUse.replace( keywordMatcher, function( matchedKeyword ) {
-		return `{{strong}}${ matchedKeyword }{{/strong}}`;
+	keywordForms.forEach( function( form ) {
+		/*
+	    * When a text has been cleaned up from special characters and diacritics
+	    * we need to match against a cleaned up keyword as well.
+	    */
+		form = cleanText ? replaceSpecialCharactersAndDiacritics( form ) : form;
+
+		keywordFormsCleaned.push( form );
+
+		// Transliterate the keyword for highlighting
+		const formTransliterated = transliterate( form, locale );
+
+		if ( formTransliterated !== form ) {
+			keywordFormsTransliterated.push( formTransliterated );
+		}
 	} );
 
-	// Transliterate the keyword for highlighting
-	const transliteratedKeyword = transliterate( keyword, locale );
-	if ( transliteratedKeyword !== keyword ) {
-		const transliteratedKeywordMatcher = createWordRegex( transliteratedKeyword, "", false );
-		// Let the transliteration run on the text with no previous replacements.
-		text = text.replace( transliteratedKeywordMatcher, function( matchedKeyword ) {
-			return `{{strong}}${ matchedKeyword }{{/strong}}`;
-		} );
-	}
+	keywordFormsCleaned.concat( keywordFormsTransliterated );
+
+	const keywordFormsMatcher = createRegexFromArray( keywordFormsCleaned, "", false );
+
+	text = textToUse.replace( keywordFormsMatcher, function( matchedKeyword ) {
+		return `{{strong}}${ matchedKeyword }{{/strong}}`;
+	} );
 
 	return interpolateComponents( {
 		mixedString: text,
@@ -559,7 +572,7 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	renderDescription() {
 		const {
-			keyword,
+			keywordForms,
 			locale,
 			onMouseUp,
 			onMouseLeave,
@@ -584,7 +597,7 @@ export default class SnippetPreview extends PureComponent {
 					innerRef={ this.setDescriptionRef }
 				>
 					{ renderedDate }
-					{ highlightKeyword( locale, keyword, this.getDescription() ) }
+					{ highlightKeyword( locale, keywordForms, this.getDescription() ) }
 				</DesktopDescriptionWithCaret>
 			);
 		} else if ( mode === MODE_MOBILE ) {
@@ -598,7 +611,7 @@ export default class SnippetPreview extends PureComponent {
 						innerRef={ this.setDescriptionRef }
 					>
 						{ renderedDate }
-						{ highlightKeyword( locale, keyword, this.getDescription() ) }
+						{ highlightKeyword( locale, keywordForms, this.getDescription() ) }
 					</MobileDescription>
 				</MobileDescriptionWithCaret>
 			);
@@ -715,6 +728,7 @@ SnippetPreview.propTypes = {
 	hoveredField: PropTypes.string,
 	activeField: PropTypes.string,
 	keyword: PropTypes.string,
+	keywordForms: PropTypes.array,
 	locale: PropTypes.string,
 	mode: PropTypes.oneOf( MODES ),
 	isAmp: PropTypes.bool,
@@ -728,6 +742,7 @@ SnippetPreview.propTypes = {
 SnippetPreview.defaultProps = {
 	date: "",
 	keyword: "",
+	keywordForms: [],
 	breadcrumbs: null,
 	locale: "en",
 	hoveredField: "",
