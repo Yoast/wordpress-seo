@@ -36,6 +36,7 @@ class TreeFromYaml {
 			container.formatting = formatting.map( parameters => {
 				const type = Object.keys( parameters )[ 0 ];
 				parameters = parameters[ type ];
+
 				const formattingElement = new FormattingElement( type, parameters.attributes );
 
 				this.setSourceLocation( formattingElement, parameters );
@@ -137,7 +138,8 @@ class TreeFromYaml {
 	parse( parameters ) { // eslint-disable-line complexity
 		/*
 		  Type of node to add.
-		  E.g. encoded as `{ Paragraph: { text: "Some text"... } }`
+		  The type should be the first (and only) key of the JSON object.
+		  E.g. `{ Paragraph: { text: "Some text"... } }` => 'Paragraph'.
 		 */
 		const type = Object.keys( parameters )[ 0 ];
 		let element = {};
@@ -164,7 +166,9 @@ class TreeFromYaml {
  * @returns {module:tree/structure.Node} The parsed tree.
  */
 const buildTreeFromYaml = function( input ) {
+	// Parse YAML to JSON with `js-yaml` library.
 	const parameters = load( input );
+	// Parse and return tree from JSON.
 	const treeBuilder = new TreeFromYaml();
 	return treeBuilder.parse( parameters );
 };
