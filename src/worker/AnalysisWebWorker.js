@@ -847,10 +847,18 @@ export default class AnalysisWebWorker {
 	 * @returns {Object} The result of the research.
 	 */
 	runResearch( id, { name, paper = null } ) {
+		// Save morphology data if it is available in the current researcher.
+		const morphologyData = this._researcher.getData( "morphology" );
+
 		// When a specific paper is passed we create a temporary new researcher.
-		const researcher = paper === null
-			? this._researcher
-			: new Researcher( paper );
+		let researcher;
+
+		if ( paper === null ) {
+			researcher = this._researcher;
+		} else {
+			researcher = new Researcher( paper );
+			researcher.addResearchData( "morphology", morphologyData );
+		}
 
 		return researcher.getResearch( name );
 	}
