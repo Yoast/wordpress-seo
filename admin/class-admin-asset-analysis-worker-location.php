@@ -38,7 +38,7 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 			 * Using a flag to determine whether the local file or the proxy is used.
 			 * This is for the recalibration development.
 			 */
-			if ( WPSEO_Recalibration_Beta::use_local_file() ) {
+			if ( $this->use_recalibration_local_file() ) {
 				$analysis_worker = 'wp-seo-' . $name . '-recalibration-' . $flat_version;
 			}
 			else {
@@ -79,5 +79,16 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 		}
 
 		return $this->asset_location->get_url( $asset, $type );
+	}
+
+	/**
+	 * Checks if the recalibration beta should use the local file.
+	 *
+	 * If false, the my-yoast-proxy should be used.
+	 *
+	 * @return bool Whether the local file should be used.
+	 */
+	protected function use_recalibration_local_file() {
+		return defined( 'YOAST_SEO_RECALIBRATION_USE_LOCAL_FILE' ) && YOAST_SEO_RECALIBRATION_USE_LOCAL_FILE;
 	}
 }
