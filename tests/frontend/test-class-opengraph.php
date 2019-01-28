@@ -12,7 +12,9 @@
  */
 class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_OpenGraph */
+	/**
+	 * @var WPSEO_OpenGraph
+	 */
 	private static $class_instance;
 
 	/**

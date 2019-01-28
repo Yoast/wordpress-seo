@@ -9,10 +9,19 @@
  * Class WPSEO_Premium_Upsell_Admin_Block
  */
 class WPSEO_Premium_Upsell_Admin_Block {
-	/** @var string Hook to display the block on. */
+
+	/**
+	 * Hook to display the block on.
+	 *
+	 * @var string
+	 */
 	protected $hook;
 
-	/** @var string Identifier to use in the dismissal functionality. */
+	/**
+	 * Identifier to use in the dismissal functionality.
+	 *
+	 * @var string
+	 */
 	protected $identifier = 'premium_upsell_admin_block';
 
 	/**

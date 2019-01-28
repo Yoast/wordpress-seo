@@ -88,11 +88,13 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_apache() {
-		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'apache' ) !== false ) {
-			return true;
+		if ( ! isset( $_SERVER['SERVER_SOFTWARE'] ) ) {
+			return false;
 		}
 
-		return false;
+		$software = sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) );
+
+		return stripos( $software, 'apache' ) !== false;
 	}
 
 	/**
@@ -105,11 +107,13 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_nginx() {
-		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false ) {
-			return true;
+		if ( ! isset( $_SERVER['SERVER_SOFTWARE'] ) ) {
+			return false;
 		}
 
-		return false;
+		$software = sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) );
+
+		return stripos( $software, 'nginx' ) !== false;
 	}
 
 	/**

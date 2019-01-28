@@ -36,7 +36,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 
 		echo '<div class="switch-container">';
 		echo '<fieldset id="', esc_attr( $this->option_name ), '" class="fieldset-switch-toggle">';
-		echo '<legend><strong>', __( 'Get an even better analysis', 'wordpress-seo' ), '</strong></legend>';
+		echo '<legend><strong>', esc_html__( 'Get an even better analysis', 'wordpress-seo' ), '</strong></legend>';
 		echo '<p class="clear">';
 		printf(
 			/* translators: 1: link opening tag, 2: link closing tag, 3: strong opening tag, 4: strong closing tag */

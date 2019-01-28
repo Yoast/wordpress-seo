@@ -13,13 +13,19 @@ class WPSEO_Link {
 	const TYPE_EXTERNAL = 'external';
 	const TYPE_INTERNAL = 'internal';
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	protected $url;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	protected $target_post_id;
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	protected $type;
 
 	/**

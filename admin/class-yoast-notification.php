@@ -12,27 +12,37 @@
 class Yoast_Notification {
 
 	/**
-	 * @var string Type of capability check.
+	 * Type of capability check.
+	 *
+	 * @var string
 	 */
 	const MATCH_ALL = 'all';
 
 	/**
-	 * @var string Type of capability check.
+	 * Type of capability check.
+	 *
+	 * @var string
 	 */
 	const MATCH_ANY = 'any';
 
 	/**
-	 * @var string Notification type.
+	 * Notification type.
+	 *
+	 * @var string
 	 */
 	const ERROR = 'error';
 
 	/**
-	 * @var string Notification type.
+	 * Notification type.
+	 *
+	 * @var string
 	 */
 	const WARNING = 'warning';
 
 	/**
-	 * @var string Notification type.
+	 * Notification type.
+	 *
+	 * @var string
 	 */
 	const UPDATED = 'updated';
 

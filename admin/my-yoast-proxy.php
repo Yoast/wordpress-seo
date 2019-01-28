@@ -19,7 +19,7 @@ if ( $suffix !== '.min' ) {
 switch ( filter_input( INPUT_GET, 'file', FILTER_SANITIZE_STRING ) ) {
 	case 'research-webworker':
 		$request_content_type = 'text/javascript; charset=UTF-8';
-		$my_yoast_url = 'https://my.yoast.com/api/downloads/file/analysis-worker?plugin_version=' . $plugin_version;
+		$my_yoast_url         = 'https://my.yoast.com/api/downloads/file/analysis-worker?plugin_version=' . $plugin_version;
 
 		// Fallback local file.
 		$local_file = dirname( dirname( __FILE__ ) ) . '/js/dist/wp-seo-analysis-worker-recalibration-' . $plugin_version . $suffix . '.js';

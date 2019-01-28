@@ -10,7 +10,9 @@
  */
 class WPSEO_Link_Column_Count {
 
-	/** @var array */
+	/**
+	 * @var array
+	 */
 	protected $count = array();
 
 	/**

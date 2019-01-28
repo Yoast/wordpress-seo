@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Formatters
  */
 
-namespace Yoast\YoastSEO\Formatters;
+namespace Yoast\WP\Free\Formatters;
 
-use Yoast\YoastSEO\Models\Indexable;
-use Yoast\YoastSEO\Models\SEO_Meta;
+use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\Models\SEO_Meta;
 
 /**
  * Formats the post meta to indexable format.

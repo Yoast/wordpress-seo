@@ -10,25 +10,51 @@
  */
 class Yoast_Notification_Center {
 
-	/** Option name to store notifications on */
+	/**
+	 * Option name to store notifications on.
+	 *
+	 * @var string
+	 */
 	const STORAGE_KEY = 'yoast_notifications';
 
-	/** @var \Yoast_Notification_Center The singleton instance of this object */
+	/**
+	 * The singleton instance of this object.
+	 *
+	 * @var \Yoast_Notification_Center
+	 */
 	private static $instance = null;
 
-	/** @var $notifications Yoast_Notification[] */
+	/**
+	 * @var \Yoast_Notification[]
+	 */
 	private $notifications = array();
 
-	/** @var array Notifications there are newly added */
+	/**
+	 * Notifications there are newly added.
+	 *
+	 * @var array
+	 */
 	private $new = array();
 
-	/** @var array Notifications that were resolved this execution */
+	/**
+	 * Notifications that were resolved this execution.
+	 *
+	 * @var array
+	 */
 	private $resolved = 0;
 
-	/** @var array Internal storage for transaction before notifications have been retrieved from storage. */
+	/**
+	 * Internal storage for transaction before notifications have been retrieved from storage.
+	 *
+	 * @var array
+	 */
 	private $queued_transactions = array();
 
-	/** @var bool Internal flag for whether notifications have been retrieved from storage. */
+	/**
+	 * Internal flag for whether notifications have been retrieved from storage.
+	 *
+	 * @var bool
+	 */
 	private $notifications_retrieved = false;
 
 	/**

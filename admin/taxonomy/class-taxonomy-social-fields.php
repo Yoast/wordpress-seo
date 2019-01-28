@@ -9,7 +9,12 @@
  * This class parses all the values for the social tab in the Yoast SEO settings metabox
  */
 class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
-	/** @var array List of social networks */
+
+	/**
+	 * List of social networks.
+	 *
+	 * @var array
+	 */
 	protected $networks;
 
 	/**

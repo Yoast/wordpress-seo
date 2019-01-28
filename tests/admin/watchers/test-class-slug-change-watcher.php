@@ -10,16 +10,32 @@
  */
 class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 
-	/** @var int Post ID. */
+	/**
+	 * Post ID.
+	 *
+	 * @var int
+	 */
 	private static $post_id;
 
-	/** @var int Nav menu item ID. */
+	/**
+	 * Nav menu item ID.
+	 *
+	 * @var int
+	 */
 	private static $nav_menu_item_id;
 
-	/** @var int Category ID (public taxonomy). */
+	/**
+	 * Category ID (public taxonomy).
+	 *
+	 * @var int
+	 */
 	private static $category_id;
 
-	/** @var int Nav menu ID (non-public taxonomy). */
+	/**
+	 * Nav menu ID (non-public taxonomy).
+	 *
+	 * @var int
+	 */
 	private static $nav_menu_id;
 
 	/**

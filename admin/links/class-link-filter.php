@@ -10,7 +10,9 @@
  */
 class WPSEO_Link_Filter {
 
-	/** @var string|null */
+	/**
+	 * @var string|null
+	 */
 	protected $current_page_path;
 
 	/**

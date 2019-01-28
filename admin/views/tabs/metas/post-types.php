@@ -43,7 +43,7 @@ if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== array() ) {
 			array(
 				'collapsible' => true,
 				'expanded'    => ( $wpseo_post_type_index === 0 ),
-				'paper_id'    => $post_type->name,
+				'paper_id'    => 'settings-' . $post_type->name,
 				'view_data'   => array(
 					'wpseo_post_type'              => $post_type,
 					'view_utils'                   => $view_utils,
