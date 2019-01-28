@@ -149,7 +149,7 @@ class WPSEO_Breadcrumbs {
 
 		// Override the before and after strings when breadcrumbs are set to be within a `<nav>` element.
 		if ( WPSEO_Options::get( 'breadcrumbs-nav-wrapper' ) === true ) {
-			$before = '<nav aria-label="' . __( 'Breadcrumbs', 'wordpress-seo' ) . '"' . self::get_output_id() . self::get_output_class() . '>';
+			$before = '<nav aria-label="' . __( 'Breadcrumbs', 'wordpress-seo' ) . '"' . $instance->get_output_id() . $instance->get_output_class() . '>';
 			$after  = '</nav>';
 		}
 
@@ -1009,7 +1009,7 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function wrap_breadcrumb() {
 		if ( is_string( $this->output ) && $this->output !== '' ) {
-			$output = '<' . $this->wrapper . self::get_output_id() . self::get_output_class() . '>' . $this->output . '</' . $this->wrapper . '>';
+			$output = '<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . '>' . $this->output . '</' . $this->wrapper . '>';
 
 			// Don't print out the wrapper when breadcrumbs are within a `<nav>` element.
 			if ( WPSEO_Options::get( 'breadcrumbs-nav-wrapper' ) === true ) {
@@ -1036,7 +1036,7 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @return string
 	 */
-	private static function get_output_id() {
+	private function get_output_id() {
 		/**
 		 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the Yoast SEO breadcrumbs wrapper element.
 		 *
@@ -1055,7 +1055,7 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @return string
 	 */
-	private static function get_output_class() {
+	private function get_output_class() {
 		/**
 		 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the Yoast SEO breadcrumbs wrapper element.
 		 *
