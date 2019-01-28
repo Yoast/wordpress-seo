@@ -1,5 +1,4 @@
 import { load } from "js-yaml";
-import { ignoredHtmlElements } from "../../src/tree/builder/htmlConstants";
 import { FormattingElement, Paragraph, TextContainer,
 	Heading, StructuredNode, List, ListItem, Ignored } from "../../src/tree/structure";
 
@@ -35,9 +34,11 @@ class TreeFromYaml {
 		container.text = text;
 		if ( formatting ) {
 			container.formatting = formatting.map( parameters => {
-				const formattingElement = new FormattingElement( parameters.type, parameters.attributes );
+				const type = Object.keys( parameters )[ 0 ];
+				parameters = parameters[ type ];
+				const formattingElement = new FormattingElement( type, parameters.attributes );
 
-				this.setSourceLocation( container, parameters );
+				this.setSourceLocation( formattingElement, parameters );
 				formattingElement.textStartIndex = parameters.textStartIndex;
 				formattingElement.textEndIndex = parameters.textEndIndex;
 
@@ -69,7 +70,7 @@ class TreeFromYaml {
 	 * @returns {module:tree/structure.Paragraph} The parsed Paragraph node.
 	 */
 	parseParagraph( parameters ) {
-		const paragraph = new Paragraph( parameters.implicit ? "" : "p" );
+		const paragraph = new Paragraph( parameters.tag );
 		paragraph.textContainer = this.parseTextContainer( parameters.text, parameters.formatting );
 		return paragraph;
 	}
@@ -104,12 +105,11 @@ class TreeFromYaml {
 	 * Parses the given parameters to a Structured node.
 	 *
 	 * @param {Object} parameters The parameters to parse.
-	 * @param {string} type   The type of structured node.
 	 *
 	 * @returns {module:tree/structure.StructuredNode} The parsed Structured node.
 	 */
-	parseStructured( parameters, type ) {
-		const structured = new StructuredNode( type );
+	parseStructured( parameters ) {
+		const structured = new StructuredNode( parameters.tag );
 		structured.children = parameters.children.map( child => this.parse( child ) );
 		return structured;
 	}
@@ -118,12 +118,11 @@ class TreeFromYaml {
 	 * Parses the given parameters to an Ignored node.
 	 *
 	 * @param {Object} parameters The parameters to parse.
-	 * @param {string} type   The type of ignored element.
 	 *
 	 * @returns {module:tree/structure.Ignored} The parsed Ignored node.
 	 */
-	parseIgnored( parameters, type ) {
-		const ignored = new Ignored( type );
+	parseIgnored( parameters ) {
+		const ignored = new Ignored( parameters.tag );
 		ignored.content = parameters.content;
 		return ignored;
 	}
@@ -135,20 +134,21 @@ class TreeFromYaml {
 	 *
 	 * @returns {module:tree/structure.Node} The parsed tree.
 	 */
-	parse( parameters ) {
+	parse( parameters ) { // eslint-disable-line complexity
+		/*
+		  Type of node to add.
+		  E.g. encoded as `{ Paragraph: { text: "Some text"... } }`
+		 */
 		const type = Object.keys( parameters )[ 0 ];
 		let element = {};
 		switch ( type ) {
-			case "Paragraph": element = this.parseParagraph( parameters[ type ] ); break;
-			case "Heading": element = this.parseHeading( parameters[ type ] ); break;
-			case "List": element = this.parseList( parameters[ type ] ); break;
-			case "ListItem": element = this.parseListItem( parameters[ type ] ); break;
-			default:
-				if ( ignoredHtmlElements.includes( element ) ) {
-					element = this.parseIgnored( parameters[ type ], type );
-				} else {
-					element = this.parseStructured( parameters[ type ], type );
-				}
+			case "Paragraph":  element = this.parseParagraph( parameters[ type ] );  break;
+			case "Heading":    element = this.parseHeading( parameters[ type ] );    break;
+			case "List":       element = this.parseList( parameters[ type ] );       break;
+			case "ListItem":   element = this.parseListItem( parameters[ type ] );   break;
+			case "Ignored":    element = this.parseIgnored( parameters[ type ] );    break;
+			case "Structured": element = this.parseStructured( parameters[ type ] ); break;
+			default: throw new Error( `Node of type '${type}' is not known.` );
 		}
 		this.setSourceLocation( element, parameters[ type ] );
 		return element;
