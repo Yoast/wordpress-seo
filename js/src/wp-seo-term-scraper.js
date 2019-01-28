@@ -376,8 +376,6 @@ window.yoastHideMarkers = true;
 		let focusKeyword = store.getState().focusKeyword;
 		requestKeywordForms( focusKeyword );
 
-		console.log("scrapper has forms", store.getState().keyphraseForms)
-
 		const refreshAfterFocusKeywordChange = debounce( () => {
 			app.refresh();
 		}, 50 );
@@ -391,8 +389,6 @@ window.yoastHideMarkers = true;
 				focusKeyword = newFocusKeyword;
 
 				requestKeywordForms( focusKeyword );
-
-				console.log("scrapper has forms", store.getState().keyphraseForms)
 
 				document.getElementById( "hidden_wpseo_focuskw" ).value = focusKeyword;
 				refreshAfterFocusKeywordChange();
