@@ -135,7 +135,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	 * @return bool Whether the local file should be used.
 	 */
 	public static function use_local_file() {
-		return defined( 'YOAST_SEO_RECALIBRATION_USE_LOCAL_FILE' );
+		return defined( 'YOAST_SEO_RECALIBRATION_USE_LOCAL_FILE' ) && YOAST_SEO_RECALIBRATION_USE_LOCAL_FILE;
 	}
 
 	/**
