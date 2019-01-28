@@ -145,12 +145,21 @@ const transitionWordsMarker = function( paper, researcher ) {
 	} );
 };
 
+/**
+ * Checks if the transition words assessment is applicable to the paper.
+ *
+ * @param {Object} paper The paper to check.
+ *
+ * @returns {boolean} Returns true if the language is available and the paper is not empty.
+ */
+const isApplicable = function( paper ) {
+	const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
+	return ( isLanguageAvailable && paper.hasText() );
+};
+
 export default {
 	identifier: "textTransitionWords",
 	getResult: transitionWordsAssessment,
-	isApplicable: function( paper ) {
-		const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
-		return ( isLanguageAvailable && paper.hasText() );
-	},
+	isApplicable: isApplicable,
 	getMarks: transitionWordsMarker,
 };

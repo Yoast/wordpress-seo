@@ -8,6 +8,11 @@ module.exports = function( grunt ) {
 			grunt: "grunt/",
 			js: "src/",
 			css: "css/",
+			/**
+			 * Gets the path to the grunt config.
+			 *
+			 * @returns {string} The config path.
+			 */
 			get config() {
 				return this.grunt + "config/";
 			},
@@ -29,6 +34,11 @@ module.exports = function( grunt ) {
 			scss: "css/*.scss",
 			templates: "templates/*.jst",
 			jed: "node_modules/jed/jed.js",
+			/**
+			 * Gets the wildcard to get the grunt config files.
+			 *
+			 * @returns {string} The wildcard.
+			 */
 			get config() {
 				return project.paths.config + "*.js";
 			},

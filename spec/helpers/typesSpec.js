@@ -25,6 +25,11 @@ describe( "checks type", function() {
 		expect( getType( arr ) ).toBe( "array" );
 	} );
 	it( "returns the default type - function", function() {
+		/**
+		 * A mock function.
+		 *
+		 * @returns {void}
+		 */
 		var func = function() {};
 		expect( getType( func ) ).toBe( "function" );
 	} );

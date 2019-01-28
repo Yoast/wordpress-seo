@@ -47,8 +47,8 @@ export default function( text, keyword, locale ) {
 		combinedArray = combinedArray.concat( transliterateWPMatches );
 	}
 
-	return map( combinedArray, function( keyword ) {
-		return stripSpaces( keyword );
+	return map( combinedArray, function( match ) {
+		return stripSpaces( match );
 	} );
 }
 

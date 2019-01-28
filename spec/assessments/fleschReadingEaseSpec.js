@@ -14,6 +14,14 @@ describe( "An assessment for the flesch reading", function() {
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 100 in the test, which is considered very easy to read. Good job!" );
 	} );
 
+	it( "returns a 'very easy' score and the associated feedback text for a paper when the score is exactly 90.", function() {
+		const paper = new Paper( "This is a very interesting paper" );
+		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 90.0 ), i18n );
+
+		expect( result.getScore() ).toBe( 9 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 90 in the test, which is considered very easy to read. Good job!" );
+	} );
+
 	it( "returns an 'easy' score and the associated feedback text for a paper.", function() {
 		const paper = new Paper( "This is a very interesting paper" );
 		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 82.0 ), i18n );

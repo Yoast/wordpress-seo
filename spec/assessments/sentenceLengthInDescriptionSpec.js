@@ -7,8 +7,8 @@ describe( "An assessment for sentence length", function() {
 	let mockPaper, assessment;
 
 	it( "returns the score for all short sentences", function() {
-		const mockPaper = new Paper();
-		const assessment = sentenceLengthInDescriptionAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
+		mockPaper = new Paper();
+		assessment = sentenceLengthInDescriptionAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
@@ -66,5 +66,17 @@ describe( "An assessment for sentence length", function() {
 		mockPaper = new Paper();
 		assessment = sentenceLengthInDescriptionAssessment.isApplicable( mockPaper );
 		expect( assessment ).toBe( false );
+	} );
+
+	it( "is not applicable for papers without metadescription", function() {
+		mockPaper = new Paper( "", { description: "" } );
+		assessment = sentenceLengthInDescriptionAssessment.isApplicable( mockPaper );
+		expect( assessment ).toBe( false );
+	} );
+
+	it( "is applicable for papers with a metadescription", function() {
+		mockPaper = new Paper( "", { description: "some meta description" } );
+		assessment = sentenceLengthInDescriptionAssessment.isApplicable( mockPaper );
+		expect( assessment ).toBe( true );
 	} );
 } );

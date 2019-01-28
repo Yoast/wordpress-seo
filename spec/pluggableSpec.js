@@ -10,7 +10,17 @@ describe( "the pluggable interface", function() {
 	describe( "adding an assessment", function() {
 		beforeEach( function() {
 			app = {
+				/**
+				 * A mock updateLoadingDialog function.
+				 *
+				 * @returns {void}
+				 */
 				updateLoadingDialog: function() {},
+				/**
+				 * A mock pluginsLoaded function.
+				 *
+				 * @returns {boolean} Always true.
+				 */
 				pluginsLoaded: function() {
 					return true;
 				},
