@@ -115,9 +115,24 @@ class WPSEO_Link_Watcher {
 	 * @return void
 	 */
 	private function process( $post_id, $content ) {
+		global $post, $id, $authordata, $currentday, $currentmonth, $page, $pages, $multipage, $more, $numpages;
+
+		// Store the data of the global variables, so we can reset them calling the_content.
+		$stored = compact( 'post', 'id', 'authordata', 'currentday', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages' );
+
+		// Setup the post, to make sure filters can handle it as if we are in the loop.
+		$post = get_post( $post_id );
+		setup_postdata( $post_id );
+
 		// Apply the filters to have the same content as shown on the frontend.
 		$content = apply_filters( 'the_content', $content );
 		$content = str_replace( ']]>', ']]&gt;', $content );
+
+		/*
+		 * Not using `wp_reset_postdata` because we don't know if we are in The Loop because this can be called in the admin or during CLI.
+		 * Reset the global variables to what they were before setting up the postdata.
+		 */
+		extract( $stored, EXTR_OVERWRITE );
 
 		$this->content_processor->process( $post_id, $content );
 	}

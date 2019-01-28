@@ -9,6 +9,12 @@
  * Unit Test Class.
  */
 class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
+	/**
+	 * Store the post ID to be able to compare it in a filter.
+	 *
+	 * @var int
+	 */
+	private $the_content_post_id;
 
 	/**
 	 * Creates the table to make sure the tests for this class can be executed.
@@ -189,6 +195,84 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 		$watcher->delete_post( $post->ID );
 
 		$this->assertEmpty( $storage->get_links( $post->ID ) );
+	}
+
+	/**
+	 * Makes sure the_content will have the needed content to properly function.
+	 */
+	public function test_the_content_filter() {
+		$author = $this->factory->user->create_and_get(
+			array( 'nicename' => 'test' )
+		);
+
+		// save_post
+		$post = $this->factory->post->create_and_get(
+			array(
+				'post_content' => 'This is content',
+				'post_author' => $author->ID,
+			)
+		);
+
+		$this->the_content_post_id = $post->ID;
+
+		$processor = new WPSEO_Link_Content_Processor( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() );
+
+		add_filter( 'the_content', array( $this, 'filter_the_content' ) );
+
+		$watcher = new WPSEO_Link_Watcher( $processor );
+		$watcher->save_post( $post->ID, $post );
+
+		// Cleanup.
+		remove_filter( 'the_content', array( $this, 'filter_the_content' ) );
+		unset( $this->the_content_post_id );
+	}
+
+	/**
+	 * Makes sure process will restore the global post after running.
+	 */
+	public function test_the_content_filter_data_reset() {
+		global $post;
+
+		// Get the currently set global post.
+		$post = get_post();
+		// Store so we can see if it will be restored as it was before calling this.
+		$original_post = $post;
+
+		$created_post = $this->factory->post->create_and_get(
+			array(
+				'post_content' => 'This is content',
+			)
+		);
+
+		$processor = new WPSEO_Link_Content_Processor( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() );
+
+		$watcher = new WPSEO_Link_Watcher( $processor );
+		$watcher->save_post( $created_post->ID, $created_post );
+
+		$this->assertEquals( $post, $original_post, 'The global post should be restored as before the filter.' );
+	}
+
+	/**
+	 * Filters the_content when a post is saved and processed.
+	 *
+	 * This assumes the same context as if we are in "The Loop".
+	 *
+	 * @param string $content The content to filter.
+	 *
+	 * @return string The filtered content.
+	 */
+	public function filter_the_content( $content ) {
+		global $post;
+
+		$current_post = get_post( $this->the_content_post_id );
+
+		$this->assertEquals( $post->ID, $current_post->ID );
+		$this->assertEquals( get_the_title(), get_the_title( $current_post->ID ) );
+
+		// Test other globals being setup properly ($authordata).
+		$this->assertEquals( get_the_author_meta( 'ID' ), $current_post->post_author );
+
+		return $content;
 	}
 
 	/**
