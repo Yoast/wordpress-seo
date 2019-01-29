@@ -49,16 +49,10 @@ describe( "Test for creating forms for German nouns", () => {
 	} );
 
 	it( "creates forms for a plural word on the stemsSReduplication exception list", () => {
-		/*
-		 * For this noun, also the stemsWithUmlaut word "kuss" matches, hence there are more forms than
-		 * for the singular version above.
-		 */
 		expect( getForms( "fokusse", morphologyDataDE ) ).toEqual( [
 			"fokusse",
-			"fokuss",
-			"fokusses",
-			"foküsse",
-			"foküssen",
+			"fokus",
+			"fokussen",
 		] );
 	} );
 

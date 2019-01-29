@@ -4,14 +4,14 @@ import stem from "./stem";
 /**
  * Checks whether a stemmed word is on a given exception list for which we have full forms.
  *
- * @param {array} exceptionCategory     The exception category to check.
+ * @param {array} exceptionStems        The exception stems to check against.
  * @param {string} stemmedWordToCheck   The stem to check.
  *
  * @returns {Array<string>} The created word forms.
  */
-const checkStemsFromExceptionList = function( exceptionCategory, stemmedWordToCheck ) {
-	for ( let i = 0; i < exceptionCategory.length; i++ ) {
-		const currentStemDataSet = exceptionCategory[ i ];
+const checkStemsFromExceptionList = function( exceptionStems, stemmedWordToCheck ) {
+	for ( let i = 0; i < exceptionStems.length; i++ ) {
+		const currentStemDataSet = exceptionStems[ i ];
 
 		const stemPairToCheck = currentStemDataSet[ 0 ];
 
@@ -86,13 +86,10 @@ const checkExceptions = function( morphologyDataNouns, stemmedWordToCheck ) {
 	let exceptions = [];
 
 	// Check exceptions with full forms.
-	const exceptionStemsWithFullForms = morphologyDataNouns.exceptionStemsWithFullForms;
+	exceptions = checkStemsFromExceptionList( morphologyDataNouns.exceptionStemsWithFullForms, stemmedWordToCheck );
 
-	for ( const key of Object.keys( exceptionStemsWithFullForms ) ) {
-		exceptions = checkStemsFromExceptionList( exceptionStemsWithFullForms[ key ], stemmedWordToCheck );
-		if ( exceptions.length > 0 ) {
-			return exceptions;
-		}
+	if ( exceptions.length > 0 ) {
+		return exceptions;
 	}
 
 	// Check exceptions with predictable suffixes.
