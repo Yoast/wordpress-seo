@@ -106,6 +106,25 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 9.7.0 =
+Release Date: February 26th, 2019
+
+## Enhancements:
+
+* Replaces inch marks by smart quotes in search breadcrumbs.
+* Improves the feedback for the assessment that checks the length of cornerstone articles.
+* Improves accessibility and focus management for the How-To and FAQ structured data blocks.
+* Improves the Internal Links table headers on the post overview for better translations and accessibility.
+* Adds a description of the SEO and Readability score to the posts and taxonomies overview in mobile view.
+* Adds a label element to the Google Search Console authorisation code input field in the configuration wizard.
+
+### Bugfixes:
+
+* Fixes a bug where a Flesch reading ease score of exactly 90 would trigger incorrect feedback.
+* Fixes a bug where the taxonomy sitemap provider would not handle private taxonomies as expected, resulting in sitemaps not being accessible in specific situations.
+* Fixes a bug where an empty twitter description instead of the term description would be shown.
+* Fixes a bug where undefined warnings would be given when saving a Facebook image.
+
 = 9.6.0 =
 Release Date: February 12th, 2019
 
@@ -124,31 +143,3 @@ Release Date: February 12th, 2019
 
 * Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
 * Improves the redirect upsell when user clicks on create redirect in the search console overview.
-
-= 9.5.0 =
-Release Date: January 22nd, 2019
-
-Enhancements:
-
-* Completes the readability analysis for Swedish by adding the transition words, sentence beginnings and passive voice assessments.
-* Improves the transition word assessment for German.
-
-Bugfixes:
-
-* Fixes a bug where the Ryte endpoint would be called when the Ryte feature has been disabled.
-* Fixes a bug where the 'Show archives for authors without posts in search results?' toggle would be shown when the 'Show author archives in search results?' toggle was disabled in the search appearance settings.
-* Fixes a bug where the front page would be shown in the page sitemap. Props to [stodorovic](https://github.com/stodorovic).
-* Fixes a bug where errors would be thrown in the classic editor when Gutenberg assets were enqueued without Gutenberg being active.
-* Fixes a bug where the editor would not be loaded when clicking the ‘edit’ button for a child page in the page overview. Props [mondrey](https://github.com/mondrey).
-
-Deprecated:
-
-* Deprecates the methods WPSEO_Utils::get_user_locale() and WPSEO_Utils::get_language().
-
-Other:
-
-* Adds a Courses Page showing an overview of the available online courses offered by Yoast Academy.
-
-= Earlier versions =
-
-For the changelog of earlier versions, please refer to [the Yoast SEO changelog on yoast.com](https://yoa.st/yoast-seo-changelog)
