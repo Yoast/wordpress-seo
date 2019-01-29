@@ -2,7 +2,7 @@ import { flattenDeep, uniq as unique } from "lodash-es";
 import stem from "./stem";
 
 /**
- * Checks whether a stemmed word is on a given exception list for which we have full forms.
+ * Checks whether a stemmed word is on the exception list for which we have full forms.
  *
  * @param {array} exceptionStems        The exception stems to check against.
  * @param {string} stemmedWordToCheck   The stem to check.
@@ -22,17 +22,18 @@ const checkStemsFromExceptionList = function( exceptionStems, stemmedWordToCheck
 				const precedingLexicalMaterial = stemmedWordToCheck.replace( stemAtEndOfWord, "" );
 				/*
 			 	 * If the word is a compound, removing the final stem will result in some lexical material to
-			 	 * be left over. For example, removing "stadt" from "Hauptstadt" leaves "Haupt".
-			 	 * That lexical material is the base for the word forms that need to be created (e.g., "Hauptstädte").
+			 	 * be left over at the beginning of the word. For example, removing "stadt" from "Hauptstadt"
+			 	 * leaves "Haupt". This lexical material is the base for the word forms that need to be created
+			 	 * (e.g., "Hauptstädte").
 			 	 */
 				if ( precedingLexicalMaterial.length > 0 ) {
 					const stemsToReturn = currentStemDataSet[ 1 ];
 					return stemsToReturn.map( currentStem => precedingLexicalMaterial.concat( currentStem ) );
 				}
-				/*
-			   * Return all possible stems since apparently the word that's being checked is equal to the stem on the
-			   * exception list that's being checked.
-			   */
+			    /*
+			     * Return all possible stems since apparently the word that's being checked is equal to the stem on the
+			     * exception list that's being checked.
+			     */
 				return currentStemDataSet[ 1 ];
 			}
 		}
@@ -83,10 +84,8 @@ const checkStemsWithPredictableSuffixes = function( exceptionCategory, stemmedWo
  * @returns {Array<string>} The created word forms.
  */
 const checkExceptions = function( morphologyDataNouns, stemmedWordToCheck ) {
-	let exceptions = [];
-
 	// Check exceptions with full forms.
-	exceptions = checkStemsFromExceptionList( morphologyDataNouns.exceptionStemsWithFullForms, stemmedWordToCheck );
+	let exceptions = checkStemsFromExceptionList( morphologyDataNouns.exceptionStemsWithFullForms, stemmedWordToCheck );
 
 	if ( exceptions.length > 0 ) {
 		return exceptions;
@@ -108,7 +107,7 @@ const checkExceptions = function( morphologyDataNouns, stemmedWordToCheck ) {
 };
 
 /**
- * Adds suffixes from the list of regular suffixes.
+ * Adds suffixes to the list of regular suffixes.
  *
  * @param {Object}          morphologyDataSuffixAdditions   The German data for suffix additions.
  * @param {Array<string>}   regularSuffixes                 All regular suffixes for German.

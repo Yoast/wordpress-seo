@@ -16,7 +16,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a singular word on the stemsUmlaut exception list", () => {
+	it( "creates forms for a singular word with a stem that changes to an umlaut", () => {
 		expect( getForms( "stadt", morphologyDataDE ) ).toEqual( [
 			"stadt",
 			"städte",
@@ -24,7 +24,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a plural word on the stemsUmlaut exception list", () => {
+	it( "creates forms for a plural word with a stem that changes to an umlaut", () => {
 		expect( getForms( "städte", morphologyDataDE ) ).toEqual( [
 			"städte",
 			"stadt",
@@ -32,7 +32,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a compound word on the stemsUmlaut exception list", () => {
+	it( "creates forms for a compound word a stem that changes to an umlaut", () => {
 		expect( getForms( "hauptstadt", morphologyDataDE ) ).toEqual( [
 			"hauptstadt",
 			"hauptstädte",
@@ -40,7 +40,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a singular word on the stemsSReduplication exception list", () => {
+	it( "creates forms for a singular word with a stem with s-reduplication", () => {
 		expect( getForms( "fokus", morphologyDataDE ) ).toEqual( [
 			"fokus",
 			"fokusse",
@@ -48,7 +48,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a plural word on the stemsSReduplication exception list", () => {
+	it( "creates forms for a plural word with a stem with s-reduplication", () => {
 		expect( getForms( "fokusse", morphologyDataDE ) ).toEqual( [
 			"fokusse",
 			"fokus",
@@ -56,7 +56,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a compound word on the stemsSReduplication exception list", () => {
+	it( "creates forms for a compound word with a stem with s-reduplication", () => {
 		expect( getForms( "autofokus", morphologyDataDE ) ).toEqual( [
 			"autofokus",
 			"autofokusse",
@@ -64,7 +64,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a singular word on the stemsLoanwordsUm exception list", () => {
+	it( "creates forms for a singular word that ends in -um in the singular", () => {
 		expect( getForms( "antidepressivum", morphologyDataDE ) ).toEqual( [
 			"antidepressivum",
 			"antidepressivums",
@@ -72,7 +72,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a plural word on the stemsLoanwordsUm exception list", () => {
+	it( "creates forms for a plural word that ends in -um in the singular", () => {
 		expect( getForms( "antidepressiva", morphologyDataDE ) ).toEqual( [
 			"antidepressiva",
 			"antidepressivum",
@@ -80,21 +80,21 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a singular word on the stemsUsNoReduplication exception list", () => {
+	it( "creates forms for a singular word that ends in -us in the singular (without s-reduplication)", () => {
 		expect( getForms( "euphemismus", morphologyDataDE ) ).toEqual( [
 			"euphemismus",
 			"euphemismen",
 		] );
 	} );
 
-	it( "creates forms for a plural word on the stemsUsNoReduplication exception list", () => {
+	it( "creates forms for a plural word that ends in -us in the singular (without s-reduplication)", () => {
 		expect( getForms( "euphemismen", morphologyDataDE ) ).toEqual( [
 			"euphemismen",
 			"euphemismus",
 		] );
 	} );
 
-	it( "creates forms for a singular word on the stemsLoanwordsOn exception list", () => {
+	it( "creates forms for a singular word that ends in -on in the singular", () => {
 		expect( getForms( "lexikon", morphologyDataDE ) ).toEqual( [
 			"lexikon",
 			"lexikons",
@@ -103,7 +103,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a plural word on the stemsLoanwordsOn exception list", () => {
+	it( "creates forms for a plural word that ends in -on in the singular", () => {
 		expect( getForms( "lexika", morphologyDataDE ) ).toEqual( [
 			"lexika",
 			"lexikon",
@@ -112,7 +112,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a singular word on the stemsLoanwordsA exception list", () => {
+	it( "creates forms for a singular word that ends in -a in the singular", () => {
 		expect( getForms( "dogma", morphologyDataDE ) ).toEqual( [
 			"dogma",
 			"dogmas",
@@ -121,7 +121,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a plural word on the stemsLoanwordsA exception list", () => {
+	it( "creates forms for a plural word that ends in -a in the singular", () => {
 		expect( getForms( "dogmata", morphologyDataDE ) ).toEqual( [
 			"dogmata",
 			"dogma",
@@ -130,7 +130,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a singular word on the stemsLoanwordsO exception list", () => {
+	it( "creates forms for a singular word that ends in -o in the singular", () => {
 		expect( getForms( "cello", morphologyDataDE ) ).toEqual( [
 			"cello",
 			"cellos",
@@ -138,7 +138,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a plural word on the stemsLoanwordsO exception list", () => {
+	it( "creates forms for a plural word that ends in -o in the singular", () => {
 		expect( getForms( "celli", morphologyDataDE ) ).toEqual( [
 			"celli",
 			"cello",
@@ -146,7 +146,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a singular word on the stemsLoanwordsX exception list", () => {
+	it( "creates forms for a singular word that ends in -x in the singular", () => {
 		expect( getForms( "sphinx", morphologyDataDE ) ).toEqual( [
 			"sphinx",
 			"sphinxe",
@@ -155,7 +155,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a plural word on the stemsLoanwordsX exception list", () => {
+	it( "creates forms for a plural word that ends in -x in the singular", () => {
 		expect( getForms( "sphingen", morphologyDataDE ) ).toEqual( [
 			"sphingen",
 			"sphinx",
@@ -164,7 +164,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a singular word on the stemsIenPlurals exception list", () => {
+	it( "creates forms for a singular word with a -ien plural", () => {
 		expect( getForms( "mineral", morphologyDataDE ) ).toEqual( [
 			"mineral",
 			"minerals",
@@ -174,7 +174,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a plural word on the stemsIenPlurals exception list", () => {
+	it( "creates forms for a plural ord with a -ien plural", () => {
 		expect( getForms( "mineralien", morphologyDataDE ) ).toEqual( [
 			"mineralien",
 			"mineral",
@@ -185,7 +185,7 @@ describe( "Test for creating forms for German nouns", () => {
 	} );
 
 
-	it( "creates forms for a singular word on the stemsMiscellaneous exception list", () => {
+	it( "creates forms for a singular word with an irregular plural pattern", () => {
 		expect( getForms( "kibbuz", morphologyDataDE ) ).toEqual( [
 			"kibbuz",
 			"kibbuzim",
@@ -193,7 +193,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a plural word on the stemsMiscellaneous exception list", () => {
+	it( "creates forms for a plural word with an irregular plural pattern", () => {
 		expect( getForms( "kibbuzim", morphologyDataDE ) ).toEqual( [
 			"kibbuzim",
 			"kibbuz",
@@ -201,7 +201,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a singular word on the stemsAmbiguousPlurals exception list", () => {
+	it( "creates forms for a singular word with an ambiguous plural", () => {
 		expect( getForms( "stadium", morphologyDataDE ) ).toEqual( [
 			"stadium",
 			"stadiums",
@@ -209,7 +209,7 @@ describe( "Test for creating forms for German nouns", () => {
 		] );
 	} );
 
-	it( "creates forms for a plural word on the stemsAmbiguousPlurals exception list", () => {
+	it( "creates forms for a plural word with an ambiguous plural", () => {
 		expect( getForms( "stadien", morphologyDataDE ) ).toEqual( [
 			"stadien",
 			"stadion",
@@ -218,6 +218,14 @@ describe( "Test for creating forms for German nouns", () => {
 			"stadiums",
 		] );
 	} );
+
+	it( "only creates the correct forms for inkubus and doens't add the forms for kubus", () => {
+		expect( getForms( "inkubus", morphologyDataDE ) ).toEqual( [
+			"inkubus",
+			"inkuben",
+		] );
+	} );
+
 
 	it( "creates forms for a singular noun that only gets an -en suffix", () => {
 		expect( getForms( "warnung", morphologyDataDE ) ).toEqual( [
@@ -289,7 +297,7 @@ describe( "Test for creating forms for German nouns", () => {
 			"ärztiners",
 			"ärztines",
 			"ärztins",
-			// Additional suffixe to regulars.
+			// Additional suffixes added to regulars.
 			"ärztinnen",
 		] );
 	} );
@@ -298,7 +306,7 @@ describe( "Test for creating forms for German nouns", () => {
 		expect( getForms( "tee", morphologyDataDE ) ).toEqual( [
 			"tee",
 			"tees",
-			// Addes suffixes.
+			// Adds suffixes.
 			"teen",
 			"teens",
 		] );
