@@ -9144,6 +9144,11 @@ parse5@^3.0.1:
   dependencies:
     "@types/node" "*"
 
+parse5@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/parse5/-/parse5-5.1.0.tgz#c59341c9723f414c452975564c7c00a68d58acd2"
+  integrity sha512-fxNG2sQjHvlVAYmzBZS9YlDp6PTSSDwa98vkD4QgVDDCAo84z5X1t5XyJQ62ImdLXx5NdIIfihey6xpum9/gRQ==
+
 parseurl@~1.3.0, parseurl@~1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/parseurl/-/parseurl-1.3.2.tgz#fc289d4ed8993119460c156253262cdc8de65bf3"
@@ -12625,9 +12630,9 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-"yoast-components@git+https://github.com/Yoast/yoast-components.git#develop":
-  version "4.18.1"
-  resolved "git+https://github.com/Yoast/yoast-components.git#f7de512eb784fb21741a550fae761c8890cebc5b"
+"yoast-components@git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.7":
+  version "4.19.0"
+  resolved "git+https://github.com/Yoast/yoast-components.git#8a0affd96a9a6caf39f936c1c0e5124dcf2e482d"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -12649,19 +12654,20 @@ yauzl@^2.2.1:
     styled-components "^2.1.2"
     whatwg-fetch "^1.0.0"
     wicked-good-xpath "^1.3.0"
-    yoastseo "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.6"
+    yoastseo "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.7"
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-"yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.6":
-  version "1.45.0"
-  resolved "git+https://github.com/Yoast/YoastSEO.js.git#24cd0df77115fa43cd78c9d35e7e40e385915eb9"
+"yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.7":
+  version "1.46.0"
+  resolved "git+https://github.com/Yoast/YoastSEO.js.git#9f5f0071110b1dae18447512790958f1830ab6e7"
   dependencies:
     "@wordpress/autop" "^2.0.2"
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
     lodash-es "^4.17.10"
     loglevel "^1.6.1"
+    parse5 "^5.1.0"
     sassdash "0.9.0"
     tokenizer2 "^2.0.1"
 
