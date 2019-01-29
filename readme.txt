@@ -107,7 +107,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Changelog ==
 
 = 9.6.0 =
-Release Date: February 5th, 2019
+Release Date: February 12th, 2019
 
 ## Enhancements:
 
