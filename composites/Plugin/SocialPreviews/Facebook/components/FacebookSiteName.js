@@ -12,6 +12,15 @@ const FacebookSiteNameWrapper = styled.div`
 	white-space: nowrap;
 `;
 
+/**
+ * Renders a FacebookSiteName component.
+ *
+ * @param {object} props The props.
+ *
+ * @returns {React.Element} The rendered element.
+ *
+ * @constructor
+ */
 const FacebookSiteName = ( props ) => {
 	return (
 		<FacebookSiteNameWrapper>
