@@ -5,7 +5,7 @@ import FacebookSiteName from "./FacebookSiteName";
 
 
 /**
- * Renders a FacebookSite preview component.
+ * Renders a FacebookPreview component.
  *
  * @param {object} props The props.
  *
