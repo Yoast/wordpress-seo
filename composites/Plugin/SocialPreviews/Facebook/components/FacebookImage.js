@@ -14,6 +14,7 @@ const FacebookImageContainer = styled.div`
 	z-index: 1;
 	overflow: hidden;
 	display: block;
+	background-color: #fff;
 	height: '{the height of the given image}px'
 	width: 500px;
 `;
