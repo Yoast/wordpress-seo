@@ -374,7 +374,7 @@ window.yoastHideMarkers = true;
 		store.dispatch( updateData( snippetEditorData ) );
 
 		let focusKeyword = store.getState().focusKeyword;
-		requestKeywordForms( focusKeyword );
+		requestKeywordForms( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
 
 		const refreshAfterFocusKeywordChange = debounce( () => {
 			app.refresh();
@@ -388,7 +388,7 @@ window.yoastHideMarkers = true;
 			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
 
-				requestKeywordForms( focusKeyword );
+				requestKeywordForms( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
 
 				document.getElementById( "hidden_wpseo_focuskw" ).value = focusKeyword;
 				refreshAfterFocusKeywordChange();

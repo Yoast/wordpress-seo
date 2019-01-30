@@ -535,7 +535,7 @@ setWordPressSeoL10n();
 
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = editStore.getState().focusKeyword;
-		requestKeywordForms( focusKeyword );
+		requestKeywordForms( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
 		const refreshAfterFocusKeywordChange = debounce( () => {
 			app.refresh();
 		}, 50 );
@@ -547,7 +547,7 @@ setWordPressSeoL10n();
 
 			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
-				requestKeywordForms( focusKeyword );
+				requestKeywordForms( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
 
 				$( "#yoast_wpseo_focuskw" ).val( focusKeyword );
 				refreshAfterFocusKeywordChange();
