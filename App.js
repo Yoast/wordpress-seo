@@ -15,6 +15,7 @@ import SvgIconsWrapper from "./app/SvgIconsWrapper";
 import UIControlsWrapper from "./app/UIControlsWrapper";
 import Wizard from "./app/WizardWrapper";
 import Loader from "./composites/basic/Loader";
+import FacebookPreview from "./composites/Plugin/SocialPreviews/Facebook/components/FacebookPreview";
 
 const components = [
 	{
@@ -81,6 +82,11 @@ const components = [
 		id: "components-example",
 		name: "Components",
 		component: <ComponentsExample />,
+	},
+	{
+		id: "facebookpreview-example",
+		name: "FacebookPreview",
+		component: <FacebookPreview siteName="SiteName.com" />,
 	},
 ];
 
