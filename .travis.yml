@@ -25,22 +25,13 @@ jobs:
       env: WP_VERSION=5.0 WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 TRAVIS_NODE_VERSION=node
     - php: 7.3
       env: WP_VERSION=5.0 WP_MULTISITE=1 COVERAGE=1
-    - php: 5.2
-      # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
-      dist: precise
-      env: WP_VERSION=4.8 WP_MULTISITE=1 PHPLINT=1
-    - php: 5.3
-      # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
-      dist: precise
-      env: WP_VERSION=5.0
     - php: 5.6
-      env: WP_VERSION=5.0
-    - php: 7.0
-      env: WP_VERSION=5.0
       env: WP_VERSION=5.0 PHPUNIT=1
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
+      env: WP_VERSION=4.9 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
+    - php: 7.3
       env: WP_VERSION=master
     - php: nightly
       env: WP_VERSION=master
@@ -122,7 +113,7 @@ before_install:
   fi
 
 install:
-- if [[ $TRAVIS_PHP_VERSION == "5.2" || $TRAVIS_PHP_VERSION == "5.3" ]]; then phpenv local 5.6.13; fi
+- if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then phpenv local 5.6.13; fi
 - |
   if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
     composer remove humbug/php-scoper --dev --ignore-platform-reqs
@@ -136,7 +127,7 @@ install:
     composer install --no-dev --no-interaction --ignore-platform-reqs
   fi
 - composer dump-autoload
-- if [[ $TRAVIS_PHP_VERSION == "5.2" || $TRAVIS_PHP_VERSION == "5.3" ]]; then phpenv local --unset; fi
+- if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then phpenv local --unset; fi
 - |
   if [[ "$CHECKJS" == "1" ]]; then
     yarn global add grunt-cli
@@ -246,7 +237,7 @@ script:
   fi
 # Validate the composer.json file.
 # @link https://getcomposer.org/doc/03-cli.md#validate
-- if [[ $TRAVIS_PHP_VERSION == "5.3" || $TRAVIS_PHP_VERSION == "7.3" ]]; then composer validate --no-check-all; fi
+- if [[ $TRAVIS_PHP_VERSION == "5.6" || $TRAVIS_PHP_VERSION == "7.3" ]]; then composer validate --no-check-all; fi
 
 after_script:
 - if [[ "$COVERAGE" == "1" ]]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
