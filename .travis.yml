@@ -32,9 +32,9 @@ jobs:
       dist: precise
       env: WP_VERSION=4.9 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
     - php: 7.3
-      env: WP_VERSION=master
+      env: WP_VERSION=master PHPUNIT=1
     - php: nightly
-      env: WP_VERSION=master
+      env: WP_VERSION=latest PHPUNIT=1
     - stage: 🚀 deployment
       name: "Deploy to S3"
       if: branch = deploy # Only build when on the `deploy` branch, this functionality is not used yet and is taking a long time to complete.
