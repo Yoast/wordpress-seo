@@ -37,6 +37,7 @@ jobs:
       env: WP_VERSION=5.0
     - php: 7.0
       env: WP_VERSION=5.0
+      env: WP_VERSION=5.0 PHPUNIT=1
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
@@ -230,7 +231,7 @@ script:
   fi
 # PHP Unit
 - |
-  if [[ "$COVERAGE" != "1" ]]; then
+  if [[ "$PHPUNIT" == "1" ]]; then
     travis_fold start "PHP.tests" && travis_time_start
     $PHPUNIT_BIN -c phpunit.xml
     travis_time_finish && travis_fold end "PHP.tests"
