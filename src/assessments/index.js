@@ -9,6 +9,7 @@ import TextPresenceAssessment from "./readability/textPresenceAssessment";
 import TransitionWordsAssessment from "./readability/transitionWordsAssessment";
 import WordComplexityAssessment from "./readability/wordComplexityAssessment";
 
+import FunctionWordsInKeyphraseAssessment from './FunctionWordsInKeyphraseAssessment';
 import InternalLinksAssessment from "./seo/InternalLinksAssessment";
 import IntroductionKeywordAssessment from "./seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./seo/KeyphraseLengthAssessment";
@@ -43,6 +44,7 @@ const readability = {
 };
 
 const seo = {
+	FunctionWordsInKeyphraseAssessment,
 	InternalLinksAssessment,
 	IntroductionKeywordAssessment,
 	KeyphraseLengthAssessment,
