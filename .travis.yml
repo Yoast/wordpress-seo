@@ -1,6 +1,9 @@
 language: php
-dist: trusty
+dist: xenial
 sudo: false
+
+services:
+  - mysql
 
 branches:
   only:
@@ -27,6 +30,8 @@ jobs:
       env: WP_VERSION=latest WP_MULTISITE=1 COVERAGE=1
     - php: 5.6
       env: WP_VERSION=latest PHPUNIT=1
+      # Use 'trusty' to test against MySQL 5.6, 'xenial' contains 5.7 by default.
+      dist: trusty
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
