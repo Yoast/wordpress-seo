@@ -15,7 +15,7 @@ import FacebookSiteName from "./FacebookSiteName";
  */
 const FacebookPreview = ( props ) => {
 	return (
-		<FacebookSiteName siteName={  props.siteName } />
+		<FacebookSiteName siteName={ props.siteName } />
 	);
 };
 
