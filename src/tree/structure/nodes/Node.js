@@ -1,3 +1,5 @@
+import { has, get } from "lodash-es";
+
 /**
  * Abstract class representing a node in the structured tree.
  * @abstract
@@ -28,6 +30,46 @@ class Node {
 		 * @type {?number}
 		 */
 		this.sourceEndIndex = 0;
+		/**
+		 * Cache for the research results.
+		 * @type {Object}
+		 * @private
+		 */
+		this._researchResult = {};
+	}
+
+	/**
+	 * Stores the research result on this node.
+	 *
+	 * @param {string} researchName   The name of the research of which to store the results.
+	 * @param {Object} researchResult The results to store.
+	 *
+	 * @returns {void}
+	 */
+	setResearchResult( researchName, researchResult ) {
+		this._researchResult[ researchName ] = researchResult;
+	}
+
+	/**
+	 * Returns the research result for the research with the given name.
+	 *
+	 * @param {string} researchName The name of the research of which to return the stored results.
+	 *
+	 * @returns {Object|null} The stored results, or null if not found.
+	 */
+	getResearchResult( researchName ) {
+		return get( this._researchResult, researchName, null );
+	}
+
+	/**
+	 * Checks whether results exist for the research with the given name.
+	 *
+	 * @param {string} researchName The name of the research to check.
+	 *
+	 * @returns {boolean} Whether results exists for the research with the given name.
+	 */
+	hasResearchResult( researchName ) {
+		return has( this._researchResult, researchName );
 	}
 
 	/**
