@@ -104,7 +104,7 @@ class App extends React.Component {
 		const activeComponent = this.state.activeComponent;
 		for ( var i = 0; i < components.length; i++ ) {
 			if ( activeComponent === components[ i ].id ) {
-				return components[ i ].component;
+				return <div key={ components[ i ].id }>{ components[ i ].component }</div>;
 			}
 		}
 	}

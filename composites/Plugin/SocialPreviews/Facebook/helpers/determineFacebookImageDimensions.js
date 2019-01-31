@@ -8,29 +8,29 @@ import determineFacebookImageMode from "./determineFacebookImageMode";
  * @returns {Object} The image original image dimensions.
  */
 function getOriginalImageDimensions( src ) {
-	const image = new Image();
+	return new Promise( (resolve, reject) => {
+		const img = new Image();
 
-	// Find the original dimensions of the uploaded image.
-	image.onload = () => {
-		return {
-			width: this.width,
-			height: this.height,
+		img.onload = () => {
+			resolve( {
+				width: img.width,
+				height: img.height,
+			} );
 		};
-	};
 
-	// Todo: add error handling: show placeholder + error message.
-	image.onerror = () => {
-	};
+		img.onerror = reject;
 
-	image.src = src;
+		img.src = src;
+	} );
+
 }
 
-const squareWidth = "158px";
-const squareHeight = "158px";
-const portraitWidth = "158px";
-const portraitHeight = "236px";
-const landscapeWidth = "500px";
-const landscapeHeight = "261px";
+const squareWidth = 158;
+const squareHeight = 158;
+const portraitWidth = 158;
+const portraitHeight = 236;
+const landscapeWidth = 500;
+const landscapeHeight = 261;
 
 
 /**
@@ -48,6 +48,8 @@ function calculateFacebookImageDimensions( originalDimensions, imageMode ) {
 	// The width and height of the original uploaded image.
 	const originalWidth = originalDimensions.width;
 	const originalHeight = originalDimensions.height;
+
+	console.log("hallo", originalWidth, originalHeight )
 
 	/*
 	 When it's a square, just use the squareWidth and squareHeight. We don't have to fear that the resulting image will
@@ -103,6 +105,8 @@ function calculateFacebookImageDimensions( originalDimensions, imageMode ) {
 		};
 	}
 
+
+
 	// todo: what about too small images?
 }
 
@@ -114,12 +118,20 @@ function calculateFacebookImageDimensions( originalDimensions, imageMode ) {
  * @returns {object} The width and height of the image.
  */
 export default function determineFacebookImageDimensions( src ) {
-	// Get the dimensions of the uploaded image.
-	const originalDimensions = getOriginalImageDimensions( src );
+//	return new Promise( ( resolve, reject ) => {
+	return getOriginalImageDimensions( src ).then( ( originalDimensions ) => {
+		console.log("dimensions", originalDimensions )
 
-	// Determine what image mode should be used based on the image dimensions.
-	const imageMode = determineFacebookImageMode( originalDimensions.width, originalDimensions.height );
+		// Determine what image mode should be used based on the image dimensions.
+		const imageMode = determineFacebookImageMode( originalDimensions.width, originalDimensions.height );
 
-	// Calculate the image dimensions for the specific image.
-	return calculateFacebookImageDimensions( originalDimensions, imageMode );
+		// Calculate the image dimensions for the specific image.
+		const facebookImageDimensions = calculateFacebookImageDimensions( originalDimensions, imageMode );
+		return {
+			mode: imageMode,
+			height: facebookImageDimensions.height,
+			width: facebookImageDimensions.width,
+		}
+		} );
+
 }
