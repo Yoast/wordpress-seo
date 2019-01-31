@@ -17,7 +17,7 @@ use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
 class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * Sets up environment for each test.
+	 * Sets up the environment for each test.
 	 */
 	public function setUp() {
 		parent::setUp();
