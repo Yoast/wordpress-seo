@@ -94,7 +94,13 @@ const LanguageDirectionContainer = styled.div`
 	text-align: center;
 `;
 
+/**
+ *  Represents the React Example App.
+ */
 class App extends React.Component {
+	/**
+	 *  Constructs the App container.
+	 */
 	constructor() {
 		super();
 
@@ -102,10 +108,14 @@ class App extends React.Component {
 			activeComponent: "snippet-preview",
 			isRtl: false,
 		};
-
 		this.changeLanguageDirection = this.changeLanguageDirection.bind( this );
 	}
 
+	/**
+	 * Get the active component.
+	 *
+	 * @returns {string} The active component.
+	 */
 	getContent() {
 		const activeComponent = this.state.activeComponent;
 		for ( var i = 0; i < components.length; i++ ) {
@@ -115,12 +125,27 @@ class App extends React.Component {
 		}
 	}
 
+	/**
+	 * Sets the activeComponent in the state.
+	 *
+	 * @param {string} activeComponent The active component id.
+	 *
+	 * @returns {void}
+	 */
 	navigate( activeComponent ) {
 		this.setState( {
 			activeComponent: activeComponent,
 		} );
 	}
 
+	/**
+	 * Renders the button for each component section.
+	 *
+	 * @param {string} id    The component id.
+	 * @param {string} title The component name.
+	 *
+	 * @returns {ReactElement} The button.
+	 */
 	renderButton( id, title ) {
 		const isActive = this.state.activeComponent === id;
 		const style = {};
@@ -138,6 +163,11 @@ class App extends React.Component {
 		);
 	}
 
+	/**
+	 * Renders the menu.
+	 *
+	 * @returns {ReactElement} The navigation menu.
+	 */
 	getMenu() {
 		return (
 			<nav style={ { textAlign: "center" } }>
@@ -153,7 +183,6 @@ class App extends React.Component {
 			</nav>
 		);
 	}
-
 
 	/**
 	 * Renders a switch language directionality button.
@@ -179,6 +208,14 @@ class App extends React.Component {
 		} );
 	}
 
+	/**
+	 * Sets the language direction based on what direction is in the current state after the component did update.
+	 *
+	 * @param {Object} prevProps The old props.
+	 * @param {Object} prevState The old state.
+	 *
+	 * @returns {void}
+	 */
 	componentDidUpdate( prevProps, prevState ) {
 		// Set and update the <html> element dir attribute based on the current language direction.
 		if ( prevState.isRtl !== this.state.isRtl ) {
@@ -186,6 +223,11 @@ class App extends React.Component {
 		}
 	}
 
+	/**
+	 * Renders the example app.
+	 *
+	 * @returns {ReactElement} The rendered App.
+	 */
 	render() {
 		return (
 			<IntlProvider locale="en">

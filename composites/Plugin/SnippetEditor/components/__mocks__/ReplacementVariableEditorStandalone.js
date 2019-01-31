@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 
 const focus = jest.fn();
 
+/**
+ * The mocked replacement variable editor.
+ */
 class ReplacementVariableEditorStandalone extends React.Component {
 	/**
 	 * Constructs the mocked replacement variable editor.

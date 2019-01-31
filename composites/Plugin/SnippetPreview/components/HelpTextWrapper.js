@@ -62,6 +62,9 @@ const StyledSvg = styled( SvgIcon )`
 	}
 `;
 
+/**
+ * The help text wrapper.
+ */
 class HelpTextWrapper extends React.Component {
 	/**
 	 * Constructs the component and sets its initial state.

@@ -20,6 +20,9 @@ const Container = styled.div`
 	width: 248px;
 `;
 
+/**
+ * The keyword example class.
+ */
 export default class KeywordExample extends Component {
 	/**
 	 * Constructs a keywordInput example.

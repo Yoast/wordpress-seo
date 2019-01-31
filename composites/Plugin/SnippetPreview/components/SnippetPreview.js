@@ -249,6 +249,9 @@ function hasTrailingSlash( url ) {
 	return url.lastIndexOf( "/" ) === ( url.length - 1 );
 }
 
+/**
+ * The snippet preview class.
+ */
 export default class SnippetPreview extends PureComponent {
 	/**
 	 * Renders the SnippetPreview component.

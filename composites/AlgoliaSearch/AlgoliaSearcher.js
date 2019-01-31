@@ -23,6 +23,9 @@ const VIEW = {
 	DETAIL: "DETAIL",
 };
 
+/**
+ * The AlgoliaSearcher component.
+ */
 class AlgoliaSearcher extends React.Component {
 	/**
 	 * AlgoliaSearcher constructor.
