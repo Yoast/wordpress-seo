@@ -42,7 +42,7 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 				$analysis_worker = 'wp-seo-' . $name . '-recalibration-' . $flat_version;
 			}
 			else {
-				$analysis_worker = plugin_dir_url( WPSEO_FILE ) . 'admin/my-yoast-proxy.php?file=research-webworker&plugin_version=' . $flat_version . '&suffix=' . WPSEO_CSSJS_SUFFIX;
+				$analysis_worker = admin_url( 'admin.php?page=wpseo_myyoast_proxy&file=research-webworker&plugin_version=' . $flat_version );
 			}
 		}
 
