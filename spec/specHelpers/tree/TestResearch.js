@@ -7,7 +7,7 @@ import { LeafNode } from "../../../src/tree/structure";
  */
 class TestResearch extends Research {
 	/**
-	 * Counts the amount of tokens
+	 * Counts the number of tokens
 	 * (text is split on whitespace).
 	 *
 	 * @param {module:tree/structure.Node} node The node to calculate the research for.
