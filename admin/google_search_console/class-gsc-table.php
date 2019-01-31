@@ -14,6 +14,9 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
  */
 class WPSEO_GSC_Table extends WP_List_Table {
 
+	/**
+	 * @var int
+	 */
 	const FREE_MODAL_HEIGHT = 140;
 
 	/**

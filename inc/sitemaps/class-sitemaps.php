@@ -12,7 +12,11 @@
  */
 class WPSEO_Sitemaps {
 
-	/** Sitemap index identifier. */
+	/**
+	 * Sitemap index identifier.
+	 *
+	 * @var string
+	 */
 	const SITEMAP_INDEX_TYPE = '1';
 
 	/**

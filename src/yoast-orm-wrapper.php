@@ -34,9 +34,9 @@ class ORMWrapper extends ORM {
 	 * The wrapped find_one and find_many classes will return an instance or
 	 * instances of this class.
 	 *
-	 * @var string $_class_name
+	 * @var string
 	 */
-	protected $_class_name;
+	protected $class_name;
 
 	/**
 	 * Set the name of the class which the wrapped methods should return
@@ -47,7 +47,7 @@ class ORMWrapper extends ORM {
 	 * @return void
 	 */
 	public function set_class_name( $class_name ) {
-		$this->_class_name = $class_name;
+		$this->class_name = $class_name;
 	}
 
 	/**
@@ -64,8 +64,8 @@ class ORMWrapper extends ORM {
 		$args            = \func_get_args();
 		$filter_function = \array_shift( $args );
 		\array_unshift( $args, $this );
-		if ( \method_exists( $this->_class_name, $filter_function ) ) {
-			return \call_user_func_array( array( $this->_class_name, $filter_function ), $args );
+		if ( \method_exists( $this->class_name, $filter_function ) ) {
+			return \call_user_func_array( array( $this->class_name, $filter_function ), $args );
 		}
 
 		return null;
@@ -103,7 +103,7 @@ class ORMWrapper extends ORM {
 		}
 
 		/** @var Yoast_Model $model */
-		$model = new $this->_class_name();
+		$model = new $this->class_name();
 		$model->set_orm( $orm );
 
 		return $model;
