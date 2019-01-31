@@ -238,9 +238,9 @@ function highlightKeyword( locale, keywordForms, text, cleanText ) {
 		}
 	} );
 
-	keywordFormsCleaned.concat( keywordFormsTransliterated );
+	const allKeywordForms = keywordFormsCleaned.concat( keywordFormsTransliterated );
 
-	const keywordFormsMatcher = createRegexFromArray( keywordFormsCleaned, "", false );
+	const keywordFormsMatcher = createRegexFromArray( allKeywordForms, false, "", false );
 
 	text = textToUse.replace( keywordFormsMatcher, function( matchedKeyword ) {
 		return `{{strong}}${ matchedKeyword }{{/strong}}`;
