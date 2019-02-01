@@ -1,17 +1,16 @@
 /**
  * Determines the image display mode of the Facebook Image.
  *
- * @param {string} width The image width.
- * @param {string} height The image height.
+ * @param {Object} dimensions The image's dimensions.
  *
  * @returns {string} The display mode of the image.
  */
-export default function determineFacebookImageMode( width, height ) {
-	if ( height > width ) {
+export default function determineFacebookImageMode( dimensions ) {
+	if ( dimensions.height > dimensions.width ) {
 		return "portrait";
 	}
 
-	if ( height === width ) {
+	if ( dimensions.height === dimensions.width ) {
 		return "square";
 	}
 

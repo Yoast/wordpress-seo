@@ -1,0 +1,156 @@
+import determineFacebookImageMode from "./determineFacebookImageMode";
+
+const squareWidth = 158;
+const squareHeight = 158;
+const portraitWidth = 158;
+const portraitHeight = 236;
+const landscapeWidth = 500;
+const landscapeHeight = 261;
+
+/**
+ * Gets the dimensions of the uploaded image.
+ *
+ * @param {string} src The image source.
+ *
+ * @returns {Object} The image original image dimensions.
+ */
+function getOriginalImageDimensions( src ) {
+	return new Promise( ( resolve, reject ) => {
+		const img = new Image();
+
+		img.onload = () => {
+			resolve( {
+				width: img.width,
+				height: img.height,
+			} );
+		};
+
+		img.onerror = reject;
+
+		img.src = src;
+	} );
+}
+
+/**
+ * Gets the ratios of the width and height of the original image in relation to the width and height
+ * of the expected image.
+ *
+ * @param {Object} dimensions The dimensions of the original image.
+ * @param {string} imageMode The image mode: either portrait or landscape.
+ *
+ * @returns {Object} The image's width ratio and height ratio.
+ */
+function getImageRatios( dimensions, imageMode ) {
+	if ( imageMode === "portrait" ) {
+		return {
+			widthRatio: dimensions.width / portraitWidth,
+			heightRatio: dimensions.height / portraitHeight,
+		};
+	}
+	if ( imageMode === "landscape" ) {
+		return {
+			widthRatio: dimensions.width / landscapeWidth,
+			heightRatio: dimensions.height / landscapeHeight,
+		};
+	}
+}
+
+/**
+ * Gets the image dimensions that the image should have as Facebook image.
+ *
+ * @param {Object} dimensions  The dimensions of the original image.
+ * @param {Object} imageRatios The ratios of the width and height of the original image in relation to the width and
+ *                             height of the expected image.
+ *
+ * @returns {Object}           The width and height that the image should have as Facebook image.
+ */
+function getImageDimensionsForFacebookImage( dimensions, imageRatios ) {
+	if ( imageRatios.widthRatio <= imageRatios.heightRatio ) {
+		return {
+			width: dimensions.width / imageRatios.widthRatio,
+			height: dimensions.height / imageRatios.widthRatio,
+		};
+	}
+
+	if ( imageRatios.widthRatio > imageRatios.heightRatio ) {
+		return {
+			width: dimensions.width / imageRatios.heightRatio,
+			height: dimensions.height / imageRatios.heightRatio,
+		};
+	}
+}
+
+/**
+ * Calculates the dimensions of the image to use as FacebookImage.
+ *
+ * @param {Object} originalDimensions The width and height of the original image.
+ * @param {string} imageMode The image mode: square, portrait or landscape.
+ *
+ * @returns {object} The image dimensions for the facebook image.
+ */
+function calculateFacebookImageDimensions( originalDimensions, imageMode ) {
+	// Images that are too small should not be scaled.
+	if ( originalDimensions.width < 158 || originalDimensions.height < 158 ) {
+		return {
+			width: originalDimensions.width,
+			height: originalDimensions.height,
+		};
+	}
+
+	/*
+	 If the image is a square, just use the squareWidth and squareHeight. We don't have to fear
+	 that the resulting image will be warped.
+	 */
+	if ( imageMode === "square" ) {
+		return {
+			width: squareWidth,
+			height: squareHeight,
+		};
+	}
+
+	/*
+	 When we're in portrait or landscape mode, we can't just resize to the dimensions expected by Facebook. If we'd do
+	 so, we would end up with warped images.
+
+	 First, we calculate the ratio between the original width and height and the width and height that is expected by
+	 Facebook.
+
+	 For example: the original image is 1600x898 and Facebook expects 500x261. The width ratio would be 3.44 and the
+	 height ratio would be 3.2.
+	 */
+	const imageRatios = getImageRatios( originalDimensions, imageMode );
+
+	/*
+	 To use as much as the allowed space as possible, we base both dimensions on the dimension with the lowest ratio.
+
+	 For example: for the 1600x898 image above, the height ratio is larger than the width ratio. The result of dividing by
+	 the heightRatio is an 1600x280.625 image. The excess of 280.625-261 = 18.375 pixels will be 'cut off' by the container
+	 in the presentation part.
+
+	 If we would divide by the widthRatio, the image would become 465x261, which would mean it would not be wide enough for
+	 the container which means there would be a 500-465=35px white border on one of the sides.
+	 */
+	return getImageDimensionsForFacebookImage( originalDimensions, imageRatios );
+}
+
+/**
+ * Determines the properties of the Facebook Image.
+ *
+ * @param {string} src The source of the image.
+ *
+ * @returns {object} The mode, width and height of the image.
+ */
+export default function determineFacebookImageProperties( src ) {
+	return getOriginalImageDimensions( src ).then( ( originalDimensions ) => {
+		// Determine what image mode should be used based on the image dimensions.
+		const imageMode = determineFacebookImageMode( originalDimensions );
+
+		// Calculate the image dimensions for the specific image.
+		const facebookImageDimensions = calculateFacebookImageDimensions( originalDimensions, imageMode );
+		return {
+			mode: imageMode,
+			height: facebookImageDimensions.height,
+			width: facebookImageDimensions.width,
+		};
+	} );
+}

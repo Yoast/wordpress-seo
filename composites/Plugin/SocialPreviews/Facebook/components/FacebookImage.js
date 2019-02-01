@@ -1,7 +1,8 @@
-import React, { Fragment } from "react";
+import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import determineFacebookImageDimensions from "../helpers/determineFacebookImageDimensions";
+import determineFacebookImageProperties from "../helpers/determineFacebookImageProperties";
+import colors from "../../../../../style-guide/colors.json";
 
 const StyledImage = styled.img`
 	min-height: initial;
@@ -17,14 +18,27 @@ const FacebookImageContainer = styled.div`
 	overflow: hidden;
 	display: block;
 	background-color: #fff;
-	height: ${ props => props.mode === "landscape" ? "261px" : ( props.mode === "square" ? "158px" : "236px" ) };
-	width: ${ props => props.mode === "landscape" ? "500px" : "158px" };
+	height: ${ props => props.dimensions.height };
+	width: ${ props => props.dimensions.width };
+	display: flex;
+	justify-content: center;
 `;
 
 const ErrorImage = styled.div`
 	height: 261px;
 	width: 500px;
-	background-color: #fff;
+	text-align: center;
+	box-sizing: border-box;
+	padding-top: 7em;
+	font-size: 1rem;
+	color: ${colors.$color_white};
+	background-color: ${colors.$color_red};
+`;
+
+const PlaceholderImage = styled.div`
+	height: 261px;
+	width: 500px;
+	background-color: ${colors.$color_grey};
 `;
 
 /**
@@ -34,43 +48,94 @@ const ErrorImage = styled.div`
  *
  * @returns {ReactComponent} The FacebookImage component.
  */
-
 export default class FacebookImage extends React.Component {
+	/**
+	 * The constructor.
+	 *
+	 * @param {Object} props The component's props.
+	 */
 	constructor( props ) {
-		super( props )
-		this.state= {
-			imageProperties: {},
+		super( props );
+		this.state = {
+			imageProperties: null,
+			status: "loading",
+		};
+	}
+
+	/**
+	 * After the component did mount, determine the properties of the FacebookImage.
+	 *
+	 * @returns {void}
+	 */
+	componentDidMount() {
+		determineFacebookImageProperties( this.props.src ).then( ( imageProperties ) => {
+			this.setState( {
+				imageProperties: imageProperties,
+				status: "loaded",
+			} );
+		} ).catch( () => {
+			this.setState( {
+				imageProperties: null,
+				status: "errored",
+			} );
+			return true;
+		}
+		);
+	}
+
+	/**
+	 * Gets the dimensions for the Facebook image container.
+	 *
+	 * @param {string} imageMode The facebook image mode: either landscape, square or portrait.
+	 *
+	 * @returns {Object} The width and height for the container.
+	 */
+	getContainerDimensions( imageMode ) {
+		switch ( imageMode ) {
+			case "landscape":
+				return {
+					height: "261px",
+					width: "500px",
+				};
+			case "square":
+				return {
+					height: "158px",
+					width: "158px",
+				};
+			case "portrait":
+			default:
+				return {
+					height: "236px",
+					width: "158px",
+				};
 		}
 	}
 
-	componentDidMount() {
-		determineFacebookImageDimensions( this.props.src ).then( ( imageProperties ) => {
-			this.setState( { imageProperties: imageProperties } );
-		} ).catch(
-			this.setState( { imageProperties: null } )
-		)
-	}
-
+	/**
+	 * Renders the FacebookImage.
+	 *
+	 * @returns {ReactComponent} Either the ErrorImage component or the FacebookImageContainer.
+	 */
 	render() {
-		console.log(this.state.imageProperties)
+		const imageProperties = this.state.imageProperties;
+		const status = this.state.status;
 
-		return (
-			<Fragment>
-				{ this.state.imageProperties === null && <ErrorImage>Error loading image</ErrorImage> }
-				{ this.state.imageProperties !== null && <FacebookImageContainer mode={ this.state.imageProperties.mode }>
-					<StyledImage src={ this.props.src } mode={ this.state.imageProperties.mode } />
-				</FacebookImageContainer> }
-			</Fragment>
-		);
+		if ( status === "loading" ) {
+			return <PlaceholderImage />;
+		}
+
+		if ( status === "errored" ) {
+			return <ErrorImage>The given image url cannot be loaded</ErrorImage>;
+		}
+		if ( imageProperties.height < 158 || imageProperties.width < 158 ) {
+			return <ErrorImage>The image you selected is too small for Facebook</ErrorImage>;
+		}
+
+		const containerDimensions = this.getContainerDimensions( imageProperties.mode );
+		return <FacebookImageContainer mode={ imageProperties.mode } dimensions={ containerDimensions }>
+			<StyledImage src={ this.props.src } mode={ imageProperties.mode } />
+		</FacebookImageContainer>;
 	}
-	// 	determineFacebookImageDimensions( props.src ).then( ( imageProperties ) => {
-	// 	console.log("imageProperties", imageProperties);
-	// 	return <FacebookImageContainer mode={ imageProperties.mode }>
-	// 		<StyledImage mode={ imageProperties.mode } />
-	// 	</FacebookImageContainer>;
-	// } ).catch( () => { return <ErrorImage>Error loading image</ErrorImage> } );
-
-
 }
 
 FacebookImage.propTypes = {
