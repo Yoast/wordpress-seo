@@ -13,9 +13,9 @@ return array(
 	 *
 	 * For more see: https://github.com/humbug/php-scoper#finders-and-paths
 	 */
-	'finders'                    => array(
+	'finders'                    => [
 		Finder::create()->files()->in( 'vendor/league/oauth2-client' ),
-	),
+	],
 
 	/*
 	 * When scoping PHP files, there will be scenarios where some of the code being scoped indirectly references the
@@ -25,8 +25,6 @@ return array(
 	 *
 	 * For more see: https://github.com/humbug/php-scoper#patchers
 	 */
-	'patchers'                   => array(
-
-	),
+	'patchers'                   => [],
 
 );
