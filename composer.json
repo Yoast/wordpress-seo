@@ -83,6 +83,7 @@
 		"prefix-dependencies": [
 			"composer prefix-ruckusing",
 			"composer prefix-idiorm",
+			"composer prefix-oauth2-client",
 			"touch ./vendor_prefixed/dependencies-prefixed.txt",
 			"composer du"
 		],
@@ -91,6 +92,9 @@
 		],
 		"prefix-idiorm": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/j4mie/idiorm --config=config/php-scoper/idiorm.inc.php --force --quiet"
+		],
+		"prefix-oauth2-client": [
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet"
 		],
 		"post-install-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd",
