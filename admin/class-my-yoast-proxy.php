@@ -25,7 +25,7 @@ class WPSEO_My_Yoast_Proxy implements WPSEO_WordPress_Integration {
 	 *
 	 * @var int
 	 */
-	const CACHE_CONTROL_MAX_AGE = 86400;
+	const CACHE_CONTROL_MAX_AGE = DAY_IN_SECONDS;
 
 	/**
 	 * Registers the hooks when the user is on the right page.
