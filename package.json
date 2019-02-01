@@ -15,6 +15,7 @@
     "url": "https://github.com/Yoast/YoastSEO.js"
   },
   "scripts": {
+    "start": "npm start --prefix examples/webpack",
     "build": "grunt publish",
     "lint": "grunt check",
     "test": "jest"
