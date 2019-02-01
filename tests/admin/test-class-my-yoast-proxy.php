@@ -69,7 +69,7 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_My_Yoast_Proxy $instance */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_My_Yoast_Proxy' )
-			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'load_url_directly', 'set_header', 'load_url' ) )
+			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
 		$instance
@@ -84,7 +84,7 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 
 		$instance
 			->expects( $this->once() )
-			->method( 'load_url_directly' )
+			->method( 'should_load_url_directly' )
 			->will( $this->returnValue( true ) );
 
 		$instance
@@ -114,7 +114,7 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_My_Yoast_Proxy $instance */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_My_Yoast_Proxy' )
-			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'load_url_directly', 'set_header', 'load_url' ) )
+			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
 		$instance
@@ -129,7 +129,7 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 
 		$instance
 			->expects( $this->once() )
-			->method( 'load_url_directly' )
+			->method( 'should_load_url_directly' )
 			->will( $this->returnValue( true ) );
 
 		$instance
@@ -176,7 +176,7 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_My_Yoast_Proxy $instance */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_My_Yoast_Proxy' )
-			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'load_url_directly', 'set_header', 'load_url' ) )
+			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
 		$instance
@@ -191,7 +191,7 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 
 		$instance
 			->expects( $this->once() )
-			->method( 'load_url_directly' )
+			->method( 'should_load_url_directly' )
 			->will( $this->returnValue( false ) );
 
 		add_filter( 'pre_http_request', array( $this, 'filter_wp_remote_get__success' ) );
@@ -208,7 +208,7 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_My_Yoast_Proxy $instance */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_My_Yoast_Proxy' )
-			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'load_url_directly', 'set_header', 'load_url' ) )
+			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
 		$instance
@@ -223,7 +223,7 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 
 		$instance
 			->expects( $this->once() )
-			->method( 'load_url_directly' )
+			->method( 'should_load_url_directly' )
 			->will( $this->returnValue( false ) );
 
 		$instance

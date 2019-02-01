@@ -82,7 +82,7 @@ class WPSEO_My_Yoast_Proxy implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		if ( $this->load_url_directly() ) {
+		if ( $this->should_load_url_directly() ) {
 			$this->set_header( 'Content-Type: ' . $proxy_options['content_type'] );
 			$this->set_header( 'Cache-Control: max-age=' . self::CACHE_CONTROL_MAX_AGE );
 
@@ -166,7 +166,7 @@ class WPSEO_My_Yoast_Proxy implements WPSEO_WordPress_Integration {
 	 *
 	 * @return bool
 	 */
-	protected function load_url_directly() {
+	protected function should_load_url_directly() {
 		return ! ! ini_get( 'allow_url_fopen' );
 	}
 
