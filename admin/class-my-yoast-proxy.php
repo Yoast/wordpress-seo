@@ -122,6 +122,8 @@ class WPSEO_My_Yoast_Proxy implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Tries to load the given url.
+	 *
 	 * @see https://php.net/manual/en/function.readfile.php
 	 *
 	 * @codeCoverageIgnore
@@ -145,7 +147,7 @@ class WPSEO_My_Yoast_Proxy implements WPSEO_WordPress_Integration {
 	 * )
 	 * </code>
 	 *
-	 * @return array
+	 * @return array Empty for an unknown file. See format above for known files.
 	 */
 	protected function determine_proxy_options() {
 		if ( $this->get_proxy_file() === 'research-webworker' ) {
@@ -162,9 +164,10 @@ class WPSEO_My_Yoast_Proxy implements WPSEO_WordPress_Integration {
 	 * Checks the PHP configuration of allow_url_fopen.
 	 *
 	 * @codeCoverageIgnore
+	 *
 	 * @see https://php.net/manual/en/filesystem.configuration.php#ini.allow-url-fopen
 	 *
-	 * @return bool
+	 * @return bool True when the PHP configuration allows for url loading via readfile.
 	 */
 	protected function should_load_url_directly() {
 		return ! ! ini_get( 'allow_url_fopen' );
@@ -175,7 +178,7 @@ class WPSEO_My_Yoast_Proxy implements WPSEO_WordPress_Integration {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return bool
+	 * @return bool True when the page request parameter equals the proxy page.
 	 */
 	protected function is_proxy_page() {
 		return filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER;
@@ -186,7 +189,7 @@ class WPSEO_My_Yoast_Proxy implements WPSEO_WordPress_Integration {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return string
+	 * @return string The sanitized file request parameter.
 	 */
 	protected function get_proxy_file() {
 		return filter_input( INPUT_GET, 'file', FILTER_SANITIZE_STRING );
@@ -197,7 +200,7 @@ class WPSEO_My_Yoast_Proxy implements WPSEO_WordPress_Integration {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return string
+	 * @return string The sanitized plugin_version request parameter.
 	 */
 	protected function get_plugin_version() {
 		$plugin_version = filter_input( INPUT_GET, 'plugin_version', FILTER_SANITIZE_STRING );
