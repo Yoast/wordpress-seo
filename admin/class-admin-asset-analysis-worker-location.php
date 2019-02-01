@@ -38,10 +38,8 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 			 * Using a flag to determine whether the local file or the proxy is used.
 			 * This is for the recalibration development.
 			 */
-			if ( $this->use_recalibration_local_file() ) {
-				$analysis_worker = 'wp-seo-' . $name . '-recalibration-' . $flat_version;
-			}
-			else {
+			$analysis_worker = 'wp-seo-' . $name . '-recalibration-' . $flat_version;
+			if ( ! $this->use_recalibration_local_file() ) {
 				$analysis_worker = admin_url( 'admin.php?page=wpseo_myyoast_proxy&file=research-webworker&plugin_version=' . $flat_version );
 			}
 		}
