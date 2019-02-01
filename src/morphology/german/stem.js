@@ -1,4 +1,14 @@
 /**
+ * @file German stemming algorithm. Adapted from:
+ * @author: Joder Illi
+ * @copyright (c) 2010, FormBlitz AG
+ * All rights reserved.
+ * Implementation of the stemming algorithm from http://snowball.tartarus.org/algorithms/german/stemmer.html
+ * Copyright of the algorithm is: Copyright (c) 2001, Dr Martin Porter and can be found at http://snowball.tartarus.org/license.php
+ *
+ * Redistribution and use in source and binary forms, with or without modification, is covered by the standard BSD license.
+ */
+/**
  * Determines the start index of the R1 region.
  * R1 is the region after the first non-vowel following a vowel. It should include at least 3 letters.
  *
@@ -135,16 +145,6 @@ const deleteSuffix2 = function( word, index2, r1Index ) {
 
 /**
  * Stems German words.
- *
- * Stem function adapted from:
- * Author: Joder Illi
- *
- * Copyright (c) 2010, FormBlitz AG
- * All rights reserved.
- * Implementation of the stemming algorithm from http://snowball.tartarus.org/algorithms/german/stemmer.html
- * Copyright of the algorithm is: Copyright (c) 2001, Dr Martin Porter and can be found at http://snowball.tartarus.org/license.php
- *
- * Redistribution and use in source and binary forms, with or without modification, is covered by the standard BSD license.
  *
  * @param {string} word The word to stem.
  * @returns {string} The stemmed word.

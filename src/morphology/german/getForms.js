@@ -16,10 +16,13 @@ const checkStemsFromExceptionList = function( exceptionStems, stemmedWordToCheck
 		const stemPairToCheck = currentStemDataSet[ 0 ];
 
 		for ( let j = 0; j < stemPairToCheck.length; j++ ) {
-			const stemAtEndOfWord = new RegExp( stemPairToCheck[ j ] + "$" );
+			const exceptionStemMatched = stemmedWordToCheck.endsWith( stemPairToCheck[ j ] );
+
 			// Check if the stemmed word ends in one of the stems of the exception list.
-			if ( stemAtEndOfWord.test( stemmedWordToCheck ) ) {
-				const precedingLexicalMaterial = stemmedWordToCheck.replace( stemAtEndOfWord, "" );
+			if ( exceptionStemMatched === true ) {
+				// "Haupt".length = "Hauptstadt".length - "stadt".length
+				const precedingLength = stemmedWordToCheck.length - stemPairToCheck[ j ].length;
+				const precedingLexicalMaterial = stemmedWordToCheck.slice( 0, precedingLength );
 				/*
 			 	 * If the word is a compound, removing the final stem will result in some lexical material to
 			 	 * be left over at the beginning of the word. For example, removing "stadt" from "Hauptstadt"
@@ -30,10 +33,10 @@ const checkStemsFromExceptionList = function( exceptionStems, stemmedWordToCheck
 					const stemsToReturn = currentStemDataSet[ 1 ];
 					return stemsToReturn.map( currentStem => precedingLexicalMaterial.concat( currentStem ) );
 				}
-			    /*
-			     * Return all possible stems since apparently the word that's being checked is equal to the stem on the
-			     * exception list that's being checked.
-			     */
+				/*
+				 * Return all possible stems since apparently the word that's being checked is equal to the stem on the
+				 * exception list that's being checked.
+				 */
 				return currentStemDataSet[ 1 ];
 			}
 		}
@@ -52,24 +55,19 @@ const checkStemsFromExceptionList = function( exceptionStems, stemmedWordToCheck
  */
 const checkStemsWithPredictableSuffixes = function( exceptionCategory, stemmedWordToCheck ) {
 	// There are some exceptions to this rule. If the current stem falls into this category, the rule doesn't apply.
-	const exceptionsToTheException = exceptionCategory[ 2 ].map( exceptionToException => new RegExp( exceptionToException ) );
-	for ( let i = 0; i < exceptionsToTheException.length; i++ ) {
-		const currentStem = exceptionsToTheException[ i ];
+	const exceptionsToTheException = exceptionCategory[ 2 ];
 
-		if ( currentStem.test( stemmedWordToCheck ) ) {
-			return [];
-		}
+	if ( exceptionsToTheException.some( ending => stemmedWordToCheck.endsWith( ending ) ) ) {
+		return [];
 	}
 
-	const exceptionStems = exceptionCategory[ 0 ].map( exceptionStem => new RegExp( exceptionStem ) );
-	const suffixes = exceptionCategory[ 1 ];
+	const exceptionStems = exceptionCategory[ 0 ];
 
-	for ( let i = 0; i < exceptionStems.length; i++ ) {
-		const currentStem = exceptionStems[ i ];
+	// Return forms of stemmed word with appended suffixes.
+	if ( exceptionStems.some( ending => stemmedWordToCheck.endsWith( ending ) ) ) {
+		const suffixes = exceptionCategory[ 1 ];
 
-		if ( currentStem.test( stemmedWordToCheck ) ) {
-			return suffixes.map( suffix => stemmedWordToCheck.concat( suffix ) );
-		}
+		return suffixes.map( suffix => stemmedWordToCheck.concat( suffix ) );
 	}
 
 	return [];
@@ -119,16 +117,14 @@ const addSuffixesToRegulars = function( morphologyDataSuffixAdditions, regularSu
 	for ( const key of Object.keys( morphologyDataSuffixAdditions ) ) {
 		const endingsToCheck = morphologyDataSuffixAdditions[ key ][ 0 ];
 		const suffixesToAdd = morphologyDataSuffixAdditions[ key ][ 1 ];
-		const endingsToCheckRegexes = endingsToCheck.map( ending => new RegExp( ending ) );
 
-		for ( let i = 0; i < endingsToCheckRegexes.length; i++ ) {
-			if ( endingsToCheckRegexes[ i ].test( stemmedWordToCheck ) ) {
-				regularSuffixes.push( suffixesToAdd );
-			}
+		// Append to the regular suffixes if one of the endings match.
+		if ( endingsToCheck.some( ending => stemmedWordToCheck.endsWith( ending ) ) ) {
+			regularSuffixes = regularSuffixes.concat( suffixesToAdd );
 		}
 	}
 
-	return flattenDeep( regularSuffixes );
+	return regularSuffixes;
 };
 
 /**
@@ -144,12 +140,10 @@ const removeSuffixesFromRegulars = function( morphologyDataSuffixDeletions, regu
 	for ( const key of Object.keys( morphologyDataSuffixDeletions ) ) {
 		const endingsToCheck = morphologyDataSuffixDeletions[ key ][ 0 ];
 		const suffixesToDelete = morphologyDataSuffixDeletions[ key ][ 1 ];
-		const endingsToCheckRegexes = endingsToCheck.map( ending => new RegExp( ending ) );
 
-		for ( let i = 0; i < endingsToCheckRegexes.length; i++ ) {
-			if ( endingsToCheckRegexes[ i ].test( stemmedWordToCheck ) ) {
-				regularSuffixes = regularSuffixes.filter( ending => ! suffixesToDelete.includes( ending ) );
-			}
+		// Delete from the regular suffixes if one of the endings match.
+		if ( endingsToCheck.some( ending => stemmedWordToCheck.endsWith( ending ) ) ) {
+			regularSuffixes = regularSuffixes.filter( ending => ! suffixesToDelete.includes( ending ) );
 		}
 	}
 
@@ -189,10 +183,11 @@ const addFormsWithRemovedLetters = function( morphologyDataNouns, stemmedWordToC
 
 	for ( const key of Object.keys( stemChanges ) ) {
 		const changeCategory = stemChanges[ key ];
-		const endingToCheck = new RegExp( changeCategory[ 0 ] );
+		const endingToCheck = changeCategory[ 0 ];
 
-		if ( endingToCheck.test( stemmedWordToCheck ) ) {
-			forms.push( stemmedWordToCheck.replace( endingToCheck, changeCategory[ 1 ] ) );
+		if ( stemmedWordToCheck.endsWith( endingToCheck ) ) {
+			const stemWithoutEnding = stemmedWordToCheck.slice( 0, stemmedWordToCheck.length - endingToCheck.length );
+			forms.push( stemWithoutEnding.concat( changeCategory[ 1 ] ) );
 		}
 	}
 
@@ -205,7 +200,7 @@ const addFormsWithRemovedLetters = function( morphologyDataNouns, stemmedWordToC
  * @param {string} word             The word to create the forms for.
  * @param {Object} morphologyData   The German morphology data (false if unavailable).
  *
- * @returns {Array<string>} Array of the created
+ * @returns {{forms: Array<string>, stem: string}} An object with the forms created and the stemmed word.
  */
 export function getForms( word, morphologyData ) {
 	const stemmedWord = stem( word );
@@ -214,8 +209,10 @@ export function getForms( word, morphologyData ) {
 
 	// Check exceptions.
 	if ( exceptions.length > 0 ) {
-		forms.push( exceptions );
-		return unique( flattenDeep( forms ) );
+		// Add the original word as a safeguard.
+		exceptions.push( word );
+
+		return { forms: unique( exceptions ), stem: stemmedWord };
 	}
 
 	let regularSuffixes = morphologyData.nouns.regularSuffixes.slice();
@@ -232,6 +229,5 @@ export function getForms( word, morphologyData ) {
 	 * Ärztinn to obtain Ärztin.
 	 */
 	forms.push( addFormsWithRemovedLetters( morphologyData.nouns, stemmedWord ) );
-
-	return unique( flattenDeep( forms ) );
+	return { forms: unique( flattenDeep( forms ) ), stem: stemmedWord };
 }
