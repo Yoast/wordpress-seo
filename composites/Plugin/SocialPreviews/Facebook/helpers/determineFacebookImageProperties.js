@@ -72,12 +72,10 @@ function getImageDimensionsForFacebookImage( dimensions, imageRatios ) {
 		};
 	}
 
-	if ( imageRatios.widthRatio > imageRatios.heightRatio ) {
-		return {
-			width: dimensions.width / imageRatios.heightRatio,
-			height: dimensions.height / imageRatios.heightRatio,
-		};
-	}
+	return {
+		width: dimensions.width / imageRatios.heightRatio,
+		height: dimensions.height / imageRatios.heightRatio,
+	};
 }
 
 /**
