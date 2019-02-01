@@ -39,8 +39,13 @@ final class Client {
 	 * @return void
 	 */
 	public static function save_configuration( array $config ) {
-		$config_keys_to_remove = array_diff_key( $config, static::$config );
-		static::$config        = array_diff( array_merge( static::$config, $config ), $config_keys_to_remove );
+		foreach ( array_keys( static::$config ) as $allowed_config_key ) {
+			if ( ! array_key_exists( $allowed_config_key, $config ) ) {
+				continue;
+			}
+
+			static::$config[ $allowed_config_key ] = $config[ $allowed_config_key ];
+		}
 	}
 
 	/**
