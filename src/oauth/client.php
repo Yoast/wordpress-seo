@@ -8,6 +8,7 @@
 namespace Yoast\WP\Free\Oauth;
 
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 
 /**
@@ -20,7 +21,7 @@ final class Client {
 	 *
 	 * @var array
 	 */
-	private static $config = [
+	private $config = [
 		'clientId' => null,
 		'secret'   => null,
 	];
@@ -30,7 +31,7 @@ final class Client {
 	 *
 	 * @var AccessTokenInterface[]
 	 */
-	private static $access_tokens = [];
+	private $access_tokens = [];
 
 	/**
 	 * Saves the configuration.
@@ -39,13 +40,13 @@ final class Client {
 	 *
 	 * @return void
 	 */
-	public static function save_configuration( array $config ) {
-		foreach ( array_keys( static::$config ) as $allowed_config_key ) {
+	public function save_configuration( array $config ) {
+		foreach ( array_keys( $this->config ) as $allowed_config_key ) {
 			if ( ! array_key_exists( $allowed_config_key, $config ) ) {
 				continue;
 			}
 
-			static::$config[ $allowed_config_key ] = $config[ $allowed_config_key ];
+			$this->config[ $allowed_config_key ] = $config[ $allowed_config_key ];
 		}
 	}
 
@@ -54,8 +55,8 @@ final class Client {
 	 *
 	 * @return array The config.
 	 */
-	public static function get_configuration() {
-		return static::$config;
+	public function get_configuration() {
+		return $this->config;
 	}
 
 	/**
@@ -63,12 +64,12 @@ final class Client {
 	 *
 	 * @return bool True when clientId and secret are set.
 	 */
-	public static function has_configuration() {
-		if ( static::$config['clientId'] === null ) {
+	public function has_configuration() {
+		if ( $this->config['clientId'] === null ) {
 			return false;
 		}
 
-		if ( static::$config['secret'] === null ) {
+		if ( $this->config['secret'] === null ) {
 			return false;
 		}
 
@@ -83,8 +84,8 @@ final class Client {
 	 *
 	 * @return void
 	 */
-	public static function save_access_token( $user_id, $access_token ) {
-		static::$access_tokens[ $user_id ] = $access_token;
+	public function save_access_token( $user_id, $access_token ) {
+		$this->access_tokens[ $user_id ] = $access_token;
 	}
 
 	/**
@@ -94,16 +95,16 @@ final class Client {
 	 *
 	 * @return bool|AccessTokenInterface False if not found. Token when found.
 	 */
-	public static function get_access_token( $user_id = null ) {
+	public function get_access_token( $user_id = null ) {
 		if ( $user_id === null ) {
-			return reset( static::$access_tokens );
+			return reset( $this->access_tokens );
 		}
 
-		if ( ! isset( static::$access_tokens[ $user_id ] ) ) {
+		if ( ! isset( $this->access_tokens[ $user_id ] ) ) {
 			return false;
 		}
 
-		return static::$access_tokens[ $user_id ];
+		return $this->access_tokens[ $user_id ];
 	}
 
 	/**
@@ -111,11 +112,11 @@ final class Client {
 	 *
 	 * @return GenericProvider The provider.
 	 */
-	public static function get_provider() {
+	public function get_provider() {
 		return new GenericProvider(
 			[
-				'clientId'                => static::$config['clientId'],
-				'clientSecret'            => static::$config['secret'],
+				'clientId'                => $this->config['clientId'],
+				'clientSecret'            => $this->config['secret'],
 				'redirectUri'             => ( \WPSEO_Utils::is_plugin_network_active() ) ? home_url( 'yoast/oauth/callback' ) : network_home_url( 'yoast/oauth/callback' ),
 				'urlAuthorize'            => 'https://yoast.com/login/oauth/authorize',
 				'urlAccessToken'          => 'https://yoast.com/login/oauth/token',
