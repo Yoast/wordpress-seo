@@ -16,6 +16,7 @@ import UIControlsWrapper from "./app/UIControlsWrapper";
 import Wizard from "./app/WizardWrapper";
 import Loader from "./composites/basic/Loader";
 import FacebookPreview from "./composites/Plugin/SocialPreviews/Facebook/components/FacebookPreview";
+import FacebookImage from "./composites/Plugin/SocialPreviews/Facebook/components/FacebookImage";
 
 const components = [
 	{
@@ -84,9 +85,29 @@ const components = [
 		component: <ComponentsExample />,
 	},
 	{
-		id: "facebookpreview-example",
-		name: "FacebookPreview",
-		component: <FacebookPreview siteName="SiteName.com" />,
+		id: "facebookpreview-example-landscape",
+		name: "FacebookPreview Landscape",
+		component: <FacebookPreview siteName="SiteName.com" src="https://yoast.com/app/uploads/2015/06/How_to_choose_keywords_FI.png" />,
+	},
+	{
+		id: "facebookpreview-example-portrait",
+		name: "FacebookPreview Portrait",
+		component: <FacebookPreview siteName="SiteName.com" src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png" />,
+	},
+	{
+		id: "facebookpreview-example-square",
+		name: "FacebookPreview Square",
+		component: <FacebookPreview siteName="SiteName.com" src="https://yoast.com/app/uploads/2018/09/avatar_user_1_1537774226.png" />,
+	},
+	{
+		id: "facebookpreview-example-too-small",
+		name: "FacebookPreview too small image",
+		component: <FacebookPreview siteName="SiteName.com" src="https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png" />,
+	},
+	{
+		id: "facebookpreview-example-error",
+		name: "FacebookPreview Faulty image",
+		component: <FacebookPreview siteName="SiteName.com" src="thisisnoimage" />,
 	},
 ];
 
