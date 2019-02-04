@@ -7,6 +7,7 @@
 
 /**
  * Unit test class.
+ * @group test
  */
 class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 
@@ -83,19 +84,19 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( '1.0' ) );
 
 		$instance
-			->expects( $this->once() )
-			->method( 'should_load_url_directly' )
-			->will( $this->returnValue( true ) );
-
-		$instance
-			->expects( $this->at( 3 ) )
+			->expects( $this->at( 2 ) )
 			->method( 'set_header' )
 			->with( 'Content-Type: text/javascript; charset=UTF-8' );
 
 		$instance
-			->expects( $this->at( 4 ) )
+			->expects( $this->at( 3 ) )
 			->method( 'set_header' )
 			->with( 'Cache-Control: max-age=' . WPSEO_My_Yoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'should_load_url_directly' )
+			->will( $this->returnValue( true ) );
 
 		$instance
 			->expects( $this->once() )
@@ -109,6 +110,8 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_My_Yoast_Proxy::render_proxy_page()
+	 *
+	 * @expectedException Exception Received unexpected response from MyYoast
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file_errored_and_wordpress_not_found() {
 		/** @var WPSEO_My_Yoast_Proxy $instance */
@@ -128,19 +131,19 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( '1.0' ) );
 
 		$instance
-			->expects( $this->once() )
-			->method( 'should_load_url_directly' )
-			->will( $this->returnValue( true ) );
-
-		$instance
-			->expects( $this->at( 3 ) )
+			->expects( $this->at( 2 ) )
 			->method( 'set_header' )
 			->with( 'Content-Type: text/javascript; charset=UTF-8' );
 
 		$instance
-			->expects( $this->at( 4 ) )
+			->expects( $this->at( 3 ) )
 			->method( 'set_header' )
 			->with( 'Cache-Control: max-age=' . WPSEO_My_Yoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'should_load_url_directly' )
+			->will( $this->returnValue( true ) );
 
 		$instance
 			->expects( $this->once() )
@@ -203,6 +206,8 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_My_Yoast_Proxy::render_proxy_page()
+	 *
+	 * @expectedException Exception Unable to retrieve file from MyYoast
 	 */
 	public function test_render_proxy_page_via_wordpress_errored() {
 		/** @var WPSEO_My_Yoast_Proxy $instance */
@@ -222,12 +227,32 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( '1.0' ) );
 
 		$instance
+			->expects( $this->at( 2 ) )
+			->method( 'set_header' )
+			->with( 'Content-Type: text/javascript; charset=UTF-8' );
+
+		$instance
+			->expects( $this->at( 3 ) )
+			->method( 'set_header' )
+			->with( 'Cache-Control: max-age=' . WPSEO_My_Yoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
+
+		$instance
 			->expects( $this->once() )
 			->method( 'should_load_url_directly' )
 			->will( $this->returnValue( false ) );
 
 		$instance
-			->expects( $this->once() )
+			->expects( $this->at( 5 ) )
+			->method( 'set_header' )
+			->with( 'Content-Type: text/plain' );
+
+		$instance
+			->expects( $this->at( 6 ) )
+			->method( 'set_header' )
+			->with( 'Cache-Control: max-age=0' );
+
+		$instance
+			->expects( $this->at( 7 ) )
 			->method( 'set_header' )
 			->with( $this->equalTo( 'HTTP/1.0 500 Unable to retrieve file from MyYoast' ) );
 

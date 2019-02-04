@@ -64,6 +64,8 @@ class WPSEO_My_Yoast_Proxy implements WPSEO_WordPress_Integration {
 	 */
 	public function handle_proxy_page() {
 		$this->render_proxy_page();
+
+		// Prevent the WordPress UI from loading.
 		exit;
 	}
 
@@ -82,10 +84,11 @@ class WPSEO_My_Yoast_Proxy implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		if ( $this->should_load_url_directly() ) {
-			$this->set_header( 'Content-Type: ' . $proxy_options['content_type'] );
-			$this->set_header( 'Cache-Control: max-age=' . self::CACHE_CONTROL_MAX_AGE );
+		// Set the headers before serving the remote file.
+		$this->set_header( 'Content-Type: ' . $proxy_options['content_type'] );
+		$this->set_header( 'Cache-Control: max-age=' . self::CACHE_CONTROL_MAX_AGE );
 
+		if ( $this->should_load_url_directly() ) {
 			/*
 			 * If an error occurred, fallback to the next proxy method (`wp_remote_get`).
 			 * Otherwise, we are done here.
@@ -93,32 +96,49 @@ class WPSEO_My_Yoast_Proxy implements WPSEO_WordPress_Integration {
 			if ( $this->load_url( $proxy_options['url'] ) ) {
 				return;
 			}
+		}
 
+		try {
+			echo $this->get_remote_url_body( $proxy_options['url'] );
+		}
+		catch ( Exception $e ) {
 			/*
-			 * Due to the minimum PHP of 5.2 the header_remove() function can not be used here.
+			 * Reset the file headers because the loading failed.
+			 *
+			 * Note: Due to supporting PHP 5.2 `header_remove` can not be used here.
 			 * Overwrite the headers instead.
 			 */
 			$this->set_header( 'Content-Type: text/plain' );
 			$this->set_header( 'Cache-Control: max-age=0' );
-		}
 
-		$response = wp_remote_get( $proxy_options['url'] );
+			$this->set_header( 'HTTP/1.0 500 ' . $e->getMessage() );
+		}
+	}
+
+	/**
+	 * Tries to load the given url via `wp_remote_get`.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $url The url to load.
+	 *
+	 * @throws Exception when `wp_remote_get` returned an error.
+	 * @throws Exception when the response code is not 200.
+	 *
+	 * @return string The body of the response.
+	 */
+	protected function get_remote_url_body( $url ) {
+		$response = wp_remote_get( $url );
+
 		if ( $response instanceof WP_Error ) {
-			$this->set_header( 'HTTP/1.0 500 Unable to retrieve file from MyYoast' );
-			return;
+			throw new Exception( 'Unable to retrieve file from MyYoast' );
 		}
 
-		if ( wp_remote_retrieve_response_code( $response ) === 200 ) {
-			$this->set_header( 'Content-Type: ' . $proxy_options['content_type'] );
-			$this->set_header( 'Cache-Control: max-age=' . self::CACHE_CONTROL_MAX_AGE );
-			echo wp_remote_retrieve_body( $response );
-			return;
+		if ( wp_remote_retrieve_response_code( $response ) !== 200 ) {
+			throw new Exception( 'Received unexpected response from MyYoast' );
 		}
 
-		$this->set_header( 'HTTP/1.0 500 Received unexpected response from MyYoast' );
-
-		// Prevent the WordPress UI from loading.
-		return;
+		return wp_remote_retrieve_body( $response );
 	}
 
 	/**
@@ -128,7 +148,7 @@ class WPSEO_My_Yoast_Proxy implements WPSEO_WordPress_Integration {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param string $url The filename to read.
+	 * @param string $url The url to load.
 	 *
 	 * @return bool False if an error occurred.
 	 */
