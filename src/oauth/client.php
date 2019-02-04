@@ -83,7 +83,7 @@ final class Client {
 	 *
 	 * @return void
 	 */
-	public static function save_access_token( $user_id, AccessTokenInterface $access_token ) {
+	public static function save_access_token( $user_id, $access_token ) {
 		static::$access_tokens[ $user_id ] = $access_token;
 	}
 
