@@ -122,8 +122,8 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	 *
 	 * @param string $url The url to load.
 	 *
-	 * @throws Exception when `wp_remote_get` returned an error.
-	 * @throws Exception when the response code is not 200.
+	 * @throws Exception When `wp_remote_get` returned an error.
+	 * @throws Exception When the response code is not 200.
 	 *
 	 * @return string The body of the response.
 	 */
