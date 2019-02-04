@@ -11,7 +11,7 @@
  * This class registers a proxy page on `admin.php`. Which is reached with the `page=PAGE_IDENTIFIER` parameter.
  * It will read external files and serves them like they are located locally.
  */
-class WPSEO_My_Yoast_Proxy implements WPSEO_WordPress_Integration {
+class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 
 	/**
 	 * The page identifier used in WordPress to register the MyYoast proxy page.

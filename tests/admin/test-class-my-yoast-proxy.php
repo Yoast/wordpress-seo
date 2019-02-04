@@ -9,15 +9,15 @@
  * Unit test class.
  * @group test
  */
-class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
+class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @covers WPSEO_My_Yoast_Proxy::determine_proxy_options()
+	 * @covers WPSEO_MyYoast_Proxy::determine_proxy_options()
 	 */
 	public function test_determine_proxy_options_for_the_research_webworker_file() {
-		/** @var WPSEO_My_Yoast_Proxy_Double $instance */
+		/** @var WPSEO_MyYoast_Proxy_Double $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_My_Yoast_Proxy_Double' )
+			->getMockBuilder( 'WPSEO_MyYoast_Proxy_Double' )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version' ) )
 			->getMock();
 
@@ -38,13 +38,13 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_My_Yoast_Proxy::render_proxy_page()
-	 * @covers WPSEO_My_Yoast_Proxy::determine_proxy_options()
+	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
+	 * @covers WPSEO_MyYoast_Proxy::determine_proxy_options()
 	 */
 	public function test_render_proxy_page_for_an_unknown_file() {
-		/** @var WPSEO_My_Yoast_Proxy $instance */
+		/** @var WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_My_Yoast_Proxy' )
+			->getMockBuilder( 'WPSEO_MyYoast_Proxy' )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'set_header' ) )
 			->getMock();
 
@@ -64,12 +64,12 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_My_Yoast_Proxy::render_proxy_page()
+	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file() {
-		/** @var WPSEO_My_Yoast_Proxy $instance */
+		/** @var WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_My_Yoast_Proxy' )
+			->getMockBuilder( 'WPSEO_MyYoast_Proxy' )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
@@ -91,7 +91,7 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->at( 3 ) )
 			->method( 'set_header' )
-			->with( 'Cache-Control: max-age=' . WPSEO_My_Yoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
+			->with( 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
 
 		$instance
 			->expects( $this->once() )
@@ -109,14 +109,14 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_My_Yoast_Proxy::render_proxy_page()
+	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
 	 *
 	 * @expectedException Exception Received unexpected response from MyYoast
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file_errored_and_wordpress_not_found() {
-		/** @var WPSEO_My_Yoast_Proxy $instance */
+		/** @var WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_My_Yoast_Proxy' )
+			->getMockBuilder( 'WPSEO_MyYoast_Proxy' )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
@@ -138,7 +138,7 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->at( 3 ) )
 			->method( 'set_header' )
-			->with( 'Cache-Control: max-age=' . WPSEO_My_Yoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
+			->with( 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
 
 		$instance
 			->expects( $this->once() )
@@ -173,12 +173,12 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_My_Yoast_Proxy::render_proxy_page()
+	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
 	 */
 	public function test_render_proxy_page_via_wordpress() {
-		/** @var WPSEO_My_Yoast_Proxy $instance */
+		/** @var WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_My_Yoast_Proxy' )
+			->getMockBuilder( 'WPSEO_MyYoast_Proxy' )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
@@ -205,14 +205,14 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_My_Yoast_Proxy::render_proxy_page()
+	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
 	 *
 	 * @expectedException Exception Unable to retrieve file from MyYoast
 	 */
 	public function test_render_proxy_page_via_wordpress_errored() {
-		/** @var WPSEO_My_Yoast_Proxy $instance */
+		/** @var WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_My_Yoast_Proxy' )
+			->getMockBuilder( 'WPSEO_MyYoast_Proxy' )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
@@ -234,7 +234,7 @@ class WPSEO_My_Yoast_Proxy_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->at( 3 ) )
 			->method( 'set_header' )
-			->with( 'Cache-Control: max-age=' . WPSEO_My_Yoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
+			->with( 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
 
 		$instance
 			->expects( $this->once() )

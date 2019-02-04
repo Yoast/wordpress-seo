@@ -8,7 +8,7 @@
 /**
  * Test Helper Class.
  */
-class WPSEO_My_Yoast_Proxy_Double extends WPSEO_My_Yoast_Proxy {
+class WPSEO_MyYoast_Proxy_Double extends WPSEO_MyYoast_Proxy {
 
 	/**
 	 * @inheritdoc
