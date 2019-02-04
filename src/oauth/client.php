@@ -8,9 +8,10 @@
 namespace Yoast\WP\Free\Oauth;
 
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 
 /**
- * Represens the oAuth client.
+ * Represents the oAuth client.
  */
 final class Client {
 
@@ -27,7 +28,7 @@ final class Client {
 	/**
 	 * Contains the set access tokens.
 	 *
-	 * @var array
+	 * @var AccessTokenInterface[]
 	 */
 	private static $access_tokens = [];
 
@@ -77,12 +78,12 @@ final class Client {
 	/**
 	 * Saves the access token for the given user.
 	 *
-	 * @param int    $user_id      User id to receive token for.
-	 * @param string $access_token The access token to save.
+	 * @param int                  $user_id      User id to receive token for.
+	 * @param AccessTokenInterface $access_token The access token to save.
 	 *
 	 * @return void
 	 */
-	public static function save_access_token( $user_id, $access_token ) {
+	public static function save_access_token( $user_id, AccessTokenInterface $access_token ) {
 		static::$access_tokens[ $user_id ] = $access_token;
 	}
 
@@ -91,7 +92,7 @@ final class Client {
 	 *
 	 * @param null|int $user_id User id to receive token for.
 	 *
-	 * @return bool|string False if not found. Token when found.
+	 * @return bool|AccessTokenInterface False if not found. Token when found.
 	 */
 	public static function get_access_token( $user_id = null ) {
 		if ( $user_id === null ) {

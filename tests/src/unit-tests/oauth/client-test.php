@@ -9,6 +9,7 @@ namespace Yoast\Tests\UnitTests\Oauth;
 
 use Yoast\WP\Free\Oauth\Client;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
 
 /**
  * Class Oauth_Test
@@ -111,7 +112,7 @@ class Oauth_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\WP\Free\Oauth\Client::save_access_token
 	 */
 	public function test_get_access_token_with_set_access_tokens() {
-		Client::save_access_token( 1, 'this-is-a-token' );
+		Client::save_access_token( 1, new AccessToken( [ 'access_token' => 'this-is-a-token' ] ) );
 
 		$this->assertEquals( 'this-is-a-token', Client::get_access_token() );
 	}
@@ -123,7 +124,7 @@ class Oauth_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\WP\Free\Oauth\Client::save_access_token
 	 */
 	public function test_get_access_token_for_user() {
-		Client::save_access_token( 2, 't0k3n' );
+		Client::save_access_token( 2, new AccessToken( [ 'access_token' => 't0k3n' ] ) );
 
 		$this->assertEquals( 't0k3n', Client::get_access_token( 2 ) );
 	}
