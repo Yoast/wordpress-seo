@@ -37,6 +37,13 @@ const ScoreAssessmentScore = styled( ScoreAssessmentPart )`
 	padding-left: 16px;
 `;
 
+/**
+ * The ScoreAssessmentItem component, with a bullet, text and score.
+ *
+ * @param {object} props The component's props.
+ *
+ * @returns {ReactElement} The ScoreAssessmentItem component.
+ */
 const ScoreAssessment = ( props ) => {
 	return (
 		<ScoreAssessmentItem

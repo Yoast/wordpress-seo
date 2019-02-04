@@ -9,6 +9,9 @@ const Cornerstone = styled.div`
 	margin-top: 8px;
 `;
 
+/**
+ * The CornerstoneToggle Component.
+ */
 class CornerstoneToggle extends React.Component {
 	/**
 	 * Renders the CornerstoneToggle component.

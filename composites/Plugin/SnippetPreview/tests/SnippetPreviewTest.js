@@ -14,6 +14,13 @@ const defaultArgs = {
 	onMouseUp: jest.fn(),
 };
 
+/**
+ * Renders a snippet preview snapshot with changed arguments.
+ *
+ * @param {Object} changedArgs The changed arguments.
+ *
+ * @returns {void}
+ */
 const renderSnapshotWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
 	const tree = createComponentWithIntl( <SnippetPreview { ...args } /> )
@@ -22,6 +29,13 @@ const renderSnapshotWithArgs = ( changedArgs ) => {
 	expect( tree ).toMatchSnapshot();
 };
 
+/**
+ * Mounts a snippet preview component with changed arguments.
+ *
+ * @param {object} props The component's props.
+ *
+ * @returns {ReactElement} The SnippetPreview component.
+ */
 const mountWithArgs = ( props ) => {
 	return mountWithIntl(
 		<SnippetPreview
