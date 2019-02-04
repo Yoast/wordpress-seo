@@ -56,10 +56,6 @@ class Plugin implements Integration {
 		$this->dependency_management = $dependency_management ?: new Dependency_Management();
 		$this->database_migration    = $database_migration ?: new Database_Migration( $GLOBALS['wpdb'], $this->dependency_management );
 		// @codingStandardsIgnoreEnd
-
-		if ( file_exists( dirname( WPSEO_FILE ) . '/vendor_prefixed/guzzlehttp/guzzle/src/functions.php' ) ) {
-			require_once dirname( WPSEO_FILE ) . '/vendor_prefixed/guzzlehttp/guzzle/src/functions.php';
-		}
 	}
 
 	/**
