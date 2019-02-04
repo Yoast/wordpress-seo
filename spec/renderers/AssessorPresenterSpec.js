@@ -3,8 +3,8 @@ import AssessmentResult from "../../src/values/AssessmentResult";
 import Factory from "../specHelpers/factory.js";
 
 describe( "an AssessorPresenter", function() {
-	var i18n;
-	var assessorPresenter;
+	let i18n;
+	let assessorPresenter;
 
 	beforeEach( function() {
 		i18n = Factory.buildJed();
@@ -36,11 +36,11 @@ describe( "an AssessorPresenter", function() {
 	} );
 
 	describe( "A function to transform a numeric overall score into a textual score", function() {
-		var expectations = [
+		let expectations = [
 			[ 0, "feedback", "Feedback" ],
-			[ 1, "bad", "Bad SEO score" ],
-			[ 23, "bad", "Bad SEO score" ],
-			[ 40, "bad", "Bad SEO score" ],
+			[ 1, "bad", "Needs improvement" ],
+			[ 23, "bad", "Needs improvement" ],
+			[ 40, "bad", "Needs improvement" ],
 			[ 41, "ok", "OK SEO score" ],
 			[ 55, "ok", "OK SEO score" ],
 			[ 70, "ok", "OK SEO score" ],
@@ -77,7 +77,7 @@ describe( "an AssessorPresenter", function() {
 	} );
 
 	describe( "assessment result sorting", function() {
-		var result1, result2;
+		let result1, result2;
 
 		beforeEach( function() {
 			result1 = new AssessmentResult();
@@ -87,16 +87,16 @@ describe( "an AssessorPresenter", function() {
 		} );
 
 		it( "should be able to sort assessment results", function() {
-			var assessments = [ result1, result2 ];
-			var expectation = [ result2, result1 ];
+			const assessments = [ result1, result2 ];
+			const expectation = [ result2, result1 ];
 
 			expect( assessorPresenter.sort( assessments ) ).toEqual( expectation );
 		} );
 
 		it( "should order undefined results lower than defined results", function() {
-			var result3 = new AssessmentResult();
-			var assessments = [ result1, result2, result3 ];
-			var expectation = [ result3, result2, result1 ];
+			const result3 = new AssessmentResult();
+			const assessments = [ result1, result2, result3 ];
+			const expectation = [ result3, result2, result1 ];
 
 			expect( assessorPresenter.sort( assessments ) ).toEqual( expectation );
 		} );
