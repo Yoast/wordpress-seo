@@ -4,7 +4,7 @@ import stem from "./stem";
 /**
  * Checks whether a stemmed word is on the exception list for which we have full forms.
  *
- * @param {array} exceptionStems        The exception stems to check against.
+ * @param {Array} exceptionStems        The exception stems to check against.
  * @param {string} stemmedWordToCheck   The stem to check.
  *
  * @returns {Array<string>} The created word forms.
