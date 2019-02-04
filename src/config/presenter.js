@@ -13,8 +13,8 @@ export default function( i18n ) {
 		},
 		bad: {
 			className: "bad",
-			screenReaderText: i18n.dgettext( "js-text-analysis", "Bad SEO score" ),
-			fullText: i18n.dgettext( "js-text-analysis", "Content optimization: Bad SEO score" ),
+			screenReaderText: i18n.dgettext( "js-text-analysis", "Needs improvement" ),
+			fullText: i18n.dgettext( "js-text-analysis", "Content optimization: Needs improvement" ),
 			screenReaderReadabilityText: i18n.dgettext( "js-text-analysis", "Needs improvement" ),
 		},
 		ok: {
