@@ -36,7 +36,7 @@ describe( "an AssessorPresenter", function() {
 	} );
 
 	describe( "A function to transform a numeric overall score into a textual score", function() {
-		let expectations = [
+		const expectations = [
 			[ 0, "feedback", "Feedback" ],
 			[ 1, "bad", "Needs improvement" ],
 			[ 23, "bad", "Needs improvement" ],
