@@ -1,11 +1,29 @@
-import determineFacebookImageMode from "./determineFacebookImageMode";
-
 const squareWidth = 158;
 const squareHeight = 158;
 const portraitWidth = 158;
 const portraitHeight = 236;
 const landscapeWidth = 500;
 const landscapeHeight = 261;
+
+/**
+ * Determines the image display mode of the Facebook Image.
+ *
+ * @param {Object} dimensions The image's dimensions.
+ *
+ * @returns {string} The display mode of the image.
+ */
+function determineFacebookImageMode( dimensions ) {
+	if ( dimensions.height > dimensions.width ) {
+		return "portrait";
+	}
+
+	if ( dimensions.height === dimensions.width ) {
+		return "square";
+	}
+
+	return "landscape";
+}
+
 
 /**
  * Gets the dimensions of the uploaded image.
