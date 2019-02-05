@@ -1,4 +1,4 @@
-import { requestKeywordForms } from "../../src/analysis/keywordForms";
+import requestWordsToHighlight from "../../src/analysis/requestWordsToHighlight";
 
 /**
  * Creates a promise that resolves the keyphrase forms for the input keyphrase.
@@ -26,22 +26,22 @@ describe( "keywordForms", () => {
 	it( "runs the mock runResearch and dispatches its result to the store", ( done ) => {
 		const store = {
 			dispatch: dispatchAction => {
-				expect( dispatchAction.keywordForms ).toEqual( [ "test", "test", "test" ] );
+				expect( dispatchAction.wordsToHighlight ).toEqual( [ "test", "test", "test" ] );
 				done();
 			},
 		};
 
-		requestKeywordForms( runResearch, store, "test" );
+		requestWordsToHighlight( runResearch, store, "test" );
 	} );
 
 	it( "runs the mock runResearch and dispatches an empty array to the store if the runResearch fails", ( done ) => {
 		const store = {
 			dispatch: dispatchAction => {
-				expect( dispatchAction.keywordForms ).toEqual( [] );
+				expect( dispatchAction.wordsToHighlight ).toEqual( [] );
 				done();
 			},
 		};
 
-		requestKeywordForms( runResearch, store, "failing keyphrase for testing purposes" );
+		requestWordsToHighlight( runResearch, store, "failing keyphrase for testing purposes" );
 	} );
 } );

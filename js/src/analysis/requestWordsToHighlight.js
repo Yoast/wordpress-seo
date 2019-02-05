@@ -1,8 +1,8 @@
 import { Paper } from "yoastseo";
-import { updateKeywordForms } from "../redux/actions/snippetEditor";
+import { updateWordsToHighlight } from "../redux/actions/snippetEditor";
 
 /**
- * Gets morphological forms of the focus keyword and makes them ready for yoast-components.
+ * Requests morphological forms of the focus keyword and makes them ready for the snippet editor.
  *
  * @param {function} runResearch The research function to use.
  * @param {Object} store The store.
@@ -10,10 +10,10 @@ import { updateKeywordForms } from "../redux/actions/snippetEditor";
  *
  * @returns {Array} All possible wordform variations of the keyphrase
  */
-export function requestKeywordForms( runResearch, store, keyword ) {
+export default function( runResearch, store, keyword ) {
 	runResearch( "morphology", new Paper( "", { keyword } ) ).then( researchResult => {
-		store.dispatch( updateKeywordForms( researchResult.result.keyphraseForms ) );
+		store.dispatch( updateWordsToHighlight( researchResult.result.keyphraseForms ) );
 	} ).catch( () => {
-		store.dispatch( updateKeywordForms( [] ) );
+		store.dispatch( updateWordsToHighlight( [] ) );
 	} );
 }

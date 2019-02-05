@@ -17,7 +17,7 @@ import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import CompatibilityHelper from "./compatibility/compatibilityHelper";
 import Pluggable from "./Pluggable";
-import { requestKeywordForms } from "./analysis/keywordForms.js";
+import requestWordsToHighlight from "./analysis/requestWordsToHighlight.js";
 
 // UI dependencies.
 import publishBox from "./ui/publishBox";
@@ -540,7 +540,7 @@ setWordPressSeoL10n();
 
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = editStore.getState().focusKeyword;
-		requestKeywordForms( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
+		requestWordsToHighlight( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
 		const refreshAfterFocusKeywordChange = debounce( () => {
 			app.refresh();
 		}, 50 );
@@ -552,7 +552,7 @@ setWordPressSeoL10n();
 
 			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
-				requestKeywordForms( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
+				requestWordsToHighlight( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
 
 				$( "#yoast_wpseo_focuskw" ).val( focusKeyword );
 				refreshAfterFocusKeywordChange();
