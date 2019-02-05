@@ -31,15 +31,35 @@ class TreeAssessor {
 	}
 
 	/**
-	 * Checks whether the given assessment is applicable to the given paper.
+	 * Checks whether the given assessment is applicable to the given document.
 	 *
-	 * @param {Object} assessment The assessment to check whether it is applicable.
-	 * @param {Paper} paper       The paper to check.
+	 * @param {Object} assessment    The assessment to check whether it is applicable.
+	 * @param {Paper} document       The document to check.
 	 *
 	 * @returns {Promise<Boolean>} Whether the assessment is applicable (wrapped in a promise)
 	 */
-	async isApplicable( assessment, paper ) {
-		return assessment.isApplicable( paper, this.researcher );
+	async isApplicable( assessment, document ) {
+		return assessment.isApplicable( document, this.researcher );
+	}
+
+	/**
+	 * Assesses the given document by applying all the assessments to it
+	 * and aggregating the resulting scores.
+	 *
+	 * @param {Object} document The document to assess.
+	 *
+	 * @returns {Promise<number>} The overall assessment score.
+	 */
+	async assess( document ) {
+		/*
+		  Do every assessment on the document.
+		  Wait before they are done before aggregating the results.
+		 */
+		const results = await Promise.all(
+			this.assessments.map( assessment => assessment.assess( document ) )
+		);
+		// Aggregate the results and return them.
+		return this.scoreAggregator.aggregate( results );
 	}
 }
 
