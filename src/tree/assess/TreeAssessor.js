@@ -29,6 +29,18 @@ class TreeAssessor {
 	getAvailableAssessments() {
 		return this.assessments;
 	}
+
+	/**
+	 * Checks whether the given assessment is applicable to the given paper.
+	 *
+	 * @param {Object} assessment The assessment to check whether it is applicable.
+	 * @param {Paper} paper       The paper to check.
+	 *
+	 * @returns {Promise<Boolean>} Whether the assessment is applicable (wrapped in a promise)
+	 */
+	async isApplicable( assessment, paper ) {
+		return assessment.isApplicable( paper, this.researcher );
+	}
 }
 
 export default TreeAssessor;
