@@ -830,14 +830,14 @@ class WPSEO_Replace_Vars {
 	 * @return string|null
 	 */
 	private function retrieve_focuskw() {
-		$replacement = null;
-
 		// Retrieve focuskw from a Post.
 		if ( ! empty( $this->args->ID ) ) {
 			$focus_kw = WPSEO_Meta::get_value( 'focuskw', $this->args->ID );
 			if ( $focus_kw !== '' ) {
 				return $focus_kw;
 			}
+
+			return null;
 		}
 
 		// Retrieve focuskw from a Term.
@@ -848,7 +848,7 @@ class WPSEO_Replace_Vars {
 			}
 		}
 
-		return $replacement;
+		return null;
 	}
 
 	/**
