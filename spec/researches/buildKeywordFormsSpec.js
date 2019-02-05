@@ -355,3 +355,32 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 		expect( researcher.getResearch( "morphology" ) ).toEqual( expectedResult );
 	} );
 } );
+
+const spielfilmeForms = [ "spielfilme", "spielfilmen", "spielfilmens", "spielfilmer", "spielfilmern", "spielfilmers",
+	"spielfilmes", "spielfilms", "spielfilm" ];
+const kinderForms = [ "kinder", "kinde", "kinden", "kindens", "kindern", "kinders", "kindes", "kinds", "kind" ];
+const kinderfilmeForms = [ "kinderfilme", "kinderfilmen", "kinderfilmens", "kinderfilmer", "kinderfilmern",
+	"kinderfilmers", "kinderfilmes", "kinderfilms", "kinderfilm" ];
+const filmeForms = [ "filme", "filmen", "filmens", "filmer", "filmern", "filmers", "filmes", "films", "film" ];
+
+
+describe( "A test for building keyword and synonyms forms for languages with morphology support other than English", function() {
+	it( "returns the keyphrase and synonyms word forms for German", function() {
+		const keyword = "Spielfilme für Kinder";
+		const synonyms = "Kinderfilme, Filme";
+		const locale = "de_DE";
+
+		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		const expectedResult = {
+			keyphraseForms: [ spielfilmeForms, kinderForms ],
+			synonymsForms: [
+				[ kinderfilmeForms ],
+				[ filmeForms ],
+			],
+		};
+		expect( researcher.getResearch( "morphology" ) ).toEqual( expectedResult );
+	} );
+} );
