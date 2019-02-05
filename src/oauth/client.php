@@ -198,7 +198,7 @@ class Client {
 		}
 
 		$formatted_access_tokens = [];
-		foreach ( $access_tokens as $user_id => $access_token  ) {
+		foreach ( $access_tokens as $user_id => $access_token ) {
 			$formatted_access_tokens[ $user_id ] = new AccessToken( $access_token );
 		}
 
@@ -235,7 +235,7 @@ class Client {
 			wp_json_encode(
 				[
 					'config'        => $this->config,
-					'access_tokens' => $this->access_tokens
+					'access_tokens' => $this->access_tokens,
 				]
 			)
 		);
@@ -244,7 +244,7 @@ class Client {
 	/**
 	 * Retrieves the default option value.
 	 *
-	 * @codeCoverageIgnore 
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The default option value.
 	 */

@@ -54,9 +54,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				'clientId' => null,
 				'secret'   => null,
 			),
-			'access_tokens' => array(
-
-			),
+			'access_tokens' => array(),
 		),
 	);
 
@@ -285,7 +283,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'myyoast-oauth':
 					$clean[ $key ] = $old[ $key ];
 					if ( isset( $dirty[ $key ]['config'], $dirty[ $key ]['access_tokens'] ) ) {
-						if ( isset( $dirty[ $key ]['config'][ 'clientId' ], $dirty[ $key ]['config'][ 'secret' ] ) ) {
+						if ( isset( $dirty[ $key ]['config']['clientId'], $dirty[ $key ]['config']['secret'] ) ) {
 							$clean[ $key ]['config'] = $dirty[ $key ]['config'];
 						}
 
