@@ -3,7 +3,7 @@ import requestWordsToHighlight from "../../src/analysis/requestWordsToHighlight"
 /**
  * Creates a promise that resolves the keyphrase forms for the input keyphrase.
  *
- * @param {string} researchName The name of the research to be executed
+ * @param {string} researchName The name of the research to be executed.
  * @param {Paper} paper The paper that contains the keyphrase to be used for analysis
  *
  * @returns {Array} A mock result of the morphological research
