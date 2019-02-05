@@ -88,5 +88,12 @@ describe( "calculateFacebookImageDimensions", () => {
 
 		expect( actual ).toEqual( expected );
 	} );
+
+	it( "returns the original dimensions when the original image has a width or heigth smaller than 158px.", () => {
+		const actual = calculateFacebookImageDimensions( { width: 100, height: 100 }, "square" );
+		const expected = { height: 100, width: 100 };
+
+		expect( actual ).toEqual( expected );
+	} );
 } );
 
