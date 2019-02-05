@@ -14,24 +14,55 @@ use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 /**
  * Represents the oAuth client.
  */
-final class Client {
+class Client {
 
 	/**
 	 * Contains the configuration.
 	 *
 	 * @var array
 	 */
-	private $config = [
-		'clientId' => null,
-		'secret'   => null,
-	];
+	private $config;
 
 	/**
 	 * Contains the set access tokens.
 	 *
 	 * @var AccessTokenInterface[]
 	 */
-	private $access_tokens = [];
+	private $access_tokens;
+
+	/**
+	 * Instance of this class.
+	 *
+	 * @var static
+	 */
+	private static $instance;
+
+	/**
+	 * Client constructor.
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function __construct() {
+		$oauth = $this->get_option();
+
+		$this->config        = $oauth['config'];
+		$this->access_tokens = $this->format_access_tokens( $oauth['access_tokens'] );
+	}
+
+	/**
+	 * Retrieves the instance of this class.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return Client Instance of this class.
+	 */
+	public static function get_instance() {
+		if ( static::$instance === null ) {
+			static::$instance = new static();
+		}
+
+		return static::$instance;
+	}
 
 	/**
 	 * Saves the configuration.
@@ -77,6 +108,17 @@ final class Client {
 	}
 
 	/**
+	 * Clears the current configuration.
+	 *
+	 * @return void
+	 */
+	public function clear_configuration() {
+		$this->config = $this->get_default_option()['config'];
+
+		$this->update_option();
+	}
+
+	/**
 	 * Saves the access token for the given user.
 	 *
 	 * @param int                  $user_id      User id to receive token for.
@@ -86,6 +128,7 @@ final class Client {
 	 */
 	public function save_access_token( $user_id, $access_token ) {
 		$this->access_tokens[ $user_id ] = $access_token;
+		$this->update_option();
 	}
 
 	/**
@@ -108,6 +151,23 @@ final class Client {
 	}
 
 	/**
+	 * Removes an access token from the list of access token.
+	 *
+	 * @param int $user_id The user id to remove the access token for.
+	 *
+	 * @return void
+	 */
+	public function remove_access_token( $user_id ) {
+		if ( ! isset( $this->access_tokens[ $user_id ] ) ) {
+			return;
+		}
+
+		unset( $this->access_tokens[ $user_id ] );
+
+		$this->update_option();
+	}
+
+	/**
 	 * Returns an instance of the oAuth provider.
 	 *
 	 * @return GenericProvider The provider.
@@ -123,5 +183,76 @@ final class Client {
 				'urlResourceOwnerDetails' => 'https://my.yoast.com/api/sites/current',
 			]
 		);
+	}
+
+	/**
+	 * Formats the access tokens.
+	 *
+	 * @param array $access_tokens The access tokens to format.
+	 *
+	 * @return AccessTokenInterface[] The formatted access tokens.
+	 */
+	protected function format_access_tokens( $access_tokens ) {
+		if ( ! is_array( $access_tokens ) ||  $access_tokens === [] ) {
+			return [];
+		}
+
+		$formatted_access_tokens = [];
+		foreach ( $access_tokens as $user_id => $access_token  ) {
+			$formatted_access_tokens[ $user_id ] = new AccessToken( $access_token );
+		}
+
+		return $formatted_access_tokens;
+	}
+
+	/**
+	 * Retrieves the myyoast oauth value from the options.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return array
+	 */
+	protected function get_option() {
+		$option_value = \WPSEO_Options::get( 'myyoast-oauth', false );
+
+		if ( ! $option_value ) {
+			return json_decode( $option_value, true );
+		}
+
+		return $this->get_default_option();
+	}
+
+	/**
+	 * Exports the settings to the options.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	protected function update_option() {
+		\WPSEO_Options::set(
+			'myyoast-oauth',
+			wp_json_encode(
+				[
+					'config'        => $this->config,
+					'access_tokens' => $this->access_tokens
+				]
+			)
+		);
+	}
+
+	/**
+	 * Retrieves the default option value.
+	 *
+	 * @return array The default option value.
+	 */
+	protected function get_default_option() {
+		return [
+			'config'        => [
+				'clientId' => null,
+				'secret'   => null,
+			],
+			'access_tokens' => [],
+		];
 	}
 }
