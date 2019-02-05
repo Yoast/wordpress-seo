@@ -141,8 +141,59 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		}
 		const fetchedParents = { 0: "" };
 		let currentParent  = null;
-		const wpData       = window.wp.data;
-		wpData.subscribe( () => {
+
+		const wpData = window.wp.data;
+
+		let taxonomies = wpData.select( "core" ).getTaxonomies();
+		const taxonomyIds = {};
+		let invalidating = false;
+
+		wpData.subscribe( async function() {
+			if ( ! taxonomies && wpData.select( "core" ).getTaxonomies() ) {
+				taxonomies = await wpData.select( "core" ).getTaxonomies();
+				const postType = wpData.select( "core/editor" ).getEditedPostAttribute( "type" );
+
+				taxonomies = filter( taxonomies, taxonomy => {
+					return taxonomy.types.includes( postType );
+				} );
+			}
+
+			if ( taxonomies ) {
+				forEach( taxonomies, taxonomy => {
+					const termIds = wpData.select( "core/editor" ).getEditedPostAttribute( taxonomy.rest_base );
+
+					if ( taxonomyIds[ taxonomy.rest_base ] !== termIds || invalidating ) {
+						invalidating = false;
+						taxonomyIds[ taxonomy.rest_base ] = termIds;
+
+						const termNames = [];
+						const terms = wpData.select( "core" ).getEntityRecords( "taxonomy", taxonomy.slug );
+
+						forEach( termIds, termId => {
+							const term = terms.find( term => {
+								return term.id === termId;
+							} );
+
+							if ( term ) {
+								termNames.push( term.name );
+							} else {
+								invalidating = true;
+								wpData.dispatch( "core/data" ).invalidateResolution( "core", "getEntityRecords", [ taxonomy.rest_base, "taxonomy" ] );
+							}
+						} );
+
+						const replacementVariableValue = termNames.join( ", " );
+
+						let replacementVariableName = taxonomy.slug;
+						if ( ! [ "category", "tag" ].includes( taxonomy.slug ) ) {
+							replacementVariableName = "ct_" + replacementVariableName;
+						}
+
+						wpData.dispatch( "yoast-seo/editor" ).updateReplacementVariable( replacementVariableName, replacementVariableValue );
+					}
+				} );
+			}
+
 			const newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
 			if ( typeof newParent === "undefined" || currentParent === newParent ) {
 				return;
