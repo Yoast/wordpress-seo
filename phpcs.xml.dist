@@ -95,6 +95,9 @@
 	<rule ref="PHPCompatibility.Syntax.NewShortArray.Found">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
+	<rule ref="PHPCompatibility.Syntax.NewFunctionArrayDereferencing.Found">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
 
 	<!-- These usages of PHP > 5.2 code are surrounded by the correct safeguards. -->
 	<rule ref="PHPCompatibility.FunctionUse.NewFunctionParameters.parse_ini_file_scanner_modeFound">
