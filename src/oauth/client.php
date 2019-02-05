@@ -244,6 +244,8 @@ class Client {
 	/**
 	 * Retrieves the default option value.
 	 *
+	 * @codeCoverageIgnore 
+	 *
 	 * @return array The default option value.
 	 */
 	protected function get_default_option() {
