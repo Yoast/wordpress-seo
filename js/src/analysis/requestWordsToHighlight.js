@@ -10,7 +10,7 @@ import uniq from "lodash/uniq";
  * @param {Object} store The store.
  * @param {string} keyword The keyword of the paper.
  *
- * @returns {Array} All possible wordform variations of the keyphrase.
+ * @returns {void}
  */
 export default function( runResearch, store, keyword ) {
 	runResearch( "morphology", new Paper( "", { keyword } ) ).then( researchResult => {
