@@ -1,8 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { determineFacebookImageProperties } from "../helpers/determineFacebookImageProperties";
+import {
+	determineFacebookImageProperties,
+	LANDSCAPE_HEIGHT,
+	LANDSCAPE_WIDTH,
+	PORTRAIT_HEIGHT,
+	PORTRAIT_WIDTH,
+	SQUARE_HEIGHT,
+	SQUARE_WIDTH,
+} from "../helpers/determineFacebookImageProperties";
 import colors from "../../../../../style-guide/colors.json";
+
+const MIN_IMAGE_WIDTH = 158;
+const MIN_IMAGE_HEIGHT = 158;
 
 const StyledImage = styled.img`
 	min-height: initial;
@@ -44,7 +55,7 @@ const PlaceholderImage = styled.div`
 /**
  * Renders the FacebookImage component.
  *
- * @param {string} src The image source
+ * @param {string} src The image source.
  *
  * @returns {ReactComponent} The FacebookImage component.
  */
@@ -93,19 +104,19 @@ export default class FacebookImage extends React.Component {
 		switch ( imageMode ) {
 			case "square":
 				return {
-					height: "158px",
-					width: "158px",
+					height: SQUARE_HEIGHT + "px",
+					width: SQUARE_WIDTH + "px",
 				};
 			case "portrait":
 				return {
-					height: "236px",
-					width: "158px",
+					height: PORTRAIT_HEIGHT + "px",
+					width: PORTRAIT_WIDTH + "px",
 				};
 			case "landscape":
 			default:
 				return {
-					height: "261px",
-					width: "500px",
+					height: LANDSCAPE_HEIGHT + "px",
+					width: LANDSCAPE_WIDTH + "px",
 				};
 		}
 	}
@@ -126,7 +137,7 @@ export default class FacebookImage extends React.Component {
 		if ( status === "errored" ) {
 			return <ErrorImage>The given image url cannot be loaded</ErrorImage>;
 		}
-		if ( imageProperties.height < 158 || imageProperties.width < 158 ) {
+		if ( imageProperties.height < MIN_IMAGE_HEIGHT || imageProperties.width < MIN_IMAGE_WIDTH ) {
 			return <ErrorImage>The image you selected is too small for Facebook</ErrorImage>;
 		}
 

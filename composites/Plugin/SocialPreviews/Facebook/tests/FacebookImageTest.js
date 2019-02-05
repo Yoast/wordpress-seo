@@ -9,7 +9,15 @@ import delayComponentSnapshot from "./testHelpers/delayComponentSnapshot";
 const importedDetermineFacebookImageProperties = require( "../helpers/determineFacebookImageProperties.js" );
 
 jest.mock( "../helpers/determineFacebookImageProperties.js", () => {
-	return { determineFacebookImageProperties: jest.fn() };
+	return {
+		determineFacebookImageProperties: jest.fn(),
+		SQUARE_WIDTH: 158,
+		SQUARE_HEIGHT: 158,
+		PORTRAIT_WIDTH: 158,
+		PORTRAIT_HEIGHT: 236,
+		LANDSCAPE_WIDTH: 500,
+		LANDSCAPE_HEIGHT: 261,
+	};
 } );
 
 describe( "FacebookImage Component", () => {
