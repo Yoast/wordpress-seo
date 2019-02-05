@@ -16,7 +16,6 @@ import UIControlsWrapper from "./app/UIControlsWrapper";
 import Wizard from "./app/WizardWrapper";
 import Loader from "./composites/basic/Loader";
 import FacebookPreview from "./composites/Plugin/SocialPreviews/Facebook/components/FacebookPreview";
-import FacebookImage from "./composites/Plugin/SocialPreviews/Facebook/components/FacebookImage";
 
 const components = [
 	{
@@ -106,7 +105,7 @@ const components = [
 	},
 	{
 		id: "facebookpreview-example-error",
-		name: "FacebookPreview Faulty image",
+		name: "FacebookPreview faulty image",
 		component: <FacebookPreview siteName="SiteName.com" src="thisisnoimage" />,
 	},
 ];

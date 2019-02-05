@@ -1,0 +1,168 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FacebookImage Component matches the snapshot for a faulty image 1`] = `
+.c0 {
+  height: 261px;
+  width: 500px;
+  text-align: center;
+  box-sizing: border-box;
+  padding-top: 7em;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #dc3232;
+}
+
+<div
+  className="c0"
+>
+  The given image url cannot be loaded
+</div>
+`;
+
+exports[`FacebookImage Component matches the snapshot for a landscape image 1`] = `
+.c1 {
+  min-height: initial;
+  height: auto;
+  width: 100%;
+  position: relative;
+}
+
+.c0 {
+  line-height: 0;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  display: block;
+  background-color: #fff;
+  height: 261px;
+  width: 500px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+<div
+  className="c0"
+  mode="landscape"
+>
+  <img
+    className="c1"
+    mode="landscape"
+    src="https://yoast.com/app/uploads/2015/06/How_to_choose_keywords_FI.png"
+  />
+</div>
+`;
+
+exports[`FacebookImage Component matches the snapshot for a portrait image 1`] = `
+.c1 {
+  min-height: initial;
+  height: 100%;
+  width: auto;
+  position: relative;
+}
+
+.c0 {
+  line-height: 0;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  display: block;
+  background-color: #fff;
+  height: 236px;
+  width: 158px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+<div
+  className="c0"
+  mode="portrait"
+>
+  <img
+    className="c1"
+    mode="portrait"
+    src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png"
+  />
+</div>
+`;
+
+exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
+.c1 {
+  min-height: initial;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.c0 {
+  line-height: 0;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  display: block;
+  background-color: #fff;
+  height: 158px;
+  width: 158px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+<div
+  className="c0"
+  mode="square"
+>
+  <img
+    className="c1"
+    mode="square"
+    src="https://yoast.com/app/uploads/2018/09/avatar_user_1_1537774226.png"
+  />
+</div>
+`;
+
+exports[`FacebookImage Component matches the snapshot for a too small image 1`] = `
+.c0 {
+  height: 261px;
+  width: 500px;
+  text-align: center;
+  box-sizing: border-box;
+  padding-top: 7em;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #dc3232;
+}
+
+<div
+  className="c0"
+>
+  The image you selected is too small for Facebook
+</div>
+`;
+
+exports[`FacebookImage Component matches the snapshot in the loading state 1`] = `
+.c0 {
+  height: 261px;
+  width: 500px;
+  background-color: #ddd;
+}
+
+<div
+  className="c0"
+/>
+`;

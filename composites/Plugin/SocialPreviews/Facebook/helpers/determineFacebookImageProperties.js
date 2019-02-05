@@ -12,7 +12,7 @@ const landscapeHeight = 261;
  *
  * @returns {string} The display mode of the image.
  */
-function determineFacebookImageMode( dimensions ) {
+export function determineFacebookImageMode( dimensions ) {
 	if ( dimensions.height > dimensions.width ) {
 		return "portrait";
 	}
@@ -24,7 +24,6 @@ function determineFacebookImageMode( dimensions ) {
 	return "landscape";
 }
 
-
 /**
  * Gets the dimensions of the uploaded image.
  *
@@ -32,7 +31,8 @@ function determineFacebookImageMode( dimensions ) {
  *
  * @returns {Object} The image original image dimensions.
  */
-function getOriginalImageDimensions( src ) {
+export function getOriginalImageDimensions( src ) {
+	/* istanbul ignore next */
 	return new Promise( ( resolve, reject ) => {
 		const img = new Image();
 
@@ -58,7 +58,7 @@ function getOriginalImageDimensions( src ) {
  *
  * @returns {Object} The image's width ratio and height ratio.
  */
-function getImageRatios( dimensions, imageMode ) {
+export function getImageRatios( dimensions, imageMode ) {
 	if ( imageMode === "portrait" ) {
 		return {
 			widthRatio: dimensions.width / portraitWidth,
@@ -82,7 +82,7 @@ function getImageRatios( dimensions, imageMode ) {
  *
  * @returns {Object}           The width and height that the image should have as Facebook image.
  */
-function getImageDimensionsForFacebookImage( dimensions, imageRatios ) {
+export function getImageDimensionsForFacebookImage( dimensions, imageRatios ) {
 	if ( imageRatios.widthRatio <= imageRatios.heightRatio ) {
 		return {
 			width: dimensions.width / imageRatios.widthRatio,
@@ -104,7 +104,7 @@ function getImageDimensionsForFacebookImage( dimensions, imageRatios ) {
  *
  * @returns {object} The image dimensions for the facebook image.
  */
-function calculateFacebookImageDimensions( originalDimensions, imageMode ) {
+export function calculateFacebookImageDimensions( originalDimensions, imageMode ) {
 	// Images that are too small should not be scaled.
 	if ( originalDimensions.width < 158 || originalDimensions.height < 158 ) {
 		return {
@@ -154,9 +154,9 @@ function calculateFacebookImageDimensions( originalDimensions, imageMode ) {
  *
  * @param {string} src The source of the image.
  *
- * @returns {object} The mode, width and height of the image.
+ * @returns {Promise} The promise of the imageProperties.
  */
-export default function determineFacebookImageProperties( src ) {
+export function determineFacebookImageProperties( src ) {
 	return getOriginalImageDimensions( src ).then( ( originalDimensions ) => {
 		// Determine what image mode should be used based on the image dimensions.
 		const imageMode = determineFacebookImageMode( originalDimensions );

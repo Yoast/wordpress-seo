@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import determineFacebookImageProperties from "../helpers/determineFacebookImageProperties";
+import { determineFacebookImageProperties } from "../helpers/determineFacebookImageProperties";
 import colors from "../../../../../style-guide/colors.json";
 
 const StyledImage = styled.img`
@@ -65,10 +65,10 @@ export default class FacebookImage extends React.Component {
 	/**
 	 * After the component did mount, determine the properties of the FacebookImage.
 	 *
-	 * @returns {void}
+	 * @returns {Promise} Resolves when there are image properties.
 	 */
 	componentDidMount() {
-		determineFacebookImageProperties( this.props.src ).then( ( imageProperties ) => {
+		return determineFacebookImageProperties( this.props.src ).then( ( imageProperties ) => {
 			this.setState( {
 				imageProperties: imageProperties,
 				status: "loaded",
@@ -79,8 +79,7 @@ export default class FacebookImage extends React.Component {
 				status: "errored",
 			} );
 			return true;
-		}
-		);
+		} );
 	}
 
 	/**
@@ -92,21 +91,21 @@ export default class FacebookImage extends React.Component {
 	 */
 	getContainerDimensions( imageMode ) {
 		switch ( imageMode ) {
-			case "landscape":
-				return {
-					height: "261px",
-					width: "500px",
-				};
 			case "square":
 				return {
 					height: "158px",
 					width: "158px",
 				};
 			case "portrait":
-			default:
 				return {
 					height: "236px",
 					width: "158px",
+				};
+			case "landscape":
+			default:
+				return {
+					height: "261px",
+					width: "500px",
 				};
 		}
 	}
