@@ -31,8 +31,9 @@ class App extends React.Component {
 
 		this.state = {
 			isLoading: true,
+			// Use the hash from the url without the hashtag.
+			currentStep: window.location.hash.substring( 1 ),
 		};
-
 		this.getConfig();
 	}
 
@@ -127,7 +128,7 @@ class App extends React.Component {
 		if ( typeof( this.state.config ) !== "undefined" && this.state.config !== {} ) {
 			return (
 				<div>
-					<OnboardingWizard { ...this.state.config } headerIcon={ YoastIcon } />
+					<OnboardingWizard { ...this.state.config } firstStep={ this.state.currentStep } headerIcon={ YoastIcon } />
 				</div>
 			);
 		}
