@@ -61,6 +61,18 @@ class TreeAssessor {
 		// Aggregate the results and return them.
 		return this.scoreAggregator.aggregate( results );
 	}
+
+	/**
+	 * Applies the given assessment to the given document.
+	 *
+	 * @param {Object} assessment The assessment to apply.
+	 * @param {Object} document   The document to apply the assessment to.
+	 *
+	 * @returns {Promise<number>} The result of the assessment, wrapped in a promise.
+	 */
+	async applyAssessment( assessment, document ) {
+		return assessment.assess( document );
+	}
 }
 
 export default TreeAssessor;
