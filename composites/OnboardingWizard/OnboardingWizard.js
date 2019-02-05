@@ -131,6 +131,11 @@ class OnboardingWizard extends React.Component {
 	 * @returns {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
+		const firstStep = this.props.firstStep;
+		if ( firstStep !== "" ) {
+			return firstStep;
+		}
+		// When no firstStep is set, use the first step of the wizard as default.
 		return Object.getOwnPropertyNames( steps )[ 0 ];
 	}
 
