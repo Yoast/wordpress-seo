@@ -20,6 +20,15 @@ class TreeAssessor {
 		this.scoreAggregator = options.scoreAggregator;
 		this.assessments = options.assessments || [];
 	}
+
+	/**
+	 * Returns the list of available assessments.
+	 *
+	 * @returns {Object[]|Array|*} The list of all available assessments.
+	 */
+	getAvailableAssessments() {
+		return this.assessments;
+	}
 }
 
 export default TreeAssessor;
