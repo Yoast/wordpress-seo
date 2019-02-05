@@ -212,9 +212,8 @@ function highlightWords( locale, wordsToHighlight, text, cleanText ) {
 	// Clean the text from special characters and diacritics.
 	const textToUse = cleanText ? cleanText : text;
 
-	// Initiate an array of transliterated forms.
+	// Initiate an array of cleaned and transliterated forms.
 	const wordsToHighlightCleaned = [];
-	const wordsToHighlightTransliterated = [];
 
 	wordsToHighlight.forEach( function( form ) {
 		/*
@@ -229,13 +228,11 @@ function highlightWords( locale, wordsToHighlight, text, cleanText ) {
 		const formTransliterated = transliterate( form, locale );
 
 		if ( formTransliterated !== form ) {
-			wordsToHighlightTransliterated.push( formTransliterated );
+			wordsToHighlightCleaned.push( formTransliterated );
 		}
 	} );
 
-	const allKeywordForms = wordsToHighlightCleaned.concat( wordsToHighlightTransliterated );
-
-	const keywordFormsMatcher = createRegexFromArray( allKeywordForms, false, "", false );
+	const keywordFormsMatcher = createRegexFromArray( wordsToHighlightCleaned, false, "", false );
 
 	text = textToUse.replace( keywordFormsMatcher, function( matchedKeyword ) {
 		return `{{strong}}${ matchedKeyword }{{/strong}}`;
@@ -475,7 +472,7 @@ export default class SnippetPreview extends PureComponent {
 
 		/*
 		 * We need to replace special characters and diacritics only on the url
-		 * string because when highlightKeyword kicks in, interpolateComponents
+		 * string because when highlightWords kicks in, interpolateComponents
 		 * returns an array of strings plus a strong React element, and replace()
 		 * can't run on an array.
 		 */
