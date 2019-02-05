@@ -49,6 +49,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'show_onboarding_notice'          => false,
 		'first_activated_on'              => false,
 		'recalibration_beta'              => false,
+		'myyoast-oauth'                   => array(
+			'config' => array(
+				'clientId' => null,
+				'secret'   => null,
+			),
+			'access_tokens' => array(),
+		),
 	);
 
 	/**
@@ -269,6 +276,19 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					if ( isset( $dirty[ $key ] ) ) {
 						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
 							$clean[ $key ] = $dirty[ $key ];
+						}
+					}
+					break;
+
+				case 'myyoast-oauth':
+					$clean[ $key ] = $old[ $key ];
+					if ( isset( $dirty[ $key ]['config'], $dirty[ $key ]['access_tokens'] ) ) {
+						if ( isset( $dirty[ $key ]['config']['clientId'], $dirty[ $key ]['config']['secret'] ) ) {
+							$clean[ $key ]['config'] = $dirty[ $key ]['config'];
+						}
+
+						if ( is_string( $dirty[ $key ]['access_tokens'] ) ) {
+							$clean[ $key ]['access_tokens'] = $dirty[ $key ]['access_tokens'];
 						}
 					}
 					break;

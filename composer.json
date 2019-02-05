@@ -22,7 +22,7 @@
 		"source": "https://github.com/Yoast/wordpress-seo"
 	},
 	"require": {
-		"php": "^5.3.2||^7.0",
+		"php": "^5.6.0||^7.0",
 		"composer/installers": "~1.0",
 		"yoast/license-manager": "1.6.0",
 		"yoast/i18n-module": "^3.0",
@@ -31,7 +31,8 @@
 		"j4mie/idiorm": "^1.5",
 		"pimple/pimple": "^3.2",
 		"ruckusing/ruckusing-migrations": "^1.1",
-		"psr/log": "^1.0"
+		"psr/log": "^1.0",
+		"league/oauth2-client": "^2.4"
 	},
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",
@@ -82,6 +83,7 @@
 		"prefix-dependencies": [
 			"composer prefix-ruckusing",
 			"composer prefix-idiorm",
+			"composer prefix-oauth2-client",
 			"touch ./vendor_prefixed/dependencies-prefixed.txt",
 			"composer du"
 		],
@@ -90,6 +92,10 @@
 		],
 		"prefix-idiorm": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/j4mie/idiorm --config=config/php-scoper/idiorm.inc.php --force --quiet"
+		],
+		"prefix-oauth2-client": [
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet",
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/guzzlehttp --config=config/php-scoper/guzzlehttp.inc.php --force --quiet"
 		],
 		"post-install-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd",

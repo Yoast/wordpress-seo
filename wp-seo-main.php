@@ -340,8 +340,9 @@ function wpseo_init() {
 	$wpseo_onpage->register_hooks();
 
 	// When namespaces are not available, stop further execution.
-	if ( version_compare( PHP_VERSION, '5.3.0', '>=' ) ) {
+	if ( version_compare( PHP_VERSION, '5.6.0', '>=' ) ) {
 		require_once WPSEO_PATH . 'src/loaders/indexable.php';
+		require_once WPSEO_PATH . 'src/loaders/oauth.php';
 	}
 }
 
