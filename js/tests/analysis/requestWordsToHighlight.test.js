@@ -4,15 +4,15 @@ import requestWordsToHighlight from "../../src/analysis/requestWordsToHighlight"
  * Creates a promise that resolves the keyphrase forms for the input keyphrase.
  *
  * @param {string} researchName The name of the research to be executed
- * @param {Paper} paper The paper that contains the keyphrase to be used for analysis
+ * @param {Paper} paper The paper that contains the keyphrase to be used for analysis.
  *
- * @returns {Array} A mock result of the morphological research
+ * @returns {Array} A mock result of the morphological research.
  */
 const runResearch = ( researchName, paper ) => new Promise( function( resolve, reject ) {
 	const keyphrase = paper.getKeyword();
 	const researchResult = {
 		result: {
-			keyphraseForms: [ keyphrase, keyphrase, keyphrase ],
+			keyphraseForms: [ keyphrase.concat( "1" ), keyphrase.concat( "2" ), keyphrase.concat( "3" ) ],
 		},
 	};
 	if ( keyphrase === "failing keyphrase for testing purposes" ) {
@@ -26,7 +26,7 @@ describe( "keywordForms", () => {
 	it( "runs the mock runResearch and dispatches its result to the store", ( done ) => {
 		const store = {
 			dispatch: dispatchAction => {
-				expect( dispatchAction.wordsToHighlight ).toEqual( [ "test", "test", "test" ] );
+				expect( dispatchAction.wordsToHighlight ).toEqual( [ "test1", "test2", "test3" ] );
 				done();
 			},
 		};

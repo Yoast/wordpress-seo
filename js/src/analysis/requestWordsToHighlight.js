@@ -6,9 +6,9 @@ import { updateWordsToHighlight } from "../redux/actions/snippetEditor";
  *
  * @param {function} runResearch The research function to use.
  * @param {Object} store The store.
- * @param {string} keyword The keyword of the paper
+ * @param {string} keyword The keyword of the paper.
  *
- * @returns {Array} All possible wordform variations of the keyphrase
+ * @returns {Array} All possible wordform variations of the keyphrase.
  */
 export default function( runResearch, store, keyword ) {
 	runResearch( "morphology", new Paper( "", { keyword } ) ).then( researchResult => {
