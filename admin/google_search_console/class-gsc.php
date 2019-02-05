@@ -12,6 +12,8 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 
 	/**
 	 * The option where data will be stored.
+	 *
+	 * @var string
 	 */
 	const OPTION_WPSEO_GSC = 'wpseo-gsc';
 

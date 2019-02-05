@@ -9,6 +9,10 @@
  * Class WPSEO_OpenGraph_Image
  */
 class WPSEO_OpenGraph_Image {
+
+	/**
+	 * @var string
+	 */
 	const EXTERNAL_IMAGE_ID = '-1';
 
 	/**

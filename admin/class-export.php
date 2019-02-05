@@ -11,6 +11,10 @@
  * Class with functionality to export the WP SEO settings
  */
 class WPSEO_Export {
+
+	/**
+	 * @var string
+	 */
 	const NONCE_ACTION = 'wpseo_export';
 
 	/**
