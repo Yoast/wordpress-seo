@@ -1,5 +1,5 @@
 /**
- * Analyzes a paper by running a list assessments on a tree representation
+ * Analyzes a paper by doing a list of assessments on a tree representation
  * of a text.
  */
 class TreeAssessor {
