@@ -65,6 +65,8 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 					belowMinimum: -20,
 					farBelowMinimum: -20,
 				},
+
+				cornerstoneContent: true,
 			} ),
 			new OutboundLinks( {
 				scores: {
@@ -130,6 +132,8 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 					belowMinimum: -20,
 					farBelowMinimum: -20,
 				},
+
+				cornerstoneContent: true,
 			} ),
 			new OutboundLinks( {
 				scores: {

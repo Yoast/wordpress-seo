@@ -57,12 +57,18 @@ module.exports = function( grunt ) {
 		"checkout-premium-configuration": {
 			command: function() {
 				const commands = [];
+				let branch = grunt.config.get( "currentBranch" );
+
+				if ( process.env.CI ) {
+					if ( process.env.TRAVIS_PULL_REQUEST_BRANCH === "" ) {
+						branch = process.env.TRAVIS_BRANCH;
+					} else {
+						branch = process.env.TRAVIS_PULL_REQUEST_BRANCH;
+					}
+				}
 
 				// Whitespace within the commands results into unexpected tokens.
-				const branch = ( process.env.CI
-					? process.env.TRAVIS_BRANCH
-					: grunt.config.get( "currentBranch" )
-				).trim();
+				branch = branch.trim();
 
 				commands.push( "cd premium-configuration" );
 				commands.push( "git checkout develop" );
