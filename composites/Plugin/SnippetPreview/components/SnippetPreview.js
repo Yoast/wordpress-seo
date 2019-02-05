@@ -6,9 +6,7 @@ import transliterate from "yoastseo/src/stringProcessing/transliterate";
 import createRegexFromArray from "yoastseo/src/stringProcessing/createRegexFromArray";
 import replaceSpecialCharactersAndDiacritics from "yoastseo/src/stringProcessing/replaceDiacritics";
 import PropTypes from "prop-types";
-import flatten from "lodash/flatten";
 import truncate from "lodash/truncate";
-import uniq from "lodash/uniq";
 import { parse } from "url";
 import { __ } from "@wordpress/i18n";
 
@@ -199,46 +197,43 @@ const Amp = styled.div`
  * Highlights a keyword with strong React elements.
  *
  * @param {string} locale ISO 639 (2/3 characters) locale.
- * @param {string[]} keywordForms The array of keyword forms.
- * @param {string} text The text in which to highlight a keyword.
- * @param {string} cleanText Optional. The text in which to highlight a keyword
+ * @param {string[]} wordsToHighlight The array of words to be highlighted.
+ * @param {string} text The text in which to highlight words.
+ * @param {string} cleanText Optional. The text in which to highlight words
  *                           without special characters and diacritics.
  *
  * @returns {ReactElement} React elements to be rendered.
  */
-function highlightKeyword( locale, keywordForms, text, cleanText ) {
-	if ( keywordForms.length === 0 ) {
+function highlightWords( locale, wordsToHighlight, text, cleanText ) {
+	if ( wordsToHighlight.length === 0 ) {
 		return text;
 	}
-
-	keywordForms = uniq( flatten( keywordForms ) );
-
 
 	// Clean the text from special characters and diacritics.
 	const textToUse = cleanText ? cleanText : text;
 
 	// Initiate an array of transliterated forms.
-	const keywordFormsCleaned = [];
-	const keywordFormsTransliterated = [];
+	const wordsToHighlightCleaned = [];
+	const wordsToHighlightTransliterated = [];
 
-	keywordForms.forEach( function( form ) {
+	wordsToHighlight.forEach( function( form ) {
 		/*
 	    * When a text has been cleaned up from special characters and diacritics
 	    * we need to match against a cleaned up keyword as well.
 	    */
 		form = cleanText ? replaceSpecialCharactersAndDiacritics( form ) : form;
 
-		keywordFormsCleaned.push( form );
+		wordsToHighlightCleaned.push( form );
 
 		// Transliterate the keyword for highlighting
 		const formTransliterated = transliterate( form, locale );
 
 		if ( formTransliterated !== form ) {
-			keywordFormsTransliterated.push( formTransliterated );
+			wordsToHighlightTransliterated.push( formTransliterated );
 		}
 	} );
 
-	const allKeywordForms = keywordFormsCleaned.concat( keywordFormsTransliterated );
+	const allKeywordForms = wordsToHighlightCleaned.concat( wordsToHighlightTransliterated );
 
 	const keywordFormsMatcher = createRegexFromArray( allKeywordForms, false, "", false );
 
@@ -572,7 +567,7 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	renderDescription() {
 		const {
-			keywordForms,
+			wordsToHighlight,
 			locale,
 			onMouseUp,
 			onMouseLeave,
@@ -597,7 +592,7 @@ export default class SnippetPreview extends PureComponent {
 					innerRef={ this.setDescriptionRef }
 				>
 					{ renderedDate }
-					{ highlightKeyword( locale, keywordForms, this.getDescription() ) }
+					{ highlightWords( locale, wordsToHighlight, this.getDescription() ) }
 				</DesktopDescriptionWithCaret>
 			);
 		} else if ( mode === MODE_MOBILE ) {
@@ -611,7 +606,7 @@ export default class SnippetPreview extends PureComponent {
 						innerRef={ this.setDescriptionRef }
 					>
 						{ renderedDate }
-						{ highlightKeyword( locale, keywordForms, this.getDescription() ) }
+						{ highlightWords( locale, wordsToHighlight, this.getDescription() ) }
 					</MobileDescription>
 				</MobileDescriptionWithCaret>
 			);
@@ -728,7 +723,7 @@ SnippetPreview.propTypes = {
 	hoveredField: PropTypes.string,
 	activeField: PropTypes.string,
 	keyword: PropTypes.string,
-	keywordForms: PropTypes.array,
+	wordsToHighlight: PropTypes.array,
 	locale: PropTypes.string,
 	mode: PropTypes.oneOf( MODES ),
 	isAmp: PropTypes.bool,
@@ -742,7 +737,7 @@ SnippetPreview.propTypes = {
 SnippetPreview.defaultProps = {
 	date: "",
 	keyword: "",
-	keywordForms: [],
+	wordsToHighlight: [],
 	breadcrumbs: null,
 	locale: "en",
 	hoveredField: "",

@@ -67,14 +67,14 @@ describe( "SnippetPreview", () => {
 		renderSnapshotWithArgs( {
 			description: "Something with a keyword",
 			url: "https://example.org/this-keyword-url",
-			keywordForms: [ "keyword" ],
+			wordsToHighlight: [ "keyword" ],
 		} );
 	} );
 
 	it( "highlights keywords even if they are transliterated", () => {
 		renderSnapshotWithArgs( {
 			description: "Something with a transliterated kaayword",
-			keywordForms: [ "kåyword" ],
+			wordsToHighlight: [ "kåyword" ],
 			locale: "da_DK",
 		} );
 	} );
@@ -82,14 +82,14 @@ describe( "SnippetPreview", () => {
 	it( "highlights a keyword in different morphological forms", () => {
 		renderSnapshotWithArgs( {
 			description: "She runs every day and every run is longer than the previous. Running makes her happy.",
-			keywordForms: [ "run", "runs", "running" ],
+			wordsToHighlight: [ "run", "runs", "running" ],
 		} );
 	} );
 
 	it( "highlights separate words from the keyphrase", () => {
 		renderSnapshotWithArgs( {
 			description: "She runs every day and every run is longer than the previous. Running makes her happy.",
-			keywordForms: [ "run", "runs", "running", "every" ],
+			wordsToHighlight: [ "run", "runs", "running", "every" ],
 		} );
 	} );
 
