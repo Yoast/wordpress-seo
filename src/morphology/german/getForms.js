@@ -1,3 +1,4 @@
+import { addAllAdjectiveSuffixes } from "./addAdjectiveSuffixes";
 import { checkAdjectiveExceptions } from "./checkAdjectiveExceptions";
 import { checkNounExceptions } from "./checkNounExceptions";
 import { flattenDeep, uniq as unique } from "lodash-es";
@@ -105,8 +106,13 @@ export function getForms( word, morphologyData ) {
 	const stemmedWord = stem( word );
 	const forms = new Array( word );
 
-	// Check whether the word is on a noun exception list.
+	/* Check whether the word is on a noun or adjectibe exception list. Since a stem might be on multiple
+	 * exception lists (e.g. "groß" might be either from the adjective "groß" or the noun "Größe".
+	 *
+	 */
 	const exceptionsNouns = checkNounExceptions( morphologyData.nouns, stemmedWord );
+	const exceptionsAdjectives = checkAdjectiveExceptions( morphologyData.adjectives, stemmedWord );
+	const exceptionsAll = [ ...exceptionsNouns, ...exceptionsAdjectives ];
 
 	if ( exceptionsNouns.length > 0 ) {
 		// Add the original word as a safeguard.
@@ -116,7 +122,6 @@ export function getForms( word, morphologyData ) {
 	}
 
 	// Check whether the word is on an adjective exception list.
-	const exceptionsAdjectives = checkAdjectiveExceptions( morphologyData.adjectives, stemmedWord );
 
 	if ( exceptionsAdjectives.length > 0 ) {
 		// Add the original word as a safeguard.
@@ -134,6 +139,7 @@ export function getForms( word, morphologyData ) {
 	forms.push( regularNounSuffixes.map( suffix => stemmedWord.concat( suffix ) ) );
 
 	// Also add regular adjective suffixes.
+	forms.push( addAllAdjectiveSuffixes( morphologyData.adjectives, stemmedWord ) );
 
 	// Also add the stemmed word, since it might be a valid word form on its own.
 	forms.push( stemmedWord );
