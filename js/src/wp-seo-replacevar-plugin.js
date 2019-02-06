@@ -130,6 +130,73 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		}
 	};
 
+	const handleCategories = function() {
+		const wpData = window.wp.data;
+
+		// Make sure taxonomy resolution has started.
+		wpData.select( "core" ).getTaxonomies();
+
+		const taxonomyIds = {};
+		let applicableTaxonomies = null;
+
+		wpData.subscribe( async function() {
+			if ( ! wp.data.select( "core/data" ).hasFinishedResolution( "core", "getTaxonomies" ) ) {
+				return;
+			}
+
+			if ( ! applicableTaxonomies ) {
+				const taxonomies = wpData.select( "core" ).getTaxonomies();
+				const postType = wpData.select( "core/editor" ).getEditedPostAttribute( "type" );
+
+				applicableTaxonomies = filter( taxonomies, taxonomy => {
+					return taxonomy.types.includes( postType );
+				} );
+			}
+
+			forEach( applicableTaxonomies, taxonomy => {
+				if ( ! wpData.select( "core/data" ).hasStartedResolution( "core", "getEntityRecords", [ "taxonomy", taxonomy.slug ] ) ) {
+					wpData.select( "core" ).getEntityRecords( "taxonomy", taxonomy.slug );
+					return;
+				}
+
+				if ( ! wpData.select( "core/data" ).hasFinishedResolution( "core", "getEntityRecords", [ "taxonomy", taxonomy.slug ] ) ) {
+					return;
+				}
+
+				const termIds = wpData.select( "core/editor" ).getEditedPostAttribute( taxonomy.rest_base );
+
+				if ( typeof taxonomyIds[ taxonomy.rest_base ] === "undefined" || taxonomyIds[ taxonomy.rest_base ] !== termIds ) {
+					taxonomyIds[ taxonomy.rest_base ] = termIds;
+
+					const termNames = [];
+					const terms = wpData.select( "core" ).getEntityRecords( "taxonomy", taxonomy.slug );
+
+					forEach( termIds, termId => {
+						const term = terms.find( t => {
+							return t.id === termId;
+						} );
+
+						if ( term ) {
+							termNames.push( term.name );
+						} else {
+							wpData.dispatch( "core/data" ).invalidateResolution( "core", "getEntityRecords", [ "taxonomy", "category" ] );
+						}
+					} );
+
+					const replacementVariableValue = termNames.join( ", " );
+
+					let replacementVariableName = taxonomy.slug;
+
+					if ( ! [ "category", "tag" ].includes( taxonomy.slug ) ) {
+						replacementVariableName = "ct_" + replacementVariableName;
+					}
+
+					wpData.dispatch( "yoast-seo/editor" ).updateReplacementVariable( replacementVariableName, replacementVariableValue );
+				}
+			} );
+		} );
+	};
+
 	/**
 	 * Subscribes to Gutenberg to watch a possible parent page change.
 	 *
@@ -139,62 +206,16 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		if ( ! isGutenbergDataAvailable() ) {
 			return;
 		}
-		const fetchedParents = { 0: "" };
-		let currentParent  = null;
+
+		handleCategories();
 
 		const wpData = window.wp.data;
 
-		let taxonomies = wpData.select( "core" ).getTaxonomies();
-		const taxonomyIds = {};
-		let invalidating = false;
-
 		wpData.subscribe( async function() {
-			if ( ! taxonomies && wpData.select( "core" ).getTaxonomies() ) {
-				taxonomies = await wpData.select( "core" ).getTaxonomies();
-				const postType = wpData.select( "core/editor" ).getEditedPostAttribute( "type" );
-
-				taxonomies = filter( taxonomies, taxonomy => {
-					return taxonomy.types.includes( postType );
-				} );
-			}
-
-			if ( taxonomies ) {
-				forEach( taxonomies, taxonomy => {
-					const termIds = wpData.select( "core/editor" ).getEditedPostAttribute( taxonomy.rest_base );
-
-					if ( taxonomyIds[ taxonomy.rest_base ] !== termIds || invalidating ) {
-						invalidating = false;
-						taxonomyIds[ taxonomy.rest_base ] = termIds;
-
-						const termNames = [];
-						const terms = wpData.select( "core" ).getEntityRecords( "taxonomy", taxonomy.slug );
-
-						forEach( termIds, termId => {
-							const term = terms.find( term => {
-								return term.id === termId;
-							} );
-
-							if ( term ) {
-								termNames.push( term.name );
-							} else {
-								invalidating = true;
-								wpData.dispatch( "core/data" ).invalidateResolution( "core", "getEntityRecords", [ taxonomy.rest_base, "taxonomy" ] );
-							}
-						} );
-
-						const replacementVariableValue = termNames.join( ", " );
-
-						let replacementVariableName = taxonomy.slug;
-						if ( ! [ "category", "tag" ].includes( taxonomy.slug ) ) {
-							replacementVariableName = "ct_" + replacementVariableName;
-						}
-
-						wpData.dispatch( "yoast-seo/editor" ).updateReplacementVariable( replacementVariableName, replacementVariableValue );
-					}
-				} );
-			}
-
+			const fetchedParents = { 0: "" };
+			let currentParent  = null;
 			const newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
+
 			if ( typeof newParent === "undefined" || currentParent === newParent ) {
 				return;
 			}
