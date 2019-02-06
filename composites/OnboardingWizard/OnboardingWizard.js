@@ -34,10 +34,9 @@ class OnboardingWizard extends React.Component {
 			steps: this.parseSteps( this.props.steps ),
 			currentStepId: this.getFirstStep( props.steps ),
 			errorMessage: "",
-			wizardUrl: props.wizardUrl,
 		};
 
-		this.handleOnClick = this.handleOnClick.bind( this );
+		this.postStep = this.postStep.bind( this );
 		this.setNextStep = this.setNextStep.bind( this );
 		this.setPreviousStep = this.setPreviousStep.bind( this );
 		this.listenToHashChange = this.listenToHashChange.bind( this );
@@ -213,12 +212,14 @@ class OnboardingWizard extends React.Component {
 	 * @returns {Object} The current step.
 	 */
 	getCurrentStep() {
-		const currentStep = this.state.steps[ this.state.currentStepId ];
+		const steps = this.state.steps;
+		const currentStep = steps[ this.state.currentStepId ];
 
 		// If the currentStep is undefined because the stepId is invalid, return the first step of the Wizard.
 		if ( isUndefined( currentStep ) ) {
-			const firstStepId = Object.keys( this.state.steps )[ 0 ];
-			return this.state.steps[ firstStepId ];
+			const firstStepId = Object.keys( steps )[ 0 ];
+			this.setState( { currentStepId: firstStepId } );
+			return steps[ firstStepId ];
 		}
 		return currentStep;
 	}
@@ -276,35 +277,6 @@ class OnboardingWizard extends React.Component {
 	}
 
 	/**
-	 * Appends the name of the step that is navigated to as a fragment to the end of the URL.
-	 *
-	 * As a result, the URL changes for every step, and the user can use their browser's back and
-	 * next to navigate between steps.
-	 *
-	 * @param {string} stepName The name of the step that has been navigated to.
-	 *
-	 * @returns {void}
-	 */
-	changeBrowserHistory( stepName ) {
-		window.history.pushState( null, null, this.state.wizardUrl + "#" + stepName );
-	}
-
-	/**
-	 * Handles the onClick event.
-	 *
-	 * Posts the step to the endpoint and appends the step name as a hash to the URL.
-	 *
-	 * @param {string} stepName The name of the step that is clicked on.
-	 * @param {event} evt The onClick event.
-	 *
-	 * @returns {void}
-	 */
-	handleOnClick( stepName, evt ) {
-		this.postStep( stepName, evt );
-		this.changeBrowserHistory( stepName );
-	}
-
-	/**
 	 * Updates the currentStepId in the state when the hash in the URL changes.
 	 *
 	 * @returns {void}
@@ -312,6 +284,32 @@ class OnboardingWizard extends React.Component {
 	listenToHashChange() {
 		// Because the hash starts with a hashtag, we need to do `.substring( 1 )`.
 		this.setState( { currentStepId: window.location.hash.substring( 1 ) } );
+	}
+
+	/**
+	 * When the currentStepId in the state changes, push the new hash to the history if differs from the current hash.
+	 *
+	 * If we wouldn't check against the current hash, it would lead to double hashes when using the browser's previous
+	 * and next buttons.
+	 *
+	 * @param {Object} prevProps The previous props.
+	 * @param {Object} prevState The previous state.
+	 *
+	 * @returns {void}
+	 */
+	getSnapshotBeforeUpdate( prevProps, prevState ) {
+		const currentStepIdAfterUpdate = this.state.currentStepId;
+		// If there is no change in the currentStepId in the state, do nothing.
+		if ( prevState.currentStepId === currentStepIdAfterUpdate ) {
+			return;
+		}
+
+		// If the new currentStepId is the same as the current location hash, do nothing.
+		if ( window.location.hash.substring( 1 ) === currentStepIdAfterUpdate ) {
+			return;
+		}
+
+		window.history.pushState( null, null, "#" + currentStepIdAfterUpdate );
 	}
 
 	/**
@@ -357,7 +355,7 @@ class OnboardingWizard extends React.Component {
 					<Header headerTitle={ headerTitle } icon={ this.props.headerIcon } />
 					<StepIndicator
 						steps={ this.props.steps } stepIndex={ this.getCurrentStepNumber() - 1 }
-						onClick={ this.handleOnClick }
+						onClick={ this.postStep }
 					/>
 					<main className="yoast-wizard-container">
 						<div className="yoast-wizard">
