@@ -70,6 +70,11 @@ class WPSEO_MyYoast_Api_Request {
 
 			return true;
 		}
+
+		/**
+		 * The Authentication exception only occurs when using Access Tokens.
+		 * In other case this exception won't be thrown.
+		 */
 		catch ( WPSEO_MyYoast_Authentication_Exception $authentication_exception ) {
 			try {
 				$this->get_access_token();
