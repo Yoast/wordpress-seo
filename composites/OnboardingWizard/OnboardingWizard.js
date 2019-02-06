@@ -34,6 +34,7 @@ class OnboardingWizard extends React.Component {
 			steps: this.parseSteps( this.props.steps ),
 			currentStepId: this.getFirstStep( props.steps ),
 			errorMessage: "",
+			wizardUrl: props.wizardUrl,
 		};
 
 		this.setNextStep = this.setNextStep.bind( this );
@@ -131,11 +132,11 @@ class OnboardingWizard extends React.Component {
 	 * @returns {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
-		const firstStep = this.props.firstStep;
+		const firstStep = this.props.startingStep;
 		if ( firstStep !== "" ) {
 			return firstStep;
 		}
-		// When no firstStep is set, use the first step of the wizard as default.
+		// When no startingStep is set, use the first step of the wizard as default.
 		return Object.getOwnPropertyNames( steps )[ 0 ];
 	}
 
@@ -265,6 +266,35 @@ class OnboardingWizard extends React.Component {
 	}
 
 	/**
+	 * Appends the name of the step that is navigated to as a fragment to the end of the URL.
+	 *
+	 * As a result, the URL changes for every step, and the user can use their browser's back and
+	 * next to navigate between steps.
+	 *
+	 * @param {string} stepName The name of the step that has been navigated to.
+	 *
+	 * @returns {void}
+	 */
+	changeBrowserHistory( stepName ) {
+		window.history.pushState( null, null, this.state.wizardUrl + "#" + stepName );
+	}
+
+	/**
+	 * Handles the onClick event.
+	 *
+	 * Posts the step to the endpoint and appends the step name as a hash to the URL.
+	 *
+	 * @param {string} stepName The name of the step that is clicked on.
+	 * @param {event} evt The onClick event.
+	 *
+	 * @returns {void}
+	 */
+	handleOnClick( stepName, evt ) {
+		this.postStep( stepName, evt );
+		this.changeBrowserHistory( stepName );
+	}
+
+	/**
 	 * Renders the wizard.
 	 *
 	 * @returns {JSX.Element} The rendered step in the wizard.
@@ -307,7 +337,7 @@ class OnboardingWizard extends React.Component {
 					<Header headerTitle={ headerTitle } icon={ this.props.headerIcon } />
 					<StepIndicator
 						steps={ this.props.steps } stepIndex={ this.getCurrentStepNumber() - 1 }
-						onClick={ ( stepNumber, evt ) => this.postStep( stepNumber, evt ) }
+						onClick={ ( stepName, evt ) => this.handleOnClick( stepName, evt ) }
 					/>
 					<main className="yoast-wizard-container">
 						<div className="yoast-wizard">
