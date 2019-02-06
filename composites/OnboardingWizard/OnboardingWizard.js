@@ -39,6 +39,8 @@ class OnboardingWizard extends React.Component {
 
 		this.setNextStep = this.setNextStep.bind( this );
 		this.setPreviousStep = this.setPreviousStep.bind( this );
+		this.listenToHashChange = this.listenToHashChange.bind( this );
+		window.addEventListener( "hashchange", this.listenToHashChange, false );
 	}
 
 	/**
@@ -292,6 +294,16 @@ class OnboardingWizard extends React.Component {
 	handleOnClick( stepName, evt ) {
 		this.postStep( stepName, evt );
 		this.changeBrowserHistory( stepName );
+	}
+
+	/**
+	 * Updates the currentStepId in the state when the hash in the URL changes.
+	 *
+	 * @returns {void}
+	 */
+	listenToHashChange() {
+		// Because the hash starts with a hashtag, we need to do `.substring( 1 )`.
+		this.setState( { currentStepId: window.location.hash.substring( 1 ) } );
 	}
 
 	/**
