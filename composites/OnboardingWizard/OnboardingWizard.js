@@ -13,7 +13,7 @@ import interpolateComponents from "interpolate-components";
 import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
 import ArrowBackwardIcon from "material-ui/svg-icons/navigation/arrow-back";
 import CloseIcon from "material-ui/svg-icons/navigation/close";
-
+import isUndefined from "lodash/isUndefined";
 
 /**
  * The OnboardingWizard class.
@@ -37,6 +37,7 @@ class OnboardingWizard extends React.Component {
 			wizardUrl: props.wizardUrl,
 		};
 
+		this.handleOnClick = this.handleOnClick.bind( this );
 		this.setNextStep = this.setNextStep.bind( this );
 		this.setPreviousStep = this.setPreviousStep.bind( this );
 		this.listenToHashChange = this.listenToHashChange.bind( this );
@@ -212,7 +213,14 @@ class OnboardingWizard extends React.Component {
 	 * @returns {Object} The current step.
 	 */
 	getCurrentStep() {
-		return this.state.steps[ this.state.currentStepId ];
+		const currentStep = this.state.steps[ this.state.currentStepId ];
+
+		// If the currentStep is undefined because the stepId is invalid, return the first step of the Wizard.
+		if ( isUndefined( currentStep ) ) {
+			const firstStepId = Object.keys( this.state.steps )[ 0 ];
+			return this.state.steps[ firstStepId ];
+		}
+		return currentStep;
 	}
 
 	/**
@@ -349,7 +357,7 @@ class OnboardingWizard extends React.Component {
 					<Header headerTitle={ headerTitle } icon={ this.props.headerIcon } />
 					<StepIndicator
 						steps={ this.props.steps } stepIndex={ this.getCurrentStepNumber() - 1 }
-						onClick={ ( stepName, evt ) => this.handleOnClick( stepName, evt ) }
+						onClick={ this.handleOnClick }
 					/>
 					<main className="yoast-wizard-container">
 						<div className="yoast-wizard">
