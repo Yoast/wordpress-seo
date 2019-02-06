@@ -124,7 +124,7 @@ Release Date: February 26th, 2019
 * Fixes a bug where the taxonomy sitemap provider would not handle private taxonomies as expected, resulting in sitemaps not being accessible in specific situations.
 * Fixes a bug where an empty twitter description instead of the term description would be shown.
 * Fixes a bug where undefined warnings would be given when saving a Facebook image.
-* Fixes the Recalibration Beta to be loaded on specific server configurations.
+* Fixes a bug where the Recalibration Beta could not be loaded in combination with specific server configurations.
 
 = 9.6.0 =
 Release Date: February 12th, 2019
