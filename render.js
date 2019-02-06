@@ -6,6 +6,13 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import AppWrapper from "./app/AppWrapper";
 
+/**
+ * Renders the given RootElement within an AppWrapper component.
+ *
+ * @param {ReactElement} RootElement The RootElement to be wrapped.
+ *
+ * @returns {void}
+ */
 function render( RootElement ) {
 	ReactDOM.render(
 		<AppWrapper>

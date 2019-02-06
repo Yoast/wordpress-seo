@@ -8,6 +8,13 @@ import configureStore from "./configureStore";
 
 const store = configureStore();
 
+/**
+ * The AppWrapper container component.
+ *
+ * @param {object} children The component's children.
+ *
+ * @returns {ReactElement} The AppContainer component.
+ */
 const AppWrapper = ( { children } ) => (
 	<AppContainer>
 		<Provider store={ store }>
