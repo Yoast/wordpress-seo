@@ -171,7 +171,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
 				const termIds = wpData.select( "core/editor" ).getEditedPostAttribute( taxonomy.rest_base );
 
-				if ( typeof taxonomyIds[ taxonomy.rest_base ] === "undefined" || taxonomyIds[ taxonomy.rest_base ] !== termIds ) {
+				if ( taxonomyIds[ taxonomy.rest_base ] !== termIds ) {
 					taxonomyIds[ taxonomy.rest_base ] = termIds;
 
 					const termNames = [];
@@ -185,7 +185,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 						if ( term ) {
 							termNames.push( term.name );
 						} else {
-							wpData.dispatch( "core/data" ).invalidateResolution( "core", "getEntityRecords", [ "taxonomy", "category" ] );
+							wpData.dispatch( "core/data" ).invalidateResolution( "core", "getEntityRecords", [ "taxonomy", taxonomy.slug ] );
 						}
 					} );
 
