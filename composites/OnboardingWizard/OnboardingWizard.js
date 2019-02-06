@@ -403,11 +403,13 @@ OnboardingWizard.propTypes = {
 	finishUrl: PropTypes.string,
 	translate: PropTypes.any,
 	headerIcon: PropTypes.func,
+	startingStep: PropTypes.string,
 };
 
 OnboardingWizard.defaultProps = {
 	customComponents: {},
 	finishUrl: "",
+	startingStep: "",
 };
 
 export default localize( OnboardingWizard );
