@@ -20,7 +20,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_fire() {
 		$instance = $this
-			->getMockBuilder( WPSEO_MyYoast_Api_Request::class )
+			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
 			->setMethods( array( 'do_request', 'decode_response' ) )
 			->setConstructorArgs( array( 'endpoint' ) )
 			->getMock();
@@ -47,7 +47,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_fire_with_bad_request_exception_being_thrown() {
 		$instance = $this
-			->getMockBuilder( WPSEO_MyYoast_Api_Request::class )
+			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
 			->setMethods( array( 'do_request', 'decode_response' ) )
 			->setConstructorArgs( array( 'endpoint' ) )
 			->getMock();
@@ -73,7 +73,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_fire_with_authentication_exception_being_thrown() {
 		$instance = $this
-			->getMockBuilder( WPSEO_MyYoast_Api_Request::class )
+			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
 			->setMethods( array( 'do_request', 'decode_response', 'get_access_token' ) )
 			->setConstructorArgs( array( 'endpoint' ) )
 			->getMock();
@@ -106,7 +106,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_fire_with_retrieving_new_access_token_result_in_authentication_error() {
 		$instance = $this
-			->getMockBuilder( WPSEO_MyYoast_Api_Request::class )
+			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
 			->setMethods( array( 'do_request', 'decode_response', 'get_access_token' ) )
 			->setConstructorArgs( array( 'endpoint' ) )
 			->getMock();
@@ -139,7 +139,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_fire_with_retrieving_new_access_token_result_in_bad_request() {
 		$instance = $this
-			->getMockBuilder( WPSEO_MyYoast_Api_Request::class )
+			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
 			->setMethods( array( 'do_request', 'decode_response', 'get_access_token' ) )
 			->setConstructorArgs( array( 'endpoint' ) )
 			->getMock();
@@ -173,7 +173,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_decode_response() {
 		$instance = $this
-			->getMockBuilder( WPSEO_MyYoast_Api_Request::class )
+			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
 			->setMethods( array( 'do_request' ) )
 			->setConstructorArgs( array( 'endpoint' ) )
 			->getMock();
@@ -200,7 +200,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_decode_response_wrong_output() {
 		$instance = $this
-			->getMockBuilder( WPSEO_MyYoast_Api_Request::class )
+			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
 			->setMethods( array( 'do_request' ) )
 			->setConstructorArgs( array( 'endpoint' ) )
 			->getMock();
