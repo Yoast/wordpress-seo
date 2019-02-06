@@ -145,7 +145,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		const taxonomyIds = {};
 		let applicableTaxonomies = null;
 
-		wpData.subscribe( async function() {
+		wpData.subscribe( function() {
 			if ( ! wp.data.select( "core/data" ).hasFinishedResolution( "core", "getTaxonomies" ) ) {
 				return;
 			}
@@ -219,7 +219,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		let currentParent  = null;
 		const wpData = window.wp.data;
 
-		wpData.subscribe( async function() {
+		wpData.subscribe( function() {
 			const newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
 
 			if ( typeof newParent === "undefined" || currentParent === newParent ) {
