@@ -70,8 +70,34 @@ class WPSEO_MyYoast_Api_Request {
 
 			return true;
 		}
-		catch ( Requests_Exception $e ) {
-			$this->error_message = $e->getMessage();
+		catch ( WPSEO_MyYoast_Authentication_Exception $authentication_exception ) {
+			try {
+				$this->get_access_token();
+
+				$response       = $this->do_request( $this->url, $this->args );
+				$this->response = $this->decode_response( $response );
+
+				return true;
+			}
+			catch ( WPSEO_MyYoast_Authentication_Exception $authentication_exception ) {
+				$this->error_message = $authentication_exception->getMessage();
+
+				// Remove the access token entirely.
+				$this->get_client()
+				     ->remove_access_token(
+				     	$this->get_current_user_id()
+					);
+
+				return false;
+			}
+			catch ( WPSEO_MyYoast_Bad_Request_Exception $bad_request_exception ) {
+				$this->error_message = $bad_request_exception->getMessage();
+
+				return false;
+			}
+		}
+		catch ( WPSEO_MyYoast_Bad_Request_Exception $bad_request_exception ) {
+			$this->error_message = $bad_request_exception->getMessage();
 
 			return false;
 		}
@@ -104,25 +130,32 @@ class WPSEO_MyYoast_Api_Request {
 	 * @param array  $request_arguments The request arguments.
 	 *
 	 * @return string                       The retrieved body.
-	 * @throws Requests_Exception_Transport When request is invalid.
+	 *
+	 * @throws WPSEO_MyYoast_Authentication_Exception When authentication has failed.
+	 * @throws WPSEO_MyYoast_Bad_Request_Exception    When request is invalid.
 	 */
 	protected function do_request( $url, $request_arguments ) {
-		$response = wp_remote_request( $url, $request_arguments );
+		$request_arguments = $this->enrich_request_arguments( $request_arguments );
+		$response          = wp_remote_request( $url, $request_arguments );
 
 		if ( is_wp_error( $response ) ) {
-			throw new Requests_Exception_Transport( $response->get_error_message(), $response->get_error_code() );
+			throw new WPSEO_MyYoast_Bad_Request_Exception( $response->get_error_message(), $response->get_error_code() );
 		}
 
-		$response_code = wp_remote_retrieve_response_code( $response );
+		$response_code    = wp_remote_retrieve_response_code( $response );
+		$response_message = wp_remote_retrieve_response_message( $response );
 
-		if ( strpos( $response_code, '200' ) === false ) {
-			$response_message = wp_remote_retrieve_response_message( $response );
-			$exception_class  = Requests_Exception_HTTP::get_class( $response_code );
-
-			throw new $exception_class( $response_message );
+		// Do nothing, response code is okay.
+		if ( strpos( $response_code, '200' ) ) {
+			return wp_remote_retrieve_body( $response );
 		}
 
-		return wp_remote_retrieve_body( $response );
+		// Authenication failed, throw an exception.
+		if ( strpos( $response_code, '401' ) && WPSEO_Utils::has_access_token_support() ) {
+			throw new WPSEO_MyYoast_Authentication_Exception( esc_html( $response_message ), 401 );
+		}
+
+		throw new WPSEO_MyYoast_Bad_Request_Exception( esc_html( $response_message ), $response_code );
 	}
 
 	/**
@@ -130,20 +163,113 @@ class WPSEO_MyYoast_Api_Request {
 	 *
 	 * @param string $response The response to decode.
 	 *
-	 * @return array|stdClass               The json decoded response.
-	 * @throws Requests_Exception_Transport When decoded string is not a JSON object.
+	 * @return array|stdClass                       The json decoded response.
+	 * @throws WPSEO_MyYoast_Invalid_JSON_Exception When decoded string is not a JSON object.
 	 */
 	protected function decode_response( $response ) {
 		$response = json_decode( $response );
 
 		if ( ! is_object( $response ) ) {
-			throw new Requests_Exception_Transport(
-				esc_html__( 'No JSON object was returned.', 'wordpress-seo' ),
-				'invalid_json'
+			throw new WPSEO_MyYoast_Invalid_JSON_Exception(
+				esc_html__( 'No JSON object was returned.', 'wordpress-seo' )
 			);
 		}
 
 		return $response;
 	}
 
+	/**
+	 * Checks if MyYoast tokens are allowed and adds the token to the request body.
+	 *
+	 * When tokens are disallowed it will adds the url to the request body.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param array $request_arguments The arguments to enrich.
+	 *
+	 * @return array
+	 */
+	protected function enrich_request_arguments( array $request_arguments ) {
+		if ( ! WPSEO_Utils::has_access_token_support() ) {
+			$request_arguments['body'] = array( 'url' => WPSEO_Utils::get_home_url() );
+
+			return $request_arguments;
+		}
+
+		try {
+			$access_token = $this->get_access_token();
+			if ( $access_token ) {
+				$request_arguments['body'] = array( 'token' => $access_token->getToken() );
+			}
+		}
+		// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
+		catch ( WPSEO_MyYoast_Bad_Request_Exception $bad_request ) {
+			// Do nothing.
+		}
+
+		return $request_arguments;
+	}
+
+	/**
+	 * Retrieves the access token.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool|WPSEO_MyYoast_AccessToken_Interface The AccessToken when valid.
+	 * @throws WPSEO_MyYoast_Bad_Request_Exception When something went wrong in getting the access token.
+	 */
+	protected function get_access_token() {
+		$client       = $this->get_client();
+		$access_token = $client->get_access_token();
+
+		if ( $access_token && ! $access_token->hasExpired() ) {
+			return $access_token;
+		}
+
+		try {
+			$access_token = $client
+				->get_provider()
+				->getAccessToken(
+					'refresh_token',
+					array(
+						'refresh_token' => $access_token->getRefreshToken(),
+					)
+				);
+
+			$client->save_access_token( $this->get_current_user_id(), $access_token );
+
+			return $access_token;
+		}
+		catch ( Exception $e ) {
+			throw new WPSEO_MyYoast_Bad_Request_Exception( $e->getMessage() );
+		}
+	}
+
+	/**
+	 * Retrieves an instance of the MyYoast client.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return WPSEO_MyYoast_Client Instance of the client
+	 */
+	protected function get_client() {
+		static $client;
+
+		if ( ! $client ) {
+			$client = new WPSEO_MyYoast_Client();
+		}
+
+		return $client;
+	}
+
+	/**
+	 * Wraps the get current user id function.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return int The user id.
+	 */
+	protected function get_current_user_id() {
+		return get_current_user_id();
+	}
 }
