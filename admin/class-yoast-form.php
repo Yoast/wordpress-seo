@@ -350,12 +350,13 @@ class Yoast_Form {
 			);
 		}
 
-		$defaults = array(
+		$defaults     = array(
 			'placeholder' => '',
 			'class'       => '',
 		);
-		$attr     = wp_parse_args( $attr, $defaults );
-		$val      = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
+		$attr         = wp_parse_args( $attr, $defaults );
+		$val          = isset( $this->options[ $var ] ) ? $this->options[ $var ] : '';
+		$autocomplete = isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '';
 
 		$this->label(
 			$label . ':',
@@ -364,7 +365,7 @@ class Yoast_Form {
 				'class' => 'textinput',
 			)
 		);
-		echo '<input class="textinput ' . esc_attr( $attr['class'] ) . ' " placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
+		echo '<input' . $autocomplete . ' class="textinput ' . esc_attr( $attr['class'] ) . ' " placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
 	}
 
 	/**

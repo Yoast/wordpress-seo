@@ -11,7 +11,8 @@
 
 	padding-top: 2em;
 
-	input[type="text"] {
+	input[type="text"],
+	input[type="email"] {
 		min-width: 250px;
 
 		& + div {
