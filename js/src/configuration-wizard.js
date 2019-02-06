@@ -70,7 +70,6 @@ class App extends React.Component {
 
 		Object.assign( config, {
 			finishUrl: yoastWizardConfig.finishUrl,
-			wizardUrl: yoastWizardConfig.wizardUrl,
 			endpoint: endpoint,
 			customComponents: {
 				MailchimpSignup,
