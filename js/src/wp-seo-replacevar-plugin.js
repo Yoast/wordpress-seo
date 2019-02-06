@@ -130,6 +130,12 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		}
 	};
 
+	/**
+	 * Handle replace vars for taxonomies. Makes sure the taxonomy replacement variables are updated
+	 * when the selected terms for a post change.
+	 *
+	 * @returns {void}
+	 */
 	const handleCategories = function() {
 		const wpData = window.wp.data;
 
@@ -209,11 +215,11 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
 		handleCategories();
 
+		const fetchedParents = { 0: "" };
+		let currentParent  = null;
 		const wpData = window.wp.data;
 
 		wpData.subscribe( async function() {
-			const fetchedParents = { 0: "" };
-			let currentParent  = null;
 			const newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
 
 			if ( typeof newParent === "undefined" || currentParent === newParent ) {
