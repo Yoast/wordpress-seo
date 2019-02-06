@@ -216,7 +216,8 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		handleCategories();
 
 		const fetchedParents = { 0: "" };
-		let currentParent  = null;
+		let currentParent    = null;
+
 		const wpData = window.wp.data;
 
 		wpData.subscribe( function() {
