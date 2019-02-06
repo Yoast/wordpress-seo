@@ -1,5 +1,4 @@
 import * as actions from "../actions/results";
-import { SET_ACTIVE_MARKER } from "../actions/results";
 
 const INITIAL_STATE = {
 	seo: {
@@ -13,6 +12,7 @@ const INITIAL_STATE = {
 		score: 0,
 	},
 	activeMarker: "",
+	tree: {},
 };
 
 /**
@@ -31,7 +31,7 @@ export default function results( state = INITIAL_STATE, action ) {
 				...action.results,
 			};
 
-		case SET_ACTIVE_MARKER:
+		case actions.SET_ACTIVE_MARKER:
 			// Create a toggle effect so that the markings can be turned off.
 			return {
 				...state,

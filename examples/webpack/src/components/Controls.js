@@ -7,6 +7,7 @@ import Toggle from "yoast-components/composites/Plugin/Shared/components/Toggle"
 
 // Internal dependencies.
 import { setConfigurationAttribute } from "../redux/actions/configuration";
+import { setOption } from "../redux/actions/options";
 import { clearStorage } from "../redux/utils/localstorage";
 import AutomaticAnalysis from "./AutomaticAnalysis";
 import { ButtonContainer, Container, HeadingContainer } from "./Container";
@@ -18,11 +19,13 @@ function clearStorageAction() {
 }
 
 function Controls( {
+	isTreeBuilderEnabled,
 	useKeywordDistribution,
 	onInitialize,
 	onAnalyze,
 	onAnalyzeSpam,
 	setConfigurationAttribute: setConfigAttribute,
+	setOption: setOptionAttribute,
 } ) {
 	return <Fragment>
 		<Container marginTop="0">
@@ -52,6 +55,18 @@ function Controls( {
 					onToggleDisabled={ noop }
 				/>
 			</Container>
+
+			<Container>
+				<Toggle
+					id="toggle-is-tree-builder-enabled"
+					labelText="Build the tree"
+					isEnabled={ isTreeBuilderEnabled }
+					onSetToggleState={ value => {
+						setOptionAttribute( "isTreeBuilderEnabled", value );
+					} }
+					onToggleDisabled={ noop }
+				/>
+			</Container>
 		</HeadingContainer>
 	</Fragment>;
 }
@@ -59,12 +74,14 @@ function Controls( {
 export default connect(
 	( state ) => {
 		return {
+			isTreeBuilderEnabled: state.options.isTreeBuilderEnabled,
 			useKeywordDistribution: state.configuration.useKeywordDistribution,
 		};
 	},
 	( dispatch ) => {
 		return {
 			setConfigurationAttribute: ( name, value ) => dispatch( setConfigurationAttribute( name, value ) ),
+			setOption: ( name, value ) => dispatch( setOption( name, value ) ),
 		};
 	},
 )( Controls );

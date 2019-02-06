@@ -4,7 +4,7 @@ export const SET_ACTIVE_MARKER = "SET_ACTIVE_MARKER";
 /**
  * An action creator for setting the analyses results.
  *
- * @param {string} results The results.
+ * @param {Object} results The results.
  *
  * @returns {Object} The action.
  */
