@@ -210,7 +210,7 @@ function highlightWords( locale, wordsToHighlight, text, cleanText ) {
 	}
 
 	// Clean the text from special characters and diacritics.
-	const textToUse = cleanText ? cleanText : text;
+	let textToUse = cleanText ? cleanText : text;
 
 	// Initiate an array of cleaned and transliterated forms.
 	const wordsToHighlightCleaned = [];
@@ -234,12 +234,12 @@ function highlightWords( locale, wordsToHighlight, text, cleanText ) {
 
 	const keywordFormsMatcher = createRegexFromArray( wordsToHighlightCleaned, false, "", false );
 
-	text = textToUse.replace( keywordFormsMatcher, function( matchedKeyword ) {
+	textToUse = textToUse.replace( keywordFormsMatcher, function( matchedKeyword ) {
 		return `{{strong}}${ matchedKeyword }{{/strong}}`;
 	} );
 
 	return interpolateComponents( {
-		mixedString: text,
+		mixedString: textToUse,
 		components: { strong: <strong /> },
 	} );
 }
