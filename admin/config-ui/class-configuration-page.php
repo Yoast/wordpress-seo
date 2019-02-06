@@ -175,6 +175,7 @@ class WPSEO_Configuration_Page {
 			'endpoint_store'    => WPSEO_Configuration_Endpoint::ENDPOINT_STORE,
 			'nonce'             => wp_create_nonce( 'wp_rest' ),
 			'root'              => esc_url_raw( rest_url() ),
+			'wizardUrl'         => admin_url( 'admin.php?page=wpseo_configurator' ),
 			'ajaxurl'           => admin_url( 'admin-ajax.php' ),
 			'finishUrl'         => admin_url( 'admin.php?page=wpseo_dashboard&configuration=finished' ),
 			'gscAuthURL'        => $service->get_client()->createAuthUrl(),

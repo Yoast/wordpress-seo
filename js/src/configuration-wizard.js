@@ -70,6 +70,7 @@ class App extends React.Component {
 
 		Object.assign( config, {
 			finishUrl: yoastWizardConfig.finishUrl,
+			wizardUrl: yoastWizardConfig.wizardUrl,
 			endpoint: endpoint,
 			customComponents: {
 				MailchimpSignup,
@@ -128,7 +129,7 @@ class App extends React.Component {
 		if ( typeof( this.state.config ) !== "undefined" && this.state.config !== {} ) {
 			return (
 				<div>
-					<OnboardingWizard { ...this.state.config } firstStep={ this.state.currentStep } headerIcon={ YoastIcon } />
+					<OnboardingWizard { ...this.state.config } startingStep={ this.state.currentStep } headerIcon={ YoastIcon } />
 				</div>
 			);
 		}
