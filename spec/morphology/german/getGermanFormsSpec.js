@@ -31,8 +31,6 @@ describe( "Test for creating forms for German words", () => {
 		} );
 	} );
 
-
-
 	it( "creates forms for words that don't get get an -s noun suffix (but all other regular suffixes)", () => {
 		expect( getForms( "maß", morphologyDataDE ) ).toEqual( {
 			forms: [

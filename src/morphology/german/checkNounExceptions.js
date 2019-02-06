@@ -4,7 +4,7 @@
  * @param {Array} exceptionStems        The exception stems to check against.
  * @param {string} stemmedWordToCheck   The stem to check.
  *
- * @returns {Array<string>} The created word forms.
+ * @returns {string[]} The created word forms.
  */
 const checkStemsFromExceptionList = function( exceptionStems, stemmedWordToCheck ) {
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
@@ -48,7 +48,7 @@ const checkStemsFromExceptionList = function( exceptionStems, stemmedWordToCheck
  * @param {array} exceptionCategory     The exception category to check.
  * @param {string} stemmedWordToCheck   The stem to check.
  *
- * @returns {Array<string>} The created word forms.
+ * @returns {string[]} The created word forms.
  */
 const checkStemsWithPredictableSuffixes = function( exceptionCategory, stemmedWordToCheck ) {
 	// There are some exceptions to this rule. If the current stem falls into this category, the rule doesn't apply.
@@ -76,7 +76,7 @@ const checkStemsWithPredictableSuffixes = function( exceptionCategory, stemmedWo
  * @param {Object}  morphologyDataNouns The German morphology data for nouns.
  * @param {string}  stemmedWordToCheck  The stem to check.
  *
- * @returns {Array<string>} The created word forms.
+ * @returns {string[]} The created word forms.
  */
 export function checkNounExceptions( morphologyDataNouns, stemmedWordToCheck ) {
 	// Check exceptions with full forms.

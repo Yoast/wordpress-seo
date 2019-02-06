@@ -23,7 +23,7 @@ describe( "Test for checking adjective exceptions in German", () => {
 			"hauptstadt",
 			"hauptstädte",
 			"hauptstädten",
-			] );
+		] );
 	} );
 
 	it( "creates forms for a singular word with a stem with s-reduplication", () => {
