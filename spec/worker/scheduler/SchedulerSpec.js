@@ -4,6 +4,11 @@ describe( "Worker Scheduler", () => {
 	let scheduler;
 
 	describe( "Polling", () => {
+		afterEach( () => {
+			// Make sure we don't keep polling after the tests are done.
+			scheduler.stopPolling();
+		} );
+
 		test( "the poll time to default to 50ms", () => {
 			scheduler = new Scheduler();
 

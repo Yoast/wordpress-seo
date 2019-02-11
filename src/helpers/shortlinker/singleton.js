@@ -3,8 +3,15 @@ import Shortlinker from "./Shortlinker";
 // Set global scope.
 let globalScope;
 
+// In the browser, window exists so that is the global scope.
 if ( typeof window === "undefined" ) {
-	globalScope = self;
+	// Inside a web worker, self exists so that is the global scope.
+	if ( typeof self === "undefined" ) {
+		// Fall back tot the `global`, because that is the global scope in Node.JS.
+		globalScope = global;
+	} else {
+		globalScope = self;
+	}
 } else {
 	globalScope = window;
 }
