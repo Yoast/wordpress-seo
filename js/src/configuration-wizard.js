@@ -30,7 +30,7 @@ class App extends React.Component {
 		super( props );
 
 		this.state = {
-			isLoading: true
+			isLoading: true,
 		};
 		this.getConfig();
 	}
