@@ -34,9 +34,9 @@ exports[`FacebookImage Component matches the snapshot for a landscape image 1`] 
   position: absolute;
   top: 50%;
   left: 50%;
-  -webkit-transform: translate( -50%,-50% );
-  -ms-transform: translate( -50%,-50% );
-  transform: translate( -50%,-50% );
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
 }
 
 <div
@@ -65,9 +65,9 @@ exports[`FacebookImage Component matches the snapshot for a portrait image 1`] =
   position: absolute;
   top: 50%;
   left: 50%;
-  -webkit-transform: translate( -50%,-50% );
-  -ms-transform: translate( -50%,-50% );
-  transform: translate( -50%,-50% );
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
 }
 
 <div
@@ -96,9 +96,9 @@ exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
   position: absolute;
   top: 50%;
   left: 50%;
-  -webkit-transform: translate( -50%,-50% );
-  -ms-transform: translate( -50%,-50% );
-  transform: translate( -50%,-50% );
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
 }
 
 <div
