@@ -166,6 +166,10 @@ module.exports = function( env = { environment: "production", recalibration: "di
 					"@wordpress/rich-text": "window.wp.richText",
 					"@wordpress/compose": "window.wp.compose",
 
+					// External for the structured data blocks:
+					"@wordpress/editor": "window.wp.editor",
+					"@wordpress/blocks": "window.wp.blocks",
+
 					"styled-components": "window.yoast.styledComponents",
 				},
 				plugins: [

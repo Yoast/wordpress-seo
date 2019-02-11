@@ -1,0 +1,1 @@
+import "./structured-data-blocks";

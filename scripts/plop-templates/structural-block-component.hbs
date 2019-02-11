@@ -1,0 +1,20 @@
+/* External dependencies */
+import { InnerBlocks } from "@wordpress/editor";
+import { Component } from "@wordpress/element";
+
+{{disclaimer}}
+
+export default class {{type}} extends Component {
+	render() {
+		return <InnerBlocks
+			template={ {{{template}}} }
+			templateLock={ {{{templateLock}}} }
+			allowedBlocks={ {{{allowedBlocks}}} }
+		/>;
+	}
+
+	static Content() {
+		return <InnerBlocks.Content />;
+	}
+}
+

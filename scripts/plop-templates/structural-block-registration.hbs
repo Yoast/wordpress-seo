@@ -1,0 +1,27 @@
+/* External dependencies */
+import { __ } from "@wordpress/i18n";
+import { registerBlockType } from "@wordpress/blocks";
+
+/* Internal dependencies */
+import {{type}} from "./{{type}}";
+
+{{disclaimer}}
+
+export default () => {
+	registerBlockType( "{{blockPrefix}}{{dashCase type}}", {
+		title: __( "{{title}}", "wordpress-seo" ),
+		description: __( "{{description}}", "wordpress-seo" ),
+		icon: "{{icon}}",
+		category: "yoast-structured-data-blocks",
+		keywords: {{keywords}},
+
+		supports: {
+			multiple: {{multiple}},
+		},
+
+		attributes: {},
+
+		edit: {{type}},
+		save: {{type}}.Content,
+	} );
+};

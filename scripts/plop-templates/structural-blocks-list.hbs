@@ -1,0 +1,10 @@
+{{#each blocks}}
+import register{{block}} from "./{{path}}register-{{block}}";
+{{/each}}
+
+{{disclaimer}}
+
+{{#each blocks}}
+register{{block}}();
+{{/each}}
+
