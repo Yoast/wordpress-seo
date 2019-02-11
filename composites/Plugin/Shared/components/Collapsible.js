@@ -325,14 +325,14 @@ Collapsible.defaultProps = {
 	prefixIcon: null,
 	prefixIconCollapsed: null,
 	suffixIcon: {
-		icon: "arrow-up",
+		icon: "chevron-up",
 		color: colors.$black,
-		size: "9px",
+		size: "24px",
 	},
 	suffixIconCollapsed: {
-		icon: "arrow-down",
+		icon: "chevron-down",
 		color: colors.$black,
-		size: "9px",
+		size: "24px",
 	},
 	headingProps: {
 		level: 2,

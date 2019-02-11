@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.20.0 February 11th. 2019
+### Other
+* Changed the the default icon for the `Collapsible` component to chevrons.
+
 ## 4.19.0 January 21st, 2019
 ### Added
 * Adds a card component.

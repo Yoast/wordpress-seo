@@ -134,8 +134,8 @@ exports[`Collapsible matches the snapshot by default 1`] = `
 }
 
 .c11 {
-  width: 9px;
-  height: 9px;
+  width: 24px;
+  height: 24px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -173,17 +173,25 @@ exports[`Collapsible matches the snapshot by default 1`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-down c11"
         fill="currentColor"
         focusable="false"
         role="img"
-        size="9px"
-        viewBox="0 0 1792 1792"
+        size="24px"
+        viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path
-          d="M896 1791L120.91 448.5L1671.09 448.5z"
-        />
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M7.41,8.59L12,13.17l4.59-4.58L18,10l-6,6l-6-6L7.41,8.59z"
+          />
+        </g>
       </svg>
     </button>
   </h2>
@@ -324,8 +332,8 @@ exports[`Collapsible matches the snapshot by default 2`] = `
 }
 
 .c11 {
-  width: 9px;
-  height: 9px;
+  width: 24px;
+  height: 24px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -363,17 +371,25 @@ exports[`Collapsible matches the snapshot by default 2`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-up c11"
         fill="currentColor"
         focusable="false"
         role="img"
-        size="9px"
-        viewBox="0 0 1792 1792"
+        size="24px"
+        viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path
-          d="M1671.09 1343.5L120.91 1343.5L896 1z"
-        />
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M12,8l-6,6l1.41,1.41L12,10.83l4.59,4.58L18,14L12,8z"
+          />
+        </g>
       </svg>
     </button>
   </h2>
@@ -526,8 +542,8 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
 }
 
 .c11 {
-  width: 9px;
-  height: 9px;
+  width: 24px;
+  height: 24px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -565,17 +581,25 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-down c11"
         fill="currentColor"
         focusable="false"
         role="img"
-        size="9px"
-        viewBox="0 0 1792 1792"
+        size="24px"
+        viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path
-          d="M896 1791L120.91 448.5L1671.09 448.5z"
-        />
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M7.41,8.59L12,13.17l4.59-4.58L18,10l-6,6l-6-6L7.41,8.59z"
+          />
+        </g>
       </svg>
     </button>
   </h2>
@@ -716,8 +740,8 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
 }
 
 .c11 {
-  width: 9px;
-  height: 9px;
+  width: 24px;
+  height: 24px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -755,17 +779,25 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-up c11"
         fill="currentColor"
         focusable="false"
         role="img"
-        size="9px"
-        viewBox="0 0 1792 1792"
+        size="24px"
+        viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path
-          d="M1671.09 1343.5L120.91 1343.5L896 1z"
-        />
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M12,8l-6,6l1.41,1.41L12,10.83l4.59,4.58L18,14L12,8z"
+          />
+        </g>
       </svg>
     </button>
   </h2>
@@ -918,8 +950,8 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
 }
 
 .c11 {
-  width: 9px;
-  height: 9px;
+  width: 24px;
+  height: 24px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -957,17 +989,25 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-down c11"
         fill="currentColor"
         focusable="false"
         role="img"
-        size="9px"
-        viewBox="0 0 1792 1792"
+        size="24px"
+        viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path
-          d="M896 1791L120.91 448.5L1671.09 448.5z"
-        />
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M7.41,8.59L12,13.17l4.59-4.58L18,10l-6,6l-6-6L7.41,8.59z"
+          />
+        </g>
       </svg>
     </button>
   </h2>
@@ -1108,8 +1148,8 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
 }
 
 .c11 {
-  width: 9px;
-  height: 9px;
+  width: 24px;
+  height: 24px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -1147,17 +1187,25 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-up c11"
         fill="currentColor"
         focusable="false"
         role="img"
-        size="9px"
-        viewBox="0 0 1792 1792"
+        size="24px"
+        viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path
-          d="M1671.09 1343.5L120.91 1343.5L896 1z"
-        />
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M12,8l-6,6l1.41,1.41L12,10.83l4.59,4.58L18,14L12,8z"
+          />
+        </g>
       </svg>
     </button>
   </h2>
@@ -1310,8 +1358,8 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
 }
 
 .c11 {
-  width: 9px;
-  height: 9px;
+  width: 24px;
+  height: 24px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -1349,17 +1397,25 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-up c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-up c11"
         fill="currentColor"
         focusable="false"
         role="img"
-        size="9px"
-        viewBox="0 0 1792 1792"
+        size="24px"
+        viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path
-          d="M1671.09 1343.5L120.91 1343.5L896 1z"
-        />
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M12,8l-6,6l1.41,1.41L12,10.83l4.59,4.58L18,14L12,8z"
+          />
+        </g>
       </svg>
     </button>
   </h2>
@@ -1512,8 +1568,8 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
 }
 
 .c11 {
-  width: 9px;
-  height: 9px;
+  width: 24px;
+  height: 24px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
@@ -1551,17 +1607,25 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-down c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-down c11"
         fill="currentColor"
         focusable="false"
         role="img"
-        size="9px"
-        viewBox="0 0 1792 1792"
+        size="24px"
+        viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path
-          d="M896 1791L120.91 448.5L1671.09 448.5z"
-        />
+        <g>
+          <path
+            d="M0,0h24v24H0V0z"
+            fill="none"
+          />
+        </g>
+        <g>
+          <path
+            d="M7.41,8.59L12,13.17l4.59-4.58L18,10l-6,6l-6-6L7.41,8.59z"
+          />
+        </g>
       </svg>
     </button>
   </h2>
