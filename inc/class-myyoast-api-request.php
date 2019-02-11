@@ -79,7 +79,7 @@ class WPSEO_MyYoast_Api_Request {
 			try {
 				$access_token = $this->get_access_token();
 
-				if ( $access_token ) {
+				if ( $access_token !== false ) {
 					$response       = $this->do_request( $this->url, $this->args );
 					$this->response = $this->decode_response( $response );
 
