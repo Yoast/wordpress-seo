@@ -9,12 +9,13 @@ import TextPresenceAssessment from "./readability/textPresenceAssessment";
 import TransitionWordsAssessment from "./readability/transitionWordsAssessment";
 import WordComplexityAssessment from "./readability/wordComplexityAssessment";
 
+import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAssessment";
 import InternalLinksAssessment from "./seo/InternalLinksAssessment";
 import IntroductionKeywordAssessment from "./seo/IntroductionKeywordAssessment";
+import KeyphraseDistributionAssessment from "./seo/KeyphraseDistributionAssessment";
 import KeyphraseLengthAssessment from "./seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "./seo/KeywordDensityAssessment";
 import KeywordStopWordsAssessment from "./seo/keywordStopWordsAssessment";
-import KeyphraseDistributionAssessment from "./seo/KeyphraseDistributionAssessment";
 import MetaDescriptionKeywordAssessment from "./seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "./seo/MetaDescriptionLengthAssessment";
 import OutboundLinksAssessment from "./seo/OutboundLinksAssessment";
@@ -44,6 +45,7 @@ const readability = {
 };
 
 const seo = {
+	FunctionWordsInKeyphraseAssessment,
 	InternalLinksAssessment,
 	IntroductionKeywordAssessment,
 	KeyphraseLengthAssessment,
