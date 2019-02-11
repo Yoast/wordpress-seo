@@ -124,6 +124,10 @@ class WPSEO_Upgrade {
 			$this->upgrade90();
 		}
 
+		if ( version_compare( $version, '9.6-RC0', '<' ) ) {
+			$this->upgrade96();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -628,6 +632,15 @@ class WPSEO_Upgrade {
 		wp_clear_scheduled_hook( 'wpseo_hit_sitemap_index' );
 
 		$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "wpseo_sitemap_%"' );
+	}
+
+	/**
+	 * Performs the 9.6 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade96() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-recalibration-meta-notification' );
 	}
 
 	/**
