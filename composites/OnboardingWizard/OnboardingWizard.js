@@ -44,6 +44,17 @@ class OnboardingWizard extends React.Component {
 	}
 
 	/**
+	 * Remove the prepended hashtag from the passed string.
+	 *
+	 * @param {string} stringWithHashtag The string to remove the prepended hashtag from.
+	 *
+	 * @returns {string} The string without prepended hashtag.
+	 */
+	removePrependedHashtag( stringWithHashtag ) {
+		return stringWithHashtag.substring( 1 );
+	}
+
+	/**
 	 * Sets the previous and next stepId for each step.
 	 *
 	 * @param {Object} steps The object containing the steps.
@@ -134,7 +145,9 @@ class OnboardingWizard extends React.Component {
 	 * @returns {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
-		const firstStep = this.props.startingStep;
+		// Use the hash from the url without the hashtag.
+		const firstStep = this.removePrependedHashtag( window.location.hash );
+
 		if ( firstStep !== "" ) {
 			return firstStep;
 		}
@@ -282,8 +295,8 @@ class OnboardingWizard extends React.Component {
 	 * @returns {void}
 	 */
 	listenToHashChange() {
-		// Because the hash starts with a hashtag, we need to do `.substring( 1 )`.
-		this.setState( { currentStepId: window.location.hash.substring( 1 ) } );
+		// Because the hash starts with a hashtag, we need to do remove the hastag before using it.
+		this.setState( { currentStepId: this.removePrependedHashtag( window.location.hash ) } );
 	}
 
 	/**
@@ -302,7 +315,7 @@ class OnboardingWizard extends React.Component {
 		}
 
 		// If the new currentStepId is the same as the current location hash, do nothing.
-		if ( window.location.hash.substring( 1 ) === currentStepIdAfterUpdate ) {
+		if ( this.removePrependedHashtag( window.location.hash ) === currentStepIdAfterUpdate ) {
 			return null;
 		}
 
