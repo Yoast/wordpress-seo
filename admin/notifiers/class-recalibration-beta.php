@@ -7,6 +7,8 @@
 
 /**
  * Represents the logic for showing recalibration beta notice.
+ *
+ * @deprecated 9.6
  */
 class WPSEO_Recalibration_Beta_Notification implements WPSEO_WordPress_Integration {
 

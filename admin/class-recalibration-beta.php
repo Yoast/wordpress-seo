@@ -83,9 +83,6 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	 */
 	public function register_hooks() {
 		add_action( 'update_option_wpseo', array( $this, 'update_option' ), 10, 2 );
-
-		$notification = new WPSEO_Recalibration_Beta_Notification();
-		$notification->register_hooks();
 	}
 
 	/**
