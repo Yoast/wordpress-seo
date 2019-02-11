@@ -77,12 +77,14 @@ class WPSEO_MyYoast_Api_Request {
 		 */
 		catch ( WPSEO_MyYoast_Authentication_Exception $authentication_exception ) {
 			try {
-				$this->get_access_token();
+				$access_token = $this->get_access_token();
 
-				$response       = $this->do_request( $this->url, $this->args );
-				$this->response = $this->decode_response( $response );
+				if ( $access_token ) {
+					$response       = $this->do_request( $this->url, $this->args );
+					$this->response = $this->decode_response( $response );
 
-				return true;
+					return true;
+				}
 			}
 			catch ( WPSEO_MyYoast_Authentication_Exception $authentication_exception ) {
 				$this->error_message = $authentication_exception->getMessage();
@@ -265,7 +267,7 @@ class WPSEO_MyYoast_Api_Request {
 	protected function get_client() {
 		static $client;
 
-		if ( ! $client && class_exists( 'WPSEO_MyYoast_Client' ) ) {
+		if ( ! $client ) {
 			$client = new WPSEO_MyYoast_Client();
 		}
 
