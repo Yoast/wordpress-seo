@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.47.0
+## 1.47.0 February 11th, 2019
 ### Fixed
 * Fixes accidental removal of the SEO Assessor export from the index. Props [Kingdutch](https://github.com/Kingdutch).
 
