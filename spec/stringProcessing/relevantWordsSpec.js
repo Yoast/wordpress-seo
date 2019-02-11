@@ -4,6 +4,7 @@ import englishFunctionWordsFactory from "../../src/researches/english/functionWo
 
 const getWordCombinations = relevantWords.getWordCombinations;
 const getRelevantWords = relevantWords.getRelevantWords;
+const getRelevantWordsFromTopic = relevantWords.getRelevantWordsFromTopic;
 const calculateOccurrences = relevantWords.calculateOccurrences;
 const getRelevantCombinations = relevantWords.getRelevantCombinations;
 const sortCombinations = relevantWords.sortCombinations;
@@ -13,7 +14,8 @@ const filterFunctionWordsAnywhere = relevantWords.filterFunctionWordsAnywhere;
 const filterOneCharacterWordCombinations = relevantWords.filterOneCharacterWordCombinations;
 const filterOnDensity = relevantWords.filterOnDensity;
 const filterEndingWith = relevantWords.filterEndingWith;
-const englishFunctionWords = englishFunctionWordsFactory().all;
+const englishFunctionWords = englishFunctionWordsFactory();
+const englishFunctionWordsJoined = englishFunctionWords.all;
 
 describe( "getWordCombinations", function() {
 	it( "splits a sentence on words", function() {
@@ -80,11 +82,11 @@ describe( "calculateOccurrences", function() {
 describe( "getRelevantCombinations", function() {
 	it( "removes combinations with one occurence", function() {
 		const input = [
-			new WordCombination( [ "irrelevant" ], 1, englishFunctionWords ),
-			new WordCombination( [ "occurrence" ], 2, englishFunctionWords ),
+			new WordCombination( [ "irrelevant" ], 1, englishFunctionWordsJoined ),
+			new WordCombination( [ "occurrence" ], 2, englishFunctionWordsJoined ),
 		];
 		const expected = [
-			new WordCombination( [ "occurrence" ], 2, englishFunctionWords ),
+			new WordCombination( [ "occurrence" ], 2, englishFunctionWordsJoined ),
 		];
 
 		const actual = getRelevantCombinations( input, 100 );
@@ -94,7 +96,7 @@ describe( "getRelevantCombinations", function() {
 
 	it( "removes function words", function() {
 		const input = [
-			new WordCombination( [ "yes" ], 2, englishFunctionWords ),
+			new WordCombination( [ "yes" ], 2, englishFunctionWordsJoined ),
 		];
 		const expected = [];
 
@@ -307,21 +309,21 @@ describe( "getRelevantWords", function() {
 			"about the weather. The weather is nice today, don't you think? It is sunny outside. It has been a while since it has rained. Let me think of something else to" +
 			"talk about.";
 		const expected = [
-			new WordCombination( [ "syllable", "combinations" ], 2, englishFunctionWords ),
-			new WordCombination( [ "200", "words" ], 2, englishFunctionWords ),
-			new WordCombination( [ "200" ], 2, englishFunctionWords ),
-			new WordCombination( [ "syllables" ], 2, englishFunctionWords ),
-			new WordCombination( [ "syllable" ], 2, englishFunctionWords ),
-			new WordCombination( [ "combinations" ], 2, englishFunctionWords ),
-			new WordCombination( [ "text" ], 2, englishFunctionWords ),
-			new WordCombination( [ "words" ], 2, englishFunctionWords ),
-			new WordCombination( [ "weather" ], 2, englishFunctionWords ),
+			new WordCombination( [ "syllable", "combinations" ], 2, englishFunctionWordsJoined ),
+			new WordCombination( [ "200", "words" ], 2, englishFunctionWordsJoined ),
+			new WordCombination( [ "200" ], 2, englishFunctionWordsJoined ),
+			new WordCombination( [ "syllables" ], 2, englishFunctionWordsJoined ),
+			new WordCombination( [ "syllable" ], 2, englishFunctionWordsJoined ),
+			new WordCombination( [ "combinations" ], 2, englishFunctionWordsJoined ),
+			new WordCombination( [ "text" ], 2, englishFunctionWordsJoined ),
+			new WordCombination( [ "words" ], 2, englishFunctionWordsJoined ),
+			new WordCombination( [ "weather" ], 2, englishFunctionWordsJoined ),
 		];
 
 		// Make sure our words aren't filtered by density.
 		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
 
-		const words = getRelevantWords( input, "la_LA" );
+		const words = getRelevantWords( input, "la", englishFunctionWords );
 
 		words.forEach( function( word ) {
 			delete( word._relevantWords );
@@ -330,3 +332,36 @@ describe( "getRelevantWords", function() {
 		expect( words ).toEqual( expected );
 	} );
 } );
+
+describe( "getRelevantWordsFromTopic", function() {
+	it( "gets all non-function words from the attributes", function() {
+		const expected = [
+			new WordCombination( [ "keyphrase" ], 5, englishFunctionWordsJoined ),
+			new WordCombination( [ "synonym" ], 5, englishFunctionWordsJoined ),
+			new WordCombination( [ "o-my" ], 5, englishFunctionWordsJoined ),
+			new WordCombination( [ "interesting" ], 5, englishFunctionWordsJoined ),
+			new WordCombination( [ "metadescription" ], 5, englishFunctionWordsJoined ),
+			new WordCombination( [ "paper" ], 5, englishFunctionWordsJoined ),
+			new WordCombination( [ "analysing" ], 5, englishFunctionWordsJoined ),
+			new WordCombination( [ "subheading" ], 5, englishFunctionWordsJoined ),
+		];
+
+		// Make sure our words aren't filtered by density.
+		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
+
+		const words = getRelevantWordsFromTopic(
+			"This is a nice keyphrase",
+			"This is a synonym one, a synonym two and an o-my synonym",
+			"This is an interesting metadescription of the paper that we are analysing.",
+			[ "subheading one", "subheading two" ],
+			englishFunctionWordsJoined,
+		);
+
+		words.forEach( function( word ) {
+			delete( word._relevantWords );
+		} );
+
+		expect( words ).toEqual( expected );
+	} );
+} );
+

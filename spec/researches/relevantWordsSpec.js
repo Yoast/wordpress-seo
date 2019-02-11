@@ -27,4 +27,37 @@ describe( "relevantWords research", function() {
 
 		expect( words ).toEqual( expected );
 	} );
+
+	it( "calls through to the string processing function", function() {
+		let input = "As we announced at YoastCon, we’re working together with Bing and Google to allow live indexing for " +
+			"everyone who uses Yoast SEO — free and premium. " +
+			"<h2>Subheading!</h2>" +
+			"In an update currently planned for the end of March, we’ll " +
+			"allow users to connect their sites to MyYoast, our customer portal. After that we’ll roll out live indexing, " +
+			"which means every time you publish, update, or delete a post, that will be reflected almost instantly into " +
+			"Bing and Google’s indices. How does this work? When you connect your site to MyYoast...";
+		input = new Paper( input, { keyword: "keyphrase", synonyms: "synonym one, synonym two", description: "Awesome metadescription", locale: "en_EN" } );
+		const expected = [
+			new WordCombination( [ "keyphrase" ], 5, functionWords ),
+			new WordCombination( [ "synonym" ], 5, functionWords ),
+			new WordCombination( [ "metadescription" ], 5, functionWords ),
+			new WordCombination( [ "subheading" ], 5, functionWords ),
+			new WordCombination( [ "live", "indexing" ], 2, functionWords ),
+			new WordCombination( [ "bing" ], 2, functionWords ),
+			new WordCombination( [ "allow" ], 2, functionWords ),
+			new WordCombination( [ "live" ], 2, functionWords ),
+			new WordCombination( [ "indexing" ], 2, functionWords ),
+			new WordCombination( [ "update" ], 2, functionWords ),
+			new WordCombination( [ "connect" ], 2, functionWords ),
+			new WordCombination( [ "myyoast" ], 2, functionWords ),
+		];
+
+		const words = relevantWordsResearch( input );
+
+		words.forEach( function( word ) {
+			delete( word._relevantWords );
+		} );
+
+		expect( words ).toEqual( expected );
+	} );
 } );

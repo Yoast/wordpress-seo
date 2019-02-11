@@ -2,9 +2,6 @@ import getWords from "../stringProcessing/getWords.js";
 import getSentences from "../stringProcessing/getSentences.js";
 import WordCombination from "../values/WordCombination.js";
 import { normalize as normalizeQuotes } from "../stringProcessing/quotes.js";
-import functionWordListsFactory from "../helpers/getFunctionWords.js";
-const functionWordLists = functionWordListsFactory();
-import getLanguage from "../helpers/getLanguage.js";
 
 import { filter } from "lodash-es";
 import { map } from "lodash-es";
@@ -16,6 +13,7 @@ import { take } from "lodash-es";
 import { includes } from "lodash-es";
 import { intersection } from "lodash-es";
 import { isEmpty } from "lodash-es";
+import { uniq } from "lodash-es";
 
 const densityLowerLimit = 0;
 const densityUpperLimit = 0.03;
@@ -253,17 +251,11 @@ function filterCombinations( combinations, functionWords, language ) {
  * Returns the relevant words in a given text.
  *
  * @param {string} text The text to retrieve the relevant words of.
- * @param {string} locale The paper's locale.
+ * @param {string} language The language of the text.
+ * @param {Object} functionWords The function words to filter out.
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
-function getRelevantWords( text, locale ) {
-	let language = getLanguage( locale );
-	if ( ! functionWordLists.hasOwnProperty( language ) ) {
-		language = "en";
-	}
-
-	const functionWords = functionWordLists[ language ];
-
+function getRelevantWords( text, language, functionWords ) {
 	const words = getWordCombinations( text, 1, functionWords.all );
 	const wordCount = words.length;
 
@@ -308,9 +300,36 @@ function getRelevantWords( text, locale ) {
 	return take( combinations, relevantWordLimit );
 }
 
+/**
+ * Gets relevant words from keyphrase and synonyms, metadescription, and subheadings.
+ *
+ * @param {string} keyphrase The keyphrase of the paper.
+ * @param {string} synonyms The synonyms of the paper.
+ * @param {string} metadescription The metadescription of the paper.
+ * @param {string[]} subheadings The subheadings of the paper.
+ * @param {string[]} functionWords The function words to use.
+ *
+ * @returns {WordCombination[]} Relevant word combinations from the paper attributes.
+ */
+function getRelevantWordsFromTopic( keyphrase, synonyms, metadescription, subheadings, functionWords ) {
+	const subheadingsJoined = subheadings.join( " " );
+	const attributes = keyphrase.concat( " ", synonyms, " ", metadescription, " ", subheadingsJoined );
+	const attributesWords = uniq( getWords( attributes.toLocaleLowerCase() ) );
+
+	const attributesWordsFiltered = filter( attributesWords, function( word ) {
+		return ( ! includes( functionWords, word.trim() ) );
+	} );
+
+	return map( attributesWordsFiltered, function( word ) {
+		return new WordCombination( [ word ], 5, functionWords );
+	} );
+}
+
+
 export {
 	getWordCombinations,
 	getRelevantWords,
+	getRelevantWordsFromTopic,
 	calculateOccurrences,
 	getRelevantCombinations,
 	sortCombinations,
@@ -326,6 +345,7 @@ export {
 export default {
 	getWordCombinations: getWordCombinations,
 	getRelevantWords: getRelevantWords,
+	getRelevantWordsFromTopic: getRelevantWordsFromTopic,
 	calculateOccurrences: calculateOccurrences,
 	getRelevantCombinations: getRelevantCombinations,
 	sortCombinations: sortCombinations,

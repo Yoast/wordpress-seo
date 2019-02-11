@@ -3,7 +3,7 @@ import relevantWords from "../../src/stringProcessing/relevantWords";
 import frenchFunctionWordsFactory from "../../src/researches/french/functionWords.js";
 
 const getRelevantWords = relevantWords.getRelevantWords;
-const frenchFunctionWords = frenchFunctionWordsFactory().all;
+const frenchFunctionWords = frenchFunctionWordsFactory();
 
 describe( "gets French word combinations", function() {
 	it( "returns word combinations", function() {
@@ -18,15 +18,15 @@ describe( "gets French word combinations", function() {
 			" l’entreprise, avait déjà évoquée. Elle est désormais effective, explique au Monde, par visioconférence," +
 			" Brian Fishman, chargé de la lutte contre le terrorisme à Facebook :";
 		const expected = [
-			new WordCombination( [ "terrorisme" ], 3, frenchFunctionWords ),
-			new WordCombination( [ "facebook" ], 3, frenchFunctionWords ),
-			new WordCombination( [ "texte" ], 2, frenchFunctionWords ),
+			new WordCombination( [ "terrorisme" ], 3, frenchFunctionWords.all ),
+			new WordCombination( [ "facebook" ], 3, frenchFunctionWords.all ),
+			new WordCombination( [ "texte" ], 2, frenchFunctionWords.all ),
 		];
 
 		// Make sure our words aren't filtered by density.
 		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
 
-		const words = getRelevantWords( input, "fr_FR" );
+		const words = getRelevantWords( input, "fr", frenchFunctionWords );
 
 		words.forEach( function( word ) {
 			delete( word._relevantWords );
