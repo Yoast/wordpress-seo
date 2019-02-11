@@ -21,8 +21,8 @@ exports[`FacebookImage Component matches the snapshot for a faulty image 1`] = `
 
 exports[`FacebookImage Component matches the snapshot for a landscape image 1`] = `
 .c1 {
-  height: auto;
-  width: 100%;
+  width: 600px;
+  height: 300px;
 }
 
 .c0 {
@@ -30,10 +30,17 @@ exports[`FacebookImage Component matches the snapshot for a landscape image 1`] 
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   height: 261px;
   width: 500px;
   overflow: hidden;
@@ -53,8 +60,8 @@ exports[`FacebookImage Component matches the snapshot for a landscape image 1`] 
 
 exports[`FacebookImage Component matches the snapshot for a portrait image 1`] = `
 .c1 {
-  height: 100%;
-  width: auto;
+  width: 300px;
+  height: 600px;
 }
 
 .c0 {
@@ -62,10 +69,17 @@ exports[`FacebookImage Component matches the snapshot for a portrait image 1`] =
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   height: 236px;
   width: 158px;
   overflow: hidden;
@@ -85,8 +99,8 @@ exports[`FacebookImage Component matches the snapshot for a portrait image 1`] =
 
 exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
 .c1 {
-  height: 100%;
-  width: 100%;
+  width: 300px;
+  height: 300px;
 }
 
 .c0 {
@@ -94,10 +108,17 @@ exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   height: 158px;
   width: 158px;
   overflow: hidden;
