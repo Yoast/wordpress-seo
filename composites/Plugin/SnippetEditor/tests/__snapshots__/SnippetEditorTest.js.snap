@@ -487,6 +487,7 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
       onMouseUp={[Function]}
       title="Test title"
       url="example.org/test-slug"
+      wordsToHighlight={Array []}
     />
     <ModeSwitcher
       active="mobile"
@@ -1116,6 +1117,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       "score": 0,
     }
   }
+  wordsToHighlight={Array []}
 >
   <ErrorBoundary>
     <div>
@@ -1135,6 +1137,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
         onMouseUp={[Function]}
         title="Test title"
         url="example.org/test-slug"
+        wordsToHighlight={Array []}
       >
         <section>
           <SnippetPreview__MobileContainer
@@ -3034,6 +3037,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       "score": 0,
     }
   }
+  wordsToHighlight={Array []}
 >
   <ErrorBoundary>
     <div>
@@ -3053,6 +3057,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
         onMouseUp={[Function]}
         title="Test title"
         url="example.org/test-slug"
+        wordsToHighlight={Array []}
       >
         <section>
           <SnippetPreview__MobileContainer
@@ -4952,6 +4957,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       "score": 0,
     }
   }
+  wordsToHighlight={Array []}
 >
   <ErrorBoundary>
     <div>
@@ -4971,6 +4977,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
         onMouseUp={[Function]}
         title="Test title"
         url="example.org/test-slug"
+        wordsToHighlight={Array []}
       >
         <section>
           <SnippetPreview__MobileContainer
@@ -6870,6 +6877,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       "score": 0,
     }
   }
+  wordsToHighlight={Array []}
 >
   <ErrorBoundary>
     <div>
@@ -6889,6 +6897,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         onMouseUp={[Function]}
         title="Test title"
         url="example.org/test-slug"
+        wordsToHighlight={Array []}
       >
         <section>
           <SnippetPreview__MobileContainer
@@ -8545,6 +8554,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       "score": 0,
     }
   }
+  wordsToHighlight={Array []}
 >
   <ErrorBoundary>
     <div>
@@ -8564,6 +8574,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
         onMouseUp={[Function]}
         title="Test title"
         url="example.org/test-slug"
+        wordsToHighlight={Array []}
       >
         <section>
           <SnippetPreview__MobileContainer
@@ -9812,6 +9823,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       "score": 6,
     }
   }
+  wordsToHighlight={Array []}
 >
   <ErrorBoundary>
     <div>
@@ -9831,6 +9843,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         onMouseUp={[Function]}
         title="Test title"
         url="example.org/test-slug"
+        wordsToHighlight={Array []}
       >
         <section>
           <SnippetPreview__MobileContainer
@@ -11730,6 +11743,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       "score": 3,
     }
   }
+  wordsToHighlight={Array []}
 >
   <ErrorBoundary>
     <div>
@@ -11749,6 +11763,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         onMouseUp={[Function]}
         title="Test title"
         url="example.org/test-slug"
+        wordsToHighlight={Array []}
       >
         <section>
           <SnippetPreview__MobileContainer
@@ -14596,6 +14611,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       "score": 0,
     }
   }
+  wordsToHighlight={Array []}
 >
   <ErrorBoundary>
     <div>
@@ -14615,6 +14631,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         onMouseUp={[Function]}
         title="Test title"
         url="example.org/test-slug"
+        wordsToHighlight={Array []}
       >
         <section>
           <SnippetPreview__MobileContainer
@@ -16534,6 +16551,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
       "score": 0,
     }
   }
+  wordsToHighlight={Array []}
 >
   <ErrorBoundary>
     <div>
@@ -16553,6 +16571,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         onMouseUp={[Function]}
         title="Test title"
         url="example.org/test-slug"
+        wordsToHighlight={Array []}
       >
         <section>
           <SnippetPreview__MobileContainer
@@ -18460,6 +18479,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       "score": 0,
     }
   }
+  wordsToHighlight={Array []}
 >
   <ErrorBoundary>
     <div>
@@ -18479,6 +18499,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         onMouseUp={[Function]}
         title="Test title"
         url="example.org/test-slug"
+        wordsToHighlight={Array []}
       >
         <section>
           <SnippetPreview__MobileContainer
@@ -20389,6 +20410,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
       "score": 0,
     }
   }
+  wordsToHighlight={Array []}
 >
   <ErrorBoundary>
     <div>
@@ -20408,6 +20430,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
         onMouseUp={[Function]}
         title="Test title"
         url="example.org/test-slug"
+        wordsToHighlight={Array []}
       >
         <section>
           <SnippetPreview__MobileContainer
@@ -22312,6 +22335,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
       onMouseUp={[Function]}
       title="Test title"
       url="example.org/test-slug"
+      wordsToHighlight={Array []}
     />
     <ModeSwitcher
       active="mobile"
@@ -22941,6 +22965,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
       "score": 0,
     }
   }
+  wordsToHighlight={Array []}
 >
   <ErrorBoundary>
     <div>
@@ -22960,6 +22985,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
         onMouseUp={[Function]}
         title="Test title"
         url="example.org/test-slug"
+        wordsToHighlight={Array []}
       >
         <section>
           <SnippetPreview__MobileContainer

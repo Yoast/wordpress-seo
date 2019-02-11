@@ -3,7 +3,7 @@ import React, { PureComponent } from "react";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 import transliterate from "yoastseo/src/stringProcessing/transliterate";
-import createWordRegex from "yoastseo/src/stringProcessing/createWordRegex";
+import createRegexFromArray from "yoastseo/src/stringProcessing/createRegexFromArray";
 import replaceSpecialCharactersAndDiacritics from "yoastseo/src/stringProcessing/replaceDiacritics";
 import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
@@ -197,44 +197,49 @@ const Amp = styled.div`
  * Highlights a keyword with strong React elements.
  *
  * @param {string} locale ISO 639 (2/3 characters) locale.
- * @param {string} keyword The keyword.
- * @param {string} text The text in which to highlight a keyword.
- * @param {string} cleanText Optional. The text in which to highlight a keyword
+ * @param {string[]} wordsToHighlight The array of words to be highlighted.
+ * @param {string} text The text in which to highlight words.
+ * @param {string} cleanText Optional. The text in which to highlight words
  *                           without special characters and diacritics.
  *
  * @returns {ReactElement} React elements to be rendered.
  */
-function highlightKeyword( locale, keyword, text, cleanText ) {
-	if ( ! keyword ) {
+function highlightWords( locale, wordsToHighlight, text, cleanText ) {
+	if ( wordsToHighlight.length === 0 ) {
 		return text;
 	}
 
-	/*
-	 * When a text has been cleaned up from special characters and diacritics
-	 * we need to match against a cleaned up keyword as well.
-	 */
-	const textToUse = cleanText ? cleanText : text;
-	const keywordToUse = cleanText ? replaceSpecialCharactersAndDiacritics( keyword ) : keyword;
+	// Clean the text from special characters and diacritics.
+	let textToUse = cleanText ? cleanText : text;
 
-	// Match keyword case-insensitively.
-	const keywordMatcher = createWordRegex( keywordToUse, "", false );
+	// Initiate an array of cleaned and transliterated forms.
+	const wordsToHighlightCleaned = [];
 
-	text = textToUse.replace( keywordMatcher, function( matchedKeyword ) {
+	wordsToHighlight.forEach( function( form ) {
+		/*
+	    * When a text has been cleaned up from special characters and diacritics
+	    * we need to match against a cleaned up keyword as well.
+	    */
+		form = cleanText ? replaceSpecialCharactersAndDiacritics( form ) : form;
+
+		wordsToHighlightCleaned.push( form );
+
+		// Transliterate the keyword for highlighting
+		const formTransliterated = transliterate( form, locale );
+
+		if ( formTransliterated !== form ) {
+			wordsToHighlightCleaned.push( formTransliterated );
+		}
+	} );
+
+	const keywordFormsMatcher = createRegexFromArray( wordsToHighlightCleaned, false, "", false );
+
+	textToUse = textToUse.replace( keywordFormsMatcher, function( matchedKeyword ) {
 		return `{{strong}}${ matchedKeyword }{{/strong}}`;
 	} );
 
-	// Transliterate the keyword for highlighting
-	const transliteratedKeyword = transliterate( keyword, locale );
-	if ( transliteratedKeyword !== keyword ) {
-		const transliteratedKeywordMatcher = createWordRegex( transliteratedKeyword, "", false );
-		// Let the transliteration run on the text with no previous replacements.
-		text = text.replace( transliteratedKeywordMatcher, function( matchedKeyword ) {
-			return `{{strong}}${ matchedKeyword }{{/strong}}`;
-		} );
-	}
-
 	return interpolateComponents( {
-		mixedString: text,
+		mixedString: textToUse,
 		components: { strong: <strong /> },
 	} );
 }
@@ -470,7 +475,7 @@ export default class SnippetPreview extends PureComponent {
 
 		/*
 		 * We need to replace special characters and diacritics only on the url
-		 * string because when highlightKeyword kicks in, interpolateComponents
+		 * string because when highlightWords kicks in, interpolateComponents
 		 * returns an array of strings plus a strong React element, and replace()
 		 * can't run on an array.
 		 */
@@ -562,7 +567,7 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	renderDescription() {
 		const {
-			keyword,
+			wordsToHighlight,
 			locale,
 			onMouseUp,
 			onMouseLeave,
@@ -587,7 +592,7 @@ export default class SnippetPreview extends PureComponent {
 					innerRef={ this.setDescriptionRef }
 				>
 					{ renderedDate }
-					{ highlightKeyword( locale, keyword, this.getDescription() ) }
+					{ highlightWords( locale, wordsToHighlight, this.getDescription() ) }
 				</DesktopDescriptionWithCaret>
 			);
 		} else if ( mode === MODE_MOBILE ) {
@@ -601,7 +606,7 @@ export default class SnippetPreview extends PureComponent {
 						innerRef={ this.setDescriptionRef }
 					>
 						{ renderedDate }
-						{ highlightKeyword( locale, keyword, this.getDescription() ) }
+						{ highlightWords( locale, wordsToHighlight, this.getDescription() ) }
 					</MobileDescription>
 				</MobileDescriptionWithCaret>
 			);
@@ -718,6 +723,7 @@ SnippetPreview.propTypes = {
 	hoveredField: PropTypes.string,
 	activeField: PropTypes.string,
 	keyword: PropTypes.string,
+	wordsToHighlight: PropTypes.array,
 	locale: PropTypes.string,
 	mode: PropTypes.oneOf( MODES ),
 	isAmp: PropTypes.bool,
@@ -731,6 +737,7 @@ SnippetPreview.propTypes = {
 SnippetPreview.defaultProps = {
 	date: "",
 	keyword: "",
+	wordsToHighlight: [],
 	breadcrumbs: null,
 	locale: "en",
 	hoveredField: "",
