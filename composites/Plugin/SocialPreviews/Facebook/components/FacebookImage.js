@@ -36,12 +36,17 @@ const StyledImage = styled.img`
 	transform: translate(-50%, -50%);
 `;
 
-const ErrorImage = styled.div`
-	height: 261px;
-	width: 500px;
-	text-align: center;
+const ErrorImage = styled.p`
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	box-sizing: border-box;
-	padding-top: 7em;
+	width: 500px;
+	height: 261px;
+	max-width: 100%;
+	margin: 0;
+	padding: 1em;
+	text-align: center;
 	font-size: 1rem;
 	color: ${ colors.$color_white };
 	background-color: ${ colors.$color_red };
