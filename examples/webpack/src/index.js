@@ -11,7 +11,6 @@ import { createStorageMiddleware, getStorageData } from "./redux/utils/localstor
 import { renderReactApp } from "./redux/utils/render";
 import configureStore from "./redux/utils/store";
 import StoreSubscriber from "./redux/utils/StoreSubscriber";
-import TreeBuilder from "./redux/utils/TreeBuilder";
 
 
 const storageStates = [
@@ -28,7 +27,7 @@ const preloadedState = {
 	},
 	options: {
 		isRelatedKeyphrase: false,
-		isTreeBuilderEnabled: true,
+		isTreeBuilderEnabled: false,
 		useMorphology: true,
 	},
 	paper: {
@@ -51,9 +50,6 @@ const worker = new AnalysisWorkerWrapper( new AnalysisWebWorker() );
 
 const subscriber = new StoreSubscriber( { store, worker } );
 subscriber.subscribe();
-
-const treeBuilder = new TreeBuilder( { store } );
-treeBuilder.subscribe();
 
 
 const targetElement = document.getElementById( "root" );
