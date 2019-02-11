@@ -124,6 +124,7 @@ Release Date: February 12th, 2019
 
 * Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
 * Improves the redirect upsell when user clicks on create redirect in the search console overview.
+* Removes the recalibration beta toggle. If the beta is activated, the toggle is only removed on deactivation.
 
 = 9.5.0 =
 Release Date: January 22nd, 2019
