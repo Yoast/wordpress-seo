@@ -20,6 +20,15 @@ class WPSEO_Recalibration_Beta_Notification implements WPSEO_WordPress_Integrati
 	protected $notification_identifier = 'recalibration-meta-notification';
 
 	/**
+	 * Class constructor.
+	 *
+	 * @deprecated 9.6
+	 */
+	public function __construct() {
+		_deprecated_constructor( 'WPSEO_Recalibration_Beta_Notification', '9.6' );
+	}
+
+	/**
 	 * Registers all hooks to WordPress
 	 *
 	 * @codeCoverageIgnore

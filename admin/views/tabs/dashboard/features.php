@@ -59,12 +59,8 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		);
 	}
 
-	// If the recalibration beta has been disabled you will no longer be able to enable it.
-	// See https://github.com/Yoast/wordpress-seo/issues/12183.
-	if ( WPSEO_Recalibration_Beta::is_enabled() ) {
-		$calibration_beta = new WPSEO_Recalibration_Beta();
-		$calibration_beta->show_feature_toggle();
-	}
+	$calibration_beta = new WPSEO_Recalibration_Beta();
+	$calibration_beta->show_feature_toggle();
 	?>
 </div>
 <?php
