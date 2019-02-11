@@ -31,7 +31,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	public function show_feature_toggle() {
 		// If the recalibration beta has been disabled you will no longer be able to enable it.
 		// See https://github.com/Yoast/wordpress-seo/issues/12183.
-		if ( ! WPSEO_Recalibration_Beta::is_enabled() ) {
+		if ( ! self::is_enabled() ) {
 			return;
 		}
 
