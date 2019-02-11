@@ -72,8 +72,12 @@ class WPSEO_MyYoast_Api_Request {
 		}
 
 		/**
-		 * The Authentication exception only occurs when using Access Tokens.
+		 * The Authentication exception only occurs when using Access Tokens (>= PHP 5.6).
 		 * In other case this exception won't be thrown.
+		 *
+		 * When authentication failed just try to get a new access token based
+		 * on the refresh token. If that request also has an authentication issue
+		 * we just invalidate the access token by removing it.
 		 */
 		catch ( WPSEO_MyYoast_Authentication_Exception $authentication_exception ) {
 			try {
@@ -82,9 +86,9 @@ class WPSEO_MyYoast_Api_Request {
 				if ( $access_token !== false ) {
 					$response       = $this->do_request( $this->url, $this->args );
 					$this->response = $this->decode_response( $response );
-
-					return true;
 				}
+
+				return true;
 			}
 			catch ( WPSEO_MyYoast_Authentication_Exception $authentication_exception ) {
 				$this->error_message = $authentication_exception->getMessage();
@@ -136,8 +140,7 @@ class WPSEO_MyYoast_Api_Request {
 	 * @param string $url               The request URL.
 	 * @param array  $request_arguments The request arguments.
 	 *
-	 * @return string                       The retrieved body.
-	 *
+	 * @return string                                 The retrieved body.
 	 * @throws WPSEO_MyYoast_Authentication_Exception When authentication has failed.
 	 * @throws WPSEO_MyYoast_Bad_Request_Exception    When request is invalid.
 	 */
@@ -157,7 +160,7 @@ class WPSEO_MyYoast_Api_Request {
 			return wp_remote_retrieve_body( $response );
 		}
 
-		// Authenication failed, throw an exception.
+		// Authentication failed, throw an exception.
 		if ( strpos( $response_code, '401' ) && WPSEO_Utils::has_access_token_support() ) {
 			throw new WPSEO_MyYoast_Authentication_Exception( esc_html( $response_message ), 401 );
 		}
@@ -170,7 +173,7 @@ class WPSEO_MyYoast_Api_Request {
 	 *
 	 * @param string $response The response to decode.
 	 *
-	 * @return array|stdClass                       The json decoded response.
+	 * @return stdClass                             The json decoded response.
 	 * @throws WPSEO_MyYoast_Invalid_JSON_Exception When decoded string is not a JSON object.
 	 */
 	protected function decode_response( $response ) {
@@ -188,13 +191,13 @@ class WPSEO_MyYoast_Api_Request {
 	/**
 	 * Checks if MyYoast tokens are allowed and adds the token to the request body.
 	 *
-	 * When tokens are disallowed it will adds the url to the request body.
+	 * When tokens are disallowed it will add the url to the request body.
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @param array $request_arguments The arguments to enrich.
 	 *
-	 * @return array
+	 * @return array The enriched arguments
 	 */
 	protected function enrich_request_arguments( array $request_arguments ) {
 		if ( ! WPSEO_Utils::has_access_token_support() ) {
@@ -223,7 +226,7 @@ class WPSEO_MyYoast_Api_Request {
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool|WPSEO_MyYoast_AccessToken_Interface The AccessToken when valid.
-	 * @throws WPSEO_MyYoast_Bad_Request_Exception When something went wrong in getting the access token.
+	 * @throws WPSEO_MyYoast_Bad_Request_Exception      When something went wrong in getting the access token.
 	 */
 	protected function get_access_token() {
 		$client = $this->get_client();

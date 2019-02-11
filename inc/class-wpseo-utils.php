@@ -1137,15 +1137,17 @@ SVG;
 	 * In case of a multisite setup we return the network_home_url.
 	 * In case of no multisite setup we return the home_url while overriding the WPML filter.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return string The home url.
 	 */
 	public static function get_home_url() {
 		// Add a new filter to undo WPML's changing of home url.
 		add_filter( 'wpml_get_home_url', array( 'WPSEO_Utils', 'wpml_get_home_url' ), 10, 2 );
 
-		// If the plugin is network activated, use the network home URL.
 		$url = home_url();
 
+		// If the plugin is network activated, use the network home URL.
 		if ( self::is_plugin_network_active() ) {
 			$url = network_home_url();
 		}
@@ -1157,7 +1159,9 @@ SVG;
 
 	/**
 	 * Returns the original URL instead of the language-enriched URL.
-	 * This method gets automatically triggered by the wpml_get_home_url filter.
+	 * This method gets automatically triggered by the wpml_get_home_url filter
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $home_url The url altered by WPML. Unused.
 	 * @param string $url      The url that isn't altered by WPML.
@@ -1170,6 +1174,8 @@ SVG;
 
 	/**
 	 * Checks if the current installation supports MyYoast access tokens.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool True if access_tokens are supported.
 	 */
