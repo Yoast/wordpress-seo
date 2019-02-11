@@ -19,20 +19,21 @@ import colors from "../../../../../style-guide/colors.json";
 const MIN_IMAGE_WIDTH = 158;
 const MIN_IMAGE_HEIGHT = 158;
 
-const StyledImage = styled.img`
-	width: ${ props => props.imageProperties.width }px;
-	height: ${ props => props.imageProperties.height }px;
-`;
-
 const FacebookImageContainer = styled.div`
-	display: flex;
-	flex-direction: ${ props => props.imageMode === "landscape" ? "row" : "column" };
-	justify-content: center;
-	align-items: center;
+	position: relative;
 	height: ${ props => props.dimensions.height };
 	width: ${ props => props.dimensions.width };
 	overflow: hidden;
 	background-color: ${ colors.$color_white };
+`;
+
+const StyledImage = styled.img`
+	width: ${ props => props.imageProperties.width }px;
+	height: ${ props => props.imageProperties.height }px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate( -50%, -50% );
 `;
 
 const ErrorImage = styled.div`
@@ -145,7 +146,6 @@ export default class FacebookImage extends React.Component {
 		const containerDimensions = this.getContainerDimensions( imageProperties.mode );
 		return <FacebookImageContainer
 			dimensions={ containerDimensions }
-			imageMode={ imageProperties.mode }
 		>
 			<StyledImage
 				src={ this.props.src }
