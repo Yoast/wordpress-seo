@@ -224,7 +224,12 @@ class WPSEO_MyYoast_Api_Request {
 	 * @throws WPSEO_MyYoast_Bad_Request_Exception When something went wrong in getting the access token.
 	 */
 	protected function get_access_token() {
-		$client       = $this->get_client();
+		$client = $this->get_client();
+
+		if ( ! $client ) {
+			return false;
+		}
+
 		$access_token = $client->get_access_token();
 
 		if ( $access_token && ! $access_token->hasExpired() ) {
@@ -260,7 +265,7 @@ class WPSEO_MyYoast_Api_Request {
 	protected function get_client() {
 		static $client;
 
-		if ( ! $client ) {
+		if ( ! $client && class_exists( 'WPSEO_MyYoast_Client' ) ) {
 			$client = new WPSEO_MyYoast_Client();
 		}
 
