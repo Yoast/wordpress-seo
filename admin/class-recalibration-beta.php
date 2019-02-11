@@ -29,6 +29,12 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function show_feature_toggle() {
+		// If the recalibration beta has been disabled you will no longer be able to enable it.
+		// See https://github.com/Yoast/wordpress-seo/issues/12183.
+		if ( ! self::is_enabled() ) {
+			return;
+		}
+
 		$values = array(
 			'on'  => __( 'On', 'wordpress-seo' ),
 			'off' => __( 'Off', 'wordpress-seo' ),
@@ -83,9 +89,6 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	 */
 	public function register_hooks() {
 		add_action( 'update_option_wpseo', array( $this, 'update_option' ), 10, 2 );
-
-		$notification = new WPSEO_Recalibration_Beta_Notification();
-		$notification->register_hooks();
 	}
 
 	/**
