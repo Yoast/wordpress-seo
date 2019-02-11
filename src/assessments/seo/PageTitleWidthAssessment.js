@@ -9,7 +9,7 @@ const maximumLength = 600;
 /**
  * Represents the assessment that will calculate if the width of the page title is correct.
  */
-export default class PageTitleWidthAssesment extends Assessment {
+export default class PageTitleWidthAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
