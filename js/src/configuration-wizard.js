@@ -30,9 +30,7 @@ class App extends React.Component {
 		super( props );
 
 		this.state = {
-			isLoading: true,
-			// Use the hash from the url without the hashtag.
-			currentStep: window.location.hash.substring( 1 ),
+			isLoading: true
 		};
 		this.getConfig();
 	}
