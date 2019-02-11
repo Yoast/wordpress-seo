@@ -151,7 +151,7 @@ class OnboardingWizard extends React.Component {
 		if ( firstStep !== "" ) {
 			return firstStep;
 		}
-		// When no startingStep is set, use the first step of the wizard as default.
+		// When window.location doesn't have a hash, use the first step of the wizard as default.
 		return Object.getOwnPropertyNames( steps )[ 0 ];
 	}
 
@@ -433,13 +433,11 @@ OnboardingWizard.propTypes = {
 	finishUrl: PropTypes.string,
 	translate: PropTypes.any,
 	headerIcon: PropTypes.func,
-	startingStep: PropTypes.string,
 };
 
 OnboardingWizard.defaultProps = {
 	customComponents: {},
 	finishUrl: "",
-	startingStep: "",
 };
 
 export default localize( OnboardingWizard );
