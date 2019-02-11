@@ -287,30 +287,47 @@ class OnboardingWizard extends React.Component {
 	}
 
 	/**
-	 * When the currentStepId in the state changes, push the new hash to the history if differs from the current hash.
-	 *
-	 * If we wouldn't check against the current hash, it would lead to double hashes when using the browser's previous
-	 * and next buttons.
+	 * When the currentStepId in the state changes, return a snapshot with the new currentStepId.
 	 *
 	 * @param {Object} prevProps The previous props.
 	 * @param {Object} prevState The previous state.
 	 *
-	 * @returns {void}
+	 * @returns {string|null} The currentStepId from after the update.
 	 */
 	getSnapshotBeforeUpdate( prevProps, prevState ) {
 		const currentStepIdAfterUpdate = this.state.currentStepId;
 		// If there is no change in the currentStepId in the state, do nothing.
 		if ( prevState.currentStepId === currentStepIdAfterUpdate ) {
-			return;
+			return null;
 		}
 
 		// If the new currentStepId is the same as the current location hash, do nothing.
 		if ( window.location.hash.substring( 1 ) === currentStepIdAfterUpdate ) {
-			return;
+			return null;
 		}
 
-		window.history.pushState( null, null, "#" + currentStepIdAfterUpdate );
+		return currentStepIdAfterUpdate;
 	}
+
+	/**
+	 * Push the new hash to the history.
+	 *
+	 * Only do this when the new hash differs from the current hash. If we wouldn't check against
+	 * the current hash, it would lead to double hashes when using the browser's previous and next
+	 * buttons.
+	 *
+	 * @param {Object} prevProps The previous props.
+	 * @param {Object} prevState The previous state.
+	 * @param {string} snapshot The currentStepId from after the update.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate( prevProps, prevState, snapshot ) {
+		if ( snapshot !== null ) {
+			window.history.pushState( null, null, "#" + snapshot );
+		}
+	}
+
 
 	/**
 	 * Renders the wizard.
