@@ -21,21 +21,11 @@ exports[`FacebookImage Component matches the snapshot for a faulty image 1`] = `
 
 exports[`FacebookImage Component matches the snapshot for a landscape image 1`] = `
 .c1 {
-  min-height: initial;
   height: auto;
   width: 100%;
-  position: relative;
 }
 
 .c0 {
-  line-height: 0;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  display: block;
-  background-color: #fff;
-  height: 261px;
-  width: 500px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -44,15 +34,18 @@ exports[`FacebookImage Component matches the snapshot for a landscape image 1`] 
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
+  height: 261px;
+  width: 500px;
+  overflow: hidden;
+  background-color: #fff;
 }
 
 <div
   className="c0"
-  mode="landscape"
 >
   <img
+    alt=""
     className="c1"
-    mode="landscape"
     src="https://yoast.com/app/uploads/2015/06/How_to_choose_keywords_FI.png"
   />
 </div>
@@ -60,21 +53,11 @@ exports[`FacebookImage Component matches the snapshot for a landscape image 1`] 
 
 exports[`FacebookImage Component matches the snapshot for a portrait image 1`] = `
 .c1 {
-  min-height: initial;
   height: 100%;
   width: auto;
-  position: relative;
 }
 
 .c0 {
-  line-height: 0;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  display: block;
-  background-color: #fff;
-  height: 236px;
-  width: 158px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -83,15 +66,18 @@ exports[`FacebookImage Component matches the snapshot for a portrait image 1`] =
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
+  height: 236px;
+  width: 158px;
+  overflow: hidden;
+  background-color: #fff;
 }
 
 <div
   className="c0"
-  mode="portrait"
 >
   <img
+    alt=""
     className="c1"
-    mode="portrait"
     src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png"
   />
 </div>
@@ -99,21 +85,11 @@ exports[`FacebookImage Component matches the snapshot for a portrait image 1`] =
 
 exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
 .c1 {
-  min-height: initial;
   height: 100%;
   width: 100%;
-  position: relative;
 }
 
 .c0 {
-  line-height: 0;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  display: block;
-  background-color: #fff;
-  height: 158px;
-  width: 158px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -122,15 +98,18 @@ exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
+  height: 158px;
+  width: 158px;
+  overflow: hidden;
+  background-color: #fff;
 }
 
 <div
   className="c0"
-  mode="square"
 >
   <img
+    alt=""
     className="c1"
-    mode="square"
     src="https://yoast.com/app/uploads/2018/09/avatar_user_1_1537774226.png"
   />
 </div>

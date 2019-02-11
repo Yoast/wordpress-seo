@@ -115,7 +115,7 @@ export function getImageDimensionsForFacebookImage( dimensions, imageRatios ) {
  * @param {Object} originalDimensions The width and height of the original image.
  * @param {string} imageMode The image mode: square, portrait or landscape.
  *
- * @returns {object} The image dimensions for the facebook image.
+ * @returns {object} The image dimensions for the Facebook image.
  */
 export function calculateFacebookImageDimensions( originalDimensions, imageMode ) {
 	// Images that are too small should not be scaled.
@@ -127,8 +127,8 @@ export function calculateFacebookImageDimensions( originalDimensions, imageMode 
 	}
 
 	/*
-	 If the image is a square, just use the squareWidth and squareHeight. We don't have to fear
-	 that the resulting image will be warped.
+	 * If the image is a square, just use the squareWidth and squareHeight. We
+	 * don't have to fear that the resulting image will be warped.
 	 */
 	if ( imageMode === "square" ) {
 		return {

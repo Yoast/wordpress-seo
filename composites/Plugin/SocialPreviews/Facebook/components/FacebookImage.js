@@ -1,6 +1,10 @@
+/* External dependencies */
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
+
+/* Internal dependencies */
 import {
 	determineFacebookImageProperties,
 	LANDSCAPE_HEIGHT,
@@ -16,23 +20,18 @@ const MIN_IMAGE_WIDTH = 158;
 const MIN_IMAGE_HEIGHT = 158;
 
 const StyledImage = styled.img`
-	min-height: initial;
-	height: ${ props => props.mode === "landscape" ? "auto" : "100%" };
-	width: ${ props => props.mode === "portrait" ? "auto" : "100%" };
-	position: relative;
+	height: ${ props => props.imageMode === "landscape" ? "auto" : "100%" };
+	width: ${ props => props.imageMode === "portrait" ? "auto" : "100%" };
 `;
 
 const FacebookImageContainer = styled.div`
-	line-height: 0;
-	position: relative;
-	z-index: 1;
-	overflow: hidden;
-	display: block;
-	background-color: #fff;
-	height: ${ props => props.dimensions.height };
-	width: ${ props => props.dimensions.width };
 	display: flex;
 	justify-content: center;
+	height: ${ props => props.dimensions.height };
+	width: ${ props => props.dimensions.width };
+	overflow: hidden;
+	background-color: ${ colors.$color_white };
+
 `;
 
 const ErrorImage = styled.div`
@@ -42,14 +41,14 @@ const ErrorImage = styled.div`
 	box-sizing: border-box;
 	padding-top: 7em;
 	font-size: 1rem;
-	color: ${colors.$color_white};
-	background-color: ${colors.$color_red};
+	color: ${ colors.$color_white };
+	background-color: ${ colors.$color_red };
 `;
 
 const PlaceholderImage = styled.div`
 	height: 261px;
 	width: 500px;
-	background-color: ${colors.$color_grey};
+	background-color: ${ colors.$color_grey };
 `;
 
 /**
@@ -135,20 +134,29 @@ export default class FacebookImage extends React.Component {
 		}
 
 		if ( status === "errored" ) {
-			return <ErrorImage>The given image url cannot be loaded</ErrorImage>;
+			return <ErrorImage>{ __( "The given image url cannot be loaded", "yoast-components" ) }</ErrorImage>;
 		}
+
 		if ( imageProperties.height < MIN_IMAGE_HEIGHT || imageProperties.width < MIN_IMAGE_WIDTH ) {
-			return <ErrorImage>The image you selected is too small for Facebook</ErrorImage>;
+			return <ErrorImage>{ __( "The image you selected is too small for Facebook", "yoast-components" ) }</ErrorImage>;
 		}
 
 		const containerDimensions = this.getContainerDimensions( imageProperties.mode );
-		return <FacebookImageContainer mode={ imageProperties.mode } dimensions={ containerDimensions }>
-			<StyledImage src={ this.props.src } mode={ imageProperties.mode } />
+		return <FacebookImageContainer dimensions={ containerDimensions }>
+			<StyledImage
+				src={ this.props.src }
+				alt={ this.props.alt }
+				imageMode={ imageProperties.mode }
+			/>
 		</FacebookImageContainer>;
 	}
 }
 
 FacebookImage.propTypes = {
 	src: PropTypes.string.isRequired,
+	alt: PropTypes.string,
 };
 
+FacebookImage.defaultProps = {
+	alt: "",
+};

@@ -21,11 +21,11 @@ Array [
   white-space: nowrap;
 }
 
-<div
+<p
     className="c0"
   >
     yoast.com
-  </div>,
+  </p>,
 ]
 `;
 
@@ -50,11 +50,11 @@ Array [
   white-space: nowrap;
 }
 
-<div
+<p
     className="c0"
   >
     yosat.com
-  </div>,
+  </p>,
 ]
 `;
 
@@ -79,11 +79,11 @@ Array [
   white-space: nowrap;
 }
 
-<div
+<p
     className="c0"
   >
     yoast.com
-  </div>,
+  </p>,
 ]
 `;
 
@@ -108,11 +108,11 @@ Array [
   white-space: nowrap;
 }
 
-<div
+<p
     className="c0"
   >
     yoast.com
-  </div>,
+  </p>,
 ]
 `;
 
@@ -137,10 +137,10 @@ Array [
   white-space: nowrap;
 }
 
-<div
+<p
     className="c0"
   >
     yoast.com
-  </div>,
+  </p>,
 ]
 `;
