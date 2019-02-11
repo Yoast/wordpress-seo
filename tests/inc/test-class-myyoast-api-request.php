@@ -70,6 +70,10 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_MyYoast_Api_Request::fire
 	 */
 	public function test_fire_with_authentication_exception_being_thrown() {
+		if ( ! WPSEO_Utils::has_access_token_support() ) {
+			$this->markTestSkipped( 'Depends on PHP 5.6 functionality.' );
+		}
+
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
 			->setMethods( array( 'do_request', 'decode_response', 'get_access_token' ) )
@@ -103,6 +107,10 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_MyYoast_Api_Request::fire
 	 */
 	public function test_fire_with_retrieving_new_access_token_result_in_authentication_error() {
+		if ( ! WPSEO_Utils::has_access_token_support() ) {
+			$this->markTestSkipped( 'Depends on PHP 5.6 functionality.' );
+		}
+
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
 			->setMethods( array( 'do_request', 'decode_response', 'get_access_token' ) )
@@ -136,6 +144,10 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_MyYoast_Api_Request::fire
 	 */
 	public function test_fire_with_retrieving_new_access_token_result_in_bad_request() {
+		if ( ! WPSEO_Utils::has_access_token_support() ) {
+			$this->markTestSkipped( 'Depends on PHP 5.6 functionality.' );
+		}
+
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
 			->setMethods( array( 'do_request', 'decode_response', 'get_access_token' ) )
