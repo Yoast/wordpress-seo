@@ -126,7 +126,7 @@ class App extends React.Component {
 		if ( typeof( this.state.config ) !== "undefined" && this.state.config !== {} ) {
 			return (
 				<div>
-					<OnboardingWizard { ...this.state.config } startingStep={ this.state.currentStep } headerIcon={ YoastIcon } />
+					<OnboardingWizard { ...this.state.config } headerIcon={ YoastIcon } />
 				</div>
 			);
 		}
