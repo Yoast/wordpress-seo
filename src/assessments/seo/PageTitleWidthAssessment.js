@@ -131,7 +131,7 @@ export default class PageTitleWidthAssesment extends Assessment {
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				i18n.dgettext(
 					"js-text-analysis",
-					"%1$sSEO title width%3$s: The SEO title wider than the viewable limit. %2$sTry to make it shorter%3$s."
+					"%1$sSEO title width%3$s: The SEO title is wider than the viewable limit. %2$sTry to make it shorter%3$s."
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
