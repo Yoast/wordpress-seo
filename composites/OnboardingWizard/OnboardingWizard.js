@@ -13,7 +13,7 @@ import interpolateComponents from "interpolate-components";
 import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
 import ArrowBackwardIcon from "material-ui/svg-icons/navigation/arrow-back";
 import CloseIcon from "material-ui/svg-icons/navigation/close";
-
+import isUndefined from "lodash/isUndefined";
 
 /**
  * The OnboardingWizard class.
@@ -36,8 +36,22 @@ class OnboardingWizard extends React.Component {
 			errorMessage: "",
 		};
 
+		this.postStep = this.postStep.bind( this );
 		this.setNextStep = this.setNextStep.bind( this );
 		this.setPreviousStep = this.setPreviousStep.bind( this );
+		this.listenToHashChange = this.listenToHashChange.bind( this );
+		window.addEventListener( "hashchange", this.listenToHashChange, false );
+	}
+
+	/**
+	 * Remove the prepended hashtag from the passed string.
+	 *
+	 * @param {string} stringWithHashtag The string to remove the prepended hashtag from.
+	 *
+	 * @returns {string} The string without prepended hashtag.
+	 */
+	removePrependedHashtag( stringWithHashtag ) {
+		return stringWithHashtag.substring( 1 );
 	}
 
 	/**
@@ -131,6 +145,13 @@ class OnboardingWizard extends React.Component {
 	 * @returns {Object}  The first step object
 	 */
 	getFirstStep( steps ) {
+		// Use the hash from the url without the hashtag.
+		const firstStep = this.removePrependedHashtag( window.location.hash );
+
+		if ( firstStep !== "" ) {
+			return firstStep;
+		}
+		// When window.location doesn't have a hash, use the first step of the wizard as default.
 		return Object.getOwnPropertyNames( steps )[ 0 ];
 	}
 
@@ -204,7 +225,16 @@ class OnboardingWizard extends React.Component {
 	 * @returns {Object} The current step.
 	 */
 	getCurrentStep() {
-		return this.state.steps[ this.state.currentStepId ];
+		const steps = this.state.steps;
+		const currentStep = steps[ this.state.currentStepId ];
+
+		// If the currentStep is undefined because the stepId is invalid, return the first step of the Wizard.
+		if ( isUndefined( currentStep ) ) {
+			const firstStepId = Object.keys( steps )[ 0 ];
+			this.setState( { currentStepId: firstStepId } );
+			return steps[ firstStepId ];
+		}
+		return currentStep;
 	}
 
 	/**
@@ -260,6 +290,59 @@ class OnboardingWizard extends React.Component {
 	}
 
 	/**
+	 * Updates the currentStepId in the state when the hash in the URL changes.
+	 *
+	 * @returns {void}
+	 */
+	listenToHashChange() {
+		// Because the hash starts with a hashtag, we need to do remove the hastag before using it.
+		this.setState( { currentStepId: this.removePrependedHashtag( window.location.hash ) } );
+	}
+
+	/**
+	 * When the currentStepId in the state changes, return a snapshot with the new currentStepId.
+	 *
+	 * @param {Object} prevProps The previous props.
+	 * @param {Object} prevState The previous state.
+	 *
+	 * @returns {string|null} The currentStepId from after the update.
+	 */
+	getSnapshotBeforeUpdate( prevProps, prevState ) {
+		const currentStepIdAfterUpdate = this.state.currentStepId;
+		// If there is no change in the currentStepId in the state, do nothing.
+		if ( prevState.currentStepId === currentStepIdAfterUpdate ) {
+			return null;
+		}
+
+		// If the new currentStepId is the same as the current location hash, do nothing.
+		if ( this.removePrependedHashtag( window.location.hash ) === currentStepIdAfterUpdate ) {
+			return null;
+		}
+
+		return currentStepIdAfterUpdate;
+	}
+
+	/**
+	 * Push the new hash to the history.
+	 *
+	 * Only do this when the new hash differs from the current hash. If we wouldn't check against
+	 * the current hash, it would lead to double hashes when using the browser's previous and next
+	 * buttons.
+	 *
+	 * @param {Object} prevProps The previous props.
+	 * @param {Object} prevState The previous state.
+	 * @param {string} snapshot The currentStepId from after the update.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate( prevProps, prevState, snapshot ) {
+		if ( snapshot !== null ) {
+			window.history.pushState( null, null, "#" + snapshot );
+		}
+	}
+
+
+	/**
 	 * Renders the wizard.
 	 *
 	 * @returns {JSX.Element} The rendered step in the wizard.
@@ -302,7 +385,7 @@ class OnboardingWizard extends React.Component {
 					<Header headerTitle={ headerTitle } icon={ this.props.headerIcon } />
 					<StepIndicator
 						steps={ this.props.steps } stepIndex={ this.getCurrentStepNumber() - 1 }
-						onClick={ ( stepNumber, evt ) => this.postStep( stepNumber, evt ) }
+						onClick={ this.postStep }
 					/>
 					<main className="yoast-wizard-container">
 						<div className="yoast-wizard">
