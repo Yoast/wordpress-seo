@@ -1,6 +1,8 @@
 import { addAllAdjectiveSuffixes } from "./addAdjectiveSuffixes";
 import { addRegularSuffixes } from "./addAdjectiveSuffixes";
-import { addComparativeSuperlativeSuffixes } from "./addAdjectiveSuffixes";
+import { addComparativeSuffixes } from "./addAdjectiveSuffixes";
+import { addSuperlativeSuffixes } from "./addAdjectiveSuffixes";
+import { uniq as unique } from "lodash-es";
 
 /**
  *  Returns forms for adjectives that get all suffixes on their second stem but none on their first.
@@ -26,26 +28,82 @@ const twoStemsOneStemGetsSuffixed = function( morphologyDataAdjectives, stemmedW
 };
 
 /**
- * Returns forms for adjectives that get all suffixes on both their stems.
+ * Returns forms for adjectives ending in -er. These get the -er re-attached after the stemmer has deleted it and
+ * subsequently get all suffixes attached.
  *
  * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
  * @param {string}  stemmedWordToCheck       The stem to check.
  *
  * @returns {string[]} The created adjective forms.
  */
-const twoStemsBothGetSuffixed = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.suffixBothStems;
+const erOnlyRestoreEr = function( morphologyDataAdjectives, stemmedWordToCheck ) {
+	const exceptionStems = morphologyDataAdjectives.erOnlyRestoreEr;
+
+
+	if ( exceptionStems.includes( stemmedWordToCheck ) ) {
+		/*
+		 * Since the stemmer incorrectly removes -er, we need to add it again here. Subsequently we add
+		 * all adjective endings to the stem with the restored -er.
+		 */
+		return [
+			stemmedWordToCheck.concat( "er" ),
+			...addAllAdjectiveSuffixes( morphologyDataAdjectives, stemmedWordToCheck.concat( "er" ) ),
+		];
+	}
+
+	return [];
+};
+
+/**
+ * Returns forms for adjectives ending in -er that have two stems: the -er stem gets -er restored and gets
+ * regular and superlative endings, the -r stem gets comparative endings.
+ *
+ * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
+ * @param {string}  stemmedWordToCheck       The stem to check.
+ *
+ * @returns {string[]} The created adjective forms.
+ */
+const erStemChangeClass1 = function( morphologyDataAdjectives, stemmedWordToCheck ) {
+	const exceptionStems = morphologyDataAdjectives.erStemChangeClass1;
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const stemPairToCheck = exceptionStems[ i ];
 
 		if ( stemPairToCheck.includes( stemmedWordToCheck ) ) {
-			/*
-			 * Since the stemmer incorrectly removes -er, we need to add it again here. Also the stems that need
-			 * to be suffixed always end in a consonant; therefore the -n suffix can be removed.
-			 */
-			return [ ...addAllAdjectiveSuffixes( morphologyDataAdjectives, stemPairToCheck[ 0 ].concat( "er" ) ),
-				...addAllAdjectiveSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ) ];
+			return unique( [
+				stemPairToCheck[ 0 ].concat( "er" ),
+				...addRegularSuffixes( morphologyDataAdjectives, stemPairToCheck[ 0 ].concat( "er" ) ),
+				...addSuperlativeSuffixes( morphologyDataAdjectives, stemPairToCheck[ 0 ].concat( "er" ) ),
+				...addComparativeSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ),
+			] );
+		}
+	}
+
+	return [];
+};
+
+/**
+ * Returns forms for adjectives ending in -er that have two stems: the -er stem gets superlative endings, the -r stem gets
+ * regular and comparative endings.
+ *
+ * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
+ * @param {string}  stemmedWordToCheck       The stem to check.
+ *
+ * @returns {string[]} The created adjective forms.
+ */
+const erStemChangeClass2 = function( morphologyDataAdjectives, stemmedWordToCheck ) {
+	const exceptionStems = morphologyDataAdjectives.erStemChangeClass1;
+
+	for ( let i = 0; i < exceptionStems.length; i++ ) {
+		const stemPairToCheck = exceptionStems[ i ];
+
+		if ( stemPairToCheck.includes( stemmedWordToCheck ) ) {
+			return unique( [
+				stemPairToCheck[ 0 ].concat( "er" ),
+				...addRegularSuffixes( morphologyDataAdjectives, stemPairToCheck[ 0 ].concat( "er" ) ),
+				...addSuperlativeSuffixes( morphologyDataAdjectives, stemPairToCheck[ 0 ].concat( "er" ) ),
+				...addComparativeSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ),
+			] );
 		}
 	}
 
@@ -68,9 +126,11 @@ const secondStemCompSup = function( morphologyDataAdjectives, stemmedWordToCheck
 		const stemPairToCheck = exceptionStems[ i ];
 
 		if ( stemPairToCheck.includes( stemmedWordToCheck ) ) {
-			// The stems that need to be suffixed always end in a consonant; therefore the -n suffix can be removed.
-			return [ ...addRegularSuffixes( morphologyDataAdjectives, stemPairToCheck[ 0 ] ),
-				...addComparativeSuperlativeSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ) ];
+			return unique( [
+				...addRegularSuffixes( morphologyDataAdjectives, stemPairToCheck[ 0 ] ),
+				...addComparativeSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ),
+				...addSuperlativeSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ),
+			] );
 		}
 	}
 
@@ -93,9 +153,11 @@ const bothStemsComSup = function( morphologyDataAdjectives, stemmedWordToCheck )
 		const stemPairToCheck = exceptionStems[ i ];
 
 		if ( stemPairToCheck.includes( stemmedWordToCheck ) ) {
-			// The stems that need to be suffixed always end in a consonant; therefore the -n suffix can be removed.
-			return [ ...addAllAdjectiveSuffixes( morphologyDataAdjectives, stemPairToCheck[ 0 ] ),
-				...addComparativeSuperlativeSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ) ];
+			return unique( [
+				...addAllAdjectiveSuffixes( morphologyDataAdjectives, stemPairToCheck[ 0 ] ),
+				...addComparativeSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ),
+				...addSuperlativeSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ),
+			] );
 		}
 	}
 
@@ -117,7 +179,13 @@ export function checkAdjectiveExceptions( morphologyDataAdjectives, stemmedWordT
 		return exceptions;
 	}
 
-	exceptions = twoStemsBothGetSuffixed( morphologyDataAdjectives, stemmedWordToCheck );
+	exceptions = erOnlyRestoreEr( morphologyDataAdjectives, stemmedWordToCheck );
+
+	if ( exceptions.length > 0 ) {
+		return exceptions;
+	}
+
+	exceptions = erStemChangeClass1( morphologyDataAdjectives, stemmedWordToCheck );
 
 	if ( exceptions.length > 0 ) {
 		return exceptions;

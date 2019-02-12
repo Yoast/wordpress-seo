@@ -76,6 +76,22 @@ export function addRegularSuffixes( morphologyDataAdjectives, stemmedWord, suffi
 }
 
 /**
+ * Adds suffixes for comparative forms to a stem.
+ *
+ * @param {Object}      morphologyDataAdjectives    The German morphology data for nouns.
+ * @param {string}      stemmedWord                 The stemmed word for which to get suffixes.
+ * @param {string[]}    [suffixesToRemove=[]]       The suffixes that shouldn't be added.
+ *
+ * @returns {string[]} The suffixed adjective forms.
+ */
+export function addComparativeSuffixes( morphologyDataAdjectives, stemmedWord, suffixesToRemove = [] ) {
+	let comparativeSuffixes = getSuffixesComparative( morphologyDataAdjectives, stemmedWord );
+	comparativeSuffixes = comparativeSuffixes.filter( suffix => suffixesToRemove.indexOf( suffix ) === -1 );
+
+	return comparativeSuffixes.map( suffix => stemmedWord.concat( suffix ) );
+}
+
+/**
  * Adds suffixes for comparative and superlative forms to a stem.
  *
  * @param {Object}      morphologyDataAdjectives    The German morphology data for nouns.
@@ -84,13 +100,11 @@ export function addRegularSuffixes( morphologyDataAdjectives, stemmedWord, suffi
  *
  * @returns {string[]} The suffixed adjective forms.
  */
-export function addComparativeSuperlativeSuffixes( morphologyDataAdjectives, stemmedWord, suffixesToRemove = [] ) {
-	const comparativeSuffixes = getSuffixesComparative( morphologyDataAdjectives, stemmedWord );
-	const superlativeSuffixes = getSuffixesSuperlative( morphologyDataAdjectives, stemmedWord );
-	let suffixesToAdd = [ ...comparativeSuffixes, ...superlativeSuffixes ];
-	suffixesToAdd = suffixesToAdd.filter( suffix => suffixesToRemove.indexOf( suffix ) === -1 );
+export function addSuperlativeSuffixes( morphologyDataAdjectives, stemmedWord, suffixesToRemove = [] ) {
+	let superlativeSuffixes = getSuffixesSuperlative( morphologyDataAdjectives, stemmedWord );
+	superlativeSuffixes = superlativeSuffixes.filter( suffix => suffixesToRemove.indexOf( suffix ) === -1 );
 
-	return unique( suffixesToAdd.map( suffix => stemmedWord.concat( suffix ) ) );
+	return superlativeSuffixes.map( suffix => stemmedWord.concat( suffix ) );
 }
 
 /**
