@@ -2,7 +2,14 @@ import React from "react";
 import { ButtonSection } from "yoast-components";
 import { Button, Modal } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
+import { createGlobalStyle } from "styled-components";
 import SnippetEditorWrapper from "../containers/SnippetEditor";
+
+const OverrideOverlayColor = createGlobalStyle`
+	.components-modal__screen-overlay {
+		background-color: hsla(327, 84%, 38%, 0.6);
+	}
+`;
 
 class SnippetPreviewModal extends React.Component {
 	constructor( props ) {
@@ -43,6 +50,7 @@ class SnippetPreviewModal extends React.Component {
 					<Button isDefault={ true } onClick={ this.closeModal }>
 						{ __( "Close", "wordpress-seo" ) }
 					</Button>
+					<OverrideOverlayColor />
 				</Modal>
 				}
 			</React.Fragment>
