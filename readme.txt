@@ -109,6 +109,12 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 9.6.0 =
 Release Date: February 12th, 2019
 
+## Content analysis recalibration (beta):
+
+* As there are already a lot of users who are participating in testing, we currently have enough input to start preparing for the release of the improved analysis.
+  * Removes the ability to enable beta testing for new installations.
+  * When the feature is disabled, the ability to re-enable it will disappear.
+
 ## Enhancements:
 
 * Removes schema (JSON+LD) output from 404 pages.
@@ -123,8 +129,7 @@ Release Date: February 12th, 2019
 ## Other:
 
 * Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
-* Improves the redirect upsell when user clicks on create redirect in the search console overview.
-* Removes the recalibration beta toggle. If the beta is activated, the toggle is only removed on deactivation.
+* Improves the redirect upsell when creating redirects in the search console overview.
 
 = 9.5.0 =
 Release Date: January 22nd, 2019
