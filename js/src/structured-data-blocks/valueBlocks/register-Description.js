@@ -3,33 +3,23 @@ import { __ } from "@wordpress/i18n";
 import { registerBlockType } from "@wordpress/blocks";
 
 /* Internal dependencies */
-import TotalTime from "./TotalTime";
+import Description from "./Description";
 import { CATEGORY } from "../constants";
 
 export default () => {
-	registerBlockType( "yoast/total-time", {
-		title: __( "Total time", "wordpress-seo" ),
+	registerBlockType( "yoast/description", {
+		title: __( "Description", "wordpress-seo" ),
 		description: __( "", "wordpress-seo" ),
 		icon: "",
 		category: CATEGORY,
 		keywords: [],
 
 		attributes: {
-			days: {
-				type: "string",
-			},
-			hours: {
-				type: "string",
-			},
-			minutes: {
-				type: "string",
-			},
-			legend: {
+			description: {
 				type: "string",
 			},
 		},
-
-		edit: TotalTime,
-		save: TotalTime.Content,
+		edit: Description,
+		save: Description.Content,
 	} );
 };
