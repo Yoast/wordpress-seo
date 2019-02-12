@@ -18,12 +18,10 @@
   "scripts": {
     "test": "jest",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
-    "build-recalibration": "yarn build --env.recalibration=enabled",
     "webpack-analyze-bundle": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json js/dist",
     "i18n-yoast-components": "cross-env NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-wordpress-seo": "cross-env NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "start": "grunt build:css && grunt webpack:buildDev && webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development",
-    "start-recalibration": "yarn start --env.recalibration=enabled"
+    "start": "grunt build:css && grunt webpack:buildDev && webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",
@@ -150,7 +148,7 @@
     "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#develop"
   },
   "yoast": {
-    "pluginVersion": "9.7-beta1",
+    "pluginVersion": "9.7-beta2",
     "recalibrationVersion": "13"
   }
 }
