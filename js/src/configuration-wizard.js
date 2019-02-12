@@ -32,7 +32,6 @@ class App extends React.Component {
 		this.state = {
 			isLoading: true,
 		};
-
 		this.getConfig();
 	}
 
