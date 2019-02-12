@@ -1,5 +1,7 @@
+import { take } from "lodash-es";
 import getWords from "yoastsrc/stringProcessing/getWords";
-import { getRelevantWords } from "yoastsrc/stringProcessing/relevantWords";
+import { getRelevantWords, getRelevantWordsFromTopic } from "yoastsrc/stringProcessing/relevantWords";
+import { getSubheadingsTopLevel } from "yoastsrc/stringProcessing/getSubheadings";
 import WordCombination from "yoastsrc/values/WordCombination";
 
 /**
@@ -20,15 +22,30 @@ function formatNumber( number ) {
 /**
  * Calculates all properties for the relevant word objects.
  *
- * @param {string} text             The content.
- * @param {string} [locale="en_US"] The locale of the text.
+ * @param {Paper} paper The paper to analyse.
  *
  * @returns {Object} The relevant word objects.
  */
-export default function calculateRelevantWords( text, locale = "en_US" ) {
+export default function calculateRelevantWords( paper ) {
+	const text = paper.text;
 	const words = getWords( text );
 
-	return getRelevantWords( text, locale ).map( ( word ) => {
+	const locale = paper.locale;
+	const relevantWordsFromText = getRelevantWords( text, locale );
+
+	const subheadings = getSubheadingsTopLevel( text ).map( subheading => subheading[ 2 ] );
+
+	const relevantWordsFromTopic = getRelevantWordsFromTopic(
+		paper.keyword,
+		paper.synonyms,
+		paper.description,
+		subheadings,
+		locale,
+	);
+
+	const relevantWords = take( relevantWordsFromTopic.concat( relevantWordsFromText ), 100 );
+
+	return relevantWords.map( ( word ) => {
 		const output = {
 			word: word.getCombination(),
 			relevance: formatNumber( word.getRelevance() ),

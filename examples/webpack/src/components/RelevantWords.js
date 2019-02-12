@@ -13,6 +13,9 @@ import calculateRelevantWords from "../utils/calculateRelevantWords";
 let previousRelevantWords = {
 	text: "",
 	locale: "en_US",
+	description: "",
+	keyword: "",
+	synonyms: "",
 	data: {},
 };
 
@@ -64,17 +67,31 @@ function RelevantWords( { data } ) {
 /**
  * Retrieve the relevant words. Uses cached version when possible.
  *
- * @param {string} text   The text.
- * @param {string} locale The locale.
+ * @param {Paper} paper   The paper to get relevant words for.
  *
  * @returns {Object} The relevant words.
  */
-function getRelevantWords( text, locale ) {
-	if ( ! isEqual( text, previousRelevantWords.text ) || ! isEqual( locale, previousRelevantWords.locale ) ) {
+function getRelevantWords( paper ) {
+	const text = paper.text;
+	const locale = paper.locale;
+	const description = paper.description;
+	const keyword = paper.keyword;
+	const synonyms = paper.synonyms;
+
+	if (
+		! isEqual( text, previousRelevantWords.text ) ||
+		! isEqual( locale, previousRelevantWords.locale ) ||
+		! isEqual( description, previousRelevantWords.description ) ||
+		! isEqual( keyword, previousRelevantWords.keyword ) ||
+		! isEqual( synonyms, previousRelevantWords.synonyms )
+	) {
 		previousRelevantWords = {
 			text,
 			locale,
-			data: calculateRelevantWords( text, locale ),
+			description,
+			keyword,
+			synonyms,
+			data: calculateRelevantWords( paper ),
 		};
 	}
 	return previousRelevantWords.data;
@@ -82,6 +99,6 @@ function getRelevantWords( text, locale ) {
 
 export default connect( ( state ) => {
 	return {
-		data: getRelevantWords( state.paper.text, state.paper.locale ),
+		data: getRelevantWords( state.paper ),
 	};
 } )( RelevantWords );
