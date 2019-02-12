@@ -5,7 +5,7 @@ import { get, has } from "lodash-es";
  * and logic to apply these researches to a formatted text,
  * represented as a tree structure.
  *
- * @memberOf module:tree/structure
+ * @memberOf module:tree/research
  */
 class TreeResearcher {
 	/**
