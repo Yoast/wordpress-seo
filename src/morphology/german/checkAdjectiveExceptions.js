@@ -56,7 +56,7 @@ const erOnlyRestoreEr = function( morphologyDataAdjectives, stemmedWordToCheck )
 
 /**
  * Returns forms for adjectives ending in -er that have two stems: the -er stem gets -er restored and gets
- * regular and superlative endings, the -r stem gets comparative endings.
+ * regular and superlative endings; the -r stem gets comparative endings.
  *
  * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
  * @param {string}  stemmedWordToCheck       The stem to check.
@@ -83,7 +83,7 @@ const erStemChangeClass1 = function( morphologyDataAdjectives, stemmedWordToChec
 };
 
 /**
- * Returns forms for adjectives ending in -er that have two stems: the -er stem gets superlative endings, the -r stem gets
+ * Returns forms for adjectives ending in -er that have two stems: the -er stem gets superlative endings; the -r stem gets
  * regular and comparative endings.
  *
  * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
@@ -92,7 +92,7 @@ const erStemChangeClass1 = function( morphologyDataAdjectives, stemmedWordToChec
  * @returns {string[]} The created adjective forms.
  */
 const erStemChangeClass2 = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.erStemChangeClass1;
+	const exceptionStems = morphologyDataAdjectives.erStemChangeClass2;
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const stemPairToCheck = exceptionStems[ i ];
@@ -100,8 +100,35 @@ const erStemChangeClass2 = function( morphologyDataAdjectives, stemmedWordToChec
 		if ( stemPairToCheck.includes( stemmedWordToCheck ) ) {
 			return unique( [
 				stemPairToCheck[ 0 ].concat( "er" ),
-				...addRegularSuffixes( morphologyDataAdjectives, stemPairToCheck[ 0 ].concat( "er" ) ),
 				...addSuperlativeSuffixes( morphologyDataAdjectives, stemPairToCheck[ 0 ].concat( "er" ) ),
+				...addRegularSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ),
+				...addComparativeSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ),
+			] );
+		}
+	}
+
+	return [];
+};
+
+/**
+ * Returns forms for adjectives ending in -er that have two stems: the -er stem gets regular,
+ * comparative and superlative endings; the -r stem gets comparative endings.
+ *
+ * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
+ * @param {string}  stemmedWordToCheck       The stem to check.
+ *
+ * @returns {string[]} The created adjective forms.
+ */
+const erStemChangeClass3 = function( morphologyDataAdjectives, stemmedWordToCheck ) {
+	const exceptionStems = morphologyDataAdjectives.erStemChangeClass3;
+
+	for ( let i = 0; i < exceptionStems.length; i++ ) {
+		const stemPairToCheck = exceptionStems[ i ];
+
+		if ( stemPairToCheck.includes( stemmedWordToCheck ) ) {
+			return unique( [
+				stemPairToCheck[ 0 ].concat( "er" ),
+				...addAllAdjectiveSuffixes( morphologyDataAdjectives, stemPairToCheck[ 0 ].concat( "er" ) ),
 				...addComparativeSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ),
 			] );
 		}
@@ -186,6 +213,18 @@ export function checkAdjectiveExceptions( morphologyDataAdjectives, stemmedWordT
 	}
 
 	exceptions = erStemChangeClass1( morphologyDataAdjectives, stemmedWordToCheck );
+
+	if ( exceptions.length > 0 ) {
+		return exceptions;
+	}
+
+	exceptions = erStemChangeClass2( morphologyDataAdjectives, stemmedWordToCheck );
+
+	if ( exceptions.length > 0 ) {
+		return exceptions;
+	}
+
+	exceptions = erStemChangeClass3( morphologyDataAdjectives, stemmedWordToCheck );
 
 	if ( exceptions.length > 0 ) {
 		return exceptions;

@@ -78,6 +78,67 @@ describe( "Test for checking adjective exceptions in German", () => {
 		);
 	} );
 
+	it( "creates forms for adjectives ending in -er class 2", () => {
+		expect( checkAdjectiveExceptions( morphologyDataDE.adjectives, "teu" ) ).toEqual( [
+			"teuer",
+			"teuerste",
+			"teuerstem",
+			"teuersten",
+			"teuerster",
+			"teuerstes",
+			"teure",
+			"teurem",
+			"teuren",
+			"teurer",
+			"teures",
+			"teurere",
+			"teurerem",
+			"teureren",
+			"teurerer",
+			"teureres",
+		], );
+	} );
+
+	it( "creates forms for adjectives ending in -er class 2; output is the same for both stems", () => {
+		expect( checkAdjectiveExceptions( morphologyDataDE.adjectives, "teu" ) ).toEqual(
+			checkAdjectiveExceptions( morphologyDataDE.adjectives, "teur" )
+		);
+	} );
+
+	it( "creates forms for adjectives ending in -er class 3", () => {
+		expect( checkAdjectiveExceptions( morphologyDataDE.adjectives, "clev" ) ).toEqual( [
+			"clever",
+			"clevere",
+			"cleverem",
+			"cleveren",
+			"cleverer",
+			"cleveres",
+			"cleverere",
+			"clevererem",
+			"clevereren",
+			"clevererer",
+			"clevereres",
+			"cleverste",
+			"cleverstem",
+			"cleversten",
+			"cleverster",
+			"cleverstes",
+			"clevrer",
+			"clevrere",
+			"clevrerem",
+			"clevreren",
+			"clevrerer",
+			"clevreres",
+		], );
+	} );
+
+	it( "creates forms for adjectives ending in -er class 3; output is the same for both stems", () => {
+		expect( checkAdjectiveExceptions( morphologyDataDE.adjectives, "clev" ) ).toEqual(
+			checkAdjectiveExceptions( morphologyDataDE.adjectives, "clevr" )
+		);
+	} );
+
+
 	it( "creates forms for exceptions where the first stem gets suffixed with regular suffixes and the second stem " +
 		"gets suffixed with comparative/superlative suffixes", () => {
 		expect( checkAdjectiveExceptions( morphologyDataDE.adjectives, "scharf" ) ).toEqual( [
