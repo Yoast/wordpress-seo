@@ -109,24 +109,24 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 9.6.0 =
 Release Date: February 12th, 2019
 
-## Content analysis recalibration (beta):
+Content analysis recalibration (beta):
 
 * As there are already a lot of users who are participating in testing, we currently have enough input to start preparing for the release of the improved analysis.
   * Removes the ability to enable beta testing for new installations.
   * When the feature is disabled, the ability to re-enable it will disappear.
 
-## Enhancements:
+Enhancements:
 
 * Removes schema (JSON+LD) output from 404 pages.
 * Improves the Google Search Console table accessibility by removing a duplicate button.
 * Improves the code to better comply to the coding standards.
 
-## Bugfixes:
+Bugfixes:
 
 * Fixes a bug where an empty feed would be available for non-existing pages. Props [stodorovic](https://github.com/stodorovic).
 * Prevents `vendor_prefix/j4mie/idiorm/demo.php` from being included in the release.
 
-## Other:
+Other:
 
 * Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
 * Improves the redirect upsell when creating redirects in the search console overview.
