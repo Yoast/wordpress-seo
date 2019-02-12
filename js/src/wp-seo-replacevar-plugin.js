@@ -9,7 +9,7 @@ import {
 	updateReplacementVariable,
 	refreshSnippetEditor,
 } from "./redux/actions/snippetEditor";
-import TaxonomyReplacmentVariables from "./helpers/taxonomy-replacevars";
+import TaxonomyReplacementVariables from "./helpers/taxonomy-replacevars";
 
 import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
@@ -138,7 +138,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 	 * @returns {void}
 	 */
 	const handleCategories = function() {
-		const taxonomyReplacementVariables = new TaxonomyReplacmentVariables();
+		const taxonomyReplacementVariables = new TaxonomyReplacementVariables();
 		taxonomyReplacementVariables.listen();
 	};
 
