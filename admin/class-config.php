@@ -41,23 +41,8 @@ class WPSEO_Admin_Pages {
 			wp_redirect( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) );
 		}
 
-		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
-	}
-
-	/**
-	 * Run admin-specific actions.
-	 */
-	public function admin_init() {
-
-		$page         = filter_input( INPUT_GET, 'page' );
-		$tool         = filter_input( INPUT_GET, 'tool' );
-		$export_nonce = filter_input( INPUT_POST, WPSEO_Export::NONCE_NAME );
-
-		if ( 'wpseo_tools' === $page && 'import-export' === $tool && $export_nonce !== null ) {
-			$this->do_yoast_export();
-		}
 	}
 
 	/**
@@ -100,7 +85,7 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ) );
 
 		if ( in_array( $page, array( 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_titles' ), true ) ) {
 			wp_enqueue_media();
@@ -156,26 +141,6 @@ class WPSEO_Admin_Pages {
 
 		if ( 'bulk-editor' === $tool ) {
 			$this->asset_manager->enqueue_script( 'bulk-editor' );
-		}
-	}
-
-	/**
-	 * Runs the yoast exporter class to possibly init the file download.
-	 */
-	private function do_yoast_export() {
-		check_admin_referer( WPSEO_Export::NONCE_ACTION, WPSEO_Export::NONCE_NAME );
-
-		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
-			return;
-		}
-
-		$wpseo_post       = filter_input( INPUT_POST, 'wpseo' );
-		$include_taxonomy = ! empty( $wpseo_post['include_taxonomy'] );
-		$export           = new WPSEO_Export( $include_taxonomy );
-
-		if ( $export->has_error() ) {
-			add_action( 'admin_notices', array( $export, 'set_error_hook' ) );
-
 		}
 	}
 } /* End of class */

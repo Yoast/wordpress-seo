@@ -49,11 +49,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		global $pagenow;
 		$pagenow = 'post-new.php';
 
-		// Prefix used in WPSEO-admin-asset-manager.
-
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->register_assets();
-
 
 		// Call enqueue function.
 		self::$class_instance->enqueue();
@@ -83,6 +80,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$stub->add_meta_box();
 
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
+		unset( $post_types['attachment'] );
 
 		// Test if all post types have the wpseo_meta metabox.
 		foreach ( $post_types as $post_type ) {

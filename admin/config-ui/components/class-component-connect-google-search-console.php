@@ -10,11 +10,21 @@
  */
 class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Config_Component {
 
+	/**
+	 * @var string
+	 */
 	const OPTION_ACCESS_TOKEN = 'wpseo-gsc-access_token';
+
+	/**
+	 * @var string
+	 */
 	const OPTION_REFRESH_TOKEN = 'wpseo-gsc-refresh_token';
 
-
-	/** @var WPSEO_GSC_Service Service to use */
+	/**
+	 * Service to use.
+	 *
+	 * @var WPSEO_GSC_Service
+	 */
 	protected $gsc_service;
 
 	/**

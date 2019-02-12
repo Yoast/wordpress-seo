@@ -1,11 +1,12 @@
-/* globals wpseoAdminL10n */
+/* global wpseoPostScraperL10n wpseoTermScraperL10n wpseoAdminL10n */
+
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import { getRtlStyle, KeywordInput, colors, utils } from "yoast-components";
+import { KeywordInput, colors } from "yoast-components";
 import Collapsible from "../SidebarCollapsible";
 import Results from "./Results";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
@@ -15,72 +16,26 @@ import KeywordSynonyms from "../modals/KeywordSynonyms";
 import Modal from "../modals/Modal";
 import MultipleKeywords from "../modals/MultipleKeywords";
 import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
-import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
+import { LocationConsumer } from "../contexts/location";
 import AnalysisUpsell from "../AnalysisUpsell";
+import RecalibrationBetaNotification from "./RecalibrationBetaNotification";
+import HelpLink from "./HelpLink";
+import { setMarkerPauseStatus } from "../../redux/actions/markerPauseStatus";
+import { ModalContainer, ModalIcon } from "../modals/Container";
+
+// We need localizedData temporarily here to know if the recalibration beta is toggled.
+let localizedData = {};
+if ( window.wpseoPostScraperL10n ) {
+	localizedData = wpseoPostScraperL10n;
+} else if ( window.wpseoTermScraperL10n ) {
+	localizedData = wpseoTermScraperL10n;
+}
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
 	font-weight: bold;
 	margin: 1.5em 0 1em;
 	display: block;
-`;
-
-export const HelpLink = utils.makeOutboundLink( styled.a`
-	display: inline-block;
-	position: relative;
-	outline: none;
-	text-decoration: none;
-	border-radius: 100%;
-	width: 24px;
-	height: 24px;
-	margin: -4px 0;
-	vertical-align: middle;
-
-	color: ${ colors.$color_help_text };
-	
-	&:hover,
-	&:focus {
-		color: ${ colors.$color_snippet_focus };	
-	}
-	
-	// Overwrite the default blue active color for links.
-	&:active {
-		color: ${ colors.$color_help_text };	
-	}
-	
-	
-
-	&::before {
-		position: absolute;
-		top: 0;
-		left: 0;
-		padding: 2px;
-		content: "\f223";
-	}
-` );
-
-const StyledContainer = styled.div`
-	min-width: 600px;
-
-	@media screen and ( max-width: 680px ) {
-		min-width: 0;
-		width: 86vw;
-	}
-`;
-
-const StyledIcon = styled( Icon )`
-	float: ${ getRtlStyle( "right", "left" ) };
-	margin: ${ getRtlStyle( "0 0 16px 16px", "0 16px 16px 0" ) };
-
-	&& {
-		width: 150px;
-		height: 150px;
-
-		@media screen and ( max-width: 680px ) {
-			width: 80px;
-			height: 80px;
-		}
-	}
 `;
 
 /**
@@ -130,12 +85,12 @@ class SeoAnalysis extends React.Component {
 
 		return (
 			<Modal { ...modalProps }>
-				<StyledContainer>
-					<StyledIcon icon={ YoastSeoIcon } />
+				<ModalContainer>
+					<ModalIcon icon={ YoastSeoIcon } />
 					<h2>{ __( "Would you like to add keyphrase synonyms?", "wordpress-seo" ) }</h2>
 
 					<KeywordSynonyms link={ link } buyLink={ buyLink } />
-				</StyledContainer>
+				</ModalContainer>
 			</Modal>
 		);
 	}
@@ -183,14 +138,14 @@ class SeoAnalysis extends React.Component {
 
 		return (
 			<Modal { ...modalProps }>
-				<StyledContainer>
-					<StyledIcon icon={ YoastSeoIcon } />
+				<ModalContainer>
+					<ModalIcon icon={ YoastSeoIcon } />
 					<h2>{ __( "Would you like to add a related keyphrase?", "wordpress-seo" ) }</h2>
 					<MultipleKeywords
 						link={ link }
 						buyLink={ buyLink }
 					/>
-				</StyledContainer>
+				</ModalContainer>
 			</Modal>
 		);
 	}
@@ -217,6 +172,7 @@ class SeoAnalysis extends React.Component {
 				prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 				prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 				title={ __( "Add related keyphrase", "wordpress-seo" ) }
+				id={ `yoast-additional-keyphrase-collapsible-${ location }` }
 			>
 				<MultipleKeywords
 					link={ link }
@@ -248,14 +204,16 @@ class SeoAnalysis extends React.Component {
 	/**
 	 * Renders the AnalysisUpsell component.
 	 *
+	 * @param {string} location The location of the upsell component. Used to determine the shortlink in the component.
+	 *
 	 * @returns {ReactElement} The AnalysisUpsell component.
 	 */
-	renderWordFormsUpsell() {
+	renderWordFormsUpsell( location ) {
 		return <AnalysisUpsell
-			url={ this.props.location === "sidebar"
-				? "https://yoa.st/morphology-upsell-sidebar"
-				: "https://yoa.st/morphology-upsell-metabox" }
-			alignment={ this.props.location === "sidebar" ? "vertical" : "horizontal" }
+			url={ location === "sidebar"
+				? wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_sidebar" ]
+				: wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_metabox" ] }
+			alignment={ location === "sidebar" ? "vertical" : "horizontal" }
 		/>;
 	}
 
@@ -266,6 +224,14 @@ class SeoAnalysis extends React.Component {
 	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
+		const isRecalibrationBetaActive = localizedData.recalibrationBetaActive;
+
+		let analysisTitle = __( "Focus keyphrase", "wordpress-seo" );
+
+		// Adjust the title when the beta is active.
+		if ( isRecalibrationBetaActive ) {
+			analysisTitle =  __( "Focus keyphrase (beta)", "wordpress-seo" );
+		}
 
 		if ( score.className !== "loading" && this.props.keyword === "" ) {
 			score.className = "na";
@@ -273,39 +239,47 @@ class SeoAnalysis extends React.Component {
 		}
 
 		return (
-			<Fragment>
-				<Collapsible
-					title={ __( "Focus keyphrase", "wordpress-seo" ) }
-					titleScreenReaderText={ score.screenReaderReadabilityText }
-					prefixIcon={ getIconForScore( score.className ) }
-					prefixIconCollapsed={ getIconForScore( score.className ) }
-					subTitle={ this.props.keyword }
-				>
-					<KeywordInput
-						id="focus-keyword-input"
-						onChange={ this.props.onFocusKeywordChange }
-						keyword={ this.props.keyword }
-						label={ __( "Focus keyphrase", "wordpress-seo" ) }
-						helpLink={ this.renderHelpLink() }
-					/>
-					<Slot name="YoastSynonyms" />
-					{ this.props.shouldUpsell && <React.Fragment>
-						{ this.renderSynonymsUpsell( this.props.location ) }
-						{ this.renderMultipleKeywordsUpsell( this.props.location ) }
-					</React.Fragment> }
-					{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell() }
-					<AnalysisHeader>
-						{ __( "Analysis results", "wordpress-seo" ) }
-					</AnalysisHeader>
-					<Results
-						showLanguageNotice={ false }
-						results={ this.props.results }
-						marksButtonClassName="yoast-tooltip yoast-tooltip-s"
-						marksButtonStatus={ this.props.marksButtonStatus }
-					/>
-				</Collapsible>
-				{ this.props.shouldUpsell && this.renderKeywordUpsell( this.props.location ) }
-			</Fragment>
+			<LocationConsumer>
+				{ context => (
+					<Fragment>
+						<Collapsible
+							title={ analysisTitle }
+							titleScreenReaderText={ score.screenReaderReadabilityText }
+							prefixIcon={ getIconForScore( score.className ) }
+							prefixIconCollapsed={ getIconForScore( score.className ) }
+							subTitle={ this.props.keyword }
+							id={ `yoast-seo-analysis-collapsible-${ context }` }
+						>
+							{ isRecalibrationBetaActive ? <RecalibrationBetaNotification /> : null }
+							<KeywordInput
+								id="focus-keyword-input"
+								onChange={ this.props.onFocusKeywordChange }
+								keyword={ this.props.keyword }
+								label={ __( "Focus keyphrase", "wordpress-seo" ) }
+								helpLink={ this.renderHelpLink() }
+								onBlurKeyword={ this.props.onBlurKeyword }
+								onFocusKeyword={ this.props.onFocusKeyword }
+							/>
+							<Slot name="YoastSynonyms" />
+							{ this.props.shouldUpsell && <Fragment>
+								{ this.renderSynonymsUpsell( context ) }
+								{ this.renderMultipleKeywordsUpsell( context ) }
+							</Fragment> }
+							{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell( context ) }
+							<AnalysisHeader>
+								{ __( "Analysis results", "wordpress-seo" ) }
+							</AnalysisHeader>
+							<Results
+								showLanguageNotice={ false }
+								results={ this.props.results }
+								marksButtonClassName="yoast-tooltip yoast-tooltip-s"
+								marksButtonStatus={ this.props.marksButtonStatus }
+							/>
+						</Collapsible>
+						{ this.props.shouldUpsell && this.renderKeywordUpsell( context ) }
+					</Fragment>
+				) }
+			</LocationConsumer>
 		);
 	}
 }
@@ -318,7 +292,6 @@ SeoAnalysis.propTypes = {
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
-	location: PropTypes.string.isRequired,
 };
 
 SeoAnalysis.defaultProps = {
@@ -366,8 +339,14 @@ function mapStateToProps( state, ownProps ) {
  */
 function mapDispatchToProps( dispatch ) {
 	return {
+		onFocusKeyword: () => {
+			dispatch( setMarkerPauseStatus( true ) );
+		},
 		onFocusKeywordChange: ( value ) => {
 			dispatch( setFocusKeyword( value ) );
+		},
+		onBlurKeyword: () => {
+			dispatch( setMarkerPauseStatus( false ) );
 		},
 	};
 }

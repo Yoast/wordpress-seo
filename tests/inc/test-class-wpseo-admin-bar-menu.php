@@ -10,11 +10,32 @@
  */
 class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 
-	/** @var int WP SEO manager user ID. */
+	/**
+	 * WP SEO manager user ID.
+	 *
+	 * @var int
+	 */
 	protected static $wpseo_manager;
 
-	/** @var int Network administrator user ID. */
+	/**
+	 * Network administrator user ID.
+	 *
+	 * @var int
+	 */
 	protected static $network_administrator;
+
+	/**
+	 * Methods to mock for a standard Mock WPSEO_Admin_Bar_menu object.
+	 *
+	 * @var array
+	 */
+	private $mock_wpseo_admin_bar_menu_methods = array(
+		'add_root_menu',
+		'add_keyword_research_submenu',
+		'add_analysis_submenu',
+		'add_settings_submenu',
+		'add_network_settings_submenu',
+	);
 
 	/**
 	 * Sets up user instances to use in tests.
@@ -55,13 +76,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 		$admin_bar_menu = $this
 			->getMockBuilder( 'WPSEO_Admin_Bar_Menu' )
 			->setConstructorArgs( array( $this->get_asset_manager() ) )
-			->setMethods( array(
-				'add_root_menu',
-				'add_keyword_research_submenu',
-				'add_analysis_submenu',
-				'add_settings_submenu',
-				'add_network_settings_submenu',
-			) )
+			->setMethods( $this->mock_wpseo_admin_bar_menu_methods )
 			->getMock();
 
 		$admin_bar_menu
@@ -100,13 +115,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 		$admin_bar_menu = $this
 			->getMockBuilder( 'WPSEO_Admin_Bar_Menu' )
 			->setConstructorArgs( array( $this->get_asset_manager() ) )
-			->setMethods( array(
-				'add_root_menu',
-				'add_keyword_research_submenu',
-				'add_analysis_submenu',
-				'add_settings_submenu',
-				'add_network_settings_submenu',
-			) )
+			->setMethods( $this->mock_wpseo_admin_bar_menu_methods )
 			->getMock();
 
 		$admin_bar_menu
@@ -224,6 +233,58 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 
 		$this->assertFalse( $first_result );
 		$this->assertTrue( $second_result );
+	}
+
+	/**
+	 * Tests the situation where everything is going well.
+	 *
+	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword()
+	 */
+	public function test_get_post_focus_keyword() {
+		$post = self::factory()->post->create_and_get();
+
+		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $post->ID );
+
+		$instance = new WPSEO_Admin_Bar_Menu_Double();
+
+		$this->assertEquals( 'focus keyword', $instance->get_post_focus_keyword( $post ) );
+	}
+
+	/**
+	 * Tests the situation with a non object given as argument.
+	 *
+	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword()
+	 */
+	public function test_get_post_focus_keyword_with_invalid_object() {
+		$instance = new WPSEO_Admin_Bar_Menu_Double();
+
+		$this->assertEquals( '', $instance->get_post_focus_keyword( null ) );
+	}
+
+	/**
+	 * Tests the situation where the given object doesn't have an id.
+	 *
+	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword()
+	 */
+	public function test_get_post_focus_keyword_with_valid_object_but_no_id_property() {
+		$post     = new stdClass();
+		$instance = new WPSEO_Admin_Bar_Menu_Double();
+
+		$this->assertEquals( '', $instance->get_post_focus_keyword( $post ) );
+	}
+
+	/**
+	 * Tests the situation where the page analysis is disabled by filter.
+	 *
+	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword()
+	 */
+	public function test_get_post_focus_keyword_with_page_analysis_filter_disabled() {
+		add_filter( 'wpseo_use_page_analysis', '__return_false' );
+
+		$post     = self::factory()->post->create_and_get();
+		$instance = new WPSEO_Admin_Bar_Menu_Double();
+
+		$this->assertEquals( '', $instance->get_post_focus_keyword( $post ) );
 	}
 
 	/**

@@ -10,7 +10,9 @@
  */
 class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Link_Type_Classifier */
+	/**
+	 * @var WPSEO_Link_Type_Classifier
+	 */
 	protected $classifier;
 
 	/**

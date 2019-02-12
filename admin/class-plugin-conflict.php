@@ -138,7 +138,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 
 		// Only check for open graph problems when they are enabled.
 		if ( WPSEO_Options::get( 'opengraph' ) ) {
-			/* translators: %1$s expands to Yoast SEO, %2%s: 'Facebook' plugin name of possibly conflicting plugin with regard to creating OpenGraph output. */
+			/* translators: %1$s expands to Yoast SEO, %2$s: 'Facebook' plugin name of possibly conflicting plugin with regard to creating OpenGraph output. */
 			$plugin_sections['open_graph'] = __( 'Both %1$s and %2$s create OpenGraph output, which might make Facebook, Twitter, LinkedIn and other social networks use the wrong texts and images when your pages are being shared.', 'wordpress-seo' )
 				. '<br/><br/>'
 				. '<a class="button" href="' . admin_url( 'admin.php?page=wpseo_social#top#facebook' ) . '">'

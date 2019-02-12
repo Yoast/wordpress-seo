@@ -44,8 +44,7 @@
 			jQuery( "a.wpseo-meta-section-link" )
 				.on( "click", function( ev ) {
 					var targetTab = jQuery( this ).attr( "href" ),
-						targetTabElement = jQuery( targetTab ),
-						helpCenterToggleButton = jQuery( ".yoast-help-center__button" );
+						targetTabElement = jQuery( targetTab );
 
 					ev.preventDefault();
 
@@ -60,13 +59,6 @@
 					}
 
 					targetTabElement.addClass( "active" );
-
-					// Close the Help Center when clicking on the Go Premium link.
-					if ( targetTab === "#wpseo-meta-section-premium" ) {
-						if ( helpCenterToggleButton.attr( "aria-expanded" ) === "true" ) {
-							helpCenterToggleButton.click();
-						}
-					}
 
 					jQuery( this ).parent( "li" ).addClass( "active" );
 				} )

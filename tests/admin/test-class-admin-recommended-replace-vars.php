@@ -10,7 +10,9 @@
  */
 class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Admin_Recommended_Replace_Vars */
+	/**
+	 * @var WPSEO_Admin_Recommended_Replace_Vars
+	 */
 	protected $class_instance;
 
 	/**

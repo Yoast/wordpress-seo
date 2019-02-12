@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '9.0.2' );
+define( 'WPSEO_VERSION', '9.6-RC2' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -25,6 +25,24 @@ if ( ! defined( 'WPSEO_PATH' ) ) {
 if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', plugin_basename( WPSEO_FILE ) );
 }
+
+/*
+ * {@internal The prefix constants are used to build prefixed versions of dependencies.
+ *            These should not be changed on run-time, thus missing the ! defined() check.}}
+ */
+define( 'YOAST_VENDOR_NS_PREFIX', 'YoastSEO_Vendor' );
+define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
+define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
+
+if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
+	if ( version_compare( phpversion(), '5.3', '>=' ) ) {
+		define( 'WPSEO_NAMESPACES', true );
+	}
+	else {
+		define( 'WPSEO_NAMESPACES', false );
+	}
+}
+
 
 /* ***************************** CLASS AUTOLOADING *************************** */
 
@@ -42,7 +60,6 @@ function wpseo_auto_load( $class ) {
 		$classes = array(
 			'wp_list_table'   => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
 			'walker_category' => ABSPATH . 'wp-includes/category-template.php',
-			'pclzip'          => ABSPATH . 'wp-admin/includes/class-pclzip.php',
 		);
 	}
 
@@ -53,8 +70,13 @@ function wpseo_auto_load( $class ) {
 	}
 }
 
-if ( file_exists( WPSEO_PATH . 'vendor/autoload_52.php' ) ) {
-	require WPSEO_PATH . 'vendor/autoload_52.php';
+$yoast_autoload_file = WPSEO_PATH . 'vendor/autoload_52.php';
+if ( WPSEO_NAMESPACES ) {
+	$yoast_autoload_file = WPSEO_PATH . 'vendor/autoload.php';
+}
+
+if ( is_readable( $yoast_autoload_file ) ) {
+	require $yoast_autoload_file;
 }
 elseif ( ! class_exists( 'WPSEO_Options' ) ) { // Still checking since might be site-level autoload R.
 	add_action( 'admin_init', 'yoast_wpseo_missing_autoload', 1 );
@@ -307,6 +329,7 @@ function wpseo_init() {
 	$integrations   = array();
 	$integrations[] = new WPSEO_Slug_Change_Watcher();
 	$integrations[] = new WPSEO_Structured_Data_Blocks();
+	$integrations[] = new WPSEO_Courses_Overview();
 
 	foreach ( $integrations as $integration ) {
 		$integration->register_hooks();
@@ -318,6 +341,11 @@ function wpseo_init() {
 
 	$wpseo_content_images = new WPSEO_Content_Images();
 	$wpseo_content_images->register_hooks();
+
+	// When namespaces are not available, stop further execution.
+	if ( version_compare( PHP_VERSION, '5.3.0', '>=' ) ) {
+		require_once WPSEO_PATH . 'src/loaders/indexable.php';
+	}
 }
 
 /**
@@ -333,20 +361,20 @@ function wpseo_init_rest_api() {
 	$configuration_service = new WPSEO_Configuration_Service();
 	$configuration_service->initialize();
 
-	$link_reindex_endpoint = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
-	$link_reindex_endpoint->register();
-
 	$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
-	$ryte_endpoint         = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
-	$ryte_endpoint->register();
+	$statistics_service    = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
 
-	$indexable_service  = new WPSEO_Indexable_Service();
-	$indexable_endpoint = new WPSEO_Endpoint_Indexable( $indexable_service );
-	$indexable_endpoint->register();
+	$endpoints   = array();
+	$endpoints[] = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
+	$endpoints[] = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
+	$endpoints[] = new WPSEO_Endpoint_Indexable( new WPSEO_Indexable_Service() );
+	$endpoints[] = new WPSEO_Endpoint_File_Size( new WPSEO_File_Size_Service() );
+	$endpoints[] = new WPSEO_Endpoint_Statistics( $statistics_service );
 
-	$statistics_service  = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
-	$statistics_endpoint = new WPSEO_Endpoint_Statistics( $statistics_service );
-	$statistics_endpoint->register();
+	/** @var WPSEO_Endpoint[] $endpoints */
+	foreach ( $endpoints as $endpoint ) {
+		$endpoint->register();
+	}
 }
 
 /**
@@ -398,29 +426,41 @@ function wpseo_admin_init() {
  */
 function wpseo_cli_init() {
 	if ( WPSEO_Utils::is_yoast_seo_premium() ) {
-		WP_CLI::add_command( 'yoast redirect list', 'WPSEO_CLI_Redirect_List_Command', array(
-			'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-		) );
+		WP_CLI::add_command(
+			'yoast redirect list',
+			'WPSEO_CLI_Redirect_List_Command',
+			array( 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' )
+		);
 
-		WP_CLI::add_command( 'yoast redirect create', 'WPSEO_CLI_Redirect_Create_Command', array(
-			'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-		) );
+		WP_CLI::add_command(
+			'yoast redirect create',
+			'WPSEO_CLI_Redirect_Create_Command',
+			array( 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' )
+		);
 
-		WP_CLI::add_command( 'yoast redirect update', 'WPSEO_CLI_Redirect_Update_Command', array(
-			'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-		) );
+		WP_CLI::add_command(
+			'yoast redirect update',
+			'WPSEO_CLI_Redirect_Update_Command',
+			array( 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' )
+		);
 
-		WP_CLI::add_command( 'yoast redirect delete', 'WPSEO_CLI_Redirect_Delete_Command', array(
-			'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-		) );
+		WP_CLI::add_command(
+			'yoast redirect delete',
+			'WPSEO_CLI_Redirect_Delete_Command',
+			array( 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' )
+		);
 
-		WP_CLI::add_command( 'yoast redirect has', 'WPSEO_CLI_Redirect_Has_Command', array(
-			'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-		) );
+		WP_CLI::add_command(
+			'yoast redirect has',
+			'WPSEO_CLI_Redirect_Has_Command',
+			array( 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' )
+		);
 
-		WP_CLI::add_command( 'yoast redirect follow', 'WPSEO_CLI_Redirect_Follow_Command', array(
-			'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-		) );
+		WP_CLI::add_command(
+			'yoast redirect follow',
+			'WPSEO_CLI_Redirect_Follow_Command',
+			array( 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' )
+		);
 	}
 
 	// Only add the namespace if the required base class exists (WP-CLI 1.5.0+).
@@ -480,6 +520,8 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	if ( defined( 'WP_CLI' ) && WP_CLI ) {
 		add_action( 'plugins_loaded', 'wpseo_cli_init', 20 );
 	}
+
+	add_filter( 'phpcompat_whitelist', 'yoast_free_phpcompat_whitelist' );
 }
 
 // Activation and deactivation hook.
@@ -596,4 +638,27 @@ function yoast_wpseo_self_deactivate() {
 			unset( $_GET['activate'] );
 		}
 	}
+}
+
+/**
+ * Excludes specific files from php-compatibility-checker.
+ *
+ * @since 9.4
+ *
+ * @param array $ignored Array of ignored directories/files.
+ *
+ * @return array Array of ignored directories/files.
+ */
+function yoast_free_phpcompat_whitelist( $ignored ) {
+	$path = '*/' . basename( WPSEO_PATH ) . '/';
+
+	// To prevent: (warning) File has mixed line endings; this may cause incorrect results.
+	$ignored[] = $path . 'vendor/ruckusing/lib/Ruckusing/FrameworkRunner.php';
+	$ignored[] = $path . 'vendor_prefixed/ruckusing/lib/Ruckusing/FrameworkRunner.php';
+
+	// To prevent: (error) Extension 'sqlite' is removed since PHP 5.4. Ignoring because we are not using the sqlite functionality.
+	$ignored[] = $path . 'vendor/ruckusing/lib/Ruckusing/Adapter/Sqlite3/Base.php';
+	$ignored[] = $path . 'vendor_prefixed/ruckusing/lib/Ruckusing/Adapter/Sqlite3/Base.php';
+
+	return $ignored;
 }

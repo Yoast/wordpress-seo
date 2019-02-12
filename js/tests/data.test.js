@@ -16,7 +16,10 @@ const mockSelect = jest.fn();
 const mockGetEditedPostAttribute = jest.fn().mockImplementation( value => value );
 
 // Ensures mockSelect.getEditedPostAttribute is a function.
-mockSelect.mockReturnValue( { getEditedPostAttribute: mockGetEditedPostAttribute } );
+mockSelect.mockReturnValue( {
+	getEditedPostAttribute: mockGetEditedPostAttribute,
+	getActiveMarker: () => null,
+} );
 
 data._wpData.select = mockSelect;
 
@@ -88,6 +91,8 @@ describe( "collectGutenbergData", () => {
 			title: "title",
 			slug: "slug",
 			excerpt: "excerpt",
+			// eslint-disable-next-line camelcase
+			excerpt_only: "excerpt",
 		};
 
 		const actual = data.collectGutenbergData( retriever );

@@ -15,7 +15,7 @@ import diff from "lodash/difference";
 /* Internal dependencies */
 import TaxonomyPicker from "./TaxonomyPicker";
 
-const PrimaryTaxonomyPickerLabel = styled.label`
+const PrimaryTaxonomyPickerField = styled.div`
 	padding-top: 16px;
 `;
 
@@ -231,8 +231,8 @@ class PrimaryTaxonomyPicker extends React.Component {
 		const fieldId = `yoast-primary-${ taxonomy.name }-picker`;
 
 		return (
-			<div className="components-base-control__field">
-				<PrimaryTaxonomyPickerLabel
+			<PrimaryTaxonomyPickerField className="components-base-control__field">
+				<label
 					htmlFor={ fieldId }
 					className="components-base-control__label"
 				>
@@ -243,14 +243,14 @@ class PrimaryTaxonomyPicker extends React.Component {
 							taxonomy.singularLabel.toLowerCase()
 						)
 					}
-				</PrimaryTaxonomyPickerLabel>
+				</label>
 				<TaxonomyPicker
 					value={ primaryTaxonomyId }
 					onChange={ this.onChange }
 					id={ fieldId }
 					terms={ this.state.selectedTerms }
 				/>
-			</div>
+			</PrimaryTaxonomyPickerField>
 		);
 	}
 }

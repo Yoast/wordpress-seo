@@ -39,10 +39,12 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 			$choices['-'] = __( 'None', 'wordpress-seo' );
 		}
 
-		$sites = get_sites( array(
+		$criteria = array(
 			'deleted'    => 0,
 			'network_id' => get_current_network_id(),
-		) );
+		);
+		$sites    = get_sites( $criteria );
+
 		foreach ( $sites as $site ) {
 			$site_name = $site->domain . $site->path;
 			if ( $show_title ) {
@@ -110,7 +112,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 		foreach ( $whitelist_options as $option_name ) {
 			$value = null;
 			if ( isset( $_POST[ $option_name ] ) ) { // WPCS: CSRF ok.
-				$value = wp_unslash( $_POST[ $option_name ] ); // WPCS: CSRF ok.
+				$value = sanitize_text_field( wp_unslash( $_POST[ $option_name ] ) ); // WPCS: CSRF ok.
 			}
 
 			WPSEO_Options::update_site_option( $option_name, $value );
@@ -253,7 +255,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 		check_admin_referer( $action, $query_arg );
 
 		if ( ! $has_access ) {
-			wp_die( __( 'You are not allowed to perform this action.', 'wordpress-seo' ) );
+			wp_die( esc_html__( 'You are not allowed to perform this action.', 'wordpress-seo' ) );
 		}
 	}
 

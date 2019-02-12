@@ -10,17 +10,31 @@
  */
 class WPSEO_Option_Tabs {
 
-	/** @var string Tabs base */
+	/**
+	 * Tabs base.
+	 *
+	 * @var string
+	 */
 	private $base;
 
-	/** @var array The tabs in this group */
+	/**
+	 * The tabs in this group.
+	 *
+	 * @var array
+	 */
 	private $tabs = array();
 
-	/** @var string Name of the active tab */
+	/**
+	 * Name of the active tab.
+	 *
+	 * @var string
+	 */
 	private $active_tab = '';
 
 	/**
 	 * WPSEO_Option_Tabs constructor.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $base       Base of the tabs.
 	 * @param string $active_tab Currently active tab.

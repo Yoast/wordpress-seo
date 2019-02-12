@@ -32,11 +32,13 @@ import TermDataCollector from "./analysis/TermDataCollector";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
 import getApplyMarks from "./analysis/getApplyMarks";
 import { refreshDelay } from "./analysis/constants";
+import handleWorkerError from "./analysis/handleWorkerError";
 
 // Redux dependencies.
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
+import { setMarkerStatus } from "./redux/actions/markerButtons";
 
 // Helper dependencies.
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
@@ -192,20 +194,20 @@ window.yoastHideMarkers = true;
 	let currentAnalysisData;
 
 	/**
-	 * Rerun the analysis when the title or metadescription in the snippet changes.
+	 * Rerun the analysis when the title or meta description in the snippet changes.
 	 *
-	 * @param {Object} store The store.
-	 * @param {Object} app The YoastSEO app.
+	 * @param {Object}   store            The store.
+	 * @param {Function} _refreshAnalysis Function that triggers a refresh of the analysis.
 	 *
 	 * @returns {void}
 	 */
-	function handleStoreChange( store, app ) {
+	function handleStoreChange( store, _refreshAnalysis ) {
 		const previousAnalysisData = currentAnalysisData || "";
 		currentAnalysisData = store.getState().analysisData.snippet;
 
 		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
 		if ( isDirty ) {
-			app.refresh();
+			_refreshAnalysis();
 		}
 	}
 
@@ -233,6 +235,8 @@ window.yoastHideMarkers = true;
 		insertTinyMCE();
 
 		termScraper = new TermDataCollector( { store } );
+
+		store.dispatch( setMarkerStatus( "hidden" ) );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
@@ -304,13 +308,13 @@ window.yoastHideMarkers = true;
 			}
 		};
 		YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
-			YoastSEO.analysis.worker.initialize( assessorOptions );
+			YoastSEO.analysis.worker.initialize( assessorOptions ).catch( handleWorkerError );
 			YoastSEO.app.refresh();
 		};
 
-		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
+		edit.initializeUsedKeywords( YoastSEO.app.refresh, "get_term_keyword_usage" );
 
-		store.subscribe( handleStoreChange.bind( null, store, app ) );
+		store.subscribe( handleStoreChange.bind( null, store, YoastSEO.app.refresh ) );
 
 		if ( isKeywordAnalysisActive() ) {
 			app.seoAssessor = new TaxonomyAssessor( app.i18n );
@@ -321,7 +325,7 @@ window.yoastHideMarkers = true;
 
 		// Init Plugins.
 		YoastSEO.wp = {};
-		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
+		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 
 		// For backwards compatibility.
 		YoastSEO.analyzerArgs = args;
@@ -329,7 +333,13 @@ window.yoastHideMarkers = true;
 		YoastSEO._registerReactComponent = registerReactComponent;
 
 		initTermSlugWatcher();
-		termScraper.bindElementEvents( app );
+		termScraper.bindElementEvents( debounce( () => refreshAnalysis(
+			YoastSEO.analysis.worker,
+			YoastSEO.analysis.collectData,
+			YoastSEO.analysis.applyMarks,
+			YoastSEO.store,
+			termScraper,
+		), refreshDelay ) );
 
 		if ( isKeywordAnalysisActive() ) {
 			initializeKeywordAnalysis( termScraper );
@@ -344,7 +354,7 @@ window.yoastHideMarkers = true;
 			.then( () => {
 				jQuery( window ).trigger( "YoastSEO:ready" );
 			} )
-			.catch( error => console.warn( error ) );
+			.catch( handleWorkerError );
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );

@@ -8,10 +8,10 @@
 /**
  * Class WPSEO_GSC
  */
-class WPSEO_GSC {
+class WPSEO_GSC implements WPSEO_WordPress_Integration {
 
 	/**
-	 * The option where data will be stored
+	 * The option where data will be stored.
 	 */
 	const OPTION_WPSEO_GSC = 'wpseo-gsc';
 
@@ -41,26 +41,22 @@ class WPSEO_GSC {
 	private $category;
 
 	/**
-	 * Constructor for the page class. This will initialize all GSC related stuff
+	 * Registers the hooks.
+	 *
+	 * @return void
 	 */
-	public function __construct() {
-		add_action( 'init', array( $this, 'init' ) );
-	}
-
-	/**
-	 * Run init logic.
-	 */
-	public function init() {
-
+	public function register_hooks() {
 		// Setting the screen option.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_search_console' ) {
 
-			if ( filter_input( INPUT_GET, 'tab' ) !== 'settings' && WPSEO_GSC_Settings::get_profile() === '' ) {
+			if ( filter_input( INPUT_GET, 'tab' ) !== 'settings' && ! $this->has_profile() ) {
 				wp_redirect( add_query_arg( 'tab', 'settings' ) );
 				exit;
 			}
 
-			$this->set_hooks();
+			add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
+			add_filter( 'set-screen-option', array( $this, 'set_screen_option' ), 11, 3 );
+
 			$this->set_dependencies();
 			$this->request_handler();
 		}
@@ -70,25 +66,27 @@ class WPSEO_GSC {
 	}
 
 	/**
-	 * If the Google Search Console has no credentials, add a notification for the user to give him a heads up. This message is dismissable.
+	 * Handles the dashboard notification. If the Google Search Console has no credentials,
+	 * show a notification for the user to give him a heads up. This message is dismissable.
+	 *
+	 * @return void
 	 */
 	public function register_gsc_notification() {
-
 		$notification        = $this->get_profile_notification();
 		$notification_center = Yoast_Notification_Center::get();
 
-		if ( WPSEO_GSC_Settings::get_profile() === '' ) {
-			$notification_center->add_notification( $notification );
-		}
-		else {
+		if ( $this->has_profile() ) {
 			$notification_center->remove_notification( $notification );
+
+			return;
 		}
+		$notification_center->add_notification( $notification );
 	}
 
 	/**
-	 * Builds the notification used when GSC is not connected to a profile
+	 * Builds the notification used when GSC is not connected to a profile.
 	 *
-	 * @return Yoast_Notification
+	 * @return Yoast_Notification The notification.
 	 */
 	private function get_profile_notification() {
 		return new Yoast_Notification(
@@ -107,21 +105,29 @@ class WPSEO_GSC {
 	}
 
 	/**
-	 * Be sure the settings will be registered, so data can be stored
+	 * Makes sure the settings will be registered, so data can be stored.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	public function register_settings() {
 		register_setting( 'yoast_wpseo_gsc_options', self::OPTION_WPSEO_GSC );
 	}
 
 	/**
-	 * Function that outputs the redirect page
+	 * Outputs the HTML for the redirect page.
+	 *
+	 * @return void
 	 */
 	public function display() {
 		require_once WPSEO_PATH . 'admin/google_search_console/views/gsc-display.php';
 	}
 
 	/**
-	 * Display the table
+	 * Displays the table.
+	 *
+	 * @return void
 	 */
 	public function display_table() {
 		// The list table.
@@ -137,45 +143,46 @@ class WPSEO_GSC {
 	}
 
 	/**
-	 * Load the admin redirects scripts
+	 * Loads the admin redirects scripts.
+	 *
+	 * @return void
 	 */
 	public function page_scripts() {
-
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'admin-gsc' );
 		$asset_manager->enqueue_style( 'metabox-css' );
-		add_screen_option( 'per_page', array(
+
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-gsc', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+
+		$screen_options = array(
 			'label'   => __( 'Crawl errors per page', 'wordpress-seo' ),
 			'default' => 50,
 			'option'  => 'errors_per_page',
-		) );
+		);
+		add_screen_option( 'per_page', $screen_options );
 	}
 
 	/**
-	 * Set the screen options
+	 * Sets the screen options.
 	 *
 	 * @param string $status Status string.
 	 * @param string $option Option key.
 	 * @param string $value  Value to return.
 	 *
-	 * @return mixed
+	 * @return mixed The screen option value. False when not errors_per_page.
 	 */
 	public function set_screen_option( $status, $option, $value ) {
 		if ( 'errors_per_page' === $option ) {
 			return $value;
 		}
+
+		return false;
 	}
 
 	/**
-	 * Setting the hooks to be load on page request
-	 */
-	private function set_hooks() {
-		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
-		add_filter( 'set-screen-option', array( $this, 'set_screen_option' ), 11, 3 );
-	}
-
-	/**
-	 * Handles the POST and GET requests
+	 * Handles the POST and GET requests.
+	 *
+	 * @return void
 	 */
 	private function request_handler() {
 
@@ -216,7 +223,9 @@ class WPSEO_GSC {
 	}
 
 	/**
-	 * Catch the redirects search post and redirect it to a search get
+	 * Catches the redirects search post and redirect it to a search get.
+	 *
+	 * @return void
 	 */
 	private function list_table_search_post_to_get() {
 		$search_string = filter_input( INPUT_POST, 's' );
@@ -238,10 +247,13 @@ class WPSEO_GSC {
 	}
 
 	/**
-	 * Catch the authentication post
+	 * Catches the authentication post.
+	 *
+	 * @return void
 	 */
 	private function catch_authentication_post() {
 		$gsc_values = filter_input( INPUT_POST, 'gsc', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+
 		// Catch the authorization code POST.
 		if ( ! empty( $gsc_values['authorization_code'] ) && wp_verify_nonce( $gsc_values['gsc_nonce'], 'wpseo-gsc_nonce' ) ) {
 			if ( ! WPSEO_GSC_Settings::validate_authorization( trim( $gsc_values['authorization_code'] ), $this->service->get_client() ) ) {
@@ -255,10 +267,12 @@ class WPSEO_GSC {
 	}
 
 	/**
-	 * Adding notification to the yoast notification center
+	 * Adds notification to the yoast notification center.
 	 *
 	 * @param string $message Message string.
 	 * @param string $type    Message type.
+	 *
+	 * @return void
 	 */
 	private function add_notification( $message, $type ) {
 		Yoast_Notification_Center::get()->add_notification(
@@ -267,7 +281,9 @@ class WPSEO_GSC {
 	}
 
 	/**
-	 * Setting dependencies which will be used one this page
+	 * Sets the dependencies which will be used one this page.
+	 *
+	 * @return void
 	 */
 	private function set_dependencies() {
 		// Setting the service object.
@@ -294,10 +310,16 @@ class WPSEO_GSC {
 	}
 
 	/**
-	 * Setting the tab help on top of the screen
+	 * Sets the tab help on top of the screen.
+	 *
+	 * @return void
 	 */
 	public function set_help() {
 		$screen = get_current_screen();
+
+		if ( $screen === null ) {
+			return;
+		}
 
 		$screen->add_help_tab(
 			array(
@@ -308,5 +330,29 @@ class WPSEO_GSC {
 							. '<p><strong>' . __( 'Feature phone', 'wordpress-seo' ) . '</strong><br />' . __( 'Errors that only occurred when your site was crawled by Googlebot for feature phones (errors didn\'t appear for desktop).', 'wordpress-seo' ) . '</p>',
 			)
 		);
+	}
+
+	/**
+	 * Checks if a Google Search Console profile has been set.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool True when profile has been set.
+	 */
+	protected function has_profile() {
+		return ( WPSEO_GSC_Settings::get_profile() !== '' );
+	}
+
+	/**
+	 * Run init logic.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 9.5
+	 *
+	 * @return void
+	 */
+	public function init() {
+		_deprecated_function( __METHOD__, 'WPSEO 9.5' );
 	}
 }

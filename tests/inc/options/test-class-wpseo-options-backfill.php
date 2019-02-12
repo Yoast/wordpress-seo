@@ -38,13 +38,14 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 			'excluded-posts'         => array(),
 		);
 
-		$this->set_options( array(
-			'enable_xml_sitemap'     => true,
+		$option_input = array(
+			'enable_xml_sitemap'     => true, // Note: this is a different key than in $expected!
 			'disable_author_sitemap' => false,
 			'disable_author_noposts' => true,
 			'entries-per-page'       => 1000,
 			'excluded-posts'         => array(),
-		) );
+		);
+		$this->set_options( $option_input );
 
 		$this->assertEquals( $expected, get_option( 'wpseo_xml' ) );
 	}
@@ -67,12 +68,15 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 			'trailingslash'                   => false,
 		);
 
-		$this->set_options( array(
+		$unexpected = array(
 			'disable-attachment' => true,
 			'stripcategorybase'  => false,
-		) );
+		);
+		$this->set_options( $unexpected );
 
 		$this->assertEquals( $expected, get_option( 'wpseo_permalinks' ) );
+
+		WPSEO_Options::set( 'disable-attachment', false );
 	}
 
 	/**

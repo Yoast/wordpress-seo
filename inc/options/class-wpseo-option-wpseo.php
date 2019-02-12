@@ -11,13 +11,18 @@
 class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 	/**
-	 * @var  string  Option name.
+	 * Option name.
+	 *
+	 * @var string
 	 */
 	public $option_name = 'wpseo';
 
 	/**
-	 * @var  array  Array of defaults for the option.
-	 *        Shouldn't be requested directly, use $this->get_defaults();
+	 * Array of defaults for the option.
+	 *
+	 * {@internal Shouldn't be requested directly, use $this->get_defaults();}}
+	 *
+	 * @var  array
 	 */
 	protected $defaults = array(
 		// Non-form fields, set via (ajax) function.
@@ -43,10 +48,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_text_link_counter'        => true,
 		'show_onboarding_notice'          => false,
 		'first_activated_on'              => false,
+		'recalibration_beta'              => false,
 	);
 
 	/**
-	 * @var array Sub-options which should not be overloaded with multi-site defaults.
+	 * Sub-options which should not be overloaded with multi-site defaults.
+	 *
+	 * @var array
 	 */
 	public $ms_exclude = array(
 		/* Privacy. */
@@ -56,7 +64,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'yandexverify',
 	);
 
-	/** @var array Possible values for the site_type option. */
+	/**
+	 * Possible values for the site_type option.
+	 *
+	 * @var array
+	 */
 	protected $site_types = array(
 		'',
 		'blog',
@@ -67,7 +79,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'personalOther',
 	);
 
-	/** @var array Possible environment types. */
+	/**
+	 * Possible environment types.
+	 *
+	 * @var array
+	 */
 	protected $environment_types = array(
 		'',
 		'production',
@@ -75,7 +91,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'development',
 	);
 
-	/** @var array Possible has_multiple_authors options. */
+	/**
+	 * Possible has_multiple_authors options.
+	 *
+	 * @var array
+	 */
 	protected $has_multiple_authors_options = array(
 		'',
 		true,
@@ -83,7 +103,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	);
 
 	/**
-	 * @var string Name for an option higher in the hierarchy to override setting access.
+	 * Name for an option higher in the hierarchy to override setting access.
+	 *
+	 * @var string
 	 */
 	protected $override_option_name = 'wpseo_ms';
 

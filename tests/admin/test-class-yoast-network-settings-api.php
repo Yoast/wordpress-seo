@@ -18,10 +18,11 @@ class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
 	public function test_register_setting() {
 		$api = new Yoast_Network_Settings_API();
 
-		$api->register_setting( 'yst_ms_group', 'yst_ms_option', array(
+		$setting_args = array(
 			'sanitize_callback' => 'absint',
 			'default'           => 1,
-		) );
+		);
+		$api->register_setting( 'yst_ms_group', 'yst_ms_option', $setting_args );
 
 		$this->assertInternalType( 'int', has_filter( 'sanitize_option_yst_ms_option', array( $api, 'filter_sanitize_option' ) ) );
 		$this->assertInternalType( 'int', has_filter( 'default_site_option_yst_ms_option', array( $api, 'filter_default_option' ) ) );

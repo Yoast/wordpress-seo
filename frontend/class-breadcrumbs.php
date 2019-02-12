@@ -11,74 +11,99 @@
 class WPSEO_Breadcrumbs {
 
 	/**
-	 * @var object    Instance of this class
+	 * Instance of this class.
+	 *
+	 * @var object
 	 */
 	public static $instance;
 
 	/**
-	 * @var string    Last used 'before' string
+	 * Last used 'before' string.
+	 *
+	 * @var string
 	 */
 	public static $before = '';
 
 	/**
-	 * @var string    Last used 'after' string
+	 * Last used 'after' string.
+	 *
+	 * @var string
 	 */
 	public static $after = '';
 
-
 	/**
-	 * @var string    Blog's show on front setting, 'page' or 'posts'
+	 * Blog's show on front setting, 'page' or 'posts'.
+	 *
+	 * @var string
 	 */
 	private $show_on_front;
 
 	/**
-	 * @var mixed    Blog's page for posts setting, page id or false
+	 * Blog's page for posts setting, page id or false.
+	 *
+	 * @var mixed
 	 */
 	private $page_for_posts;
 
 	/**
-	 * @var mixed    Current post object
+	 * Current post object.
+	 *
+	 * @var mixed
 	 */
 	private $post;
 
 	/**
-	 * @var string    HTML wrapper element for a single breadcrumb element
+	 * HTML wrapper element for a single breadcrumb element.
+	 *
+	 * @var string
 	 */
 	private $element = 'span';
 
 	/**
-	 * @var string    Yoast SEO breadcrumb separator
+	 * Yoast SEO breadcrumb separator.
+	 *
+	 * @var string
 	 */
 	private $separator = '';
 
 	/**
-	 * @var string    HTML wrapper element for the Yoast SEO breadcrumbs output
+	 * HTML wrapper element for the Yoast SEO breadcrumbs output.
+	 *
+	 * @var string
 	 */
 	private $wrapper = 'span';
 
 	/**
-	 * @var array    Array of crumbs
+	 * Array of crumbs.
 	 *
 	 * Each element of the crumbs array can either have one of these keys:
 	 *    "id"         for post types;
 	 *    "ptarchive"  for a post type archive;
 	 *    "term"       for a taxonomy term.
 	 * OR it consists of a predefined set of 'text', 'url' and 'allow_html'.
+	 *
+	 * @var array
 	 */
 	private $crumbs = array();
 
 	/**
-	 * @var array    Count of the elements in the $crumbs property
+	 * Count of the elements in the $crumbs property.
+	 *
+	 * @var array
 	 */
 	private $crumb_count = 0;
 
 	/**
-	 * @var array    Array of individual (linked) html strings created from crumbs
+	 * Array of individual (linked) html strings created from crumbs.
+	 *
+	 * @var array
 	 */
 	private $links = array();
 
 	/**
-	 * @var string    Breadcrumb html string
+	 * Breadcrumb html string.
+	 *
+	 * @var string
 	 */
 	private $output;
 
@@ -367,13 +392,14 @@ class WPSEO_Breadcrumbs {
 			}
 		}
 		elseif ( is_post_type_archive() ) {
-			$post_type = $wp_query->get( 'post_type' );
-
-			if ( WPSEO_Utils::is_woocommerce_active() && is_shop() ) {
-				$id = wc_get_page_id( 'shop' );
-				$this->add_single_post_crumb( $id );
+			if ( $this->woocommerce_shop_page->is_shop_page() &&
+				$this->woocommerce_shop_page->get_shop_page_id() !== -1
+			) {
+				$this->add_single_post_crumb( $this->woocommerce_shop_page->get_shop_page_id() );
 			}
 			else {
+				$post_type = $wp_query->get( 'post_type' );
+
 				if ( $post_type && is_string( $post_type ) ) {
 					$this->add_ptarchive_crumb( $post_type );
 				}
@@ -417,6 +443,8 @@ class WPSEO_Breadcrumbs {
 				true
 			);
 		}
+
+		$this->maybe_add_page_crumb();
 
 		/**
 		 * Filter: 'wpseo_breadcrumb_links' - Allow the developer to filter the Yoast SEO breadcrumb links, add to them, change order, etc.
@@ -594,6 +622,32 @@ class WPSEO_Breadcrumbs {
 		$this->maybe_add_term_parent_crumbs( $term );
 
 		$this->add_term_crumb( $term );
+	}
+
+	/**
+	 * Adds a page crumb to the visible breadcrumbs.
+	 *
+	 * @return void
+	 */
+	private function maybe_add_page_crumb() {
+		if ( ! is_paged() ) {
+			return;
+		}
+
+		$current_page = get_query_var( 'paged', 1 );
+		if ( $current_page <= 1 ) {
+			return;
+		}
+
+		$this->crumbs[] = array(
+			'text'           => sprintf(
+				/* translators: %s expands to the current page number */
+				__( 'Page %s', 'wordpress-seo' ),
+				$current_page
+			),
+			'url'            => '',
+			'hide_in_schema' => true,
+		);
 	}
 
 	/**

@@ -21,6 +21,7 @@ $wpseo_media_presenter = new WPSEO_Paper_Presenter(
 			__( 'When you upload media (an image or video for example) to WordPress, it doesn\'t just save the media, it creates an attachment URL for it. These attachment pages are quite empty: they contain the media item and maybe a title if you entered one. Because of that, if you never use these attachment URLs, it\'s better to disable them, and redirect them to the media item itself.', 'wordpress-seo' ),
 			'has-wrapper'
 		),
+		'paper_id'  => 'settings-media-attachment-url',
 	)
 );
 

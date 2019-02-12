@@ -12,7 +12,9 @@
  */
 class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_OpenGraph */
+	/**
+	 * @var WPSEO_OpenGraph
+	 */
 	private static $class_instance;
 
 	/**
@@ -176,11 +178,12 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_og_title_with_variables() {
 		$expected_title = 'Test title';
 		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		wp_update_post( array(
+		$post_id   = $this->factory->post->create();
+		$post_args = array(
 			'ID'         => $post_id,
 			'post_title' => $expected_title,
-		) );
+		);
+		wp_update_post( $post_args );
 		WPSEO_Meta::set_value( 'opengraph-title', '%%title%%', $post_id );
 
 		$this->go_to( get_permalink( $post_id ) );
@@ -698,7 +701,11 @@ EXPECTED;
 	 */
 	public function test_taxonomy_description_with_replacevars() {
 		$expected_title = 'Test title';
-		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category', 'name' => $expected_title ) );
+		$term_args      = array(
+			'taxonomy' => 'category',
+			'name'     => $expected_title,
+		);
+		$term_id        = $this->factory->term->create( $term_args );
 
 		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'opengraph-description', '%%term_title%%' );
 

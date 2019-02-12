@@ -42,10 +42,9 @@ elseif ( filter_input( INPUT_POST, 'clean_external' ) ) {
 		$import = new WPSEO_Import_Plugin( new $class(), 'cleanup' );
 	}
 }
-elseif ( isset( $_FILES['settings_import_file'] ) ) {
-	check_admin_referer( 'wpseo-import-file' );
-
+elseif ( filter_input( INPUT_POST, 'settings_import' ) ) {
 	$import = new WPSEO_Import_Settings();
+	$import->import();
 }
 
 /**
@@ -118,8 +117,11 @@ foreach ( $tabs as $identifier => $tab ) {
 	if ( ! empty( $tab['screencast_video_url'] ) ) {
 		$tab_video_url = $tab['screencast_video_url'];
 
-		$helpcenter_tab = new WPSEO_Option_Tab( $identifier, $tab['label'],
-			array( 'video_url' => $tab['screencast_video_url'] ) );
+		$helpcenter_tab = new WPSEO_Option_Tab(
+			$identifier,
+			$tab['label'],
+			array( 'video_url' => $tab['screencast_video_url'] )
+		);
 	}
 
 	$helpcenter_tabs->add_tab( $helpcenter_tab );

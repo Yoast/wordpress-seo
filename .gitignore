@@ -21,6 +21,8 @@ nbproject/
 node_modules/
 bower_components/
 premium/node_modules/
+phpcs.xml
+.phpcs.xml
 
 ############
 ## OSes
@@ -55,6 +57,7 @@ temp/
 ## Composer
 ############
 /vendor/
+/vendor_prefixed/
 
 ############
 ## WPSEO
@@ -70,6 +73,7 @@ test.sh
 /gettext.pot
 /.wordpress-svn
 /webpack-stats.json
+.recalibration.yaml
 
 ############
 # Dist files
@@ -77,5 +81,6 @@ test.sh
 /languages/
 /js/dist/*
 !/js/dist/select2
+/js/vendor/*
 /css/dist/*
 !/css/dist/select2

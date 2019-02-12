@@ -253,18 +253,19 @@ add_action( 'wp_ajax_wpseo_save_all_descriptions', 'wpseo_save_all_descriptions'
 function wpseo_save_all( $what ) {
 	check_ajax_referer( 'wpseo-bulk-editor' );
 
-	// @todo the WPSEO Utils class can't filter arrays in POST yet.
-	$new_values      = $_POST['items'];
-	$original_values = $_POST['existing_items'];
-
 	$results = array();
-
-	if ( is_array( $new_values ) && $new_values !== array() ) {
-		foreach ( $new_values as $post_id => $new_value ) {
-			$original_value = $original_values[ $post_id ];
-			$results[]      = wpseo_upsert_new( $what, $post_id, $new_value, $original_value );
-		}
+	if ( ! isset( $_POST['items'], $_POST['existingItems'] ) ) {
+		wpseo_ajax_json_echo_die( $results );
 	}
+
+	$new_values      = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), wp_unslash( (array) $_POST['items'] ) );
+	$original_values = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), wp_unslash( (array) $_POST['existingItems'] ) );
+
+	foreach ( $new_values as $post_id => $new_value ) {
+		$original_value = $original_values[ $post_id ];
+		$results[]      = wpseo_upsert_new( $what, $post_id, $new_value, $original_value );
+	}
+
 	wpseo_ajax_json_echo_die( $results );
 }
 

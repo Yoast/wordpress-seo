@@ -79,6 +79,7 @@ class WPSEO_Configuration_Page {
 		 */
 		wp_enqueue_style( 'forms' );
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->register_wp_assets();
 		$asset_manager->register_assets();
 		$asset_manager->enqueue_script( 'configuration-wizard' );
 		$asset_manager->enqueue_style( 'yoast-components' );
@@ -264,7 +265,7 @@ class WPSEO_Configuration_Page {
 	public function get_translations() {
 		_deprecated_function( __METHOD__, 'WPSEO 4.9', 'WPSEO_' );
 
-		$translations = new WPSEO_Configuration_Translations( WPSEO_Utils::get_user_locale() );
+		$translations = new WPSEO_Configuration_Translations( WPSEO_Language_Utils::get_user_locale() );
 
 		return $translations->retrieve();
 	}

@@ -100,6 +100,7 @@ class UpsellBox extends React.Component {
 					{ ...this.props.upsellButton }
 				>
 					{ this.props.upsellButtonText }
+					{ this.props.upsellButtonHasCaret && <span aria-hidden="true" className="yoast-button-upsell__caret" /> }
 				</UpsellButton>
 				<ButtonLabel id={ this.props.upsellButton[ "aria-describedby" ] }>
 					{ this.props.upsellButtonLabel }
@@ -115,6 +116,7 @@ UpsellBox.propTypes = {
 	upsellButton: PropTypes.object,
 	upsellButtonText: PropTypes.string.isRequired,
 	upsellButtonLabel: PropTypes.string,
+	upsellButtonHasCaret: PropTypes.bool,
 };
 
 UpsellBox.defaultProps = {
@@ -125,6 +127,7 @@ UpsellBox.defaultProps = {
 		className: "button button-primary",
 	},
 	upsellButtonLabel: "",
+	upsellButtonHasCaret: true,
 };
 
 export default UpsellBox;

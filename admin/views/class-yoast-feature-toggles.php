@@ -10,10 +10,18 @@
  */
 class Yoast_Feature_Toggles {
 
-	/** @var array Available feature toggles. */
+	/**
+	 * Available feature toggles.
+	 *
+	 * @var array
+	 */
 	protected $toggles;
 
-	/** @var self|null Instance holder. */
+	/**
+	 * Instance holder.
+	 *
+	 * @var self|null
+	 */
 	protected static $instance = null;
 
 	/**
