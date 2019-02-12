@@ -10,10 +10,14 @@
  */
 class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	private static $proxy_table_name;
 
-	/** @var WPSEO_Database_Proxy */
+	/**
+	 * @var WPSEO_Database_Proxy
+	 */
 	private static $proxy;
 
 	/**

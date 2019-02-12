@@ -9,6 +9,7 @@
  * Class WPSEO_presenter_paper
  */
 class WPSEO_Paper_Presenter {
+
 	/**
 	 * @var string Title of the paper
 	 */

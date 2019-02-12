@@ -105,6 +105,32 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+
+= 9.6.0 =
+Release Date: February 12th, 2019
+
+## Content analysis recalibration (beta):
+
+* As there are already a lot of users who are participating in testing, we currently have enough input to start preparing for the release of the improved analysis.
+  * Removes the ability to enable beta testing for new installations.
+  * When the feature is disabled, the ability to re-enable it will disappear.
+
+## Enhancements:
+
+* Removes schema (JSON+LD) output from 404 pages.
+* Improves the Google Search Console table accessibility by removing a duplicate button.
+* Improves the code to better comply to the coding standards.
+
+## Bugfixes:
+
+* Fixes a bug where an empty feed would be available for non-existing pages. Props [stodorovic](https://github.com/stodorovic).
+* Prevents `vendor_prefix/j4mie/idiorm/demo.php` from being included in the release.
+
+## Other:
+
+* Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
+* Improves the redirect upsell when creating redirects in the search console overview.
+
 = 9.5.0 =
 Release Date: January 22nd, 2019
 
@@ -128,48 +154,6 @@ Deprecated:
 Other:
 
 * Adds a Courses Page showing an overview of the available online courses offered by Yoast Academy.
-
-= 9.4.0 =
-Release Date: January 8th, 2019
-
-Content analysis recalibration (beta):
-
-* Adds a toggle feature for subscribing to the recalibration beta under SEO -> General -> Features.
-* When the recalibration feature is enabled:
-  * The single title assessment is added. This assessment makes sure that you don't use superfluous H1s in your text.
-  * Assessments changes:
-    * Keyphrase density: changes scoring schema to account for the length of the keyphrase and changes feedback strings so that we give feedback about the number of occurrences rather than a percentage.
-    * Outbound links assessment: changes the scoring schema so that red bullet instead of an orange bullet is shown when you have no outbound links.
-    * Image alt attributes: if there are at least 5 images, checks whether the alt tags contain the keyphrase or synoynyms in 30-70% of all images. If there are less than 5 images, 1 image with the keyphrase or synonym in the alt tag is still scored as good.
-    * Keyphrase in title: function words preceding the exact match keyphrase are ignored when determining the position of the keyphrase in the title.
-    * Keyphrase length: makes the scoring scheme less strict for languages that don't have function word support, so that for these languages keyphrases with 1-6 words are scored as green, 7-9 as orange, and more than 9 as red.
-    * Keyphrase in subheading: only takes H2 and H3 level subheadings into account and changes the scoring schema so that 30%-75% of these subheadings need to include the keyphrase or its synonyms. In languages without function word support, a match is only counted if all the words from the keyphrase/synonym appear in the subheading.
-    * Text length: on taxonomy pages, the recommended minimum text length is increased from 150 to 250 words.
-  * Assessment removals:
-    * The assessment checking the length or your URL.
-    * The assessment checking whether your URL contains stopwords.
-
-Enhancements:
-
-* Improve accessibility of the analysis results.
-* Improve accessibility of the Title Separator setting.
-* Adds a new filter for adjacent-rel links: `wpseo_adjacent_rel_url`.
-
-Bugfixes:
-
-* Fixes a bug where special characters from certain word lists weren't correctly escaped when matched with a regex. This resulted in `eggs` being incorrectly matched as the transition word `e.g.`, for example.
-* Fixes a bug where the search appearance setting for a custom content type named `profile` would have a broken layout.
-* Fixes a bug where pagination elements were not shown in the Genesis theme.
-
-Other:
-
-* Uses method `is_simple_page` instead of `is_singular` in method robots. Props to: [stodorovic](https://github.com/stodorovic)
-* Adds method `is_woocommerce_active` and check is woocommerce activate before registering hooks. Props to [stodorovic](https://github.com/stodorovic)
-* Adds static variables to "cache" results of functions [`is_shop`](https://docs.woocommerce.com/wc-apidocs/function-is_shop.html) and [`wc_get_page_id`](https://docs.woocommerce.com/wc-apidocs/function-wc_get_page_id.html). Props to [stodorovic](https://github.com/stodorovic)
-* Verifies that variable `post` is an instance of `WP_Post` in `WPSEO_Admin_Bar_Menu ::get_singular_post()`. Props to [@yingles](https://github.com/yingles).
-* Improves strings to be more easily translated. Props to [pedro-mendonca](https://github.com/pedro-mendonca)
-* The browser console now shows more descriptive error messages when something went wrong during analyses in the web worker.
-* Avoids irrelevant warning and error in the WPEngine PHP Compatibility plugin.
 
 = Earlier versions =
 

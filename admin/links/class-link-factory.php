@@ -10,14 +10,19 @@
  */
 class WPSEO_Link_Factory {
 
-	/** @var WPSEO_Link_Type_Classifier */
+	/**
+	 * @var WPSEO_Link_Type_Classifier
+	 */
 	protected $classifier;
 
-	/** @var WPSEO_Link_Internal_Lookup */
-
+	/**
+	 * @var WPSEO_Link_Internal_Lookup
+	 */
 	protected $internal_lookup;
 
-	/** @var WPSEO_Link_Filter */
+	/**
+	 * @var WPSEO_Link_Filter
+	 */
 	protected $filter;
 
 	/**

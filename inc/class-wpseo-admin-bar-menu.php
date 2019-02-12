@@ -10,22 +10,46 @@
  */
 class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
-	/** The identifier used for the menu. */
+	/**
+	 * The identifier used for the menu.
+	 *
+	 * @var string
+	 */
 	const MENU_IDENTIFIER = 'wpseo-menu';
 
-	/** The identifier used for the Keyword Research submenu. */
+	/**
+	 * The identifier used for the Keyword Research submenu.
+	 *
+	 * @var string
+	 */
 	const KEYWORD_RESEARCH_SUBMENU_IDENTIFIER = 'wpseo-kwresearch';
 
-	/** The identifier used for the Analysis submenu. */
+	/**
+	 * The identifier used for the Analysis submenu.
+	 *
+	 * @var string
+	 */
 	const ANALYSIS_SUBMENU_IDENTIFIER = 'wpseo-analysis';
 
-	/** The identifier used for the Settings submenu. */
+	/**
+	 * The identifier used for the Settings submenu.
+	 *
+	 * @var string
+	 */
 	const SETTINGS_SUBMENU_IDENTIFIER = 'wpseo-settings';
 
-	/** The identifier used for the Network Settings submenu. */
+	/**
+	 * The identifier used for the Network Settings submenu.
+	 *
+	 * @var string
+	 */
 	const NETWORK_SETTINGS_SUBMENU_IDENTIFIER = 'wpseo-network-settings';
 
-	/** @var WPSEO_Admin_Asset_Manager Asset manager instance. */
+	/**
+	 * Asset manager instance.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
 	protected $asset_manager;
 
 	/**

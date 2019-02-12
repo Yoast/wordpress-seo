@@ -10,7 +10,11 @@
  */
 class WPSEO_Configuration_Structure {
 
-	/** @var array Registered steps */
+	/**
+	 * Registered steps.
+	 *
+	 * @var array
+	 */
 	protected $steps = array();
 
 	/**

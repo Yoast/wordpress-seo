@@ -6,7 +6,7 @@
  */
 
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
-use Yoast\YoastSEO\Yoast_Model;
+use Yoast\WP\Free\Yoast_Model;
 
 /**
  * Migration for the Primary Term.

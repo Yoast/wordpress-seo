@@ -10,48 +10,64 @@
  * default WordPress output.
  */
 class WPSEO_Frontend {
+
 	/**
-	 * @var    object    Instance of this class.
+	 * Instance of this class.
+	 *
+	 * @var object
 	 */
 	public static $instance;
+
 	/**
-	 * @var boolean Boolean indicating whether output buffering has been started.
+	 * Toggle indicating whether output buffering has been started.
+	 *
+	 * @var boolean
 	 */
 	private $ob_started = false;
+
 	/**
 	 * Holds the canonical URL for the current page.
 	 *
 	 * @var string
 	 */
 	private $canonical = null;
+
 	/**
 	 * Holds the canonical URL for the current page that cannot be overriden by a manual canonical input.
 	 *
 	 * @var string
 	 */
 	private $canonical_no_override = null;
+
 	/**
 	 * Holds the canonical URL for the current page without pagination.
 	 *
 	 * @var string
 	 */
 	private $canonical_unpaged = null;
+
 	/**
 	 * Holds the pages meta description.
 	 *
 	 * @var string
 	 */
 	private $metadesc = null;
+
 	/**
 	 * Holds the generated title for the page.
 	 *
 	 * @var string
 	 */
 	private $title = null;
-	/** @var WPSEO_Frontend_Page_Type */
+
+	/**
+	 * @var WPSEO_Frontend_Page_Type
+	 */
 	protected $frontend_page_type;
 
-	/** @var WPSEO_WooCommerce_Shop_Page */
+	/**
+	 * @var WPSEO_WooCommerce_Shop_Page
+	 */
 	protected $woocommerce_shop_page;
 
 	/**
@@ -125,6 +141,7 @@ class WPSEO_Frontend {
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
 			new WPSEO_JSON_LD(),
+			new WPSEO_Handle_404(),
 			new WPSEO_Remove_Reply_To_Com(),
 			new WPSEO_OpenGraph_OEmbed(),
 			$this->woocommerce_shop_page,
@@ -1179,8 +1196,8 @@ class WPSEO_Frontend {
 			printf(
 				/* Translators: %1$s resolves to the SEO menu item, %2$s resolves to the Search Appearance submenu item. */
 				esc_html__( 'Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [%1$s - %2$s] menu and set up a template.', 'wordpress-seo' ),
-				__( 'SEO', 'wordpress-seo' ),
-				__( 'Search Appearance', 'wordpress-seo' )
+				esc_html__( 'SEO', 'wordpress-seo' ),
+				esc_html__( 'Search Appearance', 'wordpress-seo' )
 			);
 			echo ' -->' . "\n";
 		}
@@ -1316,7 +1333,7 @@ class WPSEO_Frontend {
 			$redir = $this->get_seo_meta_value( 'redirect', $post->ID );
 			if ( $redir !== '' ) {
 				header( 'X-Redirect-By: Yoast SEO' );
-				wp_redirect( $redir, 301 );
+				wp_redirect( $redir, 301, 'Yoast SEO' );
 				exit;
 			}
 		}
@@ -1424,7 +1441,7 @@ class WPSEO_Frontend {
 	 */
 	public function do_attachment_redirect( $attachment_url ) {
 		header( 'X-Redirect-By: Yoast SEO' );
-		wp_redirect( $attachment_url, 301 );
+		wp_redirect( $attachment_url, 301, 'Yoast SEO' );
 		exit;
 	}
 
@@ -1579,42 +1596,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Function used in testing whether the title should be force rewritten or not.
-	 *
-	 * @param string $title Title string.
-	 *
-	 * @return string
-	 */
-	public function title_test_helper( $title ) {
-		WPSEO_Options::set( 'title_test', ( WPSEO_Options::get( 'title_test' ) + 1 ) );
-
-		// Prevent this setting from being on forever when something breaks, as it breaks caching.
-		if ( WPSEO_Options::get( 'title_test' ) > 5 ) {
-			WPSEO_Options::set( 'title_test', 0 );
-
-			remove_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
-
-			return $title;
-		}
-
-		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
-			define( 'DONOTCACHEPAGE', true );
-		}
-		if ( ! defined( 'DONOTCACHCEOBJECT' ) ) {
-			define( 'DONOTCACHCEOBJECT', true );
-		}
-		if ( ! defined( 'DONOTMINIFY' ) ) {
-			define( 'DONOTMINIFY', true );
-		}
-
-		if ( $_SERVER['HTTP_USER_AGENT'] === "WordPress/{$GLOBALS['wp_version']}; " . get_bloginfo( 'url' ) . ' - Yoast' ) {
-			return 'This is a Yoast Test Title';
-		}
-
-		return $title;
-	}
-
-	/**
 	 * Get the product name in the head section.
 	 *
 	 * @return string
@@ -1667,7 +1648,7 @@ class WPSEO_Frontend {
 	 */
 	public function redirect( $location, $status = 302 ) {
 		header( 'X-Redirect-By: Yoast SEO' );
-		wp_safe_redirect( $location, $status );
+		wp_safe_redirect( $location, $status, 'Yoast SEO' );
 		exit;
 	}
 
@@ -1950,5 +1931,21 @@ class WPSEO_Frontend {
 		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_posts_page' );
 
 		return $this->frontend_page_type->is_posts_page();
+	}
+
+	/**
+	 * Function used in testing whether the title should be force rewritten or not.
+	 *
+	 * @deprecated 9.6
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $title Title string.
+	 *
+	 * @return string
+	 */
+	public function title_test_helper( $title ) {
+		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
+
+		return $title;
 	}
 }

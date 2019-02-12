@@ -86,6 +86,8 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			$single = null;
 		}
 
+		wp_nonce_field( 'yoast_free_metabox_social', 'yoast_free_metabox_social_nonce' );
+
 		if ( $opengraph === true ) {
 			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'facebook',
@@ -195,50 +197,65 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * @return  array
 	 */
 	public function save_meta_boxes( $field_defs ) {
-		return array_merge( $field_defs, $this->get_meta_field_defs( 'social' ) );
+		if ( ! isset( $_POST['yoast_free_metabox_social_nonce'] ) || ! wp_verify_nonce( $_POST['yoast_free_metabox_social_nonce'], 'yoast_free_metabox_social' ) ) {
+			return $field_defs;
+		}
+
+		return array_merge( $field_defs, self::get_meta_field_defs( 'social' ) );
 	}
 
 	/**
 	 * This method will compare opengraph fields with the posted values.
 	 *
-	 * When fields are changed, the facebook cache will be purge.
+	 * When fields are changed, the facebook cache will be purged.
 	 *
 	 * @param WP_Post $post Post instance.
 	 */
 	public function og_data_compare( $post ) {
+		if ( empty( $_POST ) ) {
+			return;
+		}
 
-		// Check if post data is available, if post_id is set and if original post_status is publish.
-		// @codingStandardsIgnoreStart
-		if (
-			! empty( $_POST ) && ! empty( $post->ID ) && $post->post_status === 'publish' &&
-			isset( $_POST['original_post_status'] ) && $_POST['original_post_status'] === 'publish'
-		) {
-			// @codingStandardsIgnoreEnd
+		if ( empty( $post->ID ) || $post->post_status !== 'publish' ) {
+			return;
+		}
 
-			$fields_to_compare = array(
-				'opengraph-title',
-				'opengraph-description',
-				'opengraph-image',
+		if ( ! isset( $_POST['yoast_free_metabox_social_nonce'] ) || ! wp_verify_nonce( $_POST['yoast_free_metabox_social_nonce'], 'yoast_free_metabox_social' ) ) {
+			return;
+		}
+
+		if ( ! isset( $_POST['original_post_status'] ) || $_POST['original_post_status'] !== 'publish' ) {
+			return;
+		}
+
+		$fields_to_compare = array(
+			'opengraph-title',
+			'opengraph-description',
+			'opengraph-image',
+		);
+
+		$reset_facebook_cache = false;
+
+		foreach ( $fields_to_compare as $field_to_compare ) {
+			$old_value = self::get_value( $field_to_compare, $post->ID );
+
+			$new_value = '';
+			$post_key  = self::$form_prefix . $field_to_compare;
+			if ( isset( $_POST[ $post_key ] ) ) {
+				$new_value = sanitize_text_field( wp_unslash( $_POST[ $post_key ] ) );
+			}
+
+			if ( $old_value !== $new_value ) {
+				$reset_facebook_cache = true;
+				break;
+			}
+		}
+		unset( $field_to_compare, $old_value, $new_value );
+
+		if ( $reset_facebook_cache ) {
+			wp_remote_get(
+				'https://graph.facebook.com/?id=' . get_permalink( $post->ID ) . '&scrape=true&method=post'
 			);
-
-			$reset_facebook_cache = false;
-
-			foreach ( $fields_to_compare as $field_to_compare ) {
-				$old_value = self::get_value( $field_to_compare, $post->ID );
-				$new_value = self::get_post_value( self::$form_prefix . $field_to_compare );
-
-				if ( $old_value !== $new_value ) {
-					$reset_facebook_cache = true;
-					break;
-				}
-			}
-			unset( $field_to_compare, $old_value, $new_value );
-
-			if ( $reset_facebook_cache ) {
-				wp_remote_get(
-					'https://graph.facebook.com/?id=' . get_permalink( $post->ID ) . '&scrape=true&method=post'
-				);
-			}
 		}
 	}
 } /* End of class */

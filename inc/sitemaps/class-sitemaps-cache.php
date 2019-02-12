@@ -12,16 +12,32 @@
  */
 class WPSEO_Sitemaps_Cache {
 
-	/** @var array $cache_clear Holds the options that, when updated, should cause the cache to clear. */
+	/**
+	 * Holds the options that, when updated, should cause the cache to clear.
+	 *
+	 * @var array
+	 */
 	protected static $cache_clear = array();
 
-	/** @var bool $is_enabled Mirror of enabled status for static calls. */
+	/**
+	 * Mirror of enabled status for static calls.
+	 *
+	 * @var bool
+	 */
 	protected static $is_enabled = false;
 
-	/** @var bool $clear_all Holds the flag to clear all cache. */
+	/**
+	 * Holds the flag to clear all cache.
+	 *
+	 * @var bool
+	 */
 	protected static $clear_all = false;
 
-	/** @var array $clear_types Holds the array of types to clear. */
+	/**
+	 * Holds the array of types to clear.
+	 *
+	 * @var array
+	 */
 	protected static $clear_types = array();
 
 	/**

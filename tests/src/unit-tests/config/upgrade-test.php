@@ -11,7 +11,7 @@ class Upgrade_Test extends \PHPUnit_Framework_TestCase {
 
 	public function test_do_upgrade() {
 		$migration = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Config\Database_Migration' )
+			->getMockBuilder( '\Yoast\WP\Free\Config\Database_Migration' )
 			->setMethods( array( 'run_migrations' ) )
 			->disableOriginalConstructor()
 			->getMock();
@@ -20,7 +20,7 @@ class Upgrade_Test extends \PHPUnit_Framework_TestCase {
 			->method( 'run_migrations' );
 
 		$instance = $this
-			->getMockBuilder( '\Yoast\YoastSEO\Config\Upgrade' )
+			->getMockBuilder( '\Yoast\WP\Free\Config\Upgrade' )
 			->setMethods( null )
 			->setConstructorArgs( array( $migration ) )
 			->getMock();

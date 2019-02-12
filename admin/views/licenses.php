@@ -223,7 +223,7 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 				$yoast_seo_extensions = '<span class="yoast-heading-highlight">' . $yoast_seo_extensions . '</span>';
 
 				/* translators: %1$s expands to Yoast SEO extensions */
-				printf( __( '%1$s to optimize your site even further', 'wordpress-seo' ), $yoast_seo_extensions );
+				printf( esc_html__( '%1$s to optimize your site even further', 'wordpress-seo' ), $yoast_seo_extensions );
 				?></h2>
 
 			<?php foreach ( $extensions->get_all() as $id => $extension ) : ?>

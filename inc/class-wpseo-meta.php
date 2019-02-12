@@ -980,22 +980,6 @@ class WPSEO_Meta {
 	}
 
 	/**
-	 * Get a value from $_POST for a given key
-	 * Returns the $_POST value if exists, returns an empty string if key does not exist
-	 *
-	 * @static
-	 *
-	 * @param  string $key Key of the value to get from $_POST.
-	 *
-	 * @return string      Returns $_POST value, which will be a string the majority of the time
-	 *                     Will return empty string if key does not exists in $_POST
-	 */
-	public static function get_post_value( $key ) {
-		// @codingStandardsIgnoreLine
-		return ( array_key_exists( $key, $_POST ) ) ? $_POST[ $key ] : '';
-	}
-
-	/**
 	 * Counts the total of all the keywords being used for posts except the given one
 	 *
 	 * @param string  $keyword The keyword to be counted.
@@ -1042,5 +1026,28 @@ class WPSEO_Meta {
 		$get_posts = new WP_Query( $query );
 
 		return $get_posts->posts;
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Get a value from $_POST for a given key
+	 * Returns the $_POST value if exists, returns an empty string if key does not exist
+	 *
+	 * @static
+	 *
+	 * @deprecated 9.6
+	 * @codeCoverageIgnore
+	 *
+	 * @param  string $key Key of the value to get from $_POST.
+	 *
+	 * @return string      Returns $_POST value, which will be a string the majority of the time
+	 *                     Will return empty string if key does not exists in $_POST
+	 */
+	public static function get_post_value( $key ) {
+		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
+
+		// @codingStandardsIgnoreLine
+		return ( array_key_exists( $key, $_POST ) ) ? $_POST[ $key ] : '';
 	}
 } /* End of class */

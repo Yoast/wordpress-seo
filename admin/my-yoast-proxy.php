@@ -9,7 +9,7 @@
 
 switch ( filter_input( INPUT_GET, 'file', FILTER_SANITIZE_STRING ) ) {
 	case 'research-webworker':
-		$my_yoast_url = 'https://my.yoast.com/api/downloads/file/analysis-worker';
+		$my_yoast_url              = 'https://my.yoast.com/api/downloads/file/analysis-worker';
 		$my_yoast_url_content_type = 'text/javascript; charset=UTF-8';
 		break;
 }

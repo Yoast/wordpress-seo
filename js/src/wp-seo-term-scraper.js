@@ -194,20 +194,20 @@ window.yoastHideMarkers = true;
 	let currentAnalysisData;
 
 	/**
-	 * Rerun the analysis when the title or metadescription in the snippet changes.
+	 * Rerun the analysis when the title or meta description in the snippet changes.
 	 *
-	 * @param {Object} store The store.
-	 * @param {Object} app The YoastSEO app.
+	 * @param {Object}   store            The store.
+	 * @param {Function} _refreshAnalysis Function that triggers a refresh of the analysis.
 	 *
 	 * @returns {void}
 	 */
-	function handleStoreChange( store, app ) {
+	function handleStoreChange( store, _refreshAnalysis ) {
 		const previousAnalysisData = currentAnalysisData || "";
 		currentAnalysisData = store.getState().analysisData.snippet;
 
 		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
 		if ( isDirty ) {
-			app.refresh();
+			_refreshAnalysis();
 		}
 	}
 
@@ -312,9 +312,9 @@ window.yoastHideMarkers = true;
 			YoastSEO.app.refresh();
 		};
 
-		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
+		edit.initializeUsedKeywords( YoastSEO.app.refresh, "get_term_keyword_usage" );
 
-		store.subscribe( handleStoreChange.bind( null, store, app ) );
+		store.subscribe( handleStoreChange.bind( null, store, YoastSEO.app.refresh ) );
 
 		if ( isKeywordAnalysisActive() ) {
 			app.seoAssessor = new TaxonomyAssessor( app.i18n );
@@ -333,7 +333,13 @@ window.yoastHideMarkers = true;
 		YoastSEO._registerReactComponent = registerReactComponent;
 
 		initTermSlugWatcher();
-		termScraper.bindElementEvents( app );
+		termScraper.bindElementEvents( debounce( () => refreshAnalysis(
+			YoastSEO.analysis.worker,
+			YoastSEO.analysis.collectData,
+			YoastSEO.analysis.applyMarks,
+			YoastSEO.store,
+			termScraper,
+		), refreshDelay ) );
 
 		if ( isKeywordAnalysisActive() ) {
 			initializeKeywordAnalysis( termScraper );
