@@ -1,7 +1,10 @@
+import getLanguage from "../helpers/getLanguage";
 import getWords from "../stringProcessing/getWords.js";
 import getSentences from "../stringProcessing/getSentences.js";
 import WordCombination from "../values/WordCombination.js";
 import { normalize as normalizeQuotes } from "../stringProcessing/quotes.js";
+import functionWordListsFactory from "../helpers/getFunctionWords.js";
+const functionWordLists = functionWordListsFactory();
 
 import { filter } from "lodash-es";
 import { map } from "lodash-es";
@@ -251,11 +254,17 @@ function filterCombinations( combinations, functionWords, language ) {
  * Returns the relevant words in a given text.
  *
  * @param {string} text The text to retrieve the relevant words of.
- * @param {string} language The language of the text.
- * @param {Object} functionWords The function words to filter out.
+ * @param {string} locale The language of the text.
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
-function getRelevantWords( text, language, functionWords ) {
+function getRelevantWords( text, locale ) {
+	let language = getLanguage( locale );
+	if ( ! functionWordLists.hasOwnProperty( language ) ) {
+		language = "en";
+	}
+
+	const functionWords = functionWordLists[ language ];
+
 	const words = getWordCombinations( text, 1, functionWords.all );
 	const wordCount = words.length;
 
@@ -307,11 +316,18 @@ function getRelevantWords( text, language, functionWords ) {
  * @param {string} synonyms The synonyms of the paper.
  * @param {string} metadescription The metadescription of the paper.
  * @param {string[]} subheadings The subheadings of the paper.
- * @param {string[]} functionWords The function words to use.
+ * @param {string} locale The locale of the paper.
  *
  * @returns {WordCombination[]} Relevant word combinations from the paper attributes.
  */
-function getRelevantWordsFromTopic( keyphrase, synonyms, metadescription, subheadings, functionWords ) {
+function getRelevantWordsFromTopic( keyphrase, synonyms, metadescription, subheadings, locale ) {
+	let language = getLanguage( locale );
+	if ( ! functionWordLists.hasOwnProperty( language ) ) {
+		language = "en";
+	}
+
+	const functionWords = functionWordLists[ language ].all;
+
 	const subheadingsJoined = subheadings.join( " " );
 	const attributes = keyphrase.concat( " ", synonyms, " ", metadescription, " ", subheadingsJoined );
 	const attributesWords = uniq( getWords( attributes.toLocaleLowerCase() ) );

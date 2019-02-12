@@ -3,7 +3,7 @@ import relevantWords from "../../src/stringProcessing/relevantWords";
 import englishFunctionWordsFactory from "../../src/researches/english/functionWords.js";
 
 const getRelevantWords = relevantWords.getRelevantWords;
-const englishFunctionWords = englishFunctionWordsFactory();
+const englishFunctionWords = englishFunctionWordsFactory().all;
 
 describe( "gets English word combinations", function() {
 	it( "returns word combinations", function() {
@@ -16,13 +16,13 @@ describe( "gets English word combinations", function() {
 			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
 			" Here are a ton of syllables. Here are a ton of syllables. ";
 		const expected = [
-			new WordCombination( [ "syllables" ], 37, englishFunctionWords.all ),
+			new WordCombination( [ "syllables" ], 37, englishFunctionWords ),
 		];
 
 		// Make sure our words aren't filtered by density.
 		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
 
-		const words = getRelevantWords( input, "en", englishFunctionWords );
+		const words = getRelevantWords( input, "en_US" );
 
 		words.forEach( function( word ) {
 			delete( word._relevantWords );

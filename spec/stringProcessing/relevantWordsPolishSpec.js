@@ -3,7 +3,7 @@ import relevantWords from "../../src/stringProcessing/relevantWords";
 import polishFunctionWordsFactory from "../../src/researches/polish/functionWords.js";
 
 const getRelevantWords = relevantWords.getRelevantWords;
-const polishFunctionWords = polishFunctionWordsFactory();
+const polishFunctionWords = polishFunctionWordsFactory().all;
 
 describe( "gets Polish word combinations", function() {
 	it( "returns word combinations", function() {
@@ -19,30 +19,30 @@ describe( "gets Polish word combinations", function() {
 
 
 		const expected = [
-			new WordCombination( [ "odczuwa", "ból", "w", "klatce", "piersiowej" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "natychmiast", "dzwonić", "po", "karetkę" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "ból", "w", "klatce", "piersiowej" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "odczuwa", "ból", "w", "klatce" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "dzwonić", "po", "karetkę" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "ból", "w", "klatce" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "odczuwa", "ból" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "natychmiast", "dzwonić" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "klatce", "piersiowej" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "wie" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "karetkę" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "dzwonić" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "natychmiast" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "piersiowej" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "klatce" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "ból" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "odczuwa" ], 8, polishFunctionWords.all ),
-			new WordCombination( [ "zasadzie" ], 8, polishFunctionWords.all ),
+			new WordCombination( [ "odczuwa", "ból", "w", "klatce", "piersiowej" ], 8, polishFunctionWords ),
+			new WordCombination( [ "natychmiast", "dzwonić", "po", "karetkę" ], 8, polishFunctionWords ),
+			new WordCombination( [ "ból", "w", "klatce", "piersiowej" ], 8, polishFunctionWords ),
+			new WordCombination( [ "odczuwa", "ból", "w", "klatce" ], 8, polishFunctionWords ),
+			new WordCombination( [ "dzwonić", "po", "karetkę" ], 8, polishFunctionWords ),
+			new WordCombination( [ "ból", "w", "klatce" ], 8, polishFunctionWords ),
+			new WordCombination( [ "odczuwa", "ból" ], 8, polishFunctionWords ),
+			new WordCombination( [ "natychmiast", "dzwonić" ], 8, polishFunctionWords ),
+			new WordCombination( [ "klatce", "piersiowej" ], 8, polishFunctionWords ),
+			new WordCombination( [ "wie" ], 8, polishFunctionWords ),
+			new WordCombination( [ "karetkę" ], 8, polishFunctionWords ),
+			new WordCombination( [ "dzwonić" ], 8, polishFunctionWords ),
+			new WordCombination( [ "natychmiast" ], 8, polishFunctionWords ),
+			new WordCombination( [ "piersiowej" ], 8, polishFunctionWords ),
+			new WordCombination( [ "klatce" ], 8, polishFunctionWords ),
+			new WordCombination( [ "ból" ], 8, polishFunctionWords ),
+			new WordCombination( [ "odczuwa" ], 8, polishFunctionWords ),
+			new WordCombination( [ "zasadzie" ], 8, polishFunctionWords ),
 		];
 
 		// Make sure our words aren't filtered by density.
 		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
 
-		const words = getRelevantWords( input, "pl", polishFunctionWords );
+		const words = getRelevantWords( input, "pl_PL" );
 
 		words.forEach( function( word ) {
 			delete( word._relevantWords );
