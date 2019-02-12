@@ -109,7 +109,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 9.7.0 =
 Release Date: February 26th, 2019
 
-## Enhancements:
+Enhancements:
 
 * Replaces inch marks by smart quotes in search breadcrumbs.
 * Improves the feedback for the assessment that checks the length of cornerstone articles.
@@ -118,7 +118,7 @@ Release Date: February 26th, 2019
 * Adds a description of the SEO and Readability score to the posts and taxonomies overview in mobile view.
 * Adds a label element to the Google Search Console authorisation code input field in the configuration wizard.
 
-## Bugfixes:
+Bugfixes:
 
 * Fixes a bug where a Flesch reading ease score of exactly 90 would trigger incorrect feedback.
 * Fixes a bug where the taxonomy sitemap provider would not handle private taxonomies as expected, resulting in sitemaps not being accessible in specific situations.
