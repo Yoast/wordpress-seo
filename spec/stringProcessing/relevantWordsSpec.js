@@ -14,7 +14,7 @@ const filterFunctionWordsAnywhere = relevantWords.filterFunctionWordsAnywhere;
 const filterOneCharacterWordCombinations = relevantWords.filterOneCharacterWordCombinations;
 const filterOnDensity = relevantWords.filterOnDensity;
 const filterEndingWith = relevantWords.filterEndingWith;
-const englishFunctionWords = englishFunctionWordsFactory();
+const englishFunctionWords = englishFunctionWordsFactory().all;
 
 describe( "getWordCombinations", function() {
 	it( "splits a sentence on words", function() {
@@ -81,11 +81,11 @@ describe( "calculateOccurrences", function() {
 describe( "getRelevantCombinations", function() {
 	it( "removes combinations with one occurence", function() {
 		const input = [
-			new WordCombination( [ "irrelevant" ], 1, englishFunctionWords.all ),
-			new WordCombination( [ "occurrence" ], 2, englishFunctionWords.all ),
+			new WordCombination( [ "irrelevant" ], 1, englishFunctionWords ),
+			new WordCombination( [ "occurrence" ], 2, englishFunctionWords ),
 		];
 		const expected = [
-			new WordCombination( [ "occurrence" ], 2, englishFunctionWords.all ),
+			new WordCombination( [ "occurrence" ], 2, englishFunctionWords ),
 		];
 
 		const actual = getRelevantCombinations( input, 100 );
@@ -95,7 +95,7 @@ describe( "getRelevantCombinations", function() {
 
 	it( "removes function words", function() {
 		const input = [
-			new WordCombination( [ "yes" ], 2, englishFunctionWords.all ),
+			new WordCombination( [ "yes" ], 2, englishFunctionWords ),
 		];
 		const expected = [];
 
@@ -308,15 +308,15 @@ describe( "getRelevantWords", function() {
 			"about the weather. The weather is nice today, don't you think? It is sunny outside. It has been a while since it has rained. Let me think of something else to" +
 			"talk about.";
 		const expected = [
-			new WordCombination( [ "syllable", "combinations" ], 2, englishFunctionWords.all ),
-			new WordCombination( [ "200", "words" ], 2, englishFunctionWords.all ),
-			new WordCombination( [ "200" ], 2, englishFunctionWords.all ),
-			new WordCombination( [ "syllables" ], 2, englishFunctionWords.all ),
-			new WordCombination( [ "syllable" ], 2, englishFunctionWords.all ),
-			new WordCombination( [ "combinations" ], 2, englishFunctionWords.all ),
-			new WordCombination( [ "text" ], 2, englishFunctionWords.all ),
-			new WordCombination( [ "words" ], 2, englishFunctionWords.all ),
-			new WordCombination( [ "weather" ], 2, englishFunctionWords.all ),
+			new WordCombination( [ "syllable", "combinations" ], 2, englishFunctionWords ),
+			new WordCombination( [ "200", "words" ], 2, englishFunctionWords ),
+			new WordCombination( [ "200" ], 2, englishFunctionWords ),
+			new WordCombination( [ "syllables" ], 2, englishFunctionWords ),
+			new WordCombination( [ "syllable" ], 2, englishFunctionWords ),
+			new WordCombination( [ "combinations" ], 2, englishFunctionWords ),
+			new WordCombination( [ "text" ], 2, englishFunctionWords ),
+			new WordCombination( [ "words" ], 2, englishFunctionWords ),
+			new WordCombination( [ "weather" ], 2, englishFunctionWords ),
 		];
 
 		// Make sure our words aren't filtered by density.
@@ -335,14 +335,14 @@ describe( "getRelevantWords", function() {
 describe( "getRelevantWordsFromTopic", function() {
 	it( "gets all non-function words from the attributes", function() {
 		const expected = [
-			new WordCombination( [ "keyphrase" ], 5, englishFunctionWords.all ),
-			new WordCombination( [ "synonym" ], 5, englishFunctionWords.all ),
-			new WordCombination( [ "o-my" ], 5, englishFunctionWords.all ),
-			new WordCombination( [ "interesting" ], 5, englishFunctionWords.all ),
-			new WordCombination( [ "metadescription" ], 5, englishFunctionWords.all ),
-			new WordCombination( [ "paper" ], 5, englishFunctionWords.all ),
-			new WordCombination( [ "analysing" ], 5, englishFunctionWords.all ),
-			new WordCombination( [ "subheading" ], 5, englishFunctionWords.all ),
+			new WordCombination( [ "keyphrase" ], 5, englishFunctionWords ),
+			new WordCombination( [ "synonym" ], 5, englishFunctionWords ),
+			new WordCombination( [ "o-my" ], 5, englishFunctionWords ),
+			new WordCombination( [ "interesting" ], 5, englishFunctionWords ),
+			new WordCombination( [ "metadescription" ], 5, englishFunctionWords ),
+			new WordCombination( [ "paper" ], 5, englishFunctionWords ),
+			new WordCombination( [ "analysing" ], 5, englishFunctionWords ),
+			new WordCombination( [ "subheading" ], 5, englishFunctionWords ),
 		];
 
 		// Make sure our words aren't filtered by density.
