@@ -10,7 +10,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Improves the feedback for the assessment that checks the length of the text in cornerstone articles.
 
 ### Fixed
-* Fixes a bug where a Flesch reading ease score of exactly 90 would incorrectly trigger bad feedback.
+* Fixes a bug where a Flesch reading ease score of exactly 90 would incorrectly trigger a red bullet.
 
 ## 1.47.0 February 11th, 2019
 ### Fixed
