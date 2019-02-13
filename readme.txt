@@ -150,3 +150,7 @@ Other:
 
 * Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
 * Improves the redirect upsell when creating redirects in the search console overview.
+
+= Earlier versions =
+
+For the changelog of earlier versions, please refer to https://yoa.st/yoast-seo-changelog
