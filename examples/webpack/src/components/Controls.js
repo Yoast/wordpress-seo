@@ -24,8 +24,8 @@ function Controls( {
 	onInitialize,
 	onAnalyze,
 	onAnalyzeSpam,
-	setConfigurationAttribute: setConfigAttribute,
-	setOption: setOptionAttribute,
+	setConfigAttribute,
+	setOptionAttribute,
 } ) {
 	return <Fragment>
 		<Container marginTop="0">
@@ -80,8 +80,8 @@ export default connect(
 	},
 	( dispatch ) => {
 		return {
-			setConfigurationAttribute: ( name, value ) => dispatch( setConfigurationAttribute( name, value ) ),
-			setOption: ( name, value ) => dispatch( setOption( name, value ) ),
+			setConfigAttribute: ( name, value ) => dispatch( setConfigurationAttribute( name, value ) ),
+			setOptionAttribute: ( name, value ) => dispatch( setOption( name, value ) ),
 		};
 	},
 )( Controls );
