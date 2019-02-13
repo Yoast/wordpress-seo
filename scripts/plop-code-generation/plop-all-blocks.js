@@ -3,18 +3,8 @@ const nodePlop = require( "node-plop" );
 const path = require( "path" );
 const ora = require( "ora" );
 const chalk = require( "chalk" );
-const flatMap = require( "lodash/flatMap" );
 
-/* Internal dependencies */
-const configuration = require( "./configuration.js" );
-
-const generators = flatMap( configuration, ( definitions, path ) => {
-	return flatMap( definitions, definition => {
-		return definition[ "@type" ];
-	} );
-} ).filter( Boolean );
-
-// Load an instance of plop from a plopfile
+// Load our instance of plop from the plopfile.
 const plop = nodePlop( path.join( __dirname, "../..", "./plopfile.js" ) );
 
 const typeDisplay = {
@@ -63,19 +53,13 @@ const onFailure = ( fail ) => {
 
 progress.start();
 
-const results = generators.map( ( generatorName ) => {
-	const generator = plop.getGenerator( "structural-blocks-" + generatorName );
-
-	return generator.runActions( {}, { onSuccess, onFailure, onComment } );
-} );
+const results = plop.getGeneratorList()
+	.map( generator => generator.name )
+	.filter( generatorName => generatorName.startsWith( "structural-blocks-" ) )
+	.map( plop.getGenerator )
+	.map( generator => generator.runActions( {}, { onSuccess, onFailure, onComment } ) );
 
 Promise.all( results )
 	.then( () => {
-		const generator = plop.getGenerator( "structural-blocks-list" );
-
-		return generator.runActions( {}, { onSuccess, onFailure, onComment } );
-	} )
-	.then( () => {
 		progress.stop();
 	} );
-
