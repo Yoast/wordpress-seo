@@ -17,14 +17,18 @@ module.exports = [
 			{
 				"key": "text",
 				"type": "string",
-				"source": "valueBlock",
-				"valueBlock": "FreeformBlocks"
+				"source": "area",
+				childrenTypes: [ "Description" ],
 			}
-		]
+		],
+
+		editTemplate: [
+			"Description",
+		],
 	},
 	{
 		"@type": "HowToSection",
-		blockLabel: "HowToSection",
+		blockLabel: "Step",
 
 		attributes: [
 			{
@@ -47,9 +51,14 @@ module.exports = [
 			{
 				key: "itemListElement",
 				type: "array",
-				source: "structuralBlock",
-				"structuralBlocks": [ "HowToStep" ],
+				source: "area",
+				childrenTypes: [ "HowToStep" ],
+				collection: false,
 			},
+		],
+
+		editTemplate: [
+			"HowToStep",
 		],
 
 		editAreas: [
@@ -111,7 +120,10 @@ module.exports = [
 				type: "array",
 				source: "area",
 				area: "main",
-				childrenTypes: [ "Steps" ],
+				childrenTypes: [ "HowToSection" ],
+				collection: {
+					name: "Steps",
+				},
 			},
 		],
 

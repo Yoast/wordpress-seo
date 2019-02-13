@@ -4,12 +4,12 @@ import { Component } from "@wordpress/element";
 
 // THIS FILE IS GENERATED, DO NOT MANUALLY EDIT!
 
-export default class HowToSection extends Component {
+export default class Steps extends Component {
 	render() {
 		return <InnerBlocks
-			template={ [["yoast/how-to-step",{},[]]] }
-			templateLock={ true }
-			allowedBlocks={ ["yoast/how-to-step"] }
+			template={ false }
+			templateLock={ false }
+			allowedBlocks={ ["yoast/how-to-section"] }
 		/>;
 	}
 

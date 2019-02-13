@@ -15,9 +15,14 @@ const DISCLAIMER = "// THIS FILE IS GENERATED, DO NOT MANUALLY EDIT!";
 const templatesPath = path.join( __dirname, "scripts/plop-templates" );
 const basePath = path.join( __dirname, "js/src/structured-data-blocks" );
 
-function mapDefinitionToData( definition ) {
+function createBlockName( entityName ) {
+	return BLOCK_PREFIX + paramCase( entityName );
+}
+
+function mapDefinitionToBlockData( definition ) {
 	let allowedBlocks = [];
 	let template = [];
+	let templateLock = false;
 
 	if ( definition.attributes ) {
 		const attributes = definition.attributes;
@@ -25,12 +30,33 @@ function mapDefinitionToData( definition ) {
 		attributes.forEach( ( attribute ) => {
 			let allowedChildren = [];
 
-			switch ( attribute.source ) {
+			const { collection, source, type, childrenTypes } = attribute;
+
+			switch ( source ) {
 				case "area":
-					if ( isArray( attribute.childrenTypes ) ) {
-						allowedChildren = attribute.childrenTypes.map( child => {
-							return BLOCK_PREFIX + paramCase( child );
-						} );
+					switch ( type ) {
+						case "array":
+
+							if ( collection === false ) {
+								templateLock = true;
+								if ( isArray( childrenTypes ) ) {
+									allowedChildren = childrenTypes.map( child => {
+										return createBlockName( child );
+									} );
+								}
+							} else {
+								// Because this is an array we need to use the collection as the allowed block.
+								allowedChildren.push( createBlockName( collection.name ) );
+							}
+							break;
+
+						default:
+							if ( isArray( childrenTypes ) ) {
+								allowedChildren = childrenTypes.map( child => {
+									return createBlockName( child );
+								} );
+							}
+							break;
 					}
 
 					allowedBlocks = allowedBlocks.concat( allowedChildren );
@@ -40,13 +66,13 @@ function mapDefinitionToData( definition ) {
 
 		if ( isArray( definition.editTemplate ) ) {
 			template = definition.editTemplate.map( ( templateEntry ) => {
-				return [ BLOCK_PREFIX + paramCase( templateEntry ), {}, [] ];
+				return [ createBlockName( templateEntry ), {}, [] ];
 			} );
 		}
 	}
 
 	return {
-		templateLock: false,
+		templateLock: templateLock,
 		template: JSON.stringify( template ),
 		allowedBlocks: JSON.stringify( allowedBlocks ),
 		type: definition[ "@type" ],
@@ -62,9 +88,54 @@ function mapDefinitionToData( definition ) {
 
 const blocksToGenerate = [];
 
+function isCollectionAttribute( attribute ) {
+	return attribute.source === "area" && attribute.type === "array";
+}
+
+function walkAttributes( definitionPath, attributes = [] ) {
+	attributes.forEach( attribute => {
+
+		console.log( attribute );
+		console.log( isCollectionAttribute( attribute ) );
+
+		if ( isCollectionAttribute( attribute ) ) {
+			const { collection } = attribute;
+
+			if ( collection === false ) {
+				return;
+			}
+
+			// TODO: Maybe allow template in definition
+			const template = [];
+			const allowedBlocks = attribute.childrenTypes.map( createBlockName );
+
+			// Create new block with the collection name
+			const blockData = {
+				templateLock: false,
+				template: false,
+				allowedBlocks: JSON.stringify( allowedBlocks ),
+				type: collection.name,
+				title: collection.title || collection.name,
+				description: collection.description || "",
+				icon: collection.icon || "",
+				keywords: JSON.stringify( collection.keywords || [] ),
+				multiple: _isUndefined( collection.multiple ) ? true : collection.multiple,
+				blockPrefix: BLOCK_PREFIX,
+				disclaimer: DISCLAIMER,
+			};
+
+			blocksToGenerate.push( {
+				data: blockData,
+				definitionPath,
+			} );
+		}
+	} );
+}
+
 function walkDefinitions( definitions, definitionPath ) {
 	definitions.forEach( definition => {
-		const data = mapDefinitionToData( definition );
+		const data = mapDefinitionToBlockData( definition );
+		walkAttributes( definitionPath, definition.attributes );
 
 		blocksToGenerate.push( {
 			data,
