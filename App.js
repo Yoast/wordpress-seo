@@ -15,7 +15,7 @@ import SvgIconsWrapper from "./app/SvgIconsWrapper";
 import UIControlsWrapper from "./app/UIControlsWrapper";
 import Wizard from "./app/WizardWrapper";
 import Loader from "./composites/basic/Loader";
-import FacebookPreview from "./composites/Plugin/SocialPreviews/Facebook/components/FacebookPreview";
+import FacebookPreviewExample from "./app/FacebookPreviewExample";
 
 const components = [
 	{
@@ -86,7 +86,7 @@ const components = [
 	{
 		id: "facebookpreview-example",
 		name: "FacebookPreview",
-		component: <FacebookPreview siteName="SiteName.com" />,
+		component: <FacebookPreviewExample />,
 	},
 ];
 
@@ -120,7 +120,7 @@ class App extends React.Component {
 		const activeComponent = this.state.activeComponent;
 		for ( var i = 0; i < components.length; i++ ) {
 			if ( activeComponent === components[ i ].id ) {
-				return components[ i ].component;
+				return <div key={ components[ i ].id }>{ components[ i ].component }</div>;
 			}
 		}
 	}
