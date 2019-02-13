@@ -109,15 +109,15 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 9.8.0 =
 Release Date: March 12th, 2019
 
+Enhancements:
+
+* Adds `$taxonomy` to the arguments passed to the `wpseo_terms` filter. Props to [polevaultweb](https://github.com/polevaultweb).
+
 Bugfixes:
 
 * Fixes a bug where the `focus keyphrase` snippet variable was not correctly applied on term pages.
 * Fixes a bug where the Facebook image that was set for the WooCommerce Shop page would not be outputted as `og:image`. Props [stodorovic](https://github.com/stodorovic).
 * Fixes a bug where the featured image set on a WooCommerce Shop page would not be outputted as Facebook OpenGraph Image or Twitter Image. Props [stodorovic](https://github.com/stodorovic).
-
-Other:
-
-* Adds `$taxonomy` to the arguments passed to the `wpseo_terms` filter. Props to [polevaultweb](https://github.com/polevaultweb).
 
 = 9.7.0 =
 Release Date: February 26th, 2019
