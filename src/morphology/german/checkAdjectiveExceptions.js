@@ -5,25 +5,26 @@ import { addSuperlativeSuffixes } from "./addAdjectiveSuffixes";
 import { uniq as unique } from "lodash-es";
 
 /**
- *  Returns forms for adjectives that get all suffixes on their second stem (e.g. flexibl-e, flexibl-er, flexibl-est)
- *  but none on their first (flexibel).
+ *  Returns forms for adjectives ending in -el that get superlative suffixes on first stem (e.g., flexibel-st)
+ *  and regular and comparative suffixes on the second stem (e.g., flexibl-e, flexibl-er).
  *
  * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
  * @param {string}  stemmedWordToCheck       The stem to check.
  *
  * @returns {string[]} The created adjective forms.
  */
-const twoStemsOneStemGetsSuffixed = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.onlySuffixSecondStem;
+const elStemChange = function( morphologyDataAdjectives, stemmedWordToCheck ) {
+	const exceptionStems = morphologyDataAdjectives.elStemChange;
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const stemPairToCheck = exceptionStems[ i ];
 
 		if ( stemPairToCheck.includes( stemmedWordToCheck ) ) {
-			// The stems that need to be suffixed always end in a consonant; therefore the -n suffix can be removed.
 			return [
 				stemPairToCheck[ 0 ],
-				...addAllAdjectiveSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ),
+				...addSuperlativeSuffixes( morphologyDataAdjectives, stemPairToCheck[ 0 ] ),
+				...addRegularSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ),
+				...addComparativeSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ),
 			];
 		}
 	}
@@ -206,7 +207,7 @@ const bothStemsComSup = function( morphologyDataAdjectives, stemmedWordToCheck )
  */
 export function checkAdjectiveExceptions( morphologyDataAdjectives, stemmedWordToCheck ) {
 	const exceptionChecks = [
-		twoStemsOneStemGetsSuffixed,
+		elStemChange,
 		erOnlyRestoreEr,
 		/*
 		 * Within the group of adjectives ending in -er with two stems, there are different classes

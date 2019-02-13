@@ -62,7 +62,7 @@ describe( "Adds adjective suffixes", () => {
 		], );
 	} );
 
-	it( "Doesn't add the regular suffix -n when the stem ends in a consonant", () => {
+	it( "Adds regular suffixes to a given German stem", () => {
 		expect( addRegularSuffixes( morphologyDataDE.adjectives, "wichtig" ) ).toEqual( [
 			"wichtige",
 			"wichtigem",

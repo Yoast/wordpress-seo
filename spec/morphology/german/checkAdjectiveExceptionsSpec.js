@@ -2,28 +2,29 @@ import { checkAdjectiveExceptions } from "../../../src/morphology/german/checkAd
 import { de as morphologyDataDE } from "../../../premium-configuration/data/morphologyData.json";
 
 describe( "Test for checking adjective exceptions in German", () => {
-	it( "creates forms for exceptions where only one stem gets suffixed; input: first stem", () => {
+	it( "creates forms for exception words ending in -el; input: first stem", () => {
 		expect( checkAdjectiveExceptions( morphologyDataDE.adjectives, "dunkel" ) ).toEqual( [
 			"dunkel",
+			"dunkelste",
+			"dunkelstem",
+			"dunkelsten",
+			"dunkelster",
+			"dunkelstes",
 			"dunkle",
 			"dunklem",
 			"dunklen",
 			"dunkler",
 			"dunkles",
+			"dunkler",
 			"dunklere",
 			"dunklerem",
 			"dunkleren",
 			"dunklerer",
 			"dunkleres",
-			"dunklste",
-			"dunklstem",
-			"dunklsten",
-			"dunklster",
-			"dunklstes",
 		] );
 	} );
 
-	it( "creates forms for exceptions where only one stem gets suffixed; output is the same for both stems", () => {
+	it( "creates forms for exception words ending in -el; output is the same for both stems", () => {
 		expect( checkAdjectiveExceptions( morphologyDataDE.adjectives, "dunkel" ) ).toEqual(
 			checkAdjectiveExceptions( morphologyDataDE.adjectives, "dunkl" )
 		);
