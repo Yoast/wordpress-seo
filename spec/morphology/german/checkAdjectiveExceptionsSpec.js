@@ -2,7 +2,7 @@ import { checkAdjectiveExceptions } from "../../../src/morphology/german/checkAd
 import { de as morphologyDataDE } from "../../../premium-configuration/data/morphologyData.json";
 
 describe( "Test for checking adjective exceptions in German", () => {
-	it( "creates forms for exception words ending in -el; input: first stem", () => {
+	it( "creates forms for exception words ending in -el", () => {
 		expect( checkAdjectiveExceptions( morphologyDataDE.adjectives, "dunkel" ) ).toEqual( [
 			"dunkel",
 			"dunkelste",
@@ -170,7 +170,7 @@ describe( "Test for checking adjective exceptions in German", () => {
 	} );
 
 	it( "creates forms for exceptions where the first stem gets suffixed with all suffixes and the second stem " +
-		"gets only suffixed with comparative/superlative suffixes", () => {
+		"only gets suffixed with comparative/superlative suffixes", () => {
 		expect( checkAdjectiveExceptions( morphologyDataDE.adjectives, "rot" ) ).toEqual( [
 			"rote",
 			"rotem",
@@ -202,7 +202,7 @@ describe( "Test for checking adjective exceptions in German", () => {
 	} );
 
 	it( "creates forms for exceptions where the first stem gets suffixed with all suffixes and the second stem " +
-		"gets only suffixed with comparative/superlative suffixes; output is the same for both stems", () => {
+		"only gets suffixed with comparative/superlative suffixes; output is the same for both stems", () => {
 		expect( checkAdjectiveExceptions( morphologyDataDE.adjectives, "rot" ) ).toEqual(
 			checkAdjectiveExceptions( morphologyDataDE.adjectives, "röt" )
 		);

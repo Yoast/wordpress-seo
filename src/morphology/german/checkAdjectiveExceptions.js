@@ -1,7 +1,9 @@
-import { addAllAdjectiveSuffixes } from "./addAdjectiveSuffixes";
-import { addRegularSuffixes } from "./addAdjectiveSuffixes";
-import { addComparativeSuffixes } from "./addAdjectiveSuffixes";
-import { addSuperlativeSuffixes } from "./addAdjectiveSuffixes";
+import {
+	addAllAdjectiveSuffixes,
+	addRegularSuffixes,
+	addComparativeSuffixes,
+	addSuperlativeSuffixes,
+} from "./addAdjectiveSuffixes";
 import { uniq as unique } from "lodash-es";
 
 /**
@@ -60,8 +62,8 @@ const erOnlyRestoreEr = function( morphologyDataAdjectives, stemmedWordToCheck )
 };
 
 /**
- * Returns forms for adjectives ending in -er that have two stems: the -er stem gets -er restored and gets
- * regular and superlative endings (e.g., makaber-e, makaber-ste ); the -r stem gets comparative endings (e.g., makabr-er).
+ * Returns forms for adjectives ending in -er that have two stems: the -er stem gets restored and receives
+ * regular and superlative endings (e.g., makaber-e, makaber-ste ); the -r stem receives comparative endings (e.g., makabr-er).
  *
  * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
  * @param {string}  stemmedWordToCheck       The stem to check.
@@ -88,8 +90,9 @@ const erStemChangeClass1 = function( morphologyDataAdjectives, stemmedWordToChec
 };
 
 /**
- * Returns forms for adjectives ending in -er that have two stems: the -er stem gets superlative endings
- * (e.g., sauer-ste) the -r stem gets regular and comparative endings (e.g., saur-e, saur-er).
+ * Returns forms for adjectives ending in -er that have two stems: the -er stem gets restored and
+ * receives superlative endings (e.g., sauer-ste) the -r stem receives regular and comparative endings
+ * (e.g., saur-e, saur-er).
  *
  * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
  * @param {string}  stemmedWordToCheck       The stem to check.
@@ -116,8 +119,8 @@ const erStemChangeClass2 = function( morphologyDataAdjectives, stemmedWordToChec
 };
 
 /**
- * Returns forms for adjectives ending in -er that have two stems: the -er stem gets regular,
- * comparative and superlative endings (e.g., finster-e, finster-er, finster-ste); the -r stem gets comparative endings
+ * Returns forms for adjectives ending in -er that have two stems: the -er stem gets restored and receives regular,
+ * comparative and superlative endings (e.g., finster-e, finster-er, finster-ste); the -r stem receives comparative endings
  * (e.g., finstr-er).
  *
  * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.

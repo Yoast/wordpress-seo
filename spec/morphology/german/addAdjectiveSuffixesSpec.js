@@ -3,12 +3,14 @@ import {
 	addSuperlativeSuffixes,
 	getSuffixesComparative,
 } from "../../../src/morphology/german/addAdjectiveSuffixes";
-import { getSuffixesSuperlative } from "../../../src/morphology/german/addAdjectiveSuffixes";
-import { addAllAdjectiveSuffixes } from "../../../src/morphology/german/addAdjectiveSuffixes";
-import { addRegularSuffixes } from "../../../src/morphology/german/addAdjectiveSuffixes";
+import {
+	getSuffixesSuperlative,
+	addAllAdjectiveSuffixes,
+	addRegularSuffixes,
+} from "../../../src/morphology/german/addAdjectiveSuffixes";
 import { de as morphologyDataDE } from "../../../premium-configuration/data/morphologyData.json";
 
-describe( "Test for getting the right comparative suffixes for certain types of adjectives", () => {
+describe( "Test for getting the right comparative suffixes for various types of adjectives", () => {
 	/*
 	 *In practice, the -e ending will ususally be deleted by the stemmer. In that case, the adjective
 	 * will receive the -er- endings, meaning that the -e will be restored.
@@ -26,7 +28,7 @@ describe( "Test for getting the right comparative suffixes for certain types of 
 	} );
 } );
 
-describe( "Test for getting the right superlative suffixes for certain types of adjectives", () => {
+describe( "Test for getting the right superlative suffixes for various types of adjectives", () => {
 	it( "returns superlative -est- suffixes for a word that ends with a -t", () => {
 		expect( getSuffixesSuperlative( morphologyDataDE.adjectives, "laut" ) ).toEqual(
 			[  "este", "estem", "esten", "ester", "estes" ]

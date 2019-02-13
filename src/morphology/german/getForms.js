@@ -108,7 +108,7 @@ export function getForms( word, morphologyData ) {
 
 	/*
 	 * Check whether the word is on an exception list. Since a given stem might sometimes be on an exception list in
-	 * different word categories (e.g., "sau-" from "Sau" or "sauer") we need to do this cumulatively.
+	 * different word categories (e.g., "sau-" from the noun "Sau" or the adjective "sauer") we need to do this cumulatively.
 	 */
 	const exceptionsNouns = checkNounExceptions( morphologyData.nouns, stemmedWord );
 	const exceptionsAdjectives = checkAdjectiveExceptions( morphologyData.adjectives, stemmedWord );
