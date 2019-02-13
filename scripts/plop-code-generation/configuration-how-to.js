@@ -18,12 +18,13 @@ module.exports = [
 				"key": "text",
 				"type": "string",
 				"source": "area",
-				childrenTypes: [ "Description" ],
+				childrenTypes: [ "Title", "Description" ],
 			}
 		],
 
 		editTemplate: [
 			"Description",
+			"Title",
 		],
 	},
 	{

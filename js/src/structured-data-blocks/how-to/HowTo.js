@@ -7,7 +7,7 @@ import { Component } from "@wordpress/element";
 export default class HowTo extends Component {
 	render() {
 		return <InnerBlocks
-			template={ [["yoast/total-time",{},[]],["yoast/description",{},[]]] }
+			template={ [["yoast/total-time",{},[]],["yoast/description",{},[]],["yoast/steps",{},[]]] }
 			templateLock={ false }
 			allowedBlocks={ ["yoast/description","yoast/total-time","yoast/steps"] }
 		/>;

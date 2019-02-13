@@ -7,9 +7,9 @@ import { Component } from "@wordpress/element";
 export default class HowToStep extends Component {
 	render() {
 		return <InnerBlocks
-			template={ [["yoast/description",{},[]]] }
+			template={ [["yoast/description",{},[]],["yoast/title",{},[]]] }
 			templateLock={ false }
-			allowedBlocks={ ["yoast/description"] }
+			allowedBlocks={ ["yoast/title","yoast/description"] }
 		/>;
 	}
 
