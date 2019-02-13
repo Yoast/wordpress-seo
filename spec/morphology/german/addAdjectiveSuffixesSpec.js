@@ -1,4 +1,8 @@
-import { getSuffixesComparative } from "../../../src/morphology/german/addAdjectiveSuffixes";
+import {
+	addComparativeSuffixes,
+	addSuperlativeSuffixes,
+	getSuffixesComparative,
+} from "../../../src/morphology/german/addAdjectiveSuffixes";
 import { getSuffixesSuperlative } from "../../../src/morphology/german/addAdjectiveSuffixes";
 import { addAllAdjectiveSuffixes } from "../../../src/morphology/german/addAdjectiveSuffixes";
 import { addRegularSuffixes } from "../../../src/morphology/german/addAdjectiveSuffixes";
@@ -58,7 +62,7 @@ describe( "Adds adjective suffixes", () => {
 		], );
 	} );
 
-	it( "Adds regular adjective suffixes to a given German stem", () => {
+	it( "Doesn't add the regular suffix -n when the stem ends in a consonant", () => {
 		expect( addRegularSuffixes( morphologyDataDE.adjectives, "wichtig" ) ).toEqual( [
 			"wichtige",
 			"wichtigem",
@@ -68,13 +72,24 @@ describe( "Adds adjective suffixes", () => {
 		], );
 	} );
 
-	it( "Adds regular adjective suffixes to a given German stem, excluding -n", () => {
-		expect( addRegularSuffixes( morphologyDataDE.adjectives, "wichtig", [ "n" ] ) ).toEqual( [
-			"wichtige",
-			"wichtigem",
-			"wichtigen",
+	it( "Adds comparative suffixes to a given German stem", () => {
+		expect( addComparativeSuffixes( morphologyDataDE.adjectives, "wichtig" ) ).toEqual( [
 			"wichtiger",
-			"wichtiges",
+			"wichtigere",
+			"wichtigerem",
+			"wichtigeren",
+			"wichtigerer",
+			"wichtigeres",
+		], );
+	} );
+
+	it( "Adds superlative suffixes to a given German stem", () => {
+		expect( addSuperlativeSuffixes( morphologyDataDE.adjectives, "wichtig" ) ).toEqual( [
+			"wichtigste",
+			"wichtigstem",
+			"wichtigsten",
+			"wichtigster",
+			"wichtigstes",
 		], );
 	} );
 } );
