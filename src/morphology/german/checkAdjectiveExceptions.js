@@ -23,7 +23,7 @@ const twoStemsOneStemGetsSuffixed = function( morphologyDataAdjectives, stemmedW
 			// The stems that need to be suffixed always end in a consonant; therefore the -n suffix can be removed.
 			return [
 				stemPairToCheck[ 0 ],
-				...addAllAdjectiveSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] )
+				...addAllAdjectiveSuffixes( morphologyDataAdjectives, stemPairToCheck[ 1 ] ),
 			];
 		}
 	}

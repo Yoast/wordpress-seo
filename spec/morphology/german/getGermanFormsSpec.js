@@ -187,4 +187,36 @@ describe( "Test for creating forms for German words", () => {
 			stem: "ärztinn",
 		} );
 	} );
+
+	it( "returns all relevant forms if a stem is on an exception list in more than one category, e.g." +
+		"sauer gets stemmed to sau-, which is both on a  verb exception list (from sauer) as well as" +
+		"on a noun exception list (from Sau)", () => {
+		expect( getForms( "sauer", morphologyDataDE ) ).toEqual( {
+			forms: [
+				"sau",
+				// Noun forms.
+				"sauen",
+				"säue",
+				"säuen",
+				// Adjective forms.
+				"sauer",
+				"sauerste",
+				"sauerstem",
+				"sauersten",
+				"sauerster",
+				"sauerstes",
+				"saure",
+				"saurem",
+				"sauren",
+				"saurer",
+				"saures",
+				"saurere",
+				"saurerem",
+				"saureren",
+				"saurerer",
+				"saureres",
+			],
+			stem: "sau",
+		} );
+	} );
 } );

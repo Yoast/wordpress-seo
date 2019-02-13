@@ -106,23 +106,19 @@ export function getForms( word, morphologyData ) {
 	const stemmedWord = stem( word );
 	const forms = new Array( word );
 
+	/*
+	 * Check whether the word is on an exception list. Since a given stem might sometimes be on an exception list in
+	 * different word categories (e.g., "sau-" from "Sau" or "sauer") we need to do this cumulatively.
+	 */
 	const exceptionsNouns = checkNounExceptions( morphologyData.nouns, stemmedWord );
-
-	if ( exceptionsNouns.length > 0 ) {
-		// Add the original word as a safeguard.
-		exceptionsNouns.push( word );
-
-		return { forms: unique( exceptionsNouns ), stem: stemmedWord };
-	}
-
-	// Check whether the word is on an adjective exception list.
 	const exceptionsAdjectives = checkAdjectiveExceptions( morphologyData.adjectives, stemmedWord );
+	const exceptions = [ ...exceptionsNouns, ...exceptionsAdjectives ];
 
-	if ( exceptionsAdjectives.length > 0 ) {
+	if ( exceptions.length > 0 ) {
 		// Add the original word as a safeguard.
-		exceptionsAdjectives.push( word );
+		exceptions.push( word );
 
-		return { forms: unique( exceptionsAdjectives ), stem: stemmedWord };
+		return { forms: unique( exceptions ), stem: stemmedWord };
 	}
 
 	// Modify regular suffixes assuming the word is a noun.
