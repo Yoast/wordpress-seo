@@ -7,7 +7,7 @@ import { Component } from "@wordpress/element";
 export default class Steps extends Component {
 	render() {
 		return <InnerBlocks
-			template={ false }
+			template={ [["yoast/how-to-section",{},[]]] }
 			templateLock={ false }
 			allowedBlocks={ ["yoast/how-to-section"] }
 		/>;

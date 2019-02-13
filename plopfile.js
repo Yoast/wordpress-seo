@@ -71,8 +71,12 @@ function mapDefinitionToBlockData( definition ) {
 		}
 	}
 
+	if ( definition.templateLock && definition.templateLock === true ) {
+		templateLock = true;
+	}
+
 	return {
-		templateLock: templateLock,
+		templateLock,
 		template: JSON.stringify( template ),
 		allowedBlocks: JSON.stringify( allowedBlocks ),
 		type: definition[ "@type" ],
@@ -105,14 +109,19 @@ function walkAttributes( definitionPath, attributes = [] ) {
 				return;
 			}
 
-			// TODO: Maybe allow template in definition
-			const template = [];
+			let template = false;
 			const allowedBlocks = attribute.childrenTypes.map( createBlockName );
+
+			if ( collection.editTemplate ) {
+				template = collection.editTemplate.map( ( templateEntry ) => {
+					return [ createBlockName( templateEntry ), {}, [] ];
+				} );
+			}
 
 			// Create new block with the collection name
 			const blockData = {
 				templateLock: false,
-				template: false,
+				template: JSON.stringify( template ),
 				allowedBlocks: JSON.stringify( allowedBlocks ),
 				type: collection.name,
 				title: collection.title || collection.name,

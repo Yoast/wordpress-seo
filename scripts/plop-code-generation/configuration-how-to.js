@@ -19,13 +19,14 @@ module.exports = [
 				"type": "string",
 				"source": "area",
 				childrenTypes: [ "Title", "Description" ],
-			}
+			},
 		],
 
 		editTemplate: [
-			"Description",
 			"Title",
+			"Description",
 		],
+		templateLock: true,
 	},
 	{
 		"@type": "HowToSection",
@@ -124,6 +125,7 @@ module.exports = [
 				childrenTypes: [ "HowToSection" ],
 				collection: {
 					name: "Steps",
+					editTemplate: [ "HowToSection" ],
 				},
 			},
 		],
