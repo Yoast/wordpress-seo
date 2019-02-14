@@ -115,6 +115,11 @@ class TaxonomyReplacementVariable {
 		forEach( termIds, termId => {
 			const term = this.terms.find( currentTerm => currentTerm.id === termId );
 
+			/**
+			 * If a term cannot be found it is most likely because a new term has been added through the gutenberg interface.
+			 * In order to get a new list of terms we should invalidate the resolution of terms. In this.haveTermsChanged
+			 * we check for a new list of terms being retrieved, and if so we call this.updateReplacementVariable again.
+			 */
 			if ( ! term ) {
 				/* eslint-disable-next-line camelcase */
 				dispatch( "core/data" ).invalidateResolution( "core", "getEntityRecords", [ "taxonomy", this.taxonomy.slug, { per_page: -1 } ] );
