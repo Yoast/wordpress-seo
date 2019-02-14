@@ -71,14 +71,15 @@ const checkStemsWithPredictableSuffixes = function( exceptionCategory, stemmedWo
 };
 
 /**
- * Checks whether a stemmed word is on any of the exception lists.
+ * Checks whether a give stem stem falls into any of the noun exception categories and creates the
+ * correct forms if that is the case.
  *
  * @param {Object}  morphologyDataNouns The German morphology data for nouns.
  * @param {string}  stemmedWordToCheck  The stem to check.
  *
  * @returns {string[]} The created word forms.
  */
-export function checkNounExceptions( morphologyDataNouns, stemmedWordToCheck ) {
+export function generateNounExceptionForms( morphologyDataNouns, stemmedWordToCheck ) {
 	// Check exceptions with full forms.
 	let exceptions = checkStemsFromExceptionList( morphologyDataNouns.exceptionStemsWithFullForms, stemmedWordToCheck );
 

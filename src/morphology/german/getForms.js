@@ -1,6 +1,6 @@
 import { addAllAdjectiveSuffixes } from "./addAdjectiveSuffixes";
-import { checkAdjectiveExceptions } from "./checkAdjectiveExceptions";
-import { checkNounExceptions } from "./checkNounExceptions";
+import { generateAdjectiveExceptionForms } from "./generateAdjectiveExceptionForms";
+import { generateNounExceptionForms } from "./generateNounExceptionForms";
 import { uniq as unique } from "lodash-es";
 import stem from "./stem";
 
@@ -107,11 +107,12 @@ export function getForms( word, morphologyData ) {
 	const forms = new Array( word );
 
 	/*
-	 * Check whether the word is on an exception list. Since a given stem might sometimes be on an exception list in
-	 * different word categories (e.g., "sau-" from the noun "Sau" or the adjective "sauer") we need to do this cumulatively.
+	 * Generate exception forms if the word is on an exception list. Since a given stem might sometimes be
+	 * on an exception list in different word categories (e.g., "sau-" from the noun "Sau" or the adjective "sauer")
+	 * we need to do this cumulatively.
 	 */
-	const exceptionsNouns = checkNounExceptions( morphologyData.nouns, stemmedWord );
-	const exceptionsAdjectives = checkAdjectiveExceptions( morphologyData.adjectives, stemmedWord );
+	const exceptionsNouns = generateNounExceptionForms( morphologyData.nouns, stemmedWord );
+	const exceptionsAdjectives = generateAdjectiveExceptionForms( morphologyData.adjectives, stemmedWord );
 	const exceptions = [ ...exceptionsNouns, ...exceptionsAdjectives ];
 
 	if ( exceptions.length > 0 ) {
