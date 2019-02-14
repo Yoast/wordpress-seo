@@ -7,9 +7,9 @@ import { Component } from "@wordpress/element";
 export default class HowToSection extends Component {
 	render() {
 		return <InnerBlocks
-			template={ [["yoast/how-to-step",{},[]]] }
+			template={ [["yoast/title",{},[]],["yoast/how-to-step",{},[]]] }
 			templateLock={ true }
-			allowedBlocks={ ["yoast/how-to-step"] }
+			allowedBlocks={ ["yoast/title","yoast/how-to-step"] }
 		/>;
 	}
 

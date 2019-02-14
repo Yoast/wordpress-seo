@@ -1,5 +1,5 @@
-const HowToConfiguration = require( "./configuration-how-to" );
-const FAQConfiguration = require( "./configuration-FAQ" );
+const HowToConfiguration = require( "./configuration-how-to.json" );
+const FAQConfiguration = require( "./configuration-faq.json" );
 
 // Mapping of path => configuration.
 module.exports = {

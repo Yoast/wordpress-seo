@@ -171,12 +171,21 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		}
 	}
 
+	private function add_block_json_to_graph() {
+		$page = new WPSEO_Structured_Data_Page();
+
+		$json_builder = new WPSEO_Structured_Data_JSON_Builder( $this->graph, $page );
+		$this->graph = $json_builder->build_json();
+	}
+
 	/**
 	 * Outputs the JSON LD code in a valid JSON+LD wrapper.
 	 *
 	 * @since 1.8
 	 */
 	public function output() {
+		$this->add_block_json_to_graph();
+
 		if ( is_array( $this->graph ) && ! empty( $this->graph ) ) {
 			$output = array(
 				"@context" => "https://schema.org",
