@@ -29,6 +29,13 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	private $data = array();
 
 	/**
+	 * Holds the graph to output onto the page.
+	 *
+	 * @var array
+	 */
+	private $graph = array();
+
+	/**
 	 * Registers the hooks.
 	 */
 	public function register_hooks() {
@@ -36,6 +43,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		add_action( 'wpseo_json_ld', array( $this, 'website' ), 10 );
 		add_action( 'wpseo_json_ld', array( $this, 'organization_or_person' ), 20 );
 		add_action( 'wpseo_json_ld', array( $this, 'breadcrumb' ), 20 );
+		add_action( 'wpseo_json_ld', array( $this, 'output' ), 30 );
 	}
 
 	/**
@@ -71,7 +79,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 				break;
 		}
 
-		$this->output( $company_or_person );
+		$this->add_to_graph( $company_or_person );
 	}
 
 	/**
@@ -89,7 +97,6 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		$home_url = $this->get_home_url();
 
 		$this->data = array(
-			'@context' => 'https://schema.org',
 			'@type'    => 'WebSite',
 			'@id'      => $home_url . '#website',
 			'url'      => $home_url,
@@ -99,7 +106,22 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		$this->add_alternate_name();
 		$this->internal_search_section();
 
-		$this->output( 'website' );
+		$this->add_to_graph( 'website' );
+	}
+
+	public function add_to_graph( $context ) {
+		/**
+		 * Filter: 'wpseo_json_ld_output' - Allows filtering of the JSON+LD output.
+		 *
+		 * @api array $output The output array, before its JSON encoded.
+		 *
+		 * @param string $context The context of the output, useful to determine whether to filter or not.
+		 */
+		$data = apply_filters( 'wpseo_json_ld_output', $this->data, $context );
+
+		if ( ! empty( $data ) ) {
+			$this->graph[] = $data;
+		}
 	}
 
 	/**
@@ -115,7 +137,6 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		}
 
 		$this->data = array(
-			'@context'        => 'https://schema.org',
 			'@type'           => 'BreadcrumbList',
 			'itemListElement' => array(),
 		);
@@ -146,7 +167,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 
 		// Only output if JSON is correctly formatted.
 		if ( ! $broken ) {
-			$this->output( 'breadcrumb' );
+			$this->add_to_graph( 'breadcrumb' );
 		}
 	}
 
@@ -154,25 +175,20 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * Outputs the JSON LD code in a valid JSON+LD wrapper.
 	 *
 	 * @since 1.8
-	 *
-	 * @param string $context The context of the output, useful for filtering.
 	 */
-	private function output( $context ) {
-		/**
-		 * Filter: 'wpseo_json_ld_output' - Allows filtering of the JSON+LD output.
-		 *
-		 * @api array $output The output array, before its JSON encoded.
-		 *
-		 * @param string $context The context of the output, useful to determine whether to filter or not.
-		 */
-		$this->data = apply_filters( 'wpseo_json_ld_output', $this->data, $context );
+	public function output() {
+		if ( is_array( $this->graph ) && ! empty( $this->graph ) ) {
+			$output = array(
+				"@context" => "https://schema.org",
+				"@graph" => $this->graph,
+			);
 
-		if ( is_array( $this->data ) && ! empty( $this->data ) ) {
-			echo "<script type='application/ld+json'>", $this->format_data( $this->data ), '</script>', "\n";
+			echo "<script type='application/ld+json'>", $this->format_data( $output ), '</script>', "\n";
 		}
 
 		// Empty the $data array so we don't output it twice.
 		$this->data = array();
+		$this->graph = array();
 	}
 
 	/**
@@ -183,12 +199,17 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @return false|string The prepared string.
 	 */
 	public function format_data( $data ) {
+		$flags = 0;
+
 		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
-			// @codingStandardsIgnoreLine
-			return wp_json_encode( $data, JSON_UNESCAPED_SLASHES ); // phpcs:ignore PHPCompatibility.Constants.NewConstants.json_unescaped_slashesFound -- Version check present.
+			$flags = $flags | JSON_UNESCAPED_SLASHES;
 		}
 
-		return wp_json_encode( $data );
+		if ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG ) {
+			$flags = $flags | JSON_PRETTY_PRINT;
+		}
+
+		return wp_json_encode( $data, $flags );
 	}
 
 	/**
@@ -227,7 +248,6 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		$this->fetch_social_profiles();
 
 		$this->data = array(
-			'@context' => 'https://schema.org',
 			'@type'    => '',
 			'url'      => $this->get_home_url(),
 			'sameAs'   => $this->profiles,
