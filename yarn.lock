@@ -3274,16 +3274,7 @@ css-select@~1.2.0:
     domutils "1.5.1"
     nth-check "~1.0.1"
 
-css-to-react-native@^2.0.3:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/css-to-react-native/-/css-to-react-native-2.3.0.tgz#bf80d24ec4a08e430306ef429c0586e6ed5485f7"
-  integrity sha512-IhR7bNIrCFwbJbKZOAjNDZdwpsbjTN6f1agXeELHDqg1wHPA8c2QLruttKOW7hgMGetkfraRJCIEMrptifBfVw==
-  dependencies:
-    camelize "^1.0.0"
-    css-color-keywords "^1.0.0"
-    postcss-value-parser "^3.3.0"
-
-css-to-react-native@^2.2.2:
+css-to-react-native@^2.0.3, css-to-react-native@^2.2.2:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/css-to-react-native/-/css-to-react-native-2.3.0.tgz#bf80d24ec4a08e430306ef429c0586e6ed5485f7"
   integrity sha512-IhR7bNIrCFwbJbKZOAjNDZdwpsbjTN6f1agXeELHDqg1wHPA8c2QLruttKOW7hgMGetkfraRJCIEMrptifBfVw==
@@ -9883,7 +9874,7 @@ react-is@^16.3.2, react-is@^16.5.2:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.5.2.tgz#e2a7b7c3f5d48062eb769fcb123505eb928722e3"
   integrity sha512-hSl7E6l25GTjNEZATqZIuWOgSnpXb3kD0DVCujmg46K5zLxsbiKaaT6VO9slkSBDPZfYs30lwfJwbOFOnoEnKQ==
 
-react-is@^16.8.1:
+react-is@^16.6.0, react-is@^16.8.1:
   version "16.8.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.1.tgz#a80141e246eb894824fb4f2901c0c50ef31d4cdb"
   integrity sha512-ioMCzVDWvCvKD8eeT+iukyWrBGrA3DiFYkXfBsVYIRdaREZuBjENG+KjrikavCLasozqRWTwFUagU/O4vPpRMA==

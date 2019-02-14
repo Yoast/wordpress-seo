@@ -52,40 +52,67 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
       </a>
        test
     </p>
-    <UpsellBox__StyledList
+    <.UpsellBox__StyledList-dEpVzC
       role="list"
     >
-      <ul
-        className="UpsellBox__StyledList-fkmvyw eKxmfa"
+      <StyledComponent
+        forwardedComponent={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "attrs": Array [],
+            "componentStyle": ComponentStyle {
+              "componentId": "UpsellBox__StyledList-dEpVzC",
+              "isStatic": true,
+              "lastClassName": "ejrwkz",
+              "rules": Array [
+                "list-style:none;margin:0 0 16px;padding:0;li{margin:5px 0 0 0;padding-left:16px;}span[aria-hidden=\\"true\\"]:before{margin:0 8px 0 -16px;font-weight:bold;content:\\"+\\";}",
+              ],
+            },
+            "displayName": "UpsellBox__StyledList",
+            "foldedComponentIds": Array [],
+            "render": [Function],
+            "styledComponentId": "UpsellBox__StyledList-dEpVzC",
+            "target": "ul",
+            "toString": [Function],
+            "warnTooManyClasses": [Function],
+            "withComponent": [Function],
+          }
+        }
+        forwardedRef={null}
         role="list"
       >
-        <li
-          key="0"
+        <ul
+          className="UpsellBox__StyledList-dEpVzC ejrwkz"
+          role="list"
         >
-          <span
-            aria-hidden="true"
-          />
-          <strong
-            key="interpolation-child-1/.0"
+          <li
+            key="0"
           >
-            Strong text
-          </strong>
-           and not so strong text
-        </li>
-        <li
-          key="1"
-        >
-          <span
-            aria-hidden="true"
-          />
-          <strong
-            key="interpolation-child-1/.0"
+            <span
+              aria-hidden="true"
+            />
+            <strong
+              key="interpolation-child-1/.0"
+            >
+              Strong text
+            </strong>
+             and not so strong text
+          </li>
+          <li
+            key="1"
           >
-            Strong text two
-          </strong>
-        </li>
-      </ul>
-    </UpsellBox__StyledList>
+            <span
+              aria-hidden="true"
+            />
+            <strong
+              key="interpolation-child-1/.0"
+            >
+              Strong text two
+            </strong>
+          </li>
+        </ul>
+      </StyledComponent>
+    </.UpsellBox__StyledList-dEpVzC>
     <OutboundLink
       aria-labelledby="label-id"
       className="class name"
@@ -112,11 +139,37 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
         </A11yNotice>
       </a>
     </OutboundLink>
-    <UpsellBox__ButtonLabel>
-      <small
-        className="UpsellBox__ButtonLabel-kkHBve effcmu"
-      />
-    </UpsellBox__ButtonLabel>
+    <.UpsellBox__ButtonLabel-cipffA>
+      <StyledComponent
+        forwardedComponent={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "attrs": Array [],
+            "componentStyle": ComponentStyle {
+              "componentId": "UpsellBox__ButtonLabel-cipffA",
+              "isStatic": true,
+              "lastClassName": "kYzRHS",
+              "rules": Array [
+                "display:block;",
+              ],
+            },
+            "displayName": "UpsellBox__ButtonLabel",
+            "foldedComponentIds": Array [],
+            "render": [Function],
+            "styledComponentId": "UpsellBox__ButtonLabel-cipffA",
+            "target": "small",
+            "toString": [Function],
+            "warnTooManyClasses": [Function],
+            "withComponent": [Function],
+          }
+        }
+        forwardedRef={null}
+      >
+        <small
+          className="UpsellBox__ButtonLabel-cipffA kYzRHS"
+        />
+      </StyledComponent>
+    </.UpsellBox__ButtonLabel-cipffA>
   </div>
 </UpsellBox>
 `;
