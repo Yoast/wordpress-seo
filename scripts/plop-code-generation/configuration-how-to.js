@@ -2,22 +2,22 @@ module.exports = [
 	{
 		"@type": "HowToStep",
 
-		"attributes": [
+		attributes: [
 			{
-				"key": "@type",
-				"type": "string",
-				"source": "value",
-				"value": "@HowToStep"
+				key: "@type",
+				type: "string",
+				source: "value",
+				value: "@HowToStep",
 			},
 			{
-				"key": "position",
-				"type": "number",
-				"source": "position"
+				key: "position",
+				type: "number",
+				source: "position",
 			},
 			{
-				"key": "text",
-				"type": "string",
-				"source": "area",
+				key: "text",
+				type: "string",
+				source: "area",
 				childrenTypes: [ "Title", "Description" ],
 			},
 		],
