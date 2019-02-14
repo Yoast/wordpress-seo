@@ -67,7 +67,8 @@ function resolveGetEntityRecords( args ) {
  * @returns {Promise} A promise resolving to an array of taxonomies applicable for the given post type.
  */
 function getApplicableTaxonomies( postType ) {
-	const args = [ "root", "taxonomy", { type: postType } ];
+	/* eslint-disable-next-line camelcase */
+	const args = [ "root", "taxonomy", { type: postType, per_page: -1 } ];
 
 	return resolveGetEntityRecords( args );
 }
@@ -80,7 +81,8 @@ function getApplicableTaxonomies( postType ) {
  * @returns {Promise} A promise resolving to an array of terms for the given taxonomy.
  */
 function getTerms( taxonomySlug ) {
-	const args = [ "taxonomy", taxonomySlug ];
+	/* eslint-disable-next-line camelcase */
+	const args = [ "taxonomy", taxonomySlug, { per_page: -1 } ];
 
 	return resolveGetEntityRecords( args );
 }
@@ -114,6 +116,8 @@ class TaxonomyReplacementVariable {
 			const term = this.terms.find( currentTerm => currentTerm.id === termId );
 
 			if ( ! term ) {
+				/* eslint-disable-next-line camelcase */
+				dispatch( "core/data" ).invalidateResolution( "core", "getEntityRecords", [ "taxonomy", this.taxonomy.slug, { per_page: -1 } ] );
 				return;
 			}
 
@@ -127,16 +131,42 @@ class TaxonomyReplacementVariable {
 	}
 
 	/**
+	 * Checks if the term ids have changed compared to the previous state.
+	 *
+	 * @returns {boolean} Whether the terms have changed for this post.
+	 */
+	haveTermIdsForPostChanged() {
+		const nextTermIds = select( "core/editor" ).getEditedPostAttribute( this.taxonomy.rest_base );
+		if ( this.termIds !== nextTermIds ) {
+			this.termIds = nextTermIds;
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Checks if the list of terms has changed compared to the previous state.
+	 *
+	 * @returns {boolean} Whether the list of terms has changed.
+	 */
+	haveTermsChanged() {
+		/* eslint-disable-next-line camelcase */
+		const nextTerms = select( "core" ).getEntityRecords( "taxonomy", this.taxonomy.slug, { per_page: -1 } );
+		if ( nextTerms && this.terms !== nextTerms && nextTerms.length ) {
+			this.terms = nextTerms;
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Watch the post for changes in taxonomy ids, and update the replacement variable accordingly.
 	 *
 	 * @returns {void}
 	 */
 	listenForTermChanges() {
 		this.unsubscribe = subscribe( () => {
-			const nextTermIds = select( "core/editor" ).getEditedPostAttribute( this.taxonomy.rest_base );
-			if ( this.termIds !== nextTermIds ) {
-				this.termIds = nextTermIds;
-
+			if ( this.haveTermIdsForPostChanged() || this.haveTermsChanged() ) {
 				this.updateReplacementVariable();
 			}
 		} );
