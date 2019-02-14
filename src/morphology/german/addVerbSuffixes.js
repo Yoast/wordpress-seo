@@ -1,14 +1,4 @@
-/**
- * Creates word forms from a list of given suffixes and a stem.
- *
- * @param {string}      stemmedWord The stemmed word on which to apply the suffixes.
- * @param {string[]}    suffixes    The suffixes to apply.
- *
- * @returns {string[]} The suffixed verb forms.
- */
-const applySuffixes = function( stemmedWord, suffixes ) {
-	return suffixes.map( suffix => stemmedWord.concat( suffix ) );
-};
+import { applySuffixes } from "../morphoHelpers/suffixHelpers";
 
 /**
  * Adds verb suffixes to a stem. Depending on the ending of the stem, the list of suffixes might be modified.
