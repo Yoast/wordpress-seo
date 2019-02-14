@@ -341,7 +341,7 @@ class Yoast_Form {
 	 *
 	 * @param string       $var   The variable within the option to create the text input field for.
 	 * @param string       $label The label to show for the variable.
-	 * @param array|string $attr  Extra class to add to the input field.
+	 * @param array|string $attr  Extra CSS class or an array of attributes to assign to the input field.
 	 */
 	public function textinput( $var, $label, $attr = array() ) {
 		if ( ! is_array( $attr ) ) {
@@ -351,11 +351,17 @@ class Yoast_Form {
 		}
 
 		$defaults = array(
-			'placeholder' => '',
 			'class'       => '',
+			'pattern'     => '',
+			'placeholder' => '',
+			'type'        => 'text',
 		);
-		$attr     = wp_parse_args( $attr, $defaults );
-		$val      = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
+
+		$attr        = wp_parse_args( $attr, $defaults );
+		$class       = ( $attr['class'] === '' ) ? '' : ' ' . $attr['class'];
+		$pattern     = ( $attr['pattern'] === '' ) ? '' : ' pattern="' . esc_attr( $attr['pattern'] ) . '"';
+		$placeholder = ( $attr['placeholder'] === '' ) ? '' : ' placeholder="' . esc_attr( $attr['placeholder'] ) . '"';
+		$val         = isset( $this->options[ $var ] ) ? $this->options[ $var ] : '';
 
 		$this->label(
 			$label . ':',
@@ -364,7 +370,7 @@ class Yoast_Form {
 				'class' => 'textinput',
 			)
 		);
-		echo '<input class="textinput ' . esc_attr( $attr['class'] ) . ' " placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
+		echo '<input class="textinput', esc_attr( $class ), '"', $placeholder, $pattern, ' type="', esc_attr( $attr['type'] ), '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
 	}
 
 	/**

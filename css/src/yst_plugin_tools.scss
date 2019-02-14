@@ -56,6 +56,11 @@ tr.yst_row.even {
 	textarea,
 	select {
 		width: 400px;
+
+		&:not(:focus):invalid {
+			outline: 3px dashed $color-error;
+			outline-offset: -1px;
+		}
 	}
 
 	input.large-text,

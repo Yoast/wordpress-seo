@@ -326,8 +326,20 @@ abstract class WPSEO_Option {
 	 */
 	public function validate_url( $key, $dirty, $old, &$clean ) {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+			/*
+			 * Note: `WPSEO_Utils::sanitize_url()` uses WordPress `esc_url_raw()`
+			 * which uses `esc_url()` which prepends `http://` if the URL doesn't
+			 * appear to contain a scheme, unless it's a relative URL starting
+			 * with /, # or ? or a php file.
+			 */
 			$url = WPSEO_Utils::sanitize_url( $dirty[ $key ] );
-			if ( $url !== '' ) {
+
+			// In old Yoast SEO versions, users could enter OpenGraph images with root-relative paths.
+			if ( WPSEO_Utils::is_url_relative( $url ) === true && $url !== '' ) {
+				$clean[ $key ] = $url;
+			}
+			// Validate absolute URLs. `FILTER_VALIDATE_URL` already checks for empty.
+			elseif ( filter_var( $url, FILTER_VALIDATE_URL ) ) {
 				$clean[ $key ] = $url;
 			}
 			else {
