@@ -110,6 +110,8 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_Admin_Gutenberg_Compatibility_Notification();
 		$integrations[] = new WPSEO_Expose_Shortlinks();
 		$integrations[] = new WPSEO_Recalibration_Beta();
+		$integrations[] = new WPSEO_MyYoast_Proxy();
+		$integrations[] = new WPSEO_Addon_Manager();
 		$integrations[] = $this->admin_features['google_search_console'];
 		$integrations   = array_merge( $integrations, $this->initialize_seo_links(), $this->initialize_cornerstone_content() );
 

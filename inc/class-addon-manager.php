@@ -16,22 +16,23 @@ class WPSEO_Addon_Manager {
 	 * @var array
 	 */
 	protected static $addons = array(
-		'wordpress-seo-premium' => 'WPSEO_FILE',
-		'wpseo-news'            => 'WPSEO_NEWS',
-		'wpseo-video'           => '',
-		'wpseo-woocommerce'     => '',
-		'wpseo-local'           => '',
+		'wp-seo-premium.php'    => 'yoast-seo-wordpress-premium',
+		'wpseo-news.php'        => 'yoast-seo-news',
+		'video-seo.php'         => 'yoast-seo-video',
+		'wpseo-woocommerce.php' => 'yoast-seo-woocommerce',
+		'local-seo.php'         => 'yoast-seo-local',
 	);
 
 	/**
-	 * Hooks into WordPress
+	 * Hooks into WordPress.
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_filter( 'plugins_api', array( $this, 'plugins_api_filter' ), 10, 3 );
+		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_for_updates' ) );
+		add_filter( 'plugins_api', array( $this, 'get_plugin_information' ), 10, 3 );
 	}
 
 	/**
@@ -61,7 +62,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Gets the subscriptions for current site.
 	 *
-	 * @return array The subscriptions.
+	 * @return stdClass The subscriptions.
 	 */
 	public function get_subscriptions() {
 		return $this->get_site_information()->subscriptions;
@@ -72,7 +73,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @param string $slug The plugin slug to retrieve.
 	 *
-	 * @return stdClass Subscription data when found, empty object when not found.
+	 * @return stdClass|false Subscription data when found, false when not found.
 	 */
 	public function get_subscription( $slug ) {
 		foreach ( $this->get_subscriptions() as $subscription ) {
@@ -81,11 +82,19 @@ class WPSEO_Addon_Manager {
 			}
 		}
 
-		return new stdClass();
+		return false;
 	}
 
-	public function plugins_api_filter( $data, $action, $args ) {
-
+	/**
+	 * Retrieves the plugin information from the subscriptions.
+	 *
+	 * @param stdClass|false $data   The result object. Default false.
+	 * @param string         $action The type of information being requested from the Plugin Installation API.
+	 * @param stdClass       $args   Plugin API arguments.
+	 *
+	 * @return object Extended plugin data.
+	 */
+	public function get_plugin_information( $data, $action, $args ) {
 		if ( $action !== 'plugin_information' ) {
 			return $data;
 		}
@@ -94,20 +103,102 @@ class WPSEO_Addon_Manager {
 			return $data;
 		}
 
-		$addon = $this->find_addon_for_slug( $args->slug );
-		if ( ! $addon ) {
+		$subscription = $this->get_subscription( $args->slug );
+		if ( ! $subscription ) {
 			return $data;
 		}
 
-		// only do something if we're checking for our plugin
-		if ( $action !== 'plugin_information' || ! isset( $args->slug ) || $args->slug !== $this->product->get_slug() ) {
-			return $data;
-		}
+		return $this->convert_subscription_to_plugin( $subscription );
 	}
 
-	public function set_updates_available_data( $data ) {
+	/**
+	 * Checks if there are addon updates.
+	 *
+	 * @param stdClass|mixed $data The current data for update_plugins.
+	 *
+	 * @return stdClass Extended data for update_plugins.
+	 */
+	public function check_for_updates( $data ) {
+		if ( empty( $data ) ) {
+			return $data;
+		}
 
-		//constant()
+		foreach ( $this->get_installed_addons() as $plugin_file => $installed_plugin ) {
+			$subscription_slug = $this->get_slug_by_plugin_file( $plugin_file );
+			$subscription      = $this->get_subscription( $subscription_slug );
+
+			if ( ! $subscription ) {
+				continue;
+			}
+
+			if ( version_compare( $installed_plugin['Version'], $subscription->product->version, '<' ) ) {
+				$data->response[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
+			}
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Converts a subscription to plugin based format.
+	 *
+	 * @param stdClass $subscription The subscription to convert.
+	 *
+	 * @return stdClass The converted subscription.
+	 */
+	protected function convert_subscription_to_plugin( $subscription ) {
+		return (object) array(
+			'new_version'   => $subscription->product->version,
+			'name'          => $subscription->product->name,
+			'slug'          => $subscription->product->slug,
+			'url'           => $subscription->product->url,
+			'last_update'   => $subscription->product->lastUpdated,
+			'homepage'      => $subscription->product->storeUrl,
+			'download_link' => $subscription->product->download,
+			'sections'      =>
+				array(
+					'changelog' => $subscription->product->changelog,
+				),
+		);
+	}
+
+	/**
+	 * Checks if the given plugin_file belongs to a Yoast addon.
+	 *
+	 * @param string $plugin_file Path to the plugin.
+	 *
+	 * @return bool True when plugin file is for a Yoast addon.
+	 */
+	protected function is_yoast_addon( $plugin_file ) {
+		return $this->get_slug_by_plugin_file( $plugin_file ) !== '';
+	}
+
+	/**
+	 * Retrieves the addon slug by given plugin file path.
+	 *
+	 * @param string $plugin_file The file path to the plugin.
+	 *
+	 * @return string The slug when found or empty string when not.
+	 */
+	protected function get_slug_by_plugin_file( $plugin_file ) {
+		foreach ( self::$addons as $addon => $addon_slug ) {
+			if ( strpos( $plugin_file, $addon ) !== false ) {
+				return $addon_slug;
+			}
+		}
+
+		return '';
+	}
+
+	/**
+	 * Retrieves the transient value with the site information.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return stdClass|false The transient value.
+	 */
+	protected function get_site_information_transient() {
+		return get_transient( 'wpseo_site_information' );
 	}
 
 	/**
@@ -131,45 +222,21 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Retrieves the Yoast plugins.
+	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return mixed
+	 * @return array The installed plugins.
 	 */
-	protected function get_site_information_transient() {
-		return get_transient( 'wpseo_site_information' );
-	}
+	protected function get_installed_addons() {
+		$plugins      = get_plugins();
+		$plugin_files = array_filter( array_keys( $plugins ), array( $this, 'is_yoast_addon' ) );
 
-	/**
-	 * Converts a subscription to plugin based format.
-	 *
-	 * @param stdClass $subscription The subscription to convert.
-	 *
-	 * @return object
-	 */
-	protected function convert_subscription_to_plugin( $subscription ) {
-		return (object) array(
-			'new_version'   => $subscription->product->version,
-			'name'          => '', // $subscription->product->name,
-			'slug'          => $subscription->product->slug,
-			'url'           => $subscription->product->version,
-			'last_update'   => $subscription->product->lastUpdated,
-			'homepage'      => $subscription->product->storeUrl,
-			'download_link' => $subscription->product->download,
-			'sections'      => serialize(
-				array(
-					'changelog' => $subscription->product->changelog,
-				)
-			),
-		);
-	}
-
-	protected function find_addon_for_slug( $slug ) {
-		foreach( self::$addons as $addon => $constant ) {
-			if ( defined( $constant ) && $constant === $slug ) {
-				return $this->get_subscription( $addon );
-			}
+		$installed_plugins = array();
+		foreach ( $plugin_files as $plugin_file ) {
+			$installed_plugins[ $plugin_file ] = $plugins[ $plugin_file ];
 		}
 
-		return false;
+		return $installed_plugins;
 	}
 }
