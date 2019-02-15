@@ -43,8 +43,10 @@ const expectedResults = {
 	},
 	subheadingsKeyword: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 4 (out of 4) subheadings reflect the topic of your copy. Good job!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: " +
+			"More than 75% of your higher-level subheadings reflect the topic of your copy. That's too much. " +
+			"<a href='https://yoa.st/33n' target='_blank'>Don't over-optimize</a>!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,
@@ -65,7 +67,7 @@ const expectedResults = {
 	},
 	externalLinks: {
 		isApplicable: true,
-		score: 6,
+		score: 3,
 		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: No outbound links appear in this page. <a href='https://yoa.st/34g' target='_blank'>Add some</a>!",
 	},
 	internalLinks: {

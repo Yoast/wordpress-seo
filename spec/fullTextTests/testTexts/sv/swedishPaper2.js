@@ -63,7 +63,7 @@ const expectedResults = {
 	},
 	externalLinks: {
 		isApplicable: true,
-		score: 6,
+		score: 3,
 		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: No outbound links appear in this page. <a href='https://yoa.st/34g' target='_blank'>Add some</a>!",
 	},
 	internalLinks: {
