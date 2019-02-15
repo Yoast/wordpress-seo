@@ -304,7 +304,7 @@ describe( "Test for generating adjective exceptions in German", () => {
 			generateVerbExceptionForms( morphologyDataDE.verbs, "geschlaf" ) );
 	} );
 
-	it( "makes rue that the longest possible word is matched, so that e.g., 'lass' doesn't get forms for 'ass'", () => {
+	it( "makes sure that the longest possible word is matched, so that e.g., 'lass' doesn't get forms for 'ass'", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "lass" ) ).toEqual( [
 			"lass",
 			"ließ",
@@ -327,10 +327,24 @@ describe( "Test for generating adjective exceptions in German", () => {
 			"gelassen",
 		] );
 	} );
-	// @todo: add double array for ss/ß forms
 
-	// @todo: add test that checks compound verbs with preceding lexical material --> not currently the case
-
-	// @todo: after ordering the exception list by length, add tests that make sure that
-	// the longest possible word is matched (e.g., "lass" shouldn't match "ass"
+	it( "makes sure that compound verbs with preceding lexical material are recognized and return the full forms", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "festhalt" ) ).toEqual( [
+			"festhalt",
+			"festhielt",
+			"festhalte",
+			"festhalten",
+			"festhaltend",
+			"festhaltest",
+			"festhaltet",
+			"festhaltst",
+			"festhaltt",
+			"festhältst",
+			"festhältt",
+			"festhielten",
+			"festhieltst",
+			"festhieltt",
+			"festgehalten",
+		] );
+	} );
 } );

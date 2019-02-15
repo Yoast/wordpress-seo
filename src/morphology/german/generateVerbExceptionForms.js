@@ -47,7 +47,7 @@ const addSuffixesStrongVerbsClass2 = function( dataStrongVerbs, stems ) {
 		: applySuffixesToStem( stemPastParticiple, suffixParticiple );
 
 	// The present and past stems can also be forms on their own.
-	return unique( flattenDeep( [ stemPresent, stemPast, formsPresent, formsPast, formsPastSubjunctive,  formsParticiple ] ) );
+	return unique( flattenDeep( [ stemPresent, stemPast, formsPresent, formsPast, formsPastSubjunctive, formsParticiple ] ) );
 };
 
 const addSuffixesStrongVerbsClass3 = function( dataStrongVerbs, stems ) {
@@ -149,14 +149,53 @@ const addSuffixesPerClass = {
 	5: addSuffixesStrongVerbsClass5,
 };
 
+const addPrecedingLexicalMaterial = function( stems, materialToAdd ) {
+	const forms = [];
+
+	for ( let i = 0; i < stems.length; i++ ) {
+		if ( stems[ i ] instanceof Array ) {
+			addPrecedingLexicalMaterial( stems[ i ] );
+		} else {
+			forms.push( materialToAdd.concat( stems[ i ] ) );
+		}
+	}
+
+	return forms;
+};
+
+
 const generateFormsPerClass = function( dataStrongVerbs, verbClass, currentStemDataSet, stemmedWordToCheck ) {
-	const stems = currentStemDataSet[ 1 ].slice();
+	let stems = currentStemDataSet[ 1 ].slice();
 
-	const stemsFlattened = flattenDeep( stems );
+	let stemsFlattened = flattenDeep( stems );
+	/*
+	 * Sort in order to make sure that if the stem to check is e.g. "gehalt", "halt" isn't matched before "gehalt".
+	 * (Both are part of the same paradigm). Otherwise, if "halt" is matched, the "ge" will be interpreted as preceding
+	 * lexical material and added to all forms.
+	 */
+	stemsFlattened = stemsFlattened.sort( ( a, b ) => b.length - a.length );
 
-	if ( stemsFlattened.some( stem => stemmedWordToCheck.endsWith( stem ) ) ) {
-		const addSuffixes = addSuffixesPerClass[ verbClass ];
-		return addSuffixes( dataStrongVerbs, stems );
+	for ( let i = 0; i < stemsFlattened.length; i++ ) {
+		const currentStem = stemsFlattened[ i ];
+
+		if ( stemmedWordToCheck.endsWith( currentStem ) ) {
+			const addSuffixes = addSuffixesPerClass[ verbClass ];
+
+			// "fest".length = "festhalt".length - "halt".length
+			const precedingLength = stemmedWordToCheck.length - currentStem.length;
+			const precedingLexicalMaterial = stemmedWordToCheck.slice( 0, precedingLength );
+			/*
+			  * If the word is a compound, removing the final stem will result in some lexical material to
+			  * be left over at the beginning of the word. For example, removing "halt" from "festhalt"
+			  * leaves "fest". This lexical material is the base for the word forms that need to be created
+			  * (e.g., "festhielt").
+			  */
+			if ( precedingLexicalMaterial.length > 0 ) {
+				stems = addPrecedingLexicalMaterial( stems, precedingLexicalMaterial );
+			}
+
+			return addSuffixes( dataStrongVerbs, stems );
+		}
 	}
 
 	return [];
@@ -177,7 +216,7 @@ const generateFormsStrongVerbs = function( dataStrongVerbs, stemmedWordToCheck )
 		}
 	}
 
-	return [ ];
+	return [];
 };
 
 export function generateVerbExceptionForms( morphologyDataVerbs, stemmedWordToCheck ) {
