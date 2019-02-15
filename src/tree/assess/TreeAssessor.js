@@ -10,11 +10,11 @@ class TreeAssessor {
 	/**
 	 * Creates a new assessor.
 	 *
-	 * @param {Object} options                                             Assessor options.
-	 * @param {Jed} options.i18n                                           A Jed object to use for translations.
-	 * @param {module:tree/research.TreeResearcher} options.researcher     Supplies the assessments with researches and their (cached) results.
-	 * @param {module:tree/assess.ScoreAggregator} options.scoreAggregator Aggregates the scores on the individual assessments into one overall score.
-	 * @param {module:tree/assess.Assessment[]} [options.assessments]      The list of assessments to apply.
+	 * @param {Object}                              options                 Assessor options.
+	 * @param {Jed}                                 options.i18n            A Jed object to use for translations.
+	 * @param {module:tree/research.TreeResearcher} options.researcher      Supplies the assessments with researches and their (cached) results.
+	 * @param {module:tree/assess.ScoreAggregator}  options.scoreAggregator Aggregates the scores on the individual assessments into one.
+	 * @param {module:tree/assess.Assessment[]}     [options.assessments]   The list of assessments to apply.
 	 */
 	constructor( options ) {
 		/**
@@ -52,8 +52,8 @@ class TreeAssessor {
 	 * Assesses the given text by applying all the assessments to it
 	 * and aggregating the resulting scores.
 	 *
-	 * @param {Paper} paper                     The paper to assess. This contains metadata about the text.
-	 * @param {module:tree/structure.Node} node The text to check.
+	 * @param {Paper}                      paper The paper to assess. This contains metadata about the text.
+	 * @param {module:tree/structure.Node} node  The text to check.
 	 *
 	 * @returns {Promise<number>} The overall assessment result.
 	 */
@@ -73,7 +73,7 @@ class TreeAssessor {
 	/**
 	 * Adds the assessment to the list of assessments to apply.
 	 *
-	 * @param {string} name                              The name to register the assessment under.
+	 * @param {string}                        name       The name to register the assessment under.
 	 * @param {module:tree/assess.Assessment} assessment The assessment to add.
 	 *
 	 * @returns {void}
@@ -114,8 +114,8 @@ class TreeAssessor {
 	/**
 	 * Returns the list of applicable assessments.
 	 *
-	 * @param {Paper} paper                     The paper to check.
-	 * @param {module:tree/structure.Node} node The tree to check.
+	 * @param {Paper}                      paper The paper to check.
+	 * @param {module:tree/structure.Node} node  The tree to check.
 	 *
 	 * @returns {Promise<Array>} The list of applicable assessments.
 	 */
