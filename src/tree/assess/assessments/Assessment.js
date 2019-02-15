@@ -9,13 +9,13 @@ class Assessment {
 	/**
 	 * Creates a new assessment.
 	 *
-	 * @param {string} [name] An optional name.
+	 * @param {string} name The name to give this assessment.
 	 *
 	 * @abstract
 	 */
 	constructor( name ) {
 		/**
-		 * This assessment's unique name.
+		 * This assessment's name.
 		 * @type {string}
 		 */
 		this.name = name;
