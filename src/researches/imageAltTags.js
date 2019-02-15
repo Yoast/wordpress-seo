@@ -14,10 +14,7 @@ import { isEmpty } from "lodash-es";
  * @returns {boolean} Whether a match was found or not.
  */
 const matchFound = function( matchResult ) {
-	if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
-		return matchResult.percentWordMatches >= 50;
-	}
-	return matchResult.countWordMatches > 0;
+	return matchResult.percentWordMatches >= 50;
 };
 
 /**

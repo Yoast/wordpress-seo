@@ -61,15 +61,10 @@ export default class TextImagesAssessment extends Assessment {
 		this.imageCount = researcher.getResearch( "imageCount" );
 		this.altProperties = researcher.getResearch( "altTagCount" );
 
-		let calculatedScore;
-		if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
-			this._minNumberOfKeywordMatches = Math.ceil( this.imageCount * this._config.parametersRecalibration.lowerBoundary );
-			this._maxNumberOfKeywordMatches = Math.floor( this.imageCount * this._config.parametersRecalibration.upperBoundary );
+		this._minNumberOfKeywordMatches = Math.ceil( this.imageCount * this._config.parametersRecalibration.lowerBoundary );
+		this._maxNumberOfKeywordMatches = Math.floor( this.imageCount * this._config.parametersRecalibration.upperBoundary );
 
-			calculatedScore = this.calculateResultRecalibration( i18n );
-		} else {
-			calculatedScore = this.calculateResultRegular( i18n );
-		}
+		const calculatedScore = this.calculateResultRecalibration( i18n );
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedScore.score );
