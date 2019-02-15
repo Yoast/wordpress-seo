@@ -12,4 +12,5 @@
 class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 
 
+
 }
