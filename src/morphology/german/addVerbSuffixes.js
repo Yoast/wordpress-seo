@@ -1,4 +1,4 @@
-import { applySuffixes } from "../morphoHelpers/suffixHelpers";
+import { applySuffixesToStem } from "../morphoHelpers/suffixHelpers";
 
 /**
  * Adds verb suffixes to a stem. Depending on the ending of the stem, the list of suffixes might be modified.
@@ -17,14 +17,14 @@ export function addVerbSuffixes( morphologyDataVerbs, stemmedWord ) {
 		( /ch[mn]$/ ).test( stemmedWord ) ) {
 		allVerbSuffixes = allVerbSuffixes.filter( suffix => suffix.startsWith( "e" ) );
 
-		return applySuffixes( stemmedWord, allVerbSuffixes );
+		return applySuffixesToStem( stemmedWord, allVerbSuffixes );
 	}
 
 	// Check whether the stem has an ending that doesn't take the suffix -st.
 	if ( ( /[szßt]$/ ).test( stemmedWord ) ) {
 		allVerbSuffixes = allVerbSuffixes.filter( suffix => suffix !== "st" );
 
-		return applySuffixes( stemmedWord, allVerbSuffixes );
+		return applySuffixesToStem( stemmedWord, allVerbSuffixes );
 	}
 
 	// Check whether the stem has an ending that marks it as a non-verbal stem.
@@ -32,5 +32,5 @@ export function addVerbSuffixes( morphologyDataVerbs, stemmedWord ) {
 		return [];
 	}
 
-	return applySuffixes( stemmedWord, allVerbSuffixes );
+	return applySuffixesToStem( stemmedWord, allVerbSuffixes );
 }
