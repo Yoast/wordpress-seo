@@ -3,7 +3,7 @@ import { merge } from "lodash-es";
 import Assessment from "../../assessment";
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import { inRangeStartEndInclusive } from "../../helpers/inRange.js";
-import { getSubheadings, getSubheadingsTopLevel } from "../../stringProcessing/getSubheadings";
+import { getSubheadingsTopLevel } from "../../stringProcessing/getSubheadings";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -58,15 +58,9 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 
 		const assessmentResult = new AssessmentResult();
 
-		let calculatedResult;
-
-		if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
-			this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.parametersRecalibration.lowerBoundary );
-			this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.parametersRecalibration.upperBoundary );
-			calculatedResult = this.calculateResultRecalibration( i18n );
-		} else {
-			calculatedResult = this.calculateResultRegular( i18n );
-		}
+		this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.parametersRecalibration.lowerBoundary );
+		this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.parametersRecalibration.upperBoundary );
+		const calculatedResult = this.calculateResult( i18n );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -82,10 +76,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {boolean} True when there is at least one subheading.
 	 */
 	hasSubheadings( paper ) {
-		const subheadings = process.env.YOAST_RECALIBRATION === "enabled"
-			? getSubheadingsTopLevel( paper.getText() )
-			: getSubheadings( paper.getText() );
-
+		const subheadings =  getSubheadingsTopLevel( paper.getText() );
 		return subheadings.length > 0;
 	}
 
@@ -98,68 +89,6 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 */
 	isApplicable( paper ) {
 		return paper.hasText() && paper.hasKeyword() && this.hasSubheadings( paper );
-	}
-
-	/**
-	 * Determines the score and the Result text for the subheadings.
-	 *
-	 * @param {Object} i18n The object used for translations.
-	 *
-	 * @returns {Object} The object with the calculated score and the result text.
-	 */
-	calculateResultRegular( i18n ) {
-		if ( this._subHeadings.matches === 1 ) {
-			return {
-				score: this._config.scoresRegular.oneMatch,
-				resultText: i18n.sprintf(
-					/**
-					 * Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
-					 */
-					i18n.dngettext(
-						"js-text-analysis",
-						"%1$sKeyphrase in subheading%2$s: Your subheading reflects the topic of your copy. Good job!",
-					),
-					this._config.urlTitle,
-					"</a>",
-				),
-			};
-		}
-
-		if ( this._subHeadings.matches > 1 ) {
-			return {
-				score: this._config.scoresRegular.multipleMatches,
-				resultText: i18n.sprintf(
-					/**
-					 * Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
-					 * %3$s expands to the percentage of subheadings that reflect the topic of the copy.
-					 */
-					i18n.dngettext(
-						"js-text-analysis",
-						"%1$sKeyphrase in subheading%2$s: %3$s (out of %4$s) subheadings reflect the topic of your copy. Good job!",
-					),
-					this._config.urlTitle,
-					"</a>",
-					this._subHeadings.matches,
-					this._subHeadings.count,
-				),
-			};
-		}
-
-		return {
-			score: this._config.scoresRegular.noMatches,
-			resultText: i18n.sprintf(
-				/**
-				 * Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag.
-				 */
-				i18n.dngettext(
-					"js-text-analysis",
-					"%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your subheadings%3$s!",
-				),
-				this._config.urlTitle,
-				this._config.urlCallToAction,
-				"</a>",
-			),
-		};
 	}
 
 	/**
@@ -220,7 +149,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 *
 	 * @returns {Object} The object with the calculated score and the result text.
 	 */
-	calculateResultRecalibration( i18n ) {
+	calculateResult( i18n ) {
 		if ( this.hasTooFewMatches() ) {
 			return {
 				score: this._config.scoresRecalibration.tooFewMatches,
