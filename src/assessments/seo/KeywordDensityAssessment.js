@@ -6,7 +6,6 @@ import getLanguage from "../../helpers/getLanguage";
 import AssessmentResult from "../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/inRange";
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
-import formatNumber from "../../helpers/formatNumber";
 import keyphraseLengthFactor from "../../helpers/keyphraseLengthFactor.js";
 import countWords from "../../stringProcessing/countWords";
 
