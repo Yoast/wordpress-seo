@@ -11,8 +11,14 @@
 
 	padding-top: 2em;
 
-	input[type="text"] {
+	input[type="text"],
+	input[type="url"] {
 		min-width: 250px;
+
+		&:not(:focus):invalid {
+			outline: 3px dashed $color-error;
+			outline-offset: -1px;
+		}
 
 		& + div {
 			margin-right: 1em;

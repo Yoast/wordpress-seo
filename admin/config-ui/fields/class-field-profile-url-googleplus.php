@@ -17,7 +17,8 @@ class WPSEO_Config_Field_Profile_URL_GooglePlus extends WPSEO_Config_Field {
 		parent::__construct( 'profileUrlGooglePlus', 'Input' );
 
 		$this->set_property( 'label', __( 'Google+ URL', 'wordpress-seo' ) );
-		$this->set_property( 'pattern', '^https:\/\/plus\.google\.com\/([^/]+)$' );
+		$this->set_property( 'type', 'url' );
+		$this->set_property( 'pattern', '^https:\/\/plus\.google\.com\/[^\s\/]+' );
 	}
 
 	/**

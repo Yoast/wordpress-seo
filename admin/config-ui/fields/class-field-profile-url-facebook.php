@@ -17,7 +17,8 @@ class WPSEO_Config_Field_Profile_URL_Facebook extends WPSEO_Config_Field {
 		parent::__construct( 'profileUrlFacebook', 'Input' );
 
 		$this->set_property( 'label', __( 'Facebook Page URL', 'wordpress-seo' ) );
-		$this->set_property( 'pattern', '^https:\/\/www\.facebook\.com\/([^/]+)\/$' );
+		$this->set_property( 'type', 'url' );
+		$this->set_property( 'pattern', '^https:\/\/www\.facebook\.com\/[^\s\/]+' );
 	}
 
 	/**
