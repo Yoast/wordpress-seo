@@ -19,7 +19,7 @@ export default () => {
 			multiple: true,
 		},
 
-		attributes: {},
+		attributes: {"id":{"type":"string"}},
 
 		edit: HowTo,
 		save: HowTo.Content,

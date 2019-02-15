@@ -58,8 +58,20 @@ class WPSEO_Structured_Data_JSON_Builder {
 				continue;
 			}
 
-			$this->graph = array_merge( $this->graph, $this->create_new_graph_items( $blockDefinition, $block, $context ) );
+			$blockJson = $this->render_block_json( $block, $context );
+
+			if ( $blockDefinition['mergeWithPage'] && $blockDefinition['mergeWithPage'] === true ) {
+				$this->page->add_type( $blockJson[ "@type" ] );
+
+				foreach ( $blockJson[ "mainEntity" ] as $main_entity ) {
+					$this->page->add_main_entity( $main_entity );
+				}
+			} else {
+				$this->page->add_main_entity( $blockJson );
+			}
 		}
+
+		$this->graph = array_merge( $this->graph, array( $this->page->render_json( $context ) ) );
 
 		return $this->graph;
 	}
@@ -92,6 +104,14 @@ class WPSEO_Structured_Data_JSON_Builder {
 			}
 		}
 
+	}
+
+	public function make_url_safe( $value ) {
+		return sanitize_title( $value );
+	}
+
+	public function create_absolute_identifier( $identifier, $context ) {
+		return $context['current_url'] . '#' . $identifier;
 	}
 
 	public function render_block_json( $block, $context, $position = 0 ) {
@@ -130,6 +150,23 @@ class WPSEO_Structured_Data_JSON_Builder {
 
 					$json[ $key ] = $position;
 					break;
+
+				case 'generatedIdentifier':
+					$sourceKey = $attribute["generatedIdentifier"];
+
+					if ( array_key_exists( $sourceKey, $json ) ) {
+						$sourceValue = $json[ $sourceKey ];
+
+						$json[ $key ] = $this->create_absolute_identifier( $this->make_url_safe( $sourceValue ), $context );
+					}
+					break;
+
+				case 'uniqueIdentifier':
+					$json[ $key ] = $this->create_absolute_identifier( $block['attrs'][ 'id' ], $context );
+					break;
+
+				case 'otherAttribute':
+					$json[ $key ] = $json[ $attribute['otherAttribute'] ];
 
 				case 'area':
 					$children_types = $attribute['childrenTypes'];
@@ -187,7 +224,6 @@ class WPSEO_Structured_Data_JSON_Builder {
 													// do same function for found howtosection.
 													$json[ $key ][] = $this->render_block_json( $collection_inner_block, $context, $child_block_position );
 													$child_block_position++;
-//													$json[ $key ][] = $this->create_new_graph_items( $defintion, $collection_inner_block, $context );
 												}
 											}
 										}
@@ -201,10 +237,14 @@ class WPSEO_Structured_Data_JSON_Builder {
 			}
 		}
 
-		return $json;
-	}
+		$referById = $blockDefinition['referById'] && $blockDefinition['referById'];
+		$hasId = ! empty( $json['@id'] );
 
-	public function create_new_graph_items( $blockConfig, $block, $context ) {
-		return array( $this->render_block_json( $block, $context ) );
+		if ( $referById && $hasId ) {
+			$this->graph = array_merge( $this->graph, array( $json ) );
+			return array( "@id" => $json['@id'] );
+		}
+
+		return $json;
 	}
 }

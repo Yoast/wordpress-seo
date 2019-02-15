@@ -73,6 +73,8 @@
 	{
 		"@type": "HowTo",
 		"blockLabel": "How to",
+		"referById": true,
+
 		"attributes": [
 			{
 				"key": "@type",
@@ -83,7 +85,8 @@
 			{
 				"key": "@id",
 				"type": "string",
-				"source": "identifier"
+				"source": "uniqueIdentifier",
+				"uniqueIdentifier": "how-to"
 			},
 			{
 				"key": "name",

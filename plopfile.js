@@ -23,6 +23,9 @@ function mapDefinitionToBlockData( definition ) {
 	let allowedBlocks = [];
 	let template = [];
 	let templateLock = false;
+	let createUniqueId = false;
+	let uniqueIdPrefix = "";
+	const blockAttributes = {};
 
 	if ( definition.attributes ) {
 		const attributes = definition.attributes;
@@ -61,6 +64,15 @@ function mapDefinitionToBlockData( definition ) {
 
 					allowedBlocks = allowedBlocks.concat( allowedChildren );
 					break;
+
+				case "uniqueIdentifier":
+					blockAttributes.id = {
+						type: "string",
+					};
+
+					createUniqueId = true;
+					uniqueIdPrefix = attribute.uniqueIdentifier;
+					break;
 			}
 		} );
 
@@ -87,6 +99,9 @@ function mapDefinitionToBlockData( definition ) {
 		multiple: _isUndefined( definition.multiple ) ? true : definition.multiple,
 		blockPrefix: BLOCK_PREFIX,
 		disclaimer: DISCLAIMER,
+		attributes: JSON.stringify( blockAttributes ),
+		createUniqueId,
+		uniqueIdPrefix,
 	};
 }
 
@@ -98,10 +113,6 @@ function isCollectionAttribute( attribute ) {
 
 function walkAttributes( definitionPath, attributes = [] ) {
 	attributes.forEach( attribute => {
-
-		console.log( attribute );
-		console.log( isCollectionAttribute( attribute ) );
-
 		if ( isCollectionAttribute( attribute ) ) {
 			const { collection } = attribute;
 
@@ -131,6 +142,7 @@ function walkAttributes( definitionPath, attributes = [] ) {
 				multiple: _isUndefined( collection.multiple ) ? true : collection.multiple,
 				blockPrefix: BLOCK_PREFIX,
 				disclaimer: DISCLAIMER,
+				attributes: JSON.stringify( {} ),
 			};
 
 			blocksToGenerate.push( {

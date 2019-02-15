@@ -34,17 +34,13 @@
 	},
 	{
 		"@type": "Question",
+		"referById": true,
 		"attributes": [
 			{
 				"key": "@type",
 				"type": "string",
 				"source": "value",
 				"value": "Question"
-			},
-			{
-				"key": "@id",
-				"type": "string",
-				"source": "identifier"
 			},
 			{
 				"key": "url",
@@ -66,6 +62,18 @@
 				]
 			},
 			{
+				"key": "@id",
+				"type": "string",
+				"source": "generatedIdentifier",
+				"generatedIdentifier": "name"
+			},
+			{
+				"key": "url",
+				"type": "string",
+				"source": "otherAttribute",
+				"otherAttribute": "@id"
+			},
+			{
 				"key": "acceptedAnswer",
 				"type": "string",
 				"source": "area",
@@ -83,8 +91,7 @@
 	{
 		"@type": "FAQPage",
 		"blockLabel": "FAQ",
-		"addPageType": true,
-		"hideInGraph": true,
+		"mergeWithPage": true,
 		"attributes": [
 			{
 				"key": "@type",

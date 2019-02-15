@@ -1,10 +1,24 @@
 /* External dependencies */
 import { InnerBlocks } from "@wordpress/editor";
 import { Component } from "@wordpress/element";
+{{#if createUniqueId}}
+import isUndefined from "lodash/isUndefined";
+import uniqueId from "lodash/uniqueId";
+{{/if}}
 
 {{disclaimer}}
 
 export default class {{type}} extends Component {
+	{{#if createUniqueId}}
+	componentDidMount() {
+		const { setAttributes, attributes } = this.props;
+
+		if ( isUndefined( attributes.id ) ) {
+			setAttributes( { id: uniqueId( "{{uniqueIdPrefix}}-" ) } );
+		}
+	}
+
+	{{/if}}
 	render() {
 		return <InnerBlocks
 			template={ {{{template}}} }
