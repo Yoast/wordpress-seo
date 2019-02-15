@@ -11,79 +11,7 @@ const i18n = factory.buildJed();
 const nonkeyword = "nonkeyword, ";
 const keyword = "keyword, ";
 
-describe( "Tests for the keywordDensity assessment for languages without morphology, for regular analysis", function() {
-	beforeEach( () => {
-		process.env.YOAST_RECALIBRATION = "disabled";
-	} );
-
-	it( "runs the keywordDensity on the paper without keyword", function() {
-		const paper = new Paper( nonkeyword.repeat( 1000 ), { keyword: "keyword" } );
-		const researcher = new Researcher( paper );
-		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
-		expect( result.getScore() ).toBe( 4 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 0%. This is too low; the keyphrase was found 0 times. <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
-	} );
-
-	it( "runs the keywordDensity on the paper with a very low keyphrase density (0.1%)", function() {
-		const paper = new Paper( nonkeyword.repeat( 999 ) + keyword, { keyword: "keyword" } );
-		const researcher = new Researcher( paper );
-		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
-		expect( result.getScore() ).toBe( 4 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 0.1%. This is too low; the keyphrase was found 1 time. <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
-	} );
-
-	it( "runs the keywordDensity on the paper with a good keyphrase density (0.5%)", function() {
-		const paper = new Paper( nonkeyword.repeat( 995 ) + keyword.repeat( 5 ), { keyword: "keyword" } );
-		const researcher = new Researcher( paper );
-		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
-		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 0.5%. This is great!" );
-	} );
-
-	it( "runs the keywordDensity on the paper with a good keyphrase density (2%)", function() {
-		const paper = new Paper( nonkeyword.repeat( 980 ) + keyword.repeat( 20 ), { keyword: "keyword" } );
-		const researcher = new Researcher( paper );
-		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
-		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 2%. This is great!" );
-	} );
-
-	it( "runs the keywordDensity on the paper with a slightly too high keyphrase density (3%)", function() {
-		const paper = new Paper( nonkeyword.repeat( 970 ) + keyword.repeat( 30 ), { keyword: "keyword" } );
-		const researcher = new Researcher( paper );
-		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
-		expect( result.getScore() ).toBe( -10 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 3%. This is over the advised 2.5% maximum; the keyphrase was found 30 times. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
-	} );
-
-	it( "runs the keywordDensity on the paper with a very high keyphrase density (10%)", function() {
-		const paper = new Paper( nonkeyword.repeat( 900 ) + keyword.repeat( 100 ), { keyword: "keyword" } );
-		const researcher = new Researcher( paper );
-		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
-		expect( result.getScore() ).toBe( -50 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 10%. This is way over the advised 2.5% maximum; the keyphrase was found 100 times. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
-	} );
-} );
-
-describe( "Tests for the keywordDensity assessment for languages with morphology, for regular analysis", function() {
-	beforeEach( () => {
-		process.env.YOAST_RECALIBRATION = "disabled";
-	} );
-	it( "gives a GOOD result when keyword density is 3.0%", function() {
-		const paper = new Paper( nonkeyword.repeat( 970 ) + keyword.repeat( 30 ), { keyword: "keyword", locale: "en_EN" } );
-		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
-		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
-		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 3%. This is great!" );
-	} );
-} );
-
-describe( "Tests for the keywordDensity assessment for languages without morphology, for recalibration analysis", function() {
-	beforeEach( () => {
-		process.env.YOAST_RECALIBRATION = "enabled";
-	} );
-
+describe( "Tests for the keywordDensity assessment for languages without morphology", function() {
 	it( "runs the keywordDensity on the paper without keyword", function() {
 		const paper = new Paper( nonkeyword.repeat( 1000 ), { keyword: "keyword" } );
 		const researcher = new Researcher( paper );
@@ -167,7 +95,7 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 	} );
 } );
 
-describe( "Tests for the keywordDensity assessment for languages with morphology, for recalibration analysis", function() {
+describe( "Tests for the keywordDensity assessment for languages with morphology", function() {
 	beforeEach( () => {
 		process.env.YOAST_RECALIBRATION = "enabled";
 	} );
@@ -182,10 +110,6 @@ describe( "Tests for the keywordDensity assessment for languages with morphology
 } );
 
 describe( "A test for marking the keyword", function() {
-	beforeEach( () => {
-		process.env.YOAST_RECALIBRATION = "disabled";
-	} );
-
 	it( "returns markers", function() {
 		const keywordDensityAssessment = new KeywordDensityAssessment();
 		const paper = new Paper( "This is a very interesting paper with a keyword and another keyword.", { keyword: "keyword" }  );
