@@ -21,16 +21,11 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			parametersRecalibration: {
+			parameters: {
 				lowerBoundary: 0.3,
 				upperBoundary: 0.75,
 			},
-			scoresRegular: {
-				noMatches: 6,
-				oneMatch: 9,
-				multipleMatches: 9,
-			},
-			scoresRecalibration: {
+			scores: {
 				noMatches: 3,
 				tooFewMatches: 3,
 				goodNumberOfMatches: 9,
@@ -58,8 +53,8 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 
 		const assessmentResult = new AssessmentResult();
 
-		this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.parametersRecalibration.lowerBoundary );
-		this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.parametersRecalibration.upperBoundary );
+		this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.parameters.lowerBoundary );
+		this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.parameters.upperBoundary );
 		const calculatedResult = this.calculateResult( i18n );
 
 		assessmentResult.setScore( calculatedResult.score );
@@ -152,7 +147,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	calculateResult( i18n ) {
 		if ( this.hasTooFewMatches() ) {
 			return {
-				score: this._config.scoresRecalibration.tooFewMatches,
+				score: this._config.scores.tooFewMatches,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
 					i18n.dgettext(
@@ -168,7 +163,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 
 		if ( this.hasTooManyMatches() ) {
 			return {
-				score: this._config.scoresRecalibration.tooManyMatches,
+				score: this._config.scores.tooManyMatches,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
 					i18n.dgettext(
@@ -185,7 +180,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 
 		if ( this.isOneOfOne() ) {
 			return {
-				score: this._config.scoresRecalibration.goodNumberOfMatches,
+				score: this._config.scores.goodNumberOfMatches,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
 					%3$d expands to the number of subheadings containing the keyphrase. */
@@ -202,7 +197,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 
 		if ( this.hasGoodNumberOfMatches() ) {
 			return {
-				score: this._config.scoresRecalibration.goodNumberOfMatches,
+				score: this._config.scores.goodNumberOfMatches,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
 					%3$d expands to the number of subheadings containing the keyphrase. */
@@ -220,7 +215,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 		}
 
 		return {
-			score: this._config.scoresRecalibration.noMatches,
+			score: this._config.scores.noMatches,
 			resultText: i18n.sprintf(
 				/* Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
 				i18n.dgettext(
