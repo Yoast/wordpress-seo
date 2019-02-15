@@ -34,7 +34,7 @@ class TreeAssessor {
 		this.scoreAggregator = options.scoreAggregator;
 		/**
 		 * The list of assessments to apply.
-		 * @type {module:tree/assess.Assessment[]|Array}
+		 * @type {module:tree/assess.Assessment[]}
 		 */
 		this._assessments = options.assessments || [];
 	}
