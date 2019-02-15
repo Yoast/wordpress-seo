@@ -283,8 +283,15 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'myyoast-oauth':
 					$clean[ $key ] = $old[ $key ];
 
-					if ( isset( $dirty[ $key ] ) && is_array( json_decode( $dirty[ $key ], true ) ) ) {
-						$clean[ $key ] = $dirty[ $key ];
+					if ( isset( $dirty[ $key ] ) ) {
+						$myyoast_oauth = $dirty[ $key ];
+						if ( ! is_array( $myyoast_oauth ) ) {
+							$myyoast_oauth = json_decode( $dirty[ $key ], true );
+						}
+
+						if ( is_array( $myyoast_oauth ) ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
 					}
 					break;
 

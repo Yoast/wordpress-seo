@@ -216,7 +216,7 @@ class Client {
 		$option_value = \WPSEO_Options::get( 'myyoast-oauth', false );
 		if ( $option_value ) {
 			return wp_parse_args(
-				json_decode( $option_value, true ),
+				json_decode( wp_json_encode( $option_value ), true ),
 				$this->get_default_option()
 			);
 		}
