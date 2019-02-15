@@ -12,12 +12,17 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 */
 	protected $client;
 
+	/**
+	 * Class constructor.
+	 */
 	public function __construct() {
 		$this->client = $this->get_client();
 	}
 
 	/**
 	 * Sets the hooks when the user has enough rights and is on the right page.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		if ( ! ( $this->is_myyoast_route() && $this->can_access_route() ) ) {
@@ -36,6 +41,8 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 * Registers the page for the MyYoast route.
 	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	public function register_route() {
 		add_dashboard_page(
@@ -46,6 +53,11 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 		);
 	}
 
+	/**
+	 * Abstracts the action from the url and follows the appropriate route.
+	 *
+	 * @return void
+	 */
 	public function handle_route() {
 		$action = $this->get_action();
 		switch ( $action ) {
@@ -66,14 +78,25 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 		return ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER );
 	}
 
+	/**
+	 * Creates a new MyYoast Client instance.
+	 *
+	 * @return WPSEO_MyYoast_Client
+	 */
 	protected function get_client() {
 		return new WPSEO_MyYoast_Client();
 	}
 
+	/**
+	 * Connects to MyYoast, generates a ClientId if needed.
+	 *
+	 * @return void
+	 */
 	protected function connect() {
 		$config    = $this->client->get_configuration();
 		$client_id = $config['clientId'];
-		if ( ! $config['clientId'] ) {
+
+		if ( empty( $config['clientId'] ) ) {
 			$client_id = wp_generate_uuid4();
 
 			$this->client->save_configuration(
@@ -94,10 +117,22 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 		);
 	}
 
+	/**
+	 * Abstracts the action from the url.
+	 *
+	 * @return string The action from the url.
+	 */
 	protected function get_action() {
 		return filter_input( INPUT_GET, 'action' );
 	}
 
+	/**
+	 * Compares an action to a list of allowed actions to see if it is valid.
+	 *
+	 * @param string $action The action to check.
+	 *
+	 * @return bool True if the action is valid.
+	 **/
 	protected function is_valid_action( $action ) {
 		$allowed_actions = array( 'connect' );
 
@@ -105,19 +140,26 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Generates an URL-encoded query string, redirects there.
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param $url
-	 * @param $query_args
+	 * @param string $url        The url to redirect to.
+	 * @param array  $query_args The additional arguments to build the url from.
+	 *
+	 * @return void
 	 */
 	protected function redirect( $url, $query_args ) {
 		wp_redirect( $url . '?' . http_build_query( $query_args ) );
 		exit;
 	}
 
+	/**
+	 * Checks if current user is allowed to access the route.
+	 *
+	 * @return bool True when current user has rights to manage options.
+	 */
 	protected function can_access_route() {
 		return current_user_can( 'wpseo_manage_options' );
 	}
-
 }
