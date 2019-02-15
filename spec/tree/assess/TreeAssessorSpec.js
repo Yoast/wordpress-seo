@@ -224,4 +224,32 @@ describe( "TreeAssessor", () => {
 			expect( assessment ).toEqual( lenientWordCount );
 		} );
 	} );
+
+	describe( "setAssessments", () => {
+		it( "sets assessments", () => {
+			const researcher = new TreeResearcher();
+			const scoreAggregator = new ScoreAggregator();
+
+			const assessments = [
+				new TestAssessment( true, 5, "test assessment" )
+			];
+
+			const assessor = new TreeAssessor( {
+				researcher,
+				scoreAggregator,
+				i18n,
+				assessments,
+			} );
+
+			expect( assessor.getAvailableAssessments() ).toEqual( assessments );
+
+			const newAssessments = [
+				new TestAssessment( false, 3, "new test assessment" ),
+			];
+
+			assessor.setAssessments( newAssessments );
+
+			expect( assessor.getAvailableAssessments() ).toEqual( newAssessments );
+		} );
+	} );
 } );
