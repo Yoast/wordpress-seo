@@ -28,7 +28,8 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 1.1%. This is great!",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 9 times. " +
+			"This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -53,7 +54,8 @@ const expectedResults = {
 	textImages: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: No images appear on this page. <a href='https://yoa.st/33d' target='_blank'>Add some</a>!",
+		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: " +
+			"No images appear on this page. <a href='https://yoa.st/33d' target='_blank'>Add some</a>!",
 	},
 	textLength: {
 		isApplicable: true,
