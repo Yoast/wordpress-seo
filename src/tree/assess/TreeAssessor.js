@@ -112,6 +112,17 @@ class TreeAssessor {
 	}
 
 	/**
+	 * Sets the assessments that this assessor needs to apply.
+	 *
+	 * @param {module:tree/assess.Assessment[]} assessments The assessments to set.
+	 *
+	 * @returns {void}
+	 */
+	setAssessments( assessments ) {
+		this._assessments = assessments;
+	}
+
+	/**
 	 * Returns the list of applicable assessments.
 	 *
 	 * @param {Paper}                      paper The paper to check.
