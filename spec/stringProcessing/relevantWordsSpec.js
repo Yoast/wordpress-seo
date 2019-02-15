@@ -4,7 +4,7 @@ import englishFunctionWordsFactory from "../../src/researches/english/functionWo
 
 const getWordCombinations = relevantWords.getWordCombinations;
 const getRelevantWords = relevantWords.getRelevantWords;
-const getRelevantWordsFromTopic = relevantWords.getRelevantWordsFromTopic;
+const getRelevantWordsFromPaperAttributes = relevantWords.getRelevantWordsFromPaperAttributes;
 const calculateOccurrences = relevantWords.calculateOccurrences;
 const getRelevantCombinations = relevantWords.getRelevantCombinations;
 const sortCombinations = relevantWords.sortCombinations;
@@ -332,7 +332,7 @@ describe( "getRelevantWords", function() {
 	} );
 } );
 
-describe( "getRelevantWordsFromTopic", function() {
+describe( "getRelevantWordsFromPaperAttributes", function() {
 	it( "gets all non-function words from the attributes", function() {
 		const expected = [
 			new WordCombination( [ "keyphrase" ], 5, englishFunctionWords ),
@@ -348,11 +348,13 @@ describe( "getRelevantWordsFromTopic", function() {
 		// Make sure our words aren't filtered by density.
 		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
 
-		const words = getRelevantWordsFromTopic(
-			"This is a nice keyphrase",
-			"This is a synonym one, a synonym two and an o-my synonym",
-			"This is an interesting metadescription of the paper that we are analysing.",
-			[ "subheading one", "subheading two" ],
+		const words = getRelevantWordsFromPaperAttributes(
+			{
+				keyphrase: "This is a nice keyphrase",
+				synonyms: "This is a synonym one, a synonym two and an o-my synonym",
+				metadescription: "This is an interesting metadescription of the paper that we are analysing.",
+				subheadings: [ "subheading one", "subheading two" ],
+			},
 			"en_EN",
 		);
 

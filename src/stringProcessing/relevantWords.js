@@ -312,15 +312,18 @@ function getRelevantWords( text, locale ) {
 /**
  * Gets relevant words from keyphrase and synonyms, metadescription, and subheadings.
  *
- * @param {string} keyphrase The keyphrase of the paper.
- * @param {string} synonyms The synonyms of the paper.
- * @param {string} metadescription The metadescription of the paper.
- * @param {string[]} subheadings The subheadings of the paper.
- * @param {string} locale The locale of the paper.
+ * @param {Object} attributes                  The attributes to process
+ * @param {string} attributes.keyphrase        The keyphrase of the paper.
+ * @param {string} attributes.synonyms         The synonyms of the paper.
+ * @param {string} attributes.metadescription  The metadescription of the paper.
+ * @param {string[]} attributes.subheadings    The subheadings of the paper.
+ * @param {string} locale                      The locale of the paper.
  *
  * @returns {WordCombination[]} Relevant word combinations from the paper attributes.
  */
-function getRelevantWordsFromTopic( keyphrase, synonyms, metadescription, subheadings, locale ) {
+function getRelevantWordsFromPaperAttributes( attributes, locale ) {
+	const { keyphrase, synonyms, metadescription, subheadings } = attributes;
+
 	let language = getLanguage( locale );
 	if ( ! functionWordLists.hasOwnProperty( language ) ) {
 		language = "en";
@@ -329,23 +332,19 @@ function getRelevantWordsFromTopic( keyphrase, synonyms, metadescription, subhea
 	const functionWords = functionWordLists[ language ].all;
 
 	const subheadingsJoined = subheadings.join( " " );
-	const attributes = keyphrase.concat( " ", synonyms, " ", metadescription, " ", subheadingsJoined );
-	const attributesWords = uniq( getWords( attributes.toLocaleLowerCase() ) );
+	const attributesJoined = keyphrase.concat( " ", synonyms, " ", metadescription, " ", subheadingsJoined );
+	const attributesWords = uniq( getWords( attributesJoined.toLocaleLowerCase() ) );
 
-	const attributesWordsFiltered = filter( attributesWords, function( word ) {
-		return ( ! includes( functionWords, word.trim() ) );
-	} );
+	const attributesWordsFiltered = attributesWords.filter( word => ! functionWords.includes( word.trim() ) );
 
-	return map( attributesWordsFiltered, function( word ) {
-		return new WordCombination( [ word ], 5, functionWords );
-	} );
+	return attributesWordsFiltered.map( word => new WordCombination( [ word ], 5, functionWords ) );
 }
 
 
 export {
 	getWordCombinations,
 	getRelevantWords,
-	getRelevantWordsFromTopic,
+	getRelevantWordsFromPaperAttributes,
 	calculateOccurrences,
 	getRelevantCombinations,
 	sortCombinations,
@@ -361,7 +360,7 @@ export {
 export default {
 	getWordCombinations: getWordCombinations,
 	getRelevantWords: getRelevantWords,
-	getRelevantWordsFromTopic: getRelevantWordsFromTopic,
+	getRelevantWordsFromPaperAttributes: getRelevantWordsFromPaperAttributes,
 	calculateOccurrences: calculateOccurrences,
 	getRelevantCombinations: getRelevantCombinations,
 	sortCombinations: sortCombinations,

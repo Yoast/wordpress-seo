@@ -1,5 +1,5 @@
 import { take } from "lodash-es";
-import { getRelevantWords, getRelevantWordsFromTopic } from "../stringProcessing/relevantWords";
+import { getRelevantWords, getRelevantWordsFromPaperAttributes } from "../stringProcessing/relevantWords";
 import { getSubheadingsTopLevel } from "../stringProcessing/getSubheadings";
 
 
@@ -15,15 +15,16 @@ function relevantWords( paper ) {
 
 	const subheadings = getSubheadingsTopLevel( paper.getText() ).map( subheading => subheading[ 2 ] );
 
-	const relevantWordsFromTopic = getRelevantWordsFromTopic(
-		paper.getKeyword(),
-		paper.getSynonyms(),
-		paper.getDescription(),
+	const attributes = {
+		keyphrase: paper.getKeyword(),
+		synonyms: paper.getSynonyms(),
+		metadescription: paper.getDescription(),
 		subheadings,
-		locale,
-	);
+	};
 
-	return take( relevantWordsFromTopic.concat( relevantWordsFromText ), 100 );
+	const relevantWordsFromPaperAttributes = getRelevantWordsFromPaperAttributes( attributes, locale );
+
+	return take( relevantWordsFromPaperAttributes.concat( relevantWordsFromText ), 100 );
 }
 
 

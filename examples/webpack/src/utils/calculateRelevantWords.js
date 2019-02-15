@@ -1,6 +1,6 @@
 import { take } from "lodash-es";
 import getWords from "yoastsrc/stringProcessing/getWords";
-import { getRelevantWords, getRelevantWordsFromTopic } from "yoastsrc/stringProcessing/relevantWords";
+import { getRelevantWords, getRelevantWordsFromPaperAttributes } from "yoastsrc/stringProcessing/relevantWords";
 import { getSubheadingsTopLevel } from "yoastsrc/stringProcessing/getSubheadings";
 import WordCombination from "yoastsrc/values/WordCombination";
 
@@ -35,11 +35,13 @@ export default function calculateRelevantWords( paper ) {
 
 	const subheadings = getSubheadingsTopLevel( text ).map( subheading => subheading[ 2 ] );
 
-	const relevantWordsFromTopic = getRelevantWordsFromTopic(
-		paper.keyword,
-		paper.synonyms,
-		paper.description,
-		subheadings,
+	const relevantWordsFromTopic = getRelevantWordsFromPaperAttributes(
+		{
+			keyphrase: paper.keyword,
+			synonyms: paper.synonyms,
+			metadescription: paper.description,
+			subheadings,
+		},
 		locale,
 	);
 
