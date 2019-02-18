@@ -44,6 +44,7 @@ class Client {
 	 */
 	public function __construct() {
 		$oauth = $this->get_option();
+
 		$this->config        = $oauth['config'];
 		$this->access_tokens = $this->format_access_tokens( $oauth['access_tokens'] );
 	}
@@ -215,9 +216,10 @@ class Client {
 	 */
 	protected function get_option() {
 		$option_value = \WPSEO_Options::get( 'myyoast-oauth', false );
+
 		if ( $option_value ) {
 			return wp_parse_args(
-				json_decode( wp_json_encode( $option_value, true ) ),
+				json_decode( $option_value, true ),
 				$this->get_default_option()
 			);
 		}
