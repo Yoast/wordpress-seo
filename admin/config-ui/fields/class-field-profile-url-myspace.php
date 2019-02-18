@@ -18,7 +18,7 @@ class WPSEO_Config_Field_Profile_URL_MySpace extends WPSEO_Config_Field {
 
 		$this->set_property( 'label', __( 'MySpace URL', 'wordpress-seo' ) );
 		$this->set_property( 'type', 'url' );
-		$this->set_property( 'pattern', '^https:\/\/myspace\.com\/[^\s\/]+' );
+		$this->set_property( 'pattern', WPSEO_Validation::get_pattern( 'myspace_url' ) );
 	}
 
 	/**

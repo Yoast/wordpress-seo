@@ -75,7 +75,14 @@ class WPSEO_Configuration_Structure {
 			__( 'Company or person', 'wordpress-seo' ),
 			$this->fields['publishingEntity']
 		);
-		$this->add_step( 'profile-urls', __( 'Social profiles', 'wordpress-seo' ), $this->fields['profileUrls'] );
+		$this->add_step(
+			'profile-urls',
+			__( 'Social profiles', 'wordpress-seo' ),
+			$this->fields['profileUrls'],
+			true,
+			false,
+			true
+		);
 
 		$fields = array( 'postTypeVisibility' );
 
@@ -105,18 +112,20 @@ class WPSEO_Configuration_Structure {
 	/**
 	 * Add a step to the structure
 	 *
-	 * @param string $identifier Identifier for this step.
-	 * @param string $title      Title to display for this step.
-	 * @param array  $fields     Fields to use on the step.
-	 * @param bool   $navigation Show navigation buttons.
-	 * @param bool   $full_width Wheter the step content is full width or not.
+	 * @param string $identifier     Identifier for this step.
+	 * @param string $title          Title to display for this step.
+	 * @param array  $fields         Fields to use on the step.
+	 * @param bool   $navigation     Show navigation buttons.
+	 * @param bool   $full_width     Wheter the step content is full width or not.
+	 * @param bool   $has_validation Wheter the step content has a form with validation.
 	 */
-	protected function add_step( $identifier, $title, $fields, $navigation = true, $full_width = false ) {
+	protected function add_step( $identifier, $title, $fields, $navigation = true, $full_width = false, $has_validation = false ) {
 		$this->steps[ $identifier ] = array(
 			'title'          => $title,
 			'fields'         => $fields,
 			'hideNavigation' => ! (bool) $navigation,
 			'fullWidth'      => $full_width,
+			'hasValidation'  => $has_validation,
 		);
 	}
 

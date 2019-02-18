@@ -24,13 +24,13 @@ echo '<h2 class="help-button-inline">' . esc_html__( 'Your social profiles', 'wo
 echo $social_profiles_help->get_panel_html();
 
 $yform = Yoast_Form::get_instance();
-$yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ), array( 'type' => 'url', 'pattern' => '^https:\/\/www\.facebook\.com\/[^\s\/]+' ) );
+$yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ), array( 'type' => 'url', 'pattern' => WPSEO_Validation::get_pattern( 'facebook_site' ) ) );
 $yform->textinput( 'twitter_site', __( 'Twitter Username', 'wordpress-seo' ) );
-$yform->textinput( 'instagram_url', __( 'Instagram URL', 'wordpress-seo' ), array( 'type' => 'url', 'pattern' => '^https:\/\/www\.instagram\.com\/[^\s\/]+' ) );
-$yform->textinput( 'linkedin_url', __( 'LinkedIn URL', 'wordpress-seo' ), array( 'type' => 'url', 'pattern' => '^https:\/\/www\.linkedin\.com\/in\/[^\s\/]+' ) );
-$yform->textinput( 'myspace_url', __( 'MySpace URL', 'wordpress-seo' ), array( 'type' => 'url', 'pattern' => '^https:\/\/myspace\.com\/[^\s\/]+' ) );
-$yform->textinput( 'pinterest_url', __( 'Pinterest URL', 'wordpress-seo' ), array( 'type' => 'url', 'pattern' => '^https:\/\/www\.pinterest\.com\/[^\s\/]+' ) );
-$yform->textinput( 'youtube_url', __( 'YouTube URL', 'wordpress-seo' ), array( 'type' => 'url', 'pattern' => '^https:\/\/www\.youtube\.com\/[^\s\/]+' ) );
-$yform->textinput( 'google_plus_url', __( 'Google+ URL', 'wordpress-seo' ), array( 'type' => 'url', 'pattern' => '^https:\/\/plus\.google\.com\/[^\s\/]+' ) );
+$yform->textinput( 'instagram_url', __( 'Instagram URL', 'wordpress-seo' ), array( 'type' => 'url', 'pattern' => WPSEO_Validation::get_pattern( 'instagram_url' ) ) );
+$yform->textinput( 'linkedin_url', __( 'LinkedIn URL', 'wordpress-seo' ), array( 'type' => 'url', 'pattern' => WPSEO_Validation::get_pattern( 'linkedin_url' ) ) );
+$yform->textinput( 'myspace_url', __( 'MySpace URL', 'wordpress-seo' ), array( 'type' => 'url', 'pattern' => WPSEO_Validation::get_pattern( 'myspace_url' ) ) );
+$yform->textinput( 'pinterest_url', __( 'Pinterest URL', 'wordpress-seo' ), array( 'type' => 'url', 'pattern' => WPSEO_Validation::get_pattern( 'pinterest_url' ) ) );
+$yform->textinput( 'youtube_url', __( 'YouTube URL', 'wordpress-seo' ), array( 'type' => 'url', 'pattern' => WPSEO_Validation::get_pattern( 'youtube_url' ) ) );
+$yform->textinput( 'google_plus_url', __( 'Google+ URL', 'wordpress-seo' ), array( 'type' => 'url', 'pattern' => WPSEO_Validation::get_pattern( 'google_plus_url' ) ) );
 
 do_action( 'wpseo_admin_other_section' );

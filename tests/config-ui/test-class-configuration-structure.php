@@ -79,6 +79,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 				'fields'         => $fields,
 				'hideNavigation' => false,
 				'fullWidth'      => false,
+				'hasValidation'  => false,
 			),
 			$steps[ $identifier ]
 		);
