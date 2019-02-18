@@ -226,6 +226,30 @@ describe( "TreeAssessor", () => {
 
 			expect( assessment ).toEqual( assessmentToGet );
 		} );
+
+		it( "return null if an assessment under the given name does not exist", () => {
+			const researcher = new TreeResearcher();
+			const research = new TestResearch();
+			researcher.addResearch( "test research", research );
+
+			const assessmentToGet = new TestAssessment( true, 4, "assessment to get", researcher );
+
+			const scoreAggregator = new TestAggregator();
+			const assessments = [
+				new TestAssessment( true, 8, "assessment not to get", researcher ),
+				assessmentToGet,
+			];
+			const assessor = new TreeAssessor( {
+				researcher,
+				scoreAggregator,
+				i18n,
+				assessments,
+			} );
+
+			const assessment = assessor.getAssessment( "unknown assessment" );
+
+			expect( assessment ).toEqual( null );
+		} );
 	} );
 
 	describe( "setAssessments", () => {
