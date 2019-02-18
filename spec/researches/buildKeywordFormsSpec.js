@@ -357,11 +357,19 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 } );
 
 const spielfilmeForms = [ "spielfilme", "spielfilmen", "spielfilmens", "spielfilmer", "spielfilmern", "spielfilmers",
-	"spielfilmes", "spielfilms", "spielfilm" ];
-const kinderForms = [ "kinder", "kinde", "kinden", "kindens", "kindern", "kinders", "kindes", "kinds", "kind" ];
+	"spielfilmes", "spielfilms", "spielfilmem", "spielfilmere", "spielfilmerem", "spielfilmeren",
+	"spielfilmerer", "spielfilmeres", "spielfilmste", "spielfilmstem", "spielfilmsten", "spielfilmster",
+	"spielfilmstes", "spielfilm" ];
+const kinderForms = [ "kinder", "kinde", "kinden", "kindens", "kindern", "kinders", "kindes", "kinds",
+	"kindem", "kindere", "kinderem", "kinderen", "kinderer", "kinderes", "kindeste", "kindestem", "kindesten",
+	"kindester", "kindestes", "kind" ];
 const kinderfilmeForms = [ "kinderfilme", "kinderfilmen", "kinderfilmens", "kinderfilmer", "kinderfilmern",
-	"kinderfilmers", "kinderfilmes", "kinderfilms", "kinderfilm" ];
-const filmeForms = [ "filme", "filmen", "filmens", "filmer", "filmern", "filmers", "filmes", "films", "film" ];
+	"kinderfilmers", "kinderfilmes", "kinderfilms",   "kinderfilmem", "kinderfilmere", "kinderfilmerem",
+	"kinderfilmeren", "kinderfilmerer", "kinderfilmeres", "kinderfilmste", "kinderfilmstem", "kinderfilmsten",
+	"kinderfilmster", "kinderfilmstes", "kinderfilm" ];
+const filmeForms = [ "filme", "filmen", "filmens", "filmer", "filmern", "filmers", "filmes", "films",
+	"filmem", "filmere", "filmerem", "filmeren", "filmerer", "filmeres", "filmste", "filmstem", "filmsten",
+	"filmster", "filmstes", "film" ];
 
 
 describe( "A test for building keyword and synonyms forms for languages with morphology support other than English", function() {
