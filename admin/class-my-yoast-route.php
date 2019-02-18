@@ -1,5 +1,13 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin
+ */
 
+/**
+ * Represents the route for MyYoast.
+ */
 class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 
 	/**
@@ -8,24 +16,13 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	const PAGE_IDENTIFIER = 'wpseo_myyoast';
 
 	/**
-	 * @var WPSEO_MyYoast_Client
-	 */
-	protected $client;
-
-	/**
-	 * Class constructor.
-	 */
-	public function __construct() {
-		$this->client = $this->get_client();
-	}
-
-	/**
 	 * Sets the hooks when the user has enough rights and is on the right page.
 	 *
 	 * @return void
 	 */
 	public function register_hooks() {
-		if ( ! ( $this->is_myyoast_route() && $this->can_access_route() ) ) {
+		$route = filter_input( INPUT_GET, 'page' );
+		if ( ! ( $this->is_myyoast_route( $route ) && $this->can_access_route() ) ) {
 			return;
 		}
 
@@ -66,64 +63,18 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 			break;
 		}
 
-		exit;
+		$this->stop_execution();
 	}
 
 	/**
 	 * Checks if the current page is the MyYoast route.
 	 *
-	 * @return bool
-	 */
-	protected function is_myyoast_route() {
-		return ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER );
-	}
-
-	/**
-	 * Creates a new MyYoast Client instance.
+	 * @param string $route The myyoast route.
 	 *
-	 * @return WPSEO_MyYoast_Client
+	 * @return bool True when url is the myyoast route.
 	 */
-	protected function get_client() {
-		return new WPSEO_MyYoast_Client();
-	}
-
-	/**
-	 * Connects to MyYoast, generates a ClientId if needed.
-	 *
-	 * @return void
-	 */
-	protected function connect() {
-		$config    = $this->client->get_configuration();
-		$client_id = $config['clientId'];
-
-		if ( empty( $config['clientId'] ) ) {
-			$client_id = wp_generate_uuid4();
-
-			$this->client->save_configuration(
-				array(
-					'clientId' => $client_id,
-				)
-			);
-		}
-
-		$this->redirect(
-			'https://my.yoast.com/connect',
-			array(
-				'url'          => WPSEO_Utils::get_home_url(),
-				'client_id'    => $client_id,
-				'extensions'   => array(),
-				'redirect_url' => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER )
-			)
-		);
-	}
-
-	/**
-	 * Abstracts the action from the url.
-	 *
-	 * @return string The action from the url.
-	 */
-	protected function get_action() {
-		return filter_input( INPUT_GET, 'action' );
+	protected function is_myyoast_route( $route ) {
+		return ( $route === self::PAGE_IDENTIFIER );
 	}
 
 	/**
@@ -137,6 +88,64 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 		$allowed_actions = array( 'connect' );
 
 		return in_array( $action, $allowed_actions );
+	}
+
+	/**
+	 * Connects to MyYoast, generates a ClientId if needed.
+	 *
+	 * @return void
+	 */
+	protected function connect() {
+		$config    = $this->get_client()->get_configuration();
+		$client_id = $config['clientId'];
+
+		if ( empty( $client_id ) ) {
+			$client_id = $this->generate_userid();
+
+			$this->get_client()->save_configuration(
+				array(
+					'clientId' => $client_id,
+				)
+			);
+		}
+
+		$this->redirect(
+			'https://my.yoast.com/connect',
+			array(
+				'url'          => WPSEO_Utils::get_home_url(),
+				'client_id'    => $client_id,
+				'extensions'   => array(),
+				'redirect_url' => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ),
+			)
+		);
+	}
+
+	/**
+	 * Creates a new MyYoast Client instance.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return WPSEO_MyYoast_Client Instance of the myyoast client.
+	 */
+	protected function get_client() {
+		static $client;
+
+		if ( ! $client ) {
+			$client = new WPSEO_MyYoast_Client();
+		}
+
+		return $client;
+	}
+
+	/**
+	 * Abstracts the action from the url.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return string The action from the url.
+	 */
+	protected function get_action() {
+		return filter_input( INPUT_GET, 'action' );
 	}
 
 	/**
@@ -157,9 +166,33 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	/**
 	 * Checks if current user is allowed to access the route.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool True when current user has rights to manage options.
 	 */
 	protected function can_access_route() {
 		return current_user_can( 'wpseo_manage_options' );
+	}
+
+	/**
+	 * Stops the execution.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void;
+	 */
+	protected function stop_execution() {
+		exit;
+	}
+
+	/**
+	 * Generates an unique user id.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return string The generated userid.
+	 */
+	protected function generate_userid() {
+		return wp_generate_uuid4();
 	}
 }
