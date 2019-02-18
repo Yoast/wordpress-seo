@@ -71,7 +71,8 @@ class Client {
 	 * @return void
 	 */
 	public function save_configuration( array $config ) {
-		foreach ( array_keys( $this->config ) as $allowed_config_key ) {
+		$allowed_config_keys = array( 'clientId', 'secret' );
+		foreach ( $allowed_config_keys as $allowed_config_key ) {
 			if ( ! array_key_exists( $allowed_config_key, $config ) ) {
 				continue;
 			}
@@ -216,7 +217,7 @@ class Client {
 		$option_value = \WPSEO_Options::get( 'myyoast-oauth', false );
 		if ( $option_value ) {
 			return wp_parse_args(
-				$option_value,
+				json_decode( wp_json_encode( $option_value, true ) ),
 				$this->get_default_option()
 			);
 		}
@@ -234,10 +235,12 @@ class Client {
 	protected function update_option() {
 		\WPSEO_Options::set(
 			'myyoast-oauth',
+			wp_json_encode(
 				[
 					'config'        => $this->config,
 					'access_tokens' => $this->access_tokens,
 				]
+			)
 		);
 	}
 
