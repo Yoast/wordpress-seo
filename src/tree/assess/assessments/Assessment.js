@@ -23,8 +23,9 @@ class Assessment {
 		/**
 		 * The researcher to do researches with.
 		 * @type {module:tree/research.TreeResearcher}
+		 * @private
 		 */
-		this.researcher = researcher;
+		this._researcher = researcher;
 	}
 
 	/**
@@ -35,7 +36,7 @@ class Assessment {
 	 * @returns {void}
 	 */
 	setResearcher( researcher ) {
-		this.researcher = researcher;
+		this._researcher = researcher;
 	}
 
 	/**
@@ -44,7 +45,7 @@ class Assessment {
 	 * @returns {module:tree/research.TreeResearcher} The researcher used by this assessment.
 	 */
 	getResearcher() {
-		return this.researcher;
+		return this._researcher;
 	}
 
 	/**
