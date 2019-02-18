@@ -8,8 +8,6 @@
 
 /**
  * Unit Test Class.
- *
- * @group test
  */
 class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 
