@@ -36,14 +36,13 @@ class TestAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper                                    The paper to check.
 	 * @param {module:tree/structure.Node} node                The root node of the tree to check.
-	 * @param {module:tree/research.TreeResearcher} researcher The researcher to use to retrieve researches from.
 	 *
 	 * @returns {Promise<*>} The result of this assessment (wrapped in a promise).
 	 *
 	 * @abstract
 	 */
-	async apply( paper, node, researcher ) {
-		const nrOfTokens = await researcher.doResearch( "word count", node );
+	async apply( paper, node ) {
+		const nrOfTokens = await this.researcher.doResearch( "word count", node );
 		if ( nrOfTokens < this.boundary ) {
 			return Promise.resolve(
 				this.generateResult( "Not enough words, try again.", 3 )

@@ -37,6 +37,8 @@ class TreeAssessor {
 		 * @type {module:tree/assess.Assessment[]}
 		 */
 		this._assessments = options.assessments || [];
+		// Make sure that all of the assessments have the researcher.
+		this._assessments.forEach( assessment => assessment.setResearcher( this.researcher ) );
 	}
 
 	/**
@@ -65,7 +67,7 @@ class TreeAssessor {
 		  and returning the final score.
 		 */
 		const results = await Promise.all(
-			applicableAssessments.map( assessment => assessment.apply( paper, node, this.researcher ) )
+			applicableAssessments.map( assessment => assessment.apply( paper, node ) )
 		);
 		return this.scoreAggregator.aggregate( results );
 	}
@@ -80,6 +82,7 @@ class TreeAssessor {
 	 */
 	registerAssessment( name, assessment ) {
 		assessment.name = name;
+		assessment.setResearcher( this.researcher );
 		this._assessments.push( assessment );
 	}
 

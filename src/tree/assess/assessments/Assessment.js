@@ -9,16 +9,42 @@ class Assessment {
 	/**
 	 * Creates a new assessment.
 	 *
-	 * @param {string} name The name to give this assessment.
+	 * @param {string}                              name       The name to give this assessment.
+	 * @param {module:tree/research.TreeResearcher} researcher The researcher to do researches with.
 	 *
 	 * @abstract
 	 */
-	constructor( name ) {
+	constructor( name, researcher ) {
 		/**
 		 * This assessment's name.
 		 * @type {string}
 		 */
 		this.name = name;
+		/**
+		 * The researcher to do researches with.
+		 * @type {module:tree/research.TreeResearcher}
+		 */
+		this.researcher = researcher;
+	}
+
+	/**
+	 * Sets a new researcher on this assessment.
+	 *
+	 * @param {module:tree/research.TreeResearcher} researcher The researcher to do researches with.
+	 *
+	 * @returns {void}
+	 */
+	setResearcher( researcher ) {
+		this.researcher = researcher;
+	}
+
+	/**
+	 * Returns the researcher used by this assessment.
+	 *
+	 * @returns {module:tree/research.TreeResearcher} The researcher used by this assessment.
+	 */
+	getResearcher() {
+		return this.researcher;
 	}
 
 	/**
@@ -40,13 +66,12 @@ class Assessment {
 	 *
 	 * @param {Paper} paper                                    The paper to check.
 	 * @param {module:tree/structure.Node} node                The root node of the tree to check.
-	 * @param {module:tree/research.TreeResearcher} researcher The researcher to use to retrieve researches from.
 	 *
 	 * @returns {Promise<AssessmentResult>} The result of this assessment (wrapped in a promise).
 	 *
 	 * @abstract
 	 */
-	async apply( paper, node, researcher ) { // eslint-disable-line no-unused-vars
+	async apply( paper, node ) { // eslint-disable-line no-unused-vars
 		console.warn( "`apply` should be implemented by a child class of `Assessment`." );
 	}
 }
