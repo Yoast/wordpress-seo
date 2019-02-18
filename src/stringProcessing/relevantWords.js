@@ -336,6 +336,8 @@ function getRelevantWordsFromPaperAttributes( attributes, locale ) {
 	const attributesWords = uniq( getWords( attributesJoined.toLocaleLowerCase() ) );
 	const attributesWordsFiltered = attributesWords.filter( word => ! functionWords.includes( word.trim() ) );
 
+	/* If a word is used in any of the attributes, its relevance is automatically high.
+	To make sure the word survives relevance filters and gets saved in the database, make the number of occurrences 5.*/
 	return attributesWordsFiltered.map( word => new WordCombination( [ word ], 5, functionWords ) );
 }
 
