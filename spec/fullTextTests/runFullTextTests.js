@@ -19,7 +19,6 @@ import InternalLinksAssessment from "../../src/assessments/seo/InternalLinksAsse
 import TitleKeywordAssessment from "../../src/assessments/seo/TitleKeywordAssessment";
 import TitleWidthAssessment from "../../src/assessments/seo/PageTitleWidthAssessment";
 import UrlKeywordAssessment from "../../src/assessments/seo/UrlKeywordAssessment";
-import urlStopWordsAssessment from "../../src/assessments/seo/urlStopWordsAssessment";
 import KeyphraseDistributionAssessment from "../../src/assessments/seo/KeyphraseDistributionAssessment";
 
 // Import content assessments
@@ -47,7 +46,6 @@ import wordCountInText from "../../src/researches/wordCountInText.js";
 import findKeywordInPageTitle from "../../src/researches/findKeywordInPageTitle.js";
 import pageTitleWidth from "../../src/researches/pageTitleWidth.js";
 import keywordCountInUrl from "../../src/researches/keywordCountInUrl";
-import stopWordsInUrl from "../../src/researches/stopWordsInUrl";
 import { keyphraseDistributionResearcher } from "../../src/researches/keyphraseDistribution";
 const keyphraseDistribution = keyphraseDistributionResearcher;
 import calculateFleschReading from "../../src/researches/calculateFleschReading.js";
@@ -313,21 +311,6 @@ testPapers.forEach( function( testPaper ) {
 				);
 				expect( result.urlKeyword.getScore() ).toBe( expectedResults.urlKeyword.score );
 				expect( result.urlKeyword.getText() ).toBe( expectedResults.urlKeyword.resultText );
-			}
-		} );
-
-		it( "returns a score and the associated feedback text for the urlStopWords assessment", function() {
-			const isApplicable = urlStopWordsAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.urlStopWords.isApplicable );
-
-			if ( isApplicable ) {
-				result.urlStopWords = urlStopWordsAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( stopWordsInUrl( paper ) ),
-					i18n
-				);
-				expect( result.urlStopWords.getScore() ).toBe( expectedResults.urlStopWords.score );
-				expect( result.urlStopWords.getText() ).toBe( expectedResults.urlStopWords.resultText );
 			}
 		} );
 
