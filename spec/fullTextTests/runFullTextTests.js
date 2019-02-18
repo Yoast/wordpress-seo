@@ -90,7 +90,6 @@ testPapers.forEach( function( testPaper ) {
 		const titleKeywordAssessment = new TitleKeywordAssessment();
 		const titleWidthAssessment = new TitleWidthAssessment();
 		const urlKeywordAssessment = new UrlKeywordAssessment();
-		const urlLengthAssessment = new UrlLengthAssessment();
 		const keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();
 		const fleschReadingAssessment = new FleschReadingAssessment( contentConfiguration( locale ).fleschReading );
 		const subheadingDistributionTooLongAssessment = new SubheadingDistributionTooLongAssessment();
@@ -316,21 +315,6 @@ testPapers.forEach( function( testPaper ) {
 				);
 				expect( result.urlKeyword.getScore() ).toBe( expectedResults.urlKeyword.score );
 				expect( result.urlKeyword.getText() ).toBe( expectedResults.urlKeyword.resultText );
-			}
-		} );
-
-		it( "returns a score and the associated feedback text for the urlLength assessment", function() {
-			const isApplicable = urlLengthAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.urlLength.isApplicable );
-
-			if ( isApplicable ) {
-				result.urlLength = urlLengthAssessment.getResult(
-					paper,
-					factory.buildMockResearcher( urlLength( paper ) ),
-					i18n
-				);
-				expect( result.urlLength.getScore() ).toBe( expectedResults.urlLength.score );
-				expect( result.urlLength.getText() ).toBe( expectedResults.urlLength.resultText );
 			}
 		} );
 
