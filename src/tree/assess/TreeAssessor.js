@@ -104,14 +104,15 @@ class TreeAssessor {
 
 	/**
 	 * Returns the assessment registered under the given name.
-	 * Returns `undefined` if no assessment is registered under the given name.
+	 * Returns `null` if no assessment is registered under the given name.
 	 *
 	 * @param {string} name The name of the assessment to get.
 	 *
-	 * @returns {Assessment|undefined} The assessment.
+	 * @returns {Assessment|null} The assessment.
 	 */
 	getAssessment( name ) {
-		return this._assessments.find( assessment => assessment.name === name );
+		const assessmentToReturn = this._assessments.find( assessment => assessment.name === name );
+		return assessmentToReturn ? assessmentToReturn : null;
 	}
 
 	/**
