@@ -160,9 +160,11 @@ const calculateWordCountResult = function( wordCount, i18n ) {
  * @param {Jed} i18n The locale object.
  *
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ *
+ * @deprecated since 1.48. Please use the TextLengthAssessment with different configuration parameters instead.
  */
 const taxonomyTextLengthAssessment = function( paper, researcher, i18n ) {
-	console.warn( "Deprecation Warning: This assessment has been deprecated. " +
+	console.warn( "Deprecation Warning: This assessment has been deprecated since version 1.48. " +
 		"Please use the TextLengthAssessment with different configuration parameters instead." );
 
 	const wordCount = researcher.getResearch( "wordCountInText" );
