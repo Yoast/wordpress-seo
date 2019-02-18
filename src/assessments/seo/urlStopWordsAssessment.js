@@ -45,9 +45,11 @@ const calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
  * @param {Jed} i18n The locale object.
  *
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ *
+ * @deprecated since 1.48. We have removed it from the assessments since we do not consider it an important SEO factor anymore.
  */
 const urlHasStopWordsAssessment = function( paper, researcher, i18n ) {
-	console.warn( "Deprecation Warning: The UrlLengthAssessment has been deprecated. " +
+	console.warn( "Deprecation Warning: The UrlLengthAssessment has been deprecated since version 1.48. " +
 		"We have removed it from the assessments since we do not consider it an important SEO factor anymore." );
 
 	const stopWords = researcher.getResearch( "stopWordsInUrl" );
