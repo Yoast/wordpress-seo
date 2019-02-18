@@ -231,7 +231,7 @@ describe( "TreeAssessor", () => {
 			const scoreAggregator = new ScoreAggregator();
 
 			const assessments = [
-				new TestAssessment( true, 5, "test assessment" )
+				new TestAssessment( true, 5, "test assessment" ),
 			];
 
 			const assessor = new TreeAssessor( {
