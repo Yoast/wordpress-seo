@@ -265,12 +265,12 @@ class WPSEO_MyYoast_Api_Request {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return WPSEO_MyYoast_Client Instance of the client
+	 * @return WPSEO_MyYoast_Client Instance of the client.
 	 */
 	protected function get_client() {
 		static $client;
 
-		if ( ! $client ) {
+		if ( $client === null ) {
 			$client = new WPSEO_MyYoast_Client();
 		}
 
