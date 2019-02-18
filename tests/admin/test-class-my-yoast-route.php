@@ -94,7 +94,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests registrations of the hooks with every condition being okay
+	 * Tests registrations of the hooks with every condition being okay.
 	 *
 	 * @covers WPSEO_MyYoast_Route::register_hooks
 	 */
@@ -172,6 +172,11 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $instance->is_valid_action( 'invalid_action' ) );
 	}
 
+	/**
+	 * Tests connecting with having a saved clientid.
+	 *
+	 * @covers WPSEO_MyYoast_Route::connect
+	 */
 	public function test_connect_with_a_saved_clientid() {
 		$client = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Client' )
@@ -226,11 +231,14 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 		$instance->connect();
 	}
 
-
+	/**
+	 * Tests connecting without having a saved clientid.
+	 *
+	 * @covers WPSEO_MyYoast_Route::connect
+	 */
 	public function test_connect_with_no_saved_clientid() {
 		$client = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Client' )
-			->enableOriginalConstructor()
 			->setMethods( array( 'get_configuration', 'save_configuration' ) )
 			->getMock();
 
@@ -289,44 +297,4 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 		 */
 		$instance->connect();
 	}
-
-
-	/**
-	 * @covers WPSEO_MyYoast_Route::connect()
-	 */
-	public function _test_connect_with_saved_clientId() {
-		/** @var WPSEO_MyYoast_Route_Double $instance */
-		$instance = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
-			->setMethods( array( 'redirect', 'get_client' ) )
-			->getMock();
-
-		/** @var WPSEO_MyYoast_Client $instance */
-		$client = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Client' )
-			->setMethods( array( 'get_configuration', 'save_configuration' ) )
-			->getMock();
-
-		$config_test_data = array(
-			'clientId' => "9740f9cf-608e-4327-8a16-24e3ff6a4c0d",
-			'secret'   => NULL,
-		);
-
-		$instance ->expects( $this->once() )
-		          ->method( 'get_client' )
-		          ->will( $this->returnValue( $client ) );
-
-		$client  ->expects( $this->once() )
-		         ->method( 'get_configuration' )
-		         ->will( $this->returnValue( $config_test_data) );
-
-		// If the clientId is set no configuration should be saved.
-		$client  ->expects( $this->never() )
-		         ->method( 'save_configuration' );
-
-
-
-		$instance->connect();
-	}
 }
-
