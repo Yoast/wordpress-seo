@@ -93,11 +93,7 @@ class WPSEO_MyYoast_Api_Request {
 			catch ( WPSEO_MyYoast_Authentication_Exception $authentication_exception ) {
 				$this->error_message = $authentication_exception->getMessage();
 
-				// Remove the access token entirely.
-				$this->get_client()
-				     ->remove_access_token(
-				     	$this->get_current_user_id()
-					);
+				$this->remove_access_token( $this->get_current_user_id() );
 
 				return false;
 			}
@@ -284,7 +280,25 @@ class WPSEO_MyYoast_Api_Request {
 	 *
 	 * @return int The user id.
 	 */
-	protected function get_current_user_id() {
+	protected function get_current_user_idgi() {
 		return get_current_user_id();
+	}
+
+	/**
+	 * Removes the access token for given user id.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param int $user_id The user id.
+	 *
+	 * @return void
+	 */
+	protected function remove_access_token( $user_id ) {
+		if ( ! WPSEO_Utils::has_access_token_support() ) {
+			return;
+		}
+
+		// Remove the access token entirely.
+		$this->get_client()->remove_access_token( $user_id );
 	}
 }
