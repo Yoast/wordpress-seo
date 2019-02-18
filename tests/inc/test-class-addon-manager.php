@@ -44,7 +44,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	public function test_get_site_information_return_api_request_value() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Addon_Manager' )
-			->setMethods( array( 'request_current_sites' ) )
+			->setMethods( array( 'request_current_sites', 'set_site_information_transient' ) )
 			->getMock();
 
 		$instance
@@ -56,6 +56,10 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 					'subscriptions' => array( 'subscription' ),
 				)
 			) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'set_site_information_transient' );
 
 		$this->assertEquals(
 			(object) array(
@@ -305,7 +309,70 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 				)
 			)
 		);
+	}
 
+	/**
+	 * Tests get_installed_plugins with no yoast addons installed.
+	 *
+	 * @covers WPSEO_Addon_Manager::get_installed_addons
+	 */
+	public function test_get_installed_addons_with_no_yoast_addons_installed() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Addon_Manager_Double' )
+			->setMethods( array( 'get_plugins' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_plugins' )
+			->will(
+				$this->returnValue(
+					array(
+						'no-yoast-seo-extension-php' => array(
+							'Version' => '10.0',
+						),
+					)
+				)
+			);
+
+		$this->assertEquals(
+			array(),
+			$instance->get_installed_addons()
+		);
+	}
+
+	/**
+	 * Tests get_installed_plugins with one yoast addon installed.
+	 *
+	 * @covers WPSEO_Addon_Manager::get_installed_addons
+	 */
+	public function test_get_installed_addons_with_yoast_addon_installed() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Addon_Manager_Double' )
+			->setMethods( array( 'get_plugins' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_plugins' )
+			->will(
+				$this->returnValue(
+					array(
+						'wp-seo-premium.php' => array(
+							'Version' => '10.0',
+						),
+					)
+				)
+			);
+
+		$this->assertEquals(
+			array(
+				'wp-seo-premium.php' => array(
+					'Version' => '10.0',
+				),
+			),
+			$instance->get_installed_addons()
+		);
 	}
 
 	/**

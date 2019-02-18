@@ -49,6 +49,8 @@ class WPSEO_Addon_Manager {
 
 		$site_information = $this->request_current_sites();
 		if ( $site_information ) {
+			$this->set_site_information_transient( $site_information );
+
 			return $site_information;
 		}
 
@@ -191,15 +193,22 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
-	 * Retrieves the transient value with the site information.
+	 * Retrieves the installed Yoast addons.
 	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return stdClass|false The transient value.
+	 * @return array The installed plugins.
 	 */
-	protected function get_site_information_transient() {
-		return get_transient( 'wpseo_site_information' );
+	protected function get_installed_addons() {
+		$plugins      = $this->get_plugins();
+		$plugin_files = array_filter( array_keys( $plugins ), array( $this, 'is_yoast_addon' ) );
+
+		$installed_plugins = array();
+		foreach ( $plugin_files as $plugin_file ) {
+			$installed_plugins[ $plugin_file ] = $plugins[ $plugin_file ];
+		}
+
+		return $installed_plugins;
 	}
+
 
 	/**
 	 * Retrieves the current sites from the API.
@@ -211,32 +220,44 @@ class WPSEO_Addon_Manager {
 	protected function request_current_sites() {
 		$api_request = new WPSEO_MyYoast_Api_Request( 'sites/current' );
 		if ( $api_request->fire() ) {
-			$response = $api_request->get_response();
-
-			set_transient( 'wpseo_site_information', $response, DAY_IN_SECONDS );
-
-			return $response;
+			return $api_request->get_response();
 		}
 
 		return false;
 	}
 
 	/**
-	 * Retrieves the Yoast plugins.
+	 * Retrieves the transient value with the site information.
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return array The installed plugins.
+	 * @return stdClass|false The transient value.
 	 */
-	protected function get_installed_addons() {
-		$plugins      = get_plugins();
-		$plugin_files = array_filter( array_keys( $plugins ), array( $this, 'is_yoast_addon' ) );
+	protected function get_site_information_transient() {
+		return get_transient( 'wpseo_site_information' );
+	}
 
-		$installed_plugins = array();
-		foreach ( $plugin_files as $plugin_file ) {
-			$installed_plugins[ $plugin_file ] = $plugins[ $plugin_file ];
-		}
+	/**
+	 * Sets the site information transient.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param stdClass $site_information The site information to save.
+	 *
+	 * @return void
+	 */
+	protected function set_site_information_transient( $site_information ) {
+		set_transient( 'wpseo_site_information', $site_information, DAY_IN_SECONDS );
+	}
 
-		return $installed_plugins;
+	/**
+	 * Retrieves all installed WordPress plugins.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return array The plugins.
+	 */
+	protected function get_plugins() {
+		return get_plugins();
 	}
 }

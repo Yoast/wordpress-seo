@@ -42,4 +42,13 @@ class WPSEO_Addon_Manager_Double extends WPSEO_Addon_Manager {
 	public function convert_subscription_to_plugin( $subscription ) {
 		return parent::convert_subscription_to_plugin( $subscription );
 	}
+
+	/**
+	 * Retrieves the Yoast addons.
+	 *
+	 * @return array The installed plugins.
+	 */
+	public function get_installed_addons() {
+		return parent::get_installed_addons();
+	}
 }
