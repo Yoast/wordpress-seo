@@ -1,4 +1,5 @@
 import { Assessment } from "../../../src/tree/assess";
+import TreeResearcher from "../../../src/tree/research/TreeResearcher";
 import Paper from "../../../src/values/Paper";
 
 describe( "Assessment", () => {
@@ -36,6 +37,20 @@ describe( "Assessment", () => {
 				expect( console.warn ).toBeCalled();
 				done();
 			} );
+		} );
+	} );
+
+	describe( "setResearcher", () => {
+		it( "sets a new researcher", () => {
+			const oldResearcher = new TreeResearcher();
+			const assessment = new Assessment( "assessment", oldResearcher );
+
+			expect( assessment.getResearcher() ).toEqual( oldResearcher );
+
+			const newResearcher = new TreeResearcher();
+			assessment.setResearcher( newResearcher );
+
+			expect( assessment.getResearcher() ).toEqual( newResearcher );
 		} );
 	} );
 } );
