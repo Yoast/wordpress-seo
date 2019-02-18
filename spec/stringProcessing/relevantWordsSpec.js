@@ -342,6 +342,8 @@ describe( "getRelevantWordsFromPaperAttributes", function() {
 			new WordCombination( [ "metadescription" ], 5, englishFunctionWords ),
 			new WordCombination( [ "paper" ], 5, englishFunctionWords ),
 			new WordCombination( [ "analysing" ], 5, englishFunctionWords ),
+			new WordCombination( [ "pretty" ], 5, englishFunctionWords ),
+			new WordCombination( [ "title" ], 5, englishFunctionWords ),
 			new WordCombination( [ "subheading" ], 5, englishFunctionWords ),
 		];
 
@@ -352,6 +354,7 @@ describe( "getRelevantWordsFromPaperAttributes", function() {
 			{
 				keyphrase: "This is a nice keyphrase",
 				synonyms: "This is a synonym one, a synonym two and an o-my synonym",
+				title: "This is a pretty long title!",
 				metadescription: "This is an interesting metadescription of the paper that we are analysing.",
 				subheadings: [ "subheading one", "subheading two" ],
 			},

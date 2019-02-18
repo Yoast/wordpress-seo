@@ -36,11 +36,19 @@ describe( "relevantWords research", function() {
 			"allow users to connect their sites to MyYoast, our customer portal. After that we’ll roll out live indexing, " +
 			"which means every time you publish, update, or delete a post, that will be reflected almost instantly into " +
 			"Bing and Google’s indices. How does this work? When you connect your site to MyYoast...";
-		input = new Paper( input, { keyword: "keyphrase", synonyms: "synonym one, synonym two", description: "Awesome metadescription", locale: "en_EN" } );
+		input = new Paper( input, {
+			keyword: "keyphrase",
+			synonyms: "synonym one, synonym two",
+			title: "Amazing title",
+			description: "Awesome metadescription",
+			locale: "en_EN",
+		} );
 		const expected = [
 			new WordCombination( [ "keyphrase" ], 5, functionWords ),
 			new WordCombination( [ "synonym" ], 5, functionWords ),
 			new WordCombination( [ "metadescription" ], 5, functionWords ),
+			new WordCombination( [ "amazing" ], 5, functionWords ),
+			new WordCombination( [ "title" ], 5, functionWords ),
 			new WordCombination( [ "subheading" ], 5, functionWords ),
 			new WordCombination( [ "live", "indexing" ], 2, functionWords ),
 			new WordCombination( [ "bing" ], 2, functionWords ),

@@ -40,6 +40,7 @@ export default function calculateRelevantWords( paper ) {
 			keyphrase: paper.keyword,
 			synonyms: paper.synonyms,
 			metadescription: paper.description,
+			title: paper.title,
 			subheadings,
 		},
 		locale,

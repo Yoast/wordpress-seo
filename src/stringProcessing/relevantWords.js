@@ -310,19 +310,20 @@ function getRelevantWords( text, locale ) {
 }
 
 /**
- * Gets relevant words from keyphrase and synonyms, metadescription, and subheadings.
+ * Gets relevant words from keyphrase and synonyms, metadescription, title, and subheadings.
  *
  * @param {Object} attributes                  The attributes to process
  * @param {string} attributes.keyphrase        The keyphrase of the paper.
  * @param {string} attributes.synonyms         The synonyms of the paper.
  * @param {string} attributes.metadescription  The metadescription of the paper.
+ * @param {string} attributes.title            The title of the paper.
  * @param {string[]} attributes.subheadings    The subheadings of the paper.
  * @param {string} locale                      The locale of the paper.
  *
  * @returns {WordCombination[]} Relevant word combinations from the paper attributes.
  */
 function getRelevantWordsFromPaperAttributes( attributes, locale ) {
-	const { keyphrase, synonyms, metadescription, subheadings } = attributes;
+	const { keyphrase, synonyms, metadescription, title, subheadings } = attributes;
 
 	let language = getLanguage( locale );
 	if ( ! functionWordLists.hasOwnProperty( language ) ) {
@@ -331,10 +332,8 @@ function getRelevantWordsFromPaperAttributes( attributes, locale ) {
 
 	const functionWords = functionWordLists[ language ].all;
 
-	const subheadingsJoined = subheadings.join( " " );
-	const attributesJoined = keyphrase.concat( " ", synonyms, " ", metadescription, " ", subheadingsJoined );
+	const attributesJoined = keyphrase.concat( " ", synonyms, " ", metadescription, " ", title, " ", subheadings.join( " " ) );
 	const attributesWords = uniq( getWords( attributesJoined.toLocaleLowerCase() ) );
-
 	const attributesWordsFiltered = attributesWords.filter( word => ! functionWords.includes( word.trim() ) );
 
 	return attributesWordsFiltered.map( word => new WordCombination( [ word ], 5, functionWords ) );

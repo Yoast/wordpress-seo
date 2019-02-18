@@ -16,6 +16,7 @@ let previousRelevantWords = {
 	description: "",
 	keyword: "",
 	synonyms: "",
+	title: "",
 	data: {},
 };
 
@@ -77,13 +78,15 @@ function getRelevantWords( paper ) {
 	const description = paper.description;
 	const keyword = paper.keyword;
 	const synonyms = paper.synonyms;
+	const title = paper.title;
 
 	if (
 		! isEqual( text, previousRelevantWords.text ) ||
 		! isEqual( locale, previousRelevantWords.locale ) ||
 		! isEqual( description, previousRelevantWords.description ) ||
 		! isEqual( keyword, previousRelevantWords.keyword ) ||
-		! isEqual( synonyms, previousRelevantWords.synonyms )
+		! isEqual( synonyms, previousRelevantWords.synonyms ) ||
+		! isEqual( title, previousRelevantWords.title )
 	) {
 		previousRelevantWords = {
 			text,
@@ -91,6 +94,7 @@ function getRelevantWords( paper ) {
 			description,
 			keyword,
 			synonyms,
+			title,
 			data: calculateRelevantWords( paper ),
 		};
 	}

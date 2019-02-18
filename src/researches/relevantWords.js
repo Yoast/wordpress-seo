@@ -18,6 +18,7 @@ function relevantWords( paper ) {
 	const attributes = {
 		keyphrase: paper.getKeyword(),
 		synonyms: paper.getSynonyms(),
+		title: paper.getTitle(),
 		metadescription: paper.getDescription(),
 		subheadings,
 	};
