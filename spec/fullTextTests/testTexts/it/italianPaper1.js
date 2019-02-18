@@ -27,8 +27,9 @@ const expectedResults = {
 	},
 	keywordDensity: {
 		isApplicable: true,
-		score: 4,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: 0.4%. This is too low; the keyphrase was found 5 times. <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The focus keyphrase was found 5 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -42,8 +43,8 @@ const expectedResults = {
 	},
 	subheadingsKeyword: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your subheadings</a>!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' target='_blank'>Use more keyphrases or synonyms in your higher-level subheadings</a>!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,
@@ -53,7 +54,9 @@ const expectedResults = {
 	textImages: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Images on this page do not have alt attributes with words from your keyphrase. <a href='https://yoa.st/33d' target='_blank'>Fix that</a>!",
+		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: " +
+			"Images on this page do not have alt attributes that reflect the topic of your text. " +
+			"<a href='https://yoa.st/33d' target='_blank'>Add your keyphrase or synonyms to the alt tags of relevant images</a>!",
 	},
 	textLength: {
 		isApplicable: true,
@@ -62,7 +65,7 @@ const expectedResults = {
 	},
 	externalLinks: {
 		isApplicable: true,
-		score: 6,
+		score: 3,
 		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: No outbound links appear in this page. <a href='https://yoa.st/34g' target='_blank'>Add some</a>!",
 	},
 	internalLinks: {
