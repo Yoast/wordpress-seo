@@ -162,6 +162,9 @@ const calculateWordCountResult = function( wordCount, i18n ) {
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
 const taxonomyTextLengthAssessment = function( paper, researcher, i18n ) {
+	console.warn( "Deprecation Warning: This assessment has been deprecated. " +
+		"Please use the TextLengthAssessment with different configuration parameters instead." );
+
 	const wordCount = researcher.getResearch( "wordCountInText" );
 	const wordCountResult = calculateWordCountResult( wordCount, i18n );
 	const assessmentResult = new AssessmentResult();

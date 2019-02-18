@@ -4,6 +4,10 @@ import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();
 
 describe( "A word count assessment", function() {
+	beforeEach( () => {
+		console.warn = jest.fn();
+	} );
+
 	it( "assesses a single word", function() {
 		var mockPaper = new Paper( "sample" );
 		var assessment = taxonomyTextLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 1 ), i18n );
@@ -55,5 +59,16 @@ describe( "A word count assessment", function() {
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text contains 175 words. Good job!" );
+	} );
+
+	it( "shows a deprecation warning when the assessment is called", () => {
+		const mockPaper = new Paper( "Some paper" );
+		taxonomyTextLengthAssessment.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( 200 ),
+			i18n
+		);
+
+		expect( console.warn ).toBeCalled();
 	} );
 } );
