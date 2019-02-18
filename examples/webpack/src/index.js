@@ -27,6 +27,7 @@ const preloadedState = {
 	},
 	options: {
 		isRelatedKeyphrase: false,
+		isTreeBuilderEnabled: false,
 		useMorphology: true,
 	},
 	paper: {

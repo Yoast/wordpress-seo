@@ -1,5 +1,6 @@
 // External dependencies.
 import { debounce, isEqual } from "lodash-es";
+import buildTree from "yoastsrc/tree/builder";
 import Paper from "yoastsrc/values/Paper";
 
 // Internal dependencies.
@@ -12,20 +13,30 @@ export default class StoreSubscriber {
 	constructor( { store, worker } ) {
 		this._store = store;
 		this._worker = worker;
-		this._prevState = {};
+		this._prevState = {
+			configuration: {},
+			options: {},
+			paper: {},
+		};
 
 		this.onStoreChange = this.onStoreChange.bind( this );
 		this.triggerAutomaticRefresh = debounce( this.triggerAutomaticRefresh, 500 );
+		this.triggerTreeBuilder = debounce( this.triggerTreeBuilder, 250 );
 	}
 
 	onStoreChange() {
 		const state = this._store.getState();
 
 		const { isAutomaticRefreshEnabled } = state.worker;
+		const { isTreeBuilderEnabled } = state.options;
 
 		if ( isAutomaticRefreshEnabled ) {
 			this.triggerAutomaticRefresh( this._prevState, state );
 			this.triggerInitialize( this._prevState, state );
+		}
+
+		if ( isTreeBuilderEnabled ) {
+			this.triggerTreeBuilder( this._prevState, state );
 		}
 
 		this._prevState = state;
@@ -86,6 +97,24 @@ export default class StoreSubscriber {
 				}
 				return this.analyzePaper( state.paper );
 			} );
+		}
+	}
+
+	triggerTreeBuilder( prevState, state ) {
+		const { paper: { text: prevText }, options: { isTreeBuilderEnabled: prevIsTreeBuilderEnabled } } = prevState;
+		const { paper: { text }, options: { isTreeBuilderEnabled } } = state;
+
+		/*
+		 * Extra check on the `isTreeBuilderEnabled` to build again after enabling the tree builder option.
+		 * This can have timing issues with the debounce and other store change and not work.
+		 */
+		if ( prevIsTreeBuilderEnabled !== isTreeBuilderEnabled || prevText !== text ) {
+			let tree = buildTree( text );
+
+			// Remove any circular dependencies by using the `toString` implementation.
+			tree = JSON.parse( tree.toString() );
+
+			this.dispatch( setResults( { tree } ) );
 		}
 	}
 
