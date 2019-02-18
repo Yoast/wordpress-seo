@@ -40,9 +40,9 @@ describe( "A stop word in url assessment", function() {
 
 	it( "shows a deprecation warning when it is called", () => {
 		const mockPaper = new Paper( "" );
-		const assessment = stopWordsInUrlAssessment.getResult(
+		stopWordsInUrlAssessment.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( [ "about", "before" ] ) ,
+			Factory.buildMockResearcher( [ "about", "before" ] ),
 			i18n
 		);
 		expect( console.warn ).toBeCalled();

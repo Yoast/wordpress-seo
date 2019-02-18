@@ -19,7 +19,6 @@ import InternalLinksAssessment from "../../src/assessments/seo/InternalLinksAsse
 import TitleKeywordAssessment from "../../src/assessments/seo/TitleKeywordAssessment";
 import TitleWidthAssessment from "../../src/assessments/seo/PageTitleWidthAssessment";
 import UrlKeywordAssessment from "../../src/assessments/seo/UrlKeywordAssessment";
-import UrlLengthAssessment from "../../src/assessments/seo/UrlLengthAssessment";
 import urlStopWordsAssessment from "../../src/assessments/seo/urlStopWordsAssessment";
 import KeyphraseDistributionAssessment from "../../src/assessments/seo/KeyphraseDistributionAssessment";
 
@@ -48,7 +47,6 @@ import wordCountInText from "../../src/researches/wordCountInText.js";
 import findKeywordInPageTitle from "../../src/researches/findKeywordInPageTitle.js";
 import pageTitleWidth from "../../src/researches/pageTitleWidth.js";
 import keywordCountInUrl from "../../src/researches/keywordCountInUrl";
-import urlLength from "../../src/researches/urlIsTooLong.js";
 import stopWordsInUrl from "../../src/researches/stopWordsInUrl";
 import { keyphraseDistributionResearcher } from "../../src/researches/keyphraseDistribution";
 const keyphraseDistribution = keyphraseDistributionResearcher;
