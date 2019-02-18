@@ -14,7 +14,7 @@ describe( "TreeAssessor", () => {
 	describe( "constructor", () => {
 		it( "creates a new TreeAssessor without assessments", () => {
 			const researcher = new TreeResearcher();
-			const scoreAggregator = new ScoreAggregator();
+			const scoreAggregator = new TestAggregator();
 			const assessor = new TreeAssessor( {
 				researcher,
 				scoreAggregator,
@@ -29,8 +29,11 @@ describe( "TreeAssessor", () => {
 
 		it( "creates a new TreeAssessor with assessments", () => {
 			const researcher = new TreeResearcher();
-			const scoreAggregator = new ScoreAggregator();
-			const assessments = [ new Assessment(), new Assessment() ];
+			const scoreAggregator = new TestAggregator();
+			const assessments = [
+				new TestAssessment( true, 8, "test assessment 1" ),
+				new TestAssessment( true, 6, "test assessment 2" ),
+			];
 			const assessor = new TreeAssessor( {
 				researcher,
 				scoreAggregator,
@@ -48,7 +51,7 @@ describe( "TreeAssessor", () => {
 	describe( "getApplicableAssessments", () => {
 		it( "checks whether assessments are applicable", ( done ) => {
 			const researcher = new TreeResearcher();
-			const scoreAggregator = new ScoreAggregator();
+			const scoreAggregator = new TestAggregator();
 			const assessments = [
 				new TestAssessment( true, 5, "applicable" ),
 				new TestAssessment( false, 5, "not applicable" ),
@@ -228,7 +231,7 @@ describe( "TreeAssessor", () => {
 	describe( "setAssessments", () => {
 		it( "sets assessments", () => {
 			const researcher = new TreeResearcher();
-			const scoreAggregator = new ScoreAggregator();
+			const scoreAggregator = new TestAggregator();
 
 			const assessments = [
 				new TestAssessment( true, 5, "test assessment" ),
