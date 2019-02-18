@@ -45,7 +45,7 @@ const otherAuxiliaries = [ "can", "cannot", "can't", "could", "couldn't", "could
 	"i've", "you've", "we've", "they've", "i'd", "you'd", "he'd", "she'd", "it'd", "we'd", "they'd", "would", "wouldn't",
 	"would've", "may", "might", "must", "need", "needn't", "needs", "ought", "shall", "shalln't", "shan't", "should",
 	"shouldn't", "will", "won't", "i'll", "you'll", "he'll", "she'll", "it'll", "we'll", "they'll", "there's", "there're",
-	"there'll", "here's", "here're", "there'll", "you're" ];
+	"there'll", "here's", "here're", "there'll" ];
 const copula = [ "appear", "appears", "appeared", "become", "becomes", "became", "come", "comes", "came", "keep", "keeps", "kept",
 	"remain", "remains", "remained", "stay", "stays", "stayed", "turn", "turns", "turned" ];
 
