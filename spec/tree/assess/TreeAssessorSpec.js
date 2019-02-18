@@ -1,4 +1,4 @@
-import { TreeAssessor, ScoreAggregator, Assessment } from "../../../src/tree/assess";
+import { TreeAssessor } from "../../../src/tree/assess";
 import buildTree from "../../../src/tree/builder";
 import { TreeResearcher } from "../../../src/tree/research";
 import Paper from "../../../src/values/Paper";
@@ -31,8 +31,8 @@ describe( "TreeAssessor", () => {
 			const researcher = new TreeResearcher();
 			const scoreAggregator = new TestAggregator();
 			const assessments = [
-				new TestAssessment( true, 8, "test assessment 1" ),
-				new TestAssessment( true, 6, "test assessment 2" ),
+				new TestAssessment( true, 8, "test assessment 1", researcher ),
+				new TestAssessment( true, 6, "test assessment 2", researcher ),
 			];
 			const assessor = new TreeAssessor( {
 				researcher,
@@ -53,8 +53,8 @@ describe( "TreeAssessor", () => {
 			const researcher = new TreeResearcher();
 			const scoreAggregator = new TestAggregator();
 			const assessments = [
-				new TestAssessment( true, 5, "applicable" ),
-				new TestAssessment( false, 5, "not applicable" ),
+				new TestAssessment( true, 5, "applicable", researcher ),
+				new TestAssessment( false, 5, "not applicable", researcher ),
 			];
 			const assessor = new TreeAssessor( {
 				researcher,
@@ -77,14 +77,14 @@ describe( "TreeAssessor", () => {
 		it( "assesses a paper and node", ( done ) => {
 			const researcher = new TreeResearcher();
 			const research = new TestResearch();
-			researcher.addResearch( "word count", research );
+			researcher.addResearch( "test research", research );
 
 			const scoreAggregator = new TestAggregator();
 			const assessments = [
 				// Gives back a 'bad' result when word count < 8.
-				new TestAssessment( true, 8, "word count" ),
+				new TestAssessment( true, 8, "test assessment 1", researcher ),
 				// Gives back a 'bad' result when word count < 5.
-				new TestAssessment( true, 5, "word count" ),
+				new TestAssessment( true, 5, "test assessment 2", researcher ),
 			];
 			const assessor = new TreeAssessor( {
 				researcher,
@@ -125,12 +125,12 @@ describe( "TreeAssessor", () => {
 		it( "registers an assessment", () => {
 			const researcher = new TreeResearcher();
 			const research = new TestResearch();
-			researcher.addResearch( "word count", research );
+			researcher.addResearch( "test research", research );
 
 			const scoreAggregator = new TestAggregator();
 			const assessments = [
 				// Gives back a 'bad' result when word count < 8.
-				new TestAssessment( true, 8, "word count" ),
+				new TestAssessment( true, 8, "test assessment", researcher ),
 			];
 			const assessor = new TreeAssessor( {
 				researcher,
@@ -141,8 +141,8 @@ describe( "TreeAssessor", () => {
 
 			expect( assessor._assessments ).toHaveLength( 1 );
 
-			const newAssessment = new TestAssessment( true, 4, "word count" );
-			assessor.registerAssessment( "lenient word count", newAssessment );
+			const newAssessment = new TestAssessment( true, 4, "test assessment 2", researcher );
+			assessor.registerAssessment( "test assessment 2", newAssessment );
 
 			expect( assessor._assessments ).toHaveLength( 2 );
 		} );
@@ -152,14 +152,14 @@ describe( "TreeAssessor", () => {
 		it( "removes an assessment", () => {
 			const researcher = new TreeResearcher();
 			const research = new TestResearch();
-			researcher.addResearch( "word count", research );
+			researcher.addResearch( "test research", research );
 
-			const lenientWordCount = new TestAssessment( true, 4, "lenient word count" );
+			const assessmentToRemove = new TestAssessment( true, 4, "assessment to remove", researcher );
 
 			const scoreAggregator = new TestAggregator();
 			const assessments = [
-				new TestAssessment( true, 8, "word count" ),
-				lenientWordCount,
+				new TestAssessment( true, 8, "assessment to keep", researcher ),
+				assessmentToRemove,
 			];
 			const assessor = new TreeAssessor( {
 				researcher,
@@ -170,21 +170,21 @@ describe( "TreeAssessor", () => {
 
 			expect( assessor._assessments ).toHaveLength( 2 );
 
-			const removedAssessment = assessor.removeAssessment( "lenient word count" );
+			const removedAssessment = assessor.removeAssessment( "assessment to remove" );
 
 			expect( assessor._assessments ).toHaveLength( 1 );
-			expect( removedAssessment ).toEqual( lenientWordCount );
+			expect( removedAssessment ).toEqual( assessmentToRemove );
 		} );
 
 		it( "returns null if no assessment is registered under the given name", () => {
 			const researcher = new TreeResearcher();
 			const research = new TestResearch();
-			researcher.addResearch( "word count", research );
+			researcher.addResearch( "test research", research );
 
 			const scoreAggregator = new TestAggregator();
 			const assessments = [
-				new TestAssessment( true, 8, "word count" ),
-				new TestAssessment( true, 4, "lenient word count" ),
+				new TestAssessment( true, 8, "test assessment 1", researcher ),
+				new TestAssessment( true, 4, "test assessment 2", researcher ),
 			];
 			const assessor = new TreeAssessor( {
 				researcher,
@@ -206,14 +206,14 @@ describe( "TreeAssessor", () => {
 		it( "retrieves an assessment", () => {
 			const researcher = new TreeResearcher();
 			const research = new TestResearch();
-			researcher.addResearch( "word count", research );
+			researcher.addResearch( "test research", research );
 
-			const lenientWordCount = new TestAssessment( true, 4, "lenient word count" );
+			const assessmentToGet = new TestAssessment( true, 4, "assessment to get", researcher );
 
 			const scoreAggregator = new TestAggregator();
 			const assessments = [
-				new TestAssessment( true, 8, "word count" ),
-				lenientWordCount,
+				new TestAssessment( true, 8, "assessment not to get", researcher ),
+				assessmentToGet,
 			];
 			const assessor = new TreeAssessor( {
 				researcher,
@@ -222,9 +222,9 @@ describe( "TreeAssessor", () => {
 				assessments,
 			} );
 
-			const assessment = assessor.getAssessment( "lenient word count" );
+			const assessment = assessor.getAssessment( "assessment to get" );
 
-			expect( assessment ).toEqual( lenientWordCount );
+			expect( assessment ).toEqual( assessmentToGet );
 		} );
 	} );
 
@@ -234,7 +234,7 @@ describe( "TreeAssessor", () => {
 			const scoreAggregator = new TestAggregator();
 
 			const assessments = [
-				new TestAssessment( true, 5, "test assessment" ),
+				new TestAssessment( true, 5, "test assessment", researcher ),
 			];
 
 			const assessor = new TreeAssessor( {
@@ -247,7 +247,7 @@ describe( "TreeAssessor", () => {
 			expect( assessor.getAvailableAssessments() ).toEqual( assessments );
 
 			const newAssessments = [
-				new TestAssessment( false, 3, "new test assessment" ),
+				new TestAssessment( false, 3, "new test assessment", researcher ),
 			];
 
 			assessor.setAssessments( newAssessments );

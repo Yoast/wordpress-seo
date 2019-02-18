@@ -8,12 +8,13 @@ class TestAssessment extends Assessment {
 	/**
 	 * Makes a new test assessment.
 	 *
-	 * @param {boolean} applicable Whether to return true if checked whether this assessment is applicable.
-	 * @param {number} boundary    The boundary to use when deciding to return a bad or good assessment result.
-	 * @param {string} [name]      An optional name.
+	 * @param {boolean}                             applicable Whether to return true if checked whether this assessment is applicable.
+	 * @param {number}                              boundary   The boundary to use when deciding to return a bad or good assessment result.
+	 * @param {string}                              name       The name of this assessment.
+	 * @param {module:tree/research.TreeResearcher} researcher The researcher to use.
 	 */
-	constructor( applicable, boundary, name ) {
-		super( name );
+	constructor( applicable, boundary, name, researcher ) {
+		super( name, researcher );
 		this.applicable = applicable;
 		this.boundary = boundary;
 	}
@@ -21,8 +22,8 @@ class TestAssessment extends Assessment {
 	/**
 	 * Checks whether this assessment is applicable to the given paper and tree combination.
 	 *
-	 * @param {Paper} paper                     The paper to check.
-	 * @param {module:tree/structure.Node} node The tree to check.
+	 * @param {Paper}                      paper The paper to check.
+	 * @param {module:tree/structure.Node} node  The root node of the tree to check.
 	 *
 	 * @returns {Promise<boolean>} Whether this assessment is applicable to the given paper and tree combination (wrapped in a promise).
 	 */
@@ -42,7 +43,7 @@ class TestAssessment extends Assessment {
 	 * @abstract
 	 */
 	async apply( paper, node ) {
-		const nrOfTokens = await this.researcher.doResearch( "word count", node );
+		const nrOfTokens = await this.researcher.doResearch( "test research", node );
 		if ( nrOfTokens < this.boundary ) {
 			return Promise.resolve(
 				this.generateResult( "Not enough words, try again.", 3 )
