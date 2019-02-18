@@ -18,7 +18,8 @@ class UrlLengthAssessment extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		console.warn( "Deprecation Warning: The UrlLengthAssessment has been deprecated." );
+		console.warn( "Deprecation Warning: The UrlLengthAssessment has been deprecated. " +
+			"We have removed it from the assessments since we do not consider it an important SEO factor anymore." );
 
 		const defaultConfig = {
 			scores: {
