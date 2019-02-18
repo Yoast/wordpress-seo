@@ -6,10 +6,6 @@ const i18n = Factory.buildJed();
 const matchKeywordAssessment = new SubheadingsKeywordAssessment();
 
 describe( "An assessment for matching keywords in subheadings", () => {
-	beforeEach( () => {
-		process.env.YOAST_RECALIBRATION = "enabled";
-	} );
-
 	it( "returns a bad score and appropriate feedback when none of the subheadings contain the keyphrase: no matches.", function() {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(

@@ -3,7 +3,7 @@ import morphologyData from "../../premium-configuration/data/morphologyData.json
 import altTagCountFunction from "../../src/researches/imageAltTags";
 import Paper from "../../src/values/Paper";
 
-describe( "Counts images in an text in Recalibration", function() {
+describe( "Counts images in a text", function() {
 	it( "returns an empty object with all alt-counts as zero", function() {
 		const paper = new Paper( "string", { keyword: "keyword", synonyms: "synonym, another synonym" } );
 		const researcher = new Researcher( paper );

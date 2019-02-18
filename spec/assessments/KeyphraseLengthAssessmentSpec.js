@@ -4,7 +4,6 @@ import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
 
 describe( "the keyphrase length assessment", function() {
-	// These tests are the same as in the regular analysis.
 	it( "should assess a paper without a keyword as extremely bad", function() {
 		const paper = new Paper();
 		const researcher = factory.buildMockResearcher( 0 );
@@ -62,7 +61,6 @@ describe( "the keyphrase length assessment", function() {
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 
-	// These are the recalibration-specific tests.
 	it( "should assess a paper with an 6-word keyphrase as good for a language that doesn't support function words", function() {
 		const paper = new Paper( "", { keyword: "1 2 3 4 5 6", locale: "xx_XX" } );
 		const researcher = factory.buildMockResearcher( 6 );

@@ -17,13 +17,14 @@ class KeywordDensityAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
-	 * In the regular analysis, if word forms are not available
 	 *
+	 * If word forms are not available:
 	 * @param {number} [config.parameters.noWordForms.overMaximum] The percentage of keyphrase instances in the text that
 	 * is way over the maximum.
 	 * @param {number} [config.parameters.noWordForms.maximum] The maximum percentage of keyphrase instances in the text.
 	 * @param {number} [config.parameters.noWordForms.minimum] The minimum percentage of keyphrase instances in the text.
 	 *
+	 * If word forms are available:
 	 * @param {number} [config.parameters.multipleWordForms.overMaximum] The percentage of keyphrase instances in the text that
 	 * is way over the maximum.
 	 * @param {number} [config.parameters.multipleWordForms.maximum] The maximum percentage of keyphrase instances in the text.
@@ -69,7 +70,7 @@ class KeywordDensityAssessment extends Assessment {
 	}
 
 	/**
-	 * Determines correct boundaries depending on the version and depending on the availability
+	 * Determines correct boundaries depending on the availability
 	 * of morphological forms.
 	 *
 	 * @param {string} text The paper text.

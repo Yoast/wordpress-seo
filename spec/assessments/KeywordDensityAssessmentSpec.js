@@ -113,9 +113,6 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 } );
 
 describe( "Tests for the keywordDensity assessment for languages with morphology", function() {
-	beforeEach( () => {
-		process.env.YOAST_RECALIBRATION = "enabled";
-	} );
 	it( "gives a GOOD result when keyword density is between 3 and 3.5%", function() {
 		const paper = new Paper( nonkeyword.repeat( 968 ) + keyword.repeat( 32 ), { keyword: "keyword", locale: "en_EN" } );
 		const researcher = new Researcher( paper );

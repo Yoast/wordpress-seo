@@ -2,7 +2,7 @@ import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 import { getTextLengthAssessment } from "../../src/taxonomyAssessor";
 
-describe( "A taxonomy page text length assessment, with the recalibration logic applied.", function() {
+describe( "A taxonomy page text length assessment.", function() {
 	let assessment;
 	let i18n;
 

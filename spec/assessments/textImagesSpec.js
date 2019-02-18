@@ -5,7 +5,7 @@ const i18n = Factory.buildJed();
 
 const imageCountAssessment = new ImageCountAssessment();
 
-describe( "An image count assessment for Recalibration analysis", function() {
+describe( "An image count assessment", function() {
 	it( "assesses no images", function() {
 		const mockPaper = new Paper( "sample" );
 

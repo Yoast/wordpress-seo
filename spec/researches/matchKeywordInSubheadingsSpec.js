@@ -3,10 +3,6 @@ import Paper from "../../src/values/Paper";
 import Factory from "../specHelpers/factory";
 
 describe( "Matching keyphrase in subheadings", () => {
-	beforeEach( () => {
-		process.env.YOAST_RECALIBRATION = "enabled";
-	} );
-
 	it( "matches only h2 and h3 subheadings", () => {
 		const paper = new Paper(
 			"<h2>Start of post</h2><p>First alinea, not much text for some reason.</p>" +
