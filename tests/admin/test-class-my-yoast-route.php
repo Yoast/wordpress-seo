@@ -180,7 +180,6 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	public function test_connect_with_a_saved_clientid() {
 		$client = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Client' )
-			->enableOriginalConstructor()
 			->setMethods( array( 'get_configuration', 'save_configuration' ) )
 			->getMock();
 
