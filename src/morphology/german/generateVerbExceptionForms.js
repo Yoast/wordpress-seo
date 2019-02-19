@@ -1,173 +1,61 @@
 import { applySuffixesToStem, applySuffixesToStems } from "../morphoHelpers/suffixHelpers";
-import { flattenDeep, uniq as unique } from "lodash-es";
+import { flattenDeep, forOwn, uniq as unique } from "lodash-es";
 
-const addSuffixesStrongVerbsClass1 = function( dataStrongVerbs, stems ) {
-	const stemPresent = stems[ 0 ];
-	const stemPast = stems[ 1 ];
-	const stemPastParticiple = stems[ 2 ];
-	const suffixesPresent = dataStrongVerbs.suffixes.stemPresentAll.slice();
-	const suffixesPast = dataStrongVerbs.suffixes.class1.stemPast.slice();
-	const suffixParticiple = new Array( dataStrongVerbs.suffixes.participle.slice() );
+const addSuffixes = function( dataStrongVerbs, verbClass, stems ) {
+	// All classes have the same present and participle suffixes.
+	const suffixes = {
+		present: dataStrongVerbs.suffixes.presentAllClasses.slice(),
+		pastParticiple: new Array( dataStrongVerbs.suffixes.pastParticiple.slice() ),
+	};
 
-	const formsPresent = Array.isArray( stemPresent )
-		? applySuffixesToStems( stemPresent, suffixesPresent )
-		: applySuffixesToStem( stemPresent, suffixesPresent );
-	const formsPast = Array.isArray( stemPast )
-		? applySuffixesToStems( stemPast, suffixesPast )
-		: applySuffixesToStem( stemPast, suffixesPast );
-	const formsParticiple = Array.isArray( stemPastParticiple )
-		? applySuffixesToStems( stemPastParticiple, suffixParticiple )
-		: applySuffixesToStem( stemPastParticiple, suffixParticiple );
+	const suffixesPerClass = dataStrongVerbs.suffixes.classDependent;
 
-	// The present and past stems can also be forms on their own.
-	return unique( flattenDeep( [ stemPresent, stemPast, formsPresent, formsPast, formsParticiple ] ) );
-};
+	// Add class-specific suffixes.
+	forOwn( suffixesPerClass, function( stemData, stemClass ) {
+		if ( stemClass === verbClass ) {
+			forOwn( stemData, function( additionalSuffixes, suffixClass ) {
+				suffixes[ suffixClass ] = additionalSuffixes;
+			} );
+		}
+	} );
 
-const addSuffixesStrongVerbsClass2 = function( dataStrongVerbs, stems ) {
-	const stemPresent = stems[ 0 ];
-	const stemPast = stems[ 1 ];
-	const stemPastSubjunctive = stems[ 2 ];
-	const stemPastParticiple = stems[ 3 ];
-	const suffixesPresent = dataStrongVerbs.suffixes.stemPresentAll.slice();
-	const suffixesPast = dataStrongVerbs.suffixes.class2.stemPast.slice();
-	const suffixesPastSubjunctive = dataStrongVerbs.suffixes.class2.stemPastSubjunctive.slice();
-	const suffixParticiple = new Array( dataStrongVerbs.suffixes.participle.slice() );
+	const forms = [ stems.present, stems.past ];
 
-	const formsPresent = Array.isArray( stemPresent )
-		? applySuffixesToStems( stemPresent, suffixesPresent )
-		: applySuffixesToStem( stemPresent, suffixesPresent );
-	const formsPast = Array.isArray( stemPast )
-		? applySuffixesToStems( stemPast, suffixesPast )
-		: applySuffixesToStem( stemPast, suffixesPast );
-	const formsPastSubjunctive = Array.isArray( stemPastParticiple )
-		? applySuffixesToStems( stemPastSubjunctive, suffixesPastSubjunctive )
-		: applySuffixesToStem( stemPastSubjunctive, suffixesPastSubjunctive );
-	const formsParticiple = Array.isArray( stemPastParticiple )
-		? applySuffixesToStems( stemPastParticiple, suffixParticiple )
-		: applySuffixesToStem( stemPastParticiple, suffixParticiple );
+	forOwn( stems, function( stem, stemClass ) {
+		forms.push(
+			Array.isArray( stem )
+				? applySuffixesToStems( stem, suffixes[ stemClass ] )
+				: applySuffixesToStem( stem, suffixes[ stemClass ] )
+		);
+	} );
 
-	// The present and past stems can also be forms on their own.
-	return unique( flattenDeep( [ stemPresent, stemPast, formsPresent, formsPast, formsPastSubjunctive, formsParticiple ] ) );
-};
-
-const addSuffixesStrongVerbsClass3 = function( dataStrongVerbs, stems ) {
-	const stemPresent = stems[ 0 ];
-	const stem2nd3rdSg = stems[ 1 ];
-	const stemPast = stems[ 2 ];
-	const stemPastSubjunctive = stems[ 3 ];
-	const stemPastParticiple = stems[ 4 ];
-	const suffixesPresent = dataStrongVerbs.suffixes.stemPresentAll.slice();
-	const suffixes2nd3rdSg = dataStrongVerbs.suffixes.class3.stem2nd3rdSg.slice();
-	const suffixesPast = dataStrongVerbs.suffixes.class3.stemPast.slice();
-	const suffixesPastSubjunctive = dataStrongVerbs.suffixes.class3.stemPastSubjunctive.slice();
-	const suffixParticiple = new Array( dataStrongVerbs.suffixes.participle.slice() );
-
-	const formsPresent = Array.isArray( stemPresent )
-		? applySuffixesToStems( stemPresent, suffixesPresent )
-		: applySuffixesToStem( stemPresent, suffixesPresent );
-	const forms2nd3rdSg = Array.isArray( stem2nd3rdSg )
-		? applySuffixesToStems( stem2nd3rdSg, suffixes2nd3rdSg )
-		: applySuffixesToStem( stem2nd3rdSg, suffixes2nd3rdSg );
-	const formsPast = Array.isArray( stemPast )
-		? applySuffixesToStems( stemPast, suffixesPast )
-		: applySuffixesToStem( stemPast, suffixesPast );
-	const formsPastSubjunctive = Array.isArray( stemPastSubjunctive )
-		? applySuffixesToStems( stemPastSubjunctive, suffixesPastSubjunctive )
-		: applySuffixesToStem( stemPastSubjunctive, suffixesPastSubjunctive );
-	const formsParticiple = Array.isArray( stemPastParticiple )
-		? applySuffixesToStems( stemPastParticiple, suffixParticiple )
-		: applySuffixesToStem( stemPastParticiple, suffixParticiple );
-
-	// The present and past stems can also be forms on their own.
-	return unique( flattenDeep( [ stemPresent, stemPast, formsPresent, forms2nd3rdSg, formsPast, formsPastSubjunctive, formsParticiple ] ) );
-};
-
-const addSuffixesStrongVerbsClass4 = function( dataStrongVerbs, stems ) {
-	const stemPresent = stems[ 0 ];
-	const stem2nd3rdSg = stems[ 1 ];
-	const stemPast = stems[ 2 ];
-	const stemPastSubjunctive = stems[ 3 ];
-	const stemPastParticiple = stems[ 4 ];
-	const suffixesPresent = dataStrongVerbs.suffixes.stemPresentAll.slice();
-	const suffixes2nd3rdSg = dataStrongVerbs.suffixes.class4.stem2nd3rdSg.slice();
-	const suffixesPast = dataStrongVerbs.suffixes.class4.stemPast.slice();
-	const suffixesPastSubjunctive = dataStrongVerbs.suffixes.class4.stemPastSubjunctive.slice();
-	const suffixParticiple = new Array( dataStrongVerbs.suffixes.participle.slice() );
-
-	const formsPresent = Array.isArray( stemPresent )
-		? applySuffixesToStems( stemPresent, suffixesPresent )
-		: applySuffixesToStem( stemPresent, suffixesPresent );
-	const forms2nd3rdSg = Array.isArray( stem2nd3rdSg )
-		? applySuffixesToStems( stem2nd3rdSg, suffixes2nd3rdSg )
-		: applySuffixesToStem( stem2nd3rdSg, suffixes2nd3rdSg );
-	const formsPast = Array.isArray( stemPast )
-		? applySuffixesToStems( stemPast, suffixesPast )
-		: applySuffixesToStem( stemPast, suffixesPast );
-	const formsPastSubjunctive = Array.isArray( stemPastSubjunctive )
-		? applySuffixesToStems( stemPastSubjunctive, suffixesPastSubjunctive )
-		: applySuffixesToStem( stemPastSubjunctive, suffixesPastSubjunctive );
-	const formsParticiple = Array.isArray( stemPastParticiple )
-		? applySuffixesToStems( stemPastParticiple, suffixParticiple )
-		: applySuffixesToStem( stemPastParticiple, suffixParticiple );
-
-	// The present and past stems can also be forms on their own.
-	return unique( flattenDeep( [ stemPresent, stemPast, formsPresent, forms2nd3rdSg, formsPast, formsPastSubjunctive, formsParticiple ] ) );
-};
-
-const addSuffixesStrongVerbsClass5 = function( dataStrongVerbs, stems ) {
-	const stemPresent = stems[ 0 ];
-	const stem2nd3rdSg = stems[ 1 ];
-	const stemPast = stems[ 2 ];
-	const stemPastParticiple = stems[ 3 ];
-	const suffixesPresent = dataStrongVerbs.suffixes.stemPresentAll.slice();
-	const suffixes2nd3rdSg = dataStrongVerbs.suffixes.class5.stem2nd3rdSg.slice();
-	const suffixesPast = dataStrongVerbs.suffixes.class5.stemPast.slice();
-	const suffixParticiple = new Array( dataStrongVerbs.suffixes.participle.slice() );
-
-	const formsPresent = Array.isArray( stemPresent )
-		? applySuffixesToStems( stemPresent, suffixesPresent )
-		: applySuffixesToStem( stemPresent, suffixesPresent );
-	const forms2nd3rdSg = Array.isArray( stem2nd3rdSg )
-		? applySuffixesToStems( stem2nd3rdSg, suffixes2nd3rdSg )
-		: applySuffixesToStem( stem2nd3rdSg, suffixes2nd3rdSg );
-	const formsPast = Array.isArray( stemPast )
-		? applySuffixesToStems( stemPast, suffixesPast )
-		: applySuffixesToStem( stemPast, suffixesPast );
-	const formsParticiple = Array.isArray( stemPastParticiple )
-		? applySuffixesToStems( stemPastParticiple, suffixParticiple )
-		: applySuffixesToStem( stemPastParticiple, suffixParticiple );
-
-	// The present and past stems can also be forms on their own.
-	return unique( flattenDeep( [ stemPresent, stemPast, formsPresent, forms2nd3rdSg, formsPast, formsParticiple ] ) );
-};
-
-const addSuffixesPerClass = {
-	1: addSuffixesStrongVerbsClass1,
-	2: addSuffixesStrongVerbsClass2,
-	3: addSuffixesStrongVerbsClass3,
-	4: addSuffixesStrongVerbsClass4,
-	5: addSuffixesStrongVerbsClass5,
+	return unique( flattenDeep( forms ) );
 };
 
 const addPrecedingLexicalMaterial = function( stems, materialToAdd ) {
-	const forms = [];
-
-	for ( let i = 0; i < stems.length; i++ ) {
-		if ( stems[ i ] instanceof Array ) {
-			addPrecedingLexicalMaterial( stems[ i ] );
+	forOwn( stems, function( stem, stemClass ) {
+		if ( Array.isArray( stem ) ) {
+			for ( let i = 0; i < stem.length; i++ ) {
+				stem[ i ] = materialToAdd.concat( stem[ i ] );
+			}
 		} else {
-			forms.push( materialToAdd.concat( stems[ i ] ) );
+			stems[ stemClass ] = materialToAdd.concat( stem );
 		}
-	}
+	} );
 
-	return forms;
+	return stems;
 };
 
 
-const generateFormsPerClass = function( dataStrongVerbs, verbClass, currentStemDataSet, stemmedWordToCheck ) {
-	let stems = currentStemDataSet[ 1 ].slice();
+const generateFormsPerClass = function( dataStrongVerbs, currentStemDataSet, stemmedWordToCheck ) {
+	const verbClass = currentStemDataSet.class;
+	let stems = currentStemDataSet.stems;
+	let stemsFlattened = [];
 
-	let stemsFlattened = flattenDeep( stems );
+	forOwn( stems, ( stem ) => stemsFlattened.push( stem ) );
+	// Some stem types have two forms, which means that a stem type can also contain an array. These get flattened here.
+	stemsFlattened = flattenDeep( stemsFlattened );
+
 	/*
 	 * Sort in order to make sure that if the stem to check is e.g. "gehalt", "halt" isn't matched before "gehalt".
 	 * (Both are part of the same paradigm). Otherwise, if "halt" is matched, the "ge" will be interpreted as preceding
@@ -179,8 +67,6 @@ const generateFormsPerClass = function( dataStrongVerbs, verbClass, currentStemD
 		const currentStem = stemsFlattened[ i ];
 
 		if ( stemmedWordToCheck.endsWith( currentStem ) ) {
-			const addSuffixes = addSuffixesPerClass[ verbClass ];
-
 			// "fest".length = "festhalt".length - "halt".length
 			const precedingLength = stemmedWordToCheck.length - currentStem.length;
 			const precedingLexicalMaterial = stemmedWordToCheck.slice( 0, precedingLength );
@@ -194,22 +80,20 @@ const generateFormsPerClass = function( dataStrongVerbs, verbClass, currentStemD
 				stems = addPrecedingLexicalMaterial( stems, precedingLexicalMaterial );
 			}
 
-			return addSuffixes( dataStrongVerbs, stems );
+			return addSuffixes( dataStrongVerbs, verbClass, stems );
 		}
 	}
 
 	return [];
 };
 
-
 const generateFormsStrongVerbs = function( dataStrongVerbs, stemmedWordToCheck ) {
 	const stems = dataStrongVerbs.stems;
 
 	for ( let i = 0; i < stems.length; i++ ) {
 		const currentStemDataSet = stems[ i ];
-		const verbClass = currentStemDataSet[ 0 ];
 
-		const forms = generateFormsPerClass( dataStrongVerbs, verbClass, currentStemDataSet, stemmedWordToCheck );
+		const forms = generateFormsPerClass( dataStrongVerbs, currentStemDataSet, stemmedWordToCheck );
 
 		if ( forms.length > 0 ) {
 			return forms;

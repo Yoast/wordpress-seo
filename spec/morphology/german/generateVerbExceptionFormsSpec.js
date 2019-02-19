@@ -347,4 +347,39 @@ describe( "Test for generating adjective exceptions in German", () => {
 			"festgehalten",
 		] );
 	} );
+
+	it( "makes sure that compound verbs with preceding lexical material are recognized and return the full forms; input: stems that have multiple forms per stemclass", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "umstoß" ) ).toEqual( [
+			"umstoß",
+			"umstoss",
+			"umstieß",
+			"umstiess",
+			"umstoße",
+			"umstoßen",
+			"umstoßend",
+			"umstoßest",
+			"umstoßet",
+			"umstoßst",
+			"umstoßt",
+			"umstosse",
+			"umstossen",
+			"umstossend",
+			"umstossest",
+			"umstosset",
+			"umstossst",
+			"umstosst",
+			"umstößst",
+			"umstößt",
+			"umstössst",
+			"umstösst",
+			"umstießen",
+			"umstießst",
+			"umstießt",
+			"umstiessen",
+			"umstiessst",
+			"umstiesst",
+			"umgestoßen",
+			"umgestossen",
+		] );
+	} );
 } );
