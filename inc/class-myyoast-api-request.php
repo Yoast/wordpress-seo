@@ -280,7 +280,7 @@ class WPSEO_MyYoast_Api_Request {
 	 *
 	 * @return int The user id.
 	 */
-	protected function get_current_user_idgi() {
+	protected function get_current_user_id() {
 		return get_current_user_id();
 	}
 
