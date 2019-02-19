@@ -111,6 +111,7 @@ Release Date: March 12th, 2019
 
 Enhancements:
 
+* The recalibrated analysis is out of its beta phase and is now the default for the SEO analysis. Thanks for testing and giving us your valuable feedback! You are awesome! 👍
 * Adds `$taxonomy` to the arguments passed to the `wpseo_terms` filter. Props to [polevaultweb](https://github.com/polevaultweb).
 * Changes the screen reader text of the SEO score indicator in the menu bar and the traffic light in the snippet preview from `Bad SEO score.` to `Needs improvement.`
 * Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
