@@ -59,21 +59,27 @@ class TreeAssessor {
 	 * @param {Paper}                      paper The paper to assess. This contains metadata about the text.
 	 * @param {module:tree/structure.Node} node  The text to check.
 	 *
-	 * @returns {Promise<number>} The overall assessment result.
+	 * @returns {Promise<{results: AssessmentResult[], score: number}>} The assessment results and the overall score.
 	 */
 	async assess( paper, node ) {
 		const applicableAssessments = await this.getApplicableAssessments( paper, node );
 		/*
 		  Apply every applicable assessment on the document.
 		  Wait before they are done before aggregating the results
-		  and returning the final score.
+		  and returning the results and final score.
 		 */
 		const results = await Promise.all(
 			applicableAssessments.map( assessment => this.applyAssessment( assessment, paper, node ) )
 		);
 		// Filter out errored assessments.
 		const validResults = results.filter( result => result.getScore() !== -1 );
-		return this.scoreAggregator.aggregate( validResults );
+		// Compute overall score.
+		const overallScore = this.scoreAggregator.aggregate( validResults );
+
+		return {
+			results: results,
+			score: overallScore,
+		};
 	}
 
 	/**

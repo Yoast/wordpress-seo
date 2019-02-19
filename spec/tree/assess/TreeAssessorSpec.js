@@ -115,7 +115,8 @@ describe( "TreeAssessor", () => {
 				  Second gives back a 'good' score (9).
 				  Aggregator sums scores so total score should be a 12.
 				 */
-				expect( result ).toEqual( 12 );
+				expect( result.score ).toEqual( 12 );
+				expect( result.results ).toHaveLength( 2 );
 				done();
 			} );
 		} );
@@ -157,9 +158,14 @@ describe( "TreeAssessor", () => {
 			assessor.assess( paper, node ).then( result => {
 				/*
 				  One 'bad' score (3).
-				  One 'error' score (-1) so 2 in total.
+				  One errored assessment that is not counted.
 				 */
-				expect( result ).toEqual( 2 );
+				expect( result.score ).toEqual( 3 );
+				// We still want the errored assessment to be in the results.
+				expect( result.results ).toHaveLength( 2 );
+				const erroredResults = result.results.filter( res => res.getScore() === -1 );
+				// One errored result.
+				expect( erroredResults ).toHaveLength( 1 );
 				done();
 			} );
 		} );
