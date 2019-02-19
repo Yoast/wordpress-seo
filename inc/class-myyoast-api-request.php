@@ -46,6 +46,13 @@ class WPSEO_MyYoast_Api_Request {
 	protected $error_message = '';
 
 	/**
+	 * The My Yoast client object.
+	 *
+	 * @var WPSEO_MyYoast_Client
+	 */
+	protected $client;
+
+	/**
 	 * Constructor
 	 *
 	 * @codeCoverageIgnore
@@ -264,13 +271,11 @@ class WPSEO_MyYoast_Api_Request {
 	 * @return WPSEO_MyYoast_Client Instance of the client.
 	 */
 	protected function get_client() {
-		static $client;
-
-		if ( $client === null ) {
-			$client = new WPSEO_MyYoast_Client();
+		if ( $this->client === null ) {
+			$this->client = new WPSEO_MyYoast_Client();
 		}
 
-		return $client;
+		return $this->client;
 	}
 
 	/**
