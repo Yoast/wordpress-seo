@@ -11,6 +11,13 @@
 class WPSEO_Addon_Manager {
 
 	/**
+	 * Holds the name of the transient.
+	 *
+	 * @var string
+	 */
+	const SITE_INFORMATION_TRANSIENT = 'wpseo_site_information';
+
+	/**
 	 * The expected addon data.
 	 *
 	 * @var array
@@ -234,7 +241,7 @@ class WPSEO_Addon_Manager {
 	 * @return stdClass|false The transient value.
 	 */
 	protected function get_site_information_transient() {
-		return get_transient( 'wpseo_site_information' );
+		return get_transient( self::SITE_INFORMATION_TRANSIENT );
 	}
 
 	/**
@@ -247,7 +254,7 @@ class WPSEO_Addon_Manager {
 	 * @return void
 	 */
 	protected function set_site_information_transient( $site_information ) {
-		set_transient( 'wpseo_site_information', $site_information, DAY_IN_SECONDS );
+		set_transient( self::SITE_INFORMATION_TRANSIENT, $site_information, DAY_IN_SECONDS );
 	}
 
 	/**
