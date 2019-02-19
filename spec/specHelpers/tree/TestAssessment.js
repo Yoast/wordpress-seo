@@ -43,7 +43,7 @@ class TestAssessment extends Assessment {
 	 * @abstract
 	 */
 	async apply( paper, node ) {
-		const nrOfTokens = await this.researcher.doResearch( "test research", node );
+		const nrOfTokens = await this._researcher.doResearch( "test research", node );
 		if ( nrOfTokens < this.boundary ) {
 			return Promise.resolve(
 				this.generateResult( "Not enough words, try again.", 3 )
