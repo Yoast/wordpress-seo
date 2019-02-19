@@ -1,3 +1,5 @@
+import AssessmentResult from "../../values/AssessmentResult";
+
 /**
  * Analyzes a paper by doing a list of assessments on a tree representation of a text and its metadata.
  * Aggregates the scores on each individual assessment into an overall score.
@@ -6,8 +8,6 @@
  *
  * @memberOf module:tree/assess
  */
-import AssessmentResult from "../../values/AssessmentResult";
-
 class TreeAssessor {
 	/**
 	 * Creates a new assessor.
