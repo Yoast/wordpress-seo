@@ -56,7 +56,7 @@ class WPSEO_Endpoint_MyYoast_Connect implements WPSEO_Endpoint {
 			);
 		}
 
-		$client_secret = $request->get_param('clientSecret');
+		$client_secret = $request->get_param( 'clientSecret' );
 		if ( empty( $client_secret ) ) {
 			return new WP_REST_Response(
 				'Bad request: ClientSecret missing.', 403
@@ -82,14 +82,14 @@ class WPSEO_Endpoint_MyYoast_Connect implements WPSEO_Endpoint {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param string $clientSecret The secret to save.
+	 * @param string $client_secret The secret to save.
 	 *
 	 * @return void
 	 */
-	protected function save_secret( $clientSecret ) {
+	protected function save_secret( $client_secret ) {
 		$this->get_client()->save_configuration(
 			array(
-				'secret' => $clientSecret,
+				'secret' => $client_secret,
 			)
 		);
 	}
