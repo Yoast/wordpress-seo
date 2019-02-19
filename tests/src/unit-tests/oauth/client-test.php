@@ -16,7 +16,7 @@ use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
  *
  * @group oauth
  */
-class Oauth_Test extends \PHPUnit_Framework_TestCase {
+class Oauth_Client_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @var Client
@@ -31,7 +31,7 @@ class Oauth_Test extends \PHPUnit_Framework_TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->class_instance =  new Client();
+		$this->class_instance = new Client();
 	}
 
 	/**

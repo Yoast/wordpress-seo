@@ -46,6 +46,13 @@ class WPSEO_MyYoast_Api_Request {
 	protected $error_message = '';
 
 	/**
+	 * The My Yoast client object.
+	 *
+	 * @var WPSEO_MyYoast_Client
+	 */
+	protected $client;
+
+	/**
 	 * Constructor
 	 *
 	 * @codeCoverageIgnore
@@ -93,11 +100,7 @@ class WPSEO_MyYoast_Api_Request {
 			catch ( WPSEO_MyYoast_Authentication_Exception $authentication_exception ) {
 				$this->error_message = $authentication_exception->getMessage();
 
-				// Remove the access token entirely.
-				$this->get_client()
-				     ->remove_access_token(
-				     	$this->get_current_user_id()
-					);
+				$this->remove_access_token( $this->get_current_user_id() );
 
 				return false;
 			}
@@ -265,16 +268,14 @@ class WPSEO_MyYoast_Api_Request {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return WPSEO_MyYoast_Client Instance of the client
+	 * @return WPSEO_MyYoast_Client Instance of the client.
 	 */
 	protected function get_client() {
-		static $client;
-
-		if ( ! $client ) {
-			$client = new WPSEO_MyYoast_Client();
+		if ( $this->client === null ) {
+			$this->client = new WPSEO_MyYoast_Client();
 		}
 
-		return $client;
+		return $this->client;
 	}
 
 	/**
@@ -286,5 +287,23 @@ class WPSEO_MyYoast_Api_Request {
 	 */
 	protected function get_current_user_id() {
 		return get_current_user_id();
+	}
+
+	/**
+	 * Removes the access token for given user id.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param int $user_id The user id.
+	 *
+	 * @return void
+	 */
+	protected function remove_access_token( $user_id ) {
+		if ( ! WPSEO_Utils::has_access_token_support() ) {
+			return;
+		}
+
+		// Remove the access token entirely.
+		$this->get_client()->remove_access_token( $user_id );
 	}
 }

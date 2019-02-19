@@ -7,7 +7,7 @@
 
 /**
  * Unit test class.
- * @group test
+ * @group MyYoast
  */
 class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 

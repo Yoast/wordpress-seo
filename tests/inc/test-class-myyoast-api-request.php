@@ -113,7 +113,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
-			->setMethods( array( 'do_request', 'decode_response', 'get_access_token' ) )
+			->setMethods( array( 'do_request', 'decode_response', 'get_access_token', 'remove_access_token' ) )
 			->setConstructorArgs( array( 'endpoint' ) )
 			->getMock();
 
