@@ -71,7 +71,9 @@ class TreeAssessor {
 		const results = await Promise.all(
 			applicableAssessments.map( assessment => this.applyAssessment( assessment, paper, node ) )
 		);
-		return this.scoreAggregator.aggregate( results );
+		// Filter out errored assessments.
+		const validResults = results.filter( result => result.getScore() !== -1 );
+		return this.scoreAggregator.aggregate( validResults );
 	}
 
 	/**
