@@ -16,7 +16,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	const PAGE_IDENTIFIER = 'wpseo_myyoast';
 
 	/**
-	 * The instance of the my yoast client.
+	 * The instance of the MyYoast client.
 	 *
 	 * @var WPSEO_MyYoast_Client
 	 */
@@ -50,35 +50,32 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 */
 	public function register_route() {
 		add_dashboard_page(
-			'',
-			'',
+			'', // Is empty because we don't render a page.
+			'', // Is empty because we don't want a menu item.
 			'wpseo_manage_options',
 			self::PAGE_IDENTIFIER
 		);
 	}
 
 	/**
-	 * Abstracts the action from the url and follows the appropriate route.
+	 * Abstracts the action from the URL and follows the appropriate route.
 	 *
 	 * @return void
 	 */
 	public function handle_route() {
-		$action = $this->get_action();
-		switch ( $action ) {
+		switch ( $this->get_action() ) {
 			case 'connect';
 				$this->connect();
 			break;
 		}
-
-		$this->stop_execution();
 	}
 
 	/**
 	 * Checks if the current page is the MyYoast route.
 	 *
-	 * @param string $route The myyoast route.
+	 * @param string $route The MyYoast route.
 	 *
-	 * @return bool True when url is the myyoast route.
+	 * @return bool True when url is the MyYoast route.
 	 */
 	protected function is_myyoast_route( $route ) {
 		return ( $route === self::PAGE_IDENTIFIER );
@@ -92,13 +89,13 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 * @return bool True if the action is valid.
 	 **/
 	protected function is_valid_action( $action ) {
-		$allowed_actions = array( 'connect' );
+		$allowed_actions = array( 'connect', 'authorize' );
 
-		return in_array( $action, $allowed_actions );
+		return in_array( $action, $allowed_actions, true );
 	}
 
 	/**
-	 * Connects to MyYoast, generates a ClientId if needed.
+	 * Connects to MyYoast and generates a new clientId.
 	 *
 	 * @return void
 	 */
@@ -189,22 +186,11 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Stops the execution.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return void;
-	 */
-	protected function stop_execution() {
-		exit;
-	}
-
-	/**
 	 * Generates an unique user id.
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return string The generated userid.
+	 * @return string The generated unique user id.
 	 */
 	protected function generate_uuid() {
 		return wp_generate_uuid4();

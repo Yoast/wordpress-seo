@@ -6,7 +6,7 @@
  */
 
 /**
- * Handles requests to My Yoast.
+ * Handles requests to MyYoast.
  */
 class WPSEO_MyYoast_Api_Request {
 
@@ -46,7 +46,7 @@ class WPSEO_MyYoast_Api_Request {
 	protected $error_message = '';
 
 	/**
-	 * The My Yoast client object.
+	 * The MyYoast client object.
 	 *
 	 * @var WPSEO_MyYoast_Client
 	 */

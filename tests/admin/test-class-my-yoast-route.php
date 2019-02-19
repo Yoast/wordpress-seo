@@ -13,7 +13,7 @@
 class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Tests registrations of the hooks without being on the yoast route.
+	 * Tests registrations of the hooks without being on the My Yoast route.
 	 *
 	 * @covers WPSEO_MyYoast_Route::register_hooks
 	 */
@@ -35,7 +35,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests registrations of the hooks without having enough rights.
+	 * Tests registration of the hooks without having enough rights.
 	 *
 	 * @covers WPSEO_MyYoast_Route::register_hooks
 	 */
@@ -133,7 +133,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	public function test_handle_route() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route' )
-			->setMethods( array( 'get_action', 'connect' , 'stop_execution' ) )
+			->setMethods( array( 'get_action', 'connect' ) )
 			->getMock();
 
 		$instance
@@ -149,7 +149,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the is myyoast route check.
+	 * Tests the is My Yoast route check.
 	 *
 	 * @covers WPSEO_MyYoast_Route::is_myyoast_route
 	 */
