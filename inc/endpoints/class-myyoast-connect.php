@@ -20,6 +20,8 @@ class WPSEO_Endpoint_MyYoast_Connect implements WPSEO_Endpoint {
 	/**
 	 * Registers the REST routes that are available on the endpoint.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function register() {
@@ -42,15 +44,13 @@ class WPSEO_Endpoint_MyYoast_Connect implements WPSEO_Endpoint {
 	 * @return WP_REST_Response The response.
 	 */
 	public function handle_request( WP_REST_Request $request ) {
-		if ( $request->get_param( 'url' ) !== WPSEO_Utils::get_home_url() ) {
+		if ( $request->get_param( 'url' ) !== $this->get_home_url() ) {
 			return new WP_REST_Response(
 				'Bad request: URL mismatch.', 403
 			);
 		}
 
-		$client_id = $this->get_client_id();
-
-		if ( $request->get_param( 'clientId' ) !== $client_id ) {
+		if ( $request->get_param( 'clientId' ) !== $this->get_client_id() ) {
 			return new WP_REST_Response(
 				'Bad request: ClientID mismatch.', 403
 			);
@@ -80,6 +80,8 @@ class WPSEO_Endpoint_MyYoast_Connect implements WPSEO_Endpoint {
 	/**
 	 * Saves the client secret.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $clientSecret The secret to save.
 	 *
 	 * @return void
@@ -95,6 +97,8 @@ class WPSEO_Endpoint_MyYoast_Connect implements WPSEO_Endpoint {
 	/**
 	 * Retrieves the current client id.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return array The client id.
 	 */
 	protected function get_client_id() {
@@ -106,6 +110,8 @@ class WPSEO_Endpoint_MyYoast_Connect implements WPSEO_Endpoint {
 	/**
 	 * Retrieves an instance of the client.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return WPSEO_MyYoast_Client Instance of client.
 	 */
 	protected function get_client() {
@@ -116,5 +122,16 @@ class WPSEO_Endpoint_MyYoast_Connect implements WPSEO_Endpoint {
 		}
 
 		return $client;
+	}
+
+	/**
+	 * Wraps the method for retrieving the home url.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return string Home url.
+	 */
+	protected function get_home_url() {
+		return WPSEO_Utils::get_home_url();
 	}
 }
