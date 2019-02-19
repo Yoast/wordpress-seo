@@ -10,7 +10,7 @@ import { uniq as unique } from "lodash-es";
  *  Returns forms for adjectives ending in -el that get superlative suffixes on first stem (e.g., flexibel-st)
  *  and regular and comparative suffixes on the second stem (e.g., flexibl-e, flexibl-er).
  *
- * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
+ * @param {Object}  morphologyDataAdjectives The German morphology data for adjectives.
  * @param {string}  stemmedWordToCheck       The stem to check.
  *
  * @returns {string[]} The created adjective forms.
@@ -38,7 +38,7 @@ const elStemChange = function( morphologyDataAdjectives, stemmedWordToCheck ) {
  * Returns forms for adjectives ending in -er. These get the -er re-attached after the stemmer has deleted it and
  * subsequently get all suffixes attached.
  *
- * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
+ * @param {Object}  morphologyDataAdjectives The German morphology data for adjectives.
  * @param {string}  stemmedWordToCheck       The stem to check.
  *
  * @returns {string[]} The created adjective forms.
@@ -65,7 +65,7 @@ const erOnlyRestoreEr = function( morphologyDataAdjectives, stemmedWordToCheck )
  * Returns forms for adjectives ending in -er that have two stems: the -er stem gets restored and receives
  * regular and superlative endings (e.g., makaber-e, makaber-ste ); the -r stem receives comparative endings (e.g., makabr-er).
  *
- * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
+ * @param {Object}  morphologyDataAdjectives The German morphology data for adjectives.
  * @param {string}  stemmedWordToCheck       The stem to check.
  *
  * @returns {string[]} The created adjective forms.
@@ -94,7 +94,7 @@ const erStemChangeClass1 = function( morphologyDataAdjectives, stemmedWordToChec
  * receives superlative endings (e.g., sauer-ste) the -r stem receives regular and comparative endings
  * (e.g., saur-e, saur-er).
  *
- * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
+ * @param {Object}  morphologyDataAdjectives The German morphology data for adjectives.
  * @param {string}  stemmedWordToCheck       The stem to check.
  *
  * @returns {string[]} The created adjective forms.
@@ -123,7 +123,7 @@ const erStemChangeClass2 = function( morphologyDataAdjectives, stemmedWordToChec
  * comparative and superlative endings (e.g., finster-e, finster-er, finster-ste); the -r stem receives comparative endings
  * (e.g., finstr-er).
  *
- * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
+ * @param {Object}  morphologyDataAdjectives The German morphology data for adjectives.
  * @param {string}  stemmedWordToCheck       The stem to check.
  *
  * @returns {string[]} The created adjective forms.
@@ -150,7 +150,7 @@ const erStemChangeClass3 = function( morphologyDataAdjectives, stemmedWordToChec
  * Returns forms for adjectives that get the regular suffixes on their first stem (e.g., gesund-e) and the comparative and
  * superlative suffixes on their second stem (e.g., gesünd-er, gesünd-est).
  *
- * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
+ * @param {Object}  morphologyDataAdjectives The German morphology data for adjectives.
  * @param {string}  stemmedWordToCheck       The stem to check.
  *
  * @returns {string[]} The created adjective forms.
@@ -177,7 +177,7 @@ const secondStemCompSup = function( morphologyDataAdjectives, stemmedWordToCheck
  * Returns forms for adjectives that get all suffixes on the first stem (e.g., blass-e, blass-er, blass-est)
  * and only the comparative and superlative suffixes on the second (bläss-er, bläss-est).
  *
- * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
+ * @param {Object}  morphologyDataAdjectives The German morphology data for adjectives.
  * @param {string}  stemmedWordToCheck       The stem to check.
  *
  * @returns {string[]} The created adjective forms.
@@ -201,14 +201,15 @@ const bothStemsComSup = function( morphologyDataAdjectives, stemmedWordToCheck )
 };
 
 /**
- * Checks whether a give stem stem falls into any of the adjective exception categories.
+ * Checks whether a give stem stem falls into any of the adjective exception categories and creates the
+ * correct forms if that is the case.
  *
- * @param {Object}  morphologyDataAdjectives The German morphology data for nouns.
+ * @param {Object}  morphologyDataAdjectives The German morphology data for adjectives.
  * @param {string}  stemmedWordToCheck       The stem to check.
  *
  * @returns {string[]} The created adjective forms.
  */
-export function checkAdjectiveExceptions( morphologyDataAdjectives, stemmedWordToCheck ) {
+export function generateAdjectiveExceptionForms( morphologyDataAdjectives, stemmedWordToCheck ) {
 	const exceptionChecks = [
 		elStemChange,
 		erOnlyRestoreEr,
