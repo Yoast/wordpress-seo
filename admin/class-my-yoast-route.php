@@ -63,11 +63,14 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function handle_route() {
-		switch ( $this->get_action() ) {
-			case 'connect';
-				$this->connect();
-			break;
+		$action = $this->get_action();
+
+		if ( ! method_exists( $this, $action ) ) {
+			return;
 		}
+
+		// Dynamically call the method.
+		$this->$action();
 	}
 
 	/**
@@ -113,6 +116,23 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 				'redirect_url' => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ),
 				'credentials_url' => rest_url( 'yoast/v1/myyoast/connect' ),
 			)
+		);
+	}
+
+	/**
+	 * Redirects the user to the oAuth authorization page.
+	 *
+	 * @return void.
+	 */
+	protected function authorize() {
+		$client = $this->get_client();
+
+		if ( ! $client->has_configuration() ) {
+			return;
+		}
+
+		$this->redirect(
+			$client->get_provider()->getAuthorizationUrl()
 		);
 	}
 
@@ -169,8 +189,12 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	protected function redirect( $url, $query_args ) {
-		wp_redirect( $url . '?' . http_build_query( $query_args ) );
+	protected function redirect( $url, $query_args = array() ) {
+		if ( ! empty( $query_args ) ) {
+			$url .= '?' . http_build_query( $query_args );
+		}
+
+		wp_redirect( $url  );
 		exit;
 	}
 
@@ -182,7 +206,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 * @return bool True when current user has rights to manage options.
 	 */
 	protected function can_access_route() {
-		return current_user_can( 'wpseo_manage_options' );
+		return WPSEO_Utils::has_access_token_support() && current_user_can( 'wpseo_manage_options' );
 	}
 
 	/**
