@@ -49,7 +49,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'show_onboarding_notice'          => false,
 		'first_activated_on'              => false,
 		'recalibration_beta'              => false,
-		'myyoast-oauth'                   => false,
+		'myyoast_oauth'                   => false,
 	);
 
 	/**
@@ -274,7 +274,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					}
 					break;
 
-				case 'myyoast-oauth':
+				case 'myyoast_oauth':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {

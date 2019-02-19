@@ -215,7 +215,7 @@ class Client {
 	 * @return array
 	 */
 	protected function get_option() {
-		$option_value = \WPSEO_Options::get( 'myyoast-oauth', false );
+		$option_value = \WPSEO_Options::get( 'myyoast_oauth', false );
 
 		if ( $option_value ) {
 			return wp_parse_args(
@@ -236,7 +236,7 @@ class Client {
 	 */
 	protected function update_option() {
 		\WPSEO_Options::set(
-			'myyoast-oauth',
+			'myyoast_oauth',
 			wp_json_encode(
 				[
 					'config'        => $this->config,

@@ -173,104 +173,24 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests connecting with having a saved clientid.
+	 * Tests connect.
 	 *
 	 * @covers WPSEO_MyYoast_Route::connect
 	 */
-	public function test_connect_with_a_saved_clientid() {
-		$client = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Client' )
-			->setMethods( array( 'get_configuration', 'save_configuration' ) )
-			->getMock();
-
-		$client
-			->expects( $this->once() )
-			->method( 'get_configuration' )
-			->will(
-				$this->returnValue(
-					array(
-						'clientId' => '9740f9cf-608e-4327-8a16-24e3ff6a4c0d',
-						'secret'   => NULL,
-					)
-				)
-			);
-
-		// If the clientId is set no configuration should be saved.
-		$client
-			->expects( $this->never() )
-			->method( 'save_configuration' );
-
+	public function test_connect() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
-			->setMethods( array( 'redirect', 'get_client' ) )
-			->getMock();
-
-		// Regardless of clientId, redirect should be called.
-		$instance
-			->expects( $this->once() )
-			->method( 'redirect' )
-			->with(
-				'https://my.yoast.com/connect',
-				array(
-					'url'          => WPSEO_Utils::get_home_url(),
-					'client_id'    => '9740f9cf-608e-4327-8a16-24e3ff6a4c0d',
-					'extensions'   => array(),
-					'redirect_url' => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ),
-				)
-			);
-
-		$instance
-			->expects( $this->once() )
-			->method( 'get_client' )
-			->will( $this->returnValue( $client ) );
-
-		/**
-		 * @var WPSEO_MyYoast_Route_Double $instance
-		 */
-		$instance->connect();
-	}
-
-	/**
-	 * Tests connecting without having a saved clientid.
-	 *
-	 * @covers WPSEO_MyYoast_Route::connect
-	 */
-	public function test_connect_with_no_saved_clientid() {
-		$client = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Client' )
-			->setMethods( array( 'get_configuration', 'save_configuration' ) )
-			->getMock();
-
-		$client
-			->expects( $this->once() )
-			->method( 'get_configuration' )
-			->will(
-				$this->returnValue(
-					array(
-						'clientId' => '',
-					)
-				)
-			);
-
-		// If the clientId is set no configuration should be saved.
-		$client
-			->expects( $this->once() )
-			->method( 'save_configuration' )
-			->with(
-				array(
-					'clientId' => '9740f9cf-608e-4327-8a16-24e3ff6a4c0d',
-				)
-			)
-		;
-
-		$instance = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
-			->setMethods( array( 'redirect', 'get_client', 'generate_userid' ) )
+			->setMethods( array( 'redirect', 'save_client_id', 'generate_uuid' ) )
 			->getMock();
 
 		$instance
 			->expects( $this->once() )
-			->method( ( 'generate_userid' ) )
+			->method( 'save_client_id' )
+			->with( '9740f9cf-608e-4327-8a16-24e3ff6a4c0d' );
+
+		$instance
+			->expects( $this->once() )
+			->method( ( 'generate_uuid' ) )
 			->will( $this->returnValue( '9740f9cf-608e-4327-8a16-24e3ff6a4c0d' ) );
 
 		$instance
@@ -279,17 +199,13 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			->with(
 				'https://my.yoast.com/connect',
 				array(
-					'url'          => WPSEO_Utils::get_home_url(),
-					'client_id'    => '9740f9cf-608e-4327-8a16-24e3ff6a4c0d',
-					'extensions'   => array(),
-					'redirect_url' => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ),
+					'url'             => WPSEO_Utils::get_home_url(),
+					'client_id'       => '9740f9cf-608e-4327-8a16-24e3ff6a4c0d',
+					'extensions'      => array(),
+					'redirect_url'    => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ),
+					'credentials_url' => rest_url( 'yoast/v1/myyoast/connect' )
 				)
 			);
-
-		$instance
-			->expects( $this->exactly( 2 ) )
-			->method( 'get_client' )
-			->will( $this->returnValue( $client ) );
 
 		/**
 		 * @var WPSEO_MyYoast_Route_Double $instance

@@ -16,6 +16,13 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	const PAGE_IDENTIFIER = 'wpseo_myyoast';
 
 	/**
+	 * The instance of the my yoast client.
+	 *
+	 * @var WPSEO_MyYoast_Client
+	 */
+	protected $client;
+
+	/**
 	 * Sets the hooks when the user has enough rights and is on the right page.
 	 *
 	 * @return void
@@ -96,18 +103,9 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function connect() {
-		$config    = $this->get_client()->get_configuration();
-		$client_id = $config['clientId'];
+		$client_id = $this->generate_uuid();
 
-		if ( empty( $client_id ) ) {
-			$client_id = $this->generate_userid();
-
-			$this->get_client()->save_configuration(
-				array(
-					'clientId' => $client_id,
-				)
-			);
-		}
+		$this->save_client_id( $client_id );
 
 		$this->redirect(
 			'https://my.yoast.com/connect',
@@ -116,6 +114,24 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 				'client_id'    => $client_id,
 				'extensions'   => array(),
 				'redirect_url' => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ),
+				'credentials_url' => rest_url( 'yoast/v1/myyoast/connect' ),
+			)
+		);
+	}
+
+	/**
+	 * Saves the client id.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $client_id The client id to save.
+	 *
+	 * @return void
+	 */
+	protected function save_client_id( $client_id ) {
+		$this->get_client()->save_configuration(
+			array(
+				'clientId' => $client_id,
 			)
 		);
 	}
@@ -128,13 +144,11 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 * @return WPSEO_MyYoast_Client Instance of the myyoast client.
 	 */
 	protected function get_client() {
-		static $client;
-
-		if ( ! $client ) {
-			$client = new WPSEO_MyYoast_Client();
+		if ( ! $this->client ) {
+			$this->client = new WPSEO_MyYoast_Client();
 		}
 
-		return $client;
+		return $this->client;
 	}
 
 	/**
@@ -192,7 +206,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 *
 	 * @return string The generated userid.
 	 */
-	protected function generate_userid() {
+	protected function generate_uuid() {
 		return wp_generate_uuid4();
 	}
 }
