@@ -119,6 +119,50 @@ describe( "TreeAssessor", () => {
 				done();
 			} );
 		} );
+
+		it( "shows an assessment result indicating that the assessment failed when it throws an error", ( done ) => {
+			const researcher = new TreeResearcher();
+			const research = new TestResearch();
+			researcher.addResearch( "test research", research );
+
+			const scoreAggregator = new TestAggregator();
+			const assessments = [
+				// Gives back a 'bad' result when word count < 8.
+				new TestAssessment( true, 8, "assessment with error", researcher ),
+				// Gives back a 'bad' result when word count < 5.
+				new TestAssessment( true, 5, "assessment with no error", researcher, true ),
+			];
+			const assessor = new TreeAssessor( {
+				researcher,
+				scoreAggregator,
+				i18n,
+				assessments,
+			} );
+
+			// Text with 6 words.
+			const text = "<h1>Rainbows!</h1><p>This text has six words</p>";
+
+			const paper = new Paper( text, {
+				keyword: "rainbows",
+				synonyms: "rainbow",
+				title: "Lotsa rainbows",
+				description: "Rainbows are awesome, unicorns are too!",
+				titleWidth: 30,
+				url: "https://example.com/rainbows",
+				permalink: "rainbows",
+			} );
+
+			const node = buildTree( text );
+
+			assessor.assess( paper, node ).then( result => {
+				/*
+				  One 'bad' score (3).
+				  One 'error' score (-1) so 2 in total.
+				 */
+				expect( result ).toEqual( 2 );
+				done();
+			} );
+		} );
 	} );
 
 	describe( "registerAssessment", () => {

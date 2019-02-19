@@ -8,15 +8,17 @@ class TestAssessment extends Assessment {
 	/**
 	 * Makes a new test assessment.
 	 *
-	 * @param {boolean}                             applicable Whether to return true if checked whether this assessment is applicable.
-	 * @param {number}                              boundary   The boundary to use when deciding to return a bad or good assessment result.
-	 * @param {string}                              name       The name of this assessment.
-	 * @param {module:tree/research.TreeResearcher} researcher The researcher to use.
+	 * @param {boolean}                             applicable         Whether to return true if checked whether this assessment is applicable.
+	 * @param {number}                              boundary           The boundary to use when deciding to return a bad or good assessment result.
+	 * @param {string}                              name               The name of this assessment.
+	 * @param {module:tree/research.TreeResearcher} researcher         The researcher to use.
+	 * @param {boolean}                             [throwError=false] If this assessment should throw an error when it is run.
 	 */
-	constructor( applicable, boundary, name, researcher ) {
+	constructor( applicable, boundary, name, researcher, throwError = false ) {
 		super( name, researcher );
 		this.applicable = applicable;
 		this.boundary = boundary;
+		this.throwError = throwError;
 	}
 
 	/**
@@ -43,6 +45,10 @@ class TestAssessment extends Assessment {
 	 * @abstract
 	 */
 	async apply( paper, node ) {
+		if ( this.throwError ) {
+			throw new Error( "An error occurred during the assessment!" );
+		}
+
 		const nrOfTokens = await this._researcher.doResearch( "test research", node );
 		if ( nrOfTokens < this.boundary ) {
 			return Promise.resolve(

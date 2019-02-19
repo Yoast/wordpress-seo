@@ -6,6 +6,8 @@
  *
  * @memberOf module:tree/assess
  */
+import AssessmentResult from "../../values/AssessmentResult";
+
 class TreeAssessor {
 	/**
 	 * Creates a new assessor.
@@ -67,9 +69,31 @@ class TreeAssessor {
 		  and returning the final score.
 		 */
 		const results = await Promise.all(
-			applicableAssessments.map( assessment => assessment.apply( paper, node ) )
+			applicableAssessments.map( assessment => this.applyAssessment( assessment, paper, node ) )
 		);
 		return this.scoreAggregator.aggregate( results );
+	}
+
+	/**
+	 * Applies the given assessment to the paper-node combination.
+	 *
+	 * @param {module:tree/assess.Assessment} assessment The assessment to apply.
+	 * @param {Paper}                         paper      The paper to apply the assessment to.
+	 * @param {module:tree/structure.Node}    node       The root node of the tree to apply the assessment to.
+	 *
+	 * @returns {Promise<AssessmentResult>} The result of the assessment.
+	 */
+	async applyAssessment( assessment, paper, node ) {
+		return assessment.apply( paper, node ).catch(
+			() => {
+				return new AssessmentResult( {
+					text: this.i18n.sprintf(
+						/* Translators: %1$s expands to the name of the assessment. */
+						this.i18n.dgettext( "js-text-analysis", "An error occurred in the '%1$s' assessment" ) ),
+					score: -1,
+				} );
+			}
+		);
 	}
 
 	/**
