@@ -48,7 +48,7 @@ class TreeAssessor {
 	 *
 	 * @returns {module:tree/assess.Assessment[]} The list of all available assessments.
 	 */
-	getAvailableAssessments() {
+	getAssessments() {
 		return this._assessments;
 	}
 

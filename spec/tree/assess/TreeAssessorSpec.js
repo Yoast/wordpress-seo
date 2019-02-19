@@ -21,7 +21,7 @@ describe( "TreeAssessor", () => {
 				i18n,
 			} );
 
-			expect( assessor.getAvailableAssessments() ).toEqual( [] );
+			expect( assessor.getAssessments() ).toEqual( [] );
 			expect( assessor.scoreAggregator ).toEqual( scoreAggregator );
 			expect( assessor.researcher ).toEqual( researcher );
 			expect( assessor.i18n ).toEqual( i18n );
@@ -41,7 +41,7 @@ describe( "TreeAssessor", () => {
 				assessments,
 			} );
 
-			expect( assessor.getAvailableAssessments() ).toEqual( assessments );
+			expect( assessor.getAssessments() ).toEqual( assessments );
 			expect( assessor.scoreAggregator ).toEqual( scoreAggregator );
 			expect( assessor.researcher ).toEqual( researcher );
 			expect( assessor.i18n ).toEqual( i18n );
@@ -318,7 +318,7 @@ describe( "TreeAssessor", () => {
 				assessments,
 			} );
 
-			expect( assessor.getAvailableAssessments() ).toEqual( assessments );
+			expect( assessor.getAssessments() ).toEqual( assessments );
 
 			const newAssessments = [
 				new TestAssessment( false, 3, "new test assessment", researcher ),
@@ -326,7 +326,7 @@ describe( "TreeAssessor", () => {
 
 			assessor.setAssessments( newAssessments );
 
-			expect( assessor.getAvailableAssessments() ).toEqual( newAssessments );
+			expect( assessor.getAssessments() ).toEqual( newAssessments );
 		} );
 	} );
 } );
