@@ -10,7 +10,6 @@
         <custom-field action="ignore">_yoast_wpseo_canonical</custom-field>
         <custom-field action="ignore">_yoast_wpseo_redirect</custom-field>
         <custom-field action="translate">_yoast_wpseo_opengraph-description</custom-field>
-        <custom-field action="translate">_yoast_wpseo_google-plus-description</custom-field>
     </custom-fields>
     <admin-texts>
         <key name="wpseo_titles">
