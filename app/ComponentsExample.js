@@ -7,6 +7,7 @@ import { FullHeightCard } from "../composites/CoursesOverview/Card";
 import CardDetails from "../composites/CoursesOverview/CardDetails";
 import getCourseFeed from "../utils/getCourseFeed";
 import { getRtlStyle } from "../utils/helpers/styled-components";
+import { makeOutboundLink } from "../utils/makeOutboundLink";
 
 const Container = styled.div`
 	max-width: 1024px;
@@ -47,6 +48,11 @@ const CourseListItem = styled.li`
 		margin: ${ getRtlStyle( "0 16px 16px 0", "0 0 16px 16px" ) };
 	}
 `;
+
+const NonYoastLink       = makeOutboundLink();
+const YoastLink          = makeOutboundLink();
+const YoastShortLink     = makeOutboundLink();
+const YoastLinkCustomRel = makeOutboundLink();
 
 /**
  * Renders the yoast-component Components Examples.
@@ -142,6 +148,23 @@ export default class ComponentsExample extends React.Component {
 							<p key="2">This spans to multiple lines.</p>,
 						] }
 					/>
+					<h2>Outbound links</h2>
+					<p>
+						<NonYoastLink href="http://www.example.org">example.org</NonYoastLink>
+						<br /><small>expected: target=&quot;_blank&quot; rel=&quot;noopener&quot; and visually hidden message</small>
+					</p>
+					<p>
+						<YoastLink href="https://yoast.com">yoast.com</YoastLink>
+						<br /><small>expected: target=&quot;_blank&quot; and visually hidden message</small>
+					</p>
+					<p>
+						<YoastShortLink href="https://yoa.st/why-permalinks/">yoa.st/why-permalinks</YoastShortLink>
+						<br /><small>expected: target=&quot;_blank&quot; and visually hidden message</small>
+					</p>
+					<p>
+						<YoastLinkCustomRel href="https://yoast.com/" rel="bookmark nofollow">yoast.com (custom rel attribute)</YoastLinkCustomRel>
+						<br /><small>expected: target=&quot;_blank&quot; rel=&quot;bookmark nofollow&quot; and visually hidden message</small>
+					</p>
 				</Container>
 				<h2>Courses overview cards</h2>
 				<p>Full width example to test the cards wrapping.</p>
@@ -160,6 +183,7 @@ export default class ComponentsExample extends React.Component {
 										courseUrl={ course.link }
 										readMoreLinkText={ course.readMoreLinkText }
 										ctaButtonData={ this.getButtonData( course ) }
+										isBundle={ course.isBundle }
 									/>
 								</FullHeightCard>
 							</CourseListItem>

@@ -118,7 +118,7 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
       <a
         className="c6"
         href="#1"
-        rel="noopener noreferrer"
+        rel="noopener"
         target="_blank"
       >
         Get Yoast SEO Premium now »
@@ -143,7 +143,7 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
       <a
         className="c6"
         href="#2"
-        rel="noopener noreferrer"
+        rel="noopener"
         target="_blank"
       >
         Get Yoast SEO Premium now »

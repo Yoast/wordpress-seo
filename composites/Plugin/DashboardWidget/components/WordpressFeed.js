@@ -72,7 +72,6 @@ const WordpressFeedListItem = ( props ) => {
 			<WordpressFeedLink
 				className={ `${ props.className }-link` }
 				href={ props.link }
-				rel={ null }
 			>
 				{ props.title }
 			</WordpressFeedLink>
@@ -132,7 +131,6 @@ const WordpressFeed = ( props ) => {
 					<WordpressFeedLink
 						className={ `${ props.className }__footer-link` }
 						href={ props.feedLink ? props.feedLink : props.feed.link }
-						rel={ null }
 					>
 						{ props.footerLinkText }
 					</WordpressFeedLink>

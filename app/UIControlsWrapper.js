@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Checkbox from "../composites/Plugin/Shared/components/Checkbox";
 import Toggle from "../composites/Plugin/Shared/components/Toggle";
 import CornerstoneToggle from "../composites/Plugin/CornerstoneContent/components/CornerstoneToggle.js";
+import { makeOutboundLink } from "../utils/makeOutboundLink";
 
 const Container = styled.div`
 	max-width: 1024px;
@@ -15,6 +16,8 @@ const Container = styled.div`
 const Separator = styled.hr`
 	margin: 1em 0;
 `;
+
+const CornerstoneLink = makeOutboundLink();
 
 /**
  * Renders the yoast-component UI Controls.
@@ -74,12 +77,7 @@ export default class UIControlsList extends React.Component {
 					id="example-checkbox"
 					label={ [
 						"This is a label that also accepts arrays, so you can pass links such as ",
-						<a
-							key="1"
-							href="https://yoa.st/metabox-help-cornerstone?utm_content=7.0.3"
-							target="_blank"
-							rel="noopener noreferrer"
-						>cornerstone content</a>,
+						<CornerstoneLink key="1" href="https://yoa.st/metabox-help-cornerstone">cornerstone content</CornerstoneLink>,
 						", for example.",
 					] }
 					// eslint-disable-next-line no-console

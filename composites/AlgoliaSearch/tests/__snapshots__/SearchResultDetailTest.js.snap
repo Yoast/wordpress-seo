@@ -172,7 +172,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
       aria-label="Open the knowledge base article in a new window or read it in the iframe below"
       className="c5 c2 c6"
       href="https://kb.yoast.com/kb/passive-voice/"
-      rel="noopener noreferrer"
+      rel={null}
       target="_blank"
     >
       View in KB

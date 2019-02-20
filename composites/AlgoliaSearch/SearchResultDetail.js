@@ -86,8 +86,6 @@ class SearchResultDetail extends React.Component {
 				<RightYoastLinkButton
 					href={ this.props.post.permalink }
 					aria-label={ openButtonLabel }
-					target="_blank"
-					rel="noopener noreferrer"
 				>
 					{ openButtonText }
 					<SvgIcon
