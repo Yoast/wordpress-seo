@@ -1,3 +1,5 @@
+/* global wpseoReplaceVarsL10n */
+
 /* External dependencies */
 import {
 	subscribe,
@@ -202,8 +204,7 @@ class TaxonomyReplacementVariables {
 	 */
 	listen() {
 		getPostType().then( postType => {
-			// Pages don't have taxonomies.
-			if ( postType === "page" ) {
+			if ( wpseoReplaceVarsL10n.has_taxonomies === "" ) {
 				return null;
 			}
 
@@ -213,7 +214,7 @@ class TaxonomyReplacementVariables {
 				const listener = new TaxonomyReplacementVariable( taxonomy );
 				listener.listen();
 			} );
-		} );
+		} ).catch( () => {} );
 	}
 }
 
