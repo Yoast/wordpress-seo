@@ -216,9 +216,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether the current post type has taxonomies.
 	 */
 	private function current_post_type_has_taxonomies() {
-		$post_type = get_post_type();
+		$post_taxonomies = get_object_taxonomies( get_post_type() );
 
-		return ! empty( get_object_taxonomies( $post_type ) );
+		return ! empty( $post_taxonomies );
 	}
 
 	/**
