@@ -1,7 +1,7 @@
-import registerTotalTime from "./register-TotalTime";
+import registerDuration from "./register-Duration";
 import registerDescription from "./register-Description";
 import registerTitle from "./register-Title";
 
-registerTotalTime();
+registerDuration();
 registerDescription();
 registerTitle();

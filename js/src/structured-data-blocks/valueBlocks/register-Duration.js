@@ -3,11 +3,11 @@ import { __ } from "@wordpress/i18n";
 import { registerBlockType } from "@wordpress/blocks";
 
 /* Internal dependencies */
-import TotalTime from "./TotalTime";
+import Duration from "./Duration";
 import { CATEGORY } from "../constants";
 
 export default () => {
-	registerBlockType( "yoast/total-time", {
+	registerBlockType( "yoast/duration", {
 		title: __( "Total time", "wordpress-seo" ),
 		description: __( "", "wordpress-seo" ),
 		icon: "",
@@ -29,7 +29,7 @@ export default () => {
 			},
 		},
 
-		edit: TotalTime,
-		save: TotalTime.Content,
+		edit: Duration,
+		save: Duration.Content,
 	} );
 };

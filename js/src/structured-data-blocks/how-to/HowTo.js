@@ -17,9 +17,9 @@ export default class HowTo extends Component {
 
 	render() {
 		return <InnerBlocks
-			template={ [["yoast/total-time",{},[]],["yoast/description",{},[]],["yoast/steps",{},[]]] }
+			template={ [["yoast/duration",{},[]],["yoast/description",{},[]],["yoast/steps",{},[]]] }
 			templateLock={ false }
-			allowedBlocks={ ["yoast/description","yoast/total-time","yoast/steps"] }
+			allowedBlocks={ ["yoast/description","yoast/duration","yoast/steps"] }
 		/>;
 	}
 

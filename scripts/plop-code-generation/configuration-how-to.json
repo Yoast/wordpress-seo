@@ -113,7 +113,7 @@
 				"source": "area",
 				"area": "main",
 				"childrenTypes": [
-					"TotalTime"
+					"Duration"
 				]
 			},
 			{
@@ -141,7 +141,7 @@
 			}
 		],
 		"editTemplate": [
-			"TotalTime",
+			"Duration",
 			"Description",
 			"Steps"
 		],
