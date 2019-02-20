@@ -368,6 +368,7 @@ function wpseo_init_rest_api() {
 	$endpoints[] = new WPSEO_Endpoint_Indexable( new WPSEO_Indexable_Service() );
 	$endpoints[] = new WPSEO_Endpoint_File_Size( new WPSEO_File_Size_Service() );
 	$endpoints[] = new WPSEO_Endpoint_Statistics( $statistics_service );
+	$endpoints[] = new WPSEO_Endpoint_MyYoast_Connect();
 
 	/** @var WPSEO_Endpoint[] $endpoints */
 	foreach ( $endpoints as $endpoint ) {
