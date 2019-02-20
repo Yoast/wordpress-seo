@@ -33,6 +33,8 @@ describe( "Test for creating forms for German words", () => {
 				"studenteten",
 				"studentetest",
 				"studentend",
+				"gestudentet",
+				// Participle.
 				"student" ],
 			stem: "student",
 		} );
@@ -92,6 +94,8 @@ describe( "Test for creating forms for German words", () => {
 				"winkeleten",
 				"winkeletest",
 				"winkelend",
+				// Participle.
+				"gewinkelt",
 			],
 			stem: "winkel",
 		} );
@@ -137,6 +141,8 @@ describe( "Test for creating forms for German words", () => {
 				"ärztineten",
 				"ärztinetest",
 				"ärztinend",
+				// Participle.
+				"geärztint",
 			],
 			stem: "ärztin",
 		} );
@@ -180,6 +186,8 @@ describe( "Test for creating forms for German words", () => {
 				"teeeten",
 				"teeetest",
 				"teeend",
+				// Participle.
+				"geteet",
 			],
 			stem: "tee",
 		} );
@@ -222,6 +230,8 @@ describe( "Test for creating forms for German words", () => {
 				"ärztinneten",
 				"ärztinnetest",
 				"ärztinnend",
+				// Participle.
+				"geärztinnt",
 				// Stem
 				"ärztinn",
 				// Additional noun suffix.

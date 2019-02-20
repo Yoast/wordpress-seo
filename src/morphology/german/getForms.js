@@ -3,6 +3,7 @@ import { addVerbSuffixes } from "./addVerbSuffixes";
 import { generateAdjectiveExceptionForms } from "./generateAdjectiveExceptionForms";
 import { generateNounExceptionForms } from "./generateNounExceptionForms";
 import { uniq as unique } from "lodash-es";
+import { generateParticipleForm } from "./generateParticipleForm";
 import { generateVerbExceptionForms } from "./generateVerbExceptionForms";
 import stem from "./stem";
 
@@ -138,6 +139,9 @@ export function getForms( word, morphologyData ) {
 
 	// Also add regular verb suffixes.
 	forms.push( ...addVerbSuffixes( morphologyData.verbs, stemmedWord ) );
+
+	// Add a participle form.
+	forms.push( generateParticipleForm( morphologyData.verbs, stemmedWord  ) );
 
 	// Also add the stemmed word, since it might be a valid word form on its own.
 	forms.push( stemmedWord );
