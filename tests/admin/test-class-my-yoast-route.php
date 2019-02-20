@@ -13,7 +13,7 @@
 class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Tests registrations of the hooks without being on the yoast route.
+	 * Tests registrations of the hooks without being on the My Yoast route.
 	 *
 	 * @covers WPSEO_MyYoast_Route::register_hooks
 	 */
@@ -35,7 +35,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests registrations of the hooks without having enough rights.
+	 * Tests registration of the hooks without having enough rights.
 	 *
 	 * @covers WPSEO_MyYoast_Route::register_hooks
 	 */
@@ -126,14 +126,33 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests handling the route.
+	 * Tests handling the route for the connect action.
 	 *
 	 * @covers WPSEO_MyYoast_Route::handle_route
 	 */
-	public function test_handle_route() {
+	public function test_handle_route_for_unknown_action() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route' )
-			->setMethods( array( 'get_action', 'connect' , 'stop_execution' ) )
+			->setMethods( array( 'get_action' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_action' )
+			->will( $this->returnValue( 'unknown' ) );
+
+		$instance->handle_route();
+	}
+
+	/**
+	 * Tests handling the route for the connect action.
+	 *
+	 * @covers WPSEO_MyYoast_Route::handle_route
+	 */
+	public function test_handle_route_for_connect() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_MyYoast_Route' )
+			->setMethods( array( 'get_action', 'connect' ) )
 			->getMock();
 
 		$instance
@@ -149,7 +168,30 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the is myyoast route check.
+	 * Tests handling the route for the authorize action.
+	 *
+	 * @covers WPSEO_MyYoast_Route::handle_route
+	 */
+	public function test_handle_route_for_authorize() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_MyYoast_Route' )
+			->setMethods( array( 'get_action', 'authorize' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_action' )
+			->will( $this->returnValue( 'authorize' ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'authorize' );
+
+		$instance->handle_route();
+	}
+
+	/**
+	 * Tests the is My Yoast route check.
 	 *
 	 * @covers WPSEO_MyYoast_Route::is_myyoast_route
 	 */
@@ -211,5 +253,89 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 		 * @var WPSEO_MyYoast_Route_Double $instance
 		 */
 		$instance->connect();
+	}
+
+	/**
+	 * Tests authorizing without having a config.
+	 *
+	 * @covers WPSEO_MyYoast_Route::authorize
+	 */
+	public function test_authorize_without_having_configuration() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
+			->setMethods( array( 'get_client' ) )
+			->getMock();
+
+		$client = $this
+			->getMockBuilder( 'WPSEO_MyYoast_Client' )
+			->setMethods( array( 'has_configuration' ) )
+			->getMock();
+
+		$client
+			->expects( $this->once() )
+			->method( 'has_configuration' )
+			->will( $this->returnValue( false ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_client' )
+			->will( $this->returnValue( $client ) );
+
+		/**
+		 * @var WPSEO_MyYoast_Route_Double $instance
+		 */
+		$instance->authorize();
+	}
+
+	/**
+	 * Tests authorizing without having a config.
+	 *
+	 * @covers WPSEO_MyYoast_Route::authorize
+	 */
+	public function test_authorize_without() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
+			->setMethods( array( 'get_client', 'redirect' ) )
+			->getMock();
+
+		$provider = $this
+			->getMockBuilder( 'Provider' )
+			->setMethods( array( 'getAuthorizationUrl' ) )
+			->getMock();
+
+		$provider
+			->expects( $this->once() )
+			->method( 'getAuthorizationUrl' )
+			->will( $this->returnValue( 'http://example.org/authorize' ) );
+
+		$client = $this
+			->getMockBuilder( 'WPSEO_MyYoast_Client' )
+			->setMethods( array( 'has_configuration', 'get_provider' ) )
+			->getMock();
+
+		$client
+			->expects( $this->once() )
+			->method( 'has_configuration' )
+			->will( $this->returnValue( true ) );
+
+		$client
+			->expects( $this->once() )
+			->method( 'get_provider' )
+			->will( $this->returnValue( $provider ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_client' )
+			->will( $this->returnValue( $client ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'redirect' )
+			->with( 'http://example.org/authorize' );
+
+		/**
+		 * @var WPSEO_MyYoast_Route_Double $instance
+		 */
+		$instance->authorize();
 	}
 }

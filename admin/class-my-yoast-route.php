@@ -16,7 +16,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	const PAGE_IDENTIFIER = 'wpseo_myyoast';
 
 	/**
-	 * The instance of the my yoast client.
+	 * The instance of the MyYoast client.
 	 *
 	 * @var WPSEO_MyYoast_Client
 	 */
@@ -50,35 +50,35 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 */
 	public function register_route() {
 		add_dashboard_page(
-			'',
-			'',
+			'', // Is empty because we don't render a page.
+			'', // Is empty because we don't want a menu item.
 			'wpseo_manage_options',
 			self::PAGE_IDENTIFIER
 		);
 	}
 
 	/**
-	 * Abstracts the action from the url and follows the appropriate route.
+	 * Abstracts the action from the URL and follows the appropriate route.
 	 *
 	 * @return void
 	 */
 	public function handle_route() {
 		$action = $this->get_action();
-		switch ( $action ) {
-			case 'connect';
-				$this->connect();
-			break;
+
+		if ( ! method_exists( $this, $action ) ) {
+			return;
 		}
 
-		$this->stop_execution();
+		// Dynamically call the method.
+		$this->$action();
 	}
 
 	/**
 	 * Checks if the current page is the MyYoast route.
 	 *
-	 * @param string $route The myyoast route.
+	 * @param string $route The MyYoast route.
 	 *
-	 * @return bool True when url is the myyoast route.
+	 * @return bool True when url is the MyYoast route.
 	 */
 	protected function is_myyoast_route( $route ) {
 		return ( $route === self::PAGE_IDENTIFIER );
@@ -92,13 +92,13 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 * @return bool True if the action is valid.
 	 **/
 	protected function is_valid_action( $action ) {
-		$allowed_actions = array( 'connect' );
+		$allowed_actions = array( 'connect', 'authorize' );
 
-		return in_array( $action, $allowed_actions );
+		return in_array( $action, $allowed_actions, true );
 	}
 
 	/**
-	 * Connects to MyYoast, generates a ClientId if needed.
+	 * Connects to MyYoast and generates a new clientId.
 	 *
 	 * @return void
 	 */
@@ -116,6 +116,23 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 				'redirect_url' => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ),
 				'credentials_url' => rest_url( 'yoast/v1/myyoast/connect' ),
 			)
+		);
+	}
+
+	/**
+	 * Redirects the user to the oAuth authorization page.
+	 *
+	 * @return void.
+	 */
+	protected function authorize() {
+		$client = $this->get_client();
+
+		if ( ! $client->has_configuration() ) {
+			return;
+		}
+
+		$this->redirect(
+			$client->get_provider()->getAuthorizationUrl()
 		);
 	}
 
@@ -172,8 +189,12 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	protected function redirect( $url, $query_args ) {
-		wp_redirect( $url . '?' . http_build_query( $query_args ) );
+	protected function redirect( $url, $query_args = array() ) {
+		if ( ! empty( $query_args ) ) {
+			$url .= '?' . http_build_query( $query_args );
+		}
+
+		wp_redirect( $url );
 		exit;
 	}
 
@@ -185,18 +206,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 * @return bool True when current user has rights to manage options.
 	 */
 	protected function can_access_route() {
-		return current_user_can( 'wpseo_manage_options' );
-	}
-
-	/**
-	 * Stops the execution.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return void;
-	 */
-	protected function stop_execution() {
-		exit;
+		return WPSEO_Utils::has_access_token_support() && current_user_can( 'wpseo_manage_options' );
 	}
 
 	/**
@@ -204,7 +214,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return string The generated userid.
+	 * @return string The generated unique user id.
 	 */
 	protected function generate_uuid() {
 		return wp_generate_uuid4();

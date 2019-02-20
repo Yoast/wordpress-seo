@@ -33,9 +33,20 @@ class WPSEO_MyYoast_Route_Double extends WPSEO_MyYoast_Route {
 	}
 
 	/**
-	 * @inheritdoc
+	 * Connects to MyYoast and generates a new clientId.
+	 *
+	 * @return void
 	 */
 	public function connect() {
 		parent::connect();
+	}
+
+	/**
+	 * Redirects the user to the oAuth authorization page.
+	 *
+	 * @return void.
+	 */
+	public function authorize() {
+		parent::authorize();
 	}
 }
