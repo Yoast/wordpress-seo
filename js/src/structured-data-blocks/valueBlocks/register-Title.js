@@ -15,7 +15,7 @@ export default () => {
 		keywords: [],
 
 		attributes: {
-			title: {
+			jsonTitle: {
 				type: "string",
 			},
 		},

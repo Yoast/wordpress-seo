@@ -8,7 +8,7 @@ import { collectTextualContent } from "./content";
 
 
 /**
- * Adjust the description block if that is necessary
+ * Adjust the description block if that is necessary.
  *
  * @param {Object} block The description block to adjust.
  *
@@ -19,6 +19,21 @@ function adjustDescriptionBlock( block ) {
 
 	if ( block.attributes.jsonDescription !== content ) {
 		dispatch( "core/editor" ).updateBlockAttributes( block.clientId, { jsonDescription: content } );
+	}
+}
+
+/**
+ * Adjust the title block if that is necessary.
+ *
+ * @param {Object} block The title block to adjust
+ *
+ * @returns {void}
+ */
+function adjustTitleBlock( block ) {
+	const content = collectTextualContent( block );
+
+	if ( block.attributes.jsonTitle !== content ) {
+		dispatch( "core/editor" ).updateBlockAttributes( block.clientId, { jsonTitle: content } );
 	}
 }
 
@@ -35,6 +50,10 @@ function recurseBlocks( blocks ) {
 
 		if ( block.name === "yoast/description" ) {
 			adjustDescriptionBlock( block );
+		}
+
+		if ( block.name === "yoast/title" ) {
+			adjustTitleBlock( block );
 		}
 
 		if ( block.innerBlocks ) {
