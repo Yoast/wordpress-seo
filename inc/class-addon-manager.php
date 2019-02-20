@@ -314,7 +314,7 @@ class WPSEO_Addon_Manager {
 	 * @return array The filtered array,
 	 */
 	private function filter_by_key( $array_to_filter, $callback  ) {
-		$keys_to_filter  = array_filter( array_keys( $array_to_filter), $callback );
+		$keys_to_filter = array_filter( array_keys( $array_to_filter), $callback );
 		$filtered_array = array();
 		foreach ( $keys_to_filter as $filtered_key ) {
 			$filtered_array[ $filtered_key ] = $array_to_filter[ $filtered_key ];
