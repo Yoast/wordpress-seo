@@ -11,7 +11,6 @@ const ALLOWED_BLOCKS = [
 	"core/quote",
 	"core/image",
 	"core/gallery",
-	"core/",
 	"core/code",
 	"core/table",
 	"core/verse",
@@ -24,28 +23,6 @@ const ALLOWED_BLOCKS = [
  * Represents a Description block within the schema blocks.
  */
 export default class Description extends Component {
-	/**
-	 * Constructs a Description block instance.
-	 *
-	 * @param {Object} props The props for this React component.
-	 */
-	constructor( props ) {
-		super( props );
-
-		this.handleDescriptionChange = this.handleDescriptionChange.bind( this );
-	}
-
-	/**
-	 * Handles a change of the description rich text.
-	 *
-	 * @param {string} value The value passed from the rich text.
-	 *
-	 * @returns {void}
-	 */
-	handleDescriptionChange( value ) {
-		this.props.setAttributes( { description: value } );
-	}
-
 	/**
 	 * Renders the description block for the block editor.
 	 *
