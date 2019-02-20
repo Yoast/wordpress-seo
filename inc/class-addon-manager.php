@@ -95,6 +95,23 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Retrieves a list of (subscription) slugs by the active addons.
+	 *
+	 * @return array The slugs.
+	 */
+	public function get_subscriptions_for_active_addons() {
+		$active_addons       = array_keys( $this->get_active_addons() );
+		$subscription_slugs  = array_map( array( $this, 'get_slug_by_plugin_file' ), $active_addons );
+		$subscriptions       = array();
+		foreach ( $subscription_slugs as $subscription_slug ) {
+			$subscriptions[ $subscription_slug ] = $this->get_subscription( $subscription_slug );
+		}
+
+		return $subscriptions;
+	}
+
+
+	/**
 	 * Retrieves the plugin information from the subscriptions.
 	 *
 	 * @param stdClass|false $data   The result object. Default false.
@@ -206,17 +223,17 @@ class WPSEO_Addon_Manager {
 	 * @return array The installed plugins.
 	 */
 	protected function get_installed_addons() {
-		$plugins      = $this->get_plugins();
-		$plugin_files = array_filter( array_keys( $plugins ), array( $this, 'is_yoast_addon' ) );
-
-		$installed_plugins = array();
-		foreach ( $plugin_files as $plugin_file ) {
-			$installed_plugins[ $plugin_file ] = $plugins[ $plugin_file ];
-		}
-
-		return $installed_plugins;
+		return $this->filter_by_key( $this->get_plugins(), array( $this, 'is_yoast_addon' ) );
 	}
 
+	/**
+	 * Retrieves a list of active addons.
+	 *
+	 * @return array The active addons.
+	 */
+	protected function get_active_addons() {
+		return $this->filter_by_key( $this->get_installed_addons(), array( $this, 'is_plugin_active' ) );
+	}
 
 	/**
 	 * Retrieves the current sites from the API.
@@ -267,5 +284,42 @@ class WPSEO_Addon_Manager {
 	 */
 	protected function get_plugins() {
 		return get_plugins();
+	}
+
+	/**
+	 * Checks if the given plugin file belongs to an active plugin.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $plugin_file The file path to the plugin.
+	 *
+	 * @return bool True when plugin is active.
+	 */
+	protected function is_plugin_active( $plugin_file ) {
+		return is_plugin_active( $plugin_file );
+	}
+
+	/**
+	 * Filters the given array by its keys.
+	 *
+	 * This method is temporary. When WordPress has minimaal PHP 5.6 support we can change this to:
+	 *
+	 * array_filter( $array_to_filter, $filter, ARRAY_FILTER_USE_KEY )
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param array    $array_to_filter The array to filter.
+	 * @param callable $callback        The filter callback.
+	 *
+	 * @return array The filtered array,
+	 */
+	private function filter_by_key( $array_to_filter, $callback  ) {
+		$keys_to_filter  = array_filter( array_keys( $array_to_filter), $callback );
+		$filtered_array = array();
+		foreach ( $keys_to_filter as $filtered_key ) {
+			$filtered_array[ $filtered_key ] = $array_to_filter[ $filtered_key ];
+		}
+
+		return $filtered_array;
 	}
 }
