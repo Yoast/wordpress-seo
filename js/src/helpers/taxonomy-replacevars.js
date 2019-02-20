@@ -214,7 +214,7 @@ class TaxonomyReplacementVariables {
 				const listener = new TaxonomyReplacementVariable( taxonomy );
 				listener.listen();
 			} );
-		} ).catch( () => {} );
+		} );
 	}
 }
 
