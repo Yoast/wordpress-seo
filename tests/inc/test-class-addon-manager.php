@@ -8,6 +8,8 @@
 
 /**
  * Unit Test Class.
+ *
+ * @group MyYoast
  */
 class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 
@@ -516,6 +518,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			json_encode(
 				array(
 					'wp-seo-premium.php' => array(
+						'expires' => 'active',
 						'product' => array(
 							'version'     => '10.0',
 							'name'        => 'Extension',
