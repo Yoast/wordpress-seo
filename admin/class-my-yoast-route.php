@@ -77,7 +77,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	public function handle_route() {
 		$action = $this->get_action();
 
-		if ( ! $this->is_valid_action( $action ) ||  ! method_exists( $this, $action ) ) {
+		if ( ! $this->is_valid_action( $action ) || ! method_exists( $this, $action ) ) {
 			return;
 		}
 
@@ -164,7 +164,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 				->getAccessToken(
 					'authorization_code',
 					array(
-						'code' => $this->get_authorization_code() ,
+						'code' => $this->get_authorization_code(),
 					)
 				);
 
