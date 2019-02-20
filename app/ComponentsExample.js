@@ -49,6 +49,7 @@ const CourseListItem = styled.li`
 	}
 `;
 
+const CornerstoneLink    = makeOutboundLink();
 const NonYoastLink       = makeOutboundLink();
 const YoastLink          = makeOutboundLink();
 const YoastShortLink     = makeOutboundLink();
@@ -139,11 +140,10 @@ export default class ComponentsExample extends React.Component {
 					<YoastWarning
 						message={ [
 							"This is a warning message that also accepts arrays, so you can pass links such as ",
-							<a
+							<CornerstoneLink
 								key="1"
 								href="https://yoa.st/metabox-help-cornerstone"
-								target="_blank"
-							>cornerstone content</a>,
+							>cornerstone content</CornerstoneLink>,
 							", for example.",
 							<p key="2">This spans to multiple lines.</p>,
 						] }
