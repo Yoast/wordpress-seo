@@ -292,6 +292,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 				'last_update'   => 'yesterday',
 				'homepage'      => 'https://example.org/store',
 				'download_link' => 'https://example.org/extension.zip',
+				'package'       => 'https://example.org/extension.zip',
 				'sections'      => 	array(
 					'changelog' => 'changelog',
 				),
@@ -450,6 +451,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 							'last_update'   => 'yesterday',
 							'homepage'      => 'https://example.org/store',
 							'download_link' => 'https://example.org/extension.zip',
+							'package'       => 'https://example.org/extension.zip',
 							'sections'      => 	array(
 									'changelog' => 'changelog',
 							),
@@ -497,6 +499,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 					'last_update'   => 'yesterday',
 					'homepage'      => 'https://example.org/store',
 					'download_link' => 'https://example.org/extension.zip',
+					'package'       => 'https://example.org/extension.zip',
 					'sections'      => 	array(
 						'changelog' => 'changelog',
 					),

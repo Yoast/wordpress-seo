@@ -164,6 +164,7 @@ class WPSEO_Addon_Manager {
 			'last_update'   => $subscription->product->lastUpdated,
 			'homepage'      => $subscription->product->storeUrl,
 			'download_link' => $subscription->product->download,
+			'package'       => $subscription->product->download,
 			'sections'      =>
 				array(
 					'changelog' => $subscription->product->changelog,
