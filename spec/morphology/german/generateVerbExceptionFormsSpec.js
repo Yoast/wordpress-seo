@@ -328,7 +328,7 @@ describe( "Test for generating adjective exceptions in German", () => {
 		] );
 	} );
 
-	it( "makes sure that compound verbs with preceding lexical material are recognized and return the full forms", () => {
+	it( "makes sure that compound verbs with prefix are recognized and return the full forms", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "festhalt" ) ).toEqual( [
 			"festhalt",
 			"festhielt",
@@ -348,7 +348,7 @@ describe( "Test for generating adjective exceptions in German", () => {
 		] );
 	} );
 
-	it( "makes sure that compound verbs with preceding lexical material are recognized and return the full forms; input: stems that have multiple forms per stemclass", () => {
+	it( "makes sure that compound verbs with prefix are recognized and return the full forms; input: stems that have multiple forms per stem class", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "umstoß" ) ).toEqual( [
 			"umstoß",
 			"umstoss",

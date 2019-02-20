@@ -1,7 +1,16 @@
 import { applySuffixesToStem, applySuffixesToStems } from "../morphoHelpers/suffixHelpers";
 import { flattenDeep, forOwn, uniq as unique } from "lodash-es";
 
-const addSuffixes = function( dataStrongVerbs, verbClass, stems ) {
+/**
+ * Adds suffixes to a given strong verb paradigm.
+ *
+ * @param {Object}  dataStrongVerbs The German morphology data for strong verbs.
+ * @param {string}  verbClass       The verb class of the paradigm.
+ * @param {Object}  stems           The stems of the paradigm.
+ *
+ * @returns {string[]} The created forms.
+ */
+const addSuffixesStrongVerbParadigm = function( dataStrongVerbs, verbClass, stems ) {
 	// All classes have the same present and participle suffixes.
 	const suffixes = {
 		present: dataStrongVerbs.suffixes.presentAllClasses.slice(),
@@ -32,24 +41,20 @@ const addSuffixes = function( dataStrongVerbs, verbClass, stems ) {
 	return unique( flattenDeep( forms ) );
 };
 
-const addPrecedingLexicalMaterial = function( stems, materialToAdd ) {
-	forOwn( stems, function( stem, stemClass ) {
-		if ( Array.isArray( stem ) ) {
-			for ( let i = 0; i < stem.length; i++ ) {
-				stem[ i ] = materialToAdd.concat( stem[ i ] );
-			}
-		} else {
-			stems[ stemClass ] = materialToAdd.concat( stem );
-		}
-	} );
+/**
+ * Checks whether a verb falls into a given strong verb exception paradigm and if so,
+ * returns the correct forms.
+ *
+ * @param {Object}  morphologyDataVerbs The German morphology data for verbs.
+ * @param {Object}  paradigm              The current paradigm to generate forms for.
+ * @param {string}  stemmedWordToCheck  The stem to check.
+ *
+ * @returns {string[]} The created verb forms.
+ */
+const generateFormsPerParadigm = function( morphologyDataVerbs, paradigm, stemmedWordToCheck ) {
+	const verbClass = paradigm.class;
+	const stems = paradigm.stems;
 
-	return stems;
-};
-
-
-const generateFormsPerClass = function( dataStrongVerbs, currentStemDataSet, stemmedWordToCheck ) {
-	const verbClass = currentStemDataSet.class;
-	let stems = currentStemDataSet.stems;
 	let stemsFlattened = [];
 
 	forOwn( stems, ( stem ) => stemsFlattened.push( stem ) );
@@ -63,37 +68,29 @@ const generateFormsPerClass = function( dataStrongVerbs, currentStemDataSet, ste
 	 */
 	stemsFlattened = stemsFlattened.sort( ( a, b ) => b.length - a.length );
 
-	for ( let i = 0; i < stemsFlattened.length; i++ ) {
-		const currentStem = stemsFlattened[ i ];
-
-		if ( stemmedWordToCheck.endsWith( currentStem ) ) {
-			// "fest".length = "festhalt".length - "halt".length
-			const precedingLength = stemmedWordToCheck.length - currentStem.length;
-			const precedingLexicalMaterial = stemmedWordToCheck.slice( 0, precedingLength );
-			/*
-			  * If the word is a compound, removing the final stem will result in some lexical material to
-			  * be left over at the beginning of the word. For example, removing "halt" from "festhalt"
-			  * leaves "fest". This lexical material is the base for the word forms that need to be created
-			  * (e.g., "festhielt").
-			  */
-			if ( precedingLexicalMaterial.length > 0 ) {
-				stems = addPrecedingLexicalMaterial( stems, precedingLexicalMaterial );
-			}
-
-			return addSuffixes( dataStrongVerbs, verbClass, stems );
-		}
+	if ( stemsFlattened.includes( stemmedWordToCheck ) ) {
+		return addSuffixesStrongVerbParadigm( morphologyDataVerbs.strongVerbs, verbClass, stems );
 	}
 
 	return [];
 };
 
-const generateFormsStrongVerbs = function( dataStrongVerbs, stemmedWordToCheck ) {
-	const stems = dataStrongVerbs.stems;
+/**
+ * Checks whether a verb falls into one of the exception classes of strong verbs and if so,
+ * returns the correct forms.
+ *
+ * @param {Object}  morphologyDataVerbs The German morphology data for verbs.
+ * @param {string}  stemmedWordToCheck  The stem to check.
+ *
+ * @returns {string[]} The created verb forms.
+ */
+const generateFormsStrongVerbs = function( morphologyDataVerbs, stemmedWordToCheck ) {
+	const stems = morphologyDataVerbs.strongVerbs.stems;
 
 	for ( let i = 0; i < stems.length; i++ ) {
-		const currentStemDataSet = stems[ i ];
+		const paradigm = stems[ i ];
 
-		const forms = generateFormsPerClass( dataStrongVerbs, currentStemDataSet, stemmedWordToCheck );
+		const forms = generateFormsPerParadigm( morphologyDataVerbs, paradigm, stemmedWordToCheck );
 
 		if ( forms.length > 0 ) {
 			return forms;
@@ -103,11 +100,42 @@ const generateFormsStrongVerbs = function( dataStrongVerbs, stemmedWordToCheck )
 	return [];
 };
 
+/**
+ * Checks whether a give stem stem falls into any of the verb exception categories and creates the
+ * correct forms if that is the case.
+ *
+ * @param {Object}  morphologyDataVerbs The German morphology data for verbs.
+ * @param {string}  stemmedWordToCheck  The stem to check.
+ *
+ * @returns {string[]} The created verb forms.
+ */
 export function generateVerbExceptionForms( morphologyDataVerbs, stemmedWordToCheck ) {
 	let exceptions = [];
 
+	const prefixes = morphologyDataVerbs.verbPrefixes;
+	let stemmedWordToCheckWithoutPrefix = "";
+
+	let foundPrefix = prefixes.find( prefix => stemmedWordToCheck.startsWith( prefix ) );
+
+	if ( typeof( foundPrefix ) === "string" ) {
+		stemmedWordToCheckWithoutPrefix = stemmedWordToCheck.slice( foundPrefix.length );
+	}
+
+	// At least 3 characters so that e.g. "be" is not found in the stem "berg".
+	if ( stemmedWordToCheckWithoutPrefix.length > 2 && typeof( foundPrefix ) === "string" ) {
+		stemmedWordToCheck = stemmedWordToCheckWithoutPrefix;
+	} else {
+		// Reset foundPrefix so that it won't be attached when forms are generated.
+		foundPrefix = null;
+	}
+
 	// Check exceptions with full forms.
-	exceptions = generateFormsStrongVerbs( morphologyDataVerbs.strongVerbs, stemmedWordToCheck );
+	exceptions = generateFormsStrongVerbs( morphologyDataVerbs, stemmedWordToCheck, foundPrefix );
+
+	// If the original stem had a verb prefix, attach it to the found exception forms.
+	if ( typeof( foundPrefix ) === "string" ) {
+		exceptions = exceptions.map( word => foundPrefix.concat( word ) );
+	}
 
 	if ( exceptions.length > 0 ) {
 		return exceptions;
