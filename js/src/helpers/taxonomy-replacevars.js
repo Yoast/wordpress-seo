@@ -202,7 +202,7 @@ class TaxonomyReplacementVariables {
 	 */
 	listen() {
 		getPostType().then( postType => {
-			/* Pages don't support taxonomies */
+			// Pages don't have taxonomies.
 			if ( postType === "page" ) {
 				return null;
 			}
