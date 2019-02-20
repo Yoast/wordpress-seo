@@ -240,7 +240,11 @@ class WPSEO_MyYoast_Api_Request {
 
 		$access_token = $client->get_access_token();
 
-		if ( $access_token && ! $access_token->hasExpired() ) {
+		if ( ! $access_token ) {
+			return false;
+		}
+
+		if ( ! $access_token->hasExpired() ) {
 			return $access_token;
 		}
 
