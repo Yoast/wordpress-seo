@@ -34,7 +34,6 @@ const RecalibrationBetaNotification = () => {
 	return (
 		<RecalibrationBetaNotificationLink
 			href={ wpseoAdminL10n[ "shortlinks.recalibration_beta_metabox" ] }
-			rel={ null }
 		>
 			<RecalibrationBetaNotificationIcon className="dashicons" />
 			{ __( "Recalibration beta is active", "wordpress-seo" ) }
