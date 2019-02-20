@@ -194,7 +194,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 			$url .= '?' . http_build_query( $query_args );
 		}
 
-		wp_redirect( $url  );
+		wp_redirect( $url );
 		exit;
 	}
 
