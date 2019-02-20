@@ -3,7 +3,7 @@ import createRulesFromMorphologyData from  "../morphoHelpers/createRulesFromMorp
 import { getBase } from "./getAdjectiveForms";
 import { getInfinitive, checkIrregulars as getIrregularVerbParadigm, endsWithIng } from "./getVerbForms.js";
 
-import { isUndefined, uniq } from "lodash-es";
+import { isUndefined } from "lodash-es";
 import { flatten } from "lodash-es";
 
 /**
@@ -13,17 +13,26 @@ import { flatten } from "lodash-es";
  *
  * @returns {string} The shortest of the alphabetically ordered strings from the input array.
  */
-export function getFirstAndShortest( array ) {
-	array = uniq( flatten( array ) );
+export function findShortestAndAlphabeticallyFirst( array ) {
+	if ( array.length === 0 ) {
+		return;
+	}
 
-	// Sort alphabetically.
-	array.sort();
+	const strings = flatten( array );
+	let result = strings.pop();
 
-	// Sort from shortest to longest.
-	array.sort( function( a, b ) {
-		return a.length - b.length;
+	strings.forEach( str => {
+		const lengthDifference = str.length - result.length;
+		if ( lengthDifference === 0 ) {
+			if ( str.localeCompare( result ) < 0 ) {
+				result = str;
+			}
+		} else if ( lengthDifference < 0 ) {
+			result = str;
+		}
 	} );
-	return array[ 0 ];
+
+	return result;
 }
 
 /**
@@ -36,27 +45,24 @@ export function getFirstAndShortest( array ) {
  *
  * @returns {string} The base form of the irregular word.
  */
-export function getIrregularStem( word, irregulars, verbMorphology ) {
-	let baseIfIrregular = "";
-
-	irregulars.forEach( function( paradigm ) {
-		if ( baseIfIrregular === "" ) {
-			paradigm.forEach( function( wordInParadigm ) {
-				if ( wordInParadigm === word ) {
-					baseIfIrregular = paradigm[ 0 ];
-				}
-			} );
-		}
-	} );
-
-	if ( baseIfIrregular === "" && verbMorphology ) {
-		const paradigmIfIrregularVerb = getIrregularVerbParadigm( word, verbMorphology.irregularVerbs, verbMorphology.regexVerb.verbPrefixes );
-		if ( ! isUndefined( paradigmIfIrregularVerb ) ) {
-			baseIfIrregular = paradigmIfIrregularVerb[ 0 ];
+export function determineIrregularStem( word, irregulars, verbMorphology ) {
+	for ( let i = 0; i < irregulars.length; i++ ) {
+		const paradigm = irregulars[ i ];
+		for ( let j = 0; j < paradigm.length; j++ ) {
+			if ( paradigm[ j ] === word ) {
+				return paradigm[ 0 ];
+			}
 		}
 	}
 
-	return baseIfIrregular;
+	if ( verbMorphology ) {
+		const paradigmIfIrregularVerb = getIrregularVerbParadigm( word, verbMorphology.irregularVerbs, verbMorphology.regexVerb.verbPrefixes );
+		if ( ! isUndefined( paradigmIfIrregularVerb ) ) {
+			return paradigmIfIrregularVerb[ 0 ];
+		}
+	}
+
+	return "";
 }
 
 /**
@@ -67,7 +73,7 @@ export function getIrregularStem( word, irregulars, verbMorphology ) {
  *
  * @returns{string} The shortest and the alphabetically-first of possible noun-like, verb-like and adjective-like bases.
  */
-export function getRegularStem( word, morphologyData ) {
+export function determineRegularStem( word, morphologyData ) {
 	// Try to singularize as a noun.
 	const regexVerb = morphologyData.verbs.regexVerb;
 	const baseIfPluralNoun = buildOneFormFromRegex( word, createRulesFromMorphologyData( morphologyData.nouns.regexNoun.singularize ) );
@@ -96,9 +102,7 @@ export function getRegularStem( word, morphologyData ) {
 
 	const baseIfVerb = getInfinitive( word, sFormToInfinitiveRegex, ingFormToInfinitiveRegex, edFormToInfinitiveRegex ).infinitive;
 
-	if ( ! isUndefined( baseIfVerb ) ) {
-		possibleRegularBases.push( baseIfVerb );
-	}
+	possibleRegularBases.push( baseIfVerb );
 
 	// Adjectival base.
 	const comparativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.comparativeToBase );
@@ -107,11 +111,9 @@ export function getRegularStem( word, morphologyData ) {
 	const lyExceptions = morphologyData.adjectives.stopAdverbs;
 
 	const baseIfAdjective = getBase( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, lyExceptions ).base;
-	if ( ! isUndefined( baseIfAdjective ) ) {
-		possibleRegularBases.push( baseIfAdjective );
-	}
+	possibleRegularBases.push( baseIfAdjective );
 
-	return getFirstAndShortest( possibleRegularBases );
+	return findShortestAndAlphabeticallyFirst( possibleRegularBases );
 }
 
 /**
@@ -122,7 +124,7 @@ export function getRegularStem( word, morphologyData ) {
  *
  * @returns {string} Stemmed (or base) form of the word.
  */
-export function getStem( word, morphologyData ) {
+export function determineStem( word, morphologyData ) {
 	if ( ! morphologyData ) {
 		return word;
 	}
@@ -147,11 +149,11 @@ export function getStem( word, morphologyData ) {
 		verbMorphology = false;
 	}
 
-	const baseIfIrregular = getIrregularStem( bestBase, irregulars, verbMorphology );
+	const baseIfIrregular = determineIrregularStem( bestBase, irregulars, verbMorphology );
 
 	if ( baseIfIrregular !== "" ) {
 		return baseIfIrregular;
 	}
 
-	return getRegularStem( bestBase, morphologyData );
+	return determineRegularStem( bestBase, morphologyData );
 }
