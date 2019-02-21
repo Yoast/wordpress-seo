@@ -44,9 +44,18 @@ class WPSEO_MyYoast_Route_Double extends WPSEO_MyYoast_Route {
 	/**
 	 * Redirects the user to the oAuth authorization page.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function authorize() {
 		parent::authorize();
+	}
+
+	/**
+	 * Completes the oAuth connection flow.
+	 *
+	 * @return void
+	 */
+	public function complete() {
+		parent::complete();
 	}
 }
