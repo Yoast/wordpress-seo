@@ -13,6 +13,7 @@ _deprecated_file( __FILE__, 'WPSEO 10.1' );
  * @deprecated 10.1
  */
 class WPSEO_Config_Field_Profile_URL_GooglePlus extends WPSEO_Config_Field {
+
 	/**
 	 * WPSEO_Config_Field_Profile_URL_GooglePlus constructor.
 	 *
@@ -21,6 +22,7 @@ class WPSEO_Config_Field_Profile_URL_GooglePlus extends WPSEO_Config_Field {
 	public function __construct() {
 		_deprecated_constructor( 'WPSEO_Config_Field_Profile_URL_GooglePlus', '10.1' );
 	}
+
 	/**
 	 * Sets adapter.
 	 *

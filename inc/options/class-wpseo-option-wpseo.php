@@ -49,7 +49,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'show_onboarding_notice'          => false,
 		'first_activated_on'              => false,
 		'myyoast-oauth'                   => array(
-			'config' => array(
+			'config'        => array(
 				'clientId' => null,
 				'secret'   => null,
 			),

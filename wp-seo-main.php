@@ -532,7 +532,7 @@ register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
 
 // Wpmu_new_blog has been deprecated in 5.1 and replaced by wp_insert_site.
 global $wp_version;
-if ( version_compare( $wp_version,'5.1', '<' ) ) {
+if ( version_compare( $wp_version, '5.1', '<' ) ) {
 	add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 }
 else {

@@ -272,6 +272,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 			$instance->enrich_request_arguments( array() )
 		);
 	}
+
 	/**
 	 * Tests the enriching of the request headers with empty request body.
 	 *
