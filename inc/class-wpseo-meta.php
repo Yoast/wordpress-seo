@@ -315,8 +315,8 @@ class WPSEO_Meta {
 	/**
 	 * Retrieve the meta box form field definitions for the given tab and post type.
 	 *
-	 * @param  string $tab       Tab for which to retrieve the field definitions.
-	 * @param  string $post_type Post type of the current post.
+	 * @param string $tab       Tab for which to retrieve the field definitions.
+	 * @param string $post_type Post type of the current post.
 	 *
 	 * @return array             Array containing the meta box field definitions
 	 */
@@ -383,8 +383,8 @@ class WPSEO_Meta {
 		 * Filter the WPSEO metabox form field definitions for a tab
 		 * {tab} can be 'general', 'advanced' or 'social'
 		 *
-		 * @param  array  $field_defs Metabox form field definitions.
-		 * @param  string $post_type  Post type of the post the metabox is for, defaults to 'post'.
+		 * @param array  $field_defs Metabox form field definitions.
+		 * @param string $post_type  Post type of the post the metabox is for, defaults to 'post'.
 		 *
 		 * @return array
 		 */
@@ -394,8 +394,8 @@ class WPSEO_Meta {
 	/**
 	 * Validate the post meta values
 	 *
-	 * @param  mixed  $meta_value The new value.
-	 * @param  string $meta_key   The full meta key (including prefix).
+	 * @param mixed  $meta_value The new value.
+	 * @param string $meta_key   The full meta key (including prefix).
 	 *
 	 * @return string             Validated meta value
 	 */
@@ -495,7 +495,7 @@ class WPSEO_Meta {
 	 *
 	 * @todo [JRF => Yoast] Verify that this logic for the prioritisation is correct
 	 *
-	 * @param  array|string $meta_value The value to validate.
+	 * @param array|string $meta_value The value to validate.
 	 *
 	 * @return string       Clean value
 	 */
@@ -540,11 +540,11 @@ class WPSEO_Meta {
 	/**
 	 * Prevent saving of default values and remove potential old value from the database if replaced by a default
 	 *
-	 * @param  bool   $check      The current status to allow updating metadata for the given type.
-	 * @param  int    $object_id  ID of the current object for which the meta is being updated.
-	 * @param  string $meta_key   The full meta key (including prefix).
-	 * @param  string $meta_value New meta value.
-	 * @param  string $prev_value The old meta value.
+	 * @param bool   $check      The current status to allow updating metadata for the given type.
+	 * @param int    $object_id  ID of the current object for which the meta is being updated.
+	 * @param string $meta_key   The full meta key (including prefix).
+	 * @param string $meta_value New meta value.
+	 * @param string $prev_value The old meta value.
 	 *
 	 * @return null|bool          true = stop saving, null = continue saving
 	 */
@@ -567,10 +567,10 @@ class WPSEO_Meta {
 	/**
 	 * Prevent adding of default values to the database
 	 *
-	 * @param  bool   $check      The current status to allow adding metadata for the given type.
-	 * @param  int    $object_id  ID of the current object for which the meta is being added.
-	 * @param  string $meta_key   The full meta key (including prefix).
-	 * @param  string $meta_value New meta value.
+	 * @param bool   $check      The current status to allow adding metadata for the given type.
+	 * @param int    $object_id  ID of the current object for which the meta is being added.
+	 * @param string $meta_key   The full meta key (including prefix).
+	 * @param string $meta_value New meta value.
 	 *
 	 * @return null|bool          true = stop saving, null = continue saving
 	 */
@@ -586,8 +586,8 @@ class WPSEO_Meta {
 	/**
 	 * Is the given meta value the same as the default value ?
 	 *
-	 * @param  string $meta_key   The full meta key (including prefix).
-	 * @param  mixed  $meta_value The value to check.
+	 * @param string $meta_key   The full meta key (including prefix).
+	 * @param mixed  $meta_value The value to check.
 	 *
 	 * @return bool
 	 */
@@ -603,8 +603,8 @@ class WPSEO_Meta {
 	 *            the results for get_post_meta(), get_post_custom() and the likes. That
 	 *            would have been the preferred solution.}}
 	 *
-	 * @param  string $key    Internal key of the value to get (without prefix).
-	 * @param  int    $postid Post ID of the post to get the value for.
+	 * @param string $key    Internal key of the value to get (without prefix).
+	 * @param int    $postid Post ID of the post to get the value for.
 	 *
 	 * @return string         All 'normal' values returned from get_post_meta() are strings.
 	 *                        Objects and arrays are possible, but not used by this plugin
@@ -659,9 +659,9 @@ class WPSEO_Meta {
 	/**
 	 * Update a meta value for a post
 	 *
-	 * @param  string $key        The internal key of the meta value to change (without prefix).
-	 * @param  mixed  $meta_value The value to set the meta to.
-	 * @param  int    $post_id    The ID of the post to change the meta for.
+	 * @param string $key        The internal key of the meta value to change (without prefix).
+	 * @param mixed  $meta_value The value to set the meta to.
+	 * @param int    $post_id    The ID of the post to change the meta for.
 	 *
 	 * @return bool   whether the value was changed
 	 */
@@ -692,9 +692,9 @@ class WPSEO_Meta {
 	 * where no WPSEO meta data has been set.
 	 * Optionally deletes the $old_metakey values.
 	 *
-	 * @param  string $old_metakey The old key of the meta value.
-	 * @param  string $new_metakey The new key, usually the WPSEO meta key (including prefix).
-	 * @param  bool   $delete_old  Whether to delete the old meta key/value-sets.
+	 * @param string $old_metakey The old key of the meta value.
+	 * @param string $new_metakey The new key, usually the WPSEO meta key (including prefix).
+	 * @param bool   $delete_old  Whether to delete the old meta key/value-sets.
 	 *
 	 * @return void
 	 */
@@ -1015,7 +1015,7 @@ class WPSEO_Meta {
 	 * @deprecated 9.6
 	 * @codeCoverageIgnore
 	 *
-	 * @param  string $key Key of the value to get from $_POST.
+	 * @param string $key Key of the value to get from $_POST.
 	 *
 	 * @return string      Returns $_POST value, which will be a string the majority of the time
 	 *                     Will return empty string if key does not exists in $_POST

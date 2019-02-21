@@ -85,13 +85,13 @@ class WPSEO_Replace_Vars {
 	 *
 	 * @see wpseo_register_var_replacement() for a usage example.
 	 *
-	 * @param  string $var              The name of the variable to replace, i.e. '%%var%%'
-	 *                                  - the surrounding %% are optional.
-	 * @param  mixed  $replace_function Function or method to call to retrieve the replacement value for the variable
-	 *                                  Uses the same format as add_filter/add_action function parameter and
-	 *                                  should *return* the replacement value. DON'T echo it.
-	 * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'.
-	 * @param  string $help_text        Help text to be added to the help tab for this variable.
+	 * @param string $var              The name of the variable to replace, i.e. '%%var%%'.
+	 *                                 Note: the surrounding %% are optional.
+	 * @param mixed  $replace_function Function or method to call to retrieve the replacement value for the variable.
+	 *                                 Uses the same format as add_filter/add_action function parameter and
+	 *                                 should *return* the replacement value. DON'T echo it.
+	 * @param string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'.
+	 * @param string $help_text        Help text to be added to the help tab for this variable.
 	 *
 	 * @return bool     Whether the replacement function was succesfully registered.
 	 */
@@ -169,8 +169,8 @@ class WPSEO_Replace_Vars {
 		 *
 		 * @api     array   $replacements The replacements.
 		 *
-		 * @param   array   $args The object some of the replacement values might come from,
-		 *                       could be a post, taxonomy or term.
+		 * @param array $args The object some of the replacement values might come from,
+		 *                    could be a post, taxonomy or term.
 		 */
 		$replacements = apply_filters( 'wpseo_replacements', $replacements, $this->args );
 
@@ -1042,7 +1042,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Create a variable help text table.
 	 *
-	 * @param    string $type Either 'basic' or 'advanced'.
+	 * @param string $type Either 'basic' or 'advanced'.
 	 *
 	 * @return   string Help text table.
 	 */
@@ -1099,8 +1099,8 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Set the help text for a user/plugin/theme defined extra variable.
 	 *
-	 * @param  string                     $type                 Type of variable: 'basic' or 'advanced'.
-	 * @param  WPSEO_Replacement_Variable $replacement_variable The replacement variable to register.
+	 * @param string                     $type                 Type of variable: 'basic' or 'advanced'.
+	 * @param WPSEO_Replacement_Variable $replacement_variable The replacement variable to register.
 	 */
 	private static function register_help_text( $type, WPSEO_Replacement_Variable $replacement_variable ) {
 		$identifier = $replacement_variable->get_variable();
@@ -1375,7 +1375,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Remove the '%%' delimiters from a variable string.
 	 *
-	 * @param  string $string Variable string to be cleaned.
+	 * @param string $string Variable string to be cleaned.
 	 *
 	 * @return string
 	 */
@@ -1386,7 +1386,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Add the '%%' delimiters to a variable string.
 	 *
-	 * @param  string $string Variable string to be delimited.
+	 * @param string $string Variable string to be delimited.
 	 *
 	 * @return string
 	 */
