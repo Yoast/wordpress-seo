@@ -33,7 +33,6 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.upsell.gsc.create_redirect_button'              => 'https://yoa.st/redirects',
 		'shortlinks.readability_analysis_info'                      => 'https://yoa.st/readability-analysis',
 		'shortlinks.activate_premium_info'                          => 'https://yoa.st/activate-subscription',
-		'shortlinks.recalibration_beta_metabox'                     => 'https://yoa.st/recalibration-beta-metabox',
 		'shortlinks.upsell.sidebar.morphology_upsell_metabox'       => 'https://yoa.st/morphology-upsell-metabox',
 		'shortlinks.upsell.sidebar.morphology_upsell_sidebar'       => 'https://yoa.st/morphology-upsell-sidebar',
 	);
