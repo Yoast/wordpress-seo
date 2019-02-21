@@ -100,16 +100,15 @@ class WPSEO_Addon_Manager {
 	 * @return array The slugs.
 	 */
 	public function get_subscriptions_for_active_addons() {
-		$active_addons       = array_keys( $this->get_active_addons() );
-		$subscription_slugs  = array_map( array( $this, 'get_slug_by_plugin_file' ), $active_addons );
-		$subscriptions       = array();
+		$active_addons      = array_keys( $this->get_active_addons() );
+		$subscription_slugs = array_map( array( $this, 'get_slug_by_plugin_file' ), $active_addons );
+		$subscriptions      = array();
 		foreach ( $subscription_slugs as $subscription_slug ) {
 			$subscriptions[ $subscription_slug ] = $this->get_subscription( $subscription_slug );
 		}
 
 		return $subscriptions;
 	}
-
 
 	/**
 	 * Retrieves the plugin information from the subscriptions.
@@ -313,7 +312,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @return array The filtered array,
 	 */
-	private function filter_by_key( $array_to_filter, $callback  ) {
+	private function filter_by_key( $array_to_filter, $callback ) {
 		$keys_to_filter = array_filter( array_keys( $array_to_filter ), $callback );
 		$filtered_array = array();
 		foreach ( $keys_to_filter as $filtered_key ) {

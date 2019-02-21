@@ -1,15 +1,15 @@
 <?php
 /**
-* WPSEO plugin test file.
-*
-* @package WPSEO\Tests
-*/
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests
+ */
 
 /**
-* Unit Test Class.
-*
-* @group MyYoast
-*/
+ * Unit Test Class.
+ *
+ * @group MyYoast
+ */
 class WPSEO_Endpoint_MyYoast_Connect_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -40,7 +40,8 @@ class WPSEO_Endpoint_MyYoast_Connect_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			new WP_REST_Response(
-				'Bad request: URL mismatch.', 403
+				'Bad request: URL mismatch.',
+				403
 			),
 			$instance->handle_request( $request )
 		);
@@ -84,7 +85,8 @@ class WPSEO_Endpoint_MyYoast_Connect_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			new WP_REST_Response(
-				'Bad request: ClientID mismatch.', 403
+				'Bad request: ClientID mismatch.',
+				403
 			),
 			$instance->handle_request( $request )
 		);
@@ -129,7 +131,8 @@ class WPSEO_Endpoint_MyYoast_Connect_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			new WP_REST_Response(
-				'Bad request: ClientSecret missing.', 403
+				'Bad request: ClientSecret missing.',
+				403
 			),
 			$instance->handle_request( $request )
 		);
@@ -195,5 +198,4 @@ class WPSEO_Endpoint_MyYoast_Connect_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( $instance->can_retrieve_data() );
 	}
-
 }

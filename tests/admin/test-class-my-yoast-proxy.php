@@ -7,6 +7,7 @@
 
 /**
  * Unit test class.
+ *
  * @group MyYoast
  */
 class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
@@ -26,8 +27,8 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( 'research-webworker' ) );
 
 		$instance->expects( $this->once() )
-				 ->method( 'get_plugin_version' )
-				 ->will( $this->returnValue( '1.0' ) );
+				->method( 'get_plugin_version' )
+				->will( $this->returnValue( '1.0' ) );
 
 		$expected = array(
 			'content_type' => 'text/javascript; charset=UTF-8',
@@ -49,11 +50,11 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$instance->expects( $this->once() )
-				 ->method( 'get_proxy_file' )
-				 ->will( $this->returnValue( 'unknown-file' ) );
+				->method( 'get_proxy_file' )
+				->will( $this->returnValue( 'unknown-file' ) );
 
 		$instance->expects( $this->never() )
-				 ->method( 'get_plugin_version' );
+				->method( 'get_plugin_version' );
 
 		$instance
 			->expects( $this->once() )
@@ -282,9 +283,9 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 	 * @return array
 	 */
 	public function filter_wp_remote_get__success() {
-		$response = new Requests_Response();
-		$response->body = 'success';
-		$response->raw = 'success';
+		$response              = new Requests_Response();
+		$response->body        = 'success';
+		$response->raw         = 'success';
 		$response->status_code = 200;
 
 		$http_response = new WP_HTTP_Requests_Response( $response, '' );
@@ -299,9 +300,9 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 	 * @return array
 	 */
 	public function filter_wp_remote_get__not_found() {
-		$response = new Requests_Response();
-		$response->body = 'not found';
-		$response->raw = 'not found';
+		$response              = new Requests_Response();
+		$response->body        = 'not found';
+		$response->raw         = 'not found';
 		$response->status_code = 404;
 
 		$http_response = new WP_HTTP_Requests_Response( $response, '' );

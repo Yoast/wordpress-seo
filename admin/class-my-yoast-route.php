@@ -102,7 +102,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 * @param string $action The action to check.
 	 *
 	 * @return bool True if the action is valid.
-	 **/
+	 */
 	protected function is_valid_action( $action ) {
 		return in_array( $action, self::$allowed_actions, true );
 	}
