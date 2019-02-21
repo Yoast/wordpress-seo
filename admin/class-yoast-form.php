@@ -343,17 +343,17 @@ class Yoast_Form {
 	public function textinput( $var, $label, $attr = array() ) {
 		if ( ! is_array( $attr ) ) {
 			$attr = array(
-				'class' => $attr,
+				'class'    => $attr,
 				'disabled' => false,
 			);
 		}
 
-		$defaults     = array(
+		$defaults   = array(
 			'placeholder' => '',
 			'class'       => '',
 		);
-		$attr         = wp_parse_args( $attr, $defaults );
-		$val          = isset( $this->options[ $var ] ) ? $this->options[ $var ] : '';
+		$attr       = wp_parse_args( $attr, $defaults );
+		$val        = isset( $this->options[ $var ] ) ? $this->options[ $var ] : '';
 		$attributes = isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '';
 		if ( isset( $attr['disabled'] ) && $attr['disabled'] ) {
 			$attributes .= ' disabled';

@@ -1179,7 +1179,6 @@ SVG;
 		return wp_json_encode( $data, $flags );
 	}
 
-
 	/**
 	 * Output a Schema blob.
 	 *
