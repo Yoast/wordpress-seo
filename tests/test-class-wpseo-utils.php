@@ -196,7 +196,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		if ( ! defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
 			define( 'YOAST_SEO_ENABLED_FEATURES', 'some-feature' );
 		}
-		$expected = preg_split('/,\W*/', YOAST_SEO_ENABLED_FEATURES );
+		$expected = preg_split( '/,\W*/', YOAST_SEO_ENABLED_FEATURES );
 		$this->assertEquals( $expected, WPSEO_Utils::retrieve_enabled_features() );
 	}
 
@@ -210,7 +210,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		if ( ! defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
 			define( 'YOAST_SEO_ENABLED_FEATURES', 'some-feature' );
 		}
-		$expected = preg_split('/,\W*/', YOAST_SEO_ENABLED_FEATURES );
+		$expected = preg_split( '/,\W*/', YOAST_SEO_ENABLED_FEATURES );
 
 		// Features we expect to be added by the filter.
 		$added_features = array( 'some functionality', 'other things' );
@@ -221,7 +221,6 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, WPSEO_Utils::retrieve_enabled_features() );
 	}
 
-
 	/**
 	 * Filter function to test the `wpseo_enable_feature` filter.
 	 *
@@ -230,9 +229,11 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 * @return array The filtered enabled features.
 	 */
 	public function filter_wpseo_enable_feature( $enabled_features ) {
-		return array_merge( $enabled_features, array(
+		$second_array = array(
 			'some functionality',
 			'other things',
-		) );
+		);
+
+		return array_merge( $enabled_features, $second_array );
 	}
 }
