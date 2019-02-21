@@ -128,6 +128,10 @@ class WPSEO_Upgrade {
 			$this->upgrade96();
 		}
 
+		if ( version_compare( $version, '10.0-RC0', '<' ) ) {
+			$this->upgrade_10_0();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -641,6 +645,15 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade96() {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-recalibration-meta-notification' );
+	}
+
+	/**
+	 * Performs the 10.0 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_10_0() {
+		delete_option( 'wpseo_recalibration_beta' );
 	}
 
 	/**
