@@ -57,7 +57,7 @@ class TreeAssessor {
 	 * and aggregating the resulting scores.
 	 *
 	 * @param {Paper}                      paper The paper to assess. This contains metadata about the text.
-	 * @param {module:tree/structure.Node} node  The text to check.
+	 * @param {module:tree/structure.Node} node  The root node of the tree to check.
 	 *
 	 * @returns {Promise<{results: AssessmentResult[], score: number}>} The assessment results and the overall score.
 	 */
@@ -74,12 +74,9 @@ class TreeAssessor {
 		// Filter out errored assessments.
 		const validResults = results.filter( result => result.getScore() !== -1 );
 		// Compute overall score.
-		const overallScore = this.scoreAggregator.aggregate( validResults );
+		const score = this.scoreAggregator.aggregate( validResults );
 
-		return {
-			results: results,
-			score: overallScore,
-		};
+		return { results, score };
 	}
 
 	/**
