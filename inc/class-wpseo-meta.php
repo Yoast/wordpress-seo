@@ -779,7 +779,7 @@ class WPSEO_Meta {
 	public static function clean_up() {
 		global $wpdb;
 
-		/**
+		/*
 		 * Clean up '_yoast_wpseo_meta-robots'
 		 *
 		 * Retrieve all '_yoast_wpseo_meta-robots' meta values and convert if no new values found
@@ -828,7 +828,7 @@ class WPSEO_Meta {
 		delete_post_meta_by_key( self::$meta_prefix . 'meta-robots' );
 
 
-		/**
+		/*
 		 * Remove all default values and (most) invalid option values
 		 * Invalid option values for the multiselect (meta-robots-adv) field will be dealt with seperately
 		 *
@@ -907,7 +907,7 @@ class WPSEO_Meta {
 		unset( $query, $meta_ids, $count, $object_id );
 
 
-		/**
+		/*
 		 * Deal with the multiselect (meta-robots-adv) field
 		 *
 		 * Removes invalid option combinations, such as 'none,noarchive'
