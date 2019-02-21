@@ -242,9 +242,9 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Generates an <option> element.
 	 *
-	 * @param string $value       The option's value.
-	 * @param string $label       The option's label.
-	 * @param string $selected    HTML selected attribute for an option.
+	 * @param string $value    The option's value.
+	 * @param string $label    The option's label.
+	 * @param string $selected HTML selected attribute for an option.
 	 *
 	 * @return string The generated <option> element.
 	 */
@@ -439,7 +439,7 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Uses the vars to create a complete filter query that can later be executed to filter out posts.
 	 *
-	 * @param array $vars Array containing the variables that will be used in the meta query.
+	 * @param array $vars    Array containing the variables that will be used in the meta query.
 	 * @param array $filters Array containing the filters that we need to apply in the meta query.
 	 *
 	 * @return array Array containing the complete filter query.
@@ -466,7 +466,7 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Creates a Readability score filter.
 	 *
-	 * @param number $low The lower boundary of the score.
+	 * @param number $low  The lower boundary of the score.
 	 * @param number $high The higher boundary of the score.
 	 *
 	 * @return array The Readability Score filter.
@@ -485,7 +485,7 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Creates an SEO score filter.
 	 *
-	 * @param number $low The lower boundary of the score.
+	 * @param number $low  The lower boundary of the score.
 	 * @param number $high The higher boundary of the score.
 	 *
 	 * @return array The SEO score filter.
