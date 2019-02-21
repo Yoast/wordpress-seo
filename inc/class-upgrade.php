@@ -148,10 +148,14 @@ class WPSEO_Upgrade {
 	protected function finish_up() {
 		WPSEO_Options::set( 'version', WPSEO_VERSION );
 
-		add_action( 'shutdown', 'flush_rewrite_rules' );                     // Just flush rewrites, always, to at least make them work after an upgrade.
-		WPSEO_Sitemaps_Cache::clear();                                       // Flush the sitemap cache.
+		// Just flush rewrites, always, to at least make them work after an upgrade.
+		add_action( 'shutdown', 'flush_rewrite_rules' );
 
-		WPSEO_Options::ensure_options_exist();                               // Make sure all our options always exist - issue #1245.
+		// Flush the sitemap cache.
+		WPSEO_Sitemaps_Cache::clear();
+
+		// Make sure all our options always exist - issue #1245.
+		WPSEO_Options::ensure_options_exist();
 	}
 
 	/**
