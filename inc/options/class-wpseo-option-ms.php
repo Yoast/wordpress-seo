@@ -14,38 +14,50 @@
 class WPSEO_Option_MS extends WPSEO_Option {
 
 	/**
-	 * @var  string  option name
+	 * Option name.
+	 *
+	 * @var string
 	 */
 	public $option_name = 'wpseo_ms';
 
 	/**
-	 * @var  string  option group name for use in settings forms
+	 * Option group name for use in settings forms.
+	 *
+	 * @var string
 	 */
 	public $group_name = 'yoast_wpseo_multisite_options';
 
 	/**
-	 * @var  bool  whether to include the option in the return for WPSEO_Options::get_all()
+	 * Whether to include the option in the return for WPSEO_Options::get_all().
+	 *
+	 * @var bool
 	 */
 	public $include_in_all = false;
 
 	/**
-	 * @var  bool  whether this option is only for when the install is multisite
+	 * Whether this option is only for when the install is multisite.
+	 *
+	 * @var bool
 	 */
 	public $multisite_only = true;
 
 	/**
-	 * @var  array  Array of defaults for the option
-	 *        Shouldn't be requested directly, use $this->get_defaults();
+	 * Array of defaults for the option.
+	 *
+	 * Shouldn't be requested directly, use $this->get_defaults();
+	 *
+	 * @var array
 	 */
 	protected $defaults = array();
 
 	/**
-	 * @var  array $allowed_access_options Available options for the 'access' setting
-	 *                    Used for input validation
+	 * Available options for the 'access' setting. Used for input validation.
 	 *
 	 * {@internal Important: Make sure the options added to the array here are in line
 	 *            with the keys for the options set for the select box in the
 	 *            admin/pages/network.php file.}}
+	 *
+	 * @var array
 	 */
 	public static $allowed_access_options = array(
 		'admin',

@@ -11,7 +11,9 @@
 class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 
 	/**
-	 * @var array Array containing fake dependency slugs.
+	 * Array containing fake dependency slugs.
+	 *
+	 * @var array
 	 */
 	private $available_dependencies = array( 'test-plugin/test-plugin.php' );
 

@@ -9,7 +9,9 @@
  * Class WPSEO_Configuration_Storage_Test
  */
 class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
-	/** @var WPSEO_Configuration_Storage_Mock */
+	/**
+	 * @var WPSEO_Configuration_Storage_Mock
+	 */
 	protected $storage;
 
 	/**

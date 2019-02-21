@@ -13,14 +13,20 @@
 class WPSEO_Utils {
 
 	/**
-	 * @var bool $has_filters Whether the PHP filter extension is enabled.
+	 * Whether the PHP filter extension is enabled.
+	 *
 	 * @since 1.8.0
+	 *
+	 * @var bool $has_filters
 	 */
 	public static $has_filters;
 
 	/**
-	 * @var array Notifications to be shown in the JavaScript console.
+	 * Notifications to be shown in the JavaScript console.
+	 *
 	 * @since 3.3.2
+	 *
+	 * @var array
 	 */
 	protected static $console_notifications = array();
 

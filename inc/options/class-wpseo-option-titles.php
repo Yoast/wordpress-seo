@@ -11,15 +11,20 @@
 class WPSEO_Option_Titles extends WPSEO_Option {
 
 	/**
-	 * @var  string  Option name.
+	 * Option name.
+	 *
+	 * @var string
 	 */
 	public $option_name = 'wpseo_titles';
 
 	/**
-	 * @var  array  Array of defaults for the option.
-	 *        Shouldn't be requested directly, use $this->get_defaults();
+	 * Array of defaults for the option.
+	 *
+	 * Shouldn't be requested directly, use $this->get_defaults();
 	 *
 	 * {@internal Note: Some of the default values are added via the translate_defaults() method.}}
+	 *
+	 * @var array
 	 */
 	protected $defaults = array(
 		// Non-form fields, set via (ajax) function.
@@ -89,7 +94,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	);
 
 	/**
-	 * @var  array  Array of variable option name patterns for the option.
+	 * Array of variable option name patterns for the option.
+	 *
+	 * @var array
 	 */
 	protected $variable_array_key_patterns = array(
 		'title-',
@@ -103,7 +110,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	);
 
 	/**
-	 * @var array  Array of sub-options which should not be overloaded with multi-site defaults.
+	 * Array of sub-options which should not be overloaded with multi-site defaults.
+	 *
+	 * @var array
 	 */
 	public $ms_exclude = array(
 		/* theme dependent */

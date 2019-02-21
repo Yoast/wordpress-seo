@@ -10,7 +10,9 @@
  */
 class WPSEO_Indexable_Double extends WPSEO_Indexable {
 	/**
-	 * @var array The updateable fields.
+	 * The updateable fields.
+	 *
+	 * @var array
 	 */
 	protected $updateable_fields = array(
 		'title',

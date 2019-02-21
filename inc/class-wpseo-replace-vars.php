@@ -22,7 +22,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 class WPSEO_Replace_Vars {
 
 	/**
-	 * @var    array    Default post/page/cpt information.
+	 * Default post/page/cpt information.
+	 *
+	 * @var array
 	 */
 	protected $defaults = array(
 		'ID'            => '',
@@ -39,17 +41,23 @@ class WPSEO_Replace_Vars {
 	);
 
 	/**
-	 * @var object    Current post/page/cpt information.
+	 * Current post/page/cpt information.
+	 *
+	 * @var object
 	 */
 	protected $args;
 
 	/**
-	 * @var    array    Help texts for use in WPSEO -> Search appearance tabs.
+	 * Help texts for use in WPSEO -> Search appearance tabs.
+	 *
+	 * @var array
 	 */
 	protected static $help_texts = array();
 
 	/**
-	 * @var array    Register of additional variable replacements registered by other plugins/themes.
+	 * Register of additional variable replacements registered by other plugins/themes.
+	 *
+	 * @var array
 	 */
 	protected static $external_replacements = array();
 
