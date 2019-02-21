@@ -222,7 +222,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	public function test_connect() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
-			->setMethods( array( 'redirect', 'save_client_id', 'generate_uuid' ) )
+			->setMethods( array( 'redirect', 'save_client_id', 'generate_uuid', 'get_extensions' ) )
 			->getMock();
 
 		$instance
@@ -237,13 +237,18 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 
 		$instance
 			->expects( $this->once() )
+			->method( ( 'get_extensions' ) )
+			->will( $this->returnValue( array( 'yoast-seo-extension' ) ) );
+
+		$instance
+			->expects( $this->once() )
 			->method( 'redirect' )
 			->with(
 				'https://my.yoast.com/connect',
 				array(
 					'url'             => WPSEO_Utils::get_home_url(),
 					'client_id'       => '9740f9cf-608e-4327-8a16-24e3ff6a4c0d',
-					'extensions'      => array(),
+					'extensions'      => array( 'yoast-seo-extension' ),
 					'redirect_url'    => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ),
 					'credentials_url' => rest_url( 'yoast/v1/myyoast/connect' )
 				)

@@ -1,3 +1,5 @@
+/* global wpseoReplaceVarsL10n */
+
 /* External dependencies */
 import {
 	subscribe,
@@ -202,6 +204,10 @@ class TaxonomyReplacementVariables {
 	 */
 	listen() {
 		getPostType().then( postType => {
+			if ( wpseoReplaceVarsL10n.has_taxonomies === "" ) {
+				return null;
+			}
+
 			return getApplicableTaxonomies( postType );
 		} ).then( taxonomies => {
 			forEach( taxonomies, taxonomy => {

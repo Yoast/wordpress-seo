@@ -159,7 +159,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
 		const wpData = window.wp.data;
 
-		wpData.subscribe( function() {
+		wpData.subscribe( () => {
 			const newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
 
 			if ( typeof newParent === "undefined" || currentParent === newParent ) {
