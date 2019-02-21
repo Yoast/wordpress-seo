@@ -33,13 +33,6 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 		}
 
 		$analysis_worker = 'wp-seo-' . $name . '-' . $flat_version;
-		if ( $name === 'analysis-worker' ) {
-			/*
-			 * Using a flag to determine whether the local file or the proxy is used.
-			 * This is for the recalibration development.
-			 */
-			$analysis_worker = 'wp-seo-' . $name . '-recalibration-' . $flat_version;
-		}
 
 		$this->asset_location = WPSEO_Admin_Asset_Manager::create_default_location();
 		$this->asset          = new WPSEO_Admin_Asset(
