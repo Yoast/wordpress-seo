@@ -21,7 +21,9 @@ class WPSEO_Taxonomy_Columns {
 	private $analysis_readability;
 
 	/**
-	 * @var string The current taxonomy
+	 * The current taxonomy.
+	 *
+	 * @var string
 	 */
 	private $taxonomy;
 
