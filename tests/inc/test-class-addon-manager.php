@@ -191,6 +191,57 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the retrieval of subscriptions for the active addons.
+	 *
+	 * @covers WPSEO_Addon_Manager::get_subscriptions_for_active_addons
+	 */
+	public function test_get_subscriptions_for_active_addons() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Addon_Manager' )
+			->setMethods( array( 'get_active_addons', 'get_subscriptions' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->any() )
+			->method( 'get_active_addons' )
+			->will(
+				$this->returnValue(
+					array(
+						'wp-seo-premium.php' => array(
+							'Version' => '10.0',
+						),
+					)
+				)
+			);
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_subscriptions' )
+			->will(
+				$this->returnValue( $this->get_subscriptions() )
+			);
+
+		$this->assertEquals(
+			array(
+				'yoast-seo-wordpress-premium' => (object) array(
+					'expires' => 'active',
+					'product' => ( object ) array(
+						'version'     => '10.0',
+						'name'        => 'Extension',
+						'slug'        => 'yoast-seo-wordpress-premium',
+						'url'         => 'https://example.org/extension',
+						'lastUpdated' => 'yesterday',
+						'storeUrl'    => 'https://example.org/store',
+						'download'    => 'https://example.org/extension.zip',
+						'changelog'   => 'changelog',
+					),
+				)
+			),
+			$instance->get_subscriptions_for_active_addons()
+		);
+	}
+
+	/**
 	 * Tests retrieval of the plugin information.
 	 *
 	 * @dataProvider get_plugin_information_provider
@@ -377,6 +428,58 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			$instance->get_installed_addons()
 		);
 	}
+
+
+	/**
+	 * Tests get_installed_plugins with no yoast addons installed.
+	 *
+	 * @covers WPSEO_Addon_Manager::get_active_addons
+	 */
+	public function test_get_active_addons() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Addon_Manager_Double' )
+			->setMethods( array( 'get_plugins', 'is_plugin_active' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_plugins' )
+			->will(
+				$this->returnValue(
+					array(
+						'wp-seo-premium.php' => array(
+							'Version' => '10.0',
+						),
+						'no-yoast-seo-extension-php' => array(
+							'Version' => '10.0',
+						),
+						'wpseo-news.php' => array(
+							'Version' => '9.5'
+						),
+					)
+				)
+			);
+
+		$instance
+			->expects( $this->exactly( 2 ) )
+			->method( 'is_plugin_active' )
+			->will(
+				$this->onConsecutiveCalls(
+					true,
+					false
+				)
+			);
+
+		$this->assertEquals(
+			array(
+				'wp-seo-premium.php' => array(
+					'Version' => '10.0',
+				),
+			),
+			$instance->get_active_addons()
+		);
+	}
+
 
 	/**
 	 * Provides data to the check_for_updates test.
