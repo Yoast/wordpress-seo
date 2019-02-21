@@ -41,15 +41,42 @@ describe( "Test for creating forms for German words", () => {
 	} );
 
 	it( "creates forms for words that don't get get an -s noun suffix (but all other regular suffixes)", () => {
-		expect( getForms( "kompass", morphologyDataDE ) ).toEqual( {
+		expect( getForms( "spieß", morphologyDataDE ) ).toEqual( {
 			forms: [
-				"kompass",
-				"kompasses",
-				"kompasse",
-				"kompässe",
-				"kompässen",
+				"spieß",
+				"spieße",
+				"spießen",
+				"spießens",
+				"spießer",
+				"spießern",
+				"spießers",
+				"spießes",
+				"spießem",
+				"spießere",
+				"spießerem",
+				"spießeren",
+				"spießerer",
+				"spießeres",
+				"spießste",
+				"spießstem",
+				"spießsten",
+				"spießster",
+				"spießstes",
+				"spießt",
+				"spießest",
+				"spießet",
+				"spießte",
+				"spießtet",
+				"spießten",
+				"spießtest",
+				"spießete",
+				"spießetet",
+				"spießeten",
+				"spießetest",
+				"spießend",
+				"gespießt",
 			],
-			stem: "kompass",
+			stem: "spieß",
 		} );
 	} );
 
