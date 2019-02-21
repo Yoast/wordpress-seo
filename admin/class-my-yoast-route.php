@@ -110,10 +110,10 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 		$this->redirect(
 			'https://my.yoast.com/connect',
 			array(
-				'url'          => WPSEO_Utils::get_home_url(),
-				'client_id'    => $client_id,
-				'extensions'   => $this->get_extensions(),
-				'redirect_url' => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ),
+				'url'             => WPSEO_Utils::get_home_url(),
+				'client_id'       => $client_id,
+				'extensions'      => $this->get_extensions(),
+				'redirect_url'    => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ),
 				'credentials_url' => rest_url( 'yoast/v1/myyoast/connect' ),
 			)
 		);
@@ -180,17 +180,16 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Retrieves a list the activated extensions.
+	 * Retrieves a list of activated extensions slugs.
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return array The extensions.
+	 * @return array The extensions slugs.
 	 */
 	protected function get_extensions() {
 		$addon_manager = new WPSEO_Addon_Manager();
 
 		return array_keys( $addon_manager->get_subscriptions_for_active_addons() );
-
 	}
 
 	/**

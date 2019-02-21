@@ -191,7 +191,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the retrieval subscriptions for the active addons.
+	 * Tests the retrieval of subscriptions for the active addons.
 	 *
 	 * @covers WPSEO_Addon_Manager::get_subscriptions_for_active_addons
 	 */
