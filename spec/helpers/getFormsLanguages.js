@@ -1,4 +1,4 @@
-import getFormsLanguages from "../../src/helpers/getFormsLanguages";
+import getFormsLanguages from "../../src/helpers/getLanguagesWithWordFormSupport";
 
 describe( "Checks which languages have morphology support in YoastSEO.js", function() {
 	it( "returns an array of languages that have morphology support", function() {
