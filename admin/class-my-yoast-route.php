@@ -233,9 +233,9 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 */
 	protected function get_authorization_code() {
 		return filter_input( INPUT_GET, 'code' );
-  }
+	}
 
-  /**
+	/**
 	 * Retrieves a list of activated extensions slugs.
 	 *
 	 * @codeCoverageIgnore
