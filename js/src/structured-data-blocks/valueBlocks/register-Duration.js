@@ -8,7 +8,7 @@ import { CATEGORY } from "../constants";
 
 export default () => {
 	registerBlockType( "yoast/duration", {
-		title: __( "Total time", "wordpress-seo" ),
+		title: __( "Duration", "wordpress-seo" ),
 		description: __( "", "wordpress-seo" ),
 		icon: "",
 		category: CATEGORY,
