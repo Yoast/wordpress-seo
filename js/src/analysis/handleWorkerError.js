@@ -1,6 +1,6 @@
 
 /**
- * Dispatches a warning message if the recalibration analysis fails.
+ * Dispatches a warning message if the SEO or readability analysis fails.
  *
  * **Warning**: has not been implemented yet.
  *
