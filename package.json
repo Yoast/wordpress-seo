@@ -139,7 +139,7 @@
     "lodash": "^4.17.4",
     "marked": "^0.3.6",
     "material-ui": "^0.20.0",
-    "moment": "2.22.2",
+    "moment": "^2.24.0",
     "moment-duration-format": "^2.2.2",
     "prop-types": "^15.5.10",
     "react": "16.6.3",
