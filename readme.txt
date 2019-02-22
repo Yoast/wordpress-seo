@@ -106,18 +106,21 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
-= 9.8.0 =
+= 10.0.0 =
 Release Date: March 12th, 2019
+
+Enhancements:
+
+* The recalibrated analysis is out of its beta phase and is now the default for the SEO analysis. Thanks for testing and giving us your valuable feedback! You are awesome! 👍
+* Adds `$taxonomy` to the arguments passed to the `wpseo_terms` filter. Props to [polevaultweb](https://github.com/polevaultweb).
+* Changes the screen reader text of the SEO score indicator in the menu bar and the traffic light in the snippet preview from `Bad SEO score.` to `Needs improvement.`
+* Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
 
 Bugfixes:
 
 * Fixes a bug where the `focus keyphrase` snippet variable was not correctly applied on term pages.
 * Fixes a bug where the Facebook image that was set for the WooCommerce Shop page would not be outputted as `og:image`. Props [stodorovic](https://github.com/stodorovic).
 * Fixes a bug where the featured image set on a WooCommerce Shop page would not be outputted as Facebook OpenGraph Image or Twitter Image. Props [stodorovic](https://github.com/stodorovic).
-
-Other:
-
-* Adds `$taxonomy` to the arguments passed to the `wpseo_terms` filter. Props to [polevaultweb](https://github.com/polevaultweb).
 
 = 9.7.0 =
 Release Date: February 26th, 2019

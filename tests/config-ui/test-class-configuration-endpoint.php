@@ -18,6 +18,8 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		do_action( 'rest_api_init' );
+
 		$this->endpoint = new WPSEO_Configuration_Endpoint_Mock();
 	}
 
