@@ -40,6 +40,36 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests if data with slashes remains the same after storing.
+	 *
+	 * @covers WPSEO_Meta::set_value()
+	 */
+	public function test_set_value_slashed() {
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
+		$value = '\\"data\\"';
+
+		WPSEO_Meta::set_value( 'test_set_value_key_slashed', $value, $post_id );
+		$this->assertEquals( $value, get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'test_set_value_key_slashed', true ) );
+	}
+
+	/**
+	 * Tests if data with slashes remains the same after storing.
+	 *
+	 * @covers WPSEO_Meta::set_value()
+	 */
+	public function test_set_value_slashed_array() {
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
+		$value = array( 'hoi' => 'doei" \\"' );
+
+		WPSEO_Meta::set_value( 'test_set_value_key_slashed_array', $value, $post_id );
+		$this->assertEquals( $value, get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'test_set_value_key_slashed_array', true ) );
+	}
+
+	/**
 	 * Test if default meta values are removed when updating post_meta.
 	 *
 	 * @covers WPSEO_Meta::remove_meta_if_default

@@ -689,6 +689,12 @@ class WPSEO_Meta {
 	 * @return bool   whether the value was changed
 	 */
 	public static function set_value( $key, $meta_value, $post_id ) {
+		/*
+		 * Slash the data, because `update_metadata` will unslash it and we have already unslashed it.
+		 * Related issue: https://github.com/Yoast/YoastSEO.js/issues/2158
+		 */
+		$meta_value = wp_slash( $meta_value );
+
 		return update_post_meta( $post_id, self::$meta_prefix . $key, $meta_value );
 	}
 
