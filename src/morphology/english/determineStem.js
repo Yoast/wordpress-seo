@@ -11,13 +11,10 @@ import { flatten } from "lodash-es";
  *
  * @param {string[]} array  The array of strings.
  *
- * @returns {string} The shortest of the alphabetically ordered strings from the input array.
+ * @returns {string|undefined}  The shortest of the alphabetically ordered strings from the input array;
+ *                              undefined if the input array is empty.
  */
 export function findShortestAndAlphabeticallyFirst( array ) {
-	if ( array.length === 0 ) {
-		return;
-	}
-
 	const strings = flatten( array );
 	let result = strings.pop();
 
@@ -43,7 +40,7 @@ export function findShortestAndAlphabeticallyFirst( array ) {
  * @param {Array} irregulars            An array of irregular nouns and adjectives.
  * @param {Object|false} verbMorphology Regexes and irregulars for verb morphology, False if verb rules should not be applied.
  *
- * @returns {string} The base form of the irregular word.
+ * @returns {string|undefined} The base form of the irregular word; undefined if no irregular stem was found.
  */
 export function determineIrregularStem( word, irregulars, verbMorphology ) {
 	for ( let i = 0; i < irregulars.length; i++ ) {
@@ -61,8 +58,6 @@ export function determineIrregularStem( word, irregulars, verbMorphology ) {
 			return paradigmIfIrregularVerb[ 0 ];
 		}
 	}
-
-	return "";
 }
 
 /**
@@ -151,7 +146,7 @@ export function determineStem( word, morphologyData ) {
 
 	const baseIfIrregular = determineIrregularStem( bestBase, irregulars, verbMorphology );
 
-	if ( baseIfIrregular !== "" ) {
+	if ( ! isUndefined( baseIfIrregular ) ) {
 		return baseIfIrregular;
 	}
 

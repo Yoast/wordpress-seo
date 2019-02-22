@@ -14,7 +14,7 @@ describe( "findShortestAndAlphabeticallyFirst", function() {
 		expect( findShortestAndAlphabeticallyFirst( [ "word" ] ) ).toEqual( "word" );
 	} );
 
-	it( "returns null if the input array is empty", function() {
+	it( "returns undefined if the input array is empty", function() {
 		expect( findShortestAndAlphabeticallyFirst( [] ) ).not.toBeDefined();
 	} );
 } );
@@ -27,8 +27,8 @@ describe( "getIrregularStem", function() {
 
 	const verbMorphology = morphologyDataEN.verbs;
 
-	it( "does not break if the word is not in the list of irregulars", function() {
-		expect( determineIrregularStem( "word", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "" );
+	it( "returns undefined if the word is not in the list of irregulars", function() {
+		expect( determineIrregularStem( "word", nounAndAdjectiveIrregulars, verbMorphology ) ).not.toBeDefined();
 	} );
 
 	it( "returns the stem of an irregular noun", function() {
