@@ -10,7 +10,7 @@ import { flattenDeep } from "lodash-es";
  * @returns {string[]} The suffixed verb forms.
  */
 export function applySuffixesToStem( stem, suffixes, appendToStem = "" ) {
-	return suffixes.map( suffix => stem.concat( appendToStem ).concat( suffix ) );
+	return suffixes.map( suffix => stem + appendToStem + suffix );
 }
 
 /**
