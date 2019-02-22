@@ -780,9 +780,20 @@ class Yoast_Notification_Center {
 	 *
 	 * @return bool True when there are stored notifications.
 	 */
-	private function has_stored_notifications() {
-		$stored_notifications = get_user_option( self::STORAGE_KEY, get_current_user_id() );
+	protected function has_stored_notifications() {
+		$stored_notifications = $this->get_stored_notifications();
 
 		return ! empty( $stored_notifications );
+	}
+
+	/**
+	 * Retrieves the stored notifications.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return array|false Array with notifications or false when not set.
+	 */
+	protected function get_stored_notifications() {
+		return get_user_option( self::STORAGE_KEY, get_current_user_id() );
 	}
 }
