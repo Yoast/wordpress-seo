@@ -176,7 +176,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 				this.declareReloaded();
 				return;
 			}
-			wp.api.loadPromise.done( function() {
+			wp.api.loadPromise.done( () => {
 				const page = new wp.api.models.Page( { id: newParent } );
 				page.fetch().then(
 					response => {
