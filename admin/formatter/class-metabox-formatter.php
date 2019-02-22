@@ -67,7 +67,6 @@ class WPSEO_Metabox_Formatter {
 			'isRtl'                     => is_rtl(),
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
 			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
-			'recalibrationBetaActive'   => WPSEO_Recalibration_Beta::is_enabled(),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
