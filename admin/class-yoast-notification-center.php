@@ -58,14 +58,6 @@ class Yoast_Notification_Center {
 	private $notifications_retrieved = false;
 
 	/**
-	 * Internal flag for whether the persistent store of this user's notifications
-	 * was empty when we loaded from it.
-	 *
-	 * @var bool
-	 */
-	private $notifications_storage_empty = false;
-
-	/**
 	 * Construct
 	 */
 	private function __construct() {
@@ -540,9 +532,7 @@ class Yoast_Notification_Center {
 
 		// No notifications to store, clear storage if it was previously present.
 		if ( empty( $notifications ) ) {
-			if ( ! $notifications_storage_empty ) {
-				$this->remove_storage();
-			}
+			$this->remove_storage();
 
 			return;
 		}
@@ -608,7 +598,6 @@ class Yoast_Notification_Center {
 
 		// Check if notifications are stored.
 		if ( empty( $stored_notifications ) ) {
-			$notifications_storage_empty = true;
 			return;
 		}
 
@@ -650,9 +639,14 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Remove all notifications from storage
+	 * Removes all notifications from storage.
+	 *
+	 * @return void
 	 */
 	private function remove_storage() {
+		if ( ! $this->has_stored_notifications() ) {
+			return;
+		}
 
 		delete_user_option( get_current_user_id(), self::STORAGE_KEY );
 	}
@@ -779,5 +773,16 @@ class Yoast_Notification_Center {
 	 */
 	private function add_transaction_to_queue( $callback, $args ) {
 		$this->queued_transactions[] = array( $callback, $args );
+	}
+
+	/**
+	 * Checks if there are stored notifications.
+	 *
+	 * @return bool True when there are stored notifications.
+	 */
+	private function has_stored_notifications() {
+		$stored_notifications = get_user_option( self::STORAGE_KEY, get_current_user_id() );
+
+		return ! empty( $stored_notifications );
 	}
 }
