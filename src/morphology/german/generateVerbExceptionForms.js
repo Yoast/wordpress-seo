@@ -110,7 +110,6 @@ const generateFormsStrongVerbs = function( morphologyDataVerbs, stemmedWordToChe
  * @returns {string[]} The created verb forms.
  */
 export function generateVerbExceptionForms( morphologyDataVerbs, stemmedWordToCheck ) {
-	let exceptions = [];
 
 	const prefixes = morphologyDataVerbs.verbPrefixes;
 	let stemmedWordToCheckWithoutPrefix = "";
