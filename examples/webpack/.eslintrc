@@ -3,3 +3,4 @@ rules:
   react/prop-types: 0
   react/jsx-no-bind: 0
   no-unused-vars: 0
+  complexity: 0

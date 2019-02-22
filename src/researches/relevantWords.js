@@ -1,4 +1,7 @@
-import { getRelevantWords } from "../stringProcessing/relevantWords";
+import { take } from "lodash-es";
+import { getRelevantWords, getRelevantWordsFromPaperAttributes } from "../stringProcessing/relevantWords";
+import { getSubheadingsTopLevel } from "../stringProcessing/getSubheadings";
+
 
 /**
  * Retrieves the relevant words from the given paper.
@@ -7,7 +10,22 @@ import { getRelevantWords } from "../stringProcessing/relevantWords";
  * @returns {WordCombination[]} Relevant words for this paper, filtered and sorted.
  */
 function relevantWords( paper ) {
-	return getRelevantWords( paper.getText(), paper.getLocale() );
+	const locale = paper.getLocale();
+	const relevantWordsFromText = getRelevantWords( paper.getText(), locale );
+
+	const subheadings = getSubheadingsTopLevel( paper.getText() ).map( subheading => subheading[ 2 ] );
+
+	const attributes = {
+		keyphrase: paper.getKeyword(),
+		synonyms: paper.getSynonyms(),
+		title: paper.getTitle(),
+		metadescription: paper.getDescription(),
+		subheadings,
+	};
+
+	const relevantWordsFromPaperAttributes = getRelevantWordsFromPaperAttributes( attributes, locale );
+
+	return take( relevantWordsFromPaperAttributes.concat( relevantWordsFromText ), 100 );
 }
 
 
