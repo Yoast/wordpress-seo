@@ -7,7 +7,7 @@
  * @returns {string} The participle form.
  */
 const addParticipleAffixes = function( stemmedWord, affixes ) {
-	return affixes.prefix.concat( stemmedWord ).concat( affixes.suffix );
+	return affixes.prefix + stemmedWord + affixes.suffix;
 };
 
 /**

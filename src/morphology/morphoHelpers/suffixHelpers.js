@@ -1,5 +1,3 @@
-import { flattenDeep } from "lodash-es";
-
 /**
  * Creates word forms from a list of given suffixes and a stem.
  *
@@ -23,5 +21,8 @@ export function applySuffixesToStem( stem, suffixes, appendToStem = "" ) {
  * @returns {string[]} The suffixed verb forms.
  */
 export function applySuffixesToStems( stems, suffixes, appendToStem = "" ) {
-	return flattenDeep( stems.map( stem => applySuffixesToStem( stem, suffixes, appendToStem ) ) );
+	return stems.reduce( ( list, stem ) => {
+		const stemWithSuffixes = applySuffixesToStem( stem, suffixes, appendToStem );
+		return list.concat( stemWithSuffixes );
+	}, [] );
 }

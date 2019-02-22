@@ -1,5 +1,5 @@
 import { applySuffixesToStem, applySuffixesToStems } from "../morphoHelpers/suffixHelpers";
-import { flattenDeep, forOwn, uniq as unique } from "lodash-es";
+import { flatten, forOwn, uniq as unique } from "lodash-es";
 
 /**
  * Adds suffixes to a given strong verb paradigm.
@@ -12,33 +12,27 @@ import { flattenDeep, forOwn, uniq as unique } from "lodash-es";
  */
 const addSuffixesStrongVerbParadigm = function( dataStrongVerbs, verbClass, stems ) {
 	// All classes have the same present and participle suffixes.
-	const suffixes = {
+	const basicSuffixes = {
 		present: dataStrongVerbs.suffixes.presentAllClasses.slice(),
-		pastParticiple: new Array( dataStrongVerbs.suffixes.pastParticiple.slice() ),
+		pastParticiple: new Array( dataStrongVerbs.suffixes.pastParticiple ),
 	};
 
-	const suffixesPerClass = dataStrongVerbs.suffixes.classDependent;
-
 	// Add class-specific suffixes.
-	forOwn( suffixesPerClass, function( stemData, stemClass ) {
-		if ( stemClass === verbClass ) {
-			forOwn( stemData, function( additionalSuffixes, suffixClass ) {
-				suffixes[ suffixClass ] = additionalSuffixes;
-			} );
-		}
-	} );
+	const additionalSuffixes = dataStrongVerbs.suffixes.classDependent[ verbClass ];
+	const allSuffixes = { ...basicSuffixes, ...additionalSuffixes };
 
+	// Add the present and the past stem, since these can also be forms on their own.
 	const forms = [ stems.present, stems.past ];
 
 	forOwn( stems, function( stem, stemClass ) {
 		forms.push(
 			Array.isArray( stem )
-				? applySuffixesToStems( stem, suffixes[ stemClass ] )
-				: applySuffixesToStem( stem, suffixes[ stemClass ] )
+				? applySuffixesToStems( stem, allSuffixes[ stemClass ] )
+				: applySuffixesToStem( stem, allSuffixes[ stemClass ] )
 		);
 	} );
 
-	return unique( flattenDeep( forms ) );
+	return unique( flatten( forms ) );
 };
 
 /**
@@ -46,7 +40,7 @@ const addSuffixesStrongVerbParadigm = function( dataStrongVerbs, verbClass, stem
  * returns the correct forms.
  *
  * @param {Object}  morphologyDataVerbs The German morphology data for verbs.
- * @param {Object}  paradigm              The current paradigm to generate forms for.
+ * @param {Object}  paradigm            The current paradigm to generate forms for.
  * @param {string}  stemmedWordToCheck  The stem to check.
  *
  * @returns {string[]} The created verb forms.
@@ -59,7 +53,7 @@ const generateFormsPerParadigm = function( morphologyDataVerbs, paradigm, stemme
 
 	forOwn( stems, ( stem ) => stemsFlattened.push( stem ) );
 	// Some stem types have two forms, which means that a stem type can also contain an array. These get flattened here.
-	stemsFlattened = flattenDeep( stemsFlattened );
+	stemsFlattened = flatten( stemsFlattened );
 
 	/*
 	 * Sort in order to make sure that if the stem to check is e.g. "gehalt", "halt" isn't matched before "gehalt".
@@ -87,9 +81,7 @@ const generateFormsPerParadigm = function( morphologyDataVerbs, paradigm, stemme
 const generateFormsStrongVerbs = function( morphologyDataVerbs, stemmedWordToCheck ) {
 	const stems = morphologyDataVerbs.strongVerbs.stems;
 
-	for ( let i = 0; i < stems.length; i++ ) {
-		const paradigm = stems[ i ];
-
+	for ( const paradigm of stems ) {
 		const forms = generateFormsPerParadigm( morphologyDataVerbs, paradigm, stemmedWordToCheck );
 
 		if ( forms.length > 0 ) {
@@ -110,7 +102,6 @@ const generateFormsStrongVerbs = function( morphologyDataVerbs, stemmedWordToChe
  * @returns {string[]} The created verb forms.
  */
 export function generateVerbExceptionForms( morphologyDataVerbs, stemmedWordToCheck ) {
-
 	const prefixes = morphologyDataVerbs.verbPrefixes;
 	let stemmedWordToCheckWithoutPrefix = "";
 
@@ -129,11 +120,11 @@ export function generateVerbExceptionForms( morphologyDataVerbs, stemmedWordToCh
 	}
 
 	// Check exceptions with full forms.
-	let exceptions = generateFormsStrongVerbs( morphologyDataVerbs, stemmedWordToCheck, foundPrefix );
+	let exceptions = generateFormsStrongVerbs( morphologyDataVerbs, stemmedWordToCheck );
 
 	// If the original stem had a verb prefix, attach it to the found exception forms.
 	if ( typeof( foundPrefix ) === "string" ) {
-		exceptions = exceptions.map( word => foundPrefix.concat( word ) );
+		exceptions = exceptions.map( word => foundPrefix + word );
 	}
 
 	if ( exceptions.length > 0 ) {
