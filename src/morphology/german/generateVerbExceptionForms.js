@@ -130,7 +130,7 @@ export function generateVerbExceptionForms( morphologyDataVerbs, stemmedWordToCh
 	}
 
 	// Check exceptions with full forms.
-	exceptions = generateFormsStrongVerbs( morphologyDataVerbs, stemmedWordToCheck, foundPrefix );
+	let exceptions = generateFormsStrongVerbs( morphologyDataVerbs, stemmedWordToCheck, foundPrefix );
 
 	// If the original stem had a verb prefix, attach it to the found exception forms.
 	if ( typeof( foundPrefix ) === "string" ) {
