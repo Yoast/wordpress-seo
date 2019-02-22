@@ -655,7 +655,8 @@ class WPSEO_Meta {
 			if ( $custom[ self::$meta_prefix . $key ][0] === $unserialized ) {
 				return $custom[ self::$meta_prefix . $key ][0];
 			}
-			else {
+
+			if ( isset( self::$fields_index[ self::$meta_prefix . $key ] ) ) {
 				$field_def = self::$meta_fields[ self::$fields_index[ self::$meta_prefix . $key ]['subset'] ][ self::$fields_index[ self::$meta_prefix . $key ]['key'] ];
 				if ( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
 					// Ok, serialize value expected/allowed.
@@ -668,13 +669,12 @@ class WPSEO_Meta {
 		if ( isset( self::$defaults[ self::$meta_prefix . $key ] ) ) {
 			return self::$defaults[ self::$meta_prefix . $key ];
 		}
-		else {
-			/*
-			 * Shouldn't ever happen, means not one of our keys as there will always be a default available
-			 * for all our keys.
-			 */
-			return '';
-		}
+
+		/*
+		 * Shouldn't ever happen, means not one of our keys as there will always be a default available
+		 * for all our keys.
+		 */
+		return '';
 	}
 
 	/**
