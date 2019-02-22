@@ -124,8 +124,8 @@ class WPSEO_Upgrade {
 			$this->upgrade90();
 		}
 
-		if ( version_compare( $version, '9.6-RC0', '<' ) ) {
-			$this->upgrade96();
+		if ( version_compare( $version, '10.0-RC0', '<' ) ) {
+			$this->upgrade100();
 		}
 
 		// Since 3.7.
@@ -635,12 +635,25 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 9.6 upgrade.
+	 * Performs the 10.0 upgrade.
 	 *
 	 * @return void
 	 */
-	private function upgrade96() {
-		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-recalibration-meta-notification' );
+	private function upgrade100() {
+		$this->clean_all_notifications();
+	}
+
+	/**
+	 * Removes all notifications saved in the database under 'wp_yoast_notifications'.
+	 *
+	 * @return void
+	 */
+	private function clean_all_notifications() {
+		global $wpdb;
+		$query = $wpdb->prepare(
+			'DELETE FROM ' . $wpdb->usermeta . ' WHERE meta_key=%s', $wpdb->prefix . Yoast_Notification_Center::STORAGE_KEY
+			);
+		$wpdb->query( $query );
 	}
 
 	/**
