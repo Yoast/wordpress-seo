@@ -6,6 +6,9 @@
  * @since   9.3.0
  */
 
+// Mark this file as deprecated.
+_deprecated_file( __FILE__, 'WPSEO 10.0' );
+
 /**
  * Holds the logic for the recalibration beta.
  *
