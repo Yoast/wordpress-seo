@@ -116,7 +116,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if data with slashes remains the same after storing.
 	 *
-	 * @covers WPSEO_Meta::set_value()
+	 * @covers WPSEO_Meta::get_value()
 	 */
 	public function test_set_value_slashed() {
 		$post_id = $this->factory->post->create();
@@ -132,57 +132,41 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if data with slashes remains the same after storing.
-	 *
-	 * @covers WPSEO_Meta::set_value()
-	 */
-	public function test_set_value_slashed_array() {
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		$value = array( 'k\"ey' => 'slashed data" \\"' );
-
-		$key = 'test_set_value_key_slashed_array';
-		$this->register_meta_key( $key, true );
-
-		WPSEO_Meta::set_value( $key, $value, $post_id );
-		$this->assertEquals( $value, WPSEO_Meta::get_value( $key, $post_id ) );
-	}
-
-	/**
-	 * Tests if data with slashes remains the same after storing.
-	 *
-	 * @covers WPSEO_Meta::set_value()
-	 */
-	public function test_set_value_serialized_and_slashed_array() {
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		$key = 'test_set_value_key_slashed_array';
-		$this->register_meta_key( $key, true );
-
-		$array = array( 'ke\\y' => 'slashed data" \\"' );
-		$value = serialize( $array );
-
-		WPSEO_Meta::set_value( $key, $value, $post_id );
-		$this->assertEquals( $value, WPSEO_Meta::get_value( $key, $post_id ) );
-	}
-
-	/**
-	 * Tests if data with slashes remains the same after storing.
+	 * Tests if data, registered as serialized, with slashes remains the same
+	 * after storing.
 	 *
 	 * @covers WPSEO_Meta::set_value()
 	 * @covers WPSEO_Meta::get_value()
 	 */
-	public function test_set_and_get_value_serialized_and_slashed_array() {
+	public function test_get_and_set_value_slashed_array() {
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		$array = array( 'ke\\y' => 'slashed data" \\"' );
-		$value = serialize( $array );
-
-		$key = 'get_and_set_value_key_slashed_array';
+		$key = 'test_set_value_key_slashed_array';
 		$this->register_meta_key( $key, true );
+
+		$value = array( 'k\"ey' => '""slashed data" \\"' );
+
+		WPSEO_Meta::set_value( $key, $value, $post_id );
+		$this->assertEquals( $value, WPSEO_Meta::get_value( $key, $post_id ) );
+	}
+
+	/**
+	 * Tests if serialized data, registered as serialized, with slashes remains
+	 * the same after storing.
+	 *
+	 * @covers WPSEO_Meta::set_value()
+	 * @covers WPSEO_Meta::get_value()
+	 */
+	public function test_get_and_set_value_serialized_and_slashed_array() {
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
+		$key = 'test_set_value_key_slashed_array';
+		$this->register_meta_key( $key, true );
+
+		$array = array( 'ke\\y' => '""slashed data" \\"' );
+		$value = serialize( $array );
 
 		WPSEO_Meta::set_value( $key, $value, $post_id );
 		$this->assertEquals( $value, WPSEO_Meta::get_value( $key, $post_id ) );
