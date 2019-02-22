@@ -19,9 +19,9 @@ class Admin implements Integration {
 	/**
 	 * Initializes the integration.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * This is the place to register hooks and filters.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
