@@ -33,12 +33,12 @@ export default function( paper, researcher ) {
 	 * (e.g. "The apple potato is an apple and a potato." has two occurrences of the key phrase "apple potato").
 	 */
 	sentences.forEach( sentence => {
-		const matches = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
-		const hasAllKeywords = matches.every( keywordForm => keywordForm.count > 0 );
+		const matchesInSentence = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
+		const hasAllKeywords = matchesInSentence.every( keywordForm => keywordForm.count > 0 );
 
 		if ( hasAllKeywords ) {
-			const counts = matches.map( match => match.count );
-			const foundWords = flattenDeep( matches.map( match => match.matches ) );
+			const counts = matchesInSentence.map( match => match.count );
+			const foundWords = flattenDeep( matchesInSentence.map( match => match.matches ) );
 			keywordsFound.count += Math.min( ...counts );
 			keywordsFound.matches.push( foundWords );
 			keywordsFound.sentencesWithKeywords.push( sentence );

@@ -5,8 +5,6 @@ import Mark from "../../src/values/Mark.js";
 const i18n = Factory.buildJed();
 
 describe( "An assessment for transition word percentage", function() {
-	let mockPaper, assessment;
-
 	it( "returns the score for 0% of the sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
@@ -60,16 +58,16 @@ describe( "An assessment for transition word percentage", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "returns the score for 35.0% of the sentences with transition words", function() {
-		mockPaper = new Paper();
-		assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 20,
+		const mockPaper = new Paper();
+		const assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 20,
 			transitionWordSentences: 7 } ), i18n );
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "returns the score for 40% sentences with transition words", function() {
-		mockPaper = new Paper();
-		assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
+		const mockPaper = new Paper();
+		const assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
 			transitionWordSentences: 4 } ), i18n );
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
@@ -77,8 +75,8 @@ describe( "An assessment for transition word percentage", function() {
 	} );
 
 	it( "returns the score for 47% sentences with transition words", function() {
-		mockPaper = new Paper();
-		assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 100,
+		const mockPaper = new Paper();
+		const assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 100,
 			transitionWordSentences: 47 } ), i18n );
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
@@ -86,8 +84,8 @@ describe( "An assessment for transition word percentage", function() {
 	} );
 
 	it( "returns the score for 66.7% of the sentences with transition words", function() {
-		mockPaper = new Paper();
-		assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 3,
+		const mockPaper = new Paper();
+		const assessment = transitionWordsAssessment.getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 3,
 			transitionWordSentences: 2 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -96,20 +94,20 @@ describe( "An assessment for transition word percentage", function() {
 	} );
 
 	it( "is not applicable for empty papers", function() {
-		mockPaper = new Paper();
-		assessment = transitionWordsAssessment.isApplicable( mockPaper );
+		const mockPaper = new Paper();
+		const assessment = transitionWordsAssessment.isApplicable( mockPaper );
 		expect( assessment ).toBe( false );
 	} );
 
 	it( "is applicable for supported locales, en_US in this case", function() {
-		mockPaper = new Paper( "This is a string", { locale: "en_US" } );
-		assessment = transitionWordsAssessment.isApplicable( mockPaper );
+		const mockPaper = new Paper( "This is a string", { locale: "en_US" } );
+		const assessment = transitionWordsAssessment.isApplicable( mockPaper );
 		expect( assessment ).toBe( true );
 	} );
 
 	it( "is not applicable for unsupported locales, xx_YY in this case", function() {
-		mockPaper = new Paper( "This is a string", { locale: "xx_YY" } );
-		assessment = transitionWordsAssessment.isApplicable( mockPaper );
+		const mockPaper = new Paper( "This is a string", { locale: "xx_YY" } );
+		const assessment = transitionWordsAssessment.isApplicable( mockPaper );
 		expect( assessment ).toBe( false );
 	} );
 } );

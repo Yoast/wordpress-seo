@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.47.0",
+  "version": "1.48.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/YoastSEO.js"
@@ -64,6 +64,7 @@
     "jed": "^1.1.0",
     "lodash-es": "^4.17.10",
     "loglevel": "^1.6.1",
+    "parse5": "^5.1.0",
     "sassdash": "0.9.0",
     "tokenizer2": "^2.0.1"
   },

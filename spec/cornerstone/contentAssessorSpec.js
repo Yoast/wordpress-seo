@@ -8,16 +8,12 @@ import Factory from "../specHelpers/factory";
 const i18n = Factory.buildJed();
 
 describe( "A content assessor", function() {
-	var contentAssessor;
-
-	beforeEach( function() {
-		contentAssessor = new ContentAssessor( i18n );
-	} );
-
 	describe( "calculatePenaltyPoints", function() {
+		var contentAssessor;
 		var results;
 		var paper = new Paper();
 		beforeEach( function() {
+			contentAssessor = new ContentAssessor( i18n );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -101,10 +97,11 @@ describe( "A content assessor", function() {
 		} );
 	} );
 
-	describe( "calculateOverallScore", function() {
-		var points, results;
+	describe( "calculateOverallScore for English", function() {
+		var points, results, contentAssessor;
 
 		beforeEach( function() {
+			contentAssessor = new ContentAssessor( i18n );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -152,44 +149,46 @@ describe( "A content assessor", function() {
 				expect( actual ).toBe( testCase.expected );
 			} );
 		} );
+	} );
 
-		describe( "calculateOverallScore for non English", function() {
-			var points, results;
+	describe( "calculateOverallScore for non English", function() {
+		var points, results, contentAssessor;
 
-			beforeEach( function() {
-				contentAssessor.getValidResults = function() {
-					return results;
-				};
-				contentAssessor.calculatePenaltyPoints = function() {
-					return points;
-				};
-				contentAssessor.getPaper = function() {
-					return new Paper( "", { locale: "nl_NL" } );
-				};
-			} );
+		beforeEach( function() {
+			contentAssessor = new ContentAssessor( i18n );
+			contentAssessor.getValidResults = function() {
+				return results;
+			};
+			contentAssessor.calculatePenaltyPoints = function() {
+				return points;
+			};
+			contentAssessor.getPaper = function() {
+				return new Paper( "", { locale: "nl_NL" } );
+			};
+		} );
 
-			it( "should give worse results based on the negative points", function() {
-				results = [
-					new AssessmentResult(),
-					new AssessmentResult(),
-				];
-				var testCases = [
-					{ points: 6, expected: 30 },
-					{ points: 4, expected: 60 },
-					{ points: 3, expected: 60 },
-					{ points: 2, expected: 90 },
-				];
+		it( "should give worse results based on the negative points", function() {
+			results = [
+				new AssessmentResult(),
+				new AssessmentResult(),
+			];
+			var testCases = [
+				{ points: 6, expected: 30 },
+				{ points: 4, expected: 60 },
+				{ points: 3, expected: 60 },
+				{ points: 2, expected: 90 },
+			];
 
-				forEach( testCases, function( testCase ) {
-					points = testCase.points;
+			forEach( testCases, function( testCase ) {
+				points = testCase.points;
 
-					var actual = contentAssessor.calculateOverallScore();
+				var actual = contentAssessor.calculateOverallScore();
 
-					expect( actual ).toBe( testCase.expected );
-				} );
+				expect( actual ).toBe( testCase.expected );
 			} );
 		} );
 	} );
+
 	describe( "Checks the applicable assessments", function() {
 		var contentAssessor = new ContentAssessor( i18n );
 		it( "Should have 8 available assessments for a fully supported language", function() {

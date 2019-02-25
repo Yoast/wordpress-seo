@@ -41,6 +41,13 @@ var PreviouslyUsedKeyword = function( app, args ) {
 PreviouslyUsedKeyword.prototype.registerPlugin = function() {
 	this.app.registerAssessment( "usedKeywords", {
 		getResult: this.assess.bind( this ),
+		/**
+		 * Checks if the paper has a keyphrase, which is a prerequisite for the assessment to run.
+		 *
+		 * @param {Paper} paper The paper.
+		 *
+		 * @returns {boolean} Whether the paper has a keyphrase.
+		 */
 		isApplicable: function( paper ) {
 			return paper.hasKeyword();
 		},

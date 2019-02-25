@@ -39,6 +39,14 @@ describe( "The SnippetPreview format functions", function() {
 			},
 			pluggable: {
 				loaded: true,
+				/**
+				 * A mock applyModifications function.
+				 *
+				 * @param {string} name The name of the modification to apply.
+				 * @param {*} text Some data to apply modification to.
+				 *
+				 * @returns {*} The data to which the modification was applied.
+				 */
 				_applyModifications: function( name, text ) {
 					return text;
 				},
@@ -62,6 +70,14 @@ describe( "The SnippetPreview format functions", function() {
 			},
 			pluggable: {
 				loaded: true,
+				/**
+				 * A mock applyModifications function.
+				 *
+				 * @param {string} name The name of the modification to apply.
+				 * @param {*} text Some data to apply modification to.
+				 *
+				 * @returns {*} The data to which the modification was applied.
+				 */
 				_applyModifications: function( name, text ) {
 					return text;
 				},
@@ -111,6 +127,14 @@ describe( "The SnippetPreview format functions", function() {
 			},
 			pluggable: {
 				loaded: true,
+				/**
+				 * A mock applyModifications function.
+				 *
+				 * @param {string} name The name of the modification to apply.
+				 * @param {*} text Some data to apply modification to.
+				 *
+				 * @returns {*} The data to which the modification was applied.
+				 */
 				_applyModifications: function( name, text ) {
 					return text;
 				},
@@ -138,6 +162,14 @@ describe( "The SnippetPreview format functions", function() {
 			},
 			pluggable: {
 				loaded: true,
+				/**
+				 * A mock applyModifications function.
+				 *
+				 * @param {string} name The name of the modification to apply.
+				 * @param {*} text Some data to apply modification to.
+				 *
+				 * @returns {*} The data to which the modification was applied.
+				 */
 				_applyModifications: function( name, text ) {
 					return text;
 				},
