@@ -1,8 +1,8 @@
 /** @module config/transitionWords */
 
 const singleWords = [	"abans", "així", "altrament", "anteriorment", "breument", "contràriament", "després", "doncs",
-	"efectivament", "endemés", "finalment", "generalment", "igualment", "malgrat", "mentre", "parallelament", "però",
-	"perquè", "primerament", "resumidament", "resumint", "sinó", "sobretot", "també", "tanmateix" ];
+	"efectivament", "endemés", "finalment", "generalment", "igualment", "malgrat", "mentre", "parallelament", "paral·lelament",
+	"però", "perquè", "primerament", "resumidament", "resumint", "sinó", "sobretot", "també", "tanmateix" ];
 
 const multipleWords = [ "a banda d'això", "a continuació", "a fi de", "a fi que", "a força de", "a manera de resum", "a més",
 	"a tall d'exemple", "a tall de recapitulació", "a tall de resum", "al capdavall", "al contrari", "al mateix temps",
