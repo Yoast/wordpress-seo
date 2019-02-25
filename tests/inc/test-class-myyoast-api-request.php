@@ -7,6 +7,8 @@
 
 /**
  * Unit Test Class.
+ *
+ * @group MyYoast
  */
 class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 
