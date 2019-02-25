@@ -125,11 +125,7 @@ class WPSEO_Upgrade {
 		}
 
 		if ( version_compare( $version, '10.0-RC0', '<' ) ) {
-			$this->upgrade100();
-		}
-
-		if ( version_compare( $version, '10.0-RC0', '<' ) ) {
-			$this->upgrade_10_0();
+			$this->upgrade_100();
 		}
 
 		// Since 3.7.
@@ -643,8 +639,13 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade100() {
+	private function upgrade_100() {
+		// Removes recalibration notifications.
 		$this->clean_all_notifications();
+
+		// Removes recalibration options.
+		WPSEO_Options::clean_up( 'wpseo' );
+		delete_option( 'wpseo_recalibration_beta_mailinglist_subscription' );
 	}
 
 	/**
@@ -655,15 +656,6 @@ class WPSEO_Upgrade {
 	private function clean_all_notifications() {
 		global $wpdb;
 		delete_metadata( 'user', 0, $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY, '', true );
-	}
-
-	/**
-	 * Performs the 10.0 upgrade.
-	 *
-	 * @return void
-	 */
-	private function upgrade_10_0() {
-		WPSEO_Options::clean_up( 'wpseo' );
 	}
 
 	/**
