@@ -22,7 +22,7 @@ abstract class WPSEO_Abstract_Capability_Manager implements WPSEO_Capability_Man
 	 *
 	 * @param string $capability Capability to register.
 	 * @param array  $roles      Roles to add the capability to.
-	 * @param bool   $overwrite        Optional. Use add or overwrite as registration method.
+	 * @param bool   $overwrite  Optional. Use add or overwrite as registration method.
 	 */
 	public function register( $capability, array $roles, $overwrite = false ) {
 		if ( $overwrite || ! isset( $this->capabilities[ $capability ] ) ) {

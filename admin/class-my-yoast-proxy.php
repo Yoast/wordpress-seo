@@ -162,8 +162,8 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	 * When the file is known it returns an array like this:
 	 * <code>
 	 * $array = array(
-	 * 	'content_type' => 'the content type'
-	 * 	'url'          => 'the url, possibly with the plugin version'
+	 *  'content_type' => 'the content type'
+	 *  'url'          => 'the url, possibly with the plugin version'
 	 * )
 	 * </code>
 	 *

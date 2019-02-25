@@ -85,7 +85,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 			->method( 'do_request' )
 			->will(
 				$this->onConsecutiveCalls(
-				$this->throwException( new WPSEO_MyYoast_Authentication_Exception( 'Authentication failed' ) ),
+					$this->throwException( new WPSEO_MyYoast_Authentication_Exception( 'Authentication failed' ) ),
 					'response'
 				)
 			);
@@ -113,7 +113,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
-			->setMethods( array( 'do_request', 'decode_response', 'get_access_token' ) )
+			->setMethods( array( 'do_request', 'decode_response', 'get_access_token', 'remove_access_token' ) )
 			->setConstructorArgs( array( 'endpoint' ) )
 			->getMock();
 
@@ -189,7 +189,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$response = array(
-			'response' => 'okay!'
+			'response' => 'okay!',
 		);
 
 		$instance
@@ -198,8 +198,8 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( wp_json_encode( $response ) ) );
 
 		$this->assertTrue( $instance->fire() );
-		$this->assertAttributeEquals( ( object ) $response, 'response', $instance );
-		$this->assertEquals( ( object ) $response, $instance->get_response() );
+		$this->assertAttributeEquals( (object) $response, 'response', $instance );
+		$this->assertEquals( (object) $response, $instance->get_response() );
 	}
 
 	/**

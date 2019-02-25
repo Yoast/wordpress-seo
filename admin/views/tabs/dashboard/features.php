@@ -56,9 +56,6 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			$feature_help->get_button_html() . $feature_help->get_panel_html()
 		);
 	}
-
-	$calibration_beta = new WPSEO_Recalibration_Beta();
-	$calibration_beta->show_feature_toggle();
 	?>
 </div>
 <?php

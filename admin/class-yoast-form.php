@@ -13,7 +13,9 @@
 class Yoast_Form {
 
 	/**
-	 * @var object    Instance of this class
+	 * Instance of this class
+	 *
+	 * @var object
 	 * @since 2.0
 	 */
 	public static $instance;
@@ -288,11 +290,11 @@ class Yoast_Form {
 	 *
 	 * @since 3.1
 	 *
-	 * @param string  $var        The variable within the option to create the checkbox for.
-	 * @param string  $label      The label element text for the checkbox.
-	 * @param array   $buttons    Array of two visual labels for the buttons (defaults Disabled/Enabled).
-	 * @param boolean $reverse    Reverse order of buttons (default true).
-	 * @param string  $help       Inline Help that will be printed out before the visible toggles text.
+	 * @param string $var     The variable within the option to create the checkbox for.
+	 * @param string $label   The label element text for the checkbox.
+	 * @param array  $buttons Array of two visual labels for the buttons (defaults Disabled/Enabled).
+	 * @param bool   $reverse Reverse order of buttons (default true).
+	 * @param string $help    Inline Help that will be printed out before the visible toggles text.
 	 */
 	public function light_switch( $var, $label, $buttons = array(), $reverse = true, $help = '' ) {
 
@@ -669,9 +671,9 @@ class Yoast_Form {
 	/**
 	 * Creates a toggle switch to define whether an indexable should be indexed or not.
 	 *
-	 * @param string $var    The variable within the option to create the radio buttons for.
-	 * @param string $label  The visual label for the radio buttons group, used as the fieldset legend.
-	 * @param string $help   Inline Help that will be printed out before the visible toggles text.
+	 * @param string $var   The variable within the option to create the radio buttons for.
+	 * @param string $label The visual label for the radio buttons group, used as the fieldset legend.
+	 * @param string $help  Inline Help that will be printed out before the visible toggles text.
 	 *
 	 * @return void
 	 */
@@ -696,10 +698,10 @@ class Yoast_Form {
 	/**
 	 * Creates a toggle switch to show hide certain options.
 	 *
-	 * @param string $var           The variable within the option to create the radio buttons for.
-	 * @param string $label         The visual label for the radio buttons group, used as the fieldset legend.
-	 * @param bool   $inverse_keys  Whether or not the option keys need to be inverted to support older functions.
-	 * @param string $help          Inline Help that will be printed out before the visible toggles text.
+	 * @param string $var          The variable within the option to create the radio buttons for.
+	 * @param string $label        The visual label for the radio buttons group, used as the fieldset legend.
+	 * @param bool   $inverse_keys Whether or not the option keys need to be inverted to support older functions.
+	 * @param string $help         Inline Help that will be printed out before the visible toggles text.
 	 *
 	 * @return void
 	 */

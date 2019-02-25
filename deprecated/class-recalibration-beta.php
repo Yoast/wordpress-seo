@@ -6,20 +6,42 @@
  * @since   9.3.0
  */
 
+// Mark this file as deprecated.
+_deprecated_file( __FILE__, 'WPSEO 10.0' );
+
 /**
  * Holds the logic for the recalibration beta.
+ *
+ * @codeCoverageIgnore Ignore, because this class has been deprecated.
+ *
+ * @deprecated 10.0
  */
 class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 
 	/**
-	 * @var string Name of the options.
+	 * Name of the options.
+	 *
+	 * @var string
 	 */
 	protected $option_name = 'recalibration_beta';
 
 	/**
-	 * @var string The read more URL.
+	 * The read more URL.
+	 *
+	 * @var string
 	 */
 	protected $read_more_url = 'https://yoa.st/recalibration-beta-explanation';
+
+	/**
+	 * The class constructor.
+	 *
+	 * @deprecated 10.0
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function __construct() {
+		_deprecated_constructor( 'WPSEO_Recalibration_Beta', 'WPSEO 10.0' );
+	}
 
 	/**
 	 * Shows the feature toggle.

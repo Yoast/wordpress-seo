@@ -249,7 +249,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Get a term's parents.
 	 *
-	 * @param    object $term Term to get the parents for.
+	 * @param object $term Term to get the parents for.
 	 *
 	 * @return    array
 	 */
