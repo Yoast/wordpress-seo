@@ -5,9 +5,16 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.21.0 February 25th. 2019
+### Other
+* Changed the AnalysisList pressed status check to listen to `result.markerId` instead of `result.id`.
+* Upgrades webpack-dev-server to 3.1.14.
+* Bumps YoastSEO.js version to 1.48.0.
+
 ## 4.20.0 February 11th. 2019
 ### Other
-* Changed the the default icon for the `Collapsible` component to chevrons.
+* Changed the default icon for the `Collapsible` component to chevrons.
+* Bumps YoastSEO.js version to 1.47.0.
 
 ## 4.19.0 January 21st, 2019
 ### Added
