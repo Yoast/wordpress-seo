@@ -32,6 +32,8 @@ const externals = {
 
 const defaultAllowedHosts = [
 	"local.wordpress.test",
+	"one.wordpress.test",
+	"two.wordpress.test",
 	"build.wordpress-develop.test",
 	"src.wordpress-develop.test",
 ];
