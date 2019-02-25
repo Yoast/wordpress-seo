@@ -52,4 +52,29 @@ class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( '', WPSEO_Taxonomy_Meta::get_meta_without_term( 'meta_field' ) );
 	}
+
+	/**
+	 * Tests if data with slashes remains the same after validating.
+	 *
+	 * @dataProvider get_validated_term_meta_data_provider
+	 *
+	 * @param array  $expected The expected results - also used as input.
+	 *
+	 * @covers       WPSEO_Taxonomy_Meta::validate_term_meta_data()
+	 */
+	public function test_validate_term_meta_data( $expected ) {
+		$this->assertEquals( $expected, WPSEO_Taxonomy_Meta::validate_term_meta_data( $expected, WPSEO_Taxonomy_Meta::$defaults_per_term ) );
+	}
+
+	/**
+	 * DataProvider function for the test: test_validate_term_meta_data
+	 *
+	 * @return array With the $meta_key and $expected variables.
+	 */
+	public function get_validated_term_meta_data_provider() {
+		return array(
+			array( array( 'wpseo_focuskeywords' => '[{"keyword":"\\\"test\\\"","score":"good"},{"keyword":"\\\\","score":"bad"}]' ) ),
+			array( array( 'wpseo_keywordsynonyms' => '["","\\"\\"TESTING\\"\\"",""]' ) ),
+		);
+	}
 }

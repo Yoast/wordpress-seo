@@ -50,6 +50,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		'wpseo_focuskw'               => '',
 		'wpseo_linkdex'               => '',
 		'wpseo_content_score'         => '',
+		'wpseo_focuskeywords'         => '[]',
+		'wpseo_keywordsynonyms'       => '[]',
 
 		// Social fields.
 		'wpseo_opengraph-title'       => '',
@@ -280,6 +282,21 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 						$clean[ $key ] = $old_meta[ $key ];
 					}
 					break;
+
+				case 'wpseo_focuskeywords':
+				case 'wpseo_keywordsynonyms':
+					if ( isset( $meta_data[ $key ] ) && is_string( $meta_data[ $key ] ) ) {
+						/*
+						 * Using `wp_slash` and `wp_unslash` here instead of `stripslashes`.
+						 * The data is stringified JSON. Therefore, `addslashes` has side effects.
+						 * Related issue: https://github.com/Yoast/YoastSEO.js/issues/2158
+						 */
+						$clean[ $key ] = wp_slash( $meta_data[ $key ] );
+						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $clean[ $key ] );
+						$clean[ $key ] = wp_unslash( $clean[ $key ] );
+					}
+					break;
+
 				case 'wpseo_focuskw':
 				case 'wpseo_title':
 				case 'wpseo_desc':
