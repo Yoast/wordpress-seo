@@ -111,6 +111,20 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Retrieves a list of versions for each addon.
+	 *
+	 * @return array The addon versions.
+	 */
+	public function get_installed_addons_versions() {
+		$addon_versions          = array();
+		foreach( $this->get_installed_addons() as $plugin_file => $installed_addon ) {
+			$addon_versions[ $this->get_slug_by_plugin_file( $plugin_file ) ] = $installed_addon['Version'];
+		}
+
+		return $addon_versions;
+	}
+
+	/**
 	 * Retrieves the plugin information from the subscriptions.
 	 *
 	 * @param stdClass|false $data   The result object. Default false.

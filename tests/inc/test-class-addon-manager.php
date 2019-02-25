@@ -251,6 +251,38 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the retrieval of installed addon versions.
+	 *
+	 * @covers WPSEO_Addon_Manager::get_installed_addons_versions
+	 */
+	public function test_get_installed_addons_versions() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Addon_Manager' )
+			->setMethods( array( 'get_installed_addons' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->any() )
+			->method( 'get_installed_addons' )
+			->will(
+				$this->returnValue(
+					array(
+						'wp-seo-premium.php' => array(
+							'Version' => '10.0',
+						),
+					)
+				)
+			);
+
+		$this->assertEquals(
+			array(
+				'yoast-seo-wordpress-premium' => '10.0',
+			),
+			$instance->get_installed_addons_versions()
+		);
+	}
+
+	/**
 	 * Tests retrieval of the plugin information.
 	 *
 	 * @dataProvider get_plugin_information_provider
