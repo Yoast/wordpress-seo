@@ -159,7 +159,7 @@ class WPSEO_MyYoast_Api_Request {
 		$response_message = wp_remote_retrieve_response_message( $response );
 
 		// Do nothing, response code is okay.
-		if ( strpos( $response_code, '200' ) ) {
+		if ( $response_code === 200 || strpos( $response_code, '200' ) !== false ) {
 			return wp_remote_retrieve_body( $response );
 		}
 
