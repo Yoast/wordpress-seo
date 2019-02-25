@@ -650,12 +650,9 @@ class WPSEO_Upgrade {
 	 */
 	private function clean_all_notifications() {
 		global $wpdb;
-		$query = $wpdb->prepare(
-			'DELETE FROM ' . $wpdb->usermeta . ' WHERE meta_key=%s', $wpdb->prefix . Yoast_Notification_Center::STORAGE_KEY
-			);
-		$wpdb->query( $query );
+		delete_metadata( 'user', 0, $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY, '', true );
 	}
-
+	
 	/**
 	 * Removes the post meta fields for a given meta key.
 	 *
