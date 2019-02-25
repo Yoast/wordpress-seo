@@ -13,7 +13,6 @@ import { select, subscribe } from "@wordpress/data";
 
 // Internal dependencies.
 import Edit from "./edit";
-import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import CompatibilityHelper from "./compatibility/compatibilityHelper";
 import Pluggable from "./Pluggable";
@@ -485,11 +484,6 @@ setWordPressSeoL10n();
 			pluginReady: YoastSEO.app.pluginReady,
 			pluginReloaded: YoastSEO.app.pluginReloaded,
 		} );
-
-		if ( wpseoPostScraperL10n.markdownEnabled ) {
-			const markdownPlugin = new YoastMarkdownPlugin( YoastSEO.app.registerPlugin, YoastSEO.app.registerModification );
-			markdownPlugin.register();
-		}
 
 		exposeGlobals( replaceVarsPlugin, shortcodePlugin );
 
