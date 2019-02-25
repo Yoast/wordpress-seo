@@ -35,7 +35,7 @@ jobs:
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
-      env: WP_VERSION=4.9 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
+      env: WP_VERSION=5.0 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
     - php: nightly
