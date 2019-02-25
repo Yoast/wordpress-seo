@@ -14,9 +14,14 @@ class UrlLengthAssessment extends Assessment {
 	 * @param {Object} [config] The configuration to use.
 	 *
 	 * @returns {void}
+	 *
+	 * @deprecated since 1.48. We have removed it from the assessments since we do not consider it an important SEO factor anymore.
 	 */
 	constructor( config = {} ) {
 		super();
+
+		console.warn( "Deprecation Warning: The UrlLengthAssessment has been deprecated since version 1.48. " +
+			"We have removed it from the assessments since we do not consider it an important SEO factor anymore." );
 
 		const defaultConfig = {
 			scores: {
