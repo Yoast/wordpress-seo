@@ -12656,9 +12656,10 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-"yoast-components@git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.7":
-  version "4.19.0"
-  resolved "git+https://github.com/Yoast/yoast-components.git#8a0affd96a9a6caf39f936c1c0e5124dcf2e482d"
+yoast-components@^4.21.0:
+  version "4.21.0"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.21.0.tgz#ad15d73fcfac83e11f4d3b9a3feccc97fadcd021"
+  integrity sha512-2LE/5nHQcVcq/OY6ZyY+GRC2VOfCGs9u0uB2sbxDMnfShG8WTvXve13YK8YRiyUXWEvYzYIQFnUbac0N4qiUdQ==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -12680,13 +12681,15 @@ yauzl@^2.2.1:
     styled-components "^2.1.2"
     whatwg-fetch "^1.0.0"
     wicked-good-xpath "^1.3.0"
-    yoastseo "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.7"
+    yoastseo "^1.48.0"
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-"yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.7":
+yoastseo@^1.48.0:
   version "1.48.0"
-  resolved "git+https://github.com/Yoast/YoastSEO.js.git#220af5c18724b2938c7b32814130d845683fdd57"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.48.0.tgz#47f41ae7cd1d1de3ce3823a7bf82b31aeab092fa"
+  integrity sha512-SpoOYK8Yx+3KGZDbV/zJZkN26Q4lX5B+yp8OmyX8mJs7Zzn5Yb5dokvAXPFTcr9NuUS+jiCzv00R9yCKZpTuKw==
+
   dependencies:
     "@wordpress/autop" "^2.0.2"
     htmlparser2 "^3.9.2"
