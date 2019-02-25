@@ -117,7 +117,7 @@ class WPSEO_Addon_Manager {
 	 */
 	public function get_installed_addons_versions() {
 		$addon_versions          = array();
-		foreach( $this->get_installed_addons() as $plugin_file => $installed_addon ) {
+		foreach ( $this->get_installed_addons() as $plugin_file => $installed_addon ) {
 			$addon_versions[ $this->get_slug_by_plugin_file( $plugin_file ) ] = $installed_addon['Version'];
 		}
 
