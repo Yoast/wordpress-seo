@@ -148,7 +148,7 @@
     "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.7"
   },
   "yoast": {
-    "pluginVersion": "9.7-RC1",
+    "pluginVersion": "9.7-RC2",
     "recalibrationVersion": "13"
   }
 }
