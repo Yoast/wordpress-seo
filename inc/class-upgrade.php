@@ -653,7 +653,7 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_10_0() {
-		delete_option( 'wpseo_recalibration_beta' );
+		WPSEO_Options::clean_up( 'wpseo' );
 	}
 
 	/**
