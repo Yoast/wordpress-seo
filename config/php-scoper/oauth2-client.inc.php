@@ -36,6 +36,7 @@ return array(
 		 * @return string The modified content.
 		 */
 		function( $file_path, $prefix, $content ) {
+			// 26 is the length of the GrantFactory.php file path.
 			if ( substr( $file_path, -26 ) !== 'src/Grant/GrantFactory.php' ) {
 				return $content;
 			}
