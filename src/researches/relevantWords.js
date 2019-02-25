@@ -1,17 +1,21 @@
-import { take } from "lodash-es";
-import { getRelevantWords, getRelevantWordsFromPaperAttributes } from "../stringProcessing/relevantWords";
+import { get, take } from "lodash-es";
+import getLanguage from "../helpers/getLanguage";
+import { getRelevantWords, getRelevantWordsFromPaperAttributes, collapseRelevantWordsOnStem } from "../stringProcessing/relevantWords";
 import { getSubheadingsTopLevel } from "../stringProcessing/getSubheadings";
-
 
 /**
  * Retrieves the relevant words from the given paper.
  *
  * @param {Paper} paper The paper to determine the relevant words of.
+ * @param {Researcher} researcher The researcher to use for analysis.
+ *
  * @returns {WordCombination[]} Relevant words for this paper, filtered and sorted.
  */
-function relevantWords( paper ) {
-	const locale = paper.getLocale();
-	const relevantWordsFromText = getRelevantWords( paper.getText(), locale );
+function relevantWords( paper, researcher ) {
+	const language = getLanguage( paper.getLocale() );
+	const morphologyData = get( researcher.getData( "morphology" ), language, false );
+
+	const relevantWordsFromText = getRelevantWords( paper.getText(), language, morphologyData );
 
 	const subheadings = getSubheadingsTopLevel( paper.getText() ).map( subheading => subheading[ 2 ] );
 
@@ -23,9 +27,11 @@ function relevantWords( paper ) {
 		subheadings,
 	};
 
-	const relevantWordsFromPaperAttributes = getRelevantWordsFromPaperAttributes( attributes, locale );
+	const relevantWordsFromPaperAttributes = getRelevantWordsFromPaperAttributes( attributes, language, morphologyData );
 
-	return take( relevantWordsFromPaperAttributes.concat( relevantWordsFromText ), 100 );
+	const collapsedWords = collapseRelevantWordsOnStem( relevantWordsFromPaperAttributes.concat( relevantWordsFromText ) );
+
+	return take( collapsedWords, 100 );
 }
 
 
