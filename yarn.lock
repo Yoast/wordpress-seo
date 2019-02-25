@@ -10515,9 +10515,10 @@ yeoman-generator@^2.0.4:
     through2 "^2.0.0"
     yeoman-environment "^2.0.5"
 
-"yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.7":
-  version "1.46.0"
-  resolved "git+https://github.com/Yoast/YoastSEO.js.git#9f5f0071110b1dae18447512790958f1830ab6e7"
+yoastseo@^1.48.0:
+  version "1.48.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.48.0.tgz#47f41ae7cd1d1de3ce3823a7bf82b31aeab092fa"
+  integrity sha512-SpoOYK8Yx+3KGZDbV/zJZkN26Q4lX5B+yp8OmyX8mJs7Zzn5Yb5dokvAXPFTcr9NuUS+jiCzv00R9yCKZpTuKw==
   dependencies:
     "@wordpress/autop" "^2.0.2"
     htmlparser2 "^3.9.2"
