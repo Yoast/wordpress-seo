@@ -109,7 +109,6 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_Admin_Media_Purge_Notification();
 		$integrations[] = new WPSEO_Admin_Gutenberg_Compatibility_Notification();
 		$integrations[] = new WPSEO_Expose_Shortlinks();
-		$integrations[] = new WPSEO_Recalibration_Beta();
 		$integrations[] = new WPSEO_MyYoast_Proxy();
 		$integrations[] = new WPSEO_MyYoast_Route();
 		$integrations[] = new WPSEO_Addon_Manager();
