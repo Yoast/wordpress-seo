@@ -40,7 +40,7 @@ const SnippetEditorButton = Button.extend`
 `;
 
 const EditSnippetButton = SnippetEditorButton.extend`
-	margin: 10px 0 0 4px;
+	margin: ${ getRtlStyle( "10px 0 0 4px", "10px 4px 0 0" ) };
 	fill: ${ colors.$color_grey_dark };
 	padding-left: 8px;
 
