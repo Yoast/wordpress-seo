@@ -137,6 +137,37 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasMarks() ).toBe( false );
 	} );
 
+	it( "returns the score for 100% long sentences in Spanish", function() {
+		const mockPaper = new Paper( "text", { locale: "es_ES" } );
+		const sentenceLengthInTextAssessmentSpanish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+
+		const assessment = sentenceLengthInTextAssessmentSpanish.getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 26 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
+			"100% of the sentences contain more than 25 words, which is more than the recommended maximum of 25%." +
+			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for all short sentences in Spanish", function() {
+		const mockPaper = new Paper( "text", { locale: "es_ES" } );
+		const sentenceLengthInTextAssessmentSpanish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
+
+		const assessment = sentenceLengthInTextAssessmentSpanish.getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 24 },
+
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
+		expect( assessment.hasMarks() ).toBe( false );
+	} );
+
 	it( "returns the score for all short sentences in Polish", function() {
 		const mockPaper = new Paper( "text", { locale: "pl_PL" } );
 		const sentenceLengthInTextAssessmentPolish = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
