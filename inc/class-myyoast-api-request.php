@@ -196,34 +196,46 @@ class WPSEO_MyYoast_Api_Request {
 	 *
 	 * When tokens are disallowed it will add the url to the request body.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @param array $request_arguments The arguments to enrich.
 	 *
 	 * @return array The enriched arguments.
 	 */
 	protected function enrich_request_arguments( array $request_arguments ) {
-		// Extends the headers.
+		$request_arguments            = wp_parse_args( $request_arguments, array( 'headers' => array() ) );
 		$request_arguments['headers'] = array_merge( $request_arguments['headers'], $this->get_installed_addons_as_headers() );
 
-		if ( ! WPSEO_Utils::has_access_token_support() ) {
-			$request_arguments['body'] = array( 'url' => WPSEO_Utils::get_home_url() );
+		$request_body = $this->get_request_body();
+		if ( $request_body !== array() ) {
+			$request_arguments['body'] = $request_body;
+		}
 
-			return $request_arguments;
+		return $request_arguments;
+	}
+
+	/**
+	 * Retrieves the request body based on URL or access token support.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return array The request body.
+	 */
+	public function get_request_body() {
+		if ( ! WPSEO_Utils::has_access_token_support() ) {
+			return array( 'url' => WPSEO_Utils::get_home_url() );
 		}
 
 		try {
 			$access_token = $this->get_access_token();
 			if ( $access_token ) {
-				$request_arguments['body'] = array( 'token' => $access_token->getToken() );
+				return array( 'token' => $access_token->getToken() );
 			}
 		}
-		// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
+			// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 		catch ( WPSEO_MyYoast_Bad_Request_Exception $bad_request ) {
 			// Do nothing.
 		}
 
-		return $request_arguments;
+		return array();
 	}
 
 	/**
