@@ -249,8 +249,9 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 					'url'             => WPSEO_Utils::get_home_url(),
 					'client_id'       => '9740f9cf-608e-4327-8a16-24e3ff6a4c0d',
 					'extensions'      => array( 'yoast-seo-extension' ),
-					'redirect_url'    => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ),
+					'redirect_url'    => admin_url( 'admin.php?page=' . WPSEO_MyYoast_Route::PAGE_IDENTIFIER . '&action=complete' ),
 					'credentials_url' => rest_url( 'yoast/v1/myyoast/connect' ),
+					'type'            => 'wordpress',
 				)
 			);
 
