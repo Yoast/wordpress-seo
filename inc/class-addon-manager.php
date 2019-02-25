@@ -190,7 +190,7 @@ class WPSEO_Addon_Manager {
 			'new_version'   => $subscription->product->version,
 			'name'          => $subscription->product->name,
 			'slug'          => $subscription->product->slug,
-			'url'           => $subscription->product->url,
+			'url'           => $subscription->product->storeUrl,
 			'last_update'   => $subscription->product->lastUpdated,
 			'homepage'      => $subscription->product->storeUrl,
 			'download_link' => $subscription->product->download,

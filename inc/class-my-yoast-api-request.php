@@ -278,6 +278,11 @@ class WPSEO_MyYoast_Api_Request {
 			return $access_token;
 		}
 		catch ( Exception $e ) {
+			$error_code = $e->getCode();
+			if ( $error_code >= 400 && $error_code < 500 ) {
+				$this->remove_access_token( $this->get_current_user_id() );
+			}
+
 			throw new WPSEO_MyYoast_Bad_Request_Exception( $e->getMessage() );
 		}
 	}
