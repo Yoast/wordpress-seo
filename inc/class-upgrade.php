@@ -652,7 +652,7 @@ class WPSEO_Upgrade {
 		global $wpdb;
 		delete_metadata( 'user', 0, $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY, '', true );
 	}
-	
+
 	/**
 	 * Removes the post meta fields for a given meta key.
 	 *
@@ -662,7 +662,6 @@ class WPSEO_Upgrade {
 	 */
 	private function delete_post_meta( $meta_key ) {
 		global $wpdb;
-
 		$deleted = $wpdb->delete( $wpdb->postmeta, array( 'meta_key' => $meta_key ), array( '%s' ) );
 
 		if ( $deleted ) {
