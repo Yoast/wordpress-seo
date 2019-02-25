@@ -200,9 +200,12 @@ class WPSEO_MyYoast_Api_Request {
 	 *
 	 * @param array $request_arguments The arguments to enrich.
 	 *
-	 * @return array The enriched arguments
+	 * @return array The enriched arguments.
 	 */
 	protected function enrich_request_arguments( array $request_arguments ) {
+		// Extends the headers.
+		$request_arguments['headers'] = array_merge( $request_arguments['headers'], $this->get_installed_addons_as_headers() );
+
 		if ( ! WPSEO_Utils::has_access_token_support() ) {
 			$request_arguments['body'] = array( 'url' => WPSEO_Utils::get_home_url() );
 
@@ -309,5 +312,18 @@ class WPSEO_MyYoast_Api_Request {
 
 		// Remove the access token entirely.
 		$this->get_client()->remove_access_token( $user_id );
+	}
+
+	/**
+	 * Retrieves the installed addons as http headers.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return array The installed addon versions.
+	 */
+	protected function get_installed_addons_as_headers() {
+		$addon_manager  = new WPSEO_Addon_Manager();
+
+		return $addon_manager->get_installed_addons_versions();
 	}
 }
