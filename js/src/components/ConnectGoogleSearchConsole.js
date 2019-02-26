@@ -306,14 +306,17 @@ class ConnectGoogleSearchConsole extends React.Component {
 						"and press the Authenticate button."
 					) }
 				</p>
-
+				<label
+					className="yoast-wizard-text-input-label"
+					htmlFor="gsc_authorization_code"
+				>
+					{ this.props.translate( "Authorization code" ) }
+				</label>
 				<input
 					type="text"
 					id="gsc_authorization_code"
 					name="gsc_authorization_code"
 					defaultValue=""
-					placeholder={ this.props.translate( "Enter authorization code here..." ) }
-					aria-labelledby="gsc-enter-code-label"
 				/>
 				<RaisedButton
 					label={ this.props.translate( "Authenticate" ) }

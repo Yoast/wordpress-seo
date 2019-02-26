@@ -431,7 +431,7 @@ class WPSEO_Breadcrumbs {
 		}
 		elseif ( is_search() ) {
 			$this->add_predefined_crumb(
-				WPSEO_Options::get( 'breadcrumbs-searchprefix' ) . ' "' . esc_html( get_search_query() ) . '"',
+				WPSEO_Options::get( 'breadcrumbs-searchprefix' ) . ' “' . esc_html( get_search_query() ) . '”',
 				null,
 				true
 			);
@@ -543,13 +543,26 @@ class WPSEO_Breadcrumbs {
 
 	/**
 	 * Add Blog crumb to the crumbs property for single posts where Home != blogpage.
+	 *
+	 * @return void
 	 */
 	private function maybe_add_blog_crumb() {
-		if ( ( 'page' === $this->show_on_front && 'post' === get_post_type() ) && ( ! is_home() && ! is_search() ) ) {
-			if ( $this->page_for_posts && WPSEO_Options::get( 'breadcrumbs-display-blog-page' ) === true ) {
-				$this->add_blog_crumb();
-			}
+		// When the show blog page is not enabled.
+		if ( WPSEO_Options::get( 'breadcrumbs-display-blog-page' ) !== true ) {
+			return;
 		}
+
+		// When there is no page configured as blog page.
+		if ( 'page' !== $this->show_on_front || ! $this->page_for_posts ) {
+			return;
+		}
+
+		// When the current page is the home page, searchpage or isn't a singular post.
+		if ( is_home() || is_search() || ! is_singular( 'post' ) ) {
+			return;
+		}
+
+		$this->add_blog_crumb();
 	}
 
 	/**
@@ -1007,11 +1020,16 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the Yoast SEO breadcrumbs wrapper element.
+	 * Retrieves HTML ID attribute.
 	 *
-	 * @api string $unsigned ID to add to the wrapper element.
+	 * @return string
 	 */
 	private function get_output_id() {
+		/**
+		 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the Yoast SEO breadcrumbs wrapper element.
+		 *
+		 * @api string $unsigned ID to add to the wrapper element.
+		 */
 		$id = apply_filters( 'wpseo_breadcrumb_output_id', '' );
 		if ( is_string( $id ) && '' !== $id ) {
 			$id = ' id="' . esc_attr( $id ) . '"';
@@ -1021,11 +1039,16 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the Yoast SEO breadcrumbs wrapper element.
+	 * Retrieves HTML Class attribute.
 	 *
-	 * @api string $unsigned Class to add to the wrapper element.
+	 * @return string
 	 */
 	private function get_output_class() {
+		/**
+		 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the Yoast SEO breadcrumbs wrapper element.
+		 *
+		 * @api string $unsigned Class to add to the wrapper element.
+		 */
 		$class = apply_filters( 'wpseo_breadcrumb_output_class', '' );
 		if ( is_string( $class ) && '' !== $class ) {
 			$class = ' class="' . esc_attr( $class ) . '"';

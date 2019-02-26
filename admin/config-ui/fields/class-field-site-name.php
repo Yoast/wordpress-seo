@@ -50,7 +50,7 @@ class WPSEO_Config_Field_Site_Name extends WPSEO_Config_Field {
 	/**
 	 * Set the data in the options.
 	 *
-	 * @param {string} $data The data to set for the field.
+	 * @param string $data The data to set for the field.
 	 *
 	 * @return bool Returns true or false for successful storing the data.
 	 */

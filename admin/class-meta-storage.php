@@ -10,6 +10,11 @@
  */
 class WPSEO_Meta_Storage implements WPSEO_Installable {
 
+	/**
+	 * Table name for the meta storage.
+	 *
+	 * @var string
+	 */
 	const TABLE_NAME = 'yoast_seo_meta';
 
 	/**

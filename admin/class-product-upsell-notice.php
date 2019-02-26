@@ -10,8 +10,14 @@
  */
 class WPSEO_Product_Upsell_Notice {
 
+	/**
+	 * @var string
+	 */
 	const USER_META_DISMISSED = 'wpseo-remove-upsell-notice';
 
+	/**
+	 * @var string
+	 */
 	const OPTION_NAME = 'wpseo';
 
 	/**

@@ -26,6 +26,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $analysis_readability;
 
 	/**
+	 * The metabox editor object.
+	 *
+	 * @var WPSEO_Metabox_Editor
+	 */
+	protected $editor;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -34,8 +41,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'wp_insert_post', array( $this, 'save_postdata' ) );
 		add_action( 'edit_attachment', array( $this, 'save_postdata' ) );
 		add_action( 'add_attachment', array( $this, 'save_postdata' ) );
-		add_action( 'post_submitbox_start', array( $this, 'publish_box' ) );
-		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 
 		// Check if one of the social settings is checked in the options, if so, initialize the social_admin object.
@@ -57,43 +62,48 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
 	 */
 	public static function translate_meta_boxes() {
-		self::$meta_fields['general']['title']['title'] = __( 'SEO title', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['general']['title']['title'] = __( 'SEO title', 'wordpress-seo' );
 
-		self::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );
 
 		/* translators: %s expands to the post type name. */
-		self::$meta_fields['advanced']['meta-robots-noindex']['title'] = __( 'Allow search engines to show this %s in search results?', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['title'] = __( 'Allow search engines to show this %s in search results?', 'wordpress-seo' );
 		if ( '0' === (string) get_option( 'blog_public' ) ) {
-			self::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<p class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</p>';
+			WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<p class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</p>';
 		}
 		/* translators: %1$s expands to Yes or No,  %2$s expands to the post type name.*/
-		self::$meta_fields['advanced']['meta-robots-noindex']['options']['0'] = __( 'Default for %2$s, currently: %1$s', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-noindex']['options']['2'] = __( 'Yes', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-noindex']['options']['1'] = __( 'No', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['options']['0'] = __( 'Default for %2$s, currently: %1$s', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['options']['2'] = __( 'Yes', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['options']['1'] = __( 'No', 'wordpress-seo' );
 
 		/* translators: %1$s expands to the post type name.*/
-		self::$meta_fields['advanced']['meta-robots-nofollow']['title']        = __( 'Should search engines follow links on this %1$s?', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-nofollow']['options']['0'] = __( 'Yes', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-nofollow']['options']['1'] = __( 'No', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['meta-robots-nofollow']['title']        = __( 'Should search engines follow links on this %1$s?', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['meta-robots-nofollow']['options']['0'] = __( 'Yes', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['meta-robots-nofollow']['options']['1'] = __( 'No', 'wordpress-seo' );
 
-		self::$meta_fields['advanced']['meta-robots-adv']['title']       = __( 'Meta robots advanced', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-adv']['description'] = __( 'Advanced <code>meta</code> robots settings for this page.', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['meta-robots-adv']['title']       = __( 'Meta robots advanced', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['meta-robots-adv']['description'] = __( 'Advanced <code>meta</code> robots settings for this page.', 'wordpress-seo' );
 		/* translators: %s expands to the advanced robots settings default as set in the site-wide settings.*/
-		self::$meta_fields['advanced']['meta-robots-adv']['options']['-']            = __( 'Site-wide default: %s', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-adv']['options']['none']         = __( 'None', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-adv']['options']['noimageindex'] = __( 'No Image Index', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-adv']['options']['noarchive']    = __( 'No Archive', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-adv']['options']['nosnippet']    = __( 'No Snippet', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['meta-robots-adv']['options']['-']            = __( 'Site-wide default: %s', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['meta-robots-adv']['options']['none']         = __( 'None', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['meta-robots-adv']['options']['noimageindex'] = __( 'No Image Index', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['meta-robots-adv']['options']['noarchive']    = __( 'No Archive', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['meta-robots-adv']['options']['nosnippet']    = __( 'No Snippet', 'wordpress-seo' );
 
-		self::$meta_fields['advanced']['bctitle']['title']       = __( 'Breadcrumbs Title', 'wordpress-seo' );
-		self::$meta_fields['advanced']['bctitle']['description'] = __( 'Title to use for this page in breadcrumb paths', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['bctitle']['title']       = __( 'Breadcrumbs Title', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['bctitle']['description'] = __( 'Title to use for this page in breadcrumb paths', 'wordpress-seo' );
 
-		self::$meta_fields['advanced']['canonical']['title'] = __( 'Canonical URL', 'wordpress-seo' );
-		/* translators: 1: link open tag; 2: link close tag. */
-		self::$meta_fields['advanced']['canonical']['description'] = sprintf( __( 'The canonical URL that this page should point to, leave empty to default to permalink. %1$sCross domain canonical%2$s supported too.', 'wordpress-seo' ), '<a target="_blank" href="http://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html">', '</a>' );
+		WPSEO_Meta::$meta_fields['advanced']['canonical']['title'] = __( 'Canonical URL', 'wordpress-seo' );
 
-		self::$meta_fields['advanced']['redirect']['title']       = __( '301 Redirect', 'wordpress-seo' );
-		self::$meta_fields['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['canonical']['description'] = sprintf(
+			/* translators: 1: link open tag; 2: link close tag. */
+			__( 'The canonical URL that this page should point to. Leave empty to default to permalink. %1$sCross domain canonical%2$s supported too.', 'wordpress-seo' ),
+			'<a href="https://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html" target="_blank" rel="noopener">',
+			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
+		);
+
+		WPSEO_Meta::$meta_fields['advanced']['redirect']['title']       = __( '301 Redirect', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
 
 		do_action( 'wpseo_tab_translate' );
 	}
@@ -113,48 +123,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Sets up all the functionality related to the prominence of the page analysis functionality.
-	 */
-	public function setup_page_analysis() {
-		if ( apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
-			add_action( 'post_submitbox_start', array( $this, 'publish_box' ) );
-		}
-	}
-
-	/**
-	 * Outputs the page analysis score in the Publish Box.
-	 */
-	public function publish_box() {
-		if ( $this->display_metabox() === false ) {
-			return;
-		}
-
-		$post = $this->get_metabox_post();
-
-		if ( self::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
-			$score_label = 'noindex';
-			$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
-			$score_title = $title;
-		}
-		else {
-			$score = self::get_value( 'linkdex', $post->ID );
-			if ( $score === '' ) {
-				$score_label = 'na';
-				$title       = __( 'No focus keyphrase set.', 'wordpress-seo' );
-			}
-			else {
-				$score_label = WPSEO_Utils::translate_score( $score );
-			}
-
-			$score_title = WPSEO_Utils::translate_score( $score, false );
-
-			if ( ! isset( $title ) ) {
-				$title = $score_title;
-			}
-		}
-	}
-
-	/**
 	 * Adds the Yoast SEO meta box to the edit boxes in the edit post, page,
 	 * attachment, and custom post types pages.
 	 *
@@ -162,36 +130,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function add_meta_box() {
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
+		$post_types = array_filter( $post_types, array( $this, 'display_metabox' ) );
 
 		if ( ! is_array( $post_types ) || $post_types === array() ) {
 			return;
 		}
 
-		$tab_registered = false;
+		$product_title = $this->get_product_title();
+
+		$this->register_helpcenter_tab();
 
 		foreach ( $post_types as $post_type ) {
-			if ( $this->display_metabox( $post_type ) === false ) {
-				continue;
-			}
-
-			$product_title = 'Yoast SEO';
-
-			if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
-				$product_title .= ' Premium';
-			}
-
-			if ( get_current_screen() !== null ) {
-				$screen_id = get_current_screen()->id;
-				add_filter( "postbox_classes_{$screen_id}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
-			}
-
-			if ( ! $tab_registered ) {
-				// Add template variables tab to the Help Center.
-				$tab = new WPSEO_Help_Center_Template_Variables_Tab();
-				$tab->register_hooks();
-
-				$tab_registered = true;
-			}
+			add_filter( "postbox_classes_{$post_type}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
 
 			add_meta_box(
 				'wpseo_meta',
@@ -463,7 +413,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	private function get_tab_content( $tab_name ) {
 		$content = '';
-		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
+		foreach ( WPSEO_Meta::get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
 			$content .= $this->do_meta_box( $meta_field, $key );
 		}
 
@@ -482,8 +432,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function do_meta_box( $meta_field_def, $key = '' ) {
 		$content      = '';
-		$esc_form_key = esc_attr( self::$form_prefix . $key );
-		$meta_value   = self::get_value( $key, $this->get_metabox_post()->ID );
+		$esc_form_key = esc_attr( WPSEO_Meta::$form_prefix . $key );
+		$meta_value   = WPSEO_Meta::get_value( $key, $this->get_metabox_post()->ID );
 
 		$class = '';
 		if ( isset( $meta_field_def['class'] ) && $meta_field_def['class'] !== '' ) {
@@ -558,7 +508,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" name="' . $esc_form_key . '[]" id="' . $esc_form_key . '" class="yoast' . $class . '"' . $aria_describedby . '>';
 					foreach ( $meta_field_def['options'] as $val => $option ) {
 						$selected = '';
-						if ( in_array( $val, $selected_arr ) ) {
+						if ( in_array( $val, $selected_arr, true ) ) {
 							$selected = ' selected="selected"';
 						}
 						$content .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
@@ -700,18 +650,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		do_action( 'wpseo_save_compare_data', $post );
 
 		$meta_boxes = apply_filters( 'wpseo_save_metaboxes', array() );
-		$meta_boxes = array_merge( $meta_boxes, $this->get_meta_field_defs( 'general', $post->post_type ), $this->get_meta_field_defs( 'advanced' ) );
+		$meta_boxes = array_merge( $meta_boxes, WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ), WPSEO_Meta::get_meta_field_defs( 'advanced' ) );
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
 
 			// If analysis is disabled remove that analysis score value from the DB.
 			if ( $this->is_meta_value_disabled( $key ) ) {
-				self::delete( $key, $post_id );
+				WPSEO_Meta::delete( $key, $post_id );
 				continue;
 			}
 
 			$data       = null;
-			$field_name = self::$form_prefix . $key;
+			$field_name = WPSEO_Meta::$form_prefix . $key;
 
 			if ( 'checkbox' === $meta_box['type'] ) {
 				$data = isset( $_POST[ $field_name ] ) ? 'on' : 'off';
@@ -737,7 +687,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 
 			if ( $data !== null ) {
-				self::set_value( $key, $data, $post_id );
+				WPSEO_Meta::set_value( $key, $data, $post_id );
 			}
 		}
 
@@ -775,15 +725,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$is_editor = self::is_post_overview( $pagenow ) || self::is_post_edit( $pagenow );
 
-		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
-		if ( ( $is_editor === false && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->display_metabox() === false ) {
-			return;
-		}
-
 		if ( self::is_post_overview( $pagenow ) ) {
 			$asset_manager->enqueue_style( 'edit-page' );
 			$asset_manager->enqueue_script( 'edit-page-script' );
 
+			return;
+		}
+
+		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
+		if ( ( $is_editor === false && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->display_metabox() === false ) {
 			return;
 		}
 
@@ -1025,5 +975,65 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public static function is_post_edit( $page ) {
 		return 'post.php' === $page
 			|| 'post-new.php' === $page;
+	}
+
+	/**
+	 * Retrieves the product title.
+	 *
+	 * @return string The product title.
+	 */
+	protected function get_product_title() {
+		$product_title = 'Yoast SEO';
+
+		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+			$product_title .= ' Premium';
+		}
+
+		return $product_title;
+	}
+
+	/**
+	 * Adds the template variables tab to the helpcenter.
+	 *
+	 * @return void
+	 */
+	protected function register_helpcenter_tab() {
+		static $tab_registered;
+
+		if ( $tab_registered ) {
+			return;
+		}
+
+		// Add template variables tab to the Help Center.
+		$tab = new WPSEO_Help_Center_Template_Variables_Tab();
+		$tab->register_hooks();
+
+		$tab_registered = true;
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Outputs the page analysis score in the Publish Box.
+	 *
+	 * @deprecated 9.6
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function publish_box() {
+		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
+	}
+
+	/**
+	 * Sets up all the functionality related to the prominence of the page analysis functionality.
+	 *
+	 * @deprecated 9.6
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function setup_page_analysis() {
+		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
 	}
 }
