@@ -234,7 +234,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	public function test_enrich_request_arguments() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request_Double' )
-			->setMethods( array( 'get_request_body', 'get_installed_addons_as_headers' ) )
+			->setMethods( array( 'get_request_body', 'get_installed_addon_versions' ) )
 			->setConstructorArgs( array( 'endpoint' ) )
 			->getMock();
 
@@ -251,7 +251,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 
 		$instance
 			->expects( $this->once() )
-			->method( 'get_installed_addons_as_headers' )
+			->method( 'get_installed_addon_versions' )
 			->will(
 				$this->returnValue(
 					array(
@@ -280,7 +280,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	public function test_enrich_request_arguments_with_empty_request_body() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request_Double' )
-			->setMethods( array( 'get_request_body', 'get_installed_addons_as_headers' ) )
+			->setMethods( array( 'get_request_body', 'get_installed_addon_versions' ) )
 			->setConstructorArgs( array( 'endpoint' ) )
 			->getMock();
 
@@ -291,7 +291,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 
 		$instance
 			->expects( $this->once() )
-			->method( 'get_installed_addons_as_headers' )
+			->method( 'get_installed_addon_versions' )
 			->will(
 				$this->returnValue(
 					array(

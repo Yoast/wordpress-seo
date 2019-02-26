@@ -202,7 +202,7 @@ class WPSEO_MyYoast_Api_Request {
 	 */
 	protected function enrich_request_arguments( array $request_arguments ) {
 		$request_arguments     = wp_parse_args( $request_arguments, array( 'headers' => array() ) );
-		$addon_version_headers = $this->get_installed_addons_as_headers();
+		$addon_version_headers = $this->get_installed_addon_versions();
 
 		foreach ( $addon_version_headers as $addon => $version ) {
 			$request_arguments['headers'][ $addon . '-version' ] = $version;
@@ -342,8 +342,8 @@ class WPSEO_MyYoast_Api_Request {
 	 *
 	 * @return array The installed addon versions.
 	 */
-	protected function get_installed_addons_as_headers() {
-		$addon_manager  = new WPSEO_Addon_Manager();
+	protected function get_installed_addon_versions() {
+		$addon_manager = new WPSEO_Addon_Manager();
 
 		return $addon_manager->get_installed_addons_versions();
 	}
