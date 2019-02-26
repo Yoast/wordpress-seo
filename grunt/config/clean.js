@@ -36,4 +36,7 @@ module.exports = {
 	"composer-files": [
 		"<%= files.artifactComposer %>/vendor",
 	],
+	"remove-from-vendor": [
+		"<%= files.removeFromVendor %>",
+	],
 };

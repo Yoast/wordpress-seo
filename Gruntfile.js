@@ -46,6 +46,15 @@ module.exports = function( grunt ) {
 				"frontend/**/*.php",
 				"inc/**/*.php",
 			],
+			// Remove the folders that are already in the vendor_prefixed folder from the vendor folder.
+			removeFromVendor: [
+				"vendor/guzzlehttp",
+				"vendor/j4mie",
+				"vendor/league",
+				"vendor/psr",
+				"vendor/ruckusing",
+				"vendor/bin/ruckus.php",
+			],
 			pot: {
 				yoastseojs: "<%= paths.languages %>yoast-seo-js.pot",
 				yoastComponents: "<%= paths.languages %>yoast-components.pot",

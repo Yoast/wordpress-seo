@@ -81,12 +81,15 @@ check:
   - 'shell:production-composer-install'
   # Build like we normally would
   - 'release'
+  # Remove the folders that are already in the vendor_prefixed folder from the vendor folder.
+  - 'clean:remove-from-vendor'
   # Remove build folder
   - 'clean:artifact'
   # Copy only the relevant files to the folder
   - 'copy:artifact'
   # Create a zip file
   - 'compress:artifact'
+  - 'shell:development-composer-install'
 
 'composer-artifact':
   # Create our composer targeted artifact
