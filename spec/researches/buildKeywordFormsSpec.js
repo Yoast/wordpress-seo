@@ -359,17 +359,23 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 const spielfilmeForms = [ "spielfilme", "spielfilmen", "spielfilmens", "spielfilmer", "spielfilmern", "spielfilmers",
 	"spielfilmes", "spielfilms", "spielfilmem", "spielfilmere", "spielfilmerem", "spielfilmeren",
 	"spielfilmerer", "spielfilmeres", "spielfilmste", "spielfilmstem", "spielfilmsten", "spielfilmster",
-	"spielfilmstes", "spielfilm" ];
+	"spielfilmstes", "spielfilmt", "spielfilmst", "spielfilmest", "spielfilmet", "spielfilmte", "spielfilmtet",
+	"spielfilmten",	"spielfilmtest", "spielfilmete", "spielfilmetet", "spielfilmeten", "spielfilmetest",
+	"spielfilmend", "gespielfilmt", "spielfilm" ];
 const kinderForms = [ "kinder", "kinde", "kinden", "kindens", "kindern", "kinders", "kindes", "kinds",
 	"kindem", "kindere", "kinderem", "kinderen", "kinderer", "kinderes", "kindeste", "kindestem", "kindesten",
-	"kindester", "kindestes", "kind" ];
+	"kindester", "kindestes", "kindest", "kindet", "kindete", "kindetet", "kindeten", "kindetest", "kindend", "gekindet",
+	"kind" ];
 const kinderfilmeForms = [ "kinderfilme", "kinderfilmen", "kinderfilmens", "kinderfilmer", "kinderfilmern",
 	"kinderfilmers", "kinderfilmes", "kinderfilms",   "kinderfilmem", "kinderfilmere", "kinderfilmerem",
 	"kinderfilmeren", "kinderfilmerer", "kinderfilmeres", "kinderfilmste", "kinderfilmstem", "kinderfilmsten",
-	"kinderfilmster", "kinderfilmstes", "kinderfilm" ];
+	"kinderfilmster", "kinderfilmstes", "kinderfilmt", "kinderfilmst", "kinderfilmest", "kinderfilmet",
+	"kinderfilmte",	"kinderfilmtet", "kinderfilmten", "kinderfilmtest", "kinderfilmete", "kinderfilmetet",
+	"kinderfilmeten", "kinderfilmetest", "kinderfilmend", "gekinderfilmt", "kinderfilm" ];
 const filmeForms = [ "filme", "filmen", "filmens", "filmer", "filmern", "filmers", "filmes", "films",
 	"filmem", "filmere", "filmerem", "filmeren", "filmerer", "filmeres", "filmste", "filmstem", "filmsten",
-	"filmster", "filmstes", "film" ];
+	"filmster", "filmstes", "filmt", "filmst", "filmest", "filmet", "filmte", "filmtet", "filmten",
+	"filmtest", "filmete", "filmetet", "filmeten", "filmetest", "filmend", "gefilmt", "film" ];
 
 
 describe( "A test for building keyword and synonyms forms for languages with morphology support other than English", function() {
