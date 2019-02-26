@@ -5,7 +5,7 @@ import TreeResearcher from "./TreeResearcher";
  *
  * @see module:tree/structure
  *
- * @module tree/researcher
+ * @module tree/research
  */
 
 export {
