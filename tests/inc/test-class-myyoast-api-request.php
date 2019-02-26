@@ -266,7 +266,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 					'This is' => 'the request body',
 				),
 				'headers' => array(
-					'yoast-seo-wordpress-premium' => '10.0',
+					'yoast-seo-wordpress-premium-version' => '10.0',
 				),
 			),
 			$instance->enrich_request_arguments( array() )
@@ -303,7 +303,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals(
 			array(
 				'headers' => array(
-					'yoast-seo-wordpress-premium' => '10.0',
+					'yoast-seo-wordpress-premium-version' => '10.0',
 				),
 			),
 			$instance->enrich_request_arguments( array() )
