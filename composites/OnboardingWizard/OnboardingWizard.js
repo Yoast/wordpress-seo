@@ -4,14 +4,11 @@ import Step from "./Step";
 import StepIndicator from "./StepIndicator";
 import LoadingIndicator from "./LoadingIndicator";
 import sendStep from "./helpers/ajaxHelper";
-import RaisedButton from "material-ui/RaisedButton";
 import Header from "./Header";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { localize } from "../../utils/i18n";
 import muiTheme from "./config/yoast-theme";
 import interpolateComponents from "interpolate-components";
-import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
-import ArrowBackwardIcon from "material-ui/svg-icons/navigation/arrow-back";
 import CloseIcon from "material-ui/svg-icons/navigation/close";
 import isUndefined from "lodash/isUndefined";
 
