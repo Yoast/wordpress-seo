@@ -267,12 +267,13 @@ function wpseo_on_activate_blog( $blog_id ) {
  * Alternative method for calling wpseo_on_activate_blog, for when supplied with a WP_site object instead of an ID.
  *
  * @param object $blog The WP_Site object received from wp_insert_site.
+ *
+ * @return void
  */
 function wpseo_on_activate_blog_from_WP_Site( $blog ) {
 	if ( is_object( $blog ) && isset( $blog->blog_id ) ) {
-		$blog = $blog->blog_id;
+		wpseo_on_activate_blog( $blog->blog_id );
 	}
-	wpseo_on_activate_blog( $blog );
 }
 
 /* ***************************** PLUGIN LOADING *************************** */
