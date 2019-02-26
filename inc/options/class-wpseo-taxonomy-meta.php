@@ -283,17 +283,38 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 					}
 					break;
 
-				case 'wpseo_focuskeywords':
 				case 'wpseo_keywordsynonyms':
 					if ( isset( $meta_data[ $key ] ) && is_string( $meta_data[ $key ] ) ) {
-						/*
-						 * Using `wp_slash` and `wp_unslash` here instead of `stripslashes`.
-						 * The data is stringified JSON. Therefore, `addslashes` has side effects.
-						 * Related issue: https://github.com/Yoast/YoastSEO.js/issues/2158
-						 */
-						$clean[ $key ] = wp_slash( $meta_data[ $key ] );
-						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $clean[ $key ] );
-						$clean[ $key ] = wp_unslash( $clean[ $key ] );
+						// The data is stringified JSON. Use `json_decode` and `json_encode` around the sanitation.
+						$input         = json_decode( $meta_data[ $key ], true );
+						$sanitized     = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), $input );
+						$clean[ $key ] = json_encode( $sanitized );
+					}
+					elseif ( isset( $old_meta[ $key ] ) ) {
+						// Retain old value if field currently not in use.
+						$clean[ $key ] = $old_meta[ $key ];
+					}
+					break;
+
+				case 'wpseo_focuskeywords':
+					if ( isset( $meta_data[ $key ] ) && is_string( $meta_data[ $key ] ) ) {
+						// The data is stringified JSON. Use `json_decode` and `json_encode` around the sanitation.
+						$input = json_decode( $meta_data[ $key ], true );
+
+						// This data has two known keys: `keyword` and `score`.
+						$sanitized = array();
+						foreach ( $input as $entry ) {
+							$sanitized[] = array(
+								'keyword' => WPSEO_Utils::sanitize_text_field( $entry['keyword'] ),
+								'score'   => WPSEO_Utils::sanitize_text_field( $entry['score'] ),
+							);
+						}
+
+						$clean[ $key ] = json_encode( $sanitized );
+					}
+					elseif ( isset( $old_meta[ $key ] ) ) {
+						// Retain old value if field currently not in use.
+						$clean[ $key ] = $old_meta[ $key ];
 					}
 					break;
 
