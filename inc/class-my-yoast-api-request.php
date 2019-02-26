@@ -201,8 +201,12 @@ class WPSEO_MyYoast_Api_Request {
 	 * @return array The enriched arguments.
 	 */
 	protected function enrich_request_arguments( array $request_arguments ) {
-		$request_arguments            = wp_parse_args( $request_arguments, array( 'headers' => array() ) );
-		$request_arguments['headers'] = array_merge( $request_arguments['headers'], $this->get_installed_addons_as_headers() );
+		$request_arguments     = wp_parse_args( $request_arguments, array( 'headers' => array() ) );
+		$addon_version_headers = $this->get_installed_addons_as_headers();
+
+		foreach ( $addon_version_headers as $addon => $version ) {
+			$request_arguments['headers'][ $addon . '-version'] = $version;
+		}
 
 		$request_body = $this->get_request_body();
 		if ( $request_body !== array() ) {
