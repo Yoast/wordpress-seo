@@ -55,12 +55,6 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Network_Admin::get_site_choices()
 	 */
 	public function test_get_site_choices() {
-		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
-			$this->markTestSkipped( 'Skipped because since WordPress 5.1 the hook wpmu_new_blog is deprecated' );
-
-			return;
-		}
-
 		$admin = new Yoast_Network_Admin();
 
 		$site_ids = array_map( 'strval', array_merge( array( get_current_blog_id() ), self::factory()->blog->create_many( 5 ) ) );
@@ -80,17 +74,9 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @group ms-required
 	 *
-	 * @expectedExceptionMessage Unexpected deprecated notice for wpmu_new_blog
-	 *
 	 * @covers Yoast_Network_Admin::get_site_choices()
 	 */
 	public function test_get_site_choices_with_deprecated_exception() {
-		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
-			$this->markTestSkipped( 'Skipped we expected a deprecation notice for the hook wpmu_new_blog (WordPress 5.1)' );
-
-			return;
-		}
-
 		$admin = new Yoast_Network_Admin();
 
 		$site_ids = array_map( 'strval', array_merge( array( get_current_blog_id() ), self::factory()->blog->create_many( 5 ) ) );

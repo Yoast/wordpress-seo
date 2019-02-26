@@ -471,12 +471,6 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Notification_Center::dismiss_notification()
 	 */
 	public function test_dismiss_notification_is_per_site() {
-		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
-			$this->markTestSkipped( 'Skipped because since WordPress 5.1 the hook wpmu_new_blog is deprecated' );
-
-			return;
-		}
-
 		$site2 = self::factory()->blog->create();
 
 		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
@@ -500,17 +494,9 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @group ms-required
 	 *
-	 * @expectedExceptionMessage Unexpected deprecated notice for wpmu_new_blog
-	 *
 	 * @covers Yoast_Notification_Center::dismiss_notification()
 	 */
 	public function test_dismiss_notification_is_per_site_with_deprecation_exception() {
-		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
-			$this->markTestSkipped( 'Skipped we expected a deprecation notice for the hook wpmu_new_blog (WordPress 5.1)' );
-
-			return;
-		}
-
 		$site2 = self::factory()->blog->create();
 
 		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
@@ -537,12 +523,6 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Notification_Center::restore_notification()
 	 */
 	public function test_restore_notification_is_per_site() {
-		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
-			$this->markTestSkipped( 'Skipped because since WordPress 5.1 the hook wpmu_new_blog is deprecated' );
-
-			return;
-		}
-
 		$site2 = self::factory()->blog->create();
 
 		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
@@ -572,17 +552,9 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @group ms-required
 	 *
-	 * @expectedExceptionMessage Unexpected deprecated notice for wpmu_new_blog
-	 *
 	 * @covers Yoast_Notification_Center::restore_notification()
 	 */
 	public function test_restore_notification_is_per_site_with_deprecation_notice() {
-		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
-			$this->markTestSkipped( 'Skipped we expected a deprecation notice for the hook wpmu_new_blog (WordPress 5.1)' );
-
-			return;
-		}
-
 		$site2 = self::factory()->blog->create();
 
 		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
@@ -643,18 +615,10 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * Tests that checking for dismissed notifications applies only to the current site in multisite.
 	 *
 	 * @group ms-required
-	 *        
-	 * @expectedExceptionMessage Unexpected deprecated notice for wpmu_new_blog
 	 *
 	 * @covers Yoast_Notification_Center::is_notification_dismissed()
 	 */
 	public function test_is_notification_dismissed_is_per_site_with_deprecation_notice() {
-		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
-			$this->markTestSkipped( 'Skipped we expected a deprecation notice for the hook wpmu_new_blog (WordPress 5.1)' );
-
-			return;
-		}
-
 		$site2 = self::factory()->blog->create();
 
 		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
