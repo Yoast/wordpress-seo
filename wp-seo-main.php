@@ -249,15 +249,21 @@ function _wpseo_deactivate() {
  * {@internal Unfortunately will fail if the plugin is in the must-use directory.
  *            {@link https://core.trac.wordpress.org/ticket/24205} }}
  *
- * @param int $blog_id Blog ID.
+ * @param int || object $blog The blog id or blog object, depending on the hook used to call this method.
  */
-function wpseo_on_activate_blog( $blog_id ) {
+function wpseo_on_activate_blog( $blog ) {
+
+	// In WP >= 5.1, wp_insert_site replaced wpmu_new_blog, which returns an object instead of an ID.
+	if ( is_object( $blog ) && isset( $blog->blog_id ) ) {
+		$blog = $blog->blog_id;
+	}
+
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
 	}
 
 	if ( is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
-		switch_to_blog( $blog_id );
+		switch_to_blog( $blog );
 		wpseo_activate( false );
 		restore_current_blog();
 	}
@@ -529,7 +535,7 @@ register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
 
 // Wpmu_new_blog has been deprecated in 5.1 and replaced by wp_insert_site.
 global $wp_version;
-if(version_compare($wp_version,'5.1', '<') ) {
+if( version_compare($wp_version,'5.1', '<') ) {
 	add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 } else {
 	add_action( 'wp_insert_site', 'wpseo_on_activate_blog' );
