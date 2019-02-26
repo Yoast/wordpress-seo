@@ -205,7 +205,7 @@ class WPSEO_MyYoast_Api_Request {
 		$addon_version_headers = $this->get_installed_addons_as_headers();
 
 		foreach ( $addon_version_headers as $addon => $version ) {
-			$request_arguments['headers'][ $addon . '-version'] = $version;
+			$request_arguments['headers'][ $addon . '-version' ] = $version;
 		}
 
 		$request_body = $this->get_request_body();
