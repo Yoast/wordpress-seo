@@ -270,7 +270,7 @@ function wpseo_on_activate_blog( $blog_id ) {
  *
  * @return void
  */
-function wpseo_on_activate_blog_from_WP_Site( $blog ) {
+function wpseo_on_activate_blog_from_wp_site( $blog ) {
 	if ( is_object( $blog ) && isset( $blog->blog_id ) ) {
 		wpseo_on_activate_blog( $blog->blog_id );
 	}
@@ -545,7 +545,7 @@ if ( version_compare( $wp_version,'5.1', '<' ) ) {
 	add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 }
 else {
-	add_action( 'wp_insert_site', 'wpseo_on_activate_blog_from_WP_Site' );
+	add_action( 'wp_insert_site', 'wpseo_on_activate_blog_from_wp_site' );
 }
 
 add_action( 'activate_blog', 'wpseo_on_activate_blog' );
