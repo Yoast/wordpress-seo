@@ -1,5 +1,5 @@
 /**
- * The default limit of 20 words is too strict for Catalan. For more detailed explanation, see:
+ * Sentences in Catalan have a similar length distribution as in Spanish, so use the same 25 word limit. For a more detailed explanation, see:
  * https://github.com/Yoast/research/wiki/Sentence-Length-Catalan
  */
 
