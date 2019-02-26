@@ -14,6 +14,7 @@ import Inputs from "./components/Inputs";
 import Markings from "./components/Markings";
 import RelevantWords from "./components/RelevantWords";
 import Results from "./components/Results";
+import TreeView from "./components/TreeView";
 import WorkerStatus from "./components/WorkerStatus";
 import { setResults } from "./redux/actions/results";
 import { setStatus } from "./redux/actions/worker";
@@ -156,7 +157,13 @@ class App extends React.Component {
 			</Container>
 
 			<Container>
-				<Collapsible title="Relevant words">
+				<Collapsible title="Tree" initialIsOpen={ false }>
+					<TreeView />
+				</Collapsible>
+			</Container>
+
+			<Container>
+				<Collapsible title="Relevant words" initialIsOpen={ false }>
 					<RelevantWords />
 				</Collapsible>
 			</Container>

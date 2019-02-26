@@ -5,6 +5,8 @@
  *
  * @param {object} paper the paper to run this assessment on
  * @returns {boolean} true if the URL is too long, false if it isn't
+ *
+ * @deprecated since 1.48
  */
 export default function( paper ) {
 	var urlLength = paper.getUrl().length;

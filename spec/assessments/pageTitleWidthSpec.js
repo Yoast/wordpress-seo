@@ -39,6 +39,6 @@ describe( "the SEO title length assessment", function() {
 		var paper = new Paper( "", { title: "The Title That Is Too Long Long To Pass" } );
 		var result = pageTitleLengthAssessment.getResult( paper, factory.buildMockResearcher( 620 ), i18n );
 		expect( result.getScore() ).toEqual( 3 );
-		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: The SEO title wider than the viewable limit. <a href='https://yoa.st/34i' target='_blank'>Try to make it shorter</a>." );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: The SEO title is wider than the viewable limit. <a href='https://yoa.st/34i' target='_blank'>Try to make it shorter</a>." );
 	} );
 } );
