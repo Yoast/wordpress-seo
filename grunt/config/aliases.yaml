@@ -122,7 +122,8 @@ release:
 # Run the steps to deploy a new recalibration version.
 'deploy:recalibration':
   - 'update-recalibration'
-  - 'webpack:recalibration'
+  - 'clean:build-assets-js'
+  - 'release:js'
   - 'publish-recalibration'
 
 # Default task

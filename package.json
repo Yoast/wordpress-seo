@@ -18,12 +18,10 @@
   "scripts": {
     "test": "jest",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
-    "build-recalibration": "yarn build --env.recalibration=enabled",
     "webpack-analyze-bundle": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json js/dist",
     "i18n-yoast-components": "cross-env NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-wordpress-seo": "cross-env NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "start": "grunt build:css && grunt webpack:buildDev && webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development",
-    "start-recalibration": "yarn start --env.recalibration=enabled"
+    "start": "grunt build:css && grunt webpack:buildDev && webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",
@@ -108,7 +106,7 @@
     "webpack": "^4.20.2",
     "webpack-bundle-analyzer": "^3.0.2",
     "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.9"
+    "webpack-dev-server": "^3.1.14"
   },
   "optionalDependencies": {
     "grunt-contrib-imagemin": "^2.0.1"
@@ -146,11 +144,11 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "^4.20.0",
-    "yoastseo": "^1.47.0"
+    "yoast-components": "^4.21.0",
+    "yoastseo": "^1.48.0"
   },
   "yoast": {
-    "pluginVersion": "9.6",
+    "pluginVersion": "9.7",
     "recalibrationVersion": "13"
   }
 }

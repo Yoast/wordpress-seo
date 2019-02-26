@@ -72,6 +72,8 @@ module.exports = {
 					"cli/**",
 					"js/vendor/**/*.js",
 					"js/dist/**/*.min.js",
+					// Do not package the analysis worker recalibration file.
+					"!js/dist/wp-seo-analysis-worker-recalibration-*.js",
 					"js/dist/select2/i18n/*.js",
 					"languages/**",
 					"src/**",

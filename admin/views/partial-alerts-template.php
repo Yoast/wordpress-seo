@@ -3,6 +3,17 @@
  * WPSEO plugin file.
  *
  * @package WPSEO\Admin
+ *
+ * @uses string $type
+ * @uses string $dashicon
+ * @uses string $i18n_title
+ * @uses string $i18n_issues
+ * @uses string $i18n_no_issues
+ * @uses string $i18n_muted_issues_title
+ * @uses int    $active_total
+ * @uses        $total
+ * @uses array  $active
+ * @uses array  $dismissed
  */
 
 if ( ! function_exists( '_yoast_display_alerts' ) ) {
