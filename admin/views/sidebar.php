@@ -73,7 +73,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			<div class="wp-clearfix">
 				<p>
 					<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/3lj' ); ?>" target="_blank">
-						<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/All_round_SEO_optm.svg' ); ?>" alt="">
+						<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/all-round-SEO.svg' ); ?>" alt="">
 						<strong><?php esc_html_e( 'All-Around SEO training', 'wordpress-seo' ); ?></strong>
 						<?php echo $new_tab_message; ?>
 					</a><br>
