@@ -249,26 +249,31 @@ function _wpseo_deactivate() {
  * {@internal Unfortunately will fail if the plugin is in the must-use directory.
  *            {@link https://core.trac.wordpress.org/ticket/24205} }}
  *
- * @param int || object $blog The blog id or blog object, depending on the hook used to call this method.
+ * @param int $blog_id Blog ID.
  */
-function wpseo_on_activate_blog( $blog ) {
-
-	// In WP >= 5.1, wp_insert_site replaced wpmu_new_blog, which returns an object instead of an ID.
-	if ( is_object( $blog ) && isset( $blog->blog_id ) ) {
-		$blog = $blog->blog_id;
-	}
-
+function wpseo_on_activate_blog( $blog_id ) {
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
 	}
 
 	if ( is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
-		switch_to_blog( $blog );
+		switch_to_blog( $blog_id );
 		wpseo_activate( false );
 		restore_current_blog();
 	}
 }
 
+/**
+ * Alternative method for calling wpseo_on_activate_blog, for when supplied with a WP_site object instead of an ID.
+ *
+ * @param object $blog The WP_Site object received from wp_insert_site.
+ */
+function wpseo_on_activate_blog_from_WP_Site( $blog ) {
+	if ( is_object( $blog ) && isset( $blog->blog_id ) ) {
+		$blog = $blog->blog_id;
+	}
+	wpseo_on_activate_blog( $blog );
+}
 
 /* ***************************** PLUGIN LOADING *************************** */
 
@@ -539,7 +544,7 @@ if ( version_compare( $wp_version,'5.1', '<' ) ) {
 	add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 }
 else {
-	add_action( 'wp_insert_site', 'wpseo_on_activate_blog' );
+	add_action( 'wp_insert_site', 'wpseo_on_activate_blog_from_WP_Site' );
 }
 
 add_action( 'activate_blog', 'wpseo_on_activate_blog' );
