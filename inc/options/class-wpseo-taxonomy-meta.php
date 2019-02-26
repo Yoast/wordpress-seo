@@ -275,7 +275,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 				case 'wpseo_bctitle':
 					if ( isset( $meta_data[ $key ] ) ) {
-						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( stripslashes( $meta_data[ $key ] ) );
+						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $meta_data[ $key ] );
 					}
 					elseif ( isset( $old_meta[ $key ] ) ) {
 						// Retain old value if field currently not in use.
@@ -303,18 +303,16 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 				case 'wpseo_linkdex':
 				default:
 					if ( isset( $meta_data[ $key ] ) && is_string( $meta_data[ $key ] ) ) {
-						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( stripslashes( $meta_data[ $key ] ) );
+						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $meta_data[ $key ] );
 					}
 
 					if ( 'wpseo_focuskw' === $key ) {
 						$search = array(
 							'&lt;',
 							'&gt;',
-							'&quot',
 							'&#96',
 							'<',
 							'>',
-							'"',
 							'`',
 						);
 
