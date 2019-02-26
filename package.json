@@ -148,7 +148,7 @@
     "yoastseo": "^1.48.0"
   },
   "yoast": {
-    "pluginVersion": "9.7-RC3",
+    "pluginVersion": "9.7",
     "recalibrationVersion": "13"
   }
 }
