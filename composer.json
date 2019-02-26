@@ -32,7 +32,8 @@
 		"pimple/pimple": "^3.2",
 		"ruckusing/ruckusing-migrations": "^1.1",
 		"psr/log": "^1.0",
-		"league/oauth2-client": "^2.4"
+		"league/oauth2-client": "^2.4",
+		"yoast/whip": "^1.1"
 	},
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",

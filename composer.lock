@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "47d9a16e58803f92dc5eb018d98bfa76",
+    "content-hash": "322849fe9f949be2d018339301212260",
     "packages": [
         {
             "name": "composer/installers",
@@ -925,6 +925,48 @@
                 "wordpress"
             ],
             "time": "2017-08-22T07:59:16+00:00"
+        },
+        {
+            "name": "yoast/whip",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Yoast/whip.git",
+                "reference": "f66106f5030a8f426ea2f0314bae814862336db1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Yoast/whip/zipball/f66106f5030a8f426ea2f0314bae814862336db1",
+                "reference": "f66106f5030a8f426ea2f0314bae814862336db1",
+                "shasum": ""
+            },
+            "require": {
+                "xrstf/composer-php52": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^3.6.12"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/facades/wordpress.php"
+                ],
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Team Yoast",
+                    "email": "support@yoast.com"
+                }
+            ],
+            "description": "A WordPress package to nudge users to upgrade their software versions (starting with PHP)",
+            "time": "2017-08-04T10:00:35+00:00"
         }
     ],
     "packages-dev": [
