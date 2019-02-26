@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.9
-Tested up to: 5.0.3
-Stable tag: 9.6
+Tested up to: 5.1
+Stable tag: 9.7
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -139,7 +139,7 @@ Bugfixes:
 * Fixes a bug where a Flesch reading ease score of exactly 90 would trigger incorrect feedback.
 * Fixes a bug where the taxonomy sitemap provider would not handle private taxonomies as expected, resulting in sitemaps not being accessible in specific situations.
 * Fixes a bug where an empty twitter description instead of the term description would be shown.
-* Fixes a bug where undefined warnings would be given when saving a Facebook image.
+* Fixes a bug where 'undefined index' warnings would be given when saving a Facebook image.
 * Fixes a bug where the Recalibration Beta could not be loaded in combination with specific server configurations.
 
 = Earlier versions =
