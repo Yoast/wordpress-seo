@@ -51,11 +51,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 		}
 
 		$field->add_suggestion(
-			sprintf(
-				/* translators: %1$s resolves to Keyword research training */
-				__( 'Find out what words your audience uses to find you', 'wordpress-seo' ),
-				'Keyword research training'
-			),
+			__( 'Find out what words your audience uses to find you', 'wordpress-seo' ),
 			sprintf(
 				/* translators: %1$s resolves to Keyword research training */
 				__( 'Keyword research is essential in any SEO strategy. You decide the search terms you want to be found for, and figure out what words your audience uses to find you. Great keyword research tells you what content you need to start ranking for the terms you want to rank for. Make sure your efforts go into the keywords you actually have a chance at ranking for! The %1$s walks you through this process, step by step.', 'wordpress-seo' ),
