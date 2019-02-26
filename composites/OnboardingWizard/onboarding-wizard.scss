@@ -61,41 +61,19 @@ body {
 	}
 
 	&--navigation {
-		text-align: right;
-		width: 100%;
+		display: flex;
+		justify-content: space-between
 	}
 
 	&--button {
 		margin-top: 1em;
-
-		&__next {
-			margin-left: 1em;
-
-			button:hover,
-			button:focus {
-				background-color: $color_purple_dark !important;
-
-				div {
-					background-color: transparent !important;
-				}
-			}
-		}
-
-		&__previous {
-			button:focus {
-				background: $color_grey !important;
-			}
-
-			button:focus:active {
-				background: transparent !important;
-			}
-
-			button:hover > div > span,
-			button:focus > div > span {
-				color: $color_black !important;
-			}
-		}
-
+		background: none;
+		color: $color_blue;
+		border: none;
+		padding: 0;
+		font: inherit;
+		border-bottom: 1px solid $color_blue;
+		cursor: pointer;
 	}
 
 	&--step {

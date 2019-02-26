@@ -286,7 +286,7 @@ class OnboardingWizard extends React.Component {
 			hideButton = true;
 		}
 
-		return ( hideButton ) ? "" : <RaisedButton className={ className } { ...attributes } />;
+		return ( hideButton ) ? "" : <button type="button" className={ className } onClick={ attributes.onClick }>{ attributes.label }</button>;
 	}
 
 	/**
@@ -353,23 +353,13 @@ class OnboardingWizard extends React.Component {
 		let navigation = "";
 		if ( ! step.hideNavigation ) {
 			const previousButton = this.getNavigationbutton( "previous", {
-				label: this.props.translate( "Previous" ),
-				"aria-label": this.props.translate( "Previous step" ),
+				label: "« " + this.props.translate( "Previous" ),
 				onClick: this.setPreviousStep,
-				disableFocusRipple: true,
-				disableTouchRipple: true,
-				icon: <ArrowBackwardIcon viewBox="0 0 28 28" />,
 			}, step, "yoast-wizard--button yoast-wizard--button__previous" );
 
 			const nextButton = this.getNavigationbutton( "next", {
-				label: this.props.translate( "Next" ),
-				"aria-label": this.props.translate( "Next step" ),
-				primary: true,
+				label: this.props.translate( "Next" ) + " »",
 				onClick: this.setNextStep,
-				disableFocusRipple: true,
-				disableTouchRipple: true,
-				labelPosition: "before",
-				icon: <ArrowForwardIcon viewBox="0 0 28 28" />,
 			}, step, "yoast-wizard--button yoast-wizard--button__next" );
 
 			navigation = <div className="yoast-wizard--navigation">{ previousButton }{ nextButton }</div>;
