@@ -68,11 +68,11 @@ body {
 	&--button {
 		margin-top: 1em;
 		background: none;
-		color: #0073aa;
+		color: $color_blue_link;
 		border: none;
 		padding: 0;
 		font: inherit;
-		border-bottom: 1px solid #0073aa;
+		border-bottom: 1px solid $color_blue_link;
 		cursor: pointer;
 	}
 
