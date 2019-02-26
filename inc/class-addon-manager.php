@@ -23,6 +23,8 @@ class WPSEO_Addon_Manager {
 	 * @var array
 	 */
 	protected static $addons = array(
+		// Yoast SEO Free isn't an addon actually, but we needed it in some cases.
+		'wp-seo.php'            => 'yoast-seo-wordpress',
 		'wp-seo-premium.php'    => 'yoast-seo-wordpress-premium',
 		'wpseo-news.php'        => 'yoast-seo-news',
 		'video-seo.php'         => 'yoast-seo-video',
