@@ -46,7 +46,7 @@ const penaltyMappingPartialSupport = {
  * @type {{GOOD: number, OKAY: number, NEEDS_IMPROVEMENT: number}}
  * @const
  */
-const SCORES = {
+export const READABILITY_SCORES = {
 	GOOD: 90,
 	OKAY: 60,
 	NEEDS_IMPROVEMENT: 30,
@@ -90,22 +90,22 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 	calculateScore( allAssessmentsSupported, penalty ) {
 		if ( allAssessmentsSupported ) {
 			if ( penalty > 6 ) {
-				return SCORES.NEEDS_IMPROVEMENT;
+				return READABILITY_SCORES.NEEDS_IMPROVEMENT;
 			}
 
 			if ( penalty > 4 ) {
-				return SCORES.OKAY;
+				return READABILITY_SCORES.OKAY;
 			}
 		} else {
 			if ( penalty > 4 ) {
-				return SCORES.NEEDS_IMPROVEMENT;
+				return READABILITY_SCORES.NEEDS_IMPROVEMENT;
 			}
 
 			if ( penalty > 2 ) {
-				return SCORES.OKAY;
+				return READABILITY_SCORES.OKAY;
 			}
 		}
-		return SCORES.GOOD;
+		return READABILITY_SCORES.GOOD;
 	}
 
 	/**
@@ -141,10 +141,10 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 
 		/*
 		 * If you have no content, you have a red indicator.
-		 * (One result always means the 'no content' assessment result, apparently (see `contentAssessor`) ).
+		 * (Assume that one result always means the 'no content' assessment result, (see `contentAssessor`) ).
 		 */
 		if ( validResults.length <= 1 ) {
-			return SCORES.NEEDS_IMPROVEMENT;
+			return READABILITY_SCORES.NEEDS_IMPROVEMENT;
 		}
 
 		const penalty = this.calculatePenalty( results );

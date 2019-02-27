@@ -1,5 +1,5 @@
-import { ScoreAggregator } from "../../../src/tree/assess";
-import AssessmentResult from "../../../src/values/AssessmentResult";
+import { ScoreAggregator } from "../../../../src/tree/assess";
+import AssessmentResult from "../../../../src/values/AssessmentResult";
 
 describe( "ScoreAggregator", () => {
 	beforeEach( () => {
