@@ -27,8 +27,8 @@ describe( "getIrregularStem", function() {
 	const verbMorphology = morphologyDataEN.verbs;
 
 	it( "returns undefined if the word is not in the list of irregulars", function() {
-		expect( determineIrregularStem( "word", nounIrregulars ) ).not.toBeDefined();
-		expect( determineIrregularVerbStem( "word", verbMorphology ) ).not.toBeDefined();
+		expect( determineIrregularStem( "word", nounIrregulars ) ).toBeNull();
+		expect( determineIrregularVerbStem( "word", verbMorphology ) ).toBeNull();
 	} );
 
 	it( "returns the stem of an irregular noun", function() {

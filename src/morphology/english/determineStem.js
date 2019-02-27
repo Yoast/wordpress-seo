@@ -39,7 +39,7 @@ export function findShortestAndAlphabeticallyFirst( array ) {
  * @param {string} word                 The word for which to determine its base.
  * @param {Array}  irregulars           An array of irregular nouns and adjectives.
  *
- * @returns {string|undefined} The base form of the irregular word; undefined if no irregular stem was found.
+ * @returns {string|null} The base form of the irregular word; null if no irregular stem was found.
  */
 export function determineIrregularStem( word, irregulars ) {
 	for ( let i = 0; i < irregulars.length; i++ ) {
@@ -50,6 +50,7 @@ export function determineIrregularStem( word, irregulars ) {
 			}
 		}
 	}
+	return null;
 }
 
 /**
@@ -60,13 +61,14 @@ export function determineIrregularStem( word, irregulars ) {
  * @param {string}          word            The word for which to determine its base.
  * @param {Object|false}    verbMorphology  Regexes and irregulars for verb morphology, False if verb rules should not be applied.
  *
- * @returns {string|undefined} The base form of the irregular word; undefined if no irregular stem was found.
+ * @returns {string|null} The base form of the irregular word; null if no irregular stem was found.
  */
 export function determineIrregularVerbStem( word, verbMorphology ) {
 	const paradigmIfIrregularVerb = getIrregularVerbParadigm( word, verbMorphology.irregularVerbs, verbMorphology.regexVerb.verbPrefixes );
 	if ( ! isUndefined( paradigmIfIrregularVerb ) ) {
 		return paradigmIfIrregularVerb[ 0 ];
 	}
+	return null;
 }
 
 /**
