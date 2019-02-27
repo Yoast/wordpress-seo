@@ -1,8 +1,11 @@
 import { take } from "lodash-es";
+import getLanguage from "yoastsrc/helpers/getLanguage";
 import getWords from "yoastsrc/stringProcessing/getWords";
-import { getRelevantWords, getRelevantWordsFromPaperAttributes } from "yoastsrc/stringProcessing/relevantWords";
+import { getRelevantWords, getRelevantWordsFromPaperAttributes, getRelevantCombinations } from "yoastsrc/stringProcessing/relevantWords";
 import { getSubheadingsTopLevel } from "yoastsrc/stringProcessing/getSubheadings";
-import WordCombination from "yoastsrc/values/WordCombination";
+import getMorphologyData from "./getMorphologyData";
+
+const morphologyData = getMorphologyData();
 
 /**
  * Rounds number to four decimals.
@@ -30,8 +33,8 @@ export default function calculateRelevantWords( paper ) {
 	const text = paper.text;
 	const words = getWords( text );
 
-	const locale = paper.locale;
-	const relevantWordsFromText = getRelevantWords( text, locale );
+	const language = getLanguage( paper.locale );
+	const relevantWordsFromText = getRelevantWords( text, language, morphologyData );
 
 	const subheadings = getSubheadingsTopLevel( text ).map( subheading => subheading[ 2 ] );
 
@@ -43,24 +46,17 @@ export default function calculateRelevantWords( paper ) {
 			title: paper.title,
 			subheadings,
 		},
-		locale,
+		language,
+		morphologyData,
 	);
 
-	const relevantWords = take( relevantWordsFromTopic.concat( relevantWordsFromText ), 100 );
+	const relevantWords = take( getRelevantCombinations( relevantWordsFromTopic.concat( relevantWordsFromText ) ), 100 );
 
 	return relevantWords.map( ( word ) => {
-		const output = {
-			word: word.getCombination(),
-			relevance: formatNumber( word.getRelevance() ),
-			length: word._length,
+		return {
+			word: word.getWord(),
+			stem: word.getStem(),
 			occurrences: word.getOccurrences(),
-			multiplier: formatNumber( word.getMultiplier( word.getRelevantWordPercentage() ) ),
-			relevantWordPercentage: formatNumber( word.getRelevantWordPercentage() ),
 		};
-
-		output.lengthBonus = word._length === 1 ? "" : WordCombination.lengthBonus[ word._length ];
-		output.density = formatNumber( word.getDensity( words.length ) );
-
-		return output;
 	} );
 }
