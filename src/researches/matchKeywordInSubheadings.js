@@ -1,7 +1,7 @@
 import { includes } from "lodash-es";
 import getFunctionWordsLanguages from "../helpers/getFunctionWordsLanguages";
 import getLanguage from "../helpers/getLanguage";
-import { getSubheadingContents, getSubheadingContentsTopLevel } from "../stringProcessing/getSubheadings";
+import { getSubheadingContentsTopLevel } from "../stringProcessing/getSubheadings";
 import stripSomeTags from "../stringProcessing/stripNonTextTags";
 import { findTopicFormsInString } from "./findKeywordFormsInString";
 
@@ -23,7 +23,7 @@ const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, us
 	return subheadings.filter( subheading => {
 		const matchedTopicForms = findTopicFormsInString( topicForms, subheading, useSynonyms, locale );
 
-		if ( process.env.YOAST_RECALIBRATION === "enabled" && ! isFunctionWordLanguage ) {
+		if ( ! isFunctionWordLanguage ) {
 			return matchedTopicForms.percentWordMatches === 100;
 		}
 		return matchedTopicForms.percentWordMatches > 50;
@@ -47,9 +47,7 @@ export default function( paper, researcher ) {
 	const locale = paper.getLocale();
 	const result = { count: 0, matches: 0, percentReflectingTopic: 0 };
 	const useSynonyms = true;
-	const subheadings = process.env.YOAST_RECALIBRATION === "enabled"
-		? getSubheadingContentsTopLevel( text )
-		: getSubheadingContents( text );
+	const subheadings = getSubheadingContentsTopLevel( text );
 
 	if ( subheadings.length !== 0 ) {
 		result.count = subheadings.length;

@@ -4,6 +4,8 @@ import { get, has } from "lodash-es";
  * This contains all possible, default researches
  * and logic to apply these researches to a formatted text,
  * represented as a tree structure.
+ *
+ * @memberOf module:tree/research
  */
 class TreeResearcher {
 	/**
