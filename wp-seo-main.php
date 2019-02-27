@@ -272,7 +272,7 @@ function wpseo_on_activate_blog( $blog_id ) {
  */
 function wpseo_on_activate_blog_from_wp_site( $blog ) {
 	if ( is_object( $blog ) && isset( $blog->blog_id ) ) {
-		wpseo_on_activate_blog( $blog->blog_id );
+		wpseo_on_activate_blog( intval( $blog->blog_id ) );
 	}
 }
 
