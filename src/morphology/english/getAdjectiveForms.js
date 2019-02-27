@@ -81,7 +81,7 @@ const endsWithEst = function( word ) {
 const endsWithLy = function( word ) {
 	const wordLength = word.length;
 	// Consider only words of five letters or more to be adjectives (otherwise, words like "lily" are being treated as adjectives).
-	if ( wordLength > 4 ) {
+	if ( wordLength >= 5 ) {
 		return word.substring( word.length - 2, word.length ) === "ly";
 	}
 	return false;
