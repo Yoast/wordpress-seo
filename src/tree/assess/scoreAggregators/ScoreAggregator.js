@@ -11,7 +11,7 @@ class ScoreAggregator {
 	 *
 	 * @param {AssessmentResult[]} results The assessment results.
 	 *
-	 * @returns {Number} The aggregated score.
+	 * @returns {number} The aggregated score.
 	 *
 	 * @abstract
 	 */
