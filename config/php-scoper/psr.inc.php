@@ -14,7 +14,9 @@ return array(
 	 * For more see: https://github.com/humbug/php-scoper#finders-and-paths
 	 */
 	'finders'                    => [
-		Finder::create()->files()->in( 'vendor/league/oauth2-client' ),
+		Finder::create()->files()->in( 'vendor/psr/container' ),
+		Finder::create()->files()->in( 'vendor/psr/http-message' ),
+		Finder::create()->files()->in( 'vendor/psr/log' ),
 	],
 
 	/*
@@ -25,30 +27,6 @@ return array(
 	 *
 	 * For more see: https://github.com/humbug/php-scoper#patchers
 	 */
-	'patchers'                   => [
-		/**
-		 * Replaces the Adapter string references with the prefixed versions.
-		 *
-		 * @param string $filePath The path of the current file.
-		 * @param string $prefix   The prefix to be used.
-		 * @param string $content  The content of the specific file.
-		 *
-		 * @return string The modified content.
-		 */
-		function( $file_path, $prefix, $content ) {
-			// 26 is the length of the GrantFactory.php file path.
-			if ( substr( $file_path, -26 ) !== 'src/Grant/GrantFactory.php' ) {
-				return $content;
-			}
-
-			$replaced = str_replace(
-				'$class = \'League\\\\OAuth2\\\\Client\\\\Grant\\\\\' . $class;',
-				sprintf( '$class = \'%s\\\\League\\\\OAuth2\\\\Client\\\\Grant\\\\\' . $class;', $prefix ),
-				$content
-			);
-
-			return $replaced;
-		},
-	],
+	'patchers'                   => [],
 
 );
