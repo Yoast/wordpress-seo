@@ -78,18 +78,23 @@ check:
 
 'artifact':
   - 'shell:production-prefix-dependencies'
-  - 'shell:production-composer-install'
+  - 'shell:composer-install-production'
+  # Remove the folders that are already in the vendor_prefixed folder from the vendor folder.
+  - 'shell:remove-prefixed-sources'
   # Build like we normally would
   - 'release'
-  # Remove the folders that are already in the vendor_prefixed folder from the vendor folder.
-  - 'clean:remove-from-vendor'
   # Remove build folder
   - 'clean:artifact'
   # Copy only the relevant files to the folder
   - 'copy:artifact'
   # Create a zip file
   - 'compress:artifact'
-  - 'shell:development-composer-install'
+  - 'restore-environment-after-artifact'
+
+'restore-environment-after-artifact':
+  - 'shell:composer-reset-config'
+  - 'shell:composer-reset-lock'
+  - 'shell:composer-install-dev'
 
 'composer-artifact':
   # Create our composer targeted artifact

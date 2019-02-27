@@ -98,12 +98,30 @@ module.exports = function( grunt ) {
 			},
 		},
 
-		"production-composer-install": {
+		"composer-install-production": {
 			command: "composer install --prefer-dist --optimize-autoloader --no-dev",
 		},
 
-		"development-composer-install": {
+		"remove-prefixed-sources": {
+			command: "composer remove league/oauth2-client j4mie/idiorm pimple/pimple ruckusing/ruckusing-migrations psr/log --update-no-dev --optimize-autoloader",
+		},
+
+		"composer-install-dev": {
 			command: "composer install",
+		},
+
+		"composer-reset-config": {
+			command: "git checkout composer.json",
+			options: {
+				failOnError: false,
+			},
+		},
+
+		"composer-reset-lock": {
+			command: "git checkout composer.lock",
+			options: {
+				failOnError: false,
+			},
 		},
 
 		"production-prefix-dependencies": {
