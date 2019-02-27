@@ -22,7 +22,7 @@ const totalNrOfAssessments = 8;
  */
 const penaltyMappingFullSupport = {
 	bad: 3,
-	okay: 2,
+	ok: 2,
 	good: 0,
 };
 
@@ -36,7 +36,7 @@ const penaltyMappingFullSupport = {
  */
 const penaltyMappingPartialSupport = {
 	bad: 4,
-	okay: 2,
+	ok: 2,
 	good: 0,
 };
 
@@ -129,6 +129,10 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 		return sum( penaltyPoints );
 	}
 
+	getValidResults( results ) {
+		return results.filter( result => result.hasScore() && result.hasText() );
+	}
+
 	/**
 	 * Aggregates the given assessment results into a single analysis score.
 	 *
@@ -137,7 +141,7 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 	 * @returns {number} The aggregated score.
 	 */
 	aggregate( results ) {
-		const validResults = results.filter( result => result.hasScore() && result.hasText() );
+		const validResults = this.getValidResults( results );
 
 		/*
 		 * If you have no content, you have a red indicator.
