@@ -1,5 +1,6 @@
 import { findShortestAndAlphabeticallyFirst } from  "../../../src/morphology/english/determineStem.js";
 import { determineIrregularStem } from  "../../../src/morphology/english/determineStem.js";
+import { determineIrregularVerbStem } from  "../../../src/morphology/english/determineStem.js";
 import { determineRegularStem } from  "../../../src/morphology/english/determineStem.js";
 import { determineStem } from  "../../../src/morphology/english/determineStem.js";
 
@@ -20,46 +21,45 @@ describe( "findShortestAndAlphabeticallyFirst", function() {
 } );
 
 describe( "getIrregularStem", function() {
-	const nounAndAdjectiveIrregulars = [].concat(
-		morphologyDataEN.nouns.irregularNouns,
-		morphologyDataEN.adjectives.irregularAdjectives,
-	);
+	const nounIrregulars = morphologyDataEN.nouns.irregularNouns;
+	const adjectiveIrregulars = morphologyDataEN.adjectives.irregularAdjectives;
 
 	const verbMorphology = morphologyDataEN.verbs;
 
 	it( "returns undefined if the word is not in the list of irregulars", function() {
-		expect( determineIrregularStem( "word", nounAndAdjectiveIrregulars, verbMorphology ) ).not.toBeDefined();
+		expect( determineIrregularStem( "word", nounIrregulars ) ).not.toBeDefined();
+		expect( determineIrregularVerbStem( "word", verbMorphology ) ).not.toBeDefined();
 	} );
 
 	it( "returns the stem of an irregular noun", function() {
-		expect( determineIrregularStem( "anaesthesia", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "anaesthesia" );
-		expect( determineIrregularStem( "anaesthesiae", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "anaesthesia" );
-		expect( determineIrregularStem( "anæsthesia", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "anaesthesia" );
-		expect( determineIrregularStem( "anæsthesiæ", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "anaesthesia" );
-		expect( determineIrregularStem( "anaesthesias", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "anaesthesia" );
-	} );
-
-	it( "returns the stem of an irregular verb", function() {
-		expect( determineIrregularStem( "bless", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "bless" );
-		expect( determineIrregularStem( "blesses", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "bless" );
-		expect( determineIrregularStem( "blessing", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "bless" );
-		expect( determineIrregularStem( "blessed", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "bless" );
-		expect( determineIrregularStem( "blest", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "bless" );
-	} );
-
-	it( "returns the stem of an irregular verb with a prefix (which is processed separately)", function() {
-		expect( determineIrregularStem( "foresee", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "foresee" );
-		expect( determineIrregularStem( "foresees", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "foresee" );
-		expect( determineIrregularStem( "foreseeing", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "foresee" );
-		expect( determineIrregularStem( "foresaw", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "foresee" );
-		expect( determineIrregularStem( "foreseen", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "foresee" );
+		expect( determineIrregularStem( "anaesthesia", nounIrregulars ) ).toEqual( "anaesthesia" );
+		expect( determineIrregularStem( "anaesthesiae", nounIrregulars ) ).toEqual( "anaesthesia" );
+		expect( determineIrregularStem( "anæsthesia", nounIrregulars ) ).toEqual( "anaesthesia" );
+		expect( determineIrregularStem( "anæsthesiæ", nounIrregulars ) ).toEqual( "anaesthesia" );
+		expect( determineIrregularStem( "anaesthesias", nounIrregulars ) ).toEqual( "anaesthesia" );
 	} );
 
 	it( "returns the stem of an irregular adjective", function() {
-		expect( determineIrregularStem( "good", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "good" );
-		expect( determineIrregularStem( "well", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "good" );
-		expect( determineIrregularStem( "better", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "good" );
-		expect( determineIrregularStem( "best", nounAndAdjectiveIrregulars, verbMorphology ) ).toEqual( "good" );
+		expect( determineIrregularStem( "good", adjectiveIrregulars ) ).toEqual( "good" );
+		expect( determineIrregularStem( "well", adjectiveIrregulars ) ).toEqual( "good" );
+		expect( determineIrregularStem( "better", adjectiveIrregulars ) ).toEqual( "good" );
+		expect( determineIrregularStem( "best", adjectiveIrregulars ) ).toEqual( "good" );
+	} );
+
+	it( "returns the stem of an irregular verb", function() {
+		expect( determineIrregularVerbStem( "bless", verbMorphology ) ).toEqual( "bless" );
+		expect( determineIrregularVerbStem( "blesses", verbMorphology ) ).toEqual( "bless" );
+		expect( determineIrregularVerbStem( "blessing", verbMorphology ) ).toEqual( "bless" );
+		expect( determineIrregularVerbStem( "blessed", verbMorphology ) ).toEqual( "bless" );
+		expect( determineIrregularVerbStem( "blest", verbMorphology ) ).toEqual( "bless" );
+	} );
+
+	it( "returns the stem of an irregular verb with a prefix (which is processed separately)", function() {
+		expect( determineIrregularVerbStem( "foresee", verbMorphology ) ).toEqual( "foresee" );
+		expect( determineIrregularVerbStem( "foresees", verbMorphology ) ).toEqual( "foresee" );
+		expect( determineIrregularVerbStem( "foreseeing", verbMorphology ) ).toEqual( "foresee" );
+		expect( determineIrregularVerbStem( "foresaw", verbMorphology ) ).toEqual( "foresee" );
+		expect( determineIrregularVerbStem( "foreseen", verbMorphology ) ).toEqual( "foresee" );
 	} );
 } );
 

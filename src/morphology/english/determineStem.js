@@ -1,10 +1,10 @@
+import { isUndefined } from "lodash-es";
+import { flatten } from "lodash-es";
+
 import { buildOneFormFromRegex } from "../morphoHelpers/buildFormRule";
 import createRulesFromMorphologyData from  "../morphoHelpers/createRulesFromMorphologyData.js";
 import { getBase } from "./getAdjectiveForms";
 import { getInfinitive, checkIrregulars as getIrregularVerbParadigm, endsWithIng } from "./getVerbForms.js";
-
-import { isUndefined } from "lodash-es";
-import { flatten } from "lodash-es";
 
 /**
  * Gets the shortest of the alphabetically ordered strings from an array.
@@ -33,16 +33,15 @@ export function findShortestAndAlphabeticallyFirst( array ) {
 }
 
 /**
- * Checks if the input word occurs in the list of exception nouns, verbs and adjectives and if so returns the first form
- * of the paradigm, which is always the base.
+ * Checks if the input word occurs in the list of exceptions and if so returns the first form of the paradigm, which is
+ * always the base.
  *
  * @param {string} word                 The word for which to determine its base.
- * @param {Array} irregulars            An array of irregular nouns and adjectives.
- * @param {Object|false} verbMorphology Regexes and irregulars for verb morphology, False if verb rules should not be applied.
+ * @param {Array}  irregulars           An array of irregular nouns and adjectives.
  *
  * @returns {string|undefined} The base form of the irregular word; undefined if no irregular stem was found.
  */
-export function determineIrregularStem( word, irregulars, verbMorphology ) {
+export function determineIrregularStem( word, irregulars ) {
 	for ( let i = 0; i < irregulars.length; i++ ) {
 		const paradigm = irregulars[ i ];
 		for ( let j = 0; j < paradigm.length; j++ ) {
@@ -51,12 +50,22 @@ export function determineIrregularStem( word, irregulars, verbMorphology ) {
 			}
 		}
 	}
+}
 
-	if ( verbMorphology ) {
-		const paradigmIfIrregularVerb = getIrregularVerbParadigm( word, verbMorphology.irregularVerbs, verbMorphology.regexVerb.verbPrefixes );
-		if ( ! isUndefined( paradigmIfIrregularVerb ) ) {
-			return paradigmIfIrregularVerb[ 0 ];
-		}
+/**
+ * Checks if the input word occurs in the list of exception verbs and if so returns the first form
+ * of the paradigm, which is always the base. Contrary to nouns and adjectives, irregular verbs can have different prefixes
+ * which are not included in the list of exceptions and have to be processed separately.
+ *
+ * @param {string}          word            The word for which to determine its base.
+ * @param {Object|false}    verbMorphology  Regexes and irregulars for verb morphology, False if verb rules should not be applied.
+ *
+ * @returns {string|undefined} The base form of the irregular word; undefined if no irregular stem was found.
+ */
+export function determineIrregularVerbStem( word, verbMorphology ) {
+	const paradigmIfIrregularVerb = getIrregularVerbParadigm( word, verbMorphology.irregularVerbs, verbMorphology.regexVerb.verbPrefixes );
+	if ( ! isUndefined( paradigmIfIrregularVerb ) ) {
+		return paradigmIfIrregularVerb[ 0 ];
 	}
 }
 
@@ -124,31 +133,30 @@ export function determineStem( word, morphologyData ) {
 		return word;
 	}
 
-	let bestBase = word;
-
 	const nounMorphology = morphologyData.nouns;
-	let verbMorphology = morphologyData.verbs;
-
-	let irregulars = [].concat(
-		nounMorphology.irregularNouns,
-		morphologyData.adjectives.irregularAdjectives,
-	);
 
 	const baseIfPossessive = buildOneFormFromRegex( word, createRulesFromMorphologyData( nounMorphology.regexNoun.possessiveToBase ) );
-	// If the word is a possessive, it can only be a noun or an ing-noun.
-	if ( ! isUndefined( baseIfPossessive ) ) {
-		bestBase = baseIfPossessive;
 
-		// Only check for nouns.
-		irregulars = nounMorphology.irregularNouns;
-		verbMorphology = false;
+	let stem, irregular;
+
+	// Determine if this is an irregular noun, adjective or verb.
+	if ( isUndefined( baseIfPossessive ) ) {
+		stem = word;
+		// Word can be a noun, adjective or verb.
+		irregular = determineIrregularStem( word, nounMorphology.irregularNouns ) ||
+			determineIrregularStem( word, morphologyData.adjectives.irregularAdjectives ) ||
+			determineIrregularVerbStem( word, morphologyData.verbs );
+	} else {
+		stem = baseIfPossessive;
+		// The word is a possessive, it can only be a noun or an ing-noun;
+		irregular = determineIrregularStem( baseIfPossessive, nounMorphology.irregularNouns );
 	}
 
-	const baseIfIrregular = determineIrregularStem( bestBase, irregulars, verbMorphology );
-
-	if ( ! isUndefined( baseIfIrregular ) ) {
-		return baseIfIrregular;
+	if ( irregular ) {
+		// Found the stem of an irregular word! Return it.
+		return irregular;
 	}
 
-	return determineRegularStem( bestBase, morphologyData );
+	// Treat the word as a regular noun, adjective or verb.
+	return determineRegularStem( stem, morphologyData );
 }

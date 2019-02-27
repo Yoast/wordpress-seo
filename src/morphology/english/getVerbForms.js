@@ -1,10 +1,12 @@
 // "use strict";
-import createRulesFromMorphologyData from "../morphoHelpers/createRulesFromMorphologyData.js";
-import { buildOneFormFromRegex } from "../morphoHelpers/buildFormRule";
-
 import { isUndefined } from "lodash-es";
 import { uniq as unique } from "lodash-es";
 import { flatten } from "lodash-es";
+
+import createRulesFromMorphologyData from "../morphoHelpers/createRulesFromMorphologyData.js";
+import { buildOneFormFromRegex } from "../morphoHelpers/buildFormRule";
+
+const vowelRegex = /([aeiouy])/g;
 
 /**
  * Checks if the input word has one of the standard verb prefixes and if so returns a prefix and a de-prefixed verb to be
@@ -164,7 +166,7 @@ const endsWithS = function( word ) {
  * @returns {boolean} True if the word ends with "ing".
  */
 const endsWithIng = function( word ) {
-	const vowelCount = ( word.match( /([aeiouy])/g ) || [] ).length;
+	const vowelCount = ( word.match( vowelRegex ) || [] ).length;
 	// Consider only words that have at least one more vowel besides "i" in "ing" (otherwise, words like "ping" are being treated as verb forms).
 	if ( vowelCount > 1 ) {
 		return word.substring( word.length - 3, word.length ) === "ing";
@@ -180,7 +182,7 @@ const endsWithIng = function( word ) {
  * @returns {boolean} True if the word ends with "ed".
  */
 const endsWithEd = function( word ) {
-	const vowelCount = ( word.match( /([aeiouy])/g ) || [] ).length;
+	const vowelCount = ( word.match( vowelRegex ) || [] ).length;
 	// Consider only words that have at least one more vowel besides "e" in "ed" (otherwise, words like "red" are being treated as verb forms).
 	if ( vowelCount > 1 || ( vowelCount === 1 && word.substring( word.length - 3, word.length - 2 ) !== "e" ) ) {
 		return word.substring( word.length - 2, word.length ) === "ed";
