@@ -522,38 +522,6 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests that restoring a notification only affects the current site in multisite.
-	 *
-	 * @group ms-required
-	 *
-	 * @covers Yoast_Notification_Center::restore_notification()
-	 */
-	public function test_restore_notification_is_per_site_with_deprecation_notice() {
-		$site2 = self::factory()->blog->create();
-
-		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
-		$dismissal_key = $notification->get_dismissal_key();
-
-		// Dismiss notification for both sites.
-		update_user_option( $this->user_id, $dismissal_key, 'seen' );
-		switch_to_blog( $site2 );
-		update_user_option( $this->user_id, $dismissal_key, 'seen' );
-		restore_current_blog();
-
-		// Restore notification for the current site.
-		Yoast_Notification_Center::restore_notification( $notification );
-
-		$site1_dismissed = (bool) get_user_option( $dismissal_key, $this->user_id );
-
-		switch_to_blog( $site2 );
-		$site2_dismissed = (bool) get_user_option( $dismissal_key, $this->user_id );
-		restore_current_blog();
-
-		$this->assertFalse( $site1_dismissed );
-		$this->assertTrue( $site2_dismissed );
-	}
-
-	/**
 	 * Tests that checking for dismissed notifications applies only to the current site in multisite.
 	 *
 	 * @group ms-required
