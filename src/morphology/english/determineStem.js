@@ -58,8 +58,8 @@ export function determineIrregularStem( word, irregulars ) {
  * of the paradigm, which is always the base. Contrary to nouns and adjectives, irregular verbs can have different prefixes
  * which are not included in the list of exceptions and have to be processed separately.
  *
- * @param {string}          word            The word for which to determine its base.
- * @param {Object|false}    verbMorphology  Regexes and irregulars for verb morphology, False if verb rules should not be applied.
+ * @param {string}    word            The word for which to determine its base.
+ * @param {Object}    verbMorphology  Regexes and irregulars for verb morphology, False if verb rules should not be applied.
  *
  * @returns {string|null} The base form of the irregular word; null if no irregular stem was found.
  */
@@ -74,10 +74,10 @@ export function determineIrregularVerbStem( word, verbMorphology ) {
 /**
  * Gets possible stems as a regular noun, adjective and verb.
  *
- * @param{string} word              The word for which to determine its base.
- * @param{Object} morphologyData    The morphology data for the language.
+ * @param {string} word              The word for which to determine its base.
+ * @param {Object} morphologyData    The morphology data for the language.
  *
- * @returns{string} The shortest and the alphabetically-first of possible noun-like, verb-like and adjective-like bases.
+ * @returns {string} The shortest and the alphabetically-first of possible noun-like, verb-like and adjective-like bases.
  */
 export function determineRegularStem( word, morphologyData ) {
 	// Try to singularize as a noun.
