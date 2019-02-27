@@ -55,42 +55,6 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Network_Admin::get_site_choices()
 	 */
 	public function test_get_site_choices() {
-		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
-			$this->markTestSkipped( 'Skipped because since WordPress 5.1 the hook wpmu_new_blog is deprecated' );
-
-			return;
-		}
-
-		$admin = new Yoast_Network_Admin();
-
-		$site_ids = array_map( 'strval', array_merge( array( get_current_blog_id() ), self::factory()->blog->create_many( 5 ) ) );
-
-		$choices = $admin->get_site_choices();
-		$this->assertSame( $site_ids, array_map( 'strval', array_keys( $choices ) ) );
-
-		array_unshift( $site_ids, '-' );
-
-		$choices = $admin->get_site_choices( true );
-		$this->assertSame( $site_ids, array_map( 'strval', array_keys( $choices ) ) );
-	}
-
-
-	/**
-	 * Tests getting site choices.
-	 *
-	 * @group ms-required
-	 *
-	 * @expectedExceptionMessage Unexpected deprecated notice for wpmu_new_blog
-	 *
-	 * @covers Yoast_Network_Admin::get_site_choices()
-	 */
-	public function test_get_site_choices_with_deprecated_exception() {
-		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
-			$this->markTestSkipped( 'Skipped we expected a deprecation notice for the hook wpmu_new_blog (WordPress 5.1)' );
-
-			return;
-		}
-
 		$admin = new Yoast_Network_Admin();
 
 		$site_ids = array_map( 'strval', array_merge( array( get_current_blog_id() ), self::factory()->blog->create_many( 5 ) ) );
@@ -138,35 +102,6 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	public function test_get_site_states() {
 		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
 			$this->markTestSkipped( 'Skipped because since WordPress 5.1 the hook wpmu_new_blog is deprecated' );
-
-			return;
-		}
-
-		$admin = new Yoast_Network_Admin();
-
-		$active_states = array(
-			'public' => '1',
-			'mature' => '1',
-			'spam'   => '1',
-		);
-
-		$site_id = self::factory()->blog->create();
-		update_blog_details( $site_id, $active_states );
-
-		$site_states = $admin->get_site_states( get_site( $site_id ) );
-		$this->assertSame( array_keys( $active_states ), array_keys( $site_states ) );
-	}
-
-	/**
-	 * Tests getting a site's states.
-	 *
-	 * @group ms-required
-	 * @expectedExceptionMessage Unexpected deprecated notice for wpmu_new_blog
-	 * @covers Yoast_Network_Admin::get_site_states()
-	 */
-	public function test_get_site_states_with_deprecated_exception() {
-		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
-			$this->markTestSkipped( 'Skipped we expected a deprecation notice for the hook wpmu_new_blog (WordPress 5.1)' );
 
 			return;
 		}
