@@ -1,7 +1,12 @@
 import { get, take } from "lodash-es";
 import getLanguage from "../helpers/getLanguage";
-import { getRelevantWords, getRelevantWordsFromPaperAttributes, collapseRelevantWordsOnStem } from "../stringProcessing/relevantWords";
-import { getSubheadingsTopLevel } from "../stringProcessing/getSubheadings";
+import {
+	getRelevantWords,
+	getRelevantWordsFromPaperAttributes,
+	collapseRelevantWordsOnStem,
+	getRelevantCombinations,
+} from "../stringProcessing/relevantWords";
+import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../stringProcessing/getSubheadings";
 
 /**
  * Retrieves the relevant words from the given paper.
@@ -15,7 +20,7 @@ function relevantWords( paper, researcher ) {
 	const language = getLanguage( paper.getLocale() );
 	const morphologyData = get( researcher.getData( "morphology" ), language, false );
 
-	const relevantWordsFromText = getRelevantWords( paper.getText(), language, morphologyData );
+	const relevantWordsFromText = getRelevantWords( removeSubheadingsTopLevel( paper.getText() ), language, morphologyData );
 
 	const subheadings = getSubheadingsTopLevel( paper.getText() ).map( subheading => subheading[ 2 ] );
 
@@ -31,7 +36,7 @@ function relevantWords( paper, researcher ) {
 
 	const collapsedWords = collapseRelevantWordsOnStem( relevantWordsFromPaperAttributes.concat( relevantWordsFromText ) );
 
-	return take( collapsedWords, 100 );
+	return take( getRelevantCombinations( collapsedWords ), 100 );
 }
 
 

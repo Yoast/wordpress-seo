@@ -65,11 +65,25 @@ function getSubheadingContentsTopLevel( text ) {
 	return subheadings.map( subheading => subheading[ 0 ] );
 }
 
+/**
+ * Gets all the level 2 and 3 subheadings from the text and removes them from the text.
+ *
+ * @param {string} text The text to remove the headings from.
+ *
+ * @returns {string} The text with removed subheadings.
+ */
+function removeSubheadingsTopLevel( text ) {
+	const regex = /<h([2-3])(?:[^>]+)?>(.*?)<\/h\1>/ig;
+
+	return text.replace( regex, "" );
+}
+
 export {
 	getSubheadings,
 	getSubheadingsTopLevel,
 	getSubheadingContents,
 	getSubheadingContentsTopLevel,
+	removeSubheadingsTopLevel,
 };
 
 export default {
@@ -77,4 +91,5 @@ export default {
 	getSubheadingsTopLevel: getSubheadingsTopLevel,
 	getSubheadingContents: getSubheadingContents,
 	getSubheadingContentsTopLevel: getSubheadingContentsTopLevel,
+	removeSubheadingsTopLevel: removeSubheadingsTopLevel,
 };

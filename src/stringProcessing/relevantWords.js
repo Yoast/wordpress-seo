@@ -1,4 +1,5 @@
 import getWords from "../stringProcessing/getWords.js";
+import { normalizeSingle } from "../stringProcessing/quotes";
 import WordCombination from "../values/WordCombination.js";
 import functionWordListsFactory from "../helpers/getFunctionWords.js";
 const functionWordLists = functionWordListsFactory();
@@ -12,11 +13,12 @@ import { uniq } from "lodash-es";
  * occurrences have already been calculated.
  *
  * @param {WordCombination[]} wordCombinations A list of word combinations.
+ *
  * @returns {WordCombination[]} Only relevant word combinations.
  */
 function getRelevantCombinations( wordCombinations ) {
 	wordCombinations = wordCombinations.filter( function( combination ) {
-		return combination.getOccurrences() !== 1;
+		return ( combination.getOccurrences() !== 1 && ! Number.isInteger( Number( combination.getWord() ) ) );
 	} );
 	return wordCombinations;
 }
@@ -25,6 +27,7 @@ function getRelevantCombinations( wordCombinations ) {
  * Sorts word combinations based on their number of occurrences and length.
  *
  * @param {WordCombination[]} wordCombinations The combinations to sort.
+ *
  * @returns {void}
  */
 function sortCombinations( wordCombinations ) {
@@ -35,8 +38,19 @@ function sortCombinations( wordCombinations ) {
 			return difference;
 		}
 
-		// In case of a tie on occurrence number, the longest combination comes first.
-		return combinationB.length - combinationA.length;
+		// In case of a tie on occurrence number, the alphabetically first combination comes first.
+		const stemA = combinationA.getStem();
+		const stemB = combinationB.getStem();
+
+		if ( stemA < stemB ) {
+			return -1;
+		}
+
+		if ( stemA > stemB ) {
+			return 1;
+		}
+
+		return 0;
 	} );
 }
 
@@ -88,15 +102,8 @@ function collapseRelevantWordsOnStem( wordCombinations ) {
 	collapsedRelevantWords.push( previousWord );
 	sortCombinations( collapsedRelevantWords );
 
-	return getRelevantCombinations( collapsedRelevantWords );
+	return collapsedRelevantWords;
 }
-
-
-// FAKE FUNCTION! REMOVE ME PLEASE!!!!!!!!
-function determineStem( word, morphologyData ) {
-	return word;
-}
-
 
 /**
  * Returns the relevant words in a given text.
@@ -107,23 +114,27 @@ function determineStem( word, morphologyData ) {
  *
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
-function getRelevantWords( text, language, morphologyData ) {
+function getRelevantWords( text, language ) {
 	const functionWords = get( functionWordLists, language.concat( ".all" ), [] );
 
-	const words = getWords( text.toLocaleLowerCase() );
+	const words = getWords( normalizeSingle( text ).toLocaleLowerCase() );
 
-	// Also filter numbers!
+	if ( words.length === 0 ) {
+		return [];
+	}
+
 	const uniqueContentWords = uniq( words.filter( word => ! functionWords.includes( word.trim() ) ) ).sort();
 
 	const relevantWordsFromText = uniqueContentWords.map(
 		word => new WordCombination(
 			word,
-			determineStem( word, morphologyData ),
+			// As soon as the stemmer is merged, the next line should be changed to	determineStem( word, morphologyData ),
+			word,
 			words.filter( element => element === word ).length
 		)
 	);
 
-	return relevantWordsFromText;
+	return collapseRelevantWordsOnStem( relevantWordsFromText );
 }
 
 /**
@@ -140,14 +151,18 @@ function getRelevantWords( text, language, morphologyData ) {
  *
  * @returns {WordCombination[]} Relevant word combinations from the paper attributes.
  */
-function getRelevantWordsFromPaperAttributes( attributes, language, morphologyData ) {
+function getRelevantWordsFromPaperAttributes( attributes, language ) {
 	const { keyphrase, synonyms, metadescription, title, subheadings } = attributes;
 
 	const functionWords = get( functionWordLists, language.concat( ".all" ), [] );
 
-	const attributesJoined = keyphrase.concat( " ", synonyms, " ", metadescription, " ", title, " ", subheadings.join( " " ) );
+	const attributesJoined = normalizeSingle( keyphrase.concat( " ", synonyms, " ", metadescription, " ", title, " ", subheadings.join( " " ) ) );
 
 	const wordsFromAttributes = getWords( attributesJoined.toLocaleLowerCase() );
+
+	if ( wordsFromAttributes.length === 0 ) {
+		return [];
+	}
 
 	// Also filter numbers!
 	const uniqueContentWordsFromAttributes = uniq( wordsFromAttributes.filter( word => ! functionWords.includes( word.trim() ) ) );
@@ -155,14 +170,15 @@ function getRelevantWordsFromPaperAttributes( attributes, language, morphologyDa
 	const relevantWordsFromAttributes = uniqueContentWordsFromAttributes.map(
 		word => new WordCombination(
 			word,
-			determineStem( word, morphologyData ),
+			// As soon as the stemmer is merged, the next line should be changed to	determineStem( word, morphologyData ),
+			word,
 			/* If a word is used in any of the attributes, its relevance is automatically high.
 			To make sure the word survives relevance filters and gets saved in the database, make the number of occurrences times-3.*/
 			wordsFromAttributes.filter( element => element === word ).length * 3
 		)
 	);
 
-	return relevantWordsFromAttributes;
+	return collapseRelevantWordsOnStem( relevantWordsFromAttributes );
 }
 
 

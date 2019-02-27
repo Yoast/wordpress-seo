@@ -1,9 +1,5 @@
 import WordCombination from "../../src/values/WordCombination";
-import relevantWords from "../../src/stringProcessing/relevantWords";
-import frenchFunctionWordsFactory from "../../src/researches/french/functionWords.js";
-
-const getRelevantWords = relevantWords.getRelevantWords;
-const frenchFunctionWords = frenchFunctionWordsFactory().all;
+import { getRelevantWords, getRelevantCombinations } from "../../src/stringProcessing/relevantWords";
 
 describe( "gets French word combinations", function() {
 	it( "returns word combinations", function() {
@@ -18,19 +14,12 @@ describe( "gets French word combinations", function() {
 			" l’entreprise, avait déjà évoquée. Elle est désormais effective, explique au Monde, par visioconférence," +
 			" Brian Fishman, chargé de la lutte contre le terrorisme à Facebook :";
 		const expected = [
-			new WordCombination( [ "terrorisme" ], 3, frenchFunctionWords ),
-			new WordCombination( [ "facebook" ], 3, frenchFunctionWords ),
-			new WordCombination( [ "texte" ], 2, frenchFunctionWords ),
+			new WordCombination( "facebook", "facebook", 3 ),
+			new WordCombination( "terrorisme", "terrorisme", 3 ),
+			new WordCombination( "texte", "texte", 2 ),
 		];
 
-		// Make sure our words aren't filtered by density.
-		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
-
-		const words = getRelevantWords( input, "fr_FR" );
-
-		words.forEach( function( word ) {
-			delete( word._relevantWords );
-		} );
+		const words = getRelevantCombinations( getRelevantWords( input, "fr", false ) );
 
 		expect( words ).toEqual( expected );
 	} );

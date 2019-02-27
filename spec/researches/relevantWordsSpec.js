@@ -21,7 +21,8 @@ describe( "relevantWords research", function() {
 	} );
 
 	it( "calls through to the string processing function", function() {
-		const paper = new Paper( "Here are a ton of syllables. Syllables are very important. I think the syllable combinations are even more important. Syllable combinations for the win!" );
+		const paper = new Paper( "Here are a ton of syllables. Syllables are very important. I think the syllable " +
+			"combinations are even more important. Syllable combinations for the win!" );
 
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
@@ -30,7 +31,6 @@ describe( "relevantWords research", function() {
 			new WordCombination( "combinations", "combinations", 2 ),
 			new WordCombination( "syllable", "syllable", 2 ),
 			new WordCombination( "syllables", "syllables", 2 ),
-			new WordCombination( "win", "win", 1 ),
 		];
 
 		const words = relevantWordsResearch( paper, researcher );
@@ -57,19 +57,19 @@ describe( "relevantWords research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		const expected = [
-			new WordCombination( "keyphrase", "keyphrase", 3 ),
 			new WordCombination( "synonym", "synonym", 6 ),
-			new WordCombination( "metadescription", "metadescription", 3 ),
 			new WordCombination( "amazing", "amazing", 3 ),
-			new WordCombination( "title", "title", 3 ),
+			new WordCombination( "keyphrase", "keyphrase", 3 ),
+			new WordCombination( "metadescription", "metadescription", 3 ),
 			new WordCombination( "subheading", "subheading", 3 ),
-			new WordCombination( "bing", "bing", 2 ),
+			new WordCombination( "title", "title", 3 ),
 			new WordCombination( "allow", "allow", 2 ),
-			new WordCombination( "live", "live", 2 ),
-			new WordCombination( "indexing", "indexing", 2 ),
-			new WordCombination( "update", "update", 2 ),
+			new WordCombination( "bing", "bing", 2 ),
 			new WordCombination( "connect", "connect", 2 ),
+			new WordCombination( "indexing", "indexing", 2 ),
+			new WordCombination( "live", "live", 2 ),
 			new WordCombination( "myyoast", "myyoast", 2 ),
+			new WordCombination( "update", "update", 2 ),
 		];
 
 		const words = relevantWordsResearch( paper, researcher );

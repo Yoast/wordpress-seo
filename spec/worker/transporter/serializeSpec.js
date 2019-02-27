@@ -6,9 +6,6 @@ import Sentence from "../../../src/values/Sentence";
 import SentencePart from "../../../src/values/SentencePart";
 import WordCombination from "../../../src/values/WordCombination";
 import serialize from "../../../src/worker/transporter/serialize";
-import englishFunctionWordsFactory from "../../../src/researches/english/functionWords.js";
-
-const functionWords = englishFunctionWordsFactory().all;
 
 describe( "serialize", () => {
 	it( "serializes strings", () => {
@@ -111,16 +108,13 @@ describe( "serialize", () => {
 	} );
 
 	it( "serializes WordCombinations", () => {
-		const thing = new WordCombination( [ "syllable", "combinations" ], 2, functionWords );
-		const words = {	syllable: 4, combinations: 4 };
-		thing.setRelevantWords( words );
+		const thing = new WordCombination( "combinations", "combination", 2 );
 
 		expect( serialize( thing ) ).toEqual( {
 			_parseClass: "WordCombination",
-			functionWords: functionWords,
 			occurrences: 2,
-			words: [ "syllable", "combinations" ],
-			relevantWords: words,
+			word: "combinations",
+			stem: "combination",
 		} );
 	} );
 

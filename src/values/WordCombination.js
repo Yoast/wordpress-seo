@@ -9,7 +9,13 @@
  */
 function WordCombination( word, stem, occurrences ) {
 	this._word = word;
-	this._stem = stem;
+
+	if ( stem ) {
+		this._stem = stem;
+	} else {
+		this._stem = word;
+	}
+
 	this._occurrences = occurrences || 0;
 }
 
@@ -56,25 +62,6 @@ WordCombination.prototype.setOccurrences = function( numberOfOccurrences ) {
  */
 WordCombination.prototype.getOccurrences = function() {
 	return this._occurrences;
-};
-
-/**
- * Increments the occurrences.
- *
- * @returns {void}
- */
-WordCombination.prototype.incrementOccurrences = function() {
-	this._occurrences += 1;
-};
-
-/**
- * Returns the density of this combination within the text.
- *
- * @param {number} wordCount The word count of the text this combination was found in.
- * @returns {number} The density of this combination.
- */
-WordCombination.prototype.getDensity = function( wordCount ) {
-	return this._occurrences / wordCount;
 };
 
 /**
