@@ -27,6 +27,9 @@ export default () => {
 			legend: {
 				type: "string",
 			},
+			jsonStringValue: {
+				type: "string",
+			},
 		},
 
 		edit: Duration,

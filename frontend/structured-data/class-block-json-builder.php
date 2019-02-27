@@ -181,7 +181,7 @@ class WPSEO_Structured_Data_JSON_Builder {
 								foreach ( $inner_blocks as $inner_block ) {
 									if ( $this->create_block_identifier( $child_type ) === $inner_block['blockName'] ) {
 										if ( ! array_key_exists( $key, $json ) ) {
-											$json[ $key ] = render_block( $inner_block );
+											$json[ $key ] = $inner_block['attrs']['jsonStringValue'];
 										}
 									}
 								}

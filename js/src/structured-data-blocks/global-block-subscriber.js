@@ -17,8 +17,8 @@ import { collectTextualContent } from "./content";
 function adjustDescriptionBlock( block ) {
 	const content = collectTextualContent( block );
 
-	if ( block.attributes.jsonDescription !== content ) {
-		dispatch( "core/editor" ).updateBlockAttributes( block.clientId, { jsonDescription: content } );
+	if ( block.attributes.jsonStringValue !== content ) {
+		dispatch( "core/editor" ).updateBlockAttributes( block.clientId, { jsonStringValue: content } );
 	}
 }
 
@@ -32,8 +32,8 @@ function adjustDescriptionBlock( block ) {
 function adjustTitleBlock( block ) {
 	const content = collectTextualContent( block );
 
-	if ( block.attributes.jsonTitle !== content ) {
-		dispatch( "core/editor" ).updateBlockAttributes( block.clientId, { jsonTitle: content } );
+	if ( block.attributes.jsonStringValue !== content ) {
+		dispatch( "core/editor" ).updateBlockAttributes( block.clientId, { jsonStringValue: content } );
 	}
 }
 
@@ -84,17 +84,17 @@ function adjustDurationBlock( block ) {
 	const { attributes } = block;
 	const jsonDuration = moment.duration( { days: attributes.days, hours: attributes.hours, minutes: attributes.minutes } ).toISOString();
 
-	if ( block.attributes.jsonDuration !== jsonDuration ) {
+	if ( block.attributes.jsonStringValue !== jsonDuration ) {
 		/*
 		 * When moment.duration is called with an empty object, or only 0s for days, hours etc., the result is "P0D".
 		 * We don't want to output a duration in the json when there is no duration, which is why we return an empty
 		 * string as a jsonDuration in that case.
 		 */
 		if ( jsonDuration === "P0D" ) {
-			dispatch( "core/editor" ).updateBlockAttributes( block.clientId, { jsonDuration: "" } );
+			dispatch( "core/editor" ).updateBlockAttributes( block.clientId, { jsonStringValue: "" } );
 		}
 
-		dispatch( "core/editor" ).updateBlockAttributes( block.clientId, { jsonDuration: jsonDuration } );
+		dispatch( "core/editor" ).updateBlockAttributes( block.clientId, { jsonStringValue: jsonDuration } );
 	}
 }
 
