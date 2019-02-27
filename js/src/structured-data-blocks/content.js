@@ -21,7 +21,7 @@ export function collectTextualContent( block ) {
 				return normalizeWhitespace( removeHTML( attributes.content ) );
 
 			case "core/quote":
-				return attributes.value + " " + attributes.citation;
+				return normalizeWhitespace( removeHTML( attributes.value ) ) + " " + normalizeWhitespace( removeHTML( attributes.citation ) );
 
 			case "core/shortcode":
 				// Undecided
