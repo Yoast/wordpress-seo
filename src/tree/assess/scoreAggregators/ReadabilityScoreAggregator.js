@@ -17,7 +17,7 @@ const totalNrOfAssessments = 8;
  * when all assessments are currently supported
  * for the user's language.
  *
- * @type {{okay: number, bad: number, good: number}}
+ * @type {{ok: number, bad: number, good: number}}
  * @const
  */
 const penaltyMappingFullSupport = {
@@ -31,7 +31,7 @@ const penaltyMappingFullSupport = {
  * when only a part of the assessments are currently supported
  * for the user's language.
  *
- * @type {{okay: number, bad: number, good: number}}
+ * @type {{ok: number, bad: number, good: number}}
  * @const
  */
 const penaltyMappingPartialSupport = {

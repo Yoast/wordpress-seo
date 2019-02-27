@@ -122,4 +122,35 @@ describe( "ReadabilityScoreAggregator", () => {
 			} );
 		} );
 	} );
+
+	describe( "aggregate for non English", function() {
+		let aggregator;
+
+		beforeEach( function() {
+			aggregator = new ReadabilityScoreAggregator();
+			aggregator.allAssessmentsSupported = () => false;
+		} );
+
+		it( "should give worse results based on the negative points", function() {
+			const results = [
+				new AssessmentResult( { text: "Result #1", score: 9 } ),
+				new AssessmentResult( { text: "Result #2", score: 6 } ),
+			];
+			const testCases = [
+				{ points: 6, expected: 30 },
+				{ points: 4, expected: 60 },
+				{ points: 3, expected: 60 },
+				{ points: 2, expected: 90 },
+			];
+
+			forEach( testCases, function( testCase ) {
+				const points = testCase.points;
+				aggregator.calculatePenalty = () => points;
+
+				const actual = aggregator.aggregate( results );
+
+				expect( actual ).toBe( testCase.expected );
+			} );
+		} );
+	} );
 } );
