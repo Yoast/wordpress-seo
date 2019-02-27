@@ -8,8 +8,6 @@ body {
 }
 
 .#{ $prefix }-body {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	width: 80%;
 	max-width: 60em;
@@ -36,8 +34,6 @@ body {
 		padding: 1em 1em 2em;
 	}
 
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	width: 100%;
 
@@ -66,14 +62,19 @@ body {
 	}
 
 	&--button {
-		margin-top: 1em;
+		margin: 1em -8px 0;
+		padding: 8px;
 		background: none;
 		color: $color_blue_link;
 		border: none;
-		padding: 0;
 		font: inherit;
-		border-bottom: 1px solid $color_blue_link;
+		text-decoration: underline;
 		cursor: pointer;
+
+		&:focus {
+			outline: 1px solid $color_blue_focus;
+			box-shadow: 0 0 2px 1px rgba( $color_blue_focus_shadow, 0.8 );
+		}
 	}
 
 	&--step {
