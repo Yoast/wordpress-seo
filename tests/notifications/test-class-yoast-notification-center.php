@@ -554,32 +554,6 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests that checking for dismissed notifications applies only to the current site in multisite.
-	 *
-	 * @group ms-required
-	 *
-	 * @covers Yoast_Notification_Center::is_notification_dismissed()
-	 */
-	public function test_is_notification_dismissed_is_per_site_with_deprecation_notice() {
-		$site2 = self::factory()->blog->create();
-
-		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
-		$dismissal_key = $notification->get_dismissal_key();
-
-		// Dismiss notification for the current site.
-		update_user_option( $this->user_id, $dismissal_key, 'seen' );
-
-		$site1_dismissed = Yoast_Notification_Center::is_notification_dismissed( $notification );
-
-		switch_to_blog( $site2 );
-		$site2_dismissed = Yoast_Notification_Center::is_notification_dismissed( $notification );
-		restore_current_blog();
-
-		$this->assertTrue( $site1_dismissed );
-		$this->assertFalse( $site2_dismissed );
-	}
-
-	/**
 	 * Tests that checking for dismissed notifications falls back to user meta if no user options.
 	 *
 	 * @covers Yoast_Notification_Center::is_notification_dismissed()
