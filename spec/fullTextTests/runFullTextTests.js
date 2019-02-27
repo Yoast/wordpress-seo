@@ -1,8 +1,10 @@
 import contentConfiguration from "../../src/config/content/combinedConfig";
+import getLanguage from "../../src/helpers/getLanguage";
 import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
-import morphologyData from "../../premium-configuration/data/morphologyData.json";
 import Researcher from "../../src/researcher";
+import getMorphologyData from "../specHelpers/getMorphologyData";
+
 
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../src/assessments/seo/IntroductionKeywordAssessment";
@@ -65,7 +67,7 @@ testPapers.forEach( function( testPaper ) {
 		const paper = testPaper.paper;
 
 		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( paper.getLocale() ) ) );
 
 		const locale = paper.getLocale();
 		const expectedResults = testPaper.expectedResults;

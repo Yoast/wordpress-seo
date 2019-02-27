@@ -1,5 +1,8 @@
 import { generateAdjectiveExceptionForms } from "../../../src/morphology/german/generateAdjectiveExceptionForms";
-import { de as morphologyDataDE } from "../../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
+
+
+const morphologyDataDE = getMorphologyData( "de" ).de;
 
 describe( "Test for checking adjective exceptions in German", () => {
 	it( "creates forms for exception words ending in -el", () => {

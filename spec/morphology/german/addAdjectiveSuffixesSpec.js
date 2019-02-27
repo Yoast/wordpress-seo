@@ -8,7 +8,10 @@ import {
 	addAllAdjectiveSuffixes,
 	addRegularSuffixes,
 } from "../../../src/morphology/german/addAdjectiveSuffixes";
-import { de as morphologyDataDE } from "../../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
+
+
+const morphologyDataDE = getMorphologyData( "de" ).de;
 
 describe( "Test for getting the right comparative suffixes for various types of adjectives", () => {
 	/*

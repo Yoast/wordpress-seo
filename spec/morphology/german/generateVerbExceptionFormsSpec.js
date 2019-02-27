@@ -1,5 +1,8 @@
-import { de as morphologyDataDE } from "../../../premium-configuration/data/morphologyData.json";
 import { generateVerbExceptionForms } from "../../../src/morphology/german/generateVerbExceptionForms";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
+
+
+const morphologyDataDE = getMorphologyData( "de" ).de;
 
 describe( "Test for generating adjective exceptions in German", () => {
 	it( "creates forms for a strong verb of class 1", () => {

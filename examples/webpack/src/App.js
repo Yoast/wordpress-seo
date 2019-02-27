@@ -4,6 +4,8 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import testPapers from "yoastspec/fullTextTests/testTexts";
 import Paper from "yoastsrc/values/Paper";
+import getMorphologyData from "yoastspec/specHelpers/getMorphologyData";
+import getLanguage from "yoastsrc/helpers/getLanguage";
 
 // Internal dependencies.
 import Collapsible from "./components/Collapsible";
@@ -19,7 +21,6 @@ import WorkerStatus from "./components/WorkerStatus";
 import { setResults } from "./redux/actions/results";
 import { setStatus } from "./redux/actions/worker";
 import formatAnalyzeResult from "./utils/formatAnalyzeResult";
-import getMorphologyData from "./utils/getMorphologyData";
 
 class App extends React.Component {
 	/**
@@ -52,11 +53,11 @@ class App extends React.Component {
 	 * @returns {void}
 	 */
 	initialize() {
-		const { configuration, worker, useMorphology } = this.props;
+		const { configuration, worker, useMorphology, paper } = this.props;
 		const config = {
 			...configuration,
 			researchData: {
-				morphology: useMorphology ? getMorphologyData() : {},
+				morphology: useMorphology ? getMorphologyData( getLanguage( paper.locale ) ) : {},
 			},
 		};
 
