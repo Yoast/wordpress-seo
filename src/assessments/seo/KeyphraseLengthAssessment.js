@@ -63,13 +63,11 @@ class KeyphraseLengthAssessment extends Assessment {
 		const assessmentResult = new AssessmentResult();
 		this._boundaries = this._config.parameters;
 
-		if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
-			const languagesWithFunctionWords = getFunctionWordsLanguages();
+		const languagesWithFunctionWords = getFunctionWordsLanguages();
 
-			// Make the boundaries less strict if the language of the current paper doesn't have function word support.
-			if ( languagesWithFunctionWords.includes( getLanguage( paper.getLocale() ) ) === false ) {
-				this._boundaries = merge( {}, this._config.parameters, this._config.parametersNoFunctionWordSupport  );
-			}
+		// Make the boundaries less strict if the language of the current paper doesn't have function word support.
+		if ( languagesWithFunctionWords.includes( getLanguage( paper.getLocale() ) ) === false ) {
+			this._boundaries = merge( {}, this._config.parameters, this._config.parametersNoFunctionWordSupport  );
 		}
 
 		const calculatedResult = this.calculateResult( i18n );

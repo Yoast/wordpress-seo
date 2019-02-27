@@ -2,12 +2,16 @@ import Paper from "../../src/values/Paper.js";
 import Factory from "../specHelpers/factory.js";
 import { getTextLengthAssessment } from "../../src/taxonomyAssessor";
 
-const i18n = Factory.buildJed();
+describe( "A taxonomy page text length assessment.", function() {
+	let assessment;
+	let i18n;
 
-// Get the assessment used for the recalibration.
-const assessment = getTextLengthAssessment( true );
+	beforeEach( () => {
+		// Taxonomy assessor has a text length assessment with specific boundaries.
+		assessment = getTextLengthAssessment();
+		i18n = Factory.buildJed();
+	} );
 
-describe( "A taxonomy page text length assessment, with the recalibration logic applied.", function() {
 	it( "assesses a single word", function() {
 		const mockPaper = new Paper( "sample" );
 		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 1 ), i18n );

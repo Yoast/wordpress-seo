@@ -1,6 +1,8 @@
 /**
  * A research that can be applied to the tree.
  *
+ * @memberOf module:tree/research
+ *
  * @abstract
  */
 class Research {

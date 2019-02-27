@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.48.0
+## 1.48.0 February 25th, 2019
 ### Added
 * Improves the feedback for the assessment that checks the length of the text in cornerstone articles.
 
