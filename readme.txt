@@ -121,6 +121,8 @@ Bugfixes:
 * Fixes a bug where the `focus keyphrase` snippet variable was not correctly applied on term pages.
 * Fixes a bug where the Facebook image that was set for the WooCommerce Shop page would not be outputted as `og:image`. Props [stodorovic](https://github.com/stodorovic).
 * Fixes a bug where the featured image set on a WooCommerce Shop page would not be outputted as Facebook OpenGraph Image or Twitter Image. Props [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where backslashes and consecutive double quotes would be removed from the focus keyphrase when saving a post or term.
+* Fixes a bug where backslashes would be removed from the breadcrumb title, focus keyphrase, title or meta description when saving a term.
 
 = 9.7.0 =
 Release Date: February 26th, 2019
