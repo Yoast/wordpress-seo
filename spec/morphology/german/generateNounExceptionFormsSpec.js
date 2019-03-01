@@ -1,5 +1,8 @@
 import { generateNounExceptionForms } from "../../../src/morphology/german/generateNounExceptionForms";
-import { de as morphologyDataDE } from "../../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
+
+
+const morphologyDataDE = getMorphologyData( "de" ).de;
 
 describe( "Test for checking adjective exceptions in German", () => {
 	it( "creates forms for a singular word with a stem that changes to an umlaut", () => {

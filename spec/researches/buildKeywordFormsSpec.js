@@ -2,7 +2,11 @@ import Paper from "../../src/values/Paper";
 import Researcher from "../../src/researcher";
 
 import { filterFunctionWords, buildForms, collectForms } from "../../src/researches/buildKeywordForms.js";
-import morphologyData from "../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../specHelpers/getMorphologyData";
+
+
+const morphologyDataEN = getMorphologyData( "en" );
+const morphologyDataDE = getMorphologyData( "de" );
 
 describe( "A test for filtering out function words from an array of words for a given language", function() {
 	it( "returns the array of content words for absent locale", function() {
@@ -61,12 +65,12 @@ const twoForms = [ "two", "twos", "two's", "twos's", "twos'", "twoes", "twoing",
 describe( "A test for building forms of words for an array of words", function() {
 	it( "returns an empty array if the input keyphrase is undefined", function() {
 		let keyphrase;
-		const forms = buildForms( keyphrase, "en", morphologyData.en );
+		const forms = buildForms( keyphrase, "en", morphologyDataEN.en );
 		expect( forms ).toEqual( [] );
 	} );
 
 	it( "returns the exact match if the input string is embedded in quotation marks (the language and morphAnalyzer do not matter)", function() {
-		const forms = buildForms( "\"I am going for a walk\"", "en", morphologyData.en );
+		const forms = buildForms( "\"I am going for a walk\"", "en", morphologyDataEN.en );
 		expect( forms ).toEqual( [ [ "I am going for a walk" ] ] );
 	} );
 
@@ -91,7 +95,7 @@ describe( "A test for building forms of words for an array of words", function()
 	} );
 
 	it( "returns the arrays for all forms for English if Premium if only function words are supplied", function() {
-		const forms = buildForms( "One and two", "en", morphologyData.en );
+		const forms = buildForms( "One and two", "en", morphologyDataEN.en );
 		expect( forms ).toEqual( [ oneForms, andForms, twoForms ] );
 	} );
 } );
@@ -110,7 +114,7 @@ describe( "A test for building keyword and synonyms forms for a paper", function
 				[ workForms, diligentlyForms ],
 			],
 		};
-		expect( collectForms( keyword, synonyms, language, morphologyData.en ) ).toEqual( expectedResult );
+		expect( collectForms( keyword, synonyms, language, morphologyDataEN.en ) ).toEqual( expectedResult );
 	} );
 
 	it( "returns the exact matches if the input strings are embedded in quotation marks and word forms if not; for English", function() {
@@ -126,7 +130,7 @@ describe( "A test for building keyword and synonyms forms for a paper", function
 				[ workForms, diligentlyForms ],
 			],
 		};
-		expect( collectForms( keyword, synonyms, language, morphologyData.en ) ).toEqual( expectedResult );
+		expect( collectForms( keyword, synonyms, language, morphologyDataEN.en ) ).toEqual( expectedResult );
 	} );
 
 	it( "returns the exact matches if the input strings are embedded in quotation marks and single-word arrays if not; for French (no morphology yet)", function() {
@@ -170,7 +174,7 @@ describe( "A test for building keyword and synonyms forms for a paper", function
 			keyphraseForms: [],
 			synonymsForms: [],
 		};
-		expect( collectForms( keyword, synonyms, language, morphologyData.en ) ).toEqual( expectedResult );
+		expect( collectForms( keyword, synonyms, language, morphologyDataEN.en ) ).toEqual( expectedResult );
 	} );
 
 	it( "returns an empty field if no keyword was supplied ", function() {
@@ -186,7 +190,7 @@ describe( "A test for building keyword and synonyms forms for a paper", function
 				[ workForms, diligentlyForms ],
 			],
 		};
-		expect( collectForms( keyword, synonyms, language, morphologyData.en ) ).toEqual( expectedResult );
+		expect( collectForms( keyword, synonyms, language, morphologyDataEN.en ) ).toEqual( expectedResult );
 	} );
 
 	it( "returns an empty field if no synonyms were supplied ", function() {
@@ -198,7 +202,7 @@ describe( "A test for building keyword and synonyms forms for a paper", function
 			keyphraseForms: [ [ "I am going for a walk" ] ],
 			synonymsForms: [],
 		};
-		expect( collectForms( keyword, synonyms, language, morphologyData.en ) ).toEqual( expectedResult );
+		expect( collectForms( keyword, synonyms, language, morphologyDataEN.en ) ).toEqual( expectedResult );
 	} );
 } );
 
@@ -211,7 +215,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 
 		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyDataEN );
 
 		const expectedResult = {
 			keyphraseForms: [ workForms ],
@@ -231,7 +235,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 
 		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyDataEN );
 
 		const expectedResult = {
 			keyphraseForms: [ [ "I am going for a walk" ] ],
@@ -251,7 +255,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 
 		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyDataEN );
 
 		const expectedResult = {
 			keyphraseForms: [ [ "I am going for a walk" ] ],
@@ -271,7 +275,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 
 		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyDataEN );
 
 		const expectedResult = {
 			keyphraseForms: [ [ "promener" ] ],
@@ -310,7 +314,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 
 		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyDataEN );
 
 		const expectedResult = {
 			keyphraseForms: [],
@@ -326,7 +330,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 
 		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyDataEN );
 
 		const expectedResult = {
 			keyphraseForms: [],
@@ -346,7 +350,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 
 		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyDataEN );
 
 		const expectedResult = {
 			keyphraseForms: [ [ "I am going for a walk" ] ],
@@ -386,7 +390,7 @@ describe( "A test for building keyword and synonyms forms for languages with mor
 
 		const paper = new Paper( "", { keyword: keyword, synonyms: synonyms, locale: locale } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyDataDE );
 
 		const expectedResult = {
 			keyphraseForms: [ spielfilmeForms, kinderForms ],
