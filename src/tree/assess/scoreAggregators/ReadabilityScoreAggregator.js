@@ -67,7 +67,7 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 	 */
 	isFullySupported( results ) {
 		/*
-		 * Apparently, we (in the previous `contentAssessor`) check whether an assessment is applicable
+		 * Apparently, we check whether an assessment is applicable
 		 * as a way to check if it is supported for the current language.
 		 *
 		 * Although we do check whether a language is supported in some readability assessments,
@@ -161,7 +161,8 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 		}
 
 		const penalty = this.calculatePenalty( validResults );
-		return this.calculateScore( this.isFullySupported( results ), penalty );
+		const isFullySupported = this.isFullySupported( results );
+		return this.calculateScore( isFullySupported, penalty );
 	}
 }
 
