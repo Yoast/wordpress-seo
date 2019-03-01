@@ -603,7 +603,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$score_class        = WPSEO_Utils::translate_score( $score );
 		$translated_score   = WPSEO_Utils::translate_score( $score, false );
 		/* translators: %s expands to the SEO score. */
-		$screen_reader_text = sprintf( __( 'SEO score: %s' ), $translated_score );
+		$screen_reader_text = sprintf( __( 'SEO score: %s', 'wordpress-seo' ), $translated_score );
 
 		$score_adminbar_element = '<div class="wpseo-score-icon adminbar-seo-score ' . $score_class . '"><span class="adminbar-seo-score-text screen-reader-text">' . $screen_reader_text . '</span></div>';
 
