@@ -50,6 +50,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		'wpseo_focuskw'               => '',
 		'wpseo_linkdex'               => '',
 		'wpseo_content_score'         => '',
+		'wpseo_focuskeywords'         => '[]',
+		'wpseo_keywordsynonyms'       => '[]',
 
 		// Social fields.
 		'wpseo_opengraph-title'       => '',
@@ -273,31 +275,65 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 				case 'wpseo_bctitle':
 					if ( isset( $meta_data[ $key ] ) ) {
-						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( stripslashes( $meta_data[ $key ] ) );
+						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $meta_data[ $key ] );
 					}
 					elseif ( isset( $old_meta[ $key ] ) ) {
 						// Retain old value if field currently not in use.
 						$clean[ $key ] = $old_meta[ $key ];
 					}
 					break;
+
+				case 'wpseo_keywordsynonyms':
+					if ( isset( $meta_data[ $key ] ) && is_string( $meta_data[ $key ] ) ) {
+						// The data is stringified JSON. Use `json_decode` and `json_encode` around the sanitation.
+						$input         = json_decode( $meta_data[ $key ], true );
+						$sanitized     = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), $input );
+						$clean[ $key ] = json_encode( $sanitized );
+					}
+					elseif ( isset( $old_meta[ $key ] ) ) {
+						// Retain old value if field currently not in use.
+						$clean[ $key ] = $old_meta[ $key ];
+					}
+					break;
+
+				case 'wpseo_focuskeywords':
+					if ( isset( $meta_data[ $key ] ) && is_string( $meta_data[ $key ] ) ) {
+						// The data is stringified JSON. Use `json_decode` and `json_encode` around the sanitation.
+						$input = json_decode( $meta_data[ $key ], true );
+
+						// This data has two known keys: `keyword` and `score`.
+						$sanitized = array();
+						foreach ( $input as $entry ) {
+							$sanitized[] = array(
+								'keyword' => WPSEO_Utils::sanitize_text_field( $entry['keyword'] ),
+								'score'   => WPSEO_Utils::sanitize_text_field( $entry['score'] ),
+							);
+						}
+
+						$clean[ $key ] = json_encode( $sanitized );
+					}
+					elseif ( isset( $old_meta[ $key ] ) ) {
+						// Retain old value if field currently not in use.
+						$clean[ $key ] = $old_meta[ $key ];
+					}
+					break;
+
 				case 'wpseo_focuskw':
 				case 'wpseo_title':
 				case 'wpseo_desc':
 				case 'wpseo_linkdex':
 				default:
 					if ( isset( $meta_data[ $key ] ) && is_string( $meta_data[ $key ] ) ) {
-						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( stripslashes( $meta_data[ $key ] ) );
+						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $meta_data[ $key ] );
 					}
 
 					if ( 'wpseo_focuskw' === $key ) {
 						$search = array(
 							'&lt;',
 							'&gt;',
-							'&quot',
 							'&#96',
 							'<',
 							'>',
-							'"',
 							'`',
 						);
 

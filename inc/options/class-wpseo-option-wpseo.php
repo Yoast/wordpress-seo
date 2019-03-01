@@ -48,7 +48,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_text_link_counter'        => true,
 		'show_onboarding_notice'          => false,
 		'first_activated_on'              => false,
-		'recalibration_beta'              => false,
+		'myyoast-oauth'                   => array(
+			'config' => array(
+				'clientId' => null,
+				'secret'   => null,
+			),
+			'access_tokens' => array(),
+		),
 	);
 
 	/**
@@ -271,6 +277,22 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 							$clean[ $key ] = $dirty[ $key ];
 						}
 					}
+					break;
+
+				case 'myyoast_oauth':
+					$clean[ $key ] = $old[ $key ];
+
+					if ( isset( $dirty[ $key ] ) ) {
+						$myyoast_oauth = $dirty[ $key ];
+						if ( ! is_array( $myyoast_oauth ) ) {
+							$myyoast_oauth = json_decode( $dirty[ $key ], true );
+						}
+
+						if ( is_array( $myyoast_oauth ) ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
+					}
+
 					break;
 
 				/*

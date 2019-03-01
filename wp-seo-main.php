@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '9.6-beta4' );
+define( 'WPSEO_VERSION', '10.0-RC1' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -249,11 +249,15 @@ function _wpseo_deactivate() {
  * {@internal Unfortunately will fail if the plugin is in the must-use directory.
  *            {@link https://core.trac.wordpress.org/ticket/24205} }}
  *
- * @param int $blog_id Blog ID.
+ * @param int|WP_Site $blog_id Blog ID.
  */
 function wpseo_on_activate_blog( $blog_id ) {
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+
+	if ( $blog_id instanceof WP_Site ) {
+		$blog_id = (int) $blog_id->blog_id;
 	}
 
 	if ( is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
@@ -262,7 +266,6 @@ function wpseo_on_activate_blog( $blog_id ) {
 		restore_current_blog();
 	}
 }
-
 
 /* ***************************** PLUGIN LOADING *************************** */
 
@@ -340,8 +343,9 @@ function wpseo_init() {
 	$wpseo_onpage->register_hooks();
 
 	// When namespaces are not available, stop further execution.
-	if ( version_compare( PHP_VERSION, '5.3.0', '>=' ) ) {
+	if ( version_compare( PHP_VERSION, '5.6.0', '>=' ) ) {
 		require_once WPSEO_PATH . 'src/loaders/indexable.php';
+		require_once WPSEO_PATH . 'src/loaders/oauth.php';
 	}
 }
 
@@ -367,6 +371,7 @@ function wpseo_init_rest_api() {
 	$endpoints[] = new WPSEO_Endpoint_Indexable( new WPSEO_Indexable_Service() );
 	$endpoints[] = new WPSEO_Endpoint_File_Size( new WPSEO_File_Size_Service() );
 	$endpoints[] = new WPSEO_Endpoint_Statistics( $statistics_service );
+	$endpoints[] = new WPSEO_Endpoint_MyYoast_Connect();
 
 	/** @var WPSEO_Endpoint[] $endpoints */
 	foreach ( $endpoints as $endpoint ) {
@@ -524,7 +529,16 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 // Activation and deactivation hook.
 register_activation_hook( WPSEO_FILE, 'wpseo_activate' );
 register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
-add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
+
+// Wpmu_new_blog has been deprecated in 5.1 and replaced by wp_insert_site.
+global $wp_version;
+if ( version_compare( $wp_version,'5.1', '<' ) ) {
+	add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
+}
+else {
+	add_action( 'wp_initialize_site', 'wpseo_on_activate_blog', 99 );
+}
+
 add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 
 // Registers SEO capabilities.

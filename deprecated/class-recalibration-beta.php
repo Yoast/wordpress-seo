@@ -6,20 +6,42 @@
  * @since   9.3.0
  */
 
+// Mark this file as deprecated.
+_deprecated_file( __FILE__, 'WPSEO 10.0' );
+
 /**
  * Holds the logic for the recalibration beta.
+ *
+ * @codeCoverageIgnore Ignore, because this class has been deprecated.
+ *
+ * @deprecated 10.0
  */
 class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 
 	/**
-	 * @var string Name of the options.
+	 * Name of the options.
+	 *
+	 * @var string
 	 */
 	protected $option_name = 'recalibration_beta';
 
 	/**
-	 * @var string The read more URL.
+	 * The read more URL.
+	 *
+	 * @var string
 	 */
 	protected $read_more_url = 'https://yoa.st/recalibration-beta-explanation';
+
+	/**
+	 * The class constructor.
+	 *
+	 * @deprecated 10.0
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function __construct() {
+		_deprecated_constructor( 'WPSEO_Recalibration_Beta', 'WPSEO 10.0' );
+	}
 
 	/**
 	 * Shows the feature toggle.
@@ -29,6 +51,12 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function show_feature_toggle() {
+		// If the recalibration beta has been disabled you will no longer be able to enable it.
+		// See https://github.com/Yoast/wordpress-seo/issues/12183.
+		if ( ! self::is_enabled() ) {
+			return;
+		}
+
 		$values = array(
 			'on'  => __( 'On', 'wordpress-seo' ),
 			'off' => __( 'Off', 'wordpress-seo' ),
@@ -83,9 +111,6 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	 */
 	public function register_hooks() {
 		add_action( 'update_option_wpseo', array( $this, 'update_option' ), 10, 2 );
-
-		$notification = new WPSEO_Recalibration_Beta_Notification();
-		$notification->register_hooks();
 	}
 
 	/**

@@ -1,4 +1,4 @@
-/* global wpseoPostScraperL10n wpseoTermScraperL10n wpseoAdminL10n */
+/* global wpseoAdminL10n */
 
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
@@ -18,18 +18,9 @@ import MultipleKeywords from "../modals/MultipleKeywords";
 import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
 import { LocationConsumer } from "../contexts/location";
 import AnalysisUpsell from "../AnalysisUpsell";
-import RecalibrationBetaNotification from "./RecalibrationBetaNotification";
 import HelpLink from "./HelpLink";
 import { setMarkerPauseStatus } from "../../redux/actions/markerPauseStatus";
 import { ModalContainer, ModalIcon } from "../modals/Container";
-
-// We need localizedData temporarily here to know if the recalibration beta is toggled.
-let localizedData = {};
-if ( window.wpseoPostScraperL10n ) {
-	localizedData = wpseoPostScraperL10n;
-} else if ( window.wpseoTermScraperL10n ) {
-	localizedData = wpseoTermScraperL10n;
-}
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -214,14 +205,6 @@ class SeoAnalysis extends React.Component {
 	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
-		const isRecalibrationBetaActive = localizedData.recalibrationBetaActive;
-
-		let analysisTitle = __( "Focus keyphrase", "wordpress-seo" );
-
-		// Adjust the title when the beta is active.
-		if ( isRecalibrationBetaActive ) {
-			analysisTitle =  __( "Focus keyphrase (beta)", "wordpress-seo" );
-		}
 
 		if ( score.className !== "loading" && this.props.keyword === "" ) {
 			score.className = "na";
@@ -233,14 +216,13 @@ class SeoAnalysis extends React.Component {
 				{ context => (
 					<Fragment>
 						<Collapsible
-							title={ analysisTitle }
+							title={ __( "Focus keyphrase", "wordpress-seo" ) }
 							titleScreenReaderText={ score.screenReaderReadabilityText }
 							prefixIcon={ getIconForScore( score.className ) }
 							prefixIconCollapsed={ getIconForScore( score.className ) }
 							subTitle={ this.props.keyword }
 							id={ `yoast-seo-analysis-collapsible-${ context }` }
 						>
-							{ isRecalibrationBetaActive ? <RecalibrationBetaNotification /> : null }
 							<KeywordInput
 								id="focus-keyword-input"
 								onChange={ this.props.onFocusKeywordChange }

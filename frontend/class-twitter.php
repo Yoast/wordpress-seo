@@ -349,7 +349,7 @@ class WPSEO_Twitter {
 	 * Solves issues with filters returning urls and theme's/other plugins also adding a user meta
 	 * twitter field which expects url rather than an id (which is what we expect).
 	 *
-	 * @param  string $id Twitter ID or url.
+	 * @param string $id Twitter ID or url.
 	 *
 	 * @return string|bool Twitter ID or false if it failed to get a valid Twitter ID.
 	 */
@@ -436,8 +436,6 @@ class WPSEO_Twitter {
 			if ( $this->image_from_meta_values_output( $post_id ) ) {
 				return;
 			}
-
-			$post_id = get_the_ID();
 
 			if ( $this->image_of_attachment_page_output( $post_id ) ) {
 				return;
