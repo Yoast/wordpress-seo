@@ -160,7 +160,7 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 			return READABILITY_SCORES.NEEDS_IMPROVEMENT;
 		}
 
-		const penalty = this.calculatePenalty( results );
+		const penalty = this.calculatePenalty( validResults );
 		return this.calculateScore( this.isFullySupported( results ), penalty );
 	}
 }
