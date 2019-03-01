@@ -108,11 +108,11 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 	}
 
 	/**
-	 * Calculates the total amount of penalty points based on the given assessment results.
+	 * Calculates the total penalty based on the given assessment results.
 	 *
-	 * @param {AssessmentResult[]} results The valid results from which to calculate the total penalty points.
+	 * @param {AssessmentResult[]} results The valid results from which to calculate the total penalty.
 	 *
-	 * @returns {number} The total penalty points for the results.
+	 * @returns {number} The total penalty for the results.
 	 */
 	calculatePenalty( results ) {
 		return results.reduce( ( sum, result ) => {
