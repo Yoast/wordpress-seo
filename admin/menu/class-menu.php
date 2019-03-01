@@ -9,10 +9,21 @@
  * Registers the regular admin menu and network admin menu implementations.
  */
 class WPSEO_Menu implements WPSEO_WordPress_Integration {
-	/** The page identifier used in WordPress to register the admin page !DO NOT CHANGE THIS! */
+
+	/**
+	 * The page identifier used in WordPress to register the admin page.
+	 *
+	 * !DO NOT CHANGE THIS!
+	 *
+	 * @var string
+	 */
 	const PAGE_IDENTIFIER = 'wpseo_dashboard';
 
-	/** @var array List of classes that add admin functionality. */
+	/**
+	 * List of classes that add admin functionality.
+	 *
+	 * @var array
+	 */
 	protected $admin_features;
 
 	/**
@@ -24,8 +35,10 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 		$admin_menu = new WPSEO_Admin_Menu( $this );
 		$admin_menu->register_hooks();
 
-		$network_admin_menu = new WPSEO_Network_Admin_Menu( $this );
-		$network_admin_menu->register_hooks();
+		if ( WPSEO_Utils::is_plugin_network_active() ) {
+			$network_admin_menu = new WPSEO_Network_Admin_Menu( $this );
+			$network_admin_menu->register_hooks();
+		}
 
 		$capability_normalizer = new WPSEO_Submenu_Capability_Normalize();
 		$capability_normalizer->register_hooks();
@@ -73,6 +86,10 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 
 			case 'wpseo_licenses':
 				require_once WPSEO_PATH . 'admin/pages/licenses.php';
+				break;
+
+			case 'wpseo_courses':
+				require_once WPSEO_PATH . 'admin/pages/courses.php';
 				break;
 
 			case 'wpseo_files':

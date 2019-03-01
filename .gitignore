@@ -21,6 +21,9 @@ nbproject/
 node_modules/
 bower_components/
 premium/node_modules/
+phpcs.xml
+.phpcs.xml
+phpunit.xml
 
 ############
 ## OSes
@@ -54,7 +57,8 @@ temp/
 ############
 ## Composer
 ############
-vendor/
+/vendor/
+/vendor_prefixed/
 
 ############
 ## WPSEO
@@ -65,8 +69,19 @@ travis.sh
 test.sh
 /artifact/
 /artifact.zip
-/languages/*
-!/languages/index.php
+/artifact-composer/
 /coverage
 /gettext.pot
 /.wordpress-svn
+/webpack-stats.json
+.recalibration.yaml
+
+############
+# Dist files
+############
+/languages/
+/js/dist/*
+!/js/dist/select2
+/js/vendor/*
+/css/dist/*
+!/css/dist/select2

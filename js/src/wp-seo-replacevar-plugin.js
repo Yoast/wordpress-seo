@@ -1,4 +1,4 @@
-/* global wpseoReplaceVarsL10n, require */
+/* global wpseoReplaceVarsL10n, require, wp */
 import forEach from "lodash/forEach";
 import filter from "lodash/filter";
 import trim from "lodash/trim";
@@ -9,6 +9,9 @@ import {
 	updateReplacementVariable,
 	refreshSnippetEditor,
 } from "./redux/actions/snippetEditor";
+import TaxonomyReplacementVariables from "./helpers/taxonomy-replacevars";
+
+import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
 ( function() {
 	var modifiableFields = [
@@ -19,6 +22,7 @@ import {
 		"primary_category",
 		"data_page_title",
 		"data_meta_desc",
+		"excerpt",
 	];
 
 	var placeholders = {};
@@ -43,6 +47,7 @@ import {
 		this.registerReplacements();
 		this.registerModifications();
 		this.registerEvents();
+		this.subscribeToGutenberg();
 	};
 
 	/*
@@ -113,7 +118,7 @@ import {
 	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.registerEvents = function() {
-		var currentScope = wpseoReplaceVarsL10n.scope;
+		const currentScope = wpseoReplaceVarsL10n.scope;
 
 		if ( currentScope === "post" ) {
 			// Set events for each taxonomy box.
@@ -124,6 +129,69 @@ import {
 			// Add support for custom fields as well.
 			jQuery( "#postcustomstuff > #list-table" ).each( this.bindFieldEvents.bind( this ) );
 		}
+	};
+
+	/**
+	 * Handle replace vars for taxonomies. Makes sure the taxonomy replacement variables are updated
+	 * when the selected terms for a post change.
+	 *
+	 * @returns {void}
+	 */
+	const handleCategories = function() {
+		const taxonomyReplacementVariables = new TaxonomyReplacementVariables();
+		taxonomyReplacementVariables.listen();
+	};
+
+	/**
+	 * Subscribes to Gutenberg to watch a possible parent page change.
+	 *
+	 * @returns {void}
+	 */
+	YoastReplaceVarPlugin.prototype.subscribeToGutenberg = function() {
+		if ( ! isGutenbergDataAvailable() ) {
+			return;
+		}
+
+		handleCategories();
+
+		const fetchedParents = { 0: "" };
+		let currentParent    = null;
+
+		const wpData = window.wp.data;
+
+		wpData.subscribe( () => {
+			const newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
+
+			if ( typeof newParent === "undefined" || currentParent === newParent ) {
+				return;
+			}
+			currentParent = newParent;
+			if ( newParent < 1 ) {
+				this._currentParentPageTitle = "";
+				this.declareReloaded();
+				return;
+			}
+			if ( ! isUndefined( fetchedParents[ newParent ] ) ) {
+				this._currentParentPageTitle = fetchedParents[ newParent ];
+				this.declareReloaded();
+				return;
+			}
+			wp.api.loadPromise.done( () => {
+				const page = new wp.api.models.Page( { id: newParent } );
+				page.fetch().then(
+					response => {
+						this._currentParentPageTitle = response.title.rendered;
+						fetchedParents[ newParent ]  = this._currentParentPageTitle;
+						this.declareReloaded();
+					}
+				).fail(
+					() => {
+						this._currentParentPageTitle = "";
+						this.declareReloaded();
+					}
+				);
+			} );
+		} );
 	};
 
 	/**
@@ -172,8 +240,29 @@ import {
 			// This order currently needs to be maintained until we can figure out a nicer way to replace this.
 			data = this.parentReplace( data );
 			data = this.replaceCustomTaxonomy( data );
+			data = this.replaceByStore( data );
 			data = this.replacePlaceholders( data );
 		}
+
+		return data;
+	};
+
+	/**
+	 * Runs the different replacements on the data-string.
+	 *
+	 * @param {string} data The data that needs its placeholders replaced.
+	 * @returns {string} The data with all its placeholders replaced by actual values.
+	 */
+	YoastReplaceVarPlugin.prototype.replaceByStore = function( data ) {
+		const replacementVariables = this._store.getState().snippetEditor.replacementVariables;
+
+		forEach( replacementVariables, ( replacementVariable ) => {
+			if ( replacementVariable.value === "" ) {
+				return;
+			}
+
+			data = data.replace( "%%"  + replacementVariable.name + "%%", replacementVariable.value );
+		} );
 
 		return data;
 	};
@@ -289,7 +378,7 @@ import {
 				label: hierarchicalTermName,
 				checked: isChecked,
 			};
-			if( isChecked && checkHierarchicalTerm.indexOf( hierarchicalTermName ) === -1 ) {
+			if ( isChecked && checkHierarchicalTerm.indexOf( hierarchicalTermName ) === -1 ) {
 				// Only push the categoryName to the checkedCategories array if it's not already in there.
 				checkHierarchicalTerm.push( hierarchicalTermName );
 			}
@@ -508,10 +597,14 @@ import {
 	 * @returns {string} The data with all its placeholders replaced by actual values.
 	 */
 	YoastReplaceVarPlugin.prototype.parentReplace = function( data ) {
-		var parent = jQuery( "#parent_id, #parent" ).eq( 0 );
+		const parent = jQuery( "#parent_id, #parent" ).eq( 0 );
 
 		if ( this.hasParentTitle( parent ) ) {
 			data = data.replace( /%%parent_title%%/, this.getParentTitleReplacement( parent ) );
+		}
+
+		if ( isGutenbergDataAvailable() && ! isUndefined( this._currentParentPageTitle ) ) {
+			data = data.replace( /%%parent_title%%/, this._currentParentPageTitle );
 		}
 
 		return data;

@@ -11,8 +11,8 @@ import { AlgoliaSearcher } from "yoast-components";
  *            loadingPlaceholder: *, search: *, open: *, openLabel: *, back: *, backLabel: *, iframeTitle: *}}
  *            Object containing the translated text properties for the knowledge base component.
  */
-let getTranslations = () => {
-	let translations = {
+const getTranslations = () => {
+	const translations = {
 		noResultsText: wpseoAdminL10n.kb_no_results,
 		headingText: wpseoAdminL10n.kb_heading,
 		searchButtonText: wpseoAdminL10n.kb_search_button_text,
@@ -34,14 +34,14 @@ let getTranslations = () => {
  *
  * @returns {array} The rendered AlgoliaSearchers.
  */
-let renderAlgoliaSearchers = () => {
+const renderAlgoliaSearchers = () => {
 	// Inject kb-search in divs with the classname of 'wpseo-kb-search'.
-	let mountingPoints = jQuery( ".wpseo-kb-search" );
-	let algoliaSearchers = [];
+	const mountingPoints = jQuery( ".wpseo-kb-search" );
+	const algoliaSearchers = [];
 
 	jQuery.each( mountingPoints, ( index, mountingPoint ) => {
-		let tabId = jQuery( mountingPoint ).closest( ".wpseotab" ).attr( "id" );
-		let translations = getTranslations();
+		const tabId = jQuery( mountingPoint ).closest( ".wpseotab" ).attr( "id" );
+		const translations = getTranslations();
 
 		algoliaSearchers.push( {
 			tabName: tabId,
@@ -59,10 +59,10 @@ let renderAlgoliaSearchers = () => {
  *
  * @returns {void}
  */
-let bindEventHandlers = ( algoliaSearchers ) => {
+const bindEventHandlers = ( algoliaSearchers ) => {
 	// Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data.
 	jQuery( ".contact-support" ).on( "click", () => {
-		let activeTabName = jQuery( ".wpseotab.active" ).attr( "id" );
+		const activeTabName = jQuery( ".wpseotab.active" ).attr( "id" );
 
 		// 1st by default. (Used for the Advanced settings pages because of how the tabs were set up)
 		let activeAlgoliaSearcher = algoliaSearchers[ 0 ].algoliaSearcher;
@@ -75,7 +75,7 @@ let bindEventHandlers = ( algoliaSearchers ) => {
 				return false;
 			}
 		} );
-		let usedQueries = activeAlgoliaSearcher.state.usedQueries;
+		const usedQueries = activeAlgoliaSearcher.state.usedQueries;
 		jQuery( window ).trigger( "YoastSEO:ContactSupport", { usedQueries: usedQueries } );
 	} );
 };
@@ -86,8 +86,8 @@ let bindEventHandlers = ( algoliaSearchers ) => {
  * @deprecated 5.7 Use yoast-components's AlgoliaSearcher.
  * @returns {void}
  */
-let initializeAlgoliaSearch = () => {
-	let algoliaSearchers = renderAlgoliaSearchers();
+const initializeAlgoliaSearch = () => {
+	const algoliaSearchers = renderAlgoliaSearchers();
 	bindEventHandlers( algoliaSearchers );
 };
 

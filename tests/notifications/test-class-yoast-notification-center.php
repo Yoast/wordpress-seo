@@ -10,8 +10,22 @@
  */
 class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
-	/** @var int User ID */
+	/**
+	 * User ID.
+	 *
+	 * @var int
+	 */
 	private $user_id;
+
+	/**
+	 * Default notification arguments to set up a fake Yoast_Notification.
+	 *
+	 * @var array
+	 */
+	private $fake_notification_defaults = array(
+		'id'            => 'some_id',
+		'dismissal_key' => 'notification_dismissal',
+	);
 
 	/**
 	 * Create user with proper caps
@@ -457,13 +471,9 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Notification_Center::dismiss_notification()
 	 */
 	public function test_dismiss_notification_is_per_site() {
-
 		$site2 = self::factory()->blog->create();
 
-		$notification  = new Yoast_Notification( 'notification', array(
-			'id'            => 'some_id',
-			'dismissal_key' => 'notification_dismissal',
-		) );
+		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// Dismiss notification for the current site.
@@ -487,13 +497,9 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Notification_Center::restore_notification()
 	 */
 	public function test_restore_notification_is_per_site() {
-
 		$site2 = self::factory()->blog->create();
 
-		$notification  = new Yoast_Notification( 'notification', array(
-			'id'            => 'some_id',
-			'dismissal_key' => 'notification_dismissal',
-		) );
+		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// Dismiss notification for both sites.
@@ -523,13 +529,15 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Notification_Center::is_notification_dismissed()
 	 */
 	public function test_is_notification_dismissed_is_per_site() {
+		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
+			$this->markTestSkipped( 'Skipped because since WordPress 5.1 the hook wpmu_new_blog is deprecated' );
+
+			return;
+		}
 
 		$site2 = self::factory()->blog->create();
 
-		$notification  = new Yoast_Notification( 'notification', array(
-			'id'            => 'some_id',
-			'dismissal_key' => 'notification_dismissal',
-		) );
+		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// Dismiss notification for the current site.
@@ -552,10 +560,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_is_notification_dismissed_falls_back_to_user_meta() {
 
-		$notification  = new Yoast_Notification( 'notification', array(
-			'id'            => 'some_id',
-			'dismissal_key' => 'notification_dismissal',
-		) );
+		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// Dismiss notification in the old incorrect way.
@@ -577,10 +582,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_restore_notification_clears_user_meta() {
 
-		$notification  = new Yoast_Notification( 'notification', array(
-			'id'            => 'some_id',
-			'dismissal_key' => 'notification_dismissal',
-		) );
+		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// Set notification dismissed in both user option and old user meta way.
@@ -646,6 +648,53 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests removal of a notification when there isn't any with given id.
+	 *
+	 * @covers Yoast_Notification_Center::remove_notification_by_id()
+	 */
+	public function test_remove_notification_by_id_when_no_notification_is_found() {
+		$notification_center = $this
+			->getMockBuilder( 'Yoast_Notification_Center' )
+			->disableOriginalConstructor()
+			->setMethods( array( 'remove_notification' ) )
+			->getMock();
+
+		$notification_center
+			->expects( $this->never() )
+			->method( 'remove_notification' );
+
+		$notification_center->remove_notification_by_id( 'this-id-does-not-exists' );
+	}
+
+	/**
+	 * Tests removal of a notification
+	 *
+	 * @covers Yoast_Notification_Center::remove_notification_by_id()
+	 */
+	public function test_remove_notification_by_id_when_notification_is_found() {
+		$notification_center = $this
+			->getMockBuilder( 'Yoast_Notification_Center' )
+			->disableOriginalConstructor()
+			->setMethods( array( 'remove_notification', 'get_notification_by_id' ) )
+			->getMock();
+
+		$notification_center
+			->expects( $this->once() )
+			->method( 'remove_notification' );
+
+		$notification_center
+			->expects( $this->once() )
+			->method( 'get_notification_by_id' )
+			->will(
+				$this->returnValue(
+					new Yoast_Notification( 'message', array( 'id' => 'this-id-exists' ) )
+				)
+			);
+
+		$notification_center->remove_notification_by_id( 'this-id-exists' );
+	}
+
+	/**
 	 * Gets some notification objects.
 	 *
 	 * This method is used as a filter to override notifications.
@@ -654,12 +703,14 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function get_sample_notifications() {
 		return array(
-			new Yoast_Notification( 'notification', array(
-				'id' => 'some_id',
-			) ),
-			new Yoast_Notification( 'notification', array(
-				'id' => 'another_id',
-			) ),
+			new Yoast_Notification(
+				'notification',
+				array( 'id' => 'some_id' )
+			),
+			new Yoast_Notification(
+				'notification',
+				array( 'id' => 'another_id' )
+			),
 		);
 	}
 

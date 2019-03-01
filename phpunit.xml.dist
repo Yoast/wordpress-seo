@@ -1,0 +1,42 @@
+<phpunit
+	backupGlobals="false"
+	backupStaticAttributes="false"
+	bootstrap="tests/bootstrap.php"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	processIsolation="false"
+	stopOnError="false"
+	stopOnFailure="false"
+	stopOnIncomplete="false"
+	stopOnSkipped="false"
+	syntaxCheck="false"
+	verbose="true"
+	>
+	<testsuites>
+		<testsuite name="php52">
+			<directory prefix="test-" suffix=".php">./tests/</directory>
+		</testsuite>
+	</testsuites>
+
+	<!-- Test namespaced classes only for PHP 5.6.0 and above -->
+	<testsuites>
+		<testsuite name="php56+">
+			<directory suffix="-test.php" phpVersion="5.6.0" phpVersionOperator=">=">./tests/src/</directory>
+		</testsuite>
+	</testsuites>
+
+	<filter>
+		<whitelist>
+			<directory>./inc</directory>
+			<directory>./frontend</directory>
+			<directory>./admin</directory>
+			<directory>./src</directory>
+			<exclude>
+				<directory suffix=".php">./deprecated</directory>
+				<file>./inc/wpseo-functions-deprecated.php</file>
+			</exclude>
+		</whitelist>
+	</filter>
+</phpunit>

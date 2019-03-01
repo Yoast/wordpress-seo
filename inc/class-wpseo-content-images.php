@@ -8,27 +8,7 @@
 /**
  * WPSEO_Content_Images
  */
-class WPSEO_Content_Images implements WPSEO_WordPress_Integration {
-	/**
-	 * Registers the hooks.
-	 *
-	 * @return void
-	 */
-	public function register_hooks() {
-	}
-
-	/**
-	 * Removes the cached images on post save.
-	 *
-	 * @deprecated 7.7
-	 *
-	 * @param int $post_id The post id to remove the images from.
-	 *
-	 * @return void
-	 */
-	public function clear_cached_images( $post_id ) {
-		_deprecated_function( __METHOD__, '7.7.0' );
-	}
+class WPSEO_Content_Images {
 
 	/**
 	 * Retrieves images from the post content.
@@ -122,5 +102,33 @@ class WPSEO_Content_Images implements WPSEO_WordPress_Integration {
 		}
 
 		return $content;
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Removes the cached images on post save.
+	 *
+	 * @deprecated 7.7
+	 * @codeCoverageIgnore
+	 *
+	 * @param int $post_id The post id to remove the images from.
+	 *
+	 * @return void
+	 */
+	public function clear_cached_images( $post_id ) {
+		_deprecated_function( __METHOD__, '7.7.0' );
+	}
+
+	/**
+	 * Registers the hooks.
+	 *
+	 * @deprecated 9.6
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function register_hooks() {
+		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
 	}
 }

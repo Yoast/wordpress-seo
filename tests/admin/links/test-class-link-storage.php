@@ -39,17 +39,6 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the creation of the table.
-	 *
-	 * @todo make this test having sense
-	 */
-	public function _test_create_table() {
-		$storage = new WPSEO_Link_Storage();
-
-		$this->assertEquals( 1, $storage->create_table() );
-	}
-
-	/**
 	 * Tests the saving of a link.
 	 */
 	public function test_save_link() {
@@ -75,6 +64,7 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 			)
 		);
 	}
+
 	/**
 	 * Tests the cleanup for a given post id.
 	 */
@@ -84,6 +74,4 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 1, $storage->cleanup( 2 ) );
 	}
-
-
 }

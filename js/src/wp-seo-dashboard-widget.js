@@ -3,16 +3,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import SeoAssessment from "yoast-components/composites/Plugin/DashboardWidget/components/SeoAssessment";
-import ScoreAssessments from "yoast-components/composites/Plugin/Shared/components/ScoreAssessments";
-import getFeed from "yoast-components/utils/getFeed";
-import WordpressFeed from "yoast-components/composites/Plugin/DashboardWidget/components/WordpressFeed";
-import colors from "yoast-components/style-guide/colors.json";
+import { SeoAssessment, ScoreAssessments, utils, WordpressFeed, colors } from "yoast-components";
 import { setYoastComponentsL10n } from "./helpers/i18n";
-
+const { getPostFeed } = utils;
 
 class DashboardWidget extends React.Component {
-
 	/**
 	 * Creates the components and initializes its state.
 	 */
@@ -48,7 +43,7 @@ class DashboardWidget extends React.Component {
 	 */
 	getStatistics() {
 		wpseoApi.get( "statistics", ( response ) => {
-			let statistics = {};
+			const statistics = {};
 
 			statistics.seoScores = response.seo_scores.map( ( score ) => ( {
 				value: parseInt( score.count, 10 ),
@@ -69,12 +64,16 @@ class DashboardWidget extends React.Component {
 	 * @returns {void}
 	 */
 	getRyte() {
+		if ( wpseoDashboardWidgetL10n.ryteEnabled !== "1" ) {
+			return;
+		}
+
 		wpseoApi.get( "ryte", ( response ) => {
 			if ( ! response.ryte ) {
 				return;
 			}
 
-			let ryte = {
+			const ryte = {
 				scores: [ {
 					color: DashboardWidget.getColorFromScore( response.ryte.score ),
 					html: response.ryte.label,
@@ -93,18 +92,18 @@ class DashboardWidget extends React.Component {
 	 */
 	getFeed() {
 		// Developer note: this link should -not- be converted to a shortlink.
-		getFeed( "https://yoast.com/feed/widget/", 2 )
+		getPostFeed( "https://yoast.com/feed/widget/", 2 )
 			.then( ( feed ) => {
 				feed.items = feed.items.map( ( item ) => {
 					item.description = jQuery( `<div>${ item.description }</div>` ).text();
 					item.description = item.description.replace( `The post ${ item.title } appeared first on Yoast.`, "" ).trim();
-					item.content = jQuery( `<div>${ item.content }</div>` ).text();
 
 					return item;
 				} );
 
 				this.setState( { feed } );
 			} )
+			/* eslint-disable-next-line no-console */
 			.catch( error => console.log( error ) );
 	}
 
@@ -118,9 +117,11 @@ class DashboardWidget extends React.Component {
 			return null;
 		}
 
-		return <SeoAssessment key="yoast-seo-posts-assessment"
+		return <SeoAssessment
+			key="yoast-seo-posts-assessment"
 			seoAssessmentText={ this.state.statistics.header }
-			seoAssessmentItems={ this.state.statistics.seoScores }/>;
+			seoAssessmentItems={ this.state.statistics.seoScores }
+		/>;
 	}
 
 	/**
@@ -136,7 +137,7 @@ class DashboardWidget extends React.Component {
 		return (
 			<div id="yoast-seo-ryte-assessment" key="yoast-seo-ryte-assessment">
 				<h3>{ wpseoDashboardWidgetL10n.ryte_header }</h3>
-				<ScoreAssessments items={ this.state.ryte.scores }/>
+				<ScoreAssessments items={ this.state.ryte.scores } />
 				<div>
 					{ this.state.ryte.canFetch &&
 						<a className="fetch-status button" href={ wpseoDashboardWidgetL10n.ryte_fetch_url }>
@@ -165,7 +166,8 @@ class DashboardWidget extends React.Component {
 			key="yoast-seo-blog-feed"
 			title={ wpseoDashboardWidgetL10n.feed_header }
 			feed={ this.state.feed }
-			footerHtml={ wpseoDashboardWidgetL10n.feed_footer } />;
+			footerLinkText={ wpseoDashboardWidgetL10n.feed_footer }
+		/>;
 	}
 
 	/**
@@ -174,7 +176,7 @@ class DashboardWidget extends React.Component {
 	 * @returns {ReactElement} The component.
 	 */
 	render() {
-		let contents = [
+		const contents = [
 			this.getSeoAssessment(),
 			this.getRyteAssessment(),
 			this.getYoastFeed(),
@@ -190,8 +192,8 @@ class DashboardWidget extends React.Component {
 
 const element = document.getElementById( "yoast-seo-dashboard-widget" );
 
-if( element ) {
+if ( element ) {
 	setYoastComponentsL10n();
 
-	ReactDOM.render( <DashboardWidget/>, element );
+	ReactDOM.render( <DashboardWidget />, element );
 }

@@ -21,19 +21,21 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 	 * @expectedException InvalidArgumentException
 	 */
 	public function test_constructor_missing_src() {
-		new WPSEO_Admin_Asset( array(
+		$asset_args = array(
 			'name' => 'name',
-		) );
+		);
+		new WPSEO_Admin_Asset( $asset_args );
 	}
 
 	/**
 	 * Test default values.
 	 */
 	public function test_constructor_default_values() {
-		$asset = new WPSEO_Admin_Asset( array(
+		$asset_args = array(
 			'name' => 'name',
 			'src'  => 'src',
-		) );
+		);
+		$asset      = new WPSEO_Admin_Asset( $asset_args );
 
 		$this->assertEquals( 'name', $asset->get_name() );
 		$this->assertEquals( 'src', $asset->get_src() );
@@ -49,7 +51,7 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 	 * Test getters.
 	 */
 	public function test_getters() {
-		$asset = new WPSEO_Admin_Asset( array(
+		$asset_args = array(
 			'name'      => 'name',
 			'src'       => 'src',
 			'deps'      => array( 'deps' ),
@@ -58,7 +60,8 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 			'in_footer' => false,
 			'suffix'    => '.suffix',
 			'rtl'       => false,
-		) );
+		);
+		$asset      = new WPSEO_Admin_Asset( $asset_args );
 
 		$this->assertEquals( array( 'deps' ), $asset->get_deps() );
 		$this->assertEquals( 'version', $asset->get_version() );
@@ -66,7 +69,6 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( false, $asset->is_in_footer() );
 		$this->assertEquals( '.suffix', $asset->get_suffix() );
 		$this->assertEquals( false, $asset->has_rtl() );
-
 	}
 
 	/**
@@ -75,10 +77,11 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 	 * @expectedDeprecated WPSEO_Admin_Asset::get_url
 	 */
 	public function test_deprecated_get_url() {
-		$asset = new WPSEO_Admin_Asset( array(
+		$asset_args = array(
 			'name' => 'name',
 			'src'  => 'src',
-		) );
+		);
+		$asset      = new WPSEO_Admin_Asset( $asset_args );
 
 		$default_location = new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );
 

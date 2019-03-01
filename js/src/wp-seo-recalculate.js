@@ -3,14 +3,19 @@
 /* global require */
 
 var Jed = require( "jed" );
-var Paper = require( "yoastseo/js/values/Paper" );
-var SEOAssessor = require( "yoastseo/js/seoAssessor" );
-var TaxonomyAssessor = require( "./assessors/taxonomyAssessor" );
+
+import {
+	Paper,
+	ContentAssessor,
+	TaxonomyAssessor,
+} from "yoastseo";
+
 var isUndefined = require( "lodash/isUndefined" );
 
 ( function( $ ) {
 	var i18n = new Jed( {
 		domain: "js-text-analysis",
+		/* eslint-disable-next-line camelcase */
 		locale_data: {
 			"js-text-analysis": {
 				"": {},
@@ -43,7 +48,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	 * @returns {void}
 	 */
 	YoastRecalculateScore.prototype.setupAssessors = function() {
-		var postAssessor = new SEOAssessor( i18n );
+		var postAssessor = new ContentAssessor( i18n );
 		var taxonomyAssessor = new TaxonomyAssessor( i18n );
 
 		this.validAssessors = {
@@ -131,6 +136,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	 */
 	YoastRecalculateScore.prototype.getScore = function( item ) {
 		return {
+			/* eslint-disable-next-line camelcase */
 			item_id: this.getItemID( item ),
 			taxonomy: ( item.taxonomy ) ? item.taxonomy : "",
 			score: this.calculateItemScore( item ),

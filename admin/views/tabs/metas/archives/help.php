@@ -3,15 +3,13 @@
  * WPSEO plugin file.
  *
  * @package WPSEO\Admin\Views\Archive
- *
- * @var Yoast_Form $yform
  */
 
 $archives_help_content = array(
 	sprintf(
 		/* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
 		esc_html__( 'If you\'re running a one author blog, the author archive will be exactly the same as your homepage. This is what\'s called a %1$sduplicate content problem%2$s.', 'wordpress-seo' ),
-		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/duplicate-content' ) ) . '">',
+		'<a target="_blank" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/duplicate-content' ) ) . '">',
 		'</a>'
 	),
 	sprintf(

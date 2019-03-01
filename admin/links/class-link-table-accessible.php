@@ -10,7 +10,14 @@
  */
 class WPSEO_Link_Table_Accessible {
 
-	const ACCESSIBLE   = '0';
+	/**
+	 * @var string
+	 */
+	const ACCESSIBLE = '0';
+
+	/**
+	 * @var string
+	 */
 	const INACCESSBILE = '1';
 
 	/**
@@ -90,10 +97,13 @@ class WPSEO_Link_Table_Accessible {
 		return 'wpseo_link_table_inaccessible';
 	}
 
+	/* ********************* DEPRECATED METHODS ********************* */
+
 	/**
 	 * Checks if the table exists if not, set the transient to indicate the inaccessible table.
 	 *
 	 * @deprecated 6.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool True if table is accessible.
 	 */

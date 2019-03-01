@@ -4,11 +4,11 @@
  *
  * @package WPSEO\Admin\Views\Taxonomies
  *
- * @var Yoast_Form                               $yform
- * @var WP_Post_Type                             $wpseo_post_type
- * @var Yoast_View_Utils                         $view_utils
- * @var WPSEO_Admin_Recommended_Replace_Vars     $recommended_replace_vars
- * @var WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
+ * @uses Yoast_Form                               $yform                        Form object.
+ * @uses WP_Post_Type                             $wpseo_post_type
+ * @uses Yoast_View_Utils                         $view_utils
+ * @uses WPSEO_Admin_Recommended_Replace_Vars     $recommended_replace_vars
+ * @uses WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
 $single_label = $wpseo_post_type->labels->singular_name;
@@ -25,10 +25,10 @@ if ( $wpseo_post_type->name === 'product' && WPSEO_Utils::is_woocommerce_active(
 	return;
 }
 
-if ( $wpseo_post_type->has_archive ) {
+if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	$plural_label = $wpseo_post_type->labels->name;
 
-	// translators: %s is the plural version of the post type's name.
+	/* translators: %s is the plural version of the post type's name. */
 	echo '<h3>' . esc_html( sprintf( __( 'Settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
 
 	$custom_post_type_archive_help = $view_utils->search_results_setting_help( $wpseo_post_type, 'archive' );

@@ -6,6 +6,7 @@ import {
 	UPDATE_REPLACEMENT_VARIABLE,
 	REMOVE_REPLACEMENT_VARIABLE,
 	REFRESH,
+	UPDATE_WORDS_TO_HIGHLIGHT,
 } from "../actions/snippetEditor";
 import { pushNewReplaceVar } from "../../helpers/replacementVariableHelpers";
 
@@ -22,6 +23,7 @@ function getInitialState() {
 			slug: "",
 			description: "",
 		},
+		wordsToHighlight: [],
 		replacementVariables: getDefaultReplacementVariables(),
 		uniqueRefreshValue: "",
 	};
@@ -65,9 +67,11 @@ function snippetEditorReducer( state = getInitialState(), action ) {
 				}
 				return replaceVar;
 			} );
+
 			if ( isNewReplaceVar ) {
 				nextReplacementVariables = pushNewReplaceVar( nextReplacementVariables, action );
 			}
+
 			return {
 				...state,
 				replacementVariables: nextReplacementVariables,
@@ -87,6 +91,13 @@ function snippetEditorReducer( state = getInitialState(), action ) {
 			return {
 				...state,
 				uniqueRefreshValue: action.time,
+			};
+		}
+
+		case UPDATE_WORDS_TO_HIGHLIGHT: {
+			return {
+				...state,
+				wordsToHighlight: action.wordsToHighlight,
 			};
 		}
 	}

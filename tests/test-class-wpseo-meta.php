@@ -7,10 +7,14 @@
 
 /**
  * Unit Test Class.
+ *
+ * @todo Test for defaults.
  */
 class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Tests if data can be stored.
+	 *
 	 * @covers WPSEO_Meta::set_value()
 	 */
 	public function test_set_value() {
@@ -23,6 +27,8 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests if data can be retrieved.
+	 *
 	 * @covers WPSEO_Meta::get_value()
 	 */
 	public function test_get_value() {
@@ -31,17 +37,144 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		update_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'test_get_value_key', 'test_get_value_value' );
+		$key = 'test_get_value_key';
+		$this->register_meta_key( $key );
 
-		$this->assertEquals( 'test_get_value_value', WPSEO_Meta::get_value( 'test_get_value_key' ) );
+		update_post_meta( $post_id, WPSEO_Meta::$meta_prefix . $key, 'test_get_value_value' );
 
-		// @todo Test for defaults.
-
-		// @todo Test if non-existing keys return an empty string.
+		$this->assertEquals( 'test_get_value_value', WPSEO_Meta::get_value( $key ) );
 	}
 
 	/**
-	 * Test if default meta values are removed when updating post_meta.
+	 * Tests if an unregistered field with flat data will return what is stored.
+	 *
+	 * This is debatable functionality.
+	 *
+	 * When unserialized data is stored it will not be returned because the
+	 * field definition is missing which declares if the data is serialized.
+	 *
+	 * See self::test_get_value_unregistered_field_serialized()
+	 *
+	 * @covers WPSEO_Meta::set_value()
+	 * @covers WPSEO_Meta::get_value()
+	 */
+	public function test_get_value_non_registered_field() {
+
+		// Create and go to post.
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
+		$key = 'non_registered_key';
+
+		// The field exists on the post - because it will be saved.
+		update_post_meta( $post_id, WPSEO_Meta::$meta_prefix . $key, 'some_value' );
+
+		// As the field is not registered, we should ignore the value in the database.
+		$this->assertEquals( 'some_value', WPSEO_Meta::get_value( $key ) );
+	}
+
+	/**
+	 * Tests if an unregistered field with serialized data will return nothing.
+	 *
+	 * Because the field definition does not exist in WPSEO_Meta the serialized
+	 * data cannot be confirmed to be expected and thus an empty string will
+	 * be returned.
+	 *
+	 * @covers WPSEO_Meta::get_value()
+	 */
+	public function test_get_value_unregistered_field_serialized() {
+
+		// Create and go to post.
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
+		$key = 'non_registered_key_array';
+
+		// The field exists on the post - because it will be saved.
+		update_post_meta( $post_id, WPSEO_Meta::$meta_prefix . $key, array( 'some_value' ) );
+
+		// As the field is not registered, we should ignore the value in the database.
+		$this->assertEquals( '', WPSEO_Meta::get_value( $key ) );
+	}
+
+	/**
+	 * Tests if a non existing key returns an empty string.
+	 *
+	 * @covers WPSEO_Meta::get_value()
+	 */
+	public function test_get_value_non_existing_key() {
+
+		// Create and go to post.
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
+		// The post meta is never saved, so it is totally unknown.
+		$key = 'non_existing_key_2';
+		$this->assertEquals( '', WPSEO_Meta::get_value( $key ) );
+	}
+
+	/**
+	 * Tests if data with slashes remains the same after storing.
+	 *
+	 * @covers WPSEO_Meta::get_value()
+	 */
+	public function test_set_value_slashed() {
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
+		$key = 'test_set_value_key_slashed';
+		$this->register_meta_key( $key );
+
+		$value = '\\"data\\"';
+
+		WPSEO_Meta::set_value( $key, $value, $post_id );
+		$this->assertEquals( $value, WPSEO_Meta::get_value( $key, $post_id ) );
+	}
+
+	/**
+	 * Tests if data, registered as serialized, with slashes remains the same
+	 * after storing.
+	 *
+	 * @covers WPSEO_Meta::set_value()
+	 * @covers WPSEO_Meta::get_value()
+	 */
+	public function test_get_and_set_value_slashed_array() {
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
+		$key = 'test_set_value_key_slashed_array';
+		$this->register_meta_key( $key, true );
+
+		$value = array( 'k\"ey' => '""slashed data" \\"' );
+
+		WPSEO_Meta::set_value( $key, $value, $post_id );
+		$this->assertEquals( $value, WPSEO_Meta::get_value( $key, $post_id ) );
+	}
+
+	/**
+	 * Tests if serialized data, registered as serialized, with slashes remains
+	 * the same after storing.
+	 *
+	 * @covers WPSEO_Meta::set_value()
+	 * @covers WPSEO_Meta::get_value()
+	 */
+	public function test_get_and_set_value_serialized_and_slashed_array() {
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
+		$key = 'test_set_value_key_slashed_array';
+		$this->register_meta_key( $key, true );
+
+		$array = array( 'ke\\y' => '""slashed data" \\"' );
+		$value = serialize( $array );
+
+		WPSEO_Meta::set_value( $key, $value, $post_id );
+		$this->assertEquals( $value, WPSEO_Meta::get_value( $key, $post_id ) );
+	}
+
+	/**
+	 * Tests if default meta values are removed when updating post_meta.
+	 *
 	 * @covers WPSEO_Meta::remove_meta_if_default
 	 */
 	public function test_remove_meta_if_default() {
@@ -50,6 +183,8 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 		// Generate key.
 		$key = WPSEO_Meta::$meta_prefix . 'meta-robots-noindex';
+
+		$this->register_meta_key( $key );
 
 		// Set post meta to default value.
 		$default_value = WPSEO_Meta::$defaults[ $key ];
@@ -61,7 +196,8 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if default meta values aren't saved when updating post_meta.
+	 * Tests if default meta values aren't saved when updating post_meta.
+	 *
 	 * @covers WPSEO_Meta::dont_save_meta_if_default
 	 */
 	public function test_dont_save_meta_if_default() {
@@ -82,6 +218,8 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests if default meta values are detected as default meta values.
+	 *
 	 * @covers WPSEO_Meta::meta_value_is_default
 	 */
 	public function test_meta_value_is_default() {
@@ -92,7 +230,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if two arrays are recursively merged, the latter overwriting the first.
+	 * Tests if two arrays are recursively merged, the latter overwriting the first.
 	 *
 	 * @covers WPSEO_Meta::array_merge_recursive_distinct
 	 */
@@ -115,41 +253,52 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests if meta robots validation prioritizes and cleans the output.
+	 *
 	 * @covers WPSEO_Meta::validate_meta_robots_adv
 	 */
 	public function test_validate_meta_robots_adv() {
 
 		// None should take precedence.
 		$this->assertEquals( 'none', WPSEO_Meta::validate_meta_robots_adv( 'none, something-invalid, noarchive' ) );
-		$this->assertEquals( 'none', WPSEO_Meta::validate_meta_robots_adv( array( 'none', 'something-invalid', 'noarchive' ) ) );
+		$this->assertEquals( 'none', WPSEO_Meta::validate_meta_robots_adv( array(
+			'none',
+			'something-invalid',
+			'noarchive',
+		) ) );
 
 		// - should take precedence.
 		$this->assertEquals( '-', WPSEO_Meta::validate_meta_robots_adv( '-, something-invalid, noarchive' ) );
-		$this->assertEquals( '-', WPSEO_Meta::validate_meta_robots_adv( array( '-', 'something-invalid', 'noarchive' ) ) );
+		$this->assertEquals( '-', WPSEO_Meta::validate_meta_robots_adv( array(
+			'-',
+			'something-invalid',
+			'noarchive',
+		) ) );
 
 		// String should be cleaned.
 		$this->assertEquals( 'noarchive,nosnippet', WPSEO_Meta::validate_meta_robots_adv( 'noarchive, nosnippet' ) );
-		$this->assertEquals( 'noarchive,nosnippet', WPSEO_Meta::validate_meta_robots_adv( array( 'noarchive', 'nosnippet' ) ) );
-
+		$this->assertEquals( 'noarchive,nosnippet', WPSEO_Meta::validate_meta_robots_adv( array(
+			'noarchive',
+			'nosnippet',
+		) ) );
 	}
 
 	/**
-	 * Test value returned when valid $_POST key supplied.
-	 * @covers WPSEO_Meta::get_post_value
+	 * Registers a field on the WPSEO_Meta class.
+	 *
+	 * @param string $key The key to register.
+	 * @param bool   $serialized If the key is stored as serialized data.
+	 *
+	 * @returns {void}
 	 */
-	public function test_get_post_value() {
-		$key   = 'my_test_key';
-		$value = 'my_test_key_value';
-		$this->set_post( $key, $value );
+	protected function register_meta_key( $key, $serialized = false ) {
+		WPSEO_Meta::$fields_index[ WPSEO_Meta::$meta_prefix . $key ] = array(
+			'subset' => 'test',
+			'key'    => $key,
+		);
 
-		$this->assertEquals( $value, WPSEO_Meta::get_post_value( $key ) );
-	}
-
-	/**
-	 * Test default value returned when non-existant $_POST key supplied.
-	 * @covers WPSEO_Meta::get_post_value
-	 */
-	public function test_get_post_value_default() {
-		$this->assertEquals( '', WPSEO_Meta::get_post_value( 'my_missing_test_key' ) );
+		WPSEO_Meta::$meta_fields['test'] = array(
+			$key => array( 'type' => 'hidden', 'serialized' => $serialized ),
+		);
 	}
 }

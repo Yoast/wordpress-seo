@@ -4,7 +4,7 @@ about: Create a report to help us improve
 
 ---
 
-<!-- Please use this template when creating an issue.
+<!-- Please use this template when creating an issue. 
 - Please check the boxes after you've created your issue.
 - Please use the latest version of Yoast SEO.-->
 
@@ -26,16 +26,28 @@ about: Create a report to help us improve
 2.
 3.
 
-
-### Screenshots
-If applicable, add screenshots to help explain your problem.
-
-### Additional context
-Add any other context about the problem here.
-
 ### Technical info
-* WordPress version:
-* Yoast SEO version:
-* Relevant plugins in case of a bug:
+
+<!-- You can check these boxes once you've created the issue.
+- If you are using Gutenberg or the Classic Editor plugin, please make sure you have updated to the latest version.
+ -->
+* If relevant, which editor is affected (or editors): 
+- [ ] Classic Editor
+- [ ] Gutenberg
+- [ ] Classic Editor plugin
+
+<!-- You can check these boxes once you've created the issue. -->
+* Which browser is affected (or browsers): 
+- [ ] Chrome
+- [ ] Firefox
+- [ ] Safari
+- [ ] Other <!-- please specify -->
+
+#### Used versions
+* WordPress version: 
+* Yoast SEO version: 
+* <!-- If relevant -->Gutenberg plugin version: 
+* <!-- If relevant -->Classic Editor plugin version: 
+* Relevant plugins in case of a bug: 
 <!-- Please make sure you can reproduce this bug with a default theme such as Twenty Seventeen. Sometimes issues may occur due to theme conflicts. -->
-* Tested with theme:
+* Tested with theme: 

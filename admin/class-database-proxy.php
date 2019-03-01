@@ -10,19 +10,29 @@
  */
 class WPSEO_Database_Proxy {
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	protected $table_name;
 
-	/** @var bool */
+	/**
+	 * @var bool
+	 */
 	protected $suppress_errors = true;
 
-	/** @var bool */
+	/**
+	 * @var bool
+	 */
 	protected $is_multisite_table = false;
 
-	/** @var bool */
+	/**
+	 * @var bool
+	 */
 	protected $last_suppressed_state;
 
-	/** @var wpdb */
+	/**
+	 * @var wpdb
+	 */
 	protected $database;
 
 	/**
@@ -179,8 +189,8 @@ class WPSEO_Database_Proxy {
 	 * @return bool True when creation is successful.
 	 */
 	public function create_table( array $columns, array $indexes = array() ) {
-		$create_table = sprintf( '
-				CREATE TABLE IF NOT EXISTS %1$s ( %2$s ) %3$s',
+		$create_table = sprintf(
+			'CREATE TABLE IF NOT EXISTS %1$s ( %2$s ) %3$s',
 			$this->get_table_name(),
 			implode( ',', array_merge( $columns, $indexes ) ),
 			$this->database->get_charset_collate()

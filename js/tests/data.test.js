@@ -1,19 +1,25 @@
 import Data from "../src/analysis/data.js";
 
-let wpData = {};
-let refresh =  () => {
+const wpData = {};
+const refresh = () => {
 	return true;
 };
-let data = new Data( wpData, refresh );
+const store = {
+	dispatch: jest.fn(),
+};
+const data = new Data( wpData, refresh, store );
 
 // Mocks the select function and .
 const mockSelect = jest.fn();
 
 // Mocks the getEditedPostAttribute function.
-const mockGetEditedPostAttribute = jest.fn();
+const mockGetEditedPostAttribute = jest.fn().mockImplementation( value => value );
 
 // Ensures mockSelect.getEditedPostAttribute is a function.
-mockSelect.mockReturnValue( { getEditedPostAttribute: mockGetEditedPostAttribute } );
+mockSelect.mockReturnValue( {
+	getEditedPostAttribute: mockGetEditedPostAttribute,
+	getActiveMarker: () => null,
+} );
 
 data._wpData.select = mockSelect;
 
@@ -85,6 +91,8 @@ describe( "collectGutenbergData", () => {
 			title: "title",
 			slug: "slug",
 			excerpt: "excerpt",
+			// eslint-disable-next-line camelcase
+			excerpt_only: "excerpt",
 		};
 
 		const actual = data.collectGutenbergData( retriever );

@@ -1,38 +1,38 @@
-/* global jQuery, YoastSEO, wpseoPostScraperL10n */
+/* global jQuery, wpseoPostScraperL10n */
 
 /* External dependencies */
-import removeMarks from "yoastseo/js/markers/removeMarks";
 import get from "lodash/get";
-import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
+import analysis from "yoastseo";
 
 /* Internal dependencies */
-import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
-import tmceHelper from "../wp-seo-tinymce";
-import { tmceId } from "../wp-seo-tinymce";
-import getIndicatorForScore from "./getIndicatorForScore";
-import { update as updateTrafficLight } from "../ui/trafficLight";
+import measureTextWidth from "../helpers/measureTextWidth";
 import { update as updateAdminBar } from "../ui/adminBar";
 import publishBox from "../ui/publishBox";
+import { update as updateTrafficLight } from "../ui/trafficLight";
+import tmceHelper, { tmceId } from "../wp-seo-tinymce";
+import getI18n from "./getI18n";
+import getIndicatorForScore from "./getIndicatorForScore";
+import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 
-let $ = jQuery;
-let currentKeyword = "";
+
+const $ = jQuery;
+const { removeMarks } = analysis.markers;
+const i18n = getI18n();
 
 /**
  * Show warning in console when the unsupported CkEditor is used
  *
  * @param {Object} args The arguments for the post scraper.
  * @param {Object} args.data The data.
- * @param {TabManager} args.tabManager The tab manager for this post.
  *
  * @constructor
  */
-let PostDataCollector = function( args ) {
+const PostDataCollector = function( args ) {
 	if ( typeof CKEDITOR === "object" ) {
 		console.warn( "YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE." );
 	}
 
 	this._data = args.data;
-	this._tabManager = args.tabManager;
 	this._store = args.store;
 };
 
@@ -81,8 +81,7 @@ PostDataCollector.prototype.getData = function() {
  * @returns {string} The keyword.
  */
 PostDataCollector.prototype.getKeyword = function() {
-	var val = document.getElementById( "yoast_wpseo_focuskw_text_input" ) && document.getElementById( "yoast_wpseo_focuskw_text_input" ).value || "";
-	currentKeyword = val;
+	var val = document.getElementById( "yoast_wpseo_focuskw" ) && document.getElementById( "yoast_wpseo_focuskw" ).value || "";
 
 	return val;
 };
@@ -284,7 +283,7 @@ PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 				this.leavePostNameUntouched = false;
 				return;
 			}
-			if( document.getElementById( "post_name" ) !== null ) {
+			if ( document.getElementById( "post_name" ) !== null ) {
 				document.getElementById( "post_name" ).value = value;
 			}
 			if (
@@ -321,48 +320,46 @@ PostDataCollector.prototype.saveSnippetData = function( data ) {
 /**
  * Calls the event binders.
  *
- * @param {app} app The app object.
+ * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.bindElementEvents = function( app ) {
-	this.inputElementEventBinder( app );
-	this.changeElementEventBinder( app );
+PostDataCollector.prototype.bindElementEvents = function( refreshAnalysis ) {
+	this.inputElementEventBinder( refreshAnalysis );
+	this.changeElementEventBinder( refreshAnalysis );
 };
 
 /**
  * Binds the reanalyze timer on change of dom element.
  *
- * @param {app} app The app object.
+ * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.changeElementEventBinder = function( app ) {
+PostDataCollector.prototype.changeElementEventBinder = function( refreshAnalysis ) {
 	var elems = [ "#yoast-wpseo-primary-category", '.categorychecklist input[name="post_category[]"]' ];
-	for( var i = 0; i < elems.length; i++ ) {
-		$( elems[ i ] ).on( "change", app.refresh.bind( app ) );
+	for ( var i = 0; i < elems.length; i++ ) {
+		$( elems[ i ] ).on( "change", refreshAnalysis );
 	}
 };
 
 /**
  * Binds the renewData function on the change of input elements.
  *
- * @param {app} app The app object.
+ * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.inputElementEventBinder = function( app ) {
-	var elems = [ "excerpt", "content", "yoast_wpseo_focuskw_text_input", "title" ];
+PostDataCollector.prototype.inputElementEventBinder = function( refreshAnalysis ) {
+	var elems = [ "excerpt", "content", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var elem = document.getElementById( elems[ i ] );
 		if ( elem !== null ) {
-			document.getElementById( elems[ i ] ).addEventListener( "input", app.refresh.bind( app ) );
+			document.getElementById( elems[ i ] ).addEventListener( "input", refreshAnalysis );
 		}
 	}
 
-	tmceHelper.tinyMceEventBinder( app, tmceId );
-
-	document.getElementById( "yoast_wpseo_focuskw_text_input" ).addEventListener( "blur", app.refresh.bind( app ) );
+	tmceHelper.tinyMceEventBinder( refreshAnalysis, tmceId );
 };
 
 /**
@@ -370,43 +367,33 @@ PostDataCollector.prototype.inputElementEventBinder = function( app ) {
  * Outputs the score in the overall target.
  *
  * @param {string} score The score to save.
+ * @param {string} keyword The keyword for the score.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.saveScores = function( score ) {
+PostDataCollector.prototype.saveScores = function( score, keyword ) {
 	var indicator = getIndicatorForScore( score );
 
-	// If multi keyword isn't available we need to update the first tab (content).
-	if ( ! YoastSEO.multiKeyword ) {
-		this._tabManager.updateKeywordTab( score, currentKeyword );
-		publishBox.updateScore( "content", indicator.className );
+	publishBox.updateScore( "content", indicator.className );
 
-		// Updates the input with the currentKeyword value.
-		$( "#yoast_wpseo_focuskw" ).val( currentKeyword );
+	document.getElementById( "yoast_wpseo_linkdex" ).value = score;
+
+	if ( "" === keyword ) {
+		indicator.className = "na";
+		indicator.screenReaderText = i18n.dgettext(
+			"js-text-analysis",
+			"Enter a focus keyphrase to calculate the SEO score"
+		);
+		indicator.fullText = i18n.dgettext(
+			"js-text-analysis",
+			"Content optimization: Enter a focus keyphrase to calculate the SEO score"
+		);
 	}
 
-	if ( this._tabManager.isMainKeyword( currentKeyword ) ) {
-		document.getElementById( "yoast_wpseo_linkdex" ).value = score;
+	updateTrafficLight( indicator );
+	updateAdminBar( indicator );
 
-		if ( "" === currentKeyword ) {
-			indicator.className = "na";
-			indicator.screenReaderText = this.app.i18n.dgettext(
-				"js-text-analysis",
-				"Enter a focus keyword to calculate the SEO score"
-			);
-			indicator.fullText = this.app.i18n.dgettext(
-				"js-text-analysis",
-				"Content optimization: Enter a focus keyword to calculate the SEO score"
-			);
-		}
-
-		this._tabManager.updateKeywordTab( score, currentKeyword );
-
-		updateTrafficLight( indicator );
-		updateAdminBar( indicator );
-
-		publishBox.updateScore( "keyword", indicator.className );
-	}
+	publishBox.updateScore( "keyword", indicator.className );
 
 	jQuery( window ).trigger( "YoastSEO:numericScore", score );
 };
@@ -419,7 +406,6 @@ PostDataCollector.prototype.saveScores = function( score ) {
  * @returns {void}
  */
 PostDataCollector.prototype.saveContentScore = function( score ) {
-	this._tabManager.updateContentTab( score );
 	var indicator = getIndicatorForScore( score );
 	publishBox.updateScore( "content", indicator.className );
 
@@ -429,21 +415,6 @@ PostDataCollector.prototype.saveContentScore = function( score ) {
 	}
 
 	$( "#yoast_wpseo_content_score" ).val( score );
-};
-
-/**
- * Initializes keyword tab with the correct template if multi keyword isn't available.
- *
- * @returns {void}
- */
-PostDataCollector.prototype.initKeywordTabTemplate = function() {
-	// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
-	if ( YoastSEO.multiKeyword ) {
-		return;
-	}
-
-	var keyword = $( "#yoast_wpseo_focuskw" ).val();
-	$( "#yoast_wpseo_focuskw_text_input" ).val( keyword );
 };
 
 export default PostDataCollector;

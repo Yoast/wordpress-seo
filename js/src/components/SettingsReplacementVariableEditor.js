@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "yoast-components/composites/Plugin/SnippetEditor/constants";
+} from "yoast-components";
 
 /* Internal dependencies */
 import SnippetPreviewSection from "./SnippetPreviewSection";
@@ -34,7 +34,7 @@ class SettingsReplacementVariableEditor extends React.Component {
 				<SettingsSnippetEditor
 					descriptionEditorFieldPlaceholder={ __( "Modify your meta description by editing it right here", "wordpress-seo" ) }
 					onChange={ ( field, value ) => {
-						switch( field ) {
+						switch ( field ) {
 							case "title":
 								title.onChange( value );
 								break;

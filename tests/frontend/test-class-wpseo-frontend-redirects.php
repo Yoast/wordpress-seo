@@ -11,6 +11,7 @@
  * @group frontend
  */
 final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
+
 	/**
 	 * Test if no redirect is done when not set.
 	 *
@@ -98,6 +99,7 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Make sure the redirect is applied.
 		$this->assertTrue( self::$class_instance->attachment_redirect() );
+		WPSEO_Options::set( 'disable-attachment', false );
 	}
 
 	/**
@@ -113,6 +115,7 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Should not redirect on regular post pages.
 		$this->assertFalse( self::$class_instance->attachment_redirect() );
+		WPSEO_Options::set( 'disable-attachment', false );
 	}
 
 	/**
@@ -178,5 +181,6 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Make sure the redirect is applied.
 		$class_instance->attachment_redirect();
+		WPSEO_Options::set( 'disable-attachment', false );
 	}
 }

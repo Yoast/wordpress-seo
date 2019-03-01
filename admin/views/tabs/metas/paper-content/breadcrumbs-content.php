@@ -4,7 +4,7 @@
  *
  * @package WPSEO\Admin\Views\Breadcrumbs
  *
- * @var Yoast_Form $yform
+ * @uses Yoast_Form $yform Form object.
  */
 
 if ( ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
@@ -26,10 +26,15 @@ if ( get_option( 'show_on_front' ) === 'page' && get_option( 'page_for_posts' ) 
 	$yform->show_hide_switch( 'breadcrumbs-display-blog-page', __( 'Show Blog page', 'wordpress-seo' ) );
 }
 
-$yform->toggle_switch( 'breadcrumbs-boldlast', array(
+$yoast_free_breadcrumb_bold_texts = array(
 	'on'  => __( 'Bold', 'wordpress-seo' ),
 	'off' => __( 'Regular', 'wordpress-seo' ),
-), __( 'Bold the last page', 'wordpress-seo' ) );
+);
+$yform->toggle_switch(
+	'breadcrumbs-boldlast',
+	$yoast_free_breadcrumb_bold_texts,
+	__( 'Bold the last page', 'wordpress-seo' )
+);
 
 echo '<br/><br/>';
 
@@ -79,7 +84,7 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $pt ) {
-				if ( $pt->has_archive ) {
+				if ( WPSEO_Post_Type::has_archive( $pt ) ) {
 					$values[ $pt->name ] = $pt->labels->name;
 				}
 			}
@@ -99,7 +104,7 @@ unset( $taxonomies, $post_types );
 <p>
 	<?php
 	printf(
-	/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
+		/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
 		esc_html__( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ),
 		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'http://yoa.st/breadcrumbs' ) ) . '" target="_blank">',
 		'</a>'

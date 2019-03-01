@@ -10,7 +10,13 @@
  */
 class WPSEO_Admin {
 
-	/** The page identifier used in WordPress to register the admin page !DO NOT CHANGE THIS! */
+	/**
+	 * The page identifier used in WordPress to register the admin page.
+	 *
+	 * !DO NOT CHANGE THIS!
+	 *
+	 * @var string
+	 */
 	const PAGE_IDENTIFIER = 'wpseo_dashboard';
 
 	/**
@@ -39,6 +45,10 @@ class WPSEO_Admin {
 			add_action( 'created_category', array( $this, 'schedule_rewrite_flush' ) );
 			add_action( 'edited_category', array( $this, 'schedule_rewrite_flush' ) );
 			add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
+		}
+
+		if ( WPSEO_Options::get( 'disable-attachment' ) === true ) {
+			add_filter( 'wpseo_accessible_post_types', array( 'WPSEO_Post_Type', 'filter_attachment_post_type' ) );
 		}
 
 		$this->admin_features = array(
@@ -71,8 +81,6 @@ class WPSEO_Admin {
 
 		add_action( 'admin_init', array( $this, 'map_manage_options_cap' ) );
 
-		add_action( 'admin_init', array( $this, 'check_php_version' ) );
-
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'home' );
 
@@ -90,20 +98,27 @@ class WPSEO_Admin {
 
 		$this->initialize_cornerstone_content();
 
-		new Yoast_Modal();
+		if ( WPSEO_Utils::is_plugin_network_active() ) {
+			$integrations[] = new Yoast_Network_Admin();
+		}
 
 		$integrations[] = new WPSEO_Yoast_Columns();
 		$integrations[] = new WPSEO_License_Page_Manager();
 		$integrations[] = new WPSEO_Statistic_Integration();
 		$integrations[] = new WPSEO_Capability_Manager_Integration( WPSEO_Capability_Manager_Factory::get() );
 		$integrations[] = new WPSEO_Admin_Media_Purge_Notification();
-		$integrations   = array_merge( $integrations, $this->initialize_seo_links() );
+		$integrations[] = new WPSEO_Admin_Gutenberg_Compatibility_Notification();
+		$integrations[] = new WPSEO_Expose_Shortlinks();
+		$integrations[] = new WPSEO_MyYoast_Proxy();
+		$integrations[] = new WPSEO_MyYoast_Route();
+		$integrations[] = new WPSEO_Addon_Manager();
+		$integrations[] = $this->admin_features['google_search_console'];
+		$integrations   = array_merge( $integrations, $this->initialize_seo_links(), $this->initialize_cornerstone_content() );
 
 		/** @var WPSEO_WordPress_Integration $integration */
 		foreach ( $integrations as $integration ) {
 			$integration->register_hooks();
 		}
-
 	}
 
 	/**
@@ -214,11 +229,11 @@ class WPSEO_Admin {
 		}
 
 		// Add link to premium support landing page.
-		$premium_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yb' ) ) . '">' . __( 'Premium Support', 'wordpress-seo' ) . '</a>';
+		$premium_link = '<a style="font-weight: bold;" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yb' ) ) . '" target="_blank">' . __( 'Premium Support', 'wordpress-seo' ) . '</a>';
 		array_unshift( $links, $premium_link );
 
 		// Add link to docs.
-		$faq_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yc' ) ) . '">' . __( 'FAQ', 'wordpress-seo' ) . '</a>';
+		$faq_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yc' ) ) . '" target="_blank">' . __( 'FAQ', 'wordpress-seo' ) . '</a>';
 		array_unshift( $links, $faq_link );
 
 		return $links;
@@ -316,59 +331,6 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Initializes Whip to show a notice for outdated PHP versions.
-	 *
-	 * @todo Deprecate this method when WordPress 5.1 is our currently minimal supported version.
-	 *
-	 * @return void
-	 */
-	public function check_php_version() {
-		// If the user isn't an admin, don't display anything.
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		// Check if the user is running PHP 5.2.
-		if ( WPSEO_Admin_Utils::is_supported_php_version_installed() === false ) {
-			$this->show_unsupported_php_message();
-
-			return;
-		}
-
-		/*
-		 * The Whip message shouldn't be shown from WordPress 5.0.0 and higher because
-		 * that version introduces Serve Happy which is almost similar to Whip.
-		 */
-		$minimal_wp_version = '5.0.0';
-		if ( version_compare( $GLOBALS['wp_version'], $minimal_wp_version, '>=' ) ) {
-			return;
-		}
-
-		if ( ! $this->on_dashboard_page() ) {
-			return;
-		}
-
-		whip_wp_check_versions( array(
-			'php' => '>=5.4',
-		) );
-	}
-
-	/**
-	 * Creates a new message to display regarding the usage of PHP 5.2 (or lower).
-	 *
-	 * @return void
-	 */
-	protected function show_unsupported_php_message() {
-		$presenter = new Whip_WPMessagePresenter(
-			new WPSEO_Unsupported_PHP_Message(),
-			new Whip_MessageDismisser( time(), ( WEEK_IN_SECONDS * 4 ), new Whip_WPDismissOption() ),
-			__( 'Remind me again in 4 weeks.', 'wordpress-seo' )
-		);
-
-		$presenter->register_hooks();
-	}
-
-	/**
 	 * Whether we are on the admin dashboard page.
 	 *
 	 * @returns bool
@@ -379,17 +341,17 @@ class WPSEO_Admin {
 
 	/**
 	 * Loads the cornerstone filter.
+	 *
+	 * @return WPSEO_WordPress_Integration[] The integrations to initialize.
 	 */
 	protected function initialize_cornerstone_content() {
 		if ( ! WPSEO_Options::get( 'enable_cornerstone_content' ) ) {
-			return;
+			return array();
 		}
 
-		$cornerstone = new WPSEO_Cornerstone();
-		$cornerstone->register_hooks();
-
-		$cornerstone_filter = new WPSEO_Cornerstone_Filter();
-		$cornerstone_filter->register_hooks();
+		return array(
+			'cornerstone_filter'   => new WPSEO_Cornerstone_Filter(),
+		);
 	}
 
 	/**
@@ -447,13 +409,13 @@ class WPSEO_Admin {
 		return $integrations;
 	}
 
-	/********************** DEPRECATED METHODS **********************/
+	/* ********************* DEPRECATED METHODS ********************* */
 
-	// @codeCoverageIgnoreStart
 	/**
 	 * Register the menu item and its sub menu's.
 	 *
 	 * @deprecated 5.5
+	 * @codeCoverageIgnore
 	 */
 	public function register_settings_page() {
 		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
@@ -463,6 +425,7 @@ class WPSEO_Admin {
 	 * Register the settings page for the Network settings.
 	 *
 	 * @deprecated 5.5
+	 * @codeCoverageIgnore
 	 */
 	public function register_network_settings_page() {
 		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
@@ -472,6 +435,7 @@ class WPSEO_Admin {
 	 * Load the form for a WPSEO admin page.
 	 *
 	 * @deprecated 5.5
+	 * @codeCoverageIgnore
 	 */
 	public function load_page() {
 		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
@@ -481,6 +445,7 @@ class WPSEO_Admin {
 	 * Loads the form for the network configuration page.
 	 *
 	 * @deprecated 5.5
+	 * @codeCoverageIgnore
 	 */
 	public function network_config_page() {
 		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
@@ -490,6 +455,8 @@ class WPSEO_Admin {
 	 * Filters all advanced settings pages from the given pages.
 	 *
 	 * @deprecated 5.5
+	 * @codeCoverageIgnore
+	 *
 	 * @param array $pages The pages to filter.
 	 */
 	public function filter_settings_pages( array $pages ) {
@@ -500,6 +467,7 @@ class WPSEO_Admin {
 	 * Cleans stopwords out of the slug, if the slug hasn't been set yet.
 	 *
 	 * @deprecated 7.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -511,6 +479,7 @@ class WPSEO_Admin {
 	 * Filter the stopwords from the slug.
 	 *
 	 * @deprecated 7.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -522,13 +491,15 @@ class WPSEO_Admin {
 	 * Adds contextual help to the titles & metas page.
 	 *
 	 * @deprecated 5.6.0
+	 * @codeCoverageIgnore
 	 */
 	public function title_metas_help_tab() {
 		_deprecated_function( __METHOD__, '5.6.0' );
 
 		$screen = get_current_screen();
 
-		$screen->set_help_sidebar( '
+		$screen->set_help_sidebar(
+			'
 			<p><strong>' . __( 'For more information:', 'wordpress-seo' ) . '</strong></p>
 			<p><a target="_blank" href="https://yoast.com/wordpress-seo/#titles">' . __( 'Title optimization', 'wordpress-seo' ) . '</a></p>
 			<p><a target="_blank" href="https://yoast.com/google-page-title/">' . __( 'Why Google won\'t display the right page title', 'wordpress-seo' ) . '</a></p>'
@@ -565,5 +536,15 @@ class WPSEO_Admin {
 		);
 	}
 
-	// @codeCoverageIgnoreEnd
+	/**
+	 * Initializes WHIP to show a notice for outdated PHP versions.
+	 *
+	 * @deprecated 8.1
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function check_php_version() {
+		// Intentionally left empty.
+	}
 }

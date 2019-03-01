@@ -31,15 +31,14 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 		$steps = $this->structure->retrieve();
 
 		$expected = array(
-			'intro',
-			'environment_type',
-			'siteType',
-			'publishingEntity',
-			'profileUrls',
-			'postTypeVisibility',
-			'multipleAuthors',
-			'connectGoogleSearchConsole',
-			'titleTemplate',
+			'environment-type',
+			'site-type',
+			'publishing-entity',
+			'profile-urls',
+			'post-type-visibility',
+			'multiple-authors',
+			'connect-google-search-console',
+			'title-template',
 			'newsletter',
 			'suggestions',
 			'success',
@@ -83,5 +82,4 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 			$steps[ $identifier ]
 		);
 	}
-
 }

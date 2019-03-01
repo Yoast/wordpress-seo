@@ -4,7 +4,7 @@
  *
  * @package WPSEO\Admin\Views\General
  *
- * @var WP_Post_Type $wpseo_post_type
+ * @uses WP_Post_Type $wpseo_post_type
  */
 
 $woocommerce_shop_page = new WPSEO_WooCommerce_Shop_Page();
@@ -19,5 +19,6 @@ if ( $woocommerce_shop_page->get_shop_page_id() !== -1 ) {
 	);
 }
 
+/* translators: %s expands to the post type name. */
 echo '<h3>' . esc_html( sprintf( __( 'Settings for %s archive', 'wordpress-seo' ), $wpseo_post_type->labels->name ) ) . '</h3>';
 echo '<p>' . $description . '</p>';

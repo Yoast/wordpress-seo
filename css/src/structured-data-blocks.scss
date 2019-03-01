@@ -1,0 +1,134 @@
+// Common styles.
+.schema-how-to-step,
+.schema-faq-section {
+	position: relative;
+	padding: 8px 4px 8px 32px;
+	margin: 4px 0;
+	border: 1px solid rgba(#9197a2, 0.25);
+	list-style-type: none;
+}
+
+.schema-how-to-buttons,
+.schema-faq-buttons {
+	text-align: center;
+
+	button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		box-shadow: none;
+		color: #007cba;
+	}
+}
+
+.schema-how-to-step-mover,
+.schema-faq-section-mover {
+	display: inline-block;
+
+	.editor-block-mover__control {
+		display: inline-flex;
+		width: 36px;
+		height: 36px;
+	}
+}
+
+.schema-how-to-step-name,
+.schema-faq-question {
+	font-weight: 600;
+}
+
+.schema-how-to-description,
+.schema-how-to-step-name,
+.schema-how-to-step-text,
+.schema-faq-question,
+.schema-faq-answer {
+	line-height: inherit;
+}
+
+.schema-how-to-step-button-container,
+.schema-faq-section-button-container {
+	display: inline-block;
+	text-align: right;
+
+	button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		box-shadow: none;
+		color: #007cba;
+	}
+}
+
+.schema-how-to-step-controls-container,
+.schema-faq-section-controls-container {
+	text-align: right;
+	margin-left: -28px; // compensate the 32px wrapper padding and keep a 4px space
+
+	.dashicons-arrow-up-alt2 {
+		position: relative;
+		top: -1px; // fix dashicon shape vertical centering
+	}
+}
+
+.schema-how-to-duration-button,
+.how-to-step-add-media,
+.schema-how-to-add-step,
+.faq-section-add-media,
+.schema-faq-add-question {
+	.dashicon {
+		margin-right: 4px;
+	}
+}
+
+// How-to block specific styles.
+.schema-how-to {
+	padding-top: 4px;
+}
+
+.schema-how-to-step-number {
+	position: absolute;
+	left: 4px;
+	width: 24px;
+	text-align: right;
+}
+
+.schema-how-to-duration-flex-container {
+	display: flex;
+	align-items: center;
+}
+
+.schema-how-to-duration-time-input {
+	display: inline-flex;
+	align-items: center;
+	flex-wrap: nowrap;
+}
+
+legend.schema-how-to-duration-legend {
+	margin-right: 4px;
+}
+
+#schema-how-to-duration-days {
+	margin-right: 8px;
+}
+
+.schema-how-to-duration .schema-how-to-duration-input[type="number"] {
+	width: 40px;
+	margin: 0 2px;
+	padding: 6px 4px;
+	text-align: center;
+	-moz-appearance: textfield;
+
+	&::-webkit-outer-spin-button,
+	&::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+}
+
+.schema-how-to-duration-button.components-icon-button {
+	margin-left: -8px;
+	vertical-align: top; // Remove descender space from inline-flex.
+
+	&:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+		box-shadow: none;
+		color: #007cba;
+	}
+}
+
+.schema-how-to-description {
+	margin: 8px 0;
+}

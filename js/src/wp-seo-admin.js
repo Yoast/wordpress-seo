@@ -3,8 +3,6 @@
 import a11ySpeak from "a11y-speak";
 
 ( function() {
-	"use strict";
-
 	/**
 	 * Detects the wrong use of variables in title and description templates
 	 *
@@ -24,48 +22,48 @@ import a11ySpeak from "a11y-speak";
 		var taxonomyPostVariables = [ "category", "category_description", "tag", "tag_description" ];
 		if ( e.hasClass( "posttype-template" ) ) {
 			wrongVariables = wrongVariables.concat( specialVariables, taxonomyVariables );
-		}
-		else if ( e.hasClass( "homepage-template" ) ) {
-			wrongVariables = wrongVariables.concat( authorVariables, dateVariables, postVariables, specialVariables, taxonomyVariables, taxonomyPostVariables );
-		}
-		else if ( e.hasClass( "taxonomy-template" ) ) {
+		} else if ( e.hasClass( "homepage-template" ) ) {
+			wrongVariables = wrongVariables.concat(
+				authorVariables, dateVariables, postVariables, specialVariables, taxonomyVariables, taxonomyPostVariables
+			);
+		} else if ( e.hasClass( "taxonomy-template" ) ) {
 			wrongVariables = wrongVariables.concat( authorVariables, dateVariables, postVariables, specialVariables );
-		}
-		else if ( e.hasClass( "author-template" ) ) {
+		} else if ( e.hasClass( "author-template" ) ) {
 			wrongVariables = wrongVariables.concat( postVariables, dateVariables, specialVariables, taxonomyVariables, taxonomyPostVariables );
-		}
-		else if ( e.hasClass( "date-template" ) ) {
+		} else if ( e.hasClass( "date-template" ) ) {
 			wrongVariables = wrongVariables.concat( authorVariables, postVariables, specialVariables, taxonomyVariables, taxonomyPostVariables );
-		}
-		else if ( e.hasClass( "search-template" ) ) {
-			wrongVariables = wrongVariables.concat( authorVariables, dateVariables, postVariables, taxonomyVariables, taxonomyPostVariables, [ "term404" ] );
-		}
-		else if ( e.hasClass( "error404-template" ) ) {
-			wrongVariables = wrongVariables.concat( authorVariables, dateVariables, postVariables, taxonomyVariables, taxonomyPostVariables, [ "searchphrase" ] );
+		} else if ( e.hasClass( "search-template" ) ) {
+			wrongVariables = wrongVariables.concat(
+				authorVariables, dateVariables, postVariables, taxonomyVariables, taxonomyPostVariables, [ "term404" ]
+			);
+		} else if ( e.hasClass( "error404-template" ) ) {
+			wrongVariables = wrongVariables.concat(
+				authorVariables, dateVariables, postVariables, taxonomyVariables, taxonomyPostVariables, [ "searchphrase" ]
+			);
 		}
 		jQuery.each( wrongVariables, function( index, variable ) {
 			errorId = e.attr( "id" ) + "-" + variable + "-warning";
+			// Disable reason: legacy code, will be removed at some point.
+			/* eslint-disable no-negated-condition */
 			if ( e.val().search( "%%" + variable + "%%" ) !== -1 ) {
 				e.addClass( "wpseo-variable-warning-element" );
 				var msg = wpseoAdminGlobalL10n.variable_warning.replace( "%s", "%%" + variable + "%%" );
 				if ( jQuery( "#" + errorId ).length ) {
 					jQuery( "#" + errorId ).html( msg );
-				}
-				else {
+				} else {
 					e.after( ' <div id="' + errorId + '" class="wpseo-variable-warning">' + msg + "</div>" );
 				}
 
 				a11ySpeak( wpseoAdminGlobalL10n.variable_warning.replace( "%s", variable ), "assertive" );
 
 				warn = true;
-			}
-			else {
+			} else {
 				if ( jQuery( "#" + errorId ).length ) {
 					jQuery( "#" + errorId ).remove();
 				}
 			}
-		}
-		);
+			/* eslint-enable no-negated-condition */
+		} );
 		if ( warn === false ) {
 			e.removeClass( "wpseo-variable-warning-element" );
 		}
@@ -187,6 +185,26 @@ import a11ySpeak from "a11y-speak";
 		jQuery( "#" + activeTabId + "-tab" ).addClass( "nav-tab-active" ).click();
 	}
 
+	/**
+	 * Hides or shows the Author without posts toggle.
+	 *
+	 * @param {bool} visible Whether or not the authors without posts toggle should be visible.
+	 *
+	 * @returns {void}
+	 */
+	function setAuthorsWithoutPostsToggleVisibilty( visible ) {
+		/**
+		 * Get the container surrounding the toggle.
+		 */
+		const toggleContainer = jQuery( "#noindex-author-noposts-wpseo-container" );
+
+		if ( visible ) {
+			toggleContainer.show();
+		} else {
+			toggleContainer.hide();
+		}
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
@@ -206,6 +224,27 @@ import a11ySpeak from "a11y-speak";
 				jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
 			}
 		} ).change();
+
+		const authorArchivesDisabled = jQuery( "#noindex-author-wpseo-off" );
+		const authorArchivesEnabled  = jQuery( "#noindex-author-wpseo-on" );
+
+		if ( ! authorArchivesDisabled.is( ":checked" ) ) {
+			setAuthorsWithoutPostsToggleVisibilty( false );
+		}
+
+		// Disable Author archives without posts when Show author archives is toggled off.
+		authorArchivesEnabled.change( () => {
+			if ( ! jQuery( this ).is( ":checked" ) ) {
+				setAuthorsWithoutPostsToggleVisibilty( false );
+			}
+		} );
+
+		// Enable Author archives without posts when Show author archives is toggled on.
+		authorArchivesDisabled.change( () => {
+			if ( ! jQuery( this ).is( ":checked" ) ) {
+				setAuthorsWithoutPostsToggleVisibilty( true );
+			}
+		} );
 
 		// Toggle the Date archives section.
 		jQuery( "#disable-date input[type='radio']" ).change( function() {
@@ -255,12 +294,10 @@ import a11ySpeak from "a11y-speak";
 			if ( "company" === companyOrPerson ) {
 				jQuery( "#knowledge-graph-company" ).show();
 				jQuery( "#knowledge-graph-person" ).hide();
-			}
-			else if ( "person" === companyOrPerson ) {
+			} else if ( "person" === companyOrPerson ) {
 				jQuery( "#knowledge-graph-company" ).hide();
 				jQuery( "#knowledge-graph-person" ).show();
-			}
-			else {
+			} else {
 				jQuery( "#knowledge-graph-company" ).hide();
 				jQuery( "#knowledge-graph-person" ).hide();
 			}
@@ -280,8 +317,8 @@ import a11ySpeak from "a11y-speak";
 
 		// Allow collapsing of the content types sections.
 		jQuery( "body" ).on( "click", "button.toggleable-container-trigger", ( event ) => {
-			let target = jQuery( event.currentTarget );
-			let toggleableContainer = target.parent().siblings( ".toggleable-container" );
+			const target = jQuery( event.currentTarget );
+			const toggleableContainer = target.parent().siblings( ".toggleable-container" );
 
 			toggleableContainer.toggleClass( "toggleable-container-hidden" );
 			target

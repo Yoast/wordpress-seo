@@ -48,13 +48,14 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	/**
 	 * Constructor.
 	 *
-	 * @param string $name         The name of the section, used as an identifier in the html. Can only contain URL safe characters.
+	 * @param string $name         The name of the section, used as an identifier in the html.
+	 *                             Can only contain URL safe characters.
 	 * @param string $link_content The text content of the section link.
 	 * @param string $content      Optional. Content to use above the React root element.
 	 * @param array  $options      Optional link attributes.
 	 */
 	public function __construct( $name, $link_content, $content = '', array $options = array() ) {
-		$this->name = $name;
+		$this->name    = $name;
 		$this->content = $content;
 
 		$default_options = array(
@@ -62,7 +63,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 			'link_aria_label' => '',
 		);
 
-		$options = array_merge( $default_options, $options );
+		$options = wp_parse_args( $options, $default_options );
 
 		$this->link_content    = $link_content;
 		$this->link_class      = $options['link_class'];
@@ -71,6 +72,8 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 
 	/**
 	 * Outputs the section link.
+	 *
+	 * @return void
 	 */
 	public function display_link() {
 		printf(
@@ -84,16 +87,15 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 
 	/**
 	 * Outputs the section content.
+	 *
+	 * @return void
 	 */
 	public function display_content() {
-		$html  = '<div id="%1$s" class="wpseo-meta-section">';
+		$html  = sprintf( '<div id="%1$s" class="wpseo-meta-section">', esc_attr( 'wpseo-meta-section-' . $this->name ) );
 		$html .= $this->content;
 		$html .= '<div id="wpseo-metabox-root" class="wpseo-metabox-root"></div>';
 		$html .= '</div>';
 
-		printf(
-			$html,
-			esc_attr( 'wpseo-meta-section-' . $this->name )
-		);
+		echo $html;
 	}
 }

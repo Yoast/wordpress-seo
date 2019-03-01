@@ -9,6 +9,7 @@
  * Class with functionality to import & clean Premium SEO Pack post metadata.
  */
 class WPSEO_Import_Premium_SEO_Pack extends WPSEO_Import_Squirrly {
+
 	/**
 	 * The plugin name.
 	 *
@@ -35,5 +36,4 @@ class WPSEO_Import_Premium_SEO_Pack extends WPSEO_Import_Squirrly {
 	protected function retrieve_posts_query() {
 		return "SELECT URL AS identifier FROM {$this->table_name} WHERE blog_id = %d";
 	}
-
 }

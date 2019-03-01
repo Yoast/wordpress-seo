@@ -100,7 +100,6 @@ class WPSEO_Taxonomy {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
 			$asset_manager->enqueue_style( 'metabox-css' );
-			$asset_manager->enqueue_style( 'snippet' );
 			$asset_manager->enqueue_style( 'scoring' );
 			$asset_manager->enqueue_script( 'metabox' );
 			$asset_manager->enqueue_script( 'term-scraper' );
@@ -108,6 +107,27 @@ class WPSEO_Taxonomy {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
 			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 			$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper' );
+
+			$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
+			$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
+
+			$localization_data = array(
+				'url'                     => $analysis_worker_location->get_url(
+					$analysis_worker_location->get_asset(),
+					WPSEO_Admin_Asset::TYPE_JS
+				),
+				'keywords_assessment_url' => $used_keywords_assessment_location->get_url(
+					$used_keywords_assessment_location->get_asset(),
+					WPSEO_Admin_Asset::TYPE_JS
+				),
+				'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
+			);
+			wp_localize_script(
+				WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper',
+				'wpseoAnalysisWorkerL10n',
+				$localization_data
+			);
+
 			/**
 			 * Remove the emoji script as it is incompatible with both React and any
 			 * contenteditable fields.
@@ -115,14 +135,16 @@ class WPSEO_Taxonomy {
 			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Help_Center::get_translated_texts() );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ) );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 
 			$asset_manager->enqueue_script( 'admin-media' );
 
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', array(
-				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
-			) );
+			wp_localize_script(
+				WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media',
+				'wpseoMediaL10n',
+				array( 'choose_image' => __( 'Use Image', 'wordpress-seo' ) )
+			);
 		}
 
 		if ( self::is_term_overview( $pagenow ) ) {
@@ -351,10 +373,13 @@ class WPSEO_Taxonomy {
 		add_action( "{$this->taxonomy}_term_edit_form_top", array( $this, 'custom_category_description_editor' ) );
 	}
 
+	/* ********************* DEPRECATED METHODS ********************* */
+
 	/**
 	 * Adds shortcode support to category descriptions.
 	 *
 	 * @deprecated 7.9.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $desc String to add shortcodes in.
 	 *

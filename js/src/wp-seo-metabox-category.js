@@ -1,8 +1,11 @@
 /* global wp, _, wpseoPrimaryCategoryL10n */
-( function( $ ) {
-	"use strict";
+/* External dependencies */
+import { dispatch } from "@wordpress/data";
 
-	var primaryTermInputTemplate, primaryTermUITemplate, primaryTermScreenReaderTemplate;
+/* Internal dependencies */
+
+( function( $ ) {
+	var primaryTermUITemplate, primaryTermScreenReaderTemplate;
 	var taxonomies = wpseoPrimaryCategoryL10n.taxonomies;
 
 	/**
@@ -31,6 +34,24 @@
 	}
 
 	/**
+	 * Gets the name of a term for the category taxonomy.
+	 *
+	 * @param {number} categoryTermId The terms's id.
+	 *
+	 * @returns {string} The term's name.
+	 */
+	function getCategoryTermName( categoryTermId ) {
+		const categoryListItem = $( "#category-all" )
+			.find( `#category-${ categoryTermId } > label` );
+		if ( categoryListItem.length === 0 ) {
+			return "";
+		}
+		const clone = categoryListItem.clone();
+		clone.children().remove();
+		return $.trim( clone.text() );
+	}
+
+	/**
 	 * Sets the primary term for a taxonomy.
 	 *
 	 * @param {string} taxonomyName The taxonomy name.
@@ -39,10 +60,21 @@
 	 * @returns {void}
 	 */
 	function setPrimaryTerm( taxonomyName, termId ) {
-		var primaryTermInput;
-
-		primaryTermInput = $( "#yoast-wpseo-primary-" + taxonomyName );
+		const primaryTermInput = $( "#yoast-wpseo-primary-" + taxonomyName );
 		primaryTermInput.val( termId ).trigger( "change" );
+
+		const yoastEditor = dispatch( "yoast-seo/editor" );
+		if ( yoastEditor ) {
+			const termIdInt = parseInt( termId, 10 );
+			yoastEditor.setPrimaryTaxonomyId( taxonomyName, termIdInt );
+			// If the taxonomy is category update the replacement variable.
+			if ( taxonomyName === "category" ) {
+				yoastEditor.updateReplacementVariable(
+					"primary_category",
+					getCategoryTermName( termIdInt )
+				);
+			}
+		}
 	}
 
 	/**
@@ -108,8 +140,7 @@
 				label.append( primaryTermScreenReaderTemplate( {
 					taxonomy: taxonomies[ taxonomyName ],
 				} ) );
-			}
-			else {
+			} else {
 				listItem.addClass( "wpseo-non-primary-term" );
 			}
 		} );
@@ -201,15 +232,7 @@
 
 	$.fn.initYstSEOPrimaryCategory = function() {
 		return this.each( function( i, taxonomy ) {
-			var metaboxTaxonomy, html;
-
-			metaboxTaxonomy = $( "#" + taxonomy.name + "div" );
-
-			html = primaryTermInputTemplate( {
-				taxonomy: taxonomy,
-			} );
-
-			metaboxTaxonomy.append( html );
+			const metaboxTaxonomy = $( "#" + taxonomy.name + "div" );
 
 			updatePrimaryTermSelectors( taxonomy.name );
 
@@ -224,7 +247,6 @@
 
 	$( function() {
 		// Initialize our templates
-		primaryTermInputTemplate = wp.template( "primary-term-input" );
 		primaryTermUITemplate = wp.template( "primary-term-ui" );
 		primaryTermScreenReaderTemplate = wp.template( "primary-term-screen-reader" );
 

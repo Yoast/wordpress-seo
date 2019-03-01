@@ -10,22 +10,34 @@
  */
 class WPSEO_Configuration_Service {
 
-	/** @var WPSEO_Configuration_Structure */
+	/**
+	 * @var WPSEO_Configuration_Structure
+	 */
 	protected $structure;
 
-	/** @var WPSEO_Configuration_Components */
+	/**
+	 * @var WPSEO_Configuration_Components
+	 */
 	protected $components;
 
-	/** @var WPSEO_Configuration_Storage */
+	/**
+	 * @var WPSEO_Configuration_Storage
+	 */
 	protected $storage;
 
-	/** @var WPSEO_Configuration_Endpoint */
+	/**
+	 * @var WPSEO_Configuration_Endpoint
+	 */
 	protected $endpoint;
 
-	/** @var WPSEO_Configuration_Options_Adapter */
+	/**
+	 * @var WPSEO_Configuration_Options_Adapter
+	 */
 	protected $adapter;
 
-	/** @var WPSEO_Configuration_Translations */
+	/**
+	 * @var WPSEO_Configuration_Translations
+	 */
 	protected $translations;
 
 	/**
@@ -45,7 +57,7 @@ class WPSEO_Configuration_Service {
 		$this->set_components( new WPSEO_Configuration_Components() );
 		$this->set_endpoint( new WPSEO_Configuration_Endpoint() );
 		$this->set_structure( new WPSEO_Configuration_Structure() );
-		$this->set_translations( new WPSEO_Configuration_Translations( WPSEO_Utils::get_user_locale() ) );
+		$this->set_translations( new WPSEO_Configuration_Translations( WPSEO_Language_Utils::get_user_locale() ) );
 	}
 
 	/**
@@ -108,9 +120,7 @@ class WPSEO_Configuration_Service {
 	 */
 	protected function populate_configuration() {
 		// Switch to the user locale with fallback to the site locale.
-		if ( function_exists( 'switch_to_locale' ) ) {
-			switch_to_locale( WPSEO_Utils::get_user_locale() );
-		}
+		switch_to_locale( WPSEO_Language_Utils::get_user_locale() );
 
 		// Make sure we have our translations available.
 		wpseo_load_textdomain();

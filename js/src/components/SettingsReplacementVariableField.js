@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "yoast-components/composites/Plugin/SnippetEditor";
-import ReplaceVarEditor from "yoast-components/composites/Plugin/SnippetEditor/components/ReplacementVariableEditor";
+} from "yoast-components";
+import { ReplaceVarEditor } from "yoast-components";
 import styled from "styled-components";
 
 /* Internal dependencies */
@@ -59,7 +59,7 @@ class SettingsReplacementVariableField extends React.Component {
 					editorRef={ ref => {
 						this.inputRef = ref;
 					} }
-					/>
+				/>
 			</SnippetEditorWidthContainer>
 		);
 	}

@@ -9,6 +9,7 @@
  * Unit Test Class.
  */
 class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
@@ -76,13 +77,14 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
 	 */
 	public function test_register_script() {
-		$this->asset_manager->register_script( new WPSEO_Admin_Asset( array(
+		$asset_args = array(
 			'name'      => 'handle',
 			'src'       => 'src',
 			'deps'      => array( 'deps' ),
 			'version'   => 'version',
 			'in_footer' => 'in_footer',
-		) ) );
+		);
+		$this->asset_manager->register_script( new WPSEO_Admin_Asset( $asset_args ) );
 
 		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
 		// Use the WordPress internals to assert instead.
@@ -105,13 +107,14 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
 	 */
 	public function test_register_script_with_prefix() {
-		$prefix = 'yoast-custom-prefix';
-
+		$prefix        = 'yoast-custom-prefix';
 		$asset_manager = new WPSEO_Admin_Asset_Manager( null, $prefix );
-		$asset_manager->register_script( new WPSEO_Admin_Asset( array(
+
+		$asset_args = array(
 			'name'      => 'handle',
 			'src'       => 'src',
-		) ) );
+		);
+		$asset_manager->register_script( new WPSEO_Admin_Asset( $asset_args ) );
 
 		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
 		// Use the WordPress internals to assert instead.
@@ -124,11 +127,12 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
 	 */
 	public function test_register_script_suffix() {
-		$this->asset_manager->register_script( new WPSEO_Admin_Asset( array(
+		$asset_args = array(
 			'name'   => 'handle2', // Handles have to be unique, isolation YaY ¯\_(ツ)_/¯.
 			'src'    => 'src',
 			'suffix' => '.suffix',
-		) ) );
+		);
+		$this->asset_manager->register_script( new WPSEO_Admin_Asset( $asset_args ) );
 
 		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
 		// Use the WordPress internals to assert instead.
@@ -143,13 +147,14 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_style
 	 */
 	public function test_register_style() {
-		$this->asset_manager->register_style( new WPSEO_Admin_Asset( array(
+		$asset_args = array(
 			'name'    => 'handle',
 			'src'     => 'src',
 			'deps'    => array( 'deps' ),
 			'version' => 'version',
 			'media'   => 'print',
-		) ) );
+		);
+		$this->asset_manager->register_style( new WPSEO_Admin_Asset( $asset_args ) );
 
 		// We really want to mock wp_enqueue_style here but we can't because of PHP 5.2
 		// Use the WordPress internals to assert instead.
@@ -172,13 +177,14 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_style
 	 */
 	public function test_register_style_with_prefix() {
-		$prefix = 'yoast-custom-prefix';
-
+		$prefix        = 'yoast-custom-prefix';
 		$asset_manager = new WPSEO_Admin_Asset_Manager( null, $prefix );
-		$asset_manager->register_style( new WPSEO_Admin_Asset( array(
+
+		$asset_args = array(
 			'name'      => 'handle',
 			'src'       => 'src',
-		) ) );
+		);
+		$asset_manager->register_style( new WPSEO_Admin_Asset( $asset_args ) );
 
 		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
 		// Use the WordPress internals to assert instead.
@@ -191,11 +197,12 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
 	 */
 	public function test_register_style_suffix() {
-		$this->asset_manager->register_style( new WPSEO_Admin_Asset( array(
+		$asset_args = array(
 			'name'   => 'handle2', // Handles have to be unique, isolation YaY ¯\_(ツ)_/¯.
 			'src'    => 'src',
 			'suffix' => '.suffix',
-		) ) );
+		);
+		$this->asset_manager->register_style( new WPSEO_Admin_Asset( $asset_args ) );
 
 		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
 		// Use the WordPress internals to assert instead.
@@ -211,6 +218,20 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_register_scripts() {
 
+		$asset_args = array(
+			0 => array(
+				'name' => 'testfile',
+				'src'  => 'testfile',
+			),
+			1 => array(
+				'name'      => 'testfile2',
+				'src'       => 'testfile2',
+				'deps'      => array( 'dep1' ),
+				'version'   => 'version1',
+				'in_footer' => false,
+			),
+		);
+
 		$class_instance =
 			$this
 				->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
@@ -221,38 +242,17 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 			->expects( $this->at( 0 ) )
 			->method( 'register_script' )
 			->with(
-				$this->equalTo( new WPSEO_Admin_Asset( array(
-					'name' => 'testfile',
-					'src'  => 'testfile',
-				)))
+				$this->equalTo( new WPSEO_Admin_Asset( $asset_args[0] ) )
 			);
 
 		$class_instance
 			->expects( $this->at( 1 ) )
 			->method( 'register_script' )
 			->with(
-				$this->equalTo( new WPSEO_Admin_Asset( array(
-					'name'      => 'testfile2',
-					'src'       => 'testfile2',
-					'deps'      => array( 'dep1' ),
-					'version'   => 'version1',
-					'in_footer' => false,
-				)))
+				$this->equalTo( new WPSEO_Admin_Asset( $asset_args[1] ) )
 			);
 
-		$class_instance->register_scripts( array(
-			array(
-				'name' => 'testfile',
-				'src'  => 'testfile',
-			),
-			array(
-				'name'      => 'testfile2',
-				'src'       => 'testfile2',
-				'deps'      => array( 'dep1' ),
-				'version'   => 'version1',
-				'in_footer' => false,
-			),
-		) );
+		$class_instance->register_scripts( $asset_args );
 	}
 
 	/**
@@ -261,6 +261,20 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_styles
 	 */
 	public function test_register_styles() {
+
+		$asset_args = array(
+			0 => array(
+				'name' => 'testfile',
+				'src'  => 'testfile',
+			),
+			1 => array(
+				'name'    => 'testfile2',
+				'src'     => 'testfile2',
+				'deps'    => array( 'dep1' ),
+				'version' => 'version1',
+				'media'   => 'screen',
+			),
+		);
 
 		$class_instance =
 			$this
@@ -272,38 +286,17 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 			->expects( $this->at( 0 ) )
 			->method( 'register_style' )
 			->with(
-				$this->equalTo( new WPSEO_Admin_Asset( array(
-					'name'      => 'testfile',
-					'src'       => 'testfile',
-				)))
+				$this->equalTo( new WPSEO_Admin_Asset( $asset_args[0] ) )
 			);
 
 		$class_instance
 			->expects( $this->at( 1 ) )
 			->method( 'register_style' )
 			->with(
-				$this->equalTo( new WPSEO_Admin_Asset( array(
-					'name'      => 'testfile2',
-					'src'       => 'testfile2',
-					'deps'      => array( 'dep1' ),
-					'version'   => 'version1',
-					'media'     => 'screen',
-				)))
+				$this->equalTo( new WPSEO_Admin_Asset( $asset_args[1] ) )
 			);
 
-		$class_instance->register_styles( array(
-			array(
-				'name' => 'testfile',
-				'src'  => 'testfile',
-			),
-			array(
-				'name'    => 'testfile2',
-				'src'     => 'testfile2',
-				'deps'    => array( 'dep1' ),
-				'version' => 'version1',
-				'media'   => 'screen',
-			),
-		) );
+		$class_instance->register_styles( $asset_args );
 	}
 
 	/**

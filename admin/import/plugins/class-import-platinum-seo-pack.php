@@ -9,6 +9,7 @@
  * Class with functionality to import & clean Ultimate SEO post metadata.
  */
 class WPSEO_Import_Platinum_SEO extends WPSEO_Plugin_Importer {
+
 	/**
 	 * The plugin name.
 	 *
@@ -134,5 +135,4 @@ class WPSEO_Import_Platinum_SEO extends WPSEO_Plugin_Importer {
 		}
 		return $posts;
 	}
-
 }

@@ -1,20 +1,28 @@
-import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
+import { analysis } from "yoast-components";
 
-import activeKeyword from "./activeKeyword";
-import activeTab from "./activeTab";
-import isCornerstone from "./cornerstoneContent";
-import keywords from "./keywords";
-import marksButtonStatus from "./markerButtons";
-import snippetEditor from "./snippetEditor";
+import activeMarker from "./activeMarker";
 import analysisDataReducer from "./analysisData";
+import isCornerstone from "./cornerstoneContent";
+import focusKeyword from "./focusKeyword";
+import marksButtonStatus from "./markerButtons";
+import preferences from "./preferences";
+import primaryTaxonomies from "./primaryTaxonomies";
+import isMarkerPaused from "./markerPauseStatus";
+import settings from "./settings";
+import snippetEditor from "./snippetEditor";
+import warning from "./warning";
 
 export default {
 	analysis,
-	activeKeyword,
-	activeTab,
-	isCornerstone,
-	keywords,
-	marksButtonStatus,
-	snippetEditor,
+	activeMarker,
 	analysisData: analysisDataReducer,
+	isCornerstone,
+	focusKeyword,
+	marksButtonStatus,
+	preferences,
+	primaryTaxonomies,
+	isMarkerPaused,
+	settings,
+	snippetEditor,
+	warning,
 };

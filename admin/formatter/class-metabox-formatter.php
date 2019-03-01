@@ -11,7 +11,9 @@
 class WPSEO_Metabox_Formatter {
 
 	/**
-	 * @var WPSEO_Metabox_Formatter_Interface Object that provides formatted values.
+	 * Object that provides formatted values.
+	 *
+	 * @var WPSEO_Metabox_Formatter_Interface
 	 */
 	private $formatter;
 
@@ -46,34 +48,35 @@ class WPSEO_Metabox_Formatter {
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
 		return array(
-			'language'              => WPSEO_Language_Utils::get_site_language_name(),
-			'settings_link'         => $this->get_settings_link(),
-			'search_url'            => '',
-			'post_edit_url'         => '',
-			'base_url'              => '',
-			'contentTab'            => __( 'Readability', 'wordpress-seo' ),
-			'keywordTab'            => __( 'Keyword:', 'wordpress-seo' ),
-			'enterFocusKeyword'     => __( 'Enter your focus keyword', 'wordpress-seo' ),
-			'removeKeyword'         => __( 'Remove keyword', 'wordpress-seo' ),
-			'contentLocale'         => get_locale(),
-			'userLocale'            => WPSEO_Utils::get_user_locale(),
-			'translations'          => $this->get_translations(),
-			'keyword_usage'         => array(),
-			'title_template'        => '',
-			'metadesc_template'     => '',
-			'contentAnalysisActive' => $analysis_readability->is_enabled() ? 1 : 0,
-			'keywordAnalysisActive' => $analysis_seo->is_enabled() ? 1 : 0,
-			'intl'                  => $this->get_content_analysis_component_translations(),
-			'isRtl'                 => is_rtl(),
-			'gutenbergSidebar'      => defined( 'YOAST_FEATURE_GUTENBERG_SIDEBAR' ) && YOAST_FEATURE_GUTENBERG_SIDEBAR,
+			'language'                  => WPSEO_Language_Utils::get_site_language_name(),
+			'settings_link'             => $this->get_settings_link(),
+			'search_url'                => '',
+			'post_edit_url'             => '',
+			'base_url'                  => '',
+			'contentTab'                => __( 'Readability', 'wordpress-seo' ),
+			'keywordTab'                => __( 'Keyphrase:', 'wordpress-seo' ),
+			'removeKeyword'             => __( 'Remove keyphrase', 'wordpress-seo' ),
+			'contentLocale'             => get_locale(),
+			'userLocale'                => WPSEO_Language_Utils::get_user_locale(),
+			'translations'              => $this->get_translations(),
+			'keyword_usage'             => array(),
+			'title_template'            => '',
+			'metadesc_template'         => '',
+			'contentAnalysisActive'     => $analysis_readability->is_enabled() ? 1 : 0,
+			'keywordAnalysisActive'     => $analysis_seo->is_enabled() ? 1 : 0,
+			'cornerstoneActive'         => WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
+			'intl'                      => $this->get_content_analysis_component_translations(),
+			'isRtl'                     => is_rtl(),
+			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
+			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
 			 *
 			 * @param bool $showMarkers Should the markers being enabled. Default = true.
 			 */
-			'show_markers'          => apply_filters( 'wpseo_enable_assessment_markers', true ),
-			'publish_box'           => array(
+			'show_markers'              => apply_filters( 'wpseo_enable_assessment_markers', true ),
+			'publish_box'               => array(
 				'labels' => array(
 					'content' => array(
 						'na'   => sprintf(
@@ -129,8 +132,8 @@ class WPSEO_Metabox_Formatter {
 					),
 				),
 			),
-			'markdownEnabled'       => $this->is_markdown_enabled(),
-			'analysisHeadingTitle'  => __( 'Analysis', 'wordpress-seo' ),
+			'markdownEnabled'           => $this->is_markdown_enabled(),
+			'analysisHeadingTitle'      => __( 'Analysis', 'wordpress-seo' ),
 		);
 	}
 
@@ -156,19 +159,52 @@ class WPSEO_Metabox_Formatter {
 	private function get_content_analysis_component_translations() {
 		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
 		return array(
-			'locale'                                => WPSEO_Utils::get_user_locale(),
-			'content-analysis.language-notice-link' => __( 'Change language', 'wordpress-seo' ),
-			'content-analysis.errors'               => __( 'Errors', 'wordpress-seo' ),
-			'content-analysis.problems'             => __( 'Problems', 'wordpress-seo' ),
-			'content-analysis.improvements'         => __( 'Improvements', 'wordpress-seo' ),
-			'content-analysis.considerations'       => __( 'Considerations', 'wordpress-seo' ),
-			'content-analysis.good'                 => __( 'Good results', 'wordpress-seo' ),
-			'content-analysis.language-notice'      => __( 'Your site language is set to {language}.', 'wordpress-seo' ),
+			'locale'                                         => WPSEO_Language_Utils::get_user_locale(),
+			'content-analysis.language-notice-link'          => __( 'Change language', 'wordpress-seo' ),
+			'content-analysis.errors'                        => __( 'Errors', 'wordpress-seo' ),
+			'content-analysis.problems'                      => __( 'Problems', 'wordpress-seo' ),
+			'content-analysis.improvements'                  => __( 'Improvements', 'wordpress-seo' ),
+			'content-analysis.considerations'                => __( 'Considerations', 'wordpress-seo' ),
+			'content-analysis.good'                          => __( 'Good results', 'wordpress-seo' ),
+			'content-analysis.language-notice'               => __( 'Your site language is set to {language}.', 'wordpress-seo' ),
 			'content-analysis.language-notice-contact-admin' => __( 'Your site language is set to {language}. If this is not correct, contact your site administrator.', 'wordpress-seo' ),
-			'content-analysis.highlight'            => __( 'Highlight this result in the text', 'wordpress-seo' ),
-			'content-analysis.nohighlight'          => __( 'Remove highlight from the text', 'wordpress-seo' ),
-			'content-analysis.disabledButton'       => __( 'Marks are disabled in current view', 'wordpress-seo' ),
-			'a11yNotice.opensInNewTab'              => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
+			'content-analysis.highlight'                     => __( 'Highlight this result in the text', 'wordpress-seo' ),
+			'content-analysis.nohighlight'                   => __( 'Remove highlight from the text', 'wordpress-seo' ),
+			'content-analysis.disabledButton'                => __( 'Marks are disabled in current view', 'wordpress-seo' ),
+			'a11yNotice.opensInNewTab'                       => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
+		);
+	}
+
+	/**
+	 * Returns the translations for the Add Keyword modal.
+	 *
+	 * These strings are not escaped because they're meant to be used with React
+	 * which already takes care of that. If used in PHP, they should be escaped.
+	 *
+	 * @return array Translated text strings for the Add Keyword modal.
+	 */
+	public function get_add_keyword_upsell_translations() {
+		return array(
+			'title'                    => __( 'Would you like to add more than one keyphrase?', 'wordpress-seo' ),
+			'intro'                    => sprintf(
+				/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
+				__( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
+				'{{link}}Yoast SEO Premium{{/link}}'
+			),
+			'link'                     => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
+			'other'                    => sprintf(
+				/* translators: %s expands to 'Yoast SEO Premium'. */
+				__( 'Other benefits of %s for you:', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			),
+			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ),
+			'buy'                      => sprintf(
+				/* translators: %s expands to 'Yoast SEO Premium'. */
+				__( 'Get %s', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			),
+			'small'                    => __( '1 year free updates and upgrades included!', 'wordpress-seo' ),
+			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
 		);
 	}
 
@@ -178,7 +214,7 @@ class WPSEO_Metabox_Formatter {
 	 * @return array
 	 */
 	private function get_translations() {
-		$locale = WPSEO_Utils::get_user_locale();
+		$locale = WPSEO_Language_Utils::get_user_locale();
 
 		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . $locale . '.json';
 		if ( file_exists( $file ) ) {

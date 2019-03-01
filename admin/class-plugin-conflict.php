@@ -43,7 +43,6 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 			'open-graph-protocol-framework/open-graph-protocol-framework.php',
 			// Open Graph Protocol Framework.
 			'seo-facebook-comments/seofacebook.php',                 // SEO Facebook Comments.
-			'seo-ultimate/seo-ultimate.php',                         // SEO Ultimate.
 			'sexybookmarks/sexy-bookmarks.php',                      // Shareaholic.
 			'shareaholic/sexy-bookmarks.php',                        // Shareaholic.
 			'sharepress/sharepress.php',                             // SharePress.
@@ -100,6 +99,10 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 			'rs-head-cleaner-lite/rs-head-cleaner-lite.php',
 			// RS Head Cleaner Lite https://wordpress.org/plugins/rs-head-cleaner-lite/.
 		),
+		'seo' => array(
+			'all-in-one-seo-pack/all_in_one_seo_pack.php',           // All in One SEO Pack.
+			'seo-ultimate/seo-ultimate.php',                         // SEO Ultimate.
+		),
 	);
 
 	/**
@@ -135,7 +138,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 
 		// Only check for open graph problems when they are enabled.
 		if ( WPSEO_Options::get( 'opengraph' ) ) {
-			/* translators: %1$s expands to Yoast SEO, %2%s: 'Facebook' plugin name of possibly conflicting plugin with regard to creating OpenGraph output. */
+			/* translators: %1$s expands to Yoast SEO, %2$s: 'Facebook' plugin name of possibly conflicting plugin with regard to creating OpenGraph output. */
 			$plugin_sections['open_graph'] = __( 'Both %1$s and %2$s create OpenGraph output, which might make Facebook, Twitter, LinkedIn and other social networks use the wrong texts and images when your pages are being shared.', 'wordpress-seo' )
 				. '<br/><br/>'
 				. '<a class="button" href="' . admin_url( 'admin.php?page=wpseo_social#top#facebook' ) . '">'
@@ -157,6 +160,9 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 
 		/* translators: %2$s expands to 'RS Head Cleaner' plugin name of possibly conflicting plugin with regard to differentiating output between search engines and normal users. */
 		$plugin_sections['cloaking'] = __( 'The plugin %2$s changes your site\'s output and in doing that differentiates between search engines and normal users, a process that\'s called cloaking. We highly recommend that you disable it.', 'wordpress-seo' );
+
+		/* translators: %1$s expands to Yoast SEO, %2$s: 'SEO' plugin name of possibly conflicting plugin with regard to the creation of duplicate SEO meta. */
+		$plugin_sections['seo'] = __( 'Both %1$s and %2$s manage the SEO of your site. Running two SEO plugins at the same time is detrimental.', 'wordpress-seo' );
 
 		$instance->check_plugin_conflicts( $plugin_sections );
 	}

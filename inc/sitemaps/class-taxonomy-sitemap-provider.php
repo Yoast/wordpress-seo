@@ -10,7 +10,11 @@
  */
 class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
-	/** @var WPSEO_Sitemap_Image_Parser $image_parser Holds image parser instance. */
+	/**
+	 * Holds image parser instance.
+	 *
+	 * @var WPSEO_Sitemap_Image_Parser
+	 */
 	protected static $image_parser;
 
 	/**
@@ -22,16 +26,13 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function handles_type( $type ) {
 
-		return taxonomy_exists( $type );
-	}
+		$taxonomy = get_taxonomy( $type );
 
-	/**
-	 * Get all the options
-	 *
-	 * @deprecated 7.0
-	 */
-	protected function get_options() {
-		_deprecated_function( __METHOD__, 'WPSEO 7.0', 'WPSEO_Options::get' );
+		if ( $taxonomy === false || ! $this->is_valid_taxonomy( $taxonomy->name ) || ! $taxonomy->public ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -61,12 +62,13 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$all_taxonomies = array();
 
-		foreach ( $taxonomy_names as $taxonomy_name ) {
+		$term_args = array(
+			'hide_empty' => $hide_empty,
+			'fields'     => 'ids',
+		);
 
-			$taxonomy_terms = get_terms( $taxonomy_name, array(
-				'hide_empty' => $hide_empty,
-				'fields'     => 'ids',
-			) );
+		foreach ( $taxonomy_names as $taxonomy_name ) {
+			$taxonomy_terms = get_terms( $taxonomy_name, $term_args );
 
 			if ( count( $taxonomy_terms ) > 0 ) {
 				$all_taxonomies[ $taxonomy_name ] = $taxonomy_terms;
@@ -145,21 +147,20 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return array
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
-
 		global $wpdb;
 
-		$links    = array();
-		$taxonomy = get_taxonomy( $type );
-
-		if ( $taxonomy === false || ! $this->is_valid_taxonomy( $taxonomy->name ) || ! $taxonomy->public ) {
+		$links = array();
+		if ( ! $this->handles_type( $type ) ) {
 			return $links;
 		}
+
+		$taxonomy = get_taxonomy( $type );
 
 		$steps  = $max_entries;
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
 
 		/** This filter is documented in inc/sitemaps/class-taxonomy-sitemap-provider.php */
-		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy );
+		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, array( $taxonomy->name ) );
 		$terms      = get_terms( $taxonomy->name, array( 'hide_empty' => $hide_empty ) );
 		$terms      = array_splice( $terms, $offset, $steps );
 
@@ -260,5 +261,17 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return self::$image_parser;
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Get all the options
+	 *
+	 * @deprecated 7.0
+	 * @codeCoverageIgnore
+	 */
+	protected function get_options() {
+		_deprecated_function( __METHOD__, 'WPSEO 7.0', 'WPSEO_Options::get' );
 	}
 }

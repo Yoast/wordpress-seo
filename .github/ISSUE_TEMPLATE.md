@@ -23,6 +23,20 @@
 ### Technical info
 * WordPress version:
 * Yoast SEO version:
+<!-- You can check these boxes once you've created the issue. -->
+* If relevant, which editor is affected (or editors): 
+- [ ] Classic Editor
+- [ ] Gutenberg
+- [ ] Classic Editor plugin
+
+<!-- You can check these boxes once you've created the issue. -->
+* Which browser is affected (or browsers): 
+- [ ] IE11
+- [ ] Edge
+- [ ] Chrome
+- [ ] Firefox
+- [ ] Safari
+
 * Relevant plugins in case of a bug:
 <!-- Please make sure you can reproduce this bug with a default theme such as Twenty Seventeen. Sometimes issues may occur due to theme conflicts. -->
 * Tested with theme:

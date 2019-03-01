@@ -10,7 +10,9 @@
  */
 class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Frontend_Page_Type */
+	/**
+	 * @var WPSEO_Frontend_Page_Type
+	 */
 	protected $frontend_page_type;
 
 	/**
@@ -175,5 +177,4 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	public function simple_page_hook( $page_id ) {
 		return 100;
 	}
-
 }

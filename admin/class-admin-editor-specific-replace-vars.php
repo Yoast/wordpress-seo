@@ -19,6 +19,8 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		'post'                     => array( 'id', 'term404', 'pt_single', 'pt_plural' ),
 		// Custom post type.
 		'custom_post_type'         => array( 'id', 'term404', 'pt_single', 'pt_plural', 'parent_title' ),
+		// Settings - archive pages.
+		'custom-post-type_archive' => array( 'pt_single', 'pt_plural' ),
 
 		// Taxonomies.
 		'category'                 => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
@@ -27,8 +29,6 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		// Custom taxonomy.
 		'term-in-custom-taxonomy'  => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
 
-		// Settings - archive pages.
-		'custom-post-type_archive' => array(),
 		// Settings - special pages.
 		'search'                   => array( 'searchphrase' ),
 	);

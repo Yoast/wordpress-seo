@@ -10,7 +10,11 @@
  */
 class WPSEO_Extensions {
 
-	/** @var array Array with the Yoast extensions */
+	/**
+	 * Array with the Yoast extensions.
+	 *
+	 * @var array
+	 */
 	protected $extensions = array(
 		'Yoast SEO Premium' => array(
 			'slug'       => 'yoast-seo-premium',
@@ -36,11 +40,6 @@ class WPSEO_Extensions {
 			'slug'       => 'local-seo-for-wordpress',
 			'identifier' => 'wpseo-local',
 			'classname'  => 'WPSEO_Local_Core',
-		),
-		'Local SEO for WooCommerce' => array(
-			'slug'       => 'local-seo-for-woocommerce',
-			'identifier' => 'wpseo-local-woocommerce',
-			'classname'  => 'WPSEO_Local_WooCommerce',
 		),
 	);
 

@@ -9,6 +9,7 @@
  * This code handles the option upgrades
  */
 class WPSEO_Upgrade {
+
 	/**
 	 * Class constructor
 	 */
@@ -120,6 +121,14 @@ class WPSEO_Upgrade {
 
 		if ( version_compare( $version, '7.7.2-RC0', '<' ) ) {
 			$this->upgrade_772();
+		}
+
+		if ( version_compare( $version, '9.0-RC0', '<' ) ) {
+			$this->upgrade90();
+		}
+
+		if ( version_compare( $version, '10.0-RC0', '<' ) ) {
+			$this->upgrade_100();
 		}
 
 		// Since 3.7.
@@ -289,12 +298,8 @@ class WPSEO_Upgrade {
 	 * Removes the about notice when its still in the database.
 	 */
 	private function upgrade_40() {
-		$center       = Yoast_Notification_Center::get();
-		$notification = $center->get_notification_by_id( 'wpseo-dismiss-about' );
-
-		if ( $notification ) {
-			$center->remove_notification( $notification );
-		}
+		$center = Yoast_Notification_Center::get();
+		$center->remove_notification_by_id( 'wpseo-dismiss-about' );
 	}
 
 	/**
@@ -320,7 +325,7 @@ class WPSEO_Upgrade {
 		$wpdb->query(
 			$wpdb->prepare(
 				'UPDATE ' . $wpdb->postmeta . ' SET meta_key = %s WHERE meta_key = "yst_is_cornerstone"',
-				WPSEO_Cornerstone::META_NAME
+				WPSEO_Cornerstone_Filter::META_NAME
 			)
 		);
 	}
@@ -342,7 +347,8 @@ class WPSEO_Upgrade {
 		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
 
 		$usermetas = $wpdb->get_results(
-			$wpdb->prepare( '
+			$wpdb->prepare(
+				'
 				SELECT user_id, meta_value
 				FROM ' . $wpdb->usermeta . '
 				WHERE meta_key = %s AND meta_value LIKE %s
@@ -626,6 +632,47 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 9.0 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade90() {
+		global $wpdb;
+
+		// Invalidate all sitemap cache transients.
+		WPSEO_Sitemaps_Cache_Validator::cleanup_database();
+
+		// Removes all scheduled tasks for hitting the sitemap index.
+		wp_clear_scheduled_hook( 'wpseo_hit_sitemap_index' );
+
+		$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "wpseo_sitemap_%"' );
+	}
+
+	/**
+	 * Performs the 10.0 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_100() {
+		// Removes recalibration notifications.
+		$this->clean_all_notifications();
+
+		// Removes recalibration options.
+		WPSEO_Options::clean_up( 'wpseo' );
+		delete_option( 'wpseo_recalibration_beta_mailinglist_subscription' );
+	}
+
+	/**
+	 * Removes all notifications saved in the database under 'wp_yoast_notifications'.
+	 *
+	 * @return void
+	 */
+	private function clean_all_notifications() {
+		global $wpdb;
+		delete_metadata( 'user', 0, $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY, '', true );
+	}
+
+	/**
 	 * Removes the post meta fields for a given meta key.
 	 *
 	 * @param string $meta_key The meta key.
@@ -634,7 +681,6 @@ class WPSEO_Upgrade {
 	 */
 	private function delete_post_meta( $meta_key ) {
 		global $wpdb;
-
 		$deleted = $wpdb->delete( $wpdb->postmeta, array( 'meta_key' => $meta_key ), array( '%s' ) );
 
 		if ( $deleted ) {

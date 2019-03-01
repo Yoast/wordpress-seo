@@ -23,17 +23,6 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Components::initialize()
-	 */
-	public function test_constructor() {
-		$components = new WPSEO_Configuration_Components_Mock();
-		$components->initialize();
-
-		$list = $components->get_components();
-		$this->assertEquals( 4, count( $list ) );
-	}
-
-	/**
 	 * @covers WPSEO_Configuration_Components::add_component()
 	 */
 	public function test_add_component() {
@@ -102,12 +91,7 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	public function test_set_storage_on_field() {
 		$component = $this
 			->getMockBuilder( 'WPSEO_Config_Component' )
-			->setMethods( array(
-				'get_field',
-				'get_identifier',
-				'set_data',
-				'get_data',
-			) )
+			->setMethods( array( 'get_field', 'get_identifier', 'set_data', 'get_data' ) )
 			->getMock();
 
 		$field = $this

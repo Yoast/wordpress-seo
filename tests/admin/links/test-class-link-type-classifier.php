@@ -10,7 +10,9 @@
  */
 class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Link_Type_Classifier */
+	/**
+	 * @var WPSEO_Link_Type_Classifier
+	 */
 	protected $classifier;
 
 	/**
@@ -21,7 +23,6 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 
 		$this->classifier = new WPSEO_Link_Type_Classifier( 'http://example.com' );
 	}
-
 
 	/**
 	 * @dataProvider provider_urls
@@ -92,7 +93,6 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 
 		$classifier->classify( 'http://test.com/page' );
 	}
-
 }
 
 
