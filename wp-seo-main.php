@@ -249,30 +249,21 @@ function _wpseo_deactivate() {
  * {@internal Unfortunately will fail if the plugin is in the must-use directory.
  *            {@link https://core.trac.wordpress.org/ticket/24205} }}
  *
- * @param int $blog_id Blog ID.
+ * @param int|WP_Site $blog_id Blog ID.
  */
 function wpseo_on_activate_blog( $blog_id ) {
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
 	}
 
+	if ( $blog_id instanceof WP_Site ) {
+		$blog_id = (int) $blog_id->blog_id;
+	}
+
 	if ( is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
 		switch_to_blog( $blog_id );
 		wpseo_activate( false );
 		restore_current_blog();
-	}
-}
-
-/**
- * Alternative method for calling wpseo_on_activate_blog, for when supplied with a WP_site object instead of an ID.
- *
- * @param object $blog The WP_Site object received from wp_insert_site.
- *
- * @return void
- */
-function wpseo_on_activate_blog_from_wp_site( $blog ) {
-	if ( is_object( $blog ) && isset( $blog->blog_id ) ) {
-		wpseo_on_activate_blog( (int) $blog->blog_id );
 	}
 }
 
@@ -545,7 +536,7 @@ if ( version_compare( $wp_version,'5.1', '<' ) ) {
 	add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 }
 else {
-	add_action( 'wp_initialize_site', 'wpseo_on_activate_blog_from_wp_site', 99 );
+	add_action( 'wp_initialize_site', 'wpseo_on_activate_blog', 99 );
 }
 
 add_action( 'activate_blog', 'wpseo_on_activate_blog' );
