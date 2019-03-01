@@ -44,7 +44,6 @@ class WPSEO_OpenGraph_Image {
 	private $image_tags = array(
 		'width'     => 'width',
 		'height'    => 'height',
-		'alt'       => 'alt',
 		'mime-type' => 'type',
 	);
 
