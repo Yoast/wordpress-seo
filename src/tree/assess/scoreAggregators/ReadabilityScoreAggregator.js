@@ -1,4 +1,3 @@
-import { sum } from "lodash-es";
 import { scoreToRating } from "../../../interpreters";
 
 /* Internal dependencies */
@@ -116,17 +115,17 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 	 * @returns {number} The total penalty points for the results.
 	 */
 	calculatePenalty( results ) {
-		const penaltyPoints = results.map( result => {
+		return results.reduce( ( sum, result ) => {
 			// Compute the rating ("error", "feedback", "bad", "ok" or "good").
 			const rating = scoreToRating( result.getScore() );
 
-			if ( this.allAssessmentsSupported( results ) ) {
-				// Default to 0 on "error" or "feedback" or any other not-supported score.
-				return penaltyMappingFullSupport[ rating ] || 0;
-			}
-			return penaltyMappingPartialSupport[ rating ] || 0;
-		} );
-		return sum( penaltyPoints );
+			const penalty = this.allAssessmentsSupported( results )
+				? penaltyMappingFullSupport[ rating ]
+				: penaltyMappingPartialSupport[ rating ];
+
+			// Add penalty when available.
+			return penalty ? sum + penalty : sum;
+		}, 0 );
 	}
 
 	/**
@@ -153,7 +152,7 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 
 		/*
 		 * If you have no content, you have a red indicator.
-		 * (Assume that one result always means the 'no content' assessment result, (see `contentAssessor`) ).
+		 * (Assume that one result always means the 'no content' assessment result).
 		 */
 		if ( validResults.length <= 1 ) {
 			return READABILITY_SCORES.NEEDS_IMPROVEMENT;
