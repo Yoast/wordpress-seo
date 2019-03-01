@@ -36,7 +36,7 @@ describe( "ReadabilityScoreAggregator", () => {
 		} );
 
 		it( "should return 3 for a red assessment result", function() {
-			aggregator.allAssessmentsSupported = () => true;
+			aggregator.isFullySupported = () => true;
 			const results = [
 				new AssessmentResult( { score: 3 } ),
 			];
@@ -59,7 +59,7 @@ describe( "ReadabilityScoreAggregator", () => {
 		} );
 
 		it( "should return an aggregate for a mixed resultset", function() {
-			aggregator.allAssessmentsSupported = () => true;
+			aggregator.isFullySupported = () => true;
 
 			const results = [
 				new AssessmentResult( { score: 9 } ),
@@ -95,7 +95,7 @@ describe( "ReadabilityScoreAggregator", () => {
 		} );
 
 		it( "should give worse results based on the negative points", function() {
-			aggregator.allAssessmentsSupported = () => true;
+			aggregator.isFullySupported = () => true;
 			const results = [
 				new AssessmentResult(),
 				new AssessmentResult(),
@@ -128,7 +128,7 @@ describe( "ReadabilityScoreAggregator", () => {
 
 		beforeEach( function() {
 			aggregator = new ReadabilityScoreAggregator();
-			aggregator.allAssessmentsSupported = () => false;
+			aggregator.isFullySupported = () => false;
 		} );
 
 		it( "should give worse results based on the negative points", function() {

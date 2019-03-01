@@ -65,7 +65,7 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 	 *
 	 * @returns {boolean} True if fully supported.
 	 */
-	allAssessmentsSupported( results ) {
+	isFullySupported( results ) {
 		/*
 		 * Apparently, we (in the previous `contentAssessor`) check whether an assessment is applicable
 		 * as a way to check if it is supported for the current language.
@@ -121,7 +121,7 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 			// Compute the rating ("error", "feedback", "bad", "ok" or "good").
 			const rating = scoreToRating( result.getScore() );
 
-			const penalty = this.allAssessmentsSupported( results )
+			const penalty = this.isFullySupported( results )
 				? penaltyMappingFullSupport[ rating ]
 				: penaltyMappingPartialSupport[ rating ];
 
@@ -161,7 +161,7 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 		}
 
 		const penalty = this.calculatePenalty( results );
-		return this.calculateScore( this.allAssessmentsSupported( results ), penalty );
+		return this.calculateScore( this.isFullySupported( results ), penalty );
 	}
 }
 
