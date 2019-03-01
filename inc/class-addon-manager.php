@@ -23,6 +23,8 @@ class WPSEO_Addon_Manager {
 	 * @var array
 	 */
 	protected static $addons = array(
+		// Yoast SEO Free isn't an addon actually, but we needed it in some cases.
+		'wp-seo.php'            => 'yoast-seo-wordpress',
 		'wp-seo-premium.php'    => 'yoast-seo-wordpress-premium',
 		'wpseo-news.php'        => 'yoast-seo-news',
 		'video-seo.php'         => 'yoast-seo-video',
@@ -111,6 +113,20 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Retrieves a list of versions for each addon.
+	 *
+	 * @return array The addon versions.
+	 */
+	public function get_installed_addons_versions() {
+		$addon_versions          = array();
+		foreach ( $this->get_installed_addons() as $plugin_file => $installed_addon ) {
+			$addon_versions[ $this->get_slug_by_plugin_file( $plugin_file ) ] = $installed_addon['Version'];
+		}
+
+		return $addon_versions;
+	}
+
+	/**
 	 * Retrieves the plugin information from the subscriptions.
 	 *
 	 * @param stdClass|false $data   The result object. Default false.
@@ -176,7 +192,7 @@ class WPSEO_Addon_Manager {
 			'new_version'   => $subscription->product->version,
 			'name'          => $subscription->product->name,
 			'slug'          => $subscription->product->slug,
-			'url'           => $subscription->product->url,
+			'url'           => $subscription->product->storeUrl,
 			'last_update'   => $subscription->product->lastUpdated,
 			'homepage'      => $subscription->product->storeUrl,
 			'download_link' => $subscription->product->download,

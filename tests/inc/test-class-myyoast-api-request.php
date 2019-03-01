@@ -7,6 +7,8 @@
 
 /**
  * Unit Test Class.
+ *
+ * @group MyYoast
  */
 class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 
@@ -222,5 +224,89 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 
 		$this->assertFalse( $instance->fire() );
 		$this->assertAttributeEquals( 'No JSON object was returned.', 'error_message', $instance );
+	}
+
+	/**
+	 * Tests the enriching of the request headers.
+	 *
+	 * @covers WPSEO_MyYoast_Api_Request::enrich_request_arguments
+	 */
+	public function test_enrich_request_arguments() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_MyYoast_Api_Request_Double' )
+			->setMethods( array( 'get_request_body', 'get_installed_addon_versions' ) )
+			->setConstructorArgs( array( 'endpoint' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_request_body' )
+			->will(
+				$this->returnValue(
+					array(
+						'This is' => 'the request body',
+					)
+				)
+			);
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_installed_addon_versions' )
+			->will(
+				$this->returnValue(
+					array(
+						'yoast-seo-wordpress-premium' => '10.0',
+					)
+				)
+			);
+
+		$this->assertEquals(
+			array(
+				'body'    => array(
+					'This is' => 'the request body',
+				),
+				'headers' => array(
+					'yoast-seo-wordpress-premium-version' => '10.0',
+				),
+			),
+			$instance->enrich_request_arguments( array() )
+		);
+	}
+	/**
+	 * Tests the enriching of the request headers with empty request body.
+	 *
+	 * @covers WPSEO_MyYoast_Api_Request::enrich_request_arguments
+	 */
+	public function test_enrich_request_arguments_with_empty_request_body() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_MyYoast_Api_Request_Double' )
+			->setMethods( array( 'get_request_body', 'get_installed_addon_versions' ) )
+			->setConstructorArgs( array( 'endpoint' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_request_body' )
+			->will( $this->returnValue( array() ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_installed_addon_versions' )
+			->will(
+				$this->returnValue(
+					array(
+						'yoast-seo-wordpress-premium' => '10.0',
+					)
+				)
+			);
+
+		$this->assertEquals(
+			array(
+				'headers' => array(
+					'yoast-seo-wordpress-premium-version' => '10.0',
+				),
+			),
+			$instance->enrich_request_arguments( array() )
+		);
 	}
 }

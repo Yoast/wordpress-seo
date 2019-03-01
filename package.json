@@ -131,7 +131,7 @@
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
     "lodash": "^4.17.11",
-    "marked": "^0.3.6",
+    "marked": "^0.6.1",
     "material-ui": "^0.20.0",
     "moment": "2.22.2",
     "moment-duration-format": "^2.2.2",
@@ -148,7 +148,7 @@
     "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#develop"
   },
   "yoast": {
-    "pluginVersion": "10.0-beta2",
+    "pluginVersion": "10.0-RC1",
     "recalibrationVersion": "13"
   }
 }
