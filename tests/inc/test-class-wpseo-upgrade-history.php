@@ -29,6 +29,24 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * @covers WPSEO_Upgrade_History::__construct
+	 */
+	public function test_construct_with_default_option_name() {
+		$instance = new WPSEO_Upgrade_History();
+
+		$this->assertAttributeEquals( 'wpseo_upgrade_history', 'option_name', $instance );
+	}
+
+	/**
+	 * @covers WPSEO_Upgrade_History::__construct
+	 */
+	public function test_construct_with_given_option_name() {
+		$instance = new WPSEO_Upgrade_History( 'my_option_name' );
+
+		$this->assertAttributeEquals( 'my_option_name', 'option_name', $instance );
+	}
+
+	/**
 	 * @covers WPSEO_Upgrade_History::get
 	 */
 	public function test_get_empty() {
