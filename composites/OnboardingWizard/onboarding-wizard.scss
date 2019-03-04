@@ -263,14 +263,11 @@ body {
 					&:checked + label {
 						border: 3px solid $color_pink_dark;
 						background-color: $color_white;
-						border-radius: 10px;
-						border-bottom-right-radius: 0;
 						padding: 7px 4px;
 					}
 
 					&:focus + label {
-						border: 3px dashed $color_pink_dark;
-						padding: 7px 4px;
+						outline: 2px solid #5b9dd9;
 					}
 				}
 			}
