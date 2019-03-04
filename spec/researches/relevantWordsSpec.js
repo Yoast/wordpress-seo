@@ -45,8 +45,8 @@ describe( "relevantWords research", function() {
 			"allow users to connect their sites to MyYoast, our customer portal. After that we’ll roll out live indexing, " +
 			"which means every time you publish, update, or delete a post, that will be reflected almost instantly into " +
 			"Bing and Google’s indices. How does this work? When you connect your site to MyYoast...", {
-			keyword: "keyphrase",
-			synonyms: "synonym one, synonym two",
+			keyword: "live indexing Yoast SEO",
+			synonyms: "live index",
 			title: "Amazing title",
 			description: "Awesome metadescription",
 			locale: "en_EN",
@@ -56,9 +56,9 @@ describe( "relevantWords research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		const expected = [
-			new WordCombination( "synonym", "synonym", 6 ),
+			new WordCombination( "index", "index", 6 ),
+			new WordCombination( "live", "live", 6 ),
 			new WordCombination( "amazing", "amaze", 3 ),
-			new WordCombination( "indexing", "index", 3 ),
 			new WordCombination( "keyphrase", "keyphrase", 3 ),
 			new WordCombination( "metadescription", "metadescription", 3 ),
 			new WordCombination( "subheading", "subhead", 3 ),
@@ -67,7 +67,7 @@ describe( "relevantWords research", function() {
 			new WordCombination( "bing", "bing", 2 ),
 			new WordCombination( "connect", "connect", 2 ),
 			new WordCombination( "google", "google", 2 ),
-			new WordCombination( "live", "live", 2 ),
+
 			new WordCombination( "myyoast", "myyoast", 2 ),
 			new WordCombination( "site", "site", 2 ),
 			new WordCombination( "update", "update", 2 ),

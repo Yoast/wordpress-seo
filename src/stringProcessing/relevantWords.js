@@ -9,6 +9,7 @@ import getStemForLanguageFactory from "../helpers/getStemForLanguage";
 
 const functionWordLists = functionWordListsFactory();
 const stemFunctions = getStemForLanguageFactory();
+const digitsAndPunctuation = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%|~=+§`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\s]/g;
 
 
 /**
@@ -21,7 +22,7 @@ const stemFunctions = getStemForLanguageFactory();
  */
 function getRelevantCombinations( wordCombinations ) {
 	wordCombinations = wordCombinations.filter( function( combination ) {
-		return ( combination.getOccurrences() !== 1 && ! Number.isInteger( Number( combination.getWord() ) ) );
+		return ( combination.getOccurrences() !== 1 && combination.getWord().replace( digitsAndPunctuation, "" ) !== "" );
 	} );
 	return wordCombinations;
 }

@@ -1,7 +1,12 @@
-import { take } from "lodash-es";
+import { get, take } from "lodash-es";
 import getLanguage from "yoastsrc/helpers/getLanguage";
 import getWords from "yoastsrc/stringProcessing/getWords";
-import { getRelevantWords, getRelevantWordsFromPaperAttributes, getRelevantCombinations } from "yoastsrc/stringProcessing/relevantWords";
+import {
+	getRelevantWords,
+	getRelevantWordsFromPaperAttributes,
+	collapseRelevantWordsOnStem,
+	getRelevantCombinations,
+} from "yoastsrc/stringProcessing/relevantWords";
 import { getSubheadingsTopLevel } from "yoastsrc/stringProcessing/getSubheadings";
 import getMorphologyData from "./getMorphologyData";
 
@@ -34,11 +39,12 @@ export default function calculateRelevantWords( paper ) {
 	const words = getWords( text );
 
 	const language = getLanguage( paper.locale );
-	const relevantWordsFromText = getRelevantWords( text, language, morphologyData );
+	const languageMorphologyData = get( morphologyData, language, false );
+	const relevantWordsFromText = getRelevantWords( text, language, languageMorphologyData );
 
 	const subheadings = getSubheadingsTopLevel( text ).map( subheading => subheading[ 2 ] );
 
-	const relevantWordsFromTopic = getRelevantWordsFromPaperAttributes(
+	const relevantWordsFromPaperAttributes = getRelevantWordsFromPaperAttributes(
 		{
 			keyphrase: paper.keyword,
 			synonyms: paper.synonyms,
@@ -47,10 +53,14 @@ export default function calculateRelevantWords( paper ) {
 			subheadings,
 		},
 		language,
-		morphologyData,
+		languageMorphologyData,
 	);
 
-	const relevantWords = take( getRelevantCombinations( relevantWordsFromTopic.concat( relevantWordsFromText ) ), 100 );
+	const collapsedWords = collapseRelevantWordsOnStem( relevantWordsFromPaperAttributes.concat( relevantWordsFromText ) );
+
+	const relevantWords = take( getRelevantCombinations( collapsedWords ), 100 );
+
+	console.log( "relevantWords", relevantWords );
 
 	return relevantWords.map( ( word ) => {
 		return {

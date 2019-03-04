@@ -74,6 +74,12 @@ describe( "getRegularStem", function() {
 		expect( determineRegularStem( "wordly", morphologyDataEN ) ).toEqual( "word" );
 		expect( determineRegularStem( "wordings", morphologyDataEN ) ).toEqual( "word" );
 
+		expect( determineRegularStem( "bonus", morphologyDataEN ) ).toEqual( "bonus" );
+		expect( determineRegularStem( "bonuses", morphologyDataEN ) ).toEqual( "bonus" );
+		expect( determineRegularStem( "bonused", morphologyDataEN ) ).toEqual( "bonus" );
+		expect( determineRegularStem( "bonusing", morphologyDataEN ) ).toEqual( "bonus" );
+		expect( determineRegularStem( "bonusings", morphologyDataEN ) ).toEqual( "bonus" );
+
 		expect( determineRegularStem( "supply", morphologyDataEN ) ).toEqual( "supply" );
 		expect( determineRegularStem( "supplies", morphologyDataEN ) ).toEqual( "supply" );
 		expect( determineRegularStem( "supplied", morphologyDataEN ) ).toEqual( "supply" );

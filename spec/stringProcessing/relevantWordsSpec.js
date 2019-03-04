@@ -23,9 +23,10 @@ describe( "getRelevantCombinations", function() {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "removes numbers", function() {
+	it( "removes numbers and pinctuation", function() {
 		const input = [
-			new WordCombination( "200", "200", 1 ),
+			new WordCombination( "*", "*", 1 ),
+			new WordCombination( "/)*8%$", "/)*8%$", 1 ),
 			new WordCombination( "100", "100", 2 ),
 		];
 		const expected = [];
@@ -108,9 +109,44 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 		];
 
 		const expectedResult = [
-			new WordCombination( "word", "word", 21 ),
+			new WordCombination( "word", "word", 41 ),
 			new WordCombination( "sentence", "sentence", 2 ),
 			new WordCombination( "whole", "whole", 2 ),
+		];
+
+		const result = collapseRelevantWordsOnStem( wordCombinations );
+
+		expect( result ).toEqual( expectedResult );
+	} );
+
+	it( "deals with multiple repetitions of forms of the same stem", function() {
+		const wordCombinations = [
+			new WordCombination( "index", "index", 6 ),
+			new WordCombination( "live", "live", 6 ),
+			new WordCombination( "amazing", "amaze", 3 ),
+			new WordCombination( "indexing", "index", 3 ),
+			new WordCombination( "seo", "seo", 3 ),
+			new WordCombination( "sites", "sites", 3 ),
+			new WordCombination( "yoast", "yoast", 3 ),
+			new WordCombination( "yoast's", "yoast", 2 ),
+			new WordCombination( "bing", "bing", 2 ),
+			new WordCombination( "google", "google", 2 ),
+			new WordCombination( "live", "live", 2 ),
+			new WordCombination( "yoast", "yoast", 1 ),
+			new WordCombination( "site", "site", 1 ),
+			new WordCombination( "update", "update", 1 ),
+		];
+
+		const expectedResult = [
+			new WordCombination( "index", "index", 9 ),
+			new WordCombination( "live", "live", 8 ),
+			new WordCombination( "yoast", "yoast", 6 ),
+			new WordCombination( "site", "site", 4 ),
+			new WordCombination( "amazing", "amaze", 3 ),
+			new WordCombination( "seo", "seo", 3 ),
+			new WordCombination( "bing", "bing", 2 ),
+			new WordCombination( "google", "google", 2 ),
+			new WordCombination( "update", "update", 1 ),
 		];
 
 		const result = collapseRelevantWordsOnStem( wordCombinations );
