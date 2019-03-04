@@ -2,9 +2,14 @@ import { SEOScoreAggregator } from "../../../../src/tree/assess/scoreAggregators
 import AssessmentResult from "../../../../src/values/AssessmentResult";
 
 describe( "SEOScoreAggregator", () => {
+	let aggregator;
+
+	beforeEach( () => {
+		aggregator = new SEOScoreAggregator();
+	} );
+
 	describe( "aggregate", () => {
 		it( "returns score 0 with default assessment results", () => {
-			const aggregator = new SEOScoreAggregator();
 			const results = [
 				new AssessmentResult(),
 				new AssessmentResult(),
@@ -14,14 +19,12 @@ describe( "SEOScoreAggregator", () => {
 		} );
 
 		it( "returns score 0 without assessment results", () => {
-			const aggregator = new SEOScoreAggregator();
 			const results = [];
 			const score = aggregator.aggregate( results );
 			expect( score ).toBe( 0 );
 		} );
 
 		it( "returns score 100 with only score 9 assessment results", () => {
-			const aggregator = new SEOScoreAggregator();
 			const results = [
 				new AssessmentResult( { score: 9 } ),
 				new AssessmentResult( { score: 9 } ),
@@ -33,7 +36,6 @@ describe( "SEOScoreAggregator", () => {
 		} );
 
 		it( "returns score 89 with only score 8 assessment results", () => {
-			const aggregator = new SEOScoreAggregator();
 			const results = [
 				new AssessmentResult( { score: 8 } ),
 				new AssessmentResult( { score: 8 } ),
@@ -44,7 +46,6 @@ describe( "SEOScoreAggregator", () => {
 		} );
 
 		it( "returns score 67 with only score 6 assessment results", () => {
-			const aggregator = new SEOScoreAggregator();
 			const results = [
 				new AssessmentResult( { score: 6 } ),
 				new AssessmentResult( { score: 6 } ),
@@ -58,7 +59,6 @@ describe( "SEOScoreAggregator", () => {
 		} );
 
 		it( "returns score 33 with only score 3 assessment results", () => {
-			const aggregator = new SEOScoreAggregator();
 			const results = [
 				new AssessmentResult( { score: 3 } ),
 				new AssessmentResult( { score: 3 } ),
@@ -78,7 +78,6 @@ describe( "SEOScoreAggregator", () => {
 		} );
 
 		it( "returns score 11 with only score 1 assessment results", () => {
-			const aggregator = new SEOScoreAggregator();
 			const results = [
 				new AssessmentResult( { score: 1 } ),
 				new AssessmentResult( { score: 1 } ),
@@ -88,7 +87,6 @@ describe( "SEOScoreAggregator", () => {
 		} );
 
 		it( "returns score as expected with combined assessment results", () => {
-			const aggregator = new SEOScoreAggregator();
 			const results = [
 				new AssessmentResult( { score: 1 } ),
 				new AssessmentResult( { score: 2 } ),
@@ -102,6 +100,16 @@ describe( "SEOScoreAggregator", () => {
 			];
 			const score = aggregator.aggregate( results );
 			expect( score ).toBe( 56 );
+		} );
+
+		it( "returns score as expected with combined assessment results - part 2", () => {
+			const results = [
+				new AssessmentResult( { score: 5 } ),
+				new AssessmentResult( { score: 4 } ),
+				new AssessmentResult( { score: 8 } ),
+			];
+			const score = aggregator.aggregate( results );
+			expect( score ).toBe( 63 );
 		} );
 	} );
 } );
