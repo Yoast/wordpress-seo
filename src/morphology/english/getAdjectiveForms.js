@@ -40,81 +40,98 @@ const checkWordTooLong = function( word ) {
 };
 
 /**
- * Checks if the input word ends with "er".
+ * Checks if the input word can be an adjectival comparative.
  *
- * @param {string} word The word to check.
+ * @param {string}      word            The word to check.
+ * @param {string[]}    erExceptions    The list of words that end with -er but are not adjectival comparatives.
  *
- * @returns {boolean} True if the word ends with "er".
+ * @returns {boolean} True if the word can be a comparative.
  */
-const endsWithEr = function( word ) {
+const canBeComparative = function( word, erExceptions ) {
 	const wordLength = word.length;
+
 	// Consider only words of four letters or more to be comparatives (otherwise, words like "per" are being treated as comparatives).
-	if ( wordLength > 3 ) {
-		return word.substring( word.length - 2, word.length ) === "er";
+	if ( wordLength < 4 ) {
+		return false;
 	}
-	return false;
+
+	const endsWithEr = word.substring( word.length - 2, word.length ) === "er";
+
+	return endsWithEr && ! erExceptions.includes( word );
 };
 
 /**
- * Checks if the input word ends with "est".
+ * Checks if the input word can be an adjectival superlative.
  *
- * @param {string} word The word to check.
+ * @param {string}      word            The word to check.
+ * @param {string[]}    estExceptions   The list of words that end with -est but are not adjectival superlatives.
  *
- * @returns {boolean} True if the word ends with "est".
+ * @returns {boolean} True if the word can be a superlative.
  */
-const endsWithEst = function( word ) {
+const canBeSuperlative = function( word, estExceptions ) {
 	const wordLength = word.length;
+
 	// Consider only words of five letters or more to be superlatives (otherwise, words like "test" are being treated as superlatives).
-	if ( wordLength > 4 ) {
-		return word.substring( word.length - 3, word.length ) === "est";
+	if ( wordLength < 5 ) {
+		return false;
 	}
-	return false;
+
+	const endsWithEst = word.substring( word.length - 3, word.length ) === "est";
+
+	return endsWithEst && ! estExceptions.includes( word );
 };
 
 /**
- * Checks if the input word ends with "ly".
+ * Checks if the input word can be an adverb with "-ly".
  *
- * @param {string} word The word to check.
+ * @param {string}      word            The word to check.
+ * @param {string[]}    lyExceptions    The list of words that end with -ly but are not adverbs.
  *
- * @returns {boolean} True if the word ends with "ly".
+ * @returns {boolean} True if the word can be an adverb with "-ly".
  */
-const endsWithLy = function( word ) {
+const canBeLyAdverb = function( word, lyExceptions ) {
 	const wordLength = word.length;
+
 	// Consider only words of five letters or more to be adjectives (otherwise, words like "lily" are being treated as adjectives).
-	if ( wordLength >= 5 ) {
-		return word.substring( word.length - 2, word.length ) === "ly";
+	if ( wordLength < 5 ) {
+		return false;
 	}
-	return false;
+
+	const endsWithLy = word.substring( word.length - 2, word.length ) === "ly";
+	return endsWithLy && ! lyExceptions.includes( word );
 };
 
 
 /**
  * Forms the base form from an input word.
  *
- * @param {string} word The word to build the base form for.
- * @param {Array} comparativeToBaseRegex The Array of regex-based rules to bring comparatives to base.
- * @param {Array} superlativeToBaseRegex The Array of regex-based rules to bring superlatives to base.
- * @param {Array} adverbToBaseRegex The Array of regex-based rules to bring adverbs to base.
- * @param {string[]} lyExceptions The array of words that end with "ly" but are not adverbs.
+ * @param {string}  word                            The word to build the base form for.
+ * @param {Array}   comparativeToBaseRegex          The Array of regex-based rules to bring comparatives to base.
+ * @param {Array}   superlativeToBaseRegex          The Array of regex-based rules to bring superlatives to base.
+ * @param {Array}   adverbToBaseRegex               The Array of regex-based rules to bring adverbs to base.
+ * @param {Object}  stopAdjectives                  The lists of words that are not adverbs.
+ * @param {string[]}  stopAdjectives.erExceptions   The list of words that end with -er and are not comparatives.
+ * @param {string[]}  stopAdjectives.estExceptions  The list of words that end with -est and are not comparatives.
+ * @param {string[]}  stopAdjectives.lyExceptions   The list of words that end with -ly and are not adverbs.
  *
  * @returns {string} The base form of the input word.
  */
-const getBase = function( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, lyExceptions ) {
-	if ( endsWithEr( word ) ) {
+const getBase = function( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives ) {
+	if ( canBeComparative( word, stopAdjectives.erExceptions ) ) {
 		return {
 			base: buildOneFormFromRegex( word, comparativeToBaseRegex ),
 			guessedForm: "er",
 		};
 	}
 
-	if ( endsWithEst( word ) ) {
+	if ( canBeSuperlative( word, stopAdjectives.estExceptions ) ) {
 		return {
 			base: buildOneFormFromRegex( word, superlativeToBaseRegex ),
 			guessedForm: "est",
 		};
 	}
 
-	if ( endsWithLy( word ) && ! lyExceptions.includes( word ) ) {
+	if ( canBeLyAdverb( word, stopAdjectives.lyExceptions ) ) {
 		return {
 			base: buildOneFormFromRegex( word, adverbToBaseRegex ),
 			guessedForm: "ly",
@@ -153,13 +170,9 @@ const getAdjectiveForms = function( word, adjectiveData ) {
 	const comparativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.comparativeToBase );
 	const superlativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.superlativeToBase );
 	const adverbToBaseRegex = createRulesFromMorphologyData( regexAdjective.adverbToBase );
-	const lyExceptions = adjectiveData.stopAdverbs;
+	const stopAdjectives = adjectiveData.stopAdjectives;
 
-	let base = getBase( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, lyExceptions ).base;
-
-	if ( isUndefined( base ) ) {
-		base = word;
-	}
+	const base = getBase( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives ).base || word;
 
 	// Const guessedForm = getBase( word ).guessedForm; //Meant to be used to check if the newly built forms are built correctly.
 	forms = forms.concat( word );

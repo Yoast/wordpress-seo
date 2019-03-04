@@ -114,6 +114,7 @@ const eAtTheEnd = [
 	[ "glue", "glues", "gluing", "glued" ],
 	[ "rue", "rues", "ruing", "rued" ],
 	[ "sue", "sues", "suing", "sued" ],
+	[ "amaze", "amazes", "amazing", "amazed" ],
 ];
 
 const needsDoublingLastConsonant = [
@@ -220,7 +221,8 @@ const irregularVerbsWithPrefixes = [
 	[ "countersing", "countersings", "countersinging", "countersang", "countersung" ],
 	[ "quartersee", "quartersees", "quarterseeing", "quartersaw", "quarterseen", "quartersaws", "quartersawing", "quartersawed", "quartersawn" ],
 	[ "counter-sing", "counter-sings", "counter-singing", "counter-sang", "counter-sung" ],
-	[ "quarter-see", "quarter-sees", "quarter-seeing", "quarter-saw", "quarter-seen", "quarter-saws", "quarter-sawing", "quarter-sawed", "quarter-sawn" ],
+	[ "quarter-see", "quarter-sees", "quarter-seeing", "quarter-saw", "quarter-seen", "quarter-saws", "quarter-sawing",
+		"quarter-sawed", "quarter-sawn" ],
 ];
 
 const verbsToNormalizePrefix = [

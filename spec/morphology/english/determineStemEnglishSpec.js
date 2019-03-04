@@ -87,6 +87,10 @@ describe( "getRegularStem", function() {
 		expect( determineRegularStem( "smart", morphologyDataEN ) ).toEqual( "smart" );
 		expect( determineRegularStem( "smarter", morphologyDataEN ) ).toEqual( "smart" );
 		expect( determineRegularStem( "smartest", morphologyDataEN ) ).toEqual( "smart" );
+
+		// The following words appear -er/-est/-ly forms of adjectives, so we need to make sure they are stemmed correctly.
+		expect( determineRegularStem( "paper", morphologyDataEN ) ).toEqual( "paper" );
+		expect( determineRegularStem( "interest", morphologyDataEN ) ).toEqual( "interest" );
 		expect( determineRegularStem( "belly", morphologyDataEN ) ).toEqual( "belly" );
 
 		expect( determineRegularStem( "trwprtrw", morphologyDataEN ) ).toEqual( "trwprtrw" );

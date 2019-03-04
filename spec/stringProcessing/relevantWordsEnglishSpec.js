@@ -15,7 +15,7 @@ describe( "gets English word combinations", function() {
 			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
 			"Here are a ton of syllables. Here are a ton of syllables.";
 		const expected = [
-			new WordCombination( "syllables", "syllables", 37 ),
+			new WordCombination( "syllables", "syllable", 37 ),
 		];
 
 		const words = getRelevantWords( input, "en", morphologyData );
@@ -37,8 +37,7 @@ describe( "gets English word combinations", function() {
 			"Here is one syllable. Here is one syllable. Here is one syllable. Here is one syllable. Here is one syllable. " +
 			"Here is one syllable. Here is one syllable. Here is one syllable. Here is one syllable. Here is one syllable.";
 		const expected = [
-			new WordCombination( "syllables", "syllables", 37 ),
-			new WordCombination( "syllable", "syllable", 10 ),
+			new WordCombination( "syllable", "syllable", 47 ),
 		];
 
 		const words = getRelevantWords( input, "en", morphologyData );

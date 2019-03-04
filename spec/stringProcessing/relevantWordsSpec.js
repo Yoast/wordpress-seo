@@ -207,12 +207,27 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 } );
 
 describe( "getRelevantWords", function() {
-	it( "correctly takes single words from the text, orders them by number of occurrences and alphabetically", function() {
-		const input = "A text consists of words. This is a test.";
+	it( "does not break and returns the word itself for a language without a stemmer", function() {
+		const input = "A text consists of words. This is a text.";
 		const expected = [
-			new WordCombination( "test", "test", 1 ),
-			new WordCombination( "text", "text", 1 ),
+			new WordCombination( "a", "a", 2 ),
+			new WordCombination( "text", "text", 2 ),
+			new WordCombination( "consists", "consists", 1 ),
+			new WordCombination( "is", "is", 1 ),
+			new WordCombination( "of", "of", 1 ),
+			new WordCombination( "this", "this", 1 ),
 			new WordCombination( "words", "words", 1 ),
+		];
+
+		const words = getRelevantWords( input, "ee", morphologyData );
+
+		expect( words ).toEqual( expected );
+	} );
+	it( "correctly takes single words from the text, orders them by number of occurrences and alphabetically", function() {
+		const input = "A text consists of words. This is a text.";
+		const expected = [
+			new WordCombination( "text", "text", 2 ),
+			new WordCombination( "words", "word", 1 ),
 		];
 
 		const words = getRelevantWords( input, "en", morphologyData );
@@ -225,8 +240,7 @@ describe( "getRelevantWords", function() {
 			"A whole new sentence, with more words here. " +
 			"A whole new sentence, with more words here. ";
 		const expected = [
-			new WordCombination( "words", "words", 11 ),
-			new WordCombination( "word", "word", 10 ),
+			new WordCombination( "word", "word", 21 ),
 			new WordCombination( "sentence", "sentence", 2 ),
 			new WordCombination( "whole", "whole", 2 ),
 			new WordCombination( "3", "3", 1 ),
@@ -247,14 +261,13 @@ describe( "getRelevantWords", function() {
 			"It's so different when it's just free speech! A syllable then costs a tiny effort, almost " +
 			"no effort at all! That is wonderful!!";
 		const expected = [
-			new WordCombination( "syllables", "syllables", 6 ),
+			new WordCombination( "syllable", "syllable", 10 ),
 			new WordCombination( "effort", "effort", 4 ),
-			new WordCombination( "syllable", "syllable", 4 ),
-			new WordCombination( "costs", "costs", 2 ),
+			new WordCombination( "costs", "cost", 2 ),
 			new WordCombination( "demand", "demand", 2 ),
 			new WordCombination( "free", "free", 2 ),
 			new WordCombination( "pain", "pain", 2 ),
-			new WordCombination( "producing", "producing", 2 ),
+			new WordCombination( "producing", "produce", 2 ),
 			new WordCombination( "speech", "speech", 2 ),
 			new WordCombination( "wonderful", "wonderful", 2 ),
 		];
@@ -275,7 +288,7 @@ describe( "getRelevantWords", function() {
 			new WordCombination( "ton", "ton", 2 ),
 		];
 
-		const words = getRelevantWords( input, "bla", morphologyData );
+		const words = getRelevantWords( input, "ee", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -294,9 +307,9 @@ describe( "getRelevantWordsFromPaperAttributes", function() {
 	it( "gets all non-function words from the attributes", function() {
 		const expected = [
 			new WordCombination( "synonym", "synonym", 9 ),
-			new WordCombination( "subheading", "subheading", 6 ),
-			new WordCombination( "analysing", "analysing", 3 ),
-			new WordCombination( "interesting", "interesting", 3 ),
+			new WordCombination( "interest", "interest", 6 ),
+			new WordCombination( "subheading", "subhead", 6 ),
+			new WordCombination( "analysing", "analyse", 3 ),
 			new WordCombination( "keyphrase", "keyphrase", 3 ),
 			new WordCombination( "metadescription", "metadescription", 3 ),
 			new WordCombination( "o-my", "o-my", 3 ),
@@ -311,7 +324,7 @@ describe( "getRelevantWordsFromPaperAttributes", function() {
 				keyphrase: "This is a nice keyphrase",
 				synonyms: "This is a synonym one, a synonym two and an o-my synonym",
 				title: "This is a pretty long title!",
-				metadescription: "This is an interesting metadescription of the paper that we are analysing.",
+				metadescription: "This is an interesting metadescription of the paper that we are analysing and have interest in.",
 				subheadings: [ "subheading one", "subheading two" ],
 			},
 			"en",

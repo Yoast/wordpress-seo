@@ -28,9 +28,8 @@ describe( "relevantWords research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		const expected = [
-			new WordCombination( "combinations", "combinations", 2 ),
-			new WordCombination( "syllable", "syllable", 2 ),
-			new WordCombination( "syllables", "syllables", 2 ),
+			new WordCombination( "syllable", "syllable", 4 ),
+			new WordCombination( "combinations", "combination", 2 ),
 		];
 
 		const words = relevantWordsResearch( paper, researcher );
@@ -58,18 +57,21 @@ describe( "relevantWords research", function() {
 
 		const expected = [
 			new WordCombination( "synonym", "synonym", 6 ),
-			new WordCombination( "amazing", "amazing", 3 ),
+			new WordCombination( "amazing", "amaze", 3 ),
+			new WordCombination( "indexing", "index", 3 ),
 			new WordCombination( "keyphrase", "keyphrase", 3 ),
 			new WordCombination( "metadescription", "metadescription", 3 ),
-			new WordCombination( "subheading", "subheading", 3 ),
+			new WordCombination( "subheading", "subhead", 3 ),
 			new WordCombination( "title", "title", 3 ),
 			new WordCombination( "allow", "allow", 2 ),
 			new WordCombination( "bing", "bing", 2 ),
 			new WordCombination( "connect", "connect", 2 ),
-			new WordCombination( "indexing", "indexing", 2 ),
+			new WordCombination( "google", "google", 2 ),
 			new WordCombination( "live", "live", 2 ),
 			new WordCombination( "myyoast", "myyoast", 2 ),
+			new WordCombination( "site", "site", 2 ),
 			new WordCombination( "update", "update", 2 ),
+			new WordCombination( "work", "work", 2 ),
 		];
 
 		const words = relevantWordsResearch( paper, researcher );

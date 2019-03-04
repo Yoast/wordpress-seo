@@ -1,12 +1,15 @@
-import getWords from "../stringProcessing/getWords.js";
-import { normalizeSingle } from "../stringProcessing/quotes";
-import WordCombination from "../values/WordCombination.js";
-import functionWordListsFactory from "../helpers/getFunctionWords.js";
-const functionWordLists = functionWordListsFactory();
-// Import determineStem from "../morphology/determineStem";
-
 import { get } from "lodash-es";
 import { uniq } from "lodash-es";
+
+import getWords from "../stringProcessing/getWords";
+import { normalizeSingle } from "../stringProcessing/quotes";
+import WordCombination from "../values/WordCombination";
+import functionWordListsFactory from "../helpers/getFunctionWords";
+import getStemForLanguageFactory from "../helpers/getStemForLanguage";
+
+const functionWordLists = functionWordListsFactory();
+const stemFunctions = getStemForLanguageFactory();
+
 
 /**
  * Returns only the relevant combinations from a list of word combinations. Assumes
@@ -106,6 +109,28 @@ function collapseRelevantWordsOnStem( wordCombinations ) {
 }
 
 /**
+ * Retrieves a function words list from the factory. Returns an empty array if the language does not have function words.
+ *
+ * @param {string} language The language to retrieve function words for.
+ *
+ * @returns {Array} A list of function words for the language.
+ */
+function retrieveFunctionWords( language ) {
+	return get( functionWordLists, language.concat( ".all" ), [] );
+}
+
+/**
+ * Retrieves a stemmer function from the factory. Returns the identity function if the language does not have a stemmer.
+ *
+ * @param {string} language The language to retrieve a stemmer function for.
+ *
+ * @returns {function} A stemmer function for the language.
+ */
+function retrieveStemmer( language ) {
+	return get( stemFunctions, language, word => word );
+}
+
+/**
  * Returns the relevant words in a given text.
  *
  * @param {string} text The text to retrieve the relevant words of.
@@ -114,8 +139,9 @@ function collapseRelevantWordsOnStem( wordCombinations ) {
  *
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
-function getRelevantWords( text, language ) {
-	const functionWords = get( functionWordLists, language.concat( ".all" ), [] );
+function getRelevantWords( text, language, morphologyData ) {
+	const functionWords = retrieveFunctionWords( language );
+	const determineStem = retrieveStemmer( language );
 
 	const words = getWords( normalizeSingle( text ).toLocaleLowerCase() );
 
@@ -128,8 +154,7 @@ function getRelevantWords( text, language ) {
 	const relevantWordsFromText = uniqueContentWords.map(
 		word => new WordCombination(
 			word,
-			// As soon as the stemmer is merged, the next line should be changed to	determineStem( word, morphologyData ),
-			word,
+			determineStem( word, morphologyData ),
 			words.filter( element => element === word ).length
 		)
 	);
@@ -151,10 +176,11 @@ function getRelevantWords( text, language ) {
  *
  * @returns {WordCombination[]} Relevant word combinations from the paper attributes.
  */
-function getRelevantWordsFromPaperAttributes( attributes, language ) {
+function getRelevantWordsFromPaperAttributes( attributes, language, morphologyData ) {
 	const { keyphrase, synonyms, metadescription, title, subheadings } = attributes;
 
-	const functionWords = get( functionWordLists, language.concat( ".all" ), [] );
+	const functionWords = retrieveFunctionWords( language );
+	const determineStem = retrieveStemmer( language );
 
 	const attributesJoined = normalizeSingle( keyphrase.concat( " ", synonyms, " ", metadescription, " ", title, " ", subheadings.join( " " ) ) );
 
@@ -170,8 +196,7 @@ function getRelevantWordsFromPaperAttributes( attributes, language ) {
 	const relevantWordsFromAttributes = uniqueContentWordsFromAttributes.map(
 		word => new WordCombination(
 			word,
-			// As soon as the stemmer is merged, the next line should be changed to	determineStem( word, morphologyData ),
-			word,
+			determineStem( word, morphologyData ),
 			/* If a word is used in any of the attributes, its relevance is automatically high.
 			To make sure the word survives relevance filters and gets saved in the database, make the number of occurrences times-3.*/
 			wordsFromAttributes.filter( element => element === word ).length * 3
