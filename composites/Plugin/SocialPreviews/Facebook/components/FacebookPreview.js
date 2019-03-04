@@ -1,8 +1,10 @@
-import React from "react";
+/* External dependencies */
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
+/* Internal dependencies */
 import FacebookSiteName from "./FacebookSiteName";
-
+import FacebookImage from "./FacebookImage";
 
 /**
  * Renders a FacebookPreview component.
@@ -10,17 +12,24 @@ import FacebookSiteName from "./FacebookSiteName";
  * @param {object} props The props.
  *
  * @returns {React.Element} The rendered element.
- *
- * @constructor
  */
 const FacebookPreview = ( props ) => {
 	return (
-		<FacebookSiteName siteName={ props.siteName } />
+		<Fragment>
+			<FacebookImage src={ props.src } alt={ props.alt } />
+			<FacebookSiteName siteName={ props.siteName } />
+		</Fragment>
 	);
 };
 
 FacebookPreview.propTypes = {
 	siteName: PropTypes.string.isRequired,
+	src: PropTypes.string.isRequired,
+	alt: PropTypes.string,
+};
+
+FacebookPreview.defaultProps = {
+	alt: "",
 };
 
 export default FacebookPreview;
