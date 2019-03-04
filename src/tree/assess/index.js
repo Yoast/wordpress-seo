@@ -1,5 +1,5 @@
 import TreeAssessor from "./TreeAssessor";
-import ScoreAggregator from "./ScoreAggregator";
+import ScoreAggregator from "./scoreAggregators/ScoreAggregator";
 import Assessment from "./assessments/Assessment";
 
 /**
