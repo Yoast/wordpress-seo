@@ -10,8 +10,10 @@ import { ScoreAggregator } from "../index";
  *
  * @type {number}
  * @const
+ *
+ * @memberOf module:tree/assess
  */
-const totalNrOfAssessments = 8;
+const TOTAL_NR_OF_ASSESSMENTS = 8;
 
 /**
  * Penalties that can be given on each assessment
@@ -20,8 +22,10 @@ const totalNrOfAssessments = 8;
  *
  * @type {{ok: number, bad: number, good: number}}
  * @const
+ *
+ * @memberOf module:tree/assess
  */
-const penaltyMappingFullSupport = {
+const PENALTY_MAPPING_FULL_SUPPORT = {
 	bad: 3,
 	ok: 2,
 	good: 0,
@@ -34,8 +38,10 @@ const penaltyMappingFullSupport = {
  *
  * @type {{ok: number, bad: number, good: number}}
  * @const
+ *
+ * @memberOf module:tree/assess
  */
-const penaltyMappingPartialSupport = {
+const PENALTY_MAPPING_PARTIAL_SUPPORT = {
 	bad: 4,
 	ok: 2,
 	good: 0,
@@ -46,6 +52,8 @@ const penaltyMappingPartialSupport = {
  *
  * @type {{GOOD: number, OKAY: number, NEEDS_IMPROVEMENT: number}}
  * @const
+ *
+ * @memberOf module:tree/assess
  */
 export const READABILITY_SCORES = {
 	GOOD: 90,
@@ -55,6 +63,8 @@ export const READABILITY_SCORES = {
 
 /**
  * Aggregates the results of the readability analysis into a single score.
+ *
+ * @memberOf module:tree/assess
  */
 class ReadabilityScoreAggregator extends ScoreAggregator {
 	/**
@@ -76,7 +86,7 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 		 * Since only applicable assessments are applied, we only get the results
 		 * of applicable assessments either way. So this check suffices.
 		 */
-		return results.length === totalNrOfAssessments;
+		return results.length === TOTAL_NR_OF_ASSESSMENTS;
 	}
 
 	/**
@@ -122,8 +132,8 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 			const rating = scoreToRating( result.getScore() );
 
 			const penalty = this.isFullySupported( results )
-				? penaltyMappingFullSupport[ rating ]
-				: penaltyMappingPartialSupport[ rating ];
+				? PENALTY_MAPPING_FULL_SUPPORT[ rating ]
+				: PENALTY_MAPPING_PARTIAL_SUPPORT[ rating ];
 
 			// Add penalty when available.
 			return penalty ? sum + penalty : sum;
