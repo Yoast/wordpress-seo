@@ -40,12 +40,12 @@ export function constructReadabilityAssessor( i18n, researcher ) {
 }
 
 /**
- * Creates a new assessor for assessing the readability of a text.
+ * Creates a new assessor for assessing the SEO of a text on a taxonomy page.
  *
  * @param {Jed}                                 i18n       The Jed object to use for localization / internalization.
  * @param {module:tree/research.TreeResearcher} researcher The researcher the assessments need to use to get information about the text.
  *
- * @returns {module:tree/assess.TreeAssessor} The readability assessor.
+ * @returns {module:tree/assess.TreeAssessor} The SEO taxonomy assessor.
  */
 export function constructTaxonomyAssessor( i18n, researcher ) {
 	const assessments = constructTaxonomyAssessments();
