@@ -100,19 +100,38 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 	 */
 	calculateScore( isFullySupported, penalty ) {
 		if ( isFullySupported ) {
+			/*
+			 * If the language is fully supported, we are more lenient.
+			 * A higher penalty is needed to get lower scores.
+			 */
 			if ( penalty > 6 ) {
 				return READABILITY_SCORES.NEEDS_IMPROVEMENT;
 			}
 
 			if ( penalty > 4 ) {
+				/*
+				 * A penalty between 4 and 6 means either:
+				 *  - One "ok" and one "bad" result (5).
+				 *  - Two "bad" results of 3 points each (6).
+				 *  - Three "ok" results of 2 points each (6).
+				 */
 				return READABILITY_SCORES.OKAY;
 			}
 		} else {
+			/*
+			 * If the language is NOT fully supported, we are more stringent.
+			 * The penalty threshold for getting lower scores is set lower.
+			 */
 			if ( penalty > 4 ) {
 				return READABILITY_SCORES.NEEDS_IMPROVEMENT;
 			}
 
 			if ( penalty > 2 ) {
+				/*
+				 * A penalty of 3 or 4 means:
+				 *  - Two "ok" results of 2 points each (4).
+				 *  - One "bad" result of 4 points (4).
+				 */
 				return READABILITY_SCORES.OKAY;
 			}
 		}
