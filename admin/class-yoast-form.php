@@ -431,7 +431,7 @@ class Yoast_Form {
 	 * @param string $var            The variable within the option to create the select for.
 	 * @param string $label          The label to show for the variable.
 	 * @param array  $select_options The select options to choose from.
-	 * @param string $styled         Whether the select is styled. Default is unstyled.
+	 * @param string $styled         The select style. Use 'styled' to get a styled select. Default 'unstyled'.
 	 */
 	public function select( $var, $label, array $select_options, $styled = 'unstyled' ) {
 
@@ -450,7 +450,7 @@ class Yoast_Form {
 		$select_name       = esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']';
 		$active_option     = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 		$wrapper_start_tag = '';
-		$wrapper_start_end = '';
+		$wrapper_end_tag   = '';
 
 		$select = new Yoast_Input_Select( $var, $select_name, $select_options, $active_option );
 		$select->add_attribute( 'class', 'select' );
@@ -460,12 +460,12 @@ class Yoast_Form {
 
 		if ( $styled === 'styled' ) {
 			$wrapper_start_tag = '<span class="yoast-styled-select">';
-			$wrapper_start_end = '</span>';
+			$wrapper_end_tag   = '</span>';
 		}
 
 		echo $wrapper_start_tag;
 		$select->output_html();
-		echo $wrapper_start_end;
+		echo $wrapper_end_tag;
 	}
 
 	/**
