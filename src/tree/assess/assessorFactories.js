@@ -1,3 +1,4 @@
+/* Assessment list factories. */
 import { constructReadabilityAssessments, constructSEOAssessments } from "./assessmentListFactories";
 
 /* Score aggregators */
