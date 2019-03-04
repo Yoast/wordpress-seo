@@ -1,6 +1,6 @@
 /* Assessment list factories. */
 import {
-	constructReadabilityAssessments,
+	constructReadabilityAssessments, constructRelatedKeyphraseAssessments,
 	constructSEOAssessments,
 	constructTaxonomyAssessments,
 } from "./assessmentListFactories";
@@ -49,6 +49,20 @@ export function constructReadabilityAssessor( i18n, researcher ) {
  */
 export function constructTaxonomyAssessor( i18n, researcher ) {
 	const assessments = constructTaxonomyAssessments();
+	const scoreAggregator = new SEOScoreAggregator();
+	return new TreeAssessor( { i18n, researcher, assessments, scoreAggregator } );
+}
+
+/**
+ * Creates a new assessor for assessing the SEO of a text in relation to a related keyphrase.
+ *
+ * @param {Jed}                                 i18n       The Jed object to use for localization / internalization.
+ * @param {module:tree/research.TreeResearcher} researcher The researcher the assessments need to use to get information about the text.
+ *
+ * @returns {module:tree/assess.TreeAssessor} The SEO assessor.
+ */
+export function constructRelatedKeywordAssessor( i18n, researcher ) {
+	const assessments = constructRelatedKeyphraseAssessments();
 	const scoreAggregator = new SEOScoreAggregator();
 	return new TreeAssessor( { i18n, researcher, assessments, scoreAggregator } );
 }
