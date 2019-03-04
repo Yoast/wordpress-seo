@@ -6,8 +6,6 @@ import { ScoreAggregator } from "../index";
 /**
  * Total number of available readability assessments.
  *
- * To do: Compute this, rather than set this and keep this updated (see https://github.com/Yoast/YoastSEO.js/pull/2176#discussion_r261547836)
- *
  * @type {number}
  * @const
  *
