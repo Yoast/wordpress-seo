@@ -10,10 +10,13 @@
  */
 class WPSEO_Configuration_Page {
 
+	/**
+	 * @var string
+	 */
 	const PAGE_IDENTIFIER = 'wpseo_configurator';
 
 	/**
-	 * Sets the hooks when the user has enought rights and is on the right page.
+	 * Sets the hooks when the user has enough rights and is on the right page.
 	 */
 	public function set_hooks() {
 		if ( ! ( $this->is_config_page() && current_user_can( WPSEO_Configuration_Endpoint::CAPABILITY_RETRIEVE ) ) ) {

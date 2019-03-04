@@ -2,7 +2,18 @@
 /* global wpseoSelect2Locale */
 
 ( function( $ ) {
+	/**
+	 * Initializes the meta box tabs, adds event handlers, and manages the tabs visibility.
+	 *
+	 * @returns {void}
+	 */
 	function wpseoInitTabs() {
+		// When there's only one add-on tab, change its link to a span element.
+		var addonsTabsLinks = jQuery( "#wpseo-meta-section-addons .wpseo_tablink" );
+		if ( addonsTabsLinks.length === 1 ) {
+			addonsTabsLinks.replaceWith( "<span class='" + addonsTabsLinks[ 0 ].className + "'>" + addonsTabsLinks.text() + "</span>" );
+		}
+
 		if ( jQuery( ".wpseo-metabox-tabs-div" ).length > 0 ) {
 			jQuery( ".wpseo-metabox-tabs" )
 				.on( "click", "a.wpseo_tablink", function( ev ) {

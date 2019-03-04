@@ -13,7 +13,6 @@ build:
   - 'clean:build-assets-css'
   - 'build:sass'
   - 'postcss:build'
-  - 'wpcss'
   - 'rtlcss'
   - 'cssmin'
 # Optimise images from source to production
@@ -66,7 +65,7 @@ check:
 'check:js':
   - 'eslint'
 'check:php':
-  - 'phplint'
+  - 'shell:php-lint'
   - 'phpcs'
 'check:i18n':
   - 'checktextdomain'
@@ -78,7 +77,9 @@ check:
 
 'artifact':
   - 'shell:production-prefix-dependencies'
-  - 'shell:production-composer-install'
+  - 'shell:composer-install-production'
+  # Remove the folders that are already in the vendor_prefixed folder from the vendor folder.
+  - 'shell:remove-prefixed-sources'
   # Build like we normally would
   - 'release'
   # Remove build folder
@@ -87,6 +88,12 @@ check:
   - 'copy:artifact'
   # Create a zip file
   - 'compress:artifact'
+  - 'restore-environment-after-artifact'
+
+'restore-environment-after-artifact':
+  - 'shell:composer-reset-config'
+  - 'shell:composer-reset-lock'
+  - 'shell:composer-install-dev'
 
 'composer-artifact':
   # Create our composer targeted artifact
@@ -122,7 +129,8 @@ release:
 # Run the steps to deploy a new recalibration version.
 'deploy:recalibration':
   - 'update-recalibration'
-  - 'webpack:recalibration'
+  - 'clean:build-assets-js'
+  - 'release:js'
   - 'publish-recalibration'
 
 # Default task

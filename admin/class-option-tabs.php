@@ -112,7 +112,7 @@ class WPSEO_Option_Tabs {
 	/**
 	 * Display the tabs
 	 *
-	 * @param Yoast_Form $yform   Yoast Form needed in the views.
+	 * @param Yoast_Form $yform Yoast Form needed in the views.
 	 */
 	public function display( Yoast_Form $yform ) {
 		$formatter = new WPSEO_Option_Tabs_Formatter();

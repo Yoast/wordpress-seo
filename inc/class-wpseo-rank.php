@@ -10,14 +10,35 @@
  */
 class WPSEO_Rank {
 
-	const BAD      = 'bad';
-	const OK       = 'ok';
-	const GOOD     = 'good';
+	/**
+	 * @var string
+	 */
+	const BAD = 'bad';
+
+	/**
+	 * @var string
+	 */
+	const OK = 'ok';
+
+	/**
+	 * @var string
+	 */
+	const GOOD = 'good';
+
+	/**
+	 * @var string
+	 */
 	const NO_FOCUS = 'na';
+
+	/**
+	 * @var string
+	 */
 	const NO_INDEX = 'noindex';
 
 	/**
-	 * @var array All possible ranks.
+	 * All possible ranks.
+	 *
+	 * @var array
 	 */
 	protected static $ranks = array(
 		self::BAD,

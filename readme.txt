@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.9
-Tested up to: 5.0.3
-Stable tag: 9.4
+Tested up to: 5.1
+Stable tag: 9.7
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -106,49 +106,44 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
-= 9.6.0 =
-Release Date: February 5th, 2019
-
-## Enhancements:
-
-* Removes schema (JSON+LD) output from 404 pages.
-* Improves the Google Search Console table accessibility by removing a duplicate button.
-* Improves the code to better comply to the coding standards.
-
-## Bugfixes:
-
-* Fixes a bug where an empty feed would be available for non-existing pages. Props [stodorovic](https://github.com/stodorovic).
-* Prevents `vendor_prefix/j4mie/idiorm/demo.php` from being included in the release.
-
-## Other:
-
-* Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
-* Improves the redirect upsell when user clicks on create redirect in the search console overview.
-
-= 9.5.0 =
-Release Date: January 22nd, 2019
+= 10.0.0 =
+Release Date: March 12th, 2019
 
 Enhancements:
 
-* Completes the readabilty analysis for Swedish by adding the transition words, sentence beginnings and passive voice assessments. 
-* Improves the transition word assessment for German.
+* The recalibrated analysis is out of its beta phase and is now the default for the SEO analysis. Thanks for testing and giving us your valuable feedback! You are awesome! 👍
+* Adds `$taxonomy` to the arguments passed to the `wpseo_terms` filter. Props to [polevaultweb](https://github.com/polevaultweb).
+* Changes the screen reader text of the SEO score indicator in the menu bar and the traffic light in the snippet preview from `Bad SEO score.` to `Needs improvement.`
+* Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
 
 Bugfixes:
 
-* Fixes a bug where the Ryte endpoint would be called when the Ryte feature has been disabled.
-* Fixes a bug where the 'Show archives for authors without posts in search results?' toggle would be shown when the 'Show author archives in search results?' toggle was disabled in the search appearance settings.
-* Fixes a bug where the front page would be shown in the page sitemap. Props to [stodorovic](https://github.com/stodorovic).
-* Fixes a bug where errors would be thrown in the classic editor when Gutenberg assets were enqueued without Gutenberg being active.
-* Fixes a bug where the editor would not be loaded when clicking the ‘edit’ button for a child page in the page overview. Props [mondrey](https://github.com/mondrey).
+* Fixes a bug where the `focus keyphrase` snippet variable was not correctly applied on term pages.
+* Fixes a bug where the Facebook image that was set for the WooCommerce Shop page would not be outputted as `og:image`. Props [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where the featured image set on a WooCommerce Shop page would not be outputted as Facebook OpenGraph Image or Twitter Image. Props [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where backslashes and consecutive double quotes would be removed from the focus keyphrase when saving a post or term.
+* Fixes a bug where backslashes would be removed from the breadcrumb title, focus keyphrase, title or meta description when saving a term.
 
-Deprecated:
+= 9.7.0 =
+Release Date: February 26th, 2019
 
-* Deprecates the methods WPSEO_Utils::get_user_locale() and WPSEO_Utils:: get_language().
+Enhancements:
 
-Other:
+* Replaces inch marks by smart quotes in search breadcrumbs.
+* Improves the feedback for the assessment that checks the length of cornerstone articles.
+* Improves accessibility and focus management for the How-To and FAQ structured data blocks.
+* Improves the Internal Links table headers on the post overview for better translations and accessibility.
+* Adds a description of the SEO and Readability score to the posts and taxonomies overview in mobile view.
+* Adds a label element to the Google Search Console authorisation code input field in the configuration wizard.
 
-* Adds a Courses Page showing an overview of the available online courses offered by Yoast Academy.
+Bugfixes:
+
+* Fixes a bug where a Flesch reading ease score of exactly 90 would trigger incorrect feedback.
+* Fixes a bug where the taxonomy sitemap provider would not handle private taxonomies as expected, resulting in sitemaps not being accessible in specific situations.
+* Fixes a bug where an empty twitter description instead of the term description would be shown.
+* Fixes a bug where 'undefined index' warnings would be given when saving a Facebook image.
+* Fixes a bug where the Recalibration Beta could not be loaded in combination with specific server configurations.
 
 = Earlier versions =
 
-For the changelog of earlier versions, please refer to [the Yoast SEO changelog on yoast.com](https://yoa.st/yoast-seo-changelog)
+For the changelog of earlier versions, please refer to https://yoa.st/yoast-seo-changelog

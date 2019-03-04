@@ -9,6 +9,7 @@ import {
 	updateReplacementVariable,
 	refreshSnippetEditor,
 } from "./redux/actions/snippetEditor";
+import TaxonomyReplacementVariables from "./helpers/taxonomy-replacevars";
 
 import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
@@ -131,6 +132,17 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 	};
 
 	/**
+	 * Handle replace vars for taxonomies. Makes sure the taxonomy replacement variables are updated
+	 * when the selected terms for a post change.
+	 *
+	 * @returns {void}
+	 */
+	const handleCategories = function() {
+		const taxonomyReplacementVariables = new TaxonomyReplacementVariables();
+		taxonomyReplacementVariables.listen();
+	};
+
+	/**
 	 * Subscribes to Gutenberg to watch a possible parent page change.
 	 *
 	 * @returns {void}
@@ -139,11 +151,17 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		if ( ! isGutenbergDataAvailable() ) {
 			return;
 		}
+
+		handleCategories();
+
 		const fetchedParents = { 0: "" };
-		let currentParent  = null;
-		const wpData       = window.wp.data;
+		let currentParent    = null;
+
+		const wpData = window.wp.data;
+
 		wpData.subscribe( () => {
 			const newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
+
 			if ( typeof newParent === "undefined" || currentParent === newParent ) {
 				return;
 			}
@@ -158,7 +176,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 				this.declareReloaded();
 				return;
 			}
-			wp.api.loadPromise.done( function() {
+			wp.api.loadPromise.done( () => {
 				const page = new wp.api.models.Page( { id: newParent } );
 				page.fetch().then(
 					response => {

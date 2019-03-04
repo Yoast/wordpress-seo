@@ -192,7 +192,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	/**
 	 * Filter over the meta boxes to save, this function adds the Social meta boxes.
 	 *
-	 * @param   array $field_defs Array of metaboxes to save.
+	 * @param array $field_defs Array of metaboxes to save.
 	 *
 	 * @return  array
 	 */

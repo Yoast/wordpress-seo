@@ -10,7 +10,6 @@
  */
 class WPSEO_Option_Social_Test extends WPSEO_UnitTestCase {
 
-
 	/**
 	 * @param string $expected The expected value.
 	 * @param array  $dirty    New value for the option.
@@ -28,7 +27,6 @@ class WPSEO_Option_Social_Test extends WPSEO_UnitTestCase {
 			$expected,
 			$instance->validate_option( $dirty, $clean, $old )
 		);
-
 	}
 
 	/**

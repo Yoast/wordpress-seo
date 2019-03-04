@@ -11,7 +11,9 @@
 class WPSEO_Admin_Recommended_Replace_Vars {
 
 	/**
-	 * @var array The recommended replacement variables.
+	 * The recommended replacement variables.
+	 *
+	 * @var array
 	 */
 	protected $recommended_replace_vars = array(
 		// Posts types.

@@ -12,11 +12,15 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 
 	/**
 	 * The name of the user meta key for storing the dismissed status.
+	 *
+	 * @var string
 	 */
 	const USER_META_KEY = 'wpseo_dismiss_onpage';
 
 	/**
-	 * @var boolean Is the request started by pressing the fetch button.
+	 * Is the request started by pressing the fetch button.
+	 *
+	 * @var boolean
 	 */
 	private $is_manual_request = false;
 

@@ -12,6 +12,8 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 
 	/**
 	 * The option where data will be stored.
+	 *
+	 * @var string
 	 */
 	const OPTION_WPSEO_GSC = 'wpseo-gsc';
 
@@ -31,12 +33,16 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	protected $issue_fetch;
 
 	/**
-	 * @var string current platform
+	 * Current platform.
+	 *
+	 * @var string
 	 */
 	private $platform;
 
 	/**
-	 * @var string current category
+	 * Current category.
+	 *
+	 * @var string
 	 */
 	private $category;
 

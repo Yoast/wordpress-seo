@@ -8,7 +8,7 @@
 /**
  * This class generates the metabox on the edit post / page as well as contains all page analysis functionality.
  */
-class WPSEO_Metabox {
+class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * @var WPSEO_Social_Admin
@@ -94,8 +94,13 @@ class WPSEO_Metabox {
 		WPSEO_Meta::$meta_fields['advanced']['bctitle']['description'] = __( 'Title to use for this page in breadcrumb paths', 'wordpress-seo' );
 
 		WPSEO_Meta::$meta_fields['advanced']['canonical']['title'] = __( 'Canonical URL', 'wordpress-seo' );
-		/* translators: 1: link open tag; 2: link close tag. */
-		WPSEO_Meta::$meta_fields['advanced']['canonical']['description'] = sprintf( __( 'The canonical URL that this page should point to, leave empty to default to permalink. %1$sCross domain canonical%2$s supported too.', 'wordpress-seo' ), '<a target="_blank" href="http://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html">', '</a>' );
+
+		WPSEO_Meta::$meta_fields['advanced']['canonical']['description'] = sprintf(
+			/* translators: 1: link open tag; 2: link close tag. */
+			__( 'The canonical URL that this page should point to. Leave empty to default to permalink. %1$sCross domain canonical%2$s supported too.', 'wordpress-seo' ),
+			'<a href="https://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html" target="_blank" rel="noopener">',
+			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
+		);
 
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['title']       = __( '301 Redirect', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
@@ -201,7 +206,19 @@ class WPSEO_Metabox {
 			'replace_vars'             => $this->get_replace_vars(),
 			'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 			'scope'                    => $this->determine_scope(),
+			'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
 		);
+	}
+
+	/**
+	 * Determines whether or not the current post type has registered taxonomies.
+	 *
+	 * @return bool Whether the current post type has taxonomies.
+	 */
+	private function current_post_type_has_taxonomies() {
+		$post_taxonomies = get_object_taxonomies( get_post_type() );
+
+		return ! empty( $post_taxonomies );
 	}
 
 	/**
@@ -420,8 +437,8 @@ class WPSEO_Metabox {
 	 *
 	 * @todo [JRF] Check if $class is added appropriately everywhere.
 	 *
-	 * @param   array  $meta_field_def Contains the vars based on which output is generated.
-	 * @param   string $key            Internal key (without prefix).
+	 * @param array  $meta_field_def Contains the vars based on which output is generated.
+	 * @param string $key            Internal key (without prefix).
 	 *
 	 * @return  string
 	 */
@@ -1012,6 +1029,7 @@ class WPSEO_Metabox {
 	 * Outputs the page analysis score in the Publish Box.
 	 *
 	 * @deprecated 9.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -1023,6 +1041,7 @@ class WPSEO_Metabox {
 	 * Sets up all the functionality related to the prominence of the page analysis functionality.
 	 *
 	 * @deprecated 9.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */

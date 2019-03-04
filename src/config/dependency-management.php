@@ -100,7 +100,7 @@ class Dependency_Management {
 	 * @return bool True if the class exists.
 	 */
 	protected function class_exists( $class ) {
-		return class_exists( $class );
+		return class_exists( $class ) || interface_exists( $class );
 	}
 
 	/**

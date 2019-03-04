@@ -34,7 +34,7 @@ class Yoast_Model {
 
 	/**
 	 * Default ID column for all models. Can be overridden by adding
-	 * a public static _id_column property to your model classes.
+	 * a public static $id_column property to your model classes.
 	 *
 	 * @var string
 	 */
@@ -79,9 +79,9 @@ class Yoast_Model {
 	/**
 	 * The table name for the implemented Model.
 	 *
-	 * @var string $_table
+	 * @var string
 	 */
-	public static $_table;
+	public static $table;
 
 	/**
 	 * Hacks around the Model to provide WordPress prefix to tables.
@@ -96,7 +96,7 @@ class Yoast_Model {
 		$class = static::$auto_prefix_models . $class_name;
 
 		// Set the class variable to the custom value based on the WPDB prefix.
-		$class::$_table = static::get_table_name( $class_name, $yoast_prefix );
+		$class::$table = static::get_table_name( $class_name, $yoast_prefix );
 
 		return static::factory( $class_name, null );
 	}
@@ -142,7 +142,7 @@ class Yoast_Model {
 		// Prepend namespace to the class name.
 		$class = static::$auto_prefix_models . $class_name;
 
-		$class::$_table = static::get_table_name( $class_name );
+		$class::$table = static::get_table_name( $class_name );
 	}
 
 	/**
@@ -169,14 +169,14 @@ class Yoast_Model {
 	/**
 	 * Static method to get a table name given a class name.
 	 * If the supplied class has a public static property
-	 * named $_table, the value of this property will be
+	 * named $table, the value of this property will be
 	 * returned.
 	 *
 	 * If not, the class name will be converted using
 	 * the class_name_to_table_name() method.
 	 *
 	 * If Model::$short_table_names == true or public static
-	 * property $_table_use_short_name == true then $class_name passed
+	 * property $table_use_short_name == true then $class_name passed
 	 * to class_name_to_table_name() is stripped of namespace information.
 	 *
 	 * @param  string $class_name The class name to get the table name for.
@@ -184,7 +184,7 @@ class Yoast_Model {
 	 * @return string The table name.
 	 */
 	protected static function get_table_name_for_class( $class_name ) {
-		$specified_table_name = static::get_static_property( $class_name, '_table' );
+		$specified_table_name = static::get_static_property( $class_name, 'table' );
 		$use_short_class_name = static::use_short_table_name( $class_name );
 		if ( $use_short_class_name ) {
 			$exploded_class_name = \explode( '\\', $class_name );
@@ -208,7 +208,7 @@ class Yoast_Model {
 	 * @return bool True when short table name should be used.
 	 */
 	protected static function use_short_table_name( $class_name ) {
-		$class_property = static::get_static_property( $class_name, '_table_use_short_name' );
+		$class_property = static::get_static_property( $class_name, 'table_use_short_name' );
 
 		if ( $class_property === null ) {
 			return static::$short_table_names;
@@ -258,7 +258,7 @@ class Yoast_Model {
 	 * @return string|null The ID column name.
 	 */
 	protected static function get_id_column_name( $class_name ) {
-		return static::get_static_property( $class_name, '_id_column', static::DEFAULT_ID_COLUMN );
+		return static::get_static_property( $class_name, 'id_column', static::DEFAULT_ID_COLUMN );
 	}
 
 	/**
@@ -330,11 +330,11 @@ class Yoast_Model {
 		 * database table in the associated model.
 		 */
 		if ( $foreign_key_name_in_current_models_table === null ) {
-			// Matches foreign_table.{$foreign_key_name} with the value of "{$this->_table}.{$this->id()}".
+			// Matches foreign_table.{$foreign_key_name} with the value of "{$this->table}.{$this->id()}".
 			$where_value = $this->id();
 		}
 		else {
-			// Matches foreign_table.{$foreign_key_name} with "{$this->_table}.{$foreign_key_name_in_current_models_table}".
+			// Matches foreign_table.{$foreign_key_name} with "{$this->table}.{$foreign_key_name_in_current_models_table}".
 			$where_value = $this->{$foreign_key_name_in_current_models_table};
 		}
 
