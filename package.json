@@ -99,7 +99,7 @@
     "request": "^2.88.0",
     "sassdash": "^0.9.0",
     "shusher": "^0.1.1",
-    "svg-react-loader": "^0.4.5",
+    "svg-react-loader": "^0.4.6",
     "time-grunt": "^1.0.0",
     "webpack": "^4.20.2",
     "webpack-bundle-analyzer": "^3.0.2",
