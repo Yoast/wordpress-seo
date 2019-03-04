@@ -90,16 +90,16 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 	}
 
 	/**
-	 * Calculates the total score (GOOD, OKAY or NEEDS IMPROVEMENT)
-	 * based on the total penalty score.
+	 * Calculates the overall score (GOOD, OKAY or NEEDS IMPROVEMENT)
+	 * based on the penalty.
 	 *
-	 * @param {boolean} allAssessmentsSupported Whether all assessments are supported for this language.
-	 * @param {number}  penalty                 The total penalty.
+	 * @param {boolean} isFullySupported Whether this language is fully supported.
+	 * @param {number}  penalty          The total penalty.
 	 *
-	 * @returns {number} The total score.
+	 * @returns {number} The overall score.
 	 */
-	calculateScore( allAssessmentsSupported, penalty ) {
-		if ( allAssessmentsSupported ) {
+	calculateScore( isFullySupported, penalty ) {
+		if ( isFullySupported ) {
 			if ( penalty > 6 ) {
 				return READABILITY_SCORES.NEEDS_IMPROVEMENT;
 			}
