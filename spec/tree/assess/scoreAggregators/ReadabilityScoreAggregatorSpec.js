@@ -1,5 +1,5 @@
 import { forEach } from "lodash-es";
-import ReadabilityScoreAggregator from "../../../../src/tree/assess/scoreAggregators/ReadabilityScoreAggregator";
+import { ReadabilityScoreAggregator } from "../../../../src/tree/assess/scoreAggregators";
 import { READABILITY_SCORES } from "../../../../src/tree/assess/scoreAggregators/ReadabilityScoreAggregator";
 import AssessmentResult from "../../../../src/values/AssessmentResult";
 

@@ -1,7 +1,7 @@
 import { scoreToRating } from "../../../interpreters";
 
 /* Internal dependencies */
-import { ScoreAggregator } from "../index";
+import ScoreAggregator from "./ScoreAggregator";
 
 /**
  * Total number of available readability assessments.

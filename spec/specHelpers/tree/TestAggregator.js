@@ -1,4 +1,4 @@
-import { ScoreAggregator } from "../../../src/tree/assess";
+import { ScoreAggregator } from "../../../src/tree/assess/scoreAggregators";
 
 /**
  * Score aggregator to test the Assessor functionality.

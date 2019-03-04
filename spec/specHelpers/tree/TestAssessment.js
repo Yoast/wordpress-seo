@@ -1,4 +1,4 @@
-import { Assessment } from "../../../src/tree/assess";
+import { Assessment } from "../../../src/tree/assess/assessments";
 import AssessmentResult from "../../../src/values/AssessmentResult";
 
 /**
