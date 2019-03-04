@@ -185,14 +185,11 @@ tr.yst_row.even {
 			&:checked + label {
 				border: 3px solid #a4286a;
 				background-color: #fff;
-				border-radius: 10px;
-				border-bottom-right-radius: 0;
 				padding: 7px 4px;
 			}
 
 			&:focus + label {
-				border: 3px dashed #a4286a;
-				padding: 7px 4px;
+				outline: 2px solid #5b9dd9;
 			}
 		}
 	}
