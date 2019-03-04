@@ -11,10 +11,8 @@ const functionWordLists = functionWordListsFactory();
 const stemFunctions = getStemForLanguageFactory();
 const digitsAndPunctuation = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%|~=+§`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\s]/g;
 
-
 /**
- * Returns only the relevant combinations from a list of word combinations. Assumes
- * occurrences have already been calculated.
+ * Returns only the relevant combinations from a list of word combinations.
  *
  * @param {WordCombination[]} wordCombinations A list of word combinations.
  *
@@ -68,7 +66,18 @@ function sortCombinations( wordCombinations ) {
 function collapseRelevantWordsOnStem( wordCombinations ) {
 	// Sort the input array by stem
 	wordCombinations.sort( function( wordA, wordB ) {
-		return wordA.getStem() > wordB.getStem();
+		const stemA = wordA.getStem();
+		const stemB = wordB.getStem();
+
+		if ( stemA < stemB ) {
+			return -1;
+		}
+
+		if ( stemA > stemB ) {
+			return 1;
+		}
+
+		return 0;
 	} );
 
 	const collapsedRelevantWords = [];
@@ -132,7 +141,7 @@ function retrieveStemmer( language ) {
 }
 
 /**
- * Returns the relevant words in a given text.
+ * Gets relevant words from the paper text.
  *
  * @param {string} text The text to retrieve the relevant words of.
  * @param {string} language The paper's language.
@@ -206,7 +215,6 @@ function getRelevantWordsFromPaperAttributes( attributes, language, morphologyDa
 
 	return collapseRelevantWordsOnStem( relevantWordsFromAttributes );
 }
-
 
 export {
 	getRelevantWords,

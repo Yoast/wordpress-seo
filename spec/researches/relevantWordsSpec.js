@@ -20,7 +20,7 @@ describe( "relevantWords research", function() {
 		expect( words ).toEqual( expected );
 	} );
 
-	it( "calls through to the string processing function", function() {
+	it( "returns relevant words from the text alone if no attributes are available", function() {
 		const paper = new Paper( "Here are a ton of syllables. Syllables are very important. I think the syllable " +
 			"combinations are even more important. Syllable combinations for the win!" );
 
@@ -37,7 +37,7 @@ describe( "relevantWords research", function() {
 		expect( words ).toEqual( expected );
 	} );
 
-	it( "calls through to the string processing function", function() {
+	it( "combines data from the text and from the paper attributes", function() {
 		const paper = new Paper( "As we announced at YoastCon, we’re working together with Bing and Google to allow live indexing for " +
 			"everyone who uses Yoast SEO — free and premium. " +
 			"<h2>Subheading!</h2>" +
@@ -56,10 +56,11 @@ describe( "relevantWords research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		const expected = [
-			new WordCombination( "index", "index", 6 ),
-			new WordCombination( "live", "live", 6 ),
+			new WordCombination( "index", "index", 9 ),
+			new WordCombination( "live", "live", 8 ),
+			new WordCombination( "seo", "seo", 4 ),
+			new WordCombination( "yoast", "yoast", 4 ),
 			new WordCombination( "amazing", "amaze", 3 ),
-			new WordCombination( "keyphrase", "keyphrase", 3 ),
 			new WordCombination( "metadescription", "metadescription", 3 ),
 			new WordCombination( "subheading", "subhead", 3 ),
 			new WordCombination( "title", "title", 3 ),
@@ -67,7 +68,6 @@ describe( "relevantWords research", function() {
 			new WordCombination( "bing", "bing", 2 ),
 			new WordCombination( "connect", "connect", 2 ),
 			new WordCombination( "google", "google", 2 ),
-
 			new WordCombination( "myyoast", "myyoast", 2 ),
 			new WordCombination( "site", "site", 2 ),
 			new WordCombination( "update", "update", 2 ),

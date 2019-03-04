@@ -109,7 +109,7 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 		];
 
 		const expectedResult = [
-			new WordCombination( "word", "word", 41 ),
+			new WordCombination( "word", "word", 21 ),
 			new WordCombination( "sentence", "sentence", 2 ),
 			new WordCombination( "whole", "whole", 2 ),
 		];
@@ -126,7 +126,7 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 			new WordCombination( "amazing", "amaze", 3 ),
 			new WordCombination( "indexing", "index", 3 ),
 			new WordCombination( "seo", "seo", 3 ),
-			new WordCombination( "sites", "sites", 3 ),
+			new WordCombination( "sites", "site", 3 ),
 			new WordCombination( "yoast", "yoast", 3 ),
 			new WordCombination( "yoast's", "yoast", 2 ),
 			new WordCombination( "bing", "bing", 2 ),
@@ -259,6 +259,16 @@ describe( "getRelevantWords", function() {
 
 		expect( words ).toEqual( expected );
 	} );
+
+	it( "does not break if there are no words in the input", function() {
+		const input = "! - ?.... ";
+		const expected = [];
+
+		const words = getRelevantWords( input, "en", morphologyData );
+
+		expect( words ).toEqual( expected );
+	} );
+
 	it( "correctly takes single words from the text, orders them by number of occurrences and alphabetically", function() {
 		const input = "A text consists of words. This is a text.";
 		const expected = [
@@ -270,6 +280,7 @@ describe( "getRelevantWords", function() {
 
 		expect( words ).toEqual( expected );
 	} );
+
 	it( "takes all single words from the text, stems and counts them", function() {
 		const input = "Word word word word word word word word word word. " +
 			"More words, More words, More words, More words, More words, More words, More words, More words, 3 more words. " +
@@ -325,15 +336,6 @@ describe( "getRelevantWords", function() {
 		];
 
 		const words = getRelevantWords( input, "ee", morphologyData );
-
-		expect( words ).toEqual( expected );
-	} );
-
-	it( "does not break if there are no words in the input", function() {
-		const input = "! - ?.... ";
-		const expected = [];
-
-		const words = getRelevantWords( input, "en", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
