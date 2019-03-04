@@ -2,10 +2,11 @@
 import { debounce, isEqual } from "lodash-es";
 import buildTree from "yoastsrc/tree/builder";
 import Paper from "yoastsrc/values/Paper";
+import getMorphologyData from "yoastspec/specHelpers/getMorphologyData";
+import getLanguage from "yoastsrc/helpers/getLanguage";
 
 // Internal dependencies.
 import formatAnalyzeResult from "../../utils/formatAnalyzeResult";
-import getMorphologyData from "../../utils/getMorphologyData";
 import { setResults } from "../actions/results";
 import { setStatus } from "../actions/worker";
 
@@ -82,20 +83,20 @@ export default class StoreSubscriber {
 
 	triggerInitialize( prevState, state ) {
 		const { configuration: prevConfiguration, options: prevOptions } = prevState;
-		const { configuration, options } = state;
+		const { configuration, options, paper } = state;
 
 		if ( ! isEqual( prevConfiguration, configuration ) || ! isEqual( prevOptions, options ) ) {
 			const config = {
 				...configuration,
 				researchData: {
-					morphology: state.options.useMorphology ? getMorphologyData() : {},
+					morphology: options.useMorphology ? getMorphologyData( getLanguage( paper.locale ) ) : {},
 				},
 			};
 			this._worker.initialize( config ).then( () => {
-				if ( state.options.isRelatedKeyphrase ) {
-					return this.analyzeRelatedKeyphrase( state.paper );
+				if ( options.isRelatedKeyphrase ) {
+					return this.analyzeRelatedKeyphrase( paper );
 				}
-				return this.analyzePaper( state.paper );
+				return this.analyzePaper( paper );
 			} );
 		}
 	}
