@@ -33,6 +33,9 @@ function relevantWords( paper, researcher ) {
 	};
 
 	const relevantWordsFromPaperAttributes = getRelevantWordsFromPaperAttributes( attributes, language, morphologyData );
+
+	/* If a word is used in any of the attributes, its relevance is automatically high.
+	To make sure the word survives relevance filters and gets saved in the database, make the number of occurrences times-3.*/
 	relevantWordsFromPaperAttributes.forEach( relevantWord => relevantWord.setOccurrences( relevantWord.getOccurrences() * 3 ) );
 
 	const collapsedWords = collapseRelevantWordsOnStem( relevantWordsFromPaperAttributes.concat( relevantWordsFromText ) );

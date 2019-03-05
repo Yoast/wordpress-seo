@@ -109,9 +109,9 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 		];
 
 		const expectedResult = [
-			new WordCombination( "word", "word", 21 ),
 			new WordCombination( "sentence", "sentence", 2 ),
 			new WordCombination( "whole", "whole", 2 ),
+			new WordCombination( "word", "word", 21 ),
 		];
 
 		const result = collapseRelevantWordsOnStem( wordCombinations );
@@ -138,15 +138,15 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 		];
 
 		const expectedResult = [
-			new WordCombination( "index", "index", 9 ),
-			new WordCombination( "live", "live", 8 ),
-			new WordCombination( "yoast", "yoast", 6 ),
-			new WordCombination( "site", "site", 4 ),
 			new WordCombination( "amazing", "amaze", 3 ),
-			new WordCombination( "seo", "seo", 3 ),
 			new WordCombination( "bing", "bing", 2 ),
 			new WordCombination( "google", "google", 2 ),
+			new WordCombination( "index", "index", 9 ),
+			new WordCombination( "live", "live", 8 ),
+			new WordCombination( "seo", "seo", 3 ),
+			new WordCombination( "site", "site", 4 ),
 			new WordCombination( "update", "update", 1 ),
+			new WordCombination( "yoast", "yoast", 6 ),
 		];
 
 		const result = collapseRelevantWordsOnStem( wordCombinations );
@@ -164,9 +164,9 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 		];
 
 		const expectedResult = [
-			new WordCombination( "word", "word", 21 ),
 			new WordCombination( "sentence", "sentence", 4 ),
 			new WordCombination( "whole", "whole", 2 ),
+			new WordCombination( "word", "word", 21 ),
 		];
 
 		const result = collapseRelevantWordsOnStem( wordCombinations );
@@ -184,9 +184,9 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 		];
 
 		const expectedResult = [
-			new WordCombination( "word", "word", 21 ),
 			new WordCombination( "sentence", "sentence", 4 ),
 			new WordCombination( "whole", "whole", 2 ),
+			new WordCombination( "word", "word", 21 ),
 		];
 
 		const result = collapseRelevantWordsOnStem( wordCombinations );
@@ -208,8 +208,8 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 		];
 
 		const expectedResult = [
-			new WordCombination( "word", "word", 14 ),
 			new WordCombination( "sentence", "sentence", 10 ),
+			new WordCombination( "word", "word", 14 ),
 		];
 
 		const result = collapseRelevantWordsOnStem( wordCombinations );
@@ -232,8 +232,8 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 		];
 
 		const expectedResult = [
-			new WordCombination( "word", "word", 15 ),
 			new WordCombination( "sentence", "sentence", 10 ),
+			new WordCombination( "word", "word", 15 ),
 		];
 
 		const result = collapseRelevantWordsOnStem( wordCombinations );
@@ -247,10 +247,10 @@ describe( "getRelevantWords", function() {
 		const input = "A text consists of words. This is a text.";
 		const expected = [
 			new WordCombination( "a", "a", 2 ),
-			new WordCombination( "text", "text", 2 ),
 			new WordCombination( "consists", "consists", 1 ),
 			new WordCombination( "is", "is", 1 ),
 			new WordCombination( "of", "of", 1 ),
+			new WordCombination( "text", "text", 2 ),
 			new WordCombination( "this", "this", 1 ),
 			new WordCombination( "words", "words", 1 ),
 		];
@@ -287,10 +287,10 @@ describe( "getRelevantWords", function() {
 			"A whole new sentence, with more words here. " +
 			"A whole new sentence, with more words here. ";
 		const expected = [
-			new WordCombination( "word", "word", 21 ),
+			new WordCombination( "3", "3", 1 ),
 			new WordCombination( "sentence", "sentence", 2 ),
 			new WordCombination( "whole", "whole", 2 ),
-			new WordCombination( "3", "3", 1 ),
+			new WordCombination( "word", "word", 21 ),
 		];
 
 		const words = getRelevantWords( input, "en", morphologyData );
@@ -308,14 +308,14 @@ describe( "getRelevantWords", function() {
 			"It's so different when it's just free speech! A syllable then costs a tiny effort, almost " +
 			"no effort at all! That is wonderful!!";
 		const expected = [
-			new WordCombination( "syllable", "syllable", 10 ),
-			new WordCombination( "effort", "effort", 4 ),
 			new WordCombination( "costs", "cost", 2 ),
 			new WordCombination( "demand", "demand", 2 ),
+			new WordCombination( "effort", "effort", 4 ),
 			new WordCombination( "free", "free", 2 ),
 			new WordCombination( "pain", "pain", 2 ),
 			new WordCombination( "producing", "produce", 2 ),
 			new WordCombination( "speech", "speech", 2 ),
+			new WordCombination( "syllable", "syllable", 10 ),
 			new WordCombination( "wonderful", "wonderful", 2 ),
 		];
 
@@ -344,16 +344,16 @@ describe( "getRelevantWords", function() {
 describe( "getRelevantWordsFromPaperAttributes", function() {
 	it( "gets all non-function words from the attributes", function() {
 		const expected = [
-			new WordCombination( "synonym", "synonym", 9 ),
-			new WordCombination( "interest", "interest", 6 ),
-			new WordCombination( "subheading", "subhead", 6 ),
-			new WordCombination( "analysing", "analyse", 3 ),
-			new WordCombination( "keyphrase", "keyphrase", 3 ),
-			new WordCombination( "metadescription", "metadescription", 3 ),
-			new WordCombination( "o-my", "o-my", 3 ),
-			new WordCombination( "paper", "paper", 3 ),
-			new WordCombination( "pretty", "pretty", 3 ),
-			new WordCombination( "title", "title", 3 ),
+			new WordCombination( "analysing", "analyse", 1 ),
+			new WordCombination( "interest", "interest", 2 ),
+			new WordCombination( "keyphrase", "keyphrase", 1 ),
+			new WordCombination( "metadescription", "metadescription", 1 ),
+			new WordCombination( "o-my", "o-my", 1 ),
+			new WordCombination( "paper", "paper", 1 ),
+			new WordCombination( "pretty", "pretty", 1 ),
+			new WordCombination( "subheading", "subhead", 2 ),
+			new WordCombination( "synonym", "synonym", 3 ),
+			new WordCombination( "title", "title", 1 ),
 
 		];
 

@@ -139,6 +139,17 @@ function retrieveStemmer( language ) {
 	return get( stemFunctions, language, word => word );
 }
 
+/**
+ * Computes relevant words from an array of words. In order to do so, checks whether the word is included in the list of
+ * function words and determines the number of occurrences for every word. Then checks if any two words have the same stem
+ * and if so collapses over them.
+ *
+ * @param {string[]} words The words to determine relevance for.
+ * @param {string} language The paper's language.
+ * @param {Object} morphologyData The morphologyData available for the language of the paper.
+ *
+ * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
+ */
 function computeRelevantWords( words, language, morphologyData ) {
 	const functionWords = retrieveFunctionWords( language );
 	const determineStem = retrieveStemmer( language );
