@@ -8,6 +8,7 @@ import {
 	getRelevantCombinations,
 } from "yoastsrc/stringProcessing/relevantWords";
 import { getSubheadingsTopLevel } from "yoastsrc/stringProcessing/getSubheadings";
+import { sortCombinations } from "../../../../src/stringProcessing/relevantWords";
 import getMorphologyData from "./getMorphologyData";
 
 const morphologyData = getMorphologyData();
@@ -56,11 +57,12 @@ export default function calculateRelevantWords( paper ) {
 		languageMorphologyData,
 	);
 
+	relevantWordsFromPaperAttributes.forEach( relevantWord => relevantWord.setOccurrences( relevantWord.getOccurrences() * 3 ) );
+
 	const collapsedWords = collapseRelevantWordsOnStem( relevantWordsFromPaperAttributes.concat( relevantWordsFromText ) );
+	sortCombinations( collapsedWords );
 
 	const relevantWords = take( getRelevantCombinations( collapsedWords ), 100 );
-
-	console.log( "relevantWords", relevantWords );
 
 	return relevantWords.map( ( word ) => {
 		return {
