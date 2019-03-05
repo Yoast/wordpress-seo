@@ -8,11 +8,13 @@ cache:
   yarn: true
   directories:
   - node_modules
+  - packages/yoast-components/node_modules
+  - packages/yoastseo/node_modules
   - $HOME/.yarn
 
 before_install:
-- curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.13.0
 - export PATH=$HOME/.yarn/bin:$PATH
+- curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.13.0
 - echo -e "machine github.com\n  login $CI_GITHUB_USER_TOKEN" > ~/.netrc
 
 install:
@@ -21,7 +23,7 @@ install:
 
 script:
 - yarn lint
-- yarn test -- --coverage
+- yarn test -- -- --coverage
 
 #after_success:
 #- yarn global add codeclimate-test-reporter
