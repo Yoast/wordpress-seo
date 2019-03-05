@@ -1,12 +1,12 @@
-import { forEach, isArray, isObject, isNumber } from "lodash-es";
+import { forEach, isArray, isNumber, isObject } from "lodash-es";
 import { getLogger } from "loglevel";
+import morphologyData from "../../premium-configuration/data/morphologyData.json";
+import Assessment from "../../src/assessment";
+import AssessmentResult from "../../src/values/AssessmentResult";
+import Paper from "../../src/values/Paper";
 
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
-import Assessment from "../../src/assessment";
-import Paper from "../../src/values/Paper";
-import AssessmentResult from "../../src/values/AssessmentResult";
 import testTexts from "../fullTextTests/testTexts";
-import morphologyData from "../../premium-configuration/data/morphologyData.json";
 
 /**
  * Creates a mocked scope.
@@ -289,6 +289,20 @@ describe( "AnalysisWebWorker", () => {
 				} );
 
 				logger.setLevel( saveLogLevel, false );
+			} );
+
+			test( "adds the research data to the researcher", () => {
+				worker._researcher.addResearchData = jest.fn();
+
+				scope.onmessage( createMessage( "initialize", {
+					researchData: {
+						morphology: "word forms",
+						fancy: "feature",
+					},
+				} ) );
+
+				expect( worker._researcher.addResearchData ).toHaveBeenNthCalledWith( 1, "morphology", "word forms" );
+				expect( worker._researcher.addResearchData ).toHaveBeenNthCalledWith( 2, "fancy", "feature" );
 			} );
 
 			test( "creates the assessors", () => {
