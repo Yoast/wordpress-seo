@@ -9,6 +9,9 @@ cache:
   directories:
   - node_modules
 
+before_install:
+  - yarn self-update
+
 install:
 - yarn --ignore-optional
 - yarn install-ci
