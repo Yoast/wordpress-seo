@@ -31,7 +31,7 @@ describe( "Worker Request", () => {
 		expect( resolve ).toBeCalledWith( expected );
 	} );
 
-	it( "resolves the request with a result than contains the payload", () => {
+	it( "resolves the request with a result that contains the payload", () => {
 		const payload = { payload: "is this object" };
 		const data = { extra: "data" };
 		const request = new Request( resolve, reject, data );
