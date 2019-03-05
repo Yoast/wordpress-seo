@@ -6,9 +6,11 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently --kill-others \"stubby -d stubby/endpoints.yaml\" \"webpack-dev-server --mode=development\"",
-    "test": "jest"
+    "test": "jest",
+    "lint": "grunt check"
   },
   "jest": {
+    "testURL": "https://example.org",
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/jest/__mocks__/fileMock.js",
       "\\.(css|less)$": "<rootDir>/jest/__mocks__/styleMock.js"
@@ -40,7 +42,7 @@
       "enzyme-to-json/serializer"
     ],
     "transform": {
-      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest"
+      "^.+\\.jsx?$": "babel-jest"
     },
     "transformIgnorePatterns": [
       "/node_modules/(?!yoastseo|lodash-es).+\\.js$"

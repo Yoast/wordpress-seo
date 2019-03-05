@@ -124,3 +124,10 @@ export const UpsellButton = ( props ) => {
 		</UpsellButtonBase>
 	);
 };
+
+UpsellButton.propTypes = {
+	backgroundColor: PropTypes.string,
+	hoverColor: PropTypes.string,
+	textColor: PropTypes.string,
+	children: PropTypes.oneOfType( PropTypes.arrayOf( PropTypes.node ), PropTypes.node ),
+};

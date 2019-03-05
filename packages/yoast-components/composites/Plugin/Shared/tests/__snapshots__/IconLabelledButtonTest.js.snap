@@ -1,9 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the IconLabelledButton matches the snapshot 1`] = `
-.c0:hover {
+.c2:active {
   color: #fff;
   background-color: #0066cd;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c1::-moz-focus-inner {
@@ -18,10 +19,9 @@ exports[`the IconLabelledButton matches the snapshot 1`] = `
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c2:active {
+.c0:hover {
   color: #fff;
   background-color: #0066cd;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c3 {
@@ -77,7 +77,7 @@ exports[`the IconLabelledButton matches the snapshot 1`] = `
 }
 
 <button
-  className="c0 Button-kDSBcD c1 Button-kDSBcD c2 c3"
+  className="c0 c1 c2 c3"
   type="button"
 >
   <svg
@@ -99,10 +99,11 @@ exports[`the IconLabelledButton matches the snapshot 1`] = `
 `;
 
 exports[`the IconLabelledButton with props matches the snapshot 1`] = `
-.c0:hover {
+.c2:active {
   color: #fff;
   background-color: #a4286a;
-  border-color: #f00;
+  border-color: #a4286a;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c1::-moz-focus-inner {
@@ -117,11 +118,10 @@ exports[`the IconLabelledButton with props matches the snapshot 1`] = `
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c2:active {
+.c0:hover {
   color: #fff;
   background-color: #a4286a;
-  border-color: #a4286a;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+  border-color: #f00;
 }
 
 .c3 {
@@ -177,7 +177,7 @@ exports[`the IconLabelledButton with props matches the snapshot 1`] = `
 }
 
 <button
-  className="c0 Button-kDSBcD c1 Button-kDSBcD c2 c3"
+  className="c0 c1 c2 c3"
   type="reset"
 >
   <svg

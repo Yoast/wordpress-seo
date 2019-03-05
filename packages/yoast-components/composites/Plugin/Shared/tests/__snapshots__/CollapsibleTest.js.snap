@@ -8,8 +8,29 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c3 {
-  font-size: 0.8rem;
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c4 {
@@ -47,29 +68,8 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   align-self: center;
 }
 
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c3 {
+  font-size: 0.8rem;
 }
 
 .c9 {
@@ -157,7 +157,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   >
     <button
       aria-expanded={false}
-      className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      className="c2 c3 c4 c5 c6 c7 c8"
       id={null}
       onClick={[Function]}
       type="button"
@@ -206,8 +206,29 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c3 {
-  font-size: 0.8rem;
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c4 {
@@ -245,29 +266,8 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   align-self: center;
 }
 
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c3 {
+  font-size: 0.8rem;
 }
 
 .c9 {
@@ -355,7 +355,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   >
     <button
       aria-expanded={true}
-      className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      className="c2 c3 c4 c5 c6 c7 c8"
       id={null}
       onClick={[Function]}
       type="button"
@@ -416,8 +416,29 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c3 {
-  font-size: 0.8rem;
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c4 {
@@ -455,29 +476,8 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   align-self: center;
 }
 
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c3 {
+  font-size: 0.8rem;
 }
 
 .c9 {
@@ -565,7 +565,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   >
     <button
       aria-expanded={false}
-      className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      className="c2 c3 c4 c5 c6 c7 c8"
       id="yoast-collapsible"
       onClick={[Function]}
       type="button"
@@ -614,8 +614,29 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c3 {
-  font-size: 0.8rem;
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c4 {
@@ -653,29 +674,8 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   align-self: center;
 }
 
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c3 {
+  font-size: 0.8rem;
 }
 
 .c9 {
@@ -763,7 +763,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   >
     <button
       aria-expanded={true}
-      className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      className="c2 c3 c4 c5 c6 c7 c8"
       id="yoast-collapsible"
       onClick={[Function]}
       type="button"
@@ -824,8 +824,29 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c3 {
-  font-size: 0.8rem;
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c4 {
@@ -863,29 +884,8 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   align-self: center;
 }
 
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c3 {
+  font-size: 0.8rem;
 }
 
 .c9 {
@@ -973,7 +973,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   >
     <button
       aria-expanded={false}
-      className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      className="c2 c3 c4 c5 c6 c7 c8"
       id={null}
       onClick={[Function]}
       type="button"
@@ -1022,8 +1022,29 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c3 {
-  font-size: 0.8rem;
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c4 {
@@ -1061,29 +1082,8 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   align-self: center;
 }
 
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c3 {
+  font-size: 0.8rem;
 }
 
 .c9 {
@@ -1171,7 +1171,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   >
     <button
       aria-expanded={true}
-      className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      className="c2 c3 c4 c5 c6 c7 c8"
       id={null}
       onClick={[Function]}
       type="button"
@@ -1232,8 +1232,29 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c3 {
-  font-size: 0.8rem;
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c4 {
@@ -1271,29 +1292,8 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   align-self: center;
 }
 
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c3 {
+  font-size: 0.8rem;
 }
 
 .c9 {
@@ -1381,7 +1381,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   >
     <button
       aria-expanded={true}
-      className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      className="c2 c3 c4 c5 c6 c7 c8"
       id={null}
       onClick={[Function]}
       type="button"
@@ -1442,8 +1442,29 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c3 {
-  font-size: 0.8rem;
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c4 {
@@ -1481,29 +1502,8 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   align-self: center;
 }
 
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c3 {
+  font-size: 0.8rem;
 }
 
 .c9 {
@@ -1591,7 +1591,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   >
     <button
       aria-expanded={false}
-      className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      className="c2 c3 c4 c5 c6 c7 c8"
       id={null}
       onClick={[Function]}
       type="button"
@@ -1640,8 +1640,29 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c3 {
-  font-size: 0.8rem;
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c4 {
@@ -1679,29 +1700,8 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   align-self: center;
 }
 
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c3 {
+  font-size: 0.8rem;
 }
 
 .c9 {
@@ -1781,7 +1781,7 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   >
     <button
       aria-expanded={true}
-      className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      className="c2 c3 c4 c5 c6 c7 c8"
       id={null}
       onClick={[Function]}
       type="button"
@@ -1820,8 +1820,29 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c3 {
-  font-size: 0.8rem;
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c4 {
@@ -1859,29 +1880,8 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   align-self: center;
 }
 
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c3 {
+  font-size: 0.8rem;
 }
 
 .c9 {
@@ -1961,7 +1961,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   >
     <button
       aria-expanded={true}
-      className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      className="c2 c3 c4 c5 c6 c7 c8"
       id={null}
       onClick={[Function]}
       type="button"
@@ -2000,8 +2000,29 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c3 {
-  font-size: 0.8rem;
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c4 {
@@ -2039,29 +2060,8 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   align-self: center;
 }
 
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c3 {
+  font-size: 0.8rem;
 }
 
 .c9 {
@@ -2141,7 +2141,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   >
     <button
       aria-expanded={true}
-      className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      className="c2 c3 c4 c5 c6 c7 c8"
       id={null}
       onClick={[Function]}
       type="button"
@@ -2180,8 +2180,29 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c3 {
-  font-size: 0.8rem;
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c4 {
@@ -2219,29 +2240,8 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   align-self: center;
 }
 
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c3 {
+  font-size: 0.8rem;
 }
 
 .c10 {
@@ -2329,7 +2329,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   >
     <button
       aria-expanded={true}
-      className="c2 c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 Button-kDSBcD c7 c8"
+      className="c2 c3 c4 c5 c6 c7 c8"
       id={null}
       onClick={[Function]}
       type="button"

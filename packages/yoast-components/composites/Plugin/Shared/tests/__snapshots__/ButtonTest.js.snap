@@ -8,6 +8,31 @@ exports[`BaseButton executes callback 1`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c2::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c2:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c1:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
 .c0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -43,31 +68,6 @@ exports[`BaseButton executes callback 1`] = `
   align-self: center;
 }
 
-.c1:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c2::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c2:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c3:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c0::after {
     display: inline-block;
@@ -77,7 +77,7 @@ exports[`BaseButton executes callback 1`] = `
 }
 
 <button
-  className="c0 Button-kDSBcD c1 Button-kDSBcD c2 Button-kDSBcD c3 c4"
+  className="c0 c1 c2 c3 c4"
   onClick={[Function]}
   type="button"
 >
@@ -93,6 +93,31 @@ exports[`BaseButton executes callback 2`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c2::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c2:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c1:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
 .c0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -128,31 +153,6 @@ exports[`BaseButton executes callback 2`] = `
   align-self: center;
 }
 
-.c1:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c2::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c2:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c3:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c0::after {
     display: inline-block;
@@ -162,7 +162,7 @@ exports[`BaseButton executes callback 2`] = `
 }
 
 <button
-  className="c0 Button-kDSBcD c1 Button-kDSBcD c2 Button-kDSBcD c3 c4"
+  className="c0 c1 c2 c3 c4"
   onClick={[Function]}
   type="button"
 >
@@ -178,6 +178,31 @@ exports[`SnippetPreviewButton executes callback 1`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
+.c4:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c2:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
 .c1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -213,31 +238,6 @@ exports[`SnippetPreviewButton executes callback 1`] = `
   align-self: center;
 }
 
-.c2:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c3::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c3:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c4:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
 .c0 {
   font-size: 0.8rem;
 }
@@ -251,7 +251,7 @@ exports[`SnippetPreviewButton executes callback 1`] = `
 }
 
 <button
-  className="c0 Button-kDSBcD c1 Button-kDSBcD c2 Button-kDSBcD c3 Button-kDSBcD c4 c5"
+  className="c0 c1 c2 c3 c4 c5"
   onClick={[Function]}
   type="button"
 >
@@ -267,6 +267,31 @@ exports[`SnippetPreviewButton executes callback 2`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
+.c4:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c2:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
 .c1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -302,31 +327,6 @@ exports[`SnippetPreviewButton executes callback 2`] = `
   align-self: center;
 }
 
-.c2:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c3::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c3:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c4:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
 .c0 {
   font-size: 0.8rem;
 }
@@ -340,7 +340,7 @@ exports[`SnippetPreviewButton executes callback 2`] = `
 }
 
 <button
-  className="c0 Button-kDSBcD c1 Button-kDSBcD c2 Button-kDSBcD c3 Button-kDSBcD c4 c5"
+  className="c0 c1 c2 c3 c4 c5"
   onClick={[Function]}
   type="button"
 >
@@ -354,6 +354,31 @@ exports[`the BaseButton matches the snapshot 1`] = `
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c2::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c2:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c1:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c0 {
@@ -391,31 +416,6 @@ exports[`the BaseButton matches the snapshot 1`] = `
   align-self: center;
 }
 
-.c1:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c2::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c2:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c3:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c0::after {
     display: inline-block;
@@ -425,7 +425,7 @@ exports[`the BaseButton matches the snapshot 1`] = `
 }
 
 <button
-  className="c0 Button-kDSBcD c1 Button-kDSBcD c2 Button-kDSBcD c3 c4"
+  className="c0 c1 c2 c3 c4"
   type="button"
 >
   ButtonValue
@@ -438,6 +438,31 @@ exports[`the IconButton matches the snapshot 1`] = `
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c4:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c2:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c1 {
@@ -473,31 +498,6 @@ exports[`the IconButton matches the snapshot 1`] = `
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
-}
-
-.c2:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c3::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c3:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c4:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
@@ -521,7 +521,7 @@ exports[`the IconButton matches the snapshot 1`] = `
 }
 
 <button
-  className="c0 Button-kDSBcD c1 Button-kDSBcD c2 Button-kDSBcD c3 Button-kDSBcD c4 c5"
+  className="c0 c1 c2 c3 c4 c5"
   type="button"
 >
   <svg
@@ -549,6 +549,31 @@ exports[`the IconButton with text matches the snapshot 1`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
+.c4:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c2:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
 .c1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -584,40 +609,8 @@ exports[`the IconButton with text matches the snapshot 1`] = `
   align-self: center;
 }
 
-.c2:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c3::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c3:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c4:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
 .c0 {
   font-size: 0.8rem;
-}
-
-.c6 {
-  margin: 0 8px 0 0;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
 }
 
 .c7 {
@@ -626,6 +619,13 @@ exports[`the IconButton with text matches the snapshot 1`] = `
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
+}
+
+.c6 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -637,7 +637,7 @@ exports[`the IconButton with text matches the snapshot 1`] = `
 }
 
 <button
-  className="c0 Button-kDSBcD c1 Button-kDSBcD c2 Button-kDSBcD c3 Button-kDSBcD c4 c5"
+  className="c0 c1 c2 c3 c4 c5"
   type="button"
 >
   <svg
@@ -666,6 +666,31 @@ exports[`the SnippetPreviewButton matches the snapshot 1`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
+.c4:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c2:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
 .c1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -701,31 +726,6 @@ exports[`the SnippetPreviewButton matches the snapshot 1`] = `
   align-self: center;
 }
 
-.c2:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c3::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c3:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c4:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
 .c0 {
   font-size: 0.8rem;
 }
@@ -739,7 +739,7 @@ exports[`the SnippetPreviewButton matches the snapshot 1`] = `
 }
 
 <button
-  className="c0 Button-kDSBcD c1 Button-kDSBcD c2 Button-kDSBcD c3 Button-kDSBcD c4 c5"
+  className="c0 c1 c2 c3 c4 c5"
   type="button"
 >
   ButtonValue

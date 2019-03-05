@@ -73,11 +73,11 @@ class Input extends React.Component {
 Input.propTypes = {
 	name: PropTypes.string.isRequired,
 	type: PropTypes.oneOf( inputTypes ).isRequired,
-
 	value: PropTypes.any,
 	onChange: PropTypes.func,
 	optionalAttributes: PropTypes.object,
 	hasFocus: PropTypes.bool,
+	autoComplete: PropTypes.string,
 };
 
 /**

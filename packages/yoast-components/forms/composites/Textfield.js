@@ -125,6 +125,7 @@ Textfield.propTypes = {
 	hasFocus: PropTypes.bool,
 	"class": PropTypes.string,
 	explanation: PropTypes.string,
+	autoComplete: PropTypes.string,
 };
 
 Textfield.defaultProps = {

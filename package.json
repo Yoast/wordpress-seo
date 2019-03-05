@@ -4,7 +4,18 @@
   "devDependencies": {
     "lerna": "^3.13.1"
   },
-  "workspaces": [
-    "packages/*"
-  ]
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/grunt-*",
+      "**/eslint*"
+    ]
+  },
+  "scripts": {
+    "lint": "lerna run lint",
+    "test": "lerna run test",
+    "install-ci": "lerna run install-ci"
+  }
 }

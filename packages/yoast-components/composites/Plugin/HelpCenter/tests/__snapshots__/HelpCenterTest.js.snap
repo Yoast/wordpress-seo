@@ -1,6 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the HelpCenter matches the snapshot 1`] = `
+.c3 {
+  color: #fff;
+  background: #64a60a;
+  min-width: 152px;
+  text-shadow: 0 0 2px #000;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
 .c2 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -41,32 +67,6 @@ exports[`the HelpCenter matches the snapshot 1`] = `
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
   box-shadow: none;
-}
-
-.c3 {
-  color: #fff;
-  background: #64a60a;
-  min-width: 152px;
-  text-shadow: 0 0 2px #000;
-  overflow: visible;
-  cursor: pointer;
-}
-
-.c3::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c3 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
 }
 
 .c1 {
@@ -115,7 +115,7 @@ exports[`the HelpCenter matches the snapshot 1`] = `
 >
   <button
     aria-expanded={false}
-    className="yoast-help-center__button c1 c2 YoastButton-hNXTAd c3"
+    className="yoast-help-center__button c1 c2 c3"
     onClick={[Function]}
     type="button"
   >
@@ -155,6 +155,31 @@ exports[`the HelpCenter matches the snapshot 1`] = `
 `;
 
 exports[`the HelpCenter with props matches the snapshot 1`] = `
+.c3 {
+  color: #fff;
+  background: #c30;
+  min-width: 152px;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
 .c2 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -195,31 +220,6 @@ exports[`the HelpCenter with props matches the snapshot 1`] = `
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
   box-shadow: none;
-}
-
-.c3 {
-  color: #fff;
-  background: #c30;
-  min-width: 152px;
-  overflow: visible;
-  cursor: pointer;
-}
-
-.c3::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c3 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
 }
 
 .c1 {
@@ -268,7 +268,7 @@ exports[`the HelpCenter with props matches the snapshot 1`] = `
 >
   <button
     aria-expanded={false}
-    className="yoast-help-center__button c1 c2 YoastButton-hNXTAd c3"
+    className="yoast-help-center__button c1 c2 c3"
     onClick={[Function]}
     type="button"
   >
