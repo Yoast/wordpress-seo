@@ -9,6 +9,7 @@ const regularVerbsToTest = [
 	[ "bully", "bullies", "bullying", "bullied" ],
 	[ "swap", "swaps", "swapping", "swapped" ],
 	[ "pass", "passes", "passing", "passed" ],
+	[ "develop", "develops", "developing", "developed" ],
 ];
 
 const doubleConsonantsAtTheEnd = [

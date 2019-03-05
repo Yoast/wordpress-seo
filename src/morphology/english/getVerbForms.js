@@ -219,7 +219,7 @@ const getInfinitive = function( word, sFormToInfinitiveRegex, ingFormToInfinitiv
 
 	if ( endsWithEd( word ) ) {
 		return {
-			infinitive: buildOneFormFromRegex( word, edFormToInfinitiveRegex ),
+			infinitive: buildOneFormFromRegex( word, edFormToInfinitiveRegex ) || word,
 			guessedForm: "ed",
 		};
 	}
