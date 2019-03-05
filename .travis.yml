@@ -21,7 +21,7 @@ install:
 
 script:
 - yarn lint
-- yarn test --coverage
+- yarn test -- --coverage
 
 #after_success:
 #- yarn global add codeclimate-test-reporter
