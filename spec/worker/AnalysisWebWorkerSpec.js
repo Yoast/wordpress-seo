@@ -2,9 +2,9 @@ import { forEach, isArray, isNumber, isObject } from "lodash-es";
 import { getLogger } from "loglevel";
 import morphologyData from "../../premium-configuration/data/morphologyData.json";
 import Assessment from "../../src/assessment";
+import { createShortlink } from "../../src/helpers/shortlinker";
 import AssessmentResult from "../../src/values/AssessmentResult";
 import Paper from "../../src/values/Paper";
-
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 import testTexts from "../fullTextTests/testTexts";
 
@@ -303,6 +303,21 @@ describe( "AnalysisWebWorker", () => {
 
 				expect( worker._researcher.addResearchData ).toHaveBeenNthCalledWith( 1, "morphology", "word forms" );
 				expect( worker._researcher.addResearchData ).toHaveBeenNthCalledWith( 2, "fancy", "feature" );
+			} );
+
+			test( "configures the shortlinker params", () => {
+				const baseUrl = "https://yoast.com";
+
+				// Ensure there are no params registered yet.
+				expect( createShortlink( baseUrl ) ).toBe( baseUrl );
+
+				scope.onmessage( createMessage( "initialize", {
+					defaultQueryParams: {
+						source: "specs",
+					},
+				} ) );
+
+				expect( createShortlink( baseUrl ) ).toBe( `${ baseUrl }?source=specs` );
 			} );
 
 			test( "creates the assessors", () => {
