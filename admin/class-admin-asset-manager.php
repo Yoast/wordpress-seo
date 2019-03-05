@@ -514,6 +514,8 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-i18n',
 					'wp-components',
 					'wp-data',
+					self::PREFIX . 'analysis',
+					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
 				),
 			),
