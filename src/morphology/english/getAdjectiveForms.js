@@ -119,14 +119,14 @@ const canBeLyAdverb = function( word, lyExceptions ) {
 const getBase = function( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives ) {
 	if ( canBeComparative( word, stopAdjectives.erExceptions ) ) {
 		return {
-			base: buildOneFormFromRegex( word, comparativeToBaseRegex ),
+			base: buildOneFormFromRegex( word, comparativeToBaseRegex ) || word,
 			guessedForm: "er",
 		};
 	}
 
 	if ( canBeSuperlative( word, stopAdjectives.estExceptions ) ) {
 		return {
-			base: buildOneFormFromRegex( word, superlativeToBaseRegex ),
+			base: buildOneFormFromRegex( word, superlativeToBaseRegex ) || word,
 			guessedForm: "est",
 		};
 	}

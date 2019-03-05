@@ -9,7 +9,7 @@ import getStemForLanguageFactory from "../helpers/getStemForLanguage";
 
 const functionWordLists = functionWordListsFactory();
 const stemFunctions = getStemForLanguageFactory();
-const digitsAndPunctuation = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%|~=+§`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\s]/g;
+const digitsAndPunctuation = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%$|~=+§`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\s]/g;
 
 /**
  * Returns only the relevant combinations from a list of word combinations.

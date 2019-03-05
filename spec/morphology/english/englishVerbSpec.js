@@ -10,6 +10,10 @@ const regularVerbsToTest = [
 	[ "swap", "swaps", "swapping", "swapped" ],
 	[ "pass", "passes", "passing", "passed" ],
 	[ "develop", "develops", "developing", "developed" ],
+	[ "join", "joins", "joining", "joined" ],
+	[ "release", "releases", "releasing", "released" ],
+	[ "create", "creates", "creating", "created" ],
+	[ "compete", "competes", "competing", "competed" ],
 ];
 
 const doubleConsonantsAtTheEnd = [

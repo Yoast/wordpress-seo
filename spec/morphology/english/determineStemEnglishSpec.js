@@ -85,6 +85,13 @@ describe( "getRegularStem", function() {
 		expect( determineRegularStem( "supplied", morphologyDataEN ) ).toEqual( "supply" );
 		expect( determineRegularStem( "supplying", morphologyDataEN ) ).toEqual( "supply" );
 		expect( determineRegularStem( "supplyings", morphologyDataEN ) ).toEqual( "supply" );
+		expect( determineRegularStem( "supplier", morphologyDataEN ) ).toEqual( "supply" );
+
+		expect( determineRegularStem( "release", morphologyDataEN ) ).toEqual( "release" );
+		expect( determineRegularStem( "releases", morphologyDataEN ) ).toEqual( "release" );
+		expect( determineRegularStem( "released", morphologyDataEN ) ).toEqual( "release" );
+		expect( determineRegularStem( "releasing", morphologyDataEN ) ).toEqual( "release" );
+		expect( determineRegularStem( "releasings", morphologyDataEN ) ).toEqual( "release" );
 
 		expect( determineRegularStem( "historic", morphologyDataEN ) ).toEqual( "historical" );
 		expect( determineRegularStem( "historical", morphologyDataEN ) ).toEqual( "historical" );
@@ -96,6 +103,7 @@ describe( "getRegularStem", function() {
 
 		// The following words appear -er/-est/-ly forms of adjectives, so we need to make sure they are stemmed correctly.
 		expect( determineRegularStem( "paper", morphologyDataEN ) ).toEqual( "paper" );
+		expect( determineRegularStem( "partner", morphologyDataEN ) ).toEqual( "partner" );
 		expect( determineRegularStem( "interest", morphologyDataEN ) ).toEqual( "interest" );
 		expect( determineRegularStem( "belly", morphologyDataEN ) ).toEqual( "belly" );
 
