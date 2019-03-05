@@ -3,9 +3,9 @@
  *
  * To be used in creating the different kinds of assessors.
  *
- * @see module:tree/assess/assessorFactories
+ * @see module:tree/assess/assessors
  *
- * @module tree/assess/assessmentListFactories
+ * @module tree/assess/assessors/assessments
  */
 
 /**
@@ -13,7 +13,7 @@
  *
  * @returns {module:tree/assess.Assessment[]} The list of SEO assessments.
  *
- * @memberOf module:tree/assess/assessmentListFactories
+ * @memberOf module:tree/assess/assessors/assessments
  */
 const constructSEOAssessments = () => [
 	// Needs to be populated by fancy new assessments that work on the tree representation of the text.
@@ -24,7 +24,7 @@ const constructSEOAssessments = () => [
  *
  * @returns {module:tree/assess.Assessment[]} The list of readability assessments.
  *
- * @memberOf module:tree/assess/assessmentListFactories
+ * @memberOf module:tree/assess/assessors/assessments
  */
 const constructReadabilityAssessments = () => [
 	// Needs to be populated by fancy new assessments that work on the tree representation of the text.
@@ -35,7 +35,7 @@ const constructReadabilityAssessments = () => [
  *
  * @returns {module:tree/assess.Assessment[]} The list of SEO assessments.
  *
- * @memberOf module:tree/assess/assessmentListFactories
+ * @memberOf module:tree/assess/assessors/assessments
  */
 const constructTaxonomyAssessments = () => [
 	// Needs to be populated by fancy new assessments that work on the tree representation of the text.
@@ -46,7 +46,7 @@ const constructTaxonomyAssessments = () => [
  *
  * @returns {module:tree/assess.Assessment[]} The list of SEO assessments.
  *
- * @memberOf module:tree/assess/assessmentListFactories
+ * @memberOf module:tree/assess/assessors/assessments
  */
 const constructRelatedKeyphraseAssessments = () => [
 	// Needs to be populated by fancy new assessments that work on the tree representation of the text.
@@ -57,7 +57,7 @@ const constructRelatedKeyphraseAssessments = () => [
  *
  * @returns {module:tree/assess.Assessment[]} The list of SEO assessments.
  *
- * @memberOf module:tree/assess/assessmentListFactories
+ * @memberOf module:tree/assess/assessors/assessments
  */
 const constructRelatedKeyphraseTaxonomyAssessments = () => [
 	// Needs to be populated by fancy new assessments that work on the tree representation of the text.

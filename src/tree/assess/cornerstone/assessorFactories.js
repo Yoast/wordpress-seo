@@ -2,21 +2,21 @@
 import {
 	constructReadabilityAssessments,
 	constructRelatedKeyphraseAssessments,
-	constructRelatedKeyphraseTaxonomyAssessments,
 	constructSEOAssessments,
-	constructTaxonomyAssessments,
 } from "./assessmentListFactories";
 
 /* Score aggregators */
-import { ReadabilityScoreAggregator, SEOScoreAggregator } from "./scoreAggregators";
+import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../scoreAggregators";
 
 /* Base TreeAssessor class */
-import TreeAssessor from "./TreeAssessor";
+import TreeAssessor from "../TreeAssessor";
 
 /**
- * Factory functions for constructing different kinds of assessors.
+ * Factory functions for constructing different kinds of assessors for cornerstone content.
  *
- * @module tree/assess/assessors
+ * @see module:tree/assess
+ *
+ * @module tree/assess/assessors/cornerstone
  */
 
 /**
@@ -27,7 +27,7 @@ import TreeAssessor from "./TreeAssessor";
  *
  * @returns {module:tree/assess.TreeAssessor} The SEO assessor.
  *
- * @memberOf module:tree/assess/assessors
+ * @memberOf module:tree/assess/assessors/cornerstone
  */
 const constructSEOAssessor = function( i18n, researcher ) {
 	const assessments = constructSEOAssessments();
@@ -43,27 +43,11 @@ const constructSEOAssessor = function( i18n, researcher ) {
  *
  * @returns {module:tree/assess.TreeAssessor} The readability assessor.
  *
- * @memberOf module:tree/assess/assessors
+ * @memberOf module:tree/assess/assessors/cornerstone
  */
 const constructReadabilityAssessor = function( i18n, researcher ) {
 	const assessments = constructReadabilityAssessments();
 	const scoreAggregator = new ReadabilityScoreAggregator();
-	return new TreeAssessor( { i18n, researcher, assessments, scoreAggregator } );
-};
-
-/**
- * Creates a new assessor for assessing the SEO of a text on a taxonomy page.
- *
- * @param {Jed}                                 i18n       The Jed object to use for localization / internalization.
- * @param {module:tree/research.TreeResearcher} researcher The researcher the assessments need to use to get information about the text.
- *
- * @returns {module:tree/assess.TreeAssessor} The SEO taxonomy assessor.
- *
- * @memberOf module:tree/assess/assessors
- */
-const constructTaxonomyAssessor = function( i18n, researcher ) {
-	const assessments = constructTaxonomyAssessments();
-	const scoreAggregator = new SEOScoreAggregator();
 	return new TreeAssessor( { i18n, researcher, assessments, scoreAggregator } );
 };
 
@@ -75,7 +59,7 @@ const constructTaxonomyAssessor = function( i18n, researcher ) {
  *
  * @returns {module:tree/assess.TreeAssessor} The SEO assessor.
  *
- * @memberOf module:tree/assess/assessorFactories
+ * @memberOf module:tree/assess/assessors/cornerstone
  */
 const constructRelatedKeyphraseAssessor = function( i18n, researcher ) {
 	const assessments = constructRelatedKeyphraseAssessments();
@@ -83,29 +67,11 @@ const constructRelatedKeyphraseAssessor = function( i18n, researcher ) {
 	return new TreeAssessor( { i18n, researcher, assessments, scoreAggregator } );
 };
 
-/**
- * Creates a new assessor for assessing the SEO of a text on a taxonomy page in relation to a related keyphrase.
- *
- * @param {Jed}                                 i18n       The Jed object to use for localization / internalization.
- * @param {module:tree/research.TreeResearcher} researcher The researcher the assessments need to use to get information about the text.
- *
- * @returns {module:tree/assess.TreeAssessor} The SEO assessor.
- *
- * @memberOf module:tree/assess/assessorFactories
- */
-const constructRelatedKeyphraseTaxonomyAssessor = function( i18n, researcher ) {
-	const assessments = constructRelatedKeyphraseTaxonomyAssessments();
-	const scoreAggregator = new SEOScoreAggregator();
-	return new TreeAssessor( { i18n, researcher, assessments, scoreAggregator } );
-};
-
 export {
 	// Readability assessor.
 	constructReadabilityAssessor,
-	// SEO assessors (main keyphrase).
+	// SEO assessor (main keyphrase).
 	constructSEOAssessor,
-	constructTaxonomyAssessor,
-	// SEO assessors (related keyphrase).
+	// SEO assessor (related keyphrase).
 	constructRelatedKeyphraseAssessor,
-	constructRelatedKeyphraseTaxonomyAssessor,
 };
