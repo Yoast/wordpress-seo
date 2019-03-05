@@ -14,6 +14,7 @@ const regularVerbsToTest = [
 	[ "release", "releases", "releasing", "released" ],
 	[ "create", "creates", "creating", "created" ],
 	[ "compete", "competes", "competing", "competed" ],
+	[ "improve", "improves", "improving", "improved" ],
 ];
 
 const doubleConsonantsAtTheEnd = [

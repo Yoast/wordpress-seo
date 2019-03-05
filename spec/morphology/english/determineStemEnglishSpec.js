@@ -107,6 +107,8 @@ describe( "getRegularStem", function() {
 		expect( determineRegularStem( "interest", morphologyDataEN ) ).toEqual( "interest" );
 		expect( determineRegularStem( "belly", morphologyDataEN ) ).toEqual( "belly" );
 
+		expect( determineRegularStem( "analysis", morphologyDataEN ) ).toEqual( "analysis" );
+
 		expect( determineRegularStem( "trwprtrw", morphologyDataEN ) ).toEqual( "trwprtrw" );
 	} );
 } );
