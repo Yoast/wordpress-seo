@@ -4,7 +4,8 @@ import factory from "../../specHelpers/factory.js";
 
 import {
 	constructReadabilityAssessor,
-	constructRelatedKeywordAssessor,
+	constructRelatedKeyphraseAssessor,
+	constructRelatedKeyphraseTaxonomyAssessor,
 	constructSEOAssessor,
 	constructTaxonomyAssessor,
 } from "../../../src/tree/assess/assessorFactories";
@@ -62,7 +63,21 @@ describe( "assessorFactories", () => {
 
 	describe( "constructRelatedKeyphraseAssessor", () => {
 		it( "can create a related keyphrase Assessor", () => {
-			const assessor = constructRelatedKeywordAssessor( i18n, researcher );
+			const assessor = constructRelatedKeyphraseAssessor( i18n, researcher );
+
+			const expectedAssessments = [];
+			const expectedResearcher = researcher;
+			const expectedScoreAggregator = new SEOScoreAggregator();
+
+			expect( assessor.getAssessments() ).toEqual( expectedAssessments );
+			expect( assessor.researcher ).toEqual( expectedResearcher );
+			expect( assessor.scoreAggregator ).toEqual( expectedScoreAggregator );
+		} );
+	} );
+
+	describe( "constructRelatedKeyphraseTaxonomyAssessor", () => {
+		it( "can create a related keyphrase Assessor for taxonomy pages", () => {
+			const assessor = constructRelatedKeyphraseTaxonomyAssessor( i18n, researcher );
 
 			const expectedAssessments = [];
 			const expectedResearcher = researcher;
