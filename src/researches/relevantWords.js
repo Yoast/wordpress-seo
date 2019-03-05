@@ -4,7 +4,7 @@ import {
 	getRelevantWords,
 	getRelevantWordsFromPaperAttributes,
 	collapseRelevantWordsOnStem,
-	getRelevantCombinations,
+	getRelevantCombinations, sortCombinations,
 } from "../stringProcessing/relevantWords";
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../stringProcessing/getSubheadings";
 
@@ -33,8 +33,10 @@ function relevantWords( paper, researcher ) {
 	};
 
 	const relevantWordsFromPaperAttributes = getRelevantWordsFromPaperAttributes( attributes, language, morphologyData );
+	relevantWordsFromPaperAttributes.forEach( relevantWord => relevantWord.setOccurrences( relevantWord.getOccurrences() * 3 ) );
 
 	const collapsedWords = collapseRelevantWordsOnStem( relevantWordsFromPaperAttributes.concat( relevantWordsFromText ) );
+	sortCombinations( collapsedWords );
 
 	return take( getRelevantCombinations( collapsedWords ), 100 );
 }

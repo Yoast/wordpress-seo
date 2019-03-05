@@ -113,7 +113,6 @@ function collapseRelevantWordsOnStem( wordCombinations ) {
 	}
 
 	collapsedRelevantWords.push( previousWord );
-	sortCombinations( collapsedRelevantWords );
 
 	return collapsedRelevantWords;
 }
@@ -140,6 +139,27 @@ function retrieveStemmer( language ) {
 	return get( stemFunctions, language, word => word );
 }
 
+function computeRelevantWords( words, language, morphologyData ) {
+	const functionWords = retrieveFunctionWords( language );
+	const determineStem = retrieveStemmer( language );
+
+	if ( words.length === 0 ) {
+		return [];
+	}
+
+	const uniqueContentWords = uniq( words.filter( word => ! functionWords.includes( word.trim() ) ) );
+
+	const relevantWords = uniqueContentWords.map(
+		word => new WordCombination(
+			word,
+			determineStem( word, morphologyData ),
+			words.filter( element => element === word ).length
+		)
+	);
+
+	return collapseRelevantWordsOnStem( relevantWords );
+}
+
 /**
  * Gets relevant words from the paper text.
  *
@@ -150,26 +170,8 @@ function retrieveStemmer( language ) {
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
 function getRelevantWords( text, language, morphologyData ) {
-	const functionWords = retrieveFunctionWords( language );
-	const determineStem = retrieveStemmer( language );
-
 	const words = getWords( normalizeSingle( text ).toLocaleLowerCase() );
-
-	if ( words.length === 0 ) {
-		return [];
-	}
-
-	const uniqueContentWords = uniq( words.filter( word => ! functionWords.includes( word.trim() ) ) ).sort();
-
-	const relevantWordsFromText = uniqueContentWords.map(
-		word => new WordCombination(
-			word,
-			determineStem( word, morphologyData ),
-			words.filter( element => element === word ).length
-		)
-	);
-
-	return collapseRelevantWordsOnStem( relevantWordsFromText );
+	return computeRelevantWords( words, language, morphologyData );
 }
 
 /**
@@ -189,31 +191,11 @@ function getRelevantWords( text, language, morphologyData ) {
 function getRelevantWordsFromPaperAttributes( attributes, language, morphologyData ) {
 	const { keyphrase, synonyms, metadescription, title, subheadings } = attributes;
 
-	const functionWords = retrieveFunctionWords( language );
-	const determineStem = retrieveStemmer( language );
-
-	const attributesJoined = normalizeSingle( keyphrase.concat( " ", synonyms, " ", metadescription, " ", title, " ", subheadings.join( " " ) ) );
+	const attributesJoined = normalizeSingle( [ keyphrase, synonyms, metadescription, title, subheadings.join( " " ) ].join( " " ) );
 
 	const wordsFromAttributes = getWords( attributesJoined.toLocaleLowerCase() );
 
-	if ( wordsFromAttributes.length === 0 ) {
-		return [];
-	}
-
-	// Also filter numbers!
-	const uniqueContentWordsFromAttributes = uniq( wordsFromAttributes.filter( word => ! functionWords.includes( word.trim() ) ) );
-
-	const relevantWordsFromAttributes = uniqueContentWordsFromAttributes.map(
-		word => new WordCombination(
-			word,
-			determineStem( word, morphologyData ),
-			/* If a word is used in any of the attributes, its relevance is automatically high.
-			To make sure the word survives relevance filters and gets saved in the database, make the number of occurrences times-3.*/
-			wordsFromAttributes.filter( element => element === word ).length * 3
-		)
-	);
-
-	return collapseRelevantWordsOnStem( relevantWordsFromAttributes );
+	return computeRelevantWords( wordsFromAttributes, language, morphologyData );
 }
 
 export {
