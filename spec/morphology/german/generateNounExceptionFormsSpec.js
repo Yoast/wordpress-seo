@@ -230,8 +230,8 @@ describe( "Test for checking adjective exceptions in German", () => {
 	it( "creates forms for a singular noun that ends in a consonant + s", () => {
 		expect( generateNounExceptionForms( morphologyDataDE.nouns, "krebs" ) ).toEqual( [
 			"krebs",
-			"krebse",
 			"krebses",
+			"krebse",
 			"krebsen",
 		] );
 	} );
