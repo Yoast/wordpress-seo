@@ -136,7 +136,7 @@
     "moment-duration-format": "^2.2.2",
     "prop-types": "^15.5.10",
     "react": "16.6.3",
-    "react-dom": "16.6.3",
+    "react-dom": "16.8.3",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
