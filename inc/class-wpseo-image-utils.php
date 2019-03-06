@@ -74,12 +74,13 @@ class WPSEO_Image_Utils {
 	 * @return false|array $image {
 	 *     Array of image data
 	 *
-	 *     @type string $alt    Image's alt text.
-	 *     @type string $alt    Image's alt text.
-	 *     @type int    $width  Width of image.
-	 *     @type int    $height Height of image.
-	 *     @type string $type   Image's MIME type.
-	 *     @type string $url    Image's URL.
+	 *     @type string $alt      Image's alt text.
+	 *     @type string $alt      Image's alt text.
+	 *     @type int    $width    Width of image.
+	 *     @type int    $height   Height of image.
+	 *     @type string $type     Image's MIME type.
+	 *     @type string $url      Image's URL.
+	 *     @type int    $filesize The file size in bytes, if already set.
 	 * }
 	 */
 	public static function get_data( $image, $attachment_id ) {
